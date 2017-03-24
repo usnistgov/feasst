@@ -39,15 +39,15 @@ CXXFLAGS += -DXDRFILE_H_ -DCPLUSPLUS -I$(HOME)/include/xdrfile -L$(HOME)/lib
 LIBS += -lxdrfile
 
 # FFTW library
-CXXFLAGS += -DFFTW_ -I$(HOME)/software/fftw-3.3.4/build/include -L$(HOME)/software/fftw-3.3.4/build/lib 
-LIBS += -lfftw3
+#CXXFLAGS += -DFFTW_ -I$(HOME)/software/fftw-3.3.4/build/include -L$(HOME)/software/fftw-3.3.4/build/lib 
+#LIBS += -lfftw3
 
 # json library (requires gcc 4.9+, std=c++11 or higher)
 #CXXFLAGS += -DJSON_
 
 # hdf5
-CXXFLAGS += -DHDF5_ -I/usr/local/hdf5/include -L/usr/local/hdf5/lib
-LIBS +=  -lhdf5 -lhdf5_cpp
+#CXXFLAGS += -DHDF5_ -I/usr/local/hdf5/include -L/usr/local/hdf5/lib
+#LIBS +=  -lhdf5 -lhdf5_cpp
 
 # gtest
 CPPFLAGS += -I$(GTEST_DIR)/include

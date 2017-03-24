@@ -21,19 +21,17 @@ print(source, version)
 #os.environ["CXX"] = "mpicxx"
 #os.environ["CC"] = "icpc"
 #os.environ["CXX"] = "icpc"
-os.environ["CC"] = "ccache g++"   #ccache speeds up compilation
+os.environ["CC"] = "g++"   #ccache speeds up compilation
 os.environ["CXX"] = "g++"
 home = os.getenv("HOME")
 
 # set compiler preprocessor macros
-macs=["-DCPLUSPLUS","-DXDRFILE_H_","-DOMP_H_","-DFFTW_","-DJSON_",
+macs=["-DCPLUSPLUS","-DXDRFILE_H_","-DOMP_H_",
       "-DFEASST_SRC_="+source, "-DVERSION="+version]
 
 # simple utility function to search and replace list of strings add _wrap.cxx
-cargs=["-fPIC","-O3","-std=c++11","-I"+home+"/include/xdrfile",
-       "-L"+home+"/lib","-fopenmp","-lxdrfile","-lfftw3",
-       "-I"+home+"/software/fftw-3.3.4/build/include",
-       "-L"+home+"/software/fftw-3.3.4/build/lib"]+macs
+cargs=["-fPIC","-O3","-std=c++0x","-I"+home+"/include/xdrfile",
+       "-L"+home+"/lib","-fopenmp","-lxdrfile"]+macs
 largs=cargs
 
 # monkey-patch for parallel compilation
