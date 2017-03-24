@@ -1,0 +1,46 @@
+# LAMMPS data file
+# regular tetrahedron with first particle in center
+# normalized length of tetrahedron such that the distance from vertex to centroid is unity
+# r1 = sqrt(2/3), 0, -1/sqrt(3)
+# r2 = -r1x, 0, r1z
+# r3 = 0, r1x, -r1z
+# r4 = 0, -r1x, -r1z
+
+5 atoms
+1 bonds
+
+2 atom types
+1 bond types
+
+0.0000000000000000e+00 3.0000000000000000e+00 xlo xhi
+0.0000000000000000e+00 3.0000000000000000e+00 ylo yhi
+0.0000000000000000e+00 3.0000000000000000e+00 zlo zhi
+
+Masses
+
+1 1.0
+2 0.0
+
+Pair Coeffs
+
+1 1 1
+2 0 0
+
+Bond Coeffs
+
+1 450 1.0
+
+Atoms
+
+1 1 1 0.0 0 0 0 0 0 0 # tetraPatch
+2 1 2 0.0  0.8164965809277260 0.0 -0.5773502691896260 0 0 0 # tetraPatch
+3 1 2 0.0 -0.8164965809277260 0.0 -0.5773502691896260 0 0 0 # tetraPatch
+4 1 2 0.0 0.0  0.8164965809277260  0.5773502691896260 0 0 0 # tetraPatch
+5 1 2 0.0 0.0 -0.8164965809277260  0.5773502691896260 0 0 0 # tetraPatch
+
+
+
+
+
+
+

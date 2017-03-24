@@ -1,0 +1,95 @@
+# LAMMPS data file
+#  triangle with two sidelengths l and angle theta between them
+#  in this case, l=1, theta=60
+#  r1 = origin as pivot
+#  r2 = 0, 2/3 l * cos(theta/2)
+#  r3 = lsin(theta/2), -l/3 cos(theta/2)
+#  r4 = -lsin(theta/2), -l/3 cos(theta/2)
+
+4 atoms
+2 bonds
+1 angles
+
+3 atom types
+1 bond types
+1 angle types
+
+0.0000000000000000e+00 3.0000000000000000e+00 xlo xhi
+0.0000000000000000e+00 3.0000000000000000e+00 ylo yhi
+0.0000000000000000e+00 3.0000000000000000e+00 zlo zhi
+
+Masses
+
+1 1.0
+
+Pair Coeffs
+
+1 0 0
+2 1 1
+3 1 1
+
+Bond Coeffs
+
+1 100 1.0    # bond type 1, k=100, l0=1, U=k*(l-l0)^2 
+
+Angle Coeffs
+
+1 100 60     # angle type 1, k=100, t0=60 degrees, U=k*(t-t0)^2
+
+Atoms
+
+1 1 1 0.0 0 0 0 0 0 0 # equltl1
+2 1 2 0.0 0 0.577350269189626000 0 0 0 0 # equltl1
+3 1 3 0.0  0.5 -0.288675134594813000 0 0 0 0 # equltl1
+4 1 3 0.0 -0.5 -0.288675134594813000 0 0 0 0 # equltl1
+
+Bonds
+
+1 1 2 3
+2 1 2 4
+
+Angles
+
+1 1 3 2 4
+
+ConfigurationalBias
+
+7 cbmctypes   #number of types of cmbc moves        
+
+gcinsdel 4 1        #regrow entire chain with 4 steps and weight of 1
+3 10 box          #first step: grow atom 3 with 10 trials anywhere in box
+2 1 bond 3      #second: atom 2 with 1 trial given bond with 3
+4 10 angle 2 3  #third: atom 4 with 10 trials given angle 423
+1 1 freeCOM       #fourth: atom 1 with 1 trial for free at COM (pivot point)
+
+gcinsdel 4 1        #regrow entire chain with 4 steps and weight of 1
+2 10 avb 1.5 1 1 2  #first step: grow atom 2 with 10 trials in aggregation volume bias region(rUp,rLo) of 1 atoms 2 of other molecules
+3 1 bond 2      #second: atom 2 with 1 trial given bond with 3
+4 10 angle 2 3  #third: atom 4 with 10 trials given angle 423
+1 1 freeCOM       #fourth: atom 1 with 1 trial for free at COM (pivot point)
+
+regrow 3 0.16666666666666666666        #keep atom 2, regrow chain with 3 steps and weight of 1
+3 10 bond 2     #grow atom 3 with 1 trial along bond with atom 2
+4 10 angle 2 3  #grow atom 4 with 10 trials along angle 423
+1 1 freeCOM       #place atom 1 at COM for free
+
+regrow 3 0.16666666666666666666        #keep atom 3, regrow chain with 3 steps and weight of 1
+2 1 bond 3      #grow atom 2 with 1 trial along bond with atom 3
+4 10 angle 2 3  #
+1 1 freeCOM
+
+regrow 3 0.16666666666666666666         #keep atom 4, regrow chain with 3 steps and weight of 1
+2 1 bond 4      #
+3 10 angle 2 4  #
+1 1 freeCOM
+
+regrow 2 0.25        #keep atoms 2,3, regrow chain with 2 steps and weight of 1
+4 10 angle 2 3
+1 1 freeCOM
+
+regrow 2 0.25        #keep atoms 2,4, regrow chain with 2 steps and weight of 1
+3 10 angle 2 4
+1 1 freeCOM
+
+
+

@@ -1,0 +1,15 @@
+#include <gtest/gtest.h>
+#include "space.h"
+#include "pair.h"
+#include "pair_ideal.h"
+#include "pair_lj.h"
+#include "pair_lj_multi.h"
+#include "pair_patch_kf.h"
+#include "pair_lj_coul_ewald.h"
+#include "functions.h"
+#include "criteria.h"
+#include "criteria_metropolis.h"
+#include "criteria_wltmmc.h"
+#include "trial_transform.h"
+#include "trial_configBias.h"
+

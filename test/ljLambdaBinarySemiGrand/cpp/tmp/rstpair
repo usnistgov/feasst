@@ -1,0 +1,14 @@
+# className PairLJMulti
+# lrcFlag 0
+# rCut 3
+# nDataFiles 2
+# DATAFILE0 /home/hwh/jeetain/feasstv0.1.3/src/../forcefield/data.lj
+# DATAFILE1 /home/hwh/jeetain/feasstv0.1.3/src/../forcefield/data.ljb
+# atomCut 1
+# cutShiftFlag 1
+# expType 0
+# lambdaFlag 1
+# lambdaParami0j0 1
+# lambdaParami0j1 0.5
+# lambdaParami1j0 0.5
+# lambdaParami1j1 1

@@ -1,0 +1,24 @@
+**********************************************************************
+AUTHORS
+**********************************************************************
+
+Harold "Wick" Hatch
+-original developer of FEASST
+
+Nathan Mahynski
+-collaborated with Wick on superquadric geometry
+
+**********************************************************************
+ALPHA-TESTERS
+**********************************************************************
+
+Dr. Nathan Mahynski
+Dr. Tamoghna Das
+Prof. Jeetain Mittal
+Dr. Hasan Zerze
+Dr. Steven Howell
+
+
+
+
+

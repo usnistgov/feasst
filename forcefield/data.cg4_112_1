@@ -1,0 +1,71 @@
+# LAMMPS data file
+#  coarse grained 4-bead model of mAb
+#               2
+#               .
+#       (t213)  .  (t214)
+#               1
+#             .   .
+#          .        .
+#        3    (t314)  4 
+
+4 atoms
+3 bonds
+3 angles
+
+1 atom types
+1 bond types
+1 angle types
+
+0.0000000000000000e+00 3.0000000000000000e+00 xlo xhi
+0.0000000000000000e+00 3.0000000000000000e+00 ylo yhi
+0.0000000000000000e+00 3.0000000000000000e+00 zlo zhi
+
+Masses
+
+1 1.0
+
+Pair Coeffs
+
+1 1 1
+
+Bond Coeffs
+
+1 10 1    #L12, k=100, l0=1, U=k*(l-l0)^2 
+
+Angle Coeffs
+
+1 0.01 112    #t213, k=100, t0=100 degrees, U=k*(t-t0)^2
+
+Atoms
+
+1 1 1 0.0 0 0 0 0 0 0 # equltl1
+2 1 1 0.0 0 1 0 0 0 0 # equltl1
+3 1 1 0.0 -0.98480775301220800 -0.17364817766693000 0 0 0 0 # equltl1
+4 1 1 0.0  0.20694583958200200 -0.17364817766693000 0.96281863809995600 0 0 0 # equltl1
+
+Bonds
+
+1 1 1 2
+2 1 1 3
+1 1 1 4
+
+Angles
+
+1 1 2 1 3
+2 1 2 1 4
+3 1 3 1 4
+
+ConfigurationalBias
+
+2 cbmctypes   #number of types of cmbc moves        
+
+gcinsdel 3 0.5        #regrow entire chain with 3 steps and weight of 1
+1 10 box          #first step: grow atom 1 with 10 trials anywhere in box
+2 10 bond 1      #second: atom 2 with 10 trials given bond with 1
+3 10 branch 4 1 2  #third: atom 3 and 4 simultaneously in branch
+
+regrow 2 0.5
+2 10 bond 1
+3 10 branch 4 1 2
+
+

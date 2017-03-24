@@ -1,0 +1,36 @@
+# LAMMPS data file
+#  triangle with two sidelengths l and angle theta between them
+#  in this case, l=0.4, theta=60
+#  r1 = 0, 2/3 l * cos(theta/2)
+#  r2 = lsin(theta/2), -l/3 cos(theta/2)
+#  r3 = -lsin(theta/2), -l/3 cos(theta/2)
+
+3 atoms
+
+2 atom types
+
+0.0000000000000000e+00 3.0000000000000000e+00 xlo xhi
+0.0000000000000000e+00 3.0000000000000000e+00 ylo yhi
+0.0000000000000000e+00 3.0000000000000000e+00 zlo zhi
+
+Masses
+
+1 1.0
+
+Pair Coeffs
+
+1 1 1
+2 1 1
+
+Atoms
+
+1 1 1 0.0 0 0.230940107675850000 0 0 0 0 # equltl04
+2 1 2 0.0  0.2 -0.115470053837925000 0 0 0 0 # equltl04
+3 1 2 0.0 -0.2 -0.115470053837925000 0 0 0 0 # equltl04
+
+
+
+
+
+
+

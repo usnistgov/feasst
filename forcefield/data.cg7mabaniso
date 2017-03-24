@@ -1,0 +1,122 @@
+# LAMMPS data file
+#  7 bead coarse-grained mAb model
+#
+# particle labels 2, 4 and 6 are the centers of the anisotropic sites
+# particle label 1 is hinge (massless)
+# particle labels 3, 5 and 7 determine the orientation of the sites 2,4,6 respectively
+#
+#             3
+#             |
+#             2
+#             | 
+#             1 
+#           /   \
+#         4       6
+#       /           \
+#     5               7
+#
+
+7 atoms
+6 bonds
+6 angles
+
+3 atom types
+4 bond types
+6 angle types
+
+0.0000000000000000e+00 3.0000000000000000e+00 xlo xhi
+0.0000000000000000e+00 3.0000000000000000e+00 ylo yhi
+0.0000000000000000e+00 3.0000000000000000e+00 zlo zhi
+
+Pair Coeffs
+
+1 0 0
+2 10000 1
+3 1 1
+
+Bond Coeffs
+
+1 -1 1.3 #L12
+2 -1 1.5 #L14
+3 -1 1.5 #L16
+4 -1 1 #L23
+5 -1 1 #L45
+6 -1 1 #L67
+
+Angle Coeffs
+
+1 -1 135 #A214
+2 -1 135 #A216
+3 -1 90 #A416
+4 -1 90 #A123
+5 -1 180 #A145
+6 -1 180 #A167
+
+Atoms
+
+1 1 1 0 0 0 0 0 0 0
+2 1 2 0 0 1.3 0 0 0 0
+3 1 1 0 0 1.3 1 0 0 0
+4 1 3 0 -1.060660172 -1.060660172 0 0 0 0
+5 1 1 0 -1.767766953 -1.767766953 0 0 0 0
+6 1 3 0  1.060660172 -1.060660172 0 0 0 0
+7 1 1 0  1.767766953 -1.767766953 0 0 0 0
+
+Bonds
+
+1 1 1 2
+2 2 1 4
+3 3 1 6
+4 4 2 3
+5 4 4 5
+6 4 6 7
+
+Angles
+
+1 1 2 1 4
+2 2 2 1 6
+3 3 4 1 6
+4 4 1 2 3
+5 5 1 4 5
+6 6 1 6 7
+
+ConfigurationalBias
+
+5 cbmctypes
+
+gcinsdel 6 1
+1 10 box
+2 10 bond 1
+3 1  angle 2 1
+4 10 branch 6 1 2
+5 1 angle 4 1
+7 1 angle 6 1
+
+regrow 6 1
+1 10 box
+2 10 bond 1
+3 1  angle 2 1
+4 10 branch 6 1 2
+5 1 angle 4 1
+7 1 angle 6 1
+
+regrow 3 0.33333333333333333333333333
+4 10 branch 6 1 2
+5 1 angle 4 1
+7 1 angle 6 1
+
+regrow 3 0.33333333333333333333333333
+2 10 branch 6 1 4
+3 1 angle 2 1
+7 1 angle 6 1
+
+regrow 3 0.33333333333333333333333333
+2 10 branch 4 1 6
+3 1 angle 2 1
+5 1 angle 4 1
+
+
+
+
+
+
