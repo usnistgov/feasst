@@ -2,7 +2,9 @@
 
 %{
 #include "shape.h"
-#include "fftw3.h"
+#ifdef FFTW_
+  #include "fftw3.h"
+#endif  // FFTW_
 %}
 
 %pythonnondynamic;
