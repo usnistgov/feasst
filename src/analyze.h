@@ -11,8 +11,11 @@
 #include "./pair.h"
 #include "./criteria_wltmmc.h"
 
+class WLTMMC;
+
 class Analyze : public BaseAll {
  public:
+  Analyze() { defaultConstruction(); }
   Analyze(Space* space, Pair* pair);
   Analyze(Space *space, Pair* pair, const char* fileName);
   virtual ~Analyze() {}
@@ -46,6 +49,10 @@ class Analyze : public BaseAll {
   virtual void print() {}
   virtual void print(CriteriaWLTMMC *c) {if (c == NULL) {} }
 
+  /// monkey patch to modify restart at run time
+  //  NOTE to HWH: this is beyond scope of original intent of class
+  virtual void modifyRestart(shared_ptr<WLTMMC> mc) { if (mc == NULL) {} }
+  
   // functions for read-only access of private data-members
   int nFreq() const { return nFreq_; }
   int nFreqPrint() const { return nFreqPrint_; }

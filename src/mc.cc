@@ -98,7 +98,11 @@ MC::MC(const char* fileName) {
   nFreqRestart_ = fstoi("nFreqRestart", fileName);
   checkEtol_ = fstod("checkEtol", fileName);
   printPressure_ = fstoi("printPressure", fileName);
-
+  strtmp = fstos("production", fileName);
+  if (!strtmp.empty()) {
+    production_ = stoi(strtmp);
+  }
+  
   // make a different rst file name so as to not overwrite
   // stringstream ss;
   // ss << fileName << "p";
@@ -133,7 +137,7 @@ void MC::defaultConstruction() {
   nSeeking_ = false;
   checkEtol_ = 1e-7;
   nAttempts_ = 0;
-  production_ = false;
+  production_ = 0;
 }
 
 MC::~MC() {
@@ -494,7 +498,7 @@ void MC::afterAttemptBase() {
 
   // print xtc
   #ifdef XDRFILE_H_
-  if ( (nFreqXTC_ != 0) && (production_) ) {
+  if ( (nFreqXTC_ != 0) && (production_ == 1) ) {
     if (nAttempts_ % nFreqXTC_ == 0) {
       if (!XTCFileName_.empty()) {
         stringstream ss;
@@ -515,7 +519,7 @@ void MC::afterAttemptBase() {
   #endif  // XDRFILE_H_
 
 //  // print p(N,E)
-//  if (production_) {
+//  if (production_ == 1) {
 //    if (nAttempts_ % 1000 == 0) {
 //      stringstream ss;
 //      ss << logFileName_ << "pne.txt";
@@ -639,7 +643,8 @@ void MC::writeRestart(const char* fileName) {
   file << "# nFreqRestart " << nFreqRestart_ << endl;
   file << "# checkEtol " << checkEtol_ << endl;
   file << "# printPressure " << printPressure_ << endl;
-
+  if (production_ == 1) file << "# production " << production_ << endl;
+  
   // write random number generator state
   writeRngRestart(fileName);
 
@@ -874,7 +879,7 @@ void MC::appendProductionFileNames(const char* chars) {
  * initialize production run
  */
 void MC::initProduction() {
-  production_ = true;
+  production_ = 1;
   appendProductionFileNames("pr");
   space_->clusterReset();
   if (!movieFileName_.empty()) pair_->printxyz(movieFileName_.c_str(), 1);

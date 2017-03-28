@@ -83,7 +83,7 @@ WLTMMC::WLTMMC(const char* fileName)
     wlFlatTerm_ = stoi(strtmp);
   }
 
-  if (c_->nSweep() > 1) production_ = true;
+  if (c_->nSweep() > 1) production_ = 1;
 }
 
 /**
@@ -156,7 +156,7 @@ shared_ptr<MC> WLTMMC::cloneImpl() const {
 void WLTMMC::afterAttempt() {
   if ( ( (c_->nSweep() > 1) ||
          ((wlFlatProd_ != -1) && (c_->wlFlat() >= wlFlatProd_) ) )
-    && (!production_) ) {
+    && (production_ == 0) ) {
     initProduction();
   }
   afterAttemptBase();
@@ -181,7 +181,7 @@ void WLTMMC::afterAttempt() {
   }
 
   // compute and print radial distribution function
-  if ( (nFreqGR_ != 0) && (production_) ) {
+  if ( (nFreqGR_ != 0) && (production_ == 1) ) {
     if (nAttempts_ % nFreqGR_ == 0) {
       if (!GRFileName_.empty()) {
         const int nBin = c()->bin(c()->mOld());
@@ -691,10 +691,18 @@ void WLTMMC::runNumSweepsRestart(
   initOverlaps(t, clones);
 
   // for a more perfect restart, check if Trial parameters should be tuned
-  if (nFreqRestart_ % nFreqTune_ == 0) {
-    clones[t]->tuneTrialParameters();
+  if (nFreqTune_ != 0) {
+    if (nFreqRestart_ % nFreqTune_ == 0) {
+      clones[t]->tuneTrialParameters();
+    }
   }
-  
+    
+  // monkey patch
+  for (vector<Analyze*>::iterator it = analyzeVec_.begin();
+       it != analyzeVec_.end(); ++it) {
+    (*it)->modifyRestart(clones[t]);
+  }
+
   runNumSweepsExec(t, nSweeps, clones);
 
   #ifdef OMP_H_

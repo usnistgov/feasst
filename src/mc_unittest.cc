@@ -332,7 +332,7 @@ TEST(MC, nseek) {
 
 TEST(MC, equltl43muvttmmcANDinitWindows) {
   const double temp = 1., activ = exp(-2.), boxl = 9, beta = 1/temp;
-  const int nMolMax = 30, nMolMin = 10, npr = 200;
+  const int nMolMax = 50, nMolMin = 10, npr = 200;
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
   s.addMolInit("../forcefield/data.equltl43");
@@ -367,7 +367,13 @@ TEST(MC, equltl43muvttmmcANDinitWindows) {
 
   c.collectInit();
   c.tmmcInit();
-  mc.initWindows(1);  // if this test segfaults, check pointer ownership
+  
+  // if this test segfaults, check pointer ownership
+  // try commenting out the windows lines to see if test works
+  // its possible the number of processors is too large for 
+  //  the number of particles (nMolMax)
+  mc.initWindows(1);
+  
   mc.setNFreqCheckE(npr/2, 1e-9);
   mc.initColMat("tmp/coll", 2*npr);
   mc.initLog("tmp/ll", 1e3);

@@ -8,10 +8,9 @@
 #ifndef MC_H_
 #define MC_H_
 
-#include "./pair.h"
-#include "./space.h"
 #include "./criteria_metropolis.h"
 #include "./criteria_wltmmc.h"
+#include "./trial.h"
 #ifdef MPI_H_
   #include "./trial_confswap_txt.h"
 #endif  // MPI_H_
@@ -232,7 +231,7 @@ class MC : public BaseAll {
   long long npr_;         //!< number of trials in simulaiton
   double checkEtol_;          //!< tolerance for energy check
   bool printPressure_;        //!< flag to turn on printing of pressure
-  bool production_;           //!< flag for production simulation
+  int production_;           //!< flag for production simulation
   double boyletol_;           //!< tolerance for boyle temperature
 
   // analyzers

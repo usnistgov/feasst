@@ -123,7 +123,7 @@ cctest : unittest
 
 .PHONY : swigtest
 swigtest : swig
-	./swigtest.py
+	pushd swigtest; ./swigtest.py; popd
 
 .PHONY : clean
 clean: cleanSwig cleanc

@@ -351,6 +351,7 @@ class CriteriaWLTMMC : public Criteria {
   vector<double> lnpi2pressure() const { return lnpi2pressure_; }
   vector<Accumulator> pe() const { return pe_; }
   int wlFlat() const { return wlFlat_; }
+  double lnfCollect() const { return lnfCollect_; }
 
  protected:
   string mType_;      //!< definition of macrostate
