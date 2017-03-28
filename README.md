@@ -501,4 +501,4 @@ For list of contributors, see [CONTRIBUTORS.txt](CONTRIBUTORS.txt)
 
 # For more advanced documentation, see [DEV.txt](Dev.txt) for developers
 
-![alt text](http://hhatch.com/classBase.pdf "FEASST class structure")
+![alt text](http://hhatch.com/classBase.png "FEASST class structure")
