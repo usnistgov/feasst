@@ -181,6 +181,7 @@ TEST(MC, ljmuvtmetropANDclone) {
   // restart simulation from file, run trials, and expect no change int he original
   petot = mc.pePerMol();
   mc.writeRestart("tmp/ljrst");
+  cout << "rsting" << endl;
   MC mc3("tmp/ljrst");
   for (int i = 0; i < nAttempts; ++i) mc3.attemptTrial();
   EXPECT_EQ(petot, mc.pePerMol());
@@ -292,10 +293,7 @@ TEST(MC, muvttmmcspce) {
     TrialAdd tamfb("../forcefield/data.spce");
     tamfb.numFirstBeads(10);
     mc[t]->initTrial(&tamfb);
-
-    cout << "t " << t << endl;
     mc[t]->nMolSeekInRange();
-    cout << "ted" << endl;
     c[t]->collectInit();
     c[t]->tmmcInit();
     for (long long i = 0; i < 250; ++i) {
@@ -429,16 +427,16 @@ TEST(MC, wltmmccloneANDreconstruct) {
   }
   p.checkEnergy(1e-9, 0);
 //  cout << " here 1" << endl;
-//  // clone simulation, run trials in clone, and expect no change in the original
-//  const double petot = mc.pePerMol();
+  // clone simulation, run trials in clone, and expect no change in the original
+  const double petot = mc.pePerMol();
 //  cout << " here 2" << endl;
-//  shared_ptr<WLTMMC> mc2 = mc.cloneShrPtr();
+  shared_ptr<WLTMMC> mc2 = mc.cloneShrPtr();
 //  cout << " here 2-3" << endl;
-//  for (int i = 0; i < npr; ++i) mc2->attemptTrial();
+  for (int i = 0; i < npr; ++i) mc2->attemptTrial();
 //  cout << " here 3" << endl;
-//  EXPECT_EQ(petot, mc.pePerMol());
+  EXPECT_EQ(petot, mc.pePerMol());
 //  cout << " here 4" << endl;
-//  if (petot*mc2->pePerMol() != 0) EXPECT_NE(petot, mc2->pePerMol());
+  if (petot*mc2->pePerMol() != 0) EXPECT_NE(petot, mc2->pePerMol());
 //  cout << " here 5" << endl;
 
   EXPECT_EQ(1, mc.checkTrialCriteria());

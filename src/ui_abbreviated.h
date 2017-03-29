@@ -22,6 +22,8 @@ void transformTrial(MC *mc, const char* type, double maxMoveParam = -1);
 void transformTrial(shared_ptr<MC> mc, const char* type,
                     double maxMoveParam = -1);
 
+void deleteTrial(MC *mc, const char* moltype);
+void deleteTrial(shared_ptr<MC> mc, const char* moltype);
 void deleteTrial(MC *mc);
 void deleteTrial(shared_ptr<MC> mc);
 

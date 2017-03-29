@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <limits.h>
 #include "base_random.h"
+#include "accumulator.h"
 #include "histogram.h"
 
 TEST(BaseRandom, uniformRanNum) {

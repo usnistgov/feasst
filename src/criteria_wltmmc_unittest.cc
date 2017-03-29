@@ -4,12 +4,6 @@
 #include "criteria_metropolis.h"
 #include "criteria_wltmmc.h"
 
-TEST(Criteria, Metropolis) {
-  const double beta = 1e-15, activ = 1;
-  CriteriaMetropolis c(beta, activ);
-  EXPECT_EQ(1, c.accept(0., 0., "move", 0));
-}
-
 TEST(Criteria, WLTMMC) {
   const double beta = 1e-15, activ = 1;
   const int nbin = 100;

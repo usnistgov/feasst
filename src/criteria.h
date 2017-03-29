@@ -59,6 +59,7 @@ class Criteria : public BaseAll {
   double activ() const;
   double activ(const int type) const { return activVec[type]; }
   double pressure() const { return pressure_; }
+  int pressureFlag() const { return pressureFlag_; }
   int printBeta() const { return printBeta_; }
   int printPressure() const { return printPressure_; }
 

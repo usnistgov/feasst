@@ -64,6 +64,13 @@ void clusterTrial(shared_ptr<MC> mc, const char* type, const double clusterCut,
   clusterTrial(mc.get(), type, clusterCut, maxMoveParam);
 }
 
+void deleteTrial(MC *mc, const char* moltype) {
+  shared_ptr<TrialDelete> trial = make_shared<TrialDelete>(moltype);
+  mc->initTrial(trial);
+}
+void deleteTrial(shared_ptr<MC> mc, const char* moltype) {
+  deleteTrial(mc.get(), moltype);
+}
 void deleteTrial(MC *mc) {
   shared_ptr<TrialDelete> trial = make_shared<TrialDelete>();
   mc->initTrial(trial);

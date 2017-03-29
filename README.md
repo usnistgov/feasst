@@ -19,10 +19,11 @@
 - Geometric cluster algorithm
 - Rigid cluster moves
 - Parallel configuration swaps
+- Constant pressure and floppy box
 
 ###Intermolecular interactions
 - Charged interactions with the Ewald summation
-- Lennard Jones with Yukawa, LRC, force shift, gaussians
+- Lennard Jones with Yukawa, LRC, force shift, Gaussians
 - Patchy particles
 - Hard spheres/square well
 - Tabular potentials for anisotropic particles
@@ -160,9 +161,10 @@ Associated compiler flags in [src/Makefile](src/Makefile) or [src/setup.py](src/
 -lxdrfile
 ```
 ###Google Test 1.7.0
-For testing the C++ code.
+For testing the C++ code:
+
 - download gtest: http://code.google.com/p/googletest/downloads/detail?name=gtest-1.7.0.zip
-- unzip and correct path in GTEST_DIR in Makefile. No need to compile gtest
+- unzip and correct path in `GTEST_DIR` in [src/Makefile](src/Makefile). No need to compile gtest
 - to compile the FEASST unittests, use the command `make c` in [src](src)
 
 ### OpenMPI with Intel compilers
@@ -281,7 +283,7 @@ It outputs files:
   moviep[proc]b[bin].xyz
 
 where proc is the processor number and bin is the order parameter
-index as descripted by the acceptance criteria.
+index as described by the acceptance criteria.
 
 # Initializing a simulation from an XYZ file
 
@@ -403,7 +405,7 @@ Note that `dimn0` is the number of table elements.
 Distances are shown as a function of the variable s=r^2, such that dimmax0=rCut^2=1.08^2 and dimmin0=rCutInner^2=sigFac^2=0.97^2.
 For tabular potentials, r < rCutInner has infinite potential energy.
 
-An example of utilzing the table potential (without generating) is provided in [test/binary/tee/table/tee_nogen.cc](test/binary/tee/table/tee_nogen.cc)
+An example of utilizing the table potential (without generating) is provided in [test/binary/tee/table/tee_nogen.cc](test/binary/tee/table/tee_nogen.cc)
 
 This file and the `tabi*j*` files may be used as templates to create
 your own pair potentials.
@@ -462,7 +464,7 @@ and also add the new pair header to [src/pair.i](src/pair.i) and [src/feasst.i](
 
 You can begin by copy/pasting and renaming an existing trial and renaming the class.
 But remember, this can carry along a lot of garbage.
-So copy the simpliest trial that is closest to what you want to accomplish, 
+So copy the simplest trial that is closest to what you want to accomplish, 
 and immediately remove the unnecessary pieces.
 Rename all `TrialName` to `TrialNewName` and `TRIAL_NAME_H` to `TRIAL_NEW_NAME_H_`
 
@@ -478,10 +480,10 @@ a feature to the base Trial class, but try to avoid this if possible.
 
 #Example of adding or modifying an analysis code
 
-Adding and modifying `analyze_` files are even simpiler than the pair and trial examples above.
+Adding and modifying `analyze_` files are even simpler than the pair and trial examples above.
 All you need to do is copy/paste the one of the existing `analyze_` files and update the class names, headers, etc, as described above.
 
-Do make things even more simple, you can define your custom analysis code in the input script insetad of adding it to the FEASST code base.
+Alternatively, you can define your custom analysis code in the input script instead of adding it to the FEASST code base.
 For an example, you can see [src/analyze_unittest.cc](src/analyze_unittest.cc) for an example `AnalyzeMonkeyPatch`.
 In the energy case, you would most likely define a new `void update` function which is run at the end of every `nFreq` steps.
 

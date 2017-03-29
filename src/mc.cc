@@ -411,6 +411,9 @@ void MC::nMolSeek(
       cnew.activVec.push_back(criteria_->activ(ia));
     }
     // Criteria* cnew = criteria_->clone();
+    if (criteria_->pressureFlag() == 1) {
+      cnew.pressureset(criteria_->pressure());
+    }
     mc->replaceCriteria(&cnew);
 
     // make acceptance criteria more ammenable to nMol changes

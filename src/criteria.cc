@@ -31,7 +31,9 @@ Criteria::Criteria(const char* fileName) {
   }
 
   strtmp = fstos("nActivs", fileName);
-  if (!strtmp.empty()) {
+  if (strtmp.empty()) {
+    activVec[0] = activ_;
+  } else {
     activVec.resize(stoi(strtmp));
     for (int ia = 0; ia < static_cast<int>(activVec.size()); ++ia) {
       stringstream ss;

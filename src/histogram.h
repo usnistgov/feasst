@@ -10,9 +10,9 @@
 
 #include <deque>
 #include <iterator>
-#include "./base_all.h"
+#include "./base.h"
 
-class Histogram : public BaseAll {
+class Histogram : public Base {
  public:
   Histogram();
   explicit Histogram(const double binWidth);
