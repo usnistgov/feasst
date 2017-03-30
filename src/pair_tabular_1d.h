@@ -57,12 +57,16 @@ class PairTabular1D : public Pair {
   /// read tables
   void readTable(const char* fileName);
 
+  /// set the interpolator
+  void setInterpolator(const char* name);
+  
   /// read-only access of protected variables
+  vector<vector<shared_ptr<Table> > > peTable() const { return peTable_; }
 
  protected:
   vector<vector<double> > rCutInner_;      //!< hard sphere below inner cut-off
   double deSR_;             //!< lennard jones potential energy change
-  vector<vector<shared_ptr<Table> > > tabij_;    //!< table for potential energy
+  vector<vector<shared_ptr<Table> > > peTable_;    //!< table for potential energy
   string tabFileName_;
 
   double tol_;      //!< table tolerance

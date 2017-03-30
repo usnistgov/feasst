@@ -1,7 +1,7 @@
-#FEASST
+# FEASST
 >The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free, open-source, modular program to conduct molecular and particle-based simulations with flat-histogram Monte Carlo and molecular dynamics methods.
 
-###Features
+### Features
 - Wang-Landau, Transition-Matrix and/or Metropolis Monte Carlo
 - Canonical, grand canonical and expanded ensembles
 - Interface as a Python module or C++ class
@@ -11,7 +11,7 @@
     Ewald summation
 - Robust unit testing and thoroughly documents case studies
 
-###Advanced Monte Carlo moves
+### Advanced Monte Carlo moves
 - Configurational bias insertions, deletions and regrowth with 
     multiple first bead insertion
 - Aggregation volume bias (AVB) insertions, deletions and the AVB2 
@@ -21,14 +21,14 @@
 - Parallel configuration swaps
 - Constant pressure and floppy box
 
-###Intermolecular interactions
+### Intermolecular interactions
 - Charged interactions with the Ewald summation
 - Lennard Jones with Yukawa, LRC, force shift, Gaussians
 - Patchy particles
 - Hard spheres/square well
 - Tabular potentials for anisotropic particles
 
-#Contents
+# Contents
 * [Usage](#usage)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
@@ -113,7 +113,7 @@ FEASST is designed for a LINUX or MAC OS X platform with the following minimum v
 - g++ 4.7 (support for c++0x standard)
 - swig 1.3.40 (only required for python interface)
 
-###Optional tools:
+### Optional tools:
 - xdrfile 1.1b (compressed xtc trajectories)
 - gtest-1.7.0 (for unittests)
 - valgrind (memory testing for development)
@@ -144,7 +144,7 @@ Here is how to set up external libraries you may want to use with FEASST.
 To begin, some libraries require installation. And some require certain compilers flags.
 If you do not wish to use the libraries, make sure the compiler flags are not included in [src/Makefile](src/Makefile) or [src/setup.py](src/setup.py):
 
-###XTC 1.1b:
+### XTC 1.1b:
 For writing compressed XTC trajectory files.
 ```bash
 ftp://ftp.gromacs.org/pub/contrib/xdrfile-1.1.tar.gz
@@ -160,7 +160,7 @@ Associated compiler flags in [src/Makefile](src/Makefile) or [src/setup.py](src/
 -L/path/to/install/dir/lib
 -lxdrfile
 ```
-###Google Test 1.7.0
+### Google Test 1.7.0
 For testing the C++ code:
 
 - download gtest: http://code.google.com/p/googletest/downloads/detail?name=gtest-1.7.0.zip
@@ -231,8 +231,20 @@ Associated compiler flags in [src/Makefile](src/Makefile) or [src/setup.py](src/
 -DHDF5_
 -I/path/to/install/dir/include
 -L/path/to/install/dir/lib
--lhdf5
--lhdf5_cpp
+-lhdf5 -lhdf5_cpp
+```
+
+### GSL 2.3
+For spline interpolation.
+```bash
+./configure --prefux=/path/to/install/dir; make; make install
+```
+Associated compiler flags in [src/Makefile](src/Makefile) or [src/setup.py](src/setup.py):
+```
+-DGSL_
+-I/path/to/install/dir/gsl-2.3/include
+-L/path/to/install/dir/gsl-2.3/lib
+-lgsl -lgslcblas -lm
 ```
 
 # Test case 1. Lennard Jones
@@ -410,7 +422,7 @@ An example of utilizing the table potential (without generating) is provided in 
 This file and the `tabi*j*` files may be used as templates to create
 your own pair potentials.
 
-#Example of adding or modifying a pair potential
+# Example of adding or modifying a pair potential
 
 To begin, one may create a new pair potential by simply copying an
 existing version that is closest to the type of potential you are 
@@ -460,7 +472,7 @@ You have to add the new pair class to `makePair()` in [src/pair.cc](src/pair.cc)
 For the Swig Python interface, you also must copy [src/pair_lj_multi.i](src/pair_lj_multi.i) into a new file, with the new header,
 and also add the new pair header to [src/pair.i](src/pair.i) and [src/feasst.i](src/feasst.i).
 
-#Example of adding or modifying a Monte Carlo trial
+# Example of adding or modifying a Monte Carlo trial
 
 You can begin by copy/pasting and renaming an existing trial and renaming the class.
 But remember, this can carry along a lot of garbage.
@@ -478,7 +490,7 @@ For restart capability, add this new trial to `makeTrial` in [src/trial.cc](src/
 The MC class only knows the base Trial class. In some cases you may need to add
 a feature to the base Trial class, but try to avoid this if possible.
 
-#Example of adding or modifying an analysis code
+# Example of adding or modifying an analysis code
 
 Adding and modifying `analyze_` files are even simpler than the pair and trial examples above.
 All you need to do is copy/paste the one of the existing `analyze_` files and update the class names, headers, etc, as described above.
@@ -487,11 +499,11 @@ Alternatively, you can define your custom analysis code in the input script inst
 For an example, you can see [src/analyze_unittest.cc](src/analyze_unittest.cc) for an example `AnalyzeMonkeyPatch`.
 In the energy case, you would most likely define a new `void update` function which is run at the end of every `nFreq` steps.
 
-#Example of adding or modifying a random number generator
+# Example of adding or modifying a random number generator
 
 As described above, except use [src/random_nr3.h](src/random_nr3.h) as a template.
 
-#Contact
+# Contact
 
 Project lead: Harold Wickes Hatch
 

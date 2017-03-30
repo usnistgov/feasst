@@ -164,9 +164,21 @@ int PairLJMulti::initEnergy() {
           // no interaction beyond cut-off distance
           if (r2 < pow(rCutij_[type[ipart]][type[jpart]], 2.)) {
             // energy
+            pePart = 0;
             const double eps = epsij_[type[ipart]][type[jpart]],
                          sig = sigij_[type[ipart]][type[jpart]];
-            r2inv = pow(sig, 2)/r2;
+            if (sigrefFlag_ != 1) {
+              r2inv = pow(sig, 2)/r2;
+            } else {
+              const double sigref = sigRefij_[type[ipart]][type[jpart]];
+              r2inv = sigref/(sqrt(r2) - sig + sigref);
+              r2inv = r2inv*r2inv;
+
+              // inner hard sphere
+              if (sqrt(r2) <= sig - sigref) {
+                pePart += std::numeric_limits<double>::max()/1e10;
+              }
+            }
             r6inv = r2inv*r2inv*r2inv;
             if (expType_ == 1) {
               r6inv = r6inv*r6inv;
@@ -181,7 +193,7 @@ int PairLJMulti::initEnergy() {
             } else if (expType_ == 6) {
               r6inv = pow(r2inv, 9);
             }
-            pePart = eps *(4. * (r6inv*(r6inv - 1.))
+            pePart += eps *(4. * (r6inv*(r6inv - 1.))
               + peShiftij_[type[ipart]][type[jpart]]);
             if (linearShiftFlag_) {
               pePart += peLinearShiftij_[type[ipart]][type[jpart]]
@@ -189,7 +201,14 @@ int PairLJMulti::initEnergy() {
             }
             if (lambdaFlag_ != 0) {
               const double lambda = lambda_[type[ipart]][type[jpart]];
-              if (r2 < pow(2, 2./alpha_)*sig*sig) {
+              double rwca;
+              if (sigrefFlag_ != 1) {
+                rwca = pow(2., 1./alpha_)*sig;
+              } else {
+                const double sigref = sigRefij_[type[ipart]][type[jpart]];
+                rwca = pow(2., 1./alpha_)*sigref + sig - sigref;
+              }
+              if (r2 < rwca*rwca) {
                 pePart += eps*(1. - lambda) + (lambda - 1.)
                   *peShiftij_[type[ipart]][type[jpart]];
                 if (linearShiftFlag_) {
@@ -219,7 +238,7 @@ int PairLJMulti::initEnergy() {
                   - gausParam_[ig][1])/gausParam_[ig][2], 2));
               }
             }
-
+            
             peLJ_ += pePart;
             pe_[ipart] += pePart/2.;
             pe_[jpart] += pePart/2.;
@@ -421,10 +440,18 @@ void PairLJMulti::cutShiftijset(
   } else if (flag == 1) {
     const double sig = sigij_[itype][jtype], rc = rCutij_[itype][jtype],
       eps = epsij_[itype][jtype];
-    const double peShiftLJ = -4.*eps*(pow(sig / rc, 2*alpha_)
-      - pow(sig / rc, alpha_));
-
+    double rinv;
+    if (sigrefFlag_ != 1) {
+      rinv = sig/rc;
+    } else {
+      const double sigref = sigRefij_[itype][jtype];
+      rinv = sigref / (rc - sig + sigref);
+    }
+    const double peShiftLJ = -4.*eps*(pow(rinv, 2*alpha_)
+                                    - pow(rinv, alpha_));
+    
     double peShiftY = 0;
+    ASSERT(sigrefFlag_ == 0 || yukawa_ == 0, "sigref not implemented here");
     if (yukawa_ == 1) {
       peShiftY = -eps*yukawaA_*exp(-yukawaK_*rc/sig)/(rc/sig);
     } else if (yukawa_ == 2) {
@@ -454,9 +481,20 @@ void PairLJMulti::linearShiftijset(
   } else if (flag == 1) {
     const double sig = sigij_[itype][jtype], rc = rCutij_[itype][jtype],
       eps = epsij_[itype][jtype];
-    const double peLShiftLJ = -4.*eps/sig*(-2*alpha_*pow(sig
-      / rc, (2*alpha_) + 1) + alpha_*pow(sig / rc, alpha_ + 1));
+    double rinv, sigtmp;
+    if (sigrefFlag_ != 1) {
+      rinv = sig/rc;
+      sigtmp = sig;
+    } else {
+      const double sigref = sigRefij_[itype][jtype];
+      rinv = sigref / (rc - sig + sigref);
+      sigtmp = sigref;
+    }
+    
+    const double peLShiftLJ = -4.*eps/sigtmp*(-2*alpha_*pow(rinv, (2*alpha_) 
+      + 1) + alpha_*pow(rinv, alpha_ + 1));
 
+    ASSERT(sigrefFlag_ == 0 || yukawa_ == 0, "sigref not implemented here");
     double peLShiftY = 0;
     if (yukawa_ == 1) {
       peLShiftY = eps*yukawaA_*exp(-yukawaK_*rc/sig)/(rc/sig)
@@ -531,6 +569,7 @@ void PairLJMulti::initLRC() {
   lrcFlag = 1;
   lrcPreCalc_.resize(epsij_.size(), vector<double>(epsij_.size()));
   ASSERT(expType_ != 1, "LRC not implemented for expType(" << expType_ << ")");
+  ASSERT(sigrefFlag_ == 0, "sigref not implemented here");
   for (unsigned int i = 0; i < epsij_.size(); ++i) {
     for (unsigned int j = 0; j < epsij_.size(); ++j) {
       const double sig = sigij_[i][j];
@@ -550,7 +589,14 @@ void PairLJMulti::initLRC() {
  * set i-j to wca
  */
 void PairLJMulti::initWCA(const int itype, const int jtype) {
-  const double rc = pow(2, 1./alpha_)*sigij_[itype][jtype];
+  const double sig = sigij_[itype][jtype];
+  double rc;
+  if (sigrefFlag_ != 1) {
+    rc = pow(2, 1./alpha_)*sig;
+  } else {
+    const double sigref = sigRefij_[itype][jtype];
+    rc = pow(2, 1./alpha_)*sigref + sig - sigref;
+  }
   rCutijset(itype, jtype, rc);
   cutShiftijset(itype, jtype, 1);
 }
@@ -560,7 +606,24 @@ void PairLJMulti::multiPartEnerAtomCutInner(const double &r2, const int &itype,
   const double sigij = sigij_[itype][jtype];
   // cheap energy switches cut-off to sigmaij
   if ( (!cheapEnergy_) || (r2 < sigij*sigij) ) {
-    const double r2inv = sigij * sigij / r2;
+    double r2inv;
+    double r = 0;
+    double sigref = 0;
+    double peLJ = 0;
+    if (sigrefFlag_ != 1) {
+      r2inv = sigij * sigij / r2;
+    } else {
+      sigref = sigRefij_[itype][jtype];
+      r = sqrt(r2);
+      r2inv = sigref/(r - sigij + sigref);
+      r2inv = r2inv*r2inv;
+    
+      // inner hard sphere
+      if (r <= sigij - sigref) {
+        peLJ += std::numeric_limits<double>::max()/1e10;
+        return;
+      }
+    }
     double r6inv = r2inv*r2inv*r2inv;
     if (expType_ == 1) {
       r6inv = r6inv*r6inv;
@@ -576,17 +639,22 @@ void PairLJMulti::multiPartEnerAtomCutInner(const double &r2, const int &itype,
       r6inv = pow(r2inv, 9);
     }
     const double epsij = epsij_[itype][jtype];
-    double peLJ = epsij * (4. * (r6inv*(r6inv - 1.))
-      + peShiftij_[itype][jtype]);
-    double r = 0;
+    peLJ = epsij * (4. * (r6inv*(r6inv - 1.)) + peShiftij_[itype][jtype]);
     if (linearShiftFlag_) {
-      r = sqrt(r2);
+      if (sigrefFlag_ != 1) r = sqrt(r2);
       peLJ += peLinearShiftij_[itype][jtype] * (r - rCutij_[itype][jtype]);
     }
 
     if (lambdaFlag_ != 0) {
       const double lambda = lambda_[itype][jtype];
-      if (r2 < pow(2, 2./alpha_)*sigij*sigij) {
+      double rwca;
+      if (sigrefFlag_ != 1) {
+        rwca = pow(2., 1./alpha_)*sigij;
+      } else {
+        rwca = pow(2., 1./alpha_)*sigref + sigij - sigref;
+      }
+
+      if (r2 < rwca*rwca) {
         peLJ += epsij*(1.-lambda) + (lambda-1.)*peShiftij_[itype][jtype];
         if (linearShiftFlag_) peLJ += (lambda-1.)*(r - rCutij_[itype][jtype])
                                       *peLinearShiftij_[itype][jtype];

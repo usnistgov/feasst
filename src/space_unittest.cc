@@ -1206,7 +1206,7 @@ int ntest = 1;
   ntest = 2;
 #endif  // JSON_
   for (int itest = 0; itest < ntest; ++itest) {
-    cout << "itest " << itest << endl;
+//    cout << "itest " << itest << endl;
     Space s(3,0);
     if (itest == 0) {
       s.initData("../forcefield/data.cg7mabaniso");

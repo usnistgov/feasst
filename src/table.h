@@ -9,12 +9,19 @@
 #include <string>
 #include <vector>
 #include "./base_all.h"
+#ifdef GSL_
+  #include <stdlib.h>
+  #include <stdio.h>
+  #include <math.h>
+  #include <gsl/gsl_errno.h>
+  #include <gsl/gsl_spline.h>
+#endif  // GSL_
 
 class Table {
  public:
   Table();
   explicit Table(const char* fileName);
-  virtual ~Table() {}
+  virtual ~Table();
   virtual Table* clone() const { Table* p = new Table(*this); return p; }
 
   // defaults in constructor
@@ -22,6 +29,7 @@ class Table {
 
   /// linear interpolation
   double interpolate(const double val0);
+  double interpolate(const double val0, double *deriv);
   double interpolate(const double val0, const double val1);
   double interpolate(const double val0, const double val1, const double val2);
   double interpolate(const double val0, const double val1, const double val2,
@@ -44,15 +52,26 @@ class Table {
   /// print table in hdf5 format
   void printHDF5(const char* fileName);
 
+  /// set the interpolator
+  void setInterpolator(const char* name);
+  
+  /// solve for the spline derivatives, assuming condition at end points
+  void solveSpline(const char* endCondition);
+  
+  /// for a given bin, return the abscissae ("x")
+  double bin2abs(const int bin);
+  
   // functions for read-only access of private data-members
   double min() const { return min_; }
   vector<vector<double> > tablim() const { return tablim_; }
   vector<vector<vector<double> > > tab3() const { return tab3_; }
   vector<vector<vector<vector<double> > > > tab4() const { return tab4_; }
+  string interpolator() const { return interpolator_; }
 
  protected:
   int tabDims_;             //!< number of dimensions in table
   string tabType_;          //!< type of table
+  string interpolator_;     //!< type of interpolation
   vector<double> tab1_;     //!< table 1D
   vector<vector<double> > tab2_;   //!< table 2D
   vector<vector<vector<double> > > tab3_;   //!< table 3D
@@ -62,6 +81,22 @@ class Table {
   vector<vector<double> > tablim_;   //!< table limits
   double min_;              //!< minimum value
   double d0_, d1_, d2_, d3_, d4_, d5_;
+  
+  // spline
+  vector<double> cspline_;   //!< spline coefficients
+  
+  /// accessor function with indices [1,n] to look like FORTRAN
+  double c_(const int coeff, const int index) const {
+    return cspline_[4*(index-1)+(coeff-1)];
+  }
+  void cset_(const int coeff, const int index, const double value) {
+    cspline_[4*(index-1)+(coeff-1)] = value;
+  }
+    
+  #ifdef GSL_
+    gsl_interp_accel *acc; 
+    gsl_spline *spline; 
+  #endif  // GSL_
 };
 
 #endif  // TABLE_H_

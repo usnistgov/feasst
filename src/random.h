@@ -12,9 +12,9 @@
 
 class Random : public Base {
  public:
-  Random(const unsigned long long iseed);
-  Random(const char* fileName);
-  virtual ~Random() {};
+  explicit Random(const unsigned long long iseed);
+  explicit Random(const char* fileName);
+  virtual ~Random() {}
   virtual void writeRestart(const char* fileName) = 0;
 
   /// seed random number generator
@@ -27,7 +27,7 @@ class Random : public Base {
   virtual int uniform(const int min, const int max) = 0;
 
   /// random 32 bit unsigned integer
-  unsigned int int32() { return (unsigned int) int64(); };
+  unsigned int int32() { return (unsigned int) int64(); }
 
   /// random 64 bit integer
   virtual unsigned long long int64() = 0;
@@ -36,7 +36,9 @@ class Random : public Base {
   unsigned long long seed_;
 
   /// error messaging
-  void mout_(const char* messageType, std::ostream& message) {myOut(messageType, message, className_, verbose_);};
+  void mout_(const char* messageType, std::ostream& message) {
+    myOut(messageType, message, className_, verbose_);
+  }
 };
 
 #endif  // RANDOM_H_

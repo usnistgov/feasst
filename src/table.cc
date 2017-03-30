@@ -16,6 +16,7 @@ Table::Table(const char* fileName) {
   defaultConstruction();
   tabDims_ = fstoi("tabDims", fileName);
   tabType_ = fstos("tabType", fileName);
+  string strtmp = fstos("interpolator", fileName);
   vector<int> tabsizes;
   vector<int> order;
   for (int i = 0; i < tabDims_; ++i) {
@@ -173,25 +174,86 @@ Table::Table(const char* fileName) {
     cout << "error: Unrecognized tabdim(" << tabDims_ << ")" << endl;
     exit(0);
   }
+  
+  // set the interpolator, which may require some initialization
+  // and therefore should be run after the tables are initialized
+  if (!strtmp.empty()) {
+    setInterpolator(strtmp.c_str());
+  }
+  
   min_ = 0.;
+}
+
+Table::~Table() {
+  #ifdef GSL_
+    if (interpolator_.compare("gslspline") == 0) {
+      gsl_spline_free (spline);
+      gsl_interp_accel_free (acc);
+    }
+  #endif  // GSL_
 }
 
 /**
  * defaults in constructor
  */
 void Table::defaultConstruction() {
+  setInterpolator("linear");
 }
 
 /**
- * linear interpolation
+ * 1D interpolation
  */
 double Table::interpolate(const double val0) {
   const int i0 = (val0 - tablim_[0][0]) / d0_;
   int i02 = i0 + 1;
   if (i02 == static_cast<int>(tab1_.size())) i02 = i0;
   const double v0 = tablim_[0][0] + i0 * d0_, vv0 = v0 + d0_;
-  const double xd0 = (val0 - v0) / (vv0 - v0);
-  return tab1_[i0]*(1-xd0) + xd0*tab1_[i02];
+  if (interpolator_.compare("linear") == 0) {
+    const double xd0 = (val0 - v0) / (vv0 - v0);
+    return tab1_[i0]*(1-xd0) + xd0*tab1_[i02];
+  #ifdef GSL_
+    } else if (interpolator_.compare("gslspline") == 0) {
+      const double xi = val0;
+      return gsl_spline_eval (spline, xi, acc);
+  #endif  // GSL_
+  } else if (interpolator_.compare("cspline") == 0) {
+    const double dv = val0-v0;
+    cout << "val0 " << val0 << " v0 " << v0 << " i0 " << i0 << " dv " << dv
+         << " d0 " << d0_ 
+         << " c1 " << c_(1, i0)
+         << " c2 " << c_(2, i0)
+         << " c3 " << c_(3, i0)
+         << " c4 " << c_(4, i0)
+         << endl;
+    const int id = i0 + 1;
+    return c_(1, id) + dv*(c_(2, id) + dv*(c_(3, id)+dv*c_(4, id)));
+    //return c_(1, id+1) + c_(2, id)*dv + c_(3, id)*dv*dv + c_(4, id)*dv*dv*dv;
+  } else {
+    ASSERT(0, "unrecognized interpolator(" << interpolator_ << ")");
+  }
+  return -1;
+}
+
+/**
+ * 1D interpolation
+ */
+double Table::interpolate(const double val0, double *deriv) {
+//  const int i0 = (val0 - tablim_[0][0]) / d0_;
+//  int i02 = i0 + 1;
+//  if (i02 == static_cast<int>(tab1_.size())) i02 = i0;
+//  const double v0 = tablim_[0][0] + i0 * d0_, vv0 = v0 + d0_;
+  if (interpolator_.compare("gslspline") == 0) {
+    #ifdef GSL_
+  //    const double xi = val0;
+      *deriv = gsl_spline_eval_deriv(spline, val0, acc);
+      return gsl_spline_eval (spline, val0, acc);
+    #else  // GSL_
+      ASSERT(0, "GSL_ compiler flag missing for gslspline interpolator");
+    #endif  // GSL_
+  } else {
+    ASSERT(0, "unrecognized interpolator(" << interpolator_ << ")");
+  }
+  return -1;
 }
 
 /**
@@ -754,4 +816,108 @@ void Table::printHDF5(const char* fileName) {
 #endif  // HDF5_
 }
 
+/**
+ * for a given bin, return the abscissae ("x")
+ */
+double Table::bin2abs(const int bin) {
+  return tablim_[0][0] + bin*d0_;
+}
+  
+/*
+ * solve for the spline derivatives, assuming condition at end points
+ *
+ * This implementation follows the FORTRAN text by de Boor, CUBSPL
+ * A practical guide to splines, Carl de Boor, second edition, pg 46
+ *
+ * N - number of data point
+ * L - N-1
+ *
+ */
+void Table::solveSpline(const char* endCondition) {
+  string endCondStr(endCondition);
+  ASSERT(endCondStr.compare("notaknot") == 0, 
+    "unrecognized spline end condition(" << endCondition << ")");
+  
+  // not-a-knot requires that the third derivative is also continuous at
+  // the 'next-to-end-points' x_1, x_(n-1)
+  cspline_.clear();
+  cspline_.resize(tab1_.size()*4, 0.);
+  
+  //cout << "start inits tab1sz " << tab1_.size() << endl;
+  
+  const int n = static_cast<int>(tab1_.size());
+  for (int m = 1; m < n + 1; ++m) {
+    cset_(1, m, tab1_[m - 1]);
+    //cout << "m " << m << " n " << n << " c1 " << c_(1, m) << endl;
+  }
 
+  for (int m = 2; m < n + 1; ++m) {
+    cset_(3, m, bin2abs(m - 1) - bin2abs(m - 2));
+    //cout << "m " << m << " c3 " << c_(3, m) << endl;
+    cset_(4, m, (c_(1, m) - c_(1, m - 1))/c_(3, m));
+  }
+
+  // not-a-knot on the left end
+  cset_(4, 1, c_(3, 3));
+  cset_(3, 1, c_(3, 2) + c_(3, 3));
+  cset_(2, 1, ((c_(3, 2) + 2.*c_(3, 1))*c_(4, 2)*c_(3, 3)
+          + pow(c_(3, 2), 2)*c_(4, 3))/c_(3, 1));
+
+  // interior knots
+  for (int m = 2; m < n; ++m) {
+    const double g = -c_(3, m + 1)/c_(4, m - 1);
+    cset_(2, m, g*c_(2, m - 1) + 3.*(c_(3, m)*c_(4, m + 1) 
+               + c_(3, m + 1)*c_(4, m)));
+    cset_(4, m, g*c_(3, m - 1) + 2.*(c_(3, m) + c_(3, m + 1)));
+  }
+  
+  ASSERT(tab1_.size() > 3, "edge case not implemented");
+
+  // not-a-knot on the right end
+  double g = c_(3, n - 1) + c_(3, n);
+  cset_(2, n, ((c_(3, n) + 2.*g)*c_(4, n)*c_(3, n - 1)
+    + pow(c_(3, n), 2)*(c_(1, n - 1)-c_(1, n - 2))/c_(3, n - 1))/g);
+  g = -g/c_(4, n - 1);
+  cset_(4, n, c_(3, n - 1));
+  cset_(4, n, g*c_(3, n - 1) + c_(4, n));
+  cset_(2, n, (g*c_(2, n - 1) + c_(2, n))/c_(4, n));
+
+  // back substitution
+  for (int j = n - 1; j > 0; --j) {
+    cset_(2, j, (c_(2, j) - c_(3, j)*c_(2, j + 1))/c_(4, j));
+  }
+
+  for (int i = 2; i < n + 1; ++i) {
+    const double dtau = c_(3, i),
+      divdf1 = (c_(1, i) - c_(1, i-1))/dtau,
+      divdf3 = c_(2, i - 1) + c_(2, i) - 2.*divdf1;
+    cset_(3, i - 1, 2.*(divdf1 - c_(2, i-1) - divdf3)/dtau);
+    cset_(4, i - 1, (divdf3/dtau)*(6./dtau));
+  }
+  //cout << "done inits" << endl;
+}
+
+/**
+ * set the interpolator
+ */
+void Table::setInterpolator(const char* name) {
+  interpolator_.assign(name);
+  string interpStr(name);
+  if (interpolator_.compare("cspline") == 0) {
+    solveSpline("notaknot");
+  #ifdef GSL_
+    } else if (interpolator_.compare("gslspline") == 0) {
+      acc = gsl_interp_accel_alloc ();
+      const int n = static_cast<int>(tab1_.size());
+      spline = gsl_spline_alloc (gsl_interp_cspline, n);
+      double x[n], y[n];
+      for (int i = 0; i < n; ++i) {
+        x[i] = bin2abs(i);
+        y[i] = tab1_[i];
+      }
+      gsl_spline_init (spline, x, y, n);
+  #endif  // GSL_
+  }
+}
+  
+  

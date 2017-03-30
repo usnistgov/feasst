@@ -56,6 +56,7 @@
 #include "trial_cluster.h"
 #include "trial_pressure.h"
 #include "trial_xswap.h"
+#include "trial_md.h"
 #include "trial_swap.h"
 #include "criteria.h"
 #include "criteria_metropolis.h"
@@ -117,6 +118,7 @@ using namespace std;
 %include trial_cluster.h
 %include trial_pressure.h
 %include trial_xswap.h
+%include trial_md.h
 %include trial_swap.h
 %include criteria.h
 %include criteria_metropolis.h

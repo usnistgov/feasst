@@ -316,3 +316,65 @@ TEST(Pair, LJSlowLambda) {
   EXPECT_NEAR(p.peTot(), p2.peTot(), 10000*doubleTolerance);
 }
 
+TEST(Pair, sigrefAnalytical) {
+  const double rCut = 3.3;
+  Space s(3, 0);
+  string addMolType("../forcefield/data.ljs0.85");
+  //string addMolType("../forcefield/data.isobutane_trappe");
+  s.addMolInit(addMolType.c_str());
+  s.initCellAtomCut(1);
+  
+  vector<double> x(s.dimen(), 0.);
+  s.xAdd = x;
+  s.addMol(addMolType.c_str());
+  x[1] = 1.22;
+  s.xAdd = x;
+  s.addMol(addMolType.c_str());
+
+  PairLJMulti p(&s, rCut);
+  p.setSigRefFlag(1);
+  p.initLMPData(addMolType.c_str());
+  p.initExpType(1); // alpha1:12
+  p.setLambdaij(0, 0, -1);
+  
+  PairLJMulti *pcut = p.clone(&s);
+  
+  p.linearShift(1);
+  //p.cutShift(1);
+  p.initEnergy();
+
+  EXPECT_NEAR(p.sigRef(0), 2.1, doubleTolerance);
+  EXPECT_NEAR(p.peTot(), 0.4867769858755370, 10000*doubleTolerance);
+  
+  p.setLambdaij(0, 0, 1);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -0.4867769858755370, 10000*doubleTolerance);
+  
+  p.setLambdaij(0, 0, 0.331);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -0.1611231823248030, 10000*doubleTolerance);
+
+  x[1] = -s.x(1, 1) + 2*x[1];
+  s.transMol(1, x); 
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -0.0011223005336472365, 10000*doubleTolerance);
+
+  x[1] = -s.x(1, 1) + 0.87;
+  s.transMol(1, x); 
+  // test linear shift
+  p.setLambdaij(0,0,-1);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), 1.6134113229466700, 10000*doubleTolerance);
+  // test cut shift
+  pcut->setLambdaij(0,0,-1);
+  pcut->cutShift(1);
+  pcut->initEnergy();
+  EXPECT_NEAR(pcut->peTot(), 1.6158060153131700, 10000*doubleTolerance);
+
+  x[1] = -s.x(1, 1) + 0.5;
+  s.transMol(1, x); 
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), 284.3198540118970000, 10000*doubleTolerance);
+
+  delete pcut;
+}

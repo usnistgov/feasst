@@ -86,7 +86,7 @@ TEST(Analyze, MonkeyPatch) {
   mc.initColMat("tmp/monkeycol", 1e1);
   mc.initWindows(1);
   mc.writeRestart("tmp/monkeyrst");
-  int nWindow = -1, t = 0;
+  int t = 0;
   #ifdef OMP_H_
     #pragma omp parallel private(t)
     {

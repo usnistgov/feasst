@@ -14,7 +14,7 @@ Masses
 
 Pair Coeffs
 
-1 1 1
+1 1 1 2.1   #itype eps sig sigref(optional)
 
 Atoms
 

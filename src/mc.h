@@ -215,8 +215,13 @@ class MC : public BaseAll {
   double prSum_;              //!< sum of pressure of each state
   double prSum2_;             //!< sum of square of pressure of each state
   long long nAttempts_;   //!< number of attempted trials
-  bool printStatHeader_;      //!< flag to print header for statistics
-  bool nSeeking_;             //!< flag if currently in nSeek mode
+  
+  /// flag to print header in log file
+  //  if 0, no header
+  //  if 1, print header
+  //  if 2, print header with a comment "#" on first line (for restarts)
+  int printLogHeader_;
+  
   string logFileName_;        //!< log file name
   long long nFreqLog_;    //!< frequency to print to log
   string movieFileName_;      //!< movie file name

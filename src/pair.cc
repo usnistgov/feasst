@@ -114,6 +114,11 @@ Pair::Pair(Space* space, const char* fileName)
   if (!strtmp.empty()) {
     intra_ = atoi(strtmp.c_str());
   }
+  
+  strtmp = fstos("sigrefFlag", fileName);
+  if (!strtmp.empty()) {
+    sigrefFlag_ = atoi(strtmp.c_str());
+  }
 }
 
 /**
@@ -158,6 +163,7 @@ void Pair::defaultConstruction() {
   peMapOn_ = 0;
   intra_ = 0;
   addPart();
+  sigrefFlag_ = 0;
 }
 
 /**
@@ -225,6 +231,7 @@ void Pair::writeRestartBase(const char* fileName) {
   }
 
   if (intra_ != 0) file << "# intraMolecInteract " << intra_ << endl;
+  if (sigrefFlag_ != 0) file << "# sigrefFlag " << sigrefFlag_ << endl;
 
   // write random number generator state
   writeRngRestart(fileName);
@@ -363,8 +370,10 @@ void Pair::addPartBase() {
 /**
  * initialize the pair parameters eps and sig
  */
-void Pair::initPairParam(const vector<double> eps,   //!< epsilon pair parameter
-                         const vector<double> sig) {  //!< sigma pair parameter
+void Pair::initPairParam(
+  const vector<double> eps,       //!< epsilon pair parameter
+  const vector<double> sig,       //!< sigma pair parameter
+  const vector<double> sigref) {  //!< sigma pair parameter
   const int ntype = eps.size();
   ASSERT(sig.size() == eps.size(),
     "input parameters eps and sig in initPairParm must be of equal size");
@@ -373,21 +382,26 @@ void Pair::initPairParam(const vector<double> eps,   //!< epsilon pair parameter
 
   eps_.resize(ntype);
   sig_.resize(ntype);
+  sigRef_.resize(ntype);
   for (int i = 0; i < ntype; ++i) {
     eps_[i] = eps[i];
     sig_[i] = sig[i];
+    if (sigrefFlag_ == 1) sigRef_[i] = sigref[i];
   }
 
   epsij_.resize(ntype, vector<double>(ntype));
   sigij_.resize(ntype, vector<double>(ntype));
+  sigRefij_.resize(ntype, vector<double>(ntype));
   for (int i = 0; i < ntype; ++i) {
     epsij_[i].resize(ntype);
     sigij_[i].resize(ntype);
+    if (sigrefFlag_ == 1) sigRefij_[i].resize(ntype);
   }
   for (int i = 0; i < ntype; ++i) {
     for (int j = 0; j < ntype; ++j) {
       epsij_[i][j] = sqrt(eps_[i]*eps_[j]);
       sigij_[i][j] = (sig_[i]+sig_[j])/2;
+      if (sigrefFlag_ == 1) sigRefij_[i][j] = (sigRef_[i]+sigRef_[j])/2;
     }
   }
 }
@@ -772,15 +786,19 @@ void Pair::initLMPData(const string fileName) {  //!< LAMMPS Data file name
   // read until Pair Coeffs
   readUntil("Pair Coeffs", file);
 
-  // read eps,sig
-  vector<double> eps(natype), sig(natype);
+  // read eps, sig and (optionally) sigref
+  vector<double> eps(natype), sig(natype), sigref;
+  if (sigrefFlag_ == 1) sigref.resize(natype);
+  string line;
   for (int i = 0; i < natype; ++i) {
     int tmp;
     file >> tmp >> eps[i] >> sig[i];
+    if (sigrefFlag_ == 1) file >> sigref[i]; 
+    getline(file, line);
   }
 
   // assign eps, sig
-  initPairData(natype, eps, sig);
+  initPairData(natype, eps, sig, sigref);
 }
 
 /**
@@ -788,9 +806,10 @@ void Pair::initLMPData(const string fileName) {  //!< LAMMPS Data file name
  */
 void Pair::initPairData(const int natype,
   const vector<double> eps,
-  const vector<double> sig) {
+  const vector<double> sig,
+  const vector<double> sigref) {
   if (natype == space_->nParticleTypes()) {
-    initPairParam(eps, sig);
+    initPairParam(eps, sig, sigref);
   } else {
     const int natypeall = space_->nParticleTypes();
     ASSERT(natype <= natypeall, "number of particle types is greater than"
@@ -801,24 +820,26 @@ void Pair::initPairData(const int natype,
     int natypeprev = 0;
     if (sigepsDefault_ == 0) natypeprev += eps_.size();
     const int ns = natypeprev+natype;
-    vector<double> epsfull(ns), sigfull(ns);
+    vector<double> epsfull(ns), sigfull(ns), sigreffull(ns);
 
     // initialize eps,sig with prexisting values
     for (int i = 0; i < natypeprev; ++i) {
       epsfull[i] = eps_[i];
       sigfull[i] = sig_[i];
+      if (sigrefFlag_ == 1) sigreffull[i] = sigRef_[i];
     }
 
     // add new values to eps, sig
     for (int i = natypeprev; i < natypeprev+natype; ++i) {
       // int tmp;
       // file >> tmp >> epsfull[i] >> sigfull[i];
-      epsfull[i] = eps[i-natypeprev];
-      sigfull[i] = sig[i-natypeprev];
+      epsfull[i] = eps[i - natypeprev];
+      sigfull[i] = sig[i - natypeprev];
+      if (sigrefFlag_ == 1) sigreffull[i] = sigref[i - natypeprev];
     }
 
     // initialize eps, sig
-    initPairParam(epsfull, sigfull);
+    initPairParam(epsfull, sigfull, sigreffull);
   }
 }
 
@@ -1704,14 +1725,14 @@ void Pair::setOrder(const double order) {
   // check for special order parameter names
   if (orderName_.compare("MMsigma3") == 0) {
     sig_[2] = order;
-    initPairParam(eps_, sig_);
+    initPairParam(eps_, sig_, sigRef_);
   } else if (orderName_.compare("angle0") == 0) {
     space_->modBondAngle(0, order, space_->addMolListType().front().c_str());
 //    space_->setAtomTypeAsCOM(0);
   } else if (orderName_.compare("MMsigSheetVes") == 0) {
     sig_[1] = 0.9 + 0.2*order;
     sig_[2] = 0.9 - 0.2*order;
-    initPairParam(eps_, sig_);
+    initPairParam(eps_, sig_, sigRef_);
   }
 }
 
@@ -2048,15 +2069,17 @@ void Pair::initJSONData(const string fileName) {  //!< LAMMPS Data file name
   stmp.initData(fileName);
   const int natype = stmp.nParticleTypes();
 
-  // read eps,sig
-  vector<double> eps(natype), sig(natype);
+  // read eps, sig
+  vector<double> eps(natype), sig(natype), sigref;
+  if (sigrefFlag_ == 1) sigref.resize(natype);
   for (int i = 0; i < natype; ++i) {
     eps[i] = j["pairCoeffs"][i]["eps"];
     sig[i] = j["pairCoeffs"][i]["sig"];
+    if (sigrefFlag_ == 1) sigref[i] = j["pairCoeffs"][i]["sigref"];
   }
 
   // assign eps, sig
-  initPairData(natype, eps, sig);
+  initPairData(natype, eps, sig, sigref);
 }
 #endif  // JSON_
 

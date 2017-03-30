@@ -12,6 +12,7 @@
 #include "ui_abbreviated.h"
 #include "trial_add.h"
 #include "trial_delete.h"
+#include "trial_md.h"
 
 // check that you obtain the same tmmc probability distribution function whether or not you use special moves
 TEST(MC, WLTMMC_Ideal) {
@@ -159,6 +160,7 @@ TEST(MC, ljmuvtmetropANDclone) {
 //  mc.initTrial(&ta);
 
   // attempt some monte carlo trials
+  mc.initLog("tmp/ljloglog", 1e3);
   const int nAttempts = 3000;
   for (int i = 0; i < nAttempts; ++i) {
     mc.attemptTrial();
@@ -178,15 +180,13 @@ TEST(MC, ljmuvtmetropANDclone) {
   EXPECT_EQ(petot, mc.pePerMol());
   if (petot*mc2->pePerMol()!=0) EXPECT_NE(petot, mc2->pePerMol());
 
-  // restart simulation from file, run trials, and expect no change int he original
+  // restart simulation from file, run trials, and expect no change in the original
   petot = mc.pePerMol();
   mc.writeRestart("tmp/ljrst");
-  cout << "rsting" << endl;
   MC mc3("tmp/ljrst");
   for (int i = 0; i < nAttempts; ++i) mc3.attemptTrial();
   EXPECT_EQ(petot, mc.pePerMol());
   if (petot*mc3.pePerMol()!=0) {
-    cout << "testing" << endl;
     EXPECT_NE(petot, mc3.pePerMol());
   }
 }
@@ -542,3 +542,19 @@ TEST(MC, b2hardsphere) {
   EXPECT_NEAR(b2, 2./3.*PI, tol*3);
 }
 
+TEST(MC, ljMD) {
+  Space space(3,0);
+  for (int dim = 0; dim < space.dimen(); ++dim) space.lset(10,dim);
+  space.addMolInit("../forcefield/data.atom");
+  PairLJ pair(&space, 3.);
+  pair.initEnergy();
+  CriteriaMetropolis criteria(0.5, 0.1);
+  MC mc(&space, &pair, &criteria);
+
+  mc.nMolSeek(50, "../forcefield/data.atom");
+  
+  shared_ptr<TrialMD> tmd = make_shared<TrialMD>();
+  mc.initTrial(tmd);
+
+  mc.runNumTrials(100);
+}

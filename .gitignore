@@ -10,6 +10,10 @@ tools/rw
 #gprof output
 gmon.out
 
+#gcov, etc
+*.gcda
+*.gcno
+
 #google c++ test
 gtest_main.a
 
@@ -80,6 +84,7 @@ trial_cluster.py
 trial_pressure.py
 trial_xswap.py
 trial_swap.py
+trial_md.py
 random.py
 random_nr3.py
 table.py

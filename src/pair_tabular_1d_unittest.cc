@@ -29,6 +29,7 @@ TEST(PairTabular1D, printReadTable) {
   s.addMolInit(addMolTypeB.c_str());
   p.initLMPData(addMolTypeB.c_str());
   p.readTable("tmp/ptab");
+  p.setInterpolator("gslspline");
   p.initEnergy();
   s.writeRestart("tmp/rststab");
   p.writeRestart("tmp/rstptab");
@@ -36,9 +37,51 @@ TEST(PairTabular1D, printReadTable) {
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
   s.addMol(addMolTypeA.c_str());
-  x[1] = 1;
+  x[1] = 1.2;
   s.xAdd = x;
   s.addMol(addMolTypeB.c_str());
   p.addPart();
 }
+
+#ifdef GSL_
+TEST(PairTabular1D, interpolateForces) {
+  const double rCut = 3.;
+  Space s(3, 0);
+  for (int dim=0; dim < s.dimen(); ++dim) s.lset(6,dim);
+  string addMolType("../forcefield/data.lj");
+  PairLJMulti pp(&s, rCut);
+  s.addMolInit(addMolType.c_str());
+  pp.initLMPData(addMolType.c_str());
+  pp.cutShift(1);
+  pp.initEnergy();
+  pp.printTable("tmp/ptab",1000,0.99);
+
+  PairTabular1D p(&s);
+  p.initLMPData(addMolType.c_str());
+  p.readTable("tmp/ptab");
+  p.setInterpolator("gslspline");
+  p.initEnergy();
+
+  vector<double> x(s.dimen(), 0.);
+  s.xAdd = x;
+  s.addMol(addMolType.c_str());
+  x[1] = 1.2;
+  s.xAdd = x;
+  s.addMol(addMolType.c_str());
+  p.addPart();
+  p.initEnergy();
+  pp.addPart();
+  pp.initEnergy();
+
+//  double fij = 0;
+//  const double pe = p.peTable()[0][0]->interpolate(pow(x[1], 2), &fij);
+//  cout << "pe " << pe << " fij " << fij << endl;
+//  cout << "petab " << p.peTot() << " fijtab " << p.f(0,1) << endl;
+//  cout << "pelj " << pp.peTot() << " fij " << pp.f(0,1) << endl;
+  EXPECT_NEAR(p.peTot(), -0.88548584583883716, 1e-7);
+  EXPECT_NEAR(p.f(0,1), 2.2116918590583787, 1e-5);
+  EXPECT_NEAR(p.peTot(), pp.peTot(), 1e-7);
+  EXPECT_NEAR(p.f(0,1), pp.f(0,1), 1e-5);
+}
+#endif  // GSL_
 

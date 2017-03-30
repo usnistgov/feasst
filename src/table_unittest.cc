@@ -47,3 +47,17 @@ TEST(Table, solidRevDisck6nz1) {
 //  dep.printHDF5("tmp/tablecyl1dep.hdf5");
 //  exit(0);
 }
+
+TEST(Table, lj) {
+  Table lj("../unittest/lj/tabi0j0n100");
+  //Table lj("../test/lj/table/tabi0j0n10");
+  const double dr = 5e-2;
+  //for (double r2 = 0.8*0.8; r2 <= 3*3.001; r2 += 0.836) {
+    //cout << "r " << sqrt(r2) << " r2 " << r2 << " " << lj.interpolate(r2) << endl;
+  //for (double r = 0.8; r <= 3.001; r += 0.22) {
+  for (double r = 0.8; r <= 3+dr/2.; r += dr) {
+    lj.interpolate(r*r);
+    //const double pe = lj.interpolate(r*r);
+    //cout << "r " << r << " " << lj.interpolate(r*r) << endl;
+  }
+}

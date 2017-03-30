@@ -16,6 +16,7 @@
 #include "trial_cluster.h"
 #include "trial_pressure.h"
 #include "trial_xswap.h"
+#include "trial_md.h"
 #include "trial_swap.h"
 %}
 
@@ -36,4 +37,5 @@
 %include trial_cluster.h
 %include trial_pressure.h
 %include trial_xswap.h
+%include trial_md.h
 %include trial_swap.h

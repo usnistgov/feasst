@@ -132,7 +132,7 @@ vector<double> BaseMath::ranUnitSphere(
 
 /**
  * return angle selected from probability distribution associated with
- * harmonic bond bending energy, \beta*U=k0*(t-t0)
+ * harmonic bond bending energy, \beta*U=k0*(t-t0)**2
  * Frenkel and Smit, page 343, below Equation 13.3.6
  */
 double BaseMath::ranAngle(const double k0, const double t0, const int power) {

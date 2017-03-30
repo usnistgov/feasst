@@ -112,8 +112,13 @@ class Pair : public BaseAll {
   int lrcFlag;
 
   /// initialize pair parameters;
-  virtual void initPairParam(const vector<double> eps,
-                             const vector<double> sig);
+  void initPairParam(const vector<double> eps,
+    const vector<double> sig, const vector<double> sigref);
+  void initPairParam(const vector<double> eps, const vector<double> sig) {
+    ASSERT(sigrefFlag_ == 0, "params initialized without sigref");
+    vector<double> sigref;
+    initPairParam(eps, sig, sigref);
+  }
 
   /// full neighbor list of each molecule
   void initNeighList(const double neighAbove, const double neighBelow);
@@ -137,7 +142,7 @@ class Pair : public BaseAll {
 
   /// initialize pair data
   void initPairData(const int natype, const vector<double> eps,
-                    const vector<double> sig);
+    const vector<double> sig, const vector<double> sigref);
 
   /// initialize with data file
   virtual void initData(const string fileName);
@@ -245,6 +250,9 @@ class Pair : public BaseAll {
     std::fill(nonphys_.begin(), nonphys_.end(), 0);
   }
 
+  /// flag to read sigref
+  void setSigRefFlag(const int flag) { sigrefFlag_ = flag; }
+  
   // read-only access to protected variables
   double f(int iAtom, int dim) const { return f_[iAtom][dim]; }  //!< force
   double rCut() const { return rCut_; }  //!< interaction cut-off distance
@@ -259,6 +267,7 @@ class Pair : public BaseAll {
   vector<double> sig() const { return sig_; }
   double eps(const int i) const { return eps_[i]; }
   double sig(const int i) const { return sig_[i]; }
+  double sigRef(const int i) const { return sigRef_[i]; }
   vector<vector<double> > epsij() const { return epsij_; }
   vector<vector<double> > sigij() const { return sigij_; }
   vector<vector<double> > rCutij() const { return rCutij_; }
@@ -303,10 +312,14 @@ class Pair : public BaseAll {
   vector<double> eps_;
   /// interaction spatial parameter, sigma (default: unit)
   vector<double> sig_;
+  /// interaction spatial parameter, sigmaRef (default: unit)
+  vector<double> sigRef_;
   /// interaction energy parameter, epsilon (default: unity)
   vector<vector<double> > epsij_;
   /// interaction spatial parameter, sigma (default: unity)
   vector<vector<double> > sigij_;
+  /// interaction spatial parameter, sigmaRef (default: unity)
+  vector<vector<double> > sigRefij_;
   /// potential energy cut=off for i-j type interacitons
   vector<vector<double> > rCutij_;
   /// maximum potential energy cut=off for i type interacitons
@@ -366,6 +379,7 @@ class Pair : public BaseAll {
   vector<vector<vector<double> > > contactpbc_;
 
   int sigepsDefault_;   //!< flag to know if default eps, sig are assigned
+  int sigrefFlag_;      //!< flag to know if sigref should be read/used
 
   vector<int> nonphys_;  // identifies particles as non-physical, pair ignores
 

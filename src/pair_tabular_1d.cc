@@ -50,7 +50,10 @@ int PairTabular1D::initEnergy() {
 
   // zero accumulators: potential energy, force, and virial
   deSR_ = 0;
-
+  myFill(0., f_);
+  //fCOM_.clear();
+  //fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
+  
   // loop through nearest neighbor atom pairs
   for (int ipart = 0; ipart < natom - 1; ++ipart) {
     if (eps_[type[ipart]] != 0) {
@@ -75,8 +78,26 @@ int PairTabular1D::initEnergy() {
           if (r2 < pow(rCutij_[type[ipart]][type[jpart]], 2.)) {
             if (r2 < pow(rCutInner_[type[ipart]][type[jpart]], 2.)) {
               deSR_ += std::numeric_limits<double>::max()/1e10;
+              ASSERT(0, "inner table value reached");
             } else {
-              deSR_ += tabij_[type[ipart]][type[jpart]]->interpolate(r2);
+              // obtain force from the potential energy table if using spline
+              if (peTable_[type[ipart]][type[jpart]]->
+                interpolator().compare("gslspline") == 0) {
+                double fij = 0.;
+                const double pe = 
+                  peTable_[type[ipart]][type[jpart]]->interpolate(r2, &fij);
+                deSR_ += pe;
+                // fij returns the derivative with respect to r2
+                fij *= -2;
+                for (int dim = 0; dim < dimen_; ++dim) {
+                  f_[ipart][dim] += fij*xij[dim];
+                  f_[jpart][dim] -= fij*xij[dim];
+                }
+              } else {
+                const double pe = 
+                  peTable_[type[ipart]][type[jpart]]->interpolate(r2);
+                deSR_ += pe;
+              }
             }
           }
         }
@@ -116,7 +137,7 @@ void PairTabular1D::multiPartEnerAtomCutInner(
   if (r2 < pow(rCutInner_[itype][jtype], 2.)) {
     peSRone_ += std::numeric_limits<double>::max()/1e10;
   } else {
-    peSRone_ += tabij_[itype][jtype]->interpolate(r2);
+    peSRone_ += peTable_[itype][jtype]->interpolate(r2);
   }
 }
 
@@ -189,7 +210,7 @@ void PairTabular1D::readTable(const char* fileName) {
   // resize rCutInner and tabij
   rCutInner_.resize(space_->nParticleTypes(), vector<double>(
     space_->nParticleTypes()));
-  tabij_.resize(space_->nParticleTypes(), vector<shared_ptr<Table> >(
+  peTable_.resize(space_->nParticleTypes(), vector<shared_ptr<Table> >(
     space_->nParticleTypes()));
 
   // loop through each unique pair of particle types
@@ -205,9 +226,21 @@ void PairTabular1D::readTable(const char* fileName) {
       rCutijset(iType, jType, sqrt(fstod("dimmax0", ss.str().c_str())));
 
       // make the tables
-      tabij_[iType][jType] = make_shared<Table>(ss.str().c_str());
-      tabij_[jType][iType] = tabij_[iType][jType];
+      peTable_[iType][jType] = make_shared<Table>(ss.str().c_str());
+      peTable_[jType][iType] = peTable_[iType][jType];
     }
   }
 }
 
+/**
+ * set the interpolator
+ */
+void PairTabular1D::setInterpolator(const char* name) {
+  for (int itype = 0; itype < static_cast<int>(peTable_.size()); ++itype) {
+    for (int jtype = 0; jtype < static_cast<int>(peTable_[itype].size());
+         ++jtype) {
+      peTable_[itype][jtype]->setInterpolator(name);
+    }
+  }
+}
+  

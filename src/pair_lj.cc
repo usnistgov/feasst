@@ -69,6 +69,8 @@ int PairLJ::initEnergy() {
   myFill(0., f_);
   myFill(0., vr_);
   peLJ_ = 0;
+  fCOM_.clear();
+  fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
 
   double r2inv, r6inv, pePart;
 
@@ -106,6 +108,8 @@ int PairLJ::initEnergy() {
               fij[i] += fPart * xij[i];
               f_[ipart][i] += fij[i];
               f_[jpart][i] -= fij[i];
+              fCOM_[mol[ipart]][i] += fij[i];
+              fCOM_[mol[jpart]][i] -= fij[i];
 
               // virial tensor
               for (int j = 0; j < dimen; ++j) {

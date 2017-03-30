@@ -113,6 +113,8 @@ MC::MC(const char* fileName) {
   // initialize energy
   pair_->initEnergy();
 
+  // print to log file, but comment out the initial line (to test restarts)
+  printLogHeader_ = 2;
   printStat();
 }
 
@@ -132,9 +134,8 @@ void MC::defaultConstruction() {
   nFreqTune_ = 0;
   nFreqRestart_ = 1e8;
   printPressure_ = false;
-  printStatHeader_ = true;
+  printLogHeader_ = 1;
   weight = 1;
-  nSeeking_ = false;
   checkEtol_ = 1e-7;
   nAttempts_ = 0;
   production_ = 0;
@@ -302,7 +303,7 @@ void MC::printStat() {
   if (!logFileName_.empty()) {
     std::ofstream log_(logFileName_.c_str(),
                        std::ofstream::out | std::ofstream::app);
-    if (printStatHeader_) {
+    if (printLogHeader_ > 0) {
       log_ << "# attempts nMol pe/nMol ";
       if (printPressure_) {
         log_ << "pressure ";
@@ -327,7 +328,8 @@ void MC::printStat() {
         log_ << trialVec_[i]->printStat(true);
       }
       log_ << endl;
-      printStatHeader_ = false;
+      if (printLogHeader_ == 2) log_ << "# ";
+      printLogHeader_ = 0;
     }
     log_ << nAttempts_ << " " << space_->nMol() << " " << pePerMol() << " ";
     if (printPressure_) log_ << pair_->pressure(criteria_->beta()) << " ";
@@ -373,7 +375,6 @@ void MC::nMolSeek(
   ) {
   std::string molTypeStr(molType);
   if (nTarget != space_->nMol()) {
-    nSeeking_ = true;
     ASSERT(nTarget >= 0, "nMolSeek n(" << nTarget << ") < 0");
 
     // progress report
@@ -442,7 +443,6 @@ void MC::nMolSeek(
     ASSERT(nTarget == space_->nMol(),
       "nMolSeek did not reach the desired number of moles (" << nTarget
       << ") within the number of maxAttempts (" << maxAttempts << ")");
-    nSeeking_ = false;
     log_ << "# nMolSeek done at attempt " << i << " out of " << maxAttempts
          << endl;
 

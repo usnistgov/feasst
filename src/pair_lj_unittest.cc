@@ -46,16 +46,16 @@ TEST(PairLJ, analytical) {
       if (s.x()[dimen*1+0] == -1.) {
         // particle outside of cuttoff
         EXPECT_EQ(0, p.pe()[1]);
-        EXPECT_EQ(0, p.f()[1][0]);
+        EXPECT_EQ(0, p.fCOM()[1][0]);
       } else if (s.x(1,0) == 49.) {
         // particle right next to other
 //        EXPECT_NEAR(-0.0605471, pair->pe()[1]*2., 1e-7);
         EXPECT_NEAR(-0.061523455, p.pe()[1]*2., 1e-7);
-        EXPECT_NEAR(0.1816406, p.f()[1][0], 1e-7);
+        EXPECT_NEAR(0.1816406, p.fCOM()[1][0], 1e-7);
       } else if (s.x(1,0) == -49.) {
         // particle right next to other, across pbc
         EXPECT_NEAR(-0.061523455, p.pe()[1]*2., 1e-7);
-        EXPECT_NEAR(-0.1816406, p.f()[1][0], 1e-7);
+        EXPECT_NEAR(-0.1816406, p.fCOM()[1][0], 1e-7);
       }
       s.xset(s.x(1,0) - 48., 1, 0);
     }
