@@ -48,31 +48,7 @@
 
 The following example may be found in [example/lj](example/lj).
 
-For Python, a simple NVT Lennard Jones (LJ) simulation is performed as follows:
-```python
-#! /usr/bin/env python
-import os, sys
-feasstdir = os.getenv("HOME") + "/path/to/feasst"
-sys.path.append(feasstdir + "/src")
-import feasst, pyfeasst
-space = feasst.Space(3, 0)
-for dim in range(space.dimen()): space.lset(8, dim) # 8 box length
-space.addMolInit("../../forcefield/data.lj")
-pair = feasst.PairLJ(space, 3)    # potential truncation at 3
-pair.initEnergy()
-criteria = feasst.CriteriaMetropolis(1.2, 1.);  # 1/kT = 1.2
-mc = feasst.MC(space, pair, criteria)
-maxMoveParam = 0.1
-feasst.transformTrial(mc, "translate", maxMoveParam)
-mc.nMolSeek(50, "../../forcefield/data.lj")   # add 50 particles
-mc.initLog("log", int(1e4))
-mc.initMovie("movie", int(1e4))
-mc.runNumTrials(int(1e6))
-```
-
-Note that `/path/to/feasst/` on line 3 should be updated.
-
-For C++, the same simulation may be written as in the file [example/lj/nvt.cc](example/lj/nvt.cc)
+In C++, a simple NVT Lennard Jones (LJ) simulation is performed as follows:
 ```c++
 #include "pair_lj.h"
 #include "mc.h"
@@ -105,21 +81,45 @@ cp $FEASST_INSTALL_DIR_/src/main $prog
 ```
 Note that `/path/to/feasst/` on line 2 should be updated.
 
+In Python, the same simulation may be written as in the file [example/lj/nvt.cc](example/lj/nvt.cc)
+```python
+#! /usr/bin/env python
+import os, sys
+feasstdir = os.getenv("HOME") + "/path/to/feasst"
+sys.path.append(feasstdir + "/src")
+import feasst, pyfeasst
+space = feasst.Space(3, 0)
+for dim in range(space.dimen()): space.lset(8, dim) # 8 box length
+space.addMolInit("../../forcefield/data.lj")
+pair = feasst.PairLJ(space, 3)    # potential truncation at 3
+pair.initEnergy()
+criteria = feasst.CriteriaMetropolis(1.2, 1.);  # 1/kT = 1.2
+mc = feasst.MC(space, pair, criteria)
+maxMoveParam = 0.1
+feasst.transformTrial(mc, "translate", maxMoveParam)
+mc.nMolSeek(50, "../../forcefield/data.lj")   # add 50 particles
+mc.initLog("log", int(1e4))
+mc.initMovie("movie", int(1e4))
+mc.runNumTrials(int(1e6))
+```
+
+Note that `/path/to/feasst/` on line 3 should be updated.
+
 # Prerequisites
 
 FEASST is designed for a LINUX or MAC OS X platform with the following minimum version software.
 
-- make 3.81
-- g++ 4.7 (support for c++0x standard)
-- swig 1.3.40 (only required for python interface)
+- make >= 3.81
+- compiler with c++0x support (e.g., g++ >= 4.7)
 
 ### Optional tools:
+- swig >= 1.3.40 (python interface)
+- anaconda >= 1.9.1 (python >= 2.7)
 - xdrfile 1.1b (compressed xtc trajectories)
-- gtest-1.7.0 (for unittests)
-- valgrind (memory testing for development)
-- doxygen 1.6.1 (for documentation)
-- anaconda 1.9.1 (recommended for python)
-- openmpi 1.4.5 (parallel computation)
+- gtest >= 1.7.0 (c++ unittests)
+- valgrind (c++ memory testing for development)
+- doxygen >= 1.6.1 (c++ documentation)
+- openmpi >= 1.4.5 (parallel computation)
 
 # Installation
 
@@ -129,14 +129,13 @@ cd src
 make swig
 ```
 
-Modify [src/setup.py](src/setup.py) to control external libraries (below).
-
 ### C++ installation
 ```bash
 cd src
 make cnotest
 ```
-Modify [src/Makefile](src/Makefile) to control external libraries (below).
+
+For C++ or Python, modify [src/Makefile](src/Makefile) to control external libraries (below).
 
 # External libraries
 
@@ -246,7 +245,6 @@ Associated compiler flags in [src/Makefile](src/Makefile) or [src/setup.py](src/
 -L/path/to/install/dir/gsl-2.3/lib
 -lgsl -lgslcblas -lm
 ```
-
 # Test case 1. Lennard Jones
 
 The first test case is to simulate the LJ potential and reproduce the
@@ -257,7 +255,7 @@ http://www.nist.gov/mml/csd/informatics_research/srsw.cfm
 http://mmlapps.nist.gov/srs/LJ_PURE/eostmmc.htm
 
 Move to the test directory
-`cd ../test/lj/srsw/eostmmc/1.5`
+`cd ../testcase/lj/srsw/eostmmc/1.5`
 
 The file muvttmmclj.cc is the C++ interface for FEASST.
 The file run.sh is an example script to compile and run muvttmmclj.
@@ -265,9 +263,9 @@ The file data.lj is a LAMMPS style description of an LJ particle.
 The files `lj.msdb.*` contain the results from the SRSW.
 
 Run the simulation: `./run.sh`, or `./muvttmmclj.py`, and it will produce:
-- log - a log file printing information by step
-- colMat - a file with the macrostate probability distribution (lnpi), potential energy and collection matrix
-- `movie*` - movie files viewable with VMD
+- `log` file printing information by step
+- `colMat` file with the macrostate probability distribution (lnpi), potential energy and collection matrix
+- `movie*` coordinate files viewable with VMD
 
 To compare the results with the NIST SRSW, compare the following:
 - colMat columns 1:2 with `lj.msdb.t150.*.p_macro.dat`
@@ -278,6 +276,14 @@ To run the test on multiple processors using OMP:
 cd omp
 ./run.sh OR ./muvttmmclj.py
 ```
+
+The parallel version has only 3 different lines
+```c++
+// mc.runNumTrials(npr);  // single processor run command
+mc.initWindows(1);        // initialize parallel windows
+mc.runNumSweeps(10, -1);  // run until number of sweeps reached
+```
+
 
 # Analysis of configurations for WL-TMMC simulations
 
