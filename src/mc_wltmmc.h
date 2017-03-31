@@ -78,8 +78,12 @@ class WLTMMC : public MC {
   void initNMolSeekTarget(const int target) { nMolSeekTarget_ = target; }
 
   /// add configuration swap trial
-  void confSwapTrial() { MC::confSwapTrial();
-    trialConfSwapVec_.back()->initMType(c_->mType().c_str()); }
+  #ifdef MPI_H_
+    #ifdef OMP_H_
+      void confSwapTrial() { MC::confSwapTrial();
+        trialConfSwapVec_.back()->initMType(c_->mType().c_str()); }
+    #endif  // OMP_H_
+  #endif  // MPI_H_
 
   /// initialize GR file name
   void initGR(const char* fileName, const int nfreq, const double dr,

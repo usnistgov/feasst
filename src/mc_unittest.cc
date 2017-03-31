@@ -191,7 +191,7 @@ TEST(MC, ljmuvtmetropANDclone) {
   }
 }
 
-TEST(MC, ljnvtmetrop) {
+TEST(MC, ljnvtmetropANDremoveTrial) {
   const double beta = 1/2, rCut = 2.5;
   myRanInitByDate();
   Space s(3,0);
@@ -212,6 +212,13 @@ TEST(MC, ljnvtmetrop) {
   }
 
   EXPECT_EQ(1, p.checkEnergy(1e-7, 0));
+  
+  transformTrial(&mc, "gca");
+  mc.removeTrial(0);
+  EXPECT_EQ(1, mc.nTrials());
+  for (int i = 0; i < nAttempts; ++i) {
+    mc.attemptTrial();
+  }
 }
 
 TEST(MC, ljmuvttmmc) {

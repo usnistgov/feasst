@@ -3,12 +3,12 @@
 CXX = g++
 CXXFLAGS = -O3 -std=c++0x -g
 
-# openMP
-CXXFLAGS += -DOMP_H_ -fopenmp
+## openMP
+#CXXFLAGS += -DOMP_H_ -fopenmp
 
-# XDR library
-CXXFLAGS += -DXDRFILE_H_ -DCPLUSPLUS -I$(HOME)/include/xdrfile -L$(HOME)/lib
-LIBS += -lxdrfile
+## XDR library
+#CXXFLAGS += -DXDRFILE_H_ -DCPLUSPLUS -I$(HOME)/include/xdrfile -L$(HOME)/lib
+#LIBS += -lxdrfile
 
 # # FFTW library
 # CXXFLAGS += -DFFTW_ -I$(HOME)/software/fftw-3.3.4/build/include -L$(HOME)/software/fftw-3.3.4/build/lib 

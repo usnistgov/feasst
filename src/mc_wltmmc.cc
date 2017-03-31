@@ -239,14 +239,15 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
       MPI_Init(NULL, NULL);
       MPI_Comm_size(MPI_COMM_WORLD, &nWindow_);
       MPI_Comm_rank(MPI_COMM_WORLD, &t);
-      vector<shared_ptr<WLTMMC> > clones(nWindow_);
     #endif  // MPI_H_
     #ifdef OMP_H_
       #pragma omp parallel private(t)
       {
         if (omp_get_thread_num() == 0) nWindow_ =  omp_get_num_threads();
       }
-      vector<shared_ptr<WLTMMC> > clones(nWindow_);
+    #endif  // OMP_H_
+    vector<shared_ptr<WLTMMC> > clones(nWindow_);
+    #ifdef OMP_H_
       #pragma omp parallel private(t)
       {
         t = omp_get_thread_num();
@@ -658,7 +659,6 @@ void WLTMMC::runNumSweepsRestart(
     MPI_Init(NULL, NULL);
     MPI_Comm_size(MPI_COMM_WORLD, &nWindow_);
     MPI_Comm_rank(MPI_COMM_WORLD, &t);
-    vector<shared_ptr<WLTMMC> > clones(nWindow_);
     MPI_Barrier(MPI_COMM_WORLD);
   #endif  // MPI_H_
   #ifdef OMP_H_
@@ -666,7 +666,10 @@ void WLTMMC::runNumSweepsRestart(
     {
       if (omp_get_thread_num() == 0) nWindow_ =  omp_get_num_threads();
     }
-    vector<shared_ptr<WLTMMC> > clones(nWindow_);
+  #endif  // OMP_H_
+  
+  vector<shared_ptr<WLTMMC> > clones(nWindow_);
+  #ifdef OMP_H_
     #pragma omp parallel private(t)
     {
       t = omp_get_thread_num();
@@ -717,6 +720,8 @@ void WLTMMC::initOverlaps(const int t,    //!< thread
   vector<shared_ptr<WLTMMC> > &clones
   ) {
   // if configuration swap trial move exists, initialize the overlapping regions
+  #ifdef MPI_H_
+  #ifdef OMP_H_
   if (clones[t]->trialConfSwapVec_.size() == 1) {
     #ifdef MPI_H_
       TrialConfSwapMPI* trial = NULL;
@@ -783,6 +788,8 @@ void WLTMMC::initOverlaps(const int t,    //!< thread
       }
     }
   }
+  #endif  // OMP_H_
+  #endif  // MPI_H_
 }
 
 

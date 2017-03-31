@@ -105,6 +105,7 @@ TEST(Analyze, MonkeyPatch) {
 
     CriteriaWLTMMC c2("tmp/monkeyrstp0criteria");
     EXPECT_NEAR(1e-6, c2.lnfCollect(), DTOL);
+    EXPECT_NE(newfCollect, c2.lnfCollect());
     
     // apply patch
     mc2.initAnalyze(&patch);

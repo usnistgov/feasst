@@ -44,6 +44,9 @@ class MC : public BaseAll {
   void initTrial(Trial* trial);
   void initTrial(shared_ptr<Trial> trial);
 
+  /// remove trial
+  void removeTrial(const int iTrial);
+
   /// zero statistics of all trials
   void zeroStat();
 
@@ -220,6 +223,7 @@ class MC : public BaseAll {
   //  if 0, no header
   //  if 1, print header
   //  if 2, print header with a comment "#" on first line (for restarts)
+  //  if -1, print line with "#" but not header
   int printLogHeader_;
   
   string logFileName_;        //!< log file name

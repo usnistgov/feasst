@@ -2,11 +2,13 @@
 
 %{
 #include "space.h"
-extern "C" {
-#include "xdrfile.h"
-#include "xdrfile_xtc.h"
-#include "xdrfile_trr.h"
-}
+#ifdef XDRFILE_H_
+  extern "C" {
+    #include "xdrfile.h"
+    #include "xdrfile_xtc.h"
+    #include "xdrfile_trr.h"
+  }
+#endif  // XDRFILE_H_
 %}
 
 %pythonnondynamic;

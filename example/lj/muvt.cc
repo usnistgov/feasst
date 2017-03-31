@@ -13,6 +13,7 @@
 
 #include "pair_lj.h"
 #include "mc_wltmmc.h"
+#include "ui_abbreviated.h"
 
 int main(int argc, char** argv) {
 
@@ -63,10 +64,10 @@ int main(int argc, char** argv) {
   // initialize MC simulation object
   WLTMMC mc(&s, &p, &c);
   mc.weight=3./4.;
-  mc.transformTrial("translate");
+  transformTrial(&mc, "translate");
   mc.weight=1./8.;
-  mc.deleteTrial();
-  mc.addTrial(admss.str().c_str());
+  deleteTrial(&mc);
+  addTrial(&mc, admss.str().c_str());
  
   // output log, lnpi and movie
   mc.initLog("log", nfreq);

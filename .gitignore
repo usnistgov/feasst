@@ -39,6 +39,7 @@ callgrind*
 
 #image files
 *.eps
+*.jpg
 
 #doxygen files
 html/*
@@ -54,6 +55,7 @@ latex/*
 *_wrap.cpp
 pair.py
 pair_lj.py
+    cnew.betaset(criteria_->beta()/4.);
 pair_lj_multi.py
 pair_lj_coul_ewald.py
 pair_ideal.py

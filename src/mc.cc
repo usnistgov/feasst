@@ -248,18 +248,30 @@ void MC::initTrial(shared_ptr<Trial> trial) {
 }
 
 /**
+ * remove trial
+ */
+void MC::removeTrial(const int iTrial) {
+  ASSERT(iTrial < nTrials(), "iTrial(" << iTrial << ") is too big,"
+    << "trial doesn't exist.")
+  trialVec_.erase(trialVec_.begin() + iTrial);
+  trialWeight_.erase(trialWeight_.begin() + iTrial);
+  updateCumulativeProb();
+}
+
+/**
  * add configuration swap trial
  */
 void MC::confSwapTrial() {
   #ifdef MPI_H_
     trialConfSwapVec_.push_back(make_shared<TrialConfSwapTXT>
       (space_, pair_, criteria_));
+    initTrial(trialConfSwapVec_.back());
   #endif  // MPI_H_
   #ifdef OMP_H_
     trialConfSwapVec_.push_back(make_shared<TrialConfSwapOMP>
       (space_, pair_, criteria_));
+    initTrial(trialConfSwapVec_.back());
   #endif  // OMP_H_
-  initTrial(trialConfSwapVec_.back());
 }
 
 /**
@@ -328,7 +340,14 @@ void MC::printStat() {
         log_ << trialVec_[i]->printStat(true);
       }
       log_ << endl;
-      if (printLogHeader_ == 2) log_ << "# ";
+      if (printLogHeader_ == 2) {
+        printLogHeader_ = -1;
+      } else {
+        printLogHeader_ = 0;
+      }
+    }
+    if (printLogHeader_ == -1) {
+      log_ << "# ";
       printLogHeader_ = 0;
     }
     log_ << nAttempts_ << " " << space_->nMol() << " " << pePerMol() << " ";
@@ -390,7 +409,8 @@ void MC::nMolSeek(
     shared_ptr<MC> mc = cloneShallowShrPtr();
     // shared_ptr<MC> mc = (this)->cloneShallowShrPtr();
 
-    // add "add" or delete trials
+    // modify trials to improve efficiency
+    // first, add an "add" or "delete" trial
     if (nTarget > space_->nMol()) {
       if (molTypeStr.empty()) {
         addTrial(mc, space_->addMolListType().back().c_str());
@@ -402,10 +422,26 @@ void MC::nMolSeek(
       deleteTrial(mc);
     }
 
+    // next, remove trials which don't help or break
+    for (int iTrial = mc->nTrials() - 1; iTrial >= 0; --iTrial) {
+      if (mc->trialVec()[iTrial]->className() == "TrialAdd") {
+        if (nTarget < space_->nMol()) {
+          mc->removeTrial(iTrial);
+        }
+      } else if (mc->trialVec()[iTrial]->className() == "TrialDelete") {
+        if (nTarget > space_->nMol()) {
+          mc->removeTrial(iTrial);
+        }
+      } else if (mc->trialVec()[iTrial]->className() == "TrialBeta") {
+        mc->removeTrial(iTrial);
+      }
+    }
+    
     // replace acceptance criteria (restore once nTarget reached)
+    // make acceptance criteria more ammenable to nMol changes
     int nMax = space_->nMol();
     if (nMax < nTarget) nMax = nTarget;
-    CriteriaWLTMMC cnew(criteria_->beta(), criteria_->activ(0), "nmol",
+    CriteriaWLTMMC cnew(criteria_->beta()/4., criteria_->activ(0), "nmol",
                         -0.5, nMax + 0.5, nMax + 1);
     //CriteriaMetropolis cnew(criteria_->beta(), criteria_->activ(0));
     for (int ia = 1; ia < static_cast<int>(criteria_->activVec.size()); ++ia) {
@@ -417,14 +453,10 @@ void MC::nMolSeek(
     }
     mc->replaceCriteria(&cnew);
 
-    // make acceptance criteria more ammenable to nMol changes
-    // ERROR: if say, expanded ensemble in beta, could be outside of bounds
-    // cnew->activset(exp(lnz));
-    // cnew->betaset(criteria_->beta()/4.);
-
     // iterate maxAttempt trials until target n is reached, or error
     int i = 0;
     while ( (nTarget != space_->nMol()) && (i < maxAttempts) ) {
+      mc->printLogHeader_ = -1;  // comment out log file prints while seeking
       mc->attemptTrial();
 
       // cout << "aa " << space_->nMol() << " " << nTarget << " "
@@ -445,10 +477,10 @@ void MC::nMolSeek(
       << ") within the number of maxAttempts (" << maxAttempts << ")");
     log_ << "# nMolSeek done at attempt " << i << " out of " << maxAttempts
          << endl;
+    printLogHeader_ = 0;  // no-longer comment log file
 
     // restore criteria in all trials
     mc->restoreCriteria();
-//    delete cnew;
   }
 }
 
