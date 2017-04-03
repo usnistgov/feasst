@@ -262,12 +262,14 @@ The file run.sh is an example script to compile and run muvttmmclj.
 The file data.lj is a LAMMPS style description of an LJ particle.
 The files `lj.msdb.*` contain the results from the SRSW.
 
-Run the simulation: `./run.sh`, or `./muvttmmclj.py`, and it will produce:
+Run the simulation `./run.sh`, or `./muvttmmclj.py`, and it will produce:
+
 - `log` file printing information by step
 - `colMat` file with the macrostate probability distribution (lnpi), potential energy and collection matrix
 - `movie*` coordinate files viewable with VMD
 
 To compare the results with the NIST SRSW, compare the following:
+
 - colMat columns 1:2 with `lj.msdb.t150.*.p_macro.dat`
 - colMat columns 1:3 with `lj.msdb.t150.*.energy.dat`
 

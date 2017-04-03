@@ -720,8 +720,7 @@ void WLTMMC::initOverlaps(const int t,    //!< thread
   vector<shared_ptr<WLTMMC> > &clones
   ) {
   // if configuration swap trial move exists, initialize the overlapping regions
-  #ifdef MPI_H_
-  #ifdef OMP_H_
+  #if defined (MPI_H_) || (OMP_H_)
   if (clones[t]->trialConfSwapVec_.size() == 1) {
     #ifdef MPI_H_
       TrialConfSwapMPI* trial = NULL;
@@ -788,8 +787,7 @@ void WLTMMC::initOverlaps(const int t,    //!< thread
       }
     }
   }
-  #endif  // OMP_H_
-  #endif  // MPI_H_
+  #endif  // MPI_H_ || OMP_H_
 }
 
 
