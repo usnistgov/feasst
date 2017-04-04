@@ -70,6 +70,7 @@ int RandomNR3::uniform(const int min, const int max) {
  * write restart
  */
 void RandomNR3::writeRestart(const char* fileName) {
+  fileBackUp(fileName);
   std::ofstream file(fileName);
   file << "# u " << u_ << endl;
   file << "# v " << v_ << endl;

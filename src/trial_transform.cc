@@ -64,8 +64,10 @@ void TrialTransform::defaultConstruction() {
     targAcceptPer = 0.25;
   } else if ( (transType_.compare("xytilt") == 0) ||
               (transType_.compare("xztilt") == 0) ||
-              (transType_.compare("yztilt") == 0) ||
-              (transType_.compare("vol") == 0) ||
+              (transType_.compare("yztilt") == 0) ) {
+    maxMoveParam = 0.1;
+    targAcceptPer = 0.25;
+  } else if ( (transType_.compare("vol") == 0) ||
               (transType_.compare("lxmod") == 0) ||
               (transType_.compare("lymod") == 0) ||
               (transType_.compare("lzmod") == 0) ) {
@@ -232,6 +234,7 @@ void TrialTransform::attempt1() {
         if (pair_->neighOn()) pair_->buildNeighList();
         pair_->update(space_->listAtoms(), 0, "update");
         trialAccept();
+        volAcc.accumulate(space_->vol());
       } else {
         scaleAttempt_(1./facActual);
         space_->restoreAll();
@@ -304,6 +307,34 @@ string TrialTransform::printStat(const bool header) {
       stat << "maxMove ";
     } else {
       stat << maxMoveParam << " "; 
+    }
+  }
+  if (transType_.compare("volume") == 0) {
+    if (header) {
+      stat << "vol ";
+    } else {
+      stat << space_->vol() << " ";
+    }
+  }
+  if (transType_.compare("lxmod") == 0) {
+    if (header) {
+      stat << "lx ";
+    } else {
+      stat << space_->l(0) << " ";
+    }
+  }
+  if (transType_.compare("lymod") == 0) {
+    if (header) {
+      stat << "ly ";
+    } else {
+      stat << space_->l(1) << " ";
+    }
+  }
+  if (transType_.compare("lzmod") == 0) {
+    if (header) {
+      stat << "lz ";
+    } else {
+      stat << space_->l(2) << " ";
     }
   }
   return stat.str();

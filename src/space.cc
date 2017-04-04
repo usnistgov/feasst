@@ -201,7 +201,6 @@ void Space::defaultConstruction() {
   nMolType_.resize(1, 0);
   sphereSymMol_ = true;
   cellOff();
-  constDomain_ = 1;
   preMicellarAgg_ = 5;
   eulerFlag_ = 0;
   equiMolar_ = 0;
@@ -2688,6 +2687,7 @@ vector<int> Space::tag2mpart() {
  *  finally, print coordinates of all molecules in that order
  */
 void Space::writeRestart(const char* fileName) {
+  fileBackUp(fileName);
   std::ofstream file(fileName);
 
   // print spatial parameters
@@ -4149,7 +4149,6 @@ void Space::scaleDomain(const double factor,  //!< scaling factor
    << dimen_ << ")");
   ASSERT(factor > 0,
     "factor(" << factor << ") in scaleDomain cannot be negative");
-  constDomain_ = 0;
 
   // scale the box subject to bounds
   double factorActual = factor;

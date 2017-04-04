@@ -6,6 +6,7 @@ main.cc
 main
 unittest
 tools/rw
+ui_text
 
 #gprof output
 gmon.out
@@ -109,6 +110,7 @@ analyze_orient.py
 mc.py
 mc_wltmmc.py
 ui_abbreviated.py
+ui_text.py
 custom_exception.py
 feasst.py
 feasst_wrap.py

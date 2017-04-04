@@ -328,7 +328,6 @@ void MC::printStat() {
         }
       }
       if (pair_->orderOn() == 1) log_ << "pairOrder ";
-      if (space_->constDomain() == 0) log_ << "vol ";
       if (criteria_->printBeta() == 1) log_ << "beta ";
       if (criteria_->printPressure() == 1) log_ << "pressure ";
       if (space_->floppyBox() == 1) {
@@ -358,7 +357,6 @@ void MC::printStat() {
       }
     }
     if (pair_->orderOn() == 1) log_ << pair_->order() << " ";
-    if (space_->constDomain() == 0) log_ << space_->vol() << " ";
     if (criteria_->printBeta() == 1) log_ << criteria_->beta() << " ";
     if (criteria_->printPressure() == 1) log_ << criteria_->pressure() << " ";
     if (space_->floppyBox() == 1) {
@@ -455,6 +453,7 @@ void MC::nMolSeek(
 
     // iterate maxAttempt trials until target n is reached, or error
     int i = 0;
+    const int printLogHeaderOrig = mc->printLogHeader_;
     while ( (nTarget != space_->nMol()) && (i < maxAttempts) ) {
       mc->printLogHeader_ = -1;  // comment out log file prints while seeking
       mc->attemptTrial();
@@ -477,7 +476,7 @@ void MC::nMolSeek(
       << ") within the number of maxAttempts (" << maxAttempts << ")");
     log_ << "# nMolSeek done at attempt " << i << " out of " << maxAttempts
          << endl;
-    printLogHeader_ = 0;  // no-longer comment log file
+    printLogHeader_ = printLogHeaderOrig;  // restore print log header state
 
     // restore criteria in all trials
     mc->restoreCriteria();

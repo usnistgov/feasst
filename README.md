@@ -105,6 +105,27 @@ mc.runNumTrials(int(1e6))
 
 Note that `/path/to/feasst/` on line 3 should be updated.
 
+And for those who prefer a text-based input file, see [example/lj/text/input.txt](example/lj/text/input.txt):
+
+```
+space 3   # simulations in 3D
+boxl 8    # 8 box length
+addMolInit ../../forcefield/data.lj
+pair lj 3   # rCut of 3
+initEnergy
+criteria metropolis 1.2 1.  # 1/kT = 1.2
+mc
+trial translate 0.1   # 0.1 max move parameter
+nMolSeek 50 ../../forcefield/data.lj
+log log 10000
+movie movie 10000
+run 1000000
+```
+
+This text-based simulation is then run as `/path/to/feasst/src/ui_text -f input.txt`.
+Commands are interpreted via [src/ui_text.cc](src/ui_text.cc), which is cumbersome to maintain.
+It is highly recommended to use the C++ or python interface instead.
+
 # Prerequisites
 
 FEASST is designed for a LINUX or MAC OS X platform with the following minimum version software.
@@ -135,7 +156,13 @@ cd src
 make cnotest
 ```
 
-For C++ or Python, modify [src/Makefile](src/Makefile) to control external libraries (below).
+### Text-based installation (using C++ engine)
+```bash
+cd src
+make ui_text
+```
+
+For any interface, modify [src/Makefile](src/Makefile) to control external libraries (below).
 
 # External libraries
 

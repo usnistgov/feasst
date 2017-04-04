@@ -515,7 +515,6 @@ class Space : public BaseAll {
   vector<vector<int> > angleList() const { return angleList_; }
   vector<vector<double> > angleParam() const { return angleParam_; }
   bool sphereSymMol() const { return sphereSymMol_; }
-  int constDomain() const { return constDomain_; }
   double xyTilt() const { return xyTilt_; }
   double xzTilt() const { return xzTilt_; }
   double yzTilt() const { return yzTilt_; }
@@ -630,7 +629,6 @@ class Space : public BaseAll {
   /// simulation domain length for real space periodic boundaries
   vector<double> l_;
   /// flag is 1 if domain is constant throughout simulation, 0 otherwise
-  int constDomain_;
   double xyTilt_;                  //!< xy tilt factor
   double xzTilt_;                  //!< xz tilt factor
   double yzTilt_;                  //!< yz tilt factor

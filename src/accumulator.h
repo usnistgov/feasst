@@ -29,7 +29,7 @@ class Accumulator : public Base {
   /// running standard deviation
   double stdev() const;
 
-  /// set block averages
+  /// set block size
   void setBlock(const long long nBlock) { nBlock_ = nBlock; }
 
   /// output block average stdev
