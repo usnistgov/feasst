@@ -38,6 +38,7 @@ algorithms
 * [Test case 1. Lennard-Jones](#test-case-1-lennard-jones)
 * [Analysis of configurations for WL-TMMC simulations](#analysis-of-configurations-for-wl-tmmc-simulations)
 * [Initializing a simulation from an XYZ file](#initializing-a-simulation-from-an-xyz-file)
+* [Example of custom analysis in input script](#example-of-custom-analysis-in-input-script)
 * [Example of restarting a simulation](#example-of-restarting-a-simulation)
 * [Example of an isotropic tabular potential](#example-of-an-isotropic-tabular-potential)
 * [Example of adding or modifying a pair potential](#example-of-adding-or-modifying-a-pair-potential)
@@ -378,6 +379,45 @@ compare:
 ```c++
 p.printxyz("filename",1);
 ```
+
+# Example of custom analysis in input script
+
+In c++, you can define your own custom derived Analyze class inside the input
+file.
+
+First, you can define an analysis as follows which accumulates the potential
+energy:
+```c++
+#include "analyze.h"
+class AnalyzeMonkeyPatch : public Analyze {
+ public:
+  AnalyzeMonkeyPatch(Space *space, Pair *pair) : Analyze(space, pair) {}
+  ~AnalyzeMonkeyPatch() {}
+  Accumulator pe;
+  void update() {
+    pe.accumulate(pair_->peTot()/double(space_->nMol()));
+  }
+  void print() {
+    cout << pe.average() << " +/- " << pe.blockStdev() << endl;
+  }
+};
+
+```
+
+After defining your new Analyze class, you may then add it to your MC class:
+```c++
+AnalyzeMonkeyPatch an(&space, &pair);
+an.initFreq(1);
+an.initPrintFreq(1e5);
+mc.initAnalyze(&an);
+```
+
+This example is shown in the test case [testcase/lj/srsw/nvt-mc/lj.cc](testcase/lj/srsw/nvt-mc/lj.cc).
+
+Note that while this example is in the spirit of a monkey patch, implementing
+a monkey patch on the swig python objects requires editting the vtable.
+In this case, it may be easier to add the custom analysis in the source directory.
+See [Example of adding or modifying an analysis code](#example-of-adding-or-modifying-an-analysis-code).
 
 # Example of restarting a simulation
 
