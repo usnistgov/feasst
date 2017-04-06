@@ -70,5 +70,6 @@ Analyze* Analyze::clone(Space* space, Pair* pair) const {
 }
 shared_ptr<Analyze> Analyze::cloneImpl(Space* space, Pair* pair) const {
   ASSERT(space == NULL && pair == NULL, "empty method");
-  return NULL;
+  shared_ptr<Analyze> empty;
+  return empty;
 }

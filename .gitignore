@@ -14,6 +14,7 @@ gmon.out
 #gcov, etc
 *.gcda
 *.gcno
+*.gcov
 
 #google c++ test
 gtest_main.a
@@ -123,7 +124,7 @@ feasst_wrap.py
 
 #temporary files
 *tmp*
-trash/*
+src/trash
 vmd
 *.bak
 *.log

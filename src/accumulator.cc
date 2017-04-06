@@ -71,8 +71,11 @@ double Accumulator::average() const {
 double Accumulator::stdev() const {
   double stdev = 0;
   if (nValues_ > 1) {
-    stdev = sqrt((sumSq_/static_cast<double>(nValues_) - pow(average(), 2))
-      * nValues_ / static_cast<double>(nValues_ - 1));
+    const double fluct = sumSq_/static_cast<double>(nValues_) 
+                       - pow(average(), 2);
+    if (fluct > 0.) {
+      stdev = sqrt(fluct*nValues_ / static_cast<double>(nValues_ - 1));
+    }
   }
   return stdev;
 }

@@ -1256,3 +1256,23 @@ int ntest = 1;
   }
 }
 
+//// visualize this test
+//TEST(Space, randRotateMaxDisp) {
+//  myRanInitByDate();
+//  Space space(3, 0);
+//  space.addMolInit("../forcefield/data.onePatch");
+//  vector<double> xAdd(3, 0.);
+////  space.xAdd = xAdd;
+//  space.addMol("../forcefield/data.onePatch");
+//  vector<int> imove(2);
+//  imove[0] = 0; imove[1] = 1;
+//  for (int trial = 0; trial < 100; ++trial) {
+//  //for (int trial = 0; trial < 10000; ++trial) {
+//    space.xStore(imove);
+//    space.randRotate(imove, 0.9);
+//    cout << space.x(1, 0) << " " << space.x(1, 1) << " " << space.x(1, 2) << endl;
+//    space.restore(imove);
+//  }
+//}
+
+

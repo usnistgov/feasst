@@ -1,5 +1,7 @@
 # FEASST
->The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free, open-source, modular program to conduct molecular and particle-based simulations with flat-histogram Monte Carlo and molecular dynamics methods.
+>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free, 
+open-source, modular program to conduct molecular and particle-based 
+simulations with flat-histogram Monte Carlo and molecular dynamics methods.
 
 ### Features
 - Wang-Landau, Transition-Matrix and/or Metropolis Monte Carlo
@@ -7,15 +9,15 @@
 - Interface as a Python module or C++ class
 - Easy use of MPI and checkpointing
 - Many advanced sampling Monte Carlo moves
-- Supported energy functions include anisotropic particles and the
-    Ewald summation
-- Robust unit testing and thoroughly documents case studies
+- Supported energy functions include anisotropic particles and the Ewald
+summation
+- Robust unit testing
 
 ### Advanced Monte Carlo moves
-- Configurational bias insertions, deletions and regrowth with 
-    multiple first bead insertion
-- Aggregation volume bias (AVB) insertions, deletions and the AVB2 
-    and AVB3 algorithms
+- Configurational bias insertions, deletions and regrowth with multiple first
+bead insertion
+- Aggregation volume bias (AVB) insertions, deletions and the AVB2  and AVB3 
+algorithms
 - Geometric cluster algorithm
 - Rigid cluster moves
 - Parallel configuration swaps
@@ -81,7 +83,7 @@ cp $FEASST_INSTALL_DIR_/src/main $prog
 ```
 Note that `/path/to/feasst/` on line 2 should be updated.
 
-In Python, the same simulation may be written as in the file [example/lj/nvt.cc](example/lj/nvt.cc)
+In Python, the same simulation may be written as in the file [example/lj/lj.cc](example/lj/lj.cc)
 ```python
 #! /usr/bin/env python
 import os, sys
@@ -168,7 +170,7 @@ For any interface, modify [src/Makefile](src/Makefile) to control external libra
 
 Here is how to set up external libraries you may want to use with FEASST.
 To begin, some libraries require installation. And some require certain compilers flags.
-If you do not wish to use the libraries, make sure the compiler flags are not included in [src/Makefile](src/Makefile) or [src/setup.py](src/setup.py):
+If you do not wish to use the libraries, make sure the compiler flags are not included in [src/Makefile](src/Makefile).
 
 ### XTC 1.1b:
 For writing compressed XTC trajectory files.
@@ -178,7 +180,7 @@ tar -xf xdrfile-1.1.tar.gz; cd xdrfile-1-1b
 ./configure --enable-shared --prefix=$HOME/ #enable-shared for swig
 make install
 ```
-Associated compiler flags in [src/Makefile](src/Makefile) or [src/setup.py](src/setup.py):
+Associated compiler flags in [src/Makefile](src/Makefile):
 ```
 -DXDRFILE_H_
 -DCPLUSPLUS
@@ -200,13 +202,13 @@ tar -xf openmpi*gz; cd openmpi*; mkdir build; cd build
 make
 make install
 ```
-Associated compiler flags in [src/Makefile](src/Makefile) or [src/setup.py](src/setup.py):
+Associated compiler flags in [src/Makefile](src/Makefile):
 ```
 -DMPI_H_
 ```
 
 ### OpenMP
-Associated compiler flags in [src/Makefile](src/Makefile) or [src/setup.py](src/setup.py):
+Associated compiler flags in [src/Makefile](src/Makefile):
 ```
 -DOMP_H_
 -fopenmp
@@ -220,7 +222,7 @@ This library is used for computing the scattering of anisotropic shapes.
 make
 make install
 ```
-Associated compiler flags in [src/Makefile](src/Makefile) or [src/setup.py](src/setup.py):
+Associated compiler flags in [src/Makefile](src/Makefile):
 ```
 -DFFTW_
 -I/path/to/install/dir/fftw-3.3.4/build/include
@@ -252,7 +254,7 @@ cd swig-2.0.12; ./configure --prefix=/path/to/install/dir; make
 sudo ./configure --prefix=/usr/local/hdf5 --enable-cxx
 make; make check; make install; make check-install
 ```
-Associated compiler flags in [src/Makefile](src/Makefile) or [src/setup.py](src/setup.py):
+Associated compiler flags in [src/Makefile](src/Makefile):
 ```
 -DHDF5_
 -I/path/to/install/dir/include
@@ -265,7 +267,7 @@ For spline interpolation.
 ```bash
 ./configure --prefux=/path/to/install/dir; make; make install
 ```
-Associated compiler flags in [src/Makefile](src/Makefile) or [src/setup.py](src/setup.py):
+Associated compiler flags in [src/Makefile](src/Makefile):
 ```
 -DGSL_
 -I/path/to/install/dir/gsl-2.3/include

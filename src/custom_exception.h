@@ -24,7 +24,7 @@ class customException : public std::exception {
   /// Instantiate an exeption with a user-defined error message
   customException(std::string m = "custom exception occurred");
   customException(std::stringstream& m);
-  ~customException();
+  ~customException() throw() {;}
 
   /// add additional information to the message
   void catMessage();

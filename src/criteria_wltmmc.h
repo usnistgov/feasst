@@ -352,6 +352,7 @@ class CriteriaWLTMMC : public Criteria {
   vector<Accumulator> pe() const { return pe_; }
   int wlFlat() const { return wlFlat_; }
   double lnfCollect() const { return lnfCollect_; }
+  vector<double> peMUVT() { lnPIenergyIso(); return peMUVT_; }
 
  protected:
   string mType_;      //!< definition of macrostate

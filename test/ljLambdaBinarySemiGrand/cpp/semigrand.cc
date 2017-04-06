@@ -11,6 +11,7 @@
 #include "mc_wltmmc.h"
 #include "ui_abbreviated.h"
 #include "trial_swap.h"
+#include "trial_transform.h"
 #include "analyze.h"
 
 class AnalyzeComp : public Analyze {
@@ -97,6 +98,12 @@ int main(int argc, char** argv) {
     addMolTypeA.str().c_str(), addMolTypeB.str().c_str());
   mc.initTrial(tswp);
 
+  // volume change trial
+  mc.weight = 1./double(s.nMol());
+  shared_ptr<TrialTransform> tvol = make_shared<TrialTransform>("vol");
+  tvol->maxMoveParam = 0.001;
+  mc.initTrial(tvol);
+
   // output log, lnpi and movie
   mc.initLog("log", nfreq);
   mc.setNFreqCheckE(ncfreq, 2e-4);
@@ -116,6 +123,7 @@ int main(int argc, char** argv) {
   //cout << "av nB " << tswp->nB().average() << " +/- " << tswp->nB().blockStdev() << endl;
   //cout << "xA " << tswp->nA().average()/s.nMol() << " +/- " << tswp->nA().blockStdev()/s.nMol() << endl;
   cout << "an " << a->nA.average()/double(s.nMol()) << " +/- " << a->nA.blockStdev()/double(s.nMol()) << endl;
+  cout << "volume " << tvol->volAcc.average() << " +/- " << tvol->volAcc.blockStdev() << endl;
 //  // alternatively, accumulate the composition
 //  Accumulator xA;
 //  const int trialPerAccum = 10;

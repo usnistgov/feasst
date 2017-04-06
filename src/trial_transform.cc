@@ -234,7 +234,6 @@ void TrialTransform::attempt1() {
         if (pair_->neighOn()) pair_->buildNeighList();
         pair_->update(space_->listAtoms(), 0, "update");
         trialAccept();
-        volAcc.accumulate(space_->vol());
       } else {
         scaleAttempt_(1./facActual);
         space_->restoreAll();
@@ -243,6 +242,19 @@ void TrialTransform::attempt1() {
         if (space_->cellType() > 0) space_->updateCellofallMol();
         // cout << "rejected " << transType_ << " " << de_ << endl;
         trialReject();
+      }
+      
+      // record statistics
+      if (reject_ != 1) {
+        if (transType_.compare("vol") == 0) {
+          paramAccumulator.accumulate(space_->vol());
+        } else if (transType_.compare("lxmod") == 0) {
+          paramAccumulator.accumulate(space_->l(0));
+        } else if (transType_.compare("lymod") == 0) {
+          paramAccumulator.accumulate(space_->l(1));
+        } else if (transType_.compare("lzmod") == 0) {
+          paramAccumulator.accumulate(space_->l(2));
+        }
       }
 
     // rigid translation or rotation
@@ -309,9 +321,9 @@ string TrialTransform::printStat(const bool header) {
       stat << maxMoveParam << " "; 
     }
   }
-  if (transType_.compare("volume") == 0) {
+  if (transType_.compare("vol") == 0) {
     if (header) {
-      stat << "vol ";
+      stat << "volume ";
     } else {
       stat << space_->vol() << " ";
     }

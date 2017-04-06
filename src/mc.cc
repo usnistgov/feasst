@@ -286,8 +286,8 @@ void MC::attemptTrial() {
 
   const int itrial = ranFromCPDF(trialCumulativeProb_);
   trialVec_[itrial]->attempt();
-  peStat_.accumulate(pair_->peTot());
-  nMolStat_.accumulate(space_->nMol());
+  peAccumulator_.accumulate(pair_->peTot());
+  nMolAccumulator_.accumulate(space_->nMol());
   // prSum_ += pair_->pressure(criteria_->beta());
   ++nAttempts_;
 
@@ -302,8 +302,8 @@ void MC::zeroStat() {
   for (unsigned int i = 0; i < trialVec_.size(); ++i) {
     (*trialVec_[i]).zeroStat();
   }
-  peStat_.reset();
-  nMolStat_.reset();
+  peAccumulator_.reset();
+  nMolAccumulator_.reset();
   nAttempts_ = 0;
 }
 

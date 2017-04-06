@@ -136,16 +136,24 @@ int CriteriaWLTMMC::accept(
     } else if (uniformRanNum() < exp( lnPI_[mOldBin]
                                     - lnPI_[mNewBin] + lnpMet)) {
       returnVal = 1;
-
-      // update pe_ vector, only if collecting matrix and new state obtained
-      if (collect_) pe_[mNewBin].accumulate(peNew);
-
     } else {
       returnVal = 0;
     }
+  
+    // update pe_ vector
+    if (collect_) {
+      if (returnVal == 0) {
+        pe_[mOldBin].accumulate(peOld_);
+      } else {
+        pe_[mNewBin].accumulate(peNew);
+      }
+    }
+
     mUpdate(mOldBin, mNewBin, pMet, returnVal);
   }
   if (returnVal == 0) mNew_ = mOld_;
+  ASSERT( (returnVal == 0) || (returnVal == 1), "returnVal(" << returnVal
+    << "not 0 or 1");
   return returnVal;
 }
 

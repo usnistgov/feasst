@@ -40,8 +40,8 @@ class TrialTransform : public Trial {
   /// return status of trial
   string printStat(const bool header = false);
   
-  /// accumulator on volume for statistics
-  Accumulator volAcc;
+  /// accumulator for order parameter of trial
+  Accumulator paramAccumulator;
   
   // functions for read-only access of private data-members
   string transType() const { return transType_; }

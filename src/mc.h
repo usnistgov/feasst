@@ -178,17 +178,17 @@ class MC : public BaseAll {
     TrialConfSwapOMP* trialConfSwap(const int i)
       { return trialConfSwapVec_[i].get(); }
   #endif  // OMP_H_
-  double enAv() const { return peStat_.average(); }
-  double enStdev() const { return peStat_.stdev(); }
-  double nMolAv() const { return nMolStat_.average(); }
-  double nMolStdev() const { return nMolStat_.stdev(); }
+  double enAv() const { return peAccumulator_.average(); }
+  double enStdev() const { return peAccumulator_.stdev(); }
+  double nMolAv() const { return nMolAccumulator_.average(); }
+  double nMolStdev() const { return nMolAccumulator_.stdev(); }
   int id() const { return space_->id(); }
   long long nAttempts() const { return nAttempts_; }
   Criteria* criteria() const { return criteria_; }
   Space* space() const { return space_; }
   Pair* pair() const { return pair_; }
   string rstFileName() const { return rstFileName_; }
-  Accumulator peStat() const { return peStat_; }
+  Accumulator peAccumulator() const { return peAccumulator_; }
   long long nFreqLog() const { return nFreqLog_; }
   int nFreqMovie() const { return nFreqMovie_; }
   vector<Analyze*> analyzeVec() const { return analyzeVec_; }
@@ -213,8 +213,8 @@ class MC : public BaseAll {
     /// vector of ConfSwap trials
     vector<shared_ptr<TrialConfSwapOMP> > trialConfSwapVec_;
   #endif  // OMP_H_
-  Accumulator peStat_;        //!< accumulate potential energy statistics
-  Accumulator nMolStat_;      //!< accumulate number of molecule statistics
+  Accumulator peAccumulator_;        //!< accumulate potential energy statistics
+  Accumulator nMolAccumulator_;      //!< accumulate number of molecule statistics
   double prSum_;              //!< sum of pressure of each state
   double prSum2_;             //!< sum of square of pressure of each state
   long long nAttempts_;   //!< number of attempted trials

@@ -48,13 +48,11 @@ feasst.transformTrial(mc, "translate")
 mc.weight = 1./8.
 #td = feasst.TrialDelete()
 #mc.initTrial(td)
-#mc.deleteTrial()
 mc.initTrial(feasst.TrialDelete())
 #ta = feasst.TrialAdd(args.molName)
 #mc.initTrial(ta)
 mc.initTrial(feasst.TrialAdd(args.molName))
-feasst.addTrial(mc, args.molName)
-#mc.addTrial(args.molName)
+#feasst.addTrial(mc, args.molName)
 
 # output log, lnpi and movie
 mc.initLog("log", args.nfreq)

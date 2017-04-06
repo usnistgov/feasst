@@ -617,13 +617,7 @@ void Space::randRotate(
       } else {
         // perturb euler angles by a factor maxDisp, or completely randomly
         vector<double> eran = eulerRandom(), e = eran;
-        if (maxDisp > 0) {
-          ASSERT(0, "euler angles not perturbed correctly");
-          for (int i = 0; i < qdim_-1; ++i) {
-            e[i] = qMol_[iMol*qdim_+i] + maxDisp*eran[i];
-          }
-          eulerPBC(e);
-        }
+        ASSERT(maxDisp <= 0, "euler angle perturbation not implemented");
         for (int i = 0; i < qdim_-1; ++i) {
           qMol_[iMol*qdim_+i] = e[i];
         }

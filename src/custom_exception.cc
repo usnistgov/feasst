@@ -26,10 +26,6 @@ customException::customException(std::stringstream& m) {
   cout << msg_ << endl;
 }
 
-customException::~customException() {
-  throw(msg_);
-}
-
 void customException::catMessage() {
   int nproc = 0;
   #ifdef MPI_H_
