@@ -812,15 +812,15 @@ void myOut(const char* type,  //!< type of message: verbose, warning or error
       MPI_Initialized(&initialized);
       if (initialized) MPI_Comm_rank(MPI_COMM_WORLD, &nproc);
     #endif  // MPI_H_
-    #ifdef OMP_H_
+    #ifdef _OPENMP
       nproc = omp_get_thread_num();
       #pragma omp critical
       {
-    #endif  // OMP_H_
+    #endif  // _OPENMP
     cout << "# " << type << " on proc " << nproc << " of " << className << ": " << mstr << endl;
-    #ifdef OMP_H_
+    #ifdef _OPENMP
       }
-    #endif  // OMP_H_
+    #endif  // _OPENMP
     message.clear();
     if (typestr.compare("error") == 0) exit(0);
   }

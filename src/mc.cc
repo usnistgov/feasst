@@ -70,10 +70,10 @@ MC::MC(const char* fileName) {
     const string trialClassName = fstos("className", trialFileStr.c_str());
     ASSERT(!trialClassName.empty(), "trialClassName not provided in restart"
            << "file(" << trialFileStr << ")");
-    #ifdef OMP_H_
+    #ifdef _OPENMP
       ASSERT(trialClassName.compare("TrialConfSwapOMP") != 0,
-             "TrialConfSwapOMP requires -D OMP_H_ during compilation");
-    #endif  // OMP_H_
+             "TrialConfSwapOMP requires -D _OPENMP during compilation");
+    #endif  // _OPENMP
     #ifdef MPI_H_
       ASSERT(trialClassName.compare("TrialConfSwapTXT") != 0,
              "TrialConfSwapTXT requires -D TXT_H_ during compilation");
@@ -267,11 +267,11 @@ void MC::confSwapTrial() {
       (space_, pair_, criteria_));
     initTrial(trialConfSwapVec_.back());
   #endif  // MPI_H_
-  #ifdef OMP_H_
+  #ifdef _OPENMP
     trialConfSwapVec_.push_back(make_shared<TrialConfSwapOMP>
       (space_, pair_, criteria_));
     initTrial(trialConfSwapVec_.back());
-  #endif  // OMP_H_
+  #endif  // _OPENMP
 }
 
 /**

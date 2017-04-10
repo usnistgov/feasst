@@ -8,9 +8,9 @@
 #ifdef MPI_H_
   #include <mpi.h>
 #endif
-#ifdef OMP_H_
+#ifdef _OPENMP
   #include <omp.h>
-#endif  // OMP_H_
+#endif  // _OPENMP
 #include "./custom_exception.h"
 
 customException::customException(std::string m
@@ -24,6 +24,7 @@ customException::customException(std::stringstream& m) {
   msg_ = m.str();
   catMessage();
   cout << msg_ << endl;
+  exit(0);  // terminate immediately for easy backtrace
 }
 
 void customException::catMessage() {
@@ -33,18 +34,18 @@ void customException::catMessage() {
     MPI_Initialized(&initialized);
     if (initialized) MPI_Comm_rank(MPI_COMM_WORLD, &nproc);
   #endif  // MPI_H_
-  #ifdef OMP_H_
+  #ifdef _OPENMP
     nproc = omp_get_thread_num();
     #pragma omp critical
     {
-  #endif  // OMP_H_
+  #endif  // _OPENMP
 
   std::stringstream message;
   message << "Throw on proc " << nproc << " : " << msg_;
   msg_.assign(message.str());
 
-  #ifdef OMP_H_
+  #ifdef _OPENMP
     }
-  #endif  // OMP_H_
+  #endif  // _OPENMP
 
 }

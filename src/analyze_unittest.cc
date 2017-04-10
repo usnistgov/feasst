@@ -87,7 +87,7 @@ TEST(Analyze, MonkeyPatch) {
   mc.initWindows(1);
   mc.writeRestart("tmp/monkeyrst");
   int t = 0;
-  #ifdef OMP_H_
+  #ifdef _OPENMP
     #pragma omp parallel private(t)
     {
       t = omp_get_thread_num();
@@ -112,6 +112,6 @@ TEST(Analyze, MonkeyPatch) {
     mc2.runNumSweepsRestart(0, "tmp/monkeyrst");
     CriteriaWLTMMC c3("tmp/monkeyrstp0criteria");
     EXPECT_NEAR(newfCollect, c3.lnfCollect(), DTOL);
-  #endif  // OMP_H_
+  #endif  // _OPENMP
 }
 

@@ -20,9 +20,9 @@
 #ifdef MPI_H_
   #include "./trial_confswap_txt.h"
 #endif  // MPI_H_
-#ifdef OMP_H_
+#ifdef _OPENMP
   #include "./trial_confswap_omp.h"
-#endif  // OMP_H_
+#endif  // _OPENMP
 
 /**
  * Constructor for trial class requires the following
@@ -358,10 +358,10 @@ shared_ptr<Trial> Trial::makeTrial(
     trial = make_shared<TrialDelete>(fileName, space, pair, criteria);
   } else if (trialtypestr.compare("TrialAVB") == 0) {
     trial = make_shared<TrialAVB>(fileName, space, pair, criteria);
-#ifdef OMP_H_
+#ifdef _OPENMP
   } else if (trialtypestr.compare("TrialConfSwapOMP") == 0) {
     trial = make_shared<TrialConfSwapOMP>(fileName, space, pair, criteria);
-#endif  // OMP_H_
+#endif  // _OPENMP
 #ifdef MPI_H_
   } else if (trialtypestr.compare("TrialConfSwapTXT") == 0) {
     trial = make_shared<TrialConfSwapTXT>(fileName, space, pair, criteria);

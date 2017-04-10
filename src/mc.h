@@ -14,9 +14,9 @@
 #ifdef MPI_H_
   #include "./trial_confswap_txt.h"
 #endif  // MPI_H_
-#ifdef OMP_H_
+#ifdef _OPENMP
   #include "./trial_confswap_omp.h"
-#endif  // OMP_H_
+#endif  // _OPENMP
 #include "./accumulator.h"
 #include "./analyze.h"
 
@@ -174,10 +174,10 @@ class MC : public BaseAll {
     TrialConfSwapMPI* trialConfSwap(const int i)
       { return trialConfSwapVec_[i].get(); }
   #endif  // MPI_H_
-  #ifdef OMP_H_
+  #ifdef _OPENMP
     TrialConfSwapOMP* trialConfSwap(const int i)
       { return trialConfSwapVec_[i].get(); }
-  #endif  // OMP_H_
+  #endif  // _OPENMP
   double enAv() const { return peAccumulator_.average(); }
   double enStdev() const { return peAccumulator_.stdev(); }
   double nMolAv() const { return nMolAccumulator_.average(); }
@@ -209,10 +209,10 @@ class MC : public BaseAll {
     /// vector of ConfSwap trials
     vector<shared_ptr<TrialConfSwapTXT> > trialConfSwapVec_;
   #endif  // MPI_H_
-  #ifdef OMP_H_
+  #ifdef _OPENMP
     /// vector of ConfSwap trials
     vector<shared_ptr<TrialConfSwapOMP> > trialConfSwapVec_;
-  #endif  // OMP_H_
+  #endif  // _OPENMP
   Accumulator peAccumulator_;        //!< accumulate potential energy statistics
   Accumulator nMolAccumulator_;      //!< accumulate number of molecule statistics
   double prSum_;              //!< sum of pressure of each state

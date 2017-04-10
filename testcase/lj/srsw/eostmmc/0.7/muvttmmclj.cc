@@ -50,7 +50,9 @@ int main(int argc, char** argv) {
   myRanInitByDate();
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
-  s.addMolInit(addMolType.str().c_str());
+  stringstream addMolSS;
+  addMolSS << s.install_dir() << "/forcefield/"<< addMolType.str();
+  s.addMolInit(addMolSS.str().c_str());
   PairLJ p(&s, rCut);
   p.initEnergy();
   CriteriaWLTMMC c(beta, activ,"nmol",nMolMin-0.5,nMolMax+0.5,nMolMax-nMolMin+1);
@@ -62,10 +64,10 @@ int main(int argc, char** argv) {
   mc.weight=1./8.;
   
   //deleteTrial(&mc);
-  //mc.initTrial(new TrialDelete(addMolType.str().c_str()));
-  //mc.initTrial(new TrialAdd(addMolType.str().c_str()));
+  //mc.initTrial(new TrialDelete(addMolSS.str().c_str()));
+  //mc.initTrial(new TrialAdd(addMolSS.str().c_str()));
   deleteTrial(&mc);
-  addTrial(&mc, addMolType.str().c_str());
+  addTrial(&mc, addMolSS.str().c_str());
  
   // output log, lnpi and movie
   mc.initLog("log", nfreq);

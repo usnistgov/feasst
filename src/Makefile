@@ -2,13 +2,16 @@
 #CXX = icpc
 CXX = g++
 CXXFLAGS = -O3 -std=c++0x -g
+#CXXFLAGS += -fprofile-arcs -ftest-coverage
+#CXXFLAGS = -std=c++0x -g -fprofile-arcs -ftest-coverage
+#CXX = ccache g++
 
-## openMP
-#CXXFLAGS += -DOMP_H_ -fopenmp
+# # openMP
+# CXXFLAGS += -DOMP_H_ -fopenmp
 
-## XDR library
-#CXXFLAGS += -DXDRFILE_H_ -DCPLUSPLUS -I$(HOME)/include/xdrfile -L$(HOME)/lib
-#LIBS += -lxdrfile
+# # XDR library
+# CXXFLAGS += -DXDRFILE_H_ -DCPLUSPLUS -I$(HOME)/include/xdrfile -L$(HOME)/lib
+# LIBS += -lxdrfile
 
 # # FFTW library
 # CXXFLAGS += -DFFTW_ -I$(HOME)/software/fftw-3.3.4/build/include -L$(HOME)/software/fftw-3.3.4/build/lib 
@@ -65,13 +68,16 @@ GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h \
 	      $(GTEST_DIR)/include/gtest/*.h \
 	      $(GTEST_DIR)/include/gtest/internal/*.h
 
-all: unittest doxygen cctest swig
+all: unittest cctest swig ui_text
 
 c: unittest cctest
 
 cnotest: $(objects)
 
 main : main.o $(objects) 
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIBS)
+
+ui_text : ui_text.o $(objects) 
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIBS)
 
 unittest : $(objects) $(test_objects) gtest_main.a
@@ -105,7 +111,7 @@ cctest : unittest
 
 .PHONY : swig
 swig : swignotest
-	pushd swigtest; ./swigtest.py; popd
+	./swigtest/swigtest.py
 
 .PHONY : clean
 clean: cleanSwig cleanc
@@ -120,8 +126,9 @@ cleanc:
 	$(RM) gtest_main.a gtest-all.o gtest_main.o
 	$(RM) main
 	$(RM) unittest
+	$(RM) ui_text
 	$(RM) gmon.out unittest
-	$(RM) *.gcda *.gcno
+	$(RM) *.gcda *.gcno *.gcov
 
 .PHONY : cleanSwig
 cleanSwig:

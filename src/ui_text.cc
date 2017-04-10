@@ -1,11 +1,11 @@
 #include "./ui_abbreviated.h"
 #include "./pair_lj_multi.h"
 
-shared_ptr<Space> space = NULL;
-shared_ptr<Criteria> criteria = NULL;
-shared_ptr<Pair> pair = NULL;
-shared_ptr<MC> mc = NULL;
-shared_ptr<WLTMMC> wltmmc = NULL;
+shared_ptr<Space> space;
+shared_ptr<Criteria> criteria;
+shared_ptr<Pair> pair;
+shared_ptr<MC> mc;
+shared_ptr<WLTMMC> wltmmc;
 
 void interpret(vector<string> cmd) {
   if (cmd[0] == "space") {

@@ -22,9 +22,9 @@
 #include <limits>
 #include <memory>
 #include <iomanip>
-#ifdef OMP_H_
+#ifdef _OPENMP
   #include <omp.h>
-#endif  // OMP_H_
+#endif  // _OPENMP
 #include <getopt.h>
 #include "./functions.h"
 #ifdef MPI_H_

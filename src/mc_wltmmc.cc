@@ -240,26 +240,26 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
       MPI_Comm_size(MPI_COMM_WORLD, &nWindow_);
       MPI_Comm_rank(MPI_COMM_WORLD, &t);
     #endif  // MPI_H_
-    #ifdef OMP_H_
+    #ifdef _OPENMP
       #pragma omp parallel private(t)
       {
         if (omp_get_thread_num() == 0) nWindow_ =  omp_get_num_threads();
       }
-    #endif  // OMP_H_
+    #endif  // _OPENMP
     vector<shared_ptr<WLTMMC> > clones(nWindow_);
-    #ifdef OMP_H_
+    #ifdef _OPENMP
       #pragma omp parallel private(t)
       {
         t = omp_get_thread_num();
         if (t == 0) nWindow_ = omp_get_num_threads();
-    #endif  // OMP_H_
+    #endif  // _OPENMP
 
     #ifdef MPI_H_
       MPI_Barrier(MPI_COMM_WORLD);
     #endif  // MPI_H_
-    #ifdef OMP_H_
+    #ifdef _OPENMP
       #pragma omp barrier
-    #endif  // OMP_H_
+    #endif  // _OPENMP
     clones[t] = this->cloneShrPtr();
     clones[t]->initWindows(0);        // turn off windowing of clones
 
@@ -311,25 +311,25 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
     #ifdef MPI_H_
       MPI_Barrier(MPI_COMM_WORLD);
     #endif  // MPI_H_
-    #ifdef OMP_H_
+    #ifdef _OPENMP
       #pragma omp barrier
-    #endif  // OMP_H_
+    #endif  // _OPENMP
     clones[t]->writeRestart(clones[t]->rstFileName().c_str());
     #ifdef MPI_H_
       MPI_Barrier(MPI_COMM_WORLD);
     #endif  // MPI_H_
-    #ifdef OMP_H_
+    #ifdef _OPENMP
       #pragma omp barrier
-    #endif  // OMP_H_
+    #endif  // _OPENMP
 
     // initialize confswaps
     initOverlaps(t, clones);
     #ifdef MPI_H_
       MPI_Barrier(MPI_COMM_WORLD);
     #endif  // MPI_H_
-    #ifdef OMP_H_
+    #ifdef _OPENMP
       #pragma omp barrier
-    #endif  // OMP_H_
+    #endif  // _OPENMP
     if ( (c_->mType().compare("pairOrder") != 0) &&
          (c_->mType().compare("pressure") != 0) &&
          (c_->mType().compare("lnpres") != 0) &&
@@ -358,9 +358,9 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
 
     runNumSweepsExec(t, nSweeps, clones);
 
-    #ifdef OMP_H_
+    #ifdef _OPENMP
       }
-    #endif  // OMP_H_
+    #endif  // _OPENMP
   } else {
     while ( (!c_->collect() && (wlFlatTerm_ == -1) ) ||
             ( (c_->nSweep() < nSweeps) && ( (nprMax <= 0) ||
@@ -492,7 +492,7 @@ void WLTMMC::runNumSweepsExec(const int t,    //!< thread
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
   #endif  // MPI_H_
-  #ifdef OMP_H_
+  #ifdef _OPENMP
 
     vector<CriteriaWLTMMC*> cloneCrit(nWindow_);
     bool allSwept = false;
@@ -526,7 +526,7 @@ void WLTMMC::runNumSweepsExec(const int t,    //!< thread
       c_->printCollectMat(colMatFileName_.c_str());
     }
     #pragma omp barrier
-  #endif  // OMP_H_
+  #endif  // _OPENMP
 }
 
 /**
@@ -661,21 +661,21 @@ void WLTMMC::runNumSweepsRestart(
     MPI_Comm_rank(MPI_COMM_WORLD, &t);
     MPI_Barrier(MPI_COMM_WORLD);
   #endif  // MPI_H_
-  #ifdef OMP_H_
+  #ifdef _OPENMP
     #pragma omp parallel private(t)
     {
       if (omp_get_thread_num() == 0) nWindow_ =  omp_get_num_threads();
     }
-  #endif  // OMP_H_
+  #endif  // _OPENMP
   
   vector<shared_ptr<WLTMMC> > clones(nWindow_);
-  #ifdef OMP_H_
+  #ifdef _OPENMP
     #pragma omp parallel private(t)
     {
       t = omp_get_thread_num();
       nWindow_ = omp_get_num_threads();
       #pragma omp barrier
-  #endif  // OMP_H_
+  #endif  // _OPENMP
 
   // read restart files
   stringstream ss;
@@ -686,9 +686,9 @@ void WLTMMC::runNumSweepsRestart(
   #ifdef MPI_H_
     MPI_Barrier(MPI_COMM_WORLD);
   #endif  // MPI_H_
-  #ifdef OMP_H_
+  #ifdef _OPENMP
     #pragma omp barrier
-  #endif  // OMP_H_
+  #endif  // _OPENMP
 
   // initialize confswaps
   initOverlaps(t, clones);
@@ -708,9 +708,9 @@ void WLTMMC::runNumSweepsRestart(
 
   runNumSweepsExec(t, nSweeps, clones);
 
-  #ifdef OMP_H_
+  #ifdef _OPENMP
     }
-  #endif  // OMP_H_
+  #endif  // _OPENMP
 }
 
 /**
@@ -720,15 +720,15 @@ void WLTMMC::initOverlaps(const int t,    //!< thread
   vector<shared_ptr<WLTMMC> > &clones
   ) {
   // if configuration swap trial move exists, initialize the overlapping regions
-  #if defined (MPI_H_) || (OMP_H_)
+  #if defined (MPI_H_) || (_OPENMP)
   if (clones[t]->trialConfSwapVec_.size() == 1) {
     #ifdef MPI_H_
       TrialConfSwapMPI* trial = NULL;
       trial->initProc(t);
     #endif  // MPI_H_
-    #ifdef OMP_H_
+    #ifdef _OPENMP
       TrialConfSwapOMP* trial = NULL;
-    #endif  // OMP_H_
+    #endif  // _OPENMP
     trial = clones[t]->trialConfSwap(0);
 
     // if betaInc == 0, window density for single isotherm
@@ -741,9 +741,9 @@ void WLTMMC::initOverlaps(const int t,    //!< thread
           #ifdef MPI_H_
             trial->addProcOverlap(order, t - 1);
           #endif  // MPI_H_
-          #ifdef OMP_H_
+          #ifdef _OPENMP
             trial->addProcOverlap(order, clones[t-1]->trialConfSwap(0));
-          #endif  // OMP_H_
+          #endif  // _OPENMP
         }
       }
 
@@ -756,9 +756,9 @@ void WLTMMC::initOverlaps(const int t,    //!< thread
           #ifdef MPI_H_
             trial->addProcOverlap(order, t + 1);
           #endif  // MPI_H_
-          #ifdef OMP_H_
+          #ifdef _OPENMP
             trial->addProcOverlap(order, clones[t+1]->trialConfSwap(0));
-          #endif  // OMP_H_
+          #endif  // _OPENMP
         }
       }
 
@@ -770,24 +770,24 @@ void WLTMMC::initOverlaps(const int t,    //!< thread
           #ifdef MPI_H_
             trial->addProcOverlap(order, t - 1, -betaInc_, -lnzInc_);
           #endif  // MPI_H_
-          #ifdef OMP_H_
+          #ifdef _OPENMP
             trial->addProcOverlap(order, clones[t-1]->trialConfSwap(0),
               -betaInc_, -lnzInc_);
-          #endif  // OMP_H_
+          #endif  // _OPENMP
         }
         if (t != nWindow_ -1) {
           #ifdef MPI_H_
             trial->addProcOverlap(order, t + 1, betaInc_, lnzInc_);
           #endif  // MPI_H_
-          #ifdef OMP_H_
+          #ifdef _OPENMP
             trial->addProcOverlap(order, clones[t+1]->trialConfSwap(0),
               betaInc_, lnzInc_);
-          #endif  // OMP_H_
+          #endif  // _OPENMP
         }
       }
     }
   }
-  #endif  // MPI_H_ || OMP_H_
+  #endif  // MPI_H_ || _OPENMP
 }
 
 

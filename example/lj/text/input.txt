@@ -1,12 +1,12 @@
 space 3   # simulations in 3D
 boxl 8    # 8 box length
-addMolInit ../../forcefield/data.lj
+addMolInit ../../../forcefield/data.lj
 pair lj 3   # rCut of 3
 initEnergy
 criteria metropolis 1.2 1.  # 1/kT = 1.2
 mc
 trial translate 0.1   # 0.1 max move parameter
-nMolSeek 50 ../../forcefield/data.lj
+nMolSeek 50 ../../../forcefield/data.lj
 log log 10000
 movie movie 10000
 run 1000000

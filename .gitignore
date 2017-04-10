@@ -5,8 +5,10 @@ syntax: glob
 main.cc
 main
 unittest
-tools/rw
 ui_text
+tools/rw
+build/
+bin/
 
 #gprof output
 gmon.out

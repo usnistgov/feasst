@@ -6,7 +6,7 @@ simulations with flat-histogram Monte Carlo and molecular dynamics methods.
 ### Features
 - Wang-Landau, Transition-Matrix and/or Metropolis Monte Carlo
 - Canonical, grand canonical and expanded ensembles
-- Interface as a Python module or C++ class
+- Interface as a python module or C++ class
 - Easy use of MPI and checkpointing
 - Many advanced sampling Monte Carlo moves
 - Supported energy functions include anisotropic particles and the Ewald
@@ -74,23 +74,23 @@ int main() {
 }
 ```
 
-This simulation is run by a bash script:
+This simulation is compiled and run by a bash script [example/lj/run.sh](example/lj/run.sh):
 ```bash
 prog=nvt
-FEASST_INSTALL_DIR_=/path/to/feasst
 $FEASST_INSTALL_DIR_/tools/compile.sh $prog
-cp $FEASST_INSTALL_DIR_/src/main $prog
 ./$prog
 ```
-Note that `/path/to/feasst/` on line 2 should be updated.
+Note that `FEASST_INSTALL_DIR_` should be specified in your `~/.bash_profile` as `export FEASST_INSTALL_DIR_="$HOME/path/to/feasst/"`.
 
-In Python, the same simulation may be written as in the file [example/lj/lj.cc](example/lj/lj.cc)
+In python, the same simulation may be written as in the file [example/lj/lj.py](example/lj/lj.py)
 ```python
 #! /usr/bin/env python
 import os, sys
-feasstdir = os.getenv("HOME") + "/path/to/feasst"
-sys.path.append(feasstdir + "/src")
-import feasst, pyfeasst
+feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/build"
+if (not os.path.isfile(feasstdir+"/_feasst.so")):
+  feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/src"
+sys.path.append(feasstdir)
+import feasst
 space = feasst.Space(3, 0)
 for dim in range(space.dimen()): space.lset(8, dim) # 8 box length
 space.addMolInit("../../forcefield/data.lj")
@@ -105,8 +105,6 @@ mc.initLog("log", int(1e4))
 mc.initMovie("movie", int(1e4))
 mc.runNumTrials(int(1e6))
 ```
-
-Note that `/path/to/feasst/` on line 3 should be updated.
 
 And for those who prefer a text-based input file, see [example/lj/text/input.txt](example/lj/text/input.txt):
 
@@ -125,7 +123,7 @@ movie movie 10000
 run 1000000
 ```
 
-This text-based simulation is then run as `/path/to/feasst/src/ui_text -f input.txt`.
+This text-based simulation is then run as `/path/to/feasst/[build/bin,src]/ui_text -f input.txt`.
 Commands are interpreted via [src/ui_text.cc](src/ui_text.cc), which is cumbersome to maintain.
 It is highly recommended to use the C++ or python interface instead.
 
@@ -137,15 +135,59 @@ FEASST is designed for a LINUX or MAC OS X platform with the following minimum v
 - compiler with c++0x support (e.g., g++ >= 4.7)
 
 ### Optional tools:
-- swig >= 1.3.40 (python interface)
+- CMake >= 2.8.12.2
+- SWIG >= 1.3.40 (python interface)
 - anaconda >= 1.9.1 (python >= 2.7)
 - xdrfile 1.1b (compressed xtc trajectories)
-- gtest >= 1.7.0 (c++ unittests)
-- valgrind (c++ memory testing for development)
-- doxygen >= 1.6.1 (c++ documentation)
+- gtest >= 1.7.0 (C++ unittests)
+- valgrind (C++ memory testing for development)
+- doxygen >= 1.6.1 (C++ documentation)
 - openmpi >= 1.4.5 (parallel computation)
 
 # Installation
+
+Installation may be performed with either CMake or a plain Makefile.
+If you do not have a preference, it is recommended to attempt CMake.
+Otherwise, the plain Makefile approach is available.
+The example input scripts automatically check for the CMake install first,
+so make sure that you remove your CMake build files if you want to use
+the install from the [src/Makefile](src/Makefile) instead.
+
+## CMake
+
+CMake is the recommended installation method.
+
+```bash
+cp -r buildtemplate build
+cd build
+cmake .
+make -j 8
+```
+
+To control the install, you can edit `CMakeLists.txt` in `build` as follows 
+before running the `cmake .` command.
+
+For example, to use the XDRFILE library for xtc files:
+```cmake
+option(USE_XDRFILE "Use xdrfile library" OFF)
+```
+
+Or to give CMake the path to your xdrfile library:
+```cmake
+set(XDRFILE_DIR "/path/to/xdrfile")
+```
+
+Or, for example, if you want to use the python interface, then use the
+following CMake command instead: `cmake -DUSE_SWIG=ON .`.
+
+If you are changing the default build options in `CMakeLists.txt`,
+make sure to start compilation with a fresh `build` directory before CMake is
+invoked (e.g., completely remove the build directory and start over, after 
+saving any relevant changes to `CMakeLists.txt`).
+
+## Makefile
+
+This is the old compilation method, but may still be used if you prefer.
 
 ### Python installation
 ```bash
@@ -170,15 +212,15 @@ For any interface, modify [src/Makefile](src/Makefile) to control external libra
 # External libraries
 
 Here is how to set up external libraries you may want to use with FEASST.
-To begin, some libraries require installation. And some require certain compilers flags.
-If you do not wish to use the libraries, make sure the compiler flags are not included in [src/Makefile](src/Makefile).
+To begin, some libraries require installation. And some require certain compiler flags if not using CMake.
+If you do not wish to use the libraries and CMake, make sure the compiler flags are not included in [src/Makefile](src/Makefile).
 
 ### XTC 1.1b:
 For writing compressed XTC trajectory files.
 ```bash
 ftp://ftp.gromacs.org/pub/contrib/xdrfile-1.1.tar.gz
 tar -xf xdrfile-1.1.tar.gz; cd xdrfile-1-1b
-./configure --enable-shared --prefix=$HOME/ #enable-shared for swig
+./configure --enable-shared --prefix=$HOME/ #enable-shared for SWIG
 make install
 ```
 Associated compiler flags in [src/Makefile](src/Makefile):
@@ -250,6 +292,10 @@ Required for python installation.
 cd swig-2.0.12; ./configure --prefix=/path/to/install/dir; make
 ```
 
+### Cmake 2.8.12.2
+Download from https://cmake.org/files/v2.8/
+`tar -xf cmake-2.8.12-rc2-Linux-i386.tar.gz`
+
 ### HDF5 1.8.18
 ```bash
 sudo ./configure --prefix=/usr/local/hdf5 --enable-cxx
@@ -266,7 +312,7 @@ Associated compiler flags in [src/Makefile](src/Makefile):
 ### GSL 2.3
 For spline interpolation.
 ```bash
-./configure --prefux=/path/to/install/dir; make; make install
+./configure --prefix=/path/to/install/dir; make; make install
 ```
 Associated compiler flags in [src/Makefile](src/Makefile):
 ```
@@ -382,7 +428,7 @@ p.printxyz("filename",1);
 
 # Example of custom analysis in input script
 
-In c++, you can define your own custom derived Analyze class inside the input
+In C++, you can define your own custom derived Analyze class inside the input
 file.
 
 First, you can define an analysis as follows which accumulates the potential
@@ -415,7 +461,7 @@ mc.initAnalyze(&an);
 This example is shown in the test case [testcase/lj/srsw/nvt-mc/lj.cc](testcase/lj/srsw/nvt-mc/lj.cc).
 
 Note that while this example is in the spirit of a monkey patch, implementing
-a monkey patch on the swig python objects requires editting the vtable.
+a monkey patch on the SWIG python objects requires editting the vtable.
 In this case, it may be easier to add the custom analysis in the source directory.
 See [Example of adding or modifying an analysis code](#example-of-adding-or-modifying-an-analysis-code).
 
@@ -546,7 +592,7 @@ sometimes used for "smart Monte Carlo" or molecular dynamics, but otherwise are 
 
 You have to add the new pair class to `makePair()` in [src/pair.cc](src/pair.cc), and include the header, for restart capability.
 
-For the Swig Python interface, you also must copy [src/pair_lj_multi.i](src/pair_lj_multi.i) into a new file, with the new header,
+For the Swig python interface, you also must copy [src/pair_lj_multi.i](src/pair_lj_multi.i) into a new file, with the new header,
 and also add the new pair header to [src/pair.i](src/pair.i) and [src/feasst.i](src/feasst.i).
 
 # Example of adding or modifying a Monte Carlo trial
@@ -557,7 +603,7 @@ So copy the simplest trial that is closest to what you want to accomplish,
 and immediately remove the unnecessary pieces.
 Rename all `TrialName` to `TrialNewName` and `TRIAL_NAME_H` to `TRIAL_NEW_NAME_H_`
 
-For the python/swig interface, add a new `trial_*.i` file, 
+For the python/SWIG interface, add a new `trial_*.i` file, 
 and add this file to the list in [src/trial.i](src/trial.i) as well as [src/feasst.i](src/feasst.i).
 
 For the user interface, you may also add this new trial to [src/ui_abbreviated.h](src/ui_abbreviated.h) or some other `ui_` file.

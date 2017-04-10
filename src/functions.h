@@ -26,9 +26,9 @@
 #ifdef MPI_H_
   #include <mpi.h>
 #endif
-#ifdef OMP_H_
+#ifdef _OPENMP
   #include <omp.h>
-#endif  // OMP_H_
+#endif  // _OPENMP
 #include "./custom_exception.h"
 using std::cout;
 using std::endl;

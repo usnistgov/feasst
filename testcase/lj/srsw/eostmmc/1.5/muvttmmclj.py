@@ -2,9 +2,11 @@
 
 import os, sys
 #from libxdrfile import xdrfile_open, xdrfile_close, read_xtc_natoms, read_xtc, DIM, exdrOK
-feasstdir = os.getenv("HOME") + "/feasst"
-sys.path.append(feasstdir + "/src")
-import feasst, pyfeasst
+feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/build"
+if (not os.path.isfile(feasstdir+"/_feasst.so")):
+  feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/src"
+sys.path.append(feasstdir)
+import feasst
 import math, argparse
 
 # parse arguments and print to log file

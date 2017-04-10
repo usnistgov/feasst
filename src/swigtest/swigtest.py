@@ -1,8 +1,11 @@
 #! /usr/bin/env python
-import sys
-#feasstdir = os.getenv("HOME") + "/feasst"
-sys.path.append("../")
-import feasst, pyfeasst
+import sys, os
+feasstdir = "../build"
+if (not os.path.isfile(feasstdir+"/_feasst.so")):
+  feasstdir = ""
+print(feasstdir)
+sys.path.append(feasstdir)
+import feasst
 import unittest
 import numpy as np
 
@@ -181,7 +184,7 @@ class TestTrial(unittest.TestCase):
             print pt, ct
             s=feasst.Space(3,0)
             s.init_config(12)
-            s.addMolInit("../../forcefield/data.atom")
+            s.addMolInit("../forcefield/data.atom")
             if (pt == "ideal"):
               p=feasst.PairIdeal(s,5)
             elif (pt == "lj"):
@@ -197,7 +200,7 @@ class TestTrial(unittest.TestCase):
             mc=feasst.MC(s, p, c)
             feasst.transformTrial(mc, "translate", 5)
             feasst.deleteTrial(mc)
-            feasst.addTrial(mc, "../../forcefield/data.atom")
+            feasst.addTrial(mc, "../forcefield/data.atom")
             #mc.avbTrial(0.9, rAbove, rBelow, 1)
             #mc.avbTrial(0.9, rAbove, rBelow, 2)
             #mc.avbTrial(0.9, rAbove, rBelow, 3)

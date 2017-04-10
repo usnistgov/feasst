@@ -181,7 +181,7 @@ void Pair::writeRestartBase(const char* fileName) {
   fileBackUp(fileName);
   std::ofstream file(fileName);
   file << "# className " << className_ << endl;
-  file << "# lrcFlag " << lrcFlag << endl;
+  if (lrcFlag != 1) file << "# lrcFlag " << lrcFlag << endl;
   if (orderOn_ == 1) {
     file << "# myuniqueorderParam " << order_ << endl;
     file << "# myuniqueorderMax " << orderMax_ << endl;

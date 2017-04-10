@@ -2,9 +2,11 @@
 
 import os, sys
 #from libxdrfile import xdrfile_open, xdrfile_close, read_xtc_natoms, read_xtc, DIM, exdrOK
-feasstdir = os.getenv("HOME") + "/feasst"
-sys.path.append(feasstdir + "/src")
-import feasst, pyfeasst
+feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/build"
+if (not os.path.isfile(feasstdir+"/_feasst.so")):
+  feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/src"
+sys.path.append(feasstdir)
+import feasst
 import math, argparse
 
 # parse arguments and print to log file
@@ -48,13 +50,11 @@ feasst.transformTrial(mc, "translate")
 mc.weight = 1./8.
 #td = feasst.TrialDelete()
 #mc.initTrial(td)
-#mc.deleteTrial()
 mc.initTrial(feasst.TrialDelete())
 #ta = feasst.TrialAdd(args.molName)
 #mc.initTrial(ta)
 mc.initTrial(feasst.TrialAdd(args.molName))
 #feasst.addTrial(mc, args.molName)
-#mc.addTrial(args.molName)
 
 # output log, lnpi and movie
 mc.initLog("log", args.nfreq)
@@ -70,5 +70,5 @@ criteria.collectInit()
 criteria.tmmcInit()
 #mc.runNumTrials(args.npr)
 mc.initWindows(1)
-mc.runNumSweeps(10, -1)
+mc.runNumSweeps(1, -1)
 
