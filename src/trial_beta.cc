@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./trial_beta.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 TrialBeta::TrialBeta()
   : Trial() {
   defaultConstruction();
@@ -35,4 +28,6 @@ void TrialBeta::defaultConstruction() {
   trialType_.assign("move");
   verbose_ = 0;
 }
+
+}  // namespace feasst
 

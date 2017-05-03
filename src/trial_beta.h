@@ -10,6 +10,8 @@
 
 #include "./trial.h"
 
+namespace feasst {
+
 class TrialBeta : public Trial {
  public:
   TrialBeta();
@@ -36,6 +38,8 @@ class TrialBeta : public Trial {
       t->reconstruct(space, pair, criteria);
       return t;}
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_BETA_H_
 

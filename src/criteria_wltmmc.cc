@@ -9,6 +9,8 @@
 #include "./pair.h"
 #include "./mins.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -1184,3 +1186,6 @@ void CriteriaWLTMMC::tmmcInit() {
   tmmc_ = true;
   std::fill(h_.begin(), h_.end(), 0);
 }
+
+}  // namespace feasst
+

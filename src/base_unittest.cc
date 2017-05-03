@@ -9,6 +9,8 @@
   #include <gsl/gsl_spline.h>
 #endif  // GSL_
 
+using namespace feasst;
+
 TEST(Base, base) {
   Base b();
 }
@@ -113,7 +115,7 @@ TEST(BaseMath, eulerRandom) {
 #ifdef JSON_
 TEST(json, json) {
   // create an empty structure (null)
- json j;
+ nlohmann::json j;
 
  // add a number that is stored as double (note the implicit conversion of j to an object)
  j["pi"] = 3.141;
@@ -147,7 +149,7 @@ TEST(json, json) {
 
   // read a JSON file
   std::ifstream i("tmp/pretty.json");
-  json j2;
+  nlohmann::json j2;
   i >> j2;
 
   // write prettified JSON to another file
@@ -164,7 +166,7 @@ TEST(json, json) {
   //for (int i = 0; i < j["answer"].size(); ++i) {
   //  cout << j["answer"][i] << endl;
   //}
-  json jset = j2["answer"];
+  nolohmann::json jset = j2["answer"];
   std::ofstream o3("tmp/pretty3.json");
   o3 << std::setw(2) << jset << std::endl;
   EXPECT_TRUE(jset["nothing"] == "everything");

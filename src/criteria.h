@@ -10,6 +10,8 @@
 
 #include "./base_all.h"
 
+namespace feasst {
+
 class Space;
 class Pair;
 
@@ -80,6 +82,8 @@ class Criteria : public BaseAll {
   // clone design pattern
   virtual shared_ptr<Criteria> cloneImpl_() const = 0;
 };
+
+}  // namespace feasst
 
 #endif  // CRITERIA_H_
 

@@ -1,13 +1,17 @@
 /**
  * \file
  *
- * \brief ideal gas, no interactions
+ * \brief This file is a stub
+ *
+ * This file is a stub or placeholder for an experimental class that is not part of this release.
  *
  */
 #ifndef PAIR_ROUND_SQUARE_H_
 #define PAIR_ROUND_SQUARE_H_
 
 #include "./pair.h"
+
+namespace feasst {
 
 class PairRoundSquare : public Pair {
  public:
@@ -27,6 +31,8 @@ class PairRoundSquare : public Pair {
 
  protected:
 };
+
+}  // namespace feasst
 
 #endif  // PAIR_ROUND_SQUARE_H_
 

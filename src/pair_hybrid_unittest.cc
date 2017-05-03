@@ -1,10 +1,11 @@
-
 #include <gtest/gtest.h>
 #include "pair_lj.h"
 #include "pair_lj_multi.h"
 #include "pair_lj_coul_ewald.h"
 #include "pair_patch_kf.h"
 #include "pair_hybrid.h"
+
+using namespace feasst;
 
 TEST(PairHybrid, hybrid) {
   Space s(3,0);

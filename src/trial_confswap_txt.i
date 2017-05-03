@@ -3,6 +3,7 @@
 %{
 #include "trial.h"
 #include "trial_confswap_txt.h"
+using namespace feasst;
 %}
 
 %pythonnondynamic;

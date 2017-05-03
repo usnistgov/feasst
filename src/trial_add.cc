@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief trial moves for Monte Carlo
- */
-
 #include "./trial_add.h"
 
-/**
- * Constructor for pair class requires the following
- */
+namespace feasst {
+
 TrialAdd::TrialAdd(const char* molType)
   : Trial(),
     molType_(molType) {
@@ -200,6 +193,8 @@ string TrialAdd::printStat(const bool header) {
   }
   return stat.str();
 }
+
+}  // namespace feasst
 
   
 

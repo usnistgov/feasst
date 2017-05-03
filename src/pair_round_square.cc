@@ -1,15 +1,7 @@
-/**
- * \file
- *
- * \brief 
- *
- */
-
 #include "./pair_round_square.h"
 
-/**
- * Constructor for pair_lj class requires the following
- */
+namespace feasst {
+
 PairRoundSquare::PairRoundSquare(Space* space,
   const double rCut)  //!< interaction cut-off distance
   : Pair(space, rCut) {
@@ -19,4 +11,6 @@ PairRoundSquare::PairRoundSquare(Space* space,
   const char* fileName)
   : Pair(space, fileName) {
 }
+
+}  // namespace feasst
 

@@ -16,6 +16,8 @@
 
 #include "./pair.h"
 
+namespace feasst {
+
 class PairLJ : public Pair {
  public:
   PairLJ(Space* space, const double rCut);
@@ -86,6 +88,8 @@ class PairLJ : public Pair {
   /// flag to cut and shift potential by linear term such that force=0 at rcut
   bool linearShiftFlag_;
 };
+
+}  // namespace feasst
 
 #endif  // PAIR_LJ_H_
 

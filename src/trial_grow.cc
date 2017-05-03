@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./trial_grow.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 TrialGrow::TrialGrow(
   const char* molType,   //!< type of molecule to grow
   const int nStages)     //!< number of stages in growth
@@ -29,4 +22,6 @@ TrialGrow::TrialGrow(const char* fileName,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
 }
+
+}  // namespace feasst
 

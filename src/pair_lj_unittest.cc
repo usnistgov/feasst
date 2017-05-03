@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "pair_lj.h"
 
+using namespace feasst;
+
 TEST(PairLJ, dim) {
   for (int dimen = 1; dimen != 4; ++dimen) {
     for (int natom = 1; natom != 5; ++natom) {

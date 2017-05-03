@@ -10,6 +10,8 @@
 
 #include "./base_math.h"
 
+namespace feasst {
+
 class BaseAll : public BaseMath {
  public:
   BaseAll();
@@ -17,6 +19,8 @@ class BaseAll : public BaseMath {
 
  protected:
 };
+
+}  // namespace feasst
 
 #endif  // BASEALL_H_
 

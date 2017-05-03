@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "pair_squarewell.h"
 
+using namespace feasst;
+
 TEST(PairSquareWell, mickeymouse) {
   const double rCut = 1.02;
   Space s(3, 0);

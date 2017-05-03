@@ -1,17 +1,8 @@
-/**
- * \file
- *
- * \brief lennard-jones pairwise with patchy orientational interactions
- *
- * Implementation of pair_patch class
- */
-
 #include "./pair_patch_kf.h"
 #include "./mins.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 PairPatchKF::PairPatchKF(Space *space,
   const double rCut,        //!< interaction cut-off distance (square well)
   const double patchAngle    //!< solid half-angle of patch (see reference)
@@ -266,8 +257,8 @@ void PairPatchKF::update(
  *  use when mirrorPatch
  */
 int PairPatchKF::printxyz(const char* fileName,   //!< file with configuration
-  const int initFlag    //!< open if flag is 1, append if flag is 0
-  ) {
+  const int initFlag,    //!< open if flag is 1, append if flag is 0
+  const std::string comment) {
   ASSERT(dimen_ == 3, "printxyz assumes three dimensions");
 
   FILE * xyzFile = NULL;
@@ -292,7 +283,7 @@ int PairPatchKF::printxyz(const char* fileName,   //!< file with configuration
   if (mirrorPatch_) {
     natom += space_->natom() - space_->nMol();
   }
-  fprintf(xyzFile, "%d\n1\n", natom);
+  fprintf(xyzFile, "%d\n1 %s\n", natom, comment.c_str());
   if (xyzFile != NULL) {
     for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
       const int ipart = space_->mol2part()[iMol];
@@ -342,6 +333,8 @@ int PairPatchKF::printxyz(const char* fileName,   //!< file with configuration
 
   return 0;
 }
+
+}  // namespace feasst
 
 
 

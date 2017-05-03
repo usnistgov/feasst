@@ -6,6 +6,8 @@
 
 #include "./base_math.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -207,4 +209,6 @@ vector<double> BaseMath::eulerRandom() {
   euler[2] = PI*(2.*uniformRanNum() - 1.);
   return euler;
 }
+
+}  // namespace feasst
 

@@ -9,6 +9,8 @@
 
 #include "./pair.h"
 
+namespace feasst {
+
 class PairIdeal : public Pair {
  public:
   PairIdeal(Space* space, const double rCut);
@@ -27,6 +29,8 @@ class PairIdeal : public Pair {
 
  protected:
 };
+
+}  // namespace feasst
 
 #endif  // PAIR_IDEAL_H_
 

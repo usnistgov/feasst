@@ -2,6 +2,8 @@
 #include <limits.h>
 #include "histogram.h"
 
+using namespace feasst;
+
 // in order to test writing/reading restarts, and cloning,
 //  this function was constructed to call 4 times
 void testhist(Histogram *h) {

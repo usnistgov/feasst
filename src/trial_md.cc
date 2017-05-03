@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./trial_md.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 TrialMD::TrialMD() : Trial() {
   defaultConstruction();
 }
@@ -228,4 +221,6 @@ void TrialMD::integrateVelocityVerlet() {
   updateFCOM();
   updateVelocityHalfStep();   // update half-step velocities
 }
+
+}  // namespace feasst
 

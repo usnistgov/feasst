@@ -1,15 +1,7 @@
-/**
- * \file
- *
- * \brief ideal gas, no interactions
- *
- */
-
 #include "./pair_ideal.h"
 
-/**
- * Constructor for pair_lj class requires the following
- */
+namespace feasst {
+
 PairIdeal::PairIdeal(Space* space,
   const double rCut)  //!< interaction cut-off distance
   : Pair(space, rCut) {
@@ -96,4 +88,6 @@ double PairIdeal::multiPartEner(const vector<int> mpart,    //!< number of singl
   }
   return 0;
 }
+
+}  // namespace feasst
 

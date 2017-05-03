@@ -11,6 +11,8 @@
 
 #include "./criteria.h"
 
+namespace feasst {
+
 class CriteriaWLTMMC : public Criteria {
  public:
   CriteriaWLTMMC(const double beta, const double activ, const char* mType,
@@ -417,6 +419,8 @@ class CriteriaWLTMMC : public Criteria {
   // clone design pattern
   virtual shared_ptr<Criteria> cloneImpl_() const;
 };
+
+}  // namespace feasst
 
 #endif  // CRITERIAWLTMMC_H_
 

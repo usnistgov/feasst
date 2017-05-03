@@ -14,6 +14,8 @@
 
 #include "./trial.h"
 
+namespace feasst {
+
 class TrialConfSwapTXT : public Trial {
  public:
   TrialConfSwapTXT();
@@ -69,6 +71,8 @@ class TrialConfSwapTXT : public Trial {
     t->reconstruct(space, pair, criteria); return t;
   }
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_CONFSWAPTXT_H_
 

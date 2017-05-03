@@ -1,8 +1,8 @@
 %module feasst
 
-%ignore CriteriaWLTMMC::lnPIrwsatwrap;
-%ignore CriteriaWLTMMC::lnPIrwnmxwrap;
-%ignore MC::boyleminwrap;
+%ignore feasst::CriteriaWLTMMC::lnPIrwsatwrap;
+%ignore feasst::CriteriaWLTMMC::lnPIrwnmxwrap;
+%ignore feasst::MC::boyleminwrap;
 
 %{
 #include "functions.h"
@@ -64,6 +64,7 @@
 #include "mc.h"
 #include "mc_wltmmc.h"
 #include "ui_abbreviated.h"
+using namespace feasst;
 %}
 
 %include "std_vector.i"

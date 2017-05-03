@@ -1,9 +1,3 @@
-/**
- * \file
- *
- * \brief trial moves for Monte Carlo
- */
-
 #include "./trial.h"
 #include "./trial_transform.h"
 #include "./trial_add.h"
@@ -24,9 +18,8 @@
   #include "./trial_confswap_omp.h"
 #endif  // _OPENMP
 
-/**
- * Constructor for trial class requires the following
- */
+namespace feasst {
+
 Trial::Trial() {
   defaultConstruction();
 }
@@ -440,6 +433,8 @@ string Trial::printStat(const bool header) {
   }
   return stat.str();
 }
+
+}  // namespace feasst
 
   
 

@@ -14,6 +14,8 @@
 #include "trial_delete.h"
 #include "trial_md.h"
 
+using namespace feasst;
+
 // check that you obtain the same tmmc probability distribution function whether or not you use special moves
 TEST(MC, WLTMMC_Ideal) {
 

@@ -10,6 +10,8 @@
 
 #include "./trial.h"
 
+namespace feasst {
+
 class TrialMD : public Trial {
  public:
   TrialMD();
@@ -82,6 +84,8 @@ protected:
     return t;
   }
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_MD_H_
 

@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./trial_transform.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 TrialTransform::TrialTransform(
   const char* transType)    //!< type of transformation
   : Trial(),
@@ -369,6 +362,8 @@ void TrialTransform::scaleAttempt_(const double factor) {
     ASSERT(0, "unrecognized transType_(" << transType_ << ") for scale.");
   }
 }
+
+}  // namespace feasst
 
 
 

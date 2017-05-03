@@ -1,8 +1,9 @@
 /**
  * \file
  *
- * \brief
+ * \brief This file is a stub
  *
+ * This file is a stub or placeholder for an experimental class that is not part of this release.
  */
 
 #ifndef ANALYZE_SCATTER_ANISO_H_
@@ -14,6 +15,8 @@
 #ifdef FFTW_
   #include <fftw3.h>
 #endif  // FFTW_
+
+namespace feasst {
 
 class AnalyzeScatterAniso : public Analyze {
  public:
@@ -40,6 +43,8 @@ class AnalyzeScatterAniso : public Analyze {
     a->reconstruct(space, pair); return a;
   }
 };
+
+}  // namespace feasst
 
 #endif  // ANALYZE_SCATTER_ANISO_H_
 

@@ -10,6 +10,8 @@
 
 #include "random.h"
 
+namespace feasst {
+
 class RandomNR3 : public Random {
  public:
   RandomNR3(const unsigned long long seed);
@@ -32,6 +34,8 @@ class RandomNR3 : public Random {
  protected:
   unsigned long long u_, v_, w_;
 };
+
+}  // namespace feasst
 
 #endif  // RANDOMNR3_H_
 

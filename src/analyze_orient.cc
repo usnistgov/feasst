@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./analyze_orient.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 AnalyzeOrient::AnalyzeOrient(Space *space, Pair *pair)
   : Analyze(space, pair) {
   defaultConstruction();
@@ -139,5 +132,7 @@ void AnalyzeOrient::print() {
     }
   }
 }
+
+}  // namespace feasst
 
 

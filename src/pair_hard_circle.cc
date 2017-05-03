@@ -6,6 +6,8 @@
 
 #include "pair_hard_circle.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -242,5 +244,7 @@ void PairHardCircle::multiPartEnerAtomCutInner(const double &r2,
     peSRone_ -= (2*R*R*acos(r*0.5/R) - r*sqrt(R*R-r*r*0.25))/PI/rDep_/rDep_;
   }
 }
+
+}  // namespace feasst
 
 

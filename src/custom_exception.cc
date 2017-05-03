@@ -24,7 +24,11 @@ customException::customException(std::stringstream& m) {
   msg_ = m.str();
   catMessage();
   cout << msg_ << endl;
-  exit(0);  // terminate immediately for easy backtrace
+  cout << "terminating" << endl;
+  //exit(1);  // terminate immediately for easy backtrace
+  // force seg fault
+  int *foo = (int*)-1; // make a bad pointer
+  printf("%d\n", *foo);       // causes segfault
 }
 
 void customException::catMessage() {

@@ -9,6 +9,8 @@
 
 #include "./pair_lj.h"
 
+namespace feasst {
+
 class PairLJMulti : public PairLJ {
  public:
   PairLJMulti(Space* space, const double rCut);
@@ -119,6 +121,8 @@ class PairLJMulti : public PairLJ {
   int gaussian_;        //!< flag for guassian interacitons
   vector<vector<double> > gausParam_;
 };
+
+}  // namespace feasst
 
 #endif  // PAIR_LJ_MULTI_H_
 

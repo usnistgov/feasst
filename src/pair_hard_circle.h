@@ -8,6 +8,8 @@
 
 #include "./pair.h"
 
+namespace feasst {
+
 class PairHardCircle : public Pair {
  public:
   PairHardCircle(Space* space, const double rCut);
@@ -61,6 +63,8 @@ class PairHardCircle : public Pair {
   double dCircle_;               //!< diameter of hard circle
   double rDep_;               //!< radius of depletant
 };
+
+}  // namespace feasst
 
 #endif  // PAIR_HARD_CIRCLE_H_
 

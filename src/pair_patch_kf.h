@@ -16,6 +16,8 @@
 #include "./functions.h"
 #include "./pair.h"
 
+namespace feasst {
+
 class PairPatchKF : public Pair {
  public:
   PairPatchKF(Space *space, const double rCut, const double patchAngle);
@@ -44,7 +46,8 @@ class PairPatchKF : public Pair {
   void addPart() {addPartBase(); }                       //!< add one particle
 
   /// write xyz for visualization
-  int printxyz(const char* fileName, const int initFlag);
+  int printxyz(const char* fileName, const int initFlag,
+    const std::string comment="");
 
   /// sets the mirrorPatch boolean variable
   void mirrorPatch(const int flag) {
@@ -65,6 +68,8 @@ class PairPatchKF : public Pair {
   /// mirror patches such that, for each patch, another exists on the other side
   bool mirrorPatch_;
 };
+
+}  // namespace feasst
 
 #endif  // PAIR_PATCH_KF_H_
 

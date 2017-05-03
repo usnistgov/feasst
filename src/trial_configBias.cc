@@ -1,15 +1,8 @@
-/**
- * \file
- *
- * \brief trial moves for Monte Carlo
- */
-
 #include "./trial_configBias.h"
 #include "./mc.h"
 
-/**
- * Constructor for pair class requires the following
- */
+namespace feasst {
+
 TrialConfigBias::TrialConfigBias(const char* molType)
   : Trial(),
     molType_(molType) {
@@ -1245,4 +1238,6 @@ void TrialConfigBias::initDualCut(const int flag) {
     ASSERT(0, "unrecognized flag for dualCut(" << dualCut_ << ")");
   }
 }
+
+}  // namespace feasst
 

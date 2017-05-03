@@ -10,6 +10,8 @@
 
 #include "./trial.h"
 
+namespace feasst {
+
 class TrialTransform : public Trial {
  public:
   explicit TrialTransform(const char* transType);
@@ -59,6 +61,8 @@ class TrialTransform : public Trial {
     return t;
   }
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_TRANSFORM_H_
 

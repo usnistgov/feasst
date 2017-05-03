@@ -1,6 +1,8 @@
 #include "./ui_abbreviated.h"
 #include "./pair_lj_multi.h"
 
+using namespace feasst;
+
 shared_ptr<Space> space;
 shared_ptr<Criteria> criteria;
 shared_ptr<Pair> pair;
@@ -123,5 +125,4 @@ int main(int argc, char** argv) {
   }
   return 1;
 }
-
 

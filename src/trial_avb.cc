@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief trial moves for Monte Carlo
- */
-
 #include "./trial_avb.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 TrialAVB::TrialAVB(
   const double pBias,   //!< bias probability
   const double rAbove,   //!< upper limit of bond
@@ -39,4 +32,6 @@ TrialAVB::TrialAVB(const char* fileName,
   : Trial(space, pair, criteria, fileName) {
   initAVB(rAbove_, rBelow_);
 }
+
+}  // namespace feasst
 

@@ -10,6 +10,8 @@
 
 #include "./trial.h"
 
+namespace feasst {
+
 class TrialGCA : public Trial {
  public:
   TrialGCA();
@@ -41,6 +43,8 @@ class TrialGCA : public Trial {
     return t;
   }
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_GCA_H_
 

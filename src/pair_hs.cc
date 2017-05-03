@@ -8,6 +8,8 @@
 
 #include "./pair_hs.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -156,6 +158,8 @@ void PairHS::update(const vector<int> mpart,    //!< particles involved in move
     }
   }
 }
+
+}  // namespace feasst
 
 
 

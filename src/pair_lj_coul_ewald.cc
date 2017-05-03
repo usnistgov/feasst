@@ -14,9 +14,8 @@
 #include "./space.h"
 #include "./functions.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 PairLJCoulEwald::PairLJCoulEwald(Space* space,
   const double rCut)  //!< interaction cut-off distance
   : Pair(space, rCut) {
@@ -1073,6 +1072,8 @@ void PairLJCoulEwald::initLMPData(const string fileName) {
     std::getline(file, line);
   }
 }
+
+}  // namespace feasst
 
 
 

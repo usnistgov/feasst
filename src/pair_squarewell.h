@@ -11,6 +11,8 @@
 
 #include "./pair.h"
 
+namespace feasst {
+
 class PairSquareWell : public Pair {
  public:
   PairSquareWell(Space* space, const double rCut);
@@ -54,6 +56,8 @@ class PairSquareWell : public Pair {
   double peSRone_;  //!< lennard jones potential energy from subset of particles
   double deSR_;     //!< lennard jones potential energy change
 };
+
+}  // namespace feasst
 
 #endif  // PAIR_SQUAREWELL_H_
 

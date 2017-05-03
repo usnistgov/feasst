@@ -11,6 +11,8 @@
 #include "ui_abbreviated.h"
 #include "trial_delete.h"
 
+using namespace feasst;
+
 int main(int argc, char** argv) {
 
   int nMolMax = 370, nMolMin = 0, nfreq = 1e4, ncfreq = 1e6;

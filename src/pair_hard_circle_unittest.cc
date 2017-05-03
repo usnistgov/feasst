@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "pair_hard_circle.h"
 
+using namespace feasst;
+
 TEST(PairHardCircle, hardCircle) {
   Space s(2, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(6,dim);

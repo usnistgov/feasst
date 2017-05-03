@@ -9,6 +9,7 @@
     #include "xdrfile_trr.h"
   }
 #endif  // XDRFILE_H_
+using namespace feasst;
 %}
 
 %pythonnondynamic;

@@ -17,6 +17,8 @@
   #include <gsl/gsl_spline.h>
 #endif  // GSL_
 
+namespace feasst {
+
 class Table {
  public:
   Table();
@@ -98,6 +100,8 @@ class Table {
     gsl_spline *spline; 
   #endif  // GSL_
 };
+
+}  // namespace feasst
 
 #endif  // TABLE_H_
 

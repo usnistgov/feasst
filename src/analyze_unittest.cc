@@ -4,6 +4,8 @@
 #include "analyze_scatter.h"
 #include "ui_abbreviated.h"
 
+using namespace feasst;
+
 void testVec(vector<vector<vector<vector<long long> > > > vec, vector<vector<vector<vector<long long> > > > vec2) {
   EXPECT_EQ(vec.size(), vec2.size());
   for (int i = 0; i < int(vec.size()); ++i) {

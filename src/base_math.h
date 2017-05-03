@@ -11,6 +11,8 @@
 #include "./base_random.h"
 #include "./accumulator_vec.h"
 
+namespace feasst {
+
 class BaseMath : public BaseRandom {
  public:
   BaseMath();
@@ -46,6 +48,8 @@ class BaseMath : public BaseRandom {
 
  protected:
 };
+
+}  // namespace feasst
 
 #endif  // BASEMATH_H_
 

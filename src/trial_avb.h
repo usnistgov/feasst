@@ -10,6 +10,8 @@
 
 #include "./trial.h"
 
+namespace feasst {
+
 class TrialAVB : public Trial {
  public:
   TrialAVB(const double pBias, const double rAbove,
@@ -45,6 +47,8 @@ class TrialAVB : public Trial {
       shared_ptr<TrialAVB> t = make_shared<TrialAVB>(*this);
       t->reconstruct(space, pair, criteria); return t; }
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_AVB_H_
 

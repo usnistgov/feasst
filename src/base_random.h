@@ -10,6 +10,8 @@
 
 #include "./base.h"
 
+namespace feasst {
+
 class Random;
 
 class BaseRandom : public Base {
@@ -53,12 +55,17 @@ class BaseRandom : public Base {
   /// gassuian distribution random number from Frenkel and Smit
   double gaussRanNumFS();
  
+  /// generate a random hash
+  std::string randomHash(const int len = 5);
+
  protected:
   Random* ranNum_;      //!< pointer to random number generator
 
   /// set true if the class owns the pointer to the random number generator
   bool ranNumOwned_;
 };
+
+}  // namespace feasst
 
 #endif  // BASE_RANDOM_H_
 

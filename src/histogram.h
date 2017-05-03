@@ -1,8 +1,5 @@
 /**
- * \file
- *
- * \brief
- *
+ * This class is used to compute histograms.
  */
 
 #ifndef HISTOGRAM_H_
@@ -12,18 +9,18 @@
 #include <iterator>
 #include "./base.h"
 
+namespace feasst {
+
 class Histogram : public Base {
  public:
-  Histogram();
-  explicit Histogram(const double binWidth);
+  //HWH: when is this empty constructor used? DEPRECIATE
+  Histogram();  //!< Constructor
+  explicit Histogram(const double binWidth);  //!< Constructor
   Histogram(const double binWidth, const int iType, const int jType);
   explicit Histogram(const char* fileName);
   virtual ~Histogram() {}
   Histogram* clone() const;
   shared_ptr<Histogram> cloneShrPtr() const;
-
-  // defaults in constructor
-  void defaultConstruction();
 
   /// write restart file
   void writeRestart(const char* fileName);
@@ -37,8 +34,16 @@ class Histogram : public Base {
     return myRound((value - bin2m(0))/binWidth_);
   }
 
-  /// count number of independent attempts to compute a histogram for
-  //  normalization
+  /// Center a bin on zero. Otherwise, zero lies on a boundary between bins.
+  void centerZero();
+
+  /// initialize the bin width
+  void initBinWidth(double binWidth) { binWidth_ = binWidth; }
+
+  /// print to file 
+  void print(const char* fileName);
+
+  /// count number of independent attempts to compute a histogram
   void count() { ++nNorm_; }
 
   /// return sum of elements in histogram
@@ -54,32 +59,34 @@ class Histogram : public Base {
   /// return index of maximum element in histogram
   int maxElementBin() const;
 
-  /// center the histogram on zero
-  void centerZero();
-
-  /// initialize the bin width
-  void initBinWidth(double binWidth) { binWidth_ = binWidth; }
-
-  /// print to file 
-  void print(const char* fileName);
-
-  /// read-only access of private data-members
+  /// maximum value of the histogram
   double max() const { return max_; }
+  
+  /// minimum value of the histogram
   double min() const { return min_; }
+  
+  /// histogram data
   std::deque<double> hist() const { return histogram_; }
+  
+  /// size (or number of bins) of the histogram
   int size() const { return static_cast<int>(histogram_.size()); }
+  
+  /// width of bins in histogram is constant throughout the range
   double binWidth() const { return binWidth_; }
+ 
+  // HWH: rename to nCount for connection with count()
+  /// number of times histogram is computed. Used for normalization.
   long long nNorm() const { return nNorm_; }
+  
+  // HWH: when is this used? DEPRECIATE
   int iType() const { return iType_; }
   int jType() const { return jType_; }
 
  protected:
-  double binWidth_;           //!< bin width
-  std::deque<double> histogram_;    //!< double-ended queue
-  double max_;                      //!< maximum value in deque
-  double min_;                      //!< minimum value in deque
-
-  /// count number of times histogram is computed for normalization
+  double binWidth_;
+  std::deque<double> histogram_;
+  double max_;
+  double min_;
   long long nNorm_;
 
   /// histograms may be described by pairs of types
@@ -89,11 +96,16 @@ class Histogram : public Base {
   /// flag to center histogram on zero (default, boundary is zero)
   int centerZero_;
 
+  /// set the defaults in constructor
+  void defaultConstruction_();
+
   // error messaging
   void mout_(const char* messageType, std::ostream& message) {
     myOut(messageType, message, className_, verbose_);
   }
 };
+
+}  // namespace feasst
 
 #endif  // HISTOGRAM_H_
 

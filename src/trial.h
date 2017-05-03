@@ -13,6 +13,8 @@
 #include "./pair.h"
 #include "./criteria.h"
 
+namespace feasst {
+
 class Trial : public BaseAll {
  public:
   Trial();
@@ -141,6 +143,8 @@ class Trial : public BaseAll {
   virtual shared_ptr<Trial> cloneImpl(Space* space, Pair *pair,
                                       Criteria *criteria) const  = 0;
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_H_
 

@@ -18,6 +18,9 @@
 #include "./mc.h"
 #include "./mc_wltmmc.h"
 
+//using namespace feasst;
+namespace feasst {
+
 void transformTrial(MC *mc, const char* type, double maxMoveParam = -1) {
   string typeStr(type);
 
@@ -185,5 +188,7 @@ void swapTrial(MC *mc, const char* molTypeA, const char* molTypeB) {
 void swapTrial(shared_ptr<MC> mc, const char* molTypeA, const char* molTypeB) {
   swapTrial(mc.get(), molTypeA, molTypeB);
 }
+
+}  // namespace feasst
 
 #endif  // UI_ABBREVIATED_H_

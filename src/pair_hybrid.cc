@@ -7,6 +7,8 @@
 
 #include "pair_hybrid.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -286,3 +288,5 @@ void PairHybrid::allPartPhysical() {
   }
 }
   
+}  // namespace feasst
+

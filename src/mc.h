@@ -20,6 +20,8 @@
 #include "./accumulator.h"
 #include "./analyze.h"
 
+namespace feasst {
+
 class MC : public BaseAll {
  public:
   MC(Space *space, Pair *pair, Criteria *criteria);
@@ -74,7 +76,7 @@ class MC : public BaseAll {
   virtual void run();
 
   /// print functions
-  void printStat();     //!< print status of all trials to log
+  void printStat(const std::string hash="");     //!< print status of all trials to log
   double pePerMol();     //!< print potential energy per molecule
 
   /// this function is called after every trial attempt
@@ -246,6 +248,9 @@ class MC : public BaseAll {
   // analyzers
   vector<Analyze*> analyzeVec_;   //!< vector of pointers to analyzers
 
+  // unique hash for configurations
+  std::string hash_;
+  
   // error messaging
   void mout_(const char* messageType, std::ostream& message)
     {myOut(messageType, message, className_, verbose_);}
@@ -254,6 +259,8 @@ class MC : public BaseAll {
   virtual shared_ptr<MC> cloneImpl() const;
   virtual shared_ptr<MC> cloneShallowImpl() const;
 };
+
+}  // namespace feasst
 
 #endif  // MC_H_
 

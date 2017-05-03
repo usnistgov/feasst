@@ -9,6 +9,8 @@
 
 #include "./pair.h"
 
+namespace feasst {
+
 class PairHybrid : public Pair {
  public:
   PairHybrid(Space* space, const double rCut);
@@ -45,8 +47,9 @@ class PairHybrid : public Pair {
   void delPart(const vector<int> mpart);
 
   /// print configuraiton
-  int printxyz(const char* fileName, const int initFlag) {
-    return pairVec_[pairPrint_]->printxyz(fileName, initFlag);
+  int printxyz(const char* fileName, const int initFlag,
+    const std::string comment="") {
+    return pairVec_[pairPrint_]->printxyz(fileName, initFlag, comment);
   }
 
   /// select one pair
@@ -70,6 +73,8 @@ class PairHybrid : public Pair {
   /// list of selected pairs to compure. If null, compute all
   vector<int> selected_;
 };
+
+}  // namespace feasst
 
 #endif  // PAIR_HYBRID_H_
 

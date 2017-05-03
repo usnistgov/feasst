@@ -4,6 +4,8 @@
 #include "accumulator.h"
 #include "histogram.h"
 
+using namespace feasst;
+
 TEST(BaseRandom, uniformRanNum) {
   myRanInitByDate();
   BaseRandom ran;
@@ -52,3 +54,9 @@ TEST(BaseRandom, gaussRanNum) {
   hist.print("tmp/histhist");
 }
 
+TEST(BaseRandom, hash) {
+  BaseRandom ran;
+  std::string hash = ran.randomHash();
+  EXPECT_NE(hash, ran.randomHash());
+  EXPECT_NE(hash, ran.randomHash());
+}

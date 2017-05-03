@@ -10,6 +10,8 @@
 
 #include "./trial.h"
 
+namespace feasst {
+
 class TrialPressure : public Trial {
  public:
   explicit TrialPressure(const char* variable);
@@ -43,6 +45,8 @@ class TrialPressure : public Trial {
     return t;
   }
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_PRESSURE_H_
 

@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./trial_cluster.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 TrialCluster::TrialCluster(
   const char* transType)   //!< type of transformation
   : Trial(),
@@ -27,4 +20,6 @@ TrialCluster::TrialCluster(const char* fileName,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
 }
+
+}  // namespace feasst
 

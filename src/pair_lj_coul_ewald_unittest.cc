@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "pair_lj_coul_ewald.h"
 
+using namespace feasst;
+
 TEST(PairLJCoulEwald, pairLJCoulEwaldVSHybrid) {
   const int dim=3;
   Space s(dim,0);

@@ -11,6 +11,8 @@
 #include <memory>
 #include "./trial.h"
 
+namespace feasst {
+
 class Space;
 class Pair;
 class Criteria;
@@ -49,6 +51,8 @@ class TrialDelete : public Trial {
     t->reconstruct(space, pair, criteria); return t;
   }
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_DELETE_H_
 

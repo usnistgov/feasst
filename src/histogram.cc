@@ -6,27 +6,29 @@
 
 #include "./histogram.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
 Histogram::Histogram() {
-  defaultConstruction();
+  defaultConstruction_();
 }
 Histogram::Histogram(const double binWidth) : binWidth_(binWidth) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 Histogram::Histogram(const double binWidth,
                      const int iType,
                      const int jType)
   : binWidth_(binWidth) {
-  defaultConstruction();
+  defaultConstruction_();
   iType_ = iType;
   jType_ = jType;
 }
 Histogram::Histogram(const char* fileName) {
   ASSERT(myFileExists(fileName),
     "restart file(" << fileName << ") doesn't exist");
-  defaultConstruction();
+  defaultConstruction_();
   binWidth_ = fstod("binWidth", fileName);
   max_ = fstod("max", fileName);
   min_ = fstod("min", fileName);
@@ -57,7 +59,7 @@ Histogram::Histogram(const char* fileName) {
 /**
  * defaults in constructor
  */
-void Histogram::defaultConstruction() {
+void Histogram::defaultConstruction_() {
   verbose_ = 0;
   className_.assign("Histogram");
   min_ = 0;
@@ -200,4 +202,6 @@ void Histogram::print(const char* fileName) {
     outf << bin2m(bin) << " " << histogram_[bin]/sum() << endl;
   }
 }
+
+}  // namespace feasst
 

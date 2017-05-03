@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "pair_lj_multi.h"
 
+using namespace feasst;
+
 TEST(Pair, WCAanalytical) {
 
   // WCA for sig=1 and 0.85

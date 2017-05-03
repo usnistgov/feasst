@@ -1,6 +1,9 @@
 #include "pair_lj.h"
 #include "mc.h"
 #include "ui_abbreviated.h"
+
+using namespace feasst;
+
 int main() {
   Space space(3, 0);
   for (int dim = 0; dim < space.dimen(); ++dim) {

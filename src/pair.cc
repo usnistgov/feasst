@@ -14,6 +14,8 @@
 #include "./pair_tabular_1d.h"
 #include "./pair_hs.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -984,7 +986,8 @@ void Pair::update(const double de) {
  * Write positions to a file
  */
 int Pair::printxyz(const char* fileName,  //!< file with configuration
-  const int initFlag) {   //!< open if flag is 1, append if flag is 0
+  const int initFlag,  //!< open if flag is 1, append if flag is 0
+  const std::string comment) {
   // xyz file assumes 3D, but <3D is ok because you can simply define a plane
   // if floppy box, print in GRO format instead
   if (space_->floppyBox() == 1) return printGRO(fileName, initFlag);
@@ -1017,7 +1020,7 @@ int Pair::printxyz(const char* fileName,  //!< file with configuration
   for (int dim = 0; dim < space_->dimen(); ++dim) {
     fprintf(xyzFile, "%f ", space_->l()[dim]);
   }
-  fprintf(xyzFile, "%f\n", space_->xyTilt());
+  fprintf(xyzFile, "%f %s\n", space_->xyTilt(), comment.c_str());
   if (xyzFile != NULL) {
     for (int ipart = 0; ipart < natom; ++ipart) {
       if (eps_[type[ipart]] == 0) {
@@ -2059,7 +2062,7 @@ void Pair::initJSONData(const string fileName) {  //!< LAMMPS Data file name
   // open a JSON file
   std::ifstream file(fileName.c_str());
   ASSERT(file.good(), "cannot find json DATA file " << fileName);
-  json j;
+  nlohmann::json j;
   file >> j;
 
   initDataFiles_.push_back(fileName);
@@ -2138,6 +2141,8 @@ void Pair::initIntra(const int flag, vector<vector<int> > map) {
   initIntra(flag);
   space_->initIntra(map);
 }
+
+}  // namespace feasst
 
 
 

@@ -10,6 +10,8 @@
 
 #include "./mc.h"
 
+namespace feasst {
+
 class WLTMMC : public MC {
  public:
   WLTMMC(Space* space, Pair* pair, CriteriaWLTMMC* criteria);
@@ -137,6 +139,8 @@ class WLTMMC : public MC {
   // clone design pattern
   virtual shared_ptr<MC> cloneImpl() const;
 };
+
+}  // namespace feasst
 
 #endif  // WLTMMC_H_
 

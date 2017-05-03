@@ -2,6 +2,8 @@
 #include "pair_tabular_1d.h"
 #include "pair_lj_multi.h"
 
+using namespace feasst;
+
 TEST(PairTabular1D, printReadTable) {
   const double rCut = 1.08;
   Space ss(3, 0);

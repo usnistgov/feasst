@@ -1,10 +1,3 @@
-/**
- * \file
- *
- * \brief randomly selects monte carlo trials
- *
- */
-
 #include "./mc.h"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -12,9 +5,8 @@
 #include "./mins.h"
 #include "./ui_abbreviated.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 MC::MC(Space* space,
        Pair* pair,
        Criteria* criteria)
@@ -310,7 +302,7 @@ void MC::zeroStat() {
 /**
  * print statistics of all trials
  */
-void MC::printStat() {
+void MC::printStat(const std::string hash) {
   // print to log file
   if (!logFileName_.empty()) {
     std::ofstream log_(logFileName_.c_str(),
@@ -338,6 +330,7 @@ void MC::printStat() {
       for (unsigned int i = 0; i < trialVec_.size(); ++i) {
         log_ << trialVec_[i]->printStat(true);
       }
+      if (!hash.empty()) log_ << "hash "; 
       log_ << endl;
       if (printLogHeader_ == 2) {
         printLogHeader_ = -1;
@@ -367,7 +360,7 @@ void MC::printStat() {
     for (unsigned int k = 0; k < trialVec_.size(); ++k) {
       log_ << trialVec_[k]->printStat();
     }
-    log_ << endl;
+    log_ << hash << endl;
   }
 }
 
@@ -409,6 +402,11 @@ void MC::nMolSeek(
 
     // modify trials to improve efficiency
     // first, add an "add" or "delete" trial
+    // automatically select trial weight so new trial occurs >25%
+    const double wtTot = std::accumulate(trialWeight_.begin(),
+                                         trialWeight_.end(), 0.);
+    mc->weight = wtTot/4.;
+    if (fabs(wtTot) < DTOL) mc->weight = 1.;  // if no other trials
     if (nTarget > space_->nMol()) {
       if (molTypeStr.empty()) {
         addTrial(mc, space_->addMolListType().back().c_str());
@@ -520,14 +518,17 @@ void MC::afterAttemptBase() {
 
   // print stats
   if (nAttempts_ % nFreqLog_ == 0) {
-    printStat();
+    hash_ = randomHash();
+    printStat(hash_);
   }
 
   // print movie
   if (nAttempts_ % nFreqMovie_ == 0) {
     int flag = 0;
     if (nAttempts_ == nFreqMovie_) flag = 1;
-    if (!movieFileName_.empty()) pair_->printxyz(movieFileName_.c_str(), flag);
+    if (!movieFileName_.empty()) {
+      pair_->printxyz(movieFileName_.c_str(), flag, hash_);
+    }
   }
 
   // print xtc
@@ -928,5 +929,7 @@ void MC::tuneTrialParameters() {
     (*it)->tuneParameters();
   }
 }
+
+}  // namespace feasst
 
 

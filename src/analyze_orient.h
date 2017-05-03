@@ -10,6 +10,8 @@
 
 #include "./analyze.h"
 
+namespace feasst {
+
 class AnalyzeOrient : public Analyze {
  public:
   AnalyzeOrient(Space *space, Pair *pair);
@@ -49,6 +51,8 @@ class AnalyzeOrient : public Analyze {
     ; a->reconstruct(space, pair); return a;
   }
 };
+
+}  // namespace feasst
 
 #endif  // ANALYZEORIENT_H_
 

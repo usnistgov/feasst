@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./trial_pressure.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 TrialPressure::TrialPressure(
   const char* variable)    //!< type of transformation
   : Trial(),
@@ -27,4 +20,6 @@ TrialPressure::TrialPressure(const char* fileName,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
 }
+
+}  // namespace feasst
 

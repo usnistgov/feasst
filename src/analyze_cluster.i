@@ -3,6 +3,7 @@
 %{
 #include "analyze.h"
 #include "analyze_cluster.h"
+using namespace feasst;
 %}
 
 %pythonnondynamic;

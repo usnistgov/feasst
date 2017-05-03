@@ -2,6 +2,8 @@
 #include <limits.h>
 #include "random_nr3.h"
 
+using namespace feasst;
+
 TEST(Random, NR3ran) {
   RandomNR3 ran(17);
   EXPECT_EQ(269952321389814056u, ran.int64());

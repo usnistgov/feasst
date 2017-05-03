@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "pair_patch_kf.h"
 
+using namespace feasst;
+
 TEST(PairPatchKF, patchKFAnalytical1) {
   Space s(3,0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(10,dim);

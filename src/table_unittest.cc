@@ -2,6 +2,8 @@
 #include "table.h"
 #include "functions.h"
 
+using namespace feasst;
+
 TEST(Table, roundSquare) {
   Table vt("../unittest/table/roundSquare/vtrg0.04nt11nz11nd6");
   Table rm("../unittest/table/roundSquare/rmrg0.04nt11nz11nd6");

@@ -3,6 +3,7 @@
 %{
 #include "trial.h"
 #include "trial_xswap.h"
+using namespace feasst;
 %}
 
 %pythonnondynamic;

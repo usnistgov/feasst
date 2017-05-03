@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./analyze_scatter.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 AnalyzeScatter::AnalyzeScatter(Space *space, Pair *pair)
   : Analyze(space, pair) {
   defaultConstruction();
@@ -507,6 +500,8 @@ void AnalyzeScatter::print(CriteriaWLTMMC *c) {
 int AnalyzeScatter::nPartTypes() {
   return space_->nParticleTypes();
 }
+
+}  // namespace feasst
 
 
 

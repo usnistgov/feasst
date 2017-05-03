@@ -2,6 +2,8 @@
 #include "pair_tabular.h"
 #include "analyze_orient.h"
 
+using namespace feasst;
+
 TEST(AnalyzeOrient, orient) {
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(20,dim);

@@ -1,11 +1,12 @@
 %module criteria_wltmmc
 
-%ignore CriteriaWLTMMC::lnPIrwsatwrap;
-%ignore CriteriaWLTMMC::lnPIrwnmxwrap;
+%ignore feasst::CriteriaWLTMMC::lnPIrwsatwrap;
+%ignore feasst::CriteriaWLTMMC::lnPIrwnmxwrap;
 
 %{
 #include "criteria.h"
 #include "criteria_wltmmc.h"
+using namespace feasst;
 %}
 
 %pythonnondynamic;

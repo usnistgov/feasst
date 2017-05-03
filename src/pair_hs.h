@@ -9,6 +9,8 @@
 
 #include "./pair.h"
 
+namespace feasst {
+
 class PairHS : public Pair {
  public:
   PairHS(Space* space, const double rCut);
@@ -39,6 +41,8 @@ class PairHS : public Pair {
   double peSR_;
   double deSR_;
 };
+
+}  // namespace feasst
 
 #endif  // PAIR_HS_H_
 

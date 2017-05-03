@@ -9,6 +9,8 @@
 #include <iostream>
 #include <numeric>
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -25,4 +27,6 @@ Base::Base() : verbose_(0) {
 void Base::reconstruct() {
   reconstructDerived();
 }
+
+}  // namespace feasst
 

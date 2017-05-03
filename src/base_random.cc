@@ -7,6 +7,8 @@
 #include "./base_random.h"
 #include "./random_nr3.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -151,4 +153,18 @@ double BaseRandom::gaussRanNumFS() {
   }
   return v1*sqrt(-2.*log(r)/r);
 }
+
+/// generate a random hash
+std::string BaseRandom::randomHash(const int len) {
+  std::string str;
+  const std::string alphanum = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  for (int i = 0; i < len; ++i) {
+    std::stringstream ss;
+    ss << alphanum[uniformRanNum(0, alphanum.size()-1)];
+    str.append(ss.str());
+  }
+  return str;
+}
+
+}  // namespace feasst
 

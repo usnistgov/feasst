@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief tabular pair-wise interactions
- */
-
 #include "./pair_tabular_1d.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 PairTabular1D::PairTabular1D(Space* space)
   : Pair(space, 0.) {
   defaultConstruction();
@@ -244,3 +237,5 @@ void PairTabular1D::setInterpolator(const char* name) {
   }
 }
   
+}  // namespace feasst
+

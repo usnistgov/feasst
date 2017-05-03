@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "space.h"
 
+using namespace feasst;
+
 // Check init_config for a single atom
 
 TEST(Space, init_config){
@@ -1275,4 +1277,33 @@ int ntest = 1;
 //  }
 //}
 
+TEST(Space, replicate) {
+  Space space(3, 0);
+  space.lset(9);
+  space.addMolInit("../forcefield/data.cg3_180_43");
+  for (int i = 0; i < 100; ++i) {
+    space.addMol("../forcefield/data.cg3_180_43");
+  }
+
+  const double rClusterCut = 1.5;
+  //const double rClusterCut = 2.5;
+
+  space.addTypeForCluster(0);
+  space.updateClusters(rClusterCut);
+//  space.printClusterStat("hi");
+
+//  space.printxyz("hi", 1);
+  shared_ptr<Space> spaceBig = space.cloneShrPtr();
+  spaceBig->replicate();
+//  spaceBig->printxyz("hibig", 1);
+  EXPECT_EQ(pow(2, space.dimen())*space.natom(), spaceBig->natom()); 
+  
+  spaceBig->updateClusters(rClusterCut);
+//  spaceBig->printClusterStat("hibig");
+
+  // for small rClusterCut, check that the number of clusters increases
+  // by a factor of 2^8 for replication, which means that the clusters
+  // do not percolate
+  EXPECT_EQ(pow(2, space.dimen())*space.nClusters(), spaceBig->nClusters());
+}
 

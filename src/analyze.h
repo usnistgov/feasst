@@ -11,6 +11,8 @@
 #include "./pair.h"
 #include "./criteria_wltmmc.h"
 
+namespace feasst {
+
 class WLTMMC;
 
 class Analyze : public BaseAll {
@@ -72,5 +74,7 @@ class Analyze : public BaseAll {
   // clone design pattern
   virtual shared_ptr<Analyze> cloneImpl(Space* space, Pair* pair) const;
 };
+
+}  // namespace feasst
 
 #endif  // ANALYZE_H_

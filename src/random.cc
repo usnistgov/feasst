@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief trial moves for Monte Carlo
- */
-
 #include "random.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 Random::Random(const unsigned long long iseed
   ) : seed_(iseed) {
   verbose_ = 0;
@@ -27,6 +20,8 @@ void Random::seed(const unsigned long long iseed) {
   seed_ = iseed;
   //mout_("note", std::ostringstream().flush() << "time(seed): " << seed_);
 }
+
+}  // namespace feasst
 
 
 

@@ -3,6 +3,7 @@
 %{
 #include "criteria.h"
 #include "criteria_metropolis.h"
+using namespace feasst;
 %}
 
 %pythonnondynamic;

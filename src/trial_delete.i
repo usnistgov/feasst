@@ -3,6 +3,7 @@
 %{
 #include "trial.h"
 #include "trial_delete.h"
+using namespace feasst;
 %}
 
 %pythonnondynamic;

@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief data table with interpolation
- */
-
 #include "./table.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 Table::Table() {
   defaultConstruction();
 }
@@ -920,4 +913,6 @@ void Table::setInterpolator(const char* name) {
   }
 }
   
+}  // namespace feasst
+
   

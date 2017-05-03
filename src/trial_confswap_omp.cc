@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./trial_confswap_omp.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 TrialConfSwapOMP::TrialConfSwapOMP() : Trial() {
   defaultConstruction();
 }
@@ -154,5 +147,7 @@ int TrialConfSwapOMP::order2index(const double order) {
   }
   return index;
 }
+
+}  // namespace feasst
 
 

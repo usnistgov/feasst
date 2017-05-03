@@ -16,6 +16,8 @@
 #include "trial_avb.h"
 #include "trial_gca.h"
 
+using namespace feasst;
+
 int verbose_ = 0;
 void vout_(std::ostream& message) { if (verbose_ == 1) { std::string data = dynamic_cast<std::ostringstream&>(message).str(); std::cout << data; message.clear(); } };
 

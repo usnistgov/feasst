@@ -48,6 +48,10 @@ callgrind*
 #doxygen files
 html/*
 latex/*
+xml/*
+
+#sphinx files
+sphinx/*
 
 #compiled files
 *.o

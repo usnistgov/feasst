@@ -8,35 +8,27 @@
 #ifndef BASE_H_
 #define BASE_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <time.h>
-#include <vector>
-#include <string>
-#include <numeric>
-#include <algorithm>
-#include <iostream>
-#include <sstream>
 #include <fstream>
-#include <limits>
-#include <memory>
 #include <iomanip>
-#ifdef _OPENMP
-  #include <omp.h>
-#endif  // _OPENMP
 #include <getopt.h>
 #include "./functions.h"
+
+#ifdef _OPENMP
+#include <omp.h>
+#endif  // _OPENMP
+
 #ifdef MPI_H_
-  #include "./mpi.h"
+#include "./mpi.h"
 #endif  // MPI_H_
+
 #ifdef JSON_
-  #include "./json.hpp"
+#include "./json.hpp"
 #endif  // JSON_
+
 #ifdef HDF5_
-  #include "./H5Cpp.h"
+#include "./H5Cpp.h"
   #ifndef H5_NO_NAMESPACE
-    using namespace H5;
+  using namespace H5;
   #endif
 #endif  // HDF5_
 
@@ -49,12 +41,11 @@ using std::ofstream;
 using std::ostringstream;
 using std::stringstream;
 using std::string;
-#ifdef JSON_
-  using nlohmann::json;
-#endif  // JSON_
 
 #define STRINGIFY(FEASST_SRC_) #FEASST_SRC_
 #define TOSTRING(FEASST_SRC_) STRINGIFY(FEASST_SRC_)
+
+namespace feasst {
 
 class Base {
  public:
@@ -81,6 +72,8 @@ class Base {
     myOut(messageType, message, className_, verbose_);
   }
 };
+
+}  // namespace feasst
 
 #endif  // BASE_H_
 

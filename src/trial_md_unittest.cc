@@ -3,6 +3,8 @@
 #include "pair_lj_multi.h"
 #include "criteria_metropolis.h"
 
+using namespace feasst;
+
 TEST(TrialMD, velocity) {
   Space space(3, 0);
   space.addMolInit("../forcefield/data.atom");

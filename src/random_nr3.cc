@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief numerical recipes third edition random number generator
- */
-
 #include "random_nr3.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 RandomNR3::RandomNR3(const unsigned long long iseed
   ) : Random(iseed) {
   verbose_ = 0;
@@ -76,5 +69,7 @@ void RandomNR3::writeRestart(const char* fileName) {
   file << "# v " << v_ << endl;
   file << "# w " << w_ << endl;
 }
+
+}  // namespace feasst
 
 

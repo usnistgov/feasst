@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./analyze_cluster.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 AnalyzeCluster::AnalyzeCluster(Space *space, Pair *pair)
   : Analyze(space, pair) {
   defaultConstruction();
@@ -123,6 +116,33 @@ void AnalyzeCluster::update(const int iMacro) {
       coord/static_cast<double>(space_->nMol()) );
   }
   // cout << "updated " << iMacro << endl;
+
+  // test for percolation
+  ASSERT( (percFlag_ >= 0) && (percFlag_ <= 2),
+    "unrecognized percolation flag: " << percFlag_);
+  if (percFlag_ == 1) {
+    // replicate the system in each dimension
+    // and see if the number of clusters change by 2^dim
+    // if so, the clusters are not percolating
+    shared_ptr<Space> spaceBig = space_->cloneShrPtr();
+    spaceBig->replicate();
+    Pair* pairBig = pair_->clone(spaceBig.get());
+    pairBig->addPart();
+    pairBig->updateClusters(clusterCut_);
+    cout << "clus: " << space_->nClusters() << " " << spaceBig->nClusters() 
+         << endl;
+    if (pow(2, space_->dimen())*space_->nClusters() == spaceBig->nClusters()) {
+      percolation_.accumulate(iMacro, 0.);
+    } else {
+      percolation_.accumulate(iMacro, 1.);
+    }
+    delete pairBig;
+  } else if (percFlag_ == 2) {
+    ASSERT(pair_->className() == "PairTabular", "percolation implementation"
+      << "assumes that the contact list is in the compact form, as only"
+      << "implemented in PairTabular (current 4/28/2017)");
+    percolation_.accumulate(iMacro, space_->percolation());
+  }
 }
 
 /**
@@ -168,9 +188,11 @@ void AnalyzeCluster::print(CriteriaWLTMMC *c) {
           ss << "0 ";
         }
       }
-      ss << largestClusAccVec_.vec(bin).average() << " ";
-      ss << largestClusAccVec_.vec(bin).blockStdev() << " ";
-      ss << endl;
+      ss << largestClusAccVec_.vec(bin).average() << " "
+         << largestClusAccVec_.vec(bin).blockStdev() << " "
+         << percolation_.vec(bin).average() << " "
+         << percolation_.vec(bin).blockStdev() << " "
+         << endl;
     }
     if (fileName_.empty()) {
       cout << ss.str();
@@ -236,4 +258,5 @@ void AnalyzeCluster::print(CriteriaWLTMMC *c) {
   }
 }
 
+}  // namespace feasst
 

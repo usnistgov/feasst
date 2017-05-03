@@ -10,6 +10,8 @@
 #include <algorithm>
 #include "./space.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -204,6 +206,7 @@ void Space::defaultConstruction() {
   preMicellarAgg_ = 5;
   eulerFlag_ = 0;
   equiMolar_ = 0;
+  percolation_ = 0;
 }
 
 Space::~Space() {
@@ -282,8 +285,8 @@ int Space::init_config(const int natom  //!< number of atoms to initialize
  *  printing for xtc visualization if flag is 2
  */
 int Space::printxyz(const char* fileName,   //!< file with configuration
-           const int initFlag    //!< flag (see above)
-  ) {
+  const int initFlag,   //!< flag (see above)
+  const std::string comment) {
   stringstream ss;
   ss << fileName << ".xyz";
   FILE * xyzFile = NULL;
@@ -302,7 +305,7 @@ int Space::printxyz(const char* fileName,   //!< file with configuration
     ASSERT(0, "Unrecognized initFlag:" << initFlag);
   }
 
-  fprintf(xyzFile, "%d\n1\n", natom());
+  fprintf(xyzFile, "%d\n1 %s\n", natom(), comment.c_str());
   if (xyzFile != NULL) {
     for (int ipart = 0; ipart < natom(); ++ipart) {
       if (type_[ipart] == 0) {
@@ -3088,11 +3091,13 @@ void Space::updateClusterVars(const int nClusters) {
 
 /**
  * use contact and contactpbc to update cluster variables
+ * DEPRECIATED
  */
 void Space::contact2cluster(
   vector<vector<int> > contact,
   vector<vector<vector<double> > > contactpbc
   ) {
+  ASSERT(0, "xcluster issue. use contact2clusterAlt");
   prefilClusterVars();
   int nClusters = 0;
   for (int i = 0; i < natom(); ++i) {
@@ -3144,16 +3149,27 @@ void Space::contact2clusterAlt(
   ) {
   prefilClusterVars();
   int nClusters = 0;
+  percolation_ = 0;
   for (int i = 0; i < natom(); ++i) {
     if (cluster_[i] == -natom()) {
       cluster_[i] = nClusters;
       clusterMol_[mol_[i]] = nClusters;
-      floodFillContactAlt(i, nClusters, &contact, &contactpbc);
+      vector<vector<int> > image(natom(), vector<int>(dimen_, 0));  
+      floodFillContactAlt(i, nClusters, &contact, &contactpbc, &image);
       ++nClusters;
     }
   }
 
   updateClusterVars(nClusters);
+
+//  // print xcluster
+//  cout << "xclus" << endl;
+//  for (int iatom = 0; iatom < natom(); ++iatom) {
+//    for (int dim = 0; dim < dimen_; ++dim) {
+//      cout << xcluster_[dimen_*iatom+dim] << " ";
+//    }
+//    cout << endl;
+//  }
 }
 
 /**
@@ -3163,24 +3179,73 @@ void Space::contact2clusterAlt(
 void Space::floodFillContactAlt(const int clusterNode,
   const int clusterID,
   vector<vector<int> > *contactPtr,
-  vector<vector<vector<double> > > *contactpbcPtr) {
+  vector<vector<vector<double> > > *contactpbcPtr,
+  vector<vector<int> > *image) {
   vector<vector<int> >& contact = *contactPtr;
   vector<vector<vector<double> > >& contactpbc = *contactpbcPtr;
   const int iMol = mol_[clusterNode];
 
   for (int i = 0; i < natom(); ++i) {
-    if (cluster_[i] == -natom()) {
+    // if cluster==-natom, no cluster found yet, so check for contact
+    // or, if == clusterID (already found), check image for percolation
+    if ( (cluster_[i] == clusterID) || (cluster_[i] == -natom()) ) {
       const int jMol = mol_[i];
       int index = -1;
       if (findInList(jMol, contact[iMol], index)) {
-        cluster_[i] = clusterID;
-        clusterMol_[jMol] = clusterID;
-        for (int ipart = mol2part_[jMol]; ipart < mol2part_[jMol+1]; ++ipart) {
+        // compute the current image
+        vector<int> currentImage(dimen_);
+//        cout << "dpbc ";
+//        int jindex = -1;
+//        ASSERT(findInList(iMol, contact[jMol], jindex), "iMol/jMol reciprocity");
+        for (int dim = 0; dim < dimen_; ++dim) {
+          const double dpbc = contactpbc[iMol][index][dim];
+          if (fabs(dpbc) < DTOL) {
+            currentImage[dim] = (*image)[clusterNode][dim];
+          } else if (dpbc > 0) {
+            currentImage[dim] = (*image)[clusterNode][dim] - 1;
+          } else if (dpbc < 0) {
+            currentImage[dim] = (*image)[clusterNode][dim] + 1;
+          }
+//          cout << dpbc << " ";
+        }
+//        cout << endl; 
+//        cout << "Current image: " << vec2str(currentImage) << endl;
+
+        // if in contact but not listed, add (i,jMol) to cluster
+        if (cluster_[i] == -natom()) {
+          
+          // cout << "pbc " << vec2str(contactpbc[iMol][index]) << endl;
+          // cout << "Current part: i " << i << " mol " << jMol << " node " << clusterNode << " mol " << iMol << " x " << x(i, 2) << endl;
+          cluster_[i] = clusterID;
+          clusterMol_[jMol] = clusterID;
+          for (int ipart = mol2part_[jMol]; ipart < mol2part_[jMol+1]; ++ipart) {
+            for (int dim = 0; dim < dimen_; ++dim) {
+              xcluster_[dimen_*ipart+dim] += currentImage[dim]*l_[dim];
+              //xcluster_[dimen_*ipart+dim] -= contactpbc[iMol][index][dim];
+            }
+          }
+          
+          // store the current image
           for (int dim = 0; dim < dimen_; ++dim) {
-            xcluster_[dimen_*ipart+dim] -= contactpbc[iMol][index][dim];
+            (*image)[i][dim] = currentImage[dim];
+          }
+
+          floodFillContactAlt(i, clusterID, contactPtr, contactpbcPtr, image);
+        
+        // if contact already found previously, check image for percolation
+        } else {
+//          cout << "already found" << endl;
+//          cout << "Current part: i " << i << " mol " << jMol << " node " << clusterNode << " mol " << iMol << " x " << x(i, 2) << endl;
+//          cout << "Previous image: " << vec2str((*image)[i]) << endl;
+          for (int dim = 0; dim < dimen_; ++dim) {
+            if ((*image)[i][dim] != currentImage[dim]) {
+//              cout << "**" << endl << "PERCOLATION found!" << endl;
+              //cout << "node " << clusterNode << endl;
+              //cout << "i " << i << endl;
+              percolation_ = 1;
+            }
           }
         }
-        floodFillContactAlt(i, clusterID, contactPtr, contactpbcPtr);
       }
     }
   }
@@ -4520,7 +4585,7 @@ void Space::initJSONData(
   // open a JSON file
   std::ifstream file(fileName.c_str());
   ASSERT(file.good(), "cannot find json DATA file " << fileName);
-  json j;
+  nlohmann::json j;
   file >> j;
 
   ASSERT(j["dimen"] == dimen_, "dimensions of space class(" << dimen_ <<
@@ -4635,5 +4700,56 @@ void Space::initIntra(const vector<vector<int> >& map) {
   }
 }
 
+void Space::replicate(const int nx, const int ny, const int nz) {
+  // catch implementation caveat
+  ASSERT(dimen() == 3, "replicate assumes 3D");
+  ASSERT( (xyTilt_ == 0) && (xzTilt_ == 0) && (yzTilt_ == 0),
+    "tilt is not implemented in replication");
+  
+  // store original variables
+  int ipartBig = natom(), iMolBig = nMol();
+  const int nMolOrig = nMol();
+  const vector<double> boxOrig = l_;
+
+  for (int dim = 0; dim < dimen(); ++dim) {
+    lset(2*l_[dim], dim);
+  }
+  for (int ix = 0; ix <= nx; ++ix) {
+  for (int iy = 0; iy <= ny; ++iy) {
+  for (int iz = 0; iz <= nz; ++iz) {
+    if ( (ix != 0) || (iy != 0) || (iz != 0) ){
+      for (int iMol = 0; iMol < nMolOrig; ++iMol) {
+        vector<int> lshift;
+        lshift.push_back(ix);
+        lshift.push_back(iy);
+        lshift.push_back(iz);
+        addMol(moltype_[iMol].c_str());
+        for (int ipart = mol2part_[iMol]; ipart < mol2part_[iMol+1]; ++ipart) {
+          for (int dim = 0; dim < dimen(); ++dim) {
+            // positions
+            xset(x(ipart, dim) + lshift[dim]*boxOrig[dim], ipartBig, dim);
+          
+            // reference positions
+            if (!sphereSymMol_) {
+              const int iAtom = ipart - mol2part_[iMol];
+              xMolRef_[iMolBig][iAtom][dim] = xMolRef_[iMol][iAtom][dim];
+            }
+          }
+          ++ipartBig;
+        }
+      
+        // orientations
+        if (!sphereSymMol_) {
+          for (int qd = 0; qd < qdim_; ++qd) {
+            qMolAlt(iMolBig, qd, qMol(iMol, qd));
+          }
+        }
+        ++iMolBig;
+      }
+    }
+  }}}
+}
+
+}  // namespace feasst
 
 

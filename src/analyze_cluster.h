@@ -10,6 +10,8 @@
 
 #include "./analyze.h"
 
+namespace feasst {
+
 class AnalyzeCluster : public Analyze {
  public:
   AnalyzeCluster(Space *space, Pair *pair);
@@ -41,16 +43,32 @@ class AnalyzeCluster : public Analyze {
 
   double zbin;                   // histogram bin size
 
+  /**
+   * Compute percolation probability.
+   * A percolating cluster is one in which a particle in the cluster is
+   * connected to its own periodic image.
+   */
+  void initPercolation(
+    const int percFlag = 0    
+    /**< if "0", no computation. 
+         if "1", use expanding box (slow).
+         if "2", use contact map. */
+    ) { percFlag_ = percFlag; }
+
   /// read-only access
   AccumulatorVec nClusterAccVec() const { return nClusterAccVec_; }
   AccumulatorVec coordNumAccVec() const { return coordNumAccVec_; }
+  AccumulatorVec percolation() const { return percolation_; }
 
  protected:
   double clusterCut_;                 // cluster cut-off definition
   AccumulatorVec nClusterAccVec_;     // number of clusters in system
   AccumulatorVec coordNumAccVec_;     // average coordination number
   AccumulatorVec largestClusAccVec_;  // average largest cluster
+  AccumulatorVec percolation_;        // 0 or 1 if system spanning
   
+  int percFlag_;   //!< type of percolation computation
+
   // contact orientation
   vector<Histogram> zOrient_;     // histogram of z-axis orientation
 
@@ -62,6 +80,8 @@ class AnalyzeCluster : public Analyze {
     a->reconstruct(space, pair); return a;
   }
 };
+
+}  // namespace feasst
 
 #endif  // ANALYZECLUSTER_H_
 

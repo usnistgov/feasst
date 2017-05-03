@@ -8,6 +8,8 @@
 
 #include "./pair_lj.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -438,4 +440,6 @@ void PairLJ::linearShift(const int flag    //!< initialization flag
     ASSERT(0, "Unrecognized linearShift flag(" << flag << ").");
   }
 }
+
+}  // namespace feasst
 

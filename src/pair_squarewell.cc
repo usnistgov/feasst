@@ -8,6 +8,8 @@
 
 #include "./pair_squarewell.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -379,4 +381,6 @@ double PairSquareWell::allPartEnerForceCell() {
   }
   return peSRone_;
 }
+
+}  // namespace feasst
 

@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./trial_xswap.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 TrialXSwap::TrialXSwap() : Trial() {
   defaultConstruction();
 }
@@ -105,4 +98,6 @@ void TrialXSwap::attempt1() {
     trialReject();
   }
 }
+
+}  // namespace feasst
 

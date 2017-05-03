@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 
+namespace feasst {
+
 class TrialGrow : public Trial {
  public:
   TrialGrow(const char* molType, const int nStages);
@@ -54,6 +56,8 @@ class TrialGrow : public Trial {
     return t;
   }
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_GROW_H_
 

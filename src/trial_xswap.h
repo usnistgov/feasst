@@ -10,6 +10,8 @@
 
 #include "./trial.h"
 
+namespace feasst {
+
 class TrialXSwap : public Trial {
  public:
   TrialXSwap();
@@ -40,6 +42,8 @@ class TrialXSwap : public Trial {
     return t;
   }
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_XSWAP_H_
 

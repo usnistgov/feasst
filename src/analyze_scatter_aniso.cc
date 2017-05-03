@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./analyze_scatter_aniso.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 AnalyzeScatterAniso::AnalyzeScatterAniso(Space *space, Pair *pair)
   : Analyze(space, pair) {
 }
@@ -17,4 +10,6 @@ AnalyzeScatterAniso::AnalyzeScatterAniso(Space *space,
   const char* fileName)
   : Analyze(space, pair, fileName) {
 }
+
+}  // namespace feasst
 

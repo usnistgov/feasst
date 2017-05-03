@@ -6,6 +6,8 @@
 
 #include "./accumulator_vec.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -67,6 +69,8 @@ Accumulator AccumulatorVec::average() const {
   }
   return Acc;
 }
+
+}  // namespace feasst
 
 
 

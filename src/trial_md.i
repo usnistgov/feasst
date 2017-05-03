@@ -3,6 +3,7 @@
 %{
 #include "trial.h"
 #include "trial_md.h"
+using namespace feasst;
 %}
 
 %pythonnondynamic;

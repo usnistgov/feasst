@@ -7,6 +7,8 @@
 #include "./criteria_metropolis.h"
 #include "./functions.h"
 
+namespace feasst {
+
 /**
  * Constructor for pair class requires the following
  */
@@ -51,5 +53,7 @@ shared_ptr<Criteria> CriteriaMetropolis::cloneImpl_() const {
   c->reconstruct();
   return c;
 }
+
+}  // namespace feasst
 
 

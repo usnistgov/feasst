@@ -1,18 +1,11 @@
-/**
- * \file
- *
- * \brief trial moves for Monte Carlo
- */
-
 #include "./trial_delete.h"
 #include <stdio.h>
 #include <iostream>
 #include <numeric>
 #include "./functions.h"
 
-/**
- * Constructor for pair class requires the following
- */
+namespace feasst {
+
 TrialDelete::TrialDelete() : Trial() {
   defaultConstruction();
   molType_.assign("");
@@ -199,6 +192,8 @@ void TrialDelete::attempt1() {
     trialReject();
   }
 }
+
+}  // namespace feasst
 
 
 

@@ -3,6 +3,7 @@
 %{
 #include "trial.h"
 #include "trial_transform.h"
+using namespace feasst;
 %}
 
 %pythonnondynamic;

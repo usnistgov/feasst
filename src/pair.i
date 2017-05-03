@@ -14,6 +14,7 @@
 #include "pair_hs.h"
 #include "pair_tabular.h"
 #include "pair_tabular_1d.h"
+using namespace feasst;
 %}
 
 %pythonnondynamic;

@@ -56,17 +56,18 @@ In C++, a simple NVT Lennard Jones (LJ) simulation is performed as follows:
 #include "pair_lj.h"
 #include "mc.h"
 #include "ui_abbreviated.h"
+
 int main() {
-  Space space(3, 0);
+  feasst::Space space(3, 0);
   for (int dim = 0; dim < space.dimen(); ++dim) {
     space.lset(8, dim); // 8 box length
   }
   space.addMolInit("../../forcefield/data.lj");
-  PairLJ pair(&space, 3);   // potential truncation at 3
+  feasst::PairLJ pair(&space, 3);   // potential truncation at 3
   pair.initEnergy();
-  CriteriaMetropolis criteria(1.2, 1.);  // 1/kT = 1.2
-  MC mc(&space, &pair, &criteria);
-  transformTrial(&mc, "translate", 0.1);
+  feasst::CriteriaMetropolis criteria(1.2, 1.);  // 1/kT = 1.2
+  feasst::MC mc(&space, &pair, &criteria);
+  feasst::transformTrial(&mc, "translate", 0.1);
   mc.nMolSeek(50, "../../forcefield/data.lj");  // add 50 particles
   mc.initLog("log", 1e4);
   mc.initMovie("movie", 1e4);
@@ -171,14 +172,25 @@ For example, to use the XDRFILE library for xtc files:
 ```cmake
 option(USE_XDRFILE "Use xdrfile library" OFF)
 ```
+Or
+```bash
+cmake -DUSE_XDRFILE=ON .
+```
 
 Or to give CMake the path to your xdrfile library:
 ```cmake
 set(XDRFILE_DIR "/path/to/xdrfile")
 ```
+Or
+```bash
+cmake -DXDRFILE_DIR=/path/to/xdrfile .
+```
 
 Or, for example, if you want to use the python interface, then use the
-following CMake command instead: `cmake -DUSE_SWIG=ON .`.
+following CMake command instead: 
+```bash
+cmake -DUSE_SWIG=ON .
+```
 
 If you are changing the default build options in `CMakeLists.txt`,
 make sure to start compilation with a fresh `build` directory before CMake is
@@ -292,7 +304,7 @@ Required for python installation.
 cd swig-2.0.12; ./configure --prefix=/path/to/install/dir; make
 ```
 
-### Cmake 2.8.12.2
+### CMake 2.8.12.2
 Download from https://cmake.org/files/v2.8/
 `tar -xf cmake-2.8.12-rc2-Linux-i386.tar.gz`
 
@@ -475,7 +487,7 @@ two lines for single processor simulations:
 
 ```c++
 // read checkpoint files
-WLTMMC mc("tmp/rst");
+feasst::WLTMMC mc("tmp/rst");
 
 // run simulation
 mc.runNumTrials(npr);
@@ -504,7 +516,7 @@ In this file, the two lines are as follows:
 
 ```c++
 // read restart file
-WLTMMC mc("tmp/rst");
+feasst::WLTMMC mc("tmp/rst");
 
 // run sweeps
 mc.runNumSweepsRestart(100, "tmp/rst");

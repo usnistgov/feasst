@@ -11,6 +11,8 @@
 #include "./pair.h"
 #include "./table.h"
 
+namespace feasst {
+
 class PairTabular1D : public Pair {
  public:
   explicit PairTabular1D(Space* space);
@@ -71,6 +73,8 @@ class PairTabular1D : public Pair {
 
   double tol_;      //!< table tolerance
 };
+
+}  // namespace feasst
 
 #endif  // PAIR_TABULAR_1D_H_
 

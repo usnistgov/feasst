@@ -24,6 +24,8 @@
   }
 #endif  // XDRFILE_H_
 
+namespace feasst {
+
 class Space : public BaseAll {
  public:
   Space(int dimen, int id);
@@ -45,7 +47,8 @@ class Space : public BaseAll {
   int init_config(const int natom);
 
   /// write configuration
-  int printxyz(const char* fileName, const int initFlag);
+  int printxyz(const char* fileName, const int initFlag,
+    const std::string comment="");
 
   /// read particle positions and number of particles from XYZ file format
   void readxyz(const char* fileName);
@@ -264,7 +267,8 @@ class Space : public BaseAll {
                         vector<vector<vector<double> > > *contactpbcPtr);
   void floodFillContactAlt(const int clusterNode, const int clusterID,
                            vector<vector<int> > *contactPtr,
-                           vector<vector<vector<double> > > *contactpbcPtr);
+                           vector<vector<vector<double> > > *contactpbcPtr,
+                           vector<vector<int> > *image);
 
   /// update clusters of entire system
   void updateClusters(const double rCut);
@@ -426,6 +430,13 @@ class Space : public BaseAll {
   /// given ipart, compute euler angle
   vector<double> ipart2euler(const int ipart);
 
+  /// replicate the system via peroidic boundary conditions
+  void replicate(
+    const int nx = 1,  //!< number of times to replicate in x dimension
+    const int ny = 1,  //!< number of times to replicate in y dimension
+    const int nz = 1   //!< number of times to replicate in z dimension
+    );
+  
   /// full access to private data-members
   vector<vector<vector<int> > > intraMap() { return intraMap_; }
   void initIntra(const vector<vector<int> >& map);
@@ -520,7 +531,8 @@ class Space : public BaseAll {
   double yzTilt() const { return yzTilt_; }
   int floppyBox() const { return floppyBox_; }
   int equiMolar() const { return equiMolar_; }
-
+  int percolation() const { return percolation_; }
+  
  private:
   int dimen_;     //!< dimesion of real space
   int id_;   //!< ID of space class
@@ -573,6 +585,8 @@ class Space : public BaseAll {
   vector<double> clusterRelShapeAniso_;  //!< relative shape anisotropy
   vector<double> clusterRg_;             //!< radius of gyration of each cluster
   int preMicellarAgg_;   //!< cluster size as cut-off for premicellar aggregates
+  int percolation_;      //!< flag if percolation was detected
+  
   bool fastDel_;         //!< use fast method of deleting particles
   int fastDelMol_;       //!< molecule last deleted by fast method
 
@@ -650,5 +664,7 @@ class Space : public BaseAll {
   }
 
 };
+
+}  // namespace feasst
 
 #endif  // SRC_SPACE_H_

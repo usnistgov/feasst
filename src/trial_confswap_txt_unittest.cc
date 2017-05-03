@@ -12,6 +12,8 @@
 #include "trial_transform.h"
 #include "trial_confswap_txt.h"
 
+using namespace feasst;
+
 TEST(TrialConfSwapTXT, confswap) {
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(12,dim);

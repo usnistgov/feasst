@@ -10,6 +10,8 @@
 
 #include "./accumulator.h"
 
+namespace feasst {
+
 class AccumulatorVec : public Accumulator {
  public:
   AccumulatorVec();
@@ -44,6 +46,8 @@ class AccumulatorVec : public Accumulator {
     myOut(messageType, message, className_, verbose_);
   }
 };
+
+}  // namespace feasst
 
 #endif  // ACCUMULATORVEC_H_
 

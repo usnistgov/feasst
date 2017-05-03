@@ -8,6 +8,8 @@
 
 #include "./pair_lj_multi.h"
 
+namespace feasst {
+
 /**
  * Constructor for pair_lj class requires the following
  */
@@ -831,3 +833,6 @@ double PairLJMulti::computeLRC(const int ipart) {
   }
   return enlrc;
 }
+
+}  // namespace feasst
+

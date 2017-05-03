@@ -1,15 +1,17 @@
 /**
  * \file
  *
- * \brief tabular pair-wise interactions
+ * \brief This file is a stub
  *
- *  This is only for anistropic tabular potentials
+ * This file is a stub or placeholder for an experimental class that is not part of this release.
  */
 #ifndef PAIR_TABULAR_H_
 #define PAIR_TABULAR_H_
 
 #include "./pair.h"
 #include "./table.h"
+
+namespace feasst {
 
 class PairTabular : public Pair {
  public:
@@ -79,6 +81,8 @@ class PairTabular : public Pair {
   vector<int> tabID_;             //!< table index to site type
   double tol_;      //!< table tolerance
 };
+
+}  // namespace feasst
 
 #endif  // PAIR_TABULAR_H_
 

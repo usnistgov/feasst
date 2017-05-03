@@ -1,15 +1,8 @@
-/**
- * \file
- *
- * \brief tabular pair-wise interactions
- */
-
 #include "pair_tabular.h"
 #include <string>
 
-/**
- * Constructor
- */
+namespace feasst {
+
 PairTabular::PairTabular(Space* space) : Pair(space, 0.) {
 }
 PairTabular::PairTabular(Space* space,
@@ -52,6 +45,8 @@ void PairTabular::initHard(const int iType, const int jType,
     hardFlag_[jType][iType] = 1;
   }
 }
+
+}  // namespace feasst
 
 
 

@@ -9,6 +9,8 @@
 #include "./criteria_wltmmc.h"
 #include "./space.h"
 
+namespace feasst {
+
 /**
  * Constructor
  */
@@ -116,3 +118,6 @@ double Criteria::activ() const {
   //return activ_;
   return activVec[0];
 }
+
+}  // namespace feasst
+

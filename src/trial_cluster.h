@@ -10,6 +10,8 @@
 
 #include "./trial.h"
 
+namespace feasst {
+
 class TrialCluster : public Trial {
  public:
   explicit TrialCluster(const char* transType);
@@ -48,6 +50,8 @@ class TrialCluster : public Trial {
       return t;
   }
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_CLUSTER_H_
 

@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./analyze.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 Analyze::Analyze(
   Space *space,
   Pair *pair)
@@ -73,3 +66,6 @@ shared_ptr<Analyze> Analyze::cloneImpl(Space* space, Pair* pair) const {
   shared_ptr<Analyze> empty;
   return empty;
 }
+
+}  // namespace feasst
+

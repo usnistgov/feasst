@@ -10,6 +10,8 @@
 
 #include "./analyze.h"
 
+namespace feasst {
+
 class AnalyzeScatter : public Analyze {
  public:
   AnalyzeScatter(Space *space, Pair *pair);
@@ -85,6 +87,8 @@ class AnalyzeScatter : public Analyze {
     a->reconstruct(space, pair); return a;
   }
 };
+
+}  // namespace feasst
 
 #endif  // ANALYZE_SCATTER_H_
 

@@ -581,6 +581,11 @@ bool myFileExists(const char* fileName    //!< file name in c_str
   return false;
 }
 
+bool myFileExists(std::ifstream& file) {
+  if (file.peek() == std::ifstream::traits_type::eof()) return false;
+  return true;
+}
+
 /**
  * function to create back-up file
  */

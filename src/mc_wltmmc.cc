@@ -1,15 +1,7 @@
-/**
- * \file
- *
- * \brief randomly selects monte carlo trials
- *
- */
-
 #include "./mc_wltmmc.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 WLTMMC::WLTMMC(Space* space,
   Pair* pair,
   CriteriaWLTMMC* criteria
@@ -789,5 +781,7 @@ void WLTMMC::initOverlaps(const int t,    //!< thread
   }
   #endif  // MPI_H_ || _OPENMP
 }
+
+}  // namespace feasst
 
 

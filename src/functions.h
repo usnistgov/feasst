@@ -170,6 +170,7 @@ double myVecAv(const vector<T> x) {return std::accumulate(x.begin(), x.end(), 0.
 /// function to open file to write and create back-up
 void fileBackUp(const char* fileName);
 bool myFileExists(const char* fileName);
+bool myFileExists(std::ifstream& file);
 
 /// function to skip all lines beginning with character in file
 void skipCharsInFile(const char comment, std::ifstream &file);
@@ -635,5 +636,16 @@ vector<vector<T> > outerProd(const vector<T> &u, const vector<T> &v) {
   }
   return res;
 }
+
+/// outer product of two vectors returns matrix
+template<class T>
+std::string vec2str(const vector<T> &vec) {
+  std::stringstream ss;
+  for (unsigned int i = 0; i < vec.size(); ++i) {
+    ss << vec[i] << " ";
+  }
+  return ss.str();
+}
+
 
 #endif  //FUNCTIONS_H_

@@ -4,6 +4,8 @@
 #include "criteria_metropolis.h"
 #include "criteria_wltmmc.h"
 
+using namespace feasst;
+
 TEST(Criteria, WLTMMC) {
   const double beta = 1e-15, activ = 1;
   const int nbin = 100;

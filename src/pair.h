@@ -25,6 +25,8 @@
 #include "./space.h"
 #include "./base_all.h"
 
+namespace feasst {
+
 class Pair : public BaseAll {
  public:
   Pair(Space* space, const double rCut);
@@ -93,7 +95,8 @@ class Pair : public BaseAll {
   /// total potential energy of system
   virtual double peTot() { return peTot_; }
   virtual double vrTot();         //!< total virial energy
-  virtual int printxyz(const char* fileName, const int initFlag);
+  virtual int printxyz(const char* fileName, const int initFlag,
+    const std::string comment="");
   virtual int printGRO(const char* fileName, const int initFlag);
 
   /// delete one particle
@@ -391,6 +394,8 @@ class Pair : public BaseAll {
   void mout_(const char* messageType, std::ostream& message) {
     myOut(messageType, message, className_, verbose_);}
 };
+
+}  // namespace feasst
 
 #endif  // PAIR_H_
 

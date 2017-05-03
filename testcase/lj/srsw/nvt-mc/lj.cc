@@ -2,6 +2,8 @@
 #include "mc.h"
 #include "ui_abbreviated.h"
 
+using namespace feasst;
+
 class AnalyzeMonkeyPatch : public Analyze {
  public:
   AnalyzeMonkeyPatch(Space *space, Pair *pair) : Analyze(space, pair) {}
@@ -34,6 +36,8 @@ int main() {
   mc.nMolSeek(nMol, molNameSS.str().c_str());
   mc.initLog("log", 1e4);
   mc.initMovie("movie", 1e4);
+  mc.initRestart("tmp/rst", 1e4);
+  mc.setNFreqTune(1e4);
   AnalyzeMonkeyPatch an(&space, &pair);
   an.initFreq(1);
   an.initPrintFreq(1e5);

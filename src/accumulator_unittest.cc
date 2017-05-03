@@ -2,6 +2,8 @@
 #include <limits.h>
 #include "accumulator_vec.h"
 
+using namespace feasst;
+
 TEST(Accumulator, constructor) {
   Accumulator a;
   a.setBlock(5);

@@ -5,6 +5,7 @@
 
 TEST(Criteria, Metropolis) {
   const double beta = 1e-15, activ = 1;
-  CriteriaMetropolis c(beta, activ);
+  feasst::CriteriaMetropolis c(beta, activ);
+  //feasst::CriteriaMetropolis c(beta, activ);
   EXPECT_EQ(1, c.accept(0., 0., "move", 0));
 }

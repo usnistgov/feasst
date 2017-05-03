@@ -10,6 +10,8 @@
 
 #include "./trial.h"
 
+namespace feasst {
+
 class TrialConfSwapOMP : public Trial {
  public:
   TrialConfSwapOMP();
@@ -72,6 +74,8 @@ class TrialConfSwapOMP : public Trial {
     shared_ptr<TrialConfSwapOMP> t = make_shared<TrialConfSwapOMP>(*this);
     t->reconstruct(space, pair, criteria); return t; }
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_CONFSWAP_OMP_H_
 

@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./trial_gca.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 TrialGCA::TrialGCA() : Trial() {
 }
 TrialGCA::TrialGCA(Space *space,
@@ -24,5 +17,7 @@ TrialGCA::TrialGCA(const char* fileName,
   maxMoveParam = fstod("maxMoveParam", fileName);
   targAcceptPer = fstod("targAcceptPer", fileName);
 }
+
+}  // namespace feasst
 
 

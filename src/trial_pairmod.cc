@@ -1,14 +1,7 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./trial_pairmod.h"
 
-/**
- * Constructor
- */
+namespace feasst {
+
 TrialPairMod::TrialPairMod() : Trial() {
 }
 TrialPairMod::TrialPairMod(Space *space,
@@ -22,4 +15,6 @@ TrialPairMod::TrialPairMod(const char* fileName,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
 }
+
+}  // namespace feasst
 

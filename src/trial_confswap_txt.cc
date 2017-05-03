@@ -1,17 +1,10 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./trial_confswap_txt.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
-/**
- * Constructor
- */
+namespace feasst {
+
 TrialConfSwapTXT::TrialConfSwapTXT() : Trial() {
   defaultConstruction();
 }
@@ -157,4 +150,6 @@ void TrialConfSwapTXT::addProcOverlap(
   dbeta_.push_back(dbeta);
   dlnz_.push_back(dlnz);
 }
+
+}  // namespace feasst
 

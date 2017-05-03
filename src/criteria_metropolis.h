@@ -10,6 +10,8 @@
 
 #include "./criteria.h"
 
+namespace feasst {
+
 class CriteriaMetropolis : public Criteria {
  public:
   CriteriaMetropolis(const double beta, const double activ);
@@ -33,6 +35,8 @@ class CriteriaMetropolis : public Criteria {
   // clone design pattern
   virtual shared_ptr<Criteria> cloneImpl_() const;
 };
+
+}  // namespace feasst
 
 #endif  // CRITERIAMETROPOLIS_H_
 

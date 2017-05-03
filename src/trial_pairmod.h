@@ -10,6 +10,8 @@
 
 #include "./trial.h"
 
+namespace feasst {
+
 class TrialPairMod : public Trial {
  public:
   TrialPairMod();
@@ -49,6 +51,8 @@ class TrialPairMod : public Trial {
     return t;
   }
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_PAIRMOD_H_
 

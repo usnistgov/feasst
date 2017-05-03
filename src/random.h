@@ -10,6 +10,8 @@
 
 #include "base.h"
 
+namespace feasst {
+
 class Random : public Base {
  public:
   explicit Random(const unsigned long long iseed);
@@ -40,6 +42,8 @@ class Random : public Base {
     myOut(messageType, message, className_, verbose_);
   }
 };
+
+}  // namespace feasst
 
 #endif  // RANDOM_H_
 

@@ -10,6 +10,8 @@
 
 #include "./trial.h"
 
+namespace feasst {
+
 class Space;
 class Pair;
 class Criteria;
@@ -42,6 +44,8 @@ class TrialAdd : public Trial {
   virtual shared_ptr<Trial> cloneImpl(Space* space, Pair *pair,
                                       Criteria *criteria) const;
 };
+
+}  // namespace feasst
 
 #endif  // TRIAL_ADD_H_
 
