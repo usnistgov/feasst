@@ -36,11 +36,6 @@ class Random : public Base {
 
  protected:
   unsigned long long seed_;
-
-  /// error messaging
-  void mout_(const char* messageType, std::ostream& message) {
-    myOut(messageType, message, className_, verbose_);
-  }
 };
 
 }  // namespace feasst

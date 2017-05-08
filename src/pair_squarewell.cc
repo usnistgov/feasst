@@ -56,8 +56,8 @@ int PairSquareWell::initEnergy() {
 
   // zero accumulators: potential energy, force, and virial
   std::fill(pe_.begin(), pe_.end(), 0.);
-  myFill(0., f_);
-  myFill(0., vr_);
+  feasst::fill(0., f_);
+  feasst::fill(0., vr_);
   peTot_ = 0;
 
   // loop through nearest neighbor atom pairs
@@ -75,7 +75,7 @@ int PairSquareWell::initEnergy() {
           for (int dim = 0; dim < dimen_; ++dim) {
             xij[dim] += dxpbc[dim];
           }
-          r2 = myVecDotProd(xij, xij);
+          r2 = vecDotProd(xij, xij);
           r = sqrt(r2);
 
           // no interaction beyond cut-off distance
@@ -153,7 +153,7 @@ double PairSquareWell::multiPartEner(
             for (int dim = 0; dim < dimen_; ++dim) {
               xij[dim] += dxpbc[dim];
             }
-            double r2 = myVecDotProd(xij, xij);
+            double r2 = vecDotProd(xij, xij);
 
             // no interaction beyond cut-off distance
             const double rCutij = rCutij_[itype][jtype];
@@ -290,7 +290,7 @@ double PairSquareWell::allPartEnerForceNoCell() {
           for (int dim = 0; dim < dimen_; ++dim) {
             xij[dim] += dxpbc[dim];
           }
-          r2 = myVecDotProd(xij, xij);
+          r2 = vecDotProd(xij, xij);
 
           // no interaction beyond cut-off distance
           const double rCutij = rCutij_[itype][jtype];
@@ -358,7 +358,7 @@ double PairSquareWell::allPartEnerForceCell() {
                 for (int dim = 0; dim < dimen_; ++dim) {
                   xij[dim] += dxpbc[dim];
                 }
-                r2 = myVecDotProd(xij, xij);
+                r2 = vecDotProd(xij, xij);
 
                 // no interaction beyond cut-off distance
                 const double rCutij = rCutij_[itype][jtype];

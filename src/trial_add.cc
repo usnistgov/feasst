@@ -67,8 +67,7 @@ shared_ptr<Trial> TrialAdd::cloneImpl(
  * Attempt insertion of molecule of given type.
  */
 void TrialAdd::attempt1() {
-  mout_("verbose", std::ostringstream().flush() << "attempting to "
-        << trialType_);
+  WARN(verbose_ == 1, "attempting to " << trialType_);
   ASSERT((pair_->atomCut() != 1) || (space_->nMol() == space_->natom()) ||
          (!avbOn_), "this class assumes atomCut(" << pair_->atomCut()
          << ") == 0 when avb is on");
@@ -164,16 +163,14 @@ void TrialAdd::attempt1() {
                         reject_) == 1) {
     trialAccept();
     pair_->update(mpart_, 3, "update");
-    mout_("verbose", std::ostringstream().flush()
-          << "insertion accepted " << de_);
+    WARN(verbose_ == 1, "insertion accepted " << de_);
 
   // if not accepted, remove molecule, assuming a molecule is described
   // by sequentially listed particles
   } else {
     pair_->delPart(mpart_);
     space_->delPart(mpart_);
-    mout_("verbose", std::ostringstream().flush()
-          << "insertion rejected " << de_);
+    WARN(verbose_ == 1, "insertion rejected " << de_);
     trialReject();
   }
 }

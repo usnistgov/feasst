@@ -37,7 +37,7 @@ Table::Table(const char* fileName) {
   // read table
   std::ifstream fs(fileName);
   std::string line;
-  const int n = myProd(tabsizes);
+  const int n = feasst::product(tabsizes);
   const int nLines = numLines(fileName);
   if (nLines > n) {
      for (int i = 0; i < nLines - n; ++i) getline(fs, line);
@@ -657,13 +657,13 @@ double Table::compute_min() const {
     }
     return *std::min_element(mins.begin(), mins.begin()+mins.size());
   } else if (tabDims_ == 3) {
-    return myMinElement(tab3_);
+    return feasst::minElement(tab3_);
   } else if (tabDims_ == 4) {
-    return myMinElement(tab4_);
+    return feasst::minElement(tab4_);
   } else if (tabDims_ == 5) {
-    return myMinElement(tab5_);
+    return feasst::minElement(tab5_);
   } else if (tabDims_ == 6) {
-    return myMinElement(tab6_);
+    return feasst::minElement(tab6_);
   } else {
     ASSERT(0, "error in table for compute_min, urecognized tabDims_("
       << tabDims_ << ")");
@@ -701,11 +701,11 @@ void Table::compute_min_compress1d(const int dim) {
  */
 double Table::compute_max() const {
   if (tabDims_ == 3) {
-    return myMaxElement(tab3_);
+    return feasst::maxElement(tab3_);
   } else if (tabDims_ == 4) {
-    return myMaxElement(tab4_);
+    return feasst::maxElement(tab4_);
   } else if (tabDims_ == 5) {
-    return myMaxElement(tab5_);
+    return feasst::maxElement(tab5_);
   } else {
     ASSERT(0, "error in table for compute_max, urecognized tabDims_("
       << tabDims_ << ")");

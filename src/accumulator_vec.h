@@ -40,11 +40,6 @@ class AccumulatorVec : public Accumulator {
 
  protected:
   vector<Accumulator> accVec_;    //<! vector of accumulators
-
-  // error messaging
-  void mout_(const char* messageType, std::ostream& message) {
-    myOut(messageType, message, className_, verbose_);
-  }
 };
 
 }  // namespace feasst

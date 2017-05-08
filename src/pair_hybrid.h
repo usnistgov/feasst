@@ -1,8 +1,5 @@
 /**
- * \file
- *
- * \brief ideal gas, no interactions
- *
+ * This class contains a combination of pair classes
  */
 #ifndef PAIR_HYBRID_H_
 #define PAIR_HYBRID_H_

@@ -135,10 +135,6 @@ class Trial : public BaseAll {
   std::string region_;   //!< selected avb region to move as bonded or nonbonded
   vector<int> tmpart_;   //!< target for avb move
 
-  // error messaging
-  void mout_(const char* messageType, std::ostream& message)
-    {myOut(messageType, message, className_, verbose_); }
-
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl(Space* space, Pair *pair,
                                       Criteria *criteria) const  = 0;

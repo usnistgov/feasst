@@ -90,7 +90,7 @@ void TrialConfSwapTXT::attempt1() {
       stringstream ss;
       ss << "tmp/swpp" << process_[index] << "p" << proc_ << "o"
          << currentOrder;
-      if (!myFileExists(ss.str().c_str())) {
+      if (!fileExists(ss.str().c_str())) {
         --attempted_;
       } else {
         // copy file

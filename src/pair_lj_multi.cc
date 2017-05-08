@@ -135,8 +135,8 @@ int PairLJMulti::initEnergy() {
 
   // zero accumulators: potential energy, force, and virial
   std::fill(pe_.begin(), pe_.end(), 0.);
-  myFill(0., f_);
-  myFill(0., vr_);
+  feasst::fill(0., f_);
+  feasst::fill(0., vr_);
   peLJ_ = 0;
   fCOM_.clear();
   fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
@@ -158,7 +158,7 @@ int PairLJMulti::initEnergy() {
           for (int dim = 0; dim < dimen_; ++dim) {
             xij[dim] += dx[dim];
           }
-          double r2 = myVecDotProd(xij, xij);
+          double r2 = vecDotProd(xij, xij);
 
           if (verbose) cout << "r2 " << r2 << " i " << ipart << " j " << jpart
              << " itype " << type[ipart] << " jtype " << type[jpart] << endl;
@@ -388,9 +388,9 @@ void PairLJMulti::cutShift(const int flag    //!< initialization flag
   peShiftij_.resize(epsij_.size(), vector<double>(epsij_.size()));
   rCutij_.clear();
   rCutij_.resize(epsij_.size(), vector<double>(epsij_.size(), rCut_));
-  myFill(rCut_, rCutij_);
+  feasst::fill(rCut_, rCutij_);
   if (flag == 0) {
-    myFill(0., peShiftij_);
+    feasst::fill(0., peShiftij_);
   } else if (flag == 1) {
     for (unsigned int i = 0; i < epsij_.size(); ++i) {
       for (unsigned int j = 0; j < epsij_.size(); ++j) {
@@ -416,7 +416,7 @@ void PairLJMulti::linearShift(const int flag    //!< initialization flag
   rCutij_.clear();
   rCutij_.resize(epsij_.size(), vector<double>(epsij_.size(), rCut_));
   if (flag == 0) {
-    myFill(0., peLinearShiftij_);
+    feasst::fill(0., peLinearShiftij_);
   } else if (flag == 1) {
     for (unsigned int i = 0; i < epsij_.size(); ++i) {
       for (unsigned int j = 0; j < epsij_.size(); ++j) {
@@ -438,7 +438,7 @@ void PairLJMulti::cutShiftijset(
   cutShiftFlag_ = flag;
   peShiftij_.resize(epsij_.size(), vector<double>(epsij_.size()));
   if (flag == 0) {
-    myFill(0., peShiftij_);
+    feasst::fill(0., peShiftij_);
   } else if (flag == 1) {
     const double sig = sigij_[itype][jtype], rc = rCutij_[itype][jtype],
       eps = epsij_[itype][jtype];
@@ -479,7 +479,7 @@ void PairLJMulti::linearShiftijset(
   linearShiftFlag_ = flag;
   peLinearShiftij_.resize(epsij_.size(), vector<double>(epsij_.size()));
   if (flag == 0) {
-    myFill(0., peLinearShiftij_);
+    feasst::fill(0., peLinearShiftij_);
   } else if (flag == 1) {
     const double sig = sigij_[itype][jtype], rc = rCutij_[itype][jtype],
       eps = epsij_[itype][jtype];

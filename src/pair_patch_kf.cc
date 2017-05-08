@@ -30,8 +30,8 @@ int PairPatchKF::initEnergy() {
 
   // zero accumulators: potential energy, force, and virial
   std::fill(pe_.begin(), pe_.end(), 0.);
-  myFill(0., f_);
-  myFill(0., vr_);
+  feasst::fill(0., f_);
+  feasst::fill(0., vr_);
   peSR_ = 0;
 
   double pePart = 0;
@@ -322,7 +322,7 @@ int PairPatchKF::printxyz(const char* fileName,   //!< file with configuration
   vmdf << "display projection Orthographic" << endl
     << "color Display Background white" << endl
     << "axes location Off" << endl
-    << "topo readvarxyz " << myTrim("/", fileName) << endl
+    << "topo readvarxyz " << feasst::trim("/", fileName) << endl
     << "mol modstyle 0 0 VDW 1.0000000 120.000000" << endl
     << "set sel [atomselect top \"name N\"]" << endl
     << "$sel set radius " << r2 << endl

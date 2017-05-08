@@ -110,7 +110,7 @@ vector<double> BaseMath::quatRandom(
   for (unsigned int i = 0; i < q.size(); ++i) {
     q[i] = qunit[i] + maxDisp*q[i];
   }
-  const double qsize = sqrt(myVecDotProd(q, q));
+  const double qsize = sqrt(vecDotProd(q, q));
   for (unsigned int i = 0; i < q.size(); ++i) {
     q[i] /= qsize;
   }
@@ -128,7 +128,7 @@ vector<double> BaseMath::ranUnitSphere(
   vector<vector<double> > r = quat2rot(q);
   vector<double> a;
   a.push_back(1); a.push_back(0); a.push_back(0);
-  vector<double> x = myMatVecMul(r, a);
+  vector<double> x = matVecMul(r, a);
   return x;
 }
 

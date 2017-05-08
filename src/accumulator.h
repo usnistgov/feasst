@@ -68,11 +68,6 @@ class Accumulator : public Base {
   long long nBlock_;
   long double sumBlock_;         //!< sum of all values accumulated
   shared_ptr<Accumulator> blockAvs_;    //!< accumulate averages of each block
-
-  // error messaging
-  void mout_(const char* messageType, std::ostream& message) {
-    myOut(messageType, message, className_, verbose_);
-  }
 };
 
 }  // namespace feasst

@@ -112,7 +112,7 @@ TEST(Space, randDispANDrestore) {
   int dim=3;
   Space s(dim,0);
   s.readXYZBulk(3, "water", "../unittest/spce/srsw/spce_sample_config_periodic1.xyz");
-  myRanInitByDate();
+  ranInitByDate();
   vector<int> mpart(3);
   mpart[0] = 0; mpart[1] = 1; mpart[2] = 2;
   EXPECT_EQ(-5.221309047080, s.x(0,0));
@@ -161,7 +161,7 @@ TEST(Space, randMol) {
   int dim=3;
   Space s(dim,0);
   s.readXYZBulk(3, "water", "../unittest/spce/srsw/spce_sample_config_periodic1.xyz");
-  myRanInitByDate();
+  ranInitByDate();
   vector<int> mpart;
   for (int i = 0; i < 1000; ++i) {
     mpart.clear();
@@ -181,7 +181,7 @@ TEST(Space, randRotateANDRestore) {
   int dim=3;
   Space s(dim,0);
   s.readXYZBulk(3, "water", "../unittest/spce/srsw/spce_sample_config_periodic1.xyz");
-  myRanInitByDate();
+  ranInitByDate();
   vector<int> imove(3);
   imove[0] = 0; imove[1] = 1; imove[2] = 2;
   EXPECT_EQ(-5.221309047080, s.x(0,0));
@@ -217,7 +217,7 @@ TEST(Space, addMol) {
   s.readXYZBulk(3, "water", "../unittest/spce/srsw/spce_sample_config_periodic1.xyz");
   s.addMolInit("../forcefield/data.spce");
   s.addMolInit("../forcefield/data.lj");
-  myRanInitByDate();
+  ranInitByDate();
   EXPECT_EQ(0, s.moltype().front().compare("water"));
   EXPECT_EQ(300, s.natom());
   s.addMol("../forcefield/data.spce");
@@ -242,7 +242,7 @@ TEST(Space, addMol) {
 }
 
 TEST(Space, addMolANDdelANDlastMolIDVec) {
-  myRanInitByDate();
+  ranInitByDate();
   const int dim = 3;
   Space s(dim,0);
   s.readXYZBulk(3, "water", "../unittest/spce/srsw/spce_sample_config_periodic1.xyz");
@@ -349,7 +349,7 @@ TEST(Space, wrapMol) {
   const double boxl = 24.8586887;
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
   s.readXYZBulk(3, "water", "../unittest/spce/test.xyz");
-  myRanInitByDate();
+  ranInitByDate();
   vector<int> mpart = s.randMol();
   s.wrap(mpart);
   for (int dim = 0; dim < s.dimen(); ++dim) {
@@ -368,7 +368,7 @@ TEST(Space, wrapMol) {
 //  const double boxl = 24.8586887;
 //  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
 //  s.readXYZBulk(3, "water", "../test/spce/test.xyz");
-//  myRanInitByDate();
+//  ranInitByDate();
 //  const double rabove = 5, rbelow = 2.5;
 //  for (int i = 0; i < 10; ++i) {
 //    vector<int> mpart = s.randMol();
@@ -396,7 +396,7 @@ TEST(Space, wrapMol) {
 TEST(Space, randMolDiffANDSubset) {
   Space s(3,0);
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
-  myRanInitByDate();
+  ranInitByDate();
   for (int i = 0; i < 3*s.nMol(); ++i) {
     vector<int> mpart = s.randMol();
     vector<int> mMol(1, s.mol()[mpart[0]]);
@@ -453,7 +453,7 @@ TEST(Space, cellListWater) {
 TEST(Space, quat2posANDqMolInit) {
   Space s(3,0);
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
-  myRanInitByDate();
+  ranInitByDate();
   for (int i = 0; i < 10; ++i) {
     vector<int> mpart = s.randMol();
     const int iMol = s.mol()[mpart[0]];
@@ -497,7 +497,7 @@ TEST(Space, patch6) {
 
 TEST(Space, cellListOnePatch) {
   for (int cell = 0; cell < 2; ++cell) {
-    myRanInitByDate();
+    ranInitByDate();
     Space s(3,0);
     s.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch50.xyz");
     s.addMolInit("../forcefield/data.onePatch");
@@ -866,7 +866,7 @@ TEST(Space, inertialTensor) {
   vector<double> evalues;
   jacobi(tensor, evalues, evectors);
   EXPECT_NEAR(2*0.88888888888+1.777777777, evalues[0]+evalues[1]+evalues[2], 1e-9);
-  vector<vector<double> > xref = myMatMul(x, evectors);
+  vector<vector<double> > xref = matMul(x, evectors);
 //  EXPECT_NEAR(0, xref[0][0], 1e-9);
 //  EXPECT_NEAR(0, xref[1][0], 1e-9);
 //  EXPECT_NEAR(0.769800358919501, xref[1][1], 1e-19);
@@ -989,9 +989,9 @@ TEST(Space, setAtomInBranch) {
   s.addMol("../forcefield/data.lj");
   s.setAtomInBranch(0, 1, 2, 3, 1.61630081, 1.61630081, 1);
   r3[0] = s.x(2, 0); r3[1] = s.x(2, 1); r3[2] = s.x(2,2);
-  EXPECT_NEAR(cos(1.61630081), myVecDotProd(r1, r3), 1e-8);
-  EXPECT_NEAR(cos(1.61630081), myVecDotProd(r1, r2), 1e-8);
-  EXPECT_NEAR(cos(1.61630081), myVecDotProd(r2, r3), 1e-8);
+  EXPECT_NEAR(cos(1.61630081), vecDotProd(r1, r3), 1e-8);
+  EXPECT_NEAR(cos(1.61630081), vecDotProd(r1, r2), 1e-8);
+  EXPECT_NEAR(cos(1.61630081), vecDotProd(r2, r3), 1e-8);
 }
 
 TEST(Space, pivotMol) {
@@ -1260,7 +1260,7 @@ int ntest = 1;
 
 //// visualize this test
 //TEST(Space, randRotateMaxDisp) {
-//  myRanInitByDate();
+//  ranInitByDate();
 //  Space space(3, 0);
 //  space.addMolInit("../forcefield/data.onePatch");
 //  vector<double> xAdd(3, 0.);

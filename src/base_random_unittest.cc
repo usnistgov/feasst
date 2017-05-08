@@ -7,7 +7,7 @@
 using namespace feasst;
 
 TEST(BaseRandom, uniformRanNum) {
-  myRanInitByDate();
+  ranInitByDate();
   BaseRandom ran;
   const int min = 5, max = 8, n = 10000;
   vector<int> x(max);
@@ -24,7 +24,7 @@ TEST(BaseRandom, uniformRanNum) {
 }
 
 TEST(BaseRandom, stdNormRanNum) {
-  myRanInitByDate();
+  ranInitByDate();
   BaseRandom ran;
   const int n = 10000;
   Accumulator a;
@@ -38,7 +38,7 @@ TEST(BaseRandom, stdNormRanNum) {
 }
 
 TEST(BaseRandom, gaussRanNum) {
-  myRanInitByDate();
+  ranInitByDate();
   BaseRandom ran;
   const int n = 10000;
   const double sig = 5, av = 10;

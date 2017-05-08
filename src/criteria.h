@@ -75,10 +75,6 @@ class Criteria : public BaseAll {
   int printBeta_;
   int printPressure_;
 
-  // error messaging
-  void mout_(const char* messageType, std::ostream& message) {
-    myOut(messageType, message, className_, verbose_);}
-
   // clone design pattern
   virtual shared_ptr<Criteria> cloneImpl_() const = 0;
 };

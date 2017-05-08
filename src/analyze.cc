@@ -15,7 +15,7 @@ Analyze::Analyze(Space *space,  Pair *pair, const char* fileName)
     pair_(pair) {
   className_.assign("Analyze");
 
-  ASSERT(myFileExists(fileName),
+  ASSERT(fileExists(fileName),
     "restart file(" << fileName << ") doesn't exist");
 
   nFreq_ = fstoi("nFrequency", fileName);

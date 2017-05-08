@@ -25,7 +25,7 @@ file = open(name+".log",'w')
 print >>file, args
 
 # initialize simulation domain
-feasst.myRanInitByDate()
+feasst.ranInitByDate()
 space = feasst.Space(3, 0)
 for dim in range(space.dimen()): space.lset(args.boxl, dim)
 space.addMolInit(args.molName)

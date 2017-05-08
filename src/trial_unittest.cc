@@ -38,7 +38,7 @@ TEST(Trial, cloneANDreconstruct) {
   TrialAVB tavb2(&s, &p, &c, 0.9, rAbove, rBelow, 2);
   TrialAVB tavb3(&s, &p, &c, 0.9, rAbove, rBelow, 3);
 
-  myRanInitByDate();
+  ranInitByDate();
   p.initEnergy();
   const int nAttempts = 300;
   for (int i = 0; i < nAttempts; ++i) {
@@ -151,8 +151,8 @@ TEST(Trial, allmoves) {
   //pairType.push_back("spce");
   pairType.push_back("onePatch");
   pairType.push_back("twoPatch");
-  myRanInitByDate();
-//  myRanInitForRepro(1397662448);
+  ranInitByDate();
+//  ranInitForRepro(1397662448);
   for (vector<std::string>::iterator pt = pairType.begin(); pt != pairType.end(); ++pt) {
 
     double rAbove=0, rBelow=0, beta=0, activ=0, maxMoveParam=0;

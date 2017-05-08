@@ -112,7 +112,9 @@ class Space : public BaseAll {
 
   /// add molecule of predefined type
   void addMol(const char* type);
+  void addMol(const std::string type) { addMol(type.c_str()); }
   void addMolInit(const char* fileName);
+  void addMolInit(const std::string fileName) { addMolInit(fileName.c_str()); }
   void addMol(const int index) { addMol(addMolListType_[index].c_str()); }
   void addMol() { addMol(0); }
 
@@ -457,7 +459,7 @@ class Space : public BaseAll {
   double tagStage() const { return tagStage_; }
   vector<double> l() const { return l_; }
   double l(const int i) const { return l_[i]; }
-  double vol() const { return myProd(l_); }  //!< simulation domain volume
+  double vol() const { return feasst::product(l_); }  //!< simulation domain volume
   double type(const int i) const { return type_[i]; }
   vector<int> type() const { return type_; }
   vector<int> mol() const { return mol_; }
@@ -500,7 +502,7 @@ class Space : public BaseAll {
   int nClusters() const { return static_cast<int>(clusterSizes_.size()); }
   double clusterAvSize() const {
     if (static_cast<int>(clusterSizes_.size()) == 0) { return 0;
-    } else { return myVecAv(clusterSizes_); } }
+    } else { return vecAverage(clusterSizes_); } }
   vector<int> clusterType() const { return clusterType_; }
   vector<vector<int> > clusterList() const { return clusterList_; }
   AccumulatorVec clusterSizeAccVec() const { return clusterSizeAccVec_;}
@@ -510,16 +512,16 @@ class Space : public BaseAll {
   Accumulator freeMon() const { return freeMon_; }
   double clusterAsphericityAv() const {
     if (static_cast<int>(clusterAsphericity_.size()) == 0) { return 0;
-    } else { return myVecAv(clusterAsphericity_); } }
+    } else { return vecAverage(clusterAsphericity_); } }
   double clusterAcylindricityAv() const {
     if (static_cast<int>(clusterAcylindricity_.size()) == 0) { return 0;
-    } else { return myVecAv(clusterAcylindricity_); } }
+    } else { return vecAverage(clusterAcylindricity_); } }
   double clusterRelShapeAnisoAv() const {
     if (static_cast<int>(clusterRelShapeAniso_.size()) == 0) { return 0;
-    } else { return myVecAv(clusterRelShapeAniso_); } }
+    } else { return vecAverage(clusterRelShapeAniso_); } }
   double clusterRgAv() const {
     if (static_cast<int>(clusterRg_.size()) == 0) { return 0;
-    } else { return myVecAv(clusterRg_); } }
+    } else { return vecAverage(clusterRg_); } }
   void preMicellarAgg(const int size) { preMicellarAgg_ = size; }
   vector<vector<int> > bondList() const { return bondList_; }
   vector<vector<double> > bondParam() const { return bondParam_; }
@@ -657,12 +659,6 @@ class Space : public BaseAll {
   //  for multiple molecule types, addmol list in space can be used
   //  to call the map for individual molecule types
   vector<vector<vector<int> > > intraMap_;
-  
-  // error messaging
-  void mout_(const char* messageType, std::ostream& message) {
-    myOut(messageType, message, className_, verbose_);
-  }
-
 };
 
 }  // namespace feasst

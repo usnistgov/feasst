@@ -75,7 +75,7 @@ void AnalyzeOrient::update(const int iMacro) {
       for (int dim = 0; dim < dimen_; ++dim) {
         xij[dim] += dx[dim];
       }
-      const double r2 = myVecDotProd(xij, xij);
+      const double r2 = vecDotProd(xij, xij);
       const double r = sqrt(r2);
 
       // compute the orientation
@@ -84,9 +84,9 @@ void AnalyzeOrient::update(const int iMacro) {
         iv[dim] = x[dimen_*(ipart+1)+dim] - x[dimen_*ipart+dim];
         jv[dim] = x[dimen_*(jpart+1)+dim] - x[dimen_*jpart+dim];
       }
-      const double cosa = myVecDotProd(iv, jv);
-//      const double ti = myVecDotProd(iv, iv),
-//                   tj = myVecDotProd(jv, jv);
+      const double cosa = vecDotProd(iv, jv);
+//      const double ti = vecDotProd(iv, iv),
+//                   tj = vecDotProd(jv, jv);
 //      ASSERT(fabs(ti-1)<1e-10, "testi failed");
 //      ASSERT(fabs(tj-1)<1e-10, "testj failed");
       // cout << "r " << r << " bin " << h_.bin(r) << " cosa " << cosa << endl;

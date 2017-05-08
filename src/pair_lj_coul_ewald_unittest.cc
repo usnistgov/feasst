@@ -213,7 +213,7 @@ TEST(PairLJCoulEwald, pairLJCoulEwaldmultiPartEne) {
 }
 
 TEST(PairLJCoulEwald, neigh) {
-  myRanInitByDate();
+  ranInitByDate();
   Space s(3,0);
   const double boxl = 24.8586887;
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
@@ -271,7 +271,7 @@ TEST(PairLJCoulEwald, neigh) {
 
 
 TEST(PairLJCoulEwald, cheapEnergyLJCoul) {
-  myRanInitByDate();
+  ranInitByDate();
   Space s(3,0);
   const double boxl = 24.8586887;
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);

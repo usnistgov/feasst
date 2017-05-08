@@ -62,6 +62,12 @@ class Pair : public BaseAll {
   virtual double multiPartEner(const vector<int> multiPart, const int flag) = 0;
   virtual double multiPartEnerAtomCut(const vector<int> multiPart);
   virtual double multiPartEnerAtomCut2D(const vector<int> multiPart);
+  
+  /**
+   * Computes the interaction between two particles itype and jtype separated
+   * by a squared distance r2=r*r.
+   * Increments the interaction in the Pair class variable "peSRone_".
+   */
   virtual void multiPartEnerAtomCutInner(const double &r2, const int &itype,
     const int &jtype) {
     ASSERT(itype*jtype == r2, "multiPartEnerAtomCutInner not implemented"); }
@@ -389,10 +395,6 @@ class Pair : public BaseAll {
   /// check if there is an intramolecular interaction that is allowed
   bool intraCheck_(const int ipart, const int jpart,
                    const int iMol, const int jMol);
-
-  // error messaging
-  void mout_(const char* messageType, std::ostream& message) {
-    myOut(messageType, message, className_, verbose_);}
 };
 
 }  // namespace feasst

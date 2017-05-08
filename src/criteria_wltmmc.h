@@ -40,7 +40,7 @@ class CriteriaWLTMMC : public Criteria {
 
   /// given macrostate m, return bin number, or vice versa
   double bin2m(const int bin) const { return mMin_ + (bin + 0.5)*mBin_; }
-  int bin(const double m) const { return myRound((m - bin2m(0))/mBin_); }
+  int bin(const double m) const { return feasst::round((m - bin2m(0))/mBin_); }
 
   /// set the modification factor
   void setg(const double g) { g_ = g; }

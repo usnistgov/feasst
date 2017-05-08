@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
   }
 
   // initialize domain, pair interactions and acceptance criteria
-  myRanInitByDate();
+  ranInitByDate();
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
   stringstream addMolSS;

@@ -1,0 +1,45 @@
+/**
+ * Compute interactions of particles with walls.
+ */
+
+#ifndef PAIR_WALL_H_
+#define PAIR_WALL_H_
+
+#include "./pair.h"
+
+namespace feasst {
+
+class PairWall : public Pair {
+ public:
+  PairWall(Space* space, const double rCut = 0.);
+  ~PairWall() {}
+  virtual PairWall* clone(Space* space) const {
+    PairWall* p = new PairWall(*this); p->reconstruct(space); return p;
+  }
+
+  /*
+   * \return potential energy of a selection of particles multiPart, and store
+   * this the Pair class variable peSRone
+   */
+  double multiPartEner(const vector<int> multiPart, const int flag = 0);
+
+  /*
+   * Compute the potential energy of all particles and store this in the Pair
+   * class variable peTot
+   */
+  int initEnergy();
+
+  /// stores, restores or updates variables to avoid order recompute
+  //   of entire configuration after every change
+  virtual void update(const vector<int> mpart, const int flag,
+                      const char* uptype);
+
+ protected:
+  double peWall_;
+  double deWall_;
+};
+
+}  // namespace feasst
+
+#endif  // PAIR_WALL_H_
+

@@ -31,7 +31,7 @@ class Histogram : public Base {
   /// return bin
   double bin2m(const int bin) const { return min_ + (bin + 0.5)*binWidth_; }
   int bin(const double value) const {
-    return myRound((value - bin2m(0))/binWidth_);
+    return feasst::round((value - bin2m(0))/binWidth_);
   }
 
   /// Center a bin on zero. Otherwise, zero lies on a boundary between bins.
@@ -98,11 +98,6 @@ class Histogram : public Base {
 
   /// set the defaults in constructor
   void defaultConstruction_();
-
-  // error messaging
-  void mout_(const char* messageType, std::ostream& message) {
-    myOut(messageType, message, className_, verbose_);
-  }
 };
 
 }  // namespace feasst

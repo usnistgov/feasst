@@ -251,10 +251,6 @@ class MC : public BaseAll {
   // unique hash for configurations
   std::string hash_;
   
-  // error messaging
-  void mout_(const char* messageType, std::ostream& message)
-    {myOut(messageType, message, className_, verbose_);}
-
   // clone design pattern
   virtual shared_ptr<MC> cloneImpl() const;
   virtual shared_ptr<MC> cloneShallowImpl() const;

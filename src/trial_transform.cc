@@ -107,7 +107,7 @@ void TrialTransform::attempt1() {
         space_->transMol(iMol, dr[iMol]);
 
         // compute bias prefactor from old forces
-        wold -= myVecDotProd(R, R);
+        wold -= vecDotProd(R, R);
       }
       wold = exp(wold/(4.*A));
       if ( (tooBig == true) || (wold == 0) ) {
@@ -125,7 +125,7 @@ void TrialTransform::attempt1() {
           for (int dim = 0; dim < space_->dimen(); ++dim) {
             R[dim] = -dr[iMol][dim] - betaA*fCOM[iMol][dim];
           }
-          wnew -= myVecDotProd(R, R);
+          wnew -= vecDotProd(R, R);
         }
         wnew = exp(wnew/(4.*A));
         lnpMet_ = log(wnew/wold) - criteria_->beta()*de_;

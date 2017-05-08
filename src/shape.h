@@ -1,11 +1,5 @@
 /**
- * \brief shape
- *
- * The shape class is used to model superquadrics
- *
- * Authors: Nathan Mahynksi started this class
- *          Harold Hatch added print*, checkSurfacePoints, COMEuler2surf and recursiveVolume
- *
+ * This file is a stub or placeholder for an experimental class that is not part of this release.
  */
 
 #ifndef SHAPE_H_

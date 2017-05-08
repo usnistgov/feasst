@@ -73,8 +73,7 @@ shared_ptr<Trial> TrialSwap::cloneImpl(
  * Attempt to randomly swap molecule types
  */
 void TrialSwap::attempt1() {
-  mout_("verbose", std::ostringstream().flush() << "attempting to "
-        << trialType_);
+  WARN(verbose_ == 1, "attempting to " << trialType_);
   const int nMolTypes = space_->addMolList().size();
   ASSERT(nMolTypes > 1,
     "xswap move requires nMolTypes(" << nMolTypes << ") > 1");
@@ -206,8 +205,7 @@ string TrialSwap::printStat(const bool header) {
 // * Attempt to randomly swap molecule types
 // */
 //void TrialSwap::attempt2() {
-//  mout_("verbose", std::ostringstream().flush() << "attempting to "
-//        << trialType_);
+//  WARN(verbose_ == 1, "attempting to " << trialType_);
 //  const int nMolTypes = space_->addMolList().size();
 //  ASSERT(nMolTypes > 1,
 //    "xswap move requires nMolTypes(" << nMolTypes << ") > 1");

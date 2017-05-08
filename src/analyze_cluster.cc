@@ -91,9 +91,9 @@ void AnalyzeCluster::update(const int iMacro) {
           if (qj.size() == 4) qj.pop_back();
           vector<vector<double> > ri = Euler2RotMat(qi),
                                   rj = Euler2RotMat(qj);
-          vector<double> zi = myMatVecMul(ri, zref),
-                         zj = myMatVecMul(rj, zref);
-          cosa = myVecDotProd(zi, zj);
+          vector<double> zi = matVecMul(ri, zref),
+                         zj = matVecMul(rj, zref);
+          cosa = vecDotProd(zi, zj);
         
         // if not using euler angles, compute orientation by assuming that
         // it is a solid of revolution where the orientation is given by the
@@ -106,7 +106,7 @@ void AnalyzeCluster::update(const int iMacro) {
             ri[dim] = space_->x(ipart + 1, dim) - space_->x(ipart, dim);
             rj[dim] = space_->x(jpart + 1, dim) - space_->x(jpart, dim);
           }
-          cosa = myVecDotProd(ri, rj);
+          cosa = vecDotProd(ri, rj);
         }
 
         zOrient_[iMacro].accumulate(fabs(cosa));

@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "pair_ideal.h"
+#include "pair_hybrid.h"
+#include "pair_wall.h"
 #include "pair_hs.h"
 #include "pair_patch_kf.h"
 #include "pair_lj.h"
@@ -13,6 +15,7 @@
 #include "trial_add.h"
 #include "trial_delete.h"
 #include "trial_md.h"
+#include "trial_transform.h"
 
 using namespace feasst;
 
@@ -140,7 +143,7 @@ TEST(MC, WLTMMC_Ideal) {
 
 TEST(MC, ljmuvtmetropANDclone) {
   const double beta = 1./2., activ = 0.97747, rCut = 2.5, boxl = pow(250., 1./3.);
-  myRanInitByDate();
+  ranInitByDate();
   Space s(3,0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
   s.addMolInit("../forcefield/data.atom");
@@ -195,7 +198,7 @@ TEST(MC, ljmuvtmetropANDclone) {
 
 TEST(MC, ljnvtmetropANDremoveTrial) {
   const double beta = 1/2, rCut = 2.5;
-  myRanInitByDate();
+  ranInitByDate();
   Space s(3,0);
   s.init_config(12);
   PairLJ p(&s, rCut);
@@ -226,7 +229,7 @@ TEST(MC, ljnvtmetropANDremoveTrial) {
 TEST(MC, ljmuvttmmc) {
   const double rCut = 3., beta = 1./1.5, activ = exp(-1.568214), boxl = pow(512, 1./3.);
   const int nMolMax = 3;
-  myRanInitByDate();
+  ranInitByDate();
   Space s(3,0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
   s.addMolInit("../forcefield/data.atom");
@@ -269,7 +272,7 @@ TEST(MC, muvttmmcspce) {
   const int nMolMin = 0, nMolMax = 20, ncfreq = 100, npr = 250, nprPerMacrostate = npr/(nMolMax - nMolMin + 1) + 1;
 
   // initialize
-  myRanInitByDate();
+  ranInitByDate();
   const int nThreads = 2;
   vector<vector<int> > nMolVec = nWindow(0, nMolMax, 1.33, nThreads, 2);
   vector<int>nprv;
@@ -566,4 +569,35 @@ TEST(MC, ljMD) {
   mc.initTrial(tmd);
 
   mc.runNumTrials(100);
+}
+
+TEST(MC, ljWall) {
+  feasst::Space space(3,0);
+  space.lset(20);
+  space.addMolInit("../forcefield/data.lj");
+  
+  feasst::PairLJMulti pairLJ(&space, 3.);
+  pairLJ.initLMPData("../forcefield/data.lj");
+  pairLJ.linearShift(1);
+//  feasst::PairIdeal pairID(&space, 0.);
+  feasst::PairWall pairWall(&space);
+  feasst::PairHybrid pair(&space, space.minl()/2.);
+//  pair.addPair(&pairID);
+  pair.addPair(&pairLJ);
+  pair.addPair(&pairWall);
+  pair.initEnergy();
+  
+  const double beta = 1.;
+  feasst::CriteriaMetropolis criteria(beta, exp(-1));
+  feasst::MC mc(&space, &pair, &criteria);
+  feasst::transformTrial(&mc, "translate", 0.1);
+  
+  const int nfreq = 1e2;
+  mc.initMovie("tmp/wall", nfreq);
+  mc.initLog("tmp/wall", nfreq);
+  mc.setNFreqCheckE(nfreq, 1e-8);
+  mc.setNFreqTune(nfreq);
+  mc.nMolSeek(50, "../forcefield/data.lj");
+
+  mc.runNumTrials(1e4);
 }

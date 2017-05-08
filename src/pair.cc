@@ -29,7 +29,7 @@ Pair::Pair(Space* space,
 Pair::Pair(Space* space, const char* fileName)
   : space_(space) {
   className_.assign("Pair");
-  ASSERT(myFileExists(fileName), "restart file(" << fileName
+  ASSERT(fileExists(fileName), "restart file(" << fileName
          << ") doesn't exist");
   rCut_ = fstod("rCut", fileName);
   defaultConstruction();
@@ -79,7 +79,7 @@ Pair::Pair(Space* space, const char* fileName)
         ss << "epsijsetRecord" << i << j;
         eps.push_back(fstod(ss.str().c_str(), fileName));
       }
-      epsijset(myRound(eps[0]), myRound(eps[1]), eps[2]);
+      epsijset(feasst::round(eps[0]), feasst::round(eps[1]), eps[2]);
     }
   }
 
@@ -133,7 +133,7 @@ void Pair::defaultConstruction() {
   orderMin_ = order_;
   orderMax_ = order_;
   rCutSq_ = rCut_ * rCut_;
-  myFill(rCut_, rCutij_);
+  feasst::fill(rCut_, rCutij_);
   rCutMaxAll_ = rCut_;
   dimen_ = space_->dimen(),
   f_.resize(space_->natom(), vector<double>(dimen_));
@@ -473,7 +473,7 @@ void Pair::buildNeighList() {
         for (int dim = 0; dim < dimen; ++dim) {
           rij[dim] += dx[dim];
         }
-        const double r2 = myVecDotProd(rij, rij);
+        const double r2 = vecDotProd(rij, rij);
 
         if (r2 < rCutSq_) {
           if (neighTypeScreen_ == 1) {
@@ -880,7 +880,7 @@ void Pair::epsijset(const int i, const int j, const double eps) {
 Pair* Pair::makePair(Space* space,
   const char* fileName
   ) {
-  ASSERT(myFileExists(fileName),
+  ASSERT(fileExists(fileName),
     "restart file(" << fileName << ") doesn't exist");
   string pairtypestr = fstos("className", fileName);
   Pair* pair = NULL;
@@ -999,7 +999,7 @@ int Pair::printxyz(const char* fileName,  //!< file with configuration
     fileBackUp(ss.str().c_str());
     xyzFile = fopen(ss.str().c_str(), "w");
   } else if (initFlag == 2) {
-    if (myFileExists(ss.str().c_str())) {
+    if (fileExists(ss.str().c_str())) {
       return 0;
     } else {
       xyzFile = fopen(ss.str().c_str(), "w");
@@ -1066,13 +1066,13 @@ int Pair::printxyz(const char* fileName,  //!< file with configuration
       << "axes location Off" << endl;
     if (initFlag == 2) {
       radius = 10;
-      vmdf << "mol load xyz " << myTrim("/", fileName) << ".xyz" << endl
+      vmdf << "mol load xyz " << feasst::trim("/", fileName) << ".xyz" << endl
            << "animate delete beg 0 end 0" << endl
-           << "mol addfile " << myTrim("/", fileName) << ".xtc waitfor all"
+           << "mol addfile " << feasst::trim("/", fileName) << ".xtc waitfor all"
            << endl;
     } else {
       radius = 1;
-      vmdf << "topo readvarxyz " << myTrim("/", fileName) << ".xyz" << endl;
+      vmdf << "topo readvarxyz " << feasst::trim("/", fileName) << ".xyz" << endl;
     }
     vmdf << "mol modstyle 0 0 VDW 1.0000000 120.000000" << endl;
     if (space_->nParticleTypes() == 1) {
@@ -1821,11 +1821,11 @@ vector<double> Pair::iMol2neighAngles(const int iMol) {
         v1[dim] += dx1[dim];
         v2[dim] += dx2[dim];
       }
-      const double v1l = sqrt(myVecDotProd(v1, v1)),
-                   v2l = sqrt(myVecDotProd(v2, v2));
+      const double v1l = sqrt(vecDotProd(v1, v1)),
+                   v2l = sqrt(vecDotProd(v2, v2));
 
       // obtain the angle
-      const double angle = acos(myVecDotProd(v1, v2)/v1l/v2l);
+      const double angle = acos(vecDotProd(v1, v2)/v1l/v2l);
       // cout << "angle(deg) " << angle/PI*180 << endl;
       angles.push_back(angle);
     }
@@ -1926,7 +1926,7 @@ int Pair::printGRO(const char* fileName,  //!< name of file to print
     vmdf << "display projection Orthographic" << endl
          << "color Display Background white" << endl
          << "axes location Off" << endl
-         << "mol new " << myTrim("/", fileName)
+         << "mol new " << feasst::trim("/", fileName)
          << ".gro type {gro} first 0 last -1 step 1 waitfor all" << endl
          << "mol modstyle 0 0 VDW 1.0000000 10.000000" << endl;
 
@@ -2091,7 +2091,7 @@ void Pair::initJSONData(const string fileName) {  //!< LAMMPS Data file name
  */
 void Pair::initData(const std::string fileName) {  //!< Data file name
   // use file extension to determine whether to use JSON or LMP data files
-  if (myTrim(".", fileName) == "json") {
+  if (feasst::trim(".", fileName) == "json") {
     #ifdef JSON_
       initJSONData(fileName);
     #else

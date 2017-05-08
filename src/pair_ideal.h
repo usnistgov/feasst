@@ -24,9 +24,6 @@ class PairIdeal : public Pair {
   /// potential energy of multiple particles
   double multiPartEner(const vector<int> multiPart, const int flag);
 
-  double peTot() { return 0.; }   //!< total potential energy of system
-  double vrTot() { return 0.; }   //!< total virial of system
-
  protected:
 };
 

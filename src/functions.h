@@ -1,10 +1,5 @@
 /**
- *
- * \file
- *
- * \brief external function library
- *
- * Utility functions for multidimensional vectors
+ * Library of simple functions
  */
 
 #ifndef FUNCTIONS_H_
@@ -44,22 +39,30 @@ if (! (condition)) { \
             << " line " << __LINE__ << ": " << message; \
   customException c(err_msg); \
 }
+
+# define WARN(condition, message) \
+if (condition) { \
+  std::cout << "Warning `" #condition "` in " << __FILE__ \
+            << " line " << __LINE__ << ": " << message << std::endl; \
+}
+
+# define NOTE(message) \
+std::cout << "Note in " << __FILE__ \
+          << " line " << __LINE__ << ": " << message << std::endl; \
 //throw c;
 
-/// function to return the magnitude of the first argument, with the sign of the
-//  second argument
-double mySign(const double a, const double b);
+namespace feasst {
 
-/// function to add multidimensional vectors
-void myAdd(vector<vector<double> > &x, vector<vector<double> > &y);
+/// \return the magnitude of the first argument, with the sign of the second
+double sign(const double a, const double b);
 
 /// function to fill 2-d vector with input variable
-void myFill(const double y, vector<vector<double> > &x);
-void myFill(const int y, vector<vector<int> > &x);
+void fill(const double y, vector<vector<double> > &x);
+void fill(const int y, vector<vector<int> > &x);
 
 /// function to fill 3-d vector with input variable
 template<class T>
-void myFill(const T y, vector<vector<vector<T> > > &x) {
+void fill(const T y, vector<vector<vector<T> > > &x) {
   for (typename vector<vector<vector<T> > >::iterator iter = x.begin();
        iter != x.end(); ++iter) {
     for (typename vector<vector<T> >::iterator iter2 = (*iter).begin();
@@ -69,42 +72,21 @@ void myFill(const T y, vector<vector<vector<T> > > &x) {
   }
 };
 
-/// function to return determinant of 3d symmetric matrix given by 6d vector
-double det3DSym(const vector<double> &x);
-
-/// function to return trace of 3d symmetric matrix given by 6d vector
-double tr3DSym(const vector<double> &x);
-
-/// function to return square of two 3d symmetric matrix given by 6d vector
-void sq3DSym(vector<double> x, vector<double> &y);
-
-/// function to return the real roots of cubic equation given by 4d vector
-void cubicSolve(const double b, const double c, const double d,
-                double &r1, double &r2, double &r3);
-//void cubicSolve(const double a, const double b, const double c, const double d, vector<double> &y);
-//void cubicSolve(vector<double> &a, vector<double> &y);
-
-/// function to return the number of lines in a file
+/// \return the number of lines in a file
 int numLines(const string fileName);
 
-/// function to return vector which is product of matrix and vector
-void myMatVecMul(vector<vector<double> > &a, vector<double> &x, vector<double> &b);
-vector<double> myMatVecMul(vector<vector<double> > &a, vector<double> &x);
+/// \return vector which is product of matrix and vector e.g., A[][] x[] = b[]
+vector<double> matVecMul(const vector<vector<double> > &a, 
+  const vector<double> &x);
 
-/// function to return vector dot product, a.b=c
-double myVecDotProd(vector<double> &a, vector<double> &b);
+/// \return vector (inner) scalar dot product, a[] . b[] = scalar
+double vecDotProd(const vector<double> &a, const vector<double> &b);
 
-/// function to normalize vector to unit size
-void myVecNormalize(vector<double> &x);
+/// normalize vector to unit size
+void normalizeVec(vector<double> *x);
 
-/// function to return vector cross product, a*b=c
-void myVecCrosProd(vector<double> &a, vector<double> &b, vector<double> &c);
-
-/// minimum image separation vector
-void minimumImage(const vector<double> &xi, const vector<double> &xj, const vector<vector<double> > &boxMat, vector<double> &xij);
-
-/// generate spherical grid
-void sphereGrid(const int nTheta, const int nPhi, vector<vector<double> > &x);
+/// \return vector cross product
+vector<double> crossProd(const vector<double> &a, const vector<double> &b);
 
 /// PI = 3.14159265358979323846264338327950 truncated to double precision
 const double PI = 4.0*atan(1.0);
@@ -121,22 +103,24 @@ const double joulesPercal = 4.184;
 const double doubleTolerance = 1e-15;
 const double DTOL = doubleTolerance;  // FIX: depreciate doubleTolerance
 
-/// function to return random number (0,1) which requires initialization
-void myRanInitByDate();
-void myRanInitForRepro();
-void myRanInitForRepro(const int seed);
-/// function to randomly pick an integer number between bounds min and max, inclusive
+/// initialize random number generator based on date
+void ranInitByDate();
 
-/// function to generate rotation matrix from quaternions
-void quat2rot(vector<double> &q, vector<vector<double> > &r);
-vector<vector<double> > quat2rot(vector<double> q);
+/// initialize random number generator to seed value for reproducibility
+void ranInitForRepro(const int seed = 1346867550);
 
-/// function to generate 2d rotation matrix from angle
+/**
+ * \return rotation matrix from quaternions
+ * Franz J. Vesely, J. Comput. Phys., 47, 291-296 (1982)
+ */
+vector<vector<double> > quat2rot(vector<double> quaternion);
+
+/// \return 2d rotation matrix from angle
 vector<vector<double> > theta2rot(double theta);
 
-/// function to multiply all elements of a one dimensional vector
+/// \return product of all elements of a vector
 template<class T>
-T myProd(const vector<T> &vec) {
+T product(const vector<T> &vec) {
   T prod = 1;
   for (int i = 0; i < int(vec.size()); ++i) {
     prod *= vec[i];
@@ -144,57 +128,93 @@ T myProd(const vector<T> &vec) {
   return prod;
 };
 
-/// function to return vector x with atomic positions of a reference SPC/E water molecule
+/**
+ *  \return vector x with atomic positions of a reference SPC/E water molecule
+ *  vector of atoms, oxygen first
+ */
 vector<vector<double> > vecSPCE();
 
-/// function to return vector x with atomic positions of a reference one-patch molecule
-vector<vector<double> > vecOnePatch();
+/// \return product of two matrices
+vector<vector<double> > matMul(const vector<vector<double> > &a,
+  const vector<vector<double> > &b);
 
-///// function to return quaternions, given current positions and reference positions
-//vector<double> pos2quat(vector<vector<double> > x, vector<vector<double> > xref);
+/// \return volume of spherical shell
+double volShell(const double rabove,     //!< upper limit of shell
+                const double rbelow,     //!< lower limit of shell
+                const int dim = 3        //!< spatial dimensions
+);
 
-/// function to return product of two matrices
-void myMatMul(vector<vector<double> > &a, vector<vector<double> > &b, vector<vector<double> > &c);
-vector<vector<double> > myMatMul(vector<vector<double> > &a, vector<vector<double> > &b);
-
-/// function to return complimentary error function, from Numerical Recipes 6.2 pg 221
-double erfcc(const double x);
-
-double volShell(const double rabove, const double rbelow, const int dim);   //!< volume of shell
-
-/// function to return average of vector
-double myVecAv(const vector<int> &x);
+/// \return average of vector
 template<class T>
-double myVecAv(const vector<T> x) {return std::accumulate(x.begin(), x.end(), 0.) / int(x.size()); };
+double vecAverage(const vector<T> &x) {
+  return std::accumulate(x.begin(), x.end(), 0.) / int(x.size());
+};
 
-/// function to open file to write and create back-up
+/// \return true if file exists
+bool fileExists(const char* fileName);
+
+/// \return true if file exists
+bool fileExists(std::ifstream& file);
+
+/// renames file by appending with ".bak"
 void fileBackUp(const char* fileName);
-bool myFileExists(const char* fileName);
-bool myFileExists(std::ifstream& file);
 
-/// function to skip all lines beginning with character in file
+/// renames file by appending with ".bak"
+void fileBackUp(const std::string fileName);
+
+/// skip all lines beginning with character in file
 void skipCharsInFile(const char comment, std::ifstream &file);
 
 /// function to skip all lines until reaching a certain line
 void readUntil(const char* searchString, std::ifstream &file);
 
-/// test the speed of arrays
-void arraySpeedTest();
+/**
+ * given range of n, exponent, the number of windows, and overlap of windows, return vector with min and max
+ */
+vector<vector<int> > nWindow(const int nMolMin,   //!< minimum n
+  const int nMolMax,   //!< maximum n
+  const double nExp,   //!< exponent of distribution
+  const int nWindow,   //!< number of windows
+  const int nOverlap   //!< overlap of n between windows
+);
 
-/// given range of n, exponent, the number of windows, and overlap of windows, return vector with min and max
-vector<vector<int> > nWindow(const int nMolMin, const int nMolMax, const double nExp, const int nWindow, const int nOverlap);
-vector<vector<double> > nWindowGrowth(const double mMin, const double mMax, const double grow, const int nWindow, const double dm, const int overlap);
-vector<vector<double> > nWindowGrowth(const double mMin, const double mMax, const double grow, const int nWindow, const double dm);
+/**
+ * \return the range of windows in parallelization of an order parameter
+ *  the order parameter of the windows is in the range [mMin, mMax]
+ *  the number of windows is nWindow
+ *  the bin width of the order parameter is dm
+ *
+ *  the windows vary in sized based on the grow parameter.
+ *  if grow == 0, the windows are roughly the same size
+ *  if grow <  0, the windows decrease in size
+ *  if grow >  0, the windows increase in size
+ *  Note: grow != 0 is not working correctly
+ *
+ *  For example, if grow > 0, n=3, the windows may look like this
+ *
+ *  |---------------------| total window
+ *  |--|------|-----------| three windows
+ *
+ */
+vector<vector<double> > nWindowGrowth(const double mMin,   //!< minimum m
+  const double mMax,     //!< maximum m
+  const double grow,     //!< percentage to grow each window
+  const int nWindow,     //!< number of windows
+  const double dm,       //!< width of m
+  const int overlap = 0  //!< overlap+1 overlapping windows
+);
 
-/// given a file name in char*, return basename in string
-std::string myTrim(const char* specialchr, const char* fileName);
-std::string myTrim(const char* specialchr, string fileName);
+/// \return fileName with all characters up to the last specialchr removed
+std::string trim(const char* specialchr, const char* fileName);
 
-/// given a vector of data, return vector of index values for the local maxima
-//   tolerance is integer number of neighboring points that must be lower than local max (not counting boundary)
+/// \return fileName with all characters up to the last specialchr removed
+std::string trim(const char* specialchr, string fileName);
+
+/// \return vector of index values for the local maxima.
 template <class T>
 vector<int> findLocalMaxima(const vector<T> data,
-  const int itol    //!< tolerance
+  const int itol  /** integer number of neighboring points that must be lower
+    than local max (not counting boundary) */
   ) {
   vector<int> max;
 
@@ -206,18 +226,23 @@ vector<int> findLocalMaxima(const vector<T> data,
     if (lower < 0) lower = 0;
     if (upper >= int(data.size())) upper = int(data.size()) - 1;
 
-    const T windowMax = *std::max_element(data.begin() + lower, data.begin() + upper + 1);
+    const T windowMax = *std::max_element(data.begin() + lower,
+      data.begin() + upper + 1);
     if (windowMax == data[i]) max.push_back(i);
-    //cout << "i " << i << " d " << data[i] << " lower " << lower << " upper " << upper << " wm " << windowMax << " max.size " << max.size() << endl;
   }
   return max;
 };
 
-/// given a deque of data, return vector of index values for the local maxima
-//   tolerance is integer number of neighboring points that must be lower than local max (not counting boundary)
+/**
+ *  \return vector of index values for the local maxima.
+ * HWH NOTE: This is copy and pasted from above with vector, but 
+ * implementation with multiple templates leads to errors in swig. 
+ * See commented implementation of findLocalMinimum below.
+ */
 template <class T>
 vector<int> findLocalMaxima(const std::deque<T> data,
-  const int itol    //!< tolerance
+  const int itol  /** integer number of neighboring points that must be lower
+    than local max (not counting boundary) */
   ) {
   vector<int> max;
 
@@ -229,39 +254,14 @@ vector<int> findLocalMaxima(const std::deque<T> data,
     if (lower < 0) lower = 0;
     if (upper >= int(data.size())) upper = int(data.size()) - 1;
 
-    const T windowMax = *std::max_element(data.begin() + lower, data.begin() + upper + 1);
+    const T windowMax = *std::max_element(data.begin() + lower,
+      data.begin() + upper + 1);
     if (windowMax == data[i]) max.push_back(i);
-    //cout << "i " << i << " d " << data[i] << " lower " << lower << " upper " << upper << " wm " << windowMax << " max.size " << max.size() << endl;
   }
   return max;
 };
 
-///// given a container (e.g., vector, deque) of data, return vector of index values for the local maxima
-////   tolerance is integer number of neighboring points that must be lower than local max (not counting boundary)
-//template <template <typename, typename> class Container,
-//          typename Value,
-//          typename Allocator=std::allocator<Value> >
-//vector<int> findLocalMaxima(const Container<Value, Allocator> data,    //!< function
-//  const int itol    //!< tolerance
-//  ) {
-//  vector<int> max;
-//
-//  // process through data
-//  for (int i = 0; i < int(data.size()); ++i) {
-//
-//    // determine window range from tolerance, and fixing first and last elements
-//    int lower = i - itol, upper = i + itol;
-//    if (lower < 0) lower = 0;
-//    if (upper >= int(data.size())) upper = int(data.size()) - 1;
-//
-//    const Value windowMax = *std::max_element(data.begin() + lower, data.begin() + upper + 1);
-//    if (windowMax == data[i]) max.push_back(i);
-//    //cout << "i " << i << " d " << data[i] << " lower " << lower << " upper " << upper << " wm " << windowMax << " max.size " << max.size() << endl;
-//  }
-//  return max;
-//};
-
-// inverse of find local maxima
+/// \return inverse of find local maxima. Simply multiply the data by -1
 template <class T>
 vector<int> findLocalMinima(const vector<T> data,
   const int itol    //!< tolerance
@@ -283,18 +283,7 @@ vector<int> findLocalMinima(const vector<T> data,
 //  return findLocalMaxima(negData, itol);
 //};
 
-template<class T>
-T mySq(const T x) { return x*x; };
-
-// function to output error messages
-void myOut(const char* messageType, std::ostream& message, const std::string className, const int verbose);
-void myOutF(const char* messageType, std::ostream& message);
-
-// function to truncate to the nearest factor
-template<class T>
-T myTrunc(const T x, const T fac) { return x - (x%fac); };
-
-// convert vector of shared pointers to raw pointers
+/// \return vector of raw pointers from vector of shared pointers
 template<class T>
 vector<T*> shrPtr2Raw(vector<shared_ptr<T> > shrPtr) {
   vector<T*> raw;
@@ -304,80 +293,95 @@ vector<T*> shrPtr2Raw(vector<shared_ptr<T> > shrPtr) {
   return raw;
 };
 
-// return string reported after first appearance of string in file
+/// \return string reported after first appearance of searchString in file
 string fstos(const char* searchString, const char* fileName);
+
+/// \return double reported after first appearance of searchString in file
 double fstod(const char* searchString, const char* fileName);
-int    fstoi(const char* searchString, const char* fileName);
+
+/// \return integer reported after first appearance of searchString in file
+int fstoi(const char* searchString, const char* fileName);
+
+/// \return long long reported after first appearance of searchString in file
 long long fstoll(const char* searchString, const char* fileName);
+
+/**
+ * \return unsigned long long reported after first appearance of searchString
+ *  in file
+ */
 unsigned long long fstoull(const char* searchString, const char* fileName);
 
-// compute eigenvalues and eigenvectors of a 3x3 real symmetric matrix
-int jacobi(vector<vector<double> > matrix, vector<double> &evalues, vector<vector<double> > &evectors);
+/**
+ * compute eigenvalues and eigenvectors based on Jacobi rotations. Adapted 
+ * from LAMMPS, which was adapted from Numerical Recipes jacobi() function
+ *  \return error code (1 if failed) 
+ */
+int jacobi(vector<vector<double> > matrix,  //!< 3x3 real symmetric matrix
+  vector<double> &evalues,            //!< computed eigen values
+  vector<vector<double> > &evectors   //!< computed eigen vectors
+);
 
-// preform a single Jacobi rotation
-void rotateJacobi(vector<vector<double> > &matrix, const int i, const int j, const int k, const int l, const double s, const double tau);
+/**
+ * preform a single Jacobi rotation. Adapted from LAMMPS, via NR.
+ */
+void rotateJacobi(vector<vector<double> > &matrix, const int i, const int j,
+  const int k, const int l, const double s, const double tau);
 
-// compute the squared difference between two vectors
+// \return the squared difference between two vectors
 template<class T>
 T sqDiff(const vector<T> &x, const vector<T> &y) {
+  ASSERT(x.size() == y.size(), "x and y should be same size");
   T sum = 0;
-  if (x.size() != y.size()) myOutF("error", std::ostringstream().flush() << "x and y should be same size");
   for (int i = 0; i < int(x.size()); ++i) {
     sum += (x[i] - y[i])*(x[i] - y[i]);
   }
   return sum;
 };
 
-/// periodic boundary conditions for orientation angle in 2d
+/// \return periodic boundary conditions for orientation angle in 2d
 template<class T>
-T pbc2d(const T theta) { return -int(theta/2/PI)*2*PI;}; //!< pbc for 2d theta
+T pbc2d(const T theta) { return -int(theta/2./PI)*2.*PI;};
 
+/// \return arc cosine which is safe from rounding error
 template<class T>
-T pbcangle(const T theta, const T p) { return theta-int(theta/p)*p;}; //!< pbc for 2d theta
+T arccos(T x) { if (x < -1.) x = -1.; if (x > 1.) x = 1; return acos(x); };
 
-/// arc cosine safe from rounding error
+/// \return unit vector orthogonal to given vector
+vector<double> orthogonalVec(const vector<double> &x);
+
+/// \return rotation matrix for axis angle rotation
+vector<vector<double> > rotMatAxisAngle(
+  vector<double> axis, const double theta);
+
+/// \return vector rotated by angle theta about axis
+vector<double> rotateVecByAxisAngle(vector<double> x, vector<double> axis,
+  const double theta);
+
+/**
+ * Solves quadratic equation, given ax^2+bx+c=0.
+ * \return discriminant b^2-4ac
+ */
 template<class T>
-T myAcos(T x) { if (x < -1.) x = -1.; if (x > 1.) x = 1; return acos(x); };
-
-/// returns a unit vector orthogonal to given vector
-vector<double> orthogonalVec(const vector<double> x);
-
-/// returns rotation matrix for arbitrary rotation axis, u, by an angle theta
-vector<vector<double> > rotMatAxisAngle(vector<double> u, const double theta);
-
-/// returns vector rotated by angle theta about axis u
-vector<double> rotateVecByAxisAngle(vector<double> x, vector<double> axis, const double theta);
-
-/// draw a superquadric
-//  |x/A|^r + |y/B|^s + |z/C|^t <= 1
-vector<vector<double> > superQuadric3D(const double A, const double r, const int n, const double umid, const double vmid, const double du, const double dv);
-vector<vector<double> > superQuadric3D(const double A, const double r, const int n);
-double cosfSuperQuad(const double w, const double m);
-double sinfSuperQuad(const double w, const double m);
-
-/// minimum distance between two objects described by grid points
-void minDistGrid(const vector<vector<double> > &x1, const vector<vector<double> > &x2, double &xmin, int &x1min, int &x2min);
-
-/// solves quadratic equation, given ax^2+bx+c=0, return x1 and x2. Error if no real solution
-template<class T>
-T quadraticEqReal(const T a, const T b, const T c, T &x1, T &x2) {
+T quadraticEqReal(const T a, const T b, const T c,
+  T &x1,  //!< first root of the quadratic equation
+  T &x2   //!< second root of the quadratic equation
+  ) {
   const T discriminant = b*b-4*a*c;
-  if (a*b*c == 0) {
-    myOutF("error", std::ostringstream().flush() << "zero coefficient for quadratic equation: a(" << a << ")x^2 + b(" << b << ")x + c(" << c << " ) = 0. Discriminant = " << discriminant << ". Or a coefficient is zero");
-  }
-  if (discriminant < 0) {
-    //myOutF("error", std::ostringstream().flush() << "imaginary roots for quadratic equation: a(" << a << ")x^2 + b(" << b << ")x + c(" << c << " ) = 0. Discriminant = " << discriminant << ". Or a coefficient is zero");
-    //    cout << "imaginary roots for quadratic equation: a(" << a << ")x^2 + b(" << b << ")x + c(" << c << " ) = 0. Discriminant = " << discriminant << ". Or a coefficient is zero" << endl;
-  } else {
+  ASSERT(a*b*c != 0, "zero coefficient for quadratic equation: a(" << a 
+    << ")x^2 + b(" << b << ")x + c(" << c << " ) = 0. Discriminant = " 
+    << discriminant << ". Or a coefficient is zero");
+  if (discriminant >= 0) {
     x1 = (-b+sqrt(discriminant))/2/a;
     x2 = (-b-sqrt(discriminant))/2/a;
   }
   return discriminant;
 };
 
-// find value in list, and return true if found, with index of list
+/// \return if value is found in list
 template<class T>
-bool findInList(const T value, const vector<T> &list, int &index) {
+bool findInList(const T value, const vector<T> &list,
+  int &index  //!< last index in list where value was found
+  ) {
   bool in = false;
   index = -1;
   for (int i = 0; i < int(list.size()); ++i) {
@@ -389,44 +393,68 @@ bool findInList(const T value, const vector<T> &list, int &index) {
   return in;
 };
 
-// find value in list, and return true if found
+/// \return if value is found in list
 template<class T>
-bool findInList(const T value, const vector<T> &list) { int index; return findInList(value, list, index); };
+bool findInList(const T value, const vector<T> &list) { 
+  int index;
+  return findInList(value, list, index); 
+};
 
-// convert cartesian coordinates vector to spherical coordinates
+/// \return spherical coordinates given cartesian coordinates
 vector<double> cartesian2spherical(vector<double> rCart);
 
-// returns the spherical harmonics (l=6) of a cartesian vector r
+/// \return spherical harmonics (l=6) of a cartesian vector r
 vector<std::complex<double> > cart2sphereHarm6(vector<double> rCart);
 
-// returns sum of vector of complex numbers multiplied by its conjugate
+/// \return sum of vector of complex numbers multiplied by its conjugate
 double complexVec2norm(vector<std::complex<double> > compVec);
 
-// round double to nearest integer
-int myRound(double x);
+/// \return rounded double to nearest integer
+int round(double x);
 
-// obtain a rotation matrix from euler angles
+/**
+ * \return rotation matrix from euler angles
+ *
+ * http://mathworld.wolfram.com/EulerAngles.html
+ *
+ * Euler angles (phi, theta, psi) are defined by rotation phi about z-axis,
+ *  rotation theta about new x-xis, then rotation psi about new z-axis
+ *  phi [-pi,pi], theta [0, pi], psi [-pi, pi]
+ */
 vector<vector<double> > Euler2RotMat(const vector<double> euler);
 
-// obtain euler angles from a rotation matrix
+/// \return euler angles from rotation matrix (same convention as Euler2RotMat)
 vector<vector<double> > RotMat2Euler(const vector<vector<double> > rotMat);
 
-// determinant of a 3x3 matrix
-double det3by3(const vector<vector<double> > mat);
-double det2by2(const vector<vector<double> > mat);
+/// \return determinant of a 3x3 matrix
+double det3by3(const vector<vector<double> > matrix);
 
-// cofactor of a 3x3 matrix
-vector<vector<double> > cofactor3by3(const vector<vector<double> > mat);
+/// \return determinant of a 2x2 matrix
+double det2by2(const vector<vector<double> > matrix);
 
-// transpose
-vector<vector<double> > transpose(const vector<vector<double> > mat);
+/// \return cofactor of a 3x3 matrix
+vector<vector<double> > cofactor3by3(const vector<vector<double> > matrix);
 
-// inverse
-vector<vector<double> > inv3by3(const vector<vector<double> > mat);
-
-// minimum element in a multidimensional vector
+/// \return transpose of a matrix
 template<class T>
-T myMinElement(vector<vector<vector<vector<vector<vector<T> > > > > > vec) {
+vector<vector<T> > transpose(const vector<vector<T> > matrix) {
+  vector<vector<T> > transpose(int(matrix[0].size()), vector<T>(
+    int(matrix.size())));
+  for (int idim = 0; idim < int(matrix.size()); ++idim) {
+    for (int jdim = 0; jdim < int(matrix[idim].size()); ++jdim) {
+      transpose[jdim][idim] = matrix[idim][jdim];
+    }
+  }
+  return transpose;
+}
+
+
+/// \return inverse of a 3x3 matrix
+vector<vector<double> > inv3by3(const vector<vector<double> > matrix);
+
+/// \return minimum element in a multidimensional vector
+template<class T>
+T minElement(vector<vector<vector<vector<vector<vector<T> > > > > > vec) {
   vector<T> mins5;
   for (int t = 0; t < int(vec.size()); ++t) {
     vector<T> mins4;
@@ -437,20 +465,27 @@ T myMinElement(vector<vector<vector<vector<vector<vector<T> > > > > > vec) {
         for (int j = 0; j < int(vec[0][0][0].size()); ++j) {
           vector<T> mins;
           for (int r = 0; r < int(vec[0][0][0][0].size()); ++r) {
-            mins.push_back(*std::min_element(vec[t][l][k][j][r].begin(), vec[t][l][k][j][r].begin()+int(vec[t][l][k][j][r].size())));
+            mins.push_back(*std::min_element(vec[t][l][k][j][r].begin(),
+              vec[t][l][k][j][r].begin()+int(vec[t][l][k][j][r].size())));
           }
-          mins2.push_back(*std::min_element(mins.begin(), mins.begin()+int(mins.size())));
+          mins2.push_back(*std::min_element(mins.begin(),
+            mins.begin()+int(mins.size())));
         }
-        mins3.push_back(*std::min_element(mins2.begin(), mins2.begin()+int(mins2.size())));
+        mins3.push_back(*std::min_element(mins2.begin(),
+          mins2.begin()+int(mins2.size())));
       }
-      mins4.push_back(*std::min_element(mins3.begin(), mins3.begin()+int(mins3.size())));
+      mins4.push_back(*std::min_element(mins3.begin(),
+        mins3.begin()+int(mins3.size())));
     }
-    mins5.push_back(*std::min_element(mins4.begin(), mins4.begin()+int(mins4.size())));
+    mins5.push_back(*std::min_element(mins4.begin(),
+      mins4.begin()+int(mins4.size())));
   }
   return *std::min_element(mins5.begin(), mins5.begin()+int(mins5.size()));
 };
+
+/// \return maximum element in a multidimensional vector
 template<class T>
-T myMaxElement(vector<vector<vector<vector<vector<vector<T> > > > > > vec) {
+T maxElement(vector<vector<vector<vector<vector<vector<T> > > > > > vec) {
   vector<T> maxs5;
   for (int t = 0; t < int(vec.size()); ++t) {
     vector<T> maxs4;
@@ -461,22 +496,26 @@ T myMaxElement(vector<vector<vector<vector<vector<vector<T> > > > > > vec) {
         for (int j = 0; j < int(vec[0][0][0].size()); ++j) {
           vector<T> maxs;
           for (int r = 0; r < int(vec[0][0][0][0].size()); ++r) {
-            maxs.push_back(*std::max_element(vec[t][l][k][j][r].begin(), vec[t][l][k][j][r].begin()+int(vec[t][l][k][j][r].size())));
+            maxs.push_back(*std::max_element(vec[t][l][k][j][r].begin(),
+              vec[t][l][k][j][r].begin()+int(vec[t][l][k][j][r].size())));
           }
-          maxs2.push_back(*std::max_element(maxs.begin(), maxs.begin()+int(maxs.size())));
+          maxs2.push_back(*std::max_element(maxs.begin(),
+            maxs.begin()+int(maxs.size())));
         }
-        maxs3.push_back(*std::max_element(maxs2.begin(), maxs2.begin()+int(maxs2.size())));
+        maxs3.push_back(*std::max_element(maxs2.begin(),
+          maxs2.begin()+int(maxs2.size())));
       }
-      maxs4.push_back(*std::max_element(maxs3.begin(), maxs3.begin()+int(maxs3.size())));
+      maxs4.push_back(*std::max_element(maxs3.begin(),
+        maxs3.begin()+int(maxs3.size())));
     }
-    maxs5.push_back(*std::max_element(maxs4.begin(), maxs4.begin()+int(maxs4.size())));
+    maxs5.push_back(*std::max_element(maxs4.begin(),
+      maxs4.begin()+int(maxs4.size())));
   }
   return *std::max_element(maxs5.begin(), maxs5.begin()+int(maxs5.size()));
 };
 
-// minimum element in a multidimensional vector
 template<class T>
-T myMinElement(vector<vector<vector<vector<vector<T> > > > > vec) {
+T minElement(vector<vector<vector<vector<vector<T> > > > > vec) {
   vector<T> mins4;
   for (int t = 0; t < int(vec.size()); ++t) {
     vector<T> mins3;
@@ -485,18 +524,22 @@ T myMinElement(vector<vector<vector<vector<vector<T> > > > > vec) {
       for (int k = 0; k < int(vec[0][0].size()); ++k) {
         vector<T> mins;
         for (int j = 0; j < int(vec[0][0][0].size()); ++j) {
-          mins.push_back(*std::min_element(vec[t][l][k][j].begin(), vec[t][l][k][j].begin()+int(vec[t][l][k][j].size())));
+          mins.push_back(*std::min_element(vec[t][l][k][j].begin(),
+            vec[t][l][k][j].begin()+int(vec[t][l][k][j].size())));
         }
-        mins2.push_back(*std::min_element(mins.begin(), mins.begin()+int(mins.size())));
+        mins2.push_back(*std::min_element(mins.begin(),
+          mins.begin()+int(mins.size())));
       }
-      mins3.push_back(*std::min_element(mins2.begin(), mins2.begin()+int(mins2.size())));
+      mins3.push_back(*std::min_element(mins2.begin(),
+        mins2.begin()+int(mins2.size())));
     }
-    mins4.push_back(*std::min_element(mins3.begin(), mins3.begin()+int(mins3.size())));
+    mins4.push_back(*std::min_element(mins3.begin(),
+      mins3.begin()+int(mins3.size())));
   }
   return *std::min_element(mins4.begin(), mins4.begin()+int(mins4.size()));
 };
 template<class T>
-T myMaxElement(vector<vector<vector<vector<vector<T> > > > > vec) {
+T maxElement(vector<vector<vector<vector<vector<T> > > > > vec) {
   vector<T> maxs4;
   for (int t = 0; t < int(vec.size()); ++t) {
     vector<T> maxs3;
@@ -505,120 +548,94 @@ T myMaxElement(vector<vector<vector<vector<vector<T> > > > > vec) {
       for (int k = 0; k < int(vec[0][0].size()); ++k) {
         vector<T> maxs;
         for (int j = 0; j < int(vec[0][0][0].size()); ++j) {
-          maxs.push_back(*std::max_element(vec[t][l][k][j].begin(), vec[t][l][k][j].begin()+int(vec[t][l][k][j].size())));
+          maxs.push_back(*std::max_element(vec[t][l][k][j].begin(),
+            vec[t][l][k][j].begin()+int(vec[t][l][k][j].size())));
         }
-        maxs2.push_back(*std::max_element(maxs.begin(), maxs.begin()+int(maxs.size())));
+        maxs2.push_back(*std::max_element(maxs.begin(),
+          maxs.begin()+int(maxs.size())));
       }
-      maxs3.push_back(*std::max_element(maxs2.begin(), maxs2.begin()+int(maxs2.size())));
+      maxs3.push_back(*std::max_element(maxs2.begin(),
+        maxs2.begin()+int(maxs2.size())));
     }
-    maxs4.push_back(*std::max_element(maxs3.begin(), maxs3.begin()+int(maxs3.size())));
+    maxs4.push_back(*std::max_element(maxs3.begin(),
+      maxs3.begin()+int(maxs3.size())));
   }
   return *std::max_element(maxs4.begin(), maxs4.begin()+int(maxs4.size()));
 };
 
-// minimum element in a multidimensional vector
 template<class T>
-T myMinElement(vector<vector<vector<vector<T> > > > vec) {
+T minElement(vector<vector<vector<vector<T> > > > vec) {
   vector<T> mins3;
   for (int l = 0; l < int(vec.size()); ++l) {
     vector<T> mins2;
     for (int k = 0; k < int(vec[0].size()); ++k) {
       vector<T> mins;
       for (int j = 0; j < int(vec[0][0].size()); ++j) {
-        mins.push_back(*std::min_element(vec[l][k][j].begin(), vec[l][k][j].begin()+int(vec[l][k][j].size())));
+        mins.push_back(*std::min_element(vec[l][k][j].begin(),
+          vec[l][k][j].begin()+int(vec[l][k][j].size())));
       }
-      mins2.push_back(*std::min_element(mins.begin(), mins.begin()+int(mins.size())));
+      mins2.push_back(*std::min_element(mins.begin(),
+        mins.begin()+int(mins.size())));
     }
-    mins3.push_back(*std::min_element(mins2.begin(), mins2.begin()+int(mins2.size())));
+    mins3.push_back(*std::min_element(mins2.begin(),
+      mins2.begin()+int(mins2.size())));
   }
   return *std::min_element(mins3.begin(), mins3.begin()+int(mins3.size()));
 };
 template<class T>
-T myMaxElement(vector<vector<vector<vector<T> > > > vec) {
+T maxElement(vector<vector<vector<vector<T> > > > vec) {
   vector<T> maxs3;
   for (int l = 0; l < int(vec.size()); ++l) {
     vector<T> maxs2;
     for (int k = 0; k < int(vec[0].size()); ++k) {
       vector<T> maxs;
       for (int j = 0; j < int(vec[0][0].size()); ++j) {
-        maxs.push_back(*std::max_element(vec[l][k][j].begin(), vec[l][k][j].begin()+int(vec[l][k][j].size())));
+        maxs.push_back(*std::max_element(vec[l][k][j].begin(),
+          vec[l][k][j].begin()+int(vec[l][k][j].size())));
       }
-      maxs2.push_back(*std::max_element(maxs.begin(), maxs.begin()+int(maxs.size())));
+      maxs2.push_back(*std::max_element(maxs.begin(),
+        maxs.begin()+int(maxs.size())));
     }
-    maxs3.push_back(*std::max_element(maxs2.begin(), maxs2.begin()+int(maxs2.size())));
+    maxs3.push_back(*std::max_element(maxs2.begin(),
+      maxs2.begin()+int(maxs2.size())));
   }
   return *std::max_element(maxs3.begin(), maxs3.begin()+int(maxs3.size()));
 };
-// minimum element in a multidimensional vector
 template<class T>
-T myMinElement(vector<vector<vector<T> > > vec) {
+T minElement(vector<vector<vector<T> > > vec) {
   vector<T> mins2;
   for (int k = 0; k < int(vec.size()); ++k) {
     vector<T> mins;
     for (int j = 0; j < int(vec[0].size()); ++j) {
-      mins.push_back(*std::min_element(vec[k][j].begin(), vec[k][j].begin()+int(vec[k][j].size())));
+      mins.push_back(*std::min_element(vec[k][j].begin(),
+        vec[k][j].begin()+int(vec[k][j].size())));
     }
-    mins2.push_back(*std::min_element(mins.begin(), mins.begin()+int(mins.size())));
+    mins2.push_back(*std::min_element(mins.begin(),
+      mins.begin()+int(mins.size())));
   }
   return *std::min_element(mins2.begin(), mins2.begin()+int(mins2.size()));
 };
 template<class T>
-T myMaxElement(vector<vector<vector<T> > > vec) {
+T maxElement(vector<vector<vector<T> > > vec) {
   vector<T> maxs2;
   for (int k = 0; k < int(vec.size()); ++k) {
     vector<T> maxs;
     for (int j = 0; j < int(vec[0].size()); ++j) {
-      maxs.push_back(*std::max_element(vec[k][j].begin(), vec[k][j].begin()+int(vec[k][j].size())));
+      maxs.push_back(*std::max_element(vec[k][j].begin(),
+        vec[k][j].begin()+int(vec[k][j].size())));
     }
-    maxs2.push_back(*std::max_element(maxs.begin(), maxs.begin()+int(maxs.size())));
+    maxs2.push_back(*std::max_element(maxs.begin(),
+      maxs.begin()+int(maxs.size())));
   }
   return *std::max_element(maxs2.begin(), maxs2.begin()+int(maxs2.size()));
 };
 
-/// convert quaternion vector to euler angles (uses quat2rot -> rot2euler)
+/// \return euler angles given quaternions
 vector<double> quat2euler(vector<double> quat);
-
-/// convert euler angles to quaternions
-// NOTE: This doesn't work!!
-vector<double> rot2quat(const vector<vector<double> > &rot);
-
-/// periodic boundary conditions for euler angles
-void eulerPBC(vector<double> &euler);
-
-/// output matrix
-template<class T>
-void myCout(vector<T> data) {
-  for (unsigned int i = 0; i < data.size(); ++i) {
-    cout << data[i] << " ";
-  }
-  cout << endl;
-};
-template<class T>
-void myCout(vector<vector<T> > data) {
-  for (unsigned int i = 0; i < data.size(); ++i) {
-    for (unsigned int j = 0; j < data.size(); ++j) {
-      cout << data[i][j] << " ";
-    }
-    cout << endl;
-  }
-};
-
-/// my acos includes some double precision checks
-double myACOS(double x);
-
-/// trapezoid rule integration
-template<class T>
-double myIntegratorTrapezoid(vector<T> data) {
-  double accumulator = 0;
-  for (unsigned int i = 0; i < data.size()-1; ++i) {
-    accumulator += 0.5*(data[i]+data[i+1]);
-  }
-  return accumulator;
-}
 
 /// resize vectors
 template<class T>
-void myResize(const int xs, const int ys, vector<vector<T> > *vec) {
+void resize(const int xs, const int ys, vector<vector<T> > *vec) {
   vec->resize(xs);
   for (unsigned int i = 0; i < vec->size(); ++i) {
     (*vec)[i].resize(ys);
@@ -637,7 +654,7 @@ vector<vector<T> > outerProd(const vector<T> &u, const vector<T> &v) {
   return res;
 }
 
-/// outer product of two vectors returns matrix
+/// \return string representation of vector
 template<class T>
 std::string vec2str(const vector<T> &vec) {
   std::stringstream ss;
@@ -646,6 +663,15 @@ std::string vec2str(const vector<T> &vec) {
   }
   return ss.str();
 }
+template<class T>
+std::string vec2str(const vector<vector<T> > &vec) {
+  std::stringstream ss;
+  for (unsigned int i = 0; i < vec.size(); ++i) {
+    ss << vec2str(vec[i]) << endl;
+  }
+  return ss.str();
+}
 
+} // namespace feasst
 
 #endif  //FUNCTIONS_H_

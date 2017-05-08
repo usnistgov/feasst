@@ -66,11 +66,6 @@ class Analyze : public BaseAll {
   int nFreqPrint_;   //!< frequency for printing
   string fileName_;  //!< file name to print analysis
 
-  // error messaging
-  void mout_(const char* messageType, std::ostream& message) {
-    myOut(messageType, message, className_, verbose_);
-  }
-
   // clone design pattern
   virtual shared_ptr<Analyze> cloneImpl(Space* space, Pair* pair) const;
 };

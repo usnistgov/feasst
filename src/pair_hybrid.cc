@@ -1,17 +1,7 @@
-/**
- * \file
- *
- * \brief ideal gas, no interactions
- *
- */
-
 #include "pair_hybrid.h"
 
 namespace feasst {
 
-/**
- * Constructor
- */
 PairHybrid::PairHybrid(Space* space,
          const double rCut  //!< interaction cut-off distance
   )

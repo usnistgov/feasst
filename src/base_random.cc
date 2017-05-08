@@ -79,7 +79,7 @@ void BaseRandom::clearRNG() {
 void BaseRandom::initRNG(const char* fileName) {
   stringstream ss;
   ss << fileName << "rng";
-  if (myFileExists(ss.str().c_str())) {
+  if (fileExists(ss.str().c_str())) {
     if (ranNumOwned_) delete ranNum_;
     ranNum_ = new RandomNR3(ss.str().c_str());
     ranNumOwned_ = true;
@@ -94,10 +94,7 @@ void BaseRandom::initRNG(const char* fileName) {
 double BaseRandom::uniformRanNum() {
   if (ranNum_ == NULL) initRNG();
   const double ran = ranNum_->uniform();
-  if (ran == 0.) {
-    mout_("warning", std::ostringstream().flush()
-      << "uniformRanNum is exactly 0 to double precision accuracy");
-  }
+  WARN(ran == 0., "uniformRanNum is exactly 0 to double precision accuracy");
   return ran;
 }
 

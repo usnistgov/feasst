@@ -68,8 +68,8 @@ int PairLJ::initEnergy() {
 
   // zero accumulators: potential energy, force, and virial
   std::fill(pe_.begin(), pe_.end(), 0.);
-  myFill(0., f_);
-  myFill(0., vr_);
+  feasst::fill(0., f_);
+  feasst::fill(0., vr_);
   peLJ_ = 0;
   fCOM_.clear();
   fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));

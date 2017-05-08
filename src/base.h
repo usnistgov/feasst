@@ -66,11 +66,6 @@ class Base {
   std::string className_;     //!< name of class
   string install_dir_;        //!< install directory
   int verbose_;               //!< flag for verbose printing
-
-  // error messaging
-  void mout_(const char* messageType, std::ostream& message) {
-    myOut(messageType, message, className_, verbose_);
-  }
 };
 
 }  // namespace feasst

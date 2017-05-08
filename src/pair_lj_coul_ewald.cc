@@ -75,8 +75,8 @@ int PairLJCoulEwald::initEnergy() {
 
   // zero accumulators: potential energy, force, and virial
   std::fill(pe_.begin(), pe_.end(), 0.);
-  myFill(0., f_);
-  myFill(0., vr_);
+  feasst::fill(0., f_);
+  feasst::fill(0., vr_);
 
   // loop through pairs of molecules
   for (int iMol = 0; iMol < nMol - 1; ++iMol) {
@@ -327,10 +327,10 @@ double PairLJCoulEwald::multiPartEnerRealAtomCut(
   peQRealone_ = 0;
   neighOne_.clear();
   neighOne_.resize(mpart.size(), vector<int>());
-  myFill(0, neighOne_);
+  feasst::fill(0, neighOne_);
 //  neighCutOne_.clear();
 //  neighCutOne_.resize(mpart.size(), vector<int>());
-//  myFill(0, neighCutOne_);
+//  feasst::fill(0, neighCutOne_);
 
   for (unsigned int impart = 0; impart < mpart.size(); ++impart) {
     const int ipart = mpart[impart];
@@ -440,7 +440,7 @@ void PairLJCoulEwald::k2maxset(
           kvect[0] = 2.*PI*kx/space_->l(0);
           kvect[1] = 2.*PI*ky/space_->l(1);
           kvect[2] = 2.*PI*kz/space_->l(2);
-          const double k2 = myVecDotProd(kvect, kvect);
+          const double k2 = vecDotProd(kvect, kvect);
           double factor = 1.;
           if (kx != 0) factor = 2;
           kexp_.push_back(2.*PI*factor*exp(-k2/4./alpha/alpha)/k2
@@ -506,7 +506,7 @@ void PairLJCoulEwald::selfCorrect(
         }
 
         // separation distance
-        double r = sqrt(myVecDotProd(xij, xij));
+        double r = sqrt(vecDotProd(xij, xij));
         peQFrrSelfone_ += q_[type[ipart]]*q_[type[jpart]]*erf(alpha*r)/r;
       }
     }
@@ -530,8 +530,7 @@ void PairLJCoulEwald::delPart(const int ipart) {     //!< particle to delete
   eikix_.erase(eikix_.begin() + ipart);
   eikiy_.erase(eikiy_.begin() + ipart);
   eikiz_.erase(eikiz_.begin() + ipart);
-  mout_("warning", std::ostringstream().flush()
-    << "Depreciated function delPart(const int ipart)");
+  NOTE("Depreciated function delPart(const int ipart)");
   delPartBase(ipart);
 }
 

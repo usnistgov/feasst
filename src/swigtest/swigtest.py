@@ -16,7 +16,7 @@ class TestFunctions(unittest.TestCase):
     imax=9
     n=10000
     x=np.array(range(imax+1))
-    feasst.myRanInitByDate()
+    feasst.ranInitByDate()
     s=feasst.Space(3,0)
     for i in range(n):
         ran=s.uniformRanNum(imin, imax)
@@ -146,7 +146,7 @@ class TestPair(unittest.TestCase):
 class TestTrial(unittest.TestCase):
 #    #check wltmmc algorithm with ideal gas
 #    def testTrialIdealTMMC(self):
-#        feasst.myRanInitByDate()
+#        feasst.ranInitByDate()
 #        s=feasst.Space(3,0)
 #        s.init_config(12)
 #        p=feasst.PairIdeal(s,5)
@@ -176,7 +176,7 @@ class TestTrial(unittest.TestCase):
 
     #check that for all pairs and criteria, neighbor list and potential energy are updated properly
     def testTrialPEandNeighUpdate(self):
-        feasst.myRanInitByDate()
+        feasst.ranInitByDate()
         ctlist = ["metropolis","wltmmc"]
         ptlist = ["lj","ideal"]
         for pt in ptlist:

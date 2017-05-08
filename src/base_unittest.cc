@@ -20,11 +20,11 @@ TEST(Base, base) {
  */
 TEST(BaseMath, ranShell) {
   BaseMath math;
-  myRanInitByDate();
+  ranInitByDate();
   const double rabove = 5., rbelow = 2.5;
   for (int i = 0; i < 1000; ++i) {
     vector<double> x = math.ranShell(rabove, rbelow, 3);
-    const double r = sqrt(myVecDotProd(x, x));
+    const double r = sqrt(vecDotProd(x, x));
     EXPECT_GE(r, rbelow);
     EXPECT_LE(r, rabove);
   }
@@ -45,7 +45,7 @@ TEST(BaseMath, ranFromCPDF) {
 }
 
 TEST(BaseMath, quatRandomNorm) {
-	myRanInitByDate();
+	ranInitByDate();
   BaseMath math;
   const int nRand = 100;
   vector<double> q = math.quatRandom(0);
@@ -55,9 +55,9 @@ TEST(BaseMath, quatRandomNorm) {
   EXPECT_NEAR(1, q[3], 1e-18);
   for (int i = 0; i < nRand; ++i) {
     q = math.quatRandom(1);
-    EXPECT_NEAR(1, myVecDotProd(q, q), 1e-15);
+    EXPECT_NEAR(1, vecDotProd(q, q), 1e-15);
     vector<double> q2 = math.quatRandom();
-    EXPECT_NEAR(1, myVecDotProd(q2, q2), 1e-14);
+    EXPECT_NEAR(1, vecDotProd(q2, q2), 1e-14);
   }
 }
 
@@ -73,22 +73,22 @@ TEST(BaseMath, randQuatAndRotSphere) {
   vector<vector<double> > r;
   const int dim1 = 3; const int dim2 = 3;
   r.resize(dim1, vector<double>(dim2));
-	myRanInitByDate();
+	ranInitByDate();
   const int nRand = 1000;
   for (int i = 0; i < nRand; ++i) {
     vector<double> q = math.quatRandom();
     EXPECT_NEAR(1, q[0]*q[0] + q[1]*q[1] + q[2]*q[2] + q[3]*q[3], 1e-14);
-    quat2rot(q, r);
-    myMatVecMul(r, x, y);
+    //quat2rot(q, r);
+    //matVecMul(r, x, y);
   }
 }
 
 TEST(BaseMath, ranUnitSphere) {
-  myRanInitByDate();
+  ranInitByDate();
   BaseMath math;
   for (int i = 0; i < 100; ++i) {
     vector<double> x = math.ranUnitSphere(3);
-    EXPECT_NEAR(1, myVecDotProd(x, x), 1e-14);
+    EXPECT_NEAR(1, vecDotProd(x, x), 1e-14);
   }
 }
 
@@ -99,14 +99,14 @@ TEST(BaseMath, ranAngle) {
 }
 
 TEST(BaseMath, eulerRandom) {
-  myRanInitByDate();
+  ranInitByDate();
   BaseMath math;
   const int n = 10000;
   vector<double> xref(3); xref[0] = 1;
   for (int i = 0; i < n; ++i) {
     vector<double> euler = math.eulerRandom();
     vector<vector<double> > R = Euler2RotMat(euler);
-    vector<double> x = myMatVecMul(R, xref);
+    vector<double> x = matVecMul(R, xref);
     // test by visual inspection
     //cout << x[0] << " " << x[1] << " " << x[2] << endl;
   }

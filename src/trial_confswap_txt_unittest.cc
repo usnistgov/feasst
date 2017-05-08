@@ -43,7 +43,7 @@ TEST(TrialConfSwapTXT, confswap) {
   tcs2->initMType("nmol");
   tcs2->addProcOverlap(s.nMol(), 0);
 
-  myRanInitByDate();
+  ranInitByDate();
   const int nAttempts = 300;
   for (int i = 0; i < nAttempts; ++i) {
     tt.attempt();

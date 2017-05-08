@@ -26,7 +26,7 @@ Histogram::Histogram(const double binWidth,
   jType_ = jType;
 }
 Histogram::Histogram(const char* fileName) {
-  ASSERT(myFileExists(fileName),
+  ASSERT(fileExists(fileName),
     "restart file(" << fileName << ") doesn't exist");
   defaultConstruction_();
   binWidth_ = fstod("binWidth", fileName);
@@ -38,7 +38,7 @@ Histogram::Histogram(const char* fileName) {
   // centerZero_ = fstoi("centerZero", fileName);
 
   // compute the size of the histogram
-  const int size = myRound((max_ - min_)/binWidth_);
+  const int size = feasst::round((max_ - min_)/binWidth_);
 
   // cout << " open file and skip header lines" << endl;
   std::ifstream fs(fileName);

@@ -1,8 +1,5 @@
 /**
- * \file
- *
- * \brief trial moves for Monte Carlo
- *
+ * This file is a stub or placeholder for an experimental class that is not part of this release.
  */
 
 #ifndef TRIAL_GCA_H_

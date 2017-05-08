@@ -1,10 +1,7 @@
 /**
- * \file
- *
- * \brief This file is a stub
- *
  * This file is a stub or placeholder for an experimental class that is not part of this release.
  */
+
 #ifndef PAIR_TABULAR_H_
 #define PAIR_TABULAR_H_
 

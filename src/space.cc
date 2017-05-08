@@ -24,7 +24,7 @@ Space::Space(int dimen,  //!< spatial dimensionality
 }
 Space::Space(const char* fileName) {
   className_.assign("Space");
-  ASSERT(myFileExists(fileName),
+  ASSERT(fileExists(fileName),
          "restart file(" << fileName << ") doesn't exist");
 
   // cout << " initialize identity and dimensionality, plus defaults" << endl;
@@ -294,7 +294,7 @@ int Space::printxyz(const char* fileName,   //!< file with configuration
     fileBackUp(ss.str().c_str());
     xyzFile = fopen(ss.str().c_str(), "w");
   } else if (initFlag == 2) {
-    if (myFileExists(ss.str().c_str())) {
+    if (fileExists(ss.str().c_str())) {
       return 0;
     } else {
       xyzFile = fopen(ss.str().c_str(), "w");
@@ -607,7 +607,7 @@ void Space::randRotate(
           for (int i = 0; i < qdim_; ++i) {
             q.push_back(qMol_[iMol*qdim_+i] + maxDisp*qran[i]);
           }
-          const double qsize = sqrt(myVecDotProd(q, q));
+          const double qsize = sqrt(vecDotProd(q, q));
           for (int i = 0; i < qdim_; ++i) {
             q[i] /= qsize;
           }
@@ -620,7 +620,8 @@ void Space::randRotate(
       } else {
         // perturb euler angles by a factor maxDisp, or completely randomly
         vector<double> eran = eulerRandom(), e = eran;
-        ASSERT(maxDisp <= 0, "euler angle perturbation not implemented");
+        ASSERT(maxDisp <= 0, "euler angle perturbation not implemented. "
+          << "Use quaternions instead");
         for (int i = 0; i < qdim_-1; ++i) {
           qMol_[iMol*qdim_+i] = e[i];
         }
@@ -683,7 +684,7 @@ void Space::randRotateMulti(
     for (int i = 0; i < qdim_; ++i) {
       qran[i] = qunit[i] + maxDisp*qran[i];
     }
-    double qsize = sqrt(myVecDotProd(qran, qran));
+    double qsize = sqrt(vecDotProd(qran, qran));
     for (int i = 0; i < qdim_; ++i) {
       qran[i] /= qsize;
     }
@@ -694,7 +695,7 @@ void Space::randRotateMulti(
   }
 
   // rotate all positions of mpart about the center of mass
-  vector<vector<double> > rnew = myMatMul(r, rot);
+  vector<vector<double> > rnew = matMul(r, rot);
   for (int i = 0; i < natom; ++i) {
     for (int dim = 0; dim < dimen_; ++dim) {
       x_[dimen_*mpart[i]+dim] = rcm[dim] + rnew[i][dim];
@@ -749,10 +750,10 @@ void Space::randRotateMulti(
       } else {
         // update euler angles according to the rotation matrix
         vector<vector<double> > Ri = Euler2RotMat(qMol(iMol));
-        // invert rotation matrix, because of myMatMul(r,rot),
+        // invert rotation matrix, because of matMul(r,rot),
         // due to structure of r
         vector<vector<double> > rotT = transpose(rot);
-        vector<vector<double> > RiNew = myMatMul(rotT, Ri);
+        vector<vector<double> > RiNew = matMul(rotT, Ri);
         vector<vector<double> > euler = RotMat2Euler(RiNew);
         for (int dim = 0; dim < dimen_; ++dim) {
           qMol_[qdim_*iMol+dim] = euler[0][dim];
@@ -1234,7 +1235,7 @@ void Space::addMol(const char* type   //!< type of molecule to add
  */
 void Space::addMolInit(const char* fileName   //!< data file for molecule
   ) {
-  ASSERT(myFileExists(fileName),
+  ASSERT(fileExists(fileName),
          "addMolInit(fileName = " << fileName << ") doesn't exists.");
   addMolList_.push_back(std::make_shared<Space>(dimen_, 0));
 
@@ -1592,7 +1593,7 @@ double Space::rsq(const vector<double> xi,    //!< position of particle i
   for (int dim = 0; dim < dimen_; ++dim) {
     r[dim] += dx[dim];
   }
-  return myVecDotProd(r, r);
+  return vecDotProd(r, r);
 }
 
 /**
@@ -1697,13 +1698,12 @@ void Space::updateCells(const double dCellMin,  //!< minimum cell size
     dCell_.push_back(l_[dim] / static_cast<double>(nCellVec_[dim]));
     if ( (dCell_[dim] + rCut > l_[dim]/2.) || (l_[dim] == 0) ) {
       cellType_ = 0;
-      mout_("verbose", std::ostringstream().flush()
-        << "cell list disabled due to dCell (" << dCell_[dim]
+      WARN(verbose_ == 1, "cell list disabled due to dCell (" << dCell_[dim]
         << ") + rCut (" << rCut << ") > l_[dim]/2 (l_[" << dim << "]="
         << l_[dim] << ")");
     }
   }
-  nCell_ = myProd(nCellVec_);
+  nCell_ = feasst::product(nCellVec_);
   if ( (dimen_ == 3) && (cellType_ != 0) ) {
     if (cellType_ == 1) {
       int mix, miy, miz, mjx, mjy, mjz;
@@ -2006,19 +2006,19 @@ void Space::quat2pos(const int iMol   //!< molecule to update
         vector<double> q(qdim_);
         for (int i = 0; i < qdim_; ++i) q[i] = qMol_[iMol*qdim_+i];
         r = quat2rot(q);
-        xnew = myMatMul(xref, r);
+        xnew = matMul(xref, r);
       } else {
         vector<double> e(dimen_);
         for (int i = 0; i < dimen_; ++i) e[i] = qMol_[iMol*qdim_+i];
         r = Euler2RotMat(e);
         vector<vector<double> > xreftp = transpose(xref);
-        xnew = myMatMul(r, xreftp);
+        xnew = matMul(r, xreftp);
         xnew = transpose(xnew);
       }
 
     } else if (dimen_ == 2) {
       r = theta2rot(qMol_[iMol]);
-      xnew = myMatMul(xref, r);
+      xnew = matMul(xref, r);
     }
     const int iPartPivot = mol2part_[iMol];
     for (unsigned int i = 1; i < xref.size(); ++i) {
@@ -2407,7 +2407,7 @@ void Space::initLMPData(
       // add new molecule
       mol2part_.push_back(iatom);
       moltype_.push_back(fileName);
-      // moltype_.push_back(myTrim(".", typetmp.c_str()));
+      // moltype_.push_back(feasst::trim(".", typetmp.c_str()));
     }
 
     getline(file, line);
@@ -3587,8 +3587,7 @@ int Space::readXTC(const char* fileName,
   result_xtc = read_xtc(trjFileXDR, natoms_xtc, &step_xtc, &time_xtc,
                         box_xtc, x_xtc, &prec_xtc);
   if (result_xtc != 0) {
-    mout_("warning", std::ostringstream().flush()
-      << "reached the end of XTC file " << fileNameStr);
+    NOTE("reached the end of XTC file " << fileNameStr);
     endXTC = 1;
   }
   for (int i = 0; i < natom(); ++i) {
@@ -3728,16 +3727,16 @@ void Space::modBondAngle(
   const double theta) {
   // find the vector orthogonal, ortho, to the vector IJ and KJ
   //  use frame of reference where jAtom is on the origin
-  vector<double> xnew(dimen_), ortho(dimen_), ij(dimen_), kj(dimen_);
+  vector<double> xnew(dimen_), ij(dimen_), kj(dimen_);
   for (int dim = 0; dim < dimen_; ++dim) {
     ij[dim] = x(iAtom, dim) - x(jAtom, dim);
     xnew[dim] = kj[dim] = x(kAtom, dim) - x(jAtom, dim);
   }
-  myVecNormalize(ij);
-  myVecNormalize(kj);
-  myVecCrosProd(ij, kj, ortho);
-  if (fabs(myVecDotProd(ortho, ortho)) > 10*doubleTolerance) {
-    myVecNormalize(ortho);
+  normalizeVec(&ij);
+  normalizeVec(&kj);
+  vector<double> ortho = crossProd(ij, kj);
+  if (fabs(vecDotProd(ortho, ortho)) > 10*doubleTolerance) {
+    normalizeVec(&ortho);
     for (int dim = 0; dim < dimen_; ++dim) {
       ortho[dim] *= -1;
     }
@@ -4291,7 +4290,7 @@ double Space::Q6(const double rCut    //!< distance cut-off to define neighbors
       for (int dim = 0; dim < dimen(); ++dim) {
         rij[dim] += dx[dim];
       }
-      const double r2 = myVecDotProd(rij, rij);
+      const double r2 = vecDotProd(rij, rij);
       if (r2 < rCut*rCut) {
         const vector<std::complex<double> > sphHTmp = cart2sphereHarm6(rij);
         for (unsigned int i = 0; i < sphH.size(); ++i) {
@@ -4469,11 +4468,11 @@ vector<double> Space::qMol(const int iMol) const {
 //    xmol.push_back(xa);
 //  }
 //  cout << "q " << qMol_[0] << " " << qMol_[1] << endl;
-//  myCout(xMolRef_[iMol]);
+//  vec2str(xMolRef_[iMol]);
 //  cout << "xMolRef " << xMolRef_[iMol][0][0] << endl;
 //  vector<vector<double> > xrefinv = inv3by3(xMolRef_[iMol]);
 //  cout << "xrefinv " << xrefinv[0][0] << endl;
-//  vector<vector<double> > rotMat = myMatMul(xmol, xrefinv);
+//  vector<vector<double> > rotMat = matMul(xmol, xrefinv);
 //  cout << "rots " << rotMat.size() << " " << rotMat[0].size() << endl;
 //  cout << rotMat[0][0] << " " << rotMat[0][1] << " " << rotMat[0][2] << endl;
 //  cout << rotMat[1][0] << " " << rotMat[1][1] << " " << rotMat[1][2] << endl;
@@ -4538,12 +4537,12 @@ void Space::printxyzvmd(const char* fileName,
       << "axes location Off" << endl;
     if (initFlag == 2) {
       radius = 10;
-      vmdf << "mol load xyz " << myTrim("/", fileName) << ".xyz" << endl
+      vmdf << "mol load xyz " << feasst::trim("/", fileName) << ".xyz" << endl
            << "animate delete beg 0 end 0" << endl
-           << "mol addfile " << myTrim("/", fileName) << ".xtc" << endl;
+           << "mol addfile " << feasst::trim("/", fileName) << ".xtc" << endl;
     } else {
       radius = 1;
-      vmdf << "topo readvarxyz " << myTrim("/", fileName) << ".xyz" << endl;
+      vmdf << "topo readvarxyz " << feasst::trim("/", fileName) << ".xyz" << endl;
     }
     vmdf << "mol modstyle 0 0 VDW 1.0000000 120.000000" << endl
       << "set sel [atomselect top all]" << endl
@@ -4566,7 +4565,7 @@ vector<double> Space::ipart2euler(const int ipart) {
   vector<vector<double> > a1 = outerProd(xvec, xref),
     a2 = outerProd(xref, xref),
     a3 = transpose(a2),
-    rot = myMatMul(a1, a3),
+    rot = matMul(a1, a3),
     eulertmp = RotMat2Euler(rot);
   return eulertmp[0];
 }
@@ -4673,7 +4672,7 @@ void Space::initData(
   const int nTypesExist  //!< number of particle types that already exists
   ) {
   // use file extension to determine whether to use JSON or LMP data files
-  if (myTrim(".", fileName) == "json") {
+  if (feasst::trim(".", fileName) == "json") {
     #ifdef JSON_
       initJSONData(fileName, nTypesExist);
     #else

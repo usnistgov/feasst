@@ -56,7 +56,7 @@ WLTMMC::WLTMMC(const char* fileName)
       for (int n = 0; n < c()->nBin(); ++n) {
         stringstream ss;
         ss << fileName << "gri" << i << "n" << n;
-        if (myFileExists(ss.str().c_str())) {
+        if (fileExists(ss.str().c_str())) {
           gr_[i].push_back(make_shared<Histogram>(ss.str().c_str()));
         }
       }
@@ -268,32 +268,32 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
       vector<vector<double> > w = nWindowGrowth
         (c_->mMin(), c_->mMax(), nExp_, nWindow_, binWidth, nOverlap_);
       clones[t]->c()->initBins(w[t][1], w[t][0],
-        myRound((w[t][1]-w[t][0])/binWidth));
+        feasst::round((w[t][1]-w[t][0])/binWidth));
       clones[t]->pair()->setOrder(clones[t]->c()->bin2m(0));
     } else if (c_->mType().compare("beta") == 0) {
       vector<vector<double> > w = nWindowGrowth
         (c_->mMin(), c_->mMax(), nExp_, nWindow_, binWidth, nOverlap_);
       clones[t]->c()->initBins(w[t][1], w[t][0],
-        myRound((w[t][1]-w[t][0])/binWidth));
+        feasst::round((w[t][1]-w[t][0])/binWidth));
       clones[t]->criteria()->betaset(clones[t]->c()->bin2m(0));
     } else if (c_->mType().compare("pressure") == 0) {
       vector<vector<double> > w = nWindowGrowth
         (c_->mMin(), c_->mMax(), nExp_, nWindow_, binWidth, nOverlap_);
       clones[t]->c()->initBins(w[t][1], w[t][0],
-                               myRound((w[t][1]-w[t][0])/binWidth));
+                               feasst::round((w[t][1]-w[t][0])/binWidth));
       clones[t]->criteria()->pressureset(clones[t]->c()->bin2m(0));
     } else if (c_->mType().compare("lnpres") == 0) {
       vector<vector<double> > w = nWindowGrowth
         (c_->mMin(), c_->mMax(), nExp_, nWindow_, binWidth, nOverlap_);
       clones[t]->c()->initBins(w[t][1], w[t][0],
-                               myRound((w[t][1]-w[t][0])/binWidth));
+                               feasst::round((w[t][1]-w[t][0])/binWidth));
       clones[t]->criteria()->pressureset(exp(clones[t]->c()->bin2m(0)));
     } else if (betaInc_ == 0) {
       vector<vector<int> > nMolVec = nWindow(c_->mMin()+0.5, c_->mMax()-0.5,
                                              nExp_, nWindow_, nOverlap_);
       clones[t]->c()->initBins(nMolVec[t][1]+binWidth/2.,
         nMolVec[t][0]-binWidth/2.,
-        myRound((nMolVec[t][1]-nMolVec[t][0])/binWidth)+1);
+        feasst::round((nMolVec[t][1]-nMolVec[t][0])/binWidth)+1);
     } else {
       clones[t]->c()->betaset(criteria_->beta() + t*betaInc_);
       clones[t]->c()->activset(criteria_->activ()*exp(t*lnzInc_));
@@ -405,7 +405,7 @@ void WLTMMC::runNumSweepsExec(const int t,    //!< thread
       for (int tt = 0; tt < nWindow_; ++tt) {
         stringstream ss;
         ss << rstFileBaseName_ << "p" << tt << "criteria";
-        if (myFileExists(ss.str().c_str())) {
+        if (fileExists(ss.str().c_str())) {
           if (wlFlatTerm_ == -1) {
             string strtmp = fstos("nSweep", ss.str().c_str());
             string strtmp2 = fstos("collect", ss.str().c_str());
@@ -441,7 +441,7 @@ void WLTMMC::runNumSweepsExec(const int t,    //!< thread
         for (int tt = 1; tt < nWindow_; ++tt) {
           ss.str("");
           ss << rstFileBaseName_ << "p" << tt << "criteria";
-          if (myFileExists(ss.str().c_str())) {
+          if (fileExists(ss.str().c_str())) {
             // copy file
             std::ifstream src(ss.str().c_str(), std::fstream::binary);
             ss << "cpy";
@@ -474,7 +474,7 @@ void WLTMMC::runNumSweepsExec(const int t,    //!< thread
       for (int tt = 1; tt < nWindow_; ++tt) {
         stringstream ss;
         ss << rstFileBaseName_ << "p" << tt << "criteria";
-        if (myFileExists(ss.str().c_str())) {
+        if (fileExists(ss.str().c_str())) {
           c[tt] = make_shared<CriteriaWLTMMC>(ss.str().c_str());
         }
       }
@@ -549,9 +549,9 @@ void WLTMMC::nMolSeekInRange(const int nMin,
   if (nMin != -1) mMin = static_cast<double>(nMin) - 0.5;
   if (nMax != -1) mMax = static_cast<double>(nMax) + 0.5;
   if (space_->nMol() > mMax) {
-    nMolSeek(myRound(mMax-0.5), 1e12);
+    nMolSeek(feasst::round(mMax-0.5), 1e12);
   } else if (space_->nMol() < mMin) {
-    nMolSeek(myRound(mMin+0.5), 1e12);
+    nMolSeek(feasst::round(mMin+0.5), 1e12);
   }
 }
 

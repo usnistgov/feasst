@@ -19,7 +19,7 @@ MC::MC(Space* space,
 MC::MC(const char* fileName) {
   // cout << "MC restarting" << endl;
   defaultConstruction();
-  ASSERT(myFileExists(fileName), "restart file(" << fileName
+  ASSERT(fileExists(fileName), "restart file(" << fileName
     << ") doesn't exist");
 
   // initialize random number generator
@@ -598,7 +598,6 @@ int MC::nMolMax(
   zeroStat();
   criteria_->activset(activOld);
   const int nmx = space_->nMol() + nMolExtra;
-  // const int nmx = myTrunc(space_->nMol(), 5);
   std::ofstream log_(logFileName_.c_str(),
                      std::ofstream::out | std::ofstream::app);
   log_ << "# " << className_ << " found maximum number of mols: " << nmx
@@ -811,7 +810,7 @@ double MC::boylemin(const double beta) {
     if (fabs(b2val) < b2er) {
       return std::numeric_limits<double>::min();
     } else {
-      return pow(b2val+mySign(b2er, b2val), 2.);
+      return pow(b2val+sign(b2er, b2val), 2.);
     }
   }
 }

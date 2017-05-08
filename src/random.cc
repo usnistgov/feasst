@@ -18,7 +18,6 @@ Random::Random(const char* fileName) {
  */
 void Random::seed(const unsigned long long iseed) {
   seed_ = iseed;
-  //mout_("note", std::ostringstream().flush() << "time(seed): " << seed_);
 }
 
 }  // namespace feasst

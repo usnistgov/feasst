@@ -43,7 +43,7 @@ int PairTabular1D::initEnergy() {
 
   // zero accumulators: potential energy, force, and virial
   deSR_ = 0;
-  myFill(0., f_);
+  feasst::fill(0., f_);
   //fCOM_.clear();
   //fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
   
@@ -62,7 +62,7 @@ int PairTabular1D::initEnergy() {
           for (int dim = 0; dim < dimen_; ++dim) {
             xij[dim] += dx[dim];
           }
-          double r2 = myVecDotProd(xij, xij);
+          double r2 = vecDotProd(xij, xij);
 
           // cout << "r2 " << r2 << " i " << ipart << " j " << jpart
           //   << " itype " << type[ipart] << " jtype " << type[jpart] << endl;

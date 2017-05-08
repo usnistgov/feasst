@@ -2,14 +2,14 @@
 AUTHORS
 **********************************************************************
 
-Harold "Wick" Hatch
--original developer of FEASST
+Harold Wickes Hatch
+  - original developer of FEASST
 
 Nathan Mahynski
--collaborated with Wick on superquadric geometry
+  - collaborated with Wick on superquadric geometry
 
 **********************************************************************
-ALPHA-TESTERS
+ALPHA TESTERS
 **********************************************************************
 
 Dr. Nathan Mahynski
@@ -18,7 +18,22 @@ Prof. Jeetain Mittal
 Dr. Hasan Zerze
 Dr. Steven Howell
 
+**********************************************************************
+EXTERNAL SOURCES
+**********************************************************************
 
+In some cases, code and formatting from externals sources is used. 
+See DISCLAIMER.txt
 
+Numerical Recipes 3rd edition:
+  - mins.h
+  - jacobi in functions.h 
+  - random_nr3.h
 
+LAMMPS:
+  - jacboi (adapted form Numerical Recipes)
+  - LMP data format
+
+XDRLIB:
+  - XTC compressed file format and library
 

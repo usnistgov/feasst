@@ -1,8 +1,4 @@
 /**
- * \file
- *
- * \brief This file is a stub
- *
  * This file is a stub or placeholder for an experimental class that is not part of this release.
  */
 

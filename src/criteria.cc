@@ -22,7 +22,7 @@ Criteria::Criteria(const double beta,  //!< inverse temperature
 }
 Criteria::Criteria(const char* fileName) {
   defaultConstruction();
-  ASSERT(myFileExists(fileName),
+  ASSERT(fileExists(fileName),
     "restart file(" << fileName << ") doesn't exist");
   beta_ = fstod("beta", fileName);
   activ_ = exp(fstod("lnz", fileName));
@@ -94,7 +94,7 @@ void Criteria::store(const Space* space, Pair* pair) {
  */
 Criteria* Criteria::makeCriteria(const char* fileName
   ) {
-  ASSERT(myFileExists(fileName),
+  ASSERT(fileExists(fileName),
     "restart file(" << fileName << ") doesn't exist");
   string typestr = fstos("className", fileName);
   Criteria* criteria = NULL;

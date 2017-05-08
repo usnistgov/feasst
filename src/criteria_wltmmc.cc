@@ -127,7 +127,7 @@ int CriteriaWLTMMC::accept(
     ASSERT(0, "unrecognized macrostate type (" << mType_ << ")");
   }
   const int mOldBin = bin(mOld_);
-  mout_("verbose", std::ostringstream().flush() << "mNew " << mNew_);
+  WARN(verbose_ == 1,  "mNew " << mNew_);
 
   if (cTripleBanded_) {
     double pMet = exp(lnpMet);
@@ -180,7 +180,7 @@ void CriteriaWLTMMC::store(const Space* space, Pair* pair) {
     mOld_ = log(pressure_);
   }
   peOld_ = pair->peTot();
-  mout_("verbose", std::ostringstream().flush() << "mold " << mOld_);
+  WARN(verbose_ == 1,  "mold " << mOld_);
   ASSERT((mOld_ <= mMax_) && (mOld_ >= mMin_), "current macrostate variable ("
     << mOld_ << ") is beyond the limits (" << mMin_ << " to " << mMax_ << ")");
   if (tmmc_ == false) flatCheck();
@@ -192,7 +192,7 @@ void CriteriaWLTMMC::store(const Space* space, Pair* pair) {
 int CriteriaWLTMMC::flatCheck() {
   // flatness criteria is met when the minimum value of the histogram is within
   // a factor, flatFac, of the average histogram value
-  if (*std::min_element(h_.begin(), h_.end()) > wlFlatFactor_ * myVecAv(h_)) {
+  if (*std::min_element(h_.begin(), h_.end()) > wlFlatFactor_ * vecAverage(h_)) {
     std::fill(h_.begin(), h_.end(), 0);
     lnf_ *= g_;
     ++wlFlat_;
@@ -300,7 +300,7 @@ void CriteriaWLTMMC::printCollectMat(const char* fileName  //!< file name
   // if using growth expanded ensemble with nmolstages,
   // also print physical states
   if (mType_.compare("nmolstage") == 0) {
-    const int nMin = myRound(bin2m(0)), nMax = myRound(bin2m(nBin_ - 1));
+    const int nMin = feasst::round(bin2m(0)), nMax = feasst::round(bin2m(nBin_ - 1));
     CriteriaWLTMMC cNoGrow(beta_, activ_, "nmol", nMin - 0.5, nMax + 0.5,
                            nMax - nMin + 1);
     int binNoGrow = 0;
@@ -675,8 +675,7 @@ vector<CriteriaWLTMMC> CriteriaWLTMMC::phaseSplit(
 void CriteriaWLTMMC::printCollectMat(
   const char* fileName,    //!< file to print aggregate lnPI
   const vector<CriteriaWLTMMC*> c) {   //!< vector of criteria with lnPI
-  mout_("warning", std::ostringstream().flush()
-    << "printCollectMat with vector of criteria is depreciated");
+  NOTE("printCollectMat with vector of criteria is depreciated");
 
   int nWindow = static_cast<int>(c.size());
   // check if a collection matrix has not been instantiated yet
@@ -837,8 +836,7 @@ void CriteriaWLTMMC::spliceWindows(const vector<CriteriaWLTMMC*> c) {
 
   ASSERT(nWindow != 0, "cannot print Collection Matrix of null criteria class");
   if (nWindow == 1) {
-    mout_("warning", std::ostringstream().flush()
-      << "no reason to splice only one window");
+    NOTE("no reason to splice only one window");
   } else if (nWindow == -1) {
     // do nothing, not all collect mat are ready yet (beginning of run)
   } else {
@@ -1127,8 +1125,7 @@ void CriteriaWLTMMC::lnPIgc2can(const char* fileNameIn,
     fileIn >> index >> data;
     cout << "index " << index << " data " << data << endl;
     if ( (index < 0) || (index > nBin_ - 1) ) {
-      mout_("warning", std::ostringstream().flush()
-        << "data from file(" << fileNameIn << ") is out of bounds, index("
+      NOTE("data from file(" << fileNameIn << ") is out of bounds, index("
         << index << ") > nBin(" << nBin_ << ")");
       getline(fileIn, line);
     } else {

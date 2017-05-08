@@ -38,7 +38,7 @@ Trial::Trial(Space *space,
   : space_(space),
     pair_(pair),
     criteria_(criteria) {
-  ASSERT(myFileExists(fileName),
+  ASSERT(fileExists(fileName),
          "restart file(" << fileName << ") doesn't exist");
   defaultConstruction();
 
@@ -120,14 +120,14 @@ void Trial::attempt() {
 void Trial::trialAccept() {
   ++accepted_;
   deTot_ += de_;
-  mout_("verbose", std::ostringstream().flush() << "accepted " << de_);
+  WARN(verbose_ == 1, "accepted " << de_);
 }
 
 /**
  * call when rejecting a trial
  */
 void Trial::trialReject() {
-  mout_("verbose", std::ostringstream().flush() << "rejected " << de_);
+  WARN(verbose_ == 1, "rejected " << de_);
   de_ = 0;
 }
 
@@ -339,7 +339,7 @@ shared_ptr<Trial> Trial::makeTrial(
   Pair* pair,
   Criteria* criteria,
   const char* fileName) {
-  ASSERT(myFileExists(fileName),
+  ASSERT(fileExists(fileName),
          "restart file(" << fileName << ") doesn't exist");
   string trialtypestr = fstos("className", fileName);
   shared_ptr<Trial> trial;
