@@ -1,17 +1,18 @@
 /**
- * Compute interactions of particles with walls.
+ * Compute interactions of particles with walls defined by the Barrier class.
  */
 
 #ifndef PAIR_WALL_H_
 #define PAIR_WALL_H_
 
 #include "./pair.h"
+#include "./barrier.h"
 
 namespace feasst {
 
 class PairWall : public Pair {
  public:
-  PairWall(Space* space, const double rCut = 0.);
+  PairWall(Space* space, Barrier* barrier);
   ~PairWall() {}
   virtual PairWall* clone(Space* space) const {
     PairWall* p = new PairWall(*this); p->reconstruct(space); return p;
@@ -35,6 +36,7 @@ class PairWall : public Pair {
                       const char* uptype);
 
  protected:
+  Barrier* barrier_;
   double peWall_;
   double deWall_;
 };

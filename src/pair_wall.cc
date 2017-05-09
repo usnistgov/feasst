@@ -2,29 +2,28 @@
 
 namespace feasst {
 
-PairWall::PairWall(Space* space,
-  const double rCut)  //!< interaction cut-off distance
-  : Pair(space, rCut) {
+PairWall::PairWall(Space* space, Barrier* barrier)
+  : Pair(space, 0.),
+    barrier_(barrier) {
   className_.assign("PairWall");
 }
 
 double PairWall::multiPartEner(const vector<int> mpart, const int flag) {
   if (flag == 0) {}; //remove unused parameter warning
+  const vector<double> &x = space_->x();
   peSRone_ = 0;
   for (int impart = 0; impart < int(mpart.size()); ++impart) {
     const int iPart = mpart[impart];
     const int iType = space_->type()[iPart];
+
+    vector<double> coord(x.begin() + iPart*dimen_, 
+                         x.begin() + (iPart+1)*dimen_);
+    peSRone_ += barrier_->potential(coord, sig_[iType]);
     
     // here is where the barrier class would be implemented
     // one possibility is to take what is in Mahynski's "system" class
     // and put in "space", then access the space variables space_->
     // or implement a container for multiple barriers
-    
-    // hard code walls at x += 5
-    if ( (space_->x(iPart, 0) + sig_[iType] > 5) ||
-         (space_->x(iPart, 0) - sig_[iType] < -5)  ) {
-      peSRone_ += std::numeric_limits<double>::max()/1e10;
-    }
   }
   return peSRone_;
 }

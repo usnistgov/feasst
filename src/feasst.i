@@ -20,6 +20,8 @@
 #include "base_math.h"
 #include "base_all.h"
 #include "space.h"
+#include "barrier.h"
+#include "barrier_planar.h"
 #ifdef XDRFILE_H_
   extern "C" {
     #include "xdrfile.h"
@@ -91,6 +93,8 @@ using namespace std;
 %include base_math.h
 %include base_all.h
 %include space.h
+%include barrier.h
+%include barrier_planar.h
 %include pair.h
 %include pair_lj.h
 %include pair_lj_multi.h

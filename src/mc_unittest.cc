@@ -579,10 +579,13 @@ TEST(MC, ljWall) {
   feasst::PairLJMulti pairLJ(&space, 3.);
   pairLJ.initLMPData("../forcefield/data.lj");
   pairLJ.linearShift(1);
-//  feasst::PairIdeal pairID(&space, 0.);
-  feasst::PairWall pairWall(&space);
+  
+  feasst::Barrier barrier;
+  barrier.addOrthogonalPlanar(5, 1, 0);
+  barrier.addOrthogonalPlanar(-5, -1, 0);
+  feasst::PairWall pairWall(&space, &barrier);
+  
   feasst::PairHybrid pair(&space, space.minl()/2.);
-//  pair.addPair(&pairID);
   pair.addPair(&pairLJ);
   pair.addPair(&pairWall);
   pair.initEnergy();

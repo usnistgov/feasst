@@ -12,7 +12,12 @@ TEST(PairWall, wall) {
     space.addMol(addMolType);
   }
   space.lset(30, 0);
-  feasst::PairWall pair(&space);
+  
+  feasst::Barrier barrier;
+  barrier.addOrthogonalPlanar(5, 1, 0);
+  barrier.addOrthogonalPlanar(-5, -1, 0);
+  
+  feasst::PairWall pair(&space, &barrier);
   pair.initEnergy();
   EXPECT_NEAR(0, pair.peTot(), 1e-14);
   pair.printxyz("tmp/wall5", 1);
