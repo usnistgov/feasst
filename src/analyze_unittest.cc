@@ -26,7 +26,6 @@ TEST(Analyze, construct) {
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(90,dim);
   s.addMolInit("../forcefield/data.cg4_mab");
-  s.initCellAtomCut(1);
   PairHS p(&s, 3.);
   p.initLMPData("../forcefield/data.cg4_mab");
   p.sig2rCut();
@@ -72,7 +71,6 @@ TEST(Analyze, MonkeyPatch) {
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(90,dim);
   s.addMolInit("../forcefield/data.cg4_mab");
-  s.initCellAtomCut(1);
   PairHS p(&s, 3.);
   p.initLMPData("../forcefield/data.cg4_mab");
   p.sig2rCut();

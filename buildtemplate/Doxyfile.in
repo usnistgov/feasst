@@ -733,7 +733,8 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = .
+INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/../src/
+
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -992,7 +993,8 @@ IGNORE_PREFIX          =
 # If the GENERATE_HTML tag is set to YES doxygen will generate HTML output
 # The default value is: YES.
 
-GENERATE_HTML          = YES
+GENERATE_HTML          = NO
+#GENERATE_HTML          = YES
 
 # The HTML_OUTPUT tag is used to specify where the HTML docs will be put. If a
 # relative path is entered the value of OUTPUT_DIRECTORY will be put in front of
@@ -1779,7 +1781,7 @@ GENERATE_XML           = YES
 # The default directory is: xml.
 # This tag requires that the tag GENERATE_XML is set to YES.
 
-XML_OUTPUT             = xml
+XML_OUTPUT             = @CMAKE_CURRENT_SOURCE_DIR@/xml/
 
 # The XML_SCHEMA tag can be used to specify a XML schema, which can be used by a
 # validating XML parser to check the syntax of the XML files.

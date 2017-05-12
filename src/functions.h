@@ -1,7 +1,3 @@
-/**
- * Library of simple functions
- */
-
 #ifndef FUNCTIONS_H_
 #define FUNCTIONS_H_
 
@@ -32,6 +28,7 @@ using std::string;
 using std::shared_ptr;
 using std::make_shared;
 
+/// If the assertion condition is not true, throw exception with message.
 # define ASSERT(condition, message) \
 if (! (condition)) { \
   std::stringstream err_msg; \
@@ -40,12 +37,14 @@ if (! (condition)) { \
   customException c(err_msg); \
 }
 
+/// If the warning condition is true, send message to standard output.
 # define WARN(condition, message) \
 if (condition) { \
   std::cout << "Warning `" #condition "` in " << __FILE__ \
             << " line " << __LINE__ << ": " << message << std::endl; \
 }
 
+/// Send message to standard output.
 # define NOTE(message) \
 std::cout << "Note in " << __FILE__ \
           << " line " << __LINE__ << ": " << message << std::endl; \
@@ -53,21 +52,21 @@ std::cout << "Note in " << __FILE__ \
 
 namespace feasst {
 
-/// \return the magnitude of the first argument, with the sign of the second
+/// Return the magnitude of the first argument, with the sign of the second.
 double sign(const double a, const double b);
 
-/// function to fill 2-d vector with input variable
-void fill(const double y, vector<vector<double> > &x);
-void fill(const int y, vector<vector<int> > &x);
+/// Function to fill 2D vector with input variable.
+void fill(const double input, vector<vector<double> > &x);
+void fill(const int input, vector<vector<int> > &x);
 
-/// function to fill 3-d vector with input variable
+/// Function to fill 3D vector with input variable.
 template<class T>
-void fill(const T y, vector<vector<vector<T> > > &x) {
+void fill(const T input, vector<vector<vector<T> > > &x) {
   for (typename vector<vector<vector<T> > >::iterator iter = x.begin();
        iter != x.end(); ++iter) {
     for (typename vector<vector<T> >::iterator iter2 = (*iter).begin();
          iter2 != (*iter).end(); ++iter2) {
-      std::fill((*iter2).begin(), (*iter2).end(), y);
+      std::fill((*iter2).begin(), (*iter2).end(), input);
     }
   }
 };

@@ -1281,7 +1281,7 @@ TEST(Space, replicate) {
   Space space(3, 0);
   space.lset(9);
   space.addMolInit("../forcefield/data.cg3_180_43");
-  for (int i = 0; i < 100; ++i) {
+  for (int i = 0; i < 20; ++i) {
     space.addMol("../forcefield/data.cg3_180_43");
   }
 
@@ -1302,7 +1302,7 @@ TEST(Space, replicate) {
 //  spaceBig->printClusterStat("hibig");
 
   // for small rClusterCut, check that the number of clusters increases
-  // by a factor of 2^8 for replication, which means that the clusters
+  // by a factor of 2^3 for replication, which means that the clusters
   // do not percolate
   EXPECT_EQ(pow(2, space.dimen())*space.nClusters(), spaceBig->nClusters());
 }

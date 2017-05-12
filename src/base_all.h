@@ -1,18 +1,14 @@
-/**
- * \file
- *
- * \brief interface for all classes to inherit
- *
- */
+#ifndef BASE_ALL_H_
+#define BASE_ALL_H_
 
-#ifndef BASEALL_H_
-#define BASEALL_H_
-
-#include "./base_math.h"
+#include "./base_random.h"
 
 namespace feasst {
 
-class BaseAll : public BaseMath {
+/**
+ * This class is a container for all other classes to inherit.
+ */
+class BaseAll : public BaseRandom {
  public:
   BaseAll();
   virtual ~BaseAll() {}
@@ -22,5 +18,5 @@ class BaseAll : public BaseMath {
 
 }  // namespace feasst
 
-#endif  // BASEALL_H_
+#endif  // BASE_ALL_H_
 

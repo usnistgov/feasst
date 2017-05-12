@@ -203,6 +203,7 @@ void Space::defaultConstruction() {
   nMolType_.resize(1, 0);
   sphereSymMol_ = true;
   cellOff();
+  initCellAtomCut(1);
   preMicellarAgg_ = 5;
   eulerFlag_ = 0;
   equiMolar_ = 0;
@@ -2098,7 +2099,6 @@ void Space::buildNeighListCell(
  */
 void Space::cellOff() {
   cellType_ = 0;
-  initCellAtomCut(0);
 }
 
 /**
@@ -4102,7 +4102,7 @@ void Space::printRadial(const Histogram &nhist, const char* fileName) {
     const double nideal = fac*PI*(nMol()/vol())*
         (pow(rmax, dimen())-pow(rmin, dimen()));
     file << r << " " << static_cast<double>(nhist.hist()[i]) /
-      static_cast<double>(nhist.nNorm()) /
+      static_cast<double>(nhist.nCount()) /
       static_cast<double>(nMol())/nideal << " " << nhist.hist()[i] << endl;
   }
 }

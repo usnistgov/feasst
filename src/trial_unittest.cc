@@ -107,9 +107,10 @@ TEST(Trial, cloneANDreconstruct) {
 }
 
 TEST(Trial, allmoves) {
-
+  ranInitByDate();
+  // ranInitForRepro(1491827115);
+  // ranInitForRepro(1494504908);
   // declare pair and space objects for each simulation type
-
   Space sSPCE(3,0);
   double boxl = 24.8586887;
   for (int dim=0; dim < sSPCE.dimen(); ++dim) sSPCE.lset(boxl,dim);
@@ -151,8 +152,6 @@ TEST(Trial, allmoves) {
   //pairType.push_back("spce");
   pairType.push_back("onePatch");
   pairType.push_back("twoPatch");
-  ranInitByDate();
-//  ranInitForRepro(1397662448);
   for (vector<std::string>::iterator pt = pairType.begin(); pt != pairType.end(); ++pt) {
 
     double rAbove=0, rBelow=0, beta=0, activ=0, maxMoveParam=0;
@@ -331,14 +330,15 @@ TEST(Trial, allmoves) {
 
       // test replace and restore
       if (ct->compare("wltmmc") == 0) {
+        cwltmmc.lnPIupdate();
         long double lnpif = cwltmmc.lnPI().front();
         CriteriaMetropolis cnew(1, 1);
         tt.replaceCriteria(&cnew);
         for (int i = 0; i < 10; ++i) tt.attempt();
         cwltmmc.lnPIupdate();
-        //EXPECT_NE(lnpif, cwltmmc.lnPI().front());
         tt.restoreCriteria();
         EXPECT_EQ(lnpif, cwltmmc.lnPI().front());
+        EXPECT_EQ(tt.criteria(), &cwltmmc);
       }
     }
   }

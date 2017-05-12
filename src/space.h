@@ -28,7 +28,7 @@ namespace feasst {
 
 class Space : public BaseAll {
  public:
-  Space(int dimen, int id);
+  Space(int dimen = 3, int id = 0);
   explicit Space(const char* fileName);
   ~Space();
   Space* clone() const;
@@ -209,7 +209,9 @@ class Space : public BaseAll {
   //  rebuilds, and compares
   int checkCellList();
 
-  // initialize cut-off method for cell list
+  /// initialize cut-off method for cell list
+  // HWH NOTE: this is a bad name, because it often needs to be called even when no
+  // cell list is involved
   void initCellAtomCut(const int flag);
 
   /// if !null, position to add center of molecule in addMol

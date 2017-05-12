@@ -5,7 +5,7 @@
 #include <fstream>
 #include "mins.h"
 #include <complex>
-#include "base_math.h"
+#include "base_random.h"
 
 using namespace feasst;
 
@@ -379,7 +379,7 @@ TEST(Functions, theta2rot) {
 }
 
 TEST(Functions, orthogonalVec) {
-  feasst::BaseMath bm;
+  feasst::BaseRandom bm;
   for (int i = 0; i < 100; ++i) {
     vector<double> xa = bm.ranUnitSphere(3);
     vector<double> xb = orthogonalVec(xa);
@@ -388,7 +388,7 @@ TEST(Functions, orthogonalVec) {
 }
 
 TEST(Functions, rotateVecByAxisAngle) {
-  feasst::BaseMath bm;
+  feasst::BaseRandom bm;
 //  ranInitForRepro();
 //  for (int i = 0; i < 1; ++i) {
 //  //for (int i = 0; i < 100; ++i) {
@@ -440,7 +440,7 @@ TEST(Functions, quadraticEqReal) {
   quadraticEqReal(1., -11., 30., x1, x2);
   EXPECT_NEAR(6, x1, doubleTolerance);
   EXPECT_NEAR(5, x2, doubleTolerance);
-  feasst::BaseMath bm;
+  feasst::BaseRandom bm;
   for (int i = 0; i < 100; ++i) {
     const double x1a = bm.uniformRanNum(), x2a = bm.uniformRanNum();
     quadraticEqReal(1., -(x1a+x2a), x1a*x2a, x1, x2);
@@ -462,7 +462,7 @@ TEST(Functions, cartesian2spherical) {
 }
 
 TEST(Functions, Euler2RotMatANDRotMat2Euler) {
-  feasst::BaseMath b;
+  feasst::BaseRandom b;
   for (int trial = 0; trial < 100; ++trial) {
     // generate random euler angles
     vector<double> euler(3);

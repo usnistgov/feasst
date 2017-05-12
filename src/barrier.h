@@ -1,5 +1,6 @@
 /**
- * Defines barriers associated with PairWall
+ * This class serves as a container for derives classes with specific barrier
+ * implementations, in order to interface with PairWall.
  */
 
 #ifndef BARRIER_H_

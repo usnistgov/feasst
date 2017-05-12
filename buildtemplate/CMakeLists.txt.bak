@@ -16,78 +16,14 @@ option(USE_GTEST "Use gtest" OFF)
 option(USE_CCACHE "Use ccache to speed up builds" OFF)
 option(USE_OMP "Require use of OMP for parallelization" OFF)
 option(USE_SWIG "Use SWIG for python interface" OFF)
-option(USE_GCOV "Use GCOV for coverage testing" OFF)
-option(USE_SPHINX "Use SPHINX for documentation" OFF)
 
 # Users typically would not edit below this comment
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall")
 
 # # JSON Library
 # if (USE_JSON)
 #   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DJSON_ -std=c++11")
 # endif (USE_JSON)
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} modules)
-
-
-# SPHINX
-if (USE_SPHINX)
-  find_package(Doxygen REQUIRED)
-  if(DOXYGEN_FOUND)
-    #message("Doxygen found")
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-    add_custom_target(doxygen
-    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Generating API documentation with Doxygen" VERBATIM
-    )
-  endif(DOXYGEN_FOUND)
-
-  find_package(Sphinx REQUIRED)
-
-#  if(NOT DEFINED SPHINX_THEME)
-      set(SPHINX_THEME "sphinx_rtd_theme")
-#  endif()
-
-#  if(NOT DEFINED SPHINX_THEME_DIR)
-      set(SPHINX_THEME_DIR "sphinx_rtd_theme.get_html_theme_path()")
-#  endif()
-
-  # configured documentation tools and intermediate build results
-  set(BINARY_BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/_build")
-
-  # Sphinx cache with pickled ReST documents
-  set(SPHINX_CACHE_DIR "${CMAKE_CURRENT_BINARY_DIR}/_doctrees")
-
-  # HTML output directory
-  set(SPHINX_HTML_DIR "${CMAKE_CURRENT_BINARY_DIR}/html")
-
-  configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/conf.py.in"
-    "${BINARY_BUILD_DIR}/conf.py"
-    @ONLY)
-
-  add_custom_target(html ALL
-    ${SPHINX_EXECUTABLE}
-        -q -b html
-        -c "${BINARY_BUILD_DIR}"
-        -d "${SPHINX_CACHE_DIR}"
-        "${CMAKE_CURRENT_SOURCE_DIR}"
-        "${SPHINX_HTML_DIR}"
-    COMMENT "Building HTML documentation with Sphinx")
-
-  add_dependencies(html doxygen)
-
-endif (USE_SPHINX)
-
-# GCOV
-if (USE_GCOV)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -fprofile-arcs -ftest-coverage")
-  if(CMAKE_COMPILER_IS_GNUCXX)
-      include(CodeCoverage)
-      setup_target_for_coverage(coverage unittest coverage)
-  endif()
-endif (USE_GCOV)
 
 # GSL Library
 if (USE_GSL)
@@ -153,7 +89,7 @@ if(OPENMP_FOUND)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-
+  
   # custom macros to detect OMP in FEASST code
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DOMP_H_")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DOMP_H_")
@@ -230,7 +166,7 @@ if (USE_GTEST)
   # Now simply link against gtest or gtest_main as needed. Eg
   add_executable(unittest ${feasst_unittest_SRC} ${feasst_SRC})
   target_link_libraries(unittest gtest_main ${EXTRA_LIBS})
-  add_test(NAME unittest COMMAND unittest --gtest_shuffle)
+  add_test(NAME unittest COMMAND unittest)
 endif(USE_GTEST)
 
 # SWIG

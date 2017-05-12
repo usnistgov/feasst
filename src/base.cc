@@ -1,9 +1,3 @@
-/**
- * \file
- *
- * \brief
- */
-
 #include "./base.h"
 #include <stdio.h>
 #include <iostream>
@@ -11,9 +5,6 @@
 
 namespace feasst {
 
-/**
- * Constructor
- */
 Base::Base() : verbose_(0) {
   className_.assign("Base");
   stringstream ss;
@@ -21,11 +12,8 @@ Base::Base() : verbose_(0) {
   install_dir_.assign(ss.str().c_str());
 }
 
-/**
- * reset object pointers
- */
 void Base::reconstruct() {
-  reconstructDerived();
+  reconstructDerived_();
 }
 
 }  // namespace feasst

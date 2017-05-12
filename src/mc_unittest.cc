@@ -21,7 +21,8 @@ using namespace feasst;
 
 // check that you obtain the same tmmc probability distribution function whether or not you use special moves
 TEST(MC, WLTMMC_Ideal) {
-
+  //ranInitForRepro(1494446668);
+  ranInitByDate();
   // to make acceptance equal at midpoint density, (activ/rho)^2 == 1
   Space s(3, 0);
   const int nMolMax = 4, nMolMin = 1, nAttemptsSimple = 600, nAttempts = 600, ncfreq = 1;
@@ -129,12 +130,13 @@ TEST(MC, WLTMMC_Ideal) {
 
     // expect that lnPI is within % of the simple method
     for (int i = 0; i < int(c.lnPI().size()); ++i) {
-      EXPECT_NEAR(1, c.lnPI()[i]/cSimple->lnPI()[i], 0.9);
+      EXPECT_NEAR(c.lnPI()[i], cSimple->lnPI()[i], 3.);
+      //EXPECT_NEAR(1, c.lnPI()[i]/cSimple->lnPI()[i], 0.9);
     }
 
-    // expect that each trial is attempted the expected number of times, with 15% statistical error
+    // expect that each trial is attempted the expected number of times, with 25% statistical error
     for (int i = 0; i < mc2.nTrials(); ++i) {
-      EXPECT_LT(nAttempts/mc2.nTrials()/1.15, mc2.trialVec()[i]->attempted());
+      EXPECT_LT(nAttempts/mc2.nTrials()/1.25, mc2.trialVec()[i]->attempted());
     }
     if (p.neighOn()) EXPECT_EQ(1, p.checkNeigh());
   }
@@ -458,7 +460,6 @@ TEST(MC, wltmmccloneANDreconstruct) {
 //  Space s(3, 0);
 //  for (int dim=0; dim < s.dimen(); ++dim) s.lset(8,dim);
 //  s.addMolInit("../forcefield/data.cg3_60_43_1");
-//  s.initCellAtomCut(1);
 //  s.updateCells(3.);
 //  PairLJMulti pLJ(&s, 3);
 //  pLJ.initLMPData("../forcefield/data.cg3_60_43_1");

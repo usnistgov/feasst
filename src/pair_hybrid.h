@@ -10,7 +10,7 @@ namespace feasst {
 
 class PairHybrid : public Pair {
  public:
-  PairHybrid(Space* space, const double rCut);
+  PairHybrid(Space* space, const double rCut = 0);
   PairHybrid(Space* space, const char* fileName);
   ~PairHybrid();
   virtual PairHybrid* clone(Space* space) const;

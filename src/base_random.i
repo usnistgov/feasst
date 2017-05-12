@@ -3,6 +3,7 @@
 %{
 #include "base.h"
 #include "base_random.h"
+using namespace feasst;
 %}
 
 %pythonnondynamic;

@@ -1,10 +1,3 @@
-/**
- * \file
- *
- * \brief interface for all classes to inherit
- *
- */
-
 #ifndef BASE_H_
 #define BASE_H_
 
@@ -47,25 +40,33 @@ using std::string;
 
 namespace feasst {
 
+/**
+ * Base class for all other classes to inherit.
+ */
 class Base {
  public:
   Base();
   virtual ~Base() {}
 
-  /// reconstruct object after cloning
+  /// Reconstruct object pointers after cloning (e.g., deep copy).
   void reconstruct();
 
-  /// derived objects may preform additional reconstruction
-  virtual void reconstructDerived() {}
-
-  /// read-only access of private data-members
+  /**
+   * The name of the class which should always be set at the constructor,
+   * and updated for all derived classes.
+   */
   std::string className() const { return className_; }
+  
+  /// The base directory where the code is located is stored in this variable.
   const char* install_dir() const { return install_dir_.c_str(); }
 
  protected:
   std::string className_;     //!< name of class
   string install_dir_;        //!< install directory
   int verbose_;               //!< flag for verbose printing
+  
+  /// Place-holder for derived objects to perform additional reconstruction.
+  virtual void reconstructDerived_() {}
 };
 
 }  // namespace feasst

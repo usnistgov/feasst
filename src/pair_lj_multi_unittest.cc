@@ -158,7 +158,6 @@ TEST(Pair, cg3analyticalAlpha128) {
   p.initWCA(1, 2);
   p.initWCA(2, 2);
   p.initEnergy();
-  s.initCellAtomCut(1);
 
   EXPECT_NEAR(p.peTot(), 2*39.789289254425900000, 10000*doubleTolerance);
   EXPECT_NEAR(p.f(0, 1), 0, doubleTolerance);
@@ -203,7 +202,6 @@ TEST(Pair, cg3analyticalAlpha128) {
 //  EXPECT_NEAR(s.x(0,0), 0.1682214722932941E+02, doubleTolerance);
 //  EXPECT_NEAR(s.x(7,2), 0.2948447461948864E+02, doubleTolerance);
 //
-//  s.initCellAtomCut(1);
 //  if (boxl/3. > rCut) {
 //    s.updateCells(rCut);
 //  }
@@ -324,7 +322,6 @@ TEST(Pair, sigrefAnalytical) {
   string addMolType("../forcefield/data.ljs0.85");
   //string addMolType("../forcefield/data.isobutane_trappe");
   s.addMolInit(addMolType.c_str());
-  s.initCellAtomCut(1);
   
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;

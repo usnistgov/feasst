@@ -16,10 +16,10 @@ TEST(Base, base) {
 }
 
 /**
- * BaseMath
+ * BaseRandom
  */
-TEST(BaseMath, ranShell) {
-  BaseMath math;
+TEST(BaseRandom, ranShell) {
+  BaseRandom math;
   ranInitByDate();
   const double rabove = 5., rbelow = 2.5;
   for (int i = 0; i < 1000; ++i) {
@@ -31,8 +31,8 @@ TEST(BaseMath, ranShell) {
   EXPECT_NEAR(458.14892864851146, volShell(rabove, rbelow, 3), 1e-14);
 }
 
-TEST(BaseMath, ranFromCPDF) {
-  BaseMath math;
+TEST(BaseRandom, ranFromCPDF) {
+  BaseRandom math;
   vector<double> cpdf;
   const int ncpdf = 10, n = 100;
   for (int i = 0; i < ncpdf; ++i) cpdf.push_back((i+1)/double(ncpdf));
@@ -44,9 +44,9 @@ TEST(BaseMath, ranFromCPDF) {
   for (int i = 0; i < ncpdf; ++i) EXPECT_NEAR(cpdfran[i]/double(n), ncpdf/double(n), 0.2);
 }
 
-TEST(BaseMath, quatRandomNorm) {
+TEST(BaseRandom, quatRandomNorm) {
 	ranInitByDate();
-  BaseMath math;
+  BaseRandom math;
   const int nRand = 100;
   vector<double> q = math.quatRandom(0);
   EXPECT_NEAR(0, q[0], 1e-18);
@@ -61,8 +61,8 @@ TEST(BaseMath, quatRandomNorm) {
   }
 }
 
-TEST(BaseMath, randQuatAndRotSphere) {
-  BaseMath math;
+TEST(BaseRandom, randQuatAndRotSphere) {
+  BaseRandom math;
   vector<double> x;
   x.resize(3);
   vector<double> y;
@@ -83,24 +83,24 @@ TEST(BaseMath, randQuatAndRotSphere) {
   }
 }
 
-TEST(BaseMath, ranUnitSphere) {
+TEST(BaseRandom, ranUnitSphere) {
   ranInitByDate();
-  BaseMath math;
+  BaseRandom math;
   for (int i = 0; i < 100; ++i) {
     vector<double> x = math.ranUnitSphere(3);
     EXPECT_NEAR(1, vecDotProd(x, x), 1e-14);
   }
 }
 
-TEST(BaseMath, ranAngle) {
-  BaseMath b;
+TEST(BaseRandom, ranAngle) {
+  BaseRandom b;
   EXPECT_NEAR(PI/3, b.ranAngle(100, PI/3), 0.4);
   //for (int i = 0; i < 100; ++i) cout << b.ranAngle(100, PI/3) << endl;
 }
 
-TEST(BaseMath, eulerRandom) {
+TEST(BaseRandom, eulerRandom) {
   ranInitByDate();
-  BaseMath math;
+  BaseRandom math;
   const int n = 10000;
   vector<double> xref(3); xref[0] = 1;
   for (int i = 0; i < n; ++i) {

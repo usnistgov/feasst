@@ -1,0 +1,1 @@
+../sphinx/functions.rst

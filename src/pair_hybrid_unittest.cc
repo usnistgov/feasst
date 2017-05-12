@@ -48,10 +48,20 @@ TEST(PairHybrid, ljANDwca) {
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(60,dim);
   s.addMolInit("../forcefield/data.cg3_60_43_1");
+  vector<double> xAdd(3, 0.);
+  s.xAdd = xAdd;
   s.addMol("../forcefield/data.cg3_60_43_1");
+  xAdd[0] = 3.;
+  s.xAdd = xAdd;
   s.addMol("../forcefield/data.cg3_60_43_1");
+  xAdd[0] = -3.;
+  s.xAdd = xAdd;
   s.addMol("../forcefield/data.cg3_60_43_1");
+  xAdd[1] = 3.;
+  s.xAdd = xAdd;
   s.addMol("../forcefield/data.cg3_60_43_1");
+  xAdd[1] = -3.;
+  s.xAdd = xAdd;
   s.addMol("../forcefield/data.cg3_60_43_1");
   PairLJMulti pLJ(&s, 3);
   pLJ.initLMPData("../forcefield/data.cg3_60_43_1");
@@ -68,6 +78,7 @@ TEST(PairHybrid, ljANDwca) {
   PairHybrid ph(&s, s.minl()/2.);
   ph.addPair(&pLJ);
   ph.addPair(&pWCA);
+  ph.initEnergy();
   EXPECT_EQ(2, ph.nPairs());
   //EXPECT_NEAR(0.752213404790411000, ph.peTot(), 1e-16);
   EXPECT_EQ(1, pLJ.checkEnergy(1e-10, 1));
@@ -75,7 +86,7 @@ TEST(PairHybrid, ljANDwca) {
   EXPECT_EQ(1, ph.checkEnergy(1e-10, 1));
   EXPECT_EQ(1, pLJ.checkEnergy(1e-10, 0));
 
-  //cout << "about to move" << endl;
+  // cout << "about to move" << endl;
   vector<int> mpart(4);
   mpart[0] = 0; mpart[1] = 1; mpart[2] = 2; mpart[3] = 3;
   ph.multiPartEner(mpart, 0);
@@ -84,7 +95,7 @@ TEST(PairHybrid, ljANDwca) {
   s.randRotate(mpart, 2);
   ph.multiPartEner(mpart, 1);
   ph.update(mpart, 0, "update");
-  //cout << "moved" << endl;
+  // cout << "moved" << endl;
   EXPECT_EQ(1, pLJ.checkEnergy(1e-10, 0));
   EXPECT_EQ(1, pWCA.checkEnergy(1e-10, 0));
   EXPECT_EQ(1, ph.checkEnergy(1e-10, 0));

@@ -13,17 +13,18 @@ double sign(const double a,	const double b) {
   return (b >= 0.0 ? fabs(a) : -fabs(a));
 }
 
-void fill(const double y, vector<vector<double> > &x) {
+/// Function to fill 2D vector with input variable.
+void fill(const double input, vector<vector<double> > &x) {
   for (vector<vector<double> >::iterator iter = x.begin();
        iter != x.end(); ++iter) {
-    std::fill((*iter).begin(), (*iter).end(), y);
+    std::fill((*iter).begin(), (*iter).end(), input);
   }
 }
 
-void fill(const int y, vector<vector<int> > &x) {
+void fill(const int input, vector<vector<int> > &x) {
   for (vector<vector<int> >::iterator iter = x.begin();
        iter != x.end(); ++iter) {
-    std::fill((*iter).begin(), (*iter).end(), y);
+    std::fill((*iter).begin(), (*iter).end(), input);
   }
 }
 

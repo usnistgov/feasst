@@ -1,7 +1,3 @@
-/**
- * This class is used to compute histograms.
- */
-
 #ifndef HISTOGRAM_H_
 #define HISTOGRAM_H_
 
@@ -11,83 +7,103 @@
 
 namespace feasst {
 
+/**
+ * This class is used to compute one dimensional histograms with constant bin
+ * width. By default, zero lies on a boundary between bins, but there is also
+ * the option to center a histogram bin on zero.
+ */
 class Histogram : public Base {
  public:
-  //HWH: when is this empty constructor used? DEPRECIATE
-  Histogram();  //!< Constructor
-  explicit Histogram(const double binWidth);  //!< Constructor
+  /**
+   * Constructor requires binWidth, but if a non-physical value is employed,
+   * then initBinWidth() must be utilized before accumulate().
+   */
+  explicit Histogram(const double binWidth = -1.);
+
+  // HWH: Depreciate
   Histogram(const double binWidth, const int iType, const int jType);
+
+  /// Constructor for checkpoint files.
   explicit Histogram(const char* fileName);
+
   virtual ~Histogram() {}
+
+  /**
+   * Clone raw pointer or copy of object which must be deleted to avoid a
+   * memory leak.
+   */
   Histogram* clone() const;
+
+  /// Clone shared pointer.
   shared_ptr<Histogram> cloneShrPtr() const;
 
-  /// write restart file
+  /// Write restart file.
   void writeRestart(const char* fileName);
-
-  /// accumulate values
-  virtual void accumulate(const double value);
-
-  /// return bin
-  double bin2m(const int bin) const { return min_ + (bin + 0.5)*binWidth_; }
-  int bin(const double value) const {
-    return feasst::round((value - bin2m(0))/binWidth_);
-  }
 
   /// Center a bin on zero. Otherwise, zero lies on a boundary between bins.
   void centerZero();
 
-  /// initialize the bin width
+  /// Initialize the bin width.
   void initBinWidth(double binWidth) { binWidth_ = binWidth; }
 
-  /// print to file 
+  /// Increment the histogram by one for the bin corresponding to given value
+  virtual void accumulate(const double value);
+
+  /// Return value at center of bin, given bin.
+  double bin2m(const int bin) const { return min_ + (bin + 0.5)*binWidth_; }
+
+  /// Return bin, given value.
+  int bin(const double value) const {
+    return feasst::round((value - bin2m(0))/binWidth_);
+  }
+
+  /// Print to file.
   void print(const char* fileName);
 
-  /// count number of independent attempts to compute a histogram
-  void count() { ++nNorm_; }
+  /// Count number of independent attempts to compute a histogram.
+  void count() { ++nCount_; }
 
-  /// return sum of elements in histogram
+  /// Return umber of times histogram is computed. Used for normalization.
+  long long nCount() const { return nCount_; }
+
+  /// Return sum of elements in histogram.
   double sum() const {
     return std::accumulate(histogram_.begin(), histogram_.end(), 0.);
   }
 
-  /// return maximum element in histogram
+  /// Return maximum element in histogram.
   double maxElement() const {
     return *std::max_element(histogram_.begin(), histogram_.end());
   }
 
-  /// return index of maximum element in histogram
+  /// Return index of maximum element in histogram.
   int maxElementBin() const;
 
-  /// maximum value of the histogram
+  /// Maximum value of the highest bin, e.g., the limit of the bins.
   double max() const { return max_; }
-  
-  /// minimum value of the histogram
+
+  /// Minimum value of the lowest bin, e.g., the limit of the bins.
   double min() const { return min_; }
-  
-  /// histogram data
-  std::deque<double> hist() const { return histogram_; }
-  
-  /// size (or number of bins) of the histogram
+
+  /// Size (or number of bins) of the histogram.
   int size() const { return static_cast<int>(histogram_.size()); }
-  
-  /// width of bins in histogram is constant throughout the range
+
+  /// Return the width of the bins, which is constant throughout.
   double binWidth() const { return binWidth_; }
- 
-  // HWH: rename to nCount for connection with count()
-  /// number of times histogram is computed. Used for normalization.
-  long long nNorm() const { return nNorm_; }
-  
+
   // HWH: when is this used? DEPRECIATE
   int iType() const { return iType_; }
   int jType() const { return jType_; }
+
+  /// Read-only access to raw histogram data.
+  std::deque<double> hist() const { return histogram_; }
 
  protected:
   double binWidth_;
   std::deque<double> histogram_;
   double max_;
   double min_;
-  long long nNorm_;
+  long long nCount_;
 
   /// histograms may be described by pairs of types
   //  (e.g. radial distriubtion function)

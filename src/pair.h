@@ -183,7 +183,9 @@ class Pair : public BaseAll {
 
   /// initialize cut-off method by atoms or molecules
   void initAtomCut(const int flag) {
-    if (flag == 1) { atomCut_ = 1; } else { atomCut_ = 0; }; addPartBase(); }
+    if (flag == 1) { atomCut_ = 1; } else { atomCut_ = 0; }; addPartBase();
+    space_->initCellAtomCut(flag);
+  }
 
   /// set i-j cutoff
   void rCutijset(const int itype, const int jtype, const double rCut);

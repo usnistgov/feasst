@@ -4,7 +4,7 @@ syntax: glob
 #executables
 main.cc
 main
-unittest
+src/unittest
 ui_text
 tools/rw
 build/
@@ -32,9 +32,6 @@ callgrind*
 *.vmd
 *.json
 
-#restart files
-*rst*
-
 #non-text files
 *.pdf
 *.tar
@@ -45,17 +42,33 @@ callgrind*
 *.eps
 *.jpg
 
-#doxygen files
+#documentation
 html/*
 latex/*
 xml/*
-
-#sphinx files
 sphinx/*
 
 #compiled files
 *.o
 *.so
+
+#temporary files
+*tmp*
+src/trash
+vmd
+*.bak
+*.log
+colMat*
+log*
+
+#test files
+test/*
+
+#tables
+table/*
+
+#xdrfile
+xdrfile*
 
 #swig files
 *.pyc
@@ -63,7 +76,6 @@ sphinx/*
 *_wrap.cpp
 pair.py
 pair_lj.py
-    cnew.betaset(criteria_->beta()/4.);
 pair_lj_multi.py
 pair_lj_coul_ewald.py
 pair_ideal.py
@@ -122,29 +134,3 @@ custom_exception.py
 feasst.py
 feasst_wrap.py
 
-
-#hg files
-*.orig
-.hg/*
-.hgignore
-
-#temporary files
-*tmp*
-src/trash
-vmd
-*.bak
-*.log
-colMat*
-log*
-
-#test files
-test/*
-analysis/
-forcefield/pe*
-
-#tables
-maketable/*
-table/*
-
-xdrfile*
-depreciated/*
