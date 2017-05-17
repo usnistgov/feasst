@@ -24,7 +24,7 @@ option(USE_SWIG "Use SWIG for python interface" OFF)
 # CMake attempts to find the libraries on its own.
 set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda2/include/python2.7")
 set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda2/lib/libpython2.7.so")
-#set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.6")
+#set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.6m")
 #set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.so")
 
 # Users typically would not edit below this comment
