@@ -630,7 +630,7 @@ class Space : public BaseAll {
   vector<vector<int> > cellList() const { return cellList_; }
   vector<int> atom2cell() const { return atom2cell_; }
   double dCellMin() const { return dCellMin_; }
-  int nMol() const { return static_cast<int>(mol2part_.size() - 1); }
+  int nMol() const { return static_cast<int>(moltype_.size()); }
   vector<vector<int> > cMaskPnt() const { return cMaskPnt_; }
   vector<shared_ptr<Space> > addMolList() const { return addMolList_; }
   vector<string> addMolListType() const { return addMolListType_; }
