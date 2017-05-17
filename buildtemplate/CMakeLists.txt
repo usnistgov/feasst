@@ -15,9 +15,17 @@ set(GSL_USER_DIR "$ENV{HOME}/software/gsl-2.3")
 option(USE_GTEST "Use gtest" OFF)
 option(USE_CCACHE "Use ccache to speed up builds" OFF)
 option(USE_OMP "Require use of OMP for parallelization" OFF)
-option(USE_SWIG "Use SWIG for python interface" OFF)
 option(USE_GCOV "Use GCOV for coverage testing" OFF)
 option(USE_SPHINX "Use SPHINX for documentation" OFF)
+
+option(USE_SWIG "Use SWIG for python interface" OFF)
+# If you would like to use the python interface, you may need to specify the
+# python library and include path variables below. If not specified then
+# CMake attempts to find the libraries on its own.
+set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda2/include/python2.7")
+set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda2/lib/libpython2.7.so")
+#set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.6")
+#set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.so")
 
 # Users typically would not edit below this comment
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
@@ -240,7 +248,14 @@ if (USE_SWIG)
     message("FOUND SWIG")
     INCLUDE(${SWIG_USE_FILE})
 
-    FIND_PACKAGE(PythonLibs)
+    # Find Python libraries. First, check if libraries are set manually
+    if (PYTHON_INCLUDE_PATH)
+    else (PYTHON_INCLUDE_PATH)
+      FIND_PACKAGE(PythonLibs)
+    endif (PYTHON_INCLUDE_PATH)
+    message("FOUND PYTHON")
+    message(${PYTHON_INCLUDE_PATH})
+    message(${PYTHON_LIBRARIES})
     INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 
     #INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})

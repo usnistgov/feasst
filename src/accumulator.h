@@ -51,10 +51,10 @@ class Accumulator : public Base {
     const long long nBlock = 1e5  //!< nBlock number of values per block
     ) { nBlock_ = nBlock; }
 
-  /// number of values per block
+  /// Return number of values per block.
   long long nBlock() const { return nBlock_; }
 
-  /// return standard deviation of the block averages (0 if not enough blocks)
+  /// Return standard deviation of the block averages (0 if not enough blocks).
   double blockStdev() const;
 
  protected:

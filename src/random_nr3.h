@@ -1,34 +1,37 @@
-/**
- * \file
- *
- * \brief numerical recipes third edition random number generator
- *
- */
-
-#ifndef RANDOMNR3_H_
-#define RANDOMNR3_H_
+#ifndef RANDOM_NR3_H_
+#define RANDOM_NR3_H_
 
 #include "random.h"
 
 namespace feasst {
 
+/**
+ * Numerical recipes third edition random number generator.
+ */
 class RandomNR3 : public Random {
  public:
+  /// Construct from seed.
   RandomNR3(const unsigned long long seed);
+
+  /// Construct from checkpoint file.
   RandomNR3(const char* fileName);
+
   virtual ~RandomNR3() {};
+
+  /// Write checkpoint file.
   virtual void writeRestart(const char* fileName);
 
-  // seed random number generator
+  /// Seed random number generator.
   void seed(const unsigned long long seed);
 
-  // uniform random doubleprecision number between 0 and 1
+  /// Return uniform random number between 0 and 1.
   double uniform();
 
+  // NOTE HWH: Depreciate this
   // uniform random integer between range min and max, inclusive
   int uniform(const int min, const int max);
 
-  // random 64 bit integer
+  /// Return random 64 bit integer.
   unsigned long long int64();
 
  protected:
@@ -37,5 +40,5 @@ class RandomNR3 : public Random {
 
 }  // namespace feasst
 
-#endif  // RANDOMNR3_H_
+#endif  // RANDOM_NR3_H_
 

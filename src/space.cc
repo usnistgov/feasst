@@ -1,26 +1,14 @@
-/**
- * \file
- *
- * \brief coordinates
- *
- * Implementation of the space class
- */
-
 #include <limits>
 #include <algorithm>
 #include "./space.h"
 
 namespace feasst {
 
-/**
- * Constructor
- */
-Space::Space(int dimen,  //!< spatial dimensionality
-             int id)     //!< ID of space class
+Space::Space(int dimen, int id)
   : dimen_(dimen),
     id_(id) {
   className_.assign("Space");
-  defaultConstruction();
+  defaultConstruction_();
 }
 Space::Space(const char* fileName) {
   className_.assign("Space");
@@ -30,7 +18,7 @@ Space::Space(const char* fileName) {
   // cout << " initialize identity and dimensionality, plus defaults" << endl;
   id_ = fstoi("id", fileName);
   dimen_ = fstoi("dimen", fileName);
-  defaultConstruction();
+  defaultConstruction_();
 
   // cout << " initialize simulation domain" << endl;
   for (int dim = 0; dim < dimen_; ++dim) {
@@ -177,10 +165,7 @@ Space::Space(const char* fileName) {
   initRNG(fileName);
 }
 
-/**
- * defaults in constructor
- */
-void Space::defaultConstruction() {
+void Space::defaultConstruction_() {
   verbose_ = 0;
   fastDel_ = false;
   fastDelMol_ = -1;
@@ -215,24 +200,19 @@ Space::~Space() {
   if (cellType_ > 0) checkCellList();
 }
 
-/**
- * clone design pattern
- */
 Space* Space::clone() const {
   Space* s = new Space(*this);
-  s->reconstruct();
-  return s;
-}
-shared_ptr<Space> Space::cloneShrPtr() const {
-  shared_ptr<Space> s = make_shared<Space>(*this);
-  s->reconstruct();
+  s->reconstruct_();
   return s;
 }
 
-/**
- * reconstruct pointers upon cloning
- */
-void Space::reconstruct() {
+shared_ptr<Space> Space::cloneShrPtr() const {
+  shared_ptr<Space> s = make_shared<Space>(*this);
+  s->reconstruct_();
+  return s;
+}
+
+void Space::reconstruct_() {
   for (int i = static_cast<int>(addMolList_.size()) - 1; i >= 0; --i) {
     addMolList_[i] = make_shared<Space>(*addMolList_[i]);
   }
@@ -240,12 +220,7 @@ void Space::reconstruct() {
   Base::reconstruct();
 }
 
-/**
- * Initialize the atomic positions according to some formula used for
- * testing purposes. Use python for more general input
- */
-int Space::init_config(const int natom  //!< number of atoms to initialize
-  ) {
+int Space::init_config(const int natom) {
   x_.resize(natom*dimen_);
   type_.resize(natom);
   mol_.clear();
@@ -279,14 +254,7 @@ int Space::init_config(const int natom  //!< number of atoms to initialize
   return 0;
 }
 
-/**
- * Write the atomic positions to a file
- *  open for first time if flag is 1
- *  append if flag is 0
- *  printing for xtc visualization if flag is 2
- */
-int Space::printxyz(const char* fileName,   //!< file with configuration
-  const int initFlag,   //!< flag (see above)
+int Space::printXYZ(const char* fileName, const int initFlag,
   const std::string comment) {
   stringstream ss;
   ss << fileName << ".xyz";
@@ -333,17 +301,7 @@ int Space::printxyz(const char* fileName,   //!< file with configuration
   return 0;
 }
 
-/**
- * read particle positions and number of particles from XYZ file format
- *  http://www.ks.uiuc.edu/Research/vmd/plugins/molfile/xyzplugin.html
- *  [ # optional comment line ] comment line (can be blank)
-    [ N                       ] # of atoms, required by this xyz reader
-    [ molecule name           ] name of molecule (can be blank)
-    atom1 x y z [optional data] atom name followed by xyz coords
-    atom2 x y z [ ...         ] and and (optionally) other data.
- */
-void Space::readxyz(const char* fileName   //!< name of XYZ file) {
-  ) {
+void Space::readXYZ(const char* fileName) {
   // check for errors, open if first time
   if (xyzFile_ == NULL) {
     xyzFile_ = make_shared<std::ifstream>(fileName);
@@ -409,18 +367,7 @@ void Space::readxyz(const char* fileName   //!< name of XYZ file) {
   }
 }
 
-/**
- * alternative to readxyz, this one adds and deletes molecules in addMolInit
- * read particle positions and number of particles from XYZ file format
- *  http://www.ks.uiuc.edu/Research/vmd/plugins/molfile/xyzplugin.html
- *  [ # optional comment line ] comment line (can be blank)
-    [ N                       ] # of atoms, required by this xyz reader
-    [ molecule name           ] name of molecule (can be blank)
-    atom1 x y z [optional data] atom name followed by xyz coords
-    atom2 x y z [ ...         ] and and (optionally) other data.
- */
-void Space::readxyz2(std::ifstream& file  //!< XYZ file
-  ) {
+void Space::readXYZ(std::ifstream& file) {
   // read first two lines
   int iAtom;
   string line;
@@ -451,18 +398,10 @@ void Space::readxyz2(std::ifstream& file  //!< XYZ file
   }
 }
 
-/**
- * Return the change in position according to periodic boundary conditions
- * Assumes cubic periodic box centered about the origin
- */
-double Space::pbc(const double x,  //!< atomic position
-       const int i    //!< dimension
-  ) {
+double Space::pbc(const double x,const int i) {
   ASSERT(fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < doubleTolerance,
     "orthogonal box pbc called with nonzero tilt factors");
-
-  // change in position, to be returned
-  double dx = x/l_[i];
+  double dx = x/l_[i];  // change in position, to be returned
   if (dx > 0.5) {
     dx = -l_[i] * static_cast<int>(dx + 0.5);
   } else if (dx < -0.5) {
@@ -470,17 +409,10 @@ double Space::pbc(const double x,  //!< atomic position
   } else {
     dx = 0.;
   }
-
   return dx;
 }
 
-/**
- * Return the change in position according to periodic boundary conditions
- * Assumes box centered about the origin, and that the particle only
- * needs be wrapped once
- */
-vector<double> Space::pbc(const vector<double> x  //!< atomic position
-  ) {
+vector<double> Space::pbc(const vector<double> x) {
   vector<double> dx(dimen_, 0.);
   if (fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < doubleTolerance) {
     for (int dim = 0; dim < dimen_; ++dim) {
@@ -538,14 +470,7 @@ vector<double> Space::pbc(const vector<double> x  //!< atomic position
   return dx;
 }
 
-/**
- * Attempt random random displacement of particles mpart by a random amount
- * of maximum size maxDisp in each dimension.
- */
-void Space::randDisp(
-  const vector<int> mpart,    //!< particle to attempt a random displacement
-  const double maxDisp   //!< maximum displacement in each dimension
-  ) {
+void Space::randDisp(const vector<int> mpart, const double maxDisp) {
   double maxDispTmp = maxDisp;
   for (int dim = 0; dim < dimen_; ++dim) {
     if (maxDisp == -1) maxDispTmp = l_[dim]/2.;
@@ -559,23 +484,13 @@ void Space::randDisp(
   wrap(mpart);
 }
 
-void Space::randDisp(
-  const int part,    //!< particle to attempt a random displacement
-  const double maxDisp   //!< maximum displacement in each dimension
-  ) {
+void Space::randDisp(const int part, const double maxDisp) {
   vector<int> mpart;
   mpart.push_back(part);
   randDisp(mpart, maxDisp);
 }
 
-/**
- * Attempt random random displacement of particles mpart by a random amount
- * of maximum size maxDisp in each dimension.
- */
-void Space::randDispMulti(
-  const vector<int> mpart,    //!< particle to attempt a random displacement
-  const double maxDisp   //!< maximum displacement in each dimension
-  ) {
+void Space::randDispMulti(const vector<int> mpart, const double maxDisp) {
   double maxDispTmp = maxDisp;
   for (int dim = 0; dim < dimen_; ++dim) {
     if (maxDisp == -1) maxDispTmp = l_[dim]/2.;
@@ -586,14 +501,7 @@ void Space::randDispMulti(
   }
 }
 
-/**
- * Attempt random rotation of particles mpart by a random amount
- * of maximum size maxDisp in each dimension.
- */
-void Space::randRotate(
-  const vector<int> mpart,    //!< particle to attempt a random rotation
-  const double maxDisp   //!< maximum rotation in each dimension
-  ) {
+void Space::randRotate(const vector<int> mpart, const double maxDisp) {
   if (sphereSymMol_ == false) {
     // assume that mpart is made of only one molecule
     const int iMol = mol_[mpart[0]];
@@ -638,14 +546,8 @@ void Space::randRotate(
   }
 }
 
-/**
- * Attempt random rotation of multiple molecules by a random amount
- */
-void Space::randRotateMulti(
-  const vector<int> mpart,    //!< particle to attempt a random rotation
-  const double maxDisp,   //!< maximum rotation in each dimension
-  const vector<double> &sig      //!< sigma of particles
-  ) {
+void Space::randRotateMulti(const vector<int> mpart,const double maxDisp,
+  const vector<double> &sig) {
   const int natom = static_cast<int>(mpart.size());
 
   // find center of (mass of == 1) mpart
@@ -765,30 +667,19 @@ void Space::randRotateMulti(
   }
 }
 
-/**
- * Attempt random rotation of multiple molecules by a random amount
- */
-void Space::randRotateMulti(
-  const vector<int> mpart,    //!< particle to attempt a random rotation
-  const double maxDisp   //!< maximum rotation in each dimension
-  ) {
-  // if no sigmas are provided, then make a dummy
+void Space::randRotateMulti(const vector<int> mpart, const double maxDisp) {
   vector<double> sig;
   randRotateMulti(mpart, maxDisp, sig);
 }
 
-/**
- * delete particle ipart
- */
-void Space::delPart(const int ipart   //!< particle number to delete
-  ) {
+void Space::delPart(const int ipart) {
   // error check that particle exists
   ASSERT(ipart < natom(), "cannot delete particle that does not exist,"
          << "ipart: " << ipart << " when there are only natom: " << natom());
 
   // update atom-based cell list
   if ( (fastDel_ == false) && (cellType_ > 0) && (cellAtomCut_) ) {
-    eraseAtomFromCell(ipart);
+    eraseAtomFromCell_(ipart);
     atom2cell_.erase(atom2cell_.begin() + ipart);
   }
 
@@ -811,7 +702,7 @@ void Space::delPart(const int ipart   //!< particle number to delete
     listMols_.erase(listMols_.end() - 1);
     if ( (cellType_ > 0) && (cellAtomCut_ == false) ) {
       // cout << "deling from cell, iMol " << iMol << endl;
-      eraseMolFromCell(iMol);
+      eraseMolFromCell_(iMol);
       mol2cell_.erase(mol2cell_.begin() + iMol);
     }
 
@@ -883,13 +774,6 @@ void Space::delPart(const int ipart   //!< particle number to delete
   }
 }
 
-/**
- * returns whether or not fast deletion method is applicable
- * use a faster delete method if molecule of same type is at the end
- * of the x_ array by putting last molecule where mpart exists, and then
- * delete the molecule at the end of the array
- * also check particles to delete are part of entire molecule
- */
 bool Space::fastDelApplicable(const vector<int> mpart) const {
   const int iMol = mol_[mpart.front()];
   if (mol_[mpart.back()] == iMol) {
@@ -900,8 +784,7 @@ bool Space::fastDelApplicable(const vector<int> mpart) const {
   return false;
 }
 
-void Space::delPart(const vector<int> mpart   //!< particle numbers to delete
-  ) {
+void Space::delPart(const vector<int> mpart) {
   fastDel_ = false;
   const int iMol = mol_[mpart.front()];
   if (fastDelApplicable(mpart)) {
@@ -933,14 +816,14 @@ void Space::delPart(const vector<int> mpart   //!< particle numbers to delete
       updateCellofiMol(iMol);
       if (cellAtomCut_) {
         for (int i = static_cast<int>(mpart.size()) - 1; i >= 0; --i) {
-          eraseAtomFromCell(natom() - static_cast<int>(mpart.size()) + i);
+          eraseAtomFromCell_(natom() - static_cast<int>(mpart.size()) + i);
         }
         for (int i = static_cast<int>(mpart.size()) - 1; i >= 0; --i) {
           atom2cell_.pop_back();
         }
       } else {
         // cout << "erasing  nMol()-1= " << nMol() - 1 << endl;
-        eraseMolFromCell(nMol() - 1);
+        eraseMolFromCell_(nMol() - 1);
         mol2cell_.pop_back();
       }
     }
@@ -976,14 +859,7 @@ void Space::delPart(const vector<int> mpart   //!< particle numbers to delete
   }
 }
 
-/**
- * add particle ipart with position v, type itype and molecule imol
- */
-void Space::addPart(
-  const vector<double> v,   //!< vector position of new particle
-  const int itype,          //!< atom type
-  const int imol            //!< molecule id
-  ) {
+void Space::addPart(const vector<double> v, const int itype, const int imol) {
   // error check that dimensions match
   ASSERT(static_cast<int>(v.size()) == dimen_, "dimensions of space ("
          << dimen_ << ") and position of new particle ("
@@ -997,14 +873,8 @@ void Space::addPart(
   listAtoms_.push_back(natom() - 1);
 }
 
-/**
- * read bulk molecule xyz with natoms each, and assign type and mol
- */
-void Space::readXYZBulk(
-  const int nMolAtoms,  //!< number of atoms per molecule
-  const char* type,       //!< type of molecule
-  const char* fileName    //!< file name of xyz coordinates
-  ) {
+void Space::readXYZBulk(const int nMolAtoms, const char* type,
+  const char* fileName) {
   readxyz(fileName);
   std::string typestr(type);
   int molid = -1;
@@ -1034,9 +904,6 @@ void Space::readXYZBulk(
   qMolInit();
 }
 
-/**
- * return random molecule as vector of particle numbers, mpart
- */
 vector<int> Space::randMol() {
   vector<int> mpart;
   const int iMol = uniformRanNum(0, nMol() - 1);
@@ -1044,15 +911,7 @@ vector<int> Space::randMol() {
   return mpart;
 }
 
-/**
- * return random molecule as vector of particle numbers, mpart
- *  this is accomplished by picking a random atom, and finding all other
- *  atoms in the same molecule. In this case, the returned molecule must not
- *  be the same as the ones listed in jmMol
- */
-vector<int> Space::randMolDiff(
-  const vector<int> jmMol    //!< cannot pick these molecules
-  ) {
+vector<int> Space::randMolDiff(const vector<int> jmMol) {
   vector<int> mpart;
 
   ASSERT(static_cast<int>(jmMol.size()) != nMol(),
@@ -1076,28 +935,14 @@ vector<int> Space::randMolDiff(
   return mpart;
 }
 
-/**
- * return random molecule as vector of particle numbers, mpart
- * This is a special case of randMolDiff subroutine for a vector of particles
- */
-vector<int> Space::randMolDiff(
-  const int jMol    //!< cannot pick this molecule
-  ) {
+vector<int> Space::randMolDiff(const int jMol) {
   const vector<int> jMolVec(1, jMol);
   return randMolDiff(jMolVec);
 }
 
-/**
- * return random molecule in jmpart as vector of particle numbers, mpart
- * this is accomplished by picking a random atom from jmMol, and finding
- * all other atoms in the same molecule
- */
-vector<int> Space::randMolSubset(
-  const vector<int> jmMol    //!< pick randomly from this subset of molecules
-  ) {
+vector<int> Space::randMolSubset(const vector<int> jmMol) {
   ASSERT(static_cast<int>(jmMol.size()) != 0,
          "cannot pick random molecule from null subset of molecules");
-
   vector<int> mpart;
   const int jrandMol = jmMol[uniformRanNum(0,
                        static_cast<int>(jmMol.size()) - 1)];
@@ -1106,13 +951,9 @@ vector<int> Space::randMolSubset(
   return mpart;
 }
 
-/**
- * restore configuration to original positions,
- * stored in xold_ for particles mpart
- */
-void Space::restore(
-  vector<int> mpart    //!< particle numbers of selected molecule);
-  ) {
+void Space::restore(vector<int> mpart) {
+  ASSERT(xold_.size() >= mpart.size(), "restore() requires previous use of "
+    << "xStore()");
   for (unsigned int i = 0; i < mpart.size(); ++i) {
     for (int dim = 0; dim < dimen_; ++dim) {
       x_[dimen_*mpart[i]+dim] = xold_[i][dim];
@@ -1127,23 +968,20 @@ void Space::restore(
   }
 }
 
-/**
- * restore configuration to original positions, stored in xold_
- * for all particles
- */
 void Space::restoreAll() {
+  // NOTE HWH ASSERT for size
+  ASSERT(xOldAll_.size() == x_.size(), "stored particle coordinates size "
+    << xOldAll_.size() << " does not match current size " << x_.size());
   x_ = xOldAll_;
   if (sphereSymMol_ == false) {
+    ASSERT(qMol_.size() == qMolOldAll_.size(), "size mismatch");
     qMol_ = qMolOldAll_;
+    ASSERT(xMolRef_.size() == xMolRefOld_.size(), "size mismatch");
     xMolRef_ = xMolRefOld_;
   }
 }
 
-/**
- * add molecule of predefined type
- */
-void Space::addMol(const char* type   //!< type of molecule to add
-  ) {
+void Space::addMol(const char* type) {
   std::string typestr(type);
   vector<vector<double> > xmol;
 
@@ -1215,10 +1053,10 @@ void Space::addMol(const char* type   //!< type of molecule to add
     if (cellAtomCut_) {
       for (int ipart = mol2part_[nMol()-1]; ipart < mol2part_[nMol()];
            ++ipart) {
-        addAtomtoCell(ipart);
+        addAtomtoCell_(ipart);
       }
     } else {
-      addMoltoCell(nMol() - 1);
+      addMoltoCell_(nMol() - 1);
     }
   }
 
@@ -1254,9 +1092,6 @@ void Space::addMolInit(const char* fileName   //!< data file for molecule
   delPart(lastMolIDVec());
 }
 
-/**
- * generate atomic positions listed by molecule into variable xMol_
- */
 void Space::xMolGen() {
   xMol_.clear();
   if (natom() != 0) {
@@ -1281,12 +1116,7 @@ void Space::xMolGen() {
   for (int i = 0; i < nMol(); ++i) listMols_.push_back(i);
 }
 
-/**
- * checks bond lengths of particles against reference particle xRef
- */
-int Space::checkBond(const char* type,  //!< type of reference molecule
-                     const double tol   //!< tolerance of match
-  ) {
+int Space::checkBond(const char* type, const double tol) {
   std::string typestr(type);
 
   vector<vector<double> > xRef;
@@ -1344,11 +1174,7 @@ int Space::checkBond(const char* type,  //!< type of reference molecule
   return bondsMatch;
 }
 
-/**
- * checks bond lengths of all molecules against their references
- */
-int Space::checkBond(const double tol   //!< tolerance of match
-  ) {
+int Space::checkBond(const double tol) {
   // start as bonds match, and switch to zero if a test fails
   int bondsMatch = 1;
   if (nMol() > 0) {
@@ -1380,9 +1206,6 @@ int Space::checkBond(const double tol   //!< tolerance of match
   return bondsMatch;
 }
 
-/**
- * returns minium boundary distance
- */
 double Space::minl() const {
   double minl = 1e15;
   for (int dim = 0; dim < dimen_; ++dim) {
@@ -1391,24 +1214,8 @@ double Space::minl() const {
   return minl;
 }
 
-/**
- * returns whether molecules mpart and jmpart are bonded
- */
-int Space::bonded(const vector<int> mpart,   //!< molecule 1
-                  const vector<int> jmpart,   //!< molecule 2
-                  const double rabove,     //!< upper limit of shell
-                  const double rbelow     //!< lower limit of shell
-  ) {
-  return bonded(mpart[0], jmpart[0], rabove, rbelow);
-}
-
-/**
- * returns whether atoms iAtom and jAtom are bonded
- */
 int Space::bonded(const int iAtom, const int jAtom,
-                  const double rAbove,     //!< upper limit of shell
-                  const double rBelow     //!< lower limit of shell
-  ) {
+                  const double rAbove, const double rBelow) {
   vector<double> xm, xj;
   for (int dim = 0; dim < dimen_; ++dim) {
     xm.push_back(x_[dimen_*iAtom+dim]);
@@ -1422,16 +1229,13 @@ int Space::bonded(const int iAtom, const int jAtom,
   }
 }
 
-/**
- * moves molecule mpart to bonded/nonbonded region of jmpart
- *  and returns whether mpart was previously in a bonded configuration
- */
-int Space::avb(const vector<int> mpart,   //!< molecule to move
-               const vector<int> jmpart,   //!< target molecule
-               const double rabove,     //!< upper limit of shell
-               const double rbelow,     //!< lower limit of shell
-               const char* type         //!< move to (non)bonded region
-  ) {
+int Space::bonded(const vector<int> mpart, const vector<int> jmpart,
+                  const double rabove, const double rbelow) {
+  return bonded(mpart[0], jmpart[0], rabove, rbelow);
+}
+
+int Space::avb(const vector<int> mpart, const vector<int> jmpart,
+               const double rabove, const double rbelow, const char* type) {
   ASSERT(mpart[0] != jmpart[0], "Aggregation volume bias move attempted"
     << "where the first atom in the moving particle, mpart(" << mpart[0]
     << ") is equilvalent to the first atom in the target particle, jmpart("
@@ -1496,9 +1300,6 @@ int Space::avb(const vector<int> mpart,   //!< molecule to move
   return bond;
 }
 
-/**
- * stores position of a vector of particles in xold_
- */
 void Space::xStore(const vector<int> mpart   //!< list of particles to store
   ) {
   xold_.resize(static_cast<int>(mpart.size()), vector<double>(dimen()));
@@ -1517,9 +1318,6 @@ void Space::xStore(const vector<int> mpart   //!< list of particles to store
   }
 }
 
-/**
- * stores position of all particles in xOldAll_
- */
 void Space::xStoreAll() {
   xOldAll_ = x_;
   if (sphereSymMol_ == false) {
@@ -1528,20 +1326,10 @@ void Space::xStoreAll() {
   }
 }
 
-/**
- * stores position of a vector of particles in xOldMulti_,
- * and also qMol_ if not spherically symmetric
- * if flag == -1, clear xOldMulti_ and add mpart
- * if flag == -2, push_back mpart
- * if flag == positive integer,
- *  restore x_ with xOldMulti_ for mpart of index == flag
- */
-void Space::xStoreMulti(
-  const vector<int> mpart,   //!< list of particles to store or restore
-  const int flag             //!< multi-use flag (see above)
-  ) {
+void Space::xStoreMulti(const vector<int> mpart, const int flag) {
   // restore if flag is positive
   if (flag >= 0) {
+    ASSERT(mpart.size() == xOldMulti_[flag].size(), "size mismatch");
     for (unsigned int i = 0; i < mpart.size(); ++i) {
       for (int dim = 0; dim < dimen_; ++dim) {
         x_[dimen_*mpart[i]+dim] = xOldMulti_[flag][i][dim];
@@ -1580,12 +1368,7 @@ void Space::xStoreMulti(
   }
 }
 
-/**
- * return squared distance between two points subject to pbc
- */
-double Space::rsq(const vector<double> xi,    //!< position of particle i
-                const vector<double> xj      //!< position of particle j
-  ) {
+double Space::rsq(const vector<double> xi, const vector<double> xj) {
   vector<double> r(dimen_);
   for (int dim = 0; dim < dimen_; ++dim) {
     r[dim] = xi[dim] - xj[dim];
@@ -1597,12 +1380,7 @@ double Space::rsq(const vector<double> xi,    //!< position of particle i
   return vecDotProd(r, r);
 }
 
-/**
- * wrap molecule defined by mpart according to first particle in molecule
- *  assumes rectangluar box with origin at the center
- */
-void Space::wrap(const vector<int> mpart   //!< list of particles in molecule
-  ) {
+void Space::wrap(const vector<int> mpart) {
   // find displacement of first particle in molecule in order to wrap
   vector<double> x;
   for (int dim = 0; dim < dimen_; ++dim) {
@@ -1621,12 +1399,7 @@ void Space::wrap(const vector<int> mpart   //!< list of particles in molecule
   // if (cellType_ > 0) updateCellofiMol(mol_[mpart.front()]);
 }
 
-/**
- * wrap position defined by rvec in simulation domain
- *  assumes origin at the center
- *  return rvec wrapped
- */
-void Space::rwrap(vector<double> *rvecPtr) {   //!< position vector to wrap
+void Space::rwrap(vector<double> *rvecPtr) {
   vector<double>& rvec = *rvecPtr;
   vector<double> dx(dimen_, 0.);
   if (fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < doubleTolerance) {
@@ -1679,12 +1452,7 @@ void Space::rwrap(vector<double> *rvecPtr) {   //!< position vector to wrap
   // }
 }
 
-/**
- * initialize cells in cell list
- */
-void Space::updateCells(const double dCellMin,  //!< minimum cell size
-  const double rCut  //!< max cut off radius of interactions
-  ) {
+void Space::updateCells(const double dCellMin, const double rCut) {
   if (dCellMin >= rCut) {
     cellType_ = 1;
   } else {
@@ -1713,19 +1481,19 @@ void Space::updateCells(const double dCellMin,  //!< minimum cell size
       for (mix = 0; mix < nCellVec_[0]; ++mix) {
       for (miy = 0; miy < nCellVec_[1]; ++miy) {
       for (miz = 0; miz < nCellVec_[2]; ++miz) {
-        const int icell = mvec2m3d(mix, miy, miz);
+        const int icell = mvec2m3d_(mix, miy, miz);
         for (mjx = mix-1; mjx <= mix+1; ++mjx) {
         for (mjy = miy-1; mjy <= miy+1; ++mjy) {
         for (mjz = miz-1; mjz <= miz+1; ++mjz) {
-          neighCell_[icell].push_back(mvec2m3d(mjx, mjy, mjz));
+          neighCell_[icell].push_back(mvec2m3d_(mjx, mjy, mjz));
         }}}
       }}}
     } else if (cellType_ == 2) {
       // cout << "enumerate box corners of all cells" << endl;
-      vector<vector<vector<double> > > cellCorners_;
+      vector<vector<vector<double> > > cellCorners;
       for (int m = 0; m < nCell_; ++m) {
-        vector<vector<double> > r = cellCorners(m);
-        cellCorners_.push_back(r);
+        vector<vector<double> > r = cellCorners_(m);
+        cellCorners.push_back(r);
       }
 
       // cout << "looping through all pairs of cells, put neighbors"
@@ -1740,7 +1508,7 @@ void Space::updateCells(const double dCellMin,  //!< minimum cell size
             while ( (neigh == 0) && (cj < nCorners) ) {
               double r, r2 = 0.;
               for (int dim = 0; dim < dimen_; ++dim) {
-                r = cellCorners_[mi][ci][dim] - cellCorners_[mj][cj][dim];
+                r = cellCorners[mi][ci][dim] - cellCorners[mj][cj][dim];
                 if (r >  0.5 * l_[dim]) r -= l_[dim];
                 if (r < -0.5 * l_[dim]) r += l_[dim];
                 r2 += r*r;
@@ -1792,10 +1560,10 @@ void Space::updateCells(const double dCellMin,  //!< minimum cell size
     neighCell_.resize(nCell_);
     for (mix = 0; mix < nCellVec_[0]; ++mix) {
     for (miy = 0; miy < nCellVec_[1]; ++miy) {
-      const int icell = mvec2m2d(mix, miy);
+      const int icell = mvec2m2d_(mix, miy);
       for (mjx = mix-1; mjx <= mix+1; ++mjx) {
       for (mjy = miy-1; mjy <= miy+1; ++mjy) {
-        neighCell_[icell].push_back(mvec2m2d(mjx, mjy));
+        neighCell_[icell].push_back(mvec2m2d_(mjx, mjy));
       }}
     }}
     buildCellList();
@@ -1805,11 +1573,7 @@ void Space::updateCells(const double dCellMin,  //!< minimum cell size
   }
 }
 
-/**
- * return vector position of cell given scalar index
- */
-vector<int> Space::m2vec(const int m     //!< cell index m
-  ) {
+vector<int> Space::m2vec_(const int m) {
   vector<int> mVec;
   mVec.push_back(m % nCellVec_[0]);
   if (dimen_ > 1) {
@@ -1822,14 +1586,9 @@ vector<int> Space::m2vec(const int m     //!< cell index m
   return mVec;
 }
 
-/**
- * return corners of cell m
- */
-vector<vector<double> > Space::cellCorners(
-  const int m     //!< cell index m
-  ) {
+vector<vector<double> > Space::cellCorners_(const int m) {
   vector<vector<double> > rm;
-  vector<int> mVec = m2vec(m);
+  vector<int> mVec = m2vec_(m);
   vector<double> rc;
   for (int dim = 0; dim < dimen_; ++dim) {
     rc.push_back(static_cast<double>
@@ -1851,11 +1610,7 @@ vector<vector<double> > Space::cellCorners(
   return rm;
 }
 
-/**
- * return scalar cell index given position
- */
-int Space::rvec2m(const vector<double> &r  //!< position vector
-  ) {
+int Space::rvec2m_(const vector<double> &r) {
   int cell = -1;
   if (dimen_ == 3) {
     const int xc = static_cast<int>
@@ -1891,28 +1646,13 @@ int Space::rvec2m(const vector<double> &r  //!< position vector
   return cell;
 }
 
-/**
- * return scalar cell index given aotm number
- */
-int Space::iatom2m(const double &ipart   //!< molecule number
-  ) {
+int Space::iatom2m(const double &ipart) {
   vector<double> rvec(dimen_);
   for (int dim = 0; dim < dimen_; ++dim) rvec[dim] = x(ipart, dim);
   rwrap(&rvec);
-  return rvec2m(rvec);
+  return rvec2m_(rvec);
 }
 
-/**
- * return scalar cell index given molecule number
- */
-int Space::imol2m(const double &iMol   //!< molecule number
-  ) {
-  return iatom2m(mol2part_[iMol]);
-}
-
-/**
- * initialize cell list
- */
 void Space::buildCellList() {
   if (cellType_ != 1) {
     ASSERT(0, "cellType other than 1 isn't implemented");
@@ -1923,12 +1663,12 @@ void Space::buildCellList() {
     if (cellAtomCut_) {
       atom2cell_.clear();
       for (int ipart = 0; ipart < natom(); ++ipart) {
-        addAtomtoCell(ipart);
+        addAtomtoCell_(ipart);
       }
     } else {
       mol2cell_.clear();
       for (int iMol = 0; iMol < nMol(); ++iMol) {
-        addMoltoCell(iMol);
+        addMoltoCell_(iMol);
         // cout << "iMol " << iMol << " x " << xMol_[iMol][0][0] << " "
         //      << xMol_[iMol][0][1] << " " << xMol_[iMol][0][2]
         //      << " iCell " << iCell << endl;
@@ -1937,9 +1677,6 @@ void Space::buildCellList() {
   }
 }
 
-/**
- * returns vector of particle IDs of last molecule
- */
 vector<int> Space::lastMolIDVec() {
   vector<int> mpart;
   for (int ipart = mol2part_[nMol() - 1]; ipart < mol2part_.back(); ++ipart) {
@@ -1948,10 +1685,6 @@ vector<int> Space::lastMolIDVec() {
   return mpart;
 }
 
-/**
- * initialize quaternions of all molecules and stores current positions
- * as reference positions
- */
 void Space::qMolInit() {
   // update molecule numbers and xMol
   xMolGen();
@@ -1963,10 +1696,6 @@ void Space::qMolInit() {
   }
 }
 
-/**
- * initialize quaternions of molecule iMol and stores current positions
- * as reference positions
- */
 void Space::qMolInit(const int iMol) {
   if (dimen_ == 3) {
     for (int dim = 0; dim < dimen_; ++dim) qMol_[qdim_*iMol+dim] = 0;
@@ -1994,11 +1723,7 @@ void Space::qMolInit(const int iMol) {
   for (int dim = 0; dim < dimen_; ++dim) xMolRef_[iMol][0][dim] = 0.;
 }
 
-/**
- * update positions using quaternions, given molecule number
- */
-void Space::quat2pos(const int iMol   //!< molecule to update
-  ) {
+void Space::quat2pos(const int iMol) {
   vector<vector<double> > xref = xMolRef_[iMol];
   if (static_cast<int>(xref.size()) > 1) {
     vector<vector<double> > r, xnew;
@@ -2031,32 +1756,14 @@ void Space::quat2pos(const int iMol   //!< molecule to update
   }
 }
 
-/**
- * update current positions using quaternions, given molecule numbers
- */
-void Space::quat2pos(const vector<int> imMol   //!< list of molecules to update
-  ) {
-  for (unsigned int i = 0; i < imMol.size(); ++i) quat2pos(imMol[i]);
-}
-
-/**
- * set particle type
- */
-void Space::settype(const int iatom,  //!< atom number to set type
-  const int itype   //!< type number to set
-  ) {
+void Space::settype(const int iatom, const int itype) {
   --nType_.at(type_[iatom]);
   if (nParticleTypes() -1 < itype) nType_.resize(itype+1);
   type_.at(iatom) = itype;
   ++nType_.at(itype);
 }
 
-/**
- * generate neighbor list for ipart from cell list
- */
-void Space::buildNeighListCellAtomCut(
-  const int ipart   //!< neighborlist for atom ipart
-  ) {
+void Space::buildNeighListCellAtomCut(const int ipart) {
   neighListCell_.clear();
   neighListChosen_ = &neighListCell_;
   ASSERT(cellType_ == 1, "only implemented for cellType_ == 1");
@@ -2073,12 +1780,7 @@ void Space::buildNeighListCellAtomCut(
   }
 }
 
-/**
- * generate neighbor list for iMol from cell list
- */
-void Space::buildNeighListCell(
-  const int iMol   //!< neighborlist for molecule iMol
-  ) {
+void Space::buildNeighListCell(const int iMol) {
   neighListCell_.clear();
   neighListChosen_ = &neighListCell_;
   ASSERT(cellType_ == 1, "only implemented for cellType_ == 1");
@@ -2101,12 +1803,7 @@ void Space::cellOff() {
   cellType_ = 0;
 }
 
-/**
- * removes atom from cellList_
- */
-void Space::eraseAtomFromCell(
-  const int ipart   //!< atom to erase from cellList_
-  ) {
+void Space::eraseAtomFromCell_(const int ipart) {
   const int iCell = atom2cell_[ipart];
   int index = -1;
   vector<int> &icl = cellList_[iCell];
@@ -2118,12 +1815,7 @@ void Space::eraseAtomFromCell(
   atom2cell_[ipart] = -1;
 }
 
-/**
- * removes molecule from cellList_
- */
-void Space::eraseMolFromCell(
-  const int iMol   //!< molecule to erase from cellList_
-  ) {
+void Space::eraseMolFromCell_(const int iMol) {
   const int iCell = mol2cell_[iMol];
   int index = -1;
   vector<int> &icl = cellList_[iCell];
@@ -2135,11 +1827,7 @@ void Space::eraseMolFromCell(
   mol2cell_[iMol] = -1;
 }
 
-/**
- * adds atom to cellList_
- */
-void Space::addAtomtoCell(const int ipart   //!< atom to add
-  ) {
+void Space::addAtomtoCell_(const int ipart) {
   const int iCell = iatom2m(ipart);
   cellList_[iCell].push_back(ipart);
   if (static_cast<int>(atom2cell_.size()) <= ipart) {
@@ -2148,11 +1836,7 @@ void Space::addAtomtoCell(const int ipart   //!< atom to add
   atom2cell_[ipart] = iCell;
 }
 
-/**
- * adds molecule to cellList_
- */
-void Space::addMoltoCell(const int iMol   //!< molecule to add
-  ) {
+void Space::addMoltoCell_(const int iMol) {
   const int iCell = imol2m(iMol);
   cellList_[iCell].push_back(iMol);
   if (static_cast<int>(mol2cell_.size()) <= iMol) mol2cell_.resize(nMol());
@@ -2171,8 +1855,8 @@ void Space::updateCellofiMol(const int iMol  //!< molecule to update
       const int iCello = atom2cell_[ipart];
       if (iCello != iCelln) {
         // cout << "moving from cells " << iCello << " -> " << iCelln << endl;
-        eraseAtomFromCell(ipart);
-        addAtomtoCell(ipart);
+        eraseAtomFromCell_(ipart);
+        addAtomtoCell_(ipart);
       }
     }
   } else {
@@ -2180,8 +1864,8 @@ void Space::updateCellofiMol(const int iMol  //!< molecule to update
     const int iCello = mol2cell_[iMol];
     if (iCello != iCelln) {
       // cout << "moving from cells " << iCello << " -> " << iCelln << endl;
-      eraseMolFromCell(iMol);
-      addMoltoCell(iMol);
+      eraseMolFromCell_(iMol);
+      addMoltoCell_(iMol);
     }
   }
 }
@@ -2196,8 +1880,8 @@ void Space::updateCellofallMol() {
       const int iCello = atom2cell_[ipart];
       if (iCello != iCelln) {
         // cout << "moving from cells " << iCello << " -> " << iCelln << endl;
-        eraseAtomFromCell(ipart);
-        addAtomtoCell(ipart);
+        eraseAtomFromCell_(ipart);
+        addAtomtoCell_(ipart);
       }
     }
   } else {
@@ -2206,17 +1890,14 @@ void Space::updateCellofallMol() {
       const int iCello = mol2cell_[iMol];
       if (iCello != iCelln) {
         // cout << "moving from cells " << iCello << " -> " << iCelln << endl;
-        eraseMolFromCell(iMol);
-        addMoltoCell(iMol);
+        eraseMolFromCell_(iMol);
+        addMoltoCell_(iMol);
       }
     }
   }
 }
 
-/**
- * stores current cell list, rebuilds, and compares
- *  returns 1 if no errors found
- * */
+// stores current cell list, rebuilds, and compares
 int Space::checkCellList() {
   int cellMatch = 1;
 
@@ -2268,15 +1949,7 @@ int Space::checkCellList() {
   return cellMatch;
 }
 
-/**
- * Initialize with LAMMPS data file
- * Reads number of atoms, molecules, atom types, masses
- * Resizes appropriate arrays
- */
-void Space::initLMPData(
-  const std::string fileName,  //!< LAMMPS Data file name
-  const int nTypesExist  //!< number of particle types that already exists
-  ) {
+void Space::initLMPData(const std::string fileName, const int nTypesExist) {
   // open LAMMPS data file
   std::ifstream file(fileName.c_str());
   ASSERT(file.good(), "cannot find lammps DATA file " << fileName);
@@ -2449,9 +2122,6 @@ void Space::initLMPData(
   }
 }
 
-/**
- * checks array sizes
- */
 int Space::checkSizes() {
   bool er = false;
   std::ostringstream ermesg;
@@ -2568,43 +2238,16 @@ int Space::checkSizes() {
   return 1;
 }
 
-/**
- * return scalar cell index given vector cell index
- */
-int Space::mvec2m3d(const int &i,   //!< x dimension cell index
-  const int &j,          //!< y dimension cell index
-  const int &k) const {  //!< z dimension cell index
+int Space::mvec2m3d_(const int &i, const int &j, const int &k) const {
   const int mx = nCellVec_[0], my = nCellVec_[1], mz = nCellVec_[2];
   return (i+mx)%mx + mx*((j+my)%my + my*((k+mz)%mz));
 }
 
-/**
- * return scalar cell index given vector cell index
- */
-int Space::mvec2m2d(const int &i,   //!< x dimension cell index
-  const int &j) const {   //!< y dimension cell index
+int Space::mvec2m2d_(const int &i, const int &j) const {
   const int mx = nCellVec_[0], my = nCellVec_[1];
   return (i+mx)%mx + mx*((j+my)%my);
 }
 
-/**
- * tag atom, and update its index with insertions, deletions, or sorting
- */
-void Space::tagAtom(const int iatom) {
-  tag_.push_back(iatom);
-}
-
-/**
- * untag atom
- */
-void Space::tagAtomPopBack() {
-  tag_.pop_back();
-  tagStage_ = 0.;
-}
-
-/**
- * find pointer to space of addMol in addMolList
- */
 shared_ptr<Space> Space::findAddMolInList(const string typeStr) {
   bool match = false;
   for (unsigned int iaml = 0; iaml < addMolList_.size(); ++iaml) {
@@ -2622,9 +2265,6 @@ shared_ptr<Space> Space::findAddMolInList(const string typeStr) {
   return shared_ptr<Space>();
 }
 
-/**
- * find index pointer to space of addMol in addMolList
- */
 int Space::findAddMolListIndex(const string typeStr) {
   bool match = false;
   for (unsigned int iaml = 0; iaml < addMolList_.size(); ++iaml) {
@@ -2637,12 +2277,7 @@ int Space::findAddMolListIndex(const string typeStr) {
   return -1;
 }
 
-/**
- * scale molecule
- */
-void Space::scaleMol(const int iMol,  //!< list of atoms in molecule
-  const vector<double> bondLengths   //!< rescale distances of each atom
-  ) {
+void Space::scaleMol(const int iMol, const vector<double> bondLengths) {
   vector<vector<double> > xMolRef = xMolRef_[iMol];
 
   // for each atom in molecule
@@ -2659,11 +2294,6 @@ void Space::scaleMol(const int iMol,  //!< list of atoms in molecule
   quat2pos(iMol);
 }
 
-/**
- * return list of all particles in molecule
- * assuming only one tagged particle
- * and tagged particle is first particle of mol
- */
 vector<int> Space::tag2mpart() {
   vector<int> mpart;
   const int ipart = tag_[0];
@@ -2677,12 +2307,6 @@ vector<int> Space::tag2mpart() {
   return mpart;
 }
 
-/**
- * write restart file
- *  print each molecule type that was added
- *  followed by the number of that kind of molecule
- *  finally, print coordinates of all molecules in that order
- */
 void Space::writeRestart(const char* fileName) {
   fileBackUp(fileName);
   std::ofstream file(fileName);
@@ -2793,7 +2417,7 @@ void Space::writeRestart(const char* fileName) {
 /**
  * flood fill algorithm to identify clusters based on atomic distance cutoff
  */
-void Space::floodFill3d(
+void Space::floodFill3d_(
   const int clusterNode,  //!< atom on cluster edge to grow
   const int clusterID,    //!< id of current cluster
   const double rCut       //!< distance based cutoff to define cluster
@@ -2858,7 +2482,7 @@ void Space::floodFill3d(
           }
         }
 
-        floodFill3d(i, clusterID, rCut);
+        floodFill3d_(i, clusterID, rCut);
       }
     }
   }
@@ -2867,7 +2491,7 @@ void Space::floodFill3d(
 /**
  * flood fill algorithm to identify clusters based on atomic distance cutoff
  */
-void Space::floodFill2d(
+void Space::floodFill2d_(
   const int clusterNode,  //!< atom on cluster edge to grow
   const int clusterID,    //!< id of current cluster
   const double rCut       //!< distance based cutoff to define cluster
@@ -2920,7 +2544,7 @@ void Space::floodFill2d(
           }
         }
 
-        floodFill2d(i, clusterID, rCut);
+        floodFill2d_(i, clusterID, rCut);
       }
     }
   }
@@ -2931,7 +2555,7 @@ void Space::floodFill2d(
  *  uses cell list
  * HWH CLEANUP: Alt? too much copy and paste
  */
-void Space::floodFillCell3d(
+void Space::floodFillCell3d_(
   const int clusterNode,  //!< atom on cluster edge to grow
   const int clusterID,    //!< id of current cluster
   const double rCut       //!< distance based cutoff to define cluster
@@ -3000,7 +2624,7 @@ void Space::floodFillCell3d(
             }
           }
 
-          floodFillCell3d(i, clusterID, rCut);
+          floodFillCell3d_(i, clusterID, rCut);
         }
       }
     }
@@ -3010,7 +2634,7 @@ void Space::floodFillCell3d(
 /**
  * prefil cluster vars
  */
-void Space::prefilClusterVars() {
+void Space::prefilClusterVars_() {
   // prefill cluster vector with -natom() if included and -natom-1 if excluded
   cluster_.resize(natom());
   for (int i = 0; i < natom(); ++i) {
@@ -3025,23 +2649,18 @@ void Space::prefilClusterVars() {
   xcluster_ = x_;
 }
 
-/**
- * update clusters of entire system
- */
 void Space::updateClusters(const double rCut) {
-  prefilClusterVars();
-
-  // find clusters
+  prefilClusterVars_();
   int nClusters = 0;
   for (int i = 0; i < natom(); ++i) {
     if (cluster_[i] == -natom()) {
       if ( (cellType_ == 1) && (rCut <= dCellMin()) && (dimen_ == 3) ) {
-        floodFillCell3d(i, nClusters, rCut);
+        floodFillCell3d_(i, nClusters, rCut);
       } else {
         if (dimen_ == 3) {
-          floodFill3d(i, nClusters, rCut);
+          floodFill3d_(i, nClusters, rCut);
         } else if (dimen_ == 2) {
-          floodFill2d(i, nClusters, rCut);
+          floodFill2d_(i, nClusters, rCut);
         } else {
           ASSERT(0, "floodFill algorithm not implemented for dimen:" << dimen_);
         }
@@ -3054,9 +2673,6 @@ void Space::updateClusters(const double rCut) {
   updateClusterVars(nClusters);
 }
 
-/**
- * update Cluster Vars
- */
 void Space::updateClusterVars(const int nClusters) {
   ASSERT(nClusters != 0, "no clusters found. Did you use addTypeForCluster"
     << "function to define clusters? Or is natom(" << natom() << ") == 0?");
@@ -3089,22 +2705,18 @@ void Space::updateClusterVars(const int nClusters) {
   freeMon_.accumulate(nfree/vol());
 }
 
-/**
- * use contact and contactpbc to update cluster variables
- * DEPRECIATED
- */
 void Space::contact2cluster(
   vector<vector<int> > contact,
   vector<vector<vector<double> > > contactpbc
   ) {
   ASSERT(0, "xcluster issue. use contact2clusterAlt");
-  prefilClusterVars();
+  prefilClusterVars_();
   int nClusters = 0;
   for (int i = 0; i < natom(); ++i) {
     if (cluster_[i] == -natom()) {
       cluster_[i] = nClusters;
       clusterMol_[mol_[i]] = nClusters;
-      floodFillContact(i, nClusters, &contact, &contactpbc);
+      floodFillContact_(i, nClusters, &contact, &contactpbc);
       ++nClusters;
     }
   }
@@ -3112,10 +2724,7 @@ void Space::contact2cluster(
   updateClusterVars(nClusters);
 }
 
-/**
- * flood fill algorithm with contact map
- */
-void Space::floodFillContact(const int clusterNode,
+void Space::floodFillContact_(const int clusterNode,
   const int clusterID,
   vector<vector<int> > *contactPtr,
   vector<vector<vector<double> > > *contactpbcPtr) {
@@ -3134,28 +2743,25 @@ void Space::floodFillContact(const int clusterNode,
             xcluster_[dimen_*ipart+dim] -= contactpbc[iMol][jMol][dim];
           }
         }
-        floodFillContact(i, clusterID, contactPtr, contactpbcPtr);
+        floodFillContact_(i, clusterID, contactPtr, contactpbcPtr);
       }
     }
   }
 }
 
-/**
- * use contact and contactpbc to update cluster variables
- */
 void Space::contact2clusterAlt(
   vector<vector<int> > contact,
   vector<vector<vector<double> > > contactpbc
   ) {
-  prefilClusterVars();
+  prefilClusterVars_();
   int nClusters = 0;
   percolation_ = 0;
   for (int i = 0; i < natom(); ++i) {
     if (cluster_[i] == -natom()) {
       cluster_[i] = nClusters;
       clusterMol_[mol_[i]] = nClusters;
-      vector<vector<int> > image(natom(), vector<int>(dimen_, 0));  
-      floodFillContactAlt(i, nClusters, &contact, &contactpbc, &image);
+      vector<vector<int> > image(natom(), vector<int>(dimen_, 0));
+      floodFillContactAlt_(i, nClusters, &contact, &contactpbc, &image);
       ++nClusters;
     }
   }
@@ -3176,7 +2782,7 @@ void Space::contact2clusterAlt(
  * flood fill algorithm with contact map
  * HWH CLEANUP: Alt? too much copy and paste
  */
-void Space::floodFillContactAlt(const int clusterNode,
+void Space::floodFillContactAlt_(const int clusterNode,
   const int clusterID,
   vector<vector<int> > *contactPtr,
   vector<vector<vector<double> > > *contactpbcPtr,
@@ -3208,12 +2814,12 @@ void Space::floodFillContactAlt(const int clusterNode,
           }
 //          cout << dpbc << " ";
         }
-//        cout << endl; 
+//        cout << endl;
 //        cout << "Current image: " << vec2str(currentImage) << endl;
 
         // if in contact but not listed, add (i,jMol) to cluster
         if (cluster_[i] == -natom()) {
-          
+
           // cout << "pbc " << vec2str(contactpbc[iMol][index]) << endl;
           // cout << "Current part: i " << i << " mol " << jMol << " node " << clusterNode << " mol " << iMol << " x " << x(i, 2) << endl;
           cluster_[i] = clusterID;
@@ -3224,14 +2830,14 @@ void Space::floodFillContactAlt(const int clusterNode,
               //xcluster_[dimen_*ipart+dim] -= contactpbc[iMol][index][dim];
             }
           }
-          
+
           // store the current image
           for (int dim = 0; dim < dimen_; ++dim) {
             (*image)[i][dim] = currentImage[dim];
           }
 
-          floodFillContactAlt(i, clusterID, contactPtr, contactpbcPtr, image);
-        
+          floodFillContactAlt_(i, clusterID, contactPtr, contactpbcPtr, image);
+
         // if contact already found previously, check image for percolation
         } else {
 //          cout << "already found" << endl;
@@ -3251,9 +2857,6 @@ void Space::floodFillContactAlt(const int clusterNode,
   }
 }
 
-/**
- * delete all particles of a given type
- */
 void Space::delTypePart(const int type) {
   int i = 0;
   while (i != natom()) {
@@ -3264,10 +2867,6 @@ void Space::delTypePart(const int type) {
     }
   }
 }
-
-/**
- * swap configurations
- */
 
 void Space::swapPositions(Space *space) {
   ASSERT(natom() == space->natom(), "natom(" << natom() << ") of space id "
@@ -3300,9 +2899,6 @@ void Space::swapPositions(Space *space) {
   }
 }
 
-/**
- * maximum distance between molecule center and atom in molecule
- */
 double Space::maxMolDist() {
   double max = 0.;
   xMolGen();
@@ -3336,9 +2932,6 @@ void Space::initCellAtomCut(const int flag) {
   }
 }
 
-/**
- * return list of all particles in molecule
- */
 vector<int> Space::imol2mpart(const int iMol) {
   vector<int> mpart;
   ASSERT(iMol < nMol(),
@@ -3370,9 +2963,6 @@ void Space::transMol(const int iMol,    //!< molecule to translate
   wrap(mpart);
 }
 
-/**
- * given list of particles, compute inertial tensor
- */
 vector<vector<double> > Space::inertialTensor(const vector<int> mpart) {
   ASSERT(dimen_ == 3,
     "dimen(" << dimen_ << ") must be 3 in inertialTensor computation");
@@ -3395,10 +2985,6 @@ vector<vector<double> > Space::inertialTensor(const vector<int> mpart) {
 //    // check that moment of inertia is diagonal
 }
 
-/**
- * given list of particles, compute center of mass
- *  assumes mass is 1
- */
 vector<double> Space::rcom(const vector<int> mpart) {
   vector<double> rcom(dimen_, 0.);
   const int natom = static_cast<int>(mpart.size());
@@ -3410,9 +2996,6 @@ vector<double> Space::rcom(const vector<int> mpart) {
   return rcom;
 }
 
-/**
- * given list of particles, obtain list of molecules
- */
 vector<int> Space::mpart2mmol(const vector<int> mpart) {
   vector<int> molList;
   int iMolPrev = -1;
@@ -3426,9 +3009,6 @@ vector<int> Space::mpart2mmol(const vector<int> mpart) {
   return molList;
 }
 
-/**
- * print cluster statistics
- */
 void Space::printClusterStat(const char* fileName) {
   // print size distribution
   stringstream ss;
@@ -3467,11 +3047,6 @@ void Space::printClusterStat(const char* fileName) {
   }
 }
 
-/**
- * generate xcluster
- *  for each cluster, starting with first atom of first molecule in cluster,
- *  find pbc of other cluster molecules and shift
- */
 void Space::xClusterGen() {
   xcluster_ = x_;
   for (int ic = 0; ic < nClusters(); ++ic) {
@@ -3495,9 +3070,6 @@ void Space::xClusterGen() {
   }
 }
 
-/**
- * generate shape metrics of clusters
- */
 void Space::xClusterShape() {
   clusterAsphericity_.clear();
   clusterAcylindricity_.clear();
@@ -3556,9 +3128,6 @@ void Space::xClusterShape() {
 }
 
 #ifdef XDRFILE_H_
-/**
- * Read trajectory with XTC file
- */
 int Space::readXTC(const char* fileName,
   XDRFILE* trjFileXDR) {
   int endXTC = 0;
@@ -3603,9 +3172,6 @@ int Space::readXTC(const char* fileName,
 #endif  // XDRFILE_H_
 
 #ifdef XDRFILE_H_
-/**
- * write trajectory with XTC file
- */
 void Space::writeXTC(XDRFILE* trjFileXDR) {
   int natoms_xtc = natom();
   matrix box_xtc;
@@ -3636,17 +3202,12 @@ void Space::writeXTC(XDRFILE* trjFileXDR) {
 }
 #endif  // XDRFILE_H_
 
-/**
- * wrap all molcules
- *  assumes rectangluar box with origin at the center
- */
 void Space::wrapMol() {
   for (int i = 0; i < nMol(); ++i) {
     wrap(imol2mpart(i));
   }
 }
 
-// place atom at the COM of all other atoms in mpart
 void Space::setAtomAsCOM(const int atom, const vector<int> mpart) {
   vector<double> xnew(3);
   for (unsigned int i = 0; i < mpart.size(); ++i) {
@@ -3661,13 +3222,7 @@ void Space::setAtomAsCOM(const int atom, const vector<int> mpart) {
   }
 }
 
-/**
- * place atom i in sphere of radius r w.r.t. atom j
- */
-void Space::setAtomInSphere(
-  const int iAtom,
-  const int jAtom,
-  const double r) {
+void Space::setAtomInSphere(const int iAtom, const int jAtom, const double r) {
   vector<double> xnew = ranShell(r, r, dimen_);
   for (int dim = 0; dim < dimen_; ++dim) {
     xset(x(jAtom, dim)+xnew[dim], iAtom, dim);
@@ -3675,9 +3230,6 @@ void Space::setAtomInSphere(
   if (cellType_ != 0) updateCellofiMol(mol_[iAtom]);
 }
 
-/**
- * place atom i in circule of radius r w.r.t. atom j and angle theta <ijk
- */
 void Space::setAtomInCircle(
   const int iAtom,
   const int jAtom,
@@ -3715,15 +3267,7 @@ void Space::setAtomInCircle(
   if (cellType_ != 0) updateCellofiMol(mol_[iAtom]);
 }
 
-/**
- * modify bond angle of iAtom to theta, where bond angle
- * is defied by angle <ijk
- * this preserves the plane that i,j,k reside
- */
-void Space::modBondAngle(
-  const int iAtom,
-  const int jAtom,
-  const int kAtom,
+void Space::modBondAngle(const int iAtom, const int jAtom, const int kAtom,
   const double theta) {
   // find the vector orthogonal, ortho, to the vector IJ and KJ
   //  use frame of reference where jAtom is on the origin
@@ -3760,12 +3304,7 @@ void Space::modBondAngle(
   qMolInit(mol_[iAtom]);
 }
 
-/**
- * modify all bond angles of type angleType in mol molType to angle theta
- */
-void Space::modBondAngle(
-  const int angleType,
-  const double theta,
+void Space::modBondAngle(const int angleType, const double theta,
   const char* molType) {
   // update angle parameters
   string molTypeStr(molType);
@@ -3807,37 +3346,24 @@ void Space::modBondAngle(
   }
 }
 
-/**
- * place atom 3 in branch, given theta143, theta243, and bond length l
+/* For coordinates of atom 3, x,y,z, letting atom 4 be origin, solve
+ * for three eq and 3 unknowns
+ * x^2+y^2+z^2 = L^2
+ * x*x1+y*y1+z*z1 = cost143   **x1,x2,etc, are unit normal vectors
+ * along 14 or 24 bonds
+ * x*x2+y*y2+z*z2 = cost243
+ * solve for (two values of) x by substitution and quadratic eq. pick
+ * one solution randomly
+ * if y1 != 0, H = z2 - z1*y2/y1
+ * if H != 0, A = (x1y2/y1 - x2)/H, B = (cost243-cost143*y2/y1)/H
+ * z(x) = A*x+B, y(x) = C*x+D
+ * C = -x1/y1 - Az1/y1, D = cost143/y1 - Bz1/y1
+ * [1+C^2+A^2] x^2 + [2CD+2AB] x + [D^2+B^2-L^2] = 0
  *
- *               1
- *               .
- *       (t142)  .  (t143)
- *               4
- *             .   .
- *          .        .
- *        2    (t243) (3)
- *
- *  for coordinates of atom 3, x,y,z, letting atom 4 be origin, solve
- *  for three eq and 3 unknowns
- *  x^2+y^2+z^2 = L^2
- *  x*x1+y*y1+z*z1 = cost143   **x1,x2,etc, are unit normal vectors
- *  along 14 or 24 bonds
- *  x*x2+y*y2+z*z2 = cost243
- *  solve for (two values of) x by substitution and quadratic eq. pick
- *  one solution randomly
- *  if y1 != 0, H = z2 - z1*y2/y1
- *  if H != 0, A = (x1y2/y1 - x2)/H, B = (cost243-cost143*y2/y1)/H
- *  z(x) = A*x+B, y(x) = C*x+D
- *  C = -x1/y1 - Az1/y1, D = cost143/y1 - Bz1/y1
- *  [1+C^2+A^2] x^2 + [2CD+2AB] x + [D^2+B^2-L^2] = 0
- *
- *  this solution is plagued by numerical stability, if y1 ~ 0 or |H|<1e-8
- *    modified to do alternative solves for more stable H
- */
-void Space::setAtomInBranch(
-  const int a1, const int a2, const int a3, const int a4,
-  const double t143, const double t243, const double L) {
+ * this solution is plagued by numerical stability, if y1 ~ 0 or |H|<1e-8
+ *   modified to do alternative solves for more stable H  */
+void Space::setAtomInBranch(const int a1, const int a2, const int a3,
+  const int a4, const double t143, const double t243, const double L) {
   ASSERT(dimen_ == 3, "setAtomInBranch must have dimen(" << dimen_ << ") == 3");
 
   // let atom 4 be origin, define vectors r1, r2 as unit normals
@@ -3859,12 +3385,12 @@ void Space::setAtomInBranch(
 //  if ( (fabs(x1) < doubleTolerance) || (fabs(Cyz) > fabs(Cxz)) ) {
     // cout << "test1 " << fabs(x1) << " t2 " << fabs(Cyz) << " > "
     //      << fabs(Cxz) << endl;
-    solveBranch(x1, y1, z1, x2, y2, z2, &x3, &y3, &z3, c143, c243);
+    solveBranch_(x1, y1, z1, x2, y2, z2, &x3, &y3, &z3, c143, c243);
   } else {
   // } else if ( (fabs(y1) < doubleTolerance) || (fabs(Cyz) < fabs(Cxz)) ) {
     // cout << "test2 " << fabs(y1) << " t2 " << fabs(Cyz) << " > "
     //      << fabs(Cxz) << endl;
-    solveBranch(y1, x1, z1, y2, x2, z2, &y3, &x3, &z3, c143, c243);
+    solveBranch_(y1, x1, z1, y2, x2, z2, &y3, &x3, &z3, c143, c243);
   }
   xset(L*x3+x(a4, 0), a3, 0);
   xset(L*y3+x(a4, 1), a3, 1);
@@ -3872,9 +3398,6 @@ void Space::setAtomInBranch(
   if (cellType_ != 0) updateCellofiMol(mol_[a1]);
 }
 
-/**
- * return bond parameters (U=k(l-l0)^2) for atoms i and j (0 if non-existant)
- */
 vector<double> Space::bondParams(const int iAtom, const int jAtom) {
   double k, l0;
   ASSERT(bondList_.size() > 0, "no bonds when searching for bondParams");
@@ -3896,9 +3419,6 @@ vector<double> Space::bondParams(const int iAtom, const int jAtom) {
   return params;
 }
 
-/**
- * return angle parameters (U=k(l-t0)^2) for atoms i, j, k (0 if non-existant)
- */
 vector<double> Space::angleParams(const int iAtom, const int jAtom,
   const int kAtom) {
   ASSERT(angleList_.size() > 0, "no angles when searching for angleParams");
@@ -3933,9 +3453,6 @@ vector<double> Space::angleParams(const int iAtom, const int jAtom,
   return params;
 }
 
-/**
- * return list of bonds involving iAtom
- */
 vector<vector<int> > Space::listBonds(const int iAtom) {
   vector<vector<int> > list;
   const int iMol = mol_[iAtom];
@@ -3950,9 +3467,6 @@ vector<vector<int> > Space::listBonds(const int iAtom) {
   return list;
 }
 
-/**
- * return list of angles involving atoms i and j
- */
 vector<vector<int> > Space::listAngles(const int iAtom, const int jAtom) {
   vector<vector<int> > list;
   const int iMol = mol_[iAtom];
@@ -3973,10 +3487,7 @@ vector<vector<int> > Space::listAngles(const int iAtom, const int jAtom) {
   return list;
 }
 
-/*
- * solve equations for branch, returning particle 3 given 1 and 2
- */
-void Space::solveBranch(const double x1, const double y1, const double z1,
+void Space::solveBranch_(const double x1, const double y1, const double z1,
   const double x2, const double y2, const double z2, double *x3, double *y3,
   double *z3, const double c143, const double c243) {
   ASSERT(y1 != 0, "y1==0");
@@ -4025,9 +3536,6 @@ void Space::solveBranch(const double x1, const double y1, const double z1,
   *z3 = A*ans1+B;
 }
 
-/**
- * accumulate radial distance histogram
- */
 void Space::nRadialHist(Histogram *nhistPtr) {
   Histogram& nhist = *nhistPtr;
   nhist.count();
@@ -4079,9 +3587,6 @@ void Space::nRadialHist(Histogram *nhistPtr) {
   }
 }
 
-/**
- * write the radial distribution function
- */
 void Space::printRadial(const Histogram &nhist, const char* fileName) {
   std::ofstream file(fileName);
   file << "# iType " << nhist.iType() << " jType " << nhist.jType() << endl;
@@ -4107,10 +3612,6 @@ void Space::printRadial(const Histogram &nhist, const char* fileName) {
   }
 }
 
-/**
- * pivot iMol about the reflection point, r
- *  rnew = 2*r - rAtom
- */
 void Space::pivotMol(const int iMol, const vector<double> r) {
   for (int iAtom = mol2part_[iMol]; iAtom < mol2part_[iMol+1]; ++iAtom) {
     for (int dim = 0; dim < dimen_; ++dim) {
@@ -4119,9 +3620,6 @@ void Space::pivotMol(const int iMol, const vector<double> r) {
   }
 }
 
-/**
- *  return a random position within the domain
- */
 vector<double> Space::randPosition() {
   vector<double> x(dimen_);
   for (int dim = 0; dim < dimen_; ++dim) {
@@ -4132,13 +3630,7 @@ vector<double> Space::randPosition() {
   return x;
 }
 
-/**
- *  return a random position, centered about iMol, within the domain
- */
-vector<double> Space::randPosition(
-  const double iMol,   //!< molecule to center random position
-  const double maxDisp      //!< maximum distance away from iMol
-  ) {
+vector<double> Space::randPosition(const double iMol, const double maxDisp) {
   vector<double> xtmp(dimen_);
   for (int dim = 0; dim < dimen_; ++dim) {
     ASSERT(l_[dim] != 0, "the domain must be set for randPosition, l_[dim="
@@ -4153,9 +3645,6 @@ vector<double> Space::randPosition(
   return xtmp;
 }
 
-/**
- * compute the scattering intensity using full Debye equation
- */
 vector<double> Space::scatterIntensity(const double qMin, const double qMax,
   const double dq) {
   ASSERT(dimen_ == 3,
@@ -4194,14 +3683,7 @@ vector<double> Space::scatterIntensity(const double qMin, const double qMax,
   return intensity;
 }
 
-/**
- *  scale the domain by a factor in dimension, dim
- *   scale positions of sites as well
- *   if molecules are present, only scale the COM to maintain bonds, angles
- */
-void Space::scaleDomain(const double factor,  //!< scaling factor
-  const int dim   //!< dimension to scale
-  ) {
+void Space::scaleDomain(const double factor, const int dim) {
   ASSERT((dim <= dimen_) && (dim >= 0),
    "dim(" << dim << ") in scaleDomain is outside of range for dimen("
    << dimen_ << ")");
@@ -4232,11 +3714,6 @@ void Space::scaleDomain(const double factor,  //!< scaling factor
   if (cellType() > 0) updateCells();
 }
 
-/**
- * moves atom iAtom to in/out region of jAtom
- *  region == in, put iAtom within a spherical shell(rAbove,rBelow) of jAtom
- *  region == out, put iAtom outside of the above shell
- */
 void Space::avb(const int iAtom, const int jAtom, const double rAbove,
                 const double rBelow, const char* region) {
   string regionStr(region);
@@ -4270,10 +3747,7 @@ void Space::avb(const int iAtom, const int jAtom, const double rAbove,
   xset(iAtom, xnew);
 }
 
-/**
- *  compute the global, rotationally invariant q6 bond order parameter
- */
-double Space::Q6(const double rCut    //!< distance cut-off to define neighbors
+double Space::Q6(const double rCut
   ) {
   xMolGen();
   vector<double> rij(3);
@@ -4306,38 +3780,25 @@ double Space::Q6(const double rCut    //!< distance cut-off to define neighbors
   return sqrt(4*PI/13.*complexVec2norm(sphH));
 }
 
-/**
- * set the xy tilt factor
- */
 void Space::setXYTilt(const double xyTilt) {
   ASSERT(xyTilt <= l_[0], "the xyTilt(" << xyTilt << ") cannot be"
     << "larger than the box(" << l_[0] << ")");
   xyTilt_ = xyTilt;
 }
 
-/**
- * set the xy tilt factor
- */
 void Space::setXZTilt(const double xzTilt) {
   ASSERT(xzTilt <= l_[0], "the xzTilt(" << xzTilt << ") cannot be"
     << "larger than the box(" << l_[0] << ")");
   xzTilt_ = xzTilt;
 }
 
-/**
- * set the yz tilt factor
- */
 void Space::setYZTilt(const double yzTilt) {
   ASSERT(yzTilt <= l_[1], "the yzTilt(" << yzTilt << ") cannot be"
     << "larger than the box(" << l_[1] << ")");
   yzTilt_ = yzTilt;
 }
 
-/**
- * modify the xy tilt factor, and transform the particles
- */
-void Space::modXYTilt(const double deltaXYTilt  //!< change xyTilt
-  ) {
+void Space::modXYTilt(const double deltaXYTilt) {
   floppyBox_ = 1;
   const double xyTiltOld = xyTilt_;
   xyTilt_ += deltaXYTilt;
@@ -4358,11 +3819,7 @@ void Space::modXYTilt(const double deltaXYTilt  //!< change xyTilt
   }
 }
 
-/**
- * modify the xz tilt factor, and transform the particles
- */
-void Space::modXZTilt(const double deltaXZTilt  //!< change xzTilt
-  ) {
+void Space::modXZTilt(const double deltaXZTilt) {
   floppyBox_ = 1;
   const double xzTiltOld = xzTilt_;
   xzTilt_ += deltaXZTilt;
@@ -4383,12 +3840,7 @@ void Space::modXZTilt(const double deltaXZTilt  //!< change xzTilt
   }
 }
 
-/**
- * modify the yz tilt factor, and transform the particles
- * HWH CLEANUP: same for xy,yz,etc..
- */
-void Space::modYZTilt(const double deltaYZTilt  //!< change yzTilt
-  ) {
+void Space::modYZTilt(const double deltaYZTilt) {
   floppyBox_ = 1;
   const double yzTiltOld = yzTilt_;
   yzTilt_ += deltaYZTilt;
@@ -4409,9 +3861,6 @@ void Space::modYZTilt(const double deltaYZTilt  //!< change yzTilt
   }
 }
 
-/**
- * return minimum bond length in molecule
- */
 double Space::minBondLength() {
   double min = 1e50;
   xMolGen();
@@ -4483,9 +3932,6 @@ vector<double> Space::qMol(const int iMol) const {
 //
 //
 
-/**
- * randomly select a molecule of a given type
- */
 int Space::randMolofType(const int iType) {
   int iMol = -1, iter = 0, max = 10*nMol();
   bool term = false;
@@ -4501,9 +3947,6 @@ int Space::randMolofType(const int iType) {
   return iMol;
 }
 
-/**
- * swap positions of iMol and jMol
- */
 void Space::swapPositions(const int iMol, const int jMol) {
   ASSERT(nMol() == natom(), "swap implemented for monoatomics");
   for (int dim = 0; dim < dimen_; ++dim) {
@@ -4520,12 +3963,7 @@ void Space::swapPositions(const int iMol, const int jMol) {
   if (cellType_ > 0) updateCellofiMol(jMol);
 }
 
-/**
- * print vmd script for xyz files
- */
-void Space::printxyzvmd(const char* fileName,
-  const int initFlag
-  ) {
+void Space::printxyzvmd(const char* fileName, const int initFlag) {
   // write vmd script to visualize in fileName appended with .vmd
   if ( (initFlag == 1) || (initFlag == 2) ) {
     std::stringstream vmdfnamess;
@@ -4551,11 +3989,6 @@ void Space::printxyzvmd(const char* fileName,
   }
 }
 
-/*
- * given ipart, compute euler angle
- * this routine assumes that the anisotropic particle is a solid of revolution
- * and the axis of symmetry points along the ipart->ipart+1 unit vector
- */
 vector<double> Space::ipart2euler(const int ipart) {
   vector<double> xvec(dimen_), xref(dimen_, 0.);
   xref[dimen_-1] = 1.;
@@ -4664,13 +4097,7 @@ void Space::initJSONData(
 }
 #endif  // JSON_
 
-/**
- * Initialize with data file
- */
-void Space::initData(
-  const std::string fileName,  //!< Data file name
-  const int nTypesExist  //!< number of particle types that already exists
-  ) {
+void Space::initData(const std::string fileName, const int nTypesExist) {
   // use file extension to determine whether to use JSON or LMP data files
   if (feasst::trim(".", fileName) == "json") {
     #ifdef JSON_
@@ -4685,9 +4112,6 @@ void Space::initData(
   }
 }
 
-/**
- * initialize intramolecular interactions
- */
 void Space::initIntra(const vector<vector<int> >& map) {
   const int iMolType = nMolTypes() - 1;
   intraMap_.resize(nParticleTypes(), vector<vector<int> >(
@@ -4704,7 +4128,7 @@ void Space::replicate(const int nx, const int ny, const int nz) {
   ASSERT(dimen() == 3, "replicate assumes 3D");
   ASSERT( (xyTilt_ == 0) && (xzTilt_ == 0) && (yzTilt_ == 0),
     "tilt is not implemented in replication");
-  
+
   // store original variables
   int ipartBig = natom(), iMolBig = nMol();
   const int nMolOrig = nMol();
@@ -4727,7 +4151,7 @@ void Space::replicate(const int nx, const int ny, const int nz) {
           for (int dim = 0; dim < dimen(); ++dim) {
             // positions
             xset(x(ipart, dim) + lshift[dim]*boxOrig[dim], ipartBig, dim);
-          
+
             // reference positions
             if (!sphereSymMol_) {
               const int iAtom = ipart - mol2part_[iMol];
@@ -4736,7 +4160,7 @@ void Space::replicate(const int nx, const int ny, const int nz) {
           }
           ++ipartBig;
         }
-      
+
         // orientations
         if (!sphereSymMol_) {
           for (int qd = 0; qd < qdim_; ++qd) {

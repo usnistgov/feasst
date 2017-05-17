@@ -1,10 +1,3 @@
-/**
- * \file
- *
- * \brief randomly selects monte carlo trials
- *
- */
-
 #ifdef MPI_H_
   #include <mpi.h>
 #endif
@@ -13,14 +6,17 @@
 #endif  // _OPENMP
 #include "./custom_exception.h"
 
-customException::customException(std::string m
+namespace feasst {
+
+CustomException::CustomException(std::string m
   ) {
   msg_ = m;
   catMessage();
   cout << msg_ << endl;
   exit(0);  // terminate immediately for easy backtrace
 }
-customException::customException(std::stringstream& m) {
+
+CustomException::CustomException(std::stringstream& m) {
   msg_ = m.str();
   catMessage();
   cout << msg_ << endl;
@@ -31,7 +27,7 @@ customException::customException(std::stringstream& m) {
   printf("%d\n", *foo);       // causes segfault
 }
 
-void customException::catMessage() {
+void CustomException::catMessage() {
   int nproc = 0;
   #ifdef MPI_H_
     int initialized;
@@ -51,5 +47,6 @@ void customException::catMessage() {
   #ifdef _OPENMP
     }
   #endif  // _OPENMP
-
 }
+
+}  // namespace feasst

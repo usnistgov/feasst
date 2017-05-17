@@ -63,20 +63,20 @@ class Histogram : public Base {
   /// Count number of independent attempts to compute a histogram.
   void count() { ++nCount_; }
 
-  /// Return umber of times histogram is computed. Used for normalization.
+  /// Return number of times histogram is computed. Used for normalization.
   long long nCount() const { return nCount_; }
 
-  /// Return sum of elements in histogram.
+  /// Return sum of elements
   double sum() const {
     return std::accumulate(histogram_.begin(), histogram_.end(), 0.);
   }
 
-  /// Return maximum element in histogram.
+  /// Return maximum element
   double maxElement() const {
     return *std::max_element(histogram_.begin(), histogram_.end());
   }
 
-  /// Return index of maximum element in histogram.
+  /// Return index of maximum element
   int maxElementBin() const;
 
   /// Maximum value of the highest bin, e.g., the limit of the bins.
@@ -85,7 +85,7 @@ class Histogram : public Base {
   /// Minimum value of the lowest bin, e.g., the limit of the bins.
   double min() const { return min_; }
 
-  /// Size (or number of bins) of the histogram.
+  /// Return number of bins.
   int size() const { return static_cast<int>(histogram_.size()); }
 
   /// Return the width of the bins, which is constant throughout.

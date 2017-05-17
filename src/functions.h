@@ -34,7 +34,7 @@ if (! (condition)) { \
   std::stringstream err_msg; \
   err_msg << "Assertion `" #condition "` failed in " << __FILE__ \
             << " line " << __LINE__ << ": " << message; \
-  customException c(err_msg); \
+  CustomException c(err_msg); \
 }
 
 /// If the warning condition is true, send message to standard output.

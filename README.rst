@@ -13,12 +13,13 @@ simulations with flat-histogram Monte Carlo and molecular dynamics methods.
 Features
 ########
 
-Monte Carlo techniques
+Simulation techniques
 
 * Wang-Landau Monte Carlo
 * Transition-matrix Monte Carlo
 * Mayer sampling Monte Carlo
 * Metropolis Monte Carlo
+* Molecular dynamics
 
 Thermodynamic ensembles
 

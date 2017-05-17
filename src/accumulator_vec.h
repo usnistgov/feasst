@@ -1,4 +1,5 @@
 /**
+ * HWH NOTE: This class is depreciated
  * \file
  *
  * \brief

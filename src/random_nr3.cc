@@ -8,6 +8,7 @@ RandomNR3::RandomNR3(const unsigned long long iseed
   className_.assign("RandomNR3");
   seed(iseed);
 }
+
 RandomNR3::RandomNR3(const char* fileName
   ) : Random(fileName) {
   verbose_ = 0;
@@ -17,9 +18,6 @@ RandomNR3::RandomNR3(const char* fileName
   w_ = fstoull("w", fileName);
 }
 
-/**
- * seed random number generator
- */
 void RandomNR3::seed(const unsigned long long iseed) {
   Random::seed(iseed);
   v_ = 4101842887655102017LL;
@@ -32,16 +30,10 @@ void RandomNR3::seed(const unsigned long long iseed) {
   int64();
 }
 
-/**
- * uniform random doubleprecision number between 0 and 1
- */
 double RandomNR3::uniform() {
   return 5.42101086242752217E-20 * int64();
 }
 
-/**
- * random 64 bit integer
- */
 unsigned long long RandomNR3::int64() {
   //cout << "u " << u_ << " v " << v_ << " w " << w_ << endl;
   u_ = u_*2862933555777941757LL + 7046029254386353087LL;
@@ -52,16 +44,10 @@ unsigned long long RandomNR3::int64() {
   return (x + v_) ^ w_;
 }
 
-/**
- * uniform random integer between range min and max, inclusive
- */
 int RandomNR3::uniform(const int min, const int max) {
   return int64() % (max - min + 1) + min;
 }
 
-/*
- * write restart
- */
 void RandomNR3::writeRestart(const char* fileName) {
   fileBackUp(fileName);
   std::ofstream file(fileName);

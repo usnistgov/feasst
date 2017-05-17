@@ -181,7 +181,7 @@ class TestTrial(unittest.TestCase):
         ptlist = ["lj","ideal"]
         for pt in ptlist:
           for ct in ctlist:
-            print pt, ct
+            print(pt, ct)
             s=feasst.Space(3,0)
             s.init_config(12)
             s.addMolInit("../forcefield/data.atom")

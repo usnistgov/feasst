@@ -1,12 +1,3 @@
-/**
- * \brief coordinates
- *
- * The space class owns variables and functions associated with the real-space
- * position of atoms and the domain.
- * The domain is a cubic box centered about the origin, subject to periodic
- * boundary conditions
- */
-
 #ifndef SRC_SPACE_H_
 #define SRC_SPACE_H_
 
@@ -26,412 +17,559 @@
 
 namespace feasst {
 
+/**
+ * The space class owns variables and functions associated with the real-space
+ * position of particles and the domain in which they reside.
+ */
 class Space : public BaseAll {
  public:
+  /// Construct with spatial dimension and ID number.
   Space(int dimen = 3, int id = 0);
+
+  /// Construct by checkpoint file.
   explicit Space(const char* fileName);
   ~Space();
+
+  /** Return a deep copy of self. Note that this pointer was constructed with
+   *  the "new" directive, which means that it requires a subsequent delete to
+   *  avoid a memory leak. */
   Space* clone() const;
+
+  /** Return a deep copy of self as shared pointer with automated memory
+   *  management (e.g., preferred over the clone method). */
   shared_ptr<Space> cloneShrPtr() const;
 
-  // defaults in constructor
-  void defaultConstruction();
-
-  // reconstruct pointers pointers upon cloning
-  void reconstruct();
-
-  /// write restart file
+  /** Write restart file. Print each molecule type that was added
+   *  followed by the number of that kind of molecule.
+   *  Finally, print coordinates of all molecules in that order. */
   void writeRestart(const char* fileName);
 
-  //// initialize configuration with natom atoms
+  /* NOTE: HWH: Depreciated function. Don't use this.
+   * Initialize the atomic positions according to some formula used for
+   * testing purposes. Use python for more general input. */
   int init_config(const int natom);
 
-  /// write configuration
-  int printxyz(const char* fileName, const int initFlag,
+  /// Write the atomic positions to a file.
+  int printXYZ(const char* fileName,
+    const int initFlag,
+   /*  Open for first time and write vmd script if flag is 1.
+    *  Append if flag is 0.
+    *  Print vmd file for xtc if flag is 2.
+    */
     const std::string comment="");
 
-  /// read particle positions and number of particles from XYZ file format
-  void readxyz(const char* fileName);
-  void readxyz2(std::ifstream& file);  // alternative method used addMolInit
+  // NOTE HWH: Depreciated for style. Use printXYZ.
+  int printxyz(const char* fileName, const int initFlag,
+    const std::string comment="") { return printXYZ(fileName, initFlag, comment); }
 
-  /// read particle possitions from XTC file format
+  /** Read particle positions and number of particles from XYZ file format.
+   *  http://www.ks.uiuc.edu/Research/vmd/plugins/molfile/xyzplugin.html
+   *  [ # optional comment line ] comment line (can be blank)
+      [ N                       ] # of atoms, required by this xyz reader
+      [ molecule name           ] name of molecule (can be blank)
+      atom1 x y z [optional data] atom name followed by xyz coords
+      atom2 x y z [ ...         ] and and (optionally) other data. */
+  void readXYZ(const char* fileName);
+
+  // NOTE HWH: Depreciated for style. Use readXYZ.
+  void readxyz(const char* fileName) { readXYZ(fileName); }
+
+  /** Alternative readXYZ, this one adds and deletes molecules in addMolInit.
+   *  See readxyz for description of xyz file format. */
+  void readXYZ(std::ifstream& file);
+
+  // NOTE HWH: Depreciated for style. Use readXYZ.
+  void readxyz2(std::ifstream& file) { readXYZ(file); }
+
+  /// Read particle possitions from XTC file format.
   #ifdef XDRFILE_H_
   int readXTC(const char* fileName, XDRFILE* trjFileXDR);
+
+  /// Write particle possitions in XTC file format.
   void writeXTC(XDRFILE* trjFileXDR);
-  // int readXTC(const char* fileName);
   #endif  // XDRFILE_H_
 
-  /// periodic boundary conditions. For orthologal box vectors only
-  double pbc(const double x, const int i);
+  /* Return the change in position according to periodic boundary conditions.
+   * Assumes cubic periodic box centered about the origin.
+   * NOTE HWH: Depreciated because it does not support triclinic box. */
+  double pbc(const double x, const int dim);
 
-  /// periodic boundary conditions
+  /** Return the change in position according to periodic boundary conditions.
+   *  Assumes box centered about the origin, and that the particle only
+   *  needs be wrapped once. */
   vector<double> pbc(const vector<double> x);
 
-  /// return random molecule as vector of particle numbers, mpart
+  /// Return random molecule as vector of particle numbers.
   vector<int> randMol();
 
-  //// randomly select molecule not including particles jmpart
+  /** Return random molecule as vector of particle numbers.
+   *  This is accomplished by picking a random atom, and finding all other
+   *  atoms in the same molecule. In this case, the returned molecule must not
+   *  be the same as the ones listed in jmpart. */
   vector<int> randMolDiff(const vector<int> jmpart);
-  vector<int> randMolDiff(const int jMol);  //!< not including molecule jMol
 
-  /// randomly select only from particles in jmpart
+  /// Single particle alternative to randMolDiff(vector).
+  vector<int> randMolDiff(const int jMol);
+
+  /** Return random molecule in jmpart as vector of particle numbers.
+   *  This is accomplished by picking a random atom from jmpart, and finding
+   *  all other atoms in the same molecule. */
   vector<int> randMolSubset(const vector<int> jmpart);
 
-  /// restore configuration to original positions, stored in xold_ for mpart
+  /** Stores position of particles listed in mpart, and also orientations
+   *  if not spherically symmetric. */
+  void xStore(const vector<int> mpart);
+
+  /// Store position and orientation of all particles.
+  void xStoreAll();
+
+  /** Store position of particles listed in mpart, and also orientations if
+   *  not spherically symmetric. But for Multi implementation, store multiple
+   *  instances of the coordinates before writing over them (e.g., for use
+   *  with configurational bias). */
+  void xStoreMulti(const vector<int> mpart, const int flag
+   /** if flag == -1, clear all previous stores, then store particles in mpart
+    * if flag == -2, store another mpart
+    * if flag == positive integer, restore mpart particles from the 'index'th    *   store with negative flags. */
+  );
+
+  /** Restore list of particles, mpart, to the positions and orientations
+   *  when the last xStore() was called. */
   void restore(const vector<int> mpart);
-  void restoreAll();
 
-  /// set particle positions
-  void xset(double c, int iAtom, int dim) {x_[iAtom*dimen_+dim] = c; }
-  void xset(const int ipart, vector<double> v)
-    {for (int j = 0; j < static_cast<int>(v.size()); ++j)
-      x_[dimen_*ipart+j] = v[j]; }
+  /** Restore all particles to positions and orientations when last xStore()
+   * was called. */
+ void restoreAll();
 
-  /// set domain boundaries
-  void lset(double c, int i) {l_[i] = c; }
-  void lset(double c) { for (int dim = 0; dim < dimen_; ++dim) {l_[dim] = c; } }
+  /// Set particle iPart to position "pos".
+  void xset(double pos, int iPart, int dim) {x_[iPart*dimen_+dim] = pos; }
 
-  /// random displacement of particle(s)
+  /// Set particle iPart to position "pos".
+  void xset(const int iPart, vector<double> pos)
+    {for (int j = 0; j < static_cast<int>(pos.size()); ++j)
+      x_[dimen_*iPart+j] = pos[j]; }
+
+  /// Set length of domain boundary to "boxl" in given dimension.
+  void lset(double boxl, int dimension) {l_[dimension] = boxl; }
+
+  /// Set length of domain boundary to "boxl" in all dimensions.
+  void lset(double boxl) {
+    for (int dim = 0; dim < dimen_; ++dim) {l_[dim] = boxl; } }
+
+  /** Randomly displace particles mpart by a random amount
+   *  of maximum size maxDisp in each dimension. */
   void randDisp(const vector<int> mpart, const double maxDisp);
-  void randDispMulti(const vector<int> mpart, const double maxDisp);
-  void randRotate(const vector<int> mpart, const double maxDisp);
-  void randRotateMulti(const vector<int> mpart, const double maxDisp);
-  void randRotateMulti(const vector<int> mpart, const double maxDisp,
-                       const vector<double> &sig);
+
+  // NOTE HWH: Depreciated function
   void randDisp(int part, const double maxDisp);
 
-  /// translate molecule
+  // NOTE HWH: Depreciate function. Only used by TrialCluster, and no wrap?
+  void randDispMulti(const vector<int> mpart, const double maxDisp);
+
+  /** Random rotation of particles mpart by a random amount of maximum size
+   *  maxRot.*/
+  void randRotate(const vector<int> mpart, const double maxRot);
+
+  /** Randomly rotate multiple molecules about the center of mass by a random
+   *  amount given by maxDisp. Mass of all particles assumed equal
+   *  to 1, or 0 if their "sig" size parameter is zero. */
+  void randRotateMulti(const vector<int> mpart, const double maxDisp,
+                       const vector<double> &sig);
+
+  /// Alternative randRotateMulti where all particles have equal mass.
+  void randRotateMulti(const vector<int> mpart, const double maxDisp);
+
+  /// Translate molecule iMol by a displacement vector "r".
   void transMol(const int iMol, const vector<double> &r);
 
-  /// delete particle
-  void delPart(const int ipart);
-  void delPart(const vector<int> mpart);
-
-  /// add one particle
+  /// Add particle with position v, type itype and molecule imol.
   void addPart(const vector<double> v, const int itype, const int imol);
 
-  /// add molecule of predefined type
-  void addMol(const char* type);
-  void addMol(const std::string type) { addMol(type.c_str()); }
   void addMolInit(const char* fileName);
   void addMolInit(const std::string fileName) { addMolInit(fileName.c_str()); }
-  void addMol(const int index) { addMol(addMolListType_[index].c_str()); }
-  void addMol() { addMol(0); }
+  /// Add molecule of given type.
+  void addMol(const char* type);
 
-  // ensure particles are within domain boundaries
-  /// wrap molecule defined by mpart according to first particle in molecule
+  /// Alternative addMol.
+  void addMol(const std::string type) { addMol(type.c_str()); }
+
+  /// Alternative addMol for index of order of addMolInits.
+  void addMol(const int index = 0) { addMol(addMolListType_[index].c_str()); }
+
+  /** Returns whether or not fast deletion method is applicable.
+   *  Use a faster delete method if molecule of same type was the last
+   *  molecule to be added.is at the by putting last molecule where mpart
+   *  exists, and then delete the molecule at the end of the array.
+   *  Also check particles to delete are part of entire molecule. */
+  bool fastDelApplicable(const vector<int> mpart) const;
+
+  /// Delete particle.
+  void delPart(const int ipart);
+
+  /// Delete list of particles.
+  void delPart(const vector<int> mpart);
+
+  /** Wrap molecule defined by list of particles, mpart, according to first
+   *  particle in molecule. Assumes origin at the center of the boundary box.
+   */
   void wrap(const vector<int> mpart);
 
-  /// wrap position defined by rvec in simulation domain
+  /** Wrap the position defined by rvec in simulation domain.
+   *  Assumes origin at the center. */
   void rwrap(vector<double> *rvecPtr);
-  void wrapMol();     //!< wrap all molecules
 
-  /// read bulk molecule xyz with natoms each, and assign type and mol
-  void readXYZBulk(const int nMolAtoms, const char* type, const char* fileName);
+  /// Wrap all molecules.
+  void wrapMol();
 
-  /// returns vector of particle IDs of last molecule
+  /* Read bulk molecule xyz with natoms each, and assign type and mol.
+   * NOTE HWH: Depreciated function. */
+   void readXYZBulk(const int nMolAtoms, const char* type, const char* fileName);
+
+  /// Returns particle IDs of the last molecule that was added.
   vector<int> lastMolIDVec();
 
-  /// checks bond lengths of particles against reference particle xRef
-  int checkBond(const char* type, const double tol);
-  int checkBond(const double tol);
+  // Check the bond lengths of particles of type against reference particle.
+  // NOTE HWH: Depreciated
+  int checkBond(const char* type, const double tolerance);
 
-  /// generate atomic positions listed by molecule into variable xMol_
+  /** Check the bond lengths of particles of type against reference particle.
+   *  \return 1 if bonds match. */
+  int checkBond(const double tolerance);
+
+  /// Generate atomic positions listed by molecule into variable xMol.
   void xMolGen();
 
-  double minl() const;    //!< returns minium boundary distance
+  double minl() const;    //!< Returns minimum boundary length.
 
-  /// returns whether molecules mpart and jmpart are bonded
-  int bonded(const vector<int> mpart, const vector<int> jmpart,
-             const double rabove, const double rbelow);
+  /// Return whether atoms iAtom and jAtom are within the bond shell.
   int bonded(const int iAtom, const int jAtom, const double rAbove,
              const double rBelow);
 
-  /// moves molecule mpart to bonded/nonbonded region of jmpart,
-  //  and returns whether mpart was previously in a bonded configuration
-  int avb(const vector<int> mpart, const vector<int> jmpart,
-          const double rabove, const double rbelow, const char* type);
+  /** Alternative bonded where first particle in lists mpart and jmpart are
+   *  applied to the bonded function described above. */
+  int bonded(const vector<int> mpart, const vector<int> jmpart,
+             const double rabove, const double rbelow);
 
-  /// moves atom iAtom to in/out region of jAtom
+  /** Moves molecule mpart to bonded/nonbonded region of jmpart
+   *  and returns whether mpart was previously in a bonded configuration. */
+  int avb(const vector<int> mpart, const vector<int> jmpart,
+          const double rabove, const double rbelow,
+          const char* type  //!< move to type=="(non)bonded" region
+  );
+
+  /// Move atom iAtom to in/out region of jmpart.
+  // NOTE HWH : is this function still used?
   void avb(const int iAtom, const int jAtom, const double rAbove,
            const double rBelow, const char* region);
 
-  /// stores position of a vector of particles in xold_
-  void xStore(const vector<int> mpart);
-  void xStoreAll();
-
-  /// stores position of a vector of particles in xOldMulti_
-  void xStoreMulti(const vector<int> mpart, const int flag);
-
-  /// return squared distance between two points subject to pbc
+  /// Return squared distance between two points subject to PBCs.
   double rsq(const vector<double> xi, const vector<double> xj);
 
-  /// returns whether or not fast deletion method is applicable
-  bool fastDelApplicable(const vector<int> mpart) const;
+  /// Initialize cells in cell list
+  void updateCells(const double dCellMin,  //!< minimm cell size
+    const double rCut  //!< maximum cutoff radius for interactions
+    );
 
-  /// cell list
-  void updateCells(const double dCellMin, const double rCut);
+  /// Simplified cell list initialization for dCellMin == rCut.
   void updateCells(const double dCellMin) { updateCells(dCellMin, dCellMin); }
+
+  /** Further simplified cell list initialization for using previously stored
+   *  value of dCellMin. */
   void updateCells() { updateCells(dCellMin_); }
+
+  /// Assign particles or molecules to the cell list.
   void buildCellList();
-  vector<vector<double> > cellCorners(const int m);  //!< return corners of cell
-  vector<int> m2vec(const int m);  //!< return vector position of cell
 
-  /// return scalar cell index given position
-  int rvec2m(const vector<double> &r);
-
-  /// return scalar cell index given vector cell index
-  int mvec2m3d(const int &i, const int &j, const int &k) const;
-
-  /// return scalar cell index given vector cell index
-  int mvec2m2d(const int &i, const int &j) const;
-
-  /// return scalar cell index given molecule number
-  int imol2m(const double &iMol);
-
-  /// return scalar cell index given atom number
+  /// Return scalar cell index given particle number.
   int iatom2m(const double &ipart);
 
-  /// generate neighbor list for iMol from cell list
+  /** Return scalar cell index given molecule number, which is based soley on
+   *  the position of the first particle in the molecule. */
+  int imol2m(const double &iMol) { return iatom2m(mol2part_[iMol]); }
+
+  /// Generate neighbor list for iMol from cell list by molecule cutoff.
   void buildNeighListCell(const int iMol);
 
-  /// generate neighbor list for ipart from cell list
+  /// Generate neighbor list for particle ipart from cell list by atom cuttoff.
   void buildNeighListCellAtomCut(const int ipart);
-  void cellOff();                             //!< turn off cell list
-  void eraseMolFromCell(const int iMol);      //!< removes molecule from cell
-  void addMoltoCell(const int iMol);          //!< adds molecule to cellList_
-  void eraseAtomFromCell(const int ipart);    //!< removes atom from cellList_
-  void addAtomtoCell(const int ipart);        //!< adds atom to cellList_
-  void updateCellofiMol(const int iMol);      //!< updates cell for iMol
-  void updateCellofallMol();                  //!< updates cell for all mols
 
-  /// returns 1 if no errors found in cell list. stores current cell list,
-  //  rebuilds, and compares
+  void cellOff();                             //!< Turn off cell list.
+  void updateCellofiMol(const int iMol);      //!< Updates cell for iMol.
+  void updateCellofallMol();                  //!< Updates cell for all mols.
+
+  /// Return 1 if no errors found in cell list.
   int checkCellList();
 
-  /// initialize cut-off method for cell list
-  // HWH NOTE: this is a bad name, because it often needs to be called even when no
-  // cell list is involved
+  /// Initialize cut-off method for cell list.
+  // HWH NOTE: this is a bad name, because it often needs to be called even when
+  // no cell list is involved
   void initCellAtomCut(const int flag);
 
-  /// if !null, position to add center of molecule in addMol
+  /* Position of origin to add next molecule called by addMol().
+   * By default, xAdd is NULL which results in a random position. */
   vector<double> xAdd;
 
-  /// initialize quaternions of all molecules
-  //  and stores current positions as reference positions
-  void qMolInit();
+  /** Initialize quaternions of molecule iMol and stores current positions
+   *  as reference positions. */
   void qMolInit(const int iMol);
 
-  /// update current positions using quaternions, given molecule numbers
-  void quat2pos(const vector<int> imMol);
+  /** Initialize quaternions of all molecules and stores current positions
+   *  as reference positions. */
+  void qMolInit();
+
+  /// Update current positions of molecule iMol using quaternions.
   void quat2pos(const int iMol);
 
-  /// set particle type
+  /// Update current positions of molecules imMol using quaternions.
+  void quat2pos(const vector<int> imMol) {
+    for (unsigned int i = 0; i < imMol.size(); ++i) quat2pos(imMol[i]);
+  }
+
+  /// Set particle type of iatom to itype.
   void settype(const int iatom, const int itype);
 
-  /// initialize with data file
+  /*  **  **  Do not include this in DOXYGEN  **  **  **
+   * Initialize with LAMMPS data file. Read number of atoms, molecules,
+   * atom types, masses. Resizes appropriate arrays. This function is
+   * not be confused with addMolInit, which is preferred for users. */
+  void initLMPData(const std::string fileName,
+    const int nTypesExist = 0  // number of particle types that already exists
+    );
+
+  /* Initialize with data file, where file JSON file exensions are recognized
+   * if JSON_ preprocessor macro is defined at comilation. */
   void initData(const std::string fileName, const int nTypesExist = 0);
 
-  /// initialize with LAMMPS data file
-  void initLMPData(const std::string fileName, const int nTypesExist = 0);
-
-  /// initialize with JSON data file
   #ifdef JSON_
+    // Initialize with JSON data file.
     void initJSONData(const std::string fileName, const int nTypesExist = 0);
   #endif  // JSON_
 
-  /// checks array sizes
+  /// Return 1 if size of protected arrays in this class pass all checks.
   int checkSizes();
 
-  /// tag atom, and update its index with insertions, deletions, or sorting
-  void tagAtom(const int iatom);
-  void tagAtomPopBack();
+  /// Add atom, iatom, as a tagged particle to track.
+  void tagAtom(const int iatom) { tag_.push_back(iatom); }
+
+  /// Remove the last atom from the tagged particles.
+  void tagAtomPopBack() { tag_.pop_back(); tagStage_ = 0.; }
+
+  /// Remove tag from all particles.
   void tagAtomClear() { tag_.clear(); tagStage_ = 0.; }
+
+  /** Return list of all particles in molecule of the first tagged atom.
+   *  Assumes only one tagged particle, which is first particle of mol. */
   vector<int> tag2mpart();
 
-  /// find pointer to space of addMol in addMolList
+  /// Given addMolInit type, return space which contains only one molecule.
   shared_ptr<Space> findAddMolInList(const string typeStr);
+
+  /// Given addMolInit type, return index of order in which addMolInit began.
   int findAddMolListIndex(const string typeStr);
 
-  /// scale molecule
+  /// Change the bond lengths of molecule, iMol.
   void scaleMol(const int iMol, const vector<double> bondLengths);
+
+  /// Change the bond lengths of molecule, iMol, while storing stage for tag.
   void scaleMol(const int iMol, const vector<double> bondLengths,
                 const double stage)
                 { tagStage_ = stage; scaleMol(iMol, bondLengths); }
 
-  /// flood fill algorithm to identify clusters based on atomic distance cutoff
-  void floodFill3d(const int clusterNode, const int clusterID,
-                   const double rCut);
-  void floodFillCell3d(const int clusterNode, const int clusterID,
-                       const double rCut);
-  void floodFill2d(const int clusterNode, const int clusterID,
-                   const double rCut);
-  void floodFillContact(const int clusterNode, const int clusterID,
-                        vector<vector<int> > *contactPtr,
-                        vector<vector<vector<double> > > *contactpbcPtr);
-  void floodFillContactAlt(const int clusterNode, const int clusterID,
-                           vector<vector<int> > *contactPtr,
-                           vector<vector<vector<double> > > *contactpbcPtr,
-                           vector<vector<int> > *image);
-
-  /// update clusters of entire system
+  /// Update clusters of entire system.
   void updateClusters(const double rCut);
 
-  /// add type for cluster analysis
+  /// Add particle type to consider in cluster analysis.
   void addTypeForCluster(const int type) { clusterType_.push_back(type); }
 
-  /// delete all particles of a given type
+  /// Delete all particles of a given type.
   void delTypePart(const int type);
 
-  /// swap positions
+  /// Swap the particle coordinates of two objects with equal particle numbers.
   void swapPositions(Space *space);
+
+  /** Swap positions of iMol and jMol. Currently only implemented for
+   *  configurations with only monoatomic particles e.g., nMol == natom */
   void swapPositions(const int iMol, const int jMol);
 
-  /// maximum distance between molecule center and atom in molecule
+  /// Return maximum distance between molecule center and atom in molecule.
   double maxMolDist();
 
-  /// given molecule number, return vector of particles in molecule
+  /// Return list of all particles in molecule iMol.
   vector<int> imol2mpart(const int iMol);
 
-  /// given list of particles, compute inertia tensor
+  /// Given list of particles, return inertia tensor (3D only).
   vector<vector<double> > inertialTensor(const vector<int> mpart);
 
-  /// given list of particles, compute center of mass
+  /// Return center of mass of list of particles. Assumes mass of 1.
   vector<double> rcom(const vector<int> mpart);
 
-  /// given list of particles, obtain list of molecules
+  /// Given list of particles, return list of molecules they comprise.
   vector<int> mpart2mmol(const vector<int> mpart);
 
-  /// print cluster statistics
+  /// Print cluster statistics to file.
   void printClusterStat(const char* fileName);
 
-  /// generate xcluster
+  /** For each cluster, starting with first atom or molecule in cluster,
+   *  find PBC of other cluster molecules and shift to generate xcluster(). */
   void xClusterGen();
 
-  /// generate shape metrics of clusters
+  /// Compute shape metrics of clusters.
   void xClusterShape();
 
-  /// reset cluster statistics
+  /// Reset the stored cluster statistics.
   void clusterReset() { clusterSizeAccVec_.reset(); clusterNumAccVec_.reset();
                         clusterSizeDistribution_.reset(); }
 
-  /// update Cluster Vars
+  /// Update the stored cluster statistics.
   void updateClusterVars(const int nClusters);
 
-  /// prefile cluster vars
-  void prefilClusterVars();
+  /// Use contact and contactpbc to update cluster variables.
+  void contact2clusterAlt(
+    /** For each molecule, list of molecules which are in contact. */
+    vector<vector<int> > contact,
+    /** For each molecule, PBC shift (for each dimension) of each contact. */
+    vector<vector<vector<double> > > contactpbc
+  );
 
-  /// use contact and contactpbc to update cluster variables
+  // Use contact and contactpbc to update cluster variables.
+  // NOTE HWH: Deprciated. Use contact2clusterAlt.
   void contact2cluster(vector<vector<int> > contact,
                        vector<vector<vector<double> > > contactpbc);
-  void contact2clusterAlt(vector<vector<int> > contact,
-                          vector<vector<vector<double> > > contactpbc);
 
-  /// place atom at the COM of all other atoms in mpart
+  /// Place atom at the COM of all other atoms in list of particles, mpart.
   void setAtomAsCOM(const int atom, const vector<int> mpart);
 
-  /// place atom i in sphere of radius r w.r.t. atom j
+  /// Place atom "iAtom" in sphere of radius "r" w.r.t. atom "jAtom"
   void setAtomInSphere(const int iAtom, const int jAtom, const double r);
 
-  /// place atom i in circule of radius r w.r.t. atom j and angle theta
-  //  w.r.t atom j and k
+  /** Place atom "iAtom" randomly in the circule of radius "r" w.r.t. atom
+   *  "jAtom" and angle "theta" given by \f$ \angle ijk \f$. */
   void setAtomInCircle(const int iAtom, const int jAtom, const int kAtom,
                        const double r, const double theta);
 
-  /// place atom 3 in branch, given theta143, theta243, and bond length l
+  /** Place atom 3 in branch, given existing atoms a1, a2 and a4.
+   *
+   *               1
+   *               .
+   *       (t142)  .  (t143)
+   *               4
+   *             .   .
+   *          .        .
+   *        2    (t243) (3)
+   */
   void setAtomInBranch(const int a1, const int a2, const int a3, const int a4,
-                       const double t143, const double t243, const double L);
+    const double t143,  //!< angle between particles 1, 4 and 3
+    const double t243,  //!< angle between particles 2, 4 and 3
+    const double L      //!< bond length between particles 3 and 4
+  );
 
-  /// modify bond angle of iAtom to theta, where bond angle is defied by
-  //  angle <ijk, preserving the plane that i,j,k reside
+  /** Modify bond angle of iAtom to theta, where bond angle is defined by
+   *  angle \f$ \angle ijk \f$, preserving the plane that i,j,k reside. */
   void modBondAngle(const int iAtom, const int jAtom, const int kAtom,
                     const double theta);
+
+  /// Modify all bond angles of type angleType in molType to angle theta.
   void modBondAngle(const int angleType, const double theta,
                     const char* molType);
 
-  /// solve equations for branch, returning particle 3 given 1 and 2
-  void solveBranch(const double x1, const double y1, const double z1,
-                   const double x2, const double y2, const double z2,
-                   double *x3, double *y3, double *z3, const double c143,
-                   const double c243);
-
-  /// return bond parameters (U=k(l-l0)^2) for atoms i and j (0 if non-existant)
+  /** Return bond parameters (k,l0) for potential \f$ U=k(l-l0)^2 \f$ for
+   *  atoms iAtom and jAtom. Returns 0 if non-existent. */
   vector<double> bondParams(const int iAtom, const int jAtom);
 
-  /// return angle parameters (U=k(l-t0)^2) for atoms i,j,k (0 if non-existant)
+  /** Return angle parameters (k,t0) for potential \f$ U=k(t-t0)^2 \f$ for
+   *  atoms \f$ \angle ijk \f$. Returns 0 if non-existent. */
   vector<double> angleParams(const int iAtom, const int jAtom, const int kAtom);
 
-  /// modify angle parameters
+  /// Modify angle parameters.
   void modAngleParams(const int angleType, const int angleIndex,
     const double param) { angleParam_[angleType][angleIndex] = param; }
 
-  /// return list of bonds involving iAtom
+  /// Return list of bonds involving iAtom.
   vector<vector<int> > listBonds(const int iAtom);
 
-  /// return list of angles involving atoms i and j
+  /// Return list of angles involving atoms iAtom and jAtom.
   vector<vector<int> > listAngles(const int iAtom, const int jAtom);
 
-  /// accumulate radial distance histogram
+  // accumulate radial distance histogram
+  // NOTE HWH: Depreciate in favor of Analysis class.
   void nRadialHist(Histogram *nhistPtr);
 
-  /// write the radial distribution function
+  // Write the radial distribution function.
   void printRadial(const Histogram &nhist, const char* fileName);
 
-  /// pivot iMol about the reflection point, r
+  /// Pivot iMol about the reflection point, r. \f$  rnew = 2*r - rAtom \f$.
   void pivotMol(const int iMol, const vector<double> r);
 
-  /// return a random position within the domain
+  /// Return a random position within the domain.
   vector<double> randPosition();
-  vector<double> randPosition(const double iMol, const double maxDisp);
 
-  /// compute the scattering intensity using full Debye equation
+  /// Return a random position, centered about molecule iMol.
+  vector<double> randPosition(const double iMol,
+    const double maxDisp  //!< maximum distance away from iMol in each dimen
+  );
+
+  // compute the scattering intensity using full Debye equation
+  // NOTE HWH: Depreciate in favor of Analysis.
   vector<double> scatterIntensity(const double qMin, const double qMax,
                                   const double dq);
 
-  /// scale the domain by a factor
-  void scaleDomain(const double factor) { for (int dim = 0; dim < dimen_; ++dim)
-    { scaleDomain(pow(factor, 1./dimen_), dim); } }
+  /** Scale the domain by a factor in dimension, dim. Scale positions of
+   *  particles as well. If molecules are present, only scale the COM to
+   *  maintain bonds lengths and angles. */
   void scaleDomain(const double factor, const int dim);
 
-  /// compute the global, rotationally invariant q6 bond order parameter
-  double Q6(const double rCut);
+  /** Alternative scaleDomain which scales all dimensions by
+   * \f$ factor^{1/dimen()} \f$, which is corresponds to scaling volume. */
+  void scaleDomain(const double factor) { for (int dim = 0; dim < dimen_; ++dim)
+    { scaleDomain(pow(factor, 1./dimen_), dim); } }
 
-  /// set the xy tilt factor
+  /// Return the global, rotationally invariant q6 bond order parameter.
+  double Q6(const double rCut  //!< distance cut-off to define neighbors
+    );
+
+  /// NOTE HWH: Define precisely XY, XZ and YZ tilt factors here.
+  /// Set the xy tilt factor
   void setXYTilt(const double xyTilt);
   void setXZTilt(const double xzTilt);
   void setYZTilt(const double yzTilt);
 
   /// modify the xy tilt factor, and transform the particles
+  // NOTE HWH CLEANUP: same for xy,yz,etc..
   void modXYTilt(const double deltXYTilt);
   void modXZTilt(const double deltXZTilt);
   void modYZTilt(const double deltYZTilt);
 
-  /// return minimum bond length in molecule
+  /// Return minimum bond length in all molecules present or in addMolInit.
   double minBondLength();
 
-  /// initialize euler angle representation for orientation
+  /// Initialize euler angle representation for orientation.
   void initEuler(const int flag) { eulerFlag_ = flag; }
-  int eulerFlag() const { return eulerFlag_; }
 
   /// update the euler angles of iMol according to position relative to ref
 //  void pos2euler(const int iMol);
 
-  /// randomly select a molecule of a given type
-  int randMolofType(const int iType);
+  /// Return the index of a randomly selected moleule of type iMolType.
+  int randMolofType(const int iMolType);
 
-  /// set maximum box length
+  /// Set maximum box length.
   void setMaxBoxLength() { maxlFlag_ = 1; maxl_ = l_; }
 
-  /// print vmd script for xyz files
-  void printxyzvmd(const char* fileName, const int initFlag);
+  /// Print vmd script for visualization of trajectories.
+  void printxyzvmd(const char* fileName,
+    /** If initFlag == 1, format for XYZ files.
+     *  If initFlag == 2, format for XTC files. */
+    const int initFlag);
 
-  /// initialize equimolar constraint
-  // if flag == 1, double branch//add or delete any on even nMol
-  // if flag == 2, single branch//start with iMolType 0
-  // if flag == 3, single branch//start with iMolType 1
-  void equiMolar(const int flag) { equiMolar_ = flag; }
+  /// Initialize equimolar constraint.
+  void equiMolar(
+    /** If flag == 1, double branch//add or delete any on even nMol.
+     *  If flag == 2, single branch//start with iMolType 0.
+     *  If flag == 3, single branch//start with iMolType 1. */
+    const int flag) { equiMolar_ = flag; }
 
-  /// given ipart, compute euler angle
+  /** Given particle ipart, return euler angles. This routine assumes that
+   *  the anisotropic particle is a solid of revolution, and the axis of
+   *  symmetry points along the ipart->ipart+1 unit vector. */
   vector<double> ipart2euler(const int ipart);
 
   /// replicate the system via peroidic boundary conditions
@@ -440,12 +578,13 @@ class Space : public BaseAll {
     const int ny = 1,  //!< number of times to replicate in y dimension
     const int nz = 1   //!< number of times to replicate in z dimension
     );
-  
-  /// full access to private data-members
-  vector<vector<vector<int> > > intraMap() { return intraMap_; }
+
+  /// Initialize intramolecular interactions via contact map (1 if ixn).
   void initIntra(const vector<vector<int> >& map);
 
   // functions for read-only access of private data-members
+  /// full access to private data-members
+  vector<vector<vector<int> > > intraMap() { return intraMap_; }
   int dimen() const { return dimen_; }
   int qdim() const { return qdim_; }
   int id() const { return id_; }
@@ -536,12 +675,19 @@ class Space : public BaseAll {
   int floppyBox() const { return floppyBox_; }
   int equiMolar() const { return equiMolar_; }
   int percolation() const { return percolation_; }
-  
+  int eulerFlag() const { return eulerFlag_; }
+
  private:
   int dimen_;     //!< dimesion of real space
   int id_;   //!< ID of space class
   int qdim_;     //!< dimesion of quaternion space (dimen_ + 1)
   vector<double> x_;        //!< atomic positions
+
+  /// Set the default values during construction.
+  void defaultConstruction_();
+
+  /// Reconstruct pointers pointers upon cloning.
+  void reconstruct_();
 
   /// returns first atom for each molecule. sorted same as x_. number of
   //  elements is nMol+1 where last element is natom()
@@ -590,7 +736,25 @@ class Space : public BaseAll {
   vector<double> clusterRg_;             //!< radius of gyration of each cluster
   int preMicellarAgg_;   //!< cluster size as cut-off for premicellar aggregates
   int percolation_;      //!< flag if percolation was detected
-  
+
+  /// flood fill algorithm to identify clusters based on atomic distance cutoff
+  void floodFill3d_(const int clusterNode, const int clusterID,
+                   const double rCut);
+  void floodFillCell3d_(const int clusterNode, const int clusterID,
+                       const double rCut);
+  void floodFill2d_(const int clusterNode, const int clusterID,
+                   const double rCut);
+  void floodFillContact_(const int clusterNode, const int clusterID,
+                        vector<vector<int> > *contactPtr,
+                        vector<vector<vector<double> > > *contactpbcPtr);
+  void floodFillContactAlt_(const int clusterNode, const int clusterID,
+                           vector<vector<int> > *contactPtr,
+                           vector<vector<vector<double> > > *contactpbcPtr,
+                           vector<vector<int> > *image);
+
+  /// prefile cluster vars
+  void prefilClusterVars_();
+
   bool fastDel_;         //!< use fast method of deleting particles
   int fastDelMol_;       //!< molecule last deleted by fast method
 
@@ -612,6 +776,27 @@ class Space : public BaseAll {
   vector<int> neighListCell_;       //!< generated neighbor list from cell list
   /// choosen neighlist (from neighListCell or all (listMols)
   vector<int> *neighListChosen_;
+
+  /// Return the corners of cell "m".
+  vector<vector<double> > cellCorners_(const int m);
+
+  /// Return grid position of cell given cell index.
+  vector<int> m2vec_(const int cellIndex);
+
+  /// Return scalar index of cell given spatial coordinates.
+  int rvec2m_(const vector<double> &r);
+
+  /// Return scalar cell index given 3D grid coordinates (i, j, k).
+  int mvec2m3d_(const int &i, const int &j, const int &k) const;
+
+  /// Return scalar cell index given 2D grid coordinates (i, j).
+  int mvec2m2d_(const int &i, const int &j) const;
+
+  void eraseMolFromCell_(const int iMol);     //!< removes molecule from cell
+  void addMoltoCell_(const int iMol);         //!< adds molecule to cellList_
+  void eraseAtomFromCell_(const int ipart);   //!< removes atom from cellList_
+  void addAtomtoCell_(const int ipart);       //!< adds atom to cellList_
+
 
   /// are molecules spherically symmetric, no rotations or quaternions necessary
   bool sphereSymMol_;
@@ -661,6 +846,13 @@ class Space : public BaseAll {
   //  for multiple molecule types, addmol list in space can be used
   //  to call the map for individual molecule types
   vector<vector<vector<int> > > intraMap_;
+
+  /// solve equations for branch, returning particle 3 given 1 and 2
+  void solveBranch_(const double x1, const double y1, const double z1,
+                   const double x2, const double y2, const double z2,
+                   double *x3, double *y3, double *z3, const double c143,
+                   const double c243);
+
 };
 
 }  // namespace feasst

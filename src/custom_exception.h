@@ -1,14 +1,9 @@
 /**
- * \file
- *
- * \brief custom exception class
- *
- * Authors: Nathan Mahynksi started this class
+ * Authors: Nathan Mahynksi wrote this class
  *          Harold Hatch editted
  */
-
-#ifndef EXCEPTION_H_
-#define EXCEPTION_H_
+#ifndef CUSTOM_EXCEPTION_H_
+#define CUSTOM_EXCEPTION_H_
 
 #include <exception>
 #include <string>
@@ -18,22 +13,31 @@
 using std::cout;
 using std::endl;
 
-class customException : public std::exception {
+namespace feasst {
+
+/**
+ * Customize the way that exceptions are handled and thrown.
+ */
+class CustomException : public std::exception {
  public:
+  /// Instantiate an exeption with a user-defined error message.
+  CustomException(std::string m = "custom exception occurred");
 
-  /// Instantiate an exeption with a user-defined error message
-  customException(std::string m = "custom exception occurred");
-  customException(std::stringstream& m);
-  ~customException() throw() { cout << msg_; }
+  /// Instantiate an exeption with a user-defined error message.
+  CustomException(std::stringstream& m);
 
-  /// add additional information to the message
+  ~CustomException() throw() { cout << msg_; }
+
+  /// Add additional information to the message, such as the thread number.
   void catMessage();
 
-  //!< Return the user's message
-  const char* what() const throw() {return msg_.c_str();}
+  /// Return the user's message
+  const char* what() const throw() { return msg_.c_str(); }
 
  protected:
   std::string msg_;
 };
 
-#endif  // EXCEPTION_H_
+}  // namespace feasst
+
+#endif  // CUSTOM_EXCEPTION_H_
