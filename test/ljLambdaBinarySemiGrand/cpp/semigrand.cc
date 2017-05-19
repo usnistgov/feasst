@@ -14,6 +14,8 @@
 #include "trial_transform.h"
 #include "analyze.h"
 
+using namespace feasst;
+
 class AnalyzeComp : public Analyze {
  public:
   AnalyzeComp(Space *space, Pair *pair) : Analyze(space, pair) {}
@@ -62,7 +64,7 @@ int main(int argc, char** argv) {
   }
 
   // initialize domain, pair interactions and acceptance criteria
-  myRanInitByDate();
+  ranInitByDate();
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
   PairLJMulti p(&s, rCut);
@@ -81,6 +83,7 @@ int main(int argc, char** argv) {
   CriteriaMetropolis c(beta, activ);
   //c.activVec.push_back(exp(-3.));   //!< activity of B 
   c.addActivity(exp(-3));
+  c.pressureset(1.);
 
   // initialize MC simulation object
   MC mc(&s, &p, &c);
@@ -123,7 +126,7 @@ int main(int argc, char** argv) {
   //cout << "av nB " << tswp->nB().average() << " +/- " << tswp->nB().blockStdev() << endl;
   //cout << "xA " << tswp->nA().average()/s.nMol() << " +/- " << tswp->nA().blockStdev()/s.nMol() << endl;
   cout << "an " << a->nA.average()/double(s.nMol()) << " +/- " << a->nA.blockStdev()/double(s.nMol()) << endl;
-  cout << "volume " << tvol->volAcc.average() << " +/- " << tvol->volAcc.blockStdev() << endl;
+  cout << "volume " << tvol->paramAccumulator.average() << " +/- " << tvol->paramAccumulator.blockStdev() << endl;
 //  // alternatively, accumulate the composition
 //  Accumulator xA;
 //  const int trialPerAccum = 10;

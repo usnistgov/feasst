@@ -2,9 +2,9 @@
 
 import os, sys
 #from libxdrfile import xdrfile_open, xdrfile_close, read_xtc_natoms, read_xtc, DIM, exdrOK
-feasstdir = os.getenv("HOME") + "/jeetain/feasstv0.1.3"
-sys.path.append(feasstdir + "/src")
-import feasst, pyfeasst
+feasstdir = os.getenv("HOME") + "/jeetain/feasstv0.1.3/build"
+sys.path.append(feasstdir)
+import feasst
 import math, argparse, time
 start_time = time.time()
 
@@ -24,7 +24,7 @@ args = parser.parse_args()
 print(args)
 
 # initialize random number seed
-feasst.myRanInitByDate()
+feasst.ranInitByDate()
 
 # initialize simulation domain
 space = feasst.Space(3, 0)
@@ -66,9 +66,9 @@ mc.nMolSeek(args.nPart/2, args.molNameA)
 mc.nMolSeek(args.nPart, args.molNameB)
 
 ## volume change trial
-#mc.weight = 1./args.nPart;
-#maxMoveParam = 0.001
-#feasst.transformTrial(mc, "vol", maxMoveParam)
+mc.weight = 1./args.nPart;
+maxMoveParam = 0.001
+feasst.transformTrial(mc, "vol", maxMoveParam)
 
 # identity swap trial
 mc.weight = 1./4.;
