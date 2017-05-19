@@ -7,7 +7,9 @@
 
 #include "./trial.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class TrialAVB : public Trial {
  public:
@@ -45,7 +47,9 @@ class TrialAVB : public Trial {
       t->reconstruct(space, pair, criteria); return t; }
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_AVB_H_
 

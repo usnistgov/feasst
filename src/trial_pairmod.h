@@ -7,7 +7,9 @@
 
 #include "./trial.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class TrialPairMod : public Trial {
  public:
@@ -49,7 +51,9 @@ class TrialPairMod : public Trial {
   }
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_PAIRMOD_H_
 

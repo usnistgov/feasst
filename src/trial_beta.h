@@ -7,7 +7,9 @@
 
 #include "./trial.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class TrialBeta : public Trial {
  public:
@@ -36,7 +38,9 @@ class TrialBeta : public Trial {
       return t;}
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_BETA_H_
 

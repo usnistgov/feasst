@@ -14,7 +14,9 @@
 
 #include "./trial.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class TrialConfSwapTXT : public Trial {
  public:
@@ -72,7 +74,9 @@ class TrialConfSwapTXT : public Trial {
   }
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_CONFSWAPTXT_H_
 

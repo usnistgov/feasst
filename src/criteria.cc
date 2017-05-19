@@ -7,9 +7,12 @@
 #include "./criteria.h"
 #include "./criteria_metropolis.h"
 #include "./criteria_wltmmc.h"
+#include "./criteria_mayer.h"
 #include "./space.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /**
  * Constructor
@@ -103,6 +106,8 @@ Criteria* Criteria::makeCriteria(const char* fileName
     criteria = new CriteriaMetropolis(fileName);
   } else if (typestr.compare("CriteriaWLTMMC") == 0) {
     criteria = new CriteriaWLTMMC(fileName);
+  } else if (typestr.compare("CriteriaMayer") == 0) {
+    criteria = new CriteriaMayer(fileName);
   } else {
     ASSERT(0, "unrecognized criteria(" << typestr << ") in factory");
   }
@@ -119,5 +124,7 @@ double Criteria::activ() const {
   return activVec[0];
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

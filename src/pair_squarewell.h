@@ -11,7 +11,9 @@
 
 #include "./pair.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class PairSquareWell : public Pair {
  public:
@@ -57,7 +59,9 @@ class PairSquareWell : public Pair {
   double deSR_;     //!< lennard jones potential energy change
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_SQUAREWELL_H_
 

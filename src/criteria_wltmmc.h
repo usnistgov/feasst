@@ -11,7 +11,9 @@
 
 #include "./criteria.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class CriteriaWLTMMC : public Criteria {
  public:
@@ -40,7 +42,7 @@ class CriteriaWLTMMC : public Criteria {
 
   /// given macrostate m, return bin number, or vice versa
   double bin2m(const int bin) const { return mMin_ + (bin + 0.5)*mBin_; }
-  int bin(const double m) const { return feasst::round((m - bin2m(0))/mBin_); }
+  int bin(const double m) const { return feasstRound((m - bin2m(0))/mBin_); }
 
   /// set the modification factor
   void setg(const double g) { g_ = g; }
@@ -420,7 +422,9 @@ class CriteriaWLTMMC : public Criteria {
   virtual shared_ptr<Criteria> cloneImpl_() const;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // CRITERIAWLTMMC_H_
 

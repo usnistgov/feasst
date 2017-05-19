@@ -20,7 +20,9 @@
 #include "./accumulator.h"
 #include "./analyze.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class MC : public BaseAll {
  public:
@@ -122,7 +124,12 @@ class MC : public BaseAll {
   /// check that criteria of all trials match
   virtual int checkTrialCriteria();
 
-  /// compute second virial coefficient by Monte Carlo integration
+  /**
+   * compute second virial coefficient by Monte Carlo integration
+   *   B2(T)=-0.5*int(dr*f(r)); f(r)=meyer fn
+   *   B2(T)=-0.5*int(dr)*(1/npr)*sum[f(r)]
+   *   B2(T)=-0.5*volume*(1/npr)*sum[f(r_i)]
+   */
   void b2(const double tol, double &b2v, double &b2er, double boxl);
   void b2(const double tol, double &b2v, double &b2er)
     { b2(tol, b2v, b2er, -1.); }
@@ -130,6 +137,18 @@ class MC : public BaseAll {
     { vector<double> rtrn; double b2v, b2s; b2(tol, b2v, b2s);
       rtrn.push_back(b2v); rtrn.push_back(b2s); return rtrn; }
 
+  /**
+   * Compute second virial coefficient by Mayer sampling Monte Carlo.
+   * https://doi.org/10.1103/PhysRevLett.92.220601
+   */
+  void b2mayer(
+    double *b2v,              //!< return value of the second virial coefficient
+    double *b2er,             //!< standard deviation of the mean
+    Pair *pairRef,            //!< reference potential
+    const double tol = 1e-4,  //!< terminate trials when tolerance reached
+    double boxl = -1          //!< box length containing all nonzero energy
+  );
+  
   /// compute the Boyle temperature, b2(T_Boyle)==0
   double boyle(const double tol);
   double boylemin(const double beta);
@@ -251,12 +270,17 @@ class MC : public BaseAll {
   // unique hash for configurations
   std::string hash_;
   
+  // virial coefficient
+  void b2init_();
+  
   // clone design pattern
   virtual shared_ptr<MC> cloneImpl() const;
   virtual shared_ptr<MC> cloneShallowImpl() const;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // MC_H_
 

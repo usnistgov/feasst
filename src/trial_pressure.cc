@@ -1,6 +1,8 @@
 #include "./trial_pressure.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialPressure::TrialPressure(
   const char* variable)    //!< type of transformation
@@ -21,5 +23,7 @@ TrialPressure::TrialPressure(const char* fileName,
   : Trial(space, pair, criteria, fileName) {
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

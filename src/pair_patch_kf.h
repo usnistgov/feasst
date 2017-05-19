@@ -16,7 +16,9 @@
 #include "./functions.h"
 #include "./pair.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class PairPatchKF : public Pair {
  public:
@@ -69,7 +71,9 @@ class PairPatchKF : public Pair {
   bool mirrorPatch_;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_PATCH_KF_H_
 

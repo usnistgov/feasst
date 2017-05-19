@@ -1,6 +1,8 @@
 #include "./trial_add.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialAdd::TrialAdd(const char* molType)
   : Trial(),
@@ -191,7 +193,9 @@ string TrialAdd::printStat(const bool header) {
   return stat.str();
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
   
 

@@ -7,7 +7,9 @@
 
 #include "./pair.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class PairRoundSquare : public Pair {
  public:
@@ -28,7 +30,9 @@ class PairRoundSquare : public Pair {
  protected:
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_ROUND_SQUARE_H_
 

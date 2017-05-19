@@ -1,6 +1,8 @@
 #include "./trial_beta.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialBeta::TrialBeta()
   : Trial() {
@@ -29,5 +31,7 @@ void TrialBeta::defaultConstruction() {
   verbose_ = 0;
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

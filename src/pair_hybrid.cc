@@ -1,6 +1,8 @@
 #include "pair_hybrid.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 PairHybrid::PairHybrid(Space* space,
          const double rCut  //!< interaction cut-off distance
@@ -278,5 +280,7 @@ void PairHybrid::allPartPhysical() {
   }
 }
   
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

@@ -8,7 +8,9 @@
 
 #include "./pair_hs.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /**
  * Constructor
@@ -159,7 +161,9 @@ void PairHS::update(const vector<int> mpart,    //!< particles involved in move
   }
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 
 

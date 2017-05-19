@@ -5,12 +5,14 @@
  *
  */
 
-#ifndef CRITERIAMETROPOLIS_H_
-#define CRITERIAMETROPOLIS_H_
+#ifndef CRITERIA_METROPOLIS_H_
+#define CRITERIA_METROPOLIS_H_
 
 #include "./criteria.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class CriteriaMetropolis : public Criteria {
  public:
@@ -36,7 +38,9 @@ class CriteriaMetropolis : public Criteria {
   virtual shared_ptr<Criteria> cloneImpl_() const;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
-#endif  // CRITERIAMETROPOLIS_H_
+#endif  // CRITERIA_METROPOLIS_H_
 

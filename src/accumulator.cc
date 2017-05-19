@@ -1,6 +1,8 @@
 #include "./accumulator.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 Accumulator::Accumulator() {
   verbose_ = 0;
@@ -70,5 +72,7 @@ double Accumulator::blockStdev() const {
   return 0;
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

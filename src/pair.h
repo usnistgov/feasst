@@ -25,7 +25,9 @@
 #include "./space.h"
 #include "./base_all.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class Pair : public BaseAll {
  public:
@@ -302,6 +304,7 @@ class Pair : public BaseAll {
   int intra() const { return intra_; }
   vector<vector<int> > contact() const { return contact_; }
   vector<int> nonphys() const { return nonphys_; }
+  Space* space() const { return space_; };
 
  protected:
   Space* space_;
@@ -399,7 +402,9 @@ class Pair : public BaseAll {
                    const int iMol, const int jMol);
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_H_
 

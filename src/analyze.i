@@ -6,7 +6,6 @@
 #include "analyze_orient.h"
 #include "analyze_scatter.h"
 #include "analyze_scatter_aniso.h"
-using namespace feasst;
 %}
 
 %pythonnondynamic;

@@ -8,7 +8,9 @@
 #include "./pair.h"
 #include "./barrier.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class PairWall : public Pair {
  public:
@@ -41,7 +43,9 @@ class PairWall : public Pair {
   double deWall_;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_WALL_H_
 

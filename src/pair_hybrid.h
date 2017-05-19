@@ -6,7 +6,9 @@
 
 #include "./pair.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class PairHybrid : public Pair {
  public:
@@ -71,7 +73,9 @@ class PairHybrid : public Pair {
   vector<int> selected_;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_HYBRID_H_
 

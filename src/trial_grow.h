@@ -10,7 +10,9 @@
 #include <string>
 #include <vector>
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class TrialGrow : public Trial {
  public:
@@ -54,7 +56,9 @@ class TrialGrow : public Trial {
   }
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_GROW_H_
 

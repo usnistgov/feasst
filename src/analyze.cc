@@ -1,6 +1,8 @@
 #include "./analyze.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 Analyze::Analyze(
   Space *space,
@@ -67,5 +69,7 @@ shared_ptr<Analyze> Analyze::cloneImpl(Space* space, Pair* pair) const {
   return empty;
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

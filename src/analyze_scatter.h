@@ -10,7 +10,9 @@
 
 #include "./analyze.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class AnalyzeScatter : public Analyze {
  public:
@@ -88,7 +90,9 @@ class AnalyzeScatter : public Analyze {
   }
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // ANALYZE_SCATTER_H_
 

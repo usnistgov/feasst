@@ -1,7 +1,9 @@
 #include "pair_tabular.h"
 #include <string>
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 PairTabular::PairTabular(Space* space) : Pair(space, 0.) {
 }
@@ -46,7 +48,9 @@ void PairTabular::initHard(const int iType, const int jType,
   }
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 
 

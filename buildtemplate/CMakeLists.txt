@@ -194,9 +194,11 @@ set (feasst_VERSION_MINOR 1)
 include_directories("${CMAKE_SOURCE_DIR}/../src/")
 if(EXISTS "${CMAKE_SOURCE_DIR}/../drivers/main.cc")
   add_executable(main "${CMAKE_SOURCE_DIR}/../drivers/main" ${feasst_SRC})
+  SET_TARGET_PROPERTIES(main PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
   target_link_libraries(main ${EXTRA_LIBS})
 endif()
 add_executable(ui_text "${CMAKE_SOURCE_DIR}/../src/ui_text.cc" ${feasst_SRC})
+SET_TARGET_PROPERTIES(ui_text PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
 target_link_libraries(ui_text ${EXTRA_LIBS})
 set(EXECUTABLE_OUTPUT_PATH "bin")
 
@@ -237,6 +239,7 @@ if (USE_GTEST)
 
   # Now simply link against gtest or gtest_main as needed. Eg
   add_executable(unittest ${feasst_unittest_SRC} ${feasst_SRC})
+  SET_TARGET_PROPERTIES(unittest PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
   target_link_libraries(unittest gtest_main ${EXTRA_LIBS})
   add_test(NAME unittest COMMAND unittest --gtest_shuffle)
 endif(USE_GTEST)
@@ -294,3 +297,4 @@ execute_process(
 
 add_definitions("-DVERSION=\"\\\"${GIT_COMMIT_HASH} ${GIT_BRANCH}\\\"\"")
 add_definitions("-DFEASST_SRC_=${CMAKE_SOURCE_DIR}/../src/")
+

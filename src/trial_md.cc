@@ -1,6 +1,8 @@
 #include "./trial_md.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialMD::TrialMD() : Trial() {
   defaultConstruction();
@@ -222,5 +224,7 @@ void TrialMD::integrateVelocityVerlet() {
   updateVelocityHalfStep();   // update half-step velocities
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

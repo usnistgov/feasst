@@ -1,7 +1,9 @@
 #include "./base_random.h"
 #include "./random_nr3.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 BaseRandom::BaseRandom() {
   verbose_ = 0;
@@ -264,6 +266,8 @@ void BaseRandom::reconstructDerived_() {
   clearRNG();
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 

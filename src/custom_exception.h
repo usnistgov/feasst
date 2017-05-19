@@ -13,7 +13,9 @@
 using std::cout;
 using std::endl;
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /**
  * Customize the way that exceptions are handled and thrown.
@@ -38,6 +40,8 @@ class CustomException : public std::exception {
   std::string msg_;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // CUSTOM_EXCEPTION_H_

@@ -15,7 +15,9 @@
   }
 #endif  // XDRFILE_H_
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /**
  * The space class owns variables and functions associated with the real-space
@@ -600,7 +602,7 @@ class Space : public BaseAll {
   double tagStage() const { return tagStage_; }
   vector<double> l() const { return l_; }
   double l(const int i) const { return l_[i]; }
-  double vol() const { return feasst::product(l_); }  //!< simulation domain volume
+  double vol() const { return product(l_); }  //!< simulation domain volume
   double type(const int i) const { return type_[i]; }
   vector<int> type() const { return type_; }
   vector<int> mol() const { return mol_; }
@@ -855,6 +857,8 @@ class Space : public BaseAll {
 
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // SRC_SPACE_H_

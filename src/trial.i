@@ -18,7 +18,6 @@
 #include "trial_xswap.h"
 #include "trial_md.h"
 #include "trial_swap.h"
-using namespace feasst;
 %}
 
 %pythonnondynamic;

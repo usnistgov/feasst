@@ -14,7 +14,9 @@
 #include "./pair_tabular_1d.h"
 #include "./pair_hs.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /**
  * Constructor
@@ -79,7 +81,7 @@ Pair::Pair(Space* space, const char* fileName)
         ss << "epsijsetRecord" << i << j;
         eps.push_back(fstod(ss.str().c_str(), fileName));
       }
-      epsijset(feasst::round(eps[0]), feasst::round(eps[1]), eps[2]);
+      epsijset(feasstRound(eps[0]), feasstRound(eps[1]), eps[2]);
     }
   }
 
@@ -133,7 +135,7 @@ void Pair::defaultConstruction() {
   orderMin_ = order_;
   orderMax_ = order_;
   rCutSq_ = rCut_ * rCut_;
-  feasst::fill(rCut_, rCutij_);
+  fill(rCut_, rCutij_);
   rCutMaxAll_ = rCut_;
   dimen_ = space_->dimen(),
   f_.resize(space_->natom(), vector<double>(dimen_));
@@ -1066,13 +1068,13 @@ int Pair::printxyz(const char* fileName,  //!< file with configuration
       << "axes location Off" << endl;
     if (initFlag == 2) {
       radius = 10;
-      vmdf << "mol load xyz " << feasst::trim("/", fileName) << ".xyz" << endl
+      vmdf << "mol load xyz " << trim("/", fileName) << ".xyz" << endl
            << "animate delete beg 0 end 0" << endl
-           << "mol addfile " << feasst::trim("/", fileName) << ".xtc waitfor all"
+           << "mol addfile " << trim("/", fileName) << ".xtc waitfor all"
            << endl;
     } else {
       radius = 1;
-      vmdf << "topo readvarxyz " << feasst::trim("/", fileName) << ".xyz" << endl;
+      vmdf << "topo readvarxyz " << trim("/", fileName) << ".xyz" << endl;
     }
     vmdf << "mol modstyle 0 0 VDW 1.0000000 120.000000" << endl;
     if (space_->nParticleTypes() == 1) {
@@ -1926,7 +1928,7 @@ int Pair::printGRO(const char* fileName,  //!< name of file to print
     vmdf << "display projection Orthographic" << endl
          << "color Display Background white" << endl
          << "axes location Off" << endl
-         << "mol new " << feasst::trim("/", fileName)
+         << "mol new " << trim("/", fileName)
          << ".gro type {gro} first 0 last -1 step 1 waitfor all" << endl
          << "mol modstyle 0 0 VDW 1.0000000 10.000000" << endl;
 
@@ -2091,7 +2093,7 @@ void Pair::initJSONData(const string fileName) {  //!< LAMMPS Data file name
  */
 void Pair::initData(const std::string fileName) {  //!< Data file name
   // use file extension to determine whether to use JSON or LMP data files
-  if (feasst::trim(".", fileName) == "json") {
+  if (trim(".", fileName) == "json") {
     #ifdef JSON_
       initJSONData(fileName);
     #else
@@ -2142,7 +2144,9 @@ void Pair::initIntra(const int flag, vector<vector<int> > map) {
   space_->initIntra(map);
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 
 

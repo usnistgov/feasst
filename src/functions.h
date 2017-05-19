@@ -50,7 +50,9 @@ std::cout << "Note in " << __FILE__ \
           << " line " << __LINE__ << ": " << message << std::endl; \
 //throw c;
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /// Return the magnitude of the first argument, with the sign of the second.
 double sign(const double a, const double b);
@@ -408,8 +410,12 @@ vector<std::complex<double> > cart2sphereHarm6(vector<double> rCart);
 /// \return sum of vector of complex numbers multiplied by its conjugate
 double complexVec2norm(vector<std::complex<double> > compVec);
 
-/// \return rounded double to nearest integer
-int round(double x);
+/** \return rounded double to nearest integer. This rounding is implemented
+ *  as floor(x+0.5), such that feasstRound(-0.5) == 0. The cplusplus library
+ *  round(-0.5) from math.h results in round(-0.5) == -1, such that rounding
+ *  at the halfway point is away from zero. This breaks the first bin on 
+ *  histograms. */
+int feasstRound(double x);
 
 /**
  * \return rotation matrix from euler angles
@@ -671,6 +677,8 @@ std::string vec2str(const vector<vector<T> > &vec) {
   return ss.str();
 }
 
-} // namespace feasst
+#ifdef FEASST_NAMESPACE_
+}  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  //FUNCTIONS_H_

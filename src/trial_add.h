@@ -10,7 +10,9 @@
 
 #include "./trial.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class Space;
 class Pair;
@@ -45,7 +47,9 @@ class TrialAdd : public Trial {
                                       Criteria *criteria) const;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_ADD_H_
 

@@ -1,6 +1,8 @@
 #include "./mc_wltmmc.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 WLTMMC::WLTMMC(Space* space,
   Pair* pair,
@@ -268,32 +270,32 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
       vector<vector<double> > w = nWindowGrowth
         (c_->mMin(), c_->mMax(), nExp_, nWindow_, binWidth, nOverlap_);
       clones[t]->c()->initBins(w[t][1], w[t][0],
-        feasst::round((w[t][1]-w[t][0])/binWidth));
+        feasstRound((w[t][1]-w[t][0])/binWidth));
       clones[t]->pair()->setOrder(clones[t]->c()->bin2m(0));
     } else if (c_->mType().compare("beta") == 0) {
       vector<vector<double> > w = nWindowGrowth
         (c_->mMin(), c_->mMax(), nExp_, nWindow_, binWidth, nOverlap_);
       clones[t]->c()->initBins(w[t][1], w[t][0],
-        feasst::round((w[t][1]-w[t][0])/binWidth));
+        feasstRound((w[t][1]-w[t][0])/binWidth));
       clones[t]->criteria()->betaset(clones[t]->c()->bin2m(0));
     } else if (c_->mType().compare("pressure") == 0) {
       vector<vector<double> > w = nWindowGrowth
         (c_->mMin(), c_->mMax(), nExp_, nWindow_, binWidth, nOverlap_);
       clones[t]->c()->initBins(w[t][1], w[t][0],
-                               feasst::round((w[t][1]-w[t][0])/binWidth));
+                               feasstRound((w[t][1]-w[t][0])/binWidth));
       clones[t]->criteria()->pressureset(clones[t]->c()->bin2m(0));
     } else if (c_->mType().compare("lnpres") == 0) {
       vector<vector<double> > w = nWindowGrowth
         (c_->mMin(), c_->mMax(), nExp_, nWindow_, binWidth, nOverlap_);
       clones[t]->c()->initBins(w[t][1], w[t][0],
-                               feasst::round((w[t][1]-w[t][0])/binWidth));
+                               feasstRound((w[t][1]-w[t][0])/binWidth));
       clones[t]->criteria()->pressureset(exp(clones[t]->c()->bin2m(0)));
     } else if (betaInc_ == 0) {
       vector<vector<int> > nMolVec = nWindow(c_->mMin()+0.5, c_->mMax()-0.5,
                                              nExp_, nWindow_, nOverlap_);
       clones[t]->c()->initBins(nMolVec[t][1]+binWidth/2.,
         nMolVec[t][0]-binWidth/2.,
-        feasst::round((nMolVec[t][1]-nMolVec[t][0])/binWidth)+1);
+        feasstRound((nMolVec[t][1]-nMolVec[t][0])/binWidth)+1);
     } else {
       clones[t]->c()->betaset(criteria_->beta() + t*betaInc_);
       clones[t]->c()->activset(criteria_->activ()*exp(t*lnzInc_));
@@ -549,9 +551,9 @@ void WLTMMC::nMolSeekInRange(const int nMin,
   if (nMin != -1) mMin = static_cast<double>(nMin) - 0.5;
   if (nMax != -1) mMax = static_cast<double>(nMax) + 0.5;
   if (space_->nMol() > mMax) {
-    nMolSeek(feasst::round(mMax-0.5), 1e12);
+    nMolSeek(feasstRound(mMax-0.5), 1e12);
   } else if (space_->nMol() < mMin) {
-    nMolSeek(feasst::round(mMin+0.5), 1e12);
+    nMolSeek(feasstRound(mMin+0.5), 1e12);
   }
 }
 
@@ -782,6 +784,8 @@ void WLTMMC::initOverlaps(const int t,    //!< thread
   #endif  // MPI_H_ || _OPENMP
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 

@@ -1,6 +1,8 @@
 #include "./pair_wall.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 PairWall::PairWall(Space* space, Barrier* barrier)
   : Pair(space, 0.),
@@ -30,8 +32,8 @@ double PairWall::multiPartEner(const vector<int> mpart, const int flag) {
 
 int PairWall::initEnergy() {
   std::fill(pe_.begin(), pe_.end(), 0.);
-  feasst::fill(0., f_);
-  feasst::fill(0., vr_);
+  fill(0., f_);
+  fill(0., vr_);
   // compute energy
   multiPartEner(space_->listAtoms());
   peTot_  = peSRone_;
@@ -65,4 +67,6 @@ void PairWall::update(const vector<int> mpart,    //!< particles involved in mov
   }
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_

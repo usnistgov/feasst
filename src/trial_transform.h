@@ -10,7 +10,9 @@
 
 #include "./trial.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class TrialTransform : public Trial {
  public:
@@ -62,7 +64,9 @@ class TrialTransform : public Trial {
   }
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_TRANSFORM_H_
 

@@ -8,7 +8,9 @@
 
 #include "./pair.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class PairHardCircle : public Pair {
  public:
@@ -64,7 +66,9 @@ class PairHardCircle : public Pair {
   double rDep_;               //!< radius of depletant
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_HARD_CIRCLE_H_
 

@@ -3,7 +3,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialConfSwapTXT::TrialConfSwapTXT() : Trial() {
   defaultConstruction();
@@ -151,5 +153,7 @@ void TrialConfSwapTXT::addProcOverlap(
   dlnz_.push_back(dlnz);
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

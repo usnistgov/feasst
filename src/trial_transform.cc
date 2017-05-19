@@ -1,6 +1,8 @@
 #include "./trial_transform.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialTransform::TrialTransform(
   const char* transType)    //!< type of transformation
@@ -363,7 +365,9 @@ void TrialTransform::scaleAttempt_(const double factor) {
   }
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 
 

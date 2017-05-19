@@ -1,6 +1,8 @@
 #include "./trial_xswap.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialXSwap::TrialXSwap() : Trial() {
   defaultConstruction();
@@ -99,5 +101,7 @@ void TrialXSwap::attempt1() {
   }
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

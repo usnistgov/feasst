@@ -16,6 +16,7 @@
 #include "trial_delete.h"
 #include "trial_md.h"
 #include "trial_transform.h"
+#include "criteria_mayer.h"
 
 using namespace feasst;
 
@@ -551,8 +552,50 @@ TEST(MC, b2hardsphere) {
   double b2, b2er;
   const double tol = 1e-2;
   mc.b2(tol, b2, b2er);
-  //EXPECT_NEAR(b2, 2./3.*PI,1e-12);
   EXPECT_NEAR(b2, 2./3.*PI, tol*3);
+}
+
+TEST(MC, b2mayer) {
+  ranInitByDate();
+  Space space(3, 0);
+  space.addMolInit("../forcefield/data.lj");
+  vector<double> xAdd(space.dimen(), 0.);
+  space.xAdd = xAdd;
+  space.addMol(0);
+  xAdd[0] = 1.1;
+  space.xAdd = xAdd;
+  space.addMol(0);
+  
+  PairLJMulti pair(&space, 1e5);
+  pair.initData("../forcefield/data.lj");
+  pair.cutShift(1);
+  pair.initEnergy();
+  PairHS pairRef(&space, 1);
+  pairRef.initData("../forcefield/data.lj");
+  pairRef.initEnergy();
+
+  const double boxl = 2.*(2.*space.maxMolDist() + pair.rCut());
+  space.lset(boxl);
+
+  CriteriaMayer crit(0.2);
+  crit.initPairRef(&pairRef);
+  MC mc(&space, &pair, &crit);
+  transformTrial(&mc, "translate", 0.1);
+  //mc.setNFreqTune(1e5);
+  const int nfreq = 1e0;
+  mc.setNFreqCheckE(1, 1e10);
+  //mc.setNFreqCheckE(nfreq, 1e-8);
+  mc.initLog("tmp/mayer", nfreq);
+  mc.initMovie("tmp/mayer", nfreq);
+  
+  //mc.nMolSeek(2, "../forcefield/data.lj", 1e8);
+  
+  mc.runNumTrials(1e4);
+  //mc.runNumTrials(1e6);
+  //cout << "pe " << pair.peTot() << endl;
+  EXPECT_NEAR(crit.b2ratio(), 0.2, 1.);
+  // beta = 1 takes too long
+  // // EXPECT_NEAR(crit.b2ratio(), -2.5381, DTOL);
 }
 
 TEST(MC, ljMD) {

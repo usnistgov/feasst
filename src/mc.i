@@ -1,11 +1,10 @@
 %module mc
 
-%ignore feasst::MC::boyleminwrap;
+%ignore MC::boyleminwrap;
 
 %{
 #include "mc.h"
 #include "mc_wltmmc.h"
-using namespace feasst;
 %}
 
 %pythonnondynamic;

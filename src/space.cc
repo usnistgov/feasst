@@ -2,7 +2,9 @@
 #include <algorithm>
 #include "./space.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 Space::Space(int dimen, int id)
   : dimen_(dimen),
@@ -1472,7 +1474,7 @@ void Space::updateCells(const double dCellMin, const double rCut) {
         << l_[dim] << ")");
     }
   }
-  nCell_ = feasst::product(nCellVec_);
+  nCell_ = product(nCellVec_);
   if ( (dimen_ == 3) && (cellType_ != 0) ) {
     if (cellType_ == 1) {
       int mix, miy, miz, mjx, mjy, mjz;
@@ -2080,7 +2082,7 @@ void Space::initLMPData(const std::string fileName, const int nTypesExist) {
       // add new molecule
       mol2part_.push_back(iatom);
       moltype_.push_back(fileName);
-      // moltype_.push_back(feasst::trim(".", typetmp.c_str()));
+      // moltype_.push_back(trim(".", typetmp.c_str()));
     }
 
     getline(file, line);
@@ -3975,12 +3977,12 @@ void Space::printxyzvmd(const char* fileName, const int initFlag) {
       << "axes location Off" << endl;
     if (initFlag == 2) {
       radius = 10;
-      vmdf << "mol load xyz " << feasst::trim("/", fileName) << ".xyz" << endl
+      vmdf << "mol load xyz " << trim("/", fileName) << ".xyz" << endl
            << "animate delete beg 0 end 0" << endl
-           << "mol addfile " << feasst::trim("/", fileName) << ".xtc" << endl;
+           << "mol addfile " << trim("/", fileName) << ".xtc" << endl;
     } else {
       radius = 1;
-      vmdf << "topo readvarxyz " << feasst::trim("/", fileName) << ".xyz" << endl;
+      vmdf << "topo readvarxyz " << trim("/", fileName) << ".xyz" << endl;
     }
     vmdf << "mol modstyle 0 0 VDW 1.0000000 120.000000" << endl
       << "set sel [atomselect top all]" << endl
@@ -4099,7 +4101,7 @@ void Space::initJSONData(
 
 void Space::initData(const std::string fileName, const int nTypesExist) {
   // use file extension to determine whether to use JSON or LMP data files
-  if (feasst::trim(".", fileName) == "json") {
+  if (trim(".", fileName) == "json") {
     #ifdef JSON_
       initJSONData(fileName, nTypesExist);
     #else
@@ -4173,6 +4175,8 @@ void Space::replicate(const int nx, const int ny, const int nz) {
   }}}
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 

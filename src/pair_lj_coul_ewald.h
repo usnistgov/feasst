@@ -9,7 +9,9 @@
 
 #include "./pair.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class erftable {
  public:
@@ -169,7 +171,9 @@ class PairLJCoulEwald : public Pair {
   erftable erft_;   //!< tabular error function
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_LJ_COUL_EWALD_H_
 

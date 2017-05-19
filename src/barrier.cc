@@ -1,7 +1,9 @@
 #include "./barrier.h"
 #include "./barrier_planar.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 Barrier::Barrier() {
   className_.assign("Barrier");
@@ -23,5 +25,7 @@ void Barrier::addOrthogonalPlanar(const double coord, const int direction,
   add(newBarrier);
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

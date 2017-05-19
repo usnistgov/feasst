@@ -6,7 +6,9 @@
 
 #include "pair_hard_circle.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /**
  * Constructor
@@ -63,8 +65,8 @@ int PairHardCircle::initEnergy() {
 
   // zero accumulators: potential energy, force, and virial
   std::fill(pe_.begin(), pe_.end(), 0.);
-  feasst::fill(0., f_);
-  feasst::fill(0., vr_);
+  fill(0., f_);
+  fill(0., vr_);
   peSR_ = 0;
 
   // loop through nearest neighbor atom pairs
@@ -245,6 +247,8 @@ void PairHardCircle::multiPartEnerAtomCutInner(const double &r2,
   }
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 

@@ -10,7 +10,9 @@
 
 #include "./analyze.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class AnalyzeOrient : public Analyze {
  public:
@@ -52,7 +54,9 @@ class AnalyzeOrient : public Analyze {
   }
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // ANALYZEORIENT_H_
 

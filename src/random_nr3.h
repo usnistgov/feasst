@@ -3,7 +3,9 @@
 
 #include "random.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /**
  * Numerical recipes third edition random number generator.
@@ -38,7 +40,9 @@ class RandomNR3 : public Random {
   unsigned long long u_, v_, w_;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // RANDOM_NR3_H_
 

@@ -9,7 +9,9 @@
 
 #include "./pair.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class PairHS : public Pair {
  public:
@@ -42,7 +44,9 @@ class PairHS : public Pair {
   double deSR_;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_HS_H_
 

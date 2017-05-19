@@ -13,7 +13,9 @@
 #include "./pair.h"
 #include "./criteria.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class Trial : public BaseAll {
  public:
@@ -140,7 +142,9 @@ class Trial : public BaseAll {
                                       Criteria *criteria) const  = 0;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_H_
 

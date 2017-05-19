@@ -1,6 +1,8 @@
 #include "./pair_ideal.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 PairIdeal::PairIdeal(Space* space,
   const double rCut)  //!< interaction cut-off distance
@@ -17,8 +19,8 @@ int PairIdeal::initEnergy() {
 
   // zero accumulators: potential energy, force, and virial
   std::fill(pe_.begin(), pe_.end(), 0.);
-  feasst::fill(0., f_);
-  feasst::fill(0., vr_);
+  fill(0., f_);
+  fill(0., vr_);
   return 0;
 }
 
@@ -89,5 +91,7 @@ double PairIdeal::multiPartEner(const vector<int> mpart,    //!< number of singl
   return 0;
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

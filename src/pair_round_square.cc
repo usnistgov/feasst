@@ -1,6 +1,8 @@
 #include "./pair_round_square.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 PairRoundSquare::PairRoundSquare(Space* space,
   const double rCut)  //!< interaction cut-off distance
@@ -12,5 +14,7 @@ PairRoundSquare::PairRoundSquare(Space* space,
   : Pair(space, fileName) {
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

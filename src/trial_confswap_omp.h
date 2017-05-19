@@ -10,7 +10,9 @@
 
 #include "./trial.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class TrialConfSwapOMP : public Trial {
  public:
@@ -75,7 +77,9 @@ class TrialConfSwapOMP : public Trial {
     t->reconstruct(space, pair, criteria); return t; }
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_CONFSWAP_OMP_H_
 

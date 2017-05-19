@@ -5,7 +5,9 @@
 #ifndef SHAPE_H_
 #define SHAPE_H_
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class superball {
 public:
@@ -19,6 +21,8 @@ class Shape {
   ~Shape() {}
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // SHAPE_H_

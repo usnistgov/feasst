@@ -1,6 +1,8 @@
 #include "./analyze_orient.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 AnalyzeOrient::AnalyzeOrient(Space *space, Pair *pair)
   : Analyze(space, pair) {
@@ -133,6 +135,8 @@ void AnalyzeOrient::print() {
   }
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 

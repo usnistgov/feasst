@@ -9,7 +9,9 @@
 #include "./pair.h"
 #include "./mins.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /**
  * Constructor
@@ -300,7 +302,7 @@ void CriteriaWLTMMC::printCollectMat(const char* fileName  //!< file name
   // if using growth expanded ensemble with nmolstages,
   // also print physical states
   if (mType_.compare("nmolstage") == 0) {
-    const int nMin = feasst::round(bin2m(0)), nMax = feasst::round(bin2m(nBin_ - 1));
+    const int nMin = feasstRound(bin2m(0)), nMax = feasstRound(bin2m(nBin_ - 1));
     CriteriaWLTMMC cNoGrow(beta_, activ_, "nmol", nMin - 0.5, nMax + 0.5,
                            nMax - nMin + 1);
     int binNoGrow = 0;
@@ -1184,5 +1186,7 @@ void CriteriaWLTMMC::tmmcInit() {
   std::fill(h_.begin(), h_.end(), 0);
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

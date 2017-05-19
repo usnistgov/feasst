@@ -2,7 +2,6 @@
 
 %{
 #include "ui_abbreviated.h"
-using namespace feasst;
 %}
 
 %pythonnondynamic;

@@ -18,7 +18,9 @@
 #include "./mc.h"
 #include "./mc_wltmmc.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 void transformTrial(MC *mc, const char* type, double maxMoveParam = -1);
 void transformTrial(shared_ptr<MC> mc, const char* type,
@@ -63,6 +65,8 @@ void xswapTrial(shared_ptr<MC> mc);
 void swapTrial(MC *mc, const char* molTypeA, const char* molTypeB);
 void swapTrial(shared_ptr<MC> mc, const char* molTypeA, const char* molTypeB);
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // UI_ABBREVIATED_H_

@@ -1,6 +1,8 @@
 #include "./barrier_planar.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 BarrierPlanar::BarrierPlanar(const double coord, const int direction,
   const int dimen)
@@ -22,5 +24,7 @@ double BarrierPlanar::potential(const vector<double> coordinate,
   return 0;
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

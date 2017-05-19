@@ -6,7 +6,6 @@
 #ifdef FFTW_
   #include "fftw3.h"
 #endif  // FFTW_
-using namespace feasst;
 %}
 
 %pythonnondynamic;

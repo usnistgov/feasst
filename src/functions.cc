@@ -7,7 +7,9 @@
 #include <limits>
 #include <signal.h>
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 double sign(const double a,	const double b) {
   return (b >= 0.0 ? fabs(a) : -fabs(a));
@@ -536,7 +538,7 @@ double complexVec2norm(vector<std::complex<double> > compVec) {
   return norm;
 }
 
-int round(double x) { return floor(x + 0.5); }
+int feasstRound(double x) { return floor(x + 0.5); }
 
 vector<vector<double> > Euler2RotMat(const vector<double> euler) {
   ASSERT(euler.size() == 3, "assumes 3D, but size of euler is "
@@ -641,4 +643,6 @@ vector<double> quat2euler(vector<double> quat) {
   return RotMat2Euler( (quat2rot(quat)) )[0];
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_

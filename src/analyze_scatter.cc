@@ -1,6 +1,8 @@
 #include "./analyze_scatter.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 AnalyzeScatter::AnalyzeScatter(Space *space, Pair *pair)
   : Analyze(space, pair) {
@@ -184,7 +186,7 @@ void AnalyzeScatter::update(const int iMacro) {
         r2 = dx*dx + dy*dy + dz*dz;
         const double r = sqrt(r2);
         if (r <= 0.5*minl) {
-          const int bin = feasst::round(r/dgr_ - 0.5);
+          const int bin = feasstRound(r/dgr_ - 0.5);
           histInter2_[iMacro][iType][jType][bin]++;
           histInter2_[iMacro][jType][iType][bin]++;
         }
@@ -218,7 +220,7 @@ void AnalyzeScatter::update(const int iMacro) {
         r2 = dx*dx + dy*dy + dz*dz;
         const double r = sqrt(r2);
         if (r <= 0.5*minl) {
-          const int bin = feasst::round(r/dgr_ - 0.5);
+          const int bin = feasstRound(r/dgr_ - 0.5);
           histIntra2_[iMacro][iType][jType][bin]++;
           histIntra2_[iMacro][jType][iType][bin]++;
         }
@@ -501,7 +503,9 @@ int AnalyzeScatter::nPartTypes() {
   return space_->nParticleTypes();
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 
 

@@ -1,6 +1,8 @@
 #include "./trial_avb.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialAVB::TrialAVB(
   const double pBias,   //!< bias probability
@@ -33,5 +35,7 @@ TrialAVB::TrialAVB(const char* fileName,
   initAVB(rAbove_, rBelow_);
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

@@ -1,6 +1,8 @@
 #include "./pair_tabular_1d.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 PairTabular1D::PairTabular1D(Space* space)
   : Pair(space, 0.) {
@@ -43,7 +45,7 @@ int PairTabular1D::initEnergy() {
 
   // zero accumulators: potential energy, force, and virial
   deSR_ = 0;
-  feasst::fill(0., f_);
+  fill(0., f_);
   //fCOM_.clear();
   //fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
   
@@ -237,5 +239,7 @@ void PairTabular1D::setInterpolator(const char* name) {
   }
 }
   
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

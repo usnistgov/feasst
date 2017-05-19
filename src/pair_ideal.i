@@ -3,7 +3,6 @@
 %{
 #include "pair.h"
 #include "pair_ideal.h"
-using namespace feasst;
 %}
 
 %pythonnondynamic;

@@ -17,7 +17,9 @@
   #include <gsl/gsl_spline.h>
 #endif  // GSL_
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class Table {
  public:
@@ -101,7 +103,9 @@ class Table {
   #endif  // GSL_
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // TABLE_H_
 

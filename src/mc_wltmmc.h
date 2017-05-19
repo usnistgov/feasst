@@ -10,7 +10,9 @@
 
 #include "./mc.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class WLTMMC : public MC {
  public:
@@ -140,7 +142,9 @@ class WLTMMC : public MC {
   virtual shared_ptr<MC> cloneImpl() const;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // WLTMMC_H_
 

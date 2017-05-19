@@ -3,7 +3,6 @@
 %{
 #include "pair.h"
 #include "pair_tabular_1d.h"
-using namespace feasst;
 %}
 
 %pythonnondynamic;

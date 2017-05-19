@@ -1,6 +1,8 @@
 #include "random.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 Random::Random(const unsigned long long iseed
   ) : seed_(iseed) {
@@ -18,7 +20,9 @@ void Random::seed(const unsigned long long iseed) {
   seed_ = iseed;
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 
 

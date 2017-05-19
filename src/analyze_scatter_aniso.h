@@ -12,7 +12,9 @@
   #include <fftw3.h>
 #endif  // FFTW_
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class AnalyzeScatterAniso : public Analyze {
  public:
@@ -40,7 +42,9 @@ class AnalyzeScatterAniso : public Analyze {
   }
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // ANALYZE_SCATTER_ANISO_H_
 

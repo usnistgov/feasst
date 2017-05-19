@@ -1,6 +1,8 @@
 #include "./trial_swap.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialSwap::TrialSwap(const char* molTypeA,
   const char* molTypeB)
@@ -293,5 +295,7 @@ string TrialSwap::printStat(const bool header) {
 //
 //
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

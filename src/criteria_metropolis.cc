@@ -7,7 +7,9 @@
 #include "./criteria_metropolis.h"
 #include "./functions.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /**
  * Constructor for pair class requires the following
@@ -54,6 +56,8 @@ shared_ptr<Criteria> CriteriaMetropolis::cloneImpl_() const {
   return c;
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 

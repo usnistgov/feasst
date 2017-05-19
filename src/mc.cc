@@ -5,7 +5,9 @@
 #include "./mins.h"
 #include "./ui_abbreviated.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 MC::MC(Space* space,
        Pair* pair,
@@ -694,16 +696,9 @@ void MC::writeRestart(const char* fileName) {
   }
 }
 
-/**
- * compute second virial coefficient by Monte Carlo integration
- *   B2(T)=-0.5*int(dr*f(r)); f(r)=meyer fn
- *   B2(T)=-0.5*int(dr)*(1/npr)*sum[f(r)]
- *   B2(T)=-0.5*volume*(1/npr)*sum[f(r_i)]
- */
-void MC::b2(const double tol, double &b2v, double &b2er, double boxl) {
+void MC::b2init_() {
   ASSERT(space_->nMol() <= 2, "no more than two molecules may be present" <<
          "before b2 calc, nMol=" << space_->nMol());
-
   ASSERT(npr_ > nFreqLog_*3, "for b2, npr(" << npr_ << ") must be at least 3"
          << "times greater than nFreqLog(" << nFreqLog_ <<")");
 
@@ -720,6 +715,11 @@ void MC::b2(const double tol, double &b2v, double &b2er, double boxl) {
     space_->addMol(0);
     pair_->addPart();
   }
+}
+
+void MC::b2(const double tol, double &b2v, double &b2er, double boxl) {
+  b2init_();
+
   const vector<int> mpart = space_->imol2mpart(1);
 
   // initialize domain
@@ -784,6 +784,89 @@ void MC::b2(const double tol, double &b2v, double &b2er, double boxl) {
     }
   }
   b2v = m2.average();
+}
+
+void MC::b2mayer(double *b2v, double *b2er, Pair *pairRef, const double tol, double boxl) {
+  b2init_();
+  ASSERT(space() == pairRef->space(), "reference potential must point to the"
+    << "same space object");
+  const vector<int> mpart = space_->imol2mpart(1);
+
+  // initialize domain
+  if (boxl == -1) {
+    boxl = 2.*(2.*space_->maxMolDist() + pair_->rCut());
+  }
+//  space.lset(boxl); 
+//  const double boxlbig = boxl*1e6;
+// 
+//  // equilibrate: tune maxMove parameters and make sure that initial 
+//  // configuration has non-zero energy
+//  double peOld = 0.;
+//  const int maxIterations = 1e3;
+//  int iter = 0;
+//  pair_->initEnergy();
+//  while ( (peOld != 0.) && (iter < maxIterations) ) {
+//    runNumTrials(1e5);
+//    peOld = pair_->peTot();
+//    ++iter;
+//  }
+//  ASSERT(iter < maxIterations, "max iterations reached in equilibration");
+//
+//  pairRef.initEnergy();
+//  double f12old = exp(-peOld/temp) - 1,
+//         f12ref = exp(-pairRef.peTot()/temp) - 1;
+//  
+//  // begin trial moves and averaging
+//  const double maxDisp = 0.1;
+//  Accumulator mayer, mayerRef;
+//  for (long long int itrial = 0; itrial < npr_; ++itrial) {
+//    // store old position
+//    space.xStore(mpart);
+//
+//    // move and rotate second molecule randomly within domain
+//    space_->randDisp(mpart, 0.5*boxl);
+//    space_->randRotate(mpart, -1);
+//
+//    // expand domain so there are no mirror images
+//    for (int dim=0; dim < space_->dimen(); ++dim) space_->lset(boxlbig, dim);
+//
+//    // compute energy and meyer function
+//    pair_->initEnergy();
+//    const double pe = pair_->peTot();
+//    // const double pe = pair_->multiPartEner(mpart, 0);
+//
+//    meyer.accumulate(-0.5*vol*(exp(-criteria_->beta()*pe) - 1));
+//    // cout << "pe " << pe << " meyer " << 1 - exp(-criteria_->beta()*pe)
+//    //      << " acc " << -0.5*vol*(exp(-criteria_->beta()*pe) - 1) << " v "
+//    //      << vol << endl;
+//
+//    if ( (itrial != 0) && (itrial % nFreqMovie_ == 0) ) {
+//      int flag = 0;
+//      if (itrial == nFreqMovie_) flag = 1;
+//      if (!movieFileName_.empty()) {
+//        pair_->printxyz(movieFileName_.c_str(), flag);
+//      }
+//    }
+//
+//    if ( (itrial != 0) && (itrial % nFreqLog_ == 0) ) {
+//      m2.accumulate(meyer.average());
+//      if (m2.nValues() > 2) {
+//        b2er = m2.stdev()/sqrt(m2.nValues());
+//      } else {
+//        b2er = 1e200;
+//      }
+//      if (!logFileName_.empty()) {
+//        std::ofstream log_(logFileName_.c_str(),
+//                           std::ofstream::out | std::ofstream::app);
+//        log_ << itrial << " " << m2.average() << " " << b2er << " "
+//             << meyer.average() << endl;
+//      }
+//      meyer.reset();
+//      if ( (itrial != nFreqLog_) && ( (b2er < tol) ||
+//           (b2er/fabs(m2.average()) < tol) ) ) itrial = npr_;
+//    }
+//  }
+//  b2v = m2.average();
 }
 
 /**
@@ -929,6 +1012,8 @@ void MC::tuneTrialParameters() {
   }
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 

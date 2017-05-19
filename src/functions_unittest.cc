@@ -562,3 +562,9 @@ TEST(Functions, rotInversion) {
   }
 }
 
+/// This test shows the difference between math.h round() and feasstRound()
+TEST(Functions, feasstRoundVSround) {
+  EXPECT_EQ(feasstRound(-0.5), 0);
+  EXPECT_EQ(round(-0.5), -1);
+}
+

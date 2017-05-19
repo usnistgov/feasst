@@ -14,7 +14,9 @@
 #include "./space.h"
 #include "./functions.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 PairLJCoulEwald::PairLJCoulEwald(Space* space,
   const double rCut)  //!< interaction cut-off distance
@@ -75,8 +77,8 @@ int PairLJCoulEwald::initEnergy() {
 
   // zero accumulators: potential energy, force, and virial
   std::fill(pe_.begin(), pe_.end(), 0.);
-  feasst::fill(0., f_);
-  feasst::fill(0., vr_);
+  fill(0., f_);
+  fill(0., vr_);
 
   // loop through pairs of molecules
   for (int iMol = 0; iMol < nMol - 1; ++iMol) {
@@ -327,10 +329,10 @@ double PairLJCoulEwald::multiPartEnerRealAtomCut(
   peQRealone_ = 0;
   neighOne_.clear();
   neighOne_.resize(mpart.size(), vector<int>());
-  feasst::fill(0, neighOne_);
+  fill(0, neighOne_);
 //  neighCutOne_.clear();
 //  neighCutOne_.resize(mpart.size(), vector<int>());
-//  feasst::fill(0, neighCutOne_);
+//  fill(0, neighCutOne_);
 
   for (unsigned int impart = 0; impart < mpart.size(); ++impart) {
     const int ipart = mpart[impart];
@@ -1072,7 +1074,9 @@ void PairLJCoulEwald::initLMPData(const string fileName) {
   }
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 
 

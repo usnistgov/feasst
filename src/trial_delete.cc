@@ -4,7 +4,9 @@
 #include <numeric>
 #include "./functions.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialDelete::TrialDelete() : Trial() {
   defaultConstruction();
@@ -193,7 +195,9 @@ void TrialDelete::attempt1() {
   }
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 
 

@@ -10,7 +10,9 @@
 
 #include "./base_all.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class Space;
 class Pair;
@@ -79,7 +81,9 @@ class Criteria : public BaseAll {
   virtual shared_ptr<Criteria> cloneImpl_() const = 0;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // CRITERIA_H_
 

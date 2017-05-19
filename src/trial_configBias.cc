@@ -1,6 +1,8 @@
 #include "./trial_configBias.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialConfigBias::TrialConfigBias(const char* molType)
   : Trial(),
@@ -43,5 +45,7 @@ shared_ptr<Trial> TrialConfigBias::cloneImpl
   return t;
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

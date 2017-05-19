@@ -9,7 +9,9 @@
 
 #include "./pair_lj.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class PairLJMulti : public PairLJ {
  public:
@@ -122,7 +124,9 @@ class PairLJMulti : public PairLJ {
   vector<vector<double> > gausParam_;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_LJ_MULTI_H_
 

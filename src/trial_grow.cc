@@ -1,6 +1,8 @@
 #include "./trial_grow.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialGrow::TrialGrow(
   const char* molType,   //!< type of molecule to grow
@@ -23,5 +25,7 @@ TrialGrow::TrialGrow(const char* fileName,
   : Trial(space, pair, criteria, fileName) {
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

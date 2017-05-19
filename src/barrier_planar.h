@@ -7,7 +7,9 @@
 
 #include "./barrier.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class BarrierPlanar : public Barrier {
  public:
@@ -30,7 +32,9 @@ class BarrierPlanar : public Barrier {
   int dimen_;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // BARRIER_PLANAR_H_
 

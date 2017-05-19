@@ -1,6 +1,8 @@
 #include "./trial_cluster.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 TrialCluster::TrialCluster(
   const char* transType)   //!< type of transformation
@@ -21,5 +23,7 @@ TrialCluster::TrialCluster(const char* fileName,
   : Trial(space, pair, criteria, fileName) {
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

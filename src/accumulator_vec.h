@@ -11,7 +11,9 @@
 
 #include "./accumulator.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class AccumulatorVec : public Accumulator {
  public:
@@ -43,7 +45,9 @@ class AccumulatorVec : public Accumulator {
   vector<Accumulator> accVec_;    //<! vector of accumulators
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // ACCUMULATORVEC_H_
 

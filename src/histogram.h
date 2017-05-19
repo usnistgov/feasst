@@ -5,7 +5,9 @@
 #include <iterator>
 #include "./base.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /**
  * This class is used to compute one dimensional histograms with constant bin
@@ -54,7 +56,7 @@ class Histogram : public Base {
 
   /// Return bin, given value.
   int bin(const double value) const {
-    return feasst::round((value - bin2m(0))/binWidth_);
+    return feasstRound((value - bin2m(0))/binWidth_);
   }
 
   /// Print to file.
@@ -116,7 +118,9 @@ class Histogram : public Base {
   void defaultConstruction_();
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // HISTOGRAM_H_
 

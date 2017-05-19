@@ -1,13 +1,13 @@
 %module criteria
 
-%ignore feasst::CriteriaWLTMMC::lnPIrwsatwrap;
-%ignore feasst::CriteriaWLTMMC::lnPIrwnmxwrap;
+%ignore CriteriaWLTMMC::lnPIrwsatwrap;
+%ignore CriteriaWLTMMC::lnPIrwnmxwrap;
 
 %{
 #include "criteria.h"
 #include "criteria_metropolis.h"
 #include "criteria_wltmmc.h"
-using namespace feasst;
+#include "criteria_mayer.h"
 %}
 
 %pythonnondynamic;
@@ -15,3 +15,4 @@ using namespace feasst;
 %include criteria.h
 %include criteria_metropolis.h
 %include criteria_wltmmc.h
+%include criteria_mayer.h

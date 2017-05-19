@@ -11,7 +11,9 @@
 #include "./pair.h"
 #include "./criteria_wltmmc.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class WLTMMC;
 
@@ -70,6 +72,8 @@ class Analyze : public BaseAll {
   virtual shared_ptr<Analyze> cloneImpl(Space* space, Pair* pair) const;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // ANALYZE_H_

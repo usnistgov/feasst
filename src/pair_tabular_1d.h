@@ -11,7 +11,9 @@
 #include "./pair.h"
 #include "./table.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class PairTabular1D : public Pair {
  public:
@@ -74,7 +76,9 @@ class PairTabular1D : public Pair {
   double tol_;      //!< table tolerance
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_TABULAR_1D_H_
 

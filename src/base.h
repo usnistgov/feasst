@@ -38,7 +38,9 @@ using std::string;
 #define STRINGIFY(FEASST_SRC_) #FEASST_SRC_
 #define TOSTRING(FEASST_SRC_) STRINGIFY(FEASST_SRC_)
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /**
  * Base class for all other classes to inherit.
@@ -69,7 +71,9 @@ class Base {
   virtual void reconstructDerived_() {}
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // BASE_H_
 

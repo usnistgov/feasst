@@ -6,7 +6,9 @@
 #endif  // _OPENMP
 #include "./custom_exception.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 CustomException::CustomException(std::string m
   ) {
@@ -49,4 +51,6 @@ void CustomException::catMessage() {
   #endif  // _OPENMP
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_

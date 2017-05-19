@@ -1,6 +1,8 @@
 #include "./histogram.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 Histogram::Histogram(const double binWidth) : binWidth_(binWidth) {
   defaultConstruction_();
@@ -27,7 +29,7 @@ Histogram::Histogram(const char* fileName) {
   jType_ = fstoi("jType", fileName);
   // centerZero_ = fstoi("centerZero", fileName);
 
-  const int size = feasst::round((max_ - min_)/binWidth_);
+  const int size = feasstRound((max_ - min_)/binWidth_);
 
   // cout << " open file and skip header lines" << endl;
   std::ifstream fs(fileName);
@@ -173,5 +175,7 @@ void Histogram::print(const char* fileName) {
   }
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

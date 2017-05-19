@@ -18,7 +18,9 @@
   #include "./trial_confswap_omp.h"
 #endif  // _OPENMP
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 Trial::Trial() {
   defaultConstruction();
@@ -434,7 +436,9 @@ string Trial::printStat(const bool header) {
   return stat.str();
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
   
 

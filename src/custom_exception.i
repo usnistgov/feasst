@@ -2,7 +2,6 @@
 
 %{
 #include "custom_exception.h"
-using namespace feasst;
 %}
 
 %pythonnondynamic;

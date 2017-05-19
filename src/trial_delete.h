@@ -11,7 +11,9 @@
 #include <memory>
 #include "./trial.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class Space;
 class Pair;
@@ -52,7 +54,9 @@ class TrialDelete : public Trial {
   }
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_DELETE_H_
 

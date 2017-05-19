@@ -8,7 +8,9 @@
 
 #include "./pair_squarewell.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 /**
  * Constructor
@@ -56,8 +58,8 @@ int PairSquareWell::initEnergy() {
 
   // zero accumulators: potential energy, force, and virial
   std::fill(pe_.begin(), pe_.end(), 0.);
-  feasst::fill(0., f_);
-  feasst::fill(0., vr_);
+  fill(0., f_);
+  fill(0., vr_);
   peTot_ = 0;
 
   // loop through nearest neighbor atom pairs
@@ -382,5 +384,7 @@ double PairSquareWell::allPartEnerForceCell() {
   return peSRone_;
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

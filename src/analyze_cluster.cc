@@ -1,6 +1,8 @@
 #include "./analyze_cluster.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 AnalyzeCluster::AnalyzeCluster(Space *space, Pair *pair)
   : Analyze(space, pair) {
@@ -31,6 +33,7 @@ void AnalyzeCluster::defaultConstruction() {
   verbose_ = 0;
   clusterCut_ = 0;
   zbin = 1./(100);
+  initPercolation();  //!< sets percFlag_
 }
 
 /**
@@ -258,5 +261,7 @@ void AnalyzeCluster::print(CriteriaWLTMMC *c) {
   }
 }
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 

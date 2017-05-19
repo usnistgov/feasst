@@ -8,7 +8,9 @@
 
 #include "./base.h"
 
+#ifdef FEASST_NAMESPACE_
 namespace feasst {
+#endif  // FEASST_NAMESPACE_
 
 class Barrier : public Base {
  public:
@@ -36,7 +38,9 @@ class Barrier : public Base {
   vector<shared_ptr<Barrier> > barriers_;
 };
 
+#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
+#endif  // FEASST_NAMESPACE_
 
 #endif  // BARRIER_H_
 

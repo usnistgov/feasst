@@ -3,7 +3,6 @@
 %{
 #include "pair.h"
 #include "pair_hard_circle.h"
-using namespace feasst;
 %}
 
 %pythonnondynamic;
