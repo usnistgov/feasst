@@ -60,7 +60,7 @@ class Histogram : public Base {
   }
 
   /// Print to file.
-  void print(const char* fileName);
+  void write(const char* fileName);
 
   /// Count number of independent attempts to compute a histogram.
   void count() { ++nCount_; }

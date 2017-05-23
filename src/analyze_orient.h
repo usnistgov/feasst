@@ -35,8 +35,8 @@ class AnalyzeOrient : public Analyze {
   void update(const int iMacro);
 
   /// print
-  void print();
-  void print(CriteriaWLTMMC *c) { print(); if (c == NULL) {} }
+  void write();
+  void write(CriteriaWLTMMC *c) { write(); if (c == NULL) {} }
 
   double zbin;                   // histogram bin size
 

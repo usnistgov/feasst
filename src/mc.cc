@@ -580,7 +580,7 @@ void MC::afterAttemptBase() {
         (*it)->update();
       }
       if (nAttempts_ % (*it)->nFreqPrint() == 0) {
-        (*it)->print();
+        (*it)->write();
       }
     }
   }

@@ -1,4 +1,5 @@
 # className PairTabular
-# tabHardFileName ../unittest/table/superball/abcde0.5/k4nz3/tHard
-# tabCutFileName ../unittest/table/superball/abcde0.5/k4nz3/tCut
-# tabPEFileName ../unittest/table/superball/abcde0.5/k4nz3/tDep
+# UseRelativePath 1
+# tabHardFileName tHard
+# tabCutFileName tCut
+# tabPEFileName tDep

@@ -100,7 +100,7 @@ void AnalyzeOrient::update(const int iMacro) {
 /**
  * printer
  */
-void AnalyzeOrient::print() {
+void AnalyzeOrient::write() {
   // print zOrient probability distributions, 1 file per macrostate
   if (zOrient_.size() > 0) {
     for (unsigned int iMacro = 0; iMacro < zOrient_.size(); ++iMacro) {

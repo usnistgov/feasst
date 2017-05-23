@@ -283,7 +283,7 @@ void AnalyzeScatter::computeSANS(const int iMacro,
 /**
  * compute SANS
  */
-void AnalyzeScatter::print() {
+void AnalyzeScatter::write() {
   computeSANS();
   stringstream ss;
   ss << fileName_ << ".txt";
@@ -477,7 +477,7 @@ void AnalyzeScatter::printer_(const string fileName, CriteriaWLTMMC *c,
 /**
  * compute SANS
  */
-void AnalyzeScatter::print(CriteriaWLTMMC *c) {
+void AnalyzeScatter::write(CriteriaWLTMMC *c) {
   for (int iMacro = 0; iMacro < c->nBin(); ++iMacro) {
     // obtain the number of molecules
     int nMol = -1;

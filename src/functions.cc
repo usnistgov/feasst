@@ -261,7 +261,7 @@ vector<vector<double> > nWindowGrowth(const double mMin, const double mMax,
   return win;
 }
 
-std::string trim(const char* specialchr, const char* fileName) {
+std::string trim(const char* specialchr, const char* fileName, int fromLeft) {
   std::string fs(fileName);
 
   // find position of last spchr
@@ -275,13 +275,17 @@ std::string trim(const char* specialchr, const char* fileName) {
 
   // erase all characters up to spchr
   if (int(foundprev) != 0) {
-    fs.erase(fs.begin(), fs.begin() + foundprev + spchr.size());
+    if (fromLeft == 1) {
+      fs.erase(fs.begin(), fs.begin() + foundprev + spchr.size());
+    } else {
+      fs.erase(fs.begin() + foundprev + spchr.size(), fs.end());
+    }
   }
 
   return fs;
 }
-std::string trim(const char* specialchr, string fileName) {
-  return trim(specialchr, fileName.c_str());
+std::string trim(const char* specialchr, string fileName, int fromLeft) {
+  return trim(specialchr, fileName.c_str(), fromLeft);
 }
 
 string fstos(const char* searchString, const char* fileName) {

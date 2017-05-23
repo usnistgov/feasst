@@ -2,22 +2,22 @@
 # nTableTypes 2
 # particleType0 1
 # particleType1 2
+# UseRelativePath 1
 
 # tabTypei0j0 solidRev
 # hardFlagi0j0 0
-# tabHardFileNamei0j0 /home/hwh/feasst/unittest/table/solidRev/binary/donut-cyln/dd/tHard
-# tabCutFileNamei0j0 /home/hwh/feasst/unittest/table/solidRev/binary/donut-cyln/dd/tCut
-# tabPEFileNamei0j0 /home/hwh/feasst/unittest/table/solidRev/binary/donut-cyln/dd/tDep
-
+# tabHardFileNamei0j0 dd/tHard
+# tabCutFileNamei0j0 dd/tCut
+# tabPEFileNamei0j0 dd/tDep
 
 # tabTypei0j1 solidRev
 # hardFlagi0j1 0
-# tabHardFileNamei0j1 /home/hwh/feasst/unittest/table/solidRev/binary/donut-cyln/dc/tHard
-# tabCutFileNamei0j1 /home/hwh/feasst/unittest/table/solidRev/binary/donut-cyln/dc/tCut
-# tabPEFileNamei0j1 /home/hwh/feasst/unittest/table/solidRev/binary/donut-cyln/dc/tDep
+# tabHardFileNamei0j1 dc/tHard
+# tabCutFileNamei0j1 dc/tCut
+# tabPEFileNamei0j1 dc/tDep
 
 # tabTypei1j1 solidRev
 # hardFlagi1j1 0
-# tabHardFileNamei1j1 /home/hwh/feasst/unittest/table/solidRev/binary/donut-cyln/cc/tHard
-# tabCutFileNamei1j1 /home/hwh/feasst/unittest/table/solidRev/binary/donut-cyln/cc/tCut
-# tabPEFileNamei1j1 /home/hwh/feasst/unittest/table/solidRev/binary/donut-cyln/cc/tDep
+# tabHardFileNamei1j1 cc/tHard
+# tabCutFileNamei1j1 cc/tCut
+# tabPEFileNamei1j1 cc/tDep

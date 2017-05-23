@@ -46,7 +46,7 @@ TEST(Analyze, construct) {
   scat.initPrintFreq(1e3);
   mc.initAnalyze(&scat);
   mc.runNumTrials(4*1e3);
-  scat.print();
+  scat.write();
   scat.writeRestart("tmp/hrst");
   AnalyzeScatter scat2(&s, &p, "tmp/hrst");
   scat2.writeRestart("tmp/hrst2");

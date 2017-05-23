@@ -43,8 +43,8 @@ class AnalyzeScatter : public Analyze {
   void computeSANS() { computeSANS(0, space_->nMol()); }
 
   /// print
-  void print();
-  void print(CriteriaWLTMMC *c);
+  void write();
+  void write(CriteriaWLTMMC *c);
 
   /// determine number of particle types
   int nPartTypes();

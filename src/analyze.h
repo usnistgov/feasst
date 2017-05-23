@@ -50,8 +50,9 @@ class Analyze : public BaseAll {
   virtual void update(const int iMacro) { if (iMacro < -1) {} }
 
   /// print analysis
-  virtual void print() {}
-  virtual void print(CriteriaWLTMMC *c) {if (c == NULL) {} }
+  virtual void write() {
+    if (!fileName_.empty()) writeRestart(fileName_.c_str()); }
+  virtual void write(CriteriaWLTMMC *c) {if (c == NULL) {} }
 
   /// monkey patch to modify restart at run time
   //  NOTE to HWH: this is beyond scope of original intent of class

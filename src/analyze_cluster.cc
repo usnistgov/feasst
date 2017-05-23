@@ -151,7 +151,7 @@ void AnalyzeCluster::update(const int iMacro) {
 /**
  * printer
  */
-void AnalyzeCluster::print(CriteriaWLTMMC *c) {
+void AnalyzeCluster::write(CriteriaWLTMMC *c) {
   // initialize output
   fileBackUp(fileName_.c_str());
   std::ofstream file(fileName_.c_str());

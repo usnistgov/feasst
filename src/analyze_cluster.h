@@ -41,7 +41,7 @@ class AnalyzeCluster : public Analyze {
   void update(const int iMacro);
 
   /// print
-  void print(CriteriaWLTMMC *c);
+  void write(CriteriaWLTMMC *c);
 
   double zbin;                   // histogram bin size
 

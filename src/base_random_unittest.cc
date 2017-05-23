@@ -51,7 +51,7 @@ TEST(BaseRandom, gaussRanNum) {
   }
   EXPECT_NEAR(av, a.average(), sig*5e-2);
   EXPECT_NEAR(sig, a.stdev(), sig*5e-2);
-  hist.print("tmp/histhist");
+  hist.write("tmp/histhist");
 }
 
 TEST(BaseRandom, hash) {

@@ -22,7 +22,7 @@ TEST(AnalyzeOrient, orient) {
   an.zbin=0.5;
   an.update();
   an.initFileName("tmp/odf.txt");
-  an.print();
+  an.write();
 }
 
 

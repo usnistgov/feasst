@@ -21,6 +21,7 @@ int PairIdeal::initEnergy() {
   std::fill(pe_.begin(), pe_.end(), 0.);
   fill(0., f_);
   fill(0., vr_);
+  peTot_ = 0.;
   return 0;
 }
 

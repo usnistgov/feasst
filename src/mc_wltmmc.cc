@@ -199,7 +199,7 @@ void WLTMMC::afterAttempt() {
       (*it)->update(c_->iMacro());
     }
     if (nAttempts_ % (*it)->nFreqPrint() == 0) {
-      (*it)->print(c_);
+      (*it)->write(c_);
     }
   }
 }

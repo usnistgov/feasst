@@ -205,11 +205,14 @@ vector<vector<double> > nWindowGrowth(const double mMin,   //!< minimum m
   const int overlap = 0  //!< overlap+1 overlapping windows
 );
 
-/// \return fileName with all characters up to the last specialchr removed
-std::string trim(const char* specialchr, const char* fileName);
+/// Return fileName with all characters up to the last specialchr removed.
+std::string trim(const char* specialchr, const char* fileName,
+  /** If 1, remove characters from the left. Otherwise, remove characters
+   *  from the right.*/
+  int fromLeft = 1);
 
 /// \return fileName with all characters up to the last specialchr removed
-std::string trim(const char* specialchr, string fileName);
+std::string trim(const char* specialchr, string fileName, int fromLeft = 1);
 
 /// \return vector of index values for the local maxima.
 template <class T>

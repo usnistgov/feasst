@@ -167,7 +167,7 @@ void Histogram::centerZero() {
     "centerZero must be called before histogram is collected");
 }
 
-void Histogram::print(const char* fileName) {
+void Histogram::write(const char* fileName) {
   std::ofstream outf(fileName);
   outf << "# " << nCount() << endl;
   for (unsigned int bin = 0; bin < histogram_.size(); ++bin) {
