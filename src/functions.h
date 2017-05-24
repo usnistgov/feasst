@@ -1,6 +1,7 @@
 #ifndef FUNCTIONS_H_
 #define FUNCTIONS_H_
 
+#include <iterator>
 #include <vector>
 #include <string>
 #include <math.h>
@@ -679,6 +680,9 @@ std::string vec2str(const vector<vector<T> > &vec) {
   }
   return ss.str();
 }
+
+bool stringInString(const std::string searchString,
+  const std::string stringToSearch);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

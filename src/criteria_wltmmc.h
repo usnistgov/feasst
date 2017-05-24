@@ -329,7 +329,7 @@ class CriteriaWLTMMC : public Criteria {
     return lnPIrwnmxwrapper(this);
   }
 
-  /// return macrostate of stored state
+  /// Return current macrostate updated every call to accept() or every trial.
   int iMacro() const { return bin(mNew_); }
 
   /// read-only functions for protected variables

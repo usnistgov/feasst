@@ -277,7 +277,7 @@ int PairPatchKF::printxyz(const char* fileName,   //!< file with configuration
   //  distance between center of sphere and bead is a
   //  for given patch angle, use law of cosines to derive r2
   //  constraint r1 + eps = r2 + a, where eps is small, to avoid clipping
-  const double r1 = sig_[0]/2., eps = r1/100.,
+  const double r1 = sig_[0]/2., eps = r1/20.,
   r2 = (2*r1*(1-cpa_)*(r1+eps)+eps*eps)/(2*eps+2*r1*(1-cpa_)),
   a = r1 + eps - r2;
 

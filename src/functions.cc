@@ -647,6 +647,14 @@ vector<double> quat2euler(vector<double> quat) {
   return RotMat2Euler( (quat2rot(quat)) )[0];
 }
 
+bool stringInString(const std::string searchString,
+  const std::string stringToSearch) {
+  size_t pos;
+  pos = stringToSearch.find(searchString);
+  if (pos != std::string::npos) return true;
+  return false;
+}
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

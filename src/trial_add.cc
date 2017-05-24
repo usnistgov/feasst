@@ -42,6 +42,7 @@ void TrialAdd::defaultConstruction() {
   className_.assign("TrialAdd");
   trialType_.assign("add");
   verbose_ = 0;
+  molid_ = -1;
 }
 
 /**
@@ -74,6 +75,15 @@ void TrialAdd::attempt1() {
          (!avbOn_), "this class assumes atomCut(" << pair_->atomCut()
          << ") == 0 when avb is on");
 
+  // initialize molid_ if not already initialized from default value
+  if (molid_ == -1) {
+    molid_ = space_->findAddMolListIndex(molType_);
+    ASSERT(molid_ != -1, "molType(" << molType_ << " not initialized.");
+    std::stringstream ss;
+    ss << "add" << molid_;
+    trialType_.assign(ss.str());
+  }
+  
   // add molecule
   space_->addMol(molType_.c_str());
   pair_->addPart();

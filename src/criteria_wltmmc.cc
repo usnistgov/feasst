@@ -99,14 +99,27 @@ int CriteriaWLTMMC::accept(
   int returnVal = -1;
   mNew_ = mMin_ - 1;
   if ( (mType_.compare("nmol") == 0) ||
+       (mType_.compare("nmol0") == 0) ||
        (mType_.compare("nmolstage") == 0) ) {
     std::string moveTypeStr(moveType);
     if (moveTypeStr.compare("move") == 0) {
       mNew_ = mOld_;
-    } else if (moveTypeStr.compare("add") == 0) {
-      mNew_ = mOld_ + mBin_;
-    } else if (moveTypeStr.compare("del") == 0) {
-      mNew_ = mOld_ - mBin_;
+    } else if (stringInString("add", moveTypeStr)) {
+      if ( ( (mType_.compare("nmol0") == 0) &&
+             (moveTypeStr.compare("add0") == 0) ) ||
+           ( (mType_.compare("nmol0") != 0) ) ) {
+        mNew_ = mOld_ + mBin_;
+      } else {
+        mNew_ = mOld_;
+      }
+    } else if (stringInString("del", moveTypeStr)) {
+      if ( ( (mType_.compare("nmol0") == 0) &&
+             (moveTypeStr.compare("del0") == 0) ) ||
+           ( (mType_.compare("nmol0") != 0) ) ) {
+        mNew_ = mOld_ - mBin_;
+      } else {
+        mNew_ = mOld_;
+      }
     } else {
       ASSERT(0, "move type (" << moveTypeStr
         << ") is not recognized in wltmmc acceptance criteria");
@@ -119,8 +132,8 @@ int CriteriaWLTMMC::accept(
               (mType_.compare("beta") == 0) ) {
     std::string moveTypeStr(moveType);
     if ( (moveTypeStr.compare("move") == 0) ||
-         (moveTypeStr.compare("add")  == 0) ||
-         (moveTypeStr.compare("del")  == 0) ) {
+         (stringInString("add", moveTypeStr)) ||
+         (stringInString("del", moveTypeStr)) ) {
       mNew_ = mOld_;
     } else {
       mNew_ = std::stod(moveType);
@@ -167,6 +180,8 @@ int CriteriaWLTMMC::accept(
 void CriteriaWLTMMC::store(const Space* space, Pair* pair) {
   if (mType_.compare("nmol") == 0) {
     mOld_ = space->nMol();
+  } else if (mType_.compare("nmol0") == 0) {
+    mOld_ = space->nMolType()[0];
   } else if (mType_.compare("nmolstage") == 0) {
     mOld_ = space->nMol();
     if (space->tagStage() != 0) mOld_ += space->tagStage() - 1;
@@ -495,6 +510,7 @@ void CriteriaWLTMMC::initBins(
   if (mType_.compare("energy") == 0) {
     cTripleBanded_ = false;
   } else if ( (mType_.compare("nmol") == 0) ||
+              (mType_.compare("nmol0") == 0) ||
               (mType_.compare("nmolstage") == 0) ||
               (mType_.compare("pairOrder") == 0) ) {
     cTripleBanded_ = true;

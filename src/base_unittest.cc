@@ -505,4 +505,3 @@ TEST(Base, GSL) {
 }
 #endif  //GSL_
 
-

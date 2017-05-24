@@ -238,7 +238,7 @@ TEST(MC, ljmuvttmmc) {
   s.addMolInit("../forcefield/data.atom");
   PairLJ p(&s, rCut);
   p.initEnergy();
-  CriteriaWLTMMC c(beta, activ,"nmol",0-0.5,nMolMax+0.5,nMolMax+1);
+  CriteriaWLTMMC c(beta, activ,"nmol0",0-0.5,nMolMax+0.5,nMolMax+1);
   MC mc(&s,&p,&c);
 
   transformTrial(&mc, "translate");

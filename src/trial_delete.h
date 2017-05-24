@@ -45,6 +45,7 @@ class TrialDelete : public Trial {
 
  protected:
   string molType_;   //!< type of molecule to delete
+  int molid_;        //!< index of molecule type
 
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl

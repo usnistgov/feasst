@@ -47,6 +47,7 @@ TrialDelete::TrialDelete(const char* fileName,
 void TrialDelete::defaultConstruction() {
   className_.assign("TrialDelete");
   trialType_.assign("del");
+  molid_ = -1;
   verbose_ = 0;
 }
 
@@ -69,6 +70,20 @@ void TrialDelete::attempt1() {
          (!avbOn_), "this class assumes atomCut(" << pair_->atomCut()
          << ") == 0 when avb is on");
   if (verbose_ == 1) std::cout << "attempting to " << trialType_ << std::endl;
+  
+  // initialize molid_ if not already initialized from default value
+  if (molid_ == -1) {
+    if (molType_.empty()) {
+      molid_ = 0;
+    } else {
+      molid_ = space_->findAddMolListIndex(molType_);
+    }
+    ASSERT(molid_ != -1, "molType(" << molType_ << " not initialized.");
+    std::stringstream ss;
+    ss << "del" << molid_;
+    trialType_.assign(ss.str());
+  }
+  
   if (space_->nMol() <= 0) {
     if (verbose_ == 1) {
       cout << "deletion rejected because no molecules " << de_ << endl;

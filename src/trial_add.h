@@ -41,6 +41,7 @@ class TrialAdd : public Trial {
 
  protected:
   string molType_;   //!< type of molecule to add
+  int molid_;        //!< index of molecule type
 
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl(Space* space, Pair *pair,

@@ -571,3 +571,14 @@ TEST(Functions, feasstRoundVSround) {
   EXPECT_EQ(round(-0.5), -1);
 }
 
+TEST(Functions, stringInString) {
+  std::string stringToSearch("i hope it won't rain today");
+  std::string searchString("hope");
+  EXPECT_TRUE(stringInString(searchString, stringToSearch));
+  searchString.assign("hop3");
+  EXPECT_FALSE(stringInString(searchString, stringToSearch));
+  stringToSearch.assign("add0");
+  searchString.assign("add");
+  EXPECT_TRUE(stringInString(searchString, stringToSearch));
+}
+

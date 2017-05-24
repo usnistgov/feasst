@@ -14,7 +14,8 @@ BarrierPlanar::BarrierPlanar(const double coord, const int direction,
 
 double BarrierPlanar::potential(const vector<double> coordinate,
     const double diameter) {
-  ASSERT(coordinate.size() > dimen_, "the requestest barrier dimension "
+  ASSERT(static_cast<int>(coordinate.size()) > dimen_, 
+    "the requestest barrier dimension "
     << "is not present in the coordinates provided to the the potential "
     << "function");
     
