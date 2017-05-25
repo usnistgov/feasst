@@ -1,3 +1,6 @@
+.. image:: http://feasst.hhatch.com/favicon-32x32.png
+   :target: http://feasst.hhatch.com
+
 *************************
 README
 *************************
@@ -7,7 +10,7 @@ open-source, modular program to conduct molecular and particle-based
 simulations with flat-histogram Monte Carlo and molecular dynamics methods.
 
 .. note::
-   Documentation is temporarily hosted at http://hhatch.com/feasst.
+   Documentation is temporarily hosted at http://feasst.hhatch.com/.
    This is currently a work in progress.
 
 Features
@@ -350,9 +353,11 @@ VMD is great for visualizing and analyzing trajectories.
     cd vmd-1.9.2
     # edit the configure file to change install location
     ./configure LINUXAMD64
+    cd src
     make install -j 8
     # add VMD to your path
     export PATH=$PATH:/path/to/install/dir/vmd-1.9.2/bin/
+    # I've noticed on centos6 or rocks6, export LIBGL_ALWAYS_INDIRECT=yes
 
 SWIG 2.0.12
 ************
@@ -361,7 +366,7 @@ Required for python installation.
 
 .. code-block:: bash
     
-    cd swig-2.0.12; ./configure --prefix=/path/to/install/dir; make
+    cd swig-2.0.12; ./configure --prefix=/path/to/install/dir; make; make install
 
 CMake 2.8.12.2
 **************

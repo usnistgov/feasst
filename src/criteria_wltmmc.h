@@ -1,13 +1,5 @@
-/**
- * \file
- *
- * \brief acceptance criteria for Wang-Landau (WL), Transition Matrix (TM)
- * monte carlo (MC)
- *
- */
-
-#ifndef CRITERIAWLTMMC_H_
-#define CRITERIAWLTMMC_H_
+#ifndef CRITERIA_WLTMMC_H_
+#define CRITERIA_WLTMMC_H_
 
 #include "./criteria.h"
 
@@ -15,73 +7,117 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ * Wang-Landau (WL) and Transition Matrix (TM) Monte Carlo acceptance criteria.
+ * http://dx.doi.org/10.1063/1.4884124 
+ */
 class CriteriaWLTMMC : public Criteria {
  public:
+  /// Constructor. Arguments are as described below.
   CriteriaWLTMMC(const double beta, const double activ, const char* mType,
                  const double mMin, const double mMax, const int nBin);
-  explicit CriteriaWLTMMC(const char* fileName);
-  ~CriteriaWLTMMC() {}
-  CriteriaWLTMMC* clone() const;
-  shared_ptr<CriteriaWLTMMC> cloneShrPtr() const;
 
-  /// defaults in constructor
-  void defaultConstruction();
+  /** Return macrostate type or name. Value types are as follows: 
+   *  "energy" for potential energy, 
+   *  "nmol" for number of molecules,
+   *  "nmol0" for number of molecules of the first initialized type,
+   *  "nmolstage", for number of molecules with growth expanded ensemble, 
+   *  "pairOrder" for order parameter defined by the Pair class, 
+   *  "beta" for inverse temperature, 
+   *  "pressure" for the thermodynamic pressure, and 
+   *  "lnpres" for logarithmic pressure. */
+  string mType() const { return mType_; }
+  
+  /// Return minimum value of macrostate.
+  double mMin() const { return mMin_; }
 
-  /// write restart file
-  void writeRestart(const char* fileName);
-
-  /// initialize the macrostate bins
+  /// Return maximum value of macrostate.
+  double mMax() const { return mMax_; }
+  
+  /// Return number of macrostate bins between mMin and mMax.
+  int nBin() const { return nBin_; }
+  
+  /// Return size of macrostate bins, which are constant.
+  double mBin() const { return mBin_; }
+  
+  /// Initialize the macrostate bins, which are constant in size.
   void initBins(const double mMax, const double mMin, const int nBin);
 
-  /// acceptance criteria for trial moves
+  /// Return whether to accept (1) or reject (0) the proposed trial.
   int accept(const double pMet, const double peNew, const char* moveType,
              const int reject);
 
-  /// store macrostate variables of old configuration
+  /// Store macrostate variables of old configuration.
   void store(const Space* space, Pair* pair);
 
-  /// given macrostate m, return bin number, or vice versa
+  /// Return value at center of bin, given bin.
   double bin2m(const int bin) const { return mMin_ + (bin + 0.5)*mBin_; }
+  
+  /// Return bin, given value.
   int bin(const double m) const { return feasstRound((m - bin2m(0))/mBin_); }
 
-  /// set the modification factor
-  void setg(const double g) { g_ = g; }
+  // Functions for Wang-Landau
 
-  /// if flatness criteria is met, reset histogram and reduce update factor
+  /// Set the Wang-Landau modification factor. Otherwise, default value.
+  void setg(const double g = 0.5) { g_ = g; }
+
+  /** Set the Wang-Landau flatness threshold factor for flatness checks:
+   *  min(histogram) >= factor*average(histogram) */
+  void setWLFlatFactor(const double factor = 0.8) { wlFlatFactor_ = factor; }
+
+  /** Return 1 if flatness criteria is met. Reset histogram and reduce update
+   *  factor(lnf) by Wang-Landau modification factor. */
   int flatCheck();
 
-  /// decide whether to use WL acceptance, TMMC acceptence, and whether to
-  //  update collection matrix
+  /// Return the Wang-Landau update factor.
+  double lnf() const { return lnf_; }
+  
+  /// Return the number of Wang-Landau flatness criteria that have been met.
+  int wlFlat() const { return wlFlat_; }
+
+  // Functions for transition-matrix
+
+  /** Initialize the collection matrix, but not necessarily the use of the
+   *  resulting macrostate probability for selecting trials (e.g., TMMC). */
   void collectInit() {collect_ = true; }
+
+  /** Initialize updating of the collection matrix for when the value of the
+   *  Wang-Landau update factor reaches lnfCollect. */
   void collectInit(const double lnfCollect) {lnfCollect_ = lnfCollect; }
-  void tmmcInit(const double lnfTMMC) {lnfTMMC_ = lnfTMMC; }
+
+  /// Initialize Transition-Matrix Monte Carlo.
   void tmmcInit();
 
-  /// update histograms and collection matrix for visited macrostate
-  void mUpdate(const int mOldBin, const int mNewBin, const double pmet,
-               const int acceptFlag);
+  /** Initialize Transition-Matrix Monte Carlo for when the value of the
+   *  Wang-Landau update factor reaches lnfTMMC. */
+  void tmmcInit(const double lnfTMMC) {lnfTMMC_ = lnfTMMC; }
+  
+  /// Update macrostate probability distribution with collection matrix.
+  void lnPIupdate();
 
-  /// update macrostate probability distribution with collection matrix
-  void lnPIupdate();    // single simulation, local to this class
-
-  /// sum multiple collection matrices
+  /** Update macrostate probability distribution, lnPI with multiple collection
+   *  matrices. */
   void lnPIupdate(const vector<std::shared_ptr<CriteriaWLTMMC> > &c);
 
-  /// convert collection matrix to lnPI
+  /// Convert collection matrix to probability distribution, lnPI.
   void c2lnPI(const vector<vector<long double> > &col,
               vector<long double> *lnpiPtr);
 
-  /// area under lnPI
+  /// Return area for a given lnPI.
   template<class T>
   double lnPIarea(const vector<T> &lnPI) const {
     double sum = 0;
     for (unsigned int i = 0; i < lnPI.size(); ++i) sum += exp(lnPI[i]);
     return sum;
   }
+
+  /// Return area of the current lnPI.
   double lnPIarea() const { return lnPIarea(lnPI_); }
+  
+  /// Return area of the reweighted lnPI.
   double lnPIrwarea() const { return lnPIarea(lnPIrw_); }
 
-  /// normalize lnPI such that Sum(Pi) = 1
+  /// Normalize lnPI such that Sum(Pi) = 1.
   template<class T>
   void lnPInorm(vector<T> *lnPI) {
     //  to avoid exp overflow, shift by const highest value
@@ -92,9 +128,11 @@ class CriteriaWLTMMC : public Criteria {
       for (unsigned int i = 0; i < lnPI->size(); ++i) (*lnPI)[i] -= lns;
     }
   }
+
+  /// Normalize the current lnPI.
   void lnPInorm() { lnPInorm(&lnPI_); }
 
-  /// average macrostate from lnPI
+  /// Return the ensemble averaged macrostate from lnPI.
   template<class T>
   double lnPIaverage(const vector<T> &lnPI) {
     double av = 0;
@@ -103,14 +141,19 @@ class CriteriaWLTMMC : public Criteria {
     }
     return av/lnPIarea(lnPI);
   }
+
+  /// Return the ensemble average macrostate of the current lnPI.
   double lnPIaverage() { return lnPIaverage(lnPI_); }
+
+  /// Return the ensemble average macrostate of the reweighted lnPI.
   double lnPIrwaverage() { return lnPIaverage(lnPIrw_); }
 
-  /// set phase boundary
+  /** Set the index of bin of the macrostate that is the boundary between 
+   *  phasesset phase. */
   void setPhaseBoundary(const int index) { phaseBoundary_ = index; }
 
-  /// return phase boundaries, e.g. lnPI minima that are not first and last
-  //  points
+  /* Return phase boundaries, e.g. lnPI minima that are not first and last
+   * points. */
   template<class T>
   vector<int> lnPIphaseBoundary(const vector<T> &lnPI) {
     vector<int> min;
@@ -134,22 +177,30 @@ class CriteriaWLTMMC : public Criteria {
     }
     return min;
   }
+
+  // Return phase boundaries for current macrostate.
   vector<int> lnPIphaseBoundary() { return lnPIphaseBoundary(lnPI_); }
+  
+  // Return phase boundaries for reweighted macrostate.
   vector<int> lnPIrwphaseBoundary() { return lnPIphaseBoundary(lnPIrw_); }
 
-  /// number of phases
+  // Return the number of phases.
   template<class T>
   int lnPInumPhases(const vector<T> &lnPI) {
     vector<int> min = lnPIphaseBoundary(lnPI);
     return 1 + static_cast<int>(min.size());
   }
+  
+  // Return the number of phases of the current lnPI.
   int lnPInumPhases() { return lnPInumPhases(lnPI_); }
+  
+  // Return the number of phases of the reweighted lnPI.
   int lnPIrwnumPhases() { return lnPInumPhases(lnPIrw_); }
 
-  /// split phases among vector of criteria
+  // Split phases among vector of criteria
   vector<CriteriaWLTMMC> phaseSplit(const vector<long double> &lnPI);
 
-  /// split lnPI among phases
+  // split lnPI among phases
   template<class T>
   vector<vector<T> > lnPIsplit(const vector<T> &lnPI) {
     vector<int> min = lnPIphaseBoundary(lnPI);
@@ -168,50 +219,51 @@ class CriteriaWLTMMC : public Criteria {
   }
 
 
-  /// print or read collection matrix and lnPI
+  // Print or read collection matrix and lnPI
   void printCollectMat(const char* fileName);
 
-  /// paste together windows of collection matrices to print final version
+  // paste together windows of collection matrices to print final version
   void printCollectMat(const char* fileName, const vector<CriteriaWLTMMC*> c);
   void printCollectMat(const char* fileName,
     const vector<shared_ptr<CriteriaWLTMMC> > c) {
     return printCollectMat(fileName, shrPtr2Raw(c));
   }
 
-  /// read collection matrix
+  // read collection matrix
   void readCollectMat(const char* fileName);
   void readlnPIEner(const char* fileName);
   void readlnPIEnerCol(const char* fileName);
 
-  /// zero all statistics and accumulators
+  /// Zero all statistics and accumulators.
   void zeroStat();
 
-  /// reweight lnPI to different value of activity
+  /// Reweight lnPI to different value of activity.
   void lnPIrw(const double activrw);
 
-  /// find saturation by reweighting and minimizing squared difference of peak
-  //  heights
-  double lnPIrwsat(const double activrw);
-
-  /// find peak location by reweighting and minimizing squared different in
-  //  peak location
-  double lnPIrwnmx(const double lnactivrw);
-
-  /// reweight to saturation conditions my mimiizing lnPIrw2sat
+  /** Reweight to saturation conditions my minizing the differences in peak
+   *  heights. */
   void findSat();
+  
+  /** For one time, print reweighted macrostate instead of the current
+   *  macrostate. */
   void printRWinit() { printRW_ = true; }
 
-  /// reweight to obtain peak maxima at given nmol
-  void findPeak(const double nMolPeak, const double lnactivGuess);
+  /// Reweight to obtain peak maxima at given nmol.
+  void findPeak(const double nMolPeak,  //!< target peak location
+    const double lnactivGuess   //!< first guess for activity
+    );
 
-  /// reweight to find difference in peaks
-  void peakDiff(const int iPeak, const int jPeak);
+//  /// reweight to find difference in peaks
+//  void peakDiff(const int iPeak, const int jPeak);
 
-  /// return new nMolMax to resize the nmol window in WLTMMC criteria based on
-  //  lnPI or lnPIrw
+  /** return new nMolMax to resize the nmol window in WLTMMC criteria
+   *  using printRW to determine whether to use lnPI or lnPIrw
+   *  assumes two peaks in lnPI
+   *  truncates liquid peak after lnPI drops as n increases by amout liquidDrop
+   *  rounds to the nearest larger multiple of nround */
   int nMolResizeWindow(const double liquidDrop, const int round);
 
-  /// pressure from lnPI
+  /// Return ressure from lnPI.
   template<class T>
   vector<double> lnPIpressureVec(const vector<T> &lnPI, const double vol,
     const vector<CriteriaWLTMMC> &cvec) {
@@ -251,14 +303,14 @@ class CriteriaWLTMMC : public Criteria {
     return (-lnPIrw_.front() + log(lnPIrwarea()))/vol/beta_;
   }
 
-  /// obtain pressure isotherm from lnPI
-  void lnPIpressureIso(const double vol);
+  /// Obtain pressure isotherm from lnPI.
+  void lnPIpressureIso(const double volume);
 
-  /// obtain grand canonical ensemble average from canonical ensemble average
+  /// Obtain grand canonical ensemble average from canonical ensemble average.
   vector<double> lnPIgc2can(vector<double> data);
   void lnPIgc2can(const char* fileNameIn, const char* fileNameOut);
 
-  /// data from lnPI
+  // data from lnPI
   template<class T>
   double lnPIdata(const vector<double> data,
     const vector<T> &lnPI) {
@@ -274,78 +326,53 @@ class CriteriaWLTMMC : public Criteria {
     return lnPIdata(data, lnPIrw_);
   }
 
-  /// obtain pressure isotherm from lnPI
+  /// Obtain energy isothermo from lnPI.
   void lnPIenergyIso();
 
-  /// replace lnPI
+  /// Replace lnPI.
   void lnPIreplace(const vector<long double> &lnPI);
 
-  /// splice windows together
+  /// Splice windows together.
   void spliceWindows(const vector<CriteriaWLTMMC*> c);
+  
+  /// Splice windows together.
   void spliceWindows(const vector<shared_ptr<CriteriaWLTMMC> > c)
     { return spliceWindows(shrPtr2Raw(c)); }
 
-  /// minimum number of sweeps in all windows
+  /// Return minimum number of sweeps in all windows.
   int minNSweep(const vector<CriteriaWLTMMC*> c);
+  
+  /// Return minimum number of sweeps in all windows.
   int minNSweep(const vector<shared_ptr<CriteriaWLTMMC> > c)
     { return minNSweep(shrPtr2Raw(c)); }
 
-  /// minimum number of wlFLat in all windows
+  /// Return minimum number of wlFLat in all windows.
   int minNwlFlat(const vector<CriteriaWLTMMC*> c);
+  
+  /// Return minimum number of wlFLat in all windows.
   int minNwlFlat(const vector<shared_ptr<CriteriaWLTMMC> > c)
     { return minNwlFlat(shrPtr2Raw(c)); }
 
-  /// prefill collection matrix with a constant
+  /// Prefill collection matrix with a constant.
   void prefilColMat(const long double constant);
 
-  /// return heat capacity for each bin
+  /// Return heat capacity for each bin.
   vector<double> heatCapacity();
+  
+  /// Return energy fluctations for each bin.
   vector<double> fluct();
-
-  /// functor wrappers to pass to numerical recipe minimization algorithms
-  struct lnPIrwsatwrapper {
-    explicit lnPIrwsatwrapper(CriteriaWLTMMC* this_)
-    : this_(this_) {}
-    double operator ( )(const double & value) {
-      return this_->lnPIrwsat(value);
-    }
-    CriteriaWLTMMC* this_;
-  };
-
-  lnPIrwsatwrapper lnPIrwsatwrap() {
-    return lnPIrwsatwrapper(this);
-  }
-
-  struct lnPIrwnmxwrapper {
-    explicit lnPIrwnmxwrapper(CriteriaWLTMMC* this_)
-    : this_(this_) {}
-    double operator ( )(const double & value) {
-      return this_->lnPIrwnmx(value);
-    }
-    CriteriaWLTMMC* this_;
-  };
-
-  lnPIrwnmxwrapper lnPIrwnmxwrap(void) {
-    return lnPIrwnmxwrapper(this);
-  }
 
   /// Return current macrostate updated every call to accept() or every trial.
   int iMacro() const { return bin(mNew_); }
 
   /// read-only functions for protected variables
-  string mType() const { return mType_; }
-  double lnf() const { return lnf_; }
   vector<long double> lnPI() { return lnPI_; }
   vector<long double> lnPIrw() const { return lnPIrw_; }
   vector<long double> lnPIaggre() const { return lnPIaggre_; }
   vector<vector<long double> > C() const { return C_; }
   double lastbin2m() const { return bin2m(nBin_ - 1); }
-  double mBin() const { return mBin_; }
-  double mMax() const { return mMax_; }
-  double mMin() const { return mMin_; }
   double mOld() const { return mOld_; }
   double mNew() const { return mNew_; }
-  int nBin() const { return nBin_; }
   double nTunnels() const { return nTunnels_; }
   double nSweep() const { return nSweep_; }
   double activrw() const { return activrw_; }
@@ -354,9 +381,18 @@ class CriteriaWLTMMC : public Criteria {
   bool tmmc() const { return tmmc_; }
   vector<double> lnpi2pressure() const { return lnpi2pressure_; }
   vector<Accumulator> pe() const { return pe_; }
-  int wlFlat() const { return wlFlat_; }
   double lnfCollect() const { return lnfCollect_; }
   vector<double> peMUVT() { lnPIenergyIso(); return peMUVT_; }
+
+  /// Construct by checkpoint file.
+  explicit CriteriaWLTMMC(const char* fileName);
+  
+  /// Write restart/checkpoint file.
+  void writeRestart(const char* fileName);
+
+  ~CriteriaWLTMMC() {}
+  CriteriaWLTMMC* clone() const;
+  shared_ptr<CriteriaWLTMMC> cloneShrPtr() const;
 
  protected:
   string mType_;      //!< definition of macrostate
@@ -418,6 +454,48 @@ class CriteriaWLTMMC : public Criteria {
   void setlnPI_(const int index, const long double &val) { lnPI_[index] = val; }
   int phaseBoundary_;           //!< bin index for setting phase boundary
 
+  /// defaults in constructor
+  void defaultConstruction_();
+
+  /// Update histograms and collection matrix for the visited macrostate.
+  void mUpdate_(const int mOldBin, const int mNewBin, const double pmet,
+               const int acceptFlag);
+
+  /** Return the squared difference of peak heights after reweighting to new 
+   *  activity. */
+  double lnPIrwsat_(const double activrw);
+
+  /** Return the squared difference of reweighted average macrostate and
+   *  the target macrostate peak, nMolPeak_. */
+  double lnPIrwnmx_(const double lnactivrw);
+
+  /// functor wrappers to pass to numerical recipe minimization algorithms
+  struct lnPIrwsat_wrapper_ {
+    explicit lnPIrwsat_wrapper_(CriteriaWLTMMC* this_)
+    : this_(this_) {}
+    double operator ( )(const double & value) {
+      return this_->lnPIrwsat_(value);
+    }
+    CriteriaWLTMMC* this_;
+  };
+
+  lnPIrwsat_wrapper_ lnPIrwsat_wrap_() {
+    return lnPIrwsat_wrapper_(this);
+  }
+
+  struct lnPIrwnmx_wrapper_ {
+    explicit lnPIrwnmx_wrapper_(CriteriaWLTMMC* this_)
+    : this_(this_) {}
+    double operator ( )(const double & value) {
+      return this_->lnPIrwnmx_(value);
+    }
+    CriteriaWLTMMC* this_;
+  };
+
+  lnPIrwnmx_wrapper_ lnPIrwnmx_wrap_(void) {
+    return lnPIrwnmx_wrapper_(this);
+  }
+
   // clone design pattern
   virtual shared_ptr<Criteria> cloneImpl_() const;
 };
@@ -426,5 +504,5 @@ class CriteriaWLTMMC : public Criteria {
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
 
-#endif  // CRITERIAWLTMMC_H_
+#endif  // CRITERIA_WLTMMC_H_
 

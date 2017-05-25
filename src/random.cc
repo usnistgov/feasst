@@ -13,7 +13,7 @@ Random::Random(const unsigned long long iseed
 Random::Random(const char* fileName) {
   verbose_ = 0;
   className_.assign("Random");
-  (void) fileName;
+  (void) fileName;  // avoid unused parameter warning
 }
 
 void Random::seed(const unsigned long long iseed) {

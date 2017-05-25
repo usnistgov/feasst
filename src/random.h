@@ -17,7 +17,10 @@ class Random : public Base {
 
   /// Construct from checkpoint file.
   explicit Random(const char* fileName);
+
   virtual ~Random() {}
+
+  /// Write checkpoint file.
   virtual void writeRestart(const char* fileName) = 0;
 
   /// Seed random number generator.
@@ -27,7 +30,9 @@ class Random : public Base {
   virtual double uniform() = 0;
 
   /// Return uniform random integer between range min and max, inclusive.
-  virtual int uniform(const int min, const int max) = 0;
+  int uniform(const int min, const int max) {
+    return int64() % (max - min + 1) + min;
+    }; 
 
   // NOTE HWH: Depreciate this
   /// Return random 32 bit unsigned integer.

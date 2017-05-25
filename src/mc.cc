@@ -442,8 +442,8 @@ void MC::nMolSeek(
     CriteriaWLTMMC cnew(criteria_->beta()/4., criteria_->activ(0), "nmol",
                         -0.5, nMax + 0.5, nMax + 1);
     //CriteriaMetropolis cnew(criteria_->beta(), criteria_->activ(0));
-    for (int ia = 1; ia < static_cast<int>(criteria_->activVec.size()); ++ia) {
-      cnew.activVec.push_back(criteria_->activ(ia));
+    for (int ia = 1; ia < criteria_->nActiv(); ++ia) {
+      cnew.addActivity(criteria_->activ(ia));
     }
     // Criteria* cnew = criteria_->clone();
     if (criteria_->pressureFlag() == 1) {

@@ -1,9 +1,3 @@
-/**
- * \file
- *
- * \brief acceptance criteria for Wang-Landau monte carlo trials
- */
-
 #include "./criteria_wltmmc.h"
 #include "./space.h"
 #include "./pair.h"
@@ -13,29 +7,19 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-/**
- * Constructor
- */
-CriteriaWLTMMC::CriteriaWLTMMC(const double beta,  //!< inverse temperature
-  const double activ,  //!< activity
-  const char* mType,  //!< definition of macrostate
-  const double mMin,  //!< minimum value of macrostate
-  const double mMax,  //!< maximum value of macrostate
-  const int nBin)     //!< number of bins for macrostate
+CriteriaWLTMMC::CriteriaWLTMMC(const double beta, const double activ,
+  const char* mType, const double mMin, const double mMax, const int nBin)
   : Criteria(beta, activ) {
-  defaultConstruction();
+  defaultConstruction_();
   mType_ = mType;
   initBins(mMax, mMin, nBin);
   zeroStat();
 }
 
-/**
- * construct from file
- */
 CriteriaWLTMMC::CriteriaWLTMMC(const char* fileName
   )
     : Criteria(fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   mType_.assign(fstos("mType", fileName));
   mMin_ = fstod("mMin", fileName);
   mMax_ = fstod("mMax", fileName);
@@ -54,15 +38,12 @@ CriteriaWLTMMC::CriteriaWLTMMC(const char* fileName
   readlnPIEnerCol(fileName);
 }
 
-/**
- * defaults in constructor
- */
-void CriteriaWLTMMC::defaultConstruction() {
+void CriteriaWLTMMC::defaultConstruction_() {
   className_.assign("CriteriaWLTMMC");
-  g_ = 0.5;
+  setg();  //g_ = 0.5;
   lnfCollect_ = 1e-6;
   lnfTMMC_ = 1e-99;
-  wlFlatFactor_ = 0.8;
+  setWLFlatFactor();  //wlFlatFactor_ = 0.8;
   nSweepVisPerBin_ = 100;
   collect_ = false;
   tmmc_ = false;
@@ -70,32 +51,24 @@ void CriteriaWLTMMC::defaultConstruction() {
   nSmooth_ = 10;
 }
 
-/**
- * clone design pattern
- */
 CriteriaWLTMMC* CriteriaWLTMMC::clone() const {
   CriteriaWLTMMC* c = new CriteriaWLTMMC(*this);
   c->reconstruct();
   return c;
 }
+
 shared_ptr<CriteriaWLTMMC> CriteriaWLTMMC::cloneShrPtr() const {
   return(std::static_pointer_cast<CriteriaWLTMMC, Criteria>(cloneImpl_()));
 }
+
 shared_ptr<Criteria> CriteriaWLTMMC::cloneImpl_() const {
   shared_ptr<CriteriaWLTMMC> c = make_shared<CriteriaWLTMMC>(*this);
   c->reconstruct();
   return c;
 }
 
-/**
- * acceptance criteria for trial moves
- *  returns 1 if accepted, 0 otherwise
- */
-int CriteriaWLTMMC::accept(
-  const double lnpMet,   //!< log of the metropolis acceptance probability
-  const double peNew,    //!< potential energy of proposed configuration
-  const char* moveType,  //!< type of move
-  const int reject) {    //!< outright reject move if 1
+int CriteriaWLTMMC::accept(const double lnpMet, const double peNew,
+  const char* moveType, const int reject) {
   int returnVal = -1;
   mNew_ = mMin_ - 1;
   if ( (mType_.compare("nmol") == 0) ||
@@ -166,7 +139,7 @@ int CriteriaWLTMMC::accept(
       }
     }
 
-    mUpdate(mOldBin, mNewBin, pMet, returnVal);
+    mUpdate_(mOldBin, mNewBin, pMet, returnVal);
   }
   if (returnVal == 0) mNew_ = mOld_;
   ASSERT( (returnVal == 0) || (returnVal == 1), "returnVal(" << returnVal
@@ -174,9 +147,6 @@ int CriteriaWLTMMC::accept(
   return returnVal;
 }
 
-/**
- * store macrostate variables of old configuration
- */
 void CriteriaWLTMMC::store(const Space* space, Pair* pair) {
   if (mType_.compare("nmol") == 0) {
     mOld_ = space->nMol();
@@ -203,13 +173,9 @@ void CriteriaWLTMMC::store(const Space* space, Pair* pair) {
   if (tmmc_ == false) flatCheck();
 }
 
-/**
- * if flatness criteria is met, reset histogram and reduce update factor
- */
 int CriteriaWLTMMC::flatCheck() {
-  // flatness criteria is met when the minimum value of the histogram is within
-  // a factor, flatFac, of the average histogram value
-  if (*std::min_element(h_.begin(), h_.end()) > wlFlatFactor_ * vecAverage(h_)) {
+  if (*std::min_element(h_.begin(), h_.end()) 
+      > wlFlatFactor_ * vecAverage(h_)) {
     std::fill(h_.begin(), h_.end(), 0);
     lnf_ *= g_;
     ++wlFlat_;
@@ -223,7 +189,7 @@ int CriteriaWLTMMC::flatCheck() {
 /**
  * update WL and/or the collection matrix
  */
-void CriteriaWLTMMC::mUpdate(const int mOldBin,   //!< bin of old state
+void CriteriaWLTMMC::mUpdate_(const int mOldBin,   //!< bin of old state
   const int mNewBin,   //!< bin of new state
   const double pmet,  //!< transition probability
   const int acceptFlag  //!< transition accepted if == 1
@@ -282,9 +248,6 @@ void CriteriaWLTMMC::mUpdate(const int mOldBin,   //!< bin of old state
   }
 }
 
-/**
- * update the collection matrix
- */
 void CriteriaWLTMMC::lnPIupdate() {
   if (tmmc_) {
     c2lnPI(C_, &lnPI_);
@@ -444,11 +407,7 @@ void CriteriaWLTMMC::lnPIupdate(
   }
 }
 
-/**
- * function to reweight lnPI to different value of activity
- */
-void CriteriaWLTMMC::lnPIrw(
-  const double activrw) {    //!< activity at reweighted condition
+void CriteriaWLTMMC::lnPIrw(const double activrw) {
   activrw_ = activrw;
   // cout << "activ " << activ_ << " rw " << activrw_ << endl;
   lnPIrw_.resize(lnPI_.size());
@@ -464,12 +423,7 @@ void CriteriaWLTMMC::lnPIrw(
   lnPInorm(&lnPIrw_);
 }
 
-/**
- * function to find saturation by reweight lnPI to different value of activity
- *  returns squared difference of peak heights
- */
-double CriteriaWLTMMC::lnPIrwsat(
-  const double activrw) {    //!< activity at reweighted condition
+double CriteriaWLTMMC::lnPIrwsat_(const double activrw) {
   lnPIrw(activrw);
   vector<CriteriaWLTMMC> c = phaseSplit(lnPIrw_);
   if (c.size() != 2) {
@@ -493,20 +447,15 @@ double CriteriaWLTMMC::lnPIrwsat(
  */
 void CriteriaWLTMMC::findSat() {
   Golden g;
-  lnPIrwsatwrapper lnpirwswrap = lnPIrwsatwrap();
+  lnPIrwsat_wrapper_ lnpirwswrap = lnPIrwsat_wrap_();
   g.bracket(activ_, activ_*1.1, lnpirwswrap);
   const double activ = g.minimize(lnpirwswrap);
   lnPIrw(activ);
   // cout << activrw_ << endl;
 }
 
-/**
- * initialize the macrostate bins
- */
-void CriteriaWLTMMC::initBins(
-  const double mMax,  //!< minimum value of macrostate
-  const double mMin,  //!< maximum value of macrostate
-  const int nBin) {  //!< number of bins for macrostate
+void CriteriaWLTMMC::initBins(const double mMax, const double mMin,
+  const int nBin) {
   if (mType_.compare("energy") == 0) {
     cTripleBanded_ = false;
   } else if ( (mType_.compare("nmol") == 0) ||
@@ -533,16 +482,7 @@ void CriteriaWLTMMC::initBins(
   zeroStat();
 }
 
-/**
- * return new nMolMax to resize the nmol window in WLTMMC criteria
- *  using printRW to determine whether to use lnPI or lnPIrw
- *  assumes two peaks in lnPI
- *  truncates liquid peak after lnPI drops as n increases by amout liquidDrop
- *  rounds to the nearest larger multiple of nround
- */
-int CriteriaWLTMMC::nMolResizeWindow(
-  const double liquidDrop,  //!< targeted drop off of liquid peak
-  const int round) {        //!< round up to the nearest factor
+int CriteriaWLTMMC::nMolResizeWindow(const double liquidDrop, const int round) {
   vector<long double> *lnPItmp;
   if (printRW()) {
     lnPItmp = &lnPIrw_;
@@ -579,16 +519,12 @@ int CriteriaWLTMMC::nMolResizeWindow(
   return nmx;
 }
 
-/**
- * obtain pressure isotherm from lnPI
- */
-void CriteriaWLTMMC::lnPIpressureIso(const double vol   //!< volume
-  ) {
+void CriteriaWLTMMC::lnPIpressureIso(const double volume) {
   lnpi2pressure_.clear();
   lnpi2pressure_.resize(nBin_);
   pressureVec_.clear();
   pressureVec_.resize(nBin_);
-  volume_ = vol;
+  volume_ = volume;
   ASSERT(fabs(bin2m(0)) < doubleTolerance, "pressure computation requires"
     << "simulation at N=0, however, bin2m(0) = " << bin2m(0) << ")");
 
@@ -598,31 +534,22 @@ void CriteriaWLTMMC::lnPIpressureIso(const double vol   //!< volume
   for (int i = 1; i < nBin_-1; ++i) {
     findPeak(bin2m(i), lnactivGuess);
     lnactivGuess = log(activrw_);
-    lnpi2pressure_[i] = lnPIrwpressureOnePhase(vol);
+    lnpi2pressure_[i] = lnPIrwpressureOnePhase(volume);
   }
 }
 
-/**
- * reweight to obtain peak maxima at given nmol
- */
-void CriteriaWLTMMC::findPeak(
-  const double nMolPeak,  //!< target for peak location
-  const double lnactivGuess) {   //!< first guess for activity
+void CriteriaWLTMMC::findPeak(const double nMolPeak,
+  const double lnactivGuess) {
   nMolPeak_ = nMolPeak;
   Golden g;
-  lnPIrwnmxwrapper lnpirwwrap = lnPIrwnmxwrap();
+  lnPIrwnmx_wrapper_ lnpirwwrap = lnPIrwnmx_wrap_();
   g.bracket(lnactivGuess, 1.05*lnactivGuess, lnpirwwrap);
   const double lnactiv = g.minimize(lnpirwwrap);
   lnPIrw(exp(lnactiv));
   // cout << "target " << nMolPeak << " activ " << lnactiv << endl;
 }
 
-/**
- * find peak location by reweighting and minimizing squared different in peak
- * location
- */
-double CriteriaWLTMMC::lnPIrwnmx(
-  const double lnactivrw) {    //!< activity at reweighted condition
+double CriteriaWLTMMC::lnPIrwnmx_(const double lnactivrw) {
   lnPIrw(exp(lnactivrw));
   return pow(lnPIaverage(lnPIrw_) - nMolPeak_, 2);
 }
@@ -968,9 +895,6 @@ void CriteriaWLTMMC::prefilColMat(const long double constant) {
   }
 }
 
-/**
- * write restart file
- */
 void CriteriaWLTMMC::writeRestart(const char* fileName) {
   // determine if print reweighted or actual lnpi
   vector<long double> lnPItmp;
@@ -1048,25 +972,25 @@ void CriteriaWLTMMC::writeRestart(const char* fileName) {
   printRW_ = false;
 }
 
-/**
- * reweight to find difference in peaks
- */
-void CriteriaWLTMMC::peakDiff(const int iPeak, const int jPeak) {
-  if (iPeak == jPeak) {}  // remove warning for unused parameters
-  nMolPeakPhase_ = 0;
-  double lnactivGuess = 0.1*log(activ_);
-  for (int ibin = 1; ibin < nBin_-1; ++ibin) {
-    findPeak(bin2m(ibin), lnactivGuess);
-    lnactivGuess = log(activrw_);
-    vector<int> max = findLocalMaxima(lnPIrw_, 3);
-    max.resize(10);
-    cout << ibin << " ";
-    for (unsigned int i = 0; i < max.size(); ++i) {
-      cout << lnPIrw_[max[i]] - lnPIrw_[max[0]] << " ";
-    }
-    cout << endl;
-  }
-}
+///**
+// * reweight to find difference in peaks
+// */
+//void CriteriaWLTMMC::peakDiff(const int iPeak, const int jPeak) {
+//  if (iPeak == jPeak) {}  // remove warning for unused parameters
+//  nMolPeakPhase_ = 0;
+//  double lnactivGuess = 0.1*log(activ_);
+//  for (int ibin = 1; ibin < nBin_-1; ++ibin) {
+//    findPeak(bin2m(ibin), lnactivGuess);
+//    lnactivGuess = log(activrw_);
+//    vector<int> max = findLocalMaxima(lnPIrw_, 3);
+//    max.resize(10);
+//    cout << ibin << " ";
+//    for (unsigned int i = 0; i < max.size(); ++i) {
+//      cout << lnPIrw_[max[i]] - lnPIrw_[max[0]] << " ";
+//    }
+//    cout << endl;
+//  }
+//}
 
 /**
  * read lnPI, energy and collection matrix
@@ -1179,9 +1103,6 @@ vector<double> CriteriaWLTMMC::heatCapacity() {
   return cv;
 }
 
-/**
- * return energy fluctuations for each bin
- */
 vector<double> CriteriaWLTMMC::fluct() {
   vector<double> cv;
   for (int bin = 0; bin < nBin(); ++bin) {
@@ -1193,9 +1114,6 @@ vector<double> CriteriaWLTMMC::fluct() {
   return cv;
 }
 
-/**
- * initialize TMMC
- */
 void CriteriaWLTMMC::tmmcInit() {
   ASSERT(collect_, "must also fill collection matrix if running tmmc");
   tmmc_ = true;

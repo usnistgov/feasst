@@ -46,10 +46,6 @@ unsigned long long RandomNR3::int64() {
   return (x + v_) ^ w_;
 }
 
-int RandomNR3::uniform(const int min, const int max) {
-  return int64() % (max - min + 1) + min;
-}
-
 void RandomNR3::writeRestart(const char* fileName) {
   fileBackUp(fileName);
   std::ofstream file(fileName);

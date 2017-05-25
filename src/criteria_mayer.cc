@@ -20,9 +20,6 @@ void CriteriaMayer::defaultConstruction_() {
   verbose_ = 0;
 }
 
-CriteriaMayer::~CriteriaMayer() {
-}
-
 CriteriaMayer* CriteriaMayer::clone() const {
   CriteriaMayer* c = new CriteriaMayer(*this);
   c->reconstruct();

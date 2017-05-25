@@ -16,13 +16,17 @@ namespace feasst {
  */
 class CriteriaMayer : public Criteria {
  public:
+  /// Constructor
   explicit CriteriaMayer(const double beta);
+  
+  /// Construct by checkpoint file.
   explicit CriteriaMayer(const char* fileName);
-  ~CriteriaMayer();
+  
+  ~CriteriaMayer() {}
   CriteriaMayer* clone() const;
   shared_ptr<CriteriaMayer> cloneShrPtr() const;
 
-  /// Acceptance criteria for trial moves
+  /// Return whether to accept (1) or reject (0).
   int accept(const double lnpMet, const double peNew, const char* moveType,
     const int reject);
 

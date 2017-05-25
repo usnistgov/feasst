@@ -12,31 +12,18 @@ namespace feasst {
  */
 class RandomNR3 : public Random {
  public:
-  /// Construct from seed.
   RandomNR3(const unsigned long long seed);
-
-  /// Construct from checkpoint file.
   RandomNR3(const char* fileName);
 
-  virtual ~RandomNR3() {};
-
-  /// Write checkpoint file.
-  virtual void writeRestart(const char* fileName);
-
-  /// Seed random number generator.
+  // Overloaders for virtual functions. See base class for comments.
+  ~RandomNR3() {};
+  void writeRestart(const char* fileName);
   void seed(const unsigned long long seed);
-
-  /// Return uniform random number between 0 and 1.
   double uniform();
-
-  // NOTE HWH: Depreciate this
-  // uniform random integer between range min and max, inclusive
-  int uniform(const int min, const int max);
-
-  /// Return random 64 bit integer.
   unsigned long long int64();
 
  protected:
+  /// NR3 specific stored state variables u, v and w.
   unsigned long long u_, v_, w_;
 };
 
