@@ -145,10 +145,8 @@ double PairPatchKF::multiPartEnerNeigh(
   ASSERT(patchAngle_ <= 90,
     "Optimization built for patches of solid angle <= 90");
 
-  if (neighOn_) {
-    neighOne_.clear();
-    neighOne_.resize(static_cast<int>(mpart.size()), vector<int>());
-  }
+  // initialize neigh, neighCut and peMap
+  initNeighCutPEMap(mpart);
 
   // loop through molecules
   const vector<int> &neigh = space_->neighListChosen();
@@ -180,6 +178,7 @@ double PairPatchKF::multiPartEnerNeigh(
         // hard sphere
         if (r2 < sigSq) {
           peSRone_ += std::numeric_limits<double>::max()/1e10;
+          storeNeighCutPEMap(jpart, 0);
 
         // orientational square well
         } else {
@@ -206,7 +205,10 @@ double PairPatchKF::multiPartEnerNeigh(
                          dz*(x[dimen_*jsite+2] - x[dimen_*jpart+2]);
                   if ( (mirrorPatch_) || (cosa >= 0) ) {
                     cosa = cosa*cosa/r2;
-                    if (cosa >=  cpaSq) peSRone_ -= 1.;
+                    if (cosa >=  cpaSq) {
+                      peSRone_ -= 1.;
+                      storeNeighCutPEMap(jpart, 0);
+                    }
                   }
                 }
               }
@@ -216,6 +218,11 @@ double PairPatchKF::multiPartEnerNeigh(
       }
     }
   }
+  
+  // if using PEMap, peSRone_ was used to map individual potential energies
+  // and the total is put in peSRoneAlt_
+  if (peMapOn_ == 1) peSRone_ = peSRoneAlt_;
+
 //  cout << peSRone_ << endl;
   return peSRone_;
 }
@@ -334,6 +341,174 @@ int PairPatchKF::printxyz(const char* fileName,   //!< file with configuration
     << "$sel set mass 1" << endl;
 
   return 0;
+}
+
+void PairPatchKF::updateClusters(const double tol) {
+  if (tol > 0) {};  // avoid unused parameter warning
+
+  // generate contact map
+  allPartEnerForce(1);
+
+  // use contact_ and contactpbc_ to update cluster variables
+  space_->contact2clusterAlt(contact_, contactpbc_);
+}
+
+/**
+ * potential energy and forces of all particles
+ */
+double PairPatchKF::allPartEnerForce(const int flag) {
+  peSRone_ = 0.;
+  if (flag == 0) {
+    peSRone_ = peTot();
+    return peSRone_;
+  }
+
+  // initalize contact map
+  contact_.clear();
+  contactpbc_.clear();
+  contact_.resize(space_->nMol());
+  contactpbc_.resize(space_->nMol());
+  vector<double> cpbctmplt(3);
+
+  // shorthand for read-only space variables
+  const int nMol = space_->nMol();
+  const vector<double> &x = space_->x();
+  const vector<double> &l = space_->l();
+  const vector<int> &mol2part = space_->mol2part();
+
+  // avoid the sqrt operation for patches of solid angle <= 90
+  //  first, compute angle*|rij| and check its sign.
+  //  if 90 degree patch, its a patch of >= 0
+  //  if <90 degree patch, compute angle = (angle*|rij|)^2/rij2
+  ASSERT(patchAngle_ <= 90,
+    "Optimization built for patches of solid angle <= 90");
+
+  // declare variables for optimization
+  int jpart, isite, jsite;
+  double cosa, r2, dx, dy, dz, dx0, dy0;
+  const double lx = l[0], ly = l[1], lz = l[2],
+    halflx = lx/2., halfly = ly/2., halflz = lz/2.;
+  const double sigSq = pow(sig_[0], 2), cpaSq = cpa_*cpa_;
+  vector<double> dxpbc(3), xij(3);
+  const double xyTilt = space_->xyTilt(), xzTilt = space_->xzTilt(),
+    yzTilt = space_->yzTilt();
+
+  // loop through pairs of molecules
+  for (int iMol = 0; iMol < nMol - 1; ++iMol) {
+    
+    const int ipart = mol2part[iMol];
+    const double xi = x[dimen_*ipart+0];
+    const double yi = x[dimen_*ipart+1];
+    const double zi = x[dimen_*ipart+2];
+//    /// obtain neighList with cellList
+//    if (space_->cellType() == 1) {
+//      space_->buildNeighListCell(iMol);
+//    }
+//    const vector<int> &neigh = space_->neighListChosen();
+//    for (unsigned int ineigh = 0; ineigh < neigh.size(); ++ineigh) {
+//      const int jMol = neigh[ineigh];
+//      if (iMol != jMol) {
+    for (int jMol = iMol + 1; jMol < nMol; ++jMol) {
+      jpart = mol2part[jMol];
+
+      // separation distance with periodic boundary conditions
+      dx = dx0 = xi - x[dimen_*jpart];
+      dy = dy0 = yi - x[dimen_*jpart+1];
+      dz  = zi - x[dimen_*jpart+2];
+      std::fill(dxpbc.begin(), dxpbc.end(), 0.);
+      if (fabs(dz) > halflz) {
+        if (dz < 0.) {
+          dz += lz;
+          dy += yzTilt;
+          dx += xzTilt;
+          dy0 += yzTilt;
+          dx0 += xzTilt;
+          dxpbc[2] += lz;
+          dxpbc[1] += yzTilt;
+          dxpbc[0] += xzTilt;
+        } else {
+          dz -= lz;
+          dy -= yzTilt;
+          dx -= xzTilt;
+          dy0 -= yzTilt;
+          dx0 -= xzTilt;
+          dxpbc[2] -= lz;
+          dxpbc[1] -= yzTilt;
+          dxpbc[0] -= xzTilt;
+        }
+      }
+      if (fabs(dy0) > halfly) {
+        if (dy0 < 0.) {
+          dy += ly;
+          dx += xyTilt;
+          dx0 += xyTilt;
+          dxpbc[1] += ly;
+          dxpbc[0] += xyTilt;
+        } else {
+          dy -= ly;
+          dx -= xyTilt;
+          dx0 -= xyTilt;
+          dxpbc[1] -= ly;
+          dxpbc[0] -= xyTilt;
+        }
+      }
+      if (fabs(dx0) > halflx) {
+        if (dx0 < 0.) {
+          dx += lx;
+          dxpbc[0] += lx;
+        } else {
+          dx -= lx;
+          dxpbc[0] -= lx;
+        }
+      }
+      r2 = dx*dx + dy*dy + dz*dz;
+
+      // no interaction beyond cut-off distance
+      if (r2 < rCutSq_) {
+
+        // hard sphere
+        if (r2 < sigSq) {
+          peSRone_ += std::numeric_limits<double>::max()/1e10;
+
+        // orientational square well
+        } else {
+          // loop through pairs of patches
+          for (isite = ipart + 1; isite < mol2part[iMol+1]; ++isite) {
+            for (jsite = jpart + 1; jsite < mol2part[jMol+1]; ++jsite) {
+              cosa = dx*(xi - x[dimen_*isite])   +
+                     dy*(yi - x[dimen_*isite+1]) +
+                     dz*(zi - x[dimen_*isite+2]);
+              if ( (mirrorPatch_) || (cosa >= 0) ) {
+                cosa = cosa*cosa/r2;
+                if (cosa >=  cpaSq) {
+                  cosa = dx*(x[dimen_*jsite]   - x[dimen_*jpart]) +
+                         dy*(x[dimen_*jsite+1] - x[dimen_*jpart+1]) +
+                         dz*(x[dimen_*jsite+2] - x[dimen_*jpart+2]);
+                  if ( (mirrorPatch_) || (cosa >= 0) ) {
+                    cosa = cosa*cosa/r2;
+                    if (cosa >=  cpaSq) {
+                      peSRone_ -= 1.;
+                      contact_[iMol].push_back(jMol);
+                      contact_[jMol].push_back(iMol);
+                      cpbctmplt[0] = dxpbc[0];
+                      cpbctmplt[1] = dxpbc[1];
+                      cpbctmplt[2] = dxpbc[2];
+                      contactpbc_[iMol].push_back(cpbctmplt);
+                      cpbctmplt[0] *= -1;
+                      cpbctmplt[1] *= -1;
+                      cpbctmplt[2] *= -1;
+                      contactpbc_[jMol].push_back(cpbctmplt);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return peSRone_;
 }
 
 #ifdef FEASST_NAMESPACE_

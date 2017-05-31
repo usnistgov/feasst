@@ -648,3 +648,28 @@ TEST(MC, ljWall) {
 
   mc.runNumTrials(1e4);
 }
+
+TEST(MC, PairPatchKF) {
+//  feasst::ranInitForRepro();
+  feasst::Space space;
+  space.lset(8);
+  space.addMolInit("../forcefield/data.onePatch");
+  feasst::PairPatchKF pair(&space, 2., 90);
+  pair.initEnergy();
+  feasst::CriteriaMetropolis criteria(1., exp(-1));
+  feasst::MC mc(&space, &pair, &criteria);
+  feasst::transformTrial(&mc, "translate", 1);
+  feasst::transformTrial(&mc, "rotate", 1);
+  space.addTypeForCluster(0);
+//  feasst::clusterTrial(&mc, "clustertrans", -1, 1.);
+//  feasst::clusterTrial(&mc, "clusterrotate", -1, 1.);
+//  feasst::gcaTrial(&mc);
+  mc.nMolSeek(12, "../forcefield/data.onePatch");
+  pair.initEnergy();
+  const int nfreq = 1e0;
+  mc.initLog("tmp/patchlog", nfreq); 
+  mc.initMovie("tmp/patchmovie", nfreq); 
+  mc.setNFreqCheckE(nfreq, feasst::DTOL);
+  mc.runNumTrials(1e2);
+}
+

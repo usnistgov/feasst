@@ -22,8 +22,14 @@ TEST(PairPatchKF, patchKFAnalytical2) {
   p.initEnergy();
   const double petot = p.peTot();
   EXPECT_NEAR(-3, petot, 1e-15);
-
+  EXPECT_NEAR(petot, p.allPartEnerForce(0), DTOL);
+  EXPECT_NEAR(petot, p.allPartEnerForce(1), DTOL);
   EXPECT_EQ(1, p.checkEnergy(1e-18, 1));
+
+  s.addTypeForCluster(0);
+  p.updateClusters(0);
+  EXPECT_EQ(3, s.nClusters());
+
 }
 
 TEST(PairPatchKF, patchKFcellList) {

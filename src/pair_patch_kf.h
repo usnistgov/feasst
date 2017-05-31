@@ -56,6 +56,13 @@ class PairPatchKF : public Pair {
     if (flag == 1) { mirrorPatch_ = true; } else { mirrorPatch_ = false; };
   }
 
+  /// update clusters of entire system
+  void updateClusters(const double tol  //!< unused parameter
+    );
+
+  /// potential energy and forces of all particles
+  double allPartEnerForce(const int flag);
+  
   /// read-only access of protected variables
   double peSR() const { return peSR_; }
   double peSRone() const { return peSRone_; }
