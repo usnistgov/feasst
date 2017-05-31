@@ -179,6 +179,12 @@ class MC : public BaseAll {
   /// initialize production run
   void initProduction();
 
+  /** For renaming files for production, set the appended name.
+   *  For example, the default "pr" would rename files "file" -> "filepr" */
+  void setProductionFileDescription(const char* append = "_prod") {
+    prodFileAppend_.assign(append);
+  }
+
   /// remove ownership of pointers
   void removeOwnership()
     { spaceOwned_ = false; pairOwned_ = false; criteriaOwned_ = false; }
@@ -258,6 +264,7 @@ class MC : public BaseAll {
   int nFreqRestart_;          //!< frequency to write restart file
   string rstFileName_;        //!< restart file name
   string rstFileBaseName_;    //!< restart file base name
+  std::string prodFileAppend_;
   long long npr_;         //!< number of trials in simulaiton
   double checkEtol_;          //!< tolerance for energy check
   bool printPressure_;        //!< flag to turn on printing of pressure

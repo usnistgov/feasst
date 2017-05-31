@@ -100,6 +100,12 @@ class WLTMMC : public MC {
   void wlFlatProduction(const int wlFlatProd) { wlFlatProd_ = wlFlatProd; }
   void wlFlatTerminate(const int wlFlat) { wlFlatTerm_ = wlFlat; }
 
+  /** For renaming files for individual processors, set the appended name.
+   *  For example, the default "p" would rename files "file" -> "filep0" */
+  void setProcessorFileDescription(const char* append = "_core") {
+    procFileAppend_.assign(append);
+  }
+
   /// exposed pointers for easy access with clones
   CriteriaWLTMMC* c() { return c_; }
   int nWindows() const { return nWindow_; }
@@ -107,6 +113,7 @@ class WLTMMC : public MC {
  protected:
   CriteriaWLTMMC* c_;           //!< wltmmc acceptance criteria
   std::string colMatFileName_;  //!< collection matrix file name
+  std::string procFileAppend_;
   int nFreqColMat_;  //!< frequency to update and print collection matrix
 
   /// production begins when wlFlat reaches this many (never if == -1)

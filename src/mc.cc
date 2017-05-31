@@ -97,6 +97,11 @@ MC::MC(const char* fileName) {
     production_ = stoi(strtmp);
   }
   
+  strtmp = fstos("prodFileAppend", fileName);
+  if (!strtmp.empty()) {
+    prodFileAppend_ = strtmp;
+  }
+  
   // make a different rst file name so as to not overwrite
   // stringstream ss;
   // ss << fileName << "p";
@@ -133,6 +138,7 @@ void MC::defaultConstruction() {
   checkEtol_ = 1e-7;
   nAttempts_ = 0;
   production_ = 0;
+  setProductionFileDescription();
 }
 
 MC::~MC() {
@@ -680,6 +686,7 @@ void MC::writeRestart(const char* fileName) {
   file << "# checkEtol " << checkEtol_ << endl;
   file << "# printPressure " << printPressure_ << endl;
   if (production_ == 1) file << "# production " << production_ << endl;
+  file << "# prodFileAppend " << prodFileAppend_ << endl;
   
   // write random number generator state
   writeRngRestart(fileName);
@@ -997,7 +1004,7 @@ void MC::appendProductionFileNames(const char* chars) {
  */
 void MC::initProduction() {
   production_ = 1;
-  appendProductionFileNames("pr");
+  appendProductionFileNames(prodFileAppend_.c_str());
   space_->clusterReset();
   if (!movieFileName_.empty()) pair_->printxyz(movieFileName_.c_str(), 1);
 }

@@ -47,6 +47,11 @@ WLTMMC::WLTMMC(const char* fileName)
     lnzInc_ = fstoi("lnzInc", fileName);
   }
 
+  strtmp = fstos("procFileAppend", fileName);
+  if (!strtmp.empty()) {
+    procFileAppend_ = strtmp;
+  }
+  
   // read radial distribution function restart files
   strtmp = fstos("nFreqGR", fileName);
   if (!strtmp.empty()) {
@@ -96,6 +101,7 @@ void WLTMMC::defaultConstruction() {
   nMolSeekTarget_ = -1;
   wlFlatProd_ = -1;
   wlFlatTerm_ = -1;
+  setProcessorFileDescription();
 }
 
 WLTMMC::~WLTMMC() {
@@ -259,7 +265,7 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
 
     // append output files with processor number
     stringstream ss;
-    ss << "p" << t;
+    ss << procFileAppend_ << t;
     clones[t]->appendFileNames(ss.str().c_str());
 
     // set macrostate range, and ensure the current macrostate is within range
@@ -619,6 +625,7 @@ void WLTMMC::writeRestart(const char* fileName) {
     file << "# lnzInc " << lnzInc_ << endl;
   }
   file << "# densThresConfigBias " << densThresConfigBias_ << endl;
+  file << "# procFileAppend " << procFileAppend_ << endl;
 
   // write restart for radial distribution functions
   if ( (nFreqGR_ != 0) && (gr_.size() > 0) ) {
