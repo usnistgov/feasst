@@ -40,13 +40,6 @@ class PairPatchKF : public Pair {
   //  configuration after every change
   void update(const vector<int> mpart, const int flag, const char* uptype);
 
-  double peTot() { return peSR_; }   //!< total potential energy of system
-
-  /// delete particles
-  void delPart(const int ipart) {delPartBase(ipart); }
-  void delPart(const vector<int> mpart) {delPartBase(mpart); }
-  void addPart() {addPartBase(); }                       //!< add one particle
-
   /// write xyz for visualization
   int printxyz(const char* fileName, const int initFlag,
     const std::string comment="");
@@ -64,15 +57,11 @@ class PairPatchKF : public Pair {
   double allPartEnerForce(const int flag);
   
   /// read-only access of protected variables
-  double peSR() const { return peSR_; }
-  double peSRone() const { return peSRone_; }
   double cpa() const { return cpa_; }
 
  protected:
   const double patchAngle_;   //!< angle of patch (degrees)
   const double cpa_;          //!< cosine of angle of patch
-  double peSR_;     //!< total potential energy from lennard-jones interactions
-  double peSRone_;  //!< lennard jones potential energy from subset of particles
   double deSR_;               //!< lennard jones potential energy change
   /// mirror patches such that, for each patch, another exists on the other side
   bool mirrorPatch_;

@@ -34,7 +34,7 @@ int PairPatchKF::initEnergy() {
   std::fill(pe_.begin(), pe_.end(), 0.);
   fill(0., f_);
   fill(0., vr_);
-  peSR_ = 0;
+  peTot_ = 0;
 
   double pePart = 0;
   const double sigSq = pow(sig_[0], 2);
@@ -83,13 +83,14 @@ int PairPatchKF::initEnergy() {
                 }
                 cosa /= r;
                 if ( (cosa >= cpa_) || ( (mirrorPatch_) && (cosa <= -cpa_) ) ) {
+                  // cout << "init " << iMol << " " << jMol << endl;
                   pePart -= 1.;
                 }
               }
             }
           }
         }
-        peSR_ += pePart;
+        peTot_ += pePart;
       }
     }
   }
@@ -207,6 +208,7 @@ double PairPatchKF::multiPartEnerNeigh(
                     cosa = cosa*cosa/r2;
                     if (cosa >=  cpaSq) {
                       peSRone_ -= 1.;
+                      // cout << "multij " << iMol << " " << jMol << " peSRone_ " << peSRone_ << endl;
                       storeNeighCutPEMap(jpart, 0);
                     }
                   }
@@ -250,13 +252,13 @@ void PairPatchKF::update(
 
   if (uptypestr.compare("update") == 0) {
     if (flag == 0) {
-      peSR_ += peSRone_ - deSR_;
+      peTot_ += peSRone_ - deSR_;
     }
     if (flag == 2) {
-      peSR_ -= deSR_;
+      peTot_ -= deSR_;
     }
     if (flag == 3) {
-      peSR_ += deSR_;
+      peTot_ += deSR_;
     }
   }
 }

@@ -1645,7 +1645,7 @@ double Pair::multiPartEnerAtomCut2D(const vector<int> mpart) {
  * interactions. Note that peMap contains the cumulative peSRone_
  */
 void Pair::neighCutMolPEMap(vector<int> &neigh, vector<double> &peMap) {
-  ASSERT(atomCut_ == 1,
+  ASSERT( (atomCut_ == 1) || (className_ == "PairPatchKF"),
     "neighCutMolPEMap only implemented for atomCut(" << atomCut_ << ")==1");
   ASSERT(neighCutOne_.size() == peMap_.size(),
     "non matching vec sizes, neighCutOne(" << neighCutOne_.size()
@@ -1659,7 +1659,7 @@ void Pair::neighCutMolPEMap(vector<int> &neigh, vector<double> &peMap) {
       // accumulated peSRone_ is stored in peMap, so subtract old value
       // const double pe = peMap_[ii][jj] - peOld;
       const double pe = peMap_[ii][jj];
-      // cout << "pemap " << peMap_[ii][jj] << endl;
+      // cout << "pemap " << peMap_[ii][jj] << " iMol " << iMol << endl;
 
       // if iMol already listed in neigh, add potential energy
       int index = -1;
@@ -1708,6 +1708,7 @@ void Pair::storeNeighCutPEMap(const int jpart,    //!< neighbor index
     neighCutOne_[ii].push_back(jpart);
   }
   if (peMapOn_ == 1) {
+    // cout << "storing peSRone_ " << peSRone_ << endl;
     peMap_[ii].push_back(peSRone_);
     peSRoneAlt_ += peSRone_;
     peSRone_ = 0;

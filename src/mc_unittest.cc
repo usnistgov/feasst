@@ -650,7 +650,6 @@ TEST(MC, ljWall) {
 }
 
 TEST(MC, PairPatchKF) {
-//  feasst::ranInitForRepro();
   feasst::Space space;
   space.lset(8);
   space.addMolInit("../forcefield/data.onePatch");
@@ -661,9 +660,9 @@ TEST(MC, PairPatchKF) {
   feasst::transformTrial(&mc, "translate", 1);
   feasst::transformTrial(&mc, "rotate", 1);
   space.addTypeForCluster(0);
-//  feasst::clusterTrial(&mc, "clustertrans", -1, 1.);
-//  feasst::clusterTrial(&mc, "clusterrotate", -1, 1.);
-//  feasst::gcaTrial(&mc);
+  feasst::clusterTrial(&mc, "clustertrans", -1, 1.);
+  feasst::clusterTrial(&mc, "clusterrotate", -1, 1.);
+  feasst::gcaTrial(&mc);
   mc.nMolSeek(12, "../forcefield/data.onePatch");
   pair.initEnergy();
   const int nfreq = 1e0;
