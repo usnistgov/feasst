@@ -185,9 +185,26 @@ void MC::reconstruct() {
   space_ = space;
   pair_ = pair;
   // clone and reconstruct all trials, while preserving order of trial types
+  int nConfSwap = 0;
   for (unsigned int t = 0; t < trialVec_.size(); ++t) {
-    shared_ptr<Trial> trial = trialVec_[t]->cloneShrPtr(space, pair, criteria);
-    trialVec_[t] = trial;
+    if (trialVec_[t]->className() == "TrialConfSwapOMP") {
+      #ifdef _OPENMP
+        shared_ptr<TrialConfSwapOMP> trial = trialConfSwapVec_[nConfSwap]->cloneShrPtr(space, pair, criteria);
+        trialConfSwapVec_[nConfSwap] = trial;
+        trialVec_[t] = trial;
+        ++nConfSwap;
+      #endif  // _OPENMP
+    } else if (trialVec_[t]->className() == "TrialConfSwapTXT") {
+      #ifdef MPI_H_
+        shared_ptr<TrialConfSwapTXT> trial = trialConfSwapVec_[nConfSwap]->cloneShrPtr(space, pair, criteria);
+        trialConfSwapVec_[nConfSwap] = trial;
+        trialVec_[t] = trial;
+        ++nConfSwap;
+      #endif  // MPI_H_
+    } else {
+      shared_ptr<Trial> trial = trialVec_[t]->cloneShrPtr(space, pair, criteria);
+      trialVec_[t] = trial;
+    }
   }
 
   // clone and reconstruct all analyzers

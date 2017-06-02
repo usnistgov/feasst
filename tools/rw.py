@@ -16,7 +16,10 @@ parser.add_argument('--phaseBoundary', '-p', help="assign number of molecules as
 args = parser.parse_args()
 print args
 
-space = feasst.Space("tmp/rstspace")
+if (os.path.isfile("tmp/rstspace")):
+  space = feasst.Space("tmp/rstspace")
+else:
+  space = feasst.Space()
 pair = feasst.PairIdeal(space, 0)
 criteria = feasst.CriteriaWLTMMC(args.inFile)
 wltmmc = feasst.WLTMMC(space, pair, criteria)
@@ -29,4 +32,5 @@ if (args.lnz != 11234533):
   criteria.printCollectMat(args.outFile)
 else:
   wltmmc.printSat();
+
 

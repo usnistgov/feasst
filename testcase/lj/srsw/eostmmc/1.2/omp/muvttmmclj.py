@@ -14,11 +14,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--npr", "-p", help="number of max trials", default=int(1e10), type=int)
 parser.add_argument("--boxl", "-l", help="box length", default=8, type=float)
 parser.add_argument("--rCut", "-r", help="cutoff distance", default=3., type=float)
-parser.add_argument("--temp", "-t", help="temperature", default=1.5, type=float)
-parser.add_argument("--lnz", "-z", help="activity", default=-1.568214, type=float)
+parser.add_argument("--temp", "-t", help="temperature", default=1.2, type=float)
+parser.add_argument("--lnz", "-z", help="activity", default=-2.902929, type=float)
 parser.add_argument("--nfreq", "-f", help="number of trials per print", default=int(1e5), type=int)
-parser.add_argument("--nMolMax", "-x", help="maximum number of mols", default=370, type=int)
-parser.add_argument("--molName", "-m", help="molecule file name", default="../data.lj", type=str)
+parser.add_argument("--nMolMax", "-x", help="maximum number of mols", default=390, type=int)
+parser.add_argument("--molName", "-m", help="molecule file name", default="data.lj", type=str)
 args = parser.parse_args()
 name = os.path.splitext(os.path.basename(__file__))[0]
 file = open(name+".log",'w')
@@ -28,7 +28,8 @@ print >>file, args
 feasst.ranInitByDate()
 space = feasst.Space(3, 0)
 for dim in range(space.dimen()): space.lset(args.boxl, dim)
-space.addMolInit(args.molName)
+addMolType=space.install_dir()+"/forcefield/"+args.molName
+space.addMolInit(addMolType)
 
 # initialize pair-wise interactions
 pair = feasst.PairLJ(space, args.rCut)
@@ -52,10 +53,7 @@ mc.weight = 1./8.
 #mc.initTrial(td)
 #mc.initTrial(feasst.TrialDelete())
 feasst.deleteTrial(mc)
-#ta = feasst.TrialAdd(args.molName)
-#mc.initTrial(ta)
-#mc.initTrial(feasst.TrialAdd(args.molName))
-feasst.addTrial(mc, args.molName)
+feasst.addTrial(mc, addMolType)
 #mc.weight = 5.
 mc.weight = 1/args.nMolMax
 mc.confSwapTrial()
