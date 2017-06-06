@@ -51,6 +51,7 @@ void Analyze::reconstruct(Space* space, Pair *pair) {
 void Analyze::writeRestartBase(const char* fileName) {
   fileBackUp(fileName);
   std::ofstream file(fileName);
+  file << "# className " << className_ << endl;
   file << "# nFrequency " << nFreq_ << endl;
   file << "# nPrintFrequency " << nFreqPrint_ << endl;
   if (!fileName_.empty()) file << "# fileName " << fileName_ << endl;

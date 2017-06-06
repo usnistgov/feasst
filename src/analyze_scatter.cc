@@ -15,6 +15,11 @@ AnalyzeScatter::AnalyzeScatter(Space *space,
   defaultConstruction();
   double dgrTmp = fstod("dgrRadialBinDist", fileName);
   int nMacrosTmp = fstoi("nMacros", fileName);
+  std::string strtmp = fstos("nMomentsCut", fileName);
+  if (!strtmp.empty()) {
+    nMomentsCut_ = stoi(strtmp);
+  }
+  
   // cout << "nm " << nMacrosTmp << endl;
   initSANS(dgrTmp, nMacrosTmp);
 
@@ -53,6 +58,17 @@ AnalyzeScatter::AnalyzeScatter(Space *space,
             histIntra2_[iMacro][iType][jType][bin];
         }
       }
+      for (unsigned int iType = 0; iType < histMoments_.size(); ++iType) {
+        for (unsigned int jType = iType; jType < histMoments_[0].size();
+             ++jType) {
+          for (int iMo = iType; iMo < nMomentsCut_; ++iMo) {
+            fs >> histMoments_[iMacro][iType][jType][iMo][bin];
+            histMoments_[iMacro][jType][iType][iMo][bin] =
+              histMoments_[iMacro][iType][jType][iMo][bin];
+          }
+        }
+      }
+      
       getline(fs, line);
     }
   }
@@ -66,11 +82,17 @@ void AnalyzeScatter::writeRestart(const char* fileName, const int iMacro) {
   std::ofstream file(fileName, std::ios_base::app);
   file << "# dgrRadialBinDist " << dgr_ << endl;
   file << "# nMacros " << countConf_.size() << endl;
+  if (nMomentsCut_ != 0) file << "# nMomentsCut " << nMomentsCut_ << endl;
   for (unsigned int im = 0; im < countConf_.size(); ++im) {
     if ( (iMacro == -1) || (static_cast<int>(im) == iMacro) ) {
       file << "# countConf" << im << " " << countConf_[im] << endl;
     }
   }
+  file << "#r inter intra ";
+  for (int iMo = 0; iMo < nMomentsCut_; ++iMo) {
+    file << "h" << iMo << " ";
+  }
+  file << endl;
   for (unsigned int im = 0; im < countConf_.size(); ++im) {
     if ( (iMacro == -1) || (static_cast<int>(im) == iMacro) ) {
       vector<vector<vector<long long> > > &hist = histInter2_[im];
@@ -87,6 +109,13 @@ void AnalyzeScatter::writeRestart(const char* fileName, const int iMacro) {
             file << histIntra2_[im][iType][jType][bin] << " ";
           }
         }
+        for (unsigned int iType = 0; iType < histMoments_[im].size(); ++iType) {
+          for (unsigned int jType = iType; jType < histMoments_[im][0].size(); ++jType) {
+            for (unsigned int iMo = 0; iMo < histMoments_[im][0][0].size(); ++iMo) {
+              file << histMoments_[im][iType][jType][iMo][bin] << " ";
+            }
+          }
+        }
         file << endl;
       }
     }
@@ -98,6 +127,7 @@ void AnalyzeScatter::writeRestart(const char* fileName, const int iMacro) {
  */
 void AnalyzeScatter::defaultConstruction() {
   className_.assign("AnalyzeScatter");
+  nMomentsCut_ = 0;
   verbose_ = 0;
 }
 
@@ -141,6 +171,10 @@ void AnalyzeScatter::initSANS(
   histIntra2_.resize(nMacros, vector<vector<vector<long long> > >(
     nPartTypes(), vector<vector<long long> >(
       nPartTypes(), vector<long long>(nbins_))));
+  histMoments_.resize(nMacros, vector<vector<vector<vector<double> > > >(
+    nPartTypes(), vector<vector<vector<double> > >(
+      nPartTypes(), vector<vector<double> >(
+        nMomentsCut_, vector<double>(nbins_)))));
 }
 
 /**
@@ -189,6 +223,14 @@ void AnalyzeScatter::update(const int iMacro) {
           const int bin = feasstRound(r/dgr_ - 0.5);
           histInter2_[iMacro][iType][jType][bin]++;
           histInter2_[iMacro][jType][iType][bin]++;
+          
+          // moments
+          double peMoment = 1.;
+          for (int iMo = 0; iMo < nMomentsCut_; ++iMo) {
+            histMoments_[iMacro][iType][jType][iMo][bin] += peMoment;
+            histMoments_[iMacro][jType][iType][iMo][bin] += peMoment;
+            peMoment *= pair_->peTot();
+          }
         }
       }
     }

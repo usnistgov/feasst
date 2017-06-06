@@ -26,9 +26,11 @@ class Accumulator : public Base {
 
   /// Sum of all values accumulated.
   long double sum() const { return sum_; }
+  double sumDble() const { return sum_; }
 
   /// Sum of the square of all values accumulated.
   long double sumSq() const { return sumSq_; }
+  double sumSqDble() const { return sumSq_; }
 
   /// Add a value to the running sum of values and sum of squared values.
   virtual void accumulate(double value);
