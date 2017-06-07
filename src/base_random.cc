@@ -8,67 +8,56 @@ namespace feasst {
 BaseRandom::BaseRandom() {
   verbose_ = 0;
   className_.assign("BaseRandom");
-  ranNumOwned_ = false;
   clearRNG();
 }
 
 BaseRandom::BaseRandom(const char* fileName) {
   verbose_ = 0;
   className_.assign("BaseRandom");
-  ranNumOwned_ = false;
   initRNG(fileName);
 }
 
-BaseRandom::~BaseRandom() {
-  if (ranNumOwned_) delete ranNum_;
-}
-
 void BaseRandom::writeRngRestart(const char* fileName) {
-  if (ranNum_ != NULL) {
+  if (ranNum_) {
     stringstream ss;
     ss << fileName << "rng";
     ranNum_->writeRestart(ss.str().c_str());
   }
 }
 
-void BaseRandom::initRNG(Random *ran) {
-  if (ranNumOwned_) delete ranNum_;
+void BaseRandom::initRNG(shared_ptr<Random> ran) {
   ranNum_ = ran;
-  ranNumOwned_ = false;
 }
 
 void BaseRandom::initRNG(unsigned long long seed) {
-  if (ranNumOwned_) delete ranNum_;
   if (seed == 0) seed = rand();
-  ranNum_ = new RandomNR3(seed);
-  ranNumOwned_ = true;
+  ranNum_ = std::make_shared<RandomNR3>(seed);
 }
 
 void BaseRandom::initRNG(const char* fileName) {
   stringstream ss;
   ss << fileName << "rng";
   if (fileExists(ss.str().c_str())) {
-    if (ranNumOwned_) delete ranNum_;
-    ranNum_ = new RandomNR3(ss.str().c_str());
-    ranNumOwned_ = true;
+    ranNum_ = std::make_shared<RandomNR3>(ss.str().c_str());
   } else {
     clearRNG();
   }
 }
 
 void BaseRandom::clearRNG() {
-  initRNG(reinterpret_cast<Random*>(NULL));
+  std::shared_ptr<Random> emptyRanNum;
+  initRNG(emptyRanNum);
 }
 
 double BaseRandom::uniformRanNum() {
-  if (ranNum_ == NULL) initRNG();
+  if (!ranNum_) initRNG();
   const double ran = ranNum_->uniform();
   WARN(ran == 0., "uniformRanNum is exactly 0 to double precision accuracy");
   return ran;
 }
 
 int BaseRandom::uniformRanNum(const int min, const int max) {
-  if (ranNum_ == NULL) initRNG();
+  if (!ranNum_) initRNG();
   return ranNum_->uniform(min, max);
 }
 
@@ -262,7 +251,6 @@ vector<double> BaseRandom::eulerRandom() {
 }
 
 void BaseRandom::reconstructDerived_() {
-  ranNumOwned_ = false;
   clearRNG();
 }
 

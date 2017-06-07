@@ -21,18 +21,16 @@ class BaseRandom : public Base {
   
   /// Construction from checkpoint file.
   explicit BaseRandom(const char* fileName);
-  virtual ~BaseRandom();
+  virtual ~BaseRandom() {};
 
   /// Write restart file for random number generator, if initialized.
   void writeRngRestart(const char* fileName);
 
   /// Initialize random number generator by pointer.
-  void initRNG(Random *ran);
+  void initRNG(shared_ptr<Random> ran);
   
-  /**
-   * Initialize random number generator by seed. A zero seed signals use
-   * of the compiler random number generator to generate the seed.
-   */
+  /** Initialize random number generator by seed. A zero seed signals use
+   *  of the compiler random number generator to generate the seed.*/
   void initRNG(unsigned long long seed = 0);
  
   /// Initialize random number generator by checkpoint file.
@@ -58,57 +56,41 @@ class BaseRandom : public Base {
     return av + variance*stdNormRanNum();
   }
 
-  /**
-   * Return Gassuian distribution random number using implementation from
-   * Frenkel and Smit, "Understanding Molecular Simulation".
-   * Note that this implementation is slower than the Box-Muller method.
-   */
+  /** Return Gassuian distribution random number using implementation from
+   *  Frenkel and Smit, "Understanding Molecular Simulation".
+   *  Note that this implementation is slower than the Box-Muller method. */
   double gaussRanNumFS();
  
   /// Return a random hash of given length.
   std::string randomHash(const int length = 5);
 
-  /**
-   * Return a random quaternion using the method of:
-   * Franz J. Vesely, J. Comput. Phys., 47, 291-296 (1982).
-   */
+  /** Return a random quaternion using the method of:
+   *  Franz J. Vesely, J. Comput. Phys., 47, 291-296 (1982). */
   vector<double> quatRandom();
 
-  /**
-   * Return a quaternion which is randomly perturbed from the unit vector
-   * (e.g., identity rotation matrix) by an amount "maxPerturb"
-   */
+  /** Return a quaternion which is randomly perturbed from the unit vector
+   *  (e.g., identity rotation matrix) by an amount "maxPerturb" */
   vector<double> quatRandom(const double maxPerturb);
 
-  /**
-   * Return random position within spherical shell defined by rabove and rbelow
-   * in dim dimensions
-   */
+  /** Return random position within spherical shell defined by rabove and rbelow
+   * in dim dimensions */
   vector<double> ranShell(const double rabove, const double rbelow,
                           const int dim = 3);
 
-  /**
-  * Return random position on unit sphere in dim dimensions.
-  */
+  /// Return random position on unit sphere in dim dimensions.
   vector<double> ranUnitSphere(const int dim = 3);
 
-  /**
-   * Given cumulative discrete probability distribution, cpdf,
-   * return chosen integer element from uniform probability distribution.
-   */
+  /** Given cumulative discrete probability distribution, cpdf,
+   *  return chosen integer element from uniform probability distribution. */
   int ranFromCPDF(const vector<double> &cpdf);
 
-  /**
-   * Return angle selected from probability distribution associated with
-   * harmonic bond bending energy, \f$ \beta U=k0(t-t0)^{power} \f$ from
-   * Frenkel and Smit, page 343, below Equation 13.3.6.
-   */
+  /** Return angle selected from probability distribution associated with
+   *  harmonic bond bending energy, \f$ \beta U=k0(t-t0)^{power} \f$ from
+   *  Frenkel and Smit, page 343, below Equation 13.3.6. */
   double ranAngle(const double k0, const double t0, const int power = 2);
 
-  /**
-   * Return bond length selected from probability distribution associated with
-   * harmonic bond bending energy, \f$ \beta*U=k0*(l-l0)^{power} \f$.
-   */
+  /** Return bond length selected from probability distribution associated with
+   *  harmonic bond bending energy, \f$ \beta*U=k0*(l-l0)^{power} \f$. */
   double ranBond(const double k0, const double l0, const int power = 2);
 
   /**
@@ -124,11 +106,8 @@ class BaseRandom : public Base {
   vector<double> eulerRandom();
 
  protected:
-  Random* ranNum_;      //!< pointer to random number generator
+  shared_ptr<Random> ranNum_;      //!< pointer to random number generator
 
-  /// set true if the class owns the pointer to the random number generator
-  bool ranNumOwned_;
-  
   /// Derived objects may preform additional reconstruction.
   void reconstructDerived_();
 };
