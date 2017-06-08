@@ -1024,6 +1024,13 @@ void MC::initProduction() {
   appendProductionFileNames(prodFileAppend_.c_str());
   space_->clusterReset();
   if (!movieFileName_.empty()) pair_->printxyz(movieFileName_.c_str(), 1);
+
+  // tell analyzers that production has begun
+  for (vector<Analyze*>::iterator it = analyzeVec_.begin();
+       it != analyzeVec_.end();
+       ++it) {
+    (*it)->initProduction();
+  }
 }
 
 /**

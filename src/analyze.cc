@@ -26,6 +26,10 @@ Analyze::Analyze(Space *space,  Pair *pair, const char* fileName)
   if (!strtmp.empty()) {
     fileName_ = strtmp;
   }
+  strtmp = fstos("production", fileName);
+  if (!strtmp.empty()) {
+    production_ = stoi(strtmp);
+  }
 }
 
 /**
@@ -34,6 +38,7 @@ Analyze::Analyze(Space *space,  Pair *pair, const char* fileName)
 void Analyze::defaultConstruction() {
   nFreq_ = 1;
   nFreqPrint_ = 1;
+  production_ = 1;
 }
 
 /**
@@ -54,6 +59,7 @@ void Analyze::writeRestartBase(const char* fileName) {
   file << "# className " << className_ << endl;
   file << "# nFrequency " << nFreq_ << endl;
   file << "# nPrintFrequency " << nFreqPrint_ << endl;
+  file << "# production " << production_ << endl;
   if (!fileName_.empty()) file << "# fileName " << fileName_ << endl;
 }
 

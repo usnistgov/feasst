@@ -57,10 +57,17 @@ class Analyze : public BaseAll {
   /// monkey patch to modify restart at run time
   //  NOTE to HWH: this is beyond scope of original intent of class
   virtual void modifyRestart(shared_ptr<WLTMMC> mc) { if (mc == NULL) {} }
-  
+
+  /// Initialize production.
+  virtual void initProduction() { production_ = 1; }
+
+  /// Initialize production flag. 1 is on, 0 is off. Default is 1.
+  virtual void initProduction(const int flag) { production_ = flag; }
+
   // functions for read-only access of private data-members
   int nFreq() const { return nFreq_; }
   int nFreqPrint() const { return nFreqPrint_; }
+  int production() const { return production_; }
 
  protected:
   Space *space_;
@@ -68,6 +75,7 @@ class Analyze : public BaseAll {
   int nFreq_;        //!< frequency for analysis
   int nFreqPrint_;   //!< frequency for printing
   string fileName_;  //!< file name to print analysis
+  int production_;   //!< set to 1 if in production
 
   // clone design pattern
   virtual shared_ptr<Analyze> cloneImpl(Space* space, Pair* pair) const;

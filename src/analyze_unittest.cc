@@ -22,7 +22,7 @@ void testVec(vector<vector<vector<vector<long long> > > > vec, vector<vector<vec
   }
 }
 
-TEST(Analyze, construct) {
+TEST(Analyze, constructANDproduction) {
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(90,dim);
   s.addMolInit("../forcefield/data.cg4_mab");
@@ -44,11 +44,16 @@ TEST(Analyze, construct) {
   scat.initFreq(1e2);
   scat.initFileName("tmp/iq");
   scat.initPrintFreq(1e3);
+  scat.initProduction(0);
   mc.initAnalyze(&scat);
   mc.runNumTrials(4*1e3);
+  EXPECT_EQ(scat.production(), 0);
   scat.write();
   scat.writeRestart("tmp/hrst");
+  mc.initProduction();
+  EXPECT_EQ(scat.production(), 1);
   AnalyzeScatter scat2(&s, &p, "tmp/hrst");
+  EXPECT_EQ(scat2.production(), 0);
   scat2.writeRestart("tmp/hrst2");
   testVec(scat.histInter(), scat2.histInter());
   testVec(scat.histIntra(), scat2.histIntra());
