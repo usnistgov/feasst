@@ -98,6 +98,9 @@ class WLTMMC : public MC {
 
   /// initialize production run
   void wlFlatProduction(const int wlFlatProd) { wlFlatProd_ = wlFlatProd; }
+
+  /// Set this to 1 if you want to use runNumSweeps(wlFlat) where you input
+  /// wlFlats instead of sweeps.
   void wlFlatTerminate(const int wlFlat) { wlFlatTerm_ = wlFlat; }
 
   /** For renaming files for individual processors, set the appended name.

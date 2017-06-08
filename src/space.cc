@@ -2703,6 +2703,11 @@ void Space::updateClusterVars(const int nClusters) {
   }
   for (int i = 0; i < csdist.size(); ++i) {
     clusterSizeDistribution_.accumulate(i, csdist.vec(i).sum());
+    if (peStore_ != -1) {
+      const double csdvs = csdist.vec(i).sum();
+      clusterSizeDistributionU_.accumulate(i, csdvs*peStore_);
+      clusterSizeDistributionU2_.accumulate(i, csdvs*peStore_*peStore_);
+    }
   }
   freeMon_.accumulate(nfree/vol());
 }

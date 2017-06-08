@@ -654,6 +654,7 @@ TEST(MC, PairPatchKF) {
   space.lset(8);
   space.addMolInit("../forcefield/data.onePatch");
   feasst::PairPatchKF pair(&space, 2., 90);
+  pair.initData("../forcefield/data.onePatch");
   pair.initEnergy();
   feasst::CriteriaMetropolis criteria(1., exp(-1));
   feasst::MC mc(&space, &pair, &criteria);

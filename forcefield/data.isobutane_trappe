@@ -29,7 +29,7 @@ Masses
 
 Pair Coeffs
 
-1 10 4.68
+1 10 4.68  # atom epsilon sigma
 2 98 3.75
 
 Bond Coeffs

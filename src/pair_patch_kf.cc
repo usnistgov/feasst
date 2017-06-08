@@ -351,6 +351,9 @@ void PairPatchKF::updateClusters(const double tol) {
   // generate contact map
   allPartEnerForce(1);
 
+  // store the potential energy for moments extrapolation method
+  space_->peStore_ = peTot();
+
   // use contact_ and contactpbc_ to update cluster variables
   space_->contact2clusterAlt(contact_, contactpbc_);
 }
