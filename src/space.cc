@@ -2676,6 +2676,7 @@ void Space::updateClusters(const double rCut) {
 }
 
 void Space::updateClusterVars(const int nClusters) {
+  if (!accumulateClusterVars_) return;
   ASSERT(nClusters != 0, "no clusters found. Did you use addTypeForCluster"
     << "function to define clusters? Or is natom(" << natom() << ") == 0?");
   clusterSizes_.resize(nClusters);

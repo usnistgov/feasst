@@ -442,6 +442,9 @@ class Space : public BaseAll {
   // on clusters.
   double peStore_ = -1;
 
+  // set a flag which stops cluster variables from being accumulated
+  bool accumulateClusterVars_ = true;
+
   /// Place atom at the COM of all other atoms in list of particles, mpart.
   void setAtomAsCOM(const int atom, const vector<int> mpart);
 
