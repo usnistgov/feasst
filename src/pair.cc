@@ -2145,6 +2145,22 @@ void Pair::initIntra(const int flag, vector<vector<int> > map) {
   space_->initIntra(map);
 }
 
+void Pair::initIntraBonded(const int flag) {
+  shared_ptr<Space> space = space_->addMolList()[0];
+  vector<vector<int> > bondList = space->bondList();
+  vector<vector<int> > intraMap(space->natom(), vector<int>(space->natom(), 1));
+  for (int iatom = 0; iatom < space->natom(); ++iatom) {
+    intraMap[iatom][iatom] = 0;
+  }
+  for (int ibond = 0; ibond < static_cast<int>(bondList.size()); ++ibond) {
+    const int iAtom = bondList[ibond][1];
+    const int jAtom = bondList[ibond][2];
+    intraMap[iAtom][jAtom] = 0;
+    intraMap[jAtom][iAtom] = 0;
+  }
+  initIntra(flag, intraMap);
+}
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

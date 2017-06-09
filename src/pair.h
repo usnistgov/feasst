@@ -232,13 +232,16 @@ class Pair : public BaseAll {
   //  based on pair rCut
   vector<double> iMol2neighAngles(const int iMol);
 
-  /// initialize intramolecular interactions
-  //  intra_ == 0, intermolecular interactions only
-  //  intra_ == 1, intramolecular interactions in addition to inter
-  //  intra_ == 2, only intramolecular interactions (use with PairHybrid)
+  /** Initialize intramolecular interactions.
+   *  intra_ == 0, intermolecular interactions only
+   *  intra_ == 1, intramolecular interactions in addition to inter
+   *  intra_ == 2, only intramolecular interactions (use with PairHybrid) */
   void initIntra(const int flag) { intra_ = flag; }
   void initIntra(const int flag, vector<vector<int> > map);
   void initIntra(vector<vector<int> > map) { initIntra(1, map); }
+
+  /// Initialize intramolecular interactions by ignoring bonded particles.
+  void initIntraBonded(const int flag);
 
   /// compute intramolecular interactions (depreciated)
   double peIntra(const int iAtom);

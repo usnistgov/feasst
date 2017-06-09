@@ -1,0 +1,80 @@
+# LAMMPS data file
+# linear flexible chain with attractive ends
+
+9 atoms
+8 bonds
+7 angles
+
+2 atom types
+1 bond types
+1 angle types
+
+0.0000000000000000e+00 3.0000000000000000e+00 xlo xhi
+0.0000000000000000e+00 3.0000000000000000e+00 ylo yhi
+0.0000000000000000e+00 3.0000000000000000e+00 zlo zhi
+
+Masses
+
+1 1.0
+
+Pair Coeffs
+
+1 1 1.0  # atom epsilon sigma
+2 1 1.0
+
+Bond Coeffs
+
+1 -1 1.0    # bond type 1, k=rigid, l0, U=k*(l-l0)^2 
+
+Angle Coeffs
+
+1 0 180     # angle type 1, k, t0 degrees, U=k*(t-t0)^2
+
+Atoms
+
+1 1 1 0.0 0.0 0.0 0.0 0 0 0 # equltl1
+2 1 2 0.0 1.0 0.0 0.0 0 0 0 # equltl1
+3 1 2 0.0 2.0 0.0 0.0 0 0 0
+4 1 2 0.0 3.0 0.0 0.0 0 0 0
+5 1 2 0.0 4.0 0.0 0.0 0 0 0
+6 1 2 0.0 5.0 0.0 0.0 0 0 0
+7 1 2 0.0 6.0 0.0 0.0 0 0 0
+8 1 2 0.0 7.0 0.0 0.0 0 0 0
+9 1 1 0.0 8.0 0.0 0.0 0 0 0
+
+Bonds
+
+1 1 1 2
+2 1 2 3
+3 1 3 4
+4 1 4 5
+5 1 5 6
+6 1 6 7
+7 1 7 8
+8 1 8 9
+
+Angles
+
+1 1 1 2 3
+2 1 2 3 4
+3 1 3 4 5
+4 1 4 5 6
+5 1 5 6 7
+6 1 6 7 8
+7 1 7 8 9
+
+ConfigurationalBias
+
+1 cbmctypes   #number of types of cmbc moves        
+
+gcinsdel 9 1        #regrow entire chain with 3 steps and weight of 1
+1 1 box          #first step: grow atom 1 with 1 trials anywhere in box
+2 1 bond 1      #second: atom 2 with 1 trials given bond with 1
+3 1 bond 2
+4 1 bond 3
+5 1 bond 4
+6 1 bond 5
+7 1 bond 6
+8 1 bond 7
+9 1 bond 8
+
