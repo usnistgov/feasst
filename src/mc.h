@@ -281,10 +281,10 @@ class MC : public BaseAll {
 
   // unique hash for configurations
   std::string hash_;
-  
+
   // virial coefficient
   void b2init_();
-  
+
   // clone design pattern
   virtual shared_ptr<MC> cloneImpl() const;
   virtual shared_ptr<MC> cloneShallowImpl() const;

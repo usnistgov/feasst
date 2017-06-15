@@ -104,7 +104,7 @@ class Criteria : public BaseAll {
 
   /// Activity for each molecule type.
   vector<double> activVec_;
-  
+
   // flag to print in log files
   int printBeta_;
   int printPressure_;

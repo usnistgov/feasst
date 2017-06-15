@@ -32,7 +32,7 @@ class Random : public Base {
   /// Return uniform random integer between range min and max, inclusive.
   int uniform(const int min, const int max) {
     return int64() % (max - min + 1) + min;
-    }; 
+    };
 
   // NOTE HWH: Depreciate this
   /// Return random 32 bit unsigned integer.

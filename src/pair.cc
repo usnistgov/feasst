@@ -118,7 +118,7 @@ Pair::Pair(Space* space, const char* fileName)
   if (!strtmp.empty()) {
     intra_ = atoi(strtmp.c_str());
   }
-  
+
   strtmp = fstos("sigrefFlag", fileName);
   if (!strtmp.empty()) {
     sigrefFlag_ = atoi(strtmp.c_str());
@@ -797,7 +797,7 @@ void Pair::initLMPData(const string fileName) {  //!< LAMMPS Data file name
   for (int i = 0; i < natype; ++i) {
     int tmp;
     file >> tmp >> eps[i] >> sig[i];
-    if (sigrefFlag_ == 1) file >> sigref[i]; 
+    if (sigrefFlag_ == 1) file >> sigref[i];
     getline(file, line);
   }
 
@@ -1271,8 +1271,8 @@ double Pair::multiPartEnerAtomCut(const vector<int> mpart) {
               << jtype << endl;
             if (r2 < rCutij*rCutij) {
               multiPartEnerAtomCutInner(r2, itype, jtype);
-              if (verbose) cout << "mpe inner peSRone " << peSRone_ << " ip " 
-                << ipart << " jp " << jpart << " it " << itype << " jt " 
+              if (verbose) cout << "mpe inner peSRone " << peSRone_ << " ip "
+                << ipart << " jp " << jpart << " it " << itype << " jt "
                 << jtype << endl;
               if (verbose) cout << "neighOn_ " << neighOn_ << " neighAboveSq_ "
                 << neighAboveSq_ << " neighBelowSq_ " << neighBelowSq_
@@ -2106,7 +2106,7 @@ void Pair::initData(const std::string fileName) {  //!< Data file name
     initLMPData(fileName);
   }
 }
-        
+      
 /**
  * check if there is an intramolecular interaction that is allowed
  */
@@ -2127,7 +2127,7 @@ bool Pair::intraCheck_(const int ipart, const int jpart,
     //if (space_->intraMap()[ia][ja] == 1) {
     const int molid = space_->molid()[iMol];
 //    cout << "molid " << molid << endl;
-//    cout << "iaf " << iAtomFirst << " ia " << ia << " ja " << ja << "map " 
+//    cout << "iaf " << iAtomFirst << " ia " << ia << " ja " << ja << "map "
 //         << space_->intraMap()[molid][ia][ja] << endl;
     if (space_->intraMap()[molid][ia][ja] == 1) {
 //      cout << "here i am" << endl;

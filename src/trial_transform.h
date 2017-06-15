@@ -43,10 +43,10 @@ class TrialTransform : public Trial {
 
   /// return status of trial
   string printStat(const bool header = false);
-  
+
   /// accumulator for order parameter of trial
   Accumulator paramAccumulator;
-  
+
   // functions for read-only access of private data-members
   string transType() const { return transType_; }
 
@@ -54,7 +54,7 @@ class TrialTransform : public Trial {
   string transType_;  //!< type of transformation
 
   void scaleAttempt_(const double factor);
-  
+
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl(
     Space* space, Pair *pair, Criteria *criteria) const {

@@ -51,7 +51,7 @@ WLTMMC::WLTMMC(const char* fileName)
   if (!strtmp.empty()) {
     procFileAppend_ = strtmp;
   }
-  
+
   // read radial distribution function restart files
   strtmp = fstos("nFreqGR", fileName);
   if (!strtmp.empty()) {

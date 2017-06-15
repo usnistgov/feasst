@@ -18,10 +18,10 @@ class CriteriaMayer : public Criteria {
  public:
   /// Constructor
   explicit CriteriaMayer(const double beta);
-  
+
   /// Construct by checkpoint file.
   explicit CriteriaMayer(const char* fileName);
-  
+
   ~CriteriaMayer() {}
   CriteriaMayer* clone() const;
   shared_ptr<CriteriaMayer> cloneShrPtr() const;
@@ -38,19 +38,19 @@ class CriteriaMayer : public Criteria {
 
   /// Mayer sampling ensemble averages of full potential.
   Accumulator mayer;
-  
+
   /// Mayer sampling ensemble averages of reference potential.
   Accumulator mayerRef;
-  
+
   /// Return ratio of virial coefficients of the full potential by reference.
   double b2ratio() const { return mayer.average()/mayerRef.average(); };
 
  protected:
   Pair* pairRef_;
-  
+
   /// configuration of old configuration, recorded by "store"
   double peOld_, peRefOld_;
-  
+
   /// defaults in constructor
   void defaultConstruction_();
 

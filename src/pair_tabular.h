@@ -41,7 +41,7 @@ class PairTabular : public Pair {
 
   /// read particle positions from XYZ file format
   void readxyzeuler(std::ifstream& file) {}
-  
+ 
   /// squishy tolerance when reading coordinates from a file
   void initSquishy(const int flag) { squishy_ = flag; }
 

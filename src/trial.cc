@@ -430,7 +430,7 @@ string Trial::printStat(const bool header) {
     if (header) {
       stat << "maxMove ";
     } else {
-      stat << maxMoveParam << " "; 
+      stat << maxMoveParam << " ";
     }
   }
   return stat.str();
@@ -440,5 +440,5 @@ string Trial::printStat(const bool header) {
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
 
-  
+
 

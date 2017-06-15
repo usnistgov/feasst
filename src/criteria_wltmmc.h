@@ -9,7 +9,7 @@ namespace feasst {
 
 /**
  * Wang-Landau (WL) and Transition Matrix (TM) Monte Carlo acceptance criteria.
- * http://dx.doi.org/10.1063/1.4884124 
+ * http://dx.doi.org/10.1063/1.4884124
  */
 class CriteriaWLTMMC : public Criteria {
  public:
@@ -17,29 +17,29 @@ class CriteriaWLTMMC : public Criteria {
   CriteriaWLTMMC(const double beta, const double activ, const char* mType,
                  const double mMin, const double mMax, const int nBin);
 
-  /** Return macrostate type or name. Value types are as follows: 
-   *  "energy" for potential energy, 
+  /** Return macrostate type or name. Value types are as follows:
+   *  "energy" for potential energy,
    *  "nmol" for number of molecules,
    *  "nmol0" for number of molecules of the first initialized type,
-   *  "nmolstage", for number of molecules with growth expanded ensemble, 
-   *  "pairOrder" for order parameter defined by the Pair class, 
-   *  "beta" for inverse temperature, 
-   *  "pressure" for the thermodynamic pressure, and 
+   *  "nmolstage", for number of molecules with growth expanded ensemble,
+   *  "pairOrder" for order parameter defined by the Pair class,
+   *  "beta" for inverse temperature,
+   *  "pressure" for the thermodynamic pressure, and
    *  "lnpres" for logarithmic pressure. */
   string mType() const { return mType_; }
-  
+
   /// Return minimum value of macrostate.
   double mMin() const { return mMin_; }
 
   /// Return maximum value of macrostate.
   double mMax() const { return mMax_; }
-  
+
   /// Return number of macrostate bins between mMin and mMax.
   int nBin() const { return nBin_; }
-  
+
   /// Return size of macrostate bins, which are constant.
   double mBin() const { return mBin_; }
-  
+
   /// Initialize the macrostate bins, which are constant in size.
   void initBins(const double mMax, const double mMin, const int nBin);
 
@@ -52,7 +52,7 @@ class CriteriaWLTMMC : public Criteria {
 
   /// Return value at center of bin, given bin.
   double bin2m(const int bin) const { return mMin_ + (bin + 0.5)*mBin_; }
-  
+
   /// Return bin, given value.
   int bin(const double m) const { return feasstRound((m - bin2m(0))/mBin_); }
 
@@ -71,7 +71,7 @@ class CriteriaWLTMMC : public Criteria {
 
   /// Return the Wang-Landau update factor.
   double lnf() const { return lnf_; }
-  
+
   /// Return the number of Wang-Landau flatness criteria that have been met.
   int wlFlat() const { return wlFlat_; }
 
@@ -196,10 +196,10 @@ class CriteriaWLTMMC : public Criteria {
     vector<int> min = lnPIphaseBoundary(lnPI);
     return 1 + static_cast<int>(min.size());
   }
-  
+
   // Return the number of phases of the current lnPI.
   int lnPInumPhases() { return lnPInumPhases(lnPI_); }
-  
+
   // Return the number of phases of the reweighted lnPI.
   int lnPIrwnumPhases() { return lnPInumPhases(lnPIrw_); }
 
@@ -249,7 +249,7 @@ class CriteriaWLTMMC : public Criteria {
   /** Reweight to saturation conditions my minizing the differences in peak
    *  heights. */
   void findSat();
-  
+
   /** For one time, print reweighted macrostate instead of the current
    *  macrostate. */
   void printRWinit() { printRW_ = true; }
@@ -340,21 +340,21 @@ class CriteriaWLTMMC : public Criteria {
 
   /// Splice windows together.
   void spliceWindows(const vector<CriteriaWLTMMC*> c);
-  
+
   /// Splice windows together.
   void spliceWindows(const vector<shared_ptr<CriteriaWLTMMC> > c)
     { return spliceWindows(shrPtr2Raw(c)); }
 
   /// Return minimum number of sweeps in all windows.
   int minNSweep(const vector<CriteriaWLTMMC*> c);
-  
+
   /// Return minimum number of sweeps in all windows.
   int minNSweep(const vector<shared_ptr<CriteriaWLTMMC> > c)
     { return minNSweep(shrPtr2Raw(c)); }
 
   /// Return minimum number of wlFLat in all windows.
   int minNwlFlat(const vector<CriteriaWLTMMC*> c);
-  
+
   /// Return minimum number of wlFLat in all windows.
   int minNwlFlat(const vector<shared_ptr<CriteriaWLTMMC> > c)
     { return minNwlFlat(shrPtr2Raw(c)); }
@@ -364,7 +364,7 @@ class CriteriaWLTMMC : public Criteria {
 
   /// Return heat capacity for each bin.
   vector<double> heatCapacity();
-  
+
   /// Return energy fluctations for each bin.
   vector<double> fluct();
 
@@ -392,7 +392,7 @@ class CriteriaWLTMMC : public Criteria {
 
   /// Construct by checkpoint file.
   explicit CriteriaWLTMMC(const char* fileName);
-  
+
   /// Write restart/checkpoint file.
   void writeRestart(const char* fileName);
 

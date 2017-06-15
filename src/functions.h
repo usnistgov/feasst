@@ -419,7 +419,7 @@ double complexVec2norm(vector<std::complex<double> > compVec);
 /** \return rounded double to nearest integer. This rounding is implemented
  *  as floor(x+0.5), such that feasstRound(-0.5) == 0. The cplusplus library
  *  round(-0.5) from math.h results in round(-0.5) == -1, such that rounding
- *  at the halfway point is away from zero. This breaks the first bin on 
+ *  at the halfway point is away from zero. This breaks the first bin on
  *  histograms. */
 int feasstRound(double x);
 

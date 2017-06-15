@@ -76,7 +76,7 @@ class AnalyzeScatter : public Analyze {
 
   /// intermolecular histogram
   vector<vector<vector<vector<long long> > > > histInter2_;
-  
+
   /// intramolecular histogram
   vector<vector<vector<vector<long long> > > > histIntra2_;
 

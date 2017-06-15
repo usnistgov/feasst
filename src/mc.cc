@@ -716,7 +716,7 @@ void MC::writeRestart(const char* fileName) {
   file << "# printPressure " << printPressure_ << endl;
   if (production_ == 1) file << "# production " << production_ << endl;
   file << "# prodFileAppend " << prodFileAppend_ << endl;
-  
+
   // write random number generator state
   writeRngRestart(fileName);
 
@@ -832,10 +832,10 @@ void MC::b2mayer(double *b2v, double *b2er, Pair *pairRef, const double tol, dou
   if (boxl == -1) {
     boxl = 2.*(2.*space_->maxMolDist() + pair_->rCut());
   }
-//  space.lset(boxl); 
+//  space.lset(boxl);
 //  const double boxlbig = boxl*1e6;
-// 
-//  // equilibrate: tune maxMove parameters and make sure that initial 
+//
+//  // equilibrate: tune maxMove parameters and make sure that initial
 //  // configuration has non-zero energy
 //  double peOld = 0.;
 //  const int maxIterations = 1e3;

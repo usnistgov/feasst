@@ -1,20 +1,19 @@
 # loop through all .h and .cc files
 #for f in functions_unittest.cc; do
 #for f in `ls *.i`; do 
-for f in `ls *.h *.cc`; do 
+for f in `ls *.h *.cc *.i`; do 
   # # double space on header guards
   # sed 's/#endif \/\//#endif  \/\//' $f > tttmp
   # mv tttmp $f
 
-#  # remove extra whitespace at end of line
-#  sed 's/ $//' $f > tttmp
-#  mv tttmp $f
+  # remove extra whitespace at end of line
+  sed --in-place 's/ $//g' $f
 
   # remove lines
-  #sed --in-place '/using namespace feasst;/d' $f
+  # sed --in-place '/using namespace feasst;/d' $f
   
   # rename functions
-  sed --in-place 's/print(/write(/g' $f
+  # sed --in-place 's/print(/write(/g' $f
   
   #sed --in-place 's/namespace feasst {/\#ifdef FEASST_NAMESPACE_\nnamespace feasst {\n\#endif  \/\/ FEASST_NAMESPACE_/g' $f
   #sed --in-place 's/\}  \/\/ namespace feasst/\#ifdef FEASST_NAMESPACE_\n\}  \/\/ namespace feasst\n\#endif  \/\/ FEASST_NAMESPACE_/g' $f

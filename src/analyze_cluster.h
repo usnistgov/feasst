@@ -51,8 +51,8 @@ class AnalyzeCluster : public Analyze {
    * connected to its own periodic image.
    */
   void initPercolation(
-    const int percFlag = 0    
-    /**< if "0", no computation. 
+    const int percFlag = 0  
+    /**< if "0", no computation.
          if "1", use expanding box (slow).
          if "2", use contact map. */
     ) { percFlag_ = percFlag; }
@@ -68,7 +68,7 @@ class AnalyzeCluster : public Analyze {
   AccumulatorVec coordNumAccVec_;     // average coordination number
   AccumulatorVec largestClusAccVec_;  // average largest cluster
   AccumulatorVec percolation_;        // 0 or 1 if system spanning
-  
+
   int percFlag_;   //!< type of percolation computation
 
   // contact orientation

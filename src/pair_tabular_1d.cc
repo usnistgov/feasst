@@ -48,7 +48,7 @@ int PairTabular1D::initEnergy() {
   fill(0., f_);
   //fCOM_.clear();
   //fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
-  
+
   // loop through nearest neighbor atom pairs
   for (int ipart = 0; ipart < natom - 1; ++ipart) {
     if (eps_[type[ipart]] != 0) {
@@ -79,7 +79,7 @@ int PairTabular1D::initEnergy() {
               if (peTable_[type[ipart]][type[jpart]]->
                 interpolator().compare("gslspline") == 0) {
                 double fij = 0.;
-                const double pe = 
+                const double pe =
                   peTable_[type[ipart]][type[jpart]]->interpolate(r2, &fij);
                 deSR_ += pe;
                 // fij returns the derivative with respect to r2
@@ -89,7 +89,7 @@ int PairTabular1D::initEnergy() {
                   f_[jpart][dim] -= fij*xij[dim];
                 }
               } else {
-                const double pe = 
+                const double pe =
                   peTable_[type[ipart]][type[jpart]]->interpolate(r2);
                 deSR_ += pe;
               }
@@ -238,7 +238,7 @@ void PairTabular1D::setInterpolator(const char* name) {
     }
   }
 }
-  
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

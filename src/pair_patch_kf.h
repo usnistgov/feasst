@@ -55,7 +55,7 @@ class PairPatchKF : public Pair {
 
   /// potential energy and forces of all particles
   double allPartEnerForce(const int flag);
-  
+
   /// read-only access of protected variables
   double cpa() const { return cpa_; }
 

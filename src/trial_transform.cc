@@ -26,7 +26,7 @@ TrialTransform::TrialTransform(const char* fileName,
   transType_ = fstos("transType", fileName);
   defaultConstruction();
   targAcceptPer = fstod("targAcceptPer", fileName);
-  
+
   // although maxMoveParam was already read in the base class
   // read it again because it was over-written by defaultConstruction
   maxMoveParam = fstod("maxMoveParam", fileName);
@@ -238,7 +238,7 @@ void TrialTransform::attempt1() {
         // cout << "rejected " << transType_ << " " << de_ << endl;
         trialReject();
       }
-      
+    
       // record statistics
       if (reject_ != 1) {
         if (transType_.compare("vol") == 0) {
@@ -313,7 +313,7 @@ string TrialTransform::printStat(const bool header) {
     if (header) {
       stat << "maxMove ";
     } else {
-      stat << maxMoveParam << " "; 
+      stat << maxMoveParam << " ";
     }
   }
   if (transType_.compare("vol") == 0) {

@@ -35,7 +35,7 @@ class TrialAdd : public Trial {
 
   /// return status of trial
   string printStat(const bool header = false);
-  
+
   /// read only access to protected variables
   string molType() const { return molType_; }
 

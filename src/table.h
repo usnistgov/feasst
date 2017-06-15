@@ -58,13 +58,13 @@ class Table {
 
   /// set the interpolator
   void setInterpolator(const char* name);
-  
+
   /// solve for the spline derivatives, assuming condition at end points
   void solveSpline(const char* endCondition);
-  
+
   /// for a given bin, return the abscissae ("x")
   double bin2abs(const int bin);
-  
+
   // functions for read-only access of private data-members
   double min() const { return min_; }
   vector<vector<double> > tablim() const { return tablim_; }
@@ -85,10 +85,10 @@ class Table {
   vector<vector<double> > tablim_;   //!< table limits
   double min_;              //!< minimum value
   double d0_, d1_, d2_, d3_, d4_, d5_;
-  
+
   // spline
   vector<double> cspline_;   //!< spline coefficients
-  
+
   /// accessor function with indices [1,n] to look like FORTRAN
   double c_(const int coeff, const int index) const {
     return cspline_[4*(index-1)+(coeff-1)];
@@ -96,10 +96,10 @@ class Table {
   void cset_(const int coeff, const int index, const double value) {
     cspline_[4*(index-1)+(coeff-1)] = value;
   }
-    
+  
   #ifdef GSL_
-    gsl_interp_accel *acc; 
-    gsl_spline *spline; 
+    gsl_interp_accel *acc;
+    gsl_spline *spline;
   #endif  // GSL_
 };
 

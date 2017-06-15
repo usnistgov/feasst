@@ -83,7 +83,7 @@ void TrialAdd::attempt1() {
     ss << "add" << molid_;
     trialType_.assign(ss.str());
   }
-  
+
   // add molecule
   space_->addMol(molType_.c_str());
   pair_->addPart();
@@ -162,7 +162,7 @@ void TrialAdd::attempt1() {
     de_ = pair_->multiPartEner(mpart_, 3);
     pair_->update(mpart_, 3, "store");
     const int iMolIndex = space_->findAddMolListIndex(molType_);
-    lnpMet_ += -criteria_->beta()*(de_ - def_) 
+    lnpMet_ += -criteria_->beta()*(de_ - def_)
             + log(criteria_->activ(iMolIndex));
     reject_ = 0;
   } else {
@@ -207,7 +207,7 @@ string TrialAdd::printStat(const bool header) {
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
 
-  
+
 
 
 

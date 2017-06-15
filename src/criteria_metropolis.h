@@ -12,13 +12,13 @@ namespace feasst {
  */
 class CriteriaMetropolis : public Criteria {
  public:
-  
+
   /// Constructor
   CriteriaMetropolis(const double beta, const double activ);
-  
+
   /// Construct by checkpoint file.
   explicit CriteriaMetropolis(const char* fileName);
-  
+
   ~CriteriaMetropolis() {}
   CriteriaMetropolis* clone() const;
   shared_ptr<CriteriaMetropolis> cloneShrPtr() const;

@@ -78,10 +78,10 @@ void TrialMD::attempt1() {
   } else {
     ASSERT(0, "unrecognized integrator");
   }
-  
+
   // rescale temperature
   if (rescaleTemp == 1) rescaleVelocity();
-  
+
   trialAccept();
 }
 
@@ -165,9 +165,9 @@ string TrialMD::printStat(const bool header) {
   if (header) {
     stat << "ke utot temp ";
   } else {
-    stat << kineticEnergy() << " " 
+    stat << kineticEnergy() << " "
       << kineticEnergy() + pair_->peTot() << " "
-      << temperature() <<  " "; 
+      << temperature() <<  " ";
   }
   return stat.str();
 }
@@ -177,7 +177,7 @@ string TrialMD::printStat(const bool header) {
  */
 void TrialMD::updateFCOM() {
   if (static_cast<int>(fCOM_.size()) != space_->nMol()*space_->dimen()) {
-    fCOM_.resize(space_->nMol()*space_->dimen(), 0);  
+    fCOM_.resize(space_->nMol()*space_->dimen(), 0);
   }
   std::fill(fCOM_.begin(), fCOM_.end(), 0.);
   for (int ipart = 0; ipart < space_->natom(); ++ipart) {
@@ -194,7 +194,7 @@ void TrialMD::updateFCOM() {
 void TrialMD::updateVelocityHalfStep() {
   for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
     for (int dim = 0; dim < space_->dimen(); ++dim) {
-      vel_[space_->dimen()*iMol + dim] 
+      vel_[space_->dimen()*iMol + dim]
         += 0.5*timestep*fCOM(iMol, dim)*mass_[iMol];
     }
   }

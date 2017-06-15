@@ -129,7 +129,7 @@ int CriteriaWLTMMC::accept(const double lnpMet, const double peNew,
     } else {
       returnVal = 0;
     }
-  
+
     // update pe_ vector
     if (collect_) {
       if (returnVal == 0) {
@@ -174,7 +174,7 @@ void CriteriaWLTMMC::store(const Space* space, Pair* pair) {
 }
 
 int CriteriaWLTMMC::flatCheck() {
-  if (*std::min_element(h_.begin(), h_.end()) 
+  if (*std::min_element(h_.begin(), h_.end())
       > wlFlatFactor_ * vecAverage(h_)) {
     std::fill(h_.begin(), h_.end(), 0);
     lnf_ *= g_;

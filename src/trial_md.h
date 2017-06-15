@@ -57,18 +57,18 @@ class TrialMD : public Trial {
 
   /// return status of trial
   string printStat(const bool header = false);
- 
+
   /// update center of mass forces
   void updateFCOM();
 
   /// update half-step velocities
   void updateVelocityHalfStep();
- 
+
   /// velocity verlet integration
   void integrateVelocityVerlet();
 
   // read-only access to private
-  double fCOM(const int iMol, const int dim) const { 
+  double fCOM(const int iMol, const int dim) const {
     return fCOM_[space_->dimen()*iMol + dim];
   }
 

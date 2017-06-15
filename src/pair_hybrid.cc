@@ -239,7 +239,7 @@ void PairHybrid::writeRestart(const char* fileName) {
     }
   }
 }
-  
+
 /**
  * identify a particle as non physical or non physical
  */
@@ -279,7 +279,7 @@ void PairHybrid::allPartPhysical() {
     }
   }
 }
-  
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

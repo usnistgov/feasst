@@ -58,7 +58,7 @@ class Base {
    * and updated for all derived classes.
    */
   std::string className() const { return className_; }
-  
+
   /// The base directory where the code is located is stored in this variable.
   const char* install_dir() const { return install_dir_.c_str(); }
 
@@ -66,7 +66,7 @@ class Base {
   std::string className_;     //!< name of class
   string install_dir_;        //!< install directory
   int verbose_;               //!< flag for verbose printing
-  
+
   /// Place-holder for derived objects to perform additional reconstruction.
   virtual void reconstructDerived_() {}
 };

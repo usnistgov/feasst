@@ -303,7 +303,7 @@ TEST(Functions, trim) {
 
   const char* f3 = "/home/username/feasst/forcefield/cg7mabaniso.json";
   EXPECT_EQ("json", feasst::trim(".", f3));
- 
+
   // now find the path by trimming from right (3rd flag 0) instead of the left
   EXPECT_EQ("/home/username/feasst/forcefield/", feasst::trim("/", f3, 0));
 }

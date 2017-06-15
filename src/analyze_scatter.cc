@@ -19,7 +19,7 @@ AnalyzeScatter::AnalyzeScatter(Space *space,
   if (!strtmp.empty()) {
     nMomentsCut_ = stoi(strtmp);
   }
-  
+
   // cout << "nm " << nMacrosTmp << endl;
   initSANS(dgrTmp, nMacrosTmp);
 
@@ -68,7 +68,7 @@ AnalyzeScatter::AnalyzeScatter(Space *space,
           }
         }
       }
-      
+    
       getline(fs, line);
     }
   }
@@ -223,7 +223,7 @@ void AnalyzeScatter::update(const int iMacro) {
           const int bin = feasstRound(r/dgr_ - 0.5);
           histInter2_[iMacro][iType][jType][bin]++;
           histInter2_[iMacro][jType][iType][bin]++;
-          
+        
           // moments
           double peMoment = 1.;
           for (int iMo = 0; iMo < nMomentsCut_; ++iMo) {

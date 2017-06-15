@@ -92,7 +92,7 @@ class Trial : public BaseAll {
 
   /// return status of trial
   virtual string printStat(const bool header = false);
-  
+
   // functions for read-only access of private data-members
   long long attempted() const { return attempted_; }   //!< number of attempts
   long long accepted() const { return accepted_; }

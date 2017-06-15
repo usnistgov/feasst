@@ -34,7 +34,7 @@ class TrialSwap : public Trial {
 
   /// return status of trial
   string printStat(const bool header = false);
-  
+
   /// read only access to protected variables
   string molTypeA() const { return molTypeA_; }
   string molTypeB() const { return molTypeB_; }
@@ -45,7 +45,7 @@ class TrialSwap : public Trial {
   string molTypeA_;
   string molTypeB_;
   Accumulator nA_, nB_;
-  
+
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl(Space* space, Pair *pair,
                                       Criteria *criteria) const;

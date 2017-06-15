@@ -70,7 +70,7 @@ void TrialDelete::attempt1() {
          (!avbOn_), "this class assumes atomCut(" << pair_->atomCut()
          << ") == 0 when avb is on");
   if (verbose_ == 1) std::cout << "attempting to " << trialType_ << std::endl;
-  
+
   // initialize molid_ if not already initialized from default value
   if (molid_ == -1) {
     if (molType_.empty()) {
@@ -83,7 +83,7 @@ void TrialDelete::attempt1() {
     ss << "del" << molid_;
     trialType_.assign(ss.str());
   }
-  
+
   if (space_->nMol() <= 0) {
     if (verbose_ == 1) {
       cout << "deletion rejected because no molecules " << de_ << endl;
@@ -114,7 +114,7 @@ void TrialDelete::attempt1() {
         preFac_ = static_cast<double>(space_->nMol())/space_->vol();
         lnpMet_ = log(preFac_);
         mpart_ = space_->randMol();
-      
+    
       // otherwise, delete only molType
       } else {
         const int iMolIndex = space_->findAddMolListIndex(molType_);

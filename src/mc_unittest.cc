@@ -565,7 +565,7 @@ TEST(MC, b2mayer) {
   xAdd[0] = 1.1;
   space.xAdd = xAdd;
   space.addMol(0);
-  
+
   PairLJMulti pair(&space, 1e5);
   pair.initData("../forcefield/data.lj");
   pair.cutShift(1);
@@ -587,9 +587,9 @@ TEST(MC, b2mayer) {
   //mc.setNFreqCheckE(nfreq, 1e-8);
   mc.initLog("tmp/mayer", nfreq);
   mc.initMovie("tmp/mayer", nfreq);
-  
+
   //mc.nMolSeek(2, "../forcefield/data.lj", 1e8);
-  
+
   mc.runNumTrials(1e4);
   //mc.runNumTrials(1e6);
   //cout << "pe " << pair.peTot() << endl;
@@ -633,8 +633,8 @@ TEST(MC, PairPatchKF) {
   mc.nMolSeek(12, "../forcefield/data.onePatch");
   pair.initEnergy();
   const int nfreq = 1e0;
-  mc.initLog("tmp/patchlog", nfreq); 
-  mc.initMovie("tmp/patchmovie", nfreq); 
+  mc.initLog("tmp/patchlog", nfreq);
+  mc.initMovie("tmp/patchmovie", nfreq);
   mc.setNFreqCheckE(nfreq, feasst::DTOL);
   mc.runNumTrials(1e2);
 }

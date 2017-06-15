@@ -33,13 +33,13 @@ class TrialConfigBias : public Trial {
 
   /// flag on how to handle insert/delete trials
   int insDelFlag;
-  
+ 
   /// initialize trials in given MC class based on reading input file
   void file2MC(const char* fileName, MC* mc) {}
- 
+
  protected:
   string molType_;              //!< type of molecule to add
-  
+ 
   /// clone design pattern
   virtual shared_ptr<Trial> cloneImpl
     (Space* space, Pair *pair, Criteria *criteria) const;

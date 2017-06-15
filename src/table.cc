@@ -169,13 +169,13 @@ Table::Table(const char* fileName) {
     cout << "error: Unrecognized tabdim(" << tabDims_ << ")" << endl;
     exit(0);
   }
-  
+
   // set the interpolator, which may require some initialization
   // and therefore should be run after the tables are initialized
   if (!strtmp.empty()) {
     setInterpolator(strtmp.c_str());
   }
-  
+
   min_ = 0.;
 }
 
@@ -214,7 +214,7 @@ double Table::interpolate(const double val0) {
   } else if (interpolator_.compare("cspline") == 0) {
     const double dv = val0-v0;
     cout << "val0 " << val0 << " v0 " << v0 << " i0 " << i0 << " dv " << dv
-         << " d0 " << d0_ 
+         << " d0 " << d0_
          << " c1 " << c_(1, i0)
          << " c2 " << c_(2, i0)
          << " c3 " << c_(3, i0)
@@ -817,7 +817,7 @@ void Table::printHDF5(const char* fileName) {
 double Table::bin2abs(const int bin) {
   return tablim_[0][0] + bin*d0_;
 }
-  
+
 /*
  * solve for the spline derivatives, assuming condition at end points
  *
@@ -830,16 +830,16 @@ double Table::bin2abs(const int bin) {
  */
 void Table::solveSpline(const char* endCondition) {
   string endCondStr(endCondition);
-  ASSERT(endCondStr.compare("notaknot") == 0, 
+  ASSERT(endCondStr.compare("notaknot") == 0,
     "unrecognized spline end condition(" << endCondition << ")");
-  
+
   // not-a-knot requires that the third derivative is also continuous at
   // the 'next-to-end-points' x_1, x_(n-1)
   cspline_.clear();
   cspline_.resize(tab1_.size()*4, 0.);
-  
+
   //cout << "start inits tab1sz " << tab1_.size() << endl;
-  
+
   const int n = static_cast<int>(tab1_.size());
   for (int m = 1; m < n + 1; ++m) {
     cset_(1, m, tab1_[m - 1]);
@@ -861,11 +861,11 @@ void Table::solveSpline(const char* endCondition) {
   // interior knots
   for (int m = 2; m < n; ++m) {
     const double g = -c_(3, m + 1)/c_(4, m - 1);
-    cset_(2, m, g*c_(2, m - 1) + 3.*(c_(3, m)*c_(4, m + 1) 
+    cset_(2, m, g*c_(2, m - 1) + 3.*(c_(3, m)*c_(4, m + 1)
                + c_(3, m + 1)*c_(4, m)));
     cset_(4, m, g*c_(3, m - 1) + 2.*(c_(3, m) + c_(3, m + 1)));
   }
-  
+
   ASSERT(tab1_.size() > 3, "edge case not implemented");
 
   // not-a-knot on the right end
@@ -914,9 +914,9 @@ void Table::setInterpolator(const char* name) {
   #endif  // GSL_
   }
 }
-  
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
 
-  
+

@@ -43,8 +43,8 @@ int numLines(const std::string fileName) {
 vector<double> matVecMul(const vector<vector<double> > &a,
 	const vector<double> &x) {
   vector<double> b(int(a.size()));
-	ASSERT(static_cast<int>(a[0].size()) == static_cast<int>(x.size()), 
-    "matVecMul requires columns of matrix a(" << a[0].size() 
+	ASSERT(static_cast<int>(a[0].size()) == static_cast<int>(x.size()),
+    "matVecMul requires columns of matrix a(" << a[0].size()
     << ") to equal rows of vector x(" << x.size());
 	for (int j = 0; j < int(a.size()); ++j) {
 		for (int i = 0; i < int(x.size()); ++i) {
@@ -73,8 +73,8 @@ void normalizeVec(vector<double> *x) {
 }
 
 vector<double> crossProd(const vector<double> &a, const vector<double> &b) {
-  ASSERT( (a.size() == b.size()) && (a.size() == 3), 
-    "crossProd requires vectors of 3 dimensions, however, a(" << a.size() 
+  ASSERT( (a.size() == b.size()) && (a.size() == 3),
+    "crossProd requires vectors of 3 dimensions, however, a(" << a.size()
     << ") and b(" << b.size() << ")");
   vector<double> c(a.size());
 	c[0] = a[1] * b[2] - a[2] * b[1];
@@ -91,7 +91,7 @@ void ranInitByDate() {
 
 void ranInitForRepro(const int seed) {
 	srand ( seed );
-  NOTE("Initializing random number generator for reproduction with seed(" 
+  NOTE("Initializing random number generator for reproduction with seed("
     << seed << ")");
 }
 
@@ -134,9 +134,9 @@ vector<vector<double> > vecSPCE() {
 vector<vector<double> > matMul(const vector<vector<double> > &a,
   const vector<vector<double> > &b) {
   vector<vector<double> > c(int(a.size()), vector<double>(int(b[0].size())));
-  ASSERT(a[0].size() == b.size(), "matMul requires columns of matrix a(" 
+  ASSERT(a[0].size() == b.size(), "matMul requires columns of matrix a("
     << a[0].size() << ") to equal rows of vector x(" << b.size());
-  ASSERT(a.size() == c.size(), "matMul requires rows of matrix a(" 
+  ASSERT(a.size() == c.size(), "matMul requires rows of matrix a("
     << a.size() << ") to equal rows of vector b(" << c.size());
 	for (int i = 0; i < int(a.size()); ++i) {
 		for (int j = 0; j < int(b[0].size()); ++j) {
@@ -190,7 +190,7 @@ void readUntil(const char* searchString, std::ifstream &file) {
   while (line.compare(searchString) != 0) {
     getline(file, line);
     ++i;
-    ASSERT(i <= nMax, "readUntil reached nMax attempts(" << nMax 
+    ASSERT(i <= nMax, "readUntil reached nMax attempts(" << nMax
       << ") while looking for string(" << searchString << ") in file");
     //cout << "readUntil " << i << "/" << nMax << ": " << line << endl;
   }
@@ -227,7 +227,7 @@ vector<vector<int> > nWindow(const int nMolMin, const int nMolMax,
 vector<vector<double> > nWindowGrowth(const double mMin, const double mMax,
   const double grow, const int nWindow, const double dm, const int overlap) {
   vector<vector<double> > win(nWindow, vector<double>(2));
-  ASSERT(grow == 0, "nWindowGrow isn't correctly implemented for grow(" 
+  ASSERT(grow == 0, "nWindowGrow isn't correctly implemented for grow("
     << grow << ") != 0");
 
   // first, determine the size of the first window, d0
@@ -308,7 +308,7 @@ string fstos(const char* searchString, const char* fileName) {
 double fstod(const char* searchString, const char* fileName) {
   const string str = fstos(searchString, fileName);
   if (str.empty()) {
-    NOTE("can't find searchString(" << searchString << ") in file(" 
+    NOTE("can't find searchString(" << searchString << ") in file("
       << fileName << ") when converting to double");
     return 0;
   } else {
@@ -319,7 +319,7 @@ double fstod(const char* searchString, const char* fileName) {
 int fstoi(const char* searchString, const char* fileName) {
   const string str = fstos(searchString, fileName);
   if (str.empty()) {
-    NOTE("can't find searchString(" << searchString << ") in file(" 
+    NOTE("can't find searchString(" << searchString << ") in file("
       << fileName << ") when converting to double");
     return 0;
   } else {
@@ -330,7 +330,7 @@ int fstoi(const char* searchString, const char* fileName) {
 long long fstoll(const char* searchString, const char* fileName) {
   const string str = fstos(searchString, fileName);
   if (str.empty()) {
-    NOTE("can't find searchString(" << searchString << ") in file(" 
+    NOTE("can't find searchString(" << searchString << ") in file("
       << fileName << ") when converting to double");
     return 0;
   } else {
@@ -341,7 +341,7 @@ long long fstoll(const char* searchString, const char* fileName) {
 unsigned long long fstoull(const char* searchString, const char* fileName) {
   const string str = fstos(searchString, fileName);
   if (str.empty()) {
-    NOTE("can't find searchString(" << searchString << ") in file(" 
+    NOTE("can't find searchString(" << searchString << ") in file("
       << fileName << ") when converting to double");
     return 0;
   } else {
@@ -431,7 +431,7 @@ void rotateJacobi(vector<vector<double> > &matrix, const int i, const int j,
 }
 
 vector<double> orthogonalVec(const vector<double> &x) {
-  ASSERT(x.size() == 3, "orthogonalVec requires dimensions(" 
+  ASSERT(x.size() == 3, "orthogonalVec requires dimensions("
     << x.size() << ") == 3");
 
   // find the component with the least absolute value
@@ -465,9 +465,9 @@ vector<double> orthogonalVec(const vector<double> &x) {
 }
 
 vector<vector<double> > rotMatAxisAngle(vector<double> u, const double theta) {
-  ASSERT(u.size() == 3, "rotMatAxisAngle requires dimensions(" 
+  ASSERT(u.size() == 3, "rotMatAxisAngle requires dimensions("
     << u.size() << ") == 3");
-  ASSERT(fabs(vecDotProd(u, u) - 1) < DTOL, "axis u(" << u[0] << "," 
+  ASSERT(fabs(vecDotProd(u, u) - 1) < DTOL, "axis u(" << u[0] << ","
     << u[1] << "," << u[2] << ") in rotMatAxisAngle must be normalized");
   vector<vector<double> > r(3, vector<double>(3));
   const double c=cos(theta), s=sin(theta);
@@ -598,7 +598,7 @@ vector<vector<double> > RotMat2Euler(const vector<vector<double> > rotMat) {
  */
 double det3by3(const vector<vector<double> > mat) {
   ASSERT(mat.size() == 3, "assumes 3D, but size of mat is " << mat.size());
-  ASSERT(mat[0].size() == 3, "assumes 3D, but size of mat[0] is " 
+  ASSERT(mat[0].size() == 3, "assumes 3D, but size of mat[0] is "
     << mat[0].size());
   const double a = mat[0][0], b = mat[0][1], c = mat[0][2], d=mat[1][0],
     e=mat[1][1], f=mat[1][2], g=mat[2][0], h=mat[2][1], i=mat[2][2];
@@ -607,7 +607,7 @@ double det3by3(const vector<vector<double> > mat) {
 
 double det2by2(const vector<vector<double> > mat) {
   ASSERT(mat.size() == 2, "assumes 3D, but size of mat is " << mat.size());
-  ASSERT(mat[0].size() == 2, "assumes 3D, but size of mat[0] is " 
+  ASSERT(mat[0].size() == 2, "assumes 3D, but size of mat[0] is "
     << mat[0].size());
   const double a = mat[0][0], b = mat[0][1], c = mat[1][0], d=mat[0][1];
   return a*d-b*c;
@@ -615,7 +615,7 @@ double det2by2(const vector<vector<double> > mat) {
 
 vector<vector<double> > cofactor3by3(const vector<vector<double> > mat) {
   ASSERT(mat.size() == 3, "assumes 3D, but size of mat is " << mat.size());
-  ASSERT(mat[0].size() == 3, "assumes 3D, but size of mat[0] is " 
+  ASSERT(mat[0].size() == 3, "assumes 3D, but size of mat[0] is "
     << mat[0].size());
   vector<vector<double> > cof(3, vector<double>(3));
   cof[0][0] =  mat[1][1]*mat[2][2] - mat[1][2]*mat[2][1];

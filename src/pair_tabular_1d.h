@@ -63,7 +63,7 @@ class PairTabular1D : public Pair {
 
   /// set the interpolator
   void setInterpolator(const char* name);
-  
+
   /// read-only access of protected variables
   vector<vector<shared_ptr<Table> > > peTable() const { return peTable_; }
 
