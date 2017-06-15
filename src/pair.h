@@ -64,7 +64,7 @@ class Pair : public BaseAll {
   virtual double multiPartEner(const vector<int> multiPart, const int flag) = 0;
   virtual double multiPartEnerAtomCut(const vector<int> multiPart);
   virtual double multiPartEnerAtomCut2D(const vector<int> multiPart);
-  
+
   /**
    * Computes the interaction between two particles itype and jtype separated
    * by a squared distance r2=r*r.
@@ -262,13 +262,13 @@ class Pair : public BaseAll {
   /// identify a particle as non physical or non physical
   virtual void ipartNotPhysical(const int ipart) { nonphys_[ipart] = 1; }
   virtual void ipartIsPhysical(const int ipart) { nonphys_[ipart] = 0; }
-  virtual void allPartPhysical() { 
+  virtual void allPartPhysical() {
     std::fill(nonphys_.begin(), nonphys_.end(), 0);
   }
 
   /// flag to read sigref
   void setSigRefFlag(const int flag) { sigrefFlag_ = flag; }
-  
+
   // read-only access to protected variables
   double f(int iAtom, int dim) const { return f_[iAtom][dim]; }  //!< force
   double rCut() const { return rCut_; }  //!< interaction cut-off distance
@@ -287,6 +287,7 @@ class Pair : public BaseAll {
   vector<vector<double> > epsij() const { return epsij_; }
   vector<vector<double> > sigij() const { return sigij_; }
   vector<vector<double> > rCutij() const { return rCutij_; }
+  double rCutij(const int i, const int j) const { return rCutij_[i][j]; }
   double sigij(const int i, const int j) const { return sigij_[i][j]; }
   double epsij(const int i, const int j) const { return epsij_[i][j]; }
   vector<vector<int> > neigh() const { return neigh_; }
@@ -367,10 +368,10 @@ class Pair : public BaseAll {
   //  If empty, all interactions are considered
   vector<int> neighType_;
   int neighTypeScreen_;               //!< screen neighbors by type if == 1
-  
+
   /// erase molecule from neighlist
   void eraseNeigh_(const vector<int> mpart, vector<vector<int> > *neighPtr);
-  
+
   bool fastDel_;                   //!< use fast method of deleting particles
   int fastDelMol_;                   //!< molecule last deleted by fast method
   /// cheap potential calculation for CBMC multiple first-bead insertions
@@ -382,7 +383,7 @@ class Pair : public BaseAll {
   vector<string> initDataFiles_;
   /// record list of epsijset for restart file
   vector<vector<double> > epsijsetRecord_;
-  
+
   int intra_;         //!< flag for intramolecular interactions
 
   // order parameter variables
@@ -410,4 +411,3 @@ class Pair : public BaseAll {
 #endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_H_
-

@@ -60,9 +60,12 @@ class PairHybrid : public Pair {
   void ipartNotPhysical(const int ipart);
   void ipartIsPhysical(const int ipart);
   void allPartPhysical();
-  
+
   /// read only access to protected variables
   int nPairs() const { return static_cast<int>(pairVec_.size()); }
+
+	/// get a pair corresponding to a known index
+	Pair* getPair(const int iPair) const { return pairVec_[iPair]; }
 
  protected:
   vector<Pair*> pairVec_;   //!< vector of pointers to pairs
@@ -78,4 +81,3 @@ class PairHybrid : public Pair {
 #endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_HYBRID_H_
-

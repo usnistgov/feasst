@@ -59,7 +59,7 @@ int PairPatchKF::initEnergy() {
       if (r2 < rCutSq_) {
         // hard sphere
         if (r2 < sigSq) {
-          pePart = std::numeric_limits<double>::max()/1e10;
+          pePart = NUM_INF;
 
         // orientational square well
         } else {
@@ -178,7 +178,7 @@ double PairPatchKF::multiPartEnerNeigh(
 
         // hard sphere
         if (r2 < sigSq) {
-          peSRone_ += std::numeric_limits<double>::max()/1e10;
+          peSRone_ += NUM_INF;
           storeNeighCutPEMap(jpart, 0);
 
         // orientational square well

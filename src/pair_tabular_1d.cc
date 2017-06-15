@@ -72,7 +72,7 @@ int PairTabular1D::initEnergy() {
           // no interaction beyond cut-off distance
           if (r2 < pow(rCutij_[type[ipart]][type[jpart]], 2.)) {
             if (r2 < pow(rCutInner_[type[ipart]][type[jpart]], 2.)) {
-              deSR_ += std::numeric_limits<double>::max()/1e10;
+              deSR_ += NUM_INF;
               ASSERT(0, "inner table value reached");
             } else {
               // obtain force from the potential energy table if using spline
@@ -130,7 +130,7 @@ double PairTabular1D::multiPartEner(
 void PairTabular1D::multiPartEnerAtomCutInner(
   const double &r2, const int &itype, const int &jtype) {
   if (r2 < pow(rCutInner_[itype][jtype], 2.)) {
-    peSRone_ += std::numeric_limits<double>::max()/1e10;
+    peSRone_ += NUM_INF;
   } else {
     peSRone_ += peTable_[itype][jtype]->interpolate(r2);
   }

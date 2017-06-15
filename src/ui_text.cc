@@ -1,7 +1,9 @@
 #include "./ui_abbreviated.h"
 #include "./pair_lj_multi.h"
 
+#ifdef FEASST_NAMESPACE_
 using namespace feasst;
+#endif  // FEASST_NAMESPACE_
 
 shared_ptr<Space> space;
 shared_ptr<Criteria> criteria;
@@ -13,7 +15,7 @@ void interpret(vector<string> cmd) {
   if (cmd[0] == "space") {
     const int dimen = stoi(cmd[1]);
     space = make_shared<Space>(dimen, 0);
-  
+
   } else if (cmd[0] == "boxl") {
     double boxl = stod(cmd[1]);
     for (int dim = 0; dim < space->dimen(); ++dim) {
@@ -28,7 +30,7 @@ void interpret(vector<string> cmd) {
       const double rCut = stod(cmd[2]);
       pair = make_shared<PairLJ>(space.get(), rCut);
     }
- 
+
   } else if (cmd[0] == "initEnergy") {
     pair->initEnergy();
 
@@ -38,30 +40,30 @@ void interpret(vector<string> cmd) {
     if (cmd[1] == "metropolis") {
       criteria = make_shared<CriteriaMetropolis>(beta, lnz);
     }
-  
+
   } else if (cmd[0] == "mc") {
-    mc = make_shared<MC>(space.get(), pair.get(), criteria.get()); 
-  
+    mc = make_shared<MC>(space.get(), pair.get(), criteria.get());
+
   } else if (cmd[0] == "trial") {
     if (cmd[1] == "translate") {
       const double maxMoveParam = stod(cmd[2]);
       transformTrial(mc, cmd[1].c_str(), maxMoveParam);
     }
-  
+
   } else if (cmd[0] == "nMolSeek") {
     const int nMol = stoi(cmd[1]);
     mc->nMolSeek(nMol, cmd[2].c_str());
 
   } else if (cmd[0] == "log") {
     mc->initLog(cmd[1].c_str(), stoi(cmd[2]));
-  
+
   } else if (cmd[0] == "movie") {
     mc->initMovie(cmd[1].c_str(), stoi(cmd[2]));
-  
+
   } else if (cmd[0] == "run") {
     const int nTrials = stoi(cmd[1]);
     mc->runNumTrials(nTrials);
-  
+
   }
 }
 
@@ -125,4 +127,3 @@ int main(int argc, char** argv) {
   }
   return 1;
 }
-

@@ -1,46 +1,63 @@
 /**
- * This class serves as a container for derives classes with specific barrier
- * implementations, in order to interface with PairWall.
+ * This file is a stub or placeholder for an experimental class that is not part of this release.
  */
 
 #ifndef BARRIER_H_
 #define BARRIER_H_
 
 #include "./base.h"
+#include "./pair.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-class Barrier : public Base {
- public:
-  Barrier();    //!< Constructor
-  virtual ~Barrier() {}
-
-  /// \return the potential for a spherical object located at given coordinates
-  virtual double potential(const vector<double> coordinate,
-    const double diameter);
-  
-  /// add a barrier
-  void add(shared_ptr<Barrier> barrier) { 
-    barriers_.push_back(barrier);
-  }
-
-  /**
-   * Add a barrier which lies in a plane along two coordinate axes.
-   * The other axes, given by dimen, has a coordinate and direction
-   * where the barrier is present.
-   */
-  void addOrthogonalPlanar(const double coord, const int direction,
-    const int dimen);
-
- protected:
-  vector<shared_ptr<Barrier> > barriers_;
+// Virtual class for different features of the barrier.
+class Feature : public Base {
+public:
+	Feature () {}
+	virtual ~Feature() {;}
 };
+
+// Overall, composite barrier composed of different features for a single particle type.
+class Barrier : public Base {
+public:
+ 	Barrier () {}
+ 	virtual ~Barrier() {}
+};
+
+// All barriers for each particle type.
+class SpeciesBarriers : public Base {
+public:
+ 	SpeciesBarriers () {}
+ 	~SpeciesBarriers() {;}
+};
+
+// "Hard" slit pore with no interactions with the species
+class HardSlitPore : public Feature {
+public:
+ 	HardSlitPore () {}
+ 	~HardSlitPore () {;}
+};
+
+// Slit pore with square well interactions
+class SqwSlitPore : public Feature {
+public:
+	SqwSlitPore () {}
+ 	~SqwSlitPore () {;}
+};
+
+// Slit pore with square well interactions
+class SqwCylinder : public Feature {
+public:
+	SqwCylinder () {}
+ 	~SqwCylinder () {;}
+};
+
+// Add additional barriers here ...
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
 
 #endif  // BARRIER_H_
-

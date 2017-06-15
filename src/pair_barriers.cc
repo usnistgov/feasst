@@ -1,5 +1,4 @@
-#include "./barrier.h"
-#include <string>
+#include "./pair_barriers.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {

@@ -84,6 +84,9 @@ class CriteriaWLTMMC : public Criteria {
   /** Initialize updating of the collection matrix for when the value of the
    *  Wang-Landau update factor reaches lnfCollect. */
   void collectInit(const double lnfCollect) {lnfCollect_ = lnfCollect; }
+  void collectInit(const int wlFlat) {
+    lnfCollect_ = (pow(g_, wlFlat) + pow(g_, wlFlat - 1))/2.0;
+  }
 
   /// Initialize Transition-Matrix Monte Carlo.
   void tmmcInit();
@@ -91,7 +94,10 @@ class CriteriaWLTMMC : public Criteria {
   /** Initialize Transition-Matrix Monte Carlo for when the value of the
    *  Wang-Landau update factor reaches lnfTMMC. */
   void tmmcInit(const double lnfTMMC) {lnfTMMC_ = lnfTMMC; }
-  
+  void tmmcInit(const int wlFlat) {
+    lnfTMMC_ = (pow(g_, wlFlat) + pow(g_, wlFlat - 1))/2.0;
+  }
+
   /// Update macrostate probability distribution with collection matrix.
   void lnPIupdate();
 
@@ -113,7 +119,7 @@ class CriteriaWLTMMC : public Criteria {
 
   /// Return area of the current lnPI.
   double lnPIarea() const { return lnPIarea(lnPI_); }
-  
+
   /// Return area of the reweighted lnPI.
   double lnPIrwarea() const { return lnPIarea(lnPIrw_); }
 
@@ -148,7 +154,7 @@ class CriteriaWLTMMC : public Criteria {
   /// Return the ensemble average macrostate of the reweighted lnPI.
   double lnPIrwaverage() { return lnPIaverage(lnPIrw_); }
 
-  /** Set the index of bin of the macrostate that is the boundary between 
+  /** Set the index of bin of the macrostate that is the boundary between
    *  phasesset phase. */
   void setPhaseBoundary(const int index) { phaseBoundary_ = index; }
 
@@ -180,7 +186,7 @@ class CriteriaWLTMMC : public Criteria {
 
   // Return phase boundaries for current macrostate.
   vector<int> lnPIphaseBoundary() { return lnPIphaseBoundary(lnPI_); }
-  
+
   // Return phase boundaries for reweighted macrostate.
   vector<int> lnPIrwphaseBoundary() { return lnPIphaseBoundary(lnPIrw_); }
 
@@ -461,7 +467,7 @@ class CriteriaWLTMMC : public Criteria {
   void mUpdate_(const int mOldBin, const int mNewBin, const double pmet,
                const int acceptFlag);
 
-  /** Return the squared difference of peak heights after reweighting to new 
+  /** Return the squared difference of peak heights after reweighting to new
    *  activity. */
   double lnPIrwsat_(const double activrw);
 
@@ -505,4 +511,3 @@ class CriteriaWLTMMC : public Criteria {
 #endif  // FEASST_NAMESPACE_
 
 #endif  // CRITERIA_WLTMMC_H_
-

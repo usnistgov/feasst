@@ -199,7 +199,7 @@ void WLTMMC::afterAttempt() {
   }
 
   // run analyzers
-  for (vector<Analyze*>::iterator it = analyzeVec_.begin();
+  for (vector<shared_ptr<Analyze>>::iterator it = analyzeVec_.begin();
        it != analyzeVec_.end(); ++it) {
     if (nAttempts_ % (*it)->nFreq() == 0) {
       (*it)->update(c_->iMacro());
@@ -668,7 +668,7 @@ void WLTMMC::runNumSweepsRestart(
       if (omp_get_thread_num() == 0) nWindow_ =  omp_get_num_threads();
     }
   #endif  // _OPENMP
-  
+
   vector<shared_ptr<WLTMMC> > clones(nWindow_);
   #ifdef _OPENMP
     #pragma omp parallel private(t)
@@ -700,9 +700,9 @@ void WLTMMC::runNumSweepsRestart(
       clones[t]->tuneTrialParameters();
     }
   }
-    
+
   // monkey patch
-  for (vector<Analyze*>::iterator it = analyzeVec_.begin();
+  for (vector<shared_ptr<Analyze>>::iterator it = analyzeVec_.begin();
        it != analyzeVec_.end(); ++it) {
     (*it)->modifyRestart(clones[t]);
   }
@@ -794,5 +794,3 @@ void WLTMMC::initOverlaps(const int t,    //!< thread
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-
-

@@ -84,7 +84,7 @@ int PairSquareWell::initEnergy() {
           if (r < rCutij_[type[ipart]][type[jpart]]) {
             if (r < sigij_[type[ipart]][type[jpart]]) {
               // hard sphere if less than sigma
-              peTot_ += std::numeric_limits<double>::max()/1e10;
+              peTot_ += NUM_INF;
             } else {
               // otherwise, square well
               peTot_ -= epsij_[type[ipart]][type[jpart]];
@@ -163,7 +163,7 @@ double PairSquareWell::multiPartEner(
               const double sigij = sigij_[itype][jtype];
               if (r2 < sigij*sigij) {
                 // hard sphere if less than sigma
-                peSRone_ += std::numeric_limits<double>::max()/1e10;
+                peSRone_ += NUM_INF;
                 // cout << "hs " << peSRone_ << endl;
               } else {
                 // otherwise, square well
@@ -300,7 +300,7 @@ double PairSquareWell::allPartEnerForceNoCell() {
             const double sigij = sigij_[itype][jtype];
             if (r2 < sigij*sigij) {
               // hard sphere if less than sigma
-              peSRone_ += std::numeric_limits<double>::max()/1e10;
+              peSRone_ += NUM_INF;
             } else {
               // otherwise, square well
               peSRone_ -= epsij_[itype][jtype];
@@ -368,7 +368,7 @@ double PairSquareWell::allPartEnerForceCell() {
                   const double sigij = sigij_[itype][jtype];
                   if (r2 < sigij*sigij) {
                     // hard sphere if less than sigma
-                    peSRone_ += std::numeric_limits<double>::max()/1e10;
+                    peSRone_ += NUM_INF;
                   } else {
                     // otherwise, square well
                     peSRone_ -= epsij_[itype][jtype];

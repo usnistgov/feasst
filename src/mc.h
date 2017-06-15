@@ -19,6 +19,7 @@
 #endif  // _OPENMP
 #include "./accumulator.h"
 #include "./analyze.h"
+#include "./base_all.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -103,7 +104,10 @@ class MC : public BaseAll {
     { XTCFileName_.assign(fileName); nFreqXTC_ = nfreq; }
 
   /// initialize Analyzer
-  void initAnalyze(Analyze* analyze) { analyzeVec_.push_back(analyze); }
+	// Note: MonkeyPatches must be initialized either initialized as shared_ptr
+  // or have their own implementation of cloneShrPtr.
+  void initAnalyze(Analyze* analyze) { analyzeVec_.push_back(analyze->cloneShrPtr(space_, pair_)); }
+	void initAnalyze(shared_ptr<Analyze> analyze) { analyze->reconstruct(space_, pair_); analyzeVec_.push_back(analyze); }
 
   /// append to all fileNames
   virtual void appendFileNames(const char* chars);
@@ -148,7 +152,7 @@ class MC : public BaseAll {
     const double tol = 1e-4,  //!< terminate trials when tolerance reached
     double boxl = -1          //!< box length containing all nonzero energy
   );
-  
+
   /// compute the Boyle temperature, b2(T_Boyle)==0
   double boyle(const double tol);
   double boylemin(const double beta);
@@ -218,8 +222,9 @@ class MC : public BaseAll {
   Accumulator peAccumulator() const { return peAccumulator_; }
   long long nFreqLog() const { return nFreqLog_; }
   int nFreqMovie() const { return nFreqMovie_; }
-  vector<Analyze*> analyzeVec() const { return analyzeVec_; }
+  vector <shared_ptr <Analyze> > analyzeVec() const { return analyzeVec_; }
   bool spaceOwned() const { return spaceOwned_; }
+  int production() const { return production_; }
 
  protected:
   Space *space_;            //!< spatial information
@@ -245,14 +250,14 @@ class MC : public BaseAll {
   double prSum_;              //!< sum of pressure of each state
   double prSum2_;             //!< sum of square of pressure of each state
   long long nAttempts_;   //!< number of attempted trials
-  
+
   /// flag to print header in log file
   //  if 0, no header
   //  if 1, print header
   //  if 2, print header with a comment "#" on first line (for restarts)
   //  if -1, print line with "#" but not header
   int printLogHeader_;
-  
+
   string logFileName_;        //!< log file name
   long long nFreqLog_;    //!< frequency to print to log
   string movieFileName_;      //!< movie file name
@@ -272,7 +277,7 @@ class MC : public BaseAll {
   double boyletol_;           //!< tolerance for boyle temperature
 
   // analyzers
-  vector<Analyze*> analyzeVec_;   //!< vector of pointers to analyzers
+  vector< shared_ptr <Analyze> > analyzeVec_;   //!< vector of pointers to analyzers
 
   // unique hash for configurations
   std::string hash_;
@@ -290,4 +295,3 @@ class MC : public BaseAll {
 #endif  // FEASST_NAMESPACE_
 
 #endif  // MC_H_
-

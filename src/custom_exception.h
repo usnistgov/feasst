@@ -5,6 +5,8 @@
 #ifndef CUSTOM_EXCEPTION_H_
 #define CUSTOM_EXCEPTION_H_
 
+#define FAIL_CODE -1
+
 #include <exception>
 #include <string>
 #include <iostream>

@@ -39,24 +39,24 @@ TEST(Analyze, constructANDproduction) {
   //initConfigBias(&mc, "../forcefield/data.cg4_mab");
   mc.nMolSeek(20, "../forcefield/data.cg4_mab", 1e9);
   mc.initRestart("tmp/anrst", 1e3);
-  AnalyzeScatter scat(&s, &p);
-  scat.initSANS(0.5);
-  scat.initFreq(1e2);
-  scat.initFileName("tmp/iq");
-  scat.initPrintFreq(1e3);
-  scat.initProduction(0);
-  mc.initAnalyze(&scat);
+  shared_ptr<AnalyzeScatter> scat = make_shared<AnalyzeScatter>(&s, &p);
+  scat->initSANS(0.5);
+  scat->initFreq(1e2);
+  scat->initFileName("tmp/iq");
+  scat->initPrintFreq(1e3);
+  scat->initProduction(0);
+  mc.initAnalyze(scat);
   mc.runNumTrials(4*1e3);
-  EXPECT_EQ(scat.production(), 0);
-  scat.write();
-  scat.writeRestart("tmp/hrst");
+  EXPECT_EQ(scat->production(), 0);
+  scat->write();
+  scat->writeRestart("tmp/hrst");
   mc.initProduction();
-  EXPECT_EQ(scat.production(), 1);
+  EXPECT_EQ(scat->production(), 1);
   AnalyzeScatter scat2(&s, &p, "tmp/hrst");
   EXPECT_EQ(scat2.production(), 0);
   scat2.writeRestart("tmp/hrst2");
-  testVec(scat.histInter(), scat2.histInter());
-  testVec(scat.histIntra(), scat2.histIntra());
+  testVec(scat->histInter(), scat2.histInter());
+  testVec(scat->histIntra(), scat2.histIntra());
 }
 
 const double newfCollect = 5e-5;
@@ -102,21 +102,20 @@ TEST(Analyze, MonkeyPatch) {
     }
     #pragma omp barrier
 
-    WLTMMC mc2("tmp/monkeyrst"); 
+    WLTMMC mc2("tmp/monkeyrst");
     mc2.c()->collectInit(newfCollect);
-    AnalyzeMonkeyPatch patch(mc2.space(), mc2.pair());
+    shared_ptr<AnalyzeMonkeyPatch> patch = make_shared<AnalyzeMonkeyPatch>(mc2.space(), mc2.pair());
 
     mc2.runNumSweepsRestart(0, "tmp/monkeyrst");
 
     CriteriaWLTMMC c2("tmp/monkeyrstp0criteria");
     EXPECT_NEAR(1e-6, c2.lnfCollect(), DTOL);
     EXPECT_NE(newfCollect, c2.lnfCollect());
-    
+
     // apply patch
-    mc2.initAnalyze(&patch);
+    mc2.initAnalyze(patch);
     mc2.runNumSweepsRestart(0, "tmp/monkeyrst");
     CriteriaWLTMMC c3("tmp/monkeyrstp0criteria");
     EXPECT_NEAR(newfCollect, c3.lnfCollect(), DTOL);
   #endif  // _OPENMP
 }
-

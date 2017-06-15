@@ -8,6 +8,7 @@
 #define PAIR_LJ_MULTI_H_
 
 #include "./pair_lj.h"
+#include "./functions.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -129,4 +130,3 @@ class PairLJMulti : public PairLJ {
 #endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_LJ_MULTI_H_
-

@@ -5,8 +5,10 @@ AUTHORS
 Harold Wickes Hatch
   - original developer of FEASST
 
-Nathan Mahynski
+Nathan Alexander Mahynski
   - collaborated with Wick on superquadric geometry
+  - developed confinement and barriers
+  - developed extensive moment analysis for histogram extrapolation
 
 **********************************************************************
 ALPHA TESTERS
@@ -22,18 +24,17 @@ Dr. Steven Howell
 EXTERNAL SOURCES
 **********************************************************************
 
-In some cases, code and formatting from externals sources is used. 
+In some cases, code and formatting from externals sources is used.
 See DISCLAIMER.txt
 
 Numerical Recipes 3rd edition:
   - mins.h
-  - jacobi in functions.h 
+  - jacobi in functions.h
   - random_nr3.h
 
 LAMMPS:
-  - jacboi (adapted form Numerical Recipes)
+  - jacobi (adapted from Numerical Recipes)
   - LMP data format
 
 XDRLIB:
   - XTC compressed file format and library
-

@@ -11,6 +11,7 @@
 #include "accumulator.h"
 #include "accumulator_vec.h"
 #include "analyze.h"
+#include "analyze_extensive_moments.h"
 #include "analyze_cluster.h"
 #include "analyze_orient.h"
 #include "analyze_scatter.h"
@@ -20,7 +21,6 @@
 #include "base_all.h"
 #include "space.h"
 #include "barrier.h"
-#include "barrier_planar.h"
 #ifdef XDRFILE_H_
   extern "C" {
     #include "xdrfile.h"
@@ -34,7 +34,7 @@
 #include "pair_patch_kf.h"
 #include "pair_lj_coul_ewald.h"
 #include "pair_ideal.h"
-#include "pair_wall.h"
+#include "pair_barriers.h"
 #include "pair_round_square.h"
 #include "pair_hard_circle.h"
 #include "pair_squarewell.h"
@@ -82,6 +82,7 @@ using namespace std;
 %include accumulator.h
 %include accumulator_vec.h
 %include analyze.h
+%include analyze_extensive_moments.h
 %include analyze_cluster.h
 %include analyze_orient.h
 %include analyze_scatter.h
@@ -91,14 +92,13 @@ using namespace std;
 %include base_all.h
 %include space.h
 %include barrier.h
-%include barrier_planar.h
 %include pair.h
 %include pair_lj.h
 %include pair_lj_multi.h
 %include pair_patch_kf.h
 %include pair_lj_coul_ewald.h
 %include pair_ideal.h
-%include pair_wall.h
+%include pair_barriers.h
 %include pair_round_square.h
 %include pair_hard_circle.h
 %include pair_squarewell.h

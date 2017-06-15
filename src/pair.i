@@ -7,7 +7,7 @@
 #include "pair_patch_kf.h"
 #include "pair_lj_coul_ewald.h"
 #include "pair_ideal.h"
-#include "pair_wall.h"
+#include "pair_barriers.h"
 #include "pair_round_square.h"
 #include "pair_hard_circle.h"
 #include "pair_squarewell.h"
@@ -25,7 +25,7 @@
 %include pair_patch_kf.h
 %include pair_lj_coul_ewald.h
 %include pair_ideal.h
-%include pair_wall.h
+%include pair_barriers.h
 %include pair_round_square.h
 %include pair_hard_circle.h
 %include pair_squarewell.h

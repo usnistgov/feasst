@@ -1,4 +1,5 @@
 #include "./analyze.h"
+#include "./analyze_extensive_moments.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -12,6 +13,7 @@ Analyze::Analyze(
   className_.assign("Analyze");
   defaultConstruction();
 }
+
 Analyze::Analyze(Space *space,  Pair *pair, const char* fileName)
   : space_(space),
     pair_(pair) {
@@ -51,6 +53,25 @@ void Analyze::reconstruct(Space* space, Pair *pair) {
 }
 
 /**
+ * factory method
+ */
+shared_ptr<Analyze> Analyze::makeAnalyze(
+  Space* space,
+  Pair* pair,
+  const char* fileName) {
+  ASSERT(fileExists(fileName),
+         "restart file(" << fileName << ") doesn't exist");
+  string anatypestr = fstos("className", fileName);
+  shared_ptr<Analyze> ana;
+  if (anatypestr.compare("AnalyzeExtensiveMoments") == 0) {
+    ana = make_shared<AnalyzeExtensiveMoments>(space, pair, fileName);
+  } else {
+    ASSERT(0, "unrecognized analyze class(" << anatypestr << ")");
+  }
+  return ana;
+}
+
+/**
  * write restart file
  */
 void Analyze::writeRestartBase(const char* fileName) {
@@ -67,16 +88,17 @@ void Analyze::writeRestartBase(const char* fileName) {
  *
  */
 Analyze* Analyze::clone(Space* space, Pair* pair) const {
-  ASSERT(space == NULL && pair == NULL, "empty method");
+  ASSERT(0, "base class not implemented correctly");
   return NULL;
 }
+
 shared_ptr<Analyze> Analyze::cloneImpl(Space* space, Pair* pair) const {
-  ASSERT(space == NULL && pair == NULL, "empty method");
-  shared_ptr<Analyze> empty;
-  return empty;
+  ASSERT(0, "base class not implemented correctly");
+  shared_ptr<Analyze> an = make_shared<Analyze>(*this);
+  an->reconstruct(space, pair);
+  return an;
 }
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-

@@ -15,7 +15,7 @@ CustomException::CustomException(std::string m
   msg_ = m;
   catMessage();
   cout << msg_ << endl;
-  exit(0);  // terminate immediately for easy backtrace
+  exit(FAIL_CODE);  // terminate immediately for easy backtrace
 }
 
 CustomException::CustomException(std::stringstream& m) {
@@ -25,8 +25,9 @@ CustomException::CustomException(std::stringstream& m) {
   cout << "terminating" << endl;
   //exit(1);  // terminate immediately for easy backtrace
   // force seg fault
-  int *foo = (int*)-1; // make a bad pointer
-  printf("%d\n", *foo);       // causes segfault
+  exit(FAIL_CODE);
+  //int *foo = (int*)-1; // make a bad pointer
+  //printf("%d\n", *foo);       // causes segfault
 }
 
 void CustomException::catMessage() {

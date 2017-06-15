@@ -47,6 +47,25 @@ PairLJMulti::PairLJMulti(Space* space,
     yukawaK_ = 0;
   }
 
+	// "global rcut" check first
+  str = fstos("cutShiftFlag", fileName);
+  if (!str.empty()) cutShift(stoi(str));
+  if (cutShiftFlag_ == 0) cutShift(0);
+
+  // overwrite global rcut with ij pairs if specified
+	for (int i = 0; i < space_->nParticleTypes(); ++i) {
+		for (int j = i; j < space_->nParticleTypes(); ++j) { // only do j >= i
+			stringstream ss;
+			ss << "rCut" << i << "j" << j;
+			string strtmp = fstos(ss.str().c_str(), fileName);
+			if (!strtmp.empty()) {
+				double rc_ij = fstod(ss.str().c_str(), fileName);
+				rCutijset(i,j,rc_ij);
+			}
+		}
+	}
+
+	// once r_cuts are set in the correct order, shift/cut as necessary
   for (unsigned int i = 0; i < epsij_.size(); ++i) {
     for (unsigned int j = i; j < epsij_.size(); ++j) {
       stringstream ss;
@@ -101,10 +120,6 @@ PairLJMulti::PairLJMulti(Space* space,
   } else {
     lambdaFlag_ = 0;
   }
-
-  str = fstos("cutShiftFlag", fileName);
-  if (!str.empty()) cutShift(stoi(str));
-  if (cutShiftFlag_ == 0) cutShift(0);
 }
 
 /**
@@ -180,7 +195,7 @@ int PairLJMulti::initEnergy() {
 
               // inner hard sphere
               if (sqrt(r2) <= sig - sigref) {
-                pePart += std::numeric_limits<double>::max()/1e10;
+                pePart += NUM_INF;
               }
             }
             r6inv = r2inv*r2inv*r2inv;
@@ -242,14 +257,14 @@ int PairLJMulti::initEnergy() {
                   - gausParam_[ig][1])/gausParam_[ig][2], 2));
               }
             }
-            
+
             peLJ_ += pePart;
             pe_[ipart] += pePart/2.;
             pe_[jpart] += pePart/2.;
 
             if (verbose) {
               std::streamsize ss = cout.precision();
-              cout << std::setprecision(std::numeric_limits<long double>::digits10+2) << "pepart " << pePart << " for ipart " << ipart << " jpart " << jpart << " r6inv " << r6inv << " eps " << epsij_[type[ipart]][type[jpart]] << " peshi " << peShiftij_[type[ipart]][type[jpart]] << " lsf " << linearShiftFlag_ << " sig " << sigij_[type[ipart]][type[jpart]] << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK " << yukawaK_ << endl;
+              cout << std::setprecision(std::numeric_limits<long double>::digits10+2) << "pepart " << pePart << " for ipart " << ipart << " jpart " << jpart << " r6inv " << r6inv << " eps " << epsij_[type[ipart]][type[jpart]] << " peshi " << peShiftij_[type[ipart]][type[jpart]] << " lsf " << linearShiftFlag_ << " sig " << sigij_[type[ipart]][type[jpart]] << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK " << yukawaK_ << " rcut " << rCutij_[type[ipart]][type[jpart]] << endl;
               cout << std::setprecision(ss);
             }
 
@@ -261,7 +276,7 @@ int PairLJMulti::initEnergy() {
             if (linearShiftFlag_) {
               fPart -= peLinearShiftij_[type[ipart]][type[jpart]]/sqrt(r2);
             }
-            if (verbose) cout << "fPart " << fPart << " f " 
+            if (verbose) cout << "fPart " << fPart << " f "
               << fPart*sqrt(r2) << endl;
             for (int i = 0; i < dimen; ++i) {
               fij[i] += fPart * xij[i];
@@ -453,7 +468,7 @@ void PairLJMulti::cutShiftijset(
     }
     const double peShiftLJ = -4.*eps*(pow(rinv, 2*alpha_)
                                     - pow(rinv, alpha_));
-    
+
     double peShiftY = 0;
     ASSERT(sigrefFlag_ == 0 || yukawa_ == 0, "sigref not implemented here");
     if (yukawa_ == 1) {
@@ -494,8 +509,8 @@ void PairLJMulti::linearShiftijset(
       rinv = sigref / (rc - sig + sigref);
       sigtmp = sigref;
     }
-    
-    const double peLShiftLJ = -4.*eps/sigtmp*(-2*alpha_*pow(rinv, (2*alpha_) 
+
+    const double peLShiftLJ = -4.*eps/sigtmp*(-2*alpha_*pow(rinv, (2*alpha_)
       + 1) + alpha_*pow(rinv, alpha_ + 1));
 
     ASSERT(sigrefFlag_ == 0 || yukawa_ == 0, "sigref not implemented here");
@@ -621,10 +636,10 @@ void PairLJMulti::multiPartEnerAtomCutInner(const double &r2, const int &itype,
       r = sqrt(r2);
       r2inv = sigref/(r - sigij + sigref);
       r2inv = r2inv*r2inv;
-    
+
       // inner hard sphere
       if (r <= sigij - sigref) {
-        peLJ += std::numeric_limits<double>::max()/1e10;
+        peLJ += NUM_INF;
         return;
       }
     }
@@ -690,7 +705,9 @@ void PairLJMulti::multiPartEnerAtomCutInner(const double &r2, const int &itype,
       }
     }
 //    if (linearShiftFlag_) {
-//      cout << "pepart " << epsij * (4. * (r6inv*(r6inv - 1.)) + peShiftij_[itype][jtype])+ static_cast<int>(linearShiftFlag_)*(peLinearShiftij_[itype][jtype] * (sqrt(r2) - rCutij_[itype][jtype])) + yukawaA_ * exp(-yukawaK_*sqrt(r2)/sigij)/sqrt(r2)*sigij << " r6inv " << r6inv << " eps " << epsij << " peshi " << peShiftij_[itype][jtype] << " lsf " << linearShiftFlag_ << " sig " << sigij_[itype][jtype] << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK " << yukawaK_ << endl;
+//      cout << "pepart " << epsij * (4. * (r6inv*(r6inv - 1.)) + peShiftij_[itype][jtype])+ static_cast<int>(linearShiftFlag_)*(peLinearShiftij_[itype][jtype] * (sqrt(r2) - rCutij_[itype][jtype])) << " r6inv " << r6inv << " eps " << epsij << " peshi " << peShiftij_[itype][jtype] << " lsf " << linearShiftFlag_ << " sig " << sigij_[itype][jtype] << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK " << yukawaK_ << endl;
+//	  //+ yukawaA_ * exp(-yukawaK_*sqrt(r2)/sigij)/sqrt(r2)*sigij << " r6inv " << r6inv << " eps " << epsij << " peshi " << peShiftij_[itype][jtype] << " lsf " << linearShiftFlag_ << " sig " << sigij_[itype][jtype] << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK " << yukawaK_ << endl;
+//  }
 //    } else {
 //      cout << "pepart " << epsij * (4. * (r6inv*(r6inv - 1.)) + peShiftij_[itype][jtype])+ yukawaA_ * exp(-yukawaK_*sqrt(r2)/sigij)/sqrt(r2)*sigij << " r6inv " << r6inv << " eps " << epsij << " peshi " << peShiftij_[itype][jtype] << " lsf " << linearShiftFlag_ << " sig " << sigij_[itype][jtype] << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK " << yukawaK_ << endl;
 //    }
@@ -839,4 +856,3 @@ double PairLJMulti::computeLRC(const int ipart) {
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-

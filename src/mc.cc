@@ -76,6 +76,18 @@ MC::MC(const char* fileName) {
     initTrial(trial->makeTrial(space_, pair_, criteria_, trialFileStr.c_str()));
   }
 
+  strtmp = fstos("nRstFileAnalyze", fileName);
+  if (!strtmp.empty()) {
+	  const int nanalyzer = stoi(strtmp);
+	  for (int i = 0; i < nanalyzer; ++i) {
+		  stringstream ss;
+		  ss << "rstFileAnalyze" << i;
+		  const string trialAnaStr = fstos(ss.str().c_str(), fileName);
+		  Analyze* ana = NULL;
+		  initAnalyze(ana->makeAnalyze(space_, pair_, trialAnaStr.c_str()));
+	  }
+  }
+
   nAttempts_ = fstoll("nAttempts", fileName);
   logFileName_ = fstos("logFileName", fileName);
   nFreqLog_ = fstoi("nFreqLog", fileName);
@@ -96,12 +108,12 @@ MC::MC(const char* fileName) {
   if (!strtmp.empty()) {
     production_ = stoi(strtmp);
   }
-  
+
   strtmp = fstos("prodFileAppend", fileName);
   if (!strtmp.empty()) {
     prodFileAppend_ = strtmp;
   }
-  
+
   // make a different rst file name so as to not overwrite
   // stringstream ss;
   // ss << fileName << "p";
@@ -209,7 +221,7 @@ void MC::reconstruct() {
 
   // clone and reconstruct all analyzers
   for (unsigned int ia = 0; ia < analyzeVec_.size(); ++ia) {
-    Analyze* an = analyzeVec_[ia]->clone(space, pair);
+    shared_ptr<Analyze> an = analyzeVec_[ia]->cloneShrPtr(space, pair);
     analyzeVec_[ia] = an;
   }
 
@@ -355,7 +367,7 @@ void MC::printStat(const std::string hash) {
       for (unsigned int i = 0; i < trialVec_.size(); ++i) {
         log_ << trialVec_[i]->printStat(true);
       }
-      if (!hash.empty()) log_ << "hash "; 
+      if (!hash.empty()) log_ << "hash ";
       log_ << endl;
       if (printLogHeader_ == 2) {
         printLogHeader_ = -1;
@@ -457,7 +469,7 @@ void MC::nMolSeek(
         mc->removeTrial(iTrial);
       }
     }
-    
+
     // replace acceptance criteria (restore once nTarget reached)
     // make acceptance criteria more ammenable to nMol changes
     int nMax = space_->nMol();
@@ -597,7 +609,7 @@ void MC::afterAttemptBase() {
 
   // run analyzers if not multiple macrostates (e.g., no WLTMMC)
   if (className_.compare("MC") == 0) {
-    for (vector<Analyze*>::iterator it = analyzeVec_.begin();
+    for (vector<shared_ptr<Analyze>>::iterator it = analyzeVec_.begin();
          it != analyzeVec_.end(); ++it) {
       if (nAttempts_ % (*it)->nFreq() == 0) {
         (*it)->update();
@@ -715,7 +727,7 @@ void MC::writeRestart(const char* fileName) {
   for (unsigned int iAn = 0; iAn < analyzeVec_.size(); ++iAn) {
     ss.str("");
     ss << fileName << "analyze" << iAn;
-    file << "# rstFileAnalyze" << iAn << ss.str() << endl;
+    file << "# rstFileAnalyze" << iAn << " " << ss.str() << endl;
     analyzeVec_[iAn]->writeRestart(ss.str().c_str());
   }
 }
@@ -839,7 +851,7 @@ void MC::b2mayer(double *b2v, double *b2er, Pair *pairRef, const double tol, dou
 //  pairRef.initEnergy();
 //  double f12old = exp(-peOld/temp) - 1,
 //         f12ref = exp(-pairRef.peTot()/temp) - 1;
-//  
+//
 //  // begin trial moves and averaging
 //  const double maxDisp = 0.1;
 //  Accumulator mayer, mayerRef;
@@ -1026,7 +1038,7 @@ void MC::initProduction() {
   if (!movieFileName_.empty()) pair_->printxyz(movieFileName_.c_str(), 1);
 
   // tell analyzers that production has begun
-  for (vector<Analyze*>::iterator it = analyzeVec_.begin();
+  for (vector<shared_ptr<Analyze> >::iterator it = analyzeVec_.begin();
        it != analyzeVec_.end();
        ++it) {
     (*it)->initProduction();
@@ -1046,5 +1058,3 @@ void MC::tuneTrialParameters() {
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-
-

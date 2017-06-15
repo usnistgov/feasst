@@ -89,7 +89,7 @@ int PairHardCircle::initEnergy() {
           if (r2 < rCut_*rCut_) {
             // hard sphere
             if (r2 < dCircle_*dCircle_) {
-              peSR_ += std::numeric_limits<double>::max()/1e10;
+              peSR_ += NUM_INF;
             } else {
               // energy
               r = sqrt(r2);
@@ -222,7 +222,7 @@ double PairHardCircle::allPartEnerForceNoCell() {
       if (r2 < rCutSq_) {
         // hard sphere
         if (r2 < dCircle_*dCircle_) {
-          peSRone_ += std::numeric_limits<double>::max()/1e10;
+          peSRone_ += NUM_INF;
         } else {
           r = sqrt(r2);
           peSRone_ -= (2*R*R*acos(r*0.5/R)
@@ -239,7 +239,7 @@ void PairHardCircle::multiPartEnerAtomCutInner(const double &r2,
   if (itype == jtype) {}  // remove unused parameter warning
   // hard sphere
   if (r2 < dCircle_*dCircle_) {
-    peSRone_ += std::numeric_limits<double>::max()/1e10;
+    peSRone_ += NUM_INF;
   } else {
     const double r = sqrt(r2),
                  R = 0.5*dCircle_ + rDep_;

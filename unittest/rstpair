@@ -1,0 +1,6 @@
+# className PairHybrid
+# rCut 4.5
+# atomCut 1
+# pairPrint 0
+# pairtypes 1
+# pairRstFileName0 ../unittest/rstpair0

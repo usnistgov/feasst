@@ -9,6 +9,7 @@ ui_text
 tools/rw
 build/
 bin/
+src/unittest
 
 #gprof output
 gmon.out

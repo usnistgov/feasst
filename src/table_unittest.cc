@@ -2,7 +2,9 @@
 #include "table.h"
 #include "functions.h"
 
+#ifdef FEASST_NAMESPACE_
 using namespace feasst;
+#endif  // FEASST_NAMESPACE_
 
 TEST(Table, roundSquare) {
   Table vt("../unittest/table/roundSquare/vtrg0.04nt11nz11nd6");

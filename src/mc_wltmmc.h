@@ -157,4 +157,3 @@ class WLTMMC : public MC {
 #endif  // FEASST_NAMESPACE_
 
 #endif  // WLTMMC_H_
-

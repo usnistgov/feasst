@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "pair_ideal.h"
 #include "pair_hybrid.h"
-#include "pair_wall.h"
+#include "pair_barriers.h"
 #include "pair_hs.h"
 #include "pair_patch_kf.h"
 #include "pair_lj.h"
@@ -220,7 +220,7 @@ TEST(MC, ljnvtmetropANDremoveTrial) {
   }
 
   EXPECT_EQ(1, p.checkEnergy(1e-7, 0));
-  
+
   transformTrial(&mc, "gca");
   mc.removeTrial(0);
   EXPECT_EQ(1, mc.nTrials());
@@ -380,13 +380,13 @@ TEST(MC, equltl43muvttmmcANDinitWindows) {
 
   c.collectInit();
   c.tmmcInit();
-  
+
   // if this test segfaults, check pointer ownership
   // try commenting out the windows lines to see if test works
-  // its possible the number of processors is too large for 
+  // its possible the number of processors is too large for
   //  the number of particles (nMolMax)
   mc.initWindows(1);
-  
+
   mc.setNFreqCheckE(npr/2, 1e-9);
   mc.initColMat("tmp/coll", 2*npr);
   mc.initLog("tmp/ll", 1e3);
@@ -608,45 +608,11 @@ TEST(MC, ljMD) {
   MC mc(&space, &pair, &criteria);
 
   mc.nMolSeek(50, "../forcefield/data.atom");
-  
+
   shared_ptr<TrialMD> tmd = make_shared<TrialMD>();
   mc.initTrial(tmd);
 
   mc.runNumTrials(100);
-}
-
-TEST(MC, ljWall) {
-  feasst::Space space(3,0);
-  space.lset(20);
-  space.addMolInit("../forcefield/data.lj");
-  
-  feasst::PairLJMulti pairLJ(&space, 3.);
-  pairLJ.initLMPData("../forcefield/data.lj");
-  pairLJ.linearShift(1);
-  
-  feasst::Barrier barrier;
-  barrier.addOrthogonalPlanar(5, 1, 0);
-  barrier.addOrthogonalPlanar(-5, -1, 0);
-  feasst::PairWall pairWall(&space, &barrier);
-  
-  feasst::PairHybrid pair(&space, space.minl()/2.);
-  pair.addPair(&pairLJ);
-  pair.addPair(&pairWall);
-  pair.initEnergy();
-  
-  const double beta = 1.;
-  feasst::CriteriaMetropolis criteria(beta, exp(-1));
-  feasst::MC mc(&space, &pair, &criteria);
-  feasst::transformTrial(&mc, "translate", 0.1);
-  
-  const int nfreq = 1e2;
-  mc.initMovie("tmp/wall", nfreq);
-  mc.initLog("tmp/wall", nfreq);
-  mc.setNFreqCheckE(nfreq, 1e-8);
-  mc.setNFreqTune(nfreq);
-  mc.nMolSeek(50, "../forcefield/data.lj");
-
-  mc.runNumTrials(1e4);
 }
 
 TEST(MC, PairPatchKF) {

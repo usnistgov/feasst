@@ -24,6 +24,11 @@ class Analyze : public BaseAll {
   Analyze(Space *space, Pair* pair, const char* fileName);
   virtual ~Analyze() {}
   virtual Analyze* clone(Space* space, Pair* pair) const;
+  shared_ptr<Analyze> cloneShrPtr(Space* space, Pair* pair) {
+    return cloneImpl(space, pair); }
+
+  /// factory method
+  shared_ptr <Analyze> makeAnalyze(Space* space, Pair* pair, const char* fileName);
 
   // default constructor
   void defaultConstruction();

@@ -2,11 +2,11 @@
 
 %{
 #include "barrier.h"
-#include "barrier_planar.h"
+#include "pair.h"
 %}
 
 %pythonnondynamic;
 
 %include barrier.h
-%include barrier_planar.h
-
+%include pair.h
+%include base.h

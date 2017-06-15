@@ -29,6 +29,8 @@ using std::string;
 using std::shared_ptr;
 using std::make_shared;
 
+#define NUM_INF std::numeric_limits<double>::max()/1e10
+
 /// If the assertion condition is not true, throw exception with message.
 # define ASSERT(condition, message) \
 if (! (condition)) { \
@@ -78,7 +80,7 @@ void fill(const T input, vector<vector<vector<T> > > &x) {
 int numLines(const string fileName);
 
 /// \return vector which is product of matrix and vector e.g., A[][] x[] = b[]
-vector<double> matVecMul(const vector<vector<double> > &a, 
+vector<double> matVecMul(const vector<vector<double> > &a,
   const vector<double> &x);
 
 /// \return vector (inner) scalar dot product, a[] . b[] = scalar
@@ -240,8 +242,8 @@ vector<int> findLocalMaxima(const vector<T> data,
 
 /**
  *  \return vector of index values for the local maxima.
- * HWH NOTE: This is copy and pasted from above with vector, but 
- * implementation with multiple templates leads to errors in swig. 
+ * HWH NOTE: This is copy and pasted from above with vector, but
+ * implementation with multiple templates leads to errors in swig.
  * See commented implementation of findLocalMinimum below.
  */
 template <class T>
@@ -317,9 +319,9 @@ long long fstoll(const char* searchString, const char* fileName);
 unsigned long long fstoull(const char* searchString, const char* fileName);
 
 /**
- * compute eigenvalues and eigenvectors based on Jacobi rotations. Adapted 
+ * compute eigenvalues and eigenvectors based on Jacobi rotations. Adapted
  * from LAMMPS, which was adapted from Numerical Recipes jacobi() function
- *  \return error code (1 if failed) 
+ *  \return error code (1 if failed)
  */
 int jacobi(vector<vector<double> > matrix,  //!< 3x3 real symmetric matrix
   vector<double> &evalues,            //!< computed eigen values
@@ -372,8 +374,8 @@ T quadraticEqReal(const T a, const T b, const T c,
   T &x2   //!< second root of the quadratic equation
   ) {
   const T discriminant = b*b-4*a*c;
-  ASSERT(a*b*c != 0, "zero coefficient for quadratic equation: a(" << a 
-    << ")x^2 + b(" << b << ")x + c(" << c << " ) = 0. Discriminant = " 
+  ASSERT(a*b*c != 0, "zero coefficient for quadratic equation: a(" << a
+    << ")x^2 + b(" << b << ")x + c(" << c << " ) = 0. Discriminant = "
     << discriminant << ". Or a coefficient is zero");
   if (discriminant >= 0) {
     x1 = (-b+sqrt(discriminant))/2/a;
@@ -400,9 +402,9 @@ bool findInList(const T value, const vector<T> &list,
 
 /// \return if value is found in list
 template<class T>
-bool findInList(const T value, const vector<T> &list) { 
+bool findInList(const T value, const vector<T> &list) {
   int index;
-  return findInList(value, list, index); 
+  return findInList(value, list, index);
 };
 
 /// \return spherical coordinates given cartesian coordinates
