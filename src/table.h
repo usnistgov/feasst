@@ -96,7 +96,7 @@ class Table {
   void cset_(const int coeff, const int index, const double value) {
     cspline_[4*(index-1)+(coeff-1)] = value;
   }
-  
+
   #ifdef GSL_
     gsl_interp_accel *acc;
     gsl_spline *spline;

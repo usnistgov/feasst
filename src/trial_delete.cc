@@ -114,7 +114,7 @@ void TrialDelete::attempt1() {
         preFac_ = static_cast<double>(space_->nMol())/space_->vol();
         lnpMet_ = log(preFac_);
         mpart_ = space_->randMol();
-    
+
       // otherwise, delete only molType
       } else {
         const int iMolIndex = space_->findAddMolListIndex(molType_);

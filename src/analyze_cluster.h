@@ -51,7 +51,7 @@ class AnalyzeCluster : public Analyze {
    * connected to its own periodic image.
    */
   void initPercolation(
-    const int percFlag = 0  
+    const int percFlag = 0
     /**< if "0", no computation.
          if "1", use expanding box (slow).
          if "2", use contact map. */

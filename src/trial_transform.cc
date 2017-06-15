@@ -238,7 +238,7 @@ void TrialTransform::attempt1() {
         // cout << "rejected " << transType_ << " " << de_ << endl;
         trialReject();
       }
-    
+
       // record statistics
       if (reject_ != 1) {
         if (transType_.compare("vol") == 0) {

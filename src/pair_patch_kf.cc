@@ -400,7 +400,7 @@ double PairPatchKF::allPartEnerForce(const int flag) {
 
   // loop through pairs of molecules
   for (int iMol = 0; iMol < nMol - 1; ++iMol) {
-  
+
     const int ipart = mol2part[iMol];
     const double xi = x[dimen_*ipart+0];
     const double yi = x[dimen_*ipart+1];

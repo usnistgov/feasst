@@ -2106,7 +2106,7 @@ void Pair::initData(const std::string fileName) {  //!< Data file name
     initLMPData(fileName);
   }
 }
-      
+
 /**
  * check if there is an intramolecular interaction that is allowed
  */
