@@ -13,9 +13,20 @@ class TestMC(unittest.TestCase):
   def testMC(self):
     s=feasst.Space(3,0)
     s.lset(10)
+    s.addMolInit("../forcefield/data.lj")
     p=feasst.PairLJMulti(s, 3)
-    c=feasst.CriteriaWLTMMC(1, 0.1, "nmol",0.5,1.5,2)
+    p.initData("../forcefield/data.lj")
+    p.cutShift(1)
+    c=feasst.CriteriaWLTMMC(1, 0.1, "nmol",-0.5,5.5,6)
     mc=feasst.WLTMMC(s, p, c)
+    feasst.transformTrial(mc, "translate")
+    feasst.addTrial(mc, "../forcefield/data.lj")
+    feasst.deleteTrial(mc)
+    mc.runNumTrials(100)
+    self.assertFalse(mc.peAccumulator().sumDble() == 0)
+    mc.peAccumulator().reset()
+    mc.zeroStat()
+    self.assertTrue(mc.peAccumulator().sumDble() == 0)
 
 if __name__ == "__main__":
 	def find_all(name, path):

@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include "pair_ideal.h"
 #include "pair_hybrid.h"
-#include "pair_barriers.h"
 #include "pair_hs.h"
 #include "pair_patch_kf.h"
 #include "pair_lj.h"

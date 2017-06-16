@@ -88,13 +88,27 @@ void AnalyzeScatter::writeRestart(const char* fileName, const int iMacro) {
       file << "# countConf" << im << " " << countConf_[im] << endl;
     }
   }
-  file << "#r inter intra ";
-  for (int iMo = 0; iMo < nMomentsCut_; ++iMo) {
-    file << "h" << iMo << " ";
-  }
-  file << endl;
   for (unsigned int im = 0; im < countConf_.size(); ++im) {
     if ( (iMacro == -1) || (static_cast<int>(im) == iMacro) ) {
+      file << "#r ";
+      for (unsigned int iType = 0; iType < histInter2_[im].size(); ++iType) {
+        for (unsigned int jType = iType; jType < histInter2_[im][0].size(); ++jType) {
+          file << "interi" << iType << "j" << jType << " ";
+        }
+      }
+      for (unsigned int iType = 0; iType < histIntra2_[im].size(); ++iType) {
+        for (unsigned int jType = iType; jType < histIntra2_[im][0].size(); ++jType) {
+          file << "intrai" << iType << "j" << jType << " ";
+        }
+      }
+      for (unsigned int iType = 0; iType < histMoments_[im].size(); ++iType) {
+        for (unsigned int jType = iType; jType < histMoments_[im][0].size(); ++jType) {
+          for (int iMo = 0; iMo < nMomentsCut_; ++iMo) {
+            file << "hi" << iType << "j" << jType << "m" << iMo << " ";
+          }
+        }
+      }
+      file << endl;
       vector<vector<vector<long long> > > &hist = histInter2_[im];
       for (int bin = 0; bin < nbins_; ++bin) {
         const double r = dgr_*(bin + 0.5);

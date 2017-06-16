@@ -15,7 +15,7 @@ namespace feasst {
 
 class PairBarriers : public Pair {
  public:
-  PairBarriers (Space* space, SpeciesBarriers* specbarriers);
+  PairBarriers (Space* space, SpeciesBarriers* specbarriers) : Pair(space, 0.) {}
   ~PairBarriers () {}
   virtual PairBarriers* clone (Space* space) const {
     PairBarriers* p = new PairBarriers (*this); p->reconstruct(space); return p;

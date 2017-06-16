@@ -28,6 +28,8 @@ TEST(Accumulator, constructor) {
   a.reset();
   EXPECT_NEAR(0., a.average(), 1e-15);
   EXPECT_EQ(0, a.nValues());
+  EXPECT_EQ(0, a.sum());
+  EXPECT_EQ(0, a.sumSq());
 
 }
 
