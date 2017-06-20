@@ -1,7 +1,8 @@
 # loop through all .h and .cc files
 #for f in functions_unittest.cc; do
-#for f in `ls *.i`; do 
-for f in `ls *.h *.cc *.i`; do 
+#for f in `ls *.i`; do
+for f in `ls *`; do
+#for f in `ls *.h *.cc *.i`; do
   # # double space on header guards
   # sed 's/#endif \/\//#endif  \/\//' $f > tttmp
   # mv tttmp $f
@@ -11,13 +12,13 @@ for f in `ls *.h *.cc *.i`; do
 
   # remove lines
   # sed --in-place '/using namespace feasst;/d' $f
-  
+ 
   # rename functions
   # sed --in-place 's/print(/write(/g' $f
-  
+ 
   #sed --in-place 's/namespace feasst {/\#ifdef FEASST_NAMESPACE_\nnamespace feasst {\n\#endif  \/\/ FEASST_NAMESPACE_/g' $f
   #sed --in-place 's/\}  \/\/ namespace feasst/\#ifdef FEASST_NAMESPACE_\n\}  \/\/ namespace feasst\n\#endif  \/\/ FEASST_NAMESPACE_/g' $f
-  
+ 
   #sed 's/round(/feasstRound(/g' $f > tttmp
   #sed 's/myRanInit/ranInit/g' $f > tttmp
   #sed 's/myProd/feasst::product/g' $f > tttmp

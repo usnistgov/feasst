@@ -3,7 +3,7 @@
  *
  * Developed by Harold Wickes Hatch, 12/13/2013, hhatch.com, harold@hhatch.com
  *
- * 
+ *
  */
 
 #include "mc_wltmmc.h"
@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
   int nMolMax = -1, nMolMin = 0, nSmooth = 1;
   temp = 525; activ = exp(-8.08564); nMolMax = 265; nMolMin = 0;
   std::ostringstream molType("a"), ssFileIn("colMat.txt"), ssFileOut("colMatrw.txt");
-  
+ 
   // parse command-line arguments using getopt
   { int index, c; opterr = 0;
     while ((c = getopt(argc, argv, "t:a:x:n:m:i:o:s:")) != -1) {
@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
     cout << "# -t " << temp << " -a " << activ << " -x " << nMolMax << " -n " << nMolMin << " -i " << ssFileIn.str() << " -o " << ssFileOut.str() << " -m " << molType.str() << " -s " << nSmooth << endl;
     for (index = optind; index < argc; index++) printf("Non-option argument %s\n", argv[index]);
   }
-  
+ 
   WLTMMC mc("tmp/rst");
   mc.c()->readCollectMat(ssFileIn.str().c_str());
   mc.initLog("logtest", 0);

@@ -1,15 +1,15 @@
 # LAMMPS data file
 #  simple model of a monoclonal antibody
-#  
-#          fc(2) 
+# 
+#          fc(2)
 #          |
 # angle1   |bond 1    angle 2
 #          |
-#          1(hinge) 
+#          1(hinge)
 #        /   \
-# bond 2/     \ bond 3 
+# bond 2/     \ bond 3
 #      /       \
-#   fab1(3)  fab2(4) 
+#   fab1(3)  fab2(4)
 #
 #         angle 3
 
@@ -72,7 +72,7 @@ Angles
 
 ConfigurationalBias
 
-1 cbmctypes   #number of types of cmbc moves        
+1 cbmctypes   #number of types of cmbc moves       
 
 gcinsdel 3 1        #regrow entire chain with 3 steps and weight of 1
 1 10 box          #first step: grow atom 1 with 10 trials anywhere in box

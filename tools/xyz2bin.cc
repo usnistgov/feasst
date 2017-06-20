@@ -4,14 +4,14 @@
  * Developed by Harold Wickes Hatch, 12/13/2013, hhatch.com, harold@hhatch.com
  *
  * This program splits the movie files into separate files corresponding to each bin in the order
- * parameter of the simulation. It also serves as a template for doing some analysis (see 
+ * parameter of the simulation. It also serves as a template for doing some analysis (see
  * pData and dataAccVec). This example trivially computes the average x of first particle.
  *
  * This program reads the log and movie files and assumes that they were generated simultaneously.
  * Make sure that a previous simulation did not start writing a log file, and then the current
  * simulate appended onto this log file, which would cause a mis-match between log and movie files
  *
- * Note that "off by 1" errors are very easy to make, and these analysis codes should be checked 
+ * Note that "off by 1" errors are very easy to make, and these analysis codes should be checked
  * that an xyz configuration corresponds with the correct order parameter
  */
 
@@ -21,17 +21,17 @@
 int main(int argc, char** argv) {
 
   // set input variables
-  
+ 
   // nMol specifies the desired number of molecules
   //  this is useful in a grand canonical simulation, but default -1 ignores this
   int nMol = -1;
 
   // skip is used to skip over (skip-1) configurations between each analysis
   int skip = 1;
-  
+ 
   // these are the default file names
   stringstream ssFileIn("movie"), ssFileOut("analysis"), ssLogFile("log");
-  
+ 
   // parse command-line arguments using getopt
   { int index, c; opterr = 0;
     while ((c = getopt(argc, argv, "i:o:x:l:")) != -1) {
@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
   // loop through processors
   const int nProc = mc.nWindows();
   for (int p = 0; p < nProc; ++p) {
-    
+   
     // initialize files
     stringstream ss;
     if (nProc == 1) {
@@ -88,10 +88,10 @@ int main(int argc, char** argv) {
       ss << ssFileOut.str() << "p" << p;
     }
     std::ofstream outFile(ss.str().c_str());
-  
+ 
     AccumulatorVec pData;
     vector<bool> firstPrint(crit->nBin(), true);
-    
+   
     // prep log file for reading
     if (mc.nFreqMovie() % mc.nFreqLog() != 0) {
       cout << "err: " << mc.nFreqLog() << " " << mc.nFreqMovie()<< endl;
@@ -99,23 +99,23 @@ int main(int argc, char** argv) {
     }
     const int logSkip = myRound(mc.nFreqMovie() / mc.nFreqLog());
     string line;
-    getline(logFile, line); 
-   
+    getline(logFile, line);
+  
     // read xyz
     int iter = 0;
     while (!inFile.eof()) {
       pair->readxyz(inFile);
-      
+     
       // skip log file lines
-      for (int i = 0; i < logSkip ; ++i) getline(logFile, line); 
-      
+      for (int i = 0; i < logSkip ; ++i) getline(logFile, line);
+     
       // check for EOF and number of molecules
       if ( (space->natom() != 0) && ( (nMol == -1) || (space->nMol() == nMol) ) ) {
         if ( (!inFile.eof()) && (iter%skip==0) ) {
-          
+         
           // parse log file lines
           std::istringstream iss(line);
-          vector<double> data(5); 
+          vector<double> data(5);
           iss >> data[0] >> data[1] >> data[2] >> data[3] >> data[4];
           const double beta = data[3];
           if ( (beta < crit->mMax()) && (beta > crit->mMin()) ) { //catch out of bounds due to EOF in log
@@ -134,7 +134,7 @@ int main(int argc, char** argv) {
               ss << ssFileIn.str() << "p" << p << "b" << bin;
             }
             pair->printxyz(ss.str().c_str(), printFlag);
-            
+           
             // accumulate some data for analysis
             //cout << beta << " " << space->x(0,0) << endl;
             //cout << "beta " << beta << " bin " << bin << endl;
@@ -144,7 +144,7 @@ int main(int argc, char** argv) {
       }
       space->cellOff();  // avoid error check
     }
-    
+   
     // output processor specific averages
     outFile << "# " << crit->mType() << endl;
     for (int i = 0; i < pData.size(); ++i) {

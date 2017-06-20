@@ -5,8 +5,8 @@
 README
 *************************
 
-The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free, 
-open-source, modular program to conduct molecular and particle-based 
+The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
+open-source, modular program to conduct molecular and particle-based
 simulations with flat-histogram Monte Carlo and molecular dynamics methods.
 
 .. note::
@@ -35,7 +35,7 @@ Advanced Monte Carlo moves
 
 * Configurational bias insertions, deletions and regrowth with multiple first
   bead insertion
-* Aggregation volume bias (AVB) insertions, deletions and the AVB2  and AVB3 
+* Aggregation volume bias (AVB) insertions, deletions and the AVB2  and AVB3
   algorithms
 * Geometric cluster algorithm
 * Rigid cluster moves
@@ -112,7 +112,7 @@ Note that ``FEASST_INSTALL_DIR_`` should be specified in your ``~/.bash_profile`
 In python, the same simulation may be written as in the file `<example/lj/lj.py>`_
 
 .. code-block:: py
-  
+
     #! /usr/bin/env python
     import os, sys
     feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/build"
@@ -189,49 +189,49 @@ CMake
 CMake is the recommended installation method.
 
 .. code-block:: bash
-    
+
     cp -r buildtemplate build
     cd build
     cmake .
     make -j 8
 
-To control the install, you can edit ``CMakeLists.txt`` in ``build`` as follows 
+To control the install, you can edit ``CMakeLists.txt`` in ``build`` as follows
 before running the ``cmake .`` command.
 
 For example, to use the XDRFILE library for xtc files:
 
 .. code-block:: cmake
-    
+
     option(USE_XDRFILE "Use xdrfile library" OFF)
 
 Or
 
 .. code-block:: bash
-    
+
     cmake -DUSE_XDRFILE=ON .
 
 Or to give CMake the path to your xdrfile library:
 
 .. code-block:: cmake
-    
+
     set(XDRFILE_DIR "/path/to/xdrfile")
 
 Or
 
 .. code-block:: bash
-    
+
     cmake -DXDRFILE_DIR=/path/to/xdrfile .
 
 Or, for example, if you want to use the python interface, then use the
-following CMake command instead: 
+following CMake command instead:
 
 .. code-block:: bash
-    
+
     cmake -DUSE_SWIG=ON .
 
 If you are changing the default build options in ``CMakeLists.txt``,
 make sure to start compilation with a fresh ``build`` directory before CMake is
-invoked (e.g., completely remove the build directory and start over, after 
+invoked (e.g., completely remove the build directory and start over, after
 saving any relevant changes to ``CMakeLists.txt``).
 
 Makefile
@@ -243,7 +243,7 @@ Python installation
 ===================
 
 .. code-block:: bash
-    
+
     cd src
     make swig
 
@@ -251,7 +251,7 @@ C++ installation
 ================
 
 .. code-block:: bash
-    
+
     cd src
     make cnotest
 
@@ -259,7 +259,7 @@ Text-based installation (using C++ engine)
 ==========================================
 
 .. code-block:: bash
-    
+
     cd src
     make ui_text
 
@@ -304,7 +304,7 @@ OpenMPI with Intel compilers
 ****************************
 
 .. code-block:: bash
-  
+
     tar -xf openmpi*gz; cd openmpi*; mkdir build; cd build
     ../configure --prefix=`pwd`/.. CC=icc CXX=icpc $intel compilers
     make
@@ -328,7 +328,7 @@ FFTW 3.3.4
 This library is used for computing the scattering of anisotropic shapes.
 
 .. code-block:: bash
-   
+
     # download fftw-3.3.4, uncompress, move to main directory
     ./configure --prefix=/path/to/install/dir --enable-shared --with-pic
     make
@@ -365,7 +365,7 @@ SWIG 2.0.12
 Required for python installation.
 
 .. code-block:: bash
-    
+
     cd swig-2.0.12; ./configure --prefix=/path/to/install/dir; make; make install
 
 CMake 2.8.12.2
@@ -396,7 +396,7 @@ GSL 2.3
 For spline interpolation.
 
 .. code-block:: bash
-    
+
     ./configure --prefix=/path/to/install/dir; make; make install
 
 Associated compiler flags in `<src/Makefile>`_::
@@ -421,14 +421,14 @@ Test case 1. Lennard-Jones
 **************************
 
 The first test case is to simulate the LJ potential and reproduce the
-results found in the NIST SRSW for LJ, EOS-TMMC: 
+results found in the NIST SRSW for LJ, EOS-TMMC:
 
 http://www.nist.gov/mml/csd/informatics_research/srsw.cfm
 
 http://mmlapps.nist.gov/srs/LJ_PURE/eostmmc.htm
 
 Move to the test directory::
-    
+
     cd ../testcase/lj/srsw/eostmmc/1.5
 
 The file muvttmmclj.cc is the C++ interface for FEASST.
@@ -450,7 +450,7 @@ To compare the results with the NIST SRSW, compare the following:
 To run the test on multiple processors using OMP:
 
 .. code-block:: bash
-    
+
     cd omp
     ./run.sh OR ./muvttmmclj.py
 
@@ -468,17 +468,17 @@ Examples
 Analysis of configurations for WL-TMMC simulations
 **************************************************
 
-For analyzing configurations to post-process simulation data (e.g., 
+For analyzing configurations to post-process simulation data (e.g.,
 log and movie files), see the example code `<tools/xyz2bin.cc>`_
 
-This code both splits the xyz files for a given order parameter and shows example of doing some 
-analysis within the c code. It uses the checkpointing to pick up run 
-variables. For example it knows how often you printed movies versus 
-logs. It also picks up on the number of processors and can average 
+This code both splits the xyz files for a given order parameter and shows example of doing some
+analysis within the c code. It uses the checkpointing to pick up run
+variables. For example it knows how often you printed movies versus
+logs. It also picks up on the number of processors and can average
 over all of those processors for analysis.
 
 It outputs files::
-  
+
     `analysis*` for average x position of first molecule
     moviep[proc]b[bin].xyz
 
@@ -488,39 +488,39 @@ index as described by the acceptance criteria.
 Initializing a simulation from an XYZ file
 ******************************************
 
-The following code reads an xyz file format to input an initial 
+The following code reads an xyz file format to input an initial
 configuration.
 
 .. code-block:: C++
-    
+
     std::ifstream inFile("nameOfFile");
     p.readxyz(inFile);  // "p" is the name of your pair object
 
-If there are zero particles in the space class, then it automatically 
-attempts to add the molecules based on the first molecule type 
+If there are zero particles in the space class, then it automatically
+attempts to add the molecules based on the first molecule type
 described by the s.addMolInit function.
 
 In cases with multiple components, this is not sufficient. So you will
-want to make sure you initialize the appropriate number of molecules 
+want to make sure you initialize the appropriate number of molecules
 in the appropriate order. For example, if your xyz file lists A,B,A,B.
 or A,A,A...,B,B,B... then you need to add these in the right order.
 
 For example, something like the following:
 
 .. code-block:: C++
-    
+
     for (int iMolA = 0; iMolA < nMolA; ++iMolA) {
       s.addMol("/name/of/data/file");
     }
 
-Then the same for B, assuming your xyz has all A listed, followed by 
+Then the same for B, assuming your xyz has all A listed, followed by
 all B.
 
-After all of the s.addMol commands are performed and the xyz file is 
+After all of the s.addMol commands are performed and the xyz file is
 read, you will need to update the pair class as follows:
 
 .. code-block:: C++
-    
+
     p.addPart();
     p.initEnergy();
 
@@ -528,7 +528,7 @@ A simple test that the xyz file was read correctly is to print it and
 compare:
 
 .. code-block:: C++
-    
+
     p.printxyz("filename",1);
 
 Custom analysis in input script
@@ -541,7 +541,7 @@ First, you can define an analysis as follows which accumulates the potential
 energy:
 
 .. code-block:: c++
-    
+
     #include "analyze.h"
     class AnalyzeMonkeyPatch : public Analyze {
      public:
@@ -582,7 +582,7 @@ In this file, the checkpoint file is simply read and restarted in
 two lines for single processor simulations:
 
 .. code-block:: c++
-    
+
     // read checkpoint files
     feasst::WLTMMC mc("tmp/rst");
 
@@ -605,13 +605,13 @@ Note that multiprocessor simulations may take additional care to
 restart correctly. If you wish to restart just one processor, you may
 simply use one of the files with an appended p# (e.g. "tmp/rstp0").
 
-If you wish to restart simulations that are independent, then an 
+If you wish to restart simulations that are independent, then an
 example may be found in `<tools/rstMultiproc.cc>`_.
 
 In this file, the two lines are as follows:
 
 .. code-block:: c++
-    
+
     // read restart file
     feasst::WLTMMC mc("tmp/rst");
 
@@ -619,13 +619,13 @@ In this file, the two lines are as follows:
     mc.runNumSweepsRestart(100, "tmp/rst");
 
 Restarting simulations that are coupled (e.g. by configuration swaps)
-may require more initialization that is not currently described in 
+may require more initialization that is not currently described in
 this documentation.
 
 Isotropic tabular potential
 ***************************
 
-Instead of implementing your own pair potential in the code, you may simply make a text file with your potential. 
+Instead of implementing your own pair potential in the code, you may simply make a text file with your potential.
 An example may be found in the following test directory: `<test/binary/tee/table>`_
 
 In this example, a binary LJ-lambda potential is simulated. In tee.cc
@@ -647,7 +647,7 @@ Note that ``dimn0`` is the number of table elements.
 Distances are shown as a function of the variable s=:math:`r^2`, such that dimmax0 = :math:`rCut^2 = 1.08^2` and dimmin0 = :math:`rCutInner^2 = sigFac^2 = 0.97^2`.
 For tabular potentials, r < rCutInner has infinite potential energy.
 
-An example of utilizing the table potential (without generating) is provided in 
+An example of utilizing the table potential (without generating) is provided in
 `<test/binary/tee/table/tee_nogen.cc>`_
 
 This file and the ``tabi*j*`` files may be used as templates to create
@@ -660,21 +660,21 @@ Pair potentials
 ***************
 
 To begin, one may create a new pair potential by simply copying an
-existing version that is closest to the type of potential you are 
-trying to implement. 
+existing version that is closest to the type of potential you are
+trying to implement.
 
-For example, copy the files `<src/pair_lj_multi.h>`_ to 
+For example, copy the files `<src/pair_lj_multi.h>`_ to
 a file for your new potential, such as ``src/pair_lj_multi_opt.h``
 and `<src/pair_lj_multi.cc>`_ to ``src/pair_lj_multi_opt.cc``
 Within these files, replace
-all instances of ``PairLJMulti`` with ``PairLJMultiOpt``, and the header 
-macro ``PAIR_LJ_MULTI_H_`` to ``PAIR_LJ_MULTI_OPT_H_``. The makefile will 
+all instances of ``PairLJMulti`` with ``PairLJMultiOpt``, and the header
+macro ``PAIR_LJ_MULTI_H_`` to ``PAIR_LJ_MULTI_OPT_H_``. The makefile will
 automatically compile any file name that begins with ``src/pair_``.
 At this stage, one may
-run a simulation of the new pair class and verify that it is 
+run a simulation of the new pair class and verify that it is
 identical to the old one.
 
-In addition, you may rather create a tabular potential and use 
+In addition, you may rather create a tabular potential and use
 `<src/pair_tabular_1d>`_ as described in the section above.
 
 The pair potential may be called in 3 subroutines:
@@ -691,15 +691,15 @@ The pair potential may be called in 3 subroutines:
 
    Note that, in many cases, the ``multiPartEner`` subroutine calls more
    specific versions based on simulation parameters (e.g., dimensions
-   or cutoff types). Some of these special cases are implemented in 
-   the Pair base class, and thus require only a modification to a 
+   or cutoff types). Some of these special cases are implemented in
+   the Pair base class, and thus require only a modification to a
    subroutine named ``multiPartEner*Inner`` in the derived class.
 
 3. ``allPartEnerForce`` - these subroutines are utilized for large cluster
    moves or simulation domain changes. In many cases, the potential is
    implemented in a subroutine named ``allPartEnerForceInner``.
 
-Note that in some cases, the forces may be calculated. These are 
+Note that in some cases, the forces may be calculated. These are
 sometimes used for "smart Monte Carlo" or molecular dynamics, but otherwise are unnecessary for Monte Carlo.
 
 You have to add the new pair class to ``makePair()`` in `<src/pair.cc>`_, and include the header, for restart capability.
@@ -712,17 +712,17 @@ Monte Carlo trials
 
 You can begin by copy/pasting and renaming an existing trial and renaming the class.
 But remember, this can carry along a lot of garbage.
-So copy the simplest trial that is closest to what you want to accomplish, 
+So copy the simplest trial that is closest to what you want to accomplish,
 and immediately remove the unnecessary pieces.
 Rename all ``TrialName`` to ``TrialNewName`` and ``TRIAL_NAME_H`` to ``TRIAL_NEW_NAME_H_``
 
-For the python/SWIG interface, add a new ``trial_*.i`` file, 
+For the python/SWIG interface, add a new ``trial_*.i`` file,
 and add this file to the list in `<src/trial.i>`_ as well as `<src/feasst.i>`_.
 
-For the user interface, you may also add this new trial to 
+For the user interface, you may also add this new trial to
 `<src/ui_abbreviated.h>`_ or some other ``ui_`` file.
 
-For restart capability, add this new trial to ``makeTrial`` in 
+For restart capability, add this new trial to ``makeTrial`` in
 `<src/trial.cc>`_.
 
 The MC class only knows the base Trial class. In some cases you may need to add

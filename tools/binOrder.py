@@ -35,18 +35,18 @@ for p in range(0, 12):
   endXTC = s.readXTC(xtcFileName, xtcFile)
   conf = 0
   while ( (endXTC == 0) and (conf != len(lines)) ):
-    
+   
     # compute clusters
     s.wrapMol()
     s.updateCellofallMol()
     s.updateClusters(pair.rCut())
     s.xClusterGen()
     #s.xClusterShape()
-    
+   
     # obtain order param
     columns = lines[conf].split(' ')
     currentOrder = float(columns[3])
-   
+  
     # store stats and prep for next conf
     clusterAccVec.accumulate(s.nClusters(), currentOrder)
     #print "nMol", s.nMol(), "nClusters", s.nClusters(), "order", currentOrder

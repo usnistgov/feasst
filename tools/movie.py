@@ -79,7 +79,7 @@ with writer.saving(fig, 'movied'+str(round(d,4))+'rg'+str(rg)+'.mp4', 3):
     linenum = linenum + 2
     #print iframe % skipevery
     if (iframe % skipevery != 0):
-      linenum += nMol*2 
+      linenum += nMol*2
       iframe += 1
     else:
       ax = fig.add_subplot(111)

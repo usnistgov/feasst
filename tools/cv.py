@@ -25,7 +25,7 @@ beta = []
 for bin in range(criteria.nBin()):
   beta.append(criteria.bin2m(bin))
   print criteria.bin2m(bin), cv[bin]
-#print beta, cv 
+#print beta, cv
 plt.plot(beta, cv)
 
 plt.xlabel(r"$\beta$", fontsize=18)

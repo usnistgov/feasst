@@ -24,7 +24,7 @@ Pair Coeffs
 
 Bond Coeffs
 
-1 -1 1.0    # bond type 1, k=rigid, l0, U=k*(l-l0)^2 
+1 -1 1.0    # bond type 1, k=rigid, l0, U=k*(l-l0)^2
 
 Angle Coeffs
 
@@ -65,7 +65,7 @@ Angles
 
 ConfigurationalBias
 
-1 cbmctypes   #number of types of cmbc moves        
+1 cbmctypes   #number of types of cmbc moves       
 
 gcinsdel 9 1        #regrow entire chain with 3 steps and weight of 1
 1 1 box          #first step: grow atom 1 with 1 trials anywhere in box

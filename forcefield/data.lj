@@ -22,7 +22,7 @@ Atoms
 
 ConfigurationalBias
 
-1 cbmctypes   #number of types of cmbc moves        
+1 cbmctypes   #number of types of cmbc moves       
 
 regrow 1 0.1  #regrow particle in 1 step with a weight of 0.1
 1 1 avb 1.3 1.1 1 1       # first step, grow atom 1 with 1 trial (avb2 or avb3 equal weight) in aggregation volume region (rup=1.3 to rlo=1.1) of 1 atoms (atom 1) in molecule

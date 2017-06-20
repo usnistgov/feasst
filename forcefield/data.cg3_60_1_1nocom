@@ -29,7 +29,7 @@ Pair Coeffs
 
 Bond Coeffs
 
-1 100 1.0    # bond type 1, k=100, l0=1, U=k*(l-l0)^2 
+1 100 1.0    # bond type 1, k=100, l0=1, U=k*(l-l0)^2
 
 Angle Coeffs
 
