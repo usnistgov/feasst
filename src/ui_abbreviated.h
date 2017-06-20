@@ -37,8 +37,8 @@ void addTrial(shared_ptr<MC> mc, const char* moltype);
 void growTrial(MC *mc, const char* moltype, const int nStages);
 void growTrial(shared_ptr<MC> mc, const char* moltype, const int nStages);
 
-void gcaTrial(MC *mc);
-void gcaTrial(shared_ptr<MC> mc);
+void gcaTrial(MC *mc, const int nMolTarg = -1);
+void gcaTrial(shared_ptr<MC> mc, const int nMolTarg = -1);
 
 void pairModTrial(MC *mc, const double maxMoveParam = -1);
 void pairModTrial(shared_ptr<MC> mc, const double maxMoveParam = -1);
@@ -55,9 +55,10 @@ void clusterTrial(MC *mc, const char* type, const double clusterCut = -1,
 void clusterTrial(shared_ptr<MC> mc, const char* type,
                   const double clusterCut = -1, const double maxMoveParam = -1);
 
-void initConfigBias(MC *mc, const char* fileName, const int insDelFlag = 0);
+void initConfigBias(MC *mc, const char* fileName, const int insDelFlag = 0,
+  const int dualCut = 0);
 void initConfigBias(shared_ptr<MC> mc, const char* fileName,
-                    const int insDelFlag = 0);
+                    const int insDelFlag = 0, const int dualCut = 0);
 
 void xswapTrial(MC *mc);
 void xswapTrial(shared_ptr<MC> mc);

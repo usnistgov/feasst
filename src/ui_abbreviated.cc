@@ -92,12 +92,13 @@ void addTrial(shared_ptr<MC> mc, const char* moltype) {
   addTrial(mc.get(), moltype);
 }
 
-void gcaTrial(MC *mc) {
+void gcaTrial(MC *mc, const int nMolTarg) {
   shared_ptr<TrialGCA> trial = make_shared<TrialGCA>();
+  if (nMolTarg != -1) trial->targAcceptPer = nMolTarg;
   mc->initTrial(trial);
 }
-void gcaTrial(shared_ptr<MC> mc) {
-  gcaTrial(mc.get());
+void gcaTrial(shared_ptr<MC> mc, const int nMolTarg) {
+  gcaTrial(mc.get(), nMolTarg);
 }
 
 /**
@@ -163,16 +164,18 @@ void growTrial(shared_ptr<MC> mc, const char* moltype, const int nStages) {
 /**
  * configbias
  */
-void initConfigBias(MC *mc, const char* fileName, const int insDelFlag = 0) {
+void initConfigBias(MC *mc, const char* fileName, const int insDelFlag,
+  const int dualCut) {
   shared_ptr<TrialConfigBias> trial = make_shared<TrialConfigBias>
     (mc->space(), mc->pair(), mc->criteria(), fileName);
   trial->insDelFlag = insDelFlag;
+  trial->initDualCut(dualCut);
   trial->file2MC(fileName, mc);
 }
 
 void initConfigBias(shared_ptr<MC> mc, const char* fileName,
-  const int insDelFlag = 0) {
-  initConfigBias(mc.get(), fileName, insDelFlag);
+  const int insDelFlag, const int dualCut) {
+  initConfigBias(mc.get(), fileName, insDelFlag, dualCut);
 }
 
 void xswapTrial(MC *mc) {
