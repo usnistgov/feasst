@@ -92,6 +92,14 @@ void addTrial(shared_ptr<MC> mc, const char* moltype) {
   addTrial(mc.get(), moltype);
 }
 
+void insertDeleteTrial(MC *mc, const char* moltype) {
+  addTrial(mc, moltype);
+  deleteTrial(mc, moltype);
+}
+void insertDeleteTrial(shared_ptr<MC> mc, const char* moltype) {
+  insertDeleteTrial(mc.get(), moltype);
+}
+
 void gcaTrial(MC *mc, const int nMolTarg) {
   shared_ptr<TrialGCA> trial = make_shared<TrialGCA>();
   if (nMolTarg != -1) trial->targAcceptPer = nMolTarg;

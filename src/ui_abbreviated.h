@@ -34,6 +34,9 @@ void deleteTrial(shared_ptr<MC> mc);
 void addTrial(MC *mc, const char* moltype);
 void addTrial(shared_ptr<MC> mc, const char* moltype);
 
+void insertDeleteTrial(MC *mc, const char* moltype);
+void insertDeleteTrial(shared_ptr<MC> mc, const char* moltype);
+
 void growTrial(MC *mc, const char* moltype, const int nStages);
 void growTrial(shared_ptr<MC> mc, const char* moltype, const int nStages);
 

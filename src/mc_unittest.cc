@@ -40,8 +40,9 @@ TEST(MC, WLTMMC_Ideal) {
   c.prefilColMat(1e-15);
 
   transformTrial(&mc, "translate");
-  deleteTrial(&mc);
-  addTrial(&mc, "../forcefield/data.atom");
+  //deleteTrial(&mc);
+  //addTrial(&mc, "../forcefield/data.atom");
+  insertDeleteTrial(&mc, "../forcefield/data.atom");
 
   for (int i = 0; i < nAttemptsSimple; ++i) {
     mc.attemptTrial();
@@ -419,8 +420,9 @@ TEST(MC, wltmmccloneANDreconstruct) {
 
   transformTrial(&mc, "translate");
   transformTrial(&mc, "rotate");
-  deleteTrial(&mc);
-  addTrial(&mc, "../forcefield/data.equltl43");
+  //deleteTrial(&mc);
+  //addTrial(&mc, "../forcefield/data.equltl43");
+  insertDeleteTrial(&mc, "../forcefield/data.equltl43");
   //mc.initTrial(new TrialDelete());
   //mc.initTrial(new TrialAdd("../forcefield/data.equltl43"));
 
