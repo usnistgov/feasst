@@ -34,6 +34,9 @@ class TrialConfigBias : public Trial {
   /// flag on how to handle insert/delete trials
   int insDelFlag;
 
+  /// initialize dual-cut configurational bias
+  void initDualCut(const int flag) { if (flag == 0) {} }
+
   /// initialize trials in given MC class based on reading input file
   void file2MC(const char* fileName, MC* mc) {}
 
