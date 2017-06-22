@@ -1,21 +1,14 @@
 #include <gtest/gtest.h>
 #include "pair_ideal.h"
-#include "pair_hybrid.h"
 #include "pair_hs.h"
-#include "pair_patch_kf.h"
 #include "pair_lj.h"
 #include "pair_lj_multi.h"
 #include "pair_lj_coul_ewald.h"
-#include "pair_tabular_1d.h"
-#include "pair_hard_circle.h"
-#include "pair_squarewell.h"
 #include "mc_wltmmc.h"
 #include "ui_abbreviated.h"
 #include "trial_add.h"
 #include "trial_delete.h"
-#include "trial_md.h"
 #include "trial_transform.h"
-#include "criteria_mayer.h"
 
 using namespace feasst;
 
@@ -221,7 +214,8 @@ TEST(MC, ljnvtmetropANDremoveTrial) {
 
   EXPECT_EQ(1, p.checkEnergy(1e-7, 0));
 
-  transformTrial(&mc, "gca");
+  // gcaTrial(&mc);
+  transformTrial(&mc, "translate");
   mc.removeTrial(0);
   EXPECT_EQ(1, mc.nTrials());
   for (int i = 0; i < nAttempts; ++i) {
@@ -554,89 +548,5 @@ TEST(MC, b2hardsphere) {
   const double tol = 1e-2;
   mc.b2(tol, b2, b2er);
   EXPECT_NEAR(b2, 2./3.*PI, tol*3);
-}
-
-TEST(MC, b2mayer) {
-  ranInitByDate();
-  Space space(3, 0);
-  space.addMolInit("../forcefield/data.lj");
-  vector<double> xAdd(space.dimen(), 0.);
-  space.xAdd = xAdd;
-  space.addMol(0);
-  xAdd[0] = 1.1;
-  space.xAdd = xAdd;
-  space.addMol(0);
-
-  PairLJMulti pair(&space, 1e5);
-  pair.initData("../forcefield/data.lj");
-  pair.cutShift(1);
-  pair.initEnergy();
-  PairHS pairRef(&space, 1);
-  pairRef.initData("../forcefield/data.lj");
-  pairRef.initEnergy();
-
-  const double boxl = 2.*(2.*space.maxMolDist() + pair.rCut());
-  space.lset(boxl);
-
-  CriteriaMayer crit(0.2);
-  crit.initPairRef(&pairRef);
-  MC mc(&space, &pair, &crit);
-  transformTrial(&mc, "translate", 0.1);
-  //mc.setNFreqTune(1e5);
-  const int nfreq = 1e0;
-  mc.setNFreqCheckE(1, 1e10);
-  //mc.setNFreqCheckE(nfreq, 1e-8);
-  mc.initLog("tmp/mayer", nfreq);
-  mc.initMovie("tmp/mayer", nfreq);
-
-  //mc.nMolSeek(2, "../forcefield/data.lj", 1e8);
-
-  mc.runNumTrials(1e4);
-  //mc.runNumTrials(1e6);
-  //cout << "pe " << pair.peTot() << endl;
-  EXPECT_NEAR(crit.b2ratio(), 0.2, 1.);
-  // beta = 1 takes too long
-  // // EXPECT_NEAR(crit.b2ratio(), -2.5381, DTOL);
-}
-
-TEST(MC, ljMD) {
-  Space space(3,0);
-  for (int dim = 0; dim < space.dimen(); ++dim) space.lset(10,dim);
-  space.addMolInit("../forcefield/data.atom");
-  PairLJ pair(&space, 3.);
-  pair.initEnergy();
-  CriteriaMetropolis criteria(0.5, 0.1);
-  MC mc(&space, &pair, &criteria);
-
-  mc.nMolSeek(50, "../forcefield/data.atom");
-
-  shared_ptr<TrialMD> tmd = make_shared<TrialMD>();
-  mc.initTrial(tmd);
-
-  mc.runNumTrials(100);
-}
-
-TEST(MC, PairPatchKF) {
-  feasst::Space space;
-  space.lset(8);
-  space.addMolInit("../forcefield/data.onePatch");
-  feasst::PairPatchKF pair(&space, 2., 90);
-  pair.initData("../forcefield/data.onePatch");
-  pair.initEnergy();
-  feasst::CriteriaMetropolis criteria(1., exp(-1));
-  feasst::MC mc(&space, &pair, &criteria);
-  feasst::transformTrial(&mc, "translate", 1);
-  feasst::transformTrial(&mc, "rotate", 1);
-  space.addTypeForCluster(0);
-  feasst::clusterTrial(&mc, "clustertrans", -1, 1.);
-  feasst::clusterTrial(&mc, "clusterrotate", -1, 1.);
-  feasst::gcaTrial(&mc);
-  mc.nMolSeek(12, "../forcefield/data.onePatch");
-  pair.initEnergy();
-  const int nfreq = 1e0;
-  mc.initLog("tmp/patchlog", nfreq);
-  mc.initMovie("tmp/patchmovie", nfreq);
-  mc.setNFreqCheckE(nfreq, feasst::DTOL);
-  mc.runNumTrials(1e2);
 }
 

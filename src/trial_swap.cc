@@ -1,4 +1,5 @@
 #include "./trial_swap.h"
+#include "./mc.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -294,6 +295,14 @@ string TrialSwap::printStat(const bool header) {
 //
 //
 //
+
+void swapTrial(MC *mc, const char* molTypeA, const char* molTypeB) {
+  shared_ptr<TrialSwap> trial = make_shared<TrialSwap>(molTypeA, molTypeB);
+  mc->initTrial(trial);
+}
+void swapTrial(shared_ptr<MC> mc, const char* molTypeA, const char* molTypeB) {
+  swapTrial(mc.get(), molTypeA, molTypeB);
+}
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

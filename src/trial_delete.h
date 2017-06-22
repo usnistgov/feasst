@@ -55,6 +55,12 @@ class TrialDelete : public Trial {
   }
 };
 
+class MC;
+void deleteTrial(MC *mc, const char* moltype);
+void deleteTrial(shared_ptr<MC> mc, const char* moltype);
+void deleteTrial(MC *mc);
+void deleteTrial(shared_ptr<MC> mc);
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

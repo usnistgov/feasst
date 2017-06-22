@@ -3,7 +3,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include "./mins.h"
-#include "./ui_abbreviated.h"
+#include "./trial_add.h"
+#include "./trial_delete.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -204,15 +205,15 @@ void MC::reconstruct() {
         shared_ptr<TrialConfSwapOMP> trial = trialConfSwapVec_[nConfSwap]->cloneShrPtr(space, pair, criteria);
         trialConfSwapVec_[nConfSwap] = trial;
         trialVec_[t] = trial;
-        ++nConfSwap;
       #endif  // _OPENMP
+      ++nConfSwap;
     } else if (trialVec_[t]->className() == "TrialConfSwapTXT") {
       #ifdef MPI_H_
         shared_ptr<TrialConfSwapTXT> trial = trialConfSwapVec_[nConfSwap]->cloneShrPtr(space, pair, criteria);
         trialConfSwapVec_[nConfSwap] = trial;
         trialVec_[t] = trial;
-        ++nConfSwap;
       #endif  // MPI_H_
+      ++nConfSwap;
     } else {
       shared_ptr<Trial> trial = trialVec_[t]->cloneShrPtr(space, pair, criteria);
       trialVec_[t] = trial;
@@ -428,7 +429,7 @@ void MC::nMolSeek(
     std::ofstream log_(logFileName_.c_str(),
                        std::ofstream::out | std::ofstream::app);
     const int nStart = space_->nMol();
-    const double nchange = fabs(nTarget - nStart);
+    const double nchange = std::abs(nTarget - nStart);
     const double npercent = 0.25;
     double ncurrentper = npercent;
 
@@ -498,7 +499,7 @@ void MC::nMolSeek(
       ++i;
 
       // output progress report
-      if (ncurrentper < fabs(nStart - space_->nMol())/nchange) {
+      if (ncurrentper < std::abs(nStart - space_->nMol())/nchange) {
         log_ << "# nMolSeek is more than " << ncurrentper*100
              << " percent done at n=" << space_->nMol() << " of "
              << nTarget << " at attempt " << i << " out of "
@@ -1016,13 +1017,13 @@ void MC::restoreCriteria() {
  * append to all fileNames
  */
 void MC::appendFileNames(const char* chars) {
-  rstFileName_.append(chars);
+  if (!rstFileName_.empty()) rstFileName_.append(chars);
   MC::appendProductionFileNames(chars);
 }
 void MC::appendProductionFileNames(const char* chars) {
-  movieFileName_.append(chars);
-  XTCFileName_.append(chars);
-  logFileName_.append(chars);
+  if (!movieFileName_.empty()) movieFileName_.append(chars);
+  if (!XTCFileName_.empty()) XTCFileName_.append(chars);
+  if (!logFileName_.empty()) logFileName_.append(chars);
   for (unsigned int ia = 0; ia < analyzeVec_.size(); ++ia) {
     analyzeVec_[ia]->appendFileName(chars);
   }

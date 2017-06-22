@@ -1,7 +1,4 @@
 #include "./criteria.h"
-#include "./criteria_metropolis.h"
-#include "./criteria_wltmmc.h"
-#include "./criteria_mayer.h"
 #include "./space.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -71,25 +68,6 @@ void Criteria::writeRestartBase(const char* fileName) {
 
 void Criteria::store(const Space* space, Pair* pair) {
   if (space == NULL) if (pair == NULL) {}
-}
-
-Criteria* Criteria::makeCriteria(const char* fileName
-  ) {
-  ASSERT(fileExists(fileName),
-    "restart file(" << fileName << ") doesn't exist");
-  string typestr = fstos("className", fileName);
-  Criteria* criteria = NULL;
-  if ( (typestr.compare("Criteria") == 0) ||
-       (typestr.compare("CriteriaMetropolis") == 0) ) {
-    criteria = new CriteriaMetropolis(fileName);
-  } else if (typestr.compare("CriteriaWLTMMC") == 0) {
-    criteria = new CriteriaWLTMMC(fileName);
-  } else if (typestr.compare("CriteriaMayer") == 0) {
-    criteria = new CriteriaMayer(fileName);
-  } else {
-    ASSERT(0, "unrecognized criteria(" << typestr << ") in factory");
-  }
-  return criteria;
 }
 
 double Criteria::activ() const {

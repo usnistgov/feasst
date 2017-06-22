@@ -1,4 +1,5 @@
 #include "./trial_xswap.h"
+#include "./mc.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -99,6 +100,14 @@ void TrialXSwap::attempt1() {
     if (reject_ != 1) space_->swapPositions(iMol, jMol);
     trialReject();
   }
+}
+
+void xswapTrial(MC *mc) {
+  shared_ptr<TrialXSwap> trial = make_shared<TrialXSwap>();
+  mc->initTrial(trial);
+}
+void xswapTrial(shared_ptr<MC> mc) {
+  xswapTrial(mc.get());
 }
 
 #ifdef FEASST_NAMESPACE_

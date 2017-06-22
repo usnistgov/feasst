@@ -1,5 +1,6 @@
 #include "./ui_abbreviated.h"
 #include "./pair_lj_multi.h"
+#include "./trial_transform.h"
 
 #ifdef FEASST_NAMESPACE_
 using namespace feasst;

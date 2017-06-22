@@ -22,6 +22,9 @@ void Accumulator::accumulate(double value) {
   sum_ += value;
   sumSq_ += value*value;
 
+  if (max_ < value) max_ = value;
+  if (min_ > value) min_ = value;
+
   // accumulate block averages
   if (nBlock_ != 0) {
     sumBlock_ += value;
@@ -39,6 +42,8 @@ void Accumulator::reset() {
   sumSq_ = 0;
   setBlock();
   sumBlock_ = 0;
+  max_ = -NUM_INF;
+  min_ = NUM_INF;
 }
 
 double Accumulator::average() const {

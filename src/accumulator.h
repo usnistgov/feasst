@@ -61,10 +61,17 @@ class Accumulator : public Base {
   /// Return standard deviation of the block averages (0 if not enough blocks).
   double blockStdev() const;
 
+  /// Return the maximum value accumulated.
+  double max() const { return max_; }
+
+  /// Return the minimum value accumulated.
+  double min() const { return min_; }
+
  protected:
   long long nValues_;
   long double sum_;
   long double sumSq_;
+  double max_, min_;
 
   // block averaging variables
   long long nBlock_;

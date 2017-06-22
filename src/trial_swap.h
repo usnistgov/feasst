@@ -51,6 +51,10 @@ class TrialSwap : public Trial {
                                       Criteria *criteria) const;
 };
 
+class MC;
+void swapTrial(MC *mc, const char* molTypeA, const char* molTypeB);
+void swapTrial(shared_ptr<MC> mc, const char* molTypeA, const char* molTypeB);
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

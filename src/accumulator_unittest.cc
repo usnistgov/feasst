@@ -7,6 +7,9 @@ using namespace feasst;
 TEST(Accumulator, constructor) {
   Accumulator a;
   a.setBlock(5);
+  EXPECT_NEAR(-NUM_INF, a.max(), 1);
+  EXPECT_NEAR(NUM_INF, a.min(), 1);
+  
   for (int i = 0; i < 20; ++i) {
     a.accumulate(i);
   }
@@ -14,6 +17,8 @@ TEST(Accumulator, constructor) {
   EXPECT_NEAR(19/2., a.average(), 1e-15);
   EXPECT_NEAR(5.916079783, a.stdev(), 1e-10);
   EXPECT_NEAR(3.2274861218, a.blockStdev(), 1e-10);
+  EXPECT_NEAR(19, a.max(), DTOL);
+  EXPECT_NEAR(0, a.min(), DTOL);
 
   // copy a using copy constructor and constructor and test
   Accumulator b(a.nValues(), a.sum(), a.sumSq());

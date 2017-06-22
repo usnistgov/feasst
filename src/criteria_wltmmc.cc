@@ -173,17 +173,20 @@ void CriteriaWLTMMC::store(const Space* space, Pair* pair) {
   if (tmmc_ == false) flatCheck();
 }
 
-int CriteriaWLTMMC::flatCheck() {
-  if (*std::min_element(h_.begin(), h_.end())
-      > wlFlatFactor_ * vecAverage(h_)) {
+void CriteriaWLTMMC::flatCheck(const int force) {
+  if ( (force == 1) ||
+       (*std::min_element(h_.begin(), h_.end())
+       > wlFlatFactor_ * vecAverage(h_)) ) {
     std::fill(h_.begin(), h_.end(), 0);
     lnf_ *= g_;
     ++wlFlat_;
     if ( (lnf_ < lnfCollect_) && (!collect_) ) collectInit();
     if ( (lnf_ < lnfTMMC_) && (!tmmc_) ) tmmcInit();
-    return 1;
+    for (vector<shared_ptr<CriteriaWLTMMC> >::iterator it = crits_.begin();
+         it != crits_.end(); ++it) {
+      (*it)->flatCheck(1);
+    }
   }
-  return 0;
 }
 
 /**
@@ -245,6 +248,20 @@ void CriteriaWLTMMC::mUpdate_(const int mOldBin,   //!< bin of old state
     } else if (nTunnelPrev_ == -1) {
       nTunnelPrev_ = 1;
     }
+  }
+
+  // randomly update one of the separate collection matrices
+  if (separate_ == 0) {
+    int nCrits = crits_.size();
+    if (nCrits == 0) {
+      for (int ic = 0; ic < 3; ++ic) {
+        crits_.push_back(this->cloneShrPtr());
+        crits_.back()->separate_ = 1;
+      }
+    }
+    nCrits = crits_.size();
+    const int iCrit = uniformRanNum(0, nCrits-1);
+    crits_[iCrit]->mUpdate_(mOldBin, mNewBin, pmet, acceptFlag);
   }
 }
 
@@ -941,7 +958,14 @@ void CriteriaWLTMMC::writeRestart(const char* fileName) {
   if (peMUVT_.size() == C_.size()) file << "peMUVT ";
   if (cTripleBanded_) file << "colMat(m-1) colMat(m) colMat(m+1) ";
   if (collect_ && !tmmc_) file << "lnPIwlcomp ";
-  file << "h peNvalues peSum peSumSq" << endl;
+  file << "h peNvalues peSum peSumSq peBlockStdev lnPIstdev" << endl;
+
+  // statistical analysis on separate colmats
+  for (vector<shared_ptr<CriteriaWLTMMC> >::iterator it = crits_.begin();
+       it != crits_.end(); ++it) {
+    (*it)->lnPIupdate();
+    (*it)->lnPInorm();
+  }
 
   for (unsigned int i = 0; i < C_.size(); ++i) {
     file << bin2m(i) << " ";
@@ -966,8 +990,17 @@ void CriteriaWLTMMC::writeRestart(const char* fileName) {
          << pe_[i].nValues() << " "
          << pe_[i].sum() << " "
          << pe_[i].sumSq() << " "
-         << pe_[i].blockStdev() << endl;
-    file << std::setprecision(ss);
+         << pe_[i].blockStdev() << " ";
+
+    Accumulator lnPIacc;
+    for (vector<shared_ptr<CriteriaWLTMMC> >::iterator it = crits_.begin();
+         it != crits_.end(); ++it) {
+      file << (*it)->lnPI()[i] << " ";
+      lnPIacc.accumulate((*it)->lnPI()[i]);
+    }
+    file << lnPIacc.stdev();
+
+    file << endl << std::setprecision(ss);
   }
   printRW_ = false;
 }

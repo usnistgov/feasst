@@ -1,22 +1,4 @@
 #include "./trial.h"
-#include "./trial_transform.h"
-#include "./trial_add.h"
-#include "./trial_delete.h"
-#include "./trial_avb.h"
-#include "./trial_configBias.h"
-#include "./trial_grow.h"
-#include "./trial_gca.h"
-#include "./trial_pairmod.h"
-#include "./trial_beta.h"
-#include "./trial_cluster.h"
-#include "./trial_pressure.h"
-#include "./trial_xswap.h"
-#ifdef MPI_H_
-  #include "./trial_confswap_txt.h"
-#endif  // MPI_H_
-#ifdef _OPENMP
-  #include "./trial_confswap_omp.h"
-#endif  // _OPENMP
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -331,56 +313,6 @@ void Trial::trialMoveDecide(const double def,   //!< energy of first bead
                       trialType_.c_str(), reject_);
     trialReject();
   }
-}
-
-/**
- * factory method
- */
-shared_ptr<Trial> Trial::makeTrial(
-  Space* space,
-  Pair* pair,
-  Criteria* criteria,
-  const char* fileName) {
-  ASSERT(fileExists(fileName),
-         "restart file(" << fileName << ") doesn't exist");
-  string trialtypestr = fstos("className", fileName);
-  shared_ptr<Trial> trial;
-  if (trialtypestr.compare("TrialTransform") == 0) {
-    trial = make_shared<TrialTransform>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialAdd") == 0) {
-    trial = make_shared<TrialAdd>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialDelete") == 0) {
-    trial = make_shared<TrialDelete>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialAVB") == 0) {
-    trial = make_shared<TrialAVB>(fileName, space, pair, criteria);
-#ifdef _OPENMP
-  } else if (trialtypestr.compare("TrialConfSwapOMP") == 0) {
-    trial = make_shared<TrialConfSwapOMP>(fileName, space, pair, criteria);
-#endif  // _OPENMP
-#ifdef MPI_H_
-  } else if (trialtypestr.compare("TrialConfSwapTXT") == 0) {
-    trial = make_shared<TrialConfSwapTXT>(fileName, space, pair, criteria);
-#endif  // MPI_H_
-  } else if (trialtypestr.compare("TrialConfigBias") == 0) {
-    trial = make_shared<TrialConfigBias>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialGrow") == 0) {
-    trial = make_shared<TrialGrow>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialGCA") == 0) {
-    trial = make_shared<TrialGCA>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialPairMod") == 0) {
-    trial = make_shared<TrialPairMod>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialBeta") == 0) {
-    trial = make_shared<TrialBeta>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialCluster") == 0) {
-    trial = make_shared<TrialCluster>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialPressure") == 0) {
-    trial = make_shared<TrialPressure>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialXSwap") == 0) {
-    trial = make_shared<TrialXSwap>(fileName, space, pair, criteria);
-  } else {
-    ASSERT(0, "unrecognized trial class(" << trialtypestr);
-  }
-  return trial;
 }
 
 /**

@@ -7,20 +7,11 @@
  */
 
 #include "./pair.h"
-#include "./pair_lj_multi.h"
-#include "./pair_lj_coul_ewald.h"
-#include "./pair_tabular.h"
-#include "./pair_round_square.h"
-#include "./pair_tabular_1d.h"
-#include "./pair_hs.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-/**
- * Constructor
- */
 Pair::Pair(Space* space,
   const double rCut)   //!< interaction cut-off distance
   : space_(space),
@@ -874,43 +865,6 @@ void Pair::epsijset(const int i, const int j, const double eps) {
   epsijsetrec.push_back(j);
   epsijsetrec.push_back(eps);
   epsijsetRecord_.push_back(epsijsetrec);
-}
-
-/**
- * factory method
- */
-Pair* Pair::makePair(Space* space,
-  const char* fileName
-  ) {
-  ASSERT(fileExists(fileName),
-    "restart file(" << fileName << ") doesn't exist");
-  string pairtypestr = fstos("className", fileName);
-  Pair* pair = NULL;
-//  if (pairtypestr.compare("PairIdeal") == 0) {
-//    pair = new PairIdeal(space, fileName);
-//  } else if (pairtypestr.compare("PairLJ") == 0) {
-  if (pairtypestr.compare("PairLJ") == 0) {
-    pair = new PairLJ(space, fileName);
-  } else if (pairtypestr.compare("PairLJMulti") == 0) {
-    pair = new PairLJMulti(space, fileName);
-  } else if (pairtypestr.compare("PairLJCoulEwald") == 0) {
-    pair = new PairLJCoulEwald(space, fileName);
-  } else if (pairtypestr.compare("PairTabular") == 0) {
-    pair = new PairTabular(space, fileName);
-  } else if (pairtypestr.compare("PairRoundSquare") == 0) {
-    pair = new PairRoundSquare(space, fileName);
-  } else if (pairtypestr.compare("PairTabular1D") == 0) {
-    pair = new PairTabular1D(space, fileName);
-  } else if (pairtypestr.compare("PairHS") == 0) {
-    pair = new PairHS(space, fileName);
-//  } else if (pairtypestr.compare("PairPatchHPC") == 0) {
-//    pair = new PairPatchHPC(space, fileName);
-//  } else if (pairtypestr.compare("PairPatchKF") == 0) {
-//    pair = new PairPatchKF(space, fileName);
-  } else {
-    ASSERT(0, "unrecognized pair(" << pairtypestr << ") in factory");
-  }
-  return pair;
 }
 
 /**

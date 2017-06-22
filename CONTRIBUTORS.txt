@@ -38,3 +38,5 @@ LAMMPS:
 
 XDRLIB:
   - XTC compressed file format and library
+
+JSON for modern C++

@@ -1,6 +1,6 @@
 """@docstring
 @brief Tests pair interactions
-@author Nathan A. Mahynski
+@author Nathan A. Mahynski and Harold Hatch
 @date 5/16/2017
 @filename test_pair.py
 """
@@ -8,20 +8,6 @@
 import sys, os
 import unittest
 import numpy as np
-
-class TestPairRestart(unittest.TestCase):
-	def testLJMultiRcut(self):
-		s = feasst.Space(3,0)
-		s.lset(10)
-		s.addMolInit('../unittest/data.lj')
-		s.addMolInit('../unittest/data.ljb')
-
-		ipair = feasst.PairHybrid (s, '../unittest/rstpair')
-		ipair.initEnergy()
-		
-		self.assertTrue (ipair.getPair(0).rCutij(0,0) == (ipair.getPair(0).sig(0)+ipair.getPair(0).sig(0))/2*3.0)
-		self.assertTrue (ipair.getPair(0).rCutij(0,1) == (ipair.getPair(0).sig(0)+ipair.getPair(0).sig(1))/2*3.0)
-		self.assertTrue (ipair.getPair(0).rCutij(1,1) == (ipair.getPair(0).sig(1)+ipair.getPair(0).sig(1))/2*3.0)
 
 class TestPair(unittest.TestCase):
     #check that pair class returns the correct potential cut-off

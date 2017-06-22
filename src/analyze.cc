@@ -1,5 +1,4 @@
 #include "./analyze.h"
-#include "./analyze_extensive_moments.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -50,25 +49,6 @@ void Analyze::reconstruct(Space* space, Pair *pair) {
   space_ = space;
   pair_ = pair;
   Base::reconstruct();
-}
-
-/**
- * factory method
- */
-shared_ptr<Analyze> Analyze::makeAnalyze(
-  Space* space,
-  Pair* pair,
-  const char* fileName) {
-  ASSERT(fileExists(fileName),
-         "restart file(" << fileName << ") doesn't exist");
-  string anatypestr = fstos("className", fileName);
-  shared_ptr<Analyze> ana;
-  if (anatypestr.compare("AnalyzeExtensiveMoments") == 0) {
-    ana = make_shared<AnalyzeExtensiveMoments>(space, pair, fileName);
-  } else {
-    ASSERT(0, "unrecognized analyze class(" << anatypestr << ")");
-  }
-  return ana;
 }
 
 /**

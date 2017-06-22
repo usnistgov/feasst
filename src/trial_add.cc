@@ -1,4 +1,5 @@
 #include "./trial_add.h"
+#include "./mc.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -203,11 +204,14 @@ string TrialAdd::printStat(const bool header) {
   return stat.str();
 }
 
+void addTrial(MC *mc, const char* moltype) {
+  shared_ptr<TrialAdd> trial = make_shared<TrialAdd>(moltype);
+  mc->initTrial(trial);
+}
+void addTrial(shared_ptr<MC> mc, const char* moltype) {
+  addTrial(mc.get(), moltype);
+}
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-
-
-
-
-

@@ -1,4 +1,5 @@
 #include "./trial_transform.h"
+#include "mc.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -363,6 +364,16 @@ void TrialTransform::scaleAttempt_(const double factor) {
   } else {
     ASSERT(0, "unrecognized transType_(" << transType_ << ") for scale.");
   }
+}
+
+void transformTrial(MC *mc, const char* type, double maxMoveParam) {
+  shared_ptr<TrialTransform> trial = make_shared<TrialTransform>(type);
+  if (maxMoveParam != -1) trial->maxMoveParam = maxMoveParam;
+  mc->initTrial(trial);
+}
+void transformTrial(shared_ptr<MC> mc, const char* type,
+  double maxMoveParam) {
+  transformTrial(mc.get(), type, maxMoveParam);
 }
 
 #ifdef FEASST_NAMESPACE_

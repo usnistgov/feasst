@@ -45,6 +45,10 @@ class TrialXSwap : public Trial {
   }
 };
 
+class MC;
+void xswapTrial(MC *mc);
+void xswapTrial(shared_ptr<MC> mc);
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

@@ -181,6 +181,7 @@ class Pair : public BaseAll {
 
   /// update clusters of entire system
   virtual void updateClusters(const double rCCut) {
+    space_->peStore_ = peTot();
     space_->updateClusters(rCCut); }
 
   /// initialize cut-off method by atoms or molecules

@@ -3,13 +3,12 @@
  *
  * Developed by Harold Wickes Hatch, 12/13/2013, hhatch.com, harold@hhatch.com
  *
- * 
+ *
  */
 
 #include "assert.h"
 #include "pair_lj_multi.h"
 #include "mc_wltmmc.h"
-#include "ui_abbreviated.h"
 #include "trial_swap.h"
 #include "trial_transform.h"
 #include "analyze.h"
@@ -78,10 +77,10 @@ int main(int argc, char** argv) {
   p.lrcFlag = 0;
   p.cutShift(1);
   p.initEnergy();
-  
+
   // initialize acceptance criteria
   CriteriaMetropolis c(beta, activ);
-  //c.activVec.push_back(exp(-3.));   //!< activity of B 
+  //c.activVec.push_back(exp(-3.));   //!< activity of B
   c.addActivity(exp(-3));
   c.pressureset(1.);
 
@@ -89,7 +88,7 @@ int main(int argc, char** argv) {
   MC mc(&s, &p, &c);
   mc.weight=3./4.;
   transformTrial(&mc, "translate");
-  
+
   // generate initial configuration
   assert(nMolMax % 2 == 0);
   mc.nMolSeek(nMolMax/2., addMolTypeA.str().c_str(), 1e8);
@@ -111,17 +110,17 @@ int main(int argc, char** argv) {
   mc.initLog("log", nfreq);
   mc.setNFreqCheckE(ncfreq, 2e-4);
   mc.setNFreqTune(nfreq);
-  mc.initMovie("movie", nfreq); 
-  //mc.initXTC("movie", nfreq); 
+  mc.initMovie("movie", nfreq);
+  //mc.initXTC("movie", nfreq);
   mc.initRestart("tmp/rst", ncfreq);
 
   // analysis
   shared_ptr<AnalyzeComp> a = make_shared<AnalyzeComp>(&s, &p);
-  mc.initAnalyze(a.get());
+  mc.initAnalyze(a);
 
   //production tmmc simulation
   mc.runNumTrials(npr);
-  
+
   //cout << "av nA " << tswp->nA().average() << " +/- " << tswp->nA().blockStdev() << endl;
   //cout << "av nB " << tswp->nB().average() << " +/- " << tswp->nB().blockStdev() << endl;
   //cout << "xA " << tswp->nA().average()/s.nMol() << " +/- " << tswp->nA().blockStdev()/s.nMol() << endl;

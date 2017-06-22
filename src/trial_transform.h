@@ -64,6 +64,11 @@ class TrialTransform : public Trial {
   }
 };
 
+class MC;
+void transformTrial(MC *mc, const char* type, double maxMoveParam = -1);
+void transformTrial(shared_ptr<MC> mc, const char* type,
+                    double maxMoveParam = -1);
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

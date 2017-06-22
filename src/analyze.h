@@ -48,7 +48,9 @@ class Analyze : public BaseAll {
   void initFileName(const char* fileName) { fileName_.assign(fileName); }
 
   /// append fileName
-  void appendFileName(const char* chars) { fileName_.append(chars); }
+  void appendFileName(const char* chars) {
+    if (!fileName_.empty()) fileName_.append(chars);
+  }
 
   /// update analysis every nFreq
   virtual void update() { update(0); }

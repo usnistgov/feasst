@@ -104,7 +104,7 @@ class MC : public BaseAll {
     { XTCFileName_.assign(fileName); nFreqXTC_ = nfreq; }
 
   /// initialize Analyzer
-	// Note: MonkeyPatches must be initialized either initialized as shared_ptr
+	// Note: MonkeyPatches must be either initialized as shared_ptr
   // or have their own implementation of cloneShrPtr.
   void initAnalyze(Analyze* analyze) { analyzeVec_.push_back(analyze->cloneShrPtr(space_, pair_)); }
 	void initAnalyze(shared_ptr<Analyze> analyze) { analyze->reconstruct(space_, pair_); analyzeVec_.push_back(analyze); }

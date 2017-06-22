@@ -3,6 +3,7 @@
 #include <iostream>
 #include <numeric>
 #include "./functions.h"
+#include "./mc.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -208,6 +209,21 @@ void TrialDelete::attempt1() {
     if (verbose_ == 1) std::cout << "deletion rejected " << de_ << std::endl;
     trialReject();
   }
+}
+
+void deleteTrial(MC *mc, const char* moltype) {
+  shared_ptr<TrialDelete> trial = make_shared<TrialDelete>(moltype);
+  mc->initTrial(trial);
+}
+void deleteTrial(shared_ptr<MC> mc, const char* moltype) {
+  deleteTrial(mc.get(), moltype);
+}
+void deleteTrial(MC *mc) {
+  shared_ptr<TrialDelete> trial = make_shared<TrialDelete>();
+  mc->initTrial(trial);
+}
+void deleteTrial(shared_ptr<MC> mc) {
+  deleteTrial(mc.get());
 }
 
 #ifdef FEASST_NAMESPACE_

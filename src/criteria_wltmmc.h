@@ -67,7 +67,8 @@ class CriteriaWLTMMC : public Criteria {
 
   /** Return 1 if flatness criteria is met. Reset histogram and reduce update
    *  factor(lnf) by Wang-Landau modification factor. */
-  int flatCheck();
+  void flatCheck(const int force = 0  //!< force flatness true if 1
+    );
 
   /// Return the Wang-Landau update factor.
   double lnf() const { return lnf_; }
@@ -466,6 +467,10 @@ class CriteriaWLTMMC : public Criteria {
   /// Update histograms and collection matrix for the visited macrostate.
   void mUpdate_(const int mOldBin, const int mNewBin, const double pmet,
                const int acceptFlag);
+
+  /// Separate collection matrices for statistical error analysis
+  vector<shared_ptr<CriteriaWLTMMC> > crits_;
+  int separate_ = 0;
 
   /** Return the squared difference of peak heights after reweighting to new
    *  activity. */

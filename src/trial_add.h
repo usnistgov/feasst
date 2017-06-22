@@ -48,6 +48,10 @@ class TrialAdd : public Trial {
                                       Criteria *criteria) const;
 };
 
+class MC;
+void addTrial(MC *mc, const char* moltype);
+void addTrial(shared_ptr<MC> mc, const char* moltype);
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

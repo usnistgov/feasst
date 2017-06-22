@@ -80,7 +80,7 @@ In C++, a simple NVT Lennard Jones (LJ) simulation is performed as follows:
 
     #include "pair_lj.h"
     #include "mc.h"
-    #include "ui_abbreviated.h"
+    #include "trial_transform.h"
 
     int main() {
       feasst::Space space(3, 0);
@@ -241,6 +241,8 @@ This is the old compilation method, but may still be used if you prefer.
 
 Python installation
 ===================
+
+Note: this method no longer works after removal of most .i files (6/22/17).
 
 .. code-block:: bash
 
@@ -753,7 +755,5 @@ www.nist.gov/people/harold-hatch
 harold.hatch@nist.gov
 
 For list of contributors, see `<CONTRIBUTORS.txt>`_
-
-For more documentation, see `<DEV.txt>`_ for developers
 
 
