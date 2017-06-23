@@ -1,7 +1,7 @@
 #include "./criteria_wltmmc.h"
 #include "./space.h"
 #include "./pair.h"
-#include "./mins.h"
+#include "./../extern/mins.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {

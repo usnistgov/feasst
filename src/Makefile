@@ -14,7 +14,7 @@ CXXFLAGS = -O3 -std=c++0x -g
 # LIBS += -lxdrfile
 
 # # FFTW library
-# CXXFLAGS += -DFFTW_ -I$(HOME)/software/fftw-3.3.4/build/include -L$(HOME)/software/fftw-3.3.4/build/lib 
+# CXXFLAGS += -DFFTW_ -I$(HOME)/software/fftw-3.3.4/build/include -L$(HOME)/software/fftw-3.3.4/build/lib
 # LIBS += -lfftw3
 
 # # json library (requires gcc 4.9+, std=c++11 or higher)
@@ -74,17 +74,17 @@ c: unittest cctest
 
 cnotest: $(objects)
 
-main : main.o $(objects) 
+main : main.o $(objects)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIBS)
 
-ui_text : ui_text.o $(objects) 
+ui_text : ui_text.o $(objects)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIBS)
 
 unittest : $(objects) $(test_objects) gtest_main.a
 	$(CXX) $(CXXFLAGS) -pthread -o $@ $^ $(LIBS)
 
 gtest_main.a : gtest-all.o gtest_main.o
-	$(AR) $(ARFLAGS) $@ $^	
+	$(AR) $(ARFLAGS) $@ $^
 
 gtest-all.o : $(GTEST_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c $(GTEST_DIR)/src/gtest-all.cc
@@ -98,7 +98,7 @@ swignotest : $(swigfiles)
 
 .PHONY : doxygen
 doxygen :
-	doxygen Doxyfile
+	doxygen ../extern/Doxyfile
 	../tools/makelatex.sh
 
 .PHONY : cctest
@@ -107,7 +107,7 @@ cctest : unittest
 #	valgrind --leak-check=full ./unittest
 #	valgrind ./unittest
 	./unittest --gtest_shuffle
-	#./unittest 
+	#./unittest
 
 .PHONY : swig
 swig : swignotest
@@ -119,7 +119,7 @@ clean: cleanSwig cleanc
 	$(RM) -r tmp
 	$(RM) .depend
 	$(RM) -r ../html ../latex
-	
+
 .PHONY : cleanc
 cleanc:
 	$(RM) *.o
@@ -139,7 +139,7 @@ cleanSwig:
 	$(RM) feasst.pyc
 	$(RM) pyfeasst.pyc
 	$(RM) _feasst.so
-	$(RM) $(swigpyfiles)	
+	$(RM) $(swigpyfiles)
 
 
 depend:

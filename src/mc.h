@@ -19,13 +19,13 @@
 #endif  // _OPENMP
 #include "./accumulator.h"
 #include "./analyze.h"
-#include "./base_all.h"
+#include "./base_random.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-class MC : public BaseAll {
+class MC : public BaseRandom {
  public:
   MC(Space *space, Pair *pair, Criteria *criteria);
   explicit MC(const char* fileName);

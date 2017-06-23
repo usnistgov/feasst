@@ -16,6 +16,8 @@ namespace feasst {
 class PairIdeal : public Pair {
  public:
   PairIdeal(Space* space, const double rCut);
+  PairIdeal(Space* space, const char* fileName) : Pair(space, 0.) { 
+    ASSERT(0, "no restart implemented"); }
   ~PairIdeal();
   virtual PairIdeal* clone(Space* space) const {
     PairIdeal* p = new PairIdeal(*this); p->reconstruct(space); return p;

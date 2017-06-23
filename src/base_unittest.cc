@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <limits.h>
-#include "base_all.h"
+#include "base_random.h"
 #ifdef GSL_
   #include <stdlib.h>
   #include <stdio.h>

@@ -15,7 +15,7 @@
 #endif  // MPI_H_
 
 #ifdef JSON_
-#include "./json.hpp"
+#include "./../extern/json.hpp"
 #endif  // JSON_
 
 #ifdef HDF5_

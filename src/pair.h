@@ -23,13 +23,13 @@
 #define PAIR_H_
 
 #include "./space.h"
-#include "./base_all.h"
+#include "./base_random.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-class Pair : public BaseAll {
+class Pair : public BaseRandom {
  public:
   Pair(Space* space, const double rCut);
   Pair(Space* space, const char* fileName);

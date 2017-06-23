@@ -22,13 +22,14 @@ option(USE_SWIG "Use SWIG for python interface" OFF)
 # If you would like to use the python interface, you may need to specify the
 # python library and include path variables below. If not specified then
 # CMake attempts to find the libraries on its own.
-set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda2/include/python2.7")
-set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda2/lib/libpython2.7.so")
-#set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.6m")
+#set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda2/include/python2.7")
+#set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda2/lib/libpython2.7.so")
+#set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.6m/")
 #set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.so")
 
 # Users typically would not edit below this comment
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")  #profiling
 
 # # JSON Library
 # if (USE_JSON)
@@ -180,6 +181,12 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   #add_definitions(-std=c++0x -libstdc++)
 endif()
 
+# Use the src/makeFactory.sh script to make feasst.i and factories.cc
+execute_process(
+  COMMAND ../tools/makeFactory.sh
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
+
 file(GLOB feasst_unittest_SRC "${CMAKE_SOURCE_DIR}/../src/*_unittest.cc")
 file(GLOB feasst_SRC "${CMAKE_SOURCE_DIR}/../src/*.h" "${CMAKE_SOURCE_DIR}/../src/*.cc")
 
@@ -264,14 +271,13 @@ if (USE_SWIG)
     #INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
     SET(CMAKE_SWIG_FLAGS "")
 
-    file(GLOB swig_SRC "${CMAKE_SOURCE_DIR}/../src/*.i")
     file(GLOB feasst_cc_SRC "${CMAKE_SOURCE_DIR}/../src/*.cc")
     list(REMOVE_ITEM feasst_cc_SRC ${feasst_unittest_SRC})
     list(REMOVE_ITEM feasst_cc_SRC ${main_SRC})
 
-    SET_SOURCE_FILES_PROPERTIES(${swig_SRC} PROPERTIES CPLUSPLUS ON)
-    #SET_SOURCE_FILES_PROPERTIES(${swig_SRC} PROPERTIES SWIG_FLAGS "-includeall")
-    SWIG_ADD_MODULE(feasst python ${swig_SRC} ${feasst_cc_SRC})
+    SET_SOURCE_FILES_PROPERTIES(feasst.i PROPERTIES CPLUSPLUS ON)
+    #SET_SOURCE_FILES_PROPERTIES(feasst.i PROPERTIES SWIG_FLAGS "-includeall")
+    SWIG_ADD_MODULE(feasst python feasst.i ${feasst_cc_SRC})
     SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS})
     add_test(NAME swigtest COMMAND python ../src/swigtest/swigtest.py)
   else (SWIG_FOUND)

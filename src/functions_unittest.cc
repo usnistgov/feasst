@@ -3,7 +3,7 @@
 #include "functions.h"
 #include <algorithm>
 #include <fstream>
-#include "mins.h"
+#include "../extern/mins.h"
 #include <complex>
 #include "base_random.h"
 

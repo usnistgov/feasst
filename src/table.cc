@@ -915,6 +915,33 @@ void Table::setInterpolator(const char* name) {
   }
 }
 
+/**
+ * initialize table for f(x) = erfc(alpha*r)/r
+ */
+void erftable::init(const double alpha, const double rCut) {
+  n_ = 2e5;
+  ds_ = pow(2*rCut, 2)/static_cast<double>(n_);
+  for (int i = 0; i < n_; ++i) {
+    const double s = static_cast<double>(i) * ds_;
+    const double rij = sqrt(s);
+    vtab_.push_back(erfc(alpha*rij)/rij);
+  }
+}
+
+/**
+ * evaluate tabular eror function
+ */
+double erftable::eval(const double x) const {
+  const double sds = x / ds_;
+  const int k = static_cast<int>(sds);
+  const double xi = sds - static_cast<double>(k);
+  const double vk = vtab_[k], vk1 = vtab_[k+1], vk2 = vtab_[k+2];
+  const double t1 = vk + (vk1 - vk) * xi;
+  const double t2 = vk1 + (vk2 - vk1) * (xi - 1.);
+  return t1 + (t2 - t1)*xi*0.5;
+}
+
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

@@ -8,7 +8,7 @@
 #ifndef TRIAL_H_
 #define TRIAL_H_
 
-#include "./base_all.h"
+#include "./base_random.h"
 #include "./space.h"
 #include "./pair.h"
 #include "./criteria.h"
@@ -17,7 +17,7 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-class Trial : public BaseAll {
+class Trial : public BaseRandom {
  public:
   Trial();
   Trial(Space *space, Pair* pair, Criteria* criteria);

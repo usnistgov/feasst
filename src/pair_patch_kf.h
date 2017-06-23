@@ -23,6 +23,8 @@ namespace feasst {
 class PairPatchKF : public Pair {
  public:
   PairPatchKF(Space *space, const double rCut, const double patchAngle);
+  PairPatchKF(Space* space, const char* fileName) : Pair(space, 0.) { 
+    ASSERT(0, "no restart implemented"); }
   ~PairPatchKF();
   virtual PairPatchKF* clone(Space* space) const {
     PairPatchKF* p = new PairPatchKF(*this); p->reconstruct(space); return p;
@@ -60,8 +62,8 @@ class PairPatchKF : public Pair {
   double cpa() const { return cpa_; }
 
  protected:
-  const double patchAngle_;   //!< angle of patch (degrees)
-  const double cpa_;          //!< cosine of angle of patch
+  double patchAngle_;   //!< angle of patch (degrees)
+  double cpa_;          //!< cosine of angle of patch
   double deSR_;               //!< lennard jones potential energy change
   /// mirror patches such that, for each patch, another exists on the other side
   bool mirrorPatch_;

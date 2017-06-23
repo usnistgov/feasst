@@ -413,9 +413,11 @@ void AnalyzeScatter::printer_(const string fileName, CriteriaWLTMMC *c,
     for (unsigned int iType = 0; iType < hist.size(); ++iType) {
       const int niType = nMol*space_->addMolList()[0]->nType()[iType];
       for (unsigned int jType = 0; jType < hist[0].size(); ++jType) {
+        int normFac = 0;
+        if (iType == jType) normFac = 1;
         const int njType = nMol*space_->addMolList()[0]->nType()[jType];
         gr[iType][jType][bin] = (hist[iType][jType][bin])
-          /static_cast<double>( (niType-1)*njType*(countConf_[iMacro]) )
+          /static_cast<double>( (niType - normFac)*njType*(countConf_[iMacro]) )
           /dv;
         if (iType <= jType) ss << gr[iType][jType][bin] << " ";
       }

@@ -1,5 +1,4 @@
 #include "./pair_patch_kf.h"
-#include "./mins.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {

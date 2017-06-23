@@ -17,7 +17,7 @@ namespace feasst {
 
 class WLTMMC;
 
-class Analyze : public BaseAll {
+class Analyze : public BaseRandom {
  public:
   Analyze() { defaultConstruction(); }
   Analyze(Space* space, Pair* pair);

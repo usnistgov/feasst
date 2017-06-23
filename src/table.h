@@ -8,7 +8,6 @@
 
 #include <string>
 #include <vector>
-#include "./base_all.h"
 #ifdef GSL_
   #include <stdlib.h>
   #include <stdio.h>
@@ -16,6 +15,7 @@
   #include <gsl/gsl_errno.h>
   #include <gsl/gsl_spline.h>
 #endif  // GSL_
+#include "./base.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -101,6 +101,18 @@ class Table {
     gsl_interp_accel *acc;
     gsl_spline *spline;
   #endif  // GSL_
+};
+
+class erftable {
+ public:
+  erftable() {}
+  ~erftable() {}
+  void init(const double alpha, const double rCut);
+  double eval(const double x) const;
+ private:
+  vector<double> vtab_;
+  int n_;
+  double ds_;
 };
 
 #ifdef FEASST_NAMESPACE_

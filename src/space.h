@@ -6,7 +6,7 @@
 #include <string>
 #include "./functions.h"
 #include "./histogram.h"
-#include "./base_all.h"
+#include "./base_random.h"
 #ifdef XDRFILE_H_
   extern "C" {
     #include "xdrfile.h"
@@ -23,7 +23,7 @@ namespace feasst {
  * The space class owns variables and functions associated with the real-space
  * position of particles and the domain in which they reside.
  */
-class Space : public BaseAll {
+class Space : public BaseRandom {
  public:
   /// Construct with spatial dimension and ID number.
   Space(int dimen = 3, int id = 0);

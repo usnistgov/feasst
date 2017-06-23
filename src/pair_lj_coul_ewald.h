@@ -8,22 +8,11 @@
 #define PAIR_LJ_COUL_EWALD_H_
 
 #include "./pair.h"
+#include "./table.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
-
-class erftable {
- public:
-  erftable();
-  ~erftable() {}
-  void init(const double alpha, const double rCut);
-  double eval(const double x) const;
- private:
-  vector<double> vtab_;
-  int n_;
-  double ds_;
-};
 
 class PairLJCoulEwald : public Pair {
  public:

@@ -2,7 +2,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "./mins.h"
+#include "./../extern/mins.h"
 #include "./trial_add.h"
 #include "./trial_delete.h"
 
