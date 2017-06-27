@@ -958,7 +958,12 @@ void CriteriaWLTMMC::writeRestart(const char* fileName) {
   if (peMUVT_.size() == C_.size()) file << "peMUVT ";
   if (cTripleBanded_) file << "colMat(m-1) colMat(m) colMat(m+1) ";
   if (collect_ && !tmmc_) file << "lnPIwlcomp ";
-  file << "h peNvalues peSum peSumSq peBlockStdev lnPIstdev" << endl;
+  file << "h peNvalues ";
+  for (int mo = 0; mo < static_cast<int>(pe_.begin()->valMoment().size());
+       ++mo) {
+    file << "peSum" << mo + 1 << " ";
+  }
+  file << "peBlockStdev lnPIstdev" << endl;
 
   // statistical analysis on separate colmats
   for (vector<shared_ptr<CriteriaWLTMMC> >::iterator it = crits_.begin();
@@ -987,11 +992,12 @@ void CriteriaWLTMMC::writeRestart(const char* fileName) {
     if (collect_ && !tmmc_) file << lnPIwlcomp[i] << " ";
     file << h_[i] << " ";
     file << std::setprecision(std::numeric_limits<long double>::digits10+2)
-         << pe_[i].nValues() << " "
-         << pe_[i].sum() << " "
-         << pe_[i].sumSq() << " "
-         << pe_[i].blockStdev() << " ";
-
+         << pe_[i].nValues() << " ";
+      for (int mo = 0; mo < static_cast<int>(pe_[i].valMoment().size());
+           ++mo) {
+        file << pe_[i].valMoment()[mo] << " ";
+      }
+      file << pe_[i].blockStdev() << " ";
     Accumulator lnPIacc;
     for (vector<shared_ptr<CriteriaWLTMMC> >::iterator it = crits_.begin();
          it != crits_.end(); ++it) {
@@ -1151,6 +1157,12 @@ void CriteriaWLTMMC::tmmcInit() {
   ASSERT(collect_, "must also fill collection matrix if running tmmc");
   tmmc_ = true;
   std::fill(h_.begin(), h_.end(), 0);
+}
+
+void CriteriaWLTMMC::initMoments(const int nMoments) {
+  for (int bin = 0; bin < nBin_; ++bin) {
+    pe_[bin].initMoments(nMoments);
+  }
 }
 
 #ifdef FEASST_NAMESPACE_

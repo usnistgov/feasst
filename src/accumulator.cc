@@ -22,6 +22,13 @@ void Accumulator::accumulate(double value) {
   sum_ += value;
   sumSq_ += value*value;
 
+  // accumulate moments
+  double valmo = 1.;
+  for (int mo = 0; mo < static_cast<int>(valMoment_.size()); ++mo) {
+    valmo *= value;
+    valMoment_[mo] += valmo;
+  }
+  
   if (max_ < value) max_ = value;
   if (min_ > value) min_ = value;
 
@@ -44,6 +51,7 @@ void Accumulator::reset() {
   sumBlock_ = 0;
   max_ = -NUM_INF;
   min_ = NUM_INF;
+  initMoments();
 }
 
 double Accumulator::average() const {
@@ -75,6 +83,10 @@ double Accumulator::blockStdev() const {
     }
   }
   return 0;
+}
+
+void Accumulator::initMoments(const int nMoments) {
+  valMoment_.resize(nMoments);
 }
 
 #ifdef FEASST_NAMESPACE_

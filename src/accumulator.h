@@ -67,11 +67,21 @@ class Accumulator : public Base {
   /// Return the minimum value accumulated.
   double min() const { return min_; }
 
+  /// Set the highest order of moments recorded.
+  void initMoments(const int nMoments = 2);
+
+  /// Return the moments. Note that this is not supported with checkpointing.
+  vector<long double> valMoment() const { return valMoment_; }
+
  protected:
   long long nValues_;
   long double sum_;
   long double sumSq_;
   double max_, min_;
+
+  /// maximum number of moments before Taylor series truncation
+  ///  e.g., 2 (default) includes moments 1 and 2
+  vector<long double> valMoment_;
 
   // block averaging variables
   long long nBlock_;

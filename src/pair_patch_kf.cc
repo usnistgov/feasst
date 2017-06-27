@@ -472,7 +472,7 @@ double PairPatchKF::allPartEnerForce(const int flag) {
 
         // hard sphere
         if (r2 < sigSq) {
-          peSRone_ += std::numeric_limits<double>::max()/1e10;
+          peSRone_ += NUM_INF;
 
         // orientational square well
         } else {

@@ -372,6 +372,9 @@ class CriteriaWLTMMC : public Criteria {
   /// Return current macrostate updated every call to accept() or every trial.
   int iMacro() const { return bin(mNew_); }
 
+  /// Set the highest order of moments recorded for potential energy.
+  void initMoments(const int nMoments);
+
   /// read-only functions for protected variables
   vector<long double> lnPI() { return lnPI_; }
   vector<long double> lnPIrw() const { return lnPIrw_; }
@@ -388,6 +391,7 @@ class CriteriaWLTMMC : public Criteria {
   bool tmmc() const { return tmmc_; }
   vector<double> lnpi2pressure() const { return lnpi2pressure_; }
   vector<Accumulator> pe() const { return pe_; }
+  Accumulator pe(const int bin) { return pe_[bin]; }
   double lnfCollect() const { return lnfCollect_; }
   vector<double> peMUVT() { lnPIenergyIso(); return peMUVT_; }
 
