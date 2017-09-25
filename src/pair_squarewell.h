@@ -1,38 +1,30 @@
-/**
- * \file
- *
- * \brief square well pair-wise interaction
- *
- * The hard distance is determined by sigma, and the square well distance is determined by rCut.
- * The depth of the well is epsilon
- */
 #ifndef PAIR_SQUAREWELL_H_
 #define PAIR_SQUAREWELL_H_
 
+#include <vector>
 #include "./pair.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ * Square well interactions.
+ * The hard distance is determined by sigma,
+ * the square well distance is determined by rCut,
+ * and the depth of the well is epsilon.
+ */
 class PairSquareWell : public Pair {
  public:
+  /// Constructor
   PairSquareWell(Space* space, const double rCut);
-  PairSquareWell(Space* space, const char* fileName);
-  virtual ~PairSquareWell() {}
-  virtual PairSquareWell* clone(Space* space) const {
-    PairSquareWell* p = new PairSquareWell(*this);
-    p->reconstruct(space);
-    return p;
-  }
 
-  // defaults in constructor
-  void defaultConstruction();
+  /// Initialize hard sphere interactions
+  /// between particle types itype and jtype.
+  void initHardSphere(const int itype, const int jtype);
 
-  /// write restart file
-  virtual void writeRestart(const char* fileName);
-
-  virtual int initEnergy();   //!< function to calculate forces, given positions
+  // function to calculate forces, given positions
+  virtual void initEnergy();
 
   /// potential energy of multiple particles
   double multiPartEner(const vector<int> multiPart, const int flag);
@@ -48,15 +40,26 @@ class PairSquareWell : public Pair {
   //  configuration after every change
   void update(const vector<int> mpart, const int flag, const char* uptype);
 
-  /// initialize hard sphere interactions between particle types itype and jtype
-  void initHardSphere(const int itype, const int jtype);
-
   /// read-only access of protected variables
   double peSRone() const { return peSRone_; }
+
+  PairSquareWell(Space* space, const char* fileName);
+  virtual ~PairSquareWell() {}
+  virtual PairSquareWell* clone(Space* space) const {
+    PairSquareWell* p = new PairSquareWell(*this);
+    p->reconstruct(space);
+    return p;
+  }
+
+  /// write restart file
+  virtual void writeRestart(const char* fileName);
 
  protected:
   double peSRone_;  //!< lennard jones potential energy from subset of particles
   double deSR_;     //!< lennard jones potential energy change
+
+  // defaults in constructor
+  void defaultConstruction_();
 };
 
 #ifdef FEASST_NAMESPACE_

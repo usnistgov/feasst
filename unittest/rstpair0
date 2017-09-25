@@ -1,0 +1,15 @@
+# className PairLJMulti
+# lrcFlag 0
+# rCut 2.5
+# nDataFiles 2
+# DATAFILE0 ../unittest/data.lj
+# DATAFILE1 ../unittest/data.ljb
+# rCut00 3
+# rCut01 3.75
+# rCut11 4.5
+# atomCut 1
+# linearShiftFlag 1
+# expType 0
+# peLinearShift00 1
+# peLinearShift01 1
+# peLinearShift11 1

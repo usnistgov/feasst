@@ -8,20 +8,20 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 TrialConfSwapTXT::TrialConfSwapTXT() : Trial() {
-  defaultConstruction();
+  defaultConstruction_();
 }
 TrialConfSwapTXT::TrialConfSwapTXT(Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 TrialConfSwapTXT::TrialConfSwapTXT(const char* fileName,
   Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 
 /**
@@ -35,7 +35,7 @@ void TrialConfSwapTXT::writeRestart(const char* fileName) {
 /**
  * defaults
  */
-void TrialConfSwapTXT::defaultConstruction() {
+void TrialConfSwapTXT::defaultConstruction_() {
   className_.assign("TrialConfSwapTXT");
   trialType_.assign("move");
   verbose_ = 0;
@@ -48,7 +48,7 @@ void TrialConfSwapTXT::defaultConstruction() {
 /**
  * randomly to swap configurations with inter or intra processor stored state
  */
-void TrialConfSwapTXT::attempt1() {
+void TrialConfSwapTXT::attempt1_() {
   // obtain currentOrder, the current order parameter for the simulation
   double currentOrder = -1;
   if (orderType_.compare("nmol") == 0) {
@@ -120,7 +120,7 @@ void TrialConfSwapTXT::attempt1() {
           reject_ = 0;
           if (criteria_->accept(lnpMet_, pair_->peTot() + de_,
                                 trialType_.c_str(), reject_) == 1) {
-            trialAccept();
+            trialAccept_();
             space_->swapPositions(&stmp);
             if (space_->cellType() > 0) space_->buildCellList();
             if (pair_->neighOn()) pair_->buildNeighList();
@@ -130,7 +130,7 @@ void TrialConfSwapTXT::attempt1() {
                << currentOrder;
             stmp.writeRestart(ss.str().c_str());
           } else {
-            trialReject();
+            trialReject_();
           }
         }
       }

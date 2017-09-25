@@ -41,8 +41,8 @@ def parallelCCompile(self, sources, output_dir=None, macros=None, include_dirs=N
 import distutils.ccompiler
 if (nproc > 1): distutils.ccompiler.CCompiler.compile=parallelCCompile
 
-# obtain source files by searching for *.i files in src 
-#  and replacing with ".cc" and "_wrap.cxx" 
+# obtain source files by searching for *.i files in src
+#  and replacing with ".cc" and "_wrap.cxx"
 interfaces = glob("*.i")
 src = list(interfaces)
 for i in interfaces:
@@ -50,7 +50,7 @@ for i in interfaces:
     j = re.sub(r'\.i', ".cc", i)
     src.append(str(j))
 
-feasst_module = Extension('_feasst',sources=src, extra_compile_args=cargs, 
+feasst_module = Extension('_feasst',sources=src, extra_compile_args=cargs,
   language="c++", extra_link_args=cargs, swig_opts = ["-c++","-threads"])
 
 setup(name = 'feasst',

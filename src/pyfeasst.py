@@ -25,7 +25,7 @@ def read_log_file(file_name, xcol=0, ycol=1):
     return xlst, ylst
 
 def string_array_to_np(xarr, yarr):
-    """ convert string array, often obtained by read_log_file, 
+    """ convert string array, often obtained by read_log_file,
     into a numpy array of floats """
     tmp = [float(val) for val in xarr]
     xdata = np.array(tmp)
@@ -58,7 +58,7 @@ def plot(name, xlst, ylst, xlabel="", ylabel="", xlabelfs=18, ylabelfs=28):
 
 def list_to_double_vector(lst):
     """ converts a python list to a swig stl vector """
-    vec = feasst.DoubleVector(len(lst))  
+    vec = feasst.DoubleVector(len(lst))
     for index in range(len(lst)):
         vec[index] = float(lst[index])
     return vec
@@ -72,7 +72,7 @@ def double_vector_to_list(vec):
 
 class cd:
     """Context manager for changing the current working directory
-       Thanks to Brian Hunt on Stack Overflow 
+       Thanks to Brian Hunt on Stack Overflow
        http://stackoverflow.com/questions/431684/how-do-i-cd-in-python/24176022
        #24176022 """
     def __init__(self, newPath):

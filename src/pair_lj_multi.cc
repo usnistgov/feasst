@@ -1,36 +1,28 @@
-/**
- * \file
- *
- * \brief lennard-jones pairwise interactions
- *
- * Slow implementation of pair_lj class
- */
-
 #include "./pair_lj_multi.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-/**
- * Constructor for pair_lj class requires the following
- */
-PairLJMulti::PairLJMulti(Space* space,
-         const double rCut  //!< interaction cut-off distance
-  )
-    : PairLJ(space, rCut) {
-  defaultConstruction();
+PairLJMulti::PairLJMulti(Space* space, const double rCut)
+  : PairLJ(space, rCut) {
+  defaultConstruction_();
 }
-PairLJMulti::PairLJMulti(Space* space,
-         const char* fileName
-  )
-    : PairLJ(space, fileName) {
-  defaultConstruction();
+PairLJMulti::PairLJMulti(Space* space, const char* fileName)
+  : PairLJ(space, fileName) {
+  defaultConstruction_();
 
   // set exponential type
   string str = fstos("expType", fileName);
   if (!str.empty()) {
-    initExpType(stoi(str));
+    const int expType = stoi(str);
+    if (expType == -1) {
+      str = fstos("alphaparam", fileName);
+      ASSERT(!str.empty(), "alpha parameter must be provided if expType==-1");
+      initAlpha(stod(str));
+    } else {
+      initExpType(stoi(str));
+    }
   } else {
     initExpType(0);
   }
@@ -47,6 +39,25 @@ PairLJMulti::PairLJMulti(Space* space,
     yukawaK_ = 0;
   }
 
+  // "global rcut" check first
+  str = fstos("cutShiftFlag", fileName);
+  if (!str.empty()) cutShift(stoi(str));
+  if (cutShiftFlag_ == 0) cutShift(0);
+
+  // overwrite global rcut with ij pairs if specified
+  for (int i = 0; i < space_->nParticleTypes(); ++i) {
+    for (int j = i; j < space_->nParticleTypes(); ++j) {  // only do j >= i
+      stringstream ss;
+      ss << "rCut" << i << "j" << j;
+      string strtmp = fstos(ss.str().c_str(), fileName);
+      if (!strtmp.empty()) {
+        double rc_ij = fstod(ss.str().c_str(), fileName);
+        rCutijset(i, j, rc_ij);
+      }
+    }
+  }
+
+  // once r_cuts are set in the correct order, shift/cut as necessary
   for (unsigned int i = 0; i < epsij_.size(); ++i) {
     for (unsigned int j = i; j < epsij_.size(); ++j) {
       stringstream ss;
@@ -101,16 +112,9 @@ PairLJMulti::PairLJMulti(Space* space,
   } else {
     lambdaFlag_ = 0;
   }
-
-  str = fstos("cutShiftFlag", fileName);
-  if (!str.empty()) cutShift(stoi(str));
-  if (cutShiftFlag_ == 0) cutShift(0);
 }
 
-/**
- * defeaults in constructor
- */
-void PairLJMulti::defaultConstruction() {
+void PairLJMulti::defaultConstruction_() {
   className_.assign("PairLJMulti");
   initExpType(0);
   yukawa_ = 0;
@@ -120,10 +124,7 @@ void PairLJMulti::defaultConstruction() {
   gaussian_ = 0;
 }
 
-/**
- * Lennard-Jones pair-wise force calculation
- */
-int PairLJMulti::initEnergy() {
+void PairLJMulti::initEnergy() {
   const int verbose = 0;
   if (verbose) cout << "in pair_lj_multi.cc" << endl;
 
@@ -180,7 +181,7 @@ int PairLJMulti::initEnergy() {
 
               // inner hard sphere
               if (sqrt(r2) <= sig - sigref) {
-                pePart += std::numeric_limits<double>::max()/1e10;
+                pePart += NUM_INF;
               }
             }
             r6inv = r2inv*r2inv*r2inv;
@@ -196,6 +197,8 @@ int PairLJMulti::initEnergy() {
               r6inv = pow(r2inv, 12);
             } else if (expType_ == 6) {
               r6inv = pow(r2inv, 9);
+            } else if (expType_ == -1) {
+              r6inv = pow(r2inv, 0.5*alpha_);
             }
             pePart += eps *(4. * (r6inv*(r6inv - 1.))
               + peShiftij_[type[ipart]][type[jpart]]);
@@ -242,15 +245,21 @@ int PairLJMulti::initEnergy() {
                   - gausParam_[ig][1])/gausParam_[ig][2], 2));
               }
             }
-            
+
             peLJ_ += pePart;
             pe_[ipart] += pePart/2.;
             pe_[jpart] += pePart/2.;
 
             if (verbose) {
-              std::streamsize ss = cout.precision();
-              cout << std::setprecision(std::numeric_limits<long double>::digits10+2) << "pepart " << pePart << " for ipart " << ipart << " jpart " << jpart << " r6inv " << r6inv << " eps " << epsij_[type[ipart]][type[jpart]] << " peshi " << peShiftij_[type[ipart]][type[jpart]] << " lsf " << linearShiftFlag_ << " sig " << sigij_[type[ipart]][type[jpart]] << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK " << yukawaK_ << endl;
-              cout << std::setprecision(ss);
+  std::streamsize ss = cout.precision();
+  cout << std::setprecision(std::numeric_limits<long double>::digits10+2)
+    << "pepart " << pePart << " for ipart " << ipart << " jpart " << jpart
+    << " r6inv " << r6inv << " eps " << epsij_[type[ipart]][type[jpart]]
+    << " peshi " << peShiftij_[type[ipart]][type[jpart]] << " lsf "
+    << linearShiftFlag_ << " sig " << sigij_[type[ipart]][type[jpart]]
+    << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK "
+    << yukawaK_ << " rcut " << rCutij_[type[ipart]][type[jpart]] << endl;
+  cout << std::setprecision(ss);
             }
 
             // force
@@ -261,7 +270,7 @@ int PairLJMulti::initEnergy() {
             if (linearShiftFlag_) {
               fPart -= peLinearShiftij_[type[ipart]][type[jpart]]/sqrt(r2);
             }
-            if (verbose) cout << "fPart " << fPart << " f " 
+            if (verbose) cout << "fPart " << fPart << " f "
               << fPart*sqrt(r2) << endl;
             for (int i = 0; i < dimen; ++i) {
               fij[i] += fPart * xij[i];
@@ -293,14 +302,8 @@ int PairLJMulti::initEnergy() {
   }
 
   peTot_ = peLJ_ + peLRC_;
-  return 0;
 }
 
-/**
- * potential energy and forces of all particles
- *  if flag == 0, dummy calculation
- *  if flag == 1, all config calculation
- */
 double PairLJMulti::allPartEnerForce(const int flag) {
   peSRone_ = 0;
   // standard long range corrections
@@ -335,12 +338,7 @@ double PairLJMulti::allPartEnerForce(const int flag) {
   return 1e300;
 }
 
-/**
- * Lennard-Jones potential energy contribution due to particles
- */
-double PairLJMulti::multiPartEner(
-  const vector<int> mpart,   //!< particle indx to calculate energy interactions
-  const int flag) {     //!< place holder for other pair styles
+double PairLJMulti::multiPartEner(const vector<int> mpart, const int flag) {
   if (flag == 0) {}  // remove unused parameter warning
 
   // zero potential energy contribution of particle ipart
@@ -379,13 +377,7 @@ double PairLJMulti::multiPartEner(
   }
 }
 
-/**
- * initialize cut and shifted potential
- *  if flag == 0, do not shift
- *  if flag == 1, shift by potential value to zero at rCut
- */
-void PairLJMulti::cutShift(const int flag    //!< initialization flag
-  ) {
+void PairLJMulti::cutShift(const int flag) {
   cutShiftFlag_ = flag;
   peShiftij_.resize(epsij_.size(), vector<double>(epsij_.size()));
   rCutij_.clear();
@@ -405,13 +397,7 @@ void PairLJMulti::cutShift(const int flag    //!< initialization flag
   }
 }
 
-/**
- * initialize linear force shift potential
- *  if flag == 0, do not shift
- *  if flag == 1, shift by potential and force value to zero at rCut
- */
-void PairLJMulti::linearShift(const int flag    //!< initialization flag
-  ) {
+void PairLJMulti::linearShift(const int flag) {
   cutShift(flag);
   linearShiftFlag_ = flag;
   peLinearShiftij_.resize(epsij_.size(), vector<double>(epsij_.size()));
@@ -430,9 +416,6 @@ void PairLJMulti::linearShift(const int flag    //!< initialization flag
   }
 }
 
-/**
- * set i-j shifting
- */
 void PairLJMulti::cutShiftijset(
   const int itype,
   const int jtype,
@@ -453,7 +436,7 @@ void PairLJMulti::cutShiftijset(
     }
     const double peShiftLJ = -4.*eps*(pow(rinv, 2*alpha_)
                                     - pow(rinv, alpha_));
-    
+
     double peShiftY = 0;
     ASSERT(sigrefFlag_ == 0 || yukawa_ == 0, "sigref not implemented here");
     if (yukawa_ == 1) {
@@ -470,9 +453,6 @@ void PairLJMulti::cutShiftijset(
   }
 }
 
-/**
- * set i-j shifting
- */
 void PairLJMulti::linearShiftijset(
   const int itype,
   const int jtype,
@@ -494,8 +474,8 @@ void PairLJMulti::linearShiftijset(
       rinv = sigref / (rc - sig + sigref);
       sigtmp = sigref;
     }
-    
-    const double peLShiftLJ = -4.*eps/sigtmp*(-2*alpha_*pow(rinv, (2*alpha_) 
+
+    const double peLShiftLJ = -4.*eps/sigtmp*(-2*alpha_*pow(rinv, (2*alpha_)
       + 1) + alpha_*pow(rinv, alpha_ + 1));
 
     ASSERT(sigrefFlag_ == 0 || yukawa_ == 0, "sigref not implemented here");
@@ -515,14 +495,12 @@ void PairLJMulti::linearShiftijset(
   }
 }
 
-/**
- * write restart file
- */
 void PairLJMulti::writeRestart(const char* fileName) {
   PairLJ::writeRestart(fileName);
   std::ofstream file(fileName, std::ios_base::app);
 
   file << "# expType " << expType_ << endl;
+  file << "# alphaparam " << alpha_ << endl;
   if (yukawa_ != 0) {
     file << "# yukawaFlag " << yukawa_ << endl;
     file << std::setprecision(std::numeric_limits<double>::digits10+2)
@@ -566,9 +544,6 @@ void PairLJMulti::writeRestart(const char* fileName) {
   }
 }
 
-/**
- * initialize long-range correcitons
- */
 void PairLJMulti::initLRC() {
   lrcFlag = 1;
   lrcPreCalc_.resize(epsij_.size(), vector<double>(epsij_.size()));
@@ -589,9 +564,6 @@ void PairLJMulti::initLRC() {
   }
 }
 
-/**
- * set i-j to wca
- */
 void PairLJMulti::initWCA(const int itype, const int jtype) {
   const double sig = sigij_[itype][jtype];
   double rc;
@@ -621,10 +593,10 @@ void PairLJMulti::multiPartEnerAtomCutInner(const double &r2, const int &itype,
       r = sqrt(r2);
       r2inv = sigref/(r - sigij + sigref);
       r2inv = r2inv*r2inv;
-    
+
       // inner hard sphere
       if (r <= sigij - sigref) {
-        peLJ += std::numeric_limits<double>::max()/1e10;
+        peLJ += NUM_INF;
         return;
       }
     }
@@ -641,6 +613,8 @@ void PairLJMulti::multiPartEnerAtomCutInner(const double &r2, const int &itype,
       r6inv = pow(r2inv, 12);
     } else if (expType_ == 6) {
       r6inv = pow(r2inv, 9);
+    } else if (expType_ == -1) {
+      r6inv = pow(r2inv, 0.5*alpha_);
     }
     const double epsij = epsij_[itype][jtype];
     peLJ = epsij * (4. * (r6inv*(r6inv - 1.)) + peShiftij_[itype][jtype]);
@@ -690,16 +664,15 @@ void PairLJMulti::multiPartEnerAtomCutInner(const double &r2, const int &itype,
       }
     }
 //    if (linearShiftFlag_) {
-//      cout << "pepart " << epsij * (4. * (r6inv*(r6inv - 1.)) + peShiftij_[itype][jtype])+ static_cast<int>(linearShiftFlag_)*(peLinearShiftij_[itype][jtype] * (sqrt(r2) - rCutij_[itype][jtype])) + yukawaA_ * exp(-yukawaK_*sqrt(r2)/sigij)/sqrt(r2)*sigij << " r6inv " << r6inv << " eps " << epsij << " peshi " << peShiftij_[itype][jtype] << " lsf " << linearShiftFlag_ << " sig " << sigij_[itype][jtype] << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK " << yukawaK_ << endl;
+//      cout << "pepart " << epsij * (4. * (r6inv*(r6inv - 1.)) + peShiftij_[itype][jtype])+ static_cast<int>(linearShiftFlag_)*(peLinearShiftij_[itype][jtype] * (sqrt(r2) - rCutij_[itype][jtype])) << " r6inv " << r6inv << " eps " << epsij << " peshi " << peShiftij_[itype][jtype] << " lsf " << linearShiftFlag_ << " sig " << sigij_[itype][jtype] << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK " << yukawaK_ << endl;
+//    //+ yukawaA_ * exp(-yukawaK_*sqrt(r2)/sigij)/sqrt(r2)*sigij << " r6inv " << r6inv << " eps " << epsij << " peshi " << peShiftij_[itype][jtype] << " lsf " << linearShiftFlag_ << " sig " << sigij_[itype][jtype] << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK " << yukawaK_ << endl;
+//  }
 //    } else {
 //      cout << "pepart " << epsij * (4. * (r6inv*(r6inv - 1.)) + peShiftij_[itype][jtype])+ yukawaA_ * exp(-yukawaK_*sqrt(r2)/sigij)/sqrt(r2)*sigij << " r6inv " << r6inv << " eps " << epsij << " peshi " << peShiftij_[itype][jtype] << " lsf " << linearShiftFlag_ << " sig " << sigij_[itype][jtype] << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK " << yukawaK_ << endl;
 //    }
   }
 }
 
-/**
- * inner loop for potential energy and forces of all particles
- */
 void PairLJMulti::allPartEnerForceInner(const double &r2, const double &dx,
   const double &dy, const double &dz, const int &itype, const int &jtype,
   const int &iMol, const int &jMol) {
@@ -718,6 +691,8 @@ void PairLJMulti::allPartEnerForceInner(const double &r2, const double &dx,
     r6inv = pow(r2inv, 12);
   } else if (expType_ == 6) {
     r6inv = pow(r2inv, 9);
+  } else if (expType_ == -1) {
+    r6inv = pow(r2inv, 0.5*alpha_);
   }
   const double epsij = epsij_[itype][jtype];
   multiPartEnerAtomCutInner(r2, itype, jtype);
@@ -733,15 +708,6 @@ void PairLJMulti::allPartEnerForceInner(const double &r2, const double &dx,
   }
 }
 
-/** initialize exponential type
- *   type0 is 12-6
- *   type1 is 24-12
- *   type2 is 2alpha - alpha; alpha=16.6755
- *   type3 is 2alpha - alpha; alpha=50
- *   type4 is 2alpha - alpha; alpha=128
- *   type5 is 2alpha - alpha; alpha=24
- *   type6 is 2alpha - alpha; alpha=18
- */
 void PairLJMulti::initExpType(const int type) {
   expType_ = type;
   if (expType_ == 0) {
@@ -758,14 +724,13 @@ void PairLJMulti::initExpType(const int type) {
     alpha_ = 24;
   } else if (expType_ == 6) {
     alpha_ = 18;
+  } else if (expType_ == -1) {
+    ASSERT(0, "Initialize expType=-1 via initAlpha instead");
   } else {
     ASSERT(0, "Unrecognized expType(" << expType_ << ")");
   }
 }
 
-/**
- * set the order parameter
- */
 void PairLJMulti::setOrder(const double order) {
 //  const double orderOld = order_;
   Pair::setOrder(order);
@@ -796,10 +761,6 @@ void PairLJMulti::setOrder(const double order) {
   }
 }
 
-/**
- *  add a gaussian on the potential
- *   U(r) = height * exp ( - ( (r-position)/spread)^2 )
- */
 void PairLJMulti::addGaussian(const double height, const double position,
   const double spread) {
   gaussian_ = 1;
@@ -810,9 +771,6 @@ void PairLJMulti::addGaussian(const double height, const double position,
   gausParam_.push_back(param);
 }
 
-/**
- * set lambda parameter
- */
 void PairLJMulti::setLambdaij(const double iType, const double jType,
   const double lambda) {
   lambdaFlag_ = 1;
@@ -821,9 +779,6 @@ void PairLJMulti::setLambdaij(const double iType, const double jType,
   lambda_[jType][iType] = lambda;
 }
 
-/**
- * return the lrc contribution of one particle
- */
 double PairLJMulti::computeLRC(const int ipart) {
   double enlrc = 0;
   const int iType = space_->type()[ipart];
@@ -836,7 +791,11 @@ double PairLJMulti::computeLRC(const int ipart) {
   return enlrc;
 }
 
+void PairLJMulti::initAlpha(const double alpha) {
+  alpha_ = alpha;
+  expType_ = -1;
+}
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-

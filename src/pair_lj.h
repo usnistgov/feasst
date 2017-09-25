@@ -1,3 +1,12 @@
+#ifndef PAIR_LJ_H_
+#define PAIR_LJ_H_
+
+#include "./pair.h"
+
+#ifdef FEASST_NAMESPACE_
+namespace feasst {
+#endif  // FEASST_NAMESPACE_
+
 /**
  * \file
  *
@@ -11,15 +20,6 @@
  * virial = sum( r_ . f_ ) is related to the pressure
  * where _ denotes vectors
  */
-#ifndef PAIR_LJ_H_
-#define PAIR_LJ_H_
-
-#include "./pair.h"
-
-#ifdef FEASST_NAMESPACE_
-namespace feasst {
-#endif  // FEASST_NAMESPACE_
-
 class PairLJ : public Pair {
  public:
   PairLJ(Space* space, const double rCut);
@@ -28,13 +28,10 @@ class PairLJ : public Pair {
   virtual PairLJ* clone(Space* space) const {
     PairLJ* p = new PairLJ(*this); p->reconstruct(space); return p; }
 
-  // defaults in constructor
-  void defaultConstruction();
-
   /// write restart file
   virtual void writeRestart(const char* fileName);
 
-  virtual int initEnergy();   //!< function to calculate forces, given positions
+  virtual void initEnergy();   //!< function to calculate forces, given positions
 
   /// potential energy of multiple particles
   virtual double multiPartEner(const vector<int> multiPart, const int flag);
@@ -52,11 +49,6 @@ class PairLJ : public Pair {
   /// stores, restores or updates variables to avoid order recompute of entire
   //  configuration after every change
   void update(const vector<int> mpart, const int flag, const char* uptype);
-
-  /// delete one particle
-  void delPart(const int ipart) {delPartBase(ipart); }
-  void delPart(const vector<int> mpart) {delPartBase(mpart); }
-  void addPart() {addPartBase(); }                       //!< add particles
 
   /// initialize cut and shifted potential
   virtual void cutShift(const int flag);
@@ -89,6 +81,9 @@ class PairLJ : public Pair {
 
   /// flag to cut and shift potential by linear term such that force=0 at rcut
   bool linearShiftFlag_;
+
+  // defaults in constructor
+  void defaultConstruction_();
 };
 
 #ifdef FEASST_NAMESPACE_

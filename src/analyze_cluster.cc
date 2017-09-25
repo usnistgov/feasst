@@ -6,13 +6,13 @@ namespace feasst {
 
 AnalyzeCluster::AnalyzeCluster(Space *space, Pair *pair)
   : Analyze(space, pair) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 AnalyzeCluster::AnalyzeCluster(Space *space,
   Pair *pair,
   const char* fileName)
     : Analyze(space, pair, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   clusterCut_ = fstod("clusterCut", fileName);
 }
 
@@ -28,7 +28,7 @@ void AnalyzeCluster::writeRestart(const char* fileName) {
 /**
  * default construction
  */
-void AnalyzeCluster::defaultConstruction() {
+void AnalyzeCluster::defaultConstruction_() {
   className_.assign("AnalyzeCluster");
   verbose_ = 0;
   clusterCut_ = 0;
@@ -97,7 +97,7 @@ void AnalyzeCluster::update(const int iMacro) {
           vector<double> zi = matVecMul(ri, zref),
                          zj = matVecMul(rj, zref);
           cosa = vecDotProd(zi, zj);
-        
+
         // if not using euler angles, compute orientation by assuming that
         // it is a solid of revolution where the orientation is given by the
         // vector connecting the first particle in the molecule with the next
@@ -132,7 +132,7 @@ void AnalyzeCluster::update(const int iMacro) {
     Pair* pairBig = pair_->clone(spaceBig.get());
     pairBig->addPart();
     pairBig->updateClusters(clusterCut_);
-    cout << "clus: " << space_->nClusters() << " " << spaceBig->nClusters() 
+    cout << "clus: " << space_->nClusters() << " " << spaceBig->nClusters()
          << endl;
     if (pow(2, space_->dimen())*space_->nClusters() == spaceBig->nClusters()) {
       percolation_.accumulate(iMacro, 0.);
@@ -207,7 +207,7 @@ void AnalyzeCluster::write(CriteriaWLTMMC *c) {
   // print zOrient probability distributions, 1 file per macrostate
   if (zOrient_.size() > 0) {
     for (unsigned int iMacro = 0; iMacro < zOrient_.size(); ++iMacro) {
-      
+
       // initialize output
       stringstream ssfn;
       ssfn << fileName_ << "i" << iMacro;
@@ -232,7 +232,7 @@ void AnalyzeCluster::write(CriteriaWLTMMC *c) {
       } else {
         file << ss.str();
       }
-    
+
       // initialize output
       ssfn.str("");
       ssfn << fileName_ << "histi" << iMacro;
@@ -256,7 +256,7 @@ void AnalyzeCluster::write(CriteriaWLTMMC *c) {
         cout << ss.str();
       } else {
         file2 << ss.str();
-      } 
+      }
     }
   }
 }

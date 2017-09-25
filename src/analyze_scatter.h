@@ -27,8 +27,8 @@ class AnalyzeScatter : public Analyze {
     return(std::static_pointer_cast<AnalyzeScatter, Analyze>(
       cloneImpl(space, pair)));
   }
-  void defaultConstruction();
-  void writeRestart(const char* fileName, const int iMacro = -1);
+  void writeRestart(const char* fileName) { writeRestart(fileName, -1); };
+  void writeRestart(const char* fileName, const int iMacro);
 
   /// initialize SANS
   void initSANS(const double dgr, const int nMacros);
@@ -61,6 +61,9 @@ class AnalyzeScatter : public Analyze {
   vector<double> qwave() const { return qwave_; }
   int qbins() const { return qbins_; }
 
+  /// initialize moments cutoff
+  void initMoments(const int nMoments) { nMomentsCut_ = nMoments; }
+
  protected:
   double dgr_;  //!< distance spacing for gr
   int nbins_;   //!< number of bins in gr
@@ -79,9 +82,18 @@ class AnalyzeScatter : public Analyze {
   vector<long long> countConf_;
   vector<vector<double> > sgr_;   //!< histogram scale factor for g(r)->1
 
+  // Extrapolation quantities
+  /// extrapolation histogram
+  vector<vector<vector<vector<vector<double> > > > > histMoments_;
+  /// maximum number of moments before Taylor series truncation
+  ///  e.g., 3 (default) includes moments 0, 1 and 2
+  int nMomentsCut_;
+
   // shared print function
   void printer_(const string fileName, CriteriaWLTMMC *c = NULL,
                 const int iMacro = 0);
+
+  void defaultConstruction_();
 
   // clone design pattern
   virtual shared_ptr<Analyze> cloneImpl(Space* space, Pair *pair) const {

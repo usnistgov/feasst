@@ -30,7 +30,7 @@ Pair Coeffs
 
 Bond Coeffs
 
-1 100 0.57    # bond type 1, k=100, l0=0.57, U=k*(l-l0)^2 
+1 100 0.57    # bond type 1, k=100, l0=0.57, U=k*(l-l0)^2
 
 Angle Coeffs
 
@@ -40,7 +40,7 @@ Atoms
 
 1 1 1 0.0 0 0 0 0 0 0
 2 1 2 0.0 0 0.266345520433943000 0 0 0 0
-3 1 3 0.0  0.406552756017883000 -0.133172760216972000 0 0 0 0 
+3 1 3 0.0  0.406552756017883000 -0.133172760216972000 0 0 0 0
 4 1 3 0.0 -0.406552756017883000 -0.133172760216972000 0 0 0 0
 
 Bonds
@@ -54,7 +54,7 @@ Angles
 
 ConfigurationalBias
 
-6 cbmctypes   #number of types of cmbc moves        
+6 cbmctypes   #number of types of cmbc moves       
 
 gcinsdel 4 1        #regrow entire chain with 3 steps and weight of 1
 2 10 avb 1.02 1 1 2  #first step: grow atom 2 with 10 trials in aggregation volume bias region(rUp,rLo) of 1 atoms 2 of other molecules

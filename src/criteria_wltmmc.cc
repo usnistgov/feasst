@@ -1,7 +1,7 @@
 #include "./criteria_wltmmc.h"
 #include "./space.h"
 #include "./pair.h"
-#include "./mins.h"
+#include "./../extern/mins.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -129,7 +129,7 @@ int CriteriaWLTMMC::accept(const double lnpMet, const double peNew,
     } else {
       returnVal = 0;
     }
-  
+
     // update pe_ vector
     if (collect_) {
       if (returnVal == 0) {
@@ -173,17 +173,20 @@ void CriteriaWLTMMC::store(const Space* space, Pair* pair) {
   if (tmmc_ == false) flatCheck();
 }
 
-int CriteriaWLTMMC::flatCheck() {
-  if (*std::min_element(h_.begin(), h_.end()) 
-      > wlFlatFactor_ * vecAverage(h_)) {
+void CriteriaWLTMMC::flatCheck(const int force) {
+  if ( (force == 1) ||
+       (*std::min_element(h_.begin(), h_.end())
+       > wlFlatFactor_ * vecAverage(h_)) ) {
     std::fill(h_.begin(), h_.end(), 0);
     lnf_ *= g_;
     ++wlFlat_;
     if ( (lnf_ < lnfCollect_) && (!collect_) ) collectInit();
     if ( (lnf_ < lnfTMMC_) && (!tmmc_) ) tmmcInit();
-    return 1;
+    for (vector<shared_ptr<CriteriaWLTMMC> >::iterator it = crits_.begin();
+         it != crits_.end(); ++it) {
+      (*it)->flatCheck(1);
+    }
   }
-  return 0;
 }
 
 /**
@@ -245,6 +248,20 @@ void CriteriaWLTMMC::mUpdate_(const int mOldBin,   //!< bin of old state
     } else if (nTunnelPrev_ == -1) {
       nTunnelPrev_ = 1;
     }
+  }
+
+  // randomly update one of the separate collection matrices
+  if (separate_ == 0) {
+    int nCrits = crits_.size();
+    if (nCrits == 0) {
+      for (int ic = 0; ic < 3; ++ic) {
+        crits_.push_back(this->cloneShrPtr());
+        crits_.back()->separate_ = 1;
+      }
+    }
+    nCrits = crits_.size();
+    const int iCrit = uniformRanNum(0, nCrits-1);
+    crits_[iCrit]->mUpdate_(mOldBin, mNewBin, pmet, acceptFlag);
   }
 }
 
@@ -941,7 +958,19 @@ void CriteriaWLTMMC::writeRestart(const char* fileName) {
   if (peMUVT_.size() == C_.size()) file << "peMUVT ";
   if (cTripleBanded_) file << "colMat(m-1) colMat(m) colMat(m+1) ";
   if (collect_ && !tmmc_) file << "lnPIwlcomp ";
-  file << "h peNvalues peSum peSumSq" << endl;
+  file << "h peNvalues ";
+  for (int mo = 0; mo < static_cast<int>(pe_.begin()->valMoment().size());
+       ++mo) {
+    file << "peSum" << mo + 1 << " ";
+  }
+  file << "peBlockStdev lnPIstdev" << endl;
+
+  // statistical analysis on separate colmats
+  for (vector<shared_ptr<CriteriaWLTMMC> >::iterator it = crits_.begin();
+       it != crits_.end(); ++it) {
+    (*it)->lnPIupdate();
+    (*it)->lnPInorm();
+  }
 
   for (unsigned int i = 0; i < C_.size(); ++i) {
     file << bin2m(i) << " ";
@@ -963,11 +992,21 @@ void CriteriaWLTMMC::writeRestart(const char* fileName) {
     if (collect_ && !tmmc_) file << lnPIwlcomp[i] << " ";
     file << h_[i] << " ";
     file << std::setprecision(std::numeric_limits<long double>::digits10+2)
-         << pe_[i].nValues() << " "
-         << pe_[i].sum() << " "
-         << pe_[i].sumSq() << " "
-         << pe_[i].blockStdev() << endl;
-    file << std::setprecision(ss);
+         << pe_[i].nValues() << " ";
+      for (int mo = 0; mo < static_cast<int>(pe_[i].valMoment().size());
+           ++mo) {
+        file << pe_[i].valMoment()[mo] << " ";
+      }
+      file << pe_[i].blockStdev() << " ";
+    Accumulator lnPIacc;
+    for (vector<shared_ptr<CriteriaWLTMMC> >::iterator it = crits_.begin();
+         it != crits_.end(); ++it) {
+      file << (*it)->lnPI()[i] << " ";
+      lnPIacc.accumulate((*it)->lnPI()[i]);
+    }
+    file << lnPIacc.stdev();
+
+    file << endl << std::setprecision(ss);
   }
   printRW_ = false;
 }
@@ -1118,6 +1157,12 @@ void CriteriaWLTMMC::tmmcInit() {
   ASSERT(collect_, "must also fill collection matrix if running tmmc");
   tmmc_ = true;
   std::fill(h_.begin(), h_.end(), 0);
+}
+
+void CriteriaWLTMMC::initMoments(const int nMoments) {
+  for (int bin = 0; bin < nBin_; ++bin) {
+    pe_[bin].initMoments(nMoments);
+  }
 }
 
 #ifdef FEASST_NAMESPACE_

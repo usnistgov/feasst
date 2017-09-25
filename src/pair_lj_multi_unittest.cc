@@ -322,7 +322,7 @@ TEST(Pair, sigrefAnalytical) {
   string addMolType("../forcefield/data.ljs0.85");
   //string addMolType("../forcefield/data.isobutane_trappe");
   s.addMolInit(addMolType.c_str());
-  
+
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
   s.addMol(addMolType.c_str());
@@ -335,31 +335,31 @@ TEST(Pair, sigrefAnalytical) {
   p.initLMPData(addMolType.c_str());
   p.initExpType(1); // alpha1:12
   p.setLambdaij(0, 0, -1);
-  
+
   PairLJMulti *pcut = p.clone(&s);
-  
+
   p.linearShift(1);
   //p.cutShift(1);
   p.initEnergy();
 
   EXPECT_NEAR(p.sigRef(0), 2.1, doubleTolerance);
   EXPECT_NEAR(p.peTot(), 0.4867769858755370, 10000*doubleTolerance);
-  
+
   p.setLambdaij(0, 0, 1);
   p.initEnergy();
   EXPECT_NEAR(p.peTot(), -0.4867769858755370, 10000*doubleTolerance);
-  
+
   p.setLambdaij(0, 0, 0.331);
   p.initEnergy();
   EXPECT_NEAR(p.peTot(), -0.1611231823248030, 10000*doubleTolerance);
 
   x[1] = -s.x(1, 1) + 2*x[1];
-  s.transMol(1, x); 
+  s.transMol(1, x);
   p.initEnergy();
   EXPECT_NEAR(p.peTot(), -0.0011223005336472365, 10000*doubleTolerance);
 
   x[1] = -s.x(1, 1) + 0.87;
-  s.transMol(1, x); 
+  s.transMol(1, x);
   // test linear shift
   p.setLambdaij(0,0,-1);
   p.initEnergy();
@@ -371,9 +371,41 @@ TEST(Pair, sigrefAnalytical) {
   EXPECT_NEAR(pcut->peTot(), 1.6158060153131700, 10000*doubleTolerance);
 
   x[1] = -s.x(1, 1) + 0.5;
-  s.transMol(1, x); 
+  s.transMol(1, x);
   p.initEnergy();
   EXPECT_NEAR(p.peTot(), 284.3198540118970000, 10000*doubleTolerance);
+
+  delete pcut;
+}
+
+TEST(Pair, InitAlphaAnalytical) {
+  const double rCut = 1e4;
+  Space s(3, 0);
+  string addMolType("../forcefield/data.lj");
+  s.addMolInit(addMolType.c_str());
+
+  vector<double> x(s.dimen(), 0.);
+  s.xAdd = x;
+  s.addMol(addMolType.c_str());
+  x[1] = 1.22;
+  s.xAdd = x;
+  s.addMol(addMolType.c_str());
+
+  PairLJMulti p(&s, rCut);
+  p.initLMPData(addMolType.c_str());
+  p.initAlpha(5.5);
+
+  PairLJMulti *pcut = p.clone(&s);
+  p.linearShift(1);
+  //p.cutShift(1);
+  p.initEnergy();
+
+  EXPECT_NEAR(p.peTot(), -0.8910756889503104, 10*doubleTolerance);
+
+  x[1] = -s.x(1, 1) + 2*x[1];
+  s.transMol(1, x);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -0.029389303309848992, 10*doubleTolerance);
 
   delete pcut;
 }

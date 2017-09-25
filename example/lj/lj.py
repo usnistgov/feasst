@@ -5,6 +5,7 @@ if (not os.path.isfile(feasstdir+"/_feasst.so")):
   feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/src"
 sys.path.append(feasstdir)
 import feasst
+feasst.ranInitByDate()
 space = feasst.Space(3, 0)
 for dim in range(space.dimen()): space.lset(8, dim) # 8 box length
 space.addMolInit("../../forcefield/data.lj")

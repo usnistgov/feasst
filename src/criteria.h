@@ -1,7 +1,7 @@
 #ifndef CRITERIA_H_
 #define CRITERIA_H_
 
-#include "./base_all.h"
+#include "./base_random.h"
 #include "./space.h"
 #include "./pair.h"
 
@@ -12,7 +12,7 @@ namespace feasst {
 /**
  * Acceptance criteria for Monte Carlo trials.
  */
-class Criteria : public BaseAll {
+class Criteria : public BaseRandom {
  public:
 
   /// Constructor
@@ -104,7 +104,7 @@ class Criteria : public BaseAll {
 
   /// Activity for each molecule type.
   vector<double> activVec_;
-  
+
   // flag to print in log files
   int printBeta_;
   int printPressure_;

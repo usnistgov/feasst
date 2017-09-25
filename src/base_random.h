@@ -11,14 +11,14 @@ namespace feasst {
 
 /**
  * This class makes random number generation available to its derived classes
- * by storing a pointer to a random number generator, handing its 
+ * by storing a pointer to a random number generator, handing its
  * initialization and restarting, and providing a number of mathematical
  * operations for random number generation.
  */
 class BaseRandom : public Base {
  public:
   BaseRandom();
-  
+
   /// Construction from checkpoint file.
   explicit BaseRandom(const char* fileName);
   virtual ~BaseRandom() {};
@@ -28,11 +28,11 @@ class BaseRandom : public Base {
 
   /// Initialize random number generator by pointer.
   void initRNG(shared_ptr<Random> ran);
-  
+
   /** Initialize random number generator by seed. A zero seed signals use
    *  of the compiler random number generator to generate the seed.*/
   void initRNG(unsigned long long seed = 0);
- 
+
   /// Initialize random number generator by checkpoint file.
   void initRNG(const char* fileName);
 
@@ -60,7 +60,7 @@ class BaseRandom : public Base {
    *  Frenkel and Smit, "Understanding Molecular Simulation".
    *  Note that this implementation is slower than the Box-Muller method. */
   double gaussRanNumFS();
- 
+
   /// Return a random hash of given length.
   std::string randomHash(const int length = 5);
 
@@ -97,10 +97,10 @@ class BaseRandom : public Base {
    * Return random euler angles which yeild uniform sampling on a surface of a
    * sphere (e.g., uniform random orientation).
    *
-   * Euler angles \f$(\phi, \theta, \psi)\f$ are defined by rotation 
-   * \f$\phi\f$ about z-axis, rotation \f$\theta\f$ about new x-xis, 
+   * Euler angles \f$(\phi, \theta, \psi)\f$ are defined by rotation
+   * \f$\phi\f$ about z-axis, rotation \f$\theta\f$ about new x-xis,
    * then rotation \f$\psi\f$ about new z-axis.
-   * The angles exist in the range \f$phi [-\pi,\pi], \theta [0, \pi], 
+   * The angles exist in the range \f$phi [-\pi,\pi], \theta [0, \pi],
    * \psi [-\pi, \pi]\f$.
    */
   vector<double> eulerRandom();

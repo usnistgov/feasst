@@ -2676,6 +2676,7 @@ void Space::updateClusters(const double rCut) {
 }
 
 void Space::updateClusterVars(const int nClusters) {
+  if (!accumulateClusterVars_) return;
   ASSERT(nClusters != 0, "no clusters found. Did you use addTypeForCluster"
     << "function to define clusters? Or is natom(" << natom() << ") == 0?");
   clusterSizes_.resize(nClusters);
@@ -2703,6 +2704,11 @@ void Space::updateClusterVars(const int nClusters) {
   }
   for (int i = 0; i < csdist.size(); ++i) {
     clusterSizeDistribution_.accumulate(i, csdist.vec(i).sum());
+    if (peStore_ != -1) {
+      const double csdvs = csdist.vec(i).sum();
+      clusterSizeDistributionU_.accumulate(i, csdvs*peStore_);
+      clusterSizeDistributionU2_.accumulate(i, csdvs*peStore_*peStore_);
+    }
   }
   freeMon_.accumulate(nfree/vol());
 }
@@ -3935,7 +3941,8 @@ vector<double> Space::qMol(const int iMol) const {
 //
 
 int Space::randMolofType(const int iType) {
-  int iMol = -1, iter = 0, max = 10*nMol();
+  if (nMolType_[iType] == 0) return -1;
+  int iMol = -1, iter = 0, max = 0.5*nMol();
   bool term = false;
   ASSERT((iType >= 0) && (iType < static_cast<int>(addMolList().size())),
     "Invalid iType supplied");
@@ -3945,6 +3952,22 @@ int Space::randMolofType(const int iType) {
       term = true;
     }
     ++iter;
+  }
+
+  // Check if first random selection method failed. If so, enumerate choices.
+  if (iter == max) {
+    vector<int> iMolofiType;
+    int nMolType = 0;
+    for (int iMolTmp = 0; iMolTmp < nMol(); ++iMolTmp) {
+      if (iType == molid_[iMolTmp]) {
+        iMolofiType.push_back(iMolTmp);
+        ++nMolType;
+      }
+    }
+    ASSERT(nMolType == nMolType_[iType], "molecule types don't match between"
+      << " stored(" << nMolType_[iType] << ") and computed(" << nMolType
+      << ")");
+    iMol = iMolofiType[uniformRanNum(0, nMolType - 1)];
   }
   return iMol;
 }

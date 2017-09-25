@@ -6,7 +6,7 @@
 #include <string>
 #include "./functions.h"
 #include "./histogram.h"
-#include "./base_all.h"
+#include "./base_random.h"
 #ifdef XDRFILE_H_
   extern "C" {
     #include "xdrfile.h"
@@ -23,7 +23,7 @@ namespace feasst {
  * The space class owns variables and functions associated with the real-space
  * position of particles and the domain in which they reside.
  */
-class Space : public BaseAll {
+class Space : public BaseRandom {
  public:
   /// Construct with spatial dimension and ID number.
   Space(int dimen = 3, int id = 0);
@@ -438,6 +438,13 @@ class Space : public BaseAll {
   void contact2cluster(vector<vector<int> > contact,
                        vector<vector<vector<double> > > contactpbc);
 
+  // Store a value for the potential energy for moments extrapolation
+  // on clusters.
+  double peStore_ = -1;
+
+  // set a flag which stops cluster variables from being accumulated
+  bool accumulateClusterVars_ = true;
+
   /// Place atom at the COM of all other atoms in list of particles, mpart.
   void setAtomAsCOM(const int atom, const vector<int> mpart);
 
@@ -652,6 +659,10 @@ class Space : public BaseAll {
   AccumulatorVec clusterNumAccVec() const { return clusterNumAccVec_;}
   AccumulatorVec clusterSizeDistribution() const
     { return clusterSizeDistribution_;}
+  AccumulatorVec clusterSizeDistributionU() const
+    { return clusterSizeDistributionU_;}
+  AccumulatorVec clusterSizeDistributionU2() const
+    { return clusterSizeDistributionU2_;}
   Accumulator freeMon() const { return freeMon_; }
   double clusterAsphericityAv() const {
     if (static_cast<int>(clusterAsphericity_.size()) == 0) { return 0;
@@ -730,7 +741,8 @@ class Space : public BaseAll {
   AccumulatorVec clusterNumAccVec_;     //!< accumulator for number of clusters
 
   /// accumulator for cluster size dist
-  AccumulatorVec clusterSizeDistribution_;
+  AccumulatorVec clusterSizeDistribution_, clusterSizeDistributionU_,
+                 clusterSizeDistributionU2_;
   Accumulator freeMon_;            //!< pre-micellar aggregate concentration
   vector<double> clusterAsphericity_;    //!< asphericity of each cluster
   vector<double> clusterAcylindricity_;  //!< acylindricity of each cluster

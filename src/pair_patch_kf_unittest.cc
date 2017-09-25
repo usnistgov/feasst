@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "pair_patch_kf.h"
+#include "mc.h"
+#include "trial_transform.h"
 
 using namespace feasst;
 
@@ -22,8 +24,14 @@ TEST(PairPatchKF, patchKFAnalytical2) {
   p.initEnergy();
   const double petot = p.peTot();
   EXPECT_NEAR(-3, petot, 1e-15);
-
+  EXPECT_NEAR(petot, p.allPartEnerForce(0), DTOL);
+  EXPECT_NEAR(petot, p.allPartEnerForce(1), DTOL);
   EXPECT_EQ(1, p.checkEnergy(1e-18, 1));
+
+  s.addTypeForCluster(0);
+  p.updateClusters(0);
+  EXPECT_EQ(3, s.nClusters());
+
 }
 
 TEST(PairPatchKF, patchKFcellList) {
@@ -63,5 +71,29 @@ TEST(PairPatchKF, patchKFmirrorAnalytical) {
   EXPECT_NEAR(-2, petot, 1e-15);
 
   EXPECT_EQ(1, p.checkEnergy(1e-18, 1));
+}
+
+TEST(MC, PairPatchKF) {
+  feasst::Space space;
+  space.lset(8);
+  space.addMolInit("../forcefield/data.onePatch");
+  feasst::PairPatchKF pair(&space, 2., 90);
+  pair.initData("../forcefield/data.onePatch");
+  pair.initEnergy();
+  feasst::CriteriaMetropolis criteria(1., exp(-1));
+  feasst::MC mc(&space, &pair, &criteria);
+  feasst::transformTrial(&mc, "translate", 1);
+  feasst::transformTrial(&mc, "rotate", 1);
+//  space.addTypeForCluster(0);
+//  feasst::clusterTrial(&mc, "clustertrans", -1, 1.);
+//  feasst::clusterTrial(&mc, "clusterrotate", -1, 1.);
+  // feasst::gcaTrial(&mc);
+  mc.nMolSeek(12, "../forcefield/data.onePatch");
+  pair.initEnergy();
+  const int nfreq = 1e0;
+  mc.initLog("tmp/patchlog", nfreq);
+  mc.initMovie("tmp/patchmovie", nfreq);
+  mc.setNFreqCheckE(nfreq, feasst::DTOL);
+  mc.runNumTrials(1e2);
 }
 

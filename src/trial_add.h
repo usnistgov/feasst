@@ -1,13 +1,8 @@
-/**
- * \file
- *
- * \brief trial add particles for Monte Carlo
- *
- */
-
 #ifndef TRIAL_ADD_H_
 #define TRIAL_ADD_H_
 
+#include <memory>
+#include <string>
 #include "./trial.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -18,35 +13,57 @@ class Space;
 class Pair;
 class Criteria;
 
+/**
+ * Attempt to add particle(s).
+ */
 class TrialAdd : public Trial {
  public:
-  explicit TrialAdd(const char* molType);
+  /// Construction
+  /// @param molType description of molecule to add which matches addMol.
   TrialAdd(Space *space, Pair *pair, Criteria *criteria, const char* molType);
+
+  /// This constructor is not often used, but its purpose is to initialize trial
+  /// for interface before using reconstruct to set object pointers.
+  explicit TrialAdd(const char* molType);
+
+  /// Write restart file.
+  void writeRestart(const char* fileName);
+
+  /// Construct from restart file.
   TrialAdd(const char* fileName, Space *space, Pair *pair, Criteria *criteria);
+
+  /// return status of trial
+  string printStat(const bool header = false);
+
+  /// read only access to protected variables
+  string molType() const { return molType_; }
+
   ~TrialAdd() {}
   TrialAdd* clone(Space* space, Pair *pair, Criteria *criteria) const;
   shared_ptr<TrialAdd> cloneShrPtr(Space* space, Pair* pair,
                                    Criteria* criteria) const;
-  void defaultConstruction();
-  void writeRestart(const char* fileName);
-
-  /// attempt insertion
-  void attempt1();
-
-  /// return status of trial
-  string printStat(const bool header = false);
-  
-  /// read only access to protected variables
-  string molType() const { return molType_; }
 
  protected:
   string molType_;   //!< type of molecule to add
   int molid_;        //!< index of molecule type
 
+  /// attempt insertion
+  void attempt1_();
+
+  void defaultConstruction_();
+
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl(Space* space, Pair *pair,
                                       Criteria *criteria) const;
 };
+
+class MC;
+
+/// Add a "TrialAdd" trial to the Monte Carlo object, mc for inserting moltype.
+void addTrial(MC *mc, const char* moltype);
+
+/// Add a "TrialAdd" trial to the Monte Carlo object, mc for inserting moltype.
+void addTrial(shared_ptr<MC> mc, const char* moltype);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

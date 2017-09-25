@@ -1,7 +1,4 @@
 #include "./criteria.h"
-#include "./criteria_metropolis.h"
-#include "./criteria_wltmmc.h"
-#include "./criteria_mayer.h"
 #include "./space.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -36,7 +33,7 @@ Criteria::Criteria(const char* fileName) {
       activVec_[ia] = fstod(ss.str().c_str(), fileName);
     }
   }
-  
+
   // initialize random number generator
   initRNG(fileName);
 }
@@ -54,14 +51,14 @@ void Criteria::writeRestartBase(const char* fileName) {
   fileBackUp(fileName);
   std::ofstream file(fileName);
   file << "# className " << className_ << endl
-       << "# lnz " << log(activ_) << endl
-       << "# beta " << beta_ << endl;
+       << "# lnz " << std::setprecision(10) << log(activ_) << endl
+       << "# beta " << std::setprecision(10) << beta_ << endl;
   if (pressureFlag_ == 1) file << "# pressure " << pressure_ << endl;
 
   if (activVec_.size() > 1) {
     file << "# nActivs " << activVec_.size() << endl;
     for (int ia = 0; ia < static_cast<int>(activVec_.size()); ++ia) {
-      file << "# activ" << ia << " " << activVec_[ia] << endl;
+      file << "# activ" << ia << " " << std::setprecision(10) << activVec_[ia] << endl;
     }
   }
 
@@ -73,25 +70,6 @@ void Criteria::store(const Space* space, Pair* pair) {
   if (space == NULL) if (pair == NULL) {}
 }
 
-Criteria* Criteria::makeCriteria(const char* fileName
-  ) {
-  ASSERT(fileExists(fileName),
-    "restart file(" << fileName << ") doesn't exist");
-  string typestr = fstos("className", fileName);
-  Criteria* criteria = NULL;
-  if ( (typestr.compare("Criteria") == 0) ||
-       (typestr.compare("CriteriaMetropolis") == 0) ) {
-    criteria = new CriteriaMetropolis(fileName);
-  } else if (typestr.compare("CriteriaWLTMMC") == 0) {
-    criteria = new CriteriaWLTMMC(fileName);
-  } else if (typestr.compare("CriteriaMayer") == 0) {
-    criteria = new CriteriaMayer(fileName);
-  } else {
-    ASSERT(0, "unrecognized criteria(" << typestr << ") in factory");
-  }
-  return criteria;
-}
-  
 double Criteria::activ() const {
   ASSERT(activVec_.size() == 1, "accessing activity is ambiguous when "
     << activVec_.size() <<" activities are present");
@@ -101,4 +79,3 @@ double Criteria::activ() const {
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-

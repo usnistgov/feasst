@@ -27,14 +27,11 @@ class TrialSwap : public Trial {
   TrialSwap* clone(Space* space, Pair *pair, Criteria *criteria) const;
   shared_ptr<TrialSwap> cloneShrPtr(Space* space, Pair* pair,
                                    Criteria* criteria) const;
-  void defaultConstruction();
   void writeRestart(const char* fileName);
-
-  void attempt1();
 
   /// return status of trial
   string printStat(const bool header = false);
-  
+
   /// read only access to protected variables
   string molTypeA() const { return molTypeA_; }
   string molTypeB() const { return molTypeB_; }
@@ -45,11 +42,19 @@ class TrialSwap : public Trial {
   string molTypeA_;
   string molTypeB_;
   Accumulator nA_, nB_;
-  
+
+  void attempt1_();
+
+  void defaultConstruction_();
+
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl(Space* space, Pair *pair,
                                       Criteria *criteria) const;
 };
+
+class MC;
+void swapTrial(MC *mc, const char* molTypeA, const char* molTypeB);
+void swapTrial(shared_ptr<MC> mc, const char* molTypeA, const char* molTypeB);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

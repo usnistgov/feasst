@@ -1,22 +1,15 @@
 #include <gtest/gtest.h>
 #include "pair_ideal.h"
-#include "pair_hybrid.h"
-#include "pair_wall.h"
 #include "pair_hs.h"
-#include "pair_patch_kf.h"
 #include "pair_lj.h"
 #include "pair_lj_multi.h"
+#include "pair_lj_coul.h"
 #include "pair_lj_coul_ewald.h"
-#include "pair_tabular_1d.h"
-#include "pair_hard_circle.h"
-#include "pair_squarewell.h"
 #include "mc_wltmmc.h"
 #include "ui_abbreviated.h"
 #include "trial_add.h"
 #include "trial_delete.h"
-#include "trial_md.h"
 #include "trial_transform.h"
-#include "criteria_mayer.h"
 
 using namespace feasst;
 
@@ -41,8 +34,9 @@ TEST(MC, WLTMMC_Ideal) {
   c.prefilColMat(1e-15);
 
   transformTrial(&mc, "translate");
-  deleteTrial(&mc);
-  addTrial(&mc, "../forcefield/data.atom");
+  //deleteTrial(&mc);
+  //addTrial(&mc, "../forcefield/data.atom");
+  insertDeleteTrial(&mc, "../forcefield/data.atom");
 
   for (int i = 0; i < nAttemptsSimple; ++i) {
     mc.attemptTrial();
@@ -220,8 +214,9 @@ TEST(MC, ljnvtmetropANDremoveTrial) {
   }
 
   EXPECT_EQ(1, p.checkEnergy(1e-7, 0));
-  
-  transformTrial(&mc, "gca");
+
+  // gcaTrial(&mc);
+  transformTrial(&mc, "translate");
   mc.removeTrial(0);
   EXPECT_EQ(1, mc.nTrials());
   for (int i = 0; i < nAttempts; ++i) {
@@ -343,6 +338,28 @@ TEST(MC, nseek) {
   EXPECT_EQ(2, s.nMol());
 }
 
+TEST(MC, nseekSPCEnoEwald) {
+  const double boxl = 20., rCut = boxl/2., temp = 525, activ = exp(-8.08564), beta = 1./(temp*8.3144621/1000);
+  const int nMolMax = 20;
+
+  // initialize
+  Space s(3,0);
+  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  s.addMolInit("../forcefield/data.spce");   // add one molecule in order to initialize ntype array
+  PairLJCoul p(&s, rCut);
+  //p.initBulkSPCE(5.6, 38);
+  p.initLMPData("../forcefield/data.spce");
+  CriteriaWLTMMC c(beta, activ,"nmol",0-0.5,nMolMax+0.5,nMolMax+1);
+  MC mc(&s,&p,&c);
+  transformTrial(&mc, "translate");
+  transformTrial(&mc, "rotate");
+  mc.nMolSeek(20, "../forcefield/data.spce", 1e5);
+  cout << "pe " << p.peTot() << endl;
+  EXPECT_EQ(20, s.nMol());
+  mc.nMolSeek(2, "../forcefield/data.spce", 1e5);
+  EXPECT_EQ(2, s.nMol());
+}
+
 TEST(MC, equltl43muvttmmcANDinitWindows) {
   const double temp = 1., activ = exp(-2.), boxl = 9, beta = 1/temp;
   const int nMolMax = 50, nMolMin = 10, npr = 200;
@@ -380,13 +397,13 @@ TEST(MC, equltl43muvttmmcANDinitWindows) {
 
   c.collectInit();
   c.tmmcInit();
-  
+
   // if this test segfaults, check pointer ownership
   // try commenting out the windows lines to see if test works
-  // its possible the number of processors is too large for 
+  // its possible the number of processors is too large for
   //  the number of particles (nMolMax)
   mc.initWindows(1);
-  
+
   mc.setNFreqCheckE(npr/2, 1e-9);
   mc.initColMat("tmp/coll", 2*npr);
   mc.initLog("tmp/ll", 1e3);
@@ -405,10 +422,12 @@ TEST(MC, equltl43muvttmmcANDinitWindows) {
 }
 
 TEST(MC, wltmmccloneANDreconstruct) {
+  ranInitByDate();
+  ranInitForRepro(1506223676);
   const int nMolMax = 100, npr = 200;
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(9,dim);
-  s.readXYZBulk(4, "../forcefield/data.equltl43", "../unittest/equltl43/two.xyz");
+  // s.readXYZBulk(4, "../forcefield/data.equltl43", "../unittest/equltl43/two.xyz");
   s.addMolInit("../forcefield/data.equltl43");
   PairLJ p(&s, pow(2, 1./6.));
   p.initLMPData("../forcefield/data.equltl43");
@@ -420,8 +439,9 @@ TEST(MC, wltmmccloneANDreconstruct) {
 
   transformTrial(&mc, "translate");
   transformTrial(&mc, "rotate");
-  deleteTrial(&mc);
-  addTrial(&mc, "../forcefield/data.equltl43");
+  //deleteTrial(&mc);
+  //addTrial(&mc, "../forcefield/data.equltl43");
+  insertDeleteTrial(&mc, "../forcefield/data.equltl43");
   //mc.initTrial(new TrialDelete());
   //mc.initTrial(new TrialAdd("../forcefield/data.equltl43"));
 
@@ -555,96 +575,3 @@ TEST(MC, b2hardsphere) {
   EXPECT_NEAR(b2, 2./3.*PI, tol*3);
 }
 
-TEST(MC, b2mayer) {
-  ranInitByDate();
-  Space space(3, 0);
-  space.addMolInit("../forcefield/data.lj");
-  vector<double> xAdd(space.dimen(), 0.);
-  space.xAdd = xAdd;
-  space.addMol(0);
-  xAdd[0] = 1.1;
-  space.xAdd = xAdd;
-  space.addMol(0);
-  
-  PairLJMulti pair(&space, 1e5);
-  pair.initData("../forcefield/data.lj");
-  pair.cutShift(1);
-  pair.initEnergy();
-  PairHS pairRef(&space, 1);
-  pairRef.initData("../forcefield/data.lj");
-  pairRef.initEnergy();
-
-  const double boxl = 2.*(2.*space.maxMolDist() + pair.rCut());
-  space.lset(boxl);
-
-  CriteriaMayer crit(0.2);
-  crit.initPairRef(&pairRef);
-  MC mc(&space, &pair, &crit);
-  transformTrial(&mc, "translate", 0.1);
-  //mc.setNFreqTune(1e5);
-  const int nfreq = 1e0;
-  mc.setNFreqCheckE(1, 1e10);
-  //mc.setNFreqCheckE(nfreq, 1e-8);
-  mc.initLog("tmp/mayer", nfreq);
-  mc.initMovie("tmp/mayer", nfreq);
-  
-  //mc.nMolSeek(2, "../forcefield/data.lj", 1e8);
-  
-  mc.runNumTrials(1e4);
-  //mc.runNumTrials(1e6);
-  //cout << "pe " << pair.peTot() << endl;
-  EXPECT_NEAR(crit.b2ratio(), 0.2, 1.);
-  // beta = 1 takes too long
-  // // EXPECT_NEAR(crit.b2ratio(), -2.5381, DTOL);
-}
-
-TEST(MC, ljMD) {
-  Space space(3,0);
-  for (int dim = 0; dim < space.dimen(); ++dim) space.lset(10,dim);
-  space.addMolInit("../forcefield/data.atom");
-  PairLJ pair(&space, 3.);
-  pair.initEnergy();
-  CriteriaMetropolis criteria(0.5, 0.1);
-  MC mc(&space, &pair, &criteria);
-
-  mc.nMolSeek(50, "../forcefield/data.atom");
-  
-  shared_ptr<TrialMD> tmd = make_shared<TrialMD>();
-  mc.initTrial(tmd);
-
-  mc.runNumTrials(100);
-}
-
-TEST(MC, ljWall) {
-  feasst::Space space(3,0);
-  space.lset(20);
-  space.addMolInit("../forcefield/data.lj");
-  
-  feasst::PairLJMulti pairLJ(&space, 3.);
-  pairLJ.initLMPData("../forcefield/data.lj");
-  pairLJ.linearShift(1);
-  
-  feasst::Barrier barrier;
-  barrier.addOrthogonalPlanar(5, 1, 0);
-  barrier.addOrthogonalPlanar(-5, -1, 0);
-  feasst::PairWall pairWall(&space, &barrier);
-  
-  feasst::PairHybrid pair(&space, space.minl()/2.);
-  pair.addPair(&pairLJ);
-  pair.addPair(&pairWall);
-  pair.initEnergy();
-  
-  const double beta = 1.;
-  feasst::CriteriaMetropolis criteria(beta, exp(-1));
-  feasst::MC mc(&space, &pair, &criteria);
-  feasst::transformTrial(&mc, "translate", 0.1);
-  
-  const int nfreq = 1e2;
-  mc.initMovie("tmp/wall", nfreq);
-  mc.initLog("tmp/wall", nfreq);
-  mc.setNFreqCheckE(nfreq, 1e-8);
-  mc.setNFreqTune(nfreq);
-  mc.nMolSeek(50, "../forcefield/data.lj");
-
-  mc.runNumTrials(1e4);
-}

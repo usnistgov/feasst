@@ -1,52 +1,32 @@
-/**
- * \file
- *
- * \brief hard sphere pairwise interactions
- *
- * Implementation of pair_hs class
- */
-
 #include "./pair_hs.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-/**
- * Constructor
- */
 PairHS::PairHS(Space* space,
-         const double rCut  //!< interaction cut-off distance
+         const double rCut
   )
     : Pair(space, rCut) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 PairHS::PairHS(Space* space,
          const char* fileName
   )
     : Pair(space, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 
-/**
- * defaults in constructor
- */
-void PairHS::defaultConstruction() {
+void PairHS::defaultConstruction_() {
   className_.assign("PairHS");
 }
 
-/**
- * write restart file
- */
 void PairHS::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
 }
 
-/**
- * pair-wise force calculation
- */
-int PairHS::initEnergy() {
+void PairHS::initEnergy() {
 //  cout << "in forces" << endl;
 
   // shorthand for read-only space variables
@@ -93,22 +73,20 @@ int PairHS::initEnergy() {
             peTot_ += 1e12;
           }
 //          std::streamsize ss = cout.precision();
-//          cout<< std::setprecision(std::numeric_limits<long double>::digits10+2) << "peSR " << peTot_ << " for ipart " << ipart << " jpart " << jpart << " eps " << epsij_[type[ipart]][type[jpart]] << " sig " << sigij_[type[ipart]][type[jpart]] << " r2 " << r2 << endl;
-//          cout << std::setprecision(ss);
+// cout<< std::setprecision(std::numeric_limits<long double>::digits10+2)
+//     << "peSR " << peTot_ << " for ipart " << ipart << " jpart " << jpart
+//     << " eps " << epsij_[type[ipart]][type[jpart]] << " sig "
+//     << sigij_[type[ipart]][type[jpart]] << " r2 " << r2 << endl;
+// cout << std::setprecision(ss);
         }
       }
     }
   }
-
-  return 0;
 }
 
-/**
- * potential energy contribution due to particles
- */
 double PairHS::multiPartEner(
-  const vector<int> mpart,    //!< particles to calculate energy interactions
-  const int flag     //!< place holder for other pair styles
+  const vector<int> mpart,
+  const int flag
   ) {
   if (flag == 0) {}  // remove unused parameter warning
 
@@ -128,17 +106,12 @@ void PairHS::multiPartEnerAtomCutInner(const double &r2,
   //   << " peSRone " << peSRone_ << " sigij " << sigij << endl;
 }
 
-/**
- * stores, restores or updates variables to avoid recompute of entire
- * configuration after every change
- */
-void PairHS::update(const vector<int> mpart,    //!< particles involved in move
-                    const int flag,         //!< type of move
-                    const char* uptype    //!< description of update type
+void PairHS::update(const vector<int> mpart,
+                    const int flag,
+                    const char* uptype
   ) {
   if (neighOn_) {
     updateBase(mpart, flag, uptype, neigh_, neighOne_, neighOneOld_);
-//  updateBase(mpart, flag, uptype, neighCut_, neighCutOne_, neighCutOneOld_);
   }
   std::string uptypestr(uptype);
 
@@ -159,6 +132,37 @@ void PairHS::update(const vector<int> mpart,    //!< particles involved in move
       peTot_ += deSR_;
     }
   }
+}
+
+double PairHS::allPartEnerForce(const int flag) {
+  peSRone_ = 0;
+  if (flag == 0) {
+    peSRone_ = peTot();
+    return peSRone_;
+  } else {
+    // zero accumulators: potential energy and force
+    fCOM_.clear();
+    fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
+
+    if ( (space_->cellType() == 0) || (rCutMaxAll_ > space_->dCellMin()) ) {
+      if (dimen_ == 3) {
+        return allPartEnerForceAtomCutNoCell();
+      } else if (dimen_ == 2) {
+        return allPartEnerForceAtomCutNoCell2D();
+      }
+    } else if (space_->cellType() == 1) {
+      return allPartEnerForceAtomCutCell();
+    } else {
+      ASSERT(0, "cell type(" << space_->cellType() << ")");
+    }
+  }
+  return 1e300;
+}
+
+void PairHS::allPartEnerForceInner(const double &r2, const double &dx,
+  const double &dy, const double &dz, const int &itype, const int &jtype,
+  const int &iMol, const int &jMol) {
+  multiPartEnerAtomCutInner(r2, itype, jtype);
 }
 
 #ifdef FEASST_NAMESPACE_

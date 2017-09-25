@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <limits.h>
-#include "base_all.h"
+#include "base_random.h"
 #ifdef GSL_
   #include <stdlib.h>
   #include <stdio.h>
@@ -472,7 +472,7 @@ const int	DIM1 = 20;
 
 #ifdef GSL_
 TEST(Base, GSL) {
-  
+
   int i;
   double xi, yi, x[10], y[10];
 
@@ -488,9 +488,9 @@ TEST(Base, GSL) {
   //printf ("#m=1,S=0\n");
 
   {
-    gsl_interp_accel *acc 
+    gsl_interp_accel *acc
       = gsl_interp_accel_alloc ();
-    gsl_spline *spline 
+    gsl_spline *spline
       = gsl_spline_alloc (gsl_interp_cspline, 10);
 
     gsl_spline_init (spline, x, y, 10);

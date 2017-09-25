@@ -3,57 +3,56 @@
 #include <iostream>
 #include <numeric>
 #include "./functions.h"
+#include "./mc.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 TrialDelete::TrialDelete() : Trial() {
-  defaultConstruction();
+  defaultConstruction_();
   molType_.assign("");
 }
+
 TrialDelete::TrialDelete(const char* molType)
   : Trial(),
   molType_(molType) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 TrialDelete::TrialDelete(Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria) {
-  defaultConstruction();
+  defaultConstruction_();
   molType_.assign("");
 }
+
 TrialDelete::TrialDelete(Space *space,
   Pair *pair,
   Criteria *criteria,
   const char* molType)
   : Trial(space, pair, criteria),
   molType_(molType) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 TrialDelete::TrialDelete(const char* fileName,
   Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   molType_ = fstos("molType", fileName);
 }
 
-/**
- * default constructor
- */
-void TrialDelete::defaultConstruction() {
+void TrialDelete::defaultConstruction_() {
   className_.assign("TrialDelete");
   trialType_.assign("del");
   molid_ = -1;
   verbose_ = 0;
 }
 
-/**
- * write restart file
- */
 void TrialDelete::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
@@ -62,15 +61,12 @@ void TrialDelete::writeRestart(const char* fileName) {
   }
 }
 
-/**
- * Attempt deletion of a molecule.
- */
-void TrialDelete::attempt1() {
+void TrialDelete::attempt1_() {
   ASSERT((pair_->atomCut() != 1) || (space_->nMol() == space_->natom()) ||
          (!avbOn_), "this class assumes atomCut(" << pair_->atomCut()
          << ") == 0 when avb is on");
   if (verbose_ == 1) std::cout << "attempting to " << trialType_ << std::endl;
-  
+
   // initialize molid_ if not already initialized from default value
   if (molid_ == -1) {
     if (molType_.empty()) {
@@ -83,7 +79,7 @@ void TrialDelete::attempt1() {
     ss << "del" << molid_;
     trialType_.assign(ss.str());
   }
-  
+
   if (space_->nMol() <= 0) {
     if (verbose_ == 1) {
       cout << "deletion rejected because no molecules " << de_ << endl;
@@ -114,7 +110,7 @@ void TrialDelete::attempt1() {
         preFac_ = static_cast<double>(space_->nMol())/space_->vol();
         lnpMet_ = log(preFac_);
         mpart_ = space_->randMol();
-      
+
       // otherwise, delete only molType
       } else {
         const int iMolIndex = space_->findAddMolListIndex(molType_);
@@ -163,11 +159,20 @@ void TrialDelete::attempt1() {
       }
     }
 
+    // check if deletion is confined to a region
+    if ( (confineFlag_ == 1) && (preFac_ != 0) ) {
+      if ( (space_->x(mpart_[0], confineDim_) > confineUpper_) ||
+           (space_->x(mpart_[0], confineDim_) < confineLower_) ) {
+        preFac_ = 0.;
+        reject_ = 1;
+      }
+    }
+
     // catch for nIn == 0, mpart_ not defined
     if (preFac_ != 0) {
       // multiple first beads modifies def_, preFac_, tmpart for avb
       if (nf_ > 1) {
-        const double w = multiFirstBead(2);
+        const double w = multiFirstBead_(2);
         lnpMet_ += log(w);
         preFac_ *= w;
       }
@@ -200,19 +205,32 @@ void TrialDelete::attempt1() {
     pair_->delPart(mpart_);
     space_->delPart(mpart_);
     pair_->update(mpart_, 2, "update");
-    trialAccept();
+    trialAccept_();
     if (verbose_ == 1) cout << "deletion accepted " << de_ << std::endl;
 
   // if not accepted, restore
   } else {
     if (verbose_ == 1) std::cout << "deletion rejected " << de_ << std::endl;
-    trialReject();
+    trialReject_();
   }
+}
+
+void deleteTrial(MC *mc, const char* moltype) {
+  shared_ptr<TrialDelete> trial = make_shared<TrialDelete>(moltype);
+  mc->initTrial(trial);
+}
+void deleteTrial(shared_ptr<MC> mc, const char* moltype) {
+  deleteTrial(mc.get(), moltype);
+}
+void deleteTrial(MC *mc) {
+  shared_ptr<TrialDelete> trial = make_shared<TrialDelete>();
+  mc->initTrial(trial);
+}
+void deleteTrial(shared_ptr<MC> mc) {
+  deleteTrial(mc.get());
 }
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-
-
 

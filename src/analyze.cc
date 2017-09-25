@@ -10,8 +10,9 @@ Analyze::Analyze(
   : space_(space),
     pair_(pair) {
   className_.assign("Analyze");
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 Analyze::Analyze(Space *space,  Pair *pair, const char* fileName)
   : space_(space),
     pair_(pair) {
@@ -26,14 +27,19 @@ Analyze::Analyze(Space *space,  Pair *pair, const char* fileName)
   if (!strtmp.empty()) {
     fileName_ = strtmp;
   }
+  strtmp = fstos("production", fileName);
+  if (!strtmp.empty()) {
+    production_ = stoi(strtmp);
+  }
 }
 
 /**
  * defaults in constructor
  */
-void Analyze::defaultConstruction() {
+void Analyze::defaultConstruction_() {
   nFreq_ = 1;
   nFreqPrint_ = 1;
+  production_ = 1;
 }
 
 /**
@@ -51,8 +57,10 @@ void Analyze::reconstruct(Space* space, Pair *pair) {
 void Analyze::writeRestartBase(const char* fileName) {
   fileBackUp(fileName);
   std::ofstream file(fileName);
+  file << "# className " << className_ << endl;
   file << "# nFrequency " << nFreq_ << endl;
   file << "# nPrintFrequency " << nFreqPrint_ << endl;
+  file << "# production " << production_ << endl;
   if (!fileName_.empty()) file << "# fileName " << fileName_ << endl;
 }
 
@@ -60,16 +68,17 @@ void Analyze::writeRestartBase(const char* fileName) {
  *
  */
 Analyze* Analyze::clone(Space* space, Pair* pair) const {
-  ASSERT(space == NULL && pair == NULL, "empty method");
+  ASSERT(0, "base class not implemented correctly");
   return NULL;
 }
+
 shared_ptr<Analyze> Analyze::cloneImpl(Space* space, Pair* pair) const {
-  ASSERT(space == NULL && pair == NULL, "empty method");
-  shared_ptr<Analyze> empty;
-  return empty;
+  ASSERT(0, "base class not implemented correctly");
+  shared_ptr<Analyze> an = make_shared<Analyze>(*this);
+  an->reconstruct(space, pair);
+  return an;
 }
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-

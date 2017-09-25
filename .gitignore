@@ -9,9 +9,13 @@ ui_text
 tools/rw
 build/
 bin/
+src/unittest
 
 #gprof output
 gmon.out
+
+# factory
+src/factories.cc
 
 #gcov, etc
 *.gcda
@@ -46,7 +50,7 @@ callgrind*
 html/*
 latex/*
 xml/*
-sphinx/*
+sphinx/_build/*
 
 #compiled files
 *.o

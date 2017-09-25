@@ -1,30 +1,31 @@
 #include "./trial_xswap.h"
+#include "./mc.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 TrialXSwap::TrialXSwap() : Trial() {
-  defaultConstruction();
+  defaultConstruction_();
 }
 TrialXSwap::TrialXSwap(Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 TrialXSwap::TrialXSwap(const char* fileName,
   Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 
 /**
  * default construction
  */
-void TrialXSwap::defaultConstruction() {
+void TrialXSwap::defaultConstruction_() {
   className_.assign("TrialXSwap");
   trialType_.assign("move");
   verbose_ = 0;
@@ -33,13 +34,13 @@ void TrialXSwap::defaultConstruction() {
 /**
  * Attempt trial
  */
-void TrialXSwap::attempt1() {
+void TrialXSwap::attempt1_() {
   if (verbose_ == 1) {
     cout << std::setprecision(std::numeric_limits<double>::digits10+2)
          << "attempting gca " << pair_->peTot() << endl;
   }
   if (space_->nMol() <= 1) {
-    trialMoveDecide(0, 0);   // ensured rejection, however, criteria can update
+    trialMoveDecide_(0, 0);   // ensured rejection, however, criteria can update
     return void();
   }
 
@@ -75,7 +76,7 @@ void TrialXSwap::attempt1() {
     // peOld_ = pair_->multiPartEner(mpart_, 0);
     // pair_->update(mpart_, 0, "store");
     // space_->xStore(mpart_);
-    // trialMoveRecord();
+    // trialMoveRecord_();
     peOld_ = pair_->multiPartEner(ipart, 0) + pair_->multiPartEner(jpart, 0);
     space_->swapPositions(iMol, jMol);
     double peNew;
@@ -93,12 +94,20 @@ void TrialXSwap::attempt1() {
                         reject_) == 1) {
     // pair_->update(mpart_, 0, "update");
     pair_->update(de_);
-    trialAccept();
+    trialAccept_();
   } else {
     // space_->restore(mpart_);
     if (reject_ != 1) space_->swapPositions(iMol, jMol);
-    trialReject();
+    trialReject_();
   }
+}
+
+void xswapTrial(MC *mc) {
+  shared_ptr<TrialXSwap> trial = make_shared<TrialXSwap>();
+  mc->initTrial(trial);
+}
+void xswapTrial(shared_ptr<MC> mc) {
+  xswapTrial(mc.get());
 }
 
 #ifdef FEASST_NAMESPACE_

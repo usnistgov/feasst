@@ -1,4 +1,5 @@
 #include "./trial_swap.h"
+#include "./mc.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -9,7 +10,7 @@ TrialSwap::TrialSwap(const char* molTypeA,
   : Trial(),
     molTypeA_(molTypeA),
     molTypeB_(molTypeB) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 TrialSwap::TrialSwap(Space *space,
   Pair *pair,
@@ -19,14 +20,14 @@ TrialSwap::TrialSwap(Space *space,
   : Trial(space, pair, criteria),
     molTypeA_(molTypeA),
     molTypeB_(molTypeB) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 TrialSwap::TrialSwap(const char* fileName,
   Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   molTypeA_ = fstos("molTypeA", fileName);
   molTypeB_ = fstos("molTypeB", fileName);
 }
@@ -44,7 +45,7 @@ void TrialSwap::writeRestart(const char* fileName) {
 /**
  * default constructor
  */
-void TrialSwap::defaultConstruction() {
+void TrialSwap::defaultConstruction_() {
   className_.assign("TrialSwap");
   trialType_.assign("move");
   verbose_ = 0;
@@ -74,7 +75,7 @@ shared_ptr<Trial> TrialSwap::cloneImpl(
 /**
  * Attempt to randomly swap molecule types
  */
-void TrialSwap::attempt1() {
+void TrialSwap::attempt1_() {
   WARN(verbose_ == 1, "attempting to " << trialType_);
   const int nMolTypes = space_->addMolList().size();
   ASSERT(nMolTypes > 1,
@@ -155,7 +156,7 @@ void TrialSwap::attempt1() {
   // acceptance criteria
   if (criteria_->accept(lnpMet_, pair_->peTot() + de_,
                         trialType_.c_str(), reject_) == 1) {
-    trialAccept();
+    trialAccept_();
     pair_->update(de_);
 
   // if not accepted, swap again
@@ -167,7 +168,7 @@ void TrialSwap::attempt1() {
       space_->addMol(molTypeOld.c_str());
       pair_->addPart();
     }
-    trialReject();
+    trialReject_();
   }
 
   // record statistics on the composition
@@ -274,7 +275,7 @@ string TrialSwap::printStat(const bool header) {
 //  // acceptance criteria
 //  if (criteria_->accept(lnpMet_, pair_->peTot() + de_,
 //                        trialType_.c_str(), reject_) == 1) {
-//    trialAccept();
+//    trialAccept_();
 //    pair_->update(de_);
 //
 //  // if not accepted, swap again
@@ -286,7 +287,7 @@ string TrialSwap::printStat(const bool header) {
 //      space_->addMol(molTypeOld.c_str());
 //      pair_->addPart();
 //    }
-//    trialReject();
+//    trialReject_();
 //  }
 //}
 //
@@ -294,6 +295,14 @@ string TrialSwap::printStat(const bool header) {
 //
 //
 //
+
+void swapTrial(MC *mc, const char* molTypeA, const char* molTypeB) {
+  shared_ptr<TrialSwap> trial = make_shared<TrialSwap>(molTypeA, molTypeB);
+  mc->initTrial(trial);
+}
+void swapTrial(shared_ptr<MC> mc, const char* molTypeA, const char* molTypeB) {
+  swapTrial(mc.get(), molTypeA, molTypeB);
+}
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

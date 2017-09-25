@@ -1,11 +1,3 @@
-/**
- * HWH NOTE: This class is depreciated
- * \file
- *
- * \brief
- *
- */
-
 #ifndef ACCUMULATORVEC_H_
 #define ACCUMULATORVEC_H_
 
@@ -15,24 +7,32 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ * Accumulate a series of values as a function of an order parameter.
+ * In particular, this is the 1D-vector/array version of Accumulator.
+ * HWH NOTE: This class is depreciated as it seems to have some duplication
+ * with Histogram.
+ */
 class AccumulatorVec : public Accumulator {
  public:
+  /// Constructor.
   AccumulatorVec();
   virtual ~AccumulatorVec() {}
 
-  /// accumulate values
+  /// Add a value to the running sum of values and sum of squared values.
+  /// @param [in] index vector index of accumulator
   void accumulate(const int index, const double value);
 
-  /// reset accumulator
+  /// Reset accumulator.
   void reset();
 
-  /// return normalized histogram of likelihood to accumulate a given index
+  /// Return normalized histogram of likelihood to accumulate a given index.
   vector<double> hist() const;
 
-  /// return total sum of all elements
+  /// Return total sum of all elements.
   double sum() const;
 
-  /// return the average of the average
+  /// Return the average of the average.
   Accumulator average() const;
   double avOfAv() const { return average().average(); }
 

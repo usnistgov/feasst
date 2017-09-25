@@ -8,22 +8,11 @@
 #define PAIR_LJ_COUL_EWALD_H_
 
 #include "./pair.h"
+#include "./table.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
-
-class erftable {
- public:
-  erftable();
-  ~erftable() {}
-  void init(const double alpha, const double rCut);
-  double eval(const double x) const;
- private:
-  vector<double> vtab_;
-  int n_;
-  double ds_;
-};
 
 class PairLJCoulEwald : public Pair {
  public:
@@ -39,7 +28,7 @@ class PairLJCoulEwald : public Pair {
   /// write restart file
   void writeRestart(const char* fileName);
 
-  int initEnergy();     //!< function to calculate forces, given positions
+  void initEnergy();     //!< function to calculate forces, given positions
   /// calculate reciprical (Fourier) space forces, given positions
   void forcesFrr();
   /// compute standard long range contributions of all particles

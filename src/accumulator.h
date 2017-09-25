@@ -26,9 +26,11 @@ class Accumulator : public Base {
 
   /// Sum of all values accumulated.
   long double sum() const { return sum_; }
+  double sumDble() const { return sum_; }
 
   /// Sum of the square of all values accumulated.
   long double sumSq() const { return sumSq_; }
+  double sumSqDble() const { return sumSq_; }
 
   /// Add a value to the running sum of values and sum of squared values.
   virtual void accumulate(double value);
@@ -59,10 +61,27 @@ class Accumulator : public Base {
   /// Return standard deviation of the block averages (0 if not enough blocks).
   double blockStdev() const;
 
+  /// Return the maximum value accumulated.
+  double max() const { return max_; }
+
+  /// Return the minimum value accumulated.
+  double min() const { return min_; }
+
+  /// Set the highest order of moments recorded.
+  void initMoments(const int nMoments = 2);
+
+  /// Return the moments. Note that this is not supported with checkpointing.
+  vector<long double> valMoment() const { return valMoment_; }
+
  protected:
   long long nValues_;
   long double sum_;
   long double sumSq_;
+  double max_, min_;
+
+  /// maximum number of moments before Taylor series truncation
+  ///  e.g., 2 (default) includes moments 1 and 2
+  vector<long double> valMoment_;
 
   // block averaging variables
   long long nBlock_;

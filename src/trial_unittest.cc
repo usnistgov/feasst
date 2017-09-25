@@ -3,7 +3,6 @@
 #include "pair.h"
 #include "pair_ideal.h"
 #include "pair_lj.h"
-#include "pair_patch_kf.h"
 #include "pair_lj_coul_ewald.h"
 #include "functions.h"
 #include "criteria.h"
@@ -13,8 +12,6 @@
 #include "trial_transform.h"
 #include "trial_add.h"
 #include "trial_delete.h"
-#include "trial_avb.h"
-#include "trial_gca.h"
 
 using namespace feasst;
 
@@ -34,9 +31,6 @@ TEST(Trial, cloneANDreconstruct) {
   tt.maxMoveParam = 5;
   TrialDelete td(&s, &p, &c);
   TrialAdd ta(&s, &p, &c, "../forcefield/data.atom");
-  TrialAVB tavb1(&s, &p, &c, 0.9, rAbove, rBelow, 1);
-  TrialAVB tavb2(&s, &p, &c, 0.9, rAbove, rBelow, 2);
-  TrialAVB tavb3(&s, &p, &c, 0.9, rAbove, rBelow, 3);
 
   ranInitByDate();
   p.initEnergy();
@@ -44,9 +38,6 @@ TEST(Trial, cloneANDreconstruct) {
   for (int i = 0; i < nAttempts; ++i) {
     td.attempt();
     tt.attempt();
-    tavb1.attempt();
-    tavb2.attempt();
-    tavb3.attempt();
   }
   const double petot = p.peTot();
   const double peLJ = p.peLJ();
@@ -59,18 +50,12 @@ TEST(Trial, cloneANDreconstruct) {
   shared_ptr<Trial> tt2 = tt.cloneShrPtr(s2.get(), p2, c2);
   shared_ptr<Trial> ta2 = ta.cloneShrPtr(s2.get(), p2, c2);
   shared_ptr<Trial> td2 = td.cloneShrPtr(s2.get(), p2, c2);
-  shared_ptr<Trial> tavb12 = tavb1.cloneShrPtr(s2.get(), p2, c2);
-  shared_ptr<Trial> tavb22 = tavb2.cloneShrPtr(s2.get(), p2, c2);
-  shared_ptr<Trial> tavb32 = tavb3.cloneShrPtr(s2.get(), p2, c2);
 
   // simulate
   for (int i = 0; i < nAttempts; ++i) {
     td2->attempt();
     tt2->attempt();
     ta2->attempt();
-    tavb12->attempt();
-    tavb22->attempt();
-    tavb32->attempt();
   }
 
   // check that original is unchanged, and different from the duplicate
@@ -102,8 +87,6 @@ TEST(Trial, cloneANDreconstruct) {
   TrialAdd ta3("tmp/tarst", &s, &p, &c);
   tt.writeRestart("tmp/ttrst");
   TrialTransform tt3("tmp/ttrst", &s, &p, &c);
-//  tavb3.writeRestart("tavb3rst");
-//  TrialAVB tavb33("tavb3rst", &s, &p, &c);
 }
 
 TEST(Trial, allmoves) {
@@ -130,28 +113,11 @@ TEST(Trial, allmoves) {
   sID.addMolInit("../forcefield/data.atom");
   PairIdeal pID(&sID, 5);
 
-  Space sP(3,3);
-  for (int dim=0; dim < sP.dimen(); ++dim) sP.lset(10,dim);
-  sP.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch5.xyz");
-  sP.addMolInit("../forcefield/data.onePatch");
-  PairPatchKF pP(&sP, 1.5, 90);
-  sP.updateCells(pP.rCut(), pP.rCut());
-
-  Space sP2(3,3);
-  for (int dim=0; dim < sP.dimen(); ++dim) sP2.lset(10,dim);
-  sP2.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch5.xyz");
-  sP2.addMolInit("../forcefield/data.onePatch");
-  PairPatchKF pP2(&sP2, 1.5, acos(1-0.4)*180./PI);
-  pP2.mirrorPatch(1);
-  sP2.updateCells(pP2.rCut(), pP2.rCut());
-
   // loop through each pair type listed in string vector pairType
   vector<std::string> pairType;
   pairType.push_back("id");
   pairType.push_back("lj");
   //pairType.push_back("spce");
-  pairType.push_back("onePatch");
-  pairType.push_back("twoPatch");
   for (vector<std::string>::iterator pt = pairType.begin(); pt != pairType.end(); ++pt) {
 
     double rAbove=0, rBelow=0, beta=0, activ=0, maxMoveParam=0;
@@ -177,18 +143,6 @@ TEST(Trial, allmoves) {
       nAttempts = 50;
       rAbove = 3, rBelow = 1, beta = 0.025, activ = 0.01, maxMoveParam = sID.minl()/2.;
       addType.assign("../forcefield/data.atom");
-    } else if ((*pt).compare("onePatch") == 0) {
-      p = &pP;
-      s = &sP;
-      nAttempts = 50;
-      rAbove = 1.5, rBelow = 1, beta = 0.025, activ = 0.01, maxMoveParam = sP.minl()/2.;
-      addType.assign("../forcefield/data.onePatch");
-    } else if ((*pt).compare("twoPatch") == 0) {
-      p = &pP2;
-      s = &sP2;
-      nAttempts = 50;
-      rAbove = 1.5, rBelow = 1, beta = 0.025, activ = 0.01, maxMoveParam = sP2.minl()/2.;
-      addType.assign("../forcefield/data.onePatch");
     }
 
     // loop through criteria types
@@ -228,17 +182,6 @@ TEST(Trial, allmoves) {
       TrialDelete tdavbmfb(s,p,c);
       tdavbmfb.numFirstBeads(3);
       tdavbmfb.initAVB(rAbove, rBelow);
-      TrialAVB tavb1(s,p,c, 0.9, rAbove, rBelow, 1);
-      TrialAVB tavb2(s,p,c, 0.9, rAbove, rBelow, 2);
-      TrialAVB tavb3(s,p,c, 0.9, rAbove, rBelow, 3);
-      TrialAVB tavbmfb1(s,p,c, 0.9, rAbove, rBelow, 1);
-      tavbmfb1.numFirstBeads(3);
-      TrialAVB tavbmfb2(s,p,c, 0.9, rAbove, rBelow, 2);
-      tavbmfb2.numFirstBeads(3);
-      TrialAVB tavbmfb3(s,p,c, 0.9, rAbove, rBelow, 3);
-      tavbmfb3.numFirstBeads(3);
-      TrialGCA tgca(s,p,c);
-      //TrialTransform tgca(s,p,c, "gca");
 
       for (int i = 0; i < nAttempts; ++i) {
         vout_(std::ostringstream().flush() << "attempting del " << i << " " << (*s).nMol() << std::endl );
@@ -258,25 +201,10 @@ TEST(Trial, allmoves) {
         vout_(std::ostringstream().flush() << "attempting avb insert mfb" << i << " " << (*s).nMol() << std::endl );
         taavbmfb.attempt();
         vout_(std::ostringstream().flush() << "attempting avb " << i << " " << (*s).nMol() << std::endl );
-        tavb1.attempt();
-        vout_(std::ostringstream().flush() << "attempting avb2 " << i << " " << (*s).nMol() << std::endl );
-        tavb2.attempt();
-        vout_(std::ostringstream().flush() << "attempting avb3 " << i << " " << (*s).nMol() << std::endl );
-        tavb3.attempt();
-        vout_(std::ostringstream().flush() << "attempting avb insert " << i << " " << (*s).nMol() << std::endl );
         taavb.attempt();
         vout_(std::ostringstream().flush() << "attempting avb deletion " << i << " " << (*s).nMol() << std::endl );
         tdavb.attempt();
         vout_(std::ostringstream().flush() << "attempting avbmfb " << i << " " << (*s).nMol() << std::endl );
-        tavbmfb1.attempt();
-        vout_(std::ostringstream().flush() << "attempting avbmfb2 " << i << " " << (*s).nMol() << std::endl );
-        tavbmfb2.attempt();
-        vout_(std::ostringstream().flush() << "attempting avbmfb3 " << i << " " << (*s).nMol() << std::endl );
-        tavbmfb3.attempt();
-//        vout_(std::ostringstream().flush() << "attempting smctrans " << i << " " << (*s).nMol() << std::endl );
-//        tst.attempt();
-//        vout_(std::ostringstream().flush() << "attempting gca " << i << " " << (*s).nMol() << std::endl );
-//        tgca.attempt();
       }
 
       const double petot = (*p).peTot();
@@ -313,16 +241,10 @@ TEST(Trial, allmoves) {
       if ( ((*pt).compare("lj") == 0) && ((*ct).compare("metropolis") == 0) ) {
         EXPECT_EQ(tr.acceptPer(), 1);
       }
-//      EXPECT_NE(tavb1.acceptPer(), 0);
-//      EXPECT_NE(tavb2.acceptPer(), 0);
-//      EXPECT_NE(tavb3.acceptPer(), 0);
       EXPECT_EQ(td.attempted(), nAttempts);
       EXPECT_EQ(ta.attempted(), nAttempts);
       EXPECT_EQ(tt.attempted(), nAttempts);
       EXPECT_EQ(tr.attempted(), nAttempts);
-      EXPECT_EQ(tavb1.attempted(), nAttempts);
-      EXPECT_EQ(tavb2.attempted(), nAttempts);
-      EXPECT_EQ(tavb3.attempted(), nAttempts);
 //      if (pt->compare("spce") == 0) {
 //        EXPECT_NE(tr.accepted(), nAttempts);
 //      }

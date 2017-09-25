@@ -1,10 +1,3 @@
-/**
- * \file
- *
- * \brief attempts monte carlo trials and analyzes quantities
- *
- */
-
 #ifndef MC_H_
 #define MC_H_
 
@@ -19,109 +12,125 @@
 #endif  // _OPENMP
 #include "./accumulator.h"
 #include "./analyze.h"
+#include "./base_random.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-class MC : public BaseAll {
+/**
+ * Attempts Monte Carlo trials and analyzes quantities.
+ */
+
+class MC : public BaseRandom {
  public:
+  /// Constructor
   MC(Space *space, Pair *pair, Criteria *criteria);
-  explicit MC(const char* fileName);
-  virtual ~MC();
-  virtual MC* clone() const;
-  shared_ptr<MC> cloneShrPtr() const { return cloneImpl(); }
-  shared_ptr<MC> cloneShallowShrPtr() const { return cloneShallowImpl(); }
-  virtual void reconstruct();
-  void defaultConstruction();
 
-  /// write restart file
-  virtual void writeRestart(const char* fileName);
+  /// Weight for probability of selection of Monte Carlo trials.
+  double weight = 1.;
 
-  /// attempt trial move according to weights
-  void attemptTrial();
-
-  /// add configuration swap trial
-  virtual void confSwapTrial();
-
-  /// initialize trial
+  /// Add trial to MC with trial weight set to current weight.
   void initTrial(Trial* trial);
+
+  /// Add trial to MC with trial weight set to current weight.
   void initTrial(shared_ptr<Trial> trial);
 
-  /// remove trial
+  /// Attempt a random trial according to weights.
+  void attemptTrial();
+
+  /// Add configuration swap trial.
+  /// HWH: Depreciate, but requires communication between processors for OMP.
+  virtual void confSwapTrial();
+
+  /// Remove trial with index in order of initialization.
   void removeTrial(const int iTrial);
 
-  /// zero statistics of all trials
+  // Set the number of trials in a simulation.
+  void setNumTrials(const long long npr) { npr_ = npr; }
+
+  // run a production level simulation
+  virtual void run();
+
+  /// Run a simulation with "npr" trials.
+  void runNumTrials(const long long npr) { setNumTrials(npr); run(); }
+
+  /// Initialize production run.
+  void initProduction();
+
+  /** For renaming files for production, set the appended name.
+   *  For example, the default "pr" would rename files "file" -> "filepr" */
+  void setProductionFileDescription(const char* append = "_prod") {
+    prodFileAppend_.assign(append);
+  }
+
+  /// Zero statistics of all mc variables, criteria, and all trials.
   void zeroStat();
 
-  double weight;                  //!< weight of trials, default 1
+  /// Attempt to seek nMol particles of type molType.
+  /// Note that detailed balance is not obeyed.
+  void nMolSeek(const int nMol, const char* molType, long long maxAttempts);
+  void nMolSeek(const int nMol, long long maxAttempts)
+    { nMolSeek(nMol, "", maxAttempts); }
+  void nMolSeek(const int nMol, const char* molType)
+    { nMolSeek(nMol, molType, 1e12); }
 
-  /// function to quickly seek nMol particles as initial configuration
-  void nMolSeek(const int n, const char* molType, long long maxAttempts);
-  void nMolSeek(const int n, long long maxAttempts)
-    { nMolSeek(n, "", maxAttempts); }
-  void nMolSeek(const int n, const char* molType)
-    { nMolSeek(n, molType, 1e12); }
+  /// initialize log file name and number of trials per print.
+  void initLog(const char* fileName, const long long nfreq)
+    { logFileName_.assign(fileName); nFreqLog_ = nfreq; }
 
-  /// determine maximum number of particles for a given temperature
+  /// initialize movie file name and number of trials per print.
+  void initMovie(const char* fileName, const int nfreq)
+    { movieFileName_.assign(fileName); nFreqMovie_ = nfreq; }
+
+  /// Initialize XTC file name and number of trials per print.
+  void initXTC(const char* fileName, const int nfreq)
+    { XTCFileName_.assign(fileName); nFreqXTC_ = nfreq; }
+
+  /// Initialize freqeuncy to check running energy against the total energy
+  /// recalculated every nfreq trials. Error if not within tolerance.
+  void setNFreqCheckE(const double nfreq, const double tolerance)
+    { nFreqCheckE_ = nfreq; checkEtol_ = tolerance; }
+
+  /// Initialize frequency to tune trial parameters.
+  /// Note that tuning does not obey detailed balance.
+  void setNFreqTune(const double nfreq) { nFreqTune_ = nfreq; }
+
+  /// Initialize restart file name and print every nfreq trials.
+  void initRestart(const char* fileName, const int nfreq)
+    { rstFileBaseName_.assign(fileName); rstFileName_.assign(fileName);
+      nFreqRestart_ = nfreq; }
+
+  /// Initialize Analyzer.
+	/// Note: MonkeyPatches must be either initialized as shared_ptr
+  /// or have their own implementation of cloneShrPtr.
+  void initAnalyze(Analyze* analyze) { analyzeVec_.push_back(analyze->cloneShrPtr(space_, pair_)); }
+	void initAnalyze(shared_ptr<Analyze> analyze) { analyze->reconstruct(space_, pair_); analyzeVec_.push_back(analyze); }
+
+  // determine maximum number of particles for a given temperature
   //   and large activity
   virtual int nMolMax(const long long npr, const double activ,
     const int nMolExtra);
   virtual int nMolMax(const long long npr, const double activ)
     { return nMolMax(npr, activ, 0); }
 
-  /// set the number of trials in a production simulation
-  void setNumTrials(const long long npr) { npr_ = npr; }
-  void runNumTrials(const long long npr) { setNumTrials(npr); run(); }
-
-  /// run a production level simulation
-  virtual void run();
-
   /// print functions
   void printStat(const std::string hash="");     //!< print status of all trials to log
   double pePerMol();     //!< print potential energy per molecule
 
-  /// this function is called after every trial attempt
-  //   derived classes must call afterAttemptBase()
-  virtual void afterAttempt() { afterAttemptBase(); }
-  void afterAttemptBase();
-
   /// turn on neigh list for avb trials,
   //   or check that it is on with matching region
-  void neighAVBInit(const double rAbove, const double rBelow);
+  void neighAVBInit(const double rAbove,  //!< upper bound of spherical shell
+                    const double rBelow   //!< lower bound of spherical shell
+                   );
 
-  /// initialize log file name
-  void initLog(const char* fileName, const long long nfreq)
-    { logFileName_.assign(fileName); nFreqLog_ = nfreq; }
-
-  /// initialize movie file name
-  void initMovie(const char* fileName, const int nfreq)
-    { movieFileName_.assign(fileName); nFreqMovie_ = nfreq; }
-
-  /// initialize XTC file name
-  void initXTC(const char* fileName, const int nfreq)
-    { XTCFileName_.assign(fileName); nFreqXTC_ = nfreq; }
-
-  /// initialize Analyzer
-  void initAnalyze(Analyze* analyze) { analyzeVec_.push_back(analyze); }
-
-  /// append to all fileNames
+  /// Append chars to all fileNames.
   virtual void appendFileNames(const char* chars);
+
+  /// Append chars to all file names associated with production.
   virtual void appendProductionFileNames(const char* chars);
 
-  /// initialize freqeuncy to check energy
-  void setNFreqCheckE(const double nfreq, const double tol)
-    { nFreqCheckE_ = nfreq; checkEtol_ = tol; }
-
-  /// initialize frequency to tune trial transform parameters
-  void setNFreqTune(const double nfreq) { nFreqTune_ = nfreq; }
-
-  /// initialize restart file name
-  void initRestart(const char* fileName, const int nfreq)
-    { rstFileBaseName_.assign(fileName); rstFileName_.assign(fileName);
-      nFreqRestart_ = nfreq; }
-
-  /// check that criteria of all trials match
+  /// Check that criteria of all trials are the same.
   virtual int checkTrialCriteria();
 
   /**
@@ -148,49 +157,30 @@ class MC : public BaseAll {
     const double tol = 1e-4,  //!< terminate trials when tolerance reached
     double boxl = -1          //!< box length containing all nonzero energy
   );
-  
-  /// compute the Boyle temperature, b2(T_Boyle)==0
+
+  /// compute the Boyle temperature, \f$ B_2(T_{Boyle})=0\f$.
   double boyle(const double tol);
-  double boylemin(const double beta);
 
-  /// functor wrappers to pass to numerical recipe minimization algorithms
-  struct boyleminwrapper {
-    explicit boyleminwrapper(MC* this_)
-    : this_(this_) {}
-    double operator ( )(const double & value) {
-      return this_->boylemin(value);
-    }
-    MC* this_;
-  };
-  boyleminwrapper boyleminwrap(void) {
-    return boyleminwrapper(this);
-  }
-
-  /// remove all configurational bias trials
+  /// Remove all configurational bias trials.
   void removeConfigBias();
 
-  /// update cumulative probability of trials
-  void updateCumulativeProb();
-
-  /// replace and restore pointer to criteria
+  /*
+   * Replace pointer to criteria for MC and all trials.
+   *
+   * HWH WARNING: TEMPORARY/LIMITED USE CASE
+   *
+   * If one intends for this criteria to be present for the long term,
+   * this criteria must be replaced, or ownership updated,
+   * or else you'll get a memory leak when the destructor is called.
+   */
   void replaceCriteria(Criteria *criteria);
+
+  // Restore pointer to criteria.
   void restoreCriteria();
-
-  /// initialize production run
-  void initProduction();
-
-  /** For renaming files for production, set the appended name.
-   *  For example, the default "pr" would rename files "file" -> "filepr" */
-  void setProductionFileDescription(const char* append = "_prod") {
-    prodFileAppend_.assign(append);
-  }
 
   /// remove ownership of pointers
   void removeOwnership()
     { spaceOwned_ = false; pairOwned_ = false; criteriaOwned_ = false; }
-
-  /// tune move parameters
-  void tuneTrialParameters();
 
   /// read only access to protected variables
   int nTrials() const { return int(trialVec_.size()); }
@@ -218,8 +208,20 @@ class MC : public BaseAll {
   Accumulator peAccumulator() const { return peAccumulator_; }
   long long nFreqLog() const { return nFreqLog_; }
   int nFreqMovie() const { return nFreqMovie_; }
-  vector<Analyze*> analyzeVec() const { return analyzeVec_; }
+  vector <shared_ptr <Analyze> > analyzeVec() const { return analyzeVec_; }
   bool spaceOwned() const { return spaceOwned_; }
+  int production() const { return production_; }
+
+  /// Write restart file.
+  virtual void writeRestart(const char* fileName);
+
+  /// Construction by restart file.
+  explicit MC(const char* fileName);
+  virtual ~MC();
+  virtual MC* clone() const;
+  shared_ptr<MC> cloneShrPtr() const { return cloneImpl(); }
+  shared_ptr<MC> cloneShallowShrPtr() const { return cloneShallowImpl(); }
+  virtual void reconstruct();
 
  protected:
   Space *space_;            //!< spatial information
@@ -245,14 +247,14 @@ class MC : public BaseAll {
   double prSum_;              //!< sum of pressure of each state
   double prSum2_;             //!< sum of square of pressure of each state
   long long nAttempts_;   //!< number of attempted trials
-  
+
   /// flag to print header in log file
   //  if 0, no header
   //  if 1, print header
   //  if 2, print header with a comment "#" on first line (for restarts)
   //  if -1, print line with "#" but not header
   int printLogHeader_;
-  
+
   string logFileName_;        //!< log file name
   long long nFreqLog_;    //!< frequency to print to log
   string movieFileName_;      //!< movie file name
@@ -272,14 +274,43 @@ class MC : public BaseAll {
   double boyletol_;           //!< tolerance for boyle temperature
 
   // analyzers
-  vector<Analyze*> analyzeVec_;   //!< vector of pointers to analyzers
+  vector< shared_ptr <Analyze> > analyzeVec_;   //!< vector of pointers to analyzers
 
   // unique hash for configurations
   std::string hash_;
-  
+
   // virial coefficient
   void b2init_();
-  
+
+  /// update cumulative probability of trials
+  void updateCumulativeProb_();
+
+  /// tune move parameters
+  void tuneTrialParameters_();
+
+  /// Return squared B2 to compute the boyle temperature.
+  double boylemin_(const double beta);
+
+  // functor wrappers to pass to numerical recipe minimization algorithms
+  struct boyleminwrapper_ {
+    explicit boyleminwrapper_(MC* this_)
+    : this_(this_) {}
+    double operator ( )(const double & value) {
+      return this_->boylemin_(value);
+    }
+    MC* this_;
+  };
+  boyleminwrapper_ boyleminwrap_(void) {
+    return boyleminwrapper_(this);
+  }
+
+  /// this function is called after every trial attempt
+  //   derived classes must call afterAttemptBase_()
+  virtual void afterAttempt_() { afterAttemptBase_(); }
+  void afterAttemptBase_();
+
+  void defaultConstruction_();
+
   // clone design pattern
   virtual shared_ptr<MC> cloneImpl() const;
   virtual shared_ptr<MC> cloneShallowImpl() const;
@@ -290,4 +321,3 @@ class MC : public BaseAll {
 #endif  // FEASST_NAMESPACE_
 
 #endif  // MC_H_
-

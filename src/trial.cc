@@ -1,38 +1,22 @@
 #include "./trial.h"
-#include "./trial_transform.h"
-#include "./trial_add.h"
-#include "./trial_delete.h"
-#include "./trial_avb.h"
-#include "./trial_configBias.h"
-#include "./trial_grow.h"
-#include "./trial_gca.h"
-#include "./trial_pairmod.h"
-#include "./trial_beta.h"
-#include "./trial_cluster.h"
-#include "./trial_pressure.h"
-#include "./trial_xswap.h"
-#ifdef MPI_H_
-  #include "./trial_confswap_txt.h"
-#endif  // MPI_H_
-#ifdef _OPENMP
-  #include "./trial_confswap_omp.h"
-#endif  // _OPENMP
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 Trial::Trial() {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 Trial::Trial(Space *space,
              Pair *pair,
              Criteria *criteria)
   : space_(space),
     pair_(pair),
     criteria_(criteria) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 Trial::Trial(Space *space,
              Pair *pair,
              Criteria *criteria,
@@ -42,7 +26,7 @@ Trial::Trial(Space *space,
     criteria_(criteria) {
   ASSERT(fileExists(fileName),
          "restart file(" << fileName << ") doesn't exist");
-  defaultConstruction();
+  defaultConstruction_();
 
   // initialize random number generator
   initRNG(fileName);
@@ -65,12 +49,16 @@ Trial::Trial(Space *space,
   if (!strtmp.empty()) {
     maxMoveParam = stod(strtmp);
   }
+
+  strtmp = fstos("confineUpper", fileName);
+  if (!strtmp.empty()) {
+    double lower = fstod("confineLower", fileName);
+    int dim = fstoi("confineDim", fileName);
+    confine(stod(strtmp), lower, dim);
+  }
 }
 
-/**
- * defaults in constructor
- */
-void Trial::defaultConstruction() {
+void Trial::defaultConstruction_() {
   className_.assign("Trial");
   zeroStat();
   maxMoveParam = -1;
@@ -80,11 +68,9 @@ void Trial::defaultConstruction() {
   rAbove_ = -1;
   rBelow_ = -1;
   avbOn_ = false;
+  confineFlag_ = 0;
 }
 
-/**
- * reset object pointers
- */
 void Trial::reconstruct(Space* space, Pair *pair, Criteria *criteria) {
   space_ = space;
   pair_ = pair;
@@ -92,9 +78,6 @@ void Trial::reconstruct(Space* space, Pair *pair, Criteria *criteria) {
   Base::reconstruct();
 }
 
-/**
- * Initialize trial move counters for statistics
- */
 void Trial::zeroStat() {
   de_ = 0;
   deTot_ = 0;
@@ -102,9 +85,6 @@ void Trial::zeroStat() {
   attempted_ = 0;
 }
 
-/**
- * call when attempting a trial
- */
 void Trial::attempt() {
   ++attempted_;
   criteria_->store(space_, pair_);
@@ -113,31 +93,21 @@ void Trial::attempt() {
   reject_ = 0;
   de_ = 0.;
   def_ = 0.;
-  attempt1();
+  attempt1_();
 }
 
-/**
- * call when accepting a trial
- */
-void Trial::trialAccept() {
+void Trial::trialAccept_() {
   ++accepted_;
   deTot_ += de_;
   WARN(verbose_ == 1, "accepted " << de_);
 }
 
-/**
- * call when rejecting a trial
- */
-void Trial::trialReject() {
+void Trial::trialReject_() {
   WARN(verbose_ == 1, "rejected " << de_);
   de_ = 0;
 }
 
-/**
- * set the number of first bead insertion attempts
- */
-void Trial::numFirstBeads(const int nf    //!< number of first bead attempts
-  ) {
+void Trial::numFirstBeads(const int nf) {
   ASSERT((nf == 0) || (nf > 1),
          "nf(" << nf << ") should be 0 or greater than 1");
   nf_ = nf;
@@ -146,12 +116,7 @@ void Trial::numFirstBeads(const int nf    //!< number of first bead attempts
   cpdf_.resize(nf_);
 }
 
-/**
- * initialize aggregation volume bias
- */
-void Trial::initAVB(const double rAbove,   //!< upper limit of bond
-                    const double rBelow    //!< lower limit of bond
-  ) {
+void Trial::initAVB(const double rAbove, const double rBelow) {
   ASSERT(rAbove > rBelow, "Null aggregation volume when rAbove = "
          << rAbove << " and rBelow = " << rBelow);
   ASSERT(rAbove <= 0.5*space_->minl(), "aggregation volume upper radius("
@@ -165,11 +130,7 @@ void Trial::initAVB(const double rAbove,   //!< upper limit of bond
   avbOn_ = true;
 }
 
-/**
- * compute rosenbluth weights of multiple first bead attempts
- *  and select
- */
-double Trial::multiFirstBead(const int flag) {
+double Trial::multiFirstBead_(const int flag) {
   ASSERT((flag == 0) || (flag == 1) || (flag == 2) || (flag == 3),
     "Unrecognized flag for multiple first beads");
 
@@ -221,9 +182,6 @@ double Trial::multiFirstBead(const int flag) {
   }
 }
 
-/**
- * replace or restore criteria pointer
- */
 void Trial::replaceCriteria(Criteria *criteria) {
   criteriaOld_ = criteria_;
   criteria_ = criteria;
@@ -237,9 +195,6 @@ void Trial::restoreCriteria() {
   }
 }
 
-/**
- * write restart file
- */
 void Trial::writeRestartBase(const char* fileName) {
   fileBackUp(fileName);
   std::ofstream file(fileName);
@@ -254,14 +209,16 @@ void Trial::writeRestartBase(const char* fileName) {
   if (maxMoveParam != -1) {
     file << "# maxMoveParam " << maxMoveParam << endl;
   }
+  if (confineFlag_ == 1) {
+    file << "# confineUpper " << confineUpper_ << endl;
+    file << "# confineLower " << confineLower_ << endl;
+    file << "# confineDim " << confineDim_ << endl;
+  }
 
   // write random number generator state
   writeRngRestart(fileName);
 }
 
-/**
- * return acceptance percentage
- */
 double Trial::acceptPer() const {
   if (attempted_ != 0) {
     return static_cast<double>(accepted_)/attempted_;
@@ -270,30 +227,20 @@ double Trial::acceptPer() const {
   }
 }
 
-/**
- * call when recording old configuration
- */
-void Trial::trialMoveRecord() {
+void Trial::trialMoveRecord_() {
   peOld_ = pair_->multiPartEner(mpart_, 0);
   pair_->update(mpart_, 0, "store");
   space_->xStore(mpart_);
 }
 
-/**
- * call when recording old configuration before collective move
- */
-void Trial::trialMoveRecordAll(const int flag) {
+void Trial::trialMoveRecordAll_(const int flag) {
   peOld_ = pair_->allPartEnerForce(flag);
   pair_->update(space_->listAtoms(), 0, "store");
   space_->xStoreAll();
 }
 
-/**
- * call to decide whether to accept or reject trial move
- */
-void Trial::trialMoveDecide(const double def,   //!< energy of first bead
-  const double preFac   //!< acceptance criteria prefactor
-  ) {
+void Trial::trialMoveDecide_(const double def,
+  const double preFac) {
   if (preFac != 0) {
     // compute energy contribution of selected molecule in new configuration
     if (space_->cellType() > 0) {
@@ -309,14 +256,14 @@ void Trial::trialMoveDecide(const double def,   //!< energy of first bead
       space_->wrap(mpart_);
       pair_->update(mpart_, 0, "update");
       if (verbose_ == 1) cout << "accepted " << de_ << std::endl;
-      trialAccept();
+      trialAccept_();
     } else {
       space_->restore(mpart_);
       if (space_->cellType() > 0) {
         space_->updateCellofiMol(space_->mol()[mpart_.front()]);
       }
       if (verbose_ == 1) cout << "rejected " << de_ << std::endl;
-      trialReject();
+      trialReject_();
     }
 
   // if preFac is zero, still call criteria for WLTMMC to store old state
@@ -329,64 +276,11 @@ void Trial::trialMoveDecide(const double def,   //!< energy of first bead
     de_ = 0;
     criteria_->accept(lnpMet_, pair_->peTot() + de_,
                       trialType_.c_str(), reject_);
-    trialReject();
+    trialReject_();
   }
 }
 
-/**
- * factory method
- */
-shared_ptr<Trial> Trial::makeTrial(
-  Space* space,
-  Pair* pair,
-  Criteria* criteria,
-  const char* fileName) {
-  ASSERT(fileExists(fileName),
-         "restart file(" << fileName << ") doesn't exist");
-  string trialtypestr = fstos("className", fileName);
-  shared_ptr<Trial> trial;
-  if (trialtypestr.compare("TrialTransform") == 0) {
-    trial = make_shared<TrialTransform>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialAdd") == 0) {
-    trial = make_shared<TrialAdd>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialDelete") == 0) {
-    trial = make_shared<TrialDelete>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialAVB") == 0) {
-    trial = make_shared<TrialAVB>(fileName, space, pair, criteria);
-#ifdef _OPENMP
-  } else if (trialtypestr.compare("TrialConfSwapOMP") == 0) {
-    trial = make_shared<TrialConfSwapOMP>(fileName, space, pair, criteria);
-#endif  // _OPENMP
-#ifdef MPI_H_
-  } else if (trialtypestr.compare("TrialConfSwapTXT") == 0) {
-    trial = make_shared<TrialConfSwapTXT>(fileName, space, pair, criteria);
-#endif  // MPI_H_
-  } else if (trialtypestr.compare("TrialConfigBias") == 0) {
-    trial = make_shared<TrialConfigBias>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialGrow") == 0) {
-    trial = make_shared<TrialGrow>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialGCA") == 0) {
-    trial = make_shared<TrialGCA>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialPairMod") == 0) {
-    trial = make_shared<TrialPairMod>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialBeta") == 0) {
-    trial = make_shared<TrialBeta>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialCluster") == 0) {
-    trial = make_shared<TrialCluster>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialPressure") == 0) {
-    trial = make_shared<TrialPressure>(fileName, space, pair, criteria);
-  } else if (trialtypestr.compare("TrialXSwap") == 0) {
-    trial = make_shared<TrialXSwap>(fileName, space, pair, criteria);
-  } else {
-    ASSERT(0, "unrecognized trial class(" << trialtypestr);
-  }
-  return trial;
-}
-
-/**
- * update the maxMoveParam based on percentage change and limits
- */
-void Trial::updateMaxMoveParam(const double percent,
+void Trial::updateMaxMoveParam_(const double percent,
   const double upperLimit,
   const double lowerLimit,
   const double targAcceptPer) {
@@ -416,9 +310,6 @@ void Trial::updateMaxMoveParam(const double percent,
 }
 
 
-/*
- * return string for status of trial
- */
 string Trial::printStat(const bool header) {
   stringstream stat;
   if (header) {
@@ -430,15 +321,27 @@ string Trial::printStat(const bool header) {
     if (header) {
       stat << "maxMove ";
     } else {
-      stat << maxMoveParam << " "; 
+      stat << maxMoveParam << " ";
     }
   }
   return stat.str();
+}
+
+void Trial::confine(const double upper, const double lower,
+  const int dimension) {
+  ASSERT(upper > lower, "upper(" << upper << ") must be greater than lower("
+    << lower << ")");
+  ASSERT(dimension < space_->dimen(), "given dimension(" << dimension << ") must be "
+    << "lower than spatial dimension(" << space_->dimen() << ")");
+  confineFlag_ = 1;
+  confineUpper_ = upper;
+  confineLower_ = lower;
+  confineDim_ = dimension;
 }
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
 
-  
+
 

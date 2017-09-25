@@ -1,6 +1,6 @@
 #include "pair_lj.h"
 #include "mc.h"
-#include "ui_abbreviated.h"
+#include "trial_transform.h"
 
 int main() {
   feasst::Space space(3, 0);

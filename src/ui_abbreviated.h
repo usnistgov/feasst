@@ -22,48 +22,10 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-void transformTrial(MC *mc, const char* type, double maxMoveParam = -1);
-void transformTrial(shared_ptr<MC> mc, const char* type,
-                    double maxMoveParam = -1);
+//class AbbreviatedUI { // here is where we trick ../tools/makeFactory.sh.
 
-void deleteTrial(MC *mc, const char* moltype);
-void deleteTrial(shared_ptr<MC> mc, const char* moltype);
-void deleteTrial(MC *mc);
-void deleteTrial(shared_ptr<MC> mc);
-
-void addTrial(MC *mc, const char* moltype);
-void addTrial(shared_ptr<MC> mc, const char* moltype);
-
-void growTrial(MC *mc, const char* moltype, const int nStages);
-void growTrial(shared_ptr<MC> mc, const char* moltype, const int nStages);
-
-void gcaTrial(MC *mc);
-void gcaTrial(shared_ptr<MC> mc);
-
-void pairModTrial(MC *mc, const double maxMoveParam = -1);
-void pairModTrial(shared_ptr<MC> mc, const double maxMoveParam = -1);
-void pairModTrial(WLTMMC *mc, double maxMoveParam = -1);
-void pairModTrial(shared_ptr<WLTMMC> mc, const double maxMoveParam = -1);
-
-void betaTrial(MC *mc, const double maxMoveParam = -1);
-void betaTrial(shared_ptr<MC> mc, const double maxMoveParam = -1);
-void betaTrial(WLTMMC *mc, double maxMoveParam = -1);
-void betaTrial(shared_ptr<WLTMMC> mc, const double maxMoveParam = -1);
-
-void clusterTrial(MC *mc, const char* type, const double clusterCut = -1,
-                  const double maxMoveParam = -1);
-void clusterTrial(shared_ptr<MC> mc, const char* type,
-                  const double clusterCut = -1, const double maxMoveParam = -1);
-
-void initConfigBias(MC *mc, const char* fileName, const int insDelFlag = 0);
-void initConfigBias(shared_ptr<MC> mc, const char* fileName,
-                    const int insDelFlag = 0);
-
-void xswapTrial(MC *mc);
-void xswapTrial(shared_ptr<MC> mc);
-
-void swapTrial(MC *mc, const char* molTypeA, const char* molTypeB);
-void swapTrial(shared_ptr<MC> mc, const char* molTypeA, const char* molTypeB);
+void insertDeleteTrial(MC *mc, const char* moltype);
+void insertDeleteTrial(shared_ptr<MC> mc, const char* moltype);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

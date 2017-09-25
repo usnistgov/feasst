@@ -1296,8 +1296,8 @@ TEST(Space, replicate) {
   shared_ptr<Space> spaceBig = space.cloneShrPtr();
   spaceBig->replicate();
 //  spaceBig->printxyz("hibig", 1);
-  EXPECT_EQ(pow(2, space.dimen())*space.natom(), spaceBig->natom()); 
-  
+  EXPECT_EQ(pow(2, space.dimen())*space.natom(), spaceBig->natom());
+
   spaceBig->updateClusters(rClusterCut);
 //  spaceBig->printClusterStat("hibig");
 

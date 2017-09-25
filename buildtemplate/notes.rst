@@ -1,1 +1,200 @@
-../sphinx/notes.rst
+*************
+Notes
+*************
+
+These are notes that I plan to format properly and add to the documentation
+at a later time.
+I likely wrote these in response to a particular question.
+
+Log file and tuning
+#####################
+
+For example, for the log file below:
+
+[hwh@pn101924 cpp]$ head -10 log
+# attempts nMol pe/nMol translate maxMove TrialSwap Na Nb vol maxMove
+10000 38 -0.412251 0.94403 0.1 0.301035 8 30 0.979839 0.001
+20000 38 -0.418134 0.946039 0.105 0.296319 6 32 1 0.00105
+30000 38 -0.496219 0.93927 0.11025 0.282662 3 35 0.996 0.0011025
+40000 38 -0.447826 0.938576 0.115763 0.281589 5 33 0.989091 0.00115763
+50000 38 -0.473118 0.923352 0.121551 0.277183 4 34 0.987755 0.00121551
+60000 38 -0.545913 0.928427 0.127628 0.275281 3 35 0.971698 0.00127628
+70000 38 -0.430846 0.922709 0.13401 0.274337 3 35 0.978632 0.0013401
+80000 38 -0.393172 0.925612 0.14071 0.278066 1 37 0.98913 0.0014071
+90000 38 -0.604083 0.91554 0.147746 0.281482 2 36 0.991803 0.00147746
+
+the 4th column, "translate" is the name of the move type, and that column gives the move acceptance. The 5th column is 'maxMove' which is the maximum displacement size for the translation. It is "tuning" ever 1e4 attempts, so you can see that the max move parameter is increasing by ~5% because the acceptance is >0.25. Trial swap has no max move parameter to tune. The 9th column is the acceptance for the "vol" move, and the 10th column i sthe maxMove parameter for the volume.
+
+You can change the default target acceptance percentage by setting the variable "trialPointer->targAcceptPer". This requires you to define a shared_ptr<TrialTransform> trialPointer and do the mc.initTrial(trialPointer) instead of defining the move via the "ui_abbreviated" interface (e.g., trialTransform(&mc, "translate", ..) give you no access to the derived class TrialTransform).
+
+Documentation
+################
+
+pip install sphinx
+pip install breathe
+doxygen with GENERATE_XML
+run sphinx-quickstart, enable autodoc
+add something like the following to your sphinx index.rst::
+
+    .. doxygenclass:: Nutshell
+       :project: nutshell
+       :members:
+
+add the following to your sphinx conf.py
+  extensions = [ "breathe" ]
+  breathe_projects = {"FEASST":"../xml"}
+
+pip install sphinx_rtd_theme
+
+run sphinx: make html
+
+For math in doxygen commends, use::
+
+    \f$ latex code here \f$
+
+
+Checklist Before Public Distribution
+########################################
+
+* Documentation. Examples folder. Website.
+* Check licensing on mins.h or use an alternative minimization,
+  and also use of LAMMPS code (jacobi)
+* Stream-line and make python interface more accessible / documented.
+* move checkBond from MC to analyze class for rigid particle simulations (or as part of checkE?)
+* cpplint everything
+* follow the google style guide (loosely)
+* Add license/copyright info at the top of each file, along with authors
+* Move some analysis outside of space class
+  - but what if things like trials use the analysis, such as clusters?
+  - ""This trial requires MC to have an analyze class...""
+
+Packaging
+#####################
+
+git tag -a <version number>
+
+git archive master --prefix='feasst'`git describe master`'/' | gzip > feasst`git describe master`.tar.gz
+
+FAQ
+############
+
+Testing potentials
+####################
+
+Usually when im starting a new system I throw in a few unittests to compare the 'analytical' solution for the pair interactions, which helps me sleep better at night since there is basically no other check for errors in implementing potentials (except for wrong results!). So for example if you look in pair_lj_multi_unittest.cc there are a bunch of tests like this
+
+WCAanalytical
+
+cg3analytical
+
+LJYanalytical
+
+which a lot of these use the linearShifts. To be absolutely sure you could follow the similar procedure of using "xAdd" to place two molecules precisely in a box and test the energies.
+
+Recompile with -fPIC
+*********************
+
+Issue: Compilation error gives "can not be used when making a shared object; recompile with -fPIC"
+
+Solution: One of your external libraries (e.g., fftw or xdrfile) needs the flag "--enable-shared" during configuration. Or you can edit CMakeLists.txt to add "-fPIC" as follows:
+
+SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS} -fPIC)   # HWH: add -fPIC
+#SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS})        # HWH: old version
+
+Unittest that sometimes fail
+##############################
+
+[ RUN      ] Trial.allmoves
+Note in /home/hwh/feasst/src/functions.cc line 89: time(seed): 1496248513
+id metropolis
+id wltmmc
+lj metropolis
+lj wltmmc
+onePatch metropolis
+onePatch wltmmc
+/home/hwh/feasst/src/trial_unittest.cc:297: Failure
+The difference between petot and (\*p).peTot() is 1, which exceeds 1e-9, where
+petot evaluates to 1,
+(\*p).peTot() evaluates to 0, and
+1e-9 evaluates to 1.0000000000000001e-09.
+twoPatch metropolis
+twoPatch wltmmc
+
+There are some basic analysis tools available in FEASST
+#########################################################
+For reweighting, you can use:
+
+[.../tools]$ ./rw.py --help
+usage: rw.py [-h] [--inFile INFILE] [--outFile OUTFILE] [--lnz LNZ]
+             [--phaseBoundary PHASEBOUNDARY]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --inFile INFILE, -i INFILE
+                        input collection matrix file
+  --outFile OUTFILE, -o OUTFILE
+                        output collection matrix file
+  --lnz LNZ, -z LNZ     ln(activity)
+  --phaseBoundary PHASEBOUNDARY, -p PHASEBOUNDARY
+                        assign number of molecules as phase boundary
+
+where the input is a collection matrix file. If an activity is not specified then it attempts to find two peaks for reweighting to phase equilibria. You can manually set the 'phase boundary' or let it automatically attempt to find the minimum between the two peaks. There can be issues if the lnPi is not well converged as has many local min/max, and its likely that some of Nate's python scripts on github are more sophisticated for these kind of special cases, minimum finding, etc. The tool assumes there is a file 'tmp/rstspace' to instantiate the Space object but I think all it wants to know is the number of particles or maybe the volume so it can output coexistence densities, so you could probably make an empty space object and still do the reweighting just fine (and its a simple calculation to check).
+
+Debugging with GDB
+####################
+
+gdb is a very useful debugging tool, especially for identifying segfaults via backtraces. The -g flag in compliation pulls the symbols so that you can get correct line numbers in the gdb output.
+
+In bash
+
+.. code-block:: bash
+
+   gdb [program executable name]
+   r [flags]
+
+gdb can also be used with python as
+
+.. code-block:: bash
+
+   gdb python
+   r [python script] [optional flags]
+
+
+TODO LIST
+#####################
+
+* Improve Semi-grand ensemble interface (e.g., addActivity)
+* MD for anisotropic particles
+* json reader to server as 'input script' to launch simulations
+* json as checkpoint file
+* MD with stochastic dynamics integrator
+* Accumulators for Nate's extrapolation method
+* Perfect checkpointing
+* Automated full-checkpoint testing
+
+* rename Analyze class, both for const and non-const and also to avoid issues with british english
+* remove printPressure from mc/criteria, printBeta, pairOrder, floppyBox, etc
+* on the fly WL/TM lnPI error analysis ... accumulate 3 lnPIs by spliting each trial to each individual criteria class. Use them to compute all sorts of quantities.
+* for xyz2bin, in afterAttempt MC, use unique hash on log file and xyz configuration for error check
+  -- implmement with WLTMMC, use criteria to find order param column in log, then readxyz hash, find log hash match, demix conf based on the bin
+* have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)
+* combine pair_square_well, pair_hs, pair_hard_circle
+* remove doubleTolerance,
+* remove periodicity from x/y/z dimensions (no rush here)
+* split functions.h into a variety of base_fileio, base_math, base_utils, etc
+* pairhybrid rCut should be taken from pairVec, or atleast rCutMaxAll
+* remove duplicate pointers, for example, to space. e.g., MC has a
+  pointer to pair, which can be used to get a pointer to space, pair->space().
+  So MC doesn't need its own space pointer. Same with all the trials.
+  PairHybrid doesn't need the space pointer either?
+  That or there needs to be more checks that they're all the same.
+  Why not use shared_ptr more? Something to do with python interface.
+* Use Histogram class for CriteriaWLTMMC instead of its own hard-coded version
+* Put CriteriaWLTMMC wrappers in protected or hide in some way
+* To reduce the size of Space, have it inherit multiple base classes, e.g.,
+  Domain which contains box lengths and cell list, etc (but needs to know about particle positions?)
+* Fix nomenclature.. atom == particle, mol == ?.. maybe change to sites / particles
+* MC.initTrial() needs to convert pointer to shared pointer, not make a clone, for better python interface.
+* add ASSERT(rCutij.size() == 0 for linearShift in PairLJMulti so people don't run into issues with rCutij.clear
+* Numerical implementation of quadratic equation coudl help with config bias: https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation
+* Improve handling of default parameters for documentation and perhaps json (e.g. checkpointing above)?

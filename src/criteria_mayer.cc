@@ -41,14 +41,14 @@ int CriteriaMayer::accept(const double lnpMet, const double peNew,
   string moveTypeStr(moveType);
   ASSERT(moveTypeStr == "move", "unrecognized moveType("
     << moveType << ")");
-  
+
   // acceptance criteria
   const double f12 = exp(-beta_*peNew) - 1.,
     f12old = exp(-beta_*peOld_) - 1.;
 //  cout << "lnpMEt " << lnpMet << " peold " << peOld_ << " peNew " << peNew << " penewcalc " << exp(lnpMet)/-beta_ << endl;
   int returnVal = -1;
   double f12current, f12ref;
-  if ( (reject != 1) && 
+  if ( (reject != 1) &&
        (uniformRanNum() < fabs(f12)/fabs(f12old)) ) {
     returnVal = 1;
     f12current = f12;

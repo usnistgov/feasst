@@ -4,17 +4,14 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-PairHybrid::PairHybrid(Space* space,
-         const double rCut  //!< interaction cut-off distance
-  )
-    : Pair(space, rCut) {
-  defaultConstruction();
+PairHybrid::PairHybrid(Space* space, const double rCut)
+  : Pair(space, rCut) {
+  defaultConstruction_();
 }
-PairHybrid::PairHybrid(Space* space,
-         const char* fileName
-  )
-    : Pair(space, fileName) {
-  defaultConstruction();
+
+PairHybrid::PairHybrid(Space* space, const char* fileName)
+  : Pair(space, fileName) {
+  defaultConstruction_();
   clone_ = 1;
 
   string strtmp = fstos("pairPrint", fileName);
@@ -26,7 +23,6 @@ PairHybrid::PairHybrid(Space* space,
     const string pairfilestr = fstos(ss.str().c_str(), fileName);
     addPair(makePair(space_, pairfilestr.c_str()));
   }
-
 
   // read selected pair
   strtmp = fstos("nselectedpairs", fileName);
@@ -46,18 +42,12 @@ PairHybrid::~PairHybrid() {
   }
 }
 
-/**
- * clone design pattern
- */
 PairHybrid* PairHybrid::clone(Space* space) const {
   PairHybrid* p = new PairHybrid(*this);
   p->reconstruct(space);
   return p;
 }
 
-/**
- * reconstruct pointers
- */
 void PairHybrid::reconstruct(Space* space) {
   ++clone_;
 
@@ -68,18 +58,13 @@ void PairHybrid::reconstruct(Space* space) {
   Pair::reconstruct(space);
 }
 
-/**
- * default construction
- */
-void PairHybrid::defaultConstruction() {
+void PairHybrid::defaultConstruction_() {
   className_.assign("PairHybrid");
   pairPrint_ = 0;
   clone_ = 0;
 }
 
-/**
- */
-int PairHybrid::initEnergy() {
+void PairHybrid::initEnergy() {
   if (selected_.size() > 0) {
     // compute Forces from selected pair(s)
     for (unsigned int i = 0; i < selected_.size(); ++i) {
@@ -93,12 +78,8 @@ int PairHybrid::initEnergy() {
       pairVec_[iPair]->initEnergy();
     }
   }
-  return 0;
 }
 
-/**
- * potential energy contribution due to subset of particles
- */
 double PairHybrid::multiPartEner(
   const vector<int> mpart,
   const int flag) {
@@ -119,9 +100,6 @@ double PairHybrid::multiPartEner(
   return pe;
 }
 
-/**
- * Returns the total potential energy of the system
- */
 double PairHybrid::peTot() {
   double pe = 0.;
   if (selected_.size() > 0) {
@@ -140,9 +118,6 @@ double PairHybrid::peTot() {
   return pe;
 }
 
-/**
- * Returns the total scalar virial of the system
- */
 double PairHybrid::vrTot() {
   double vrTotTemp = 0.;
   for (int i = 0; i < nPairs(); ++i) {
@@ -151,37 +126,24 @@ double PairHybrid::vrTot() {
   return vrTotTemp;
 }
 
-/**
- * add particle
- */
 void PairHybrid::addPart() {
   for (int i = 0; i < nPairs(); ++i) {
     pairVec_[i]->addPart();
   }
 }
 
-/**
- * delete one particle
- */
 void PairHybrid::delPart(const int ipart) {
   for (int i = 0; i < nPairs(); ++i) {
     pairVec_[i]->delPart(ipart);
   }
 }
 
-/**
- * delete particles
- */
 void PairHybrid::delPart(const vector<int> mpart) {
   for (int i = 0; i < nPairs(); ++i) {
     pairVec_[i]->delPart(mpart);
   }
 }
 
-/**
- * stores, restores or updates variables to avoid recompute of entire
- * configuration after every change
- */
 void PairHybrid::update(
   const vector<int> mpart,    //!< particles involved in move
   const int flag,         //!< type of move
@@ -200,6 +162,7 @@ void PairHybrid::update(
     }
   }
 }
+
 void PairHybrid::update(const double de) {
   if (selected_.size() > 0) {
     // compute from selected pair(s)
@@ -217,9 +180,6 @@ void PairHybrid::update(const double de) {
   }
 }
 
-/**
- * write restart file
- */
 void PairHybrid::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
@@ -239,10 +199,7 @@ void PairHybrid::writeRestart(const char* fileName) {
     }
   }
 }
-  
-/**
- * identify a particle as non physical or non physical
- */
+
 void PairHybrid::ipartNotPhysical(const int ipart) {
   if (selected_.size() > 0) {
     for (unsigned int i = 0; i < selected_.size(); ++i) {
@@ -255,6 +212,7 @@ void PairHybrid::ipartNotPhysical(const int ipart) {
     }
   }
 }
+
 void PairHybrid::ipartIsPhysical(const int ipart) {
   if (selected_.size() > 0) {
     for (unsigned int i = 0; i < selected_.size(); ++i) {
@@ -267,6 +225,7 @@ void PairHybrid::ipartIsPhysical(const int ipart) {
     }
   }
 }
+
 void PairHybrid::allPartPhysical() {
   if (selected_.size() > 0) {
     for (unsigned int i = 0; i < selected_.size(); ++i) {
@@ -279,7 +238,7 @@ void PairHybrid::allPartPhysical() {
     }
   }
 }
-  
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

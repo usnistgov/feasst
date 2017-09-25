@@ -1,52 +1,32 @@
-/**
- * \file
- *
- * \brief square well pairwise interactions
- *
- * Implementation of pair_squarewell class
- */
-
 #include "./pair_squarewell.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-/**
- * Constructor
- */
 PairSquareWell::PairSquareWell(Space* space,
-  const double rCut  //!< interaction cut-off distance
-  )
+  const double rCut)
   : Pair(space, rCut) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 PairSquareWell::PairSquareWell(Space* space,
   const char* fileName
   )
     : Pair(space, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 
-/**
- * defaults in constructor
- */
-void PairSquareWell::defaultConstruction() {
+void PairSquareWell::defaultConstruction_() {
   className_.assign("PairSquareWell");
 }
 
-/**
- * write restart file
- */
 void PairSquareWell::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
 }
 
-/**
- * pair-wise force calculation
- */
-int PairSquareWell::initEnergy() {
+void PairSquareWell::initEnergy() {
   // cout << "in forces" << endl;
 
   // shorthand for read-only space variables
@@ -84,7 +64,7 @@ int PairSquareWell::initEnergy() {
           if (r < rCutij_[type[ipart]][type[jpart]]) {
             if (r < sigij_[type[ipart]][type[jpart]]) {
               // hard sphere if less than sigma
-              peTot_ += std::numeric_limits<double>::max()/1e10;
+              peTot_ += NUM_INF;
             } else {
               // otherwise, square well
               peTot_ -= epsij_[type[ipart]][type[jpart]];
@@ -94,15 +74,11 @@ int PairSquareWell::initEnergy() {
       }
     }
   }
-  return 0;
 }
 
-/**
- * potential energy contribution due to particles
- */
 double PairSquareWell::multiPartEner(
-  const vector<int> mpart,    //!< particles to calculate energy interactions
-  const int flag) {     //!< place holder for other pair styles
+  const vector<int> mpart,
+  const int flag) {
   if (flag == 0) {}  // remove unused parameter warning
 
   ASSERT(atomCut_ == 1, "assumes atomCut(" << atomCut_ << ") is 1");
@@ -163,7 +139,7 @@ double PairSquareWell::multiPartEner(
               const double sigij = sigij_[itype][jtype];
               if (r2 < sigij*sigij) {
                 // hard sphere if less than sigma
-                peSRone_ += std::numeric_limits<double>::max()/1e10;
+                peSRone_ += NUM_INF;
                 // cout << "hs " << peSRone_ << endl;
               } else {
                 // otherwise, square well
@@ -192,14 +168,10 @@ double PairSquareWell::multiPartEner(
   return peSRone_;
 }
 
-/**
- * stores, restores or updates variables to avoid recompute of entire
- * configuration after every change
- */
 void PairSquareWell::update(
-  const vector<int> mpart,    //!< particles involved in move
-  const int flag,         //!< type of move
-  const char* uptype    //!< description of update type
+  const vector<int> mpart,
+  const int flag,
+  const char* uptype
   ) {
   if (neighOn_) {
     // rebuilt neighlist if all particles are updated
@@ -228,18 +200,10 @@ void PairSquareWell::update(
   }
 }
 
-/**
- * initialize hard sphere interactions between particle types itype and jtype
- */
 void PairSquareWell::initHardSphere(const int itype, const int jtype) {
   rCutijset(itype, jtype, sigij_[itype][jtype]);
 }
 
-/**
- * potential energy and forces of all particles
- *  if flag == 0, dummy calculation
- *  if flag == 1, all config calculation
- */
 double PairSquareWell::allPartEnerForce(const int flag) {
   peSRone_ = 0;
   if (flag == 0) {
@@ -257,9 +221,6 @@ double PairSquareWell::allPartEnerForce(const int flag) {
   return 1e300;
 }
 
-/**
- * potential energy and forces of all particles
- */
 double PairSquareWell::allPartEnerForceNoCell() {
   // shorthand for read-only space variables
   const int natom = space_->natom();
@@ -300,7 +261,7 @@ double PairSquareWell::allPartEnerForceNoCell() {
             const double sigij = sigij_[itype][jtype];
             if (r2 < sigij*sigij) {
               // hard sphere if less than sigma
-              peSRone_ += std::numeric_limits<double>::max()/1e10;
+              peSRone_ += NUM_INF;
             } else {
               // otherwise, square well
               peSRone_ -= epsij_[itype][jtype];
@@ -313,9 +274,6 @@ double PairSquareWell::allPartEnerForceNoCell() {
   return peSRone_;
 }
 
-/**
- * potential energy and forces of all particles
- */
 double PairSquareWell::allPartEnerForceCell() {
   // shorthand for read-only space variables
   const vector<double> &x = space_->x();
@@ -368,7 +326,7 @@ double PairSquareWell::allPartEnerForceCell() {
                   const double sigij = sigij_[itype][jtype];
                   if (r2 < sigij*sigij) {
                     // hard sphere if less than sigma
-                    peSRone_ += std::numeric_limits<double>::max()/1e10;
+                    peSRone_ += NUM_INF;
                   } else {
                     // otherwise, square well
                     peSRone_ -= epsij_[itype][jtype];

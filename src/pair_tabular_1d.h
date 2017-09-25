@@ -1,13 +1,9 @@
-/**
- * \file
- *
- * \brief tabular pair-wise interactions
- *
- *  This is only for istropic tabular potentials
- */
 #ifndef PAIR_TABULAR_1D_H_
 #define PAIR_TABULAR_1D_H_
 
+#include <memory>
+#include <string>
+#include <vector>
 #include "./pair.h"
 #include "./table.h"
 
@@ -15,9 +11,27 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ * Tabular potential for isotropic interacitons.
+ */
 class PairTabular1D : public Pair {
  public:
+  /// Constructor
   explicit PairTabular1D(Space* space);
+
+  /// Read table from file.
+  void readTable(const char* fileName);
+
+  /// Set the interpolator.
+  void setInterpolator(const char* name);
+
+  /// Read-only access to tables.
+  vector<vector<shared_ptr<Table> > > peTable() const { return peTable_; }
+
+  /// Write restart file.
+  virtual void writeRestart(const char* fileName);
+
+  /// Construct from restart file.
   PairTabular1D(Space* space, const char* fileName);
   virtual ~PairTabular1D() {}
   virtual PairTabular1D* clone(Space* space) const {
@@ -26,13 +40,7 @@ class PairTabular1D : public Pair {
     return p;
   }
 
-  // defaults in constructor
-  void defaultConstruction();
-
-  /// write restart file
-  virtual void writeRestart(const char* fileName);
-
-  virtual int initEnergy();   //!< function to calculate forces, given positions
+  virtual void initEnergy();
 
   /// potential energy of multiple particles
   double multiPartEner(const vector<int> multiPart, const int flag);
@@ -51,29 +59,16 @@ class PairTabular1D : public Pair {
   //  configuration after every change
   void update(const vector<int> mpart, const int flag, const char* uptype);
 
-  /// delete one particle
-  void delPart(const int ipart) {delPartBase(ipart); }
-  void delPart(const vector<int> mpart) {delPartBase(mpart); }
-
-  /// add one particle
-  void addPart() {addPartBase(); }
-
-  /// read tables
-  void readTable(const char* fileName);
-
-  /// set the interpolator
-  void setInterpolator(const char* name);
-  
-  /// read-only access of protected variables
-  vector<vector<shared_ptr<Table> > > peTable() const { return peTable_; }
-
  protected:
   vector<vector<double> > rCutInner_;      //!< hard sphere below inner cut-off
   double deSR_;             //!< lennard jones potential energy change
-  vector<vector<shared_ptr<Table> > > peTable_;    //!< table for potential energy
+  vector<vector<shared_ptr<Table> > > peTable_;  //!< table for potential energy
   string tabFileName_;
 
   double tol_;      //!< table tolerance
+
+  // defaults in constructor
+  void defaultConstruction_();
 };
 
 #ifdef FEASST_NAMESPACE_

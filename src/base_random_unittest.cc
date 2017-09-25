@@ -34,7 +34,7 @@ TEST(BaseRandom, stdNormRanNum) {
   }
   EXPECT_NEAR(0, a.average(), 5e-2);
   EXPECT_NEAR(1, a.stdev(), 5e-2);
-  
+
 }
 
 TEST(BaseRandom, gaussRanNum) {

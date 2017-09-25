@@ -5,30 +5,29 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 TrialMD::TrialMD() : Trial() {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 TrialMD::TrialMD(Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 TrialMD::TrialMD(const char* fileName,
   Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   timestep = fstod("timestep", fileName);
   nFreqZeroMomentum = fstoi("nFreqZeroMomentum", fileName);
   rescaleTemp = fstoi("rescaleTemp", fileName);
   integrator_ = fstoi("integrator", fileName);
 }
 
-/**
- * default construction
- */
-void TrialMD::defaultConstruction() {
+void TrialMD::defaultConstruction_() {
   className_.assign("TrialMD");
   trialType_.assign("move");
   verbose_ = 0;
@@ -38,9 +37,6 @@ void TrialMD::defaultConstruction() {
   integrator_.assign("VelocityVerlet");
 }
 
-/**
- * write restart file
- */
 void TrialMD::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
@@ -50,12 +46,9 @@ void TrialMD::writeRestart(const char* fileName) {
   file << "# integrator " << integrator_ << endl;
 }
 
-/**
- * Attempt trial
- */
-void TrialMD::attempt1() {
+void TrialMD::attempt1_() {
   if (space_->nMol() <= 0) {
-    trialMoveDecide(0, 0);   // ensured rejection, however, criteria can update
+    trialMoveDecide_(0, 0);   // ensured rejection, however, criteria can update
     return void();
   }
 
@@ -78,16 +71,13 @@ void TrialMD::attempt1() {
   } else {
     ASSERT(0, "unrecognized integrator");
   }
-  
+
   // rescale temperature
   if (rescaleTemp == 1) rescaleVelocity();
-  
-  trialAccept();
+
+  trialAccept_();
 }
 
-/**
- * zero total momentum of the system
- */
 void TrialMD::zeroTotalMomentum() {
   for (int dim = 0; dim < space_->dimen(); ++dim) {
     double momentum = 0;
@@ -101,9 +91,6 @@ void TrialMD::zeroTotalMomentum() {
   }
 }
 
-/**
- * compute the kinetic energy
- */
 double TrialMD::kineticEnergy() {
   double ke = 0.;
   for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
@@ -115,19 +102,11 @@ double TrialMD::kineticEnergy() {
   return ke;
 }
 
-/**
- * compute the temperature
- * NOTE: This assumes monotonic, isotropic system for number of degrees of
- * freedom.
- */
 double TrialMD::temperature() {
   const double dof = space_->dimen()*(space_->nMol()-1);
   return 2.*kineticEnergy()/dof;
 }
 
-/**
- * rescale velocity according to the temperature
- */
 void TrialMD::rescaleVelocity() {
   const double tempPrev = temperature();
   const double tempTarg = 1./criteria_->beta();
@@ -137,10 +116,6 @@ void TrialMD::rescaleVelocity() {
   }
 }
 
-/**
- * initialize velocity, the lazy way
- * Maxwell-Boltzmann is expected to rapidly estability after a few steps
- */
 void TrialMD::initMomentum() {
   vel_.resize(space_->dimen()*space_->nMol(), 0.);
   mass_.resize(space_->nMol(), 1.);
@@ -165,19 +140,16 @@ string TrialMD::printStat(const bool header) {
   if (header) {
     stat << "ke utot temp ";
   } else {
-    stat << kineticEnergy() << " " 
+    stat << kineticEnergy() << " "
       << kineticEnergy() + pair_->peTot() << " "
-      << temperature() <<  " "; 
+      << temperature() <<  " ";
   }
   return stat.str();
 }
 
-/**
- * update center of mass forces
- */
 void TrialMD::updateFCOM() {
   if (static_cast<int>(fCOM_.size()) != space_->nMol()*space_->dimen()) {
-    fCOM_.resize(space_->nMol()*space_->dimen(), 0);  
+    fCOM_.resize(space_->nMol()*space_->dimen(), 0);
   }
   std::fill(fCOM_.begin(), fCOM_.end(), 0.);
   for (int ipart = 0; ipart < space_->natom(); ++ipart) {
@@ -188,21 +160,15 @@ void TrialMD::updateFCOM() {
   }
 }
 
-/**
- * update half-step velocities
- */
 void TrialMD::updateVelocityHalfStep() {
   for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
     for (int dim = 0; dim < space_->dimen(); ++dim) {
-      vel_[space_->dimen()*iMol + dim] 
+      vel_[space_->dimen()*iMol + dim]
         += 0.5*timestep*fCOM(iMol, dim)*mass_[iMol];
     }
   }
 }
 
-/**
- * velocity verlet integration
- */
 void TrialMD::integrateVelocityVerlet() {
   // update center of mass forces
   updateFCOM();

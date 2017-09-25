@@ -3,7 +3,7 @@
  *
  * Developed by Harold Wickes Hatch, 12/13/2013, hhatch.com, harold@hhatch.com
  *
- * 
+ *
  */
 
 #include "pair_tabular.h"
@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
   double boxl = 9, rCut = 4./3.;
   int preMicellarAgg = 5, nMolMax = -1, skip = 100;
   stringstream ssFileIn("movie"), ssFileOut("cluster.txt"), ssLogFile("log");
-  
+ 
   // parse command-line arguments using getopt
   { int index, c; opterr = 0;
     while ((c = getopt(argc, argv, "r:i:o:b:p:x:")) != -1) {
@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
 
   // accumulate averages over all p
   AccumulatorVec clusterphi, coordphi;
-  
+ 
   // initialize files
   stringstream ss;
   ss << "movie.xyz";
@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
     pair->readxyz(inFile);
     if ( (space->natom() != 0) && ( (nMolMax == -1) || (space->nMol() == nMolMax) ) ) {
       if ( (!inFile.eof()) && (iter%skip==0) ) {
-        
+       
         // compute analysis
         scat.update();
       }

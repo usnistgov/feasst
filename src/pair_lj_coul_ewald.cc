@@ -63,7 +63,7 @@ void PairLJCoulEwald::writeRestart(const char* fileName) {
 /**
  * Lennard-Jones pair-wise force calculation
  */
-int PairLJCoulEwald::initEnergy() {
+void PairLJCoulEwald::initEnergy() {
   // shorthand for read-only space variables
   const int dimen = space_->dimen();
   const int nMol = space_->nMol();
@@ -174,8 +174,6 @@ int PairLJCoulEwald::initEnergy() {
 
   // standard long range corrections
   lrcConf();
-
-  return 0;
 }
 
 /**
@@ -533,7 +531,7 @@ void PairLJCoulEwald::delPart(const int ipart) {     //!< particle to delete
   eikiy_.erase(eikiy_.begin() + ipart);
   eikiz_.erase(eikiz_.begin() + ipart);
   NOTE("Depreciated function delPart(const int ipart)");
-  delPartBase(ipart);
+  delPartBase_(ipart);
 }
 
 /**
@@ -541,7 +539,7 @@ void PairLJCoulEwald::delPart(const int ipart) {     //!< particle to delete
  */
 void PairLJCoulEwald::delPart(
   const vector<int> mpart) {     //!< particles to delete
-  delPartBase(mpart);
+  delPartBase_(mpart);
   int natom = space_->natom();
   for (int i = mpart.size() - 1; i >= 0; --i) {
     int ipart = mpart[i];
@@ -591,7 +589,7 @@ void PairLJCoulEwald::addPart() {
       eikiz_.insert(eikiz_.begin() + natomprev*k+natomprev, 0.);
     }
   }
-  addPartBase();
+  addPartBase_();
 }
 
 /**
@@ -996,39 +994,6 @@ void PairLJCoulEwald::sizeCheck() {
     ASSERT(0, "size check failure" << endl << ermesg.str());
   }
 }
-
-/**
- * tabular error function constructor
- */
-erftable::erftable() {
-}
-
-/**
- * initialize table for f(x) = erfc(alpha*r)/r
- */
-void erftable::init(const double alpha, const double rCut) {
-  n_ = 2e5;
-  ds_ = pow(2*rCut, 2)/static_cast<double>(n_);
-  for (int i = 0; i < n_; ++i) {
-    const double s = static_cast<double>(i) * ds_;
-    const double rij = sqrt(s);
-    vtab_.push_back(erfc(alpha*rij)/rij);
-  }
-}
-
-/**
- * evaluate tabular eror function
- */
-double erftable::eval(const double x) const {
-  const double sds = x / ds_;
-  const int k = static_cast<int>(sds);
-  const double xi = sds - static_cast<double>(k);
-  const double vk = vtab_[k], vk1 = vtab_[k+1], vk2 = vtab_[k+2];
-  const double t1 = vk + (vk1 - vk) * xi;
-  const double t2 = vk1 + (vk2 - vk1) * (xi - 1.);
-  return t1 + (t2 - t1)*xi*0.5;
-}
-
 
 /**
  * initialize kspace, number of wave vectors and screening parameters

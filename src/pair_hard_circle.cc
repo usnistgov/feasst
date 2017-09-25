@@ -1,46 +1,32 @@
-/**
- * \file
- *
- * \brief pairwise interactions between hard circles in depletant
- */
-
+#include <string>
 #include "pair_hard_circle.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-/**
- * Constructor
- */
 PairHardCircle::PairHardCircle(Space* space,
-  const double rCut)  //!< interaction cut-off distance
+  const double rCut)
   : Pair(space, rCut) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 PairHardCircle::PairHardCircle(Space* space,
   const char* fileName)
   : Pair(space, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   dCircle_ = fstod("dCircle", fileName);
   rDep_ = fstod("rDep", fileName);
 }
 
-/**
- * defaults in constructor
- */
-void PairHardCircle::defaultConstruction() {
+void PairHardCircle::defaultConstruction_() {
   className_.assign("PairHardCircle");
   dCircle_ = 1;
-  rDep_ = 0.;
+  initRDep();
   ASSERT(space_->dimen() == 2,
     "Hard circle potential requires spatial dimenion(" << space_->dimen()
     << ") of 2");
 }
 
-/**
- * write restart file
- */
 void PairHardCircle::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
@@ -48,10 +34,7 @@ void PairHardCircle::writeRestart(const char* fileName) {
   file << "# rDep " << rDep_ << endl;
 }
 
-/**
- * Lennard-Jones pair-wise force calculation
- */
-int PairHardCircle::initEnergy() {
+void PairHardCircle::initEnergy() {
   // shorthand for read-only space variables
   const int dimen = space_->dimen();
   const int natom = space_->natom();
@@ -89,7 +72,7 @@ int PairHardCircle::initEnergy() {
           if (r2 < rCut_*rCut_) {
             // hard sphere
             if (r2 < dCircle_*dCircle_) {
-              peSR_ += std::numeric_limits<double>::max()/1e10;
+              peSR_ += NUM_INF;
             } else {
               // energy
               r = sqrt(r2);
@@ -120,28 +103,20 @@ int PairHardCircle::initEnergy() {
     }
   }
   peTot_ = peSR_;
-  return 0;
 }
 
-/**
- * Lennard-Jones potential energy contribution due to particles
- */
 double PairHardCircle::multiPartEner(
-  const vector<int> mpart,    //!< particles to calculate energy interactions
-  const int flag) {     //!< place holder for other pair styles
+  const vector<int> mpart,
+  const int flag) {
   peSRone_ = 0.;
   if (flag == 0) {}  // remove unused parameter warning
   return multiPartEnerAtomCut2D(mpart);
 }
 
-/**
- * stores, restores or updates variables to avoid recompute of entire
- * configuration after every change
- */
 void PairHardCircle::update(
-  const vector<int> mpart,    //!< particles involved in move
-  const int flag,         //!< type of move
-  const char* uptype) {    //!< description of update type
+  const vector<int> mpart,
+  const int flag,
+  const char* uptype) {
   if (neighOn_) {
     // rebuilt neighlist if all particles are updated
     if (static_cast<int>(mpart.size()) != space_->natom()) {
@@ -172,11 +147,6 @@ void PairHardCircle::update(
   }
 }
 
-/**
- * potential energy and forces of all particles
- *  if flag == 0, dummy calculation
- *  if flag == 1, all config calculation
- */
 double PairHardCircle::allPartEnerForce(const int flag) {
   peSRone_ = 0.;
   if (flag == 0) {
@@ -188,9 +158,6 @@ double PairHardCircle::allPartEnerForce(const int flag) {
   return 1e300;
 }
 
-/**
- * potential energy and forces of all particles
- */
 double PairHardCircle::allPartEnerForceNoCell() {
   // shorthand for read-only space variables
   const int nMol = space_->nMol();
@@ -222,7 +189,7 @@ double PairHardCircle::allPartEnerForceNoCell() {
       if (r2 < rCutSq_) {
         // hard sphere
         if (r2 < dCircle_*dCircle_) {
-          peSRone_ += std::numeric_limits<double>::max()/1e10;
+          peSRone_ += NUM_INF;
         } else {
           r = sqrt(r2);
           peSRone_ -= (2*R*R*acos(r*0.5/R)
@@ -239,7 +206,7 @@ void PairHardCircle::multiPartEnerAtomCutInner(const double &r2,
   if (itype == jtype) {}  // remove unused parameter warning
   // hard sphere
   if (r2 < dCircle_*dCircle_) {
-    peSRone_ += std::numeric_limits<double>::max()/1e10;
+    peSRone_ += NUM_INF;
   } else {
     const double r = sqrt(r2),
                  R = 0.5*dCircle_ + rDep_;

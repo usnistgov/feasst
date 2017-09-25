@@ -10,11 +10,11 @@ WLTMMC::WLTMMC(Space* space,
   )
     : MC(space, pair, criteria),
       c_(criteria) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 WLTMMC::WLTMMC(const char* fileName)
     : MC(fileName) {
-  defaultConstruction();
+  defaultConstruction_();
 
   // cout << "initialize criteria" << endl;
   string strtmp = fstos("rstFileCriteria", fileName);
@@ -51,7 +51,7 @@ WLTMMC::WLTMMC(const char* fileName)
   if (!strtmp.empty()) {
     procFileAppend_ = strtmp;
   }
-  
+
   // read radial distribution function restart files
   strtmp = fstos("nFreqGR", fileName);
   if (!strtmp.empty()) {
@@ -85,10 +85,7 @@ WLTMMC::WLTMMC(const char* fileName)
   if (c_->nSweep() > 1) production_ = 1;
 }
 
-/**
- * defaults in constructor
- */
-void WLTMMC::defaultConstruction() {
+void WLTMMC::defaultConstruction_() {
   className_.assign("WLTMMC");
   verbose_ = 0;
   nFreqColMat_ = 1e6;
@@ -112,9 +109,6 @@ WLTMMC::~WLTMMC() {
   }
 }
 
-/**
- * reset object pointers
- */
 void WLTMMC::reconstruct() {
   CriteriaWLTMMC* c = c_->clone();
   criteriaOwned_ = true;
@@ -132,34 +126,25 @@ void WLTMMC::reconstruct() {
   MC::reconstruct();
 }
 
-/**
- * clone design pattern
- */
 WLTMMC* WLTMMC::clone() const {
   WLTMMC* mc = new WLTMMC(*this);
   mc->reconstruct();
   return mc;
 }
 
-/**
- * clone design pattern
- */
 shared_ptr<MC> WLTMMC::cloneImpl() const {
   shared_ptr<WLTMMC> mc = make_shared<WLTMMC>(*this);
   mc->reconstruct();
   return mc;
 }
 
-/**
- * this function is called after every trial attempt
- */
-void WLTMMC::afterAttempt() {
+void WLTMMC::afterAttempt_() {
   if ( ( (c_->nSweep() > 1) ||
          ((wlFlatProd_ != -1) && (c_->wlFlat() >= wlFlatProd_) ) )
     && (production_ == 0) ) {
     initProduction();
   }
-  afterAttemptBase();
+  afterAttemptBase_();
   if (nAttempts_ % nFreqColMat_ == 0) {
     c_->lnPIupdate();
     if (!colMatFileName_.empty()) {
@@ -199,7 +184,7 @@ void WLTMMC::afterAttempt() {
   }
 
   // run analyzers
-  for (vector<Analyze*>::iterator it = analyzeVec_.begin();
+  for (vector<shared_ptr<Analyze>>::iterator it = analyzeVec_.begin();
        it != analyzeVec_.end(); ++it) {
     if (nAttempts_ % (*it)->nFreq() == 0) {
       (*it)->update(c_->iMacro());
@@ -210,9 +195,6 @@ void WLTMMC::afterAttempt() {
   }
 }
 
-/**
- * determine maximum number of particles for a given temperature and large activity
- */
 int WLTMMC::nMolMax(const long long npr,   //!< number of steps in production run
   const double activ,       //!< large activity
   const int nMolExtra       //!< add extra mols
@@ -225,9 +207,6 @@ int WLTMMC::nMolMax(const long long npr,   //!< number of steps in production ru
   return nmx;
 }
 
-/**
- * run for a number of sweeps
- */
 void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
   const long long nprMax  //!< maximum number of attempts
   ) {
@@ -356,7 +335,7 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
     // write restart files
     if (t == 0) writeRestart(rstFileName_.c_str());
 
-    runNumSweepsExec(t, nSweeps, clones);
+    runNumSweepsExec_(t, nSweeps, clones);
 
     #ifdef _OPENMP
       }
@@ -373,10 +352,7 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
   }
 }
 
-/**
- * execute clones
- */
-void WLTMMC::runNumSweepsExec(const int t,    //!< thread
+void WLTMMC::runNumSweepsExec_(const int t,    //!< thread
   const int nSweeps,  //!<
   vector<shared_ptr<WLTMMC> > &clones
   ) {
@@ -529,11 +505,6 @@ void WLTMMC::runNumSweepsExec(const int t,    //!< thread
   #endif  // _OPENMP
 }
 
-/**
- * resize the nmol window in WLTMMC criteria
- *  truncates liquid peak after lnPI drops as n increases by amout liquidDrop
- *  rounds to the nearest larger multiple of nround
- */
 void WLTMMC::nMolResizeWindow(
   const double liquidDrop,  //!< targeted drop off of liquid peak
   const int round   //!< round up to the nearest factor
@@ -547,9 +518,6 @@ void WLTMMC::nMolResizeWindow(
   c_->initBins(mMax2, c_->mMin(), mMax2 - c_->mMin());
 }
 
-/**
- * seek particle number which is in the range of WLTMMC
- */
 void WLTMMC::nMolSeekInRange(const int nMin,
                              const int nMax
   ) {
@@ -563,9 +531,6 @@ void WLTMMC::nMolSeekInRange(const int nMin,
   }
 }
 
-/**
- * check that criteria of MC and WLTMMC match
- */
 int WLTMMC::checkTrialCriteria() {
   int match = 1;
   if (c_ != criteria_) {
@@ -575,9 +540,6 @@ int WLTMMC::checkTrialCriteria() {
   return MC::checkTrialCriteria()*match;
 }
 
-/**
- * print saturation summary
- */
 vector<double> WLTMMC::printSat() {
   std::ofstream log_(logFileName_.c_str(),
                      std::ofstream::out | std::ofstream::app);
@@ -608,9 +570,6 @@ vector<double> WLTMMC::printSat() {
   return returnVec;
 }
 
-/**
- * write restart file
- */
 void WLTMMC::writeRestart(const char* fileName) {
   MC::writeRestart(fileName);
   std::ofstream file(fileName, std::ofstream::out | std::ofstream::app);
@@ -646,9 +605,6 @@ void WLTMMC::writeRestart(const char* fileName) {
   if (wlFlatTerm_ != -1) file << "# wlFlatTerm " << wlFlatTerm_ << endl;
 }
 
-/**
- * restart and run for a number of sweeps
- */
 void WLTMMC::runNumSweepsRestart(
   const int nSweeps,    //!< target number of sweeps
   const char* fileName  //!< restart file name
@@ -668,7 +624,7 @@ void WLTMMC::runNumSweepsRestart(
       if (omp_get_thread_num() == 0) nWindow_ =  omp_get_num_threads();
     }
   #endif  // _OPENMP
-  
+
   vector<shared_ptr<WLTMMC> > clones(nWindow_);
   #ifdef _OPENMP
     #pragma omp parallel private(t)
@@ -697,27 +653,24 @@ void WLTMMC::runNumSweepsRestart(
   // for a more perfect restart, check if Trial parameters should be tuned
   if (nFreqTune_ != 0) {
     if (nFreqRestart_ % nFreqTune_ == 0) {
-      clones[t]->tuneTrialParameters();
+      clones[t]->tuneTrialParameters_();
     }
   }
-    
+
   // monkey patch
-  for (vector<Analyze*>::iterator it = analyzeVec_.begin();
+  for (vector<shared_ptr<Analyze>>::iterator it = analyzeVec_.begin();
        it != analyzeVec_.end(); ++it) {
     (*it)->modifyRestart(clones[t]);
   }
 
-  runNumSweepsExec(t, nSweeps, clones);
+  runNumSweepsExec_(t, nSweeps, clones);
 
   #ifdef _OPENMP
     }
   #endif  // _OPENMP
 }
 
-/**
- * initialize overlapping processors
- */
-void WLTMMC::initOverlaps(const int t,    //!< thread
+void WLTMMC::initOverlaps(const int t,    // thread
   vector<shared_ptr<WLTMMC> > &clones
   ) {
   // if configuration swap trial move exists, initialize the overlapping regions
@@ -794,5 +747,3 @@ void WLTMMC::initOverlaps(const int t,    //!< thread
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-
-

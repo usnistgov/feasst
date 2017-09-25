@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include "pair_lj.h"
 
+#ifdef FEASST_NAMESPACE_
 using namespace feasst;
+#endif  // FEASST_NAMESPACE_
 
 TEST(PairLJ, dim) {
   for (int dimen = 1; dimen != 4; ++dimen) {
@@ -142,5 +144,3 @@ TEST(PairLJ, exVol) {
   EXPECT_NEAR(4.*PI/3., p.exVol(1e2), 3e-3);
   //EXPECT_NEAR(4.*PI/3., p.exVol(1e3), 2e-4);
 }
-
-

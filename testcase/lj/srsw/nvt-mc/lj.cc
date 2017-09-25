@@ -1,6 +1,6 @@
 #include "pair_lj.h"
 #include "mc.h"
-#include "ui_abbreviated.h"
+#include "trial_transform.h"
 
 using namespace feasst;
 
@@ -12,7 +12,7 @@ class AnalyzeMonkeyPatch : public Analyze {
   void update() {
     pe.accumulate(pair_->peTot()/double(space_->nMol()));
   }
-  void print() {
+  void write() {
     cout << pe.average() << " +/- " << pe.blockStdev() << endl;
   }
 };
@@ -38,9 +38,10 @@ int main() {
   mc.initMovie("movie", 1e4);
   mc.initRestart("tmp/rst", 1e4);
   mc.setNFreqTune(1e4);
-  AnalyzeMonkeyPatch an(&space, &pair);
-  an.initFreq(1);
-  an.initPrintFreq(1e5);
-  mc.initAnalyze(&an);
+  shared_ptr<AnalyzeMonkeyPatch> an =
+    make_shared<AnalyzeMonkeyPatch>(&space, &pair);
+  an->initFreq(1);
+  an->initPrintFreq(1e5);
+  mc.initAnalyze(an);
   mc.runNumTrials(1e10);
 }

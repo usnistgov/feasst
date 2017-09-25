@@ -3,13 +3,14 @@
  *
  * Developed by Harold Wickes Hatch, 12/13/2013, hhatch.com, harold@hhatch.com
  *
- * 
+ *
  */
 
 #include "pair_lj.h"
 #include "mc_wltmmc.h"
-#include "ui_abbreviated.h"
+#include "trial_add.h"
 #include "trial_delete.h"
+#include "trial_transform.h"
 
 using namespace feasst;
 
@@ -58,26 +59,26 @@ int main(int argc, char** argv) {
   PairLJ p(&s, rCut);
   p.initEnergy();
   CriteriaWLTMMC c(beta, activ,"nmol",nMolMin-0.5,nMolMax+0.5,nMolMax-nMolMin+1);
-  
+
   // initialize MC simulation object
   WLTMMC mc(&s, &p, &c);
   mc.weight=3./4.;
   transformTrial(&mc, "translate");
   mc.weight=1./8.;
-  
+
   //deleteTrial(&mc);
   //mc.initTrial(new TrialDelete(addMolSS.str().c_str()));
   //mc.initTrial(new TrialAdd(addMolSS.str().c_str()));
   deleteTrial(&mc);
   addTrial(&mc, addMolSS.str().c_str());
- 
+
   // output log, lnpi and movie
   mc.initLog("log", nfreq);
-  mc.initColMat("colMat", ncfreq); 
+  mc.initColMat("colMat", ncfreq);
   mc.setNFreqCheckE(ncfreq, 2e-4);
   mc.setNFreqTune(nfreq);
-  mc.initMovie("movie", nfreq); 
-  //mc.initXTC("movie", nfreq); 
+  mc.initMovie("movie", nfreq);
+  //mc.initXTC("movie", nfreq);
   mc.initRestart("tmp/rst", ncfreq);
 
   //production tmmc simulation
@@ -86,8 +87,8 @@ int main(int argc, char** argv) {
   //mc.runNumTrials(npr);
   mc.initWindows(1);
   //mc.nMolSeekInRange();
-  mc.runNumSweeps(10, -1); 
-  
+  mc.runNumSweeps(10, -1);
+
   cout << "# MC " << s.id() << " elapsed time: " << double(clock()) / double(CLOCKS_PER_SEC) << " seconds" << endl;
 }
 
