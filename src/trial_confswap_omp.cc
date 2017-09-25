@@ -5,49 +5,42 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 TrialConfSwapOMP::TrialConfSwapOMP() : Trial() {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 TrialConfSwapOMP::TrialConfSwapOMP(Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 TrialConfSwapOMP::TrialConfSwapOMP(const char* fileName,
   Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   string strtmp = fstos("orderTolerance", fileName);
   if (!strtmp.empty()) {
     orderTolerance_ = stod(strtmp);
   }
 }
 
-/**
- * write restart file
- */
 void TrialConfSwapOMP::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
   file << "# orderTolerance " << orderTolerance_ << endl;
 }
 
-/**
- * default during construction
- */
-void TrialConfSwapOMP::defaultConstruction() {
+void TrialConfSwapOMP::defaultConstruction_() {
   className_.assign("TrialConfSwapOMP");
   trialType_.assign("move");
   verbose_ = 0;
   orderTolerance_ = 1e-4;
 }
 
-/**
- * randomly to swap configurations with inter or intra processor stored state
- */
-void TrialConfSwapOMP::attempt1() {
+void TrialConfSwapOMP::attempt1_() {
   // obtain currentOrder, the current order parameter for the simulation
   double currentOrder = -1;
   if (orderType_.compare("nmol") == 0) {
@@ -107,13 +100,13 @@ void TrialConfSwapOMP::attempt1() {
           reject_ = 0;
           if (criteria_->accept(lnpMet_, pair_->peTot() + de_,
                                 trialType_.c_str(), reject_) == 1) {
-            trialAccept();
+            trialAccept_();
             space_->swapPositions(space);
             if (space_->cellType() > 0) space_->buildCellList();
             if (pair_->neighOn()) pair_->buildNeighList();
             pair_->initEnergy();
           } else {
-            trialReject();
+            trialReject_();
           }
         }
       }
@@ -121,16 +114,8 @@ void TrialConfSwapOMP::attempt1() {
   }
 }
 
-/**
- * add nMol which overlaps with a given processor
- */
-//  ) {
-void TrialConfSwapOMP::addProcOverlap(
-  const double order,   //!< order parameter
-  TrialConfSwapOMP* trial,
-  const double dbeta,   //!< change in beta of overlapping processor
-  const double dlnz     //!< change in lnz of overlapping processor
-  ) {
+void TrialConfSwapOMP::addProcOverlap(const double order,
+  TrialConfSwapOMP* trial, const double dbeta, const double dlnz) {
   order_.push_back(order);
   pe_.push_back(0);
   trialSwapInter_.push_back(trial);
@@ -139,9 +124,6 @@ void TrialConfSwapOMP::addProcOverlap(
   dlnz_.push_back(dlnz);
 }
 
-/**
- * given order, return index (or -1 if not overlapping)
- */
 int TrialConfSwapOMP::order2index(const double order) {
   int index = -1;
   for (unsigned int i = 0; i < order_.size(); ++i) {

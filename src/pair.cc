@@ -1,11 +1,3 @@
-/**
- * \file
- *
- * \brief pairwise interactions
- *
- * Implementation of the pair class
- */
-
 #include "./pair.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -13,11 +5,11 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 Pair::Pair(Space* space,
-  const double rCut)   //!< interaction cut-off distance
+  const double rCut)
   : space_(space),
     rCut_(rCut) {
   className_.assign("Pair");
-  defaultConstruction();
+  defaultConstruction_();
 }
 Pair::Pair(Space* space, const char* fileName)
   : space_(space) {
@@ -25,7 +17,7 @@ Pair::Pair(Space* space, const char* fileName)
   ASSERT(fileExists(fileName), "restart file(" << fileName
          << ") doesn't exist");
   rCut_ = fstod("rCut", fileName);
-  defaultConstruction();
+  defaultConstruction_();
 
   // cout << "initialize random number generator" << endl;
   initRNG(fileName);
@@ -116,10 +108,7 @@ Pair::Pair(Space* space, const char* fileName)
   }
 }
 
-/**
- * defaults in constructor
- */
-void Pair::defaultConstruction() {
+void Pair::defaultConstruction_() {
   verbose_ = 0;
   orderOn_ = 0;
   order_ = -1;
@@ -158,20 +147,14 @@ void Pair::defaultConstruction() {
   peMapOn_ = 0;
   intra_ = 0;
   addPart();
-  sigrefFlag_ = 0;
+  setSigRefFlag();
 }
 
-/**
- * reset object pointers
- */
 void Pair::reconstruct(Space* space) {
   space_ = space;
   Base::reconstruct();
 }
 
-/**
- * write restart file
- */
 void Pair::writeRestartBase(const char* fileName) {
   fileBackUp(fileName);
   std::ofstream file(fileName);
@@ -232,19 +215,11 @@ void Pair::writeRestartBase(const char* fileName) {
   writeRngRestart(fileName);
 }
 
-/**
- * Returns the pressure of the system
- */
-double Pair::pressure(const double beta     //!< inverse temperature
-  ) {
+double Pair::pressure(const double beta) {
   return (space_->nMol()/beta + vrTot()/3.)/space_->vol();
 }
 
-/**
- * delete particle ipart
- */
-void Pair::delPartBase(const int ipart) {  //!< particle number to delete
-  // error check that particle exists
+void Pair::delPartBase_(const int ipart) {
   ASSERT(ipart < space_->natom(), "cannot delete particle that does not exist,"
     << "ipart: " << ipart << " when there are only natom: " << space_->natom());
 
@@ -266,15 +241,11 @@ void Pair::delPartBase(const int ipart) {  //!< particle number to delete
   }
 }
 
-/**
- * delete particles mpart
- */
-void Pair::delPartBase(const vector<int> mpart   //!< particle numbers to delete
-  ) {
+void Pair::delPartBase_(const vector<int> mpart) {
   fastDel_ = space_->fastDelApplicable(mpart);
   if (fastDel_) fastDelMol_ = space_->mol()[mpart.front()];
   for (int i = static_cast<int>(mpart.size()) - 1; i >= 0; --i) {
-    delPartBase(mpart[i]);
+    delPartBase_(mpart[i]);
   }
   if (neighOn_ && (atomCut_ == 1) && (space_->natom() != space_->nMol())) {
     eraseNeigh_(mpart, &neigh_);
@@ -282,13 +253,9 @@ void Pair::delPartBase(const vector<int> mpart   //!< particle numbers to delete
   }
 }
 
-/**
- * erase mpart from neighlist
- *  if atomCut is 1, then iMol and jMol are atom identifiers, not molecules
- */
 void Pair::eraseNeigh_(
-  const vector<int> mpart,        //!< molecules(or atoms) to erase
-  vector<vector<int> > *neighPtr) {  //!< neighborlist to update
+  const vector<int> mpart,
+  vector<vector<int> > *neighPtr) {
   vector<vector<int> >& neigh = *neighPtr;
   if (neigh.size() > 0) {
     if (fastDel_) {
@@ -344,10 +311,7 @@ void Pair::eraseNeigh_(
   }
 }
 
-/**
- * add particle ipart
- */
-void Pair::addPartBase() {
+void Pair::addPartBase_() {
   f_.resize(space_->natom(), vector<double>(space_->dimen()));
   vr_.resize(space_->natom(), vector<vector<double> >(
     space_->dimen(), vector<double>(space_->dimen())));
@@ -362,13 +326,10 @@ void Pair::addPartBase() {
   }
 }
 
-/**
- * initialize the pair parameters eps and sig
- */
 void Pair::initPairParam(
-  const vector<double> eps,       //!< epsilon pair parameter
-  const vector<double> sig,       //!< sigma pair parameter
-  const vector<double> sigref) {  //!< sigma pair parameter
+  const vector<double> eps,
+  const vector<double> sig,
+  const vector<double> sigref) {
   const int ntype = eps.size();
   ASSERT(sig.size() == eps.size(),
     "input parameters eps and sig in initPairParm must be of equal size");
@@ -381,6 +342,7 @@ void Pair::initPairParam(
   for (int i = 0; i < ntype; ++i) {
     eps_[i] = eps[i];
     sig_[i] = sig[i];
+    ASSERT(sig[i] >= 0, "sig must be positive");
     if (sigrefFlag_ == 1) sigRef_[i] = sigref[i];
   }
 
@@ -401,12 +363,9 @@ void Pair::initPairParam(
   }
 }
 
-/**
- * initialize neighbor list
- */
 void Pair::initNeighList(
-  const double neighAbove,    //!< upper cut off distance for neighbor list
-  const double neighBelow) {  //!< lower cut off distance for neighbor list
+  const double neighAbove,
+  const double neighBelow) {
   neighAbove_ = neighAbove;
   neighAboveSq_ = neighAbove*neighAbove;
   neighBelow_ = neighBelow;
@@ -415,9 +374,6 @@ void Pair::initNeighList(
   buildNeighList();
 }
 
-/**
- * build full neighbor list of each molecule
- */
 void Pair::buildNeighList() {
   // shorthand for read-only space variables
   const int dimen = space_->dimen();
@@ -495,24 +451,9 @@ void Pair::buildNeighList() {
   }
 }
 
-/**
- * stores, restores or updates neighbor list variables to avoid recompute of
- * entire configuration after every change
- *  flag==0, energy of old configuration (no moves, ins or dels)
- *  flag==1, new configuration, same number of particles
- *  flag==2, old configuration, preparing to delete (same as 0)
- *  flag==3, just inserted particle
- *  flag==4, old configuration, but only update the neighbor list
- *  flag==5, new configuration, but only update the neighbor list
- */
-void Pair::updateBase(
-  const vector<int> mpart,    //!< particles involved in move
-  const int flag,         //!< type of move
-  const char* uptype,    //!< description of update type
-  vector<vector<int> > &neigh,   //!< neighbor list to update
-  vector<vector<int> > &neighOne,   //!< neighbor list to update
-  vector<vector<int> > &neighOneOld   //!< neighbor list to update
-  ) {
+void Pair::updateBase(const vector<int> mpart, const int flag,
+  const char* uptype, vector<vector<int> > &neigh,
+  vector<vector<int> > &neighOne, vector<vector<int> > &neighOneOld) {
   std::string uptypestr(uptype);
   if (uptypestr.compare("store") == 0) {
     if (flag == 0 || flag == 2 || flag == 4) {
@@ -621,9 +562,6 @@ void Pair::updateBase(
   }
 }
 
-/**
- *  check neigh list by re-building
- */
 int Pair::checkNeigh() {
   // cout << "checking neigh of size " << neigh_.size() << endl;
   int neighMatch = 1;
@@ -682,17 +620,7 @@ int Pair::checkNeigh() {
   return neighMatch;
 }
 
-/**
- * check that energy of configuration and running energy of individual particles
- * match
- *  flag=0, check current peTot_ vs recomputed with initEnergy()
- *  flag=1, check peTot_ from initEnergy() vs peTot_ from multiPartEner with
- *  mpart=all atoms
- *  flag=2, check COM forces, fCOM_ from initEnergy() vs allPartEnerForce()
- *
- */
-int Pair::checkEnergy(const double tol,   //!< tolerance for energies to match
-  const int flag) {     //!< type of check
+int Pair::checkEnergy(const double tol, const int flag) {
   double peTot1 = 0., peTot2 = 0.;
 
   // flag == 0 if checking current energy from peTot() vs recomputed energy
@@ -756,11 +684,7 @@ int Pair::checkEnergy(const double tol,   //!< tolerance for energies to match
   return 1;
 }
 
-/**
- * Initialize with LAMMPS data file
- * Reads pair parameters
- */
-void Pair::initLMPData(const string fileName) {  //!< LAMMPS Data file name
+void Pair::initLMPData(const string fileName) {
   // open LAMMPS data file
   std::ifstream file(fileName.c_str());
   ASSERT(file.good(), "cannot find lammps DATA file " << fileName);
@@ -796,9 +720,6 @@ void Pair::initLMPData(const string fileName) {  //!< LAMMPS Data file name
   initPairData(natype, eps, sig, sigref);
 }
 
-/**
- * initialize pair data based on number of at types, eps and sig
- */
 void Pair::initPairData(const int natype,
   const vector<double> eps,
   const vector<double> sig,
@@ -838,14 +759,9 @@ void Pair::initPairData(const int natype,
   }
 }
 
-/**
- * stores, restores or updates variables to avoid recompute of entire
- * configuration after every change
- */
-void Pair::update(const vector<int> mpart,    //!< particles involved in move
-  const int flag,         //!< type of move
-  const char* uptype    //!< description of update type
-  ) {
+void Pair::update(const vector<int> mpart,
+  const int flag,
+  const char* uptype) {
   if (neighOn_) {
     // rebuilt neighlist if all particles are updated
     if (static_cast<int>(mpart.size()) != space_->natom()) {
@@ -854,10 +770,6 @@ void Pair::update(const vector<int> mpart,    //!< particles involved in move
   }
 }
 
-/**
- * set pair interaction parameters manually. Originally created as easy way to
- * turn off interactions
- */
 void Pair::epsijset(const int i, const int j, const double eps) {
   epsij_.at(i).at(j) = eps;
   vector<double> epsijsetrec;
@@ -867,9 +779,6 @@ void Pair::epsijset(const int i, const int j, const double eps) {
   epsijsetRecord_.push_back(epsijsetrec);
 }
 
-/**
- * excluded volume of all molecules in space, using sig_
- */
 double Pair::exVol(
   const int nGrid,    //!< number of grid points in each dimension
   const double dProbe                  //!< diameber of probe
@@ -927,22 +836,12 @@ double Pair::exVol(
   return space_->vol()*overlaps/pow(nGrid, dimen_);
 }
 
-/**
- * update potential energy
- *
- * simple pair updating method doesn't work with neighborlist. If you're
- * attempt AVB with ConfigBias, likely you forgot to enable dual-cut.
- * However, this may work with TrialGCA
- */
 void Pair::update(const double de) {
   peTot_ += de;
 }
 
-/**
- * Write positions to a file
- */
-int Pair::printxyz(const char* fileName,  //!< file with configuration
-  const int initFlag,  //!< open if flag is 1, append if flag is 0
+int Pair::printxyz(const char* fileName,
+  const int initFlag,
   const std::string comment) {
   // xyz file assumes 3D, but <3D is ok because you can simply define a plane
   // if floppy box, print in GRO format instead
@@ -995,7 +894,13 @@ int Pair::printxyz(const char* fileName,  //!< file with configuration
       } else if (type[ipart] == 6) {
         fprintf(xyzFile, "D ");
       } else {
-        fprintf(xyzFile, "H ");
+        if (type[ipart] == 0) {
+	  fprintf(xyzFile, "H ");
+        } else {
+          stringstream ss;
+          ss << type[ipart] << " ";
+	  fprintf(xyzFile, ss.str().c_str());
+        }
       }
       for (int i = 0; i < dimen_; ++i) {
         fprintf(xyzFile, "%f ", x[dimen_*ipart+i]);
@@ -1069,6 +974,15 @@ int Pair::printxyz(const char* fileName,  //!< file with configuration
              << "$sel set radius " << 0.5*radius*sig_[6] << endl
              << "$sel set mass 1" << endl;
       }
+      if (space_->nParticleTypes() > 7) {
+        for (int iType = 0; iType < space_->nParticleTypes(); ++iType) {
+          if (iType >= 7) {
+            vmdf << "set sel [atomselect top \"name " << iType << "\"]" << endl
+                 << "$sel set radius " << 0.5*radius*sig_[iType] << endl
+                 << "$sel set mass 1" << endl;
+          }
+        }
+      }
       vmdf << "set sel [atomselect top \"name H\"]" << endl
            << "$sel set radius " << 0.5*radius*sig_[0] << endl
            << "$sel set mass 1" << endl;
@@ -1086,9 +1000,6 @@ int Pair::printxyz(const char* fileName,  //!< file with configuration
   return 0;
 }
 
-/**
- * set i-j cutoff
- */
 void Pair::rCutijset(const int itype, const int jtype, const double rCut) {
   rCutij_.resize(epsij_.size(), vector<double>(epsij_.size()));
   rCutij_[itype][jtype] = rCut;
@@ -1106,18 +1017,11 @@ void Pair::rCutijset(const int itype, const int jtype, const double rCut) {
   rCutMaxAll_ = *std::max_element(rCutMax_.begin(), rCutMax_.end());
 }
 
-/**
- * set type of atoms to keep track of neighbors
- */
 void Pair::neighTypeSet(const int itype) {
   neighTypeScreen_ = 1;
   neighType_.push_back(itype);
 }
 
-/**
- * loop through all particles which interact with mpart, using atom-based
- * cut-off to compute interaction energies
- */
 double Pair::multiPartEnerAtomCut(const vector<int> mpart) {
   const bool verbose = false;
   // const bool verbose = true;
@@ -1261,9 +1165,6 @@ double Pair::multiPartEnerAtomCut(const vector<int> mpart) {
   return peSRone_;
 }
 
-/**
- * Returns the total scalar virial of the system
- */
 double Pair::vrTot() {
   double vrTotTemp = 0.;
   for (int ipart = 0; ipart < space_->natom(); ++ipart) {
@@ -1274,9 +1175,6 @@ double Pair::vrTot() {
   return vrTotTemp;
 }
 
-/**
- * potential energy and forces of all particles
- */
 double Pair::allPartEnerForceAtomCutNoCell() {
   // shorthand for read-only space variables
   const int natom = space_->natom();
@@ -1356,9 +1254,6 @@ double Pair::allPartEnerForceAtomCutNoCell() {
   return peSRone_;
 }
 
-/**
- * potential energy and forces of all particles
- */
 double Pair::allPartEnerForceAtomCutNoCell2D() {
   // shorthand for read-only space variables
   const int natom = space_->natom();
@@ -1424,9 +1319,6 @@ double Pair::allPartEnerForceAtomCutNoCell2D() {
   return peSRone_;
 }
 
-/**
- * potential energy and forces of all particles
- */
 double Pair::allPartEnerForceAtomCutCell() {
   // shorthand for read-only space variables
   const vector<double> l = space_->l();
@@ -1494,10 +1386,6 @@ double Pair::allPartEnerForceAtomCutCell() {
   return peSRone_;
 }
 
-/**
- * loop through all particles which interact with mpart, using atom-based
- * cut-off to compute interaction energies
- */
 double Pair::multiPartEnerAtomCut2D(const vector<int> mpart) {
   // cout << "in multiPartEnerAtomCut2D" << endl;
   // shorthand for read-only space variables
@@ -1594,10 +1482,6 @@ double Pair::multiPartEnerAtomCut2D(const vector<int> mpart) {
   return peSRone_;
 }
 
-/**
- * return list of molecules in neighCutOne and their total potential energy
- * interactions. Note that peMap contains the cumulative peSRone_
- */
 void Pair::neighCutMolPEMap(vector<int> &neigh, vector<double> &peMap) {
   ASSERT( (atomCut_ == 1) || (className_ == "PairPatchKF"),
     "neighCutMolPEMap only implemented for atomCut(" << atomCut_ << ")==1");
@@ -1634,9 +1518,6 @@ void Pair::neighCutMolPEMap(vector<int> &neigh, vector<double> &peMap) {
     << neigh.size() << "), peMap(" << peMap.size() << " in neighCutMolPEMap");
 }
 
-/*
- *  initialize neighCut and peMap
- */
 void Pair::initNeighCutPEMap(const vector<int> mpart) {
   if (neighOn_) {
     neighOne_.clear();
@@ -1653,11 +1534,7 @@ void Pair::initNeighCutPEMap(const vector<int> mpart) {
   }
 }
 
-/**
- * store neighCut and peMap
- */
-void Pair::storeNeighCutPEMap(const int jpart,    //!< neighbor index
-                              const int ii) {     //!< index of site in molecule
+void Pair::storeNeighCutPEMap(const int jpart, const int ii) {
   if (neighCutOn_ == 1) {
     neighCutOne_[ii].push_back(jpart);
   }
@@ -1669,9 +1546,6 @@ void Pair::storeNeighCutPEMap(const int jpart,    //!< neighbor index
   }
 }
 
-/**
- * set the order parameter
- */
 void Pair::setOrder(const double order) {
   // initialize order parameter, subject to bounds
   orderOn_ = 1;
@@ -1696,16 +1570,7 @@ void Pair::setOrder(const double order) {
   }
 }
 
-/**
- * read name of molecule as order parameter
- *  http://www.ks.uiuc.edu/Research/vmd/plugins/molfile/xyzplugin.html
- *  [ # optional comment line ] comment line (can be blank)
-    [ N                       ] # of atoms, required by this xyz reader
-    [ molecule name           ] name of molecule (can be blank)
-    atom1 x y z [optional data] atom name followed by xyz coords
-    atom2 x y z [ ...         ] and and (optionally) other data.
- */
-void Pair::readXYZOrder(std::ifstream& file) {  //!< XYZ file
+void Pair::readXYZOrder(std::ifstream& file) {
   // read first two lines
   int iAtom;
   string line;
@@ -1720,9 +1585,6 @@ void Pair::readXYZOrder(std::ifstream& file) {  //!< XYZ file
   }
 }
 
-/**
- * compute the average number of neighbors within cutoff using peMap
- */
 double Pair::avNumNeighCut() {
   // for each molecule, compute the pemap to get num neighs
   Accumulator neighs;
@@ -1733,9 +1595,6 @@ double Pair::avNumNeighCut() {
   return neighs.average();
 }
 
-/**
- * return a vector list of neighboring molecules of iMol, based on pair rCut
- */
 vector<int> Pair::iMol2neigh(const int iMol) {
   initNeighCut(1);
   initPEMap(1);
@@ -1749,9 +1608,6 @@ vector<int> Pair::iMol2neigh(const int iMol) {
   return neigh;
 }
 
-/**
- * return a list of minimum angles between neighbors with iMol as vertex, based on pair rCut
- */
 vector<double> Pair::iMol2neighAngles(const int iMol) {
   ASSERT(space_->dimen() == 2,
     "iMol2neighAngles hardcoded for dim(" << space_->dimen() << ")=2");
@@ -1796,72 +1652,8 @@ vector<double> Pair::iMol2neighAngles(const int iMol) {
   return angles;
 }
 
-/*
- * compute intramolecular interactions
- * exclude interactions between pairs of sites that share a bond length
- *  parameter
- */
-double Pair::peIntra(const int iAtom) {
-  ASSERT(0, "Pair::peIntra is depreciated");
-  const vector<int> &mol2part = space_->mol2part();
-  const int iType = space_->type()[iAtom];
-  const int iMol = space_->mol()[iAtom];
-  const vector<double> &x = space_->x();
-  const vector<double> &l = space_->l();
-
-  const int firstAtom = mol2part[iMol];
-
-  // list bonds involving iAtom
-  vector<vector<int> > bList = space_->listBonds(iAtom);
-  cout << "here we go: " << peSRone_ << endl;
-
-  for (int jAtom = mol2part[iMol]; jAtom < mol2part[iMol+1]; ++jAtom) {
-    if (jAtom != iAtom) {
-      // skip if there is a bond between iAtom and jAtom
-      int bond = 0;
-      for (unsigned int iBond = 0; iBond < bList.size(); ++iBond) {
-        const int b1Atom = bList[iBond][1] + firstAtom;
-        const int b2Atom = bList[iBond][2] + firstAtom;
-        cout << "i " << iAtom << " j " << jAtom << " b1 " << b1Atom << " b2 "
-             << b2Atom << endl;
-        if ( ( (b1Atom == iAtom) && (b2Atom == jAtom) ) ||
-             ( (b1Atom == jAtom) && (b2Atom == iAtom) ) ) {
-          bond = 1;
-        }
-      }
-      if (bond == 0) {
-        const int jType = space_->type()[jAtom];
-
-        // separation vector, xij with periodic boundary conditions
-        double r, r2 = 0;
-        vector<double> xij(dimen_);
-        for (int dim = 0; dim < dimen_; ++dim) {
-          r = x[dimen_*iAtom+dim] - x[dimen_*jAtom+dim];
-          if (r >  0.5 * l[dim]) r -= l[dim];
-          if (r < -0.5 * l[dim]) r += l[dim];
-          xij[dim] = r;
-          r2 += r*r;
-        }
-        multiPartEnerAtomCutInner(r2, iType, jType);
-        cout << "peSRone_ " << peSRone_ << " r2 " << r2 << " iAtom " << iAtom
-             << " jAtom " << jAtom << endl;
-      }
-    }
-  }
-  const double pe = peSRone_;
-  peSRone_ = 0;
-  cout << "all done pe " << pe << endl;
-  return pe;
-}
-
-/**
- * print positions in GRO file format
- *  open for first time if flag is 1
- *  append if flag is 0
- */
-int Pair::printGRO(const char* fileName,  //!< name of file to print
-  const int append) {  //!< flag for append/open, header and vmd scirpt options
-  // open file (optional - append)
+int Pair::printGRO(const char* fileName,
+  const int append) {
   std::stringstream ss;
   ss << fileName << ".gro";
 //  assert ( (append >=0) && (append <= 3) );
@@ -1922,12 +1714,9 @@ int Pair::printGRO(const char* fileName,  //!< name of file to print
   return 0;
 }
 
-/**
- * print a table file based on the potential
- */
-int Pair::printTable(const char* tableFile,     //!< base file name of table
-  const int nElements,  //!< number of table elements
-  const double sigFac) {  //!< sigFac*sig = minimum separation distance in table
+int Pair::printTable(const char* tableFile,
+  const int nElements,
+  const double sigFac) {
   // check if a tabular style is already in use
   if ( (className_.compare("PairTabular") == 0) ||
        (className_.compare("PairTabular1D") == 0)  ) {
@@ -1999,9 +1788,6 @@ int Pair::printTable(const char* tableFile,     //!< base file name of table
   return 1;
 }
 
-/**
- * set all rCutij to sigmaij
- */
 void Pair::sig2rCut() {
   for (unsigned int iType = 0; iType < sigij_.size(); ++iType) {
     for (unsigned int jType = iType; jType < sigij_.size(); ++jType) {
@@ -2011,11 +1797,7 @@ void Pair::sig2rCut() {
 }
 
 #ifdef JSON_
-/**
- * Initialize with JSON data file
- * Reads pair parameters
- */
-void Pair::initJSONData(const string fileName) {  //!< LAMMPS Data file name
+void Pair::initJSONData(const string fileName) {
   // open a JSON file
   std::ifstream file(fileName.c_str());
   ASSERT(file.good(), "cannot find json DATA file " << fileName);
@@ -2043,10 +1825,7 @@ void Pair::initJSONData(const string fileName) {  //!< LAMMPS Data file name
 }
 #endif  // JSON_
 
-/**
- * Initialize with data file
- */
-void Pair::initData(const std::string fileName) {  //!< Data file name
+void Pair::initData(const std::string fileName) {
   // use file extension to determine whether to use JSON or LMP data files
   if (trim(".", fileName) == "json") {
     #ifdef JSON_
@@ -2061,9 +1840,6 @@ void Pair::initData(const std::string fileName) {  //!< Data file name
   }
 }
 
-/**
- * check if there is an intramolecular interaction that is allowed
- */
 bool Pair::intraCheck_(const int ipart, const int jpart,
                        const int iMol, const int jMol) {
   if (nonphys_[jpart] != 0) return false;
@@ -2091,9 +1867,6 @@ bool Pair::intraCheck_(const int ipart, const int jpart,
   return false;
 }
 
-/**
- * initialize intramolecular interactions
- */
 void Pair::initIntra(const int flag, vector<vector<int> > map) {
   initIntra(flag);
   space_->initIntra(map);
@@ -2118,6 +1891,4 @@ void Pair::initIntraBonded(const int flag) {
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-
-
 

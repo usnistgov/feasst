@@ -27,7 +27,6 @@ class AnalyzeCluster : public Analyze {
     return(std::static_pointer_cast<AnalyzeCluster, Analyze>(cloneImpl(
       space, pair)));
   }
-  void defaultConstruction();
   void writeRestart(const char* fileName);
 
   /// initialize cluster cutoff
@@ -75,6 +74,8 @@ class AnalyzeCluster : public Analyze {
   vector<Histogram> zOrient_;     // histogram of z-axis orientation
 
   vector<Histogram> nClusSize_;   // histogram of cluster size
+
+  void defaultConstruction_();
 
   // clone design pattern
   virtual shared_ptr<Analyze> cloneImpl(Space* space, Pair *pair) const {

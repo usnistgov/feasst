@@ -50,7 +50,7 @@ callgrind*
 html/*
 latex/*
 xml/*
-sphinx/*
+sphinx/_build/*
 
 #compiled files
 *.o

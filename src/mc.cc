@@ -16,12 +16,12 @@ MC::MC(Space* space,
     : space_(space),
       pair_(pair),
       criteria_(criteria) {
-  defaultConstruction();
+  defaultConstruction_();
   zeroStat();
 }
 MC::MC(const char* fileName) {
   // cout << "MC restarting" << endl;
-  defaultConstruction();
+  defaultConstruction_();
   ASSERT(fileExists(fileName), "restart file(" << fileName
     << ") doesn't exist");
 
@@ -130,10 +130,7 @@ MC::MC(const char* fileName) {
   printStat();
 }
 
-/**
- * defaults in constructor
- */
-void MC::defaultConstruction() {
+void MC::defaultConstruction_() {
   className_.assign("MC");
   spaceOwned_ = false;
   pairOwned_ = false;
@@ -147,7 +144,6 @@ void MC::defaultConstruction() {
   nFreqRestart_ = 1e8;
   printPressure_ = false;
   printLogHeader_ = 1;
-  weight = 1;
   checkEtol_ = 1e-7;
   nAttempts_ = 0;
   production_ = 0;
@@ -175,9 +171,6 @@ MC::~MC() {
   if (spaceOwned_) delete space_;
 }
 
-/**
- * reset object pointers
- */
 void MC::reconstruct() {
   Space* space = space_->clone();
   spaceOwned_ = true;
@@ -231,18 +224,12 @@ void MC::reconstruct() {
   Base::reconstruct();
 }
 
-/**
- * clone design pattern
- */
 MC* MC::clone() const {
   MC* mc = new MC(*this);
   mc->reconstruct();
   return mc;
 }
 
-/**
- * clone design pattern
- */
 shared_ptr<MC> MC::cloneImpl() const {
   shared_ptr<MC> mc = make_shared<MC>(*this);
   mc->reconstruct();
@@ -254,43 +241,31 @@ shared_ptr<MC> MC::cloneShallowImpl() const {
   return mc;
 }
 
-/**
- * update pointer list and weights when adding trial
- */
 void MC::initTrial(Trial* trial) {
   trialVec_.push_back(trial->cloneShrPtr(space_, pair_, criteria_));
   trialWeight_.push_back(weight);
 
   // update cumulative probability of trials
-  updateCumulativeProb();
+  updateCumulativeProb_();
 }
 
-/**
- * update pointer list and weights when adding trial
- */
 void MC::initTrial(shared_ptr<Trial> trial) {
   trial->reconstruct(space_, pair_, criteria_);
   trialVec_.push_back(trial);
   trialWeight_.push_back(weight);
 
   // update cumulative probability of trials
-  updateCumulativeProb();
+  updateCumulativeProb_();
 }
 
-/**
- * remove trial
- */
 void MC::removeTrial(const int iTrial) {
   ASSERT(iTrial < nTrials(), "iTrial(" << iTrial << ") is too big,"
     << "trial doesn't exist.")
   trialVec_.erase(trialVec_.begin() + iTrial);
   trialWeight_.erase(trialWeight_.begin() + iTrial);
-  updateCumulativeProb();
+  updateCumulativeProb_();
 }
 
-/**
- * add configuration swap trial
- */
 void MC::confSwapTrial() {
   #ifdef MPI_H_
     trialConfSwapVec_.push_back(make_shared<TrialConfSwapTXT>
@@ -304,9 +279,6 @@ void MC::confSwapTrial() {
   #endif  // _OPENMP
 }
 
-/**
- * attempt trial move according to weights
- */
 void MC::attemptTrial() {
   // catch errors and potential problems on first attempt
   if (nAttempts_ == 0) {
@@ -321,12 +293,9 @@ void MC::attemptTrial() {
   // prSum_ += pair_->pressure(criteria_->beta());
   ++nAttempts_;
 
-  afterAttempt();
+  afterAttempt_();
 }
 
-/**
- * zero statistics of all mc variables, criteria, and all trials
- */
 void MC::zeroStat() {
   criteria_->zeroStat();
   for (unsigned int i = 0; i < trialVec_.size(); ++i) {
@@ -337,9 +306,6 @@ void MC::zeroStat() {
   nAttempts_ = 0;
 }
 
-/**
- * print statistics of all trials
- */
 void MC::printStat(const std::string hash) {
   // print to log file
   if (!logFileName_.empty()) {
@@ -402,9 +368,6 @@ void MC::printStat(const std::string hash) {
   }
 }
 
-/**
- * print potential energy per molecule
- */
 double MC::pePerMol() {
   double pe = 0;
   if (space_->nMol() != 0) pe = pair_->peTot()/space_->nMol();
@@ -412,8 +375,7 @@ double MC::pePerMol() {
 }
 
 /*
- * function to quickly seek nMol particles as initial configuration
- *  in this version, clone mc and swap criteria for increase or decrease of
+ *  In this version, clone mc and swap criteria for increase or decrease of
  *  the activity
  */
 void MC::nMolSeek(
@@ -519,9 +481,6 @@ void MC::nMolSeek(
   }
 }
 
-/**
- * turn on neighbor list for avb trials, or check that it is already on with matching region
- */
 void MC::neighAVBInit(const double rAbove,    //!< upper bound
                       const double rBelow     //!< lower bound
   ) {
@@ -536,10 +495,7 @@ void MC::neighAVBInit(const double rAbove,    //!< upper bound
   }
 }
 
-/**
- * this function is called after every trial attempt
- */
-void MC::afterAttemptBase() {
+void MC::afterAttemptBase_() {
   // write restart file
   if (nAttempts_ % nFreqRestart_ == 0) {
     writeRestart(rstFileName_.c_str());
@@ -605,7 +561,7 @@ void MC::afterAttemptBase() {
 
   // tune translation move parameters
   if ( (nFreqTune_ != 0) && (nAttempts_ % nFreqTune_ == 0) ) {
-    tuneTrialParameters();
+    tuneTrialParameters_();
   }
 
   // run analyzers if not multiple macrostates (e.g., no WLTMMC)
@@ -622,13 +578,10 @@ void MC::afterAttemptBase() {
   }
 }
 
-/**
- * determine maximum number of particles for a given large activity
- */
 int MC::nMolMax(
-  const long long npr,   //!< number of steps in production run
-  const double activ,       //!< large activity
-  const int nMolExtra       //!< add extra mols
+  const long long npr,   // number of steps in production run
+  const double activ,       // large activity
+  const int nMolExtra       // add extra mols
   ) {
   const double activOld = criteria_->activ();
   criteria_->activset(activ);
@@ -643,18 +596,12 @@ int MC::nMolMax(
   return nmx;
 }
 
-/**
- * run a production level simulation
- */
 void MC::run() {
   for (long long i = 0; i < npr_; ++i) {
     attemptTrial();
   }
 }
 
-/**
- * check that criteria of all trials match criteria of mc class
- */
 int MC::checkTrialCriteria() {
   int match = 1;
   if (trialVec_.size() > 0) {
@@ -673,9 +620,6 @@ int MC::checkTrialCriteria() {
   return match;
 }
 
-/**
- * write restart file
- */
 void MC::writeRestart(const char* fileName) {
   fileBackUp(fileName);
   std::ofstream file(fileName);
@@ -774,7 +718,7 @@ void MC::b2(const double tol, double &b2v, double &b2er, double boxl) {
   for (int dim = 0; dim < space_->dimen(); ++dim) dr.push_back(0.5*boxl);
 
   // monte carlo integration
-  Accumulator meyer, m2;
+  Accumulator meyer, m2, mo;
   for (long long itrial = 0; itrial < npr_; ++itrial) {
     // move and rotate second molecule randomly within domain
     for (int dim=0; dim < space_->dimen(); ++dim) space_->lset(boxl, dim);
@@ -790,6 +734,7 @@ void MC::b2(const double tol, double &b2v, double &b2er, double boxl) {
     // const double pe = pair_->multiPartEner(mpart, 0);
 
     meyer.accumulate(-0.5*vol*(exp(-criteria_->beta()*pe) - 1));
+    mo.accumulate(-0.5*vol*(-pe)*exp(-criteria_->beta()*pe));
     // cout << "pe " << pe << " meyer " << 1 - exp(-criteria_->beta()*pe)
     //      << " acc " << -0.5*vol*(exp(-criteria_->beta()*pe) - 1) << " v "
     //      << vol << endl;
@@ -813,7 +758,7 @@ void MC::b2(const double tol, double &b2v, double &b2er, double boxl) {
         std::ofstream log_(logFileName_.c_str(),
                            std::ofstream::out | std::ofstream::app);
         log_ << itrial << " " << m2.average() << " " << b2er << " "
-             << meyer.average() << endl;
+             << meyer.average() << " " << mo.average() << endl;
       }
       meyer.reset();
       if ( (itrial != nFreqLog_) && ( (b2er < tol) ||
@@ -906,10 +851,7 @@ void MC::b2mayer(double *b2v, double *b2er, Pair *pairRef, const double tol, dou
 //  b2v = m2.average();
 }
 
-/**
- * compute the Boyle temperature, b2(T_Boyle)==0
- */
-double MC::boylemin(const double beta) {
+double MC::boylemin_(const double beta) {
   criteria_->betaset(beta);
   // cout << "#trying beta " << beta << endl;
   if (beta <= 0) {
@@ -935,19 +877,15 @@ double MC::boylemin(const double beta) {
   }
 }
 
-/**
- * compute the Boyle temperature, b2(T_Boyle)==0
- */
 double MC::boyle(const double tol) {
   boyletol_ = tol;
   Golden g;
-  boyleminwrapper boylewrap = boyleminwrap();
+  boyleminwrapper_ boylewrap = boyleminwrap_();
   g.bracket(criteria_->beta(), criteria_->beta()*100, boylewrap);
   return g.minimize(boylewrap);
 }
 
-/**
- * remove all configurational bias trials
+/*
  *  first, remove config bias from trialVec, then from trialWeight and trialCumulativeProb
  * */
 void MC::removeConfigBias() {
@@ -961,13 +899,10 @@ void MC::removeConfigBias() {
   }
 
   // update cumulative probabilities of trial selection
-  updateCumulativeProb();
+  updateCumulativeProb_();
 }
 
-/**
- * update cumulative probability of trials
- */
-void MC::updateCumulativeProb() {
+void MC::updateCumulativeProb_() {
   trialCumulativeProb_.clear();
   const double wtTot = std::accumulate(trialWeight_.begin(),
                                        trialWeight_.end(), 0.);
@@ -978,15 +913,6 @@ void MC::updateCumulativeProb() {
   }
 }
 
-/**
- * replace criteria
- *
- * TEMPORARY/LIMITED USE CASE
- *
- * if one intends for this criteria to be present for the long term,
- * this criteria must be replaced, or ownership updated,
- * or else you'll get a memory leak when the destructor is called
- */
 void MC::replaceCriteria(Criteria *criteria) {
   criteriaOld_ = criteria_;
   criteria_ = criteria;
@@ -998,9 +924,6 @@ void MC::replaceCriteria(Criteria *criteria) {
 }
 
 
-/**
- * restore criteria
- */
 void MC::restoreCriteria() {
   ASSERT(criteriaOld_ != NULL,
     "attempting to restore criteria, but no old criteria recorded");
@@ -1013,9 +936,6 @@ void MC::restoreCriteria() {
   }
 }
 
-/**
- * append to all fileNames
- */
 void MC::appendFileNames(const char* chars) {
   if (!rstFileName_.empty()) rstFileName_.append(chars);
   MC::appendProductionFileNames(chars);
@@ -1029,9 +949,6 @@ void MC::appendProductionFileNames(const char* chars) {
   }
 }
 
-/**
- * initialize production run
- */
 void MC::initProduction() {
   production_ = 1;
   appendProductionFileNames(prodFileAppend_.c_str());
@@ -1046,10 +963,7 @@ void MC::initProduction() {
   }
 }
 
-/**
- * tune move parameters
- */
-void MC::tuneTrialParameters() {
+void MC::tuneTrialParameters_() {
   for (vector<shared_ptr<Trial> >::iterator it = trialVec_.begin();
        it != trialVec_.end(); ++it) {
     (*it)->tuneParameters();

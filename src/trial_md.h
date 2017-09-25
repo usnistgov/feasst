@@ -1,10 +1,3 @@
-/**
- * \file
- *
- * \brief trial moves for Monte Carlo
- *
- */
-
 #ifndef TRIAL_MD_H_
 #define TRIAL_MD_H_
 
@@ -14,10 +7,67 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ * Perform a molecular dynamics (MD) integration step.
+ * Note that only translational integration is performed.
+ * So it is not correct for anisotropic or multi-site particles.
+ */
 class TrialMD : public Trial {
  public:
-  TrialMD();
+  /// Constructor
   TrialMD(Space *space, Pair *pair, Criteria *criteria);
+
+  /// This constructor is not often used, but its purpose is to initialize trial
+  /// for interface before using reconstruct to set object pointers.
+  TrialMD();
+
+  double timestep;       //!< integration time step
+  int nFreqZeroMomentum;   //!< zero momentum every this many steps
+  int rescaleTemp;     //!< rescale temperature (1==yes)
+
+  /**
+   * Initialize momentum (the lazy way with plain rescaling).
+   * Maxwell-Boltzmann is expected to rapidly estability after a few steps.
+   */
+  void initMomentum();
+
+  /// Zero total momentum of the system.
+  void zeroTotalMomentum();
+
+  /// Return total kinetic energy.
+  double kineticEnergy();
+
+  /**
+   * Return instantaneous temperature from particle velocities.
+   * NOTE: This assumes monotonic, isotropic system for number of degrees of
+   * freedom.
+   */
+  double temperature();
+
+  /// Rescale velocity according to the temperature.
+  void rescaleVelocity();
+
+  /// Return status of trial.
+  string printStat(const bool header = false);
+
+  /// Update center of mass forces.
+  void updateFCOM();
+
+  /// Update half-step velocities.
+  void updateVelocityHalfStep();
+
+  /// Perform velocity verlet integration.
+  void integrateVelocityVerlet();
+
+  // Return center of mass force for molecule, iMol and dimension, dim.
+  double fCOM(const int iMol, const int dim) const {
+    return fCOM_[space_->dimen()*iMol + dim];
+  }
+
+  /// Write restart file.
+  void writeRestart(const char* fileName);
+
+  /// Construct from restart file.
   TrialMD(const char* fileName, Space *space, Pair *pair,
              Criteria *criteria);
   ~TrialMD() {}
@@ -30,53 +80,16 @@ class TrialMD : public Trial {
     return(std::static_pointer_cast<TrialMD, Trial>(
       cloneImpl(space, pair, criteria)));
   }
-  void defaultConstruction();
-  void writeRestart(const char* fileName);
-
-  /// attempt random translation
-  void attempt1();
-
-  /// initialize momentum
-  void initMomentum();
-
-  /// zero total momentum of the system
-  void zeroTotalMomentum();
-
-  /// kinetic energy
-  double kineticEnergy();
-
-  /// instantaneous temperature from particle velocities
-  double temperature();
-
-  /// rescale velocity according to the temperature
-  void rescaleVelocity();
-  int rescaleTemp;     //!< rescale temperature (1==yes)
-
-  double timestep;       //!< integration time step
-  int nFreqZeroMomentum;   //!< zero momentum every this many steps
-
-  /// return status of trial
-  string printStat(const bool header = false);
-
-  /// update center of mass forces
-  void updateFCOM();
-
-  /// update half-step velocities
-  void updateVelocityHalfStep();
-
-  /// velocity verlet integration
-  void integrateVelocityVerlet();
-
-  // read-only access to private
-  double fCOM(const int iMol, const int dim) const {
-    return fCOM_[space_->dimen()*iMol + dim];
-  }
 
 protected:
   vector<double> vel_;    //!< particle velocities
   vector<double> mass_;   //!< particle masses (assumed unity)
   vector<double> fCOM_;   //!< center of mass forces
   string integrator_;     //!< type of integrator
+
+  void attempt1_();
+
+  void defaultConstruction_();
 
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl(

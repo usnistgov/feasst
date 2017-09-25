@@ -28,7 +28,7 @@ void Accumulator::accumulate(double value) {
     valmo *= value;
     valMoment_[mo] += valmo;
   }
-  
+
   if (max_ < value) max_ = value;
   if (min_ > value) min_ = value;
 

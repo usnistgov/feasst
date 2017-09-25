@@ -8,47 +8,40 @@ namespace feasst {
 TrialAdd::TrialAdd(const char* molType)
   : Trial(),
     molType_(molType) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 TrialAdd::TrialAdd(Space *space,
   Pair *pair,
   Criteria *criteria,
-  const char* molType)   //!< type of molecule to add
+  const char* molType)
   : Trial(space, pair, criteria),
     molType_(molType) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 TrialAdd::TrialAdd(const char* fileName,
   Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   molType_ = fstos("molType", fileName);
 }
 
-/**
- * write restart file
- */
 void TrialAdd::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
   file << "# molType " << molType_ << endl;
 }
 
-/**
- * default constructor
- */
-void TrialAdd::defaultConstruction() {
+void TrialAdd::defaultConstruction_() {
   className_.assign("TrialAdd");
   trialType_.assign("add");
   verbose_ = 0;
   molid_ = -1;
 }
 
-/**
- * clone design pattern
- */
 TrialAdd* TrialAdd::clone(Space* space, Pair *pair, Criteria *criteria) const {
   TrialAdd* t = new TrialAdd(*this);
   t->reconstruct(space, pair, criteria);
@@ -67,10 +60,7 @@ shared_ptr<Trial> TrialAdd::cloneImpl(
 }
 
 
-/**
- * Attempt insertion of molecule of given type.
- */
-void TrialAdd::attempt1() {
+void TrialAdd::attempt1_() {
   WARN(verbose_ == 1, "attempting to " << trialType_);
   ASSERT((pair_->atomCut() != 1) || (space_->nMol() == space_->natom()) ||
          (!avbOn_), "this class assumes atomCut(" << pair_->atomCut()
@@ -85,12 +75,30 @@ void TrialAdd::attempt1() {
     trialType_.assign(ss.str());
   }
 
-  // add molecule
-  space_->addMol(molType_.c_str());
-  pair_->addPart();
+  if (confineFlag_ == 0) {
+    // add molecule to entire box
+    space_->addMol(molType_.c_str());
 
-  // obtain vector of particle IDs of inserted molecule
-  mpart_ = space_->lastMolIDVec();
+    // obtain vector of particle IDs of inserted molecule
+    mpart_ = space_->lastMolIDVec();
+  } else {
+    // otherwise, add molecule only to confines
+    bool inRegion = false;
+    int tries = 0, maxTries = 1e4;
+    while (!inRegion && (tries < maxTries)) {
+      space_->addMol(molType_.c_str());
+      mpart_ = space_->lastMolIDVec();
+      if ( (space_->x(mpart_[0], confineDim_) <= confineUpper_) &&
+           (space_->x(mpart_[0], confineDim_) >= confineLower_) ) {
+        inRegion = true;
+      } else {
+        space_->delPart(mpart_);
+      }
+      ++tries;
+    }
+    ASSERT(tries != maxTries, "maximum number of attempts in confine");
+  }
+  pair_->addPart();
 
   // if particle types are constrained to be equiMolar
   if (space_->equiMolar() >= 1) {
@@ -150,7 +158,7 @@ void TrialAdd::attempt1() {
 
   // multiple first bead insertion modifies def_, preFac_, tmpart_ for avb
   if ( (nf_ > 1) && (preFac_ != 0) && (reject_ != 1) ) {
-    const double w = multiFirstBead(3);
+    const double w = multiFirstBead_(3);
     lnpMet_ += log(w);
     preFac_ *= w;
     if (space_->cellType() > 0) {
@@ -174,7 +182,7 @@ void TrialAdd::attempt1() {
 
   if (criteria_->accept(lnpMet_, pair_->peTot() + de_, trialType_.c_str(),
                         reject_) == 1) {
-    trialAccept();
+    trialAccept_();
     pair_->update(mpart_, 3, "update");
     WARN(verbose_ == 1, "insertion accepted " << de_);
 
@@ -184,13 +192,10 @@ void TrialAdd::attempt1() {
     pair_->delPart(mpart_);
     space_->delPart(mpart_);
     WARN(verbose_ == 1, "insertion rejected " << de_);
-    trialReject();
+    trialReject_();
   }
 }
 
-/*
- * return string for status of trial
- */
 string TrialAdd::printStat(const bool header) {
   stringstream stat;
   stat << Trial::printStat(header);
@@ -208,6 +213,7 @@ void addTrial(MC *mc, const char* moltype) {
   shared_ptr<TrialAdd> trial = make_shared<TrialAdd>(moltype);
   mc->initTrial(trial);
 }
+
 void addTrial(shared_ptr<MC> mc, const char* moltype) {
   addTrial(mc.get(), moltype);
 }

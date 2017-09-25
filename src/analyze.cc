@@ -10,7 +10,7 @@ Analyze::Analyze(
   : space_(space),
     pair_(pair) {
   className_.assign("Analyze");
-  defaultConstruction();
+  defaultConstruction_();
 }
 
 Analyze::Analyze(Space *space,  Pair *pair, const char* fileName)
@@ -36,7 +36,7 @@ Analyze::Analyze(Space *space,  Pair *pair, const char* fileName)
 /**
  * defaults in constructor
  */
-void Analyze::defaultConstruction() {
+void Analyze::defaultConstruction_() {
   nFreq_ = 1;
   nFreqPrint_ = 1;
   production_ = 1;

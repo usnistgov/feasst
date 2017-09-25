@@ -1,32 +1,35 @@
-#include "./pair_hs.h"
+#include "./pair_ss.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-PairHS::PairHS(Space* space,
-         const double rCut
-  )
-    : Pair(space, rCut) {
-  defaultConstruction_();
-}
-PairHS::PairHS(Space* space,
-         const char* fileName
-  )
-    : Pair(space, fileName) {
+PairSS::PairSS(Space* space, const double rCut)
+  : Pair(space, rCut) {
   defaultConstruction_();
 }
 
-void PairHS::defaultConstruction_() {
-  className_.assign("PairHS");
+PairSS::PairSS(Space* space, const char* fileName)
+  : Pair(space, fileName) {
+  defaultConstruction_();
+  string str = fstos("npotentialparameter", fileName);
+  if (!str.empty()) {
+    initExponent(stoi(str));
+  }
 }
 
-void PairHS::writeRestart(const char* fileName) {
+void PairSS::defaultConstruction_() {
+  className_.assign("PairSS");
+  initExponent();
+}
+
+void PairSS::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
+  file << "npotentialparameter " << n_ << endl;
 }
 
-void PairHS::initEnergy() {
+void PairSS::initEnergy() {
 //  cout << "in forces" << endl;
 
   // shorthand for read-only space variables
@@ -61,22 +64,13 @@ void PairHS::initEnergy() {
 
           // no interaction beyond cut-off distance
           double sigij = 0;
-          if (sigij_.size() != 0) {
-            sigij = sigij_[type[ipart]][type[jpart]];
-          } else {
-            sigij = rCut_;
-          }
-          if (r2 < sigij*sigij) {
-          // if (r2 < rCut_*rCut_) {
-
-            // energy
-            peTot_ += 1e12;
-          }
-//          std::streamsize ss = cout.precision();
-// cout<< std::setprecision(std::numeric_limits<long double>::digits10+2)
-//     << "peSR " << peTot_ << " for ipart " << ipart << " jpart " << jpart
-//     << " eps " << epsij_[type[ipart]][type[jpart]] << " sig "
-//     << sigij_[type[ipart]][type[jpart]] << " r2 " << r2 << endl;
+          sigij = sigij_[type[ipart]][type[jpart]];
+          peTot_ += pow(sigij*sigij/r2, n_/2.);
+// std::streamsize ss = cout.precision();
+// cout << std::setprecision(std::numeric_limits<long double>::digits10+2)
+//   << "peSR " << peTot_ << " for ipart " << ipart << " jpart " << jpart
+//   << " eps " << epsij_[type[ipart]][type[jpart]] << " sig "
+//   << sigij_[type[ipart]][type[jpart]] << " r2 " << r2 << endl;
 // cout << std::setprecision(ss);
         }
       }
@@ -84,10 +78,9 @@ void PairHS::initEnergy() {
   }
 }
 
-double PairHS::multiPartEner(
+double PairSS::multiPartEner(
   const vector<int> mpart,
-  const int flag
-  ) {
+  const int flag) {
   if (flag == 0) {}  // remove unused parameter warning
 
   // zero potential energy contribution of particle ipart
@@ -95,23 +88,22 @@ double PairHS::multiPartEner(
   return multiPartEnerAtomCut(mpart);
 }
 
-void PairHS::multiPartEnerAtomCutInner(const double &r2,
+void PairSS::multiPartEnerAtomCutInner(const double &r2,
   const int &itype,
   const int &jtype) {
   const double sigij = sigij_[itype][jtype];
-  if (r2 < sigij*sigij) {
-    peSRone_ += 1e12;
-  }
+  peTot_ += pow(sigij*sigij/r2, n_/2.);
   // cout << "in Inner: r2 " << r2 << " itype " << itype << " jtype " << jtype
   //   << " peSRone " << peSRone_ << " sigij " << sigij << endl;
 }
 
-void PairHS::update(const vector<int> mpart,
-                    const int flag,
-                    const char* uptype
+void PairSS::update(const vector<int> mpart,    //!< particles involved in move
+                    const int flag,         //!< type of move
+                    const char* uptype    //!< description of update type
   ) {
   if (neighOn_) {
     updateBase(mpart, flag, uptype, neigh_, neighOne_, neighOneOld_);
+//  updateBase(mpart, flag, uptype, neighCut_, neighCutOne_, neighCutOneOld_);
   }
   std::string uptypestr(uptype);
 
@@ -134,35 +126,11 @@ void PairHS::update(const vector<int> mpart,
   }
 }
 
-double PairHS::allPartEnerForce(const int flag) {
-  peSRone_ = 0;
-  if (flag == 0) {
-    peSRone_ = peTot();
-    return peSRone_;
-  } else {
-    // zero accumulators: potential energy and force
-    fCOM_.clear();
-    fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
-
-    if ( (space_->cellType() == 0) || (rCutMaxAll_ > space_->dCellMin()) ) {
-      if (dimen_ == 3) {
-        return allPartEnerForceAtomCutNoCell();
-      } else if (dimen_ == 2) {
-        return allPartEnerForceAtomCutNoCell2D();
-      }
-    } else if (space_->cellType() == 1) {
-      return allPartEnerForceAtomCutCell();
-    } else {
-      ASSERT(0, "cell type(" << space_->cellType() << ")");
-    }
-  }
-  return 1e300;
-}
-
-void PairHS::allPartEnerForceInner(const double &r2, const double &dx,
-  const double &dy, const double &dz, const int &itype, const int &jtype,
-  const int &iMol, const int &jMol) {
-  multiPartEnerAtomCutInner(r2, itype, jtype);
+double PairSS::b2reduced() {
+  ASSERT(n_ == 12, "virial coefficient hard coded for n=12 for gamma[1-3/n]");
+  const double gamma = 1.225416702465178;
+  const double sigij = sigij_[0][0];
+  return 2.*PI/3.*pow(sigij, 3)*gamma;
 }
 
 #ifdef FEASST_NAMESPACE_

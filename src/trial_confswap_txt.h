@@ -33,10 +33,7 @@ class TrialConfSwapTXT : public Trial {
     return(std::static_pointer_cast<TrialConfSwapTXT, Trial>
     (cloneImpl(space, pair, criteria))); }
   void writeRestart(const char* fileName);
-  void defaultConstruction();
-
-  /// randomly attempt trial
-  void attempt1();
+  void defaultConstruction_();
 
   /// add order parameter which overlaps with a given processor
   void addProcOverlap(const double order, const int proc) {
@@ -57,6 +54,9 @@ class TrialConfSwapTXT : public Trial {
  protected:
   string orderType_;   //!< obtain orderType from criteria upon initialization
   int proc_;           //!< process number of current trial
+
+  /// randomly attempt trial
+  void attempt1_();
 
   /// order parameter in overlapping reigion (e.g. nMol or pairOrder)
   vector<double> order_;

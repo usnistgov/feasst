@@ -1,9 +1,17 @@
+#ifndef PAIR_H_
+#define PAIR_H_
+
+#include <string>
+#include <vector>
+#include "./space.h"
+#include "./base_random.h"
+
+#ifdef FEASST_NAMESPACE_
+namespace feasst {
+#endif  // FEASST_NAMESPACE_
+
 /**
- * \file
- *
- * \brief pairwise interactions
- *
- * Base class which owns variables and subroutines associated with pair-wise
+ * Pair owns variables and subroutines associated with pair-wise
  * interactions between particles.
  * The pair class calculates the pair-wise interactions between atoms using
  * an empirical, classical potential function for atoms.
@@ -15,58 +23,40 @@
  * The virtual function "initEnergy()" does the main work of calculating the
  * pair-wise interactions, and is defined in the derived classes for various
  * pair-wise interaction expressions.
- * In this project, the focus is on the Lennard-Jones model, which may be
- * used to model the interaction between Argon atoms.
  */
-
-#ifndef PAIR_H_
-#define PAIR_H_
-
-#include "./space.h"
-#include "./base_random.h"
-
-#ifdef FEASST_NAMESPACE_
-namespace feasst {
-#endif  // FEASST_NAMESPACE_
-
 class Pair : public BaseRandom {
  public:
+  /// Constructor.
+  /// @param rCut Interaction cut-off distance
   Pair(Space* space, const double rCut);
-  Pair(Space* space, const char* fileName);
-  virtual ~Pair() {}
-  virtual Pair* clone(Space* space) const = 0;
 
-  /// reset space pointer
-  virtual void reconstruct(Space* space);
-
-  /// write restart file
-  virtual void writeRestart(const char* fileName) {
-    writeRestartBase(fileName);
-  }
-  void writeRestartBase(const char* fileName);
-
-  /// defaults in constructor
-  void defaultConstruction();
-
-  /// factory method
-  Pair* makePair(Space* space, const char* fileName);
-
-  /// pair-wise force calculation
+  /// Initialize interactions.
   //   this subroutine is written from scratch in each derived class, without
   //   any optimizations, as a test of the potential. Other potential
   //   computations and optimized and tested against this one
-  virtual int initEnergy() = 0;
+  virtual void initEnergy() = 0;
+
+  /// Return total potential energy of system.
+  virtual double peTot() { return peTot_; }
+
+  /// Factory method.
+  Pair* makePair(Space* space, const char* fileName);
 
   // DEPRECIATED: legacy interface for old naming convention
-  int Forces() { return initEnergy(); }
+  void Forces() { return initEnergy(); }
 
-  /// potential energy of multiple particles
+  /// Return potential energy of multiple particles.
+  // HWH depreciate the flag?
   virtual double multiPartEner(const vector<int> multiPart, const int flag) = 0;
+
+  /// Return potential energy of multipe particles with atom-based cutoff in 3D.
   virtual double multiPartEnerAtomCut(const vector<int> multiPart);
+
+  /// Return potential energy of multipe particles with atom-based cutoff in 2D.
   virtual double multiPartEnerAtomCut2D(const vector<int> multiPart);
 
   /**
-   * Computes the interaction between two particles itype and jtype separated
+   * Compute the interaction between two particles itype and jtype separated
    * by a squared distance r2=r*r.
    * Increments the interaction in the Pair class variable "peSRone_".
    */
@@ -74,98 +64,155 @@ class Pair : public BaseRandom {
     const int &jtype) {
     ASSERT(itype*jtype == r2, "multiPartEnerAtomCutInner not implemented"); }
 
-  /// potential energy and forces of all particles
-  virtual double allPartEnerForce(const int flag) {
-    ASSERT(0, "allPartEnerForce not implemented" << flag); return 0; }
-
-  /// potential energy and forces of all particles
-  double allPartEnerForceAtomCutNoCell();
-
-  /// potential energy and forces of all particles
-  double allPartEnerForceAtomCutNoCell2D();
-
-  /// potential energy and forces of all particles
-  double allPartEnerForceAtomCutCell();
-
-  /// inner loop for potential energy and forces of all particles
+  /// Compute the interaction between two particles itype and jtype separated
+  /// by a squared distance r2=r*r. Calls multiPartEnerAtomCutInner for energy,
+  /// but also computes forces using dx,dy,dz and updates fCOM_.
   virtual void allPartEnerForceInner(const double &r2, const double &dx,
     const double &dy, const double &dz, const int &itype, const int &jtype,
     const int &iMol, const int &jMol) {
     ASSERT(0, "allPartEnerForceInner not implemented" << r2 << dx << dy
       << dz << itype << jtype << iMol << jMol); }
 
-  /// stores, restores or updates variables to avoid order recompute
-  //   of entire configuration after every change
-  virtual void update(const vector<int> mpart, const int flag,
-                      const char* uptype);
+  /// Compute potential energy and forces of all particles.
+  virtual double allPartEnerForce(const int flag) {
+    ASSERT(0, "allPartEnerForce not implemented" << flag); return 0; }
+
+  /// Compute potential energy and forces of all particles with atom-based
+  /// cut-off and no cell list in 3D.
+  double allPartEnerForceAtomCutNoCell();
+
+  /// Compute potential energy and forces of all particles with atom-based
+  /// cut-off and no cell list in 2D.
+  double allPartEnerForceAtomCutNoCell2D();
+
+  /// Compute potential energy and forces of all particles with atom-based
+  /// cut-off and cell list in 3D.
+  double allPartEnerForceAtomCutCell();
+
+  /// Store, restore or update variables to avoid recompute
+  /// of entire configuration after every trial particle move.
+  /// @param uptype description of update type
+  virtual void update(const vector<int> mpart,  //!< particles involved
+    const int flag,   //!< type of move
+    const char* uptype);
+
+  /**
+   * Update total potential energy, peTot_ with energy change, de.
+   * Doesn't update anything else like neighbor lists, individual
+   * contributions, etc.
+   *
+   * This simple pair updating method doesn't work with neighborlist. If you're
+   * attempt AVB with ConfigBias, likely you forgot to enable dual-cut.
+   * However, this may work with TrialGCA
+   */
   virtual void update(const double de);
 
-  /// total potential energy of system
-  virtual double peTot() { return peTot_; }
-  virtual double vrTot();         //!< total virial energy
-  virtual int printxyz(const char* fileName, const int initFlag,
-    const std::string comment="");
-  virtual int printGRO(const char* fileName, const int initFlag);
+  /// Return total scalar virial.
+  virtual double vrTot();
 
-  /// delete one particle
-  void delPartBase(const int ipart);
-  virtual void delPart(const int ipart) {delPartBase(ipart); }
+  /// Print XYZ format trajectory to a file.
+  virtual int printxyz(const char* fileName,
+    const int initFlag,  //!< open if flag is 1, append if flag is 0
+    const std::string comment = "");
 
-  /// delete particles
-  void delPartBase(const vector<int> mpart);
-  virtual void delPart(const vector<int> mpart) {delPartBase(mpart); }
+  /// Print GRO format trajectory to a file.
+  /// @param initFlag append if 0, over-write if 1.
+  virtual int printGRO(const char* fileName,
+    const int initFlag = 0);
 
-  /// add one particle
-  void addPartBase();
-  virtual void addPart() { addPartBase(); }
+  /// Delete one particle, ipart.
+  virtual void delPart(const int ipart) { delPartBase_(ipart); }
+
+  /// Delete particles, mpart.
+  virtual void delPart(const vector<int> mpart) { delPartBase_(mpart); }
+
+  /// Add particle(s).
+  virtual void addPart() { addPartBase_(); }
 
   /// flag to compute standard long range corrections
+  // HWH: move to pair_lj.h
   int lrcFlag;
 
-  /// initialize pair parameters;
+  /// Initialize pair parameters with epsilon (interaciton scale),
+  /// sigma (particle size) and sigRef (reference particle size).
   void initPairParam(const vector<double> eps,
     const vector<double> sig, const vector<double> sigref);
+
+  /// Initialize pair parameters with epsilon (interaciton scale),
+  /// and sigma (particle size).
   void initPairParam(const vector<double> eps, const vector<double> sig) {
     ASSERT(sigrefFlag_ == 0, "params initialized without sigref");
     vector<double> sigref;
     initPairParam(eps, sig, sigref);
   }
 
-  /// full neighbor list of each molecule
+  /**
+   * Initialize neighbor list parameters.
+   * @param neighAbove upper cut off
+   * @param neighBelow lower cut off
+   */
   void initNeighList(const double neighAbove, const double neighBelow);
+
+  /// Build neighbor list for all particles.
   void buildNeighList();
 
-  int checkNeigh();  //!< check neigh list by re-building
+  /// Return 1 if re-built neighborlist matchces current neighborlist.
+  int checkNeigh();
 
-  /// store, restore or update pair variables to avoid complete recompute
-  //  after every change to the system
-  void updateBase(const vector<int> mpart, const int flag, const char* uptype,
-                  vector<vector<int> > &neigh, vector<vector<int> > &neighOne,
-                  vector<vector<int> > &neighOneOld);
+  /**
+   * Store, restore or update neighbor list variables to avoid recompute of
+   * entire configuration after every particle change.
+   *  flag==0, energy of old configuration (no moves, ins or dels)
+   *  flag==1, new configuration, same number of particles
+   *  flag==2, old configuration, preparing to delete (same as 0)
+   *  flag==3, just inserted particle
+   *  flag==4, old configuration, but only update the neighbor list
+   *  flag==5, new configuration, but only update the neighbor list
+   *
+   * @param neighOneOld neighbor list to update
+   */
+  void updateBase(
+    const vector<int> mpart,    //!< particles involved in move
+    const int flag,
+    const char* uptype,    //!< description of update type
+    vector<vector<int> > &neigh,   //!< neighbor list to update
+    vector<vector<int> > &neighOne,   //!< neighbor list to update
+    vector<vector<int> > &neighOneOld);
 
   /// sets the cheapEnergy boolean variable
   void cheapEnergy(const int flag) {
     if (flag == 1) { cheapEnergy_ = true; } else { cheapEnergy_ = false; }; }
 
-  /// check that energy of configuration and running energy of individual
-  //  particles match
+  /**
+   * Return 1 if the currently stored energy of the configuration matches.
+   *  flag=0, check currently stroed peTot_ vs recomputed with initEnergy()
+   *  flag=1, check peTot_ from initEnergy() vs peTot_ from multiPartEner with
+   *    mpart=all atoms
+   *  flag=2, check COM forces, fCOM_ from initEnergy() vs allPartEnerForce()
+   */
   int checkEnergy(const double tol, const int flag);
 
-  /// initialize pair data
+  /// Initialize pair data.
   void initPairData(const int natype, const vector<double> eps,
     const vector<double> sig, const vector<double> sigref);
 
-  /// initialize with data file
+  /// Initialize parameters with data file. Automatically searches file
+  /// extensions for JSON ".json", and otherwise attempts LAMMPS data file.
   virtual void initData(const string fileName);
+
+  /// Initialize parameters with data file. Automatically searches file
+  /// extensions for JSON ".json", and otherwise attempts LAMMPS data file.
   virtual void initData(const char* fileName) { initData(string(fileName)); }
 
-  /// initialize with LAMMPS data file
+  /// Initialize parameters with LAMMPS data file.
   virtual void initLMPData(const string fileName);
+
+  /// Initialize parameters with LAMMPS data file.
   virtual void initLMPData(const char* fileName) {
     initLMPData(string(fileName)); }
 
-  /// initialize with JSON data file
   #ifdef JSON_
+    /// Initialize parameters with JSON data file.
     virtual void initJSONData(const string fileName);
     virtual void initJSONData(const char* fileName) {
       initJSONData(string(fileName)); }
@@ -175,62 +222,64 @@ class Pair : public BaseRandom {
   //  way to turn off interactions
   void epsijset(const int i, const int j, const double eps);
 
-  /// excluded volume of all molecules in space, using sig_
+  /// Return excluded volume of all molecules in space, using sig_.
   double exVol(const int nGrid, const double dProbe);
   double exVol(const int nGrid) { return exVol(nGrid, 1.); }
 
-  /// update clusters of entire system
+  /// Update clusters of entire system.
   virtual void updateClusters(const double rCCut) {
     space_->peStore_ = peTot();
     space_->updateClusters(rCCut); }
 
-  /// initialize cut-off method by atoms or molecules
+  /// Initialize cut-off method by atoms or molecules.
   void initAtomCut(const int flag) {
-    if (flag == 1) { atomCut_ = 1; } else { atomCut_ = 0; }; addPartBase();
+    if (flag == 1) { atomCut_ = 1; } else { atomCut_ = 0; }; addPartBase_();
     space_->initCellAtomCut(flag);
   }
 
-  /// set i-j cutoff
+  /// Set the cut off between particles itype and jtype to rCut.
   void rCutijset(const int itype, const int jtype, const double rCut);
 
-  /// set type of atoms to keep track of neighbors
+  /// Set type of atoms to keep track of neighbors.
   void neighTypeSet(const int itype);
 
-  /// initialize computation of neighCutOne_
+  /// Initialize computation of neighborlist, neighCutOne_.
   void initNeighCut(const int flag) { neighCutOn_ = flag; }
 
-  /// initialize computation of neighCutOne_
+  /// Initialize computation of potential energy map.
   void initPEMap(const int flag) { peMapOn_ = flag; }
 
-  /// return list of molecules in neighCutOne and their total potential
-  //  energy interactions
+  /**
+   * Return list of molecules in neigh and their total potential energy
+   * interactions. Note that peMap contains the cumulative peSRone_
+   */
   void neighCutMolPEMap(vector<int> &neigh, vector<double> &peMap);
 
-  /// set the order parameter
+  /// Set the value of the order parameter.
   virtual void setOrder(const double order);
-  void initOrder(const double order, const char* name, const double orderMin,
-                 const double orderMax) {
+  
+  /// Initialize the order parameter.
+  void initOrder(
+    const double order,   //!< value of the order parameter
+    const char* name,     //!< name of the order parameter
+    const double orderMin,  //!< minimum value of order parameter
+    const double orderMax   //!< maximum value of order parameter
+    ) {
     orderMin_ = orderMin; orderMax_ = orderMax; orderName_.assign(name);
     setOrder(order);
   }
 
-  /// initialize neigh, neighCut and peMap
-  void initNeighCutPEMap(const vector<int> mpart);
-
-  /// store neighCut and peMap
-  void storeNeighCutPEMap(const int jpart, const int ii);
-
-  /// read the order parameter from an xyz file
+  /// Read the order parameter from the comment (2nd line) of an XYZ file.
   void readXYZOrder(std::ifstream& file);
 
-  /// return a vector list of neighboring molecules of iMol, based on pair rCut
+  /// Return a list of neighboring molecules of iMol, based on pair rCut.
   vector<int> iMol2neigh(const int iMol);
 
-  /// compute the average number of neighbors within cutoff using peMap
+  /// Return the average number of neighbors within cutoff using peMap.
   double avNumNeighCut();
 
-  /// return a list of minimum angles between neighbors with iMol as vertex,
-  //  based on pair rCut
+  /// Return a list of minimum angles between neighbors with iMol as vertex,
+  /// based on pair rCut.
   vector<double> iMol2neighAngles(const int iMol);
 
   /** Initialize intramolecular interactions.
@@ -244,37 +293,44 @@ class Pair : public BaseRandom {
   /// Initialize intramolecular interactions by ignoring bonded particles.
   void initIntraBonded(const int flag);
 
-  /// compute intramolecular interactions (depreciated)
-  double peIntra(const int iAtom);
-
-  /// read particle positions from XYZ file format
+  /// Read particle positions from XYZ file format.
   virtual void readxyz(std::ifstream& file) { space_->readxyz2(file); }
 
-  /// print a table file based on the potential
-  int printTable(const char* tableFile, const int nElements,
-                 const double sigFac = 0.9);
+  /// Print a table file based on the potential.
+  /// @param sigFac sigFac*sig is minimum separation distance
+  int printTable(const char* tableFile,
+    const int nElements,  //!< number of table elements
+    const double sigFac = 0.9);
 
-  /// set all rCutij to sigmaij
+  /// Set all rCutij to sigmaij, which is useful for hard spheres.
   void sig2rCut();
 
-  /// squishy tolerance when reading coordinates from a file
+  /// Initialize squishy tolerance when reading coordinates from a file.
   virtual void initSquishy(const int flag) { if (flag == 0) {} }
 
-  /// identify a particle as non physical or non physical
+  /// Identify a particle as non physical or non physical.
   virtual void ipartNotPhysical(const int ipart) { nonphys_[ipart] = 1; }
+
+  /// Identify a particle as non physical or non physical.
   virtual void ipartIsPhysical(const int ipart) { nonphys_[ipart] = 0; }
+
+  /// Set all particles as physical.
   virtual void allPartPhysical() {
     std::fill(nonphys_.begin(), nonphys_.end(), 0);
   }
 
-  /// flag to read sigref
-  void setSigRefFlag(const int flag) { sigrefFlag_ = flag; }
+  /// Set flag to trigger use of a reference sigma.
+  void setSigRefFlag(const int flag = 0) { sigrefFlag_ = flag; }
+
+  // Return the pressure of the system.
+  // HWH: depreciate, and may not always be up to date.
+  // @param beta inverse temperature
+  double pressure(const double beta);
 
   // read-only access to protected variables
   double f(int iAtom, int dim) const { return f_[iAtom][dim]; }  //!< force
   double rCut() const { return rCut_; }  //!< interaction cut-off distance
   double rCutMaxAll() const { return rCutMaxAll_; }
-  double pressure(const double beta);  //!< total pressure
   vector<double> pe() const { return pe_; }  //!< potential energy
   vector<vector<double> > f() const { return f_; }  //!< force
   vector<vector<double> > fCOM() const { return fCOM_; }
@@ -309,7 +365,20 @@ class Pair : public BaseRandom {
   int intra() const { return intra_; }
   vector<vector<int> > contact() const { return contact_; }
   vector<int> nonphys() const { return nonphys_; }
-  Space* space() const { return space_; };
+  Space* space() const { return space_; }
+
+  /// Write restart file.
+  virtual void writeRestart(const char* fileName) {
+    writeRestartBase(fileName);
+  }
+
+  /// Constructor using restart file
+  Pair(Space* space, const char* fileName);
+  virtual ~Pair() {}
+  virtual Pair* clone(Space* space) const = 0;
+
+  /// reset space pointer
+  virtual void reconstruct(Space* space);
 
  protected:
   Space* space_;
@@ -370,7 +439,9 @@ class Pair : public BaseRandom {
   vector<int> neighType_;
   int neighTypeScreen_;               //!< screen neighbors by type if == 1
 
-  /// erase molecule from neighlist
+  /// Erase mpart, from neighlist, neighPtr.
+  /// If atomCut_ is 1, then mpart is a list of atoms.
+  /// If atomCut_ is 0, then mpart is a list of particles.
   void eraseNeigh_(const vector<int> mpart, vector<vector<int> > *neighPtr);
 
   bool fastDel_;                   //!< use fast method of deleting particles
@@ -402,9 +473,33 @@ class Pair : public BaseRandom {
 
   vector<int> nonphys_;  // identifies particles as non-physical, pair ignores
 
-  /// check if there is an intramolecular interaction that is allowed
+  /// Return true if there is an intramolecular interaction between ipart,
+  /// and jpart which belong to iMol and jMol, respectively.
   bool intraCheck_(const int ipart, const int jpart,
                    const int iMol, const int jMol);
+
+  /// defaults in constructor
+  void defaultConstruction_();
+
+  /// Delete one particle, ipart.
+  void delPartBase_(const int ipart);
+
+  /// Delete particles, mpart.
+  void delPartBase_(const vector<int> mpart);
+
+  /// Add particle(s).
+  void addPartBase_();
+
+  /// initialize neigh, neighCut and peMap.
+  void initNeighCutPEMap(const vector<int> mpart);
+
+  // Store neighCut and peMap
+  // @param ii index of site in molecule
+  void storeNeighCutPEMap(const int jpart,  //!< neighbor particle index
+    const int ii);
+
+  /// Write restart file.
+  void writeRestartBase(const char* fileName);
 };
 
 #ifdef FEASST_NAMESPACE_

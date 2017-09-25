@@ -63,7 +63,7 @@ void PairLJCoulEwald::writeRestart(const char* fileName) {
 /**
  * Lennard-Jones pair-wise force calculation
  */
-int PairLJCoulEwald::initEnergy() {
+void PairLJCoulEwald::initEnergy() {
   // shorthand for read-only space variables
   const int dimen = space_->dimen();
   const int nMol = space_->nMol();
@@ -174,8 +174,6 @@ int PairLJCoulEwald::initEnergy() {
 
   // standard long range corrections
   lrcConf();
-
-  return 0;
 }
 
 /**
@@ -533,7 +531,7 @@ void PairLJCoulEwald::delPart(const int ipart) {     //!< particle to delete
   eikiy_.erase(eikiy_.begin() + ipart);
   eikiz_.erase(eikiz_.begin() + ipart);
   NOTE("Depreciated function delPart(const int ipart)");
-  delPartBase(ipart);
+  delPartBase_(ipart);
 }
 
 /**
@@ -541,7 +539,7 @@ void PairLJCoulEwald::delPart(const int ipart) {     //!< particle to delete
  */
 void PairLJCoulEwald::delPart(
   const vector<int> mpart) {     //!< particles to delete
-  delPartBase(mpart);
+  delPartBase_(mpart);
   int natom = space_->natom();
   for (int i = mpart.size() - 1; i >= 0; --i) {
     int ipart = mpart[i];
@@ -591,7 +589,7 @@ void PairLJCoulEwald::addPart() {
       eikiz_.insert(eikiz_.begin() + natomprev*k+natomprev, 0.);
     }
   }
-  addPartBase();
+  addPartBase_();
 }
 
 /**

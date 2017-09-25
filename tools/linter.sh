@@ -8,13 +8,15 @@ for f in `ls *`; do
   # mv tttmp $f
 
   # remove extra whitespace at end of line
-  sed --in-place 's/ $//g' $f
+  # sed --in-place 's/ $//g' $f
 
   # remove lines
   # sed --in-place '/using namespace feasst;/d' $f
  
   # rename functions
   # sed --in-place 's/print(/write(/g' $f
+  sed -i '' 's/Constructor is not often used, but its purpose is to/This constructor is not often used, but its purpose is to/g' $f
+  #sed --in-place 's/void initEnergy;/void initEnergy();/g' $f
  
   #sed --in-place 's/namespace feasst {/\#ifdef FEASST_NAMESPACE_\nnamespace feasst {\n\#endif  \/\/ FEASST_NAMESPACE_/g' $f
   #sed --in-place 's/\}  \/\/ namespace feasst/\#ifdef FEASST_NAMESPACE_\n\}  \/\/ namespace feasst\n\#endif  \/\/ FEASST_NAMESPACE_/g' $f

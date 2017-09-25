@@ -18,12 +18,12 @@ namespace feasst {
 PairLJ::PairLJ(Space* space,
   const double rCut)  //!< interaction cut-off distance
   : Pair(space, rCut) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 PairLJ::PairLJ(Space* space,
   const char* fileName)
   : Pair(space, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
 
   string strtmp = fstos("linearShiftFlag", fileName);
   if (!strtmp.empty()) {
@@ -37,7 +37,7 @@ PairLJ::PairLJ(Space* space,
 /**
  * defaults in constructor
  */
-void PairLJ::defaultConstruction() {
+void PairLJ::defaultConstruction_() {
   className_.assign("PairLJ");
   peLRConePreCalc_ = (8./3.)*PI*((1./3.)*pow(rCut_, -9) - pow(rCut_, -3));
   linearShift(0);
@@ -59,7 +59,7 @@ void PairLJ::writeRestart(const char* fileName) {
 /**
  * Lennard-Jones pair-wise force calculation
  */
-int PairLJ::initEnergy() {
+void PairLJ::initEnergy() {
   // shorthand for read-only space variables
   const int dimen = space_->dimen();
   const int natom = space_->natom();
@@ -144,7 +144,6 @@ int PairLJ::initEnergy() {
   }
 
   peTot_ = peLJ_ + peLRC_;
-  return 0;
 }
 
 /**

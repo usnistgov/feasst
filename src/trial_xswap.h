@@ -30,12 +30,12 @@ class TrialXSwap : public Trial {
     return(std::static_pointer_cast<TrialXSwap, Trial>(
       cloneImpl(space, pair, criteria)));
   }
-  void defaultConstruction();
-
-  /// attempt random translation
-  void attempt1();
 
  protected:
+  void attempt1_();
+
+  void defaultConstruction_();
+
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl(
     Space* space, Pair *pair, Criteria *criteria) const {

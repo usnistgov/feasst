@@ -28,7 +28,7 @@ class PairLJCoulEwald : public Pair {
   /// write restart file
   void writeRestart(const char* fileName);
 
-  int initEnergy();     //!< function to calculate forces, given positions
+  void initEnergy();     //!< function to calculate forces, given positions
   /// calculate reciprical (Fourier) space forces, given positions
   void forcesFrr();
   /// compute standard long range contributions of all particles

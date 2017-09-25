@@ -63,7 +63,7 @@ Contents
 * `Usage`_
 * `Prerequisites`_
 * `Installation`_
-* `External libraries`_
+* `Optional external libraries`_
 * `Test cases`_
 * `Examples`_
 * `Adding or modifying new classes`_
@@ -267,8 +267,8 @@ Text-based installation (using C++ engine)
 
 For any interface, modify `<src/Makefile>`_ to control external libraries (below).
 
-External libraries
-##################
+Optional external libraries
+#############################
 
 Here is how to set up external libraries you may want to use with FEASST.
 To begin, some libraries require installation. And some require certain compiler flags if not using CMake.
@@ -756,4 +756,7 @@ harold.hatch@nist.gov
 
 For list of contributors, see `<CONTRIBUTORS.txt>`_
 
+Disclaimer
+##########
 
+Certain commercial firms and trade names are identified in this document in order to specify the installation and usage procedures adequately. Such identification is not intended to imply recommendation or endorsement by the National Institute of Standards and Technology, nor is it intended to imply that related products are necessarily the best available for the purpose.

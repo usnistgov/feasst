@@ -35,7 +35,7 @@ using std::make_shared;
 # define ASSERT(condition, message) \
 if (! (condition)) { \
   std::stringstream err_msg; \
-  err_msg << "Assertion `" #condition "` failed in " << __FILE__ \
+  err_msg << "# Assertion `" #condition "` failed in " << __FILE__ \
             << " line " << __LINE__ << ": " << message; \
   CustomException c(err_msg); \
 }
@@ -43,19 +43,21 @@ if (! (condition)) { \
 /// If the warning condition is true, send message to standard output.
 # define WARN(condition, message) \
 if (condition) { \
-  std::cout << "Warning `" #condition "` in " << __FILE__ \
+  std::cout << "# Warning `" #condition "` in " << __FILE__ \
             << " line " << __LINE__ << ": " << message << std::endl; \
 }
 
 /// Send message to standard output.
 # define NOTE(message) \
-std::cout << "Note in " << __FILE__ \
+std::cout << "# Note in " << __FILE__ \
           << " line " << __LINE__ << ": " << message << std::endl; \
 //throw c;
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
+
+//class Functions { // here is where we trick ../tools/makeFactory.sh.
 
 /// Return the magnitude of the first argument, with the sign of the second.
 double sign(const double a, const double b);

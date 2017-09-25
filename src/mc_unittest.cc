@@ -3,6 +3,7 @@
 #include "pair_hs.h"
 #include "pair_lj.h"
 #include "pair_lj_multi.h"
+#include "pair_lj_coul.h"
 #include "pair_lj_coul_ewald.h"
 #include "mc_wltmmc.h"
 #include "ui_abbreviated.h"
@@ -337,6 +338,28 @@ TEST(MC, nseek) {
   EXPECT_EQ(2, s.nMol());
 }
 
+TEST(MC, nseekSPCEnoEwald) {
+  const double boxl = 20., rCut = boxl/2., temp = 525, activ = exp(-8.08564), beta = 1./(temp*8.3144621/1000);
+  const int nMolMax = 20;
+
+  // initialize
+  Space s(3,0);
+  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  s.addMolInit("../forcefield/data.spce");   // add one molecule in order to initialize ntype array
+  PairLJCoul p(&s, rCut);
+  //p.initBulkSPCE(5.6, 38);
+  p.initLMPData("../forcefield/data.spce");
+  CriteriaWLTMMC c(beta, activ,"nmol",0-0.5,nMolMax+0.5,nMolMax+1);
+  MC mc(&s,&p,&c);
+  transformTrial(&mc, "translate");
+  transformTrial(&mc, "rotate");
+  mc.nMolSeek(20, "../forcefield/data.spce", 1e5);
+  cout << "pe " << p.peTot() << endl;
+  EXPECT_EQ(20, s.nMol());
+  mc.nMolSeek(2, "../forcefield/data.spce", 1e5);
+  EXPECT_EQ(2, s.nMol());
+}
+
 TEST(MC, equltl43muvttmmcANDinitWindows) {
   const double temp = 1., activ = exp(-2.), boxl = 9, beta = 1/temp;
   const int nMolMax = 50, nMolMin = 10, npr = 200;
@@ -399,10 +422,12 @@ TEST(MC, equltl43muvttmmcANDinitWindows) {
 }
 
 TEST(MC, wltmmccloneANDreconstruct) {
+  ranInitByDate();
+  ranInitForRepro(1506223676);
   const int nMolMax = 100, npr = 200;
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(9,dim);
-  s.readXYZBulk(4, "../forcefield/data.equltl43", "../unittest/equltl43/two.xyz");
+  // s.readXYZBulk(4, "../forcefield/data.equltl43", "../unittest/equltl43/two.xyz");
   s.addMolInit("../forcefield/data.equltl43");
   PairLJ p(&s, pow(2, 1./6.));
   p.initLMPData("../forcefield/data.equltl43");

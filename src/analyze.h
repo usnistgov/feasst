@@ -19,7 +19,7 @@ class WLTMMC;
 
 class Analyze : public BaseRandom {
  public:
-  Analyze() { defaultConstruction(); }
+  Analyze() { defaultConstruction_(); }
   Analyze(Space* space, Pair* pair);
   Analyze(Space *space, Pair* pair, const char* fileName);
   virtual ~Analyze() {}
@@ -29,9 +29,6 @@ class Analyze : public BaseRandom {
 
   /// factory method
   shared_ptr <Analyze> makeAnalyze(Space* space, Pair* pair, const char* fileName);
-
-  // default constructor
-  void defaultConstruction();
 
   // reset object pointers
   void reconstruct(Space* space, Pair *pair);
@@ -83,6 +80,9 @@ class Analyze : public BaseRandom {
   int nFreqPrint_;   //!< frequency for printing
   string fileName_;  //!< file name to print analysis
   int production_;   //!< set to 1 if in production
+
+  // default constructor
+  void defaultConstruction_();
 
   // clone design pattern
   virtual shared_ptr<Analyze> cloneImpl(Space* space, Pair* pair) const;

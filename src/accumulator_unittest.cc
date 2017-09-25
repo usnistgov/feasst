@@ -9,7 +9,7 @@ TEST(Accumulator, constructor) {
   a.setBlock(5);
   EXPECT_NEAR(-NUM_INF, a.max(), 1);
   EXPECT_NEAR(NUM_INF, a.min(), 1);
-  
+
   for (int i = 0; i < 20; ++i) {
     a.accumulate(i);
   }

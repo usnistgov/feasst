@@ -5,10 +5,10 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 Table::Table() {
-  defaultConstruction();
+  defaultConstruction_();
 }
 Table::Table(const char* fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   tabDims_ = fstoi("tabDims", fileName);
   tabType_ = fstos("tabType", fileName);
   string strtmp = fstos("interpolator", fileName);
@@ -191,7 +191,7 @@ Table::~Table() {
 /**
  * defaults in constructor
  */
-void Table::defaultConstruction() {
+void Table::defaultConstruction_() {
   setInterpolator("linear");
 }
 

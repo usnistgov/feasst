@@ -28,9 +28,6 @@ class Table {
   virtual ~Table();
   virtual Table* clone() const { Table* p = new Table(*this); return p; }
 
-  // defaults in constructor
-  void defaultConstruction();
-
   /// linear interpolation
   double interpolate(const double val0);
   double interpolate(const double val0, double *deriv);
@@ -101,6 +98,9 @@ class Table {
     gsl_interp_accel *acc;
     gsl_spline *spline;
   #endif  // GSL_
+
+  // defaults in constructor
+  void defaultConstruction_();
 };
 
 class erftable {

@@ -22,6 +22,8 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+//class AbbreviatedUI { // here is where we trick ../tools/makeFactory.sh.
+
 void insertDeleteTrial(MC *mc, const char* moltype);
 void insertDeleteTrial(shared_ptr<MC> mc, const char* moltype);
 

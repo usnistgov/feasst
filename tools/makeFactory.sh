@@ -4,7 +4,8 @@
 
 # Note that the following classes must be defined in a very specific order
 factoryBaseClasses="pair criteria analyze trial"
-baseClasses="functions custom_exception base table histogram accumulator space pair barrier shape criteria analyze trial mc mc_wltmmc ui_abbreviated"
+baseClasses="custom_exception base table histogram accumulator space pair barrier shape criteria analyze trial mc"
+nonClasses="functions ui_abbreviated"
 
 ##############################
 echo "Generating feasst.i"
@@ -24,7 +25,7 @@ cat << EOF > $swigfile
 %{
 EOF
 
-classes=$baseClasses
+classes="$baseClasses $nonClasses"
 printfile=$swigfile
 
 prepend="#include \""
@@ -32,7 +33,7 @@ append="\""
 printHeaders()
 {
   for class in $classes; do
-    for header in `ls -vd ../src/${class}*.h`; do
+    for header in `ls -vd ../src/${class}*.h 2> /dev/null`; do
       echo ${prepend}`basename ${header}`${append} >> $printfile
     done
   done
@@ -101,7 +102,7 @@ EOF
 
 printFactory()
 {
-  for header in `ls -vd ../src/${class}_*.h`; do
+  for header in `ls -vd ../src/${class}_*.h 2> /dev/null`; do
     className=`grep "class " $header | grep "{" | head -1 | awk '{print $2}'`
     if [ $shrptr == "no" ]; then
       echo "  } else if (typestr.compare(\""$className"\") == 0) { "$class" = new "${className}${args}";" >> $printfile
@@ -178,4 +179,71 @@ cat << EOF >> $ccfile
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
 EOF
+
+#####################################
+echo "Generating documentation *.rst"
+#####################################
+
+printRSTHeader()
+{
+  className=`grep "class " $header | grep "{" | head -1 | awk '{print $2}'`
+  printfile=${className}.rst
+  echo "   $className" >> $tocfile
+  echo "$className" > $printfile
+  echo "=====================================================" >> $printfile
+  echo "" >> $printfile
+  if [ -z "$nonClassFlag" ]; then
+    echo ".. doxygenclass:: $className" >> $printfile
+    echo "   :project: FEASST" >> $printfile
+    echo "   :members:" >> $printfile
+  else
+    echo ".. doxygenfile:: `basename $header`" >> $printfile
+    echo "   :project: FEASST" >> $printfile
+  fi
+}
+
+printDoc()
+{
+  arr=(`ls -vd ../src/${class}_*.h 2> /dev/null`)
+  # if array finds derived classes, set up toc
+  header="../src/${class}.h"
+  className=`grep "class " $header | grep "{" | head -1 | awk '{print $2}'`
+  tocfile=${class}toc.rst
+  echo "$className Classes" > $tocfile
+  echo "=======================================================" >> $tocfile
+  echo "" >> $tocfile
+  echo ".. toctree::" >> $tocfile
+  printRSTHeader
+  if (( ${#arr[@]} > 0 )); then
+    for header in ${arr[@]}; do
+      printRSTHeader
+    done
+    echo "   ${class}toc" >> $apifile
+  else
+    echo "   $className" >> $apifile
+  fi
+}
+
+# begin printing the api file, which needs to know whether to include one
+# class, or a toc for may derived classes
+apifile=api.rst
+cat <<-EOF > $apifile
+***********************************
+Application Program Interface (API)
+***********************************
+
+This section describes the API which is available for use via C++ or python.
+
+.. toctree::
+EOF
+
+# print the rst for each class and also add to the api
+nonClassFlag=""
+for class in $baseClasses; do
+  printDoc
+done
+nonClassFlag="True"
+for class in $nonClasses; do
+  printDoc
+done
 

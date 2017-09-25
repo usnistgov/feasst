@@ -6,36 +6,29 @@ namespace feasst {
 
 PairTabular1D::PairTabular1D(Space* space)
   : Pair(space, 0.) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 PairTabular1D::PairTabular1D(Space* space,
   const char* fileName)
   : Pair(space, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   string tabfile = fstos("tabFileName", fileName);
   readTable(tabfile.c_str());
 }
 
-/**
- * defaults in constructor
- */
-void PairTabular1D::defaultConstruction() {
+void PairTabular1D::defaultConstruction_() {
   className_.assign("PairTabular1D");
   tol_ = 0.75;
 }
 
-/**
- * write restart file
- */
 void PairTabular1D::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
   file << "# tabFileName " << tabFileName_ << endl;
 }
 
-/**
- */
-int PairTabular1D::initEnergy() {
+void PairTabular1D::initEnergy() {
   // shorthand for read-only space variables
   const int natom = space_->natom();
   const vector<double> l = space_->l();
@@ -46,8 +39,8 @@ int PairTabular1D::initEnergy() {
   // zero accumulators: potential energy, force, and virial
   deSR_ = 0;
   fill(0., f_);
-  //fCOM_.clear();
-  //fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
+  // fCOM_.clear();
+  // fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
 
   // loop through nearest neighbor atom pairs
   for (int ipart = 0; ipart < natom - 1; ++ipart) {
@@ -100,15 +93,11 @@ int PairTabular1D::initEnergy() {
     }
   }
   peTot_ = deSR_;
-  return 0;
 }
 
-/**
- * potential energy contribution due to particles
- */
 double PairTabular1D::multiPartEner(
-  const vector<int> mpart,    //!< particles to calculate energy interactions
-  const int flag) {     //!< place holder for other pair styles
+  const vector<int> mpart,
+  const int flag) {
   if (flag == 0) {}  // remove unused parameter warning
 
   // zero potential energy contribution of particle ipart
@@ -124,9 +113,6 @@ double PairTabular1D::multiPartEner(
   return 0;
 }
 
-/**
- * inner loop
- */
 void PairTabular1D::multiPartEnerAtomCutInner(
   const double &r2, const int &itype, const int &jtype) {
   if (r2 < pow(rCutInner_[itype][jtype], 2.)) {
@@ -136,9 +122,6 @@ void PairTabular1D::multiPartEnerAtomCutInner(
   }
 }
 
-/**
- * inner loop for potential energy and forces of all particles
- */
 void PairTabular1D::allPartEnerForceInner(const double &r2, const double &dx,
   const double &dy, const double &dz, const int &itype, const int &jtype,
   const int &iMol, const int &jMol) {
@@ -146,14 +129,10 @@ void PairTabular1D::allPartEnerForceInner(const double &r2, const double &dx,
   multiPartEnerAtomCutInner(r2, itype, jtype);
 }
 
-/**
- * stores, restores or updates variables to avoid recompute of entire
- * configuration after every change
- */
 void PairTabular1D::update(
-  const vector<int> mpart,    //!< particles involved in move
-  const int flag,         //!< type of move
-  const char* uptype) {   //!< description of update type
+  const vector<int> mpart,
+  const int flag,
+  const char* uptype) {
   if (neighOn_) {
     updateBase(mpart, flag, uptype, neigh_, neighOne_, neighOneOld_);
   }
@@ -178,11 +157,6 @@ void PairTabular1D::update(
   }
 }
 
-/**
- * potential energy and forces of all particles
- *  if flag == 0, dummy calculation
- *  if flag == 1, all config calculation
- */
 double PairTabular1D::allPartEnerForce(const int flag) {
   peSRone_ = 0.;
   if (flag == 0) {
@@ -196,9 +170,6 @@ double PairTabular1D::allPartEnerForce(const int flag) {
   return 1e300;
 }
 
-/**
- * read tables
- */
 void PairTabular1D::readTable(const char* fileName) {
   tabFileName_.assign(fileName);
 
@@ -227,9 +198,6 @@ void PairTabular1D::readTable(const char* fileName) {
   }
 }
 
-/**
- * set the interpolator
- */
 void PairTabular1D::setInterpolator(const char* name) {
   for (int itype = 0; itype < static_cast<int>(peTable_.size()); ++itype) {
     for (int jtype = 0; jtype < static_cast<int>(peTable_[itype].size());

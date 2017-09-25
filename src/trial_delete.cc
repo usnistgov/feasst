@@ -10,51 +10,49 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 TrialDelete::TrialDelete() : Trial() {
-  defaultConstruction();
+  defaultConstruction_();
   molType_.assign("");
 }
+
 TrialDelete::TrialDelete(const char* molType)
   : Trial(),
   molType_(molType) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 TrialDelete::TrialDelete(Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria) {
-  defaultConstruction();
+  defaultConstruction_();
   molType_.assign("");
 }
+
 TrialDelete::TrialDelete(Space *space,
   Pair *pair,
   Criteria *criteria,
   const char* molType)
   : Trial(space, pair, criteria),
   molType_(molType) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 TrialDelete::TrialDelete(const char* fileName,
   Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   molType_ = fstos("molType", fileName);
 }
 
-/**
- * default constructor
- */
-void TrialDelete::defaultConstruction() {
+void TrialDelete::defaultConstruction_() {
   className_.assign("TrialDelete");
   trialType_.assign("del");
   molid_ = -1;
   verbose_ = 0;
 }
 
-/**
- * write restart file
- */
 void TrialDelete::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
@@ -63,10 +61,7 @@ void TrialDelete::writeRestart(const char* fileName) {
   }
 }
 
-/**
- * Attempt deletion of a molecule.
- */
-void TrialDelete::attempt1() {
+void TrialDelete::attempt1_() {
   ASSERT((pair_->atomCut() != 1) || (space_->nMol() == space_->natom()) ||
          (!avbOn_), "this class assumes atomCut(" << pair_->atomCut()
          << ") == 0 when avb is on");
@@ -164,11 +159,20 @@ void TrialDelete::attempt1() {
       }
     }
 
+    // check if deletion is confined to a region
+    if ( (confineFlag_ == 1) && (preFac_ != 0) ) {
+      if ( (space_->x(mpart_[0], confineDim_) > confineUpper_) ||
+           (space_->x(mpart_[0], confineDim_) < confineLower_) ) {
+        preFac_ = 0.;
+        reject_ = 1;
+      }
+    }
+
     // catch for nIn == 0, mpart_ not defined
     if (preFac_ != 0) {
       // multiple first beads modifies def_, preFac_, tmpart for avb
       if (nf_ > 1) {
-        const double w = multiFirstBead(2);
+        const double w = multiFirstBead_(2);
         lnpMet_ += log(w);
         preFac_ *= w;
       }
@@ -201,13 +205,13 @@ void TrialDelete::attempt1() {
     pair_->delPart(mpart_);
     space_->delPart(mpart_);
     pair_->update(mpart_, 2, "update");
-    trialAccept();
+    trialAccept_();
     if (verbose_ == 1) cout << "deletion accepted " << de_ << std::endl;
 
   // if not accepted, restore
   } else {
     if (verbose_ == 1) std::cout << "deletion rejected " << de_ << std::endl;
-    trialReject();
+    trialReject_();
   }
 }
 
@@ -229,6 +233,4 @@ void deleteTrial(shared_ptr<MC> mc) {
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-
-
 

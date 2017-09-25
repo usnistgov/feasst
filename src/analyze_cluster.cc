@@ -6,13 +6,13 @@ namespace feasst {
 
 AnalyzeCluster::AnalyzeCluster(Space *space, Pair *pair)
   : Analyze(space, pair) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 AnalyzeCluster::AnalyzeCluster(Space *space,
   Pair *pair,
   const char* fileName)
     : Analyze(space, pair, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   clusterCut_ = fstod("clusterCut", fileName);
 }
 
@@ -28,7 +28,7 @@ void AnalyzeCluster::writeRestart(const char* fileName) {
 /**
  * default construction
  */
-void AnalyzeCluster::defaultConstruction() {
+void AnalyzeCluster::defaultConstruction_() {
   className_.assign("AnalyzeCluster");
   verbose_ = 0;
   clusterCut_ = 0;

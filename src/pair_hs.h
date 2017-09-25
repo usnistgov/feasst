@@ -1,35 +1,25 @@
-/**
- * \file
- *
- * \brief hard sphere pair-wise interaction
- *
- */
 #ifndef PAIR_HS_H_
 #define PAIR_HS_H_
 
+#include <vector>
 #include "./pair.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ * Hard sphere pair-wise interaction.
+ * The diameter is determined by the sigma parameter described in Pair.
+ */
 class PairHS : public Pair {
  public:
+  /// Constructor
+  /// @param rCut interaciton cut off distance
   PairHS(Space* space, const double rCut);
-  PairHS(Space* space, const char* fileName);
-  virtual ~PairHS() {}
-  virtual PairHS* clone(Space* space) const {
-    PairHS* p = new PairHS(*this); p->reconstruct(space); return p;
-  }
 
-  // defaults in constructor
-  void defaultConstruction();
-
-  /// write restart file
-  virtual void writeRestart(const char* fileName);
-
-  /// function to calculate forces, given positions
-  virtual int initEnergy();
+  /// Initialize interactions.
+  virtual void initEnergy();
 
   /// potential energy of multiple particles
   double multiPartEner(const vector<int> multiPart, const int flag);
@@ -39,9 +29,29 @@ class PairHS : public Pair {
   //  configuration after every change
   void update(const vector<int> mpart, const int flag, const char* uptype);
 
+  /// potential energy and forces of all particles
+  double allPartEnerForce(const int flag);
+
+  /// inner loop for potential energy and forces of all particles
+  void allPartEnerForceInner(const double &r2, const double &dx,
+    const double &dy, const double &dz, const int &itype, const int &jtype,
+    const int &iMol, const int &jMol);
+
+  PairHS(Space* space, const char* fileName);
+  virtual ~PairHS() {}
+  virtual PairHS* clone(Space* space) const {
+    PairHS* p = new PairHS(*this); p->reconstruct(space); return p;
+  }
+
+  /// write restart file
+  virtual void writeRestart(const char* fileName);
+
  protected:
   double peSR_;
   double deSR_;
+
+  // defaults in constructor
+  void defaultConstruction_();
 };
 
 #ifdef FEASST_NAMESPACE_

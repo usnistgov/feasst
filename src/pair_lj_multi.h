@@ -1,12 +1,7 @@
-/**
- * \file
- *
- * \brief multi-particle type implementation of lennard-jones pair-wise interaction
- *
- */
 #ifndef PAIR_LJ_MULTI_H_
 #define PAIR_LJ_MULTI_H_
 
+#include <vector>
 #include "./pair_lj.h"
 #include "./functions.h"
 
@@ -14,55 +9,47 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ * Lennard Jones particles with multiple sigmas, epsilons, rCuts, etc.
+ * This class also includes other options, such as changing the exponential
+ * parameter, alpha, \f$\alpha\f$.
+ * There are also options to add Gaussians, Yukawa screened electrostatics,
+ * Weeks-Chandler-Andersen and the LJ-lambda potential.
+ * There are also long range corrections, cut and shift, and shifted-force cut
+ * off methods.
+ *
+ * \f$U_{LJ} = 4\epsilon [ (\sigma/r)^{2\alpha} - (\sigma/r)^\alpha ] \f$.
+ *
+ */
 class PairLJMulti : public PairLJ {
  public:
+  /// Constructor
+  /// @parameter rCut Interaction cut off distance.
   PairLJMulti(Space* space, const double rCut);
-  PairLJMulti(Space* space, const char* fileName);
-  ~PairLJMulti() {}
-  virtual PairLJMulti* clone(Space* space) const {
-    PairLJMulti* p = new PairLJMulti(*this); p->reconstruct(space); return p;
-  }
 
-  // defaults in constructor
-  void defaultConstruction();
-
-  /// write restart file
-  virtual void writeRestart(const char* fileName);
-
-  int initEnergy();     //!< function to calculate forces, given positions
-
-  /// potential energy of multiple particles
-  double multiPartEner(const vector<int> multiPart, const int flag);
-
-  void multiPartEnerAtomCutInner(const double &r2, const int &itype,
-                                 const int &jtype);
-
-  /// potential energy and forces of all particles
-  double allPartEnerForce(const int flag);
-
-  /// inner loop for potential energy and forces of all particles
-  void allPartEnerForceInner(const double &r2, const double &dx,
-    const double &dy, const double &dz, const int &itype, const int &jtype,
-    const int &iMol, const int &jMol);
-
-  /// initialize cut and shifted potential
+  /// Initialize cut and shifted potential for all particle types if flag == 1.
+  /// \f$ U = U_{LJ} - U(rCut)\f$ when \f$r < rCut\f$.
   void cutShift(const int flag);
 
-  /// initialize linear force shift potential
-  void linearShift(const int flag);
+  /// Initialize linear force shift potential for all particle types when flag
+  /// == 1.
+  /// \f$ U = U_{LJ} - U(rCut) - (r-rCut)\left.\frac{\partial U}{\partial r}
+  ///     \right|_{rCut}. \f$
+  void linearShift(const int flag = 1);
 
-  /// set i-j shifting
+  /// Initialize cut and shift for types itype and jtype if flag == 1.
   void cutShiftijset(const int itype, const int jtype, const int flag);
+
+  /// Initialize linear force shift for types itype and jtype if flag == 1.
   void linearShiftijset(const int itype, const int jtype, const int flag);
 
-  /// set i-j to wca
+  /// Initialize Weeks-Chandler-Andersen for types itype and jtype.
   void initWCA(const int itype, const int jtype);
 
-  /// initialize long-range correcitons
+  /// Initialize long-range corrections for all particle types.
   void initLRC();
 
-  /// initialize exponential type
-  // U_LJ(s=r/sig; alpha)/eps=4*(s^-2alpha - s^-alpha)
+  /// Initialize exponential type, alpha.
   //   type0 is 12-6: alpha=6
   //   type1 is 24-12: alpha=12
   //   type2 is 2alpha - alpha; alpha=16.6755
@@ -72,30 +59,68 @@ class PairLJMulti : public PairLJ {
   //   type6 is 2alpha - alpha; alpha=18
   void initExpType(const int type);
 
-  /// initialize screened electrostatic interaction (Yukawa)
-  ///  U(r) = A*exp(-kappa*r)/r
+  /// Initialize alpha parameter as a continuous parameter (none optimized).
+  void initAlpha(const double alpha = 12.);
+
+  /// Initialize screened electrostatic interaction (Yukawa).
+  /// \f$ U(r) = A e^{-K r}/r \f$
   void initScreenedElectro(const double A, const double K) {
     yukawa_ = 1; yukawaA_ = A; yukawaK_ = K;
   }
+
+  // HWH: depreciated?
   void initScreenedElectro(const double A, const double K, const int yukawa) {
     yukawa_ = yukawa; yukawaA_ = A; yukawaK_ = K;
   }
 
-  /// set the order parameter
+  /// Set the order parameter value.
   void setOrder(const double order);
 
-  /// add a gaussian on the potential
+  /**
+   * Add a gaussian on the potential.
+   * \f$ U(r) = height * exp(-((r-position)/spread)^2) \f$
+   */
   void addGaussian(const double height, const double position,
                    const double spread);
 
-  /// set lambda parameter
+  /// Set lambda parameter for particle types iType and jType.
+  /// http://dx.doi.org/10.1021/ja802124e
   void setLambdaij(const double iType, const double jType, const double lambda);
 
-  // return the lrc contribution of one particle
+  /// Return the LRC contribution of one particle, ipart.
   double computeLRC(const int ipart);
 
   // read-only access to protected variables
   vector<double> rCutMax() const { return rCutMax_; }
+
+  void initEnergy();     //!< function to calculate forces, given positions
+
+  /// potential energy of multiple particles
+  double multiPartEner(const vector<int> multiPart, const int flag);
+
+  void multiPartEnerAtomCutInner(const double &r2, const int &itype,
+                                 const int &jtype);
+
+  /**
+   * Potential energy and forces of all particles.
+   *  if flag == 0, dummy calculation
+   *  if flag == 1, all config calculation
+   */
+  double allPartEnerForce(const int flag);
+
+  /// inner loop for potential energy and forces of all particles
+  void allPartEnerForceInner(const double &r2, const double &dx,
+    const double &dy, const double &dz, const int &itype, const int &jtype,
+    const int &iMol, const int &jMol);
+
+  PairLJMulti(Space* space, const char* fileName);
+  ~PairLJMulti() {}
+  virtual PairLJMulti* clone(Space* space) const {
+    PairLJMulti* p = new PairLJMulti(*this); p->reconstruct(space); return p;
+  }
+
+  /// Write restart file.
+  virtual void writeRestart(const char* fileName);
 
  protected:
   /// potential energy shift by constant for i-j type interactions
@@ -123,6 +148,9 @@ class PairLJMulti : public PairLJ {
   // gaussian parameters
   int gaussian_;        //!< flag for guassian interacitons
   vector<vector<double> > gausParam_;
+
+  // defaults in constructor
+  void defaultConstruction_();
 };
 
 #ifdef FEASST_NAMESPACE_

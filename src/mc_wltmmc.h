@@ -1,10 +1,3 @@
-/**
- * \file
- *
- * \brief attempts monte carlo trials and computes appropriate quantities
- *
- */
-
 #ifndef WLTMMC_H_
 #define WLTMMC_H_
 
@@ -14,89 +7,23 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ * Attempts Monte Carlo trials with flat-histogram methods.
+ */
 class WLTMMC : public MC {
  public:
+
+  /// Constructor
   WLTMMC(Space* space, Pair* pair, CriteriaWLTMMC* criteria);
-  explicit WLTMMC(const char* fileName);
-  ~WLTMMC();
-  virtual WLTMMC* clone() const;
-  shared_ptr<WLTMMC> cloneShrPtr() const
-    { return std::static_pointer_cast<WLTMMC, MC>(cloneImpl()); }
-  virtual void reconstruct();
-  void defaultConstruction();
 
-  /// write restart file
-  void writeRestart(const char* fileName);
-
-  /// run for a number of sweeps
-  void runNumSweeps(const int nSweeps, const long long nprMax);
-  void runNumSweepsExec(const int t, const int nSweeps,
-                        vector<shared_ptr<WLTMMC> > &clones);
-  void runNumSweepsRestart(const int nSweeps, const char* fileName);
-
-  /// initialize collection matrix file name
+  /// Initialize collection matrix file name.
   void initColMat(const char* fileName, const int nfreq)
     { colMatFileName_.assign(fileName); nFreqColMat_ = nfreq; };
 
-  /// initialize OMP windows
-  void initWindows(int flag) { if (flag == 1) { window_ = true; nExp_ = 1.5;
-                  nOverlap_ = 2; nWindow_ = 1;} else { window_ = false; } }
-  void initWindows(const double nExp, const int nOverlap)
-    { window_ = true; nExp_ = nExp; nOverlap_ = nOverlap; nWindow_ = 1; }
-  void initWindowsParaTemp(const double betaInc, const double lnzInc)
-    { window_ = true; nWindow_ = 1; betaInc_ = betaInc; lnzInc_ = lnzInc; }
+  /// Run for a number of sweeps.
+  void runNumSweeps(const int nSweeps, const long long nprMax);
 
-  /// this function is called after every trial attempt
-  void afterAttempt();
-
-  /// determine maximum number of particles for a given temperature
-  //   and large activity
-  int nMolMax(const long long npr, const double activ, const int nMolExtra);
-  int nMolMax(const long long npr, const double activ)
-    { return nMolMax(npr, activ, 0); }
-
-  /// resize the nmol window in WLTMMC criteria based on lnPI or lnPIrw
-  void nMolResizeWindow(const double liquidDrop, const int round);
-
-  /// seek particle number which is in the range of WLTMMC
-  void nMolSeekInRange(const int nMin, const int nMax);
-  void nMolSeekInRange() { nMolSeekInRange(-1, -1); }
-
-  /// append to all fileNames
-  void appendFileNames(const char* chars) { colMatFileName_.append(chars);
-    GRFileName_.append(chars); MC::appendFileNames(chars); }
-
-  /// check that criteria of all trials match
-  int checkTrialCriteria();
-
-  /// print saturation summary
-  vector<double> printSat();
-
-  /// initialize overlapping processors
-  void initOverlaps(const int t, vector<shared_ptr<WLTMMC> > &clones);
-
-  /// initialize density threshold for Configurational Bias,
-  //   only performed when nMolMax/V > thres
-  void initConfigBiasDensThres(const double thres)
-    { densThresConfigBias_ = thres; }
-  void initNMolSeekTarget(const int target) { nMolSeekTarget_ = target; }
-
-  /// add configuration swap trial
-  #if defined (MPI_H_) || (_OPENMP)
-    void confSwapTrial() { MC::confSwapTrial();
-      trialConfSwapVec_.back()->initMType(c_->mType().c_str()); }
-  #endif  // MPI_H_ || _OPENMP
-
-  /// initialize GR file name
-  void initGR(const char* fileName, const int nfreq, const double dr,
-              const int iType, const int jType)
-    { GRFileName_.assign(fileName); nFreqGR_ = nfreq;
-      grt_.push_back(make_shared<Histogram>(dr, iType, jType));
-      gr_.resize(grt_.size()); }
-  void initGR(const char* fileName, const int nfreq, const double dr)
-    { initGR(fileName, nfreq, dr, 0, 0); }
-
-  /// initialize production run
+  /// Initialize production run.
   void wlFlatProduction(const int wlFlatProd) { wlFlatProd_ = wlFlatProd; }
 
   /// Set this to 1 if you want to use runNumSweeps(wlFlat) where you input
@@ -109,9 +36,93 @@ class WLTMMC : public MC {
     procFileAppend_.assign(append);
   }
 
-  /// exposed pointers for easy access with clones
+  /// Run number of sweeps from restart file which is the clone for a spawn
+  /// of parallel runs.
+  void runNumSweepsRestart(const int nSweeps, const char* fileName);
+
+  /// Initialize OMP windows.
+  void initWindows(int flag) { if (flag == 1) { window_ = true; nExp_ = 1.5;
+                  nOverlap_ = 2; nWindow_ = 1;} else { window_ = false; } }
+
+  /// Initialize OMP windows with nExp determining spacing and nOverlap extra
+  /// macrostates with processor overlaps.
+  void initWindows(const double nExp, const int nOverlap)
+    { window_ = true; nExp_ = nExp; nOverlap_ = nOverlap; nWindow_ = 1; }
+
+  /// Initialize OMP windows for parallel tempering.
+  void initWindowsParaTemp(const double betaInc, const double lnzInc)
+    { window_ = true; nWindow_ = 1; betaInc_ = betaInc; lnzInc_ = lnzInc; }
+
+  // determine maximum number of particles for a given temperature
+  //   and large activity
+  int nMolMax(const long long npr, const double activ, const int nMolExtra);
+  int nMolMax(const long long npr, const double activ)
+    { return nMolMax(npr, activ, 0); }
+
+  /*
+   * Resize the nmol window in WLTMMC criteria
+   *  truncates liquid peak after lnPI drops as n increases by amout liquidDrop
+   *  rounds to the nearest larger multiple of nround
+   *  HWH NOTE: this function is depreciated.
+   */
+  void nMolResizeWindow(const double liquidDrop, const int round);
+
+  /// Seek particle number which is in the range of WLTMMC.
+  void nMolSeekInRange(const int nMin, const int nMax);
+  void nMolSeekInRange() { nMolSeekInRange(-1, -1); }
+
+  /// Append chars to all file names.
+  void appendFileNames(const char* chars) { colMatFileName_.append(chars);
+    GRFileName_.append(chars); MC::appendFileNames(chars); }
+
+  /// Check that criteria of all trials match.
+  int checkTrialCriteria();
+
+  /// Print saturation summary.
+  vector<double> printSat();
+
+  /// Initialize overlapping processors for OMP configuration swap trials.
+  void initOverlaps(const int t, vector<shared_ptr<WLTMMC> > &clones);
+
+  /// Initialize density threshold such that Configurational Bias is
+  /// only performed when nMolMax/V > thres.
+  void initConfigBiasDensThres(const double thres)
+    { densThresConfigBias_ = thres; }
+  void initNMolSeekTarget(const int target) { nMolSeekTarget_ = target; }
+
+  #if defined (MPI_H_) || (_OPENMP)
+    /// Add configuration swap trial.
+    void confSwapTrial() { MC::confSwapTrial();
+      trialConfSwapVec_.back()->initMType(c_->mType().c_str()); }
+  #endif  // MPI_H_ || _OPENMP
+
+  // Initialize GR file name
+  // HWH NOTE: this function is deprecated in favor of analyze class.
+  void initGR(const char* fileName, const int nfreq, const double dr,
+              const int iType, const int jType)
+    { GRFileName_.assign(fileName); nFreqGR_ = nfreq;
+      grt_.push_back(make_shared<Histogram>(dr, iType, jType));
+      gr_.resize(grt_.size()); }
+  void initGR(const char* fileName, const int nfreq, const double dr)
+    { initGR(fileName, nfreq, dr, 0, 0); }
+
+  /// Return pointer to WLTMMC acceptance criteria class
   CriteriaWLTMMC* c() { return c_; }
+
+  /// Return the number of windows for OMP parallelization.
   int nWindows() const { return nWindow_; }
+
+  /// Write restart file.
+  void writeRestart(const char* fileName);
+
+  /// Construct from restart file.
+  explicit WLTMMC(const char* fileName);
+
+  ~WLTMMC();
+  virtual WLTMMC* clone() const;
+  shared_ptr<WLTMMC> cloneShrPtr() const
+    { return std::static_pointer_cast<WLTMMC, MC>(cloneImpl()); }
+  virtual void reconstruct();
 
  protected:
   CriteriaWLTMMC* c_;           //!< wltmmc acceptance criteria
@@ -147,6 +158,15 @@ class WLTMMC : public MC {
 
   /// gr templated used in initialization
   vector<shared_ptr<Histogram> > grt_;
+
+  /// Execute running number of sweeps.
+  void runNumSweepsExec_(const int t, const int nSweeps,
+                        vector<shared_ptr<WLTMMC> > &clones);
+
+  /// this function is called after every trial attempt
+  void afterAttempt_();
+
+  void defaultConstruction_();
 
   // clone design pattern
   virtual shared_ptr<MC> cloneImpl() const;

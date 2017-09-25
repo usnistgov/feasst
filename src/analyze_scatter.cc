@@ -6,13 +6,13 @@ namespace feasst {
 
 AnalyzeScatter::AnalyzeScatter(Space *space, Pair *pair)
   : Analyze(space, pair) {
-  defaultConstruction();
+  defaultConstruction_();
 }
 AnalyzeScatter::AnalyzeScatter(Space *space,
   Pair *pair,
   const char* fileName)
   : Analyze(space, pair, fileName) {
-  defaultConstruction();
+  defaultConstruction_();
   double dgrTmp = fstod("dgrRadialBinDist", fileName);
   int nMacrosTmp = fstoi("nMacros", fileName);
   std::string strtmp = fstos("nMomentsCut", fileName);
@@ -139,7 +139,7 @@ void AnalyzeScatter::writeRestart(const char* fileName, const int iMacro) {
 /**
  * default construction
  */
-void AnalyzeScatter::defaultConstruction() {
+void AnalyzeScatter::defaultConstruction_() {
   className_.assign("AnalyzeScatter");
   nMomentsCut_ = 0;
   verbose_ = 0;

@@ -377,3 +377,35 @@ TEST(Pair, sigrefAnalytical) {
 
   delete pcut;
 }
+
+TEST(Pair, InitAlphaAnalytical) {
+  const double rCut = 1e4;
+  Space s(3, 0);
+  string addMolType("../forcefield/data.lj");
+  s.addMolInit(addMolType.c_str());
+
+  vector<double> x(s.dimen(), 0.);
+  s.xAdd = x;
+  s.addMol(addMolType.c_str());
+  x[1] = 1.22;
+  s.xAdd = x;
+  s.addMol(addMolType.c_str());
+
+  PairLJMulti p(&s, rCut);
+  p.initLMPData(addMolType.c_str());
+  p.initAlpha(5.5);
+
+  PairLJMulti *pcut = p.clone(&s);
+  p.linearShift(1);
+  //p.cutShift(1);
+  p.initEnergy();
+
+  EXPECT_NEAR(p.peTot(), -0.8910756889503104, 10*doubleTolerance);
+
+  x[1] = -s.x(1, 1) + 2*x[1];
+  s.transMol(1, x);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -0.029389303309848992, 10*doubleTolerance);
+
+  delete pcut;
+}

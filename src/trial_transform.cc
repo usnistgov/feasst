@@ -6,47 +6,51 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 TrialTransform::TrialTransform(
-  const char* transType)    //!< type of transformation
+  const char* transType)
   : Trial(),
     transType_(transType) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 TrialTransform::TrialTransform(Space *space,
   Pair *pair,
   Criteria *criteria,
-  const char* transType)    //!< type of transformation
+  const char* transType)
   : Trial(space, pair, criteria),
     transType_(transType) {
-  defaultConstruction();
+  defaultConstruction_();
 }
+
 TrialTransform::TrialTransform(const char* fileName,
   Space *space,
   Pair *pair,
   Criteria *criteria)
   : Trial(space, pair, criteria, fileName) {
   transType_ = fstos("transType", fileName);
-  defaultConstruction();
+  defaultConstruction_();
   targAcceptPer = fstod("targAcceptPer", fileName);
 
   // although maxMoveParam was already read in the base class
   // read it again because it was over-written by defaultConstruction
   maxMoveParam = fstod("maxMoveParam", fileName);
+
+  string strtmp = fstos("molType", fileName);
+  if (!strtmp.empty()) {
+    molType_ = strtmp;
+  }
 }
 
-/**
- * write restart file
- */
 void TrialTransform::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
   file << "# transType " << transType_ << endl;
   file << "# targAcceptPer " << targAcceptPer << endl;
+  if (!molType_.empty()) {
+    file << "# molType " << molType_ << endl;
+  }
 }
 
-/**
- * default construction
- */
-void TrialTransform::defaultConstruction() {
+void TrialTransform::defaultConstruction_() {
   className_.assign("TrialTransform");
   trialType_.assign("move");
   verbose_ = 0;
@@ -74,17 +78,14 @@ void TrialTransform::defaultConstruction() {
   }
 }
 
-/**
- * Attempt trial
- */
-void TrialTransform::attempt1() {
+void TrialTransform::attempt1_() {
   if (verbose_ == 1) {
     cout << std::setprecision(std::numeric_limits<double>::digits10+2)
          << "attempting " << transType_ << " " << pair_->peTot() << endl;
   }
   if (space_->nMol() > 0) {
     if (transType_.compare("smctrans") == 0) {
-      trialMoveRecordAll(1);
+      trialMoveRecordAll_(1);
 
       // rigidily translate molecules according to the force on their center
       // of mass
@@ -144,19 +145,19 @@ void TrialTransform::attempt1() {
         if (pair_->neighOn()) pair_->buildNeighList();
         pair_->update(space_->listAtoms(), 0, "update");
         // cout << "accepted " << transType_ << " " << de_ << endl;
-        trialAccept();
+        trialAccept_();
       } else {
         space_->restoreAll();
         if (space_->cellType() > 0) space_->updateCellofallMol();
         // cout << "rejected " << transType_ << " " << de_ << endl;
-        trialReject();
+        trialReject_();
       }
 
     // floppy box
     } else if ( (transType_.compare("xytilt") == 0) ||
                 (transType_.compare("xztilt") == 0) ||
                 (transType_.compare("yztilt") == 0) ) {
-      trialMoveRecordAll(0);
+      trialMoveRecordAll_(0);
 
       // randomly attempt to increase or decrease tilt by maxMoveParam
       //  this must be accompanied by a transformation of the particles
@@ -183,7 +184,7 @@ void TrialTransform::attempt1() {
         if (pair_->neighOn()) pair_->buildNeighList();
         pair_->update(space_->listAtoms(), 0, "update");
         space_->wrapMol();
-        trialAccept();
+        trialAccept_();
       } else {
         space_->restoreAll();
         if (transType_.compare("xytilt") == 0) {
@@ -197,7 +198,7 @@ void TrialTransform::attempt1() {
           "xytilt trial move not implemented correctly with cell list");
         if (space_->cellType() > 0) space_->updateCellofallMol();
         // cout << "rejected " << transType_ << " " << de_ << endl;
-        trialReject();
+        trialReject_();
       }
 
     // box size change
@@ -205,7 +206,7 @@ void TrialTransform::attempt1() {
                 (transType_.compare("lxmod") == 0) ||
                 (transType_.compare("lymod") == 0) ||
                 (transType_.compare("lzmod") == 0) ) {
-      trialMoveRecordAll(0);
+      trialMoveRecordAll_(0);
 
       // randomly attempt to increase or decrease (lx,ly,lz) by maxMoveParam
       //  this must be accompanied by a transformation of the particles
@@ -229,7 +230,7 @@ void TrialTransform::attempt1() {
                             reject_) == 1) {
         if (pair_->neighOn()) pair_->buildNeighList();
         pair_->update(space_->listAtoms(), 0, "update");
-        trialAccept();
+        trialAccept_();
       } else {
         scaleAttempt_(1./facActual);
         space_->restoreAll();
@@ -237,7 +238,7 @@ void TrialTransform::attempt1() {
           "xytilt trial move not implemented correctly with cell list");
         if (space_->cellType() > 0) space_->updateCellofallMol();
         // cout << "rejected " << transType_ << " " << de_ << endl;
-        trialReject();
+        trialReject_();
       }
 
       // record statistics
@@ -255,24 +256,43 @@ void TrialTransform::attempt1() {
 
     // rigid translation or rotation
     } else {
-      mpart_ = space_->randMol();    // select a random molecule
-      trialMoveRecord();
-      if (transType_.compare("translate") == 0) {
-        space_->randDisp(mpart_, maxMoveParam);
-      } else if (transType_.compare("rotate") == 0) {
-        space_->randRotate(mpart_, maxMoveParam);
+      if (molType_.empty()) {
+        // if no molType given, move any particle
+        mpart_ = space_->randMol();    // select a random molecule
+      } else {
+        // otherwise, move only molType particles
+        const int iMolIndex = space_->findAddMolListIndex(molType_);
+        const int nMolOfType = space_->nMolType()[iMolIndex];
+        if (nMolOfType > 0) {
+          const int iMol = space_->randMolofType(iMolIndex);
+          if (iMol == -1) {
+            reject_ = 1;
+          } else {
+            mpart_ = space_->imol2mpart(iMol);
+          }
+        } else {
+          reject_ = 1;
+        }
       }
-      trialMoveDecide(0, 1);
+      if (reject_ == 1) {
+        // ensured rejection, however, criteria can update
+        trialMoveDecide_(0, 0);
+      } else {
+        trialMoveRecord_();
+        if (transType_.compare("translate") == 0) {
+          space_->randDisp(mpart_, maxMoveParam);
+        } else if (transType_.compare("rotate") == 0) {
+          space_->randRotate(mpart_, maxMoveParam);
+        }
+        trialMoveDecide_(0, 1);
+      }
     }
   } else {
     // ensured rejection, however, criteria can update
-    trialMoveDecide(0, 0);
+    trialMoveDecide_(0, 0);
   }
 }
 
-/**
- * tune max parameters for translation and rotation moves
- */
 void TrialTransform::tuneParameters() {
   // determine limits and percentage changes
   double percent = 0.05;   // percentage change
@@ -296,13 +316,10 @@ void TrialTransform::tuneParameters() {
   }
 
   if (upperLimit != 0) {
-    updateMaxMoveParam(percent, upperLimit, lowerLimit, targAcceptPer);
+    updateMaxMoveParam_(percent, upperLimit, lowerLimit, targAcceptPer);
   }
 }
 
-/*
- * return string for status of trial
- */
 string TrialTransform::printStat(const bool header) {
   stringstream stat;
   if (header) {
@@ -348,9 +365,6 @@ string TrialTransform::printStat(const bool header) {
   return stat.str();
 }
 
-/*
- * attempt to scale the domain
- */
 void TrialTransform::scaleAttempt_(const double factor) {
   // determine if lx, ly or lz (or volume if dim == -1)
   if (transType_.compare("lxmod") == 0) {

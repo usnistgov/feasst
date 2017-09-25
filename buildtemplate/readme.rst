@@ -1,1 +1,1 @@
-../sphinx/readme.rst
+.. include:: ../README.rst

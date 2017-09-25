@@ -5,9 +5,8 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 PairPatchKF::PairPatchKF(Space *space,
-  const double rCut,        //!< interaction cut-off distance (square well)
-  const double patchAngle    //!< solid half-angle of patch (see reference)
-  )
+  const double rCut,
+  const double patchAngle)
   : Pair(space, rCut),
     patchAngle_(patchAngle),
     cpa_(cos(patchAngle/180*PI)) {
@@ -19,10 +18,7 @@ PairPatchKF::PairPatchKF(Space *space,
 PairPatchKF::~PairPatchKF() {
 }
 
-/**
- * pair-wise force calculation of entire configuration
- */
-int PairPatchKF::initEnergy() {
+void PairPatchKF::initEnergy() {
   // shorthand for read-only space variables
   const int nMol = space_->nMol();
   const vector<double> &l = space_->l();
@@ -93,15 +89,11 @@ int PairPatchKF::initEnergy() {
       }
     }
   }
-  return 0;
 }
 
-/**
- * Lennard-Jones potential energy contribution due to particles
- */
 double PairPatchKF::multiPartEner(
-  const vector<int> mpart,    //!< particles to calculate energy interactions
-  const int flag     //!< place holder for other pair styles
+  const vector<int> mpart,
+  const int flag
   ) {
   if (flag == 0) {}  // remove unused parameter warning
 
@@ -116,11 +108,8 @@ double PairPatchKF::multiPartEner(
   return multiPartEnerNeigh(mpart);
 }
 
-/**
- * Lennard-Jones potential energy contribution due to particles
- */
 double PairPatchKF::multiPartEnerNeigh(
-  const vector<int> mpart    //!< particles to calculate energy interactions
+  const vector<int> mpart
   ) {
   // shorthand for read-only space variables
   const vector<double> &x = space_->x();
@@ -207,7 +196,7 @@ double PairPatchKF::multiPartEnerNeigh(
                     cosa = cosa*cosa/r2;
                     if (cosa >=  cpaSq) {
                       peSRone_ -= 1.;
-                      // cout << "multij " << iMol << " " << jMol << " peSRone_ " << peSRone_ << endl;
+// cout << "multij " << iMol << " " << jMol << " peSRone_ " << peSRone_ << endl;
                       storeNeighCutPEMap(jpart, 0);
                     }
                   }
@@ -228,14 +217,10 @@ double PairPatchKF::multiPartEnerNeigh(
   return peSRone_;
 }
 
-/**
- * stores, restores or updates variables to avoid recompute of entire
- * configuration after every change
- */
 void PairPatchKF::update(
-  const vector<int> mpart,    //!< particles involved in move
-  const int flag,         //!< type of move
-  const char* uptype    //!< description of update type
+  const vector<int> mpart,
+  const int flag,
+  const char* uptype
   ) {
   if (neighOn_) {
     updateBase(mpart, flag, uptype, neigh_, neighOne_, neighOneOld_);
@@ -262,12 +247,8 @@ void PairPatchKF::update(
   }
 }
 
-/**
- * write xyz for visualization
- *  use when mirrorPatch
- */
-int PairPatchKF::printxyz(const char* fileName,   //!< file with configuration
-  const int initFlag,    //!< open if flag is 1, append if flag is 0
+int PairPatchKF::printxyz(const char* fileName,
+  const int initFlag,
   const std::string comment) {
   ASSERT(dimen_ == 3, "printxyz assumes three dimensions");
 
@@ -345,7 +326,7 @@ int PairPatchKF::printxyz(const char* fileName,   //!< file with configuration
 }
 
 void PairPatchKF::updateClusters(const double tol) {
-  if (tol > 0) {};  // avoid unused parameter warning
+  if (tol > 0) {}  // avoid unused parameter warning
 
   // generate contact map
   allPartEnerForce(1);
@@ -357,9 +338,6 @@ void PairPatchKF::updateClusters(const double tol) {
   space_->contact2clusterAlt(contact_, contactpbc_);
 }
 
-/**
- * potential energy and forces of all particles
- */
 double PairPatchKF::allPartEnerForce(const int flag) {
   peSRone_ = 0.;
   if (flag == 0) {
@@ -399,7 +377,6 @@ double PairPatchKF::allPartEnerForce(const int flag) {
 
   // loop through pairs of molecules
   for (int iMol = 0; iMol < nMol - 1; ++iMol) {
-
     const int ipart = mol2part[iMol];
     const double xi = x[dimen_*ipart+0];
     const double yi = x[dimen_*ipart+1];
@@ -469,7 +446,6 @@ double PairPatchKF::allPartEnerForce(const int flag) {
 
       // no interaction beyond cut-off distance
       if (r2 < rCutSq_) {
-
         // hard sphere
         if (r2 < sigSq) {
           peSRone_ += NUM_INF;

@@ -27,7 +27,6 @@ class AnalyzeScatter : public Analyze {
     return(std::static_pointer_cast<AnalyzeScatter, Analyze>(
       cloneImpl(space, pair)));
   }
-  void defaultConstruction();
   void writeRestart(const char* fileName) { writeRestart(fileName, -1); };
   void writeRestart(const char* fileName, const int iMacro);
 
@@ -93,6 +92,8 @@ class AnalyzeScatter : public Analyze {
   // shared print function
   void printer_(const string fileName, CriteriaWLTMMC *c = NULL,
                 const int iMacro = 0);
+
+  void defaultConstruction_();
 
   // clone design pattern
   virtual shared_ptr<Analyze> cloneImpl(Space* space, Pair *pair) const {
