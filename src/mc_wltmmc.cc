@@ -524,10 +524,23 @@ void WLTMMC::nMolSeekInRange(const int nMin,
   double mMin = c_->mMin(), mMax = c_->mMax();
   if (nMin != -1) mMin = static_cast<double>(nMin) - 0.5;
   if (nMax != -1) mMax = static_cast<double>(nMax) + 0.5;
-  if (space_->nMol() > mMax) {
-    nMolSeek(feasstRound(mMax-0.5), 1e12);
-  } else if (space_->nMol() < mMin) {
-    nMolSeek(feasstRound(mMin+0.5), 1e12);
+  // if order parameter is number of first molecules
+  if (c_->mType().compare("nmol0") == 0) {
+    const int nMolType0 = space_->nMolType()[0];
+    if (nMolType0 > mMax) {
+      nMolSeek(space_->nMol() - nMolType0 + feasstRound(mMax - 0.5), 1e12);
+    } else if (nMolType0 < mMin) {
+      nMolSeek(space_->nMol() - nMolType0 + feasstRound(mMin + 0.5), 1e12);
+    }
+  // if order parameter is total number of molecules
+  } else if (c_->mType().compare("nmol") == 0) {
+    if (space_->nMol() > mMax) {
+      nMolSeek(feasstRound(mMax-0.5), 1e12);
+    } else if (space_->nMol() < mMin) {
+      nMolSeek(feasstRound(mMin+0.5), 1e12);
+    }
+  } else {
+    ASSERT(0, "unrecognized criteria order type");
   }
 }
 

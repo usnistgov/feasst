@@ -1,4 +1,5 @@
-prog=muvttmmclj
+prog=../muvttmmclj
+args="-t 1.2 -z -2.902929 -x 390 -o 1"
 
 if [ -z $FEASST_INSTALL_DIR_ ]; then
   echo "ERROR: the bash variable FEASST_INSTALL_DIR_ must be set to run:"
@@ -10,7 +11,7 @@ fi
 $FEASST_INSTALL_DIR_/tools/compile.sh $prog
 if [ $? -eq 0 ]; then
   mkdir -p tmp #directory for checkpoint files
-  ./$prog
+  ./$prog $args
 else
   echo "ERROR: Compilation failed"
 fi

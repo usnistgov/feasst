@@ -1,7 +1,4 @@
-#! /usr/bin/env python
-
 import os, sys
-#from libxdrfile import xdrfile_open, xdrfile_close, read_xtc_natoms, read_xtc, DIM, exdrOK
 feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/build"
 if (not os.path.isfile(feasstdir+"/_feasst.so")):
   feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/src"
@@ -9,8 +6,10 @@ sys.path.append(feasstdir)
 import feasst
 import math, argparse
 
-# parse arguments and print to log file
+# parse arguments
 parser = argparse.ArgumentParser()
+parser.add_argument("--openMP", help="use openMP parallelization", dest='openMP', action='store_true')
+parser.set_defaults(openMP=False)
 parser.add_argument("--npr", "-p", help="number of max trials", default=int(1e10), type=int)
 parser.add_argument("--boxl", "-l", help="box length", default=8, type=float)
 parser.add_argument("--rCut", "-r", help="cutoff distance", default=3., type=float)
@@ -20,9 +19,7 @@ parser.add_argument("--nfreq", "-f", help="number of trials per print", default=
 parser.add_argument("--nMolMax", "-x", help="maximum number of mols", default=390, type=int)
 parser.add_argument("--molName", "-m", help="molecule file name", default="data.lj", type=str)
 args = parser.parse_args()
-name = os.path.splitext(os.path.basename(__file__))[0]
-file = open(name+".log",'w')
-print >>file, args
+print(args)
 
 # initialize simulation domain
 feasst.ranInitByDate()
@@ -37,43 +34,40 @@ pair.initEnergy()
 
 # acceptance criteria
 nMolMin = 0
-criteria = feasst.CriteriaWLTMMC(1./args.temp, math.exp(args.lnz),"nmol",nMolMin-0.5,args.nMolMax+0.5,args.nMolMax-nMolMin+1)
+criteria = feasst.CriteriaWLTMMC(1./args.temp, math.exp(args.lnz),
+  "nmol", nMolMin - 0.5, args.nMolMax + 0.5, args.nMolMax - nMolMin + 1)
+criteria.collectInit()
+criteria.tmmcInit()
 
 # initialize monte carlo
 mc = feasst.WLTMMC(space, pair, criteria)
 mc.weight = 3./4.
-#tt = feasst.TrialTransform(space, pair, criteria, "translate")
-#tt = feasst.TrialTransform("translate")
-#mc.initTrial(tt)
-#mc.initTrial(feasst.TrialTransform("translate"))
 feasst.transformTrial(mc, "translate")
-#mc.transformTrial("translate")
 mc.weight = 1./8.
-#td = feasst.TrialDelete()
-#mc.initTrial(td)
-#mc.initTrial(feasst.TrialDelete())
 feasst.deleteTrial(mc)
+mc.weight = 1./8.
 feasst.addTrial(mc, addMolType)
-#mc.weight = 5.
-mc.weight = 1/args.nMolMax
-mc.confSwapTrial()
+
+# if using parallelization, allow configuration swaps between processors
+if args.openMP:
+  mc.weight = 1./args.nMolMax
+  mc.confSwapTrial()
 
 # output log, lnpi and movie
 mc.initLog("log", args.nfreq)
-mc.initColMat("colMat", args.nfreq) 
+mc.initColMat("colMat", args.nfreq)
 mc.setNFreqCheckE(args.nfreq, 1e-8)
 mc.setNFreqTune(args.nfreq)
-mc.initMovie("movie", args.nfreq) 
-#mc.initXTC("movie", args.nfreq) 
+mc.initMovie("movie", args.nfreq)
+#mc.initXTC("movie", args.nfreq)
 mc.initRestart("tmp/rst", args.nfreq)
-  
+
 # production tmmc simulation
-criteria.collectInit()
-criteria.tmmcInit()
-#mc.runNumTrials(args.npr)
-nExp=1.5
-nOverlap=0
-mc.initWindows(nExp, nOverlap)
-nSweeps=1
-mc.runNumSweeps(nSweeps, -1)
+if not args.openMP:
+  mc.runNumTrials(args.npr)
+else:
+  mc.initWindows(2.,  # exponent that determines size of windows
+                 0)   # extra macrostate overlap between processors
+  mc.runNumSweeps(1,  # number of "sweeps"
+                 -1)  # maximum number of trials. Infinite if "-1".
 

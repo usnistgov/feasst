@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # Reweight a collection matrix file to a given lnz, if given.
 # If a lnz is not given, then attempt to find saturation.
 #   For saturation, if a volume is not given, attempt to find the volume from a
@@ -23,7 +21,7 @@ parser.add_argument('--phaseBoundary', '-p', help="assign number of molecules as
 parser.add_argument('--volume', '-v', help="volume of simulation domain", default=-1, type=float)
 parser.add_argument('--rstFile', '-r', help="restart file for space domain", default="tmp/rstspace", type=str)
 args = parser.parse_args()
-print args
+print(args)
 
 # if the lnz was set to some value, reweight to the given lnz
 if (args.lnz != LNZDEFAULT):
@@ -37,7 +35,7 @@ if (args.lnz != LNZDEFAULT):
 else:
   # if volume is not given or unphysical, attempt to find volume from restart
   if (args.volume < 0):
-    assert(os.path.isfile(args.rstFile))
+    assert(os.path.isfile(args.rstFile))  # provide either -v or -r flags
     space = feasst.Space(args.rstFile)
   else:
     space = feasst.Space()

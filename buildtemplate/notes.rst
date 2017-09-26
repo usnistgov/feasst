@@ -198,3 +198,10 @@ TODO LIST
 * add ASSERT(rCutij.size() == 0 for linearShift in PairLJMulti so people don't run into issues with rCutij.clear
 * Numerical implementation of quadratic equation coudl help with config bias: https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation
 * Improve handling of default parameters for documentation and perhaps json (e.g. checkpointing above)?
+* Add copyright message at the top of each file, along with authorship, etc? Similar to LAMMPS
+* Move Add/mod new classes to API with links from README to API
+* Document PairLJCoulEwald
+* Combine PairLJCoulEwald and PairLJCoul in some way which doesn't involve copied code?
+* change initEnergy in most implementations to use Inner() and reduce code complexity/copied code.
+
+
