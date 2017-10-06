@@ -9,6 +9,7 @@ Accumulator::Accumulator() {
   className_.assign("Accumulator");
   reset();
 }
+
 Accumulator::Accumulator(const long long nValues, const long double sum,
   const long double sumSq) {
   reset();
@@ -83,10 +84,6 @@ double Accumulator::blockStdev() const {
     }
   }
   return 0;
-}
-
-void Accumulator::initMoments(const int nMoments) {
-  valMoment_.resize(nMoments);
 }
 
 #ifdef FEASST_NAMESPACE_

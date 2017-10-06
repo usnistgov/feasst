@@ -14,29 +14,11 @@ namespace feasst {
  */
 class Accumulator : public Base {
  public:
+  /// Constructor
   Accumulator();
-  virtual ~Accumulator() {}
 
-  /// Constructor for checkpointing. Note that block averages are not saved.
-  Accumulator(const long long nValues, const long double sum,
-              const long double sumSq);
-
-  /// Return number of values accumulated.
-  long long nValues() const { return (long long)nValues_; }
-
-  /// Sum of all values accumulated.
-  long double sum() const { return sum_; }
-  double sumDble() const { return sum_; }
-
-  /// Sum of the square of all values accumulated.
-  long double sumSq() const { return sumSq_; }
-  double sumSqDble() const { return sumSq_; }
-
-  /// Add a value to the running sum of values and sum of squared values.
+  /// Add a value to the running sum of values and higher moments.
   virtual void accumulate(double value);
-
-  /// Zero all accumulated values.
-  virtual void reset();
 
   /// Return average of accumulated values.
   double average() const;
@@ -55,11 +37,33 @@ class Accumulator : public Base {
     const long long nBlock = 1e5  //!< nBlock number of values per block
     ) { nBlock_ = nBlock; }
 
-  /// Return number of values per block.
-  long long nBlock() const { return nBlock_; }
-
   /// Return standard deviation of the block averages (0 if not enough blocks).
   double blockStdev() const;
+
+  /// Constructor for checkpointing. Note that block averages are not saved.
+  Accumulator(const long long nValues, const long double sum,
+              const long double sumSq);
+
+  /// Return number of values accumulated.
+  long long nValues() const { return (long long)nValues_; }
+
+  /// Return sum of all values accumulated.
+  long double sum() const { return sum_; }
+
+  /// Return sum of the squared of all values accumulated.
+  double sumDble() const { return sum_; }
+
+  /// Return sum of the square of all values accumulated.
+  long double sumSq() const { return sumSq_; }
+
+  /// Return sum of the squared of all values accumulated as double.
+  double sumSqDble() const { return sumSq_; }
+
+  /// Zero all accumulated values.
+  virtual void reset();
+
+  /// Return number of values per block.
+  long long nBlock() const { return nBlock_; }
 
   /// Return the maximum value accumulated.
   double max() const { return max_; }
@@ -68,10 +72,12 @@ class Accumulator : public Base {
   double min() const { return min_; }
 
   /// Set the highest order of moments recorded.
-  void initMoments(const int nMoments = 2);
+  void initMoments(const int nMoments = 2) { valMoment_.resize(nMoments); }
 
   /// Return the moments. Note that this is not supported with checkpointing.
   vector<long double> valMoment() const { return valMoment_; }
+
+  virtual ~Accumulator() {}
 
  protected:
   long long nValues_;

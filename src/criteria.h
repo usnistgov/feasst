@@ -1,6 +1,7 @@
 #ifndef CRITERIA_H_
 #define CRITERIA_H_
 
+#include "./functions.h"
 #include "./base_random.h"
 #include "./space.h"
 #include "./pair.h"
@@ -45,7 +46,7 @@ class Criteria : public BaseRandom {
   }
 
   /// Return activity of a given type, where type is index in order of add.
-  double activ(const int type) const { return activVec_[type]; }
+  double activ(const int type) const;
 
   /// Return the number of activies that were added
   int nActiv() const { return static_cast<int>(activVec_.size()); }

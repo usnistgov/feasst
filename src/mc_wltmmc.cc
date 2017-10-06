@@ -302,7 +302,7 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
     #endif  // _OPENMP
 
     // initialize confswaps
-    initOverlaps(t, clones);
+    initOverlaps(t, &clones);
     #ifdef MPI_H_
       MPI_Barrier(MPI_COMM_WORLD);
     #endif  // MPI_H_
@@ -335,7 +335,7 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
     // write restart files
     if (t == 0) writeRestart(rstFileName_.c_str());
 
-    runNumSweepsExec_(t, nSweeps, clones);
+    runNumSweepsExec_(t, nSweeps, &clones);
 
     #ifdef _OPENMP
       }
@@ -354,7 +354,7 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
 
 void WLTMMC::runNumSweepsExec_(const int t,    //!< thread
   const int nSweeps,  //!<
-  vector<shared_ptr<WLTMMC> > &clones
+  vector<shared_ptr<WLTMMC> > *clones
   ) {
   // decide whether to use MPI or OMP
   //  MPI uses restart files to communicate positions
@@ -381,7 +381,7 @@ void WLTMMC::runNumSweepsExec_(const int t,    //!< thread
     while (allSwept == false) {
       // attempt nFreqColMat_ trials
       for (long long i = 0; i < nFreqColMat_; ++i) {
-        clones[t]->attemptTrial();
+        (*clones)[t]->attemptTrial();
       }
 
       // check number of sweeps from restart files
@@ -473,14 +473,14 @@ void WLTMMC::runNumSweepsExec_(const int t,    //!< thread
     vector<CriteriaWLTMMC*> cloneCrit(nWindow_);
     bool allSwept = false;
     for (int tt = 0; tt < nWindow_; ++tt) {
-      cloneCrit[tt] = clones[tt]->c();
+      cloneCrit[tt] = (*clones)[tt]->c();
     }
     // #pragma omp barrier
 
     while (allSwept == false) {
       // attempt nFreqColMat_ trials
       for (long long i = 0; i < nFreqColMat_; ++i) {
-        clones[t]->attemptTrial();
+        (*clones)[t]->attemptTrial();
       }
 
       // terminate if all clones have atleast nSweeps
@@ -661,7 +661,7 @@ void WLTMMC::runNumSweepsRestart(
   #endif  // _OPENMP
 
   // initialize confswaps
-  initOverlaps(t, clones);
+  initOverlaps(t, &clones);
 
   // for a more perfect restart, check if Trial parameters should be tuned
   if (nFreqTune_ != 0) {
@@ -676,7 +676,7 @@ void WLTMMC::runNumSweepsRestart(
     (*it)->modifyRestart(clones[t]);
   }
 
-  runNumSweepsExec_(t, nSweeps, clones);
+  runNumSweepsExec_(t, nSweeps, &clones);
 
   #ifdef _OPENMP
     }
@@ -684,11 +684,11 @@ void WLTMMC::runNumSweepsRestart(
 }
 
 void WLTMMC::initOverlaps(const int t,    // thread
-  vector<shared_ptr<WLTMMC> > &clones
+  vector<shared_ptr<WLTMMC> > *clones
   ) {
   // if configuration swap trial move exists, initialize the overlapping regions
   #if defined (MPI_H_) || (_OPENMP)
-  if (clones[t]->trialConfSwapVec_.size() == 1) {
+  if ((*clones)[t]->trialConfSwapVec_.size() == 1) {
     #ifdef MPI_H_
       TrialConfSwapMPI* trial = NULL;
       trial->initProc(t);
@@ -696,7 +696,7 @@ void WLTMMC::initOverlaps(const int t,    // thread
     #ifdef _OPENMP
       TrialConfSwapOMP* trial = NULL;
     #endif  // _OPENMP
-    trial = clones[t]->trialConfSwap(0);
+    trial = (*clones)[t]->trialConfSwap(0);
 
     // if betaInc == 0, window density for single isotherm
     if (betaInc_ == 0) {
@@ -704,12 +704,12 @@ void WLTMMC::initOverlaps(const int t,    // thread
       // skip first window
       if (t != 0) {
         for (int bin = 0; bin < nOverlap_ + 1; ++bin) {
-          const double order = clones[t]->c()->bin2m(bin);
+          const double order = (*clones)[t]->c()->bin2m(bin);
           #ifdef MPI_H_
             trial->addProcOverlap(order, t - 1);
           #endif  // MPI_H_
           #ifdef _OPENMP
-            trial->addProcOverlap(order, clones[t-1]->trialConfSwap(0));
+            trial->addProcOverlap(order, (*clones)[t-1]->trialConfSwap(0));
           #endif  // _OPENMP
         }
       }
@@ -717,14 +717,14 @@ void WLTMMC::initOverlaps(const int t,    // thread
       // manually add largest bins as overlapping with next processor,
       // skip last window
       if (t != nWindow_ -1) {
-        const int lastbin = clones[t]->c()->nBin() - 1;
+        const int lastbin = (*clones)[t]->c()->nBin() - 1;
         for (int bin = lastbin - nOverlap_; bin <= lastbin; ++bin) {
-          const double order = clones[t]->c()->bin2m(bin);
+          const double order = (*clones)[t]->c()->bin2m(bin);
           #ifdef MPI_H_
             trial->addProcOverlap(order, t + 1);
           #endif  // MPI_H_
           #ifdef _OPENMP
-            trial->addProcOverlap(order, clones[t+1]->trialConfSwap(0));
+            trial->addProcOverlap(order, (*clones)[t+1]->trialConfSwap(0));
           #endif  // _OPENMP
         }
       }
@@ -732,13 +732,13 @@ void WLTMMC::initOverlaps(const int t,    // thread
     // if betaInc_ != 0, each processor is an isotherm of same density range
     } else {
       for (int bin = 0; bin < c_->nBin(); ++bin) {
-        const double order = clones[t]->c()->bin2m(bin);
+        const double order = (*clones)[t]->c()->bin2m(bin);
         if (t != 0) {
           #ifdef MPI_H_
             trial->addProcOverlap(order, t - 1, -betaInc_, -lnzInc_);
           #endif  // MPI_H_
           #ifdef _OPENMP
-            trial->addProcOverlap(order, clones[t-1]->trialConfSwap(0),
+            trial->addProcOverlap(order, (*clones)[t-1]->trialConfSwap(0),
               -betaInc_, -lnzInc_);
           #endif  // _OPENMP
         }
@@ -747,7 +747,7 @@ void WLTMMC::initOverlaps(const int t,    // thread
             trial->addProcOverlap(order, t + 1, betaInc_, lnzInc_);
           #endif  // MPI_H_
           #ifdef _OPENMP
-            trial->addProcOverlap(order, clones[t+1]->trialConfSwap(0),
+            trial->addProcOverlap(order, (*clones)[t+1]->trialConfSwap(0),
               betaInc_, lnzInc_);
           #endif  // _OPENMP
         }

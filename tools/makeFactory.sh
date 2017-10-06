@@ -187,7 +187,7 @@ echo "Generating documentation *.rst"
 printRSTHeader()
 {
   className=`grep "class " $header | grep "{" | head -1 | awk '{print $2}'`
-  printfile=${className}.rst
+  printfile=doc/${className}.rst
   echo "   $className" >> $tocfile
   echo "$className" > $printfile
   echo "=====================================================" >> $printfile
@@ -208,7 +208,7 @@ printDoc()
   # if array finds derived classes, set up toc
   header="../src/${class}.h"
   className=`grep "class " $header | grep "{" | head -1 | awk '{print $2}'`
-  tocfile=${class}toc.rst
+  tocfile=doc/${class}toc.rst
   echo "$className Classes" > $tocfile
   echo "=======================================================" >> $tocfile
   echo "" >> $tocfile
@@ -226,7 +226,7 @@ printDoc()
 
 # begin printing the api file, which needs to know whether to include one
 # class, or a toc for may derived classes
-apifile=api.rst
+apifile=doc/api.rst
 cat <<-EOF > $apifile
 ***********************************
 Application Program Interface (API)

@@ -32,9 +32,6 @@ TrialSwap::TrialSwap(const char* fileName,
   molTypeB_ = fstos("molTypeB", fileName);
 }
 
-/**
- * write restart file
- */
 void TrialSwap::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
@@ -42,19 +39,14 @@ void TrialSwap::writeRestart(const char* fileName) {
   file << "# molTypeB " << molTypeB_ << endl;
 }
 
-/**
- * default constructor
- */
 void TrialSwap::defaultConstruction_() {
   className_.assign("TrialSwap");
   trialType_.assign("move");
   verbose_ = 0;
 }
 
-/**
- * clone design pattern
- */
-TrialSwap* TrialSwap::clone(Space* space, Pair *pair, Criteria *criteria) const {
+TrialSwap* TrialSwap::clone(Space* space, Pair *pair,
+  Criteria *criteria) const {
   TrialSwap* t = new TrialSwap(*this);
   t->reconstruct(space, pair, criteria);
   return t;
@@ -72,9 +64,6 @@ shared_ptr<Trial> TrialSwap::cloneImpl(
 }
 
 
-/**
- * Attempt to randomly swap molecule types
- */
 void TrialSwap::attempt1_() {
   WARN(verbose_ == 1, "attempting to " << trialType_);
   const int nMolTypes = space_->addMolList().size();
@@ -90,10 +79,8 @@ void TrialSwap::attempt1_() {
     mpart_ = space_->randMol();
     iMolOld = space_->mol()[mpart_[0]];
     iMolIndexOld = space_->molid()[iMolOld];
-     molTypeOld = space_->moltype()[iMolOld];
+    molTypeOld = space_->moltype()[iMolOld];
   }
-
-  //cout << "iMolOld " << iMolOld << endl;
 
   // check if it is of type A or B
   string molTypeNew;
@@ -104,9 +91,6 @@ void TrialSwap::attempt1_() {
   } else {
     reject_ = 1;
   }
-
-  //cout << "molTypeOld " << molTypeOld << endl;
-  //cout << "molTypeNew " << molTypeNew << endl;
 
   // record position and numbers of molecules
   vector<double> xAdd;
@@ -207,7 +191,7 @@ string TrialSwap::printStat(const bool header) {
 ///**
 // * Attempt to randomly swap molecule types
 // */
-//void TrialSwap::attempt2() {
+// void TrialSwap::attempt2() {
 //  WARN(verbose_ == 1, "attempting to " << trialType_);
 //  const int nMolTypes = space_->addMolList().size();
 //  ASSERT(nMolTypes > 1,
@@ -300,6 +284,7 @@ void swapTrial(MC *mc, const char* molTypeA, const char* molTypeB) {
   shared_ptr<TrialSwap> trial = make_shared<TrialSwap>(molTypeA, molTypeB);
   mc->initTrial(trial);
 }
+
 void swapTrial(shared_ptr<MC> mc, const char* molTypeA, const char* molTypeB) {
   swapTrial(mc.get(), molTypeA, molTypeB);
 }

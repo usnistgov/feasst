@@ -76,6 +76,14 @@ double Criteria::activ() const {
   return activVec_[0];
 }
 
+double Criteria::activ(const int type) const {
+  ASSERT(type < static_cast<int>(activVec_.size()), "Tried to access an "
+    << "activity for particle type(" << type << "), but activVec size is "
+    << "only " << activVec_.size() << ", therefore you likely need to use "
+    << "criteria.addActiv( ) to input the activies of all particles.");
+  return activVec_[type];
+}
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

@@ -1,6 +1,9 @@
 #ifndef TRIAL_MD_H_
 #define TRIAL_MD_H_
 
+#include <memory>
+#include <string>
+#include <vector>
 #include "./trial.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -81,7 +84,7 @@ class TrialMD : public Trial {
       cloneImpl(space, pair, criteria)));
   }
 
-protected:
+ protected:
   vector<double> vel_;    //!< particle velocities
   vector<double> mass_;   //!< particle masses (assumed unity)
   vector<double> fCOM_;   //!< center of mass forces

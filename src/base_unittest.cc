@@ -474,7 +474,8 @@ const int	DIM1 = 20;
 TEST(Base, GSL) {
 
   int i;
-  double xi, yi, x[10], y[10];
+  double x[10], y[10];
+  //double xi, yi, x[10], y[10];
 
   //printf ("#m=0,S=2\n");
 
@@ -495,10 +496,10 @@ TEST(Base, GSL) {
 
     gsl_spline_init (spline, x, y, 10);
 
-    for (xi = x[0]; xi < x[9]; xi += 0.01) {
-      yi = gsl_spline_eval (spline, xi, acc);
-      //printf ("%g %g\n", xi, yi);
-    }
+//    for (xi = x[0]; xi < x[9]; xi += 0.01) {
+//      yi = gsl_spline_eval (spline, xi, acc);
+//      //printf ("%g %g\n", xi, yi);
+//    }
     gsl_spline_free (spline);
     gsl_interp_accel_free (acc);
   }

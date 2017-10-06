@@ -2,6 +2,7 @@
 #define TRIAL_DELETE_H_
 
 #include <memory>
+#include <string>
 #include "./trial.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -18,7 +19,8 @@ class Criteria;
 class TrialDelete : public Trial {
  public:
   /// Constructor
-  TrialDelete(Space *space, Pair *pair, Criteria *criteria, const char* molType);
+  TrialDelete(Space *space, Pair *pair, Criteria *criteria,
+              const char* molType);
 
   /// This constructor is not often used, but its purpose is to initialize trial
   /// for interface before using reconstruct to set object pointers.

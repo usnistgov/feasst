@@ -1,6 +1,9 @@
 #ifndef WLTMMC_H_
 #define WLTMMC_H_
 
+#include <memory>
+#include <string>
+#include <vector>
 #include "./mc.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -12,7 +15,6 @@ namespace feasst {
  */
 class WLTMMC : public MC {
  public:
-
   /// Constructor
   WLTMMC(Space* space, Pair* pair, CriteriaWLTMMC* criteria);
 
@@ -41,8 +43,11 @@ class WLTMMC : public MC {
   void runNumSweepsRestart(const int nSweeps, const char* fileName);
 
   /// Initialize OMP windows.
-  void initWindows(int flag) { if (flag == 1) { window_ = true; nExp_ = 1.5;
-                  nOverlap_ = 2; nWindow_ = 1;} else { window_ = false; } }
+  /// Note that the number of OMP processors is set by the bash environment.
+  /// For example, "export OMP_NUM_THREADS=4".
+  void initWindows(int flag   //!< use OMP if flag == 1
+    ) { if (flag == 1) { window_ = true; nExp_ = 1.5;
+    nOverlap_ = 2; nWindow_ = 1;} else { window_ = false; } }
 
   /// Initialize OMP windows with nExp determining spacing and nOverlap extra
   /// macrostates with processor overlaps.
@@ -82,7 +87,7 @@ class WLTMMC : public MC {
   vector<double> printSat();
 
   /// Initialize overlapping processors for OMP configuration swap trials.
-  void initOverlaps(const int t, vector<shared_ptr<WLTMMC> > &clones);
+  void initOverlaps(const int t, vector<shared_ptr<WLTMMC> > *clones);
 
   /// Initialize density threshold such that Configurational Bias is
   /// only performed when nMolMax/V > thres.
@@ -161,7 +166,7 @@ class WLTMMC : public MC {
 
   /// Execute running number of sweeps.
   void runNumSweepsExec_(const int t, const int nSweeps,
-                        vector<shared_ptr<WLTMMC> > &clones);
+                        vector<shared_ptr<WLTMMC> > *clones);
 
   /// this function is called after every trial attempt
   void afterAttempt_();

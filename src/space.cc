@@ -6,12 +6,13 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-Space::Space(int dimen, int id)
-  : dimen_(dimen),
+Space::Space(int dimension, int id)
+  : dimen_(dimension),
     id_(id) {
   className_.assign("Space");
   defaultConstruction_();
 }
+
 Space::Space(const char* fileName) {
   className_.assign("Space");
   ASSERT(fileExists(fileName),
@@ -326,7 +327,7 @@ void Space::readXYZ(const char* fileName) {
     { std::istringstream iss(line); iss >> iAtom;}
 
     // read coordinates and convert to angstroms
-    double coord[dimen_];
+    vector<double> coord(dimen_);
     listAtoms_.clear();
     int nTypes = 0;
     vector<string> nTypeStrings;
@@ -389,18 +390,21 @@ void Space::readXYZ(std::ifstream& file) {
     { std::istringstream iss(line); iss >> iAtom;}
 
     // read coordinates and convert to angstroms
-    double coord[dimen_];
     for (int i = 0; i < natom(); ++i) {
       getline(file, line);
       std::istringstream iss(line);
       string tmp;
-      iss >> tmp >> coord[0] >> coord[1] >> coord[2];
-      for (int dim = 0; dim < dimen_; ++dim) x_[dimen_*i+dim] = coord[dim];
+      iss >> tmp;
+      for (int dim = 0; dim < dimen_; ++dim) {
+        double coord;
+        iss >> coord;
+        x_[dimen_*i+dim] = coord;
+      }
     }
   }
 }
 
-double Space::pbc(const double x,const int i) {
+double Space::pbc(const double x, const int i) {
   ASSERT(fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < doubleTolerance,
     "orthogonal box pbc called with nonzero tilt factors");
   double dx = x/l_[i];  // change in position, to be returned
@@ -548,7 +552,7 @@ void Space::randRotate(const vector<int> mpart, const double maxDisp) {
   }
 }
 
-void Space::randRotateMulti(const vector<int> mpart,const double maxDisp,
+void Space::randRotateMulti(const vector<int> mpart, const double maxDisp,
   const vector<double> &sig) {
   const int natom = static_cast<int>(mpart.size());
 
@@ -2810,7 +2814,7 @@ void Space::floodFillContactAlt_(const int clusterNode,
         vector<int> currentImage(dimen_);
 //        cout << "dpbc ";
 //        int jindex = -1;
-//        ASSERT(findInList(iMol, contact[jMol], jindex), "iMol/jMol reciprocity");
+//     ASSERT(findInList(iMol, contact[jMol], jindex), "iMol/jMol reciprocity");
         for (int dim = 0; dim < dimen_; ++dim) {
           const double dpbc = contactpbc[iMol][index][dim];
           if (fabs(dpbc) < DTOL) {
@@ -2827,15 +2831,16 @@ void Space::floodFillContactAlt_(const int clusterNode,
 
         // if in contact but not listed, add (i,jMol) to cluster
         if (cluster_[i] == -natom()) {
-
           // cout << "pbc " << vec2str(contactpbc[iMol][index]) << endl;
-          // cout << "Current part: i " << i << " mol " << jMol << " node " << clusterNode << " mol " << iMol << " x " << x(i, 2) << endl;
+          // cout << "Current part: i " << i << " mol " << jMol << " node "
+          //      << clusterNode << " mol " << iMol << " x " << x(i, 2) << endl;
           cluster_[i] = clusterID;
           clusterMol_[jMol] = clusterID;
-          for (int ipart = mol2part_[jMol]; ipart < mol2part_[jMol+1]; ++ipart) {
+          for (int ipart = mol2part_[jMol]; ipart < mol2part_[jMol+1];
+               ++ipart) {
             for (int dim = 0; dim < dimen_; ++dim) {
               xcluster_[dimen_*ipart+dim] += currentImage[dim]*l_[dim];
-              //xcluster_[dimen_*ipart+dim] -= contactpbc[iMol][index][dim];
+              // xcluster_[dimen_*ipart+dim] -= contactpbc[iMol][index][dim];
             }
           }
 
@@ -2849,13 +2854,14 @@ void Space::floodFillContactAlt_(const int clusterNode,
         // if contact already found previously, check image for percolation
         } else {
 //          cout << "already found" << endl;
-//          cout << "Current part: i " << i << " mol " << jMol << " node " << clusterNode << " mol " << iMol << " x " << x(i, 2) << endl;
+//          cout << "Current part: i " << i << " mol " << jMol << " node "
+//               << clusterNode << " mol " << iMol << " x " << x(i, 2) << endl;
 //          cout << "Previous image: " << vec2str((*image)[i]) << endl;
           for (int dim = 0; dim < dimen_; ++dim) {
             if ((*image)[i][dim] != currentImage[dim]) {
 //              cout << "**" << endl << "PERCOLATION found!" << endl;
-              //cout << "node " << clusterNode << endl;
-              //cout << "i " << i << endl;
+              // cout << "node " << clusterNode << endl;
+              // cout << "i " << i << endl;
               percolation_ = 1;
             }
           }
@@ -3755,8 +3761,7 @@ void Space::avb(const int iAtom, const int jAtom, const double rAbove,
   xset(iAtom, xnew);
 }
 
-double Space::Q6(const double rCut
-  ) {
+double Space::Q6(const double rCut) {
   xMolGen();
   vector<double> rij(3);
   vector<std::complex<double> > sphH(13);
@@ -4151,7 +4156,7 @@ void Space::initIntra(const vector<vector<int> >& map) {
 void Space::replicate(const int nx, const int ny, const int nz) {
   // catch implementation caveat
   ASSERT(dimen() == 3, "replicate assumes 3D");
-  ASSERT( (xyTilt_ == 0) && (xzTilt_ == 0) && (yzTilt_ == 0),
+  ASSERT((xyTilt_ == 0) && (xzTilt_ == 0) && (yzTilt_ == 0),
     "tilt is not implemented in replication");
 
   // store original variables
@@ -4165,7 +4170,7 @@ void Space::replicate(const int nx, const int ny, const int nz) {
   for (int ix = 0; ix <= nx; ++ix) {
   for (int iy = 0; iy <= ny; ++iy) {
   for (int iz = 0; iz <= nz; ++iz) {
-    if ( (ix != 0) || (iy != 0) || (iz != 0) ){
+    if ( (ix != 0) || (iy != 0) || (iz != 0) ) {
       for (int iMol = 0; iMol < nMolOrig; ++iMol) {
         vector<int> lshift;
         lshift.push_back(ix);

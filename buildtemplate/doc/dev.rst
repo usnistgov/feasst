@@ -121,9 +121,9 @@ If there are a lot of errors, typically the best testing order would be::
 Find memory leaks with Valgrind
 #################################
 
-http://valgrind.org/
-
 Valgrind helps to detect memory management bugs.
+
+http://valgrind.org/
 
 For example, to run valgrind on a particular test and output to text file
 
@@ -134,6 +134,7 @@ For example, to run valgrind on a particular test and output to text file
 * For unitilized value errors, try --track-origins=yes
 * For leaks, try --leak-check=full --show-leak-kinds=all
 * Don't use profiler for leak checks. OMP causes "leaks" O.K.
+* For suppress false-positives (e.g., gomp or gsl), use --gen-suppressions=all to generate suppression files
 
 Test coverage with GCOV and LCOV
 ###################################
@@ -153,7 +154,22 @@ https://google.github.io/styleguide/cppguide.html
 
 https://github.com/google/styleguide/tree/gh-pages/cpplint
 
+Philosophical questions
+#######################################
 
+Why are there so many comments in the header files?
+****************************************************
+
+Because I assume most users are primarily concerned with the interface.
+I prefer that one can understand most aspects of the class simply by reading the header file.
+If you would like to contribute code, then document how you are most comfortable.
+
+Why use camel case instead of underscores?
+*******************************************
+
+It saves one key stroke versus a "_" and one horizontal space.
+Perhaps for the sake of readability, FEASST will switch to a more pythonic style but that would take a lot of work.
+Feel free to stick to your favorite style in your contributed work, although ideally there is only one style per file!
 
 
 

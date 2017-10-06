@@ -29,6 +29,10 @@ using std::string;
 using std::shared_ptr;
 using std::make_shared;
 
+#ifdef FEASST_NAMESPACE_
+namespace feasst {
+#endif  // FEASST_NAMESPACE_
+
 #define NUM_INF std::numeric_limits<double>::max()/1e10
 
 /// If the assertion condition is not true, throw exception with message.
@@ -37,7 +41,7 @@ if (! (condition)) { \
   std::stringstream err_msg; \
   err_msg << "# Assertion `" #condition "` failed in " << __FILE__ \
             << " line " << __LINE__ << ": " << message; \
-  feasst::CustomException c(err_msg); \
+  CustomException c(err_msg); \
 }
 
 /// If the warning condition is true, send message to standard output.
@@ -52,10 +56,6 @@ if (condition) { \
 std::cout << "# Note in " << __FILE__ \
           << " line " << __LINE__ << ": " << message << std::endl; \
 //throw c;
-
-#ifdef FEASST_NAMESPACE_
-namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 //class Functions { // here is where we trick ../tools/makeFactory.sh.
 

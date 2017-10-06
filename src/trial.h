@@ -67,6 +67,13 @@ class Trial : public BaseRandom {
    */
   void confine(const double upper, const double lower, const int dimension);
 
+  /// Indicate that the trial is being performed to reach a certain number of
+  /// particles, nPartTarget. Therefore, detailed balance may not need to be
+  /// obeyed in order to speed up nMolSeek.
+  /// If nPartTarget == -1, then there is no seeking.
+  void initializeNMolSeek(const int nPartTarget = -1) {
+    nPartTarget_ = nPartTarget; }
+
   /// Factory method.
   shared_ptr<Trial> makeTrial(Space* space, Pair* pair, Criteria* criteria,
                               const char* fileName);
@@ -164,6 +171,8 @@ class Trial : public BaseRandom {
   double confineUpper_;
   double confineLower_;
   int confineDim_;
+
+  int nPartTarget_;   //!< target number of particles
 
   // default constructor
   void defaultConstruction_();

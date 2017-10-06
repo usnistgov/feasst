@@ -3,7 +3,7 @@ AUTHORS
 **********************************************************************
 
 Harold Wickes Hatch
-  - original developer of FEASST
+  - lead developer of FEASST
 
 Nathan Alexander Mahynski
   - collaborated with Wick on superquadric geometry
@@ -19,6 +19,8 @@ Dr. Tamoghna Das
 Prof. Jeetain Mittal
 Dr. Hasan Zerze
 Dr. Steven Howell
+Cesar O Calero-Rubio
+Prof. Sapna Sarupria
 
 **********************************************************************
 EXTERNAL SOURCES

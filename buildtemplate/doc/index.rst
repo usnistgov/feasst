@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 3
 
    readme
+   testcase
    api
    dev
    notes

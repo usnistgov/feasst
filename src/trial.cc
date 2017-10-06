@@ -56,6 +56,11 @@ Trial::Trial(Space *space,
     int dim = fstoi("confineDim", fileName);
     confine(stod(strtmp), lower, dim);
   }
+
+  strtmp = fstos("nPartTarget", fileName);
+  if (!strtmp.empty()) {
+    initializeNMolSeek(stoi(strtmp));
+  }
 }
 
 void Trial::defaultConstruction_() {
@@ -69,6 +74,7 @@ void Trial::defaultConstruction_() {
   rBelow_ = -1;
   avbOn_ = false;
   confineFlag_ = 0;
+  initializeNMolSeek();
 }
 
 void Trial::reconstruct(Space* space, Pair *pair, Criteria *criteria) {
@@ -213,6 +219,9 @@ void Trial::writeRestartBase(const char* fileName) {
     file << "# confineUpper " << confineUpper_ << endl;
     file << "# confineLower " << confineLower_ << endl;
     file << "# confineDim " << confineDim_ << endl;
+  }
+  if (nPartTarget_ == -1) {
+    file << "# nPartTarget " << nPartTarget_ << endl;
   }
 
   // write random number generator state

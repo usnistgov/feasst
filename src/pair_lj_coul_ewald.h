@@ -1,12 +1,8 @@
-/**
- * \file
- *
- * \brief lennard-jones pairwise interactions with long range coulombic interactions treated by ewald
- *
- */
 #ifndef PAIR_LJ_COUL_EWALD_H_
 #define PAIR_LJ_COUL_EWALD_H_
 
+#include <string>
+#include <vector>
 #include "./pair.h"
 #include "./table.h"
 
@@ -14,61 +10,38 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ * Lennard Jones pairwise interactions with long range coulombic interactions
+ * treated by the Ewald summation.
+ */
 class PairLJCoulEwald : public Pair {
  public:
-  PairLJCoulEwald(Space* space, const double rCut);
-  PairLJCoulEwald(Space* space, const char* fileName);
-  ~PairLJCoulEwald();
-  virtual PairLJCoulEwald* clone(Space* space) const {
-    PairLJCoulEwald* p = new PairLJCoulEwald(*this);
-    p->reconstruct(space);
-    return p;
-  }
-
-  /// write restart file
-  void writeRestart(const char* fileName);
-
-  void initEnergy();     //!< function to calculate forces, given positions
-  /// calculate reciprical (Fourier) space forces, given positions
-  void forcesFrr();
-  /// compute standard long range contributions of all particles
-  void lrcConf();
-
-  /// calculate interaction energy contribution of multiple particles
-  double multiPartEner(const vector<int> multiPart, const int flag);
-
-  /// function to calculate real-space interaction energy contribution a subset
-  //  of particles
-  double multiPartEnerReal(const vector<int> mpart, const int flag);
-  double multiPartEnerRealAtomCut(const vector<int> mpart, const int flag);
-
-  /// compute fourier space contributions of multiple particles
-  void multiPartEnerFrr(const vector<int> mpart, const int flag);
-
-  /// stores, restores or updates variables to avoid order recompute of entire
-  //  configuration after every change to the system
-  void update(const vector<int> mpart, const int flag, const char* uptype);
-
-  /// compute standard long range contributions of one particle ipart
-  double lrcOne(const int ipart);
-
-  void selfCorrect(vector<int> mpart);   //!< compute self interactions of mpart
-
-  double peTot();   //!< total potential energy of system
-
-  void delPart(const int ipart);   //!< delete one particle
-  void delPart(const vector<int> mpart);   //!< delete particles
-  void addPart();                       //!< add one particle
+  /// Constructor
+  PairLJCoulEwald(Space* space,
+    /// interaction cut-off distance
+    const double rCut);
 
   double alpha;               //!< ewald damping parameter
 
-  /// set maximum wave vector and compute self interactions
-  void k2maxset(const int k2max);
+  /**
+   * resize the wave vector arrays for a given maximum wave vector
+   *  compute self interactions in fourier space
+   */
+  void k2maxset(
+    /// maximum wave vector magnitude cut off
+    const int k2max);
 
   /// initialize bulk simulation of SPCE waters, atoms listed as oxygen then
   //  two hydrogens
   void initBulkSPCE();
-  void initBulkSPCE(const double alphatmp, const int kmax);
+
+  /**
+   * Initialize bulk simulation of SPCE waters, atoms listed as oxygen then two
+   * hydrogens. Also set parameters.
+   */
+  void initBulkSPCE(const double alphatmp,  //!< Ewald alpha parameter
+    /// Ewald maximum wave vector in a given dimension.
+    const int kmax);
 
   /// initialize kspace, number of wave vectors and screening parameters
   void initKSpace(const double alphatmp, const int k2max);
@@ -80,6 +53,51 @@ class PairLJCoulEwald : public Pair {
   /// initialize with LAMMPS data file
   void initJSONData(const string fileName) { ASSERT(fileName == "684358558679",
     "JSON not implemented for charges"); }
+
+  void initEnergy();     //!< function to calculate forces, given positions
+
+  /**
+   *  compute interaction contributions of multiple particles
+   *  flag==0, energy of old configuration (no moves, ins or dels)
+   *  flag==1, new configuration, same number of particles
+   *  flag==2, old configuration, preparing to delete (same as 0)
+   *  flag==3, just inserted particle
+   */
+  double multiPartEner(const vector<int> multiPart, const int flag);
+
+  /// function to calculate real-space interaction energy contribution a subset
+  //  of particles
+  double multiPartEnerReal(const vector<int> mpart, const int flag);
+  double multiPartEnerRealAtomCut(const vector<int> mpart, const int flag);
+
+  /**
+   * reciprical space energy of multiple particles, mpart.
+   *  flag==0, energy of old configuration (no moves, ins or dels)
+   *  flag==1, new configuration, same number of particles
+   *  flag==2, old configuration, preparing to delete (same as 0)
+   *  flag==3, just inserted particle
+   */
+  void multiPartEnerFrr(const vector<int> mpart, const int flag);
+
+  /**
+   * stores, restores or updates variables to avoid recompute of entire
+   * configuration after every change
+   *  flag==0, energy of old configuration (no moves, ins or dels)
+   *  flag==1, new configuration, same number of particles
+   *  flag==2, old configuration, preparing to delete (same as 0)
+   *  flag==3, just inserted particle
+   *  flag==5, computing entire configuration
+   */
+  void update(const vector<int> mpart,  //!< particles involved in move
+    const int flag,   //!< type of move
+    /// description of update type
+    const char* uptype);
+
+  double peTot();   //!< total potential energy of system
+
+  void delPart(const int ipart);   // HWH depreciate: delete one particle
+  void delPart(const vector<int> mpart);   //!< delete particles
+  void addPart();                       //!< add particle(s)
 
   /// check size of class variables
   void sizeCheck();
@@ -96,6 +114,18 @@ class PairLJCoulEwald : public Pair {
   double peQFrrSelf() const { return peQFrrSelf_; }
   double peQFrrSelfone() const { return peQFrrSelfone_; }
   vector<double> q() const {return q_; }
+
+  /// Write restart file.
+  void writeRestart(const char* fileName);
+
+  /// Construct from restart file.
+  PairLJCoulEwald(Space* space, const char* fileName);
+  ~PairLJCoulEwald();
+  virtual PairLJCoulEwald* clone(Space* space) const {
+    PairLJCoulEwald* p = new PairLJCoulEwald(*this);
+    p->reconstruct(space);
+    return p;
+  }
 
  protected:
   vector<double> q_;      //!< particle charges
@@ -156,6 +186,25 @@ class PairLJCoulEwald : public Pair {
   vector<double> kexp_;   //!< pre-computed wave-vector prefactor for Ewald sum
   vector<vector<double> > kvec_;   //!< pre-computed wave-vector for Ewald sum
   vector<int> k_;   //!< pre-computed k integers for Ewald sum
+
+  /**
+   * reciprical space forces, energy and virial
+   *  fourier space sum over wave vectors for Ewald sum
+   */
+  void forcesFrr_();
+
+  /// compute standard long range contributions of all particles
+  void lrcConf_();
+
+  /// compute standard long range contributions of one particle ipart
+  double lrcOne_(const int ipart);
+
+  /**
+   * computes self interaction energies to compensate for Ewald Sum
+   *  of mpart particles
+   *  if mpart is null, updates self interaction energy for entire system
+   */
+  void selfCorrect_(vector<int> mpart);
 
   erftable erft_;   //!< tabular error function
 };

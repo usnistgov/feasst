@@ -91,6 +91,25 @@ LJYanalytical
 
 which a lot of these use the linearShifts. To be absolutely sure you could follow the similar procedure of using "xAdd" to place two molecules precisely in a box and test the energies.
 
+How to efficiently divide windows
+*************************************
+
+This is a common issue with a few approaches
+
+1. You can use initWindows(nExp= variable to set the spacing based on some exponential distribution,e.g., nExp=3. makes windows even bigger o the low density side vs nExp=2.
+
+http://feasst.hhatch.com/WLTMMC.html#_CPPv2N6WLTMMC11initWindowsEKdKi
+
+void initWindows(const double nExp, const int nOverlap)
+
+2. The preliminary sampling idea is hard to implement because its hard to estimate how long it will take to converge the high density region, because you don't really know when it will converge (if ever) until it finally does
+
+3. One thing I did for some really high density simulations is I simply broke them up into multiple simulations. For example, I launched two jobs simultaneously, one with N=0 to 336, and another N=336 to N=550. Of course the low density ones finished 10x faster but then the high density windows were smaller
+
+4. If you're trying to do a high throughput approach where each model and condition can be quite different but you don't want to have to hand pick conditions for each one, you can do a ridiculous number of windows (N=16/32 perhaps?) and terminate after some run time and only use the windows that managed to converge and throw out the rest. Still you would want to choose carefully the nMolMax to not have too much wasted processor time.
+
+One thing to look out for is you want the processors running high density to have some kind of access to the configurations coming up from the low density windows to help convergence so its not just stuck in some glass. In that regard it may help to have the OMP configuration swaps on (TrialConfSwapOMP) but I would hesitate to increase the frequency of these swaps because they break detailed balance.
+
 Recompile with -fPIC
 *********************
 
@@ -203,5 +222,10 @@ TODO LIST
 * Document PairLJCoulEwald
 * Combine PairLJCoulEwald and PairLJCoul in some way which doesn't involve copied code?
 * change initEnergy in most implementations to use Inner() and reduce code complexity/copied code.
-
+* nightly build -> unittests, test cases, coverage, valgrind, profiling, docs, python
+* implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).
+* move xdrfile and others to extern, change location of xdrfile file library away from "home" directory
+* make extern/README.rst and others part of the documentation.
+* Fix GSL memory leaks
+* I prefer segfault on error for backtrace, but I should make it so all my packages do not segfault on back trace (CMakeList.txt macro?)
 

@@ -8,6 +8,7 @@
 #ifndef TRIAL_XSWAP_H_
 #define TRIAL_XSWAP_H_
 
+#include <memory>
 #include "./trial.h"
 
 #ifdef FEASST_NAMESPACE_

@@ -26,7 +26,7 @@ namespace feasst {
 class Space : public BaseRandom {
  public:
   /// Construct with spatial dimension and ID number.
-  Space(int dimen = 3, int id = 0);
+  explicit Space(int dimension = 3, int id = 0);
 
   /// Construct by checkpoint file.
   explicit Space(const char* fileName);
@@ -54,15 +54,16 @@ class Space : public BaseRandom {
   /// Write the atomic positions to a file.
   int printXYZ(const char* fileName,
     const int initFlag,
-   /*  Open for first time and write vmd script if flag is 1.
-    *  Append if flag is 0.
-    *  Print vmd file for xtc if flag is 2.
-    */
-    const std::string comment="");
+    /*  Open for first time and write vmd script if flag is 1.
+     *  Append if flag is 0.
+     *  Print vmd file for xtc if flag is 2.
+     */
+    const std::string comment = "");
 
   // NOTE HWH: Depreciated for style. Use printXYZ.
   int printxyz(const char* fileName, const int initFlag,
-    const std::string comment="") { return printXYZ(fileName, initFlag, comment); }
+               const std::string comment = "") {
+               return printXYZ(fileName, initFlag, comment); }
 
   /** Read particle positions and number of particles from XYZ file format.
    *  http://www.ks.uiuc.edu/Research/vmd/plugins/molfile/xyzplugin.html
@@ -129,11 +130,12 @@ class Space : public BaseRandom {
    *  not spherically symmetric. But for Multi implementation, store multiple
    *  instances of the coordinates before writing over them (e.g., for use
    *  with configurational bias). */
-  void xStoreMulti(const vector<int> mpart, const int flag
-   /** if flag == -1, clear all previous stores, then store particles in mpart
-    * if flag == -2, store another mpart
-    * if flag == positive integer, restore mpart particles from the 'index'th    *   store with negative flags. */
-  );
+  void xStoreMulti(const vector<int> mpart,
+    /** if flag == -1, clear all previous stores, then store particles in mpart
+     * if flag == -2, store another mpart
+     * if flag == positive integer, restore mpart particles from the 'index'th
+     *   store with negative flags. */
+    const int flag);
 
   /** Restore list of particles, mpart, to the positions and orientations
    *  when the last xStore() was called. */
@@ -141,7 +143,7 @@ class Space : public BaseRandom {
 
   /** Restore all particles to positions and orientations when last xStore()
    * was called. */
- void restoreAll();
+  void restoreAll();
 
   /// Set particle iPart to position "pos".
   void xset(double pos, int iPart, int dim) {x_[iPart*dimen_+dim] = pos; }
@@ -225,7 +227,8 @@ class Space : public BaseRandom {
 
   /* Read bulk molecule xyz with natoms each, and assign type and mol.
    * NOTE HWH: Depreciated function. */
-   void readXYZBulk(const int nMolAtoms, const char* type, const char* fileName);
+  void readXYZBulk(const int nMolAtoms, const char* type,
+                   const char* fileName);
 
   /// Returns particle IDs of the last molecule that was added.
   vector<int> lastMolIDVec();
@@ -256,8 +259,8 @@ class Space : public BaseRandom {
    *  and returns whether mpart was previously in a bonded configuration. */
   int avb(const vector<int> mpart, const vector<int> jmpart,
           const double rabove, const double rbelow,
-          const char* type  //!< move to type=="(non)bonded" region
-  );
+          /// move to type=="(non)bonded" region
+          const char* type);
 
   /// Move atom iAtom to in/out region of jmpart.
   // NOTE HWH : is this function still used?
@@ -269,8 +272,8 @@ class Space : public BaseRandom {
 
   /// Initialize cells in cell list
   void updateCells(const double dCellMin,  //!< minimm cell size
-    const double rCut  //!< maximum cutoff radius for interactions
-    );
+    /// maximum cutoff radius for interactions
+    const double rCut);
 
   /// Simplified cell list initialization for dCellMin == rCut.
   void updateCells(const double dCellMin) { updateCells(dCellMin, dCellMin); }
@@ -335,8 +338,8 @@ class Space : public BaseRandom {
    * atom types, masses. Resizes appropriate arrays. This function is
    * not be confused with addMolInit, which is preferred for users. */
   void initLMPData(const std::string fileName,
-    const int nTypesExist = 0  // number of particle types that already exists
-    );
+    // number of particle types that already exists
+    const int nTypesExist = 0);
 
   /* Initialize with data file, where file JSON file exensions are recognized
    * if JSON_ preprocessor macro is defined at comilation. */
@@ -430,8 +433,7 @@ class Space : public BaseRandom {
     /** For each molecule, list of molecules which are in contact. */
     vector<vector<int> > contact,
     /** For each molecule, PBC shift (for each dimension) of each contact. */
-    vector<vector<vector<double> > > contactpbc
-  );
+    vector<vector<vector<double> > > contactpbc);
 
   // Use contact and contactpbc to update cluster variables.
   // NOTE HWH: Deprciated. Use contact2clusterAlt.
@@ -469,8 +471,8 @@ class Space : public BaseRandom {
   void setAtomInBranch(const int a1, const int a2, const int a3, const int a4,
     const double t143,  //!< angle between particles 1, 4 and 3
     const double t243,  //!< angle between particles 2, 4 and 3
-    const double L      //!< bond length between particles 3 and 4
-  );
+    /// bond length between particles 3 and 4
+    const double L);
 
   /** Modify bond angle of iAtom to theta, where bond angle is defined by
    *  angle \f$ \angle ijk \f$, preserving the plane that i,j,k reside. */
@@ -514,8 +516,8 @@ class Space : public BaseRandom {
 
   /// Return a random position, centered about molecule iMol.
   vector<double> randPosition(const double iMol,
-    const double maxDisp  //!< maximum distance away from iMol in each dimen
-  );
+    /// maximum distance away from iMol in each dimen
+    const double maxDisp);
 
   // compute the scattering intensity using full Debye equation
   // NOTE HWH: Depreciate in favor of Analysis.
@@ -533,8 +535,9 @@ class Space : public BaseRandom {
     { scaleDomain(pow(factor, 1./dimen_), dim); } }
 
   /// Return the global, rotationally invariant q6 bond order parameter.
-  double Q6(const double rCut  //!< distance cut-off to define neighbors
-    );
+  double Q6(
+    /// distance cut-off to define neighbors
+    const double rCut);
 
   /// NOTE HWH: Define precisely XY, XZ and YZ tilt factors here.
   /// Set the xy tilt factor
@@ -585,8 +588,8 @@ class Space : public BaseRandom {
   void replicate(
     const int nx = 1,  //!< number of times to replicate in x dimension
     const int ny = 1,  //!< number of times to replicate in y dimension
-    const int nz = 1   //!< number of times to replicate in z dimension
-    );
+    /// number of times to replicate in z dimension
+    const int nz = 1);
 
   /// Initialize intramolecular interactions via contact map (1 if ixn).
   void initIntra(const vector<vector<int> >& map);
@@ -866,7 +869,6 @@ class Space : public BaseRandom {
                    const double x2, const double y2, const double z2,
                    double *x3, double *y3, double *z3, const double c143,
                    const double c243);
-
 };
 
 #ifdef FEASST_NAMESPACE_

@@ -878,9 +878,15 @@ int Pair::printxyz(const char* fileName,
   fprintf(xyzFile, "%f %s\n", space_->xyTilt(), comment.c_str());
   if (xyzFile != NULL) {
     for (int ipart = 0; ipart < natom; ++ipart) {
-      if (eps_[type[ipart]] == 0) {
-        fprintf(xyzFile, "H ");
-        nonInteractingSite = true;
+      // check if epsilon is 0 or non existent
+      const int epsSize = eps_.size();
+      double eps = 0;
+      if (epsSize > type[ipart]) {
+        eps = eps_[type[ipart]];
+      }
+      if (eps == 0) {
+          fprintf(xyzFile, "H ");
+          nonInteractingSite = true;
       } else if (type[ipart] == 1) {
         fprintf(xyzFile, "O ");
       } else if (type[ipart] == 2) {

@@ -27,8 +27,8 @@ class TrialConfSwapOMP : public Trial {
     const double order,   //!< order parameter value
     TrialConfSwapOMP* trial,  //!< pointer to swap trial on other processor
     const double dbeta = 0.,   //!< change in beta of overlapping processor
-    const double dlnz = 0.     //!< change in lnz of overlapping processor
-    );
+    /// change in lnz of overlapping processor
+    const double dlnz = 0.);
 
   /// Given order, return index (or -1 if not overlapping).
   int order2index(const double order);

@@ -65,14 +65,15 @@ MC::MC(const char* fileName) {
     const string trialClassName = fstos("className", trialFileStr.c_str());
     ASSERT(!trialClassName.empty(), "trialClassName not provided in restart"
            << "file(" << trialFileStr << ")");
-    #ifdef _OPENMP
+    #ifdef MPI_H_
+      cout << "trialClassName " << trialClassName << " trialFileStr " << trialFileStr << endl;
       ASSERT(trialClassName.compare("TrialConfSwapOMP") != 0,
              "TrialConfSwapOMP requires -D _OPENMP during compilation");
-    #endif  // _OPENMP
-    #ifdef MPI_H_
+    #endif  // MPI_H_
+    #ifdef _OPENMP
       ASSERT(trialClassName.compare("TrialConfSwapTXT") != 0,
              "TrialConfSwapTXT requires -D TXT_H_ during compilation");
-    #endif  // MPI_H_
+    #endif  // _OPENMP
     Trial *trial = NULL;
     initTrial(trial->makeTrial(space_, pair_, criteria_, trialFileStr.c_str()));
   }
@@ -418,6 +419,12 @@ void MC::nMolSeek(
       deleteTrial(mc);
     }
 
+    // Tell all trials that there is a target number of particles to obtain,
+    // and that they may break detailed balance to speed up the process.
+    for (int iTrial = 0; iTrial < nTrials(); ++iTrial) {
+      trialVec_[iTrial]->initializeNMolSeek(nTarget);
+    }
+
     // next, remove trials which don't help or break
     for (int iTrial = mc->nTrials() - 1; iTrial >= 0; --iTrial) {
       if (mc->trialVec()[iTrial]->className() == "TrialAdd") {
@@ -478,6 +485,12 @@ void MC::nMolSeek(
 
     // restore criteria in all trials
     mc->restoreCriteria();
+
+    // Tell all trials that there is no longer a target
+    for (int iTrial = 0; iTrial < nTrials(); ++iTrial) {
+      trialVec_[iTrial]->initializeNMolSeek();
+    }
+
   }
 }
 
