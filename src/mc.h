@@ -78,7 +78,7 @@ class MC : public BaseRandom {
     /// expanding the volume by a factor of volumeExpansion, insert/delete
     /// particles, then perform a volume trial move at high pressure until
     /// original box size is obtained.
-    const double volumeExpansion = 2.);
+    const double volumeExpansion = 1.2);
   void nMolSeek(const int nMol, long long maxAttempts)
     { nMolSeek(nMol, "", maxAttempts); }
   void nMolSeek(const int nMol, const char* molType)

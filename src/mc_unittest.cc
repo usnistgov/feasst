@@ -342,15 +342,20 @@ TEST(MC, nSeekWithPressure) {
   Space space(3, 0);
   space.lset(8);
   space.addMolInit("../forcefield/data.lj");   // add one molecule in order to initialize ntype array
-  PairLJMulti pair(&space, 3.);
+  /// PairLJMulti pair(&space, 3.);
+  PairHS pair(&space, 3.);
   pair.initData("../forcefield/data.lj");
-  pair.linearShift();
+  pair.sig2rCut();
+  // pair.linearShift();
   CriteriaMetropolis criteria(1., exp(-1));
   MC mc(&space, &pair, &criteria);
   transformTrial(&mc, "translate");
-  //criteria.pressureset(100.);
-  mc.nMolSeek(20, "../forcefield/data.lj", 1e5);
-  EXPECT_EQ(20, space.nMol());
+  criteria.pressureset(100.);
+  const double volume = space.vol();
+  mc.initLog("tmp/nSeekWithPressure", 1e2);
+  mc.nMolSeek(100, "../forcefield/data.lj", 1e5);
+  EXPECT_EQ(100, space.nMol());
+  EXPECT_NEAR(volume, space.vol(), 1000*DTOL);
   mc.nMolSeek(2, "../forcefield/data.lj", 1e5);
   EXPECT_EQ(2, space.nMol());
 }

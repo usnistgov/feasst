@@ -452,14 +452,14 @@ void MC::nMolSeek(
     for (int ia = 1; ia < criteria_->nActiv(); ++ia) {
       cnew.addActivity(criteria_->activ(ia));
     }
-    
-    // If pressure is set in criteria, expand volume by volumeExpansion
+
+    // If pressure is set in criteria and trying to increase particles,
+    // expand volume by volumeExpansion
     const double originalVolume = space_->volume();
-    if (criteria_->pressureFlag() == 1) {
-      if (nTarget > space_->nMol()) {
-        cnew.pressureset(1e7);
-        space_->scaleDomain(volumeExpansion);
-      }
+    const double originalNMol = space_->nMol();
+    if ((criteria_->pressureFlag() == 1) && (nTarget > space_->nMol())) {
+      cnew.pressureset(1e7);
+      space_->scaleDomain(volumeExpansion);
     }
     mc->replaceCriteria(&cnew);
 
@@ -484,22 +484,26 @@ void MC::nMolSeek(
       "nMolSeek did not reach the desired number of moles (" << nTarget
       << ") within the number of maxAttempts (" << maxAttempts << ")");
 
-    // If pressure was set in criteria, now attempt to apply pressure with
-    // volume moves to recover original box size
-    if (criteria_->pressureFlag() == 1) {
-      transformTrial(mc.get(), "vol", space_->volume()/100.);
+    // If pressure was set in criteria and trying to increase particles,
+    // now attempt to apply pressure with volume moves to squeeze box back.
+    if ((criteria_->pressureFlag() == 1) && (nTarget > originalNMol)) {
+      mc->weight /= space_->nMol()/4.;
+      transformTrial(mc.get(), "vol", 0.01);
       log_ << "# attempting to squeeze the box back to original size" << endl;
       while ((space_->volume() > originalVolume) && (iAttempt < maxAttempts)) {
         mc->printLogHeader_ = -1;  // comment out log file prints while seeking
         mc->attemptTrial();
         ++iAttempt;
       }
+      ASSERT(space_->volume() < originalVolume,
+        "nMolSeek could not compress the box of current size("
+        << space_->volume() << ") back to original size(" << originalVolume
+        << ") within the number of maxAttempts (" << maxAttempts << ")");
       /// scale volume to exactly the same as before
       space_->scaleDomain(originalVolume/space_->volume());
       pair_->initEnergy();
       ASSERT(fabs((space_->volume() - originalVolume)/originalVolume) < DTOL,
-        std::setprecision(std::numeric_limits<double>::digits10+2) 
-        << "volume(" << space_->volume() << ") is not same as before nMolSeek("
+        "volume(" << space_->volume() << ") is not same as before nMolSeek("
         << originalVolume << "). Difference: "
         << space_->volume() - originalVolume);
       // remove the last trial, which should be volume move
