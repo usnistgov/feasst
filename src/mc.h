@@ -44,7 +44,8 @@ class MC : public BaseRandom {
   virtual void confSwapTrial();
 
   /// Remove trial with index in order of initialization.
-  void removeTrial(const int iTrial);
+  /// If iTrial is not provided, remove the last trial that was added.
+  void removeTrial(int iTrial = -1);
 
   // Set the number of trials in a simulation.
   void setNumTrials(const long long npr) { npr_ = npr; }
@@ -67,9 +68,17 @@ class MC : public BaseRandom {
   /// Zero statistics of all mc variables, criteria, and all trials.
   void zeroStat();
 
-  /// Attempt to seek nMol particles of type molType.
+  /// Attempt to seek nMol particles of type molType by inserting/deleting
+  /// or particles.
   /// Note that detailed balance is not obeyed.
-  void nMolSeek(const int nMol, const char* molType, long long maxAttempts);
+  void nMolSeek(const int nMol, const char* molType,
+    /// maximum number of trial attempts
+    long long maxAttempts,
+    /// If pressure is set in criteria and seeking more particles, then begin
+    /// expanding the volume by a factor of volumeExpansion, insert/delete
+    /// particles, then perform a volume trial move at high pressure until
+    /// original box size is obtained.
+    const double volumeExpansion = 2.);
   void nMolSeek(const int nMol, long long maxAttempts)
     { nMolSeek(nMol, "", maxAttempts); }
   void nMolSeek(const int nMol, const char* molType)

@@ -213,6 +213,7 @@ void TrialTransform::attempt1_() {
       const double dlnv = maxMoveParam*(2*uniformRanNum()-1),
        vOld = space_->vol(),
        fac = exp(log(vOld) + dlnv)/vOld;
+      //cout << "fac " << fac << " vOld " << vOld << " pres " << criteria_->pressure() << endl;
       scaleAttempt_(fac);
       space_->wrapMol();
 
@@ -366,6 +367,8 @@ string TrialTransform::printStat(const bool header) {
 }
 
 void TrialTransform::scaleAttempt_(const double factor) {
+  ASSERT( (factor > DTOL) && (factor < NUM_INF),
+    "cannot scale domain by a factor: " << factor);
   // determine if lx, ly or lz (or volume if dim == -1)
   if (transType_.compare("lxmod") == 0) {
     space_->scaleDomain(factor, 0);

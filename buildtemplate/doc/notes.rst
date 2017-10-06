@@ -110,6 +110,23 @@ void initWindows(const double nExp, const int nOverlap)
 
 One thing to look out for is you want the processors running high density to have some kind of access to the configurations coming up from the low density windows to help convergence so its not just stuck in some glass. In that regard it may help to have the OMP configuration swaps on (TrialConfSwapOMP) but I would hesitate to increase the frequency of these swaps because they break detailed balance.
 
+Getting to high density
+*************************
+
+See above, but also:
+
+You can use the more MD-style approach of initializing a big box and squeezing it.
+
+.. code-block::
+   c.pressureset(1000.);
+   transformTrial(&mc, "lxmod", 0.001);
+   transformTrial(&mc, "lymod", 0.001);
+   transformTrial(&mc, "lzmod", 0.001);
+   // transformTrial(&mc, "vol", 0.001);  // this one does an isotropic volume move instead of independent. You don't need both
+
+To remove the box move after equilibration, I prefer to "scope" the mc class with the box move and just make another clean mc class, or do an shallow copy (cloneShallow) before calling the transform trial and then use that clone later for production.
+Another option is mc.removeTrial(trial#);
+
 Recompile with -fPIC
 *********************
 

@@ -338,6 +338,23 @@ TEST(MC, nseek) {
   EXPECT_EQ(2, s.nMol());
 }
 
+TEST(MC, nSeekWithPressure) {
+  Space space(3, 0);
+  space.lset(8);
+  space.addMolInit("../forcefield/data.lj");   // add one molecule in order to initialize ntype array
+  PairLJMulti pair(&space, 3.);
+  pair.initData("../forcefield/data.lj");
+  pair.linearShift();
+  CriteriaMetropolis criteria(1., exp(-1));
+  MC mc(&space, &pair, &criteria);
+  transformTrial(&mc, "translate");
+  //criteria.pressureset(100.);
+  mc.nMolSeek(20, "../forcefield/data.lj", 1e5);
+  EXPECT_EQ(20, space.nMol());
+  mc.nMolSeek(2, "../forcefield/data.lj", 1e5);
+  EXPECT_EQ(2, space.nMol());
+}
+
 TEST(MC, nseekSPCEnoEwald) {
   const double boxl = 20., rCut = boxl/2., temp = 525, activ = exp(-8.08564), beta = 1./(temp*8.3144621/1000);
   const int nMolMax = 20;

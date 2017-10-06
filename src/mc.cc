@@ -5,6 +5,7 @@
 #include "./../extern/mins.h"
 #include "./trial_add.h"
 #include "./trial_delete.h"
+#include "./trial_transform.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -259,7 +260,8 @@ void MC::initTrial(shared_ptr<Trial> trial) {
   updateCumulativeProb_();
 }
 
-void MC::removeTrial(const int iTrial) {
+void MC::removeTrial(int iTrial) {
+  if (iTrial == -1) iTrial = nTrials() - 1;
   ASSERT(iTrial < nTrials(), "iTrial(" << iTrial << ") is too big,"
     << "trial doesn't exist.")
   trialVec_.erase(trialVec_.begin() + iTrial);
@@ -382,7 +384,8 @@ double MC::pePerMol() {
 void MC::nMolSeek(
   const int nTarget,          //!< number of molcules to seek
   const char* molType,        //!< type of molecule
-  long long maxAttempts   //!< maximum attempts before failure
+  long long maxAttempts,   //!< maximum attempts before failure
+  const double volumeExpansion
   ) {
   std::string molTypeStr(molType);
   if (nTarget != space_->nMol()) {
@@ -446,32 +449,33 @@ void MC::nMolSeek(
     if (nMax < nTarget) nMax = nTarget;
     CriteriaWLTMMC cnew(criteria_->beta()/4., criteria_->activ(0), "nmol",
                         -0.5, nMax + 0.5, nMax + 1);
-    //CriteriaMetropolis cnew(criteria_->beta(), criteria_->activ(0));
     for (int ia = 1; ia < criteria_->nActiv(); ++ia) {
       cnew.addActivity(criteria_->activ(ia));
     }
-    // Criteria* cnew = criteria_->clone();
+    
+    // If pressure is set in criteria, expand volume by volumeExpansion
+    const double originalVolume = space_->volume();
     if (criteria_->pressureFlag() == 1) {
-      cnew.pressureset(criteria_->pressure());
+      if (nTarget > space_->nMol()) {
+        cnew.pressureset(1e7);
+        space_->scaleDomain(volumeExpansion);
+      }
     }
     mc->replaceCriteria(&cnew);
 
     // iterate maxAttempt trials until target n is reached, or error
-    int i = 0;
+    int iAttempt = 0;
     const int printLogHeaderOrig = mc->printLogHeader_;
-    while ( (nTarget != space_->nMol()) && (i < maxAttempts) ) {
+    while ( (nTarget != space_->nMol()) && (iAttempt < maxAttempts) ) {
       mc->printLogHeader_ = -1;  // comment out log file prints while seeking
       mc->attemptTrial();
-
-      // cout << "aa " << space_->nMol() << " " << nTarget << " "
-      //      << maxAttempts << " " << endl;
-      ++i;
+      ++iAttempt;
 
       // output progress report
       if (ncurrentper < std::abs(nStart - space_->nMol())/nchange) {
         log_ << "# nMolSeek is more than " << ncurrentper*100
              << " percent done at n=" << space_->nMol() << " of "
-             << nTarget << " at attempt " << i << " out of "
+             << nTarget << " at attempt " << iAttempt << " out of "
              << maxAttempts << endl;
         ncurrentper += npercent;
       }
@@ -479,8 +483,32 @@ void MC::nMolSeek(
     ASSERT(nTarget == space_->nMol(),
       "nMolSeek did not reach the desired number of moles (" << nTarget
       << ") within the number of maxAttempts (" << maxAttempts << ")");
-    log_ << "# nMolSeek done at attempt " << i << " out of " << maxAttempts
-         << endl;
+
+    // If pressure was set in criteria, now attempt to apply pressure with
+    // volume moves to recover original box size
+    if (criteria_->pressureFlag() == 1) {
+      transformTrial(mc.get(), "vol", space_->volume()/100.);
+      log_ << "# attempting to squeeze the box back to original size" << endl;
+      while ((space_->volume() > originalVolume) && (iAttempt < maxAttempts)) {
+        mc->printLogHeader_ = -1;  // comment out log file prints while seeking
+        mc->attemptTrial();
+        ++iAttempt;
+      }
+      /// scale volume to exactly the same as before
+      space_->scaleDomain(originalVolume/space_->volume());
+      pair_->initEnergy();
+      ASSERT(fabs((space_->volume() - originalVolume)/originalVolume) < DTOL,
+        std::setprecision(std::numeric_limits<double>::digits10+2) 
+        << "volume(" << space_->volume() << ") is not same as before nMolSeek("
+        << originalVolume << "). Difference: "
+        << space_->volume() - originalVolume);
+      // remove the last trial, which should be volume move
+      mc->removeTrial();
+    }
+
+    // Print final status to log
+    log_ << "# nMolSeek done at attempt " << iAttempt << " out of "
+         << maxAttempts << endl;
     printLogHeader_ = printLogHeaderOrig;  // restore print log header state
 
     // restore criteria in all trials
@@ -490,7 +518,6 @@ void MC::nMolSeek(
     for (int iTrial = 0; iTrial < nTrials(); ++iTrial) {
       trialVec_[iTrial]->initializeNMolSeek();
     }
-
   }
 }
 

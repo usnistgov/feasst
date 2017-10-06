@@ -612,7 +612,9 @@ class Space : public BaseRandom {
   double tagStage() const { return tagStage_; }
   vector<double> l() const { return l_; }
   double l(const int i) const { return l_[i]; }
-  double vol() const { return product(l_); }  //!< simulation domain volume
+  double vol() const { return volume(); }  // simulation domain volume:
+  // HWH depreciate the above vol()
+  double volume() const { return product(l_); }  //!< simulation domain volume
   double type(const int i) const { return type_[i]; }
   vector<int> type() const { return type_; }
   vector<int> mol() const { return mol_; }
