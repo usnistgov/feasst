@@ -5,8 +5,6 @@ Guidelines for Developers
 Developers and contributors of FEASST may consider the following guidelines
 in order to simplying collaboration.
 
-
-
 Branch policies
 ###############
 
@@ -70,6 +68,11 @@ These branch names must begin with the characters "dead".
 
 * No rules. Code may not compile.
   HINT: rename branches with "git branch -m <newname>"
+
+Public/private repositories with package tools
+###############################################
+
+.. include:: ../../tools/package/README.rst
 
 Unittest with GTEST
 ####################
