@@ -72,7 +72,7 @@ These branch names must begin with the characters "dead".
 Public/private repositories with package tools
 ###############################################
 
-.. include:: ../../tools/package/README.rst
+.. include:: ../tools/package/README.rst
 
 Unittest with GTEST
 ####################
