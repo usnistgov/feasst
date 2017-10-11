@@ -1,4 +1,14 @@
 /**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
+/**
  * \file
  *
  * \brief This is the user interface class
@@ -22,7 +32,7 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-//class AbbreviatedUI { // here is where we trick ../tools/makeFactory.sh.
+class AbbreviatedUI {};  // here is where we trick ../tools/makeFactory.sh.
 
 void insertDeleteTrial(MC *mc, const char* moltype);
 void insertDeleteTrial(shared_ptr<MC> mc, const char* moltype);

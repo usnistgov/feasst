@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./pair_tabular_1d.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -205,6 +215,10 @@ void PairTabular1D::setInterpolator(const char* name) {
       peTable_[itype][jtype]->setInterpolator(name);
     }
   }
+}
+
+shared_ptr<PairTabular1D> makePairTabular1D(Space* space) {
+  return make_shared<PairTabular1D>(space);
 }
 
 #ifdef FEASST_NAMESPACE_

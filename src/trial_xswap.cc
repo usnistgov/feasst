@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./trial_xswap.h"
 #include "./mc.h"
 
@@ -8,17 +18,16 @@ namespace feasst {
 TrialXSwap::TrialXSwap() : Trial() {
   defaultConstruction_();
 }
-TrialXSwap::TrialXSwap(Space *space,
+TrialXSwap::TrialXSwap(
   Pair *pair,
   Criteria *criteria)
-  : Trial(space, pair, criteria) {
+  : Trial(pair, criteria) {
   defaultConstruction_();
 }
 TrialXSwap::TrialXSwap(const char* fileName,
-  Space *space,
   Pair *pair,
   Criteria *criteria)
-  : Trial(space, pair, criteria, fileName) {
+  : Trial(pair, criteria, fileName) {
   defaultConstruction_();
 }
 
@@ -39,13 +48,13 @@ void TrialXSwap::attempt1_() {
     cout << std::setprecision(std::numeric_limits<double>::digits10+2)
          << "attempting gca " << pair_->peTot() << endl;
   }
-  if (space_->nMol() <= 1) {
+  if (space()->nMol() <= 1) {
     trialMoveDecide_(0, 0);   // ensured rejection, however, criteria can update
     return void();
   }
 
   // check that there is more than one type of molecule
-  const int nMolTypes = space_->addMolList().size();
+  const int nMolTypes = space()->addMolList().size();
   ASSERT(nMolTypes > 1,
     "xswap move requires nMolTypes(" << nMolTypes << ") >= 1");
 
@@ -61,24 +70,24 @@ void TrialXSwap::attempt1_() {
   }
 
   // select a random molecule of each type
-  const int iMol = space_->randMolofType(iType),
-            jMol = space_->randMolofType(jType);
+  const int iMol = space()->randMolofType(iType),
+            jMol = space()->randMolofType(jType);
 
   if ( (iMol == -1) || (jMol == -1) ) {
     reject_ = 1;
   } else {
-    vector<int> ipart = space_->imol2mpart(iMol),
-                jpart = space_->imol2mpart(jMol);
+    vector<int> ipart = space()->imol2mpart(iMol),
+                jpart = space()->imol2mpart(jMol);
 //        mpart_.reserve(ipart.size() + jpart.size());
 //        mpart_.insert(mpart_.end(), ipart.begin(), ipart.end());
 //        mpart_.insert(mpart_.end(), jpart.begin(), jpart.end());
 
     // peOld_ = pair_->multiPartEner(mpart_, 0);
     // pair_->update(mpart_, 0, "store");
-    // space_->xStore(mpart_);
+    // space()->xStore(mpart_);
     // trialMoveRecord_();
     peOld_ = pair_->multiPartEner(ipart, 0) + pair_->multiPartEner(jpart, 0);
-    space_->swapPositions(iMol, jMol);
+    space()->swapPositions(iMol, jMol);
     double peNew;
     peNew = pair_->multiPartEner(ipart, 0) + pair_->multiPartEner(jpart, 0);
     // cout << "peNew " << peNew << endl;
@@ -96,10 +105,19 @@ void TrialXSwap::attempt1_() {
     pair_->update(de_);
     trialAccept_();
   } else {
-    // space_->restore(mpart_);
-    if (reject_ != 1) space_->swapPositions(iMol, jMol);
+    // space()->restore(mpart_);
+    if (reject_ != 1) space()->swapPositions(iMol, jMol);
     trialReject_();
   }
+}
+
+shared_ptr<TrialXSwap> makeTrialXSwap(Pair *pair,
+  Criteria *criteria) {
+  return make_shared<TrialXSwap>(pair, criteria);
+}
+
+shared_ptr<TrialXSwap> makeTrialXSwap() {
+  return make_shared<TrialXSwap>();
 }
 
 void xswapTrial(MC *mc) {

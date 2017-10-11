@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <limits>
 #include <algorithm>
 #include "./space.h"
@@ -405,7 +415,7 @@ void Space::readXYZ(std::ifstream& file) {
 }
 
 double Space::pbc(const double x, const int i) {
-  ASSERT(fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < doubleTolerance,
+  ASSERT(fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < DTOL,
     "orthogonal box pbc called with nonzero tilt factors");
   double dx = x/l_[i];  // change in position, to be returned
   if (dx > 0.5) {
@@ -420,7 +430,7 @@ double Space::pbc(const double x, const int i) {
 
 vector<double> Space::pbc(const vector<double> x) {
   vector<double> dx(dimen_, 0.);
-  if (fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < doubleTolerance) {
+  if (fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < DTOL) {
     for (int dim = 0; dim < dimen_; ++dim) {
       dx[dim] = pbc(x[dim], dim);
     }
@@ -565,7 +575,7 @@ void Space::randRotateMulti(const vector<int> mpart, const double maxDisp,
       if (static_cast<int>(sig.size()) == 0) {
         rcm[dim] += xcluster_[dimen_*iatom+dim] / static_cast<double>(natom);
       } else {
-        if (fabs(sig[type_[iatom]]) > doubleTolerance) {
+        if (fabs(sig[type_[iatom]]) > DTOL) {
           ++natomWithMass;
           rcm[dim] += xcluster_[dimen_*iatom+dim];
         }
@@ -1408,7 +1418,7 @@ void Space::wrap(const vector<int> mpart) {
 void Space::rwrap(vector<double> *rvecPtr) {
   vector<double>& rvec = *rvecPtr;
   vector<double> dx(dimen_, 0.);
-  if (fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < doubleTolerance) {
+  if (fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < DTOL) {
     dx = pbc(rvec);
     for (int dim = 0; dim < dimen_; ++dim) {
       rvec[dim] += dx[dim];
@@ -2324,9 +2334,9 @@ void Space::writeRestart(const char* fileName) {
     file << std::setprecision(std::numeric_limits<double>::digits10+2)
          << "# l" << dim << " " << l_[dim] << endl;
   }
-  if (fabs(xyTilt_) > doubleTolerance) file << "# xyTilt " << xyTilt_ << endl;
-  if (fabs(xzTilt_) > doubleTolerance) file << "# xzTilt " << xzTilt_ << endl;
-  if (fabs(yzTilt_) > doubleTolerance) file << "# yzTilt " << yzTilt_ << endl;
+  if (fabs(xyTilt_) > DTOL) file << "# xyTilt " << xyTilt_ << endl;
+  if (fabs(xzTilt_) > DTOL) file << "# xzTilt " << xzTilt_ << endl;
+  if (fabs(yzTilt_) > DTOL) file << "# yzTilt " << yzTilt_ << endl;
   if (floppyBox_ != 0) file << "# floppyBoxFlag " << floppyBox_;
   if (maxlFlag_ != 0) {
     file << "# maxlFlag " << maxlFlag_;
@@ -3293,7 +3303,7 @@ void Space::modBondAngle(const int iAtom, const int jAtom, const int kAtom,
   normalizeVec(&ij);
   normalizeVec(&kj);
   vector<double> ortho = crossProd(ij, kj);
-  if (fabs(vecDotProd(ortho, ortho)) > 10*doubleTolerance) {
+  if (fabs(vecDotProd(ortho, ortho)) > 10*DTOL) {
     normalizeVec(&ortho);
     for (int dim = 0; dim < dimen_; ++dim) {
       ortho[dim] *= -1;
@@ -3396,12 +3406,12 @@ void Space::setAtomInBranch(const int a1, const int a2, const int a3,
   const double c143 = cos(t143), c243 = cos(t243);
   double x3, y3, z3;
   if ( fabs(y1) > fabs(x1) ) {
-//  if ( (fabs(x1) < doubleTolerance) || (fabs(Cyz) > fabs(Cxz)) ) {
+//  if ( (fabs(x1) < DTOL) || (fabs(Cyz) > fabs(Cxz)) ) {
     // cout << "test1 " << fabs(x1) << " t2 " << fabs(Cyz) << " > "
     //      << fabs(Cxz) << endl;
     solveBranch_(x1, y1, z1, x2, y2, z2, &x3, &y3, &z3, c143, c243);
   } else {
-  // } else if ( (fabs(y1) < doubleTolerance) || (fabs(Cyz) < fabs(Cxz)) ) {
+  // } else if ( (fabs(y1) < DTOL) || (fabs(Cyz) < fabs(Cxz)) ) {
     // cout << "test2 " << fabs(y1) << " t2 " << fabs(Cyz) << " > "
     //      << fabs(Cxz) << endl;
     solveBranch_(y1, x1, z1, y2, x2, z2, &y3, &x3, &z3, c143, c243);
@@ -3517,8 +3527,8 @@ void Space::solveBranch_(const double x1, const double y1, const double z1,
   long double ans1, ans2;
   const long double discrim = quadraticEqReal(a, b, c, ans1, ans2);
   if (discrim < 0) {
-    if ( (sqrt(fabs(discrim))/2/fabs(a) < 1000*sqrt(doubleTolerance)) ||
-         fabs(discrim) < 10000*doubleTolerance) {
+    if ( (sqrt(fabsl(discrim))/2/fabsl(a) < 1000*sqrt(DTOL)) ||
+         fabsl(discrim) < 10000*DTOL) {
       // within double preicison, the discriminant is zero
       ans1 = ans2 = -b/2/a;
     } else {
@@ -3533,9 +3543,9 @@ void Space::solveBranch_(const double x1, const double y1, const double z1,
       cout << "discrim " << discrim << endl;
       cout << "a " << a << " b " << b << " c " << c << endl;
       cout << std::setprecision(ss);
-      cout << "tol " << sqrt(doubleTolerance) << " rel "
-           << sqrt(fabs(discrim))/2/fabs(a) << endl;
-      cout << "tol " << 10*doubleTolerance << " rel " << fabs(discrim)
+      cout << "tol " << sqrt(DTOL) << " rel "
+           << sqrt(fabsl(discrim))/2/fabsl(a) << endl;
+      cout << "tol " << 10*DTOL << " rel " << fabsl(discrim)
            << endl;
       ASSERT(0, "imaginary branch");
     }
@@ -4201,6 +4211,10 @@ void Space::replicate(const int nx, const int ny, const int nz) {
       }
     }
   }}}
+}
+
+shared_ptr<Space> makeSpace(int dimension, int id) {
+  return make_shared<Space>(dimension, id);
 }
 
 #ifdef FEASST_NAMESPACE_

@@ -178,7 +178,7 @@ Installation
 
 Installation may be performed with either CMake or a plain Makefile.
 If you do not have a preference, it is recommended to attempt CMake.
-Otherwise, the plain Makefile approach is available.
+Otherwise, the plain Makefile approach is available but no longer supported.
 The example input scripts automatically check for the CMake install first,
 so make sure that you remove your CMake build files if you want to use
 the install from the `<src/Makefile>`_ instead.
@@ -237,17 +237,8 @@ saving any relevant changes to ``CMakeLists.txt``).
 Makefile
 ***********
 
-This is the old compilation method, but may still be used if you prefer.
+This is the old compilation method, but may still be used if you prefer, although it is no longer supported.
 
-Python installation
-===================
-
-Note: this method no longer works after removal of most .i files (6/22/17).
-
-.. code-block:: bash
-
-    cd src
-    make swig
 
 C++ installation
 ================

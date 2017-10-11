@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "pair_lj.h"
 #include "mc.h"
 #include "trial_transform.h"
@@ -6,11 +16,11 @@ using namespace feasst;
 
 class AnalyzeMonkeyPatch : public Analyze {
  public:
-  AnalyzeMonkeyPatch(Space *space, Pair *pair) : Analyze(space, pair) {}
+  AnalyzeMonkeyPatch(Pair *pair) : Analyze(pair) {}
   ~AnalyzeMonkeyPatch() {}
   Accumulator pe;
   void update() {
-    pe.accumulate(pair_->peTot()/double(space_->nMol()));
+    pe.accumulate(pair_->peTot()/double(space()->nMol()));
   }
   void write() {
     cout << pe.average() << " +/- " << pe.blockStdev() << endl;
@@ -38,10 +48,23 @@ int main() {
   mc.initMovie("movie", 1e4);
   mc.initRestart("tmp/rst", 1e4);
   mc.setNFreqTune(1e4);
+  mc.runNumTrials(1e6);   // run equilibration
   shared_ptr<AnalyzeMonkeyPatch> an =
-    make_shared<AnalyzeMonkeyPatch>(&space, &pair);
+    make_shared<AnalyzeMonkeyPatch>(&pair);
   an->initFreq(1);
   an->initPrintFreq(1e5);
   mc.initAnalyze(an);
-  mc.runNumTrials(1e10);
+  mc.runNumTrials(1e6);
+
+  // Check average energy against the NIST SRSW
+  // https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm
+  // https://www.nist.gov/programs-projects/nist-standard-reference-simulation-website
+  const double
+    peAv = an->pe.average(),
+    peStd = an->pe.blockStdev(),
+    peSRSW = -9.9165E-03,
+    peSRSWstd = 1.89E-05;
+  ASSERT(fabs(peAv - peSRSW) < peSRSWstd+peStd,
+    "ERROR: The average potential energy(" << peAv << " +/- " << peStd
+    << ") did not match the SRSW (" << peSRSW << " +/- " << peSRSWstd << ")");
 }

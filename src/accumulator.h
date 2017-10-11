@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef ACCUMULATOR_H_
 #define ACCUMULATOR_H_
 
@@ -19,6 +29,11 @@ class Accumulator : public Base {
 
   /// Add a value to the running sum of values and higher moments.
   virtual void accumulate(double value);
+
+  // Dummy virtual function to avoid warnings for hidden overloaded virtual.
+  virtual void accumulate(const int index, const double value) {
+    ASSERT(0, "This function should not be used");
+  }
 
   /// Return average of accumulated values.
   double average() const;

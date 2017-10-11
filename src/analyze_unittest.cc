@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include "mc_wltmmc.h"
 #include "pair_hs.h"
@@ -11,7 +21,7 @@ const double newfCollect = 5e-5;
 class AnalyzeMonkeyPatch : public Analyze {
  public:
   //AnalyzeMonkeyPatch() : Analyze() {}
-  AnalyzeMonkeyPatch(Space *space, Pair *pair) : Analyze(space, pair) {}
+  AnalyzeMonkeyPatch(Pair *pair) : Analyze(pair) {}
   void modifyRestart(shared_ptr<WLTMMC> mc) {
     mc->c()->collectInit(newfCollect);
     if (mc->c()->lnf() < newfCollect) {
@@ -39,8 +49,8 @@ TEST(Analyze, MonkeyPatch) {
   mc.initColMat("tmp/monkeycol", 1e1);
   mc.initWindows(1);
   mc.writeRestart("tmp/monkeyrst");
-  int t = 0;
   #ifdef _OPENMP
+    int t = 0;
     #pragma omp parallel private(t)
     {
       t = omp_get_thread_num();
@@ -52,7 +62,7 @@ TEST(Analyze, MonkeyPatch) {
 
     WLTMMC mc2("tmp/monkeyrst");
     mc2.c()->collectInit(newfCollect);
-    shared_ptr<AnalyzeMonkeyPatch> patch = make_shared<AnalyzeMonkeyPatch>(mc2.space(), mc2.pair());
+    shared_ptr<AnalyzeMonkeyPatch> patch = make_shared<AnalyzeMonkeyPatch>(mc2.pair());
 
     mc2.runNumSweepsRestart(0, "tmp/monkeyrst");
 

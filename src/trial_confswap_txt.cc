@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./trial_confswap_txt.h"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -10,17 +20,16 @@ namespace feasst {
 TrialConfSwapTXT::TrialConfSwapTXT() : Trial() {
   defaultConstruction_();
 }
-TrialConfSwapTXT::TrialConfSwapTXT(Space *space,
+TrialConfSwapTXT::TrialConfSwapTXT(
   Pair *pair,
   Criteria *criteria)
-  : Trial(space, pair, criteria) {
+  : Trial(pair, criteria) {
   defaultConstruction_();
 }
 TrialConfSwapTXT::TrialConfSwapTXT(const char* fileName,
-  Space *space,
   Pair *pair,
   Criteria *criteria)
-  : Trial(space, pair, criteria, fileName) {
+  : Trial(pair, criteria, fileName) {
   defaultConstruction_();
 }
 
@@ -52,7 +61,7 @@ void TrialConfSwapTXT::attempt1_() {
   // obtain currentOrder, the current order parameter for the simulation
   double currentOrder = -1;
   if (orderType_.compare("nmol") == 0) {
-    currentOrder = space_->nMol();
+    currentOrder = space()->nMol();
   } else if (orderType_.compare("pairOrder") == 0) {
     currentOrder = pair_->order();
   } else {
@@ -63,7 +72,7 @@ void TrialConfSwapTXT::attempt1_() {
   // parameter
   vector<int> procIndex;
   for (unsigned int i = 0; i < order_.size(); ++i) {
-    if (fabs(currentOrder - order_[i]) < doubleTolerance) {
+    if (fabs(currentOrder - order_[i]) < DTOL) {
       procIndex.push_back(i);
     }
   }
@@ -82,7 +91,7 @@ void TrialConfSwapTXT::attempt1_() {
       stringstream ss;
       ss << "tmp/swpp" << proc_ << "p" << process_[index] << "o"
          << currentOrder;
-      space_->writeRestart(ss.str().c_str());
+      space()->writeRestart(ss.str().c_str());
       if (nLines_[index] == 0) nLines_[index] = numLines(ss.str());
       --attempted_;
 
@@ -115,14 +124,14 @@ void TrialConfSwapTXT::attempt1_() {
           const double peNew = ptmp->peTot();
           delete ptmp;
           de_ = peNew - pair_->peTot();
-          lnpMet_ = space_->nMol()*dlnz_[index] - peNew*dbeta_[index]
+          lnpMet_ = space()->nMol()*dlnz_[index] - peNew*dbeta_[index]
                   - criteria_->beta()*de_;
           reject_ = 0;
           if (criteria_->accept(lnpMet_, pair_->peTot() + de_,
                                 trialType_.c_str(), reject_) == 1) {
             trialAccept_();
-            space_->swapPositions(&stmp);
-            if (space_->cellType() > 0) space_->buildCellList();
+            space()->swapPositions(&stmp);
+            if (space()->cellType() > 0) space()->buildCellList();
             if (pair_->neighOn()) pair_->buildNeighList();
             pair_->initEnergy();
             stringstream ss;

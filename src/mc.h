@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef MC_H_
 #define MC_H_
 
@@ -29,9 +39,6 @@ class MC : public BaseRandom {
 
   /// Weight for probability of selection of Monte Carlo trials.
   double weight = 1.;
-
-  /// Add trial to MC with trial weight set to current weight.
-  void initTrial(Trial* trial);
 
   /// Add trial to MC with trial weight set to current weight.
   void initTrial(shared_ptr<Trial> trial);
@@ -111,10 +118,9 @@ class MC : public BaseRandom {
       nFreqRestart_ = nfreq; }
 
   /// Initialize Analyzer.
-	/// Note: MonkeyPatches must be either initialized as shared_ptr
-  /// or have their own implementation of cloneShrPtr.
-  void initAnalyze(Analyze* analyze) { analyzeVec_.push_back(analyze->cloneShrPtr(space_, pair_)); }
-	void initAnalyze(shared_ptr<Analyze> analyze) { analyze->reconstruct(space_, pair_); analyzeVec_.push_back(analyze); }
+	void initAnalyze(shared_ptr<Analyze> analyze) {
+    analyze->reconstruct(pair_); analyzeVec_.push_back(analyze);
+  }
 
   // determine maximum number of particles for a given temperature
   //   and large activity
@@ -283,7 +289,7 @@ class MC : public BaseRandom {
   double boyletol_;           //!< tolerance for boyle temperature
 
   // analyzers
-  vector< shared_ptr <Analyze> > analyzeVec_;   //!< vector of pointers to analyzers
+  vector<shared_ptr<Analyze> > analyzeVec_;
 
   // unique hash for configurations
   std::string hash_;

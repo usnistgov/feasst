@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./trial_confswap_omp.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -8,18 +18,17 @@ TrialConfSwapOMP::TrialConfSwapOMP() : Trial() {
   defaultConstruction_();
 }
 
-TrialConfSwapOMP::TrialConfSwapOMP(Space *space,
+TrialConfSwapOMP::TrialConfSwapOMP(
   Pair *pair,
   Criteria *criteria)
-  : Trial(space, pair, criteria) {
+  : Trial(pair, criteria) {
   defaultConstruction_();
 }
 
 TrialConfSwapOMP::TrialConfSwapOMP(const char* fileName,
-  Space *space,
   Pair *pair,
   Criteria *criteria)
-  : Trial(space, pair, criteria, fileName) {
+  : Trial(pair, criteria, fileName) {
   defaultConstruction_();
   string strtmp = fstos("orderTolerance", fileName);
   if (!strtmp.empty()) {
@@ -44,7 +53,7 @@ void TrialConfSwapOMP::attempt1_() {
   // obtain currentOrder, the current order parameter for the simulation
   double currentOrder = -1;
   if (orderType_.compare("nmol") == 0) {
-    currentOrder = space_->nMol();
+    currentOrder = space()->nMol();
   } else if (orderType_.compare("pairOrder") == 0) {
     currentOrder = pair_->order();
   } else if (orderType_.compare("beta") == 0) {
@@ -76,7 +85,7 @@ void TrialConfSwapOMP::attempt1_() {
       // 1/2 chance to store configurations
       if (uniformRanNum() < 0.5) {
         // store current configuration but reject move
-        confIntra_[index] = space_->cloneShrPtr();
+        confIntra_[index] = space()->cloneShrPtr();
         confIntra_[index]->cellOff();
         pe_[index] = pair_->peTot();
         --attempted_;
@@ -88,21 +97,21 @@ void TrialConfSwapOMP::attempt1_() {
         const int indexInter = trial->order2index(currentOrder);
         ASSERT(indexInter != -1,
           "inter proc swap failed because indexInter == -1");
-        Space *space = trial->confIntra()[indexInter].get();
+        Space *space_ptr = trial->confIntra()[indexInter].get();
         if ( (trial->confIntra()[indexInter] == NULL) ||
-             (space_->natom() != space->natom()) ) {
+             (space()->natom() != space_ptr->natom()) ) {
           --attempted_;
         } else {
           const double peNew = trial->pe()[indexInter];
           de_ = peNew - pair_->peTot();
-          lnpMet_ = space_->nMol()*dlnz_[index] - peNew*dbeta_[index]
+          lnpMet_ = space()->nMol()*dlnz_[index] - peNew*dbeta_[index]
                     - criteria_->beta()*de_;
           reject_ = 0;
           if (criteria_->accept(lnpMet_, pair_->peTot() + de_,
                                 trialType_.c_str(), reject_) == 1) {
             trialAccept_();
-            space_->swapPositions(space);
-            if (space_->cellType() > 0) space_->buildCellList();
+            space()->swapPositions(space_ptr);
+            if (space()->cellType() > 0) space()->buildCellList();
             if (pair_->neighOn()) pair_->buildNeighList();
             pair_->initEnergy();
           } else {

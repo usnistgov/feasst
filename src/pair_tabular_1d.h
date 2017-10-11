@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef PAIR_TABULAR_1D_H_
 #define PAIR_TABULAR_1D_H_
 
@@ -70,6 +80,9 @@ class PairTabular1D : public Pair {
   // defaults in constructor
   void defaultConstruction_();
 };
+
+/// Factory method
+shared_ptr<PairTabular1D> makePairTabular1D(Space* space);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

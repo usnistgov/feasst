@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include "space.h"
 #include "pair.h"
@@ -20,19 +30,19 @@ TEST(TrialConfSwapTXT, confswap) {
   for (int i = 0; i < 12; ++i) s.addMol("../forcefield/data.lj");
   PairLJ p(&s, 3);
   CriteriaMetropolis c(0.5, 0.01);
-  TrialTransform tt(&s, &p, &c, "translate");
+  TrialTransform tt(&p, &c, "translate");
   tt.maxMoveParam = 5;
-  TrialTransform tr(&s, &p, &c, "rotate");
-  TrialConfSwapTXT tcs(&s, &p, &c);
+  TrialTransform tr(&p, &c, "rotate");
+  TrialConfSwapTXT tcs(&p, &c);
   p.initEnergy();
 
   // clone
   shared_ptr<Space> s2 = s.cloneShrPtr();
   Pair* p2 = p.clone(s2.get());
   CriteriaMetropolis* c2 = c.clone();
-  shared_ptr<Trial> tt2 = tt.cloneShrPtr(s2.get(), p2, c2);
-  shared_ptr<Trial> tr2 = tr.cloneShrPtr(s2.get(), p2, c2);
-  shared_ptr<TrialConfSwapTXT> tcs2 = tcs.cloneShrPtr(s2.get(), p2, c2);
+  shared_ptr<Trial> tt2 = tt.cloneShrPtr(p2, c2);
+  shared_ptr<Trial> tr2 = tr.cloneShrPtr(p2, c2);
+  shared_ptr<TrialConfSwapTXT> tcs2 = tcs.cloneShrPtr(p2, c2);
 
   // initiate overlap
   tcs.initProc(0);

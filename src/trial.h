@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef TRIAL_H_
 #define TRIAL_H_
 
@@ -5,7 +15,6 @@
 #include <string>
 #include <vector>
 #include "./base_random.h"
-#include "./space.h"
 #include "./pair.h"
 #include "./criteria.h"
 
@@ -19,10 +28,10 @@ namespace feasst {
 class Trial : public BaseRandom {
  public:
   /// Constructor.
-  Trial(Space *space, Pair* pair, Criteria* criteria);
+  Trial(Pair* pair, Criteria* criteria);
 
   // Reset object pointers.
-  void reconstruct(Space* space, Pair *pair, Criteria *criteria);
+  void reconstruct(Pair *pair, Criteria *criteria);
 
   /// This constructor is not often used, but its purpose is to initialize trial
   /// for interface before using reconstruct to set object pointers.
@@ -74,10 +83,6 @@ class Trial : public BaseRandom {
   void initializeNMolSeek(const int nPartTarget = -1) {
     nPartTarget_ = nPartTarget; }
 
-  /// Factory method.
-  shared_ptr<Trial> makeTrial(Space* space, Pair* pair, Criteria* criteria,
-                              const char* fileName);
-
   /// Return status of trial
   virtual string printStat(const bool header = false);
 
@@ -93,21 +98,23 @@ class Trial : public BaseRandom {
   double rAbove() const { return rAbove_; }
   double rBelow() const { return rBelow_; }
 
+  /// Return pointer to space from pair.
+  Space* space() { return pair_->space(); }
+
   /// Write restart file.
   virtual void writeRestart(const char* fileName)
     { writeRestartBase(fileName); }
   void writeRestartBase(const char* fileName);
 
   /// Construct from restart file.
-  Trial(Space *space, Pair* pair, Criteria* criteria, const char* fileName);
+  Trial(Pair* pair, Criteria* criteria, const char* fileName);
 
   virtual ~Trial() {}
-  virtual Trial* clone(Space* space, Pair* pair, Criteria* criteria) const = 0;
-  shared_ptr<Trial> cloneShrPtr(Space* space, Pair* pair, Criteria* criteria) {
-    return cloneImpl(space, pair, criteria); }
+  virtual Trial* clone(Pair* pair, Criteria* criteria) const = 0;
+  shared_ptr<Trial> cloneShrPtr(Pair* pair, Criteria* criteria) {
+    return cloneImpl(pair, criteria); }
 
  protected:
-  Space *space_;
   Pair *pair_;
   Criteria *criteria_;        //!< acceptance criteria
   string trialType_;          //!< type of trial
@@ -178,9 +185,13 @@ class Trial : public BaseRandom {
   void defaultConstruction_();
 
   // clone design pattern
-  virtual shared_ptr<Trial> cloneImpl(Space* space, Pair *pair,
+  virtual shared_ptr<Trial> cloneImpl(Pair *pair,
                                       Criteria *criteria) const  = 0;
 };
+
+/// Factory method.
+shared_ptr<Trial> makeTrial(Pair* pair, Criteria* criteria,
+                            const char* fileName);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

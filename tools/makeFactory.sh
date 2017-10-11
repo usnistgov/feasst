@@ -64,6 +64,20 @@ using namespace std;
 
 EOF
 
+printTemplates()
+{
+  for class in $classes; do
+    for header in `ls -vd ../src/${class}*.h 2> /dev/null`; do
+      className=`grep "class " $header | grep "{" | head -1 | awk '{print $2}'`
+      echo "%template("$className"ShrPtr) std::shared_ptr<"$className">;" >> $printfile
+    done
+  done
+}
+
+prepend=""
+append=""
+printTemplates
+
 prepend="%include "
 append=""
 printHeaders
@@ -92,7 +106,7 @@ cat << EOF >> $ccfile
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-Pair* Pair::makePair(Space* space, const char* fileName) {
+Pair* makePair(Space* space, const char* fileName) {
   ASSERT(fileExists(fileName),
     "restart file(" << fileName << ") doesn't exist");
   string typestr = fstos("className", fileName);
@@ -126,7 +140,7 @@ printFactory
 appendPrint
 
 cat << EOF >> $ccfile
-Criteria* Criteria::makeCriteria(const char* fileName) {
+Criteria* makeCriteria(const char* fileName) {
   ASSERT(fileExists(fileName),
     "restart file(" << fileName << ") doesn't exist");
   string typestr = fstos("className", fileName);
@@ -142,7 +156,7 @@ printFactory
 appendPrint
 
 cat << EOF >> $ccfile
-shared_ptr<Trial> Trial::makeTrial(Space* space, Pair* pair, Criteria* criteria,
+shared_ptr<Trial> makeTrial(Pair* pair, Criteria* criteria,
   const char* fileName) {
   ASSERT(fileExists(fileName),
          "restart file(" << fileName << ") doesn't exist");
@@ -153,23 +167,23 @@ EOF
 
 class=trial
 shrptr=yes
-args="(fileName, space, pair, criteria)"
+args="(fileName, pair, criteria)"
 printFactory
 appendPrint
 
 cat << EOF >> $ccfile
-shared_ptr<Analyze> Analyze::makeAnalyze(Space* space, Pair* pair,
+shared_ptr<Analyze> makeAnalyze(Pair* pair,
   const char* fileName) {
   ASSERT(fileExists(fileName),
          "restart file(" << fileName << ") doesn't exist");
   string typestr = fstos("className", fileName);
   shared_ptr<Analyze> analyze;
   if (typestr.compare("Analyze") == 0) {
-    analyze = make_shared<Analyze>(space, pair, fileName);
+    analyze = make_shared<Analyze>(pair, fileName);
 EOF
 
 class=analyze
-args="(space, pair, fileName)"
+args="(pair, fileName)"
 shrptr=yes
 printFactory
 appendPrint

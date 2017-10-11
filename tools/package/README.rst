@@ -42,7 +42,7 @@ In addition, `unpack.sh` will not receive these files from the public repository
 stubs
 ======
 
-In this directory, include files which you would like to replace the existing file in your repository.
+In the stubs directory, include files which you would like to replace the existing file in your repository.
 For example, you may select some custom options for CMakeLists.txt but not want to push those back to the public repository.
 Thus, the default CMakeLists.txt may be included as a stub which is copied on top of your own implementation when sending changes.
 

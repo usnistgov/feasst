@@ -1,33 +1,38 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./analyze_cluster.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-AnalyzeCluster::AnalyzeCluster(Space *space, Pair *pair)
-  : Analyze(space, pair) {
+AnalyzeCluster::AnalyzeCluster(Pair *pair)
+  : Analyze(pair) {
   defaultConstruction_();
 }
-AnalyzeCluster::AnalyzeCluster(Space *space,
+
+AnalyzeCluster::AnalyzeCluster(
   Pair *pair,
   const char* fileName)
-    : Analyze(space, pair, fileName) {
+    : Analyze(pair, fileName) {
   defaultConstruction_();
   clusterCut_ = fstod("clusterCut", fileName);
 }
 
-/**
- * write restart file
- */
 void AnalyzeCluster::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
   file << "# clusterCut " << clusterCut_ << endl;
 }
 
-/**
- * default construction
- */
 void AnalyzeCluster::defaultConstruction_() {
   className_.assign("AnalyzeCluster");
   verbose_ = 0;
@@ -36,18 +41,16 @@ void AnalyzeCluster::defaultConstruction_() {
   initPercolation();  //!< sets percFlag_
 }
 
-/**
- */
 void AnalyzeCluster::update(const int iMacro) {
   pair_->updateClusters(clusterCut_);
-  nClusterAccVec_.accumulate(iMacro, space_->nClusters());
-  const vector<int> cl = space_->clusterSizes();
+  nClusterAccVec_.accumulate(iMacro, space()->nClusters());
+  const vector<int> cl = space()->clusterSizes();
   const int largestCluster = *std::max_element(cl.begin(), cl.end());
   largestClusAccVec_.accumulate(iMacro, largestCluster);
 //  cout << "updating " << iMacro << endl;
 
   // initialize orientation histograms
-  if (!space_->sphereSymMol()) {
+  if (!space()->sphereSymMol()) {
     if (iMacro >= static_cast<int>(zOrient_.size())) {
       const int zsorig = zOrient_.size();
       for (int inc = 0; inc < iMacro - zsorig + 1; ++inc) {
@@ -66,8 +69,8 @@ void AnalyzeCluster::update(const int iMacro) {
       nClusSize_.push_back(h);
     }
   }
-  nClusSize_[iMacro].accumulate(static_cast<double>(space_->nMol())
-    / static_cast<double>(space_->nClusters()));
+  nClusSize_[iMacro].accumulate(static_cast<double>(space()->nMol())
+    / static_cast<double>(space()->nClusters()));
 
 //  cout << "computing average" << endl;
   // compute the average coordination number from the contact map
@@ -75,7 +78,7 @@ void AnalyzeCluster::update(const int iMacro) {
   const vector<vector<int> > &contact = pair_->contact();
   if (contact.size() > 0) {
     double coord = 0;
-    for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
+    for (int iMol = 0; iMol < space()->nMol(); ++iMol) {
       for (unsigned int index = 0; index < contact[iMol].size(); ++index) {
         const int jMol = contact[iMol][index];
         ASSERT(iMol != jMol, "iMol and jMol cannot be equal in contact map");
@@ -85,12 +88,12 @@ void AnalyzeCluster::update(const int iMacro) {
         //  place a vector along the z-axis of the reference particle,
         //  rotate and take dot product
         double cosa = -1;
-        if (space_->eulerFlag() == 1) {
-          vector<double> zref(space_->dimen(), 0.);
-          zref[space_->dimen()-1] = 1.;
-          vector<double> qi = space_->qMol(iMol);
+        if (space()->eulerFlag() == 1) {
+          vector<double> zref(space()->dimen(), 0.);
+          zref[space()->dimen()-1] = 1.;
+          vector<double> qi = space()->qMol(iMol);
           if (qi.size() == 4) qi.pop_back();
-          vector<double> qj = space_->qMol(jMol);
+          vector<double> qj = space()->qMol(jMol);
           if (qj.size() == 4) qj.pop_back();
           vector<vector<double> > ri = Euler2RotMat(qi),
                                   rj = Euler2RotMat(qj);
@@ -101,13 +104,13 @@ void AnalyzeCluster::update(const int iMacro) {
         // if not using euler angles, compute orientation by assuming that
         // it is a solid of revolution where the orientation is given by the
         // vector connecting the first particle in the molecule with the next
-        } else if (!space_->sphereSymMol()) {
-          vector<double> ri(space_->dimen()), rj = ri;
-          const int ipart = space_->mol2part()[iMol];
-          const int jpart = space_->mol2part()[jMol];
-          for (int dim = 0; dim < space_->dimen(); ++dim) {
-            ri[dim] = space_->x(ipart + 1, dim) - space_->x(ipart, dim);
-            rj[dim] = space_->x(jpart + 1, dim) - space_->x(jpart, dim);
+        } else if (!space()->sphereSymMol()) {
+          vector<double> ri(space()->dimen()), rj = ri;
+          const int ipart = space()->mol2part()[iMol];
+          const int jpart = space()->mol2part()[jMol];
+          for (int dim = 0; dim < space()->dimen(); ++dim) {
+            ri[dim] = space()->x(ipart + 1, dim) - space()->x(ipart, dim);
+            rj[dim] = space()->x(jpart + 1, dim) - space()->x(jpart, dim);
           }
           cosa = vecDotProd(ri, rj);
         }
@@ -116,7 +119,7 @@ void AnalyzeCluster::update(const int iMacro) {
       }
     }
     coordNumAccVec_.accumulate(iMacro,
-      coord/static_cast<double>(space_->nMol()) );
+      coord/static_cast<double>(space()->nMol()) );
   }
   // cout << "updated " << iMacro << endl;
 
@@ -127,14 +130,14 @@ void AnalyzeCluster::update(const int iMacro) {
     // replicate the system in each dimension
     // and see if the number of clusters change by 2^dim
     // if so, the clusters are not percolating
-    shared_ptr<Space> spaceBig = space_->cloneShrPtr();
+    shared_ptr<Space> spaceBig = space()->cloneShrPtr();
     spaceBig->replicate();
     Pair* pairBig = pair_->clone(spaceBig.get());
     pairBig->addPart();
     pairBig->updateClusters(clusterCut_);
-    cout << "clus: " << space_->nClusters() << " " << spaceBig->nClusters()
+    cout << "clus: " << space()->nClusters() << " " << spaceBig->nClusters()
          << endl;
-    if (pow(2, space_->dimen())*space_->nClusters() == spaceBig->nClusters()) {
+    if (pow(2, space()->dimen())*space()->nClusters() == spaceBig->nClusters()) {
       percolation_.accumulate(iMacro, 0.);
     } else {
       percolation_.accumulate(iMacro, 1.);
@@ -144,13 +147,10 @@ void AnalyzeCluster::update(const int iMacro) {
     ASSERT(pair_->className() == "PairTabular", "percolation implementation"
       << "assumes that the contact list is in the compact form, as only"
       << "implemented in PairTabular (current 4/28/2017)");
-    percolation_.accumulate(iMacro, space_->percolation());
+    percolation_.accumulate(iMacro, space()->percolation());
   }
 }
 
-/**
- * printer
- */
 void AnalyzeCluster::write(CriteriaWLTMMC *c) {
   // initialize output
   fileBackUp(fileName_.c_str());
@@ -259,6 +259,10 @@ void AnalyzeCluster::write(CriteriaWLTMMC *c) {
       }
     }
   }
+}
+
+shared_ptr<AnalyzeCluster> makeAnalyzeCluster(Pair *pair) {
+  return make_shared<AnalyzeCluster>(pair);
 }
 
 #ifdef FEASST_NAMESPACE_

@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./pair_hs.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -163,6 +173,10 @@ void PairHS::allPartEnerForceInner(const double &r2, const double &dx,
   const double &dy, const double &dz, const int &itype, const int &jtype,
   const int &iMol, const int &jMol) {
   multiPartEnerAtomCutInner(r2, itype, jtype);
+}
+
+shared_ptr<PairHS> makePairHS(Space* space, const double rCut) {
+  return make_shared<PairHS>(space, rCut);
 }
 
 #ifdef FEASST_NAMESPACE_

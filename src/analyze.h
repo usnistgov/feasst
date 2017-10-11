@@ -1,13 +1,16 @@
 /**
- * \file
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
  *
- * Base class for analysis
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
  */
 
 #ifndef ANALYZE_H_
 #define ANALYZE_H_
 
-#include "./space.h"
 #include "./pair.h"
 #include "./criteria_wltmmc.h"
 
@@ -17,64 +20,86 @@ namespace feasst {
 
 class WLTMMC;
 
+/**
+ * This is the base class used to write custom analysis code.
+ * Operates on the Space and Pair class periodically and prints results.
+ */
 class Analyze : public BaseRandom {
  public:
+  /// Constructor
+  Analyze(Pair* pair);
+
+  /// This constructor is not often used, but its purpose is to initialize
+  /// for MC interface before using reconstruct to set object pointers.
   Analyze() { defaultConstruction_(); }
-  Analyze(Space* space, Pair* pair);
-  Analyze(Space *space, Pair* pair, const char* fileName);
-  virtual ~Analyze() {}
-  virtual Analyze* clone(Space* space, Pair* pair) const;
-  shared_ptr<Analyze> cloneShrPtr(Space* space, Pair* pair) {
-    return cloneImpl(space, pair); }
 
-  /// factory method
-  shared_ptr <Analyze> makeAnalyze(Space* space, Pair* pair, const char* fileName);
+  /// Initialize number of steps between each analysis.
+  void initFreq(const int nfreq = 1) { nFreq_ = nfreq; }
 
-  // reset object pointers
-  void reconstruct(Space* space, Pair *pair);
+  /// Return number of steps between each analysis.
+  int nFreq() const { return nFreq_; }
 
-  /// write restart file
+  /// Initialize number of steps between each print to file.
+  void initPrintFreq(const int nfreq = 1) { nFreqPrint_ = nfreq; }
+
+  /// Return number of steps between each print.
+  int nFreqPrint() const { return nFreqPrint_; }
+
+  /// Initialize production flag. 1 is on, 0 is off. Default is 1.
+  virtual void initProduction(const int flag = 1) { production_ = flag; }
+
+  /// Return production state.
+  int production() const { return production_; }
+
+  /// Initialize the name of the file to print results.
+  void initFileName(const char* fileName) { fileName_.assign(fileName); }
+
+  /// Append "chars" onto the file name where results are printed.
+  void appendFileName(const char* chars) {
+    if (!fileName_.empty()) fileName_.append(chars);
+  }
+
+  /// Perform the analysis and update the accumulators.
+  virtual void update() { update(0); }
+
+  /// Perform the analysis and update the accumulators.
+  virtual void update(
+    /// Specify the macrostate bin corresponding to CriteriaWLTMMC order param.
+    const int iMacro
+    ) { if (iMacro < -1) {} }
+
+  /// Print the analysis to a file (default: restart file)
+  virtual void write() {
+    if (!fileName_.empty()) writeRestart(fileName_.c_str()); }
+
+  /// Print the analysis to a file for each macrostate in CriteriaWLTMMC.
+  virtual void write(CriteriaWLTMMC *c) {if (c == NULL) {} }
+
+  /// Monkey patch to modify restart at run time for parallel restarting.
+  //  NOTE to HWH: this is beyond scope of original intent of class
+  virtual void modifyRestart(shared_ptr<WLTMMC> mc) { if (mc == NULL) {} }
+
+  /// Write restart file.
   virtual void writeRestart(const char* fileName) {
     writeRestartBase(fileName);
   }
   void writeRestartBase(const char* fileName);
 
-  /// initialize frequencies and file names
-  void initFreq(const int nfreq) { nFreq_ = nfreq; }
-  void initPrintFreq(const int nfreq) { nFreqPrint_ = nfreq; }
-  void initFileName(const char* fileName) { fileName_.assign(fileName); }
+  /// Construct from restart file.
+  Analyze(Pair* pair, const char* fileName);
 
-  /// append fileName
-  void appendFileName(const char* chars) {
-    if (!fileName_.empty()) fileName_.append(chars);
-  }
+  virtual ~Analyze() {}
+  virtual Analyze* clone(Pair* pair) const;
+  shared_ptr<Analyze> cloneShrPtr(Pair* pair) {
+    return cloneImpl(pair); }
 
-  /// update analysis every nFreq
-  virtual void update() { update(0); }
-  virtual void update(const int iMacro) { if (iMacro < -1) {} }
+  /// Reset object pointers.
+  void reconstruct(Pair *pair);
 
-  /// print analysis
-  virtual void write() {
-    if (!fileName_.empty()) writeRestart(fileName_.c_str()); }
-  virtual void write(CriteriaWLTMMC *c) {if (c == NULL) {} }
-
-  /// monkey patch to modify restart at run time
-  //  NOTE to HWH: this is beyond scope of original intent of class
-  virtual void modifyRestart(shared_ptr<WLTMMC> mc) { if (mc == NULL) {} }
-
-  /// Initialize production.
-  virtual void initProduction() { production_ = 1; }
-
-  /// Initialize production flag. 1 is on, 0 is off. Default is 1.
-  virtual void initProduction(const int flag) { production_ = flag; }
-
-  // functions for read-only access of private data-members
-  int nFreq() const { return nFreq_; }
-  int nFreqPrint() const { return nFreqPrint_; }
-  int production() const { return production_; }
+  /// Return pointer to space from pair.
+  Space* space() { return pair_->space(); }
 
  protected:
-  Space *space_;
   Pair *pair_;
   int nFreq_;        //!< frequency for analysis
   int nFreqPrint_;   //!< frequency for printing
@@ -85,8 +110,18 @@ class Analyze : public BaseRandom {
   void defaultConstruction_();
 
   // clone design pattern
-  virtual shared_ptr<Analyze> cloneImpl(Space* space, Pair* pair) const;
+  virtual shared_ptr<Analyze> cloneImpl(Pair* pair) const;
 };
+
+/// Factory method
+shared_ptr<Analyze> makeAnalyze(Pair* pair,
+  const char* fileName);
+
+/// Factory method
+shared_ptr<Analyze> makeAnalyze(Pair* pair);
+
+/// Factory method
+shared_ptr<Analyze> makeAnalyze();
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

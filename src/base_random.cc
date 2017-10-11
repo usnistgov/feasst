@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./base_random.h"
 #include "./random_nr3.h"
 
@@ -172,7 +182,7 @@ int BaseRandom::ranFromCPDF(const vector<double> &cpdf) {
   double prev = -1, current = -1;
   const double ranNum = uniformRanNum();
   int selected = 0, i = -1;
-  ASSERT(fabs(cpdf.back()-1) < doubleTolerance, "cpdf must end in 1 ("
+  ASSERT(fabs(cpdf.back()-1) < DTOL, "cpdf must end in 1 ("
          << cpdf.back() << " != 1)");
   while (selected == 0) {
     ++i;
@@ -194,7 +204,7 @@ double BaseRandom::ranAngle(const double k0, const double t0, const int power) {
   double theta = 0;
   const int maxAttempts = 1e6;
   double minAngle = 0.;
-  if (fabs(k0) < 100*doubleTolerance) minAngle = t0;
+  if (fabs(k0) < 100*DTOL) minAngle = t0;
   while ( (accept == 0) && (i < maxAttempts) ) {
     theta = minAngle + (PI-minAngle)*uniformRanNum();
     const double dtheta = theta-t0;
@@ -214,7 +224,7 @@ double BaseRandom::ranBond(const double k0, const double l0, const int power) {
   const int maxAttempts = 1e6;
   double lmax = l0*2.;
   const double lmin = 0.;
-  if (fabs(k0) < 100*doubleTolerance) lmax = l0;
+  if (fabs(k0) < 100*DTOL) lmax = l0;
 
   // alternative 1, uniform and then accept/reject
   while ( (accept == 0) && (i < maxAttempts) ) {

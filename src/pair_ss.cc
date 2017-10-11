@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./pair_ss.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -131,6 +141,10 @@ double PairSS::b2reduced() {
   const double gamma = 1.225416702465178;
   const double sigij = sigij_[0][0];
   return 2.*PI/3.*pow(sigij, 3)*gamma;
+}
+
+shared_ptr<PairSS> makePairSS(Space* space, const double rCut) {
+  return make_shared<PairSS>(space, rCut);
 }
 
 #ifdef FEASST_NAMESPACE_

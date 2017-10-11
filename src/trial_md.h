@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef TRIAL_MD_H_
 #define TRIAL_MD_H_
 
@@ -18,7 +28,7 @@ namespace feasst {
 class TrialMD : public Trial {
  public:
   /// Constructor
-  TrialMD(Space *space, Pair *pair, Criteria *criteria);
+  TrialMD(Pair *pair, Criteria *criteria);
 
   /// This constructor is not often used, but its purpose is to initialize trial
   /// for interface before using reconstruct to set object pointers.
@@ -63,25 +73,25 @@ class TrialMD : public Trial {
   void integrateVelocityVerlet();
 
   // Return center of mass force for molecule, iMol and dimension, dim.
-  double fCOM(const int iMol, const int dim) const {
-    return fCOM_[space_->dimen()*iMol + dim];
+  double fCOM(const int iMol, const int dim) {
+    return fCOM_[space()->dimen()*iMol + dim];
   }
 
   /// Write restart file.
   void writeRestart(const char* fileName);
 
   /// Construct from restart file.
-  TrialMD(const char* fileName, Space *space, Pair *pair,
+  TrialMD(const char* fileName, Pair *pair,
              Criteria *criteria);
   ~TrialMD() {}
-  TrialMD* clone(Space* space, Pair* pair, Criteria* criteria) const {
+  TrialMD* clone(Pair* pair, Criteria* criteria) const {
     TrialMD* t = new TrialMD(*this);
-    t->reconstruct(space, pair, criteria); return t;
+    t->reconstruct(pair, criteria); return t;
   }
   shared_ptr<TrialMD> cloneShrPtr(
-    Space* space, Pair* pair, Criteria* criteria) const {
+    Pair* pair, Criteria* criteria) const {
     return(std::static_pointer_cast<TrialMD, Trial>(
-      cloneImpl(space, pair, criteria)));
+      cloneImpl(pair, criteria)));
   }
 
  protected:
@@ -96,12 +106,18 @@ class TrialMD : public Trial {
 
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl(
-    Space* space, Pair *pair, Criteria *criteria) const {
+    Pair *pair, Criteria *criteria) const {
     shared_ptr<TrialMD> t = make_shared<TrialMD>(*this);
-    t->reconstruct(space, pair, criteria);
+    t->reconstruct(pair, criteria);
     return t;
   }
 };
+
+/// Factory method
+shared_ptr<TrialMD> makeTrialMD(Pair *pair, Criteria *criteria);
+
+/// Factory method
+shared_ptr<TrialMD> makeTrialMD();
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

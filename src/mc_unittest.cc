@@ -1,9 +1,18 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include "pair_ideal.h"
 #include "pair_hs.h"
 #include "pair_lj.h"
 #include "pair_lj_multi.h"
-#include "pair_lj_coul.h"
 #include "pair_lj_coul_ewald.h"
 #include "mc_wltmmc.h"
 #include "ui_abbreviated.h"
@@ -57,13 +66,13 @@ TEST(MC, WLTMMC_Ideal) {
     if (t == 0) {
       transformTrial(&mc, "translate");
 
-      TrialDelete td;
-      td.numFirstBeads(3);
-      mc2.initTrial(&td);
+      shared_ptr<TrialDelete> td = makeTrialDelete();
+      td->numFirstBeads(3);
+      mc2.initTrial(td);
 
-      TrialAdd ta("../forcefield/data.atom");
-      ta.numFirstBeads(3);
-      mc2.initTrial(&ta);
+      shared_ptr<TrialAdd> ta = makeTrialAdd("../forcefield/data.atom");
+      ta->numFirstBeads(3);
+      mc2.initTrial(ta);
 
       EXPECT_FALSE(p.neighOn());
     } else if (t == 1) {
@@ -71,9 +80,9 @@ TEST(MC, WLTMMC_Ideal) {
 
       transformTrial(&mc2, "translate");
 
-      TrialDelete td(&s, &p, &c);
-      td.initAVB(rAbove, rBelow);
-      mc2.initTrial(&td);
+      shared_ptr<TrialDelete> td = makeTrialDelete(&p, &c);
+      td->initAVB(rAbove, rBelow);
+      mc2.initTrial(td);
       mc2.neighAVBInit(rAbove, rBelow);
 
       //shared_ptr<TrialDelete> td = make_shared<TrialDelete>();
@@ -296,13 +305,13 @@ TEST(MC, muvttmmcspce) {
     deleteTrial(mc[t]);
     addTrial(mc[t], "../forcefield/data.spce");
 
-    TrialDelete tdmfb;
-    tdmfb.numFirstBeads(10);
-    mc[t]->initTrial(&tdmfb);
+    shared_ptr<TrialDelete> tdmfb = makeTrialDelete();
+    tdmfb->numFirstBeads(10);
+    mc[t]->initTrial(tdmfb);
 
-    TrialAdd tamfb("../forcefield/data.spce");
-    tamfb.numFirstBeads(10);
-    mc[t]->initTrial(&tamfb);
+    shared_ptr<TrialAdd> tamfb = makeTrialAdd("../forcefield/data.spce");
+    tamfb->numFirstBeads(10);
+    mc[t]->initTrial(tamfb);
     mc[t]->nMolSeekInRange();
     c[t]->collectInit();
     c[t]->tmmcInit();
@@ -368,7 +377,8 @@ TEST(MC, nseekSPCEnoEwald) {
   Space s(3,0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
   s.addMolInit("../forcefield/data.spce");   // add one molecule in order to initialize ntype array
-  PairLJCoul p(&s, rCut);
+  PairLJCoulEwald p(&s, rCut);
+  p.removeEwald();
   //p.initBulkSPCE(5.6, 38);
   p.initLMPData("../forcefield/data.spce");
   CriteriaWLTMMC c(beta, activ,"nmol",0-0.5,nMolMax+0.5,nMolMax+1);

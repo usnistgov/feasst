@@ -1,4 +1,14 @@
 /**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
+/**
  * \file
  *
  * \brief
@@ -21,17 +31,17 @@ namespace feasst {
 class TrialConfSwapTXT : public Trial {
  public:
   TrialConfSwapTXT();
-  TrialConfSwapTXT(Space *space, Pair *pair, Criteria *criteria);
-  TrialConfSwapTXT(const char* fileName, Space *space, Pair *pair,
+  TrialConfSwapTXT(Pair *pair, Criteria *criteria);
+  TrialConfSwapTXT(const char* fileName, Pair *pair,
                    Criteria *criteria);
   ~TrialConfSwapTXT() {}
-  TrialConfSwapTXT* clone(Space* space, Pair* pair, Criteria* criteria) const {
+  TrialConfSwapTXT* clone(Pair* pair, Criteria* criteria) const {
     TrialConfSwapTXT* t = new TrialConfSwapTXT(*this);
-    t->reconstruct(space, pair, criteria); return t; }
+    t->reconstruct(pair, criteria); return t; }
   shared_ptr<TrialConfSwapTXT> cloneShrPtr
-    (Space* space, Pair* pair, Criteria* criteria) const {
+    (Pair* pair, Criteria* criteria) const {
     return(std::static_pointer_cast<TrialConfSwapTXT, Trial>
-    (cloneImpl(space, pair, criteria))); }
+    (cloneImpl(pair, criteria))); }
   void writeRestart(const char* fileName);
   void defaultConstruction_();
 
@@ -68,9 +78,9 @@ class TrialConfSwapTXT : public Trial {
 
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl(
-    Space* space, Pair *pair, Criteria *criteria) const {
+    Pair *pair, Criteria *criteria) const {
     shared_ptr<TrialConfSwapTXT> t = make_shared<TrialConfSwapTXT>(*this);
-    t->reconstruct(space, pair, criteria); return t;
+    t->reconstruct(pair, criteria); return t;
   }
 };
 

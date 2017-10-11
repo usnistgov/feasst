@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef CRITERIA_WLTMMC_H_
 #define CRITERIA_WLTMMC_H_
 
@@ -48,7 +58,7 @@ class CriteriaWLTMMC : public Criteria {
              const int reject);
 
   /// Store macrostate variables of old configuration.
-  void store(const Space* space, Pair* pair);
+  void store(Pair* pair);
 
   /// Return value at center of bin, given bin.
   double bin2m(const int bin) const { return mMin_ + (bin + 0.5)*mBin_; }
@@ -85,6 +95,9 @@ class CriteriaWLTMMC : public Criteria {
   /** Initialize updating of the collection matrix for when the value of the
    *  Wang-Landau update factor reaches lnfCollect. */
   void collectInit(const double lnfCollect) {lnfCollect_ = lnfCollect; }
+
+  /** Initialize updating of the collection matrix for when the value of the
+   *  number of Wang-Landau flatness checks reaches wlFlat. */
   void collectInit(const int wlFlat) {
     lnfCollect_ = (pow(g_, wlFlat) + pow(g_, wlFlat - 1))/2.0;
   }
@@ -95,6 +108,9 @@ class CriteriaWLTMMC : public Criteria {
   /** Initialize Transition-Matrix Monte Carlo for when the value of the
    *  Wang-Landau update factor reaches lnfTMMC. */
   void tmmcInit(const double lnfTMMC) {lnfTMMC_ = lnfTMMC; }
+
+  /** Initialize Transition-Matrix Monte Carlo for when the value of the
+   *  number of Wang-Landau flatness checks reaches wlFlat. */
   void tmmcInit(const int wlFlat) {
     lnfTMMC_ = (pow(g_, wlFlat) + pow(g_, wlFlat - 1))/2.0;
   }
@@ -514,6 +530,11 @@ class CriteriaWLTMMC : public Criteria {
   // clone design pattern
   virtual shared_ptr<Criteria> cloneImpl_() const;
 };
+
+/// Factory method.
+shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const double beta,
+  const double activ, const char* mType,
+  const double mMin, const double mMax, const int nBin);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

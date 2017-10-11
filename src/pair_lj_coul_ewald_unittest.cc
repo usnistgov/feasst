@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include "pair_lj_coul_ewald.h"
 
@@ -11,7 +21,7 @@ TEST(PairLJCoulEwald, pairLJCoulEwaldVSHybrid) {
   const double rCut = 12.42934435;
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   PairLJCoulEwald p(&s, rCut);
-  p.initBulkSPCE(5.6, 38.00000001);
+  p.initBulkSPCE(5.6, 38);
   EXPECT_NEAR(p.peLJ()+p.peLRC(), 58.1554182707327, 1e-3);
   EXPECT_NEAR(p.alpha, 0.225273346779551, 1e-12);
   // problem may not have been pi, but instead a molecular COM cutoff versus atomic cutoff
@@ -298,7 +308,7 @@ TEST(PairLJCoulEwald, reconstruct) {
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
   PairLJCoulEwald p(&s, 12.42934435);
-  p.initBulkSPCE(5.6, 38.00000001);
+  p.initBulkSPCE(5.6, 38);
   const double petot = p.peTot();
   //shared_ptr<Space> s2 = make_shared<Space>(s);
   Space* s2 = s.clone();
@@ -317,7 +327,7 @@ TEST(PairLJCoulEwald, clone) {
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
   PairLJCoulEwald p(&s, 12.42934435);
-  p.initBulkSPCE(5.6, 38.00000001);
+  p.initBulkSPCE(5.6, 38);
   const double petot = p.peTot();
   shared_ptr<Space> s2 = s.cloneShrPtr();
   Pair* p2 = p.clone(s2.get());
@@ -349,14 +359,14 @@ TEST(PairLJCoulEwald, PairLJCoulEwaldInitLMPData) {
   p2.initLMPData("../forcefield/data.spce");
   p2.initKSpace(5.6, 38);
 
-  EXPECT_NEAR(p1.q()[0], p2.q()[0], doubleTolerance);
-  EXPECT_NEAR(p1.peLJ(), p2.peLJ(), doubleTolerance);
-  EXPECT_NEAR(p1.peTot(), p2.peTot(), doubleTolerance);
+  EXPECT_NEAR(p1.q()[0], p2.q()[0], DTOL);
+  EXPECT_NEAR(p1.peLJ(), p2.peLJ(), DTOL);
+  EXPECT_NEAR(p1.peTot(), p2.peTot(), DTOL);
 
   // test restart
   p2.writeRestart("tmp/rst");
   PairLJCoulEwald p3(&s, "tmp/rst");
-  EXPECT_NEAR(p2.peTot(), p3.peTot(), doubleTolerance);
-  EXPECT_NEAR(p2.peLJ(), p3.peLJ(), doubleTolerance);
+  EXPECT_NEAR(p2.peTot(), p3.peTot(), DTOL);
+  EXPECT_NEAR(p2.peLJ(), p3.peLJ(), DTOL);
 }
 

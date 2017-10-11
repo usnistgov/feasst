@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include "table.h"
 #include "functions.h"
@@ -26,9 +36,9 @@ TEST(Table, roundSquare) {
   EXPECT_NEAR((0.88622693+0.89105682)/2, rm.interpolate(0.05, PI/4, PI/4), 1.2e-8);
 
   vt.compute_min_compress1d(0);
-  EXPECT_NEAR(-15.10313215, vt.min(0), doubleTolerance);
-  EXPECT_NEAR(-4.28831750, vt.min(0.5), doubleTolerance);
-  EXPECT_NEAR((-13.13564708+-15.10313215)/2, vt.min(0.05), doubleTolerance);
+  EXPECT_NEAR(-15.10313215, vt.min(0), DTOL);
+  EXPECT_NEAR(-4.28831750, vt.min(0.5), DTOL);
+  EXPECT_NEAR((-13.13564708+-15.10313215)/2, vt.min(0.05), DTOL);
 }
 
 TEST(Table, superball) {

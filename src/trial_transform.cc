@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./trial_transform.h"
 #include "mc.h"
 
@@ -12,20 +22,19 @@ TrialTransform::TrialTransform(
   defaultConstruction_();
 }
 
-TrialTransform::TrialTransform(Space *space,
+TrialTransform::TrialTransform(
   Pair *pair,
   Criteria *criteria,
   const char* transType)
-  : Trial(space, pair, criteria),
+  : Trial(pair, criteria),
     transType_(transType) {
   defaultConstruction_();
 }
 
 TrialTransform::TrialTransform(const char* fileName,
-  Space *space,
   Pair *pair,
   Criteria *criteria)
-  : Trial(space, pair, criteria, fileName) {
+  : Trial(pair, criteria, fileName) {
   transType_ = fstos("transType", fileName);
   defaultConstruction_();
   targAcceptPer = fstod("targAcceptPer", fileName);
@@ -83,7 +92,7 @@ void TrialTransform::attempt1_() {
     cout << std::setprecision(std::numeric_limits<double>::digits10+2)
          << "attempting " << transType_ << " " << pair_->peTot() << endl;
   }
-  if (space_->nMol() > 0) {
+  if (space()->nMol() > 0) {
     if (transType_.compare("smctrans") == 0) {
       trialMoveRecordAll_(1);
 
@@ -91,24 +100,24 @@ void TrialTransform::attempt1_() {
       // of mass
       const double A = maxMoveParam*maxMoveParam/2.;
       const double betaA = criteria_->beta()*A;
-      vector<vector<double> > dr(space_->nMol(),
-                                 vector<double>(space_->dimen()));
+      vector<vector<double> > dr(space()->nMol(),
+                                 vector<double>(space()->dimen()));
       double wold = 0;    //!< prefactor for old configuration
       vector<double> R;   //!< multivariate guassian random numbers
       const vector<vector<double> > &fCOM = pair_->fCOM();
       double dx;
-      const vector<double> l = space_->l();
+      const vector<double> l = space()->l();
       bool tooBig = false;
-      for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
+      for (int iMol = 0; iMol < space()->nMol(); ++iMol) {
         // generate displacement vector from fCOM
-        R = stdRanNum(maxMoveParam, space_->dimen());
-        for (int dim = 0; dim < space_->dimen(); ++dim) {
+        R = stdRanNum(maxMoveParam, space()->dimen());
+        for (int dim = 0; dim < space()->dimen(); ++dim) {
           dr[iMol][dim] = dx = betaA*fCOM[iMol][dim] + R[dim];
           if (fabs(dx) > 0.5 * l[dim]) tooBig = true;
         }
 
         // translate molecule
-        space_->transMol(iMol, dr[iMol]);
+        space()->transMol(iMol, dr[iMol]);
 
         // compute bias prefactor from old forces
         wold -= vecDotProd(R, R);
@@ -120,13 +129,13 @@ void TrialTransform::attempt1_() {
         lnpMet_ = std::numeric_limits<double>::min();
       } else {
         // compute forces and energy of new configuration
-        if (space_->cellType() > 0) space_->updateCellofallMol();
+        if (space()->cellType() > 0) space()->updateCellofallMol();
         de_ = pair_->allPartEnerForce(1) - peOld_;
 
         // compute bias prefactor from new forces
         double wnew = 0;
-        for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
-          for (int dim = 0; dim < space_->dimen(); ++dim) {
+        for (int iMol = 0; iMol < space()->nMol(); ++iMol) {
+          for (int dim = 0; dim < space()->dimen(); ++dim) {
             R[dim] = -dr[iMol][dim] - betaA*fCOM[iMol][dim];
           }
           wnew -= vecDotProd(R, R);
@@ -139,16 +148,16 @@ void TrialTransform::attempt1_() {
       // accept or reject with bias prefactor
       if (criteria_->accept(lnpMet_, pair_->peTot() + de_, trialType_.c_str(),
           reject_) == 1) {
-        for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
-          space_->wrap(space_->imol2mpart(iMol));
+        for (int iMol = 0; iMol < space()->nMol(); ++iMol) {
+          space()->wrap(space()->imol2mpart(iMol));
         }
         if (pair_->neighOn()) pair_->buildNeighList();
-        pair_->update(space_->listAtoms(), 0, "update");
+        pair_->update(space()->listAtoms(), 0, "update");
         // cout << "accepted " << transType_ << " " << de_ << endl;
         trialAccept_();
       } else {
-        space_->restoreAll();
-        if (space_->cellType() > 0) space_->updateCellofallMol();
+        space()->restoreAll();
+        if (space()->cellType() > 0) space()->updateCellofallMol();
         // cout << "rejected " << transType_ << " " << de_ << endl;
         trialReject_();
       }
@@ -164,14 +173,14 @@ void TrialTransform::attempt1_() {
       double dxyt = maxMoveParam*(2*uniformRanNum()-1);
       double tiltOld = 0.;
       if (transType_.compare("xytilt") == 0) {
-        tiltOld = space_->xyTilt();
-        space_->modXYTilt(dxyt);
+        tiltOld = space()->xyTilt();
+        space()->modXYTilt(dxyt);
       } else if (transType_.compare("xztilt") == 0) {
-        tiltOld = space_->xzTilt();
-        space_->modXZTilt(dxyt);
+        tiltOld = space()->xzTilt();
+        space()->modXZTilt(dxyt);
       } else if (transType_.compare("yztilt") == 0) {
-        tiltOld = space_->yzTilt();
-        space_->modYZTilt(dxyt);
+        tiltOld = space()->yzTilt();
+        space()->modYZTilt(dxyt);
       }
 
       // compute energy of new configuration
@@ -182,21 +191,21 @@ void TrialTransform::attempt1_() {
       if (criteria_->accept(lnpMet_, pair_->peTot() + de_, trialType_.c_str(),
           reject_) == 1) {
         if (pair_->neighOn()) pair_->buildNeighList();
-        pair_->update(space_->listAtoms(), 0, "update");
-        space_->wrapMol();
+        pair_->update(space()->listAtoms(), 0, "update");
+        space()->wrapMol();
         trialAccept_();
       } else {
-        space_->restoreAll();
+        space()->restoreAll();
         if (transType_.compare("xytilt") == 0) {
-          space_->setXYTilt(tiltOld);
+          space()->setXYTilt(tiltOld);
         } else if (transType_.compare("xztilt") == 0) {
-          space_->setXZTilt(tiltOld);
+          space()->setXZTilt(tiltOld);
         } else if (transType_.compare("yztilt") == 0) {
-          space_->setYZTilt(tiltOld);
+          space()->setYZTilt(tiltOld);
         }
-        ASSERT(space_->cellType() <= 0,
+        ASSERT(space()->cellType() <= 0,
           "xytilt trial move not implemented correctly with cell list");
-        if (space_->cellType() > 0) space_->updateCellofallMol();
+        if (space()->cellType() > 0) space()->updateCellofallMol();
         // cout << "rejected " << transType_ << " " << de_ << endl;
         trialReject_();
       }
@@ -211,33 +220,33 @@ void TrialTransform::attempt1_() {
       // randomly attempt to increase or decrease (lx,ly,lz) by maxMoveParam
       //  this must be accompanied by a transformation of the particles
       const double dlnv = maxMoveParam*(2*uniformRanNum()-1),
-       vOld = space_->vol(),
+       vOld = space()->vol(),
        fac = exp(log(vOld) + dlnv)/vOld;
       //cout << "fac " << fac << " vOld " << vOld << " pres " << criteria_->pressure() << endl;
       scaleAttempt_(fac);
-      space_->wrapMol();
+      space()->wrapMol();
 
       // if box attempts to go beyond certain bounds, it may be modified
-      const double facActual = space_->vol()/vOld;
+      const double facActual = space()->vol()/vOld;
 
       // compute energy of new configuration
       de_ = pair_->allPartEnerForce(1) - peOld_;
       lnpMet_ = -criteria_->beta()*(de_ + criteria_->pressure()*(vOld*
-        (facActual-1.)) - (space_->nMol()+1)*log(facActual)/criteria_->beta());
+        (facActual-1.)) - (space()->nMol()+1)*log(facActual)/criteria_->beta());
       // cout << "de " << de_ << "pmet " << lnpMet_ << endl;
 
       // accept or reject with bias prefactor
       if (criteria_->accept(lnpMet_, pair_->peTot() + de_, trialType_.c_str(),
                             reject_) == 1) {
         if (pair_->neighOn()) pair_->buildNeighList();
-        pair_->update(space_->listAtoms(), 0, "update");
+        pair_->update(space()->listAtoms(), 0, "update");
         trialAccept_();
       } else {
         scaleAttempt_(1./facActual);
-        space_->restoreAll();
-        ASSERT(space_->cellType() <= 0,
+        space()->restoreAll();
+        ASSERT(space()->cellType() <= 0,
           "xytilt trial move not implemented correctly with cell list");
-        if (space_->cellType() > 0) space_->updateCellofallMol();
+        if (space()->cellType() > 0) space()->updateCellofallMol();
         // cout << "rejected " << transType_ << " " << de_ << endl;
         trialReject_();
       }
@@ -245,13 +254,13 @@ void TrialTransform::attempt1_() {
       // record statistics
       if (reject_ != 1) {
         if (transType_.compare("vol") == 0) {
-          paramAccumulator.accumulate(space_->vol());
+          paramAccumulator.accumulate(space()->vol());
         } else if (transType_.compare("lxmod") == 0) {
-          paramAccumulator.accumulate(space_->l(0));
+          paramAccumulator.accumulate(space()->l(0));
         } else if (transType_.compare("lymod") == 0) {
-          paramAccumulator.accumulate(space_->l(1));
+          paramAccumulator.accumulate(space()->l(1));
         } else if (transType_.compare("lzmod") == 0) {
-          paramAccumulator.accumulate(space_->l(2));
+          paramAccumulator.accumulate(space()->l(2));
         }
       }
 
@@ -259,17 +268,17 @@ void TrialTransform::attempt1_() {
     } else {
       if (molType_.empty()) {
         // if no molType given, move any particle
-        mpart_ = space_->randMol();    // select a random molecule
+        mpart_ = space()->randMol();    // select a random molecule
       } else {
         // otherwise, move only molType particles
-        const int iMolIndex = space_->findAddMolListIndex(molType_);
-        const int nMolOfType = space_->nMolType()[iMolIndex];
+        const int iMolIndex = space()->findAddMolListIndex(molType_);
+        const int nMolOfType = space()->nMolType()[iMolIndex];
         if (nMolOfType > 0) {
-          const int iMol = space_->randMolofType(iMolIndex);
+          const int iMol = space()->randMolofType(iMolIndex);
           if (iMol == -1) {
             reject_ = 1;
           } else {
-            mpart_ = space_->imol2mpart(iMol);
+            mpart_ = space()->imol2mpart(iMol);
           }
         } else {
           reject_ = 1;
@@ -281,9 +290,9 @@ void TrialTransform::attempt1_() {
       } else {
         trialMoveRecord_();
         if (transType_.compare("translate") == 0) {
-          space_->randDisp(mpart_, maxMoveParam);
+          space()->randDisp(mpart_, maxMoveParam);
         } else if (transType_.compare("rotate") == 0) {
-          space_->randRotate(mpart_, maxMoveParam);
+          space()->randRotate(mpart_, maxMoveParam);
         }
         trialMoveDecide_(0, 1);
       }
@@ -309,7 +318,7 @@ void TrialTransform::tuneParameters() {
        (transType_.compare("lymod") == 0) ||
        (transType_.compare("lzmod") == 0)
      ) {
-    upperLimit = space_->minl()/4.;
+    upperLimit = space()->minl()/4.;
   } else if ( (transType_.compare("rotate") == 0) ) {
     upperLimit = 1e1;
   } else {
@@ -339,28 +348,28 @@ string TrialTransform::printStat(const bool header) {
     if (header) {
       stat << "volume ";
     } else {
-      stat << space_->vol() << " ";
+      stat << space()->vol() << " ";
     }
   }
   if (transType_.compare("lxmod") == 0) {
     if (header) {
       stat << "lx ";
     } else {
-      stat << space_->l(0) << " ";
+      stat << space()->l(0) << " ";
     }
   }
   if (transType_.compare("lymod") == 0) {
     if (header) {
       stat << "ly ";
     } else {
-      stat << space_->l(1) << " ";
+      stat << space()->l(1) << " ";
     }
   }
   if (transType_.compare("lzmod") == 0) {
     if (header) {
       stat << "lz ";
     } else {
-      stat << space_->l(2) << " ";
+      stat << space()->l(2) << " ";
     }
   }
   return stat.str();
@@ -371,16 +380,25 @@ void TrialTransform::scaleAttempt_(const double factor) {
     "cannot scale domain by a factor: " << factor);
   // determine if lx, ly or lz (or volume if dim == -1)
   if (transType_.compare("lxmod") == 0) {
-    space_->scaleDomain(factor, 0);
+    space()->scaleDomain(factor, 0);
   } else if (transType_.compare("lymod") == 0) {
-    space_->scaleDomain(factor, 1);
+    space()->scaleDomain(factor, 1);
   } else if (transType_.compare("lzmod") == 0) {
-    space_->scaleDomain(factor, 2);
+    space()->scaleDomain(factor, 2);
   } else if (transType_.compare("vol") == 0) {
-    space_->scaleDomain(factor);
+    space()->scaleDomain(factor);
   } else {
     ASSERT(0, "unrecognized transType_(" << transType_ << ") for scale.");
   }
+}
+
+shared_ptr<TrialTransform> makeTrialTransform(Pair *pair,
+  Criteria *criteria, const char* transType) {
+  return make_shared<TrialTransform>(pair, criteria, transType);
+}
+
+shared_ptr<TrialTransform> makeTrialTransform(const char* transType) {
+  return make_shared<TrialTransform>(transType);
 }
 
 void transformTrial(MC *mc, const char* type, double maxMoveParam) {

@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./pair.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -816,7 +826,7 @@ double Pair::exVol(
 //      cout << "type " << space_->type()[iAtom] << " ";
       const double sig = sig_[space_->type()[iAtom]];
       double sigtmp;
-      if (fabs(sig) < doubleTolerance) {
+      if (fabs(sig) < DTOL) {
         sigtmp = 0.;
       } else {
         sigtmp = 0.5*(sig + dProbe);
@@ -905,7 +915,7 @@ int Pair::printxyz(const char* fileName,
         } else {
           stringstream ss;
           ss << type[ipart] << " ";
-	  fprintf(xyzFile, ss.str().c_str());
+	  fprintf(xyzFile, "%s", ss.str().c_str());
         }
       }
       for (int i = 0; i < dimen_; ++i) {
@@ -1288,7 +1298,7 @@ double Pair::allPartEnerForceAtomCutNoCell2D() {
           // separation distance with periodic boundary conditions
           dx = xi - x[dimen_*jpart];
           dy = yi - x[dimen_*jpart+1];
-          if (fabs(xyTilt) < doubleTolerance) {
+          if (fabs(xyTilt) < DTOL) {
             if (dx >  halflx) dx -= lx;
             if (dx < -halflx) dx += lx;
             if (dy >  halfly) dy -= ly;
@@ -1446,7 +1456,7 @@ double Pair::multiPartEnerAtomCut2D(const vector<int> mpart) {
           // separation distance with periodic boundary conditions
           dx = xi - x[dimen_*jpart];
           dy = yi - x[dimen_*jpart+1];
-          if (fabs(xyTilt) < doubleTolerance) {
+          if (fabs(xyTilt) < DTOL) {
             if (dx >  halflx) dx -= lx;
             if (dx < -halflx) dx += lx;
             if (dy >  halfly) dy -= ly;

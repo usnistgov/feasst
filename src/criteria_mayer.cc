@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./criteria_mayer.h"
 #include "./functions.h"
 
@@ -79,14 +89,13 @@ int CriteriaMayer::accept(const double lnpMet, const double peNew,
   return returnVal;
 }
 
-void CriteriaMayer::store(const Space* space, Pair* pair) {
-  if (space == NULL) {}
+void CriteriaMayer::store(Pair* pair) {
   peOld_ = pair->peTot();
   ASSERT(fabs(peOld_) > 0, "Mayer sampling requires that the particles never"
     << "leave their potential wells, e.g., the potential energy is nonzero");
   pairRef_->initEnergy();
   peRefOld_ = pairRef_->peTot();
-  ASSERT(space == pairRef_->space(), "reference potential must point to the"
+  ASSERT(pair->space() == pairRef_->space(), "reference potential must point to the"
     << "same space object");
 }
 

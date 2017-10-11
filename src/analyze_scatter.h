@@ -1,8 +1,11 @@
 /**
- * \file
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
  *
- * \brief
- *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
  */
 
 #ifndef ANALYZE_SCATTER_H_
@@ -14,40 +17,30 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ * Compute scattering, structure factor and radial distribution functions.
+ */
 class AnalyzeScatter : public Analyze {
  public:
-  AnalyzeScatter(Space *space, Pair *pair);
-  AnalyzeScatter(Space *space, Pair *pair, const char* fileName);
-  ~AnalyzeScatter() {}
-  AnalyzeScatter* clone(Space* space, Pair* pair) const {
-    AnalyzeScatter* a = new AnalyzeScatter(*this);
-    a->reconstruct(space, pair); return a;
-  }
-  shared_ptr<AnalyzeScatter> cloneShrPtr(Space* space, Pair* pair) const {
-    return(std::static_pointer_cast<AnalyzeScatter, Analyze>(
-      cloneImpl(space, pair)));
-  }
-  void writeRestart(const char* fileName) { writeRestart(fileName, -1); };
-  void writeRestart(const char* fileName, const int iMacro);
+  /// Constructor
+  AnalyzeScatter(Pair *pair);
 
   /// initialize SANS
-  void initSANS(const double dgr, const int nMacros);
-  void initSANS(const double dgr) { initSANS(dgr, 1); }
+  void initSANS(const double dgr,  //!< Distance between spatial bins.
+    /// Number of macrostates in CriteriaWLTMMC.
+    const int nMacros = 1);
 
-  /// update analysis every nFreq
+  // update analysis every nFreq
   void update() { update(0); }
   void update(const int iMacro);
 
-  /// compute
+  // Perform the scattering computation.
   void computeSANS(const int iMacro, const int nMol);
-  void computeSANS() { computeSANS(0, space_->nMol()); }
+  void computeSANS() { computeSANS(0, space()->nMol()); }
 
-  /// print
+  // print
   void write();
   void write(CriteriaWLTMMC *c);
-
-  /// determine number of particle types
-  int nPartTypes();
 
   // read-only access to protected variables
   vector<vector<vector<vector<long long> > > > histInter() const {
@@ -63,6 +56,19 @@ class AnalyzeScatter : public Analyze {
 
   /// initialize moments cutoff
   void initMoments(const int nMoments) { nMomentsCut_ = nMoments; }
+
+  AnalyzeScatter(Pair *pair, const char* fileName);
+  ~AnalyzeScatter() {}
+  AnalyzeScatter* clone(Pair* pair) const {
+    AnalyzeScatter* a = new AnalyzeScatter(*this);
+    a->reconstruct(pair); return a;
+  }
+  shared_ptr<AnalyzeScatter> cloneShrPtr(Pair* pair) const {
+    return(std::static_pointer_cast<AnalyzeScatter, Analyze>(
+      cloneImpl(pair)));
+  }
+  void writeRestart(const char* fileName) { writeRestart(fileName, -1); };
+  void writeRestart(const char* fileName, const int iMacro);
 
  protected:
   double dgr_;  //!< distance spacing for gr
@@ -93,14 +99,20 @@ class AnalyzeScatter : public Analyze {
   void printer_(const string fileName, CriteriaWLTMMC *c = NULL,
                 const int iMacro = 0);
 
+  /// Return number of particle types from space.
+  int nPartTypes_();
+
   void defaultConstruction_();
 
   // clone design pattern
-  virtual shared_ptr<Analyze> cloneImpl(Space* space, Pair *pair) const {
+  virtual shared_ptr<Analyze> cloneImpl(Pair *pair) const {
     shared_ptr<AnalyzeScatter> a = make_shared<AnalyzeScatter>(*this);
-    a->reconstruct(space, pair); return a;
+    a->reconstruct(pair); return a;
   }
 };
+
+/// Factory method
+shared_ptr<AnalyzeScatter> makeAnalyzeScatter(Pair *pair);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

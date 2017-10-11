@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef PAIR_LJ_H_
 #define PAIR_LJ_H_
 
@@ -8,58 +18,63 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 /**
- * \file
- *
- * \brief lennard-jones pair-wise interaction
- *
- * The pair_lj class calculates pair-wise interactions with the Lennard-Jones classical potential function.
- * U is the potential energy, r is the separation distance between particles, eps is the energy-scale, sig is the length scale, and rCut is the cutoff of the interaction distance.
- *
- * U(r) = 4 eps ( (sig/r)^12 - (sig/r)^6 ) - U(rCut)
- * f_ = -grad(U)_ is the force
- * virial = sum( r_ . f_ ) is related to the pressure
- * where _ denotes vectors
+ * Lennard Jones model, assuming one rCut and unit sigma and epsilon
+ * \f$U_{LJ} = 4[r^{-12} - r^{-6}] \f$.
  */
 class PairLJ : public Pair {
  public:
-  PairLJ(Space* space, const double rCut);
-  PairLJ(Space* space, const char* fileName);
-  virtual ~PairLJ() {}
-  virtual PairLJ* clone(Space* space) const {
-    PairLJ* p = new PairLJ(*this); p->reconstruct(space); return p; }
+  /// Constructor
+  PairLJ(Space* space,
+    /// Interaction cut-off distance.
+    const double rCut);
 
-  /// write restart file
-  virtual void writeRestart(const char* fileName);
+  virtual void initEnergy();   // function to calculate forces, given positions
 
-  virtual void initEnergy();   //!< function to calculate forces, given positions
-
-  /// potential energy of multiple particles
+  // potential energy of multiple particles
   virtual double multiPartEner(const vector<int> multiPart, const int flag);
 
-  /// potential energy of multiple particles optimized for no neighbor list
+  // potential energy of multiple particles optimized for no neighbor list
   //  updates
   double multiPartEnerNoNeigh(const vector<int> multiPart);
 
-  /// potential energy of multiple particles optimized for neighbor list updates
+  // potential energy of multiple particles optimized for neighbor list updates
   double multiPartEnerNeigh(const vector<int> multiPart);
 
-  /// potential energy of multiple particles optimized for neighbor list updates
+  // potential energy of multiple particles optimized for neighbor list updates
   virtual double multiPartEnerAtomCutNoNeigh(const vector<int> multiPart);
 
-  /// stores, restores or updates variables to avoid order recompute of entire
+  // stores, restores or updates variables to avoid order recompute of entire
   //  configuration after every change
   void update(const vector<int> mpart, const int flag, const char* uptype);
 
-  /// initialize cut and shifted potential
-  virtual void cutShift(const int flag);
+  /**
+   * Initialize cut and shifted potential.
+   *  if flag == 0, do not shift
+   *  if flag == 1, shift by potential value to zero at rCut
+   */
+  virtual void cutShift(const int flag = 0);
 
-  /// initialize linear force shift potential
-  virtual void linearShift(const int flag);
+  /**
+   * Initialize linear force shift potential.
+   *  if flag == 0, do not shift
+   *  if flag == 1, shift by potential and force value to zero at rCut
+   */
+  virtual void linearShift(const int flag = 0);
 
-  /// read-only access of protected variables
+  // read-only access of protected variables
   double peLJ() const { return peLJ_; }
   double peLRC() const { return peLRC_; }
   double peLRCone() const { return peLRCone_; }
+
+  /// Write restart file.
+  virtual void writeRestart(const char* fileName);
+
+  /// Construct with restart file.
+  PairLJ(Space* space, const char* fileName);
+
+  virtual ~PairLJ() {}
+  virtual PairLJ* clone(Space* space) const {
+    PairLJ* p = new PairLJ(*this); p->reconstruct(space); return p; }
 
  protected:
   double peLJ_;   //!< total potential energy from lennard-jones interactions
@@ -85,6 +100,9 @@ class PairLJ : public Pair {
   // defaults in constructor
   void defaultConstruction_();
 };
+
+/// Factor method
+shared_ptr<PairLJ> makePairLJ(Space* space, const double rCut);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

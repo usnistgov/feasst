@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <string>
 #include "pair_hard_circle.h"
 
@@ -212,6 +222,10 @@ void PairHardCircle::multiPartEnerAtomCutInner(const double &r2,
                  R = 0.5*dCircle_ + rDep_;
     peSRone_ -= (2*R*R*acos(r*0.5/R) - r*sqrt(R*R-r*r*0.25))/PI/rDep_/rDep_;
   }
+}
+
+shared_ptr<PairHardCircle> makePairHardCircle(Space* space, const double rCut) {
+  return make_shared<PairHardCircle>(space, rCut);
 }
 
 #ifdef FEASST_NAMESPACE_

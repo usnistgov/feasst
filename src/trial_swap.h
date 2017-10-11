@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef TRIAL_SWAP_H_
 #define TRIAL_SWAP_H_
 
@@ -22,7 +32,7 @@ class Criteria;
 class TrialSwap : public Trial {
  public:
   /// Constructor with particle types which are allowed to swap.
-  TrialSwap(Space *space, Pair *pair, Criteria *criteria, const char* molTypeA,
+  TrialSwap(Pair *pair, Criteria *criteria, const char* molTypeA,
             const char* molTypeB);
 
   /// This constructor is not often used, but its purpose is to initialize trial
@@ -48,11 +58,17 @@ class TrialSwap : public Trial {
   void writeRestart(const char* fileName);
 
   /// Construct from restart file.
-  TrialSwap(const char* fileName, Space *space, Pair *pair, Criteria *criteria);
+  TrialSwap(const char* fileName, Pair *pair, Criteria *criteria);
   ~TrialSwap() {}
-  TrialSwap* clone(Space* space, Pair *pair, Criteria *criteria) const;
-  shared_ptr<TrialSwap> cloneShrPtr(Space* space, Pair* pair,
-                                   Criteria* criteria) const;
+  TrialSwap* clone(Pair* pair, Criteria* criteria) const {
+    TrialSwap* t = new TrialSwap(*this);
+    t->reconstruct(pair, criteria); return t;
+  }
+  shared_ptr<TrialSwap> cloneShrPtr(
+    Pair* pair, Criteria* criteria) const {
+    return(std::static_pointer_cast<TrialSwap, Trial>(
+      cloneImpl(pair, criteria)));
+  }
 
  protected:
   string molTypeA_;
@@ -64,9 +80,20 @@ class TrialSwap : public Trial {
   void defaultConstruction_();
 
   // clone design pattern
-  virtual shared_ptr<Trial> cloneImpl(Space* space, Pair *pair,
-                                      Criteria *criteria) const;
+  virtual shared_ptr<Trial> cloneImpl(
+    Pair *pair, Criteria *criteria) const {
+    shared_ptr<TrialSwap> t = make_shared<TrialSwap>(*this);
+    t->reconstruct(pair, criteria);
+    return t;
+  }
 };
+
+/// Factory method
+shared_ptr<TrialSwap> makeTrialSwap(Pair *pair,
+  Criteria *criteria, const char* molTypeA, const char* molTypeB);
+
+/// Factory method
+shared_ptr<TrialSwap> makeTrialSwap(const char* molTypeA, const char* molTypeB);
 
 class MC;
 void swapTrial(MC *mc, const char* molTypeA, const char* molTypeB);

@@ -1,17 +1,28 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./analyze_scatter.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-AnalyzeScatter::AnalyzeScatter(Space *space, Pair *pair)
-  : Analyze(space, pair) {
+AnalyzeScatter::AnalyzeScatter(Pair *pair)
+  : Analyze(pair) {
   defaultConstruction_();
 }
-AnalyzeScatter::AnalyzeScatter(Space *space,
+
+AnalyzeScatter::AnalyzeScatter(
   Pair *pair,
   const char* fileName)
-  : Analyze(space, pair, fileName) {
+  : Analyze(pair, fileName) {
   defaultConstruction_();
   double dgrTmp = fstod("dgrRadialBinDist", fileName);
   int nMacrosTmp = fstoi("nMacros", fileName);
@@ -74,9 +85,6 @@ AnalyzeScatter::AnalyzeScatter(Space *space,
   }
 }
 
-/**
- * write restart file
- */
 void AnalyzeScatter::writeRestart(const char* fileName, const int iMacro) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
@@ -136,41 +144,35 @@ void AnalyzeScatter::writeRestart(const char* fileName, const int iMacro) {
   }
 }
 
-/**
- * default construction
- */
 void AnalyzeScatter::defaultConstruction_() {
   className_.assign("AnalyzeScatter");
   nMomentsCut_ = 0;
   verbose_ = 0;
 }
 
-/**
- * initialize SANS
- */
 void AnalyzeScatter::initSANS(
-  const double dgr,    //!< radial distribution function bin spacing
-  const int nMacros     //!< number of macrostates
+  const double dgr,
+  const int nMacros
   ) {
   countConf_.resize(nMacros, 0.);
   dgr_ = dgr;
-  nbins_ = static_cast<int>((space_->minl()/2-10*doubleTolerance)/dgr_) + 1;
+  nbins_ = static_cast<int>((space()->minl()/2-10*DTOL)/dgr_) + 1;
   qbins_ = static_cast<int>(nbins_)+1;
   // qbins_ = static_cast<int>(nbins_*10)+1;
   if (qbins_ > 500) qbins_ = 500;
   iqm_.resize(nMacros, vector<double>(qbins_, 0.));
-  const double qmin = log(4*PI/space_->minl());
+  const double qmin = log(4*PI/space()->minl());
   double sigmin;
   const vector<double> sig = pair_->sig();
   sigmin = *std::min_element(sig.begin(), sig.end());
-  const double qmax = log(6*PI/std::min(sigmin, space_->minBondLength())),
+  const double qmax = log(6*PI/std::min(sigmin, space()->minBondLength())),
     dq = (qmax - qmin)/static_cast<double>(qbins_);
   qwave_.resize(qbins_);
-  Pq_.resize(qbins_, vector<double>(nPartTypes()));
+  Pq_.resize(qbins_, vector<double>(nPartTypes_()));
   for (int q = 0; q < qbins_; ++q) {
     const double qtmp = qmin + dq*q;
     qwave_[q] = exp(qtmp);
-    for (int itype = 0; itype < nPartTypes(); ++itype) {
+    for (int itype = 0; itype < nPartTypes_(); ++itype) {
       double r;
       r = 0.5*pair_->sig()[itype];
       const double qr = r*qwave_[q];
@@ -180,29 +182,26 @@ void AnalyzeScatter::initSANS(
 
   // initialize histograms
   histInter2_.resize(nMacros, vector<vector<vector<long long> > >(
-    nPartTypes(), vector<vector<long long> >(
-      nPartTypes(), vector<long long>(nbins_))));
+    nPartTypes_(), vector<vector<long long> >(
+      nPartTypes_(), vector<long long>(nbins_))));
   histIntra2_.resize(nMacros, vector<vector<vector<long long> > >(
-    nPartTypes(), vector<vector<long long> >(
-      nPartTypes(), vector<long long>(nbins_))));
+    nPartTypes_(), vector<vector<long long> >(
+      nPartTypes_(), vector<long long>(nbins_))));
   histMoments_.resize(nMacros, vector<vector<vector<vector<double> > > >(
-    nPartTypes(), vector<vector<vector<double> > >(
-      nPartTypes(), vector<vector<double> >(
+    nPartTypes_(), vector<vector<vector<double> > >(
+      nPartTypes_(), vector<vector<double> >(
         nMomentsCut_, vector<double>(nbins_)))));
 }
 
-/**
- * compute SANS Hist
- */
 void AnalyzeScatter::update(const int iMacro) {
   ++countConf_[iMacro];
-  const vector<double> l = space_->l();
-  const vector<int> type = space_->type();
-  const vector<int> mol = space_->mol();
-  const vector<double> x = space_->x();
-  const int natom = space_->natom();
-  const double minl = space_->minl();
-  const int dimen = space_->dimen();
+  const vector<double> l = space()->l();
+  const vector<int> type = space()->type();
+  const vector<int> mol = space()->mol();
+  const vector<double> x = space()->x();
+  const int natom = space()->natom();
+  const double minl = space()->minl();
+  const int dimen = space()->dimen();
 
   double lx = l[0], ly = 0, lz = 0, halflx = lx/2., halfly = 0, halflz = 0,
     dx = 0, dy = 0, dz = 0, xi = 0, yi = 0, zi = 0, r2 = 0;
@@ -251,8 +250,8 @@ void AnalyzeScatter::update(const int iMacro) {
   }
 
   // intramolecular term
-  const vector<int> mol2part = space_->mol2part();
-  for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
+  const vector<int> mol2part = space()->mol2part();
+  for (int iMol = 0; iMol < space()->nMol(); ++iMol) {
     for (int ipart = mol2part[iMol]; ipart < mol2part[iMol+1]-1; ++ipart) {
       const int iType = type[ipart];
       xi = x[dimen*ipart];
@@ -285,9 +284,6 @@ void AnalyzeScatter::update(const int iMacro) {
   }
 }
 
-/**
- * compute SANS
- */
 void AnalyzeScatter::computeSANS(const int iMacro,
                        const int nMol
   ) {
@@ -299,7 +295,7 @@ void AnalyzeScatter::computeSANS(const int iMacro,
 
     // compute Pq2 for one molecule
     double Pq2 = 0;
-    for (int iType = 0; iType < nPartTypes(); ++iType) {
+    for (int iType = 0; iType < nPartTypes_(); ++iType) {
       Pq2 += pow(Pq_[k][iType], 2);
     }
 
@@ -311,11 +307,11 @@ void AnalyzeScatter::computeSANS(const int iMacro,
         sqrinvqr = sin(qr)/qr,
         rmin = dgr_*bin,
         rmax = dgr_*(bin + 1),
-        dv = 4./3.*PI*(pow(rmax, 3) - pow(rmin, 3))/space_->vol();
+        dv = 4./3.*PI*(pow(rmax, 3) - pow(rmin, 3))/space()->vol();
       double nid;
       nid = dv*(nMol - 1);
-      for (int iType = 0; iType < nPartTypes(); ++iType) {
-        for (int jType = 0; jType < nPartTypes(); ++jType) {
+      for (int iType = 0; iType < nPartTypes_(); ++iType) {
+        for (int jType = 0; jType < nPartTypes_(); ++jType) {
           double normFacIn;
           normFacIn = static_cast<double>(nMol);
           Iq1 += Pq_[k][iType]*Pq_[k][jType]*
@@ -328,7 +324,7 @@ void AnalyzeScatter::computeSANS(const int iMacro,
         }
       }
     }
-    double normFac = pow(nPartTypes(), 2);
+    double normFac = pow(nPartTypes_(), 2);
     Iq1 /= normFac; Iq2 /= normFac; Iq3 /= normFac; Pq2 /= normFac;
     iq_[k] = Pq2 + Iq1 + Iq2 - Iq3;
     iqIntra_[k] = Pq2 + Iq1;
@@ -336,9 +332,6 @@ void AnalyzeScatter::computeSANS(const int iMacro,
   }
 }
 
-/**
- * compute SANS
- */
 void AnalyzeScatter::write() {
   computeSANS();
   stringstream ss;
@@ -346,9 +339,6 @@ void AnalyzeScatter::write() {
   printer_(ss.str());
 }
 
-/**
- * printer
- */
 void AnalyzeScatter::printer_(const string fileName, CriteriaWLTMMC *c,
   const int iMacro) {
   // initialize output
@@ -385,13 +375,13 @@ void AnalyzeScatter::printer_(const string fileName, CriteriaWLTMMC *c,
     if (c->mType().compare("nmol") == 0) {
       nMol = c->bin2m(iMacro);
     } else {
-      nMol = space_->nMol();
+      nMol = space()->nMol();
     }
   } else {
-    nMol = space_->nMol();
+    nMol = space()->nMol();
   }
 
-  const int maxBins = static_cast<int>(space_->minl()/2./dgr_);
+  const int maxBins = static_cast<int>(space()->minl()/2./dgr_);
 
   // compute and print radial distribution functions
   ss.str("");
@@ -407,15 +397,15 @@ void AnalyzeScatter::printer_(const string fileName, CriteriaWLTMMC *c,
     const double r = dgr_*(bin + 0.5),
       rmin = r - 0.5*dgr_,
       rmax = r + 0.5*dgr_,
-      dv = 4./3.*PI*(pow(rmax, space_->dimen())-pow(rmin,
-        space_->dimen()))/space_->vol();
+      dv = 4./3.*PI*(pow(rmax, space()->dimen())-pow(rmin,
+        space()->dimen()))/space()->vol();
     ss << r << " ";
     for (unsigned int iType = 0; iType < hist.size(); ++iType) {
-      const int niType = nMol*space_->addMolList()[0]->nType()[iType];
+      const int niType = nMol*space()->addMolList()[0]->nType()[iType];
       for (unsigned int jType = 0; jType < hist[0].size(); ++jType) {
         int normFac = 0;
         if (iType == jType) normFac = 1;
-        const int njType = nMol*space_->addMolList()[0]->nType()[jType];
+        const int njType = nMol*space()->addMolList()[0]->nType()[jType];
         gr[iType][jType][bin] = (hist[iType][jType][bin])
           /static_cast<double>( (niType - normFac)*njType*(countConf_[iMacro]) )
           /dv;
@@ -472,7 +462,7 @@ void AnalyzeScatter::printer_(const string fileName, CriteriaWLTMMC *c,
 
     // compute Pq2 for one molecule
     double Pq2 = 0;
-    for (int iType = 0; iType < nPartTypes(); ++iType) {
+    for (int iType = 0; iType < nPartTypes_(); ++iType) {
       Pq2 += pow(Pq_[k][iType], 2);
     }
 
@@ -484,11 +474,11 @@ void AnalyzeScatter::printer_(const string fileName, CriteriaWLTMMC *c,
         sqrinvqr = sin(qr)/qr,
         rmin = dgr_*bin,
         rmax = dgr_*(bin + 1),
-        dv = 4./3.*PI*(pow(rmax, 3) - pow(rmin, 3))/space_->vol();
+        dv = 4./3.*PI*(pow(rmax, 3) - pow(rmin, 3))/space()->vol();
       double nid;
       nid = dv*(nMol - 1);
-      for (int iType = 0; iType < nPartTypes(); ++iType) {
-        for (int jType = 0; jType < nPartTypes(); ++jType) {
+      for (int iType = 0; iType < nPartTypes_(); ++iType) {
+        for (int jType = 0; jType < nPartTypes_(); ++jType) {
           double normFacIn;
           normFacIn = static_cast<double>(nMol);
           Iq1 += Pq_[k][iType]*Pq_[k][jType]*
@@ -512,7 +502,7 @@ void AnalyzeScatter::printer_(const string fileName, CriteriaWLTMMC *c,
         }
       }
     }
-    double normFac = pow(nPartTypes(), 2);
+    double normFac = pow(nPartTypes_(), 2);
     // if (nMol == 0) normFac = 1;
     Iq1 /= normFac; Iq2 /= normFac; Iq3 /= normFac; Pq2 /= normFac;
     Iq2shift /= normFac; Iq2scale /= normFac;
@@ -532,9 +522,6 @@ void AnalyzeScatter::printer_(const string fileName, CriteriaWLTMMC *c,
   }
 }
 
-/**
- * compute SANS
- */
 void AnalyzeScatter::write(CriteriaWLTMMC *c) {
   for (int iMacro = 0; iMacro < c->nBin(); ++iMacro) {
     // obtain the number of molecules
@@ -542,7 +529,7 @@ void AnalyzeScatter::write(CriteriaWLTMMC *c) {
     if (c->mType().compare("nmol") == 0) {
       nMol = c->bin2m(iMacro);
     } else {
-      nMol = space_->nMol();
+      nMol = space()->nMol();
     }
 
     // obtain the scattering intensity
@@ -554,11 +541,12 @@ void AnalyzeScatter::write(CriteriaWLTMMC *c) {
   }
 }
 
-/**
- * determine number of particle types
- */
-int AnalyzeScatter::nPartTypes() {
-  return space_->nParticleTypes();
+int AnalyzeScatter::nPartTypes_() {
+  return space()->nParticleTypes();
+}
+
+shared_ptr<AnalyzeScatter> makeAnalyzeScatter(Pair *pair) {
+  return make_shared<AnalyzeScatter>(pair);
 }
 
 #ifdef FEASST_NAMESPACE_

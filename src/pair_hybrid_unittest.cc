@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include "pair_lj.h"
 #include "pair_lj_multi.h"
@@ -13,7 +23,7 @@ TEST(PairHybrid, hybrid) {
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
   PairLJCoulEwald p(&s, 12.42934435);
-  p.initBulkSPCE(5.6, 38.00000001);
+  p.initBulkSPCE(5.6, 38);
   double petot = p.peTot();
   PairHybrid ph(&s, 12);
   ph.addPair(&p);

@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef PAIR_H_
 #define PAIR_H_
 
@@ -38,9 +48,6 @@ class Pair : public BaseRandom {
 
   /// Return total potential energy of system.
   virtual double peTot() { return peTot_; }
-
-  /// Factory method.
-  Pair* makePair(Space* space, const char* fileName);
 
   // DEPRECIATED: legacy interface for old naming convention
   void Forces() { return initEnergy(); }
@@ -257,7 +264,7 @@ class Pair : public BaseRandom {
 
   /// Set the value of the order parameter.
   virtual void setOrder(const double order);
-  
+
   /// Initialize the order parameter.
   void initOrder(
     const double order,   //!< value of the order parameter
@@ -501,6 +508,9 @@ class Pair : public BaseRandom {
   /// Write restart file.
   void writeRestartBase(const char* fileName);
 };
+
+/// Factory method.
+Pair* makePair(Space* space, const char* fileName);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

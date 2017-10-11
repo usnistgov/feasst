@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include <limits.h>
 #include "functions.h"
@@ -254,7 +264,7 @@ TEST(Functions, nWindow) {
 //  for (int i = 0; i < int(win.size()); ++i) cout << win[i][0] << " " << win[i][1] << endl;
   EXPECT_EQ(mMin, win[0][0]);
   EXPECT_EQ(mMax, win[11][1]);
-  EXPECT_NEAR(0.115, win[3][0], doubleTolerance);
+  EXPECT_NEAR(0.115, win[3][0], DTOL);
 
   win = nWindowGrowth(mMin, mMax, 0.0, 12, 0.01, 3);
   EXPECT_EQ(12, int(win.size()));
@@ -262,7 +272,7 @@ TEST(Functions, nWindow) {
 //  for (int i = 0; i < int(win.size()); ++i) cout << win[i][0] << " " << win[i][1] << " " << win[i][1] - win[i][0] << endl;
   EXPECT_EQ(mMin, win[0][0]);
   EXPECT_EQ(mMax, win[11][1]);
-  EXPECT_NEAR(0.095, win[3][0], doubleTolerance);
+  EXPECT_NEAR(0.095, win[3][0], DTOL);
 }
 
 //TEST(Functions, pos2quat) {
@@ -386,7 +396,7 @@ TEST(Functions, orthogonalVec) {
   for (int i = 0; i < 100; ++i) {
     vector<double> xa = bm.ranUnitSphere(3);
     vector<double> xb = orthogonalVec(xa);
-    EXPECT_NEAR(0, vecDotProd(xa, xb), doubleTolerance);
+    EXPECT_NEAR(0, vecDotProd(xa, xb), DTOL);
   }
 }
 
@@ -414,7 +424,7 @@ TEST(Functions, rotateVecByAxisAngle) {
 //
 //    const double cosC = (xal*xal+xbl*xbl-xabl*xabl)/(2.*xal*xbl);
 //
-//    EXPECT_NEAR(cosC, cos(theta), doubleTolerance);
+//    EXPECT_NEAR(cosC, cos(theta), DTOL);
 ////    // project onto the xy-plane and compute the angle
 ////    const double projafac = vecDotProd(xa, z);
 ////    const double projbfac = vecDotProd(xb, z);
@@ -430,38 +440,38 @@ TEST(Functions, rotateVecByAxisAngle) {
   xa[0] = 1; xa[1] = 0; xa[2] = 0;
   vector<double> z(3); z[0]=0; z[1]=0; z[2]=1;
   vector<double> xb = rotateVecByAxisAngle(xa, z, PI/2.);
-  EXPECT_NEAR(0, xb[0], doubleTolerance);
-  EXPECT_NEAR(1, xb[1], doubleTolerance);
-  EXPECT_NEAR(0, xb[2], doubleTolerance);
+  EXPECT_NEAR(0, xb[0], DTOL);
+  EXPECT_NEAR(1, xb[1], DTOL);
+  EXPECT_NEAR(0, xb[2], DTOL);
 }
 
 TEST(Functions, quadraticEqReal) {
   double x1, x2;
   quadraticEqReal(1., -3., 2., x1, x2);
-  EXPECT_NEAR(2, x1, doubleTolerance);
-  EXPECT_NEAR(1, x2, doubleTolerance);
+  EXPECT_NEAR(2, x1, DTOL);
+  EXPECT_NEAR(1, x2, DTOL);
   quadraticEqReal(1., -11., 30., x1, x2);
-  EXPECT_NEAR(6, x1, doubleTolerance);
-  EXPECT_NEAR(5, x2, doubleTolerance);
+  EXPECT_NEAR(6, x1, DTOL);
+  EXPECT_NEAR(5, x2, DTOL);
   feasst::BaseRandom bm;
   for (int i = 0; i < 100; ++i) {
     const double x1a = bm.uniformRanNum(), x2a = bm.uniformRanNum();
     quadraticEqReal(1., -(x1a+x2a), x1a*x2a, x1, x2);
-    EXPECT_NEAR(x1a*x2a, x1*x2, doubleTolerance);
-    EXPECT_NEAR(x1a+x2a, x1+x2, doubleTolerance);
+    EXPECT_NEAR(x1a*x2a, x1*x2, DTOL);
+    EXPECT_NEAR(x1a+x2a, x1+x2, DTOL);
   }
 }
 
 TEST(Functions, cartesian2spherical) {
   vector<double> x(3); x[0] = 1; x[1] = 0; x[2] = 0;
   vector<double> xS = cartesian2spherical(x);
-  EXPECT_NEAR(xS[0], 1, doubleTolerance);
-  EXPECT_NEAR(xS[1], PI/2, doubleTolerance);
-  EXPECT_NEAR(xS[2], 0, doubleTolerance);
+  EXPECT_NEAR(xS[0], 1, DTOL);
+  EXPECT_NEAR(xS[1], PI/2, DTOL);
+  EXPECT_NEAR(xS[2], 0, DTOL);
 
   vector<std::complex<double> > sphH = cart2sphereHarm6(x);
   const double q6 = sqrt(4*PI/13.* complexVec2norm(sphH));
-  EXPECT_NEAR(1, q6, doubleTolerance);
+  EXPECT_NEAR(1, q6, DTOL);
 }
 
 TEST(Functions, Euler2RotMatANDRotMat2Euler) {
@@ -481,7 +491,7 @@ TEST(Functions, Euler2RotMatANDRotMat2Euler) {
     vector<vector<double> > rotMatConv = Euler2RotMat(eulerConv[0]);
 
     const double tol = 1e-10;
-    //const double tol = sqrt(doubleTolerance);
+    //const double tol = sqrt(DTOL);
     //EXPECT_NEAR(euler[0], eulerConv[0][0], tol);
     EXPECT_NEAR(euler[1], eulerConv[0][1], tol);
     //EXPECT_NEAR(euler[2], eulerConv[0][2], tol);
@@ -504,35 +514,35 @@ TEST(Functions, 3by3MatrixOperations) {
   mat[2][0] = 1;
   mat[2][1] = 2;
   mat[2][2] = 3;
-  EXPECT_NEAR(det3by3(mat), 9, doubleTolerance);
+  EXPECT_NEAR(det3by3(mat), 9, DTOL);
   vector<vector<double> > cof = cofactor3by3(mat);
-  EXPECT_NEAR(1, cof[0][0], doubleTolerance);
-  EXPECT_NEAR(4, cof[0][1], doubleTolerance);
-  EXPECT_NEAR(-3, cof[0][2], doubleTolerance);
-  EXPECT_NEAR(-6, cof[1][0], doubleTolerance);
-  EXPECT_NEAR(3, cof[1][1], doubleTolerance);
-  EXPECT_NEAR(0, cof[1][2], doubleTolerance);
-  EXPECT_NEAR(2, cof[2][0], doubleTolerance);
-  EXPECT_NEAR(-1, cof[2][1], doubleTolerance);
-  EXPECT_NEAR(3, cof[2][2], doubleTolerance);
+  EXPECT_NEAR(1, cof[0][0], DTOL);
+  EXPECT_NEAR(4, cof[0][1], DTOL);
+  EXPECT_NEAR(-3, cof[0][2], DTOL);
+  EXPECT_NEAR(-6, cof[1][0], DTOL);
+  EXPECT_NEAR(3, cof[1][1], DTOL);
+  EXPECT_NEAR(0, cof[1][2], DTOL);
+  EXPECT_NEAR(2, cof[2][0], DTOL);
+  EXPECT_NEAR(-1, cof[2][1], DTOL);
+  EXPECT_NEAR(3, cof[2][2], DTOL);
   const vector<vector<double> > inv = inv3by3(mat);
-  EXPECT_NEAR(1./9, inv[0][0], doubleTolerance);
-  EXPECT_NEAR(-6./9, inv[0][1], doubleTolerance);
-  EXPECT_NEAR(2./9, inv[0][2], doubleTolerance);
-  EXPECT_NEAR(4./9, inv[1][0], doubleTolerance);
-  EXPECT_NEAR(3./9, inv[1][1], doubleTolerance);
-  EXPECT_NEAR(-1./9, inv[1][2], doubleTolerance);
-  EXPECT_NEAR(-3./9, inv[2][0], doubleTolerance);
-  EXPECT_NEAR(0, inv[2][1], doubleTolerance);
-  EXPECT_NEAR(3./9, inv[2][2], doubleTolerance);
+  EXPECT_NEAR(1./9, inv[0][0], DTOL);
+  EXPECT_NEAR(-6./9, inv[0][1], DTOL);
+  EXPECT_NEAR(2./9, inv[0][2], DTOL);
+  EXPECT_NEAR(4./9, inv[1][0], DTOL);
+  EXPECT_NEAR(3./9, inv[1][1], DTOL);
+  EXPECT_NEAR(-1./9, inv[1][2], DTOL);
+  EXPECT_NEAR(-3./9, inv[2][0], DTOL);
+  EXPECT_NEAR(0, inv[2][1], DTOL);
+  EXPECT_NEAR(3./9, inv[2][2], DTOL);
 }
 
 TEST(Functions, myMinMaxElement) {
   vector<vector<vector<vector<vector<double> > > > > data(5, vector<vector<vector<vector<double> > > >(6, vector<vector<vector<double> > >(3, vector<vector<double> >(2, vector<double>(12, 1.2)))));
   data[1][2][1][0][4] = 5;
   data[4][0][2][1][9] = -1.;
-  EXPECT_NEAR(5, feasst::maxElement(data), doubleTolerance);
-  EXPECT_NEAR(-1, feasst::minElement(data), doubleTolerance);
+  EXPECT_NEAR(5, feasst::maxElement(data), DTOL);
+  EXPECT_NEAR(-1, feasst::minElement(data), DTOL);
 }
 
 TEST(Functions, outerProd) {
@@ -561,7 +571,7 @@ TEST(Functions, rotInversion) {
   vector<vector<double> > rot2 = matMul(a1, a3);
   vector<double> x2 = matVecMul(rot2, xref);
   for (unsigned int dim = 0; dim < x.size(); ++dim) {
-    EXPECT_NEAR(x[dim], x2[dim], doubleTolerance);
+    EXPECT_NEAR(x[dim], x2[dim], DTOL);
   }
 }
 

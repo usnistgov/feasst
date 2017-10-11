@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef SRC_SPACE_H_
 #define SRC_SPACE_H_
 
@@ -872,6 +882,9 @@ class Space : public BaseRandom {
                    double *x3, double *y3, double *z3, const double c143,
                    const double c243);
 };
+
+/// Factory method
+shared_ptr<Space> makeSpace(int dimension = 3, int id = 0);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

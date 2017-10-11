@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./trial_md.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -8,18 +18,17 @@ TrialMD::TrialMD() : Trial() {
   defaultConstruction_();
 }
 
-TrialMD::TrialMD(Space *space,
+TrialMD::TrialMD(
   Pair *pair,
   Criteria *criteria)
-  : Trial(space, pair, criteria) {
+  : Trial(pair, criteria) {
   defaultConstruction_();
 }
 
 TrialMD::TrialMD(const char* fileName,
-  Space *space,
   Pair *pair,
   Criteria *criteria)
-  : Trial(space, pair, criteria, fileName) {
+  : Trial(pair, criteria, fileName) {
   defaultConstruction_();
   timestep = fstod("timestep", fileName);
   nFreqZeroMomentum = fstoi("nFreqZeroMomentum", fileName);
@@ -47,14 +56,14 @@ void TrialMD::writeRestart(const char* fileName) {
 }
 
 void TrialMD::attempt1_() {
-  if (space_->nMol() <= 0) {
+  if (space()->nMol() <= 0) {
     trialMoveDecide_(0, 0);   // ensured rejection, however, criteria can update
     return void();
   }
 
   // initialize momentum, and check velocity and mass sizes
-  ASSERT(vel_.size()/space_->dimen() == mass_.size(), "mass/velocity mismatch");
-  if (static_cast<int>(vel_.size()) != space_->dimen()*space_->nMol()) {
+  ASSERT(vel_.size()/space()->dimen() == mass_.size(), "mass/velocity mismatch");
+  if (static_cast<int>(vel_.size()) != space()->dimen()*space()->nMol()) {
     initMomentum();
   }
 
@@ -79,23 +88,23 @@ void TrialMD::attempt1_() {
 }
 
 void TrialMD::zeroTotalMomentum() {
-  for (int dim = 0; dim < space_->dimen(); ++dim) {
+  for (int dim = 0; dim < space()->dimen(); ++dim) {
     double momentum = 0;
-    for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
-      momentum += mass_[iMol]*vel_[space_->dimen()*iMol+dim];
+    for (int iMol = 0; iMol < space()->nMol(); ++iMol) {
+      momentum += mass_[iMol]*vel_[space()->dimen()*iMol+dim];
     }
-    for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
-      vel_[space_->dimen()*iMol+dim] -= momentum
-        /static_cast<double>(space_->nMol())/mass_[iMol];
+    for (int iMol = 0; iMol < space()->nMol(); ++iMol) {
+      vel_[space()->dimen()*iMol+dim] -= momentum
+        /static_cast<double>(space()->nMol())/mass_[iMol];
     }
   }
 }
 
 double TrialMD::kineticEnergy() {
   double ke = 0.;
-  for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
-    for (int dim = 0; dim < space_->dimen(); ++dim) {
-      const double vel = vel_[space_->dimen()*iMol+dim];
+  for (int iMol = 0; iMol < space()->nMol(); ++iMol) {
+    for (int dim = 0; dim < space()->dimen(); ++dim) {
+      const double vel = vel_[space()->dimen()*iMol+dim];
       ke += 0.5*mass_[iMol]*vel*vel;
     }
   }
@@ -103,7 +112,7 @@ double TrialMD::kineticEnergy() {
 }
 
 double TrialMD::temperature() {
-  const double dof = space_->dimen()*(space_->nMol()-1);
+  const double dof = space()->dimen()*(space()->nMol()-1);
   return 2.*kineticEnergy()/dof;
 }
 
@@ -117,8 +126,8 @@ void TrialMD::rescaleVelocity() {
 }
 
 void TrialMD::initMomentum() {
-  vel_.resize(space_->dimen()*space_->nMol(), 0.);
-  mass_.resize(space_->nMol(), 1.);
+  vel_.resize(space()->dimen()*space()->nMol(), 0.);
+  mass_.resize(space()->nMol(), 1.);
 
   // assign velocity as uniform random number [-0.5, 0.5]
   // Note: this does not generate a gaussian distribution
@@ -148,22 +157,22 @@ string TrialMD::printStat(const bool header) {
 }
 
 void TrialMD::updateFCOM() {
-  if (static_cast<int>(fCOM_.size()) != space_->nMol()*space_->dimen()) {
-    fCOM_.resize(space_->nMol()*space_->dimen(), 0);
+  if (static_cast<int>(fCOM_.size()) != space()->nMol()*space()->dimen()) {
+    fCOM_.resize(space()->nMol()*space()->dimen(), 0);
   }
   std::fill(fCOM_.begin(), fCOM_.end(), 0.);
-  for (int ipart = 0; ipart < space_->natom(); ++ipart) {
-    const int iMol = space_->mol()[ipart];
-    for (int dim = 0; dim < space_->dimen(); ++dim) {
-      fCOM_[space_->dimen()*iMol + dim] += pair_->f(ipart, dim);
+  for (int ipart = 0; ipart < space()->natom(); ++ipart) {
+    const int iMol = space()->mol()[ipart];
+    for (int dim = 0; dim < space()->dimen(); ++dim) {
+      fCOM_[space()->dimen()*iMol + dim] += pair_->f(ipart, dim);
     }
   }
 }
 
 void TrialMD::updateVelocityHalfStep() {
-  for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
-    for (int dim = 0; dim < space_->dimen(); ++dim) {
-      vel_[space_->dimen()*iMol + dim]
+  for (int iMol = 0; iMol < space()->nMol(); ++iMol) {
+    for (int dim = 0; dim < space()->dimen(); ++dim) {
+      vel_[space()->dimen()*iMol + dim]
         += 0.5*timestep*fCOM(iMol, dim)*mass_[iMol];
     }
   }
@@ -176,18 +185,26 @@ void TrialMD::integrateVelocityVerlet() {
   // obtain center of mass torques
 
   // update positions
-  for (int iMol = 0; iMol < space_->nMol(); ++iMol) {
-    vector<double> dr(space_->dimen());
-    for (int dim = 0; dim < space_->dimen(); ++dim) {
-      dr[dim] = timestep*vel_[space_->dimen()*iMol + dim]
+  for (int iMol = 0; iMol < space()->nMol(); ++iMol) {
+    vector<double> dr(space()->dimen());
+    for (int dim = 0; dim < space()->dimen(); ++dim) {
+      dr[dim] = timestep*vel_[space()->dimen()*iMol + dim]
         + 0.5*timestep*timestep*mass_[iMol]*fCOM(iMol, dim);
     }
-    space_->transMol(iMol, dr);
+    space()->transMol(iMol, dr);
   }
   updateVelocityHalfStep();   // update half-step velocities
   pair_->initEnergy();        // compute the new forces
   updateFCOM();
   updateVelocityHalfStep();   // update half-step velocities
+}
+
+shared_ptr<TrialMD> makeTrialMD(Pair *pair, Criteria *criteria) {
+  return make_shared<TrialMD>(pair, criteria);
+}
+
+shared_ptr<TrialMD> makeTrialMD() {
+  return make_shared<TrialMD>();
 }
 
 #ifdef FEASST_NAMESPACE_

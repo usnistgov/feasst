@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include "space.h"
 #include "pair.h"
@@ -27,10 +37,10 @@ TEST(Trial, cloneANDreconstruct) {
   p.initNeighList(rAbove, rBelow);
   p.buildNeighList();
   CriteriaMetropolis c(0.5, 0.01);
-  TrialTransform tt(&s, &p, &c, "translate");
+  TrialTransform tt(&p, &c, "translate");
   tt.maxMoveParam = 5;
-  TrialDelete td(&s, &p, &c);
-  TrialAdd ta(&s, &p, &c, "../forcefield/data.atom");
+  TrialDelete td(&p, &c);
+  TrialAdd ta(&p, &c, "../forcefield/data.atom");
 
   ranInitByDate();
   p.initEnergy();
@@ -47,9 +57,9 @@ TEST(Trial, cloneANDreconstruct) {
   shared_ptr<Space> s2 = s.cloneShrPtr();
   Pair* p2 = p.clone(s2.get());
   CriteriaMetropolis* c2 = c.clone();
-  shared_ptr<Trial> tt2 = tt.cloneShrPtr(s2.get(), p2, c2);
-  shared_ptr<Trial> ta2 = ta.cloneShrPtr(s2.get(), p2, c2);
-  shared_ptr<Trial> td2 = td.cloneShrPtr(s2.get(), p2, c2);
+  shared_ptr<Trial> tt2 = tt.cloneShrPtr(p2, c2);
+  shared_ptr<Trial> ta2 = ta.cloneShrPtr(p2, c2);
+  shared_ptr<Trial> td2 = td.cloneShrPtr(p2, c2);
 
   // simulate
   for (int i = 0; i < nAttempts; ++i) {
@@ -82,11 +92,11 @@ TEST(Trial, cloneANDreconstruct) {
 
   // restart
   td.writeRestart("tmp/tdrst");
-  TrialDelete td3("tmp/tdrst", &s, &p, &c);
+  TrialDelete td3("tmp/tdrst", &p, &c);
   ta.writeRestart("tmp/tarst");
-  TrialAdd ta3("tmp/tarst", &s, &p, &c);
+  TrialAdd ta3("tmp/tarst", &p, &c);
   tt.writeRestart("tmp/ttrst");
-  TrialTransform tt3("tmp/ttrst", &s, &p, &c);
+  TrialTransform tt3("tmp/ttrst", &p, &c);
 }
 
 TEST(Trial, allmoves) {
@@ -162,24 +172,24 @@ TEST(Trial, allmoves) {
       }
       (*p).initNeighList(rAbove, rBelow);
       (*p).initEnergy();
-      TrialTransform tt(s,p,c, "translate");
+      TrialTransform tt(p,c, "translate");
       tt.maxMoveParam = maxMoveParam;
-      TrialTransform tr(s,p,c, "rotate");
-      TrialTransform tst(s,p,c, "smctrans");
-      TrialAdd ta(s,p,c, addType.c_str());
-      TrialAdd tamfb(s,p,c, addType.c_str());
+      TrialTransform tr(p,c, "rotate");
+      TrialTransform tst(p,c, "smctrans");
+      TrialAdd ta(p,c, addType.c_str());
+      TrialAdd tamfb(p,c, addType.c_str());
       tamfb.numFirstBeads(3);
-      TrialAdd taavb(s,p,c, addType.c_str());
+      TrialAdd taavb(p,c, addType.c_str());
       taavb.initAVB(rAbove, rBelow);
-      TrialAdd taavbmfb(s,p,c, addType.c_str());
+      TrialAdd taavbmfb(p,c, addType.c_str());
       taavbmfb.numFirstBeads(3);
       taavbmfb.initAVB(rAbove, rBelow);
-      TrialDelete td(s,p,c);
-      TrialDelete tdmfb(s,p,c);
+      TrialDelete td(p,c);
+      TrialDelete tdmfb(p,c);
       tdmfb.numFirstBeads(3);
-      TrialDelete tdavb(s,p,c);
+      TrialDelete tdavb(p,c);
       tdavb.initAVB(rAbove, rBelow);
-      TrialDelete tdavbmfb(s,p,c);
+      TrialDelete tdavbmfb(p,c);
       tdavbmfb.numFirstBeads(3);
       tdavbmfb.initAVB(rAbove, rBelow);
 

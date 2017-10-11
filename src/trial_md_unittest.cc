@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include "trial_md.h"
 #include "pair_lj_multi.h"
@@ -14,10 +24,10 @@ TEST(TrialMD, velocity) {
   }
   PairLJMulti pair(&space, 3.);
   CriteriaMetropolis criteria(0.5, 0.);
-  TrialMD tmd(&space, &pair, &criteria);
+  TrialMD tmd(&pair, &criteria);
 
   tmd.initMomentum();
-  EXPECT_NEAR(tmd.temperature(), 1./criteria.beta(), 100*doubleTolerance);
+  EXPECT_NEAR(tmd.temperature(), 1./criteria.beta(), 100*DTOL);
   //tmd.attempt();
 }
 

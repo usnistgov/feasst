@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef TRIAL_ADD_H_
 #define TRIAL_ADD_H_
 
@@ -20,7 +30,7 @@ class TrialAdd : public Trial {
  public:
   /// Construction
   /// @param molType description of molecule to add which matches addMol.
-  TrialAdd(Space *space, Pair *pair, Criteria *criteria, const char* molType);
+  TrialAdd(Pair *pair, Criteria *criteria, const char* molType);
 
   /// This constructor is not often used, but its purpose is to initialize trial
   /// for interface before using reconstruct to set object pointers.
@@ -30,7 +40,7 @@ class TrialAdd : public Trial {
   void writeRestart(const char* fileName);
 
   /// Construct from restart file.
-  TrialAdd(const char* fileName, Space *space, Pair *pair, Criteria *criteria);
+  TrialAdd(const char* fileName, Pair *pair, Criteria *criteria);
 
   /// return status of trial
   string printStat(const bool header = false);
@@ -39,8 +49,8 @@ class TrialAdd : public Trial {
   string molType() const { return molType_; }
 
   ~TrialAdd() {}
-  TrialAdd* clone(Space* space, Pair *pair, Criteria *criteria) const;
-  shared_ptr<TrialAdd> cloneShrPtr(Space* space, Pair* pair,
+  TrialAdd* clone(Pair *pair, Criteria *criteria) const;
+  shared_ptr<TrialAdd> cloneShrPtr(Pair* pair,
                                    Criteria* criteria) const;
 
  protected:
@@ -53,9 +63,15 @@ class TrialAdd : public Trial {
   void defaultConstruction_();
 
   // clone design pattern
-  virtual shared_ptr<Trial> cloneImpl(Space* space, Pair *pair,
+  virtual shared_ptr<Trial> cloneImpl(Pair *pair,
                                       Criteria *criteria) const;
 };
+
+/// Factory method
+shared_ptr<TrialAdd> makeTrialAdd(Pair *pair, Criteria *criteria,
+  const char* molType);
+
+shared_ptr<TrialAdd> makeTrialAdd(const char* molType);
 
 class MC;
 

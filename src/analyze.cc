@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./analyze.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -5,17 +15,14 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 Analyze::Analyze(
-  Space *space,
   Pair *pair)
-  : space_(space),
-    pair_(pair) {
+  : pair_(pair) {
   className_.assign("Analyze");
   defaultConstruction_();
 }
 
-Analyze::Analyze(Space *space,  Pair *pair, const char* fileName)
-  : space_(space),
-    pair_(pair) {
+Analyze::Analyze(Pair *pair, const char* fileName)
+  : pair_(pair) {
   className_.assign("Analyze");
 
   ASSERT(fileExists(fileName),
@@ -33,27 +40,17 @@ Analyze::Analyze(Space *space,  Pair *pair, const char* fileName)
   }
 }
 
-/**
- * defaults in constructor
- */
 void Analyze::defaultConstruction_() {
-  nFreq_ = 1;
-  nFreqPrint_ = 1;
-  production_ = 1;
+  initFreq();
+  initPrintFreq();
+  initProduction();
 }
 
-/**
- * reset object pointers
- */
-void Analyze::reconstruct(Space* space, Pair *pair) {
-  space_ = space;
+void Analyze::reconstruct(Pair *pair) {
   pair_ = pair;
   Base::reconstruct();
 }
 
-/**
- * write restart file
- */
 void Analyze::writeRestartBase(const char* fileName) {
   fileBackUp(fileName);
   std::ofstream file(fileName);
@@ -64,19 +61,24 @@ void Analyze::writeRestartBase(const char* fileName) {
   if (!fileName_.empty()) file << "# fileName " << fileName_ << endl;
 }
 
-/**
- *
- */
-Analyze* Analyze::clone(Space* space, Pair* pair) const {
+Analyze* Analyze::clone(Pair* pair) const {
   ASSERT(0, "base class not implemented correctly");
   return NULL;
 }
 
-shared_ptr<Analyze> Analyze::cloneImpl(Space* space, Pair* pair) const {
+shared_ptr<Analyze> Analyze::cloneImpl(Pair* pair) const {
   ASSERT(0, "base class not implemented correctly");
   shared_ptr<Analyze> an = make_shared<Analyze>(*this);
-  an->reconstruct(space, pair);
+  an->reconstruct(pair);
   return an;
+}
+
+shared_ptr<Analyze> makeAnalyze(Pair* pair) {
+  return make_shared<Analyze>(pair);
+}
+
+shared_ptr<Analyze> makeAnalyze() {
+  return make_shared<Analyze>();
 }
 
 #ifdef FEASST_NAMESPACE_

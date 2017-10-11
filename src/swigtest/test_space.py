@@ -1,3 +1,13 @@
+"""
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+"""
+
 """@docstring
 @brief Tests space
 @author Nathan A. Mahynski
@@ -40,6 +50,11 @@ class TestSpace(unittest.TestCase):
         self.assertEqual(0.,s.l(0))
         s.lset(4.,0)
         self.assertEqual(l0,s.l(0))
+
+    #checks setting box dimensions
+    def testFactory(self):
+        space = feasst.makeSpace(3, 0)
+        print(type(space))
 
 if __name__ == "__main__":
 	def find_all(name, path):

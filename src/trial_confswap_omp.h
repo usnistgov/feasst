@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef TRIAL_CONFSWAP_OMP_H_
 #define TRIAL_CONFSWAP_OMP_H_
 
@@ -17,7 +27,7 @@ namespace feasst {
 class TrialConfSwapOMP : public Trial {
  public:
   /// Constructor
-  TrialConfSwapOMP(Space *space, Pair *pair, Criteria *criteria);
+  TrialConfSwapOMP(Pair *pair, Criteria *criteria);
 
   /// Initialialize order parameter type.
   void initMType(const char* otype) { orderType_.assign(otype); }
@@ -47,16 +57,16 @@ class TrialConfSwapOMP : public Trial {
   void writeRestart(const char* fileName);
 
   /// Construct from restart file.
-  TrialConfSwapOMP(const char* fileName, Space *space, Pair *pair,
+  TrialConfSwapOMP(const char* fileName, Pair *pair,
                    Criteria *criteria);
   ~TrialConfSwapOMP() {}
-  TrialConfSwapOMP* clone(Space* space, Pair* pair, Criteria* criteria) const {
+  TrialConfSwapOMP* clone(Pair* pair, Criteria* criteria) const {
     TrialConfSwapOMP* t = new TrialConfSwapOMP(*this);
-    t->reconstruct(space, pair, criteria); return t; }
+    t->reconstruct(pair, criteria); return t; }
   shared_ptr<TrialConfSwapOMP> cloneShrPtr
-    (Space* space, Pair* pair, Criteria* criteria) const {
+    (Pair* pair, Criteria* criteria) const {
     return(std::static_pointer_cast<TrialConfSwapOMP, Trial>
-    (cloneImpl(space, pair, criteria))); }
+    (cloneImpl(pair, criteria))); }
 
  protected:
   string orderType_;    //!< obtain orderType from criteria upon initialization
@@ -83,9 +93,9 @@ class TrialConfSwapOMP : public Trial {
 
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl
-    (Space* space, Pair *pair, Criteria *criteria) const {
+    (Pair *pair, Criteria *criteria) const {
     shared_ptr<TrialConfSwapOMP> t = make_shared<TrialConfSwapOMP>(*this);
-    t->reconstruct(space, pair, criteria); return t; }
+    t->reconstruct(pair, criteria); return t; }
 };
 
 #ifdef FEASST_NAMESPACE_

@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include <limits.h>
 #include "histogram.h"
@@ -7,62 +17,62 @@ using namespace feasst;
 // in order to test writing/reading restarts, and cloning,
 //  this function was constructed to call 4 times
 void testhist(Histogram *h) {
-  EXPECT_NEAR(-2, h->min(), doubleTolerance);
-  EXPECT_NEAR(6, h->max(), doubleTolerance);
+  EXPECT_NEAR(-2, h->min(), DTOL);
+  EXPECT_NEAR(6, h->max(), DTOL);
   EXPECT_EQ(4, int(h->hist().size()));
   EXPECT_EQ(1, h->hist()[0]);
   EXPECT_EQ(1, h->hist()[1]);
   EXPECT_EQ(1, h->hist()[2]);
   EXPECT_EQ(1, h->hist()[3]);
-  EXPECT_NEAR(-1, h->bin2m(0), doubleTolerance);
-  EXPECT_NEAR(1, h->bin2m(1), doubleTolerance);
-  EXPECT_NEAR(3, h->bin2m(2), doubleTolerance);
-  EXPECT_NEAR(5, h->bin2m(3), doubleTolerance);
-  EXPECT_NEAR(0, h->bin(-2), doubleTolerance);
-  EXPECT_NEAR(0, h->bin(-doubleTolerance), doubleTolerance);
-  EXPECT_NEAR(1, h->bin(0), doubleTolerance);
-  EXPECT_NEAR(3, h->bin(5.5), doubleTolerance);
+  EXPECT_NEAR(-1, h->bin2m(0), DTOL);
+  EXPECT_NEAR(1, h->bin2m(1), DTOL);
+  EXPECT_NEAR(3, h->bin2m(2), DTOL);
+  EXPECT_NEAR(5, h->bin2m(3), DTOL);
+  EXPECT_NEAR(0, h->bin(-2), DTOL);
+  EXPECT_NEAR(0, h->bin(-DTOL), DTOL);
+  EXPECT_NEAR(1, h->bin(0), DTOL);
+  EXPECT_NEAR(3, h->bin(5.5), DTOL);
 }
 
 void testhistCenterZero(Histogram *h) {
-  EXPECT_NEAR(-3, h->min(), doubleTolerance);
-  EXPECT_NEAR(5, h->max(), doubleTolerance);
+  EXPECT_NEAR(-3, h->min(), DTOL);
+  EXPECT_NEAR(5, h->max(), DTOL);
   EXPECT_EQ(4, int(h->hist().size()));
   EXPECT_EQ(1, h->hist()[0]);
   EXPECT_EQ(1, h->hist()[1]);
   EXPECT_EQ(1, h->hist()[2]);
   EXPECT_EQ(1, h->hist()[3]);
-  EXPECT_NEAR(-2, h->bin2m(0), doubleTolerance);
-  EXPECT_NEAR(0, h->bin2m(1), doubleTolerance);
-  EXPECT_NEAR(2, h->bin2m(2), doubleTolerance);
-  EXPECT_NEAR(4, h->bin2m(3), doubleTolerance);
-  EXPECT_NEAR(0, h->bin(-2), doubleTolerance);
-  EXPECT_NEAR(0, h->bin(-1-doubleTolerance), doubleTolerance);
-  EXPECT_NEAR(1, h->bin(0), doubleTolerance);
-  EXPECT_NEAR(3, h->bin(4), doubleTolerance);
+  EXPECT_NEAR(-2, h->bin2m(0), DTOL);
+  EXPECT_NEAR(0, h->bin2m(1), DTOL);
+  EXPECT_NEAR(2, h->bin2m(2), DTOL);
+  EXPECT_NEAR(4, h->bin2m(3), DTOL);
+  EXPECT_NEAR(0, h->bin(-2), DTOL);
+  EXPECT_NEAR(0, h->bin(-1-DTOL), DTOL);
+  EXPECT_NEAR(1, h->bin(0), DTOL);
+  EXPECT_NEAR(3, h->bin(4), DTOL);
 }
 
 TEST(Histogram, constructor) {
   { Histogram h(2);
     h.accumulate(3);
-    EXPECT_NEAR(4, h.max(), doubleTolerance);
-    EXPECT_NEAR(2, h.min(), doubleTolerance);
+    EXPECT_NEAR(4, h.max(), DTOL);
+    EXPECT_NEAR(2, h.min(), DTOL);
   }
 
   { Histogram h(2);
     h.accumulate(-3);
-    EXPECT_NEAR(-2, h.max(), doubleTolerance);
-    EXPECT_NEAR(-4, h.min(), doubleTolerance);
+    EXPECT_NEAR(-2, h.max(), DTOL);
+    EXPECT_NEAR(-4, h.min(), DTOL);
   }
 
   { Histogram h(2);
     h.accumulate(0);
-    EXPECT_NEAR(2, h.max(), doubleTolerance);
-    EXPECT_NEAR(0, h.min(), doubleTolerance);
-    EXPECT_NEAR(0, h.bin(0), doubleTolerance);
-    EXPECT_NEAR(1, h.bin2m(0), doubleTolerance);
+    EXPECT_NEAR(2, h.max(), DTOL);
+    EXPECT_NEAR(0, h.min(), DTOL);
+    EXPECT_NEAR(0, h.bin(0), DTOL);
+    EXPECT_NEAR(1, h.bin2m(0), DTOL);
     h.accumulate(5);
-    EXPECT_NEAR(6, h.max(), doubleTolerance);
+    EXPECT_NEAR(6, h.max(), DTOL);
     EXPECT_EQ(3, int(h.hist().size()));
     EXPECT_EQ(1, h.hist()[0]);
     EXPECT_EQ(0, h.hist()[1]);
@@ -90,12 +100,12 @@ TEST(Histogram, constructor) {
   { Histogram h(2);
     h.centerZero();
     h.accumulate(0);
-    EXPECT_NEAR(1, h.max(), doubleTolerance);
-    EXPECT_NEAR(-1, h.min(), doubleTolerance);
-    EXPECT_NEAR(0, h.bin(0), doubleTolerance);
-    EXPECT_NEAR(0, h.bin2m(0), doubleTolerance);
+    EXPECT_NEAR(1, h.max(), DTOL);
+    EXPECT_NEAR(-1, h.min(), DTOL);
+    EXPECT_NEAR(0, h.bin(0), DTOL);
+    EXPECT_NEAR(0, h.bin2m(0), DTOL);
     h.accumulate(4);
-    EXPECT_NEAR(5, h.max(), doubleTolerance);
+    EXPECT_NEAR(5, h.max(), DTOL);
     EXPECT_EQ(3, int(h.hist().size()));
     EXPECT_EQ(1, h.hist()[0]);
     EXPECT_EQ(0, h.hist()[1]);

@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./criteria.h"
 #include "./space.h"
 
@@ -66,8 +76,8 @@ void Criteria::writeRestartBase(const char* fileName) {
   writeRngRestart(fileName);
 }
 
-void Criteria::store(const Space* space, Pair* pair) {
-  if (space == NULL) if (pair == NULL) {}
+void Criteria::store(Pair* pair) {
+  if (pair == NULL) {}
 }
 
 double Criteria::activ() const {

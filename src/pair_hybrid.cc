@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "pair_hybrid.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -237,6 +247,10 @@ void PairHybrid::allPartPhysical() {
       pairVec_[i]->allPartPhysical();
     }
   }
+}
+
+shared_ptr<PairHybrid> makePairHybrid(Space* space, const double rCut) {
+  return make_shared<PairHybrid>(space, rCut);
 }
 
 #ifdef FEASST_NAMESPACE_

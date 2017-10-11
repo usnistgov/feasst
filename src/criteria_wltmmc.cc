@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./criteria_wltmmc.h"
 #include "./space.h"
 #include "./pair.h"
@@ -147,7 +157,8 @@ int CriteriaWLTMMC::accept(const double lnpMet, const double peNew,
   return returnVal;
 }
 
-void CriteriaWLTMMC::store(const Space* space, Pair* pair) {
+void CriteriaWLTMMC::store(Pair* pair) {
+  Space * space = pair->space();
   if (mType_.compare("nmol") == 0) {
     mOld_ = space->nMol();
   } else if (mType_.compare("nmol0") == 0) {
@@ -542,7 +553,7 @@ void CriteriaWLTMMC::lnPIpressureIso(const double volume) {
   pressureVec_.clear();
   pressureVec_.resize(nBin_);
   volume_ = volume;
-  ASSERT(fabs(bin2m(0)) < doubleTolerance, "pressure computation requires"
+  ASSERT(fabs(bin2m(0)) < DTOL, "pressure computation requires"
     << "simulation at N=0, however, bin2m(0) = " << bin2m(0) << ")");
 
   // first, scan for conditions where there is only one (meta)stable phase
@@ -1163,6 +1174,12 @@ void CriteriaWLTMMC::initMoments(const int nMoments) {
   for (int bin = 0; bin < nBin_; ++bin) {
     pe_[bin].initMoments(nMoments);
   }
+}
+
+shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const double beta,
+  const double activ, const char* mType,
+  const double mMin, const double mMax, const int nBin) {
+  return make_shared<CriteriaWLTMMC>(beta, activ, mType, mMin, mMax, nBin);
 }
 
 #ifdef FEASST_NAMESPACE_

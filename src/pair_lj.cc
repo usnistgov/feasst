@@ -1,9 +1,11 @@
 /**
- * \file
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
  *
- * \brief lennard-jones pairwise interactions
- *
- * Implementation of pair_lj class
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
  */
 
 #include "./pair_lj.h"
@@ -12,14 +14,12 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-/**
- * Constructor
- */
 PairLJ::PairLJ(Space* space,
-  const double rCut)  //!< interaction cut-off distance
+  const double rCut)
   : Pair(space, rCut) {
   defaultConstruction_();
 }
+
 PairLJ::PairLJ(Space* space,
   const char* fileName)
   : Pair(space, fileName) {
@@ -34,18 +34,12 @@ PairLJ::PairLJ(Space* space,
   }
 }
 
-/**
- * defaults in constructor
- */
 void PairLJ::defaultConstruction_() {
   className_.assign("PairLJ");
   peLRConePreCalc_ = (8./3.)*PI*((1./3.)*pow(rCut_, -9) - pow(rCut_, -3));
-  linearShift(0);
+  linearShift();
 }
 
-/**
- * write restart file
- */
 void PairLJ::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
@@ -56,9 +50,6 @@ void PairLJ::writeRestart(const char* fileName) {
   }
 }
 
-/**
- * Lennard-Jones pair-wise force calculation
- */
 void PairLJ::initEnergy() {
   // shorthand for read-only space variables
   const int dimen = space_->dimen();
@@ -146,12 +137,9 @@ void PairLJ::initEnergy() {
   peTot_ = peLJ_ + peLRC_;
 }
 
-/**
- * Lennard-Jones potential energy contribution due to particles
- */
 double PairLJ::multiPartEner(
-  const vector<int> mpart,  //!< particles indx to calculate energy interactions
-  const int flag) {   //!< place holder for other pair styles
+  const vector<int> mpart,
+  const int flag) {
   if (flag == 0) {}  // remove unused parameter warning
 
   // zero potential energy contribution of particle ipart
@@ -185,11 +173,8 @@ double PairLJ::multiPartEner(
   return 1e100;
 }
 
-/**
- * Lennard-Jones potential energy contribution due to particles
- */
 double PairLJ::multiPartEnerAtomCutNoNeigh(
-  const vector<int> mpart    //!< particle indx to calculate energy interactions
+  const vector<int> mpart
   ) {
   // shorthand for read-only space variables
   const int natom = space_->natom();
@@ -245,11 +230,8 @@ double PairLJ::multiPartEnerAtomCutNoNeigh(
   return peSRone_;
 }
 
-/**
- * Lennard-Jones potential energy contribution due to particles
- */
 double PairLJ::multiPartEnerNeigh(
-  const vector<int> mpart    //!< particle indx to calculate energy interactions
+  const vector<int> mpart
   ) {
   // shorthand for read-only space variables
   const int natom = space_->natom();
@@ -306,11 +288,8 @@ double PairLJ::multiPartEnerNeigh(
   return peSRone_;
 }
 
-/**
- * Lennard-Jones potential energy contribution due to particles
- */
 double PairLJ::multiPartEnerNoNeigh(
-  const vector<int> mpart    //!< particle indx to calculate energy interactions
+  const vector<int> mpart
   ) {
   // shorthand for read-only space variables
   const int natom = space_->natom();
@@ -360,12 +339,9 @@ double PairLJ::multiPartEnerNoNeigh(
   return peSRone_;
 }
 
-/**
- * stores, restores or updates variables to avoid recompute of entire configuration after every change
- */
-void PairLJ::update(const vector<int> mpart,    //!< particles involved in move
-                    const int flag,         //!< type of move
-                    const char* uptype    //!< description of update type
+void PairLJ::update(const vector<int> mpart,
+                    const int flag,
+                    const char* uptype
   ) {
   if (neighOn_) {
     // rebuilt neighlist if all particles are updated
@@ -406,12 +382,7 @@ void PairLJ::update(const vector<int> mpart,    //!< particles involved in move
   // cout << "update f" << flag << " pet " << peTot_ << endl;
 }
 
-/**
- * initialize cut and shifted potential
- *  if flag == 0, do not shift
- *  if flag == 1, shift by potential value to zero at rCut
- */
-void PairLJ::cutShift(const int flag    //!< initialization flag
+void PairLJ::cutShift(const int flag
   ) {
   cutShiftFlag_ = flag;
   if (flag == 0) {
@@ -424,12 +395,7 @@ void PairLJ::cutShift(const int flag    //!< initialization flag
   }
 }
 
-/**
- * initialize linear force shift potential
- *  if flag == 0, do not shift
- *  if flag == 1, shift by potential and force value to zero at rCut
- */
-void PairLJ::linearShift(const int flag    //!< initialization flag
+void PairLJ::linearShift(const int flag
   ) {
   cutShift(flag);
   linearShiftFlag_ = flag;
@@ -440,6 +406,10 @@ void PairLJ::linearShift(const int flag    //!< initialization flag
   } else {
     ASSERT(0, "Unrecognized linearShift flag(" << flag << ").");
   }
+}
+
+shared_ptr<PairLJ> makePairLJ(Space* space, const double rCut) {
+  return make_shared<PairLJ>(space, rCut);
 }
 
 #ifdef FEASST_NAMESPACE_

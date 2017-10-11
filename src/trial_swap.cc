@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./trial_swap.h"
 #include "./mc.h"
 
@@ -12,21 +22,20 @@ TrialSwap::TrialSwap(const char* molTypeA,
     molTypeB_(molTypeB) {
   defaultConstruction_();
 }
-TrialSwap::TrialSwap(Space *space,
+TrialSwap::TrialSwap(
   Pair *pair,
   Criteria *criteria,
   const char* molTypeA,
   const char* molTypeB)
-  : Trial(space, pair, criteria),
+  : Trial(pair, criteria),
     molTypeA_(molTypeA),
     molTypeB_(molTypeB) {
   defaultConstruction_();
 }
 TrialSwap::TrialSwap(const char* fileName,
-  Space *space,
   Pair *pair,
   Criteria *criteria)
-  : Trial(space, pair, criteria, fileName) {
+  : Trial(pair, criteria, fileName) {
   defaultConstruction_();
   molTypeA_ = fstos("molTypeA", fileName);
   molTypeB_ = fstos("molTypeB", fileName);
@@ -45,41 +54,22 @@ void TrialSwap::defaultConstruction_() {
   verbose_ = 0;
 }
 
-TrialSwap* TrialSwap::clone(Space* space, Pair *pair,
-  Criteria *criteria) const {
-  TrialSwap* t = new TrialSwap(*this);
-  t->reconstruct(space, pair, criteria);
-  return t;
-}
-shared_ptr<TrialSwap> TrialSwap::cloneShrPtr(
-  Space* space, Pair* pair, Criteria* criteria) const {
-  return(std::static_pointer_cast<TrialSwap, Trial>
-    (cloneImpl(space, pair, criteria)));
-}
-shared_ptr<Trial> TrialSwap::cloneImpl(
-  Space* space, Pair *pair, Criteria *criteria) const {
-  shared_ptr<TrialSwap> t = make_shared<TrialSwap>(*this);
-  t->reconstruct(space, pair, criteria);
-  return t;
-}
-
-
 void TrialSwap::attempt1_() {
   WARN(verbose_ == 1, "attempting to " << trialType_);
-  const int nMolTypes = space_->addMolList().size();
+  const int nMolTypes = space()->addMolList().size();
   ASSERT(nMolTypes > 1,
     "xswap move requires nMolTypes(" << nMolTypes << ") > 1");
 
   // randomly choose a molecule
   int iMolOld = -1, iMolIndexOld = -1;
   string molTypeOld;
-  if (space_->nMol() == 0) {
+  if (space()->nMol() == 0) {
     reject_ = 1;
   } else {
-    mpart_ = space_->randMol();
-    iMolOld = space_->mol()[mpart_[0]];
-    iMolIndexOld = space_->molid()[iMolOld];
-    molTypeOld = space_->moltype()[iMolOld];
+    mpart_ = space()->randMol();
+    iMolOld = space()->mol()[mpart_[0]];
+    iMolIndexOld = space()->molid()[iMolOld];
+    molTypeOld = space()->moltype()[iMolOld];
   }
 
   // check if it is of type A or B
@@ -96,12 +86,12 @@ void TrialSwap::attempt1_() {
   vector<double> xAdd;
   int iMolIndexNew = -1;
   if (reject_ != 1) {
-    iMolIndexNew = space_->findAddMolListIndex(molTypeNew);
-    const int iMol = space_->randMolofType(iMolIndexOld);
-    mpart_ = space_->imol2mpart(iMol);
-    const int ipart = space_->mol2part()[iMol];
-    for (int dim = 0; dim < space_->dimen(); ++dim) {
-      xAdd.push_back(space_->x(ipart, dim));
+    iMolIndexNew = space()->findAddMolListIndex(molTypeNew);
+    const int iMol = space()->randMolofType(iMolIndexOld);
+    mpart_ = space()->imol2mpart(iMol);
+    const int ipart = space()->mol2part()[iMol];
+    for (int dim = 0; dim < space()->dimen(); ++dim) {
+      xAdd.push_back(space()->x(ipart, dim));
     }
   }
 
@@ -111,15 +101,15 @@ void TrialSwap::attempt1_() {
 
     // remove molecule
     pair_->delPart(mpart_);
-    space_->delPart(mpart_);
+    space()->delPart(mpart_);
 
     // add new molecule at the same position
-    space_->xAdd = xAdd;
-    space_->addMol(molTypeNew.c_str());
+    space()->xAdd = xAdd;
+    space()->addMol(molTypeNew.c_str());
     pair_->addPart();
 
     // record energy of new molecule
-    mpart_ = space_->lastMolIDVec();
+    mpart_ = space()->lastMolIDVec();
     de_ += pair_->multiPartEner(mpart_, 0);
 
     lnpMet_ += -criteria_->beta()*de_
@@ -147,9 +137,9 @@ void TrialSwap::attempt1_() {
   } else {
     if (reject_ != 1) {
       pair_->delPart(mpart_);
-      space_->delPart(mpart_);
-      space_->xAdd = xAdd;
-      space_->addMol(molTypeOld.c_str());
+      space()->delPart(mpart_);
+      space()->xAdd = xAdd;
+      space()->addMol(molTypeOld.c_str());
       pair_->addPart();
     }
     trialReject_();
@@ -157,10 +147,10 @@ void TrialSwap::attempt1_() {
 
   // record statistics on the composition
   if (reject_ != 1) {
-    const int iMolIndexOld = space_->findAddMolListIndex(molTypeOld);
-    const int nMolOld = space_->nMolType()[iMolIndexOld];
-    const int iMolIndexNew = space_->findAddMolListIndex(molTypeNew);
-    const int nMolNew = space_->nMolType()[iMolIndexNew];
+    const int iMolIndexOld = space()->findAddMolListIndex(molTypeOld);
+    const int nMolOld = space()->nMolType()[iMolIndexOld];
+    const int iMolIndexNew = space()->findAddMolListIndex(molTypeNew);
+    const int nMolNew = space()->nMolType()[iMolIndexNew];
     if (molTypeOld == molTypeA_) {
       nA_.accumulate(nMolOld);
       nB_.accumulate(nMolNew);
@@ -180,10 +170,10 @@ string TrialSwap::printStat(const bool header) {
   if (header) {
     stat << "Na Nb ";
   } else {
-    int iMolIndex = space_->findAddMolListIndex(molTypeA_);
-    stat << space_->nMolType()[iMolIndex] << " ";
-    iMolIndex = space_->findAddMolListIndex(molTypeB_);
-    stat << space_->nMolType()[iMolIndex] << " ";
+    int iMolIndex = space()->findAddMolListIndex(molTypeA_);
+    stat << space()->nMolType()[iMolIndex] << " ";
+    iMolIndex = space()->findAddMolListIndex(molTypeB_);
+    stat << space()->nMolType()[iMolIndex] << " ";
   }
   return stat.str();
 }
@@ -193,7 +183,7 @@ string TrialSwap::printStat(const bool header) {
 // */
 // void TrialSwap::attempt2() {
 //  WARN(verbose_ == 1, "attempting to " << trialType_);
-//  const int nMolTypes = space_->addMolList().size();
+//  const int nMolTypes = space()->addMolList().size();
 //  ASSERT(nMolTypes > 1,
 //    "xswap move requires nMolTypes(" << nMolTypes << ") > 1");
 //
@@ -207,16 +197,16 @@ string TrialSwap::printStat(const bool header) {
 //  //cout << "ml " << molType << " " << molTypeNew << endl;
 //  // choose a particle of this type and record its position
 //  vector<double> xAdd;
-//  const int iMolIndexOld = space_->findAddMolListIndex(molTypeOld);
-//  const int nMolOld = space_->nMolType()[iMolIndexOld];
-//  const int iMolIndexNew = space_->findAddMolListIndex(molTypeNew);
-//  const int nMolNew = space_->nMolType()[iMolIndexNew];
+//  const int iMolIndexOld = space()->findAddMolListIndex(molTypeOld);
+//  const int nMolOld = space()->nMolType()[iMolIndexOld];
+//  const int iMolIndexNew = space()->findAddMolListIndex(molTypeNew);
+//  const int nMolNew = space()->nMolType()[iMolIndexNew];
 //  if (nMolOld > 0) {
-//    const int iMol = space_->randMolofType(iMolIndexOld);
-//    mpart_ = space_->imol2mpart(iMol);
-//    const int ipart = space_->mol2part()[iMol];
-//    for (int dim = 0; dim < space_->dimen(); ++dim) {
-//      xAdd.push_back(space_->x(ipart, dim));
+//    const int iMol = space()->randMolofType(iMolIndexOld);
+//    mpart_ = space()->imol2mpart(iMol);
+//    const int ipart = space()->mol2part()[iMol];
+//    for (int dim = 0; dim < space()->dimen(); ++dim) {
+//      xAdd.push_back(space()->x(ipart, dim));
 //    }
 //  } else {
 //    reject_ = 1;
@@ -228,15 +218,15 @@ string TrialSwap::printStat(const bool header) {
 //
 //    // remove molecule
 //    pair_->delPart(mpart_);
-//    space_->delPart(mpart_);
+//    space()->delPart(mpart_);
 //
 //    // add new molecule at the same position
-//    space_->xAdd = xAdd;
-//    space_->addMol(molTypeNew.c_str());
+//    space()->xAdd = xAdd;
+//    space()->addMol(molTypeNew.c_str());
 //    pair_->addPart();
 //
 //    // record energy of new molecule
-//    mpart_ = space_->lastMolIDVec();
+//    mpart_ = space()->lastMolIDVec();
 //    de_ += pair_->multiPartEner(mpart_, 0);
 //
 //    lnpMet_ += -criteria_->beta()*de_
@@ -266,9 +256,9 @@ string TrialSwap::printStat(const bool header) {
 //  } else {
 //    if (reject_ != 1) {
 //      pair_->delPart(mpart_);
-//      space_->delPart(mpart_);
-//      space_->xAdd = xAdd;
-//      space_->addMol(molTypeOld.c_str());
+//      space()->delPart(mpart_);
+//      space()->xAdd = xAdd;
+//      space()->addMol(molTypeOld.c_str());
 //      pair_->addPart();
 //    }
 //    trialReject_();
@@ -279,6 +269,15 @@ string TrialSwap::printStat(const bool header) {
 //
 //
 //
+
+shared_ptr<TrialSwap> makeTrialSwap(Pair *pair,
+  Criteria *criteria, const char* molTypeA, const char* molTypeB) {
+  return make_shared<TrialSwap>(pair, criteria, molTypeA, molTypeB);
+}
+
+shared_ptr<TrialSwap> makeTrialSwap(const char* molTypeA, const char* molTypeB) {
+  return make_shared<TrialSwap>(molTypeA, molTypeB);
+}
 
 void swapTrial(MC *mc, const char* molTypeA, const char* molTypeB) {
   shared_ptr<TrialSwap> trial = make_shared<TrialSwap>(molTypeA, molTypeB);

@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include "pair_squarewell.h"
 
@@ -24,21 +34,21 @@ TEST(PairSquareWell, mickeymouse) {
   p.initHardSphere(1, 2);
   p.initHardSphere(2, 2);
   p.initEnergy();
-  EXPECT_NEAR(p.peTot(), -1, doubleTolerance);
-  EXPECT_EQ(p.checkEnergy(doubleTolerance, 0), 1);
+  EXPECT_NEAR(p.peTot(), -1, DTOL);
+  EXPECT_EQ(p.checkEnergy(DTOL, 0), 1);
 
   // write restart, read restart and test
   { p.writeRestart("tmp/p");
     PairSquareWell p2(&s, "tmp/p");
     p2.initEnergy();
-    EXPECT_NEAR(p2.peTot(), -1, doubleTolerance);
+    EXPECT_NEAR(p2.peTot(), -1, DTOL);
   }
 
   xAdd[1] = 0.01000001;
   s.transMol(1, xAdd);
   p.initEnergy();
-  EXPECT_NEAR(p.peTot(), 0, doubleTolerance);
-  EXPECT_EQ(p.checkEnergy(doubleTolerance, 1), 1);
+  EXPECT_NEAR(p.peTot(), 0, DTOL);
+  EXPECT_EQ(p.checkEnergy(DTOL, 1), 1);
   xAdd[1] = -2*0.01000001;
   s.transMol(1, xAdd);
   p.initEnergy();
@@ -56,7 +66,7 @@ TEST(PairSquareWell, mickeymouse) {
   s.transMol(1, xAdd);
   p.initEnergy();
   EXPECT_EQ(p.peTot(), 0);
-  EXPECT_EQ(p.checkEnergy(doubleTolerance, 1), 1);
+  EXPECT_EQ(p.checkEnergy(DTOL, 1), 1);
 
   // write restart, read restart and test
   { p.writeRestart("tmp/p");

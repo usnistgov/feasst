@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef FUNCTIONS_H_
 #define FUNCTIONS_H_
 
@@ -57,7 +67,7 @@ std::cout << "# Note in " << __FILE__ \
           << " line " << __LINE__ << ": " << message << std::endl; \
 //throw c;
 
-//class Functions { // here is where we trick ../tools/makeFactory.sh.
+class Functions {};  // here is where we trick ../tools/makeFactory.sh.
 
 /// Return the magnitude of the first argument, with the sign of the second.
 double sign(const double a, const double b);
@@ -106,8 +116,7 @@ const double elementaryCharge = 1.602176565E-19;  //C
 const double permitivityVacuum = 8.854187817E-12;  //C^2/J/m
 const double idealGasConstant = boltzmannConstant*avogadroConstant;
 const double joulesPercal = 4.184;
-const double doubleTolerance = 1e-15;
-const double DTOL = doubleTolerance;  // FIX: depreciate doubleTolerance
+const double DTOL = 1e-15;
 
 /// initialize random number generator based on date
 void ranInitByDate();

@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef TRIAL_DELETE_H_
 #define TRIAL_DELETE_H_
 
@@ -19,7 +29,7 @@ class Criteria;
 class TrialDelete : public Trial {
  public:
   /// Constructor
-  TrialDelete(Space *space, Pair *pair, Criteria *criteria,
+  TrialDelete(Pair *pair, Criteria *criteria,
               const char* molType);
 
   /// This constructor is not often used, but its purpose is to initialize trial
@@ -27,7 +37,7 @@ class TrialDelete : public Trial {
   explicit TrialDelete(const char* molType);
 
   /// Constructors with no molType listed will attempt to delete any particle.
-  TrialDelete(Space *space, Pair *pair, Criteria *criteria);
+  TrialDelete(Pair *pair, Criteria *criteria);
 
   /// This constructor is not often used, but its purpose is to initialize trial
   /// for interface before using reconstruct to set object pointers.
@@ -37,17 +47,17 @@ class TrialDelete : public Trial {
   void writeRestart(const char* fileName);
 
   /// Construct from restart file.
-  TrialDelete(const char* fileName, Space *space, Pair *pair,
+  TrialDelete(const char* fileName, Pair *pair,
               Criteria *criteria);
 
   ~TrialDelete() {}
-  TrialDelete* clone(Space* space, Pair *pair, Criteria *criteria) const {
+  TrialDelete* clone(Pair *pair, Criteria *criteria) const {
     TrialDelete* t = new TrialDelete(*this);
-    t->reconstruct(space, pair, criteria); return t; }
+    t->reconstruct(pair, criteria); return t; }
   shared_ptr<TrialDelete> cloneShrPtr
-    (Space* space, Pair* pair, Criteria* criteria) const {
+    (Pair* pair, Criteria* criteria) const {
     return(std::static_pointer_cast<TrialDelete, Trial>
-    (cloneImpl(space, pair, criteria))); }
+    (cloneImpl(pair, criteria))); }
 
  protected:
   string molType_;   //!< type of molecule to delete
@@ -61,11 +71,21 @@ class TrialDelete : public Trial {
 
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl
-    (Space* space, Pair *pair, Criteria *criteria) const {
+    (Pair *pair, Criteria *criteria) const {
     shared_ptr<TrialDelete> t = make_shared<TrialDelete>(*this);
-    t->reconstruct(space, pair, criteria); return t;
+    t->reconstruct(pair, criteria); return t;
   }
 };
+
+shared_ptr<TrialDelete> makeTrialDelete(Pair *pair,
+  Criteria *criteria, const char* molType);
+
+shared_ptr<TrialDelete> makeTrialDelete(const char* molType);
+
+shared_ptr<TrialDelete> makeTrialDelete(Pair *pair,
+  Criteria *criteria);
+
+shared_ptr<TrialDelete> makeTrialDelete();
 
 class MC;
 

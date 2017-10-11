@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./trial.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -8,21 +18,19 @@ Trial::Trial() {
   defaultConstruction_();
 }
 
-Trial::Trial(Space *space,
+Trial::Trial(
              Pair *pair,
              Criteria *criteria)
-  : space_(space),
-    pair_(pair),
+  : pair_(pair),
     criteria_(criteria) {
   defaultConstruction_();
 }
 
-Trial::Trial(Space *space,
+Trial::Trial(
              Pair *pair,
              Criteria *criteria,
              const char* fileName)
-  : space_(space),
-    pair_(pair),
+  : pair_(pair),
     criteria_(criteria) {
   ASSERT(fileExists(fileName),
          "restart file(" << fileName << ") doesn't exist");
@@ -77,8 +85,7 @@ void Trial::defaultConstruction_() {
   initializeNMolSeek();
 }
 
-void Trial::reconstruct(Space* space, Pair *pair, Criteria *criteria) {
-  space_ = space;
+void Trial::reconstruct(Pair *pair, Criteria *criteria) {
   pair_ = pair;
   criteria_ = criteria;
   Base::reconstruct();
@@ -93,7 +100,7 @@ void Trial::zeroStat() {
 
 void Trial::attempt() {
   ++attempted_;
-  criteria_->store(space_, pair_);
+  criteria_->store(pair_);
   preFac_ = 0;
   lnpMet_ = 0;
   reject_ = 0;
@@ -125,14 +132,14 @@ void Trial::numFirstBeads(const int nf) {
 void Trial::initAVB(const double rAbove, const double rBelow) {
   ASSERT(rAbove > rBelow, "Null aggregation volume when rAbove = "
          << rAbove << " and rBelow = " << rBelow);
-  ASSERT(rAbove <= 0.5*space_->minl(), "aggregation volume upper radius("
+  ASSERT(rAbove <= 0.5*space()->minl(), "aggregation volume upper radius("
     << rAbove << ") cannot extend beyond periodic boundary conditions when"
-    << "minimum box length is " << space_->minl());
+    << "minimum box length is " << space()->minl());
   ASSERT(rAbove <= pair_->rCut(), "aggregation volume upper radius("
     << rAbove << ") cannot extend beyond pair cut-off " << pair_->rCut());
   rAbove_ = rAbove;
   rBelow_ = rBelow;
-  vIn_ = volShell(rAbove_, rBelow_, space_->dimen());
+  vIn_ = volShell(rAbove_, rBelow_, space()->dimen());
   avbOn_ = true;
 }
 
@@ -141,21 +148,21 @@ double Trial::multiFirstBead_(const int flag) {
     "Unrecognized flag for multiple first beads");
 
   // record position
-  space_->xStoreMulti(mpart_, -1);
+  space()->xStoreMulti(mpart_, -1);
   pair_->cheapEnergy(1);
   for (int i = 0; i < nf_; ++i) {
     if (i != 0) {
       if (avbOn_) {
-        space_->avb(mpart_, tmpart_, rAbove_, rBelow_, region_.c_str());
+        space()->avb(mpart_, tmpart_, rAbove_, rBelow_, region_.c_str());
       } else {
         // -1 flag for displacement by half box length in any direction
-        space_->randDisp(mpart_, -1);
+        space()->randDisp(mpart_, -1);
         // -1 flag for completely random displacement
-        space_->randRotate(mpart_, -1);
+        space()->randRotate(mpart_, -1);
       }
-      space_->wrap(mpart_);
+      space()->wrap(mpart_);
       // -2 flag to store multiple positions
-      space_->xStoreMulti(mpart_, -2);
+      space()->xStoreMulti(mpart_, -2);
     }
     en_[i] = pair_->multiPartEner(mpart_, flag);
     w_[i] = exp(-criteria_->beta()*en_[i]);
@@ -172,13 +179,13 @@ double Trial::multiFirstBead_(const int flag) {
       for (int i = 0; i < nf_; ++i) cpdf_[i] = w_[i]/wr;
       int f = ranFromCPDF(cpdf_);
       def_ = en_[f];
-      space_->xStoreMulti(mpart_, f);
+      space()->xStoreMulti(mpart_, f);
       return wr/static_cast<double>(nf_);
 
     // if old configuration, select first trial and divide by weight
     } else {
       def_ = en_[0];
-      space_->xStoreMulti(mpart_, 0);
+      space()->xStoreMulti(mpart_, 0);
       // cout << "def_ " << def_ << " nf/wr " << nf_/wr << endl;
       return static_cast<double>(nf_)/wr;
     }
@@ -239,21 +246,21 @@ double Trial::acceptPer() const {
 void Trial::trialMoveRecord_() {
   peOld_ = pair_->multiPartEner(mpart_, 0);
   pair_->update(mpart_, 0, "store");
-  space_->xStore(mpart_);
+  space()->xStore(mpart_);
 }
 
 void Trial::trialMoveRecordAll_(const int flag) {
   peOld_ = pair_->allPartEnerForce(flag);
-  pair_->update(space_->listAtoms(), 0, "store");
-  space_->xStoreAll();
+  pair_->update(space()->listAtoms(), 0, "store");
+  space()->xStoreAll();
 }
 
 void Trial::trialMoveDecide_(const double def,
   const double preFac) {
   if (preFac != 0) {
     // compute energy contribution of selected molecule in new configuration
-    if (space_->cellType() > 0) {
-      space_->updateCellofiMol(space_->mol()[mpart_.front()]);
+    if (space()->cellType() > 0) {
+      space()->updateCellofiMol(space()->mol()[mpart_.front()]);
     }
     const double pe = pair_->multiPartEner(mpart_, 1);
     de_ = pe - peOld_;
@@ -262,14 +269,14 @@ void Trial::trialMoveDecide_(const double def,
     // if accepted, update
     if (criteria_->accept(lnpMet_, pair_->peTot() + de_, trialType_.c_str(),
                           reject_) == 1) {
-      space_->wrap(mpart_);
+      space()->wrap(mpart_);
       pair_->update(mpart_, 0, "update");
       if (verbose_ == 1) cout << "accepted " << de_ << std::endl;
       trialAccept_();
     } else {
-      space_->restore(mpart_);
-      if (space_->cellType() > 0) {
-        space_->updateCellofiMol(space_->mol()[mpart_.front()]);
+      space()->restore(mpart_);
+      if (space()->cellType() > 0) {
+        space()->updateCellofiMol(space()->mol()[mpart_.front()]);
       }
       if (verbose_ == 1) cout << "rejected " << de_ << std::endl;
       trialReject_();
@@ -340,8 +347,8 @@ void Trial::confine(const double upper, const double lower,
   const int dimension) {
   ASSERT(upper > lower, "upper(" << upper << ") must be greater than lower("
     << lower << ")");
-  ASSERT(dimension < space_->dimen(), "given dimension(" << dimension << ") must be "
-    << "lower than spatial dimension(" << space_->dimen() << ")");
+  ASSERT(dimension < space()->dimen(), "given dimension(" << dimension << ") must be "
+    << "lower than spatial dimension(" << space()->dimen() << ")");
   confineFlag_ = 1;
   confineUpper_ = upper;
   confineLower_ = lower;

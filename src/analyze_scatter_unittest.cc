@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include "mc_wltmmc.h"
 #include "pair_hs.h"
@@ -40,7 +50,7 @@ TEST(Analyze, constructANDproduction) {
   //initConfigBias(&mc, "../forcefield/data.cg4_mab");
   mc.nMolSeek(20, "../forcefield/data.cg4_mab", 1e9);
   mc.initRestart("tmp/anrst", 1e3);
-  shared_ptr<AnalyzeScatter> scat = make_shared<AnalyzeScatter>(&s, &p);
+  shared_ptr<AnalyzeScatter> scat = make_shared<AnalyzeScatter>(&p);
   scat->initSANS(0.5);
   scat->initFreq(1e2);
   scat->initFileName("tmp/iq");
@@ -53,7 +63,7 @@ TEST(Analyze, constructANDproduction) {
   scat->writeRestart("tmp/hrst");
   mc.initProduction();
   EXPECT_EQ(scat->production(), 1);
-  AnalyzeScatter scat2(&s, &p, "tmp/hrst");
+  AnalyzeScatter scat2(&p, "tmp/hrst");
   EXPECT_EQ(scat2.production(), 0);
   scat2.writeRestart("tmp/hrst2");
   testVec(scat->histInter(), scat2.histInter());

@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef CRITERIA_METROPOLIS_H_
 #define CRITERIA_METROPOLIS_H_
 
@@ -12,7 +22,6 @@ namespace feasst {
  */
 class CriteriaMetropolis : public Criteria {
  public:
-
   /// Constructor
   CriteriaMetropolis(const double beta, const double activ);
 
@@ -38,6 +47,10 @@ class CriteriaMetropolis : public Criteria {
   // clone design pattern
   virtual shared_ptr<Criteria> cloneImpl_() const;
 };
+
+/// Factor method
+shared_ptr<CriteriaMetropolis> makeCriteriaMetropolis(const double beta,
+                                                      const double activ);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

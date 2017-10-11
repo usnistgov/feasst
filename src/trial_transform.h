@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef TRIAL_TRANSFORM_H_
 #define TRIAL_TRANSFORM_H_
 
@@ -27,7 +37,7 @@ class TrialTransform : public Trial {
    *  For volume change, "vol"
    *  For x-dimension box length change, "lxmod". Similarly "lymod", "lzmod".
    */
-  TrialTransform(Space *space, Pair *pair, Criteria *criteria,
+  TrialTransform(Pair *pair, Criteria *criteria,
                  const char* transType);
 
   /// This constructor is not often used, but its purpose is to initialize trial
@@ -49,17 +59,17 @@ class TrialTransform : public Trial {
   void writeRestart(const char* fileName);
 
   /// Construct from restart file.
-  TrialTransform(const char* fileName, Space *space, Pair *pair,
+  TrialTransform(const char* fileName, Pair *pair,
                  Criteria *criteria);
   ~TrialTransform() {}
-  TrialTransform* clone(Space* space, Pair* pair, Criteria* criteria) const {
+  TrialTransform* clone(Pair* pair, Criteria* criteria) const {
     TrialTransform* t = new TrialTransform(*this);
-    t->reconstruct(space, pair, criteria); return t;
+    t->reconstruct(pair, criteria); return t;
   }
   shared_ptr<TrialTransform> cloneShrPtr(
-    Space* space, Pair* pair, Criteria* criteria) const {
+    Pair* pair, Criteria* criteria) const {
     return(std::static_pointer_cast<TrialTransform, Trial>(
-      cloneImpl(space, pair, criteria)));
+      cloneImpl(pair, criteria)));
   }
 
   /// Return status of trial.
@@ -81,12 +91,19 @@ class TrialTransform : public Trial {
 
   // clone design pattern
   virtual shared_ptr<Trial> cloneImpl(
-    Space* space, Pair *pair, Criteria *criteria) const {
+    Pair *pair, Criteria *criteria) const {
     shared_ptr<TrialTransform> t = make_shared<TrialTransform>(*this);
-    t->reconstruct(space, pair, criteria);
+    t->reconstruct(pair, criteria);
     return t;
   }
 };
+
+/// Factory method
+shared_ptr<TrialTransform> makeTrialTransform(Pair *pair,
+  Criteria *criteria, const char* transType);
+
+/// Factory method
+shared_ptr<TrialTransform> makeTrialTransform(const char* transType);
 
 class MC;
 

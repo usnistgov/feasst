@@ -63,7 +63,6 @@ Checklist Before Public Distribution
 * move checkBond from MC to analyze class for rigid particle simulations (or as part of checkE?)
 * cpplint everything
 * follow the google style guide (loosely)
-* Add license/copyright info at the top of each file, along with authors
 * Move some analysis outside of space class
   - but what if things like trials use the analysis, such as clusters?
   - ""This trial requires MC to have an analyze class...""
@@ -199,48 +198,35 @@ gdb can also be used with python as
 TODO LIST
 #####################
 
-* Improve Semi-grand ensemble interface (e.g., addActivity)
-* MD for anisotropic particles
 * json reader to server as 'input script' to launch simulations
 * json as checkpoint file
 * MD with stochastic dynamics integrator
-* Accumulators for Nate's extrapolation method
 * Perfect checkpointing
 * Automated full-checkpoint testing
-
-* rename Analyze class, both for const and non-const and also to avoid issues with british english
 * remove printPressure from mc/criteria, printBeta, pairOrder, floppyBox, etc
 * on the fly WL/TM lnPI error analysis ... accumulate 3 lnPIs by spliting each trial to each individual criteria class. Use them to compute all sorts of quantities.
 * for xyz2bin, in afterAttempt MC, use unique hash on log file and xyz configuration for error check
   -- implmement with WLTMMC, use criteria to find order param column in log, then readxyz hash, find log hash match, demix conf based on the bin
 * have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)
 * combine pair_square_well, pair_hs, pair_hard_circle
-* remove doubleTolerance,
 * remove periodicity from x/y/z dimensions (no rush here)
 * split functions.h into a variety of base_fileio, base_math, base_utils, etc
 * pairhybrid rCut should be taken from pairVec, or atleast rCutMaxAll
-* remove duplicate pointers, for example, to space. e.g., MC has a
-  pointer to pair, which can be used to get a pointer to space, pair->space().
-  So MC doesn't need its own space pointer. Same with all the trials.
-  PairHybrid doesn't need the space pointer either?
-  That or there needs to be more checks that they're all the same.
-  Why not use shared_ptr more? Something to do with python interface.
+* Eventually convert all raw pointers to shared pointers, which also allows removal of space from MC class
+* PairHybrid also doens't need a space pointer.
 * Use Histogram class for CriteriaWLTMMC instead of its own hard-coded version
-* Put CriteriaWLTMMC wrappers in protected or hide in some way
 * To reduce the size of Space, have it inherit multiple base classes, e.g.,
   Domain which contains box lengths and cell list, etc (but needs to know about particle positions?)
 * Fix nomenclature.. atom == particle, mol == ?.. maybe change to sites / particles
-* MC.initTrial() needs to convert pointer to shared pointer, not make a clone, for better python interface.
 * add ASSERT(rCutij.size() == 0 for linearShift in PairLJMulti so people don't run into issues with rCutij.clear
 * Numerical implementation of quadratic equation coudl help with config bias: https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation
 * Improve handling of default parameters for documentation and perhaps json (e.g. checkpointing above)?
-* Add copyright message at the top of each file, along with authorship, etc? Similar to LAMMPS
 * Move Add/mod new classes to API with links from README to API
-* Document PairLJCoulEwald
 * Combine PairLJCoulEwald and PairLJCoul in some way which doesn't involve copied code?
 * change initEnergy in most implementations to use Inner() and reduce code complexity/copied code.
 * nightly build -> unittests, test cases, coverage, valgrind, profiling, docs, python
 * implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).
+* runNumSweeps instead should have something where one generates the clones as vector<shrptr>, then runNumSweep takes these as input. That way one can modify the clones as one sees fit (also in multiprocessor restarts) before running the clones. It would take a lot of the hidden magic out without complicating the interface too drastically.
 * move xdrfile and others to extern, change location of xdrfile file library away from "home" directory
 * make extern/README.rst and others part of the documentation.
 * Fix GSL memory leaks

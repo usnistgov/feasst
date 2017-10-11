@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./mc.h"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -38,13 +48,13 @@ MC::MC(const char* fileName) {
   // cout << "MC initialize pair" << endl;
   strtmp = fstos("rstFilePair", fileName);
   ASSERT(!strtmp.empty(), "file name of pair restart file not provided");
-  pair_ = pair_->makePair(space_, strtmp.c_str());
+  pair_ = makePair(space_, strtmp.c_str());
   pairOwned_ = true;
 
   // cout << "initialize criteria" << endl;
   strtmp = fstos("rstFileCriteria", fileName);
   ASSERT(!strtmp.empty(), "file name of criteria restart file not provided");
-  criteria_ = criteria_->makeCriteria(strtmp.c_str());
+  criteria_ = makeCriteria(strtmp.c_str());
   criteriaOwned_ = true;
 
   // cout << "MC initialize trials" << endl;
@@ -75,8 +85,7 @@ MC::MC(const char* fileName) {
       ASSERT(trialClassName.compare("TrialConfSwapTXT") != 0,
              "TrialConfSwapTXT requires -D TXT_H_ during compilation");
     #endif  // _OPENMP
-    Trial *trial = NULL;
-    initTrial(trial->makeTrial(space_, pair_, criteria_, trialFileStr.c_str()));
+    initTrial(makeTrial(pair_, criteria_, trialFileStr.c_str()));
   }
 
   strtmp = fstos("nRstFileAnalyze", fileName);
@@ -86,8 +95,7 @@ MC::MC(const char* fileName) {
 		  stringstream ss;
 		  ss << "rstFileAnalyze" << i;
 		  const string trialAnaStr = fstos(ss.str().c_str(), fileName);
-		  Analyze* ana = NULL;
-		  initAnalyze(ana->makeAnalyze(space_, pair_, trialAnaStr.c_str()));
+		  initAnalyze(makeAnalyze(pair_, trialAnaStr.c_str()));
 	  }
   }
 
@@ -197,27 +205,27 @@ void MC::reconstruct() {
   for (unsigned int t = 0; t < trialVec_.size(); ++t) {
     if (trialVec_[t]->className() == "TrialConfSwapOMP") {
       #ifdef _OPENMP
-        shared_ptr<TrialConfSwapOMP> trial = trialConfSwapVec_[nConfSwap]->cloneShrPtr(space, pair, criteria);
+        shared_ptr<TrialConfSwapOMP> trial = trialConfSwapVec_[nConfSwap]->cloneShrPtr(pair, criteria);
         trialConfSwapVec_[nConfSwap] = trial;
         trialVec_[t] = trial;
       #endif  // _OPENMP
       ++nConfSwap;
     } else if (trialVec_[t]->className() == "TrialConfSwapTXT") {
       #ifdef MPI_H_
-        shared_ptr<TrialConfSwapTXT> trial = trialConfSwapVec_[nConfSwap]->cloneShrPtr(space, pair, criteria);
+        shared_ptr<TrialConfSwapTXT> trial = trialConfSwapVec_[nConfSwap]->cloneShrPtr(pair, criteria);
         trialConfSwapVec_[nConfSwap] = trial;
         trialVec_[t] = trial;
       #endif  // MPI_H_
       ++nConfSwap;
     } else {
-      shared_ptr<Trial> trial = trialVec_[t]->cloneShrPtr(space, pair, criteria);
+      shared_ptr<Trial> trial = trialVec_[t]->cloneShrPtr(pair, criteria);
       trialVec_[t] = trial;
     }
   }
 
   // clone and reconstruct all analyzers
   for (unsigned int ia = 0; ia < analyzeVec_.size(); ++ia) {
-    shared_ptr<Analyze> an = analyzeVec_[ia]->cloneShrPtr(space, pair);
+    shared_ptr<Analyze> an = analyzeVec_[ia]->cloneShrPtr(pair);
     analyzeVec_[ia] = an;
   }
 
@@ -243,16 +251,8 @@ shared_ptr<MC> MC::cloneShallowImpl() const {
   return mc;
 }
 
-void MC::initTrial(Trial* trial) {
-  trialVec_.push_back(trial->cloneShrPtr(space_, pair_, criteria_));
-  trialWeight_.push_back(weight);
-
-  // update cumulative probability of trials
-  updateCumulativeProb_();
-}
-
 void MC::initTrial(shared_ptr<Trial> trial) {
-  trial->reconstruct(space_, pair_, criteria_);
+  trial->reconstruct(pair_, criteria_);
   trialVec_.push_back(trial);
   trialWeight_.push_back(weight);
 
@@ -272,12 +272,12 @@ void MC::removeTrial(int iTrial) {
 void MC::confSwapTrial() {
   #ifdef MPI_H_
     trialConfSwapVec_.push_back(make_shared<TrialConfSwapTXT>
-      (space_, pair_, criteria_));
+      (pair_, criteria_));
     initTrial(trialConfSwapVec_.back());
   #endif  // MPI_H_
   #ifdef _OPENMP
     trialConfSwapVec_.push_back(make_shared<TrialConfSwapOMP>
-      (space_, pair_, criteria_));
+      (pair_, criteria_));
     initTrial(trialConfSwapVec_.back());
   #endif  // _OPENMP
 }

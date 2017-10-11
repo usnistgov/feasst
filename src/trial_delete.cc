@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./trial_delete.h"
 #include <stdio.h>
 #include <iostream>
@@ -20,28 +30,27 @@ TrialDelete::TrialDelete(const char* molType)
   defaultConstruction_();
 }
 
-TrialDelete::TrialDelete(Space *space,
+TrialDelete::TrialDelete(
   Pair *pair,
   Criteria *criteria)
-  : Trial(space, pair, criteria) {
+  : Trial(pair, criteria) {
   defaultConstruction_();
   molType_.assign("");
 }
 
-TrialDelete::TrialDelete(Space *space,
+TrialDelete::TrialDelete(
   Pair *pair,
   Criteria *criteria,
   const char* molType)
-  : Trial(space, pair, criteria),
+  : Trial(pair, criteria),
   molType_(molType) {
   defaultConstruction_();
 }
 
 TrialDelete::TrialDelete(const char* fileName,
-  Space *space,
   Pair *pair,
   Criteria *criteria)
-  : Trial(space, pair, criteria, fileName) {
+  : Trial(pair, criteria, fileName) {
   defaultConstruction_();
   molType_ = fstos("molType", fileName);
 }
@@ -62,7 +71,7 @@ void TrialDelete::writeRestart(const char* fileName) {
 }
 
 void TrialDelete::attempt1_() {
-  ASSERT((pair_->atomCut() != 1) || (space_->nMol() == space_->natom()) ||
+  ASSERT((pair_->atomCut() != 1) || (space()->nMol() == space()->natom()) ||
          (!avbOn_), "this class assumes atomCut(" << pair_->atomCut()
          << ") == 0 when avb is on");
   if (verbose_ == 1) std::cout << "attempting to " << trialType_ << std::endl;
@@ -72,7 +81,7 @@ void TrialDelete::attempt1_() {
     if (molType_.empty()) {
       molid_ = 0;
     } else {
-      molid_ = space_->findAddMolListIndex(molType_);
+      molid_ = space()->findAddMolListIndex(molType_);
     }
     ASSERT(molid_ != -1, "molType(" << molType_ << " not initialized.");
     std::stringstream ss;
@@ -80,11 +89,11 @@ void TrialDelete::attempt1_() {
     trialType_.assign(ss.str());
   }
 
-  if (space_->nMol() <= 0) {
+  if (space()->nMol() <= 0) {
     if (verbose_ == 1) {
       cout << "deletion rejected because no molecules " << de_ << endl;
     }
-  } else if ( (avbOn_) && (space_->nMol() <= 1) ) {
+  } else if ( (avbOn_) && (space()->nMol() <= 1) ) {
     if (verbose_ == 1) {
       cout << "deletion rejected because not enough molecules for avb " << de_
            << std::endl;
@@ -96,32 +105,32 @@ void TrialDelete::attempt1_() {
       // select a random molecule tmpart as target for deletion, record its
       // aggregation volume properties
       region_.assign("bonded");
-      tmpart_ = space_->randMol();
-      vector<int> jneigh = pair_->neigh()[space_->mol()[tmpart_[0]]];
+      tmpart_ = space()->randMol();
+      vector<int> jneigh = pair_->neigh()[space()->mol()[tmpart_[0]]];
       const int nIn = static_cast<int>(jneigh.size());
       if (nIn > 0) {
-        preFac_ = nIn / vIn_ * space_->nMol() / (space_->nMol() - 1);
+        preFac_ = nIn / vIn_ * space()->nMol() / (space()->nMol() - 1);
         lnpMet_ = log(preFac_);
-        mpart_ = space_->randMolSubset(jneigh);
+        mpart_ = space()->randMolSubset(jneigh);
       }
     } else {
       // if no molType given, delete any molecule
       if (molType_.empty()) {
-        preFac_ = static_cast<double>(space_->nMol())/space_->vol();
+        preFac_ = static_cast<double>(space()->nMol())/space()->vol();
         lnpMet_ = log(preFac_);
-        mpart_ = space_->randMol();
+        mpart_ = space()->randMol();
 
       // otherwise, delete only molType
       } else {
-        const int iMolIndex = space_->findAddMolListIndex(molType_);
-        const int nMolOfType = space_->nMolType()[iMolIndex];
+        const int iMolIndex = space()->findAddMolListIndex(molType_);
+        const int nMolOfType = space()->nMolType()[iMolIndex];
         if (nMolOfType > 0) {
-          const int iMol = space_->randMolofType(iMolIndex);
+          const int iMol = space()->randMolofType(iMolIndex);
           if (iMol == -1) {
             reject_ = 1;
           } else {
-            mpart_ = space_->imol2mpart(iMol);
-            preFac_ = static_cast<double>(nMolOfType)/space_->vol();
+            mpart_ = space()->imol2mpart(iMol);
+            preFac_ = static_cast<double>(nMolOfType)/space()->vol();
             lnpMet_ = log(preFac_);
           }
         }
@@ -129,31 +138,31 @@ void TrialDelete::attempt1_() {
     }
 
     // check if particle types are constrained to be equimolar
-    if (space_->equiMolar() >= 1) {
-      const int iMol = space_->mol()[mpart_[0]],
-        iMolType = space_->molid()[iMol];
-      if (space_->equiMolar() == 1) {
-        const int nimt = space_->nMolType()[iMolType];
+    if (space()->equiMolar() >= 1) {
+      const int iMol = space()->mol()[mpart_[0]],
+        iMolType = space()->molid()[iMol];
+      if (space()->equiMolar() == 1) {
+        const int nimt = space()->nMolType()[iMolType];
 
         // check if any case where there is already a moltype with more
         // molecules
-        for (int imt = 0; imt < space_->nMolTypes(); ++imt) {
+        for (int imt = 0; imt < space()->nMolTypes(); ++imt) {
           if (imt != iMolType) {
-            if (nimt < space_->nMolType()[imt]) reject_ = 1;
+            if (nimt < space()->nMolType()[imt]) reject_ = 1;
           }
         }
-      } else if (space_->equiMolar() == 2) {
-        if (space_->nMol() % 2 == 0) {
+      } else if (space()->equiMolar() == 2) {
+        if (space()->nMol() % 2 == 0) {
           if (iMolType == 0) reject_ = 1;
         }
-        if (space_->nMol() % 2 == 1) {
+        if (space()->nMol() % 2 == 1) {
           if (iMolType == 1) reject_ = 1;
         }
-      } else if (space_->equiMolar() == 3) {
-        if (space_->nMol() % 2 == 0) {
+      } else if (space()->equiMolar() == 3) {
+        if (space()->nMol() % 2 == 0) {
           if (iMolType == 1) reject_ = 1;
         }
-        if (space_->nMol() % 2 == 1) {
+        if (space()->nMol() % 2 == 1) {
           if (iMolType == 0) reject_ = 1;
         }
       }
@@ -161,8 +170,8 @@ void TrialDelete::attempt1_() {
 
     // check if deletion is confined to a region
     if ( (confineFlag_ == 1) && (preFac_ != 0) ) {
-      if ( (space_->x(mpart_[0], confineDim_) > confineUpper_) ||
-           (space_->x(mpart_[0], confineDim_) < confineLower_) ) {
+      if ( (space()->x(mpart_[0], confineDim_) > confineUpper_) ||
+           (space()->x(mpart_[0], confineDim_) < confineLower_) ) {
         preFac_ = 0.;
         reject_ = 1;
       }
@@ -184,7 +193,7 @@ void TrialDelete::attempt1_() {
       if (molType_.empty()) {
         iMolIndex = 0;
       } else {
-        iMolIndex = space_->findAddMolListIndex(molType_);
+        iMolIndex = space()->findAddMolListIndex(molType_);
       }
       lnpMet_ += -criteria_->beta()*(de_ + def_)
               - log(criteria_->activ(iMolIndex));
@@ -203,7 +212,7 @@ void TrialDelete::attempt1_() {
     // remove molecule, assuming a molecule is described by sequentially listed
     // particles
     pair_->delPart(mpart_);
-    space_->delPart(mpart_);
+    space()->delPart(mpart_);
     pair_->update(mpart_, 2, "update");
     trialAccept_();
     if (verbose_ == 1) cout << "deletion accepted " << de_ << std::endl;
@@ -215,17 +224,38 @@ void TrialDelete::attempt1_() {
   }
 }
 
+shared_ptr<TrialDelete> makeTrialDelete(Pair *pair,
+  Criteria *criteria, const char* molType) {
+  return make_shared<TrialDelete>(pair, criteria, molType);
+}
+
+shared_ptr<TrialDelete> makeTrialDelete(const char* molType) {
+  return make_shared<TrialDelete>(molType);
+}
+
+shared_ptr<TrialDelete> makeTrialDelete(Pair *pair,
+  Criteria *criteria) {
+  return make_shared<TrialDelete>(pair, criteria);
+}
+
+shared_ptr<TrialDelete> makeTrialDelete() {
+  return make_shared<TrialDelete>();
+}
+
 void deleteTrial(MC *mc, const char* moltype) {
   shared_ptr<TrialDelete> trial = make_shared<TrialDelete>(moltype);
   mc->initTrial(trial);
 }
+
 void deleteTrial(shared_ptr<MC> mc, const char* moltype) {
   deleteTrial(mc.get(), moltype);
 }
+
 void deleteTrial(MC *mc) {
   shared_ptr<TrialDelete> trial = make_shared<TrialDelete>();
   mc->initTrial(trial);
 }
+
 void deleteTrial(shared_ptr<MC> mc) {
   deleteTrial(mc.get());
 }

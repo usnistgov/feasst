@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./pair_lj_multi.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -794,6 +804,10 @@ double PairLJMulti::computeLRC(const int ipart) {
 void PairLJMulti::initAlpha(const double alpha) {
   alpha_ = alpha;
   expType_ = -1;
+}
+
+shared_ptr<PairLJMulti> makePairLJMulti(Space* space, const double rCut) {
+  return make_shared<PairLJMulti>(space, rCut);
 }
 
 #ifdef FEASST_NAMESPACE_

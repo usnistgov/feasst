@@ -1,8 +1,11 @@
 /**
- * \file
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
  *
- * \brief
- *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
  */
 
 #ifndef ANALYZECLUSTER_H_
@@ -14,35 +17,28 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ * Compute cluster properties
+ */
 class AnalyzeCluster : public Analyze {
  public:
-  AnalyzeCluster(Space *space, Pair *pair);
-  AnalyzeCluster(Space *space, Pair *pair, const char* fileName);
-  ~AnalyzeCluster() {}
-  AnalyzeCluster* clone(Space* space, Pair* pair) const {
-    AnalyzeCluster* a = new AnalyzeCluster(*this);
-    a->reconstruct(space, pair); return a;
-  }
-  shared_ptr<AnalyzeCluster> cloneShrPtr(Space* space, Pair* pair) const {
-    return(std::static_pointer_cast<AnalyzeCluster, Analyze>(cloneImpl(
-      space, pair)));
-  }
-  void writeRestart(const char* fileName);
+  /// Constructor
+  AnalyzeCluster(Pair *pair);
 
-  /// initialize cluster cutoff
+  /// Initialize distance-based cluster cutoff.
   void initClusterCut(const double clusterCut) { clusterCut_ = clusterCut; }
 
-  /// initialize size of block average
+  /// Initialize size of block average.
   void initBlockAverage(const int nBlock) { nClusterAccVec_.setBlock(nBlock); }
 
-  /// update analysis every nFreq
+  // update analysis every nFreq
   void update() { update(0); }
   void update(const int iMacro);
 
-  /// print
+  // print
   void write(CriteriaWLTMMC *c);
 
-  double zbin;                   // histogram bin size
+  double zbin;  // histogram bin size
 
   /**
    * Compute percolation probability.
@@ -56,10 +52,30 @@ class AnalyzeCluster : public Analyze {
          if "2", use contact map. */
     ) { percFlag_ = percFlag; }
 
-  /// read-only access
+  /// Return the number of clusters
   AccumulatorVec nClusterAccVec() const { return nClusterAccVec_; }
+
+  /// Return the coordination number
   AccumulatorVec coordNumAccVec() const { return coordNumAccVec_; }
+
+  /// Return the percolation
   AccumulatorVec percolation() const { return percolation_; }
+
+  /// Write restart file.
+  void writeRestart(const char* fileName);
+
+  /// Construct from restart file.
+  AnalyzeCluster(Pair *pair, const char* fileName);
+
+  ~AnalyzeCluster() {}
+  AnalyzeCluster* clone(Pair* pair) const {
+    AnalyzeCluster* a = new AnalyzeCluster(*this);
+    a->reconstruct(pair); return a;
+  }
+  shared_ptr<AnalyzeCluster> cloneShrPtr(Pair* pair) const {
+    return(std::static_pointer_cast<AnalyzeCluster, Analyze>(cloneImpl(
+      pair)));
+  }
 
  protected:
   double clusterCut_;                 // cluster cut-off definition
@@ -78,11 +94,14 @@ class AnalyzeCluster : public Analyze {
   void defaultConstruction_();
 
   // clone design pattern
-  virtual shared_ptr<Analyze> cloneImpl(Space* space, Pair *pair) const {
+  virtual shared_ptr<Analyze> cloneImpl(Pair *pair) const {
     shared_ptr<AnalyzeCluster> a = make_shared<AnalyzeCluster>(*this);
-    a->reconstruct(space, pair); return a;
+    a->reconstruct(pair); return a;
   }
 };
+
+/// Factory method
+shared_ptr<AnalyzeCluster> makeAnalyzeCluster(Pair *pair);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

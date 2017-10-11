@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "./pair_patch_kf.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -489,6 +499,11 @@ double PairPatchKF::allPartEnerForce(const int flag) {
     }
   }
   return peSRone_;
+}
+
+shared_ptr<PairPatchKF> makePairPatchKF(Space *space, const double rCut,
+  const double patchAngle) {
+  return make_shared<PairPatchKF>(space, rCut, patchAngle);
 }
 
 #ifdef FEASST_NAMESPACE_

@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include <gtest/gtest.h>
 #include "space.h"
 
@@ -561,14 +571,14 @@ TEST(Space, readDataSPCE) {
   EXPECT_EQ(0, stmp->bondList()[1][1]);
   EXPECT_EQ(2, stmp->bondList()[1][2]);
   EXPECT_EQ(1, int(stmp->bondParam().size()));
-  EXPECT_NEAR(450, stmp->bondParam()[0][0], doubleTolerance);
-  EXPECT_NEAR(1, stmp->bondParam()[0][1], doubleTolerance);
+  EXPECT_NEAR(450, stmp->bondParam()[0][0], DTOL);
+  EXPECT_NEAR(1, stmp->bondParam()[0][1], DTOL);
   vector<double> params = stmp->bondParams(0, 1);
-  EXPECT_NEAR(450, params[0], doubleTolerance);
-  EXPECT_NEAR(1, params[1], doubleTolerance);
+  EXPECT_NEAR(450, params[0], DTOL);
+  EXPECT_NEAR(1, params[1], DTOL);
   params = stmp->bondParams(1, 0);
-  EXPECT_NEAR(450, params[0], doubleTolerance);
-  EXPECT_NEAR(1, params[1], doubleTolerance);
+  EXPECT_NEAR(450, params[0], DTOL);
+  EXPECT_NEAR(1, params[1], DTOL);
   vector<vector<int> > bl = s.listBonds(0);
   EXPECT_EQ(2, int(bl.size()));
   EXPECT_EQ(0, bl[0][0]);
@@ -587,20 +597,20 @@ TEST(Space, readDataSPCE) {
   EXPECT_EQ(0, stmp->angleList()[0][2]);
   EXPECT_EQ(2, stmp->angleList()[0][3]);
   EXPECT_EQ(1, int(stmp->angleParam().size()));
-  EXPECT_NEAR(55, stmp->angleParam()[0][0], doubleTolerance);
-  EXPECT_NEAR(109.47/180*PI, stmp->angleParam()[0][1], doubleTolerance);
+  EXPECT_NEAR(55, stmp->angleParam()[0][0], DTOL);
+  EXPECT_NEAR(109.47/180*PI, stmp->angleParam()[0][1], DTOL);
   params = stmp->angleParams(0, 1, 2);
-  EXPECT_NEAR(55, params[0], doubleTolerance);
-  EXPECT_NEAR(109.47/180*PI, params[1], doubleTolerance);
+  EXPECT_NEAR(55, params[0], DTOL);
+  EXPECT_NEAR(109.47/180*PI, params[1], DTOL);
   params = stmp->angleParams(1, 0, 2);
-  EXPECT_NEAR(55, params[0], doubleTolerance);
-  EXPECT_NEAR(109.47/180*PI, params[1], doubleTolerance);
+  EXPECT_NEAR(55, params[0], DTOL);
+  EXPECT_NEAR(109.47/180*PI, params[1], DTOL);
   params = stmp->angleParams(2, 0, 1);
-  EXPECT_NEAR(55, params[0], doubleTolerance);
-  EXPECT_NEAR(109.47/180*PI, params[1], doubleTolerance);
+  EXPECT_NEAR(55, params[0], DTOL);
+  EXPECT_NEAR(109.47/180*PI, params[1], DTOL);
   params = stmp->angleParams(2, 1, 0);
-  EXPECT_NEAR(55, params[0], doubleTolerance);
-  EXPECT_NEAR(109.47/180*PI, params[1], doubleTolerance);
+  EXPECT_NEAR(55, params[0], DTOL);
+  EXPECT_NEAR(109.47/180*PI, params[1], DTOL);
   vector<vector<int> > al = s.listAngles(0,1);
   EXPECT_EQ(1, int(al.size()));
   EXPECT_EQ(0, al[0][0]);
@@ -1036,7 +1046,7 @@ TEST(Space, scaleDomain) {
   s.addMol("../forcefield/data.cg3_60_1_1");
   s.addMol("../forcefield/data.cg3_60_1_1");
   s.scaleDomain(1.1);
-  EXPECT_EQ(1, s.checkBond(10*doubleTolerance));
+  EXPECT_EQ(1, s.checkBond(10*DTOL));
 }
 
 //TEST(Space, modBondAngle) {
@@ -1131,14 +1141,14 @@ TEST(Space, xyTilt) {
   s.addMolInit("../forcefield/data.onePatch1000");
   for (int i = 0; i < 1000; ++i) s.addMol("../forcefield/data.onePatch1000");
   //s.printxyz("tilt",1);
-  EXPECT_NEAR(s.minBondLength(), 1, 10*doubleTolerance);
+  EXPECT_NEAR(s.minBondLength(), 1, 10*DTOL);
 }
 
 TEST(Space, SQ) {
   Space s(3,0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(12,dim);
   s.addMolInit("../forcefield/data.cg7mab1");
-  EXPECT_NEAR(s.minBondLength(), 1.8122340298918349, 10*doubleTolerance);
+  EXPECT_NEAR(s.minBondLength(), 1.8122340298918349, 10*DTOL);
 }
 
 //TEST(Space, pos2euler) {
@@ -1150,7 +1160,7 @@ TEST(Space, SQ) {
 //  s2->pos2euler(0);
 //  for (int iatom = 0; iatom < s.natom(); ++iatom) {
 //    for (int dim = 0; dim < s.dimen(); ++dim) {
-//      EXPECT_NEAR(s.x(iatom,dim), s2->x(iatom,dim), doubleTolerance);
+//      EXPECT_NEAR(s.x(iatom,dim), s2->x(iatom,dim), DTOL);
 //    }
 //  }
 //}

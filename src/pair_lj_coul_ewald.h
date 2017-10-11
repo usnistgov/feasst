@@ -1,3 +1,13 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #ifndef PAIR_LJ_COUL_EWALD_H_
 #define PAIR_LJ_COUL_EWALD_H_
 
@@ -45,6 +55,9 @@ class PairLJCoulEwald : public Pair {
 
   /// initialize kspace, number of wave vectors and screening parameters
   void initKSpace(const double alphatmp, const int k2max);
+
+  /// Turn off Ewald
+  void removeEwald() { initKSpace(0., 0); }
 
   /// initialize with LAMMPS data file
   void initLMPData(const string fileName);

@@ -1,12 +1,20 @@
+/**
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * appropriate acknowledgments of NIST’s creation of the data/software.
+ */
+
 #include "pair_lj.h"
 #include "mc.h"
 #include "trial_transform.h"
 
 int main() {
   feasst::Space space(3, 0);
-  for (int dim = 0; dim < space.dimen(); ++dim) {
-    space.lset(8, dim); // 8 box length
-  }
+  space.lset(8);  // 8 box length cubic PBC
   space.addMolInit("../../forcefield/data.lj");
   feasst::PairLJ pair(&space, 3);   // potential truncation at 3
   pair.initEnergy();
