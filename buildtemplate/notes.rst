@@ -116,7 +116,8 @@ See above, but also:
 
 You can use the more MD-style approach of initializing a big box and squeezing it.
 
-.. code-block::
+.. code-block:: c++
+
    c.pressureset(1000.);
    transformTrial(&mc, "lxmod", 0.001);
    transformTrial(&mc, "lymod", 0.001);

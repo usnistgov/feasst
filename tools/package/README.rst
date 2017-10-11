@@ -18,7 +18,8 @@ The example package directory `<tools/package>`_ contains scripts and example fi
 package.sh
 =============
 
-.. code-block::
+.. code-block:: bash
+
    ./package.sh /path/to/public/repo
 
 This script sends the contents of the current FEASST repository to a different FEASST repository, after filtering of files based on `private_files.txt` and `stubs`.
@@ -28,7 +29,8 @@ If, for example, a file is deleted or renamed in your private respository and se
 unpack.sh
 ===========
 
-.. code-block::
+.. code-block:: bash
+
    ./unpack.sh /path/to/public/repo
 
 This script receives the contents of a different FEASST respository, after filtering of files based on `private_files.txt` and `stubs`.
