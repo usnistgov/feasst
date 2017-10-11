@@ -159,12 +159,12 @@ Prerequisites
 FEASST is designed for a LINUX or MAC OS X platform with the following minimum version software.
 
 * make >= 3.81
+* CMake >= 2.8.12.2
 * compiler with c++0x support (e.g., g++ >= 4.7)
 
 Optional tools:
 ****************
 
-* CMake >= 2.8.12.2
 * SWIG >= 1.3.40 (python interface)
 * anaconda >= 1.9.1 (python >= 2.7)
 * xdrfile 1.1b (compressed xtc trajectories)
@@ -175,18 +175,6 @@ Optional tools:
 
 Installation
 #############
-
-Installation may be performed with either CMake or a plain Makefile.
-If you do not have a preference, it is recommended to attempt CMake.
-Otherwise, the plain Makefile approach is available but no longer supported.
-The example input scripts automatically check for the CMake install first,
-so make sure that you remove your CMake build files if you want to use
-the install from the `<src/Makefile>`_ instead.
-
-CMake
-******
-
-CMake is the recommended installation method.
 
 .. code-block:: bash
 
@@ -234,36 +222,11 @@ make sure to start compilation with a fresh ``build`` directory before CMake is
 invoked (e.g., completely remove the build directory and start over, after
 saving any relevant changes to ``CMakeLists.txt``).
 
-Makefile
-***********
-
-This is the old compilation method, but may still be used if you prefer, although it is no longer supported.
-
-
-C++ installation
-================
-
-.. code-block:: bash
-
-    cd src
-    make cnotest
-
-Text-based installation (using C++ engine)
-==========================================
-
-.. code-block:: bash
-
-    cd src
-    make ui_text
-
-For any interface, modify `<src/Makefile>`_ to control external libraries (below).
-
 Optional external libraries
 #############################
 
 Here is how to set up external libraries you may want to use with FEASST.
-To begin, some libraries require installation. And some require certain compiler flags if not using CMake.
-If you do not wish to use the libraries and CMake, make sure the compiler flags are not included in `<src/Makefile>`_.
+To begin, some libraries require installation.
 
 XTC 1.1b
 ********
@@ -277,43 +240,35 @@ For writing compressed XTC trajectory files.
     ./configure --enable-shared --prefix=$HOME/ #enable-shared for SWIG
     make install
 
-Associated compiler flags in `<src/Makefile>`_::
+Associated CMake flag
 
-    -DCPLUSPLUS
-    -I/path/to/install/dir/include/xdrfile
-    -L/path/to/install/dir/lib
-    -lxdrfile
+.. code-block:: bash
+
+   cmake -DUSE_XDRFILE=On -DXDRFILE_DIR=/path/to/xdrfile .
 
 Google Test 1.7.0
 *****************
 
-For testing the C++ code:
+For testing the C++ code: CMake automatically clones and compiles the respository.
 
-* download gtest: http://code.google.com/p/googletest/downloads/detail?name=gtest-1.7.0.zip
-* unzip and correct path in `GTEST_DIR` in `<src/Makefile>`_. No need to compile gtest
-* to compile the FEASST unittests, use the command `make c` in `<src>`_
-
-OpenMPI with Intel compilers
-****************************
+Associated CMake flag
 
 .. code-block:: bash
 
-    tar -xf openmpi*gz; cd openmpi*; mkdir build; cd build
-    ../configure --prefix=`pwd`/.. CC=icc CXX=icpc $intel compilers
-    make
-    make install
+   cmake -DUSE_GTEST=On .
 
-Associated compiler flags in `<src/Makefile>`_::
-
-    -DMPI_H_
+.. OpenMPI with Intel compilers
+   ****************************
+   .. code-block:: bash
+       tar -xf openmpi*gz; cd openmpi*; mkdir build; cd build
+       ../configure --prefix=`pwd`/.. CC=icc CXX=icpc $intel compilers
+       make
+       make install
 
 OpenMP
 ******
 
-Associated compiler flags in `<src/Makefile>`_::
-
-    -DOMP_H_
-    -fopenmp
+CMake automatically searches for OpenMP support from the compiler.
 
 FFTW 3.3.4
 **********
@@ -327,12 +282,11 @@ This library is used for computing the scattering of anisotropic shapes.
     make
     make install
 
-Associated compiler flags in `<src/Makefile>`_::
+Associated CMake flag
 
-    -DFFTW_
-    -I/path/to/install/dir/fftw-3.3.4/build/include
-    -L/path/to/install/dir/fftw-3.3.4/build/lib
-    -lfftw3
+.. code-block:: bash
+
+   cmake -DUSE_FFTW=On -DFFTW_DIR=/path/to/fftw .
 
 VMD 1.9.2
 *********
@@ -361,6 +315,12 @@ Required for python installation.
 
     cd swig-2.0.12; ./configure --prefix=/path/to/install/dir; make; make install
 
+Associated CMake flag
+
+.. code-block:: bash
+
+   cmake -DUSE_SWIG=On .
+
 CMake 2.8.12.2
 **************
 
@@ -376,12 +336,11 @@ HDF5 1.8.18
     sudo ./configure --prefix=/usr/local/hdf5 --enable-cxx
     make; make check; make install; make check-install
 
-Associated compiler flags in `<src/Makefile>`_::
+Associated CMake flag
 
-    -DHDF5_
-    -I/path/to/install/dir/include
-    -L/path/to/install/dir/lib
-    -lhdf5 -lhdf5_cpp
+.. code-block:: bash
+
+   cmake -DUSE_HDF5=On -DHDF5_USER_DIR=/path/to/hdf5 .
 
 GSL 2.3
 *******
@@ -392,12 +351,11 @@ For spline interpolation.
 
     ./configure --prefix=/path/to/install/dir; make; make install
 
-Associated compiler flags in `<src/Makefile>`_::
+Associated CMake flag
 
-    -DGSL_
-    -I/path/to/install/dir/gsl-2.3/include
-    -L/path/to/install/dir/gsl-2.3/lib
-    -lgsl -lgslcblas -lm
+.. code-block:: bash
+
+   cmake -DUSE_GSL=On -DGSL_USER_DIR=/path/to/gsl .
 
 LCOV 1.13-1
 ***********
@@ -406,6 +364,12 @@ Required for html output of CMake command ``make coverage``
 For graphical front-end of gcov, http://ltp.sourceforge.net/coverage/lcov.php ::
 
     rpm -i lcov-1.13-1.noarch.rpm
+
+Associated CMake flag
+
+.. code-block:: bash
+
+   cmake -DUSE_GCOV=On .
 
 Examples
 ########

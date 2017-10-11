@@ -36,11 +36,13 @@ CustomException::CustomException(std::stringstream& m) {
   cout << "terminating" << endl;
   std::cerr << msg_ << endl;
   std::cerr << "terminating" << endl;
-  // exit(1);  // terminate immediately for easy backtrace
-  // force seg fault
-  //exit(FAIL_CODE);
-  int *foo = (int*)-1; // make a bad pointer
-  printf("%d\n", *foo);       // causes segfault
+  #ifdef SEGERROR_
+    // force seg fault
+    int *foo = (int*)-1; // make a bad pointer
+    printf("%d\n", *foo);       // causes segfault
+  #else  // SEGERROR_
+    exit(FAIL_CODE);
+  #endif  // SEGERROR_
 }
 
 void CustomException::catMessage() {

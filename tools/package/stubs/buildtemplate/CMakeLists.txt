@@ -17,6 +17,7 @@ option(USE_CCACHE "Use ccache to speed up builds" OFF)
 option(USE_OMP "Require use of OMP for parallelization" OFF)
 option(USE_GCOV "Use GCOV for coverage testing" OFF)
 option(USE_SPHINX "Use SPHINX for documentation" OFF)
+option(USE_SEGERROR "Errors result in SEGFAULT for backtrace" OFF)
 
 option(USE_SWIG "Use SWIG for python interface" OFF)
 # If you would like to use the python interface, you may need to specify the
@@ -38,6 +39,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} modules)
 
+# segfault errors
+if (USE_SEGERROR)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSEGERROR_")
+endif (USE_SEGERROR)
 
 # SPHINX
 if (USE_SPHINX)
