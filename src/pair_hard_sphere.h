@@ -21,14 +21,18 @@ namespace feasst {
 
 /**
  * Hard sphere pair-wise interaction.
- * The diameter is determined by the sigma parameter described in Pair.
- * Use the convenience function pair.sig2rCut() to set the rCut's to sigma.
+ * The diameter is determined by the sigma parameter described in Pair,
+ * which is typically initialized by initData().
  */
 class PairHardSphere : public Pair {
  public:
   /// Constructor
-  /// @param rCut interaciton cut off distance should be equal to sigma
-  PairHardSphere(Space* space, const double rCut);
+  PairHardSphere(Space* space);
+
+  // Overloaded virtual function from pair.h
+  // When pair parameters are initialized, automatically use sig2rCut.
+  void initPairParam(const vector<double> eps,
+    const vector<double> sig, const vector<double> sigref);
 
   // Overloaded virtual function from pair.h
   void multiPartEnerAtomCutInner(const double &r2, const int &itype,
@@ -45,7 +49,7 @@ class PairHardSphere : public Pair {
 };
 
 /// Factory method
-shared_ptr<PairHardSphere> makePairHardSphere(Space* space, const double rCut);
+shared_ptr<PairHardSphere> makePairHardSphere(Space* space);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

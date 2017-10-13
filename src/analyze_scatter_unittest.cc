@@ -37,9 +37,8 @@ TEST(Analyze, constructANDproduction) {
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(90,dim);
   s.addMolInit("../forcefield/data.cg4_mab");
-  PairHardSphere p(&s, 3.);
+  PairHardSphere p(&s);
   p.initLMPData("../forcefield/data.cg4_mab");
-  p.sig2rCut();
   s.updateCells(p.rCutMaxAll());
   p.Forces();
   CriteriaMetropolis c(1, exp(-1));

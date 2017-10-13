@@ -354,9 +354,8 @@ TEST(MC, nSeekWithPressure) {
   space.lset(8);
   space.addMolInit("../forcefield/data.lj");   // add one molecule in order to initialize ntype array
   /// PairLJMulti pair(&space, 3.);
-  PairHardSphere pair(&space, 3.);
+  PairHardSphere pair(&space);
   pair.initData("../forcefield/data.lj");
-  pair.sig2rCut();
   // pair.linearShift();
   CriteriaMetropolis criteria(1., exp(-1));
   MC mc(&space, &pair, &criteria);
@@ -598,9 +597,8 @@ TEST(MC, wltmmccloneANDreconstruct) {
 TEST(MC, b2hardsphere) {
   Space s(3, 0);
   s.addMolInit("../forcefield/data.lj");
-  PairHardSphere p(&s, 1);
+  PairHardSphere p(&s);
   p.initData("../forcefield/data.lj");
-  p.sig2rCut();
   CriteriaMetropolis c(1, 1);
   MC mc(&s, &p, &c);
   mc.setNumTrials(1e9);

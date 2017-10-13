@@ -14,8 +14,8 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-PairHardSphere::PairHardSphere(Space* space, const double rCut)
-  : Pair(space, rCut) {
+PairHardSphere::PairHardSphere(Space* space)
+  : Pair(space, 0.) {
   defaultConstruction_();
 }
 
@@ -39,14 +39,21 @@ void PairHardSphere::multiPartEnerAtomCutInner(const double &r2,
   //   << " peSRone " << peSRone_ << " sigij " << sigij << endl;
 }
 
+void PairHardSphere::initPairParam(const vector<double> eps,
+  const vector<double> sig, const vector<double> sigref) {
+  Pair::initPairParam(eps, sig, sigref);
+  sig2rCut();
+  rCut_ = rCutMaxAll_;
+}
+
 PairHardSphere* PairHardSphere::clone(Space* space) const {
   PairHardSphere* p = new PairHardSphere(*this);
   p->reconstruct(space);
   return p;
 }
 
-shared_ptr<PairHardSphere> makePairHardSphere(Space* space, const double rCut) {
-  return make_shared<PairHardSphere>(space, rCut);
+shared_ptr<PairHardSphere> makePairHardSphere(Space* space) {
+  return make_shared<PairHardSphere>(space);
 }
 
 #ifdef FEASST_NAMESPACE_

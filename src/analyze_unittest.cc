@@ -34,9 +34,8 @@ TEST(Analyze, MonkeyPatch) {
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(90,dim);
   s.addMolInit("../forcefield/data.cg4_mab");
-  PairHardSphere p(&s, 3.);
-  p.initLMPData("../forcefield/data.cg4_mab");
-  p.sig2rCut();
+  PairHardSphere p(&s);
+  p.initData("../forcefield/data.cg4_mab");
   s.updateCells(p.rCutMaxAll());
   p.Forces();
   CriteriaWLTMMC c(1, exp(-1), "nmol", -0.5, 20.5, 20);

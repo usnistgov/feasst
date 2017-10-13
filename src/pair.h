@@ -141,7 +141,7 @@ class Pair : public BaseRandom {
 
   /// Initialize pair parameters with epsilon (interaciton scale),
   /// sigma (particle size) and sigRef (reference particle size).
-  void initPairParam(const vector<double> eps,
+  virtual void initPairParam(const vector<double> eps,
     const vector<double> sig, const vector<double> sigref);
 
   /// Initialize pair parameters with epsilon (interaciton scale),
