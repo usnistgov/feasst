@@ -17,13 +17,17 @@ using namespace feasst;
 TEST(PairTabular1D, printReadTable) {
   const double rCut = 1.08;
   Space ss(3, 0);
+  ss.lset(4);
   string addMolTypeA("../forcefield/data.lj");
   string addMolTypeB("../forcefield/data.ljb");
   PairLJMulti pp(&ss, rCut);
+  PairTabular1D p(&ss);
   ss.addMolInit(addMolTypeA.c_str());
   pp.initLMPData(addMolTypeA.c_str());
+  p.initLMPData(addMolTypeA.c_str());
   ss.addMolInit(addMolTypeB.c_str());
   pp.initLMPData(addMolTypeB.c_str());
+  p.initLMPData(addMolTypeB.c_str());
   pp.initExpType(4);
   pp.setLambdaij(0,0, 0);    //lambdaAA=0
   pp.setLambdaij(0,1, 0.5);  //lambdaAB=0.5
@@ -32,27 +36,25 @@ TEST(PairTabular1D, printReadTable) {
   pp.linearShift(1);    // cut and shift
   pp.initEnergy();
   pp.printTable("tmp/ptab",100,0.99);
-
-  Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(4,dim);
-  PairTabular1D p(&s);
-  s.addMolInit(addMolTypeA.c_str());
-  p.initLMPData(addMolTypeA.c_str());
-  s.addMolInit(addMolTypeB.c_str());
-  p.initLMPData(addMolTypeB.c_str());
   p.readTable("tmp/ptab");
-  p.setInterpolator("gslspline");
   p.initEnergy();
-  s.writeRestart("tmp/rststab");
+
+  ss.writeRestart("tmp/rststab");
   p.writeRestart("tmp/rstptab");
 
-  vector<double> x(s.dimen(), 0.);
-  s.xAdd = x;
-  s.addMol(addMolTypeA.c_str());
-  x[1] = 1.2;
-  s.xAdd = x;
-  s.addMol(addMolTypeB.c_str());
+  vector<double> x(ss.dimen(), 0.);
+  ss.xAdd = x;
+  ss.addMol(addMolTypeA.c_str());
+  x[1] = 1.05;
+  ss.xAdd = x;
+  ss.addMol(addMolTypeB.c_str());
+  pp.addPart();
   p.addPart();
+
+  pp.initEnergy();
+  p.initEnergy();
+  EXPECT_NEAR(pp.peTot(), -0.0033921341547825351, DTOL);
+  EXPECT_NEAR(p.peTot(), -0.0033970032627577791, DTOL);
 }
 
 #ifdef GSL_

@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 #include "pair_ideal.h"
-#include "pair_hs.h"
+#include "pair_hard_sphere.h"
 #include "pair_lj.h"
 #include "pair_lj_multi.h"
 #include "pair_lj_coul_ewald.h"
@@ -36,6 +36,8 @@ TEST(MC, WLTMMC_Ideal) {
   s.addMolInit("../forcefield/data.atom");
   for (int i = 0; i < nMolMin; ++i) s.addMol("../forcefield/data.atom");
   PairIdeal p(&s, rCut);
+  p.initData("../forcefield/data.atom");
+  p.rCutijset(0, 0, p.rCut());
   CriteriaWLTMMC c(beta, activ,"nmol",nMolMin-0.5,nMolMax+0.5,nMolMax-nMolMin+1);
   c.collectInit();
   c.tmmcInit();
@@ -352,7 +354,7 @@ TEST(MC, nSeekWithPressure) {
   space.lset(8);
   space.addMolInit("../forcefield/data.lj");   // add one molecule in order to initialize ntype array
   /// PairLJMulti pair(&space, 3.);
-  PairHS pair(&space, 3.);
+  PairHardSphere pair(&space, 3.);
   pair.initData("../forcefield/data.lj");
   pair.sig2rCut();
   // pair.linearShift();
@@ -596,7 +598,9 @@ TEST(MC, wltmmccloneANDreconstruct) {
 TEST(MC, b2hardsphere) {
   Space s(3, 0);
   s.addMolInit("../forcefield/data.lj");
-  PairHS p(&s, 1);
+  PairHardSphere p(&s, 1);
+  p.initData("../forcefield/data.lj");
+  p.sig2rCut();
   CriteriaMetropolis c(1, 1);
   MC mc(&s, &p, &c);
   mc.setNumTrials(1e9);

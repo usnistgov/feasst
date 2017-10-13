@@ -12,7 +12,7 @@
 #include <limits.h>
 #include "criteria_mayer.h"
 #include "pair_lj_multi.h"
-#include "pair_hs.h"
+#include "pair_hard_sphere.h"
 #include "pair_squarewell.h"
 #include "trial_transform.h"
 #include "mc.h"
@@ -55,7 +55,7 @@ TEST(CriteriaMayer, ref) {
 //  pair.initData("../forcefield/data.lj");
 //  pair.cutShift(1);
 //  pair.initEnergy();
-//  feasst::PairHS pairRef(&space, 1);
+//  feasst::PairHardSphere pairRef(&space, 1);
 //  pairRef.initData("../forcefield/data.lj");
 //  pairRef.initEnergy();
 //

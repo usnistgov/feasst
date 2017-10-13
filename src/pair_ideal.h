@@ -11,6 +11,7 @@
 #ifndef PAIR_IDEAL_H_
 #define PAIR_IDEAL_H_
 
+#include <memory>
 #include <vector>
 #include "./pair.h"
 
@@ -28,19 +29,18 @@ class PairIdeal : public Pair {
   /// @param rCut HWH:depreciated. This variable has no use in this class.
   PairIdeal(Space* space, const double rCut);
 
-  PairIdeal(Space* space, const char* fileName) : Pair(space, 0.) {
-    ASSERT(0, "no restart implemented"); }
-  ~PairIdeal();
-  virtual PairIdeal* clone(Space* space) const {
-    PairIdeal* p = new PairIdeal(*this); p->reconstruct(space); return p;
-  }
+  // Overloaded virtual function from pair.h
+  void multiPartEnerAtomCutInner(const double &r2, const int &itype,
+                                 const int &jtype);
 
-  void initEnergy();     //!< function to calculate forces, given positions
-
-  /// Potential energy of multiple particles.
-  double multiPartEner(const vector<int> multiPart, const int flag);
+  // Construct from restart file
+  PairIdeal(Space* space, const char* fileName);
+  virtual ~PairIdeal() {}
+  virtual PairIdeal* clone(Space* space) const;
 
  protected:
+  // defaults in constructor
+  void defaultConstruction_();
 };
 
 /// Factory method

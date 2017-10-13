@@ -8,8 +8,8 @@
  * appropriate acknowledgments of NIST’s creation of the data/software.
  */
 
-#ifndef PAIR_SQUAREWELL_H_
-#define PAIR_SQUAREWELL_H_
+#ifndef PAIR_HARD_SPHERE_H_
+#define PAIR_HARD_SPHERE_H_
 
 #include <memory>
 #include <vector>
@@ -20,29 +20,24 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 /**
- * Square well interactions.
- * The hard distance is determined by sigma,
- * the square well distance is determined by rCut,
- * and the depth of the well is epsilon.
+ * Hard sphere pair-wise interaction.
+ * The diameter is determined by the sigma parameter described in Pair.
+ * Use the convenience function pair.sig2rCut() to set the rCut's to sigma.
  */
-class PairSquareWell : public Pair {
+class PairHardSphere : public Pair {
  public:
   /// Constructor
-  /// @param rCut interaciton cut off distance
-  PairSquareWell(Space* space, const double rCut);
-
-  /// Initialize hard sphere interactions
-  /// between particle types itype and jtype.
-  void initHardSphere(const int itype, const int jtype);
+  /// @param rCut interaciton cut off distance should be equal to sigma
+  PairHardSphere(Space* space, const double rCut);
 
   // Overloaded virtual function from pair.h
   void multiPartEnerAtomCutInner(const double &r2, const int &itype,
                                  const int &jtype);
 
   // Construct from restart file
-  PairSquareWell(Space* space, const char* fileName);
-  virtual ~PairSquareWell() {}
-  virtual PairSquareWell* clone(Space* space) const;
+  PairHardSphere(Space* space, const char* fileName);
+  virtual ~PairHardSphere() {}
+  virtual PairHardSphere* clone(Space* space) const;
 
  protected:
   // defaults in constructor
@@ -50,11 +45,11 @@ class PairSquareWell : public Pair {
 };
 
 /// Factory method
-shared_ptr<PairSquareWell> makePairSquareWell(Space* space, const double rCut);
+shared_ptr<PairHardSphere> makePairHardSphere(Space* space, const double rCut);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
 
-#endif  // PAIR_SQUAREWELL_H_
+#endif  // PAIR_HARD_SPHERE_H_
 

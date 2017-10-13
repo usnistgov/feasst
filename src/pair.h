@@ -44,7 +44,7 @@ class Pair : public BaseRandom {
   //   this subroutine is written from scratch in each derived class, without
   //   any optimizations, as a test of the potential. Other potential
   //   computations and optimized and tested against this one
-  virtual void initEnergy() = 0;
+  virtual void initEnergy() { peTot_ = allPartEnerForce(1); }
 
   /// Return total potential energy of system.
   virtual double peTot() { return peTot_; }
@@ -54,7 +54,7 @@ class Pair : public BaseRandom {
 
   /// Return potential energy of multiple particles.
   // HWH depreciate the flag?
-  virtual double multiPartEner(const vector<int> multiPart, const int flag) = 0;
+  virtual double multiPartEner(const vector<int> multiPart, const int flag);
 
   /// Return potential energy of multipe particles with atom-based cutoff in 3D.
   virtual double multiPartEnerAtomCut(const vector<int> multiPart);
@@ -77,12 +77,11 @@ class Pair : public BaseRandom {
   virtual void allPartEnerForceInner(const double &r2, const double &dx,
     const double &dy, const double &dz, const int &itype, const int &jtype,
     const int &iMol, const int &jMol) {
-    ASSERT(0, "allPartEnerForceInner not implemented" << r2 << dx << dy
-      << dz << itype << jtype << iMol << jMol); }
+    if (dx*dy*dz*iMol*jMol == 0) {}  // remove unused variable warning
+    multiPartEnerAtomCutInner(r2, itype, jtype); }
 
   /// Compute potential energy and forces of all particles.
-  virtual double allPartEnerForce(const int flag) {
-    ASSERT(0, "allPartEnerForce not implemented" << flag); return 0; }
+  virtual double allPartEnerForce(const int flag);
 
   /// Compute potential energy and forces of all particles with atom-based
   /// cut-off and no cell list in 3D.
@@ -393,6 +392,8 @@ class Pair : public BaseRandom {
   double rCut_;     //!< atom interaction cut-off distance
   double rCutSq_;   //!< atom interaction cut-off distance squared
   double peTot_;    //!< total potential energy
+  double peSR_;
+  double deSR_;
   double peSRone_;  //!< lennard jones potential energy from subset of particles
   /// lennard jones potential energy from subset of particles
   double peSRoneAlt_;

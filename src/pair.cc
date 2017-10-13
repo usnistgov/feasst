@@ -769,16 +769,34 @@ void Pair::initPairData(const int natype,
   }
 }
 
-void Pair::update(const vector<int> mpart,
-  const int flag,
-  const char* uptype) {
+void Pair::update(const vector<int> mpart, const int flag, const char* uptype) {
   if (neighOn_) {
     // rebuilt neighlist if all particles are updated
     if (static_cast<int>(mpart.size()) != space_->natom()) {
       updateBase(mpart, flag, uptype, neigh_, neighOne_, neighOneOld_);
     }
   }
+  std::string uptypestr(uptype);
+
+  if (uptypestr.compare("store") == 0) {
+    if (flag == 0 || flag == 2 || flag == 3) {
+      deSR_ = peSRone_;
+    }
+  }
+
+  if (uptypestr.compare("update") == 0) {
+    if (flag == 0) {
+      peTot_ += peSRone_ - deSR_;
+    }
+    if (flag == 2) {
+      peTot_ -= deSR_;
+    }
+    if (flag == 3) {
+      peTot_ += deSR_;
+    }
+  }
 }
+
 
 void Pair::epsijset(const int i, const int j, const double eps) {
   epsij_.at(i).at(j) = eps;
@@ -1038,6 +1056,24 @@ void Pair::neighTypeSet(const int itype) {
   neighType_.push_back(itype);
 }
 
+double Pair::multiPartEner(
+  const vector<int> mpart,
+  const int flag) {
+  if (flag == 0) {}  // remove unused parameter warning
+
+  // zero potential energy contribution of particle ipart
+  peSRone_ = 0;
+  if (dimen_ == 3) {
+    return multiPartEnerAtomCut(mpart);
+  } else if (dimen_ == 2) {
+    return multiPartEnerAtomCut2D(mpart);
+  } else {
+    ASSERT(0, "unrecognized dimen");
+  }
+  ASSERT(0, "should never reach the end of this case block");
+  return 0;
+}
+
 double Pair::multiPartEnerAtomCut(const vector<int> mpart) {
   const bool verbose = false;
   // const bool verbose = true;
@@ -1189,6 +1225,31 @@ double Pair::vrTot() {
     }
   }
   return vrTotTemp;
+}
+
+double Pair::allPartEnerForce(const int flag) {
+  peSRone_ = 0;
+  if (flag == 0) {
+    peSRone_ = peTot();
+    return peSRone_;
+  } else {
+    // zero accumulators: potential energy and force
+    fCOM_.clear();
+    fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
+
+    if ( (space_->cellType() == 0) || (rCutMaxAll_ > space_->dCellMin()) ) {
+      if (dimen_ == 3) {
+        return allPartEnerForceAtomCutNoCell();
+      } else if (dimen_ == 2) {
+        return allPartEnerForceAtomCutNoCell2D();
+      }
+    } else if (space_->cellType() == 1) {
+      return allPartEnerForceAtomCutCell();
+    } else {
+      ASSERT(0, "cell type(" << space_->cellType() << ")");
+    }
+  }
+  return 1e300;
 }
 
 double Pair::allPartEnerForceAtomCutNoCell() {

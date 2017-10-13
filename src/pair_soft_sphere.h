@@ -8,9 +8,10 @@
  * appropriate acknowledgments of NIST’s creation of the data/software.
  */
 
-#ifndef PAIR_SS_H_
-#define PAIR_SS_H_
+#ifndef PAIR_SOFT_SPHERE_H_
+#define PAIR_SOFT_SPHERE_H_
 
+#include <memory>
 #include <vector>
 #include "./pair.h"
 
@@ -21,10 +22,11 @@ namespace feasst {
 /**
  * Soft sphere pair-wise interaction, \f$ U=eps(sig/r)^n \f$
  */
-class PairSS : public Pair {
+class PairSoftSphere : public Pair {
  public:
   /// Constructor
-  PairSS(Space* space, const double rCut);
+  /// @param rCut interaciton cut off distance
+  PairSoftSphere(Space* space, const double rCut);
 
   /// Initialize the potential parameter exponent (default below).
   void initExponent(const int n = 12) { n_ = n; }
@@ -36,31 +38,19 @@ class PairSS : public Pair {
   /// b2~ = b2(beta eps)^(-3/n==12) as a reference
   double b2reduced();
 
-  /// Write restart file.
-  virtual void writeRestart(const char* fileName);
-
-  /// Construct from restart file.
-  PairSS(Space* space, const char* fileName);
-  virtual ~PairSS() {}
-  virtual PairSS* clone(Space* space) const {
-    PairSS* p = new PairSS(*this); p->reconstruct(space); return p;
-  }
-
-  /// function to calculate forces, given positions
-  virtual void initEnergy();
-
-  /// potential energy of multiple particles
-  double multiPartEner(const vector<int> multiPart, const int flag);
+  // Overloaded virtual function from pair.h
   void multiPartEnerAtomCutInner(const double &r2, const int &itype,
                                  const int &jtype);
 
-  /// stores, restores or updates variables to avoid order recompute of entire
-  /// configuration after every change
-  void update(const vector<int> mpart, const int flag, const char* uptype);
+  // Write restart file.
+  virtual void writeRestart(const char* fileName);
+
+  // Construct from restart file
+  PairSoftSphere(Space* space, const char* fileName);
+  virtual ~PairSoftSphere() {}
+  virtual PairSoftSphere* clone(Space* space) const;
 
  protected:
-  double peSR_;
-  double deSR_;
   double n_;    // potential parameter for power order
 
   // defaults in constructor
@@ -68,10 +58,11 @@ class PairSS : public Pair {
 };
 
 /// Factory method
-shared_ptr<PairSS> makePairSS(Space* space, const double rCut);
+shared_ptr<PairSoftSphere> makePairSoftSphere(Space* space, const double rCut);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
 
-#endif  // PAIR_SS_H_
+#endif  // PAIR_SOFT_SPHERE_H_
+

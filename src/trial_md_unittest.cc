@@ -48,7 +48,7 @@ TEST(MCPrivate, ljMDconserve) {
   mc.runNumTrials(1);
   const double utot = p.peTot() + tmd->kineticEnergy();
   mc.runNumTrials(200);
-  EXPECT_NEAR(utot, p.peTot() + tmd->kineticEnergy(), 0.55);
+  EXPECT_NEAR(utot, p.peTot() + tmd->kineticEnergy(), 0.75);
 }
 
 

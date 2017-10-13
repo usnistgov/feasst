@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 #include "mc_wltmmc.h"
-#include "pair_hs.h"
+#include "pair_hard_sphere.h"
 #include "analyze_scatter.h"
 #include "ui_abbreviated.h"
 #include "trial_transform.h"
@@ -37,7 +37,7 @@ TEST(Analyze, constructANDproduction) {
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(90,dim);
   s.addMolInit("../forcefield/data.cg4_mab");
-  PairHS p(&s, 3.);
+  PairHardSphere p(&s, 3.);
   p.initLMPData("../forcefield/data.cg4_mab");
   p.sig2rCut();
   s.updateCells(p.rCutMaxAll());

@@ -38,91 +38,6 @@ void PairTabular1D::writeRestart(const char* fileName) {
   file << "# tabFileName " << tabFileName_ << endl;
 }
 
-void PairTabular1D::initEnergy() {
-  // shorthand for read-only space variables
-  const int natom = space_->natom();
-  const vector<double> l = space_->l();
-  const vector<double> x = space_->x();
-  const vector<int> mol = space_->mol();
-  const vector<int> type = space_->type();
-
-  // zero accumulators: potential energy, force, and virial
-  deSR_ = 0;
-  fill(0., f_);
-  // fCOM_.clear();
-  // fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
-
-  // loop through nearest neighbor atom pairs
-  for (int ipart = 0; ipart < natom - 1; ++ipart) {
-    if (eps_[type[ipart]] != 0) {
-      for (int jpart = ipart + 1; jpart < natom; ++jpart) {
-        if ( ( (intra_ != 0) || (mol[ipart] != mol[jpart]) ) &&
-             (eps_[type[jpart]] != 0) ) {
-          // separation vector, xij with periodic boundary conditions
-          vector<double> xij(dimen_);
-          for (int i = 0; i < dimen_; ++i) {
-            xij[i] = x[dimen_*ipart+i] - x[dimen_*jpart+i];
-          }
-          const vector<double> dx = space_->pbc(xij);
-          for (int dim = 0; dim < dimen_; ++dim) {
-            xij[dim] += dx[dim];
-          }
-          double r2 = vecDotProd(xij, xij);
-
-          // cout << "r2 " << r2 << " i " << ipart << " j " << jpart
-          //   << " itype " << type[ipart] << " jtype " << type[jpart] << endl;
-
-          // no interaction beyond cut-off distance
-          if (r2 < pow(rCutij_[type[ipart]][type[jpart]], 2.)) {
-            if (r2 < pow(rCutInner_[type[ipart]][type[jpart]], 2.)) {
-              deSR_ += NUM_INF;
-              ASSERT(0, "inner table value reached");
-            } else {
-              // obtain force from the potential energy table if using spline
-              if (peTable_[type[ipart]][type[jpart]]->
-                interpolator().compare("gslspline") == 0) {
-                double fij = 0.;
-                const double pe =
-                  peTable_[type[ipart]][type[jpart]]->interpolate(r2, &fij);
-                deSR_ += pe;
-                // fij returns the derivative with respect to r2
-                fij *= -2;
-                for (int dim = 0; dim < dimen_; ++dim) {
-                  f_[ipart][dim] += fij*xij[dim];
-                  f_[jpart][dim] -= fij*xij[dim];
-                }
-              } else {
-                const double pe =
-                  peTable_[type[ipart]][type[jpart]]->interpolate(r2);
-                deSR_ += pe;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  peTot_ = deSR_;
-}
-
-double PairTabular1D::multiPartEner(
-  const vector<int> mpart,
-  const int flag) {
-  if (flag == 0) {}  // remove unused parameter warning
-
-  // zero potential energy contribution of particle ipart
-  peSRone_ = 0;
-
-  if (dimen_ == 2) {
-    return multiPartEnerAtomCut2D(mpart);
-  } else if (dimen_ == 3) {
-    return multiPartEnerAtomCut(mpart);
-  } else {
-    ASSERT(0, "dimen(" << dimen_ << ") not recognized");
-  }
-  return 0;
-}
-
 void PairTabular1D::multiPartEnerAtomCutInner(
   const double &r2, const int &itype, const int &jtype) {
   if (r2 < pow(rCutInner_[itype][jtype], 2.)) {
@@ -130,54 +45,6 @@ void PairTabular1D::multiPartEnerAtomCutInner(
   } else {
     peSRone_ += peTable_[itype][jtype]->interpolate(r2);
   }
-}
-
-void PairTabular1D::allPartEnerForceInner(const double &r2, const double &dx,
-  const double &dy, const double &dz, const int &itype, const int &jtype,
-  const int &iMol, const int &jMol) {
-  if (dx*dy*dz*iMol*jMol == 0) {}  // remove unused variable warning
-  multiPartEnerAtomCutInner(r2, itype, jtype);
-}
-
-void PairTabular1D::update(
-  const vector<int> mpart,
-  const int flag,
-  const char* uptype) {
-  if (neighOn_) {
-    updateBase(mpart, flag, uptype, neigh_, neighOne_, neighOneOld_);
-  }
-  std::string uptypestr(uptype);
-
-  if (uptypestr.compare("store") == 0) {
-    if (flag == 0 || flag == 2 || flag == 3) {
-      deSR_ = peSRone_;
-    }
-  }
-
-  if (uptypestr.compare("update") == 0) {
-    if (flag == 0) {
-      peTot_ += peSRone_ - deSR_;
-    }
-    if (flag == 2) {
-      peTot_ -= deSR_;
-    }
-    if (flag == 3) {
-      peTot_ += deSR_;
-    }
-  }
-}
-
-double PairTabular1D::allPartEnerForce(const int flag) {
-  peSRone_ = 0.;
-  if (flag == 0) {
-    peSRone_ = peTot();
-    return peSRone_;
-  } else if (dimen_ == 2) {
-    return allPartEnerForceAtomCutNoCell2D();
-  } else if (dimen_ == 3) {
-    return allPartEnerForceAtomCutNoCell();
-  }
-  return 1e300;
 }
 
 void PairTabular1D::readTable(const char* fileName) {
@@ -215,6 +82,12 @@ void PairTabular1D::setInterpolator(const char* name) {
       peTable_[itype][jtype]->setInterpolator(name);
     }
   }
+}
+
+PairTabular1D* PairTabular1D::clone(Space* space) const {
+  PairTabular1D* p = new PairTabular1D(*this);
+  p->reconstruct(space);
+  return p;
 }
 
 shared_ptr<PairTabular1D> makePairTabular1D(Space* space) {

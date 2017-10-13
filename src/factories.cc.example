@@ -59,8 +59,8 @@ Pair* Pair::makePair(Space* space,
     pair = new PairRoundSquare(space, fileName);
   } else if (pairtypestr.compare("PairTabular1D") == 0) {
     pair = new PairTabular1D(space, fileName);
-  } else if (pairtypestr.compare("PairHS") == 0) {
-    pair = new PairHS(space, fileName);
+  } else if (pairtypestr.compare("PairHardSphere") == 0) {
+    pair = new PairHardSphere(space, fileName);
 //  } else if (pairtypestr.compare("PairPatchHPC") == 0) {
 //    pair = new PairPatchHPC(space, fileName);
 //  } else if (pairtypestr.compare("PairPatchKF") == 0) {
