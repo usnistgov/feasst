@@ -4,7 +4,7 @@
  * Harold W. Hatch, harold.hatch@nist.gov
  *
  * Permission to use this data/software is contingent upon your acceptance of
- * the terms of this agreement (see LICENSE.txt) and upon your providing
+ * the terms of LICENSE.txt and upon your providing
  * appropriate acknowledgments of NIST’s creation of the data/software.
 """
 

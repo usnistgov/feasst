@@ -1,4 +1,4 @@
-/**
+/*
  * Factory method for Pair, Criteria, Trial and Analyze.
  * This implementation resides in a special file so that it may be changed
  * and diverge for different branches/repos with different files.
