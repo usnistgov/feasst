@@ -4,7 +4,7 @@ project(feasst)
 
 # Here are some user options to customize external libraries
 option(USE_XDRFILE "Use xdrfile library" OFF)
-set(XDRFILE_DIR "$ENV{HOME}")
+set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
 option(USE_FFTW "Use FFTW for fourier transforms" OFF)
 set(FFTW_DIR "$ENV{HOME}/software/fftw-3.3.4/build")
 option(USE_HDF5 "Use HDF5" OFF)

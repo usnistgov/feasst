@@ -223,13 +223,9 @@ TODO LIST
 * Numerical implementation of quadratic equation coudl help with config bias: https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation
 * Improve handling of default parameters for documentation and perhaps json (e.g. checkpointing above)?
 * Move Add/mod new classes to API with links from README to API
-* Combine PairLJCoulEwald and PairLJCoul in some way which doesn't involve copied code?
 * change initEnergy in most implementations to use Inner() and reduce code complexity/copied code.
-* nightly build -> unittests, test cases, coverage, valgrind, profiling, docs, python
 * implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).
 * runNumSweeps instead should have something where one generates the clones as vector<shrptr>, then runNumSweep takes these as input. That way one can modify the clones as one sees fit (also in multiprocessor restarts) before running the clones. It would take a lot of the hidden magic out without complicating the interface too drastically.
-* move xdrfile and others to extern, change location of xdrfile file library away from "home" directory
-* make extern/README.rst and others part of the documentation.
 * Fix GSL memory leaks
-* I prefer segfault on error for backtrace, but I should make it so all my packages do not segfault on back trace (CMakeList.txt macro?)
+* weekly tests -> test cases, perhaps run on a cluster with more processors?
 
