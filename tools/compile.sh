@@ -12,23 +12,10 @@ if [ -z $builddir ]; then
   builddir="build"
 fi
 
-# if the build directory exists with a Makefile, use cmake to compile
-if [ -d $FEASST_INSTALL_DIR_/$builddir ] &&
-   [ -s $FEASST_INSTALL_DIR_/$builddir/Makefile ]; then
-  cp ${prog}.cc $FEASST_INSTALL_DIR_/drivers/main.cc
-  pushd $FEASST_INSTALL_DIR_/$builddir
-    echo "$0 is building in "`pwd`
-    make main
-  popd
-  cp $FEASST_INSTALL_DIR_/$builddir/bin/main $prog
+cp ${prog}.cc $FEASST_INSTALL_DIR_/drivers/main.cc
+pushd $FEASST_INSTALL_DIR_/$builddir
+  echo "$0 is building in "`pwd`
+  make main
+popd
+cp $FEASST_INSTALL_DIR_/$builddir/bin/main $prog
 
-# otherwise, attempt to use the Makefile in src
-else
-  source=$FEASST_INSTALL_DIR_/src
-  cp ${prog}.cc $source/main.cc
-  pushd $source
-    echo "$0 is building in "`pwd`
-    make main
-  popd
-  cp $FEASST_INSTALL_DIR_/src/main $prog
-fi

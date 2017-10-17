@@ -228,4 +228,11 @@ TODO LIST
 * runNumSweeps instead should have something where one generates the clones as vector<shrptr>, then runNumSweep takes these as input. That way one can modify the clones as one sees fit (also in multiprocessor restarts) before running the clones. It would take a lot of the hidden magic out without complicating the interface too drastically.
 * Fix GSL memory leaks
 * weekly tests -> test cases, perhaps run on a cluster with more processors?
+* add PairPatchKF and PairLJCoulEwald loops to Pair base class for molecule-center-based cut-offs before loops through particles,
+  Or make them more general (e.g., multi patch particles?).
+* make all testcases/examples with int main() { modifiable by sed for TEST( to be applied to a suit of unittests.
+* Add versioning policy and change log for API in the future. E.g., version label x.y.z.. x-> major feasst version, y->any change which modifies the API, z->non-API changes.
+* Add verbosity level for printing debug messages
+* Document policy/checklist for bug reporting so that issues can be quickly reproduced
+* Automate updating of packages (e.g., documentation, push with hooks, etc).
 

@@ -15,11 +15,10 @@
 #include "trial_transform.h"
 #include "trial_confswap_omp.h"
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
 
   int openMP = 0;
-  int nMolMax = 265, nMolMin = 0, nfreq = 1e5, ncfreq = 1e6;
-  int64_t npr = 8000000000;
+  int nMolMax = 5, nMolMin = 0, nfreq = 1e5, ncfreq = 1e6;
   double rCut = 10., temp = 525, lnz = -8.14, boxl = 20.;
   std::stringstream molType;
   molType << "data.spce";
@@ -37,7 +36,6 @@ int main(int argc, char** argv) {
         case 'f': nfreq = atoi(optarg); break;
         case 'c': ncfreq = atoi(optarg); break;
         case 'o': openMP = atoi(optarg); break;
-        case 'p': npr = atoll(optarg); break;
         case 'm': molType.str(""); molType << optarg; break;
 	      case '?':
           if (isprint(optopt))
@@ -48,9 +46,9 @@ int main(int argc, char** argv) {
         default: abort();
       }
     }
-    cout << "# -t temp " << temp << " -r rCut " << rCut << " -z lnz " << lnz << " -l boxl " << boxl << " -x nMolMax " << nMolMax << " -n nMolMin " << nMolMin << " -f nfreq " << nfreq << " -c ncfreq " << ncfreq << " -p npr " << npr << " -m molType " << molType.str() << " -o openMP " << openMP << endl;
+    cout << "# -t temp " << temp << " -r rCut " << rCut << " -z lnz " << lnz << " -l boxl " << boxl << " -x nMolMax " << nMolMax << " -n nMolMin " << nMolMin << " -f nfreq " << nfreq << " -c ncfreq " << ncfreq << " -m molType " << molType.str() << " -o openMP " << openMP << endl;
     for (index = optind; index < argc; index++) printf("Non-option argument %s\n", argv[index]);
-  }
+  }  // GETOPT
 
   // initialize simulation domain
   feasst::ranInitByDate();
@@ -106,14 +104,12 @@ int main(int argc, char** argv) {
   mc.initRestart("tmp/rst", ncfreq);
 
   //production tmmc simulation
-  if (openMP == 0) {
-    mc.runNumTrials(npr);
-  } else {
+  if (openMP != 0) {
     mc.initWindows(1.75,  // exponent that determines size of windows
                    0);    // extra macrostate overlap between processors
-    mc.runNumSweeps(20,   // number of "sweeps"
-                   -1);   // maximum number of trials. Infinite if "-1".
   }
+  mc.runNumSweeps(20,   // number of "sweeps"
+                 -1);   // maximum number of trials. Infinite if "-1".
 }
 
 

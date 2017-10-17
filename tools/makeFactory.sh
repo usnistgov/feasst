@@ -68,8 +68,10 @@ printTemplates()
 {
   for class in $classes; do
     for header in `ls -vd ../src/${class}*.h 2> /dev/null`; do
-      className=`grep "class " $header | grep "{" | head -1 | awk '{print $2}'`
-      echo "%template("$className"ShrPtr) std::shared_ptr<"$className">;" >> $printfile
+      classNameList=`grep -h "class \(.*\) : public \(.*\) {" $header | sed 's/class \(.*\) : public \(.*\) {/\1/'`
+      for className in $classNameList; do
+        echo "%shared_ptr("$className");" >> $printfile
+      done
     done
   done
 }

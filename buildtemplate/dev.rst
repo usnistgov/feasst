@@ -157,7 +157,7 @@ https://google.github.io/styleguide/cppguide.html
 
 https://github.com/google/styleguide/tree/gh-pages/cpplint
 
-Philosophical questions
+Philosophical questions and quotes
 #######################################
 
 Why are there so many comments in the header files?
@@ -174,6 +174,12 @@ It saves one key stroke versus a "_" and one horizontal space.
 Perhaps for the sake of readability, FEASST will switch to a more pythonic style but that would take a lot of work.
 Feel free to stick to your favorite style in your contributed work, although ideally there is only one style per file!
 
+Quotes
+*******
+
+* "The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming", Donald Knuth, Computer Programming as an Art (1974)
+
+* "Do not copy and paste", Clancy Rowley, Princeton University Course APC524, 2010
 
 
 

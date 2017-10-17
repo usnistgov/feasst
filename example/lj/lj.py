@@ -15,8 +15,8 @@ if (not os.path.isfile(feasstdir+"/_feasst.so")):
 sys.path.append(feasstdir)
 import feasst
 feasst.ranInitByDate()
-space = feasst.Space(3, 0)
-for dim in range(space.dimen()): space.lset(8, dim) # 8 box length
+space = feasst.makeSpace(3)
+space.lset(8)  # 8 cubic box length
 space.addMolInit("../../forcefield/data.lj")
 pair = feasst.PairLJ(space, 3)    # potential truncation at 3
 pair.initEnergy()

@@ -27,7 +27,7 @@ class AnalyzeMonkeyPatch : public Analyze {
   }
 };
 
-int main() {
+int main() {  // LJ, SRSW_NVTMC
   Space space(3, 0);
   const double rho = 1e-3;
   const int nMol = 500;
@@ -52,7 +52,7 @@ int main() {
   shared_ptr<AnalyzeMonkeyPatch> an =
     make_shared<AnalyzeMonkeyPatch>(&pair);
   an->initFreq(1);
-  an->initPrintFreq(1e5);
+  an->initPrintFreq(1e7);
   mc.initAnalyze(an);
   mc.runNumTrials(1e6);
 
