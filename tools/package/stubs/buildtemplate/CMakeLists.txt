@@ -13,11 +13,12 @@ option(USE_GSL "Use GSL" OFF)
 set(GSL_USER_DIR "$ENV{HOME}/software/gsl-2.3")
 # option(USE_JSON "Use JSON" OFF)
 option(USE_GTEST "Use gtest" OFF)
+option(USE_GTESTCASES "Use testcases" OFF)
 option(USE_CCACHE "Use ccache to speed up builds" OFF)
 option(USE_OMP "Require use of OMP for parallelization" OFF)
 option(USE_GCOV "Use GCOV for coverage testing" OFF)
 option(USE_SPHINX "Use SPHINX for documentation" OFF)
-option(USE_SEGERROR "Errors result in SEGFAULT for backtrace" OFF)
+option(USE_SEGERROR "Errors result in SEGFAULT for gdb backtrace" OFF)
 
 option(USE_SWIG "Use SWIG for python interface" OFF)
 # If you would like to use the python interface, you may need to specify the
@@ -25,8 +26,8 @@ option(USE_SWIG "Use SWIG for python interface" OFF)
 # CMake attempts to find the libraries on its own.
 #set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda2/include/python2.7")
 #set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda2/lib/libpython2.7.so")
-#set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.6m/")
-#set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.so")
+set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.6m/")
+set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.so")
 
 # Users typically would not edit below this comment
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
@@ -254,6 +255,20 @@ if (USE_GTEST)
   SET_TARGET_PROPERTIES(unittest PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
   target_link_libraries(unittest gtest_main ${EXTRA_LIBS})
   add_test(NAME unittest COMMAND unittest --gtest_shuffle)
+
+  if (USE_GTESTCASES)
+    message("USING GTEST CASES")
+    execute_process(
+      COMMAND ../tools/genGTestCases.sh
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    )
+    file(GLOB feasst_testcase_SRC "${CMAKE_SOURCE_DIR}/testcase/*.cc")
+    add_executable(testcase ${feasst_testcase_SRC} ${feasst_SRC})
+    SET_TARGET_PROPERTIES(testcase PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
+    target_link_libraries(testcase gtest_main ${EXTRA_LIBS})
+    add_test(NAME testcase COMMAND testcase --gtest_shuffle)
+  endif (USE_GTESTCASES)
+
 endif(USE_GTEST)
 
 # SWIG
