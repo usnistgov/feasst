@@ -8,17 +8,6 @@
  * appropriate acknowledgments of NIST’s creation of the data/software.
  */
 
-/**
- * \file
- *
- * \brief
- *
- *  Attempts configuration swaps between processors.
- *  These swaps may occur with variable beta and lnz, but not variable order
- *  parameter (e.g. nMol or pairOrder)
- *
- */
-
 #ifndef TRIAL_CONFSWAPTXT_H_
 #define TRIAL_CONFSWAPTXT_H_
 
@@ -28,6 +17,13 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ *  HWH: Note: This class is depreciated but remains as a stub file for
+ *  HWH: Note:  eventual support.
+ *  Attempts configuration swaps between processors.
+ *  These swaps may occur with variable beta and lnz, but not variable order
+ *  parameter (e.g. nMol or pairOrder)
+ */
 class TrialConfSwapTXT : public Trial {
  public:
   TrialConfSwapTXT();
@@ -45,16 +41,16 @@ class TrialConfSwapTXT : public Trial {
   void writeRestart(const char* fileName);
   void defaultConstruction_();
 
-  /// add order parameter which overlaps with a given processor
+  // add order parameter which overlaps with a given processor
   void addProcOverlap(const double order, const int proc) {
     addProcOverlap(order, proc, 0, 0); }
   void addProcOverlap(const double order, const int proc, const double dbeta,
                       const double dlnz);
 
-  /// initialize process number
+  // initialize process number
   void initProc(const int proc) { proc_ = proc; }
 
-  /// initialialize order parameter type
+  // initialialize order parameter type
   void initMType(const char* otype) { orderType_.assign(otype); }
 
   // functions for read-only access of private data-members
@@ -65,7 +61,9 @@ class TrialConfSwapTXT : public Trial {
   string orderType_;   //!< obtain orderType from criteria upon initialization
   int proc_;           //!< process number of current trial
 
-  /// randomly attempt trial
+  /**
+   * randomly to swap configurations with inter or intra processor stored state
+   */
   void attempt1_();
 
   /// order parameter in overlapping reigion (e.g. nMol or pairOrder)

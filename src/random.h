@@ -19,6 +19,10 @@ namespace feasst {
 
 /**
  * General interface for random number generators.
+ *
+ * In order to create a new Random derived class, copy an existing set of
+ * "random_*" files and replace the class name and header guards
+ * (e.g., BASECLASS_DERIVED_H_).
  */
 class Random : public Base {
  public:

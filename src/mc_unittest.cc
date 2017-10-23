@@ -33,10 +33,9 @@ TEST(MC, WLTMMC_Ideal) {
   // ditto const double boxl = 12, beta = 1, rhoMid = double(nMolMax)/2/pow(boxl,s.dimen()), activ = rhoMid, rCut = 3, rAbove = 3, rBelow = 1;
   const double boxl = 6, beta = 1, rhoMid = double(nMolMax)/2/pow(boxl,s.dimen()), activ = rhoMid, rCut = 3, rAbove = 3, rBelow = 1;
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
-  s.addMolInit("../forcefield/data.atom");
-  for (int i = 0; i < nMolMin; ++i) s.addMol("../forcefield/data.atom");
   PairIdeal p(&s, rCut);
   p.initData("../forcefield/data.atom");
+  for (int i = 0; i < nMolMin; ++i) p.addMol();
   p.rCutijset(0, 0, p.rCut());
   CriteriaWLTMMC c(beta, activ,"nmol",nMolMin-0.5,nMolMax+0.5,nMolMax-nMolMin+1);
   c.collectInit();
@@ -352,7 +351,6 @@ TEST(MC, nseek) {
 TEST(MC, nSeekWithPressure) {
   Space space(3, 0);
   space.lset(8);
-  space.addMolInit("../forcefield/data.lj");   // add one molecule in order to initialize ntype array
   /// PairLJMulti pair(&space, 3.);
   PairHardSphere pair(&space);
   pair.initData("../forcefield/data.lj");
@@ -377,11 +375,10 @@ TEST(MC, nseekSPCEnoEwald) {
   // initialize
   Space s(3,0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
-  s.addMolInit("../forcefield/data.spce");   // add one molecule in order to initialize ntype array
   PairLJCoulEwald p(&s, rCut);
   p.removeEwald();
   //p.initBulkSPCE(5.6, 38);
-  p.initLMPData("../forcefield/data.spce");
+  p.initData("../forcefield/data.spce");
   CriteriaWLTMMC c(beta, activ,"nmol",0-0.5,nMolMax+0.5,nMolMax+1);
   MC mc(&s,&p,&c);
   transformTrial(&mc, "translate");
@@ -398,9 +395,8 @@ TEST(MC, equltl43muvttmmcANDinitWindows) {
   const int nMolMax = 50, nMolMin = 10, npr = 200;
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
-  s.addMolInit("../forcefield/data.equltl43");
   PairLJ p(&s, pow(2, 1./6.));
-  p.initLMPData("../forcefield/data.equltl43");
+  p.initData("../forcefield/data.equltl43");
   p.cutShift(1);
   p.lrcFlag = 0;
   p.checkEnergy(1e-9, 1);
@@ -461,9 +457,8 @@ TEST(MC, wltmmccloneANDreconstruct) {
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(9,dim);
   // s.readXYZBulk(4, "../forcefield/data.equltl43", "../unittest/equltl43/two.xyz");
-  s.addMolInit("../forcefield/data.equltl43");
   PairLJ p(&s, pow(2, 1./6.));
-  p.initLMPData("../forcefield/data.equltl43");
+  p.initData("../forcefield/data.equltl43");
   p.cutShift(1);
   p.lrcFlag = 0;
   p.checkEnergy(1e-9, 1);
@@ -513,17 +508,16 @@ TEST(MC, wltmmccloneANDreconstruct) {
 //TEST(MC, mchybrid) {
 //  Space s(3, 0);
 //  for (int dim=0; dim < s.dimen(); ++dim) s.lset(8,dim);
-//  s.addMolInit("../forcefield/data.cg3_60_43_1");
 //  s.updateCells(3.);
 //  PairLJMulti pLJ(&s, 3);
-//  pLJ.initLMPData("../forcefield/data.cg3_60_43_1");
+//  pLJ.initData("../forcefield/data.cg3_60_43_1");
 //  pLJ.epsijset(1, 2, 0.);
 //  pLJ.epsijset(2, 1, 0.);
 //  pLJ.epsijset(2, 2, 0.);
 //  pLJ.linearShift(1);
 //  pLJ.initEnergy();
 //  PairLJMulti pWCA(&s, pow(2, 1./6.));
-//  pWCA.initLMPData("../forcefield/data.cg3_60_43_1");
+//  pWCA.initData("../forcefield/data.cg3_60_43_1");
 //  pWCA.epsijset(1, 1, 0.);
 //  pWCA.cutShift(1);
 //  pWCA.initEnergy();
@@ -550,7 +544,7 @@ TEST(MC, wltmmccloneANDreconstruct) {
 //
 //  // new pair style in one instead of hybrid
 //  PairLJMulti pLJnew(&s, 3);
-//  pLJnew.initLMPData("../forcefield/data.cg3_60_43_1");
+//  pLJnew.initData("../forcefield/data.cg3_60_43_1");
 //  pLJnew.rCutijset(0, 0, 0.);
 //  pLJnew.rCutijset(0, 1, 0.);
 //  pLJnew.rCutijset(0, 2, 0.);
@@ -596,7 +590,6 @@ TEST(MC, wltmmccloneANDreconstruct) {
 
 TEST(MC, b2hardsphere) {
   Space s(3, 0);
-  s.addMolInit("../forcefield/data.lj");
   PairHardSphere p(&s);
   p.initData("../forcefield/data.lj");
   CriteriaMetropolis c(1, 1);

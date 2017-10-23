@@ -27,12 +27,15 @@ namespace feasst {
  * an empirical, classical potential function for atoms.
  * This class owns variables and functions associated with these interactions
  * such as the forces, potential energy and virial (pressure).
- * Dimensionless units are employed such that the characteristic energy-scale
- * and length-scale of the model are unity, as well as unit mass.
  *
- * The virtual function "initEnergy()" does the main work of calculating the
- * pair-wise interactions, and is defined in the derived classes for various
- * pair-wise interaction expressions.
+ * In order to create a custom Pair, you can follow two similar procedures.
+ *
+ * First, you may define a custom Pair code in the same file as
+ * "int main()" for C++. See an example of this for the Jagla potential
+ * <a href="testcase/2_jagla_README.html">test case</a>.
+ *
+ * Second, you may copy existing "pair_*" files and replace the class name
+ * and header guards (e.g. BASECLASS_DERIVED_H_).
  */
 class Pair : public BaseRandom {
  public:
@@ -134,6 +137,9 @@ class Pair : public BaseRandom {
 
   /// Add particle(s).
   virtual void addPart() { addPartBase_(); }
+  virtual void addMol(const char* fileName) { 
+    space_->addMol(fileName); addPartBase_(); }
+  virtual void addMol() { space_->addMol(); addPartBase_(); }
 
   /// flag to compute standard long range corrections
   // HWH: move to pair_lj.h
@@ -204,10 +210,12 @@ class Pair : public BaseRandom {
 
   /// Initialize parameters with data file. Automatically searches file
   /// extensions for JSON ".json", and otherwise attempts LAMMPS data file.
+  /// Also uses the data file to initialize the Space class.
   virtual void initData(const string fileName);
 
   /// Initialize parameters with data file. Automatically searches file
   /// extensions for JSON ".json", and otherwise attempts LAMMPS data file.
+  /// Also uses the data file to initialize the Space class.
   virtual void initData(const char* fileName) { initData(string(fileName)); }
 
   /// Initialize parameters with LAMMPS data file.
@@ -300,7 +308,9 @@ class Pair : public BaseRandom {
   void initIntraBonded(const int flag);
 
   /// Read particle positions from XYZ file format.
-  virtual void readxyz(std::ifstream& file) { space_->readxyz2(file); }
+  virtual void readxyz(std::ifstream& file) {
+    space_->readxyz2(file);
+    addPart(); }
 
   /// Print a table file based on the potential.
   /// @param sigFac sigFac*sig is minimum separation distance
@@ -381,7 +391,10 @@ class Pair : public BaseRandom {
   /// Constructor using restart file
   Pair(Space* space, const char* fileName);
   virtual ~Pair() {}
-  virtual Pair* clone(Space* space) const = 0;
+  virtual Pair* clone(Space* space) const {
+    if (space == nullptr) {};  // remove unused parameter warning
+    ASSERT(0, "clone not implemented");
+    return nullptr; }
 
   /// reset space pointer
   virtual void reconstruct(Space* space);

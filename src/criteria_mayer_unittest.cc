@@ -20,15 +20,14 @@
 TEST(CriteriaMayer, ref) {
   feasst::Space space(3, 0);
   space.lset(8);
-  space.addMolInit("../forcefield/data.lj");
-  vector<double> xAdd(3, 0.);
-  space.xAdd = xAdd;
-  space.addMol("../forcefield/data.lj");
-  xAdd[0] = 1.1;
-  space.xAdd = xAdd;
-  space.addMol("../forcefield/data.lj");
   feasst::PairSquareWell pair(&space, 2.);
   pair.initData("../forcefield/data.lj");
+  vector<double> xAdd(3, 0.);
+  space.xAdd = xAdd;
+  pair.addMol();
+  xAdd[0] = 1.1;
+  space.xAdd = xAdd;
+  pair.addMol();
   pair.rCutijset(0, 0, 2.);
   pair.initEnergy();
 

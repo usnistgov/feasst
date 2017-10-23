@@ -86,7 +86,6 @@ TEST(PairPatchKF, patchKFmirrorAnalytical) {
 TEST(MC, PairPatchKF) {
   feasst::Space space;
   space.lset(8);
-  space.addMolInit("../forcefield/data.onePatch");
   feasst::PairPatchKF pair(&space, 2., 90);
   pair.initData("../forcefield/data.onePatch");
   pair.initEnergy();

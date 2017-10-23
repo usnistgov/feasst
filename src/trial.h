@@ -24,6 +24,13 @@ namespace feasst {
 
 /**
  * Trial move for Monte Carlo simulations.
+ *
+ * In order to create a new Trial derived class, copy an existing set of
+ * "trial_*" files and replace the class name and header guards
+ * (e.g. BASECLASS_DERIVED_H_).
+ * 
+ * The MC class only knows the base Trial class. In some cases you may need to
+ * add a feature to the base Trial class, but try to avoid this if possible.
  */
 class Trial : public BaseRandom {
  public:

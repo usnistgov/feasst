@@ -23,6 +23,15 @@ class WLTMMC;
 /**
  * This is the base class used to write custom analysis code.
  * Operates on the Space and Pair class periodically and prints results.
+ *
+ * In order to create a custom Analysis, you can follow two similar procedures.
+ *
+ * First, you may define a custom Analysis code in the same file as
+ * "int main()" for C++. See an example of this in the canonical LJ
+ * <a href="testcase/1_lj_2_nvt-mc_README.html">test case</a>.
+ *
+ * Second, you may copy existing "analyze_*" files and replace the class name
+ * and header guards (e.g. BASECLASS_DERIVED_H_).
  */
 class Analyze : public BaseRandom {
  public:

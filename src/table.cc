@@ -17,6 +17,7 @@ namespace feasst {
 Table::Table() {
   defaultConstruction_();
 }
+
 Table::Table(const char* fileName) {
   defaultConstruction_();
   tabDims_ = fstoi("tabDims", fileName);
@@ -198,16 +199,10 @@ Table::~Table() {
   #endif  // GSL_
 }
 
-/**
- * defaults in constructor
- */
 void Table::defaultConstruction_() {
-  setInterpolator("linear");
+  setInterpolator();
 }
 
-/**
- * 1D interpolation
- */
 double Table::interpolate(const double val0) {
   const int i0 = (val0 - tablim_[0][0]) / d0_;
   int i02 = i0 + 1;
@@ -239,9 +234,6 @@ double Table::interpolate(const double val0) {
   return -1;
 }
 
-/**
- * 1D interpolation
- */
 double Table::interpolate(const double val0, double *deriv) {
 //  const int i0 = (val0 - tablim_[0][0]) / d0_;
 //  int i02 = i0 + 1;
@@ -261,9 +253,6 @@ double Table::interpolate(const double val0, double *deriv) {
   return -1;
 }
 
-/**
- * bilinear interpolation
- */
 double Table::interpolate(const double val0, const double val1) {
   // cout << "d0 " << d0_ << " d1 " << d1_ << endl;
   const int i0 = (val0 - tablim_[0][0]) / d0_;
@@ -291,9 +280,6 @@ double Table::interpolate(const double val0, const double val1) {
   return c0*(1-xd1)+xd1*c1;
 }
 
-/**
- * trilinear interpolation
- */
 double Table::interpolate(const double val0, const double val1,
   const double val2) {
   // cout << "d0 " << d0_ << " d1 " << d1_ << " d2 " << d2_ << endl;
@@ -342,9 +328,6 @@ double Table::interpolate(const double val0, const double val1,
   return c0*(1-xd2)+xd2*c1;
 }
 
-/**
- * 4D linear interpolation
- */
 double Table::interpolate(const double val0, const double val1,
   const double val2, const double val3) {
   const int i0 = (val0 - tablim_[0][0]) / d0_;
@@ -404,9 +387,6 @@ double Table::interpolate(const double val0, const double val1,
   return c0*(1-xd3)+xd3*c1;
 }
 
-/**
- * 5D linear interpolation
- */
 double Table::interpolate(const double val0, const double val1,
   const double val2, const double val3, const double val4) {
   // cout << "d0 " << d0_ << " d1 " << d1_ << " d2 " << d2_ << " d3 " << d3_
@@ -506,9 +486,6 @@ double Table::interpolate(const double val0, const double val1,
   return c0*(1-xd4)+xd4*c1;
 }
 
-/**
- * 6D linear interpolation
- */
 double Table::interpolate(const double val0, const double val1,
   const double val2, const double val3, const double val4, const double val5) {
   // cout << "d0 " << d0_ << " d1 " << d1_ << " d2 " << d2_ << " d3 " << d3_
@@ -655,9 +632,6 @@ double Table::interpolate(const double val0, const double val1,
   return c0*(1-xd5)+xd5*c1;
 }
 
-/**
- * compute minimum value in table
- */
 double Table::compute_min() const {
   if (tabDims_ == 1) {
     return *std::min_element(tab1_.begin(), tab1_.begin()+tab1_.size());
@@ -683,9 +657,6 @@ double Table::compute_min() const {
   return -1;
 }
 
-/**
- * compute minimium values as a function of one table dimension, dim
- */
 void Table::compute_min_compress1d(const int dim) {
   ASSERT(tabDims_ == 4, "ERROR: compute_min_compress1d in Table class cannot be"
     << "utilized with tabDims(" << tabDims_ << ").");
@@ -708,9 +679,6 @@ void Table::compute_min_compress1d(const int dim) {
   }
 }
 
-/**
- * compute maximum value in table
- */
 double Table::compute_max() const {
   if (tabDims_ == 3) {
     return maxElement(tab3_);
@@ -725,9 +693,6 @@ double Table::compute_max() const {
   }
 }
 
-/**
- * print table in hdf5 format
- */
 void Table::printHDF5(const char* fileName) {
 #ifdef HDF5_
   const int tabDims_ = 3;
@@ -821,9 +786,6 @@ void Table::printHDF5(const char* fileName) {
 #endif  // HDF5_
 }
 
-/**
- * for a given bin, return the abscissae ("x")
- */
 double Table::bin2abs(const int bin) {
   return tablim_[0][0] + bin*d0_;
 }
@@ -902,9 +864,6 @@ void Table::solveSpline(const char* endCondition) {
   //cout << "done inits" << endl;
 }
 
-/**
- * set the interpolator
- */
 void Table::setInterpolator(const char* name) {
   interpolator_.assign(name);
   string interpStr(name);
@@ -925,9 +884,6 @@ void Table::setInterpolator(const char* name) {
   }
 }
 
-/**
- * initialize table for f(x) = erfc(alpha*r)/r
- */
 void erftable::init(const double alpha, const double rCut) {
   n_ = 2e5;
   ds_ = pow(2*rCut, 2)/static_cast<double>(n_);
@@ -938,9 +894,6 @@ void erftable::init(const double alpha, const double rCut) {
   }
 }
 
-/**
- * evaluate tabular eror function
- */
 double erftable::eval(const double x) const {
   const double sds = x / ds_;
   const int k = static_cast<int>(sds);

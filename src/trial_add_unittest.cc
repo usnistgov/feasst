@@ -28,10 +28,8 @@ TEST(TrialAdd, confine) {
   // Initialize LJ interactions
   const double rCut = 3.;
   PairLJMulti pair(&space, rCut);
-  space.addMolInit(addMol.str());
-  pair.initLMPData(addMol.str());
-  space.addMolInit(addWall.str());
-  pair.initLMPData(addWall.str());
+  pair.initData(addMol.str());
+  pair.initData(addWall.str());
   pair.epsijset(1, 1, 0.);  //!< turn off Wall-Wall interactions
   pair.linearShift();
 

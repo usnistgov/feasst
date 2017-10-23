@@ -36,9 +36,8 @@ void testVec(vector<vector<vector<vector<long long> > > > vec, vector<vector<vec
 TEST(Analyze, constructANDproduction) {
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(90,dim);
-  s.addMolInit("../forcefield/data.cg4_mab");
   PairHardSphere p(&s);
-  p.initLMPData("../forcefield/data.cg4_mab");
+  p.initData("../forcefield/data.cg4_mab");
   s.updateCells(p.rCutMaxAll());
   p.Forces();
   CriteriaMetropolis c(1, exp(-1));

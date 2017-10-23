@@ -410,6 +410,7 @@ class CriteriaWLTMMC : public Criteria {
   Accumulator pe(const int bin) { return pe_[bin]; }
   double lnfCollect() const { return lnfCollect_; }
   vector<double> peMUVT() { lnPIenergyIso(); return peMUVT_; }
+  vector<shared_ptr<CriteriaWLTMMC> > crits() { return crits_; }
 
   /// Construct by checkpoint file.
   explicit CriteriaWLTMMC(const char* fileName);

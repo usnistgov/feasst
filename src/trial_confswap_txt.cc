@@ -20,12 +20,14 @@ namespace feasst {
 TrialConfSwapTXT::TrialConfSwapTXT() : Trial() {
   defaultConstruction_();
 }
+
 TrialConfSwapTXT::TrialConfSwapTXT(
   Pair *pair,
   Criteria *criteria)
   : Trial(pair, criteria) {
   defaultConstruction_();
 }
+
 TrialConfSwapTXT::TrialConfSwapTXT(const char* fileName,
   Pair *pair,
   Criteria *criteria)
@@ -33,17 +35,11 @@ TrialConfSwapTXT::TrialConfSwapTXT(const char* fileName,
   defaultConstruction_();
 }
 
-/**
- * write restart file
- */
 void TrialConfSwapTXT::writeRestart(const char* fileName) {
   writeRestartBase(fileName);
   std::ofstream file(fileName, std::ios_base::app);
 }
 
-/**
- * defaults
- */
 void TrialConfSwapTXT::defaultConstruction_() {
   className_.assign("TrialConfSwapTXT");
   trialType_.assign("move");
@@ -54,9 +50,6 @@ void TrialConfSwapTXT::defaultConstruction_() {
   }
 }
 
-/**
- * randomly to swap configurations with inter or intra processor stored state
- */
 void TrialConfSwapTXT::attempt1_() {
   // obtain currentOrder, the current order parameter for the simulation
   double currentOrder = -1;
@@ -147,7 +140,7 @@ void TrialConfSwapTXT::attempt1_() {
   }
 }
 
-/**
+/*
  * add nMol which overlaps with a given processor
  */
 void TrialConfSwapTXT::addProcOverlap(

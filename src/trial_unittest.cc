@@ -120,7 +120,6 @@ TEST(Trial, allmoves) {
 
   Space sID(3,2);
   sID.init_config(12);
-  sID.addMolInit("../forcefield/data.atom");
   PairIdeal pID(&sID, 5);
   pID.initData("../forcefield/data.atom");
   pID.rCutijset(0, 0, pID.rCut());

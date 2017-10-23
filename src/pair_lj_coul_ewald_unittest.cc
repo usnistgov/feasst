@@ -354,9 +354,9 @@ TEST(PairLJCoulEwald, PairLJCoulEwaldInitLMPData) {
   PairLJCoulEwald p1(&s, 10);
   p1.initBulkSPCE(5.6, 38);
 
-  // second pair uses new initLMPData method
+  // second pair uses new initData method
   PairLJCoulEwald p2(&s, 10);
-  p2.initLMPData("../forcefield/data.spce");
+  p2.initData("../forcefield/data.spce");
   p2.initKSpace(5.6, 38);
 
   EXPECT_NEAR(p1.q()[0], p2.q()[0], DTOL);

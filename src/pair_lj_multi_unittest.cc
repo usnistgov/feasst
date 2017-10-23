@@ -13,7 +13,7 @@
 
 using namespace feasst;
 
-TEST(Pair, WCAanalytical) {
+TEST(PairLJMulti, WCAanalytical) {
 
   // WCA for sig=1 and 0.85
   for (double sig = 0.85; sig < 1.01; sig += 0.15) {
@@ -34,7 +34,7 @@ TEST(Pair, WCAanalytical) {
     stringstream ss;
     ss << "../forcefield/data.lj";
     if (sig == 0.85) ss << "s0.85";
-    p.initLMPData(ss.str().c_str());
+    p.initData(ss.str().c_str());
     p.initWCA(0,0);
 
     if (sig == 1) {
@@ -61,18 +61,17 @@ TEST(Pair, WCAanalytical) {
   }
 }
 
-TEST(Pair, cg3analytical) {
+TEST(PairLJMulti, cg3analytical) {
   const double rCut = 3;
   Space s(3, 0);
-  s.addMolInit("../forcefield/data.cg3_60_1_1");
+  PairLJMulti p(&s, rCut);
+  p.initData("../forcefield/data.cg3_60_1_1");
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
-  s.addMol("../forcefield/data.cg3_60_1_1");
+  p.addMol();
   x[0] = 2.;
   s.xAdd = x;
-  s.addMol("../forcefield/data.cg3_60_1_1");
-  PairLJMulti p(&s, rCut);
-  p.initLMPData("../forcefield/data.cg3_60_1_1");
+  p.addMol();
   p.rCutijset(1, 1, rCut);
   p.linearShiftijset(1, 1, 1);
   p.initWCA(1, 2);
@@ -81,20 +80,19 @@ TEST(Pair, cg3analytical) {
   EXPECT_NEAR(p.peTot(), 0.95489983432133096, DTOL);
 }
 
-TEST(Pair, LJYanalytical) {
+TEST(PairLJMulti, LJYanalytical) {
   const double rCut = 3;
   Space s(3, 0);
-  s.addMolInit("../forcefield/data.lj");
+  PairLJMulti p(&s, rCut);
+  p.initData("../forcefield/data.lj");
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
-  s.addMol("../forcefield/data.lj");
+  p.addMol();
   x[0] = 2.;
   s.xAdd = x;
-  s.addMol("../forcefield/data.lj");
-  PairLJMulti p(&s, rCut);
+  p.addMol();
   p.initExpType(1);
   p.initScreenedElectro(2, 0.5);
-  p.initLMPData("../forcefield/data.lj");
   p.linearShift(0);
   p.lrcFlag = 0;
   p.initEnergy();
@@ -104,17 +102,16 @@ TEST(Pair, LJYanalytical) {
   EXPECT_NEAR(p.peTot(), 0.094226110309604982, DTOL);
 }
 
-TEST(Pair, MMLJanalytical) {
+TEST(PairLJMulti, MMLJanalytical) {
   Space s(3, 0);
-  s.addMolInit("../forcefield/data.cg3_91_0.57_2");
+  PairLJMulti p(&s, 3);
+  p.initData("../forcefield/data.cg3_91_0.57_2");
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
-  s.addMol("../forcefield/data.cg3_91_0.57_2");
+  p.addMol();
   x[0] = 2.*0.85;
   s.xAdd = x;
-  s.addMol("../forcefield/data.cg3_91_0.57_2");
-  PairLJMulti p(&s, 3);
-  p.initLMPData("../forcefield/data.cg3_91_0.57_2");
+  p.addMol();
   p.rCutijset(1, 1, 3);
   p.linearShiftijset(1, 1, 1);
   p.initWCA(1, 2);
@@ -128,7 +125,7 @@ TEST(Pair, MMLJanalytical) {
   EXPECT_NEAR(p.peTot(), -0.676951777428172000 + 66.449659060736600000, 1000*DTOL);
 }
 
-TEST(Pair, cg3exampleConfig) {
+TEST(PairLJMulti, cg3exampleConfig) {
   const double rCut = 3;
   Space s(3, 0);
   s.addMolInit("../forcefield/data.cg3_60_1_1");
@@ -137,7 +134,7 @@ TEST(Pair, cg3exampleConfig) {
   EXPECT_EQ(50, s.nMol());
   vector<double> x(s.dimen(), 0.);
   PairLJMulti p(&s, rCut);
-  p.initLMPData("../forcefield/data.cg3_60_1_1");
+  p.initData("../forcefield/data.cg3_60_1_1");
   p.rCutijset(1, 1, rCut);
   p.linearShiftijset(1, 1, 1);
   p.rCutijset(1, 2, pow(2, 1./6.));
@@ -148,20 +145,19 @@ TEST(Pair, cg3exampleConfig) {
   EXPECT_NEAR(p.peTot(), -108.25895014589899, DTOL);
 }
 
-TEST(Pair, cg3analyticalAlpha128) {
+TEST(PairLJMulti, cg3analyticalAlpha128) {
   const double rCut = 1.08;
   Space s(3, 0);
   string addMolType("../forcefield/data.cg3_91_0.57_2");
-  s.addMolInit(addMolType.c_str());
+  PairLJMulti p(&s, rCut);
+  p.initData(addMolType.c_str());
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
-  s.addMol(addMolType.c_str());
+  p.addMol();
   x[1] = 1.22;
   s.xAdd = x;
-  s.addMol(addMolType.c_str());
+  p.addMol();
 
-  PairLJMulti p(&s, rCut);
-  p.initLMPData(addMolType.c_str());
   p.initExpType(4); // alpha=128
   p.rCutijset(1, 1, rCut);
   p.linearShiftijset(1, 1, 1);
@@ -199,7 +195,7 @@ TEST(Pair, cg3analyticalAlpha128) {
   EXPECT_EQ(1, p.checkEnergy(DTOL, 2));
 }
 
-//TEST(Pair, marcoMAB) {
+//TEST(PairLJMulti, marcoMAB) {
 //  const double boxl = 30, rCut = 3, rCutLJ = 2;
 //  std::ostringstream addMolType("../forcefield/data.mab1");
 //  Space s(3, 0);
@@ -218,7 +214,7 @@ TEST(Pair, cg3analyticalAlpha128) {
 //
 //  PairHybrid p(&s, 0.);
 //  PairLJMulti pLJ(&s, rCutLJ);
-//  pLJ.initLMPData(addMolType.str().c_str());
+//  pLJ.initData(addMolType.str().c_str());
 //  pLJ.initExpType(1);
 //  for (int i = 0; i < s.nParticleTypes(); ++i) {
 //    for (int j = i; j < s.nParticleTypes(); ++j) {
@@ -231,7 +227,7 @@ TEST(Pair, cg3analyticalAlpha128) {
 //  p.addPair(&pLJ);
 //
 //  PairLJMulti pCC(&s, rCut);
-//  pCC.initLMPData(addMolType.str().c_str());
+//  pCC.initData(addMolType.str().c_str());
 //  pCC.initScreenedElectro(1, 1, 2);
 //  for (int i = 0; i < s.nParticleTypes(); ++i) {
 //    for (int j = i; j < s.nParticleTypes(); ++j) {
@@ -250,20 +246,19 @@ TEST(Pair, cg3analyticalAlpha128) {
 //  EXPECT_NEAR(-0.3424421004334772E+01, p.peTot(), DTOL);
 //}
 
-TEST(Pair, LJSlowGaussian) {
+TEST(PairLJMulti, LJSlowGaussian) {
   const double rCut = 3.00;
   Space s(3, 0);
   string addMolType("../forcefield/data.lj");
-  s.addMolInit(addMolType.c_str());
+  PairLJMulti p(&s, rCut);
+  p.initData(addMolType.c_str());
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
-  s.addMol(addMolType.c_str());
+  p.addMol();
   x[1] = pow(2,1./6.);
   s.xAdd = x;
-  s.addMol(addMolType.c_str());
+  p.addMol();
 
-  PairLJMulti p(&s, rCut);
-  p.initLMPData(addMolType.c_str());
   p.lrcFlag = 0;
   p.cutShift(0);
   p.initEnergy();
@@ -287,21 +282,20 @@ TEST(Pair, LJSlowGaussian) {
   EXPECT_NEAR(p.peTot(), p2.peTot(), 10000*DTOL);
 }
 
-TEST(Pair, LJSlowLambda) {
+TEST(PairLJMulti, LJSlowLambda) {
   const double rCut = 3.00;
   Space s(2, 0);
   for (int dim = 0; dim < s.dimen(); ++dim) s.lset(9, dim);
   string addMolType("../forcefield/data.lj");
-  s.addMolInit(addMolType.c_str());
+  PairLJMulti p(&s, rCut);
+  p.initData(addMolType.c_str());
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
-  s.addMol(addMolType.c_str());
+  p.addMol();
   x[1] = pow(2,1./6.);
   s.xAdd = x;
-  s.addMol(addMolType.c_str());
+  p.addMol();
 
-  PairLJMulti p(&s, rCut);
-  p.initLMPData(addMolType.c_str());
   p.setLambdaij(0,0,1);
   p.lrcFlag = 0;
   p.cutShift(1);
@@ -326,23 +320,22 @@ TEST(Pair, LJSlowLambda) {
   EXPECT_NEAR(p.peTot(), p2.peTot(), 10000*DTOL);
 }
 
-TEST(Pair, sigrefAnalytical) {
+TEST(PairLJMulti, sigrefAnalytical) {
   const double rCut = 3.3;
   Space s(3, 0);
   string addMolType("../forcefield/data.ljs0.85");
   //string addMolType("../forcefield/data.isobutane_trappe");
-  s.addMolInit(addMolType.c_str());
+  PairLJMulti p(&s, rCut);
+  p.setSigRefFlag(1);
+  p.initData(addMolType.c_str());
 
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
-  s.addMol(addMolType.c_str());
+  p.addMol();
   x[1] = 1.22;
   s.xAdd = x;
-  s.addMol(addMolType.c_str());
+  p.addMol();
 
-  PairLJMulti p(&s, rCut);
-  p.setSigRefFlag(1);
-  p.initLMPData(addMolType.c_str());
   p.initExpType(1); // alpha1:12
   p.setLambdaij(0, 0, -1);
 
@@ -388,21 +381,20 @@ TEST(Pair, sigrefAnalytical) {
   delete pcut;
 }
 
-TEST(Pair, InitAlphaAnalytical) {
+TEST(PairLJMulti, InitAlphaAnalytical) {
   const double rCut = 1e4;
   Space s(3, 0);
   string addMolType("../forcefield/data.lj");
-  s.addMolInit(addMolType.c_str());
+  PairLJMulti p(&s, rCut);
+  p.initData(addMolType.c_str());
 
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
-  s.addMol(addMolType.c_str());
+  p.addMol();
   x[1] = 1.22;
   s.xAdd = x;
-  s.addMol(addMolType.c_str());
+  p.addMol();
 
-  PairLJMulti p(&s, rCut);
-  p.initLMPData(addMolType.c_str());
   p.initAlpha(5.5);
 
   PairLJMulti *pcut = p.clone(&s);

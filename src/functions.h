@@ -44,8 +44,18 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 #define NUM_INF std::numeric_limits<double>::max()/1e10
+#define MAX_PRECISION std::setprecision(std::numeric_limits<double>::digits10+2)
 
 /// If the assertion condition is not true, throw exception with message.
+#ifdef FEASST_NAMESPACE_
+# define ASSERT(condition, message) \
+if (! (condition)) { \
+  std::stringstream err_msg; \
+  err_msg << "# Assertion `" #condition "` failed in " << __FILE__ \
+            << " line " << __LINE__ << ": " << message; \
+  feasst::CustomException c(err_msg); \
+}
+#else  // FEASST_NAMESPACE_
 # define ASSERT(condition, message) \
 if (! (condition)) { \
   std::stringstream err_msg; \
@@ -53,6 +63,7 @@ if (! (condition)) { \
             << " line " << __LINE__ << ": " << message; \
   CustomException c(err_msg); \
 }
+#endif  // FEASST_NAMESPACE_
 
 /// If the warning condition is true, send message to standard output.
 # define WARN(condition, message) \

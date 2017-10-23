@@ -1,9 +1,24 @@
+#!/usr/bin/env bash
 DES=testcase
 mkdir -p $DES
-for file in `find ../testcase/ -name *cc | grep -v "bak"`; do
+
+for file in `find ../testcase -name *cc | grep -v "bak"`; do
   newfile=$DES/`echo $file | sed 's/\.\.\/testcase\///' | sed 's/\//_/g'`
   ../tools/cc2gtest.sh $file $newfile
-  #echo $file
-  #echo $newfile
+done
+
+for file in `find ../testcase -name *README.rst | grep -v "bak"`; do
+  DIR=$(dirname "${file}" | sed 's/\.\.\///' | sed 's/\//\\\//g')
+  newfile=$DES/`echo $file | sed 's/\.\.\/testcase\///' | sed 's/\//_/g'`
+  cat $file | sed "s/AUTO_GEN_DIR/$DIR/" > $newfile
+done
+
+# finally, test that there are no broken HTML links
+for file in `ls ../src/*cc ../src/*h`; do
+  rstfile=`grep "<a href=" $file | sed 's/html/rst/' | sed 's/\(.*\)<a href=\"\(.*\)\">\(.*\)<\/a>\(.*\)/\2/'`
+  if [ ! -f $rstfile ]; then
+    echo "ERROR: Broken HTML link in file $file which references $rstfile"
+    exit
+  fi
 done
 

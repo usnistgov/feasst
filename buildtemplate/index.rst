@@ -9,13 +9,15 @@ Contents:
    :align: right
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
    readme
    testcase
    api
+   faq
    dev
-   notes
+   contrib
+   contact
 
 Indices and tables
 ==================

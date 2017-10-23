@@ -8,11 +8,6 @@
  * appropriate acknowledgments of NIST’s creation of the data/software.
  */
 
-/**
- * \file
- *
- * \brief data table with interpolation
- */
 #ifndef TABLE_H_
 #define TABLE_H_
 
@@ -31,45 +26,61 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/**
+ * Data tables with interpolation
+ */
 class Table {
  public:
+  /// Constructor
   Table();
-  explicit Table(const char* fileName);
-  virtual ~Table();
-  virtual Table* clone() const { Table* p = new Table(*this); return p; }
 
-  /// linear interpolation
+  /// Set the interpolator.
+  void setInterpolator(const char* name = "linear");
+
+  /// 1D interpolation
   double interpolate(const double val0);
+
+  // 1D interpolation and return the derivative (GSL only).
   double interpolate(const double val0, double *deriv);
+
+  // 2D interpolation
   double interpolate(const double val0, const double val1);
+
+  // 3D interpolation
   double interpolate(const double val0, const double val1, const double val2);
+
+  // 4D interpolation
   double interpolate(const double val0, const double val1, const double val2,
                      const double val3);
+
+  // 5D interpolation
   double interpolate(const double val0, const double val1, const double val2,
                      const double val3, const double val4);
+
+  // 6D interpolation
   double interpolate(const double val0, const double val1, const double val2,
                      const double val3, const double val4, const double val5);
 
-  /// compute minimum value in table
+  /// Compute and return the minimum value in table.
   double compute_min() const;
+
+  /// Compute and return the maximum value in table.
   double compute_max() const;
 
-  /// compute minimium values as a function of one table dimension, dim
+  /// Compute minimium values as a function of one table dimension, dim.
   void compute_min_compress1d(const int dim);
 
   // return minimum value by interpolation of the first dimension
+  // HWH: Note depreciated/remove?
   double min(const double val0) { return interpolate(val0); }
 
-  /// print table in hdf5 format
+  /// Print table in hdf5 format.
   void printHDF5(const char* fileName);
 
-  /// set the interpolator
-  void setInterpolator(const char* name);
-
-  /// solve for the spline derivatives, assuming condition at end points
+  /// Solve for the spline derivatives, assuming condition at end points.
   void solveSpline(const char* endCondition);
 
-  /// for a given bin, return the abscissae ("x")
+  /// For a given bin, return the abscissae ("x").
   double bin2abs(const int bin);
 
   // functions for read-only access of private data-members
@@ -78,6 +89,11 @@ class Table {
   vector<vector<vector<double> > > tab3() const { return tab3_; }
   vector<vector<vector<vector<double> > > > tab4() const { return tab4_; }
   string interpolator() const { return interpolator_; }
+
+  /// Construct from restart file
+  explicit Table(const char* fileName);
+  virtual ~Table();
+  virtual Table* clone() const { Table* p = new Table(*this); return p; }
 
  protected:
   int tabDims_;             //!< number of dimensions in table
@@ -113,12 +129,26 @@ class Table {
   void defaultConstruction_();
 };
 
+/**
+ * Tabulate the complimentary error function as used by the Ewald Sum.
+ * erfc(alpha*r)/r
+ */
 class erftable {
  public:
+  /// Constructor
   erftable() {}
   ~erftable() {}
+
+  /**
+   * Initialize table for f(x) = erfc(alpha*r)/r
+   */
   void init(const double alpha, const double rCut);
+
+  /**
+   * evaluate tabular eror function
+   */
   double eval(const double x) const;
+
  private:
   vector<double> vtab_;
   int n_;

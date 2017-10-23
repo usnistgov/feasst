@@ -58,7 +58,7 @@ sphinx/_build/*
 
 #temporary files
 *tmp*
-src/trash
+trash/
 vmd
 *.bak
 *.log

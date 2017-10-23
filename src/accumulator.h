@@ -39,7 +39,8 @@ class Accumulator : public Base {
   double average() const;
 
   /// Return standard deviation e.g., fluctuation of all (correlated) values.
-  double stdev() const;
+  double std() const;
+  double stdev() const { return std(); }  // NOTE HWH: Depreciated
 
   /**
    * Set the size of a block to compute (uncorrelated) standard errors of the

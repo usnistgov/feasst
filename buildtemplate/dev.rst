@@ -1,9 +1,14 @@
 *************************
-Guidelines for Developers
+Guidelines for developers
 *************************
 
 Developers and contributors of FEASST may consider the following guidelines
 in order to simplying collaboration.
+
+Semantic versioning
+####################
+
+FEASST version policy follows Semantic Versioning 2.0.0 http://semver.org/spec/v2.0.0.html.
 
 Branch policies
 ###############
@@ -121,6 +126,26 @@ If there are a lot of errors, typically the best testing order would be::
     mc
     ui_*
 
+Debugging with GDB
+####################
+
+gdb is a very useful debugging tool, especially for identifying segfaults via backtraces. The -g flag in compliation pulls the symbols so that you can get correct line numbers in the gdb output.
+
+In bash
+
+.. code-block:: bash
+
+   gdb [program executable name]
+   r [flags]
+
+gdb can also be used with python as
+
+.. code-block:: bash
+
+   gdb python
+   r [python script] [optional flags]
+
+
 Find memory leaks with Valgrind
 #################################
 
@@ -157,6 +182,46 @@ https://google.github.io/styleguide/cppguide.html
 
 https://github.com/google/styleguide/tree/gh-pages/cpplint
 
+Packaging
+#####################
+
+git tag -a <version number>
+
+git archive master --prefix='feasst'`git describe master`'/' | gzip > feasst`git describe master`.tar.gz
+
+Documentation setup
+####################
+
+pip install sphinx
+pip install breathe
+doxygen with GENERATE_XML
+run sphinx-quickstart, enable autodoc
+add something like the following to your sphinx index.rst::
+
+    .. doxygenclass:: Nutshell
+       :project: nutshell
+       :members:
+
+add the following to your sphinx conf.py
+  extensions = [ "breathe" ]
+  breathe_projects = {"FEASST":"../xml"}
+
+pip install sphinx_rtd_theme
+
+run sphinx: make html
+
+For math in doxygen commends, use::
+
+    \f$ latex code here \f$
+
+Sphinx/Breathe/Doxygen tips
+############################
+
+* Link from rst file to C++ function: ``:cpp:func:`className::function()```
+* Link from rst file to fst file: ``:doc:`/testcaseljsrswnvt```
+* Link from C++ to C++: ``className::function()``
+* Link from C++ source to rst file: ``<a href="testcaseljsrswnvt.html" target="_black">test</a>``
+
 Philosophical questions and quotes
 #######################################
 
@@ -181,5 +246,49 @@ Quotes
 
 * "Do not copy and paste", Clancy Rowley, Princeton University Course APC524, 2010
 
+To do list
+#####################
 
+* json reader to server as 'input script' to launch simulations
+* json as checkpoint file
+* MD with stochastic dynamics integrator
+* Perfect checkpointing
+* Automated full-checkpoint testing
+* remove printPressure from mc/criteria, printBeta, pairOrder, floppyBox, etc
+* on the fly WL/TM lnPI error analysis ... accumulate 3 lnPIs by spliting each trial to each individual criteria class. Use them to compute all sorts of quantities.
+* for xyz2bin, in afterAttempt MC, use unique hash on log file and xyz configuration for error check
+  -- implmement with WLTMMC, use criteria to find order param column in log, then readxyz hash, find log hash match, demix conf based on the bin
+* have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)
+* combine pair_square_well, pair_hs, pair_hard_circle
+* remove periodicity from x/y/z dimensions (no rush here)
+* split functions.h into a variety of base_fileio, base_math, base_utils, etc
+* pairhybrid rCut should be taken from pairVec, or atleast rCutMaxAll
+* Eventually convert all raw pointers to shared pointers, which also allows removal of space from MC class
+* PairHybrid also doens't need a space pointer.
+* Use Histogram class for CriteriaWLTMMC instead of its own hard-coded version
+* To reduce the size of Space, have it inherit multiple base classes, e.g.,
+  Domain which contains box lengths and cell list, etc (but needs to know about particle positions?)
+* Fix nomenclature.. atom == particle, mol == ?.. maybe change to sites / particles
+* add ASSERT(rCutij.size() == 0 for linearShift in PairLJMulti so people don't run into issues with rCutij.clear
+* Numerical implementation of quadratic equation coudl help with config bias: https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation
+* Improve handling of default parameters for documentation and perhaps json (e.g. checkpointing above)?
+* Move Add/mod new classes to API with links from README to API
+* change initEnergy in most implementations to use Inner() and reduce code complexity/copied code.
+* implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).
+* runNumSweeps instead should have something where one generates the clones as vector<shrptr>, then runNumSweep takes these as input. That way one can modify the clones as one sees fit (also in multiprocessor restarts) before running the clones. It would take a lot of the hidden magic out without complicating the interface too drastically.
+* Fix GSL memory leaks
+* weekly tests -> test cases, perhaps run on a cluster with more processors?
+* add PairPatchKF and PairLJCoulEwald loops to Pair base class for molecule-center-based cut-offs before loops through particles,
+  Or make them more general (e.g., multi patch particles?).
+* Add verbosity level for printing debug messages
+* Document policy/checklist for bug reporting so that issues can be quickly reproduced
+* Automate updating of packages (e.g., documentation, push with hooks, etc).
+* List publications which use FEASST and also make a citation generator.
+* Monkey patch with python, and/or ability to pause run for analysis then continue on current number of steps.
+* move checkBond from MC to analyze class for rigid particle simulations (or as part of checkE?)
+* Move some analysis outside of space class
+  - but what if things like trials use the analysis, such as clusters?
+  - ""This trial requires MC to have an analyze class...""
+* MonkeyPatch swig python objects (e.g., Analyze like ljnvt testcase)
+* document log file and tuning, changing acceptance percentage
 

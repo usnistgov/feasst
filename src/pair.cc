@@ -1903,6 +1903,11 @@ void Pair::initJSONData(const string fileName) {
 #endif  // JSON_
 
 void Pair::initData(const std::string fileName) {
+  // check if space has not already initialized this data file
+  if (!findInList(fileName, space_->addMolListType())) {
+    space_->addMolInit(fileName);
+  }
+
   // use file extension to determine whether to use JSON or LMP data files
   if (trim(".", fileName) == "json") {
     #ifdef JSON_

@@ -16,19 +16,18 @@ using namespace feasst;
 TEST(PairHardCircle, hardCircle) {
   Space s(2, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(6,dim);
-  s.addMolInit("../forcefield/data.atom");
+  const double dCircle = 1., rDep = 0.05;
+  PairHardCircle p(&s, dCircle+2*rDep);
+  p.initData("../forcefield/data.atom");
 
   // add two particles with a certain distance separation
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
-  s.addMol("../forcefield/data.atom");
+  p.addMol();
   x[0] = 0.99;
   s.xAdd = x;
-  s.addMol("../forcefield/data.atom");
+  p.addMol();
 
-  const double dCircle = 1., rDep = 0.05;
-  PairHardCircle p(&s, dCircle+2*rDep);
-  p.initLMPData("../forcefield/data.atom");
   p.initRDep(rDep);
   p.rCutijset(0,0,dCircle+2*rDep);
   p.initEnergy();
@@ -63,7 +62,7 @@ TEST(PairHardCircle, hardCircle) {
   s.transMol(1, x);
   x[0] = 1;
   s.xAdd = x;
-  s.addMol("../forcefield/data.atom");
+  s.addMol();
   p.addPart();
   p.initEnergy();
   EXPECT_NEAR(2*-3.926608784061230000, p.peTot(), sqrt(DTOL));

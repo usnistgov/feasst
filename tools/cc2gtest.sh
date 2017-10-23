@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # converts C++ main file to gtest file
 # usage ./cc2gtest [fileName]
 
@@ -27,8 +28,8 @@ awk 'f&&/GETOPT/{print "{";f=0} !f; /parse command-line arguments using/{f=1}' $
 mv /tmp/tmp $DES
 
 # to begin, replace int main with GTEST macro
-sed --in-place 's/^int main(\(.*\)) {  \/\/ \(.*\)/TEST(\2) {/' $DES
+sed 's/^int main(\(.*\)) {  \/\/ \(.*\)/TEST(\2) {/' $DES > /tmp/tmp; mv /tmp/tmp $DES
 
 # now, replace ASSERT with GTEST macro
-sed --in-place 's/ASSERT(/CUSTOM_ASSERT(/' $DES
+sed 's/ASSERT(/CUSTOM_ASSERT(/' $DES > /tmp/tmp; mv /tmp/tmp $DES
 

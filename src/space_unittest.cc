@@ -550,7 +550,7 @@ TEST(Space, readDataSPCE) {
   vector<double> xAdd(s.dimen());
   s.xAdd = xAdd;
   s.addMol("../forcefield/data.spce");
-  //s.initLMPData("../forcefield/data.spce");
+  //s.initData("../forcefield/data.spce");
   EXPECT_EQ(3, s.natom());
   //EXPECT_NEAR(0.816496580927726000, s.x(1,0), 1e-15);
   EXPECT_NEAR(1, s.x(1,0), 1e-15);

@@ -43,6 +43,8 @@ breathe_projects = {
     "FEASST":"../xml"
     }
 
+breathe_domain_by_extension = {"h" : "cc"}
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 

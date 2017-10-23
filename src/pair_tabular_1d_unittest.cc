@@ -23,11 +23,11 @@ TEST(PairTabular1D, printReadTable) {
   PairLJMulti pp(&ss, rCut);
   PairTabular1D p(&ss);
   ss.addMolInit(addMolTypeA.c_str());
-  pp.initLMPData(addMolTypeA.c_str());
-  p.initLMPData(addMolTypeA.c_str());
+  pp.initData(addMolTypeA.c_str());
+  p.initData(addMolTypeA.c_str());
   ss.addMolInit(addMolTypeB.c_str());
-  pp.initLMPData(addMolTypeB.c_str());
-  p.initLMPData(addMolTypeB.c_str());
+  pp.initData(addMolTypeB.c_str());
+  p.initData(addMolTypeB.c_str());
   pp.initExpType(4);
   pp.setLambdaij(0,0, 0);    //lambdaAA=0
   pp.setLambdaij(0,1, 0.5);  //lambdaAB=0.5
@@ -65,13 +65,13 @@ TEST(PairTabular1D, interpolateForces) {
   string addMolType("../forcefield/data.lj");
   PairLJMulti pp(&s, rCut);
   s.addMolInit(addMolType.c_str());
-  pp.initLMPData(addMolType.c_str());
+  pp.initData(addMolType.c_str());
   pp.cutShift(1);
   pp.initEnergy();
   pp.printTable("tmp/ptab",1000,0.99);
 
   PairTabular1D p(&s);
-  p.initLMPData(addMolType.c_str());
+  p.initData(addMolType.c_str());
   p.readTable("tmp/ptab");
   p.setInterpolator("gslspline");
   p.initEnergy();

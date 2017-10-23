@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 SRC=$1
 DES="$(basename $SRC .cc)".py
 TMP=/tmp/tmp

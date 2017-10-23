@@ -16,7 +16,6 @@ using namespace feasst;
 TEST(PairHardSphere, rCut) {
   Space space;
   space.lset(20.);
-  space.addMolInit("../forcefield/data.lj");
   PairHardSphere pair(&space);
   pair.initData("../forcefield/data.lj");
   EXPECT_NEAR(pair.sig(0), 1., DTOL);
@@ -28,11 +27,10 @@ TEST(PairHardSphere, rCut) {
   // put down two particles at known separation
   vector<double> xAdd(space.dimen());
   space.xAdd = xAdd;
-  space.addMol();
+  pair.addMol();
   xAdd[0] = 1.05;
   space.xAdd = xAdd;
-  space.addMol();
-  pair.addPart();
+  pair.addMol();
   pair.initEnergy();
   EXPECT_NEAR(pair.peTot(), 0., DTOL);
 

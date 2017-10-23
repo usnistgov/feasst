@@ -17,19 +17,18 @@ TEST(PairSquareWell, mickeymouse) {
   const double rCut = 1.02;
   Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(20,dim);
-  s.addMolInit("../forcefield/data.cg3_91_0.57_2");
+  PairSquareWell p(&s, rCut);
+  p.initData("../forcefield/data.cg3_91_0.57_2");
   vector<double> xAdd(s.dimen());
   s.xAdd = xAdd;
-  s.addMol("../forcefield/data.cg3_91_0.57_2");
+  p.addMol();
   xAdd[1] = 2*0.266345520433943000 + 1.01;
   s.xAdd = xAdd;
-  s.addMol("../forcefield/data.cg3_91_0.57_2");
+  p.addMol();
   // flip
   s.qMolAlt(1, 0, 1);
   s.qMolAlt(1, 3, 0);
   s.quat2pos(1);
-  PairSquareWell p(&s, rCut);
-  p.initLMPData("../forcefield/data.cg3_91_0.57_2");
   p.rCutijset(1, 1, rCut);
   p.initHardSphere(1, 2);
   p.initHardSphere(2, 2);

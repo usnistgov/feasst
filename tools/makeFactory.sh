@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # This script makes the feasst.i and factories.cc files, depending on which header files are present.
 # usage: ./makeFactory.sh
 
 # Note that the following classes must be defined in a very specific order
-factoryBaseClasses="pair criteria analyze trial"
-baseClasses="custom_exception base table histogram accumulator space pair barrier shape criteria analyze trial mc"
+factoryBaseClasses="pair criteria analyze trial random"
+baseClasses="custom_exception random base table histogram accumulator space pair barrier shape criteria analyze trial mc"
 nonClasses="functions ui_abbreviated"
 
 ##############################
@@ -62,6 +62,7 @@ using namespace std;
 
 %pythonnondynamic;
 
+%shared_ptr(Base);
 EOF
 
 printTemplates()
@@ -245,7 +246,7 @@ printDoc()
 apifile=api.rst
 cat <<-EOF > $apifile
 ***********************************
-Application Program Interface (API)
+Application program interface (API)
 ***********************************
 
 This section describes the API which is available for use via C++ or python.

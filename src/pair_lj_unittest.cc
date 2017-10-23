@@ -120,7 +120,7 @@ TEST(PairLJ, equltl43muvttmmc) {
   PairLJ p(&s, pow(2, 1./6.));
   p.cutShift(1);
   p.lrcFlag = 0;
-  p.initLMPData("../forcefield/data.equltl43");
+  p.initData("../forcefield/data.equltl43");
   p.initEnergy();
   // energy should be equal to 3 wca beads touching at distance 1.1sig
   EXPECT_NEAR(3*(4*(pow(1.1,-12)-pow(1.1,-6))+1), p.peTot(), 1e-15);
@@ -144,13 +144,12 @@ TEST(PairLJ, linearForceShiftLJ) {
 TEST(PairLJ, exVol) {
   Space s(3, 0);
   for (int dim = 0; dim < s.dimen(); ++dim) s.lset(0, dim);
-  s.addMolInit("../forcefield/data.lj");
-  s.addMol("../forcefield/data.lj");
+  PairLJ p(&s, 1e-12);
+  p.initData("../forcefield/data.lj");
+  p.addMol();
   const double boxl = 2.*(s.maxMolDist() + 1 + 0.1);
   for (int dim = 0; dim < s.dimen(); ++dim) s.lset(boxl, dim);
   EXPECT_EQ(0, s.x(0,0));
-  PairLJ p(&s, 1e-12);
-  p.initLMPData("../forcefield/data.lj");
   EXPECT_NEAR(4.*PI/3., p.exVol(1e2), 3e-3);
   //EXPECT_NEAR(4.*PI/3., p.exVol(1e3), 2e-4);
 }
