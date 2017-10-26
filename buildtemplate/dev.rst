@@ -10,6 +10,12 @@ Semantic versioning
 
 FEASST version policy follows Semantic Versioning 2.0.0 http://semver.org/spec/v2.0.0.html.
 
+In a nutshell, this means that version x.y.z-a
+x. Major version number. Public API is backwards incompatible with previous versions.
+y. Minor version number. New features but the public API is fully backwards compatible.
+z. This version number changes if the source code has changed in the slightest.
+a. This version changes if the documentation changes but the source code is the same.
+
 Although all efforts are made for restart files to be backwards compatible, they cannot be guaranteed to be backwards compatible.
 
 Branch policies

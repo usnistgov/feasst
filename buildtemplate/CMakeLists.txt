@@ -40,6 +40,25 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} modules)
 
+# Get the current working branch
+execute_process(
+  COMMAND git rev-parse --abbrev-ref HEAD
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_BRANCH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+# Get the latest abbreviated commit hash of the working branch
+execute_process(
+  COMMAND git describe --abbrev=10 --dirty --always --tags
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_COMMIT_HASH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+add_definitions("-DVERSION=\"\\\"${GIT_COMMIT_HASH} ${GIT_BRANCH}\\\"\"")
+add_definitions("-DFEASST_SRC_=${CMAKE_SOURCE_DIR}/../src/")
+
 # segfault errors
 if (USE_SEGERROR)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSEGERROR_")
@@ -79,6 +98,9 @@ if (USE_SPHINX)
 
   # LATEX output directory
   set(SPHINX_LATEX_DIR "${CMAKE_CURRENT_BINARY_DIR}/latex")
+
+  # FEASST version
+  set(FEASST_VERSION ${GIT_COMMIT_HASH})
 
   configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/conf.py.in"
@@ -221,9 +243,6 @@ list(REMOVE_ITEM feasst_SRC ${feasst_unittest_SRC})
 file(GLOB main_SRC "${CMAKE_SOURCE_DIR}/../src/main.cc" "${CMAKE_SOURCE_DIR}/../src/ui_text.cc")
 list(REMOVE_ITEM feasst_SRC ${main_SRC})
 
-set (feasst_VERSION_MAJOR 0)
-set (feasst_VERSION_MINOR 1)
-
 include_directories("${CMAKE_SOURCE_DIR}/../src/")
 if(EXISTS "${CMAKE_SOURCE_DIR}/../drivers/main.cc")
   add_executable(main "${CMAKE_SOURCE_DIR}/../drivers/main" ${feasst_SRC})
@@ -274,7 +293,7 @@ if (USE_GTEST)
   add_executable(unittest ${feasst_unittest_SRC} ${feasst_SRC})
   SET_TARGET_PROPERTIES(unittest PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
   target_link_libraries(unittest gtest_main ${EXTRA_LIBS})
-  add_test(NAME unittest COMMAND unittest --gtest_shuffle)
+  add_test(NAME unittest COMMAND ./bin/unittest --gtest_shuffle)
 
   if (USE_GTESTCASES)
     message("USING GTEST CASES")
@@ -286,7 +305,7 @@ if (USE_GTEST)
     add_executable(testcase ${feasst_testcase_SRC} ${feasst_SRC})
     SET_TARGET_PROPERTIES(testcase PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
     target_link_libraries(testcase gtest_main ${EXTRA_LIBS})
-    add_test(NAME testcase COMMAND testcase --gtest_shuffle)
+    add_test(NAME testcase COMMAND ./bin/testcase --gtest_shuffle)
   endif (USE_GTESTCASES)
 
 endif(USE_GTEST)
@@ -319,28 +338,9 @@ if (USE_SWIG)
     #SET_SOURCE_FILES_PROPERTIES(feasst.i PROPERTIES SWIG_FLAGS "-includeall")
     SWIG_ADD_MODULE(feasst python feasst.i ${feasst_cc_SRC})
     SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS})
-    add_test(NAME swigtest COMMAND python ../src/swigtest/swigtest.py)
+    add_test(NAME swigtest COMMAND ../tools/run.sh testcase/test.py)
   else (SWIG_FOUND)
     message("SWIG NOT FOUND")
   endif (SWIG_FOUND)
 endif(USE_SWIG)
-
-# Get the current working branch
-execute_process(
-  COMMAND git rev-parse --abbrev-ref HEAD
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE GIT_BRANCH
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-# Get the latest abbreviated commit hash of the working branch
-execute_process(
-  COMMAND git describe --abbrev=10 --dirty --always --tags
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE GIT_COMMIT_HASH
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-add_definitions("-DVERSION=\"\\\"${GIT_COMMIT_HASH} ${GIT_BRANCH}\\\"\"")
-add_definitions("-DFEASST_SRC_=${CMAKE_SOURCE_DIR}/../src/")
 
