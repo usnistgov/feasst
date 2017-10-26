@@ -13,6 +13,6 @@ https://mmlapps.nist.gov/srs/LJ_PURE/mc.htm
 In this case, implementation of a custom Analysis class to compute the average potential energy is shown.
 
 Note that while this example is in the spirit of a monkey patch in python, implementing
-a monkey patch on the SWIG python objects requires editting the vtable.
+a monkey patch on the SWIG python objects requires editing the vtable.
 In this case, it may be easier to add the custom analysis in the source directory.
 

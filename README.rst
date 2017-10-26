@@ -48,7 +48,7 @@ Advanced Monte Carlo moves
 Intermolecular interactions
 
 * Charged interactions with the Ewald summation
-* Lennard-Jones with Yukawa, LRC, force shift, or Gaussians
+* Lennard-Jones with Yukawa, LRC, force shift, or Gaussian
 * Superquadrics and supertoroids (dev)
 * Patchy particles (dev)
 * Hard spheres, soft spheres and square wells
@@ -216,7 +216,7 @@ Associated CMake flag
 Google Test 1.7.0
 *****************
 
-For testing the C++ code: CMake automatically clones and compiles the respository.
+For testing the C++ code: CMake automatically clones and compiles the repository.
 
 Associated CMake flag
 

@@ -21,7 +21,7 @@ Calculate average properties
 Calculate grand canonical ensemble average properties
 =================================================================
 
-* See the example in :doc:`/testcase/1_lj_3_eostmmc_README` for coexistance poperties.
+* See the example in :doc:`/testcase/1_lj_3_eostmmc_README` for coexistence properties.
 
 Load coordinate files or place particles in specific locations
 ================================================================

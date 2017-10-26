@@ -3,20 +3,21 @@ Guidelines for developers
 *************************
 
 Developers and contributors of FEASST may consider the following guidelines
-in order to simplying collaboration.
+in order to simplify collaboration.
 
 Semantic versioning
 ####################
 
 FEASST version policy follows Semantic Versioning 2.0.0 http://semver.org/spec/v2.0.0.html.
 
-In a nutshell, this means that version x.y.z-a
+In a nutshell, this means that version x.y.z-a-[version control id][abbreviated commit hash]
 x. Major version number. Public API is backwards incompatible with previous versions.
 y. Minor version number. New features but the public API is fully backwards compatible.
 z. This version number changes if the source code has changed in the slightest.
 a. This version changes if the documentation changes but the source code is the same.
+And the version control id is "g" for GitHub, for example.
 
-Although all efforts are made for restart files to be backwards compatible, they cannot be guaranteed to be backwards compatible.
+Although all efforts are made for restart files to be backwards compatible, they can only be guaranteed to be backwards for the same version x.y.z.
 
 Branch policies
 ###############
@@ -53,13 +54,13 @@ This is the development branch.
 Tested and complete implementation of new features are added here.
 
 * Code must compile and gtests pass successfully
-* Consider feature compatability with swig python interface
+* Consider feature compatibility with swig python interface
 
 Hotfix branch
 **************
 
 The hotfix branch is for implementation of bug fixes to the master branch.
-These branches have a short life span. After mergeing with master and dev,
+These branches have a short life span. After merging with master and dev,
 they are deleted.
 
 Feature (ftr_*) branches
@@ -137,7 +138,7 @@ If there are a lot of errors, typically the best testing order would be::
 Debugging with GDB
 ####################
 
-gdb is a very useful debugging tool, especially for identifying segfaults via backtraces. The -g flag in compliation pulls the symbols so that you can get correct line numbers in the gdb output.
+gdb is a very useful debugging tool, especially for identifying segfaults via backtraces. The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
 
 In bash
 
@@ -161,13 +162,13 @@ Valgrind helps to detect memory management bugs.
 
 http://valgrind.org/
 
-For example, to run valgrind on a particular test and output to text file
+For example, to run Valgrind on a particular test and output to text file
 
 .. code-block:: bash
 
    valgrind ./unittest --gtest_filter=MC.* > out.txt 2>&1
 
-* For unitilized value errors, try --track-origins=yes
+* For uninitialized value errors, try --track-origins=yes
 * For leaks, try --leak-check=full --show-leak-kinds=all
 * Don't use profiler for leak checks. OMP causes "leaks" O.K.
 * For suppress false-positives (e.g., gomp or gsl), use --gen-suppressions=all to generate suppression files
@@ -263,9 +264,9 @@ To do list
 * Perfect checkpointing
 * Automated full-checkpoint testing
 * remove printPressure from mc/criteria, printBeta, pairOrder, floppyBox, etc
-* on the fly WL/TM lnPI error analysis ... accumulate 3 lnPIs by spliting each trial to each individual criteria class. Use them to compute all sorts of quantities.
+* on the fly WL/TM lnPI error analysis ... accumulate 3 lnPIs by splitting each trial to each individual criteria class. Use them to compute all sorts of quantities.
 * for xyz2bin, in afterAttempt MC, use unique hash on log file and xyz configuration for error check
-  -- implmement with WLTMMC, use criteria to find order param column in log, then readxyz hash, find log hash match, demix conf based on the bin
+  -- implement with WLTMMC, use criteria to find order param column in log, then readxyz hash, find log hash match, demix conf based on the bin
 * have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)
 * combine pair_square_well, pair_hs, pair_hard_circle
 * remove periodicity from x/y/z dimensions (no rush here)
