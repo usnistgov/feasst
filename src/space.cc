@@ -163,8 +163,8 @@ Space::Space(const char* fileName) {
 //  if ( (!sphereSymMol_) && (natom() != 1) ) qMolInit();
 
   // cout << " initialize cell list" << endl;
-  cellAtomCut_ = fstoi("cellAtomCut", fileName);
-  initCellAtomCut(cellAtomCut_);
+  atomCut_ = fstoi("cellAtomCut", fileName);
+  initAtomCut(atomCut_);
   strtmp = fstos("cellType", fileName);
   if (!strtmp.empty()) {
     cellType_ = stoi(strtmp);
@@ -201,7 +201,7 @@ void Space::defaultConstruction_() {
   nMolType_.resize(1, 0);
   sphereSymMol_ = true;
   cellOff();
-  initCellAtomCut(1);
+  initAtomCut(1);
   preMicellarAgg_ = 5;
   eulerFlag_ = 0;
   equiMolar_ = 0;
@@ -229,7 +229,7 @@ void Space::reconstruct_() {
   for (int i = static_cast<int>(addMolList_.size()) - 1; i >= 0; --i) {
     addMolList_[i] = make_shared<Space>(*addMolList_[i]);
   }
-  initCellAtomCut(cellAtomCut_);  // this resets ptr neighListChosen_
+  initAtomCut(atomCut_);  // this resets ptr neighListChosen_
   Base::reconstruct();
 }
 
@@ -694,7 +694,7 @@ void Space::delPart(const int ipart) {
          << "ipart: " << ipart << " when there are only natom: " << natom());
 
   // update atom-based cell list
-  if ( (fastDel_ == false) && (cellType_ > 0) && (cellAtomCut_) ) {
+  if ( (fastDel_ == false) && (cellType_ > 0) && (atomCut_) ) {
     eraseAtomFromCell_(ipart);
     atom2cell_.erase(atom2cell_.begin() + ipart);
   }
@@ -716,7 +716,7 @@ void Space::delPart(const int ipart) {
       }
     }
     listMols_.erase(listMols_.end() - 1);
-    if ( (cellType_ > 0) && (cellAtomCut_ == false) ) {
+    if ( (cellType_ > 0) && (atomCut_ == false) ) {
       // cout << "deling from cell, iMol " << iMol << endl;
       eraseMolFromCell_(iMol);
       mol2cell_.erase(mol2cell_.begin() + iMol);
@@ -830,7 +830,7 @@ void Space::delPart(const vector<int> mpart) {
     if (cellType_ > 0) {
       // cout << "fastdel updating cell list: for iMol" << iMol << endl;
       updateCellofiMol(iMol);
-      if (cellAtomCut_) {
+      if (atomCut_) {
         for (int i = static_cast<int>(mpart.size()) - 1; i >= 0; --i) {
           eraseAtomFromCell_(natom() - static_cast<int>(mpart.size()) + i);
         }
@@ -1066,7 +1066,7 @@ void Space::addMol(const char* type) {
 
   // update cell list
   if (cellType_ > 0) {
-    if (cellAtomCut_) {
+    if (atomCut_) {
       for (int ipart = mol2part_[nMol()-1]; ipart < mol2part_[nMol()];
            ++ipart) {
         addAtomtoCell_(ipart);
@@ -1676,7 +1676,7 @@ void Space::buildCellList() {
     cellList_.clear();
     cellList_.resize(nCell_);
     xMolGen();
-    if (cellAtomCut_) {
+    if (atomCut_) {
       atom2cell_.clear();
       for (int ipart = 0; ipart < natom(); ++ipart) {
         addAtomtoCell_(ipart);
@@ -1783,7 +1783,7 @@ void Space::buildNeighListCellAtomCut(const int ipart) {
   neighListCell_.clear();
   neighListChosen_ = &neighListCell_;
   ASSERT(cellType_ == 1, "only implemented for cellType_ == 1");
-  ASSERT(cellAtomCut_,
+  ASSERT(atomCut_,
     "cellAtomCut must be on to use builNeighListCellAtomCut");
   const int iCellOfiAtom = atom2cell_[ipart];
 
@@ -1800,7 +1800,7 @@ void Space::buildNeighListCell(const int iMol) {
   neighListCell_.clear();
   neighListChosen_ = &neighListCell_;
   ASSERT(cellType_ == 1, "only implemented for cellType_ == 1");
-  ASSERT(!cellAtomCut_, "cellAtomCut must be off to use builNeighListCell");
+  ASSERT(!atomCut_, "cellAtomCut must be off to use builNeighListCell");
   const int iCellOfiMol = imol2m(iMol);
 
   // add molecules in neighboring cells of iMol
@@ -1865,7 +1865,7 @@ void Space::addMoltoCell_(const int iMol) {
  */
 void Space::updateCellofiMol(const int iMol  //!< molecule to update
   ) {
-  if (cellAtomCut_) {
+  if (atomCut_) {
     for (int ipart = mol2part_[iMol]; ipart < mol2part_[iMol+1]; ++ipart) {
       const int iCelln = iatom2m(ipart);
       const int iCello = atom2cell_[ipart];
@@ -1890,7 +1890,7 @@ void Space::updateCellofiMol(const int iMol  //!< molecule to update
  * updates cell for iMol, if, for example, it moves
  */
 void Space::updateCellofallMol() {
-  if (cellAtomCut_) {
+  if (atomCut_) {
     for (int ipart = 0; ipart < natom(); ++ipart) {
       const int iCelln = iatom2m(ipart);
       const int iCello = atom2cell_[ipart];
@@ -1918,7 +1918,7 @@ int Space::checkCellList() {
   int cellMatch = 1;
 
   // check mol2cell_
-  if (cellAtomCut_) {
+  if (atomCut_) {
     ASSERT(static_cast<int>(atom2cell_.size()) == natom(),
       "atom2cell size(" << atom2cell_.size() << ") doesn't match number"
       << "of atoms(" << natom() << ")");
@@ -1937,7 +1937,7 @@ int Space::checkCellList() {
   vector<vector<int> > cellList = cellList_;
   buildCellList();
 
-  if (cellAtomCut_) {
+  if (atomCut_) {
     for (unsigned int i = 0; i < atom2cell_.size(); ++i) {
       ASSERT(atom2cell_[i] == atom2cell[i], "old atom2cell[" << i << "]="
         << atom2cell[i] << " doesn't match new atom2cell[" << i << "]="
@@ -2199,7 +2199,7 @@ int Space::checkSizes() {
     }
   }
   if (cellType_ > 0) {
-    if (cellAtomCut_) {
+    if (atomCut_) {
       if (static_cast<int>(atom2cell_.size()) != natom()) {
         er = true;
         ermesg << "atom2cell(" << atom2cell_.size() << ") doesn't match"
@@ -2345,7 +2345,7 @@ void Space::writeRestart(const char* fileName) {
     }
   }
 
-  file << "# cellAtomCut " << cellAtomCut_ << endl;
+  file << "# cellAtomCut " << atomCut_ << endl;
   if (cellType_ > 0) {
     file << "# cellType " << cellType_ << endl;
     file << std::setprecision(std::numeric_limits<double>::digits10+2)
@@ -2946,12 +2946,12 @@ double Space::maxMolDist() {
 /**
  * initialize cell list for atom cutoff
  */
-void Space::initCellAtomCut(const int flag) {
+void Space::initAtomCut(const int flag) {
   if (flag == 0) {
-    cellAtomCut_ = false;
+    atomCut_ = false;
     neighListChosen_ = &listMols_;
   } else {
-    cellAtomCut_ = true;
+    atomCut_ = true;
     neighListChosen_ = &listAtoms_;
   }
 }

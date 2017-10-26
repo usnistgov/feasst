@@ -316,9 +316,7 @@ class Space : public BaseRandom {
   int checkCellList();
 
   /// Initialize cut-off method for cell list.
-  // HWH NOTE: this is a bad name, because it often needs to be called even when
-  // no cell list is involved
-  void initCellAtomCut(const int flag);
+  void initAtomCut(const int flag);
 
   /* Position of origin to add next molecule called by addMol().
    * By default, xAdd is NULL which results in a random position. */
@@ -790,7 +788,7 @@ class Space : public BaseRandom {
   /// use cell list of type cellType,
   //   none = 0, AllenTildesley = 1, Hunenberger = 2
   int cellType_;
-  bool cellAtomCut_;     //!< use atom cut or cell cut
+  bool atomCut_;     //!< use atom cut or cell cut
   double dCellMin_;     //!< minimum cell size
   vector<int> nCellVec_;  //!< number of cells in each dimension
   int nCell_;               //!< number of cells

@@ -27,7 +27,7 @@ FAILCODE=$?
 if [ $FAILCODE -eq 0 ]; then
   mkdir -p tmp #directory for checkpoint files
   # remove first argument and send this to the program
-  args=`echo $@ | sed 's/^[^ ]* //'`
+  args=`echo "$@ " | sed 's/^[^ ]* //'`
   ./$prog $args
 else
   echo "ERROR in $0: Compilation failed"

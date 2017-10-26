@@ -1,1 +1,1 @@
-../../tools/run.sh jagla.cc
+../../tools/run.sh test.cc

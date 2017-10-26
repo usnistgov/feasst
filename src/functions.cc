@@ -192,18 +192,25 @@ void skipCharsInFile(const char comment, std::ifstream &file) {
   }
 }
 
-void readUntil(const char* searchString, std::ifstream &file) {
+int readUntil(const char* searchString, std::ifstream &file,
+  const int optional) {
   std::string line;
   getline(file, line);
   const int nMax = 1e7;
   int i = 0;
-  while (line.compare(searchString) != 0) {
+  while ((line.compare(searchString) != 0) && (i != nMax)) {
     getline(file, line);
     ++i;
-    ASSERT(i <= nMax, "readUntil reached nMax attempts(" << nMax
-      << ") while looking for string(" << searchString << ") in file");
-    //cout << "readUntil " << i << "/" << nMax << ": " << line << endl;
   }
+  // check if not found
+  if (i == nMax) {
+    if (optional == 0) {
+      ASSERT(0, "readUntil reached nMax attempts(" << nMax
+        << ") while looking for string(" << searchString << ") in file");
+    }
+    return 0;
+  }
+  return 1;
 }
 
 vector<vector<int> > nWindow(const int nMolMin, const int nMolMax,
@@ -663,6 +670,10 @@ bool stringInString(const std::string searchString,
   pos = stringToSearch.find(searchString);
   if (pos != std::string::npos) return true;
   return false;
+}
+
+std::shared_ptr<std::ifstream> make_ifstream(const char* fileName) {
+  return std::make_shared<std::ifstream>(fileName);
 }
 
 #ifdef FEASST_NAMESPACE_

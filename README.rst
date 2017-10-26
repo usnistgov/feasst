@@ -48,14 +48,14 @@ Advanced Monte Carlo moves
 Intermolecular interactions
 
 * Charged interactions with the Ewald summation
-* Lennard Jones with Yukawa, LRC, force shift, or Gaussians
+* Lennard-Jones with Yukawa, LRC, force shift, or Gaussians
 * Superquadrics and supertoroids (dev)
 * Patchy particles (dev)
 * Hard spheres, soft spheres and square wells
 
 Modern software
 
-* Interface as a python module or C++ class
+* Interface with C++ or as a Python module
 * OMP parallelization
 * Checkpointing to save and restart simulations
 * Robust unit testing
@@ -76,12 +76,12 @@ FEASST is designed for a LINUX or MAC OS X platform with the following minimum v
     cmake .
     make -j
 
-Usage
-#####
+Usage: C++ interface
+#######################
 
 The following may be found in the `<example>`_ directory.
 
-In C++, a simple NVT Lennard Jones (LJ) simulation is performed as follows:
+In C++, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:
 
 .. code-block:: c++
 
@@ -109,7 +109,24 @@ This simulation is compiled and run by a bash script `<example/run_cc.sh>`_:
 
     $HOME/feasst/tools/run.sh lj.cc
 
-In python, the same simulation is provided in the file `<example/lj.py>`_
+Usage: Python interface
+#########################
+
+Requirements
+
+* SWIG >= 1.3.40
+* anaconda >= 1.9.1 (python >= 2.7)
+
+To install the python interface, use the following CMake command in place of "cmake .":
+
+.. code-block:: bash
+
+    cmake -DUSE_SWIG=ON -DPYTHON_INCLUDE_PATH=/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES=/path/to/anaconda/lib/libpython3.6m.so .
+
+Note that the ``PYTHON_INCLUDE_PATH`` and ``PYTHON_LIBRARIES`` depends on your python installation.
+
+The following may be found in the `<example>`_ directory.
+In python, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:
 
 .. code-block:: py
 
@@ -133,22 +150,6 @@ This simulation is then run by `<example/run_py.sh>`_
 .. code-block:: bash
 
     $HOME/feasst/tools/run.sh lj.py
-
-Python interface
-#####################
-
-Requirements
-
-* SWIG >= 1.3.40
-* anaconda >= 1.9.1 (python >= 2.7)
-
-To install the python interface, use the following CMake command in place of "cmake .":
-
-.. code-block:: bash
-
-    cmake -DUSE_SWIG=ON -DPYTHON_INCLUDE_PATH=/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES=/path/to/anaconda/lib/libpython3.6m.so .
-
-Note that the ``PYTHON_INCLUDE_PATH`` and ``PYTHON_LIBRARIES`` depends on your python installation.
 
 Optional external libraries
 #######################################
@@ -346,7 +347,7 @@ www.nist.gov/people/harold-hatch
 
 harold.hatch@nist.gov
 
-For list of contributors, see `<CONTRIBUTORS.txt>`_
+For list of contributors, see `<CONTRIBUTORS.rst>`_
 
 Disclaimer
 ##########

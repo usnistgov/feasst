@@ -77,6 +77,9 @@ if (USE_SPHINX)
   # HTML output directory
   set(SPHINX_HTML_DIR "${CMAKE_CURRENT_BINARY_DIR}/html")
 
+  # LATEX output directory
+  set(SPHINX_LATEX_DIR "${CMAKE_CURRENT_BINARY_DIR}/latex")
+
   configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/conf.py.in"
     "${BINARY_BUILD_DIR}/conf.py"
@@ -92,6 +95,23 @@ if (USE_SPHINX)
     COMMENT "Building HTML documentation with Sphinx")
 
   add_dependencies(html doxygen)
+
+  add_custom_target(latex ALL
+    ${SPHINX_EXECUTABLE}
+        -q -b latex
+        -c "${BINARY_BUILD_DIR}"
+        -d "${SPHINX_CACHE_DIR}"
+        "${CMAKE_CURRENT_SOURCE_DIR}"
+        "${SPHINX_LATEX_DIR}"
+    COMMENT "Building LATEX documentation with Sphinx")
+
+  add_dependencies(latex doxygen)
+
+  add_custom_target(pdf ALL
+    ${CMAKE_COMMAND} -E chdir "${SPHINX_LATEX_DIR}" make
+    COMMENT "Building PDF from LATEX documentation with Sphinx")
+
+  add_dependencies(pdf latex)
 
 endif (USE_SPHINX)
 

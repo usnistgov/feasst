@@ -119,8 +119,8 @@ vector<double> crossProd(const vector<double> &a, const vector<double> &b);
 const double PI = 4.0*atan(1.0);
 
 /// constants from CODATA
-// http://dx.doi.org/10.1103/RevModPhys.84.1527
-// http://dx.doi.org/10.1063/1.4724320
+/// http://dx.doi.org/10.1103/RevModPhys.84.1527
+/// http://dx.doi.org/10.1063/1.4724320
 const double boltzmannConstant = 1.3806488E-23; //J/K
 const double avogadroConstant = 6.02214129E+23; //1/mol
 const double elementaryCharge = 1.602176565E-19;  //C
@@ -192,7 +192,10 @@ void fileBackUp(const std::string fileName);
 void skipCharsInFile(const char comment, std::ifstream &file);
 
 /// function to skip all lines until reaching a certain line
-void readUntil(const char* searchString, std::ifstream &file);
+/// Return 1 if found.
+int readUntil(const char* searchString, std::ifstream &file,
+  /// If == 0, terminate with error if searchString not found.
+  const int optional = 0);
 
 /**
  * given range of n, exponent, the number of windows, and overlap of windows, return vector with min and max
@@ -707,6 +710,9 @@ std::string vec2str(const vector<vector<T> > &vec) {
 
 bool stringInString(const std::string searchString,
   const std::string stringToSearch);
+
+/// For Python interface, make ifstream object
+std::shared_ptr<std::ifstream> make_ifstream(const char* fileName);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

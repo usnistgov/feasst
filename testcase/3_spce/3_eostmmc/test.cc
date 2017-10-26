@@ -53,14 +53,14 @@ int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
   feasst::ranInitByDate();
   feasst::Space s(3, 0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
-  stringstream addMolType;
-  addMolType << s.install_dir() << "/forcefield/" << molType.str().c_str();
 
   // initialize pair-wise interactions
   feasst::PairLJCoulEwald p(&s, rCut);
-  p.initKSpace(5.6,   // Ewald alpha parameter
-               38);   // Ewald maximum wave vector, k
+  stringstream addMolType;
+  addMolType << s.install_dir() << "/forcefield/" << molType.str().c_str();
   p.initData(addMolType.str());
+  p.initKSpace(5.6,   // alpha*L
+               38);   // k^2 < k2max cutoff
   p.initEnergy();
 
   // acceptance criteria

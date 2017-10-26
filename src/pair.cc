@@ -728,6 +728,18 @@ void Pair::initLMPData(const string fileName) {
 
   // assign eps, sig
   initPairData(natype, eps, sig, sigref);
+
+  // read until VMD Labels
+  int found = readUntil("VMD Labels", file, 1);
+  if (found == 1) {
+    for (int i = 0; i < natype; ++i) {
+      int tmp;
+      std::string label;
+      file >> tmp >> label;
+      VMDlabels_.push_back(label);
+      getline(file, line);
+    }
+  }
 }
 
 void Pair::initPairData(const int natype,
@@ -906,36 +918,49 @@ int Pair::printxyz(const char* fileName,
   fprintf(xyzFile, "%f %s\n", space_->xyTilt(), comment.c_str());
   if (xyzFile != NULL) {
     for (int ipart = 0; ipart < natom; ++ipart) {
-      // check if epsilon is 0 or non existent
-      const int epsSize = eps_.size();
-      double eps = 0;
-      if (epsSize > type[ipart]) {
-        eps = eps_[type[ipart]];
-      }
-      if (eps == 0) {
-          fprintf(xyzFile, "H ");
-          nonInteractingSite = true;
-      } else if (type[ipart] == 1) {
-        fprintf(xyzFile, "O ");
-      } else if (type[ipart] == 2) {
-        fprintf(xyzFile, "C ");
-      } else if (type[ipart] == 3) {
-        fprintf(xyzFile, "N ");
-      } else if (type[ipart] == 4) {
-        fprintf(xyzFile, "A ");
-      } else if (type[ipart] == 5) {
-        fprintf(xyzFile, "B ");
-      } else if (type[ipart] == 6) {
-        fprintf(xyzFile, "D ");
+
+      // begin printing of labels
+      // first, check if VMDlabels_ is populated
+      if (VMDlabels_.size() > 0) {
+        stringstream ss;
+        ss << VMDlabels_[type[ipart]] << " ";
+        fprintf(xyzFile, ss.str().c_str());
+
+      // otherwise attempt to guess the best labels
       } else {
-        if (type[ipart] == 0) {
-	  fprintf(xyzFile, "H ");
+        // check if epsilon is 0 or non existent
+        const int epsSize = eps_.size();
+        double eps = 0;
+        if (epsSize > type[ipart]) {
+          eps = eps_[type[ipart]];
+        }
+        if (eps == 0) {
+            fprintf(xyzFile, "H ");
+            nonInteractingSite = true;
+        } else if (type[ipart] == 1) {
+          fprintf(xyzFile, "O ");
+        } else if (type[ipart] == 2) {
+          fprintf(xyzFile, "C ");
+        } else if (type[ipart] == 3) {
+          fprintf(xyzFile, "N ");
+        } else if (type[ipart] == 4) {
+          fprintf(xyzFile, "A ");
+        } else if (type[ipart] == 5) {
+          fprintf(xyzFile, "B ");
+        } else if (type[ipart] == 6) {
+          fprintf(xyzFile, "D ");
         } else {
-          stringstream ss;
-          ss << type[ipart] << " ";
-	  fprintf(xyzFile, "%s", ss.str().c_str());
+          if (type[ipart] == 0) {
+      fprintf(xyzFile, "H ");
+          } else {
+            stringstream ss;
+            ss << type[ipart] << " ";
+      fprintf(xyzFile, "%s", ss.str().c_str());
+          }
         }
       }
+
+      // print the coordinates
       for (int i = 0; i < dimen_; ++i) {
         fprintf(xyzFile, "%f ", x[dimen_*ipart+i]);
         // fprintf(xyzFile, "%24.20f ", x[dimen_*ipart+i]);
@@ -970,65 +995,83 @@ int Pair::printxyz(const char* fileName,
       vmdf << "topo readvarxyz " << trim("/", fileName) << ".xyz" << endl;
     }
     vmdf << "mol modstyle 0 0 VDW 1.0000000 120.000000" << endl;
-    if (space_->nParticleTypes() == 1) {
-      vmdf << "set sel [atomselect top \"name N\"]" << endl
-           << "$sel set radius " << 0.5*radius*sig_[0] << endl
-           << "$sel set mass 1" << endl;
-    }
-    if (space_->nParticleTypes() > 1) {
-      vmdf << "set sel [atomselect top \"name O\"]" << endl;
-      if (sig_.size() > 1) {
-        vmdf << "$sel set radius " << 0.5*radius*sig_[1] << endl;
-      } else {
-        vmdf << "$sel set radius " << 0.5*radius*sig_[0] << endl;
-      }
-      vmdf << "$sel set mass 1" << endl;
-    }
-    if (space_->nParticleTypes() > 2) {
-      vmdf << "set sel [atomselect top \"name C\"]" << endl
-           << "$sel set radius " << 0.5*radius*sig_[2] << endl
-           << "$sel set mass 1" << endl;
-    }
-    if (space_->nParticleTypes() > 3) {
-      vmdf << "set sel [atomselect top \"name N\"]" << endl
-           << "$sel set radius " << 0.5*radius*sig_[3] << endl
-           << "$sel set mass 1" << endl;
-      if (space_->nParticleTypes() > 4) {
-        vmdf << "set sel [atomselect top \"name A\"]" << endl
-             << "$sel set radius " << 0.5*radius*sig_[4] << endl
+
+    // begin setting the radius
+    // first, check if VMD labels are set
+    if (VMDlabels_.size() > 0) {
+      for (int iType = 0; iType < space_->nParticleTypes(); ++iType) {
+        vmdf << "set sel [atomselect top \"name " << VMDlabels_[iType] << "\"]"
+             << endl;
+        // if the sigma is zero, guess a value (good for water)
+        double sig = 1.85;
+        if (fabs(sig_[iType]) > DTOL) {
+          sig = sig_[iType];
+        }
+        vmdf << "$sel set radius " << 0.5*radius*sig << endl
              << "$sel set mass 1" << endl;
       }
-      if (space_->nParticleTypes() > 5) {
-        vmdf << "set sel [atomselect top \"name B\"]" << endl
-             << "$sel set radius " << 0.5*radius*sig_[5] << endl
+    } else {
+      // otherwise, attempt to guess
+      if (space_->nParticleTypes() == 1) {
+        vmdf << "set sel [atomselect top \"name N\"]" << endl
+             << "$sel set radius " << 0.5*radius*sig_[0] << endl
              << "$sel set mass 1" << endl;
       }
-      if (space_->nParticleTypes() > 6) {
-        vmdf << "set sel [atomselect top \"name D\"]" << endl
-             << "$sel set radius " << 0.5*radius*sig_[6] << endl
+      if (space_->nParticleTypes() > 1) {
+        vmdf << "set sel [atomselect top \"name O\"]" << endl;
+        if (sig_.size() > 1) {
+          vmdf << "$sel set radius " << 0.5*radius*sig_[1] << endl;
+        } else {
+          vmdf << "$sel set radius " << 0.5*radius*sig_[0] << endl;
+        }
+        vmdf << "$sel set mass 1" << endl;
+      }
+      if (space_->nParticleTypes() > 2) {
+        vmdf << "set sel [atomselect top \"name C\"]" << endl
+             << "$sel set radius " << 0.5*radius*sig_[2] << endl
              << "$sel set mass 1" << endl;
       }
-      if (space_->nParticleTypes() > 7) {
-        for (int iType = 0; iType < space_->nParticleTypes(); ++iType) {
-          if (iType >= 7) {
-            vmdf << "set sel [atomselect top \"name " << iType << "\"]" << endl
-                 << "$sel set radius " << 0.5*radius*sig_[iType] << endl
-                 << "$sel set mass 1" << endl;
+      if (space_->nParticleTypes() > 3) {
+        vmdf << "set sel [atomselect top \"name N\"]" << endl
+             << "$sel set radius " << 0.5*radius*sig_[3] << endl
+             << "$sel set mass 1" << endl;
+        if (space_->nParticleTypes() > 4) {
+          vmdf << "set sel [atomselect top \"name A\"]" << endl
+               << "$sel set radius " << 0.5*radius*sig_[4] << endl
+               << "$sel set mass 1" << endl;
+        }
+        if (space_->nParticleTypes() > 5) {
+          vmdf << "set sel [atomselect top \"name B\"]" << endl
+               << "$sel set radius " << 0.5*radius*sig_[5] << endl
+               << "$sel set mass 1" << endl;
+        }
+        if (space_->nParticleTypes() > 6) {
+          vmdf << "set sel [atomselect top \"name D\"]" << endl
+               << "$sel set radius " << 0.5*radius*sig_[6] << endl
+               << "$sel set mass 1" << endl;
+        }
+        if (space_->nParticleTypes() > 7) {
+          for (int iType = 0; iType < space_->nParticleTypes(); ++iType) {
+            if (iType >= 7) {
+              vmdf << "set sel [atomselect top \"name " << iType << "\"]" << endl
+                   << "$sel set radius " << 0.5*radius*sig_[iType] << endl
+                   << "$sel set mass 1" << endl;
+            }
           }
         }
+        vmdf << "set sel [atomselect top \"name H\"]" << endl
+             << "$sel set radius " << 0.5*radius*sig_[0] << endl
+             << "$sel set mass 1" << endl;
+      } else {
+        vmdf << "set sel [atomselect top \"name H\"]" << endl
+             << "$sel set radius " << 0.5*radius*sig_[0] << endl
+             << "$sel set mass 1" << endl;
       }
-      vmdf << "set sel [atomselect top \"name H\"]" << endl
-           << "$sel set radius " << 0.5*radius*sig_[0] << endl
-           << "$sel set mass 1" << endl;
-    } else {
-      vmdf << "set sel [atomselect top \"name H\"]" << endl
-           << "$sel set radius " << 0.5*radius*sig_[0] << endl
-           << "$sel set mass 1" << endl;
-    }
-    if (nonInteractingSite) {
-      vmdf << "set sel [atomselect top \"name H\"]" << endl
-           << "$sel set radius " << 0.2*radius*sig_[0] << endl
-           << "$sel set mass 1" << endl;
+      if (nonInteractingSite) {
+        vmdf << "set sel [atomselect top \"name H\"]" << endl
+             << "$sel set radius " << 0.2*radius*sig_[0] << endl
+             << "$sel set mass 1" << endl;
+      }
     }
   }
   return 0;
@@ -1063,12 +1106,16 @@ double Pair::multiPartEner(
 
   // zero potential energy contribution of particle ipart
   peSRone_ = 0;
-  if (dimen_ == 3) {
-    return multiPartEnerAtomCut(mpart);
-  } else if (dimen_ == 2) {
-    return multiPartEnerAtomCut2D(mpart);
+  if (atomCut_ == 1) {
+    if (dimen_ == 3) {
+      return multiPartEnerAtomCut(mpart);
+    } else if (dimen_ == 2) {
+      return multiPartEnerAtomCut2D(mpart);
+    }
   } else {
-    ASSERT(0, "unrecognized dimen");
+    if (dimen_ == 3) {
+      return multiPartEner3D(mpart);
+    }
   }
   ASSERT(0, "should never reach the end of this case block");
   return 0;
@@ -1118,10 +1165,10 @@ double Pair::multiPartEnerAtomCut(const vector<int> mpart) {
             if (rCutMax_[itype] <= space_->dCellMin()) {
               space_->buildNeighListCellAtomCut(ipart);
             } else {
-              space_->initCellAtomCut(1);   // set neighListChosen to all atoms
+              space_->initAtomCut(1);   // set neighListChosen to all atoms
             }
           } else {
-            space_->initCellAtomCut(1);   // set neighListChosen to all atoms
+            space_->initAtomCut(1);   // set neighListChosen to all atoms
           }
         }
       }
@@ -1217,6 +1264,146 @@ double Pair::multiPartEnerAtomCut(const vector<int> mpart) {
   return peSRone_;
 }
 
+double Pair::multiPartEner3D(const vector<int> mpart) {
+  // shorthand for read-only space variables
+  const vector<int> type = space_->type();
+  const vector<double> &x = space_->x();
+  const vector<double> &l = space_->l();
+  const vector<int> mol2part = space_->mol2part();
+  const double xyTilt = space_->xyTilt(), xzTilt = space_->xzTilt(),
+    yzTilt = space_->yzTilt();
+
+  // declare variables for optimization
+  double r2, xi, yi, zi, dx, dy, dz, dx0, dy0;
+  const double lx = l[0], ly = l[1], lz = l[2],
+    halflx = lx/2., halfly = ly/2., halflz = lz/2.;
+  int ipart, jpart, itype, jtype;
+  double rCutij;
+
+  // loop through atoms in mpart
+  const int ii = 0;
+  ipart = mpart[ii];
+  const int iMol = space_->mol()[ipart];
+  xi = x[dimen_*ipart];
+  yi = x[dimen_*ipart+1];
+  zi = x[dimen_*ipart+2];
+  itype = type[ipart];
+  // obtain neighList with cellList
+  if (space_->cellType() == 1) {
+    if (cheapEnergy_) {
+      // cheap energy switches cut-off to sigma.
+      // Neighlist must be built for largest sigma
+      space_->buildNeighListCell(iMol);
+    } else {
+      if (rCutMax_.size() > 0) {
+        if (rCutMax_[itype] <= space_->dCellMin()) {
+          space_->buildNeighListCell(iMol);
+        } else {
+          space_->initAtomCut(0);
+        }
+      } else {
+        space_->initAtomCut(0);
+      }
+    }
+  }
+  const vector<int> &neigh = space_->neighListChosen();
+
+  for (unsigned int ineigh = 0; ineigh < neigh.size(); ++ineigh) {
+    const int jMol = neigh[ineigh];
+    if (jMol != iMol) {
+      jpart = mol2part[jMol];
+
+      // separation distance with periodic boundary conditions
+      dx = dx0 = xi - x[dimen_*jpart];
+      dy = dy0 = yi - x[dimen_*jpart+1];
+      dz = zi - x[dimen_*jpart+2];
+      if (fabs(dz) > halflz) {
+        if (dz < 0.) {
+          dz += lz;
+          dy += yzTilt;
+          dx += xzTilt;
+          dy0 += yzTilt;
+          dx0 += xzTilt;
+        } else {
+          dz -= lz;
+          dy -= yzTilt;
+          dx -= xzTilt;
+          dy0 -= yzTilt;
+          dx0 -= xzTilt;
+        }
+      }
+      if (fabs(dy0) > halfly) {
+        if (dy0 < 0.) {
+          dy += ly;
+          dx += xyTilt;
+          dx0 += xyTilt;
+        } else {
+          dy -= ly;
+          dx -= xyTilt;
+          dx0 -= xyTilt;
+        }
+      }
+      if (fabs(dx0) > halflx) {
+        if (dx0 < 0.) {
+          dx += lx;
+        } else {
+          dx -= lx;
+        }
+      }
+      r2 = dx*dx+dy*dy+dz*dz;
+
+      // no interaction beyond cut-off distance
+      rCutij = rCutij_[itype][jtype];
+      if (r2 < rCutij*rCutij) {
+        for (int isite = ipart; isite < mol2part[iMol+1]; ++isite) {
+          for (int jsite = jpart; jsite < mol2part[jMol+1]; ++jsite) {
+            // separation distance with periodic boundary conditions
+            dx = dx0 = xi - x[dimen_*jpart];
+            dy = dy0 = yi - x[dimen_*jpart+1];
+            dz = zi - x[dimen_*jpart+2];
+            if (fabs(dz) > halflz) {
+              if (dz < 0.) {
+                dz += lz;
+                dy += yzTilt;
+                dx += xzTilt;
+                dy0 += yzTilt;
+                dx0 += xzTilt;
+              } else {
+                dz -= lz;
+                dy -= yzTilt;
+                dx -= xzTilt;
+                dy0 -= yzTilt;
+                dx0 -= xzTilt;
+              }
+            }
+            if (fabs(dy0) > halfly) {
+              if (dy0 < 0.) {
+                dy += ly;
+                dx += xyTilt;
+                dx0 += xyTilt;
+              } else {
+                dy -= ly;
+                dx -= xyTilt;
+                dx0 -= xyTilt;
+              }
+            }
+            if (fabs(dx0) > halflx) {
+              if (dx0 < 0.) {
+                dx += lx;
+              } else {
+                dx -= lx;
+              }
+            }
+            r2 = dx*dx+dy*dy+dz*dz;
+            multiPartEnerAtomCutInner(r2, itype, jtype);
+          }
+        }
+      }
+    }
+  }
+  return peSRone_;
+}
+
 double Pair::vrTot() {
   double vrTotTemp = 0.;
   for (int ipart = 0; ipart < space_->natom(); ++ipart) {
@@ -1237,16 +1424,25 @@ double Pair::allPartEnerForce(const int flag) {
     fCOM_.clear();
     fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
 
-    if ( (space_->cellType() == 0) || (rCutMaxAll_ > space_->dCellMin()) ) {
-      if (dimen_ == 3) {
-        return allPartEnerForceAtomCutNoCell();
-      } else if (dimen_ == 2) {
-        return allPartEnerForceAtomCutNoCell2D();
+    if ((flag == 2) ||
+        ((space_->cellType() == 0) || (rCutMaxAll_ > space_->dCellMin()))) {
+      if (atomCut_ == 1) {
+        if (dimen_ == 3) {
+          return allPartEnerForceAtomCutNoCell();
+        } else if (dimen_ == 2) {
+          return allPartEnerForceAtomCutNoCell2D();
+        }
+      } else {
+        if (dimen_ == 3) {
+          return allPartEnerForceNoCell();
+        }
       }
     } else if (space_->cellType() == 1) {
       return allPartEnerForceAtomCutCell();
     } else {
-      ASSERT(0, "cell type(" << space_->cellType() << ")");
+      ASSERT(0, "allPartEnerForce unrecognized option: cell type("
+        << space_->cellType() << ") flag(" << flag << ") atomCut( " << atomCut_
+        << ")");
     }
   }
   return 1e300;
@@ -1271,7 +1467,7 @@ double Pair::allPartEnerForceAtomCutNoCell() {
   // loop through nearest neighbor atom pairs
   for (ipart = 0; ipart < natom - 1; ++ipart) {
     itype = type[ipart];
-    if (eps_[itype] != 0) {
+    if ( (eps_[itype] != 0) || (skipEPS0_ == 0) ) {
       xi = x[dimen_*ipart];
       yi = x[dimen_*ipart+1];
       zi = x[dimen_*ipart+2];
@@ -1279,7 +1475,8 @@ double Pair::allPartEnerForceAtomCutNoCell() {
       for (jpart = ipart + 1; jpart < natom; ++jpart) {
         jMol = mol[jpart];
         jtype = type[jpart];
-        if (intraCheck_(ipart, jpart, iMol, jMol) && (eps_[jtype] != 0))  {
+        if (intraCheck_(ipart, jpart, iMol, jMol) &&
+            ((eps_[jtype] != 0) || (skipEPS0_ == 0)))  {
           // separation distance with periodic boundary conditions
           dx = dx0 = xi - x[dimen_*jpart];
           dy = dy0 = yi - x[dimen_*jpart+1];
@@ -1323,6 +1520,131 @@ double Pair::allPartEnerForceAtomCutNoCell() {
           const double rCutij = rCutij_[itype][jtype];
           if (r2 < rCutij*rCutij) {
             allPartEnerForceInner(r2, dx, dy, dz, itype, jtype, iMol, jMol);
+          }
+        }
+      }
+    }
+  }
+  return peSRone_;
+}
+
+double Pair::allPartEnerForceNoCell() {
+  // shorthand for read-only space variables
+  const int nMol = space_->nMol();
+  const vector<double> l = space_->l();
+  const vector<double> x = space_->x();
+  const vector<int> mol2part = space_->mol2part();
+  const vector<int> type = space_->type();
+  const double xyTilt = space_->xyTilt(), xzTilt = space_->xzTilt(),
+    yzTilt = space_->yzTilt();
+
+  // declare variables for optimization
+  double r2, xi, yi, zi, dx, dy, dz, dx0, dy0;
+  const double lx = l[0], ly = l[1], lz = l[2],
+    halflx = lx/2., halfly = ly/2., halflz = lz/2.;
+  int ipart, jpart, iMol, jMol, itype, jtype;
+
+  // loop through nearest neighbor atom pairs
+  for (iMol = 0; iMol < nMol - 1; ++iMol) {
+    ipart = mol2part[iMol];
+    itype = type[ipart];
+    xi = x[dimen_*ipart];
+    yi = x[dimen_*ipart+1];
+    zi = x[dimen_*ipart+2];
+    for (jMol = iMol + 1; jMol < nMol; ++jMol) {
+      jpart = mol2part[jMol];
+      jtype = type[jpart];
+
+      // separation distance with periodic boundary conditions
+      dx = dx0 = xi - x[dimen_*jpart];
+      dy = dy0 = yi - x[dimen_*jpart+1];
+      dz  = zi - x[dimen_*jpart+2];
+      if (fabs(dz) > halflz) {
+        if (dz < 0.) {
+          dz += lz;
+          dy += yzTilt;
+          dx += xzTilt;
+          dy0 += yzTilt;
+          dx0 += xzTilt;
+        } else {
+          dz -= lz;
+          dy -= yzTilt;
+          dx -= xzTilt;
+          dy0 -= yzTilt;
+          dx0 -= xzTilt;
+        }
+      }
+      if (fabs(dy0) > halfly) {
+        if (dy0 < 0.) {
+          dy += ly;
+          dx += xyTilt;
+          dx0 += xyTilt;
+        } else {
+          dy -= ly;
+          dx -= xyTilt;
+          dx0 -= xyTilt;
+        }
+      }
+      if (fabs(dx0) > halflx) {
+        if (dx0 < 0.) {
+          dx += lx;
+        } else {
+          dx -= lx;
+        }
+      }
+      r2 = dx*dx+dy*dy+dz*dz;
+
+      // no interaction beyond cut-off distance
+      const double rCutij = rCutij_[itype][jtype];
+      if (r2 < rCutij*rCutij) {
+        for (int isite = ipart; isite < mol2part[iMol+1]; ++isite) {
+          const double xisite = x[dimen_*isite];
+          const double yisite = x[dimen_*isite+1];
+          const double zisite = x[dimen_*isite+2];
+          const double itypesite = type[isite];
+          for (int jsite = jpart; jsite < mol2part[jMol+1]; ++jsite) {
+
+            // separation distance with periodic boundary conditions
+            dx = dx0 = xisite - x[dimen_*jsite];
+            dy = dy0 = yisite - x[dimen_*jsite+1];
+            dz = zisite - x[dimen_*jsite+2];
+            if (fabs(dz) > halflz) {
+              if (dz < 0.) {
+                dz += lz;
+                dy += yzTilt;
+                dx += xzTilt;
+                dy0 += yzTilt;
+                dx0 += xzTilt;
+              } else {
+                dz -= lz;
+                dy -= yzTilt;
+                dx -= xzTilt;
+                dy0 -= yzTilt;
+                dx0 -= xzTilt;
+              }
+            }
+            if (fabs(dy0) > halfly) {
+              if (dy0 < 0.) {
+                dy += ly;
+                dx += xyTilt;
+                dx0 += xyTilt;
+              } else {
+                dy -= ly;
+                dx -= xyTilt;
+                dx0 -= xyTilt;
+              }
+            }
+            if (fabs(dx0) > halflx) {
+              if (dx0 < 0.) {
+                dx += lx;
+              } else {
+                dx -= lx;
+              }
+            }
+            r2 = dx*dx+dy*dy+dz*dz;
+
+            allPartEnerForceInner(r2, dx, dy, dz, itypesite, type[jsite],
+                                  iMol, jMol);
           }
         }
       }
@@ -1499,10 +1821,10 @@ double Pair::multiPartEnerAtomCut2D(const vector<int> mpart) {
             if (rCutMax_[iType] <= space_->dCellMin()) {
               space_->buildNeighListCellAtomCut(ipart);
             } else {
-              space_->initCellAtomCut(1);   // set neighListChosen to all atoms
+              space_->initAtomCut(1);   // set neighListChosen to all atoms
             }
           } else {
-            space_->initCellAtomCut(1);   // set neighListChosen to all atoms
+            space_->initAtomCut(1);   // set neighListChosen to all atoms
           }
         }
       }

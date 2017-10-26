@@ -10,6 +10,8 @@ Semantic versioning
 
 FEASST version policy follows Semantic Versioning 2.0.0 http://semver.org/spec/v2.0.0.html.
 
+Although all efforts are made for restart files to be backwards compatible, they cannot be guaranteed to be backwards compatible.
+
 Branch policies
 ###############
 
@@ -272,23 +274,21 @@ To do list
 * add ASSERT(rCutij.size() == 0 for linearShift in PairLJMulti so people don't run into issues with rCutij.clear
 * Numerical implementation of quadratic equation coudl help with config bias: https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation
 * Improve handling of default parameters for documentation and perhaps json (e.g. checkpointing above)?
-* Move Add/mod new classes to API with links from README to API
-* change initEnergy in most implementations to use Inner() and reduce code complexity/copied code.
 * implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).
 * runNumSweeps instead should have something where one generates the clones as vector<shrptr>, then runNumSweep takes these as input. That way one can modify the clones as one sees fit (also in multiprocessor restarts) before running the clones. It would take a lot of the hidden magic out without complicating the interface too drastically.
 * Fix GSL memory leaks
 * weekly tests -> test cases, perhaps run on a cluster with more processors?
+* change initEnergy in most implementations to use Inner() and reduce code complexity/copied code.
 * add PairPatchKF and PairLJCoulEwald loops to Pair base class for molecule-center-based cut-offs before loops through particles,
   Or make them more general (e.g., multi patch particles?).
 * Add verbosity level for printing debug messages
-* Document policy/checklist for bug reporting so that issues can be quickly reproduced
 * Automate updating of packages (e.g., documentation, push with hooks, etc).
 * List publications which use FEASST and also make a citation generator.
-* Monkey patch with python, and/or ability to pause run for analysis then continue on current number of steps.
 * move checkBond from MC to analyze class for rigid particle simulations (or as part of checkE?)
 * Move some analysis outside of space class
   - but what if things like trials use the analysis, such as clusters?
   - ""This trial requires MC to have an analyze class...""
-* MonkeyPatch swig python objects (e.g., Analyze like ljnvt testcase)
 * document log file and tuning, changing acceptance percentage
+* Include PDF version of manual in release tarballs
+* automate running of python testcases in same spirit as C++
 

@@ -14,19 +14,28 @@
 #include "trial_delete.h"
 #include "trial_transform.h"
 
-// Compare computed macrostate with SRSW
+// Compare canonical ensemble average potential energy and macrostate
+// probability with SRSW.
 void compareEnergyAndMacro(feasst::CriteriaWLTMMC criteria,
   int iMacro, //!< macrostate (e.g., number of particles)
   double peAv, double peStd, double lnPIav, double lnPIstd) {
   ASSERT(criteria.mMax() > iMacro, "comparing macrostate(" << iMacro
     << ") that doesn't exist in criteria, with max of " << criteria.mMax());
-  const double diff = criteria.pe(iMacro).average() - peAv;
+  double diff = criteria.pe(iMacro).average() - peAv;
   // 99% confidence interval
-  const double tol = 2.576*(criteria.pe(iMacro).blockStdev() + peStd);
+  double tol = 2.576*(criteria.pe(iMacro).blockStdev() + peStd);
   ASSERT(fabs(diff) < tol,
     "N=" << iMacro << " energy is " << criteria.pe(iMacro).average() << " +/- "
     << criteria.pe(iMacro).blockStdev() << " but SRSW is " << peAv << " +/- "
     << peStd << "." << endl << "The difference is: " << diff << endl
+    << "The tolerance (99%) is: " << tol);
+  diff = criteria.lnPI()[iMacro] - criteria.lnPI()[0] - lnPIav;
+  tol = 2.576*(criteria.lnPIstd(iMacro) + lnPIstd);
+  ASSERT(fabs(diff) < tol,
+    "N=" << iMacro << " lnPI-lnPI[0] is " << criteria.lnPI()[iMacro] -
+    criteria.lnPI()[0] << " +/- "
+    << criteria.lnPIstd(iMacro) << " but SRSW is " << lnPIav << " +/- "
+    << lnPIstd << "." << endl << "The difference is: " << diff << endl
     << "The tolerance (99%) is: " << tol);
 }
 
@@ -68,7 +77,7 @@ int main(int argc, char** argv) {  // LJ, SRSW_EOSTMMC
   // initialize simulation domain
   feasst::ranInitByDate();
   feasst::Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  s.lset(boxl);
   stringstream addMolType;
   addMolType << s.install_dir() << "/forcefield/" << molType.str().c_str();
   s.addMolInit(addMolType.str().c_str());
@@ -109,7 +118,7 @@ int main(int argc, char** argv) {  // LJ, SRSW_EOSTMMC
   mc.runNumSweeps(20,   // number of "sweeps"
                  -1);  // maximum number of trials. Infinite if "-1".
 
-  // Test results against the SRSW values
+  // Test macrostate and canonical ensemble average energy against the SRSW values
   if (openMP == 0) {
     ASSERT(fabs(c.pe(0).average()) < 1e-13,
       "N=0 should have zero energy, but pe=" << c.pe(0).average());

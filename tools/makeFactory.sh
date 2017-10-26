@@ -62,6 +62,12 @@ using namespace std;
 
 %pythonnondynamic;
 
+%shared_ptr(std::ifstream);
+namespace std{
+  class ifstream {
+  };
+}
+
 %shared_ptr(Base);
 EOF
 

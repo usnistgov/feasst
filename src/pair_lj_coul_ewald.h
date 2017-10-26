@@ -56,8 +56,10 @@ class PairLJCoulEwald : public Pair {
   /// initialize kspace, number of wave vectors and screening parameters
   void initKSpace(const double alphatmp, const int k2max);
 
-  /// Turn off Ewald
-  void removeEwald() { initKSpace(0., 0); }
+  /// Turn off Ewald.
+  /// Must be called after Pair::initData() because it automatically sets
+  /// rCutij to rCut.
+  void removeEwald() { initKSpace(0., 0); rCutijset(0, 0, rCut_); }
 
   /// initialize with LAMMPS data file
   void initLMPData(const string fileName);
@@ -79,9 +81,8 @@ class PairLJCoulEwald : public Pair {
   double multiPartEner(const vector<int> multiPart, const int flag);
 
   /// function to calculate real-space interaction energy contribution a subset
-  //  of particles
+  /// of particles
   double multiPartEnerReal(const vector<int> mpart, const int flag);
-  double multiPartEnerRealAtomCut(const vector<int> mpart, const int flag);
 
   /**
    * reciprical space energy of multiple particles, mpart.
@@ -91,6 +92,10 @@ class PairLJCoulEwald : public Pair {
    *  flag==3, just inserted particle
    */
   void multiPartEnerFrr(const vector<int> mpart, const int flag);
+
+  // Overloaded virtual function from pair.h
+  void multiPartEnerAtomCutInner(const double &r2, const int &itype,
+                                 const int &jtype);
 
   /**
    * stores, restores or updates variables to avoid recompute of entire
@@ -139,6 +144,9 @@ class PairLJCoulEwald : public Pair {
     p->reconstruct(space);
     return p;
   }
+
+  /// Access the error function table to turn off
+  erftable * erfTable() { return &erft_; }
 
  protected:
   vector<double> q_;      //!< particle charges
@@ -219,7 +227,13 @@ class PairLJCoulEwald : public Pair {
    */
   void selfCorrect_(vector<int> mpart);
 
+  // default constructor
+  void defaultConstruction_();
+
   erftable erft_;   //!< tabular error function
+
+  // compute self interaction of all particles
+  void selfAll_();
 };
 
 #ifdef FEASST_NAMESPACE_

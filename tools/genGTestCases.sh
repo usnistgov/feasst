@@ -2,11 +2,24 @@
 DES=testcase
 mkdir -p $DES
 
-for file in `find ../testcase -name *cc | grep -v "bak"`; do
+# generate aggregated c++ testcases
+for file in `find ../testcase -name test.cc`; do
   newfile=$DES/`echo $file | sed 's/\.\.\/testcase\///' | sed 's/\//_/g'`
   ../tools/cc2gtest.sh $file $newfile
 done
 
+# generate aggregated python testcases
+pyfile=$DES/test.py
+echo "" > $pyfile
+for file in `find ../testcase -name test.py`; do
+  head -n -3 $file >> $pyfile
+done
+cat <<-EOF >> $pyfile
+if __name__ == "__main__":
+    unittest.main()
+EOF
+
+# generate / filter RST files for documentation
 for file in `find ../testcase -name *README.rst | grep -v "bak"`; do
   DIR=$(dirname "${file}" | sed 's/\.\.\///' | sed 's/\//\\\//g')
   newfile=$DES/`echo $file | sed 's/\.\.\/testcase\///' | sed 's/\//_/g'`

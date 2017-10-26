@@ -23,11 +23,6 @@ sed --in-place 's/->/\./g' $DES
 sed --in-place 's/}//g' $DES
 
 cat <<- EOF > $TMP
-import os, sys
-feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/build"
-if not os.path.isfile(feasstdir+"/_feasst.so"):
-  feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/src"
-sys.path.append(feasstdir)
 import feasst
 EOF
 

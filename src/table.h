@@ -136,11 +136,12 @@ class Table {
 class erftable {
  public:
   /// Constructor
-  erftable() {}
+  erftable() { on_ = 1; }
   ~erftable() {}
 
   /**
    * Initialize table for f(x) = erfc(alpha*r)/r
+   * Also stores alpha for exact evaluation if on != 1
    */
   void init(const double alpha, const double rCut);
 
@@ -149,10 +150,15 @@ class erftable {
    */
   double eval(const double x) const;
 
+  // if this flag is not 1, then use exact calculation instead
+  void tableOff() { on_ = 0; }
+
  private:
   vector<double> vtab_;
   int n_;
   double ds_;
+  double alpha_;
+  int on_;
 };
 
 #ifdef FEASST_NAMESPACE_

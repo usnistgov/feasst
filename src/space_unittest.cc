@@ -514,7 +514,7 @@ TEST(Space, cellListOnePatch) {
     EXPECT_EQ(0, s.cellType());
     const double rCut = 1.5;
     for (int dim=0; dim < s.dimen(); ++dim) s.lset(10,dim);
-    s.initCellAtomCut(cell);
+    s.initAtomCut(cell);
     s.updateCells(rCut, rCut);
     EXPECT_EQ(1, s.cellType());
     EXPECT_EQ(s.nCell(), int(s.neighCell().size()));

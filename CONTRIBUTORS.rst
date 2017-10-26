@@ -14,28 +14,34 @@ Nathan Alexander Mahynski
   * developed confinement and barriers
   * developed extensive moment analysis for histogram extrapolation
 
-Alpha testers
-###############
+Acknowledgement for discussion and/or testing (alphabetical)
+###############################################################
 
-* Dr. Nathan Mahynski
-* Dr. Tamoghna Das
-* Prof. Jeetain Mittal
-* Dr. Hasan Zerze
-* Dr. Steven Howell
+* Dr. Marco A. Blanco
 * Cesar O Calero-Rubio
+* Dr. Tamoghna Das
+* Dr. Steven Howell
+* Dr. William P. Krekelberg
+* Dr. Nathan Mahynski
+* Prof. Jeetain Mittal
+* Prof. Jeremy Palmer
+* Prof. Christopher J. Roberts
 * Prof. Sapna Sarupria
+* Dr. Vincent K. Shen
+* Dr. Daniel W. Siderius
+* Dr. Hasan Zerze
 
 Publications
 ##############
 
 Here is a list of publications which use FEASST:
 
-4. http://doi.org/10.1039/C7SM01005B
+5. http://doi.org/10.1039/C7SM01005B
 
-3. http://doi.org/10.1063/1.4949758
+4. http://doi.org/10.1063/1.4949758
 
-2. http://doi.org/10.1039/C6SM00473C
+3. http://doi.org/10.1039/C6SM00473C
 
-1. http://doi.org/10.1063/1.4918557
+2. http://doi.org/10.1063/1.4918557
 
-
+1. http://doi.org/10.18434/T4M88Q

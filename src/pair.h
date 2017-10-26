@@ -47,7 +47,7 @@ class Pair : public BaseRandom {
   //   this subroutine is written from scratch in each derived class, without
   //   any optimizations, as a test of the potential. Other potential
   //   computations and optimized and tested against this one
-  virtual void initEnergy() { peTot_ = allPartEnerForce(1); }
+  virtual void initEnergy() { peTot_ = allPartEnerForce(2); }
 
   /// Return total potential energy of system.
   virtual double peTot() { return peTot_; }
@@ -64,6 +64,11 @@ class Pair : public BaseRandom {
 
   /// Return potential energy of multipe particles with atom-based cutoff in 2D.
   virtual double multiPartEnerAtomCut2D(const vector<int> multiPart);
+
+  /// Return potential energy of multiple particles with molecular-based cutoff
+  /// in 3D.
+  // HWH depreciate the flag?
+  virtual double multiPartEner3D(const vector<int> multiPart);
 
   /**
    * Compute the interaction between two particles itype and jtype separated
@@ -84,7 +89,11 @@ class Pair : public BaseRandom {
     multiPartEnerAtomCutInner(r2, itype, jtype); }
 
   /// Compute potential energy and forces of all particles.
-  virtual double allPartEnerForce(const int flag);
+  virtual double allPartEnerForce(
+    /// If flag == 0, no compute. return the stored potential energy (peTot_)
+    /// If flag == 1, compute
+    /// If flag == 2, compute without optimizations (e.g., cells, etc)
+    const int flag = 1);
 
   /// Compute potential energy and forces of all particles with atom-based
   /// cut-off and no cell list in 3D.
@@ -97,6 +106,10 @@ class Pair : public BaseRandom {
   /// Compute potential energy and forces of all particles with atom-based
   /// cut-off and cell list in 3D.
   double allPartEnerForceAtomCutCell();
+
+  /// Compute potential energy and forces of all particles with molecule-based
+  /// cut-off and no cell list in 3D.
+  double allPartEnerForceNoCell();
 
   /// Store, restore or update variables to avoid recompute
   /// of entire configuration after every trial particle move.
@@ -137,7 +150,7 @@ class Pair : public BaseRandom {
 
   /// Add particle(s).
   virtual void addPart() { addPartBase_(); }
-  virtual void addMol(const char* fileName) { 
+  virtual void addMol(const char* fileName) {
     space_->addMol(fileName); addPartBase_(); }
   virtual void addMol() { space_->addMol(); addPartBase_(); }
 
@@ -248,7 +261,7 @@ class Pair : public BaseRandom {
   /// Initialize cut-off method by atoms or molecules.
   void initAtomCut(const int flag) {
     if (flag == 1) { atomCut_ = 1; } else { atomCut_ = 0; }; addPartBase_();
-    space_->initCellAtomCut(flag);
+    space_->initAtomCut(flag);
   }
 
   /// Set the cut off between particles itype and jtype to rCut.
@@ -521,6 +534,12 @@ class Pair : public BaseRandom {
 
   /// Write restart file.
   void writeRestartBase(const char* fileName);
+
+  /// Flag which tells pair not to skip count eps=0
+  int skipEPS0_ = 1;
+
+  /// VMD labels read for data file
+  vector<string> VMDlabels_;
 };
 
 /// Factory method.

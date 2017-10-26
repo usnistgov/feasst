@@ -376,15 +376,14 @@ TEST(MC, nseekSPCEnoEwald) {
   Space s(3,0);
   for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
   PairLJCoulEwald p(&s, rCut);
-  p.removeEwald();
   //p.initBulkSPCE(5.6, 38);
   p.initData("../forcefield/data.spce");
+  p.removeEwald();
   CriteriaWLTMMC c(beta, activ,"nmol",0-0.5,nMolMax+0.5,nMolMax+1);
   MC mc(&s,&p,&c);
   transformTrial(&mc, "translate");
   transformTrial(&mc, "rotate");
   mc.nMolSeek(20, "../forcefield/data.spce", 1e5);
-  cout << "pe " << p.peTot() << endl;
   EXPECT_EQ(20, s.nMol());
   mc.nMolSeek(2, "../forcefield/data.spce", 1e5);
   EXPECT_EQ(2, s.nMol());

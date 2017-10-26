@@ -14,7 +14,7 @@ cat << EOF > $DES
 # define ASSERT(condition, message) \
 if (! (condition)) { \
   std::stringstream err_msg; \
-  std::cout << "# Assertion `" #condition "` failed in " << __FILE__ \
+  std::cout << "# Assertion \`" #condition "\` failed in " << __FILE__ \
               << " line " << __LINE__ << ": " << message << std::endl; \
 } \
 EXPECT_TRUE(condition);

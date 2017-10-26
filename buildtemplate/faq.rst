@@ -2,6 +2,12 @@
 Frequently asked questions (FAQ)
 **********************************
 
+How do I get started?
+#######################
+
+Try running some test cases and find one that is closest to what you want to do.
+Reproduce a published result and carefully modify it as you see fit.
+
 Simulation issues
 ###################################################
 
@@ -9,14 +15,8 @@ Calculate average properties
 =========================================
 
 * The log file from :cpp:func:`MC::initLog()` may periodically output the instantaneous value of the property of interest.
-* Implement a custom Analysis class as demonstrated for average energy in :doc:`/testcase/1_lj_2_nvt-mc_README`
-
-Hack FEASST to do exactly what you want it to do
-===========================================================
-
-You can easily create your own Pair, Trial, Criteria, Analyze, and Random classes.
-Start by finding an existing derived class that is the most similar and copying it.
-You can also define new classes within the script themselves (see :doc:`/testcase/1_lj_2_nvt-mc_README`).
+* Obtain the property of interest from the :doc:`/api` periodically, as shown in the python script of :doc:`/testcase/1_lj_2_nvt-mc_README`.
+* Implement a custom Analysis class as demonstrated for average energy in the C++ script of :doc:`/testcase/1_lj_2_nvt-mc_README`
 
 Calculate grand canonical ensemble average properties
 =================================================================
@@ -27,6 +27,13 @@ Load coordinate files or place particles in specific locations
 ================================================================
 
 * See the example in :doc:`/testcase/1_lj_1_ref-config_README`.
+
+Make FEASST do exactly what you want it to do
+===========================================================
+
+You can create your own :cpp:class:`Pair`, :cpp:class:`Trial`, :cpp:class:`Criteria`, :cpp:class:`Analyze`, and :cpp:class:`Random` classes as described in the documentation for the Base classes.
+Start by finding an existing derived class that is the most similar and copying it.
+You can also define new classes within the script themselves (see :doc:`/testcase/1_lj_2_nvt-mc_README`).
 
 Analysis of configurations for WL-TMMC simulations
 ==================================================================================
@@ -200,7 +207,7 @@ http://feasst.hhatch.com/WLTMMC.html#_CPPv2N6WLTMMC11initWindowsEKdKi
 To remove the box move after equilibration, I prefer to "scope" the mc class with the box move and just make another clean mc class, or do an shallow copy (cloneShallow) before calling the transform trial and then use that clone later for production.
 Another option is mc.removeTrial(trial#);
 
-Compilation errors
+Compilation issues
 ###################################################
 
 ModuleNotFoundError: "No module named 'feasst'"
@@ -217,7 +224,7 @@ ModuleNotFoundError: "No module named 'feasst'"
 Compilation error gives "can not be used when making a shared object; recompile with -fPIC"
 ================================================================================================
 
-Solution: One of your external libraries (e.g., fftw or xdrfile) needs the flag "--enable-shared" during configuration.
+One of your external libraries (e.g., fftw or xdrfile) needs the flag "--enable-shared" during configuration.
 Or you can edit CMakeLists.txt to add "-fPIC" as follows:
 
 SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS} -fPIC)   # HWH: add -fPIC

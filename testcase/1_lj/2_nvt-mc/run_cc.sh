@@ -1,1 +1,1 @@
-../../../../tools/run.sh lj.cc
+../../../tools/run.sh test.cc

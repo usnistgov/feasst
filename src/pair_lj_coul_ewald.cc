@@ -24,14 +24,13 @@ namespace feasst {
 PairLJCoulEwald::PairLJCoulEwald(Space* space,
   const double rCut)
   : Pair(space, rCut) {
-  className_.assign("PairLJCoulEwald");
-  alpha = 5.6 / space_->minl();
+  defaultConstruction_();
 }
 
 PairLJCoulEwald::PairLJCoulEwald(Space* space,
   const char* fileName)
   : Pair(space, fileName) {
-  className_.assign("PairLJCoulEwald");
+  defaultConstruction_();
   k2max_ = fstoi("k2max", fileName);
   alpha  = fstod("alpha", fileName);
   const int nCharges = fstoi("nCharges", fileName);
@@ -49,6 +48,13 @@ PairLJCoulEwald::~PairLJCoulEwald() {
   if (neighOn_) checkNeigh();
 }
 
+void PairLJCoulEwald::defaultConstruction_() {
+  className_.assign("PairLJCoulEwald");
+  alpha = 5.6 / space_->minl();
+  initAtomCut(0);
+  skipEPS0_ = 0;
+}
+
 void PairLJCoulEwald::writeRestart(const char* fileName) {
   Pair::writeRestart(fileName);
   std::ofstream file(fileName, std::ios_base::app);
@@ -62,116 +68,16 @@ void PairLJCoulEwald::writeRestart(const char* fileName) {
 }
 
 void PairLJCoulEwald::initEnergy() {
-  // shorthand for read-only space variables
-  const int dimen = space_->dimen();
-  const int nMol = space_->nMol();
-  const vector<double> x = space_->x();
-  const vector<int> type = space_->type();
-  const vector<int> mol2part = space_->mol2part();
-
-  double r2inv, r6inv, enlj, flj;
-  double enq, fq;
   peLJ_ = 0; peQReal_ = 0;
-
-  // zero accumulators: potential energy, force, and virial
-  std::fill(pe_.begin(), pe_.end(), 0.);
-  fill(0., f_);
-  fill(0., vr_);
-
-  // loop through pairs of molecules
-  for (int iMol = 0; iMol < nMol - 1; ++iMol) {
-    const int ipart = mol2part[iMol];
-    for (int jMol = iMol + 1; jMol < nMol; ++jMol) {
-      const int jpart = mol2part[jMol];
-
-      // separation vector, xij with periodic boundary conditions
-      vector<double> xij(dimen);
-      for (int i = 0; i < dimen; ++i) {
-        xij[i] = x[dimen_*ipart+i] - x[dimen_*jpart+i];
-      }
-      const vector<double> dx = space_->pbc(xij);
-      for (int i = 0; i < dimen; ++i) {
-        xij[i] += dx[i];
-      }
-
-      // separation distance
-      double r2 = 0.;
-      for (vector<double>::iterator ptr = xij.begin();
-           ptr != xij.end(); ++ptr) {
-        r2 += (*ptr)*(*ptr);
-      }
-
-      // no interaction beyond molecular cut-off distance
-      if (r2 < rCutSq_) {
-        // loop through pairs of sites
-        for (int isite = ipart; isite < mol2part[iMol+1]; ++isite) {
-          for (int jsite = jpart; jsite < mol2part[jMol+1]; ++jsite) {
-            // separation vector, xij with periodic boundary conditions
-            vector<double> xij(dimen);
-            for (int i = 0; i < dimen; ++i) {
-              xij[i] = x[dimen_*isite+i] - x[dimen_*jsite+i];
-            }
-            const vector<double> dx = space_->pbc(xij);
-            for (int i = 0; i < dimen; ++i) {
-              xij[i] += dx[i];
-            }
-
-            // separation distance
-            double r2 = 0.;
-            for (vector<double>::iterator ptr = xij.begin();
-                 ptr != xij.end(); ++ptr) {
-              r2 += (*ptr)*(*ptr);
-            }
-
-            // dispersion interactions
-            const double epsij = epsij_[type[isite]][type[jsite]];
-            if ( epsij != 0 ) {
-              // energy and force prefactor
-              const double sigij = sigij_[type[isite]][type[jsite]];
-              r2inv = sigij*sigij/r2;
-              r6inv = r2inv*r2inv*r2inv;
-              enlj = 4.*epsij*(r6inv*(r6inv - 1.));
-              flj = 48.*epsij*(r6inv*r2inv*(r6inv - 0.5));
-            } else {
-              enlj = 0.; flj = 0;
-            }
-            peLJ_ += enlj;
-
-            // charge interactions
-            enq = q_[type[isite]]*q_[type[jsite]]*erft_.eval(r2);
-//            r = sqrt(r2);
-//            enq = q_[type[isite]]*q_[type[jsite]]*erfc(alpha*r)/r;
-            fq = enq + q_[type[isite]]*q_[type[jsite]]
-                      *(2.*alpha*exp(-alpha*alpha*r2)/sqrt(PI));
-
-            peQReal_ += enq;
-            pe_[isite] += (enlj + enq)/2.;
-            pe_[jsite] += (enlj + enq)/2.;
-
-            // force
-            vector<double> fij(dimen);
-            for (int i = 0; i < dimen; ++i) {
-              fij[i] += (flj + fq) * xij[i];
-              f_[isite][i] += fij[i];
-              f_[jsite][i] -= fij[i];
-
-              // virial tensor
-              for (int j = 0; j < dimen; ++j) {
-                vr_[isite][i][j] += 0.5 * xij[j] * fij[i];
-                vr_[jsite][i][j] += 0.5 * xij[j] * fij[i];
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+  allPartEnerForce(2);
 
   // reciprical (Fourier) space
   forcesFrr_();
 
   // standard long range corrections
   lrcConf_();
+
+  selfAll_();
 }
 
 double PairLJCoulEwald::multiPartEnerReal(
@@ -296,111 +202,6 @@ double PairLJCoulEwald::multiPartEnerReal(
   return peLJone_ + peLRCone_ + peQRealone_ + peQFrrone_;
 }
 
-double PairLJCoulEwald::multiPartEnerRealAtomCut(
-  const vector<int> mpart,  //!< particles to calculate energy interactions
-  const int flag) {
-  // shorthand for read-only space variables
-  const int dimen = space_->dimen();
-  const int natom = space_->natom();
-  const vector<double> &x = space_->x();
-  const vector<double> l = space_->l();
-  const vector<int> type = space_->type();
-  const vector<int> mol = space_->mol();
-
-  if (flag == 0) {}  // remove unused parameter warning
-
-  // zero
-  double r, r2inv, r6inv, enlj;
-  double enq, r2, epsij, sigij;
-  int jtype;
-  const double rCut2 = rCut_*rCut_;
-  peLJone_ = 0;
-  peLRCone_ = 0;
-  peQRealone_ = 0;
-  neighOne_.clear();
-  neighOne_.resize(mpart.size(), vector<int>());
-  fill(0, neighOne_);
-//  neighCutOne_.clear();
-//  neighCutOne_.resize(mpart.size(), vector<int>());
-//  fill(0, neighCutOne_);
-
-  for (unsigned int impart = 0; impart < mpart.size(); ++impart) {
-    const int ipart = mpart[impart];
-    const int itype = type[ipart], imol = mol[ipart];
-    vector<double> xi;
-    for (int dim = 0; dim < dimen; ++dim) xi.push_back(x[dimen_*ipart+dim]);
-    const double qi = q_[itype];
-
-//    // loop through nearest neighbor atom pairs
-//    vector<int> neigh;
-//    if ( (flag == 0) || (flag == 2) ) {
-//
-//    // use neighCut_ for up-to-date neighbors because there was no change in
-//    // configuration
-//    neigh = neighCut_[ipart];
-//    } else {
-//
-//      // use full list of atoms
-//      neigh = space_->listAtoms();
-//      if (static_cast<int>(neigh.size()) != space_->natom()) {
-//        std::cerr << "problemo68548689690567 " << std::endl;
-//      }
-//    }
-
-    for (int jpart = 0; jpart < natom; ++jpart) {
-//    for (int ineigh = 0; ineigh < static_cast<int>(neigh.size()); ++ineigh) {
-//      const int jpart = neigh[ineigh];
-
-      // no intramolecular interactions
-      if (imol != mol[jpart]) {
-        // separation distance with periodic boundary conditions
-        r2 = 0.;
-
-        for (int i = 0; i < dimen; ++i) {
-          r = xi[i] - x[dimen_*jpart+i];
-          if (r >  0.5 * l[i]) r -= l[i];
-          if (r < -0.5 * l[i]) r += l[i];
-          r2 += r*r;
-        }
-
-        // no interaction beyond cut-off distance
-        if (r2 < rCut2) {
-          // dispersion interactions
-          jtype = type[jpart];
-          epsij = epsij_[itype][jtype];
-          if ( epsij != 0 ) {
-            // energy
-            sigij = sigij_[itype][jtype];
-            r2inv = sigij*sigij/r2;
-            r6inv = r2inv*r2inv*r2inv;
-            enlj = 4.*epsij*(r6inv*(r6inv - 1.));
-          } else {
-            enlj = 0.;
-          }
-          peLJone_ += enlj;
-
-          // charge interactions
-          enq = qi*q_[jtype]*erft_.eval(r2);
-          peQRealone_ += enq;
-
-          // store new neighbor list
-//          neighCutOne_[impart].push_back(jpart);
-          if ( (r2 < neighAboveSq_) && (r2 > neighBelowSq_) ) {
-            neighOne_[impart].push_back(jpart);
-          }
-        }
-      }
-    }
-    // standard long range correction contribution of ipart
-    peLRCone_ += lrcOne_(ipart);
-  }
-
-  // fourier space contributions
-  peQFrrone_ = 0;
-
-  return peLJone_ + peLRCone_ + peQRealone_ + peQFrrone_;
-}
-
 void PairLJCoulEwald::k2maxset(
   const int k2max) {
   k2max_ = k2max;
@@ -440,8 +241,10 @@ void PairLJCoulEwald::k2maxset(
       }
     }
   }
+  selfAll_();
+}
 
-  // precompute self interaction energy
+void PairLJCoulEwald::selfAll_() {
   vector<int> tmp;
   selfCorrect_(tmp);
   peQFrrSelf_ = peQFrrSelfone_;
@@ -893,7 +696,7 @@ void PairLJCoulEwald::initBulkSPCE() {
   eps[1] = 0.; eps[0] = 0.650169581;
   sig[1] = 0.; sig[0] = 3.16555789;
   initPairParam(eps, sig);
-  initAtomCut(0);
+  rCutijset(0, 0, rCut_);
 }
 
 void PairLJCoulEwald::initBulkSPCE(
@@ -927,6 +730,8 @@ void PairLJCoulEwald::initKSpace(const double alphatmp, const int k2max) {
   alpha = alphatmp/space_->minl();
   k2maxset(k2max);
   erft_.init(alpha, rCut_);
+  ASSERT(epsij().size() > 0, "Must Pair::initData() before Pair::initKSpace");
+  rCutijset(0, 0, rCut_);
   initEnergy();
 }
 
@@ -957,6 +762,31 @@ void PairLJCoulEwald::initLMPData(const string fileName) {
     q_[type] = qtmp/sqrt(4.*PI*permitivity);
     std::getline(file, line);
   }
+}
+
+void PairLJCoulEwald::multiPartEnerAtomCutInner(const double &r2,
+  const int &itype, const int &jtype) {
+  const double epsij = epsij_[itype][jtype];
+  double enlj;
+  if (epsij != 0) {
+    // energy and force prefactor
+    const double sigij = sigij_[itype][jtype];
+    const double r2inv = sigij*sigij/r2;
+    const double r6inv = r2inv*r2inv*r2inv;
+    enlj = 4.*epsij*(r6inv*(r6inv - 1.));
+    // flj = 48.*epsij*(r6inv*r2inv*(r6inv - 0.5));
+  } else {
+    enlj = 0.;  // flj = 0;
+  }
+  peLJ_ += enlj;
+
+  // charge interactions
+  const double enq = q_[itype]*q_[jtype]*erft_.eval(r2);
+//  const double fq = enq + q_[itype]*q_[jtype]
+//            *(2.*alpha*exp(-alpha*alpha*r2)/sqrt(PI));
+
+  peQReal_ += enq;
+  peSRone_ += enq + enlj;
 }
 
 #ifdef FEASST_NAMESPACE_

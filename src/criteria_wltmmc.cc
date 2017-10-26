@@ -974,7 +974,7 @@ void CriteriaWLTMMC::writeRestart(const char* fileName) {
        ++mo) {
     file << "peSum" << mo + 1 << " ";
   }
-  file << "peBlockStdev lnPIstdev" << endl;
+  file << "peBlockStdev lnPIstd" << endl;
 
   // statistical analysis on separate colmats
   for (vector<shared_ptr<CriteriaWLTMMC> >::iterator it = crits_.begin();
@@ -1004,18 +1004,16 @@ void CriteriaWLTMMC::writeRestart(const char* fileName) {
     file << h_[i] << " ";
     file << std::setprecision(std::numeric_limits<long double>::digits10+2)
          << pe_[i].nValues() << " ";
-      for (int mo = 0; mo < static_cast<int>(pe_[i].valMoment().size());
-           ++mo) {
-        file << pe_[i].valMoment()[mo] << " ";
-      }
-      file << pe_[i].blockStdev() << " ";
-    Accumulator lnPIacc;
+    for (int mo = 0; mo < static_cast<int>(pe_[i].valMoment().size());
+         ++mo) {
+      file << pe_[i].valMoment()[mo] << " ";
+    }
+    file << pe_[i].blockStdev() << " ";
     for (vector<shared_ptr<CriteriaWLTMMC> >::iterator it = crits_.begin();
          it != crits_.end(); ++it) {
       file << (*it)->lnPI()[i] << " ";
-      lnPIacc.accumulate((*it)->lnPI()[i]);
     }
-    file << lnPIacc.stdev();
+    file << lnPIstd(i);
 
     file << endl << std::setprecision(ss);
   }
@@ -1174,6 +1172,15 @@ void CriteriaWLTMMC::initMoments(const int nMoments) {
   for (int bin = 0; bin < nBin_; ++bin) {
     pe_[bin].initMoments(nMoments);
   }
+}
+
+double CriteriaWLTMMC::lnPIstd(const double iMacro) {
+  Accumulator lnPIacc;
+  for (vector<shared_ptr<CriteriaWLTMMC> >::iterator it = crits_.begin();
+       it != crits_.end(); ++it) {
+    lnPIacc.accumulate((*it)->lnPI()[iMacro]);
+  }
+  return lnPIacc.std();
 }
 
 shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const double beta,

@@ -13,7 +13,7 @@
 
 # run more tests in parallel
 pidArr=()
-for tests in valgrind swigtest cpplint pylint makehtml; do
+for tests in valgrind swigtest cpplint pylint makehtml testcase testcasepy; do
   ../buildexample/$tests.sh &
   pidArr+=($!)
 done

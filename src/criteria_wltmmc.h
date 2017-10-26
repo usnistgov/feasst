@@ -19,6 +19,7 @@ namespace feasst {
 
 /**
  * Wang-Landau (WL) and Transition Matrix (TM) Monte Carlo acceptance criteria.
+ * http://dx.doi.org/10.1063/1.1572463
  * http://dx.doi.org/10.1063/1.4884124
  */
 class CriteriaWLTMMC : public Criteria {
@@ -411,6 +412,9 @@ class CriteriaWLTMMC : public Criteria {
   double lnfCollect() const { return lnfCollect_; }
   vector<double> peMUVT() { lnPIenergyIso(); return peMUVT_; }
   vector<shared_ptr<CriteriaWLTMMC> > crits() { return crits_; }
+
+  /// Return estimated standard deviation of lnPI from replicas
+  double lnPIstd(const double iMacro);
 
   /// Construct by checkpoint file.
   explicit CriteriaWLTMMC(const char* fileName);

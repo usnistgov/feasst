@@ -42,6 +42,9 @@ class Accumulator : public Base {
   double std() const;
   double stdev() const { return std(); }  // NOTE HWH: Depreciated
 
+  /// Return the standard deviation of the average (e.g., std/sqrt(num_samples))
+  double stdOfAv() const { return std()/sqrt(static_cast<double>(nValues())); }
+
   /**
    * Set the size of a block to compute (uncorrelated) standard errors of the
    * block averages.

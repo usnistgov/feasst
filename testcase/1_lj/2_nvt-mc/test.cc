@@ -12,16 +12,14 @@
 #include "mc.h"
 #include "trial_transform.h"
 
-using namespace feasst;
-
 // Define a new Analyze class in order to compute the average potential energy
-class AnalyzeMonkeyPatch : public Analyze {
+class AnalyzeMonkeyPatch : public feasst::Analyze {
  public:
-  AnalyzeMonkeyPatch(Pair *pair) : Analyze(pair) {}
+  AnalyzeMonkeyPatch(feasst::Pair *pair) : Analyze(pair) {}
   ~AnalyzeMonkeyPatch() {}
 
   // Access the average and block std from the accumulator
-  Accumulator pe;
+  feasst::Accumulator pe;
 
   // Overwrite the virtual function to accumulate intensive potential energy
   void update() {
@@ -33,20 +31,20 @@ class AnalyzeMonkeyPatch : public Analyze {
 };
 
 int main() {  // LJ, SRSW_NVTMC
-  Space space(3);
-  const double rho = 1e-2;  // number density
+  feasst::Space space(3);
+  const double rho = 1e-3;  // number density
   const int nMol = 500;     // number of particles
   space.lset(pow(double(nMol)/rho, 1./3.));   // set the cubic PBCs
   stringstream molNameSS;
   molNameSS << space.install_dir() << "/forcefield/data.lj";
   space.addMolInit(molNameSS.str().c_str());
-  PairLJ pair(&space, 3);   // potential truncation at 3
+  feasst::PairLJ pair(&space, 3);   // potential truncation at 3
   pair.initEnergy();
   const double temperature = 0.9;
-  CriteriaMetropolis criteria(1./temperature, 1.);
-  MC mc(&space, &pair, &criteria);
-  transformTrial(&mc, "translate", 0.1);
-  mc.nMolSeek(nMol, molNameSS.str().c_str());
+  feasst::CriteriaMetropolis criteria(1./temperature, 1.);
+  feasst::MC mc(&space, &pair, &criteria);
+  feasst::transformTrial(&mc, "translate", 0.1);
+  mc.nMolSeek(nMol);
   mc.initLog("log", 1e4);
   mc.initMovie("movie", 1e4);
   mc.initRestart("tmp/rst", 1e4);
