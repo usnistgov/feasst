@@ -14,5 +14,5 @@ https://doi.org/10.1063/1.476834
 
 Note that there are some systematic deviations from the published result because of the follow differences:
 
-* The published result used Ewald boundary conditions :math:`\eps=65`
+* The published result used Ewald boundary conditions :math:`\epsilon=65`
 * The wave vectors are specified as :math:`k^2 <= 38` instead of :math:`k^2 < 38`
