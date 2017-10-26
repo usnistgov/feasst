@@ -49,8 +49,8 @@ int main() {  // SPCE, SRSW_NVTMC
   // Check average energy against Gerhard Hummer
   // https://doi.org/10.1063/1.476834
   const double
-    peAv = mc.peAccumulator().average(),
-    peStd = mc.peAccumulator().blockStdev(),
+    peAv = mc.peAccumulator().average()/static_cast<double>(space.nMol()),
+    peStd = mc.peAccumulator().blockStdev()/static_cast<double>(space.nMol()),
     pePublish = -46.,
     // pePublish = -46.82, # published value
     pePublishStd = 0.02;
