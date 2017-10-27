@@ -122,6 +122,7 @@ To install the python interface, use the following CMake command in place of "cm
 .. code-block:: bash
 
     cmake -DUSE_SWIG=ON -DPYTHON_INCLUDE_PATH=/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES=/path/to/anaconda/lib/libpython3.6m.so .
+    make _feasst -j
 
 Note that the ``PYTHON_INCLUDE_PATH`` and ``PYTHON_LIBRARIES`` depends on your python installation.
 

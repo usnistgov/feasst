@@ -92,7 +92,7 @@ TEST(Criteria, pressureANDavMacro) {
   vector<int> min = c.lnPIphaseBoundary();
   EXPECT_EQ(1, int(min.size()));
   EXPECT_EQ(150, min[0]);
-  EXPECT_NEAR(437.8262520297539, c.lnPIaverage(), 1e-18);
+  EXPECT_NEAR(437.8262520297539, c.lnPIaverage(), 1e-12);
 //  EXPECT_NEAR(cvec[0].lnPIpressure(512), cvec[1].lnPIpressure(512), 1e-18);
   EXPECT_NEAR(
     c.lnPIpressure(512),

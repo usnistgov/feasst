@@ -924,7 +924,7 @@ int Pair::printxyz(const char* fileName,
       if (VMDlabels_.size() > 0) {
         stringstream ss;
         ss << VMDlabels_[type[ipart]] << " ";
-        fprintf(xyzFile, ss.str().c_str());
+        fprintf(xyzFile, "%s", ss.str().c_str());
 
       // otherwise attempt to guess the best labels
       } else {
@@ -1277,7 +1277,7 @@ double Pair::multiPartEner3D(const vector<int> mpart) {
   double r2, xi, yi, zi, dx, dy, dz, dx0, dy0;
   const double lx = l[0], ly = l[1], lz = l[2],
     halflx = lx/2., halfly = ly/2., halflz = lz/2.;
-  int ipart, jpart, itype, jtype;
+  int ipart, jpart, itype, jtype = -1;
   double rCutij;
 
   // loop through atoms in mpart

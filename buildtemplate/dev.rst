@@ -11,11 +11,12 @@ Semantic versioning
 FEASST version policy follows Semantic Versioning 2.0.0 http://semver.org/spec/v2.0.0.html.
 
 In a nutshell, this means that version x.y.z-a-[version control id][abbreviated commit hash]
-x. Major version number. Public API is backwards incompatible with previous versions.
-y. Minor version number. New features but the public API is fully backwards compatible.
-z. This version number changes if the source code has changed in the slightest.
-a. This version changes if the documentation changes but the source code is the same.
-And the version control id is "g" for GitHub, for example.
+
+* x. Major version number. Public API is backwards incompatible with previous versions.
+* y. Minor version number. New features but the public API is fully backwards compatible.
+* z. This version number changes if the source code has changed in the slightest.
+* a. This version changes if the documentation changes but the source code is the same.
+* And the version control id is "g" for GitHub, for example, followed by the commit hash.
 
 Although all efforts are made for restart files to be backwards compatible, they can only be guaranteed to be backwards for the same version x.y.z.
 
@@ -298,4 +299,5 @@ To do list
 * document log file and tuning, changing acceptance percentage
 * Include PDF version of manual in release tarballs
 * automate running of python testcases in same spirit as C++
+* Expose physical constants to the public API (in preparation of CODATA, etc)
 
