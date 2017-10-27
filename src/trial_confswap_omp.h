@@ -5,7 +5,7 @@
  *
  * Permission to use this data/software is contingent upon your acceptance of
  * the terms of LICENSE.txt and upon your providing
- * appropriate acknowledgments of NIST’s creation of the data/software.
+ * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
 #ifndef TRIAL_CONFSWAP_OMP_H_
