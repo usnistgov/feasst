@@ -5,7 +5,7 @@ FEASST: Free Energy and Advanced Sampling Simulation Toolkit
 
 Contents:
 
-.. image:: http://feasst.hhatch.com/feasst.png
+.. image:: feasst.png
    :align: right
 
 .. toctree::

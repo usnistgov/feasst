@@ -1,3 +1,8 @@
+License
+###########
+
+This license was obtained from https://www.nist.gov/director/licensing (revised as of July 2017).
+
 This data/software was developed by employees of the National Institute of Standards and Technology (NIST), an agency of the Federal Government. Pursuant to title 15 United States Code Section 105, works of NIST employees are not subject to copyright protection in the United States and are considered to be in the public domain.
 
 The data/software is provided by NIST as a public service and is expressly provided “AS IS.” NIST MAKES NO WARRANTY OF ANY KIND, EXPRESS, IMPLIED OR STATUTORY, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT AND DATA ACCURACY. NIST does not warrant or make any representations regarding the use of the data/software or the results thereof, including but not limited to the correctness, accuracy, reliability or usefulness of the data/software. NIST SHALL NOT BE LIABLE AND YOU HEREBY RELEASE NIST FROM LIABILITY FOR ANY INDIRECT, CONSEQUENTIAL, SPECIAL, OR INCIDENTAL DAMAGES (INCLUDING DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, AND THE LIKE), WHETHER ARISING IN TORT, CONTRACT, OR OTHERWISE, ARISING FROM OR RELATING TO THE DATA (OR THE USE OF OR INABILITY TO USE THIS DATA), EVEN IF NIST HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
@@ -6,4 +11,4 @@ To the extent that NIST may hold copyright in countries other than the United St
 
 You may improve, modify, and create derivative works of the data/software or any portion of the data/software, and you may copy and distribute such modifications or works. Modified works should carry a notice stating that you changed the data/software and should note the date and nature of any such change. Please explicitly acknowledge the National Institute of Standards and Technology as the source of the data/software.
 
-Permission to use this data/software is contingent upon your acceptance of the terms of this agreement and upon your providing appropriate acknowledgments of NIST’s creation of the data/software.
+Permission to use this data/software is contingent upon your acceptance of the terms of this agreement and upon your providing appropriate acknowledgments of NIST's creation of the data/software.

@@ -1,9 +1,11 @@
-/**
- * \mainpage
+/*
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
  *
- * Developed by Harold Wickes Hatch, 12/13/2013, hhatch.com, harold@hhatch.com
- *aa
- *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of LICENSE.txt and upon your providing
+ * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
 #include "mc_wltmmc.h"
@@ -13,7 +15,7 @@
 //class AnalyzeMonkeyPatch : public Analyze {
 // public:
 //  AnalyzeMonkeyPatch(Space *space, Pair *pair) : Analyze(space, pair) {}
-// 
+//
 //  void modifyRestart(shared_ptr<WLTMMC> mc) {
 //    mc->c()->collectInit(newfCollect);
 //    if (mc->c()->lnf() < newfCollect) {
@@ -23,18 +25,17 @@
 //};
 
 int main() {
-
   // set input variables
   std::ostringstream rstFileName("tmp/rst");
- 
+
   // read restart file
-  WLTMMC mc(rstFileName.str().c_str());
+  feasst::WLTMMC mc(rstFileName.str().c_str());
 
 //  // patch
 //  mc.c()->collectInit(newfCollect);
 //  AnalyzeMonkeyPatch patch(mc.space(), mc.pair());
 //  mc.initAnalyze(&patch);
- 
+
   // run sweeps
   mc.runNumSweepsRestart(100, rstFileName.str().c_str());
 }

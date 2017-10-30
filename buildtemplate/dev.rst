@@ -265,11 +265,9 @@ To do list
 * Perfect checkpointing
 * Automated full-checkpoint testing
 * remove printPressure from mc/criteria, printBeta, pairOrder, floppyBox, etc
-* on the fly WL/TM lnPI error analysis ... accumulate 3 lnPIs by splitting each trial to each individual criteria class. Use them to compute all sorts of quantities.
 * for xyz2bin, in afterAttempt MC, use unique hash on log file and xyz configuration for error check
   -- implement with WLTMMC, use criteria to find order param column in log, then readxyz hash, find log hash match, demix conf based on the bin
 * have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)
-* combine pair_square_well, pair_hs, pair_hard_circle
 * remove periodicity from x/y/z dimensions (no rush here)
 * split functions.h into a variety of base_fileio, base_math, base_utils, etc
 * pairhybrid rCut should be taken from pairVec, or atleast rCutMaxAll
@@ -285,24 +283,20 @@ To do list
 * implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).
 * runNumSweeps instead should have something where one generates the clones as vector<shrptr>, then runNumSweep takes these as input. That way one can modify the clones as one sees fit (also in multiprocessor restarts) before running the clones. It would take a lot of the hidden magic out without complicating the interface too drastically.
 * Fix GSL memory leaks
-* weekly tests -> test cases, perhaps run on a cluster with more processors?
-* change initEnergy in most implementations to use Inner() and reduce code complexity/copied code.
 * add PairPatchKF and PairLJCoulEwald loops to Pair base class for molecule-center-based cut-offs before loops through particles,
   Or make them more general (e.g., multi patch particles?).
 * Add verbosity level for printing debug messages
-* Automate updating of packages (e.g., documentation, push with hooks, etc).
-* List publications which use FEASST and also make a citation generator.
+* Make a citation generator for techniques that are used.
 * move checkBond from MC to analyze class for rigid particle simulations (or as part of checkE?)
 * Move some analysis outside of space class
   - but what if things like trials use the analysis, such as clusters?
   - ""This trial requires MC to have an analyze class...""
 * document log file and tuning, changing acceptance percentage
 * Include PDF version of manual in release tarballs
-* automate running of python testcases in same spirit as C++
-* Expose physical constants to the public API (in preparation of CODATA, etc)
 * Package FEASST as a Docker app
-* move unittests to testcases: ljmultilambda2D, ljnpt, NPTandLJvLJMulti, semigrand,
+* move unittests to testcases: ljmultilambda2D, NPTandLJvLJMulti, semigrand,
 * Fix the API TOC for non-derived classes (e.g., TOC disappears when you select "Histogram")
 * Add PairPatchKJ testcase.
 * Add test case with AnalyzeCluster and AnalyzeScatter.
 * Add test case with PairTabular1D (and/or improve beyond linear interpolation).
+* Incorporate more "tools" as part of the test cases (e.g., rw, restart, xyz2bin, etc).

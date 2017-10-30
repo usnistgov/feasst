@@ -1,5 +1,5 @@
-.. image:: http://feasst.hhatch.com/favicon-32x32.png
-   :target: http://feasst.hhatch.com
+.. image:: favicon-32x32.png
+   :target: https://pages.nist.gov/feasst
 
 *************************
 README
@@ -74,10 +74,12 @@ FEASST is designed for a LINUX or MAC OS X platform with the following minimum v
 
 .. code-block:: bash
 
+    git clone https://github.com/usnistgov/feasst.git
+    cd feasst
     cp -r buildtemplate build
     cd build
     cmake .
-    make -j
+    make
 
 Usage: C++ interface
 #######################
@@ -353,7 +355,6 @@ harold.hatch@nist.gov
 
 For list of contributors, see `<CONTRIBUTORS.rst>`_
 
-Disclaimer
-##########
+.. include:: ../DISCLAIMER.rst
 
-Certain commercial firms and trade names are identified in this document in order to specify the installation and usage procedures adequately. Such identification is not intended to imply recommendation or endorsement by the National Institute of Standards and Technology, nor is it intended to imply that related products are necessarily the best available for the purpose.
+.. include:: ../LICENSE.rst

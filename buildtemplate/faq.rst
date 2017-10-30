@@ -189,7 +189,7 @@ This is a common issue with a few approaches:
 
 1. You can use the parallel version with multiple windows. The ``MC::initWindows(nExp=`` variable sets the spacing based on some exponential distribution,e.g., nExp=3. makes windows even bigger o the low density side vs nExp=2.
 
-http://feasst.hhatch.com/WLTMMC.html#_CPPv2N6WLTMMC11initWindowsEKdKi
+:cpp:func:`WLTMMC::initWindows()`
 
 2. Break into multiple simulations. For example, I launched two jobs simultaneously, one with N=0 to 336, and another N=336 to N=550. Of course the low density ones finished 10x faster but then the high density windows were smaller
 
