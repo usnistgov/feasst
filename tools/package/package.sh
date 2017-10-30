@@ -29,7 +29,7 @@ cp -rL stubs/* $CLONE/
 # remove private files from the clone
 # first, append directories which contain the file "feasst_private"
 cp private_files.txt /tmp/private_files.txt
-echo `find ../../ -name feasst_private` | sed 's/^\.\.\/\.\.\///' | sed 's/feasst_private//' >> /tmp/private_files.txt
+find ../../ -name feasst_private | sed 's/^\.\.\/\.\.\///' | sed 's/feasst_private//g' >> /tmp/private_files.txt
 while IFS= read -r var
 do
   rm -r $CLONE/${var}*

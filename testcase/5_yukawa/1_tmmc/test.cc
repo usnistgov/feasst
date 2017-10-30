@@ -31,7 +31,7 @@ int main() {  // Yukawa, NVTMC
   pair.cutShift(1);
   pair.initEnergy();
 
-  const int nMolMin = 0, nMolMax = 132;
+  const int nMolMin = 0, nMolMax = 30;
   feasst::CriteriaWLTMMC crit(7., exp(-2), "nmol", nMolMin, nMolMax);
   feasst::WLTMMC mc(&space, &pair, &crit);
   feasst::transformTrial(&mc, "translate");
@@ -51,8 +51,8 @@ int main() {  // Yukawa, NVTMC
 
   //production tmmc simulation
   mc.nMolSeek(nMolMin, 1e6);
-  crit.collectInit(15);
-  crit.tmmcInit(20);
+  crit.collectInit();
+  crit.tmmcInit();
   mc.runNumSweeps(1, -1);
 }
 

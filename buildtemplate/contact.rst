@@ -19,6 +19,6 @@ The following checklist is recommended to improve reproducibility so that I can 
 * Reproduce the issue with minimal example to reduce the complexity, run time and file size.
 * Provide all output.
 * Provide the version (e.g. bash command "git describe --abbrev=10 --dirty --always --tags").
-* Provide the script (C++ with int main() or .py).
+* Provide the user code (e.g., C++ with int main() or .py).
 
 

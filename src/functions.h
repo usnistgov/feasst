@@ -32,7 +32,7 @@
   #include <omp.h>
 #endif  // _OPENMP
 #include "./custom_exception.h"
-#include "../forcefield/physical_constants.h"
+#include "./physical_constants.h"
 using std::cout;
 using std::endl;
 using std::vector;

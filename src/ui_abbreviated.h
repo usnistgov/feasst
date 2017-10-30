@@ -9,16 +9,8 @@
  */
 
 /**
- * \file
- *
- * \brief This is the user interface class
- *
- * The abbreviated user interface allows one-line instantiation of trials for
- * Monte Carlo. Note that while shared_ptr are encourged, one may also use raw
- * pointers to create the Trials; however, this could lead to memory leaks
- * and other issues. Shared pointers are not as simple to use for the python
- * interface.
- *
+ * The abbreviated user interface allows one-line instantiation of objects
+ * such as Monte Carlo trials.
  */
 
 #ifndef UI_ABBREVIATED_H_
@@ -34,7 +26,10 @@ namespace feasst {
 
 class AbbreviatedUI {};  // here is where we trick ../tools/makeFactory.sh.
 
+/// Initialize TrialAdd and TrialDelete in mc, with equal weights.
 void insertDeleteTrial(MC *mc, const char* moltype);
+
+/// Initialize TrialAdd and TrialDelete in mc, with equal weights.
 void insertDeleteTrial(shared_ptr<MC> mc, const char* moltype);
 
 #ifdef FEASST_NAMESPACE_

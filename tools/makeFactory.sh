@@ -4,8 +4,9 @@
 
 # Note that the following classes must be defined in a very specific order
 factoryBaseClasses="pair criteria analyze trial random"
-baseClasses="custom_exception random base table histogram accumulator space pair barrier shape criteria analyze trial mc"
-nonClasses="functions ui_abbreviated"
+baseClasses="accumulator analyze barrier base criteria custom_exception histogram mc pair random shape space table trial"
+#baseClasses="custom_exception random base table histogram accumulator space pair barrier shape criteria analyze trial mc"
+nonClasses="functions ui_abbreviated physical_constants"
 
 ##############################
 echo "Generating feasst.i"
@@ -13,7 +14,7 @@ echo "Generating feasst.i"
 
 swigfile="feasst.i"
 cat << EOF > $swigfile
-/* NOTE: This file is created by tools/makeFactory.sh. Modify this file instead.
+/* NOTE: This file is created by tools/makeFactory.sh. Do not modify this file.
    See buildtemplate/feasst.i.example for an example file. */
 
 %module feasst
@@ -98,7 +99,7 @@ echo "Generating factories.cc"
 ccfile="../src/factories.cc"
 cat << EOF > $ccfile
 /* Factory method for Pair, Criteria, Trial and Analyze.
-   This file is created by tools/makeFactory.sh. Modify this file instead.
+   This file is created by tools/makeFactory.sh. Do not modify this file.
    See src/factories.cc.example for an example file. */
 
 EOF

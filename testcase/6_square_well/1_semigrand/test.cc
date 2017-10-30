@@ -12,6 +12,8 @@
 #include "mc_wltmmc.h"
 #include "trial_transform.h"
 #include "ui_abbreviated.h"
+#include "trial_swap.h"
+#include "trial_xswap.h"
 
 int main() {  // SquareWell, SEMIGRAND
   feasst::ranInitByDate();
@@ -41,6 +43,8 @@ int main() {  // SquareWell, SEMIGRAND
   mc.weight=1./16.;
   feasst::insertDeleteTrial(&mc, addMolTypeA.str().c_str());
   feasst::insertDeleteTrial(&mc, addMolTypeB.str().c_str());
+  feasst::swapTrial(&mc, addMolTypeA.str().c_str(), addMolTypeB.str().c_str());
+  feasst::xswapTrial(&mc);
 
   // output log, lnpi and movie
   const int nfreq = 1e4, ncfreq = 1e6;

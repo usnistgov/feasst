@@ -223,6 +223,12 @@ ModuleNotFoundError: "No module named 'feasst'"
    import sys
    sys.path.append(/path/to/feasst/build/)
 
+error: ‘[function/class]’ is not a member of ‘feasst’
+================================================================================================
+
+In C++, this error often occurs when one does not include a necessary header file.
+For example, to use `feasst::swapTrial()`, one must have `#include "trial_swap.h"`.
+
 Compilation error gives "can not be used when making a shared object; recompile with -fPIC"
 ================================================================================================
 

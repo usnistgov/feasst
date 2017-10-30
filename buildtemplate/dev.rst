@@ -302,3 +302,7 @@ To do list
 * Expose physical constants to the public API (in preparation of CODATA, etc)
 * Package FEASST as a Docker app
 * move unittests to testcases: ljmultilambda2D, ljnpt, NPTandLJvLJMulti, semigrand,
+* Fix the API TOC for non-derived classes (e.g., TOC disappears when you select "Histogram")
+* Add PairPatchKJ testcase.
+* Add test case with AnalyzeCluster and AnalyzeScatter.
+* Add test case with PairTabular1D (and/or improve beyond linear interpolation).

@@ -10,8 +10,10 @@ open-source, modular program to conduct molecular and particle-based
 simulations with flat-histogram Monte Carlo and molecular dynamics methods.
 
 .. note::
-   Documentation is temporarily hosted at http://feasst.hhatch.com/.
-   This is currently a work in progress.
+
+   Website: https://pages.nist.gov/feasst
+
+   Code repository: https://github.com/usnistgov/feasst
 
 Features
 ########
