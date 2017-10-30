@@ -7,13 +7,14 @@
 # 6. documentation
 # 7. test cases
 # compilation with cmake and make
-../buildexample/compile.sh
-../buildexample/unittest.sh   # this can't run at the same time as valgrind
-../buildexample/makecov.sh    # this can't run at the same time as valgrind
+
+for task in compile unittest makecov valgrind testcase testcasepy; do
+  ../buildexample/${task}.sh
+done
 
 # run more tests in parallel
 pidArr=()
-for tests in valgrind swigtest cpplint pylint makehtml testcase testcasepy; do
+for tests in swigtest cpplint pylint makehtml; do
   ../buildexample/$tests.sh &
   pidArr+=($!)
 done

@@ -145,7 +145,7 @@ class PairLJCoulEwald : public Pair {
     return p;
   }
 
-  /// Access the error function table to turn off
+  /// Access the error function table.
   erftable * erfTable() { return &erft_; }
 
  protected:

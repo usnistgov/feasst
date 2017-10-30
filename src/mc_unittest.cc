@@ -37,7 +37,7 @@ TEST(MC, WLTMMC_Ideal) {
   p.initData("../forcefield/data.atom");
   for (int i = 0; i < nMolMin; ++i) p.addMol();
   p.rCutijset(0, 0, p.rCut());
-  CriteriaWLTMMC c(beta, activ,"nmol",nMolMin-0.5,nMolMax+0.5,nMolMax-nMolMin+1);
+  CriteriaWLTMMC c(beta, activ, "nmol", nMolMin, nMolMax);
   c.collectInit();
   c.tmmcInit();
   MC mc(&s,&p,&c);
@@ -243,7 +243,7 @@ TEST(MC, ljmuvttmmc) {
   s.addMolInit("../forcefield/data.atom");
   PairLJ p(&s, rCut);
   p.initEnergy();
-  CriteriaWLTMMC c(beta, activ,"nmol0",0-0.5,nMolMax+0.5,nMolMax+1);
+  CriteriaWLTMMC c(beta, activ, "nmol0", 0 ,nMolMax);
   MC mc(&s,&p,&c);
 
   transformTrial(&mc, "translate");
@@ -298,7 +298,7 @@ TEST(MC, muvttmmcspce) {
     s[t]->addMolInit("../forcefield/data.spce");   // add one molecule in order to initialize ntype array
     p[t] = make_shared<PairLJCoulEwald>(s[t].get(), rCut);
     p[t]->initBulkSPCE(5.6, 38);
-    c[t] = make_shared<CriteriaWLTMMC>(beta, activ,"nmol",nMolVec[t][0]-0.5,nMolVec[t][1]+0.5,nMolVec[t][1]-nMolVec[t][0]+1);
+    c[t] = make_shared<CriteriaWLTMMC>(beta, activ, "nmol", nMolVec[t][0], nMolVec[t][1]);
     mc[t] = make_shared<WLTMMC>(s[t].get(), p[t].get(), c[t].get());
 
     transformTrial(mc[t], "translate");
@@ -338,7 +338,7 @@ TEST(MC, nseek) {
   s.addMolInit("../forcefield/data.spce");   // add one molecule in order to initialize ntype array
   PairLJCoulEwald p(&s, rCut);
   p.initBulkSPCE(5.6, 38);
-  CriteriaWLTMMC c(beta, activ,"nmol",0-0.5,nMolMax+0.5,nMolMax+1);
+  CriteriaWLTMMC c(beta, activ, "nmol", 0, nMolMax);
   MC mc(&s,&p,&c);
   transformTrial(&mc, "translate");
   transformTrial(&mc, "rotate");
@@ -379,7 +379,7 @@ TEST(MC, nseekSPCEnoEwald) {
   //p.initBulkSPCE(5.6, 38);
   p.initData("../forcefield/data.spce");
   p.removeEwald();
-  CriteriaWLTMMC c(beta, activ,"nmol",0-0.5,nMolMax+0.5,nMolMax+1);
+  CriteriaWLTMMC c(beta, activ, "nmol", 0, nMolMax, nMolMax);
   MC mc(&s,&p,&c);
   transformTrial(&mc, "translate");
   transformTrial(&mc, "rotate");
@@ -400,7 +400,7 @@ TEST(MC, equltl43muvttmmcANDinitWindows) {
   p.lrcFlag = 0;
   p.checkEnergy(1e-9, 1);
 //  s.updateCells(p.rCut(), p.rCut());
-  CriteriaWLTMMC c(beta, activ,"nmol",nMolMin-0.5,nMolMax+0.5,nMolMax-nMolMin+1);
+  CriteriaWLTMMC c(beta, activ, "nmol", nMolMin, nMolMax);
   WLTMMC mc(&s,&p,&c);
 
   transformTrial(&mc, "translate");
@@ -461,7 +461,7 @@ TEST(MC, wltmmccloneANDreconstruct) {
   p.cutShift(1);
   p.lrcFlag = 0;
   p.checkEnergy(1e-9, 1);
-  CriteriaWLTMMC c(1., exp(-2.), "nmol",-0.5,nMolMax+0.5,nMolMax+1);
+  CriteriaWLTMMC c(1., exp(-2.), "nmol", 0, nMolMax);
   WLTMMC mc(&s,&p,&c);
 
   transformTrial(&mc, "translate");

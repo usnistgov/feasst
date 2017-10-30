@@ -52,20 +52,20 @@ int main() {  // SPCE, SRSW_REFCONF
       ASSERT(100 == space.nMol(), "number of molecules");
       expect_near(pair.peLJ()*KJperMol2Kelvin, 99538.736236886805, feasst::DTOL, "LJ");
       expect_near(pair.peLRC()*KJperMol2Kelvin, -823.71499511652178, feasst::DTOL, "LRC");
-      expect_near(pair.peQReal()*KJperMol2Kelvin, -558888.91972785105, feasst::DTOL, "QReal");
-      expect_near(pair.peQFrr()*KJperMol2Kelvin, 6270.0937839397402, feasst::DTOL, "QFrr");
+      expect_near(pair.peQReal()*KJperMol2Kelvin, -558888.919727851, 1e-9, "QReal");
+      expect_near(pair.peQFrr()*KJperMol2Kelvin, 6270.0937839397402, 1e-11, "QFrr");
       // Note, this is the negative of the sum of E_self and E_intra in SRSW
-      expect_near(pair.peQFrrSelf()*KJperMol2Kelvin, 34699.373693030466, feasst::DTOL, "QFrrSelf");
-      expect_near(pair.peTot()*KJperMol2Kelvin, -488603.17839517148, feasst::DTOL, "Total");
+      expect_near(pair.peQFrrSelf()*KJperMol2Kelvin, 34699.373693030466, 1e-9, "QFrrSelf");
+      expect_near(pair.peTot()*KJperMol2Kelvin, -488603.17839517148, 1e-8, "Total");
     } else if (srswConfig == 2) {
       ASSERT(200 == space.nMol(), "number of molecules");
       expect_near(pair.peLJ()*KJperMol2Kelvin, 193712.42256683594, feasst::DTOL, "LJ");
       expect_near(pair.peLRC()*KJperMol2Kelvin, -3294.8599804660735, feasst::DTOL, "LRC");
-      expect_near(pair.peQReal()*KJperMol2Kelvin, -1192948.6940245957, feasst::DTOL, "QReal");
-      expect_near(pair.peQFrr()*KJperMol2Kelvin, 6034.9503269097158, feasst::DTOL, "QFrr");
+      expect_near(pair.peQReal()*KJperMol2Kelvin, -1192948.6940245957, 2e-9, "QReal");
+      expect_near(pair.peQFrr()*KJperMol2Kelvin, 6034.9503269097158, 1e-11, "QFrr");
       // Note, this is the negative of the sum of E_self and E_intra in SRSW
-      expect_near(pair.peQFrrSelf()*KJperMol2Kelvin, 69398.747386013289, feasst::DTOL, "QFrrSelf");
-      expect_near(pair.peTot()*KJperMol2Kelvin, -1065894.9284973294, feasst::DTOL, "Total");
+      expect_near(pair.peQFrrSelf()*KJperMol2Kelvin, 69398.747386013289, 1e-9, "QFrrSelf");
+      expect_near(pair.peTot()*KJperMol2Kelvin, -1065894.9284973294, 2e-9, "Total");
     }
   }
 }

@@ -27,10 +27,13 @@ rm -rf $CLONE/.git
 cp -rL stubs/* $CLONE/
 
 # remove private files from the clone
+# first, append directories which contain the file "feasst_private"
+cp private_files.txt /tmp/private_files.txt
+echo `find ../../ -name feasst_private` | sed 's/^\.\.\/\.\.\///' | sed 's/feasst_private//' >> /tmp/private_files.txt
 while IFS= read -r var
 do
   rm -r $CLONE/${var}*
-done < "private_files.txt"
+done < "/tmp/private_files.txt"
 
 # # copy the repo to destination
 # shopt -s dotglob nullglob   #this command moves hidden files

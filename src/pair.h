@@ -32,7 +32,7 @@ namespace feasst {
  *
  * First, you may define a custom Pair code in the same file as
  * "int main()" for C++. See an example of this for the Jagla potential
- * <a href="testcase/2_jagla_README.html">test case</a>.
+ * <a href="testcase/2_jagla_1_ref-config_README.html">test case</a>.
  *
  * Second, you may copy existing "pair_*" files and replace the class name
  * and header guards (e.g. BASECLASS_DERIVED_H_).
@@ -149,10 +149,19 @@ class Pair : public BaseRandom {
   virtual void delPart(const vector<int> mpart) { delPartBase_(mpart); }
 
   /// Add particle(s).
-  virtual void addPart() { addPartBase_(); }
   virtual void addMol(const char* fileName) {
     space_->addMol(fileName); addPartBase_(); }
+  virtual void addPart() { addPartBase_(); }
+  void addMol(const std::string fileName) { addMol(fileName.c_str()); }
   virtual void addMol() { space_->addMol(); addPartBase_(); }
+
+  /// Add molecule at the specified position. If no file provided, use Space
+  /// default behavior to decide which molecule (typically the first).
+  void addMol(const vector<double> position, const char* fileName = "");
+
+  /// Add molecule at the specified position, using std::string.
+  void addMol(const vector<double> position, const std::string fileName) {
+    addMol(position, fileName.c_str()); }
 
   /// flag to compute standard long range corrections
   // HWH: move to pair_lj.h

@@ -26,9 +26,19 @@ CriteriaWLTMMC::CriteriaWLTMMC(const double beta, const double activ,
   zeroStat();
 }
 
-CriteriaWLTMMC::CriteriaWLTMMC(const char* fileName
-  )
-    : Criteria(fileName) {
+CriteriaWLTMMC::CriteriaWLTMMC(const double beta, const double activ,
+  const char* mType, const int nMin, const int nMax)
+  : Criteria(beta, activ) {
+  defaultConstruction_();
+  mType_ = mType;
+  initBins(static_cast<double>(nMax) + 0.5,
+           static_cast<double>(nMin) - 0.5,
+           nMax - nMin + 1);
+  zeroStat();
+}
+
+CriteriaWLTMMC::CriteriaWLTMMC(const char* fileName)
+  : Criteria(fileName) {
   defaultConstruction_();
   mType_.assign(fstos("mType", fileName));
   mMin_ = fstod("mMin", fileName);
@@ -1187,6 +1197,12 @@ shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const double beta,
   const double activ, const char* mType,
   const double mMin, const double mMax, const int nBin) {
   return make_shared<CriteriaWLTMMC>(beta, activ, mType, mMin, mMax, nBin);
+}
+
+shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const double beta,
+  const double activ, const char* mType,
+  const int nMin, const int nMax) {
+  return make_shared<CriteriaWLTMMC>(beta, activ, mType, nMin, nMax);
 }
 
 #ifdef FEASST_NAMESPACE_

@@ -33,7 +33,8 @@ Make FEASST do exactly what you want it to do
 
 You can create your own :cpp:class:`Pair`, :cpp:class:`Trial`, :cpp:class:`Criteria`, :cpp:class:`Analyze`, and :cpp:class:`Random` classes as described in the documentation for the Base classes.
 Start by finding an existing derived class that is the most similar and copying it.
-You can also define new classes within the script themselves (see :doc:`/testcase/1_lj_2_nvt-mc_README`).
+You can also define new classes within the script themselves.
+For example, see :doc:`/testcase/1_lj_2_nvt-mc_README` for a custom :cpp:class:`Analyze`, and :doc:`/testcase/2_jagla_1_ref-config_README` for a custom :cpp:class:`Pair`.
 
 Analysis of configurations for WL-TMMC simulations
 ==================================================================================
@@ -213,6 +214,7 @@ Compilation issues
 ModuleNotFoundError: "No module named 'feasst'"
 ================================================
 
+* Verify that "/path/to/feasst/build/_feasst.so" was built without error, as described in :doc:`/readme`.
 * Use the command "`<tools/run.sh>`_ script.py" instead of "``python script.py``"
 * Alternatively, point to build/_feasst.so in your python script as follows
 

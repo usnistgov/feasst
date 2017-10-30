@@ -18,6 +18,7 @@ PairLJMulti::PairLJMulti(Space* space, const double rCut)
   : PairLJ(space, rCut) {
   defaultConstruction_();
 }
+
 PairLJMulti::PairLJMulti(Space* space, const char* fileName)
   : PairLJ(space, fileName) {
   defaultConstruction_();
@@ -135,17 +136,6 @@ void PairLJMulti::defaultConstruction_() {
 }
 
 void PairLJMulti::initEnergy() {
-  const int verbose = 0;
-  if (verbose) cout << "in pair_lj_multi.cc" << endl;
-
-  // shorthand for read-only space variables
-  const int dimen = space_->dimen();
-  const int natom = space_->natom();
-  const vector<double> l = space_->l();
-  const vector<double> x = space_->x();
-  const vector<int> mol = space_->mol();
-  const vector<int> type = space_->type();
-
   // zero accumulators: potential energy, force, and virial
   std::fill(pe_.begin(), pe_.end(), 0.);
   fill(0., f_);
@@ -153,165 +143,9 @@ void PairLJMulti::initEnergy() {
   peLJ_ = 0;
   fCOM_.clear();
   fCOM_.resize(space_->nMol(), vector<double>(dimen_, 0.));
-
-  double r2inv, r6inv, pePart;
-
-  // loop through nearest neighbor atom pairs
-  for (int ipart = 0; ipart < natom - 1; ++ipart) {
-    if (eps_[type[ipart]] != 0) {
-      for (int jpart = ipart + 1; jpart < natom; ++jpart) {
-        if ( intraCheck_(ipart, jpart, mol[ipart], mol[jpart]) &&
-             (eps_[type[jpart]] != 0) ) {
-          // separation vector, xij with periodic boundary conditions
-          vector<double> xij(dimen_);
-          for (int i = 0; i < dimen_; ++i) {
-            xij[i] = x[dimen_*ipart+i] - x[dimen_*jpart+i];
-          }
-          const vector<double> dx = space_->pbc(xij);
-          for (int dim = 0; dim < dimen_; ++dim) {
-            xij[dim] += dx[dim];
-          }
-          double r2 = vecDotProd(xij, xij);
-
-          if (verbose) cout << "r2 " << r2 << " i " << ipart << " j " << jpart
-             << " itype " << type[ipart] << " jtype " << type[jpart] << endl;
-
-          // no interaction beyond cut-off distance
-          if (r2 < pow(rCutij_[type[ipart]][type[jpart]], 2.)) {
-            // energy
-            pePart = 0;
-            const double eps = epsij_[type[ipart]][type[jpart]],
-                         sig = sigij_[type[ipart]][type[jpart]];
-            if (sigrefFlag_ != 1) {
-              r2inv = pow(sig, 2)/r2;
-            } else {
-              const double sigref = sigRefij_[type[ipart]][type[jpart]];
-              r2inv = sigref/(sqrt(r2) - sig + sigref);
-              r2inv = r2inv*r2inv;
-
-              // inner hard sphere
-              if (sqrt(r2) <= sig - sigref) {
-                pePart += NUM_INF;
-              }
-            }
-            r6inv = r2inv*r2inv*r2inv;
-            if (expType_ == 1) {
-              r6inv = r6inv*r6inv;
-            } else if (expType_ == 2) {
-              r6inv = pow(r2inv, 16.6755*0.5);
-            } else if (expType_ == 3) {
-              r6inv = pow(r2inv, 25);
-            } else if (expType_ == 4) {
-              r6inv = pow(r2inv, 64);
-            } else if (expType_ == 5) {
-              r6inv = pow(r2inv, 12);
-            } else if (expType_ == 6) {
-              r6inv = pow(r2inv, 9);
-            } else if (expType_ == -1) {
-              r6inv = pow(r2inv, 0.5*alpha_);
-            }
-            pePart += eps *(4. * (r6inv*(r6inv - 1.))
-              + peShiftij_[type[ipart]][type[jpart]]);
-            if (linearShiftFlag_) {
-              pePart += peLinearShiftij_[type[ipart]][type[jpart]]
-                * (sqrt(r2) - rCutij_[type[ipart]][type[jpart]]);
-            }
-            if (lambdaFlag_ != 0) {
-              const double lambda = lambda_[type[ipart]][type[jpart]];
-              double rwca;
-              if (sigrefFlag_ != 1) {
-                rwca = pow(2., 1./alpha_)*sig;
-              } else {
-                const double sigref = sigRefij_[type[ipart]][type[jpart]];
-                rwca = pow(2., 1./alpha_)*sigref + sig - sigref;
-              }
-              if (r2 < rwca*rwca) {
-                pePart += eps*(1. - lambda) + (lambda - 1.)
-                  *peShiftij_[type[ipart]][type[jpart]];
-                if (linearShiftFlag_) {
-                  pePart += (lambda - 1.)*(sqrt(r2)
-                    - rCutij_[type[ipart]][type[jpart]])
-                    *peLinearShiftij_[type[ipart]][type[jpart]];
-                }
-              } else {
-                pePart *= lambda;
-              }
-              if (verbose) cout << "pePart " << pePart << endl;
-            }
-
-            // yukawa
-            if (yukawa_ == 1) {
-              const double r = sqrt(r2);
-              pePart += eps*yukawaA_ * exp(-yukawaK_*r/sig)/r*sig;
-            } else if (yukawa_ == 2) {
-              const double r = sqrt(r2);
-              pePart += yukawaA_ * exp(-yukawaK_*r/sig)/r*sig;
-            }
-
-            // gaussians
-            if (gaussian_ == 1) {
-              for (unsigned int ig = 0; ig < gausParam_.size(); ++ig) {
-                pePart += gausParam_[ig][0]*exp(-pow((sqrt(r2)
-                  - gausParam_[ig][1])/gausParam_[ig][2], 2));
-              }
-            }
-
-            peLJ_ += pePart;
-            pe_[ipart] += pePart/2.;
-            pe_[jpart] += pePart/2.;
-
-            if (verbose) {
-  std::streamsize ss = cout.precision();
-  cout << std::setprecision(std::numeric_limits<long double>::digits10+2)
-    << "pepart " << pePart << " for ipart " << ipart << " jpart " << jpart
-    << " r6inv " << r6inv << " eps " << epsij_[type[ipart]][type[jpart]]
-    << " peshi " << peShiftij_[type[ipart]][type[jpart]] << " lsf "
-    << linearShiftFlag_ << " sig " << sigij_[type[ipart]][type[jpart]]
-    << " r2 " << r2 << " yuk " << yukawa_ << " yukaA " << yukawaA_ << " yukaK "
-    << yukawaK_ << " rcut " << rCutij_[type[ipart]][type[jpart]] << endl;
-  cout << std::setprecision(ss);
-            }
-
-            // force
-            vector<double> fij(dimen);
-            double fPart = 8.*alpha_*epsij_[type[ipart]][type[jpart]]
-              * (r6inv*r2inv*(r6inv - 0.5)) / sigij_[type[ipart]][type[jpart]]
-              / sigij_[type[ipart]][type[jpart]];
-            if (linearShiftFlag_) {
-              fPart -= peLinearShiftij_[type[ipart]][type[jpart]]/sqrt(r2);
-            }
-            if (verbose) cout << "fPart " << fPart << " f "
-              << fPart*sqrt(r2) << endl;
-            for (int i = 0; i < dimen; ++i) {
-              fij[i] += fPart * xij[i];
-              f_[ipart][i] += fij[i];
-              f_[jpart][i] -= fij[i];
-              fCOM_[mol[ipart]][i] += fij[i];
-              fCOM_[mol[jpart]][i] -= fij[i];
-
-              // virial tensor
-              for (int j = 0; j < dimen; ++j) {
-                vr_[ipart][i][j] += 0.5 * xij[j] * fij[i];
-                vr_[jpart][i][j] += 0.5 * xij[j] * fij[i];
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  // standard long range corrections
-  peLRC_ = 0;
-  if (lrcFlag == 1) {
-    for (int ipart = 0; ipart < natom; ++ipart) {
-      const double enlrc = computeLRC(ipart);
-      pe_[ipart] += enlrc;
-      peLRC_ += enlrc;
-    }
-  }
-
-  peTot_ = peLJ_ + peLRC_;
+  peTot_ = allPartEnerForce(2);
+  peLJ_ = peSRone_;
+  peLRC_ = peLRCone_;
 }
 
 double PairLJMulti::allPartEnerForce(const int flag) {
@@ -365,15 +199,6 @@ double PairLJMulti::multiPartEner(const vector<int> mpart, const int flag) {
       // search all particle types, and sum lrcs of each
       for (int jType = 0; jType < space_->nParticleTypes(); ++jType) {
         int n = space_->nType()[jType];
-
-// ** NOTE: LRCs include self-term, due to interactions with pbcs
-//        // subtract number of jTypes in current molecule
-//        const int iMol = space_->mol()[ipart];
-//        for (int i = space_->mol2part()[iMol];
-//          i < space_->mol2part()[iMol+1]; ++i) {
-//          if (space_->type()[i] == jType) --n;
-//        }
-
         peLRCone_ += (2.*static_cast<double>(n)-1)/space_->vol()
           * lrcPreCalc_[iType][jType];
       }

@@ -65,8 +65,7 @@ int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
 
   // acceptance criteria
   const double beta = 1./(temp*feasst::idealGasConstant/1e3);
-  feasst::CriteriaWLTMMC c(beta, exp(lnz), "nmol" , nMolMin - 0.5,
-                           nMolMax + 0.5, nMolMax - nMolMin + 1);
+  feasst::CriteriaWLTMMC c(beta, exp(lnz), "nmol", nMolMin, nMolMax);
   c.collectInit(15);  // begin collection matrix at 15 WL flatness
   c.tmmcInit(20);     // begin transition matrix at 20 WL flatness
 

@@ -51,6 +51,10 @@ class CriteriaWLTMMC : public Criteria {
   /// Return size of macrostate bins, which are constant.
   double mBin() const { return mBin_; }
 
+  /// Alternative constructor. In this case, integer bin size is assumed.
+  CriteriaWLTMMC(const double beta, const double activ, const char* mType,
+                 const int nMin, const int nMax);
+
   /// Initialize the macrostate bins, which are constant in size.
   void initBins(const double mMax, const double mMin, const int nBin);
 
@@ -540,6 +544,11 @@ class CriteriaWLTMMC : public Criteria {
 shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const double beta,
   const double activ, const char* mType,
   const double mMin, const double mMax, const int nBin);
+
+/// Factory method.
+shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const double beta,
+  const double activ, const char* mType,
+  const int nMin, const int nMax);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

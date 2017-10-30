@@ -40,6 +40,7 @@ private_files.txt
 
 List each file or directory that you do not want `package.sh` to send to another respository.
 In addition, `unpack.sh` will not receive these files from the public repository.
+Finally, you mean also add an empty file "feasst_private" to any directory, and the pack and unpack scripts will append these directories onto the private_files list.
 
 stubs
 ======

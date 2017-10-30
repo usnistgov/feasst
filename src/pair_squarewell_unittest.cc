@@ -20,11 +20,9 @@ TEST(PairSquareWell, mickeymouse) {
   PairSquareWell p(&s, rCut);
   p.initData("../forcefield/data.cg3_91_0.57_2");
   vector<double> xAdd(s.dimen());
-  s.xAdd = xAdd;
-  p.addMol();
+  p.addMol(xAdd);
   xAdd[1] = 2*0.266345520433943000 + 1.01;
-  s.xAdd = xAdd;
-  p.addMol();
+  p.addMol(xAdd);
   // flip
   s.qMolAlt(1, 0, 1);
   s.qMolAlt(1, 3, 0);

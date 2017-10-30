@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# this script converts a cc file to python, typically used for testcases.
 SRC=$1
 DES="$(basename $SRC .cc)".py
 TMP=/tmp/tmp
@@ -21,11 +22,16 @@ sed --in-place 's/exp(/math\.exp(/g' $DES
 sed --in-place 's/&//g' $DES
 sed --in-place 's/->/\./g' $DES
 sed --in-place 's/}//g' $DES
+sed --in-place 's/1e\(.*\))/int(1e\1))/' $DES
+sed --in-place 's/\/\*\*/"""/' $DES
+sed --in-place 's/ \*\//"""\n\nimport feasst/' $DES
+sed --in-place 's/double(/float(/' $DES
+sed --in-place 's/pow(\(.*\), \(.*\))/(\1)**(\2)/' $DES
 
-cat <<- EOF > $TMP
-import feasst
-EOF
+#cat <<- EOF > $TMP
+#import feasst
+#EOF
 
-cat $DES >> $TMP
-mv $TMP $DES
+#cat $DES >> $TMP
+#mv $TMP $DES
 

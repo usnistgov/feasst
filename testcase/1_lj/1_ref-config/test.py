@@ -25,12 +25,10 @@ class TestLJ_SRSW_REFCONF(unittest.TestCase):
 
         # first, test the interaction between two particles
         xAdd = feasst.DoubleVector(space.dimen())  # position to add is origin
-        space.xAdd = xAdd        # tell space that the next addMol goes to xAdd
-        pair.addMol()            # add first molecule (randomly if xAdd not set)
+        pair.addMol(xAdd)        # add first molecule
         r = 1.2345
         xAdd[0] = r              # position of second particle
-        space.xAdd = xAdd        # xAdd must be reset after every addMol
-        pair.addMol()            # add second particle
+        pair.addMol(xAdd)        # add second particle
         pair.initEnergy()        # compute energy
         peExact = 4*(pow(r, -12) - pow(r, -6))
         self.assertAlmostEqual(pair.peLJ(), peExact, 15)

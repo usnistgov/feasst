@@ -413,7 +413,7 @@ void MC::nMolSeek(
     if (fabs(wtTot) < DTOL) mc->weight = 1.;  // if no other trials
     if (nTarget > space_->nMol()) {
       if (molTypeStr.empty()) {
-        addTrial(mc, space_->addMolListType().back().c_str());
+        addTrial(mc, space_->addMolListType()[0].c_str());
       } else {
         addTrial(mc, molType);
       }
@@ -730,15 +730,12 @@ void MC::b2init_() {
   if (space_->nMol() == 0) {
     // add first molecule on origin
     vector<double> xAdd(space_->dimen());
-    space_->xAdd = xAdd;
-    space_->addMol(0);
-    pair_->addPart();
+    pair_->addMol(xAdd);
   }
 
   if (space_->nMol() == 1) {
     // add second molecule randomly within domain
-    space_->addMol(0);
-    pair_->addPart();
+    pair_->addMol();
   }
 }
 

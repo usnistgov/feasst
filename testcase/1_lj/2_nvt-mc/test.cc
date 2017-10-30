@@ -31,6 +31,7 @@ class AnalyzeMonkeyPatch : public feasst::Analyze {
 };
 
 int main() {  // LJ, SRSW_NVTMC
+  feasst::ranInitForRepro();
   feasst::Space space(3);
   const double rho = 1e-3;  // number density
   const int nMol = 500;     // number of particles

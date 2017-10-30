@@ -1,9 +1,11 @@
 Test cases
 =====================================================
 
-Here you can find various examples of FEASST scripts which are used to reproduce published results.
+Here you can find various examples of FEASST scripts which are used to reproduce published results, or simply serve as an example simulation.
 
-* ``*.cc`` and ``*.py`` files are the C++ and python interfaces for FEASST, respectively.
+The following files may appear in the test cases.
+
+* ``test.cc`` and ``test.py`` files are the C++ and python interfaces for FEASST, respectively.
 * ``run_*.sh`` files are example bash scripts to compile and run.
 * ``log`` file prints instantaneous properties every fixed number of steps
 * ``movie*`` file prints coordinate files viewable with VMD

@@ -18,12 +18,14 @@ namespace feasst {
 TrialXSwap::TrialXSwap() : Trial() {
   defaultConstruction_();
 }
+
 TrialXSwap::TrialXSwap(
   Pair *pair,
   Criteria *criteria)
   : Trial(pair, criteria) {
   defaultConstruction_();
 }
+
 TrialXSwap::TrialXSwap(const char* fileName,
   Pair *pair,
   Criteria *criteria)
@@ -31,18 +33,12 @@ TrialXSwap::TrialXSwap(const char* fileName,
   defaultConstruction_();
 }
 
-/**
- * default construction
- */
 void TrialXSwap::defaultConstruction_() {
   className_.assign("TrialXSwap");
   trialType_.assign("move");
   verbose_ = 0;
 }
 
-/**
- * Attempt trial
- */
 void TrialXSwap::attempt1_() {
   if (verbose_ == 1) {
     cout << std::setprecision(std::numeric_limits<double>::digits10+2)

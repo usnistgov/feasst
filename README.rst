@@ -47,11 +47,12 @@ Advanced Monte Carlo moves
 
 Intermolecular interactions
 
+* Hard spheres, soft spheres and square wells
 * Charged interactions with the Ewald summation
 * Lennard-Jones with Yukawa, LRC, force shift, or Gaussian
 * Superquadrics and supertoroids (dev)
 * Patchy particles (dev)
-* Hard spheres, soft spheres and square wells
+* Cylindrical and slit pore confinement (dev)
 
 Modern software
 

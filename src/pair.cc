@@ -18,12 +18,11 @@ Pair::Pair(Space* space,
   const double rCut)
   : space_(space),
     rCut_(rCut) {
-  className_.assign("Pair");
   defaultConstruction_();
 }
+
 Pair::Pair(Space* space, const char* fileName)
   : space_(space) {
-  className_.assign("Pair");
   ASSERT(fileExists(fileName), "restart file(" << fileName
          << ") doesn't exist");
   rCut_ = fstod("rCut", fileName);
@@ -119,6 +118,7 @@ Pair::Pair(Space* space, const char* fileName)
 }
 
 void Pair::defaultConstruction_() {
+  className_.assign("Pair");
   verbose_ = 0;
   orderOn_ = 0;
   order_ = -1;
@@ -2290,6 +2290,19 @@ void Pair::initIntraBonded(const int flag) {
     intraMap[jAtom][iAtom] = 0;
   }
   initIntra(flag, intraMap);
+}
+
+void Pair::addMol(const vector<double> position, const char* fileName) {
+  ASSERT(static_cast<int>(position.size()) == dimen_, "dimension(" <<
+    position.size() << ") of "
+    << "given position does not match Space dimension(" << dimen_ << ")");
+  space_->xAdd = position;
+  const std::string fileNameStr(fileName);
+  if (fileNameStr == "") {
+    addMol();
+  } else {
+    addMol(fileName);
+  }
 }
 
 #ifdef FEASST_NAMESPACE_

@@ -53,8 +53,7 @@ class TestLJ_SRSW_EOSTMMC(unittest.TestCase):
         nMolMin = 0
         import math
         criteria = feasst.CriteriaWLTMMC(1./args.temp, math.exp(args.lnz),
-                                         "nmol", nMolMin - 0.5, args.nMolMax \
-                                         + 0.5, args.nMolMax - nMolMin + 1)
+                                         "nmol", nMolMin, args.nMolMax)
         criteria.collectInit()
         criteria.tmmcInit()
 

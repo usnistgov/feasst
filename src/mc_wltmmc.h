@@ -33,7 +33,7 @@ class WLTMMC : public MC {
     { colMatFileName_.assign(fileName); nFreqColMat_ = nfreq; };
 
   /// Run for a number of sweeps.
-  void runNumSweeps(const int nSweeps, const long long nprMax);
+  void runNumSweeps(const int nSweeps, const long long nprMax = -1);
 
   /// Initialize production run.
   void wlFlatProduction(const int wlFlatProd) { wlFlatProd_ = wlFlatProd; }
@@ -57,7 +57,7 @@ class WLTMMC : public MC {
   /// For example, "export OMP_NUM_THREADS=4".
   void initWindows(int flag   //!< use OMP if flag == 1
     ) { if (flag == 1) { window_ = true; nExp_ = 1.5;
-    nOverlap_ = 2; nWindow_ = 1;} else { window_ = false; } }
+    nOverlap_ = 0; nWindow_ = 1;} else { window_ = false; } }
 
   /// Initialize OMP windows with nExp determining spacing and nOverlap extra
   /// macrostates with processor overlaps.

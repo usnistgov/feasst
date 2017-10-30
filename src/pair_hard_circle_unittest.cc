@@ -22,11 +22,9 @@ TEST(PairHardCircle, hardCircle) {
 
   // add two particles with a certain distance separation
   vector<double> x(s.dimen(), 0.);
-  s.xAdd = x;
-  p.addMol();
+  p.addMol(x);
   x[0] = 0.99;
-  s.xAdd = x;
-  p.addMol();
+  p.addMol(x);
 
   p.initRDep(rDep);
   p.rCutijset(0,0,dCircle+2*rDep);
@@ -61,9 +59,7 @@ TEST(PairHardCircle, hardCircle) {
   x[0] = 0.9;
   s.transMol(1, x);
   x[0] = 1;
-  s.xAdd = x;
-  s.addMol();
-  p.addPart();
+  p.addMol(x);
   p.initEnergy();
   EXPECT_NEAR(2*-3.926608784061230000, p.peTot(), sqrt(DTOL));
 

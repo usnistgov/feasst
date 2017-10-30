@@ -23,11 +23,9 @@ TEST(CriteriaMayer, ref) {
   feasst::PairSquareWell pair(&space, 2.);
   pair.initData("../forcefield/data.lj");
   vector<double> xAdd(3, 0.);
-  space.xAdd = xAdd;
-  pair.addMol();
+  pair.addMol(xAdd);
   xAdd[0] = 1.1;
-  space.xAdd = xAdd;
-  pair.addMol();
+  pair.addMol(xAdd);
   pair.rCutijset(0, 0, 2.);
   pair.initEnergy();
 

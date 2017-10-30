@@ -24,12 +24,10 @@ int main() {  // LJ, SRSW_REFCONF
 
   // first, test the interaction between two particles
   vector<double> xAdd(space.dimen(), 0.);  // position to add is origin
-  space.xAdd = xAdd;        // tell space that the next addMol goes to xAdd
-  pair.addMol();            // add first molecule (randomly if xAdd not set)
+  pair.addMol(xAdd);            // add first molecule at xAdd
   const double r = 1.2345;
   xAdd[0] = r;              // position of second particle
-  space.xAdd = xAdd;        // xAdd must be reset after every addMol
-  pair.addMol();            // add second particle
+  pair.addMol(xAdd);            // add second particle
   pair.initEnergy();        // compute energy
   ASSERT(fabs(pair.peLJ() - 4*(pow(r, -12) - pow(r, -6))) < feasst::DTOL,
     "LJ equation failed");

@@ -222,7 +222,7 @@ void TrialTransform::attempt1_() {
       const double dlnv = maxMoveParam*(2*uniformRanNum()-1),
        vOld = space()->vol(),
        fac = exp(log(vOld) + dlnv)/vOld;
-      //cout << "fac " << fac << " vOld " << vOld << " pres " << criteria_->pressure() << endl;
+//      cout << "fac " << fac << " vOld " << vOld << " pres " << criteria_->pressure() << " " << space()->xyTilt() << " " << space()->xzTilt() << " " << space()->yzTilt() << " " << space()->l(0) << " " << space()->l(1) << " " << space()->l(2) << endl;
       scaleAttempt_(fac);
       space()->wrapMol();
 

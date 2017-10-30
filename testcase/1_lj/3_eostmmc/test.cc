@@ -87,8 +87,9 @@ int main(int argc, char** argv) {  // LJ, SRSW_EOSTMMC
   p.initEnergy();
 
   // acceptance criteria
-  feasst::CriteriaWLTMMC c(1./temp, exp(lnz), "nmol" , nMolMin - 0.5,
-                           nMolMax + 0.5, nMolMax - nMolMin + 1);
+  //feasst::CriteriaWLTMMC c(1./temp, exp(lnz), "nmol" , nMolMin - 0.5,
+  //                         nMolMax + 0.5, nMolMax - nMolMin + 1);
+  feasst::CriteriaWLTMMC c(1./temp, exp(lnz), "nmol" , nMolMin, nMolMax);
   c.collectInit();
   c.tmmcInit();
 

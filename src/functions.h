@@ -32,6 +32,7 @@
   #include <omp.h>
 #endif  // _OPENMP
 #include "./custom_exception.h"
+#include "../forcefield/physical_constants.h"
 using std::cout;
 using std::endl;
 using std::vector;
@@ -118,15 +119,7 @@ vector<double> crossProd(const vector<double> &a, const vector<double> &b);
 /// PI = 3.14159265358979323846264338327950 truncated to double precision
 const double PI = 4.0*atan(1.0);
 
-/// constants from CODATA
-/// http://dx.doi.org/10.1103/RevModPhys.84.1527
-/// http://dx.doi.org/10.1063/1.4724320
-const double boltzmannConstant = 1.3806488E-23; //J/K
-const double avogadroConstant = 6.02214129E+23; //1/mol
-const double elementaryCharge = 1.602176565E-19;  //C
-const double permitivityVacuum = 8.854187817E-12;  //C^2/J/m
-const double idealGasConstant = boltzmannConstant*avogadroConstant;
-const double joulesPercal = 4.184;
+/// Double precision tolerance.
 const double DTOL = 1e-15;
 
 /// initialize random number generator based on date

@@ -28,6 +28,9 @@ namespace feasst {
  *  Norbert Kern and Daan Frenkel
  *  J. Chem. Phys. 118, 9882 (2003); http://dx.doi.org/10.1063/1.1569473
  *
+ * As currently implemented, this class assumes only one central particle site
+ * with one or more patches, and not multiple particles, each with their own
+ * set of patches, bonded together.
  */
 class PairPatchKF : public Pair {
  public:

@@ -228,9 +228,9 @@ Sphinx/Breathe/Doxygen tips
 ############################
 
 * Link from rst file to C++ function: ``:cpp:func:`className::function()```
-* Link from rst file to fst file: ``:doc:`/testcaseljsrswnvt```
+* Link from rst file to fst file: ``:doc:`/testcase/asdf```
 * Link from C++ to C++: ``className::function()``
-* Link from C++ source to rst file: ``<a href="testcaseljsrswnvt.html" target="_black">test</a>``
+* Link from C++ source to rst file: ``<a href="testcase/asdf.html">test</a>``
 
 Philosophical questions and quotes
 #######################################
@@ -300,4 +300,5 @@ To do list
 * Include PDF version of manual in release tarballs
 * automate running of python testcases in same spirit as C++
 * Expose physical constants to the public API (in preparation of CODATA, etc)
-
+* Package FEASST as a Docker app
+* move unittests to testcases: ljmultilambda2D, ljnpt, NPTandLJvLJMulti, semigrand,

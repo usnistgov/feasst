@@ -22,6 +22,7 @@ TrialSwap::TrialSwap(const char* molTypeA,
     molTypeB_(molTypeB) {
   defaultConstruction_();
 }
+
 TrialSwap::TrialSwap(
   Pair *pair,
   Criteria *criteria,
@@ -32,6 +33,7 @@ TrialSwap::TrialSwap(
     molTypeB_(molTypeB) {
   defaultConstruction_();
 }
+
 TrialSwap::TrialSwap(const char* fileName,
   Pair *pair,
   Criteria *criteria)
@@ -104,9 +106,7 @@ void TrialSwap::attempt1_() {
     space()->delPart(mpart_);
 
     // add new molecule at the same position
-    space()->xAdd = xAdd;
-    space()->addMol(molTypeNew.c_str());
-    pair_->addPart();
+    pair_->addMol(xAdd, molTypeNew.c_str());
 
     // record energy of new molecule
     mpart_ = space()->lastMolIDVec();
@@ -138,9 +138,7 @@ void TrialSwap::attempt1_() {
     if (reject_ != 1) {
       pair_->delPart(mpart_);
       space()->delPart(mpart_);
-      space()->xAdd = xAdd;
-      space()->addMol(molTypeOld.c_str());
-      pair_->addPart();
+      pair_->addMol(xAdd, molTypeOld.c_str());
     }
     trialReject_();
   }
@@ -161,9 +159,6 @@ void TrialSwap::attempt1_() {
   }
 }
 
-/*
- * return string for status of trial
- */
 string TrialSwap::printStat(const bool header) {
   stringstream stat;
   stat << Trial::printStat(header);
@@ -177,98 +172,6 @@ string TrialSwap::printStat(const bool header) {
   }
   return stat.str();
 }
-
-///**
-// * Attempt to randomly swap molecule types
-// */
-// void TrialSwap::attempt2() {
-//  WARN(verbose_ == 1, "attempting to " << trialType_);
-//  const int nMolTypes = space()->addMolList().size();
-//  ASSERT(nMolTypes > 1,
-//    "xswap move requires nMolTypes(" << nMolTypes << ") > 1");
-//
-//  // randomly choose to select an A or a B molecule
-//  string molTypeOld = molTypeA_;
-//  string molTypeNew = molTypeB_;
-//  if (uniformRanNum() > 0.5) {
-//    molTypeOld = molTypeB_;
-//    molTypeNew = molTypeA_;
-//  }
-//  //cout << "ml " << molType << " " << molTypeNew << endl;
-//  // choose a particle of this type and record its position
-//  vector<double> xAdd;
-//  const int iMolIndexOld = space()->findAddMolListIndex(molTypeOld);
-//  const int nMolOld = space()->nMolType()[iMolIndexOld];
-//  const int iMolIndexNew = space()->findAddMolListIndex(molTypeNew);
-//  const int nMolNew = space()->nMolType()[iMolIndexNew];
-//  if (nMolOld > 0) {
-//    const int iMol = space()->randMolofType(iMolIndexOld);
-//    mpart_ = space()->imol2mpart(iMol);
-//    const int ipart = space()->mol2part()[iMol];
-//    for (int dim = 0; dim < space()->dimen(); ++dim) {
-//      xAdd.push_back(space()->x(ipart, dim));
-//    }
-//  } else {
-//    reject_ = 1;
-//  }
-//
-//  if (reject_ != 1) {
-//    // record energy of molecule
-//    de_ = -1. * pair_->multiPartEner(mpart_, 0);
-//
-//    // remove molecule
-//    pair_->delPart(mpart_);
-//    space()->delPart(mpart_);
-//
-//    // add new molecule at the same position
-//    space()->xAdd = xAdd;
-//    space()->addMol(molTypeNew.c_str());
-//    pair_->addPart();
-//
-//    // record energy of new molecule
-//    mpart_ = space()->lastMolIDVec();
-//    de_ += pair_->multiPartEner(mpart_, 0);
-//
-//    lnpMet_ += -criteria_->beta()*de_
-//      + log(criteria_->activ(iMolIndexNew))
-//      - log(criteria_->activ(iMolIndexOld))
-//      + log(static_cast<double>(nMolOld)/
-//            static_cast<double>(nMolNew+1));
-//  }
-//
-//  if (reject_ == 1) {
-//    preFac_ = 0;
-//    de_ = 0;
-//    lnpMet_ = std::numeric_limits<double>::min();
-//  }
-//
-//  if (verbose_ == 1) {
-//    cout << "de " << de_ << " rej " << reject_ << " lpm " << lnpMet_ <<  endl;
-//  }
-//
-//  // acceptance criteria
-//  if (criteria_->accept(lnpMet_, pair_->peTot() + de_,
-//                        trialType_.c_str(), reject_) == 1) {
-//    trialAccept_();
-//    pair_->update(de_);
-//
-//  // if not accepted, swap again
-//  } else {
-//    if (reject_ != 1) {
-//      pair_->delPart(mpart_);
-//      space()->delPart(mpart_);
-//      space()->xAdd = xAdd;
-//      space()->addMol(molTypeOld.c_str());
-//      pair_->addPart();
-//    }
-//    trialReject_();
-//  }
-//}
-//
-//
-//
-//
-//
 
 shared_ptr<TrialSwap> makeTrialSwap(Pair *pair,
   Criteria *criteria, const char* molTypeA, const char* molTypeB) {

@@ -78,7 +78,9 @@ class MC : public BaseRandom {
   /// Attempt to seek nMol particles of type molType by inserting/deleting
   /// or particles.
   /// Note that detailed balance is not obeyed.
-  void nMolSeek(const int nMol, const char* molType,
+  void nMolSeek(const int nMol,
+    /// If molType is empty (as typically used by clones), assume first type.
+    const char* molType,
     /// maximum number of trial attempts
     long long maxAttempts,
     /// If pressure is set in criteria and seeking more particles, then begin
@@ -86,6 +88,7 @@ class MC : public BaseRandom {
     /// particles, then perform a volume trial move at high pressure until
     /// original box size is obtained.
     const double volumeExpansion = 1.2);
+  // HWH Decpreciate: Alternative interface for empty string for molType
   void nMolSeek(const int nMol, long long maxAttempts = 1e12)
     { nMolSeek(nMol, "", maxAttempts); }
   void nMolSeek(const int nMol, const char* molType)

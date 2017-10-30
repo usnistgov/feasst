@@ -42,11 +42,9 @@ TEST(TrialAdd, confine) {
     for (double y = -0.5*space.l(1); y < 0.5*space.l(1) - 0.0001;
          y += latticeSpacing) {
       xAdd[1] = y;
-      space.xAdd = xAdd;
-      space.addMol(addWall.str());
+      pair.addMol(xAdd, addWall.str());
     }
   }
-  pair.addPart();  //!< tell pair class that you updated particles
 
   // Initialize GCMC simulation
   pair.initEnergy();

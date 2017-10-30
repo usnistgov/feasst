@@ -25,7 +25,7 @@ TEST(Criteria, WLTMMC) {
 
 TEST(Criteria, readColWLTMMC) {
   const int nMolMin = 0, nMolMax = 265;
-  CriteriaWLTMMC c(0, 0, "nmol", nMolMin-0.5,nMolMax+0.5,nMolMax-nMolMin+1);
+  CriteriaWLTMMC c(0, 0, "nmol", nMolMin, nMolMax);
   c.readCollectMat("../unittest/colMat.txt");
   vector<int> max = findLocalMaxima(c.lnPI(), 10);
   EXPECT_EQ(2, int(max.size()));
@@ -39,7 +39,7 @@ TEST(Criteria, reweightWLTMMC) {
   const std::string fileName("../unittest/colMat1.txt");
   const std::string fileNameOut("colMatHWHrw.txt");
   const double temp = 525, activ = exp(-8.08564), beta = 1./(temp*8.3144621/1000);
-  CriteriaWLTMMC c(beta, activ, "nmol", nMolMin-0.5,nMolMax+0.5,nMolMax-nMolMin+1);
+  CriteriaWLTMMC c(beta, activ, "nmol", nMolMin, nMolMax);
   c.readCollectMat(fileName.c_str());
   c.findSat();
 }
@@ -49,7 +49,7 @@ TEST(Criteria, reweightWLTMMCequltPatchANDnMolResizeWindow) {
   const std::string fileName("../unittest/colMat3.txt");
   const std::string fileNameOut("colMatasdfrw.txt");
   const double temp = 0.7, activ = 0.0183156, beta = 1./temp;
-  CriteriaWLTMMC c(beta, activ, "nmol", nMolMin-0.5,nMolMax+0.5,nMolMax-nMolMin+1);
+  CriteriaWLTMMC c(beta, activ, "nmol", nMolMin, nMolMax);
   c.readCollectMat(fileName.c_str());
   c.findSat();
   //c.lnPIrwsat(exp(-4.0));
@@ -65,7 +65,7 @@ TEST(Criteria, reweightWLTMMCequltPatchANDnMolResizeWindow) {
 TEST(Criteria, pressureANDavMacro) {
   {
     const int nMolMin = 0, nMolMax = 370;
-    CriteriaWLTMMC c(1./1.5, exp(-1.568214), "nmol", nMolMin-0.5,nMolMax+0.5,nMolMax-nMolMin+1);
+    CriteriaWLTMMC c(1./1.5, exp(-1.568214), "nmol", nMolMin, nMolMax);
     c.readCollectMat("../unittest/lj/srsw/eostmmc/1.5/lj.msdb.t150.1.p_macro.dat");
     EXPECT_NEAR(310.432325, c.lnPIaverage(), 1e-6);
     EXPECT_NEAR(1., c.lnPIarea(), 1e-14);
@@ -80,7 +80,7 @@ TEST(Criteria, pressureANDavMacro) {
 
   // lower temperature two-phase
   const int nMolMin = 0, nMolMax = 475;
-  CriteriaWLTMMC c(1./0.7, exp(-5.943376), "nmol", nMolMin-0.5,nMolMax+0.5,nMolMax-nMolMin+1);
+  CriteriaWLTMMC c(1./0.7, exp(-5.943376), "nmol", nMolMin, nMolMax);
   c.readCollectMat("../unittest/lj/srsw/eostmmc/0.7/lj.msdb.t070.1.p_macro.dat");
   vector<CriteriaWLTMMC> cvec = c.phaseSplit(c.lnPI());
   EXPECT_EQ(2, c.lnPInumPhases());

@@ -68,8 +68,12 @@ void PairLJCoulEwald::writeRestart(const char* fileName) {
 }
 
 void PairLJCoulEwald::initEnergy() {
-  peLJ_ = 0; peQReal_ = 0;
+  peSRone_ = 0;
+  peLJone_ = 0;
+  peQRealone_ = 0;
   allPartEnerForce(2);
+  peLJ_ = peLJone_;
+  peQReal_ = peQRealone_;
 
   // reciprical (Fourier) space
   forcesFrr_();
@@ -101,7 +105,7 @@ double PairLJCoulEwald::multiPartEnerReal(
   }
 
   // optimization precomputations
-  double r2inv, r6inv, r2, epsij, sigij, dx, dy, dz, qi, qij;
+  double r2inv, r6inv, r2, epsij, sigij, dx, dy, dz;
   const double lx = l[0], ly = l[1], lz = l[2],
     halflx = lx/2., halfly = ly/2., halflz = lz/2.;
   int jtype, itype, isite, jsite;
@@ -154,7 +158,7 @@ double PairLJCoulEwald::multiPartEnerReal(
           // loop through pairs of sites
           for (isite = ipart; isite < mol2part[iMol+1]; ++isite) {
             itype = type[isite];
-            qi = q_[itype];
+            //qi = q_[itype];
             for (jsite = jpart; jsite < mol2part[jMol+1]; ++jsite) {
               // separation distance with periodic boundary conditions
               dx = x[dimen_*isite] - x[dimen_*jsite];
@@ -167,20 +171,7 @@ double PairLJCoulEwald::multiPartEnerReal(
               if (dz >  halflz) dz -= lz;
               if (dz < -halflz) dz += lz;
               r2 = dx*dx + dy*dy + dz*dz;
-
-              // dispersion interactions
-              jtype = type[jsite];
-              epsij = epsij_[itype][jtype];
-              if ( epsij != 0 ) {
-                sigij = sigij_[itype][jtype];
-                r2inv = sigij*sigij/r2;
-                r6inv = r2inv*r2inv*r2inv;
-                peLJone_ += 4.*epsij*(r6inv*(r6inv - 1.));
-              }
-
-              // charge interactions
-              qij = qi*q_[jtype];
-              peQRealone_ += qij*erft_.eval(r2);
+              multiPartEnerAtomCutInner(r2, itype, type[jsite]);
             }
           }
         }
@@ -778,14 +769,14 @@ void PairLJCoulEwald::multiPartEnerAtomCutInner(const double &r2,
   } else {
     enlj = 0.;  // flj = 0;
   }
-  peLJ_ += enlj;
+  peLJone_ += enlj;
 
   // charge interactions
   const double enq = q_[itype]*q_[jtype]*erft_.eval(r2);
 //  const double fq = enq + q_[itype]*q_[jtype]
 //            *(2.*alpha*exp(-alpha*alpha*r2)/sqrt(PI));
 
-  peQReal_ += enq;
+  peQRealone_ += enq;
   peSRone_ += enq + enlj;
 }
 
