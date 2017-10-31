@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Guidelines for developers &mdash; FEASST v0.2.1-5-g99b5918061 documentation</title>
+  <title>Guidelines for developers &mdash; FEASST v0.2.1-7-g067db781a3 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="FEASST v0.2.1-5-g99b5918061 documentation" href="index.html"/>
+    <link rel="top" title="FEASST v0.2.1-7-g067db781a3 documentation" href="index.html"/>
         <link rel="next" title="Authors and acknowledgements" href="contrib.html"/>
         <link rel="prev" title="Frequently asked questions (FAQ)" href="faq.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                v0.2.1-5-g99b5918061
+                v0.2.1-7-g067db781a3
               </div>
             
           
@@ -111,16 +111,17 @@
 <li class="toctree-l4"><a class="reference internal" href="#unpack-sh">unpack.sh</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#private-files-txt">private_files.txt</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#stubs">stubs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#feasst-private">feasst_private</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#unittest-with-gtest">Unittest with GTEST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#debugging-with-gdb">Debugging with GDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging-with-gdb-or-lldb">Debugging with GDB or LLDB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#find-memory-leaks-with-valgrind">Find memory leaks with Valgrind</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#test-coverage-with-gcov-and-lcov">Test coverage with GCOV and LCOV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#clean-up-with-cpplint-and-pylint">Clean up with cpplint and pylint</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tag-and-archive">Tag and archive</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#documentation-setup">Documentation setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sphinx-breathe-doxygen-tips">Sphinx/Breathe/Doxygen tips</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#philosophical-questions-and-quotes">Philosophical questions and quotes</a><ul>
@@ -222,7 +223,7 @@ in order to simplify collaboration.</p>
 </li>
 <li>And the version control id is &#8220;g&#8221; for GitHub, for example, followed by the commit hash.</li>
 </ul>
-<p>Although all efforts are made for restart files to be backwards compatible, they can only be guaranteed to be backwards for the same version x.y.z.</p>
+<p>Although all efforts are made for restart files to be backwards compatible, they may only be compatible for the same version x.y.z.</p>
 </div>
 <div class="section" id="branch-policies">
 <h2>Branch policies<a class="headerlink" href="#branch-policies" title="Permalink to this headline">¶</a></h2>
@@ -286,18 +287,19 @@ HINT: rename branches with &#8220;git branch -m &lt;newname&gt;&#8221;</li>
 <h2>Public/private repositories with package tools<a class="headerlink" href="#public-private-repositories-with-package-tools" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="package-scripts">
 <h3>Package scripts<a class="headerlink" href="#package-scripts" title="Permalink to this headline">¶</a></h3>
-<p>The package scripts help a user to allow certain files to diverge from or stay hidden from the central FEASST respository.
+<p>The package scripts help a user to allow certain files to diverge from or stay hidden from the central FEASST repository.
 For example, perhaps a newly implemented method is unpublished and not ready for public distribution.
-One option is to simply make a private branch within your own private repository that you will not push to the public respository.
-This method is fine if you only which to receive updates.
+One option is to simply make a private branch within your own private repository that you will not push to the public repository.
+This method is fine if you only want to receive updates.
 But if you want to share some of the development within your private branch, but not all, this becomes more complicated.</p>
-<p>The other option is to create separate &#8220;public&#8221; and &#8220;private&#8221; respositories.
-The example package directory <a class="reference external" href="tools/package">tools/package</a> contains scripts and example files to simplify the synchronization of these two separate respositories.</p>
+<p>The other option is to create separate &#8220;public&#8221; and &#8220;private&#8221; repositories.
+The example package directory <a class="reference external" href="tools/package">tools/package</a> contains scripts and example files to simplify the synchronization of these two separate repositories.</p>
 <ul class="simple">
-<li><a class="reference internal" href="#package-sh">package.sh</a>: send updates in private respository to the public respository, after filtering.</li>
-<li><a class="reference internal" href="#unpack-sh">unpack.sh</a>: receive changes from public respository into private respository, after filtering.</li>
-<li><a class="reference internal" href="#private-files-txt">private_files.txt</a>: list of files or directories that will not be shared to, or altered by, the public respository.</li>
-<li><a class="reference internal" href="#stubs">stubs</a>: directory of files, which will overwrite current files when sent to public respository, and will not be changed by unpack.</li>
+<li><a class="reference internal" href="#package-sh">package.sh</a>: send updates in private repository to the public repository, after filtering.</li>
+<li><a class="reference internal" href="#unpack-sh">unpack.sh</a>: receive changes from public repository into private repository, after filtering.</li>
+<li><a class="reference internal" href="#private-files-txt">private_files.txt</a>: list of files or directories that will not be shared to, or altered by, the public repository.</li>
+<li><a class="reference internal" href="#stubs">stubs</a>: directory of files, which will overwrite current files when sent to public repository, and will not be changed by unpack.</li>
+<li><a class="reference internal" href="#feasst-private">feasst_private</a>: a directory with a file of this name will behave as if listed in <a class="reference internal" href="#private-files-txt">private_files.txt</a>.</li>
 </ul>
 <div class="section" id="package-sh">
 <h4>package.sh<a class="headerlink" href="#package-sh" title="Permalink to this headline">¶</a></h4>
@@ -305,27 +307,32 @@ The example package directory <a class="reference external" href="tools/package"
 </pre></div>
 </div>
 <p>This script sends the contents of the current FEASST repository to a different FEASST repository, after filtering of files based on <cite>private_files.txt</cite> and <cite>stubs</cite>.
-At the end, it lists the differences between the two respositories.
-If, for example, a file is deleted or renamed in your private respository and sent to the public one, this will show up as a difference in the respositories.</p>
+At the end, it lists the differences between the two repositories.
+If, for example, a file is deleted or renamed in your private repository and sent to the public one, this will show up as a difference in the repositories.</p>
 </div>
 <div class="section" id="unpack-sh">
 <h4>unpack.sh<a class="headerlink" href="#unpack-sh" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>./unpack.sh /path/to/public/repo
 </pre></div>
 </div>
-<p>This script receives the contents of a different FEASST respository, after filtering of files based on <cite>private_files.txt</cite> and <cite>stubs</cite>.</p>
+<p>This script receives the contents of a different FEASST repository, after filtering of files based on <cite>private_files.txt</cite> and <cite>stubs</cite>.</p>
 </div>
 <div class="section" id="private-files-txt">
 <h4>private_files.txt<a class="headerlink" href="#private-files-txt" title="Permalink to this headline">¶</a></h4>
-<p>List each file or directory that you do not want <cite>package.sh</cite> to send to another respository.
+<p>List each file or directory that you do not want <cite>package.sh</cite> to send to another repository.
 In addition, <cite>unpack.sh</cite> will not receive these files from the public repository.
-Finally, you mean also add an empty file &#8220;feasst_private&#8221; to any directory, and the pack and unpack scripts will append these directories onto the private_files list.</p>
+Finally, you may also add an empty file, <a class="reference internal" href="#feasst-private">feasst_private</a> to any directory, and the pack and unpack scripts will append these directories onto the private_files list.</p>
 </div>
 <div class="section" id="stubs">
 <h4>stubs<a class="headerlink" href="#stubs" title="Permalink to this headline">¶</a></h4>
 <p>In the stubs directory, include files which you would like to replace the existing file in your repository.
 For example, you may select some custom options for CMakeLists.txt but not want to push those back to the public repository.
 Thus, the default CMakeLists.txt may be included as a stub which is copied on top of your own implementation when sending changes.</p>
+</div>
+<div class="section" id="feasst-private">
+<h4>feasst_private<a class="headerlink" href="#feasst-private" title="Permalink to this headline">¶</a></h4>
+<p>Create a file with this name in order to keep the contents of the entire directory private.
+<cite>package.sh</cite> will behave as if this directory was listed in <a class="reference internal" href="#private-files-txt">private_files.txt</a>.</p>
 </div>
 </div>
 </div>
@@ -371,9 +378,9 @@ specific tests, respectively.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="debugging-with-gdb">
-<h2>Debugging with GDB<a class="headerlink" href="#debugging-with-gdb" title="Permalink to this headline">¶</a></h2>
-<p>gdb is a very useful debugging tool, especially for identifying segfaults via backtraces. The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.</p>
+<div class="section" id="debugging-with-gdb-or-lldb">
+<h2>Debugging with GDB or LLDB<a class="headerlink" href="#debugging-with-gdb-or-lldb" title="Permalink to this headline">¶</a></h2>
+<p>gdb (or lldb on macOS) is a very useful debugging tool, especially for identifying segfaults via backtraces. The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.</p>
 <p>In bash</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>gdb <span class="o">[</span>program executable name<span class="o">]</span>
 r <span class="o">[</span>flags<span class="o">]</span>
@@ -416,8 +423,8 @@ Note: this disables optimization, so don&#8217;t use it for production simulatio
 <p><a class="reference external" href="https://google.github.io/styleguide/cppguide.html">https://google.github.io/styleguide/cppguide.html</a></p>
 <p><a class="reference external" href="https://github.com/google/styleguide/tree/gh-pages/cpplint">https://github.com/google/styleguide/tree/gh-pages/cpplint</a></p>
 </div>
-<div class="section" id="packaging">
-<h2>Packaging<a class="headerlink" href="#packaging" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tag-and-archive">
+<h2>Tag and archive<a class="headerlink" href="#tag-and-archive" title="Permalink to this headline">¶</a></h2>
 <p>git tag -a &lt;version number&gt;</p>
 <p>git archive master &#8211;prefix=&#8217;feasst&#8217;<cite>git describe master</cite>&#8216;/&#8217; | gzip &gt; feasst`git describe master`.tar.gz</p>
 </div>
@@ -440,18 +447,23 @@ breathe_projects = {&#8220;FEASST&#8221;:&#8221;../xml&#8221;}</dd>
 </dl>
 <p>pip install sphinx_rtd_theme</p>
 <p>run sphinx: make html</p>
-<p>For math in doxygen commends, use:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>\f$ latex code here \f$
-</pre></div>
-</div>
 </div>
 <div class="section" id="sphinx-breathe-doxygen-tips">
 <h2>Sphinx/Breathe/Doxygen tips<a class="headerlink" href="#sphinx-breathe-doxygen-tips" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Link from rst file to C++ function: <code class="docutils literal"><span class="pre">:cpp:func:`className::function()`</span></code></li>
-<li>Link from rst file to fst file: <code class="docutils literal"><span class="pre">:doc:`/testcase/asdf`</span></code></li>
-<li>Link from C++ to C++: <code class="docutils literal"><span class="pre">className::function()</span></code></li>
-<li>Link from C++ source to rst file: <code class="docutils literal"><span class="pre">&lt;a</span> <span class="pre">href=&quot;testcase/asdf.html&quot;&gt;test&lt;/a&gt;</span></code></li>
+<ul>
+<li><p class="first">Link from rst file to C++ function: <code class="docutils literal"><span class="pre">:cpp:func:`className::function()`</span></code></p>
+</li>
+<li><p class="first">Link from rst file to fst file: <code class="docutils literal"><span class="pre">:doc:`/testcase/asdf`</span></code></p>
+</li>
+<li><p class="first">Link from C++ to C++: <code class="docutils literal"><span class="pre">className::function()</span></code></p>
+</li>
+<li><p class="first">Link from C++ source to rst file: <code class="docutils literal"><span class="pre">&lt;a</span> <span class="pre">href=&quot;testcase/asdf.html&quot;&gt;test&lt;/a&gt;</span></code></p>
+</li>
+<li><p class="first">For math in C++ comments:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>\f$ latex code here \f$
+</pre></div>
+</div>
+</li>
 </ul>
 </div>
 <div class="section" id="philosophical-questions-and-quotes">
@@ -490,7 +502,7 @@ Feel free to stick to your favorite style in your contributed work, although ide
 <li>have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)</li>
 <li>remove periodicity from x/y/z dimensions (no rush here)</li>
 <li>split functions.h into a variety of base_fileio, base_math, base_utils, etc</li>
-<li>pairhybrid rCut should be taken from pairVec, or atleast rCutMaxAll</li>
+<li>PairHybrid rCut should be taken from pairVec, or atleast rCutMaxAll</li>
 <li>Eventually convert all raw pointers to shared pointers, which also allows removal of space from MC class</li>
 <li>PairHybrid also doens&#8217;t need a space pointer.</li>
 <li>Use Histogram class for CriteriaWLTMMC instead of its own hard-coded version</li>
@@ -567,7 +579,7 @@ Or make them more general (e.g., multi patch particles?).</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v0.2.1-5-g99b5918061',
+            VERSION:'v0.2.1-7-g067db781a3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

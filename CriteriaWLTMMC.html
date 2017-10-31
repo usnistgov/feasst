@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>CriteriaWLTMMC &mdash; FEASST v0.2.1-5-g99b5918061 documentation</title>
+  <title>CriteriaWLTMMC &mdash; FEASST v0.2.1-7-g067db781a3 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="FEASST v0.2.1-5-g99b5918061 documentation" href="index.html"/>
+    <link rel="top" title="FEASST v0.2.1-7-g067db781a3 documentation" href="index.html"/>
         <link rel="up" title="Criteria Classes" href="criteriatoc.html"/>
         <link rel="next" title="CustomException" href="CustomException.html"/>
         <link rel="prev" title="CriteriaMetropolis" href="CriteriaMetropolis.html"/> 
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                v0.2.1-5-g99b5918061
+                v0.2.1-7-g067db781a3
               </div>
             
           
@@ -351,23 +351,13 @@
 <dl class="function">
 <dt id="_CPPv2N14CriteriaWLTMMC10lnPIupdateERK6vectorINSt10shared_ptrI14CriteriaWLTMMCEEE">
 <span id="CriteriaWLTMMC::lnPIupdate__vector:std::shared_ptr:CriteriaWLTMMC::CR"></span><span class="target" id="classCriteriaWLTMMC_1ad4f49323a73128ccc7d8c100efcd3c80"></span>void <code class="descname">lnPIupdate</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;std::shared_ptr&lt;<a class="reference internal" href="#_CPPv214CriteriaWLTMMC" title="CriteriaWLTMMC">CriteriaWLTMMC</a>&gt;&gt; &amp;<em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC10lnPIupdateERK6vectorINSt10shared_ptrI14CriteriaWLTMMCEEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Update macrostate probability distribution, lnPI with multiple collection matrices.</p>
-<p>update macrostate probability distribution with collection matrix sum multiple collection matrices </p>
+<dd><p>Update macrostate probability distribution, lnPI with multiple collection matrices. </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv2N14CriteriaWLTMMC6c2lnPIERK6vectorI6vectorIeEEP6vectorIeE">
 <span id="CriteriaWLTMMC::c2lnPI__vector:vector:l-double::CR.vector:l-double:P"></span><span class="target" id="classCriteriaWLTMMC_1ab2d55834211d2b16de40513d88eb937e"></span>void <code class="descname">c2lnPI</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;vector&lt;long double&gt;&gt; &amp;<em>col</em>, vector&lt;long double&gt; *<em>lnpiPtr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC6c2lnPIERK6vectorI6vectorIeEEP6vectorIeE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Convert collection matrix to probability distribution, lnPI. </p>
-<p><dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal"><span class="pre">col</span></code>: collection matrix </li>
-</ul>
-</dd>
-</dl>
-</p>
-<p>convert collection matrix to lnPI </p>
+<dd><p>Convert collection matrix, col, to probability distribution, lnPI. </p>
 </dd></dl>
 
 <dl class="function">
@@ -431,78 +421,15 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N14CriteriaWLTMMC10phaseSplitERK6vectorIeE">
-<span id="CriteriaWLTMMC::phaseSplit__vector:l-double:CR"></span><span class="target" id="classCriteriaWLTMMC_1aa15ae3e79dd1fdc4209ee6ae82d4aef1"></span>vector&lt;<a class="reference internal" href="#_CPPv214CriteriaWLTMMC" title="CriteriaWLTMMC">CriteriaWLTMMC</a>&gt; <code class="descname">phaseSplit</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;long double&gt; &amp;<em>lnPI</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC10phaseSplitERK6vectorIeE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>split phases among vector of criteria </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N14CriteriaWLTMMC15printCollectMatEPKc">
-<span id="CriteriaWLTMMC::printCollectMat__cCP"></span><span class="target" id="classCriteriaWLTMMC_1ae31f95eebc72b36a1208cd609e8c6da4"></span>void <code class="descname">printCollectMat</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC15printCollectMatEPKc" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal"><span class="pre">fileName</span></code>: file name </li>
-</ul>
-</dd>
-</dl>
-</p>
-<p>print the collection matrix </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N14CriteriaWLTMMC15printCollectMatEPKcK6vectorIP14CriteriaWLTMMCE">
-<span id="CriteriaWLTMMC::printCollectMat__cCP.vector:CriteriaWLTMMCP:C"></span><span class="target" id="classCriteriaWLTMMC_1a41f8508888c76daa65efd248998dacd7"></span>void <code class="descname">printCollectMat</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> vector&lt;<a class="reference internal" href="#_CPPv214CriteriaWLTMMC" title="CriteriaWLTMMC">CriteriaWLTMMC</a> *&gt; <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC15printCollectMatEPKcK6vectorIP14CriteriaWLTMMCE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal"><span class="pre">fileName</span></code>: file to print aggregate lnPI </li>
-</ul>
-</dd>
-</dl>
-</p>
-<p>paste together windows of lnPI to print final version </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N14CriteriaWLTMMC14readCollectMatEPKc">
-<span id="CriteriaWLTMMC::readCollectMat__cCP"></span><span class="target" id="classCriteriaWLTMMC_1a8d2d4db5c084b846205f1e7132c339ca"></span>void <code class="descname">readCollectMat</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC14readCollectMatEPKc" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal"><span class="pre">fileName</span></code>: file name </li>
-</ul>
-</dd>
-</dl>
-</p>
-<p>read the collection matrix and lnPI </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N14CriteriaWLTMMC12readlnPIEnerEPKc">
-<span id="CriteriaWLTMMC::readlnPIEner__cCP"></span><span class="target" id="classCriteriaWLTMMC_1a01ec3e3ab184dc762c7c373115d6d0af"></span>void <code class="descname">readlnPIEner</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC12readlnPIEnerEPKc" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal"><span class="pre">fileName</span></code>: file name </li>
-</ul>
-</dd>
-</dl>
-</p>
-<p>read lnPI and energy </p>
-</dd></dl>
-
-<dl class="function">
 <dt id="_CPPv2N14CriteriaWLTMMC15readlnPIEnerColEPKc">
 <span id="CriteriaWLTMMC::readlnPIEnerCol__cCP"></span><span class="target" id="classCriteriaWLTMMC_1a85bdcf0df6c5473dc9c484f779bfd9b9"></span>void <code class="descname">readlnPIEnerCol</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC15readlnPIEnerColEPKc" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>reweight to find difference in peaks read lnPI, energy and collection matrix </p>
+<dd><p>reweight to find difference in peaks </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv2N14CriteriaWLTMMC8zeroStatEv">
 <span id="CriteriaWLTMMC::zeroStat"></span><span class="target" id="classCriteriaWLTMMC_1a2109066aba23bb46db18db7ca78bc08b"></span>void <code class="descname">zeroStat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC8zeroStatEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Zero all statistics and accumulators. </p>
-<p>zero all statistics and accumulators </p>
 </dd></dl>
 
 <dl class="function">
@@ -514,8 +441,7 @@
 <dl class="function">
 <dt id="_CPPv2N14CriteriaWLTMMC7findSatEv">
 <span id="CriteriaWLTMMC::findSat"></span><span class="target" id="classCriteriaWLTMMC_1a4063834d4c52a01a87aa6e93c9e0a792"></span>void <code class="descname">findSat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC7findSatEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Reweight to saturation conditions my minizing the differences in peak heights.</p>
-<p>reweight to saturation conditions by mimizing lnPIrw2sat </p>
+<dd><p>Reweight to saturation conditions my minizing the differences in peak heights. </p>
 </dd></dl>
 
 <dl class="function">
@@ -563,7 +489,6 @@
 <dt id="_CPPv2N14CriteriaWLTMMC10lnPIgc2canE6vectorIdE">
 <span id="CriteriaWLTMMC::lnPIgc2can__vector:double:"></span><span class="target" id="classCriteriaWLTMMC_1a3ad58246120527ceaa2f399658e477cd"></span>vector&lt;double&gt; <code class="descname">lnPIgc2can</code><span class="sig-paren">(</span>vector&lt;double&gt; <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC10lnPIgc2canE6vectorIdE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Obtain grand canonical ensemble average from canonical ensemble average. </p>
-<p>obtain grand canonical ensemble average from canonical ensemble average </p>
 </dd></dl>
 
 <dl class="function">
@@ -576,21 +501,18 @@
 <dt id="_CPPv2N14CriteriaWLTMMC13lnPIenergyIsoEv">
 <span id="CriteriaWLTMMC::lnPIenergyIso"></span><span class="target" id="classCriteriaWLTMMC_1aa2f0f6a1356e1fbe4e78bdcaa3098056"></span>void <code class="descname">lnPIenergyIso</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC13lnPIenergyIsoEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Obtain energy isothermo from lnPI. </p>
-<p>obtain energy isotherm from lnPI </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv2N14CriteriaWLTMMC11lnPIreplaceERK6vectorIeE">
 <span id="CriteriaWLTMMC::lnPIreplace__vector:l-double:CR"></span><span class="target" id="classCriteriaWLTMMC_1aa2fc6dc1b1a1e4fdbfab382efe082543"></span>void <code class="descname">lnPIreplace</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;long double&gt; &amp;<em>lnPI</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC11lnPIreplaceERK6vectorIeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Replace lnPI. </p>
-<p>replace lnPI </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv2N14CriteriaWLTMMC13spliceWindowsEK6vectorIP14CriteriaWLTMMCE">
 <span id="CriteriaWLTMMC::spliceWindows__vector:CriteriaWLTMMCP:C"></span><span class="target" id="classCriteriaWLTMMC_1a10d2e3e48a3e2e577118a07033496d09"></span>void <code class="descname">spliceWindows</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;<a class="reference internal" href="#_CPPv214CriteriaWLTMMC" title="CriteriaWLTMMC">CriteriaWLTMMC</a> *&gt; <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC13spliceWindowsEK6vectorIP14CriteriaWLTMMCE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Splice windows together. </p>
-<p>splice windows together </p>
 </dd></dl>
 
 <dl class="function">
@@ -603,7 +525,6 @@
 <dt id="_CPPv2N14CriteriaWLTMMC9minNSweepEK6vectorIP14CriteriaWLTMMCE">
 <span id="CriteriaWLTMMC::minNSweep__vector:CriteriaWLTMMCP:C"></span><span class="target" id="classCriteriaWLTMMC_1a180f3a39a8f408ef0eae009066d6db80"></span>int <code class="descname">minNSweep</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;<a class="reference internal" href="#_CPPv214CriteriaWLTMMC" title="CriteriaWLTMMC">CriteriaWLTMMC</a> *&gt; <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC9minNSweepEK6vectorIP14CriteriaWLTMMCE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return minimum number of sweeps in all windows. </p>
-<p>minimum number of sweeps in all windows </p>
 </dd></dl>
 
 <dl class="function">
@@ -616,7 +537,6 @@
 <dt id="_CPPv2N14CriteriaWLTMMC10minNwlFlatEK6vectorIP14CriteriaWLTMMCE">
 <span id="CriteriaWLTMMC::minNwlFlat__vector:CriteriaWLTMMCP:C"></span><span class="target" id="classCriteriaWLTMMC_1af8d5c91cb912b52c87eb2a74c83001f8"></span>int <code class="descname">minNwlFlat</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;<a class="reference internal" href="#_CPPv214CriteriaWLTMMC" title="CriteriaWLTMMC">CriteriaWLTMMC</a> *&gt; <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC10minNwlFlatEK6vectorIP14CriteriaWLTMMCE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return minimum number of wlFLat in all windows. </p>
-<p>minimum number of sweeps in all windows </p>
 </dd></dl>
 
 <dl class="function">
@@ -629,14 +549,12 @@
 <dt id="_CPPv2N14CriteriaWLTMMC12prefilColMatEKe">
 <span id="CriteriaWLTMMC::prefilColMat__l-doubleC"></span><span class="target" id="classCriteriaWLTMMC_1a9e5b701e5a7976d10a4ce9205ffd6a48"></span>void <code class="descname">prefilColMat</code><span class="sig-paren">(</span><em class="property">const</em> long double <em>constant</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC12prefilColMatEKe" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Prefill collection matrix with a constant. </p>
-<p>prefill collection matrix with a constant </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv2N14CriteriaWLTMMC12heatCapacityEv">
 <span id="CriteriaWLTMMC::heatCapacity"></span><span class="target" id="classCriteriaWLTMMC_1ad2e0571e188b2fe20b80d9c3a794493c"></span>vector&lt;double&gt; <code class="descname">heatCapacity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14CriteriaWLTMMC12heatCapacityEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return heat capacity for each bin. </p>
-<p>return heat capacity for each bin </p>
 </dd></dl>
 
 <dl class="function">
@@ -729,7 +647,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v0.2.1-5-g99b5918061',
+            VERSION:'v0.2.1-7-g067db781a3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
