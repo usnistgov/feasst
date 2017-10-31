@@ -14,7 +14,7 @@ echo "Generating feasst.i"
 
 swigfile="feasst.i"
 cat << EOF > $swigfile
-/* NOTE: This file is created by tools/makeFactory.sh. Do not modify this file.
+/* NOTE: This file is created by buildtemplate/makeFactory.sh. Do not modify this file.
    See buildtemplate/feasst.i.example for an example file. */
 
 %module feasst
@@ -99,7 +99,7 @@ echo "Generating factories.cc"
 ccfile="../src/factories.cc"
 cat << EOF > $ccfile
 /* Factory method for Pair, Criteria, Trial and Analyze.
-   This file is created by tools/makeFactory.sh. Do not modify this file.
+   This file is created by buildtemplate/makeFactory.sh. Do not modify this file.
    See src/factories.cc.example for an example file. */
 
 EOF

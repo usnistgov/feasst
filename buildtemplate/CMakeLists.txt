@@ -239,9 +239,9 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   #add_definitions(-std=c++0x -libstdc++)
 endif()
 
-# Use the src/makeFactory.sh script to make feasst.i and factories.cc
+# Use the makeFactory.sh script to make feasst.i and factories.cc
 execute_process(
-  COMMAND ../tools/makeFactory.sh
+  COMMAND ./makeFactory.sh
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
@@ -308,7 +308,7 @@ if (USE_GTEST)
   if (USE_GTESTCASES)
     message("USING GTEST CASES")
     execute_process(
-      COMMAND ../tools/genGTestCases.sh
+      COMMAND ./genGTestCases.sh
       WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
     file(GLOB feasst_testcase_SRC "${CMAKE_SOURCE_DIR}/testcase/*.cc")
