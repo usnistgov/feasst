@@ -17,7 +17,7 @@
 int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
 
   int openMP = 0;
-  int nMolMax = 5, nMolMin = 0, nfreq = 1e5, ncfreq = 1e6;
+  int nMolMax = 5, nMolMin = 0, nfreq = 1e4, ncfreq = 1e5;
   double rCut = 10., temp = 525, lnz = -8.14, boxl = 20.;
   std::stringstream molType;
   molType << "data.spce";
@@ -51,8 +51,8 @@ int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
 
   // initialize simulation domain
   feasst::ranInitByDate();
-  feasst::Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(boxl,dim);
+  feasst::Space s(3);
+  s.initBoxLength(boxl);
 
   // initialize pair-wise interactions
   feasst::PairLJCoulEwald p(&s, rCut);
@@ -99,7 +99,7 @@ int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
     mc.initWindows(1.75,  // exponent that determines size of windows
                    0);    // extra macrostate overlap between processors
   }
-  mc.runNumSweeps(20,   // number of "sweeps"
+  mc.runNumSweeps(2,   // number of "sweeps"
                  -1);   // maximum number of trials. Infinite if "-1".
 }
 

@@ -67,7 +67,7 @@ Modern software
 Installation
 #############
 
-FEASST is designed for a LINUX or MAC OS X platform with the following minimum version software.
+FEASST is designed for a LINUX or MAC platform with the following minimum version software.
 
 * make >= 3.81
 * CMake >= 2.8.12.2

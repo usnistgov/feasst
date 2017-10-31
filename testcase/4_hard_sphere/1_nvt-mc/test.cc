@@ -30,8 +30,8 @@ int main() {  // HardSphere, NVTMC
   mc.initMovie("movie", 1e4);
   mc.initRestart("tmp/rst", 1e4);
   mc.setNFreqTune(1e4);
-  mc.runNumTrials(1e7);   // run equilibration
+  mc.runNumTrials(1e6);   // run equilibration
 
   // Run the production simulation
-  mc.runNumTrials(1e7);
+  mc.runNumTrials(1e6);
 }
