@@ -118,6 +118,7 @@ For example
 
 The optional gtest flags randomly shuffle the order of the tests, and run
 specific tests, respectively.
+To use a seed to reproduce an error, use --gtest_random_seed=SEED.
 
 If there are a lot of errors, typically the best testing order would be::
 

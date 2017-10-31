@@ -357,8 +357,8 @@ harold.hatch@nist.gov
 
 For list of contributors, see `<CONTRIBUTORS.rst>`_
 
-.. include:: ../CITATION.rst
+.. include:: CITATION.rst
 
-.. include:: ../DISCLAIMER.rst
+.. include:: DISCLAIMER.rst
 
-.. include:: ../LICENSE.rst
+.. include:: LICENSE.rst

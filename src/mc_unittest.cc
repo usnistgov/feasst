@@ -349,6 +349,7 @@ TEST(MC, nseek) {
 }
 
 TEST(MC, nSeekWithPressure) {
+  feasst::ranInitByDate();
   Space space(3, 0);
   space.initBoxLength(8);
   /// PairLJMulti pair(&space, 3.);
