@@ -33,6 +33,16 @@ set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.so")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")  #profiling
 
+# enable dependencies
+# if you're using SPHINX, you must use GTESTCASES
+if (USE_SPHINX)
+  set(USE_GTESTCASES ON)
+endif (USE_SPHINX)
+# if you're using GTESTCASES, you must use GTEST
+if (USE_GTESTCASES)
+  set(USE_GTEST ON)
+endif (USE_GTESTCASES)
+
 # # JSON Library
 # if (USE_JSON)
 #   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DJSON_ -std=c++11")
