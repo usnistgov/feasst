@@ -12,8 +12,6 @@
 import os, sys
 #from libxdrfile import xdrfile_open, xdrfile_close, read_xtc_natoms, read_xtc,
 #from libxdrfile import DIM, exdrOK
-FEASSTDIR = os.getenv("HOME") + "/feasst"
-sys.path.append(FEASSTDIR + "/src")
 import feasst
 import numpy as np
 

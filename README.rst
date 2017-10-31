@@ -26,27 +26,28 @@ Simulation techniques
 
 * Wang-Landau Monte Carlo
 * Transition-matrix Monte Carlo
-* Mayer sampling Monte Carlo (dev)
 * Metropolis Monte Carlo
+* Mayer sampling Monte Carlo (dev)
 * Molecular dynamics (dev)
 
 Thermodynamic ensembles
 
-* Expanded ensembles in temperature, shape, etc. (dev)
-* Grand canonical ensemble
-* Canonical ensemble
 * Microcanonical ensemble
+* Canonical ensemble
+* (Semi-)grand canonical ensemble
+* Expanded ensembles in temperature, shape, etc. (dev)
 
 Advanced Monte Carlo moves
 
+* Parallel configuration swaps
+* Constant pressure and floppy box
+* Particle identify and position swaps
 * Configurational bias insertions, deletions and regrowth with multiple first
   bead insertion (dev)
-* Aggregation volume bias (AVB) insertions, deletions and the AVB2  and AVB3
+* Aggregation volume bias (AVB) insertions, deletions and the AVB2 and AVB3
   algorithms (dev)
 * Geometric cluster algorithm (dev)
 * Rigid cluster moves (dev)
-* Parallel configuration swaps
-* Constant pressure and floppy box
 
 Intermolecular interactions
 
@@ -355,6 +356,8 @@ www.nist.gov/people/harold-hatch
 harold.hatch@nist.gov
 
 For list of contributors, see `<CONTRIBUTORS.rst>`_
+
+.. include:: ../CITATION.rst
 
 .. include:: ../DISCLAIMER.rst
 
