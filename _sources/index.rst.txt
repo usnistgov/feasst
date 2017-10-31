@@ -18,6 +18,7 @@ Contents:
    dev
    contrib
    contact
+   citation
 
 Indices and tables
 ==================
