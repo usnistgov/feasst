@@ -96,7 +96,7 @@ In C++, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:
     #include "trial_transform.h"
     int main() {
       feasst::Space space(3, 0);
-      space.lset(8);  // 8 box length
+      space.initBoxLength(8);
       space.addMolInit("../forcefield/data.lj");
       feasst::PairLJ pair(&space, 3);   // potential truncation at 3
       pair.initEnergy();
@@ -139,7 +139,7 @@ In python, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:
 
     import feasst
     space = feasst.Space(3, 0)
-    space.lset(8)  # 8 box length
+    space.initBoxLength(8)
     space.addMolInit("../forcefield/data.lj")
     pair = feasst.PairLJ(space, 3)    # potential truncation at 3
     pair.initEnergy()
