@@ -17,7 +17,7 @@
 int main() {  // Yukawa, NVTMC
   feasst::ranInitByDate();
   feasst::Space space(3);
-  space.lset(12.);
+  space.initBoxLength(12.);
   //space.updateCells(rCut);
   feasst::PairLJMulti pair(&space, 5.);
   pair.initExpType(3);

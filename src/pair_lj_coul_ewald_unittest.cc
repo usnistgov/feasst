@@ -15,9 +15,9 @@ using namespace feasst;
 
 TEST(PairLJCoulEwald, pairLJCoulEwaldVSHybrid) {
   const int dim=3;
-  Space s(dim,0);
+  Space s(dim);
   const double boxl = 24.8586887;
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  s.initBoxLength(boxl);
   const double rCut = 12.42934435;
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   PairLJCoulEwald p(&s, rCut);
@@ -48,9 +48,9 @@ TEST(PairLJCoulEwald, pairLJCoulEwaldVSHybrid) {
 //  for (int i = 1; i != 3; ++i) {
 //  //for (int i = 1; i != 5; ++i) {
 //    Space s(3,0);
-//    for (int dim=0; dim < s.dimen(); ++dim) s.lset(20.,dim);
+//    for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(20.,dim);
 //    if (i == 4) {
-//      for (int dim=0; dim < s.dimen(); ++dim) s.lset(30.,dim);
+//      for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(30.,dim);
 //    }
 //    std::ostringstream ss;
 //    ss << "test/spce/srsw/spce_sample_config_periodic" << i << ".xyz";
@@ -77,10 +77,9 @@ TEST(PairLJCoulEwald, pairLJCoulEwaldVSHybrid) {
 //}
 
 TEST(PairLJCoulEwald, pairLJCoulEwaldmultiPartEne) {
-  const int dim=3;
-  Space s(dim,0);
+  Space s(3);
   const double boxl = 24.8586887;
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  s.initBoxLength(boxl);
   const double rCut = 12.42934435;
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
@@ -224,9 +223,9 @@ TEST(PairLJCoulEwald, pairLJCoulEwaldmultiPartEne) {
 
 TEST(PairLJCoulEwald, neigh) {
   ranInitByDate();
-  Space s(3,0);
+  Space s(3);
   const double boxl = 24.8586887;
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  s.initBoxLength(boxl);
   const double rCut = 12.42934435;
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
@@ -282,9 +281,9 @@ TEST(PairLJCoulEwald, neigh) {
 
 TEST(PairLJCoulEwald, cheapEnergyLJCoul) {
   ranInitByDate();
-  Space s(3,0);
+  Space s(3);
   const double boxl = 24.8586887;
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  s.initBoxLength(boxl);
   const double rCut = 12.42934435;
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
@@ -303,8 +302,8 @@ TEST(PairLJCoulEwald, cheapEnergyLJCoul) {
 }
 
 TEST(PairLJCoulEwald, reconstruct) {
-  Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(24.8586887,dim);
+  Space s(3);
+  s.initBoxLength(24.8586887);
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
   PairLJCoulEwald p(&s, 12.42934435);
@@ -322,8 +321,8 @@ TEST(PairLJCoulEwald, reconstruct) {
 }
 
 TEST(PairLJCoulEwald, clone) {
-  Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(24.8586887,dim);
+  Space s(3);
+  s.initBoxLength(24.8586887);
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
   PairLJCoulEwald p(&s, 12.42934435);
@@ -342,8 +341,8 @@ TEST(PairLJCoulEwald, clone) {
 }
 
 TEST(PairLJCoulEwald, PairLJCoulEwaldInitLMPData) {
-  Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(20,dim);
+  Space s(3);
+  s.initBoxLength(20);
   s.addMolInit("../forcefield/data.spce");
   s.addMol("../forcefield/data.spce");
   s.addMol("../forcefield/data.spce");

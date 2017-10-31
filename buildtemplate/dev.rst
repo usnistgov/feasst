@@ -18,7 +18,7 @@ In a nutshell, this means that version x.y.z-a-[version control id][abbreviated 
 * a. This version changes if the documentation changes but the source code is the same.
 * And the version control id is "g" for GitHub, for example, followed by the commit hash.
 
-Although all efforts are made for restart files to be backwards compatible, they can only be guaranteed to be backwards for the same version x.y.z.
+Although all efforts are made for restart files to be backwards compatible, they may only be compatible for the same version x.y.z.
 
 Branch policies
 ###############
@@ -136,10 +136,10 @@ If there are a lot of errors, typically the best testing order would be::
     mc
     ui_*
 
-Debugging with GDB
-####################
+Debugging with GDB or LLDB
+###########################
 
-gdb is a very useful debugging tool, especially for identifying segfaults via backtraces. The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
+gdb (or lldb on macOS) is a very useful debugging tool, especially for identifying segfaults via backtraces. The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
 
 In bash
 
@@ -192,7 +192,7 @@ https://google.github.io/styleguide/cppguide.html
 
 https://github.com/google/styleguide/tree/gh-pages/cpplint
 
-Packaging
+Tag and archive
 #####################
 
 git tag -a <version number>
@@ -220,10 +220,6 @@ pip install sphinx_rtd_theme
 
 run sphinx: make html
 
-For math in doxygen commends, use::
-
-    \f$ latex code here \f$
-
 Sphinx/Breathe/Doxygen tips
 ############################
 
@@ -231,6 +227,9 @@ Sphinx/Breathe/Doxygen tips
 * Link from rst file to fst file: ``:doc:`/testcase/asdf```
 * Link from C++ to C++: ``className::function()``
 * Link from C++ source to rst file: ``<a href="testcase/asdf.html">test</a>``
+* For math in C++ comments::
+
+   \f$ latex code here \f$
 
 Philosophical questions and quotes
 #######################################
@@ -270,7 +269,7 @@ To do list
 * have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)
 * remove periodicity from x/y/z dimensions (no rush here)
 * split functions.h into a variety of base_fileio, base_math, base_utils, etc
-* pairhybrid rCut should be taken from pairVec, or atleast rCutMaxAll
+* PairHybrid rCut should be taken from pairVec, or atleast rCutMaxAll
 * Eventually convert all raw pointers to shared pointers, which also allows removal of space from MC class
 * PairHybrid also doens't need a space pointer.
 * Use Histogram class for CriteriaWLTMMC instead of its own hard-coded version

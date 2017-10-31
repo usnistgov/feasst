@@ -41,7 +41,7 @@ class TestLJ_SRSW_EOSTMMC(unittest.TestCase):
     def test(self):
         feasst.ranInitByDate()      # initialize random number generator
         space = feasst.Space(3, 0)  # initialize simulation domain
-        space.lset(args.boxl)
+        space.initBoxLength(args.boxl)
         addMolType = space.install_dir() + "/forcefield/" + args.molName
         space.addMolInit(addMolType)
 

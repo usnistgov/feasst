@@ -13,7 +13,7 @@ import feasst
 space = feasst.Space(3)
 rho = 1e-3  # number density
 nMol = 500     # number of particles
-space.lset((float(nMol)/rho)**(1./3.))   # set the cubic PBCs
+space.initBoxLength((float(nMol)/rho)**(1./3.))   # set the cubic PBCs
 pair = feasst.PairHardSphere(space)
 pair.initData(space.install_dir() + "/forcefield/data.atom")
 pair.initEnergy()

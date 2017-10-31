@@ -164,11 +164,15 @@ class Space : public BaseRandom {
       x_[dimen_*iPart+j] = pos[j]; }
 
   /// Set length of domain boundary to "boxl" in given dimension.
-  void lset(double boxl, int dimension) {l_[dimension] = boxl; }
+  void initBoxLength(double length, int dimension) {l_[dimension] = length; }
+  // HWH: Depreciate old name
+  void lset(double length, int dimension) { initBoxLength(length, dimension); }
 
-  /// Set length of domain boundary to "boxl" in all dimensions.
-  void lset(double boxl) {
-    for (int dim = 0; dim < dimen_; ++dim) {l_[dim] = boxl; } }
+  /// Set length of domain boundary to "length" in all dimensions.
+  void initBoxLength(double length) {
+    for (int dim = 0; dim < dimen_; ++dim) {l_[dim] = length; } }
+  // HWH: Depreicate old name
+  void lset(double length) { initBoxLength(length); }
 
   /** Randomly displace particles mpart by a random amount
    *  of maximum size maxDisp in each dimension. */

@@ -18,7 +18,7 @@ TEST(PairLJMulti, WCAanalytical) {
   // WCA for sig=1 and 0.85
   for (double sig = 0.85; sig < 1.01; sig += 0.15) {
     Space s(3,0);
-    for (int dim = 0; dim < s.dimen(); ++dim) s.lset(100, dim);
+    s.initBoxLength(100);
     PairLJMulti p(&s, 0.);
     stringstream ss;
     ss << "../forcefield/data.lj";
@@ -188,7 +188,7 @@ TEST(PairLJMulti, cg3analyticalAlpha128) {
 //  const double boxl = 30, rCut = 3, rCutLJ = 2;
 //  std::ostringstream addMolType("../forcefield/data.mab1");
 //  Space s(3, 0);
-//  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+//  for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(boxl,dim);
 //  s.addMolInit(addMolType.str().c_str());
 //  std::ifstream inFile("test/mab/marco_energy/Position_0001.xyz");
 //  s.readxyz2(inFile);
@@ -272,7 +272,7 @@ TEST(PairLJMulti, LJSlowGaussian) {
 TEST(PairLJMulti, LJSlowLambda) {
   const double rCut = 3.00;
   Space s(2, 0);
-  for (int dim = 0; dim < s.dimen(); ++dim) s.lset(9, dim);
+  s.initBoxLength(9);
   string addMolType("../forcefield/data.lj");
   PairLJMulti p(&s, rCut);
   p.initData(addMolType.c_str());

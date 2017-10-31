@@ -77,7 +77,7 @@ int main(int argc, char** argv) {  // LJ, SRSW_EOSTMMC
   // initialize simulation domain
   feasst::ranInitByDate();
   feasst::Space s(3, 0);
-  s.lset(boxl);
+  s.initBoxLength(boxl);
   stringstream addMolType;
   addMolType << s.install_dir() << "/forcefield/" << molType.str().c_str();
   s.addMolInit(addMolType.str().c_str());

@@ -34,8 +34,8 @@ void testVec(vector<vector<vector<vector<long long> > > > vec, vector<vector<vec
 }
 
 TEST(Analyze, constructANDproduction) {
-  Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(90,dim);
+  Space s(3);
+  s.initBoxLength(90);
   PairHardSphere p(&s);
   p.initData("../forcefield/data.cg4_mab");
   s.updateCells(p.rCutMaxAll());

@@ -27,12 +27,12 @@ TEST(MC, WLTMMC_Ideal) {
   //ranInitForRepro(1494446668);
   ranInitByDate();
   // to make acceptance equal at midpoint density, (activ/rho)^2 == 1
-  Space s(3, 0);
+  Space s(3);
   const int nMolMax = 4, nMolMin = 1, nAttemptsSimple = 600, nAttempts = 600, ncfreq = 1;
   // these values were used in testing cell list const int nMolMax = 4, nMolMin = 1, nAttemptsSimple = 600000, nAttempts = 600000, ncfreq = 1;
   // ditto const double boxl = 12, beta = 1, rhoMid = double(nMolMax)/2/pow(boxl,s.dimen()), activ = rhoMid, rCut = 3, rAbove = 3, rBelow = 1;
   const double boxl = 6, beta = 1, rhoMid = double(nMolMax)/2/pow(boxl,s.dimen()), activ = rhoMid, rCut = 3, rAbove = 3, rBelow = 1;
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  s.initBoxLength(boxl);
   PairIdeal p(&s, rCut);
   p.initData("../forcefield/data.atom");
   for (int i = 0; i < nMolMin; ++i) p.addMol();
@@ -151,8 +151,8 @@ TEST(MC, WLTMMC_Ideal) {
 TEST(MC, ljmuvtmetropANDclone) {
   const double beta = 1./2., activ = 0.97747, rCut = 2.5, boxl = pow(250., 1./3.);
   ranInitByDate();
-  Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  Space s(3);
+  s.initBoxLength(boxl);
   s.addMolInit("../forcefield/data.atom");
   PairLJ p(&s, rCut);
   p.initEnergy();
@@ -238,8 +238,8 @@ TEST(MC, ljmuvttmmc) {
   const double rCut = 3., beta = 1./1.5, activ = exp(-1.568214), boxl = pow(512, 1./3.);
   const int nMolMax = 3;
   ranInitByDate();
-  Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  Space s(3);
+  s.initBoxLength(boxl);
   s.addMolInit("../forcefield/data.atom");
   PairLJ p(&s, rCut);
   p.initEnergy();
@@ -294,7 +294,7 @@ TEST(MC, muvttmmcspce) {
   vector<shared_ptr<WLTMMC> > mc(nThreads);
   for (int t = 0; t < nThreads; ++t) {
     s[t] = make_shared<Space>(3,t);
-    for (int dim=0; dim < s[t]->dimen(); ++dim) s[t]->lset(boxl,dim);
+    s[t]->initBoxLength(boxl);
     s[t]->addMolInit("../forcefield/data.spce");   // add one molecule in order to initialize ntype array
     p[t] = make_shared<PairLJCoulEwald>(s[t].get(), rCut);
     p[t]->initBulkSPCE(5.6, 38);
@@ -333,8 +333,8 @@ TEST(MC, nseek) {
   const int nMolMax = 20;
 
   // initialize
-  Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  Space s(3);
+  s.initBoxLength(boxl);
   s.addMolInit("../forcefield/data.spce");   // add one molecule in order to initialize ntype array
   PairLJCoulEwald p(&s, rCut);
   p.initBulkSPCE(5.6, 38);
@@ -350,7 +350,7 @@ TEST(MC, nseek) {
 
 TEST(MC, nSeekWithPressure) {
   Space space(3, 0);
-  space.lset(8);
+  space.initBoxLength(8);
   /// PairLJMulti pair(&space, 3.);
   PairHardSphere pair(&space);
   pair.initData("../forcefield/data.lj");
@@ -373,8 +373,8 @@ TEST(MC, nseekSPCEnoEwald) {
   const int nMolMax = 20;
 
   // initialize
-  Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  Space s(3);
+  s.initBoxLength(boxl);
   PairLJCoulEwald p(&s, rCut);
   //p.initBulkSPCE(5.6, 38);
   p.initData("../forcefield/data.spce");
@@ -392,8 +392,8 @@ TEST(MC, nseekSPCEnoEwald) {
 TEST(MC, equltl43muvttmmcANDinitWindows) {
   const double temp = 1., activ = exp(-2.), boxl = 9, beta = 1/temp;
   const int nMolMax = 50, nMolMin = 10, npr = 200;
-  Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  Space s(3);
+  s.initBoxLength(boxl);
   PairLJ p(&s, pow(2, 1./6.));
   p.initData("../forcefield/data.equltl43");
   p.cutShift(1);
@@ -453,8 +453,8 @@ TEST(MC, wltmmccloneANDreconstruct) {
   ranInitByDate();
   ranInitForRepro(1506223676);
   const int nMolMax = 100, npr = 200;
-  Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(9,dim);
+  Space s(3);
+  s.initBoxLength(9);
   // s.readXYZBulk(4, "../forcefield/data.equltl43", "../unittest/equltl43/two.xyz");
   PairLJ p(&s, pow(2, 1./6.));
   p.initData("../forcefield/data.equltl43");
@@ -506,7 +506,7 @@ TEST(MC, wltmmccloneANDreconstruct) {
 
 //TEST(MC, mchybrid) {
 //  Space s(3, 0);
-//  for (int dim=0; dim < s.dimen(); ++dim) s.lset(8,dim);
+//  for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(8,dim);
 //  s.updateCells(3.);
 //  PairLJMulti pLJ(&s, 3);
 //  pLJ.initData("../forcefield/data.cg3_60_43_1");

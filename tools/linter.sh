@@ -5,7 +5,7 @@
 
 #find ../testcase/ -name "test*" | xargs sed -i "s/’/'/"
 
-#for f in `ls *`; do
+for f in `ls *`; do
 #for f in `ls *.h *.cc *.i`; do
   # # double space on header guards
   # sed 's/#endif \/\//#endif  \/\//' $f > tttmp
@@ -15,7 +15,7 @@
   # sed --in-place 's/ $//g' $f
 
   # remove lines
-  # sed --in-place '/using namespace feasst;/d' $f
+  sed --in-place 's/lset(/initBoxLength(/g' $f
 
   # rename functions
   # sed --in-place 's/print(/write(/g' $f
@@ -40,4 +40,4 @@
   #sed 's/myFill/feasst::fill/' $f > tttmp
   #mv tttmp $f
 
-#done
+done

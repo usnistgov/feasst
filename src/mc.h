@@ -31,7 +31,6 @@ namespace feasst {
 /**
  * Attempts Monte Carlo trials and analyzes quantities.
  */
-
 class MC : public BaseRandom {
  public:
   /// Constructor
@@ -151,7 +150,7 @@ class MC : public BaseRandom {
   /// Check that criteria of all trials are the same.
   virtual int checkTrialCriteria();
 
-  /**
+  /*
    * compute second virial coefficient by Monte Carlo integration
    *   B2(T)=-0.5*int(dr*f(r)); f(r)=meyer fn
    *   B2(T)=-0.5*int(dr)*(1/npr)*sum[f(r)]
@@ -164,7 +163,7 @@ class MC : public BaseRandom {
     { vector<double> rtrn; double b2v, b2s; b2(tol, b2v, b2s);
       rtrn.push_back(b2v); rtrn.push_back(b2s); return rtrn; }
 
-  /**
+  /*
    * Compute second virial coefficient by Mayer sampling Monte Carlo.
    * https://doi.org/10.1103/PhysRevLett.92.220601
    */
@@ -176,7 +175,7 @@ class MC : public BaseRandom {
     double boxl = -1          //!< box length containing all nonzero energy
   );
 
-  /// compute the Boyle temperature, \f$ B_2(T_{Boyle})=0\f$.
+  // compute the Boyle temperature, \f$ B_2(T_{Boyle})=0\f$.
   double boyle(const double tol);
 
   /// Remove all configurational bias trials.

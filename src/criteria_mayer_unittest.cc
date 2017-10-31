@@ -18,8 +18,8 @@
 #include "mc.h"
 
 TEST(CriteriaMayer, ref) {
-  feasst::Space space(3, 0);
-  space.lset(8);
+  feasst::Space space(3);
+  space.initBoxLength(8);
   feasst::PairSquareWell pair(&space, 2.);
   pair.initData("../forcefield/data.lj");
   vector<double> xAdd(3, 0.);
@@ -57,7 +57,7 @@ TEST(CriteriaMayer, ref) {
 //  pairRef.initEnergy();
 //
 //  const double boxl = 2.*(2.*space.maxMolDist() + pair.rCut());
-//  space.lset(boxl);
+//  space.initBoxLength(boxl);
 //
 //  feasst::CriteriaMayer crit(0.2);
 //  crit.initPairRef(&pairRef);

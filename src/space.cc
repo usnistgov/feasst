@@ -3723,7 +3723,7 @@ void Space::scaleDomain(const double factor, const int dim) {
       factorActual = maxl_[dim]/l_[dim];
     }
   }
-  lset(l_[dim]*factorActual, dim);
+  initBoxLength(l_[dim]*factorActual, dim);
 
   // loop through each molecule, and scale based on the position
   //  of the first site in molecule
@@ -4175,7 +4175,7 @@ void Space::replicate(const int nx, const int ny, const int nz) {
   const vector<double> boxOrig = l_;
 
   for (int dim = 0; dim < dimen(); ++dim) {
-    lset(2*l_[dim], dim);
+    initBoxLength(2*l_[dim], dim);
   }
   for (int ix = 0; ix <= nx; ++ix) {
   for (int iy = 0; iy <= ny; ++iy) {

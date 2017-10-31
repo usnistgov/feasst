@@ -14,8 +14,8 @@
 using namespace feasst;
 
 TEST(PairHardCircle, hardCircle) {
-  Space s(2, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(6,dim);
+  Space s(2);
+  s.initBoxLength(6);
   const double dCircle = 1., rDep = 0.05;
   PairHardCircle p(&s, dCircle+2*rDep);
   p.initData("../forcefield/data.atom");

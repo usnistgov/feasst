@@ -335,7 +335,7 @@ TEST(Space, minl) {
   Space s(3,0);
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   EXPECT_NEAR(0, s.minl(), 1e-15);
-  s.lset(5, 0);  s.lset(6, 1);  s.lset(7, 2);
+  s.initBoxLength(5, 0);  s.initBoxLength(6, 1);  s.initBoxLength(7, 2);
   EXPECT_NEAR(5, s.minl(), 1e-15);
   EXPECT_EQ(1, s.checkSizes());
 }
@@ -357,7 +357,7 @@ TEST(Space, nMol) {
 TEST(Space, wrapMol) {
   Space s(3,0);
   const double boxl = 24.8586887;
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  s.initBoxLength(boxl);
   s.readXYZBulk(3, "water", "../unittest/spce/test.xyz");
   ranInitByDate();
   vector<int> mpart = s.randMol();
@@ -376,7 +376,7 @@ TEST(Space, wrapMol) {
 //TEST(Space, avb) {
 //  Space s(3,0);
 //  const double boxl = 24.8586887;
-//  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+//  for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(boxl,dim);
 //  s.readXYZBulk(3, "water", "../test/spce/test.xyz");
 //  ranInitByDate();
 //  const double rabove = 5, rbelow = 2.5;
@@ -449,7 +449,7 @@ TEST(Space, cellListWater) {
   s.updateCells(2,14);
   EXPECT_EQ(0, s.cellType());
   const double boxl = 24.8586887;
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  s.initBoxLength(boxl);
   s.updateCells(2,boxl/2);
   EXPECT_EQ(0, s.cellType());
   const int ncell = 4;
@@ -480,7 +480,7 @@ TEST(Space, quat2posANDqMolInit) {
 
 TEST(Space, patch6) {
   Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(10,dim);
+  s.initBoxLength(10);
   s.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch6.xyz");
   EXPECT_EQ(s.nMol(), 6);
   EXPECT_NEAR(s.xMolRef()[0][0][0], 0, 1e-15);
@@ -513,7 +513,7 @@ TEST(Space, cellListOnePatch) {
     s.addMolInit("../forcefield/data.onePatch");
     EXPECT_EQ(0, s.cellType());
     const double rCut = 1.5;
-    for (int dim=0; dim < s.dimen(); ++dim) s.lset(10,dim);
+    s.initBoxLength(10);
     s.initAtomCut(cell);
     s.updateCells(rCut, rCut);
     EXPECT_EQ(1, s.cellType());
@@ -664,7 +664,7 @@ int ntest = 1;
 
 TEST(Space, twoequltl43) {
   Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(9,dim);
+  s.initBoxLength(9);
   s.readXYZBulk(4, "equltl43", "../unittest/equltl43/two.xyz");
   EXPECT_EQ(8, s.natom());
   EXPECT_NEAR(4./3./sqrt(3), s.x(1,1), 1e-15);
@@ -689,7 +689,7 @@ TEST(Space, twoequltl43) {
 
 TEST(Space, clone) {
   Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(9,dim);
+  s.initBoxLength(9);
   s.readXYZBulk(4, "equltl43", "../unittest/equltl43/two.xyz");
   shared_ptr<Space> s2 = s.cloneShrPtr();
 }
@@ -710,7 +710,7 @@ TEST(Space, scaleMol) {
 TEST(Space, writeRestart) {
   double xold, xold2;
   { Space s(3,0);
-    for (int dim=0; dim < s.dimen(); ++dim) s.lset(9,dim);
+    s.initBoxLength(9);
     s.addMolInit("../forcefield/data.equltl43");
     s.addMol("../forcefield/data.equltl43");
     s.addMol("../forcefield/data.equltl43");
@@ -744,7 +744,7 @@ TEST(Space, readxyzmulti) {
 TEST(Space, delTypePart) {
   Space s(3, 0);
   s.readxyz("../unittest/cg3_60_43_1snap.xyz");
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(12,dim);
+  s.initBoxLength(12);
   EXPECT_EQ(s.natom(), 900);
   EXPECT_EQ(s.nParticleTypes(), 3);
   s.delTypePart(2);
@@ -757,7 +757,7 @@ TEST(Space, delTypePart) {
 
 TEST(Space, floodFill) {
   Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(12,dim);
+  s.initBoxLength(12);
   s.addMolInit("../forcefield/data.cg3_60_43_1");
   std::ifstream file("../unittest/cg3_60_43_1snap.xyz");
   s.readxyz2(file);
@@ -770,7 +770,7 @@ TEST(Space, swapPositionsANDstoreAll) {
   Space s(3, 0);
   s.addMolInit("../forcefield/data.cg3_60_43_1");
   for (int i = 0; i < 10; ++i) s.addMol("../forcefield/data.cg3_60_43_1");
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(12,dim);
+  s.initBoxLength(12);
   shared_ptr<Space> s2 = s.cloneShrPtr();
   s2->xStoreAll();
   const double posold = s.x(2, 2);
@@ -788,7 +788,7 @@ TEST(Space, swapPositionsANDstoreAll) {
 
 TEST(Space, maxMolDist) {
   Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(12,dim);
+  s.initBoxLength(12);
   s.addMolInit("../forcefield/data.cg3_60_43_1");
   EXPECT_NEAR(0.7698, s.maxMolDist(), 1e-4);
   s.addMol("../forcefield/data.cg3_60_43_1");
@@ -829,7 +829,7 @@ TEST(Space, imol2mpart) {
 
 TEST(Space, randRotateMulti) {
   Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(12,dim);
+  s.initBoxLength(12);
   s.addMolInit("../forcefield/data.cg3_60_43_1");
   std::ifstream file("../unittest/cg3_60_43_1snap.xyz");
   s.readxyz2(file);
@@ -856,7 +856,7 @@ TEST(Space, randRotateMulti) {
 
 TEST(Space, inertialTensor) {
   Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(12,dim);
+  s.initBoxLength(12);
   s.addMolInit("../forcefield/data.cg3_60_43_1");
   s.addMol("../forcefield/data.cg3_60_43_1");
   vector<int> mpart;
@@ -913,7 +913,7 @@ TEST(Space, readXTC) {
 
 TEST(Space, xAddANDqMolAlt) {
   Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(1e3,dim);
+  s.initBoxLength(1e3);
   s.addMolInit("../forcefield/data.cg3_60_1_1");
   vector<double> xAdd(s.dimen());
   s.xAdd = xAdd;
@@ -969,7 +969,7 @@ TEST(Space, xAddANDqMolAlt) {
 
 TEST(Space, roundSquares) {
   Space s(2, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(10,dim);
+  s.initBoxLength(10);
   s.addMolInit("../forcefield/data.onePatch");
 //  vector<double> xAdd(s.dimen());
 //  s.xAdd = xAdd;
@@ -1005,7 +1005,7 @@ TEST(Space, setAtomInBranch) {
 
 TEST(Space, pivotMol) {
   Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(10,dim);
+  s.initBoxLength(10);
   s.addMolInit("../forcefield/data.cg3_60_1_1");
   s.addMol("../forcefield/data.cg3_60_1_1");
   vector<double> x(s.dimen(), 0.);
@@ -1020,7 +1020,7 @@ TEST(Space, pivotMol) {
 
 TEST(Space, randPosition) {
   Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(10,dim);
+  s.initBoxLength(10);
   s.addMolInit("../forcefield/data.cg3_60_1_1");
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
@@ -1038,7 +1038,7 @@ TEST(Space, randPosition) {
 
 TEST(Space, scaleDomain) {
   Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(10,dim);
+  s.initBoxLength(10);
   s.addMolInit("../forcefield/data.cg3_60_1_1");
   vector<double> x(s.dimen(), 0.);
   s.xAdd = x;
@@ -1066,7 +1066,7 @@ TEST(Space, Q6) {
 
   // imperfect square lattice
   { Space sSqIm(2, 0);
-    for (int dim=0; dim < sSqIm.dimen(); ++dim) sSqIm.lset(12,dim);
+    sSqIm.initBoxLength(12);
     sSqIm.addMolInit("../forcefield/data.onePatch1000");
     std::ifstream file("../unittest/roundSquare/square.xyz");
     sSqIm.readxyz2(file);
@@ -1075,7 +1075,7 @@ TEST(Space, Q6) {
 
   // imperfect hex lattice
   { Space sHexIm(2, 0);
-    for (int dim=0; dim < sHexIm.dimen(); ++dim) sHexIm.lset(12,dim);
+    sHexIm.initBoxLength(12);
     sHexIm.addMolInit("../forcefield/data.onePatch1000");
     std::ifstream file("../unittest/roundSquare/hex.xyz");
     sHexIm.readxyz2(file);
@@ -1084,7 +1084,7 @@ TEST(Space, Q6) {
 
   // imperfect rhombic lattice
   { Space sRhmIm(2, 0);
-    for (int dim=0; dim < sRhmIm.dimen(); ++dim) sRhmIm.lset(12,dim);
+    sRhmIm.initBoxLength(12);
     sRhmIm.addMolInit("../forcefield/data.onePatch1000");
     std::ifstream file("../unittest/roundSquare/lambda1.xyz");
     sRhmIm.readxyz2(file);
@@ -1093,7 +1093,7 @@ TEST(Space, Q6) {
 
   // perfect cubic lattice
   { Space sCub(3, 0);
-    for (int dim=0; dim < sCub.dimen(); ++dim) sCub.lset(3,dim);
+    sCub.initBoxLength(3);
     sCub.addMolInit("../forcefield/data.atom");
     std::ifstream file("../unittest/lattice/cubic.xyz");
     sCub.readxyz2(file);
@@ -1102,7 +1102,7 @@ TEST(Space, Q6) {
 
   // perfect square lattice
   { Space sSq(2, 0);
-    for (int dim=0; dim < sSq.dimen(); ++dim) sSq.lset(3,dim);
+    sSq.initBoxLength(3);
     sSq.addMolInit("../forcefield/data.atom");
     std::ifstream file("../unittest/lattice/square.xyz");
     sSq.readxyz2(file);
@@ -1111,8 +1111,8 @@ TEST(Space, Q6) {
 
   // perfect hex lattice
   { Space sHex(2, 0);
-    sHex.lset(3, 0);
-    sHex.lset(sqrt(3)*3, 1);
+    sHex.initBoxLength(3, 0);
+    sHex.initBoxLength(sqrt(3)*3, 1);
     sHex.addMolInit("../forcefield/data.atom");
     std::ifstream file("../unittest/lattice/hex.xyz");
     sHex.readxyz2(file);
@@ -1121,10 +1121,9 @@ TEST(Space, Q6) {
 
   // perfect fcc lattice
   { Space sFCC(3, 0);
-    for (int dim=0; dim < sFCC.dimen(); ++dim) sFCC.lset(2,dim);
-    sFCC.lset(3, 0);
-    sFCC.lset(sqrt(3)*3, 1);
-    sFCC.lset(sqrt(3)*3, 2);
+    sFCC.initBoxLength(3, 0);
+    sFCC.initBoxLength(sqrt(3)*3, 1);
+    sFCC.initBoxLength(sqrt(3)*3, 2);
     sFCC.addMolInit("../forcefield/data.atom");
     std::ifstream file("../unittest/lattice/fcc.xyz");
     sFCC.readxyz2(file);
@@ -1135,7 +1134,7 @@ TEST(Space, Q6) {
 TEST(Space, xyTilt) {
 
   Space s(2, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(12,dim);
+  s.initBoxLength(12);
   s.setXYTilt(12);
   s.addMolInit("../forcefield/data.onePatch1000");
   for (int i = 0; i < 1000; ++i) s.addMol("../forcefield/data.onePatch1000");
@@ -1145,14 +1144,14 @@ TEST(Space, xyTilt) {
 
 TEST(Space, SQ) {
   Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(12,dim);
+  s.initBoxLength(12);
   s.addMolInit("../forcefield/data.cg7mab1");
   EXPECT_NEAR(s.minBondLength(), 1.8122340298918349, 10*DTOL);
 }
 
 //TEST(Space, pos2euler) {
 //  Space s(3,0);
-//  for (int dim=0; dim < s.dimen(); ++dim) s.lset(12,dim);
+//  for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(12,dim);
 //  s.addMolInit("../forcefield/data.twoPatch");
 //  s.addMol();
 //  shared_ptr<Space> s2 = s.cloneShrPtr();
@@ -1288,7 +1287,7 @@ int ntest = 1;
 
 TEST(Space, replicate) {
   Space space(3, 0);
-  space.lset(9);
+  space.initBoxLength(9);
   space.addMolInit("../forcefield/data.cg3_180_43");
   for (int i = 0; i < 20; ++i) {
     space.addMol("../forcefield/data.cg3_180_43");

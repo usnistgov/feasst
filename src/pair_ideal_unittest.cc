@@ -14,7 +14,7 @@
 TEST(PairIdeal, ideal) {
   feasst::Space s(3,0);
   const double boxl = 24.8586887;
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  s.initBoxLength(boxl);
   const double rCut = 12.42934435;
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   feasst::PairIdeal p(&s, rCut);

@@ -16,7 +16,7 @@ int main() {  // HardSphere, NVTMC
   feasst::Space space(3);
   const double rho = 1e-3;  // number density
   const int nMol = 500;     // number of particles
-  space.lset(pow(double(nMol)/rho, 1./3.));   // set the cubic PBCs
+  space.initBoxLength(pow(double(nMol)/rho, 1./3.));   // set the cubic PBCs
   feasst::PairHardSphere pair(&space);
   stringstream molNameSS;
   molNameSS << space.install_dir() << "/forcefield/data.atom";

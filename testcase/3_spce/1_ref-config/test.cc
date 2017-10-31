@@ -20,7 +20,7 @@ void expect_near(const double val1, const double val2, const double tolerance, c
 int main() {  // SPCE, SRSW_REFCONF
   for (int srswConfig = 1; srswConfig <= 2; ++srswConfig) {
     feasst::Space space(3);
-    space.lset(20.);
+    space.initBoxLength(20.);
     feasst::PairLJCoulEwald pair(&space, 10.);
     stringstream molNameSS;
     molNameSS << space.install_dir() << "/forcefield/data.spce";

@@ -35,7 +35,7 @@ int main() {  // LJ, SRSW_NVTMC
   feasst::Space space(3);
   const double rho = 1e-3;  // number density
   const int nMol = 500;     // number of particles
-  space.lset(pow(double(nMol)/rho, 1./3.));   // set the cubic PBCs
+  space.initBoxLength(pow(double(nMol)/rho, 1./3.));   // set the cubic PBCs
   stringstream molNameSS;
   molNameSS << space.install_dir() << "/forcefield/data.lj";
   space.addMolInit(molNameSS.str().c_str());

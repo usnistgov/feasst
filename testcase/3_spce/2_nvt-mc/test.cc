@@ -14,7 +14,7 @@
 
 int main() {  // SPCE, SRSW_NVTMC
   feasst::Space space(3);
-  space.lset(24.8586887);   // molecule-center based cut-off
+  space.initBoxLength(24.8586887);   // molecule-center based cut-off
 
   feasst::PairLJCoulEwald pair(&space, space.minl()/2.);
   stringstream addMolType;

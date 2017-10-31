@@ -30,7 +30,7 @@ void interpret(vector<string> cmd) {
   } else if (cmd[0] == "boxl") {
     double boxl = stod(cmd[1]);
     for (int dim = 0; dim < space->dimen(); ++dim) {
-      space->lset(boxl, dim);
+      space->initBoxLength(boxl, dim);
     }
 
   } else if (cmd[0] == "addMolInit") {

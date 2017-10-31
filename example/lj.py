@@ -16,7 +16,7 @@
 import feasst
 feasst.ranInitByDate()
 space = feasst.makeSpace(3)
-space.lset(8)  # 8 cubic box length
+space.initBoxLength(8)
 space.addMolInit("../forcefield/data.lj")
 pair = feasst.PairLJ(space, 3)    # potential truncation at 3
 pair.initEnergy()

@@ -18,8 +18,8 @@
 using namespace feasst;
 
 TEST(PairHybrid, hybrid) {
-  Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(24.8586887,dim);
+  Space s(3);
+  s.initBoxLength(24.8586887);
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
   PairLJCoulEwald p(&s, 12.42934435);
@@ -30,8 +30,8 @@ TEST(PairHybrid, hybrid) {
   EXPECT_EQ(1, ph.nPairs());
   EXPECT_EQ(petot, ph.peTot());
 
-  Space s2(3, 0);
-  for (int dim=0; dim < s2.dimen(); ++dim) s2.lset(8,dim);
+  Space s2(3);
+  s2.initBoxLength(8);
   s2.readXYZBulk(1, "atom", "../unittest/lj/srsw/lj_sample_config_periodic4.xyz");
   PairLJ p2(&s2, 3);
   p2.linearShift(1);
@@ -41,8 +41,8 @@ TEST(PairHybrid, hybrid) {
   EXPECT_EQ(2, ph.nPairs());
   EXPECT_EQ(petot, ph.peTot());
 
-  Space s3(3,0);
-  for (int dim=0; dim < s3.dimen(); ++dim) s3.lset(10,dim);
+  Space s3(3);
+  s3.initBoxLength(10);
   s3.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch5.xyz");
   PairPatchKF p3(&s3, 3, 90);
   p3.initEnergy();
@@ -55,8 +55,8 @@ TEST(PairHybrid, hybrid) {
 
 TEST(PairHybrid, ljANDwca) {
 
-  Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(60,dim);
+  Space s(3);
+  s.initBoxLength(60);
   PairLJMulti pLJ(&s, 3);
   pLJ.initData("../forcefield/data.cg3_60_43_1");
   vector<double> xAdd(3, 0.);

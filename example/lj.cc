@@ -13,8 +13,8 @@
 #include "trial_transform.h"
 
 int main() {
-  feasst::Space space(3, 0);
-  space.lset(8);  // 8 box length cubic PBC
+  feasst::Space space(3);
+  space.initBoxLength(8);
   space.addMolInit("../forcefield/data.lj");
   feasst::PairLJ pair(&space, 3);   // potential truncation at 3
   pair.initEnergy();

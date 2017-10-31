@@ -14,7 +14,7 @@ import feasst
 class TestSPCE_SRSW_NVTMC(unittest.TestCase):
     def test(self):
         space = feasst.Space(3)
-        space.lset(24.8586887)   # molecule-center based cut-off
+        space.initBoxLength(24.8586887)   # molecule-center based cut-off
 
         pair = feasst.PairLJCoulEwald(space, space.minl()/2.)
         pair.initData(space.install_dir() + "/forcefield/data.spce")

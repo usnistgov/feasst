@@ -14,7 +14,7 @@ import feasst
 class TestLJ_SRSW_REFCONF(unittest.TestCase):
     def test(self):
         space = feasst.Space(3)
-        space.lset(8)  # set the cubic box length
+        space.initBoxLength(8)
         pair = feasst.PairLJ(space, 3)   # potential truncation at 3
         molNameSS = space.install_dir() + "/forcefield/data.lj"
         pair.initData(molNameSS)   # initialize the sigma and epsilon

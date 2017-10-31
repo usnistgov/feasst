@@ -15,8 +15,8 @@ using namespace feasst;
 
 TEST(PairSquareWell, mickeymouse) {
   const double rCut = 1.02;
-  Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(20,dim);
+  Space s(3);
+  s.initBoxLength(20);
   PairSquareWell p(&s, rCut);
   p.initData("../forcefield/data.cg3_91_0.57_2");
   vector<double> xAdd(s.dimen());

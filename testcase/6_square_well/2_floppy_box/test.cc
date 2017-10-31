@@ -15,7 +15,7 @@
 int main() {  // SquareWell, FLOPPY
   feasst::ranInitByDate();
   feasst::Space space(3);
-  space.lset(8.);
+  space.initBoxLength(8.);
   space.setXYTilt(1.5);
   space.setXZTilt(1.5);
   space.setYZTilt(1.5);

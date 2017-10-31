@@ -106,7 +106,7 @@ TEST(Trial, allmoves) {
   // declare pair and space objects for each simulation type
   Space sSPCE(3,0);
   double boxl = 24.8586887;
-  for (int dim=0; dim < sSPCE.dimen(); ++dim) sSPCE.lset(boxl,dim);
+  sSPCE.initBoxLength(boxl);
   sSPCE.readXYZBulk(3, "water", "../unittest/spce/test.xyz");
   //sSPCE.readXYZBulk(3, "water", "../test/spce/test52.xyz");
   sSPCE.addMolInit("../forcefield/data.spce");

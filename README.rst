@@ -1,6 +1,3 @@
-.. image:: favicon-32x32.png
-   :target: https://pages.nist.gov/feasst
-
 *************************
 README
 *************************
@@ -14,6 +11,10 @@ simulations with flat-histogram Monte Carlo and molecular dynamics methods.
    Website: https://pages.nist.gov/feasst
 
    Code repository: https://github.com/usnistgov/feasst
+
+.. image:: feasst.png
+   :target: https://pages.nist.gov/feasst
+   :align: right
 
 Features
 ########

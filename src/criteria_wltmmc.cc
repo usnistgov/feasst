@@ -298,11 +298,7 @@ void CriteriaWLTMMC::lnPIupdate() {
   }
 }
 
-/**
- * print the collection matrix
- */
-void CriteriaWLTMMC::printCollectMat(const char* fileName  //!< file name
-  ) {
+void CriteriaWLTMMC::printCollectMat(const char* fileName) {
   // determine if print reweighted or actual lnpi
   std::string colType("");
   if (printRW_) {
@@ -335,11 +331,7 @@ void CriteriaWLTMMC::printCollectMat(const char* fileName  //!< file name
   }
 }
 
-/**
- * read the collection matrix and lnPI
- */
-void CriteriaWLTMMC::readCollectMat(const char* fileName  //!< file name
-  ) {
+void CriteriaWLTMMC::readCollectMat(const char* fileName) {
   std::ifstream fs(fileName);
   std::string line;
   const int nLines = numLines(fileName);
@@ -357,9 +349,6 @@ void CriteriaWLTMMC::readCollectMat(const char* fileName  //!< file name
   lnPInorm();
 }
 
-/**
- * zero all statistics and accumulators
- */
 void CriteriaWLTMMC::zeroStat() {
   printRW_ = false;
   h_.clear();
@@ -379,12 +368,9 @@ void CriteriaWLTMMC::zeroStat() {
   lnf_ = 1.;
 }
 
-/**
- * convert collection matrix to lnPI
- */
 void CriteriaWLTMMC::c2lnPI(
-  const vector<vector<long double> > &col,   //!< collection matrix
-  vector<long double> *lnpiPtr) {   // log of probability distribution function
+  const vector<vector<long double> > &col,
+  vector<long double> *lnpiPtr) {
   vector<long double>& lnpi = *lnpiPtr;
   double lnPIprev = 0.;
   lnpi[0] = lnPIprev;
@@ -422,10 +408,6 @@ void CriteriaWLTMMC::c2lnPI(
   lnPInorm(lnpiPtr);
 }
 
-/**
- * update macrostate probability distribution with collection matrix
- *  sum multiple collection matrices
- */
 void CriteriaWLTMMC::lnPIupdate(
   const vector<std::shared_ptr<CriteriaWLTMMC> > &c) {
   if (tmmc_) {
@@ -480,9 +462,6 @@ double CriteriaWLTMMC::lnPIrwsat_(const double activrw) {
   }
 }
 
-/**
- * reweight to saturation conditions by mimizing lnPIrw2sat
- */
 void CriteriaWLTMMC::findSat() {
   Golden g;
   lnPIrwsat_wrapper_ lnpirwswrap = lnPIrwsat_wrap_();
@@ -592,9 +571,6 @@ double CriteriaWLTMMC::lnPIrwnmx_(const double lnactivrw) {
   return pow(lnPIaverage(lnPIrw_) - nMolPeak_, 2);
 }
 
-/**
- * split phases among vector of criteria
- */
 vector<CriteriaWLTMMC> CriteriaWLTMMC::phaseSplit(
   const vector<long double> &lnPI) {
   vector<int> min = lnPIphaseBoundary(lnPI);
@@ -652,12 +628,9 @@ vector<CriteriaWLTMMC> CriteriaWLTMMC::phaseSplit(
   return c;
 }
 
-/**
- * paste together windows of lnPI to print final version
- */
 void CriteriaWLTMMC::printCollectMat(
-  const char* fileName,    //!< file to print aggregate lnPI
-  const vector<CriteriaWLTMMC*> c) {   //!< vector of criteria with lnPI
+  const char* fileName,
+  const vector<CriteriaWLTMMC*> c) {
   NOTE("printCollectMat with vector of criteria is depreciated");
 
   int nWindow = static_cast<int>(c.size());
@@ -758,9 +731,6 @@ void CriteriaWLTMMC::printCollectMat(
   }
 }
 
-/**
- * replace lnPI
- */
 void CriteriaWLTMMC::lnPIreplace(const vector<long double> &lnPI) {
   // update lnPI of c_ to aggregate of windows
   ASSERT(lnPI_.size() == lnPI.size(), "lnPI(size=" << lnPI.size()
@@ -770,9 +740,6 @@ void CriteriaWLTMMC::lnPIreplace(const vector<long double> &lnPI) {
   }
 }
 
-/**
- * obtain energy isotherm from lnPI
- */
 void CriteriaWLTMMC::lnPIenergyIso() {
   vector<double> pe;
   for (int i = 0; i < nBin_; ++i) {
@@ -781,11 +748,7 @@ void CriteriaWLTMMC::lnPIenergyIso() {
   peMUVT_ = lnPIgc2can(pe);
 }
 
-/**
- * read lnPI and energy
- */
-void CriteriaWLTMMC::readlnPIEner(const char* fileName  //!< file name
-  ) {
+void CriteriaWLTMMC::readlnPIEner(const char* fileName) {
   std::ifstream fs(fileName);
   std::string line;
   const int nLines = numLines(fileName);
@@ -807,9 +770,6 @@ void CriteriaWLTMMC::readlnPIEner(const char* fileName  //!< file name
   lnPInorm();
 }
 
-/**
- * splice windows together
- */
 void CriteriaWLTMMC::spliceWindows(const vector<CriteriaWLTMMC*> c) {
   int nWindow = static_cast<int>(c.size());
   // check if a collection matrix has not been instantiated yet
@@ -869,9 +829,6 @@ void CriteriaWLTMMC::spliceWindows(const vector<CriteriaWLTMMC*> c) {
   }
 }
 
-/**
- * minimum number of sweeps in all windows
- */
 int CriteriaWLTMMC::minNSweep(const vector<CriteriaWLTMMC*> c) {
   if (c.size() == 0) {
     return 0;
@@ -895,9 +852,6 @@ int CriteriaWLTMMC::minNSweep(const vector<CriteriaWLTMMC*> c) {
   }
 }
 
-/**
- * minimum number of sweeps in all windows
- */
 int CriteriaWLTMMC::minNwlFlat(const vector<CriteriaWLTMMC*> c) {
   if (c.size() == 0) {
     return 0;
@@ -921,9 +875,6 @@ int CriteriaWLTMMC::minNwlFlat(const vector<CriteriaWLTMMC*> c) {
   }
 }
 
-/**
- * prefill collection matrix with a constant
- */
 void CriteriaWLTMMC::prefilColMat(const long double constant) {
   C_.clear();
   if (cTripleBanded_) {
@@ -1050,10 +1001,7 @@ void CriteriaWLTMMC::writeRestart(const char* fileName) {
 //  }
 //}
 
-/**
- * read lnPI, energy and collection matrix
- */
-void CriteriaWLTMMC::readlnPIEnerCol(const char* fileName) {  //!< file name
+void CriteriaWLTMMC::readlnPIEnerCol(const char* fileName) {
   std::ifstream fs(fileName);
   std::string line;
   const int nLines = numLines(fileName);
@@ -1090,9 +1038,6 @@ void CriteriaWLTMMC::readlnPIEnerCol(const char* fileName) {  //!< file name
   lnPInorm();
 }
 
-/**
- * obtain grand canonical ensemble average from canonical ensemble average
- */
 vector<double> CriteriaWLTMMC::lnPIgc2can(const vector<double> data) {
   vector<double> returnData(data.size());
   nMolPeakPhase_ = 0;
@@ -1105,10 +1050,6 @@ vector<double> CriteriaWLTMMC::lnPIgc2can(const vector<double> data) {
   return returnData;
 }
 
-/**
- * obtain grand canonical ensemble average from canonical ensemble average
- *  input file has macrostate as first column, data as second column
- */
 void CriteriaWLTMMC::lnPIgc2can(const char* fileNameIn,
   const char* fileNameOut) {
   // read canonical ensemble data from file
@@ -1147,9 +1088,6 @@ void CriteriaWLTMMC::lnPIgc2can(const char* fileNameIn,
   cout << dataMUVT[max.front()] << endl;
 }
 
-/**
- * return heat capacity for each bin
- */
 vector<double> CriteriaWLTMMC::heatCapacity() {
   vector<double> cv;
   for (int bin = 0; bin < nBin(); ++bin) {

@@ -19,7 +19,7 @@ using namespace feasst;
 
 TEST(TrialAdd, confine) {
   Space space(3, 0);  // create 3D space
-  space.lset(10);     // create cubic PBC box length of 10, origin at center
+  space.initBoxLength(10);     // create cubic PBC box length of 10, origin at center
   stringstream addMol;
   addMol << space.install_dir() << "/forcefield/data.lj";
   stringstream addWall;

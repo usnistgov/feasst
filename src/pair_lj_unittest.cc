@@ -47,12 +47,9 @@ TEST(PairLJ, analytical) {
   for (int dimen = 1; dimen != 2; ++dimen) {
     Space s(dimen,0);
     s.init_config(2);
-    for (int dim = 0; dim < s.dimen(); ++dim) s.lset(boxl, dim);
+    s.initBoxLength(boxl);
     PairLJ p(&s, rCut);
     p.lrcFlag = 0;
-    for (int i = 0; i < dimen; ++i) {
-      s.lset(boxl, i);
-    }
     s.xset(49., 0, 0);
     s.xset(47., 1, 0);
     while (s.x()[dimen*1+0] > -50.) {
@@ -115,7 +112,7 @@ TEST(PairLJ, addPartdelPart) {
 
 TEST(PairLJ, equltl43muvttmmc) {
   Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(9,dim);
+  s.initBoxLength(9);
   s.readXYZBulk(4, "equltl43", "../unittest/equltl43/two.xyz");
   PairLJ p(&s, pow(2, 1./6.));
   p.cutShift(1);
@@ -129,7 +126,7 @@ TEST(PairLJ, equltl43muvttmmc) {
 
 TEST(PairLJ, linearForceShiftLJ) {
   Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(8,dim);
+  s.initBoxLength(8);
   s.readXYZBulk(1, "atom", "../unittest/lj/srsw/lj_sample_config_periodic4.xyz");
   s.addMolInit("../forcefield/data.lj");
   PairLJ p(&s, 3);
@@ -143,12 +140,12 @@ TEST(PairLJ, linearForceShiftLJ) {
 
 TEST(PairLJ, exVol) {
   Space s(3, 0);
-  for (int dim = 0; dim < s.dimen(); ++dim) s.lset(0, dim);
+  s.initBoxLength(0);
   PairLJ p(&s, 1e-12);
   p.initData("../forcefield/data.lj");
   p.addMol();
   const double boxl = 2.*(s.maxMolDist() + 1 + 0.1);
-  for (int dim = 0; dim < s.dimen(); ++dim) s.lset(boxl, dim);
+  s.initBoxLength(boxl);
   EXPECT_EQ(0, s.x(0,0));
   EXPECT_NEAR(4.*PI/3., p.exVol(1e2), 3e-3);
   //EXPECT_NEAR(4.*PI/3., p.exVol(1e3), 2e-4);

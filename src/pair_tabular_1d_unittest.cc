@@ -17,7 +17,7 @@ using namespace feasst;
 TEST(PairTabular1D, printReadTable) {
   const double rCut = 1.08;
   Space ss(3, 0);
-  ss.lset(4);
+  ss.initBoxLength(4);
   string addMolTypeA("../forcefield/data.lj");
   string addMolTypeB("../forcefield/data.ljb");
   PairLJMulti pp(&ss, rCut);
@@ -61,7 +61,7 @@ TEST(PairTabular1D, printReadTable) {
 TEST(PairTabular1D, interpolateForces) {
   const double rCut = 3.;
   Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(6,dim);
+  s.initBoxLength(6);
   string addMolType("../forcefield/data.lj");
   PairLJMulti pp(&s, rCut);
   s.addMolInit(addMolType.c_str());

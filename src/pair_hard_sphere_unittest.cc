@@ -15,7 +15,7 @@ using namespace feasst;
 
 TEST(PairHardSphere, rCut) {
   Space space;
-  space.lset(20.);
+  space.initBoxLength(20.);
   PairHardSphere pair(&space);
   pair.initData("../forcefield/data.lj");
   EXPECT_NEAR(pair.sig(0), 1., DTOL);

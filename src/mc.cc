@@ -762,12 +762,12 @@ void MC::b2(const double tol, double &b2v, double &b2er, double boxl) {
   Accumulator meyer, m2, mo;
   for (long long itrial = 0; itrial < npr_; ++itrial) {
     // move and rotate second molecule randomly within domain
-    for (int dim=0; dim < space_->dimen(); ++dim) space_->lset(boxl, dim);
+    for (int dim=0; dim < space_->dimen(); ++dim) space_->initBoxLength(boxl, dim);
     space_->randDisp(mpart, 0.5*boxl);
     space_->randRotate(mpart, -1);
 
     // expand domain so there are no mirror images
-    for (int dim=0; dim < space_->dimen(); ++dim) space_->lset(boxlbig, dim);
+    for (int dim=0; dim < space_->dimen(); ++dim) space_->initBoxLength(boxlbig, dim);
 
     // compute energy and meyer function
     pair_->initEnergy();
@@ -819,7 +819,7 @@ void MC::b2mayer(double *b2v, double *b2er, Pair *pairRef, const double tol, dou
   if (boxl == -1) {
     boxl = 2.*(2.*space_->maxMolDist() + pair_->rCut());
   }
-//  space.lset(boxl);
+//  space.initBoxLength(boxl);
 //  const double boxlbig = boxl*1e6;
 //
 //  // equilibrate: tune maxMove parameters and make sure that initial
@@ -851,7 +851,7 @@ void MC::b2mayer(double *b2v, double *b2er, Pair *pairRef, const double tol, dou
 //    space_->randRotate(mpart, -1);
 //
 //    // expand domain so there are no mirror images
-//    for (int dim=0; dim < space_->dimen(); ++dim) space_->lset(boxlbig, dim);
+//    for (int dim=0; dim < space_->dimen(); ++dim) space_->initBoxLength(boxlbig, dim);
 //
 //    // compute energy and meyer function
 //    pair_->initEnergy();

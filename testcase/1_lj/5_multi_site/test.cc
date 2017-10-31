@@ -18,7 +18,7 @@
 int main() {  // LJ, MULTISITE
   feasst::ranInitByDate();
   feasst::Space space(3);
-  space.lset(9.);
+  space.initBoxLength(9.);
   feasst::PairLJMulti pair(&space,
                            3.);  // potential cut-off
   stringstream addMolType;

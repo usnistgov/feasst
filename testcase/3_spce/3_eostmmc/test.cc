@@ -52,7 +52,7 @@ int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
   // initialize simulation domain
   feasst::ranInitByDate();
   feasst::Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(boxl,dim);
+  for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(boxl,dim);
 
   // initialize pair-wise interactions
   feasst::PairLJCoulEwald p(&s, rCut);

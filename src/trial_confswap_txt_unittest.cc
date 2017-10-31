@@ -25,7 +25,7 @@ using namespace feasst;
 
 TEST(TrialConfSwapTXT, confswap) {
   Space s(3, 0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(12,dim);
+  s.initBoxLength(12);
   s.addMolInit("../forcefield/data.lj");
   for (int i = 0; i < 12; ++i) s.addMol("../forcefield/data.lj");
   PairLJ p(&s, 3);

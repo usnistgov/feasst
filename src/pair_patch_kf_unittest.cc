@@ -17,7 +17,7 @@ using namespace feasst;
 
 TEST(PairPatchKF, patchKFAnalytical1) {
   Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(10,dim);
+  s.initBoxLength(10);
   s.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch6.xyz");
   PairPatchKF p(&s, 3, 90);
   EXPECT_NEAR(0, p.cpa(), 1e-15);
@@ -27,7 +27,7 @@ TEST(PairPatchKF, patchKFAnalytical1) {
 
 TEST(PairPatchKF, patchKFAnalytical2) {
   Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(10,dim);
+  s.initBoxLength(10);
   s.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch5.xyz");
   PairPatchKF p(&s, 3, 90);
   EXPECT_NEAR(0, p.cpa(), 1e-15);
@@ -46,7 +46,7 @@ TEST(PairPatchKF, patchKFAnalytical2) {
 
 TEST(PairPatchKF, patchKFcellList) {
   Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(10,dim);
+  s.initBoxLength(10);
   s.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch50.xyz");
   PairPatchKF p(&s, 1.5, 90);
   p.initEnergy();
@@ -60,7 +60,7 @@ TEST(PairPatchKF, patchKFcellList) {
 
 TEST(PairPatchKF, patchKFmirrorAnalytical) {
   Space s(3,0);
-  for (int dim=0; dim < s.dimen(); ++dim) s.lset(10,dim);
+  s.initBoxLength(10);
   s.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch5.xyz");
   PairPatchKF p(&s, 3, 90);
   p.mirrorPatch(1);
@@ -85,7 +85,7 @@ TEST(PairPatchKF, patchKFmirrorAnalytical) {
 
 TEST(MC, PairPatchKF) {
   feasst::Space space;
-  space.lset(8);
+  space.initBoxLength(8);
   feasst::PairPatchKF pair(&space, 2., 90);
   pair.initData("../forcefield/data.onePatch");
   pair.initEnergy();

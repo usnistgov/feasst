@@ -12,7 +12,7 @@
 
 int main() {  // LJ, SRSW_REFCONF
   feasst::Space space(3);
-  space.lset(8);  // set the cubic box length
+  space.initBoxLength(8);
   feasst::PairLJ pair(&space, 3);   // potential truncation at 3
   stringstream molNameSS;
   molNameSS << space.install_dir() << "/forcefield/data.lj";

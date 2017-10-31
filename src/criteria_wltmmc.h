@@ -127,7 +127,7 @@ class CriteriaWLTMMC : public Criteria {
    *  matrices. */
   void lnPIupdate(const vector<std::shared_ptr<CriteriaWLTMMC> > &c);
 
-  /// Convert collection matrix to probability distribution, lnPI.
+  /// Convert collection matrix, col, to probability distribution, lnPI.
   void c2lnPI(const vector<vector<long double> > &col,
               vector<long double> *lnpiPtr);
 
@@ -247,7 +247,7 @@ class CriteriaWLTMMC : public Criteria {
   }
 
 
-  // Print or read collection matrix and lnPI
+  // Print collection matrix and lnPI
   void printCollectMat(const char* fileName);
 
   // paste together windows of collection matrices to print final version
@@ -336,6 +336,11 @@ class CriteriaWLTMMC : public Criteria {
 
   /// Obtain grand canonical ensemble average from canonical ensemble average.
   vector<double> lnPIgc2can(vector<double> data);
+
+  /**
+   * obtain grand canonical ensemble average from canonical ensemble average
+   *  input file has macrostate as first column, data as second column
+   */
   void lnPIgc2can(const char* fileNameIn, const char* fileNameOut);
 
   // data from lnPI
