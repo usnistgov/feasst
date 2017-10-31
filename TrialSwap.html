@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>TrialSwap &mdash; FEASST v0.2.1-5-g99b5918061 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="FEASST v0.2.1-5-g99b5918061 documentation" href="index.html"/>
+        <link rel="up" title="Trial Classes" href="trialtoc.html"/>
+        <link rel="next" title="TrialTransform" href="TrialTransform.html"/>
+        <link rel="prev" title="TrialDelete" href="TrialDelete.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> FEASST
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.2.1-5-g99b5918061
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcase.html">Test cases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basetoc.html">Base Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="criteriatoc.html">Criteria Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Histogram.html">Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pairtoc.html">Pair Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomtoc.html">Random Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Space.html">Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="trialtoc.html">Trial Classes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Trial.html">Trial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialConfSwapOMP.html">TrialConfSwapOMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialConfSwapTXT.html">TrialConfSwapTXT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialDelete.html">TrialDelete</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TrialSwap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialTransform.html">TrialTransform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialXSwap.html">TrialXSwap</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AbbreviatedUI.html">AbbreviatedUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Guidelines for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact and bug reports</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FEASST</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api.html">Application program interface (API)</a> &raquo;</li>
+        
+          <li><a href="trialtoc.html">Trial Classes</a> &raquo;</li>
+        
+      <li>TrialSwap</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="trialswap">
+<h1>TrialSwap<a class="headerlink" href="#trialswap" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv29TrialSwap">
+<span id="TrialSwap"></span><span class="target" id="classTrialSwap"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">TrialSwap</code><a class="headerlink" href="#_CPPv29TrialSwap" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attempt to randomly swap the type of a molecule. As currently implemented, the position of the first particle in the molecule during swap is where the first particle in the other molecule is placed. Thus, for multi-site particles, the orientation is random. </p>
+<p>Inherits from <a class="reference internal" href="Trial.html#classTrial"><span class="std std-ref">Trial</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N9TrialSwap9TrialSwapEP4PairP8CriteriaPKcPKc">
+<span id="TrialSwap::TrialSwap__PairP.CriteriaP.cCP.cCP"></span><span class="target" id="classTrialSwap_1af9642b78cf382c02602a8b671e03bda0"></span><code class="descname">TrialSwap</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="Criteria.html#_CPPv28Criteria" title="Criteria">Criteria</a> *<em>criteria</em>, <em class="property">const</em> char *<em>molTypeA</em>, <em class="property">const</em> char *<em>molTypeB</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9TrialSwap9TrialSwapEP4PairP8CriteriaPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor with particle types which are allowed to swap. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9TrialSwap9TrialSwapEPKcPKc">
+<span id="TrialSwap::TrialSwap__cCP.cCP"></span><span class="target" id="classTrialSwap_1adb12a850c0abc4017c4202e0d5c218b5"></span><code class="descname">TrialSwap</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>molTypeA</em>, <em class="property">const</em> char *<em>molTypeB</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9TrialSwap9TrialSwapEPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constructor is not often used, but its purpose is to initialize trial for interface before using reconstruct to set object pointers. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9TrialSwap8molTypeAEv">
+<span id="TrialSwap::molTypeAC"></span><span class="target" id="classTrialSwap_1a7c761aa48a96efc31b0507149f73cdae"></span>string <code class="descname">molTypeA</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9TrialSwap8molTypeAEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the first type of particle allowed to swap. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9TrialSwap2nAEv">
+<span id="TrialSwap::nAC"></span><span class="target" id="classTrialSwap_1aa2c97bc11eb2c8b121fcbb9032ec0f2c"></span><a class="reference internal" href="Accumulator.html#_CPPv211Accumulator" title="Accumulator">Accumulator</a> <code class="descname">nA</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9TrialSwap2nAEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the <a class="reference internal" href="Accumulator.html#classAccumulator"><span class="std std-ref">Accumulator</span></a> for the number of &#8220;A&#8221; particles. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9TrialSwap8molTypeBEv">
+<span id="TrialSwap::molTypeBC"></span><span class="target" id="classTrialSwap_1a4eec3443733f24e1b2d641cf5bd102c7"></span>string <code class="descname">molTypeB</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9TrialSwap8molTypeBEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the second type of particle allowed to swap. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9TrialSwap2nBEv">
+<span id="TrialSwap::nBC"></span><span class="target" id="classTrialSwap_1a1c7caa738584941a72631d68bfd60866"></span><a class="reference internal" href="Accumulator.html#_CPPv211Accumulator" title="Accumulator">Accumulator</a> <code class="descname">nB</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9TrialSwap2nBEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the <a class="reference internal" href="Accumulator.html#classAccumulator"><span class="std std-ref">Accumulator</span></a> for the number of &#8220;B&#8221; particles. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9TrialSwap9printStatEKb">
+<span id="TrialSwap::printStat__bC"></span><span class="target" id="classTrialSwap_1a9e89ea383fa9bc134e8a6d35cb173ca4"></span>string <code class="descname">printStat</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>header</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9TrialSwap9printStatEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>return status of trial </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9TrialSwap12writeRestartEPKc">
+<span id="TrialSwap::writeRestart__cCP"></span><span class="target" id="classTrialSwap_1a5c0d3ce52cd38a44a6df5ac59dc042fc"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9TrialSwap12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write restart file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9TrialSwap9TrialSwapEPKcP4PairP8Criteria">
+<span id="TrialSwap::TrialSwap__cCP.PairP.CriteriaP"></span><span class="target" id="classTrialSwap_1a845a7597589750b1465055fc86a1358d"></span><code class="descname">TrialSwap</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="Criteria.html#_CPPv28Criteria" title="Criteria">Criteria</a> *<em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9TrialSwap9TrialSwapEPKcP4PairP8Criteria" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct from restart file. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="TrialTransform.html" class="btn btn-neutral float-right" title="TrialTransform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="TrialDelete.html" class="btn btn-neutral" title="TrialDelete" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v0.2.1-5-g99b5918061',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

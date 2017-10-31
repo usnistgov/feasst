@@ -1,0 +1,6 @@
+WLTMMC
+=====================================================
+
+.. doxygenclass:: WLTMMC
+   :project: FEASST
+   :members:

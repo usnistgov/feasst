@@ -1,0 +1,6 @@
+TrialConfSwapOMP
+=====================================================
+
+.. doxygenclass:: TrialConfSwapOMP
+   :project: FEASST
+   :members:

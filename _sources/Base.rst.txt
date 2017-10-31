@@ -1,0 +1,6 @@
+Base
+=====================================================
+
+.. doxygenclass:: Base
+   :project: FEASST
+   :members:

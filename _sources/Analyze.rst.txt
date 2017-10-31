@@ -1,0 +1,6 @@
+Analyze
+=====================================================
+
+.. doxygenclass:: Analyze
+   :project: FEASST
+   :members:

@@ -1,0 +1,12 @@
+Trial Classes
+=======================================================
+
+.. toctree::
+   Trial
+   TrialAdd
+   TrialConfSwapOMP
+   TrialConfSwapTXT
+   TrialDelete
+   TrialSwap
+   TrialTransform
+   TrialXSwap

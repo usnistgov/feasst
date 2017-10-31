@@ -1,0 +1,6 @@
+BaseRandom
+=====================================================
+
+.. doxygenclass:: BaseRandom
+   :project: FEASST
+   :members:

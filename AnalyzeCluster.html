@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>AnalyzeCluster &mdash; FEASST v0.2.1-5-g99b5918061 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="FEASST v0.2.1-5-g99b5918061 documentation" href="index.html"/>
+        <link rel="up" title="Analyze Classes" href="analyzetoc.html"/>
+        <link rel="next" title="AnalyzeScatter" href="AnalyzeScatter.html"/>
+        <link rel="prev" title="Analyze" href="Analyze.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> FEASST
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.2.1-5-g99b5918061
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcase.html">Test cases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Analyze.html">Analyze</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">AnalyzeCluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeScatter.html">AnalyzeScatter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="basetoc.html">Base Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="criteriatoc.html">Criteria Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Histogram.html">Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pairtoc.html">Pair Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomtoc.html">Random Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Space.html">Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trialtoc.html">Trial Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AbbreviatedUI.html">AbbreviatedUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Guidelines for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact and bug reports</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FEASST</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api.html">Application program interface (API)</a> &raquo;</li>
+        
+          <li><a href="analyzetoc.html">Analyze Classes</a> &raquo;</li>
+        
+      <li>AnalyzeCluster</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="analyzecluster">
+<h1>AnalyzeCluster<a class="headerlink" href="#analyzecluster" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv214AnalyzeCluster">
+<span id="AnalyzeCluster"></span><span class="target" id="classAnalyzeCluster"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">AnalyzeCluster</code><a class="headerlink" href="#_CPPv214AnalyzeCluster" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute cluster properties </p>
+<p>Inherits from <a class="reference internal" href="Analyze.html#classAnalyze"><span class="std std-ref">Analyze</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N14AnalyzeCluster14AnalyzeClusterEP4Pair">
+<span id="AnalyzeCluster::AnalyzeCluster__PairP"></span><span class="target" id="classAnalyzeCluster_1a5fe24d8890476aae7f730650474fecb2"></span><code class="descname">AnalyzeCluster</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeCluster14AnalyzeClusterEP4Pair" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N14AnalyzeCluster14initClusterCutEKd">
+<span id="AnalyzeCluster::initClusterCut__doubleC"></span><span class="target" id="classAnalyzeCluster_1a9b8e3aed64cf5733f5c767fdf747bfd4"></span>void <code class="descname">initClusterCut</code><span class="sig-paren">(</span><em class="property">const</em> double <em>clusterCut</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeCluster14initClusterCutEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize distance-based cluster cutoff. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N14AnalyzeCluster16initBlockAverageEKi">
+<span id="AnalyzeCluster::initBlockAverage__iC"></span><span class="target" id="classAnalyzeCluster_1a590f84966d2ba3eb1a5ae2c377393f57"></span>void <code class="descname">initBlockAverage</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nBlock</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeCluster16initBlockAverageEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize size of block average. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N14AnalyzeCluster6updateEv">
+<span id="AnalyzeCluster::update"></span><span class="target" id="classAnalyzeCluster_1a53e1adaa6815badd2ac93c2969f9d059"></span>void <code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeCluster6updateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Perform the analysis and update the accumulators. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N14AnalyzeCluster6updateEKi">
+<span id="AnalyzeCluster::update__iC"></span><span class="target" id="classAnalyzeCluster_1a909eff8f348f434f840552ce268b8946"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iMacro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeCluster6updateEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Perform the analysis and update the accumulators. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N14AnalyzeCluster5writeEP14CriteriaWLTMMC">
+<span id="AnalyzeCluster::write__CriteriaWLTMMCP"></span><span class="target" id="classAnalyzeCluster_1ac7f55fc80f562b73672d5577e2cee836"></span>void <code class="descname">write</code><span class="sig-paren">(</span><a class="reference internal" href="CriteriaWLTMMC.html#_CPPv214CriteriaWLTMMC" title="CriteriaWLTMMC">CriteriaWLTMMC</a> *<em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeCluster5writeEP14CriteriaWLTMMC" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Print the analysis to a file for each macrostate in <a class="reference internal" href="CriteriaWLTMMC.html#classCriteriaWLTMMC"><span class="std std-ref">CriteriaWLTMMC</span></a>. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N14AnalyzeCluster15initPercolationEKi">
+<span id="AnalyzeCluster::initPercolation__iC"></span><span class="target" id="classAnalyzeCluster_1a7fb6ca3c7ca5ee350644639aab932309"></span>void <code class="descname">initPercolation</code><span class="sig-paren">(</span><em class="property">const</em> int <em>percFlag</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeCluster15initPercolationEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">percFlag</span></code>: if &#8220;0&#8221;, no computation. if &#8220;1&#8221;, use expanding box (slow). if &#8220;2&#8221;, use contact map. </li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Compute percolation probability. A percolating cluster is one in which a particle in the cluster is connected to its own periodic image. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK14AnalyzeCluster14nClusterAccVecEv">
+<span id="AnalyzeCluster::nClusterAccVecC"></span><span class="target" id="classAnalyzeCluster_1a577278741de3fa1980b6750e9b5e0bf8"></span><a class="reference internal" href="AccumulatorVec.html#_CPPv214AccumulatorVec" title="AccumulatorVec">AccumulatorVec</a> <code class="descname">nClusterAccVec</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK14AnalyzeCluster14nClusterAccVecEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of clusters. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK14AnalyzeCluster14coordNumAccVecEv">
+<span id="AnalyzeCluster::coordNumAccVecC"></span><span class="target" id="classAnalyzeCluster_1afafa8eda1fb41a2954470020881c659a"></span><a class="reference internal" href="AccumulatorVec.html#_CPPv214AccumulatorVec" title="AccumulatorVec">AccumulatorVec</a> <code class="descname">coordNumAccVec</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK14AnalyzeCluster14coordNumAccVecEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the coordination number. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK14AnalyzeCluster11percolationEv">
+<span id="AnalyzeCluster::percolationC"></span><span class="target" id="classAnalyzeCluster_1a35fceaf9c6e46fce6b35afacddc35a08"></span><a class="reference internal" href="AccumulatorVec.html#_CPPv214AccumulatorVec" title="AccumulatorVec">AccumulatorVec</a> <code class="descname">percolation</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK14AnalyzeCluster11percolationEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the percolation. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N14AnalyzeCluster12writeRestartEPKc">
+<span id="AnalyzeCluster::writeRestart__cCP"></span><span class="target" id="classAnalyzeCluster_1a26ce42098f8a44d2c99837b5c25092ec"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeCluster12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write restart file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N14AnalyzeCluster14AnalyzeClusterEP4PairPKc">
+<span id="AnalyzeCluster::AnalyzeCluster__PairP.cCP"></span><span class="target" id="classAnalyzeCluster_1ab71f5b646b43801aeaffd6d1d2730f60"></span><code class="descname">AnalyzeCluster</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeCluster14AnalyzeClusterEP4PairPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct from restart file. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="AnalyzeScatter.html" class="btn btn-neutral float-right" title="AnalyzeScatter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Analyze.html" class="btn btn-neutral" title="Analyze" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v0.2.1-5-g99b5918061',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

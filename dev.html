@@ -1,0 +1,599 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Guidelines for developers &mdash; FEASST v0.2.1-5-g99b5918061 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="FEASST v0.2.1-5-g99b5918061 documentation" href="index.html"/>
+        <link rel="next" title="Authors and acknowledgements" href="contrib.html"/>
+        <link rel="prev" title="Frequently asked questions (FAQ)" href="faq.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> FEASST
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.2.1-5-g99b5918061
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcase.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Application program interface (API)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Guidelines for developers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#semantic-versioning">Semantic versioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#branch-policies">Branch policies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#master-branch">Master branch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#development-dev-branch">Development (dev) branch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hotfix-branch">Hotfix branch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feature-ftr-branches">Feature (ftr_*) branches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dead-dead-branches">Dead (dead_*) branches</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#public-private-repositories-with-package-tools">Public/private repositories with package tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#package-scripts">Package scripts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#package-sh">package.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unpack-sh">unpack.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#private-files-txt">private_files.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stubs">stubs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#unittest-with-gtest">Unittest with GTEST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging-with-gdb">Debugging with GDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#find-memory-leaks-with-valgrind">Find memory leaks with Valgrind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-coverage-with-gcov-and-lcov">Test coverage with GCOV and LCOV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#clean-up-with-cpplint-and-pylint">Clean up with cpplint and pylint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#packaging">Packaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation-setup">Documentation setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sphinx-breathe-doxygen-tips">Sphinx/Breathe/Doxygen tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#philosophical-questions-and-quotes">Philosophical questions and quotes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#why-are-there-so-many-comments-in-the-header-files">Why are there so many comments in the header files?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#why-use-camel-case-instead-of-underscores">Why use camel case instead of underscores?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quotes">Quotes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#to-do-list">To do list</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact and bug reports</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FEASST</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Guidelines for developers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="guidelines-for-developers">
+<h1>Guidelines for developers<a class="headerlink" href="#guidelines-for-developers" title="Permalink to this headline">¶</a></h1>
+<p>Developers and contributors of FEASST may consider the following guidelines
+in order to simplify collaboration.</p>
+<div class="section" id="semantic-versioning">
+<h2>Semantic versioning<a class="headerlink" href="#semantic-versioning" title="Permalink to this headline">¶</a></h2>
+<p>FEASST version policy follows Semantic Versioning 2.0.0 <a class="reference external" href="http://semver.org/spec/v2.0.0.html">http://semver.org/spec/v2.0.0.html</a>.</p>
+<p>In a nutshell, this means that version x.y.z-a-[version control id][abbreviated commit hash]</p>
+<ul class="simple">
+<li><ol class="first loweralpha" start="24">
+<li>Major version number. Public API is backwards incompatible with previous versions.</li>
+</ol>
+</li>
+<li><ol class="first loweralpha" start="25">
+<li>Minor version number. New features but the public API is fully backwards compatible.</li>
+</ol>
+</li>
+<li><ol class="first loweralpha" start="26">
+<li>This version number changes if the source code has changed in the slightest.</li>
+</ol>
+</li>
+<li><ol class="first loweralpha">
+<li>This version changes if the documentation changes but the source code is the same.</li>
+</ol>
+</li>
+<li>And the version control id is &#8220;g&#8221; for GitHub, for example, followed by the commit hash.</li>
+</ul>
+<p>Although all efforts are made for restart files to be backwards compatible, they can only be guaranteed to be backwards for the same version x.y.z.</p>
+</div>
+<div class="section" id="branch-policies">
+<h2>Branch policies<a class="headerlink" href="#branch-policies" title="Permalink to this headline">¶</a></h2>
+<p>Branches in Git are extremely useful for working on different features within
+the same code base and then merging them into a final product or release.</p>
+<p><a class="reference external" href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging">https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging</a></p>
+<p>Using and naming branches in a way that is consistent may simplify this
+process. The policies below are based loosely on the following blog.</p>
+<p><a class="reference external" href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></p>
+<div class="section" id="master-branch">
+<h3>Master branch<a class="headerlink" href="#master-branch" title="Permalink to this headline">¶</a></h3>
+<p>This is the release branch.
+This branch may only merge with development and hotfix branches.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#unittest-with-gtest">Unittest with GTEST</a> and all tests pass</li>
+<li><a class="reference internal" href="#find-memory-leaks-with-valgrind">Find memory leaks with Valgrind</a></li>
+<li><a class="reference internal" href="#test-coverage-with-gcov-and-lcov">Test coverage with GCOV and LCOV</a> which must be &gt;75% (aim for 100%)</li>
+<li><a class="reference internal" href="#clean-up-with-cpplint-and-pylint">Clean up with cpplint and pylint</a></li>
+<li>SWIG and Python unittested</li>
+<li>Update packages</li>
+<li>Document new features</li>
+</ul>
+</div>
+<div class="section" id="development-dev-branch">
+<h3>Development (dev) branch<a class="headerlink" href="#development-dev-branch" title="Permalink to this headline">¶</a></h3>
+<p>This is the development branch.</p>
+<p>Tested and complete implementation of new features are added here.</p>
+<ul class="simple">
+<li>Code must compile and gtests pass successfully</li>
+<li>Consider feature compatibility with swig python interface</li>
+</ul>
+</div>
+<div class="section" id="hotfix-branch">
+<h3>Hotfix branch<a class="headerlink" href="#hotfix-branch" title="Permalink to this headline">¶</a></h3>
+<p>The hotfix branch is for implementation of bug fixes to the master branch.
+These branches have a short life span. After merging with master and dev,
+they are deleted.</p>
+</div>
+<div class="section" id="feature-ftr-branches">
+<h3>Feature (ftr_*) branches<a class="headerlink" href="#feature-ftr-branches" title="Permalink to this headline">¶</a></h3>
+<p>These branches are for the development of new features.
+These branch names must begin with the characters &#8220;ftr_*&#8221;.
+Once tested and complete, these branches may be merged into dev.</p>
+<ul class="simple">
+<li>Code must compile.
+HINT: use &#8220;git stash&#8221; over lazy commits, or use your own local branch</li>
+</ul>
+</div>
+<div class="section" id="dead-dead-branches">
+<h3>Dead (dead_*) branches<a class="headerlink" href="#dead-dead-branches" title="Permalink to this headline">¶</a></h3>
+<p>These branches may record an incomplete attempt of a feature that may be
+relevant in the future.
+These branch names must begin with the characters &#8220;dead&#8221;.</p>
+<ul class="simple">
+<li>No rules. Code may not compile.
+HINT: rename branches with &#8220;git branch -m &lt;newname&gt;&#8221;</li>
+</ul>
+</div>
+</div>
+<div class="section" id="public-private-repositories-with-package-tools">
+<h2>Public/private repositories with package tools<a class="headerlink" href="#public-private-repositories-with-package-tools" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="package-scripts">
+<h3>Package scripts<a class="headerlink" href="#package-scripts" title="Permalink to this headline">¶</a></h3>
+<p>The package scripts help a user to allow certain files to diverge from or stay hidden from the central FEASST respository.
+For example, perhaps a newly implemented method is unpublished and not ready for public distribution.
+One option is to simply make a private branch within your own private repository that you will not push to the public respository.
+This method is fine if you only which to receive updates.
+But if you want to share some of the development within your private branch, but not all, this becomes more complicated.</p>
+<p>The other option is to create separate &#8220;public&#8221; and &#8220;private&#8221; respositories.
+The example package directory <a class="reference external" href="tools/package">tools/package</a> contains scripts and example files to simplify the synchronization of these two separate respositories.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#package-sh">package.sh</a>: send updates in private respository to the public respository, after filtering.</li>
+<li><a class="reference internal" href="#unpack-sh">unpack.sh</a>: receive changes from public respository into private respository, after filtering.</li>
+<li><a class="reference internal" href="#private-files-txt">private_files.txt</a>: list of files or directories that will not be shared to, or altered by, the public respository.</li>
+<li><a class="reference internal" href="#stubs">stubs</a>: directory of files, which will overwrite current files when sent to public respository, and will not be changed by unpack.</li>
+</ul>
+<div class="section" id="package-sh">
+<h4>package.sh<a class="headerlink" href="#package-sh" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./package.sh /path/to/public/repo
+</pre></div>
+</div>
+<p>This script sends the contents of the current FEASST repository to a different FEASST repository, after filtering of files based on <cite>private_files.txt</cite> and <cite>stubs</cite>.
+At the end, it lists the differences between the two respositories.
+If, for example, a file is deleted or renamed in your private respository and sent to the public one, this will show up as a difference in the respositories.</p>
+</div>
+<div class="section" id="unpack-sh">
+<h4>unpack.sh<a class="headerlink" href="#unpack-sh" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./unpack.sh /path/to/public/repo
+</pre></div>
+</div>
+<p>This script receives the contents of a different FEASST respository, after filtering of files based on <cite>private_files.txt</cite> and <cite>stubs</cite>.</p>
+</div>
+<div class="section" id="private-files-txt">
+<h4>private_files.txt<a class="headerlink" href="#private-files-txt" title="Permalink to this headline">¶</a></h4>
+<p>List each file or directory that you do not want <cite>package.sh</cite> to send to another respository.
+In addition, <cite>unpack.sh</cite> will not receive these files from the public repository.
+Finally, you mean also add an empty file &#8220;feasst_private&#8221; to any directory, and the pack and unpack scripts will append these directories onto the private_files list.</p>
+</div>
+<div class="section" id="stubs">
+<h4>stubs<a class="headerlink" href="#stubs" title="Permalink to this headline">¶</a></h4>
+<p>In the stubs directory, include files which you would like to replace the existing file in your repository.
+For example, you may select some custom options for CMakeLists.txt but not want to push those back to the public repository.
+Thus, the default CMakeLists.txt may be included as a stub which is copied on top of your own implementation when sending changes.</p>
+</div>
+</div>
+</div>
+<div class="section" id="unittest-with-gtest">
+<h2>Unittest with GTEST<a class="headerlink" href="#unittest-with-gtest" title="Permalink to this headline">¶</a></h2>
+<p>The master branch requires GTEST coverage. All interface files have an
+associated <code class="docutils literal"><span class="pre">*_unittest</span></code> file such as the following.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;space.h&quot;</span><span class="cp"></span>
+
+<span class="n">TEST</span><span class="p">(</span><span class="n">Space</span><span class="p">,</span> <span class="n">init_config</span><span class="p">){</span>
+  <span class="n">Space</span> <span class="n">space</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+  <span class="n">EXPECT_EQ</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">space</span><span class="p">.</span><span class="n">dimen</span><span class="p">());</span>  <span class="c1">// 3D space</span>
+  <span class="n">EXPECT_FALSE</span><span class="p">(</span><span class="n">space</span><span class="p">.</span><span class="n">dimen</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+  <span class="n">EXPECT_LT</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">space</span><span class="p">.</span><span class="n">dimen</span><span class="p">());</span>
+  <span class="n">EXPECT_NEAR</span><span class="p">(</span><span class="mf">3.</span><span class="p">,</span> <span class="n">space</span><span class="p">.</span><span class="n">dimen</span><span class="p">(),</span> <span class="n">DTOL</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>CMake and the Makefile will automatically detect and compile these tests.
+For example</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_GTEST<span class="o">=</span>ON .
+make unittest -j 8
+./bin/unittest --gtest_shuffle --gtest_filter<span class="o">=</span>Space.ini*
+</pre></div>
+</div>
+<p>The optional gtest flags randomly shuffle the order of the tests, and run
+specific tests, respectively.</p>
+<p>If there are a lot of errors, typically the best testing order would be:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">shape</span>
+<span class="n">base</span>
+<span class="n">functions</span>
+<span class="n">table</span>
+<span class="n">accumulator</span>
+<span class="n">histogram</span>
+<span class="n">random</span>
+<span class="n">space</span>
+<span class="n">pair</span>
+<span class="n">analyze</span>
+<span class="n">criteria</span>
+<span class="n">trial</span>
+<span class="n">mc</span>
+<span class="n">ui_</span><span class="o">*</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="debugging-with-gdb">
+<h2>Debugging with GDB<a class="headerlink" href="#debugging-with-gdb" title="Permalink to this headline">¶</a></h2>
+<p>gdb is a very useful debugging tool, especially for identifying segfaults via backtraces. The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.</p>
+<p>In bash</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>gdb <span class="o">[</span>program executable name<span class="o">]</span>
+r <span class="o">[</span>flags<span class="o">]</span>
+</pre></div>
+</div>
+<p>gdb can also be used with python as</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>gdb python
+r <span class="o">[</span>python script<span class="o">]</span> <span class="o">[</span>optional flags<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="find-memory-leaks-with-valgrind">
+<h2>Find memory leaks with Valgrind<a class="headerlink" href="#find-memory-leaks-with-valgrind" title="Permalink to this headline">¶</a></h2>
+<p>Valgrind helps to detect memory management bugs.</p>
+<p><a class="reference external" href="http://valgrind.org/">http://valgrind.org/</a></p>
+<p>For example, to run Valgrind on a particular test and output to text file</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>valgrind ./unittest --gtest_filter<span class="o">=</span>MC.* &gt; out.txt 2&gt;<span class="p">&amp;</span>1
+</pre></div>
+</div>
+<ul class="simple">
+<li>For uninitialized value errors, try &#8211;track-origins=yes</li>
+<li>For leaks, try &#8211;leak-check=full &#8211;show-leak-kinds=all</li>
+<li>Don&#8217;t use profiler for leak checks. OMP causes &#8220;leaks&#8221; O.K.</li>
+<li>For suppress false-positives (e.g., gomp or gsl), use &#8211;gen-suppressions=all to generate suppression files</li>
+</ul>
+</div>
+<div class="section" id="test-coverage-with-gcov-and-lcov">
+<h2>Test coverage with GCOV and LCOV<a class="headerlink" href="#test-coverage-with-gcov-and-lcov" title="Permalink to this headline">¶</a></h2>
+<p>GCC compilers allow testing of coverage with gcov and lcov for visualization.</p>
+<ul class="simple">
+<li>Use GCOV with CMake: cmake -DUSE_GCOV .
+Note: this disables optimization, so don&#8217;t use it for production simulations.</li>
+<li>make coverage</li>
+<li>Open coverage/index.html in your browser.</li>
+<li>Go into &#8220;src&#8221; and ignore the external library coverage.</li>
+</ul>
+</div>
+<div class="section" id="clean-up-with-cpplint-and-pylint">
+<h2>Clean up with cpplint and pylint<a class="headerlink" href="#clean-up-with-cpplint-and-pylint" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://google.github.io/styleguide/cppguide.html">https://google.github.io/styleguide/cppguide.html</a></p>
+<p><a class="reference external" href="https://github.com/google/styleguide/tree/gh-pages/cpplint">https://github.com/google/styleguide/tree/gh-pages/cpplint</a></p>
+</div>
+<div class="section" id="packaging">
+<h2>Packaging<a class="headerlink" href="#packaging" title="Permalink to this headline">¶</a></h2>
+<p>git tag -a &lt;version number&gt;</p>
+<p>git archive master &#8211;prefix=&#8217;feasst&#8217;<cite>git describe master</cite>&#8216;/&#8217; | gzip &gt; feasst`git describe master`.tar.gz</p>
+</div>
+<div class="section" id="documentation-setup">
+<h2>Documentation setup<a class="headerlink" href="#documentation-setup" title="Permalink to this headline">¶</a></h2>
+<p>pip install sphinx
+pip install breathe
+doxygen with GENERATE_XML
+run sphinx-quickstart, enable autodoc
+add something like the following to your sphinx index.rst:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">doxygenclass</span><span class="p">::</span> <span class="n">Nutshell</span>
+   <span class="p">:</span><span class="n">project</span><span class="p">:</span> <span class="n">nutshell</span>
+   <span class="p">:</span><span class="n">members</span><span class="p">:</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>add the following to your sphinx conf.py</dt>
+<dd>extensions = [ &#8220;breathe&#8221; ]
+breathe_projects = {&#8220;FEASST&#8221;:&#8221;../xml&#8221;}</dd>
+</dl>
+<p>pip install sphinx_rtd_theme</p>
+<p>run sphinx: make html</p>
+<p>For math in doxygen commends, use:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>\f$ latex code here \f$
+</pre></div>
+</div>
+</div>
+<div class="section" id="sphinx-breathe-doxygen-tips">
+<h2>Sphinx/Breathe/Doxygen tips<a class="headerlink" href="#sphinx-breathe-doxygen-tips" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Link from rst file to C++ function: <code class="docutils literal"><span class="pre">:cpp:func:`className::function()`</span></code></li>
+<li>Link from rst file to fst file: <code class="docutils literal"><span class="pre">:doc:`/testcase/asdf`</span></code></li>
+<li>Link from C++ to C++: <code class="docutils literal"><span class="pre">className::function()</span></code></li>
+<li>Link from C++ source to rst file: <code class="docutils literal"><span class="pre">&lt;a</span> <span class="pre">href=&quot;testcase/asdf.html&quot;&gt;test&lt;/a&gt;</span></code></li>
+</ul>
+</div>
+<div class="section" id="philosophical-questions-and-quotes">
+<h2>Philosophical questions and quotes<a class="headerlink" href="#philosophical-questions-and-quotes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="why-are-there-so-many-comments-in-the-header-files">
+<h3>Why are there so many comments in the header files?<a class="headerlink" href="#why-are-there-so-many-comments-in-the-header-files" title="Permalink to this headline">¶</a></h3>
+<p>Because I assume most users are primarily concerned with the interface.
+I prefer that one can understand most aspects of the class simply by reading the header file.
+If you would like to contribute code, then document how you are most comfortable.</p>
+</div>
+<div class="section" id="why-use-camel-case-instead-of-underscores">
+<h3>Why use camel case instead of underscores?<a class="headerlink" href="#why-use-camel-case-instead-of-underscores" title="Permalink to this headline">¶</a></h3>
+<p>It saves one key stroke versus a &#8220;_&#8221; and one horizontal space.
+Perhaps for the sake of readability, FEASST will switch to a more pythonic style but that would take a lot of work.
+Feel free to stick to your favorite style in your contributed work, although ideally there is only one style per file!</p>
+</div>
+<div class="section" id="quotes">
+<h3>Quotes<a class="headerlink" href="#quotes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>&#8220;The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming&#8221;, Donald Knuth, Computer Programming as an Art (1974)</li>
+<li>&#8220;Do not copy and paste&#8221;, Clancy Rowley, Princeton University Course APC524, 2010</li>
+</ul>
+</div>
+</div>
+<div class="section" id="to-do-list">
+<h2>To do list<a class="headerlink" href="#to-do-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>json reader to server as &#8216;input script&#8217; to launch simulations</li>
+<li>json as checkpoint file</li>
+<li>MD with stochastic dynamics integrator</li>
+<li>Perfect checkpointing</li>
+<li>Automated full-checkpoint testing</li>
+<li>remove printPressure from mc/criteria, printBeta, pairOrder, floppyBox, etc</li>
+<li>for xyz2bin, in afterAttempt MC, use unique hash on log file and xyz configuration for error check
+&#8211; implement with WLTMMC, use criteria to find order param column in log, then readxyz hash, find log hash match, demix conf based on the bin</li>
+<li>have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)</li>
+<li>remove periodicity from x/y/z dimensions (no rush here)</li>
+<li>split functions.h into a variety of base_fileio, base_math, base_utils, etc</li>
+<li>pairhybrid rCut should be taken from pairVec, or atleast rCutMaxAll</li>
+<li>Eventually convert all raw pointers to shared pointers, which also allows removal of space from MC class</li>
+<li>PairHybrid also doens&#8217;t need a space pointer.</li>
+<li>Use Histogram class for CriteriaWLTMMC instead of its own hard-coded version</li>
+<li>To reduce the size of Space, have it inherit multiple base classes, e.g.,
+Domain which contains box lengths and cell list, etc (but needs to know about particle positions?)</li>
+<li>Fix nomenclature.. atom == particle, mol == ?.. maybe change to sites / particles</li>
+<li>add ASSERT(rCutij.size() == 0 for linearShift in PairLJMulti so people don&#8217;t run into issues with rCutij.clear</li>
+<li>Numerical implementation of quadratic equation coudl help with config bias: <a class="reference external" href="https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation">https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation</a></li>
+<li>Improve handling of default parameters for documentation and perhaps json (e.g. checkpointing above)?</li>
+<li>implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).</li>
+<li>runNumSweeps instead should have something where one generates the clones as vector&lt;shrptr&gt;, then runNumSweep takes these as input. That way one can modify the clones as one sees fit (also in multiprocessor restarts) before running the clones. It would take a lot of the hidden magic out without complicating the interface too drastically.</li>
+<li>Fix GSL memory leaks</li>
+<li>add PairPatchKF and PairLJCoulEwald loops to Pair base class for molecule-center-based cut-offs before loops through particles,
+Or make them more general (e.g., multi patch particles?).</li>
+<li>Add verbosity level for printing debug messages</li>
+<li>Make a citation generator for techniques that are used.</li>
+<li>move checkBond from MC to analyze class for rigid particle simulations (or as part of checkE?)</li>
+<li>Move some analysis outside of space class
+- but what if things like trials use the analysis, such as clusters?
+- &#8220;&#8221;This trial requires MC to have an analyze class...&#8221;&#8220;</li>
+<li>document log file and tuning, changing acceptance percentage</li>
+<li>Include PDF version of manual in release tarballs</li>
+<li>Package FEASST as a Docker app</li>
+<li>move unittests to testcases: ljmultilambda2D, NPTandLJvLJMulti, semigrand,</li>
+<li>Fix the API TOC for non-derived classes (e.g., TOC disappears when you select &#8220;Histogram&#8221;)</li>
+<li>Add PairPatchKJ testcase.</li>
+<li>Add test case with AnalyzeCluster and AnalyzeScatter.</li>
+<li>Add test case with PairTabular1D (and/or improve beyond linear interpolation).</li>
+<li>Incorporate more &#8220;tools&#8221; as part of the test cases (e.g., rw, restart, xyz2bin, etc).</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="contrib.html" class="btn btn-neutral float-right" title="Authors and acknowledgements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="faq.html" class="btn btn-neutral" title="Frequently asked questions (FAQ)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v0.2.1-5-g99b5918061',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

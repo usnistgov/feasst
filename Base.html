@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Base &mdash; FEASST v0.2.1-5-g99b5918061 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="FEASST v0.2.1-5-g99b5918061 documentation" href="index.html"/>
+        <link rel="up" title="Base Classes" href="basetoc.html"/>
+        <link rel="next" title="BaseRandom" href="BaseRandom.html"/>
+        <link rel="prev" title="Base Classes" href="basetoc.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> FEASST
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.2.1-5-g99b5918061
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcase.html">Test cases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="basetoc.html">Base Classes</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BaseRandom.html">BaseRandom</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="criteriatoc.html">Criteria Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Histogram.html">Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pairtoc.html">Pair Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomtoc.html">Random Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Space.html">Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trialtoc.html">Trial Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AbbreviatedUI.html">AbbreviatedUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Guidelines for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact and bug reports</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FEASST</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api.html">Application program interface (API)</a> &raquo;</li>
+        
+          <li><a href="basetoc.html">Base Classes</a> &raquo;</li>
+        
+      <li>Base</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="base">
+<h1>Base<a class="headerlink" href="#base" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv24Base">
+<span id="Base"></span><span class="target" id="classBase"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">Base</code><a class="headerlink" href="#_CPPv24Base" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#classBase"><span class="std std-ref">Base</span></a> class for all other classes to inherit. </p>
+<p>Subclassed by <a class="reference internal" href="Accumulator.html#classAccumulator"><span class="std std-ref">Accumulator</span></a>, <a class="reference internal" href="BaseRandom.html#classBaseRandom"><span class="std std-ref">BaseRandom</span></a>, <a class="reference internal" href="Histogram.html#classHistogram"><span class="std std-ref">Histogram</span></a>, <a class="reference internal" href="Random.html#classRandom"><span class="std std-ref">Random</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N4Base11reconstructEv">
+<span id="Base::reconstruct"></span><span class="target" id="classBase_1abea5b69fa4db7bce7545585e5701f812"></span>void <code class="descname">reconstruct</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Base11reconstructEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reconstruct object pointers after cloning (e.g., deep copy). </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK4Base9classNameEv">
+<span id="Base::classNameC"></span><span class="target" id="classBase_1a434bcb22258b1b22fc04b63d70ea9b8b"></span>std::string <code class="descname">className</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK4Base9classNameEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The name of the class which should always be set at the constructor, and updated for all derived classes. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK4Base11install_dirEv">
+<span id="Base::install_dirC"></span><span class="target" id="classBase_1af25e0098e0e1b7f43363b57383edf64b"></span><em class="property">const</em> char *<code class="descname">install_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK4Base11install_dirEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The base directory where the code is located is stored in this variable. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="BaseRandom.html" class="btn btn-neutral float-right" title="BaseRandom" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="basetoc.html" class="btn btn-neutral" title="Base Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v0.2.1-5-g99b5918061',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

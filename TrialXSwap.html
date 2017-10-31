@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>TrialXSwap &mdash; FEASST v0.2.1-5-g99b5918061 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="FEASST v0.2.1-5-g99b5918061 documentation" href="index.html"/>
+        <link rel="up" title="Trial Classes" href="trialtoc.html"/>
+        <link rel="next" title="Functions" href="Functions.html"/>
+        <link rel="prev" title="TrialTransform" href="TrialTransform.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> FEASST
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.2.1-5-g99b5918061
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcase.html">Test cases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basetoc.html">Base Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="criteriatoc.html">Criteria Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Histogram.html">Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pairtoc.html">Pair Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomtoc.html">Random Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Space.html">Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="trialtoc.html">Trial Classes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Trial.html">Trial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialConfSwapOMP.html">TrialConfSwapOMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialConfSwapTXT.html">TrialConfSwapTXT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialDelete.html">TrialDelete</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialSwap.html">TrialSwap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialTransform.html">TrialTransform</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TrialXSwap</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AbbreviatedUI.html">AbbreviatedUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Guidelines for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact and bug reports</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FEASST</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api.html">Application program interface (API)</a> &raquo;</li>
+        
+          <li><a href="trialtoc.html">Trial Classes</a> &raquo;</li>
+        
+      <li>TrialXSwap</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="trialxswap">
+<h1>TrialXSwap<a class="headerlink" href="#trialxswap" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv210TrialXSwap">
+<span id="TrialXSwap"></span><span class="target" id="classTrialXSwap"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">TrialXSwap</code><a class="headerlink" href="#_CPPv210TrialXSwap" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attempt to randomly swap the positions of two different particles. To begin, randomly select two different particle types. Then select a random particle of each type and attempt the swap. </p>
+<p>Inherits from <a class="reference internal" href="Trial.html#classTrial"><span class="std std-ref">Trial</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N10TrialXSwap10TrialXSwapEP4PairP8Criteria">
+<span id="TrialXSwap::TrialXSwap__PairP.CriteriaP"></span><span class="target" id="classTrialXSwap_1a09eba178a1f0f7cec490b94e469717f1"></span><code class="descname">TrialXSwap</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="Criteria.html#_CPPv28Criteria" title="Criteria">Criteria</a> *<em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N10TrialXSwap10TrialXSwapEP4PairP8Criteria" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N10TrialXSwap10TrialXSwapEv">
+<span id="TrialXSwap::TrialXSwap"></span><span class="target" id="classTrialXSwap_1a4ace730bc40a88d1a63dd40588666bae"></span><code class="descname">TrialXSwap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N10TrialXSwap10TrialXSwapEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constructor is not often used, but its purpose is to initialize trial for interface before using reconstruct to set object pointers. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N10TrialXSwap10TrialXSwapEPKcP4PairP8Criteria">
+<span id="TrialXSwap::TrialXSwap__cCP.PairP.CriteriaP"></span><span class="target" id="classTrialXSwap_1ad72fd83d77c25c2d0ecd383f3a204fee"></span><code class="descname">TrialXSwap</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="Criteria.html#_CPPv28Criteria" title="Criteria">Criteria</a> *<em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N10TrialXSwap10TrialXSwapEPKcP4PairP8Criteria" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct from restart file. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Functions.html" class="btn btn-neutral float-right" title="Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="TrialTransform.html" class="btn btn-neutral" title="TrialTransform" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v0.2.1-5-g99b5918061',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

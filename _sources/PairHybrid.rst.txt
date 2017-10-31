@@ -1,0 +1,6 @@
+PairHybrid
+=====================================================
+
+.. doxygenclass:: PairHybrid
+   :project: FEASST
+   :members:

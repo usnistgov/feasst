@@ -1,0 +1,6 @@
+PairSoftSphere
+=====================================================
+
+.. doxygenclass:: PairSoftSphere
+   :project: FEASST
+   :members:

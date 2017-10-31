@@ -1,0 +1,6 @@
+TrialTransform
+=====================================================
+
+.. doxygenclass:: TrialTransform
+   :project: FEASST
+   :members:

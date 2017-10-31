@@ -1,0 +1,6 @@
+CustomException
+=====================================================
+
+.. doxygenclass:: CustomException
+   :project: FEASST
+   :members:

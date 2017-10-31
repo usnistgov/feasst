@@ -1,0 +1,5 @@
+AbbreviatedUI
+=====================================================
+
+.. doxygenfile:: ui_abbreviated.h
+   :project: FEASST

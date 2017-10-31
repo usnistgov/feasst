@@ -1,0 +1,6 @@
+Histogram
+=====================================================
+
+.. doxygenclass:: Histogram
+   :project: FEASST
+   :members:

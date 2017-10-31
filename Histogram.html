@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Histogram &mdash; FEASST v0.2.1-5-g99b5918061 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="FEASST v0.2.1-5-g99b5918061 documentation" href="index.html"/>
+        <link rel="up" title="Application program interface (API)" href="api.html"/>
+        <link rel="next" title="MC Classes" href="mctoc.html"/>
+        <link rel="prev" title="CustomException" href="CustomException.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> FEASST
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v0.2.1-5-g99b5918061
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcase.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Application program interface (API)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Guidelines for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact and bug reports</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FEASST</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api.html">Application program interface (API)</a> &raquo;</li>
+        
+      <li>Histogram</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="histogram">
+<h1>Histogram<a class="headerlink" href="#histogram" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv29Histogram">
+<span id="Histogram"></span><span class="target" id="classHistogram"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">Histogram</code><a class="headerlink" href="#_CPPv29Histogram" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This class is used to compute one dimensional histograms with constant bin width. By default, zero lies on a boundary between bins, but there is also the option to center a histogram bin on zero. </p>
+<p>Inherits from <a class="reference internal" href="Base.html#classBase"><span class="std std-ref">Base</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N9Histogram9HistogramEKd">
+<span id="Histogram::Histogram__doubleC"></span><span class="target" id="classHistogram_1a8998beae5c2131e82cf4b0720558c475"></span><code class="descname">Histogram</code><span class="sig-paren">(</span><em class="property">const</em> double <em>binWidth</em> = -1.<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9Histogram9HistogramEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor requires binWidth, but if a non-physical value is employed, then <a class="reference internal" href="#classHistogram_1a699ff41469bf4595dbf6aee0c27631b2"><span class="std std-ref">initBinWidth()</span></a> must be utilized before <a class="reference internal" href="#classHistogram_1a15e8e463f8e09a07c130424c5bac6192"><span class="std std-ref">accumulate()</span></a>. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9Histogram9HistogramEPKc">
+<span id="Histogram::Histogram__cCP"></span><span class="target" id="classHistogram_1a28af8da0f9fba332a0568b1f40500174"></span><code class="descname">Histogram</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9Histogram9HistogramEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor for checkpoint files. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram5cloneEv">
+<span id="Histogram::cloneC"></span><span class="target" id="classHistogram_1a03d23ace45875087de9be598942bdd31"></span><a class="reference internal" href="#_CPPv29Histogram" title="Histogram">Histogram</a> *<code class="descname">clone</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram5cloneEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Clone raw pointer or copy of object which must be deleted to avoid a memory leak. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram11cloneShrPtrEv">
+<span id="Histogram::cloneShrPtrC"></span><span class="target" id="classHistogram_1ac48d63129a82724173b2e882787eb97f"></span>shared_ptr&lt;<a class="reference internal" href="#_CPPv29Histogram" title="Histogram">Histogram</a>&gt; <code class="descname">cloneShrPtr</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram11cloneShrPtrEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Clone shared pointer. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9Histogram12writeRestartEPKc">
+<span id="Histogram::writeRestart__cCP"></span><span class="target" id="classHistogram_1a59442935cb9820f4ab1a1229cfad6472"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9Histogram12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write restart file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9Histogram10centerZeroEv">
+<span id="Histogram::centerZero"></span><span class="target" id="classHistogram_1a9374b939f22bd9b0ec9e9f45d89da1f2"></span>void <code class="descname">centerZero</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9Histogram10centerZeroEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Center a bin on zero. Otherwise, zero lies on a boundary between bins. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9Histogram12initBinWidthEd">
+<span id="Histogram::initBinWidth__double"></span><span class="target" id="classHistogram_1a699ff41469bf4595dbf6aee0c27631b2"></span>void <code class="descname">initBinWidth</code><span class="sig-paren">(</span>double <em>binWidth</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9Histogram12initBinWidthEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize the bin width. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9Histogram10accumulateEKd">
+<span id="Histogram::accumulate__doubleC"></span><span class="target" id="classHistogram_1a15e8e463f8e09a07c130424c5bac6192"></span>void <code class="descname">accumulate</code><span class="sig-paren">(</span><em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9Histogram10accumulateEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Increment the histogram by one for the bin corresponding to given value. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram5bin2mEKi">
+<span id="Histogram::bin2m__iCC"></span><span class="target" id="classHistogram_1a019f21549c8e6ca33e94783a414f65e2"></span>double <code class="descname">bin2m</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bin</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram5bin2mEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return value at center of bin, given bin. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram3binEKd">
+<span id="Histogram::bin__doubleCC"></span><span class="target" id="classHistogram_1a5b9a6800ee92eb0b0fedda3ad5951320"></span>int <code class="descname">bin</code><span class="sig-paren">(</span><em class="property">const</em> double <em>value</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram3binEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return bin, given value. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9Histogram5writeEPKc">
+<span id="Histogram::write__cCP"></span><span class="target" id="classHistogram_1a97ad921564777069b1d3e66a40fec2a4"></span>void <code class="descname">write</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9Histogram5writeEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Print to file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9Histogram5countEv">
+<span id="Histogram::count"></span><span class="target" id="classHistogram_1a1e62c568922033bb87ac61a8289cc2d1"></span>void <code class="descname">count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9Histogram5countEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Count number of independent attempts to compute a histogram. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram6nCountEv">
+<span id="Histogram::nCountC"></span><span class="target" id="classHistogram_1a7d86dd12e8574400550a11ea893e6c90"></span>long long <code class="descname">nCount</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram6nCountEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return number of times histogram is computed. Used for normalization. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram3sumEv">
+<span id="Histogram::sumC"></span><span class="target" id="classHistogram_1a9bff70549fea554cf909f73aeb3fc12f"></span>double <code class="descname">sum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram3sumEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return sum of elements. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram10maxElementEv">
+<span id="Histogram::maxElementC"></span><span class="target" id="classHistogram_1ac97305ebe670da0f18331c7fd88860c5"></span>double <code class="descname">maxElement</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram10maxElementEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return maximum element. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram13maxElementBinEv">
+<span id="Histogram::maxElementBinC"></span><span class="target" id="classHistogram_1a694df8d74a97fcac03261a5a6a12ca50"></span>int <code class="descname">maxElementBin</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram13maxElementBinEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return index of maximum element. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram3maxEv">
+<span id="Histogram::maxC"></span><span class="target" id="classHistogram_1a983a64d97c8121a9d86e9f980e3c3cee"></span>double <code class="descname">max</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram3maxEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Maximum value of the highest bin, e.g., the limit of the bins. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram3minEv">
+<span id="Histogram::minC"></span><span class="target" id="classHistogram_1ab2fe4a0a5d25851c5446888eb4b80c41"></span>double <code class="descname">min</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram3minEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Minimum value of the lowest bin, e.g., the limit of the bins. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram4sizeEv">
+<span id="Histogram::sizeC"></span><span class="target" id="classHistogram_1aa41dcdf302b65ad3902a9e4c92fc7b82"></span>int <code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram4sizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return number of bins. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram8binWidthEv">
+<span id="Histogram::binWidthC"></span><span class="target" id="classHistogram_1a088f3e421102a1d7f6c6ef6f2798756e"></span>double <code class="descname">binWidth</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram8binWidthEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the width of the bins, which is constant throughout. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9Histogram4histEv">
+<span id="Histogram::histC"></span><span class="target" id="classHistogram_1a97879d7a2bdda9e7d60d6f278b3c7544"></span>std::deque&lt;double&gt; <code class="descname">hist</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9Histogram4histEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read-only access to raw histogram data. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mctoc.html" class="btn btn-neutral float-right" title="MC Classes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="CustomException.html" class="btn btn-neutral" title="CustomException" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v0.2.1-5-g99b5918061',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
