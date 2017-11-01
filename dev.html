@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Guidelines for developers &mdash; FEASST v0.2.1-14-g2a66178211 documentation</title>
+  <title>Guidelines for developers &mdash; FEASST v0.2.2 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="FEASST v0.2.1-14-g2a66178211 documentation" href="index.html"/>
+    <link rel="top" title="FEASST v0.2.2 documentation" href="index.html"/>
         <link rel="next" title="Authors and acknowledgements" href="contrib.html"/>
         <link rel="prev" title="Frequently asked questions (FAQ)" href="faq.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                v0.2.1-14-g2a66178211
+                v0.2.2
               </div>
             
           
@@ -360,7 +360,8 @@ make unittest -j 8
 </pre></div>
 </div>
 <p>The optional gtest flags randomly shuffle the order of the tests, and run
-specific tests, respectively.</p>
+specific tests, respectively.
+To use a seed to reproduce an error, use &#8211;gtest_random_seed=SEED.</p>
 <p>If there are a lot of errors, typically the best testing order would be:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">shape</span>
 <span class="n">base</span>
@@ -580,7 +581,7 @@ Or make them more general (e.g., multi patch particles?).</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v0.2.1-14-g2a66178211',
+            VERSION:'v0.2.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
