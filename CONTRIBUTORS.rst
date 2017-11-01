@@ -19,6 +19,7 @@ Acknowledgement for discussion and/or testing (alphabetical)
 
 * Dr. Marco A. Blanco
 * Cesar O Calero-Rubio
+* Dr. Joseph Curtis
 * Dr. Tamoghna Das
 * Dr. Steven Howell
 * Sally Jiao
