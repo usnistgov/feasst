@@ -21,12 +21,15 @@ Acknowledgement for discussion and/or testing (alphabetical)
 * Cesar O Calero-Rubio
 * Dr. Tamoghna Das
 * Dr. Steven Howell
+* Sally Jiao
 * Dr. William P. Krekelberg
 * Dr. Nathan Mahynski
+* Gordon W. McCann
 * Prof. Jeetain Mittal
 * Prof. Jeremy Palmer
 * Prof. Christopher J. Roberts
 * Prof. Sapna Sarupria
+* Dr. David A. Sheen
 * Dr. Vincent K. Shen
 * Dr. Daniel W. Siderius
 * Dr. Hasan Zerze
