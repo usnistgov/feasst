@@ -1,6 +1,0 @@
-CriteriaWLTMMC
-=====================================================
-
-.. doxygenclass:: CriteriaWLTMMC
-   :project: FEASST
-   :members:

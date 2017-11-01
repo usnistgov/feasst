@@ -1,6 +1,0 @@
-Space
-=====================================================
-
-.. doxygenclass:: Space
-   :project: FEASST
-   :members:

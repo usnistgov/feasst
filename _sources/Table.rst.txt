@@ -1,6 +1,0 @@
-Table
-=====================================================
-
-.. doxygenclass:: Table
-   :project: FEASST
-   :members:

@@ -1,5 +1,0 @@
-Functions
-=====================================================
-
-.. doxygenfile:: functions.h
-   :project: FEASST

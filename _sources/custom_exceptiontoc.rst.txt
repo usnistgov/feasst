@@ -1,5 +1,0 @@
-CustomException Classes
-=======================================================
-
-.. toctree::
-   CustomException

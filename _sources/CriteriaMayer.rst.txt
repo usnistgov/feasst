@@ -1,6 +1,0 @@
-CriteriaMayer
-=====================================================
-
-.. doxygenclass:: CriteriaMayer
-   :project: FEASST
-   :members:

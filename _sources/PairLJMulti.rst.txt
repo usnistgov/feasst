@@ -1,6 +1,0 @@
-PairLJMulti
-=====================================================
-
-.. doxygenclass:: PairLJMulti
-   :project: FEASST
-   :members:

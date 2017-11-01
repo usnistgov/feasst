@@ -1,6 +1,0 @@
-Trial
-=====================================================
-
-.. doxygenclass:: Trial
-   :project: FEASST
-   :members:

@@ -1,7 +1,0 @@
-Analyze Classes
-=======================================================
-
-.. toctree::
-   Analyze
-   AnalyzeCluster
-   AnalyzeScatter

@@ -1,6 +1,0 @@
-AnalyzeCluster
-=====================================================
-
-.. doxygenclass:: AnalyzeCluster
-   :project: FEASST
-   :members:

@@ -1,6 +1,0 @@
-TrialAdd
-=====================================================
-
-.. doxygenclass:: TrialAdd
-   :project: FEASST
-   :members:

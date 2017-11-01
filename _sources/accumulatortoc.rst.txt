@@ -1,6 +1,0 @@
-Accumulator Classes
-=======================================================
-
-.. toctree::
-   Accumulator
-   AccumulatorVec

@@ -1,6 +1,0 @@
-CriteriaMetropolis
-=====================================================
-
-.. doxygenclass:: CriteriaMetropolis
-   :project: FEASST
-   :members:

@@ -1,6 +1,0 @@
-Accumulator
-=====================================================
-
-.. doxygenclass:: Accumulator
-   :project: FEASST
-   :members:
