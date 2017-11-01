@@ -14,7 +14,7 @@
 
 import sys
 import os
-import sphinx_rtd_theme
+#import sphinx_rtd_theme
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -118,6 +118,12 @@ pygments_style = 'sphinx'
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
+#Custom CSS stuff
+def setup(app):
+    app.add_stylesheet('https://pages.nist.gov/nist-header-footer/css/nist-combined.css')
+    app.add_javascript('https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js')
+    app.add_javascript('https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js')
+    return
 
 # -- Options for HTML output ----------------------------------------------
 

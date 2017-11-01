@@ -12,12 +12,12 @@ simulations with flat-histogram Monte Carlo and molecular dynamics methods.
 
    Code repository: https://github.com/usnistgov/feasst
 
+Features
+########
+
 .. image:: feasst.png
    :target: https://pages.nist.gov/feasst
    :align: right
-
-Features
-########
 
 Features with the (dev) label are under development and may not be available in your release.
 Please `Contact`_ us if interested.

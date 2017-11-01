@@ -3,7 +3,7 @@ set(CMAKE_CXX_STANDARD 0x)
 project(feasst)
 
 # Here are some user options to customize external libraries
-option(USE_XDRFILE "Use xdrfile library" OFF)
+option(USE_XDRFILE "Use xdrfile library" OFF
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
 option(USE_FFTW "Use FFTW for fourier transforms" OFF)
 set(FFTW_DIR "$ENV{HOME}/software/fftw-3.3.4/build")
@@ -12,15 +12,15 @@ set(HDF5_USER_DIR "/usr/local/hdf5")
 option(USE_GSL "Use GSL" OFF)
 set(GSL_USER_DIR "$ENV{HOME}/software/gsl-2.3")
 # option(USE_JSON "Use JSON" OFF)
-option(USE_GTEST "Use gtest" OFF)
-option(USE_GTESTCASES "Use testcases" OFF)
-option(USE_CCACHE "Use ccache to speed up builds" OFF)
+option(USE_GTEST "Use gtest" OFF
+option(USE_GTESTCASES "Use testcases" OFF
+option(USE_CCACHE "Use ccache to speed up builds" OFF
 option(USE_OMP "Require use of OMP for parallelization" OFF)
 option(USE_GCOV "Use GCOV for coverage testing" OFF)
-option(USE_SPHINX "Use SPHINX for documentation" OFF)
-option(USE_SEGERROR "Errors result in SEGFAULT for gdb backtrace" OFF)
+option(USE_SPHINX "Use SPHINX for documentation" OFF
+option(USE_SEGERROR "Errors result in SEGFAULT for gdb backtrace" OFF
 
-option(USE_SWIG "Use SWIG for python interface" OFF)
+option(USE_SWIG "Use SWIG for python interface" OFF
 # If you would like to use the python interface, you may need to specify the
 # python library and include path variables below. If not specified then
 # CMake attempts to find the libraries on its own.
@@ -90,11 +90,12 @@ if (USE_SPHINX)
   find_package(Sphinx REQUIRED)
 
 #  if(NOT DEFINED SPHINX_THEME)
-      set(SPHINX_THEME "sphinx_rtd_theme")
+      set(SPHINX_THEME "classic")
+#      set(SPHINX_THEME "sphinx_rtd_theme")
 #  endif()
 
 #  if(NOT DEFINED SPHINX_THEME_DIR)
-      set(SPHINX_THEME_DIR "sphinx_rtd_theme.get_html_theme_path()")
+#      set(SPHINX_THEME_DIR "sphinx_rtd_theme.get_html_theme_path()")
 #  endif()
 
   # configured documentation tools and intermediate build results
