@@ -1,0 +1,6 @@
+PairLJCoulEwald
+=====================================================
+
+.. doxygenclass:: PairLJCoulEwald
+   :project: FEASST
+   :members:

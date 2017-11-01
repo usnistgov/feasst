@@ -1,0 +1,6 @@
+AccumulatorVec
+=====================================================
+
+.. doxygenclass:: AccumulatorVec
+   :project: FEASST
+   :members:

@@ -1,0 +1,6 @@
+PairHardCircle
+=====================================================
+
+.. doxygenclass:: PairHardCircle
+   :project: FEASST
+   :members:

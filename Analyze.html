@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Analyze &#8212; FEASST v0.2.2-2-gcfecc8aee4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v0.2.2-2-gcfecc8aee4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="AnalyzeCluster" href="AnalyzeCluster.html" />
+    <link rel="prev" title="Analyze Classes" href="analyzetoc.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="AnalyzeCluster.html" title="AnalyzeCluster"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="analyzetoc.html" title="Analyze Classes"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.2.2-2-gcfecc8aee4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="analyzetoc.html" accesskey="U">Analyze Classes</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="analyze">
+<h1>Analyze<a class="headerlink" href="#analyze" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv27Analyze">
+<span id="Analyze"></span><span class="target" id="classAnalyze"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">Analyze</code><a class="headerlink" href="#_CPPv27Analyze" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is the base class used to write custom analysis code. Operates on the <a class="reference internal" href="Space.html#classSpace"><span class="std std-ref">Space</span></a> and <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a> class periodically and prints results.</p>
+<p>In order to create a custom Analysis, you can follow two similar procedures.</p>
+<p>First, you may define a custom Analysis code in the same file as &#8220;int main()&#8221; for C++. See an example of this in the canonical LJ <a class="reference external" href="testcase/1_lj_2_nvt-mc_README.html">test case</a>.</p>
+<p>Second, you may copy existing &#8220;analyze_*&#8221; files and replace the class name and header guards (e.g. BASECLASS_DERIVED_H_). </p>
+<p>Inherits from <a class="reference internal" href="BaseRandom.html#classBaseRandom"><span class="std std-ref">BaseRandom</span></a></p>
+<p>Subclassed by <a class="reference internal" href="AnalyzeCluster.html#classAnalyzeCluster"><span class="std std-ref">AnalyzeCluster</span></a>, AnalyzeMonkeyPatch, <a class="reference internal" href="AnalyzeScatter.html#classAnalyzeScatter"><span class="std std-ref">AnalyzeScatter</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N7Analyze7AnalyzeEP4Pair">
+<span id="Analyze::Analyze__PairP"></span><span class="target" id="classAnalyze_1ae0feb6f27a92fc7a95136fa6dce4ca6f"></span><code class="descname">Analyze</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze7AnalyzeEP4Pair" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze7AnalyzeEv">
+<span id="Analyze::Analyze"></span><span class="target" id="classAnalyze_1a78bd2f4e08c35e695998310733f8e4c1"></span><code class="descname">Analyze</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze7AnalyzeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constructor is not often used, but its purpose is to initialize for <a class="reference internal" href="MC.html#classMC"><span class="std std-ref">MC</span></a> interface before using reconstruct to set object pointers. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze8initFreqEKi">
+<span id="Analyze::initFreq__iC"></span><span class="target" id="classAnalyze_1acb48041ee87dfd5f3bb319eccb39d04f"></span>void <code class="descname">initFreq</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nfreq</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze8initFreqEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize number of steps between each analysis. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK7Analyze5nFreqEv">
+<span id="Analyze::nFreqC"></span><span class="target" id="classAnalyze_1afa61a6fdea6b29b577c8969fff6f70db"></span>int <code class="descname">nFreq</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK7Analyze5nFreqEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return number of steps between each analysis. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze13initPrintFreqEKi">
+<span id="Analyze::initPrintFreq__iC"></span><span class="target" id="classAnalyze_1afb4b9d253c082e0fe712d5934708f7c9"></span>void <code class="descname">initPrintFreq</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nfreq</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze13initPrintFreqEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize number of steps between each print to file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK7Analyze10nFreqPrintEv">
+<span id="Analyze::nFreqPrintC"></span><span class="target" id="classAnalyze_1abc5dc3378e8b752166979e81d150cb3c"></span>int <code class="descname">nFreqPrint</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK7Analyze10nFreqPrintEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return number of steps between each print. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze14initProductionEKi">
+<span id="Analyze::initProduction__iC"></span><span class="target" id="classAnalyze_1a84a42f344c9a297f20e009903b319d36"></span><em class="property">virtual</em> void <code class="descname">initProduction</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze14initProductionEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize production flag. 1 is on, 0 is off. Default is 1. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK7Analyze10productionEv">
+<span id="Analyze::productionC"></span><span class="target" id="classAnalyze_1a49000a18bdd8935aa003ab875ba7e93f"></span>int <code class="descname">production</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK7Analyze10productionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return production state. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze12initFileNameEPKc">
+<span id="Analyze::initFileName__cCP"></span><span class="target" id="classAnalyze_1a542f3c21824d353f2eb7a875fdb64123"></span>void <code class="descname">initFileName</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze12initFileNameEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize the name of the file to print results. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze14appendFileNameEPKc">
+<span id="Analyze::appendFileName__cCP"></span><span class="target" id="classAnalyze_1adb8e54daec4207c8832028ff545ccef3"></span>void <code class="descname">appendFileName</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>chars</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze14appendFileNameEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Append &#8220;chars&#8221; onto the file name where results are printed. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze6updateEv">
+<span id="Analyze::update"></span><span class="target" id="classAnalyze_1a2554a5fb60fe2a85d9fb94e1555762bf"></span><em class="property">virtual</em> void <code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze6updateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Perform the analysis and update the accumulators. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze6updateEKi">
+<span id="Analyze::update__iC"></span><span class="target" id="classAnalyze_1ab3fcd5a1e5c5ec74fa8f3ae848c00255"></span><em class="property">virtual</em> void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iMacro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze6updateEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Perform the analysis and update the accumulators. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">iMacro</span></code>: Specify the macrostate bin corresponding to <a class="reference internal" href="CriteriaWLTMMC.html#classCriteriaWLTMMC"><span class="std std-ref">CriteriaWLTMMC</span></a> order param. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze5writeEv">
+<span id="Analyze::write"></span><span class="target" id="classAnalyze_1aaf3144f6b99937597f0626637da5cffe"></span><em class="property">virtual</em> void <code class="descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze5writeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Print the analysis to a file (default: restart file) </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze5writeEP14CriteriaWLTMMC">
+<span id="Analyze::write__CriteriaWLTMMCP"></span><span class="target" id="classAnalyze_1a37402b1d4ec220945c0f75f7aa86472b"></span><em class="property">virtual</em> void <code class="descname">write</code><span class="sig-paren">(</span><a class="reference internal" href="CriteriaWLTMMC.html#_CPPv214CriteriaWLTMMC" title="CriteriaWLTMMC">CriteriaWLTMMC</a> *<em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze5writeEP14CriteriaWLTMMC" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Print the analysis to a file for each macrostate in <a class="reference internal" href="CriteriaWLTMMC.html#classCriteriaWLTMMC"><span class="std std-ref">CriteriaWLTMMC</span></a>. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze13modifyRestartE10shared_ptrI6WLTMMCE">
+<span id="Analyze::modifyRestart__shared_ptr:WLTMMC:"></span><span class="target" id="classAnalyze_1a915402300178a0c4abdd0a1d9c5d4a6d"></span><em class="property">virtual</em> void <code class="descname">modifyRestart</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="WLTMMC.html#_CPPv26WLTMMC" title="WLTMMC">WLTMMC</a>&gt; <em>mc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze13modifyRestartE10shared_ptrI6WLTMMCE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Monkey patch to modify restart at run time for parallel restarting. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze12writeRestartEPKc">
+<span id="Analyze::writeRestart__cCP"></span><span class="target" id="classAnalyze_1a8a1af76b63861b368964e655c10d12fe"></span><em class="property">virtual</em> void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write restart file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze7AnalyzeEP4PairPKc">
+<span id="Analyze::Analyze__PairP.cCP"></span><span class="target" id="classAnalyze_1a5ebefa28b7b9c19582ac899167a7cd7a"></span><code class="descname">Analyze</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze7AnalyzeEP4PairPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct from restart file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze11reconstructEP4Pair">
+<span id="Analyze::reconstruct__PairP"></span><span class="target" id="classAnalyze_1a63476ad2ef623653d8d28885129eca03"></span>void <code class="descname">reconstruct</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze11reconstructEP4Pair" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reset object pointers. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N7Analyze5spaceEv">
+<span id="Analyze::space"></span><span class="target" id="classAnalyze_1ae29dde9c3c1ecb4628d6d014f37ccdb4"></span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<code class="descname">space</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze5spaceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return pointer to space from pair. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcase.html">Test cases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basetoc.html">Base Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="criteriatoc.html">Criteria Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Histogram.html">Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pairtoc.html">Pair Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomtoc.html">Random Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Space.html">Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trialtoc.html">Trial Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AbbreviatedUI.html">AbbreviatedUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Guidelines for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="analyzetoc.html"
+                        title="previous chapter">Analyze Classes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="AnalyzeCluster.html"
+                        title="next chapter">AnalyzeCluster</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="AnalyzeCluster.html" title="AnalyzeCluster"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="analyzetoc.html" title="Analyze Classes"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.2.2-2-gcfecc8aee4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="analyzetoc.html" >Analyze Classes</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

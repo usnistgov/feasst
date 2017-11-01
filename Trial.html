@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Trial &#8212; FEASST v0.2.2-2-gcfecc8aee4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v0.2.2-2-gcfecc8aee4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="TrialAdd" href="TrialAdd.html" />
+    <link rel="prev" title="Trial Classes" href="trialtoc.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="TrialAdd.html" title="TrialAdd"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="trialtoc.html" title="Trial Classes"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.2.2-2-gcfecc8aee4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="trialtoc.html" accesskey="U">Trial Classes</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="trial">
+<h1>Trial<a class="headerlink" href="#trial" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv25Trial">
+<span id="Trial"></span><span class="target" id="classTrial"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">Trial</code><a class="headerlink" href="#_CPPv25Trial" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#classTrial"><span class="std std-ref">Trial</span></a> move for Monte Carlo simulations.</p>
+<p>In order to create a new <a class="reference internal" href="#classTrial"><span class="std std-ref">Trial</span></a> derived class, copy an existing set of &#8220;trial_*&#8221; files and replace the class name and header guards (e.g. BASECLASS_DERIVED_H_).</p>
+<p>The <a class="reference internal" href="MC.html#classMC"><span class="std std-ref">MC</span></a> class only knows the base <a class="reference internal" href="#classTrial"><span class="std std-ref">Trial</span></a> class. In some cases you may need to add a feature to the base <a class="reference internal" href="#classTrial"><span class="std std-ref">Trial</span></a> class, but try to avoid this if possible. </p>
+<p>Inherits from <a class="reference internal" href="BaseRandom.html#classBaseRandom"><span class="std std-ref">BaseRandom</span></a></p>
+<p>Subclassed by <a class="reference internal" href="TrialAdd.html#classTrialAdd"><span class="std std-ref">TrialAdd</span></a>, <a class="reference internal" href="TrialConfSwapOMP.html#classTrialConfSwapOMP"><span class="std std-ref">TrialConfSwapOMP</span></a>, <a class="reference internal" href="TrialConfSwapTXT.html#classTrialConfSwapTXT"><span class="std std-ref">TrialConfSwapTXT</span></a>, <a class="reference internal" href="TrialDelete.html#classTrialDelete"><span class="std std-ref">TrialDelete</span></a>, <a class="reference internal" href="TrialSwap.html#classTrialSwap"><span class="std std-ref">TrialSwap</span></a>, <a class="reference internal" href="TrialTransform.html#classTrialTransform"><span class="std std-ref">TrialTransform</span></a>, <a class="reference internal" href="TrialXSwap.html#classTrialXSwap"><span class="std std-ref">TrialXSwap</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N5Trial5TrialEP4PairP8Criteria">
+<span id="Trial::Trial__PairP.CriteriaP"></span><span class="target" id="classTrial_1a713737edd1d51d35760eab37df54c30e"></span><code class="descname">Trial</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="Criteria.html#_CPPv28Criteria" title="Criteria">Criteria</a> *<em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial5TrialEP4PairP8Criteria" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N5Trial5TrialEv">
+<span id="Trial::Trial"></span><span class="target" id="classTrial_1a7e5eac99fded2d006692cfde60ff494d"></span><code class="descname">Trial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial5TrialEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constructor is not often used, but its purpose is to initialize trial for interface before using reconstruct to set object pointers. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N5Trial15replaceCriteriaEP8Criteria">
+<span id="Trial::replaceCriteria__CriteriaP"></span><span class="target" id="classTrial_1a9c8dbbf113451ac30ff4f77518c13746"></span>void <code class="descname">replaceCriteria</code><span class="sig-paren">(</span><a class="reference internal" href="Criteria.html#_CPPv28Criteria" title="Criteria">Criteria</a> *<em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial15replaceCriteriaEP8Criteria" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Replace or restore criteria pointer. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N5Trial7attemptEv">
+<span id="Trial::attempt"></span><span class="target" id="classTrial_1abf8bcf64340da7a7ee092f4bbbf906db"></span>void <code class="descname">attempt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial7attemptEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attempt trial. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N5Trial8zeroStatEv">
+<span id="Trial::zeroStat"></span><span class="target" id="classTrial_1af23b8c2af24ddf8b93227bcba615c135"></span>void <code class="descname">zeroStat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial8zeroStatEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize trial move counters and statistics. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N5Trial13numFirstBeadsEKi">
+<span id="Trial::numFirstBeads__iC"></span><span class="target" id="classTrial_1aba0e4fcd3c19cd122f5e653199e37dd8"></span>void <code class="descname">numFirstBeads</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nf</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial13numFirstBeadsEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the number of first bead attempts, nf. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N5Trial7initAVBEKdKd">
+<span id="Trial::initAVB__doubleC.doubleC"></span><span class="target" id="classTrial_1af28d8c7e45d20dec17f32bc373b3cf9e"></span>void <code class="descname">initAVB</code><span class="sig-paren">(</span><em class="property">const</em> double <em>rAbove</em>, <em class="property">const</em> double <em>rBelow</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial7initAVBEKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize aggregation volume bias region. Aggregation-volume-bias Monte Carlo simulations of vapor-liquid nucleation barriers for Lennard-Jonesium J. Chem. Phys., Vol. 115, No. 23, 15 December 2001 <dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">rAbove</span></code>: upper limit of bond </li>
+<li><code class="docutils literal"><span class="pre">rBelow</span></code>: lower limit of bond </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N5Trial7confineEKdKdKi">
+<span id="Trial::confine__doubleC.doubleC.iC"></span><span class="target" id="classTrial_1a5b3835bd7f813b45207104c97617c62c"></span>void <code class="descname">confine</code><span class="sig-paren">(</span><em class="property">const</em> double <em>upper</em>, <em class="property">const</em> double <em>lower</em>, <em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial7confineEKdKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Confine trials to particular values of a given dimension. Note that these confines apply to the center of mass. <dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">upper</span></code>: upper limit of insertions </li>
+<li><code class="docutils literal"><span class="pre">lower</span></code>: lower limit of insertions </li>
+<li><code class="docutils literal"><span class="pre">dimension</span></code>: dimension for bounds above (e.g., z is &#8220;2&#8221;) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N5Trial18initializeNMolSeekEKi">
+<span id="Trial::initializeNMolSeek__iC"></span><span class="target" id="classTrial_1a33a1d9a76fedf7b65e596fe6f68f1dae"></span>void <code class="descname">initializeNMolSeek</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nPartTarget</em> = -1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial18initializeNMolSeekEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Indicate that the trial is being performed to reach a certain number of particles, nPartTarget. Therefore, detailed balance may not need to be obeyed in order to speed up nMolSeek. If nPartTarget == -1, then there is no seeking. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N5Trial9printStatEKb">
+<span id="Trial::printStat__bC"></span><span class="target" id="classTrial_1a9d3ddc13c9dd0effd713fbac875b314a"></span>string <code class="descname">printStat</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>header</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial9printStatEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return status of trial. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK5Trial9attemptedEv">
+<span id="Trial::attemptedC"></span><span class="target" id="classTrial_1a526edd258583561b592b540218a8af06"></span>long long <code class="descname">attempted</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK5Trial9attemptedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>number of attempts </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK5Trial9acceptPerEv">
+<span id="Trial::acceptPerC"></span><span class="target" id="classTrial_1ae828a0771c89069b08090174e27050df"></span>double <code class="descname">acceptPer</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK5Trial9acceptPerEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>return trial acceptance percentage </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK5Trial2deEv">
+<span id="Trial::deC"></span><span class="target" id="classTrial_1a81314dc694b286d58c12fcbaed219186"></span>double <code class="descname">de</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK5Trial2deEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>change in energy from last trial </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N5Trial5spaceEv">
+<span id="Trial::space"></span><span class="target" id="classTrial_1a5f2a9e1d4463ecf934eaad4f36fbba98"></span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<code class="descname">space</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial5spaceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return pointer to space from pair. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N5Trial12writeRestartEPKc">
+<span id="Trial::writeRestart__cCP"></span><span class="target" id="classTrial_1afd7a759407c3c75cab3ca20537690e27"></span><em class="property">virtual</em> void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write restart file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N5Trial5TrialEP4PairP8CriteriaPKc">
+<span id="Trial::Trial__PairP.CriteriaP.cCP"></span><span class="target" id="classTrial_1a065ccb121f8e6c73f822ecaf7ce78c67"></span><code class="descname">Trial</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="Criteria.html#_CPPv28Criteria" title="Criteria">Criteria</a> *<em>criteria</em>, <em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Trial5TrialEP4PairP8CriteriaPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct from restart file. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv2N5Trial12maxMoveParamE">
+<span id="Trial::maxMoveParam__double"></span><span class="target" id="classTrial_1a3448b11a76706ee8d4459d82914c54a4"></span>double <code class="descname">maxMoveParam</code><a class="headerlink" href="#_CPPv2N5Trial12maxMoveParamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>maximum parameter for move </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N5Trial11maxMoveFlagE">
+<span id="Trial::maxMoveFlag__i"></span><span class="target" id="classTrial_1a2c2821cc7472b4c5c41e1ae7dd1d57d5"></span>int <code class="descname">maxMoveFlag</code><a class="headerlink" href="#_CPPv2N5Trial11maxMoveFlagE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>maxMoveParam is changing if == 1 (print to log) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcase.html">Test cases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basetoc.html">Base Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="criteriatoc.html">Criteria Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Histogram.html">Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pairtoc.html">Pair Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomtoc.html">Random Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Space.html">Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="trialtoc.html">Trial Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AbbreviatedUI.html">AbbreviatedUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Guidelines for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="trialtoc.html"
+                        title="previous chapter">Trial Classes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="TrialAdd.html"
+                        title="next chapter">TrialAdd</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="TrialAdd.html" title="TrialAdd"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="trialtoc.html" title="Trial Classes"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.2.2-2-gcfecc8aee4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="trialtoc.html" >Trial Classes</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

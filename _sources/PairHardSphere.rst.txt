@@ -1,0 +1,6 @@
+PairHardSphere
+=====================================================
+
+.. doxygenclass:: PairHardSphere
+   :project: FEASST
+   :members:

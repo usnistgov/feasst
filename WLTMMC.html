@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>WLTMMC &#8212; FEASST v0.2.2-2-gcfecc8aee4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v0.2.2-2-gcfecc8aee4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Pair Classes" href="pairtoc.html" />
+    <link rel="prev" title="MC" href="MC.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="pairtoc.html" title="Pair Classes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="MC.html" title="MC"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.2.2-2-gcfecc8aee4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="mctoc.html" accesskey="U">MC Classes</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="wltmmc">
+<h1>WLTMMC<a class="headerlink" href="#wltmmc" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv26WLTMMC">
+<span id="WLTMMC"></span><span class="target" id="classWLTMMC"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">WLTMMC</code><a class="headerlink" href="#_CPPv26WLTMMC" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attempts Monte Carlo trials with flat-histogram methods. </p>
+<p>Inherits from <a class="reference internal" href="MC.html#classMC"><span class="std std-ref">MC</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC6WLTMMCEP5SpaceP4PairP14CriteriaWLTMMC">
+<span id="WLTMMC::WLTMMC__SpaceP.PairP.CriteriaWLTMMCP"></span><span class="target" id="classWLTMMC_1aa23f0caacfcabc9ba831abb92dfda069"></span><code class="descname">WLTMMC</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<em>space</em>, <a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="CriteriaWLTMMC.html#_CPPv214CriteriaWLTMMC" title="CriteriaWLTMMC">CriteriaWLTMMC</a> *<em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC6WLTMMCEP5SpaceP4PairP14CriteriaWLTMMC" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC10initColMatEPKcKi">
+<span id="WLTMMC::initColMat__cCP.iC"></span><span class="target" id="classWLTMMC_1af8feb869a888936243ebacc643432efa"></span>void <code class="descname">initColMat</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>nfreq</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC10initColMatEPKcKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize collection matrix file name. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC12runNumSweepsEKiKx">
+<span id="WLTMMC::runNumSweeps__iC.l-lC"></span><span class="target" id="classWLTMMC_1a3c047ee149be4086d86160f3e3302ee5"></span>void <code class="descname">runNumSweeps</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nSweeps</em>, <em class="property">const</em> long long <em>nprMax</em> = -1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC12runNumSweepsEKiKx" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Run for a number of sweeps. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">nSweeps</span></code>: target number of sweeps </li>
+<li><code class="docutils literal"><span class="pre">nprMax</span></code>: maximum number of attempts </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC16wlFlatProductionEKi">
+<span id="WLTMMC::wlFlatProduction__iC"></span><span class="target" id="classWLTMMC_1ac1ed3eb231f4885912d26284e8c38f7c"></span>void <code class="descname">wlFlatProduction</code><span class="sig-paren">(</span><em class="property">const</em> int <em>wlFlatProd</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC16wlFlatProductionEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize production run. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC15wlFlatTerminateEKi">
+<span id="WLTMMC::wlFlatTerminate__iC"></span><span class="target" id="classWLTMMC_1a91133ea69946e6450a3dd6857f1f22b4"></span>void <code class="descname">wlFlatTerminate</code><span class="sig-paren">(</span><em class="property">const</em> int <em>wlFlat</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC15wlFlatTerminateEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set this to 1 if you want to use runNumSweeps(wlFlat) where you input wlFlats instead of sweeps. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC27setProcessorFileDescriptionEPKc">
+<span id="WLTMMC::setProcessorFileDescription__cCP"></span><span class="target" id="classWLTMMC_1a604d5038b59aff1391f253e29a7d30b6"></span>void <code class="descname">setProcessorFileDescription</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>append</em> = &quot;_core&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC27setProcessorFileDescriptionEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For renaming files for individual processors, set the appended name. For example, the default &#8220;p&#8221; would rename files &#8220;file&#8221; -&gt; &#8220;filep0&#8221; </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC19runNumSweepsRestartEKiPKc">
+<span id="WLTMMC::runNumSweepsRestart__iC.cCP"></span><span class="target" id="classWLTMMC_1a8baffb1a60dbb6c315a6ad9a029c15d5"></span>void <code class="descname">runNumSweepsRestart</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nSweeps</em>, <em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC19runNumSweepsRestartEKiPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">nSweeps</span></code>: target number of sweeps </li>
+<li><code class="docutils literal"><span class="pre">fileName</span></code>: restart file name </li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Run number of sweeps from restart file which is the clone for a spawn of parallel runs. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC11initWindowsEi">
+<span id="WLTMMC::initWindows__i"></span><span class="target" id="classWLTMMC_1a42f375e9a845cc6a9cd075ebbc784567"></span>void <code class="descname">initWindows</code><span class="sig-paren">(</span>int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC11initWindowsEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">flag</span></code>: use OMP if flag == 1 </li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Initialize OMP windows. Note that the number of OMP processors is set by the bash environment. For example, &#8220;export OMP_NUM_THREADS=4&#8221;. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC11initWindowsEKdKi">
+<span id="WLTMMC::initWindows__doubleC.iC"></span><span class="target" id="classWLTMMC_1ada6b7ad6501179fedf90cf05a7a7522d"></span>void <code class="descname">initWindows</code><span class="sig-paren">(</span><em class="property">const</em> double <em>nExp</em>, <em class="property">const</em> int <em>nOverlap</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC11initWindowsEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize OMP windows with nExp determining spacing and nOverlap extra macrostates with processor overlaps. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC19initWindowsParaTempEKdKd">
+<span id="WLTMMC::initWindowsParaTemp__doubleC.doubleC"></span><span class="target" id="classWLTMMC_1af34372a6a2f71eb6194607c30555ac13"></span>void <code class="descname">initWindowsParaTemp</code><span class="sig-paren">(</span><em class="property">const</em> double <em>betaInc</em>, <em class="property">const</em> double <em>lnzInc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC19initWindowsParaTempEKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize OMP windows for parallel tempering. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC7nMolMaxEKxKdKi">
+<span id="WLTMMC::nMolMax__l-lC.doubleC.iC"></span><span class="target" id="classWLTMMC_1a872ffe1d2238ac346c5bc97a07b5848e"></span>int <code class="descname">nMolMax</code><span class="sig-paren">(</span><em class="property">const</em> long long <em>npr</em>, <em class="property">const</em> double <em>activ</em>, <em class="property">const</em> int <em>nMolExtra</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC7nMolMaxEKxKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">npr</span></code>: number of steps in production run </li>
+<li><code class="docutils literal"><span class="pre">activ</span></code>: large activity </li>
+<li><code class="docutils literal"><span class="pre">nMolExtra</span></code>: add extra mols </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC16nMolResizeWindowEKdKi">
+<span id="WLTMMC::nMolResizeWindow__doubleC.iC"></span><span class="target" id="classWLTMMC_1a0a8315e053286896c8b1e7d8593dc65d"></span>void <code class="descname">nMolResizeWindow</code><span class="sig-paren">(</span><em class="property">const</em> double <em>liquidDrop</em>, <em class="property">const</em> int <em>round</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC16nMolResizeWindowEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">liquidDrop</span></code>: targeted drop off of liquid peak </li>
+<li><code class="docutils literal"><span class="pre">round</span></code>: round up to the nearest factor </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC15nMolSeekInRangeEKiKi">
+<span id="WLTMMC::nMolSeekInRange__iC.iC"></span><span class="target" id="classWLTMMC_1a7b78c457a3b4a785aa6fe6fc89d78433"></span>void <code class="descname">nMolSeekInRange</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nMin</em>, <em class="property">const</em> int <em>nMax</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC15nMolSeekInRangeEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Seek particle number which is in the range of <a class="reference internal" href="#classWLTMMC"><span class="std std-ref">WLTMMC</span></a>. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC15appendFileNamesEPKc">
+<span id="WLTMMC::appendFileNames__cCP"></span><span class="target" id="classWLTMMC_1a6a42d66d177bbdd609edfe66d4d6b0e2"></span>void <code class="descname">appendFileNames</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>chars</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC15appendFileNamesEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Append chars to all file names. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC18checkTrialCriteriaEv">
+<span id="WLTMMC::checkTrialCriteria"></span><span class="target" id="classWLTMMC_1ae5de3b562f807a434aee6cf8ccd2f068"></span>int <code class="descname">checkTrialCriteria</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC18checkTrialCriteriaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check that criteria of all trials match. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC8printSatEv">
+<span id="WLTMMC::printSat"></span><span class="target" id="classWLTMMC_1ad4ca9907e1d1795125ae9f6dec598697"></span>vector&lt;double&gt; <code class="descname">printSat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC8printSatEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Print saturation summary. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC12initOverlapsEKiP6vectorI10shared_ptrI6WLTMMCEE">
+<span id="WLTMMC::initOverlaps__iC.vector:shared_ptr:WLTMMC::P"></span><span class="target" id="classWLTMMC_1abe739ff0d5a0695619bf567ae5270184"></span>void <code class="descname">initOverlaps</code><span class="sig-paren">(</span><em class="property">const</em> int <em>t</em>, vector&lt;shared_ptr&lt;<a class="reference internal" href="#_CPPv26WLTMMC" title="WLTMMC">WLTMMC</a>&gt;&gt; *<em>clones</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC12initOverlapsEKiP6vectorI10shared_ptrI6WLTMMCEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize overlapping processors for OMP configuration swap trials. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC23initConfigBiasDensThresEKd">
+<span id="WLTMMC::initConfigBiasDensThres__doubleC"></span><span class="target" id="classWLTMMC_1a4e8246dc46e0bb5fe074029d246ac5cd"></span>void <code class="descname">initConfigBiasDensThres</code><span class="sig-paren">(</span><em class="property">const</em> double <em>thres</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC23initConfigBiasDensThresEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize density threshold such that Configurational Bias is only performed when nMolMax/V &gt; thres. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC1cEv">
+<span id="WLTMMC::c"></span><span class="target" id="classWLTMMC_1a69546e0051d132f3ebdb1f00e257fd30"></span><a class="reference internal" href="CriteriaWLTMMC.html#_CPPv214CriteriaWLTMMC" title="CriteriaWLTMMC">CriteriaWLTMMC</a> *<code class="descname">c</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC1cEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return pointer to <a class="reference internal" href="#classWLTMMC"><span class="std std-ref">WLTMMC</span></a> acceptance criteria class. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6WLTMMC8nWindowsEv">
+<span id="WLTMMC::nWindowsC"></span><span class="target" id="classWLTMMC_1a632ba61ea76ab8936b2c5a99c8cdd70c"></span>int <code class="descname">nWindows</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6WLTMMC8nWindowsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of windows for OMP parallelization. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC12writeRestartEPKc">
+<span id="WLTMMC::writeRestart__cCP"></span><span class="target" id="classWLTMMC_1a7a1467cd313695a3f4c7e75e1887912d"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write restart file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6WLTMMC6WLTMMCEPKc">
+<span id="WLTMMC::WLTMMC__cCP"></span><span class="target" id="classWLTMMC_1aa4849dceaad1b49c3784ba1cb9d72b41"></span><code class="descname">WLTMMC</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6WLTMMC6WLTMMCEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct from restart file. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcase.html">Test cases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basetoc.html">Base Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="criteriatoc.html">Criteria Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Histogram.html">Histogram</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pairtoc.html">Pair Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomtoc.html">Random Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Space.html">Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trialtoc.html">Trial Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AbbreviatedUI.html">AbbreviatedUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Guidelines for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="MC.html"
+                        title="previous chapter">MC</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pairtoc.html"
+                        title="next chapter">Pair Classes</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="pairtoc.html" title="Pair Classes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="MC.html" title="MC"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.2.2-2-gcfecc8aee4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="mctoc.html" >MC Classes</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

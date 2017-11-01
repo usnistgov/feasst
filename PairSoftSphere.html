@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>PairSoftSphere &#8212; FEASST v0.2.2-2-gcfecc8aee4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v0.2.2-2-gcfecc8aee4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="PairSquareWell" href="PairSquareWell.html" />
+    <link rel="prev" title="PairPatchKF" href="PairPatchKF.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="PairSquareWell.html" title="PairSquareWell"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="PairPatchKF.html" title="PairPatchKF"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.2.2-2-gcfecc8aee4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="pairtoc.html" accesskey="U">Pair Classes</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pairsoftsphere">
+<h1>PairSoftSphere<a class="headerlink" href="#pairsoftsphere" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv214PairSoftSphere">
+<span id="PairSoftSphere"></span><span class="target" id="classPairSoftSphere"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">PairSoftSphere</code><a class="headerlink" href="#_CPPv214PairSoftSphere" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Soft sphere pair-wise interaction, <span class="math">\( U=eps(sig/r)^n \)</span> </p>
+<p>Inherits from <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N14PairSoftSphere14PairSoftSphereEP5SpaceKd">
+<span id="PairSoftSphere::PairSoftSphere__SpaceP.doubleC"></span><span class="target" id="classPairSoftSphere_1aa23ffe46baa3f65a19babc42f207f0c1"></span><code class="descname">PairSoftSphere</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<em>space</em>, <em class="property">const</em> double <em>rCut</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14PairSoftSphere14PairSoftSphereEP5SpaceKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor <dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">rCut</span></code>: interaciton cut off distance </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N14PairSoftSphere12initExponentEKi">
+<span id="PairSoftSphere::initExponent__iC"></span><span class="target" id="classPairSoftSphere_1a58797b6ddacc3c812bae59fadd2a0170"></span>void <code class="descname">initExponent</code><span class="sig-paren">(</span><em class="property">const</em> int <em>n</em> = 12<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14PairSoftSphere12initExponentEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize the potential parameter exponent (default below). </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK14PairSoftSphere8exponentEv">
+<span id="PairSoftSphere::exponentC"></span><span class="target" id="classPairSoftSphere_1ad2fac903731f135134aea32549b36e6e"></span>double <code class="descname">exponent</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK14PairSoftSphere8exponentEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the exponential parameter. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N14PairSoftSphere9b2reducedEv">
+<span id="PairSoftSphere::b2reduced"></span><span class="target" id="classPairSoftSphere_1ab788ecbe71873477e3e927c8b0ce06a5"></span>double <code class="descname">b2reduced</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14PairSoftSphere9b2reducedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the reduced second virial coefficient, b2~ = b2(beta eps)^(-3/n==12) as a reference </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N14PairSoftSphere25multiPartEnerAtomCutInnerERKdRKiRKi">
+<span id="PairSoftSphere::multiPartEnerAtomCutInner__doubleCR.iCR.iCR"></span><span class="target" id="classPairSoftSphere_1afb5574ae20b206ff6882dd6cb85eb223"></span>void <code class="descname">multiPartEnerAtomCutInner</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r2</em>, <em class="property">const</em> int &amp;<em>itype</em>, <em class="property">const</em> int &amp;<em>jtype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14PairSoftSphere25multiPartEnerAtomCutInnerERKdRKiRKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the interaction between two particles itype and jtype separated by a squared distance r2=r*r. Increments the interaction in the <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a> class variable &#8220;peSRone_&#8221;. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N14PairSoftSphere12writeRestartEPKc">
+<span id="PairSoftSphere::writeRestart__cCP"></span><span class="target" id="classPairSoftSphere_1a360edd608636d89dc84966d690885c2d"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14PairSoftSphere12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write restart file. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcase.html">Test cases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basetoc.html">Base Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="criteriatoc.html">Criteria Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Histogram.html">Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="pairtoc.html">Pair Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomtoc.html">Random Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Space.html">Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trialtoc.html">Trial Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AbbreviatedUI.html">AbbreviatedUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Guidelines for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="PairPatchKF.html"
+                        title="previous chapter">PairPatchKF</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="PairSquareWell.html"
+                        title="next chapter">PairSquareWell</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="PairSquareWell.html" title="PairSquareWell"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="PairPatchKF.html" title="PairPatchKF"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.2.2-2-gcfecc8aee4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="pairtoc.html" >Pair Classes</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

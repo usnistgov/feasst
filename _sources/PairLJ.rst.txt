@@ -1,0 +1,6 @@
+PairLJ
+=====================================================
+
+.. doxygenclass:: PairLJ
+   :project: FEASST
+   :members:

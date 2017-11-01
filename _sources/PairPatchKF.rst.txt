@@ -1,0 +1,6 @@
+PairPatchKF
+=====================================================
+
+.. doxygenclass:: PairPatchKF
+   :project: FEASST
+   :members:
