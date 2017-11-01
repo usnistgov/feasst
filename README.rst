@@ -15,7 +15,7 @@ simulations with flat-histogram Monte Carlo and molecular dynamics methods.
 Features
 ########
 
-.. image:: feasst.png
+.. image:: https://pages.nist.gov/feasst/_images/feasst.png
    :target: https://pages.nist.gov/feasst
    :align: right
 
