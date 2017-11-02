@@ -300,3 +300,13 @@ To do list
 * Add test case with AnalyzeCluster and AnalyzeScatter.
 * Add test case with PairTabular1D (and/or improve beyond linear interpolation).
 * Incorporate more "tools" as part of the test cases (e.g., rw, restart, xyz2bin, etc).
+* move buildexample to tools/dev ?
+* add html favicon
+* fix or remove html search feature
+* feasst.nist.gov instead of pages.nist.gov/feasst ?
+* redirect html landing page to readme?
+* sphinx_rtd_theme doesn't work with NIST header/footer
+* automate update of tools/package/stubs/buildtemplate/CMakeLists when buildtemplate/CMakeLists is editted.
+* Use short version number for display on FEASST html
+
+

@@ -3,6 +3,8 @@
 FEASST: Free Energy and Advanced Sampling Simulation Toolkit
 =============================================================
 
+.. include:: ../README.rst
+
 Contents:
 
 .. image:: feasst.png
