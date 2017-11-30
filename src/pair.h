@@ -28,6 +28,10 @@ namespace feasst {
  * This class owns variables and functions associated with these interactions
  * such as the forces, potential energy and virial (pressure).
  *
+ * All Pair classes are expected to have the following
+ *  - initialization via data file, which sets the epsilons and sigmas
+ *  - interaction cutoff distance
+ *
  * In order to create a custom Pair, you can follow two similar procedures.
  *
  * First, you may define a custom Pair code in the same file as
@@ -56,28 +60,18 @@ class Pair : public BaseRandom {
   void Forces() { return initEnergy(); }
 
   /// Return potential energy of multiple particles.
-  // HWH depreciate the flag?
   virtual double multiPartEner(const vector<int> multiPart, const int flag);
-
-  /// Return potential energy of multipe particles with atom-based cutoff in 3D.
-  virtual double multiPartEnerAtomCut(const vector<int> multiPart);
-
-  /// Return potential energy of multipe particles with atom-based cutoff in 2D.
-  virtual double multiPartEnerAtomCut2D(const vector<int> multiPart);
-
-  /// Return potential energy of multiple particles with molecular-based cutoff
-  /// in 3D.
-  // HWH depreciate the flag?
-  virtual double multiPartEner3D(const vector<int> multiPart);
 
   /**
    * Compute the interaction between two particles itype and jtype separated
    * by a squared distance r2=r*r.
    * Increments the interaction in the Pair class variable "peSRone_".
+   * Return 1 if particles are neighbors.
    */
-  virtual void multiPartEnerAtomCutInner(const double &r2, const int &itype,
+  virtual int multiPartEnerAtomCutInner(const double &r2, const int &itype,
     const int &jtype) {
-    ASSERT(itype*jtype == r2, "multiPartEnerAtomCutInner not implemented"); }
+    ASSERT(itype*jtype == r2, "multiPartEnerAtomCutInner not implemented");
+    return 1; }
 
   /// Compute the interaction between two particles itype and jtype separated
   /// by a squared distance r2=r*r. Calls multiPartEnerAtomCutInner for energy,
@@ -95,21 +89,16 @@ class Pair : public BaseRandom {
     /// If flag == 2, compute without optimizations (e.g., cells, etc)
     const int flag = 1);
 
-  /// Compute potential energy and forces of all particles with atom-based
-  /// cut-off and no cell list in 3D.
-  double allPartEnerForceAtomCutNoCell();
-
-  /// Compute potential energy and forces of all particles with atom-based
-  /// cut-off and no cell list in 2D.
-  double allPartEnerForceAtomCutNoCell2D();
-
-  /// Compute potential energy and forces of all particles with atom-based
-  /// cut-off and cell list in 3D.
-  double allPartEnerForceAtomCutCell();
-
   /// Compute potential energy and forces of all particles with molecule-based
   /// cut-off and no cell list in 3D.
   double allPartEnerForceNoCell();
+
+  /// Compute interactions between two molecules.
+  /// For the default behavior in Pair, loop through each site and consider
+  /// rCut between each site.
+  virtual void allPartEnerForceMolCutInner(const double r2,
+    const int iMol, const int jMol, const double dx,
+    const double dy, const double dz);
 
   /// Store, restore or update variables to avoid recompute
   /// of entire configuration after every trial particle move.
@@ -221,7 +210,7 @@ class Pair : public BaseRandom {
    * Return 1 if the currently stored energy of the configuration matches.
    *  flag=0, check currently stroed peTot_ vs recomputed with initEnergy()
    *  flag=1, check peTot_ from initEnergy() vs peTot_ from multiPartEner with
-   *    mpart=all atoms
+   *    mpart=all atoms. This fails for intramolecular interactions.
    *  flag=2, check COM forces, fCOM_ from initEnergy() vs allPartEnerForce()
    */
   int checkEnergy(const double tol, const int flag);
@@ -421,6 +410,9 @@ class Pair : public BaseRandom {
   /// reset space pointer
   virtual void reconstruct(Space* space);
 
+  /// Compute forces if 1 (default 0)
+  virtual void initForces(const int flag) { forcesFlag_ = flag; }
+
  protected:
   Space* space_;
   int dimen_;       //!< spatial dimensionality
@@ -549,9 +541,58 @@ class Pair : public BaseRandom {
 
   /// VMD labels read for data file
   vector<string> VMDlabels_;
+
+  /*
+   Here begins the pair-wise "loop" routines for interactions between particles
+   and sites. Note, particles may also be referred to as molecules.
+
+   The different types of loops are listed below, with their nomenclature:
+   1. Site vs Mol :: site-based vs molecule-based loop
+
+   If a site has eps == 0 and skipEPS0 != 0, then it is skipped.
+   Attempts to use cell list and/or neighborlist if available
+   */
+  virtual double pairLoopSite_(
+    /// must be sorted (due to set_difference operation)
+    const vector<int> &siteList,
+    /// set to 1 to force no use of cell list (error checking)
+    const int noCell = 0);
+  double pairLoopMol_(const vector<int> &siteList, const int noCell = 0);
+
+  /// Overload default such that siteList is all sites in space
+  double pairLoopSite_(const int noCell = 0) {
+    const vector<int> &allSites = space_->listAtoms();
+    return pairLoopSite_(allSites, noCell); }
+
+  /// Compute the interaction between two sites
+  virtual void pairSiteSite_(
+    const int &iSiteType,  //!< type of first site
+    const int &jSiteType,  //!< type of second site
+    double * energy,      //!< energy of interaction
+    double * force,       //!< force/rij of interaction
+    int * neighbor,       //!< 1 if neighbor, 0 otherwise
+    const double &dx,      //!< x-dimension separation
+    const double &dy,      //!< y-dimension separation
+    const double &dz       //!< z-dimension separation
+    ) { ASSERT(0, "not implemented"); }
+
+  /// Return whether or not to use a cell list
+  bool useCellForSite_(
+    /// Particle type. Use -1 for all types.
+    const int itype = -1);
+
+  /// Tag a site as a neighbor of another site within Subset loop
+  void setNeighbor_(const double &r2,   //!< squared separation distance
+    const int &siteIndex,  //!< index of siteList in pairSubset
+    const int &neighSite,   //!< (space) site index of neighboring site
+    const int &siteType,    //!< type of site in siteList
+    const int &neighType    //!< type of site for neighbor
+    );
+
+  int forcesFlag_ = 0;  // compute forces if == 1
 };
 
-/// Factory method.
+/// Factory method with implementation generated at build time.
 Pair* makePair(Space* space, const char* fileName);
 
 #ifdef FEASST_NAMESPACE_

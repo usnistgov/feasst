@@ -26,9 +26,10 @@ using namespace feasst;
 TEST(TrialConfSwapTXT, confswap) {
   Space s(3, 0);
   s.initBoxLength(12);
-  s.addMolInit("../forcefield/data.lj");
-  for (int i = 0; i < 12; ++i) s.addMol("../forcefield/data.lj");
-  PairLJ p(&s, 3);
+  PairLJ p(&s, 3, {{"molType", "../forcefield/data.lj"}});
+  for (int i = 0; i < 12; ++i) {
+    p.addMol("../forcefield/data.lj");
+  }
   CriteriaMetropolis c(0.5, 0.01);
   TrialTransform tt(&p, &c, "translate");
   tt.maxMoveParam = 5;

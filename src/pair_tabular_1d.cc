@@ -38,13 +38,17 @@ void PairTabular1D::writeRestart(const char* fileName) {
   file << "# tabFileName " << tabFileName_ << endl;
 }
 
-void PairTabular1D::multiPartEnerAtomCutInner(
-  const double &r2, const int &itype, const int &jtype) {
-  if (r2 < pow(rCutInner_[itype][jtype], 2.)) {
-    peSRone_ += NUM_INF;
+void PairTabular1D::pairSiteSite_(const int &iSiteType, const int &jSiteType,
+  double * energy, double * force, int * neighbor, const double &dx,
+  const double &dy, const double &dz) {
+  const double r2 = dx*dx + dy*dy + dz*dz;
+  const double rCutInner = rCutInner_[iSiteType][jSiteType];
+  if (r2 < rCutInner*rCutInner) {
+    *energy = NUM_INF;
   } else {
-    peSRone_ += peTable_[itype][jtype]->interpolate(r2);
+    *energy = peTable_[iSiteType][jSiteType]->interpolate(r2);
   }
+  *neighbor = 1;
 }
 
 void PairTabular1D::readTable(const char* fileName) {

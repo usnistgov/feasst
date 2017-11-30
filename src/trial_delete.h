@@ -59,6 +59,9 @@ class TrialDelete : public Trial {
     return(std::static_pointer_cast<TrialDelete, Trial>
     (cloneImpl(pair, criteria))); }
 
+  // experimental attempt to delete two particles
+  int delTwo = 0;
+
  protected:
   string molType_;   //!< type of molecule to delete
   int molid_;        //!< index of molecule type

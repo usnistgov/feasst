@@ -3,29 +3,27 @@
 FEASST: Free Energy and Advanced Sampling Simulation Toolkit
 =============================================================
 
-.. include:: ../README.rst
+.. include:: README.rst
 
 Contents:
 
-.. image:: feasst.png
+.. image:: sphinx/feasst.png
    :align: right
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
-   readme
-   testcase
-   api
-   faq
-   dev
-   contrib
-   contact
-   citation
+   README
+   TESTCASE
+   build/api
+   FAQ
+   sphinx/dev
+   CONTRIBUTORS
+   sphinx/contact
+   CITATION
 
-Indices and tables
+Index
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 

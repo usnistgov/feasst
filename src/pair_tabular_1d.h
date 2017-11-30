@@ -46,15 +46,17 @@ class PairTabular1D : public Pair {
   virtual ~PairTabular1D() {}
   virtual PairTabular1D* clone(Space* space) const;
 
-  /// potential energy and forces of all particles
-  void multiPartEnerAtomCutInner(const double &r2, const int &itype,
-    const int &jtype);
-
  protected:
   vector<vector<double> > rCutInner_;      //!< hard sphere below inner cut-off
   vector<vector<shared_ptr<Table> > > peTable_;  //!< table for potential energy
   string tabFileName_;
   double tol_;      //!< table tolerance
+
+  // See comments of derived class from Pair
+  void pairSiteSite_(const int &iSiteType, const int &jSiteType,
+    double * energy, double * force, int * neighbor, const double &dx,
+    const double &dy, const double &dz);
+
 
   // defaults in constructor
   void defaultConstruction_();

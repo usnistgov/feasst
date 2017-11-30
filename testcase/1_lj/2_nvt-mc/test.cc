@@ -8,9 +8,7 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "pair_lj.h"
-#include "mc.h"
-#include "trial_transform.h"
+#include "feasst.h"
 
 // Define a new Analyze class in order to compute the average potential energy
 class AnalyzeMonkeyPatch : public feasst::Analyze {
@@ -31,7 +29,6 @@ class AnalyzeMonkeyPatch : public feasst::Analyze {
 };
 
 int main() {  // LJ, SRSW_NVTMC
-  feasst::ranInitForRepro();
   feasst::Space space(3);
   const double rho = 1e-3;  // number density
   const int nMol = 500;     // number of particles
@@ -39,8 +36,7 @@ int main() {  // LJ, SRSW_NVTMC
   stringstream molNameSS;
   molNameSS << space.install_dir() << "/forcefield/data.lj";
   space.addMolInit(molNameSS.str().c_str());
-  feasst::PairLJ pair(&space, 3);   // potential truncation at 3
-  pair.initEnergy();
+  feasst::PairLJ pair(&space, 3, {{}});   // potential truncation at 3
   const double temperature = 0.9;
   feasst::CriteriaMetropolis criteria(1./temperature, 1.);
   feasst::MC mc(&space, &pair, &criteria);

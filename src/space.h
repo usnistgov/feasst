@@ -14,6 +14,7 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <map>
 #include "./functions.h"
 #include "./histogram.h"
 #include "./base_random.h"
@@ -112,6 +113,13 @@ class Space : public BaseRandom {
    *  needs be wrapped once. */
   vector<double> pbc(const vector<double> x);
 
+  /** Modify the separation distances due to minimum periodic images
+   *  Assumes box centered about the origin, and that the particle only
+   *  needs be wrapped once.
+   *  This is the "optimized" version used by pairLoop */
+  void pbc(double * dx, double * dy, double * dz,
+           const double &lx, const double &ly, const double &lz);
+
   /// Return random molecule as vector of particle numbers.
   vector<int> randMol();
 
@@ -164,13 +172,15 @@ class Space : public BaseRandom {
       x_[dimen_*iPart+j] = pos[j]; }
 
   /// Set length of domain boundary to "boxl" in given dimension.
-  void initBoxLength(double length, int dimension) {l_[dimension] = length; }
+  void initBoxLength(double length, int dimension) {
+    boxLength_[dimension] = length; }
+
   // HWH: Depreciate old name
   void lset(double length, int dimension) { initBoxLength(length, dimension); }
 
   /// Set length of domain boundary to "length" in all dimensions.
   void initBoxLength(double length) {
-    for (int dim = 0; dim < dimen_; ++dim) {l_[dim] = length; } }
+    for (int dim = 0; dim < dimen_; ++dim) {boxLength_[dim] = length; } }
   // HWH: Depreicate old name
   void lset(double length) { initBoxLength(length); }
 
@@ -576,7 +586,7 @@ class Space : public BaseRandom {
   int randMolofType(const int iMolType);
 
   /// Set maximum box length.
-  void setMaxBoxLength() { maxlFlag_ = 1; maxl_ = l_; }
+  void setMaxBoxLength() { maxlFlag_ = 1; maxl_ = boxLength_; }
 
   /// Print vmd script for visualization of trajectories.
   void printxyzvmd(const char* fileName,
@@ -622,11 +632,14 @@ class Space : public BaseRandom {
   vector<int> mol2part() const { return mol2part_; }
   vector<int> tag() const { return tag_; }
   double tagStage() const { return tagStage_; }
-  vector<double> l() const { return l_; }
-  double l(const int i) const { return l_[i]; }
+  vector<double> l() const { return boxLength_; }  //HWH NOTE: Depreciate
+  vector<double> boxLength() const { return boxLength_; }
+  double l(const int i) const { return boxLength_[i]; }  //HWH NOTE: Depreciate
+  double boxLength(const int i) const { return boxLength_[i]; }
   double vol() const { return volume(); }  // simulation domain volume:
   // HWH depreciate the above vol()
-  double volume() const { return product(l_); }  //!< simulation domain volume
+  /// Simulation domain volume
+  double volume() const { return product(boxLength_); }
   double type(const int i) const { return type_[i]; }
   vector<int> type() const { return type_; }
   vector<int> mol() const { return mol_; }
@@ -706,6 +719,9 @@ class Space : public BaseRandom {
   int equiMolar() const { return equiMolar_; }
   int percolation() const { return percolation_; }
   int eulerFlag() const { return eulerFlag_; }
+
+  /// Return true if the domain is tilted
+  bool tilted() const;
 
  private:
   int dimen_;     //!< dimesion of real space
@@ -861,7 +877,7 @@ class Space : public BaseRandom {
 
   // variables which describe the domain
   /// simulation domain length for real space periodic boundaries
-  vector<double> l_;
+  vector<double> boxLength_;
   /// flag is 1 if domain is constant throughout simulation, 0 otherwise
   double xyTilt_;                  //!< xy tilt factor
   double xzTilt_;                  //!< xz tilt factor

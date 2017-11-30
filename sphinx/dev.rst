@@ -186,6 +186,11 @@ GCC compilers allow testing of coverage with gcov and lcov for visualization.
 * Open coverage/index.html in your browser.
 * Go into "src" and ignore the external library coverage.
 
+Speed up compilation time with ccache
+######################################
+
+Seriously, if you haven't used ccache before, give it a try.
+
 Clean up with cpplint and pylint
 #######################################
 
@@ -300,13 +305,9 @@ To do list
 * Add test case with AnalyzeCluster and AnalyzeScatter.
 * Add test case with PairTabular1D (and/or improve beyond linear interpolation).
 * Incorporate more "tools" as part of the test cases (e.g., rw, restart, xyz2bin, etc).
-* move buildexample to tools/dev ?
-* add html favicon
-* fix or remove html search feature
 * feasst.nist.gov instead of pages.nist.gov/feasst ?
-* redirect html landing page to readme?
 * sphinx_rtd_theme doesn't work with NIST header/footer
-* automate update of tools/package/stubs/buildtemplate/CMakeLists when buildtemplate/CMakeLists is editted.
 * Use short version number for display on FEASST html
-
-
+* Implement assert failure testing with unittests.
+* Customize restart directory name
+* Move rCut to optional argument, after figuring out how to have map<string,string> work with base class arguments.

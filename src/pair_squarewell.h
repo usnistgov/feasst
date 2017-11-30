@@ -35,16 +35,18 @@ class PairSquareWell : public Pair {
   /// between particle types itype and jtype.
   void initHardSphere(const int itype, const int jtype);
 
-  // Overloaded virtual function from pair.h
-  void multiPartEnerAtomCutInner(const double &r2, const int &itype,
-                                 const int &jtype);
-
   // Construct from restart file
   PairSquareWell(Space* space, const char* fileName);
   virtual ~PairSquareWell() {}
   virtual PairSquareWell* clone(Space* space) const;
 
  protected:
+  // See comments of derived class from Pair
+  void pairSiteSite_(const int &iSiteType, const int &jSiteType,
+    double * energy, double * force, int * neighbor, const double &dx,
+    const double &dy, const double &dz);
+
+
   // defaults in constructor
   void defaultConstruction_();
 };

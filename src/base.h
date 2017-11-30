@@ -15,6 +15,7 @@
 #include <iomanip>
 #include <getopt.h>
 #include "./functions.h"
+#include "./arguments.h"
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -76,6 +77,7 @@ class Base {
   std::string className_;     //!< name of class
   string install_dir_;        //!< install directory
   int verbose_;               //!< flag for verbose printing
+  Arguments argparse_;        //!< argument parser
 
   /// Place-holder for derived objects to perform additional reconstruction.
   virtual void reconstructDerived_() {}

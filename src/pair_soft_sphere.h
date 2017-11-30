@@ -38,10 +38,6 @@ class PairSoftSphere : public Pair {
   /// b2~ = b2(beta eps)^(-3/n==12) as a reference
   double b2reduced();
 
-  // Overloaded virtual function from pair.h
-  void multiPartEnerAtomCutInner(const double &r2, const int &itype,
-                                 const int &jtype);
-
   // Write restart file.
   virtual void writeRestart(const char* fileName);
 
@@ -52,6 +48,12 @@ class PairSoftSphere : public Pair {
 
  protected:
   double n_;    // potential parameter for power order
+
+  // See comments of derived class from Pair
+  void pairSiteSite_(const int &iSiteType, const int &jSiteType,
+    double * energy, double * force, int * neighbor, const double &dx,
+    const double &dy, const double &dz);
+
 
   // defaults in constructor
   void defaultConstruction_();

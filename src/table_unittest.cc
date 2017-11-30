@@ -59,7 +59,6 @@ TEST(Table, solidRevDisck6nz1) {
 //  rm2.printHDF5("tmp/tablecyl1.hdf5");
 //  Table dep("../unittest/table/solidRev/cylinder_ar1k150nz4/tDep");
 //  dep.printHDF5("tmp/tablecyl1dep.hdf5");
-//  exit(0);
 }
 
 TEST(Table, lj) {

@@ -13,4 +13,4 @@ The following files may appear in the test cases.
 .. toctree::
    :glob:
 
-   testcase/*
+   build/testcase/*

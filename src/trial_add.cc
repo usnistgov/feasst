@@ -90,6 +90,12 @@ void TrialAdd::attempt1_() {
 
     // obtain vector of particle IDs of inserted molecule
     mpart_ = space()->lastMolIDVec();
+
+    if (addTwo != 0) {
+      space()->addMol(molType_.c_str());
+      const vector<int> mpart2 = space()->lastMolIDVec();
+      mpart_.insert(mpart_.end(), mpart2.begin(), mpart2.end());
+    }
   } else {
     // otherwise, add molecule only to confines
     bool inRegion = false;

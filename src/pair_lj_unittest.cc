@@ -11,17 +11,14 @@
 #include <gtest/gtest.h>
 #include "pair_lj.h"
 
-#ifdef FEASST_NAMESPACE_
 using namespace feasst;
-#endif  // FEASST_NAMESPACE_
 
 TEST(PairLJ, dim) {
-  for (int dimen = 1; dimen != 4; ++dimen) {
+  for (int dimen = 2; dimen < 4; ++dimen) {
     for (int natom = 1; natom != 5; ++natom) {
       Space s(dimen,0);
       s.init_config(natom);
-      PairLJ p(&s, 0.01);
-      p.initEnergy();
+      PairLJ p(&s, 0.01, {{}});
       vector<double> pe = p.pe();
       EXPECT_EQ(natom,int(pe.size()));
       vector<vector<double> > f = p.f();
@@ -39,47 +36,12 @@ TEST(PairLJ, dim) {
   }
 }
 
-// Check Forces between two particles against analytical expression
-
-TEST(PairLJ, analytical) {
-  const double boxl = 100;  // large domain size
-  const double rCut = 4.;
-  for (int dimen = 1; dimen != 2; ++dimen) {
-    Space s(dimen,0);
-    s.init_config(2);
-    s.initBoxLength(boxl);
-    PairLJ p(&s, rCut);
-    p.lrcFlag = 0;
-    s.xset(49., 0, 0);
-    s.xset(47., 1, 0);
-    while (s.x()[dimen*1+0] > -50.) {
-      p.initEnergy();
-      if (s.x()[dimen*1+0] == -1.) {
-        // particle outside of cuttoff
-        EXPECT_EQ(0, p.pe()[1]);
-        EXPECT_EQ(0, p.fCOM()[1][0]);
-      } else if (s.x(1,0) == 49.) {
-        // particle right next to other
-//        EXPECT_NEAR(-0.0605471, pair->pe()[1]*2., 1e-7);
-        EXPECT_NEAR(-0.061523455, p.pe()[1]*2., 1e-7);
-        EXPECT_NEAR(0.1816406, p.fCOM()[1][0], 1e-7);
-      } else if (s.x(1,0) == -49.) {
-        // particle right next to other, across pbc
-        EXPECT_NEAR(-0.061523455, p.pe()[1]*2., 1e-7);
-        EXPECT_NEAR(-0.1816406, p.fCOM()[1][0], 1e-7);
-      }
-      s.xset(s.x(1,0) - 48., 1, 0);
-    }
-  }
-}
-
 // Check that total potential energy using PairLJ gives same result as multiPartEner calculated for all particles individually, and halved
 
 TEST(PairLJ, checkEnergy) {
   Space s(3,0);
   s.init_config(12);
-  PairLJ p(&s, 5);
-  p.lrcFlag = 0;
+  feasst::PairLJ p(&s, 5, {{"cutType", "none"}});
   EXPECT_EQ(1, p.checkEnergy(1e-11, 1));
 }
 
@@ -87,7 +49,7 @@ TEST(PairLJ, addPartdelPart) {
   const int dim=3, natom=12, rCut=5;
   Space s(dim,0);
   s.init_config(natom);
-  PairLJ p(&s, rCut);
+  PairLJ p(&s, rCut, {{"cutType", "none"}});
 
   // remove particle
   vector<int> mpart(1, 0);
@@ -114,11 +76,8 @@ TEST(PairLJ, equltl43muvttmmc) {
   Space s(3, 0);
   s.initBoxLength(9);
   s.readXYZBulk(4, "equltl43", "../unittest/equltl43/two.xyz");
-  PairLJ p(&s, pow(2, 1./6.));
-  p.cutShift(1);
-  p.lrcFlag = 0;
-  p.initData("../forcefield/data.equltl43");
-  p.initEnergy();
+  PairLJ p(&s, pow(2, 1./6.), {{"cutType", "cutShift"},
+    {"molType", "../forcefield/data.equltl43"}});
   // energy should be equal to 3 wca beads touching at distance 1.1sig
   EXPECT_NEAR(3*(4*(pow(1.1,-12)-pow(1.1,-6))+1), p.peTot(), 1e-15);
   EXPECT_EQ(1, p.checkEnergy(1e-18, 1));
@@ -128,12 +87,8 @@ TEST(PairLJ, linearForceShiftLJ) {
   Space s(3, 0);
   s.initBoxLength(8);
   s.readXYZBulk(1, "atom", "../unittest/lj/srsw/lj_sample_config_periodic4.xyz");
-  s.addMolInit("../forcefield/data.lj");
-  PairLJ p(&s, 3);
-  p.linearShift(1);
-  p.initEnergy();
-  s.addMol("../forcefield/data.lj");
-  p.addPart();
+  PairLJ p(&s, 3, {{"cutType", "linearShift"}});
+  p.addMol();
   p.initEnergy();
   if (p.peTot() < 100) EXPECT_EQ(1, p.checkEnergy(1e-10, 1));
 }
@@ -142,11 +97,405 @@ TEST(PairLJ, exVol) {
   Space s(3, 0);
   s.initBoxLength(0);
   PairLJ p(&s, 1e-12);
-  p.initData("../forcefield/data.lj");
   p.addMol();
   const double boxl = 2.*(s.maxMolDist() + 1 + 0.1);
   s.initBoxLength(boxl);
   EXPECT_EQ(0, s.x(0,0));
   EXPECT_NEAR(4.*PI/3., p.exVol(1e2), 3e-3);
   //EXPECT_NEAR(4.*PI/3., p.exVol(1e3), 2e-4);
+}
+
+TEST(PairLJ, args) {
+  {
+    feasst::Space space;
+    feasst::PairLJ pair(&space, 3., {{}});
+    std::stringstream ss;
+    ss << space.install_dir() << "/forcefield/data.lj";
+    EXPECT_EQ(space.addMolListType().begin()->compare(ss.str()), 0);
+    EXPECT_EQ(pair.lrcFlag, 1);
+  }
+
+  {
+    feasst::Space space;
+    std::stringstream ss;
+    ss << space.install_dir() << "/forcefield/data.ljb";
+    feasst::PairLJ pair(&space, 3., {{"cutType", "cutShift"},
+      {"molType", ss.str()}});
+    EXPECT_EQ(space.addMolListType()[0], ss.str());
+    EXPECT_EQ(pair.lrcFlag, 0);
+  }
+  try {
+    feasst::Space s(3);
+    feasst::PairLJ p(&s, 5, {{"not/a/proper/arg", "error"}});
+    CATCH_PHRASE("is not recognized");
+  }
+
+  // cannot use "none" for molType with other arguments as well
+  try {
+    feasst::Space s(3);
+    feasst::PairLJ p(&s, 5, {{"molType", "none"}, {"cutType", "lrc"}});
+    CATCH_PHRASE("is not recognized");
+  }
+}
+
+TEST(PairLJ, WCAanalytical) {
+
+  // WCA for sig=1 and 0.85
+  for (double sig = 0.85; sig < 1.01; sig += 0.15) {
+    Space s(3,0);
+    s.initBoxLength(100);
+    stringstream ss;
+    ss << "../forcefield/data.lj";
+    if (sig == 0.85) ss << "s0.85";
+    PairLJ p(&s, 0., {{"molType", ss.str()}});
+    p.initWCA(0,0);
+    vector<double> x(s.dimen(), 0.);
+    p.addMol(x);
+    x[0] = 1.;
+    p.addMol(x);
+    EXPECT_NEAR(1, s.x(1,0) - s.x(0,0), 1e-15);
+    EXPECT_NEAR(0, s.x(1,1) - s.x(0,1), 1e-15);
+    EXPECT_NEAR(0, s.x(1,2) - s.x(0,2), 1e-15);
+
+
+    if (sig == 1) {
+      s.xset(1, 1, 0);
+      p.initEnergy();
+      EXPECT_NEAR(1, p.peTot(), DTOL);
+      s.xset(pow(2, 1./6.), 1, 0);
+      p.initEnergy();
+      EXPECT_NEAR(0, p.peTot(), DTOL);
+      s.xset(1.01, 1, 0);
+      p.initEnergy();
+      EXPECT_NEAR(0.781615960043788000, p.peTot(), DTOL);
+    } else {
+      s.xset(0.85, 1, 0);
+      p.initEnergy();
+      EXPECT_NEAR(1, p.peTot(), DTOL);
+      s.xset(pow(2, 1./6.)*0.85, 1, 0);
+      p.initEnergy();
+      EXPECT_NEAR(0, p.peTot(), DTOL);
+      s.xset(0.9, 1, 0);
+      p.initEnergy();
+      EXPECT_NEAR(0.175851657413201000, p.peTot(), DTOL);
+    }
+  }
+}
+
+TEST(PairLJ, cg3analytical) {
+  const double rCut = 3;
+  Space s(3, 0);
+  PairLJ p(&s, rCut, {{"molType", "../forcefield/data.cg3_60_1_1"}});
+  vector<double> x(s.dimen(), 0.);
+  p.addMol(x);
+  x[0] = 2.;
+  p.addMol(x);
+  p.rCutijset(1, 1, rCut);
+  p.linearShiftijset(1, 1, 1);
+  p.initWCA(1, 2);
+  p.initWCA(2, 2);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), 0.95489983432133096, DTOL);
+}
+
+TEST(PairLJ, LJYanalytical) {
+  const double rCut = 3;
+  Space s(3, 0);
+  PairLJ p(&s, rCut);
+  vector<double> x(s.dimen(), 0.);
+  p.addMol(x);
+  x[0] = 2.;
+  p.addMol(x);
+  p.initExpType(1);
+  p.initScreenedElectro(2, 0.5);
+  p.linearShift(0);
+  p.lrcFlag = 0;
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), 0.366903117090021000, DTOL);
+  p.linearShift(1);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), 0.094226110309604982, DTOL);
+}
+
+TEST(PairLJ, MMLJanalytical) {
+  Space s(3, 0);
+  PairLJ p(&s, 3, {{"molType", "../forcefield/data.cg3_91_0.57_2"}});
+  vector<double> x(s.dimen(), 0.);
+  p.addMol(x);
+  x[0] = 2.*0.85;
+  p.addMol(x);
+  p.rCutijset(1, 1, 3);
+  p.linearShiftijset(1, 1, 1);
+  p.initWCA(1, 2);
+  p.initWCA(2, 2);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -0.139144838318008000 + 0.302421948569261000, 5*DTOL);
+  x[0] = -0.9;
+  x[1] = 1;
+  s.transMol(1, x);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -0.676951777428172000 + 66.449659060736600000, 1000*DTOL);
+}
+
+TEST(PairLJ, cg3exampleConfig) {
+  const double rCut = 3;
+  Space s(3, 0);
+  s.addMolInit("../forcefield/data.cg3_60_1_1");
+  std::ifstream inFile("../unittest/cg3/cg3_60_1_1/example/moviep1n50.xyz");
+  s.readxyz2(inFile);
+  EXPECT_EQ(50, s.nMol());
+  vector<double> x(s.dimen(), 0.);
+  PairLJ p(&s, rCut, {{"molType", "../forcefield/data.cg3_60_1_1"}});
+  p.rCutijset(1, 1, rCut);
+  p.linearShiftijset(1, 1, 1);
+  p.rCutijset(1, 2, pow(2, 1./6.));
+  p.cutShiftijset(1, 2, 1);
+  p.rCutijset(2, 2, pow(2, 1./6.));
+  p.cutShiftijset(2, 2, 1);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -108.25895014589899, DTOL);
+}
+
+TEST(PairLJ, cg3analyticalAlpha128) {
+  const double rCut = 1.08;
+  Space s(3, 0);
+  PairLJ p(&s, rCut, {{"molType", "../forcefield/data.cg3_91_0.57_2"}});
+  vector<double> x(s.dimen(), 0.);
+  p.addMol(x);
+  x[1] = 1.22;
+  p.addMol(x);
+
+  p.initExpType(4); // alpha=128
+  p.rCutijset(1, 1, rCut);
+  p.linearShiftijset(1, 1, 1);
+  p.initWCA(1, 2);
+  p.initWCA(2, 2);
+  p.initEnergy();
+
+  EXPECT_NEAR(p.peTot(), 2*39.789289254425900000, 10000*DTOL);
+  //EXPECT_NEAR(p.f(0, 1), 0, DTOL);
+  //EXPECT_NEAR(sqrt(pow(p.f(1, 1),2)+pow(p.f(1, 0), 2)), 23095.254845213545, 1e-9);
+
+  // test peMap and neighCut
+  const double peTot = p.peTot();
+  p.initNeighCut(1);
+  p.initPEMap(1);
+  const vector<int> mpart = s.randMol();
+  p.multiPartEner(mpart, 0);
+  vector<int> neigh;
+  vector<double> peMap;
+  p.neighCutMolPEMap(neigh, peMap);
+  EXPECT_EQ(1, int(neigh.size()));
+  EXPECT_EQ(1, int(peMap.size()));
+  EXPECT_NEAR(peMap[0], peTot, DTOL);
+
+  // flip
+  s.qMolAlt(1, 0, 1);
+  s.qMolAlt(1, 3, 0);
+  s.quat2pos(1);
+  x[1] = -s.x(4, 1) + 2*0.266345520433943000 + 1.02;
+  s.transMol(1, x);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -0.290278106387070000, 100*DTOL);
+  //EXPECT_NEAR(p.f(0, 1), 0, DTOL);
+  //EXPECT_NEAR(sqrt(pow(p.f(1, 1),2)+pow(p.f(1, 0), 2)), 33.461405536957100000, 20000*DTOL);
+  EXPECT_EQ(1, p.checkEnergy(DTOL, 2));
+}
+
+//TEST(PairLJ, marcoMAB) {
+//  const double boxl = 30, rCut = 3, rCutLJ = 2;
+//  std::ostringstream addMolType("../forcefield/data.mab1");
+//  Space s(3, 0);
+//  for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(boxl,dim);
+//  s.addMolInit(addMolType.str().c_str());
+//  std::ifstream inFile("test/mab/marco_energy/Position_0001.xyz");
+//  s.readxyz2(inFile);
+//  EXPECT_EQ(2, s.nMol());
+//  EXPECT_EQ(8, s.natom());
+//  EXPECT_NEAR(s.x(0,0), 0.1682214722932941E+02, DTOL);
+//  EXPECT_NEAR(s.x(7,2), 0.2948447461948864E+02, DTOL);
+//
+//  if (boxl/3. > rCut) {
+//    s.updateCells(rCut);
+//  }
+//
+//  PairHybrid p(&s, 0.);
+//  PairLJ pLJ(&s, rCutLJ);
+//  pLJ.initData(addMolType.str().c_str());
+//  pLJ.initExpType(1);
+//  for (int i = 0; i < s.nParticleTypes(); ++i) {
+//    for (int j = i; j < s.nParticleTypes(); ++j) {
+//      pLJ.rCutijset(i, j, 2*pLJ.sigij()[i][j]);
+//      pLJ.linearShiftijset(i, j, 1);
+//    }
+//  }
+//  pLJ.lrcFlag = 0;
+//  pLJ.initEnergy();
+//  p.addPair(&pLJ);
+//
+//  PairLJ pCC(&s, rCut);
+//  pCC.initData(addMolType.str().c_str());
+//  pCC.initScreenedElectro(1, 1, 2);
+//  for (int i = 0; i < s.nParticleTypes(); ++i) {
+//    for (int j = i; j < s.nParticleTypes(); ++j) {
+//      pCC.epsijset(i, j, 0);
+//      pCC.rCutijset(i, j, 6*pCC.sigij(i, j));
+//      pCC.linearShiftijset(i, j, 1);
+//    }
+//  }
+//  pCC.lrcFlag = 0;
+//  pCC.initEnergy();
+//  p.addPair(&pCC);
+//  p.initEnergy();
+//  p.printxyz("asdf",1);
+//  p.checkEnergy(DTOL, 1);
+//
+//  EXPECT_NEAR(-0.3424421004334772E+01, p.peTot(), DTOL);
+//}
+
+TEST(PairLJ, Gaussian) {
+  Space s(3, 0);
+  PairLJ p(&s, 3.);
+  vector<double> x(s.dimen(), 0.);
+  p.addMol(x);
+  x[1] = pow(2,1./6.);
+  p.addMol(x);
+
+  p.lrcFlag = 0;
+  p.cutShift(0);
+  p.initEnergy();
+  EXPECT_NEAR(-1, p.peTot(), 10000*DTOL);
+
+  const double height = 1.3408572374689746728347876674875;
+  p.addGaussian(height, x[1], 1);
+
+  p.initEnergy();
+  EXPECT_NEAR(-1+height, p.peTot(), 10000*DTOL);
+
+  p.addGaussian(1, 1, 2);
+  p.initEnergy();
+  EXPECT_NEAR(-1+height+exp(-pow(((x[1]-1)/2),2)), p.peTot(), 10000*DTOL);
+
+  p.writeRestart("tmp/yoyorst");
+  PairLJ p2(&s, "tmp/yoyorst");
+  p2.writeRestart("tmp/yoyorst2");
+  p2.initEnergy();
+
+  EXPECT_NEAR(p.peTot(), p2.peTot(), 10000*DTOL);
+}
+
+TEST(PairLJ, Lambda) {
+  Space s(2, 0);
+  s.initBoxLength(9);
+  PairLJ p(&s, 3.);
+  vector<double> x(s.dimen(), 0.);
+  p.addMol(x);
+  x[1] = pow(2,1./6.);
+  p.addMol(x);
+
+  p.setLambdaij(0,0,1);
+  p.lrcFlag = 0;
+  p.cutShift(1);
+//  p.cutShift(0);
+//  p.rCutijset(0,0,rCut);
+//  p.initLRC();
+  p.initEnergy();
+  EXPECT_NEAR(-1+0.005479441744238780, p.peTot(), 10000*DTOL);
+  p.setLambdaij(0,0,-1);
+  p.initEnergy();
+  EXPECT_NEAR(1-0.005479441744238780, p.peTot(), 10000*DTOL);
+  p.setLambdaij(0, 0, 0);
+  p.initEnergy();
+  EXPECT_NEAR(0., p.peTot(), 10000*DTOL);
+
+//  exit(0);
+  p.writeRestart("tmp/yoyorst");
+  PairLJ p2(&s, "tmp/yoyorst");
+  p2.writeRestart("tmp/yoyorst2");
+  p2.initEnergy();
+
+  EXPECT_NEAR(p.peTot(), p2.peTot(), 10000*DTOL);
+}
+
+TEST(PairLJ, sigrefAnalytical) {
+  Space s(3, 0);
+  PairLJ p(&s, 3.3, {{"molType", "../forcefield/data.ljs0.85"}});
+  p.setSigRefFlag(1);
+  p.initData("../forcefield/data.ljs0.85");
+
+  vector<double> x(s.dimen(), 0.);
+  p.addMol(x);
+  x[1] = 1.22;
+  p.addMol(x);
+
+  p.initExpType(1); // alpha1:12
+  p.setLambdaij(0, 0, -1);
+
+  PairLJ *pcut = p.clone(&s);
+
+  p.linearShift(1);
+  //p.cutShift(1);
+  p.initEnergy();
+
+  EXPECT_NEAR(p.sigRef(0), 2.1, DTOL);
+  EXPECT_NEAR(p.peTot(), 0.4867769858755370, 10000*DTOL);
+
+  p.setLambdaij(0, 0, 1);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -0.4867769858755370, 10000*DTOL);
+
+  p.setLambdaij(0, 0, 0.331);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -0.1611231823248030, 10000*DTOL);
+
+  x[1] = -s.x(1, 1) + 2*x[1];
+  s.transMol(1, x);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -0.0011223005336472365, 10000*DTOL);
+
+  x[1] = -s.x(1, 1) + 0.87;
+  s.transMol(1, x);
+  // test linear shift
+  p.setLambdaij(0,0,-1);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), 1.6134113229466700, 10000*DTOL);
+  // test cut shift
+  pcut->setLambdaij(0,0,-1);
+  pcut->cutShift(1);
+  pcut->initEnergy();
+  EXPECT_NEAR(pcut->peTot(), 1.6158060153131700, 10000*DTOL);
+
+  x[1] = -s.x(1, 1) + 0.5;
+  s.transMol(1, x);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), 284.3198540118970000, 10000*DTOL);
+
+  delete pcut;
+}
+
+TEST(PairLJ, InitAlphaAnalytical) {
+  const double rCut = 1e4;
+  Space s(3, 0);
+  PairLJ p(&s, rCut);
+
+  vector<double> x(s.dimen(), 0.);
+  p.addMol(x);
+  x[1] = 1.22;
+  p.addMol(x);
+
+  p.initAlpha(5.5);
+
+  PairLJ *pcut = p.clone(&s);
+  p.linearShift(1);
+  //p.cutShift(1);
+  p.initEnergy();
+
+  EXPECT_NEAR(p.peTot(), -0.8910756889503104, 10*DTOL);
+
+  x[1] = -s.x(1, 1) + 2*x[1];
+  s.transMol(1, x);
+  p.initEnergy();
+  EXPECT_NEAR(p.peTot(), -0.029389303309848992, 10*DTOL);
+
+  delete pcut;
 }

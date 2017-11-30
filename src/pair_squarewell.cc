@@ -32,17 +32,17 @@ void PairSquareWell::initHardSphere(const int itype, const int jtype) {
   rCutijset(itype, jtype, sigij_[itype][jtype]);
 }
 
-void PairSquareWell::multiPartEnerAtomCutInner(const double &r2,
-  const int &itype,
-  const int &jtype) {
-  const double sigSq = sigij_[itype][jtype]*sigij_[itype][jtype];
-  if (r2 < sigSq) {
-    // hard sphere if less than sigma
-    peSRone_ += NUM_INF;
+void PairSquareWell::pairSiteSite_(const int &iSiteType, const int &jSiteType,
+  double * energy, double * force, int * neighbor, const double &dx,
+  const double &dy, const double &dz) {
+  const double r2 = dx*dx + dy*dy + dz*dz;
+  const double sigij = sigij_[iSiteType][jSiteType];
+  if (r2 < sigij*sigij) {
+    *energy = NUM_INF;
   } else {
-    // otherwise, square well
-    peSRone_ -= epsij_[itype][jtype];
+    *energy = -epsij_[iSiteType][jSiteType];
   }
+  *neighbor = 1;
 }
 
 PairSquareWell* PairSquareWell::clone(Space* space) const {

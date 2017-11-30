@@ -196,14 +196,15 @@ int readUntil(const char* searchString, std::ifstream &file,
   const int optional) {
   std::string line;
   getline(file, line);
-  const int nMax = 1e7;
+  const int nMax = 1e5;
   int i = 0;
-  while ((line.compare(searchString) != 0) && (i != nMax)) {
+  while ((line.compare(searchString) != 0) &&
+         (i != nMax) && (!file.fail())) {
     getline(file, line);
     ++i;
   }
   // check if not found
-  if (i == nMax) {
+  if (i == nMax || file.fail()) {
     if (optional == 0) {
       ASSERT(0, "readUntil reached nMax attempts(" << nMax
         << ") while looking for string(" << searchString << ") in file");
@@ -674,6 +675,17 @@ bool stringInString(const std::string searchString,
 
 std::shared_ptr<std::ifstream> make_ifstream(const char* fileName) {
   return std::make_shared<std::ifstream>(fileName);
+}
+
+int factorial(int x, int result) {
+  ASSERT(x >= 0, "no factorials of negative numbers");
+  if (x == 0) {
+    return 1;
+  } else if (x == 1) {
+    return result;
+  } else {
+    return factorial(x - 1, x*result);
+  }
 }
 
 #ifdef FEASST_NAMESPACE_

@@ -3,7 +3,7 @@ Contact and bug reports
 
 Project lead: Harold Wickes Hatch
 
-www.nist.gov/people/harold-hatch
+https://www.nist.gov/people/harold-hatch
 
 harold.hatch@nist.gov
 

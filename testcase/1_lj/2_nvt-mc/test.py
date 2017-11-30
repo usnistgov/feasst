@@ -19,7 +19,8 @@ class TestLJ_SRSW_NVTMC(unittest.TestCase):
         space.initBoxLength((float(nMol)/rho)**(1./3.))   # set the cubic PBCs
         molNameSS = space.install_dir() + "/forcefield/data.lj"
         space.addMolInit(molNameSS)
-        pair = feasst.PairLJ(space, 3)   # potential truncation at 3
+        pair = feasst.PairLJ(space, 3,  # potential truncation at 3
+            feasst.args({"cutType" : "lrc"}))
         pair.initEnergy()
         temperature = 0.9
         criteria = feasst.CriteriaMetropolis(1./temperature, 1.)

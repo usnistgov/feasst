@@ -8,12 +8,7 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "pair_squarewell.h"
-#include "mc_wltmmc.h"
-#include "trial_transform.h"
-#include "ui_abbreviated.h"
-#include "trial_swap.h"
-#include "trial_xswap.h"
+#include "feasst.h"
 
 int main() {  // SquareWell, SEMIGRAND
   feasst::ranInitByDate();

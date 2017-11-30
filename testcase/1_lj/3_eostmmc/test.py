@@ -34,7 +34,7 @@ args = parser.parse_args()
 print("#", args)
 
 def compareEnergyAndMacro(criteria, iMacro, testobject, peAv, peStd, lnPIav, lnPIstd):
-    tol = 2.576*(criteria.pe(iMacro).blockStdev() + peStd)
+    tol = 3.*(criteria.pe(iMacro).blockStdev() + peStd)
     testobject.assertAlmostEqual(peAv, criteria.pe(iMacro).average(), delta=tol)
 
 class TestLJ_SRSW_EOSTMMC(unittest.TestCase):
@@ -46,8 +46,8 @@ class TestLJ_SRSW_EOSTMMC(unittest.TestCase):
         space.addMolInit(addMolType)
 
         # initialize pair-wise interactions
-        pair = feasst.PairLJ(space, args.rCut)
-        pair.initEnergy()
+        pair = feasst.PairLJ(space, args.rCut,
+            feasst.args({"cutType" : "lrc"}))
 
         # acceptance criteria
         nMolMin = 0

@@ -16,6 +16,8 @@ gmon.out
 
 # factory
 src/factories.cc
+src/feasst.h
+src/feasst.i
 
 #gcov, etc
 *.gcda
@@ -24,6 +26,7 @@ src/factories.cc
 
 #google c++ test
 gtest_main.a
+googletest-*
 
 #callgrind output
 callgrind*

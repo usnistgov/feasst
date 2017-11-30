@@ -9,7 +9,7 @@
  */
 
 #include <gtest/gtest.h>
-#include "pair_lj_multi.h"
+#include "pair_lj.h"
 #include "trial_transform.h"
 #include "trial_add.h"
 #include "trial_delete.h"
@@ -27,7 +27,7 @@ TEST(TrialAdd, confine) {
 
   // Initialize LJ interactions
   const double rCut = 3.;
-  PairLJMulti pair(&space, rCut);
+  PairLJ pair(&space, rCut, {{"molType", "none"}});
   pair.initData(addMol.str());
   pair.initData(addWall.str());
   pair.epsijset(1, 1, 0.);  //!< turn off Wall-Wall interactions

@@ -32,8 +32,7 @@ TEST(Trial, cloneANDreconstruct) {
   const double rAbove = 3, rBelow = 1;
   Space s(3, 0);
   s.init_config(12);
-  s.addMolInit("../forcefield/data.atom");
-  PairLJ p(&s, 5);
+  PairLJ p(&s, 5, {{"molType", "../forcefield/data.atom"}});
   p.initNeighList(rAbove, rBelow);
   p.buildNeighList();
   CriteriaMetropolis c(0.5, 0.01);
@@ -115,8 +114,7 @@ TEST(Trial, allmoves) {
 
   Space sLJ(3,1);
   sLJ.init_config(12);
-  sLJ.addMolInit("../forcefield/data.atom");
-  PairLJ pLJ(&sLJ, 5);
+  PairLJ pLJ(&sLJ, 5, {{"molType", "../forcefield/data.atom"}});
 
   Space sID(3,2);
   sID.init_config(12);

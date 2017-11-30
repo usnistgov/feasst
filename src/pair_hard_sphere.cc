@@ -28,15 +28,18 @@ void PairHardSphere::defaultConstruction_() {
   className_.assign("PairHardSphere");
 }
 
-void PairHardSphere::multiPartEnerAtomCutInner(const double &r2,
-  const int &itype,
-  const int &jtype) {
-  const double sigij = sigij_[itype][jtype];
+void PairHardSphere::pairSiteSite_(const int &iSiteType, const int &jSiteType,
+  double * energy, double * force, int * neighbor, const double &dx,
+  const double &dy, const double &dz) {
+  const double sigij = sigij_[iSiteType][jSiteType];
+  const double r2 = dx*dx + dy*dy + dz*dz;
   if (r2 < sigij*sigij) {
-    peSRone_ += NUM_INF;
+    *energy = NUM_INF;
+    *neighbor = 1;
+    return;
   }
-  // cout << "in Inner: r2 " << r2 << " itype " << itype << " jtype " << jtype
-  //   << " peSRone " << peSRone_ << " sigij " << sigij << endl;
+  *energy = 0;
+  *neighbor = 0;
 }
 
 void PairHardSphere::initPairParam(const vector<double> eps,

@@ -39,11 +39,20 @@ void PairSoftSphere::writeRestart(const char* fileName) {
   file << "# npotentialparameter " << n_ << endl;
 }
 
-void PairSoftSphere::multiPartEnerAtomCutInner(const double &r2,
-  const int &itype,
-  const int &jtype) {
-  const double sigij = sigij_[itype][jtype];
-  peTot_ += pow(sigij*sigij/r2, n_/2.);
+void PairSoftSphere::pairSiteSite_(const int &iSiteType, const int &jSiteType,
+  double * energy, double * force, int * neighbor, const double &dx,
+  const double &dy, const double &dz) {
+  const double rCut = rCutij_[iSiteType][jSiteType];
+  const double r2 = dx*dx + dy*dy + dz*dz;
+  if (r2 < rCut*rCut) {
+    const double sigij = sigij_[iSiteType][jSiteType];
+    *energy = pow(sigij*sigij/r2, n_/2.);
+    *neighbor = 1;
+    return;
+  }
+  *energy = 0;
+  *neighbor = 0;
+  return;
 }
 
 double PairSoftSphere::b2reduced() {

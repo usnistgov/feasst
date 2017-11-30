@@ -25,82 +25,6 @@ PairPatchKF::PairPatchKF(Space *space,
   initAtomCut(0);
 }
 
-PairPatchKF::~PairPatchKF() {
-}
-
-void PairPatchKF::initEnergy() {
-  // shorthand for read-only space variables
-  const int nMol = space_->nMol();
-  const vector<double> &l = space_->l();
-  const vector<double> &x = space_->x();
-  const vector<int> &mol2part = space_->mol2part();
-
-  // zero accumulators: potential energy, force, and virial
-  std::fill(pe_.begin(), pe_.end(), 0.);
-  fill(0., f_);
-  fill(0., vr_);
-  peTot_ = 0;
-
-  double pePart = 0;
-  const double sigSq = pow(sig_[0], 2);
-
-  // loop through pairs of molecules
-  for (int iMol = 0; iMol < nMol - 1; ++iMol) {
-    const int ipart = mol2part[iMol];
-    for (int jMol = iMol + 1; jMol < nMol; ++jMol) {
-      const int jpart = mol2part[jMol];
-      // separation vector, xij with periodic boundary conditions
-      double r, r2 = 0;
-      vector<double> xij(dimen_);
-      for (int i = 0; i < dimen_; ++i) {
-        r = x[dimen_*ipart+i] - x[dimen_*jpart+i];
-        if (r >  0.5 * l[i]) r -= l[i];
-        if (r < -0.5 * l[i]) r += l[i];
-        xij[i] = r;
-        r2 += r*r;
-      }
-
-      // no interaction beyond cut-off distance
-      if (r2 < rCutSq_) {
-        // hard sphere
-        if (r2 < sigSq) {
-          pePart = NUM_INF;
-
-        // orientational square well
-        } else {
-          // loop through pairs of patches to see how many patch-patch
-          // configurations are present
-          const double r = sqrt(r2);
-          pePart = 0;
-          for (int isite = ipart + 1; isite < mol2part[iMol+1]; ++isite) {
-            for (int jsite = jpart + 1; jsite < mol2part[jMol+1]; ++jsite) {
-              // cosangle between xij and ipatch
-              double cosa = 0;
-              for (int dim = 0; dim < dimen_; ++dim) {
-                cosa -= xij[dim]*(x[dimen_*isite+dim] - x[dimen_*ipart+dim]);
-              }
-              cosa /= r;
-              if ( (cosa >= cpa_) || ( (mirrorPatch_) && (cosa <= -cpa_) ) ) {
-                // cosangle between xij and jpatch
-                cosa = 0;
-                for (int dim = 0; dim < dimen_; ++dim) {
-                  cosa += xij[dim]*(x[dimen_*jsite+dim] - x[dimen_*jpart+dim]);
-                }
-                cosa /= r;
-                if ( (cosa >= cpa_) || ( (mirrorPatch_) && (cosa <= -cpa_) ) ) {
-                  // cout << "init " << iMol << " " << jMol << endl;
-                  pePart -= 1.;
-                }
-              }
-            }
-          }
-        }
-        peTot_ += pePart;
-      }
-    }
-  }
-}
-
 double PairPatchKF::multiPartEner(
   const vector<int> mpart,
   const int flag
@@ -499,6 +423,52 @@ double PairPatchKF::allPartEnerForce(const int flag) {
     }
   }
   return peSRone_;
+}
+
+void PairPatchKF::allPartEnerForceMolCutInner(
+  const double r2,
+  const int iMol,
+  const int jMol,
+  const double dx,
+  const double dy,
+  const double dz) {
+  const vector<int> mol2part = space_->mol2part();
+  const int ipart = mol2part[iMol];
+  const int jpart = mol2part[jMol];
+  const vector<double> x = space_->x();
+  const vector<int> type = space_->type();
+  double cosa;
+  const double xi = x[dimen_*ipart];
+  const double yi = x[dimen_*ipart + 1];
+  const double zi = x[dimen_*ipart + 2];
+
+  // no interaction beyond cut-off distance
+  if (r2 < rCutSq_) {
+    peSRone_ += NUM_INF;
+  } else {
+    // loop through pairs of patches
+    for (int isite = mol2part[iMol] + 1; isite < mol2part[iMol+1]; ++isite) {
+      for (int jsite = mol2part[jMol] + 1; jsite < mol2part[jMol+1]; ++jsite) {
+        cosa = dx*(xi - x[dimen_*isite])   +
+               dy*(yi - x[dimen_*isite + 1]) +
+               dz*(zi - x[dimen_*isite + 2]);
+        if ( (mirrorPatch_) || (cosa >= 0) ) {
+          cosa = cosa*cosa/r2;
+          if (cosa >=  cpa_*cpa_) {
+            cosa = dx*(x[dimen_*jsite]   - x[dimen_*jpart]) +
+                   dy*(x[dimen_*jsite + 1] - x[dimen_*jpart + 1]) +
+                   dz*(x[dimen_*jsite + 2] - x[dimen_*jpart + 2]);
+            if ( (mirrorPatch_) || (cosa >= 0) ) {
+              cosa = cosa*cosa/r2;
+              if (cosa >=  cpa_*cpa_) {
+                peSRone_ -= 1.;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 shared_ptr<PairPatchKF> makePairPatchKF(Space *space, const double rCut,

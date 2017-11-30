@@ -8,22 +8,16 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "pair_lj_multi.h"
-#include "mc_wltmmc.h"
-#include "trial_transform.h"
-#include "ui_abbreviated.h"
-#include "trial_add.h"
-#include "trial_delete.h"
+#include "feasst.h"
 
 int main() {  // LJ, MULTISITE
   feasst::ranInitByDate();
   feasst::Space space(3);
   space.initBoxLength(9.);
-  feasst::PairLJMulti pair(&space,
-                           3.);  // potential cut-off
   stringstream addMolType;
   addMolType << space.install_dir() << "/forcefield/data.cg3_60_1_1";
-  pair.initData(addMolType.str().c_str());
+  feasst::PairLJ pair(&space, 3.,  // potential cut-off
+    {{"molType", addMolType.str()}});
   pair.rCutijset(1, 1, pair.rCut());
   pair.linearShiftijset(1, 1, 1);
   pair.initWCA(1, 2);

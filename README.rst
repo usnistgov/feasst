@@ -8,14 +8,14 @@ simulations with flat-histogram Monte Carlo and molecular dynamics methods.
 
 .. note::
 
-   Website: https://pages.nist.gov/feasst
+   Website: https://doi.org/10.18434/M3S095
 
    Code repository: https://github.com/usnistgov/feasst
 
 Features
 ########
 
-.. image:: https://pages.nist.gov/feasst/_images/feasst.png
+.. image:: sphinx/feasst.png
    :target: https://pages.nist.gov/feasst
    :align: right
 
@@ -78,43 +78,26 @@ FEASST is designed for a LINUX or MAC platform with the following minimum versio
 
     git clone https://github.com/usnistgov/feasst.git
     cd feasst
-    cp -r buildtemplate build
+    mkdir build
     cd build
-    cmake .
+    cmake ..
     make
 
 Usage: C++ interface
 #######################
 
-The following may be found in the `<example>`_ directory.
+The following may be found in the `<testcase/1_lj/0_example>`_ directory.
 
 In C++, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:
 
-.. code-block:: c++
+.. literalinclude:: testcase/1_lj/0_example/test.cc
+   :language: c++
 
-    #include "pair_lj.h"
-    #include "mc.h"
-    #include "trial_transform.h"
-    int main() {
-      feasst::Space space(3, 0);
-      space.initBoxLength(8);
-      space.addMolInit("../forcefield/data.lj");
-      feasst::PairLJ pair(&space, 3);   // potential truncation at 3
-      pair.initEnergy();
-      feasst::CriteriaMetropolis criteria(1.2, 1.);  // 1/kT = 1.2
-      feasst::MC mc(&space, &pair, &criteria);
-      feasst::transformTrial(&mc, "translate", 0.1);
-      mc.nMolSeek(50);  // add 50 particles
-      mc.initLog("log", 1e4);
-      mc.initMovie("movie", 1e4);
-      mc.runNumTrials(1e6);
-    }
-
-This simulation is compiled and run by a bash script `<example/run_cc.sh>`_:
+This C++ code is compiled and run in bash as follows:
 
 .. code-block:: bash
 
-    $HOME/feasst/tools/run.sh lj.cc
+    $HOME/feasst/tools/run.sh test.cc
 
 Usage: Python interface
 #########################
@@ -124,7 +107,7 @@ Requirements
 * SWIG >= 1.3.40
 * anaconda >= 1.9.1 (python >= 2.7)
 
-To install the python interface, use the following CMake command in place of "cmake .":
+To install the python interface, use the following CMake command in place of "cmake ..":
 
 .. code-block:: bash
 
@@ -133,31 +116,17 @@ To install the python interface, use the following CMake command in place of "cm
 
 Note that the ``PYTHON_INCLUDE_PATH`` and ``PYTHON_LIBRARIES`` depends on your python installation.
 
-The following may be found in the `<example>`_ directory.
+The following may be found in the `<testcase/1_lj/0_example>`_ directory.
 In python, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:
 
-.. code-block:: py
+.. literalinclude:: testcase/1_lj/0_example/test.py
+   :language: py
 
-    import feasst
-    space = feasst.Space(3, 0)
-    space.initBoxLength(8)
-    space.addMolInit("../forcefield/data.lj")
-    pair = feasst.PairLJ(space, 3)    # potential truncation at 3
-    pair.initEnergy()
-    criteria = feasst.CriteriaMetropolis(1.2, 1.);  # 1/kT = 1.2
-    mc = feasst.MC(space, pair, criteria)
-    maxMoveParam = 0.1
-    feasst.transformTrial(mc, "translate", maxMoveParam)
-    mc.nMolSeek(50)   # add 50 particles
-    mc.initLog("log", int(1e4))
-    mc.initMovie("movie", int(1e4))
-    mc.runNumTrials(int(1e6))
-
-This simulation is then run by `<example/run_py.sh>`_
+This simulation is run in bash as follows:
 
 .. code-block:: bash
 
-    $HOME/feasst/tools/run.sh lj.py
+    $HOME/feasst/tools/run.sh test.py
 
 Optional external libraries
 #######################################
@@ -169,7 +138,7 @@ Optional external libraries
 * openmpi >= 1.4.5 (parallel computation)
 
 To control the install, you can edit ``CMakeLists.txt`` in ``build`` as follows
-before running the ``cmake .`` command.
+before running the ``cmake ..`` command.
 
 To use the XDRFILE library for xtc files:
 
@@ -212,8 +181,10 @@ For writing compressed XTC trajectory files.
 
     ftp://ftp.gromacs.org/pub/contrib/xdrfile-1.1.tar.gz
     tar -xf xdrfile-1.1.tar.gz; cd xdrfile-1-1b
-    ./configure --enable-shared --prefix=$HOME/ #enable-shared for SWIG
+    mkdir build
+    ./configure --enable-shared --prefix=$HOME/software/xdrfile-1.1b/build #enable-shared for SWIG
     make install
+    export LD_LIBRARY_PATH="$HOME/software/xdrfile-1.1b/build/lib:$LD_LIBRARY_PATH"
 
 Associated CMake flag
 
@@ -351,7 +322,7 @@ Contact
 
 Project lead: Harold Wickes Hatch
 
-www.nist.gov/people/harold-hatch
+https://www.nist.gov/people/harold-hatch
 
 harold.hatch@nist.gov
 

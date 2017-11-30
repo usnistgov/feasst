@@ -8,7 +8,7 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "pair_lj_coul_ewald.h"
+#include "feasst.h"
 
 void expect_near(const double val1, const double val2, const double tolerance, const char* comment) {
   const double diff = val1 - val2;

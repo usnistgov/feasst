@@ -34,10 +34,6 @@ class PairHardCircle : public Pair {
   /// Initialize the radius of gyration of the depletant, \f$R_g\f$.
   void initRDep(const double rDep = 0.) { rDep_ = rDep; }
 
-  // Overloaded virtual function from pair.h
-  void multiPartEnerAtomCutInner(const double &r2, const int &itype,
-                                 const int &jtype);
-
   // Write restart file.
   virtual void writeRestart(const char* fileName);
 
@@ -49,6 +45,11 @@ class PairHardCircle : public Pair {
  protected:
   double dCircle_;               //!< diameter of hard circle
   double rDep_;               //!< radius of depletant
+
+  // See comments of derived class from Pair
+  void pairSiteSite_(const int &iSiteType, const int &jSiteType, double * energy,
+    double * force, int * neighbor, const double &dx, const double &dy,
+    const double &dz);
 
   // defaults in constructor
   void defaultConstruction_();

@@ -8,26 +8,24 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "pair_lj.h"
+#include "feasst.h"
 
 int main() {  // LJ, SRSW_REFCONF
   feasst::Space space(3);
   space.initBoxLength(8);
-  feasst::PairLJ pair(&space, 3);   // potential truncation at 3
-  stringstream molNameSS;
-  molNameSS << space.install_dir() << "/forcefield/data.lj";
-  pair.initData(molNameSS.str());   // initialize the sigma and epsilon
+  feasst::PairLJ pair(&space, 3.,  // potential truncation
+    {{ "cutType", "lrc" }});            // use long range corrections
 
   // create clones of Space and Pair to perform two separate tests
   feasst::Space * space2 = space.clone();
   feasst::PairLJ * pair2 = pair.clone(space2);
 
   // first, test the interaction between two particles
-  vector<double> xAdd(space.dimen(), 0.);  // position to add is origin
-  pair.addMol(xAdd);            // add first molecule at xAdd
+  vector<double> xAdd(space.dimen(), 0.);   // position to add is origin
+  pair.addMol(xAdd);                        // add first molecule at xAdd
   const double r = 1.2345;
   xAdd[0] = r;              // position of second particle
-  pair.addMol(xAdd);            // add second particle
+  pair.addMol(xAdd);        // add second particle
   pair.initEnergy();        // compute energy
   ASSERT(fabs(pair.peLJ() - 4*(pow(r, -12) - pow(r, -6))) < feasst::DTOL,
     "LJ equation failed");

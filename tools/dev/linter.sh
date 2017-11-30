@@ -15,7 +15,8 @@ for f in `ls *`; do
   # sed --in-place 's/ $//g' $f
 
   # remove lines
-  sed --in-place 's/lset(/initBoxLength(/g' $f
+  sed --in-place 's/pair_lj_multi\.h/pair_lj\.h/g' $f
+  sed --in-place 's/PairLJMulti/PairLJ/g' $f
 
   # rename functions
   # sed --in-place 's/print(/write(/g' $f

@@ -53,6 +53,9 @@ class TrialAdd : public Trial {
   shared_ptr<TrialAdd> cloneShrPtr(Pair* pair,
                                    Criteria* criteria) const;
 
+  // experimental double add if set to 1
+  int addTwo = 0;
+
  protected:
   string molType_;   //!< type of molecule to add
   int molid_;        //!< index of molecule type

@@ -12,7 +12,6 @@
 #include "pair_ideal.h"
 #include "pair_hard_sphere.h"
 #include "pair_lj.h"
-#include "pair_lj_multi.h"
 #include "pair_lj_coul_ewald.h"
 #include "mc_wltmmc.h"
 #include "ui_abbreviated.h"
@@ -153,23 +152,14 @@ TEST(MC, ljmuvtmetropANDclone) {
   ranInitByDate();
   Space s(3);
   s.initBoxLength(boxl);
-  s.addMolInit("../forcefield/data.atom");
-  PairLJ p(&s, rCut);
-  p.initEnergy();
+  PairLJ p(&s, rCut, {{"molType", "../forcefield/data.lj"}});
   CriteriaMetropolis c(beta, activ);
-  MC mc(&s,&p,&c);
+  MC mc(&s, &p, &c);
 
   transformTrial(&mc, "translate");
   mc.weight=0.5;
   deleteTrial(&mc);
-  addTrial(&mc, "../forcefield/data.atom");
-  //mc.initTrial(new TrialAdd("../forcefield/data.atom"));
-  //mc.addTrial("../forcefield/data.atom");
-//  TrialDelete td;
-//  mc.initTrial(&td);
-//
-//  TrialAdd ta("../forcefield/data.atom");
-//  mc.initTrial(&ta);
+  addTrial(&mc, "../forcefield/data.lj");
 
   // attempt some monte carlo trials
   mc.initLog("tmp/ljloglog", 1e3);
@@ -208,9 +198,8 @@ TEST(MC, ljnvtmetropANDremoveTrial) {
   ranInitByDate();
   Space s(3,0);
   s.init_config(12);
-  PairLJ p(&s, rCut);
+  PairLJ p(&s, rCut, {{}});
   p.buildNeighList();
-  p.initEnergy();
   CriteriaMetropolis c(beta, 0);
   MC mc(&s,&p,&c);
 
@@ -240,9 +229,7 @@ TEST(MC, ljmuvttmmc) {
   ranInitByDate();
   Space s(3);
   s.initBoxLength(boxl);
-  s.addMolInit("../forcefield/data.atom");
-  PairLJ p(&s, rCut);
-  p.initEnergy();
+  PairLJ p(&s, rCut, {{"molType", "../forcefield/data.atom"}});
   CriteriaWLTMMC c(beta, activ, "nmol0", 0 ,nMolMax);
   MC mc(&s,&p,&c);
 
@@ -352,7 +339,7 @@ TEST(MC, nSeekWithPressure) {
   feasst::ranInitByDate();
   Space space(3, 0);
   space.initBoxLength(8);
-  /// PairLJMulti pair(&space, 3.);
+  /// PairLJ pair(&space, 3.);
   PairHardSphere pair(&space);
   pair.initData("../forcefield/data.lj");
   // pair.linearShift();
@@ -395,10 +382,9 @@ TEST(MC, equltl43muvttmmcANDinitWindows) {
   const int nMolMax = 50, nMolMin = 10, npr = 200;
   Space s(3);
   s.initBoxLength(boxl);
-  PairLJ p(&s, pow(2, 1./6.));
-  p.initData("../forcefield/data.equltl43");
-  p.cutShift(1);
-  p.lrcFlag = 0;
+  PairLJ p(&s, pow(2, 1./6.), {
+    {"cutType", "cutShift"},
+    {"molType", "../forcefield/data.equltl43"}});
   p.checkEnergy(1e-9, 1);
 //  s.updateCells(p.rCut(), p.rCut());
   CriteriaWLTMMC c(beta, activ, "nmol", nMolMin, nMolMax);
@@ -457,10 +443,9 @@ TEST(MC, wltmmccloneANDreconstruct) {
   Space s(3);
   s.initBoxLength(9);
   // s.readXYZBulk(4, "../forcefield/data.equltl43", "../unittest/equltl43/two.xyz");
-  PairLJ p(&s, pow(2, 1./6.));
-  p.initData("../forcefield/data.equltl43");
-  p.cutShift(1);
-  p.lrcFlag = 0;
+  PairLJ p(&s, pow(2, 1./6.), {
+    {"cutType", "cutShift"},
+    {"molType", "../forcefield/data.equltl43"}});
   p.checkEnergy(1e-9, 1);
   CriteriaWLTMMC c(1., exp(-2.), "nmol", 0, nMolMax);
   WLTMMC mc(&s,&p,&c);
@@ -509,14 +494,14 @@ TEST(MC, wltmmccloneANDreconstruct) {
 //  Space s(3, 0);
 //  for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(8,dim);
 //  s.updateCells(3.);
-//  PairLJMulti pLJ(&s, 3);
+//  PairLJ pLJ(&s, 3);
 //  pLJ.initData("../forcefield/data.cg3_60_43_1");
 //  pLJ.epsijset(1, 2, 0.);
 //  pLJ.epsijset(2, 1, 0.);
 //  pLJ.epsijset(2, 2, 0.);
 //  pLJ.linearShift(1);
 //  pLJ.initEnergy();
-//  PairLJMulti pWCA(&s, pow(2, 1./6.));
+//  PairLJ pWCA(&s, pow(2, 1./6.));
 //  pWCA.initData("../forcefield/data.cg3_60_43_1");
 //  pWCA.epsijset(1, 1, 0.);
 //  pWCA.cutShift(1);
@@ -543,7 +528,7 @@ TEST(MC, wltmmccloneANDreconstruct) {
 //  EXPECT_EQ(1, mc.checkTrialCriteria());
 //
 //  // new pair style in one instead of hybrid
-//  PairLJMulti pLJnew(&s, 3);
+//  PairLJ pLJnew(&s, 3);
 //  pLJnew.initData("../forcefield/data.cg3_60_43_1");
 //  pLJnew.rCutijset(0, 0, 0.);
 //  pLJnew.rCutijset(0, 1, 0.);

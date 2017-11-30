@@ -37,7 +37,7 @@ Space::Space(const char* fileName) {
   for (int dim = 0; dim < dimen_; ++dim) {
     stringstream ss;
     ss << "l" << dim;
-    l_[dim] = fstod(ss.str().c_str(), fileName);
+    boxLength_[dim] = fstod(ss.str().c_str(), fileName);
   }
   string strtmp = fstos("xyTilt", fileName);
   if (!strtmp.empty()) xyTilt_ = stod(strtmp);
@@ -190,7 +190,7 @@ void Space::defaultConstruction_() {
     ASSERT(dimen_ == 1, "this dimensionality(" << dimen_ << ") is not"
            << "supported");
   }
-  l_.resize(dimen_);
+  boxLength_.resize(dimen_);
   xyTilt_ = 0.;
   xzTilt_ = 0.;
   yzTilt_ = 0.;
@@ -258,7 +258,7 @@ int Space::init_config(const int natom) {
   }
   mol2part_.push_back(natom);
   for (int i = 0; i < dimen_; ++i) {
-    l_[i] = natom * dimen_;
+    boxLength_[i] = natom * dimen_;
   }
 
   // update molecule numbers
@@ -415,13 +415,12 @@ void Space::readXYZ(std::ifstream& file) {
 }
 
 double Space::pbc(const double x, const int i) {
-  ASSERT(fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < DTOL,
-    "orthogonal box pbc called with nonzero tilt factors");
-  double dx = x/l_[i];  // change in position, to be returned
+  ASSERT(!tilted(), "orthogonal box pbc called with nonzero tilt factors");
+  double dx = x/boxLength_[i];  // change in position, to be returned
   if (dx > 0.5) {
-    dx = -l_[i] * static_cast<int>(dx + 0.5);
+    dx = -boxLength_[i] * static_cast<int>(dx + 0.5);
   } else if (dx < -0.5) {
-    dx = -l_[i] * static_cast<int>(dx - 0.5);
+    dx = -boxLength_[i] * static_cast<int>(dx - 0.5);
   } else {
     dx = 0.;
   }
@@ -430,66 +429,27 @@ double Space::pbc(const double x, const int i) {
 
 vector<double> Space::pbc(const vector<double> x) {
   vector<double> dx(dimen_, 0.);
-  if (fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < DTOL) {
+  if (!tilted()) {
     for (int dim = 0; dim < dimen_; ++dim) {
       dx[dim] = pbc(x[dim], dim);
     }
   } else {
-    vector<double> xnew = x;
-    if (dimen_ >= 3) {
-      if (fabs(xnew[2]) > 0.5*l_[2]) {
-        if (xnew[2] < 0.) {
-          dx[2] += l_[2];
-          dx[1] += yzTilt_;
-          dx[0] += xzTilt_;
-          xnew[2] += l_[2];
-          xnew[1] += yzTilt_;
-          xnew[0] += xzTilt_;
-        } else {
-          dx[2] -= l_[2];
-          dx[1] -= yzTilt_;
-          dx[0] -= xzTilt_;
-          xnew[2] -= l_[2];
-          xnew[1] -= yzTilt_;
-          xnew[0] -= xzTilt_;
-        }
-      }
-    }
-    if (dimen_ >= 2) {
-      if (fabs(xnew[1]) > 0.5*l_[1]) {
-        if (xnew[1] < 0.) {
-          dx[1] += l_[1];
-          dx[0] += xyTilt_;
-          xnew[1] += l_[1];
-          xnew[0] += xyTilt_;
-        } else {
-          dx[1] -= l_[1];
-          dx[0] -= xyTilt_;
-          xnew[1] -= l_[1];
-          xnew[0] -= xyTilt_;
-        }
-      }
-    }
-    if (dimen_ >= 1) {
-      if (fabs(xnew[0]) > 0.5*l_[0]) {
-        if (xnew[0] < 0.) {
-          dx[0] += l_[0];
-          xnew[0] += l_[0];
-        } else {
-          dx[0] -= l_[0];
-          xnew[0] -= l_[0];
-        }
-      }
-    }
+    double dx1 = x[0], dxOld = dx1;
+    double dy = x[1], dyOld = dy;
+    double dz = 0, dzOld = dz;
+    if (dimen_ == 3) dzOld = dz = x[2];
+    pbc(&dx1, &dy, &dz, boxLength_[0], boxLength_[1], boxLength_[2]);
+    dx[0] = dx1 - dxOld;
+    dx[1] = dy - dyOld;
+    if (dimen_ == 3) dx[2] = dz - dzOld;
   }
-//  cout << "dx " << dx[0] << " " << dx[1] << endl;
   return dx;
 }
 
 void Space::randDisp(const vector<int> mpart, const double maxDisp) {
   double maxDispTmp = maxDisp;
   for (int dim = 0; dim < dimen_; ++dim) {
-    if (maxDisp == -1) maxDispTmp = l_[dim]/2.;
+    if (maxDisp == -1) maxDispTmp = boxLength_[dim]/2.;
     const double disp = maxDispTmp*(2*uniformRanNum() - 1);
     for (unsigned int i = 0; i < mpart.size(); ++i) {
       x_[dimen_*mpart[i]+dim] += disp;
@@ -509,7 +469,7 @@ void Space::randDisp(const int part, const double maxDisp) {
 void Space::randDispMulti(const vector<int> mpart, const double maxDisp) {
   double maxDispTmp = maxDisp;
   for (int dim = 0; dim < dimen_; ++dim) {
-    if (maxDisp == -1) maxDispTmp = l_[dim]/2.;
+    if (maxDisp == -1) maxDispTmp = boxLength_[dim]/2.;
     const double disp = maxDispTmp*(2*uniformRanNum() - 1);
     for (unsigned int i = 0; i < mpart.size(); ++i) {
       x_[dimen_*mpart[i]+dim] += disp;
@@ -1012,7 +972,7 @@ void Space::addMol(const char* type) {
   for (int dim = 0; dim < dimen_; ++dim) {
     double disp;
     if (static_cast<int>(xAdd.size()) == 0) {
-      disp = l_[dim]*(uniformRanNum() - 0.5);
+      disp = boxLength_[dim]*(uniformRanNum() - 0.5);
     } else {
       disp = xAdd[dim];
     }
@@ -1225,7 +1185,7 @@ int Space::checkBond(const double tol) {
 double Space::minl() const {
   double minl = 1e15;
   for (int dim = 0; dim < dimen_; ++dim) {
-    minl = std::min(minl, l_[dim]);
+    minl = std::min(minl, boxLength_[dim]);
   }
   return minl;
 }
@@ -1288,7 +1248,7 @@ int Space::avb(const vector<int> mpart, const vector<int> jmpart,
     }
     while (term == 0) {
       for (int dim = 0; dim < dimen_; ++dim) {
-        xnew[dim] = l_[dim]*(uniformRanNum() - 0.5);
+        xnew[dim] = boxLength_[dim]*(uniformRanNum() - 0.5);
       }
       const double r2 = rsq(xnew, xj);
       if ( (r2 > rabove*rabove) || (r2 < rbelow*rbelow) ) {
@@ -1418,48 +1378,48 @@ void Space::wrap(const vector<int> mpart) {
 void Space::rwrap(vector<double> *rvecPtr) {
   vector<double>& rvec = *rvecPtr;
   vector<double> dx(dimen_, 0.);
-  if (fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < DTOL) {
+  if (!tilted()) {
     dx = pbc(rvec);
     for (int dim = 0; dim < dimen_; ++dim) {
       rvec[dim] += dx[dim];
     }
   } else {
     if (dimen_ == 2) {
-      if (rvec[0] > (0.5*l_[0] + rvec[1]/l_[1]*xyTilt_)) {
-        dx[0] -= l_[0];
+      if (rvec[0] > (0.5*boxLength_[0] + rvec[1]/boxLength_[1]*xyTilt_)) {
+        dx[0] -= boxLength_[0];
       }
-      if (rvec[0] < (-0.5*l_[0] + rvec[1]/l_[1]*xyTilt_)) {
-        dx[0] += l_[0];
+      if (rvec[0] < (-0.5*boxLength_[0] + rvec[1]/boxLength_[1]*xyTilt_)) {
+        dx[0] += boxLength_[0];
       }
-      if (rvec[1] >  0.5*l_[1]) dx[1] -= l_[1];
-      if (rvec[1] < -0.5*l_[1]) dx[1] += l_[1];
+      if (rvec[1] >  0.5*boxLength_[1]) dx[1] -= boxLength_[1];
+      if (rvec[1] < -0.5*boxLength_[1]) dx[1] += boxLength_[1];
       for (int dim = 0; dim < dimen_; ++dim) {
         rvec[dim] += dx[dim];
       }
 
     } else if (dimen_ == 3) {
-      if (rvec[2] >  0.5*l_[2]) {
-        dx[2] -= l_[2];
-        rvec[2] -= l_[2];
-      } else if (rvec[2] < -0.5*l_[2]) {
-        dx[2] += l_[2];
-        rvec[2] += l_[2];
+      if (rvec[2] >  0.5*boxLength_[2]) {
+        dx[2] -= boxLength_[2];
+        rvec[2] -= boxLength_[2];
+      } else if (rvec[2] < -0.5*boxLength_[2]) {
+        dx[2] += boxLength_[2];
+        rvec[2] += boxLength_[2];
       }
-      if (rvec[1] >  0.5*l_[1] + rvec[2]/l_[2]*yzTilt_) {
-        dx[1] -= l_[1];
-        rvec[1] -= l_[1];
-      } else if (rvec[1] < -0.5*l_[1] + rvec[2]/l_[2]*yzTilt_) {
-        dx[1] += l_[1];
-        rvec[1] += l_[1];
+      if (rvec[1] >  0.5*boxLength_[1] + rvec[2]/boxLength_[2]*yzTilt_) {
+        dx[1] -= boxLength_[1];
+        rvec[1] -= boxLength_[1];
+      } else if (rvec[1] < -0.5*boxLength_[1] + rvec[2]/boxLength_[2]*yzTilt_) {
+        dx[1] += boxLength_[1];
+        rvec[1] += boxLength_[1];
       }
-      if (rvec[0] > (0.5*l_[0] + rvec[1]/l_[1]*xyTilt_
-          + rvec[2]/l_[2]*xzTilt_)) {
-        dx[0] -= l_[0];
-        rvec[0] -= l_[0];
-      } else if (rvec[0] < (-0.5*l_[0] + rvec[1]/l_[1]*xyTilt_
-                 + rvec[2]/l_[2]*xzTilt_)) {
-        dx[0] += l_[0];
-        rvec[0] += l_[0];
+      if (rvec[0] > (0.5*boxLength_[0] + rvec[1]/boxLength_[1]*xyTilt_
+          + rvec[2]/boxLength_[2]*xzTilt_)) {
+        dx[0] -= boxLength_[0];
+        rvec[0] -= boxLength_[0];
+      } else if (rvec[0] < (-0.5*boxLength_[0] + rvec[1]/boxLength_[1]*xyTilt_
+                 + rvec[2]/boxLength_[2]*xzTilt_)) {
+        dx[0] += boxLength_[0];
+        rvec[0] += boxLength_[0];
       }
     }
   }
@@ -1479,13 +1439,13 @@ void Space::updateCells(const double dCellMin, const double rCut) {
   dCell_.clear();
   for (int dim = 0; dim < dimen_; ++dim) {
     nCellVec_.push_back(
-      static_cast<int>(l_[dim]/static_cast<double>(dCellMin)));
-    dCell_.push_back(l_[dim] / static_cast<double>(nCellVec_[dim]));
-    if ( (dCell_[dim] + rCut > l_[dim]/2.) || (l_[dim] == 0) ) {
+      static_cast<int>(boxLength_[dim]/static_cast<double>(dCellMin)));
+    dCell_.push_back(boxLength_[dim] / static_cast<double>(nCellVec_[dim]));
+    if ( (dCell_[dim] + rCut > boxLength_[dim]/2.) || (boxLength_[dim] == 0) ) {
       cellType_ = 0;
       WARN(verbose_ == 1, "cell list disabled due to dCell (" << dCell_[dim]
-        << ") + rCut (" << rCut << ") > l_[dim]/2 (l_[" << dim << "]="
-        << l_[dim] << ")");
+        << ") + rCut (" << rCut << ") > boxLength_[dim]/2 (boxLength_[" << dim
+        << "]=" << boxLength_[dim] << ")");
     }
   }
   nCell_ = product(nCellVec_);
@@ -1525,8 +1485,8 @@ void Space::updateCells(const double dCellMin, const double rCut) {
               double r, r2 = 0.;
               for (int dim = 0; dim < dimen_; ++dim) {
                 r = cellCorners[mi][ci][dim] - cellCorners[mj][cj][dim];
-                if (r >  0.5 * l_[dim]) r -= l_[dim];
-                if (r < -0.5 * l_[dim]) r += l_[dim];
+                if (r >  0.5 * boxLength_[dim]) r -= boxLength_[dim];
+                if (r < -0.5 * boxLength_[dim]) r += boxLength_[dim];
                 r2 += r*r;
               }
               if (r2 < rCut*rCut) neigh = 1;
@@ -1608,7 +1568,7 @@ vector<vector<double> > Space::cellCorners_(const int m) {
   vector<double> rc;
   for (int dim = 0; dim < dimen_; ++dim) {
     rc.push_back(static_cast<double>
-      (mVec[dim] + 0.5)*dCell_[dim] - l_[dim]/2.);
+      (mVec[dim] + 0.5)*dCell_[dim] - boxLength_[dim]/2.);
   }
   double cx, cy, cz;
   for (int xi = -1; xi <= 1; xi += 2) {
@@ -1630,32 +1590,33 @@ int Space::rvec2m_(const vector<double> &r) {
   int cell = -1;
   if (dimen_ == 3) {
     const int xc = static_cast<int>
-      (nCellVec_[0]*(r[0]/l_[0] + 0.5)) % nCellVec_[0];
+      (nCellVec_[0]*(r[0]/boxLength_[0] + 0.5)) % nCellVec_[0];
     const int yc = static_cast<int>
-      (nCellVec_[1]*(r[1]/l_[1] + 0.5)) % nCellVec_[1];
+      (nCellVec_[1]*(r[1]/boxLength_[1] + 0.5)) % nCellVec_[1];
     const int zc = static_cast<int>
-      (nCellVec_[2]*(r[2]/l_[2] + 0.5)) % nCellVec_[2];
+      (nCellVec_[2]*(r[2]/boxLength_[2] + 0.5)) % nCellVec_[2];
     cell = nCellVec_[0]*nCellVec_[1]*zc +
                      nCellVec_[0]*yc + xc;
     if ( (cell < 0) || (cell > nCell_ - 1) ) {
       ASSERT(0, "cell(" << cell << ") is either <0 or > nCell(" << nCell_
         << " - 1) " << endl << " r " << r[0] << " " << r[1] << " " << r[2]
         << endl << " xc " << xc << " " << yc << " " << zc << endl <<
-        " l " << l_[0] << " " << l_[1] << " " << l_[2] << endl << " nCellVec "
+        " l " << boxLength_[0] << " " << boxLength_[1] << " " << boxLength_[2]
+        << endl << " nCellVec "
         << nCellVec_[0] << " " << nCellVec_[1] << " " << nCellVec_[2]);
     }
   } else if (dimen_ == 2) {
     const int xc = static_cast<int>
-      (nCellVec_[0]*(r[0]/l_[0] + 0.5)) % nCellVec_[0];
+      (nCellVec_[0]*(r[0]/boxLength_[0] + 0.5)) % nCellVec_[0];
     const int yc = static_cast<int>
-      (nCellVec_[1]*(r[1]/l_[1] + 0.5)) % nCellVec_[1];
+      (nCellVec_[1]*(r[1]/boxLength_[1] + 0.5)) % nCellVec_[1];
     cell = nCellVec_[0]*yc + xc;
     if ( (cell < 0) || (cell > nCell_ - 1) ) {
       ASSERT(0, "cell(" << cell << ") is either <0 or > nCell(" << nCell_
       << " - 1) " << endl <<
         " r " << r[0] << " " << r[1] << endl <<
         " xc " << xc << " " << yc << endl <<
-        " l " << l_[0] << " " << l_[1] << endl <<
+        " l " << boxLength_[0] << " " << boxLength_[1] << endl <<
         " nCellVec " << nCellVec_[0] << " " << nCellVec_[1]);
     }
   }
@@ -2332,7 +2293,7 @@ void Space::writeRestart(const char* fileName) {
   file << "# dimen " << dimen_ << endl;
   for (int dim = 0; dim < dimen_; ++dim) {
     file << std::setprecision(std::numeric_limits<double>::digits10+2)
-         << "# l" << dim << " " << l_[dim] << endl;
+         << "# l" << dim << " " << boxLength_[dim] << endl;
   }
   if (fabs(xyTilt_) > DTOL) file << "# xyTilt " << xyTilt_ << endl;
   if (fabs(xzTilt_) > DTOL) file << "# xzTilt " << xzTilt_ << endl;
@@ -2444,8 +2405,8 @@ void Space::floodFill3d_(
   const double zi = xcluster_[dimen_*clusterNode+2];
   const double rCut2 = rCut * rCut;
   double r2, dx, dy, dz, dx2, dy2, dz2;
-  const double lx = l_[0], ly = l_[1], lz = l_[2], halflx = lx/2.,
-    halfly = ly/2., halflz = lz/2.;
+  const double lx = boxLength_[0], ly = boxLength_[1], lz = boxLength_[2],
+    halflx = lx/2., halfly = ly/2., halflz = lz/2.;
 
   // find all nearest neighbors not already assigned a cluster type
   // within rCut of clusterNode.
@@ -2517,7 +2478,8 @@ void Space::floodFill2d_(
   const double yi = xcluster_[dimen_*clusterNode+1];
   const double rCut2 = rCut * rCut;
   double r2, dx, dy, dx2, dy2;
-  const double lx = l_[0], ly = l_[1], halflx = lx/2., halfly = ly/2.;
+  const double lx = boxLength_[0], ly = boxLength_[1], halflx = lx/2.,
+    halfly = ly/2.;
 
   // find all nearest neighbors not already assigned a cluster type
   // within rCut of clusterNode
@@ -2582,7 +2544,7 @@ void Space::floodFillCell3d_(
   const double zi = xcluster_[dimen_*clusterNode+2];
   const double rCut2 = rCut * rCut;
   double r2, dx, dy, dz, dx2, dy2, dz2;
-  const double lx = l_[0], ly = l_[1], lz = l_[2],
+  const double lx = boxLength_[0], ly = boxLength_[1], lz = boxLength_[2],
     halflx = lx/2., halfly = ly/2., halflz = lz/2.;
   const int iCell = atom2cell_[clusterNode];
 
@@ -2849,7 +2811,7 @@ void Space::floodFillContactAlt_(const int clusterNode,
           for (int ipart = mol2part_[jMol]; ipart < mol2part_[jMol+1];
                ++ipart) {
             for (int dim = 0; dim < dimen_; ++dim) {
-              xcluster_[dimen_*ipart+dim] += currentImage[dim]*l_[dim];
+              xcluster_[dimen_*ipart+dim] += currentImage[dim]*boxLength_[dim];
               // xcluster_[dimen_*ipart+dim] -= contactpbc[iMol][index][dim];
             }
           }
@@ -3199,13 +3161,13 @@ int Space::readXTC(const char* fileName,
 void Space::writeXTC(XDRFILE* trjFileXDR) {
   int natoms_xtc = natom();
   matrix box_xtc;
-  box_xtc[0][0] = l_[0];
+  box_xtc[0][0] = boxLength_[0];
   box_xtc[0][1] = 0;
   box_xtc[0][2] = 0;
-  box_xtc[1][0] = l_[1];
+  box_xtc[1][0] = boxLength_[1];
   box_xtc[1][1] = 0;
   box_xtc[1][2] = 0;
-  box_xtc[2][0] = l_[2];
+  box_xtc[2][0] = boxLength_[2];
   box_xtc[2][1] = 0;
   box_xtc[2][2] = 0;
   // rvec *x_xtc;
@@ -3524,7 +3486,7 @@ void Space::solveBranch_(const double x1, const double y1, const double z1,
                a = (1+A*A+C*C),
                b = 2*(A*B+C*D),
                c = (B*B+D*D-1);
-  long double ans1, ans2;
+  long double ans1 = NUM_INF, ans2 = NUM_INF;
   const long double discrim = quadraticEqReal(a, b, c, ans1, ans2);
   if (discrim < 0) {
     if ( (sqrt(fabsl(discrim))/2/fabsl(a) < 1000*sqrt(DTOL)) ||
@@ -3564,14 +3526,14 @@ void Space::nRadialHist(Histogram *nhistPtr) {
   Histogram& nhist = *nhistPtr;
   nhist.count();
   const int itype = nhist.iType(), jtype = nhist.jType();
-  double lx = l_[0], ly = 0, lz = 0, halflx = lx/2.,
+  double lx = boxLength_[0], ly = 0, lz = 0, halflx = lx/2.,
     halfly = 0, halflz = 0, dx, dy, dz, xi, yi, zi = 0, r2 = 0;
   const double rCutSq = pow(minl()/2., 2);
   if (dimen_ >= 2) {
-    ly = l_[1], halfly = ly/2.;
+    ly = boxLength_[1], halfly = ly/2.;
   }
   if (dimen_ >= 3) {
-    lz = l_[2], halflz = lz/2.;
+    lz = boxLength_[2], halflz = lz/2.;
   }
   for (int ipart = 0; ipart < natom(); ++ipart) {
     if (type_[ipart] == itype) {
@@ -3647,9 +3609,9 @@ void Space::pivotMol(const int iMol, const vector<double> r) {
 vector<double> Space::randPosition() {
   vector<double> x(dimen_);
   for (int dim = 0; dim < dimen_; ++dim) {
-    ASSERT(l_[dim] != 0, "the domain must be set for randPosition, l_[dim="
-      << dim << "]=" << l_[dim]);
-    x[dim] = l_[dim]*(uniformRanNum() - 0.5);
+    ASSERT(boxLength_[dim] != 0, "the domain must be set for randPosition, "
+      << "boxLength_[dim=" << dim << "]=" << boxLength_[dim]);
+    x[dim] = boxLength_[dim]*(uniformRanNum() - 0.5);
   }
   return x;
 }
@@ -3657,10 +3619,10 @@ vector<double> Space::randPosition() {
 vector<double> Space::randPosition(const double iMol, const double maxDisp) {
   vector<double> xtmp(dimen_);
   for (int dim = 0; dim < dimen_; ++dim) {
-    ASSERT(l_[dim] != 0, "the domain must be set for randPosition, l_[dim="
-      << dim << "]=" << l_[dim]);
+    ASSERT(boxLength_[dim] != 0, "the domain must be set for randPosition, "
+      << "boxLength_[dim=" << dim << "]=" << boxLength_[dim]);
     if (maxDisp == -1) {
-      xtmp[dim] = l_[dim]*(uniformRanNum() - 0.5);
+      xtmp[dim] = boxLength_[dim]*(uniformRanNum() - 0.5);
     } else {
       xtmp[dim] = x(mol2part_[iMol], dim) + maxDisp*(2.*uniformRanNum() - 1.);
     }
@@ -3678,8 +3640,8 @@ vector<double> Space::scatterIntensity(const double qMin, const double qMax,
   const int nq = (qMax-qMin)/dq + 1;
   vector<double> intensity(nq);
   double r2, xi, yi, zi, dx, dy, dz;
-  const double lx = l_[0], ly = l_[1], lz = l_[2], halflx = lx/2.,
-    halfly = ly/2., halflz = lz/2.;
+  const double lx = boxLength_[0], ly = boxLength_[1], lz = boxLength_[2],
+    halflx = lx/2., halfly = ly/2., halflz = lz/2.;
   for (int iAtom = 0; iAtom < natom() - 1; ++iAtom) {
     xi = x(iAtom, 0);
     yi = x(iAtom, 1);
@@ -3718,12 +3680,12 @@ void Space::scaleDomain(const double factor, const int dim) {
   double factorActual = factor;
   if (maxlFlag_ != 0) {
     // check that the box isn't scaled beyond limits
-    const double lNew = l_[dim]*factor;
+    const double lNew = boxLength_[dim]*factor;
     if (lNew > maxl_[dim]) {
-      factorActual = maxl_[dim]/l_[dim];
+      factorActual = maxl_[dim]/boxLength_[dim];
     }
   }
-  initBoxLength(l_[dim]*factorActual, dim);
+  initBoxLength(boxLength_[dim]*factorActual, dim);
 
   // loop through each molecule, and scale based on the position
   //  of the first site in molecule
@@ -3804,20 +3766,20 @@ double Space::Q6(const double rCut) {
 }
 
 void Space::setXYTilt(const double xyTilt) {
-  ASSERT(xyTilt <= l_[0], "the xyTilt(" << xyTilt << ") cannot be"
-    << "larger than the box(" << l_[0] << ")");
+  ASSERT(xyTilt <= boxLength_[0], "the xyTilt(" << xyTilt << ") cannot be"
+    << "larger than the box(" << boxLength_[0] << ")");
   xyTilt_ = xyTilt;
 }
 
 void Space::setXZTilt(const double xzTilt) {
-  ASSERT(xzTilt <= l_[0], "the xzTilt(" << xzTilt << ") cannot be"
-    << "larger than the box(" << l_[0] << ")");
+  ASSERT(xzTilt <= boxLength_[0], "the xzTilt(" << xzTilt << ") cannot be"
+    << "larger than the box(" << boxLength_[0] << ")");
   xzTilt_ = xzTilt;
 }
 
 void Space::setYZTilt(const double yzTilt) {
-  ASSERT(yzTilt <= l_[1], "the yzTilt(" << yzTilt << ") cannot be"
-    << "larger than the box(" << l_[1] << ")");
+  ASSERT(yzTilt <= boxLength_[1], "the yzTilt(" << yzTilt << ") cannot be"
+    << "larger than the box(" << boxLength_[1] << ")");
   yzTilt_ = yzTilt;
 }
 
@@ -3828,13 +3790,14 @@ void Space::modXYTilt(const double deltaXYTilt) {
 
   // limit xyTilt to some percentage of the box
   const double maxPercBox = 0.25;
-  if (xyTilt_ >  maxPercBox*l_[0]) xyTilt_ =  maxPercBox*l_[0];
-  if (xyTilt_ < -maxPercBox*l_[0]) xyTilt_ = -maxPercBox*l_[0];
+  if (xyTilt_ >  maxPercBox*boxLength_[0]) xyTilt_ =  maxPercBox*boxLength_[0];
+  if (xyTilt_ < -maxPercBox*boxLength_[0]) xyTilt_ = -maxPercBox*boxLength_[0];
 
   // transform the particles, based on the position of the first site
   // of each 'molecule'
   for (int iMol = 0; iMol < nMol(); ++iMol) {
-    const double dx = x(mol2part_[iMol], 1) * (xyTilt_ - xyTiltOld) / l_[1];
+    const double dx = x(mol2part_[iMol], 1) * (xyTilt_ - xyTiltOld)
+      / boxLength_[1];
 
     for (int iAtom = mol2part_[iMol]; iAtom < mol2part_[iMol+1]; ++iAtom) {
       xset(x(iAtom, 0) + dx, iAtom, 0);
@@ -3849,13 +3812,14 @@ void Space::modXZTilt(const double deltaXZTilt) {
 
   // limit xzTilt to some percentage of the box
   const double maxPercBox = 0.25;
-  if (xzTilt_ >  maxPercBox*l_[0]) xzTilt_ =  maxPercBox*l_[0];
-  if (xzTilt_ < -maxPercBox*l_[0]) xzTilt_ = -maxPercBox*l_[0];
+  if (xzTilt_ >  maxPercBox*boxLength_[0]) xzTilt_ =  maxPercBox*boxLength_[0];
+  if (xzTilt_ < -maxPercBox*boxLength_[0]) xzTilt_ = -maxPercBox*boxLength_[0];
 
   // transform the particles, based on the position of the first site
   // of each 'molecule'
   for (int iMol = 0; iMol < nMol(); ++iMol) {
-    const double dx = x(mol2part_[iMol], 2) * (xzTilt_ - xzTiltOld) / l_[2];
+    const double dx = x(mol2part_[iMol], 2) * (xzTilt_ - xzTiltOld)
+      / boxLength_[2];
 
     for (int iAtom = mol2part_[iMol]; iAtom < mol2part_[iMol+1]; ++iAtom) {
       xset(x(iAtom, 0) + dx, iAtom, 0);
@@ -3870,13 +3834,14 @@ void Space::modYZTilt(const double deltaYZTilt) {
 
   // limit yzTilt to some percentage of the box
   const double maxPercBox = 0.25;
-  if (yzTilt_ >  maxPercBox*l_[1]) yzTilt_ =  maxPercBox*l_[1];
-  if (yzTilt_ < -maxPercBox*l_[1]) yzTilt_ = -maxPercBox*l_[1];
+  if (yzTilt_ >  maxPercBox*boxLength_[1]) yzTilt_ =  maxPercBox*boxLength_[1];
+  if (yzTilt_ < -maxPercBox*boxLength_[1]) yzTilt_ = -maxPercBox*boxLength_[1];
 
   // transform the particles, based on the position of the first site
   // of each 'molecule'
   for (int iMol = 0; iMol < nMol(); ++iMol) {
-    const double dx = x(mol2part_[iMol], 2) * (yzTilt_ - yzTiltOld) / l_[2];
+    const double dx = x(mol2part_[iMol], 2) * (yzTilt_ - yzTiltOld)
+      / boxLength_[2];
 
     for (int iAtom = mol2part_[iMol]; iAtom < mol2part_[iMol+1]; ++iAtom) {
       xset(x(iAtom, 1) + dx, iAtom, 1);
@@ -4172,10 +4137,10 @@ void Space::replicate(const int nx, const int ny, const int nz) {
   // store original variables
   int ipartBig = natom(), iMolBig = nMol();
   const int nMolOrig = nMol();
-  const vector<double> boxOrig = l_;
+  const vector<double> boxOrig = boxLength_;
 
   for (int dim = 0; dim < dimen(); ++dim) {
-    initBoxLength(2*l_[dim], dim);
+    initBoxLength(2*boxLength_[dim], dim);
   }
   for (int ix = 0; ix <= nx; ++ix) {
   for (int iy = 0; iy <= ny; ++iy) {
@@ -4211,6 +4176,64 @@ void Space::replicate(const int nx, const int ny, const int nz) {
       }
     }
   }}}
+}
+
+void Space::pbc(double * dx, double * dy, double * dz,
+                const double &lx, const double &ly, const double &lz) {
+  if (dimen_ >= 3) {
+    if (fabs(*dz) > 0.5*lz) {
+      if (*dz < 0.) {
+        *dz += lz;
+        *dy += yzTilt_;
+        *dx += xzTilt_;
+      } else {
+        *dz -= lz;
+        *dy -= yzTilt_;
+        *dx -= xzTilt_;
+      }
+    }
+    if (fabs(*dy) > 0.5*ly) {
+      if (*dy < 0.) {
+        *dy += ly;
+        *dx += xyTilt_;
+      } else {
+        *dy -= ly;
+        *dx -= xyTilt_;
+      }
+    }
+    if (fabs(*dx) > 0.5*lx) {
+      if (*dx < 0.) {
+        *dx += lx;
+      } else {
+        *dx -= lx;
+      }
+    }
+  // 2D PBC
+  } else {
+    if (fabs(*dy) > 0.5*ly) {
+      if (*dy < 0.) {
+        *dy += ly;
+        *dx += xyTilt_;
+      } else {
+        *dy -= ly;
+        *dx -= xyTilt_;
+      }
+    }
+    if (fabs(*dx) > 0.5*lx) {
+      if (*dx < 0.) {
+        *dx += lx;
+      } else {
+        *dx -= lx;
+      }
+    }
+  }
+}
+
+bool Space::tilted() const {
+  if (fabs(xyTilt_)+fabs(xzTilt_)+fabs(yzTilt_) < DTOL) {
+    return false;
+  }
+  return true;
 }
 
 shared_ptr<Space> makeSpace(int dimension, int id) {

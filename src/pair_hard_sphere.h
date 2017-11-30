@@ -34,16 +34,17 @@ class PairHardSphere : public Pair {
   void initPairParam(const vector<double> eps,
     const vector<double> sig, const vector<double> sigref);
 
-  // Overloaded virtual function from pair.h
-  void multiPartEnerAtomCutInner(const double &r2, const int &itype,
-                                 const int &jtype);
-
   // Construct from restart file
   PairHardSphere(Space* space, const char* fileName);
   virtual ~PairHardSphere() {}
   virtual PairHardSphere* clone(Space* space) const;
 
  protected:
+  // See comments of derived class from Pair
+  void pairSiteSite_(const int &iSiteType, const int &jSiteType,
+    double * energy, double * force, int * neighbor, const double &dx,
+    const double &dy, const double &dz);
+
   // defaults in constructor
   void defaultConstruction_();
 };

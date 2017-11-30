@@ -94,8 +94,8 @@ class PairLJCoulEwald : public Pair {
   void multiPartEnerFrr(const vector<int> mpart, const int flag);
 
   // Overloaded virtual function from pair.h
-  void multiPartEnerAtomCutInner(const double &r2, const int &itype,
-                                 const int &jtype);
+  int multiPartEnerAtomCutInner(const double &r2, const int &itype,
+                                const int &jtype);
 
   /**
    * stores, restores or updates variables to avoid recompute of entire
@@ -234,6 +234,16 @@ class PairLJCoulEwald : public Pair {
 
   // compute self interaction of all particles
   void selfAll_();
+
+  // See comments of derived class from Pair
+  void pairSiteSite_(const int &iSiteType, const int &jSiteType, double * energy,
+    double * force, int * neighbor, const double &dx, const double &dy,
+    const double &dz);
+
+  // Overload to track energy types
+  virtual double pairLoopSite_(
+    const vector<int> &siteList,
+    const int noCell = 0);
 };
 
 #ifdef FEASST_NAMESPACE_

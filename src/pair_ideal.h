@@ -29,16 +29,17 @@ class PairIdeal : public Pair {
   /// @param rCut HWH:depreciated. This variable has no use in this class.
   PairIdeal(Space* space, const double rCut);
 
-  // Overloaded virtual function from pair.h
-  void multiPartEnerAtomCutInner(const double &r2, const int &itype,
-                                 const int &jtype);
-
   // Construct from restart file
   PairIdeal(Space* space, const char* fileName);
   virtual ~PairIdeal() {}
   virtual PairIdeal* clone(Space* space) const;
 
  protected:
+  // See comments of derived class from Pair
+  void pairSiteSite_(const int &iSiteType, const int &jSiteType,
+    double * energy, double * force, int * neighbor, const double &dx,
+    const double &dy, const double &dz);
+
   // defaults in constructor
   void defaultConstruction_();
 };

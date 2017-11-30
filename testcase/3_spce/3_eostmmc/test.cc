@@ -8,11 +8,7 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "pair_lj_coul_ewald.h"
-#include "mc_wltmmc.h"
-#include "trial_add.h"
-#include "trial_delete.h"
-#include "trial_transform.h"
+#include "feasst.h"
 
 int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
 

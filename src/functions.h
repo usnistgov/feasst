@@ -25,6 +25,7 @@
 #include <memory>
 #include <deque>
 #include <complex>
+#include <map>
 #ifdef MPI_H_
   #include <mpi.h>
 #endif
@@ -54,7 +55,7 @@ if (! (condition)) { \
   std::stringstream err_msg; \
   err_msg << "# Assertion `" #condition "` failed in " << __FILE__ \
             << " line " << __LINE__ << ": " << message; \
-  feasst::CustomException c(err_msg); \
+  throw feasst::CustomException(err_msg); \
 }
 #else  // FEASST_NAMESPACE_
 # define ASSERT(condition, message) \
@@ -78,6 +79,18 @@ if (condition) { \
 std::cout << "# Note in " << __FILE__ \
           << " line " << __LINE__ << ": " << message << std::endl; \
 //throw c;
+
+/// Use this to expect to find a CustomException at the end of a try block
+# define CATCH_PHRASE(phrase) \
+FAIL() << "Expected failure"; \
+} catch(feasst::CustomException e) { \
+  std::string what(e.what()); \
+  std::stringstream ermsg; \
+  ermsg << "The phrase(" << phrase << ") was not contained in the expected " \
+    << "error message(" << what << ")"; \
+  ASSERT(what.find(phrase) != std::string::npos, ermsg.str()); \
+} catch(...) { \
+  FAIL() << "Unrecognized exception"; \
 
 class Functions {};  // here is where we trick ../tools/makeFactory.sh.
 
@@ -706,6 +719,9 @@ bool stringInString(const std::string searchString,
 
 /// For Python interface, make ifstream object
 std::shared_ptr<std::ifstream> make_ifstream(const char* fileName);
+
+/// Return the integer factorial.
+int factorial(int x, int result = 1);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

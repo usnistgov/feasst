@@ -8,15 +8,13 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "pair_lj_multi.h"
-#include "mc_wltmmc.h"
-#include "trial_transform.h"
+#include "feasst.h"
 
 int main() {  // LJ, NPT
   feasst::ranInitByDate();
   feasst::Space space(3);
   space.initBoxLength(8);
-  feasst::PairLJMulti pair(&space, 3.);
+  feasst::PairLJ pair(&space, 3.);
   std::stringstream ss;
   ss << space.install_dir() << "/forcefield/data.lj";
   pair.initData(ss.str());

@@ -18,7 +18,6 @@ option(USE_CCACHE "Use ccache to speed up builds" OFF)
 option(USE_OMP "Require use of OMP for parallelization" OFF)
 option(USE_GCOV "Use GCOV for coverage testing" OFF)
 option(USE_SPHINX "Use SPHINX for documentation" OFF)
-option(USE_SEGERROR "Errors result in SEGFAULT for gdb backtrace" OFF)
 
 option(USE_SWIG "Use SWIG for python interface" OFF)
 # If you would like to use the python interface, you may need to specify the
@@ -48,7 +47,7 @@ endif (USE_GTESTCASES)
 #   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DJSON_ -std=c++11")
 # endif (USE_JSON)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} modules)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 # Get the current working branch
 execute_process(
@@ -67,19 +66,14 @@ execute_process(
 )
 
 add_definitions("-DVERSION=\"\\\"${GIT_COMMIT_HASH} ${GIT_BRANCH}\\\"\"")
-add_definitions("-DFEASST_SRC_=${CMAKE_SOURCE_DIR}/../src/")
-
-# segfault errors
-if (USE_SEGERROR)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSEGERROR_")
-endif (USE_SEGERROR)
+add_definitions("-DFEASST_SRC_=${CMAKE_SOURCE_DIR}/src/")
 
 # SPHINX
 if (USE_SPHINX)
   find_package(Doxygen REQUIRED)
   if(DOXYGEN_FOUND)
     #message("Doxygen found")
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+    configure_file(${CMAKE_SOURCE_DIR}/sphinx/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
     add_custom_target(doxygen
     ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
@@ -115,16 +109,20 @@ if (USE_SPHINX)
   set(FEASST_VERSION ${GIT_COMMIT_HASH})
 
   configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/conf.py.in"
+    "${CMAKE_SOURCE_DIR}/sphinx/conf.py.in"
     "${BINARY_BUILD_DIR}/conf.py"
     @ONLY)
+
+  # copy favicon
+  configure_file(
+    ${CMAKE_SOURCE_DIR}/sphinx/_build/_static/favicon.ico ${BINARY_BUILD_DIR}/favicon.ico COPYONLY)
 
   add_custom_target(html ALL
     ${SPHINX_EXECUTABLE}
         -q -b html
         -c "${BINARY_BUILD_DIR}"
         -d "${SPHINX_CACHE_DIR}"
-        "${CMAKE_CURRENT_SOURCE_DIR}"
+        "../"
         "${SPHINX_HTML_DIR}"
     COMMENT "Building HTML documentation with Sphinx")
 
@@ -135,7 +133,7 @@ if (USE_SPHINX)
         -q -b latex
         -c "${BINARY_BUILD_DIR}"
         -d "${SPHINX_CACHE_DIR}"
-        "${CMAKE_CURRENT_SOURCE_DIR}"
+        "../"
         "${SPHINX_LATEX_DIR}"
     COMMENT "Building LATEX documentation with Sphinx")
 
@@ -164,13 +162,13 @@ if (USE_GSL)
   if (GSL_FOUND)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGSL_")
     include_directories(${GSL_INCLUDE_DIRS})
-    set(EXTRA_LIBS ${EXTRA_LIBS} ${GSL_LIBRARIES})
+    set(EXTRA_LIBS "${EXTRA_LIBS} ${GSL_LIBRARIES}")
   else ()
     message("GSL not found by cmake.")
     message("Attempting to search in user-defined ${GSL_USER_DIR}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGSL_")
     include_directories("${GSL_USER_DIR}/include")
-    set(EXTRA_LIBS ${EXTRA_LIBS} -L${GSL_USER_DIR}/lib -lgsl -lgslcblas -lm)
+    set(EXTRA_LIBS "${EXTRA_LIBS} -L${GSL_USER_DIR}/lib -lgsl -lgslcblas -lm")
   endif()
 endif (USE_GSL)
 
@@ -179,13 +177,13 @@ if (USE_HDF5)
 	find_package(HDF5)
 	if (HDF5_FOUND)
 		include_directories(${HDF5_INCLUDE_DIRS})
-    set(EXTRA_LIBS ${EXTRA_LIBS} ${HDF5_LIBRARY_DIRS})
+    set(EXTRA_LIBS "${EXTRA_LIBS} -L${HDF5_LIBRARY_DIRS}")
   else ()
     message("HDF5 not found by cmake.")
     message("Attempting to search in user-defined ${HDF5_USER_DIR}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHDF5_")
     include_directories("${HDF5_USER_DIR}/include")
-    set(EXTRA_LIBS ${EXTRA_LIBS} -L${HDF5_USER_DIR}/lib -lhdf5 -lhdf5_cpp)
+    set(EXTRA_LIBS "${EXTRA_LIBS} -L${HDF5_USER_DIR}/lib -lhdf5 -lhdf5_cpp")
 	endif (HDF5_FOUND)
 endif (USE_HDF5)
 
@@ -194,7 +192,7 @@ if (USE_FFTW)
   message("USING FFTW")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DFFTW_")
   include_directories("${FFTW_DIR}/include")
-  set(EXTRA_LIBS ${EXTRA_LIBS} -L${FFTW_DIR}/lib -lfftw3)
+  set(EXTRA_LIBS "${EXTRA_LIBS} -L${FFTW_DIR}/lib -lfftw3")
 endif (USE_FFTW)
 
 # XDR Library
@@ -202,7 +200,7 @@ if (USE_XDRFILE)
   message("USING XDRFILE")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DXDRFILE_H_ -DCPLUSPLUS")
   include_directories("${XDRFILE_DIR}/include/xdrfile")
-  set(EXTRA_LIBS ${EXTRA_LIBS} -L${XDRFILE_DIR}/lib -lxdrfile)
+  set(EXTRA_LIBS "${EXTRA_LIBS} -L${XDRFILE_DIR}/lib -lxdrfile")
 endif (USE_XDRFILE)
 
 # ccache
@@ -233,6 +231,9 @@ else(OPENMP_FOUND)
   endif()
 endif()
 
+#strip leading whitespace from EXTRA_LIBS
+string(REGEX REPLACE "^ " "" EXTRA_LIBS "${EXTRA_LIBS}")
+
 if(CMAKE_COMPILER_IS_GNUCXX)
     add_definitions(-std=gnu++0x)
 endif()
@@ -243,27 +244,25 @@ endif()
 
 # Use the makeFactory.sh script to make feasst.i and factories.cc
 execute_process(
-  COMMAND ./makeFactory.sh
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  COMMAND python ${CMAKE_SOURCE_DIR}/tools/build/makeFactory.py -s ${CMAKE_SOURCE_DIR}
+  WORKING_DIRECTORY .
 )
 
-file(GLOB feasst_unittest_SRC "${CMAKE_SOURCE_DIR}/../src/*_unittest.cc")
-file(GLOB feasst_SRC "${CMAKE_SOURCE_DIR}/../src/*.h" "${CMAKE_SOURCE_DIR}/../src/*.cc")
+file(GLOB feasst_unittest_SRC "${CMAKE_SOURCE_DIR}/src/*_unittest.cc")
+file(GLOB feasst_SRC "${CMAKE_SOURCE_DIR}/src/*.h" "${CMAKE_SOURCE_DIR}/src/*.cc")
 
 # remove the unittests and main from feasst_SRC
 list(REMOVE_ITEM feasst_SRC ${feasst_unittest_SRC})
-file(GLOB main_SRC "${CMAKE_SOURCE_DIR}/../src/main.cc" "${CMAKE_SOURCE_DIR}/../src/ui_text.cc")
-list(REMOVE_ITEM feasst_SRC ${main_SRC})
 
-include_directories("${CMAKE_SOURCE_DIR}/../src/")
-if(EXISTS "${CMAKE_SOURCE_DIR}/../drivers/main.cc")
-  add_executable(main "${CMAKE_SOURCE_DIR}/../drivers/main" ${feasst_SRC})
+file(GLOB feasst_cc_SRC "${CMAKE_SOURCE_DIR}/src/*.cc")
+list(REMOVE_ITEM feasst_cc_SRC ${feasst_unittest_SRC})
+
+include_directories("${CMAKE_SOURCE_DIR}/src/")
+if(EXISTS "${CMAKE_SOURCE_DIR}/drivers/main.cc")
+  add_executable(main "${CMAKE_SOURCE_DIR}/drivers/main" ${feasst_SRC})
   SET_TARGET_PROPERTIES(main PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
   target_link_libraries(main ${EXTRA_LIBS})
 endif()
-add_executable(ui_text "${CMAKE_SOURCE_DIR}/../src/ui_text.cc" ${feasst_SRC})
-SET_TARGET_PROPERTIES(ui_text PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
-target_link_libraries(ui_text ${EXTRA_LIBS})
 set(EXECUTABLE_OUTPUT_PATH "bin")
 
 if (USE_GTEST)
@@ -271,16 +270,16 @@ if (USE_GTEST)
   enable_testing()
   file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/tmp")
   # Download and unpack googletest at configure time
-  configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
+  configure_file(${CMAKE_SOURCE_DIR}/cmake/gtest.cmake ${CMAKE_SOURCE_DIR}/googletest-download/CMakeLists.txt)
   execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
     RESULT_VARIABLE result
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/googletest-download )
   if(result)
     message(FATAL_ERROR "CMake step for googletest failed: ${result}")
   endif()
   execute_process(COMMAND ${CMAKE_COMMAND} --build .
     RESULT_VARIABLE result
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/googletest-download )
   if(result)
     message(FATAL_ERROR "Build step for googletest failed: ${result}")
   endif()
@@ -291,8 +290,8 @@ if (USE_GTEST)
 
   # Add googletest directly to our build. This defines
   # the gtest and gtest_main targets.
-  add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
-                   ${CMAKE_BINARY_DIR}/googletest-build)
+  add_subdirectory(${CMAKE_SOURCE_DIR}/googletest-src
+                   ${CMAKE_SOURCE_DIR}/googletest-build)
 
   # The gtest/gtest_main targets carry header search path
   # dependencies automatically when using CMake 2.8.11 or
@@ -310,10 +309,10 @@ if (USE_GTEST)
   if (USE_GTESTCASES)
     message("USING GTEST CASES")
     execute_process(
-      COMMAND ./genGTestCases.sh
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+      COMMAND ${CMAKE_SOURCE_DIR}/tools/build/genGTestCases.sh ${CMAKE_SOURCE_DIR}
+      WORKING_DIRECTORY .
     )
-    file(GLOB feasst_testcase_SRC "${CMAKE_SOURCE_DIR}/testcase/*.cc")
+    file(GLOB feasst_testcase_SRC "${CMAKE_SOURCE_DIR}/build/testcase/*.cc")
     add_executable(testcase ${feasst_testcase_SRC} ${feasst_SRC})
     SET_TARGET_PROPERTIES(testcase PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
     target_link_libraries(testcase gtest_main ${EXTRA_LIBS})
@@ -340,19 +339,25 @@ if (USE_SWIG)
     INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 
     #INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+    add_custom_target(build-time-make-directory ALL
+        COMMAND ${CMAKE_COMMAND} -E make_directory build)
+        #file(MAKE_DIRECTORY build)
     SET(CMAKE_SWIG_FLAGS "")
 
-    file(GLOB feasst_cc_SRC "${CMAKE_SOURCE_DIR}/../src/*.cc")
-    list(REMOVE_ITEM feasst_cc_SRC ${feasst_unittest_SRC})
-    list(REMOVE_ITEM feasst_cc_SRC ${main_SRC})
-
-    SET_SOURCE_FILES_PROPERTIES(feasst.i PROPERTIES CPLUSPLUS ON)
-    #SET_SOURCE_FILES_PROPERTIES(feasst.i PROPERTIES SWIG_FLAGS "-includeall")
-    SWIG_ADD_MODULE(feasst python feasst.i ${feasst_cc_SRC})
+    SET_SOURCE_FILES_PROPERTIES("${CMAKE_SOURCE_DIR}/build/feasst.i" PROPERTIES CPLUSPLUS ON)
+    #SET_SOURCE_FILES_PROPERTIES(${CMAKE_SOURCE_DIR}/src/feasst.i PROPERTIES SWIG_FLAGS "-includeall")
+    SWIG_ADD_MODULE(feasst python "${CMAKE_SOURCE_DIR}/build/feasst.i" ${feasst_cc_SRC})
     SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS})
-    add_test(NAME swigtest COMMAND ../tools/run.sh testcase/test.py)
+    add_dependencies(_feasst build-time-make-directory)
+    add_test(NAME swigtest COMMAND ${CMAKE_SOURCE_DIR}/tools/run.sh testcase/test.py)
   else (SWIG_FOUND)
     message("SWIG NOT FOUND")
   endif (SWIG_FOUND)
 endif(USE_SWIG)
+
+add_library(feasst SHARED ${feasst_cc_SRC})
+SET_TARGET_PROPERTIES(feasst PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
+
+message("Flags:" ${CMAKE_CXX_FLAGS})
+message("Flags:" ${EXTRA_LIBS})
 

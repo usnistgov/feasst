@@ -24,4 +24,4 @@ To compare with the NIST SRSW:
 
 * colMat columns 1:2 with ``h2o.525Kr*.p_macro.dat``
 
-Now, in order to compare coexistence properties you will need to make use of histogram reweighting, as described in :doc:`/testcase/1_lj_3_eostmmc_README`.
+Now, in order to compare coexistence properties you will need to make use of histogram reweighting, as described in :doc:`1_lj_3_eostmmc_README`.

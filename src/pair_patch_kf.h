@@ -37,7 +37,7 @@ class PairPatchKF : public Pair {
   /**
    * Constructor
    * @param rCut interaction cut off distance
-   * @param patchAngle solid half-angle of patch (see reference)
+   * @param patchAngle solid half-angle (in degrees) of patch (see reference)
    */
   PairPatchKF(Space *space, const double rCut, const double patchAngle);
 
@@ -45,8 +45,6 @@ class PairPatchKF : public Pair {
   void mirrorPatch(const int flag) {
     if (flag == 1) { mirrorPatch_ = true; } else { mirrorPatch_ = false; };
   }
-
-  void initEnergy();     //!< function to calculate forces, given positions
 
   /// potential energy of multiple particles
   double multiPartEner(const vector<int> multiPart, const int flag);
@@ -70,12 +68,17 @@ class PairPatchKF : public Pair {
   /// potential energy and forces of all particles
   double allPartEnerForce(const int flag);
 
+  /// Compute interactions between two molecules.
+  void allPartEnerForceMolCutInner(const double r2,
+    const int iMol, const int jMol, const double dx,
+    const double dy, const double dz);
+
   /// Return the cosine of the patch angle.
   double cpa() const { return cpa_; }
 
   PairPatchKF(Space* space, const char* fileName) : Pair(space, 0.) {
     ASSERT(0, "no restart implemented"); }
-  ~PairPatchKF();
+  ~PairPatchKF() {};
   virtual PairPatchKF* clone(Space* space) const {
     PairPatchKF* p = new PairPatchKF(*this); p->reconstruct(space); return p;
   }

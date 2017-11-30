@@ -42,17 +42,21 @@ void PairHardCircle::writeRestart(const char* fileName) {
   file << "# rDep " << rDep_ << endl;
 }
 
-void PairHardCircle::multiPartEnerAtomCutInner(const double &r2,
-  const int &itype,
-  const int &jtype) {
-  if (itype == jtype) {}  // remove unused parameter warning
-  // hard sphere
+void PairHardCircle::pairSiteSite_(const int &iSiteType, const int &jSiteType,
+  double * energy, double * force, int * neighbor, const double &dx,
+  const double &dy, const double &dz) {
+  const double r2 = dx*dx + dy*dy + dz*dz;
+  *energy = 0;
+  *neighbor = 0;
   if (r2 < dCircle_*dCircle_) {
-    peSRone_ += NUM_INF;
+    // hard sphere
+    *energy = NUM_INF;
+    *neighbor = 1;
   } else {
     const double r = sqrt(r2),
                  R = 0.5*dCircle_ + rDep_;
-    peSRone_ -= (2*R*R*acos(r*0.5/R) - r*sqrt(R*R-r*r*0.25))/PI/rDep_/rDep_;
+    *energy = -(2*R*R*acos(r*0.5/R) - r*sqrt(R*R-r*r*0.25))/PI/rDep_/rDep_;
+    *neighbor = 1;
   }
 }
 

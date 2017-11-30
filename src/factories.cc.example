@@ -4,7 +4,7 @@
  * and diverge for different branches/repos with different files.
  */
 
-#include "./pair_lj_multi.h"
+#include "./pair_lj.h"
 #include "./pair_lj_coul_ewald.h"
 #include "./pair_tabular.h"
 #include "./pair_round_square.h"
@@ -49,8 +49,8 @@ Pair* Pair::makePair(Space* space,
   Pair* pair = NULL;
   if (pairtypestr.compare("PairLJ") == 0) {
     pair = new PairLJ(space, fileName);
-  } else if (pairtypestr.compare("PairLJMulti") == 0) {
-    pair = new PairLJMulti(space, fileName);
+  } else if (pairtypestr.compare("PairLJ") == 0) {
+    pair = new PairLJ(space, fileName);
   } else if (pairtypestr.compare("PairLJCoulEwald") == 0) {
     pair = new PairLJCoulEwald(space, fileName);
   } else if (pairtypestr.compare("PairTabular") == 0) {

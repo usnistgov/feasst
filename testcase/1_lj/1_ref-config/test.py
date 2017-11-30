@@ -15,9 +15,8 @@ class TestLJ_SRSW_REFCONF(unittest.TestCase):
     def test(self):
         space = feasst.Space(3)
         space.initBoxLength(8)
-        pair = feasst.PairLJ(space, 3)   # potential truncation at 3
-        molNameSS = space.install_dir() + "/forcefield/data.lj"
-        pair.initData(molNameSS)   # initialize the sigma and epsilon
+        pair = feasst.PairLJ(space, 3,   # potential truncation
+          feasst.args({"cutType" : "lrc"}))   # use long range corrections
 
         # create clones of Space and Pair to perform two separate tests
         space2 = space.clone()

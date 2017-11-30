@@ -8,11 +8,7 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "pair_lj.h"
-#include "mc_wltmmc.h"
-#include "trial_add.h"
-#include "trial_delete.h"
-#include "trial_transform.h"
+#include "feasst.h"
 
 // Compare canonical ensemble average potential energy and macrostate
 // probability with SRSW.
@@ -23,7 +19,7 @@ void compareEnergyAndMacro(feasst::CriteriaWLTMMC criteria,
     << ") that doesn't exist in criteria, with max of " << criteria.mMax());
   double diff = criteria.pe(iMacro).average() - peAv;
   // 99% confidence interval
-  double tol = 2.576*(criteria.pe(iMacro).blockStdev() + peStd);
+  double tol = 3.*(criteria.pe(iMacro).blockStdev() + peStd);
   ASSERT(fabs(diff) < tol,
     "N=" << iMacro << " energy is " << criteria.pe(iMacro).average() << " +/- "
     << criteria.pe(iMacro).blockStdev() << " but SRSW is " << peAv << " +/- "
@@ -83,8 +79,7 @@ int main(int argc, char** argv) {  // LJ, SRSW_EOSTMMC
   s.addMolInit(addMolType.str().c_str());
 
   // initialize pair-wise interactions
-  feasst::PairLJ p(&s, rCut);
-  p.initEnergy();
+  feasst::PairLJ p(&s, rCut, {{"cutType", "lrc"}});
 
   // acceptance criteria
   //feasst::CriteriaWLTMMC c(1./temp, exp(lnz), "nmol" , nMolMin - 0.5,

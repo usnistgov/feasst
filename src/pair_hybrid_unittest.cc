@@ -10,7 +10,6 @@
 
 #include <gtest/gtest.h>
 #include "pair_lj.h"
-#include "pair_lj_multi.h"
 #include "pair_lj_coul_ewald.h"
 #include "pair_patch_kf.h"
 #include "pair_hybrid.h"
@@ -33,9 +32,7 @@ TEST(PairHybrid, hybrid) {
   Space s2(3);
   s2.initBoxLength(8);
   s2.readXYZBulk(1, "atom", "../unittest/lj/srsw/lj_sample_config_periodic4.xyz");
-  PairLJ p2(&s2, 3);
-  p2.linearShift(1);
-  p2.initEnergy();
+  PairLJ p2(&s2, 3, {{"cutType", "linearShift"}});
   petot += p2.peTot();
   ph.addPair(&p2);
   EXPECT_EQ(2, ph.nPairs());
@@ -57,8 +54,7 @@ TEST(PairHybrid, ljANDwca) {
 
   Space s(3);
   s.initBoxLength(60);
-  PairLJMulti pLJ(&s, 3);
-  pLJ.initData("../forcefield/data.cg3_60_43_1");
+  PairLJ pLJ(&s, 3, {{"molType", "../forcefield/data.cg3_60_43_1"}});
   vector<double> xAdd(3, 0.);
   pLJ.addMol(xAdd);
   xAdd[0] = 3.;
@@ -74,8 +70,8 @@ TEST(PairHybrid, ljANDwca) {
   pLJ.epsijset(2, 1, 0.);
   pLJ.epsijset(2, 2, 0.);
   pLJ.initEnergy();
-  PairLJMulti pWCA(&s, pow(2, 1./6.));
-  pWCA.initData("../forcefield/data.cg3_60_43_1");
+  PairLJ pWCA(&s, pow(2, 1./6.),
+    {{"molType", "../forcefield/data.cg3_60_43_1"}});
   pWCA.cutShift(1);
   pWCA.epsijset(1, 1, 0.);
   pWCA.initEnergy();
@@ -127,11 +123,56 @@ TEST(PairHybrid, ljANDwca) {
   s.writeRestart("tmp/srst");
   Space s3("tmp/srst");
   pLJ.writeRestart("tmp/pLJrst");
-  PairLJMulti pLJ3(&s, "tmp/pLJrst");
+  PairLJ pLJ3(&s, "tmp/pLJrst");
   pWCA.writeRestart("tmp/pWCArst");
-  PairLJMulti pWCA3(&s, "tmp/pWCArst");
+  PairLJ pWCA3(&s, "tmp/pWCArst");
   ph.writeRestart("tmp/phrst");
   PairHybrid ph3(&s, "tmp/phrst");
 
+}
+
+TEST(PairHybrid, Intra) {
+  feasst::Space space;
+  space.initBoxLength(90.);
+
+  space.addMolInit("../forcefield/data.cg7mab2fullangflex");
+  vector<double> xAdd(space.dimen(), 0.);
+  space.xAdd = xAdd;
+  space.addMol();
+  xAdd[0] = 11;
+  xAdd[1] = 5;
+  xAdd[2] = 3;
+  space.xAdd = xAdd;
+  space.addMol();
+
+  feasst::PairLJ pairInter(&space, 30.,
+    {{"molType", "../forcefield/data.cg7mab2fullangflex"},
+     {"cutType", "cutShift"}});
+  feasst::PairLJ pairIntra(&space, 30.,
+    {{"molType", "../forcefield/data.cg7mab2fullangflex"},
+     {"cutType", "cutShift"}});
+
+  // initialize intramolecular interactions via map
+  vector<vector<int> > map(7, vector<int>(7, 1));
+  for (int i = 0; i < 7; ++i) map[i][i] = 0;
+  map[0][1] = 0;
+  map[0][3] = 0;
+  map[0][5] = 0;
+  map[1][2] = 0;
+  map[3][4] = 0;
+  map[5][6] = 0;
+  pairIntra.initIntra(2, map);
+
+  feasst::PairHybrid pairHybrid(&space);
+  pairHybrid.addPair(&pairInter);
+  pairHybrid.addPair(&pairIntra);
+
+  pairHybrid.initEnergy();
+  EXPECT_NEAR(pairHybrid.peTot(), -7.3557992487162247, 10*feasst::DTOL);
+  EXPECT_NEAR(pairInter.multiPartEner(space.imol2mpart(0), 0),
+    pairInter.peTot(), feasst::DTOL);
+  EXPECT_NEAR(pairIntra.multiPartEner(space.imol2mpart(0), 0) +
+              pairIntra.multiPartEner(space.imol2mpart(1), 0),
+    pairIntra.peTot(), 10*feasst::DTOL);
 }
 

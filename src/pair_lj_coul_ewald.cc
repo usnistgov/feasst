@@ -755,7 +755,7 @@ void PairLJCoulEwald::initLMPData(const string fileName) {
   }
 }
 
-void PairLJCoulEwald::multiPartEnerAtomCutInner(const double &r2,
+int PairLJCoulEwald::multiPartEnerAtomCutInner(const double &r2,
   const int &itype, const int &jtype) {
   const double epsij = epsij_[itype][jtype];
   double enlj;
@@ -778,6 +778,44 @@ void PairLJCoulEwald::multiPartEnerAtomCutInner(const double &r2,
 
   peQRealone_ += enq;
   peSRone_ += enq + enlj;
+  return 1;
+}
+
+void PairLJCoulEwald::pairSiteSite_(const int &iSiteType, const int &jSiteType,
+  double * energy, double * force, int * neighbor, const double &dx,
+  const double &dy, const double &dz) {
+  const double r2 = dx*dx + dy*dy + dz*dz;
+  const double epsij = epsij_[iSiteType][jSiteType];
+  *energy = 0.;
+  *force = 0.;
+  *neighbor = 1;
+  if (epsij != 0) {
+    // energy and force prefactor
+    const double sigij = sigij_[iSiteType][jSiteType];
+    const double r2inv = sigij*sigij/r2;
+    const double r6inv = r2inv*r2inv*r2inv;
+    const double enlj = 4.*epsij*(r6inv*(r6inv - 1.));
+    *energy += enlj;
+    peLJone_ += enlj;
+    *force += 48.*epsij*(r6inv*r2inv*(r6inv - 0.5));
+  }
+
+  // charge interactions
+  const double enq = q_[iSiteType]*q_[jSiteType]*erft_.eval(r2);
+  *energy += enq;
+  peQRealone_ += enq;
+  peSRone_ += *energy;
+  *force += q_[iSiteType]*q_[jSiteType]
+            *(2.*alpha*exp(-alpha*alpha*r2)/sqrt(PI));
+}
+
+double PairLJCoulEwald::pairLoopSite_(
+  const vector<int> &siteList,
+  const int noCell) {
+  peLJone_ = 0.;
+  peSRone_ = 0.;
+  peQRealone_ = 0.;
+  return Pair::pairLoopSite_(siteList, noCell);
 }
 
 #ifdef FEASST_NAMESPACE_

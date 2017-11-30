@@ -59,6 +59,10 @@ TEST(Functions, fill3d) {
 
 TEST(Functions, numLines) {
 	EXPECT_EQ(266, numLines("../unittest/colMat1.txt"));
+	try {
+    numLines("this/does/not/exist");
+    CATCH_PHRASE("cannot open");
+  }
 }
 
 TEST(Functions, matMul3d) {
@@ -592,3 +596,13 @@ TEST(Functions, stringInString) {
   EXPECT_TRUE(stringInString(searchString, stringToSearch));
 }
 
+TEST(Functions, factorial) {
+  // EXPECT_EQ(factorial(-2), 1);
+  EXPECT_EQ(factorial(0), 1);
+  EXPECT_EQ(factorial(1), 1);
+  EXPECT_EQ(factorial(2), 2);
+  EXPECT_EQ(factorial(3), 6);
+  EXPECT_EQ(factorial(4), 24);
+  EXPECT_EQ(factorial(5), 120);
+  EXPECT_EQ(factorial(6), 720);
+}

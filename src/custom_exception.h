@@ -15,15 +15,9 @@
 #ifndef CUSTOM_EXCEPTION_H_
 #define CUSTOM_EXCEPTION_H_
 
-#define FAIL_CODE -1
-
 #include <exception>
 #include <string>
-#include <iostream>
 #include <sstream>
-
-using std::cout;
-using std::endl;
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -35,21 +29,16 @@ namespace feasst {
 class CustomException : public std::exception {
  public:
   /// Instantiate an exeption with a user-defined error message.
-  CustomException(std::string m = "custom exception occurred");
-
-  /// Instantiate an exeption with a user-defined error message.
   CustomException(std::stringstream& m);
-
-  ~CustomException() throw() { cout << msg_; }
-
-  /// Add additional information to the message, such as the thread number.
-  void catMessage();
 
   /// Return the user's message
   const char* what() const throw() { return msg_.c_str(); }
 
  protected:
   std::string msg_;
+
+  /// Add additional information to the message, such as the thread number.
+  void catMessage_();
 };
 
 #ifdef FEASST_NAMESPACE_

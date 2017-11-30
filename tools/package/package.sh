@@ -39,6 +39,10 @@ done < "/tmp/private_files.txt"
 # shopt -s dotglob nullglob   #this command moves hidden files
 # mv $CLONE $DEST
 
+# replace all of the optional arguments that were turned on
+sed 's/^option(\(.*\) ON)$/option(\1 OFF)/' $CLONE/CMakeLists.txt > /tmp/tmp
+mv /tmp/tmp $CLONE/CMakeLists.txt
+
 # copy the repo to the destination
 rsync -azv $CLONE/ $DEST/
 

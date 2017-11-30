@@ -177,8 +177,7 @@ Table::Table(const char* fileName) {
       }
     }
   } else {
-    cout << "error: Unrecognized tabdim(" << tabDims_ << ")" << endl;
-    exit(0);
+    ASSERT(0, "error: Unrecognized tabdim(" << tabDims_ << ")");
   }
 
   // set the interpolator, which may require some initialization
@@ -689,8 +688,8 @@ double Table::compute_max() const {
   } else {
     ASSERT(0, "error in table for compute_max, urecognized tabDims_("
       << tabDims_ << ")");
-    exit(0);
   }
+  return 0;
 }
 
 void Table::printHDF5(const char* fileName) {

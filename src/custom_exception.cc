@@ -20,32 +20,12 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-CustomException::CustomException(std::string m
-  ) {
-  msg_ = m;
-  catMessage();
-  cout << msg_ << endl;
-  std::cerr << msg_ << endl;
-  exit(FAIL_CODE);  // terminate immediately for easy backtrace
-}
-
 CustomException::CustomException(std::stringstream& m) {
   msg_ = m.str();
-  catMessage();
-  cout << msg_ << endl;
-  cout << "terminating" << endl;
-  std::cerr << msg_ << endl;
-  std::cerr << "terminating" << endl;
-  #ifdef SEGERROR_
-    // force seg fault
-    int *foo = (int*)-1; // make a bad pointer
-    printf("%d\n", *foo);       // causes segfault
-  #else  // SEGERROR_
-    exit(FAIL_CODE);
-  #endif  // SEGERROR_
+  catMessage_();
 }
 
-void CustomException::catMessage() {
+void CustomException::catMessage_() {
   int nproc = 0;
   #ifdef MPI_H_
     int initialized;

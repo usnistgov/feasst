@@ -52,7 +52,7 @@ For histogram reweighting, apply the equation above to the macrostate probabilit
 When there are multiple peaks in :math:`ln\Pi` that do not change greatly with system size, this often corresponds to different macroscopic phases.
 One chooses the minimum in :math:`ln\Pi` as the boundary between these two phases.
 The two phases are at coexistence when the sum of their probabilities are equal.
-Extensive properties, :math:`A` are obtained first as a series of canonical ensemble averages for each value of :math:`N`, and then post-processed as a function of :math:`lnz` as grand canonical ensemble averages, :math:`A(\mu,V,T) = \sum_N=0^{N_{max}} A(N,V,T) \Pi(N; \mu,V,T)`
+Extensive properties, :math:`A` are obtained first as a series of canonical ensemble averages for each value of :math:`N`, and then post-processed as a function of :math:`lnz` as grand canonical ensemble averages, :math:`A(\mu,V,T) = \sum_{N=0}^{N_{max}} A(N,V,T) \Pi(N; \mu,V,T)`
 
 Example histogram reweighting tools are provided in `<tools/rw.cc>`_ and `<tools/rw.py>`_.
 For C++, ``cd tools`` ``./compile.sh rw`` to make the ``rw`` executable.

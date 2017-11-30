@@ -28,10 +28,10 @@ void PairIdeal::defaultConstruction_() {
   className_.assign("PairIdeal");
 }
 
-void PairIdeal::multiPartEnerAtomCutInner(const double &r2,
-  const int &itype,
-  const int &jtype) {
-  if (static_cast<int>(r2) < itype*jtype) {}  // remove unused variable warning
+void PairIdeal::pairSiteSite_(const int &iSiteType, const int &jSiteType,
+  double * energy, double * force, int * neighbor, const double &dx,
+  const double &dy, const double &dz) {
+  *neighbor = 1;
 }
 
 PairIdeal* PairIdeal::clone(Space* space) const {

@@ -8,35 +8,43 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "pair.h"
-#include "mc.h"
-#include "trial_transform.h"
-
-using namespace feasst;
+#include "feasst.h"
 
 // Define a new Pair class to simulate the Jagla potential
 // sigma is the hard particle size and rCut is the extent of the subsequent
 // linear ramp. Epsilon is the size of the repulsion at r=sigma.
-class PairJagla : public Pair {
+// Non-dimensionalize by sigma and epsilon such that the only parameter
+// is now k_B T / epsilon and Delta = (rCut-sigma)/sigma = rCut/sigma - 1
+class PairJagla : public feasst::Pair {
  public:
-  PairJagla(Space * space, const double rCut) : Pair(space, rCut) {}
+  PairJagla(feasst::Space * space, const double rCut)
+    : feasst::Pair(space, rCut) {}
   ~PairJagla() {}
 
   // Overloaded virtual function from pair.h
-  void multiPartEnerAtomCutInner(const double &r2, const int &itype,
-                                 const int &jtype) {
-    const double sigij = sigij_[itype][jtype];
-    if (r2 < sigij*sigij) {
-      peSRone_ += NUM_INF;
+  void pairSiteSite_(
+    const int &iSiteType,  //!< type of first site
+    const int &jSiteType,  //!< type of second site
+    double * energy,      //!< energy of interaction
+    double * force,       //!< force/rij of interaction
+    int * neighbor,       //!< 1 if neighbor, 0 otherwise
+    const double &dx,      //!< x-dimension separation
+    const double &dy,      //!< y-dimension separation
+    const double &dz) {    //!< z-dimension separation
+    *neighbor = 1;
+    const double r2 = dx*dx + dy*dy + dz*dz;
+    // hard sphere if less than sigma
+    if (r2 < 1.) {
+      *energy = NUM_INF;
+    // otherwise, linear ramp
     } else {
-      const double z = (sqrt(r2) - sigij) / (rCutij_[itype][jtype] - sigij);
-      peSRone_ += epsij_[itype][jtype]*z;
+      *energy += (sqrt(r2) - 1.)/(rCutij_[iSiteType][jSiteType] - 1.);
     }
   }
 };
 
 int main() {  // JAGLA, REF_CONFIG
-  Space space(3);
+  feasst::Space space(3);
   stringstream molNameSS;
   PairJagla pair(&space, 2);   // potential truncation represents end of "ramp"
   molNameSS << space.install_dir() << "/forcefield/data.atom";

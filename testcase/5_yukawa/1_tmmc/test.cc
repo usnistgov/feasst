@@ -8,26 +8,21 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "pair_lj_multi.h"
-#include "mc_wltmmc.h"
-#include "trial_transform.h"
-#include "trial_add.h"
-#include "trial_delete.h"
+#include "feasst.h"
 
 int main() {  // Yukawa, NVTMC
   feasst::ranInitByDate();
   feasst::Space space(3);
   space.initBoxLength(12.);
   //space.updateCells(rCut);
-  feasst::PairLJMulti pair(&space, 5.);
+  std::stringstream addMolType;
+  addMolType << space.install_dir() << "/forcefield/data.atom";
+  feasst::PairLJ pair(&space, 5., {{"molType", addMolType.str()}});
   pair.initExpType(3);
 
   // Set the Yukawa potential
   // A*exp(-K r)/r; in bolhuis, yukawa = A zetaexp(-r/zeta)/r... Thus, A=A zeta, K = 1/zeta
   pair.initScreenedElectro(2*1.794, 1./1.794);
-  std::stringstream addMolType;
-  addMolType << space.install_dir() << "/forcefield/data.atom";
-  pair.initData(addMolType.str().c_str());
   pair.cutShift(1);
   pair.initEnergy();
 

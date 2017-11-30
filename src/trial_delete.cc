@@ -75,7 +75,6 @@ void TrialDelete::attempt1_() {
          (!avbOn_), "this class assumes atomCut(" << pair_->atomCut()
          << ") == 0 when avb is on");
   if (verbose_ == 1) std::cout << "attempting to " << trialType_ << std::endl;
-
   // initialize molid_ if not already initialized from default value
   if (molid_ == -1) {
     if (molType_.empty()) {
@@ -119,6 +118,12 @@ void TrialDelete::attempt1_() {
         preFac_ = static_cast<double>(space()->nMol())/space()->vol();
         lnpMet_ = log(preFac_);
         mpart_ = space()->randMol();
+        if (delTwo != 0) {
+          const vector<int> mpart2 = space()->randMolDiff(mpart_);
+          mpart_.insert(mpart_.end(), mpart2.begin(), mpart2.end());
+          // sort mpart_ so that there are no issues if deleted
+          std::sort(mpart_.begin(), mpart_.end());
+        }
 
       // otherwise, delete only molType
       } else {

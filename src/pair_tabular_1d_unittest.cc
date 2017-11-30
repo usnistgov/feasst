@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 #include "pair_tabular_1d.h"
-#include "pair_lj_multi.h"
+#include "pair_lj.h"
 
 using namespace feasst;
 
@@ -20,7 +20,7 @@ TEST(PairTabular1D, printReadTable) {
   ss.initBoxLength(4);
   string addMolTypeA("../forcefield/data.lj");
   string addMolTypeB("../forcefield/data.ljb");
-  PairLJMulti pp(&ss, rCut);
+  PairLJ pp(&ss, rCut, {{"molType", "none"}});
   PairTabular1D p(&ss);
   ss.addMolInit(addMolTypeA.c_str());
   pp.initData(addMolTypeA.c_str());
@@ -63,7 +63,7 @@ TEST(PairTabular1D, interpolateForces) {
   Space s(3, 0);
   s.initBoxLength(6);
   string addMolType("../forcefield/data.lj");
-  PairLJMulti pp(&s, rCut);
+  PairLJ pp(&s, rCut);
   s.addMolInit(addMolType.c_str());
   pp.initData(addMolType.c_str());
   pp.cutShift(1);

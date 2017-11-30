@@ -8,9 +8,7 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "pair_squarewell.h"
-#include "mc_wltmmc.h"
-#include "trial_transform.h"
+#include "feasst.h"
 
 int main() {  // SquareWell, FLOPPY
   feasst::ranInitByDate();

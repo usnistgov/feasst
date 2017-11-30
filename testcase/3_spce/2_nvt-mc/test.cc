@@ -8,9 +8,7 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "pair_lj_coul_ewald.h"
-#include "mc.h"
-#include "trial_transform.h"
+#include "feasst.h"
 
 int main() {  // SPCE, SRSW_NVTMC
   feasst::Space space(3);
