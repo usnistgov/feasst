@@ -302,7 +302,7 @@ if (USE_GTEST)
 
   # Now simply link against gtest or gtest_main as needed. Eg
   add_executable(unittest ${feasst_unittest_SRC} ${feasst_SRC})
-  SET_TARGET_PROPERTIES(unittest PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
+  SET_TARGET_PROPERTIES(unittest PROPERTIES COMPILE_FLAGS "-DFEASST_NAMESPACE_")
   target_link_libraries(unittest gtest_main ${EXTRA_LIBS})
   add_test(NAME unittest COMMAND ./bin/unittest --gtest_shuffle)
 
@@ -339,14 +339,14 @@ if (USE_SWIG)
     INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 
     #INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+    get_filename_component(barename "${CMAKE_CURRENT_BINARY_DIR}" NAME)
     add_custom_target(build-time-make-directory ALL
-        COMMAND ${CMAKE_COMMAND} -E make_directory build)
-        #file(MAKE_DIRECTORY build)
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${barename})
     SET(CMAKE_SWIG_FLAGS "")
 
-    SET_SOURCE_FILES_PROPERTIES("${CMAKE_SOURCE_DIR}/build/feasst.i" PROPERTIES CPLUSPLUS ON)
-    #SET_SOURCE_FILES_PROPERTIES(${CMAKE_SOURCE_DIR}/src/feasst.i PROPERTIES SWIG_FLAGS "-includeall")
-    SWIG_ADD_MODULE(feasst python "${CMAKE_SOURCE_DIR}/build/feasst.i" ${feasst_cc_SRC})
+    SET_SOURCE_FILES_PROPERTIES("${CMAKE_CURRENT_BINARY_DIR}/feasst.i" PROPERTIES CPLUSPLUS ON)
+    #SET_SOURCE_FILES_PROPERTIES("${CMAKE_CURRENT_BINARY_DIR}/feasst.i" PROPERTIES SWIG_FLAGS "-includeall")
+    SWIG_ADD_MODULE(feasst python "${CMAKE_CURRENT_BINARY_DIR}/feasst.i" ${feasst_cc_SRC})
     SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS})
     add_dependencies(_feasst build-time-make-directory)
     add_test(NAME swigtest COMMAND ${CMAKE_SOURCE_DIR}/tools/run.sh testcase/test.py)
@@ -357,7 +357,4 @@ endif(USE_SWIG)
 
 add_library(feasst SHARED ${feasst_cc_SRC})
 SET_TARGET_PROPERTIES(feasst PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
-
-message("Flags:" ${CMAKE_CXX_FLAGS})
-message("Flags:" ${EXTRA_LIBS})
 

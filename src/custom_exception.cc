@@ -8,6 +8,7 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
+#include <iostream>
 #ifdef MPI_H_
   #include <mpi.h>
 #endif
@@ -23,6 +24,17 @@ namespace feasst {
 CustomException::CustomException(std::stringstream& m) {
   msg_ = m.str();
   catMessage_();
+
+  // Output error message upon construction if openMP is used.
+  // Otherwise, you may never see the error message!
+  #ifdef _OPENMP
+    if (omp_get_num_threads() > 1) {
+      #pragma omp critical
+      {
+        std::cerr << msg_ << std::endl;
+      }
+    }
+  #endif  // _OPENMP
 }
 
 void CustomException::catMessage_() {
