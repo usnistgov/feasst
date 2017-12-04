@@ -2,14 +2,7 @@
 syntax: glob
 
 #executables
-main.cc
-main
-src/unittest
-ui_text
 tools/rw
-build/
-bin/
-src/unittest
 
 #gprof output
 gmon.out
@@ -17,7 +10,6 @@ gmon.out
 # factory
 src/factories.cc
 src/feasst.h
-src/feasst.i
 
 #gcov, etc
 *.gcda
@@ -37,27 +29,9 @@ callgrind*
 #configuration files
 *.xyz
 *.vmd
-*.json
-
-#non-text files
-*.pdf
-*.tar
-*.~lock.*
-*.csv
-
-#image files
-*.eps
-*.jpg
 
 #documentation
-html/*
-latex/*
-xml/*
 sphinx/_build/*
-
-#compiled files
-*.o
-*.so
 
 #temporary files
 *tmp*
@@ -75,70 +49,6 @@ test/*
 #tables
 table/*
 
-#xdrfile
-xdrfile*
-
-#swig files
-*.pyc
-*.cxx
-*_wrap.cpp
-pair.py
-pair_lj.py
-pair_lj_multi.py
-pair_lj_coul_ewald.py
-pair_ideal.py
-pair_round_square.py
-pair_tabular.py
-pair_tabular_1d.py
-pair_squarewell.py
-pair_patch_kf.py
-pair_hard_circle.py
-pair_hybrid.py
-pair_hs.py
-space.py
-shape.py
-trial.py
-trial_delete.py
-trial_add.py
-trial_move.py
-trial_transform.py
-trial_avb.py
-trial_confswap_omp.py
-trial_confswap_txt.py
-trial_configBias.py
-trial_grow.py
-trial_gca.py
-trial_pairmod.py
-trial_beta.py
-trial_cluster.py
-trial_pressure.py
-trial_xswap.py
-trial_swap.py
-trial_md.py
-random.py
-random_nr3.py
-table.py
-histogram.py
-functions.py
-base.py
-base_random.py
-base_math.py
-accumulator.py
-accumulator_vec.py
-base_all.py
-criteria.py
-criteria_metropolis.py
-criteria_wltmmc.py
-analyze.py
-analyze_scatter.py
-analyze_scatter_aniso.py
-analyze_cluster.py
-analyze_orient.py
-mc.py
-mc_wltmmc.py
-ui_abbreviated.py
-ui_text.py
-custom_exception.py
-feasst.py
-feasst_wrap.py
+# pycache
+__pycache__
 
