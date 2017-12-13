@@ -65,6 +65,9 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
+# put main.cc from testcase/1/0/test.cc into drivers
+configure_file(${CMAKE_SOURCE_DIR}/testcase/1_lj/0_example/test.cc ${CMAKE_SOURCE_DIR}/drivers/main.cc @ONLY)
+
 add_definitions("-DVERSION=\"\\\"${GIT_COMMIT_HASH} ${GIT_BRANCH}\\\"\"")
 add_definitions("-DFEASST_SRC_=${CMAKE_SOURCE_DIR}/src/")
 

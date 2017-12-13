@@ -4,6 +4,8 @@ syntax: glob
 #executables
 tools/rw
 
+drivers/main.cc
+
 #gprof output
 gmon.out
 
