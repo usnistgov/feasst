@@ -17,8 +17,8 @@
 // is now k_B T / epsilon and Delta = (rCut-sigma)/sigma = rCut/sigma - 1
 class PairJagla : public feasst::Pair {
  public:
-  PairJagla(feasst::Space * space, const double rCut)
-    : feasst::Pair(space, rCut) {}
+  PairJagla(feasst::Space * space, const feasst::argtype &args)
+    : feasst::Pair(space, args) {}
   ~PairJagla() {}
 
   // Overloaded virtual function from pair.h
@@ -46,7 +46,7 @@ class PairJagla : public feasst::Pair {
 int main() {  // JAGLA, REF_CONFIG
   feasst::Space space(3);
   stringstream molNameSS;
-  PairJagla pair(&space, 2);   // potential truncation represents end of "ramp"
+  PairJagla pair(&space, {{"rCut", "2"}});   // potential truncation represents end of "ramp"
   molNameSS << space.install_dir() << "/forcefield/data.atom";
 
   // read from the data file in order to set the hard particle size (sigma)

@@ -14,9 +14,11 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-PairSquareWell::PairSquareWell(Space* space, const double rCut)
-  : Pair(space, rCut) {
+PairSquareWell::PairSquareWell(Space* space, const argtype &args)
+  : Pair(space, args) {
   defaultConstruction_();
+  argparse_.initArgs(className_, args);
+  argparse_.checkAllArgsUsed();
 }
 
 PairSquareWell::PairSquareWell(Space* space, const char* fileName)
@@ -51,8 +53,9 @@ PairSquareWell* PairSquareWell::clone(Space* space) const {
   return p;
 }
 
-shared_ptr<PairSquareWell> makePairSquareWell(Space* space, const double rCut) {
-  return make_shared<PairSquareWell>(space, rCut);
+shared_ptr<PairSquareWell> makePairSquareWell(Space* space,
+  const argtype &args) {
+  return make_shared<PairSquareWell>(space, args);
 }
 
 #ifdef FEASST_NAMESPACE_

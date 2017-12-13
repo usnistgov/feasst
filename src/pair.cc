@@ -63,10 +63,12 @@ if (dimen_ >= 3) { \
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-Pair::Pair(Space* space,
-  const double rCut)
-  : space_(space),
-    rCut_(rCut) {
+Pair::Pair(Space* space, const argtype &args)
+  : space_(space) {
+  argparse_.initArgs(className_, args);
+
+  // parse rCut
+  rCut_ = stod(argparse_.key("rCut").dflt("0").str());
   defaultConstruction_();
 }
 

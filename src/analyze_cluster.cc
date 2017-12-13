@@ -14,9 +14,11 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-AnalyzeCluster::AnalyzeCluster(Pair *pair)
-  : Analyze(pair) {
+AnalyzeCluster::AnalyzeCluster(Pair *pair, const argtype &args)
+  : Analyze(pair, args) {
   defaultConstruction_();
+  argparse_.initArgs(className_, args);
+  argparse_.checkAllArgsUsed();
 }
 
 AnalyzeCluster::AnalyzeCluster(
@@ -39,6 +41,7 @@ void AnalyzeCluster::defaultConstruction_() {
   clusterCut_ = 0;
   zbin = 1./(100);
   initPercolation();  //!< sets percFlag_
+  nematic_.resize(3, vector<AccumulatorVec>(3));
 }
 
 void AnalyzeCluster::update(const int iMacro) {
@@ -72,17 +75,37 @@ void AnalyzeCluster::update(const int iMacro) {
   nClusSize_[iMacro].accumulate(static_cast<double>(space()->nMol())
     / static_cast<double>(space()->nClusters()));
 
+  // compute nematic order parameter (quanternion only)
+  if (space()->eulerFlag() != 1) {
+    for (int iMol = 0; iMol < space()->nMol(); ++iMol) {
+      const int ipart = space()->mol2part()[iMol];
+      vector<double> ri(space()->dimen());
+      for (int dim = 0; dim < space()->dimen(); ++dim) {
+        ri[dim] = space()->x(ipart + 1, dim) - space()->x(ipart, dim);
+      }
+      const vector<vector<double> > mat = outerProd(ri, ri);
+      for (int idim = 0; idim < space()->dimen(); ++idim) {
+        for (int jdim = 0; jdim < space()->dimen(); ++jdim) {
+          nematic_[idim][jdim].accumulate(iMacro, mat[idim][jdim]);
+        }
+      }
+    }
+  }
+
 //  cout << "computing average" << endl;
   // compute the average coordination number from the contact map
   // also, compute the average z-vector orientation of contacting particles
   const vector<vector<int> > &contact = pair_->contact();
   if (contact.size() > 0) {
+    std::fill(iMol2coord_.begin(), iMol2coord_.end(), 0);
+    iMol2coord_.resize(space()->nMol());
     double coord = 0;
     for (int iMol = 0; iMol < space()->nMol(); ++iMol) {
       for (unsigned int index = 0; index < contact[iMol].size(); ++index) {
         const int jMol = contact[iMol][index];
         ASSERT(iMol != jMol, "iMol and jMol cannot be equal in contact map");
         coord += 1;
+        ++iMol2coord_[iMol];
 
         // compute the z-vector orientation.
         //  place a vector along the z-axis of the reference particle,
@@ -116,10 +139,12 @@ void AnalyzeCluster::update(const int iMacro) {
         }
 
         zOrient_[iMacro].accumulate(fabs(cosa));
+        pcos_.accumulate(iMacro, fabs(cosa));
       }
     }
     coordNumAccVec_.accumulate(iMacro,
       coord/static_cast<double>(space()->nMol()) );
+//    cout << " av " << coord/static_cast<double>(space()->nMol()) << " mac " << iMacro << endl;
   }
   // cout << "updated " << iMacro << endl;
 
@@ -195,7 +220,23 @@ void AnalyzeCluster::write(CriteriaWLTMMC *c) {
          << largestClusAccVec_.vec(bin).blockStdev() << " "
          << percolation_.vec(bin).average() << " "
          << percolation_.vec(bin).blockStdev() << " "
-         << endl;
+         << pcos_.vec(bin).average() << " "
+         << pcos_.vec(bin).blockStdev() << " ";
+
+      // compute and print nematic order parameter
+      vector<vector<double> > mat, evectors;
+      mat.resize(3, vector<double>(3));
+      vector<double> evalues;
+      for (int idim = 0; idim < space()->dimen(); ++idim) {
+        for (int jdim = 0; jdim < space()->dimen(); ++jdim) {
+          mat[idim][jdim] = 3.*nematic_[idim][jdim].vec(bin).average()*0.5;
+          if (idim == jdim) mat[idim][jdim] -= 0.5;
+        }
+      }
+      ASSERT(jacobi(mat, evalues, evectors) != 1, "jacobi error");
+      const double maxEigen = *std::max_element(evalues.begin(), evalues.end());
+      ss << maxEigen << " ";
+      ss << endl;
     }
     if (fileName_.empty()) {
       cout << ss.str();
@@ -261,8 +302,8 @@ void AnalyzeCluster::write(CriteriaWLTMMC *c) {
   }
 }
 
-shared_ptr<AnalyzeCluster> makeAnalyzeCluster(Pair *pair) {
-  return make_shared<AnalyzeCluster>(pair);
+shared_ptr<AnalyzeCluster> makeAnalyzeCluster(Pair *pair, const argtype &args) {
+  return make_shared<AnalyzeCluster>(pair, args);
 }
 
 #ifdef FEASST_NAMESPACE_

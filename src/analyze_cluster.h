@@ -23,7 +23,7 @@ namespace feasst {
 class AnalyzeCluster : public Analyze {
  public:
   /// Constructor
-  AnalyzeCluster(Pair *pair);
+  AnalyzeCluster(Pair *pair, const argtype &args = argtype());
 
   /// Initialize distance-based cluster cutoff.
   void initClusterCut(const double clusterCut) { clusterCut_ = clusterCut; }
@@ -77,12 +77,21 @@ class AnalyzeCluster : public Analyze {
       pair)));
   }
 
+  // Nematic matrix formed by average outer product of directors
+  // https://doi.org/10.1103/PhysRevLett.98.108303
+  // Nematic, S = max(eigen(1/2 <3nematic-I>))
+  vector<vector<AccumulatorVec> > nematic_;
+
+  /// Instantaneous (single config) coordination number for a given molecule
+  vector<int> iMol2coord() const { return iMol2coord_; }
+
  protected:
   double clusterCut_;                 // cluster cut-off definition
   AccumulatorVec nClusterAccVec_;     // number of clusters in system
   AccumulatorVec coordNumAccVec_;     // average coordination number
   AccumulatorVec largestClusAccVec_;  // average largest cluster
   AccumulatorVec percolation_;        // 0 or 1 if system spanning
+  AccumulatorVec pcos_;
 
   int percFlag_;   //!< type of percolation computation
 
@@ -90,6 +99,8 @@ class AnalyzeCluster : public Analyze {
   vector<Histogram> zOrient_;     // histogram of z-axis orientation
 
   vector<Histogram> nClusSize_;   // histogram of cluster size
+
+  vector<int> iMol2coord_;
 
   void defaultConstruction_();
 
@@ -101,7 +112,8 @@ class AnalyzeCluster : public Analyze {
 };
 
 /// Factory method
-shared_ptr<AnalyzeCluster> makeAnalyzeCluster(Pair *pair);
+shared_ptr<AnalyzeCluster> makeAnalyzeCluster(Pair *pair,
+  const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

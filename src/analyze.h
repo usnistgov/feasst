@@ -36,7 +36,19 @@ class WLTMMC;
 class Analyze : public BaseRandom {
  public:
   /// Constructor
-  Analyze(Pair* pair);
+  Analyze(Pair* pair,
+    /**
+     * allowed string key pairs (e.g., dictionary):
+     *
+     *  nFreq : Analyze every this many steps
+     *
+     *  - (default): see initFreq()
+     *
+     *  nFreqPrint : Print output every this many steps
+     *
+     *  - (default): see initFreqPrint()
+     */
+    const argtype &args = argtype());
 
   /// This constructor is not often used, but its purpose is to initialize
   /// for MC interface before using reconstruct to set object pointers.
@@ -49,6 +61,9 @@ class Analyze : public BaseRandom {
   int nFreq() const { return nFreq_; }
 
   /// Initialize number of steps between each print to file.
+  void initFreqPrint(const int nfreq = 1) { nFreqPrint_ = nfreq; }
+
+  // Depreciated: HWH: old spelling
   void initPrintFreq(const int nfreq = 1) { nFreqPrint_ = nfreq; }
 
   /// Return number of steps between each print.
@@ -127,7 +142,7 @@ shared_ptr<Analyze> makeAnalyze(Pair* pair,
   const char* fileName);
 
 /// Factory method
-shared_ptr<Analyze> makeAnalyze(Pair* pair);
+shared_ptr<Analyze> makeAnalyze(Pair* pair, const argtype &args = argtype());
 
 /// Factory method
 shared_ptr<Analyze> makeAnalyze();

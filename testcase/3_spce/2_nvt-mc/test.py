@@ -16,7 +16,8 @@ class TestSPCE_SRSW_NVTMC(unittest.TestCase):
         space = feasst.Space(3)
         space.initBoxLength(24.8586887)   # molecule-center based cut-off
 
-        pair = feasst.PairLJCoulEwald(space, space.minl()/2.)
+        pair = feasst.PairLJCoulEwald(space,
+            feasst.args({"rCut" : str(space.minl()/2.)}))
         pair.initData(space.install_dir() + "/forcefield/data.spce")
         pair.initKSpace(5.6,   # alpha*L
                         38)   # k^2 < k2max cutoff

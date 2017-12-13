@@ -17,7 +17,7 @@ int main() {  // Yukawa, NVTMC
   //space.updateCells(rCut);
   std::stringstream addMolType;
   addMolType << space.install_dir() << "/forcefield/data.atom";
-  feasst::PairLJ pair(&space, 5., {{"molType", addMolType.str()}});
+  feasst::PairLJ pair(&space, {{"rCut", "5"}, {"molType", addMolType.str()}});
   pair.initExpType(3);
 
   // Set the Yukawa potential

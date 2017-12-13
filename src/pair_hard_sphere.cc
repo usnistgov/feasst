@@ -15,7 +15,7 @@ namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
 PairHardSphere::PairHardSphere(Space* space)
-  : Pair(space, 0.) {
+  : Pair(space) {
   defaultConstruction_();
 }
 

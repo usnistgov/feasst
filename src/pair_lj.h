@@ -34,12 +34,8 @@ namespace feasst {
  */
 class PairLJ : public Pair {
  public:
-  /// Use a map of string pairs to function as a dictionary for arguments.
-  typedef std::map<std::string, std::string> argtype;
-
   /// Constructor
   PairLJ(Space* space,
-    const double rCut,  //!< interaction truncation distance
     /**
      * allowed string key pairs (e.g. dictionary):
      *
@@ -237,19 +233,8 @@ class PairLJ : public Pair {
 };
 
 /// Factory method
-shared_ptr<PairLJ> makePairLJ(Space* space, const double rCut);
-
-/// Initialize pure component LJ simulation.
-shared_ptr<PairLJ> defaultPairLJ(
-  Space* space, const double rCut,
-  /// There are three options for how to handle the cut-off.
-  /// "lrc" - long range corrections
-  /// "cutShift" - see PairLJ::cutShift()
-  /// "linearShift" - see PairLJ::linearShift()
-  const char* cutType = "lrc",
-  /// Provide path to the file which describes the molecule.
-  /// If empty string, use /path/to/feasst/forcefield/data.lj
-  const char* molType = "");
+shared_ptr<PairLJ> makePairLJ(Space* space,
+  const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

@@ -26,6 +26,7 @@
 #include <deque>
 #include <complex>
 #include <map>
+#include <iomanip>
 #ifdef MPI_H_
   #include <mpi.h>
 #endif
@@ -722,6 +723,14 @@ std::shared_ptr<std::ifstream> make_ifstream(const char* fileName);
 
 /// Return the integer factorial.
 int factorial(int x, int result = 1);
+
+/// convert to string with maximum precision
+template <typename T>
+std::string str(const T a_value) {
+    std::ostringstream out;
+    out << MAX_PRECISION << a_value;
+    return out.str();
+}
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

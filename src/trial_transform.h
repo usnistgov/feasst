@@ -40,6 +40,10 @@ class TrialTransform : public Trial {
   TrialTransform(Pair *pair, Criteria *criteria,
                  const char* transType);
 
+  // Constructor
+  TrialTransform(Pair *pair, Criteria *criteria,
+    const argtype &args = argtype());
+
   /// This constructor is not often used, but its purpose is to initialize trial
   /// for interface before using reconstruct to set object pointers.
   explicit TrialTransform(const char* transType);
@@ -103,12 +107,19 @@ shared_ptr<TrialTransform> makeTrialTransform(Pair *pair,
   Criteria *criteria, const char* transType);
 
 /// Factory method
+shared_ptr<TrialTransform> makeTrialTransform(Pair *pair, Criteria *criteria,
+  const argtype &args = argtype());
+
+/// Factory method
 shared_ptr<TrialTransform> makeTrialTransform(const char* transType);
 
 class MC;
 
 /// Add a "TrialTransform" object to the Monte Carlo object, mc.
 void transformTrial(MC *mc, const char* transType, double maxMoveParam = -1);
+
+/// Add a "TrialTransform" object to the Monte Carlo object, mc.
+void transformTrial(MC *mc, const argtype &args = argtype());
 
 /// Add a "TrialTransform" object to the Monte Carlo object, mc.
 void transformTrial(shared_ptr<MC> mc, const char* transType,

@@ -23,7 +23,7 @@ namespace feasst {
 class AnalyzeScatter : public Analyze {
  public:
   /// Constructor
-  AnalyzeScatter(Pair *pair);
+  AnalyzeScatter(Pair *pair, const argtype &args = argtype());
 
   /// initialize SANS
   void initSANS(const double dgr,  //!< Distance between spatial bins.
@@ -112,7 +112,8 @@ class AnalyzeScatter : public Analyze {
 };
 
 /// Factory method
-shared_ptr<AnalyzeScatter> makeAnalyzeScatter(Pair *pair);
+shared_ptr<AnalyzeScatter> makeAnalyzeScatter(Pair *pair,
+  const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

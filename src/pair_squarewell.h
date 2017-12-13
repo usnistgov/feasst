@@ -28,8 +28,7 @@ namespace feasst {
 class PairSquareWell : public Pair {
  public:
   /// Constructor
-  /// @param rCut interaciton cut off distance
-  PairSquareWell(Space* space, const double rCut);
+  PairSquareWell(Space* space, const argtype &args = argtype());
 
   /// Initialize hard sphere interactions
   /// between particle types itype and jtype.
@@ -52,7 +51,8 @@ class PairSquareWell : public Pair {
 };
 
 /// Factory method
-shared_ptr<PairSquareWell> makePairSquareWell(Space* space, const double rCut);
+shared_ptr<PairSquareWell> makePairSquareWell(Space* space,
+  const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

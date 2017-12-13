@@ -19,6 +19,7 @@ https://www.nist.gov/people/nathan-mahynski
 Acknowledgement for discussion and/or testing (alphabetical)
 ###############################################################
 
+* Dr. Debra Audus
 * Dr. Marco A. Blanco
 * Cesar O Calero-Rubio
 * Dr. Joseph Curtis

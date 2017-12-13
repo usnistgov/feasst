@@ -14,7 +14,7 @@ int main() {  // LJ, NPT
   feasst::ranInitByDate();
   feasst::Space space(3);
   space.initBoxLength(8);
-  feasst::PairLJ pair(&space, 3.);
+  feasst::PairLJ pair(&space, {{"rCut", "3."}});
   std::stringstream ss;
   ss << space.install_dir() << "/forcefield/data.lj";
   pair.initData(ss.str());

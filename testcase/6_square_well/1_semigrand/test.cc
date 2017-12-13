@@ -12,9 +12,9 @@
 
 int main() {  // SquareWell, SEMIGRAND
   feasst::ranInitByDate();
-  feasst::Space space(3, 0);
+  feasst::Space space(3);
   space.initBoxLength(8.);
-  feasst::PairSquareWell pair(&space, 2.);
+  feasst::PairSquareWell pair(&space, {{"rCut", "2"}});
   std::stringstream addMolTypeA, addMolTypeB;
   addMolTypeA << space.install_dir() << "/forcefield/data.lj";
   addMolTypeB << space.install_dir() << "/forcefield/data.ljb";

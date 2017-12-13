@@ -14,9 +14,11 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-PairSoftSphere::PairSoftSphere(Space* space, const double rCut)
-  : Pair(space, rCut) {
+PairSoftSphere::PairSoftSphere(Space* space, const argtype &args)
+  : Pair(space, args) {
   defaultConstruction_();
+  argparse_.initArgs(className_, args);
+  argparse_.checkAllArgsUsed();
 }
 
 PairSoftSphere::PairSoftSphere(Space* space, const char* fileName)
@@ -68,8 +70,9 @@ PairSoftSphere* PairSoftSphere::clone(Space* space) const {
   return p;
 }
 
-shared_ptr<PairSoftSphere> makePairSoftSphere(Space* space, const double rCut) {
-  return make_shared<PairSoftSphere>(space, rCut);
+shared_ptr<PairSoftSphere> makePairSoftSphere(Space* space,
+  const argtype &args) {
+  return make_shared<PairSoftSphere>(space, args);
 }
 
 #ifdef FEASST_NAMESPACE_

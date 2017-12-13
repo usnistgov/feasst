@@ -13,8 +13,9 @@
 int main() {  // LJ, SRSW_REFCONF
   feasst::Space space(3);
   space.initBoxLength(8);
-  feasst::PairLJ pair(&space, 3.,  // potential truncation
-    {{ "cutType", "lrc" }});            // use long range corrections
+  feasst::PairLJ pair(&space,
+    {{"rCut", "3"},         // potential truncation
+     {"cutType", "lrc"}});  // long range corrections
 
   // create clones of Space and Pair to perform two separate tests
   feasst::Space * space2 = space.clone();

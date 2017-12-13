@@ -31,6 +31,17 @@ TrialTransform::TrialTransform(
   defaultConstruction_();
 }
 
+TrialTransform::TrialTransform(Pair *pair, Criteria *criteria,
+  const argtype &args)
+  : Trial(pair, criteria, args) {
+  argparse_.initArgs(className_, args);
+
+  // parse transType
+  transType_ = argparse_.key("type").str();
+  defaultConstruction_();
+  argparse_.checkAllArgsUsed();
+}
+
 TrialTransform::TrialTransform(const char* fileName,
   Pair *pair,
   Criteria *criteria)
@@ -397,10 +408,20 @@ shared_ptr<TrialTransform> makeTrialTransform(Pair *pair,
   return make_shared<TrialTransform>(pair, criteria, transType);
 }
 
+shared_ptr<TrialTransform> makeTrialTransform(Pair *pair,
+  Criteria *criteria, const argtype &args) {
+  return make_shared<TrialTransform>(pair, criteria, args);
+}
+
 shared_ptr<TrialTransform> makeTrialTransform(const char* transType) {
   return make_shared<TrialTransform>(transType);
 }
 
+void transformTrial(MC *mc, const argtype &args) {
+  shared_ptr<TrialTransform> trial = make_shared<TrialTransform>(
+    mc->pair(), mc->criteria(), args);
+  mc->initTrial(trial);
+}
 void transformTrial(MC *mc, const char* type, double maxMoveParam) {
   shared_ptr<TrialTransform> trial = make_shared<TrialTransform>(type);
   if (maxMoveParam != -1) trial->maxMoveParam = maxMoveParam;

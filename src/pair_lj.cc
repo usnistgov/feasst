@@ -15,13 +15,12 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-PairLJ::PairLJ(Space* space, const double rCut,
-  const std::map<std::string, std::string> &args)
-  : Pair(space, rCut) {
+PairLJ::PairLJ(Space* space, const argtype &args)
+  : Pair(space, args) {
   defaultConstruction_();
   argparse_.initArgs(className_, args);
 
-  // apply molType
+  // parse molType
   std::stringstream ss;
   ss << install_dir() << "/forcefield/data.lj";
   const std::string molType = argparse_.key("molType").dflt(ss.str()).str();
@@ -661,6 +660,7 @@ double PairLJ::pairLoopSite_(
        (gaussian_ != 0) ) {
     return Pair::pairLoopSite_(siteList, noCell);
   }
+
   // shorthand for read-only space variables
   const int natom = space_->natom();
   const vector<double> &x = space_->x();
@@ -767,36 +767,8 @@ void PairLJ::update(
   }
 }
 
-shared_ptr<PairLJ> defaultPairLJ(Space* space, const double rCut,
-  const char* cutType, const char* molType) {
-  shared_ptr<PairLJ> pair = makePairLJ(space, rCut);
-
-  // parse molType and initialize the molecule
-  std::string molTypeStr(molType);
-  std::stringstream ss;
-  if (molTypeStr.compare("") == 0) {
-    ss << pair->install_dir() << "/forcefield/data.lj";
-    pair->initData(ss.str().c_str());
-  } else {
-    pair->initData(molType);
-  }
-
-  // parse cutType and initialize the cutoff
-  std::string desStr(cutType);
-  if (desStr == "lrc") {
-		pair->cutShift(0);
-		pair->initLRC();
-  } else if (desStr == "cutShift") {
-		pair->cutShift(1);
-  } else if (desStr == "linearShift") {
-		pair->linearShift(1);
-	}
-  pair->initEnergy();
-  return pair;
-}
-
-shared_ptr<PairLJ> makePairLJ(Space* space, const double rCut) {
-  return make_shared<PairLJ>(space, rCut);
+shared_ptr<PairLJ> makePairLJ(Space* space, const argtype &args) {
+  return make_shared<PairLJ>(space, args);
 }
 
 #ifdef FEASST_NAMESPACE_

@@ -1,19 +1,17 @@
-#include "pair_lj.h"
-#include "mc.h"
-#include "trial_transform.h"
+#include "feasst.h"
 
-int main() {
-  feasst::Space space(3, 0);
-  for (int dim = 0; dim < space.dimen(); ++dim) {
-    space.lset(8, dim); // 8 box length
-  }
-  space.addMolInit("../../forcefield/data.lj");
-  feasst::PairLJ pair(&space, 3);   // potential truncation at 3
-  pair.initEnergy();
-  feasst::CriteriaMetropolis criteria(1.2, 1.);  // 1/kT = 1.2
+int main() {  // LJ, NVT_EXAMPLE
+  feasst::Space space(3,    // 3D space
+    {{"boxLength", "8"}});  // cubic PBC
+  feasst::PairLJ pair(&space,
+    {{"rCut", "3"},         // potential truncation
+     {"cutType", "lrc"}});  // long range corrections
+  feasst::CriteriaMetropolis criteria(1.2);  // beta = 1/k_B/T
   feasst::MC mc(&space, &pair, &criteria);
-  feasst::transformTrial(&mc, "translate", 0.1);
-  mc.nMolSeek(50, "../../forcefield/data.lj");  // add 50 particles
+  feasst::transformTrial(&mc,
+    {{"type", "translate"},
+     {"maxMoveParam", "0.1"}});  // maximum displacement for each dimension
+  mc.nMolSeek(50);  // add particles
   mc.initLog("log", 1e4);
   mc.initMovie("movie", 1e4);
   mc.runNumTrials(1e6);

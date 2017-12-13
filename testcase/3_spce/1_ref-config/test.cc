@@ -21,7 +21,7 @@ int main() {  // SPCE, SRSW_REFCONF
   for (int srswConfig = 1; srswConfig <= 2; ++srswConfig) {
     feasst::Space space(3);
     space.initBoxLength(20.);
-    feasst::PairLJCoulEwald pair(&space, 10.);
+    feasst::PairLJCoulEwald pair(&space, {{"rCut", "10."}});
     stringstream molNameSS;
     molNameSS << space.install_dir() << "/forcefield/data.spce";
     pair.initData(molNameSS.str());

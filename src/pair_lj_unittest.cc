@@ -16,9 +16,9 @@ using namespace feasst;
 TEST(PairLJ, dim) {
   for (int dimen = 2; dimen < 4; ++dimen) {
     for (int natom = 1; natom != 5; ++natom) {
-      Space s(dimen,0);
+      Space s(dimen);
       s.init_config(natom);
-      PairLJ p(&s, 0.01, {{}});
+      PairLJ p(&s);
       vector<double> pe = p.pe();
       EXPECT_EQ(natom,int(pe.size()));
       vector<vector<double> > f = p.f();
@@ -39,17 +39,17 @@ TEST(PairLJ, dim) {
 // Check that total potential energy using PairLJ gives same result as multiPartEner calculated for all particles individually, and halved
 
 TEST(PairLJ, checkEnergy) {
-  Space s(3,0);
+  Space s(3);
   s.init_config(12);
-  feasst::PairLJ p(&s, 5, {{"cutType", "none"}});
+  feasst::PairLJ p(&s, {{"rCut", "5"}, {"cutType", "none"}});
   EXPECT_EQ(1, p.checkEnergy(1e-11, 1));
 }
 
 TEST(PairLJ, addPartdelPart) {
-  const int dim=3, natom=12, rCut=5;
-  Space s(dim,0);
+  const int dim = 3, natom = 12;
+  Space s(dim);
   s.init_config(natom);
-  PairLJ p(&s, rCut, {{"cutType", "none"}});
+  PairLJ p(&s, {{"rCut", "5"}, {"cutType", "none"}});
 
   // remove particle
   vector<int> mpart(1, 0);
@@ -73,42 +73,49 @@ TEST(PairLJ, addPartdelPart) {
 }
 
 TEST(PairLJ, equltl43muvttmmc) {
-  Space s(3, 0);
+  Space s(3);
   s.initBoxLength(9);
   s.readXYZBulk(4, "equltl43", "../unittest/equltl43/two.xyz");
-  PairLJ p(&s, pow(2, 1./6.), {{"cutType", "cutShift"},
-    {"molType", "../forcefield/data.equltl43"}});
+  PairLJ p(&s, {{"rCut", feasst::str(pow(2, 1./6.))}, {"molType", "../forcefield/data.equltl43"}});
   // energy should be equal to 3 wca beads touching at distance 1.1sig
+  p.initWCA(1, 1);
+  p.initEnergy();
   EXPECT_NEAR(3*(4*(pow(1.1,-12)-pow(1.1,-6))+1), p.peTot(), 1e-15);
   EXPECT_EQ(1, p.checkEnergy(1e-18, 1));
 }
 
 TEST(PairLJ, linearForceShiftLJ) {
-  Space s(3, 0);
+  Space s(3);
   s.initBoxLength(8);
-  s.readXYZBulk(1, "atom", "../unittest/lj/srsw/lj_sample_config_periodic4.xyz");
-  PairLJ p(&s, 3, {{"cutType", "linearShift"}});
-  p.addMol();
-  p.initEnergy();
+  std::stringstream addMolType;
+  addMolType << s.install_dir() << "/forcefield/data.lj";
+  s.addMolInit(addMolType.str());
+  std::ifstream file("../unittest/lj/srsw/lj_sample_config_periodic4.xyz");
+  s.readXYZ(file);
+  EXPECT_EQ(30, s.nMol());
+  PairLJ p(&s, {
+    {"rCut", "3"},
+    {"cutType", "linearShift"},
+    {"molType", addMolType.str()}});
+  EXPECT_EQ(3, p.rCutij(0, 0));
   if (p.peTot() < 100) EXPECT_EQ(1, p.checkEnergy(1e-10, 1));
 }
 
 TEST(PairLJ, exVol) {
-  Space s(3, 0);
+  Space s(3);
   s.initBoxLength(0);
-  PairLJ p(&s, 1e-12);
+  PairLJ p(&s);
   p.addMol();
   const double boxl = 2.*(s.maxMolDist() + 1 + 0.1);
   s.initBoxLength(boxl);
   EXPECT_EQ(0, s.x(0,0));
   EXPECT_NEAR(4.*PI/3., p.exVol(1e2), 3e-3);
-  //EXPECT_NEAR(4.*PI/3., p.exVol(1e3), 2e-4);
 }
 
 TEST(PairLJ, args) {
   {
     feasst::Space space;
-    feasst::PairLJ pair(&space, 3., {{}});
+    feasst::PairLJ pair(&space, {{"rCut", "3."}});
     std::stringstream ss;
     ss << space.install_dir() << "/forcefield/data.lj";
     EXPECT_EQ(space.addMolListType().begin()->compare(ss.str()), 0);
@@ -119,21 +126,21 @@ TEST(PairLJ, args) {
     feasst::Space space;
     std::stringstream ss;
     ss << space.install_dir() << "/forcefield/data.ljb";
-    feasst::PairLJ pair(&space, 3., {{"cutType", "cutShift"},
+    feasst::PairLJ pair(&space, {{"rCut", "3."}, {"cutType", "cutShift"},
       {"molType", ss.str()}});
     EXPECT_EQ(space.addMolListType()[0], ss.str());
     EXPECT_EQ(pair.lrcFlag, 0);
   }
   try {
-    feasst::Space s(3);
-    feasst::PairLJ p(&s, 5, {{"not/a/proper/arg", "error"}});
+    feasst::Space space;
+    feasst::PairLJ p(&space, {{"not/a/proper/arg", "error"}});
     CATCH_PHRASE("is not recognized");
   }
 
   // cannot use "none" for molType with other arguments as well
   try {
-    feasst::Space s(3);
-    feasst::PairLJ p(&s, 5, {{"molType", "none"}, {"cutType", "lrc"}});
+    feasst::Space space;
+    feasst::PairLJ p(&space, {{"molType", "none"}, {"cutType", "lrc"}});
     CATCH_PHRASE("is not recognized");
   }
 }
@@ -142,12 +149,12 @@ TEST(PairLJ, WCAanalytical) {
 
   // WCA for sig=1 and 0.85
   for (double sig = 0.85; sig < 1.01; sig += 0.15) {
-    Space s(3,0);
+    Space s(3);
     s.initBoxLength(100);
     stringstream ss;
     ss << "../forcefield/data.lj";
     if (sig == 0.85) ss << "s0.85";
-    PairLJ p(&s, 0., {{"molType", ss.str()}});
+    PairLJ p(&s, {{"molType", ss.str()}});
     p.initWCA(0,0);
     vector<double> x(s.dimen(), 0.);
     p.addMol(x);
@@ -183,14 +190,13 @@ TEST(PairLJ, WCAanalytical) {
 }
 
 TEST(PairLJ, cg3analytical) {
-  const double rCut = 3;
-  Space s(3, 0);
-  PairLJ p(&s, rCut, {{"molType", "../forcefield/data.cg3_60_1_1"}});
+  Space s(3);
+  PairLJ p(&s, {{"rCut", "3"}, {"molType", "../forcefield/data.cg3_60_1_1"}});
   vector<double> x(s.dimen(), 0.);
   p.addMol(x);
   x[0] = 2.;
   p.addMol(x);
-  p.rCutijset(1, 1, rCut);
+  p.rCutijset(1, 1, p.rCut());
   p.linearShiftijset(1, 1, 1);
   p.initWCA(1, 2);
   p.initWCA(2, 2);
@@ -199,9 +205,8 @@ TEST(PairLJ, cg3analytical) {
 }
 
 TEST(PairLJ, LJYanalytical) {
-  const double rCut = 3;
-  Space s(3, 0);
-  PairLJ p(&s, rCut);
+  Space s(3);
+  PairLJ p(&s, {{"rCut", "3"}});
   vector<double> x(s.dimen(), 0.);
   p.addMol(x);
   x[0] = 2.;
@@ -218,8 +223,8 @@ TEST(PairLJ, LJYanalytical) {
 }
 
 TEST(PairLJ, MMLJanalytical) {
-  Space s(3, 0);
-  PairLJ p(&s, 3, {{"molType", "../forcefield/data.cg3_91_0.57_2"}});
+  Space s(3);
+  PairLJ p(&s, {{"rCut", "3"}, {"molType", "../forcefield/data.cg3_91_0.57_2"}});
   vector<double> x(s.dimen(), 0.);
   p.addMol(x);
   x[0] = 2.*0.85;
@@ -238,15 +243,14 @@ TEST(PairLJ, MMLJanalytical) {
 }
 
 TEST(PairLJ, cg3exampleConfig) {
-  const double rCut = 3;
-  Space s(3, 0);
+  Space s(3);
   s.addMolInit("../forcefield/data.cg3_60_1_1");
   std::ifstream inFile("../unittest/cg3/cg3_60_1_1/example/moviep1n50.xyz");
   s.readxyz2(inFile);
   EXPECT_EQ(50, s.nMol());
   vector<double> x(s.dimen(), 0.);
-  PairLJ p(&s, rCut, {{"molType", "../forcefield/data.cg3_60_1_1"}});
-  p.rCutijset(1, 1, rCut);
+  PairLJ p(&s, {{"rCut", "3"}, {"molType", "../forcefield/data.cg3_60_1_1"}});
+  p.rCutijset(1, 1, p.rCut());
   p.linearShiftijset(1, 1, 1);
   p.rCutijset(1, 2, pow(2, 1./6.));
   p.cutShiftijset(1, 2, 1);
@@ -257,16 +261,15 @@ TEST(PairLJ, cg3exampleConfig) {
 }
 
 TEST(PairLJ, cg3analyticalAlpha128) {
-  const double rCut = 1.08;
-  Space s(3, 0);
-  PairLJ p(&s, rCut, {{"molType", "../forcefield/data.cg3_91_0.57_2"}});
+  Space s(3);
+  PairLJ p(&s, {{"rCut", "1.08"}, {"molType", "../forcefield/data.cg3_91_0.57_2"}});
   vector<double> x(s.dimen(), 0.);
   p.addMol(x);
   x[1] = 1.22;
   p.addMol(x);
 
   p.initExpType(4); // alpha=128
-  p.rCutijset(1, 1, rCut);
+  p.rCutijset(1, 1, p.rCut());
   p.linearShiftijset(1, 1, 1);
   p.initWCA(1, 2);
   p.initWCA(2, 2);
@@ -302,60 +305,9 @@ TEST(PairLJ, cg3analyticalAlpha128) {
   EXPECT_EQ(1, p.checkEnergy(DTOL, 2));
 }
 
-//TEST(PairLJ, marcoMAB) {
-//  const double boxl = 30, rCut = 3, rCutLJ = 2;
-//  std::ostringstream addMolType("../forcefield/data.mab1");
-//  Space s(3, 0);
-//  for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(boxl,dim);
-//  s.addMolInit(addMolType.str().c_str());
-//  std::ifstream inFile("test/mab/marco_energy/Position_0001.xyz");
-//  s.readxyz2(inFile);
-//  EXPECT_EQ(2, s.nMol());
-//  EXPECT_EQ(8, s.natom());
-//  EXPECT_NEAR(s.x(0,0), 0.1682214722932941E+02, DTOL);
-//  EXPECT_NEAR(s.x(7,2), 0.2948447461948864E+02, DTOL);
-//
-//  if (boxl/3. > rCut) {
-//    s.updateCells(rCut);
-//  }
-//
-//  PairHybrid p(&s, 0.);
-//  PairLJ pLJ(&s, rCutLJ);
-//  pLJ.initData(addMolType.str().c_str());
-//  pLJ.initExpType(1);
-//  for (int i = 0; i < s.nParticleTypes(); ++i) {
-//    for (int j = i; j < s.nParticleTypes(); ++j) {
-//      pLJ.rCutijset(i, j, 2*pLJ.sigij()[i][j]);
-//      pLJ.linearShiftijset(i, j, 1);
-//    }
-//  }
-//  pLJ.lrcFlag = 0;
-//  pLJ.initEnergy();
-//  p.addPair(&pLJ);
-//
-//  PairLJ pCC(&s, rCut);
-//  pCC.initData(addMolType.str().c_str());
-//  pCC.initScreenedElectro(1, 1, 2);
-//  for (int i = 0; i < s.nParticleTypes(); ++i) {
-//    for (int j = i; j < s.nParticleTypes(); ++j) {
-//      pCC.epsijset(i, j, 0);
-//      pCC.rCutijset(i, j, 6*pCC.sigij(i, j));
-//      pCC.linearShiftijset(i, j, 1);
-//    }
-//  }
-//  pCC.lrcFlag = 0;
-//  pCC.initEnergy();
-//  p.addPair(&pCC);
-//  p.initEnergy();
-//  p.printxyz("asdf",1);
-//  p.checkEnergy(DTOL, 1);
-//
-//  EXPECT_NEAR(-0.3424421004334772E+01, p.peTot(), DTOL);
-//}
-
 TEST(PairLJ, Gaussian) {
-  Space s(3, 0);
-  PairLJ p(&s, 3.);
+  Space s(3);
+  PairLJ p(&s, {{"rCut", "3."}});
   vector<double> x(s.dimen(), 0.);
   p.addMol(x);
   x[1] = pow(2,1./6.);
@@ -385,9 +337,9 @@ TEST(PairLJ, Gaussian) {
 }
 
 TEST(PairLJ, Lambda) {
-  Space s(2, 0);
+  Space s(2);
   s.initBoxLength(9);
-  PairLJ p(&s, 3.);
+  PairLJ p(&s, {{"rCut", "3."}});
   vector<double> x(s.dimen(), 0.);
   p.addMol(x);
   x[1] = pow(2,1./6.);
@@ -418,8 +370,8 @@ TEST(PairLJ, Lambda) {
 }
 
 TEST(PairLJ, sigrefAnalytical) {
-  Space s(3, 0);
-  PairLJ p(&s, 3.3, {{"molType", "../forcefield/data.ljs0.85"}});
+  Space s(3);
+  PairLJ p(&s, {{"rCut", "3.3"}, {"molType", "../forcefield/data.ljs0.85"}});
   p.setSigRefFlag(1);
   p.initData("../forcefield/data.ljs0.85");
 
@@ -474,9 +426,8 @@ TEST(PairLJ, sigrefAnalytical) {
 }
 
 TEST(PairLJ, InitAlphaAnalytical) {
-  const double rCut = 1e4;
-  Space s(3, 0);
-  PairLJ p(&s, rCut);
+  Space s(3);
+  PairLJ p(&s, {{"rCut", "1e4"}});
 
   vector<double> x(s.dimen(), 0.);
   p.addMol(x);

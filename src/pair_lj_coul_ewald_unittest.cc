@@ -18,9 +18,8 @@ TEST(PairLJCoulEwald, pairLJCoulEwaldVSHybrid) {
   Space s(dim);
   const double boxl = 24.8586887;
   s.initBoxLength(boxl);
-  const double rCut = 12.42934435;
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
-  PairLJCoulEwald p(&s, rCut);
+  PairLJCoulEwald p(&s, {{"rCut", "12.42934435"}});
   p.initBulkSPCE(5.6, 38);
   EXPECT_NEAR(p.peLJ()+p.peLRC(), 58.1554182707327, 1e-3);
   EXPECT_NEAR(p.alpha, 0.225273346779551, 1e-12);
@@ -44,46 +43,13 @@ TEST(PairLJCoulEwald, pairLJCoulEwaldVSHybrid) {
   //EXPECT_NEAR(p.peQFrrSelf(), 76.890271092977457, tol); //srsw change
 }
 
-//TEST(PairLJCoulEwald, pairLJCoulEwaldVSsrsw) {
-//  for (int i = 1; i != 3; ++i) {
-//  //for (int i = 1; i != 5; ++i) {
-//    Space s(3,0);
-//    for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(20.,dim);
-//    if (i == 4) {
-//      for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(30.,dim);
-//    }
-//    std::ostringstream ss;
-//    ss << "test/spce/srsw/spce_sample_config_periodic" << i << ".xyz";
-//    s.readXYZBulk(3, "water", ss.str().c_str());
-//    PairLJCoulEwald p(&s, 10.);
-//    p.initBulkSPCE(5.6, 38);
-//    const double tol = 1e-11;
-//    if (i == 1) {
-//      EXPECT_EQ(100, s.nMol());
-//      EXPECT_NEAR(p.peLJ()*(1e3)/idealGasConstant, 9.95382E+04, tol);
-//      EXPECT_NEAR(p.peLRC()*(1e3)/idealGasConstant, -8.23710E+02, tol);
-//      EXPECT_NEAR(p.peQReal()*(1e3)/idealGasConstant, -5.58889E+06, tol);
-//      EXPECT_NEAR(p.peQFrr()*(1e3)/idealGasConstant, 6.27797E+03, tol);
-//      EXPECT_NEAR(p.peQFrrSelf()*(1e3)/idealGasConstant, -2.84469E+06+2.80999E+06, tol);
-//      EXPECT_NEAR(p.peTot()*(1e3)/idealGasConstant, -4.88596E+05, tol);
-//    } else if (i == 2) {
-//      EXPECT_EQ(200, s.nMol());
-//    } else if (i == 3) {
-//      EXPECT_EQ(300, s.nMol());
-//    } else if (i == 4) {
-//      EXPECT_EQ(750, s.nMol());
-//    }
-//  }
-//}
-
 TEST(PairLJCoulEwald, pairLJCoulEwaldmultiPartEne) {
   Space s(3);
   const double boxl = 24.8586887;
   s.initBoxLength(boxl);
-  const double rCut = 12.42934435;
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
-  PairLJCoulEwald p(&s, rCut);
+  PairLJCoulEwald p(&s, {{"rCut", "12.42934435"}});
   p.initBulkSPCE(5.6, 38);
 
   // move molecule and compute energy change
@@ -226,10 +192,9 @@ TEST(PairLJCoulEwald, neigh) {
   Space s(3);
   const double boxl = 24.8586887;
   s.initBoxLength(boxl);
-  const double rCut = 12.42934435;
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
-  PairLJCoulEwald p(&s, rCut);
+  PairLJCoulEwald p(&s, {{"rCut", "12.42934435"}});
   p.initBulkSPCE(5.6, 38);
 
   // if neighCut < sig, there should be no neighbors
@@ -284,10 +249,9 @@ TEST(PairLJCoulEwald, cheapEnergyLJCoul) {
   Space s(3);
   const double boxl = 24.8586887;
   s.initBoxLength(boxl);
-  const double rCut = 12.42934435;
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
-  PairLJCoulEwald p(&s, rCut);
+  PairLJCoulEwald p(&s, {{"rCut", "12.42934435"}});
   p.initBulkSPCE(5.6, 38);
   for (int i = 0; i < 2; ++i) {
 
@@ -306,7 +270,7 @@ TEST(PairLJCoulEwald, reconstruct) {
   s.initBoxLength(24.8586887);
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
-  PairLJCoulEwald p(&s, 12.42934435);
+  PairLJCoulEwald p(&s, {{"rCut", "12.42934435"}});
   p.initBulkSPCE(5.6, 38);
   const double petot = p.peTot();
   //shared_ptr<Space> s2 = make_shared<Space>(s);
@@ -325,7 +289,7 @@ TEST(PairLJCoulEwald, clone) {
   s.initBoxLength(24.8586887);
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
   s.addMolInit("../forcefield/data.spce");
-  PairLJCoulEwald p(&s, 12.42934435);
+  PairLJCoulEwald p(&s, {{"rCut", "12.42934435"}});
   p.initBulkSPCE(5.6, 38);
   const double petot = p.peTot();
   shared_ptr<Space> s2 = s.cloneShrPtr();
@@ -350,11 +314,11 @@ TEST(PairLJCoulEwald, PairLJCoulEwaldInitLMPData) {
   s.addMol("../forcefield/data.spce");
 
   // first pair uses old bulk spce method
-  PairLJCoulEwald p1(&s, 10);
+  PairLJCoulEwald p1(&s, {{"rCut", "10"}});
   p1.initBulkSPCE(5.6, 38);
 
   // second pair uses new initData method
-  PairLJCoulEwald p2(&s, 10);
+  PairLJCoulEwald p2(&s, {{"rCut", "10"}});
   p2.initData("../forcefield/data.spce");
   p2.initKSpace(5.6, 38);
 

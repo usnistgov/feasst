@@ -14,7 +14,8 @@ int main() {  // SPCE, SRSW_NVTMC
   feasst::Space space(3);
   space.initBoxLength(24.8586887);   // molecule-center based cut-off
 
-  feasst::PairLJCoulEwald pair(&space, space.minl()/2.);
+  feasst::PairLJCoulEwald pair(&space,
+    {{"rCut", feasst::str(space.minl()/2.)}});
   stringstream addMolType;
   addMolType << space.install_dir() << "/forcefield/data.spce";
   pair.initData(addMolType.str());

@@ -14,8 +14,8 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-PairHybrid::PairHybrid(Space* space, const double rCut)
-  : Pair(space, rCut) {
+PairHybrid::PairHybrid(Space* space, const argtype &args)
+  : Pair(space, args) {
   defaultConstruction_();
 }
 
@@ -249,8 +249,8 @@ void PairHybrid::allPartPhysical() {
   }
 }
 
-shared_ptr<PairHybrid> makePairHybrid(Space* space, const double rCut) {
-  return make_shared<PairHybrid>(space, rCut);
+shared_ptr<PairHybrid> makePairHybrid(Space* space, const argtype &args) {
+  return make_shared<PairHybrid>(space, args);
 }
 
 #ifdef FEASST_NAMESPACE_

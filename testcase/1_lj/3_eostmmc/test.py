@@ -8,6 +8,7 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
 """
 
+import sys
 import argparse
 import unittest
 import feasst
@@ -30,7 +31,8 @@ parser.add_argument("--nMolMax", "-x", help="maximum number of mols",
                     default=5, type=int)
 parser.add_argument("--molName", "-m", help="molecule file name",
                     default="data.lj", type=str)
-args = parser.parse_args()
+args, left = parser.parse_known_args()
+sys.argv = sys.argv[:1]+left
 print("#", args)
 
 def compareEnergyAndMacro(criteria, iMacro, testobject, peAv, peStd, lnPIav, lnPIstd):
@@ -39,15 +41,15 @@ def compareEnergyAndMacro(criteria, iMacro, testobject, peAv, peStd, lnPIav, lnP
 
 class TestLJ_SRSW_EOSTMMC(unittest.TestCase):
     def test(self):
-        feasst.ranInitByDate()      # initialize random number generator
-        space = feasst.Space(3, 0)  # initialize simulation domain
+        feasst.ranInitByDate()    # initialize random number generator
+        space = feasst.Space(3)   # initialize simulation domain
         space.initBoxLength(args.boxl)
         addMolType = space.install_dir() + "/forcefield/" + args.molName
         space.addMolInit(addMolType)
 
         # initialize pair-wise interactions
-        pair = feasst.PairLJ(space, args.rCut,
-            feasst.args({"cutType" : "lrc"}))
+        pair = feasst.PairLJ(space,
+            feasst.args({"rCut" : str(args.rCut), "cutType" : "lrc"}))
 
         # acceptance criteria
         nMolMin = 0

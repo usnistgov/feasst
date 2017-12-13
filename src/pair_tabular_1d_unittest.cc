@@ -15,12 +15,11 @@
 using namespace feasst;
 
 TEST(PairTabular1D, printReadTable) {
-  const double rCut = 1.08;
-  Space ss(3, 0);
+  Space ss(3);
   ss.initBoxLength(4);
   string addMolTypeA("../forcefield/data.lj");
   string addMolTypeB("../forcefield/data.ljb");
-  PairLJ pp(&ss, rCut, {{"molType", "none"}});
+  PairLJ pp(&ss, {{"rCut", "1.08"}, {"molType", "none"}});
   PairTabular1D p(&ss);
   ss.addMolInit(addMolTypeA.c_str());
   pp.initData(addMolTypeA.c_str());
@@ -59,11 +58,10 @@ TEST(PairTabular1D, printReadTable) {
 
 #ifdef GSL_
 TEST(PairTabular1D, interpolateForces) {
-  const double rCut = 3.;
-  Space s(3, 0);
+  Space s(3);
   s.initBoxLength(6);
   string addMolType("../forcefield/data.lj");
-  PairLJ pp(&s, rCut);
+  PairLJ pp(&s, {{"rCut", "3"}});
   s.addMolInit(addMolType.c_str());
   pp.initData(addMolType.c_str());
   pp.cutShift(1);

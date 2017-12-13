@@ -16,8 +16,9 @@ int main() {  // LJ, MULTISITE
   space.initBoxLength(9.);
   stringstream addMolType;
   addMolType << space.install_dir() << "/forcefield/data.cg3_60_1_1";
-  feasst::PairLJ pair(&space, 3.,  // potential cut-off
-    {{"molType", addMolType.str()}});
+  feasst::PairLJ pair(&space,
+    {{"rCut", "3."},  // potential cut-off
+     {"molType", addMolType.str()}});
   pair.rCutijset(1, 1, pair.rCut());
   pair.linearShiftijset(1, 1, 1);
   pair.initWCA(1, 2);

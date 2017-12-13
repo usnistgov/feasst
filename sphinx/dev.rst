@@ -301,13 +301,13 @@ To do list
 * Package FEASST as a Docker app
 * move unittests to testcases: ljmultilambda2D, NPTandLJvLJMulti, semigrand,
 * Fix the API TOC for non-derived classes (e.g., TOC disappears when you select "Histogram")
-* Add PairPatchKJ testcase.
+* Add PairPatchKF testcase.
 * Add test case with AnalyzeCluster and AnalyzeScatter.
 * Add test case with PairTabular1D (and/or improve beyond linear interpolation).
 * Incorporate more "tools" as part of the test cases (e.g., rw, restart, xyz2bin, etc).
 * feasst.nist.gov instead of pages.nist.gov/feasst ?
 * sphinx_rtd_theme doesn't work with NIST header/footer
 * Use short version number for display on FEASST html
-* Implement assert failure testing with unittests.
 * Customize restart directory name
 * Move rCut to optional argument, after figuring out how to have map<string,string> work with base class arguments.
+* Fix testcase 1/3 by taking arguments with unittest in python.

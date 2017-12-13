@@ -51,7 +51,7 @@ int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
   s.initBoxLength(boxl);
 
   // initialize pair-wise interactions
-  feasst::PairLJCoulEwald p(&s, rCut);
+  feasst::PairLJCoulEwald p(&s, {{"rCut", feasst::str(rCut)}});
   stringstream addMolType;
   addMolType << s.install_dir() << "/forcefield/" << molType.str().c_str();
   p.initData(addMolType.str());

@@ -19,6 +19,9 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+/// Use a map of string pairs to function as a dictionary for arguments.
+typedef std::map<std::string, std::string> argtype;
+
 /**
  * The Arguments class takes in arguments as a map of strings
  * (e.g., key,value pairs in a dictionary).
@@ -27,63 +30,36 @@ namespace feasst {
  */
 class Arguments {
  public:
-  typedef std::map<std::string, std::string> argtype;
-  void initArgs(const std::string className, const argtype &args) {
-    className_ = className;
-    args_ = args;
-  }
+  void initArgs(const std::string className, const argtype &args);
 
   /**
    * Set the argument key (the first in the map/dictionary pair).
    * Store the key for error processing.
    * Return self for chainsetting.
    */
-  Arguments& key(const std::string &key) {
-    key_ = key;
-    usedKeys_.push_back(key_);
-    return *this;
-  }
+  Arguments& key(const std::string &key);
 
   /// Set the default value if key is not present in args.
-  Arguments& dflt(const std::string &defaultVal) {
-    defaultVal_ = defaultVal;
-    return *this;
-  }
+  Arguments& dflt(const std::string &defaultVal);
+
+  /// Return true if key is not present in args. Otherwise, false.
+  bool empty();
 
   /// Return the value of the processed keyword.
   /// Reset key and dflt
-  std::string str() {
-    ASSERT(!key_.empty(), "key must be set before str");
-    auto pair = args_.find(key_);
-    std::string str;
-    if (pair != args_.end()) {
-      str = pair->second;
-    } else {
-      ASSERT(!defaultVal_.empty(), "key(" << key_ << ") is required for args "
-        << "when no default value is set.");
-      str = defaultVal_;
-    }
-    key_ = "";
-    defaultVal_ = "";
-    return str;
-  }
+  std::string str();
 
   /// Upon destruction, check that all provided args were processed.
   /// Automatically include empty string key as processed.
-  bool checkAllArgsUsed(){
-    usedKeys_.push_back("");
-    for (const auto &pair : args_) {
-      ASSERT(findInList(pair.first, usedKeys_),
-        "Key arg(" << pair.first <<") given to class(" << className_
-        << ") is not recognized. All keywords provided in args must be "
-        << "used, otherwise, a simple typo in keyword arguments would go "
-        << "unnoticed. If you are a developer, check that you have processed "
-        << "all possible keywords in the appropriate constructor. If you are "
-        << "a user, check for any typos in your provided keyword arguments and "
-        << "check documentation for the class(" << className_ << ")");
-    }
-    return true;
-  }
+  bool checkAllArgsUsed();
+
+  /// Chainset argparse to remove the next arg returned by str from args
+  Arguments& rm();
+
+  /// Return the size of the args (e.g., the number)
+  int size() const { return static_cast<int>(args_.size()); }
+
+  argtype args() const { return args_; }  //!< Return args
 
  private:
   std::string className_;
@@ -91,6 +67,7 @@ class Arguments {
   std::string key_;
   std::string defaultVal_;
   std::vector<std::string> usedKeys_;
+  bool removeArg_ = false;
 };
 
 #ifdef FEASST_NAMESPACE_

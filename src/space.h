@@ -36,8 +36,16 @@ namespace feasst {
  */
 class Space : public BaseRandom {
  public:
-  /// Construct with spatial dimension and ID number.
-  explicit Space(int dimension = 3, int id = 0);
+  /// Constructor
+  explicit Space(const int dimension = 3,  //!< spatial dimensionality
+    /**
+     * allowed string key pairs (e.g., dictionary)
+     *
+     *  boxLength : length of periodic boundary, equal in all dimensions
+     *
+     *  - (default): 0
+     */
+    const argtype &args = argtype());
 
   /// Construct by checkpoint file.
   explicit Space(const char* fileName);
@@ -902,7 +910,11 @@ class Space : public BaseRandom {
 };
 
 /// Factory method
-shared_ptr<Space> makeSpace(int dimension = 3, int id = 0);
+shared_ptr<Space> makeSpace(int dimension = 3,
+  const argtype &args = argtype());
+
+/// Factory method
+shared_ptr<Space> makeSpace(const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

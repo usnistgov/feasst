@@ -75,3 +75,18 @@ TEST(Analyze, MonkeyPatch) {
     EXPECT_NEAR(newfCollect, c3.lnfCollect(), DTOL);
   #endif  // _OPENMP
 }
+
+TEST(Analyze, args) {
+  Space space;
+  PairHardSphere pair(&space);
+  {
+    Analyze analyze(&pair);
+    EXPECT_EQ(1, analyze.nFreq());
+  }
+
+  {
+    Analyze analyze(&pair, {{"nFreq", "1000"}, {"nFreqPrint", "10"}});
+    EXPECT_EQ(1000, analyze.nFreq());
+    EXPECT_EQ(10, analyze.nFreqPrint());
+  }
+}

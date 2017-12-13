@@ -36,7 +36,7 @@ int main() {  // LJ, SRSW_NVTMC
   stringstream molNameSS;
   molNameSS << space.install_dir() << "/forcefield/data.lj";
   space.addMolInit(molNameSS.str().c_str());
-  feasst::PairLJ pair(&space, 3, {{}});   // potential truncation at 3
+  feasst::PairLJ pair(&space, {{"rCut", "3"}});   // potential truncation at 3
   const double temperature = 0.9;
   feasst::CriteriaMetropolis criteria(1./temperature, 1.);
   feasst::MC mc(&space, &pair, &criteria);

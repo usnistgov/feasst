@@ -14,8 +14,8 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-PairTabular1D::PairTabular1D(Space* space)
-  : Pair(space, 0.) {
+PairTabular1D::PairTabular1D(Space* space, const argtype &args)
+  : Pair(space, args) {
   defaultConstruction_();
 }
 
@@ -94,8 +94,9 @@ PairTabular1D* PairTabular1D::clone(Space* space) const {
   return p;
 }
 
-shared_ptr<PairTabular1D> makePairTabular1D(Space* space) {
-  return make_shared<PairTabular1D>(space);
+shared_ptr<PairTabular1D> makePairTabular1D(Space* space,
+  const argtype &args) {
+  return make_shared<PairTabular1D>(space, args);
 }
 
 #ifdef FEASST_NAMESPACE_

@@ -60,6 +60,14 @@ Accumulator AccumulatorVec::average() const {
   return Acc;
 }
 
+Accumulator AccumulatorVec::vec(const int bin) const {
+  if (accVec_.size() < 1) {
+    Accumulator null;
+    return null;
+  }
+  return accVec_[bin];
+}
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

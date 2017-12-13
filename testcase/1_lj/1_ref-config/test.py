@@ -15,8 +15,9 @@ class TestLJ_SRSW_REFCONF(unittest.TestCase):
     def test(self):
         space = feasst.Space(3)
         space.initBoxLength(8)
-        pair = feasst.PairLJ(space, 3,   # potential truncation
-          feasst.args({"cutType" : "lrc"}))   # use long range corrections
+        pair = feasst.PairLJ(space, feasst.args(
+            {"rCut" : "3",          # potential truncation at 3
+             "cutType" : "lrc"}))   # long range corrections
 
         # create clones of Space and Pair to perform two separate tests
         space2 = space.clone()

@@ -30,9 +30,9 @@ void vout_(std::ostream& message) { if (verbose_ == 1) { std::string data = dyna
 
 TEST(Trial, cloneANDreconstruct) {
   const double rAbove = 3, rBelow = 1;
-  Space s(3, 0);
+  Space s(3);
   s.init_config(12);
-  PairLJ p(&s, 5, {{"molType", "../forcefield/data.atom"}});
+  PairLJ p(&s, {{"rCut", "5"}, {"molType", "../forcefield/data.atom"}});
   p.initNeighList(rAbove, rBelow);
   p.buildNeighList();
   CriteriaMetropolis c(0.5, 0.01);
@@ -103,22 +103,22 @@ TEST(Trial, allmoves) {
   // ranInitForRepro(1491827115);
   // ranInitForRepro(1494504908);
   // declare pair and space objects for each simulation type
-  Space sSPCE(3,0);
+  Space sSPCE(3);
   double boxl = 24.8586887;
   sSPCE.initBoxLength(boxl);
   sSPCE.readXYZBulk(3, "water", "../unittest/spce/test.xyz");
   //sSPCE.readXYZBulk(3, "water", "../test/spce/test52.xyz");
   sSPCE.addMolInit("../forcefield/data.spce");
-  PairLJCoulEwald pSPCE(&sSPCE, 8);
+  PairLJCoulEwald pSPCE(&sSPCE, {{"rCut", "8"}});
   pSPCE.initBulkSPCE(5.6, 38);
 
-  Space sLJ(3,1);
+  Space sLJ(3);
   sLJ.init_config(12);
-  PairLJ pLJ(&sLJ, 5, {{"molType", "../forcefield/data.atom"}});
+  PairLJ pLJ(&sLJ, {{"rCut", "5"}, {"molType", "../forcefield/data.atom"}});
 
-  Space sID(3,2);
+  Space sID(3);
   sID.init_config(12);
-  PairIdeal pID(&sID, 5);
+  PairIdeal pID(&sID, {{"rCut", "5"}});
   pID.initData("../forcefield/data.atom");
   pID.rCutijset(0, 0, pID.rCut());
 

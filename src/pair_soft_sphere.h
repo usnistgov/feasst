@@ -25,8 +25,7 @@ namespace feasst {
 class PairSoftSphere : public Pair {
  public:
   /// Constructor
-  /// @param rCut interaciton cut off distance
-  PairSoftSphere(Space* space, const double rCut);
+  PairSoftSphere(Space* space, const argtype &args = argtype());
 
   /// Initialize the potential parameter exponent (default below).
   void initExponent(const int n = 12) { n_ = n; }
@@ -60,7 +59,8 @@ class PairSoftSphere : public Pair {
 };
 
 /// Factory method
-shared_ptr<PairSoftSphere> makePairSoftSphere(Space* space, const double rCut);
+shared_ptr<PairSoftSphere> makePairSoftSphere(Space* space,
+  const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

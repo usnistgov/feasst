@@ -28,8 +28,7 @@ namespace feasst {
 class PairHardCircle : public Pair {
  public:
   /// Constructor
-  /// @param rCut interaciton cut off distance
-  PairHardCircle(Space* space, const double rCut);
+  PairHardCircle(Space* space, const argtype &args = argtype());
 
   /// Initialize the radius of gyration of the depletant, \f$R_g\f$.
   void initRDep(const double rDep = 0.) { rDep_ = rDep; }
@@ -56,7 +55,8 @@ class PairHardCircle : public Pair {
 };
 
 /// Factory method
-shared_ptr<PairHardCircle> makePairHardCircle(Space* space, const double rCut);
+shared_ptr<PairHardCircle> makePairHardCircle(Space* space,
+  const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

@@ -14,9 +14,11 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-AnalyzeScatter::AnalyzeScatter(Pair *pair)
-  : Analyze(pair) {
+AnalyzeScatter::AnalyzeScatter(Pair *pair, const argtype &args)
+  : Analyze(pair, args) {
   defaultConstruction_();
+  argparse_.initArgs(className_, args);
+  argparse_.checkAllArgsUsed();
 }
 
 AnalyzeScatter::AnalyzeScatter(
@@ -545,8 +547,8 @@ int AnalyzeScatter::nPartTypes_() {
   return space()->nParticleTypes();
 }
 
-shared_ptr<AnalyzeScatter> makeAnalyzeScatter(Pair *pair) {
-  return make_shared<AnalyzeScatter>(pair);
+shared_ptr<AnalyzeScatter> makeAnalyzeScatter(Pair *pair, const argtype &args) {
+  return make_shared<AnalyzeScatter>(pair, args);
 }
 
 #ifdef FEASST_NAMESPACE_

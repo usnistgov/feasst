@@ -34,12 +34,14 @@ namespace feasst {
  */
 class PairPatchKF : public Pair {
  public:
-  /**
-   * Constructor
-   * @param rCut interaction cut off distance
-   * @param patchAngle solid half-angle (in degrees) of patch (see reference)
-   */
-  PairPatchKF(Space *space, const double rCut, const double patchAngle);
+  /// Constructor
+  PairPatchKF(Space *space,
+   /**
+    * allowed string key pairs (e.g., dictionary):
+    *
+    * patchAngle : solid half-angle (in degrees) of patch (see reference)
+    */
+   const argtype &args = argtype());
 
   /// Mirrors the patch on the other side of the particle if flag == 1.
   void mirrorPatch(const int flag) {
@@ -76,7 +78,7 @@ class PairPatchKF : public Pair {
   /// Return the cosine of the patch angle.
   double cpa() const { return cpa_; }
 
-  PairPatchKF(Space* space, const char* fileName) : Pair(space, 0.) {
+  PairPatchKF(Space* space, const char* fileName) : Pair(space) {
     ASSERT(0, "no restart implemented"); }
   ~PairPatchKF() {};
   virtual PairPatchKF* clone(Space* space) const {
@@ -92,8 +94,7 @@ class PairPatchKF : public Pair {
 };
 
 /// Factory method
-shared_ptr<PairPatchKF> makePairPatchKF(Space *space, const double rCut,
-  const double patchAngle);
+shared_ptr<PairPatchKF> makePairPatchKF(Space *space, const argtype &args);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

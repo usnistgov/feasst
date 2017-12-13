@@ -14,15 +14,18 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-PairPatchKF::PairPatchKF(Space *space,
-  const double rCut,
-  const double patchAngle)
-  : Pair(space, rCut),
-    patchAngle_(patchAngle),
-    cpa_(cos(patchAngle/180*PI)) {
+PairPatchKF::PairPatchKF(Space *space, const argtype &args)
+  : Pair(space, args) {
   className_.assign("PairPatchKF");
   mirrorPatch(0);
   initAtomCut(0);
+  argparse_.initArgs(className_, args);
+
+  // parse patchAngle
+  patchAngle_ = stod(argparse_.key("patchAngle").str());
+  cpa_ = cos(patchAngle_/180.*PI);
+
+  argparse_.checkAllArgsUsed();
 }
 
 double PairPatchKF::multiPartEner(
@@ -471,9 +474,8 @@ void PairPatchKF::allPartEnerForceMolCutInner(
   }
 }
 
-shared_ptr<PairPatchKF> makePairPatchKF(Space *space, const double rCut,
-  const double patchAngle) {
-  return make_shared<PairPatchKF>(space, rCut, patchAngle);
+shared_ptr<PairPatchKF> makePairPatchKF(Space *space, const argtype &args) {
+  return make_shared<PairPatchKF>(space, args);
 }
 
 #ifdef FEASST_NAMESPACE_

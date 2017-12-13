@@ -23,7 +23,7 @@ namespace feasst {
 class CriteriaMetropolis : public Criteria {
  public:
   /// Constructor
-  CriteriaMetropolis(const double beta, const double activ);
+  explicit CriteriaMetropolis(const double beta, const double activ = 1.);
 
   /// Construct by checkpoint file.
   explicit CriteriaMetropolis(const char* fileName);

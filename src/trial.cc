@@ -18,18 +18,19 @@ Trial::Trial() {
   defaultConstruction_();
 }
 
-Trial::Trial(
-             Pair *pair,
-             Criteria *criteria)
+Trial::Trial(Pair *pair, Criteria *criteria, const argtype &args)
   : pair_(pair),
     criteria_(criteria) {
   defaultConstruction_();
+  argparse_.initArgs(className_, args);
+
+  // parse maxMoveParam
+  if (!argparse_.key("maxMoveParam").empty()) {
+    maxMoveParam = stod(argparse_.str());
+  }
 }
 
-Trial::Trial(
-             Pair *pair,
-             Criteria *criteria,
-             const char* fileName)
+Trial::Trial(Pair *pair, Criteria *criteria, const char* fileName)
   : pair_(pair),
     criteria_(criteria) {
   ASSERT(fileExists(fileName),

@@ -14,9 +14,11 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-PairIdeal::PairIdeal(Space* space, const double rCut)
-  : Pair(space, rCut) {
+PairIdeal::PairIdeal(Space* space, const argtype &args)
+  : Pair(space, args) {
   defaultConstruction_();
+  argparse_.initArgs(className_, args);
+  argparse_.checkAllArgsUsed();
 }
 
 PairIdeal::PairIdeal(Space* space, const char* fileName)
@@ -40,8 +42,8 @@ PairIdeal* PairIdeal::clone(Space* space) const {
   return p;
 }
 
-shared_ptr<PairIdeal> makePairIdeal(Space* space, const double rCut) {
-  return make_shared<PairIdeal>(space, rCut);
+shared_ptr<PairIdeal> makePairIdeal(Space* space, const argtype &args) {
+  return make_shared<PairIdeal>(space, args);
 }
 
 #ifdef FEASST_NAMESPACE_

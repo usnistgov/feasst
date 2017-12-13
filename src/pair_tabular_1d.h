@@ -27,7 +27,7 @@ namespace feasst {
 class PairTabular1D : public Pair {
  public:
   /// Constructor
-  explicit PairTabular1D(Space* space);
+  explicit PairTabular1D(Space* space, const argtype &args = argtype());
 
   /// Read table from file.
   void readTable(const char* fileName);
@@ -63,7 +63,8 @@ class PairTabular1D : public Pair {
 };
 
 /// Factory method
-shared_ptr<PairTabular1D> makePairTabular1D(Space* space);
+shared_ptr<PairTabular1D> makePairTabular1D(Space* space,
+  const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

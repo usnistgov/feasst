@@ -14,9 +14,11 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-PairHardCircle::PairHardCircle(Space* space, const double rCut)
-  : Pair(space, rCut) {
+PairHardCircle::PairHardCircle(Space* space, const argtype &args)
+  : Pair(space, args) {
   defaultConstruction_();
+  argparse_.initArgs(className_, args);
+  argparse_.checkAllArgsUsed();
 }
 
 PairHardCircle::PairHardCircle(Space* space, const char* fileName)
@@ -66,8 +68,9 @@ PairHardCircle* PairHardCircle::clone(Space* space) const {
   return p;
 }
 
-shared_ptr<PairHardCircle> makePairHardCircle(Space* space, const double rCut) {
-  return make_shared<PairHardCircle>(space, rCut);
+shared_ptr<PairHardCircle> makePairHardCircle(Space* space,
+  const argtype &args) {
+  return make_shared<PairHardCircle>(space, args);
 }
 
 #ifdef FEASST_NAMESPACE_

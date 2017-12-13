@@ -26,8 +26,7 @@ namespace feasst {
 class PairIdeal : public Pair {
  public:
   /// Constructor
-  /// @param rCut HWH:depreciated. This variable has no use in this class.
-  PairIdeal(Space* space, const double rCut);
+  PairIdeal(Space* space, const argtype &args = argtype());
 
   // Construct from restart file
   PairIdeal(Space* space, const char* fileName);
@@ -45,7 +44,8 @@ class PairIdeal : public Pair {
 };
 
 /// Factory method
-shared_ptr<PairIdeal> makePairIdeal(Space* space, const double rCut);
+shared_ptr<PairIdeal> makePairIdeal(Space* space,
+  const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

@@ -17,7 +17,7 @@ TEST(PairHardCircle, hardCircle) {
   Space s(2);
   s.initBoxLength(6);
   const double dCircle = 1., rDep = 0.05;
-  PairHardCircle p(&s, dCircle+2*rDep);
+  PairHardCircle p(&s, {{"rCut", feasst::str(dCircle+2*rDep)}});
   p.initData("../forcefield/data.atom");
 
   // add two particles with a certain distance separation

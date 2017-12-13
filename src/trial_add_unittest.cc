@@ -18,7 +18,7 @@
 using namespace feasst;
 
 TEST(TrialAdd, confine) {
-  Space space(3, 0);  // create 3D space
+  Space space(3);  // create 3D space
   space.initBoxLength(10);     // create cubic PBC box length of 10, origin at center
   stringstream addMol;
   addMol << space.install_dir() << "/forcefield/data.lj";
@@ -26,8 +26,7 @@ TEST(TrialAdd, confine) {
   addWall << space.install_dir() << "/forcefield/data.ljb";
 
   // Initialize LJ interactions
-  const double rCut = 3.;
-  PairLJ pair(&space, rCut, {{"molType", "none"}});
+  PairLJ pair(&space, {{"rCut", "3"}, {"molType", "none"}});
   pair.initData(addMol.str());
   pair.initData(addWall.str());
   pair.epsijset(1, 1, 0.);  //!< turn off Wall-Wall interactions

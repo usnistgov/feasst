@@ -48,7 +48,7 @@ class AccumulatorVec : public Accumulator {
 
   /// read-only access of private data-members
   vector<Accumulator> vec() const { return accVec_; }
-  Accumulator vec(const int i) const { return accVec_[i]; }
+  Accumulator vec(const int bin) const;
   int size() const { return static_cast<int>(accVec_.size()); }
 
  protected:

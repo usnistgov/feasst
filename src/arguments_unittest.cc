@@ -17,14 +17,36 @@ TEST(Arguments, Arguments) {
   args.initArgs("test", {{"key1", "val1"}});
   EXPECT_EQ(args.key("yo").dflt("hi").str(), "hi");
 
+  // test if a key is empty before it is set
+  try {
+    args.empty();
+    CATCH_PHRASE("key must be set before");
+  }
+
+  // test if a key is empty after set
+  EXPECT_TRUE(args.key("yo").empty());
+
   // test if all keywords have been used
   try {
     EXPECT_FALSE(args.checkAllArgsUsed());
     CATCH_PHRASE("All keywords provided in args must be used");
   }
 
-  // use keyword before args destructor to prevent exception
+  // test if provided key is empty
+  EXPECT_FALSE(args.key("key1").empty());
+
+  // check second key pair without providing key, because already set
+  EXPECT_EQ(args.dflt("hi").str(), "val1");
+
+  // alternatively, set key and check simultaneously
   EXPECT_EQ(args.key("key1").dflt("hi").str(), "val1");
+
+  // test if key1 is removed using rm()
+  const int nargs = args.size();
+  EXPECT_EQ(args.key("key1").dflt("hi").rm().str(), "val1");
+  EXPECT_EQ(args.size(), nargs - 1);
+
+  // check if all args were used
   EXPECT_TRUE(args.checkAllArgsUsed());
 }
 

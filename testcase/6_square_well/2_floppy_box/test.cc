@@ -17,7 +17,7 @@ int main() {  // SquareWell, FLOPPY
   space.setXYTilt(1.5);
   space.setXZTilt(1.5);
   space.setYZTilt(1.5);
-  feasst::PairSquareWell pair(&space, 2.);
+  feasst::PairSquareWell pair(&space, {{"rCut", "2"}});
   std::stringstream addMolType;
   addMolType << space.install_dir() << "/forcefield/data.lj";
   pair.initData(addMolType.str());

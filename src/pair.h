@@ -45,7 +45,16 @@ class Pair : public BaseRandom {
  public:
   /// Constructor.
   /// @param rCut Interaction cut-off distance
-  Pair(Space* space, const double rCut);
+  Pair(Space* space,
+    /**
+     * allowed string key pairs (e.g. dictionary):
+     *
+     * rCut : floating point value of the interaction truncation distance.
+     *        Typically used by only the simplest pure-component models.
+     *
+     *  - (default): 0.
+     */
+    const argtype &args = argtype());
 
   /// Initialize interactions.
   //   this subroutine is written from scratch in each derived class, without

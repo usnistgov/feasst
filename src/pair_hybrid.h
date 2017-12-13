@@ -25,8 +25,7 @@ namespace feasst {
 class PairHybrid : public Pair {
  public:
   /// Constructor
-  /// @param rCut depreciated parameter with little meaning.
-  PairHybrid(Space* space, const double rCut = 0);
+  PairHybrid(Space* space, const argtype &args = argtype());
 
   /// Add pair class.
   void addPair(Pair* pair) {pairVec_.push_back(pair); }
@@ -97,7 +96,8 @@ class PairHybrid : public Pair {
 };
 
 /// Factory method
-shared_ptr<PairHybrid> makePairHybrid(Space* space, const double rCut = 0);
+shared_ptr<PairHybrid> makePairHybrid(Space* space,
+  const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

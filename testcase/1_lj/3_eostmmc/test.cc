@@ -72,14 +72,14 @@ int main(int argc, char** argv) {  // LJ, SRSW_EOSTMMC
 
   // initialize simulation domain
   feasst::ranInitByDate();
-  feasst::Space s(3, 0);
+  feasst::Space s(3);
   s.initBoxLength(boxl);
   stringstream addMolType;
   addMolType << s.install_dir() << "/forcefield/" << molType.str().c_str();
   s.addMolInit(addMolType.str().c_str());
 
   // initialize pair-wise interactions
-  feasst::PairLJ p(&s, rCut, {{"cutType", "lrc"}});
+  feasst::PairLJ p(&s, {{"rCut", feasst::str(rCut)}, {"cutType", "lrc"}});
 
   // acceptance criteria
   //feasst::CriteriaWLTMMC c(1./temp, exp(lnz), "nmol" , nMolMin - 0.5,

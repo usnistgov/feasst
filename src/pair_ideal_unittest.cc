@@ -12,12 +12,11 @@
 #include "pair_ideal.h"
 
 TEST(PairIdeal, ideal) {
-  feasst::Space s(3,0);
+  feasst::Space s(3);
   const double boxl = 24.8586887;
   s.initBoxLength(boxl);
-  const double rCut = 12.42934435;
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
-  feasst::PairIdeal p(&s, rCut);
+  feasst::PairIdeal p(&s, {{"rCut", "12.42934435"}});
   p.initData("../forcefield/data.spce");
   p.rCutijset(0, 0, p.rCut());
   p.initEnergy();

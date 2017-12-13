@@ -14,10 +14,9 @@
 using namespace feasst;
 
 TEST(PairSquareWell, mickeymouse) {
-  const double rCut = 1.02;
   Space s(3);
   s.initBoxLength(20);
-  PairSquareWell p(&s, rCut);
+  PairSquareWell p(&s, {{"rCut", "1.02"}});
   p.initData("../forcefield/data.cg3_91_0.57_2");
   vector<double> xAdd(s.dimen());
   p.addMol(xAdd);
@@ -27,7 +26,7 @@ TEST(PairSquareWell, mickeymouse) {
   s.qMolAlt(1, 0, 1);
   s.qMolAlt(1, 3, 0);
   s.quat2pos(1);
-  p.rCutijset(1, 1, rCut);
+  p.rCutijset(1, 1, p.rCut());
   p.initHardSphere(1, 2);
   p.initHardSphere(2, 2);
   p.initEnergy();

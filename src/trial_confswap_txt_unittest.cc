@@ -24,9 +24,9 @@
 using namespace feasst;
 
 TEST(TrialConfSwapTXT, confswap) {
-  Space s(3, 0);
+  Space s(3);
   s.initBoxLength(12);
-  PairLJ p(&s, 3, {{"molType", "../forcefield/data.lj"}});
+  PairLJ p(&s, {{"rCut", "3"}, {"molType", "../forcefield/data.lj"}});
   for (int i = 0; i < 12; ++i) {
     p.addMol("../forcefield/data.lj");
   }

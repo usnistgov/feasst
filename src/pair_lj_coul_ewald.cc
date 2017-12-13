@@ -21,10 +21,11 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-PairLJCoulEwald::PairLJCoulEwald(Space* space,
-  const double rCut)
-  : Pair(space, rCut) {
+PairLJCoulEwald::PairLJCoulEwald(Space* space, const argtype &args)
+  : Pair(space, args) {
   defaultConstruction_();
+  argparse_.initArgs(className_, args);
+  argparse_.checkAllArgsUsed();
 }
 
 PairLJCoulEwald::PairLJCoulEwald(Space* space,
@@ -818,9 +819,12 @@ double PairLJCoulEwald::pairLoopSite_(
   return Pair::pairLoopSite_(siteList, noCell);
 }
 
+shared_ptr<PairLJCoulEwald> makePairLJCoulEwald(Space* space,
+  const argtype &args) {
+  return make_shared<PairLJCoulEwald>(space, args);
+}
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_
-
-
 

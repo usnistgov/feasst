@@ -16,11 +16,19 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-Space::Space(int dimension, int id)
-  : dimen_(dimension),
-    id_(id) {
+Space::Space(const int dimension, const argtype &args)
+  : dimen_(dimension) {
   className_.assign("Space");
   defaultConstruction_();
+  argparse_.initArgs(className_, args);
+
+  // parse id
+  id_ = stoi(argparse_.key("id").dflt("0").str());
+
+  // parse boxLength
+  initBoxLength(stod(argparse_.key("boxLength").dflt("0.").str()));
+
+  argparse_.checkAllArgsUsed();
 }
 
 Space::Space(const char* fileName) {
@@ -1052,7 +1060,7 @@ void Space::addMolInit(const char* fileName   //!< data file for molecule
   ) {
   ASSERT(fileExists(fileName),
          "addMolInit(fileName = " << fileName << ") doesn't exists.");
-  addMolList_.push_back(std::make_shared<Space>(dimen_, 0));
+  addMolList_.push_back(std::make_shared<Space>(dimen_));
 
   // determine the number of particle types that already exist,
   //  thus, creating new particles with types higher than those existing
@@ -4236,8 +4244,15 @@ bool Space::tilted() const {
   return true;
 }
 
-shared_ptr<Space> makeSpace(int dimension, int id) {
-  return make_shared<Space>(dimension, id);
+shared_ptr<Space> makeSpace(int dimension, const argtype &args) {
+  return make_shared<Space>(dimension, args);
+}
+
+shared_ptr<Space> makeSpace(const argtype &args) {
+  Arguments argparse;
+  argparse.initArgs("Space", args);
+  const int dimen = stoi(argparse.key("dimen").dflt("3").rm().str());
+  return make_shared<Space>(dimen, argparse.args());
 }
 
 #ifdef FEASST_NAMESPACE_

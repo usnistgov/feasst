@@ -32,7 +32,7 @@ TEST(MC, WLTMMC_Ideal) {
   // ditto const double boxl = 12, beta = 1, rhoMid = double(nMolMax)/2/pow(boxl,s.dimen()), activ = rhoMid, rCut = 3, rAbove = 3, rBelow = 1;
   const double boxl = 6, beta = 1, rhoMid = double(nMolMax)/2/pow(boxl,s.dimen()), activ = rhoMid, rCut = 3, rAbove = 3, rBelow = 1;
   s.initBoxLength(boxl);
-  PairIdeal p(&s, rCut);
+  PairIdeal p(&s, {{"rCut", feasst::str(rCut)}});
   p.initData("../forcefield/data.atom");
   for (int i = 0; i < nMolMin; ++i) p.addMol();
   p.rCutijset(0, 0, p.rCut());
@@ -152,7 +152,7 @@ TEST(MC, ljmuvtmetropANDclone) {
   ranInitByDate();
   Space s(3);
   s.initBoxLength(boxl);
-  PairLJ p(&s, rCut, {{"molType", "../forcefield/data.lj"}});
+  PairLJ p(&s, {{"rCut", feasst::str(rCut)}, {"molType", "../forcefield/data.lj"}});
   CriteriaMetropolis c(beta, activ);
   MC mc(&s, &p, &c);
 
@@ -196,9 +196,9 @@ TEST(MC, ljmuvtmetropANDclone) {
 TEST(MC, ljnvtmetropANDremoveTrial) {
   const double beta = 1/2, rCut = 2.5;
   ranInitByDate();
-  Space s(3,0);
+  Space s(3);
   s.init_config(12);
-  PairLJ p(&s, rCut, {{}});
+  PairLJ p(&s, {{"rCut", feasst::str(rCut)}});
   p.buildNeighList();
   CriteriaMetropolis c(beta, 0);
   MC mc(&s,&p,&c);
@@ -224,12 +224,12 @@ TEST(MC, ljnvtmetropANDremoveTrial) {
 }
 
 TEST(MC, ljmuvttmmc) {
-  const double rCut = 3., beta = 1./1.5, activ = exp(-1.568214), boxl = pow(512, 1./3.);
+  const double beta = 1./1.5, activ = exp(-1.568214), boxl = pow(512, 1./3.);
   const int nMolMax = 3;
   ranInitByDate();
   Space s(3);
   s.initBoxLength(boxl);
-  PairLJ p(&s, rCut, {{"molType", "../forcefield/data.atom"}});
+  PairLJ p(&s, {{"rCut", "3"}, {"molType", "../forcefield/data.atom"}});
   CriteriaWLTMMC c(beta, activ, "nmol0", 0 ,nMolMax);
   MC mc(&s,&p,&c);
 
@@ -263,7 +263,7 @@ TEST(MC, ljmuvttmmc) {
 }
 
 TEST(MC, muvttmmcspce) {
-  const double boxl = 20., rCut = boxl/2., temp = 525, activ = exp(-8.08564), beta = 1./(temp*8.3144621/1000);
+  const double boxl = 20., temp = 525, activ = exp(-8.08564), beta = 1./(temp*8.3144621/1000);
   const int nMolMin = 0, nMolMax = 20, ncfreq = 100, npr = 250, nprPerMacrostate = npr/(nMolMax - nMolMin + 1) + 1;
 
   // initialize
@@ -280,10 +280,10 @@ TEST(MC, muvttmmcspce) {
   vector<shared_ptr<CriteriaWLTMMC> > c(nThreads);
   vector<shared_ptr<WLTMMC> > mc(nThreads);
   for (int t = 0; t < nThreads; ++t) {
-    s[t] = make_shared<Space>(3,t);
+    s[t] = make_shared<Space>(3);
     s[t]->initBoxLength(boxl);
     s[t]->addMolInit("../forcefield/data.spce");   // add one molecule in order to initialize ntype array
-    p[t] = make_shared<PairLJCoulEwald>(s[t].get(), rCut);
+    p[t] = makePairLJCoulEwald(s[t].get(), {{"rCut", feasst::str(boxl/2)}});
     p[t]->initBulkSPCE(5.6, 38);
     c[t] = make_shared<CriteriaWLTMMC>(beta, activ, "nmol", nMolVec[t][0], nMolVec[t][1]);
     mc[t] = make_shared<WLTMMC>(s[t].get(), p[t].get(), c[t].get());
@@ -316,14 +316,14 @@ TEST(MC, muvttmmcspce) {
 }
 
 TEST(MC, nseek) {
-  const double boxl = 20., rCut = boxl/2., temp = 525, activ = exp(-8.08564), beta = 1./(temp*8.3144621/1000);
+  const double boxl = 20., temp = 525, activ = exp(-8.08564), beta = 1./(temp*8.3144621/1000);
   const int nMolMax = 20;
 
   // initialize
   Space s(3);
   s.initBoxLength(boxl);
   s.addMolInit("../forcefield/data.spce");   // add one molecule in order to initialize ntype array
-  PairLJCoulEwald p(&s, rCut);
+  PairLJCoulEwald p(&s, {{"rCut", feasst::str(boxl/2.)}});
   p.initBulkSPCE(5.6, 38);
   CriteriaWLTMMC c(beta, activ, "nmol", 0, nMolMax);
   MC mc(&s,&p,&c);
@@ -337,7 +337,7 @@ TEST(MC, nseek) {
 
 TEST(MC, nSeekWithPressure) {
   feasst::ranInitByDate();
-  Space space(3, 0);
+  Space space(3);
   space.initBoxLength(8);
   /// PairLJ pair(&space, 3.);
   PairHardSphere pair(&space);
@@ -357,13 +357,13 @@ TEST(MC, nSeekWithPressure) {
 }
 
 TEST(MC, nseekSPCEnoEwald) {
-  const double boxl = 20., rCut = boxl/2., temp = 525, activ = exp(-8.08564), beta = 1./(temp*8.3144621/1000);
+  const double boxl = 20., temp = 525, activ = exp(-8.08564), beta = 1./(temp*8.3144621/1000);
   const int nMolMax = 20;
 
   // initialize
   Space s(3);
   s.initBoxLength(boxl);
-  PairLJCoulEwald p(&s, rCut);
+  PairLJCoulEwald p(&s, {{"rCut", feasst::str(boxl/2)}});
   //p.initBulkSPCE(5.6, 38);
   p.initData("../forcefield/data.spce");
   p.removeEwald();
@@ -382,7 +382,7 @@ TEST(MC, equltl43muvttmmcANDinitWindows) {
   const int nMolMax = 50, nMolMin = 10, npr = 200;
   Space s(3);
   s.initBoxLength(boxl);
-  PairLJ p(&s, pow(2, 1./6.), {
+  PairLJ p(&s, {{"rCut", feasst::str(pow(2, 1./6.))},
     {"cutType", "cutShift"},
     {"molType", "../forcefield/data.equltl43"}});
   p.checkEnergy(1e-9, 1);
@@ -443,7 +443,7 @@ TEST(MC, wltmmccloneANDreconstruct) {
   Space s(3);
   s.initBoxLength(9);
   // s.readXYZBulk(4, "../forcefield/data.equltl43", "../unittest/equltl43/two.xyz");
-  PairLJ p(&s, pow(2, 1./6.), {
+  PairLJ p(&s, {{"rCut", feasst::str(pow(2, 1./6.))},
     {"cutType", "cutShift"},
     {"molType", "../forcefield/data.equltl43"}});
   p.checkEnergy(1e-9, 1);
@@ -490,91 +490,8 @@ TEST(MC, wltmmccloneANDreconstruct) {
   EXPECT_EQ(1, mc.checkTrialCriteria());
 }
 
-//TEST(MC, mchybrid) {
-//  Space s(3, 0);
-//  for (int dim=0; dim < s.dimen(); ++dim) s.initBoxLength(8,dim);
-//  s.updateCells(3.);
-//  PairLJ pLJ(&s, 3);
-//  pLJ.initData("../forcefield/data.cg3_60_43_1");
-//  pLJ.epsijset(1, 2, 0.);
-//  pLJ.epsijset(2, 1, 0.);
-//  pLJ.epsijset(2, 2, 0.);
-//  pLJ.linearShift(1);
-//  pLJ.initEnergy();
-//  PairLJ pWCA(&s, pow(2, 1./6.));
-//  pWCA.initData("../forcefield/data.cg3_60_43_1");
-//  pWCA.epsijset(1, 1, 0.);
-//  pWCA.cutShift(1);
-//  pWCA.initEnergy();
-//  PairHybrid p(&s, s.minl()/2.);
-//  p.addPair(&pLJ);
-//  p.addPair(&pWCA);
-//  //p.initEnergy();
-//  EXPECT_EQ(2, p.nPairs());
-//  const int nMolMax = 50;
-//  CriteriaWLTMMC c(1., exp(-2.), "nmol",-0.5,nMolMax+0.5,nMolMax+1);
-//  WLTMMC mc(&s,&p,&c);
-//  mc.transformTrial("translate");
-//  mc.transformTrial("rotate");
-//  mc.deleteTrial();
-//  mc.addTrial("../forcefield/data.cg3_60_43_1");
-//  c.collectInit();
-//  c.tmmcInit();
-//  mc.setNFreqCheckE(10, 1e-6);
-//  mc.initRestart("tmp/rst", 10);
-//  mc.nMolSeek(nMolMax, "../forcefield/data.cg3_60_43_1", 1e6);
-//  mc.runNumTrials(100);
-//  mc.nMolSeek(nMolMax, "../forcefield/data.cg3_60_43_1", 1e6);
-//  EXPECT_EQ(1, mc.checkTrialCriteria());
-//
-//  // new pair style in one instead of hybrid
-//  PairLJ pLJnew(&s, 3);
-//  pLJnew.initData("../forcefield/data.cg3_60_43_1");
-//  pLJnew.rCutijset(0, 0, 0.);
-//  pLJnew.rCutijset(0, 1, 0.);
-//  pLJnew.rCutijset(0, 2, 0.);
-//  pLJnew.rCutijset(1, 1, 3.);
-//  pLJnew.linearShiftijset(1, 1, 1);
-//  pLJnew.rCutijset(1, 2, pow(2, 1./6.));
-//  pLJnew.cutShiftijset(1, 2, 1);
-//  pLJnew.rCutijset(2, 2, pow(2, 1./6.));
-//  pLJnew.cutShiftijset(2, 2, 1);
-//  pLJnew.initEnergy();
-//  EXPECT_NEAR(pLJnew.peTot(), p.peTot(), 1e-11);
-//  CriteriaWLTMMC cnew(1., exp(-2.), "nmol",-0.5,nMolMax+0.5,nMolMax+1);
-//  WLTMMC mcnew(&s,&pLJnew,&cnew);
-//  mcnew.transformTrial("translate");
-//  mcnew.transformTrial("rotate");
-//  mcnew.deleteTrial();
-//  mcnew.addTrial("../forcefield/data.cg3_60_43_1");
-//  cnew.collectInit();
-//  cnew.tmmcInit();
-//  mcnew.setNFreqCheckE(10, 1e-7);
-//  mcnew.initRestart("tmp/rst", 10);
-//  mcnew.nMolSeek(nMolMax, "../forcefield/data.cg3_60_43_1", 1e6);
-//  mcnew.runNumTrials(10);
-//  p.initEnergy();
-//  EXPECT_NEAR(pLJnew.peTot(), p.peTot(), 1e-11);
-//
-//  p.initEnergy();
-//  mc.runNumTrials(10);
-//  pLJnew.initEnergy();
-//  EXPECT_NEAR(pLJnew.peTot(), p.peTot(), 1e-11);
-//
-//  // make new wltmmc from restart file, run both 10 steps and check they are the same
-//  mcnew.writeRestart("tmp/rst");
-//  WLTMMC mcnew2("tmp/rst");
-//  EXPECT_EQ(mcnew.space()->nMol(), mcnew2.space()->nMol());
-//  EXPECT_NEAR(1., mcnew.pair()->peTot()/mcnew2.pair()->peTot(), 1e-10);
-//  mcnew.runNumTrials(10);
-//  mcnew2.runNumTrials(10);
-//  EXPECT_EQ(mcnew.space()->nMol(), mcnew2.space()->nMol());
-//  EXPECT_NEAR(1., mcnew.pair()->peTot()/mcnew2.pair()->peTot(), 1e-10);
-//  p.initEnergy();
-//}
-
 TEST(MC, b2hardsphere) {
-  Space s(3, 0);
+  Space s(3);
   PairHardSphere p(&s);
   p.initData("../forcefield/data.lj");
   CriteriaMetropolis c(1, 1);

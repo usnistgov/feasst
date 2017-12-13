@@ -16,20 +16,20 @@
 using namespace feasst;
 
 TEST(PairPatchKF, patchKFAnalytical1) {
-  Space s(3,0);
+  Space s;
   s.initBoxLength(10);
   s.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch6.xyz");
-  PairPatchKF p(&s, 3, 90);
+  PairPatchKF p(&s, {{"rCut", "3"}, {"patchAngle", "90"}});
   EXPECT_NEAR(0, p.cpa(), 1e-15);
   p.initEnergy();
   EXPECT_NEAR(0, p.peTot(), 1e-15);
 }
 
 TEST(PairPatchKF, patchKFAnalytical2) {
-  Space s(3,0);
+  Space s;
   s.initBoxLength(10);
   s.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch5.xyz");
-  PairPatchKF p(&s, 3, 90);
+  PairPatchKF p(&s, {{"rCut", "3"}, {"patchAngle", "90"}});
   EXPECT_NEAR(0, p.cpa(), 1e-15);
   p.initEnergy();
   const double petot = p.peTot();
@@ -45,10 +45,10 @@ TEST(PairPatchKF, patchKFAnalytical2) {
 }
 
 TEST(PairPatchKF, patchKFcellList) {
-  Space s(3,0);
+  Space s;
   s.initBoxLength(10);
   s.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch50.xyz");
-  PairPatchKF p(&s, 1.5, 90);
+  PairPatchKF p(&s, {{"rCut", "1.5"}, {"patchAngle", "90"}});
   p.initEnergy();
   const double petot = p.peTot();
   EXPECT_NEAR(-62, petot, 1e-15);
@@ -59,10 +59,10 @@ TEST(PairPatchKF, patchKFcellList) {
 }
 
 TEST(PairPatchKF, patchKFmirrorAnalytical) {
-  Space s(3,0);
+  Space s(3);
   s.initBoxLength(10);
   s.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch5.xyz");
-  PairPatchKF p(&s, 3, 90);
+  PairPatchKF p(&s, {{"rCut", "3"}, {"patchAngle", "90."}});
   p.mirrorPatch(1);
   p.printxyz("tmp/onePatch5vis.xyz", 1);
   EXPECT_NEAR(0, p.cpa(), 1e-15);
@@ -72,7 +72,7 @@ TEST(PairPatchKF, patchKFmirrorAnalytical) {
   const double chi = 0.4;
   const double theta = acos(1-chi)*180./PI;
   EXPECT_NEAR(53.1301023541560000, theta, 1e-13);
-  PairPatchKF p2(&s, 3, theta);
+  PairPatchKF p2(&s, {{"rCut", "3"}, {"patchAngle", feasst::str(theta)}});
   p2.mirrorPatch(1);
   p2.printxyz("tmp/onePatch5vis.xyz", 0);
   EXPECT_NEAR(1-chi, p2.cpa(), 1e-15);
@@ -86,7 +86,7 @@ TEST(PairPatchKF, patchKFmirrorAnalytical) {
 TEST(MC, PairPatchKF) {
   feasst::Space space;
   space.initBoxLength(8);
-  feasst::PairPatchKF pair(&space, 2., 90);
+  feasst::PairPatchKF pair(&space, {{"rCut", "2"}, {"patchAngle", "90"}});
   pair.initData("../forcefield/data.onePatch");
   pair.initEnergy();
   feasst::CriteriaMetropolis criteria(1., exp(-1));

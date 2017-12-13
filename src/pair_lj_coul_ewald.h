@@ -27,9 +27,7 @@ namespace feasst {
 class PairLJCoulEwald : public Pair {
  public:
   /// Constructor
-  PairLJCoulEwald(Space* space,
-    /// interaction cut-off distance
-    const double rCut);
+  PairLJCoulEwald(Space* space, const argtype &args = argtype());
 
   double alpha;               //!< ewald damping parameter
 
@@ -245,6 +243,9 @@ class PairLJCoulEwald : public Pair {
     const vector<int> &siteList,
     const int noCell = 0);
 };
+
+shared_ptr<PairLJCoulEwald> makePairLJCoulEwald(Space* space,
+  const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

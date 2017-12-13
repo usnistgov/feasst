@@ -67,3 +67,12 @@ TEST(Analyze, constructANDproduction) {
   testVec(scat->histInter(), scat2.histInter());
   testVec(scat->histIntra(), scat2.histIntra());
 }
+  
+TEST(AnalyzeScatter, args) {
+  Space space;
+  PairHardSphere pair(&space);
+  try {
+    AnalyzeScatter analyze(&pair, {{"/not/a/proper/arg", "error"}});
+    CATCH_PHRASE("is not recognized");
+  }
+}

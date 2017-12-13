@@ -14,16 +14,26 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
-Analyze::Analyze(
-  Pair *pair)
+Analyze::Analyze(Pair *pair, const argtype &args)
   : pair_(pair) {
-  className_.assign("Analyze");
   defaultConstruction_();
+  argparse_.initArgs(className_, args);
+
+  // parse nFreq
+  if (!argparse_.key("nFreq").empty()) {
+    initFreq(stoi(argparse_.str()));
+  }
+
+  // parse nFreqPrint
+  if (!argparse_.key("nFreqPrint").empty()) {
+    initFreqPrint(stoi(argparse_.str()));
+  }
+
 }
 
 Analyze::Analyze(Pair *pair, const char* fileName)
   : pair_(pair) {
-  className_.assign("Analyze");
+  defaultConstruction_();
 
   ASSERT(fileExists(fileName),
     "restart file(" << fileName << ") doesn't exist");
@@ -41,6 +51,7 @@ Analyze::Analyze(Pair *pair, const char* fileName)
 }
 
 void Analyze::defaultConstruction_() {
+  className_.assign("Analyze");
   initFreq();
   initPrintFreq();
   initProduction();
@@ -75,6 +86,10 @@ shared_ptr<Analyze> Analyze::cloneImpl(Pair* pair) const {
 
 shared_ptr<Analyze> makeAnalyze(Pair* pair) {
   return make_shared<Analyze>(pair);
+}
+
+shared_ptr<Analyze> makeAnalyze(Pair* pair, const argtype &args) {
+  return make_shared<Analyze>(pair, args);
 }
 
 shared_ptr<Analyze> makeAnalyze() {

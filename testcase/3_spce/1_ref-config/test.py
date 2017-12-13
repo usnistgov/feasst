@@ -17,7 +17,7 @@ class TestSPCE_SRSW_REFCONF(unittest.TestCase):
         for srswConfig in range(1, 3):
             space = feasst.Space(3)
             space.initBoxLength(20.)
-            pair = feasst.PairLJCoulEwald(space, 10.)
+            pair = feasst.PairLJCoulEwald(space, feasst.args({"rCut" : "10"}))
             pair.initData(space.install_dir() + "/forcefield/data.spce")
             pair.initKSpace(5.6,  # alpha*L
                             27)  # k^2 < k2max cutoff
