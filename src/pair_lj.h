@@ -64,6 +64,10 @@ class PairLJ : public Pair {
      */
     const argtype &args = argtype());
 
+  /// Constructor
+  PairLJ(shared_ptr<Space> space, const argtype &args = argtype())
+    : PairLJ(space.get(), args) {}
+
   /// Initialize cut and shifted potential for all particle types if flag == 1.
   /// \f$ U = U_{LJ} - U(rCut)\f$ when \f$r < rCut\f$.
   void cutShift(const int flag);
@@ -234,6 +238,10 @@ class PairLJ : public Pair {
 
 /// Factory method
 shared_ptr<PairLJ> makePairLJ(Space* space,
+  const argtype &args = argtype());
+
+/// Factory method
+shared_ptr<PairLJ> makePairLJ(shared_ptr<Space> space,
   const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_

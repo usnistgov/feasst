@@ -21,6 +21,7 @@ namespace feasst {
 
 /// Use a map of string pairs to function as a dictionary for arguments.
 typedef std::map<std::string, std::string> argtype;
+typedef std::map<std::string, argtype> arglist;
 
 /**
  * The Arguments class takes in arguments as a map of strings
@@ -48,6 +49,13 @@ class Arguments {
   /// Return the value of the processed keyword.
   /// Reset key and dflt
   std::string str();
+
+  /// Return the conversion of a str of the processed keyword to double
+  /// a precision floating point number.
+  double dble();
+
+  /// Return the conversion of a str of the processed keyword to int.
+  int integer();
 
   /// Upon destruction, check that all provided args were processed.
   /// Automatically include empty string key as processed.

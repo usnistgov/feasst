@@ -82,6 +82,34 @@ Arguments& Arguments::rm() {
   return *this;
 }
 
+int Arguments::integer() {
+  const std::string strVal = str();
+  std::stringstream errmsg;
+  int intVal = -1;
+  errmsg << "Argument({" << usedKeys_.back() << ", " << strVal << "}) was "
+    << "expected to be an integer";
+  try {
+    intVal = stoi(strVal);
+  } catch (...) {
+    ASSERT(0, errmsg.str());
+  }
+  const double dble = stod(strVal);
+  ASSERT(fabs(dble - intVal) < 10*DTOL, errmsg.str());
+  return intVal;
+}
+
+double Arguments::dble() {
+  const std::string strVal = str();
+  double dbleVal = -1;
+  try {
+    dbleVal = stod(strVal);
+  } catch (...) {
+    ASSERT(0, "Argument({" << usedKeys_.back() << ", " << strVal << "}) was "
+    << "expected to be a double precision floating point number.");
+  }
+  return dbleVal;
+}
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

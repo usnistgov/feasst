@@ -26,13 +26,26 @@ namespace feasst {
 class Criteria : public BaseRandom {
  public:
 
-  /// Constructor
+  // Constructor
+  // HWH: Depreciate in favor of args
   Criteria(
     /// inverse temperature: \f$ \beta = \frac{1}{k_B T} \f$
     const double beta,
     /** activity: \f$ z = \frac{exp(\beta \mu)}{\Lambda^3} \f$.
      *  Only use this activity with one component fluctuating in number. */
     const double activ);
+
+  /// Constructor
+  explicit Criteria(
+    /// inverse temperature: \f$ \beta = \frac{1}{k_B T} \f$
+    const double beta,
+    /**
+     * allowed string key pairs (e.g., dictionary)
+     *
+     * activ (or activ0) : activity of the first particle type
+     *   \f$ z = \frac{exp(\beta \mu)}{\Lambda^3} \f$.
+     */
+    const argtype &args = argtype());
 
   /// Return inverse temperature.
   double beta() const { return beta_; }
@@ -126,6 +139,9 @@ class Criteria : public BaseRandom {
 
 /// Factory method.
 Criteria* makeCriteria(const char* fileName);
+
+// parse beta from args
+double parseBeta_(argtype * args);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

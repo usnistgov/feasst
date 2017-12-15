@@ -17,6 +17,33 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+CriteriaWLTMMC::CriteriaWLTMMC(const double beta, const argtype &args)
+  : Criteria(beta, args) {
+  defaultConstruction_();
+  argparse_.initArgs(className_, args);
+  mType_ = argparse_.key("mType").str();
+
+  // first, parse mMax
+  if (!argparse_.key("mMax").empty()) {
+    mMax_ = argparse_.key("mMax").dble();
+    mMin_ = argparse_.key("mMin").dble();
+    nBin_ = argparse_.key("nBin").integer();
+    initBins(mMax_, mMin_, nBin_);
+
+  // if mMax wasn't given, parse nMax
+  } else if (!argparse_.key("nMax").empty()) {
+    const int nMax = argparse_.key("nMax").integer();
+    const int nMin = argparse_.key("nMin").dflt("0").integer();
+    initBins(static_cast<double>(nMax) + 0.5,
+             static_cast<double>(nMin) - 0.5,
+             nMax - nMin + 1);
+  } else {
+    ASSERT(0, "Either mMax or nMax must be given as an argument");
+  }
+  zeroStat();
+  argparse_.checkAllArgsUsed();
+}
+
 CriteriaWLTMMC::CriteriaWLTMMC(const double beta, const double activ,
   const char* mType, const double mMin, const double mMax, const int nBin)
   : Criteria(beta, activ) {
@@ -1141,6 +1168,12 @@ shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const double beta,
   const double activ, const char* mType,
   const int nMin, const int nMax) {
   return make_shared<CriteriaWLTMMC>(beta, activ, mType, nMin, nMax);
+}
+
+shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const argtype &args) {
+  argtype argtmp = args;
+  const double beta = parseBeta_(&argtmp);
+  return make_shared<CriteriaWLTMMC>(beta, argtmp);
 }
 
 #ifdef FEASST_NAMESPACE_

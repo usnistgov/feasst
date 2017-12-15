@@ -20,6 +20,15 @@ Criteria::Criteria(const double beta, const double activ)
     activ_(activ) {
   defaultConstruction_();
 }
+
+Criteria::Criteria(const double beta, const argtype &args)
+  : beta_(beta) {
+  argparse_.initArgs(className_, args);
+  // parse activ
+  activ_ = stod(argparse_.key("activ").dflt("1").str());
+  defaultConstruction_();
+}
+
 Criteria::Criteria(const char* fileName) {
   defaultConstruction_();
   ASSERT(fileExists(fileName),
@@ -92,6 +101,14 @@ double Criteria::activ(const int type) const {
     << "only " << activVec_.size() << ", therefore you likely need to use "
     << "criteria.addActiv( ) to input the activies of all particles.");
   return activVec_[type];
+}
+
+double parseBeta_(argtype * args) {
+  Arguments argparse;
+  argparse.initArgs("Criteria", *args);
+  const double beta = argparse.key("beta").rm().dble();
+  *args = argparse.args();
+  return beta;
 }
 
 #ifdef FEASST_NAMESPACE_

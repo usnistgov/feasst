@@ -8,7 +8,9 @@ simulations with flat-histogram Monte Carlo and molecular dynamics methods.
 
 .. note::
 
-   Website: https://doi.org/10.18434/M3S095
+   DOI: https://doi.org/10.18434/M3S095
+
+   Website: https://pages.nist.gov/feasst/
 
    Code repository: https://github.com/usnistgov/feasst
 

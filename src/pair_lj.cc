@@ -771,6 +771,10 @@ shared_ptr<PairLJ> makePairLJ(Space* space, const argtype &args) {
   return make_shared<PairLJ>(space, args);
 }
 
+shared_ptr<PairLJ> makePairLJ(shared_ptr<Space> space, const argtype &args) {
+  return makePairLJ(space.get(), args);
+}
+
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst
 #endif  // FEASST_NAMESPACE_

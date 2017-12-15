@@ -21,13 +21,8 @@ Space::Space(const int dimension, const argtype &args)
   className_.assign("Space");
   defaultConstruction_();
   argparse_.initArgs(className_, args);
-
-  // parse id
-  id_ = stoi(argparse_.key("id").dflt("0").str());
-
-  // parse boxLength
-  initBoxLength(stod(argparse_.key("boxLength").dflt("0.").str()));
-
+  id_ = argparse_.key("id").dflt("0").integer();
+  initBoxLength(argparse_.key("boxLength").dflt("0.").dble());
   argparse_.checkAllArgsUsed();
 }
 

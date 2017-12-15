@@ -15,6 +15,12 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+CriteriaMetropolis::CriteriaMetropolis(const double beta, const argtype &args)
+  : Criteria(beta, args) {
+  defaultConstruction_();
+  argparse_.checkAllArgsUsed();
+}
+
 CriteriaMetropolis::CriteriaMetropolis(const double beta, const double activ)
   : Criteria(beta, activ) {
   defaultConstruction_();
@@ -49,6 +55,12 @@ shared_ptr<Criteria> CriteriaMetropolis::cloneImpl_() const {
 shared_ptr<CriteriaMetropolis> makeCriteriaMetropolis(const double beta,
   const double activ) {
   return make_shared<CriteriaMetropolis>(beta, activ);
+}
+
+shared_ptr<CriteriaMetropolis> makeCriteriaMetropolis(const argtype &args) {
+  argtype argtmp = args;
+  const double beta = parseBeta_(&argtmp);
+  return make_shared<CriteriaMetropolis>(beta, argtmp);
 }
 
 #ifdef FEASST_NAMESPACE_

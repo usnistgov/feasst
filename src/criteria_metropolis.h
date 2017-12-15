@@ -22,8 +22,13 @@ namespace feasst {
  */
 class CriteriaMetropolis : public Criteria {
  public:
-  /// Constructor
-  explicit CriteriaMetropolis(const double beta, const double activ = 1.);
+  // Constructor
+  explicit CriteriaMetropolis(const double beta,
+    const argtype &args = argtype());
+
+  // Constructor
+  // HWH: Depreciate in favor of above
+  explicit CriteriaMetropolis(const double beta, const double activ);
 
   /// Construct by checkpoint file.
   explicit CriteriaMetropolis(const char* fileName);
@@ -48,9 +53,13 @@ class CriteriaMetropolis : public Criteria {
   virtual shared_ptr<Criteria> cloneImpl_() const;
 };
 
-/// Factor method
+/// Factory method
 shared_ptr<CriteriaMetropolis> makeCriteriaMetropolis(const double beta,
                                                       const double activ);
+
+/// Factory method
+shared_ptr<CriteriaMetropolis> makeCriteriaMetropolis(
+  const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

@@ -50,3 +50,43 @@ TEST(Arguments, Arguments) {
   EXPECT_TRUE(args.checkAllArgsUsed());
 }
 
+TEST(Arguments, integer) {
+  try {
+    feasst::Arguments args;
+    args.initArgs("test", {{"key1", "val1"}});
+    args.key("key1").integer();
+    CATCH_PHRASE("was expected to be an integer");
+  }
+  try {
+    feasst::Arguments args;
+    args.initArgs("test", {{"key1", "1.1"}});
+    args.key("key1").integer();
+    CATCH_PHRASE("was expected to be an integer");
+  }
+
+  feasst::Arguments args;
+  args.initArgs("test", {{"key1", "1."}});
+  args.key("key1").integer();
+}
+
+TEST(Arguments, double) {
+  try {
+    feasst::Arguments args;
+    args.initArgs("test", {{"key1", "mymypie"}});
+    args.key("key1").dble();
+    CATCH_PHRASE("was expected to be a double precision floating point number");
+  }
+  feasst::Arguments args;
+  args.initArgs("test", {{"key1", "3.1415"}});
+  EXPECT_NEAR(3.1415, args.key("key1").dble(), feasst::DTOL);
+}
+
+TEST(Arguments, arglist) {
+  feasst::arglist argls = {{ {"set1", {{"key1", "val1"}} },
+                             {"set2", {{"key2", "val2"}} } }};
+  auto set = argls.find("set2");
+  auto pair = set->second.find("key2");
+  EXPECT_NE(set->second.end(), pair);
+  EXPECT_TRUE(pair->second == "val2");
+  cout << pair->second << endl;
+}

@@ -24,7 +24,29 @@ namespace feasst {
  */
 class CriteriaWLTMMC : public Criteria {
  public:
-  /// Constructor. Arguments are as described below.
+  /// Constructor.
+  CriteriaWLTMMC(const double beta,
+    /**
+     * allowed string key pairs (e.g., dictionary)
+     *
+     * mType : type of macrostate
+     *  - energy : potential energy of system
+     *  - nmol : number of molecules
+     *  - nmol0 : number of molecules of the first type
+     *  - nmolstage : number of molecules with growth expanded ensemble
+     *  - pairOrder : order parameter defined by the Pair class
+     *  - beta : temperature expanded ensemble
+     *  - pressure : thermodynamic pressure
+     *  - lnpres : logarithmic pressure
+     *
+     * mMin : minimum floating point value of macrostate.
+     * mMax : maximum floating point value of macrostate.
+     * nBin : number of equal sized bins for the 1D macrostate range.
+     */
+    const argtype &args);
+
+  // Constructor. Arguments are as described below.
+  // HWH Depreciate in favor of above
   CriteriaWLTMMC(const double beta, const double activ, const char* mType,
                  const double mMin, const double mMax, const int nBin);
 
@@ -554,6 +576,9 @@ shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const double beta,
 shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const double beta,
   const double activ, const char* mType,
   const int nMin, const int nMax);
+
+/// Factory method.
+shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const argtype &args);
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

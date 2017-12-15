@@ -238,4 +238,8 @@ Or you can edit CMakeLists.txt to add "-fPIC" as follows:
 SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS} -fPIC)   # HWH: add -fPIC
 #SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS})        # HWH: old version
 
+error: no matching constructor for initialization ... cannot convert initialize list
+================================================================================================
+
+While initializing classes using the "{{"key1", "val1"}}" notation, you likely input a non-string value.
 

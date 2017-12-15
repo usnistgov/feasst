@@ -120,3 +120,79 @@ TEST(Criteria, pressureANDavMacro) {
   //c.printCollectMat("t123");
 }
 
+TEST(CriteriaWLTMMC, args) {
+  try {
+    feasst::CriteriaWLTMMC criteria(1., {{"mMax", "1"}});
+    CATCH_PHRASE("is required");
+  }
+
+  try {
+    feasst::CriteriaWLTMMC criteria(1.,
+      {{"mType", "nmol"},
+       {"mMax", "10.5"},
+       {"mMin", "-0.5"},
+       {"nBin", "10.5"}});
+    CATCH_PHRASE("({nBin, 10.5}) was expected to be an integer");
+  }
+
+  try {
+    feasst::CriteriaWLTMMC criteria(1.,
+      {{"mType", "nmol"},
+       {"mMax", "10.5"},
+       {"mMin", "asdf"},
+       {"nBin", "10."}});
+    CATCH_PHRASE("({mMin, asdf}) was expected to be a double");
+  }
+
+  feasst::argtype args =
+    {{"mType", "nmol"},
+     {"mMax", "10.5"},
+     {"mMin", "-0.5"},
+     {"nBin", "10"}};
+
+  try {
+    feasst::argtype argtmp = args;
+    argtmp.insert({"/not/an/arg/", "error"});
+    feasst::CriteriaWLTMMC criteria(1., argtmp);
+    CATCH_PHRASE("is not recognized");
+  }
+
+  {
+    feasst::CriteriaWLTMMC criteria(1., args);
+    EXPECT_EQ(10, criteria.nBin());
+    EXPECT_NEAR(10.5, criteria.mMax(), feasst::DTOL);
+  }
+
+  try {
+    auto criteria = feasst::makeCriteriaWLTMMC(args);
+    CATCH_PHRASE("key(beta) is required");
+  }
+
+  {
+    feasst::argtype argtmp = args;
+    argtmp.insert({"beta", "023.5"});
+    auto criteria = feasst::makeCriteriaWLTMMC(argtmp);
+    EXPECT_EQ(10, criteria->nBin());
+    EXPECT_NEAR(10.5, criteria->mMax(), feasst::DTOL);
+    EXPECT_NEAR(23.5, criteria->beta(), feasst::DTOL);
+  }
+
+  {
+    feasst::CriteriaWLTMMC criteria(1.,
+      {{"mType", "nmol"}, {"nMax", "20"}});
+    EXPECT_EQ(21, criteria.nBin());
+    EXPECT_NEAR(20.5, criteria.mMax(), feasst::DTOL);
+    EXPECT_NEAR(-0.5, criteria.mMin(), feasst::DTOL);
+  }
+
+  try {
+    feasst::CriteriaWLTMMC criteria(1.,
+      {{"mType", "nmol"}, {"nMax", "20.2"}});
+    CATCH_PHRASE("({nMax, 20.2}) was expected to be an integer");
+  }
+
+  try {
+    feasst::CriteriaWLTMMC criteria(1., {{"mType", "nmol"}});
+    CATCH_PHRASE("Either mMax or nMax must be given");
+  }
+}

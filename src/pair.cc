@@ -66,9 +66,7 @@ namespace feasst {
 Pair::Pair(Space* space, const argtype &args)
   : space_(space) {
   argparse_.initArgs(className_, args);
-
-  // parse rCut
-  rCut_ = stod(argparse_.key("rCut").dflt("0").str());
+  rCut_ = argparse_.key("rCut").dflt("0").dble();
   defaultConstruction_();
 }
 

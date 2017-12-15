@@ -910,7 +910,7 @@ class Space : public BaseRandom {
 };
 
 /// Factory method
-shared_ptr<Space> makeSpace(int dimension = 3,
+shared_ptr<Space> makeSpace(int dimension,
   const argtype &args = argtype());
 
 /// Factory method
