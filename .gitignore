@@ -2,3 +2,4 @@
 syntax: glob
 build/
 src/factories.cc
+src/feasst.h

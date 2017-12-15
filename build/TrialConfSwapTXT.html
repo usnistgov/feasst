@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>TrialConfSwapTXT &#8212; FEASST v0.3.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'v0.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TrialDelete" href="TrialDelete.html" />
+    <link rel="prev" title="TrialConfSwapOMP" href="TrialConfSwapOMP.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="TrialDelete.html" title="TrialDelete"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="TrialConfSwapOMP.html" title="TrialConfSwapOMP"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="trialtoc.html" accesskey="U">Trial Classes</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="trialconfswaptxt">
+<h1>TrialConfSwapTXT<a class="headerlink" href="#trialconfswaptxt" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv216TrialConfSwapTXT">
+<span id="TrialConfSwapTXT"></span><span class="target" id="classTrialConfSwapTXT"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">TrialConfSwapTXT</code><a class="headerlink" href="#_CPPv216TrialConfSwapTXT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HWH: Note: This class is depreciated but remains as a stub file for HWH: Note: eventual support. Attempts configuration swaps between processors. These swaps may occur with variable beta and lnz, but not variable order parameter (e.g. nMol or pairOrder) </p>
+<p>Inherits from <a class="reference internal" href="Trial.html#classTrial"><span class="std std-ref">Trial</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N16TrialConfSwapTXT12writeRestartEPKc">
+<span id="TrialConfSwapTXT::writeRestart__cCP"></span><span class="target" id="classTrialConfSwapTXT_1a1bebaec9d1979ed61ea4696867912612"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N16TrialConfSwapTXT12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write restart file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N16TrialConfSwapTXT14addProcOverlapEKdKiKdKd">
+<span id="TrialConfSwapTXT::addProcOverlap__doubleC.iC.doubleC.doubleC"></span><span class="target" id="classTrialConfSwapTXT_1a9be916933d3eecb48efabb663f9b3827"></span>void <code class="descname">addProcOverlap</code><span class="sig-paren">(</span><em class="property">const</em> double <em>order</em>, <em class="property">const</em> int <em>proc</em>, <em class="property">const</em> double <em>dbeta</em>, <em class="property">const</em> double <em>dlnz</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N16TrialConfSwapTXT14addProcOverlapEKdKiKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">order</span></code>: order parameter in overlap region </li>
+<li><code class="docutils literal"><span class="pre">proc</span></code>: overlapping processor number </li>
+<li><code class="docutils literal"><span class="pre">dbeta</span></code>: change in beta of overlapping processor </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basetoc.html">Base Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="criteriatoc.html">Criteria Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Histogram.html">Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pairtoc.html">Pair Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomtoc.html">Random Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Space.html">Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="trialtoc.html">Trial Classes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Trial.html">Trial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialConfSwapOMP.html">TrialConfSwapOMP</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TrialConfSwapTXT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialDelete.html">TrialDelete</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialSwap.html">TrialSwap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialTransform.html">TrialTransform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialXSwap.html">TrialXSwap</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AbbreviatedUI.html">AbbreviatedUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="TrialConfSwapOMP.html"
+                        title="previous chapter">TrialConfSwapOMP</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="TrialDelete.html"
+                        title="next chapter">TrialDelete</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="TrialDelete.html" title="TrialDelete"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="TrialConfSwapOMP.html" title="TrialConfSwapOMP"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="trialtoc.html" >Trial Classes</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

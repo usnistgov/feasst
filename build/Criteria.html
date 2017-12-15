@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Criteria &#8212; FEASST v0.3.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'v0.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CriteriaMetropolis" href="CriteriaMetropolis.html" />
+    <link rel="prev" title="Criteria Classes" href="criteriatoc.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CriteriaMetropolis.html" title="CriteriaMetropolis"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="criteriatoc.html" title="Criteria Classes"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="criteriatoc.html" accesskey="U">Criteria Classes</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="criteria">
+<h1>Criteria<a class="headerlink" href="#criteria" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv28Criteria">
+<span id="Criteria"></span><span class="target" id="classCriteria"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">Criteria</code><a class="headerlink" href="#_CPPv28Criteria" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Acceptance criteria for Monte Carlo trials. </p>
+<p>Inherits from <a class="reference internal" href="BaseRandom.html#classBaseRandom"><span class="std std-ref">BaseRandom</span></a></p>
+<p>Subclassed by <a class="reference internal" href="CriteriaMetropolis.html#classCriteriaMetropolis"><span class="std std-ref">CriteriaMetropolis</span></a>, <a class="reference internal" href="CriteriaWLTMMC.html#classCriteriaWLTMMC"><span class="std std-ref">CriteriaWLTMMC</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N8Criteria8CriteriaEKdKd">
+<span id="Criteria::Criteria__doubleC.doubleC"></span><span class="target" id="classCriteria_1a53a18f812a3ef1b825fdeae37a57d012"></span><code class="descname">Criteria</code><span class="sig-paren">(</span><em class="property">const</em> double <em>beta</em>, <em class="property">const</em> double <em>activ</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N8Criteria8CriteriaEKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">beta</span></code>: inverse temperature: <span class="math">\( \beta = \frac{1}{k_B T} \)</span> </li>
+<li><code class="docutils literal"><span class="pre">activ</span></code>: activity: <span class="math">\( z = \frac{exp(\beta \mu)}{\Lambda^3} \)</span>. Only use this activity with one component fluctuating in number. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N8Criteria8CriteriaEKdRK7argtype">
+<span id="Criteria::Criteria__doubleC.argtypeCR"></span><span class="target" id="classCriteria_1aee1d3b61346c74bd9e4269a4a2078492"></span><code class="descname">Criteria</code><span class="sig-paren">(</span><em class="property">const</em> double <em>beta</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N8Criteria8CriteriaEKdRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last">
+<li><p class="first"><code class="docutils literal"><span class="pre">beta</span></code>: inverse temperature: <span class="math">\( \beta = \frac{1}{k_B T} \)</span> </p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">args</span></code>: allowed string key pairs (e.g., dictionary)</p>
+<p>activ (or activ0) : activity of the first particle type <span class="math">\( z = \frac{exp(\beta \mu)}{\Lambda^3} \)</span>. </p>
+</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK8Criteria4betaEv">
+<span id="Criteria::betaC"></span><span class="target" id="classCriteria_1aa71b0f950559f8c2c1c9315e444a53fd"></span>double <code class="descname">beta</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK8Criteria4betaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return inverse temperature. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N8Criteria7betasetEKd">
+<span id="Criteria::betaset__doubleC"></span><span class="target" id="classCriteria_1a76570214fd9fe87f6770886b4f5284c6"></span>void <code class="descname">betaset</code><span class="sig-paren">(</span><em class="property">const</em> double <em>beta</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N8Criteria7betasetEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the inverse temperature. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK8Criteria5activEv">
+<span id="Criteria::activC"></span><span class="target" id="classCriteria_1a8eee45bdd5e97fe7c395a83fac96925e"></span>double <code class="descname">activ</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK8Criteria5activEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return activity. Only use this activity with one component fluctuating in number. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N8Criteria8activsetEKd">
+<span id="Criteria::activset__doubleC"></span><span class="target" id="classCriteria_1a8020ea92dc9b1b3205df78a89e12061a"></span>void <code class="descname">activset</code><span class="sig-paren">(</span><em class="property">const</em> double <em>activ</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N8Criteria8activsetEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the activity. Only use this activity with one component fluctuating in number. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N8Criteria11addActivityEKd">
+<span id="Criteria::addActivity__doubleC"></span><span class="target" id="classCriteria_1a55dd50987420401cd2719ebedc7d9e4e"></span>void <code class="descname">addActivity</code><span class="sig-paren">(</span><em class="property">const</em> double <em>activ</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N8Criteria11addActivityEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add an activity in order of type. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK8Criteria5activEKi">
+<span id="Criteria::activ__iCC"></span><span class="target" id="classCriteria_1a8e7253494eb8945ec4b16f3a0e65f960"></span>double <code class="descname">activ</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK8Criteria5activEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return activity of a given type, where type is index in order of add. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK8Criteria6nActivEv">
+<span id="Criteria::nActivC"></span><span class="target" id="classCriteria_1aa7bf93d9bcd3faf1775405ea9edcb591"></span>int <code class="descname">nActiv</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK8Criteria6nActivEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of activies that were added. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N8Criteria6acceptEKdKdPKcKi">
+<span id="Criteria::accept__doubleC.doubleC.cCP.iC"></span><span class="target" id="classCriteria_1a1d5e32b15ae315b4829c6c310fb46dfd"></span><em class="property">virtual</em> int <code class="descname">accept</code><span class="sig-paren">(</span><em class="property">const</em> double <em>lnpMet</em>, <em class="property">const</em> double <em>peNew</em>, <em class="property">const</em> char *<em>moveType</em>, <em class="property">const</em> int <em>reject</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N8Criteria6acceptEKdKdPKcKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">lnpMet</span></code>: logarithm of the Metropolis acceptance probability </li>
+<li><code class="docutils literal"><span class="pre">peNew</span></code>: potential energy of proposed configuration </li>
+<li><code class="docutils literal"><span class="pre">reject</span></code>: automatically reject if == 1 </li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Return whether to accept (1) or reject (0) the trial based randomly on the acceptance criteria. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N8Criteria8CriteriaEPKc">
+<span id="Criteria::Criteria__cCP"></span><span class="target" id="classCriteria_1a83167028da088211f6cfe29549618d83"></span><code class="descname">Criteria</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N8Criteria8CriteriaEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct by checkpoint file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N8Criteria12writeRestartEPKc">
+<span id="Criteria::writeRestart__cCP"></span><span class="target" id="classCriteria_1ab1f4d2687e5c6a3032c3d0d512e71a73"></span><em class="property">virtual</em> void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N8Criteria12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write restart file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N8Criteria5storeEP4Pair">
+<span id="Criteria::store__PairP"></span><span class="target" id="classCriteria_1a83f23aca980c9d5ce9b792b7c7d6f64a"></span>void <code class="descname">store</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N8Criteria5storeEP4Pair" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Store macrostate variables of old configuration. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N8Criteria8zeroStatEv">
+<span id="Criteria::zeroStat"></span><span class="target" id="classCriteria_1ad9ce79d9a038cf11c08b954660e82731"></span><em class="property">virtual</em> void <code class="descname">zeroStat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N8Criteria8zeroStatEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Zero all statistics and accumulators. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N8Criteria11pressuresetEKd">
+<span id="Criteria::pressureset__doubleC"></span><span class="target" id="classCriteria_1a0209e163c8056dcf7380a887769fc231"></span>void <code class="descname">pressureset</code><span class="sig-paren">(</span><em class="property">const</em> double <em>pressure</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N8Criteria11pressuresetEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the pressure. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK8Criteria8pressureEv">
+<span id="Criteria::pressureC"></span><span class="target" id="classCriteria_1a5358a5d3fe477e79f2518f47ec6f721e"></span>double <code class="descname">pressure</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK8Criteria8pressureEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the pressure. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK8Criteria12pressureFlagEv">
+<span id="Criteria::pressureFlagC"></span><span class="target" id="classCriteria_1aa73d7c3322824e050ad3e5778b3af088"></span>int <code class="descname">pressureFlag</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK8Criteria12pressureFlagEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return 1 if pressure has been set. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basetoc.html">Base Classes</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="criteriatoc.html">Criteria Classes</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Criteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CriteriaMetropolis.html">CriteriaMetropolis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CriteriaWLTMMC.html">CriteriaWLTMMC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Histogram.html">Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pairtoc.html">Pair Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="randomtoc.html">Random Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Space.html">Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Table.html">Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trialtoc.html">Trial Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AbbreviatedUI.html">AbbreviatedUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="criteriatoc.html"
+                        title="previous chapter">Criteria Classes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="CriteriaMetropolis.html"
+                        title="next chapter">CriteriaMetropolis</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CriteriaMetropolis.html" title="CriteriaMetropolis"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="criteriatoc.html" title="Criteria Classes"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="criteriatoc.html" >Criteria Classes</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>
