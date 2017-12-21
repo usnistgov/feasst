@@ -113,7 +113,7 @@ To install the python interface, use the following CMake command in place of "cm
 
 .. code-block:: bash
 
-    cmake -DUSE_SWIG=ON -DPYTHON_INCLUDE_PATH=/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES=/path/to/anaconda/lib/libpython3.6m.so .
+    cmake -DUSE_SWIG=ON -DPYTHON_INCLUDE_PATH=/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES=/path/to/anaconda/lib/libpython3.6m.so ..
     make _feasst -j
 
 Note that the ``PYTHON_INCLUDE_PATH`` and ``PYTHON_LIBRARIES`` depends on your python installation.
@@ -152,7 +152,7 @@ Or
 
 .. code-block:: bash
 
-    cmake -DUSE_XDRFILE=ON .
+    cmake -DUSE_XDRFILE=ON ..
 
 To give CMake the path to your xdrfile library:
 
@@ -164,7 +164,7 @@ Or
 
 .. code-block:: bash
 
-    cmake -DXDRFILE_DIR=/path/to/xdrfile .
+    cmake -DXDRFILE_DIR=/path/to/xdrfile ..
 
 If you are changing the default build options in ``CMakeLists.txt``,
 make sure to start compilation with a fresh ``build`` directory before CMake is
@@ -192,7 +192,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_XDRFILE=On -DXDRFILE_DIR=/path/to/xdrfile .
+   cmake -DUSE_XDRFILE=On -DXDRFILE_DIR=/path/to/xdrfile ..
 
 Google Test 1.7.0
 *****************
@@ -203,7 +203,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_GTEST=On .
+   cmake -DUSE_GTEST=On ..
 
 .. OpenMPI with Intel compilers
    ****************************
@@ -234,7 +234,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_FFTW=On -DFFTW_DIR=/path/to/fftw .
+   cmake -DUSE_FFTW=On -DFFTW_DIR=/path/to/fftw ..
 
 VMD 1.9.2
 *********
@@ -267,7 +267,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_SWIG=On .
+   cmake -DUSE_SWIG=On ..
 
 CMake 2.8.12.2
 **************
@@ -288,7 +288,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_HDF5=On -DHDF5_USER_DIR=/path/to/hdf5 .
+   cmake -DUSE_HDF5=On -DHDF5_USER_DIR=/path/to/hdf5 ..
 
 GSL 2.3
 *******
@@ -303,7 +303,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_GSL=On -DGSL_USER_DIR=/path/to/gsl .
+   cmake -DUSE_GSL=On -DGSL_USER_DIR=/path/to/gsl ..
 
 LCOV 1.13-1
 ***********
@@ -317,7 +317,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_GCOV=On .
+   cmake -DUSE_GCOV=On ..
 
 Contact
 #######
