@@ -9,8 +9,8 @@ int main() {  // LJ, NVT_EXAMPLE
      {"cutType", "lrc"}});        // long range corrections
   auto criteria = feasst::makeCriteriaMetropolis(
     {{"beta", "1.2"}});           // beta = 1/k_B/T
-  feasst::MC mc(space, pair, criteria);
-  feasst::transformTrial(&mc,
+  feasst::MC mc(pair, criteria);
+  feasst::addTrialTransform(&mc,
     {{"type", "translate"},
      {"maxMoveParam", "0.1"}});   // maximum displacement for each dimension
   mc.nMolSeek(50);                // add particles

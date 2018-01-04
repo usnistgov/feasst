@@ -23,7 +23,15 @@ PairLJ::PairLJ(Space* space, const argtype &args)
   // parse molType
   std::stringstream ss;
   ss << install_dir() << "/forcefield/data.lj";
-  const std::string molType = argparse_.key("molType").dflt(ss.str()).str();
+  std::string molType(ss.str());
+  if (!argparse_.key("molType").empty()) {
+    molType = argparse_.str();
+  // if molType is not provided, try optional forcefield arg
+  } else if (!argparse_.key("molTypeInForcefield").empty()) {
+    ss.str("");
+    ss << install_dir() << "/forcefield/" << argparse_.str();
+    molType = ss.str();
+  }
   if (molType != "none") {
     initData(molType);
 

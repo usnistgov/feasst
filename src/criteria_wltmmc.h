@@ -39,9 +39,15 @@ class CriteriaWLTMMC : public Criteria {
      *  - pressure : thermodynamic pressure
      *  - lnpres : logarithmic pressure
      *
-     * mMin : minimum floating point value of macrostate.
      * mMax : maximum floating point value of macrostate.
+     * mMin : minimum floating point value of macrostate.
+     *  -(default) : 0
+     *
+     * nMax : maximum integer value of macrostate, if mMax not provided.
+     * nMin : if mminimum integer value of macrostate.
+     *
      * nBin : number of equal sized bins for the 1D macrostate range.
+     *  -(default) : 1 if using nMax
      */
     const argtype &args);
 

@@ -727,9 +727,9 @@ int factorial(int x, int result = 1);
 /// convert to string with maximum precision
 template <typename T>
 std::string str(const T a_value) {
-    std::ostringstream out;
-    out << MAX_PRECISION << a_value;
-    return out.str();
+  std::ostringstream out;
+  out << MAX_PRECISION << a_value;
+  return out.str();
 }
 
 #ifdef FEASST_NAMESPACE_

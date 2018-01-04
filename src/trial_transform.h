@@ -119,6 +119,9 @@ class MC;
 void transformTrial(MC *mc, const char* transType, double maxMoveParam = -1);
 
 /// Add a "TrialTransform" object to the Monte Carlo object, mc.
+void addTrialTransform(MC *mc, const argtype &args = argtype());
+
+// Renaming of above:
 void transformTrial(MC *mc, const argtype &args = argtype());
 
 /// Add a "TrialTransform" object to the Monte Carlo object, mc.

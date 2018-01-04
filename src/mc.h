@@ -41,6 +41,10 @@ class MC : public BaseRandom {
     shared_ptr<Criteria> criteria)
     : MC(space.get(), pair.get(), criteria.get()) {}
 
+  /// Constructor
+  MC(shared_ptr<Pair> pair, shared_ptr<Criteria> criteria)
+    : MC(pair->space(), pair.get(), criteria.get()) {}
+
   /// Weight for probability of selection of Monte Carlo trials.
   double weight = 1.;
 

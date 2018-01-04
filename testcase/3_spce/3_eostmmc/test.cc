@@ -47,26 +47,29 @@ int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
 
   // initialize simulation domain
   feasst::ranInitByDate();
-  feasst::Space s(3);
-  s.initBoxLength(boxl);
+  auto space = feasst::makeSpace(
+    {{"dimen", "3"},
+     {"boxLength", feasst::str(boxl)}});
 
   // initialize pair-wise interactions
-  feasst::PairLJCoulEwald p(&s, {{"rCut", feasst::str(rCut)}});
-  stringstream addMolType;
-  addMolType << s.install_dir() << "/forcefield/" << molType.str().c_str();
-  p.initData(addMolType.str());
-  p.initKSpace(5.6,   // alpha*L
-               38);   // k^2 < k2max cutoff
-  p.initEnergy();
+  auto pair = feasst::makePairLJCoulEwald(space,
+    {{"rCut", feasst::str(rCut)},
+     {"molTypeInForcefield", molType.str()},
+     {"alphaL", "5.6"},
+     {"k2max", "38"}});
 
   // acceptance criteria
-  const double beta = 1./(temp*feasst::idealGasConstant/1e3);
-  feasst::CriteriaWLTMMC c(beta, exp(lnz), "nmol", nMolMin, nMolMax);
-  c.collectInit(15);  // begin collection matrix at 15 WL flatness
-  c.tmmcInit(20);     // begin transition matrix at 20 WL flatness
+  auto criteria = feasst::makeCriteriaWLTMMC(
+    {{"beta", feasst::str(1./(temp*feasst::idealGasConstant/1e3))},
+     {"activ", feasst::str(exp(lnz))},
+     {"mType", "nmol"},
+     {"nMin", feasst::str(nMolMin)},
+     {"nMax", feasst::str(nMolMax)}});
+  criteria->collectInit(15);  // begin collection matrix at 15 WL flatness
+  criteria->tmmcInit(20);     // begin transition matrix at 20 WL flatness
 
   // initialize MC simulation object
-  feasst::WLTMMC mc(&s, &p, &c);
+  feasst::WLTMMC mc(pair, criteria);
   mc.weight = 0.4;
   feasst::transformTrial(&mc, "translate");
   feasst::transformTrial(&mc, "rotate");
@@ -75,7 +78,7 @@ int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
   mc.weight = 0.1;
   mc.initTrial(tdel);
   shared_ptr<feasst::TrialAdd> tadd =
-    feasst::makeTrialAdd(addMolType.str().c_str());
+    feasst::makeTrialAdd(space->addMolListType(0).c_str());
   tadd->numFirstBeads(10);
   mc.weight = 0.1;
   mc.initTrial(tadd);

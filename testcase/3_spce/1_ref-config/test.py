@@ -17,10 +17,11 @@ class TestSPCE_SRSW_REFCONF(unittest.TestCase):
         for srswConfig in range(1, 3):
             space = feasst.Space(3)
             space.initBoxLength(20.)
-            pair = feasst.PairLJCoulEwald(space, feasst.args({"rCut" : "10"}))
-            pair.initData(space.install_dir() + "/forcefield/data.spce")
-            pair.initKSpace(5.6,  # alpha*L
-                            27)  # k^2 < k2max cutoff
+            pair = feasst.PairLJCoulEwald(space, feasst.args(
+                {"rCut" : "10",
+                 "molTypeInForcefield" : "data.spce",
+                 "alphaL" : "5.6",
+                 "k2max" : "27"}));
 
             # Set atom-based cut-off for comparison to SRSW reference config
             # Warning: atom-based cut-offs will fail because an optimized routine for

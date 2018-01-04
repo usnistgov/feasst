@@ -13,20 +13,21 @@ import feasst
 
 class TestLJ_SRSW_NVTMC(unittest.TestCase):
     def test(self):
-        space = feasst.Space(3)
         rho = 1e-3  # number density
-        nMol = 500     # number of particles
-        space.initBoxLength((float(nMol)/rho)**(1./3.))   # set the cubic PBCs
-        molNameSS = space.install_dir() + "/forcefield/data.lj"
-        space.addMolInit(molNameSS)
-        pair = feasst.PairLJ(space, feasst.args(
+        nMol = 500  # number of particles
+        space = feasst.makeSpace(feasst.args(
+            {"dimen" : "3",
+             "boxLength" : str((float(nMol)/rho)**(1./3.))}))
+        pair = feasst.makePairLJ(space, feasst.args(
             {"rCut" : "3",          # potential truncation at 3
-             "cutType" : "lrc"}))   # long range corrections
-        pair.initEnergy()
-        temperature = 0.9
-        criteria = feasst.CriteriaMetropolis(1./temperature, 1.)
-        mc = feasst.MC(space, pair, criteria)
-        feasst.transformTrial(mc, "translate", 0.1)
+             "cutType" : "lrc",
+             "molTypeInForcefield" : "data.lj"}))
+        criteria = feasst.makeCriteriaMetropolis(feasst.args(
+            {"beta" : str(1./0.9)}))
+        mc = feasst.MC(pair, criteria)
+        feasst.addTrialTransform(mc, feasst.args(
+            {"type" : "translate",
+             "maxMoveParam" : str(0.1)}))
         mc.nMolSeek(nMol)
         mc.initLog("log", int(1e4))
         mc.initMovie("movie", int(1e4))

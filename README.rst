@@ -67,6 +67,18 @@ Modern software
 * Checkpointing to save and restart simulations
 * Robust unit testing
 
+Detailed Documentation
+########################
+
+DOI: https://doi.org/10.18434/M3S095
+
+Website: https://pages.nist.gov/feasst/
+
+Documentation for any version of the code is accessible in the nist-pages branch of the GitHub repository https://github.com/usnistgov/feasst .
+This documentation is stored for every release.
+Simply checkout the desired version from the nist-pages branch and load index.html with your browser.
+PDF versions are also provided for each major version release.
+
 Installation
 #############
 

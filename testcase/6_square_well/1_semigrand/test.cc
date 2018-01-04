@@ -1,6 +1,6 @@
 /**
  * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
- * http://pagespace.nist.gov/feasst, National Institute of Standards and Technology
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
  * Harold W. Hatch, harold.hatch@nist.gov
  *
  * Permission to use this data/software is contingent upon your acceptance of

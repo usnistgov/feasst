@@ -681,6 +681,7 @@ class Space : public BaseRandom {
   vector<vector<int> > cMaskPnt() const { return cMaskPnt_; }
   vector<shared_ptr<Space> > addMolList() const { return addMolList_; }
   vector<string> addMolListType() const { return addMolListType_; }
+  string addMolListType(const int iType) const { return addMolListType_[iType]; }
   shared_ptr<std::ifstream> xyzFile() const { return xyzFile_; }
   bool xyzFileEOF() const
     { if (xyzFile_ == NULL) { return false; } else { return xyzFile_->eof();} }

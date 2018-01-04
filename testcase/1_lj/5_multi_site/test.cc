@@ -12,30 +12,34 @@
 
 int main() {  // LJ, MULTISITE
   feasst::ranInitByDate();
-  feasst::Space space(3);
-  space.initBoxLength(9.);
-  stringstream addMolType;
-  addMolType << space.install_dir() << "/forcefield/data.cg3_60_1_1";
-  feasst::PairLJ pair(&space,
-    {{"rCut", "3."},  // potential cut-off
-     {"molType", addMolType.str()}});
-  pair.rCutijset(1, 1, pair.rCut());
-  pair.linearShiftijset(1, 1, 1);
-  pair.initWCA(1, 2);
-  pair.initWCA(2, 2);
-  pair.initEnergy();
+  auto space = feasst::makeSpace(
+      {{"dimen", "3"},
+       {"boxLength", "9"}});
+  auto pair = feasst::makePairLJ(space,
+    {{"rCut", "3."},
+     {"molTypeInForcefield", "data.cg3_60_1_1"}});
+  pair->rCutijset(1, 1, pair->rCut());
+  pair->linearShiftijset(1, 1, 1);
+  pair->initWCA(1, 2);
+  pair->initWCA(2, 2);
+  pair->initEnergy();
+
+  // Use Wang-Landau and transition-matrix
+  auto crit = feasst::makeCriteriaWLTMMC(
+    {{"beta", feasst::str(1./0.225)},
+     {"activ", feasst::str(exp(-6))},
+     {"mType", "nmol"},
+     {"nMax", "30"}});
+  crit->collectInit();
+  crit->tmmcInit();
 
   // Initialize Monte Carlo acceptance and moves
-  const double beta = 1./0.225;
-  const double activ = exp(-6.);
-  const int nMolMin = 0, nMolMax = 30;
-  feasst::CriteriaWLTMMC crit(beta, activ, "nmol", nMolMin - 0.5, nMolMax + 0.5, nMolMax - nMolMin + 1);
-  feasst::WLTMMC mc(&space, &pair, &crit);
+  feasst::WLTMMC mc(pair, crit);
   mc.weight = 1;
   feasst::transformTrial(&mc, "translate");
   feasst::transformTrial(&mc, "rotate");
   mc.weight = 1./4.;
-  feasst::insertDeleteTrial(&mc, addMolType.str().c_str());
+  feasst::insertDeleteTrial(&mc, space->addMolListType(0).c_str());
 
   // print to files
   const int nfreq = 1e4, ncfreq = 1e5;
@@ -45,10 +49,6 @@ int main() {  // LJ, MULTISITE
   mc.setNFreqTune(ncfreq);
   mc.initMovie("movie", nfreq);
   mc.initRestart("tmp/rst", ncfreq);
-
-  // Turn on Wang-Landau and transition-matrix
-  crit.collectInit();
-  crit.tmmcInit();
 
   mc.runNumSweeps(1);
 }

@@ -27,7 +27,31 @@ namespace feasst {
 class PairLJCoulEwald : public Pair {
  public:
   /// Constructor
-  PairLJCoulEwald(Space* space, const argtype &args = argtype());
+  PairLJCoulEwald(Space* space,
+    /**
+     * allowed string key pairs (e.g. dictionary):
+     *
+     *  molType : file which describes molecule
+     *
+     *  - /path/to/lmp/data.file
+     *
+     *  - (default) none: does not load a molecule.
+     *
+     *  molTypeInForcefield : file in Space.install_dir()/forcefield which
+     *                        describes molecule. Only when molType is empty.
+     *
+     *  alphaL : Ewald damping parameter, alpha, multiplied by minimum box
+     *           Note, a keyword "molType*" must be provided as well.
+     *
+     *  k2max : Truncated fourier-space wave vector.
+     *          Note, k2max must be provided if alphaL is provided.
+     *          Note that k=sqrt(k2max) is not included.
+     */
+    const argtype &args = argtype());
+
+  /// Constructor
+  PairLJCoulEwald(shared_ptr<Space> space, const argtype &args = argtype())
+    : PairLJCoulEwald(space.get(), args) {}
 
   double alpha;               //!< ewald damping parameter
 
@@ -245,6 +269,9 @@ class PairLJCoulEwald : public Pair {
 };
 
 shared_ptr<PairLJCoulEwald> makePairLJCoulEwald(Space* space,
+  const argtype &args = argtype());
+
+shared_ptr<PairLJCoulEwald> makePairLJCoulEwald(shared_ptr<Space> space,
   const argtype &args = argtype());
 
 #ifdef FEASST_NAMESPACE_

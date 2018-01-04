@@ -25,6 +25,33 @@ PairLJCoulEwald::PairLJCoulEwald(Space* space, const argtype &args)
   : Pair(space, args) {
   defaultConstruction_();
   argparse_.initArgs(className_, args);
+
+  // parse molType
+  std::string molType("none");
+  if (!argparse_.key("molType").empty()) {
+    molType = argparse_.str();
+  } else if (!argparse_.key("molTypeInForcefield").empty()) {
+    std::stringstream ss;
+    ss << space->install_dir() << "/forcefield/" << argparse_.str();
+    molType = ss.str();
+  }
+  if (molType != "none") {
+    initData(molType);
+
+    // parse alpha (k2max also required if alpha provided)
+    if (!argparse_.key("alphaL").empty()) {
+      const double alphaL = argparse_.dble();
+      if (!argparse_.key("k2max").empty()) {
+        initKSpace(alphaL, argparse_.integer());
+      } else {
+        ASSERT(0, "k2max must be provided with alphaL");
+      }
+    }
+
+    // initialize potential energy
+    initEnergy();
+  }
+
   argparse_.checkAllArgsUsed();
 }
 
@@ -822,6 +849,11 @@ double PairLJCoulEwald::pairLoopSite_(
 shared_ptr<PairLJCoulEwald> makePairLJCoulEwald(Space* space,
   const argtype &args) {
   return make_shared<PairLJCoulEwald>(space, args);
+}
+
+shared_ptr<PairLJCoulEwald> makePairLJCoulEwald(shared_ptr<Space> space,
+  const argtype &args) {
+  return make_shared<PairLJCoulEwald>(space.get(), args);
 }
 
 #ifdef FEASST_NAMESPACE_

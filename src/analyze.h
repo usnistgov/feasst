@@ -50,6 +50,10 @@ class Analyze : public BaseRandom {
      */
     const argtype &args = argtype());
 
+  // HWH: Depreciated: Constructor
+  Analyze(shared_ptr<Pair> pair, const argtype &args = argtype())
+    : Analyze(pair.get(), args) {}
+
   /// This constructor is not often used, but its purpose is to initialize
   /// for MC interface before using reconstruct to set object pointers.
   Analyze() { defaultConstruction_(); }

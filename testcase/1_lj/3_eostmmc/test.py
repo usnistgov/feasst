@@ -42,31 +42,36 @@ def compareEnergyAndMacro(criteria, iMacro, testobject, peAv, peStd, lnPIav, lnP
 class TestLJ_SRSW_EOSTMMC(unittest.TestCase):
     def test(self):
         feasst.ranInitByDate()    # initialize random number generator
-        space = feasst.Space(3)   # initialize simulation domain
-        space.initBoxLength(args.boxl)
-        addMolType = space.install_dir() + "/forcefield/" + args.molName
-        space.addMolInit(addMolType)
+        space = feasst.makeSpace(feasst.args(
+            {"dim" : "3",
+             "boxLength" : str(args.boxl)}))
 
         # initialize pair-wise interactions
-        pair = feasst.PairLJ(space,
-            feasst.args({"rCut" : str(args.rCut), "cutType" : "lrc"}))
+        pair = feasst.PairLJ(space, feasst.args(
+            {"rCut" : str(args.rCut),
+             "cutType" : "lrc",
+             "molTypeInForcefield" : args.molName}))
 
         # acceptance criteria
         nMolMin = 0
         import math
-        criteria = feasst.CriteriaWLTMMC(1./args.temp, math.exp(args.lnz),
-                                         "nmol", nMolMin, args.nMolMax)
+        criteria = feasst.makeCriteriaWLTMMC(feasst.args(
+            {"beta" : str(1./args.temp),
+             "activ" : str(math.exp(args.lnz)),
+             "mType" : "nmol",
+             "nMin" : str(nMolMin),
+             "nMax" : str(args.nMolMax)}))
         criteria.collectInit()
         criteria.tmmcInit()
 
         # initialize monte carlo
-        mc = feasst.WLTMMC(space, pair, criteria)
+        mc = feasst.WLTMMC(pair, criteria)
         mc.weight = 3./4.
         feasst.transformTrial(mc, "translate")
         mc.weight = 1./8.
         feasst.deleteTrial(mc)
         mc.weight = 1./8.
-        feasst.addTrial(mc, addMolType)
+        feasst.addTrial(mc, space.addMolListType(0))
 
         # output log, lnpi and movie
         mc.initLog("log", args.nfreq)

@@ -417,10 +417,13 @@ shared_ptr<TrialTransform> makeTrialTransform(const char* transType) {
   return make_shared<TrialTransform>(transType);
 }
 
-void transformTrial(MC *mc, const argtype &args) {
+void addTrialTransform(MC *mc, const argtype &args) {
   shared_ptr<TrialTransform> trial = make_shared<TrialTransform>(
     mc->pair(), mc->criteria(), args);
   mc->initTrial(trial);
+}
+void transformTrial(MC *mc, const argtype &args) {
+  addTrialTransform(mc, args);
 }
 void transformTrial(MC *mc, const char* type, double maxMoveParam) {
   shared_ptr<TrialTransform> trial = make_shared<TrialTransform>(type);

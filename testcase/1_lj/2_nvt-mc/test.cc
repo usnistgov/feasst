@@ -13,7 +13,7 @@
 // Define a new Analyze class in order to compute the average potential energy
 class AnalyzeMonkeyPatch : public feasst::Analyze {
  public:
-  AnalyzeMonkeyPatch(feasst::Pair *pair) : Analyze(pair) {}
+  AnalyzeMonkeyPatch(shared_ptr<feasst::Pair> pair) : Analyze(pair) {}
   ~AnalyzeMonkeyPatch() {}
 
   // Access the average and block std from the accumulator
@@ -29,18 +29,21 @@ class AnalyzeMonkeyPatch : public feasst::Analyze {
 };
 
 int main() {  // LJ, SRSW_NVTMC
-  feasst::Space space(3);
   const double rho = 1e-3;  // number density
   const int nMol = 500;     // number of particles
-  space.initBoxLength(pow(double(nMol)/rho, 1./3.));   // set the cubic PBCs
-  stringstream molNameSS;
-  molNameSS << space.install_dir() << "/forcefield/data.lj";
-  space.addMolInit(molNameSS.str().c_str());
-  feasst::PairLJ pair(&space, {{"rCut", "3"}});   // potential truncation at 3
-  const double temperature = 0.9;
-  feasst::CriteriaMetropolis criteria(1./temperature, 1.);
-  feasst::MC mc(&space, &pair, &criteria);
-  feasst::transformTrial(&mc, "translate", 0.1);
+  auto space = feasst::makeSpace(
+    {{"dimen", "3"},
+     {"boxLength", feasst::str(pow(double(nMol)/rho, 1./3.))}});
+  auto pair = feasst::makePairLJ(space,
+    {{"rCut", "3"},
+     {"cutType", "lrc"},
+     {"molTypeInForcefield", "data.lj"}});
+  auto criteria = feasst::makeCriteriaMetropolis(
+    {{"beta", feasst::str(1./0.9)}});   // beta=1/kT
+  feasst::MC mc(pair, criteria);
+  feasst::addTrialTransform(&mc,
+    {{"type", "translate"},
+     {"maxMoveParam", "0.1"}});
   mc.nMolSeek(nMol);
   mc.initLog("log", 1e4);
   mc.initMovie("movie", 1e4);
@@ -50,7 +53,7 @@ int main() {  // LJ, SRSW_NVTMC
 
   // Initialize the custom analysis to compute average energy
   shared_ptr<AnalyzeMonkeyPatch> an =
-    make_shared<AnalyzeMonkeyPatch>(&pair);
+    make_shared<AnalyzeMonkeyPatch>(pair);
   an->initFreq(1);    // frequency that Analyze::update() is called
   an->initPrintFreq(1e7);
   mc.initAnalyze(an);

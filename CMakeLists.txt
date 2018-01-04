@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.12)
-set(CMAKE_CXX_STANDARD 0x)
+set(CMAKE_CXX_STANDARD 11)
 project(feasst)
 
 # Here are some user options to customize external libraries

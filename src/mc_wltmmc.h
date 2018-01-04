@@ -28,6 +28,15 @@ class WLTMMC : public MC {
   /// Constructor
   WLTMMC(Space* space, Pair* pair, CriteriaWLTMMC* criteria);
 
+  /// Constructor
+  WLTMMC(shared_ptr<Space> space, shared_ptr<Pair> pair,
+    shared_ptr<CriteriaWLTMMC> criteria)
+    : WLTMMC(space.get(), pair.get(), criteria.get()) {}
+
+  /// Constructor
+  WLTMMC(shared_ptr<Pair> pair, shared_ptr<CriteriaWLTMMC> criteria)
+    : WLTMMC(pair->space(), pair.get(), criteria.get()) {}
+
   /// Initialize collection matrix file name.
   void initColMat(const char* fileName, const int nfreq)
     { colMatFileName_.assign(fileName); nFreqColMat_ = nfreq; };

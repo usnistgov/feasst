@@ -12,25 +12,25 @@
 
 // Compare canonical ensemble average potential energy and macrostate
 // probability with SRSW.
-void compareEnergyAndMacro(feasst::CriteriaWLTMMC criteria,
+void compareEnergyAndMacro(shared_ptr<feasst::CriteriaWLTMMC> criteria,
   int iMacro, //!< macrostate (e.g., number of particles)
   double peAv, double peStd, double lnPIav, double lnPIstd) {
-  ASSERT(criteria.mMax() > iMacro, "comparing macrostate(" << iMacro
-    << ") that doesn't exist in criteria, with max of " << criteria.mMax());
-  double diff = criteria.pe(iMacro).average() - peAv;
+  ASSERT(criteria->mMax() > iMacro, "comparing macrostate(" << iMacro
+    << ") that doesn't exist in criteria, with max of " << criteria->mMax());
+  double diff = criteria->pe(iMacro).average() - peAv;
   // 99% confidence interval
-  double tol = 3.*(criteria.pe(iMacro).blockStdev() + peStd);
+  double tol = 3.*(criteria->pe(iMacro).blockStdev() + peStd);
   ASSERT(fabs(diff) < tol,
-    "N=" << iMacro << " energy is " << criteria.pe(iMacro).average() << " +/- "
-    << criteria.pe(iMacro).blockStdev() << " but SRSW is " << peAv << " +/- "
+    "N=" << iMacro << " energy is " << criteria->pe(iMacro).average() << " +/- "
+    << criteria->pe(iMacro).blockStdev() << " but SRSW is " << peAv << " +/- "
     << peStd << "." << endl << "The difference is: " << diff << endl
     << "The tolerance (99%) is: " << tol);
-  diff = criteria.lnPI()[iMacro] - criteria.lnPI()[0] - lnPIav;
-  tol = 2.576*(criteria.lnPIstd(iMacro) + lnPIstd);
+  diff = criteria->lnPI()[iMacro] - criteria->lnPI()[0] - lnPIav;
+  tol = 2.576*(criteria->lnPIstd(iMacro) + lnPIstd);
   ASSERT(fabs(diff) < tol,
-    "N=" << iMacro << " lnPI-lnPI[0] is " << criteria.lnPI()[iMacro] -
-    criteria.lnPI()[0] << " +/- "
-    << criteria.lnPIstd(iMacro) << " but SRSW is " << lnPIav << " +/- "
+    "N=" << iMacro << " lnPI-lnPI[0] is " << criteria->lnPI()[iMacro] -
+    criteria->lnPI()[0] << " +/- "
+    << criteria->lnPIstd(iMacro) << " but SRSW is " << lnPIav << " +/- "
     << lnPIstd << "." << endl << "The difference is: " << diff << endl
     << "The tolerance (99%) is: " << tol);
 }
@@ -72,30 +72,34 @@ int main(int argc, char** argv) {  // LJ, SRSW_EOSTMMC
 
   // initialize simulation domain
   feasst::ranInitByDate();
-  feasst::Space s(3);
-  s.initBoxLength(boxl);
-  stringstream addMolType;
-  addMolType << s.install_dir() << "/forcefield/" << molType.str().c_str();
-  s.addMolInit(addMolType.str().c_str());
+  auto space = feasst::makeSpace(
+    {{"dimen", "3"},
+     {"boxLength", feasst::str(boxl)}});
 
   // initialize pair-wise interactions
-  feasst::PairLJ p(&s, {{"rCut", feasst::str(rCut)}, {"cutType", "lrc"}});
+  auto pair = feasst::makePairLJ(space,
+    {{"rCut", feasst::str(rCut)},
+     {"cutType", "lrc"},
+     {"molTypeInForcefield", molType.str()}});
 
   // acceptance criteria
-  //feasst::CriteriaWLTMMC c(1./temp, exp(lnz), "nmol" , nMolMin - 0.5,
-  //                         nMolMax + 0.5, nMolMax - nMolMin + 1);
-  feasst::CriteriaWLTMMC c(1./temp, exp(lnz), "nmol" , nMolMin, nMolMax);
-  c.collectInit();
-  c.tmmcInit();
+  auto criteria = feasst::makeCriteriaWLTMMC(
+    {{"beta", feasst::str(1./temp)},
+     {"activ", feasst::str(exp(lnz))},
+     {"mType", "nmol"},
+     {"nMin", feasst::str(nMolMin)},
+     {"nMax", feasst::str(nMolMax)}});
+  criteria->collectInit();
+  criteria->tmmcInit();
 
   // initialize MC simulation object
-  feasst::WLTMMC mc(&s, &p, &c);
+  feasst::WLTMMC mc(space, pair, criteria);
   mc.weight=3./4.;
-  feasst::transformTrial(&mc, "translate");
+  feasst::addTrialTransform(&mc, {{"type", "translate"}});
   mc.weight=1./8.;
   feasst::deleteTrial(&mc);
   mc.weight=1./8.;
-  feasst::addTrial(&mc, addMolType.str().c_str());
+  feasst::addTrial(&mc, space->addMolListType(0).c_str());
 
   // output log, lnpi and movie
   mc.initLog("log", nfreq);
@@ -116,34 +120,34 @@ int main(int argc, char** argv) {  // LJ, SRSW_EOSTMMC
 
   // Test macrostate and canonical ensemble average energy against the SRSW values
   if (openMP == 0) {
-    ASSERT(fabs(c.pe(0).average()) < 1e-13,
-      "N=0 should have zero energy, but pe=" << c.pe(0).average());
+    ASSERT(fabs(criteria->pe(0).average()) < 1e-13,
+      "N=0 should have zero energy, but pe=" << criteria->pe(0).average());
 
-    compareEnergyAndMacro(c, 1,
+    compareEnergyAndMacro(criteria, 1,
       -0.0006057402333333332,
       6.709197666659334e-10,
       -270.0061768+274.6763737666667,
       0.037092307087640365);
 
-    compareEnergyAndMacro(c, 2,
+    compareEnergyAndMacro(criteria, 2,
       -0.030574223333333334,
       9.649146611661053e-06,
       -266.0191155333334+274.6763737666667,
       0.03696447428346385);
 
-    compareEnergyAndMacro(c, 3,
+    compareEnergyAndMacro(criteria, 3,
       -0.089928316,
       0.0001387472078025413,
       -262.4277240666667+274.6763737666667,
       0.037746391500313385);
 
-    compareEnergyAndMacro(c, 4,
+    compareEnergyAndMacro(criteria, 4,
       -0.1784570533333333,
       3.3152449884326804e-05,
       -259.11444086666665+274.6763737666667,
       0.03809721387875822);
 
-    compareEnergyAndMacro(c, 5,
+    compareEnergyAndMacro(criteria, 5,
       -0.29619201333333334,
       1.3487910636322294e-05,
       -256.0144809+274.6763737666667,

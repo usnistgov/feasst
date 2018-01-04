@@ -7,8 +7,8 @@ pair = feasst.makePairLJ(space, feasst.args(
      "cutType" : "lrc"}))           # long range corrections
 criteria = feasst.makeCriteriaMetropolis(feasst.args(
     {"beta" : "1.2"}))              # beta = 1/k_B/T
-mc = feasst.MC(space, pair, criteria)
-feasst.transformTrial(mc, feasst.args(
+mc = feasst.MC(pair, criteria)
+feasst.addTrialTransform(mc, feasst.args(
     {"type" : "translate",
      "maxMoveParam" : str(0.1)}))   # maximum displacement for each dimension
 mc.nMolSeek(50)                     # add particles

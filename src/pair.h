@@ -44,7 +44,6 @@ namespace feasst {
 class Pair : public BaseRandom {
  public:
   /// Constructor.
-  /// @param rCut Interaction cut-off distance
   Pair(Space* space,
     /**
      * allowed string key pairs (e.g. dictionary):

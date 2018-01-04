@@ -12,19 +12,20 @@
 
 int main() {  // LJ, NPT
   feasst::ranInitByDate();
-  feasst::Space space(3);
-  space.initBoxLength(8);
-  feasst::PairLJ pair(&space, {{"rCut", "3."}});
-  std::stringstream ss;
-  ss << space.install_dir() << "/forcefield/data.lj";
-  pair.initData(ss.str());
-  pair.cutShift(1);
-  pair.initEnergy();
-  feasst::CriteriaMetropolis crit(1./1.5, exp(-4));
-  feasst::MC mc(&space, &pair, &crit);
+  auto space = feasst::makeSpace(
+    {{"dimen", "3"},
+     {"boxLength", "8"}});
+  auto pair = feasst::makePairLJ(space,
+    {{"rCut", "3."},
+     {"cutType", "cutShift"},
+     {"molTypeInForcefield", "data.lj"}});
+  auto crit = feasst::makeCriteriaMetropolis(
+    {{"beta", feasst::str(1./1.5)},
+     {"activ", feasst::str(exp(-4))}});
+  feasst::MC mc(pair, crit);
   feasst::transformTrial(&mc, "translate", 1);
   mc.nMolSeek(50);
-  crit.pressureset(0.1);
+  crit->pressureset(0.1);
   feasst::transformTrial(&mc, "lxmod", 0.001);
   feasst::transformTrial(&mc, "lymod", 0.001);
   feasst::transformTrial(&mc, "lzmod", 0.001);

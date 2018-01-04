@@ -275,8 +275,6 @@ To do list
 * have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)
 * remove periodicity from x/y/z dimensions (no rush here)
 * split functions.h into a variety of base_fileio, base_math, base_utils, etc
-* PairHybrid rCut should be taken from pairVec, or atleast rCutMaxAll
-* Eventually convert all raw pointers to shared pointers, which also allows removal of space from MC class
 * PairHybrid also doens't need a space pointer.
 * Use Histogram class for CriteriaWLTMMC instead of its own hard-coded version
 * To reduce the size of Space, have it inherit multiple base classes, e.g.,
@@ -311,3 +309,7 @@ To do list
 * Customize restart directory name
 * Move rCut to optional argument, after figuring out how to have map<string,string> work with base class arguments.
 * Fix testcase 1/3 by taking arguments with unittest in python.
+* Use packages to dynamically add the disclaim in the release.
+* rename feasst.str.. python doesn't like it.
+* Eventually convert all raw pointers to shared pointers (but interface blind to shared_ptr vs unique_ptr), which also allows removal of space from MC class
+

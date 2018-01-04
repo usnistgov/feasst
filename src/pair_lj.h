@@ -51,6 +51,9 @@ class PairLJ : public Pair {
      *          Warning: "none" without any further initialization of the Pair
      *          class may result in a segmentation fault.
      *
+     *  molTypeInForcefield : file in Space.install_dir()/forcefield which
+     *                        describes molecule. Only when molType is empty.
+     *
      *  cutType : method to handle the cut-off interactions
      *
      *  - lrc(default): analytical long-range corrections
