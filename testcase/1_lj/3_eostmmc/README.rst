@@ -35,17 +35,17 @@ For microcanonical partition function, :math:`\Omega(N,V,U)`, canonical, :math:`
 .. math::
 
    \Pi(U) = \frac{\Omega(N,V,U)e^{-\beta U}}{Q(N,V,T)}
-   
+ 
    ln\Pi(U) + \beta U = ln\Omega(N,V,U) + Const
-   
+ 
    \Pi(N, U) = \frac{\Omega(N,V,U)e^{-\beta U + \beta \mu N}}{\Xi(\mu,V,T)}
-   
+ 
    ln\Pi(N,U) + \beta U - \beta \mu N = ln\Omega(N,U,V) + Const
-   
+ 
    ln\Pi_{expected}(N, U; \mu', V, T') = ln\Pi(N, U; \mu, V, T) -\beta` U + \beta U + (\beta` \mu` - \beta \mu)N + Const
-   
+ 
    lnz(\mu, \beta) = \beta\mu - ln(Lambda(\beta)^3)
-   
+ 
    ln\Pi_{expected}(N; \mu', V, T') = ln\Pi(N; \mu, V, T) + N(lnz` - lnz) + Const
 
 For histogram reweighting, apply the equation above to the macrostate probability distribution, :math:`ln\Pi`, and renormalize, :math:`\sum \Pi = 1`.

@@ -54,7 +54,7 @@ Angles
 
 ConfigurationalBias
 
-6 cbmctypes   #number of types of cmbc moves       
+6 cbmctypes   #number of types of cmbc moves
 
 gcinsdel 4 1        #regrow entire chain with 3 steps and weight of 1
 2 10 avb 1.02 1 1 2  #first step: grow atom 2 with 10 trials in aggregation volume bias region(rUp,rLo) of 1 atoms 2 of other molecules

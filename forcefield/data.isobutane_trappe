@@ -4,7 +4,7 @@
 #  M.G. Martin, and J.I. Siepmann,
 #  Novel configurational-bias Monte Carlo method for branched molecules. Transferable potentials for phase equilibria. 2. United-atom description of branched alkanes,
 #  J. Phys. Chem. B, 103, 4508-4517 (1999).
-# 
+#
 #         CH3(2)
 #          |
 #         CH(1)
@@ -61,7 +61,7 @@ Angles
 
 ConfigurationalBias
 
-7 cbmctypes   #number of types of cmbc moves       
+7 cbmctypes   #number of types of cmbc moves
 
 gcinsdel 3 1        #regrow entire chain with 3 steps and weight of 1
 1 10 box          #first step: grow atom 1 with 10 trials anywhere in box

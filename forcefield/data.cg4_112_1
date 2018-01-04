@@ -57,7 +57,7 @@ Angles
 
 ConfigurationalBias
 
-2 cbmctypes   #number of types of cmbc moves       
+2 cbmctypes   #number of types of cmbc moves
 
 gcinsdel 3 0.5        #regrow entire chain with 3 steps and weight of 1
 1 10 box          #first step: grow atom 1 with 10 trials anywhere in box
