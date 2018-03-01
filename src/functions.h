@@ -64,7 +64,7 @@ if (! (condition)) { \
   std::stringstream err_msg; \
   err_msg << "# Assertion `" #condition "` failed in " << __FILE__ \
             << " line " << __LINE__ << ": " << message; \
-  CustomException c(err_msg); \
+  throw CustomException(err_msg); \
 }
 #endif  // FEASST_NAMESPACE_
 
