@@ -1,21 +1,18 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Frequently asked questions (FAQ) &#8212; FEASST v0.3.0 documentation</title>
-    
+    <title>Frequently asked questions (FAQ) &#8212; FEASST v0.3.1 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'v0.3.0',
+        VERSION:     'v0.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -27,14 +24,14 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Guidelines for developers" href="sphinx/dev.html" />
     <link rel="prev" title="PhysicalConstants" href="build/PhysicalConstants.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -47,7 +44,7 @@
         <li class="right" >
           <a href="build/PhysicalConstants.html" title="PhysicalConstants"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -123,7 +120,7 @@ described by the s.addMolInit function.</p>
 <p>In cases with multiple components, this is not sufficient. So you will
 want to make sure you initialize the appropriate number of molecules
 in the appropriate order. For example, if your xyz file lists A,B,A,B.
-or A,A,A...,B,B,B... then you need to add these in the right order.</p>
+or A,A,A…,B,B,B… then you need to add these in the right order.</p>
 <p>For example, something like the following:</p>
 <div class="highlight-C++"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">iMolA</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">iMolA</span> <span class="o">&lt;</span> <span class="n">nMolA</span><span class="p">;</span> <span class="o">++</span><span class="n">iMolA</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">pair</span><span class="p">.</span><span class="n">addMol</span><span class="p">(</span><span class="s">&quot;/name/of/data/file&quot;</span><span class="p">);</span>
@@ -162,14 +159,14 @@ the process of writing during the termination. In this case, the files
 themselves could be missing important details. If this is the case,
 your simulation will likely crash upon restart or output potential
 energy which is quite different from the previous value. To remedy
-this situation, the checkpoint files keep a &#8216;backup&#8217; file which ends
-in &#8221;.bak&#8221;, which you may use instead. If you wish to use the backup
-files, then all files ending in &#8216;.bak&#8217; should replace the same files
-without the &#8216;.bak&#8217; ending. Before replacing files, it is recommended
+this situation, the checkpoint files keep a ‘backup’ file which ends
+in “.bak”, which you may use instead. If you wish to use the backup
+files, then all files ending in ‘.bak’ should replace the same files
+without the ‘.bak’ ending. Before replacing files, it is recommended
 to first backup the entire tmp folder.</p>
 <p>Note that multiprocessor simulations may take additional care to
 restart correctly. If you wish to restart just one processor, you may
-simply use one of the files with an appended p# (e.g. &#8220;tmp/rstp0&#8221;).</p>
+simply use one of the files with an appended p# (e.g. “tmp/rstp0”).</p>
 <p>If you wish to restart simulations that are independent, then an
 example may be found in <a class="reference external" href="tools/rstMultiproc.cc">tools/rstMultiproc.cc</a>.</p>
 <p>In this file, the two lines are as follows:</p>
@@ -220,7 +217,7 @@ your own pair potentials.</p>
 <p><a class="reference internal" href="build/WLTMMC.html#_CPPv2N6WLTMMC11initWindowsEi" title="WLTMMC::initWindows"><code class="xref cpp cpp-func docutils literal"><span class="pre">WLTMMC::initWindows()</span></code></a></p>
 <ol class="arabic simple" start="2">
 <li>Break into multiple simulations. For example, I launched two jobs simultaneously, one with N=0 to 336, and another N=336 to N=550. Of course the low density ones finished 10x faster but then the high density windows were smaller</li>
-<li>If you&#8217;re trying to do a high throughput approach where each model and condition can be quite different but you don&#8217;t want to have to hand pick conditions for each one, you can do a ridiculous number of windows (N=16/32 perhaps?) and terminate after some run time and only use the windows that managed to converge and throw out the rest. Still you would want to choose carefully the nMolMax to not have too much wasted processor time.</li>
+<li>If you’re trying to do a high throughput approach where each model and condition can be quite different but you don’t want to have to hand pick conditions for each one, you can do a ridiculous number of windows (N=16/32 perhaps?) and terminate after some run time and only use the windows that managed to converge and throw out the rest. Still you would want to choose carefully the nMolMax to not have too much wasted processor time.</li>
 <li>You can use the more MD-style approach of initializing a big box and squeezing it.</li>
 </ol>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">.</span><span class="n">pressureset</span><span class="p">(</span><span class="mf">1000.</span><span class="p">);</span>
@@ -230,17 +227,17 @@ your own pair potentials.</p>
 <span class="c1">// transformTrial(&amp;mc, &quot;vol&quot;, 0.001);  // this one does an isotropic volume move instead of independent. You don&#39;t need both</span>
 </pre></div>
 </div>
-<p>To remove the box move after equilibration, I prefer to &#8220;scope&#8221; the mc class with the box move and just make another clean mc class, or do an shallow copy (cloneShallow) before calling the transform trial and then use that clone later for production.
+<p>To remove the box move after equilibration, I prefer to “scope” the mc class with the box move and just make another clean mc class, or do an shallow copy (cloneShallow) before calling the transform trial and then use that clone later for production.
 Another option is mc.removeTrial(trial#);</p>
 </div>
 </div>
 <div class="section" id="compilation-issues">
 <h2>Compilation issues<a class="headerlink" href="#compilation-issues" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="modulenotfounderror-no-module-named-feasst">
-<h3>ModuleNotFoundError: &#8220;No module named &#8216;feasst&#8217;&#8221;<a class="headerlink" href="#modulenotfounderror-no-module-named-feasst" title="Permalink to this headline">¶</a></h3>
+<h3>ModuleNotFoundError: “No module named ‘feasst’”<a class="headerlink" href="#modulenotfounderror-no-module-named-feasst" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Verify that &#8220;/path/to/feasst/build/_feasst.so&#8221; was built without error, as described in <a class="reference internal" href="README.html"><span class="doc">README</span></a>.</li>
-<li>Use the command &#8220;<a class="reference external" href="tools/run.sh">tools/run.sh</a> script.py&#8221; instead of &#8220;<code class="docutils literal"><span class="pre">python</span> <span class="pre">script.py</span></code>&#8220;</li>
+<li>Verify that “/path/to/feasst/build/_feasst.so” was built without error, as described in <a class="reference internal" href="README.html"><span class="doc">README</span></a>.</li>
+<li>Use the command “<a class="reference external" href="tools/run.sh">tools/run.sh</a> script.py” instead of “<code class="docutils literal"><span class="pre">python</span> <span class="pre">script.py</span></code>”</li>
 <li>Alternatively, point to build/_feasst.so in your python script as follows</li>
 </ul>
 <div class="highlight-py"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
@@ -251,18 +248,18 @@ Another option is mc.removeTrial(trial#);</p>
 <div class="section" id="error-function-class-is-not-a-member-of-feasst">
 <h3>error: ‘[function/class]’ is not a member of ‘feasst’<a class="headerlink" href="#error-function-class-is-not-a-member-of-feasst" title="Permalink to this headline">¶</a></h3>
 <p>In C++, this error often occurs when one does not include a necessary header file.
-For example, to use <cite>feasst::swapTrial()</cite>, one must have <cite>#include &#8220;trial_swap.h&#8221;</cite>.</p>
+For example, to use <cite>feasst::swapTrial()</cite>, one must have <cite>#include “trial_swap.h”</cite>.</p>
 </div>
 <div class="section" id="compilation-error-gives-can-not-be-used-when-making-a-shared-object-recompile-with-fpic">
-<h3>Compilation error gives &#8220;can not be used when making a shared object; recompile with -fPIC&#8221;<a class="headerlink" href="#compilation-error-gives-can-not-be-used-when-making-a-shared-object-recompile-with-fpic" title="Permalink to this headline">¶</a></h3>
-<p>One of your external libraries (e.g., fftw or xdrfile) needs the flag &#8220;&#8211;enable-shared&#8221; during configuration.
-Or you can edit CMakeLists.txt to add &#8220;-fPIC&#8221; as follows:</p>
+<h3>Compilation error gives “can not be used when making a shared object; recompile with -fPIC”<a class="headerlink" href="#compilation-error-gives-can-not-be-used-when-making-a-shared-object-recompile-with-fpic" title="Permalink to this headline">¶</a></h3>
+<p>One of your external libraries (e.g., fftw or xdrfile) needs the flag “–enable-shared” during configuration.
+Or you can edit CMakeLists.txt to add “-fPIC” as follows:</p>
 <p>SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS} -fPIC)   # HWH: add -fPIC
 #SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS})        # HWH: old version</p>
 </div>
 <div class="section" id="error-no-matching-constructor-for-initialization-cannot-convert-initialize-list">
-<h3>error: no matching constructor for initialization ... cannot convert initialize list<a class="headerlink" href="#error-no-matching-constructor-for-initialization-cannot-convert-initialize-list" title="Permalink to this headline">¶</a></h3>
-<p>While initializing classes using the &#8220;{{&#8220;key1&#8221;, &#8220;val1&#8221;}}&#8221; notation, you likely input a non-string value.</p>
+<h3>error: no matching constructor for initialization … cannot convert initialize list<a class="headerlink" href="#error-no-matching-constructor-for-initialization-cannot-convert-initialize-list" title="Permalink to this headline">¶</a></h3>
+<p>While initializing classes using the “{{“key1”, “val1”}}” notation, you likely input a non-string value.</p>
 </div>
 </div>
 </div>
@@ -293,10 +290,10 @@ Or you can edit CMakeLists.txt to add &#8220;-fPIC&#8221; as follows:</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#compilation-issues">Compilation issues</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#modulenotfounderror-no-module-named-feasst">ModuleNotFoundError: &#8220;No module named &#8216;feasst&#8217;&#8221;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulenotfounderror-no-module-named-feasst">ModuleNotFoundError: “No module named ‘feasst’”</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#error-function-class-is-not-a-member-of-feasst">error: ‘[function/class]’ is not a member of ‘feasst’</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#compilation-error-gives-can-not-be-used-when-making-a-shared-object-recompile-with-fpic">Compilation error gives &#8220;can not be used when making a shared object; recompile with -fPIC&#8221;</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#error-no-matching-constructor-for-initialization-cannot-convert-initialize-list">error: no matching constructor for initialization ... cannot convert initialize list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compilation-error-gives-can-not-be-used-when-making-a-shared-object-recompile-with-fpic">Compilation error gives “can not be used when making a shared object; recompile with -fPIC”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-no-matching-constructor-for-initialization-cannot-convert-initialize-list">error: no matching constructor for initialization … cannot convert initialize list</a></li>
 </ul>
 </li>
 </ul>
@@ -329,11 +326,11 @@ Or you can edit CMakeLists.txt to add &#8220;-fPIC&#8221; as follows:</p>
         <li class="right" >
           <a href="build/PhysicalConstants.html" title="PhysicalConstants"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

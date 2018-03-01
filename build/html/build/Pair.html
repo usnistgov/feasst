@@ -1,21 +1,18 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Pair &#8212; FEASST v0.3.0 documentation</title>
-    
+    <title>Pair &#8212; FEASST v0.3.1 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.0',
+        VERSION:     'v0.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -27,14 +24,14 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="PairHardCircle" href="PairHardCircle.html" />
     <link rel="prev" title="Pair Classes" href="pairtoc.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -47,7 +44,7 @@
         <li class="right" >
           <a href="pairtoc.html" title="Pair Classes"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" accesskey="U">Pair Classes</a> &#187;</li> 
       </ul>
@@ -70,8 +67,8 @@
 </ul>
 </p>
 <p>In order to create a custom <a class="reference internal" href="#classPair"><span class="std std-ref">Pair</span></a>, you can follow two similar procedures.</p>
-<p>First, you may define a custom <a class="reference internal" href="#classPair"><span class="std std-ref">Pair</span></a> code in the same file as &#8220;int main()&#8221; for C++. See an example of this for the Jagla potential <a class="reference external" href="testcase/2_jagla_1_ref-config_README.html">test case</a>.</p>
-<p>Second, you may copy existing &#8220;pair_*&#8221; files and replace the class name and header guards (e.g. BASECLASS_DERIVED_H_). </p>
+<p>First, you may define a custom <a class="reference internal" href="#classPair"><span class="std std-ref">Pair</span></a> code in the same file as “int main()” for C++. See an example of this for the Jagla potential <a class="reference external" href="testcase/2_jagla_1_ref-config_README.html">test case</a>.</p>
+<p>Second, you may copy existing “pair_*” files and replace the class name and header guards (e.g. BASECLASS_DERIVED_H_). </p>
 <p>Inherits from <a class="reference internal" href="BaseRandom.html#classBaseRandom"><span class="std std-ref">BaseRandom</span></a></p>
 <p>Subclassed by <a class="reference internal" href="PairHardCircle.html#classPairHardCircle"><span class="std std-ref">PairHardCircle</span></a>, <a class="reference internal" href="PairHardSphere.html#classPairHardSphere"><span class="std std-ref">PairHardSphere</span></a>, <a class="reference internal" href="PairHybrid.html#classPairHybrid"><span class="std std-ref">PairHybrid</span></a>, <a class="reference internal" href="PairIdeal.html#classPairIdeal"><span class="std std-ref">PairIdeal</span></a>, <a class="reference internal" href="PairLJ.html#classPairLJ"><span class="std std-ref">PairLJ</span></a>, <a class="reference internal" href="PairLJCoulEwald.html#classPairLJCoulEwald"><span class="std std-ref">PairLJCoulEwald</span></a>, <a class="reference internal" href="PairPatchKF.html#classPairPatchKF"><span class="std std-ref">PairPatchKF</span></a>, <a class="reference internal" href="PairSoftSphere.html#classPairSoftSphere"><span class="std std-ref">PairSoftSphere</span></a>, <a class="reference internal" href="PairSquareWell.html#classPairSquareWell"><span class="std std-ref">PairSquareWell</span></a>, <a class="reference internal" href="PairTabular1D.html#classPairTabular1D"><span class="std std-ref">PairTabular1D</span></a></p>
 <div class="breathe-sectiondef docutils container">
@@ -124,7 +121,7 @@
 <dl class="function">
 <dt id="_CPPv2N4Pair25multiPartEnerAtomCutInnerERKdRKiRKi">
 <span id="Pair::multiPartEnerAtomCutInner__doubleCR.iCR.iCR"></span><span class="target" id="classPair_1a5a6e34bde2d8af8b6115a59e853e0239"></span><em class="property">virtual</em> int <code class="descname">multiPartEnerAtomCutInner</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r2</em>, <em class="property">const</em> int &amp;<em>itype</em>, <em class="property">const</em> int &amp;<em>jtype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair25multiPartEnerAtomCutInnerERKdRKiRKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Compute the interaction between two particles itype and jtype separated by a squared distance r2=r*r. Increments the interaction in the <a class="reference internal" href="#classPair"><span class="std std-ref">Pair</span></a> class variable &#8220;peSRone_&#8221;. Return 1 if particles are neighbors. </p>
+<dd><p>Compute the interaction between two particles itype and jtype separated by a squared distance r2=r*r. Increments the interaction in the <a class="reference internal" href="#classPair"><span class="std std-ref">Pair</span></a> class variable “peSRone_”. Return 1 if particles are neighbors. </p>
 </dd></dl>
 
 <dl class="function">
@@ -184,8 +181,8 @@
 <dl class="function">
 <dt id="_CPPv2N4Pair6updateEKd">
 <span id="Pair::update__doubleC"></span><span class="target" id="classPair_1a25642b0ae3520b313e5b392c90abb340"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> double <em>de</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair6updateEKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Update total potential energy, peTot_ with energy change, de. Doesn&#8217;t update anything else like neighbor lists, individual contributions, etc.</p>
-<p>This simple pair updating method doesn&#8217;t work with neighborlist. If you&#8217;re attempt AVB with ConfigBias, likely you forgot to enable dual-cut. However, this may work with TrialGCA </p>
+<dd><p>Update total potential energy, peTot_ with energy change, de. Doesn’t update anything else like neighbor lists, individual contributions, etc.</p>
+<p>This simple pair updating method doesn’t work with neighborlist. If you’re attempt AVB with ConfigBias, likely you forgot to enable dual-cut. However, this may work with TrialGCA </p>
 </dd></dl>
 
 <dl class="function">
@@ -335,13 +332,13 @@
 <dl class="function">
 <dt id="_CPPv2N4Pair8initDataEK6string">
 <span id="Pair::initData__stringC"></span><span class="target" id="classPair_1a896d4e56a3180baa4046a6742fd27f30"></span><em class="property">virtual</em> void <code class="descname">initData</code><span class="sig-paren">(</span><em class="property">const</em> string <em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair8initDataEK6string" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize parameters with data file. Automatically searches file extensions for JSON &#8221;.json&#8221;, and otherwise attempts LAMMPS data file. Also uses the data file to initialize the <a class="reference internal" href="Space.html#classSpace"><span class="std std-ref">Space</span></a> class. </p>
+<dd><p>Initialize parameters with data file. Automatically searches file extensions for JSON “.json”, and otherwise attempts LAMMPS data file. Also uses the data file to initialize the <a class="reference internal" href="Space.html#classSpace"><span class="std std-ref">Space</span></a> class. </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv2N4Pair8initDataEPKc">
 <span id="Pair::initData__cCP"></span><span class="target" id="classPair_1a9ca0586caf37cb408b1f538f624270b1"></span><em class="property">virtual</em> void <code class="descname">initData</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair8initDataEPKc" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize parameters with data file. Automatically searches file extensions for JSON &#8221;.json&#8221;, and otherwise attempts LAMMPS data file. Also uses the data file to initialize the <a class="reference internal" href="Space.html#classSpace"><span class="std std-ref">Space</span></a> class. </p>
+<dd><p>Initialize parameters with data file. Automatically searches file extensions for JSON “.json”, and otherwise attempts LAMMPS data file. Also uses the data file to initialize the <a class="reference internal" href="Space.html#classSpace"><span class="std std-ref">Space</span></a> class. </p>
 </dd></dl>
 
 <dl class="function">
@@ -679,13 +676,13 @@
         <li class="right" >
           <a href="pairtoc.html" title="Pair Classes"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" >Pair Classes</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

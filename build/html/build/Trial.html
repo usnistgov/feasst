@@ -1,21 +1,18 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Trial &#8212; FEASST v0.3.0 documentation</title>
-    
+    <title>Trial &#8212; FEASST v0.3.1 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.0',
+        VERSION:     'v0.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -27,14 +24,14 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="TrialAdd" href="TrialAdd.html" />
     <link rel="prev" title="Trial Classes" href="trialtoc.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -47,7 +44,7 @@
         <li class="right" >
           <a href="trialtoc.html" title="Trial Classes"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="trialtoc.html" accesskey="U">Trial Classes</a> &#187;</li> 
       </ul>
@@ -64,7 +61,7 @@
 <dt id="_CPPv25Trial">
 <span id="Trial"></span><span class="target" id="classTrial"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">Trial</code><a class="headerlink" href="#_CPPv25Trial" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="#classTrial"><span class="std std-ref">Trial</span></a> move for Monte Carlo simulations.</p>
-<p>In order to create a new <a class="reference internal" href="#classTrial"><span class="std std-ref">Trial</span></a> derived class, copy an existing set of &#8220;trial_*&#8221; files and replace the class name and header guards (e.g. BASECLASS_DERIVED_H_).</p>
+<p>In order to create a new <a class="reference internal" href="#classTrial"><span class="std std-ref">Trial</span></a> derived class, copy an existing set of “trial_*” files and replace the class name and header guards (e.g. BASECLASS_DERIVED_H_).</p>
 <p>The <a class="reference internal" href="MC.html#classMC"><span class="std std-ref">MC</span></a> class only knows the base <a class="reference internal" href="#classTrial"><span class="std std-ref">Trial</span></a> class. In some cases you may need to add a feature to the base <a class="reference internal" href="#classTrial"><span class="std std-ref">Trial</span></a> class, but try to avoid this if possible. </p>
 <p>Inherits from <a class="reference internal" href="BaseRandom.html#classBaseRandom"><span class="std std-ref">BaseRandom</span></a></p>
 <p>Subclassed by <a class="reference internal" href="TrialAdd.html#classTrialAdd"><span class="std std-ref">TrialAdd</span></a>, <a class="reference internal" href="TrialConfSwapOMP.html#classTrialConfSwapOMP"><span class="std std-ref">TrialConfSwapOMP</span></a>, <a class="reference internal" href="TrialConfSwapTXT.html#classTrialConfSwapTXT"><span class="std std-ref">TrialConfSwapTXT</span></a>, <a class="reference internal" href="TrialDelete.html#classTrialDelete"><span class="std std-ref">TrialDelete</span></a>, <a class="reference internal" href="TrialSwap.html#classTrialSwap"><span class="std std-ref">TrialSwap</span></a>, <a class="reference internal" href="TrialTransform.html#classTrialTransform"><span class="std std-ref">TrialTransform</span></a>, <a class="reference internal" href="TrialXSwap.html#classTrialXSwap"><span class="std std-ref">TrialXSwap</span></a></p>
@@ -128,7 +125,7 @@
 <dd><ul class="breatheparameterlist first last simple">
 <li><code class="docutils literal"><span class="pre">upper</span></code>: upper limit of insertions </li>
 <li><code class="docutils literal"><span class="pre">lower</span></code>: lower limit of insertions </li>
-<li><code class="docutils literal"><span class="pre">dimension</span></code>: dimension for bounds above (e.g., z is &#8220;2&#8221;) </li>
+<li><code class="docutils literal"><span class="pre">dimension</span></code>: dimension for bounds above (e.g., z is “2”) </li>
 </ul>
 </dd>
 </dl>
@@ -270,13 +267,13 @@
         <li class="right" >
           <a href="trialtoc.html" title="Trial Classes"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="trialtoc.html" >Trial Classes</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

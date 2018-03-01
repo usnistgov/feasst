@@ -8,9 +8,11 @@ simulations with flat-histogram Monte Carlo and molecular dynamics methods.
 
 .. note::
 
-   DOI: https://doi.org/10.18434/M3S095
+   Manuscript: https://doi.org/10.6028/jres.123.004
 
    Website: https://pages.nist.gov/feasst/
+
+   Website DOI: https://doi.org/10.18434/M3S095
 
    Code repository: https://github.com/usnistgov/feasst
 
@@ -29,20 +31,21 @@ Simulation techniques
 * Wang-Landau Monte Carlo
 * Transition-matrix Monte Carlo
 * Metropolis Monte Carlo
-* Mayer sampling Monte Carlo (dev)
+* Mayer-sampling Monte Carlo (dev)
 * Molecular dynamics (dev)
 
 Thermodynamic ensembles
 
 * Microcanonical ensemble
 * Canonical ensemble
+* Isothermal isobaric ensemble
 * (Semi-)grand canonical ensemble
 * Expanded ensembles in temperature, shape, etc. (dev)
 
 Advanced Monte Carlo moves
 
 * Parallel configuration swaps
-* Constant pressure and floppy box
+* Floppy box
 * Particle identify and position swaps
 * Configurational bias insertions, deletions and regrowth with multiple first
   bead insertion (dev)
@@ -63,7 +66,7 @@ Intermolecular interactions
 Modern software
 
 * Interface with C++ or as a Python module
-* OMP parallelization
+* OpenMP parallelization
 * Checkpointing to save and restart simulations
 * Robust unit testing
 

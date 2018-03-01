@@ -1,21 +1,18 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>PairLJ &#8212; FEASST v0.3.0 documentation</title>
-    
+    <title>PairLJ &#8212; FEASST v0.3.1 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.0',
+        VERSION:     'v0.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -27,14 +24,14 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="PairLJCoulEwald" href="PairLJCoulEwald.html" />
     <link rel="prev" title="PairIdeal" href="PairIdeal.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -47,7 +44,7 @@
         <li class="right" >
           <a href="PairIdeal.html" title="PairIdeal"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" accesskey="U">Pair Classes</a> &#187;</li> 
       </ul>
@@ -80,7 +77,7 @@
 <p><ul class="simple">
 <li>(default): /path/to/feasst/forcefield/data.lj</li>
 <li>/path/to/lmp/data.file</li>
-<li>none: does not load a molecule, and therefore skips the rest of the present in this constructor, which now must be carried out manually. Providing other key pairs will result in an error. Warning: &#8220;none&#8221; without any further initialization of the <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a> class may result in a segmentation fault.</li>
+<li>none: does not load a molecule, and therefore skips the rest of the present in this constructor, which now must be carried out manually. Providing other key pairs will result in an error. Warning: “none” without any further initialization of the <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a> class may result in a segmentation fault.</li>
 </ul>
 </p>
 <p>cutType : method to handle the cut-off interactions</p>
@@ -96,6 +93,18 @@
 </dd>
 </dl>
 </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6PairLJ6PairLJE10shared_ptrI5SpaceERK7argtype">
+<span id="PairLJ::PairLJ__shared_ptr:Space:.argtypeCR"></span><span class="target" id="classPairLJ_1aed6d946431191baa95584b8ac35b0990"></span><code class="descname">PairLJ</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a>&gt; <em>space</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ6PairLJE10shared_ptrI5SpaceERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6PairLJ8cutShiftEKi">
+<span id="PairLJ::cutShift__iC"></span><span class="target" id="classPairLJ_1a5cad9fc10f38ca5309c8fa0e17b2409b"></span>void <code class="descname">cutShift</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ8cutShiftEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize cut and shifted potential for all particle types if flag == 1. <span class="math">\( U = U_{LJ} - U(rCut)\)</span> when <span class="math">\(r &lt; rCut\)</span>. </p>
 </dd></dl>
 
 <dl class="function">
@@ -214,15 +223,6 @@
 </dd></dl>
 
 </div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Members</p>
-<dl class="member">
-<dt>
-<span class="target" id="classPairLJ_1a34b7c51c217fc0ba7e3cfda92dd88bf4"></span><code class="descname">PairLJ::__pad0__</code></dt>
-<dd><p>Constructor. </p>
-</dd></dl>
-
-</div>
 </dd></dl>
 
 </div>
@@ -297,13 +297,13 @@
         <li class="right" >
           <a href="PairIdeal.html" title="PairIdeal"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" >Pair Classes</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

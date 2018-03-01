@@ -1,21 +1,18 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Guidelines for developers &#8212; FEASST v0.3.0 documentation</title>
-    
+    <title>Guidelines for developers &#8212; FEASST v0.3.1 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.0',
+        VERSION:     'v0.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -27,14 +24,14 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Authors and acknowledgements" href="../CONTRIBUTORS.html" />
     <link rel="prev" title="Frequently asked questions (FAQ)" href="../FAQ.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -47,7 +44,7 @@
         <li class="right" >
           <a href="../FAQ.html" title="Frequently asked questions (FAQ)"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -81,7 +78,7 @@ in order to simplify collaboration.</p>
 <li>This version changes if the documentation changes but the source code is the same.</li>
 </ol>
 </li>
-<li>And the version control id is &#8220;g&#8221; for GitHub, for example, followed by the commit hash.</li>
+<li>And the version control id is “g” for GitHub, for example, followed by the commit hash.</li>
 </ul>
 <p>Although all efforts are made for restart files to be backwards compatible, they may only be compatible for the same version x.y.z.</p>
 </div>
@@ -125,21 +122,21 @@ they are deleted.</p>
 <div class="section" id="feature-ftr-branches">
 <h3>Feature (ftr_*) branches<a class="headerlink" href="#feature-ftr-branches" title="Permalink to this headline">¶</a></h3>
 <p>These branches are for the development of new features.
-These branch names must begin with the characters &#8220;ftr_*&#8221;.
+These branch names must begin with the characters “ftr_*”.
 Once tested and complete, these branches may be merged into dev.</p>
 <ul class="simple">
 <li>Code must compile.
-HINT: use &#8220;git stash&#8221; over lazy commits, or use your own local branch</li>
+HINT: use “git stash” over lazy commits, or use your own local branch</li>
 </ul>
 </div>
 <div class="section" id="dead-dead-branches">
 <h3>Dead (dead_*) branches<a class="headerlink" href="#dead-dead-branches" title="Permalink to this headline">¶</a></h3>
 <p>These branches may record an incomplete attempt of a feature that may be
 relevant in the future.
-These branch names must begin with the characters &#8220;dead&#8221;.</p>
+These branch names must begin with the characters “dead”.</p>
 <ul class="simple">
 <li>No rules. Code may not compile.
-HINT: rename branches with &#8220;git branch -m &lt;newname&gt;&#8221;</li>
+HINT: rename branches with “git branch -m &lt;newname&gt;”</li>
 </ul>
 </div>
 </div>
@@ -152,7 +149,7 @@ For example, perhaps a newly implemented method is unpublished and not ready for
 One option is to simply make a private branch within your own private repository that you will not push to the public repository.
 This method is fine if you only want to receive updates.
 But if you want to share some of the development within your private branch, but not all, this becomes more complicated.</p>
-<p>The other option is to create separate &#8220;public&#8221; and &#8220;private&#8221; repositories.
+<p>The other option is to create separate “public” and “private” repositories.
 The example package directory <a class="reference external" href="tools/package">tools/package</a> contains scripts and example files to simplify the synchronization of these two separate repositories.</p>
 <ul class="simple">
 <li><a class="reference internal" href="#package-sh">package.sh</a>: send updates in private repository to the public repository, after filtering.</li>
@@ -214,13 +211,13 @@ associated <code class="docutils literal"><span class="pre">*_unittest</span></c
 <p>CMake and the Makefile will automatically detect and compile these tests.
 For example</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_GTEST<span class="o">=</span>ON .
-make unittest -j 8
+make unittest -j <span class="m">8</span>
 ./bin/unittest --gtest_shuffle --gtest_filter<span class="o">=</span>Space.ini*
 </pre></div>
 </div>
 <p>The optional gtest flags randomly shuffle the order of the tests, and run
 specific tests, respectively.
-To use a seed to reproduce an error, use &#8211;gtest_random_seed=SEED.</p>
+To use a seed to reproduce an error, use –gtest_random_seed=SEED.</p>
 <p>If there are a lot of errors, typically the best testing order would be:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">shape</span>
 <span class="n">base</span>
@@ -258,14 +255,14 @@ r <span class="o">[</span>python script<span class="o">]</span> <span class="o">
 <p>Valgrind helps to detect memory management bugs.</p>
 <p><a class="reference external" href="http://valgrind.org/">http://valgrind.org/</a></p>
 <p>For example, to run Valgrind on a particular test and output to text file</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>valgrind ./unittest --gtest_filter<span class="o">=</span>MC.* &gt; out.txt 2&gt;<span class="p">&amp;</span>1
+<div class="highlight-bash"><div class="highlight"><pre><span></span>valgrind ./unittest --gtest_filter<span class="o">=</span>MC.* &gt; out.txt <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li>For uninitialized value errors, try &#8211;track-origins=yes</li>
-<li>For leaks, try &#8211;leak-check=full &#8211;show-leak-kinds=all</li>
-<li>Don&#8217;t use profiler for leak checks. OMP causes &#8220;leaks&#8221; O.K.</li>
-<li>For suppress false-positives (e.g., gomp or gsl), use &#8211;gen-suppressions=all to generate suppression files</li>
+<li>For uninitialized value errors, try –track-origins=yes</li>
+<li>For leaks, try –leak-check=full –show-leak-kinds=all</li>
+<li>Don’t use profiler for leak checks. OMP causes “leaks” O.K.</li>
+<li>For suppress false-positives (e.g., gomp or gsl), use –gen-suppressions=all to generate suppression files</li>
 </ul>
 </div>
 <div class="section" id="test-coverage-with-gcov-and-lcov">
@@ -273,15 +270,15 @@ r <span class="o">[</span>python script<span class="o">]</span> <span class="o">
 <p>GCC compilers allow testing of coverage with gcov and lcov for visualization.</p>
 <ul class="simple">
 <li>Use GCOV with CMake: cmake -DUSE_GCOV .
-Note: this disables optimization, so don&#8217;t use it for production simulations.</li>
+Note: this disables optimization, so don’t use it for production simulations.</li>
 <li>make coverage</li>
 <li>Open coverage/index.html in your browser.</li>
-<li>Go into &#8220;src&#8221; and ignore the external library coverage.</li>
+<li>Go into “src” and ignore the external library coverage.</li>
 </ul>
 </div>
 <div class="section" id="speed-up-compilation-time-with-ccache">
 <h2>Speed up compilation time with ccache<a class="headerlink" href="#speed-up-compilation-time-with-ccache" title="Permalink to this headline">¶</a></h2>
-<p>Seriously, if you haven&#8217;t used ccache before, give it a try.</p>
+<p>Seriously, if you haven’t used ccache before, give it a try.</p>
 </div>
 <div class="section" id="clean-up-with-cpplint-and-pylint">
 <h2>Clean up with cpplint and pylint<a class="headerlink" href="#clean-up-with-cpplint-and-pylint" title="Permalink to this headline">¶</a></h2>
@@ -291,7 +288,7 @@ Note: this disables optimization, so don&#8217;t use it for production simulatio
 <div class="section" id="tag-and-archive">
 <h2>Tag and archive<a class="headerlink" href="#tag-and-archive" title="Permalink to this headline">¶</a></h2>
 <p>git tag -a &lt;version number&gt;</p>
-<p>git archive master &#8211;prefix=&#8217;feasst&#8217;<cite>git describe master</cite>&#8216;/&#8217; | gzip &gt; feasst`git describe master`.tar.gz</p>
+<p>git archive master –prefix=’feasst’<cite>git describe master</cite>’/’ | gzip &gt; feasst`git describe master`.tar.gz</p>
 </div>
 <div class="section" id="documentation-setup">
 <h2>Documentation setup<a class="headerlink" href="#documentation-setup" title="Permalink to this headline">¶</a></h2>
@@ -307,8 +304,8 @@ add something like the following to your sphinx index.rst:</p>
 </div>
 <dl class="docutils">
 <dt>add the following to your sphinx conf.py</dt>
-<dd>extensions = [ &#8220;breathe&#8221; ]
-breathe_projects = {&#8220;FEASST&#8221;:&#8221;../xml&#8221;}</dd>
+<dd>extensions = [ “breathe” ]
+breathe_projects = {“FEASST”:”../xml”}</dd>
 </dl>
 <p>pip install sphinx_rtd_theme</p>
 <p>run sphinx: make html</p>
@@ -341,40 +338,40 @@ If you would like to contribute code, then document how you are most comfortable
 </div>
 <div class="section" id="why-use-camel-case-instead-of-underscores">
 <h3>Why use camel case instead of underscores?<a class="headerlink" href="#why-use-camel-case-instead-of-underscores" title="Permalink to this headline">¶</a></h3>
-<p>It saves one key stroke versus a &#8220;_&#8221; and one horizontal space.
+<p>It saves one key stroke versus a “_” and one horizontal space.
 Perhaps for the sake of readability, FEASST will switch to a more pythonic style but that would take a lot of work.
 Feel free to stick to your favorite style in your contributed work, although ideally there is only one style per file!</p>
 </div>
 <div class="section" id="quotes">
 <h3>Quotes<a class="headerlink" href="#quotes" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>&#8220;The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming&#8221;, Donald Knuth, Computer Programming as an Art (1974)</li>
-<li>&#8220;Do not copy and paste&#8221;, Clancy Rowley, Princeton University Course APC524, 2010</li>
+<li>“The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming”, Donald Knuth, Computer Programming as an Art (1974)</li>
+<li>“Do not copy and paste”, Clancy Rowley, Princeton University Course APC524, 2010</li>
 </ul>
 </div>
 </div>
 <div class="section" id="to-do-list">
 <h2>To do list<a class="headerlink" href="#to-do-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>json reader to server as &#8216;input script&#8217; to launch simulations</li>
+<li>json reader to server as ‘input script’ to launch simulations</li>
 <li>json as checkpoint file</li>
 <li>MD with stochastic dynamics integrator</li>
 <li>Perfect checkpointing</li>
 <li>Automated full-checkpoint testing</li>
 <li>remove printPressure from mc/criteria, printBeta, pairOrder, floppyBox, etc</li>
 <li>for xyz2bin, in afterAttempt MC, use unique hash on log file and xyz configuration for error check
-&#8211; implement with WLTMMC, use criteria to find order param column in log, then readxyz hash, find log hash match, demix conf based on the bin</li>
+– implement with WLTMMC, use criteria to find order param column in log, then readxyz hash, find log hash match, demix conf based on the bin</li>
 <li>have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)</li>
 <li>remove periodicity from x/y/z dimensions (no rush here)</li>
 <li>split functions.h into a variety of base_fileio, base_math, base_utils, etc</li>
 <li>PairHybrid rCut should be taken from pairVec, or atleast rCutMaxAll</li>
 <li>Eventually convert all raw pointers to shared pointers, which also allows removal of space from MC class</li>
-<li>PairHybrid also doens&#8217;t need a space pointer.</li>
+<li>PairHybrid also doens’t need a space pointer.</li>
 <li>Use Histogram class for CriteriaWLTMMC instead of its own hard-coded version</li>
 <li>To reduce the size of Space, have it inherit multiple base classes, e.g.,
 Domain which contains box lengths and cell list, etc (but needs to know about particle positions?)</li>
 <li>Fix nomenclature.. atom == particle, mol == ?.. maybe change to sites / particles</li>
-<li>add ASSERT(rCutij.size() == 0 for linearShift in PairLJMulti so people don&#8217;t run into issues with rCutij.clear</li>
+<li>add ASSERT(rCutij.size() == 0 for linearShift in PairLJMulti so people don’t run into issues with rCutij.clear</li>
 <li>Numerical implementation of quadratic equation coudl help with config bias: <a class="reference external" href="https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation">https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation</a></li>
 <li>Improve handling of default parameters for documentation and perhaps json (e.g. checkpointing above)?</li>
 <li>implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).</li>
@@ -387,18 +384,18 @@ Or make them more general (e.g., multi patch particles?).</li>
 <li>move checkBond from MC to analyze class for rigid particle simulations (or as part of checkE?)</li>
 <li>Move some analysis outside of space class
 - but what if things like trials use the analysis, such as clusters?
-- &#8220;&#8221;This trial requires MC to have an analyze class...&#8221;&#8220;</li>
+- “”This trial requires MC to have an analyze class…”“</li>
 <li>document log file and tuning, changing acceptance percentage</li>
 <li>Include PDF version of manual in release tarballs</li>
 <li>Package FEASST as a Docker app</li>
 <li>move unittests to testcases: ljmultilambda2D, NPTandLJvLJMulti, semigrand,</li>
-<li>Fix the API TOC for non-derived classes (e.g., TOC disappears when you select &#8220;Histogram&#8221;)</li>
+<li>Fix the API TOC for non-derived classes (e.g., TOC disappears when you select “Histogram”)</li>
 <li>Add PairPatchKF testcase.</li>
 <li>Add test case with AnalyzeCluster and AnalyzeScatter.</li>
 <li>Add test case with PairTabular1D (and/or improve beyond linear interpolation).</li>
-<li>Incorporate more &#8220;tools&#8221; as part of the test cases (e.g., rw, restart, xyz2bin, etc).</li>
+<li>Incorporate more “tools” as part of the test cases (e.g., rw, restart, xyz2bin, etc).</li>
 <li>feasst.nist.gov instead of pages.nist.gov/feasst ?</li>
-<li>sphinx_rtd_theme doesn&#8217;t work with NIST header/footer</li>
+<li>sphinx_rtd_theme doesn’t work with NIST header/footer</li>
 <li>Use short version number for display on FEASST html</li>
 <li>Customize restart directory name</li>
 <li>Move rCut to optional argument, after figuring out how to have map&lt;string,string&gt; work with base class arguments.</li>
@@ -478,11 +475,11 @@ Or make them more general (e.g., multi patch particles?).</li>
         <li class="right" >
           <a href="../FAQ.html" title="Frequently asked questions (FAQ)"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

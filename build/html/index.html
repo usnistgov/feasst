@@ -1,21 +1,18 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &#8212; FEASST v0.3.0 documentation</title>
-    
+    <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &#8212; FEASST v0.3.1 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'v0.3.0',
+        VERSION:     'v0.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -27,13 +24,13 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="README" href="README.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -43,7 +40,7 @@
         <li class="right" >
           <a href="README.html" title="README"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">FEASST v0.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">FEASST v0.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,8 +58,9 @@ open-source, modular program to conduct molecular and particle-based
 simulations with flat-histogram Monte Carlo and molecular dynamics methods.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>DOI: <a class="reference external" href="https://doi.org/10.18434/M3S095">https://doi.org/10.18434/M3S095</a></p>
+<p>Manuscript: <a class="reference external" href="https://doi.org/10.6028/jres.123.004">https://doi.org/10.6028/jres.123.004</a></p>
 <p>Website: <a class="reference external" href="https://pages.nist.gov/feasst/">https://pages.nist.gov/feasst/</a></p>
+<p>Website DOI: <a class="reference external" href="https://doi.org/10.18434/M3S095">https://doi.org/10.18434/M3S095</a></p>
 <p class="last">Code repository: <a class="reference external" href="https://github.com/usnistgov/feasst">https://github.com/usnistgov/feasst</a></p>
 </div>
 <div class="section" id="features">
@@ -75,20 +73,21 @@ Please <a class="reference internal" href="#contact">Contact</a> us if intereste
 <li>Wang-Landau Monte Carlo</li>
 <li>Transition-matrix Monte Carlo</li>
 <li>Metropolis Monte Carlo</li>
-<li>Mayer sampling Monte Carlo (dev)</li>
+<li>Mayer-sampling Monte Carlo (dev)</li>
 <li>Molecular dynamics (dev)</li>
 </ul>
 <p>Thermodynamic ensembles</p>
 <ul class="simple">
 <li>Microcanonical ensemble</li>
 <li>Canonical ensemble</li>
+<li>Isothermal isobaric ensemble</li>
 <li>(Semi-)grand canonical ensemble</li>
 <li>Expanded ensembles in temperature, shape, etc. (dev)</li>
 </ul>
 <p>Advanced Monte Carlo moves</p>
 <ul class="simple">
 <li>Parallel configuration swaps</li>
-<li>Constant pressure and floppy box</li>
+<li>Floppy box</li>
 <li>Particle identify and position swaps</li>
 <li>Configurational bias insertions, deletions and regrowth with multiple first
 bead insertion (dev)</li>
@@ -109,7 +108,7 @@ algorithms (dev)</li>
 <p>Modern software</p>
 <ul class="simple">
 <li>Interface with C++ or as a Python module</li>
-<li>OMP parallelization</li>
+<li>OpenMP parallelization</li>
 <li>Checkpointing to save and restart simulations</li>
 <li>Robust unit testing</li>
 </ul>
@@ -169,7 +168,7 @@ make
 <li>SWIG &gt;= 1.3.40</li>
 <li>anaconda &gt;= 1.9.1 (python &gt;= 2.7)</li>
 </ul>
-<p>To install the python interface, use the following CMake command in place of &#8220;cmake ..&#8221;:</p>
+<p>To install the python interface, use the following CMake command in place of “cmake ..”:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>ON -DPYTHON_INCLUDE_PATH<span class="o">=</span>/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES<span class="o">=</span>/path/to/anaconda/lib/libpython3.6m.so .
 make _feasst -j
 </pre></div>
@@ -285,7 +284,7 @@ tar -xf vmd-1.9.2.bin.LINUXAMD64-RHEL5.opengl.tar.gz
 <span class="c1"># edit the configure file to change install location</span>
 ./configure LINUXAMD64
 <span class="nb">cd</span> src
-make install -j 8
+make install -j <span class="m">8</span>
 <span class="c1"># add VMD to your path</span>
 <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/path/to/install/dir/vmd-1.9.2/bin/
 <span class="c1"># I&#39;ve noticed on centos6 or rocks6, export LIBGL_ALWAYS_INDIRECT=yes</span>
@@ -354,7 +353,7 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
 </div>
 <div class="section" id="citation-guide">
 <h3>Citation guide<a class="headerlink" href="#citation-guide" title="Permalink to this headline">¶</a></h3>
-<p>Hatch HW, Mahynksi NA, Shen VK (2017) FEASST: Free Energy and Advanced Sampling Simulation Toolkit Version 1.0.0. <em>J Res Natl Inst Stan</em> <em>in preparation</em> (year mon day). <a class="reference external" href="https://doi.org/10.18434/M3S095">https://doi.org/10.18434/M3S095</a></p>
+<p>Hatch HW, Mahynksi NA, Shen VK (2018) FEASST: Free Energy and Advanced Sampling Simulation Toolkit <em>J Res Natl Inst Stan</em> 123:123004. <a class="reference external" href="https://doi.org/10.6028/jres.123.004">https://doi.org/10.6028/jres.123.004</a>.</p>
 </div>
 <div class="section" id="disclaimer">
 <h3>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h3>
@@ -367,7 +366,7 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
 <p>The data/software is provided by NIST as a public service and is expressly provided “AS IS.” NIST MAKES NO WARRANTY OF ANY KIND, EXPRESS, IMPLIED OR STATUTORY, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT AND DATA ACCURACY. NIST does not warrant or make any representations regarding the use of the data/software or the results thereof, including but not limited to the correctness, accuracy, reliability or usefulness of the data/software. NIST SHALL NOT BE LIABLE AND YOU HEREBY RELEASE NIST FROM LIABILITY FOR ANY INDIRECT, CONSEQUENTIAL, SPECIAL, OR INCIDENTAL DAMAGES (INCLUDING DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, AND THE LIKE), WHETHER ARISING IN TORT, CONTRACT, OR OTHERWISE, ARISING FROM OR RELATING TO THE DATA (OR THE USE OF OR INABILITY TO USE THIS DATA), EVEN IF NIST HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
 <p>To the extent that NIST may hold copyright in countries other than the United States, you are hereby granted the non-exclusive irrevocable and unconditional right to print, publish, prepare derivative works and distribute the NIST data/software, in any medium, or authorize others to do so on your behalf, on a royalty-free basis throughout the World.</p>
 <p>You may improve, modify, and create derivative works of the data/software or any portion of the data/software, and you may copy and distribute such modifications or works. Modified works should carry a notice stating that you changed the data/software and should note the date and nature of any such change. Please explicitly acknowledge the National Institute of Standards and Technology as the source of the data/software.</p>
-<p>Permission to use this data/software is contingent upon your acceptance of the terms of this agreement and upon your providing appropriate acknowledgments of NIST&#8217;s creation of the data/software.</p>
+<p>Permission to use this data/software is contingent upon your acceptance of the terms of this agreement and upon your providing appropriate acknowledgments of NIST’s creation of the data/software.</p>
 <p>Contents:</p>
 <img alt="_images/feasst.png" class="align-right" src="_images/feasst.png" />
 <div class="toctree-wrapper compound">
@@ -500,10 +499,10 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="FAQ.html#compilation-issues">Compilation issues</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="FAQ.html#modulenotfounderror-no-module-named-feasst">ModuleNotFoundError: &#8220;No module named &#8216;feasst&#8217;&#8221;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FAQ.html#modulenotfounderror-no-module-named-feasst">ModuleNotFoundError: “No module named ‘feasst’”</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FAQ.html#error-function-class-is-not-a-member-of-feasst">error: ‘[function/class]’ is not a member of ‘feasst’</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FAQ.html#compilation-error-gives-can-not-be-used-when-making-a-shared-object-recompile-with-fpic">Compilation error gives &#8220;can not be used when making a shared object; recompile with -fPIC&#8221;</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FAQ.html#error-no-matching-constructor-for-initialization-cannot-convert-initialize-list">error: no matching constructor for initialization ... cannot convert initialize list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FAQ.html#compilation-error-gives-can-not-be-used-when-making-a-shared-object-recompile-with-fpic">Compilation error gives “can not be used when making a shared object; recompile with -fPIC”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FAQ.html#error-no-matching-constructor-for-initialization-cannot-convert-initialize-list">error: no matching constructor for initialization … cannot convert initialize list</a></li>
 </ul>
 </li>
 </ul>
@@ -597,11 +596,11 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
         <li class="right" >
           <a href="README.html" title="README"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">FEASST v0.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">FEASST v0.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>
