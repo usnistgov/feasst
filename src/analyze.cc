@@ -29,6 +29,10 @@ Analyze::Analyze(Pair *pair, const argtype &args)
     initFreqPrint(stoi(argparse_.str()));
   }
 
+  // parse fileName
+  if (!argparse_.key("fileName").empty()) {
+    initFileName(argparse_.str().c_str());
+  }
 }
 
 Analyze::Analyze(Pair *pair, const char* fileName)

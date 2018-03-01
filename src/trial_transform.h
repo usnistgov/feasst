@@ -40,7 +40,7 @@ class TrialTransform : public Trial {
   TrialTransform(Pair *pair, Criteria *criteria,
                  const char* transType);
 
-  // Constructor
+  /// Constructor
   TrialTransform(Pair *pair, Criteria *criteria,
     const argtype &args = argtype());
 

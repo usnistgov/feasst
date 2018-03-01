@@ -16,6 +16,7 @@
 #include "./trial_add.h"
 #include "./trial_delete.h"
 #include "./trial_transform.h"
+#include "./analyze_traj.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -102,8 +103,6 @@ MC::MC(const char* fileName) {
   nAttempts_ = fstoll("nAttempts", fileName);
   logFileName_ = fstos("logFileName", fileName);
   nFreqLog_ = fstoi("nFreqLog", fileName);
-  nFreqMovie_ = fstoi("nFreqMovie", fileName);
-  movieFileName_ = fstos("movieFileName", fileName);
   strtmp = fstos("nFreqXTC", fileName);
   if (!strtmp.empty()) {
     nFreqXTC_ = stoi(strtmp);
@@ -147,7 +146,6 @@ void MC::defaultConstruction_() {
   criteriaOwned_ = false;
   verbose_ = 0;
   nFreqLog_ = 1e6;
-  nFreqMovie_ = 1e6;
   nFreqXTC_ = 0;
   nFreqCheckE_ = 1e6;
   nFreqTune_ = 0;
@@ -309,9 +307,10 @@ void MC::zeroStat() {
   nAttempts_ = 0;
 }
 
-void MC::printStat(const std::string hash) {
+void MC::printStat() {
   // print to log file
   if (!logFileName_.empty()) {
+    space_->storeUniqueHash();
     std::ofstream log_(logFileName_.c_str(),
                        std::ofstream::out | std::ofstream::app);
     if (printLogHeader_ > 0) {
@@ -337,8 +336,7 @@ void MC::printStat(const std::string hash) {
       for (unsigned int i = 0; i < trialVec_.size(); ++i) {
         log_ << trialVec_[i]->printStat(true);
       }
-      if (!hash.empty()) log_ << "hash ";
-      log_ << endl;
+      log_ << "hash" << endl;
       if (printLogHeader_ == 2) {
         printLogHeader_ = -1;
       } else {
@@ -367,7 +365,7 @@ void MC::printStat(const std::string hash) {
     for (unsigned int k = 0; k < trialVec_.size(); ++k) {
       log_ << trialVec_[k]->printStat();
     }
-    log_ << hash << endl;
+    log_ << space_->hash() << endl;
   }
 }
 
@@ -556,18 +554,11 @@ void MC::afterAttemptBase_() {
 
   // print stats
   if (nAttempts_ % nFreqLog_ == 0) {
-    hash_ = randomHash();
-    printStat(hash_);
+    printStat();
   }
 
-  // print movie
-  if (nAttempts_ % nFreqMovie_ == 0) {
-    int flag = 0;
-    if (nAttempts_ == nFreqMovie_) flag = 1;
-    if (!movieFileName_.empty()) {
-      pair_->printxyz(movieFileName_.c_str(), flag, hash_);
-    }
-  }
+  // print xyz would go ~here in terms of order.
+  // When these are all converted to Analyze, need to check orders.
 
   // print xtc
   #ifdef XDRFILE_H_
@@ -577,7 +568,7 @@ void MC::afterAttemptBase_() {
         stringstream ss;
         ss << XTCFileName_ << "n" << space_->nMol();
         string mode("a");
-        if (nAttempts_ == nFreqMovie_) {
+        if (nAttempts_ == nFreqXTC_) {
           mode.assign("w");
         }
         pair_->printxyz(ss.str().c_str(), 2);
@@ -694,8 +685,6 @@ void MC::writeRestart(const char* fileName) {
   file << "# nAttempts " << nAttempts_ << endl;
   file << "# logFileName " << logFileName_ << endl;
   file << "# nFreqLog " << nFreqLog_ << endl;
-  file << "# nFreqMovie " << nFreqMovie_ << endl;
-  file << "# movieFileName " << movieFileName_ << endl;
   file << "# nFreqXTC " << nFreqXTC_ << endl;
   file << "# XTCFileName " << XTCFileName_ << endl;
   file << "# nFreqCheckE " << nFreqCheckE_ << endl;
@@ -780,13 +769,13 @@ void MC::b2(const double tol, double &b2v, double &b2er, double boxl) {
     //      << " acc " << -0.5*vol*(exp(-criteria_->beta()*pe) - 1) << " v "
     //      << vol << endl;
 
-    if ( (itrial != 0) && (itrial % nFreqMovie_ == 0) ) {
-      int flag = 0;
-      if (itrial == nFreqMovie_) flag = 1;
-      if (!movieFileName_.empty()) {
-        pair_->printxyz(movieFileName_.c_str(), flag);
-      }
-    }
+//    if ( (itrial != 0) && (itrial % nFreqMovie_ == 0) ) {
+//      int flag = 0;
+//      if (itrial == nFreqMovie_) flag = 1;
+//      if (!movieFileName_.empty()) {
+//        pair_->printxyz(movieFileName_.c_str(), flag);
+//      }
+//    }
 
     if ( (itrial != 0) && (itrial % nFreqLog_ == 0) ) {
       m2.accumulate(meyer.average());
@@ -982,7 +971,6 @@ void MC::appendFileNames(const char* chars) {
   MC::appendProductionFileNames(chars);
 }
 void MC::appendProductionFileNames(const char* chars) {
-  if (!movieFileName_.empty()) movieFileName_.append(chars);
   if (!XTCFileName_.empty()) XTCFileName_.append(chars);
   if (!logFileName_.empty()) logFileName_.append(chars);
   for (unsigned int ia = 0; ia < analyzeVec_.size(); ++ia) {
@@ -994,13 +982,12 @@ void MC::initProduction() {
   production_ = 1;
   appendProductionFileNames(prodFileAppend_.c_str());
   space_->clusterReset();
-  if (!movieFileName_.empty()) pair_->printxyz(movieFileName_.c_str(), 1);
 
   // tell analyzers that production has begun
   for (vector<shared_ptr<Analyze> >::iterator it = analyzeVec_.begin();
        it != analyzeVec_.end();
        ++it) {
-    (*it)->initProduction();
+    (*it)->initProduction(1);
   }
 }
 
@@ -1009,6 +996,14 @@ void MC::tuneTrialParameters_() {
        it != trialVec_.end(); ++it) {
     (*it)->tuneParameters();
   }
+}
+
+void MC::initMovie(const char* fileName, const int nfreq) {
+	auto analyze = makeAnalyzeTRAJ(pair_,
+    {{"nFreqPrint", str(nfreq)},
+     {"fileName", fileName},
+     {"format", "xyz"}});
+  initAnalyze(analyze);
 }
 
 #ifdef FEASST_NAMESPACE_

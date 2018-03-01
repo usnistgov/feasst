@@ -41,13 +41,16 @@ class CriteriaWLTMMC : public Criteria {
      *
      * mMax : maximum floating point value of macrostate.
      * mMin : minimum floating point value of macrostate.
-     *  -(default) : 0
      *
-     * nMax : maximum integer value of macrostate, if mMax not provided.
-     * nMin : if mminimum integer value of macrostate.
+     * mMaxCenter : maximum center bin floating point value of macrostate,
+     *   if mMax not provided.
+     * mMinCenter : minimum center bin floating point value of macrostate.
      *
      * nBin : number of equal sized bins for the 1D macrostate range.
-     *  -(default) : 1 if using nMax
+     *
+     * nMax : maximum integer value of macrostate, if mMax(Center) not provided.
+     *   Warning: do not provide nBin and nMax together as arguments.
+     * nMin : minimum integer value of macrostate (default: 0).
      */
     const argtype &args);
 

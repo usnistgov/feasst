@@ -94,7 +94,7 @@ int Arguments::integer() {
     ASSERT(0, errmsg.str());
   }
   const double dble = stod(strVal);
-  ASSERT(fabs(dble - intVal) < 10*DTOL, errmsg.str());
+  ASSERT(fabs(dble - static_cast<double>(intVal)) < 10*DTOL, errmsg.str());
   return intVal;
 }
 

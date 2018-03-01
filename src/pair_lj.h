@@ -54,7 +54,7 @@ class PairLJ : public Pair {
      *  molTypeInForcefield : file in Space.install_dir()/forcefield which
      *                        describes molecule. Only when molType is empty.
      *
-     *  cutType : method to handle the cut-off interactions
+     *  cutType : method to handle the cut-off interactions (do not provide if molType none)
      *
      *  - lrc(default): analytical long-range corrections
      *
@@ -172,6 +172,8 @@ class PairLJ : public Pair {
   double peLJ() const { return peLJ_; }
   double peLRC() const { return peLRC_; }
   double peLRCone() const { return peLRCone_; }
+
+  vector<vector<double> > lambda() const { return lambda_; };       //!< DOI: 10.1021/ja802124e
 
  protected:
   double peLJ_;   //!< total potential energy from lennard-jones interactions

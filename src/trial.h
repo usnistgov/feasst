@@ -35,7 +35,13 @@ namespace feasst {
 class Trial : public BaseRandom {
  public:
   /// Constructor.
-  Trial(Pair* pair, Criteria* criteria, const argtype &args = argtype());
+  Trial(Pair* pair, Criteria* criteria,
+    /**
+     * allowed string key pairs (e.g. dictionary):
+     *
+     * maxMoveParam : parameter that determines the maximum change of transform
+     */
+    const argtype &args = argtype());
 
   // Reset object pointers.
   void reconstruct(Pair *pair, Criteria *criteria);

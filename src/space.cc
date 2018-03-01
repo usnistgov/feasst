@@ -183,6 +183,7 @@ Space::Space(const char* fileName) {
 
 void Space::defaultConstruction_() {
   verbose_ = 0;
+  storeUniqueHash();
   fastDel_ = false;
   fastDelMol_ = -1;
   if (dimen_ == 3) {
@@ -4237,6 +4238,10 @@ bool Space::tilted() const {
     return false;
   }
   return true;
+}
+
+void Space::storeUniqueHash() {
+  hash_ = randomHash();
 }
 
 shared_ptr<Space> makeSpace(int dimension, const argtype &args) {

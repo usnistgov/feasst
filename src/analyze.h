@@ -47,6 +47,10 @@ class Analyze : public BaseRandom {
      *  nFreqPrint : Print output every this many steps
      *
      *  - (default): see initFreqPrint()
+     *
+     *  fileName : Print to fileName
+     *
+     *  - (default): (empty string)
      */
     const argtype &args = argtype());
 
@@ -73,8 +77,8 @@ class Analyze : public BaseRandom {
   /// Return number of steps between each print.
   int nFreqPrint() const { return nFreqPrint_; }
 
-  /// Initialize production flag. 1 is on, 0 is off. Default is 1.
-  virtual void initProduction(const int flag = 1) { production_ = flag; }
+  /// Initialize production flag. 1 is on, 0 is off. Default is 0.
+  virtual void initProduction(const int flag = 0) { production_ = flag; }
 
   /// Return production state.
   int production() const { return production_; }

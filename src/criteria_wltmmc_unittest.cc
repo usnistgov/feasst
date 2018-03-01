@@ -193,6 +193,36 @@ TEST(CriteriaWLTMMC, args) {
 
   try {
     feasst::CriteriaWLTMMC criteria(1., {{"mType", "nmol"}});
-    CATCH_PHRASE("Either mMax or nMax must be given");
+    CATCH_PHRASE("Either mMax, mMaxCenter or nMax must be given");
+  }
+
+  // do not provide nBin with nMax at the same time.
+  try {
+    feasst::CriteriaWLTMMC criteria(1., {{"mType", "nmol"}, {"nMax", "10"},
+      {"nBin", "10"}});
+    CATCH_PHRASE("All keywords provided in args must be used");
   }
 }
+
+TEST(CriteriaWLTMMC, mMaxVSmMaxCenter) {
+  const double max = 10., min = 1.;
+  const int nbin = 3;
+  const double dbin = (max - min)/float(nbin-1);
+  auto c1 = feasst::makeCriteriaWLTMMC(
+    {{"beta", "2."},
+     {"activ", "1."},
+     {"mType", "beta"},
+     {"mMin", feasst::str(min - 0.5*dbin)},
+     {"mMax", feasst::str(max + 0.5*dbin)},
+     {"nBin", feasst::str(nbin)}});
+  auto c2 = feasst::makeCriteriaWLTMMC(
+    {{"beta", "2."},
+     {"activ", "1."},
+     {"mType", "beta"},
+     {"mMinCenter", feasst::str(min)},
+     {"mMaxCenter", feasst::str(max)},
+     {"nBin", feasst::str(nbin)}});
+  EXPECT_EQ(c1->mBin(), c2->mBin());
+  EXPECT_EQ(c1->mMax(), c2->mMax());
+}
+

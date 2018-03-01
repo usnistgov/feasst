@@ -43,7 +43,7 @@ class TestLJ_SRSW_EOSTMMC(unittest.TestCase):
     def test(self):
         feasst.ranInitByDate()    # initialize random number generator
         space = feasst.makeSpace(feasst.args(
-            {"dim" : "3",
+            {"dimen" : "3",
              "boxLength" : str(args.boxl)}))
 
         # initialize pair-wise interactions

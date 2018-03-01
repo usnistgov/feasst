@@ -28,9 +28,23 @@ CriteriaWLTMMC::CriteriaWLTMMC(const double beta, const argtype &args)
     mMax_ = argparse_.key("mMax").dble();
     mMin_ = argparse_.key("mMin").dble();
     nBin_ = argparse_.key("nBin").integer();
+    ASSERT(nBin_ > 1, "no point in WLTMMC when there is only one macrostate"
+      << " bin. nBin == " << nBin_);
     initBins(mMax_, mMin_, nBin_);
 
-  // if mMax wasn't given, parse nMax
+  // if mMax wasn't given, parse mMaxCenter
+  } else if (!argparse_.key("mMaxCenter").empty()) {
+    nBin_ = argparse_.key("nBin").integer();
+    ASSERT(nBin_ > 1, "no point in WLTMMC when there is only one macrostate"
+      << " bin. nBin == " << nBin_);
+    const double cMax = argparse_.key("mMaxCenter").dble();
+    const double cMin = argparse_.key("mMinCenter").dble();
+    const double dbin = (cMax - cMin)/static_cast<double>(nBin_-1);
+    mMax_ = cMax + 0.5*dbin;
+    mMin_ = cMin - 0.5*dbin;
+    initBins(mMax_, mMin_, nBin_);
+
+  // else, parse nMax
   } else if (!argparse_.key("nMax").empty()) {
     const int nMax = argparse_.key("nMax").integer();
     const int nMin = argparse_.key("nMin").dflt("0").integer();
@@ -38,7 +52,7 @@ CriteriaWLTMMC::CriteriaWLTMMC(const double beta, const argtype &args)
              static_cast<double>(nMin) - 0.5,
              nMax - nMin + 1);
   } else {
-    ASSERT(0, "Either mMax or nMax must be given as an argument");
+    ASSERT(0, "Either mMax, mMaxCenter or nMax must be given as an argument");
   }
   zeroStat();
   argparse_.checkAllArgsUsed();

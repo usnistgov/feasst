@@ -624,6 +624,10 @@ class Space : public BaseRandom {
   /// Initialize intramolecular interactions via contact map (1 if ixn).
   void initIntra(const vector<vector<int> >& map);
 
+  /// Reset and store new unique hash.
+  void storeUniqueHash();
+  std::string const hash() { return hash_; }
+
   // functions for read-only access of private data-members
   /// full access to private data-members
   vector<vector<vector<int> > > intraMap() { return intraMap_; }
@@ -908,6 +912,9 @@ class Space : public BaseRandom {
                    const double x2, const double y2, const double z2,
                    double *x3, double *y3, double *z3, const double c143,
                    const double c243);
+
+  // unique hash for configurations
+  std::string hash_;
 };
 
 /// Factory method

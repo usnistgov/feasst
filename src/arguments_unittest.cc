@@ -69,7 +69,7 @@ TEST(Arguments, integer) {
   args.key("key1").integer();
 }
 
-TEST(Arguments, double) {
+TEST(Arguments, dble) {
   try {
     feasst::Arguments args;
     args.initArgs("test", {{"key1", "mymypie"}});

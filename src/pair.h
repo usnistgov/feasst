@@ -378,6 +378,7 @@ class Pair : public BaseRandom {
   double sigRef(const int i) const { return sigRef_[i]; }
   vector<vector<double> > epsij() const { return epsij_; }
   vector<vector<double> > sigij() const { return sigij_; }
+  vector<vector<double> > sigRefij() const { return sigRefij_; }
   vector<vector<double> > rCutij() const { return rCutij_; }
   double rCutij(const int i, const int j) const { return rCutij_[i][j]; }
   double sigij(const int i, const int j) const { return sigij_[i][j]; }
@@ -420,6 +421,10 @@ class Pair : public BaseRandom {
 
   /// Compute forces if 1 (default 0)
   virtual void initForces(const int flag) { forcesFlag_ = flag; }
+
+  // potential energy interactions
+  vector<vector<double> > peMap() const { return peMap_; }
+  vector<vector<int> > neighCutOne() const { return neighCutOne_; }
 
  protected:
   Space* space_;

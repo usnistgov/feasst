@@ -29,6 +29,7 @@ class AnalyzeMonkeyPatch : public feasst::Analyze {
 };
 
 int main() {  // LJ, SRSW_NVTMC
+  feasst::ranInitByDate();
   const double rho = 1e-3;  // number density
   const int nMol = 500;     // number of particles
   auto space = feasst::makeSpace(
@@ -49,6 +50,13 @@ int main() {  // LJ, SRSW_NVTMC
   mc.initMovie("movie", 1e4);
   mc.initRestart("tmp/rst", 1e4);
   mc.setNFreqTune(1e4);
+
+  auto xtc = feasst::makeAnalyzeTRAJ(pair.get(),
+    {{"nFreqPrint", feasst::str(1e4)},
+     {"fileName", "movie2"},
+     {"format", "xtc"}});
+  mc.initAnalyze(xtc);
+
   mc.runNumTrials(1e7);   // run equilibration
 
   // Initialize the custom analysis to compute average energy
@@ -56,6 +64,7 @@ int main() {  // LJ, SRSW_NVTMC
     make_shared<AnalyzeMonkeyPatch>(pair);
   an->initFreq(1);    // frequency that Analyze::update() is called
   an->initPrintFreq(1e7);
+  mc.initProduction();
   mc.initAnalyze(an);
 
   // Run the production simulation

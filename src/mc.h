@@ -107,10 +107,11 @@ class MC : public BaseRandom {
     { logFileName_.assign(fileName); nFreqLog_ = nfreq; }
 
   /// initialize movie file name and number of trials per print.
-  void initMovie(const char* fileName, const int nfreq)
-    { movieFileName_.assign(fileName); nFreqMovie_ = nfreq; }
+  /// HWH: This method has been depreciated in favor of AnalyzeTRAJ
+  void initMovie(const char* fileName, const int nfreq);
 
   /// Initialize XTC file name and number of trials per print.
+  /// HWH: Depreciated method. Use AnalyzeTRAJ.
   void initXTC(const char* fileName, const int nfreq)
     { XTCFileName_.assign(fileName); nFreqXTC_ = nfreq; }
 
@@ -141,7 +142,7 @@ class MC : public BaseRandom {
     { return nMolMax(npr, activ, 0); }
 
   /// print functions
-  void printStat(const std::string hash="");     //!< print status of all trials to log
+  void printStat();     //!< print status of all trials to log
   double pePerMol();     //!< print potential energy per molecule
 
   /// turn on neigh list for avb trials,
@@ -233,7 +234,6 @@ class MC : public BaseRandom {
   string rstFileName() const { return rstFileName_; }
   Accumulator peAccumulator() const { return peAccumulator_; }
   long long nFreqLog() const { return nFreqLog_; }
-  int nFreqMovie() const { return nFreqMovie_; }
   vector <shared_ptr <Analyze> > analyzeVec() const { return analyzeVec_; }
   bool spaceOwned() const { return spaceOwned_; }
   int production() const { return production_; }
@@ -283,8 +283,6 @@ class MC : public BaseRandom {
 
   string logFileName_;        //!< log file name
   long long nFreqLog_;    //!< frequency to print to log
-  string movieFileName_;      //!< movie file name
-  int nFreqMovie_;            //!< frequency to print movie
   string XTCFileName_;        //!< XTC file name
   int nFreqXTC_;              //!< frequency to print XTC
   int nFreqCheckE_;           //!< frequency to check energy
@@ -301,9 +299,6 @@ class MC : public BaseRandom {
 
   // analyzers
   vector<shared_ptr<Analyze> > analyzeVec_;
-
-  // unique hash for configurations
-  std::string hash_;
 
   // virial coefficient
   void b2init_();
