@@ -47,6 +47,7 @@ void AnalyzeTRAJ::write() {
   if (!fileName_.empty()) {
     if (format_ == "xyz") {
       pair_->printxyz(fileName_.c_str(), firstFlag_, space()->hash());
+    #ifdef XDRFILE_H_
     } else if (format_ == "xtc") {
       stringstream ss;
       ss << fileName_ << "n" << space()->nMol();
@@ -60,6 +61,7 @@ void AnalyzeTRAJ::write() {
       trjFileXDR = xdrfile_open(ss.str().c_str(), mode.c_str());
       space()->writeXTC(trjFileXDR);
       xdrfile_close(trjFileXDR);
+    #endif  // XDRFILE_H_
     } else {
       ASSERT(0, "unrecognized format(" << format_ << ")");
     }
