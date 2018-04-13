@@ -22,26 +22,24 @@ class TestSPCE_SRSW_NVTMC(unittest.TestCase):
         pair.initKSpace(5.6,   # alpha*L
                         38)   # k^2 < k2max cutoff
 
-        # Read the pre-equilibrated configuration of 512 water molecules
-        conf_file = feasst.make_ifstream(space.install_dir() + \
-            "/testcase/3_spce/2_nvt-mc/test.xyz")
-        pair.readxyz(conf_file)
-        pair.initEnergy()
-
         # acceptance criteria
         temperature = 298  # Kelvin
         beta = 1./(temperature*feasst.idealGasConstant/1e3)  # mol/KJ
         criteria = feasst.CriteriaMetropolis(beta, 1.)
         mc = feasst.MC(space, pair, criteria)
         feasst.transformTrial(mc, "translate", 0.1)
+        feasst.transformTrial(mc, "rotate", 0.1)
         mc.initLog("log", int(1e4))
         mc.initMovie("movie", int(1e4))
         mc.initRestart("tmp/rst", int(1e4))
         mc.setNFreqTune(int(1e4))
+        mc.nMolSeek(512)
         mc.runNumTrials(int(1e6))   # run equilibration
 
         # Run the production simulation
+        mc.initProduction()
         mc.zeroStat()
+        mc.setNFreqTune(0)
         mc.runNumTrials(int(1e6))
 
         # Check average energy against Gerhard Hummer
