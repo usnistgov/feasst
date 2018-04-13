@@ -22,27 +22,24 @@ int main() {  // SPCE, SRSW_NVTMC
   pair.initKSpace(5.6,   // alpha*L
                   38);   // k^2 < k2max cutoff
 
-  // Read the pre-equilibrated configuration of 512 water molecules
-  std::ostringstream ss;
-  ss << space.install_dir() << "/testcase/3_spce/2_nvt-mc/test.xyz";
-  std::ifstream file(ss.str().c_str());
-  pair.readxyz(file);
-  pair.initEnergy();
-
   // acceptance criteria
   const double temperature = 298;  // Kelvin
   const double beta = 1./(temperature*feasst::idealGasConstant/1e3);  // mol/KJ
   feasst::CriteriaMetropolis criteria(beta, 1.);
   feasst::MC mc(&space, &pair, &criteria);
   feasst::transformTrial(&mc, "translate", 0.1);
+  feasst::transformTrial(&mc, "rotate", 0.1);
   mc.initLog("log", 1e4);
   mc.initMovie("movie", 1e4);
   mc.initRestart("tmp/rst", 1e4);
   mc.setNFreqTune(1e4);
+  mc.nMolSeek(512);
   mc.runNumTrials(1e6);   // run equilibration
 
   // Run the production simulation
+  mc.initProduction();
   mc.zeroStat();
+  mc.setNFreqTune(0);
   mc.runNumTrials(1e6);
 
   // Check average energy against Gerhard Hummer
