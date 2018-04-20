@@ -20,7 +20,9 @@ for f in `ls *`; do
   #sed --in-place 's/PairLJMulti/PairLJ/g' $f
 
   # rename functions
-  sed --in-place 's/printxyz(/printXYZ(/g' $f
+  sed --in-place '/#ifdef FEASST_NAMESPACE_/d' $f
+  #sed --in-place '/#endif  \/\/ FEASST_NAMESPACE_/d' $f
+  #sed --in-place 's/printxyz(/printXYZ(/g' $f
   # sed --in-place 's/print(/write(/g' $f
   #sed -i "s/’/'/g" $f
   #sed --in-place 's/void initEnergy;/void initEnergy();/g' $f

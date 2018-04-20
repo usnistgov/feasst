@@ -74,9 +74,9 @@ with open("feasst.i", "w") as swigfile:
 \n\
 %module feasst\n\
 \n\
-%ignore CriteriaWLTMMC::lnPIrwsatwrap;\n\
-%ignore CriteriaWLTMMC::lnPIrwnmxwrap;\n\
-%ignore MC::boyleminwrap;\n\
+%ignore feasst::CriteriaWLTMMC::lnPIrwsatwrap;\n\
+%ignore feasst::CriteriaWLTMMC::lnPIrwnmxwrap;\n\
+%ignore feasst::MC::boyleminwrap;\n\
 \n\
 %{", file=swigfile)
 
@@ -90,6 +90,7 @@ with open("feasst.i", "w") as swigfile:
     #include \"xdrfile_trr.h\"\n\
   }\n\
 #endif // XDRFILE_H_\n\
+using namespace feasst;\n\
 %}\n\
 \n\
 %include \"std_vector.i\"\n\
@@ -113,9 +114,9 @@ namespace std{\n\
 \n\
 %template(args) std::map<std::string, std::string>;\n\
 \n\
-%shared_ptr(Base);", file=swigfile)
+%shared_ptr(feasst::Base);", file=swigfile)
 
-    print_factory(print_file=swigfile, base_class="", prepend="%shared_ptr(",
+    print_factory(print_file=swigfile, base_class="", prepend="%shared_ptr(feasst::",
                   append=");", middle1="")
 
     printer(prepend="%include ", append="", print_file=swigfile)
@@ -135,9 +136,7 @@ with open(factories_file_name, "w") as factory_file:
             class_list=factoryBaseClasses)
 
     print(
-"#ifdef FEASST_NAMESPACE_\n\
-namespace feasst {\n\
-#endif  // FEASST_NAMESPACE_\n\
+"namespace feasst {\n\
 \n\
 Pair* makePair(Space* space, const char* fileName) {\n\
   ASSERT(fileExists(fileName),\n\
@@ -194,10 +193,7 @@ Pair* makePair(Space* space, const char* fileName) {\n\
                   middle2=" = make_shared<",
                   append=">(pair, fileName);")
 
-    print(
-"#ifdef FEASST_NAMESPACE_\n\
-}  // namespace feasst\n\
-#endif  // FEASST_NAMESPACE_", file=factory_file)
+    print("}  // namespace feasst", file=factory_file)
 
 
 

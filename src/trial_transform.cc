@@ -12,9 +12,7 @@
 #include "mc.h"
 #include "./group.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 TrialTransform::TrialTransform(
   const char* transType)
@@ -482,9 +480,7 @@ void transformTrial(shared_ptr<MC> mc, const char* type,
   transformTrial(mc.get(), type, maxMoveParam);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 
 

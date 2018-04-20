@@ -13,9 +13,7 @@
 
 #include "base.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * General interface for random number generators.
@@ -55,9 +53,7 @@ class Random : public Base {
   unsigned long long seed_;
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // RANDOM_H_
 

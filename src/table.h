@@ -22,9 +22,7 @@
 #endif  // GSL_
 #include "./base.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Data tables with interpolation
@@ -160,9 +158,7 @@ class erftable {
   int on_;
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // TABLE_H_
 

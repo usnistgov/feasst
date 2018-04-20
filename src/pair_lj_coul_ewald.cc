@@ -17,9 +17,7 @@
 #include "./space.h"
 #include "./functions.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 PairLJCoulEwald::PairLJCoulEwald(Space* space, const argtype &args)
   : Pair(space, args) {
@@ -810,7 +808,5 @@ shared_ptr<PairLJCoulEwald> makePairLJCoulEwald(shared_ptr<Space> space,
   return make_shared<PairLJCoulEwald>(space.get(), args);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

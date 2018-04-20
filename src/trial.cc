@@ -10,9 +10,7 @@
 
 #include "./trial.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 Trial::Trial() {
   defaultConstruction_();
@@ -367,9 +365,7 @@ void Trial::confine(const double upper, const double lower,
   confineDim_ = dimension;
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 
 

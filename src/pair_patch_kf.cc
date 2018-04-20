@@ -10,9 +10,7 @@
 
 #include "./pair_patch_kf.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 PairPatchKF::PairPatchKF(Space *space, const argtype &args)
   : Pair(space, args) {
@@ -478,9 +476,7 @@ shared_ptr<PairPatchKF> makePairPatchKF(Space *space, const argtype &args) {
   return make_shared<PairPatchKF>(space, args);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 
 

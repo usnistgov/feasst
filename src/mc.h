@@ -24,9 +24,7 @@
 #include "./analyze.h"
 #include "./base_random.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Attempts Monte Carlo trials and analyzes quantities.
@@ -337,8 +335,6 @@ class MC : public BaseRandom {
   virtual shared_ptr<MC> cloneShallowImpl() const;
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // MC_H_

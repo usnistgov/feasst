@@ -10,9 +10,7 @@
 
 #include "./mc_wltmmc.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 WLTMMC::WLTMMC(Space* space,
   Pair* pair,
@@ -690,6 +688,4 @@ void WLTMMC::initOverlaps(const int t,    // thread
   #endif  // MPI_H_ || _OPENMP
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_

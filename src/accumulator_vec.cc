@@ -10,9 +10,7 @@
 
 #include "./accumulator_vec.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 AccumulatorVec::AccumulatorVec() {
   verbose_ = 0;
@@ -68,9 +66,7 @@ Accumulator AccumulatorVec::vec(const int bin) const {
   return accVec_[bin];
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 
 

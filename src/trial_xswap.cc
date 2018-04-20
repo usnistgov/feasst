@@ -11,9 +11,7 @@
 #include "./trial_xswap.h"
 #include "./mc.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 TrialXSwap::TrialXSwap() : Trial() {
   defaultConstruction_();
@@ -124,7 +122,5 @@ void xswapTrial(shared_ptr<MC> mc) {
   xswapTrial(mc.get());
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

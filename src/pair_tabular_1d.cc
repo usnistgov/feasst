@@ -10,9 +10,7 @@
 
 #include "./pair_tabular_1d.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 PairTabular1D::PairTabular1D(Space* space, const argtype &args)
   : Pair(space, args) {
@@ -99,7 +97,5 @@ shared_ptr<PairTabular1D> makePairTabular1D(Space* space,
   return make_shared<PairTabular1D>(space, args);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

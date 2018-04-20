@@ -13,9 +13,7 @@
 
 #include "./analyze.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Compute cluster properties
@@ -115,9 +113,7 @@ class AnalyzeCluster : public Analyze {
 shared_ptr<AnalyzeCluster> makeAnalyzeCluster(Pair *pair,
   const argtype &args = argtype());
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // ANALYZECLUSTER_H_
 

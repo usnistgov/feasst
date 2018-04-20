@@ -15,9 +15,7 @@
 #include <string>
 #include "./trial.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Attempt a transformation of particle position(s) or simulation box.
@@ -133,9 +131,7 @@ void transformTrial(MC *mc, const argtype &args = argtype());
 void transformTrial(shared_ptr<MC> mc, const char* transType,
                     double maxMoveParam = -1);
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_TRANSFORM_H_
 

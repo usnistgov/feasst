@@ -15,9 +15,7 @@
 #include <string>
 #include "./trial.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 class Space;
 class Pair;
@@ -84,9 +82,7 @@ void addTrial(MC *mc, const char* moltype);
 /// Add a "TrialAdd" trial to the Monte Carlo object, mc for inserting moltype.
 void addTrial(shared_ptr<MC> mc, const char* moltype);
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_ADD_H_
 

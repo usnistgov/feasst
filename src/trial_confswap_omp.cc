@@ -10,9 +10,7 @@
 
 #include "./trial_confswap_omp.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 TrialConfSwapOMP::TrialConfSwapOMP() : Trial() {
   defaultConstruction_();
@@ -141,8 +139,6 @@ int TrialConfSwapOMP::order2index(const double order) {
   return index;
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 

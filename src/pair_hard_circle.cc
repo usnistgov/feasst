@@ -10,9 +10,7 @@
 
 #include "./pair_hard_circle.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 PairHardCircle::PairHardCircle(Space* space, const argtype &args)
   : Pair(space, args) {
@@ -73,7 +71,5 @@ shared_ptr<PairHardCircle> makePairHardCircle(Space* space,
   return make_shared<PairHardCircle>(space, args);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

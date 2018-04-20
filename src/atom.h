@@ -13,9 +13,7 @@
 
 #include "base_random.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 class Space;
 
@@ -102,8 +100,6 @@ class Atom : public BaseRandom {
   void defaultConstruction_();
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // SRC_ATOM_H_

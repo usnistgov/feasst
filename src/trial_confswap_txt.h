@@ -13,9 +13,7 @@
 
 #include "./trial.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  *  HWH: Note: This class is depreciated but remains as a stub file for
@@ -82,9 +80,7 @@ class TrialConfSwapTXT : public Trial {
   }
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_CONFSWAPTXT_H_
 

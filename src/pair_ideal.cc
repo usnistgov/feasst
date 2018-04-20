@@ -10,9 +10,7 @@
 
 #include "./pair_ideal.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 PairIdeal::PairIdeal(Space* space, const argtype &args)
   : Pair(space, args) {
@@ -46,7 +44,5 @@ shared_ptr<PairIdeal> makePairIdeal(Space* space, const argtype &args) {
   return make_shared<PairIdeal>(space, args);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

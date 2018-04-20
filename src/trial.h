@@ -18,9 +18,7 @@
 #include "./pair.h"
 #include "./criteria.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Trial move for Monte Carlo simulations.
@@ -219,9 +217,7 @@ class Trial : public BaseRandom {
 shared_ptr<Trial> makeTrial(Pair* pair, Criteria* criteria,
                             const char* fileName);
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_H_
 

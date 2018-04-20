@@ -10,9 +10,7 @@
 
 #include "./pair.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 Pair::Pair(Space* space, const argtype &args)
   : space_(space) {
@@ -2156,7 +2154,5 @@ double Pair::pairLoopParticle_(const vector<int> &siteList, const int noCell) {
   return peSRone_;
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

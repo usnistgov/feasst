@@ -11,9 +11,7 @@
 #include "./criteria_metropolis.h"
 #include "./functions.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 CriteriaMetropolis::CriteriaMetropolis(const double beta, const argtype &args)
   : Criteria(beta, args) {
@@ -63,8 +61,6 @@ shared_ptr<CriteriaMetropolis> makeCriteriaMetropolis(const argtype &args) {
   return make_shared<CriteriaMetropolis>(beta, argtmp);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 

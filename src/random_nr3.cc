@@ -10,9 +10,7 @@
 
 #include "random_nr3.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 RandomNR3::RandomNR3(const unsigned long long iseed
   ) : Random(iseed) {
@@ -64,8 +62,6 @@ void RandomNR3::writeRestart(const char* fileName) {
   file << "# w " << w_ << endl;
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 

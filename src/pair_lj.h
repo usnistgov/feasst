@@ -16,9 +16,7 @@
 #include "./pair.h"
 #include "./functions.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Lennard Jones particles with multiple sigmas, epsilons, rCuts, etc.
@@ -255,8 +253,6 @@ shared_ptr<PairLJ> makePairLJ(Space* space,
 shared_ptr<PairLJ> makePairLJ(shared_ptr<Space> space,
   const argtype &args = argtype());
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_LJ_H_

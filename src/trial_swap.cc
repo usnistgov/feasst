@@ -11,9 +11,7 @@
 #include "./trial_swap.h"
 #include "./mc.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 TrialSwap::TrialSwap(const char* molTypeA,
   const char* molTypeB)
@@ -191,7 +189,5 @@ void swapTrial(shared_ptr<MC> mc, const char* molTypeA, const char* molTypeB) {
   swapTrial(mc.get(), molTypeA, molTypeB);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

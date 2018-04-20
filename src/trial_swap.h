@@ -15,9 +15,7 @@
 #include <string>
 #include "./trial.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 class Space;
 class Pair;
@@ -99,9 +97,7 @@ class MC;
 void swapTrial(MC *mc, const char* molTypeA, const char* molTypeB);
 void swapTrial(shared_ptr<MC> mc, const char* molTypeA, const char* molTypeB);
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_SWAP_H_
 

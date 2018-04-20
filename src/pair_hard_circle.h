@@ -15,9 +15,7 @@
 #include <vector>
 #include "./pair.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Hard circles with implicit depletant model (Asakura-Oosawa) based on
@@ -58,9 +56,7 @@ class PairHardCircle : public Pair {
 shared_ptr<PairHardCircle> makePairHardCircle(Space* space,
   const argtype &args = argtype());
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_HARD_CIRCLE_H_
 

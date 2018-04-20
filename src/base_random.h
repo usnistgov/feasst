@@ -15,9 +15,7 @@
 #include "./random.h"
 #include "./accumulator_vec.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * This class makes random number generation available to its derived classes
@@ -122,9 +120,7 @@ class BaseRandom : public Base {
   void reconstructDerived_();
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // BASE_RANDOM_H_
 

@@ -13,9 +13,7 @@
 #include "./pair.h"
 #include "./../extern/mins.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 CriteriaWLTMMC::CriteriaWLTMMC(const double beta, const argtype &args)
   : Criteria(beta, args) {
@@ -1188,7 +1186,5 @@ shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const argtype &args) {
   return make_shared<CriteriaWLTMMC>(beta, argtmp);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

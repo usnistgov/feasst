@@ -13,9 +13,7 @@
 
 #include "atom.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 class Space;
 
@@ -74,8 +72,6 @@ class Group : public Atom {
   shared_ptr<Space> subSpace_;
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // SRC_GROUP_H_

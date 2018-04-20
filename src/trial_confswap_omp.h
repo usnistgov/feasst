@@ -16,9 +16,7 @@
 #include <vector>
 #include "./trial.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Attempt to swap configurations with inter or intra processor stored state
@@ -98,9 +96,7 @@ class TrialConfSwapOMP : public Trial {
     t->reconstruct(pair, criteria); return t; }
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_CONFSWAP_OMP_H_
 

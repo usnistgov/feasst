@@ -10,9 +10,7 @@
 
 #include "./analyze_traj.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 AnalyzeTRAJ::AnalyzeTRAJ(Pair *pair, const argtype &args)
   : Analyze(pair, args) {
@@ -73,7 +71,5 @@ shared_ptr<AnalyzeTRAJ> makeAnalyzeTRAJ(Pair *pair, const argtype &args) {
   return make_shared<AnalyzeTRAJ>(pair, args);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

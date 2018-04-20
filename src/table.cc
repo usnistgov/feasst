@@ -10,9 +10,7 @@
 
 #include "./table.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 Table::Table() {
   defaultConstruction_();
@@ -911,8 +909,6 @@ double erftable::eval(const double x) const {
 }
 
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 

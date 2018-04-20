@@ -13,9 +13,7 @@
 #include "./space.h"
 #include "./group.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 Space::Space(const int dimension, const argtype &args)
   : dimen_(dimension) {
@@ -4243,8 +4241,6 @@ shared_ptr<Space> makeSpace(const argtype &args) {
   return make_shared<Space>(dimen, argparse.args());
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 

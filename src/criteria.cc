@@ -11,9 +11,7 @@
 #include "./criteria.h"
 #include "./space.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 Criteria::Criteria(const double beta, const double activ)
   : beta_(beta),
@@ -109,6 +107,4 @@ double parseBeta_(argtype * args) {
   return beta;
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_

@@ -13,13 +13,9 @@
 
 #include <vector>
 #include <iostream>
-#include <map>
-#include <string>
 #include "functions.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /// Use a map of string pairs to function as a dictionary for arguments.
 typedef std::map<std::string, std::string> argtype;
@@ -80,8 +76,6 @@ class Arguments {
   bool removeArg_ = false;
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // ARGUMENTS_H_

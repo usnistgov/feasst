@@ -15,9 +15,7 @@
 #include <vector>
 #include "./pair.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Square well interactions.
@@ -53,9 +51,7 @@ class PairSquareWell : public Pair {
 shared_ptr<PairSquareWell> makePairSquareWell(Space* space,
   const argtype &args = argtype());
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_SQUAREWELL_H_
 

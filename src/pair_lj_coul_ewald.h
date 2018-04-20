@@ -16,9 +16,7 @@
 #include "./pair.h"
 #include "./table.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Lennard Jones pairwise interactions with long range coulombic interactions
@@ -298,9 +296,7 @@ shared_ptr<PairLJCoulEwald> makePairLJCoulEwald(Space* space,
 shared_ptr<PairLJCoulEwald> makePairLJCoulEwald(shared_ptr<Space> space,
   const argtype &args = argtype());
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_LJ_COUL_EWALD_H_
 

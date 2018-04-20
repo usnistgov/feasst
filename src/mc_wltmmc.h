@@ -16,9 +16,7 @@
 #include <vector>
 #include "./mc.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Attempts Monte Carlo trials with flat-histogram methods.
@@ -167,8 +165,6 @@ class WLTMMC : public MC {
   virtual shared_ptr<MC> cloneImpl() const;
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // WLTMMC_H_

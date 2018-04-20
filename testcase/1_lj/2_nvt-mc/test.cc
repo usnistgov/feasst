@@ -39,7 +39,6 @@ int main() {  // LJ, SRSW_NVTMC
     {{"beta", feasst::str(1./0.9)}});   // beta=1/kT
   feasst::MC mc(pair, criteria);
   feasst::addTrialTransform(&mc,
-    {{"type", "translate"},
     {{"transType", "translate"},
      {"maxMoveParam", "0.1"}});
   mc.nMolSeek(nMol);

@@ -11,13 +11,9 @@
 #ifndef CRITERIA_WLTMMC_H_
 #define CRITERIA_WLTMMC_H_
 
-#include <math.h>
-#include "./functions.h"
 #include "./criteria.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Wang-Landau (WL) and Transition Matrix (TM) Monte Carlo acceptance criteria.
@@ -591,8 +587,6 @@ shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const double beta,
 /// Factory method.
 shared_ptr<CriteriaWLTMMC> makeCriteriaWLTMMC(const argtype &args);
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // CRITERIA_WLTMMC_H_

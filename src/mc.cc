@@ -18,9 +18,7 @@
 #include "./trial_transform.h"
 #include "./analyze_traj.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 MC::MC(Space* space,
        Pair* pair,
@@ -977,6 +975,4 @@ void MC::initMovie(const char* fileName, const int nfreq) {
   initAnalyze(analyze);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_

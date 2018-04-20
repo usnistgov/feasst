@@ -11,9 +11,7 @@
 #include "./trial_add.h"
 #include "./mc.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 TrialAdd::TrialAdd(const char* molType)
   : Trial(),
@@ -242,6 +240,4 @@ void addTrial(shared_ptr<MC> mc, const char* moltype) {
   addTrial(mc.get(), moltype);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_

@@ -15,9 +15,7 @@
 #include <vector>
 #include "./pair.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Hard sphere pair-wise interaction.
@@ -52,9 +50,7 @@ class PairHardSphere : public Pair {
 /// Factory method
 shared_ptr<PairHardSphere> makePairHardSphere(Space* space);
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_HARD_SPHERE_H_
 

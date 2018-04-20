@@ -13,9 +13,7 @@
 
 #include "./criteria.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Metropolis Monte Carlo acceptance criteria.
@@ -61,9 +59,7 @@ shared_ptr<CriteriaMetropolis> makeCriteriaMetropolis(const double beta,
 shared_ptr<CriteriaMetropolis> makeCriteriaMetropolis(
   const argtype &args = argtype());
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // CRITERIA_METROPOLIS_H_
 

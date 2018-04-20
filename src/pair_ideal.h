@@ -15,9 +15,7 @@
 #include <vector>
 #include "./pair.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Ideal gas with no interactions.
@@ -47,9 +45,7 @@ class PairIdeal : public Pair {
 shared_ptr<PairIdeal> makePairIdeal(Space* space,
   const argtype &args = argtype());
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_IDEAL_H_
 

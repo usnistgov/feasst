@@ -13,9 +13,7 @@
 
 #include "./analyze.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Compute scattering, structure factor and radial distribution functions.
@@ -115,9 +113,7 @@ class AnalyzeScatter : public Analyze {
 shared_ptr<AnalyzeScatter> makeAnalyzeScatter(Pair *pair,
   const argtype &args = argtype());
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // ANALYZE_SCATTER_H_
 

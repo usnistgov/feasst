@@ -15,9 +15,7 @@
 #include <vector>
 #include "./pair.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Soft sphere pair-wise interaction, \f$ U=eps(sig/r)^n \f$
@@ -62,9 +60,7 @@ class PairSoftSphere : public Pair {
 shared_ptr<PairSoftSphere> makePairSoftSphere(Space* space,
   const argtype &args = argtype());
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_SOFT_SPHERE_H_
 

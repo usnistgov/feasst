@@ -17,9 +17,7 @@
 #include "./mc.h"
 
 //using namespace feasst;
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 void insertDeleteTrial(MC *mc, const char* moltype) {
   addTrial(mc, moltype);
@@ -29,8 +27,6 @@ void insertDeleteTrial(shared_ptr<MC> mc, const char* moltype) {
   insertDeleteTrial(mc.get(), moltype);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // UI_ABBREVIATED_H_

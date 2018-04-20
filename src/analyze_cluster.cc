@@ -10,9 +10,7 @@
 
 #include "./analyze_cluster.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 AnalyzeCluster::AnalyzeCluster(Pair *pair, const argtype &args)
   : Analyze(pair, args) {
@@ -306,7 +304,5 @@ shared_ptr<AnalyzeCluster> makeAnalyzeCluster(Pair *pair, const argtype &args) {
   return make_shared<AnalyzeCluster>(pair, args);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

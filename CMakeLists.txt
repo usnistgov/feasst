@@ -26,7 +26,7 @@ option(USE_SWIG "Use SWIG for python interface" OFF)
 #set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda2/include/python2.7")
 #set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda2/lib/libpython2.7.so")
 set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.6m/")
-set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.so")
+set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.dylib")
 
 # Users typically would not edit below this comment
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
@@ -240,6 +240,14 @@ endif()
 #strip leading whitespace from EXTRA_LIBS
 string(REGEX REPLACE "^ " "" EXTRA_LIBS "${EXTRA_LIBS}")
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+    add_definitions(-std=gnu++0x)
+endif()
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  add_definitions(-std=c++0x)
+  #add_definitions(-std=c++0x -libstdc++)
+endif()
+
 # Use the makeFactory.sh script to make feasst.i and factories.cc
 execute_process(
   COMMAND python ${CMAKE_SOURCE_DIR}/tools/build/makeFactory.py -s ${CMAKE_SOURCE_DIR}
@@ -257,10 +265,8 @@ list(REMOVE_ITEM feasst_cc_SRC ${feasst_unittest_SRC})
 
 include_directories("${CMAKE_SOURCE_DIR}/src/")
 if(EXISTS "${CMAKE_SOURCE_DIR}/drivers/main.cc")
-  add_executable(main "${CMAKE_SOURCE_DIR}/drivers/main")
-  SET_TARGET_PROPERTIES(main PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
+  add_executable(main "${CMAKE_SOURCE_DIR}/drivers/main" ${feasst_SRC})
   target_link_libraries(main ${EXTRA_LIBS})
-  target_link_libraries(main feasst)
 endif()
 set(EXECUTABLE_OUTPUT_PATH "bin")
 
@@ -300,10 +306,8 @@ if (USE_GTEST)
   endif()
 
   # Now simply link against gtest or gtest_main as needed. Eg
-  add_executable(unittest ${feasst_unittest_SRC})
-  SET_TARGET_PROPERTIES(unittest PROPERTIES COMPILE_FLAGS "-DFEASST_NAMESPACE_")
+  add_executable(unittest ${feasst_unittest_SRC} ${feasst_SRC})
   target_link_libraries(unittest gtest_main ${EXTRA_LIBS})
-  target_link_libraries(unittest feasst)
   add_test(NAME unittest COMMAND ./bin/unittest --gtest_shuffle)
 
   if (USE_GTESTCASES)
@@ -313,10 +317,8 @@ if (USE_GTEST)
       WORKING_DIRECTORY .
     )
     file(GLOB feasst_testcase_SRC "${CMAKE_SOURCE_DIR}/build/testcase/*.cc")
-    add_executable(testcase ${feasst_testcase_SRC})
-    SET_TARGET_PROPERTIES(testcase PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
+    add_executable(testcase ${feasst_testcase_SRC} ${feasst_SRC})
     target_link_libraries(testcase gtest_main ${EXTRA_LIBS})
-    target_link_libraries(testcase feasst)
     add_test(NAME testcase COMMAND ./bin/testcase --gtest_shuffle)
   endif (USE_GTESTCASES)
 
@@ -357,19 +359,4 @@ if (USE_SWIG)
 endif(USE_SWIG)
 
 add_library(feasst SHARED ${feasst_cc_SRC})
-file(GLOB feasst_headers "${CMAKE_SOURCE_DIR}/src/*.h")
-SET_TARGET_PROPERTIES(feasst PROPERTIES
-	 COMPILE_FLAGS -DFEASST_NAMESPACE_
-	 PUBLIC_HEADER "${feasst_headers}")
-#${CMAKE_SOURCE_DIR}/src/feasst.h)
-target_link_libraries(feasst ${EXTRA_LIBS})
-
-# install library for package manager
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/feasst.pc.in feasst.pc @ONLY)
-install(TARGETS feasst
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(FILES ${CMAKE_BINARY_DIR}/feasst.pc
-    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
-
 

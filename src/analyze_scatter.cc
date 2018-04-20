@@ -10,9 +10,7 @@
 
 #include "./analyze_scatter.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 AnalyzeScatter::AnalyzeScatter(Pair *pair, const argtype &args)
   : Analyze(pair, args) {
@@ -551,9 +549,7 @@ shared_ptr<AnalyzeScatter> makeAnalyzeScatter(Pair *pair, const argtype &args) {
   return make_shared<AnalyzeScatter>(pair, args);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 
 

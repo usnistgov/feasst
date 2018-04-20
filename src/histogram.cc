@@ -10,9 +10,7 @@
 
 #include "./histogram.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 Histogram::Histogram(const double binWidth) : binWidth_(binWidth) {
   defaultConstruction_();
@@ -176,7 +174,5 @@ void Histogram::write(const char* fileName) {
   }
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

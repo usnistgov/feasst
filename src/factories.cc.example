@@ -36,9 +36,7 @@
 
 #include "./analyze_extensive_moments.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 Pair* Pair::makePair(Space* space,
   const char* fileName
@@ -155,7 +153,5 @@ shared_ptr<Analyze> Analyze::makeAnalyze(
   return ana;
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

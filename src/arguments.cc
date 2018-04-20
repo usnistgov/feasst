@@ -10,9 +10,7 @@
 
 #include "./arguments.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 void Arguments::initArgs(const std::string className, const argtype &args) {
   className_ = className;
@@ -109,6 +107,4 @@ double Arguments::dble() {
   return dbleVal;
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_

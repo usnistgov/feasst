@@ -14,9 +14,7 @@
 #include "./pair.h"
 #include "./criteria_wltmmc.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 class WLTMMC;
 
@@ -57,10 +55,6 @@ class Analyze : public BaseRandom {
 
   // Constructor. HWH: Depreciate raw pointers.
   Analyze(Pair * pair, const argtype &args = argtype());
-
-  // HWH: Depreciated: Constructor
-  Analyze(shared_ptr<Pair> pair, const argtype &args = argtype())
-    : Analyze(pair.get(), args) {}
 
   /// This constructor is not often used, but its purpose is to initialize
   /// for MC interface before using reconstruct to set object pointers.
@@ -156,8 +150,6 @@ shared_ptr<Analyze> makeAnalyze(Pair* pair, const argtype &args = argtype());
 /// Factory method
 shared_ptr<Analyze> makeAnalyze();
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // ANALYZE_H_

@@ -11,9 +11,7 @@
 #include "./atom.h"
 #include "./space.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 Atom::Atom() {
   defaultConstruction_();
@@ -71,7 +69,5 @@ Atom::Atom(const char* fileName) {
   vecRestartReader("intVal", &intVal_, fileName);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

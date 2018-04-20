@@ -20,9 +20,7 @@
 #include "./mc.h"
 #include "./mc_wltmmc.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 class AbbreviatedUI {};  // here is where we trick ../tools/makeFactory.sh.
 
@@ -32,8 +30,6 @@ void insertDeleteTrial(MC *mc, const char* moltype);
 /// Initialize TrialAdd and TrialDelete in mc, with equal weights.
 void insertDeleteTrial(shared_ptr<MC> mc, const char* moltype);
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // UI_ABBREVIATED_H_

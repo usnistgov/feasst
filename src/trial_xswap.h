@@ -14,9 +14,7 @@
 #include <memory>
 #include "./trial.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Attempt to randomly swap the positions of two different particles.
@@ -71,9 +69,7 @@ class MC;
 void xswapTrial(MC *mc);
 void xswapTrial(shared_ptr<MC> mc);
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_XSWAP_H_
 

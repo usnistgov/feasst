@@ -16,9 +16,7 @@
 #include "./functions.h"
 #include "./pair.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Patchy orientational dependent square-well interactions.
@@ -96,9 +94,7 @@ class PairPatchKF : public Pair {
 /// Factory method
 shared_ptr<PairPatchKF> makePairPatchKF(Space *space, const argtype &args);
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_PATCH_KF_H_
 

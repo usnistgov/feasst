@@ -15,9 +15,7 @@
 #include "./functions.h"
 #include "./mc.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 TrialDelete::TrialDelete() : Trial() {
   defaultConstruction_();
@@ -265,7 +263,5 @@ void deleteTrial(shared_ptr<MC> mc) {
   deleteTrial(mc.get());
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

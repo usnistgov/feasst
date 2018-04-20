@@ -19,9 +19,7 @@
 #include <string>
 #include <sstream>
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Customize the way that exceptions are handled and thrown.
@@ -41,8 +39,6 @@ class CustomException : public std::exception {
   void catMessage_();
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // CUSTOM_EXCEPTION_H_

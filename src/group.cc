@@ -11,9 +11,7 @@
 #include "./group.h"
 #include "./space.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 Group::Group() : Atom() {
   initDataType("int");
@@ -134,7 +132,5 @@ vector<int> Group::randMol(Space * space) {
   return mpart;
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

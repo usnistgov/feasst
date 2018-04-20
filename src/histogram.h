@@ -15,9 +15,7 @@
 #include <iterator>
 #include "./base.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * This class is used to compute one dimensional histograms with constant bin
@@ -121,9 +119,7 @@ class Histogram : public Base {
   void defaultConstruction_();
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // HISTOGRAM_H_
 

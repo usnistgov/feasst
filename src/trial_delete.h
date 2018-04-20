@@ -15,9 +15,7 @@
 #include <string>
 #include "./trial.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 class Space;
 class Pair;
@@ -104,9 +102,7 @@ void deleteTrial(MC *mc);
 /// Add a "TrialDelete" object to the Monte Carlo object, mc
 void deleteTrial(shared_ptr<MC> mc);
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // TRIAL_DELETE_H_
 

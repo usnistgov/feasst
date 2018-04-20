@@ -26,9 +26,7 @@
   }
 #endif  // XDRFILE_H_
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 class Group;
 class Atom;
@@ -934,8 +932,6 @@ shared_ptr<Space> makeSpace(int dimension,
 /// Factory method
 shared_ptr<Space> makeSpace(const argtype &args = argtype());
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // SRC_SPACE_H_

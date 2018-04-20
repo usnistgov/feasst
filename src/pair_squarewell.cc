@@ -10,9 +10,7 @@
 
 #include "./pair_squarewell.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 PairSquareWell::PairSquareWell(Space* space, const argtype &args)
   : Pair(space, args) {
@@ -58,7 +56,5 @@ shared_ptr<PairSquareWell> makePairSquareWell(Space* space,
   return make_shared<PairSquareWell>(space, args);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

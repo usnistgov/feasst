@@ -11,9 +11,7 @@
 #ifndef PHYSICAL_CONSTANTS_H_
 #define PHYSICAL_CONSTANTS_H_
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * constants from CODATA
@@ -29,8 +27,6 @@ const double permitivityVacuum = 8.854187817E-12;  //!< C^2/J/m
 const double idealGasConstant = boltzmannConstant*avogadroConstant;  //!< J/K/mol
 const double joulesPercal = 4.184;  //!< J/cal
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  //PHYSICAL_CONSTANTS_H_

@@ -10,9 +10,7 @@
 
 #include "./pair_hard_sphere.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 PairHardSphere::PairHardSphere(Space* space)
   : Pair(space) {
@@ -59,7 +57,5 @@ shared_ptr<PairHardSphere> makePairHardSphere(Space* space) {
   return make_shared<PairHardSphere>(space);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 

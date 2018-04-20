@@ -10,9 +10,7 @@
 
 #include "./analyze.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 Analyze::Analyze(Pair *pair, const argtype &args)
   : pair_(pair) {
@@ -100,6 +98,4 @@ shared_ptr<Analyze> makeAnalyze() {
   return make_shared<Analyze>();
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_

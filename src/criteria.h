@@ -16,9 +16,7 @@
 #include "./space.h"
 #include "./pair.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Acceptance criteria for Monte Carlo trials.
@@ -135,9 +133,7 @@ Criteria* makeCriteria(const char* fileName);
 // parse beta from args
 double parseBeta_(argtype * args);
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // CRITERIA_H_
 

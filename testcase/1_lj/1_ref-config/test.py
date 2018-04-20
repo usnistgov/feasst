@@ -32,7 +32,7 @@ class TestLJ_SRSW_REFCONF(unittest.TestCase):
         pair.initEnergy()        # compute energy
         peExact = 4*(pow(r, -12) - pow(r, -6))
         self.assertAlmostEqual(pair.peLJ(), peExact, 15)
-        peExactLRC = (8./3.)*feasst.PI*space.nMol()**2/space.vol() \
+        peExactLRC = (8./3.)*feasst.PI*space.nMol()**2/space.volume() \
           *((1./3.)*pair.rCut()**(-9) - pair.rCut()**(-3))
         self.assertAlmostEqual(pair.peLRC(), peExactLRC, 15)
 

@@ -17,9 +17,7 @@
 #include "./pair.h"
 #include "./table.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Tabular potential for isotropic interacitons.
@@ -66,9 +64,7 @@ class PairTabular1D : public Pair {
 shared_ptr<PairTabular1D> makePairTabular1D(Space* space,
   const argtype &args = argtype());
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_TABULAR_1D_H_
 

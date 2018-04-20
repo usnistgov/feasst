@@ -17,9 +17,7 @@
 #include <limits>
 #include <signal.h>
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 double sign(const double a,	const double b) {
   return (b >= 0.0 ? fabs(a) : -fabs(a));
@@ -697,6 +695,4 @@ void causeSegFault() {
   raise(SIGSEGV);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_

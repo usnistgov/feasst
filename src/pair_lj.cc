@@ -11,9 +11,7 @@
 #include "./pair_lj.h"
 #include "./arguments.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 PairLJ::PairLJ(Space* space, const argtype &args)
   : Pair(space, args) {
@@ -817,6 +815,4 @@ shared_ptr<PairLJ> makePairLJ(shared_ptr<Space> space, const argtype &args) {
   return makePairLJ(space.get(), args);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_

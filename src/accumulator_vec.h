@@ -13,9 +13,7 @@
 
 #include "./accumulator.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Accumulate a series of values as a function of an order parameter.
@@ -55,9 +53,7 @@ class AccumulatorVec : public Accumulator {
   vector<Accumulator> accVec_;    //<! vector of accumulators
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // ACCUMULATORVEC_H_
 

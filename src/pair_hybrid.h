@@ -15,9 +15,7 @@
 #include <string>
 #include "./pair.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * This class calls multiple other pair classes.
@@ -102,8 +100,6 @@ class PairHybrid : public Pair {
 shared_ptr<PairHybrid> makePairHybrid(Space* space,
   const argtype &args = argtype());
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_HYBRID_H_

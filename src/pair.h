@@ -16,9 +16,7 @@
 #include "./space.h"
 #include "./base_random.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Pair owns variables and subroutines associated with pair-wise
@@ -633,8 +631,6 @@ class Pair : public BaseRandom {
 /// Factory method with implementation generated at build time.
 Pair* makePair(Space* space, const char* fileName);
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // PAIR_H_

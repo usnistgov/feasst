@@ -11,13 +11,9 @@
 #ifndef ACCUMULATOR_H_
 #define ACCUMULATOR_H_
 
-#include <vector>
-#include <memory>
 #include "./base.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 /**
  * Accumulate a series of values to compute the average, standard deviation,
@@ -115,9 +111,7 @@ class Accumulator : public Base {
   shared_ptr<Accumulator> blockAvs_;    //!< accumulate averages of each block
 };
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
 #endif  // ACCUMULATOR_H_
 

@@ -10,9 +10,7 @@
 
 #include "pair_hybrid.h"
 
-#ifdef FEASST_NAMESPACE_
 namespace feasst {
-#endif  // FEASST_NAMESPACE_
 
 PairHybrid::PairHybrid(Space* space, const argtype &args)
   : Pair(space, args) {
@@ -266,7 +264,5 @@ shared_ptr<PairHybrid> makePairHybrid(Space* space, const argtype &args) {
   return make_shared<PairHybrid>(space, args);
 }
 
-#ifdef FEASST_NAMESPACE_
 }  // namespace feasst
-#endif  // FEASST_NAMESPACE_
 
