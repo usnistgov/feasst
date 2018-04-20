@@ -11,6 +11,8 @@
 #ifndef ACCUMULATOR_H_
 #define ACCUMULATOR_H_
 
+#include <vector>
+#include <memory>
 #include "./base.h"
 
 namespace feasst {

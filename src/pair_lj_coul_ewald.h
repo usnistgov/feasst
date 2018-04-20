@@ -191,6 +191,8 @@ class PairLJCoulEwald : public Pair {
 
   /// Access the error function table.
   erftable * erfTable() { return &erft_; }
+  erftable erft() { return erft_; }
+  void noErfTable() { erft_.tableOff(); }
 
  protected:
   vector<double> q_;      //!< particle charges

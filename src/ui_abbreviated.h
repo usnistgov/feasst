@@ -8,11 +8,6 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-/**
- * The abbreviated user interface allows one-line instantiation of objects
- * such as Monte Carlo trials.
- */
-
 #ifndef UI_ABBREVIATED_H_
 #define UI_ABBREVIATED_H_
 
@@ -22,6 +17,10 @@
 
 namespace feasst {
 
+/**
+ * The abbreviated user interface allows one-line instantiation of objects
+ * such as Monte Carlo trials.
+ */
 class AbbreviatedUI {};  // here is where we trick ../tools/makeFactory.sh.
 
 /// Initialize TrialAdd and TrialDelete in mc, with equal weights.

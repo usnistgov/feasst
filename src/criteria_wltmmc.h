@@ -11,6 +11,8 @@
 #ifndef CRITERIA_WLTMMC_H_
 #define CRITERIA_WLTMMC_H_
 
+#include <math.h>
+#include "./functions.h"
 #include "./criteria.h"
 
 namespace feasst {

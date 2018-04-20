@@ -36,7 +36,7 @@ class TestSPCE_SRSW_REFCONF(unittest.TestCase):
                 "/testcase/3_spce/1_ref-config/spce_sample_config_periodic" + \
                 str(srswConfig) + ".xyz")
             pair.readXYZ(conf_file)
-            pair.erfTable().tableOff()  # turn off the error function table
+            pair.noErfTable()  # turn off the error function table
             pair.initEnergy()
 
             # Compare with the SRSW

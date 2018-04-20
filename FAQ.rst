@@ -243,3 +243,9 @@ error: no matching constructor for initialization ... cannot convert initialize 
 
 While initializing classes using the "{{"key1", "val1"}}" notation, you likely input a non-string value.
 
+When you see: *** stack smashing detected ***
+================================================================================================
+
+This error occurs when compiling feasst as a library, but not including FEASST external libraries, such as OMP, etc.
+
+

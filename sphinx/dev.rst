@@ -289,5 +289,6 @@ To do list
 * Once subspace efficiently implemented, pairHybrid can store different pairs with different subspaces to optimize e.g., the LJ interaction on oxygens only (for MFB?)
 * Rename some variables... mpart should be msite? ran vs rand.
 * Implement Mayer sampling within the context of CriteriaMayer + MC handling trials (e.g., need a different way to keep track of running energy due to overflow)
-
+* For library build (1) configure input/output of unittests/testcases (2) external and internal cmake sandbox builds
+* After added feasst namespace to swig, why does the type of "PairLJCoulEwald::erft()" show up as "SwgPyObject" instead of "class feasst.erftable"
 

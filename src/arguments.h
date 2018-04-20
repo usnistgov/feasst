@@ -13,6 +13,8 @@
 
 #include <vector>
 #include <iostream>
+#include <map>
+#include <string>
 #include "functions.h"
 
 namespace feasst {

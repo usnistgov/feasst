@@ -17,6 +17,7 @@ Contents:
    TESTCASE
    build/api
    FAQ
+   CHANGELOG
    sphinx/dev
    CONTRIBUTORS
    sphinx/contact

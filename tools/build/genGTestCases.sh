@@ -56,7 +56,7 @@ printRSTHeader()
   echo "=====================================================" >> $printfile
   echo "" >> $printfile
   if [ -z "$nonClassFlag" ]; then
-    echo ".. doxygenclass:: $className" >> $printfile
+    echo ".. doxygenclass:: feasst::$className" >> $printfile
     echo "   :project: FEASST" >> $printfile
     echo "   :members:" >> $printfile
   else

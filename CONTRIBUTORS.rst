@@ -7,14 +7,16 @@ Authors
 
 Harold Wickes Hatch
 https://www.nist.gov/people/harold-hatch
-  * lead developer of FEASST
-  * author of any code that is not otherwise labeled
+
+* lead developer of FEASST
+* author of any code that is not otherwise labeled
 
 Nathan Alexander Mahynski
 https://www.nist.gov/people/nathan-mahynski
-  * collaborated with Wick on superquadric geometry
-  * developed confinement and barriers
-  * developed extensive moment analysis for histogram extrapolation
+
+* collaborated with Wick on superquadric geometry
+* developed confinement and barriers
+* developed extensive moment analysis for histogram extrapolation
 
 Acknowledgement for discussion and/or testing (alphabetical)
 ###############################################################

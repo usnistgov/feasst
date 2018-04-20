@@ -14,6 +14,7 @@
 #include <fstream>
 #include <iomanip>
 #include <getopt.h>
+#include <memory>
 #include "./functions.h"
 #include "./arguments.h"
 

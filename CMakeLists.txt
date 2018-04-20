@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.12)
 set(CMAKE_CXX_STANDARD 11)
 project(feasst)
 
+set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}") #Set the install location (default: in build)"
 # Here are some user options to customize external libraries
 option(USE_XDRFILE "Use xdrfile library" OFF)
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
@@ -26,7 +27,7 @@ option(USE_SWIG "Use SWIG for python interface" OFF)
 #set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda2/include/python2.7")
 #set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda2/lib/libpython2.7.so")
 set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.6m/")
-set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.dylib")
+set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.so")
 
 # Users typically would not edit below this comment
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
@@ -211,7 +212,6 @@ endif (USE_XDRFILE)
 
 # ccache
 if (USE_CCACHE)
-  message("USING CCACHE")
   find_program(CCACHE_PROGRAM ccache)
   if(CCACHE_PROGRAM)
     message("CCACHE FOUND")
@@ -222,31 +222,17 @@ endif(USE_CCACHE)
 # OMP
 find_package(OpenMP)
 if(OPENMP_FOUND)
-  message("OPENMP FOUND")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-
-  # custom macros to detect OMP in FEASST code
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DOMP_H_")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DOMP_H_")
 else(OPENMP_FOUND)
   if(USE_OMP)
     message( FATAL_ERROR "OMP Requested but not found" )
-    #message( SEND_ERROR "OMP Requested but not found" )
   endif()
 endif()
 
 #strip leading whitespace from EXTRA_LIBS
 string(REGEX REPLACE "^ " "" EXTRA_LIBS "${EXTRA_LIBS}")
-
-if(CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(-std=gnu++0x)
-endif()
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  add_definitions(-std=c++0x)
-  #add_definitions(-std=c++0x -libstdc++)
-endif()
 
 # Use the makeFactory.sh script to make feasst.i and factories.cc
 execute_process(
@@ -265,8 +251,9 @@ list(REMOVE_ITEM feasst_cc_SRC ${feasst_unittest_SRC})
 
 include_directories("${CMAKE_SOURCE_DIR}/src/")
 if(EXISTS "${CMAKE_SOURCE_DIR}/drivers/main.cc")
-  add_executable(main "${CMAKE_SOURCE_DIR}/drivers/main" ${feasst_SRC})
+  add_executable(main "${CMAKE_SOURCE_DIR}/drivers/main")
   target_link_libraries(main ${EXTRA_LIBS})
+  target_link_libraries(main feasst)
 endif()
 set(EXECUTABLE_OUTPUT_PATH "bin")
 
@@ -306,8 +293,9 @@ if (USE_GTEST)
   endif()
 
   # Now simply link against gtest or gtest_main as needed. Eg
-  add_executable(unittest ${feasst_unittest_SRC} ${feasst_SRC})
+  add_executable(unittest ${feasst_unittest_SRC})
   target_link_libraries(unittest gtest_main ${EXTRA_LIBS})
+  target_link_libraries(unittest feasst)
   add_test(NAME unittest COMMAND ./bin/unittest --gtest_shuffle)
 
   if (USE_GTESTCASES)
@@ -317,8 +305,9 @@ if (USE_GTEST)
       WORKING_DIRECTORY .
     )
     file(GLOB feasst_testcase_SRC "${CMAKE_SOURCE_DIR}/build/testcase/*.cc")
-    add_executable(testcase ${feasst_testcase_SRC} ${feasst_SRC})
+    add_executable(testcase ${feasst_testcase_SRC})
     target_link_libraries(testcase gtest_main ${EXTRA_LIBS})
+    target_link_libraries(testcase feasst)
     add_test(NAME testcase COMMAND ./bin/testcase --gtest_shuffle)
   endif (USE_GTESTCASES)
 
@@ -328,7 +317,6 @@ endif(USE_GTEST)
 if (USE_SWIG)
   FIND_PACKAGE(SWIG)
   if (SWIG_FOUND)
-    message("FOUND SWIG")
     INCLUDE(${SWIG_USE_FILE})
 
     # Find Python libraries. First, check if libraries are set manually
@@ -349,8 +337,9 @@ if (USE_SWIG)
 
     SET_SOURCE_FILES_PROPERTIES("${CMAKE_CURRENT_BINARY_DIR}/feasst.i" PROPERTIES CPLUSPLUS ON)
     #SET_SOURCE_FILES_PROPERTIES("${CMAKE_CURRENT_BINARY_DIR}/feasst.i" PROPERTIES SWIG_FLAGS "-includeall")
-    SWIG_ADD_MODULE(feasst python "${CMAKE_CURRENT_BINARY_DIR}/feasst.i" ${feasst_cc_SRC})
+    SWIG_ADD_MODULE(feasst python "${CMAKE_CURRENT_BINARY_DIR}/feasst.i")
     SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS})
+    SWIG_LINK_LIBRARIES(feasst feasst)
     add_dependencies(_feasst build-time-make-directory)
     add_test(NAME swigtest COMMAND ${CMAKE_SOURCE_DIR}/tools/run.sh testcase/test.py)
   else (SWIG_FOUND)
@@ -358,5 +347,22 @@ if (USE_SWIG)
   endif (SWIG_FOUND)
 endif(USE_SWIG)
 
+# build feasst library
 add_library(feasst SHARED ${feasst_cc_SRC})
+target_link_libraries(feasst ${EXTRA_LIBS})
+
+# install library inside the binary "build" directory
+target_include_directories(feasst PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:include>)
+file(GLOB feasst_headers "${CMAKE_SOURCE_DIR}/src/*.h")
+install(FILES ${feasst_headers} DESTINATION include)
+install(TARGETS feasst
+    EXPORT feasst-targets
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin)
+install(EXPORT feasst-targets
+    FILE feasst-config.cmake
+    DESTINATION lib/cmake/feasst)
 
