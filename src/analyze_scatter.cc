@@ -197,7 +197,7 @@ void AnalyzeScatter::initSANS(
 
 void AnalyzeScatter::update(const int iMacro) {
   ++countConf_[iMacro];
-  const vector<double> l = space()->l();
+  const vector<double> l = space()->boxLength();
   const vector<int> type = space()->type();
   const vector<int> mol = space()->mol();
   const vector<double> x = space()->x();
@@ -309,7 +309,7 @@ void AnalyzeScatter::computeSANS(const int iMacro,
         sqrinvqr = sin(qr)/qr,
         rmin = dgr_*bin,
         rmax = dgr_*(bin + 1),
-        dv = 4./3.*PI*(pow(rmax, 3) - pow(rmin, 3))/space()->vol();
+        dv = 4./3.*PI*(pow(rmax, 3) - pow(rmin, 3))/space()->volume();
       double nid;
       nid = dv*(nMol - 1);
       for (int iType = 0; iType < nPartTypes_(); ++iType) {
@@ -400,7 +400,7 @@ void AnalyzeScatter::printer_(const string fileName, CriteriaWLTMMC *c,
       rmin = r - 0.5*dgr_,
       rmax = r + 0.5*dgr_,
       dv = 4./3.*PI*(pow(rmax, space()->dimen())-pow(rmin,
-        space()->dimen()))/space()->vol();
+        space()->dimen()))/space()->volume();
     ss << r << " ";
     for (unsigned int iType = 0; iType < hist.size(); ++iType) {
       const int niType = nMol*space()->addMolList()[0]->nType()[iType];
@@ -476,7 +476,7 @@ void AnalyzeScatter::printer_(const string fileName, CriteriaWLTMMC *c,
         sqrinvqr = sin(qr)/qr,
         rmin = dgr_*bin,
         rmax = dgr_*(bin + 1),
-        dv = 4./3.*PI*(pow(rmax, 3) - pow(rmin, 3))/space()->vol();
+        dv = 4./3.*PI*(pow(rmax, 3) - pow(rmin, 3))/space()->volume();
       double nid;
       nid = dv*(nMol - 1);
       for (int iType = 0; iType < nPartTypes_(); ++iType) {

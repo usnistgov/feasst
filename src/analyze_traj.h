@@ -53,8 +53,7 @@ class AnalyzeTRAJ : public Analyze {
     a->reconstruct(pair); return a;
   }
   shared_ptr<AnalyzeTRAJ> cloneShrPtr(Pair* pair) const {
-    return(std::static_pointer_cast<AnalyzeTRAJ, Analyze>(cloneImpl(
-      pair)));
+    return(std::static_pointer_cast<AnalyzeTRAJ, Analyze>(cloneImpl(pair)));
   }
 
  protected:

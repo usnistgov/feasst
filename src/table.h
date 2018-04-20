@@ -71,7 +71,6 @@ class Table {
   void compute_min_compress1d(const int dim);
 
   // return minimum value by interpolation of the first dimension
-  // HWH: Note depreciated/remove?
   double min(const double val0) { return interpolate(val0); }
 
   /// Print table in hdf5 format.

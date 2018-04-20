@@ -35,10 +35,10 @@ TEST(Space, readwritexyz) {
   Space s(3);
   s.init_config(12);
   EXPECT_EQ(1, s.checkSizes());
-  s.printxyz("tmp/tmp", 1);
+  s.printXYZ("tmp/tmp", 1);
   EXPECT_EQ(1, s.checkSizes());
   s.xset(500, 0,0);
-  s.readxyz("tmp/tmp.xyz");
+  s.readXYZ("tmp/tmp.xyz");
   EXPECT_EQ(s.x(0,0), 0);
   EXPECT_EQ(1, s.checkSizes());
 }
@@ -53,8 +53,10 @@ TEST(Space, delPartaddPart) {
   EXPECT_EQ(s.natom(),int(s.type().size()));
   EXPECT_EQ(s.natom(),int(s.mol().size()));
   EXPECT_EQ(s.natom(),int(s.moltype().size()));
-  EXPECT_EQ(0, s.moltype().front().compare("atom"));
-  EXPECT_EQ(0, s.moltype().back().compare("atom"));
+  std::stringstream ss;
+  ss << s.install_dir() << "/forcefield/data.atom";
+  EXPECT_EQ(0, s.moltype().front().compare(ss.str()));
+  EXPECT_EQ(0, s.moltype().back().compare(ss.str()));
   EXPECT_EQ(s.natom(), s.nType()[0]);
   EXPECT_EQ(1, s.nParticleTypes());
   EXPECT_EQ(2, int(s.tag().size()));
@@ -88,15 +90,15 @@ TEST(Space, delPartaddPart) {
   EXPECT_EQ(2, s.nType()[1]);
   EXPECT_EQ(2, s.nParticleTypes());
   EXPECT_EQ(s.natom()-2,int(s.moltype().size()));
-  EXPECT_EQ(0, s.moltype().front().compare("atom"));
-  EXPECT_EQ(0, s.moltype().back().compare("atom"));
+  EXPECT_EQ(0, s.moltype().front().compare(ss.str()));
+  EXPECT_EQ(0, s.moltype().back().compare(ss.str()));
 }
 
 TEST(Space, vol) {
   int dim=3, natom=12;
   Space s(dim);
   s.init_config(natom);
-  EXPECT_EQ(pow(natom*dim, 3), s.vol());
+  EXPECT_EQ(pow(natom*dim, 3), s.volume());
 }
 
 TEST(Space, readwater) {
@@ -323,14 +325,6 @@ TEST(Space, xMolGen) {
   EXPECT_EQ(1, s.checkSizes());
 }
 
-TEST(Space, checkBond) {
-  const int dim = 3;
-  Space s(dim);
-  s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
-  EXPECT_EQ(1, s.checkBond("spce", 5e-13));
-  EXPECT_EQ(1, s.checkSizes());
-}
-
 TEST(Space, minl) {
   Space s(3);
   s.readXYZBulk(3, "water", "../unittest/spce/test52.xyz");
@@ -364,7 +358,7 @@ TEST(Space, wrapMol) {
   s.wrap(mpart);
   for (int dim = 0; dim < s.dimen(); ++dim) {
     for (int i = 0; i < int(mpart.size()); ++i) {
-      s.xset(s.x(mpart[i],dim) + s.l()[dim], mpart[i], dim);
+      s.xset(s.x(mpart[i],dim) + s.boxLength()[dim], mpart[i], dim);
     }
   }
   const double x1 = s.x(mpart[0],0);
@@ -730,12 +724,12 @@ TEST(Space, writeRestart) {
 TEST(Space, readxyzmulti) {
   Space s(3);
   int iConf = 0;
-  s.readxyz("../unittest/xyz1");
+  s.readXYZ("../unittest/xyz1");
   while (!s.xyzFileEOF()) {
   //while (s.xyzFile()->eof() != std::istream::traits_type::eof()) {
     EXPECT_EQ(12+iConf, s.natom());
     EXPECT_NEAR(0.01*iConf, s.x(0,0), 1e-15);
-    s.readxyz("../unittest/xyz1");
+    s.readXYZ("../unittest/xyz1");
     ++iConf;
   }
   EXPECT_EQ(2, iConf);
@@ -743,7 +737,7 @@ TEST(Space, readxyzmulti) {
 
 TEST(Space, delTypePart) {
   Space s(3);
-  s.readxyz("../unittest/cg3_60_43_1snap.xyz");
+  s.readXYZ("../unittest/cg3_60_43_1snap.xyz");
   s.initBoxLength(12);
   EXPECT_EQ(s.natom(), 900);
   EXPECT_EQ(s.nParticleTypes(), 3);
@@ -757,10 +751,9 @@ TEST(Space, delTypePart) {
 
 TEST(Space, floodFill) {
   Space s(3);
-  s.initBoxLength(12);
   s.addMolInit("../forcefield/data.cg3_60_43_1");
   std::ifstream file("../unittest/cg3_60_43_1snap.xyz");
-  s.readxyz2(file);
+  s.readXYZ(file);
   s.addTypeForCluster(1);
   s.updateClusters(4./3.);
   EXPECT_EQ(12, s.nClusters());
@@ -799,16 +792,16 @@ TEST(Space, maxMolDist) {
   EXPECT_NEAR(0.7698, s.maxMolDist(), 1e-4);
 }
 
-TEST(Space, readxyz2) {
+TEST(Space, readXYZ) {
   Space s(3);
   s.addMolInit("../forcefield/data.cg3_60_43_1");
   std::ifstream file("../unittest/cg3_60_43_1snap.xyz");
-  s.readxyz2(file);
+  s.readXYZ(file);
   EXPECT_EQ(900, s.natom());
-  s.readxyz2(file);
+  s.readXYZ(file);
   EXPECT_EQ(900, s.natom());
   //EXPECT_EQ(900+896, s.natom());
-  s.readxyz2(file);
+  s.readXYZ(file);
   EXPECT_TRUE(file.eof());
 }
 
@@ -832,19 +825,19 @@ TEST(Space, randRotateMulti) {
   s.initBoxLength(12);
   s.addMolInit("../forcefield/data.cg3_60_43_1");
   std::ifstream file("../unittest/cg3_60_43_1snap.xyz");
-  s.readxyz2(file);
+  s.readXYZ(file);
 
   s.addTypeForCluster(1);
   s.updateClusters(4./3.);
   EXPECT_EQ(12, s.nClusters());
 
   // rigidly translate clusters
-  //s.printxyz("tm1234.xyz", 1);
+  //s.printXYZ("tm1234.xyz", 1);
   s.xClusterGen();
   for (int i = 2; i < 3; ++i) {
     s.randRotateMulti(s.clusterList()[i], 10);
   }
-  //s.printxyz("tm1234.xyz", 0);
+  //s.printXYZ("tm1234.xyz", 0);
 
   // compute shape of clusters
   s.xClusterShape();
@@ -1013,9 +1006,9 @@ TEST(Space, pivotMol) {
   s.xAdd = x;
   s.addMol("../forcefield/data.atom");
   //const vector<double> x = s.randPosition();
-  //s.printxyz("ttt",1);
+  //s.printXYZ("ttt",1);
   s.pivotMol(0, x);
-  //s.printxyz("ttt",0);
+  //s.printXYZ("ttt",0);
 }
 
 TEST(Space, randPosition) {
@@ -1066,67 +1059,57 @@ TEST(Space, Q6) {
 
   // imperfect square lattice
   { Space sSqIm(2);
-    sSqIm.initBoxLength(12);
     sSqIm.addMolInit("../forcefield/data.onePatch1000");
     std::ifstream file("../unittest/roundSquare/square.xyz");
-    sSqIm.readxyz2(file);
+    sSqIm.readXYZ(file);
     EXPECT_NEAR(0.58613463576249036, sSqIm.Q6(1.), 1e-14);
   }
 
   // imperfect hex lattice
   { Space sHexIm(2);
-    sHexIm.initBoxLength(12);
     sHexIm.addMolInit("../forcefield/data.onePatch1000");
     std::ifstream file("../unittest/roundSquare/hex.xyz");
-    sHexIm.readxyz2(file);
+    sHexIm.readXYZ(file);
     EXPECT_NEAR(0.69295149889390972, sHexIm.Q6(1.), 1e-14);
   }
 
   // imperfect rhombic lattice
   { Space sRhmIm(2);
-    sRhmIm.initBoxLength(12);
     sRhmIm.addMolInit("../forcefield/data.onePatch1000");
     std::ifstream file("../unittest/roundSquare/lambda1.xyz");
-    sRhmIm.readxyz2(file);
+    sRhmIm.readXYZ(file);
     EXPECT_NEAR(0.71040413847700912, sRhmIm.Q6(1.), 1e-14);
   }
 
   // perfect cubic lattice
   { Space sCub(3);
-    sCub.initBoxLength(3);
     sCub.addMolInit("../forcefield/data.atom");
     std::ifstream file("../unittest/lattice/cubic.xyz");
-    sCub.readxyz2(file);
+    sCub.readXYZ(file);
     EXPECT_NEAR(0.3535533905932739, sCub.Q6(1.1), 1e-14);
   }
 
   // perfect square lattice
   { Space sSq(2);
-    sSq.initBoxLength(3);
     sSq.addMolInit("../forcefield/data.atom");
     std::ifstream file("../unittest/lattice/square.xyz");
-    sSq.readxyz2(file);
+    sSq.readXYZ(file);
     EXPECT_NEAR(0.58630196997792861, sSq.Q6(1.1), 1e-14);
   }
 
   // perfect hex lattice
   { Space sHex(2);
-    sHex.initBoxLength(3);
-    sHex.initBoxLength(sqrt(3)*3, 1);
     sHex.addMolInit("../forcefield/data.atom");
     std::ifstream file("../unittest/lattice/hex.xyz");
-    sHex.readxyz2(file);
+    sHex.readXYZ(file);
     EXPECT_NEAR(0.74082934944560608, sHex.Q6(1.1), 1e-14);
   }
 
   // perfect fcc lattice
   { Space sFCC(3);
-    sFCC.initBoxLength(3, 0);
-    sFCC.initBoxLength(sqrt(3)*3, 1);
-    sFCC.initBoxLength(sqrt(3)*3, 2);
     sFCC.addMolInit("../forcefield/data.atom");
     std::ifstream file("../unittest/lattice/fcc.xyz");
-    sFCC.readxyz2(file);
+    sFCC.readXYZ(file);
     EXPECT_NEAR(0.5745242597140704, sFCC.Q6(sqrt(2)/2+0.001), 1e-14);
   }
 }
@@ -1138,7 +1121,7 @@ TEST(Space, xyTilt) {
   s.setXYTilt(12);
   s.addMolInit("../forcefield/data.onePatch1000");
   for (int i = 0; i < 1000; ++i) s.addMol("../forcefield/data.onePatch1000");
-  //s.printxyz("tilt",1);
+  //s.printXYZ("tilt",1);
   EXPECT_NEAR(s.minBondLength(), 1, 10*DTOL);
 }
 
@@ -1300,10 +1283,10 @@ TEST(Space, replicate) {
   space.updateClusters(rClusterCut);
 //  space.printClusterStat("hi");
 
-//  space.printxyz("hi", 1);
+//  space.printXYZ("hi", 1);
   shared_ptr<Space> spaceBig = space.cloneShrPtr();
   spaceBig->replicate();
-//  spaceBig->printxyz("hibig", 1);
+//  spaceBig->printXYZ("hibig", 1);
   EXPECT_EQ(pow(2, space.dimen())*space.natom(), spaceBig->natom());
 
   spaceBig->updateClusters(rClusterCut);

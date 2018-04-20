@@ -9,7 +9,7 @@ criteria = feasst.makeCriteriaMetropolis(feasst.args(
     {"beta" : "1.2"}))              # beta = 1/k_B/T
 mc = feasst.MC(pair, criteria)
 feasst.addTrialTransform(mc, feasst.args(
-    {"type" : "translate",          # attempt particle translations
+    {"transType" : "translate",          # attempt particle translations
      "maxMoveParam" : str(0.1)}))   # maximum displacement for each dimension
 mc.nMolSeek(50)                     # add particles
 mc.initLog("log", int(1e4))         # output instantaneous values

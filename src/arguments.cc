@@ -67,12 +67,11 @@ bool Arguments::checkAllArgsUsed(){
   for (const auto &pair : args_) {
     ASSERT(findInList(pair.first, usedKeys_),
       "Key arg(" << pair.first <<") given to class(" << className_
-      << ") is not recognized. All keywords provided in args must be "
-      << "used, otherwise, a simple typo in keyword arguments would go "
+      << ") is not recognized. Check for any typos in your provided keyword "
+      << "arguments and check documentation. All keywords provided in args "
+      << "must be used, otherwise, a simple typo in keyword arguments would go "
       << "unnoticed. If you are a developer, check that you have processed "
-      << "all possible keywords in the appropriate constructor. If you are "
-      << "a user, check for any typos in your provided keyword arguments and "
-      << "check documentation for the class(" << className_ << ")");
+      << "all possible keywords in the appropriate constructor.");
   }
   return true;
 }

@@ -8,25 +8,30 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
 """
 
+import unittest
 import feasst
 
-space = feasst.Space(3)
-rho = 1e-3  # number density
-nMol = 500     # number of particles
-space.initBoxLength((float(nMol)/rho)**(1./3.))   # set the cubic PBCs
-pair = feasst.PairHardSphere(space)
-pair.initData(space.install_dir() + "/forcefield/data.atom")
-pair.initEnergy()
-criteria = feasst.CriteriaMetropolis(1., 1.)
-mc = feasst.MC(space, pair, criteria)
-feasst.transformTrial(mc, "translate", 0.1)
-mc.nMolSeek(nMol)
-mc.initLog("log", int(1e4))
-mc.initMovie("movie", int(1e4))
-mc.initRestart("tmp/rst", int(1e4))
-mc.setNFreqTune(int(1e4))
-mc.runNumTrials(int(1e7))   # run equilibration
+class TestHS_NVTMC(unittest.TestCase):
+  def test(self):
+    space = feasst.Space(3)
+    rho = 1e-3  # number density
+    nMol = 500     # number of particles
+    space.initBoxLength((float(nMol)/rho)**(1./3.))   # set the cubic PBCs
+    pair = feasst.PairHardSphere(space)
+    pair.initData(space.install_dir() + "/forcefield/data.atom")
+    pair.initEnergy()
+    criteria = feasst.CriteriaMetropolis(1., 1.)
+    mc = feasst.MC(space, pair, criteria)
+    feasst.transformTrial(mc, "translate", 0.1)
+    mc.nMolSeek(nMol)
+    mc.initLog("log", int(1e4))
+    mc.initMovie("movie", int(1e4))
+    mc.initRestart("tmp/rst", int(1e4))
+    mc.setNFreqTune(int(1e4))
+    mc.runNumTrials(int(1e7))   # run equilibration
 
-# Run the production simulation
-mc.runNumTrials(int(1e7))
+    # Run the production simulation
+    mc.runNumTrials(int(1e7))
 
+if __name__ == "__main__":
+    unittest.main()

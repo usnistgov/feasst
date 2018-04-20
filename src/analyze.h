@@ -36,7 +36,7 @@ class WLTMMC;
 class Analyze : public BaseRandom {
  public:
   /// Constructor
-  Analyze(Pair* pair,
+  Analyze(shared_ptr<Pair> pair,
     /**
      * allowed string key pairs (e.g., dictionary):
      *
@@ -52,7 +52,11 @@ class Analyze : public BaseRandom {
      *
      *  - (default): (empty string)
      */
-    const argtype &args = argtype());
+    const argtype &args = argtype())
+    : Analyze(pair.get(), args) {}
+
+  // Constructor. HWH: Depreciate raw pointers.
+  Analyze(Pair * pair, const argtype &args = argtype());
 
   // HWH: Depreciated: Constructor
   Analyze(shared_ptr<Pair> pair, const argtype &args = argtype())
@@ -70,9 +74,6 @@ class Analyze : public BaseRandom {
 
   /// Initialize number of steps between each print to file.
   void initFreqPrint(const int nfreq = 1) { nFreqPrint_ = nfreq; }
-
-  // Depreciated: HWH: old spelling
-  void initPrintFreq(const int nfreq = 1) { nFreqPrint_ = nfreq; }
 
   /// Return number of steps between each print.
   int nFreqPrint() const { return nFreqPrint_; }

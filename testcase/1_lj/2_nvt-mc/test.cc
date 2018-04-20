@@ -11,20 +11,16 @@
 #include "feasst.h"
 
 // Define a new Analyze class in order to compute the average potential energy
-class AnalyzeMonkeyPatch : public feasst::Analyze {
+class AnalyzePE_TC13 : public feasst::Analyze {
  public:
-  AnalyzeMonkeyPatch(shared_ptr<feasst::Pair> pair) : Analyze(pair) {}
-  ~AnalyzeMonkeyPatch() {}
-
-  // Access the average and block std from the accumulator
-  feasst::Accumulator pe;
-
-  // Overwrite the virtual function to accumulate intensive potential energy
-  void update() {
+  AnalyzePE_TC13(shared_ptr<feasst::Pair> pair) : Analyze(pair) {}
+  feasst::Accumulator pe;  // average and block std from the accumulator
+  void update() {          // overwrite the virtual function to update pe
     pe.accumulate(pair_->peTot()/double(space()->nMol()));
   }
-  void write() {
-    cout << pe.average() << " +/- " << pe.blockStdev() << endl;
+  void write() {           // overwrite to print pe
+    cout << "Potential energy: "
+         << pe.average() << " +/- " << pe.blockStdev() << endl;
   }
 };
 
@@ -44,12 +40,14 @@ int main() {  // LJ, SRSW_NVTMC
   feasst::MC mc(pair, criteria);
   feasst::addTrialTransform(&mc,
     {{"type", "translate"},
+    {{"transType", "translate"},
      {"maxMoveParam", "0.1"}});
   mc.nMolSeek(nMol);
   mc.initLog("log", 1e4);
   mc.initMovie("movie", 1e4);
   mc.initRestart("tmp/rst", 1e4);
   mc.setNFreqTune(1e4);
+  mc.setNFreqCheckE(1e4, 1e-6);
 
   auto xtc = feasst::makeAnalyzeTRAJ(pair.get(),
     {{"nFreqPrint", feasst::str(1e4)},
@@ -60,10 +58,9 @@ int main() {  // LJ, SRSW_NVTMC
   mc.runNumTrials(1e7);   // run equilibration
 
   // Initialize the custom analysis to compute average energy
-  shared_ptr<AnalyzeMonkeyPatch> an =
-    make_shared<AnalyzeMonkeyPatch>(pair);
+  auto an = make_shared<AnalyzePE_TC13>(pair);
   an->initFreq(1);    // frequency that Analyze::update() is called
-  an->initPrintFreq(1e7);
+  an->initFreqPrint(1e7);
   mc.initProduction();
   mc.initAnalyze(an);
 

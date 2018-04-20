@@ -42,7 +42,7 @@ int main() {  // SPCE, SRSW_REFCONF
     std::ostringstream ss;
     ss << space->install_dir() << "/testcase/3_spce/1_ref-config/spce_sample_config_periodic" << srswConfig << ".xyz";
     std::ifstream file(ss.str().c_str());
-    pair->readxyz(file);
+    pair->readXYZ(file);
     pair->erfTable()->tableOff();  // turn off the error function table
     pair->initEnergy();
 

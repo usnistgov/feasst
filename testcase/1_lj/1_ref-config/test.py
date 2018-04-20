@@ -40,7 +40,7 @@ class TestLJ_SRSW_REFCONF(unittest.TestCase):
         config = space.install_dir() + \
           "/testcase/1_lj/1_ref-config/lj_sample_config_periodic4.xyz"
         conf_file = feasst.make_ifstream(config)
-        pair2.readxyz(conf_file)                  # read the xyz file
+        pair2.readXYZ(conf_file)                  # read the xyz file
         pair2.initEnergy()                        # compute energy
         peLJ = -16.790321304625856
         peLRC = -0.5451660014945704

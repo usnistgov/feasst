@@ -197,7 +197,7 @@ void AnalyzeCluster::write(CriteriaWLTMMC *c) {
       ss << "-1 -1 -1" << endl;
     } else {
       ss << nClusterAccVec_.vec(bin).average() << " "
-         << nClusterAccVec_.vec(bin).stdev() << " "
+         << nClusterAccVec_.vec(bin).std() << " "
          << nClusterAccVec_.vec(bin).blockStdev() << " "
          << coordNumAccVec_.vec(bin).average() << " "
          << coordNumAccVec_.vec(bin).blockStdev() << " ";

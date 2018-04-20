@@ -202,13 +202,6 @@ TEST(Functions, matMul) {
   EXPECT_NEAR(c[1][1], -7, 1e-18);
 }
 
-TEST(Functions, vecSPCE) {
-  vector<vector<double> > x = vecSPCE();
-  EXPECT_EQ(0, x[0][0]);
-  EXPECT_NEAR(-0.333313247568237, x[2][0], 1e-15);
-  EXPECT_NEAR(0.942816142731718, x[2][1], 1e-15);
-}
-
 TEST(Functions, intersect) {
   vector<int> a, b;
   for (int i = 5; i < 30; i += 5) a.push_back(i);
@@ -606,3 +599,26 @@ TEST(Functions, factorial) {
   EXPECT_EQ(factorial(5), 120);
   EXPECT_EQ(factorial(6), 720);
 }
+
+TEST(Functions, vecRestartPrinter) {
+  // initialize data
+  vector<int> data;
+  data.push_back(0);
+  data.push_back(4);
+  data.push_back(14);
+
+  // print data to restart file
+  std::ofstream file("tmp/vecrstpr");
+  vecRestartPrinter("data", data, "tmp/vecrstpr");
+
+  // read data from restart file
+  vector<int> data2;
+  vecRestartReader("data", &data2, "tmp/vecrstpr");
+
+  // compare the original and the restarted
+  EXPECT_EQ(data.size(), data2.size());
+  for (int index = 0; index < static_cast<int>(data.size()); ++index) {
+    EXPECT_EQ(data[index], data2[index]);
+  }
+}
+

@@ -68,6 +68,9 @@ execute_process(
 # put main.cc from testcase/1/0/test.cc into drivers
 configure_file(${CMAKE_SOURCE_DIR}/testcase/1_lj/0_example/test.cc ${CMAKE_SOURCE_DIR}/drivers/main.cc @ONLY)
 
+# put pyfeasst into build
+configure_file(${CMAKE_SOURCE_DIR}/src/pyfeasst.py ${CMAKE_SOURCE_DIR}/build/pyfeasst.py @ONLY)
+
 add_definitions("-DVERSION=\"\\\"${GIT_COMMIT_HASH} ${GIT_BRANCH}\\\"\"")
 add_definitions("-DFEASST_SRC_=${CMAKE_SOURCE_DIR}/src/")
 
@@ -237,14 +240,6 @@ endif()
 #strip leading whitespace from EXTRA_LIBS
 string(REGEX REPLACE "^ " "" EXTRA_LIBS "${EXTRA_LIBS}")
 
-if(CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(-std=gnu++0x)
-endif()
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  add_definitions(-std=c++0x)
-  #add_definitions(-std=c++0x -libstdc++)
-endif()
-
 # Use the makeFactory.sh script to make feasst.i and factories.cc
 execute_process(
   COMMAND python ${CMAKE_SOURCE_DIR}/tools/build/makeFactory.py -s ${CMAKE_SOURCE_DIR}
@@ -262,9 +257,10 @@ list(REMOVE_ITEM feasst_cc_SRC ${feasst_unittest_SRC})
 
 include_directories("${CMAKE_SOURCE_DIR}/src/")
 if(EXISTS "${CMAKE_SOURCE_DIR}/drivers/main.cc")
-  add_executable(main "${CMAKE_SOURCE_DIR}/drivers/main" ${feasst_SRC})
+  add_executable(main "${CMAKE_SOURCE_DIR}/drivers/main")
   SET_TARGET_PROPERTIES(main PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
   target_link_libraries(main ${EXTRA_LIBS})
+  target_link_libraries(main feasst)
 endif()
 set(EXECUTABLE_OUTPUT_PATH "bin")
 
@@ -284,7 +280,7 @@ if (USE_GTEST)
     RESULT_VARIABLE result
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/googletest-download )
   if(result)
-    message(FATAL_ERROR "Build step for googletest failed: ${result}")
+    message("Build step for googletest failed: ${result}")
   endif()
 
   # Prevent overriding the parent project's compiler/linker
@@ -304,9 +300,10 @@ if (USE_GTEST)
   endif()
 
   # Now simply link against gtest or gtest_main as needed. Eg
-  add_executable(unittest ${feasst_unittest_SRC} ${feasst_SRC})
+  add_executable(unittest ${feasst_unittest_SRC})
   SET_TARGET_PROPERTIES(unittest PROPERTIES COMPILE_FLAGS "-DFEASST_NAMESPACE_")
   target_link_libraries(unittest gtest_main ${EXTRA_LIBS})
+  target_link_libraries(unittest feasst)
   add_test(NAME unittest COMMAND ./bin/unittest --gtest_shuffle)
 
   if (USE_GTESTCASES)
@@ -316,9 +313,10 @@ if (USE_GTEST)
       WORKING_DIRECTORY .
     )
     file(GLOB feasst_testcase_SRC "${CMAKE_SOURCE_DIR}/build/testcase/*.cc")
-    add_executable(testcase ${feasst_testcase_SRC} ${feasst_SRC})
+    add_executable(testcase ${feasst_testcase_SRC})
     SET_TARGET_PROPERTIES(testcase PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
     target_link_libraries(testcase gtest_main ${EXTRA_LIBS})
+    target_link_libraries(testcase feasst)
     add_test(NAME testcase COMMAND ./bin/testcase --gtest_shuffle)
   endif (USE_GTESTCASES)
 
@@ -359,5 +357,19 @@ if (USE_SWIG)
 endif(USE_SWIG)
 
 add_library(feasst SHARED ${feasst_cc_SRC})
-SET_TARGET_PROPERTIES(feasst PROPERTIES COMPILE_FLAGS -DFEASST_NAMESPACE_)
+file(GLOB feasst_headers "${CMAKE_SOURCE_DIR}/src/*.h")
+SET_TARGET_PROPERTIES(feasst PROPERTIES
+	 COMPILE_FLAGS -DFEASST_NAMESPACE_
+	 PUBLIC_HEADER "${feasst_headers}")
+#${CMAKE_SOURCE_DIR}/src/feasst.h)
+target_link_libraries(feasst ${EXTRA_LIBS})
+
+# install library for package manager
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/feasst.pc.in feasst.pc @ONLY)
+install(TARGETS feasst
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(FILES ${CMAKE_BINARY_DIR}/feasst.pc
+    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
+
 

@@ -43,7 +43,7 @@ TEST(BaseRandom, stdNormRanNum) {
     a.accumulate(random);
   }
   EXPECT_NEAR(0, a.average(), 5e-2);
-  EXPECT_NEAR(1, a.stdev(), 5e-2);
+  EXPECT_NEAR(1, a.std(), 5e-2);
 
 }
 
@@ -60,7 +60,7 @@ TEST(BaseRandom, gaussRanNum) {
     hist.accumulate(random);
   }
   EXPECT_NEAR(av, a.average(), sig*5e-2);
-  EXPECT_NEAR(sig, a.stdev(), sig*5e-2);
+  EXPECT_NEAR(sig, a.std(), sig*5e-2);
   hist.write("tmp/histhist");
 }
 

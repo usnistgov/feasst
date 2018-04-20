@@ -249,6 +249,19 @@ void PairHybrid::allPartPhysical() {
   }
 }
 
+void PairHybrid::cheapEnergy(const int flag) {
+  if (selected_.size() > 0) {
+    for (unsigned int i = 0; i < selected_.size(); ++i) {
+      const int iPair = selected_[i];
+      pairVec_[iPair]->cheapEnergy(flag);
+    }
+  } else {
+    for (int iPair = 0; iPair < nPairs(); ++iPair) {
+      pairVec_[iPair]->cheapEnergy(flag);
+    }
+  }
+}
+
 shared_ptr<PairHybrid> makePairHybrid(Space* space, const argtype &args) {
   return make_shared<PairHybrid>(space, args);
 }

@@ -35,10 +35,10 @@ TEST(TrialAdd, confine) {
   // create wall of frozen LJ particles at z=0 plane
   vector<double> xAdd(space.dimen());
   const double latticeSpacing = 0.5;
-  for (double x = -0.5*space.l(0); x < 0.5*space.l(0) - 0.0001;
+  for (double x = -0.5*space.boxLength(0); x < 0.5*space.boxLength(0) - 0.0001;
        x += latticeSpacing) {
     xAdd[0] = x;
-    for (double y = -0.5*space.l(1); y < 0.5*space.l(1) - 0.0001;
+    for (double y = -0.5*space.boxLength(1); y < 0.5*space.boxLength(1) - 0.0001;
          y += latticeSpacing) {
       xAdd[1] = y;
       pair.addMol(xAdd, addWall.str());

@@ -83,21 +83,13 @@ class WLTMMC : public MC {
   int nMolMax(const long long npr, const double activ)
     { return nMolMax(npr, activ, 0); }
 
-  /*
-   * Resize the nmol window in WLTMMC criteria
-   *  truncates liquid peak after lnPI drops as n increases by amout liquidDrop
-   *  rounds to the nearest larger multiple of nround
-   *  HWH NOTE: this function is depreciated.
-   */
-  void nMolResizeWindow(const double liquidDrop, const int round);
-
   /// Seek particle number which is in the range of WLTMMC.
   void nMolSeekInRange(const int nMin, const int nMax);
   void nMolSeekInRange() { nMolSeekInRange(-1, -1); }
 
   /// Append chars to all file names.
   void appendFileNames(const char* chars) { colMatFileName_.append(chars);
-    GRFileName_.append(chars); MC::appendFileNames(chars); }
+    MC::appendFileNames(chars); }
 
   /// Check that criteria of all trials match.
   int checkTrialCriteria();
@@ -119,16 +111,6 @@ class WLTMMC : public MC {
     void confSwapTrial() { MC::confSwapTrial();
       trialConfSwapVec_.back()->initMType(c_->mType().c_str()); }
   #endif  // MPI_H_ || _OPENMP
-
-  // Initialize GR file name
-  // HWH NOTE: this function is deprecated in favor of analyze class.
-  void initGR(const char* fileName, const int nfreq, const double dr,
-              const int iType, const int jType)
-    { GRFileName_.assign(fileName); nFreqGR_ = nfreq;
-      grt_.push_back(make_shared<Histogram>(dr, iType, jType));
-      gr_.resize(grt_.size()); }
-  void initGR(const char* fileName, const int nfreq, const double dr)
-    { initGR(fileName, nfreq, dr, 0, 0); }
 
   /// Return pointer to WLTMMC acceptance criteria class
   CriteriaWLTMMC* c() { return c_; }
@@ -171,17 +153,6 @@ class WLTMMC : public MC {
   // configurational bias flags
   double densThresConfigBias_;  //!< set configurational bias density threshold
   int nMolSeekTarget_;          //!< set number of molecules
-
-  // radial distribution function (GR)
-  string GRFileName_;         //!< GR file name
-  int nFreqGR_;               //!< frequency to print GR
-
-  /// canonical ensemble radial distribution functions for
-  //   various pairs of particle types (e.g. gr_[type][nBins])
-  vector<vector<shared_ptr<Histogram> > > gr_;
-
-  /// gr templated used in initialization
-  vector<shared_ptr<Histogram> > grt_;
 
   /// Execute running number of sweeps.
   void runNumSweepsExec_(const int t, const int nSweeps,

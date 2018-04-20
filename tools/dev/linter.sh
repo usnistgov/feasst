@@ -13,13 +13,14 @@ for f in `ls *`; do
   # mv tttmp $f
 
   # remove extra whitespace at end of line
-  sed --in-place 's/ $//g' $f
+  #sed --in-place 's/ $//g' $f
 
   # remove lines
   #sed --in-place 's/pair_lj_multi\.h/pair_lj\.h/g' $f
   #sed --in-place 's/PairLJMulti/PairLJ/g' $f
 
   # rename functions
+  sed --in-place 's/printxyz(/printXYZ(/g' $f
   # sed --in-place 's/print(/write(/g' $f
   #sed -i "s/’/'/g" $f
   #sed --in-place 's/void initEnergy;/void initEnergy();/g' $f

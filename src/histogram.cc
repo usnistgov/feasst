@@ -18,15 +18,6 @@ Histogram::Histogram(const double binWidth) : binWidth_(binWidth) {
   defaultConstruction_();
 }
 
-Histogram::Histogram(const double binWidth,
-                     const int iType,
-                     const int jType)
-  : binWidth_(binWidth) {
-  defaultConstruction_();
-  iType_ = iType;
-  jType_ = jType;
-}
-
 Histogram::Histogram(const char* fileName) {
   ASSERT(fileExists(fileName),
     "restart file(" << fileName << ") doesn't exist");

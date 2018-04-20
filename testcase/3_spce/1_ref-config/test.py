@@ -35,7 +35,7 @@ class TestSPCE_SRSW_REFCONF(unittest.TestCase):
             conf_file = feasst.make_ifstream(space.install_dir() + \
                 "/testcase/3_spce/1_ref-config/spce_sample_config_periodic" + \
                 str(srswConfig) + ".xyz")
-            pair.readxyz(conf_file)
+            pair.readXYZ(conf_file)
             pair.erfTable().tableOff()  # turn off the error function table
             pair.initEnergy()
 

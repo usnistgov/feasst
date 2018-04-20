@@ -25,7 +25,7 @@ TEST(Accumulator, constructor) {
   }
   EXPECT_EQ(20, a.nValues());
   EXPECT_NEAR(19/2., a.average(), 1e-15);
-  EXPECT_NEAR(5.916079783, a.stdev(), 1e-10);
+  EXPECT_NEAR(5.916079783, a.std(), 1e-10);
   EXPECT_NEAR(3.2274861218, a.blockStdev(), 1e-10);
   EXPECT_NEAR(19, a.max(), DTOL);
   EXPECT_NEAR(0, a.min(), DTOL);
@@ -37,7 +37,7 @@ TEST(Accumulator, constructor) {
   EXPECT_EQ(b.sum(), c.sum());
   EXPECT_EQ(b.sumSq(), c.sumSq());
   EXPECT_EQ(b.average(), c.average());
-  EXPECT_EQ(b.stdev(), c.stdev());
+  EXPECT_EQ(b.std(), c.std());
 
   // reset a and test
   a.reset();

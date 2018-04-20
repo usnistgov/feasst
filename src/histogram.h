@@ -32,9 +32,6 @@ class Histogram : public Base {
    */
   explicit Histogram(const double binWidth = -1.);
 
-  // HWH: Depreciate
-  Histogram(const double binWidth, const int iType, const int jType);
-
   /// Constructor for checkpoint files.
   explicit Histogram(const char* fileName);
 
@@ -102,10 +99,6 @@ class Histogram : public Base {
 
   /// Return the width of the bins, which is constant throughout.
   double binWidth() const { return binWidth_; }
-
-  // HWH: when is this used? DEPRECIATE
-  int iType() const { return iType_; }
-  int jType() const { return jType_; }
 
   /// Read-only access to raw histogram data.
   std::deque<double> hist() const { return histogram_; }

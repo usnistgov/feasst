@@ -49,7 +49,7 @@ class MC : public BaseRandom {
   double weight = 1.;
 
   /// Add trial to MC with trial weight set to current weight.
-  void initTrial(shared_ptr<Trial> trial);
+  virtual void initTrial(shared_ptr<Trial> trial);
 
   /// Attempt a random trial according to weights.
   void attemptTrial();
@@ -131,7 +131,8 @@ class MC : public BaseRandom {
 
   /// Initialize Analyzer.
 	void initAnalyze(shared_ptr<Analyze> analyze) {
-    analyze->reconstruct(pair_); analyzeVec_.push_back(analyze);
+    // analyze->reconstruct(pair_);
+    analyzeVec_.push_back(analyze);
   }
 
   // determine maximum number of particles for a given temperature
@@ -194,7 +195,7 @@ class MC : public BaseRandom {
   /*
    * Replace pointer to criteria for MC and all trials.
    *
-   * HWH WARNING: TEMPORARY/LIMITED USE CASE
+   * WARNING: TEMPORARY/LIMITED USE CASE
    *
    * If one intends for this criteria to be present for the long term,
    * this criteria must be replaced, or ownership updated,
@@ -223,9 +224,9 @@ class MC : public BaseRandom {
       { return trialConfSwapVec_[i].get(); }
   #endif  // _OPENMP
   double enAv() const { return peAccumulator_.average(); }
-  double enStdev() const { return peAccumulator_.stdev(); }
+  double enStdev() const { return peAccumulator_.std(); }
   double nMolAv() const { return nMolAccumulator_.average(); }
-  double nMolStdev() const { return nMolAccumulator_.stdev(); }
+  double nMolStdev() const { return nMolAccumulator_.std(); }
   int id() const { return space_->id(); }
   long long nAttempts() const { return nAttempts_; }
   Criteria* criteria() const { return criteria_; }
@@ -293,7 +294,6 @@ class MC : public BaseRandom {
   std::string prodFileAppend_;
   long long npr_;         //!< number of trials in simulaiton
   double checkEtol_;          //!< tolerance for energy check
-  bool printPressure_;        //!< flag to turn on printing of pressure
   int production_;           //!< flag for production simulation
   double boyletol_;           //!< tolerance for boyle temperature
 

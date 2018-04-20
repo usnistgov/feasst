@@ -166,7 +166,7 @@ void TrialAdd::attempt1_() {
   } else {
     const int iMolIndex = space()->findAddMolListIndex(molType_);
     const int nMolOfType = space()->nMolType()[iMolIndex];
-    preFac_ = space()->vol()/static_cast<double>(nMolOfType);
+    preFac_ = space()->volume()/static_cast<double>(nMolOfType);
     lnpMet_ = log(preFac_);
   }
   space()->wrap(mpart_);

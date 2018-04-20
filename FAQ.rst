@@ -226,8 +226,8 @@ ModuleNotFoundError: "No module named 'feasst'"
 error: ‘[function/class]’ is not a member of ‘feasst’
 ================================================================================================
 
-In C++, this error often occurs when one does not include a necessary header file.
-For example, to use `feasst::swapTrial()`, one must have `#include "trial_swap.h"`.
+In C++, this error often occurs when one does not include the header file `#include "feasst.h"`.
+It may also occur when the namespace is not specified via `feasst::`.
 
 Compilation error gives "can not be used when making a shared object; recompile with -fPIC"
 ================================================================================================

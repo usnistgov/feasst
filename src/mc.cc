@@ -113,7 +113,6 @@ MC::MC(const char* fileName) {
   nFreqTune_ = fstoi("nFreqTune", fileName);
   nFreqRestart_ = fstoi("nFreqRestart", fileName);
   checkEtol_ = fstod("checkEtol", fileName);
-  printPressure_ = fstoi("printPressure", fileName);
   strtmp = fstos("production", fileName);
   if (!strtmp.empty()) {
     production_ = stoi(strtmp);
@@ -150,7 +149,6 @@ void MC::defaultConstruction_() {
   nFreqCheckE_ = 1e6;
   nFreqTune_ = 0;
   nFreqRestart_ = 1e8;
-  printPressure_ = false;
   printLogHeader_ = 1;
   checkEtol_ = 1e-7;
   nAttempts_ = 0;
@@ -291,7 +289,6 @@ void MC::attemptTrial() {
   trialVec_[itrial]->attempt();
   peAccumulator_.accumulate(pair_->peTot());
   nMolAccumulator_.accumulate(space_->nMol());
-  // prSum_ += pair_->pressure(criteria_->beta());
   ++nAttempts_;
 
   afterAttempt_();
@@ -314,25 +311,7 @@ void MC::printStat() {
     std::ofstream log_(logFileName_.c_str(),
                        std::ofstream::out | std::ofstream::app);
     if (printLogHeader_ > 0) {
-      log_ << "# attempts nMol pe/nMol ";
-      if (printPressure_) {
-        log_ << "pressure ";
-        ASSERT(nFreqCheckE_ == nFreqLog_, "while printing pressure, nFreqLog("
-          << nFreqLog_ << ") must equal nFreqCheckE(" << nFreqCheckE_ << ")");
-      }
-      if (space_->equiMolar() >= 1) {
-        for (int imt = 0; imt < space_->nMolTypes(); ++imt) {
-          log_ << "n" << imt << " ";
-        }
-      }
-      if (pair_->orderOn() == 1) log_ << "pairOrder ";
-      if (criteria_->printBeta() == 1) log_ << "beta ";
-      if (criteria_->printPressure() == 1) log_ << "pressure ";
-      if (space_->floppyBox() == 1) {
-        log_ << "xyTilt ";
-        if (space_->dimen() > 2) log_ << "xzTilt yzTilt ";
-      }
-//      if (space_->nClusters() > 0) log_ << "nClusters ";
+      log_ << "# attempts pe/nMol ";
       for (unsigned int i = 0; i < trialVec_.size(); ++i) {
         log_ << trialVec_[i]->printStat(true);
       }
@@ -347,23 +326,9 @@ void MC::printStat() {
       log_ << "# ";
       printLogHeader_ = 0;
     }
-    log_ << nAttempts_ << " " << space_->nMol() << " " << pePerMol() << " ";
-    if (printPressure_) log_ << pair_->pressure(criteria_->beta()) << " ";
-    if (space_->equiMolar() >= 1) {
-      for (int imt = 0; imt < space_->nMolTypes(); ++imt) {
-        log_ << space_->nMolType()[imt] << " ";
-      }
-    }
-    if (pair_->orderOn() == 1) log_ << pair_->order() << " ";
-    if (criteria_->printBeta() == 1) log_ << criteria_->beta() << " ";
-    if (criteria_->printPressure() == 1) log_ << criteria_->pressure() << " ";
-    if (space_->floppyBox() == 1) {
-      log_ << space_->xyTilt() << " "
-           << space_->xzTilt() << " " << space_->yzTilt() << " ";
-//    if (space_->nClusters() > 0) log_ << space_->nClusters() << " ";
-    }
+    log_ << nAttempts_ << " " << pePerMol() << " ";
     for (unsigned int k = 0; k < trialVec_.size(); ++k) {
-      log_ << trialVec_[k]->printStat();
+      log_ << trialVec_[k]->printStat(false);
     }
     log_ << space_->hash() << endl;
   }
@@ -544,17 +509,24 @@ void MC::afterAttemptBase_() {
   }
 
   // check energy, cell list and neigh list
-  if (nAttempts_ % nFreqCheckE_ == 0) {
-    if (space_->cellType() > 0) {
-      space_->checkCellList();
+  if (nFreqCheckE_ > 0) {
+    if (nAttempts_ % nFreqCheckE_ == 0) {
+      if (space_->cellType() > 0) {
+        space_->checkCellList();
+      }
+      pair_->checkEnergy(checkEtol_, 0);
+      if (pair_->neighOn()) pair_->checkNeigh();
     }
-    pair_->checkEnergy(checkEtol_, 0);
-    if (pair_->neighOn()) pair_->checkNeigh();
   }
 
   // print stats
   if (nAttempts_ % nFreqLog_ == 0) {
     printStat();
+    if (space_->clusterType().size() != 0) {
+      std::stringstream ss;
+      ss << logFileName_ << "clus";
+      space_->printClusterStat(ss.str().c_str());
+    }
   }
 
   // print xyz would go ~here in terms of order.
@@ -571,7 +543,7 @@ void MC::afterAttemptBase_() {
         if (nAttempts_ == nFreqXTC_) {
           mode.assign("w");
         }
-        pair_->printxyz(ss.str().c_str(), 2);
+        pair_->printXYZ(ss.str().c_str(), 2);
         ss << ".xtc";
         XDRFILE* trjFileXDR;
         trjFileXDR = xdrfile_open(ss.str().c_str(), mode.c_str());
@@ -691,7 +663,6 @@ void MC::writeRestart(const char* fileName) {
   file << "# nFreqTune " << nFreqTune_ << endl;
   file << "# nFreqRestart " << nFreqRestart_ << endl;
   file << "# checkEtol " << checkEtol_ << endl;
-  file << "# printPressure " << printPressure_ << endl;
   if (production_ == 1) file << "# production " << production_ << endl;
   file << "# prodFileAppend " << prodFileAppend_ << endl;
 
@@ -773,14 +744,14 @@ void MC::b2(const double tol, double &b2v, double &b2er, double boxl) {
 //      int flag = 0;
 //      if (itrial == nFreqMovie_) flag = 1;
 //      if (!movieFileName_.empty()) {
-//        pair_->printxyz(movieFileName_.c_str(), flag);
+//        pair_->printXYZ(movieFileName_.c_str(), flag);
 //      }
 //    }
 
     if ( (itrial != 0) && (itrial % nFreqLog_ == 0) ) {
       m2.accumulate(meyer.average());
       if (m2.nValues() > 2) {
-        b2er = m2.stdev()/sqrt(m2.nValues());
+        b2er = m2.std()/sqrt(m2.nValues());
       } else {
         b2er = 1e200;
       }
@@ -856,14 +827,14 @@ void MC::b2mayer(double *b2v, double *b2er, Pair *pairRef, const double tol, dou
 //      int flag = 0;
 //      if (itrial == nFreqMovie_) flag = 1;
 //      if (!movieFileName_.empty()) {
-//        pair_->printxyz(movieFileName_.c_str(), flag);
+//        pair_->printXYZ(movieFileName_.c_str(), flag);
 //      }
 //    }
 //
 //    if ( (itrial != 0) && (itrial % nFreqLog_ == 0) ) {
 //      m2.accumulate(meyer.average());
 //      if (m2.nValues() > 2) {
-//        b2er = m2.stdev()/sqrt(m2.nValues());
+//        b2er = m2.std()/sqrt(m2.nValues());
 //      } else {
 //        b2er = 1e200;
 //      }

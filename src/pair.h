@@ -126,11 +126,15 @@ class Pair : public BaseRandom {
    */
   virtual void update(const double de);
 
-  /// Return total scalar virial.
+  // For CriteriaMayer, simply set the total potential energy.
+  virtual void updatePeTot(const double peTot);
+
+  // Return total scalar virial.
+  // HWH: Depreciate or refactor.
   virtual double vrTot();
 
   /// Print XYZ format trajectory to a file.
-  virtual int printxyz(const char* fileName,
+  virtual int printXYZ(const char* fileName,
     const int initFlag,  //!< open if flag is 1, append if flag is 0
     const std::string comment = "");
 
@@ -161,7 +165,7 @@ class Pair : public BaseRandom {
     addMol(position, fileName.c_str()); }
 
   /// flag to compute standard long range corrections
-  // HWH: move to pair_lj.h
+  // HWH: move to pair_lj.h, but this requires that PairLJCoulEwald inherits it
   int lrcFlag;
 
   /// Initialize pair parameters with epsilon (interaciton scale),
@@ -211,7 +215,7 @@ class Pair : public BaseRandom {
     vector<vector<int> > &neighOneOld);
 
   /// sets the cheapEnergy boolean variable
-  void cheapEnergy(const int flag) {
+  virtual void cheapEnergy(const int flag) {
     if (flag == 1) { cheapEnergy_ = true; } else { cheapEnergy_ = false; }; }
 
   /**
@@ -251,9 +255,10 @@ class Pair : public BaseRandom {
       initJSONData(string(fileName)); }
   #endif  // JSON_
 
-  /// set pair interaction parameters manually. Originally created as easy
-  //  way to turn off interactions
-  void epsijset(const int i, const int j, const double eps);
+  /// Set pair interaction parameters manually. Originally created as easy
+  /// way to turn off interactions.
+  /// Note: The site types in LMP start from 1, but FEASST starts from 0.
+  void epsijset(const int iSiteType, const int jSiteType, const double eps);
 
   /// Return excluded volume of all molecules in space, using sig_.
   double exVol(const int nGrid, const double dProbe);
@@ -327,9 +332,16 @@ class Pair : public BaseRandom {
   void initIntraBonded(const int flag);
 
   /// Read particle positions from XYZ file format.
-  virtual void readxyz(std::ifstream& file) {
-    space_->readxyz2(file);
+  virtual void readXYZ(std::ifstream& file) {
+    space_->readXYZ(file);
     addPart(); }
+
+  /// Scale domain (see Space)
+  virtual void scaleDomain(const double factor, const int dim) {
+    space()->scaleDomain(factor, dim); }
+
+  /// Scale domain (see Space)
+  virtual void scaleDomain(const double factor) { space()->scaleDomain(factor); }
 
   /// Print a table file based on the potential.
   /// @param sigFac sigFac*sig is minimum separation distance
@@ -369,7 +381,7 @@ class Pair : public BaseRandom {
   vector<double> pe() const { return pe_; }  //!< potential energy
   vector<vector<double> > f() const { return f_; }  //!< force
   vector<vector<double> > fCOM() const { return fCOM_; }
-  /// virial tensor
+  // virial tensor: HWH: depreciate or refactor
   vector<vector<vector<double> > > vr() const { return vr_; }
   vector<double> eps() const { return eps_; }
   vector<double> sig() const { return sig_; }
@@ -570,12 +582,19 @@ class Pair : public BaseRandom {
     const vector<int> &siteList,
     /// set to 1 to force no use of cell list (error checking)
     const int noCell = 0);
-  double pairLoopMol_(const vector<int> &siteList, const int noCell = 0);
 
   /// Overload default such that siteList is all sites in space
   double pairLoopSite_(const int noCell = 0) {
     const vector<int> &allSites = space_->listAtoms();
     return pairLoopSite_(allSites, noCell); }
+
+  /**
+   * See pairLoopSite_, except the cut-off is based on particles (e.g., molecules).
+   * Particle cut-off is measured from the first site in a particle.
+   * The siteList is assumed to be continguous in molecule number.
+   * HWH NOTE: peMap is not implemented.
+   */
+  double pairLoopParticle_(const vector<int> &siteList, const int noCell = 0);
 
   /// Compute the interaction between two sites
   virtual void pairSiteSite_(
@@ -603,6 +622,12 @@ class Pair : public BaseRandom {
     );
 
   int forcesFlag_ = 0;  // compute forces if == 1
+
+  // Cheaply compute the interaction between two particles (e.g., dual cut)
+  virtual void pairParticleParticleCheapEnergy_(const double &r2, const int &itype,
+    const int &jtype, double * energy, double * force) {
+    ASSERT(itype*jtype*0 + 1 == (r2 + *energy + *force)*0 + 2,
+           "not implemented"); }
 };
 
 /// Factory method with implementation generated at build time.

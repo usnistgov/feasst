@@ -30,7 +30,7 @@ int main() {  // LJ, SRSW_REFCONF
   pair.initEnergy();        // compute energy
   ASSERT(fabs(pair.peLJ() - 4*(pow(r, -12) - pow(r, -6))) < feasst::DTOL,
     "LJ equation failed");
-  ASSERT(fabs(pair.peLRC() - (8./3.)*feasst::PI*pow(space.nMol(), 2)/space.vol()
+  ASSERT(fabs(pair.peLRC() - (8./3.)*feasst::PI*pow(space.nMol(), 2)/space.volume()
     *((1./3.)*pow(pair.rCut(), -9) - pow(pair.rCut(), -3))) < feasst::DTOL,
     "LRC equation failed");
 
@@ -39,7 +39,7 @@ int main() {  // LJ, SRSW_REFCONF
   config << space.install_dir() <<
     "/testcase/1_lj/1_ref-config/lj_sample_config_periodic4.xyz";
   std::ifstream file(config.str().c_str());   // load the xyz file
-  pair2->readxyz(file);                       // read the xyz file
+  pair2->readXYZ(file);                       // read the xyz file
   pair2->initEnergy();                        // compute energy
   const double peLJ = -16.790321304625856, peLRC = -0.5451660014945704;
   ASSERT(fabs(pair2->peLRC() - peLRC) < feasst::DTOL, "SRSW LJ-LRC comparison failed");

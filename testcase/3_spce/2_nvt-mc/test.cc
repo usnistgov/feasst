@@ -11,15 +11,16 @@
 #include "feasst.h"
 
 int main() {  // SPCE, SRSW_NVTMC
+  feasst::ranInitByDate();
   auto space = feasst::makeSpace(
     {{"dimen", "3"},
      {"boxLength", "24.8586887"}});
 
   auto pair = feasst::makePairLJCoulEwald(space,
     {{"rCut", feasst::str(space->minl()/2.)},
-     {"molTypeInForcefield", "data.spce"}});
-  pair->initKSpace(5.6,   // alpha*L
-                  38);   // k^2 < k2max cutoff
+     {"molTypeInForcefield", "data.spce"},
+     {"alphaL", "5.6"},
+     {"k2max", "38"}});
 
   // acceptance criteria
   const double temperature = 298;  // Kelvin
@@ -33,6 +34,7 @@ int main() {  // SPCE, SRSW_NVTMC
   mc.initMovie("movie", 1e4);
   mc.initRestart("tmp/rst", 1e4);
   mc.setNFreqTune(1e4);
+  mc.setNFreqCheckE(1e4, 1e-6);
   mc.nMolSeek(512);
   mc.runNumTrials(1e6);   // run equilibration
 
@@ -47,8 +49,7 @@ int main() {  // SPCE, SRSW_NVTMC
   const double
     peAv = mc.peAccumulator().average()/static_cast<double>(space->nMol()),
     peStd = mc.peAccumulator().blockStdev()/static_cast<double>(space->nMol()),
-    pePublish = -46.,
-    // pePublish = -46.82, # published value
+    pePublish = -46.82,  // published value
     pePublishStd = 0.02;
   ASSERT(fabs(peAv - pePublish) < 2.576*(pePublishStd+peStd),  // 99% confidence
     "ERROR: The average potential energy(" << peAv << " +/- " << peStd

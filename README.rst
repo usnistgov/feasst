@@ -89,7 +89,8 @@ FEASST is designed for a LINUX or MAC platform with the following minimum versio
 
 * make >= 3.81
 * CMake >= 2.8.12.2
-* compiler with c++0x support (e.g., g++ >= 4.7)
+* compiler with c++11 support (e.g., g++ >= 4.7)
+* git (or download https://github.com/usnistgov/feasst/archive/master.zip)
 
 .. code-block:: bash
 

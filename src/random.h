@@ -48,10 +48,6 @@ class Random : public Base {
     return int64() % (max - min + 1) + min;
     };
 
-  // NOTE HWH: Depreciate this
-  /// Return random 32 bit unsigned integer.
-  unsigned int int32() { return (unsigned int) int64(); }
-
   /// Return random 64 bit integer.
   virtual unsigned long long int64() = 0;
 

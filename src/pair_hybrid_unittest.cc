@@ -23,6 +23,7 @@ TEST(PairHybrid, hybrid) {
   s.addMolInit("../forcefield/data.spce");
   PairLJCoulEwald p(&s, {{"rCut", "12.42934435"}});
   p.initBulkSPCE(5.6, 38);
+  p.initEnergy();
   double petot = p.peTot();
   PairHybrid ph(&s);
   ph.addPair(&p);

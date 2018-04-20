@@ -140,7 +140,7 @@ If there are a lot of errors, typically the best testing order would be::
 Debugging with GDB or LLDB
 ###########################
 
-gdb (or lldb on macOS) is a very useful debugging tool, especially for identifying segfaults via backtraces. The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
+gdb (or lldb on macOS) is especially useful for identifying segfaults via backtraces. The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
 
 In bash
 
@@ -189,7 +189,7 @@ GCC compilers allow testing of coverage with gcov and lcov for visualization.
 Speed up compilation time with ccache
 ######################################
 
-Seriously, if you haven't used ccache before, give it a try.
+If you haven't used ccache before, give it a try.
 
 Clean up with cpplint and pylint
 #######################################
@@ -237,30 +237,6 @@ Sphinx/Breathe/Doxygen tips
 
    \f$ latex code here \f$
 
-Philosophical questions and quotes
-#######################################
-
-Why are there so many comments in the header files?
-****************************************************
-
-Because I assume most users are primarily concerned with the interface.
-I prefer that one can understand most aspects of the class simply by reading the header file.
-If you would like to contribute code, then document how you are most comfortable.
-
-Why use camel case instead of underscores?
-*******************************************
-
-It saves one key stroke versus a "_" and one horizontal space.
-Perhaps for the sake of readability, FEASST will switch to a more pythonic style but that would take a lot of work.
-Feel free to stick to your favorite style in your contributed work, although ideally there is only one style per file!
-
-Quotes
-*******
-
-* "The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming", Donald Knuth, Computer Programming as an Art (1974)
-
-* "Do not copy and paste", Clancy Rowley, Princeton University Course APC524, 2010
-
 To do list
 #####################
 
@@ -269,13 +245,11 @@ To do list
 * MD with stochastic dynamics integrator
 * Perfect checkpointing
 * Automated full-checkpoint testing
-* remove printPressure from mc/criteria, printBeta, pairOrder, floppyBox, etc
 * for xyz2bin, in afterAttempt MC, use unique hash on log file and xyz configuration for error check
   -- implement with WLTMMC, use criteria to find order param column in log, then readxyz hash, find log hash match, demix conf based on the bin
 * have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)
 * remove periodicity from x/y/z dimensions (no rush here)
 * split functions.h into a variety of base_fileio, base_math, base_utils, etc
-* PairHybrid also doens't need a space pointer.
 * Use Histogram class for CriteriaWLTMMC instead of its own hard-coded version
 * To reduce the size of Space, have it inherit multiple base classes, e.g.,
   Domain which contains box lengths and cell list, etc (but needs to know about particle positions?)
@@ -286,8 +260,7 @@ To do list
 * implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).
 * runNumSweeps instead should have something where one generates the clones as vector<shrptr>, then runNumSweep takes these as input. That way one can modify the clones as one sees fit (also in multiprocessor restarts) before running the clones. It would take a lot of the hidden magic out without complicating the interface too drastically.
 * Fix GSL memory leaks
-* add PairPatchKF and PairLJCoulEwald loops to Pair base class for molecule-center-based cut-offs before loops through particles,
-  Or make them more general (e.g., multi patch particles?).
+* add PairPatchKF loops to Pair base class for molecule-center-based cut-offs before loops through particles (as done for PairLJCoulEwald),
 * Add verbosity level for printing debug messages
 * Make a citation generator for techniques that are used.
 * move checkBond from MC to analyze class for rigid particle simulations (or as part of checkE?)
@@ -299,7 +272,6 @@ To do list
 * Package FEASST as a Docker app
 * move unittests to testcases: ljmultilambda2D, NPTandLJvLJMulti, semigrand,
 * Fix the API TOC for non-derived classes (e.g., TOC disappears when you select "Histogram")
-* Add PairPatchKF testcase.
 * Add test case with AnalyzeCluster and AnalyzeScatter.
 * Add test case with PairTabular1D (and/or improve beyond linear interpolation).
 * Incorporate more "tools" as part of the test cases (e.g., rw, restart, xyz2bin, etc).
@@ -307,9 +279,15 @@ To do list
 * sphinx_rtd_theme doesn't work with NIST header/footer
 * Use short version number for display on FEASST html
 * Customize restart directory name
-* Move rCut to optional argument, after figuring out how to have map<string,string> work with base class arguments.
 * Fix testcase 1/3 by taking arguments with unittest in python.
 * Use packages to dynamically add the disclaim in the release.
 * rename feasst.str.. python doesn't like it.
 * Eventually convert all raw pointers to shared pointers (but interface blind to shared_ptr vs unique_ptr), which also allows removal of space from MC class
+* Custom derived Analysis class should be able to clone without more boiler plate
+* Operations to assign atoms to groups, and be able to apply groups to most operations like analyze, similar to lammps
+* Separate PairLJCoul into different classes for LJ, real-space Q and Ewald. Use PairHybrid to combine them.
+* Once subspace efficiently implemented, pairHybrid can store different pairs with different subspaces to optimize e.g., the LJ interaction on oxygens only (for MFB?)
+* Rename some variables... mpart should be msite? ran vs rand.
+* Implement Mayer sampling within the context of CriteriaMayer + MC handling trials (e.g., need a different way to keep track of running energy due to overflow)
+
 

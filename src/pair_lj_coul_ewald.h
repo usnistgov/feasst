@@ -45,7 +45,7 @@ class PairLJCoulEwald : public Pair {
      *
      *  k2max : Truncated fourier-space wave vector.
      *          Note, k2max must be provided if alphaL is provided.
-     *          Note that k=sqrt(k2max) is not included.
+     *          Note that k=sqrt(k2max) is not included in the cut off.
      */
     const argtype &args = argtype());
 
@@ -76,12 +76,26 @@ class PairLJCoulEwald : public Pair {
     const int kmax);
 
   /// initialize kspace, number of wave vectors and screening parameters
-  void initKSpace(const double alphatmp, const int k2max);
+  void initKSpace(const double alphatmp, const int k2max,
+    /// all energy are re-initialized if init == 1
+    const int init = 1);
 
   /// Turn off Ewald.
   /// Must be called after Pair::initData() because it automatically sets
   /// rCutij to rCut.
   void removeEwald() { initKSpace(0., 0); rCutijset(0, 0, rCut_); }
+
+  /// Scale domain, including update to wave vectors
+  void scaleDomain(const double factor, const int dim) {
+    const double alphaL = alpha*space_->minl();
+    Pair::scaleDomain(factor, dim);
+    initKSpace(alphaL, k2max_, 0); }
+
+  /// Scale domain, including update to wave vectors
+  void scaleDomain(const double factor) {
+    const double alphaL = alpha*space_->minl();
+    Pair::scaleDomain(factor);
+    initKSpace(alphaL, k2max_, 0); }
 
   /// initialize with LAMMPS data file
   void initLMPData(const string fileName);
@@ -92,6 +106,13 @@ class PairLJCoulEwald : public Pair {
     "JSON not implemented for charges"); }
 
   void initEnergy();     //!< function to calculate forces, given positions
+
+  /// Compute potential energy and forces of all particles.
+  double allPartEnerForce(
+    /// If flag == 0, no compute. return the stored potential energy (peTot_)
+    /// If flag == 1, compute
+    /// If flag == 2, compute without optimizations (e.g., cells, etc)
+    const int flag = 1);
 
   /**
    *  compute interaction contributions of multiple particles
@@ -119,6 +140,10 @@ class PairLJCoulEwald : public Pair {
   int multiPartEnerAtomCutInner(const double &r2, const int &itype,
                                 const int &jtype);
 
+  // Overloaded virtual in order to use LJ of Oxygen when cheap energy enabled
+  void pairParticleParticleCheapEnergy_(const double &r2, const int &itype,
+    const int &jtype, double * energy, double * force);
+
   /**
    * stores, restores or updates variables to avoid recompute of entire
    * configuration after every change
@@ -135,7 +160,6 @@ class PairLJCoulEwald : public Pair {
 
   double peTot();   //!< total potential energy of system
 
-  void delPart(const int ipart);   // HWH depreciate: delete one particle
   void delPart(const vector<int> mpart);   //!< delete particles
   void addPart();                       //!< add particle(s)
 

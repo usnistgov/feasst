@@ -30,6 +30,9 @@
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
 
+class Group;
+class Atom;
+
 /**
  * The space class owns variables and functions associated with the real-space
  * position of particles and the domain in which they reside.
@@ -65,10 +68,13 @@ class Space : public BaseRandom {
    *  Finally, print coordinates of all molecules in that order. */
   void writeRestart(const char* fileName);
 
-  /* NOTE: HWH: Depreciated function. Don't use this.
-   * Initialize the atomic positions according to some formula used for
-   * testing purposes. Use python for more general input. */
-  int init_config(const int natom);
+  /*
+   * Initialize the atomic positions according to some formula:
+   * x = 0.95 * (iAtom * dimensions + dim)
+   * boxLength = natom * dimensions
+   * Used for testing purposes.
+   */
+  void init_config(const int natom);
 
   /// Write the atomic positions to a file.
   int printXYZ(const char* fileName,
@@ -79,11 +85,6 @@ class Space : public BaseRandom {
      */
     const std::string comment = "");
 
-  // NOTE HWH: Depreciated for style. Use printXYZ.
-  int printxyz(const char* fileName, const int initFlag,
-               const std::string comment = "") {
-               return printXYZ(fileName, initFlag, comment); }
-
   /** Read particle positions and number of particles from XYZ file format.
    *  http://www.ks.uiuc.edu/Research/vmd/plugins/molfile/xyzplugin.html
    *  [ # optional comment line ] comment line (can be blank)
@@ -93,15 +94,9 @@ class Space : public BaseRandom {
       atom2 x y z [ ...         ] and and (optionally) other data. */
   void readXYZ(const char* fileName);
 
-  // NOTE HWH: Depreciated for style. Use readXYZ.
-  void readxyz(const char* fileName) { readXYZ(fileName); }
-
   /** Alternative readXYZ, this one adds and deletes molecules in addMolInit.
-   *  See readxyz for description of xyz file format. */
+   *  See above for description of xyz file format. */
   void readXYZ(std::ifstream& file);
-
-  // NOTE HWH: Depreciated for style. Use readXYZ.
-  void readxyz2(std::ifstream& file) { readXYZ(file); }
 
   /// Read particle possitions from XTC file format.
   #ifdef XDRFILE_H_
@@ -110,11 +105,6 @@ class Space : public BaseRandom {
   /// Write particle possitions in XTC file format.
   void writeXTC(XDRFILE* trjFileXDR);
   #endif  // XDRFILE_H_
-
-  /* Return the change in position according to periodic boundary conditions.
-   * Assumes cubic periodic box centered about the origin.
-   * NOTE HWH: Depreciated because it does not support triclinic box. */
-  double pbc(const double x, const int dim);
 
   /** Return the change in position according to periodic boundary conditions.
    *  Assumes box centered about the origin, and that the particle only
@@ -183,28 +173,27 @@ class Space : public BaseRandom {
   void initBoxLength(double length, int dimension) {
     boxLength_[dimension] = length; }
 
-  // HWH: Depreciate old name
-  void lset(double length, int dimension) { initBoxLength(length, dimension); }
-
   /// Set length of domain boundary to "length" in all dimensions.
   void initBoxLength(double length) {
     for (int dim = 0; dim < dimen_; ++dim) {boxLength_[dim] = length; } }
-  // HWH: Depreicate old name
-  void lset(double length) { initBoxLength(length); }
 
-  /** Randomly displace particles mpart by a random amount
+  /** Randomly displace particle mpart by a random amount
    *  of maximum size maxDisp in each dimension. */
-  void randDisp(const vector<int> mpart, const double maxDisp);
+  void randDispNoWrap(const vector<int> &mpart, const double maxDisp);
 
-  // NOTE HWH: Depreciated function
-  void randDisp(int part, const double maxDisp);
-
-  // NOTE HWH: Depreciate function. Only used by TrialCluster, and no wrap?
-  void randDispMulti(const vector<int> mpart, const double maxDisp);
+  /** Randomly displace particle as above, but also wrap the particle.
+   * Assumes only one contiguous particle, such that all sites are
+   * wrapped based on the position of the first site in mpart */
+  void randDisp(const vector<int> &mpart, const double maxDisp);
 
   /** Random rotation of particles mpart by a random amount of maximum size
    *  maxRot.*/
   void randRotate(const vector<int> mpart, const double maxRot);
+
+  /** Random rotation of particles mpart about an axis by a random amount of
+      maximum size maxRot.*/
+  void randRotateAboutAxis(const vector<int> &mpart, const vector<double> &axis,
+    const double maxRot);
 
   /** Randomly rotate multiple molecules about the center of mass by a random
    *  amount given by maxDisp. Mass of all particles assumed equal
@@ -265,10 +254,6 @@ class Space : public BaseRandom {
   /// Returns particle IDs of the last molecule that was added.
   vector<int> lastMolIDVec();
 
-  // Check the bond lengths of particles of type against reference particle.
-  // NOTE HWH: Depreciated
-  int checkBond(const char* type, const double tolerance);
-
   /** Check the bond lengths of particles of type against reference particle.
    *  \return 1 if bonds match. */
   int checkBond(const double tolerance);
@@ -287,15 +272,15 @@ class Space : public BaseRandom {
   int bonded(const vector<int> mpart, const vector<int> jmpart,
              const double rabove, const double rbelow);
 
-  /** Moves molecule mpart to bonded/nonbonded region of jmpart
-   *  and returns whether mpart was previously in a bonded configuration. */
+  /* Moves molecule mpart to bonded/nonbonded region of jmpart
+   * and returns whether mpart was previously in a bonded configuration. */
   int avb(const vector<int> mpart, const vector<int> jmpart,
           const double rabove, const double rbelow,
           /// move to type=="(non)bonded" region
           const char* type);
 
-  /// Move atom iAtom to in/out region of jmpart.
-  // NOTE HWH : is this function still used?
+  // Move atom iAtom to in/out region of jmpart.
+  // Used by TrialConfigBias
   void avb(const int iAtom, const int jAtom, const double rAbove,
            const double rBelow, const char* region);
 
@@ -431,6 +416,7 @@ class Space : public BaseRandom {
 
   /// Return list of all particles in molecule iMol.
   vector<int> imol2mpart(const int iMol);
+  void imol2mpart(const int iMol, vector<int> * mpart);
 
   /// Given list of particles, return inertia tensor (3D only).
   vector<vector<double> > inertialTensor(const vector<int> mpart);
@@ -459,16 +445,11 @@ class Space : public BaseRandom {
   void updateClusterVars(const int nClusters);
 
   /// Use contact and contactpbc to update cluster variables.
-  void contact2clusterAlt(
+  void contact2cluster(
     /** For each molecule, list of molecules which are in contact. */
     vector<vector<int> > contact,
     /** For each molecule, PBC shift (for each dimension) of each contact. */
     vector<vector<vector<double> > > contactpbc);
-
-  // Use contact and contactpbc to update cluster variables.
-  // NOTE HWH: Deprciated. Use contact2clusterAlt.
-  void contact2cluster(vector<vector<int> > contact,
-                       vector<vector<vector<double> > > contactpbc);
 
   // Store a value for the potential energy for moments extrapolation
   // on clusters.
@@ -531,13 +512,6 @@ class Space : public BaseRandom {
   /// Return list of angles involving atoms iAtom and jAtom.
   vector<vector<int> > listAngles(const int iAtom, const int jAtom);
 
-  // accumulate radial distance histogram
-  // NOTE HWH: Depreciate in favor of Analysis class.
-  void nRadialHist(Histogram *nhistPtr);
-
-  // Write the radial distribution function.
-  void printRadial(const Histogram &nhist, const char* fileName);
-
   /// Pivot iMol about the reflection point, r. \f$  rnew = 2*r - rAtom \f$.
   void pivotMol(const int iMol, const vector<double> r);
 
@@ -569,16 +543,29 @@ class Space : public BaseRandom {
     /// distance cut-off to define neighbors
     const double rCut);
 
-  /// NOTE HWH: Define precisely XY, XZ and YZ tilt factors here.
-  /// Set the xy tilt factor
+  /**
+   * Triclinic periodic cell is defined by a vector for each dimension.
+   * For the first (i.e., "x") dimension, vec(lx) = {lx, 0, 0}
+   * For the second (i.e., "y"), vec(ly) = {xyTilt, ly, 0}
+   * For the third (i.e., "z"), vec(lz) = {xzTilt, yzTilt, lz}
+   * The following functions set and modify these tilt factors.
+   */
   void setXYTilt(const double xyTilt);
+
+  /// As above, but for XZ
   void setXZTilt(const double xzTilt);
+
+  /// As above, but for YZ
   void setYZTilt(const double yzTilt);
 
-  /// modify the xy tilt factor, and transform the particles
-  // NOTE HWH CLEANUP: same for xy,yz,etc..
+  /// Modify the tilt factors, and simultaneously transform the particles
+  /// based on the position of the first site.
   void modXYTilt(const double deltXYTilt);
+
+  /// As above, but for XZ
   void modXZTilt(const double deltXZTilt);
+
+  /// As above, but for YZ
   void modYZTilt(const double deltYZTilt);
 
   /// Return minimum bond length in all molecules present or in addMolInit.
@@ -628,6 +615,9 @@ class Space : public BaseRandom {
   void storeUniqueHash();
   std::string const hash() { return hash_; }
 
+  /// Simulation domain volume
+  double volume() const { return product(boxLength_); }
+
   // functions for read-only access of private data-members
   /// full access to private data-members
   vector<vector<vector<int> > > intraMap() { return intraMap_; }
@@ -641,17 +631,13 @@ class Space : public BaseRandom {
   vector<vector<double> > xold() const { return xold_; }
   vector<vector<vector<double> > > xOldMulti() const { return xOldMulti_; }
   double x(int ipart, int dim) const { return x_[dimen_*ipart+dim]; }
+  double xMol(int iMol, int dim) const {
+    return x_[dimen_*mol2part_[iMol]+dim]; }
   vector<int> mol2part() const { return mol2part_; }
   vector<int> tag() const { return tag_; }
   double tagStage() const { return tagStage_; }
-  vector<double> l() const { return boxLength_; }  //HWH NOTE: Depreciate
   vector<double> boxLength() const { return boxLength_; }
-  double l(const int i) const { return boxLength_[i]; }  //HWH NOTE: Depreciate
   double boxLength(const int i) const { return boxLength_[i]; }
-  double vol() const { return volume(); }  // simulation domain volume:
-  // HWH depreciate the above vol()
-  /// Simulation domain volume
-  double volume() const { return product(boxLength_); }
   double type(const int i) const { return type_[i]; }
   vector<int> type() const { return type_; }
   vector<int> mol() const { return mol_; }
@@ -698,8 +684,16 @@ class Space : public BaseRandom {
     } else { return vecAverage(clusterSizes_); } }
   vector<int> clusterType() const { return clusterType_; }
   vector<vector<int> > clusterList() const { return clusterList_; }
+
+  /// Number of clusters, averaged over each configuration, for given nMol
   AccumulatorVec clusterSizeAccVec() const { return clusterSizeAccVec_;}
+
+  /// Average size of clusters, averaged over each configuration, for given nMol
   AccumulatorVec clusterNumAccVec() const { return clusterNumAccVec_;}
+
+  /// The cluster size distribution is defined as the following:
+  /// Pick a random cluster. What is the probability it is of size "x"?
+  /// Note, this is not "pick a random molecule, which is cluster size?"
   AccumulatorVec clusterSizeDistribution() const
     { return clusterSizeDistribution_;}
   AccumulatorVec clusterSizeDistributionU() const
@@ -728,13 +722,27 @@ class Space : public BaseRandom {
   double xyTilt() const { return xyTilt_; }
   double xzTilt() const { return xzTilt_; }
   double yzTilt() const { return yzTilt_; }
-  int floppyBox() const { return floppyBox_; }
   int equiMolar() const { return equiMolar_; }
   int percolation() const { return percolation_; }
   int eulerFlag() const { return eulerFlag_; }
 
   /// Return true if the domain is tilted
   bool tilted() const;
+
+  /// Initialize a per-atom quantity
+  void initAtom(shared_ptr<Atom> group);
+  vector<shared_ptr<Atom> > atoms() const { return atoms_; }
+
+  /// Initialize a group as per-atom quantity
+  void initGroup(shared_ptr<Group> group);
+  vector<shared_ptr<Group> > groups() const { return groups_; }
+
+  /// Return group index given string name.
+  int groupName2id(const std::string name);
+
+  /// Return group given string name.
+  shared_ptr<Group> groupByName(const std::string name) {
+    return groups_[groupName2id(name)]; }
 
  private:
   int dimen_;     //!< dimesion of real space
@@ -800,19 +808,19 @@ class Space : public BaseRandom {
   /// flood fill algorithm to identify clusters based on atomic distance cutoff
   void floodFill3d_(const int clusterNode, const int clusterID,
                    const double rCut);
+  /// as above but uses cell list
   void floodFillCell3d_(const int clusterNode, const int clusterID,
                        const double rCut);
   void floodFill2d_(const int clusterNode, const int clusterID,
                    const double rCut);
-  void floodFillContact_(const int clusterNode, const int clusterID,
-                        vector<vector<int> > *contactPtr,
-                        vector<vector<vector<double> > > *contactpbcPtr);
-  void floodFillContactAlt_(const int clusterNode, const int clusterID,
-                           vector<vector<int> > *contactPtr,
-                           vector<vector<vector<double> > > *contactpbcPtr,
-                           vector<vector<int> > *image);
 
-  /// prefile cluster vars
+  /// flood fill algorithm using contact map obtained from Pair
+  void floodFillContact_(const int clusterNode, const int clusterID,
+                         vector<vector<int> > *contactPtr,
+                         vector<vector<vector<double> > > *contactpbcPtr,
+                         vector<vector<int> > *image);
+
+  /// prefil cluster variables
   void prefilClusterVars_();
 
   bool fastDel_;         //!< use fast method of deleting particles
@@ -895,8 +903,6 @@ class Space : public BaseRandom {
   double xyTilt_;                  //!< xy tilt factor
   double xzTilt_;                  //!< xz tilt factor
   double yzTilt_;                  //!< yz tilt factor
-  /// flag is 1 if the box tilt factors are changing during the simulation
-  int floppyBox_;
   vector<double> maxl_;     //!< max box length
   int maxlFlag_;            //!< flag if maxl set
 
@@ -915,6 +921,10 @@ class Space : public BaseRandom {
 
   // unique hash for configurations
   std::string hash_;
+
+  // custom per atom quantities
+  vector<shared_ptr<Group> > groups_;
+  vector<shared_ptr<Atom> > atoms_;
 };
 
 /// Factory method

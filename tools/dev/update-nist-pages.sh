@@ -1,12 +1,14 @@
 # update nist-pages
-cp -r buildtemplate build
+mkdir build
 cd build
-cmake -DUSE_SPHINX=ON .
+cmake -DUSE_SPHINX=ON ..
 make html
 version=`git describe`
 #branch=`git branch | grep \* | cut -d ' ' -f2`
+mv html html2
 git checkout nist-pages
-cp -r html/* ../
+cp -r html2/* ../
+cp -r html2/* html/
 git status
 echo "Press [Enter] to commit with message: "$version"?"
 read -s

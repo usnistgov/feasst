@@ -244,7 +244,7 @@ double PairLJ::multiPartEner(const vector<int> mpart, const int flag) {
       // search all particle types, and sum lrcs of each
       for (int jType = 0; jType < space_->nParticleTypes(); ++jType) {
         int n = space_->nType()[jType];
-        peLRCone_ += (2.*static_cast<double>(n)-1)/space_->vol()
+        peLRCone_ += (2.*static_cast<double>(n)-1)/space_->volume()
           * lrcPreCalc_[iType][jType];
       }
     }
@@ -313,11 +313,13 @@ void PairLJ::cutShiftijset(
                                     - pow(rinv, alpha_));
 
     double peShiftY = 0;
-    ASSERT(sigrefFlag_ == 0 || yukawa_ == 0, "sigref not implemented here");
     if (yukawa_ == 1) {
       peShiftY = -eps*yukawaA_*exp(-yukawaK_*rc/sig)/(rc/sig);
     } else if (yukawa_ == 2) {
       peShiftY = -yukawaA_*exp(-yukawaK_*rc/sig)/(rc/sig);
+    } else if (yukawa_ == 3) {
+      peShiftY = -yukawaAij_[itype][jtype]
+                 *exp(-yukawaKij_[itype][jtype]*rc/sig)/(rc/sig);
     }
 
     peShiftij_[itype][jtype] = peShiftLJ + peShiftY;
@@ -353,7 +355,6 @@ void PairLJ::linearShiftijset(
     const double peLShiftLJ = -4.*eps/sigtmp*(-2*alpha_*pow(rinv, (2*alpha_)
       + 1) + alpha_*pow(rinv, alpha_ + 1));
 
-    ASSERT(sigrefFlag_ == 0 || yukawa_ == 0, "sigref not implemented here");
     double peLShiftY = 0;
     if (yukawa_ == 1) {
       peLShiftY = eps*yukawaA_*exp(-yukawaK_*rc/sig)/(rc/sig)
@@ -361,6 +362,10 @@ void PairLJ::linearShiftijset(
     } else if (yukawa_ == 2) {
       peLShiftY = yukawaA_*exp(-yukawaK_*rc/sig)/(rc/sig)
         * (yukawaK_ + sig/rc) / sig;
+    } else if (yukawa_ == 3) {
+      peLShiftY = yukawaAij_[itype][jtype]
+        * exp(-yukawaKij_[itype][jtype]*rc/sig)/(rc/sig)
+        * (yukawaKij_[itype][jtype] + sig/rc) / sig;
     }
 
     peLinearShiftij_[itype][jtype] = peLShiftLJ + peLShiftY;
@@ -539,7 +544,7 @@ double PairLJ::computeLRC(const int ipart) {
   // search all particle types, and sum lrcs of each
   for (int jType = 0; jType < space_->nParticleTypes(); ++jType) {
     int n = space_->nType()[jType];
-    enlrc += static_cast<double>(n)/space_->vol() * lrcPreCalc_[iType][jType];
+    enlrc += static_cast<double>(n)/space_->volume() * lrcPreCalc_[iType][jType];
   }
   return enlrc;
 }
@@ -632,6 +637,10 @@ void PairLJ::pairSiteSite_(const int &iSiteType, const int &jSiteType,
     } else if (yukawa_ == 2) {
       if (!linearShiftFlag_) r = sqrt(r2);
       *energy += yukawaA_ * exp(-yukawaK_*r/sigij)/r*sigij;
+    } else if (yukawa_ == 3) {
+      if (!linearShiftFlag_) r = sqrt(r2);
+      *energy += yukawaAij_[iSiteType][jSiteType]
+                 * exp(-yukawaKij_[iSiteType][jSiteType]*r/sigij)/r*sigij;
     }
 
     // gaussians
@@ -773,6 +782,31 @@ void PairLJ::update(
       peTot_ += deLJ_ + deLRC_;
     }
   }
+}
+
+void PairLJ::initScreenedElectroIJ(const int itype, const int jtype,
+  const double A, const double K) {
+  yukawa_ = 3;
+  if (static_cast<int>(yukawaAij_.size()) <= itype) yukawaAij_.resize(itype+1);
+  if (static_cast<int>(yukawaAij_.size()) <= jtype) yukawaAij_.resize(jtype+1);
+  if (static_cast<int>(yukawaKij_.size()) <= itype) yukawaKij_.resize(itype+1);
+  if (static_cast<int>(yukawaKij_.size()) <= jtype) yukawaKij_.resize(jtype+1);
+  if (static_cast<int>(yukawaAij_[itype].size()) <= jtype) {
+    yukawaAij_[itype].resize(jtype+1);
+  }
+  if (static_cast<int>(yukawaAij_[jtype].size()) <= itype) {
+    yukawaAij_[jtype].resize(itype+1);
+  }
+  if (static_cast<int>(yukawaKij_[itype].size()) <= jtype) {
+    yukawaKij_[itype].resize(jtype+1);
+  }
+  if (static_cast<int>(yukawaKij_[jtype].size()) <= itype) {
+    yukawaKij_[jtype].resize(itype+1);
+  }
+  yukawaAij_[itype][jtype] = A;
+  yukawaAij_[jtype][itype] = A;
+  yukawaKij_[itype][jtype] = K;
+  yukawaKij_[jtype][itype] = K;
 }
 
 shared_ptr<PairLJ> makePairLJ(Space* space, const argtype &args) {

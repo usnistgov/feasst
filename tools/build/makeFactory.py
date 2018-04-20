@@ -10,7 +10,7 @@ args = parser.parse_args()
 assert(args.source_dir != "err")  # -s argument is required
 
 factoryBaseClasses=["pair", "criteria", "analyze", "trial", "random"]
-baseClasses=["accumulator", "analyze", "barrier", "base", "criteria", "custom_exception", "histogram", "mc", "pair", "random", "shape", "space", "table", "trial"]
+baseClasses=["accumulator", "analyze", "barrier", "base", "criteria", "custom_exception", "histogram", "mc", "pair", "random", "shape", "space", "table", "trial", "group"]
 nonClasses=["functions", "ui_abbreviated", "physical_constants"]
 
 ####################################################

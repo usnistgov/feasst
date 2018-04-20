@@ -75,7 +75,7 @@ Trial::Trial(Pair *pair, Criteria *criteria, const char* fileName)
 void Trial::defaultConstruction_() {
   className_.assign("Trial");
   zeroStat();
-  maxMoveParam = -1;
+  maxMoveParam = maxMoveParamDefault_;
   maxMoveFlag = 0;
   verbose_ = 0;
   nf_ = 0;
@@ -167,6 +167,7 @@ double Trial::multiFirstBead_(const int flag) {
     }
     en_[i] = pair_->multiPartEner(mpart_, flag);
     w_[i] = exp(-criteria_->beta()*en_[i]);
+    // cout << "w" << i << " " << w_[i] << " " << en_[i] << " " << flag << endl;
     if (i != 0) w_[i] += w_[i-1];
   }
   const double wr = w_.back();
@@ -177,7 +178,9 @@ double Trial::multiFirstBead_(const int flag) {
   if (wr != 0) {
     // if new configuration, select f and multiply by weight
     if ( (flag == 1) || (flag == 3) ) {
-      for (int i = 0; i < nf_; ++i) cpdf_[i] = w_[i]/wr;
+      for (int i = 0; i < nf_; ++i) {
+        cpdf_[i] = w_[i]/wr;
+      }
       int f = ranFromCPDF(cpdf_);
       def_ = en_[f];
       space()->xStoreMulti(mpart_, f);
@@ -220,7 +223,7 @@ void Trial::writeRestartBase(const char* fileName) {
     file << "# rAbove " << rAbove_ << endl;
     file << "# rBelow " << rBelow_ << endl;
   }
-  if (maxMoveParam != -1) {
+  if (maxMoveParam != maxMoveParamDefault_) {
     file << "# maxMoveParam " << maxMoveParam << endl;
   }
   if (confineFlag_ == 1) {
@@ -228,7 +231,7 @@ void Trial::writeRestartBase(const char* fileName) {
     file << "# confineLower " << confineLower_ << endl;
     file << "# confineDim " << confineDim_ << endl;
   }
-  if (nPartTarget_ == -1) {
+  if (nPartTarget_ != -1) {
     file << "# nPartTarget " << nPartTarget_ << endl;
   }
 
@@ -245,8 +248,12 @@ double Trial::acceptPer() const {
 }
 
 void Trial::trialMoveRecord_() {
-  peOld_ = pair_->multiPartEner(mpart_, 0);
-  pair_->update(mpart_, 0, "store");
+  if (criteria_->className() != "CriteriaMayer") {
+    peOld_ = pair_->multiPartEner(mpart_, 0);
+    pair_->update(mpart_, 0, "store");
+  } else {
+    peOld_ = pair_->peTot();
+  }
   space()->xStore(mpart_);
 }
 
@@ -271,7 +278,11 @@ void Trial::trialMoveDecide_(const double def,
     if (criteria_->accept(lnpMet_, pair_->peTot() + de_, trialType_.c_str(),
                           reject_) == 1) {
       space()->wrap(mpart_);
-      pair_->update(mpart_, 0, "update");
+      if (criteria_->className() != "CriteriaMayer") {
+        pair_->update(mpart_, 0, "update");
+      } else {
+        pair_->updatePeTot(pe);
+      }
       if (verbose_ == 1) cout << "accepted " << de_ << std::endl;
       trialAccept_();
     } else {

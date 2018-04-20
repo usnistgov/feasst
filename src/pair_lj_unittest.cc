@@ -86,7 +86,6 @@ TEST(PairLJ, equltl43muvttmmc) {
 
 TEST(PairLJ, linearForceShiftLJ) {
   Space s(3);
-  s.initBoxLength(8);
   std::stringstream addMolType;
   addMolType << s.install_dir() << "/forcefield/data.lj";
   s.addMolInit(addMolType.str());
@@ -246,7 +245,7 @@ TEST(PairLJ, cg3exampleConfig) {
   Space s(3);
   s.addMolInit("../forcefield/data.cg3_60_1_1");
   std::ifstream inFile("../unittest/cg3/cg3_60_1_1/example/moviep1n50.xyz");
-  s.readxyz2(inFile);
+  s.readXYZ(inFile);
   EXPECT_EQ(50, s.nMol());
   vector<double> x(s.dimen(), 0.);
   PairLJ p(&s, {{"rCut", "3"}, {"molType", "../forcefield/data.cg3_60_1_1"}});

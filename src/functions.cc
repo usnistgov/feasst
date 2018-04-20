@@ -129,18 +129,6 @@ vector<vector<double> > theta2rot(double theta) {
   return r;
 }
 
-vector<vector<double> > vecSPCE() {
-  vector<vector<double> > x(3, vector<double>(3));
-  const double doh = 1.;
-  const double theta = 109.47;
-  x[0][0] = 0.; x[0][1] = 0.; x[0][2] = 0;
-  x[1][0] = doh; x[1][1] = 0.; x[1][2] = 0;
-  x[2][0] = -1*doh*cos((180-theta)/180*PI);
-  x[2][1] = doh*sin((180-theta)/180*PI);
-  x[2][2] = 0;
-  return x;
-}
-
 vector<vector<double> > matMul(const vector<vector<double> > &a,
   const vector<vector<double> > &b) {
   vector<vector<double> > c(int(a.size()), vector<double>(int(b[0].size())));
@@ -686,6 +674,27 @@ int factorial(int x, int result) {
   } else {
     return factorial(x - 1, x*result);
   }
+}
+
+void vecRestartReader(const char* label, vector<int> * data,
+  std::string fileName) {
+  std::ifstream file(fileName);
+  std::stringstream ss;
+  ss << "num_" << label;
+  const std::string strtmp = fstos(ss.str().c_str(), fileName.c_str());
+  if (!strtmp.empty()) {
+    const int num = stoi(strtmp);
+    data->resize(num);
+    for (int index = 0; index < num; ++index) {
+      ss.str("");
+      ss << "i" << label << index;
+      (*data)[index] = fstoi(ss.str().c_str(), fileName.c_str());
+    }
+  }
+}
+
+void causeSegFault() {
+  raise(SIGSEGV);
 }
 
 #ifdef FEASST_NAMESPACE_

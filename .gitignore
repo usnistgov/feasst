@@ -29,6 +29,7 @@ callgrind*
 *.swp
 
 #configuration files
+*.xtc
 *.xyz
 *.vmd
 
@@ -47,6 +48,7 @@ log*
 #test files
 test/*
 *test
+*notrack*
 
 #tables
 table/*

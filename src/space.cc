@@ -11,6 +11,7 @@
 #include <limits>
 #include <algorithm>
 #include "./space.h"
+#include "./group.h"
 
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
@@ -48,8 +49,6 @@ Space::Space(const char* fileName) {
   if (!strtmp.empty()) xzTilt_ = stod(strtmp);
   strtmp = fstos("yzTilt", fileName);
   if (!strtmp.empty()) yzTilt_ = stod(strtmp);
-  strtmp = fstos("floppyBoxFlag", fileName);
-  if (!strtmp.empty()) floppyBox_ = stoi(strtmp);
   strtmp = fstos("maxlFlag", fileName);
   if (!strtmp.empty()) {
     maxlFlag_ = stoi(strtmp);
@@ -177,6 +176,30 @@ Space::Space(const char* fileName) {
     cellType_ = 0;
   }
 
+  // initialize groups
+  strtmp = fstos("num_groups", fileName);
+  if (!strtmp.empty()) {
+    const int num = stoi(strtmp);
+    for (int index = 0; index < num; ++index) {
+      std::stringstream ss;
+      ss << "rstFileGroup" << index;
+      string grpfile = fstos(ss.str().c_str(), fileName);
+      initGroup(make_shared<Group>(grpfile.c_str()));
+    }
+  }
+
+  // initialize atoms
+  strtmp = fstos("num_atoms", fileName);
+  if (!strtmp.empty()) {
+    const int num = stoi(strtmp);
+    for (int index = 0; index < num; ++index) {
+      std::stringstream ss;
+      ss << "rstFileAtom" << index;
+      string grpfile = fstos(ss.str().c_str(), fileName);
+      initAtom(make_shared<Atom>(grpfile.c_str()));
+    }
+  }
+
   // initialize random number generator
   initRNG(fileName);
 }
@@ -198,7 +221,6 @@ void Space::defaultConstruction_() {
   xyTilt_ = 0.;
   xzTilt_ = 0.;
   yzTilt_ = 0.;
-  floppyBox_ = 0;
   maxlFlag_ = 0;
   mol2part_.push_back(0);
   nType_.resize(1, 0);
@@ -237,38 +259,21 @@ void Space::reconstruct_() {
   Base::reconstruct();
 }
 
-int Space::init_config(const int natom) {
-  x_.resize(natom*dimen_);
-  type_.resize(natom);
-  mol_.clear();
-  mol2part_.clear();
-  nType_.resize(1);
-  nType_[0] = natom;
-  nMolType_.resize(1);
-  nMolType_[0] = natom;
-
-  // low density analytical method of assigning atomic positions
-  for (int i = 0; i < natom; ++i) {
-    for (int j = 0; j < dimen_; ++j) {
-      x_[dimen_*i+j] = 0.95 * (i * dimen_ + j);
+void Space::init_config(const int natom) {
+  std::stringstream ss;
+  ss << install_dir() << "/forcefield/data.atom";
+  addMolInit(ss.str());
+  vector<double> xAddInit(dimen());
+  for (int iAtom = 0; iAtom < natom; ++iAtom) {
+    for (int dim = 0; dim < dimen_; ++dim) {
+      xAddInit[dim] = 0.95 * (iAtom * dimen_ + dim);
     }
-    listAtoms_.push_back(i);
-    mol_.push_back(i);
-    vector<int> m(1, i);
-    std::string type("atom");
-    moltype_.push_back(type);
-    molid_.push_back(0);
-    mol2part_.push_back(i);
+    xAdd = xAddInit;
+    addMol(ss.str());
   }
-  mol2part_.push_back(natom);
-  for (int i = 0; i < dimen_; ++i) {
-    boxLength_[i] = natom * dimen_;
+  for (int dim = 0; dim < dimen_; ++dim) {
+    initBoxLength(natom * dimen_, dim);
   }
-
-  // update molecule numbers
-  xMolGen();
-
-  return 0;
 }
 
 int Space::printXYZ(const char* fileName, const int initFlag,
@@ -401,7 +406,17 @@ void Space::readXYZ(std::ifstream& file) {
       }
     }
     getline(file, line);
-    { std::istringstream iss(line); iss >> iAtom;}
+
+    // read the box size
+    {
+      std::istringstream iss(line);
+      double boxl;
+      iss >> boxl;
+      for (int dim = 0; dim < dimen_; ++dim) {
+        iss >> boxl;
+        initBoxLength(boxl, dim);
+      }
+    }
 
     // read coordinates and convert to angstroms
     for (int i = 0; i < natom(); ++i) {
@@ -418,65 +433,37 @@ void Space::readXYZ(std::ifstream& file) {
   }
 }
 
-double Space::pbc(const double x, const int i) {
-  ASSERT(!tilted(), "orthogonal box pbc called with nonzero tilt factors");
-  double dx = x/boxLength_[i];  // change in position, to be returned
-  if (dx > 0.5) {
-    dx = -boxLength_[i] * static_cast<int>(dx + 0.5);
-  } else if (dx < -0.5) {
-    dx = -boxLength_[i] * static_cast<int>(dx - 0.5);
-  } else {
-    dx = 0.;
-  }
-  return dx;
-}
-
 vector<double> Space::pbc(const vector<double> x) {
   vector<double> dx(dimen_, 0.);
-  if (!tilted()) {
-    for (int dim = 0; dim < dimen_; ++dim) {
-      dx[dim] = pbc(x[dim], dim);
-    }
-  } else {
-    double dx1 = x[0], dxOld = dx1;
-    double dy = x[1], dyOld = dy;
-    double dz = 0, dzOld = dz;
-    if (dimen_ == 3) dzOld = dz = x[2];
-    pbc(&dx1, &dy, &dz, boxLength_[0], boxLength_[1], boxLength_[2]);
-    dx[0] = dx1 - dxOld;
-    dx[1] = dy - dyOld;
-    if (dimen_ == 3) dx[2] = dz - dzOld;
-  }
+  double dx1 = x[0], dxOld = dx1;
+  double dy = x[1], dyOld = dy;
+  double dz = 0, dzOld = dz;
+  if (dimen_ == 3) dzOld = dz = x[2];
+  pbc(&dx1, &dy, &dz, boxLength_[0], boxLength_[1], boxLength_[2]);
+  dx[0] = dx1 - dxOld;
+  dx[1] = dy - dyOld;
+  if (dimen_ == 3) dx[2] = dz - dzOld;
   return dx;
 }
 
-void Space::randDisp(const vector<int> mpart, const double maxDisp) {
-  double maxDispTmp = maxDisp;
-  for (int dim = 0; dim < dimen_; ++dim) {
-    if (maxDisp == -1) maxDispTmp = boxLength_[dim]/2.;
-    const double disp = maxDispTmp*(2*uniformRanNum() - 1);
-    for (unsigned int i = 0; i < mpart.size(); ++i) {
-      x_[dimen_*mpart[i]+dim] += disp;
-    }
-  }
-
-  // wrap inside box
+void Space::randDisp(const vector<int> &mpart, const double maxDisp) {
+  randDispNoWrap(mpart, maxDisp);
+  // wrap inside box, assuming first site is center of only one particle
+  // e.g., not multiple particles
   wrap(mpart);
 }
 
-void Space::randDisp(const int part, const double maxDisp) {
-  vector<int> mpart;
-  mpart.push_back(part);
-  randDisp(mpart, maxDisp);
-}
-
-void Space::randDispMulti(const vector<int> mpart, const double maxDisp) {
+void Space::randDispNoWrap(const vector<int> &mpart, const double maxDisp) {
   double maxDispTmp = maxDisp;
   for (int dim = 0; dim < dimen_; ++dim) {
     if (maxDisp == -1) maxDispTmp = boxLength_[dim]/2.;
     const double disp = maxDispTmp*(2*uniformRanNum() - 1);
-    for (unsigned int i = 0; i < mpart.size(); ++i) {
-      x_[dimen_*mpart[i]+dim] += disp;
+    for (vector<int>::const_iterator it = mpart.begin();
+         it != mpart.end();
+         ++it) {
+      x_[dimen_*(*it)+dim] += disp;
+//    for (unsigned int i = 0; i < mpart.size(); ++i) {
+//      x_[dimen_*mpart[i]+dim] += disp;
     }
   }
 }
@@ -526,6 +513,43 @@ void Space::randRotate(const vector<int> mpart, const double maxDisp) {
   }
 }
 
+void Space::randRotateAboutAxis(const vector<int> &mpart,
+  const vector<double> &axis,
+  const double maxDisp) {
+  if (sphereSymMol_ == false) {
+    ASSERT(dimen_ == 3 && eulerFlag_ == 0, "3D with quaternions only");
+    // assume that mpart is made of only one molecule
+    const int iMol = mol_[mpart[0]];
+    const int nSite = static_cast<int>(mpart.size());
+
+    // define position vectors for each rotated particle w.r.t. first site
+    vector<vector<double> > r(nSite, vector<double>(dimen_, 0.));
+    for (int ii = 0; ii < nSite; ++ii) {
+      const int iSite = mpart[ii];
+      for (int dim = 0; dim < dimen_; ++dim) {
+        r[ii][dim] = x(iSite, dim) - x(mpart[0], dim);
+      }
+    }
+
+    // generate rotation matrix for axis-angle
+    double angle = maxDisp*(uniformRanNum() - 0.5);
+    angle += pbc2d(angle);
+    vector<vector<double> > rot = rotMatAxisAngle(axis, angle);
+
+    // compute and perform change in position
+    const vector<vector<double> > rnew = matMul(r, rot);
+    for (int i = 0; i < nSite; ++i) {
+      for (int dim = 0; dim < dimen_; ++dim) {
+        x_[dimen_*mpart[i]+dim] += rnew[i][dim] - r[i][dim];
+      }
+    }
+
+    // update quaternions and xMolRef
+    qMolInit(iMol);
+    quat2pos(iMol);
+  }
+}
+
 void Space::randRotateMulti(const vector<int> mpart, const double maxDisp,
   const vector<double> &sig) {
   const int natom = static_cast<int>(mpart.size());
@@ -546,8 +570,10 @@ void Space::randRotateMulti(const vector<int> mpart, const double maxDisp,
       }
     }
   }
-  for (int dim = 0; dim < dimen_; ++dim) {
-    rcm[dim] /= static_cast<double>(natomWithMass)/3.;
+  if (static_cast<int>(sig.size()) != 0) {
+    for (int dim = 0; dim < dimen_; ++dim) {
+      rcm[dim] /= static_cast<double>(natomWithMass)/static_cast<double>(dimen_);
+    }
   }
 
   // define all positions as relative to com
@@ -612,24 +638,7 @@ void Space::randRotateMulti(const vector<int> mpart, const double maxDisp,
 
       // if not using euler angles, define new reference state
       if (eulerFlag_ == 0) {
-        if (dimen_ == 3) {
-          for (int iq = 0; iq < qdim_ - 1; ++iq) qMol_[qdim_*iMol+iq] = 0;
-          qMol_[qdim_*iMol+qdim_-1] = 1;
-        } else if (dimen_ == 2) {
-          qMol_[iMol] = 0.;
-        }
-        vector<double> rcmmol(dimen_);
-        const vector<int> mmpart = imol2mpart(iMol);
-        for (int dim = 0; dim < dimen_; ++dim) {
-          rcmmol[dim] = x_[dimen_*mmpart[0]+dim];
-        }
-        int index = 0;
-        for (int ipart = mol2part_[iMol]; ipart < mol2part_[iMol+1]; ++ipart) {
-          for (int dim = 0; dim < dimen_; ++dim) {
-            xMolRef_[iMol][index][dim] = x_[dimen_*ipart+dim] - rcmmol[dim];
-          }
-          ++index;
-        }
+        qMolInit(iMol);
       } else {
         // update euler angles according to the rotation matrix
         vector<vector<double> > Ri = Euler2RotMat(qMol(iMol));
@@ -752,6 +761,18 @@ void Space::delPart(const int ipart) {
       if (mod != 0) *it -= mod;
     }
   }
+
+  // remove custom per atom (e.g., groups)
+  for (vector<shared_ptr<Group> >::iterator it = groups_.begin();
+       it != groups_.end();
+       ++it) {
+    (*it)->delPart(ipart);
+  }
+  for (vector<shared_ptr<Atom> >::iterator it = atoms_.begin();
+       it != atoms_.end();
+       ++it) {
+    (*it)->delPart(ipart);
+  }
 }
 
 bool Space::fastDelApplicable(const vector<int> mpart) const {
@@ -786,6 +807,18 @@ void Space::delPart(const vector<int> mpart) {
       // update tag if deleted
       for (unsigned int i = 0; i < tag_.size(); ++i) {
         if (tag_[i] == ipart) tag_[i] = -1;
+      }
+
+      // swap custom per atom (e.g., groups)
+      for (vector<shared_ptr<Group> >::iterator it = groups_.begin();
+           it != groups_.end();
+           ++it) {
+        (*it)->swap(ipart, jpart);
+      }
+      for (vector<shared_ptr<Atom> >::iterator it = atoms_.begin();
+           it != atoms_.end();
+           ++it) {
+        (*it)->swap(ipart, jpart);
       }
     }
 
@@ -855,7 +888,7 @@ void Space::addPart(const vector<double> v, const int itype, const int imol) {
 
 void Space::readXYZBulk(const int nMolAtoms, const char* type,
   const char* fileName) {
-  readxyz(fileName);
+  readXYZ(fileName);
   std::string typestr(type);
   int molid = -1;
   vector<int> m;
@@ -949,7 +982,6 @@ void Space::restore(vector<int> mpart) {
 }
 
 void Space::restoreAll() {
-  // NOTE HWH ASSERT for size
   ASSERT(xOldAll_.size() == x_.size(), "stored particle coordinates size "
     << xOldAll_.size() << " does not match current size " << x_.size());
   x_ = xOldAll_;
@@ -1047,6 +1079,18 @@ void Space::addMol(const char* type) {
   // wrap in box
   const vector<int> mpart = lastMolIDVec();
   wrap(mpart);
+
+  // custom per atom (e.g., groups)
+  for (vector<shared_ptr<Group> >::iterator it = groups_.begin();
+       it != groups_.end();
+       ++it) {
+    (*it)->addPart(*this);
+  }
+  for (vector<shared_ptr<Atom> >::iterator it = atoms_.begin();
+       it != atoms_.end();
+       ++it) {
+    (*it)->addPart(*this);
+  }
 }
 
 /**
@@ -1094,64 +1138,6 @@ void Space::xMolGen() {
   }
   listMols_.clear();
   for (int i = 0; i < nMol(); ++i) listMols_.push_back(i);
-}
-
-int Space::checkBond(const char* type, const double tol) {
-  std::string typestr(type);
-
-  vector<vector<double> > xRef;
-  if (typestr.compare("spce") == 0) {
-    xRef = vecSPCE();
-  } else {
-    ASSERT(0, "unrecognized molecule type for checkBond function of space.cc");
-  }
-
-  // start as bonds match, and switch to zero if a test fails
-  int bondsMatch = 1;
-
-  // generate molecule list
-  xMolGen();
-
-  // searching all molecules of same size as xRef, check bond lengths
-  for (int imol = 0; imol < nMol(); ++imol) {
-    const int nPart = static_cast<int>(xRef.size());
-    if (static_cast<int>(xMol_[imol].size()) == nPart) {
-      for (int i = 0; i < nPart; ++i) {
-        for (int j = 0; j < nPart; ++j) {
-          double r, rref, r2 = 0., r2ref = 0.;
-          for (int dim = 0; dim < dimen_; ++dim) {
-            r = xMol_[imol][i][dim] - xMol_[imol][j][dim];
-            rref = xRef[i][dim] - xRef[j][dim];
-            r2 += r*r;
-            r2ref += rref*rref;
-          }
-          if (fabs(r2 - r2ref) > tol) {
-            cout << "r2 r2ref " << r2 << " " << r2ref << " fabs "
-                 << fabs(r2 - r2ref) << endl;
-            ASSERT(0, "checkBond failed");
-            bondsMatch = 0;
-          }
-        }
-      }
-    }
-  }
-
-  // check that all quaternions are normalized
-  if ( (eulerFlag_ == 0) && (static_cast<int>(qMol_.size()) != 0) ) {
-    for (int iMol = 0; iMol < nMol(); ++iMol) {
-      double q2 = 0;
-      for (int iq = 0; iq < qdim_; ++iq) {
-        q2 += qMol(iMol, iq);
-      }
-      if (fabs(q2-1) > tol) {
-        cout << "q2(" << q2 << ") != 1" << endl;
-        ASSERT(0, "checkBond failed");
-        bondsMatch = 0;
-      }
-    }
-  }
-
-  return bondsMatch;
 }
 
 int Space::checkBond(const double tol) {
@@ -2302,7 +2288,6 @@ void Space::writeRestart(const char* fileName) {
   if (fabs(xyTilt_) > DTOL) file << "# xyTilt " << xyTilt_ << endl;
   if (fabs(xzTilt_) > DTOL) file << "# xzTilt " << xzTilt_ << endl;
   if (fabs(yzTilt_) > DTOL) file << "# yzTilt " << yzTilt_ << endl;
-  if (floppyBox_ != 0) file << "# floppyBoxFlag " << floppyBox_;
   if (maxlFlag_ != 0) {
     file << "# maxlFlag " << maxlFlag_;
     for (int dim = 0; dim < dimen_; ++dim) {
@@ -2359,6 +2344,28 @@ void Space::writeRestart(const char* fileName) {
   writeRngRestart(fileName);
 
   if (eulerFlag_ != 0) file << "# eulerFlag " << eulerFlag_ << endl;
+
+  // print groups
+  if (groups_.size() > 0) {
+    file << "# num_groups " << groups_.size() << endl;
+    for (int index = 0; index < static_cast<int>(groups_.size()); ++index) {
+      std::stringstream ss;
+      ss << fileName << "group" << index;
+      groups_[index]->writeRestart(ss.str().c_str());
+      file << "# rstFileGroup" << index << " " << ss.str() << endl;
+    }
+  }
+
+  // print atoms
+  if (atoms_.size() > 0) {
+    file << "# num_atoms " << atoms_.size() << endl;
+    for (int index = 0; index < static_cast<int>(atoms_.size()); ++index) {
+      std::stringstream ss;
+      ss << fileName << "atom" << index;
+      atoms_[index]->writeRestart(ss.str().c_str());
+      file << "# rstFileAtom" << index << " " << ss.str() << endl;
+    }
+  }
 
   // print configuration
   if (sphereSymMol_) {
@@ -2532,11 +2539,6 @@ void Space::floodFill2d_(
   }
 }
 
-/**
- * flood fill algorithm to identify clusters based on atomic distance cutoff
- *  uses cell list
- * HWH CLEANUP: Alt? too much copy and paste
- */
 void Space::floodFillCell3d_(
   const int clusterNode,  //!< atom on cluster edge to grow
   const int clusterID,    //!< id of current cluster
@@ -2613,14 +2615,12 @@ void Space::floodFillCell3d_(
   }
 }
 
-/**
- * prefil cluster vars
- */
 void Space::prefilClusterVars_() {
   // prefill cluster vector with -natom() if included and -natom-1 if excluded
   cluster_.resize(natom());
   for (int i = 0; i < natom(); ++i) {
     if (findInList(type_[i], clusterType_)) {
+    //if ( (findInList(type_[i], clusterType_)) || (clusterType_.size() == 0) ) {
       cluster_[i] = -natom();
     } else {
       cluster_[i] = -natom()-1;
@@ -2690,54 +2690,10 @@ void Space::updateClusterVars(const int nClusters) {
       clusterSizeDistributionU2_.accumulate(i, csdvs*peStore_*peStore_);
     }
   }
-  freeMon_.accumulate(nfree/vol());
+  freeMon_.accumulate(nfree/volume());
 }
 
 void Space::contact2cluster(
-  vector<vector<int> > contact,
-  vector<vector<vector<double> > > contactpbc
-  ) {
-  ASSERT(0, "xcluster issue. use contact2clusterAlt");
-  prefilClusterVars_();
-  int nClusters = 0;
-  for (int i = 0; i < natom(); ++i) {
-    if (cluster_[i] == -natom()) {
-      cluster_[i] = nClusters;
-      clusterMol_[mol_[i]] = nClusters;
-      floodFillContact_(i, nClusters, &contact, &contactpbc);
-      ++nClusters;
-    }
-  }
-
-  updateClusterVars(nClusters);
-}
-
-void Space::floodFillContact_(const int clusterNode,
-  const int clusterID,
-  vector<vector<int> > *contactPtr,
-  vector<vector<vector<double> > > *contactpbcPtr) {
-  vector<vector<int> >& contact = *contactPtr;
-  vector<vector<vector<double> > >& contactpbc = *contactpbcPtr;
-  const int iMol = mol_[clusterNode];
-
-  for (int i = 0; i < natom(); ++i) {
-    if (cluster_[i] == -natom()) {
-      const int jMol = mol_[i];
-      if (contact[iMol][jMol] == 1) {
-        cluster_[i] = clusterID;
-        clusterMol_[jMol] = clusterID;
-        for (int ipart = mol2part_[jMol]; ipart < mol2part_[jMol+1]; ++ipart) {
-          for (int dim = 0; dim < dimen_; ++dim) {
-            xcluster_[dimen_*ipart+dim] -= contactpbc[iMol][jMol][dim];
-          }
-        }
-        floodFillContact_(i, clusterID, contactPtr, contactpbcPtr);
-      }
-    }
-  }
-}
-
-void Space::contact2clusterAlt(
   vector<vector<int> > contact,
   vector<vector<vector<double> > > contactpbc
   ) {
@@ -2749,7 +2705,7 @@ void Space::contact2clusterAlt(
       cluster_[i] = nClusters;
       clusterMol_[mol_[i]] = nClusters;
       vector<vector<int> > image(natom(), vector<int>(dimen_, 0));
-      floodFillContactAlt_(i, nClusters, &contact, &contactpbc, &image);
+      floodFillContact_(i, nClusters, &contact, &contactpbc, &image);
       ++nClusters;
     }
   }
@@ -2766,11 +2722,7 @@ void Space::contact2clusterAlt(
 //  }
 }
 
-/**
- * flood fill algorithm with contact map
- * HWH CLEANUP: Alt? too much copy and paste
- */
-void Space::floodFillContactAlt_(const int clusterNode,
+void Space::floodFillContact_(const int clusterNode,
   const int clusterID,
   vector<vector<int> > *contactPtr,
   vector<vector<vector<double> > > *contactpbcPtr,
@@ -2825,7 +2777,7 @@ void Space::floodFillContactAlt_(const int clusterNode,
             (*image)[i][dim] = currentImage[dim];
           }
 
-          floodFillContactAlt_(i, clusterID, contactPtr, contactpbcPtr, image);
+          floodFillContact_(i, clusterID, contactPtr, contactpbcPtr, image);
 
         // if contact already found previously, check image for percolation
         } else {
@@ -2922,13 +2874,19 @@ void Space::initAtomCut(const int flag) {
   }
 }
 
-vector<int> Space::imol2mpart(const int iMol) {
-  vector<int> mpart;
+void Space::imol2mpart(const int iMol, vector<int> * mpart) {
   ASSERT(iMol < nMol(),
     "in imol2mpart, iMol(" << iMol << ") >= nMol(" << nMol());
-  for (int ipart = mol2part_[iMol]; ipart < mol2part_[iMol+1]; ++ipart) {
-    mpart.push_back(ipart);
+  const int firstPart = mol2part_[iMol], lastPart = mol2part_[iMol+1];
+  mpart->resize(lastPart - firstPart);
+  for (int ipart = firstPart; ipart < lastPart; ++ipart) {
+    (*mpart)[ipart - firstPart] = ipart;
   }
+}
+
+vector<int> Space::imol2mpart(const int iMol) {
+  vector<int> mpart;
+  imol2mpart(iMol, &mpart);
   return mpart;
 }
 
@@ -3030,7 +2988,7 @@ void Space::printClusterStat(const char* fileName) {
       outFile << i << " " << clusterNumAccVec_.vec(i).average() << " "
               << clusterSizeAccVec_.vec(i).average() << " ";
       if (static_cast<int>(min.size()) != 0) {
-        outFile << nfree/vol();
+        outFile << nfree/volume();
       }
       outFile << endl;
     }
@@ -3526,87 +3484,100 @@ void Space::solveBranch_(const double x1, const double y1, const double z1,
   *z3 = A*ans1+B;
 }
 
-void Space::nRadialHist(Histogram *nhistPtr) {
-  Histogram& nhist = *nhistPtr;
-  nhist.count();
-  const int itype = nhist.iType(), jtype = nhist.jType();
-  double lx = boxLength_[0], ly = 0, lz = 0, halflx = lx/2.,
-    halfly = 0, halflz = 0, dx, dy, dz, xi, yi, zi = 0, r2 = 0;
-  const double rCutSq = pow(minl()/2., 2);
-  if (dimen_ >= 2) {
-    ly = boxLength_[1], halfly = ly/2.;
-  }
-  if (dimen_ >= 3) {
-    lz = boxLength_[2], halflz = lz/2.;
-  }
-  for (int ipart = 0; ipart < natom(); ++ipart) {
-    if (type_[ipart] == itype) {
-      if (dimen_ == 2) {
-        xi = x_[dimen_*ipart]; yi = x_[dimen_*ipart+1];
-      } else {
-        xi = x_[dimen_*ipart]; yi = x_[dimen_*ipart+1]; zi = x_[dimen_*ipart+2];
-      }
-      for (int jpart = 0; jpart < natom(); ++jpart) {
-        if (type_[jpart] == jtype) {
-          if (mol_[ipart] != mol_[jpart]) {
-            if (dimen_ == 2) {
-              dx = xi - x_[dimen_*jpart];
-              dy = yi - x_[dimen_*jpart+1];
-              if (dx >  halflx) dx -= lx;
-              if (dx < -halflx) dx += lx;
-              if (dy >  halfly) dy -= ly;
-              if (dy < -halfly) dy += ly;
-              r2 = dx*dx + dy*dy;
-            } else if (dimen_ == 3) {
-              dx = xi - x_[dimen_*jpart];
-              dy = yi - x_[dimen_*jpart+1];
-              dz = zi - x_[dimen_*jpart+2];
-              if (dx >  halflx) dx -= lx;
-              if (dx < -halflx) dx += lx;
-              if (dy >  halfly) dy -= ly;
-              if (dy < -halfly) dy += ly;
-              if (dz >  halflz) dz -= lz;
-              if (dz < -halflz) dz += lz;
-              r2 = dx*dx + dy*dy + dz*dz;
-            }
-            if (r2 <= rCutSq) nhist.accumulate(sqrt(r2));
-          }
-        }
-      }
-    }
-  }
-}
+//  // accumulate radial distance histogram
+//  // NOTE: Depreciated in favor of Analysis class.
+//  void nRadialHist(Histogram *nhistPtr);
+//
+//  // Write the radial distribution function.
+//  void printRadial(const Histogram &nhist, const char* fileName);
 
-void Space::printRadial(const Histogram &nhist, const char* fileName) {
-  std::ofstream file(fileName);
-  file << "# iType " << nhist.iType() << " jType " << nhist.jType() << endl;
-  file << "# r g nhist" << endl;
-  file << nhist.bin2m(0) - nhist.binWidth() << " 0 0" << endl;
-  for (int i = 0; i < nhist.size(); ++i) {
-    const double r = nhist.bin2m(i), rmin = r - 0.5*nhist.binWidth(),
-                 rmax = r + 0.5*nhist.binWidth();
-    double fac = -1;
-    if (dimen() == 3) {
-      fac = 4./3.;
-    } else if (dimen() == 2) {
-      fac = 1;
-    } else {
-      ASSERT(0, "this dimensionality(" << dimen() << ") is not implemented"
-             << "for printing a radial disribution function");
-    }
-    const double nideal = fac*PI*(nMol()/vol())*
-        (pow(rmax, dimen())-pow(rmin, dimen()));
-    file << r << " " << static_cast<double>(nhist.hist()[i]) /
-      static_cast<double>(nhist.nCount()) /
-      static_cast<double>(nMol())/nideal << " " << nhist.hist()[i] << endl;
-  }
-}
+//void Space::nRadialHist(Histogram *nhistPtr) {
+//  Histogram& nhist = *nhistPtr;
+//  nhist.count();
+//  const int itype = nhist.iType(), jtype = nhist.jType();
+//  double lx = boxLength_[0], ly = 0, lz = 0, halflx = lx/2.,
+//    halfly = 0, halflz = 0, dx, dy, dz, xi, yi, zi = 0, r2 = 0;
+//  const double rCutSq = pow(minl()/2., 2);
+//  if (dimen_ >= 2) {
+//    ly = boxLength_[1], halfly = ly/2.;
+//  }
+//  if (dimen_ >= 3) {
+//    lz = boxLength_[2], halflz = lz/2.;
+//  }
+//  for (int ipart = 0; ipart < natom(); ++ipart) {
+//    if (type_[ipart] == itype) {
+//      if (dimen_ == 2) {
+//        xi = x_[dimen_*ipart]; yi = x_[dimen_*ipart+1];
+//      } else {
+//        xi = x_[dimen_*ipart]; yi = x_[dimen_*ipart+1]; zi = x_[dimen_*ipart+2];
+//      }
+//      for (int jpart = 0; jpart < natom(); ++jpart) {
+//        if (type_[jpart] == jtype) {
+//          if (mol_[ipart] != mol_[jpart]) {
+//            if (dimen_ == 2) {
+//              dx = xi - x_[dimen_*jpart];
+//              dy = yi - x_[dimen_*jpart+1];
+//              if (dx >  halflx) dx -= lx;
+//              if (dx < -halflx) dx += lx;
+//              if (dy >  halfly) dy -= ly;
+//              if (dy < -halfly) dy += ly;
+//              r2 = dx*dx + dy*dy;
+//            } else if (dimen_ == 3) {
+//              dx = xi - x_[dimen_*jpart];
+//              dy = yi - x_[dimen_*jpart+1];
+//              dz = zi - x_[dimen_*jpart+2];
+//              if (dx >  halflx) dx -= lx;
+//              if (dx < -halflx) dx += lx;
+//              if (dy >  halfly) dy -= ly;
+//              if (dy < -halfly) dy += ly;
+//              if (dz >  halflz) dz -= lz;
+//              if (dz < -halflz) dz += lz;
+//              r2 = dx*dx + dy*dy + dz*dz;
+//            }
+//            if (r2 <= rCutSq) nhist.accumulate(sqrt(r2));
+//          }
+//        }
+//      }
+//    }
+//  }
+//}
+//
+//void Space::printRadial(const Histogram &nhist, const char* fileName) {
+//  std::ofstream file(fileName);
+//  file << "# iType " << nhist.iType() << " jType " << nhist.jType() << endl;
+//  file << "# r g nhist" << endl;
+//  file << nhist.bin2m(0) - nhist.binWidth() << " 0 0" << endl;
+//  for (int i = 0; i < nhist.size(); ++i) {
+//    const double r = nhist.bin2m(i), rmin = r - 0.5*nhist.binWidth(),
+//                 rmax = r + 0.5*nhist.binWidth();
+//    double fac = -1;
+//    if (dimen() == 3) {
+//      fac = 4./3.;
+//    } else if (dimen() == 2) {
+//      fac = 1;
+//    } else {
+//      ASSERT(0, "this dimensionality(" << dimen() << ") is not implemented"
+//             << "for printing a radial disribution function");
+//    }
+//    const double nideal = fac*PI*(nMol()/volume())*
+//        (pow(rmax, dimen())-pow(rmin, dimen()));
+//    file << r << " " << static_cast<double>(nhist.hist()[i]) /
+//      static_cast<double>(nhist.nCount()) /
+//      static_cast<double>(nMol())/nideal << " " << nhist.hist()[i] << endl;
+//  }
+//}
 
 void Space::pivotMol(const int iMol, const vector<double> r) {
   for (int iAtom = mol2part_[iMol]; iAtom < mol2part_[iMol+1]; ++iAtom) {
     for (int dim = 0; dim < dimen_; ++dim) {
       x_[dimen_*iAtom+dim] = 2*r[dim] - x_[dimen_*iAtom+dim];
     }
+  }
+
+  // update quaternions and xMolRef
+  if (!sphereSymMol_) {
+    qMolInit(iMol);
+    quat2pos(iMol);
   }
 }
 
@@ -3788,7 +3759,6 @@ void Space::setYZTilt(const double yzTilt) {
 }
 
 void Space::modXYTilt(const double deltaXYTilt) {
-  floppyBox_ = 1;
   const double xyTiltOld = xyTilt_;
   xyTilt_ += deltaXYTilt;
 
@@ -3810,7 +3780,6 @@ void Space::modXYTilt(const double deltaXYTilt) {
 }
 
 void Space::modXZTilt(const double deltaXZTilt) {
-  floppyBox_ = 1;
   const double xzTiltOld = xzTilt_;
   xzTilt_ += deltaXZTilt;
 
@@ -3832,7 +3801,6 @@ void Space::modXZTilt(const double deltaXZTilt) {
 }
 
 void Space::modYZTilt(const double deltaYZTilt) {
-  floppyBox_ = 1;
   const double yzTiltOld = yzTilt_;
   yzTilt_ += deltaYZTilt;
 
@@ -4242,6 +4210,26 @@ bool Space::tilted() const {
 
 void Space::storeUniqueHash() {
   hash_ = randomHash();
+}
+
+void Space::initGroup(shared_ptr<Group> group) {
+//  group->initSubSpace(cloneShrPtr());
+  groups_.push_back(group);
+}
+
+void Space::initAtom(shared_ptr<Atom> atom) {
+//  atom->addPart(*this);
+  atoms_.push_back(atom);
+}
+
+int Space::groupName2id(const std::string name) {
+  for (int igrp = 0; igrp < static_cast<int>(groups_.size()); ++igrp) {
+    if (name == groups_[igrp]->name()) {
+      return igrp;
+    }
+  }
+  ASSERT(0, "group(" << name << ") not found");
+  return -1;
 }
 
 shared_ptr<Space> makeSpace(int dimension, const argtype &args) {

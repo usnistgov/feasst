@@ -37,7 +37,7 @@ TEST(Criteria, readColWLTMMC) {
 TEST(Criteria, reweightWLTMMC) {
   const int nMolMin = 0, nMolMax = 265;
   const std::string fileName("../unittest/colMat1.txt");
-  const std::string fileNameOut("colMatHWHrw.txt");
+  const std::string fileNameOut("colMatrwrwrw.txt");
   const double temp = 525, activ = exp(-8.08564), beta = 1./(temp*8.3144621/1000);
   CriteriaWLTMMC c(beta, activ, "nmol", nMolMin, nMolMax);
   c.readCollectMat(fileName.c_str());

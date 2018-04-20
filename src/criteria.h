@@ -56,7 +56,7 @@ class Criteria : public BaseRandom {
   /** Return activity.
    *  Only use this activity with one component fluctuating in number. */
   // NOTE HWH: remove activity from constructor. Its no longer a single
-  // quantity
+  // quantity. Or use args?
   double activ() const;
 
   /** Set the activity.
@@ -113,10 +113,6 @@ class Criteria : public BaseRandom {
   /// Return 1 if pressure has been set.
   int pressureFlag() const { return pressureFlag_; }
 
-  // NOTE HWH: Remove these variables in favor of Trial-based prints.
-  int printBeta() const { return printBeta_; }
-  int printPressure() const { return printPressure_; }
-
  protected:
   double beta_;
   double activ_;
@@ -125,10 +121,6 @@ class Criteria : public BaseRandom {
 
   /// Activity for each molecule type.
   vector<double> activVec_;
-
-  // flag to print in log files
-  int printBeta_;
-  int printPressure_;
 
   /// defaults in constructor
   void defaultConstruction_();

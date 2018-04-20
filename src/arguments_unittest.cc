@@ -88,5 +88,4 @@ TEST(Arguments, arglist) {
   auto pair = set->second.find("key2");
   EXPECT_NE(set->second.end(), pair);
   EXPECT_TRUE(pair->second == "val2");
-  cout << pair->second << endl;
 }

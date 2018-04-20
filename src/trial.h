@@ -58,7 +58,7 @@ class Trial : public BaseRandom {
   void attempt();
 
   /// Initialize trial move counters and statistics.
-  void zeroStat();
+  virtual void zeroStat();
 
   /// Set the number of first bead attempts, nf.
   void numFirstBeads(const int nf);
@@ -96,8 +96,13 @@ class Trial : public BaseRandom {
   void initializeNMolSeek(const int nPartTarget = -1) {
     nPartTarget_ = nPartTarget; }
 
-  /// Return status of trial
-  virtual string printStat(const bool header = false);
+  /// Return instantaneous status of trial for log file.
+  virtual string printStat(
+    /// if header is true, print "header" description to file instead of value
+    const bool header);
+
+  /// Initialize group to perform trials
+  void initGroup(const std::string name) { groupName_ = name; }
 
   // functions for read-only access of private data-members
   long long attempted() const { return attempted_; }   //!< number of attempts
@@ -126,6 +131,9 @@ class Trial : public BaseRandom {
   virtual Trial* clone(Pair* pair, Criteria* criteria) const = 0;
   shared_ptr<Trial> cloneShrPtr(Pair* pair, Criteria* criteria) {
     return cloneImpl(pair, criteria); }
+
+  void reject(const int value) { reject_ = value; }
+  int reject() const { return reject_; }
 
  protected:
   Pair *pair_;
@@ -193,6 +201,11 @@ class Trial : public BaseRandom {
   int confineDim_;
 
   int nPartTarget_;   //!< target number of particles
+
+  const double maxMoveParamDefault_ = -1.23503460734;
+
+  // groups for trial selections
+  std::string groupName_;
 
   // default constructor
   void defaultConstruction_();

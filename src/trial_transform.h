@@ -33,9 +33,11 @@ class TrialTransform : public Trial {
    *    Note that "smctrans" is for translational moves only, and not rotation,
    *    and these require center-of-mass forces.
    *    See http://dx.doi.org/10.1063/1.436415
-   *  For triclinic cells, "xyztilt", "xztilt" and "yztilt".
-   *  For volume change, "vol"
+   *  For triclinic cells, "xytilt", "xztilt" and "yztilt".
+   *  For volume change, "vol". Note that a random walk in performed in lnV,
+   *    which changes the acceptance criteria (see Frenkel-Smit, page 119).
    *  For x-dimension box length change, "lxmod". Similarly "lymod", "lzmod".
+   *    These volume changes are also performed in lnV.
    */
   TrialTransform(Pair *pair, Criteria *criteria,
                  const char* transType);
@@ -59,6 +61,9 @@ class TrialTransform : public Trial {
   /// Currently only implemented for translate/rotate.
   void selectType(const char* molType) { molType_ = molType; }
 
+  // initialize statistics
+  void zeroStat() { Trial::zeroStat(); paramAccumulator.reset(); }
+
   /// Write restart file.
   void writeRestart(const char* fileName);
 
@@ -76,7 +81,7 @@ class TrialTransform : public Trial {
       cloneImpl(pair, criteria)));
   }
 
-  /// Return status of trial.
+  // Overloaded from base class for status of specific trials.
   string printStat(const bool header = false);
 
   /// Return transType.

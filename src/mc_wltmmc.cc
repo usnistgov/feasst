@@ -62,27 +62,6 @@ WLTMMC::WLTMMC(const char* fileName)
     procFileAppend_ = strtmp;
   }
 
-  // read radial distribution function restart files
-  strtmp = fstos("nFreqGR", fileName);
-  if (!strtmp.empty()) {
-    nFreqGR_ = stoi(strtmp);
-    GRFileName_ = fstos("GRFileName", fileName);
-    const int nfiles = fstoi("numGRFiles", fileName);
-    gr_.resize(nfiles);
-    for (int i = 0; i < nfiles; ++i) {
-      for (int n = 0; n < c()->nBin(); ++n) {
-        stringstream ss;
-        ss << fileName << "gri" << i << "n" << n;
-        if (fileExists(ss.str().c_str())) {
-          gr_[i].push_back(make_shared<Histogram>(ss.str().c_str()));
-        }
-      }
-      grt_.push_back(make_shared<Histogram>(gr_[i].front()->binWidth(),
-                                            gr_[i].front()->iType(),
-                                            gr_[i].front()->jType()));
-    }
-  }
-
   strtmp = fstos("wlFlatProd", fileName);
   if (!strtmp.empty()) {
     wlFlatProd_ = stoi(strtmp);
@@ -99,7 +78,6 @@ void WLTMMC::defaultConstruction_() {
   className_.assign("WLTMMC");
   verbose_ = 0;
   nFreqColMat_ = 1e6;
-  nFreqGR_ = 0;
   colMatFileName_.assign("colMat");
   initWindows(0);
   betaInc_ = 0;
@@ -124,15 +102,6 @@ void WLTMMC::reconstruct() {
   criteriaOwned_ = true;
   c_ = c;  // swap temporaries for exception safety
   criteria_ = reinterpret_cast<Criteria*>(c_);
-
-  // reconstruct the shared pointers to the radial distribution functions
-  for (unsigned int itype = 0; itype < gr_.size(); ++itype) {
-    grt_[itype] = grt_[itype]->cloneShrPtr();
-    for (unsigned int n = 0; n < gr_[itype].size(); ++n) {
-      gr_[itype][n] = gr_[itype][n]->cloneShrPtr();
-    }
-  }
-
   MC::reconstruct();
 }
 
@@ -158,7 +127,7 @@ void WLTMMC::afterAttempt_() {
   if (nAttempts_ % nFreqColMat_ == 0) {
     c_->lnPIupdate();
     if (!colMatFileName_.empty()) {
-//      c_->lnPIpressureIso(space_->vol());
+//      c_->lnPIpressureIso(space_->volume());
       c_->printCollectMat(colMatFileName_.c_str());
 
 //      // print colmats for each step to animate plot
@@ -172,24 +141,6 @@ void WLTMMC::afterAttempt_() {
       stringstream ss;
       ss << logFileName_ << "clus";
       space_->printClusterStat(ss.str().c_str());
-    }
-  }
-
-  // compute and print radial distribution function
-  if ( (nFreqGR_ != 0) && (production_ == 1) ) {
-    if (nAttempts_ % nFreqGR_ == 0) {
-      if (!GRFileName_.empty()) {
-        const int nBin = c()->bin(c()->mOld());
-        for (unsigned int i = 0; i < grt_.size(); ++i) {
-          while (static_cast<int>(gr_[i].size()) < nBin+1) {
-            gr_[i].push_back(grt_[i]->cloneShrPtr());
-          }
-          space_->nRadialHist(gr_[i][nBin].get());
-          stringstream ss;
-          ss << GRFileName_ << "i" << i << "m" << c()->bin2m(nBin);
-          space_->printRadial(*gr_[i][nBin], ss.str().c_str());
-        }
-      }
     }
   }
 
@@ -332,9 +283,9 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
 
     // remove configuration bias trials if nMolMax/V < thres
     if (static_cast<double>(clones[t]->c()->mMax()/
-        clones[t]->space()->vol()) < densThresConfigBias_) {
+        clones[t]->space()->volume()) < densThresConfigBias_) {
       cout << "t " << t << " removing configbias because nMolMax/V "
-           << clones[t]->c()->mMax()/clones[t]->space()->vol()
+           << clones[t]->c()->mMax()/clones[t]->space()->volume()
            << " is less then thres " << densThresConfigBias_ << endl;
       clones[t]->removeConfigBias();
     }
@@ -515,19 +466,6 @@ void WLTMMC::runNumSweepsExec_(const int t,    //!< thread
   #endif  // _OPENMP
 }
 
-void WLTMMC::nMolResizeWindow(
-  const double liquidDrop,  //!< targeted drop off of liquid peak
-  const int round   //!< round up to the nearest factor
-  ) {
-  const int nmax = c_->nMolResizeWindow(liquidDrop, round);
-
-  // if nMol > nmx, seek nmx
-  if (space_->nMol() > nmax) nMolSeek(nmax, "", 1e7);
-
-  const double mMax2 = nmax + 0.5;
-  c_->initBins(mMax2, c_->mMin(), mMax2 - c_->mMin());
-}
-
 void WLTMMC::nMolSeekInRange(const int nMin,
                              const int nMax
   ) {
@@ -571,23 +509,23 @@ vector<double> WLTMMC::printSat() {
   c_->printCollectMat(colMatFileName_.c_str());
   vector<CriteriaWLTMMC> cvec = c_->phaseSplit(c_->lnPIrw());
   const double pv = (-c_->lnPIrw().front() + log(cvec[0].lnPIarea()))
-                    /space_->vol()/criteria_->beta();
+                    /space_->volume()/criteria_->beta();
   const double pl = (-c_->lnPIrw().front() + log(cvec[1].lnPIarea()))
-                    /space_->vol()/criteria_->beta();
+                    /space_->volume()/criteria_->beta();
   cvec[0].lnPInorm();
   cvec[1].lnPInorm();
   log_ << "#" << className_ << " coexistance between vapor(p=" << pv
-       << ", rho=" << cvec[0].lnPIaverage()/space_->vol()
+       << ", rho=" << cvec[0].lnPIaverage()/space_->volume()
        << ") and liquid(p=" << pl << ", rho="
-       << cvec[1].lnPIaverage()/space_->vol() << ") finalized at z("
+       << cvec[1].lnPIaverage()/space_->volume() << ") finalized at z("
        << log(c_->activ()) << ", rw=" << log(c_->activrw()) << ")" << endl;
   cout << "# rhov rhol psat lnzsat phaseb" << endl;
-  cout << cvec[0].lnPIaverage()/space_->vol() << " "
-       << cvec[1].lnPIaverage()/space_->vol() << " " << pv << " "
+  cout << cvec[0].lnPIaverage()/space_->volume() << " "
+       << cvec[1].lnPIaverage()/space_->volume() << " " << pv << " "
        << log(c_->activrw()) << " " << cvec[0].lastbin2m() << endl;
   vector<double> returnVec;
-  returnVec.push_back(cvec[0].lnPIaverage()/space_->vol());
-  returnVec.push_back(cvec[1].lnPIaverage()/space_->vol());
+  returnVec.push_back(cvec[0].lnPIaverage()/space_->volume());
+  returnVec.push_back(cvec[1].lnPIaverage()/space_->volume());
   returnVec.push_back(pv);
   returnVec.push_back(log(c_->activrw()));
   return returnVec;
@@ -608,21 +546,6 @@ void WLTMMC::writeRestart(const char* fileName) {
   }
   file << "# densThresConfigBias " << densThresConfigBias_ << endl;
   file << "# procFileAppend " << procFileAppend_ << endl;
-
-  // write restart for radial distribution functions
-  if ( (nFreqGR_ != 0) && (gr_.size() > 0) ) {
-    file << "# nFreqGR " << nFreqGR_ << endl;
-    file << "# GRFileName " << GRFileName_ << endl;
-    file << "# numGRFiles " << gr_.size() << endl;
-    for (unsigned int itype = 0; itype < gr_.size(); ++itype) {
-      for (unsigned int n = 0; n < gr_[itype].size(); ++n) {
-        stringstream ss;
-        ss << fileName << GRFileName_ << "i" << itype << "n" << n;
-        if (gr_[itype][n] != NULL) gr_[itype][n]->writeRestart
-          (ss.str().c_str());
-      }
-    }
-  }
 
   if (wlFlatProd_ != -1) file << "# wlFlatProd " << wlFlatProd_ << endl;
   if (wlFlatTerm_ != -1) file << "# wlFlatTerm " << wlFlatTerm_ << endl;

@@ -32,10 +32,13 @@ TEST(Trial, cloneANDreconstruct) {
   const double rAbove = 3, rBelow = 1;
   Space s(3);
   s.init_config(12);
-  PairLJ p(&s, {{"rCut", "5"}, {"molType", "../forcefield/data.atom"}});
+  PairLJ p(&s, {{"rCut", "5"},
+                {"molType", "../forcefield/data.atom"},
+                {"cutType", "cutShift"}});
   p.initNeighList(rAbove, rBelow);
   p.buildNeighList();
   CriteriaMetropolis c(0.5, 0.01);
+  c.addActivity(exp(-1));
   TrialTransform tt(&p, &c, "translate");
   tt.maxMoveParam = 5;
   TrialDelete td(&p, &c);
@@ -114,7 +117,9 @@ TEST(Trial, allmoves) {
 
   Space sLJ(3);
   sLJ.init_config(12);
-  PairLJ pLJ(&sLJ, {{"rCut", "5"}, {"molType", "../forcefield/data.atom"}});
+  PairLJ pLJ(&sLJ, {{"rCut", "5"},
+                    {"molType", "../forcefield/data.atom"},
+                    {"cutType", "cutShift"}});
 
   Space sID(3);
   sID.init_config(12);
@@ -161,7 +166,9 @@ TEST(Trial, allmoves) {
     for (vector<std::string>::iterator ct = critType.begin(); ct != critType.end(); ++ct) {
       std::cout << *pt << " " << *ct << std::endl;
       CriteriaMetropolis cm(beta, activ);
+      cm.addActivity(-1);
       CriteriaWLTMMC cwltmmc(beta, activ, "nmol", 0 - 0.5, (*s).nMol() + 0.5, (*s).nMol() + 1);
+      cwltmmc.addActivity(-1);
       //CriteriaWLTMMC c(beta, activ, "energy", -300, -250, 100);
       Criteria *c = NULL;
       if ((*ct).compare("metropolis") == 0) {
@@ -241,7 +248,7 @@ TEST(Trial, allmoves) {
         EXPECT_NEAR(peQReal, pSPCE.peQReal(), 1e-9);
         EXPECT_NEAR(peQFrr, pSPCE.peQFrr(), 1e-9);
         EXPECT_NEAR(peQFrrSelf, pSPCE.peQFrrSelf(), 1e-9);
-        (*s).checkBond("spce", 1e-12);
+        (*s).checkBond(1e-12);
       }
 //      EXPECT_NE(td.acceptPer(), 0);
 //      EXPECT_NE(ta.acceptPer(), 0);

@@ -57,7 +57,7 @@ Analyze::Analyze(Pair *pair, const char* fileName)
 void Analyze::defaultConstruction_() {
   className_.assign("Analyze");
   initFreq();
-  initPrintFreq();
+  initFreqPrint();
   initProduction();
 }
 
@@ -82,7 +82,7 @@ Analyze* Analyze::clone(Pair* pair) const {
 }
 
 shared_ptr<Analyze> Analyze::cloneImpl(Pair* pair) const {
-  ASSERT(0, "base class not implemented correctly");
+  NOTE("cloneImp of Analyze may not be implemented correctly");
   shared_ptr<Analyze> an = make_shared<Analyze>(*this);
   an->reconstruct(pair);
   return an;

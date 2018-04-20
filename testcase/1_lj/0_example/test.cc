@@ -11,7 +11,7 @@ int main() {  // LJ, NVT_EXAMPLE
     {{"beta", "1.2"}});           // beta = 1/k_B/T
   feasst::MC mc(pair, criteria);
   feasst::addTrialTransform(&mc,
-    {{"type", "translate"},       // attempt particle translations
+    {{"transType", "translate"},       // attempt particle translations
      {"maxMoveParam", "0.1"}});   // maximum displacement for each dimension
   mc.nMolSeek(50);                // add particles
   mc.initLog("log", 1e4);         // output instantaneous values

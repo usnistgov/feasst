@@ -64,7 +64,7 @@ TEST(PairPatchKF, patchKFmirrorAnalytical) {
   s.readXYZBulk(2, "onePatch", "../unittest/patch/onePatch5.xyz");
   PairPatchKF p(&s, {{"rCut", "3"}, {"patchAngle", "90."}});
   p.mirrorPatch(1);
-  p.printxyz("tmp/onePatch5vis.xyz", 1);
+  p.printXYZ("tmp/onePatch5vis.xyz", 1);
   EXPECT_NEAR(0, p.cpa(), 1e-15);
   p.initEnergy();
   EXPECT_NEAR(-7, p.peTot(), 1e-15);
@@ -74,7 +74,7 @@ TEST(PairPatchKF, patchKFmirrorAnalytical) {
   EXPECT_NEAR(53.1301023541560000, theta, 1e-13);
   PairPatchKF p2(&s, {{"rCut", "3"}, {"patchAngle", feasst::str(theta)}});
   p2.mirrorPatch(1);
-  p2.printxyz("tmp/onePatch5vis.xyz", 0);
+  p2.printXYZ("tmp/onePatch5vis.xyz", 0);
   EXPECT_NEAR(1-chi, p2.cpa(), 1e-15);
   p2.initEnergy();
   const double petot = p2.peTot();

@@ -523,11 +523,9 @@ void CriteriaWLTMMC::initBins(const double mMax, const double mMin,
     cTripleBanded_ = true;
   } else if (mType_.compare("beta") == 0) {
     cTripleBanded_ = true;
-    printBeta_ = 1;
   } else if ( (mType_.compare("pressure") == 0) ||
               (mType_.compare("lnpres") == 0) ) {
     cTripleBanded_ = true;
-    printPressure_ = 1;
   } else {
     ASSERT(0, "unrecognized macrostate type (" << mType_ << ")");
   }
@@ -699,7 +697,7 @@ void CriteriaWLTMMC::printCollectMat(
       lnPIcut.push_back(c.front()->lnPI()[i]);
       lnPIcutx.push_back(c.front()->bin2m(i));
       pecut.push_back(c.front()->pe()[i].average());
-      pecutstd.push_back(c.front()->pe()[i].stdev());
+      pecutstd.push_back(c.front()->pe()[i].std());
     }
     // for each window!=0, find where first macrostate overlaps previous window
     // and shift entire window by that difference
@@ -737,7 +735,7 @@ void CriteriaWLTMMC::printCollectMat(
             lnPIcut.push_back(c[w]->lnPI()[i] + shift);
             lnPIcutx.push_back(c[w]->bin2m(i));
             pecut.push_back(c[w]->pe()[i].average());
-            pecutstd.push_back(c[w]->pe()[i].stdev());
+            pecutstd.push_back(c[w]->pe()[i].std());
           }
         }
       }
@@ -993,7 +991,7 @@ void CriteriaWLTMMC::writeRestart(const char* fileName) {
     if (lnpi2pressure_.size() == C_.size()) {
       file << bin2m(i)/volume_ << " " << lnpi2pressure_[i] << " ";
     }
-    file << pe_[i].average() << " " << pe_[i].stdev() << " ";
+    file << pe_[i].average() << " " << pe_[i].std() << " ";
     if (peMUVT_.size() == C_.size()) {
       file << peMUVT_[i] << " ";
     }

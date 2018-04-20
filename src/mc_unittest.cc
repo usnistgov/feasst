@@ -347,11 +347,11 @@ TEST(MC, nSeekWithPressure) {
   MC mc(&space, &pair, &criteria);
   transformTrial(&mc, "translate");
   criteria.pressureset(100.);
-  const double volume = space.vol();
+  const double volume = space.volume();
   mc.initLog("tmp/nSeekWithPressure", 1e2);
   mc.nMolSeek(100, "../forcefield/data.lj", 1e5);
   EXPECT_EQ(100, space.nMol());
-  EXPECT_NEAR(volume, space.vol(), 1000*DTOL);
+  EXPECT_NEAR(volume, space.volume(), 1000*DTOL);
   mc.nMolSeek(2, "../forcefield/data.lj", 1e5);
   EXPECT_EQ(2, space.nMol());
 }

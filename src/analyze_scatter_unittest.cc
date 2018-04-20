@@ -52,7 +52,7 @@ TEST(Analyze, constructANDproduction) {
   scat->initSANS(0.5);
   scat->initFreq(1e2);
   scat->initFileName("tmp/iq");
-  scat->initPrintFreq(1e3);
+  scat->initFreqPrint(1e3);
   scat->initProduction(0);
   mc.initAnalyze(scat);
   mc.runNumTrials(4*1e3);
@@ -67,7 +67,7 @@ TEST(Analyze, constructANDproduction) {
   testVec(scat->histInter(), scat2.histInter());
   testVec(scat->histIntra(), scat2.histIntra());
 }
- 
+
 TEST(AnalyzeScatter, args) {
   Space space;
   PairHardSphere pair(&space);

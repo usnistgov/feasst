@@ -11,6 +11,8 @@
 #ifndef ACCUMULATOR_H_
 #define ACCUMULATOR_H_
 
+#include <vector>
+#include <memory>
 #include "./base.h"
 
 #ifdef FEASST_NAMESPACE_
@@ -40,7 +42,6 @@ class Accumulator : public Base {
 
   /// Return standard deviation e.g., fluctuation of all (correlated) values.
   double std() const;
-  double stdev() const { return std(); }  // NOTE HWH: Depreciated
 
   /// Return the standard deviation of the average (e.g., std/sqrt(num_samples))
   double stdOfAv() const { return std()/sqrt(static_cast<double>(nValues())); }

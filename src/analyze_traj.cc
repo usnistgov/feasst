@@ -46,7 +46,7 @@ void AnalyzeTRAJ::defaultConstruction_() {
 void AnalyzeTRAJ::write() {
   if (!fileName_.empty()) {
     if (format_ == "xyz") {
-      pair_->printxyz(fileName_.c_str(), firstFlag_, space()->hash());
+      pair_->printXYZ(fileName_.c_str(), firstFlag_, space()->hash());
     #ifdef XDRFILE_H_
     } else if (format_ == "xtc") {
       stringstream ss;
@@ -55,7 +55,7 @@ void AnalyzeTRAJ::write() {
       if (firstFlag_ == 1) {
         mode.assign("w");
       }
-      pair_->printxyz(ss.str().c_str(), 2);
+      pair_->printXYZ(ss.str().c_str(), 2);
       ss << ".xtc";
       XDRFILE* trjFileXDR;
       trjFileXDR = xdrfile_open(ss.str().c_str(), mode.c_str());

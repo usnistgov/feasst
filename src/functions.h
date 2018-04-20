@@ -27,6 +27,7 @@
 #include <complex>
 #include <map>
 #include <iomanip>
+#include <fstream>
 #ifdef MPI_H_
   #include <mpi.h>
 #endif
@@ -92,6 +93,55 @@ FAIL() << "Expected failure"; \
   ASSERT(what.find(phrase) != std::string::npos, ermsg.str()); \
 } catch(...) { \
   FAIL() << "Unrecognized exception"; \
+
+#define TRICLINIC_PBC(dx, dy, dz, lx, ly, lz, halflx, halfly, halflz, \
+  xyTilt, xzTilt, yzTilt) \
+if (dimen_ >= 3) { \
+  if (fabs(dz) > halflz) { \
+    if (dz < 0.) { \
+      dz += lz; \
+      dy += yzTilt; \
+      dx += xzTilt; \
+    } else { \
+      dz -= lz; \
+      dy -= yzTilt; \
+      dx -= xzTilt; \
+    } \
+  } \
+  if (fabs(dy) > halfly) { \
+    if (dy < 0.) { \
+      dy += ly; \
+      dx += xyTilt; \
+    } else { \
+      dy -= ly; \
+      dx -= xyTilt; \
+    } \
+  } \
+  if (fabs(dx) > halflx) { \
+    if (dx < 0.) { \
+      dx += lx; \
+    } else { \
+      dx -= lx; \
+    } \
+  } \
+} else { \
+  if (fabs(dy) > halfly) { \
+    if (dy < 0.) { \
+      dy += ly; \
+      dx += xyTilt; \
+    } else { \
+      dy -= ly; \
+      dx -= xyTilt; \
+    } \
+  } \
+  if (fabs(dx) > halflx) { \
+    if (dx < 0.) { \
+      dx += lx; \
+    } else { \
+      dx -= lx; \
+    } \
+  } \
+} \
 
 class Functions {};  // here is where we trick ../tools/makeFactory.sh.
 
@@ -160,12 +210,6 @@ T product(const vector<T> &vec) {
   }
   return prod;
 };
-
-/**
- *  \return vector x with atomic positions of a reference SPC/E water molecule
- *  vector of atoms, oxygen first
- */
-vector<vector<double> > vecSPCE();
 
 /// \return product of two matrices
 vector<vector<double> > matMul(const vector<vector<double> > &a,
@@ -274,7 +318,7 @@ vector<int> findLocalMaxima(const vector<T> data,
 
 /**
  *  \return vector of index values for the local maxima.
- * HWH NOTE: This is copy and pasted from above with vector, but
+ * NOTE: This is copy and pasted from above with vector, but
  * implementation with multiple templates leads to errors in swig.
  * See commented implementation of findLocalMinimum below.
  */
@@ -731,6 +775,28 @@ std::string str(const T a_value) {
   out << MAX_PRECISION << a_value;
   return out.str();
 }
+
+/// Print to file a commented restart file for vector data.
+template <typename T>
+void vecRestartPrinter(
+  const char* label,
+  vector<T> data,
+  std::string fileName) {
+  std::ofstream file(fileName, std::ios_base::app);
+  if (data.size() > 0) {
+    file << "# num_" << label << " " << data.size() << endl;
+    for (int index = 0; index < static_cast<int>(data.size()); ++index) {
+      file << "# i" << label << index << " " << data[index] << endl;
+    }
+  }
+}
+
+/// Read from file a commented restart file with vector data.
+void vecRestartReader(const char* label, vector<int> * data,
+  std::string fileName);
+
+/// Purposely cause a seg fault for GDB backtrace
+void causeSegFault();
 
 #ifdef FEASST_NAMESPACE_
 }  // namespace feasst

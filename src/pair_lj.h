@@ -112,10 +112,14 @@ class PairLJ : public Pair {
     yukawa_ = 1; yukawaA_ = A; yukawaK_ = K;
   }
 
-  // HWH: depreciated?
+  // Similar as above, but sets yukawa flag
   void initScreenedElectro(const double A, const double K, const int yukawa) {
     yukawa_ = yukawa; yukawaA_ = A; yukawaK_ = K;
   }
+
+  // set Aij for yukawa
+  void initScreenedElectroIJ(const int itype, const int jtype, const double A,
+                             const double K);
 
   /// Set the order parameter value.
   void setOrder(const double order);
@@ -211,7 +215,9 @@ class PairLJ : public Pair {
 
   int yukawa_;          //!< turn on yukawa interactions if 1
   double yukawaA_;      //!< U(r) = A*exp(-K*r)/r
+  vector<vector<double> > yukawaAij_;      //!< U(r) = A*exp(-K*r)/r
   double yukawaK_;      //!< U(r) = A*exp(-K*r)/r
+  vector<vector<double> > yukawaKij_;      //!< U(r) = A*exp(-K*r)/r
   double alpha_;        //!< exponential parameter
 
   // lambda parameters

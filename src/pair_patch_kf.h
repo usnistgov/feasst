@@ -52,7 +52,7 @@ class PairPatchKF : public Pair {
   double multiPartEner(const vector<int> multiPart, const int flag);
 
   /// potential energy of multiple particles optimized for neighbor list updates
-  double multiPartEnerNeigh(const vector<int> multiPart);
+  virtual double multiPartEnerNeigh(const vector<int> multiPart);
 
   /// stores, restores or updates variables to avoid order recompute of entire
   // configuration after every change
@@ -60,7 +60,7 @@ class PairPatchKF : public Pair {
 
   /// Write xyz for visualization.
   /// @param initFlag open if flag is 1, append if flag is 0.
-  int printxyz(const char* fileName, const int initFlag,
+  virtual int printXYZ(const char* fileName, const int initFlag,
     const std::string comment = "");
 
   /// Update clusters of entire system.
@@ -68,10 +68,10 @@ class PairPatchKF : public Pair {
   void updateClusters(const double tol);
 
   /// potential energy and forces of all particles
-  double allPartEnerForce(const int flag);
+  virtual double allPartEnerForce(const int flag);
 
   /// Compute interactions between two molecules.
-  void allPartEnerForceMolCutInner(const double r2,
+  virtual void allPartEnerForceMolCutInner(const double r2,
     const int iMol, const int jMol, const double dx,
     const double dy, const double dz);
 

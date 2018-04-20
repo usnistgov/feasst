@@ -61,15 +61,18 @@ class PairHybrid : public Pair {
   void delPart(const vector<int> mpart);
 
   /// print configuraiton
-  int printxyz(const char* fileName, const int initFlag,
+  int printXYZ(const char* fileName, const int initFlag,
     const std::string comment = "") {
-    return pairVec_[pairPrint_]->printxyz(fileName, initFlag, comment);
+    return pairVec_[pairPrint_]->printXYZ(fileName, initFlag, comment);
   }
 
   /// Identify a particle as non physical or non physical.
   void ipartNotPhysical(const int ipart);
   void ipartIsPhysical(const int ipart);
   void allPartPhysical();
+
+  /// sets the cheapEnergy boolean variable
+  void cheapEnergy(const int flag);
 
   /// read only access to protected variables
   int nPairs() const { return static_cast<int>(pairVec_.size()); }

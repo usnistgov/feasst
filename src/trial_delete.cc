@@ -115,7 +115,7 @@ void TrialDelete::attempt1_() {
     } else {
       // if no molType given, delete any molecule
       if (molType_.empty()) {
-        preFac_ = static_cast<double>(space()->nMol())/space()->vol();
+        preFac_ = static_cast<double>(space()->nMol())/space()->volume();
         lnpMet_ = log(preFac_);
         mpart_ = space()->randMol();
         if (delTwo != 0) {
@@ -135,7 +135,7 @@ void TrialDelete::attempt1_() {
             reject_ = 1;
           } else {
             mpart_ = space()->imol2mpart(iMol);
-            preFac_ = static_cast<double>(nMolOfType)/space()->vol();
+            preFac_ = static_cast<double>(nMolOfType)/space()->volume();
             lnpMet_ = log(preFac_);
           }
         }

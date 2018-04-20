@@ -45,7 +45,6 @@ class PairSquareWell : public Pair {
     double * energy, double * force, int * neighbor, const double &dx,
     const double &dy, const double &dz);
 
-
   // defaults in constructor
   void defaultConstruction_();
 };

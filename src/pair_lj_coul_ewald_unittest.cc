@@ -53,8 +53,6 @@ TEST(PairLJCoulEwald, pairLJCoulEwaldmultiPartEne) {
   p.initBulkSPCE(5.6, 38);
 
   // move molecule and compute energy change
-  // Depreciated test because its hard to add molecule exactly where you want it with proper counting for molecule description
-  //const double peLJPrev2 = p.peLJ(), peLRCPrev2 = p.peLRC(), peQRealPrev2 = p.peQReal(), peQFrrPrev2 = p.peQFrr(), peQFrrSelfPrev2 = p.peQFrrSelf();
   double pePrev = p.peTot(), peLJPrev = p.peLJ(), peLRCPrev = p.peLRC(), peQRealPrev = p.peQReal(), peQFrrPrev = p.peQFrr(), peQFrrSelfPrev = p.peQFrrSelf();
   double deLJ = 0, deLRC = 0, deQReal = 0, deQFrr = 0, deQFrrSelf = 0;
   vector<int> mpart(3);
@@ -177,14 +175,6 @@ TEST(PairLJCoulEwald, pairLJCoulEwaldmultiPartEne) {
   EXPECT_NEAR(p.peQFrr(), peQFrrPrev3, 1e-13);
   EXPECT_NEAR(p.peQFrrSelf(), peQFrrSelfPrev3, 1e-11);
   EXPECT_NEAR(1, (pePrev + de)/p.peTot(), 1e-11);
-
-// Depreciated test because its hard to add molecule exactly where you want it with proper counting for molecule description
-//  //should be back where we started
-//  EXPECT_NEAR(p.peLJ(), peLJPrev2, 1e-13);
-//  EXPECT_NEAR(p.peLRC(), peLRCPrev2, 1e-13);
-//  EXPECT_NEAR(p.peQReal(), peQRealPrev2, 1e-12);
-//  EXPECT_NEAR(p.peQFrr(), peQFrrPrev2, 1e-13);
-//  EXPECT_NEAR(p.peQFrrSelf(), peQFrrSelfPrev2, 1e-12);
 }
 
 TEST(PairLJCoulEwald, neigh) {
@@ -326,10 +316,18 @@ TEST(PairLJCoulEwald, PairLJCoulEwaldInitLMPData) {
   EXPECT_NEAR(p1.peLJ(), p2.peLJ(), DTOL);
   EXPECT_NEAR(p1.peTot(), p2.peTot(), DTOL);
 
+  // scale the domain out then back in
+  p2.scaleDomain(1.5);
+  p2.initEnergy();
+  p2.scaleDomain(1./1.5);
+  p2.initEnergy();
+
   // test restart
-  p2.writeRestart("tmp/rst");
-  PairLJCoulEwald p3(&s, "tmp/rst");
-  EXPECT_NEAR(p2.peTot(), p3.peTot(), DTOL);
+  s.writeRestart("tmp/rstspacepljew");
+  p2.writeRestart("tmp/rstpairpljew");
+  Space s2("tmp/rstspacepljew");
+  PairLJCoulEwald p3(&s2, "tmp/rstpairpljew");
+  EXPECT_NEAR(p2.peTot(), p3.peTot(), 1000*DTOL);
   EXPECT_NEAR(p2.peLJ(), p3.peLJ(), DTOL);
 }
 

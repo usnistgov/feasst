@@ -42,7 +42,7 @@ class TrialAdd : public Trial {
   /// Construct from restart file.
   TrialAdd(const char* fileName, Pair *pair, Criteria *criteria);
 
-  /// return status of trial
+  // Overloaded from base class for status of specific trials.
   string printStat(const bool header = false);
 
   /// read only access to protected variables

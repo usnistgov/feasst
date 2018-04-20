@@ -59,8 +59,6 @@ Criteria::Criteria(const char* fileName) {
 
 void Criteria::defaultConstruction_() {
   verbose_ = 0;
-  printBeta_ = 0;
-  printPressure_ = 0;
   pressureFlag_ = 0;
   className_.assign("Criteria");
   activVec_.push_back(activ_);

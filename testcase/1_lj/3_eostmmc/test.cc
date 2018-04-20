@@ -95,7 +95,7 @@ int main(int argc, char** argv) {  // LJ, SRSW_EOSTMMC
   // initialize MC simulation object
   feasst::WLTMMC mc(space, pair, criteria);
   mc.weight=3./4.;
-  feasst::addTrialTransform(&mc, {{"type", "translate"}});
+  feasst::addTrialTransform(&mc, {{"transType", "translate"}});
   mc.weight=1./8.;
   feasst::deleteTrial(&mc);
   mc.weight=1./8.;

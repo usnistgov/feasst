@@ -50,7 +50,7 @@ double PairPatchKF::multiPartEnerNeigh(
   ) {
   // shorthand for read-only space variables
   const vector<double> &x = space_->x();
-  const vector<double> &l = space_->l();
+  const vector<double> &l = space_->boxLength();
   const vector<int> &mol2part = space_->mol2part();
 
   // declare variables for optimization
@@ -184,7 +184,7 @@ void PairPatchKF::update(
   }
 }
 
-int PairPatchKF::printxyz(const char* fileName,
+int PairPatchKF::printXYZ(const char* fileName,
   const int initFlag,
   const std::string comment) {
   ASSERT(dimen_ == 3, "printxyz assumes three dimensions");
@@ -272,7 +272,7 @@ void PairPatchKF::updateClusters(const double tol) {
   space_->peStore_ = peTot();
 
   // use contact_ and contactpbc_ to update cluster variables
-  space_->contact2clusterAlt(contact_, contactpbc_);
+  space_->contact2cluster(contact_, contactpbc_);
 }
 
 double PairPatchKF::allPartEnerForce(const int flag) {
@@ -292,7 +292,7 @@ double PairPatchKF::allPartEnerForce(const int flag) {
   // shorthand for read-only space variables
   const int nMol = space_->nMol();
   const vector<double> &x = space_->x();
-  const vector<double> &l = space_->l();
+  const vector<double> &l = space_->boxLength();
   const vector<int> &mol2part = space_->mol2part();
 
   // avoid the sqrt operation for patches of solid angle <= 90

@@ -93,3 +93,10 @@ class cd:
     def __exit__(self, etype, value, traceback):
         os.chdir(self._savedPath)
 
+import math
+def string2sumSq(text):
+    rtrn = 0
+    for val in text.split():
+        rtrn += float(val)**2
+    return rtrn
+assert(math.fabs(1 - string2sumSq("0.46187167792334405 -0.35043322571889868 -0.22710692686778397 0.78249188571715755")) < feasst.DTOL)

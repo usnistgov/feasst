@@ -26,13 +26,14 @@ class TestLJ_SRSW_NVTMC(unittest.TestCase):
             {"beta" : str(1./0.9)}))
         mc = feasst.MC(pair, criteria)
         feasst.addTrialTransform(mc, feasst.args(
-            {"type" : "translate",
+            {"transType" : "translate",
              "maxMoveParam" : str(0.1)}))
         mc.nMolSeek(nMol)
         mc.initLog("log", int(1e4))
         mc.initMovie("movie", int(1e4))
         mc.initRestart("tmp/rst", int(1e4))
         mc.setNFreqTune(int(1e4))
+        mc.setNFreqCheckE(int(1e4), 1e-6);
         mc.runNumTrials(int(1e7))   # run equilibration
 
         # Run the production simulation and compute statistics on potential energy

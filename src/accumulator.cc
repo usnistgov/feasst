@@ -89,7 +89,7 @@ double Accumulator::blockStdev() const {
   if (nBlock_ != 0) {
     if (blockAvs_ != NULL) {
       if (blockAvs_->nValues() > 1) {
-        return blockAvs_->stdev()/sqrt(static_cast<int>(blockAvs_->nValues()));
+        return blockAvs_->std()/sqrt(static_cast<int>(blockAvs_->nValues()));
       }
     }
   }

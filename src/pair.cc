@@ -10,55 +10,6 @@
 
 #include "./pair.h"
 
-#define TRICLINIC_PBC(dx, dy, dz, lx, ly, lz, halflx, halfly, halflz, \
-  xyTilt, xzTilt, yzTilt) \
-if (dimen_ >= 3) { \
-  if (fabs(dz) > halflz) { \
-    if (dz < 0.) { \
-      dz += lz; \
-      dy += yzTilt; \
-      dx += xzTilt; \
-    } else { \
-      dz -= lz; \
-      dy -= yzTilt; \
-      dx -= xzTilt; \
-    } \
-  } \
-  if (fabs(dy) > halfly) { \
-    if (dy < 0.) { \
-      dy += ly; \
-      dx += xyTilt; \
-    } else { \
-      dy -= ly; \
-      dx -= xyTilt; \
-    } \
-  } \
-  if (fabs(dx) > halflx) { \
-    if (dx < 0.) { \
-      dx += lx; \
-    } else { \
-      dx -= lx; \
-    } \
-  } \
-} else { \
-  if (fabs(dy) > halfly) { \
-    if (dy < 0.) { \
-      dy += ly; \
-      dx += xyTilt; \
-    } else { \
-      dy -= ly; \
-      dx -= xyTilt; \
-    } \
-  } \
-  if (fabs(dx) > halflx) { \
-    if (dx < 0.) { \
-      dx += lx; \
-    } else { \
-      dx -= lx; \
-    } \
-  } \
-} \
-
 #ifdef FEASST_NAMESPACE_
 namespace feasst {
 #endif  // FEASST_NAMESPACE_
@@ -275,7 +226,7 @@ void Pair::writeRestartBase(const char* fileName) {
 }
 
 double Pair::pressure(const double beta) {
-  return (space_->nMol()/beta + vrTot()/3.)/space_->vol();
+  return (space_->nMol()/beta + vrTot()/3.)/space_->volume();
 }
 
 void Pair::delPartBase_(const int ipart) {
@@ -401,7 +352,7 @@ void Pair::initPairParam(
   for (int i = 0; i < ntype; ++i) {
     eps_[i] = eps[i];
     sig_[i] = sig[i];
-    ASSERT(sig[i] >= 0, "sig must be positive");
+    // ASSERT(sig[i] >= 0, "sig must be positive");
     if (sigrefFlag_ == 1) sigRef_[i] = sigref[i];
   }
 
@@ -438,7 +389,7 @@ void Pair::buildNeighList() {
   const int dimen = space_->dimen();
   int nMol = space_->nMol();
   const vector<double> x = space_->x();
-  const vector<double> l = space_->l();
+  const vector<double> l = space_->boxLength();
   const vector<int> mol2part = space_->mol2part();
   const vector<int> mol = space_->mol();
   const vector<int> type = space_->type();
@@ -689,7 +640,9 @@ int Pair::checkEnergy(const double tol, const int flag) {
     initEnergy();
     peTot2 = peTot();
     ASSERT(fabs(peTot1 - peTot2) < tol,
-      std::setprecision(std::numeric_limits<double>::digits10+2)
+      MAX_PRECISION << "Energy check of full system did not match "
+      << "energy from changes due to Monte Carlo steps. There is an issue "
+      << "with the potential. "
       << "checkEnergy(flag(" << flag << ")), |peTot1(" << peTot1
       << ") from running - peTot2(" << peTot2 << ") from initEnergy() = "
       << peTot1 - peTot2 << "| > tol(" << tol << ").");
@@ -855,12 +808,13 @@ void Pair::update(const vector<int> mpart, const int flag, const char* uptype) {
   }
 }
 
-
-void Pair::epsijset(const int i, const int j, const double eps) {
-  epsij_.at(i).at(j) = eps;
+void Pair::epsijset(const int iSiteType, const int jSiteType,
+  const double eps) {
+  epsij_.at(iSiteType).at(jSiteType) = eps;
+  epsij_.at(jSiteType).at(iSiteType) = eps;
   vector<double> epsijsetrec;
-  epsijsetrec.push_back(i);
-  epsijsetrec.push_back(j);
+  epsijsetrec.push_back(iSiteType);
+  epsijsetrec.push_back(jSiteType);
   epsijsetrec.push_back(eps);
   epsijsetRecord_.push_back(epsijsetrec);
 }
@@ -870,7 +824,7 @@ double Pair::exVol(
   const double dProbe                  //!< diameber of probe
   ) {
   ASSERT(dimen_ == 3, "exVol requires 3 dimensions");
-  const double voldiff = space_->minl() - pow(space_->vol(),
+  const double voldiff = space_->minl() - pow(space_->volume(),
     1./static_cast<double>(dimen_));
   ASSERT(fabs(voldiff) <= 1e-12,
     "box must be a cube to compute excluded volume");
@@ -879,7 +833,7 @@ double Pair::exVol(
   // search through equally-spaced grid of points to find fraction that overlap
   // with molecules, based on sig
   const vector<double> &x = space_->x();
-  const vector<double> l = space_->l();
+  const vector<double> l = space_->boxLength();
   const double dGrid = l[0]/static_cast<double>(nGrid);
   const int natom = space_->natom();
   double dx, dy, dz, r2;
@@ -919,19 +873,23 @@ double Pair::exVol(
   }}}
 
   // use fraction of overlapping points to compute volume from boundary
-  return space_->vol()*overlaps/pow(nGrid, dimen_);
+  return space_->volume()*overlaps/pow(nGrid, dimen_);
 }
 
 void Pair::update(const double de) {
   peTot_ += de;
 }
 
-int Pair::printxyz(const char* fileName,
+void Pair::updatePeTot(const double peTot) {
+  peTot_ = peTot;
+}
+
+int Pair::printXYZ(const char* fileName,
   const int initFlag,
   const std::string comment) {
   // xyz file assumes 3D, but <3D is ok because you can simply define a plane
   // if floppy box, print in GRO format instead
-  if (space_->floppyBox() == 1) return printGRO(fileName, initFlag);
+  if (space_->tilted() == 1) return printGRO(fileName, initFlag);
 
   stringstream ss;
   ss << fileName << ".xyz";
@@ -959,7 +917,7 @@ int Pair::printxyz(const char* fileName,
   bool nonInteractingSite = false;
   fprintf(xyzFile, "%i\n%f ", natom, order());
   for (int dim = 0; dim < space_->dimen(); ++dim) {
-    fprintf(xyzFile, "%f ", space_->l()[dim]);
+    fprintf(xyzFile, "%f ", space_->boxLength()[dim]);
   }
   fprintf(xyzFile, "%f %s\n", space_->xyTilt(), comment.c_str());
   if (xyzFile != NULL) {
@@ -1124,7 +1082,7 @@ int Pair::printxyz(const char* fileName,
 }
 
 void Pair::rCutijset(const int itype, const int jtype, const double rCut) {
-  rCutij_.resize(epsij_.size(), vector<double>(epsij_.size()));
+  resize(epsij_.size(), epsij_.size(), &rCutij_);
   rCutij_[itype][jtype] = rCut;
   rCutij_[jtype][itype] = rCut;
   if (static_cast<int>(rCutMax_.size()) <= itype) {
@@ -1156,153 +1114,11 @@ double Pair::multiPartEner(
     return pairLoopSite_(mpart);
   } else {
     if (dimen_ == 3) {
-      return pairLoopMol_(mpart);
+      return pairLoopParticle_(mpart);
     }
   }
   ASSERT(0, "should never reach the end of this case block");
   return 0;
-}
-
-double Pair::pairLoopMol_(const vector<int> &mpart, const int noCell) {
-  ASSERT(0, "NOTE HWH: don't use this: It uses atomCut instead of molCut");
-  ASSERT(0, "NOTE HWH: don't use this: implement noCell");
-  // shorthand for read-only space variables
-  const vector<int> type = space_->type();
-  const vector<double> &x = space_->x();
-  const vector<double> &l = space_->l();
-  const vector<int> mol2part = space_->mol2part();
-  const double xyTilt = space_->xyTilt(), xzTilt = space_->xzTilt(),
-    yzTilt = space_->yzTilt();
-
-  // declare variables for optimization
-  double r2, xi, yi, zi, dx, dy, dz, dx0, dy0;
-  const double lx = l[0], ly = l[1], lz = l[2],
-    halflx = lx/2., halfly = ly/2., halflz = lz/2.;
-  int ipart, jpart, itype, jtype = -1;
-  double rCutij;
-
-  // loop through atoms in mpart
-  const int ii = 0;
-  ipart = mpart[ii];
-  const int iMol = space_->mol()[ipart];
-  xi = x[dimen_*ipart];
-  yi = x[dimen_*ipart+1];
-  zi = x[dimen_*ipart+2];
-  itype = type[ipart];
-  // obtain neighList with cellList
-  if (space_->cellType() == 1) {
-    if (cheapEnergy_) {
-      // cheap energy switches cut-off to sigma.
-      // Neighlist must be built for largest sigma
-      space_->buildNeighListCell(iMol);
-    } else {
-      if (rCutMax_.size() > 0) {
-        if (rCutMax_[itype] <= space_->dCellMin()) {
-          space_->buildNeighListCell(iMol);
-        } else {
-          space_->initAtomCut(0);
-        }
-      } else {
-        space_->initAtomCut(0);
-      }
-    }
-  }
-  const vector<int> &neigh = space_->neighListChosen();
-
-  for (unsigned int ineigh = 0; ineigh < neigh.size(); ++ineigh) {
-    const int jMol = neigh[ineigh];
-    if (jMol != iMol) {
-      jpart = mol2part[jMol];
-
-      // separation distance with periodic boundary conditions
-      dx = dx0 = xi - x[dimen_*jpart];
-      dy = dy0 = yi - x[dimen_*jpart+1];
-      dz = zi - x[dimen_*jpart+2];
-      if (fabs(dz) > halflz) {
-        if (dz < 0.) {
-          dz += lz;
-          dy += yzTilt;
-          dx += xzTilt;
-          dy0 += yzTilt;
-          dx0 += xzTilt;
-        } else {
-          dz -= lz;
-          dy -= yzTilt;
-          dx -= xzTilt;
-          dy0 -= yzTilt;
-          dx0 -= xzTilt;
-        }
-      }
-      if (fabs(dy0) > halfly) {
-        if (dy0 < 0.) {
-          dy += ly;
-          dx += xyTilt;
-          dx0 += xyTilt;
-        } else {
-          dy -= ly;
-          dx -= xyTilt;
-          dx0 -= xyTilt;
-        }
-      }
-      if (fabs(dx0) > halflx) {
-        if (dx0 < 0.) {
-          dx += lx;
-        } else {
-          dx -= lx;
-        }
-      }
-      r2 = dx*dx+dy*dy+dz*dz;
-
-      // no interaction beyond cut-off distance
-      rCutij = rCutij_[itype][jtype];
-      if (r2 < rCutij*rCutij) {
-        for (int isite = ipart; isite < mol2part[iMol+1]; ++isite) {
-          for (int jsite = jpart; jsite < mol2part[jMol+1]; ++jsite) {
-            // separation distance with periodic boundary conditions
-            dx = dx0 = xi - x[dimen_*jpart];
-            dy = dy0 = yi - x[dimen_*jpart+1];
-            dz = zi - x[dimen_*jpart+2];
-            if (fabs(dz) > halflz) {
-              if (dz < 0.) {
-                dz += lz;
-                dy += yzTilt;
-                dx += xzTilt;
-                dy0 += yzTilt;
-                dx0 += xzTilt;
-              } else {
-                dz -= lz;
-                dy -= yzTilt;
-                dx -= xzTilt;
-                dy0 -= yzTilt;
-                dx0 -= xzTilt;
-              }
-            }
-            if (fabs(dy0) > halfly) {
-              if (dy0 < 0.) {
-                dy += ly;
-                dx += xyTilt;
-                dx0 += xyTilt;
-              } else {
-                dy -= ly;
-                dx -= xyTilt;
-                dx0 -= xyTilt;
-              }
-            }
-            if (fabs(dx0) > halflx) {
-              if (dx0 < 0.) {
-                dx += lx;
-              } else {
-                dx -= lx;
-              }
-            }
-            r2 = dx*dx+dy*dy+dz*dz;
-            multiPartEnerAtomCutInner(r2, itype, jtype);
-          }
-        }
-      }
-    }
-  }
-  return peSRone_;
 }
 
 double Pair::vrTot() {
@@ -1344,7 +1160,7 @@ double Pair::allPartEnerForce(const int flag) {
 double Pair::allPartEnerForceNoCell() {
   // shorthand for read-only space variables
   const int nMol = space_->nMol();
-  const vector<double> l = space_->l();
+  const vector<double> l = space_->boxLength();
   const vector<double> x = space_->x();
   const vector<int> mol2part = space_->mol2part();
   const vector<int> type = space_->type();
@@ -1421,7 +1237,7 @@ void Pair::allPartEnerForceMolCutInner(const double r2, const int iMol,
   const int jMol, const double dx, const double dy, const double dz) {
   const vector<int> mol2part = space_->mol2part();
   const vector<double> x = space_->x();
-  const vector<double> l = space_->l();
+  const vector<double> l = space_->boxLength();
   const double xyTilt = space_->xyTilt(), xzTilt = space_->xzTilt(),
     yzTilt = space_->yzTilt();
   const double lx = l[0], ly = l[1], lz = l[2],
@@ -1700,11 +1516,11 @@ int Pair::printGRO(const char* fileName,
   }
   if (space_->dimen() == 3) {
     fprintf(file, "%10.5f%10.5f%10.5f%10.5f%10.5f%10.5f%10.5f%10.5f%10.5f\n",
-      space_->l(0)/10, space_->l(1)/10, space_->l(2)/10, 0., 0.,
+      space_->boxLength(0)/10, space_->boxLength(1)/10, space_->boxLength(2)/10, 0., 0.,
       space_->xyTilt()/10, 0., space_->xzTilt()/10, space_->yzTilt()/10);
   } else {
     fprintf(file, "%10.5f%10.5f%10.5f%10.5f%10.5f%10.5f%10.5f%10.5f%10.5f\n",
-      space_->l(0)/10, space_->l(1)/10, 0.1, 0., 0., space_->xyTilt()/10, 0.,
+      space_->boxLength(0)/10, space_->boxLength(1)/10, 0.1, 0., 0., space_->xyTilt()/10, 0.,
       0., 0.);
   }
   fclose(file);
@@ -2157,6 +1973,187 @@ bool Pair::useCellForSite_(const int itype) {
     }
   }
   return false;
+}
+
+double Pair::pairLoopParticle_(const vector<int> &siteList, const int noCell) {
+  // shorthand for read-only space variables
+  const vector<int> type = space_->type();
+  const vector<double> &x = space_->x();
+  const vector<int> &mol = space_->mol();
+  const vector<int> &mol2part = space_->mol2part();
+  const vector<double> &boxLength = space_->boxLength();
+
+  // declare variables for optimization
+  double dx, dy, dz = 0., energy = 0., force = 0., zi = 0., zis = 0.;
+  int neighbor;
+
+  // PBC optimization variables
+  const double lx = boxLength[0];
+  const double ly = boxLength[1];
+  double lz = 0.;
+  if (dimen_ >= 3) {
+    lz = boxLength[2];
+  }
+  const double xyTilt = space_->xyTilt();
+  const double xzTilt = space_->xzTilt();
+  const double yzTilt = space_->yzTilt();
+  const double halflx = lx/2., halfly = ly/2., halflz = lz/2.;
+
+  // initialize forces
+  if (forcesFlag_ == 1) {
+    fill(0., f_);
+  }
+
+  // to begin, consider interactions between siteList, and all other sites
+  // not in siteList. Skip if siteList includes all sites in space.
+  if (static_cast<int>(siteList.size()) != space_->natom()) {
+    const int molBegin = mol[siteList[0]],
+              molEnd = mol[siteList.back()];
+
+    if (neighOn_) {
+      neighOne_.clear();
+      neighOne_.resize(molEnd - molBegin + 1);
+    }
+
+    for (int iMol = molBegin; iMol <= molEnd; ++iMol) {
+      const int ipart = mol2part[iMol];
+      const int itype = type[ipart];
+      if ( (eps_[itype] != 0) || (skipEPS0_ == 0) ) {
+        const double xi = x[dimen_*ipart],
+                     yi = x[dimen_*ipart+1];
+        if (dimen_ >= 3) {
+           zi = x[dimen_*ipart+2];
+        }
+
+        // obtain neighList with cellList
+        if ( (noCell == 0) && useCellForSite_(itype) ) {
+          space_->buildNeighListCell(ipart);
+        } else {
+          space_->initAtomCut(0);   // set neighListChosen to all particles
+        }
+        const vector<int> &neigh = space_->neighListChosen();
+
+        // loop neighboring particles
+        for (unsigned int ineigh = 0; ineigh < neigh.size(); ++ineigh) {
+          const int jMol = neigh[ineigh];
+          const int jpart = mol2part[jMol];
+          const int jtype = type[jpart];
+          if ( (iMol != jMol) &&
+               ((eps_[jtype] != 0) || (skipEPS0_ == 0)) )  {
+            // separation distance with periodic boundary conditions
+            dx = xi - x[dimen_*jpart];
+            dy = yi - x[dimen_*jpart + 1];
+            if (dimen_ >= 3) {
+              dz = zi - x[dimen_*jpart + 2];
+            }
+            // optimized macro for PBC
+            TRICLINIC_PBC(dx, dy, dz, lx, ly, lz, halflx, halfly, halflz,
+                          xyTilt, xzTilt, yzTilt);
+            const double r2 = dx*dx + dy*dy + dz*dz;
+            const double rCut = rCutij_[itype][jtype];
+            if (r2 < rCut*rCut) {
+              if (cheapEnergy_) {
+                pairParticleParticleCheapEnergy_(r2, itype, jtype, &energy, &force);
+                peSRone_ += energy;
+              } else {
+                for (int iSite = mol2part[iMol]; iSite < mol2part[iMol + 1]; ++iSite) {
+                  const int itype = type[iSite];
+                  const double xis = x[dimen_*iSite],
+                               yis = x[dimen_*iSite + 1];
+                  if (dimen_ >= 3) {
+                    zis = x[dimen_*iSite + 2];
+                  }
+                  for (int jSite = mol2part[jMol]; jSite < mol2part[jMol + 1]; ++jSite) {
+                    // separation distance with periodic boundary conditions
+                    dx = xis - x[dimen_*jSite];
+                    dy = yis - x[dimen_*jSite + 1];
+                    if (dimen_ >= 3) {
+                      dz = zis - x[dimen_*jSite + 2];
+                    }
+                    // optimized macro for PBC
+                    TRICLINIC_PBC(dx, dy, dz, lx, ly, lz, halflx, halfly, halflz,
+                                  xyTilt, xzTilt, yzTilt);
+                    pairSiteSite_(itype, type[jSite], &energy, &force, &neighbor,
+                                  dx, dy, dz);
+                    peSRone_ += energy;
+                  }
+                }
+                if (neighbor == 1) {
+                  setNeighbor_(r2, iMol - molBegin, jMol, itype, jtype);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // consider interactions between particles that are in siteList
+  // if cell list is available and siteList is all particles in space,
+  // loop between pairs of cells
+  if ( useCellForSite_() && (noCell == 0) &&
+       (static_cast<int>(siteList.size()) == space_->natom()) ) {
+    ASSERT(0, "not implemented");
+
+  // otherwise, without cell list, loop between pairs of sites
+  } else {
+    const int molBegin = mol[siteList[0]],
+              molEnd = mol[siteList.back()];
+    for (int iMol = molBegin; iMol < molEnd; ++iMol) {
+      const int ipart = mol2part[iMol];
+      const int itype = type[ipart];
+      if ( (eps_[itype] != 0) || (skipEPS0_ == 0) ) {
+        const double xi = x[dimen_*ipart],
+                     yi = x[dimen_*ipart+1];
+        if (dimen_ >= 3) {
+           zi = x[dimen_*ipart+2];
+        }
+        for (int jMol = iMol + 1; jMol <= molEnd; ++jMol) {
+          const int jpart = mol2part[jMol];
+          const int jtype = type[jpart];
+          if ( (eps_[jtype] != 0) || (skipEPS0_ == 0) )  {
+            // separation distance with periodic boundary conditions
+            dx = xi - x[dimen_*jpart];
+            dy = yi - x[dimen_*jpart + 1];
+            if (dimen_ >= 3) {
+              dz = zi - x[dimen_*jpart + 2];
+            }
+            // optimized macro for PBC
+            TRICLINIC_PBC(dx, dy, dz, lx, ly, lz, halflx, halfly, halflz,
+                          xyTilt, xzTilt, yzTilt);
+            const double r2 = dx*dx + dy*dy + dz*dz;
+            const double rCut = rCutij_[itype][jtype];
+            if (r2 < rCut*rCut) {
+              for (int iSite = mol2part[iMol]; iSite < mol2part[iMol + 1]; ++iSite) {
+                const int itype = type[iSite];
+                const double xis = x[dimen_*iSite],
+                             yis = x[dimen_*iSite + 1];
+                if (dimen_ >= 3) {
+                  zis = x[dimen_*iSite + 2];
+                }
+                for (int jSite = mol2part[jMol]; jSite < mol2part[jMol + 1]; ++jSite) {
+                  // separation distance with periodic boundary conditions
+                  dx = xis - x[dimen_*jSite];
+                  dy = yis - x[dimen_*jSite + 1];
+                  if (dimen_ >= 3) {
+                    dz = zis - x[dimen_*jSite + 2];
+                  }
+                  // optimized macro for PBC
+                  TRICLINIC_PBC(dx, dy, dz, lx, ly, lz, halflx, halfly, halflz,
+                                xyTilt, xzTilt, yzTilt);
+                  pairSiteSite_(itype, type[jSite], &energy, &force, &neighbor,
+                                dx, dy, dz);
+                  peSRone_ += energy;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return peSRone_;
 }
 
 #ifdef FEASST_NAMESPACE_
