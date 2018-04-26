@@ -65,7 +65,7 @@ configuration.
 .. code-block:: C++
 
     std::ifstream inFile("nameOfFile");
-    pair.readxyz(inFile);
+    pair.readXYZ(inFile);
 
 If there are zero particles in the space class, then it automatically
 attempts to add the molecules based on the first molecule type
@@ -87,19 +87,18 @@ For example, something like the following:
 Then the same for B, assuming your xyz has all A listed, followed by
 all B.
 
-After all of the s.addMol commands are performed and the xyz file is
+After all of the :cpp:func:`Pair::addMol()` commands are performed and the xyz file is
 read, you will need to update the pair class as follows:
 
 .. code-block:: C++
 
-    p.initEnergy();
+    pair.initEnergy();
 
-A simple test that the xyz file was read correctly is to print it and
-compare:
+A simple test that the xyz file was read correctly is to print it and compare:
 
 .. code-block:: C++
 
-    p.printxyz("filename",1);
+    pair.printXYZ("filename",1);
 
 Restarting a simulation
 =========================
@@ -199,7 +198,7 @@ This is a common issue with a few approaches:
 
 .. code-block:: c++
 
-   c.pressureset(1000.);
+   criteria.pressureset(1000.);
    transformTrial(&mc, "lxmod", 0.001);
    transformTrial(&mc, "lymod", 0.001);
    transformTrial(&mc, "lzmod", 0.001);

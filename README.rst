@@ -99,7 +99,8 @@ FEASST is designed for a LINUX or MAC platform with the following minimum versio
     mkdir build
     cd build
     cmake ..
-    make
+    make -j 12
+    (optional: "make install")
 
 Usage: C++ interface
 #######################
@@ -116,6 +117,13 @@ This C++ code is compiled and run in bash as follows:
 .. code-block:: bash
 
     $HOME/feasst/tools/run.sh test.cc
+
+Alternatively, instead of using the run.sh script above, which compiles the C++ file in the feasst/build directory, you may link to FEASST as an external library.
+
+The following CMake file found in the `<testcase/1_lj/0_example>`_ directory requires that you "make install" in the last step of the installation, and that you set ``CMAKE_PREFIX_PATH`` to the install location (default: /path/to/feasst/build, or optionally set by -DCMAKE_INSTALL_PREFIX=/path/to/install/dir in installation)
+
+.. literalinclude:: testcase/1_lj/0_example/CMakeLists.txt
+   :language: c++
 
 Usage: Python interface
 #########################

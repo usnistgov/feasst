@@ -118,13 +118,13 @@ TEST(Trial, allmoves) {
   Space sLJ(3);
   sLJ.init_config(12);
   PairLJ pLJ(&sLJ, {{"rCut", "5"},
-                    {"molType", "../forcefield/data.atom"},
+                    {"molType", "../forcefield/data.lj"},
                     {"cutType", "cutShift"}});
 
   Space sID(3);
   sID.init_config(12);
   PairIdeal pID(&sID, {{"rCut", "5"}});
-  pID.initData("../forcefield/data.atom");
+  pID.initData("../forcefield/data.lj");
   pID.rCutijset(0, 0, pID.rCut());
 
   // loop through each pair type listed in string vector pairType
@@ -144,7 +144,9 @@ TEST(Trial, allmoves) {
       s = &sLJ;
       nAttempts = 50;
       rAbove = 3, rBelow = 1, beta = 1, activ = 0.01, maxMoveParam = 5;
-      addType.assign("../forcefield/data.atom");
+      std::stringstream ss;
+      ss << s->install_dir() << "/forcefield/data.lj";
+      addType.assign(ss.str());
     } else if ((*pt).compare("spce") == 0) {
       p = &pSPCE;
       s = &sSPCE;
@@ -156,7 +158,9 @@ TEST(Trial, allmoves) {
       s = &sID;
       nAttempts = 50;
       rAbove = 3, rBelow = 1, beta = 0.025, activ = 0.01, maxMoveParam = sID.minl()/2.;
-      addType.assign("../forcefield/data.atom");
+      std::stringstream ss;
+      ss << s->install_dir() << "/forcefield/data.lj";
+      addType.assign(ss.str());
     }
 
     // loop through criteria types

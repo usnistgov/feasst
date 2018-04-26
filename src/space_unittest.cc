@@ -13,24 +13,6 @@
 
 using namespace feasst;
 
-// Check init_config for a single atom
-
-TEST(Space, init_config){
-  int dim=1,natom=1;
-  Space NewSpace(dim);
-  NewSpace.init_config(natom);
-  vector<double> x = NewSpace.x();
-  EXPECT_EQ(natom,NewSpace.natom());
-  for (int i=0;i<int(x.size());i++){
-    for (int j=0;j<dim;j++){
-      EXPECT_EQ(0,x[dim*i+j]);
-    }
-  }
-  EXPECT_EQ(NewSpace.natom(), NewSpace.nType()[0]);
-  EXPECT_EQ(1, NewSpace.nParticleTypes());
-  EXPECT_EQ(1, NewSpace.checkSizes());
-}
-
 TEST(Space, readwritexyz) {
   Space s(3);
   s.init_config(12);
@@ -54,7 +36,7 @@ TEST(Space, delPartaddPart) {
   EXPECT_EQ(s.natom(),int(s.mol().size()));
   EXPECT_EQ(s.natom(),int(s.moltype().size()));
   std::stringstream ss;
-  ss << s.install_dir() << "/forcefield/data.atom";
+  ss << s.install_dir() << "/forcefield/data.lj";
   EXPECT_EQ(0, s.moltype().front().compare(ss.str()));
   EXPECT_EQ(0, s.moltype().back().compare(ss.str()));
   EXPECT_EQ(s.natom(), s.nType()[0]);

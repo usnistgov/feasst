@@ -30,7 +30,7 @@ Pair*::printxyz -> printXYZ
 
 Space::contact2clusterAlt > contact2cluster
 
-Space::floodFillContactAlt_ -> floodFillContact
+Space::floodFillContactAlt -> floodFillContact
 
 Removed
 ***************
@@ -49,7 +49,7 @@ Space::checkBond(char*, double)
 
 Space::contact2cluster
 
-Space::floodFillContact_
+Space::floodFillContact
 
 Space::nRadialHist/printRadial
 

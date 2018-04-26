@@ -255,7 +255,7 @@ To do list
   Domain which contains box lengths and cell list, etc (but needs to know about particle positions?)
 * Fix nomenclature.. atom == particle, mol == ?.. maybe change to sites / particles
 * add ASSERT(rCutij.size() == 0 for linearShift in PairLJMulti so people don't run into issues with rCutij.clear
-* Numerical implementation of quadratic equation coudl help with config bias: https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation
+* Numerical implementation of quadratic equation could help with config bias: https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation
 * Improve handling of default parameters for documentation and perhaps json (e.g. checkpointing above)?
 * implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).
 * runNumSweeps instead should have something where one generates the clones as vector<shrptr>, then runNumSweep takes these as input. That way one can modify the clones as one sees fit (also in multiprocessor restarts) before running the clones. It would take a lot of the hidden magic out without complicating the interface too drastically.
@@ -284,11 +284,12 @@ To do list
 * rename feasst.str.. python doesn't like it.
 * Eventually convert all raw pointers to shared pointers (but interface blind to shared_ptr vs unique_ptr), which also allows removal of space from MC class
 * Custom derived Analysis class should be able to clone without more boiler plate
-* Operations to assign atoms to groups, and be able to apply groups to most operations like analyze, similar to lammps
+* Operations to assign atoms to groups, and be able to apply groups to most operations like analyze
 * Separate PairLJCoul into different classes for LJ, real-space Q and Ewald. Use PairHybrid to combine them.
 * Once subspace efficiently implemented, pairHybrid can store different pairs with different subspaces to optimize e.g., the LJ interaction on oxygens only (for MFB?)
 * Rename some variables... mpart should be msite? ran vs rand.
-* Implement Mayer sampling within the context of CriteriaMayer + MC handling trials (e.g., need a different way to keep track of running energy due to overflow)
+* Implement Mayer sampling within the context of all of the Trial classes (currently just TrialTransform - translate).
 * For library build (1) configure input/output of unittests/testcases (2) external and internal cmake sandbox builds
 * After added feasst namespace to swig, why does the type of "PairLJCoulEwald::erft()" show up as "SwgPyObject" instead of "class feasst.erftable"
+* Update the FAQ, or make it more links to testcases which seem to be more likely to stay up-to-date.
 

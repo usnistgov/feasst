@@ -259,7 +259,7 @@ void Space::reconstruct_() {
 
 void Space::init_config(const int natom) {
   std::stringstream ss;
-  ss << install_dir() << "/forcefield/data.atom";
+  ss << install_dir() << "/forcefield/data.lj";
   addMolInit(ss.str());
   vector<double> xAddInit(dimen());
   for (int iAtom = 0; iAtom < natom; ++iAtom) {
