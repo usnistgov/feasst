@@ -14,7 +14,7 @@ option(USE_GSL "Use GSL" OFF)
 set(GSL_USER_DIR "$ENV{HOME}/software/gsl-2.3")
 # option(USE_JSON "Use JSON" OFF)
 option(USE_GTEST "Use gtest" OFF)
-option(USE_GTESTCASES "Use testcases" OFF)
+option(USE_GTEST_TUTORIALS "Use gtest on tutorials" OFF)
 option(USE_CCACHE "Use ccache to speed up builds" OFF)
 option(USE_OMP "Require use of OMP for parallelization" OFF)
 option(USE_GCOV "Use GCOV for coverage testing" OFF)
@@ -34,14 +34,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")  #profiling
 
 # enable dependencies
-# if you're using SPHINX, you must use GTESTCASES
+# if you're using SPHINX, you must USE_GTEST_TUTORIALS
 if (USE_SPHINX)
-  set(USE_GTESTCASES ON)
+  set(USE_GTEST_TUTORIALS ON)
 endif (USE_SPHINX)
-# if you're using GTESTCASES, you must use GTEST
-if (USE_GTESTCASES)
+# if you're using USE_GTEST_TUTORIALS, you must use GTEST
+if (USE_GTEST_TUTORIALS)
   set(USE_GTEST ON)
-endif (USE_GTESTCASES)
+endif (USE_GTEST_TUTORIALS)
 
 # # JSON Library
 # if (USE_JSON)
@@ -66,8 +66,8 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-# put main.cc from testcase/1/0/test.cc into drivers
-configure_file(${CMAKE_SOURCE_DIR}/testcase/1_lj/0_example/test.cc ${CMAKE_SOURCE_DIR}/drivers/main.cc @ONLY)
+# put main.cc from tutorial/1/0/test.cc into drivers
+configure_file(${CMAKE_SOURCE_DIR}/tutorial/1_lj/0_example/test.cc ${CMAKE_SOURCE_DIR}/drivers/main.cc @ONLY)
 
 # put pyfeasst into build
 configure_file(${CMAKE_SOURCE_DIR}/src/pyfeasst.py ${CMAKE_SOURCE_DIR}/build/pyfeasst.py @ONLY)
@@ -308,18 +308,18 @@ if (USE_GTEST)
   target_link_libraries(unittest feasst)
   add_test(NAME unittest COMMAND ./bin/unittest --gtest_shuffle)
 
-  if (USE_GTESTCASES)
-    message("USING GTEST CASES")
+  if (USE_GTEST_TUTORIALS)
+    message("USING GTEST ON TUTORIALS")
     execute_process(
       COMMAND ${CMAKE_SOURCE_DIR}/tools/build/genGTestCases.sh ${CMAKE_SOURCE_DIR}
       WORKING_DIRECTORY .
     )
-    file(GLOB feasst_testcase_SRC "${CMAKE_SOURCE_DIR}/build/testcase/*.cc")
-    add_executable(testcase ${feasst_testcase_SRC})
-    target_link_libraries(testcase gtest_main ${EXTRA_LIBS})
-    target_link_libraries(testcase feasst)
-    add_test(NAME testcase COMMAND ./bin/testcase --gtest_shuffle)
-  endif (USE_GTESTCASES)
+    file(GLOB feasst_tutorial_SRC "${CMAKE_SOURCE_DIR}/build/tutorial/*.cc")
+    add_executable(tutorial ${feasst_tutorial_SRC})
+    target_link_libraries(tutorial gtest_main ${EXTRA_LIBS})
+    target_link_libraries(tutorial feasst)
+    add_test(NAME tutorial COMMAND ./bin/tutorial --gtest_shuffle)
+  endif (USE_GTEST_TUTORIALS)
 
 endif(USE_GTEST)
 
@@ -351,7 +351,7 @@ if (USE_SWIG)
     SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS})
     SWIG_LINK_LIBRARIES(feasst feasst)
     add_dependencies(_feasst build-time-make-directory)
-    add_test(NAME swigtest COMMAND ${CMAKE_SOURCE_DIR}/tools/run.sh testcase/test.py)
+    add_test(NAME swigtest COMMAND ${CMAKE_SOURCE_DIR}/tools/run.sh tutorial/test.py)
   else (SWIG_FOUND)
     message("SWIG NOT FOUND")
   endif (SWIG_FOUND)

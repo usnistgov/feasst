@@ -15,18 +15,18 @@ Calculate average properties
 =========================================
 
 * The log file from :cpp:func:`MC::initLog()` may periodically output the instantaneous value of the property of interest.
-* Obtain the property of interest from the :doc:`build/api` periodically, as shown in the python script of :doc:`build/testcase/1_lj_2_nvt-mc_README`.
-* Implement a custom Analysis class as demonstrated for average energy in the C++ script of :doc:`build/testcase/1_lj_2_nvt-mc_README`
+* Obtain the property of interest from the :doc:`build/api` periodically, as shown in the python script of :doc:`build/tutorial/1_lj_2_nvt-mc_README`.
+* Implement a custom Analysis class as demonstrated for average energy in the C++ script of :doc:`build/tutorial/1_lj_2_nvt-mc_README`
 
 Calculate grand canonical ensemble average properties
 =================================================================
 
-* See the example in :doc:`build/testcase/1_lj_3_eostmmc_README` for coexistence properties.
+* See the example in :doc:`build/tutorial/1_lj_3_eostmmc_README` for coexistence properties.
 
 Load coordinate files or place particles in specific locations
 ================================================================
 
-* See the example in :doc:`build/testcase/1_lj_1_ref-config_README`.
+* See the example in :doc:`build/tutorial/1_lj_1_ref-config_README`.
 
 Make FEASST do exactly what you want it to do
 ===========================================================
@@ -34,7 +34,7 @@ Make FEASST do exactly what you want it to do
 You can create your own :cpp:class:`Pair`, :cpp:class:`Trial`, :cpp:class:`Criteria`, :cpp:class:`Analyze`, and :cpp:class:`Random` classes as described in the documentation for the Base classes.
 Start by finding an existing derived class that is the most similar and copying it.
 You can also define new classes within the script themselves.
-For example, see :doc:`build/testcase/1_lj_2_nvt-mc_README` for a custom :cpp:class:`Analyze`, and :doc:`build/testcase/2_jagla_1_ref-config_README` for a custom :cpp:class:`Pair`.
+For example, see :doc:`build/tutorial/1_lj_2_nvt-mc_README` for a custom :cpp:class:`Analyze`, and :doc:`build/tutorial/2_jagla_1_ref-config_README` for a custom :cpp:class:`Pair`.
 
 Analysis of configurations for WL-TMMC simulations
 ==================================================================================

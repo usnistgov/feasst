@@ -34,7 +34,7 @@ namespace feasst {
  *
  * First, you may define a custom Pair code in the same file as
  * "int main()" for C++. See an example of this for the Jagla potential
- * <a href="testcase/2_jagla_1_ref-config_README.html">test case</a>.
+ * <a href="tutorial/2_jagla_1_ref-config_README.html">test case</a>.
  *
  * Second, you may copy existing "pair_*" files and replace the class name
  * and header guards (e.g. BASECLASS_DERIVED_H_).

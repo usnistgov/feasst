@@ -230,9 +230,9 @@ Sphinx/Breathe/Doxygen tips
 ############################
 
 * Link from rst file to C++ function: ``:cpp:func:`className::function()```
-* Link from rst file to fst file: ``:doc:`/testcase/asdf```
+* Link from rst file to fst file: ``:doc:`/tutorial/asdf```
 * Link from C++ to C++: ``className::function()``
-* Link from C++ source to rst file: ``<a href="testcase/asdf.html">test</a>``
+* Link from C++ source to rst file: ``<a href="tutorial/asdf.html">test</a>``
 * For math in C++ comments::
 
    \f$ latex code here \f$
@@ -270,7 +270,7 @@ To do list
 * document log file and tuning, changing acceptance percentage
 * Include PDF version of manual in release tarballs
 * Package FEASST as a Docker app
-* move unittests to testcases: ljmultilambda2D, NPTandLJvLJMulti, semigrand,
+* move unittests to tutorials: ljmultilambda2D, NPTandLJvLJMulti, semigrand,
 * Fix the API TOC for non-derived classes (e.g., TOC disappears when you select "Histogram")
 * Add test case with AnalyzeCluster and AnalyzeScatter.
 * Add test case with PairTabular1D (and/or improve beyond linear interpolation).
@@ -279,7 +279,7 @@ To do list
 * sphinx_rtd_theme doesn't work with NIST header/footer
 * Use short version number for display on FEASST html
 * Customize restart directory name
-* Fix testcase 1/3 by taking arguments with unittest in python.
+* Fix tutorial 1/3 by taking arguments with unittest in python.
 * Use packages to dynamically add the disclaim in the release.
 * rename feasst.str.. python doesn't like it.
 * Eventually convert all raw pointers to shared pointers (but interface blind to shared_ptr vs unique_ptr), which also allows removal of space from MC class
@@ -289,9 +289,8 @@ To do list
 * Once subspace efficiently implemented, pairHybrid can store different pairs with different subspaces to optimize e.g., the LJ interaction on oxygens only (for MFB?)
 * Rename some variables... mpart should be msite? ran vs rand.
 * Implement Mayer sampling within the context of all of the Trial classes (currently just TrialTransform - translate).
-* For library build (1) configure input/output of unittests/testcases (2) external and internal cmake sandbox builds
+* For library build (1) configure input/output of unittests/tutorials (2) external and internal cmake sandbox builds
 * After added feasst namespace to swig, why does the type of "PairLJCoulEwald::erft()" show up as "SwgPyObject" instead of "class feasst.erftable"
-* Update the FAQ, or make it more links to testcases which seem to be more likely to stay up-to-date.
-* Update documentation/testcase/FAQ for PairTabular1D.
-* Rename testcases -> tutorials
+* Update the FAQ, or make it more links to tutorials which seem to be more likely to stay up-to-date.
+* Update documentation/tutorial/FAQ for PairTabular1D.
 * Use sphinx doctest to test python tutorials

@@ -3,7 +3,7 @@
 #for f in functions_unittest.cc; do
 #for f in `ls *.i`; do
 
-#find ../testcase/ -name "test*" | xargs sed -i "s/’/'/"
+#find ../tutorial/ -name "test*" | xargs sed -i "s/’/'/"
 #find . -type f | xargs sed -i "s/ $//g"
 
 for f in `ls *`; do

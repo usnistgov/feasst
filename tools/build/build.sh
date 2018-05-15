@@ -8,7 +8,7 @@
 # 7. test cases
 # compilation with cmake and make
 
-for task in compile unittest makecov valgrind testcase testcasepy; do
+for task in compile unittest makecov valgrind tutorial tutorialpy; do
   ../tools/build/${task}.sh
 done
 

@@ -1,7 +1,7 @@
-Test cases
+Tutorials
 =====================================================
 
-Here you can find various examples of FEASST scripts which are used to reproduce published results, or simply serve as an example simulation.
+Here you can find various examples of FEASST used to reproduce published results, or simply tutorial simulations.
 
 The following files may appear in the test cases.
 
@@ -13,4 +13,4 @@ The following files may appear in the test cases.
 .. toctree::
    :glob:
 
-   build/testcase/*
+   build/tutorial/*

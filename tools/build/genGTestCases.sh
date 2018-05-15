@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-DES=testcase
+DES=tutorial
 mkdir -p $DES
 
-# generate aggregated c++ testcases
-for file in `find ../testcase -name test.cc`; do
-  newfile=$DES/`echo $file | sed 's/\.\.\/testcase\///' | sed 's/\//_/g'`
+# generate aggregated c++ tutorials
+for file in `find ../tutorial -name test.cc`; do
+  newfile=$DES/`echo $file | sed 's/\.\.\/tutorial\///' | sed 's/\//_/g'`
   ../tools/cc2gtest.sh $file $newfile
 done
 
-# generate aggregated python testcases
+# generate aggregated python tutorials
 pyfile=$DES/test.py
 echo "" > $pyfile
-for file in `find ../testcase -name test.py`; do
+for file in `find ../tutorial -name test.py`; do
   head -n -3 $file >> $pyfile
 done
 cat <<-EOF >> $pyfile
@@ -20,9 +20,9 @@ if __name__ == "__main__":
 EOF
 
 # generate / filter RST files for documentation
-for file in `find ../testcase -name *README.rst | grep -v "bak"`; do
+for file in `find ../tutorial -name *README.rst | grep -v "bak"`; do
   DIR=$(dirname "${file}" | sed 's/\.\.\///' | sed 's/\//\\\//g')
-  newfile=$DES/`echo $file | sed 's/\.\.\/testcase\///' | sed 's/\//_/g'`
+  newfile=$DES/`echo $file | sed 's/\.\.\/tutorial\///' | sed 's/\//_/g'`
   cat $file | sed "s/AUTO_GEN_DIR/$DIR/" > $newfile
 done
 

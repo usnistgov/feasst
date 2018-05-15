@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# this script converts a cc file to python, typically used for testcases.
+# this script converts a cc file to python, typically used for tutorials.
 SRC=$1
 DES="$(basename $SRC .cc)".py
 TMP=/tmp/tmp

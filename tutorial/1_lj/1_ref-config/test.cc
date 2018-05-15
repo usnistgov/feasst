@@ -37,7 +37,7 @@ int main() {  // LJ, SRSW_REFCONF
   // second, compare with the reference configuration
   stringstream config;
   config << space.install_dir() <<
-    "/testcase/1_lj/1_ref-config/lj_sample_config_periodic4.xyz";
+    "/tutorial/1_lj/1_ref-config/lj_sample_config_periodic4.xyz";
   std::ifstream file(config.str().c_str());   // load the xyz file
   pair2->readXYZ(file);                       // read the xyz file
   pair2->initEnergy();                        // compute energy

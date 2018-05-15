@@ -105,11 +105,11 @@ FEASST is designed for a LINUX or MAC platform with the following minimum versio
 Usage: C++ interface
 #######################
 
-The following may be found in the `<testcase/1_lj/0_example>`_ directory.
+The following may be found in the `<tutorial/1_lj/0_example>`_ directory.
 
 In C++, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:
 
-.. literalinclude:: testcase/1_lj/0_example/test.cc
+.. literalinclude:: tutorial/1_lj/0_example/test.cc
    :language: c++
 
 This C++ code is compiled and run in bash as follows:
@@ -120,9 +120,9 @@ This C++ code is compiled and run in bash as follows:
 
 Alternatively, instead of using the run.sh script above, which compiles the C++ file in the feasst/build directory, you may link to FEASST as an external library.
 
-The following CMake file found in the `<testcase/1_lj/0_example>`_ directory requires that you "make install" in the last step of the installation, and that you set ``CMAKE_PREFIX_PATH`` to the install location (default: /path/to/feasst/build, or optionally set by -DCMAKE_INSTALL_PREFIX=/path/to/install/dir in installation)
+The following CMake file found in the `<tutorial/1_lj/0_example>`_ directory requires that you "make install" in the last step of the installation, and that you set ``CMAKE_PREFIX_PATH`` to the install location (default: /path/to/feasst/build, or optionally set by -DCMAKE_INSTALL_PREFIX=/path/to/install/dir in installation)
 
-.. literalinclude:: testcase/1_lj/0_example/CMakeLists.txt
+.. literalinclude:: tutorial/1_lj/0_example/CMakeLists.txt
    :language: c++
 
 Usage: Python interface
@@ -142,10 +142,10 @@ To install the python interface, use the following CMake command in place of "cm
 
 Note that the ``PYTHON_INCLUDE_PATH`` and ``PYTHON_LIBRARIES`` depends on your python installation.
 
-The following may be found in the `<testcase/1_lj/0_example>`_ directory.
+The following may be found in the `<tutorial/1_lj/0_example>`_ directory.
 In python, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:
 
-.. literalinclude:: testcase/1_lj/0_example/test.py
+.. literalinclude:: tutorial/1_lj/0_example/test.py
    :language: py
 
 This simulation is run in bash as follows:

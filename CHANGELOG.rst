@@ -10,6 +10,8 @@ Log file printing is now almost completely controlled by the Trial class instead
 Renamed
 ***************
 
+testcases -> tutorials
+
 Space::l() -> boxLength()
 
 Space::l(const int)  -> boxLength(const int)

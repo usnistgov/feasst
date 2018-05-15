@@ -14,7 +14,7 @@ Contents:
    :maxdepth: 3
 
    README
-   TESTCASE
+   TUTORIAL
    build/api
    FAQ
    CHANGELOG
