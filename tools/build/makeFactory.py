@@ -1,20 +1,20 @@
-# This script makes the feasst.i, feasst.h and factories.cc files
+# This script makes the feasst.i and factories.cc files
 
 from __future__ import print_function
 
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument("--source_dir", "-s", help="/path/to/feasst", default="err", type=str)
+required = parser.add_argument_group('required arguments')
+required.add_argument("--source_dir", "-s", help="/path/to/feasst", type=str, required=True)
+required.add_argument("--binary_dir", "-b", help="/path/to/feasst/build", type=str, required=True)
 args = parser.parse_args()
-
-assert(args.source_dir != "err")  # -s argument is required
 
 factoryBaseClasses=["pair", "criteria", "analyze", "trial", "random"]
 baseClasses=["accumulator", "analyze", "barrier", "base", "criteria", "custom_exception", "histogram", "mc", "pair", "random", "shape", "space", "table", "trial", "group"]
 nonClasses=["functions", "ui_abbreviated", "physical_constants"]
 
 ####################################################
-print("Generating feasst.i and feasst.h")
+print("Generating feasst.i")
 ####################################################
 
 def strip_char(text, char="/", direction="back"):
@@ -33,8 +33,7 @@ def printer(prepend, append, print_file, class_list=[""]):
     for cls in class_list:
         for full_header in globfiles(cls):
             header=strip_char(full_header)
-            if header != "feasst.h":
-                print(prepend+header+append, file=print_file)
+            print(prepend+header+append, file=print_file)
 
 import re
 def my_grep(file_name, regex):
@@ -63,9 +62,6 @@ def print_factory(print_file, base_class, append,
         print("  } else { ASSERT(0, \"unrecognized "+base_class+"(\" << typestr << \") in factory\"); }\n\
   return "+base_class+";\n\
 }\n", file=print_file)
-
-with open(args.source_dir+"/src/feasst.h", "w") as headerfile:
-    printer(prepend="#include \"", append="\"", print_file=headerfile)
 
 with open("feasst.i", "w") as swigfile:
     print(
@@ -125,7 +121,7 @@ namespace std{\n\
 print("Generating factories.cc")
 ####################################################
 
-factories_file_name = args.source_dir+"/src/factories.cc"
+factories_file_name = args.binary_dir+"/factories.cc"
 with open(factories_file_name, "w") as factory_file:
     print(
 "/* Factory method for Pair, Criteria, Trial and Analyze.\n\

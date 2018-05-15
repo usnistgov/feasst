@@ -32,6 +32,8 @@ Space::contact2clusterAlt > contact2cluster
 
 Space::floodFillContactAlt -> floodFillContact
 
+Space::hash -> configID
+
 Removed
 ***************
 

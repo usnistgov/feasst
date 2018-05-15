@@ -44,7 +44,7 @@ void AnalyzeTRAJ::defaultConstruction_() {
 void AnalyzeTRAJ::write() {
   if (!fileName_.empty()) {
     if (format_ == "xyz") {
-      pair_->printXYZ(fileName_.c_str(), firstFlag_, space()->hash());
+      pair_->printXYZ(fileName_.c_str(), firstFlag_, space()->configID());
     #ifdef XDRFILE_H_
     } else if (format_ == "xtc") {
       stringstream ss;

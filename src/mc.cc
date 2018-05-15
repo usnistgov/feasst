@@ -305,7 +305,7 @@ void MC::zeroStat() {
 void MC::printStat() {
   // print to log file
   if (!logFileName_.empty()) {
-    space_->storeUniqueHash();
+    space_->storeUniqueConfigID();
     std::ofstream log_(logFileName_.c_str(),
                        std::ofstream::out | std::ofstream::app);
     if (printLogHeader_ > 0) {
@@ -313,7 +313,7 @@ void MC::printStat() {
       for (unsigned int i = 0; i < trialVec_.size(); ++i) {
         log_ << trialVec_[i]->printStat(true);
       }
-      log_ << "hash" << endl;
+      log_ << "configID" << endl;
       if (printLogHeader_ == 2) {
         printLogHeader_ = -1;
       } else {
@@ -328,7 +328,7 @@ void MC::printStat() {
     for (unsigned int k = 0; k < trialVec_.size(); ++k) {
       log_ << trialVec_[k]->printStat(false);
     }
-    log_ << space_->hash() << endl;
+    log_ << space_->configID() << endl;
   }
 }
 

@@ -292,4 +292,6 @@ To do list
 * For library build (1) configure input/output of unittests/testcases (2) external and internal cmake sandbox builds
 * After added feasst namespace to swig, why does the type of "PairLJCoulEwald::erft()" show up as "SwgPyObject" instead of "class feasst.erftable"
 * Update the FAQ, or make it more links to testcases which seem to be more likely to stay up-to-date.
-
+* Update documentation/testcase/FAQ for PairTabular1D.
+* Rename testcases -> tutorials
+* Use sphinx doctest to test python tutorials

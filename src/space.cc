@@ -204,7 +204,7 @@ Space::Space(const char* fileName) {
 
 void Space::defaultConstruction_() {
   verbose_ = 0;
-  storeUniqueHash();
+  storeUniqueConfigID();
   fastDel_ = false;
   fastDelMol_ = -1;
   if (dimen_ == 3) {
@@ -4206,8 +4206,8 @@ bool Space::tilted() const {
   return true;
 }
 
-void Space::storeUniqueHash() {
-  hash_ = randomHash();
+void Space::storeUniqueConfigID() {
+  configID_ = randomHash();
 }
 
 void Space::initGroup(shared_ptr<Group> group) {

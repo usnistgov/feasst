@@ -234,22 +234,32 @@ endif()
 #strip leading whitespace from EXTRA_LIBS
 string(REGEX REPLACE "^ " "" EXTRA_LIBS "${EXTRA_LIBS}")
 
+# Create feasst.h in the binary directory
+file(GLOB_RECURSE header_files "src/*.h")
+foreach(f ${header_files})
+  # message("processing ${f}")
+  file(RELATIVE_PATH fr "${CMAKE_CURRENT_SOURCE_DIR}/src" ${f})
+  list(APPEND incls "#include \"${fr}\"\n")
+endforeach()
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/feasst.h ${incls})
+
 # Use the makeFactory.sh script to make feasst.i and factories.cc
 execute_process(
-  COMMAND python ${CMAKE_SOURCE_DIR}/tools/build/makeFactory.py -s ${CMAKE_SOURCE_DIR}
+  COMMAND python ${CMAKE_SOURCE_DIR}/tools/build/makeFactory.py --source_dir ${CMAKE_SOURCE_DIR} --binary_dir ${CMAKE_BINARY_DIR}
   WORKING_DIRECTORY .
 )
 
 file(GLOB feasst_unittest_SRC "${CMAKE_SOURCE_DIR}/src/*_unittest.cc")
-file(GLOB feasst_SRC "${CMAKE_SOURCE_DIR}/src/*.h" "${CMAKE_SOURCE_DIR}/src/*.cc")
+file(GLOB feasst_SRC "${CMAKE_SOURCE_DIR}/src/*.h" "${CMAKE_CURRENT_BINARY_DIR}/feasst.h" "${CMAKE_CURRENT_BINARY_DIR}/factories.cc" "${CMAKE_SOURCE_DIR}/src/*.cc")
 
 # remove the unittests and main from feasst_SRC
 list(REMOVE_ITEM feasst_SRC ${feasst_unittest_SRC})
 
-file(GLOB feasst_cc_SRC "${CMAKE_SOURCE_DIR}/src/*.cc")
+file(GLOB feasst_cc_SRC "${CMAKE_SOURCE_DIR}/src/*.cc" "${CMAKE_CURRENT_BINARY_DIR}/factories.cc")
 list(REMOVE_ITEM feasst_cc_SRC ${feasst_unittest_SRC})
 
 include_directories("${CMAKE_SOURCE_DIR}/src/")
+include_directories("${CMAKE_BINARY_DIR}")
 if(EXISTS "${CMAKE_SOURCE_DIR}/drivers/main.cc")
   add_executable(main "${CMAKE_SOURCE_DIR}/drivers/main")
   target_link_libraries(main ${EXTRA_LIBS})
@@ -355,7 +365,7 @@ target_link_libraries(feasst ${EXTRA_LIBS})
 target_include_directories(feasst PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
     $<INSTALL_INTERFACE:include>)
-file(GLOB feasst_headers "${CMAKE_SOURCE_DIR}/src/*.h")
+file(GLOB feasst_headers "${CMAKE_SOURCE_DIR}/src/*.h" "${CMAKE_CURRENT_BINARY_DIR}/feasst.h")
 install(FILES ${feasst_headers} DESTINATION include)
 install(TARGETS feasst
     EXPORT feasst-targets

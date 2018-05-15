@@ -609,9 +609,9 @@ class Space : public BaseRandom {
   /// Initialize intramolecular interactions via contact map (1 if ixn).
   void initIntra(const vector<vector<int> >& map);
 
-  /// Reset and store new unique hash.
-  void storeUniqueHash();
-  std::string const hash() { return hash_; }
+  /// Reset and store new unique configID.
+  void storeUniqueConfigID();
+  std::string const configID() { return configID_; }
 
   /// Simulation domain volume
   double volume() const { return product(boxLength_); }
@@ -917,8 +917,8 @@ class Space : public BaseRandom {
                    double *x3, double *y3, double *z3, const double c143,
                    const double c243);
 
-  // unique hash for configurations
-  std::string hash_;
+  // unique configID for configurations
+  std::string configID_;
 
   // custom per atom quantities
   vector<shared_ptr<Group> > groups_;
