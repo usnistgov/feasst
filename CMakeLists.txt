@@ -234,6 +234,13 @@ endif()
 #strip leading whitespace from EXTRA_LIBS
 string(REGEX REPLACE "^ " "" EXTRA_LIBS "${EXTRA_LIBS}")
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+    add_definitions(-std=gnu++0x)
+endif()
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  add_definitions(-std=c++0x)
+endif()
+
 # Create feasst.h in the binary directory
 file(GLOB_RECURSE header_files "src/*.h")
 foreach(f ${header_files})
