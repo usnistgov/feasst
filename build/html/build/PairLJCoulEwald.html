@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>PairLJCoulEwald &#8212; FEASST v0.3.1 documentation</title>
+    <title>PairLJCoulEwald &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="PairLJ.html" title="PairLJ"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" accesskey="U">Pair Classes</a> &#187;</li> 
       </ul>
@@ -58,21 +58,45 @@
   <div class="section" id="pairljcoulewald">
 <h1>PairLJCoulEwald<a class="headerlink" href="#pairljcoulewald" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv215PairLJCoulEwald">
-<span id="PairLJCoulEwald"></span><span class="target" id="classPairLJCoulEwald"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">PairLJCoulEwald</code><a class="headerlink" href="#_CPPv215PairLJCoulEwald" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwaldE">
+<span id="feasst::PairLJCoulEwald"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">PairLJCoulEwald</code><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwaldE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Lennard Jones pairwise interactions with long range coulombic interactions treated by the Ewald summation. </p>
-<p>Inherits from <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a></p>
+<p>Inherits from <a class="reference internal" href="Pair.html#classfeasst_1_1Pair"><span class="std std-ref">feasst::Pair</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald15PairLJCoulEwaldEP5SpaceRK7argtype">
-<span id="PairLJCoulEwald::PairLJCoulEwald__SpaceP.argtypeCR"></span><span class="target" id="classPairLJCoulEwald_1a76dbfd7070a9a79bbde202954227a983"></span><code class="descname">PairLJCoulEwald</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<em>space</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald15PairLJCoulEwaldEP5SpaceRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald15PairLJCoulEwaldEP5SpaceRK7argtype">
+<span id="feasst::PairLJCoulEwald::PairLJCoulEwald__SpaceP.argtypeCR"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a138903885feebf4e00991c8eefb92e79"></span><code class="descname">PairLJCoulEwald</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a> *<em>space</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald15PairLJCoulEwaldEP5SpaceRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last">
+<li><p class="first"><code class="docutils literal"><span class="pre">args</span></code>: allowed string key pairs (e.g. dictionary):</p>
+<p>molType : file which describes molecule</p>
+<p><ul class="simple">
+<li>/path/to/lmp/data.file</li>
+<li>(default) none: does not load a molecule.</li>
+</ul>
+</p>
+<p>molTypeInForcefield : file in <a class="reference internal" href="Base.html#classfeasst_1_1Base_1af1838c0cf96a357cbded74f6b5a76280"><span class="std std-ref">Space.install_dir()</span></a>/forcefield which describes molecule. Only when molType is empty.</p>
+<p>alphaL : Ewald damping parameter, alpha, multiplied by minimum box Note, a keyword “molType*” must be provided as well.</p>
+<p>k2max : Truncated fourier-space wave vector. Note, k2max must be provided if alphaL is provided. Note that k=sqrt(k2max) is not included in the cut off. </p>
+</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6feasst15PairLJCoulEwald15PairLJCoulEwaldE10shared_ptrI5SpaceERK7argtype">
+<span id="feasst::PairLJCoulEwald::PairLJCoulEwald__shared_ptr:Space:.argtypeCR"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a8818717e7aaa0f9540596a61f53140bf"></span><code class="descname">PairLJCoulEwald</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a>&gt; <em>space</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald15PairLJCoulEwaldE10shared_ptrI5SpaceERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald8k2maxsetEKi">
-<span id="PairLJCoulEwald::k2maxset__iC"></span><span class="target" id="classPairLJCoulEwald_1a24fdacede3a70e7dfe79e3c0cdc20a92"></span>void <code class="descname">k2maxset</code><span class="sig-paren">(</span><em class="property">const</em> int <em>k2max</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald8k2maxsetEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald8k2maxsetEKi">
+<span id="feasst::PairLJCoulEwald::k2maxset__iC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a9d27d9e8226b525272d708c1d6dd2b70"></span>void <code class="descname">k2maxset</code><span class="sig-paren">(</span><em class="property">const</em> int <em>k2max</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald8k2maxsetEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -85,14 +109,14 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald12initBulkSPCEEv">
-<span id="PairLJCoulEwald::initBulkSPCE"></span><span class="target" id="classPairLJCoulEwald_1a57111cf6ec328de3a6f95547087664cc"></span>void <code class="descname">initBulkSPCE</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald12initBulkSPCEEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald12initBulkSPCEEv">
+<span id="feasst::PairLJCoulEwald::initBulkSPCE"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a6ff5889b444f6113b778cdeafa265140"></span>void <code class="descname">initBulkSPCE</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald12initBulkSPCEEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>initialize bulk simulation of SPCE waters, atoms listed as oxygen then </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald12initBulkSPCEEKdKi">
-<span id="PairLJCoulEwald::initBulkSPCE__doubleC.iC"></span><span class="target" id="classPairLJCoulEwald_1a37fcb1982e81a024f10f682ec34d531d"></span>void <code class="descname">initBulkSPCE</code><span class="sig-paren">(</span><em class="property">const</em> double <em>alphatmp</em>, <em class="property">const</em> int <em>kmax</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald12initBulkSPCEEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald12initBulkSPCEEKdKi">
+<span id="feasst::PairLJCoulEwald::initBulkSPCE__doubleC.iC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a10cc2d647ba09a2c51a87105979cf3b3"></span>void <code class="descname">initBulkSPCE</code><span class="sig-paren">(</span><em class="property">const</em> double <em>alphatmp</em>, <em class="property">const</em> int <em>kmax</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald12initBulkSPCEEKdKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -106,68 +130,102 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald10initKSpaceEKdKi">
-<span id="PairLJCoulEwald::initKSpace__doubleC.iC"></span><span class="target" id="classPairLJCoulEwald_1af9520a9eab4c2c023b13a3d1c5c9aaae"></span>void <code class="descname">initKSpace</code><span class="sig-paren">(</span><em class="property">const</em> double <em>alphatmp</em>, <em class="property">const</em> int <em>k2max</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald10initKSpaceEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald10initKSpaceEKdKiKi">
+<span id="feasst::PairLJCoulEwald::initKSpace__doubleC.iC.iC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1aba6891de68bc77465caf6fe7c2b918d5"></span>void <code class="descname">initKSpace</code><span class="sig-paren">(</span><em class="property">const</em> double <em>alphatmp</em>, <em class="property">const</em> int <em>k2max</em>, <em class="property">const</em> int <em>init</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald10initKSpaceEKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>initialize kspace, number of wave vectors and screening parameters </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">init</span></code>: all energy are re-initialized if init == 1 </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald11removeEwaldEv">
-<span id="PairLJCoulEwald::removeEwald"></span><span class="target" id="classPairLJCoulEwald_1a6a6f18f9a25eed479e87d58932d6682e"></span>void <code class="descname">removeEwald</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald11removeEwaldEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Turn off Ewald. Must be called after <a class="reference internal" href="Pair.html#classPair_1a896d4e56a3180baa4046a6742fd27f30"><span class="std std-ref">Pair::initData()</span></a> because it automatically sets rCutij to rCut. </p>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald11removeEwaldEv">
+<span id="feasst::PairLJCoulEwald::removeEwald"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1acea4ca7ddaec54a6ee52c16c8cd0a500"></span>void <code class="descname">removeEwald</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald11removeEwaldEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Turn off Ewald. Must be called after <a class="reference internal" href="Pair.html#classfeasst_1_1Pair_1a5d60f8d61db2faba441021664002c078"><span class="std std-ref">Pair::initData()</span></a> because it automatically sets rCutij to rCut. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald11initLMPDataEK6string">
-<span id="PairLJCoulEwald::initLMPData__stringC"></span><span class="target" id="classPairLJCoulEwald_1a781c8f9ec7a9c0c560d36b5049a7bbb4"></span>void <code class="descname">initLMPData</code><span class="sig-paren">(</span><em class="property">const</em> string <em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald11initLMPDataEK6string" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald11scaleDomainEKdKi">
+<span id="feasst::PairLJCoulEwald::scaleDomain__doubleC.iC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1ac981d8baaa6e8f6532101709eb74129f"></span>void <code class="descname">scaleDomain</code><span class="sig-paren">(</span><em class="property">const</em> double <em>factor</em>, <em class="property">const</em> int <em>dim</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald11scaleDomainEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Scale domain, including update to wave vectors. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6feasst15PairLJCoulEwald11scaleDomainEKd">
+<span id="feasst::PairLJCoulEwald::scaleDomain__doubleC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a0c4fd98dcfc88c4b6bbc320c07580423"></span>void <code class="descname">scaleDomain</code><span class="sig-paren">(</span><em class="property">const</em> double <em>factor</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald11scaleDomainEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Scale domain, including update to wave vectors. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6feasst15PairLJCoulEwald11initLMPDataEK6string">
+<span id="feasst::PairLJCoulEwald::initLMPData__stringC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a9ab47b3b48e7dfc15190e5e696c8a7be"></span>void <code class="descname">initLMPData</code><span class="sig-paren">(</span><em class="property">const</em> string <em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald11initLMPDataEK6string" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>initialize with LAMMPS data file </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald11initLMPDataEPKc">
-<span id="PairLJCoulEwald::initLMPData__cCP"></span><span class="target" id="classPairLJCoulEwald_1a1468d69f49707911c8491cff9f81abe0"></span>void <code class="descname">initLMPData</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald11initLMPDataEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald11initLMPDataEPKc">
+<span id="feasst::PairLJCoulEwald::initLMPData__cCP"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1ac09517d8ce95accad6c3bb183757e348"></span>void <code class="descname">initLMPData</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald11initLMPDataEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize parameters with LAMMPS data file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald12initJSONDataEK6string">
-<span id="PairLJCoulEwald::initJSONData__stringC"></span><span class="target" id="classPairLJCoulEwald_1a0a8b3cb635fb549a083e664d044a023d"></span>void <code class="descname">initJSONData</code><span class="sig-paren">(</span><em class="property">const</em> string <em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald12initJSONDataEK6string" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald12initJSONDataEK6string">
+<span id="feasst::PairLJCoulEwald::initJSONData__stringC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a8a5062f22565d70b6408bc68220f352b"></span>void <code class="descname">initJSONData</code><span class="sig-paren">(</span><em class="property">const</em> string <em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald12initJSONDataEK6string" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>initialize with LAMMPS data file </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald10initEnergyEv">
-<span id="PairLJCoulEwald::initEnergy"></span><span class="target" id="classPairLJCoulEwald_1ab171d7d1ea4d7343265ffa3da9d331c1"></span>void <code class="descname">initEnergy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald10initEnergyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald10initEnergyEv">
+<span id="feasst::PairLJCoulEwald::initEnergy"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1aefa7891bb4b6922c4d9d2d0d51b11e62"></span>void <code class="descname">initEnergy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald10initEnergyEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>function to calculate forces, given positions </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald13multiPartEnerEK6vectorIiEKi">
-<span id="PairLJCoulEwald::multiPartEner__vector:i:C.iC"></span><span class="target" id="classPairLJCoulEwald_1ad22e9c79185db61562edd2beaf6695ca"></span>double <code class="descname">multiPartEner</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>multiPart</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald13multiPartEnerEK6vectorIiEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald16allPartEnerForceEKi">
+<span id="feasst::PairLJCoulEwald::allPartEnerForce__iC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a89dd3dfad7ff5e4c9a6c1ecdb5ac989f"></span>double <code class="descname">allPartEnerForce</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald16allPartEnerForceEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute potential energy and forces of all particles. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">flag</span></code>: If flag == 0, no compute. return the stored potential energy (peTot_) If flag == 1, compute If flag == 2, compute without optimizations (e.g., cells, etc) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6feasst15PairLJCoulEwald13multiPartEnerEK6vectorIiEKi">
+<span id="feasst::PairLJCoulEwald::multiPartEner__vector:i:C.iC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a3879523e09d6b09d0e8233ad71c3aa10"></span>double <code class="descname">multiPartEner</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>multiPart</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald13multiPartEnerEK6vectorIiEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>compute interaction contributions of multiple particles flag==0, energy of old configuration (no moves, ins or dels) flag==1, new configuration, same number of particles flag==2, old configuration, preparing to delete (same as 0) flag==3, just inserted particle </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald17multiPartEnerRealEK6vectorIiEKi">
-<span id="PairLJCoulEwald::multiPartEnerReal__vector:i:C.iC"></span><span class="target" id="classPairLJCoulEwald_1abc7c952a6ddbeb83003c7f0aaad3a082"></span>double <code class="descname">multiPartEnerReal</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald17multiPartEnerRealEK6vectorIiEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald17multiPartEnerRealEK6vectorIiEKi">
+<span id="feasst::PairLJCoulEwald::multiPartEnerReal__vector:i:C.iC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1ad45bec15217563949143ccd2a1373c5c"></span>double <code class="descname">multiPartEnerReal</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald17multiPartEnerRealEK6vectorIiEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>function to calculate real-space interaction energy contribution a subset of particles </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald16multiPartEnerFrrEK6vectorIiEKi">
-<span id="PairLJCoulEwald::multiPartEnerFrr__vector:i:C.iC"></span><span class="target" id="classPairLJCoulEwald_1a2e0e59d5649c7df01a106dbcf783bd15"></span>void <code class="descname">multiPartEnerFrr</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald16multiPartEnerFrrEK6vectorIiEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald16multiPartEnerFrrEK6vectorIiEKi">
+<span id="feasst::PairLJCoulEwald::multiPartEnerFrr__vector:i:C.iC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a5fa03bda709917259510fb505638dd99"></span>void <code class="descname">multiPartEnerFrr</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald16multiPartEnerFrrEK6vectorIiEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>reciprical space energy of multiple particles, mpart. flag==0, energy of old configuration (no moves, ins or dels) flag==1, new configuration, same number of particles flag==2, old configuration, preparing to delete (same as 0) flag==3, just inserted particle </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald25multiPartEnerAtomCutInnerERKdRKiRKi">
-<span id="PairLJCoulEwald::multiPartEnerAtomCutInner__doubleCR.iCR.iCR"></span><span class="target" id="classPairLJCoulEwald_1a1c206204ccb764bd700c9d67c712158f"></span>int <code class="descname">multiPartEnerAtomCutInner</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r2</em>, <em class="property">const</em> int &amp;<em>itype</em>, <em class="property">const</em> int &amp;<em>jtype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald25multiPartEnerAtomCutInnerERKdRKiRKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Compute the interaction between two particles itype and jtype separated by a squared distance r2=r*r. Increments the interaction in the <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a> class variable “peSRone_”. Return 1 if particles are neighbors. </p>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald25multiPartEnerAtomCutInnerERKdRKiRKi">
+<span id="feasst::PairLJCoulEwald::multiPartEnerAtomCutInner__doubleCR.iCR.iCR"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a5581125acbbb2b9317531cab651d3e71"></span>int <code class="descname">multiPartEnerAtomCutInner</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r2</em>, <em class="property">const</em> int &amp;<em>itype</em>, <em class="property">const</em> int &amp;<em>jtype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald25multiPartEnerAtomCutInnerERKdRKiRKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the interaction between two particles itype and jtype separated by a squared distance r2=r*r. Increments the interaction in the <a class="reference internal" href="Pair.html#classfeasst_1_1Pair"><span class="std std-ref">Pair</span></a> class variable “peSRone_”. Return 1 if particles are neighbors. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald6updateEK6vectorIiEKiPKc">
-<span id="PairLJCoulEwald::update__vector:i:C.iC.cCP"></span><span class="target" id="classPairLJCoulEwald_1ab4664a12baadfd039faa288517312d96"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em>, <em class="property">const</em> char *<em>uptype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald6updateEK6vectorIiEKiPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald6updateEK6vectorIiEKiPKc">
+<span id="feasst::PairLJCoulEwald::update__vector:i:C.iC.cCP"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1ae6f6eb17421e79f553524b55f53aeb91"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em>, <em class="property">const</em> char *<em>uptype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald6updateEK6vectorIiEKiPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -182,56 +240,50 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald5peTotEv">
-<span id="PairLJCoulEwald::peTot"></span><span class="target" id="classPairLJCoulEwald_1ad8257ef0ca5498440653d2c7313e1157"></span>double <code class="descname">peTot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald5peTotEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald5peTotEv">
+<span id="feasst::PairLJCoulEwald::peTot"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a5b162c06ab1fa9d0f40bdcee225d624b"></span>double <code class="descname">peTot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald5peTotEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>total potential energy of system </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald7delPartEKi">
-<span id="PairLJCoulEwald::delPart__iC"></span><span class="target" id="classPairLJCoulEwald_1a4229ced75a02c2ae4c9e1bfb32c31b10"></span>void <code class="descname">delPart</code><span class="sig-paren">(</span><em class="property">const</em> int <em>ipart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald7delPartEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Delete one particle, ipart. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald7delPartEK6vectorIiE">
-<span id="PairLJCoulEwald::delPart__vector:i:C"></span><span class="target" id="classPairLJCoulEwald_1a0511f705adf925154788ce11ba574755"></span>void <code class="descname">delPart</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald7delPartEK6vectorIiE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald7delPartEK6vectorIiE">
+<span id="feasst::PairLJCoulEwald::delPart__vector:i:C"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1ada6cc9e8486c2b5d018e8ec67b6b4c70"></span>void <code class="descname">delPart</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald7delPartEK6vectorIiE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>delete particles </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald7addPartEv">
-<span id="PairLJCoulEwald::addPart"></span><span class="target" id="classPairLJCoulEwald_1a8eb30fd1d7697d646c9ef177d6b698e0"></span>void <code class="descname">addPart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald7addPartEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald7addPartEv">
+<span id="feasst::PairLJCoulEwald::addPart"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1ae00a172047114b925a14291c5fa059ed"></span>void <code class="descname">addPart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald7addPartEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>add particle(s) </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald9sizeCheckEv">
-<span id="PairLJCoulEwald::sizeCheck"></span><span class="target" id="classPairLJCoulEwald_1a5c005f1e18f587fa1cf2a4aa059a61ff"></span>void <code class="descname">sizeCheck</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald9sizeCheckEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald9sizeCheckEv">
+<span id="feasst::PairLJCoulEwald::sizeCheck"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1aa413cf69977e36339e49a9f52989d57f"></span>void <code class="descname">sizeCheck</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald9sizeCheckEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>check size of class variables </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK15PairLJCoulEwald4peLJEv">
-<span id="PairLJCoulEwald::peLJC"></span><span class="target" id="classPairLJCoulEwald_1a6ed649dbe77419edda4ff938d6a7ba60"></span>double <code class="descname">peLJ</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK15PairLJCoulEwald4peLJEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst15PairLJCoulEwald4peLJEv">
+<span id="feasst::PairLJCoulEwald::peLJC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a456a57ea5b32a683ce6eb0e7b40ea912"></span>double <code class="descname">peLJ</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst15PairLJCoulEwald4peLJEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>read-only access of protected variables </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald12writeRestartEPKc">
-<span id="PairLJCoulEwald::writeRestart__cCP"></span><span class="target" id="classPairLJCoulEwald_1a6b6041d476fa2be1259b4a81484a80e3"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald12writeRestartEPKc">
+<span id="feasst::PairLJCoulEwald::writeRestart__cCP"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a142c10a8e086cf50fbbb0806ebfdb4c3"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Write restart file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald15PairLJCoulEwaldEP5SpacePKc">
-<span id="PairLJCoulEwald::PairLJCoulEwald__SpaceP.cCP"></span><span class="target" id="classPairLJCoulEwald_1afb94cc437b16dc2ed1a73be25d09e268"></span><code class="descname">PairLJCoulEwald</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<em>space</em>, <em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald15PairLJCoulEwaldEP5SpacePKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald15PairLJCoulEwaldEP5SpacePKc">
+<span id="feasst::PairLJCoulEwald::PairLJCoulEwald__SpaceP.cCP"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a3866a13f5da1b2d9b87298128a0986bd"></span><code class="descname">PairLJCoulEwald</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a> *<em>space</em>, <em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald15PairLJCoulEwaldEP5SpacePKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct from restart file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N15PairLJCoulEwald8erfTableEv">
-<span id="PairLJCoulEwald::erfTable"></span><span class="target" id="classPairLJCoulEwald_1a151fd8df9fc2e553884280ebe4aae6fe"></span>erftable *<code class="descname">erfTable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald8erfTableEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald8erfTableEv">
+<span id="feasst::PairLJCoulEwald::erfTable"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1aba69fc45fe7ff4cb83e2324183e668e3"></span>erftable *<code class="descname">erfTable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald8erfTableEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Access the error function table. </p>
 </dd></dl>
 
@@ -239,8 +291,8 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Members</p>
 <dl class="member">
-<dt id="_CPPv2N15PairLJCoulEwald5alphaE">
-<span id="PairLJCoulEwald::alpha__double"></span><span class="target" id="classPairLJCoulEwald_1a57f62ff356df868e773444641e0b6abe"></span>double <code class="descname">alpha</code><a class="headerlink" href="#_CPPv2N15PairLJCoulEwald5alphaE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst15PairLJCoulEwald5alphaE">
+<span id="feasst::PairLJCoulEwald::alpha__double"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a113738b2c890e2e2568dc92c7a94b795"></span>double <code class="descname">alpha</code><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald5alphaE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>ewald damping parameter </p>
 </dd></dl>
 
@@ -258,7 +310,7 @@
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
@@ -291,6 +343,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
@@ -319,7 +372,7 @@
         <li class="right" >
           <a href="PairLJ.html" title="PairLJ"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" >Pair Classes</a> &#187;</li> 
       </ul>

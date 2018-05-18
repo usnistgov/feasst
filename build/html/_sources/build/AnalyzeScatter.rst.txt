@@ -1,6 +1,6 @@
 AnalyzeScatter
 =====================================================
 
-.. doxygenclass:: AnalyzeScatter
+.. doxygenclass:: feasst::AnalyzeScatter
    :project: FEASST
    :members:

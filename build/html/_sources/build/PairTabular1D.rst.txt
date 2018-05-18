@@ -1,6 +1,6 @@
 PairTabular1D
 =====================================================
 
-.. doxygenclass:: PairTabular1D
+.. doxygenclass:: feasst::PairTabular1D
    :project: FEASST
    :members:

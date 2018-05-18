@@ -1,6 +1,6 @@
 Criteria
 =====================================================
 
-.. doxygenclass:: Criteria
+.. doxygenclass:: feasst::Criteria
    :project: FEASST
    :members:

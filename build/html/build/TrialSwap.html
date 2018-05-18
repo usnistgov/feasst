@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>TrialSwap &#8212; FEASST v0.3.1 documentation</title>
+    <title>TrialSwap &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="TrialDelete.html" title="TrialDelete"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="trialtoc.html" accesskey="U">Trial Classes</a> &#187;</li> 
       </ul>
@@ -58,63 +58,63 @@
   <div class="section" id="trialswap">
 <h1>TrialSwap<a class="headerlink" href="#trialswap" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv29TrialSwap">
-<span id="TrialSwap"></span><span class="target" id="classTrialSwap"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">TrialSwap</code><a class="headerlink" href="#_CPPv29TrialSwap" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst9TrialSwapE">
+<span id="feasst::TrialSwap"></span><span class="target" id="classfeasst_1_1TrialSwap"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">TrialSwap</code><a class="headerlink" href="#_CPPv2N6feasst9TrialSwapE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Attempt to randomly swap the type of a molecule. As currently implemented, the position of the first particle in the molecule during swap is where the first particle in the other molecule is placed. Thus, for multi-site particles, the orientation is random. </p>
-<p>Inherits from <a class="reference internal" href="Trial.html#classTrial"><span class="std std-ref">Trial</span></a></p>
+<p>Inherits from <a class="reference internal" href="Trial.html#classfeasst_1_1Trial"><span class="std std-ref">feasst::Trial</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv2N9TrialSwap9TrialSwapEP4PairP8CriteriaPKcPKc">
-<span id="TrialSwap::TrialSwap__PairP.CriteriaP.cCP.cCP"></span><span class="target" id="classTrialSwap_1af9642b78cf382c02602a8b671e03bda0"></span><code class="descname">TrialSwap</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="Criteria.html#_CPPv28Criteria" title="Criteria">Criteria</a> *<em>criteria</em>, <em class="property">const</em> char *<em>molTypeA</em>, <em class="property">const</em> char *<em>molTypeB</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9TrialSwap9TrialSwapEP4PairP8CriteriaPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst9TrialSwap9TrialSwapEP4PairP8CriteriaPKcPKc">
+<span id="feasst::TrialSwap::TrialSwap__PairP.CriteriaP.cCP.cCP"></span><span class="target" id="classfeasst_1_1TrialSwap_1ac3ec56f80c17a4c293c4096cce96a3cc"></span><code class="descname">TrialSwap</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv2N6feasst4PairE" title="feasst::Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="Criteria.html#_CPPv2N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em>, <em class="property">const</em> char *<em>molTypeA</em>, <em class="property">const</em> char *<em>molTypeB</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst9TrialSwap9TrialSwapEP4PairP8CriteriaPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor with particle types which are allowed to swap. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N9TrialSwap9TrialSwapEPKcPKc">
-<span id="TrialSwap::TrialSwap__cCP.cCP"></span><span class="target" id="classTrialSwap_1adb12a850c0abc4017c4202e0d5c218b5"></span><code class="descname">TrialSwap</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>molTypeA</em>, <em class="property">const</em> char *<em>molTypeB</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9TrialSwap9TrialSwapEPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst9TrialSwap9TrialSwapEPKcPKc">
+<span id="feasst::TrialSwap::TrialSwap__cCP.cCP"></span><span class="target" id="classfeasst_1_1TrialSwap_1a8cbabaffa965f61dc11f42bdc7eefd20"></span><code class="descname">TrialSwap</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>molTypeA</em>, <em class="property">const</em> char *<em>molTypeB</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst9TrialSwap9TrialSwapEPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>This constructor is not often used, but its purpose is to initialize trial for interface before using reconstruct to set object pointers. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK9TrialSwap8molTypeAEv">
-<span id="TrialSwap::molTypeAC"></span><span class="target" id="classTrialSwap_1a7c761aa48a96efc31b0507149f73cdae"></span>string <code class="descname">molTypeA</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9TrialSwap8molTypeAEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst9TrialSwap8molTypeAEv">
+<span id="feasst::TrialSwap::molTypeAC"></span><span class="target" id="classfeasst_1_1TrialSwap_1a2ec9cd200492baa24ae5194610d05551"></span>string <code class="descname">molTypeA</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst9TrialSwap8molTypeAEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the first type of particle allowed to swap. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK9TrialSwap2nAEv">
-<span id="TrialSwap::nAC"></span><span class="target" id="classTrialSwap_1aa2c97bc11eb2c8b121fcbb9032ec0f2c"></span><a class="reference internal" href="Accumulator.html#_CPPv211Accumulator" title="Accumulator">Accumulator</a> <code class="descname">nA</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9TrialSwap2nAEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the <a class="reference internal" href="Accumulator.html#classAccumulator"><span class="std std-ref">Accumulator</span></a> for the number of “A” particles. </p>
+<dt id="_CPPv2NK6feasst9TrialSwap2nAEv">
+<span id="feasst::TrialSwap::nAC"></span><span class="target" id="classfeasst_1_1TrialSwap_1a3bd7395fc4576a7c72404d3779c310a3"></span><a class="reference internal" href="Accumulator.html#_CPPv2N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a> <code class="descname">nA</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst9TrialSwap2nAEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the <a class="reference internal" href="Accumulator.html#classfeasst_1_1Accumulator"><span class="std std-ref">Accumulator</span></a> for the number of “A” particles. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK9TrialSwap8molTypeBEv">
-<span id="TrialSwap::molTypeBC"></span><span class="target" id="classTrialSwap_1a4eec3443733f24e1b2d641cf5bd102c7"></span>string <code class="descname">molTypeB</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9TrialSwap8molTypeBEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst9TrialSwap8molTypeBEv">
+<span id="feasst::TrialSwap::molTypeBC"></span><span class="target" id="classfeasst_1_1TrialSwap_1a7d1883f8e1296a05360c4e04799a9766"></span>string <code class="descname">molTypeB</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst9TrialSwap8molTypeBEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the second type of particle allowed to swap. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK9TrialSwap2nBEv">
-<span id="TrialSwap::nBC"></span><span class="target" id="classTrialSwap_1a1c7caa738584941a72631d68bfd60866"></span><a class="reference internal" href="Accumulator.html#_CPPv211Accumulator" title="Accumulator">Accumulator</a> <code class="descname">nB</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9TrialSwap2nBEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the <a class="reference internal" href="Accumulator.html#classAccumulator"><span class="std std-ref">Accumulator</span></a> for the number of “B” particles. </p>
+<dt id="_CPPv2NK6feasst9TrialSwap2nBEv">
+<span id="feasst::TrialSwap::nBC"></span><span class="target" id="classfeasst_1_1TrialSwap_1ae26a154a7f42ccc73fdaf9c95534ea12"></span><a class="reference internal" href="Accumulator.html#_CPPv2N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a> <code class="descname">nB</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst9TrialSwap2nBEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the <a class="reference internal" href="Accumulator.html#classfeasst_1_1Accumulator"><span class="std std-ref">Accumulator</span></a> for the number of “B” particles. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N9TrialSwap9printStatEKb">
-<span id="TrialSwap::printStat__bC"></span><span class="target" id="classTrialSwap_1a9e89ea383fa9bc134e8a6d35cb173ca4"></span>string <code class="descname">printStat</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>header</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9TrialSwap9printStatEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst9TrialSwap9printStatEKb">
+<span id="feasst::TrialSwap::printStat__bC"></span><span class="target" id="classfeasst_1_1TrialSwap_1a6f144d38c94ba5d1118f229af19689dc"></span>string <code class="descname">printStat</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>header</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst9TrialSwap9printStatEKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>return status of trial </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N9TrialSwap12writeRestartEPKc">
-<span id="TrialSwap::writeRestart__cCP"></span><span class="target" id="classTrialSwap_1a5c0d3ce52cd38a44a6df5ac59dc042fc"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9TrialSwap12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst9TrialSwap12writeRestartEPKc">
+<span id="feasst::TrialSwap::writeRestart__cCP"></span><span class="target" id="classfeasst_1_1TrialSwap_1aabee42e669561e25525b5507afabb0ac"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst9TrialSwap12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Write restart file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N9TrialSwap9TrialSwapEPKcP4PairP8Criteria">
-<span id="TrialSwap::TrialSwap__cCP.PairP.CriteriaP"></span><span class="target" id="classTrialSwap_1a845a7597589750b1465055fc86a1358d"></span><code class="descname">TrialSwap</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="Criteria.html#_CPPv28Criteria" title="Criteria">Criteria</a> *<em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9TrialSwap9TrialSwapEPKcP4PairP8Criteria" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst9TrialSwap9TrialSwapEPKcP4PairP8Criteria">
+<span id="feasst::TrialSwap::TrialSwap__cCP.PairP.CriteriaP"></span><span class="target" id="classfeasst_1_1TrialSwap_1a65471f9433b6addae14a106373122504"></span><code class="descname">TrialSwap</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <a class="reference internal" href="Pair.html#_CPPv2N6feasst4PairE" title="feasst::Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="Criteria.html#_CPPv2N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst9TrialSwap9TrialSwapEPKcP4PairP8Criteria" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct from restart file. </p>
 </dd></dl>
 
@@ -132,7 +132,7 @@
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
@@ -162,6 +162,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
@@ -190,7 +191,7 @@
         <li class="right" >
           <a href="TrialDelete.html" title="TrialDelete"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="trialtoc.html" >Trial Classes</a> &#187;</li> 
       </ul>

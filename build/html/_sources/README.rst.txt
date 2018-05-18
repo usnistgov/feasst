@@ -70,6 +70,18 @@ Modern software
 * Checkpointing to save and restart simulations
 * Robust unit testing
 
+Detailed Documentation
+########################
+
+DOI: https://doi.org/10.18434/M3S095
+
+Website: https://pages.nist.gov/feasst/
+
+Documentation for any version of the code is accessible in the nist-pages branch of the GitHub repository https://github.com/usnistgov/feasst .
+This documentation is stored for every release.
+Simply checkout the desired version from the nist-pages branch and load index.html with your browser.
+PDF versions are also provided for each major version release.
+
 Installation
 #############
 
@@ -77,7 +89,8 @@ FEASST is designed for a LINUX or MAC platform with the following minimum versio
 
 * make >= 3.81
 * CMake >= 2.8.12.2
-* compiler with c++0x support (e.g., g++ >= 4.7)
+* compiler with c++11 support (e.g., g++ >= 4.7)
+* git (or download https://github.com/usnistgov/feasst/archive/master.zip)
 
 .. code-block:: bash
 
@@ -86,16 +99,17 @@ FEASST is designed for a LINUX or MAC platform with the following minimum versio
     mkdir build
     cd build
     cmake ..
-    make
+    make -j 12
+    (optional: "make install")
 
 Usage: C++ interface
 #######################
 
-The following may be found in the `<testcase/1_lj/0_example>`_ directory.
+The following may be found in the `<tutorial/1_lj/0_example>`_ directory.
 
 In C++, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:
 
-.. literalinclude:: testcase/1_lj/0_example/test.cc
+.. literalinclude:: tutorial/1_lj/0_example/test.cc
    :language: c++
 
 This C++ code is compiled and run in bash as follows:
@@ -103,6 +117,13 @@ This C++ code is compiled and run in bash as follows:
 .. code-block:: bash
 
     $HOME/feasst/tools/run.sh test.cc
+
+Alternatively, instead of using the run.sh script above, which compiles the C++ file in the feasst/build directory, you may link to FEASST as an external library.
+
+The following CMake file found in the `<tutorial/1_lj/0_example>`_ directory requires that you "make install" in the last step of the installation, and that you set ``CMAKE_PREFIX_PATH`` to the install location (default: /path/to/feasst/build, or optionally set by -DCMAKE_INSTALL_PREFIX=/path/to/install/dir in installation)
+
+.. literalinclude:: tutorial/1_lj/0_example/CMakeLists.txt
+   :language: c++
 
 Usage: Python interface
 #########################
@@ -116,15 +137,15 @@ To install the python interface, use the following CMake command in place of "cm
 
 .. code-block:: bash
 
-    cmake -DUSE_SWIG=ON -DPYTHON_INCLUDE_PATH=/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES=/path/to/anaconda/lib/libpython3.6m.so .
+    cmake -DUSE_SWIG=ON -DPYTHON_INCLUDE_PATH=/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES=/path/to/anaconda/lib/libpython3.6m.so ..
     make _feasst -j
 
 Note that the ``PYTHON_INCLUDE_PATH`` and ``PYTHON_LIBRARIES`` depends on your python installation.
 
-The following may be found in the `<testcase/1_lj/0_example>`_ directory.
+The following may be found in the `<tutorial/1_lj/0_example>`_ directory.
 In python, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:
 
-.. literalinclude:: testcase/1_lj/0_example/test.py
+.. literalinclude:: tutorial/1_lj/0_example/test.py
    :language: py
 
 This simulation is run in bash as follows:
@@ -155,7 +176,7 @@ Or
 
 .. code-block:: bash
 
-    cmake -DUSE_XDRFILE=ON .
+    cmake -DUSE_XDRFILE=ON ..
 
 To give CMake the path to your xdrfile library:
 
@@ -167,7 +188,7 @@ Or
 
 .. code-block:: bash
 
-    cmake -DXDRFILE_DIR=/path/to/xdrfile .
+    cmake -DXDRFILE_DIR=/path/to/xdrfile ..
 
 If you are changing the default build options in ``CMakeLists.txt``,
 make sure to start compilation with a fresh ``build`` directory before CMake is
@@ -195,7 +216,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_XDRFILE=On -DXDRFILE_DIR=/path/to/xdrfile .
+   cmake -DUSE_XDRFILE=On -DXDRFILE_DIR=/path/to/xdrfile ..
 
 Google Test 1.7.0
 *****************
@@ -206,7 +227,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_GTEST=On .
+   cmake -DUSE_GTEST=On ..
 
 .. OpenMPI with Intel compilers
    ****************************
@@ -237,7 +258,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_FFTW=On -DFFTW_DIR=/path/to/fftw .
+   cmake -DUSE_FFTW=On -DFFTW_DIR=/path/to/fftw ..
 
 VMD 1.9.2
 *********
@@ -270,7 +291,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_SWIG=On .
+   cmake -DUSE_SWIG=On ..
 
 CMake 2.8.12.2
 **************
@@ -291,7 +312,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_HDF5=On -DHDF5_USER_DIR=/path/to/hdf5 .
+   cmake -DUSE_HDF5=On -DHDF5_USER_DIR=/path/to/hdf5 ..
 
 GSL 2.3
 *******
@@ -306,7 +327,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_GSL=On -DGSL_USER_DIR=/path/to/gsl .
+   cmake -DUSE_GSL=On -DGSL_USER_DIR=/path/to/gsl ..
 
 LCOV 1.13-1
 ***********
@@ -320,7 +341,7 @@ Associated CMake flag
 
 .. code-block:: bash
 
-   cmake -DUSE_GCOV=On .
+   cmake -DUSE_GCOV=On ..
 
 Contact
 #######

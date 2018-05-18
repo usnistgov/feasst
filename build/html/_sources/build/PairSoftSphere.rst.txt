@@ -1,6 +1,6 @@
 PairSoftSphere
 =====================================================
 
-.. doxygenclass:: PairSoftSphere
+.. doxygenclass:: feasst::PairSoftSphere
    :project: FEASST
    :members:

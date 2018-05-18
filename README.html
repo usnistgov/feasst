@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>README &#8212; FEASST v0.3.1 documentation</title>
+    <title>README &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -28,7 +28,7 @@
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Test cases" href="TESTCASE.html" />
+    <link rel="next" title="Tutorials" href="TUTORIAL.html" />
     <link rel="prev" title="FEASST: Free Energy and Advanced Sampling Simulation Toolkit" href="index.html" /> 
   </head>
   <body>
@@ -39,12 +39,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="TESTCASE.html" title="Test cases"
+          <a href="TUTORIAL.html" title="Tutorials"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="FEASST: Free Energy and Advanced Sampling Simulation Toolkit"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -115,26 +115,37 @@ algorithms (dev)</li>
 <li>Robust unit testing</li>
 </ul>
 </div>
+<div class="section" id="detailed-documentation">
+<h2>Detailed Documentation<a class="headerlink" href="#detailed-documentation" title="Permalink to this headline">¶</a></h2>
+<p>DOI: <a class="reference external" href="https://doi.org/10.18434/M3S095">https://doi.org/10.18434/M3S095</a></p>
+<p>Website: <a class="reference external" href="https://pages.nist.gov/feasst/">https://pages.nist.gov/feasst/</a></p>
+<p>Documentation for any version of the code is accessible in the nist-pages branch of the GitHub repository <a class="reference external" href="https://github.com/usnistgov/feasst">https://github.com/usnistgov/feasst</a> .
+This documentation is stored for every release.
+Simply checkout the desired version from the nist-pages branch and load index.html with your browser.
+PDF versions are also provided for each major version release.</p>
+</div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>FEASST is designed for a LINUX or MAC platform with the following minimum version software.</p>
 <ul class="simple">
 <li>make &gt;= 3.81</li>
 <li>CMake &gt;= 2.8.12.2</li>
-<li>compiler with c++0x support (e.g., g++ &gt;= 4.7)</li>
+<li>compiler with c++11 support (e.g., g++ &gt;= 4.7)</li>
+<li>git (or download <a class="reference external" href="https://github.com/usnistgov/feasst/archive/master.zip">https://github.com/usnistgov/feasst/archive/master.zip</a>)</li>
 </ul>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
 <span class="nb">cd</span> feasst
 mkdir build
 <span class="nb">cd</span> build
 cmake ..
-make
+make -j <span class="m">12</span>
+<span class="o">(</span>optional: <span class="s2">&quot;make install&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="usage-c-interface">
 <h2>Usage: C++ interface<a class="headerlink" href="#usage-c-interface" title="Permalink to this headline">¶</a></h2>
-<p>The following may be found in the <a class="reference external" href="testcase/1_lj/0_example">testcase/1_lj/0_example</a> directory.</p>
+<p>The following may be found in the <a class="reference external" href="tutorial/1_lj/0_example">tutorial/1_lj/0_example</a> directory.</p>
 <p>In C++, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;feasst.h&quot;</span><span class="cp"></span>
 
@@ -147,9 +158,9 @@ make
      <span class="p">{</span><span class="s">&quot;cutType&quot;</span><span class="p">,</span> <span class="s">&quot;lrc&quot;</span><span class="p">}});</span>        <span class="c1">// long range corrections</span>
   <span class="k">auto</span> <span class="n">criteria</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">::</span><span class="n">makeCriteriaMetropolis</span><span class="p">(</span>
     <span class="p">{{</span><span class="s">&quot;beta&quot;</span><span class="p">,</span> <span class="s">&quot;1.2&quot;</span><span class="p">}});</span>           <span class="c1">// beta = 1/k_B/T</span>
-  <span class="n">feasst</span><span class="o">::</span><span class="n">MC</span> <span class="n">mc</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">criteria</span><span class="p">);</span>
-  <span class="n">feasst</span><span class="o">::</span><span class="n">transformTrial</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mc</span><span class="p">,</span>
-    <span class="p">{{</span><span class="s">&quot;type&quot;</span><span class="p">,</span> <span class="s">&quot;translate&quot;</span><span class="p">},</span>
+  <span class="n">feasst</span><span class="o">::</span><span class="n">MC</span> <span class="n">mc</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="n">criteria</span><span class="p">);</span>
+  <span class="n">feasst</span><span class="o">::</span><span class="n">addTrialTransform</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mc</span><span class="p">,</span>
+    <span class="p">{{</span><span class="s">&quot;transType&quot;</span><span class="p">,</span> <span class="s">&quot;translate&quot;</span><span class="p">},</span>       <span class="c1">// attempt particle translations</span>
      <span class="p">{</span><span class="s">&quot;maxMoveParam&quot;</span><span class="p">,</span> <span class="s">&quot;0.1&quot;</span><span class="p">}});</span>   <span class="c1">// maximum displacement for each dimension</span>
   <span class="n">mc</span><span class="p">.</span><span class="n">nMolSeek</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>                <span class="c1">// add particles</span>
   <span class="n">mc</span><span class="p">.</span><span class="n">initLog</span><span class="p">(</span><span class="s">&quot;log&quot;</span><span class="p">,</span> <span class="mf">1e4</span><span class="p">);</span>         <span class="c1">// output instantaneous values</span>
@@ -162,6 +173,29 @@ make
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">$HOME</span>/feasst/tools/run.sh test.cc
 </pre></div>
 </div>
+<p>Alternatively, instead of using the run.sh script above, which compiles the C++ file in the feasst/build directory, you may link to FEASST as an external library.</p>
+<p>The following CMake file found in the <a class="reference external" href="tutorial/1_lj/0_example">tutorial/1_lj/0_example</a> directory requires that you “make install” in the last step of the installation, and that you set <code class="docutils literal"><span class="pre">CMAKE_PREFIX_PATH</span></code> to the install location (default: /path/to/feasst/build, or optionally set by -DCMAKE_INSTALL_PREFIX=/path/to/install/dir in installation)</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">cmake_minimum_required</span><span class="p">(</span><span class="n">VERSION</span> <span class="mf">2.8.11</span><span class="p">)</span>
+<span class="n">set</span><span class="p">(</span><span class="n">CMAKE_CXX_STANDARD</span> <span class="mi">11</span><span class="p">)</span>
+
+<span class="cp"># Tell cmake where to find the feasst library</span>
+<span class="n">set</span><span class="p">(</span><span class="n">CMAKE_PREFIX_PATH</span> <span class="s">&quot;../../../build&quot;</span><span class="p">)</span>
+<span class="cp">##set(CMAKE_PREFIX_PATH &quot;$ENV{HOME}/feasst/build/&quot;)</span>
+
+<span class="n">find_package</span><span class="p">(</span><span class="n">feasst</span> <span class="n">REQUIRED</span><span class="p">)</span>
+
+<span class="cp"># OMP</span>
+<span class="n">find_package</span><span class="p">(</span><span class="n">OpenMP</span><span class="p">)</span>
+<span class="k">if</span><span class="p">(</span><span class="n">OPENMP_FOUND</span><span class="p">)</span>
+  <span class="n">set</span><span class="p">(</span><span class="n">CMAKE_C_FLAGS</span> <span class="s">&quot;${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}&quot;</span><span class="p">)</span>
+  <span class="n">set</span><span class="p">(</span><span class="n">CMAKE_CXX_FLAGS</span> <span class="s">&quot;${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}&quot;</span><span class="p">)</span>
+  <span class="n">set</span><span class="p">(</span><span class="n">CMAKE_EXE_LINKER_FLAGS</span> <span class="s">&quot;${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}&quot;</span><span class="p">)</span>
+<span class="n">endif</span><span class="p">()</span>
+
+<span class="n">add_executable</span> <span class="p">(</span><span class="n">main</span> <span class="n">test</span><span class="p">.</span><span class="n">cc</span><span class="p">)</span>
+<span class="n">target_link_libraries</span> <span class="p">(</span><span class="n">main</span> <span class="n">LINK_PUBLIC</span> <span class="n">feasst</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="usage-python-interface">
 <h2>Usage: Python interface<a class="headerlink" href="#usage-python-interface" title="Permalink to this headline">¶</a></h2>
@@ -171,12 +205,12 @@ make
 <li>anaconda &gt;= 1.9.1 (python &gt;= 2.7)</li>
 </ul>
 <p>To install the python interface, use the following CMake command in place of “cmake ..”:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>ON -DPYTHON_INCLUDE_PATH<span class="o">=</span>/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES<span class="o">=</span>/path/to/anaconda/lib/libpython3.6m.so .
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>ON -DPYTHON_INCLUDE_PATH<span class="o">=</span>/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES<span class="o">=</span>/path/to/anaconda/lib/libpython3.6m.so ..
 make _feasst -j
 </pre></div>
 </div>
 <p>Note that the <code class="docutils literal"><span class="pre">PYTHON_INCLUDE_PATH</span></code> and <code class="docutils literal"><span class="pre">PYTHON_LIBRARIES</span></code> depends on your python installation.</p>
-<p>The following may be found in the <a class="reference external" href="testcase/1_lj/0_example">testcase/1_lj/0_example</a> directory.
+<p>The following may be found in the <a class="reference external" href="tutorial/1_lj/0_example">tutorial/1_lj/0_example</a> directory.
 In python, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:</p>
 <div class="highlight-py"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">feasst</span>
 <span class="n">space</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">makeSpace</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
@@ -187,9 +221,9 @@ In python, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:</
      <span class="s2">&quot;cutType&quot;</span> <span class="p">:</span> <span class="s2">&quot;lrc&quot;</span><span class="p">}))</span>           <span class="c1"># long range corrections</span>
 <span class="n">criteria</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">makeCriteriaMetropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;beta&quot;</span> <span class="p">:</span> <span class="s2">&quot;1.2&quot;</span><span class="p">}))</span>              <span class="c1"># beta = 1/k_B/T</span>
-<span class="n">mc</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MC</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">criteria</span><span class="p">)</span>
-<span class="n">feasst</span><span class="o">.</span><span class="n">transformTrial</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;translate&quot;</span><span class="p">,</span>
+<span class="n">mc</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MC</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="n">criteria</span><span class="p">)</span>
+<span class="n">feasst</span><span class="o">.</span><span class="n">addTrialTransform</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;transType&quot;</span> <span class="p">:</span> <span class="s2">&quot;translate&quot;</span><span class="p">,</span>          <span class="c1"># attempt particle translations</span>
      <span class="s2">&quot;maxMoveParam&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)}))</span>   <span class="c1"># maximum displacement for each dimension</span>
 <span class="n">mc</span><span class="o">.</span><span class="n">nMolSeek</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>                     <span class="c1"># add particles</span>
 <span class="n">mc</span><span class="o">.</span><span class="n">initLog</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">))</span>         <span class="c1"># output instantaneous values</span>
@@ -218,7 +252,7 @@ before running the <code class="docutils literal"><span class="pre">cmake</span>
 </pre></div>
 </div>
 <p>Or</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_XDRFILE<span class="o">=</span>ON .
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_XDRFILE<span class="o">=</span>ON ..
 </pre></div>
 </div>
 <p>To give CMake the path to your xdrfile library:</p>
@@ -226,7 +260,7 @@ before running the <code class="docutils literal"><span class="pre">cmake</span>
 </pre></div>
 </div>
 <p>Or</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DXDRFILE_DIR<span class="o">=</span>/path/to/xdrfile .
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DXDRFILE_DIR<span class="o">=</span>/path/to/xdrfile ..
 </pre></div>
 </div>
 <p>If you are changing the default build options in <code class="docutils literal"><span class="pre">CMakeLists.txt</span></code>,
@@ -247,7 +281,7 @@ make install
 </pre></div>
 </div>
 <p>Associated CMake flag</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_XDRFILE<span class="o">=</span>On -DXDRFILE_DIR<span class="o">=</span>/path/to/xdrfile .
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_XDRFILE<span class="o">=</span>On -DXDRFILE_DIR<span class="o">=</span>/path/to/xdrfile ..
 </pre></div>
 </div>
 </div>
@@ -255,7 +289,7 @@ make install
 <h3>Google Test 1.7.0<a class="headerlink" href="#google-test-1-7-0" title="Permalink to this headline">¶</a></h3>
 <p>For testing the C++ code: CMake automatically clones and compiles the repository.</p>
 <p>Associated CMake flag</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_GTEST<span class="o">=</span>On .
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_GTEST<span class="o">=</span>On ..
 </pre></div>
 </div>
 </div>
@@ -273,7 +307,7 @@ make install
 </pre></div>
 </div>
 <p>Associated CMake flag</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_FFTW<span class="o">=</span>On -DFFTW_DIR<span class="o">=</span>/path/to/fftw .
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_FFTW<span class="o">=</span>On -DFFTW_DIR<span class="o">=</span>/path/to/fftw ..
 </pre></div>
 </div>
 </div>
@@ -300,7 +334,7 @@ make install -j <span class="m">8</span>
 </pre></div>
 </div>
 <p>Associated CMake flag</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>On .
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>On ..
 </pre></div>
 </div>
 </div>
@@ -318,7 +352,7 @@ make<span class="p">;</span> make check<span class="p">;</span> make install<spa
 </pre></div>
 </div>
 <p>Associated CMake flag</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_HDF5<span class="o">=</span>On -DHDF5_USER_DIR<span class="o">=</span>/path/to/hdf5 .
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_HDF5<span class="o">=</span>On -DHDF5_USER_DIR<span class="o">=</span>/path/to/hdf5 ..
 </pre></div>
 </div>
 </div>
@@ -329,7 +363,7 @@ make<span class="p">;</span> make check<span class="p">;</span> make install<spa
 </pre></div>
 </div>
 <p>Associated CMake flag</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_GSL<span class="o">=</span>On -DGSL_USER_DIR<span class="o">=</span>/path/to/gsl .
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_GSL<span class="o">=</span>On -DGSL_USER_DIR<span class="o">=</span>/path/to/gsl ..
 </pre></div>
 </div>
 </div>
@@ -341,7 +375,7 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
 </pre></div>
 </div>
 <p>Associated CMake flag</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_GCOV<span class="o">=</span>On .
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_GCOV<span class="o">=</span>On ..
 </pre></div>
 </div>
 </div>
@@ -382,6 +416,7 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">README</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#detailed-documentation">Detailed Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#usage-c-interface">Usage: C++ interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#usage-python-interface">Usage: Python interface</a></li>
@@ -404,9 +439,10 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
 <li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build/api.html">Application program interface (API)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sphinx/contact.html">Contact and bug reports</a></li>
@@ -417,8 +453,8 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
   <p class="topless"><a href="index.html"
                         title="previous chapter">FEASST: Free Energy and Advanced Sampling Simulation Toolkit</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="TESTCASE.html"
-                        title="next chapter">Test cases</a></p>
+  <p class="topless"><a href="TUTORIAL.html"
+                        title="next chapter">Tutorials</a></p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -430,12 +466,12 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="TESTCASE.html" title="Test cases"
+          <a href="TUTORIAL.html" title="Tutorials"
              >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="FEASST: Free Energy and Advanced Sampling Simulation Toolkit"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

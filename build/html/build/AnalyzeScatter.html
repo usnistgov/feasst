@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>AnalyzeScatter &#8212; FEASST v0.3.1 documentation</title>
+    <title>AnalyzeScatter &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -28,7 +28,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Base Classes" href="basetoc.html" />
+    <link rel="next" title="AnalyzeTRAJ" href="AnalyzeTRAJ.html" />
     <link rel="prev" title="AnalyzeCluster" href="AnalyzeCluster.html" /> 
   </head>
   <body>
@@ -39,12 +39,12 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="basetoc.html" title="Base Classes"
+          <a href="AnalyzeTRAJ.html" title="AnalyzeTRAJ"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="AnalyzeCluster.html" title="AnalyzeCluster"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="analyzetoc.html" accesskey="U">Analyze Classes</a> &#187;</li> 
       </ul>
@@ -58,27 +58,27 @@
   <div class="section" id="analyzescatter">
 <h1>AnalyzeScatter<a class="headerlink" href="#analyzescatter" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv214AnalyzeScatter">
-<span id="AnalyzeScatter"></span><span class="target" id="classAnalyzeScatter"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">AnalyzeScatter</code><a class="headerlink" href="#_CPPv214AnalyzeScatter" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst14AnalyzeScatterE">
+<span id="feasst::AnalyzeScatter"></span><span class="target" id="classfeasst_1_1AnalyzeScatter"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">AnalyzeScatter</code><a class="headerlink" href="#_CPPv2N6feasst14AnalyzeScatterE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute scattering, structure factor and radial distribution functions. </p>
-<p>Inherits from <a class="reference internal" href="Analyze.html#classAnalyze"><span class="std std-ref">Analyze</span></a></p>
+<p>Inherits from <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">feasst::Analyze</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv2N14AnalyzeScatter14AnalyzeScatterEP4PairRK7argtype">
-<span id="AnalyzeScatter::AnalyzeScatter__PairP.argtypeCR"></span><span class="target" id="classAnalyzeScatter_1ab94be42e867af7bd37ba063760bfe707"></span><code class="descname">AnalyzeScatter</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeScatter14AnalyzeScatterEP4PairRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst14AnalyzeScatter14AnalyzeScatterEP4PairRK7argtype">
+<span id="feasst::AnalyzeScatter::AnalyzeScatter__PairP.argtypeCR"></span><span class="target" id="classfeasst_1_1AnalyzeScatter_1a7baf470afca9c9cf1b9b82d80fad4fdf"></span><code class="descname">AnalyzeScatter</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv2N6feasst4PairE" title="feasst::Pair">Pair</a> *<em>pair</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14AnalyzeScatter14AnalyzeScatterEP4PairRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N14AnalyzeScatter8initSANSEKdKi">
-<span id="AnalyzeScatter::initSANS__doubleC.iC"></span><span class="target" id="classAnalyzeScatter_1a8865ea21477bed18764329aaba05c102"></span>void <code class="descname">initSANS</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dgr</em>, <em class="property">const</em> int <em>nMacros</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeScatter8initSANSEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst14AnalyzeScatter8initSANSEKdKi">
+<span id="feasst::AnalyzeScatter::initSANS__doubleC.iC"></span><span class="target" id="classfeasst_1_1AnalyzeScatter_1a342a6901644312293bd61f15238cd937"></span>void <code class="descname">initSANS</code><span class="sig-paren">(</span><em class="property">const</em> double <em>dgr</em>, <em class="property">const</em> int <em>nMacros</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14AnalyzeScatter8initSANSEKdKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>initialize SANS </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
 <li><code class="docutils literal"><span class="pre">dgr</span></code>: Distance between spatial bins. </li>
-<li><code class="docutils literal"><span class="pre">nMacros</span></code>: Number of macrostates in <a class="reference internal" href="CriteriaWLTMMC.html#classCriteriaWLTMMC"><span class="std std-ref">CriteriaWLTMMC</span></a>. </li>
+<li><code class="docutils literal"><span class="pre">nMacros</span></code>: Number of macrostates in <a class="reference internal" href="CriteriaWLTMMC.html#classfeasst_1_1CriteriaWLTMMC"><span class="std std-ref">CriteriaWLTMMC</span></a>. </li>
 </ul>
 </dd>
 </dl>
@@ -86,38 +86,38 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N14AnalyzeScatter6updateEv">
-<span id="AnalyzeScatter::update"></span><span class="target" id="classAnalyzeScatter_1aabfd40a3f0e766243166ae2ba91845ae"></span>void <code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeScatter6updateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst14AnalyzeScatter6updateEv">
+<span id="feasst::AnalyzeScatter::update"></span><span class="target" id="classfeasst_1_1AnalyzeScatter_1a7d2f27db7aa4424014c591471ad3695d"></span>void <code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14AnalyzeScatter6updateEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Perform the analysis and update the accumulators. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N14AnalyzeScatter6updateEKi">
-<span id="AnalyzeScatter::update__iC"></span><span class="target" id="classAnalyzeScatter_1a4c26c670338f4f1bdfa11f961f536dd1"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iMacro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeScatter6updateEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst14AnalyzeScatter6updateEKi">
+<span id="feasst::AnalyzeScatter::update__iC"></span><span class="target" id="classfeasst_1_1AnalyzeScatter_1abdb8472c30c8f6e01cfcec3b8f5853e4"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iMacro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14AnalyzeScatter6updateEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Perform the analysis and update the accumulators. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N14AnalyzeScatter5writeEv">
-<span id="AnalyzeScatter::write"></span><span class="target" id="classAnalyzeScatter_1a7fffdf46ee9a6257f4b4846cf9f102b4"></span>void <code class="descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeScatter5writeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst14AnalyzeScatter5writeEv">
+<span id="feasst::AnalyzeScatter::write"></span><span class="target" id="classfeasst_1_1AnalyzeScatter_1aed5b2b56689b8c07d289700cdb6f1c26"></span>void <code class="descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14AnalyzeScatter5writeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Print the analysis to a file (default: restart file) </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N14AnalyzeScatter5writeEP14CriteriaWLTMMC">
-<span id="AnalyzeScatter::write__CriteriaWLTMMCP"></span><span class="target" id="classAnalyzeScatter_1a024108c9c724eb381f554f9913907f91"></span>void <code class="descname">write</code><span class="sig-paren">(</span><a class="reference internal" href="CriteriaWLTMMC.html#_CPPv214CriteriaWLTMMC" title="CriteriaWLTMMC">CriteriaWLTMMC</a> *<em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeScatter5writeEP14CriteriaWLTMMC" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Print the analysis to a file for each macrostate in <a class="reference internal" href="CriteriaWLTMMC.html#classCriteriaWLTMMC"><span class="std std-ref">CriteriaWLTMMC</span></a>. </p>
+<dt id="_CPPv2N6feasst14AnalyzeScatter5writeEP14CriteriaWLTMMC">
+<span id="feasst::AnalyzeScatter::write__CriteriaWLTMMCP"></span><span class="target" id="classfeasst_1_1AnalyzeScatter_1ac49430800c788e6b72d46cd5398f0b01"></span>void <code class="descname">write</code><span class="sig-paren">(</span><a class="reference internal" href="CriteriaWLTMMC.html#_CPPv2N6feasst14CriteriaWLTMMCE" title="feasst::CriteriaWLTMMC">CriteriaWLTMMC</a> *<em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14AnalyzeScatter5writeEP14CriteriaWLTMMC" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Print the analysis to a file for each macrostate in <a class="reference internal" href="CriteriaWLTMMC.html#classfeasst_1_1CriteriaWLTMMC"><span class="std std-ref">CriteriaWLTMMC</span></a>. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N14AnalyzeScatter11initMomentsEKi">
-<span id="AnalyzeScatter::initMoments__iC"></span><span class="target" id="classAnalyzeScatter_1a9fd477f9b8f2dd248fd9436e628fb8d1"></span>void <code class="descname">initMoments</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nMoments</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeScatter11initMomentsEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst14AnalyzeScatter11initMomentsEKi">
+<span id="feasst::AnalyzeScatter::initMoments__iC"></span><span class="target" id="classfeasst_1_1AnalyzeScatter_1ac6390b70a5472c101cf6a66c36100970"></span>void <code class="descname">initMoments</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nMoments</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14AnalyzeScatter11initMomentsEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>initialize moments cutoff </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N14AnalyzeScatter12writeRestartEPKc">
-<span id="AnalyzeScatter::writeRestart__cCP"></span><span class="target" id="classAnalyzeScatter_1af4e84de5ea14be9c1fbb387d70b6db38"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14AnalyzeScatter12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst14AnalyzeScatter12writeRestartEPKc">
+<span id="feasst::AnalyzeScatter::writeRestart__cCP"></span><span class="target" id="classfeasst_1_1AnalyzeScatter_1a9bac955a3aad5e94b07b527bba6ba2bc"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14AnalyzeScatter12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Write restart file. </p>
 </dd></dl>
 
@@ -135,13 +135,14 @@
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Analyze.html">Analyze</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeCluster.html">AnalyzeCluster</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">AnalyzeScatter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeTRAJ.html">AnalyzeTRAJ</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="basetoc.html">Base Classes</a></li>
@@ -160,6 +161,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
@@ -170,8 +172,8 @@
   <p class="topless"><a href="AnalyzeCluster.html"
                         title="previous chapter">AnalyzeCluster</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="basetoc.html"
-                        title="next chapter">Base Classes</a></p>
+  <p class="topless"><a href="AnalyzeTRAJ.html"
+                        title="next chapter">AnalyzeTRAJ</a></p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -183,12 +185,12 @@
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="basetoc.html" title="Base Classes"
+          <a href="AnalyzeTRAJ.html" title="AnalyzeTRAJ"
              >next</a> |</li>
         <li class="right" >
           <a href="AnalyzeCluster.html" title="AnalyzeCluster"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="analyzetoc.html" >Analyze Classes</a> &#187;</li> 
       </ul>

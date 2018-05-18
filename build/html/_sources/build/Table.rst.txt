@@ -1,6 +1,6 @@
 Table
 =====================================================
 
-.. doxygenclass:: Table
+.. doxygenclass:: feasst::Table
    :project: FEASST
    :members:

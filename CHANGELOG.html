@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Disclaimer &#8212; FEASST v0.4.0 documentation</title>
+    <title>Change log &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
@@ -27,7 +27,9 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Guidelines for developers" href="sphinx/dev.html" />
+    <link rel="prev" title="Frequently asked questions (FAQ)" href="FAQ.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -36,6 +38,12 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sphinx/dev.html" title="Guidelines for developers"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="FAQ.html" title="Frequently asked questions (FAQ)"
+             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
@@ -45,9 +53,48 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="disclaimer">
-<h1>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h1>
-<p>Certain commercial firms and trade names are identified in this document in order to specify the installation and usage procedures adequately. Such identification is not intended to imply recommendation or endorsement by the National Institute of Standards and Technology, nor is it intended to imply that related products are necessarily the best available for the purpose.</p>
+  <div class="section" id="change-log">
+<h1>Change log<a class="headerlink" href="#change-log" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="depreciated-from-v0-3-1-to-v0-4">
+<h2>Depreciated from v0.3.1 to v0.4<a class="headerlink" href="#depreciated-from-v0-3-1-to-v0-4" title="Permalink to this headline">¶</a></h2>
+<p>Log file printing is now almost completely controlled by the Trial class instead of MC.</p>
+<div class="section" id="renamed">
+<h3>Renamed<a class="headerlink" href="#renamed" title="Permalink to this headline">¶</a></h3>
+<p>testcases -&gt; tutorials</p>
+<p>Space::l() -&gt; boxLength()</p>
+<p>Space::l(const int)  -&gt; boxLength(const int)</p>
+<p>Space::vol() -&gt; volume()</p>
+<p>Accumulator::stdev() -&gt; std()</p>
+<p>Space::readxyz2 -&gt; readXYZ</p>
+<p>Space/Pair::readxyz -&gt; readXYZ</p>
+<p>Space::randDispMulti -&gt; randDispNoWrap</p>
+<p>Space::printxyz -&gt; printXYZ</p>
+<p>Pair*::printxyz -&gt; printXYZ</p>
+<p>Space::contact2clusterAlt &gt; contact2cluster</p>
+<p>Space::floodFillContactAlt -&gt; floodFillContact</p>
+<p>Space::hash -&gt; configID</p>
+</div>
+<div class="section" id="removed">
+<h3>Removed<a class="headerlink" href="#removed" title="Permalink to this headline">¶</a></h3>
+<p>PairLJCoulEwald::delPart(const int)</p>
+<p>Functions.vecSPCE</p>
+<p>Space::lset(double, int)</p>
+<p>Space::pbc(double, int)</p>
+<p>Space::ranDisp(int, double)</p>
+<p>Space::checkBond(char*, double)</p>
+<p>Space::contact2cluster</p>
+<p>Space::floodFillContact</p>
+<p>Space::nRadialHist/printRadial</p>
+<p>Space::floppyBox</p>
+<p>Analyze::initPrintFreq</p>
+<p>Criteria::printBeta</p>
+<p>Criteria::printPressure</p>
+<p>WLTMMC::nMolResizeWindow</p>
+<p>WLTMMC::initGR, nFreqGR, GRFileName, grt, gr</p>
+<p>Histogram::iType/jType</p>
+<p>Random::int32</p>
+</div>
+</div>
 </div>
 
 
@@ -57,18 +104,31 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
 <h3><a href="index.html">Table Of Contents</a></h3>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build/api.html">Application program interface (API)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQ.html">Frequently asked questions (FAQ)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CHANGELOG.html">Change log</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Change log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#depreciated-from-v0-3-1-to-v0-4">Depreciated from v0.3.1 to v0.4</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#renamed">Renamed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#removed">Removed</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sphinx/contact.html">Contact and bug reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation guide</a></li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="FAQ.html"
+                        title="previous chapter">Frequently asked questions (FAQ)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sphinx/dev.html"
+                        title="next chapter">Guidelines for developers</a></p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -79,6 +139,12 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="sphinx/dev.html" title="Guidelines for developers"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="FAQ.html" title="Frequently asked questions (FAQ)"
+             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>

@@ -1,6 +1,6 @@
 
 =====================================================
 
-.. doxygenclass:: 
+.. doxygenclass:: feasst::
    :project: FEASST
    :members:

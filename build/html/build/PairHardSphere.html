@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>PairHardSphere &#8212; FEASST v0.3.1 documentation</title>
+    <title>PairHardSphere &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="PairHardCircle.html" title="PairHardCircle"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" accesskey="U">Pair Classes</a> &#187;</li> 
       </ul>
@@ -58,21 +58,21 @@
   <div class="section" id="pairhardsphere">
 <h1>PairHardSphere<a class="headerlink" href="#pairhardsphere" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv214PairHardSphere">
-<span id="PairHardSphere"></span><span class="target" id="classPairHardSphere"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">PairHardSphere</code><a class="headerlink" href="#_CPPv214PairHardSphere" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Hard sphere pair-wise interaction. The diameter is determined by the sigma parameter described in <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a>, which is typically initialized by <a class="reference internal" href="Pair.html#classPair_1a896d4e56a3180baa4046a6742fd27f30"><span class="std std-ref">initData()</span></a>. </p>
-<p>Inherits from <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a></p>
+<dt id="_CPPv2N6feasst14PairHardSphereE">
+<span id="feasst::PairHardSphere"></span><span class="target" id="classfeasst_1_1PairHardSphere"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">PairHardSphere</code><a class="headerlink" href="#_CPPv2N6feasst14PairHardSphereE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Hard sphere pair-wise interaction. The diameter is determined by the sigma parameter described in <a class="reference internal" href="Pair.html#classfeasst_1_1Pair"><span class="std std-ref">Pair</span></a>, which is typically initialized by <a class="reference internal" href="Pair.html#classfeasst_1_1Pair_1a5d60f8d61db2faba441021664002c078"><span class="std std-ref">initData()</span></a>. </p>
+<p>Inherits from <a class="reference internal" href="Pair.html#classfeasst_1_1Pair"><span class="std std-ref">feasst::Pair</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv2N14PairHardSphere14PairHardSphereEP5Space">
-<span id="PairHardSphere::PairHardSphere__SpaceP"></span><span class="target" id="classPairHardSphere_1a98631fa51194f7a9a914f653ba3e62b8"></span><code class="descname">PairHardSphere</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<em>space</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14PairHardSphere14PairHardSphereEP5Space" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst14PairHardSphere14PairHardSphereEP5Space">
+<span id="feasst::PairHardSphere::PairHardSphere__SpaceP"></span><span class="target" id="classfeasst_1_1PairHardSphere_1a35ba309bc383bf411ecf8f0f8a0cd5cd"></span><code class="descname">PairHardSphere</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a> *<em>space</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14PairHardSphere14PairHardSphereEP5Space" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N14PairHardSphere13initPairParamEK6vectorIdEK6vectorIdEK6vectorIdE">
-<span id="PairHardSphere::initPairParam__vector:double:C.vector:double:C.vector:double:C"></span><span class="target" id="classPairHardSphere_1ac858fbe8d8ab12ea78e7f0600fa8da67"></span>void <code class="descname">initPairParam</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;double&gt; <em>eps</em>, <em class="property">const</em> vector&lt;double&gt; <em>sig</em>, <em class="property">const</em> vector&lt;double&gt; <em>sigref</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N14PairHardSphere13initPairParamEK6vectorIdEK6vectorIdEK6vectorIdE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst14PairHardSphere13initPairParamEK6vectorIdEK6vectorIdEK6vectorIdE">
+<span id="feasst::PairHardSphere::initPairParam__vector:double:C.vector:double:C.vector:double:C"></span><span class="target" id="classfeasst_1_1PairHardSphere_1ac6c29f257237d704fb7830f6207e0712"></span>void <code class="descname">initPairParam</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;double&gt; <em>eps</em>, <em class="property">const</em> vector&lt;double&gt; <em>sig</em>, <em class="property">const</em> vector&lt;double&gt; <em>sigref</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14PairHardSphere13initPairParamEK6vectorIdEK6vectorIdEK6vectorIdE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize pair parameters with epsilon (interaciton scale), sigma (particle size) and sigRef (reference particle size). </p>
 </dd></dl>
 
@@ -90,7 +90,7 @@
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
@@ -123,6 +123,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
@@ -151,7 +152,7 @@
         <li class="right" >
           <a href="PairHardCircle.html" title="PairHardCircle"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" >Pair Classes</a> &#187;</li> 
       </ul>

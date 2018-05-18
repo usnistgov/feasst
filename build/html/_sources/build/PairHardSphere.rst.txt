@@ -1,6 +1,6 @@
 PairHardSphere
 =====================================================
 
-.. doxygenclass:: PairHardSphere
+.. doxygenclass:: feasst::PairHardSphere
    :project: FEASST
    :members:

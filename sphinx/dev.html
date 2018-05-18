@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Guidelines for developers &#8212; FEASST v0.3.1 documentation</title>
+    <title>Guidelines for developers &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -29,7 +29,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Authors and acknowledgements" href="../CONTRIBUTORS.html" />
-    <link rel="prev" title="Frequently asked questions (FAQ)" href="../FAQ.html" /> 
+    <link rel="prev" title="Change log" href="../CHANGELOG.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -42,9 +42,9 @@
           <a href="../CONTRIBUTORS.html" title="Authors and acknowledgements"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../FAQ.html" title="Frequently asked questions (FAQ)"
+          <a href="../CHANGELOG.html" title="Change log"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -238,7 +238,7 @@ To use a seed to reproduce an error, use –gtest_random_seed=SEED.</p>
 </div>
 <div class="section" id="debugging-with-gdb-or-lldb">
 <h2>Debugging with GDB or LLDB<a class="headerlink" href="#debugging-with-gdb-or-lldb" title="Permalink to this headline">¶</a></h2>
-<p>gdb (or lldb on macOS) is a very useful debugging tool, especially for identifying segfaults via backtraces. The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.</p>
+<p>gdb (or lldb on macOS) is especially useful for identifying segfaults via backtraces. The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.</p>
 <p>In bash</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>gdb <span class="o">[</span>program executable name<span class="o">]</span>
 r <span class="o">[</span>flags<span class="o">]</span>
@@ -278,7 +278,7 @@ Note: this disables optimization, so don’t use it for production simulations.<
 </div>
 <div class="section" id="speed-up-compilation-time-with-ccache">
 <h2>Speed up compilation time with ccache<a class="headerlink" href="#speed-up-compilation-time-with-ccache" title="Permalink to this headline">¶</a></h2>
-<p>Seriously, if you haven’t used ccache before, give it a try.</p>
+<p>If you haven’t used ccache before, give it a try.</p>
 </div>
 <div class="section" id="clean-up-with-cpplint-and-pylint">
 <h2>Clean up with cpplint and pylint<a class="headerlink" href="#clean-up-with-cpplint-and-pylint" title="Permalink to this headline">¶</a></h2>
@@ -315,11 +315,11 @@ breathe_projects = {“FEASST”:”../xml”}</dd>
 <ul>
 <li><p class="first">Link from rst file to C++ function: <code class="docutils literal"><span class="pre">:cpp:func:`className::function()`</span></code></p>
 </li>
-<li><p class="first">Link from rst file to fst file: <code class="docutils literal"><span class="pre">:doc:`/testcase/asdf`</span></code></p>
+<li><p class="first">Link from rst file to fst file: <code class="docutils literal"><span class="pre">:doc:`/tutorial/asdf`</span></code></p>
 </li>
 <li><p class="first">Link from C++ to C++: <code class="docutils literal"><span class="pre">className::function()</span></code></p>
 </li>
-<li><p class="first">Link from C++ source to rst file: <code class="docutils literal"><span class="pre">&lt;a</span> <span class="pre">href=&quot;testcase/asdf.html&quot;&gt;test&lt;/a&gt;</span></code></p>
+<li><p class="first">Link from C++ source to rst file: <code class="docutils literal"><span class="pre">&lt;a</span> <span class="pre">href=&quot;tutorial/asdf.html&quot;&gt;test&lt;/a&gt;</span></code></p>
 </li>
 <li><p class="first">For math in C++ comments:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>\f$ latex code here \f$
@@ -327,28 +327,6 @@ breathe_projects = {“FEASST”:”../xml”}</dd>
 </div>
 </li>
 </ul>
-</div>
-<div class="section" id="philosophical-questions-and-quotes">
-<h2>Philosophical questions and quotes<a class="headerlink" href="#philosophical-questions-and-quotes" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="why-are-there-so-many-comments-in-the-header-files">
-<h3>Why are there so many comments in the header files?<a class="headerlink" href="#why-are-there-so-many-comments-in-the-header-files" title="Permalink to this headline">¶</a></h3>
-<p>Because I assume most users are primarily concerned with the interface.
-I prefer that one can understand most aspects of the class simply by reading the header file.
-If you would like to contribute code, then document how you are most comfortable.</p>
-</div>
-<div class="section" id="why-use-camel-case-instead-of-underscores">
-<h3>Why use camel case instead of underscores?<a class="headerlink" href="#why-use-camel-case-instead-of-underscores" title="Permalink to this headline">¶</a></h3>
-<p>It saves one key stroke versus a “_” and one horizontal space.
-Perhaps for the sake of readability, FEASST will switch to a more pythonic style but that would take a lot of work.
-Feel free to stick to your favorite style in your contributed work, although ideally there is only one style per file!</p>
-</div>
-<div class="section" id="quotes">
-<h3>Quotes<a class="headerlink" href="#quotes" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>“The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming”, Donald Knuth, Computer Programming as an Art (1974)</li>
-<li>“Do not copy and paste”, Clancy Rowley, Princeton University Course APC524, 2010</li>
-</ul>
-</div>
 </div>
 <div class="section" id="to-do-list">
 <h2>To do list<a class="headerlink" href="#to-do-list" title="Permalink to this headline">¶</a></h2>
@@ -358,27 +336,22 @@ Feel free to stick to your favorite style in your contributed work, although ide
 <li>MD with stochastic dynamics integrator</li>
 <li>Perfect checkpointing</li>
 <li>Automated full-checkpoint testing</li>
-<li>remove printPressure from mc/criteria, printBeta, pairOrder, floppyBox, etc</li>
 <li>for xyz2bin, in afterAttempt MC, use unique hash on log file and xyz configuration for error check
 – implement with WLTMMC, use criteria to find order param column in log, then readxyz hash, find log hash match, demix conf based on the bin</li>
 <li>have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)</li>
 <li>remove periodicity from x/y/z dimensions (no rush here)</li>
 <li>split functions.h into a variety of base_fileio, base_math, base_utils, etc</li>
-<li>PairHybrid rCut should be taken from pairVec, or atleast rCutMaxAll</li>
-<li>Eventually convert all raw pointers to shared pointers, which also allows removal of space from MC class</li>
-<li>PairHybrid also doens’t need a space pointer.</li>
 <li>Use Histogram class for CriteriaWLTMMC instead of its own hard-coded version</li>
 <li>To reduce the size of Space, have it inherit multiple base classes, e.g.,
 Domain which contains box lengths and cell list, etc (but needs to know about particle positions?)</li>
 <li>Fix nomenclature.. atom == particle, mol == ?.. maybe change to sites / particles</li>
 <li>add ASSERT(rCutij.size() == 0 for linearShift in PairLJMulti so people don’t run into issues with rCutij.clear</li>
-<li>Numerical implementation of quadratic equation coudl help with config bias: <a class="reference external" href="https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation">https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation</a></li>
+<li>Numerical implementation of quadratic equation could help with config bias: <a class="reference external" href="https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation">https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation</a></li>
 <li>Improve handling of default parameters for documentation and perhaps json (e.g. checkpointing above)?</li>
 <li>implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).</li>
 <li>runNumSweeps instead should have something where one generates the clones as vector&lt;shrptr&gt;, then runNumSweep takes these as input. That way one can modify the clones as one sees fit (also in multiprocessor restarts) before running the clones. It would take a lot of the hidden magic out without complicating the interface too drastically.</li>
 <li>Fix GSL memory leaks</li>
-<li>add PairPatchKF and PairLJCoulEwald loops to Pair base class for molecule-center-based cut-offs before loops through particles,
-Or make them more general (e.g., multi patch particles?).</li>
+<li>add PairPatchKF loops to Pair base class for molecule-center-based cut-offs before loops through particles (as done for PairLJCoulEwald),</li>
 <li>Add verbosity level for printing debug messages</li>
 <li>Make a citation generator for techniques that are used.</li>
 <li>move checkBond from MC to analyze class for rigid particle simulations (or as part of checkE?)</li>
@@ -388,9 +361,8 @@ Or make them more general (e.g., multi patch particles?).</li>
 <li>document log file and tuning, changing acceptance percentage</li>
 <li>Include PDF version of manual in release tarballs</li>
 <li>Package FEASST as a Docker app</li>
-<li>move unittests to testcases: ljmultilambda2D, NPTandLJvLJMulti, semigrand,</li>
+<li>move unittests to tutorials: ljmultilambda2D, NPTandLJvLJMulti, semigrand,</li>
 <li>Fix the API TOC for non-derived classes (e.g., TOC disappears when you select “Histogram”)</li>
-<li>Add PairPatchKF testcase.</li>
 <li>Add test case with AnalyzeCluster and AnalyzeScatter.</li>
 <li>Add test case with PairTabular1D (and/or improve beyond linear interpolation).</li>
 <li>Incorporate more “tools” as part of the test cases (e.g., rw, restart, xyz2bin, etc).</li>
@@ -398,8 +370,21 @@ Or make them more general (e.g., multi patch particles?).</li>
 <li>sphinx_rtd_theme doesn’t work with NIST header/footer</li>
 <li>Use short version number for display on FEASST html</li>
 <li>Customize restart directory name</li>
-<li>Move rCut to optional argument, after figuring out how to have map&lt;string,string&gt; work with base class arguments.</li>
-<li>Fix testcase 1/3 by taking arguments with unittest in python.</li>
+<li>Fix tutorial 1/3 by taking arguments with unittest in python.</li>
+<li>Use packages to dynamically add the disclaim in the release.</li>
+<li>rename feasst.str.. python doesn’t like it.</li>
+<li>Eventually convert all raw pointers to shared pointers (but interface blind to shared_ptr vs unique_ptr), which also allows removal of space from MC class</li>
+<li>Custom derived Analysis class should be able to clone without more boiler plate</li>
+<li>Operations to assign atoms to groups, and be able to apply groups to most operations like analyze</li>
+<li>Separate PairLJCoul into different classes for LJ, real-space Q and Ewald. Use PairHybrid to combine them.</li>
+<li>Once subspace efficiently implemented, pairHybrid can store different pairs with different subspaces to optimize e.g., the LJ interaction on oxygens only (for MFB?)</li>
+<li>Rename some variables… mpart should be msite? ran vs rand.</li>
+<li>Implement Mayer sampling within the context of all of the Trial classes (currently just TrialTransform - translate).</li>
+<li>For library build (1) configure input/output of unittests/tutorials (2) external and internal cmake sandbox builds</li>
+<li>After added feasst namespace to swig, why does the type of “PairLJCoulEwald::erft()” show up as “SwgPyObject” instead of “class feasst.erftable”</li>
+<li>Update the FAQ, or make it more links to tutorials which seem to be more likely to stay up-to-date.</li>
+<li>Update documentation/tutorial/FAQ for PairTabular1D.</li>
+<li>Use sphinx doctest to test python tutorials</li>
 </ul>
 </div>
 </div>
@@ -413,9 +398,10 @@ Or make them more general (e.g., multi patch particles?).</li>
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../build/api.html">Application program interface (API)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Guidelines for developers</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#semantic-versioning">Semantic versioning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#branch-policies">Branch policies</a><ul>
@@ -439,12 +425,6 @@ Or make them more general (e.g., multi patch particles?).</li>
 <li class="toctree-l2"><a class="reference internal" href="#tag-and-archive">Tag and archive</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#documentation-setup">Documentation setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sphinx-breathe-doxygen-tips">Sphinx/Breathe/Doxygen tips</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#philosophical-questions-and-quotes">Philosophical questions and quotes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#why-are-there-so-many-comments-in-the-header-files">Why are there so many comments in the header files?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#why-use-camel-case-instead-of-underscores">Why use camel case instead of underscores?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#quotes">Quotes</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#to-do-list">To do list</a></li>
 </ul>
 </li>
@@ -454,8 +434,8 @@ Or make them more general (e.g., multi patch particles?).</li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../FAQ.html"
-                        title="previous chapter">Frequently asked questions (FAQ)</a></p>
+  <p class="topless"><a href="../CHANGELOG.html"
+                        title="previous chapter">Change log</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="../CONTRIBUTORS.html"
                         title="next chapter">Authors and acknowledgements</a></p>
@@ -473,9 +453,9 @@ Or make them more general (e.g., multi patch particles?).</li>
           <a href="../CONTRIBUTORS.html" title="Authors and acknowledgements"
              >next</a> |</li>
         <li class="right" >
-          <a href="../FAQ.html" title="Frequently asked questions (FAQ)"
+          <a href="../CHANGELOG.html" title="Change log"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

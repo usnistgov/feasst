@@ -1,6 +1,6 @@
 RandomNR3
 =====================================================
 
-.. doxygenclass:: RandomNR3
+.. doxygenclass:: feasst::RandomNR3
    :project: FEASST
    :members:

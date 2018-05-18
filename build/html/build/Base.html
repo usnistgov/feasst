@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Base &#8212; FEASST v0.3.1 documentation</title>
+    <title>Base &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="basetoc.html" title="Base Classes"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="basetoc.html" accesskey="U">Base Classes</a> &#187;</li> 
       </ul>
@@ -58,27 +58,27 @@
   <div class="section" id="base">
 <h1>Base<a class="headerlink" href="#base" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv24Base">
-<span id="Base"></span><span class="target" id="classBase"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">Base</code><a class="headerlink" href="#_CPPv24Base" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="#classBase"><span class="std std-ref">Base</span></a> class for all other classes to inherit. </p>
-<p>Subclassed by <a class="reference internal" href="Accumulator.html#classAccumulator"><span class="std std-ref">Accumulator</span></a>, <a class="reference internal" href="BaseRandom.html#classBaseRandom"><span class="std std-ref">BaseRandom</span></a>, <a class="reference internal" href="Histogram.html#classHistogram"><span class="std std-ref">Histogram</span></a>, <a class="reference internal" href="Random.html#classRandom"><span class="std std-ref">Random</span></a></p>
+<dt id="_CPPv2N6feasst4BaseE">
+<span id="feasst::Base"></span><span class="target" id="classfeasst_1_1Base"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">Base</code><a class="headerlink" href="#_CPPv2N6feasst4BaseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#classfeasst_1_1Base"><span class="std std-ref">Base</span></a> class for all other classes to inherit. </p>
+<p>Subclassed by <a class="reference internal" href="Accumulator.html#classfeasst_1_1Accumulator"><span class="std std-ref">feasst::Accumulator</span></a>, <a class="reference internal" href="BaseRandom.html#classfeasst_1_1BaseRandom"><span class="std std-ref">feasst::BaseRandom</span></a>, <a class="reference internal" href="Histogram.html#classfeasst_1_1Histogram"><span class="std std-ref">feasst::Histogram</span></a>, <a class="reference internal" href="Random.html#classfeasst_1_1Random"><span class="std std-ref">feasst::Random</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv2N4Base11reconstructEv">
-<span id="Base::reconstruct"></span><span class="target" id="classBase_1abea5b69fa4db7bce7545585e5701f812"></span>void <code class="descname">reconstruct</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Base11reconstructEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Base11reconstructEv">
+<span id="feasst::Base::reconstruct"></span><span class="target" id="classfeasst_1_1Base_1a94a84f4e348b2434a867bcdf62f0282a"></span>void <code class="descname">reconstruct</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Base11reconstructEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Reconstruct object pointers after cloning (e.g., deep copy). </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK4Base9classNameEv">
-<span id="Base::classNameC"></span><span class="target" id="classBase_1a434bcb22258b1b22fc04b63d70ea9b8b"></span>std::string <code class="descname">className</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK4Base9classNameEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst4Base9classNameEv">
+<span id="feasst::Base::classNameC"></span><span class="target" id="classfeasst_1_1Base_1a239a1d3c3e3df889d3b99ccc97c36766"></span>std::string <code class="descname">className</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst4Base9classNameEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The name of the class which should always be set at the constructor, and updated for all derived classes. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK4Base11install_dirEv">
-<span id="Base::install_dirC"></span><span class="target" id="classBase_1af25e0098e0e1b7f43363b57383edf64b"></span><em class="property">const</em> char *<code class="descname">install_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK4Base11install_dirEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst4Base11install_dirEv">
+<span id="feasst::Base::install_dirC"></span><span class="target" id="classfeasst_1_1Base_1af1838c0cf96a357cbded74f6b5a76280"></span><em class="property">const</em> char *<code class="descname">install_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst4Base11install_dirEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The base directory where the code is located is stored in this variable. </p>
 </dd></dl>
 
@@ -96,7 +96,7 @@
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
@@ -120,6 +120,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
@@ -148,7 +149,7 @@
         <li class="right" >
           <a href="basetoc.html" title="Base Classes"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="basetoc.html" >Base Classes</a> &#187;</li> 
       </ul>

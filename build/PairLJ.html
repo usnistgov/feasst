@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>PairLJ &#8212; FEASST v0.3.1 documentation</title>
+    <title>PairLJ &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="PairIdeal.html" title="PairIdeal"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" accesskey="U">Pair Classes</a> &#187;</li> 
       </ul>
@@ -58,16 +58,16 @@
   <div class="section" id="pairlj">
 <h1>PairLJ<a class="headerlink" href="#pairlj" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv26PairLJ">
-<span id="PairLJ"></span><span class="target" id="classPairLJ"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">PairLJ</code><a class="headerlink" href="#_CPPv26PairLJ" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJE">
+<span id="feasst::PairLJ"></span><span class="target" id="classfeasst_1_1PairLJ"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">PairLJ</code><a class="headerlink" href="#_CPPv2N6feasst6PairLJE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Lennard Jones particles with multiple sigmas, epsilons, rCuts, etc. This class also includes other options, such as changing the exponential parameter, alpha, <span class="math">\(\alpha\)</span>. There are also options to add Gaussians, Yukawa screened electrostatics, Weeks-Chandler-Andersen and the LJ-lambda potential. There are also long range corrections, cut and shift, and shifted-force cut off methods.</p>
 <p><span class="math">\(U_{LJ} = 4\epsilon [ (\sigma/r)^{2\alpha} - (\sigma/r)^\alpha ] \)</span>. </p>
-<p>Inherits from <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a></p>
+<p>Inherits from <a class="reference internal" href="Pair.html#classfeasst_1_1Pair"><span class="std std-ref">feasst::Pair</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv2N6PairLJ6PairLJEP5SpaceRK7argtype">
-<span id="PairLJ::PairLJ__SpaceP.argtypeCR"></span><span class="target" id="classPairLJ_1a3b8dee383a88ef3d886221b15c7aeac7"></span><code class="descname">PairLJ</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<em>space</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ6PairLJEP5SpaceRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ6PairLJEP5SpaceRK7argtype">
+<span id="feasst::PairLJ::PairLJ__SpaceP.argtypeCR"></span><span class="target" id="classfeasst_1_1PairLJ_1ac0ee1904425c29edb6ca834b22c3ea03"></span><code class="descname">PairLJ</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a> *<em>space</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ6PairLJEP5SpaceRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor. </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -77,10 +77,11 @@
 <p><ul class="simple">
 <li>(default): /path/to/feasst/forcefield/data.lj</li>
 <li>/path/to/lmp/data.file</li>
-<li>none: does not load a molecule, and therefore skips the rest of the present in this constructor, which now must be carried out manually. Providing other key pairs will result in an error. Warning: “none” without any further initialization of the <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a> class may result in a segmentation fault.</li>
+<li>none: does not load a molecule, and therefore skips the rest of the present in this constructor, which now must be carried out manually. Providing other key pairs will result in an error. Warning: “none” without any further initialization of the <a class="reference internal" href="Pair.html#classfeasst_1_1Pair"><span class="std std-ref">Pair</span></a> class may result in a segmentation fault.</li>
 </ul>
 </p>
-<p>cutType : method to handle the cut-off interactions</p>
+<p>molTypeInForcefield : file in <a class="reference internal" href="Base.html#classfeasst_1_1Base_1af1838c0cf96a357cbded74f6b5a76280"><span class="std std-ref">Space.install_dir()</span></a>/forcefield which describes molecule. Only when molType is empty.</p>
+<p>cutType : method to handle the cut-off interactions (do not provide if molType none)</p>
 <p><ul class="simple">
 <li>lrc(default): analytical long-range corrections</li>
 <li>cutShift: cut and shift energy to zero by a constant (no lrc)</li>
@@ -96,116 +97,116 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ6PairLJE10shared_ptrI5SpaceERK7argtype">
-<span id="PairLJ::PairLJ__shared_ptr:Space:.argtypeCR"></span><span class="target" id="classPairLJ_1aed6d946431191baa95584b8ac35b0990"></span><code class="descname">PairLJ</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a>&gt; <em>space</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ6PairLJE10shared_ptrI5SpaceERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ6PairLJE10shared_ptrI5SpaceERK7argtype">
+<span id="feasst::PairLJ::PairLJ__shared_ptr:Space:.argtypeCR"></span><span class="target" id="classfeasst_1_1PairLJ_1a4d802b9288c7f1a8195a60b17e8e1c48"></span><code class="descname">PairLJ</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a>&gt; <em>space</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ6PairLJE10shared_ptrI5SpaceERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ8cutShiftEKi">
-<span id="PairLJ::cutShift__iC"></span><span class="target" id="classPairLJ_1a5cad9fc10f38ca5309c8fa0e17b2409b"></span>void <code class="descname">cutShift</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ8cutShiftEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ8cutShiftEKi">
+<span id="feasst::PairLJ::cutShift__iC"></span><span class="target" id="classfeasst_1_1PairLJ_1ab5fb06697f8b976a8b7ba2a7d5cfec7b"></span>void <code class="descname">cutShift</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ8cutShiftEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize cut and shifted potential for all particle types if flag == 1. <span class="math">\( U = U_{LJ} - U(rCut)\)</span> when <span class="math">\(r &lt; rCut\)</span>. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ11linearShiftEKi">
-<span id="PairLJ::linearShift__iC"></span><span class="target" id="classPairLJ_1a2f4674f462e95c36c32bedb46ac8cbb8"></span>void <code class="descname">linearShift</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ11linearShiftEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ11linearShiftEKi">
+<span id="feasst::PairLJ::linearShift__iC"></span><span class="target" id="classfeasst_1_1PairLJ_1a48d56d8a9211f6318c4c824d5e9ae215"></span>void <code class="descname">linearShift</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ11linearShiftEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize linear force shift potential for all particle types when flag == 1. <span class="math">\( U = U_{LJ} - U(rCut) - (r-rCut)\left.\frac{\partial U}{\partial r} \right|_{rCut}. \)</span> </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ13cutShiftijsetEKiKiKi">
-<span id="PairLJ::cutShiftijset__iC.iC.iC"></span><span class="target" id="classPairLJ_1aa8cfd537173c56238b521410149e1227"></span>void <code class="descname">cutShiftijset</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em>, <em class="property">const</em> int <em>jtype</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ13cutShiftijsetEKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ13cutShiftijsetEKiKiKi">
+<span id="feasst::PairLJ::cutShiftijset__iC.iC.iC"></span><span class="target" id="classfeasst_1_1PairLJ_1a1b421b0b118ea85d0e67c6687179a52e"></span>void <code class="descname">cutShiftijset</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em>, <em class="property">const</em> int <em>jtype</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ13cutShiftijsetEKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize cut and shift for types itype and jtype if flag == 1. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ16linearShiftijsetEKiKiKi">
-<span id="PairLJ::linearShiftijset__iC.iC.iC"></span><span class="target" id="classPairLJ_1a82543708ee75b35a1b3b44559b56ee78"></span>void <code class="descname">linearShiftijset</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em>, <em class="property">const</em> int <em>jtype</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ16linearShiftijsetEKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ16linearShiftijsetEKiKiKi">
+<span id="feasst::PairLJ::linearShiftijset__iC.iC.iC"></span><span class="target" id="classfeasst_1_1PairLJ_1a71dd811acbf685d7a9ead2643ec5ee45"></span>void <code class="descname">linearShiftijset</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em>, <em class="property">const</em> int <em>jtype</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ16linearShiftijsetEKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize linear force shift for types itype and jtype if flag == 1. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ7initWCAEKiKi">
-<span id="PairLJ::initWCA__iC.iC"></span><span class="target" id="classPairLJ_1a3aadc68b918a24610d85591c9d1bb0b4"></span>void <code class="descname">initWCA</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em>, <em class="property">const</em> int <em>jtype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ7initWCAEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ7initWCAEKiKi">
+<span id="feasst::PairLJ::initWCA__iC.iC"></span><span class="target" id="classfeasst_1_1PairLJ_1a83d2372953095ff2d217b1d81cd4f91d"></span>void <code class="descname">initWCA</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em>, <em class="property">const</em> int <em>jtype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ7initWCAEKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize Weeks-Chandler-Andersen for types itype and jtype. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ7initLRCEv">
-<span id="PairLJ::initLRC"></span><span class="target" id="classPairLJ_1abb13a77a47b42c02db50a4d380769fb7"></span>void <code class="descname">initLRC</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ7initLRCEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ7initLRCEv">
+<span id="feasst::PairLJ::initLRC"></span><span class="target" id="classfeasst_1_1PairLJ_1acdadc10251642f3712c43104c04deeaa"></span>void <code class="descname">initLRC</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ7initLRCEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize long-range corrections for all particle types. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ11initExpTypeEKi">
-<span id="PairLJ::initExpType__iC"></span><span class="target" id="classPairLJ_1af283ffa4e4e3063ea602bbb86a82f7e7"></span>void <code class="descname">initExpType</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ11initExpTypeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ11initExpTypeEKi">
+<span id="feasst::PairLJ::initExpType__iC"></span><span class="target" id="classfeasst_1_1PairLJ_1ad76b6f5a4147f5b06f09fe28250180c6"></span>void <code class="descname">initExpType</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ11initExpTypeEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize exponential type, alpha. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ9initAlphaEKd">
-<span id="PairLJ::initAlpha__doubleC"></span><span class="target" id="classPairLJ_1ac58457f81f4839f3f8ce2f38cb676cc9"></span>void <code class="descname">initAlpha</code><span class="sig-paren">(</span><em class="property">const</em> double <em>alpha</em> = 12.<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ9initAlphaEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ9initAlphaEKd">
+<span id="feasst::PairLJ::initAlpha__doubleC"></span><span class="target" id="classfeasst_1_1PairLJ_1a83648408aac484db7043388e8354d742"></span>void <code class="descname">initAlpha</code><span class="sig-paren">(</span><em class="property">const</em> double <em>alpha</em> = 12.<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ9initAlphaEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize alpha parameter as a continuous parameter (non optimized). </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ19initScreenedElectroEKdKd">
-<span id="PairLJ::initScreenedElectro__doubleC.doubleC"></span><span class="target" id="classPairLJ_1a617ffce54d169dcb4fe58721089c57b8"></span>void <code class="descname">initScreenedElectro</code><span class="sig-paren">(</span><em class="property">const</em> double <em>A</em>, <em class="property">const</em> double <em>K</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ19initScreenedElectroEKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ19initScreenedElectroEKdKd">
+<span id="feasst::PairLJ::initScreenedElectro__doubleC.doubleC"></span><span class="target" id="classfeasst_1_1PairLJ_1a36efe51d3be49fe9f6d4b4f6bd01bedf"></span>void <code class="descname">initScreenedElectro</code><span class="sig-paren">(</span><em class="property">const</em> double <em>A</em>, <em class="property">const</em> double <em>K</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ19initScreenedElectroEKdKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize screened electrostatic interaction (Yukawa). <span class="math">\( U(r) = A e^{-K r}/r \)</span> </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ8setOrderEKd">
-<span id="PairLJ::setOrder__doubleC"></span><span class="target" id="classPairLJ_1ad67f7670a8155a0b9987301b5b8cbcea"></span>void <code class="descname">setOrder</code><span class="sig-paren">(</span><em class="property">const</em> double <em>order</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ8setOrderEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ8setOrderEKd">
+<span id="feasst::PairLJ::setOrder__doubleC"></span><span class="target" id="classfeasst_1_1PairLJ_1a65d36136718bd17c75060e0a6a5c1dd0"></span>void <code class="descname">setOrder</code><span class="sig-paren">(</span><em class="property">const</em> double <em>order</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ8setOrderEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the order parameter value. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ11addGaussianEKdKdKd">
-<span id="PairLJ::addGaussian__doubleC.doubleC.doubleC"></span><span class="target" id="classPairLJ_1abcc2f516222fb42e8e3fb98c78ff27bd"></span>void <code class="descname">addGaussian</code><span class="sig-paren">(</span><em class="property">const</em> double <em>height</em>, <em class="property">const</em> double <em>position</em>, <em class="property">const</em> double <em>spread</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ11addGaussianEKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ11addGaussianEKdKdKd">
+<span id="feasst::PairLJ::addGaussian__doubleC.doubleC.doubleC"></span><span class="target" id="classfeasst_1_1PairLJ_1a905d8604379af478758b932bd316191e"></span>void <code class="descname">addGaussian</code><span class="sig-paren">(</span><em class="property">const</em> double <em>height</em>, <em class="property">const</em> double <em>position</em>, <em class="property">const</em> double <em>spread</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ11addGaussianEKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add a gaussian on the potential. <span class="math">\( U(r) = height * exp(-((r-position)/spread)^2) \)</span> </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ11setLambdaijEKdKdKd">
-<span id="PairLJ::setLambdaij__doubleC.doubleC.doubleC"></span><span class="target" id="classPairLJ_1aac28e5dd0ecbdb26dbbb75ae7b0c05d3"></span>void <code class="descname">setLambdaij</code><span class="sig-paren">(</span><em class="property">const</em> double <em>iType</em>, <em class="property">const</em> double <em>jType</em>, <em class="property">const</em> double <em>lambda</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ11setLambdaijEKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ11setLambdaijEKdKdKd">
+<span id="feasst::PairLJ::setLambdaij__doubleC.doubleC.doubleC"></span><span class="target" id="classfeasst_1_1PairLJ_1a95a98713728bc6c65ab1f9caa49fca17"></span>void <code class="descname">setLambdaij</code><span class="sig-paren">(</span><em class="property">const</em> double <em>iType</em>, <em class="property">const</em> double <em>jType</em>, <em class="property">const</em> double <em>lambda</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ11setLambdaijEKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set lambda parameter for particle types iType and jType. <a class="reference external" href="http://dx.doi.org/10.1021/ja802124e">http://dx.doi.org/10.1021/ja802124e</a> </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ10computeLRCEKi">
-<span id="PairLJ::computeLRC__iC"></span><span class="target" id="classPairLJ_1a48adc50587c37e63f88c51cf88576259"></span>double <code class="descname">computeLRC</code><span class="sig-paren">(</span><em class="property">const</em> int <em>ipart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ10computeLRCEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ10computeLRCEKi">
+<span id="feasst::PairLJ::computeLRC__iC"></span><span class="target" id="classfeasst_1_1PairLJ_1a4881df8a832fccc13ebcfda0a106c331"></span>double <code class="descname">computeLRC</code><span class="sig-paren">(</span><em class="property">const</em> int <em>ipart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ10computeLRCEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the LRC contribution of one particle, ipart. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ10initEnergyEv">
-<span id="PairLJ::initEnergy"></span><span class="target" id="classPairLJ_1a430a2c0e5bf45ec0c11c86392b4e67b8"></span>void <code class="descname">initEnergy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ10initEnergyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ10initEnergyEv">
+<span id="feasst::PairLJ::initEnergy"></span><span class="target" id="classfeasst_1_1PairLJ_1af2aa23dd23c1ca48abbf3c634ce84956"></span>void <code class="descname">initEnergy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ10initEnergyEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>function to calculate forces, given positions </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ13multiPartEnerEK6vectorIiEKi">
-<span id="PairLJ::multiPartEner__vector:i:C.iC"></span><span class="target" id="classPairLJ_1a5c36385e480e1256933ba037bb57319b"></span>double <code class="descname">multiPartEner</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>multiPart</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ13multiPartEnerEK6vectorIiEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ13multiPartEnerEK6vectorIiEKi">
+<span id="feasst::PairLJ::multiPartEner__vector:i:C.iC"></span><span class="target" id="classfeasst_1_1PairLJ_1a8011fedc736624d3b5e1b50670b66178"></span>double <code class="descname">multiPartEner</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>multiPart</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ13multiPartEnerEK6vectorIiEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>potential energy of multiple particles </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ16allPartEnerForceEKi">
-<span id="PairLJ::allPartEnerForce__iC"></span><span class="target" id="classPairLJ_1ae0999957d1902047149d5fcf1a804de1"></span>double <code class="descname">allPartEnerForce</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ16allPartEnerForceEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ16allPartEnerForceEKi">
+<span id="feasst::PairLJ::allPartEnerForce__iC"></span><span class="target" id="classfeasst_1_1PairLJ_1ac1bc0be27bd3dfd6f878584b90c52251"></span>double <code class="descname">allPartEnerForce</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ16allPartEnerForceEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Potential energy and forces of all particles. if flag == 0, dummy calculation if flag == 1, all config calculation </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ10initForcesEKi">
-<span id="PairLJ::initForces__iC"></span><span class="target" id="classPairLJ_1acda67b021f889b493c4a824f2342deee"></span>void <code class="descname">initForces</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ10initForcesEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ10initForcesEKi">
+<span id="feasst::PairLJ::initForces__iC"></span><span class="target" id="classfeasst_1_1PairLJ_1a0d046497e75e3d1a45aa6676a86de0ba"></span>void <code class="descname">initForces</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ10initForcesEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute forces if 1 (default 0) </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ6updateEK6vectorIiEKiPKc">
-<span id="PairLJ::update__vector:i:C.iC.cCP"></span><span class="target" id="classPairLJ_1a100cf0898fc88c254c94085dea3b469c"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em>, <em class="property">const</em> char *<em>uptype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ6updateEK6vectorIiEKiPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ6updateEK6vectorIiEKiPKc">
+<span id="feasst::PairLJ::update__vector:i:C.iC.cCP"></span><span class="target" id="classfeasst_1_1PairLJ_1a46dc0edf7ca4f6eec04b4a9b48dfae93"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em>, <em class="property">const</em> char *<em>uptype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ6updateEK6vectorIiEKiPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Store, restore or update variables to avoid recompute of entire configuration after every trial particle move. <dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -217,8 +218,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6PairLJ12writeRestartEPKc">
-<span id="PairLJ::writeRestart__cCP"></span><span class="target" id="classPairLJ_1a2f1988f849ff25b7c57ff74dfc667805"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6PairLJ12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6PairLJ12writeRestartEPKc">
+<span id="feasst::PairLJ::writeRestart__cCP"></span><span class="target" id="classfeasst_1_1PairLJ_1a887497397a70cfb6f5efbfdda3f729ed"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Write restart file. </p>
 </dd></dl>
 
@@ -236,7 +237,7 @@
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
@@ -269,6 +270,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
@@ -297,7 +299,7 @@
         <li class="right" >
           <a href="PairIdeal.html" title="PairIdeal"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" >Pair Classes</a> &#187;</li> 
       </ul>

@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>MC &#8212; FEASST v0.3.1 documentation</title>
+    <title>MC &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="mctoc.html" title="MC Classes"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="mctoc.html" accesskey="U">MC Classes</a> &#187;</li> 
       </ul>
@@ -58,76 +58,82 @@
   <div class="section" id="mc">
 <h1>MC<a class="headerlink" href="#mc" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv22MC">
-<span id="MC"></span><span class="target" id="classMC"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">MC</code><a class="headerlink" href="#_CPPv22MC" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MCE">
+<span id="feasst::MC"></span><span class="target" id="classfeasst_1_1MC"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">MC</code><a class="headerlink" href="#_CPPv2N6feasst2MCE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Attempts Monte Carlo trials and analyzes quantities. </p>
-<p>Inherits from <a class="reference internal" href="BaseRandom.html#classBaseRandom"><span class="std std-ref">BaseRandom</span></a></p>
-<p>Subclassed by <a class="reference internal" href="WLTMMC.html#classWLTMMC"><span class="std std-ref">WLTMMC</span></a></p>
+<p>Inherits from <a class="reference internal" href="BaseRandom.html#classfeasst_1_1BaseRandom"><span class="std std-ref">feasst::BaseRandom</span></a></p>
+<p>Subclassed by <a class="reference internal" href="WLTMMC.html#classfeasst_1_1WLTMMC"><span class="std std-ref">feasst::WLTMMC</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv2N2MC2MCEP5SpaceP4PairP8Criteria">
-<span id="MC::MC__SpaceP.PairP.CriteriaP"></span><span class="target" id="classMC_1ae7556065b93f82330867207d40841250"></span><code class="descname">MC</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<em>space</em>, <a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="Criteria.html#_CPPv28Criteria" title="Criteria">Criteria</a> *<em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC2MCEP5SpaceP4PairP8Criteria" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC2MCEP5SpaceP4PairP8Criteria">
+<span id="feasst::MC::MC__SpaceP.PairP.CriteriaP"></span><span class="target" id="classfeasst_1_1MC_1aaf4892ed164a98f24d5623ab6a8984d0"></span><code class="descname">MC</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a> *<em>space</em>, <a class="reference internal" href="Pair.html#_CPPv2N6feasst4PairE" title="feasst::Pair">Pair</a> *<em>pair</em>, <a class="reference internal" href="Criteria.html#_CPPv2N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC2MCEP5SpaceP4PairP8Criteria" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC2MCE10shared_ptrI5SpaceE10shared_ptrI4PairE10shared_ptrI8CriteriaE">
-<span id="MC::MC__shared_ptr:Space:.shared_ptr:Pair:.shared_ptr:Criteria:"></span><span class="target" id="classMC_1aa7fc12c96d0b6bbe488fa5d6ecc00d40"></span><code class="descname">MC</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a>&gt; <em>space</em>, shared_ptr&lt;<a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a>&gt; <em>pair</em>, shared_ptr&lt;<a class="reference internal" href="Criteria.html#_CPPv28Criteria" title="Criteria">Criteria</a>&gt; <em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC2MCE10shared_ptrI5SpaceE10shared_ptrI4PairE10shared_ptrI8CriteriaE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC2MCE10shared_ptrI5SpaceE10shared_ptrI4PairE10shared_ptrI8CriteriaE">
+<span id="feasst::MC::MC__shared_ptr:Space:.shared_ptr:Pair:.shared_ptr:Criteria:"></span><span class="target" id="classfeasst_1_1MC_1a41b46b3e061175895420b1d9a3a6e1ad"></span><code class="descname">MC</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a>&gt; <em>space</em>, shared_ptr&lt;<a class="reference internal" href="Pair.html#_CPPv2N6feasst4PairE" title="feasst::Pair">Pair</a>&gt; <em>pair</em>, shared_ptr&lt;<a class="reference internal" href="Criteria.html#_CPPv2N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a>&gt; <em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC2MCE10shared_ptrI5SpaceE10shared_ptrI4PairE10shared_ptrI8CriteriaE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC9initTrialE10shared_ptrI5TrialE">
-<span id="MC::initTrial__shared_ptr:Trial:"></span><span class="target" id="classMC_1a1ce4fa1831d624a2789367887c3e8fb4"></span>void <code class="descname">initTrial</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="Trial.html#_CPPv25Trial" title="Trial">Trial</a>&gt; <em>trial</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC9initTrialE10shared_ptrI5TrialE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Add trial to <a class="reference internal" href="#classMC"><span class="std std-ref">MC</span></a> with trial weight set to current weight. </p>
+<dt id="_CPPv2N6feasst2MC2MCE10shared_ptrI4PairE10shared_ptrI8CriteriaE">
+<span id="feasst::MC::MC__shared_ptr:Pair:.shared_ptr:Criteria:"></span><span class="target" id="classfeasst_1_1MC_1af184d8b04e3b5ba6121b70a051543de4"></span><code class="descname">MC</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="Pair.html#_CPPv2N6feasst4PairE" title="feasst::Pair">Pair</a>&gt; <em>pair</em>, shared_ptr&lt;<a class="reference internal" href="Criteria.html#_CPPv2N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a>&gt; <em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC2MCE10shared_ptrI4PairE10shared_ptrI8CriteriaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC12attemptTrialEv">
-<span id="MC::attemptTrial"></span><span class="target" id="classMC_1a3d161aed308207b7cc886d0865e6d735"></span>void <code class="descname">attemptTrial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC12attemptTrialEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC9initTrialE10shared_ptrI5TrialE">
+<span id="feasst::MC::initTrial__shared_ptr:Trial:"></span><span class="target" id="classfeasst_1_1MC_1afb0d1b6071997c4251a73e153e866cda"></span>void <code class="descname">initTrial</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="Trial.html#_CPPv2N6feasst5TrialE" title="feasst::Trial">Trial</a>&gt; <em>trial</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC9initTrialE10shared_ptrI5TrialE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add trial to <a class="reference internal" href="#classfeasst_1_1MC"><span class="std std-ref">MC</span></a> with trial weight set to current weight. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6feasst2MC12attemptTrialEv">
+<span id="feasst::MC::attemptTrial"></span><span class="target" id="classfeasst_1_1MC_1ac4715ebde591389132c8b70a9e364017"></span>void <code class="descname">attemptTrial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC12attemptTrialEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Attempt a random trial according to weights. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC13confSwapTrialEv">
-<span id="MC::confSwapTrial"></span><span class="target" id="classMC_1aac3d996ac581099e8a65779da0298316"></span>void <code class="descname">confSwapTrial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC13confSwapTrialEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC13confSwapTrialEv">
+<span id="feasst::MC::confSwapTrial"></span><span class="target" id="classfeasst_1_1MC_1ab3a5fabcc0f16d1564a130e2a37dac4f"></span>void <code class="descname">confSwapTrial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC13confSwapTrialEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add configuration swap trial. HWH: Depreciate, but requires communication between processors for OMP. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC11removeTrialEi">
-<span id="MC::removeTrial__i"></span><span class="target" id="classMC_1a34b8305c8171eebda8c45bfe9fea901d"></span>void <code class="descname">removeTrial</code><span class="sig-paren">(</span>int <em>iTrial</em> = -1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC11removeTrialEi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC11removeTrialEi">
+<span id="feasst::MC::removeTrial__i"></span><span class="target" id="classfeasst_1_1MC_1a73ebe7ad542dd0ecd405e76cd2dda9b2"></span>void <code class="descname">removeTrial</code><span class="sig-paren">(</span>int <em>iTrial</em> = -1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC11removeTrialEi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Remove trial with index in order of initialization. If iTrial is not provided, remove the last trial that was added. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC12runNumTrialsEKx">
-<span id="MC::runNumTrials__l-lC"></span><span class="target" id="classMC_1a7e791c483a2c37459548fb09e67931a8"></span>void <code class="descname">runNumTrials</code><span class="sig-paren">(</span><em class="property">const</em> long long <em>npr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC12runNumTrialsEKx" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC12runNumTrialsEKx">
+<span id="feasst::MC::runNumTrials__l-lC"></span><span class="target" id="classfeasst_1_1MC_1ab4bc17fda25c6f36d862dcfeefea2571"></span>void <code class="descname">runNumTrials</code><span class="sig-paren">(</span><em class="property">const</em> long long <em>npr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC12runNumTrialsEKx" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Run a simulation with “npr” trials. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC14initProductionEv">
-<span id="MC::initProduction"></span><span class="target" id="classMC_1a16e1135caac865dad8250bc05fbcd77e"></span>void <code class="descname">initProduction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC14initProductionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC14initProductionEv">
+<span id="feasst::MC::initProduction"></span><span class="target" id="classfeasst_1_1MC_1a90c8caa30aee891cd8bc0f9e225046f2"></span>void <code class="descname">initProduction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC14initProductionEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize production run. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC28setProductionFileDescriptionEPKc">
-<span id="MC::setProductionFileDescription__cCP"></span><span class="target" id="classMC_1a60d03a554ed1a3d17f76272af523f88b"></span>void <code class="descname">setProductionFileDescription</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>append</em> = &quot;_prod&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC28setProductionFileDescriptionEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC28setProductionFileDescriptionEPKc">
+<span id="feasst::MC::setProductionFileDescription__cCP"></span><span class="target" id="classfeasst_1_1MC_1a19436f6902f2406bfe2de2ea2554b93e"></span>void <code class="descname">setProductionFileDescription</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>append</em> = &quot;_prod&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC28setProductionFileDescriptionEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>For renaming files for production, set the appended name. For example, the default “pr” would rename files “file” -&gt; “filepr” </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC8zeroStatEv">
-<span id="MC::zeroStat"></span><span class="target" id="classMC_1a90d4f8fbfedf48d094fde0154351188b"></span>void <code class="descname">zeroStat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC8zeroStatEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC8zeroStatEv">
+<span id="feasst::MC::zeroStat"></span><span class="target" id="classfeasst_1_1MC_1a3020673084f05c6f9d5d059deef4b84f"></span>void <code class="descname">zeroStat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC8zeroStatEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Zero statistics of all mc variables, criteria, and all trials. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC8nMolSeekEKiPKcxKd">
-<span id="MC::nMolSeek__iC.cCP.l-l.doubleC"></span><span class="target" id="classMC_1a26d9c435afd55eef0be123e577258e6c"></span>void <code class="descname">nMolSeek</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nMol</em>, <em class="property">const</em> char *<em>molType</em>, long long <em>maxAttempts</em>, <em class="property">const</em> double <em>volumeExpansion</em> = 1.2<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC8nMolSeekEKiPKcxKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC8nMolSeekEKiPKcxKd">
+<span id="feasst::MC::nMolSeek__iC.cCP.l-l.doubleC"></span><span class="target" id="classfeasst_1_1MC_1a065a035ec139a9d0b0dbc0daa4eec0de"></span>void <code class="descname">nMolSeek</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nMol</em>, <em class="property">const</em> char *<em>molType</em>, long long <em>maxAttempts</em>, <em class="property">const</em> double <em>volumeExpansion</em> = 1.2<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC8nMolSeekEKiPKcxKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -143,63 +149,63 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC7initLogEPKcKx">
-<span id="MC::initLog__cCP.l-lC"></span><span class="target" id="classMC_1ae0e52260ddb3f709bd43721a5cdd5903"></span>void <code class="descname">initLog</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> long long <em>nfreq</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC7initLogEPKcKx" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC7initLogEPKcKx">
+<span id="feasst::MC::initLog__cCP.l-lC"></span><span class="target" id="classfeasst_1_1MC_1a0661d17ef66a0ec47358a4cdfea39170"></span>void <code class="descname">initLog</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> long long <em>nfreq</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC7initLogEPKcKx" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>initialize log file name and number of trials per print. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC9initMovieEPKcKi">
-<span id="MC::initMovie__cCP.iC"></span><span class="target" id="classMC_1a6e07d3eb2db77a80a4c399216c9597d9"></span>void <code class="descname">initMovie</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>nfreq</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC9initMovieEPKcKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>initialize movie file name and number of trials per print. </p>
+<dt id="_CPPv2N6feasst2MC9initMovieEPKcKi">
+<span id="feasst::MC::initMovie__cCP.iC"></span><span class="target" id="classfeasst_1_1MC_1aceda0c1f1133e9f9ea2f35ff939cd394"></span>void <code class="descname">initMovie</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>nfreq</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC9initMovieEPKcKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>initialize movie file name and number of trials per print. HWH: This method has been depreciated in favor of <a class="reference internal" href="AnalyzeTRAJ.html#classfeasst_1_1AnalyzeTRAJ"><span class="std std-ref">AnalyzeTRAJ</span></a> </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC7initXTCEPKcKi">
-<span id="MC::initXTC__cCP.iC"></span><span class="target" id="classMC_1aa3171ca009cf9849dd75ab2c082f49ca"></span>void <code class="descname">initXTC</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>nfreq</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC7initXTCEPKcKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize XTC file name and number of trials per print. </p>
+<dt id="_CPPv2N6feasst2MC7initXTCEPKcKi">
+<span id="feasst::MC::initXTC__cCP.iC"></span><span class="target" id="classfeasst_1_1MC_1af02ed455590c7a7db23966edc6b433b9"></span>void <code class="descname">initXTC</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>nfreq</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC7initXTCEPKcKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize XTC file name and number of trials per print. HWH: Depreciated method. Use <a class="reference internal" href="AnalyzeTRAJ.html#classfeasst_1_1AnalyzeTRAJ"><span class="std std-ref">AnalyzeTRAJ</span></a>. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC14setNFreqCheckEEKdKd">
-<span id="MC::setNFreqCheckE__doubleC.doubleC"></span><span class="target" id="classMC_1a095ef07b8de7043449bdab9ae78df2f7"></span>void <code class="descname">setNFreqCheckE</code><span class="sig-paren">(</span><em class="property">const</em> double <em>nfreq</em>, <em class="property">const</em> double <em>tolerance</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC14setNFreqCheckEEKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC14setNFreqCheckEEKdKd">
+<span id="feasst::MC::setNFreqCheckE__doubleC.doubleC"></span><span class="target" id="classfeasst_1_1MC_1aabb125c7c146f70afd6358bb5e2557d3"></span>void <code class="descname">setNFreqCheckE</code><span class="sig-paren">(</span><em class="property">const</em> double <em>nfreq</em>, <em class="property">const</em> double <em>tolerance</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC14setNFreqCheckEEKdKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize freqeuncy to check running energy against the total energy recalculated every nfreq trials. Error if not within tolerance. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC12setNFreqTuneEKd">
-<span id="MC::setNFreqTune__doubleC"></span><span class="target" id="classMC_1af160c591aaaa54b43207f10524e8c803"></span>void <code class="descname">setNFreqTune</code><span class="sig-paren">(</span><em class="property">const</em> double <em>nfreq</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC12setNFreqTuneEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC12setNFreqTuneEKd">
+<span id="feasst::MC::setNFreqTune__doubleC"></span><span class="target" id="classfeasst_1_1MC_1a1323c6eb27d2f1159e6b269d1b68e591"></span>void <code class="descname">setNFreqTune</code><span class="sig-paren">(</span><em class="property">const</em> double <em>nfreq</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC12setNFreqTuneEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize frequency to tune trial parameters. Note that tuning does not obey detailed balance. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC11initRestartEPKcKi">
-<span id="MC::initRestart__cCP.iC"></span><span class="target" id="classMC_1adaeec31730f495e03770b4797fb15bef"></span>void <code class="descname">initRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>nfreq</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC11initRestartEPKcKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC11initRestartEPKcKi">
+<span id="feasst::MC::initRestart__cCP.iC"></span><span class="target" id="classfeasst_1_1MC_1a35c546fc8e4c65b259a4a65a67c290b2"></span>void <code class="descname">initRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>nfreq</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC11initRestartEPKcKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize restart file name and print every nfreq trials. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC11initAnalyzeE10shared_ptrI7AnalyzeE">
-<span id="MC::initAnalyze__shared_ptr:Analyze:"></span><span class="target" id="classMC_1adc9c3216392bd2b049f601c0306778dd"></span>void <code class="descname">initAnalyze</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="Analyze.html#_CPPv27Analyze" title="Analyze">Analyze</a>&gt; <em>analyze</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC11initAnalyzeE10shared_ptrI7AnalyzeE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC11initAnalyzeE10shared_ptrI7AnalyzeE">
+<span id="feasst::MC::initAnalyze__shared_ptr:Analyze:"></span><span class="target" id="classfeasst_1_1MC_1af303ea940356838111554e3f5766ae71"></span>void <code class="descname">initAnalyze</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="Analyze.html#_CPPv2N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a>&gt; <em>analyze</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC11initAnalyzeE10shared_ptrI7AnalyzeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize Analyzer. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC9printStatEKNSt6stringE">
-<span id="MC::printStat__ssC"></span><span class="target" id="classMC_1a8af38da3cd85291ba23bd03227eab843"></span>void <code class="descname">printStat</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>hash</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC9printStatEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC9printStatEv">
+<span id="feasst::MC::printStat"></span><span class="target" id="classfeasst_1_1MC_1a17666d8af2471a398cb5d5018ef2b950"></span>void <code class="descname">printStat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC9printStatEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>print functions </p>
 <p>print status of all trials to log </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC8pePerMolEv">
-<span id="MC::pePerMol"></span><span class="target" id="classMC_1aa4227c95337bee2e477bd7dce620d437"></span>double <code class="descname">pePerMol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC8pePerMolEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC8pePerMolEv">
+<span id="feasst::MC::pePerMol"></span><span class="target" id="classfeasst_1_1MC_1a56a40aff97f0a714238a0be739870154"></span>double <code class="descname">pePerMol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC8pePerMolEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>print potential energy per molecule </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC12neighAVBInitEKdKd">
-<span id="MC::neighAVBInit__doubleC.doubleC"></span><span class="target" id="classMC_1ad0b23c52798f71412119c4157fe298ce"></span>void <code class="descname">neighAVBInit</code><span class="sig-paren">(</span><em class="property">const</em> double <em>rAbove</em>, <em class="property">const</em> double <em>rBelow</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC12neighAVBInitEKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC12neighAVBInitEKdKd">
+<span id="feasst::MC::neighAVBInit__doubleC.doubleC"></span><span class="target" id="classfeasst_1_1MC_1a64b806b7dd91c6426d29ea1b50593c08"></span>void <code class="descname">neighAVBInit</code><span class="sig-paren">(</span><em class="property">const</em> double <em>rAbove</em>, <em class="property">const</em> double <em>rBelow</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC12neighAVBInitEKdKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>turn on neigh list for avb trials, </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -213,26 +219,26 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC15appendFileNamesEPKc">
-<span id="MC::appendFileNames__cCP"></span><span class="target" id="classMC_1ace934355e9a79bfec75542debbdebd22"></span>void <code class="descname">appendFileNames</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>chars</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC15appendFileNamesEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC15appendFileNamesEPKc">
+<span id="feasst::MC::appendFileNames__cCP"></span><span class="target" id="classfeasst_1_1MC_1a906791a395a369e12719574775cb40e9"></span>void <code class="descname">appendFileNames</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>chars</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC15appendFileNamesEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Append chars to all fileNames. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC25appendProductionFileNamesEPKc">
-<span id="MC::appendProductionFileNames__cCP"></span><span class="target" id="classMC_1aeeefb406c8f550490bf00be545a817ac"></span>void <code class="descname">appendProductionFileNames</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>chars</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC25appendProductionFileNamesEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC25appendProductionFileNamesEPKc">
+<span id="feasst::MC::appendProductionFileNames__cCP"></span><span class="target" id="classfeasst_1_1MC_1ad580f79b4fc087a986419faf3588bf51"></span>void <code class="descname">appendProductionFileNames</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>chars</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC25appendProductionFileNamesEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Append chars to all file names associated with production. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC18checkTrialCriteriaEv">
-<span id="MC::checkTrialCriteria"></span><span class="target" id="classMC_1a7a51428578a824612f448da8cef98767"></span>int <code class="descname">checkTrialCriteria</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC18checkTrialCriteriaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC18checkTrialCriteriaEv">
+<span id="feasst::MC::checkTrialCriteria"></span><span class="target" id="classfeasst_1_1MC_1ab310edbfc5160cc2dcb384bf29171aa2"></span>int <code class="descname">checkTrialCriteria</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC18checkTrialCriteriaEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Check that criteria of all trials are the same. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC7b2mayerEPdPdP4PairKdd">
-<span id="MC::b2mayer__doubleP.doubleP.PairP.doubleC.double"></span><span class="target" id="classMC_1a35ef5f88281092c6520b662568de66f9"></span>void <code class="descname">b2mayer</code><span class="sig-paren">(</span>double *<em>b2v</em>, double *<em>b2er</em>, <a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pairRef</em>, <em class="property">const</em> double <em>tol</em> = 1e-4, double <em>boxl</em> = -1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC7b2mayerEPdPdP4PairKdd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC7b2mayerEPdPdP4PairKdd">
+<span id="feasst::MC::b2mayer__doubleP.doubleP.PairP.doubleC.double"></span><span class="target" id="classfeasst_1_1MC_1ad961b7eb9486f7b42f6029d700bdeb2f"></span>void <code class="descname">b2mayer</code><span class="sig-paren">(</span>double *<em>b2v</em>, double *<em>b2er</em>, <a class="reference internal" href="Pair.html#_CPPv2N6feasst4PairE" title="feasst::Pair">Pair</a> *<em>pairRef</em>, <em class="property">const</em> double <em>tol</em> = 1e-4, double <em>boxl</em> = -1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC7b2mayerEPdPdP4PairKdd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -248,32 +254,32 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC16removeConfigBiasEv">
-<span id="MC::removeConfigBias"></span><span class="target" id="classMC_1aa7b0926dd9fe0b90e00f145265c7dbac"></span>void <code class="descname">removeConfigBias</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC16removeConfigBiasEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC16removeConfigBiasEv">
+<span id="feasst::MC::removeConfigBias"></span><span class="target" id="classfeasst_1_1MC_1a1a1d37d1a7afb73cf5d6205f56c5fb32"></span>void <code class="descname">removeConfigBias</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC16removeConfigBiasEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Remove all configurational bias trials. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC15removeOwnershipEv">
-<span id="MC::removeOwnership"></span><span class="target" id="classMC_1aba8d64eb209c8eb023bed0e24fb62775"></span>void <code class="descname">removeOwnership</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC15removeOwnershipEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC15removeOwnershipEv">
+<span id="feasst::MC::removeOwnership"></span><span class="target" id="classfeasst_1_1MC_1acc0e0342aef6a2b7fbc558500dbcd953"></span>void <code class="descname">removeOwnership</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC15removeOwnershipEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>remove ownership of pointers </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK2MC7nTrialsEv">
-<span id="MC::nTrialsC"></span><span class="target" id="classMC_1a66d2bc28dc27f7e4f143abaef070f4fa"></span>int <code class="descname">nTrials</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK2MC7nTrialsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst2MC7nTrialsEv">
+<span id="feasst::MC::nTrialsC"></span><span class="target" id="classfeasst_1_1MC_1a15f63f577d3ac15e123b4169dd04433b"></span>int <code class="descname">nTrials</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst2MC7nTrialsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>read only access to protected variables </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC12writeRestartEPKc">
-<span id="MC::writeRestart__cCP"></span><span class="target" id="classMC_1ac1c6a30951ef9b3717f8dbc617d3a4ea"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC12writeRestartEPKc">
+<span id="feasst::MC::writeRestart__cCP"></span><span class="target" id="classfeasst_1_1MC_1a505179272c60b7c9774a73cfd091b524"></span>void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Write restart file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N2MC2MCEPKc">
-<span id="MC::MC__cCP"></span><span class="target" id="classMC_1a3a269928e2ed030f53dc5799cb42fd88"></span><code class="descname">MC</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N2MC2MCEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC2MCEPKc">
+<span id="feasst::MC::MC__cCP"></span><span class="target" id="classfeasst_1_1MC_1a65aff464db4efef86b291dfa35c7931d"></span><code class="descname">MC</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst2MC2MCEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construction by restart file. </p>
 </dd></dl>
 
@@ -281,8 +287,8 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Members</p>
 <dl class="member">
-<dt id="_CPPv2N2MC6weightE">
-<span id="MC::weight__double"></span><span class="target" id="classMC_1acecb891fe66847fe537c827f7cc90e13"></span>double <code class="descname">weight</code> = 1.<a class="headerlink" href="#_CPPv2N2MC6weightE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst2MC6weightE">
+<span id="feasst::MC::weight__double"></span><span class="target" id="classfeasst_1_1MC_1a671a1a8ccda306b36d2e5bc6a622b3b0"></span>double <code class="descname">weight</code> = 1.<a class="headerlink" href="#_CPPv2N6feasst2MC6weightE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Weight for probability of selection of Monte Carlo trials. </p>
 </dd></dl>
 
@@ -300,7 +306,7 @@
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
@@ -324,6 +330,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
@@ -352,7 +359,7 @@
         <li class="right" >
           <a href="mctoc.html" title="MC Classes"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="mctoc.html" >MC Classes</a> &#187;</li> 
       </ul>

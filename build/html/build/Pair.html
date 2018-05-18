@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Pair &#8212; FEASST v0.3.1 documentation</title>
+    <title>Pair &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pairtoc.html" title="Pair Classes"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" accesskey="U">Pair Classes</a> &#187;</li> 
       </ul>
@@ -58,25 +58,26 @@
   <div class="section" id="pair">
 <h1>Pair<a class="headerlink" href="#pair" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv24Pair">
-<span id="Pair"></span><span class="target" id="classPair"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">Pair</code><a class="headerlink" href="#_CPPv24Pair" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="#classPair"><span class="std std-ref">Pair</span></a> owns variables and subroutines associated with pair-wise interactions between particles. The pair class calculates the pair-wise interactions between atoms using an empirical, classical potential function for atoms. This class owns variables and functions associated with these interactions such as the forces, potential energy and virial (pressure).</p>
-<p>All <a class="reference internal" href="#classPair"><span class="std std-ref">Pair</span></a> classes are expected to have the following<ul class="simple">
+<dt id="_CPPv2N6feasst4PairE">
+<span id="feasst::Pair"></span><span class="target" id="classfeasst_1_1Pair"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">Pair</code><a class="headerlink" href="#_CPPv2N6feasst4PairE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#classfeasst_1_1Pair"><span class="std std-ref">Pair</span></a> owns variables and subroutines associated with pair-wise interactions between particles. The pair class calculates the pair-wise interactions between atoms using an empirical, classical potential function for atoms. This class owns variables and functions associated with these interactions such as the forces, potential energy and virial (pressure).</p>
+<p>All <a class="reference internal" href="#classfeasst_1_1Pair"><span class="std std-ref">Pair</span></a> classes are expected to have the following<ul class="simple">
 <li>initialization via data file, which sets the epsilons and sigmas</li>
 <li>interaction cutoff distance</li>
 </ul>
 </p>
-<p>In order to create a custom <a class="reference internal" href="#classPair"><span class="std std-ref">Pair</span></a>, you can follow two similar procedures.</p>
-<p>First, you may define a custom <a class="reference internal" href="#classPair"><span class="std std-ref">Pair</span></a> code in the same file as “int main()” for C++. See an example of this for the Jagla potential <a class="reference external" href="testcase/2_jagla_1_ref-config_README.html">test case</a>.</p>
+<p>In order to create a custom <a class="reference internal" href="#classfeasst_1_1Pair"><span class="std std-ref">Pair</span></a>, you can follow two similar procedures.</p>
+<p>First, you may define a custom <a class="reference internal" href="#classfeasst_1_1Pair"><span class="std std-ref">Pair</span></a> code in the same file as “int main()” for C++. See an example of this for the Jagla potential <a class="reference external" href="tutorial/2_jagla_1_ref-config_README.html">test case</a>.</p>
 <p>Second, you may copy existing “pair_*” files and replace the class name and header guards (e.g. BASECLASS_DERIVED_H_). </p>
-<p>Inherits from <a class="reference internal" href="BaseRandom.html#classBaseRandom"><span class="std std-ref">BaseRandom</span></a></p>
-<p>Subclassed by <a class="reference internal" href="PairHardCircle.html#classPairHardCircle"><span class="std std-ref">PairHardCircle</span></a>, <a class="reference internal" href="PairHardSphere.html#classPairHardSphere"><span class="std std-ref">PairHardSphere</span></a>, <a class="reference internal" href="PairHybrid.html#classPairHybrid"><span class="std std-ref">PairHybrid</span></a>, <a class="reference internal" href="PairIdeal.html#classPairIdeal"><span class="std std-ref">PairIdeal</span></a>, <a class="reference internal" href="PairLJ.html#classPairLJ"><span class="std std-ref">PairLJ</span></a>, <a class="reference internal" href="PairLJCoulEwald.html#classPairLJCoulEwald"><span class="std std-ref">PairLJCoulEwald</span></a>, <a class="reference internal" href="PairPatchKF.html#classPairPatchKF"><span class="std std-ref">PairPatchKF</span></a>, <a class="reference internal" href="PairSoftSphere.html#classPairSoftSphere"><span class="std std-ref">PairSoftSphere</span></a>, <a class="reference internal" href="PairSquareWell.html#classPairSquareWell"><span class="std std-ref">PairSquareWell</span></a>, <a class="reference internal" href="PairTabular1D.html#classPairTabular1D"><span class="std std-ref">PairTabular1D</span></a></p>
+<p>Inherits from <a class="reference internal" href="BaseRandom.html#classfeasst_1_1BaseRandom"><span class="std std-ref">feasst::BaseRandom</span></a></p>
+<p>Subclassed by <a class="reference internal" href="PairHardCircle.html#classfeasst_1_1PairHardCircle"><span class="std std-ref">feasst::PairHardCircle</span></a>, <a class="reference internal" href="PairHardSphere.html#classfeasst_1_1PairHardSphere"><span class="std std-ref">feasst::PairHardSphere</span></a>, <a class="reference internal" href="PairHybrid.html#classfeasst_1_1PairHybrid"><span class="std std-ref">feasst::PairHybrid</span></a>, <a class="reference internal" href="PairIdeal.html#classfeasst_1_1PairIdeal"><span class="std std-ref">feasst::PairIdeal</span></a>, <a class="reference internal" href="PairLJ.html#classfeasst_1_1PairLJ"><span class="std std-ref">feasst::PairLJ</span></a>, <a class="reference internal" href="PairLJCoulEwald.html#classfeasst_1_1PairLJCoulEwald"><span class="std std-ref">feasst::PairLJCoulEwald</span></a>, <a class="reference internal" href="PairPatchKF.html#classfeasst_1_1PairPatchKF"><span class="std std-ref">feasst::PairPatchKF</span></a>, <a class="reference internal" href="PairSoftSphere.html#classfeasst_1_1PairSoftSphere"><span class="std std-ref">feasst::PairSoftSphere</span></a>, <a class="reference internal" href="PairSquareWell.html#classfeasst_1_1PairSquareWell"><span class="std std-ref">feasst::PairSquareWell</span></a>, <a class="reference internal" href="PairTabular1D.html#classfeasst_1_1PairTabular1D"><span class="std std-ref">feasst::PairTabular1D</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv2N4Pair4PairEP5SpaceRK7argtype">
-<span id="Pair::Pair__SpaceP.argtypeCR"></span><span class="target" id="classPair_1aefba8a74a47cc648233ce3712a581fc3"></span><code class="descname">Pair</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<em>space</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair4PairEP5SpaceRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="docutils">
+<dt id="_CPPv2N6feasst4Pair4PairEP5SpaceRK7argtype">
+<span id="feasst::Pair::Pair__SpaceP.argtypeCR"></span><span class="target" id="classfeasst_1_1Pair_1ab43aac1edda1ab586a51ddd047697b0e"></span><code class="descname">Pair</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a> *<em>space</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair4PairEP5SpaceRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+<p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last">
 <li><p class="first"><code class="docutils literal"><span class="pre">args</span></code>: allowed string key pairs (e.g. dictionary):</p>
@@ -90,49 +91,41 @@
 </dd>
 </dl>
 </p>
-<p>Constructor. <dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal"><span class="pre">rCut</span></code>: Interaction cut-off distance </li>
-</ul>
-</dd>
-</dl>
-</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair10initEnergyEv">
-<span id="Pair::initEnergy"></span><span class="target" id="classPair_1aa429b6fe16673e9836d0f3204e88485f"></span><em class="property">virtual</em> void <code class="descname">initEnergy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair10initEnergyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair10initEnergyEv">
+<span id="feasst::Pair::initEnergy"></span><span class="target" id="classfeasst_1_1Pair_1a2e1ea9adeacb93f58fb3e2a65c9e4d1a"></span><em class="property">virtual</em> void <code class="descname">initEnergy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair10initEnergyEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize interactions. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair5peTotEv">
-<span id="Pair::peTot"></span><span class="target" id="classPair_1a0ece531bf5d6e7b1eb7adec97ab951f1"></span><em class="property">virtual</em> double <code class="descname">peTot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair5peTotEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair5peTotEv">
+<span id="feasst::Pair::peTot"></span><span class="target" id="classfeasst_1_1Pair_1af7673bd1a5df371b2a4b2c3f0514a6cd"></span><em class="property">virtual</em> double <code class="descname">peTot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair5peTotEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return total potential energy of system. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair13multiPartEnerEK6vectorIiEKi">
-<span id="Pair::multiPartEner__vector:i:C.iC"></span><span class="target" id="classPair_1affdc0d53723025e20918baf81bf05457"></span>double <code class="descname">multiPartEner</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>multiPart</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair13multiPartEnerEK6vectorIiEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair13multiPartEnerEK6vectorIiEKi">
+<span id="feasst::Pair::multiPartEner__vector:i:C.iC"></span><span class="target" id="classfeasst_1_1Pair_1aaca3cc700b25fef6ea3d1298999e37e0"></span>double <code class="descname">multiPartEner</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>multiPart</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair13multiPartEnerEK6vectorIiEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return potential energy of multiple particles. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair25multiPartEnerAtomCutInnerERKdRKiRKi">
-<span id="Pair::multiPartEnerAtomCutInner__doubleCR.iCR.iCR"></span><span class="target" id="classPair_1a5a6e34bde2d8af8b6115a59e853e0239"></span><em class="property">virtual</em> int <code class="descname">multiPartEnerAtomCutInner</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r2</em>, <em class="property">const</em> int &amp;<em>itype</em>, <em class="property">const</em> int &amp;<em>jtype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair25multiPartEnerAtomCutInnerERKdRKiRKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Compute the interaction between two particles itype and jtype separated by a squared distance r2=r*r. Increments the interaction in the <a class="reference internal" href="#classPair"><span class="std std-ref">Pair</span></a> class variable “peSRone_”. Return 1 if particles are neighbors. </p>
+<dt id="_CPPv2N6feasst4Pair25multiPartEnerAtomCutInnerERKdRKiRKi">
+<span id="feasst::Pair::multiPartEnerAtomCutInner__doubleCR.iCR.iCR"></span><span class="target" id="classfeasst_1_1Pair_1a0ba47e88f19cc0f46686d5542ffda9f2"></span><em class="property">virtual</em> int <code class="descname">multiPartEnerAtomCutInner</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r2</em>, <em class="property">const</em> int &amp;<em>itype</em>, <em class="property">const</em> int &amp;<em>jtype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair25multiPartEnerAtomCutInnerERKdRKiRKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the interaction between two particles itype and jtype separated by a squared distance r2=r*r. Increments the interaction in the <a class="reference internal" href="#classfeasst_1_1Pair"><span class="std std-ref">Pair</span></a> class variable “peSRone_”. Return 1 if particles are neighbors. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair21allPartEnerForceInnerERKdRKdRKdRKdRKiRKiRKiRKi">
-<span id="Pair::allPartEnerForceInner__doubleCR.doubleCR.doubleCR.doubleCR.iCR.iCR.iCR.iCR"></span><span class="target" id="classPair_1a90fb820dfa9029e25b4bcbabe7b67265"></span><em class="property">virtual</em> void <code class="descname">allPartEnerForceInner</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r2</em>, <em class="property">const</em> double &amp;<em>dx</em>, <em class="property">const</em> double &amp;<em>dy</em>, <em class="property">const</em> double &amp;<em>dz</em>, <em class="property">const</em> int &amp;<em>itype</em>, <em class="property">const</em> int &amp;<em>jtype</em>, <em class="property">const</em> int &amp;<em>iMol</em>, <em class="property">const</em> int &amp;<em>jMol</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair21allPartEnerForceInnerERKdRKdRKdRKdRKiRKiRKiRKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair21allPartEnerForceInnerERKdRKdRKdRKdRKiRKiRKiRKi">
+<span id="feasst::Pair::allPartEnerForceInner__doubleCR.doubleCR.doubleCR.doubleCR.iCR.iCR.iCR.iCR"></span><span class="target" id="classfeasst_1_1Pair_1a78677b69d3f27467c9bd6e3961129fb2"></span><em class="property">virtual</em> void <code class="descname">allPartEnerForceInner</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r2</em>, <em class="property">const</em> double &amp;<em>dx</em>, <em class="property">const</em> double &amp;<em>dy</em>, <em class="property">const</em> double &amp;<em>dz</em>, <em class="property">const</em> int &amp;<em>itype</em>, <em class="property">const</em> int &amp;<em>jtype</em>, <em class="property">const</em> int &amp;<em>iMol</em>, <em class="property">const</em> int &amp;<em>jMol</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair21allPartEnerForceInnerERKdRKdRKdRKdRKiRKiRKiRKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute the interaction between two particles itype and jtype separated by a squared distance r2=r*r. Calls multiPartEnerAtomCutInner for energy, but also computes forces using dx,dy,dz and updates fCOM_. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair16allPartEnerForceEKi">
-<span id="Pair::allPartEnerForce__iC"></span><span class="target" id="classPair_1a1b570c8d813d00b210b27e53087c4f95"></span>double <code class="descname">allPartEnerForce</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair16allPartEnerForceEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair16allPartEnerForceEKi">
+<span id="feasst::Pair::allPartEnerForce__iC"></span><span class="target" id="classfeasst_1_1Pair_1a6b3d6cfc7f6d66aac550885cdd212c46"></span>double <code class="descname">allPartEnerForce</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair16allPartEnerForceEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute potential energy and forces of all particles. </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -145,20 +138,20 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair22allPartEnerForceNoCellEv">
-<span id="Pair::allPartEnerForceNoCell"></span><span class="target" id="classPair_1a048f0f3d5ed4437a1232673735a46bee"></span>double <code class="descname">allPartEnerForceNoCell</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair22allPartEnerForceNoCellEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair22allPartEnerForceNoCellEv">
+<span id="feasst::Pair::allPartEnerForceNoCell"></span><span class="target" id="classfeasst_1_1Pair_1aea0ce9dd5838a31269861d7279f864f5"></span>double <code class="descname">allPartEnerForceNoCell</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair22allPartEnerForceNoCellEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute potential energy and forces of all particles with molecule-based cut-off and no cell list in 3D. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair27allPartEnerForceMolCutInnerEKdKiKiKdKdKd">
-<span id="Pair::allPartEnerForceMolCutInner__doubleC.iC.iC.doubleC.doubleC.doubleC"></span><span class="target" id="classPair_1a105dffde5a4835142dcb57d7e6a7d82d"></span>void <code class="descname">allPartEnerForceMolCutInner</code><span class="sig-paren">(</span><em class="property">const</em> double <em>r2</em>, <em class="property">const</em> int <em>iMol</em>, <em class="property">const</em> int <em>jMol</em>, <em class="property">const</em> double <em>dx</em>, <em class="property">const</em> double <em>dy</em>, <em class="property">const</em> double <em>dz</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair27allPartEnerForceMolCutInnerEKdKiKiKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Compute interactions between two molecules. For the default behavior in <a class="reference internal" href="#classPair"><span class="std std-ref">Pair</span></a>, loop through each site and consider rCut between each site. </p>
+<dt id="_CPPv2N6feasst4Pair27allPartEnerForceMolCutInnerEKdKiKiKdKdKd">
+<span id="feasst::Pair::allPartEnerForceMolCutInner__doubleC.iC.iC.doubleC.doubleC.doubleC"></span><span class="target" id="classfeasst_1_1Pair_1a1a42cc8c16060766bea39c0808833317"></span>void <code class="descname">allPartEnerForceMolCutInner</code><span class="sig-paren">(</span><em class="property">const</em> double <em>r2</em>, <em class="property">const</em> int <em>iMol</em>, <em class="property">const</em> int <em>jMol</em>, <em class="property">const</em> double <em>dx</em>, <em class="property">const</em> double <em>dy</em>, <em class="property">const</em> double <em>dz</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair27allPartEnerForceMolCutInnerEKdKiKiKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute interactions between two molecules. For the default behavior in <a class="reference internal" href="#classfeasst_1_1Pair"><span class="std std-ref">Pair</span></a>, loop through each site and consider rCut between each site. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair6updateEK6vectorIiEKiPKc">
-<span id="Pair::update__vector:i:C.iC.cCP"></span><span class="target" id="classPair_1a94673c09331baff9adfd36d403059c4d"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em>, <em class="property">const</em> char *<em>uptype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair6updateEK6vectorIiEKiPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair6updateEK6vectorIiEKiPKc">
+<span id="feasst::Pair::update__vector:i:C.iC.cCP"></span><span class="target" id="classfeasst_1_1Pair_1a24436b6ac99b3112c955f34c8cf88293"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em>, <em class="property">const</em> char *<em>uptype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair6updateEK6vectorIiEKiPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -179,21 +172,15 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair6updateEKd">
-<span id="Pair::update__doubleC"></span><span class="target" id="classPair_1a25642b0ae3520b313e5b392c90abb340"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> double <em>de</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair6updateEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair6updateEKd">
+<span id="feasst::Pair::update__doubleC"></span><span class="target" id="classfeasst_1_1Pair_1abc9b5ed9191a2bf9930cbd1f52a86047"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> double <em>de</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair6updateEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Update total potential energy, peTot_ with energy change, de. Doesn’t update anything else like neighbor lists, individual contributions, etc.</p>
 <p>This simple pair updating method doesn’t work with neighborlist. If you’re attempt AVB with ConfigBias, likely you forgot to enable dual-cut. However, this may work with TrialGCA </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair5vrTotEv">
-<span id="Pair::vrTot"></span><span class="target" id="classPair_1a5b7dd22b8ca136372b1933c8afaab0d0"></span>double <code class="descname">vrTot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair5vrTotEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return total scalar virial. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N4Pair8printxyzEPKcKiKNSt6stringE">
-<span id="Pair::printxyz__cCP.iC.ssC"></span><span class="target" id="classPair_1acff972efe6a177c9e2c860e5d3dd9794"></span>int <code class="descname">printxyz</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>initFlag</em>, <em class="property">const</em> std::string <em>comment</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair8printxyzEPKcKiKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair8printXYZEPKcKiKNSt6stringE">
+<span id="feasst::Pair::printXYZ__cCP.iC.ssC"></span><span class="target" id="classfeasst_1_1Pair_1a718b9e6089d29906ee607662bdd25f47"></span>int <code class="descname">printXYZ</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>initFlag</em>, <em class="property">const</em> std::string <em>comment</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair8printXYZEPKcKiKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Print XYZ format trajectory to a file. </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -206,8 +193,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair8printGROEPKcKi">
-<span id="Pair::printGRO__cCP.iC"></span><span class="target" id="classPair_1aaf49d45f65b06acdb40b44db67fc58fd"></span>int <code class="descname">printGRO</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>initFlag</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair8printGROEPKcKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair8printGROEPKcKi">
+<span id="feasst::Pair::printGRO__cCP.iC"></span><span class="target" id="classfeasst_1_1Pair_1a460c60031dc5d24012c806448f467792"></span>int <code class="descname">printGRO</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>initFlag</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair8printGROEPKcKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Print GRO format trajectory to a file. <dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -219,50 +206,50 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair7delPartEKi">
-<span id="Pair::delPart__iC"></span><span class="target" id="classPair_1ad213fdce3d3da05de0041b00e089bf11"></span><em class="property">virtual</em> void <code class="descname">delPart</code><span class="sig-paren">(</span><em class="property">const</em> int <em>ipart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair7delPartEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair7delPartEKi">
+<span id="feasst::Pair::delPart__iC"></span><span class="target" id="classfeasst_1_1Pair_1af9259beb30a0a195236bc2be4d21115f"></span><em class="property">virtual</em> void <code class="descname">delPart</code><span class="sig-paren">(</span><em class="property">const</em> int <em>ipart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair7delPartEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Delete one particle, ipart. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair7delPartEK6vectorIiE">
-<span id="Pair::delPart__vector:i:C"></span><span class="target" id="classPair_1a9a0680eec8bb27d25cd66e0bce35366c"></span><em class="property">virtual</em> void <code class="descname">delPart</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair7delPartEK6vectorIiE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair7delPartEK6vectorIiE">
+<span id="feasst::Pair::delPart__vector:i:C"></span><span class="target" id="classfeasst_1_1Pair_1a166bcd9e4ff410707cd1d37d8a05c1c3"></span><em class="property">virtual</em> void <code class="descname">delPart</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair7delPartEK6vectorIiE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Delete particles, mpart. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair6addMolEPKc">
-<span id="Pair::addMol__cCP"></span><span class="target" id="classPair_1aefe7a9dbc07e57f1353ed1d93d41aa9d"></span><em class="property">virtual</em> void <code class="descname">addMol</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair6addMolEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair6addMolEPKc">
+<span id="feasst::Pair::addMol__cCP"></span><span class="target" id="classfeasst_1_1Pair_1afee1bccee299c647c1eb360ef7716df5"></span><em class="property">virtual</em> void <code class="descname">addMol</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair6addMolEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add particle(s). </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair6addMolEK6vectorIdEPKc">
-<span id="Pair::addMol__vector:double:C.cCP"></span><span class="target" id="classPair_1af5790f41ebcdc4e446879f1a9c752961"></span>void <code class="descname">addMol</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;double&gt; <em>position</em>, <em class="property">const</em> char *<em>fileName</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair6addMolEK6vectorIdEPKc" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Add molecule at the specified position. If no file provided, use <a class="reference internal" href="Space.html#classSpace"><span class="std std-ref">Space</span></a> default behavior to decide which molecule (typically the first). </p>
+<dt id="_CPPv2N6feasst4Pair6addMolEK6vectorIdEPKc">
+<span id="feasst::Pair::addMol__vector:double:C.cCP"></span><span class="target" id="classfeasst_1_1Pair_1a0ec0138950af13e6351f8fc799f99e77"></span>void <code class="descname">addMol</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;double&gt; <em>position</em>, <em class="property">const</em> char *<em>fileName</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair6addMolEK6vectorIdEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add molecule at the specified position. If no file provided, use <a class="reference internal" href="Space.html#classfeasst_1_1Space"><span class="std std-ref">Space</span></a> default behavior to decide which molecule (typically the first). </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair6addMolEK6vectorIdEKNSt6stringE">
-<span id="Pair::addMol__vector:double:C.ssC"></span><span class="target" id="classPair_1ac145c7af3a82c6474aaf5d6745435117"></span>void <code class="descname">addMol</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;double&gt; <em>position</em>, <em class="property">const</em> std::string <em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair6addMolEK6vectorIdEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair6addMolEK6vectorIdEKNSt6stringE">
+<span id="feasst::Pair::addMol__vector:double:C.ssC"></span><span class="target" id="classfeasst_1_1Pair_1a8c56515bd0729d0c0e688c72066c1393"></span>void <code class="descname">addMol</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;double&gt; <em>position</em>, <em class="property">const</em> std::string <em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair6addMolEK6vectorIdEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add molecule at the specified position, using std::string. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair13initPairParamEK6vectorIdEK6vectorIdEK6vectorIdE">
-<span id="Pair::initPairParam__vector:double:C.vector:double:C.vector:double:C"></span><span class="target" id="classPair_1a7094804ac1334076d64c8a140a30f23f"></span>void <code class="descname">initPairParam</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;double&gt; <em>eps</em>, <em class="property">const</em> vector&lt;double&gt; <em>sig</em>, <em class="property">const</em> vector&lt;double&gt; <em>sigref</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair13initPairParamEK6vectorIdEK6vectorIdEK6vectorIdE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair13initPairParamEK6vectorIdEK6vectorIdEK6vectorIdE">
+<span id="feasst::Pair::initPairParam__vector:double:C.vector:double:C.vector:double:C"></span><span class="target" id="classfeasst_1_1Pair_1a7cf888c36a2e05e815dcb7d8d509f622"></span>void <code class="descname">initPairParam</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;double&gt; <em>eps</em>, <em class="property">const</em> vector&lt;double&gt; <em>sig</em>, <em class="property">const</em> vector&lt;double&gt; <em>sigref</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair13initPairParamEK6vectorIdEK6vectorIdEK6vectorIdE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize pair parameters with epsilon (interaciton scale), sigma (particle size) and sigRef (reference particle size). </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair13initPairParamEK6vectorIdEK6vectorIdE">
-<span id="Pair::initPairParam__vector:double:C.vector:double:C"></span><span class="target" id="classPair_1ae2a2b325dedcd54f22341c51dc4f61d6"></span>void <code class="descname">initPairParam</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;double&gt; <em>eps</em>, <em class="property">const</em> vector&lt;double&gt; <em>sig</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair13initPairParamEK6vectorIdEK6vectorIdE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair13initPairParamEK6vectorIdEK6vectorIdE">
+<span id="feasst::Pair::initPairParam__vector:double:C.vector:double:C"></span><span class="target" id="classfeasst_1_1Pair_1a7960b9d29063320db51ed06a339b9382"></span>void <code class="descname">initPairParam</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;double&gt; <em>eps</em>, <em class="property">const</em> vector&lt;double&gt; <em>sig</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair13initPairParamEK6vectorIdEK6vectorIdE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize pair parameters with epsilon (interaciton scale), and sigma (particle size). </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair13initNeighListEKdKd">
-<span id="Pair::initNeighList__doubleC.doubleC"></span><span class="target" id="classPair_1a5e43fdc9ac6b7d54cc3f4e8da731afc9"></span>void <code class="descname">initNeighList</code><span class="sig-paren">(</span><em class="property">const</em> double <em>neighAbove</em>, <em class="property">const</em> double <em>neighBelow</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair13initNeighListEKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair13initNeighListEKdKd">
+<span id="feasst::Pair::initNeighList__doubleC.doubleC"></span><span class="target" id="classfeasst_1_1Pair_1a35213cdd51eae5e69dabc521d5e3b845"></span>void <code class="descname">initNeighList</code><span class="sig-paren">(</span><em class="property">const</em> double <em>neighAbove</em>, <em class="property">const</em> double <em>neighBelow</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair13initNeighListEKdKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize neighbor list parameters. <dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -275,20 +262,20 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair14buildNeighListEv">
-<span id="Pair::buildNeighList"></span><span class="target" id="classPair_1a532f301bc6c22208d7d9af8575e433f9"></span>void <code class="descname">buildNeighList</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair14buildNeighListEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair14buildNeighListEv">
+<span id="feasst::Pair::buildNeighList"></span><span class="target" id="classfeasst_1_1Pair_1ad28fe2d00c7b0496316f3b1aad9dbdd1"></span>void <code class="descname">buildNeighList</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair14buildNeighListEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Build neighbor list for all particles. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair10checkNeighEv">
-<span id="Pair::checkNeigh"></span><span class="target" id="classPair_1abece67b095784f2f441c0b779d621e37"></span>int <code class="descname">checkNeigh</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair10checkNeighEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair10checkNeighEv">
+<span id="feasst::Pair::checkNeigh"></span><span class="target" id="classfeasst_1_1Pair_1ad862d5ecfdf122b5e577674e096756aa"></span>int <code class="descname">checkNeigh</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair10checkNeighEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return 1 if re-built neighborlist matchces current neighborlist. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair10updateBaseEK6vectorIiEKiPKcR6vectorI6vectorIiEER6vectorI6vectorIiEER6vectorI6vectorIiEE">
-<span id="Pair::updateBase__vector:i:C.iC.cCP.vector:vector:i::R.vector:vector:i::R.vector:vector:i::R"></span><span class="target" id="classPair_1a383658cd2118c2cc30c16ff0e39e8e13"></span>void <code class="descname">updateBase</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em>, <em class="property">const</em> char *<em>uptype</em>, vector&lt;vector&lt;int&gt;&gt; &amp;<em>neigh</em>, vector&lt;vector&lt;int&gt;&gt; &amp;<em>neighOne</em>, vector&lt;vector&lt;int&gt;&gt; &amp;<em>neighOneOld</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair10updateBaseEK6vectorIiEKiPKcR6vectorI6vectorIiEER6vectorI6vectorIiEER6vectorI6vectorIiEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair10updateBaseEK6vectorIiEKiPKcR6vectorI6vectorIiEER6vectorI6vectorIiEER6vectorI6vectorIiEE">
+<span id="feasst::Pair::updateBase__vector:i:C.iC.cCP.vector:vector:i::R.vector:vector:i::R.vector:vector:i::R"></span><span class="target" id="classfeasst_1_1Pair_1a1ba5713df66a29d48b0106d51b0266a1"></span>void <code class="descname">updateBase</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em>, <em class="property">const</em> char *<em>uptype</em>, vector&lt;vector&lt;int&gt;&gt; &amp;<em>neigh</em>, vector&lt;vector&lt;int&gt;&gt; &amp;<em>neighOne</em>, vector&lt;vector&lt;int&gt;&gt; &amp;<em>neighOneOld</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair10updateBaseEK6vectorIiEKiPKcR6vectorI6vectorIiEER6vectorI6vectorIiEER6vectorI6vectorIiEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -312,56 +299,56 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair11cheapEnergyEKi">
-<span id="Pair::cheapEnergy__iC"></span><span class="target" id="classPair_1ab283f9e662cb82526cb463c51d0d58b8"></span>void <code class="descname">cheapEnergy</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair11cheapEnergyEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair11cheapEnergyEKi">
+<span id="feasst::Pair::cheapEnergy__iC"></span><span class="target" id="classfeasst_1_1Pair_1af8983a6141eb188b662c0d4238f457d0"></span><em class="property">virtual</em> void <code class="descname">cheapEnergy</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair11cheapEnergyEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>sets the cheapEnergy boolean variable </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair11checkEnergyEKdKi">
-<span id="Pair::checkEnergy__doubleC.iC"></span><span class="target" id="classPair_1a07d5707816ba5687673b5b830d83d14b"></span>int <code class="descname">checkEnergy</code><span class="sig-paren">(</span><em class="property">const</em> double <em>tol</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair11checkEnergyEKdKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return 1 if the currently stored energy of the configuration matches. flag=0, check currently stroed peTot_ vs recomputed with <a class="reference internal" href="#classPair_1aa429b6fe16673e9836d0f3204e88485f"><span class="std std-ref">initEnergy()</span></a> flag=1, check peTot_ from <a class="reference internal" href="#classPair_1aa429b6fe16673e9836d0f3204e88485f"><span class="std std-ref">initEnergy()</span></a> vs peTot_ from multiPartEner with mpart=all atoms. This fails for intramolecular interactions. flag=2, check COM forces, fCOM_ from <a class="reference internal" href="#classPair_1aa429b6fe16673e9836d0f3204e88485f"><span class="std std-ref">initEnergy()</span></a> vs <a class="reference internal" href="#classPair_1a1b570c8d813d00b210b27e53087c4f95"><span class="std std-ref">allPartEnerForce()</span></a> </p>
+<dt id="_CPPv2N6feasst4Pair11checkEnergyEKdKi">
+<span id="feasst::Pair::checkEnergy__doubleC.iC"></span><span class="target" id="classfeasst_1_1Pair_1a6955d592914945a0131172d706235189"></span>int <code class="descname">checkEnergy</code><span class="sig-paren">(</span><em class="property">const</em> double <em>tol</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair11checkEnergyEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return 1 if the currently stored energy of the configuration matches. flag=0, check currently stroed peTot_ vs recomputed with <a class="reference internal" href="#classfeasst_1_1Pair_1a2e1ea9adeacb93f58fb3e2a65c9e4d1a"><span class="std std-ref">initEnergy()</span></a> flag=1, check peTot_ from <a class="reference internal" href="#classfeasst_1_1Pair_1a2e1ea9adeacb93f58fb3e2a65c9e4d1a"><span class="std std-ref">initEnergy()</span></a> vs peTot_ from multiPartEner with mpart=all atoms. This fails for intramolecular interactions. flag=2, check COM forces, fCOM_ from <a class="reference internal" href="#classfeasst_1_1Pair_1a2e1ea9adeacb93f58fb3e2a65c9e4d1a"><span class="std std-ref">initEnergy()</span></a> vs <a class="reference internal" href="#classfeasst_1_1Pair_1a6b3d6cfc7f6d66aac550885cdd212c46"><span class="std std-ref">allPartEnerForce()</span></a> </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair12initPairDataEKiK6vectorIdEK6vectorIdEK6vectorIdE">
-<span id="Pair::initPairData__iC.vector:double:C.vector:double:C.vector:double:C"></span><span class="target" id="classPair_1ad38de8b26f0fe29d7566493e138dd2da"></span>void <code class="descname">initPairData</code><span class="sig-paren">(</span><em class="property">const</em> int <em>natype</em>, <em class="property">const</em> vector&lt;double&gt; <em>eps</em>, <em class="property">const</em> vector&lt;double&gt; <em>sig</em>, <em class="property">const</em> vector&lt;double&gt; <em>sigref</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair12initPairDataEKiK6vectorIdEK6vectorIdEK6vectorIdE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair12initPairDataEKiK6vectorIdEK6vectorIdEK6vectorIdE">
+<span id="feasst::Pair::initPairData__iC.vector:double:C.vector:double:C.vector:double:C"></span><span class="target" id="classfeasst_1_1Pair_1aa95b601c2a1021d55de8f4987e841391"></span>void <code class="descname">initPairData</code><span class="sig-paren">(</span><em class="property">const</em> int <em>natype</em>, <em class="property">const</em> vector&lt;double&gt; <em>eps</em>, <em class="property">const</em> vector&lt;double&gt; <em>sig</em>, <em class="property">const</em> vector&lt;double&gt; <em>sigref</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair12initPairDataEKiK6vectorIdEK6vectorIdEK6vectorIdE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize pair data. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair8initDataEK6string">
-<span id="Pair::initData__stringC"></span><span class="target" id="classPair_1a896d4e56a3180baa4046a6742fd27f30"></span><em class="property">virtual</em> void <code class="descname">initData</code><span class="sig-paren">(</span><em class="property">const</em> string <em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair8initDataEK6string" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize parameters with data file. Automatically searches file extensions for JSON “.json”, and otherwise attempts LAMMPS data file. Also uses the data file to initialize the <a class="reference internal" href="Space.html#classSpace"><span class="std std-ref">Space</span></a> class. </p>
+<dt id="_CPPv2N6feasst4Pair8initDataEK6string">
+<span id="feasst::Pair::initData__stringC"></span><span class="target" id="classfeasst_1_1Pair_1a5d60f8d61db2faba441021664002c078"></span><em class="property">virtual</em> void <code class="descname">initData</code><span class="sig-paren">(</span><em class="property">const</em> string <em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair8initDataEK6string" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize parameters with data file. Automatically searches file extensions for JSON “.json”, and otherwise attempts LAMMPS data file. Also uses the data file to initialize the <a class="reference internal" href="Space.html#classfeasst_1_1Space"><span class="std std-ref">Space</span></a> class. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair8initDataEPKc">
-<span id="Pair::initData__cCP"></span><span class="target" id="classPair_1a9ca0586caf37cb408b1f538f624270b1"></span><em class="property">virtual</em> void <code class="descname">initData</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair8initDataEPKc" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize parameters with data file. Automatically searches file extensions for JSON “.json”, and otherwise attempts LAMMPS data file. Also uses the data file to initialize the <a class="reference internal" href="Space.html#classSpace"><span class="std std-ref">Space</span></a> class. </p>
+<dt id="_CPPv2N6feasst4Pair8initDataEPKc">
+<span id="feasst::Pair::initData__cCP"></span><span class="target" id="classfeasst_1_1Pair_1a63e65a1d4024d247ca5c62751e33ee80"></span><em class="property">virtual</em> void <code class="descname">initData</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair8initDataEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize parameters with data file. Automatically searches file extensions for JSON “.json”, and otherwise attempts LAMMPS data file. Also uses the data file to initialize the <a class="reference internal" href="Space.html#classfeasst_1_1Space"><span class="std std-ref">Space</span></a> class. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair11initLMPDataEK6string">
-<span id="Pair::initLMPData__stringC"></span><span class="target" id="classPair_1a747f050d9ee62d66b6c0ebc9228b43c6"></span>void <code class="descname">initLMPData</code><span class="sig-paren">(</span><em class="property">const</em> string <em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair11initLMPDataEK6string" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair11initLMPDataEK6string">
+<span id="feasst::Pair::initLMPData__stringC"></span><span class="target" id="classfeasst_1_1Pair_1ade7b0603a368f4a40602301a16485124"></span>void <code class="descname">initLMPData</code><span class="sig-paren">(</span><em class="property">const</em> string <em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair11initLMPDataEK6string" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize parameters with LAMMPS data file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair11initLMPDataEPKc">
-<span id="Pair::initLMPData__cCP"></span><span class="target" id="classPair_1ac8579e2f57dcea1ceda9bebebb661841"></span><em class="property">virtual</em> void <code class="descname">initLMPData</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair11initLMPDataEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair11initLMPDataEPKc">
+<span id="feasst::Pair::initLMPData__cCP"></span><span class="target" id="classfeasst_1_1Pair_1a3bd0ce6d6ae13e29a4aed816c9fe5929"></span><em class="property">virtual</em> void <code class="descname">initLMPData</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair11initLMPDataEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize parameters with LAMMPS data file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair8epsijsetEKiKiKd">
-<span id="Pair::epsijset__iC.iC.doubleC"></span><span class="target" id="classPair_1ac33cc17f8158db399947e05f089d5a18"></span>void <code class="descname">epsijset</code><span class="sig-paren">(</span><em class="property">const</em> int <em>i</em>, <em class="property">const</em> int <em>j</em>, <em class="property">const</em> double <em>eps</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair8epsijsetEKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>set pair interaction parameters manually. Originally created as easy </p>
+<dt id="_CPPv2N6feasst4Pair8epsijsetEKiKiKd">
+<span id="feasst::Pair::epsijset__iC.iC.doubleC"></span><span class="target" id="classfeasst_1_1Pair_1a39ba9a1d5f43698f84eb2665110436b0"></span>void <code class="descname">epsijset</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iSiteType</em>, <em class="property">const</em> int <em>jSiteType</em>, <em class="property">const</em> double <em>eps</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair8epsijsetEKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set pair interaction parameters manually. Originally created as easy way to turn off interactions. Note: The site types in LMP start from 1, but FEASST starts from 0. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair5exVolEKiKd">
-<span id="Pair::exVol__iC.doubleC"></span><span class="target" id="classPair_1a80cee33aa1dceb8dd8f08b7128953422"></span>double <code class="descname">exVol</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nGrid</em>, <em class="property">const</em> double <em>dProbe</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair5exVolEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair5exVolEKiKd">
+<span id="feasst::Pair::exVol__iC.doubleC"></span><span class="target" id="classfeasst_1_1Pair_1a948b96fbce70d23760d26a4c277fe298"></span>double <code class="descname">exVol</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nGrid</em>, <em class="property">const</em> double <em>dProbe</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair5exVolEKiKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return excluded volume of all molecules in space, using sig_. </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -375,56 +362,56 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair14updateClustersEKd">
-<span id="Pair::updateClusters__doubleC"></span><span class="target" id="classPair_1a07abebb142a4300318b0099c77146ba8"></span><em class="property">virtual</em> void <code class="descname">updateClusters</code><span class="sig-paren">(</span><em class="property">const</em> double <em>rCCut</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair14updateClustersEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair14updateClustersEKd">
+<span id="feasst::Pair::updateClusters__doubleC"></span><span class="target" id="classfeasst_1_1Pair_1a5e11f79056f1e993d0f7b059a95d7305"></span><em class="property">virtual</em> void <code class="descname">updateClusters</code><span class="sig-paren">(</span><em class="property">const</em> double <em>rCCut</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair14updateClustersEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Update clusters of entire system. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair11initAtomCutEKi">
-<span id="Pair::initAtomCut__iC"></span><span class="target" id="classPair_1aeaf859e3cdcf6ec32d98427bd016c2d9"></span>void <code class="descname">initAtomCut</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair11initAtomCutEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair11initAtomCutEKi">
+<span id="feasst::Pair::initAtomCut__iC"></span><span class="target" id="classfeasst_1_1Pair_1a0d390e7f5b7ea7237d243f0cdecc273a"></span>void <code class="descname">initAtomCut</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair11initAtomCutEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize cut-off method by atoms or molecules. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair9rCutijsetEKiKiKd">
-<span id="Pair::rCutijset__iC.iC.doubleC"></span><span class="target" id="classPair_1af5e3e4fb3e5a383e628223003a77d350"></span>void <code class="descname">rCutijset</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em>, <em class="property">const</em> int <em>jtype</em>, <em class="property">const</em> double <em>rCut</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair9rCutijsetEKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair9rCutijsetEKiKiKd">
+<span id="feasst::Pair::rCutijset__iC.iC.doubleC"></span><span class="target" id="classfeasst_1_1Pair_1a7d61ff6589287e43a41e12ba1c0fae28"></span>void <code class="descname">rCutijset</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em>, <em class="property">const</em> int <em>jtype</em>, <em class="property">const</em> double <em>rCut</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair9rCutijsetEKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the cut off between particles itype and jtype to rCut. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair12neighTypeSetEKi">
-<span id="Pair::neighTypeSet__iC"></span><span class="target" id="classPair_1a463385b39f59414072a5c7e7a0afbf48"></span>void <code class="descname">neighTypeSet</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair12neighTypeSetEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair12neighTypeSetEKi">
+<span id="feasst::Pair::neighTypeSet__iC"></span><span class="target" id="classfeasst_1_1Pair_1a3b69c0bcb889a77005643fb9274a2088"></span>void <code class="descname">neighTypeSet</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair12neighTypeSetEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set type of atoms to keep track of neighbors. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair12initNeighCutEKi">
-<span id="Pair::initNeighCut__iC"></span><span class="target" id="classPair_1ac19f8e62492fd4e325281b55069fbd98"></span>void <code class="descname">initNeighCut</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair12initNeighCutEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair12initNeighCutEKi">
+<span id="feasst::Pair::initNeighCut__iC"></span><span class="target" id="classfeasst_1_1Pair_1a28bb03e627b053e1e46d6149e95cdfda"></span>void <code class="descname">initNeighCut</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair12initNeighCutEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize computation of neighborlist, neighCutOne_. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair9initPEMapEKi">
-<span id="Pair::initPEMap__iC"></span><span class="target" id="classPair_1a317ea7d2197d2e0b9be5cc89ac1e3ed3"></span>void <code class="descname">initPEMap</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair9initPEMapEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair9initPEMapEKi">
+<span id="feasst::Pair::initPEMap__iC"></span><span class="target" id="classfeasst_1_1Pair_1a92bae3dd1e7a3678587317b89299061e"></span>void <code class="descname">initPEMap</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair9initPEMapEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize computation of potential energy map. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair16neighCutMolPEMapER6vectorIiER6vectorIdE">
-<span id="Pair::neighCutMolPEMap__vector:i:R.vector:double:R"></span><span class="target" id="classPair_1a282b0ed5f7bbcaadbef3d20020c76c46"></span>void <code class="descname">neighCutMolPEMap</code><span class="sig-paren">(</span>vector&lt;int&gt; &amp;<em>neigh</em>, vector&lt;double&gt; &amp;<em>peMap</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair16neighCutMolPEMapER6vectorIiER6vectorIdE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair16neighCutMolPEMapER6vectorIiER6vectorIdE">
+<span id="feasst::Pair::neighCutMolPEMap__vector:i:R.vector:double:R"></span><span class="target" id="classfeasst_1_1Pair_1a80363d8141cea3295995f319297251f1"></span>void <code class="descname">neighCutMolPEMap</code><span class="sig-paren">(</span>vector&lt;int&gt; &amp;<em>neigh</em>, vector&lt;double&gt; &amp;<em>peMap</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair16neighCutMolPEMapER6vectorIiER6vectorIdE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return list of molecules in neigh and their total potential energy interactions. Note that peMap contains the cumulative peSRone_ </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair8setOrderEKd">
-<span id="Pair::setOrder__doubleC"></span><span class="target" id="classPair_1afdb2fe3cccddc4cd32ab88ec6176bd1e"></span>void <code class="descname">setOrder</code><span class="sig-paren">(</span><em class="property">const</em> double <em>order</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair8setOrderEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair8setOrderEKd">
+<span id="feasst::Pair::setOrder__doubleC"></span><span class="target" id="classfeasst_1_1Pair_1ab0e85d0d2cae7fa06ea02b833eeb6b4b"></span>void <code class="descname">setOrder</code><span class="sig-paren">(</span><em class="property">const</em> double <em>order</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair8setOrderEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the value of the order parameter. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair9initOrderEKdPKcKdKd">
-<span id="Pair::initOrder__doubleC.cCP.doubleC.doubleC"></span><span class="target" id="classPair_1af4375efb9d5b2a897979084140d99ae0"></span>void <code class="descname">initOrder</code><span class="sig-paren">(</span><em class="property">const</em> double <em>order</em>, <em class="property">const</em> char *<em>name</em>, <em class="property">const</em> double <em>orderMin</em>, <em class="property">const</em> double <em>orderMax</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair9initOrderEKdPKcKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair9initOrderEKdPKcKdKd">
+<span id="feasst::Pair::initOrder__doubleC.cCP.doubleC.doubleC"></span><span class="target" id="classfeasst_1_1Pair_1aa76190b21edd7437a34468bc1e1bae77"></span>void <code class="descname">initOrder</code><span class="sig-paren">(</span><em class="property">const</em> double <em>order</em>, <em class="property">const</em> char *<em>name</em>, <em class="property">const</em> double <em>orderMin</em>, <em class="property">const</em> double <em>orderMax</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair9initOrderEKdPKcKdKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize the order parameter. </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -440,50 +427,62 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair12readXYZOrderERNSt8ifstreamE">
-<span id="Pair::readXYZOrder__std::ifstreamR"></span><span class="target" id="classPair_1a7200551d194240168f42f840ebda1282"></span>void <code class="descname">readXYZOrder</code><span class="sig-paren">(</span>std::ifstream &amp;<em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair12readXYZOrderERNSt8ifstreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair12readXYZOrderERNSt8ifstreamE">
+<span id="feasst::Pair::readXYZOrder__std::ifstreamR"></span><span class="target" id="classfeasst_1_1Pair_1ad32f8109de634058947391b3b181ff58"></span>void <code class="descname">readXYZOrder</code><span class="sig-paren">(</span>std::ifstream &amp;<em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair12readXYZOrderERNSt8ifstreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Read the order parameter from the comment (2nd line) of an XYZ file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair10iMol2neighEKi">
-<span id="Pair::iMol2neigh__iC"></span><span class="target" id="classPair_1afb1eb64292d7b62ac52084c98e5beae4"></span>vector&lt;int&gt; <code class="descname">iMol2neigh</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iMol</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair10iMol2neighEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair10iMol2neighEKi">
+<span id="feasst::Pair::iMol2neigh__iC"></span><span class="target" id="classfeasst_1_1Pair_1a459cffd2fb10dd2323e031301cc20ff5"></span>vector&lt;int&gt; <code class="descname">iMol2neigh</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iMol</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair10iMol2neighEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return a list of neighboring molecules of iMol, based on pair rCut. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair13avNumNeighCutEv">
-<span id="Pair::avNumNeighCut"></span><span class="target" id="classPair_1a04b2b98685aceeb5d9a9dfcff270a7a4"></span>double <code class="descname">avNumNeighCut</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair13avNumNeighCutEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair13avNumNeighCutEv">
+<span id="feasst::Pair::avNumNeighCut"></span><span class="target" id="classfeasst_1_1Pair_1a69f32cbac9d57d6e87e375d5a6c0c9c5"></span>double <code class="descname">avNumNeighCut</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair13avNumNeighCutEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the average number of neighbors within cutoff using peMap. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair16iMol2neighAnglesEKi">
-<span id="Pair::iMol2neighAngles__iC"></span><span class="target" id="classPair_1aa7ca789225db0e0d29549dc7f39e33a3"></span>vector&lt;double&gt; <code class="descname">iMol2neighAngles</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iMol</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair16iMol2neighAnglesEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair16iMol2neighAnglesEKi">
+<span id="feasst::Pair::iMol2neighAngles__iC"></span><span class="target" id="classfeasst_1_1Pair_1a87bca2fc8dc84eee235a722dbae2795b"></span>vector&lt;double&gt; <code class="descname">iMol2neighAngles</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iMol</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair16iMol2neighAnglesEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return a list of minimum angles between neighbors with iMol as vertex, based on pair rCut. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair9initIntraEKi">
-<span id="Pair::initIntra__iC"></span><span class="target" id="classPair_1a5b471c3c866c193dc753a5906693268f"></span>void <code class="descname">initIntra</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair9initIntraEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize intramolecular interactions. intra_ == 0, intermolecular interactions only intra_ == 1, intramolecular interactions in addition to inter intra_ == 2, only intramolecular interactions (use with <a class="reference internal" href="PairHybrid.html#classPairHybrid"><span class="std std-ref">PairHybrid</span></a>) </p>
+<dt id="_CPPv2N6feasst4Pair9initIntraEKi">
+<span id="feasst::Pair::initIntra__iC"></span><span class="target" id="classfeasst_1_1Pair_1a8bdd0a4d49449f35d5f2924971cb4665"></span>void <code class="descname">initIntra</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair9initIntraEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize intramolecular interactions. intra_ == 0, intermolecular interactions only intra_ == 1, intramolecular interactions in addition to inter intra_ == 2, only intramolecular interactions (use with <a class="reference internal" href="PairHybrid.html#classfeasst_1_1PairHybrid"><span class="std std-ref">PairHybrid</span></a>) </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair15initIntraBondedEKi">
-<span id="Pair::initIntraBonded__iC"></span><span class="target" id="classPair_1a66068c8280e77ce653d28296a34432ac"></span>void <code class="descname">initIntraBonded</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair15initIntraBondedEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair15initIntraBondedEKi">
+<span id="feasst::Pair::initIntraBonded__iC"></span><span class="target" id="classfeasst_1_1Pair_1a802011b0b3c76303f4450b7f82e21c23"></span>void <code class="descname">initIntraBonded</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair15initIntraBondedEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize intramolecular interactions by ignoring bonded particles. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair7readxyzERNSt8ifstreamE">
-<span id="Pair::readxyz__std::ifstreamR"></span><span class="target" id="classPair_1aeb77fc81065d14d7d57c02c0c1e09ec7"></span><em class="property">virtual</em> void <code class="descname">readxyz</code><span class="sig-paren">(</span>std::ifstream &amp;<em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair7readxyzERNSt8ifstreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair7readXYZERNSt8ifstreamE">
+<span id="feasst::Pair::readXYZ__std::ifstreamR"></span><span class="target" id="classfeasst_1_1Pair_1a82027d910f879bf36d1deb5faa37ca6f"></span><em class="property">virtual</em> void <code class="descname">readXYZ</code><span class="sig-paren">(</span>std::ifstream &amp;<em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair7readXYZERNSt8ifstreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Read particle positions from XYZ file format. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair10printTableEPKcKiKd">
-<span id="Pair::printTable__cCP.iC.doubleC"></span><span class="target" id="classPair_1a9c2f24b18202263b483db8750f537c77"></span>int <code class="descname">printTable</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>tableFile</em>, <em class="property">const</em> int <em>nElements</em>, <em class="property">const</em> double <em>sigFac</em> = 0.9<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair10printTableEPKcKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair11scaleDomainEKdKi">
+<span id="feasst::Pair::scaleDomain__doubleC.iC"></span><span class="target" id="classfeasst_1_1Pair_1aedbe8f76754d14af21d3f3a9a7dec89d"></span><em class="property">virtual</em> void <code class="descname">scaleDomain</code><span class="sig-paren">(</span><em class="property">const</em> double <em>factor</em>, <em class="property">const</em> int <em>dim</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair11scaleDomainEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Scale domain (see <a class="reference internal" href="Space.html#classfeasst_1_1Space"><span class="std std-ref">Space</span></a>) </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6feasst4Pair11scaleDomainEKd">
+<span id="feasst::Pair::scaleDomain__doubleC"></span><span class="target" id="classfeasst_1_1Pair_1a96233139713b4a2965a4190a2af7792f"></span><em class="property">virtual</em> void <code class="descname">scaleDomain</code><span class="sig-paren">(</span><em class="property">const</em> double <em>factor</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair11scaleDomainEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Scale domain (see <a class="reference internal" href="Space.html#classfeasst_1_1Space"><span class="std std-ref">Space</span></a>) </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6feasst4Pair10printTableEPKcKiKd">
+<span id="feasst::Pair::printTable__cCP.iC.doubleC"></span><span class="target" id="classfeasst_1_1Pair_1af5a83e0800f6609f55a6009cafb3b12b"></span>int <code class="descname">printTable</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>tableFile</em>, <em class="property">const</em> int <em>nElements</em>, <em class="property">const</em> double <em>sigFac</em> = 0.9<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair10printTableEPKcKiKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -503,92 +502,86 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair8sig2rCutEv">
-<span id="Pair::sig2rCut"></span><span class="target" id="classPair_1aae1e1215e60139fc4b8e3b7f6e53368f"></span>void <code class="descname">sig2rCut</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair8sig2rCutEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair8sig2rCutEv">
+<span id="feasst::Pair::sig2rCut"></span><span class="target" id="classfeasst_1_1Pair_1ad334e70a9f49c53b9ff2222679bb189c"></span>void <code class="descname">sig2rCut</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair8sig2rCutEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set all rCutij to sigmaij, which is useful for hard spheres. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair11initSquishyEKi">
-<span id="Pair::initSquishy__iC"></span><span class="target" id="classPair_1ac3783cb4b5d7efba6ea8324f9496de57"></span><em class="property">virtual</em> void <code class="descname">initSquishy</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair11initSquishyEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair11initSquishyEKi">
+<span id="feasst::Pair::initSquishy__iC"></span><span class="target" id="classfeasst_1_1Pair_1a0dcd34b0ea17193c2e888cad45b25f0f"></span><em class="property">virtual</em> void <code class="descname">initSquishy</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair11initSquishyEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize squishy tolerance when reading coordinates from a file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair16ipartNotPhysicalEKi">
-<span id="Pair::ipartNotPhysical__iC"></span><span class="target" id="classPair_1a0d1127288d83a07004183ac5b4a70192"></span><em class="property">virtual</em> void <code class="descname">ipartNotPhysical</code><span class="sig-paren">(</span><em class="property">const</em> int <em>ipart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair16ipartNotPhysicalEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair16ipartNotPhysicalEKi">
+<span id="feasst::Pair::ipartNotPhysical__iC"></span><span class="target" id="classfeasst_1_1Pair_1ad142d1b82166e79342fb0345febcc669"></span><em class="property">virtual</em> void <code class="descname">ipartNotPhysical</code><span class="sig-paren">(</span><em class="property">const</em> int <em>ipart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair16ipartNotPhysicalEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Identify a particle as non physical or non physical. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair15ipartIsPhysicalEKi">
-<span id="Pair::ipartIsPhysical__iC"></span><span class="target" id="classPair_1a4a8ee0ebb1590bc572210c400a256ba2"></span><em class="property">virtual</em> void <code class="descname">ipartIsPhysical</code><span class="sig-paren">(</span><em class="property">const</em> int <em>ipart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair15ipartIsPhysicalEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair15ipartIsPhysicalEKi">
+<span id="feasst::Pair::ipartIsPhysical__iC"></span><span class="target" id="classfeasst_1_1Pair_1adaa844f4800288b7470e7d5542a366c8"></span><em class="property">virtual</em> void <code class="descname">ipartIsPhysical</code><span class="sig-paren">(</span><em class="property">const</em> int <em>ipart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair15ipartIsPhysicalEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Identify a particle as non physical or non physical. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair15allPartPhysicalEv">
-<span id="Pair::allPartPhysical"></span><span class="target" id="classPair_1aa33a6ced035b8e22f3503790e1d2b1ad"></span><em class="property">virtual</em> void <code class="descname">allPartPhysical</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair15allPartPhysicalEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair15allPartPhysicalEv">
+<span id="feasst::Pair::allPartPhysical"></span><span class="target" id="classfeasst_1_1Pair_1a835d00c59484103f8ea2c1d4a00d10e5"></span><em class="property">virtual</em> void <code class="descname">allPartPhysical</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair15allPartPhysicalEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set all particles as physical. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair13setSigRefFlagEKi">
-<span id="Pair::setSigRefFlag__iC"></span><span class="target" id="classPair_1a9200708cfd9012a3d0a6ef1f273d06dd"></span>void <code class="descname">setSigRefFlag</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair13setSigRefFlagEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair13setSigRefFlagEKi">
+<span id="feasst::Pair::setSigRefFlag__iC"></span><span class="target" id="classfeasst_1_1Pair_1a93c4793672ddd34ebd958ae060cb51a0"></span>void <code class="descname">setSigRefFlag</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair13setSigRefFlagEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set flag to trigger use of a reference sigma. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK4Pair1fEii">
-<span id="Pair::f__i.iC"></span><span class="target" id="classPair_1aae3e00d0827718e0289bf9d0c205f799"></span>double <code class="descname">f</code><span class="sig-paren">(</span>int <em>iAtom</em>, int <em>dim</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK4Pair1fEii" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst4Pair1fEii">
+<span id="feasst::Pair::f__i.iC"></span><span class="target" id="classfeasst_1_1Pair_1ae38e4c70abd8fe06cfdb27b71eb5d575"></span>double <code class="descname">f</code><span class="sig-paren">(</span>int <em>iAtom</em>, int <em>dim</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst4Pair1fEii" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>force </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK4Pair4rCutEv">
-<span id="Pair::rCutC"></span><span class="target" id="classPair_1af6a03e44f4a5a7fce2cde4682a794a9a"></span>double <code class="descname">rCut</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK4Pair4rCutEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst4Pair4rCutEv">
+<span id="feasst::Pair::rCutC"></span><span class="target" id="classfeasst_1_1Pair_1a91439fbdb2768474254e350de2c8cf47"></span>double <code class="descname">rCut</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst4Pair4rCutEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>interaction cut-off distance </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK4Pair2peEv">
-<span id="Pair::peC"></span><span class="target" id="classPair_1a1e77cf8bb6ff3c171222e18c69b534c3"></span>vector&lt;double&gt; <code class="descname">pe</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK4Pair2peEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst4Pair2peEv">
+<span id="feasst::Pair::peC"></span><span class="target" id="classfeasst_1_1Pair_1ae9e52b850b99803173660bb69b12c5b5"></span>vector&lt;double&gt; <code class="descname">pe</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst4Pair2peEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>potential energy </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK4Pair1fEv">
-<span id="Pair::fC"></span><span class="target" id="classPair_1af6848ee0defa51fca71c916e9db42f8b"></span>vector&lt;vector&lt;double&gt;&gt; <code class="descname">f</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK4Pair1fEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst4Pair1fEv">
+<span id="feasst::Pair::fC"></span><span class="target" id="classfeasst_1_1Pair_1a4fbbeb80f7a1f7ec1d524c704d70f6ac"></span>vector&lt;vector&lt;double&gt;&gt; <code class="descname">f</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst4Pair1fEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>force </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK4Pair2vrEv">
-<span id="Pair::vrC"></span><span class="target" id="classPair_1a39e51e59a8bfd536a1b6c35d9de33d6c"></span>vector&lt;vector&lt;vector&lt;double&gt;&gt;&gt; <code class="descname">vr</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK4Pair2vrEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>virial tensor </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N4Pair12writeRestartEPKc">
-<span id="Pair::writeRestart__cCP"></span><span class="target" id="classPair_1a44c1f1c98d236c27e8d1c3a534440203"></span><em class="property">virtual</em> void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair12writeRestartEPKc">
+<span id="feasst::Pair::writeRestart__cCP"></span><span class="target" id="classfeasst_1_1Pair_1a8c5d1de901c7f6ef2bfedb2bb7c5e08a"></span><em class="property">virtual</em> void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Write restart file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair4PairEP5SpacePKc">
-<span id="Pair::Pair__SpaceP.cCP"></span><span class="target" id="classPair_1aa21ef546ebedc2e96c971ffb460c326d"></span><code class="descname">Pair</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<em>space</em>, <em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair4PairEP5SpacePKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair4PairEP5SpacePKc">
+<span id="feasst::Pair::Pair__SpaceP.cCP"></span><span class="target" id="classfeasst_1_1Pair_1a8556c025b0db87730214a2d179ad3a96"></span><code class="descname">Pair</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a> *<em>space</em>, <em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair4PairEP5SpacePKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor using restart file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair11reconstructEP5Space">
-<span id="Pair::reconstruct__SpaceP"></span><span class="target" id="classPair_1a8a43a2aea71df82e523ac0304fa6d938"></span>void <code class="descname">reconstruct</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<em>space</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair11reconstructEP5Space" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair11reconstructEP5Space">
+<span id="feasst::Pair::reconstruct__SpaceP"></span><span class="target" id="classfeasst_1_1Pair_1a8f1f1a43bf684c753489a82b001c3793"></span>void <code class="descname">reconstruct</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a> *<em>space</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair11reconstructEP5Space" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>reset space pointer </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4Pair10initForcesEKi">
-<span id="Pair::initForces__iC"></span><span class="target" id="classPair_1a6ebe28841bcf4227c0f6734b93021615"></span><em class="property">virtual</em> void <code class="descname">initForces</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4Pair10initForcesEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair10initForcesEKi">
+<span id="feasst::Pair::initForces__iC"></span><span class="target" id="classfeasst_1_1Pair_1ac839e41ed6428549a7b62f460104d66c"></span><em class="property">virtual</em> void <code class="descname">initForces</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair10initForcesEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute forces if 1 (default 0) </p>
 </dd></dl>
 
@@ -596,8 +589,8 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Members</p>
 <dl class="member">
-<dt id="_CPPv2N4Pair7lrcFlagE">
-<span id="Pair::lrcFlag__i"></span><span class="target" id="classPair_1a8cb2d3452b7f9e4e308a0ee07ee34910"></span>int <code class="descname">lrcFlag</code><a class="headerlink" href="#_CPPv2N4Pair7lrcFlagE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst4Pair7lrcFlagE">
+<span id="feasst::Pair::lrcFlag__i"></span><span class="target" id="classfeasst_1_1Pair_1ad2999be8a8c930e4f94c8b77ce2eeafd"></span>int <code class="descname">lrcFlag</code><a class="headerlink" href="#_CPPv2N6feasst4Pair7lrcFlagE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>flag to compute standard long range corrections </p>
 </dd></dl>
 
@@ -615,7 +608,7 @@
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
@@ -648,6 +641,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
@@ -676,7 +670,7 @@
         <li class="right" >
           <a href="pairtoc.html" title="Pair Classes"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" >Pair Classes</a> &#187;</li> 
       </ul>

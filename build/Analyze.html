@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Analyze &#8212; FEASST v0.3.1 documentation</title>
+    <title>Analyze &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="analyzetoc.html" title="Analyze Classes"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="analyzetoc.html" accesskey="U">Analyze Classes</a> &#187;</li> 
       </ul>
@@ -58,32 +58,37 @@
   <div class="section" id="analyze">
 <h1>Analyze<a class="headerlink" href="#analyze" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv27Analyze">
-<span id="Analyze"></span><span class="target" id="classAnalyze"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">Analyze</code><a class="headerlink" href="#_CPPv27Analyze" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>This is the base class used to write custom analysis code. Operates on the <a class="reference internal" href="Space.html#classSpace"><span class="std std-ref">Space</span></a> and <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a> class periodically and prints results.</p>
+<dt id="_CPPv2N6feasst7AnalyzeE">
+<span id="feasst::Analyze"></span><span class="target" id="classfeasst_1_1Analyze"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">Analyze</code><a class="headerlink" href="#_CPPv2N6feasst7AnalyzeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is the base class used to write custom analysis code. Operates on the <a class="reference internal" href="Space.html#classfeasst_1_1Space"><span class="std std-ref">Space</span></a> and <a class="reference internal" href="Pair.html#classfeasst_1_1Pair"><span class="std std-ref">Pair</span></a> class periodically and prints results.</p>
 <p>In order to create a custom Analysis, you can follow two similar procedures.</p>
-<p>First, you may define a custom Analysis code in the same file as “int main()” for C++. See an example of this in the canonical LJ <a class="reference external" href="testcase/1_lj_2_nvt-mc_README.html">test case</a>.</p>
+<p>First, you may define a custom Analysis code in the same file as “int main()” for C++. See an example of this in the canonical LJ <a class="reference external" href="tutorial/1_lj_2_nvt-mc_README.html">test case</a>.</p>
 <p>Second, you may copy existing “analyze_*” files and replace the class name and header guards (e.g. BASECLASS_DERIVED_H_). </p>
-<p>Inherits from <a class="reference internal" href="BaseRandom.html#classBaseRandom"><span class="std std-ref">BaseRandom</span></a></p>
-<p>Subclassed by <a class="reference internal" href="AnalyzeCluster.html#classAnalyzeCluster"><span class="std std-ref">AnalyzeCluster</span></a>, AnalyzeMonkeyPatch, <a class="reference internal" href="AnalyzeScatter.html#classAnalyzeScatter"><span class="std std-ref">AnalyzeScatter</span></a></p>
+<p>Inherits from <a class="reference internal" href="BaseRandom.html#classfeasst_1_1BaseRandom"><span class="std std-ref">feasst::BaseRandom</span></a></p>
+<p>Subclassed by AnalyzeMonkeyPatch, <a class="reference internal" href="AnalyzeCluster.html#classfeasst_1_1AnalyzeCluster"><span class="std std-ref">feasst::AnalyzeCluster</span></a>, <a class="reference internal" href="AnalyzeScatter.html#classfeasst_1_1AnalyzeScatter"><span class="std std-ref">feasst::AnalyzeScatter</span></a>, <a class="reference internal" href="AnalyzeTRAJ.html#classfeasst_1_1AnalyzeTRAJ"><span class="std std-ref">feasst::AnalyzeTRAJ</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv2N7Analyze7AnalyzeEP4PairRK7argtype">
-<span id="Analyze::Analyze__PairP.argtypeCR"></span><span class="target" id="classAnalyze_1ae7cd691764a6f5f4824483f0a1e347f0"></span><code class="descname">Analyze</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze7AnalyzeEP4PairRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze7AnalyzeE10shared_ptrI4PairERK7argtype">
+<span id="feasst::Analyze::Analyze__shared_ptr:Pair:.argtypeCR"></span><span class="target" id="classfeasst_1_1Analyze_1a0c43f70ac46ec2f357181bd52fc156a3"></span><code class="descname">Analyze</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="Pair.html#_CPPv2N6feasst4PairE" title="feasst::Pair">Pair</a>&gt; <em>pair</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze7AnalyzeE10shared_ptrI4PairERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor. </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last">
 <li><p class="first"><code class="docutils literal"><span class="pre">args</span></code>: allowed string key pairs (e.g., dictionary):</p>
-<p>nFreq : <a class="reference internal" href="#classAnalyze"><span class="std std-ref">Analyze</span></a> every this many steps</p>
+<p>nFreq : <a class="reference internal" href="#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> every this many steps</p>
 <p><ul class="simple">
-<li>(default): see <a class="reference internal" href="#classAnalyze_1acb48041ee87dfd5f3bb319eccb39d04f"><span class="std std-ref">initFreq()</span></a></li>
+<li>(default): see <a class="reference internal" href="#classfeasst_1_1Analyze_1a92b2dc5336e4a0b9a0cb0c69f4d80fa6"><span class="std std-ref">initFreq()</span></a></li>
 </ul>
 </p>
 <p>nFreqPrint : Print output every this many steps</p>
 <p><ul class="simple">
-<li>(default): see <a class="reference internal" href="#classAnalyze_1a70780a9d69c1b54460c7c9a483d9cba5"><span class="std std-ref">initFreqPrint()</span></a> </li>
+<li>(default): see <a class="reference internal" href="#classfeasst_1_1Analyze_1a445f492f92ae18d7ce67b0b3621cb293"><span class="std std-ref">initFreqPrint()</span></a></li>
+</ul>
+</p>
+<p>fileName : Print to fileName</p>
+<p><ul class="simple">
+<li>(default): (empty string) </li>
 </ul>
 </p>
 </li>
@@ -94,73 +99,73 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze7AnalyzeEv">
-<span id="Analyze::Analyze"></span><span class="target" id="classAnalyze_1a78bd2f4e08c35e695998310733f8e4c1"></span><code class="descname">Analyze</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze7AnalyzeEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>This constructor is not often used, but its purpose is to initialize for <a class="reference internal" href="MC.html#classMC"><span class="std std-ref">MC</span></a> interface before using reconstruct to set object pointers. </p>
+<dt id="_CPPv2N6feasst7Analyze7AnalyzeEv">
+<span id="feasst::Analyze::Analyze"></span><span class="target" id="classfeasst_1_1Analyze_1a7449d0f81dfc8fbed967299ba07e9f49"></span><code class="descname">Analyze</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze7AnalyzeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constructor is not often used, but its purpose is to initialize for <a class="reference internal" href="MC.html#classfeasst_1_1MC"><span class="std std-ref">MC</span></a> interface before using reconstruct to set object pointers. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze8initFreqEKi">
-<span id="Analyze::initFreq__iC"></span><span class="target" id="classAnalyze_1acb48041ee87dfd5f3bb319eccb39d04f"></span>void <code class="descname">initFreq</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nfreq</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze8initFreqEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze8initFreqEKi">
+<span id="feasst::Analyze::initFreq__iC"></span><span class="target" id="classfeasst_1_1Analyze_1a92b2dc5336e4a0b9a0cb0c69f4d80fa6"></span>void <code class="descname">initFreq</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nfreq</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze8initFreqEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize number of steps between each analysis. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK7Analyze5nFreqEv">
-<span id="Analyze::nFreqC"></span><span class="target" id="classAnalyze_1afa61a6fdea6b29b577c8969fff6f70db"></span>int <code class="descname">nFreq</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK7Analyze5nFreqEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst7Analyze5nFreqEv">
+<span id="feasst::Analyze::nFreqC"></span><span class="target" id="classfeasst_1_1Analyze_1a75f6d77eb97f04d5d15217a31262756d"></span>int <code class="descname">nFreq</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst7Analyze5nFreqEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return number of steps between each analysis. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze13initFreqPrintEKi">
-<span id="Analyze::initFreqPrint__iC"></span><span class="target" id="classAnalyze_1a70780a9d69c1b54460c7c9a483d9cba5"></span>void <code class="descname">initFreqPrint</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nfreq</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze13initFreqPrintEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze13initFreqPrintEKi">
+<span id="feasst::Analyze::initFreqPrint__iC"></span><span class="target" id="classfeasst_1_1Analyze_1a445f492f92ae18d7ce67b0b3621cb293"></span>void <code class="descname">initFreqPrint</code><span class="sig-paren">(</span><em class="property">const</em> int <em>nfreq</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze13initFreqPrintEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize number of steps between each print to file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK7Analyze10nFreqPrintEv">
-<span id="Analyze::nFreqPrintC"></span><span class="target" id="classAnalyze_1abc5dc3378e8b752166979e81d150cb3c"></span>int <code class="descname">nFreqPrint</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK7Analyze10nFreqPrintEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst7Analyze10nFreqPrintEv">
+<span id="feasst::Analyze::nFreqPrintC"></span><span class="target" id="classfeasst_1_1Analyze_1a129e3686f887af5137b7f7ef5e4d8747"></span>int <code class="descname">nFreqPrint</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst7Analyze10nFreqPrintEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return number of steps between each print. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze14initProductionEKi">
-<span id="Analyze::initProduction__iC"></span><span class="target" id="classAnalyze_1a84a42f344c9a297f20e009903b319d36"></span><em class="property">virtual</em> void <code class="descname">initProduction</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze14initProductionEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize production flag. 1 is on, 0 is off. Default is 1. </p>
+<dt id="_CPPv2N6feasst7Analyze14initProductionEKi">
+<span id="feasst::Analyze::initProduction__iC"></span><span class="target" id="classfeasst_1_1Analyze_1abda55450fb168381ffe68e10964dcc3a"></span><em class="property">virtual</em> void <code class="descname">initProduction</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze14initProductionEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize production flag. 1 is on, 0 is off. Default is 0. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK7Analyze10productionEv">
-<span id="Analyze::productionC"></span><span class="target" id="classAnalyze_1a49000a18bdd8935aa003ab875ba7e93f"></span>int <code class="descname">production</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK7Analyze10productionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst7Analyze10productionEv">
+<span id="feasst::Analyze::productionC"></span><span class="target" id="classfeasst_1_1Analyze_1a32cf95b0768eeff95354fb828b37777c"></span>int <code class="descname">production</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst7Analyze10productionEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return production state. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze12initFileNameEPKc">
-<span id="Analyze::initFileName__cCP"></span><span class="target" id="classAnalyze_1a542f3c21824d353f2eb7a875fdb64123"></span>void <code class="descname">initFileName</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze12initFileNameEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze12initFileNameEPKc">
+<span id="feasst::Analyze::initFileName__cCP"></span><span class="target" id="classfeasst_1_1Analyze_1a2d43b883dc9863c4fa736ddc6e7632d7"></span>void <code class="descname">initFileName</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze12initFileNameEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize the name of the file to print results. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze14appendFileNameEPKc">
-<span id="Analyze::appendFileName__cCP"></span><span class="target" id="classAnalyze_1adb8e54daec4207c8832028ff545ccef3"></span>void <code class="descname">appendFileName</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>chars</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze14appendFileNameEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze14appendFileNameEPKc">
+<span id="feasst::Analyze::appendFileName__cCP"></span><span class="target" id="classfeasst_1_1Analyze_1a113458c9a222db40b77b19b9a6e21251"></span>void <code class="descname">appendFileName</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>chars</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze14appendFileNameEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Append “chars” onto the file name where results are printed. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze6updateEv">
-<span id="Analyze::update"></span><span class="target" id="classAnalyze_1a2554a5fb60fe2a85d9fb94e1555762bf"></span><em class="property">virtual</em> void <code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze6updateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze6updateEv">
+<span id="feasst::Analyze::update"></span><span class="target" id="classfeasst_1_1Analyze_1aee67fff73a992329a41fc616c35809b6"></span><em class="property">virtual</em> void <code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze6updateEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Perform the analysis and update the accumulators. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze6updateEKi">
-<span id="Analyze::update__iC"></span><span class="target" id="classAnalyze_1ab3fcd5a1e5c5ec74fa8f3ae848c00255"></span><em class="property">virtual</em> void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iMacro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze6updateEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze6updateEKi">
+<span id="feasst::Analyze::update__iC"></span><span class="target" id="classfeasst_1_1Analyze_1a092981c91739e5f9a4c0e1ef25ef8e28"></span><em class="property">virtual</em> void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iMacro</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze6updateEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Perform the analysis and update the accumulators. </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal"><span class="pre">iMacro</span></code>: Specify the macrostate bin corresponding to <a class="reference internal" href="CriteriaWLTMMC.html#classCriteriaWLTMMC"><span class="std std-ref">CriteriaWLTMMC</span></a> order param. </li>
+<li><code class="docutils literal"><span class="pre">iMacro</span></code>: Specify the macrostate bin corresponding to <a class="reference internal" href="CriteriaWLTMMC.html#classfeasst_1_1CriteriaWLTMMC"><span class="std std-ref">CriteriaWLTMMC</span></a> order param. </li>
 </ul>
 </dd>
 </dl>
@@ -168,44 +173,44 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze5writeEv">
-<span id="Analyze::write"></span><span class="target" id="classAnalyze_1aaf3144f6b99937597f0626637da5cffe"></span><em class="property">virtual</em> void <code class="descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze5writeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze5writeEv">
+<span id="feasst::Analyze::write"></span><span class="target" id="classfeasst_1_1Analyze_1a63799e52bcabef4f8e425e6f1c88a7c5"></span><em class="property">virtual</em> void <code class="descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze5writeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Print the analysis to a file (default: restart file) </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze5writeEP14CriteriaWLTMMC">
-<span id="Analyze::write__CriteriaWLTMMCP"></span><span class="target" id="classAnalyze_1a37402b1d4ec220945c0f75f7aa86472b"></span><em class="property">virtual</em> void <code class="descname">write</code><span class="sig-paren">(</span><a class="reference internal" href="CriteriaWLTMMC.html#_CPPv214CriteriaWLTMMC" title="CriteriaWLTMMC">CriteriaWLTMMC</a> *<em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze5writeEP14CriteriaWLTMMC" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Print the analysis to a file for each macrostate in <a class="reference internal" href="CriteriaWLTMMC.html#classCriteriaWLTMMC"><span class="std std-ref">CriteriaWLTMMC</span></a>. </p>
+<dt id="_CPPv2N6feasst7Analyze5writeEP14CriteriaWLTMMC">
+<span id="feasst::Analyze::write__CriteriaWLTMMCP"></span><span class="target" id="classfeasst_1_1Analyze_1ad6bb62ab8940365f7be533a1a0cedd32"></span><em class="property">virtual</em> void <code class="descname">write</code><span class="sig-paren">(</span><a class="reference internal" href="CriteriaWLTMMC.html#_CPPv2N6feasst14CriteriaWLTMMCE" title="feasst::CriteriaWLTMMC">CriteriaWLTMMC</a> *<em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze5writeEP14CriteriaWLTMMC" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Print the analysis to a file for each macrostate in <a class="reference internal" href="CriteriaWLTMMC.html#classfeasst_1_1CriteriaWLTMMC"><span class="std std-ref">CriteriaWLTMMC</span></a>. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze13modifyRestartE10shared_ptrI6WLTMMCE">
-<span id="Analyze::modifyRestart__shared_ptr:WLTMMC:"></span><span class="target" id="classAnalyze_1a915402300178a0c4abdd0a1d9c5d4a6d"></span><em class="property">virtual</em> void <code class="descname">modifyRestart</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="WLTMMC.html#_CPPv26WLTMMC" title="WLTMMC">WLTMMC</a>&gt; <em>mc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze13modifyRestartE10shared_ptrI6WLTMMCE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze13modifyRestartE10shared_ptrI6WLTMMCE">
+<span id="feasst::Analyze::modifyRestart__shared_ptr:WLTMMC:"></span><span class="target" id="classfeasst_1_1Analyze_1a3f0a687d93dfb6c930b5342dc810051d"></span><em class="property">virtual</em> void <code class="descname">modifyRestart</code><span class="sig-paren">(</span>shared_ptr&lt;<a class="reference internal" href="WLTMMC.html#_CPPv2N6feasst6WLTMMCE" title="feasst::WLTMMC">WLTMMC</a>&gt; <em>mc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze13modifyRestartE10shared_ptrI6WLTMMCE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Monkey patch to modify restart at run time for parallel restarting. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze12writeRestartEPKc">
-<span id="Analyze::writeRestart__cCP"></span><span class="target" id="classAnalyze_1a8a1af76b63861b368964e655c10d12fe"></span><em class="property">virtual</em> void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze12writeRestartEPKc">
+<span id="feasst::Analyze::writeRestart__cCP"></span><span class="target" id="classfeasst_1_1Analyze_1a1314022c79dc018ec24eb1656854baf0"></span><em class="property">virtual</em> void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Write restart file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze7AnalyzeEP4PairPKc">
-<span id="Analyze::Analyze__PairP.cCP"></span><span class="target" id="classAnalyze_1a5ebefa28b7b9c19582ac899167a7cd7a"></span><code class="descname">Analyze</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em>, <em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze7AnalyzeEP4PairPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze7AnalyzeEP4PairPKc">
+<span id="feasst::Analyze::Analyze__PairP.cCP"></span><span class="target" id="classfeasst_1_1Analyze_1a178c3861cb6675de0b8d1e1b637e9d04"></span><code class="descname">Analyze</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv2N6feasst4PairE" title="feasst::Pair">Pair</a> *<em>pair</em>, <em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze7AnalyzeEP4PairPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct from restart file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze11reconstructEP4Pair">
-<span id="Analyze::reconstruct__PairP"></span><span class="target" id="classAnalyze_1a63476ad2ef623653d8d28885129eca03"></span>void <code class="descname">reconstruct</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv24Pair" title="Pair">Pair</a> *<em>pair</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze11reconstructEP4Pair" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze11reconstructEP4Pair">
+<span id="feasst::Analyze::reconstruct__PairP"></span><span class="target" id="classfeasst_1_1Analyze_1adf504fd0c4ac4f70db3cfb449b8b7b7f"></span>void <code class="descname">reconstruct</code><span class="sig-paren">(</span><a class="reference internal" href="Pair.html#_CPPv2N6feasst4PairE" title="feasst::Pair">Pair</a> *<em>pair</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze11reconstructEP4Pair" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Reset object pointers. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N7Analyze5spaceEv">
-<span id="Analyze::space"></span><span class="target" id="classAnalyze_1ae29dde9c3c1ecb4628d6d014f37ccdb4"></span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<code class="descname">space</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N7Analyze5spaceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst7Analyze5spaceEv">
+<span id="feasst::Analyze::space"></span><span class="target" id="classfeasst_1_1Analyze_1a53e093bc0959e9fe00bb788123ce944e"></span><a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a> *<code class="descname">space</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst7Analyze5spaceEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return pointer to space from pair. </p>
 </dd></dl>
 
@@ -223,13 +228,14 @@
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Analyze</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeCluster.html">AnalyzeCluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeScatter.html">AnalyzeScatter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeTRAJ.html">AnalyzeTRAJ</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="basetoc.html">Base Classes</a></li>
@@ -248,6 +254,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
@@ -276,7 +283,7 @@
         <li class="right" >
           <a href="analyzetoc.html" title="Analyze Classes"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="analyzetoc.html" >Analyze Classes</a> &#187;</li> 
       </ul>

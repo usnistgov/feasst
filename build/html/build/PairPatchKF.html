@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>PairPatchKF &#8212; FEASST v0.3.1 documentation</title>
+    <title>PairPatchKF &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="PairLJCoulEwald.html" title="PairLJCoulEwald"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" accesskey="U">Pair Classes</a> &#187;</li> 
       </ul>
@@ -58,16 +58,16 @@
   <div class="section" id="pairpatchkf">
 <h1>PairPatchKF<a class="headerlink" href="#pairpatchkf" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv211PairPatchKF">
-<span id="PairPatchKF"></span><span class="target" id="classPairPatchKF"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">PairPatchKF</code><a class="headerlink" href="#_CPPv211PairPatchKF" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst11PairPatchKFE">
+<span id="feasst::PairPatchKF"></span><span class="target" id="classfeasst_1_1PairPatchKF"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">PairPatchKF</code><a class="headerlink" href="#_CPPv2N6feasst11PairPatchKFE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Patchy orientational dependent square-well interactions. See the following publications: Fluid–fluid coexistence in colloidal systems with short-ranged strongly directional attraction Norbert Kern and Daan Frenkel J. Chem. Phys. 118, 9882 (2003); <a class="reference external" href="http://dx.doi.org/10.1063/1.1569473">http://dx.doi.org/10.1063/1.1569473</a></p>
 <p>As currently implemented, this class assumes only one central particle site with one or more patches, and not multiple particles, each with their own set of patches, bonded together. </p>
-<p>Inherits from <a class="reference internal" href="Pair.html#classPair"><span class="std std-ref">Pair</span></a></p>
+<p>Inherits from <a class="reference internal" href="Pair.html#classfeasst_1_1Pair"><span class="std std-ref">feasst::Pair</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv2N11PairPatchKF11PairPatchKFEP5SpaceRK7argtype">
-<span id="PairPatchKF::PairPatchKF__SpaceP.argtypeCR"></span><span class="target" id="classPairPatchKF_1a93035f9fb6dcc1f34cc2bd1337d3b3c8"></span><code class="descname">PairPatchKF</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv25Space" title="Space">Space</a> *<em>space</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N11PairPatchKF11PairPatchKFEP5SpaceRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst11PairPatchKF11PairPatchKFEP5SpaceRK7argtype">
+<span id="feasst::PairPatchKF::PairPatchKF__SpaceP.argtypeCR"></span><span class="target" id="classfeasst_1_1PairPatchKF_1a1c416f446af5ea06e87344c2765f665d"></span><code class="descname">PairPatchKF</code><span class="sig-paren">(</span><a class="reference internal" href="Space.html#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a> *<em>space</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype ()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst11PairPatchKF11PairPatchKFEP5SpaceRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor. </p>
 <p><dl class="docutils">
 <dt><strong>Parameters</strong></dt>
@@ -82,32 +82,32 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N11PairPatchKF11mirrorPatchEKi">
-<span id="PairPatchKF::mirrorPatch__iC"></span><span class="target" id="classPairPatchKF_1a6921f8f61a7a587259070fd11612fd00"></span>void <code class="descname">mirrorPatch</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N11PairPatchKF11mirrorPatchEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst11PairPatchKF11mirrorPatchEKi">
+<span id="feasst::PairPatchKF::mirrorPatch__iC"></span><span class="target" id="classfeasst_1_1PairPatchKF_1a4a2a9a56605f92bbe0232c592d9d075a"></span>void <code class="descname">mirrorPatch</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst11PairPatchKF11mirrorPatchEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Mirrors the patch on the other side of the particle if flag == 1. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N11PairPatchKF13multiPartEnerEK6vectorIiEKi">
-<span id="PairPatchKF::multiPartEner__vector:i:C.iC"></span><span class="target" id="classPairPatchKF_1ac704bcc773a621094691b7a589c0bd56"></span>double <code class="descname">multiPartEner</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>multiPart</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N11PairPatchKF13multiPartEnerEK6vectorIiEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst11PairPatchKF13multiPartEnerEK6vectorIiEKi">
+<span id="feasst::PairPatchKF::multiPartEner__vector:i:C.iC"></span><span class="target" id="classfeasst_1_1PairPatchKF_1ab7a3e6daa9f1d904dca51d51fbb13fe7"></span>double <code class="descname">multiPartEner</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>multiPart</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst11PairPatchKF13multiPartEnerEK6vectorIiEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>potential energy of multiple particles </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N11PairPatchKF18multiPartEnerNeighEK6vectorIiE">
-<span id="PairPatchKF::multiPartEnerNeigh__vector:i:C"></span><span class="target" id="classPairPatchKF_1a084238f9d1016df8c240b506cfe27e98"></span>double <code class="descname">multiPartEnerNeigh</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>multiPart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N11PairPatchKF18multiPartEnerNeighEK6vectorIiE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst11PairPatchKF18multiPartEnerNeighEK6vectorIiE">
+<span id="feasst::PairPatchKF::multiPartEnerNeigh__vector:i:C"></span><span class="target" id="classfeasst_1_1PairPatchKF_1ac03a79daa489deda0c6981983edd1430"></span>double <code class="descname">multiPartEnerNeigh</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>multiPart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst11PairPatchKF18multiPartEnerNeighEK6vectorIiE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>potential energy of multiple particles optimized for neighbor list updates </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N11PairPatchKF6updateEK6vectorIiEKiPKc">
-<span id="PairPatchKF::update__vector:i:C.iC.cCP"></span><span class="target" id="classPairPatchKF_1a588da7f5e17640678f8201d479a36af4"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em>, <em class="property">const</em> char *<em>uptype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N11PairPatchKF6updateEK6vectorIiEKiPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst11PairPatchKF6updateEK6vectorIiEKiPKc">
+<span id="feasst::PairPatchKF::update__vector:i:C.iC.cCP"></span><span class="target" id="classfeasst_1_1PairPatchKF_1a89352b1e26464eebbc3b59d3669f4a66"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em>, <em class="property">const</em> char *<em>uptype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst11PairPatchKF6updateEK6vectorIiEKiPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>stores, restores or updates variables to avoid order recompute of entire </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N11PairPatchKF8printxyzEPKcKiKNSt6stringE">
-<span id="PairPatchKF::printxyz__cCP.iC.ssC"></span><span class="target" id="classPairPatchKF_1adc33da0f5ea8f23602992efac5432b5e"></span>int <code class="descname">printxyz</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>initFlag</em>, <em class="property">const</em> std::string <em>comment</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N11PairPatchKF8printxyzEPKcKiKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst11PairPatchKF8printXYZEPKcKiKNSt6stringE">
+<span id="feasst::PairPatchKF::printXYZ__cCP.iC.ssC"></span><span class="target" id="classfeasst_1_1PairPatchKF_1aca58ecb7973f2607b79ed39c1f041f0e"></span>int <code class="descname">printXYZ</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em>, <em class="property">const</em> int <em>initFlag</em>, <em class="property">const</em> std::string <em>comment</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst11PairPatchKF8printXYZEPKcKiKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Write xyz for visualization. <dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -119,8 +119,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N11PairPatchKF14updateClustersEKd">
-<span id="PairPatchKF::updateClusters__doubleC"></span><span class="target" id="classPairPatchKF_1a60b200f4c6b5238b9cd8b79198d5cab1"></span>void <code class="descname">updateClusters</code><span class="sig-paren">(</span><em class="property">const</em> double <em>tol</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N11PairPatchKF14updateClustersEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst11PairPatchKF14updateClustersEKd">
+<span id="feasst::PairPatchKF::updateClusters__doubleC"></span><span class="target" id="classfeasst_1_1PairPatchKF_1a62b57f12adfe19e1f65f6a756fb1c18f"></span>void <code class="descname">updateClusters</code><span class="sig-paren">(</span><em class="property">const</em> double <em>tol</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst11PairPatchKF14updateClustersEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Update clusters of entire system. <dl class="docutils">
 <dt><strong>Parameters</strong></dt>
 <dd><ul class="breatheparameterlist first last simple">
@@ -132,20 +132,20 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N11PairPatchKF16allPartEnerForceEKi">
-<span id="PairPatchKF::allPartEnerForce__iC"></span><span class="target" id="classPairPatchKF_1a3949db8f2f5bd6387f8b7b2313f27ef6"></span>double <code class="descname">allPartEnerForce</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N11PairPatchKF16allPartEnerForceEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst11PairPatchKF16allPartEnerForceEKi">
+<span id="feasst::PairPatchKF::allPartEnerForce__iC"></span><span class="target" id="classfeasst_1_1PairPatchKF_1a445ebd753e3f91c9c6fdab3304d3fa10"></span>double <code class="descname">allPartEnerForce</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst11PairPatchKF16allPartEnerForceEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>potential energy and forces of all particles </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N11PairPatchKF27allPartEnerForceMolCutInnerEKdKiKiKdKdKd">
-<span id="PairPatchKF::allPartEnerForceMolCutInner__doubleC.iC.iC.doubleC.doubleC.doubleC"></span><span class="target" id="classPairPatchKF_1ae3004fa05acd3e316bf3c78c7e25a88d"></span>void <code class="descname">allPartEnerForceMolCutInner</code><span class="sig-paren">(</span><em class="property">const</em> double <em>r2</em>, <em class="property">const</em> int <em>iMol</em>, <em class="property">const</em> int <em>jMol</em>, <em class="property">const</em> double <em>dx</em>, <em class="property">const</em> double <em>dy</em>, <em class="property">const</em> double <em>dz</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N11PairPatchKF27allPartEnerForceMolCutInnerEKdKiKiKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst11PairPatchKF27allPartEnerForceMolCutInnerEKdKiKiKdKdKd">
+<span id="feasst::PairPatchKF::allPartEnerForceMolCutInner__doubleC.iC.iC.doubleC.doubleC.doubleC"></span><span class="target" id="classfeasst_1_1PairPatchKF_1ace5f5e7409ed447abd8c77656942cdd9"></span>void <code class="descname">allPartEnerForceMolCutInner</code><span class="sig-paren">(</span><em class="property">const</em> double <em>r2</em>, <em class="property">const</em> int <em>iMol</em>, <em class="property">const</em> int <em>jMol</em>, <em class="property">const</em> double <em>dx</em>, <em class="property">const</em> double <em>dy</em>, <em class="property">const</em> double <em>dz</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst11PairPatchKF27allPartEnerForceMolCutInnerEKdKiKiKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute interactions between two molecules. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK11PairPatchKF3cpaEv">
-<span id="PairPatchKF::cpaC"></span><span class="target" id="classPairPatchKF_1ae490b23ec5038e65434ed867b9b1c573"></span>double <code class="descname">cpa</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK11PairPatchKF3cpaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst11PairPatchKF3cpaEv">
+<span id="feasst::PairPatchKF::cpaC"></span><span class="target" id="classfeasst_1_1PairPatchKF_1aca1769682dff4bde0bdecc7279321f36"></span>double <code class="descname">cpa</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst11PairPatchKF3cpaEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the cosine of the patch angle. </p>
 </dd></dl>
 
@@ -163,7 +163,7 @@
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
@@ -196,6 +196,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
@@ -224,7 +225,7 @@
         <li class="right" >
           <a href="PairLJCoulEwald.html" title="PairLJCoulEwald"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" >Pair Classes</a> &#187;</li> 
       </ul>

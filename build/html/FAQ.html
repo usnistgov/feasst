@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Frequently asked questions (FAQ) &#8212; FEASST v0.3.1 documentation</title>
+    <title>Frequently asked questions (FAQ) &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -28,7 +28,7 @@
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Guidelines for developers" href="sphinx/dev.html" />
+    <link rel="next" title="Change log" href="CHANGELOG.html" />
     <link rel="prev" title="PhysicalConstants" href="build/PhysicalConstants.html" /> 
   </head>
   <body>
@@ -39,12 +39,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="sphinx/dev.html" title="Guidelines for developers"
+          <a href="CHANGELOG.html" title="Change log"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="build/PhysicalConstants.html" title="PhysicalConstants"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -65,29 +65,29 @@ Reproduce a published result and carefully modify it as you see fit.</p>
 <div class="section" id="calculate-average-properties">
 <h3>Calculate average properties<a class="headerlink" href="#calculate-average-properties" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>The log file from <a class="reference internal" href="build/MC.html#_CPPv2N2MC7initLogEPKcKx" title="MC::initLog"><code class="xref cpp cpp-func docutils literal"><span class="pre">MC::initLog()</span></code></a> may periodically output the instantaneous value of the property of interest.</li>
-<li>Obtain the property of interest from the <a class="reference internal" href="build/api.html"><span class="doc">Application program interface (API)</span></a> periodically, as shown in the python script of <a class="reference internal" href="build/testcase/1_lj_2_nvt-mc_README.html"><span class="doc">LJ: NVT MC</span></a>.</li>
-<li>Implement a custom Analysis class as demonstrated for average energy in the C++ script of <a class="reference internal" href="build/testcase/1_lj_2_nvt-mc_README.html"><span class="doc">LJ: NVT MC</span></a></li>
+<li>The log file from <code class="xref cpp cpp-func docutils literal"><span class="pre">MC::initLog()</span></code> may periodically output the instantaneous value of the property of interest.</li>
+<li>Obtain the property of interest from the <a class="reference internal" href="build/api.html"><span class="doc">Application program interface (API)</span></a> periodically, as shown in the python script of <a class="reference internal" href="build/tutorial/1_lj_2_nvt-mc_README.html"><span class="doc">LJ: NVT MC</span></a>.</li>
+<li>Implement a custom Analysis class as demonstrated for average energy in the C++ script of <a class="reference internal" href="build/tutorial/1_lj_2_nvt-mc_README.html"><span class="doc">LJ: NVT MC</span></a></li>
 </ul>
 </div>
 <div class="section" id="calculate-grand-canonical-ensemble-average-properties">
 <h3>Calculate grand canonical ensemble average properties<a class="headerlink" href="#calculate-grand-canonical-ensemble-average-properties" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>See the example in <a class="reference internal" href="build/testcase/1_lj_3_eostmmc_README.html"><span class="doc">LJ: muVT TMMC</span></a> for coexistence properties.</li>
+<li>See the example in <a class="reference internal" href="build/tutorial/1_lj_3_eostmmc_README.html"><span class="doc">LJ: muVT TMMC</span></a> for coexistence properties.</li>
 </ul>
 </div>
 <div class="section" id="load-coordinate-files-or-place-particles-in-specific-locations">
 <h3>Load coordinate files or place particles in specific locations<a class="headerlink" href="#load-coordinate-files-or-place-particles-in-specific-locations" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>See the example in <a class="reference internal" href="build/testcase/1_lj_1_ref-config_README.html"><span class="doc">LJ: Configuration</span></a>.</li>
+<li>See the example in <a class="reference internal" href="build/tutorial/1_lj_1_ref-config_README.html"><span class="doc">LJ: Configuration</span></a>.</li>
 </ul>
 </div>
 <div class="section" id="make-feasst-do-exactly-what-you-want-it-to-do">
 <h3>Make FEASST do exactly what you want it to do<a class="headerlink" href="#make-feasst-do-exactly-what-you-want-it-to-do" title="Permalink to this headline">¶</a></h3>
-<p>You can create your own <a class="reference internal" href="build/Pair.html#_CPPv24Pair" title="Pair"><code class="xref cpp cpp-class docutils literal"><span class="pre">Pair</span></code></a>, <a class="reference internal" href="build/Trial.html#_CPPv25Trial" title="Trial"><code class="xref cpp cpp-class docutils literal"><span class="pre">Trial</span></code></a>, <a class="reference internal" href="build/Criteria.html#_CPPv28Criteria" title="Criteria"><code class="xref cpp cpp-class docutils literal"><span class="pre">Criteria</span></code></a>, <a class="reference internal" href="build/Analyze.html#_CPPv27Analyze" title="Analyze"><code class="xref cpp cpp-class docutils literal"><span class="pre">Analyze</span></code></a>, and <a class="reference internal" href="build/Random.html#_CPPv26Random" title="Random"><code class="xref cpp cpp-class docutils literal"><span class="pre">Random</span></code></a> classes as described in the documentation for the Base classes.
+<p>You can create your own <code class="xref cpp cpp-class docutils literal"><span class="pre">Pair</span></code>, <code class="xref cpp cpp-class docutils literal"><span class="pre">Trial</span></code>, <code class="xref cpp cpp-class docutils literal"><span class="pre">Criteria</span></code>, <code class="xref cpp cpp-class docutils literal"><span class="pre">Analyze</span></code>, and <code class="xref cpp cpp-class docutils literal"><span class="pre">Random</span></code> classes as described in the documentation for the Base classes.
 Start by finding an existing derived class that is the most similar and copying it.
 You can also define new classes within the script themselves.
-For example, see <a class="reference internal" href="build/testcase/1_lj_2_nvt-mc_README.html"><span class="doc">LJ: NVT MC</span></a> for a custom <a class="reference internal" href="build/Analyze.html#_CPPv27Analyze" title="Analyze"><code class="xref cpp cpp-class docutils literal"><span class="pre">Analyze</span></code></a>, and <a class="reference internal" href="build/testcase/2_jagla_1_ref-config_README.html"><span class="doc">Jagla: Configuration</span></a> for a custom <a class="reference internal" href="build/Pair.html#_CPPv24Pair" title="Pair"><code class="xref cpp cpp-class docutils literal"><span class="pre">Pair</span></code></a>.</p>
+For example, see <a class="reference internal" href="build/tutorial/1_lj_2_nvt-mc_README.html"><span class="doc">LJ: NVT MC</span></a> for a custom <code class="xref cpp cpp-class docutils literal"><span class="pre">Analyze</span></code>, and <a class="reference internal" href="build/tutorial/2_jagla_1_ref-config_README.html"><span class="doc">Jagla: Configuration</span></a> for a custom <code class="xref cpp cpp-class docutils literal"><span class="pre">Pair</span></code>.</p>
 </div>
 <div class="section" id="analysis-of-configurations-for-wl-tmmc-simulations">
 <h3>Analysis of configurations for WL-TMMC simulations<a class="headerlink" href="#analysis-of-configurations-for-wl-tmmc-simulations" title="Permalink to this headline">¶</a></h3>
@@ -111,7 +111,7 @@ index as described by the acceptance criteria.</p>
 <p>The following code reads an xyz file format to input an initial
 configuration.</p>
 <div class="highlight-C++"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">ifstream</span> <span class="n">inFile</span><span class="p">(</span><span class="s">&quot;nameOfFile&quot;</span><span class="p">);</span>
-<span class="n">pair</span><span class="p">.</span><span class="n">readxyz</span><span class="p">(</span><span class="n">inFile</span><span class="p">);</span>
+<span class="n">pair</span><span class="p">.</span><span class="n">readXYZ</span><span class="p">(</span><span class="n">inFile</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>If there are zero particles in the space class, then it automatically
@@ -129,14 +129,13 @@ or A,A,A…,B,B,B… then you need to add these in the right order.</p>
 </div>
 <p>Then the same for B, assuming your xyz has all A listed, followed by
 all B.</p>
-<p>After all of the s.addMol commands are performed and the xyz file is
+<p>After all of the <code class="xref cpp cpp-func docutils literal"><span class="pre">Pair::addMol()</span></code> commands are performed and the xyz file is
 read, you will need to update the pair class as follows:</p>
-<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="n">p</span><span class="p">.</span><span class="n">initEnergy</span><span class="p">();</span>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="n">pair</span><span class="p">.</span><span class="n">initEnergy</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>A simple test that the xyz file was read correctly is to print it and
-compare:</p>
-<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="n">p</span><span class="p">.</span><span class="n">printxyz</span><span class="p">(</span><span class="s">&quot;filename&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<p>A simple test that the xyz file was read correctly is to print it and compare:</p>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="n">pair</span><span class="p">.</span><span class="n">printXYZ</span><span class="p">(</span><span class="s">&quot;filename&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -214,13 +213,13 @@ your own pair potentials.</p>
 <ol class="arabic simple">
 <li>You can use the parallel version with multiple windows. The <code class="docutils literal"><span class="pre">MC::initWindows(nExp=</span></code> variable sets the spacing based on some exponential distribution,e.g., nExp=3. makes windows even bigger o the low density side vs nExp=2.</li>
 </ol>
-<p><a class="reference internal" href="build/WLTMMC.html#_CPPv2N6WLTMMC11initWindowsEi" title="WLTMMC::initWindows"><code class="xref cpp cpp-func docutils literal"><span class="pre">WLTMMC::initWindows()</span></code></a></p>
+<p><code class="xref cpp cpp-func docutils literal"><span class="pre">WLTMMC::initWindows()</span></code></p>
 <ol class="arabic simple" start="2">
 <li>Break into multiple simulations. For example, I launched two jobs simultaneously, one with N=0 to 336, and another N=336 to N=550. Of course the low density ones finished 10x faster but then the high density windows were smaller</li>
 <li>If you’re trying to do a high throughput approach where each model and condition can be quite different but you don’t want to have to hand pick conditions for each one, you can do a ridiculous number of windows (N=16/32 perhaps?) and terminate after some run time and only use the windows that managed to converge and throw out the rest. Still you would want to choose carefully the nMolMax to not have too much wasted processor time.</li>
 <li>You can use the more MD-style approach of initializing a big box and squeezing it.</li>
 </ol>
-<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">.</span><span class="n">pressureset</span><span class="p">(</span><span class="mf">1000.</span><span class="p">);</span>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">criteria</span><span class="p">.</span><span class="n">pressureset</span><span class="p">(</span><span class="mf">1000.</span><span class="p">);</span>
 <span class="n">transformTrial</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mc</span><span class="p">,</span> <span class="s">&quot;lxmod&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">);</span>
 <span class="n">transformTrial</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mc</span><span class="p">,</span> <span class="s">&quot;lymod&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">);</span>
 <span class="n">transformTrial</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mc</span><span class="p">,</span> <span class="s">&quot;lzmod&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">);</span>
@@ -247,8 +246,8 @@ Another option is mc.removeTrial(trial#);</p>
 </div>
 <div class="section" id="error-function-class-is-not-a-member-of-feasst">
 <h3>error: ‘[function/class]’ is not a member of ‘feasst’<a class="headerlink" href="#error-function-class-is-not-a-member-of-feasst" title="Permalink to this headline">¶</a></h3>
-<p>In C++, this error often occurs when one does not include a necessary header file.
-For example, to use <cite>feasst::swapTrial()</cite>, one must have <cite>#include “trial_swap.h”</cite>.</p>
+<p>In C++, this error often occurs when one does not include the header file <cite>#include “feasst.h”</cite>.
+It may also occur when the namespace is not specified via <cite>feasst::</cite>.</p>
 </div>
 <div class="section" id="compilation-error-gives-can-not-be-used-when-making-a-shared-object-recompile-with-fpic">
 <h3>Compilation error gives “can not be used when making a shared object; recompile with -fPIC”<a class="headerlink" href="#compilation-error-gives-can-not-be-used-when-making-a-shared-object-recompile-with-fpic" title="Permalink to this headline">¶</a></h3>
@@ -260,6 +259,10 @@ Or you can edit CMakeLists.txt to add “-fPIC” as follows:</p>
 <div class="section" id="error-no-matching-constructor-for-initialization-cannot-convert-initialize-list">
 <h3>error: no matching constructor for initialization … cannot convert initialize list<a class="headerlink" href="#error-no-matching-constructor-for-initialization-cannot-convert-initialize-list" title="Permalink to this headline">¶</a></h3>
 <p>While initializing classes using the “{{“key1”, “val1”}}” notation, you likely input a non-string value.</p>
+</div>
+<div class="section" id="when-you-see-stack-smashing-detected">
+<h3>When you see: <strong>* stack smashing detected *</strong><a class="headerlink" href="#when-you-see-stack-smashing-detected" title="Permalink to this headline">¶</a></h3>
+<p>This error occurs when compiling feasst as a library, but not including FEASST external libraries, such as OMP, etc.</p>
 </div>
 </div>
 </div>
@@ -273,7 +276,7 @@ Or you can edit CMakeLists.txt to add “-fPIC” as follows:</p>
 <h3><a href="index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build/api.html">Application program interface (API)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Frequently asked questions (FAQ)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#how-do-i-get-started">How do I get started?</a></li>
@@ -294,10 +297,12 @@ Or you can edit CMakeLists.txt to add “-fPIC” as follows:</p>
 <li class="toctree-l3"><a class="reference internal" href="#error-function-class-is-not-a-member-of-feasst">error: ‘[function/class]’ is not a member of ‘feasst’</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#compilation-error-gives-can-not-be-used-when-making-a-shared-object-recompile-with-fpic">Compilation error gives “can not be used when making a shared object; recompile with -fPIC”</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#error-no-matching-constructor-for-initialization-cannot-convert-initialize-list">error: no matching constructor for initialization … cannot convert initialize list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#when-you-see-stack-smashing-detected">When you see: <strong>* stack smashing detected *</strong></a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sphinx/contact.html">Contact and bug reports</a></li>
@@ -308,8 +313,8 @@ Or you can edit CMakeLists.txt to add “-fPIC” as follows:</p>
   <p class="topless"><a href="build/PhysicalConstants.html"
                         title="previous chapter">PhysicalConstants</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="sphinx/dev.html"
-                        title="next chapter">Guidelines for developers</a></p>
+  <p class="topless"><a href="CHANGELOG.html"
+                        title="next chapter">Change log</a></p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -321,12 +326,12 @@ Or you can edit CMakeLists.txt to add “-fPIC” as follows:</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="sphinx/dev.html" title="Guidelines for developers"
+          <a href="CHANGELOG.html" title="Change log"
              >next</a> |</li>
         <li class="right" >
           <a href="build/PhysicalConstants.html" title="PhysicalConstants"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

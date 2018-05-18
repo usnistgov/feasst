@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Table &#8212; FEASST v0.3.1 documentation</title>
+    <title>Table &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="Space.html" title="Space"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" accesskey="U">Application program interface (API)</a> &#187;</li> 
       </ul>
     </div>  
@@ -57,68 +57,68 @@
   <div class="section" id="table">
 <h1>Table<a class="headerlink" href="#table" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv25Table">
-<span id="Table"></span><span class="target" id="classTable"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">Table</code><a class="headerlink" href="#_CPPv25Table" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst5TableE">
+<span id="feasst::Table"></span><span class="target" id="classfeasst_1_1Table"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">Table</code><a class="headerlink" href="#_CPPv2N6feasst5TableE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Data tables with interpolation </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv2N5Table5TableEv">
-<span id="Table::Table"></span><span class="target" id="classTable_1a049f2e06391781ae255c6698869c4ad1"></span><code class="descname">Table</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Table5TableEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst5Table5TableEv">
+<span id="feasst::Table::Table"></span><span class="target" id="classfeasst_1_1Table_1a0e9c0e35dfb71d20fe8ade076dbc1224"></span><code class="descname">Table</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Table5TableEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N5Table15setInterpolatorEPKc">
-<span id="Table::setInterpolator__cCP"></span><span class="target" id="classTable_1af83eb63f907fa3fcbdc6d7ad70eb4970"></span>void <code class="descname">setInterpolator</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em> = &quot;linear&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Table15setInterpolatorEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst5Table15setInterpolatorEPKc">
+<span id="feasst::Table::setInterpolator__cCP"></span><span class="target" id="classfeasst_1_1Table_1a3379343e75ba81e6692c3d5aad1a6198"></span>void <code class="descname">setInterpolator</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em> = &quot;linear&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Table15setInterpolatorEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the interpolator. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N5Table11interpolateEKd">
-<span id="Table::interpolate__doubleC"></span><span class="target" id="classTable_1a45ae3b640bf9e8f8f3d03794721ad11c"></span>double <code class="descname">interpolate</code><span class="sig-paren">(</span><em class="property">const</em> double <em>val0</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Table11interpolateEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst5Table11interpolateEKd">
+<span id="feasst::Table::interpolate__doubleC"></span><span class="target" id="classfeasst_1_1Table_1a6655ec0fdf4e023324ef3acaf9c05ad7"></span>double <code class="descname">interpolate</code><span class="sig-paren">(</span><em class="property">const</em> double <em>val0</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Table11interpolateEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>1D interpolation </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK5Table11compute_minEv">
-<span id="Table::compute_minC"></span><span class="target" id="classTable_1a7457b7a65756deb704f21a78debe6dac"></span>double <code class="descname">compute_min</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK5Table11compute_minEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst5Table11compute_minEv">
+<span id="feasst::Table::compute_minC"></span><span class="target" id="classfeasst_1_1Table_1a823b448ba07d642a465f59c6104852a5"></span>double <code class="descname">compute_min</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst5Table11compute_minEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute and return the minimum value in table. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2NK5Table11compute_maxEv">
-<span id="Table::compute_maxC"></span><span class="target" id="classTable_1a34af1d8e935acfa68a4a5887af420709"></span>double <code class="descname">compute_max</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK5Table11compute_maxEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst5Table11compute_maxEv">
+<span id="feasst::Table::compute_maxC"></span><span class="target" id="classfeasst_1_1Table_1a382fc422edcc7df4b29016fd402b53fe"></span>double <code class="descname">compute_max</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst5Table11compute_maxEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute and return the maximum value in table. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N5Table22compute_min_compress1dEKi">
-<span id="Table::compute_min_compress1d__iC"></span><span class="target" id="classTable_1ac3b00d5490b3077bd8712bf76c84757f"></span>void <code class="descname">compute_min_compress1d</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Table22compute_min_compress1dEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst5Table22compute_min_compress1dEKi">
+<span id="feasst::Table::compute_min_compress1d__iC"></span><span class="target" id="classfeasst_1_1Table_1a6cc6b026d4202659cc453e2a10a2057c"></span>void <code class="descname">compute_min_compress1d</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Table22compute_min_compress1dEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute minimium values as a function of one table dimension, dim. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N5Table9printHDF5EPKc">
-<span id="Table::printHDF5__cCP"></span><span class="target" id="classTable_1aca3267811a2a75497c16aec4af2ee23c"></span>void <code class="descname">printHDF5</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Table9printHDF5EPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst5Table9printHDF5EPKc">
+<span id="feasst::Table::printHDF5__cCP"></span><span class="target" id="classfeasst_1_1Table_1a1d49f9615a97f4d2e309a6337cabe800"></span>void <code class="descname">printHDF5</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Table9printHDF5EPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Print table in hdf5 format. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N5Table11solveSplineEPKc">
-<span id="Table::solveSpline__cCP"></span><span class="target" id="classTable_1a4a76221352322152e8e60502e7d37a43"></span>void <code class="descname">solveSpline</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>endCondition</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Table11solveSplineEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst5Table11solveSplineEPKc">
+<span id="feasst::Table::solveSpline__cCP"></span><span class="target" id="classfeasst_1_1Table_1a9eb19bd1c3630163c75a4503aa7124c6"></span>void <code class="descname">solveSpline</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>endCondition</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Table11solveSplineEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Solve for the spline derivatives, assuming condition at end points. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N5Table7bin2absEKi">
-<span id="Table::bin2abs__iC"></span><span class="target" id="classTable_1a76bb2f06f09207ccd4677230c34a5bb2"></span>double <code class="descname">bin2abs</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bin</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Table7bin2absEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst5Table7bin2absEKi">
+<span id="feasst::Table::bin2abs__iC"></span><span class="target" id="classfeasst_1_1Table_1aa62ef12a130f9d55fd824de79b738998"></span>double <code class="descname">bin2abs</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bin</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Table7bin2absEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>For a given bin, return the abscissae (“x”). </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N5Table5TableEPKc">
-<span id="Table::Table__cCP"></span><span class="target" id="classTable_1a4dcfd474397e2f369dc50f74af0de963"></span><code class="descname">Table</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5Table5TableEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst5Table5TableEPKc">
+<span id="feasst::Table::Table__cCP"></span><span class="target" id="classfeasst_1_1Table_1a985abda8b937cd4700ee63a210c5d12f"></span><code class="descname">Table</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Table5TableEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct from restart file. </p>
 </dd></dl>
 
@@ -136,9 +136,10 @@
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Application program interface (API)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
@@ -167,7 +168,7 @@
         <li class="right" >
           <a href="Space.html" title="Space"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li> 
       </ul>
     </div>

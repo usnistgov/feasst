@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Random &#8212; FEASST v0.3.1 documentation</title>
+    <title>Random &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="randomtoc.html" title="Random Classes"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="randomtoc.html" accesskey="U">Random Classes</a> &#187;</li> 
       </ul>
@@ -58,59 +58,53 @@
   <div class="section" id="random">
 <h1>Random<a class="headerlink" href="#random" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv26Random">
-<span id="Random"></span><span class="target" id="classRandom"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">Random</code><a class="headerlink" href="#_CPPv26Random" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6RandomE">
+<span id="feasst::Random"></span><span class="target" id="classfeasst_1_1Random"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">Random</code><a class="headerlink" href="#_CPPv2N6feasst6RandomE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>General interface for random number generators.</p>
-<p>In order to create a new <a class="reference internal" href="#classRandom"><span class="std std-ref">Random</span></a> derived class, copy an existing set of “random_*” files and replace the class name and header guards (e.g., BASECLASS_DERIVED_H_). </p>
-<p>Inherits from <a class="reference internal" href="Base.html#classBase"><span class="std std-ref">Base</span></a></p>
-<p>Subclassed by <a class="reference internal" href="RandomNR3.html#classRandomNR3"><span class="std std-ref">RandomNR3</span></a></p>
+<p>In order to create a new <a class="reference internal" href="#classfeasst_1_1Random"><span class="std std-ref">Random</span></a> derived class, copy an existing set of “random_*” files and replace the class name and header guards (e.g., BASECLASS_DERIVED_H_). </p>
+<p>Inherits from <a class="reference internal" href="Base.html#classfeasst_1_1Base"><span class="std std-ref">feasst::Base</span></a></p>
+<p>Subclassed by <a class="reference internal" href="RandomNR3.html#classfeasst_1_1RandomNR3"><span class="std std-ref">feasst::RandomNR3</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv2N6Random6RandomEKy">
-<span id="Random::Random__unsigned-l-lC"></span><span class="target" id="classRandom_1a1be0923eabbf5727489bde9405abcf45"></span><code class="descname">Random</code><span class="sig-paren">(</span><em class="property">const</em> unsigned long long <em>iseed</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Random6RandomEKy" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6Random6RandomEKy">
+<span id="feasst::Random::Random__unsigned-l-lC"></span><span class="target" id="classfeasst_1_1Random_1a1c2a035d145b504bb045a98db5d625e6"></span><code class="descname">Random</code><span class="sig-paren">(</span><em class="property">const</em> unsigned long long <em>iseed</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6Random6RandomEKy" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct from seed. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6Random6RandomEPKc">
-<span id="Random::Random__cCP"></span><span class="target" id="classRandom_1a321ee6afb07d72fe1d374344b1ae5397"></span><code class="descname">Random</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Random6RandomEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6Random6RandomEPKc">
+<span id="feasst::Random::Random__cCP"></span><span class="target" id="classfeasst_1_1Random_1a79b560a00070c5641381e257b8c731cc"></span><code class="descname">Random</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6Random6RandomEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct from checkpoint file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6Random12writeRestartEPKc">
-<span id="Random::writeRestart__cCP"></span><span class="target" id="classRandom_1a2f5a1db2a86b3c3ffc19e20fd905b8d8"></span><em class="property">virtual</em> void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6Random12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6Random12writeRestartEPKc">
+<span id="feasst::Random::writeRestart__cCP"></span><span class="target" id="classfeasst_1_1Random_1a1c404c1ebd88dc046f107aaef7cebdd2"></span><em class="property">virtual</em> void <code class="descname">writeRestart</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6feasst6Random12writeRestartEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Write checkpoint file. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6Random4seedEKy">
-<span id="Random::seed__unsigned-l-lC"></span><span class="target" id="classRandom_1a4641d87022fa30707fc64dab74ba6f01"></span>void <code class="descname">seed</code><span class="sig-paren">(</span><em class="property">const</em> unsigned long long <em>iseed</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Random4seedEKy" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6Random4seedEKy">
+<span id="feasst::Random::seed__unsigned-l-lC"></span><span class="target" id="classfeasst_1_1Random_1ae54df90d02cca8c22529b164ae3682d9"></span>void <code class="descname">seed</code><span class="sig-paren">(</span><em class="property">const</em> unsigned long long <em>iseed</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6Random4seedEKy" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Seed random number generator. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6Random7uniformEv">
-<span id="Random::uniform"></span><span class="target" id="classRandom_1a3750e444aad524bea53b807d1aa4db48"></span><em class="property">virtual</em> double <code class="descname">uniform</code><span class="sig-paren">(</span><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6Random7uniformEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6Random7uniformEv">
+<span id="feasst::Random::uniform"></span><span class="target" id="classfeasst_1_1Random_1a53ad309bcb9b041de5e2d77d45d8030c"></span><em class="property">virtual</em> double <code class="descname">uniform</code><span class="sig-paren">(</span><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6feasst6Random7uniformEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return uniform random number between 0 and 1. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6Random7uniformEKiKi">
-<span id="Random::uniform__iC.iC"></span><span class="target" id="classRandom_1a3a1aab372ee8a1603fe625be2dacb736"></span>int <code class="descname">uniform</code><span class="sig-paren">(</span><em class="property">const</em> int <em>min</em>, <em class="property">const</em> int <em>max</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Random7uniformEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6Random7uniformEKiKi">
+<span id="feasst::Random::uniform__iC.iC"></span><span class="target" id="classfeasst_1_1Random_1af7452ac243dcfe25af4400221371aa86"></span>int <code class="descname">uniform</code><span class="sig-paren">(</span><em class="property">const</em> int <em>min</em>, <em class="property">const</em> int <em>max</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6Random7uniformEKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return uniform random integer between range min and max, inclusive. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6Random5int32Ev">
-<span id="Random::int32"></span><span class="target" id="classRandom_1a03bccbdf461cd31210895a5e02876318"></span>unsigned int <code class="descname">int32</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6Random5int32Ev" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return random 32 bit unsigned integer. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N6Random5int64Ev">
-<span id="Random::int64"></span><span class="target" id="classRandom_1a816b3c2d599873fe710bda4a18eca50b"></span><em class="property">virtual</em> unsigned long long <code class="descname">int64</code><span class="sig-paren">(</span><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6Random5int64Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N6feasst6Random5int64Ev">
+<span id="feasst::Random::int64"></span><span class="target" id="classfeasst_1_1Random_1aa3e349661f11e939e72da6aa445963c3"></span><em class="property">virtual</em> unsigned long long <code class="descname">int64</code><span class="sig-paren">(</span><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6feasst6Random5int64Ev" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return random 64 bit integer. </p>
 </dd></dl>
 
@@ -128,7 +122,7 @@
 <h3><a href="../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../TESTCASE.html">Test cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TUTORIAL.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">Application program interface (API)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="accumulatortoc.html">Accumulator Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analyzetoc.html">Analyze Classes</a></li>
@@ -152,6 +146,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
@@ -180,7 +175,7 @@
         <li class="right" >
           <a href="randomtoc.html" title="Random Classes"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="randomtoc.html" >Random Classes</a> &#187;</li> 
       </ul>
