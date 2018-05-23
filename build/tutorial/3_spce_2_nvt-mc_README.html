@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>LJ and Yukawa: muVT TMMC &#8212; FEASST v0.3.1 documentation</title>
+    <title>SPC/E: NVT MC &#8212; FEASST v0.4.0 documentation</title>
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     'v0.3.1',
+        VERSION:     'v0.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -28,8 +28,8 @@
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Square Well: Binary semigrand WLTMMC" href="6_square_well_1_semigrand_README.html" />
-    <link rel="prev" title="Hard Sphere: NVT MC" href="4_hard_sphere_1_nvt-mc_README.html" /> 
+    <link rel="next" title="SPC/E: muVT WL-TMMC" href="3_spce_3_eostmmc_README.html" />
+    <link rel="prev" title="SPC/E: Configuration" href="3_spce_1_ref-config_README.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -39,13 +39,13 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="6_square_well_1_semigrand_README.html" title="Square Well: Binary semigrand WLTMMC"
+          <a href="3_spce_3_eostmmc_README.html" title="SPC/E: muVT WL-TMMC"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="4_hard_sphere_1_nvt-mc_README.html" title="Hard Sphere: NVT MC"
+          <a href="3_spce_1_ref-config_README.html" title="SPC/E: Configuration"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../TESTCASE.html" accesskey="U">Test cases</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../TUTORIAL.html" accesskey="U">Tutorials</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -54,13 +54,20 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="lj-and-yukawa-muvt-tmmc">
-<h1>LJ and Yukawa: muVT TMMC<a class="headerlink" href="#lj-and-yukawa-muvt-tmmc" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>testcase/5_yukawa/1_tmmc
+  <div class="section" id="spc-e-nvt-mc">
+<h1>SPC/E: NVT MC<a class="headerlink" href="#spc-e-nvt-mc" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>tutorial/3_spce/2_nvt-mc
 </pre></div>
 </div>
-<p>This test may be used to compare with the system described in:</p>
-<p><a class="reference external" href="http://dx.doi.org/10.1039/C3SM53058B">http://dx.doi.org/10.1039/C3SM53058B</a></p>
+<p>Compute the average potential energy of SPC/E water in the canonical ensemble.</p>
+<p>Reproduce the results found in “Pressure calculation in polar and charged systems using Ewald summation: Results
+for the extended simple point charge model of water” by Gerhard Hummer, Niels Gro/nbech-Jensen, and Martin Neumann.</p>
+<p><a class="reference external" href="https://doi.org/10.1063/1.476834">https://doi.org/10.1063/1.476834</a></p>
+<p>Note that there are some systematic deviations from the published result because of the follow differences:</p>
+<ul class="simple">
+<li>The published result used Ewald boundary conditions <span class="math">\(\epsilon=65\)</span></li>
+<li>The wave vectors are specified as <span class="math">\(k^2 &lt;= 38\)</span> instead of <span class="math">\(k^2 &lt; 38\)</span></li>
+</ul>
 </div>
 
 
@@ -72,7 +79,7 @@
 <h3><a href="../../index.html">Table Of Contents</a></h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../TESTCASE.html">Test cases</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../TUTORIAL.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="1_lj_0_example_README.html">LJ: Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="1_lj_1_ref-config_README.html">LJ: Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="1_lj_2_nvt-mc_README.html">LJ: NVT MC</a></li>
@@ -81,16 +88,17 @@
 <li class="toctree-l2"><a class="reference internal" href="1_lj_6_npt_README.html">LJ: NPT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="2_jagla_1_ref-config_README.html">Jagla: Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="3_spce_1_ref-config_README.html">SPC/E: Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="3_spce_2_nvt-mc_README.html">SPC/E: NVT MC</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SPC/E: NVT MC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="3_spce_3_eostmmc_README.html">SPC/E: muVT WL-TMMC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="4_hard_sphere_1_nvt-mc_README.html">Hard Sphere: NVT MC</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">LJ and Yukawa: muVT TMMC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5_yukawa_1_tmmc_README.html">LJ and Yukawa: muVT TMMC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="6_square_well_1_semigrand_README.html">Square Well: Binary semigrand WLTMMC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="6_square_well_2_floppy_box_README.html">Square Well: NVT with floppy box</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">Application program interface (API)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../FAQ.html">Frequently asked questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CHANGELOG.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../sphinx/dev.html">Guidelines for developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../sphinx/contact.html">Contact and bug reports</a></li>
@@ -98,11 +106,11 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="4_hard_sphere_1_nvt-mc_README.html"
-                        title="previous chapter">Hard Sphere: NVT MC</a></p>
+  <p class="topless"><a href="3_spce_1_ref-config_README.html"
+                        title="previous chapter">SPC/E: Configuration</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="6_square_well_1_semigrand_README.html"
-                        title="next chapter">Square Well: Binary semigrand WLTMMC</a></p>
+  <p class="topless"><a href="3_spce_3_eostmmc_README.html"
+                        title="next chapter">SPC/E: muVT WL-TMMC</a></p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -114,13 +122,13 @@
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="6_square_well_1_semigrand_README.html" title="Square Well: Binary semigrand WLTMMC"
+          <a href="3_spce_3_eostmmc_README.html" title="SPC/E: muVT WL-TMMC"
              >next</a> |</li>
         <li class="right" >
-          <a href="4_hard_sphere_1_nvt-mc_README.html" title="Hard Sphere: NVT MC"
+          <a href="3_spce_1_ref-config_README.html" title="SPC/E: Configuration"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">FEASST v0.3.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../TESTCASE.html" >Test cases</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">FEASST v0.4.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../TUTORIAL.html" >Tutorials</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
