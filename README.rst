@@ -70,12 +70,8 @@ Modern software
 * Checkpointing to save and restart simulations
 * Robust unit testing
 
-Detailed Documentation
-########################
-
-DOI: https://doi.org/10.18434/M3S095
-
-Website: https://pages.nist.gov/feasst/
+Version Specific Documentation
+#################################
 
 Documentation for any version of the code is accessible in the nist-pages branch of the GitHub repository https://github.com/usnistgov/feasst .
 This documentation is stored for every release.
@@ -123,7 +119,7 @@ Alternatively, instead of using the run.sh script above, which compiles the C++ 
 The following CMake file found in the `<tutorial/1_lj/0_example>`_ directory requires that you "make install" in the last step of the installation, and that you set ``CMAKE_PREFIX_PATH`` to the install location (default: /path/to/feasst/build, or optionally set by -DCMAKE_INSTALL_PREFIX=/path/to/install/dir in installation)
 
 .. literalinclude:: tutorial/1_lj/0_example/CMakeLists.txt
-   :language: c++
+   :language: cmake
 
 Usage: Python interface
 #########################

@@ -46,6 +46,7 @@ Publications
 
 Here is a list of publications which use FEASST:
 
+#. https://doi.org/10.1063/1.5026493
 #. https://doi.org/10.1063/1.5016165
 #. https://doi.org/10.1039/C7SM01005B
 #. https://doi.org/10.1063/1.4949758

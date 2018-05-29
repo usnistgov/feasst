@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 2.8.12)
-set(CMAKE_CXX_STANDARD 11)
 project(feasst)
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}") #Set the install location (default: in build)"
@@ -32,6 +31,21 @@ set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.so")
 # Users typically would not edit below this comment
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")  #profiling
+
+# set the C++11
+if (CMAKE_VERSION VERSION_LESS "3.1")
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+		set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
+	endif ()
+	if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+		add_definitions(-std=c++0x)
+	endif ()
+	if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+		add_definitions(-std=c++11)
+	endif ()
+else ()
+	set (CMAKE_CXX_STANDARD 11)
+endif ()
 
 # enable dependencies
 # if you're using SPHINX, you must USE_GTEST_TUTORIALS
@@ -233,13 +247,6 @@ endif()
 
 #strip leading whitespace from EXTRA_LIBS
 string(REGEX REPLACE "^ " "" EXTRA_LIBS "${EXTRA_LIBS}")
-
-if(CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(-std=gnu++0x)
-endif()
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  add_definitions(-std=c++0x)
-endif()
 
 # Create feasst.h in the binary directory
 file(GLOB_RECURSE header_files "src/*.h")

@@ -7,6 +7,21 @@ set(CMAKE_PREFIX_PATH "../../../build")
 
 find_package(feasst REQUIRED)
 
+# set the C++11
+if (CMAKE_VERSION VERSION_LESS "3.1")
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
+  endif ()
+  if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    add_definitions(-std=c++0x)
+  endif ()
+  if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+    add_definitions(-std=c++11)
+  endif ()
+else ()
+  set (CMAKE_CXX_STANDARD 11)
+endif ()
+
 # OMP
 find_package(OpenMP)
 if(OPENMP_FOUND)
