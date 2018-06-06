@@ -66,11 +66,11 @@ int main(int argc, char** argv) {
       space = make_shared<feasst::Space>(rstFile.str().c_str());
     } else {
       space = make_shared<feasst::Space>();
-      space->lset(1);
+      space->initBoxLength(1);
       space->scaleDomain(volume);
     }
 
-    feasst::PairIdeal pair(space.get(), 0.);
+    feasst::PairIdeal pair(space.get());
     feasst::CriteriaWLTMMC criteria(ssFileIn.str().c_str());
     feasst::WLTMMC wltmmc(space.get(), &pair, &criteria);
     criteria.readCollectMat(ssFileIn.str().c_str());

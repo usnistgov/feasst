@@ -2213,7 +2213,7 @@ int Space::mvec2m2d_(const int &i, const int &j) const {
   return (i+mx)%mx + mx*((j+my)%my);
 }
 
-shared_ptr<Space> Space::findAddMolInList(const string typeStr) {
+shared_ptr<Space> Space::findAddMolInList(const string typeStr) const {
   bool match = false;
   for (unsigned int iaml = 0; iaml < addMolList_.size(); ++iaml) {
     if (addMolListType_[iaml].compare(typeStr) == 0) {
@@ -3399,7 +3399,7 @@ vector<double> Space::angleParams(const int iAtom, const int jAtom,
   return params;
 }
 
-vector<vector<int> > Space::listBonds(const int iAtom) {
+vector<vector<int> > Space::listBonds(const int iAtom) const {
   vector<vector<int> > list;
   const int iMol = mol_[iAtom];
   const int ia = iAtom - mol2part_[iMol];

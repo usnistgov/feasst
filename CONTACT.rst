@@ -1,12 +1,6 @@
 Contact and bug reports
 #########################
 
-Project lead: Harold Wickes Hatch
-
-https://www.nist.gov/people/harold-hatch
-
-harold.hatch@nist.gov
-
 Bug reporting
 ==============
 
@@ -18,5 +12,24 @@ The following checklist is recommended to improve reproducibility so that I can 
 * Provide all output.
 * Provide the version (e.g. bash command "git describe --abbrev=10 --dirty --always --tags").
 * Provide the user code (e.g., C++ with int main() or .py).
+
+Email list
+===========
+
+http://list.nist.gov/feasst
+
+Github issue tracker
+=====================
+
+https://github.com/usnistgov/feasst/issues
+
+Project lead
+==============
+
+Harold Wickes Hatch
+
+https://www.nist.gov/people/harold-hatch
+
+harold.hatch@nist.gov
 
 

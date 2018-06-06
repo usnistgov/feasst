@@ -22,11 +22,15 @@ sed --in-place 's/exp(/math\.exp(/g' $DES
 sed --in-place 's/&//g' $DES
 sed --in-place 's/->/\./g' $DES
 sed --in-place 's/}//g' $DES
-sed --in-place 's/1e\(.*\))/int(1e\1))/' $DES
+sed --in-place 's/1e\(.[1-9]*\)/int(1e\1)/' $DES
 sed --in-place 's/\/\*\*/"""/' $DES
 sed --in-place 's/ \*\//"""\n\nimport feasst/' $DES
 sed --in-place 's/double(/float(/' $DES
 sed --in-place 's/pow(\(.*\), \(.*\))/(\1)**(\2)/' $DES
+sed --in-place 's/^auto //' $DES
+sed --in-place 's/{"\(.[a-z,A-Z]*\)", /"\1" : /' $DES
+sed --in-place '/^std::stringstream/d' $DES
+sed --in-place 's/ASSERT(\(.*\), "\(.*\)")/assert(\1) # \2/' $DES
 
 #cat <<- EOF > $TMP
 #import feasst

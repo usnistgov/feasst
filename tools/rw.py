@@ -3,11 +3,8 @@
 #   For saturation, if a volume is not given, attempt to find the volume from a
 #   restart file in order to compute the density and pressure at saturation.
 
-import math, os, sys
-feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/build"
-if (not os.path.isfile(feasstdir+"/_feasst.so")):
-  feasstdir = os.getenv("FEASST_INSTALL_DIR_") + "/src"
-sys.path.append(feasstdir)
+import os
+import math
 import feasst
 import argparse
 
@@ -39,10 +36,10 @@ else:
     space = feasst.Space(args.rstFile)
   else:
     space = feasst.Space()
-    space.lset(1)
+    space.initBoxLength(1)
     space.scaleDomain(args.volume)
 
-  pair = feasst.PairIdeal(space, 0)
+  pair = feasst.PairIdeal(space)
   criteria = feasst.CriteriaWLTMMC(args.inFile)
   wltmmc = feasst.WLTMMC(space, pair, criteria)
   criteria.readCollectMat(args.inFile)

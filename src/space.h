@@ -380,7 +380,7 @@ class Space : public BaseRandom {
   vector<int> tag2mpart();
 
   /// Given addMolInit type, return space which contains only one molecule.
-  shared_ptr<Space> findAddMolInList(const string typeStr);
+  shared_ptr<Space> findAddMolInList(const string typeStr) const;
 
   /// Given addMolInit type, return index of order in which addMolInit began.
   int findAddMolListIndex(const string typeStr);
@@ -505,7 +505,7 @@ class Space : public BaseRandom {
     const double param) { angleParam_[angleType][angleIndex] = param; }
 
   /// Return list of bonds involving iAtom.
-  vector<vector<int> > listBonds(const int iAtom);
+  vector<vector<int> > listBonds(const int iAtom) const;
 
   /// Return list of angles involving atoms iAtom and jAtom.
   vector<vector<int> > listAngles(const int iAtom, const int jAtom);

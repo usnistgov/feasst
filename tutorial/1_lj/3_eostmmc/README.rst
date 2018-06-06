@@ -46,7 +46,7 @@ For microcanonical partition function, :math:`\Omega(N,V,U)`, canonical, :math:`
  
    lnz(\mu, \beta) = \beta\mu - ln(Lambda(\beta)^3)
  
-   ln\Pi_{expected}(N; \mu', V, T') = ln\Pi(N; \mu, V, T) + N(lnz` - lnz) + Const
+   ln\Pi_{expected}(N; \mu', V, T) = ln\Pi(N; \mu, V, T) + N(lnz` - lnz) + Const
 
 For histogram reweighting, apply the equation above to the macrostate probability distribution, :math:`ln\Pi`, and renormalize, :math:`\sum \Pi = 1`.
 When there are multiple peaks in :math:`ln\Pi` that do not change greatly with system size, this often corresponds to different macroscopic phases.
@@ -57,8 +57,8 @@ Extensive properties, :math:`A` are obtained first as a series of canonical ense
 Example histogram reweighting tools are provided in `<tools/rw.cc>`_ and `<tools/rw.py>`_.
 For C++, ``cd tools`` ``./compile.sh rw`` to make the ``rw`` executable.
 
-To reweight :math:`ln\Pi` to different values of :math:`lnz`, use ``tools/rw -i colMat -z [lnz value]`` or ``python tools/rw.py -i colMat -z [lnz value]`` and the result is in ``colMatrw.txtrw``.
-If your :math:`ln\Pi` has multiple peaks, you can obtain saturation by ``tools/rw -i colMat`` or ``python tools/rw.py -i colMat`` and the resulting coexistence properties are printed and the reweighted :math:`lnz` is in ``colMatrw``.
+To reweight :math:`ln\Pi` to different values of :math:`lnz`, use ``tools/rw -i colMat -z [lnz value]`` or ``tools/run.sh tools/rw.py -i colMat -z [lnz value]`` and the result is in ``colMatrw.txtrw``.
+If your :math:`ln\Pi` has multiple peaks, you can obtain saturation by ``tools/rw -i colMat`` or ``tools/run.sh tools/rw.py -i colMat`` and the resulting coexistence properties are printed and the reweighted :math:`lnz` is in ``colMatrw``.
 
 What chemical potential (lnz) should I use?
 ===========================================
