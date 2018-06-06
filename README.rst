@@ -133,10 +133,15 @@ To install the python interface, use the following CMake command in place of "cm
 
 .. code-block:: bash
 
-    cmake -DUSE_SWIG=ON -DPYTHON_INCLUDE_PATH=/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES=/path/to/anaconda/lib/libpython3.6m.so ..
+    cmake -DUSE_SWIG=ON ..
     make _feasst -j
 
 Note that the ``PYTHON_INCLUDE_PATH`` and ``PYTHON_LIBRARIES`` depends on your python installation.
+If CMake is unable to find the correct python installation, you may set it manually as follows:
+
+.. code-block:: bash
+
+    cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_PATH=/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES=/path/to/anaconda/lib/libpython3.6m.so ..
 
 The following may be found in the `<tutorial/1_lj/0_example>`_ directory.
 In python, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:
