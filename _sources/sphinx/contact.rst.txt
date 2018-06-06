@@ -7,8 +7,6 @@ https://www.nist.gov/people/harold-hatch
 
 harold.hatch@nist.gov
 
-For list of contributors, see `<CONTRIBUTORS.rst>`_
-
 Bug reporting
 ==============
 

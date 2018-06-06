@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>README &#8212; FEASST v0.4.0 documentation</title>
+    <title>README &#8212; FEASST v0.4.0-3-gfd704dc014 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'v0.4.0',
+        VERSION:     'v0.4.0-3-gfd704dc014',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="index.html" title="FEASST: Free Energy and Advanced Sampling Simulation Toolkit"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.4.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -115,10 +115,8 @@ algorithms (dev)</li>
 <li>Robust unit testing</li>
 </ul>
 </div>
-<div class="section" id="detailed-documentation">
-<h2>Detailed Documentation<a class="headerlink" href="#detailed-documentation" title="Permalink to this headline">¶</a></h2>
-<p>DOI: <a class="reference external" href="https://doi.org/10.18434/M3S095">https://doi.org/10.18434/M3S095</a></p>
-<p>Website: <a class="reference external" href="https://pages.nist.gov/feasst/">https://pages.nist.gov/feasst/</a></p>
+<div class="section" id="version-specific-documentation">
+<h2>Version Specific Documentation<a class="headerlink" href="#version-specific-documentation" title="Permalink to this headline">¶</a></h2>
 <p>Documentation for any version of the code is accessible in the nist-pages branch of the GitHub repository <a class="reference external" href="https://github.com/usnistgov/feasst">https://github.com/usnistgov/feasst</a> .
 This documentation is stored for every release.
 Simply checkout the desired version from the nist-pages branch and load index.html with your browser.
@@ -175,25 +173,40 @@ make -j <span class="m">12</span>
 </div>
 <p>Alternatively, instead of using the run.sh script above, which compiles the C++ file in the feasst/build directory, you may link to FEASST as an external library.</p>
 <p>The following CMake file found in the <a class="reference external" href="tutorial/1_lj/0_example">tutorial/1_lj/0_example</a> directory requires that you “make install” in the last step of the installation, and that you set <code class="docutils literal"><span class="pre">CMAKE_PREFIX_PATH</span></code> to the install location (default: /path/to/feasst/build, or optionally set by -DCMAKE_INSTALL_PREFIX=/path/to/install/dir in installation)</p>
-<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">cmake_minimum_required</span><span class="p">(</span><span class="n">VERSION</span> <span class="mf">2.8.11</span><span class="p">)</span>
-<span class="n">set</span><span class="p">(</span><span class="n">CMAKE_CXX_STANDARD</span> <span class="mi">11</span><span class="p">)</span>
+<div class="highlight-cmake"><div class="highlight"><pre><span></span><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">2.8.11</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span> <span class="s">11</span><span class="p">)</span>
 
-<span class="cp"># Tell cmake where to find the feasst library</span>
-<span class="n">set</span><span class="p">(</span><span class="n">CMAKE_PREFIX_PATH</span> <span class="s">&quot;../../../build&quot;</span><span class="p">)</span>
-<span class="cp">##set(CMAKE_PREFIX_PATH &quot;$ENV{HOME}/feasst/build/&quot;)</span>
+<span class="c"># Tell cmake where to find the feasst library</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_PREFIX_PATH</span> <span class="s2">&quot;../../../build&quot;</span><span class="p">)</span>
+<span class="c">##set(CMAKE_PREFIX_PATH &quot;$ENV{HOME}/feasst/build/&quot;)</span>
 
-<span class="n">find_package</span><span class="p">(</span><span class="n">feasst</span> <span class="n">REQUIRED</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">feasst</span> <span class="s">REQUIRED</span><span class="p">)</span>
 
-<span class="cp"># OMP</span>
-<span class="n">find_package</span><span class="p">(</span><span class="n">OpenMP</span><span class="p">)</span>
-<span class="k">if</span><span class="p">(</span><span class="n">OPENMP_FOUND</span><span class="p">)</span>
-  <span class="n">set</span><span class="p">(</span><span class="n">CMAKE_C_FLAGS</span> <span class="s">&quot;${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}&quot;</span><span class="p">)</span>
-  <span class="n">set</span><span class="p">(</span><span class="n">CMAKE_CXX_FLAGS</span> <span class="s">&quot;${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}&quot;</span><span class="p">)</span>
-  <span class="n">set</span><span class="p">(</span><span class="n">CMAKE_EXE_LINKER_FLAGS</span> <span class="s">&quot;${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}&quot;</span><span class="p">)</span>
-<span class="n">endif</span><span class="p">()</span>
+<span class="c"># set the C++11</span>
+<span class="nb">if</span> <span class="p">(</span><span class="s">CMAKE_VERSION</span> <span class="s">VERSION_LESS</span> <span class="s2">&quot;3.1&quot;</span><span class="p">)</span>
+  <span class="nb">if</span> <span class="p">(</span><span class="s">CMAKE_CXX_COMPILER_ID</span> <span class="s">STREQUAL</span> <span class="s2">&quot;GNU&quot;</span><span class="p">)</span>
+    <span class="nb">set</span> <span class="p">(</span><span class="s">CMAKE_CXX_FLAGS</span> <span class="s2">&quot;${CMAKE_CXX_FLAGS} -std=gnu++0x&quot;</span><span class="p">)</span>
+  <span class="nb">endif</span> <span class="p">()</span>
+  <span class="nb">if</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;Clang&quot;</span><span class="p">)</span>
+    <span class="nb">add_definitions</span><span class="p">(</span><span class="s">-std=c++0x</span><span class="p">)</span>
+  <span class="nb">endif</span> <span class="p">()</span>
+  <span class="nb">if</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;Intel&quot;</span><span class="p">)</span>
+    <span class="nb">add_definitions</span><span class="p">(</span><span class="s">-std=c++11</span><span class="p">)</span>
+  <span class="nb">endif</span> <span class="p">()</span>
+<span class="nb">else</span> <span class="p">()</span>
+  <span class="nb">set</span> <span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span> <span class="s">11</span><span class="p">)</span>
+<span class="nb">endif</span> <span class="p">()</span>
 
-<span class="n">add_executable</span> <span class="p">(</span><span class="n">main</span> <span class="n">test</span><span class="p">.</span><span class="n">cc</span><span class="p">)</span>
-<span class="n">target_link_libraries</span> <span class="p">(</span><span class="n">main</span> <span class="n">LINK_PUBLIC</span> <span class="n">feasst</span><span class="p">)</span>
+<span class="c"># OMP</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">OpenMP</span><span class="p">)</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">OPENMP_FOUND</span><span class="p">)</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_C_FLAGS</span> <span class="s2">&quot;${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}&quot;</span><span class="p">)</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS</span> <span class="s2">&quot;${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}&quot;</span><span class="p">)</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_EXE_LINKER_FLAGS</span> <span class="s2">&quot;${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}&quot;</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+
+<span class="nb">add_executable</span> <span class="p">(</span><span class="s">main</span> <span class="s">test.cc</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span> <span class="p">(</span><span class="s">main</span> <span class="s">LINK_PUBLIC</span> <span class="s">feasst</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -205,11 +218,15 @@ make -j <span class="m">12</span>
 <li>anaconda &gt;= 1.9.1 (python &gt;= 2.7)</li>
 </ul>
 <p>To install the python interface, use the following CMake command in place of “cmake ..”:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>ON -DPYTHON_INCLUDE_PATH<span class="o">=</span>/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES<span class="o">=</span>/path/to/anaconda/lib/libpython3.6m.so ..
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>ON ..
 make _feasst -j
 </pre></div>
 </div>
-<p>Note that the <code class="docutils literal"><span class="pre">PYTHON_INCLUDE_PATH</span></code> and <code class="docutils literal"><span class="pre">PYTHON_LIBRARIES</span></code> depends on your python installation.</p>
+<p>Note that the <code class="docutils literal"><span class="pre">PYTHON_INCLUDE_PATH</span></code> and <code class="docutils literal"><span class="pre">PYTHON_LIBRARIES</span></code> depends on your python installation.
+If CMake is unable to find the correct python installation, you may set it manually as follows:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>ON -DSET_PYTHON_PATH<span class="o">=</span>ON -DPYTHON_INCLUDE_PATH<span class="o">=</span>/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES<span class="o">=</span>/path/to/anaconda/lib/libpython3.6m.so ..
+</pre></div>
+</div>
 <p>The following may be found in the <a class="reference external" href="tutorial/1_lj/0_example">tutorial/1_lj/0_example</a> directory.
 In python, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:</p>
 <div class="highlight-py"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">feasst</span>
@@ -416,7 +433,7 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">README</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#detailed-documentation">Detailed Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-specific-documentation">Version Specific Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#usage-c-interface">Usage: C++ interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#usage-python-interface">Usage: Python interface</a></li>
@@ -471,7 +488,7 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
         <li class="right" >
           <a href="index.html" title="FEASST: Free Energy and Advanced Sampling Simulation Toolkit"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.4.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

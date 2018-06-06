@@ -70,12 +70,8 @@ Modern software
 * Checkpointing to save and restart simulations
 * Robust unit testing
 
-Detailed Documentation
-########################
-
-DOI: https://doi.org/10.18434/M3S095
-
-Website: https://pages.nist.gov/feasst/
+Version Specific Documentation
+#################################
 
 Documentation for any version of the code is accessible in the nist-pages branch of the GitHub repository https://github.com/usnistgov/feasst .
 This documentation is stored for every release.
@@ -123,7 +119,7 @@ Alternatively, instead of using the run.sh script above, which compiles the C++ 
 The following CMake file found in the `<tutorial/1_lj/0_example>`_ directory requires that you "make install" in the last step of the installation, and that you set ``CMAKE_PREFIX_PATH`` to the install location (default: /path/to/feasst/build, or optionally set by -DCMAKE_INSTALL_PREFIX=/path/to/install/dir in installation)
 
 .. literalinclude:: tutorial/1_lj/0_example/CMakeLists.txt
-   :language: c++
+   :language: cmake
 
 Usage: Python interface
 #########################
@@ -137,10 +133,15 @@ To install the python interface, use the following CMake command in place of "cm
 
 .. code-block:: bash
 
-    cmake -DUSE_SWIG=ON -DPYTHON_INCLUDE_PATH=/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES=/path/to/anaconda/lib/libpython3.6m.so ..
+    cmake -DUSE_SWIG=ON ..
     make _feasst -j
 
 Note that the ``PYTHON_INCLUDE_PATH`` and ``PYTHON_LIBRARIES`` depends on your python installation.
+If CMake is unable to find the correct python installation, you may set it manually as follows:
+
+.. code-block:: bash
+
+    cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_PATH=/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES=/path/to/anaconda/lib/libpython3.6m.so ..
 
 The following may be found in the `<tutorial/1_lj/0_example>`_ directory.
 In python, a simple NVT Lennard-Jones (LJ) simulation is performed as follows:
