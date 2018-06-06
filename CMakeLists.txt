@@ -24,6 +24,19 @@ option(USE_SWIG "Use SWIG for python interface" OFF)
 # python library and include path variables below. If not specified then
 # CMake attempts to find the libraries on its own.
 option(SET_PYTHON_PATH "Manually define PYTHON_INCLUDE_PATH and PYTHON_LIBRARIES" OFF)
+if (SET_PYTHON_PATH)
+else (SET_PYTHON_PATH)
+  FIND_PACKAGE(PythonLibs)
+  if (PythonLibs_FOUND)
+  else (PythonLibs_FOUND)
+    # Try default anaconda home install.
+    set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.6m/")
+    set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.so")
+  endif (PythonLibs_FOUND)
+endif (SET_PYTHON_PATH)
+message("FOUND PYTHON")
+message("PYTHON_INCLUDE_PATH: ${PYTHON_INCLUDE_PATH}")
+message("PYTHON_LIBRARIES: ${PYTHON_LIBRARIES}")
 
 # Users typically would not edit below this comment
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
@@ -339,17 +352,7 @@ if (USE_SWIG)
   FIND_PACKAGE(SWIG)
   if (SWIG_FOUND)
     INCLUDE(${SWIG_USE_FILE})
-
-    # Find Python libraries. First, check if libraries are set manually
-    if (SET_PYTHON_PATH)
-    else (SET_PYTHON_PATH)
-      FIND_PACKAGE(PythonLibs)
-    endif (SET_PYTHON_PATH)
-    message("FOUND PYTHON")
-    message(${PYTHON_INCLUDE_PATH})
-    message(${PYTHON_LIBRARIES})
     INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
-
     #INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
     get_filename_component(barename "${CMAKE_CURRENT_BINARY_DIR}" NAME)
     add_custom_target(build-time-make-directory ALL
