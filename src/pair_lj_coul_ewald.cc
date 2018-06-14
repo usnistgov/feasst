@@ -20,7 +20,7 @@
 namespace feasst {
 
 PairLJCoulEwald::PairLJCoulEwald(Space* space, const argtype &args)
-  : Pair(space, args) {
+  : PairLRC(space, args) {
   defaultConstruction_();
   argparse_.initArgs(className_, args);
 
@@ -55,7 +55,7 @@ PairLJCoulEwald::PairLJCoulEwald(Space* space, const argtype &args)
 
 PairLJCoulEwald::PairLJCoulEwald(Space* space,
   const char* fileName)
-  : Pair(space, fileName) {
+  : PairLRC(space, fileName) {
   defaultConstruction_();
   k2max_ = fstoi("k2max", fileName);
   alpha  = fstod("alpha", fileName);
@@ -128,6 +128,13 @@ void PairLJCoulEwald::initEnergy() {
   peQReal_ = peQRealone_;
   peQFrr_ = peQFrrone_;
   peQFrrSelf_ = peQFrrSelfone_;
+//  cout << "initE "
+//       << "peLJ " << peLJone_ << " "
+//       << "peLRC " << peLRCone_ << " "
+//       << "peQReal " << peQRealone_ << " "
+//       << "peQFrr " << peQFrrone_ << " "
+//       << "peQFrrSelf " << peQFrrSelfone_ << " "
+//       << endl;
 }
 
 double PairLJCoulEwald::multiPartEnerReal(
@@ -139,14 +146,12 @@ double PairLJCoulEwald::multiPartEnerReal(
   peLRCone_ = 0;
   peQRealone_ = 0;
 
-  pairLoopParticle_(mpart);
+  Pair::multiPartEner(mpart, flag);
+  //pairLoopParticle_(mpart);
 
   // standard long range correction contribution
   if (!cheapEnergy_) {
-    for (unsigned int impart = 0; impart < mpart.size(); ++impart) {
-      const int ipart = mpart[impart];
-      peLRCone_ += lrcOne_(ipart);
-    }
+    peLRCone_ += computeLRC(mpart);
   }
 
   // fourier space contributions
@@ -312,58 +317,10 @@ void PairLJCoulEwald::forcesFrr_() {
 }
 
 void PairLJCoulEwald::lrcConf_() {
-  // shorthand for read-only space variables
-  const int natom = space_->natom();
-  const int dimen = space_->dimen();
-  const vector<int> type = space_->type();
-
-  // standard long range corrections for oxygen atoms
   peLRCone_ = 0;
   if (lrcFlag == 1) {
-    vector<int> nLJ(eps_.size());
-    for (int ipart = 0; ipart < natom; ++ipart) {
-      ++nLJ[type[ipart]];
-    }
-    for (int ipart = 0; ipart < natom; ++ipart) {
-      const int itype = type[ipart];
-      if (sig_[itype] != 0) {
-        const double enlrc = (8./3.)*PI*(nLJ[itype]/space_->volume())
-          *eps_[itype]*pow(sig_[itype], 3)*((1./3.)*pow(rCut_/sig_[itype], -9)
-          - pow(rCut_/sig_[itype], -3));
-        const double vrlrc =(16./3.)*PI*(nLJ[itype]/space_->volume())
-          *eps_[itype]*pow(sig_[itype], 3)*((2./3.)*pow(rCut_/sig_[itype], -9)
-          - pow(rCut_/sig_[itype], -3));
-        pe_[ipart] += enlrc;
-        peLRCone_ += enlrc;
-        for (int i = 0; i < dimen; ++i) {
-          vr_[ipart][i][i] += vrlrc;
-        }
-      }
-    }
+    peLRCone_ += computeLRC();
   }
-}
-
-double PairLJCoulEwald::lrcOne_(
-  const int ipart) {
-  // shorthand for read-only space variables
-  const vector<int> type = space_->type();
-  const vector<int> nType = space_->nType();
-  const int itype = type[ipart];
-  double lrcone = 0;
-  const double sigrinv3 = pow(rCut_/sig_[itype], -3),
-                   sig3 = pow(sig_[itype], 3);
-
-  // contribution of one particle to standard long range corrections
-  // (non-additive ~n^2) if oxygen
-  if (lrcFlag == 1) {
-    if (sig_[itype] != 0) {
-      lrcone = (2.*nType[itype] - 1.)*(8./3.)*PI*eps_[itype]*sig3/space_->volume()
-               *sigrinv3*((1./3.)*sigrinv3*sigrinv3 - 1.);
-    } else {
-      lrcone = 0.;
-    }
-  }
-  return lrcone;
 }
 
 void PairLJCoulEwald::multiPartEnerFrr(
@@ -550,6 +507,14 @@ double PairLJCoulEwald::multiPartEner(const vector<int> multiPart,
     }
   }
 
+//  cout << "multip "
+//       << "peLJ " << peLJone_ << " "
+//       << "peLRC " << peLRCone_ << " "
+//       << "peQReal " << peQRealone_ << " "
+//       << "peQFrr " << peQFrrone_ << " "
+//       << "peQFrrSelf " << peQFrrSelfone_ << " "
+//       << "peQFrrAlt " << peQFrr_ << " "
+//       << endl;
   return detot;
 }
 

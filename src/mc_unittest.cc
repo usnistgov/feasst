@@ -18,6 +18,7 @@
 #include "trial_add.h"
 #include "trial_delete.h"
 #include "trial_transform.h"
+#include "bond.h"
 
 using namespace feasst;
 
@@ -442,6 +443,8 @@ TEST(MC, wltmmccloneANDreconstruct) {
   const int nMolMax = 100, npr = 200;
   Space s(3);
   s.initBoxLength(9);
+  auto bond = make_shared<Bond>();
+  s.initAtom(bond);
   // s.readXYZBulk(4, "../forcefield/data.equltl43", "../unittest/equltl43/two.xyz");
   PairLJ p(&s, {{"rCut", feasst::str(pow(2, 1./6.))},
     {"cutType", "cutShift"},
@@ -474,19 +477,13 @@ TEST(MC, wltmmccloneANDreconstruct) {
     }
   }
   p.checkEnergy(1e-9, 0);
-//  cout << " here 1" << endl;
   // clone simulation, run trials in clone, and expect no change in the original
   const double petot = mc.pePerMol();
-//  cout << " here 2" << endl;
   shared_ptr<WLTMMC> mc2 = mc.cloneShrPtr();
-//  cout << " here 2-3" << endl;
+  EXPECT_EQ(mc.space()->atoms()[0]->size(), mc2->space()->atoms()[0]->size());
   for (int i = 0; i < npr; ++i) mc2->attemptTrial();
-//  cout << " here 3" << endl;
   EXPECT_EQ(petot, mc.pePerMol());
-//  cout << " here 4" << endl;
   if (petot*mc2->pePerMol() != 0) EXPECT_NE(petot, mc2->pePerMol());
-//  cout << " here 5" << endl;
-
   EXPECT_EQ(1, mc.checkTrialCriteria());
 }
 

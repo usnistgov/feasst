@@ -440,8 +440,8 @@ class CriteriaWLTMMC : public Criteria {
   double lastbin2m() const { return bin2m(nBin_ - 1); }
   double mOld() const { return mOld_; }
   double mNew() const { return mNew_; }
-  double nTunnels() const { return nTunnels_; }
-  double nSweep() const { return nSweep_; }
+  int nTunnels() const { return nTunnels_; }
+  int nSweep() const { return nSweep_; }
   double activrw() const { return activrw_; }
   bool printRW() const { return printRW_; }
   bool collect() const { return collect_; }

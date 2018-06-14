@@ -296,3 +296,6 @@ To do list
 * Use sphinx doctest to test python tutorials
 * For tutorial 1/3, add rw and test with coexistence and/or pressure.
 * Add CMakeLists.txt build in tutorial 1/0 to nightly build.
+* targAccept more clear to user
+* the order of the %includes in feasst.i are important (e.g., see pair_lj vs pair_lrc). Consider moving away from automated factories. For now, a simple solution where pair_lrc was renamed pair_1lrc so it is included first.
+* remove masses and box from data files

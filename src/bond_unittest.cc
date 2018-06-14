@@ -14,14 +14,14 @@
 
 TEST(Bond, bond) {
   auto space = feasst::makeSpace({{"dimen", "3"}});
-  space->addMolInit("../forcefield/data.cg1_2patch_hetero_linear");
+  space->addMolInit("../forcefield/data.cg1_2patch_linear");
   auto bond = make_shared<feasst::Bond>();
   space->initAtom(bond);
   space->addMol();
   space->addMol();
   space->addMolInit("../forcefield/data.lj");
   space->addMol("../forcefield/data.lj");
-  space->addMol("../forcefield/data.cg1_2patch_hetero_linear");
+  space->addMol("../forcefield/data.cg1_2patch_linear");
   vector<int> intValExp = {1, 0, 0,      // first mol
                                  1, 0, 0,      // second mol
                                  0,               // lj

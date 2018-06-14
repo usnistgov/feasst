@@ -2154,5 +2154,13 @@ double Pair::pairLoopParticle_(const vector<int> &siteList, const int noCell) {
   return peSRone_;
 }
 
+void Pair::equateRcutForAllTypes() {
+  for (int iType = 0; iType < space()->nParticleTypes(); ++iType) {
+    for (int jType = 0; jType < space()->nParticleTypes(); ++jType) {
+      rCutijset(iType, jType, rCut_);
+    }
+  }
+}
+
 }  // namespace feasst
 

@@ -276,6 +276,9 @@ class Pair : public BaseRandom {
   /// Set the cut off between particles itype and jtype to rCut.
   void rCutijset(const int itype, const int jtype, const double rCut);
 
+  /// Set the cut off between all particles types equal.
+  void equateRcutForAllTypes();
+
   /// Set type of atoms to keep track of neighbors.
   void neighTypeSet(const int itype);
 

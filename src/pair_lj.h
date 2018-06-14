@@ -13,7 +13,7 @@
 
 #include <vector>
 #include <map>
-#include "./pair.h"
+#include "./pair_1lrc.h"
 #include "./functions.h"
 
 namespace feasst {
@@ -30,7 +30,7 @@ namespace feasst {
  * \f$U_{LJ} = 4\epsilon [ (\sigma/r)^{2\alpha} - (\sigma/r)^\alpha ] \f$.
  *
  */
-class PairLJ : public Pair {
+class PairLJ : public PairLRC {
  public:
   /// Constructor
   PairLJ(Space* space,
@@ -88,7 +88,7 @@ class PairLJ : public Pair {
   /// Initialize Weeks-Chandler-Andersen for types itype and jtype.
   void initWCA(const int itype, const int jtype);
 
-  /// Initialize long-range corrections for all particle types.
+  // See overloaded virtual in base class.
   void initLRC();
 
   /// Initialize exponential type, alpha.
@@ -133,9 +133,6 @@ class PairLJ : public Pair {
   /// http://dx.doi.org/10.1021/ja802124e
   void setLambdaij(const double iType, const double jType, const double lambda);
 
-  /// Return the LRC contribution of one particle, ipart.
-  double computeLRC(const int ipart);
-
   // read-only access to protected variables
   vector<double> rCutMax() const { return rCutMax_; }
 
@@ -172,8 +169,6 @@ class PairLJ : public Pair {
 
   // read-only access of protected variables
   double peLJ() const { return peLJ_; }
-  double peLRC() const { return peLRC_; }
-  double peLRCone() const { return peLRCone_; }
 
   vector<vector<double> > lambda() const { return lambda_; };       //!< DOI: 10.1021/ja802124e
 
@@ -181,14 +176,6 @@ class PairLJ : public Pair {
   double peLJ_;   //!< total potential energy from lennard-jones interactions
   double deLJ_;   //!< lennard jones potential energy change
 
-  /// total potential energy from standard long range corrections
-  double peLRC_;
-  /// change in potential energy from standard long range corrections
-  double deLRC_;
-
-  /// potential energy from subset of particle standard long range corrections
-  double peLRCone_;
-  double peLRConePreCalc_;    //!< precalculated part of long range corrections
   double peShift_;          //!< shift potential energy by this amount
   bool cutShiftFlag_;       //!< flag to cut and shift potential by constant
 
@@ -203,9 +190,6 @@ class PairLJ : public Pair {
 
   /// potential energy shift by linear term for i-j type interactions
   vector<vector<double> > peLinearShiftij_;
-
-  /// precalculation for tail corrections (long range corrections)
-  vector<vector<double> > lrcPreCalc_;
 
   //!< exponential type. type0 is 12-6. type1 is 24-12. 2: 33.351-16.6755
   //  3: 100-50. 4: 256-128

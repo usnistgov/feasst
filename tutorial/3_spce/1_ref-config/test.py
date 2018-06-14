@@ -44,7 +44,7 @@ class TestSPCE_SRSW_REFCONF(unittest.TestCase):
             if srswConfig == 1:
                 self.assertEqual(100, space.nMol())
                 self.assertAlmostEqual(pair.peLJ()*KJperMol2Kelvin, 99538.736236886805, delta=feasst.DTOL)
-                self.assertAlmostEqual(pair.peLRC()*KJperMol2Kelvin, -823.71499511652178, delta=feasst.DTOL)
+                self.assertAlmostEqual(pair.peLRC()*KJperMol2Kelvin, -823.71499511652178, delta=1e-12)
                 self.assertAlmostEqual(pair.peQReal()*KJperMol2Kelvin, -558888.91972785105, delta=1e-9)
                 self.assertAlmostEqual(pair.peQFrr()*KJperMol2Kelvin, 6270.0937839397402, delta=1e-11)
                 # Note, this is the negative of the sum of E_self and E_intra in SRSW
@@ -53,7 +53,7 @@ class TestSPCE_SRSW_REFCONF(unittest.TestCase):
             elif srswConfig == 2:
                 self.assertEqual(200, space.nMol())
                 self.assertAlmostEqual(pair.peLJ()*KJperMol2Kelvin, 193712.42256683594, delta=feasst.DTOL)
-                self.assertAlmostEqual(pair.peLRC()*KJperMol2Kelvin, -3294.8599804660735, delta=feasst.DTOL)
+                self.assertAlmostEqual(pair.peLRC()*KJperMol2Kelvin, -3294.8599804660735, delta=1e-10)
                 self.assertAlmostEqual(pair.peQReal()*KJperMol2Kelvin, -1192948.6940245957, delta=1e-8)
                 self.assertAlmostEqual(pair.peQFrr()*KJperMol2Kelvin, 6034.9503269097158, delta=1e-9)
                 # Note, this is the negative of the sum of E_self and E_intra in SRSW

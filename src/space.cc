@@ -253,6 +253,12 @@ void Space::reconstruct_() {
   for (int i = static_cast<int>(addMolList_.size()) - 1; i >= 0; --i) {
     addMolList_[i] = make_shared<Space>(*addMolList_[i]);
   }
+  for (int i = static_cast<int>(atoms_.size()) - 1; i >= 0; --i) {
+    atoms_[i] = make_shared<Atom>(*atoms_[i]);
+  }
+  for (int i = static_cast<int>(groups_.size()) - 1; i >= 0; --i) {
+    groups_[i] = make_shared<Group>(*groups_[i]);
+  }
   initAtomCut(atomCut_);  // this resets ptr neighListChosen_
   Base::reconstruct();
 }
@@ -4218,6 +4224,16 @@ void Space::initGroup(shared_ptr<Group> group) {
 void Space::initAtom(shared_ptr<Atom> atom) {
 //  atom->addPart(*this);
   atoms_.push_back(atom);
+}
+
+void Space::delPerAtom(const int index) {
+  ASSERT(index < static_cast<int>(atoms_.size()),
+    "index(" << index << ") too large for atom size(" << atoms_.size() << ")");
+  if (index == -1) {
+    atoms_.pop_back();
+  } else {
+    atoms_.erase(atoms_.begin() + index);
+  }
 }
 
 int Space::groupName2id(const std::string name) {

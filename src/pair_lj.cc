@@ -14,7 +14,7 @@
 namespace feasst {
 
 PairLJ::PairLJ(Space* space, const argtype &args)
-  : Pair(space, args) {
+  : PairLRC(space, args) {
   defaultConstruction_();
   argparse_.initArgs(className_, args);
 
@@ -56,7 +56,7 @@ PairLJ::PairLJ(Space* space, const argtype &args)
 }
 
 PairLJ::PairLJ(Space* space, const char* fileName)
-  : Pair(space, fileName) {
+  : PairLRC(space, fileName) {
   defaultConstruction_();
 
   string strtmp = fstos("linearShiftFlag", fileName);
@@ -201,13 +201,7 @@ void PairLJ::initEnergy() {
 double PairLJ::allPartEnerForce(const int flag) {
   peSRone_ = 0;
   // standard long range corrections
-  peLRCone_ = 0;
-  if (lrcFlag == 1) {
-    for (int ipart = 0; ipart < space_->natom(); ++ipart) {
-      const double enlrc = computeLRC(ipart);
-      peLRCone_ += enlrc;
-    }
-  }
+  peLRCone_ = computeLRC();
 
   if (flag == 0) {
     peSRone_ = peTot() - peLRCone_;
@@ -231,21 +225,8 @@ double PairLJ::multiPartEner(const vector<int> mpart, const int flag) {
   // zero potential energy contribution of particle ipart
   peSRone_ = 0;
   peLRCone_ = 0;
-
-  // contribution of particles to standard long range corrections
-  // (non-additive ~n^2)
-  if ( (!cheapEnergy_) && (lrcFlag == 1) ) {
-    for (unsigned int ii = 0; ii < mpart.size(); ++ii) {
-      const int ipart = mpart[ii];
-      const int iType = space_->type()[ipart];
-
-      // search all particle types, and sum lrcs of each
-      for (int jType = 0; jType < space_->nParticleTypes(); ++jType) {
-        int n = space_->nType()[jType];
-        peLRCone_ += (2.*static_cast<double>(n)-1)/space_->volume()
-          * lrcPreCalc_[iType][jType];
-      }
-    }
+  if (!cheapEnergy_) {
+    peLRCone_ += computeLRC(mpart);
   }
   return pairLoopSite_(mpart) + peLRCone_;
 }
@@ -432,23 +413,8 @@ void PairLJ::writeRestart(const char* fileName) {
 }
 
 void PairLJ::initLRC() {
-  lrcFlag = 1;
-  lrcPreCalc_.resize(epsij_.size(), vector<double>(epsij_.size()));
-  ASSERT(expType_ != 1, "LRC not implemented for expType(" << expType_ << ")");
-  ASSERT(sigrefFlag_ == 0, "sigref not implemented here");
-  for (unsigned int i = 0; i < epsij_.size(); ++i) {
-    for (unsigned int j = 0; j < epsij_.size(); ++j) {
-      const double sig = sigij_[i][j];
-      const double eps = epsij_[i][j];
-      const double rc = rCutij_[i][j];
-      if (expType_ == 0) {
-        lrcPreCalc_[i][j] = (8./3.)*PI*eps*pow(sig, 3)*(pow(sig/rc, 9)/3.
-          - pow(sig/rc, 3));
-      } else {
-        ASSERT(0, "Unrecognized expType(" << expType_ << ")");
-      }
-    }
-  }
+  ASSERT(expType_ == 0, "LRC not implemented for expType(" << expType_ << ")");
+  PairLRC::initLRC();
 }
 
 void PairLJ::initWCA(const int itype, const int jtype) {
@@ -533,18 +499,6 @@ void PairLJ::setLambdaij(const double iType, const double jType,
   lambda_.resize(epsij_.size(), vector<double>(epsij_.size()));
   lambda_[iType][jType] = lambda;
   lambda_[jType][iType] = lambda;
-}
-
-double PairLJ::computeLRC(const int ipart) {
-  double enlrc = 0;
-  const int iType = space_->type()[ipart];
-
-  // search all particle types, and sum lrcs of each
-  for (int jType = 0; jType < space_->nParticleTypes(); ++jType) {
-    int n = space_->nType()[jType];
-    enlrc += static_cast<double>(n)/space_->volume() * lrcPreCalc_[iType][jType];
-  }
-  return enlrc;
 }
 
 void PairLJ::initAlpha(const double alpha) {
