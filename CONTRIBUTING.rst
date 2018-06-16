@@ -299,3 +299,4 @@ To do list
 * targAccept more clear to user
 * the order of the %includes in feasst.i are important (e.g., see pair_lj vs pair_lrc). Consider moving away from automated factories. For now, a simple solution where pair_lrc was renamed pair_1lrc so it is included first.
 * remove masses and box from data files
+* lammps data format real units uses kcal for energy, but I use kJ. Misleading for eps.

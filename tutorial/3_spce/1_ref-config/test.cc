@@ -45,7 +45,7 @@ int main() {  // SPCE, SRSW_REFCONF
     if (srswConfig == 1) {
       ASSERT(100 == space->nMol(), "number of molecules");
       expect_near(pair->peLJ()*KJperMol2Kelvin, 99538.736236886805, feasst::DTOL, "LJ");
-      expect_near(pair->peLRC()*KJperMol2Kelvin, -823.71499511652326, feasst::DTOL, "LRC");
+      expect_near(pair->peLRC()*KJperMol2Kelvin, -823.71499511652326, 1e-11, "LRC");
       expect_near(pair->peQReal()*KJperMol2Kelvin, -558888.919727851, 1e-9, "QReal");
       expect_near(pair->peQFrr()*KJperMol2Kelvin, 6270.0937839397402, 1e-11, "QFrr");
       // Note, this is the negative of the sum of E_self and E_intra in SRSW
@@ -54,7 +54,7 @@ int main() {  // SPCE, SRSW_REFCONF
     } else if (srswConfig == 2) {
       ASSERT(200 == space->nMol(), "number of molecules");
       expect_near(pair->peLJ()*KJperMol2Kelvin, 193712.42256683594, feasst::DTOL, "LJ");
-      expect_near(pair->peLRC()*KJperMol2Kelvin, -3294.8599804660766, feasst::DTOL, "LRC");
+      expect_near(pair->peLRC()*KJperMol2Kelvin, -3294.8599804660766, 1e-11, "LRC");
       expect_near(pair->peQReal()*KJperMol2Kelvin, -1192948.6940245957, 2e-9, "QReal");
       expect_near(pair->peQFrr()*KJperMol2Kelvin, 6034.9503269097158, 1e-11, "QFrr");
       // Note, this is the negative of the sum of E_self and E_intra in SRSW
