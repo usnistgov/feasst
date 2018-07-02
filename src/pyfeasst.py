@@ -71,6 +71,13 @@ def list_to_double_vector(lst):
         vec[index] = float(lst[index])
     return vec
 
+def list_to_int_vector(lst):
+    """ converts a python list to a swig stl vector """
+    vec = feasst.IntVector(len(lst))
+    for index in range(len(lst)):
+        vec[index] = int(lst[index])
+    return vec
+
 def double_vector_to_list(vec):
     """ converts a swig stl vector to python list """
     lst = list()

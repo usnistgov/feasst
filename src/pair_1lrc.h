@@ -53,9 +53,41 @@ class PairLRC : public Pair {
     /// compute contribution from subset of sites. If empty, consider all sites.
     const vector<int> msite = vector<int>());
 
+  /// Initialize cut and shifted potential for all particle types if flag == 1.
+  /// \f$ U = U_{LJ} - U(rCut)\f$ when \f$r < rCut\f$.
+  virtual void cutShift(const int flag);
+
+  /// Initialize cut and shift for types itype and jtype if flag == 1.
+  void cutShiftijset(const int itype, const int jtype, const int flag);
+
+  /// Initialize linear force shift for types itype and jtype if flag == 1.
+  void linearShiftijset(const int itype, const int jtype, const int flag);
+
+  /// Initialize linear force shift potential for all particle types when flag
+  /// == 1.
+  /// \f$ U = U_{LJ} - U(rCut) - (r-rCut)\left.\frac{\partial U}{\partial r}
+  ///     \right|_{rCut}. \f$
+  void linearShift(const int flag = 1);
+
+  /// Initialize exponential type, alpha.
+  //   type0 is 12-6: alpha=6
+  //   type1 is 24-12: alpha=12
+  //   type2 is 2alpha - alpha; alpha=16.6755
+  //   type3 is 2alpha - alpha; alpha=50
+  //   type4 is 2alpha - alpha; alpha=128
+  //   type5 is 2alpha - alpha; alpha=24
+  //   type6 is 2alpha - alpha; alpha=18
+  void initExpType(const int type);
+
+  /// Initialize alpha parameter as a continuous parameter (non optimized).
+  void initAlpha(const double alpha = 12.);
+
   // read-only access of protected variables
   double peLRC() const { return peLRC_; }
   double peLRCone() const { return peLRCone_; }
+
+  /// Write restart file.
+  virtual void writeRestart(const char* fileName);
 
   PairLRC(Space* space, const char* fileName);
 
@@ -74,9 +106,34 @@ class PairLRC : public Pair {
 
   /// precalculation for tail corrections (long range corrections)
   vector<vector<double> > lrcPreCalc_;
+
+  double peShift_;          //!< shift potential energy by this amount
+  bool cutShiftFlag_;       //!< flag to cut and shift potential by constant
+
+  /// shift potential energy by this amount * (r-rc)
+  double peLinearShift_;
+
+  /// flag to cut and shift potential by linear term such that force=0 at rcut
+  bool linearShiftFlag_;
+
+  /// potential energy shift by constant for i-j type interactions
+  vector<vector<double> > peShiftij_;
+
+  //!< exponential type. type0 is 12-6. type1 is 24-12. 2: 33.351-16.6755
+  //  3: 100-50. 4: 256-128
+  int expType_;
+
+  int yukawa_;          //!< turn on yukawa interactions if 1
+  double yukawaA_;      //!< U(r) = A*exp(-K*r)/r
+  vector<vector<double> > yukawaAij_;      //!< U(r) = A*exp(-K*r)/r
+  double yukawaK_;      //!< U(r) = A*exp(-K*r)/r
+  vector<vector<double> > yukawaKij_;      //!< U(r) = A*exp(-K*r)/r
+  double alpha_;        //!< exponential parameter
+
+  /// potential energy shift by linear term for i-j type interactions
+  vector<vector<double> > peLinearShiftij_;
 };
 
 }  // namespace feasst
 
 #endif  // PAIR_LRC_H_
-

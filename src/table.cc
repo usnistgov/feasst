@@ -898,6 +898,7 @@ double erftable::eval(const double x) const {
   if (on_ == 1) {
     const double sds = x / ds_;
     const int k = static_cast<int>(sds);
+    ASSERT(k + 2 < n_, "table interpolation (" << k << ") beyond table size (" << n_ << ")");
     const double xi = sds - static_cast<double>(k);
     const double vk = vtab_[k], vk1 = vtab_[k+1], vk2 = vtab_[k+2];
     const double t1 = vk + (vk1 - vk) * xi;

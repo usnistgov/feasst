@@ -31,6 +31,7 @@ sed --in-place 's/^auto //' $DES
 sed --in-place 's/{"\(.[a-z,A-Z]*\)", /"\1" : /' $DES
 sed --in-place '/^std::stringstream/d' $DES
 sed --in-place 's/ASSERT(\(.*\), "\(.*\)")/assert(\1) # \2/' $DES
+sed --in-place 's/feasst\.str\(/str\(' $DES
 
 #cat <<- EOF > $TMP
 #import feasst

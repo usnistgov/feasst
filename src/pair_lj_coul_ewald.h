@@ -134,10 +134,6 @@ class PairLJCoulEwald : public PairLRC {
    */
   void multiPartEnerFrr(const vector<int> mpart, const int flag);
 
-  // Overloaded virtual function from pair.h
-  int multiPartEnerAtomCutInner(const double &r2, const int &itype,
-                                const int &jtype);
-
   // Overloaded virtual in order to use LJ of Oxygen when cheap energy enabled
   void pairParticleParticleCheapEnergy_(const double &r2, const int &itype,
     const int &jtype, double * energy, double * force);
@@ -163,6 +159,12 @@ class PairLJCoulEwald : public PairLRC {
 
   /// check size of class variables
   void sizeCheck();
+
+  // Overload for error check
+  void cutShift(const int flag) {
+    ASSERT(linearShiftFlag_ == 1, "cutShift cannot be used without linearShift");
+    PairLRC::cutShift(flag);
+  }
 
   /// read-only access of protected variables
   double peLJ() const { return peLJ_; }

@@ -69,40 +69,11 @@ class PairLJ : public PairLRC {
   PairLJ(shared_ptr<Space> space, const argtype &args = argtype())
     : PairLJ(space.get(), args) {}
 
-  /// Initialize cut and shifted potential for all particle types if flag == 1.
-  /// \f$ U = U_{LJ} - U(rCut)\f$ when \f$r < rCut\f$.
-  void cutShift(const int flag);
-
-  /// Initialize linear force shift potential for all particle types when flag
-  /// == 1.
-  /// \f$ U = U_{LJ} - U(rCut) - (r-rCut)\left.\frac{\partial U}{\partial r}
-  ///     \right|_{rCut}. \f$
-  void linearShift(const int flag = 1);
-
-  /// Initialize cut and shift for types itype and jtype if flag == 1.
-  void cutShiftijset(const int itype, const int jtype, const int flag);
-
-  /// Initialize linear force shift for types itype and jtype if flag == 1.
-  void linearShiftijset(const int itype, const int jtype, const int flag);
-
   /// Initialize Weeks-Chandler-Andersen for types itype and jtype.
   void initWCA(const int itype, const int jtype);
 
   // See overloaded virtual in base class.
   void initLRC();
-
-  /// Initialize exponential type, alpha.
-  //   type0 is 12-6: alpha=6
-  //   type1 is 24-12: alpha=12
-  //   type2 is 2alpha - alpha; alpha=16.6755
-  //   type3 is 2alpha - alpha; alpha=50
-  //   type4 is 2alpha - alpha; alpha=128
-  //   type5 is 2alpha - alpha; alpha=24
-  //   type6 is 2alpha - alpha; alpha=18
-  void initExpType(const int type);
-
-  /// Initialize alpha parameter as a continuous parameter (non optimized).
-  void initAlpha(const double alpha = 12.);
 
   /// Initialize screened electrostatic interaction (Yukawa).
   /// \f$ U(r) = A e^{-K r}/r \f$
@@ -175,32 +146,6 @@ class PairLJ : public PairLRC {
  protected:
   double peLJ_;   //!< total potential energy from lennard-jones interactions
   double deLJ_;   //!< lennard jones potential energy change
-
-  double peShift_;          //!< shift potential energy by this amount
-  bool cutShiftFlag_;       //!< flag to cut and shift potential by constant
-
-  /// shift potential energy by this amount * (r-rc)
-  double peLinearShift_;
-
-  /// flag to cut and shift potential by linear term such that force=0 at rcut
-  bool linearShiftFlag_;
-
-  /// potential energy shift by constant for i-j type interactions
-  vector<vector<double> > peShiftij_;
-
-  /// potential energy shift by linear term for i-j type interactions
-  vector<vector<double> > peLinearShiftij_;
-
-  //!< exponential type. type0 is 12-6. type1 is 24-12. 2: 33.351-16.6755
-  //  3: 100-50. 4: 256-128
-  int expType_;
-
-  int yukawa_;          //!< turn on yukawa interactions if 1
-  double yukawaA_;      //!< U(r) = A*exp(-K*r)/r
-  vector<vector<double> > yukawaAij_;      //!< U(r) = A*exp(-K*r)/r
-  double yukawaK_;      //!< U(r) = A*exp(-K*r)/r
-  vector<vector<double> > yukawaKij_;      //!< U(r) = A*exp(-K*r)/r
-  double alpha_;        //!< exponential parameter
 
   // lambda parameters
   vector<vector<double> > lambda_;       //!< DOI: 10.1021/ja802124e

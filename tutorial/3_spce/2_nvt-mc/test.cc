@@ -30,11 +30,12 @@ int main() {  // SPCE, SRSW_NVTMC
   feasst::MC mc(pair, criteria);
   feasst::transformTrial(&mc, "translate", 0.1);
   feasst::transformTrial(&mc, "rotate", 0.1);
-  mc.initLog("log", 1e4);
-  mc.initMovie("movie", 1e4);
-  mc.initRestart("tmp/rst", 1e4);
-  mc.setNFreqTune(1e4);
-  mc.setNFreqCheckE(1e4, 1e-6);
+  const int nPrint = 1e4;
+  mc.initLog("log", nPrint);
+  mc.initMovie("movie", nPrint);
+  mc.initRestart("tmp/rst", nPrint);
+  mc.setNFreqTune(nPrint);
+  mc.setNFreqCheckE(nPrint, 1e-6);
   mc.nMolSeek(512);
   mc.runNumTrials(1e6);   // run equilibration
 
