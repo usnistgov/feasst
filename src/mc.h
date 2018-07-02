@@ -128,7 +128,7 @@ class MC : public BaseRandom {
       nFreqRestart_ = nfreq; }
 
   /// Initialize Analyzer.
-	void initAnalyze(shared_ptr<Analyze> analyze) {
+  void initAnalyze(shared_ptr<Analyze> analyze) {
     // analyze->reconstruct(pair_);
     analyzeVec_.push_back(analyze);
   }

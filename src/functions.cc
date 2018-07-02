@@ -19,7 +19,7 @@
 
 namespace feasst {
 
-double sign(const double a,	const double b) {
+double sign(const double a, const double b) {
   return (b >= 0.0 ? fabs(a) : -fabs(a));
 }
 
@@ -42,23 +42,23 @@ int numLines(const std::string fileName) {
   std::ifstream file(fileName.c_str());
   ASSERT(file.good(), "cannot open file " << fileName);
 
-	int n = 0;
-	std::string line;
-	while(std::getline(file, line)) ++n;
-	return n;
+  int n = 0;
+  std::string line;
+  while(std::getline(file, line)) ++n;
+  return n;
 }
 
 vector<double> matVecMul(const vector<vector<double> > &a,
-	const vector<double> &x) {
+  const vector<double> &x) {
   vector<double> b(int(a.size()));
-	ASSERT(static_cast<int>(a[0].size()) == static_cast<int>(x.size()),
+  ASSERT(static_cast<int>(a[0].size()) == static_cast<int>(x.size()),
     "matVecMul requires columns of matrix a(" << a[0].size()
     << ") to equal rows of vector x(" << x.size());
-	for (int j = 0; j < int(a.size()); ++j) {
-		for (int i = 0; i < int(x.size()); ++i) {
-			b[j] += a[j][i] * x[i];
-		}
-	}
+  for (int j = 0; j < int(a.size()); ++j) {
+    for (int i = 0; i < int(x.size()); ++i) {
+      b[j] += a[j][i] * x[i];
+    }
+  }
 
   return b;
 }
@@ -66,11 +66,11 @@ vector<double> matVecMul(const vector<vector<double> > &a,
 double vecDotProd(const vector<double> &a, const vector<double> &b) {
   ASSERT(a.size() == b.size(), "vecDotProd requires vectors of equal size, "
     << "however, a(" << a.size() << ") and b(" << b.size() << ")");
-	double c = 0;
-	for (int i = 0; i < static_cast<int>(a.size()); ++i) {
-		c += a[i]*b[i];
-	}
-	return c;
+  double c = 0;
+  for (int i = 0; i < static_cast<int>(a.size()); ++i) {
+    c += a[i]*b[i];
+  }
+  return c;
 }
 
 void normalizeVec(vector<double> *x) {
@@ -85,20 +85,20 @@ vector<double> crossProd(const vector<double> &a, const vector<double> &b) {
     "crossProd requires vectors of 3 dimensions, however, a(" << a.size()
     << ") and b(" << b.size() << ")");
   vector<double> c(a.size());
-	c[0] = a[1] * b[2] - a[2] * b[1];
-	c[1] = a[2] * b[0] - a[0] * b[2];
-	c[2] = a[0] * b[1] - a[1] * b[0];
+  c[0] = a[1] * b[2] - a[2] * b[1];
+  c[1] = a[2] * b[0] - a[0] * b[2];
+  c[2] = a[0] * b[1] - a[1] * b[0];
   return c;
 }
 
 void ranInitByDate() {
-	const int t = time(NULL);
+  const int t = time(NULL);
   srand ( t );
   NOTE("time(seed): " << t);
 }
 
 void ranInitForRepro(const int seed) {
-	srand ( seed );
+  srand ( seed );
   NOTE("Initializing random number generator for reproduction with seed("
     << seed << ")");
 }
@@ -134,13 +134,13 @@ vector<vector<double> > matMul(const vector<vector<double> > &a,
     << a[0].size() << ") to equal rows of vector x(" << b.size());
   ASSERT(a.size() == c.size(), "matMul requires rows of matrix a("
     << a.size() << ") to equal rows of vector b(" << c.size());
-	for (int i = 0; i < int(a.size()); ++i) {
-		for (int j = 0; j < int(b[0].size()); ++j) {
-		  for (int k = 0; k < int(b.size()); ++k) {
-		    c[i][j] += a[i][k]*b[k][j];	
-		  }
+  for (int i = 0; i < int(a.size()); ++i) {
+    for (int j = 0; j < int(b[0].size()); ++j) {
+      for (int k = 0; k < int(b.size()); ++k) {
+        c[i][j] += a[i][k]*b[k][j];  
+      }
     }
-	}
+  }
   return c;
 }
 
@@ -387,19 +387,19 @@ int jacobi(vector<vector<double> > matrix, vector<double> &evalues,
 
     for (i = 0; i < 2; i++) {
       for (j = i+1; j < 3; j++) {
-	      g = 100.0*fabs(matrix[i][j]);
-	      if (iter > 4 && fabs(evalues[i])+g == fabs(evalues[i])
-	          && fabs(evalues[j])+g == fabs(evalues[j])) {
-	        matrix[i][j] = 0.0;
-	      } else if (fabs(matrix[i][j]) > tresh) {
-	        h = evalues[j]-evalues[i];
-	        if (fabs(h)+g == fabs(h)) {
+        g = 100.0*fabs(matrix[i][j]);
+        if (iter > 4 && fabs(evalues[i])+g == fabs(evalues[i])
+            && fabs(evalues[j])+g == fabs(evalues[j])) {
+          matrix[i][j] = 0.0;
+        } else if (fabs(matrix[i][j]) > tresh) {
+          h = evalues[j]-evalues[i];
+          if (fabs(h)+g == fabs(h)) {
             t = (matrix[i][j])/h;
-	        } else {
-	          theta = 0.5*h/(matrix[i][j]);
-	          t = 1.0/(fabs(theta)+sqrt(1.0+theta*theta));
-	          if (theta < 0.0) t = -t;
-	        }
+          } else {
+            theta = 0.5*h/(matrix[i][j]);
+            t = 1.0/(fabs(theta)+sqrt(1.0+theta*theta));
+            if (theta < 0.0) t = -t;
+          }
           c = 1.0/sqrt(1.0+t*t);
           s = t*c;
           tau = s/(1.0+c);
@@ -518,19 +518,19 @@ vector<std::complex<double> > cart2sphereHarm6(vector<double> rCart) {
   sphHr[0] = 1./64.*sqrt(3003./PI)*pow(st, 6);
   sphHr[1] = -3./32.*sqrt(1001./PI)*pow(st, 5)*ct;
   sphHr[2] = 3./32.*sqrt(91./2./PI)*pow(st, 4)*(11*pow(ct,2) - 1.);
-	sphHr[3] = -1./32.*sqrt(1365./PI)*pow(st,3)*(11.*pow(ct,3) - 3.*ct);
-	sphHr[4] = 1./64.*sqrt(1365./PI)*pow(st,2)*(33.*pow(ct,4) - 18.*pow(ct,2) + 1.);
-	sphHr[5] =-1./16.*sqrt(273./2./PI)*st;
-	sphHr[5] *= 33.*pow(ct,5) - 30.*pow(ct,3) + 5.*ct;
-	sphHr[6] = 1./32.*sqrt(13./PI)*(231.*pow(ct,6) - 315.*pow(ct,4) + 105.*pow(ct,2) - 5.);
-	sphHr[7] = sphHr[5]*-1.;
-	sphHr[8] = sphHr[4];
-	sphHr[9] = sphHr[3]*-1;
-	sphHr[10] = sphHr[2];
+  sphHr[3] = -1./32.*sqrt(1365./PI)*pow(st,3)*(11.*pow(ct,3) - 3.*ct);
+  sphHr[4] = 1./64.*sqrt(1365./PI)*pow(st,2)*(33.*pow(ct,4) - 18.*pow(ct,2) + 1.);
+  sphHr[5] =-1./16.*sqrt(273./2./PI)*st;
+  sphHr[5] *= 33.*pow(ct,5) - 30.*pow(ct,3) + 5.*ct;
+  sphHr[6] = 1./32.*sqrt(13./PI)*(231.*pow(ct,6) - 315.*pow(ct,4) + 105.*pow(ct,2) - 5.);
+  sphHr[7] = sphHr[5]*-1.;
+  sphHr[8] = sphHr[4];
+  sphHr[9] = sphHr[3]*-1;
+  sphHr[10] = sphHr[2];
   sphHr[11] = sphHr[1]*-1;
-	sphHr[12] = sphHr[0];
+  sphHr[12] = sphHr[0];
 
-	for (int i = 0; i < 13; ++i) {
+  for (int i = 0; i < 13; ++i) {
     const int l = 6 - i;
     sphH[i] = sphHr[i] * std::complex<double>
       (cos(double(l)*phi), sin(double(l)*phi));

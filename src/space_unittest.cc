@@ -860,7 +860,7 @@ TEST(Space, inertialTensor) {
 #ifdef XDRFILE_H_
 TEST(Space, readXTC) {
   Space s(3);
- 	s.addMolInit("../forcefield/data.lj");
+  s.addMolInit("../forcefield/data.lj");
   for (int i =0; i < 245; ++i) {
     s.addMol("../forcefield/data.lj");
   }

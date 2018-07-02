@@ -20,9 +20,9 @@
 using namespace feasst;
 
 TEST(Functions, sign) {
-	EXPECT_EQ(-15, sign(15,-1));
-	EXPECT_EQ(-15.2, sign(15.2,-10.0));
-	EXPECT_EQ(25, sign(25,23.1));
+  EXPECT_EQ(-15, sign(15,-1));
+  EXPECT_EQ(-15.2, sign(15.2,-10.0));
+  EXPECT_EQ(25, sign(25,23.1));
 }
 
 // Check fill by filling with ones, and summing elements
@@ -58,8 +58,8 @@ TEST(Functions, fill3d) {
 }
 
 TEST(Functions, numLines) {
-	EXPECT_EQ(266, numLines("../unittest/colMat1.txt"));
-	try {
+  EXPECT_EQ(266, numLines("../unittest/colMat1.txt"));
+  try {
     numLines("this/does/not/exist");
     CATCH_PHRASE("cannot open");
   }
@@ -73,45 +73,45 @@ TEST(Functions, matMul3d) {
   a.resize(dim, vector<double>(dim));
   x.resize(dim);
   b.resize(dim);
-	a[0][0]=1;
-	a[0][1]=2;
-	a[0][2]=3;
-	a[1][0]=4;
-	a[1][1]=5;
-	a[1][2]=6;
-	a[2][0]=7;
-	a[2][1]=8;
-	a[2][2]=9;
-	x[0]=1;
-	x[1]=2;
-	x[2]=3;
+  a[0][0]=1;
+  a[0][1]=2;
+  a[0][2]=3;
+  a[1][0]=4;
+  a[1][1]=5;
+  a[1][2]=6;
+  a[2][0]=7;
+  a[2][1]=8;
+  a[2][2]=9;
+  x[0]=1;
+  x[1]=2;
+  x[2]=3;
   b = matVecMul(a, x);
-	EXPECT_NEAR(14, b[0], 1e-5);
-	EXPECT_NEAR(32, b[1], 1e-5);
-	EXPECT_NEAR(50, b[2], 1e-5);
+  EXPECT_NEAR(14, b[0], 1e-5);
+  EXPECT_NEAR(32, b[1], 1e-5);
+  EXPECT_NEAR(50, b[2], 1e-5);
 }
 
 TEST(Functions, vecDotProd) {
   const int dimen = 3;
-	vector<double> a(dimen);
+  vector<double> a(dimen);
   vector<double> b(dimen);
-	fill(a.begin(), a.end(), 2.);
-	fill(b.begin(), b.end(), 3.5);
-	EXPECT_NEAR(21, vecDotProd(a, b), 1e-10);
+  fill(a.begin(), a.end(), 2.);
+  fill(b.begin(), b.end(), 3.5);
+  EXPECT_NEAR(21, vecDotProd(a, b), 1e-10);
 }
 
 TEST(Functions, crossProd) {
   const int dimen = 3;
-	vector<double> a(dimen);
+  vector<double> a(dimen);
   vector<double> b(dimen);
-	a[0] = 1;
-	a[1] = 2;
-	a[2] = 3;
-	fill(b.begin(), b.end(), 3.5);
+  a[0] = 1;
+  a[1] = 2;
+  a[2] = 3;
+  fill(b.begin(), b.end(), 3.5);
   vector<double> c = crossProd(a, b);
-	EXPECT_NEAR(-3.5, c[0], 1e-10);
-	EXPECT_NEAR(7., c[1], 1e-10);
-	EXPECT_NEAR(-3.5, c[2], 1e-10);
+  EXPECT_NEAR(-3.5, c[0], 1e-10);
+  EXPECT_NEAR(7., c[1], 1e-10);
+  EXPECT_NEAR(-3.5, c[2], 1e-10);
 }
 
 TEST(Functions, quat2rot) {
@@ -152,34 +152,34 @@ TEST(Functions, matMul) {
   const int dim = 3;
   a.resize(dim, vector<double>(dim));
   b.resize(dim, vector<double>(dim));
-	a[0][0]=1;
-	a[0][1]=2;
-	a[0][2]=3;
-	a[1][0]=4;
-	a[1][1]=5;
-	a[1][2]=6;
-	a[2][0]=7;
-	a[2][1]=8;
-	a[2][2]=9;
-	b[0][0]=1;
-	b[0][1]=0;
-	b[0][2]=0;
-	b[1][0]=0;
-	b[1][1]=1;
-	b[1][2]=0;
-	b[2][0]=0;
-	b[2][1]=0;
-	b[2][2]=1;
+  a[0][0]=1;
+  a[0][1]=2;
+  a[0][2]=3;
+  a[1][0]=4;
+  a[1][1]=5;
+  a[1][2]=6;
+  a[2][0]=7;
+  a[2][1]=8;
+  a[2][2]=9;
+  b[0][0]=1;
+  b[0][1]=0;
+  b[0][2]=0;
+  b[1][0]=0;
+  b[1][1]=1;
+  b[1][2]=0;
+  b[2][0]=0;
+  b[2][1]=0;
+  b[2][2]=1;
   vector<vector<double> > c = matMul(a, b);
-	EXPECT_NEAR(c[0][0], 1, 1e-15);
-	EXPECT_NEAR(c[0][1], 2, 1e-15);
-	EXPECT_NEAR(c[0][2], 3, 1e-15);
-	EXPECT_NEAR(c[1][0], 4, 1e-15);
-	EXPECT_NEAR(c[1][1], 5, 1e-15);
-	EXPECT_NEAR(c[1][2], 6, 1e-15);
-	EXPECT_NEAR(c[2][0], 7, 1e-15);
-	EXPECT_NEAR(c[2][1], 8, 1e-15);
-	EXPECT_NEAR(c[2][2], 9, 1e-15);
+  EXPECT_NEAR(c[0][0], 1, 1e-15);
+  EXPECT_NEAR(c[0][1], 2, 1e-15);
+  EXPECT_NEAR(c[0][2], 3, 1e-15);
+  EXPECT_NEAR(c[1][0], 4, 1e-15);
+  EXPECT_NEAR(c[1][1], 5, 1e-15);
+  EXPECT_NEAR(c[1][2], 6, 1e-15);
+  EXPECT_NEAR(c[2][0], 7, 1e-15);
+  EXPECT_NEAR(c[2][1], 8, 1e-15);
+  EXPECT_NEAR(c[2][2], 9, 1e-15);
   a.resize(2, vector<double>(3));
   b.resize(3, vector<double>(2));
   c.resize(2, vector<double>(2));
