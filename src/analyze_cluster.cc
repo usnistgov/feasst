@@ -231,7 +231,7 @@ void AnalyzeCluster::write(CriteriaWLTMMC *c) {
           if (idim == jdim) mat[idim][jdim] -= 0.5;
         }
       }
-      ASSERT(jacobi(mat, evalues, evectors) != 1, "jacobi error");
+// HWH: ASSERT(jacobi(mat, evalues, evectors) != 1, "jacobi error");
       const double maxEigen = *std::max_element(evalues.begin(), evalues.end());
       ss << maxEigen << " ";
       ss << endl;

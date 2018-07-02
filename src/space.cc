@@ -3059,7 +3059,7 @@ void Space::xClusterShape() {
     // find eigenvalues of gyration tensor
     vector<double> evalues(dimen_);
     vector<vector<double> > evectors(dimen_, vector<double>(dimen_));
-    jacobi(xcGy, evalues, evectors);
+    ASSERT(0, "implement eigen value and eigen vector calculation");
 
     // compute the shape parameters
     ASSERT(dimen_ == 3,

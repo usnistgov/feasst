@@ -12,7 +12,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "./../extern/mins.h"
 #include "./trial_add.h"
 #include "./trial_delete.h"
 #include "./trial_transform.h"
@@ -876,13 +875,14 @@ double MC::boylemin_(const double beta) {
   }
 }
 
-double MC::boyle(const double tol) {
-  boyletol_ = tol;
-  Golden g;
-  boyleminwrapper_ boylewrap = boyleminwrap_();
-  g.bracket(criteria_->beta(), criteria_->beta()*100, boylewrap);
-  return g.minimize(boylewrap);
-}
+// HWH mins
+//double MC::boyle(const double tol) {
+//  boyletol_ = tol;
+//  Golden g;
+//  boyleminwrapper_ boylewrap = boyleminwrap_();
+//  g.bracket(criteria_->beta(), criteria_->beta()*100, boylewrap);
+//  return g.minimize(boylewrap);
+//}
 
 /*
  *  first, remove config bias from trialVec, then from trialWeight and trialCumulativeProb

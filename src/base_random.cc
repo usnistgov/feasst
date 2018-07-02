@@ -9,7 +9,7 @@
  */
 
 #include "./base_random.h"
-#include "./random_nr3.h"
+#include "./random_mersenne_twister.h"
 
 namespace feasst {
 
@@ -39,14 +39,14 @@ void BaseRandom::initRNG(shared_ptr<Random> ran) {
 
 void BaseRandom::initRNG(unsigned long long seed) {
   if (seed == 0) seed = rand();
-  ranNum_ = std::make_shared<RandomNR3>(seed);
+  ranNum_ = std::make_shared<RandomMersenneTwister>(seed);
 }
 
 void BaseRandom::initRNG(const char* fileName) {
   stringstream ss;
   ss << fileName << "rng";
   if (fileExists(ss.str().c_str())) {
-    ranNum_ = std::make_shared<RandomNR3>(ss.str().c_str());
+    ranNum_ = std::make_shared<RandomMersenneTwister>(ss.str().c_str());
   } else {
     clearRNG();
   }

@@ -13,7 +13,6 @@
 #include "functions.h"
 #include <algorithm>
 #include <fstream>
-#include "../extern/mins.h"
 #include <complex>
 #include "base_random.h"
 
@@ -292,12 +291,13 @@ double func(const double x) {
   return x*x;
 }
 
-TEST(Functions, mins) {
-  Golden golden;
-  golden.bracket(4, 5, func);
-  double xmin = golden.minimize(func);
-  EXPECT_NEAR(0, xmin, 1e-7);
-}
+// HWH mins
+//TEST(Functions, mins) {
+//  Golden golden;
+//  golden.bracket(4, 5, func);
+//  double xmin = golden.minimize(func);
+//  EXPECT_NEAR(0, xmin, 1e-7);
+//}
 
 TEST(Functions, trim) {
   const char* f = "/my/path/to/file";
@@ -342,26 +342,27 @@ TEST(Functions, fstos) {
   EXPECT_TRUE(strtmp.empty());
 }
 
-TEST(Functions, eigenANDrotateJacobi) {
-  vector<vector<double> > matrix(3, vector<double>(3, 0.)), evectors = matrix;
-  matrix[0][0] = 7;   matrix[1][0] = -2;  matrix[2][0] = 0;
-  matrix[0][1] = -2;  matrix[1][1] = 6;   matrix[2][1] = -2;
-  matrix[0][2] = 0;   matrix[1][2] = -2;  matrix[2][2] = 5;
-  vector<double> evalues;
-  jacobi(matrix, evalues, evectors);
-  EXPECT_NEAR(evalues[0], 9, 1e-10);
-  EXPECT_NEAR(evalues[1], 3, 1e-10);
-  EXPECT_NEAR(evalues[2], 6, 1e-10);
-  EXPECT_NEAR(evectors[0][0], 2/3., 1e-5);
-  EXPECT_NEAR(evectors[1][0], -2/3., 1e-5);
-  EXPECT_NEAR(evectors[2][0], 1/3., 1e-5);
-  EXPECT_NEAR(evectors[0][1], 1/3., 1e-5);
-  EXPECT_NEAR(evectors[1][1], 2/3., 1e-5);
-  EXPECT_NEAR(evectors[2][1], 2/3., 1e-5);
-  EXPECT_NEAR(evectors[0][2], -2/3., 1e-5);
-  EXPECT_NEAR(evectors[1][2], -1/3., 1e-5);
-  EXPECT_NEAR(evectors[2][2], 2/3., 1e-5);
-}
+// HWH eigenvalue
+//TEST(Functions, eigenANDrotateJacobi) {
+//  vector<vector<double> > matrix(3, vector<double>(3, 0.)), evectors = matrix;
+//  matrix[0][0] = 7;   matrix[1][0] = -2;  matrix[2][0] = 0;
+//  matrix[0][1] = -2;  matrix[1][1] = 6;   matrix[2][1] = -2;
+//  matrix[0][2] = 0;   matrix[1][2] = -2;  matrix[2][2] = 5;
+//  vector<double> evalues;
+//  jacobi(matrix, evalues, evectors);
+//  EXPECT_NEAR(evalues[0], 9, 1e-10);
+//  EXPECT_NEAR(evalues[1], 3, 1e-10);
+//  EXPECT_NEAR(evalues[2], 6, 1e-10);
+//  EXPECT_NEAR(evectors[0][0], 2/3., 1e-5);
+//  EXPECT_NEAR(evectors[1][0], -2/3., 1e-5);
+//  EXPECT_NEAR(evectors[2][0], 1/3., 1e-5);
+//  EXPECT_NEAR(evectors[0][1], 1/3., 1e-5);
+//  EXPECT_NEAR(evectors[1][1], 2/3., 1e-5);
+//  EXPECT_NEAR(evectors[2][1], 2/3., 1e-5);
+//  EXPECT_NEAR(evectors[0][2], -2/3., 1e-5);
+//  EXPECT_NEAR(evectors[1][2], -1/3., 1e-5);
+//  EXPECT_NEAR(evectors[2][2], 2/3., 1e-5);
+//}
 
 TEST(Functions, sqDiff) {
   vector<double> x, y;

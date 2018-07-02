@@ -260,7 +260,6 @@ To do list
 * implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).
 * runNumSweeps instead should have something where one generates the clones as vector<shrptr>, then runNumSweep takes these as input. That way one can modify the clones as one sees fit (also in multiprocessor restarts) before running the clones. It would take a lot of the hidden magic out without complicating the interface too drastically.
 * Fix GSL memory leaks
-* add PairPatchKF loops to Pair base class for molecule-center-based cut-offs before loops through particles (as done for PairLJCoulEwald),
 * Add verbosity level for printing debug messages
 * Make a citation generator for techniques that are used.
 * move checkBond from MC to analyze class for rigid particle simulations (or as part of checkE?)
@@ -300,3 +299,5 @@ To do list
 * the order of the %includes in feasst.i are important (e.g., see pair_lj vs pair_lrc). Consider moving away from automated factories. For now, a simple solution where pair_lrc was renamed pair_1lrc so it is included first.
 * remove masses and box from data files
 * lammps data format real units uses kcal for energy, but I use kJ. Misleading for eps.
+* implement perfect restart of c++ implementation of Mersenne twister.
+* implement eigenvalue and eigenvector computation for nematic order and gyration tensor analysis.

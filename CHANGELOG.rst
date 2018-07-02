@@ -2,6 +2,24 @@
 Change log
 *************************************
 
+Depreciated from v0.4 to v0.5
+####################################
+
+Removed
+***************
+
+CriteriaWLTMMC::findSat
+
+CriteriaWLTMMC::findPeak
+
+CriteriaWLTMMC::lnPIgc2can
+
+CriteriaWLTMMC::lnPIenergyIso
+
+CriteriaWLTMMC::peMUVT
+
+Functions::jacobi
+
 Depreciated from v0.3.1 to v0.4
 ####################################
 

@@ -56,4 +56,3 @@ class Random : public Base {
 }  // namespace feasst
 
 #endif  // RANDOM_H_
-

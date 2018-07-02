@@ -29,6 +29,3 @@ void Random::seed(const unsigned long long iseed) {
 }
 
 }  // namespace feasst
-
-
-
