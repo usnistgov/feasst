@@ -364,8 +364,9 @@ class CriteriaWLTMMC : public Criteria {
     return (-lnPIrw_.front() + log(lnPIrwarea()))/vol/beta_;
   }
 
-  /// Obtain pressure isotherm from lnPI.
-  void lnPIpressureIso(const double volume);
+// HWH mins
+//  /// Obtain pressure isotherm from lnPI.
+//  void lnPIpressureIso(const double volume);
 
 // HWH mins
 //  /// Obtain grand canonical ensemble average from canonical ensemble average.
