@@ -207,6 +207,40 @@ This is a common issue with a few approaches:
 To remove the box move after equilibration, I prefer to "scope" the mc class with the box move and just make another clean mc class, or do an shallow copy (cloneShallow) before calling the transform trial and then use that clone later for production.
 Another option is mc.removeTrial(trial#);
 
+Running tests
+=============================================
+
+You can run the unittests as follows
+
+.. code-block:: bash
+
+    cmake -DUSE_GTEST=ON ..
+    make unittest
+    ./bin/unittest
+
+Note that the unittest exe must be run from the build directory where cmake was used. In addition, temporary files for testing are written to the build/tmp directory.
+
+For longer tests, you can run all of the tutorials (over 8 hours on a single core).
+One way to do this is to compile the tutorials as follows:
+
+.. code-block:: bash
+
+    cmake -DUSE_GTEST_TUTORIALS=ON ..
+    make tutorial
+    ./bin/tutorial
+
+Optimization level
+==================================
+
+Its possible that your level of optimization could lead to simulation issues.
+One way to change the optimization level is to change the "-O3" flag in CmakeLists.txt.
+
+.. code-block:: cmake
+
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -g")
+
+Try `Running tests`_ to catch issues.
+
 Compilation issues
 ###################################################
 

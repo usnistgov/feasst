@@ -3,6 +3,7 @@ Pair Classes
 
 .. toctree::
    Pair
+   PairLRC
    PairHardCircle
    PairHardSphere
    PairHybrid

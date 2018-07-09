@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>PairLJ &#8212; FEASST v0.4.0-3-gfd704dc014 documentation</title>
+    <title>PairLJ &#8212; FEASST v0.5.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.4.0-3-gfd704dc014',
+        VERSION:     'v0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="PairIdeal.html" title="PairIdeal"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" accesskey="U">Pair Classes</a> &#187;</li> 
       </ul>
@@ -62,7 +62,7 @@
 <span id="feasst::PairLJ"></span><span class="target" id="classfeasst_1_1PairLJ"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">PairLJ</code><a class="headerlink" href="#_CPPv2N6feasst6PairLJE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Lennard Jones particles with multiple sigmas, epsilons, rCuts, etc. This class also includes other options, such as changing the exponential parameter, alpha, <span class="math">\(\alpha\)</span>. There are also options to add Gaussians, Yukawa screened electrostatics, Weeks-Chandler-Andersen and the LJ-lambda potential. There are also long range corrections, cut and shift, and shifted-force cut off methods.</p>
 <p><span class="math">\(U_{LJ} = 4\epsilon [ (\sigma/r)^{2\alpha} - (\sigma/r)^\alpha ] \)</span>. </p>
-<p>Inherits from <a class="reference internal" href="Pair.html#classfeasst_1_1Pair"><span class="std std-ref">feasst::Pair</span></a></p>
+<p>Inherits from <a class="reference internal" href="PairLRC.html#classfeasst_1_1PairLRC"><span class="std std-ref">feasst::PairLRC</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
@@ -103,30 +103,6 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6feasst6PairLJ8cutShiftEKi">
-<span id="feasst::PairLJ::cutShift__iC"></span><span class="target" id="classfeasst_1_1PairLJ_1ab5fb06697f8b976a8b7ba2a7d5cfec7b"></span>void <code class="descname">cutShift</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ8cutShiftEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize cut and shifted potential for all particle types if flag == 1. <span class="math">\( U = U_{LJ} - U(rCut)\)</span> when <span class="math">\(r &lt; rCut\)</span>. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N6feasst6PairLJ11linearShiftEKi">
-<span id="feasst::PairLJ::linearShift__iC"></span><span class="target" id="classfeasst_1_1PairLJ_1a48d56d8a9211f6318c4c824d5e9ae215"></span>void <code class="descname">linearShift</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ11linearShiftEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize linear force shift potential for all particle types when flag == 1. <span class="math">\( U = U_{LJ} - U(rCut) - (r-rCut)\left.\frac{\partial U}{\partial r} \right|_{rCut}. \)</span> </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N6feasst6PairLJ13cutShiftijsetEKiKiKi">
-<span id="feasst::PairLJ::cutShiftijset__iC.iC.iC"></span><span class="target" id="classfeasst_1_1PairLJ_1a1b421b0b118ea85d0e67c6687179a52e"></span>void <code class="descname">cutShiftijset</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em>, <em class="property">const</em> int <em>jtype</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ13cutShiftijsetEKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize cut and shift for types itype and jtype if flag == 1. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N6feasst6PairLJ16linearShiftijsetEKiKiKi">
-<span id="feasst::PairLJ::linearShiftijset__iC.iC.iC"></span><span class="target" id="classfeasst_1_1PairLJ_1a71dd811acbf685d7a9ead2643ec5ee45"></span>void <code class="descname">linearShiftijset</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em>, <em class="property">const</em> int <em>jtype</em>, <em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ16linearShiftijsetEKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize linear force shift for types itype and jtype if flag == 1. </p>
-</dd></dl>
-
-<dl class="function">
 <dt id="_CPPv2N6feasst6PairLJ7initWCAEKiKi">
 <span id="feasst::PairLJ::initWCA__iC.iC"></span><span class="target" id="classfeasst_1_1PairLJ_1a83d2372953095ff2d217b1d81cd4f91d"></span>void <code class="descname">initWCA</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em>, <em class="property">const</em> int <em>jtype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ7initWCAEKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize Weeks-Chandler-Andersen for types itype and jtype. </p>
@@ -135,19 +111,7 @@
 <dl class="function">
 <dt id="_CPPv2N6feasst6PairLJ7initLRCEv">
 <span id="feasst::PairLJ::initLRC"></span><span class="target" id="classfeasst_1_1PairLJ_1acdadc10251642f3712c43104c04deeaa"></span>void <code class="descname">initLRC</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ7initLRCEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize long-range corrections for all particle types. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N6feasst6PairLJ11initExpTypeEKi">
-<span id="feasst::PairLJ::initExpType__iC"></span><span class="target" id="classfeasst_1_1PairLJ_1ad76b6f5a4147f5b06f09fe28250180c6"></span>void <code class="descname">initExpType</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ11initExpTypeEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize exponential type, alpha. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N6feasst6PairLJ9initAlphaEKd">
-<span id="feasst::PairLJ::initAlpha__doubleC"></span><span class="target" id="classfeasst_1_1PairLJ_1a83648408aac484db7043388e8354d742"></span>void <code class="descname">initAlpha</code><span class="sig-paren">(</span><em class="property">const</em> double <em>alpha</em> = 12.<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ9initAlphaEKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Initialize alpha parameter as a continuous parameter (non optimized). </p>
+<dd><p>Compute and store <span class="math">\(C_{ij}\)</span> for all particle types. </p>
 </dd></dl>
 
 <dl class="function">
@@ -172,12 +136,6 @@
 <dt id="_CPPv2N6feasst6PairLJ11setLambdaijEKdKdKd">
 <span id="feasst::PairLJ::setLambdaij__doubleC.doubleC.doubleC"></span><span class="target" id="classfeasst_1_1PairLJ_1a95a98713728bc6c65ab1f9caa49fca17"></span>void <code class="descname">setLambdaij</code><span class="sig-paren">(</span><em class="property">const</em> double <em>iType</em>, <em class="property">const</em> double <em>jType</em>, <em class="property">const</em> double <em>lambda</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ11setLambdaijEKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set lambda parameter for particle types iType and jType. <a class="reference external" href="http://dx.doi.org/10.1021/ja802124e">http://dx.doi.org/10.1021/ja802124e</a> </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N6feasst6PairLJ10computeLRCEKi">
-<span id="feasst::PairLJ::computeLRC__iC"></span><span class="target" id="classfeasst_1_1PairLJ_1a4881df8a832fccc13ebcfda0a106c331"></span>double <code class="descname">computeLRC</code><span class="sig-paren">(</span><em class="property">const</em> int <em>ipart</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst6PairLJ10computeLRCEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the LRC contribution of one particle, ipart. </p>
 </dd></dl>
 
 <dl class="function">
@@ -248,6 +206,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="pairtoc.html">Pair Classes</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Pair.html">Pair</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PairLRC.html">PairLRC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairHardCircle.html">PairHardCircle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairHardSphere.html">PairHardSphere</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairHybrid.html">PairHybrid</a></li>
@@ -271,9 +230,9 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Guidelines for contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../AUTHORS.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact and bug reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation guide</a></li>
 </ul>
 
@@ -299,7 +258,7 @@
         <li class="right" >
           <a href="PairIdeal.html" title="PairIdeal"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" >Pair Classes</a> &#187;</li> 
       </ul>

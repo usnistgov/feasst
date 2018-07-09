@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Random &#8212; FEASST v0.4.0-3-gfd704dc014 documentation</title>
+    <title>Random &#8212; FEASST v0.5.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.4.0-3-gfd704dc014',
+        VERSION:     'v0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -28,7 +28,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="RandomNR3" href="RandomNR3.html" />
+    <link rel="next" title="RandomMersenneTwister" href="RandomMersenneTwister.html" />
     <link rel="prev" title="Random Classes" href="randomtoc.html" /> 
   </head>
   <body>
@@ -39,12 +39,12 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="RandomNR3.html" title="RandomNR3"
+          <a href="RandomMersenneTwister.html" title="RandomMersenneTwister"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="randomtoc.html" title="Random Classes"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="randomtoc.html" accesskey="U">Random Classes</a> &#187;</li> 
       </ul>
@@ -63,7 +63,7 @@
 <dd><p>General interface for random number generators.</p>
 <p>In order to create a new <a class="reference internal" href="#classfeasst_1_1Random"><span class="std std-ref">Random</span></a> derived class, copy an existing set of “random_*” files and replace the class name and header guards (e.g., BASECLASS_DERIVED_H_). </p>
 <p>Inherits from <a class="reference internal" href="Base.html#classfeasst_1_1Base"><span class="std std-ref">feasst::Base</span></a></p>
-<p>Subclassed by <a class="reference internal" href="RandomNR3.html#classfeasst_1_1RandomNR3"><span class="std std-ref">feasst::RandomNR3</span></a></p>
+<p>Subclassed by <a class="reference internal" href="RandomMersenneTwister.html#classfeasst_1_1RandomMersenneTwister"><span class="std std-ref">feasst::RandomMersenneTwister</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
@@ -134,7 +134,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pairtoc.html">Pair Classes</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="randomtoc.html">Random Classes</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Random</a></li>
-<li class="toctree-l3"><a class="reference internal" href="RandomNR3.html">RandomNR3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RandomMersenneTwister.html">RandomMersenneTwister</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Space.html">Space</a></li>
@@ -147,9 +147,9 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Guidelines for contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../AUTHORS.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact and bug reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation guide</a></li>
 </ul>
 
@@ -157,8 +157,8 @@
   <p class="topless"><a href="randomtoc.html"
                         title="previous chapter">Random Classes</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="RandomNR3.html"
-                        title="next chapter">RandomNR3</a></p>
+  <p class="topless"><a href="RandomMersenneTwister.html"
+                        title="next chapter">RandomMersenneTwister</a></p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -170,12 +170,12 @@
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="RandomNR3.html" title="RandomNR3"
+          <a href="RandomMersenneTwister.html" title="RandomMersenneTwister"
              >next</a> |</li>
         <li class="right" >
           <a href="randomtoc.html" title="Random Classes"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="randomtoc.html" >Random Classes</a> &#187;</li> 
       </ul>

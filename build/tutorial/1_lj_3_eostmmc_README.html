@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>LJ: muVT TMMC &#8212; FEASST v0.4.0-4-g9c6f9bfece documentation</title>
+    <title>LJ: muVT TMMC &#8212; FEASST v0.5.0 documentation</title>
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     'v0.4.0-4-g9c6f9bfece',
+        VERSION:     'v0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="1_lj_2_nvt-mc_README.html" title="LJ: NVT MC"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">FEASST v0.4.0-4-g9c6f9bfece documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../TUTORIAL.html" accesskey="U">Tutorials</a> &#187;</li> 
       </ul>
     </div>  
@@ -80,16 +80,20 @@ Reproduce the results found in the NIST SRSW:</p>
 <h2>Histogram reweighting<a class="headerlink" href="#histogram-reweighting" title="Permalink to this headline">¶</a></h2>
 <p>For microcanonical partition function, <span class="math">\(\Omega(N,V,U)\)</span>, canonical, <span class="math">\(Q(N,V,T)\)</span> and grand canonical, <span class="math">\(\Xi(\mu, V, T)\)</span>, the probability to observe a state, <span class="math">\(\Pi\)</span> is given by</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\Pi(U) = \frac{\Omega(N,V,U)e^{-\beta U}}{Q(N,V,T)}\\ln\Pi(U) + \beta U = ln\Omega(N,V,U) + Const\\\Pi(N, U) = \frac{\Omega(N,V,U)e^{-\beta U + \beta \mu N}}{\Xi(\mu,V,T)}\\ln\Pi(N,U) + \beta U - \beta \mu N = ln\Omega(N,U,V) + Const\\ln\Pi_{expected}(N, U; \mu', V, T') = ln\Pi(N, U; \mu, V, T) -\beta` U + \beta U + (\beta` \mu` - \beta \mu)N + Const\\lnz(\mu, \beta) = \beta\mu - ln(Lambda(\beta)^3)\\ln\Pi_{expected}(N; \mu', V, T') = ln\Pi(N; \mu, V, T) + N(lnz` - lnz) + Const\end{aligned}\end{align} \]</div>
+\[ \begin{align}\begin{aligned}\Pi(U) = \frac{\Omega(N,V,U)e^{-\beta U}}{Q(N,V,T)}\\ln\Pi(U) + \beta U = ln\Omega(N,V,U) + Const\\\Pi(N, U) = \frac{\Omega(N,V,U)e^{-\beta U + \beta \mu N}}{\Xi(\mu,V,T)}\\ln\Pi(N,U) + \beta U - \beta \mu N = ln\Omega(N,U,V) + Const\\ln\Pi_{expected}(N, U; \mu', V, T') = ln\Pi(N, U; \mu, V, T) -\beta` U + \beta U + (\beta` \mu` - \beta \mu)N + Const\\lnz(\mu, \beta) = \beta\mu - ln(Lambda(\beta)^3)\\ln\Pi_{expected}(N; \mu', V, T) = ln\Pi(N; \mu, V, T) + N(lnz` - lnz) + Const\end{aligned}\end{align} \]</div>
 <p>For histogram reweighting, apply the equation above to the macrostate probability distribution, <span class="math">\(ln\Pi\)</span>, and renormalize, <span class="math">\(\sum \Pi = 1\)</span>.
 When there are multiple peaks in <span class="math">\(ln\Pi\)</span> that do not change greatly with system size, this often corresponds to different macroscopic phases.
 One chooses the minimum in <span class="math">\(ln\Pi\)</span> as the boundary between these two phases.
 The two phases are at coexistence when the sum of their probabilities are equal.
 Extensive properties, <span class="math">\(A\)</span> are obtained first as a series of canonical ensemble averages for each value of <span class="math">\(N\)</span>, and then post-processed as a function of <span class="math">\(lnz\)</span> as grand canonical ensemble averages, <span class="math">\(A(\mu,V,T) = \sum_{N=0}^{N_{max}} A(N,V,T) \Pi(N; \mu,V,T)\)</span></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">rw.cc and rw.py have been temporarily disabled in this version, but will be fixed later.</p>
+</div>
 <p>Example histogram reweighting tools are provided in <a class="reference external" href="tools/rw.cc">tools/rw.cc</a> and <a class="reference external" href="tools/rw.py">tools/rw.py</a>.
 For C++, <code class="docutils literal"><span class="pre">cd</span> <span class="pre">tools</span></code> <code class="docutils literal"><span class="pre">./compile.sh</span> <span class="pre">rw</span></code> to make the <code class="docutils literal"><span class="pre">rw</span></code> executable.</p>
-<p>To reweight <span class="math">\(ln\Pi\)</span> to different values of <span class="math">\(lnz\)</span>, use <code class="docutils literal"><span class="pre">tools/rw</span> <span class="pre">-i</span> <span class="pre">colMat</span> <span class="pre">-z</span> <span class="pre">[lnz</span> <span class="pre">value]</span></code> or <code class="docutils literal"><span class="pre">python</span> <span class="pre">tools/rw.py</span> <span class="pre">-i</span> <span class="pre">colMat</span> <span class="pre">-z</span> <span class="pre">[lnz</span> <span class="pre">value]</span></code> and the result is in <code class="docutils literal"><span class="pre">colMatrw.txtrw</span></code>.
-If your <span class="math">\(ln\Pi\)</span> has multiple peaks, you can obtain saturation by <code class="docutils literal"><span class="pre">tools/rw</span> <span class="pre">-i</span> <span class="pre">colMat</span></code> or <code class="docutils literal"><span class="pre">python</span> <span class="pre">tools/rw.py</span> <span class="pre">-i</span> <span class="pre">colMat</span></code> and the resulting coexistence properties are printed and the reweighted <span class="math">\(lnz\)</span> is in <code class="docutils literal"><span class="pre">colMatrw</span></code>.</p>
+<p>To reweight <span class="math">\(ln\Pi\)</span> to different values of <span class="math">\(lnz\)</span>, use <code class="docutils literal"><span class="pre">tools/rw</span> <span class="pre">-i</span> <span class="pre">colMat</span> <span class="pre">-z</span> <span class="pre">[lnz</span> <span class="pre">value]</span></code> or <code class="docutils literal"><span class="pre">tools/run.sh</span> <span class="pre">tools/rw.py</span> <span class="pre">-i</span> <span class="pre">colMat</span> <span class="pre">-z</span> <span class="pre">[lnz</span> <span class="pre">value]</span></code> and the result is in <code class="docutils literal"><span class="pre">colMatrw.txtrw</span></code>.
+If your <span class="math">\(ln\Pi\)</span> has multiple peaks, you can obtain saturation by <code class="docutils literal"><span class="pre">tools/rw</span> <span class="pre">-i</span> <span class="pre">colMat</span></code> or <code class="docutils literal"><span class="pre">tools/run.sh</span> <span class="pre">tools/rw.py</span> <span class="pre">-i</span> <span class="pre">colMat</span></code> and the resulting coexistence properties are printed and the reweighted <span class="math">\(lnz\)</span> is in <code class="docutils literal"><span class="pre">colMatrw</span></code>.</p>
 </div>
 <div class="section" id="what-chemical-potential-lnz-should-i-use">
 <h2>What chemical potential (lnz) should I use?<a class="headerlink" href="#what-chemical-potential-lnz-should-i-use" title="Permalink to this headline">¶</a></h2>
@@ -145,9 +149,9 @@ Breaking the macrostate distribution into smaller pieces to perform the simulati
 <li class="toctree-l1"><a class="reference internal" href="../api.html">Application program interface (API)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../FAQ.html">Frequently asked questions (FAQ)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CHANGELOG.html">Change log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../sphinx/dev.html">Guidelines for developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../sphinx/contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Guidelines for contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../AUTHORS.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTACT.html">Contact and bug reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CITATION.html">Citation guide</a></li>
 </ul>
 
@@ -173,7 +177,7 @@ Breaking the macrostate distribution into smaller pieces to perform the simulati
         <li class="right" >
           <a href="1_lj_2_nvt-mc_README.html" title="LJ: NVT MC"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">FEASST v0.4.0-4-g9c6f9bfece documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../TUTORIAL.html" >Tutorials</a> &#187;</li> 
       </ul>
     </div>

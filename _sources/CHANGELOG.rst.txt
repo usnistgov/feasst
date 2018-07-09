@@ -2,6 +2,32 @@
 Change log
 *************************************
 
+Depreciated from v0.4 to v0.5
+####################################
+
+Code associated with minimization has been removed.
+
+Removed
+***************
+
+CriteriaWLTMMC::findSat
+
+CriteriaWLTMMC::findPeak
+
+CriteriaWLTMMC::lnPIgc2can
+
+CriteriaWLTMMC::lnPIenergyIso
+
+CriteriaWLTMMC::peMUVT
+
+CriteriaWLTMMC::lnPIpressureIso
+
+MC::boyle
+
+WLTMMC::printSat
+
+Functions::jacobi
+
 Depreciated from v0.3.1 to v0.4
 ####################################
 

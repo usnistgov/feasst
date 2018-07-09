@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>PairLJCoulEwald &#8212; FEASST v0.4.0-3-gfd704dc014 documentation</title>
+    <title>PairLJCoulEwald &#8212; FEASST v0.5.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.4.0-3-gfd704dc014',
+        VERSION:     'v0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="PairLJ.html" title="PairLJ"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" accesskey="U">Pair Classes</a> &#187;</li> 
       </ul>
@@ -61,7 +61,7 @@
 <dt id="_CPPv2N6feasst15PairLJCoulEwaldE">
 <span id="feasst::PairLJCoulEwald"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald"></span><em class="property">class </em><code class="descclassname">feasst::</code><code class="descname">PairLJCoulEwald</code><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwaldE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Lennard Jones pairwise interactions with long range coulombic interactions treated by the Ewald summation. </p>
-<p>Inherits from <a class="reference internal" href="Pair.html#classfeasst_1_1Pair"><span class="std std-ref">feasst::Pair</span></a></p>
+<p>Inherits from <a class="reference internal" href="PairLRC.html#classfeasst_1_1PairLRC"><span class="std std-ref">feasst::PairLRC</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
@@ -218,12 +218,6 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6feasst15PairLJCoulEwald25multiPartEnerAtomCutInnerERKdRKiRKi">
-<span id="feasst::PairLJCoulEwald::multiPartEnerAtomCutInner__doubleCR.iCR.iCR"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1a5581125acbbb2b9317531cab651d3e71"></span>int <code class="descname">multiPartEnerAtomCutInner</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r2</em>, <em class="property">const</em> int &amp;<em>itype</em>, <em class="property">const</em> int &amp;<em>jtype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald25multiPartEnerAtomCutInnerERKdRKiRKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Compute the interaction between two particles itype and jtype separated by a squared distance r2=r*r. Increments the interaction in the <a class="reference internal" href="Pair.html#classfeasst_1_1Pair"><span class="std std-ref">Pair</span></a> class variable “peSRone_”. Return 1 if particles are neighbors. </p>
-</dd></dl>
-
-<dl class="function">
 <dt id="_CPPv2N6feasst15PairLJCoulEwald6updateEK6vectorIiEKiPKc">
 <span id="feasst::PairLJCoulEwald::update__vector:i:C.iC.cCP"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1ae6f6eb17421e79f553524b55f53aeb91"></span>void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;int&gt; <em>mpart</em>, <em class="property">const</em> int <em>flag</em>, <em class="property">const</em> char *<em>uptype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald6updateEK6vectorIiEKiPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="docutils">
@@ -261,6 +255,12 @@
 <dt id="_CPPv2N6feasst15PairLJCoulEwald9sizeCheckEv">
 <span id="feasst::PairLJCoulEwald::sizeCheck"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1aa413cf69977e36339e49a9f52989d57f"></span>void <code class="descname">sizeCheck</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald9sizeCheckEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>check size of class variables </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6feasst15PairLJCoulEwald8cutShiftEKi">
+<span id="feasst::PairLJCoulEwald::cutShift__iC"></span><span class="target" id="classfeasst_1_1PairLJCoulEwald_1ab74cc492be622bd8e08c84db4341ae46"></span>void <code class="descname">cutShift</code><span class="sig-paren">(</span><em class="property">const</em> int <em>flag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst15PairLJCoulEwald8cutShiftEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize cut and shifted potential for all particle types if flag == 1. <span class="math">\( U = U_{LJ} - U(rCut)\)</span> when <span class="math">\(r &lt; rCut\)</span>. </p>
 </dd></dl>
 
 <dl class="function">
@@ -321,6 +321,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="pairtoc.html">Pair Classes</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Pair.html">Pair</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PairLRC.html">PairLRC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairHardCircle.html">PairHardCircle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairHardSphere.html">PairHardSphere</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairHybrid.html">PairHybrid</a></li>
@@ -344,9 +345,9 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Guidelines for contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../AUTHORS.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact and bug reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation guide</a></li>
 </ul>
 
@@ -372,7 +373,7 @@
         <li class="right" >
           <a href="PairLJ.html" title="PairLJ"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" >Pair Classes</a> &#187;</li> 
       </ul>

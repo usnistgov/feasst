@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Pair &#8212; FEASST v0.4.0-3-gfd704dc014 documentation</title>
+    <title>Pair &#8212; FEASST v0.5.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.4.0-3-gfd704dc014',
+        VERSION:     'v0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -28,7 +28,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="PairHardCircle" href="PairHardCircle.html" />
+    <link rel="next" title="PairLRC" href="PairLRC.html" />
     <link rel="prev" title="Pair Classes" href="pairtoc.html" /> 
   </head>
   <body>
@@ -39,12 +39,12 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="PairHardCircle.html" title="PairHardCircle"
+          <a href="PairLRC.html" title="PairLRC"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="pairtoc.html" title="Pair Classes"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" accesskey="U">Pair Classes</a> &#187;</li> 
       </ul>
@@ -70,7 +70,7 @@
 <p>First, you may define a custom <a class="reference internal" href="#classfeasst_1_1Pair"><span class="std std-ref">Pair</span></a> code in the same file as “int main()” for C++. See an example of this for the Jagla potential <a class="reference external" href="tutorial/2_jagla_1_ref-config_README.html">test case</a>.</p>
 <p>Second, you may copy existing “pair_*” files and replace the class name and header guards (e.g. BASECLASS_DERIVED_H_). </p>
 <p>Inherits from <a class="reference internal" href="BaseRandom.html#classfeasst_1_1BaseRandom"><span class="std std-ref">feasst::BaseRandom</span></a></p>
-<p>Subclassed by <a class="reference internal" href="PairHardCircle.html#classfeasst_1_1PairHardCircle"><span class="std std-ref">feasst::PairHardCircle</span></a>, <a class="reference internal" href="PairHardSphere.html#classfeasst_1_1PairHardSphere"><span class="std std-ref">feasst::PairHardSphere</span></a>, <a class="reference internal" href="PairHybrid.html#classfeasst_1_1PairHybrid"><span class="std std-ref">feasst::PairHybrid</span></a>, <a class="reference internal" href="PairIdeal.html#classfeasst_1_1PairIdeal"><span class="std std-ref">feasst::PairIdeal</span></a>, <a class="reference internal" href="PairLJ.html#classfeasst_1_1PairLJ"><span class="std std-ref">feasst::PairLJ</span></a>, <a class="reference internal" href="PairLJCoulEwald.html#classfeasst_1_1PairLJCoulEwald"><span class="std std-ref">feasst::PairLJCoulEwald</span></a>, <a class="reference internal" href="PairPatchKF.html#classfeasst_1_1PairPatchKF"><span class="std std-ref">feasst::PairPatchKF</span></a>, <a class="reference internal" href="PairSoftSphere.html#classfeasst_1_1PairSoftSphere"><span class="std std-ref">feasst::PairSoftSphere</span></a>, <a class="reference internal" href="PairSquareWell.html#classfeasst_1_1PairSquareWell"><span class="std std-ref">feasst::PairSquareWell</span></a>, <a class="reference internal" href="PairTabular1D.html#classfeasst_1_1PairTabular1D"><span class="std std-ref">feasst::PairTabular1D</span></a></p>
+<p>Subclassed by <a class="reference internal" href="PairHardCircle.html#classfeasst_1_1PairHardCircle"><span class="std std-ref">feasst::PairHardCircle</span></a>, <a class="reference internal" href="PairHardSphere.html#classfeasst_1_1PairHardSphere"><span class="std std-ref">feasst::PairHardSphere</span></a>, <a class="reference internal" href="PairHybrid.html#classfeasst_1_1PairHybrid"><span class="std std-ref">feasst::PairHybrid</span></a>, <a class="reference internal" href="PairIdeal.html#classfeasst_1_1PairIdeal"><span class="std std-ref">feasst::PairIdeal</span></a>, <a class="reference internal" href="PairLRC.html#classfeasst_1_1PairLRC"><span class="std std-ref">feasst::PairLRC</span></a>, <a class="reference internal" href="PairPatchKF.html#classfeasst_1_1PairPatchKF"><span class="std std-ref">feasst::PairPatchKF</span></a>, <a class="reference internal" href="PairSoftSphere.html#classfeasst_1_1PairSoftSphere"><span class="std std-ref">feasst::PairSoftSphere</span></a>, <a class="reference internal" href="PairSquareWell.html#classfeasst_1_1PairSquareWell"><span class="std std-ref">feasst::PairSquareWell</span></a>, <a class="reference internal" href="PairTabular1D.html#classfeasst_1_1PairTabular1D"><span class="std std-ref">feasst::PairTabular1D</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
@@ -380,6 +380,12 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="_CPPv2N6feasst4Pair21equateRcutForAllTypesEv">
+<span id="feasst::Pair::equateRcutForAllTypes"></span><span class="target" id="classfeasst_1_1Pair_1a6f8d969d47a0f40df4db4c589b47b903"></span>void <code class="descname">equateRcutForAllTypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair21equateRcutForAllTypesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the cut off between all particles types equal. </p>
+</dd></dl>
+
+<dl class="function">
 <dt id="_CPPv2N6feasst4Pair12neighTypeSetEKi">
 <span id="feasst::Pair::neighTypeSet__iC"></span><span class="target" id="classfeasst_1_1Pair_1a3b69c0bcb889a77005643fb9274a2088"></span>void <code class="descname">neighTypeSet</code><span class="sig-paren">(</span><em class="property">const</em> int <em>itype</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst4Pair12neighTypeSetEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set type of atoms to keep track of neighbors. </p>
@@ -619,6 +625,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mctoc.html">MC Classes</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="pairtoc.html">Pair Classes</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Pair</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PairLRC.html">PairLRC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairHardCircle.html">PairHardCircle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairHardSphere.html">PairHardSphere</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PairHybrid.html">PairHybrid</a></li>
@@ -642,9 +649,9 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Guidelines for contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../AUTHORS.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact and bug reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation guide</a></li>
 </ul>
 
@@ -652,8 +659,8 @@
   <p class="topless"><a href="pairtoc.html"
                         title="previous chapter">Pair Classes</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="PairHardCircle.html"
-                        title="next chapter">PairHardCircle</a></p>
+  <p class="topless"><a href="PairLRC.html"
+                        title="next chapter">PairLRC</a></p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -665,12 +672,12 @@
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="PairHardCircle.html" title="PairHardCircle"
+          <a href="PairLRC.html" title="PairLRC"
              >next</a> |</li>
         <li class="right" >
           <a href="pairtoc.html" title="Pair Classes"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pairtoc.html" >Pair Classes</a> &#187;</li> 
       </ul>

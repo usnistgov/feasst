@@ -18,9 +18,9 @@ Contents:
    build/api
    FAQ
    CHANGELOG
-   sphinx/dev
-   CONTRIBUTORS
-   sphinx/contact
+   CONTRIBUTING
+   AUTHORS
+   CONTACT
    CITATION
 
 Index

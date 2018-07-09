@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>CriteriaWLTMMC &#8212; FEASST v0.4.0-3-gfd704dc014 documentation</title>
+    <title>CriteriaWLTMMC &#8212; FEASST v0.5.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.4.0-3-gfd704dc014',
+        VERSION:     'v0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="CriteriaMetropolis.html" title="CriteriaMetropolis"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="criteriatoc.html" accesskey="U">Criteria Classes</a> &#187;</li> 
       </ul>
@@ -331,30 +331,9 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6feasst14CriteriaWLTMMC7findSatEv">
-<span id="feasst::CriteriaWLTMMC::findSat"></span><span class="target" id="classfeasst_1_1CriteriaWLTMMC_1ac4ee9804e34aa3b1b076ad8ed5546272"></span>void <code class="descname">findSat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14CriteriaWLTMMC7findSatEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Reweight to saturation conditions my minizing the differences in peak heights. </p>
-</dd></dl>
-
-<dl class="function">
 <dt id="_CPPv2N6feasst14CriteriaWLTMMC11printRWinitEv">
 <span id="feasst::CriteriaWLTMMC::printRWinit"></span><span class="target" id="classfeasst_1_1CriteriaWLTMMC_1a1496c072dbb3749722c1340edc511fe1"></span>void <code class="descname">printRWinit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14CriteriaWLTMMC11printRWinitEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>For one time, print reweighted macrostate instead of the current macrostate. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N6feasst14CriteriaWLTMMC8findPeakEKdKd">
-<span id="feasst::CriteriaWLTMMC::findPeak__doubleC.doubleC"></span><span class="target" id="classfeasst_1_1CriteriaWLTMMC_1a3e62c527dedf201b06eb140ff4f82f59"></span>void <code class="descname">findPeak</code><span class="sig-paren">(</span><em class="property">const</em> double <em>nMolPeak</em>, <em class="property">const</em> double <em>lnactivGuess</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14CriteriaWLTMMC8findPeakEKdKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Reweight to obtain peak maxima at given nmol. </p>
-<p><dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal"><span class="pre">nMolPeak</span></code>: target peak location </li>
-<li><code class="docutils literal"><span class="pre">lnactivGuess</span></code>: first guess for activity </li>
-</ul>
-</dd>
-</dl>
-</p>
+<dd><p>Reweight to saturation conditions my minizing the differences in peak heights. For one time, print reweighted macrostate instead of the current macrostate. </p>
 </dd></dl>
 
 <dl class="function">
@@ -372,27 +351,11 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6feasst14CriteriaWLTMMC15lnPIpressureIsoEKd">
-<span id="feasst::CriteriaWLTMMC::lnPIpressureIso__doubleC"></span><span class="target" id="classfeasst_1_1CriteriaWLTMMC_1a7d8c337fa1b2943afc01c664ee853e9d"></span>void <code class="descname">lnPIpressureIso</code><span class="sig-paren">(</span><em class="property">const</em> double <em>volume</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14CriteriaWLTMMC15lnPIpressureIsoEKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Obtain pressure isotherm from lnPI. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N6feasst14CriteriaWLTMMC10lnPIgc2canE6vectorIdE">
-<span id="feasst::CriteriaWLTMMC::lnPIgc2can__vector:double:"></span><span class="target" id="classfeasst_1_1CriteriaWLTMMC_1af85ba64e53dc80da9ebff793d6aa9d81"></span>vector&lt;double&gt; <code class="descname">lnPIgc2can</code><span class="sig-paren">(</span>vector&lt;double&gt; <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14CriteriaWLTMMC10lnPIgc2canE6vectorIdE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Obtain grand canonical ensemble average from canonical ensemble average. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N6feasst14CriteriaWLTMMC10lnPIgc2canEPKcPKc">
-<span id="feasst::CriteriaWLTMMC::lnPIgc2can__cCP.cCP"></span><span class="target" id="classfeasst_1_1CriteriaWLTMMC_1ad7a3e4f1c38d2e9969be883b1ef33496"></span>void <code class="descname">lnPIgc2can</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileNameIn</em>, <em class="property">const</em> char *<em>fileNameOut</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14CriteriaWLTMMC10lnPIgc2canEPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt>
+<em class="property">template </em>&lt;<em class="property">class</em> T&gt;</dt>
+<dt id="_CPPv2N6feasst14CriteriaWLTMMC8lnPIdataEK6vectorIdERK6vectorI1TE">
+<span id="feasst::CriteriaWLTMMC::lnPIdata__vector:double:C.vector:T:CR"></span><span class="target" id="classfeasst_1_1CriteriaWLTMMC_1a3c23688895418873226bf06e573f7f95"></span>double <code class="descname">lnPIdata</code><span class="sig-paren">(</span><em class="property">const</em> vector&lt;double&gt; <em>data</em>, <em class="property">const</em> vector&lt;T&gt; &amp;<em>lnPI</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14CriteriaWLTMMC8lnPIdataEK6vectorIdERK6vectorI1TE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>obtain grand canonical ensemble average from canonical ensemble average input file has macrostate as first column, data as second column </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv2N6feasst14CriteriaWLTMMC13lnPIenergyIsoEv">
-<span id="feasst::CriteriaWLTMMC::lnPIenergyIso"></span><span class="target" id="classfeasst_1_1CriteriaWLTMMC_1aea7e83cf241fe0b58d0b3d77321a16e9"></span>void <code class="descname">lnPIenergyIso</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst14CriteriaWLTMMC13lnPIenergyIsoEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Obtain energy isothermo from lnPI. </p>
 </dd></dl>
 
 <dl class="function">
@@ -531,9 +494,9 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Guidelines for contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../AUTHORS.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact and bug reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation guide</a></li>
 </ul>
 
@@ -559,7 +522,7 @@
         <li class="right" >
           <a href="CriteriaMetropolis.html" title="CriteriaMetropolis"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="criteriatoc.html" >Criteria Classes</a> &#187;</li> 
       </ul>

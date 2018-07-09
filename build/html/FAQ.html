@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Frequently asked questions (FAQ) &#8212; FEASST v0.4.0-3-gfd704dc014 documentation</title>
+    <title>Frequently asked questions (FAQ) &#8212; FEASST v0.5.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'v0.4.0-3-gfd704dc014',
+        VERSION:     'v0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="build/PhysicalConstants.html" title="PhysicalConstants"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.5.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -229,6 +229,32 @@ your own pair potentials.</p>
 <p>To remove the box move after equilibration, I prefer to “scope” the mc class with the box move and just make another clean mc class, or do an shallow copy (cloneShallow) before calling the transform trial and then use that clone later for production.
 Another option is mc.removeTrial(trial#);</p>
 </div>
+<div class="section" id="running-tests">
+<h3>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h3>
+<p>You can run the unittests as follows</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_GTEST<span class="o">=</span>ON ..
+make unittest
+./bin/unittest
+</pre></div>
+</div>
+<p>Note that the unittest exe must be run from the build directory where cmake was used. In addition, temporary files for testing are written to the build/tmp directory.</p>
+<p>For longer tests, you can run all of the tutorials (over 8 hours on a single core).
+One way to do this is to compile the tutorials as follows:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DUSE_GTEST_TUTORIALS<span class="o">=</span>ON ..
+make tutorial
+./bin/tutorial
+</pre></div>
+</div>
+</div>
+<div class="section" id="optimization-level">
+<h3>Optimization level<a class="headerlink" href="#optimization-level" title="Permalink to this headline">¶</a></h3>
+<p>Its possible that your level of optimization could lead to simulation issues.
+One way to change the optimization level is to change the “-O3” flag in CmakeLists.txt.</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS</span> <span class="s2">&quot;${CMAKE_CXX_FLAGS} -O3 -Wall -g&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Try <a class="reference internal" href="#running-tests">Running tests</a> to catch issues.</p>
+</div>
 </div>
 <div class="section" id="compilation-issues">
 <h2>Compilation issues<a class="headerlink" href="#compilation-issues" title="Permalink to this headline">¶</a></h2>
@@ -290,6 +316,8 @@ Or you can edit CMakeLists.txt to add “-fPIC” as follows:</p>
 <li class="toctree-l3"><a class="reference internal" href="#restarting-a-simulation">Restarting a simulation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#isotropic-tabular-potential">Isotropic tabular potential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#getting-to-high-density">Getting to high density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-tests">Running tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optimization-level">Optimization level</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#compilation-issues">Compilation issues</a><ul>
@@ -303,9 +331,9 @@ Or you can edit CMakeLists.txt to add “-fPIC” as follows:</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CHANGELOG.html">Change log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sphinx/dev.html">Guidelines for developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTORS.html">Authors and acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sphinx/contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Guidelines for contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AUTHORS.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact and bug reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation guide</a></li>
 </ul>
 
@@ -331,7 +359,7 @@ Or you can edit CMakeLists.txt to add “-fPIC” as follows:</p>
         <li class="right" >
           <a href="build/PhysicalConstants.html" title="PhysicalConstants"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">FEASST v0.5.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

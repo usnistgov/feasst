@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &#8212; FEASST v0.4.0-3-gfd704dc014 documentation</title>
+    <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &#8212; FEASST v0.5.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'v0.4.0-3-gfd704dc014',
+        VERSION:     'v0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="README.html" title="README"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">FEASST v0.5.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,7 +61,8 @@ simulations with flat-histogram Monte Carlo and molecular dynamics methods.</p>
 <p>Manuscript: <a class="reference external" href="https://doi.org/10.6028/jres.123.004">https://doi.org/10.6028/jres.123.004</a></p>
 <p>Website: <a class="reference external" href="https://pages.nist.gov/feasst/">https://pages.nist.gov/feasst/</a></p>
 <p>Website DOI: <a class="reference external" href="https://doi.org/10.18434/M3S095">https://doi.org/10.18434/M3S095</a></p>
-<p class="last">Code repository: <a class="reference external" href="https://github.com/usnistgov/feasst">https://github.com/usnistgov/feasst</a></p>
+<p>Code repository: <a class="reference external" href="https://github.com/usnistgov/feasst">https://github.com/usnistgov/feasst</a></p>
+<p class="last">Discussion list: <a class="reference external" href="https://groups.google.com/a/list.nist.gov/d/forum/feasst">https://groups.google.com/a/list.nist.gov/d/forum/feasst</a></p>
 </div>
 <div class="section" id="features">
 <h3>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
@@ -502,6 +503,7 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
 </li>
 <li class="toctree-l2"><a class="reference internal" href="build/pairtoc.html">Pair Classes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="build/Pair.html">Pair</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build/PairLRC.html">PairLRC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="build/PairHardCircle.html">PairHardCircle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="build/PairHardSphere.html">PairHardSphere</a></li>
 <li class="toctree-l3"><a class="reference internal" href="build/PairHybrid.html">PairHybrid</a></li>
@@ -516,7 +518,7 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
 </li>
 <li class="toctree-l2"><a class="reference internal" href="build/randomtoc.html">Random Classes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="build/Random.html">Random</a></li>
-<li class="toctree-l3"><a class="reference internal" href="build/RandomNR3.html">RandomNR3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build/RandomMersenneTwister.html">RandomMersenneTwister</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="build/Space.html">Space</a></li>
@@ -549,6 +551,8 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
 <li class="toctree-l3"><a class="reference internal" href="FAQ.html#restarting-a-simulation">Restarting a simulation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FAQ.html#isotropic-tabular-potential">Isotropic tabular potential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FAQ.html#getting-to-high-density">Getting to high density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FAQ.html#running-tests">Running tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FAQ.html#optimization-level">Optimization level</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="FAQ.html#compilation-issues">Compilation issues</a><ul>
@@ -562,47 +566,54 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CHANGELOG.html">Change log</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CHANGELOG.html#depreciated-from-v0-3-1-to-v0-4">Depreciated from v0.3.1 to v0.4</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="CHANGELOG.html#renamed">Renamed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG.html#depreciated-from-v0-4-to-v0-5">Depreciated from v0.4 to v0.5</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="CHANGELOG.html#removed">Removed</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="CHANGELOG.html#depreciated-from-v0-3-1-to-v0-4">Depreciated from v0.3.1 to v0.4</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG.html#renamed">Renamed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CHANGELOG.html#id1">Removed</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="sphinx/dev.html">Guidelines for developers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#semantic-versioning">Semantic versioning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#branch-policies">Branch policies</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="sphinx/dev.html#master-branch">Master branch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sphinx/dev.html#development-dev-branch">Development (dev) branch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sphinx/dev.html#hotfix-branch">Hotfix branch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sphinx/dev.html#feature-ftr-branches">Feature (ftr_*) branches</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sphinx/dev.html#dead-dead-branches">Dead (dead_*) branches</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#public-private-repositories-with-package-tools">Public/private repositories with package tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="sphinx/dev.html#package-scripts">Package scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Guidelines for contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#semantic-versioning">Semantic versioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#branch-policies">Branch policies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#master-branch">Master branch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#development-dev-branch">Development (dev) branch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#hotfix-branch">Hotfix branch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#feature-ftr-branches">Feature (ftr_*) branches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#dead-dead-branches">Dead (dead_*) branches</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#unittest-with-gtest">Unittest with GTEST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#debugging-with-gdb-or-lldb">Debugging with GDB or LLDB</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#find-memory-leaks-with-valgrind">Find memory leaks with Valgrind</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#test-coverage-with-gcov-and-lcov">Test coverage with GCOV and LCOV</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#speed-up-compilation-time-with-ccache">Speed up compilation time with ccache</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#clean-up-with-cpplint-and-pylint">Clean up with cpplint and pylint</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#tag-and-archive">Tag and archive</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#documentation-setup">Documentation setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#sphinx-breathe-doxygen-tips">Sphinx/Breathe/Doxygen tips</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/dev.html#to-do-list">To do list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#public-private-repositories-with-package-tools">Public/private repositories with package tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#package-scripts">Package scripts</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTORS.html">Authors and acknowledgements</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTORS.html#authors">Authors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTORS.html#acknowledgement-for-discussion-and-or-testing-alphabetical">Acknowledgement for discussion and/or testing (alphabetical)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTORS.html#publications">Publications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#unittest-with-gtest">Unittest with GTEST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#debugging-with-gdb-or-lldb">Debugging with GDB or LLDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#find-memory-leaks-with-valgrind">Find memory leaks with Valgrind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#test-coverage-with-gcov-and-lcov">Test coverage with GCOV and LCOV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#speed-up-compilation-time-with-ccache">Speed up compilation time with ccache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#clean-up-with-cpplint-and-pylint">Clean up with cpplint and pylint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#tag-and-archive">Tag and archive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#documentation-setup">Documentation setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#sphinx-breathe-doxygen-tips">Sphinx/Breathe/Doxygen tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#to-do-list">To do list</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="sphinx/contact.html">Contact and bug reports</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sphinx/contact.html#bug-reporting">Bug reporting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AUTHORS.html">Authors and acknowledgements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="AUTHORS.html#authors">Authors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AUTHORS.html#acknowledgement-for-discussion-and-or-testing-alphabetical">Acknowledgement for discussion and/or testing (alphabetical)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AUTHORS.html#publications">Publications</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact and bug reports</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CONTACT.html#bug-reporting">Bug reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTACT.html#email-list">Email list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTACT.html#github-issue-tracker">Github issue tracker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTACT.html#project-lead">Project lead</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation guide</a></li>
@@ -631,9 +642,9 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
 <li class="toctree-l1"><a class="reference internal" href="build/api.html">Application program interface (API)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQ.html">Frequently asked questions (FAQ)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CHANGELOG.html">Change log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sphinx/dev.html">Guidelines for developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTORS.html">Authors and acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sphinx/contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Guidelines for contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AUTHORS.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact and bug reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation guide</a></li>
 </ul>
 
@@ -653,7 +664,7 @@ For graphical front-end of gcov, <a class="reference external" href="http://ltp.
         <li class="right" >
           <a href="README.html" title="README"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">FEASST v0.5.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

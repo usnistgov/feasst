@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Space &#8212; FEASST v0.4.0-3-gfd704dc014 documentation</title>
+    <title>Space &#8212; FEASST v0.5.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     'v0.4.0-3-gfd704dc014',
+        VERSION:     'v0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -29,7 +29,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Table" href="Table.html" />
-    <link rel="prev" title="RandomNR3" href="RandomNR3.html" /> 
+    <link rel="prev" title="RandomMersenneTwister" href="RandomMersenneTwister.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -42,9 +42,9 @@
           <a href="Table.html" title="Table"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="RandomNR3.html" title="RandomNR3"
+          <a href="RandomMersenneTwister.html" title="RandomMersenneTwister"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" accesskey="U">Application program interface (API)</a> &#187;</li> 
       </ul>
     </div>  
@@ -125,6 +125,12 @@
 <dt id="_CPPv2N6feasst5Space7readXYZERNSt8ifstreamE">
 <span id="feasst::Space::readXYZ__std::ifstreamR"></span><span class="target" id="classfeasst_1_1Space_1af1fa62f9a39b4b5ff33849e4c5c8cc6b"></span>void <code class="descname">readXYZ</code><span class="sig-paren">(</span>std::ifstream &amp;<em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Space7readXYZERNSt8ifstreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Alternative readXYZ, this one adds and deletes molecules in addMolInit. See above for description of xyz file format. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6feasst5Space10readXYZAltEPKc">
+<span id="feasst::Space::readXYZAlt__cCP"></span><span class="target" id="classfeasst_1_1Space_1a7558ca3dd9d5ce83a6e26e82b4279af6"></span>void <code class="descname">readXYZAlt</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Space10readXYZAltEPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Alternative method for python interface </p>
 </dd></dl>
 
 <dl class="function">
@@ -579,8 +585,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6feasst5Space16findAddMolInListEK6string">
-<span id="feasst::Space::findAddMolInList__stringC"></span><span class="target" id="classfeasst_1_1Space_1a2428f530255a73d492d8cf6757fc516b"></span>shared_ptr&lt;<a class="reference internal" href="#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a>&gt; <code class="descname">findAddMolInList</code><span class="sig-paren">(</span><em class="property">const</em> string <em>typeStr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Space16findAddMolInListEK6string" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst5Space16findAddMolInListEK6string">
+<span id="feasst::Space::findAddMolInList__stringCC"></span><span class="target" id="classfeasst_1_1Space_1a44a34a54e7d063a942f345a0ffd2a9bd"></span>shared_ptr&lt;<a class="reference internal" href="#_CPPv2N6feasst5SpaceE" title="feasst::Space">Space</a>&gt; <code class="descname">findAddMolInList</code><span class="sig-paren">(</span><em class="property">const</em> string <em>typeStr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst5Space16findAddMolInListEK6string" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Given addMolInit type, return space which contains only one molecule. </p>
 </dd></dl>
 
@@ -781,8 +787,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N6feasst5Space9listBondsEKi">
-<span id="feasst::Space::listBonds__iC"></span><span class="target" id="classfeasst_1_1Space_1ad5e71ecc213f3ced89802bfc97b2365e"></span>vector&lt;vector&lt;int&gt;&gt; <code class="descname">listBonds</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iAtom</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Space9listBondsEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2NK6feasst5Space9listBondsEKi">
+<span id="feasst::Space::listBonds__iCC"></span><span class="target" id="classfeasst_1_1Space_1a76b373ff61dca8ab8bdcc4fb11e77249"></span>vector&lt;vector&lt;int&gt;&gt; <code class="descname">listBonds</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iAtom</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst5Space9listBondsEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return list of bonds involving iAtom. </p>
 </dd></dl>
 
@@ -1011,8 +1017,28 @@
 
 <dl class="function">
 <dt id="_CPPv2N6feasst5Space8initAtomE10shared_ptrI4AtomE">
-<span id="feasst::Space::initAtom__shared_ptr:Atom:"></span><span class="target" id="classfeasst_1_1Space_1a926c7b90839badc417da0e7139f66ba7"></span>void <code class="descname">initAtom</code><span class="sig-paren">(</span>shared_ptr&lt;Atom&gt; <em>group</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Space8initAtomE10shared_ptrI4AtomE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="feasst::Space::initAtom__shared_ptr:Atom:"></span><span class="target" id="classfeasst_1_1Space_1a4b969ae7216d09fed5fba0450a06b43a"></span>void <code class="descname">initAtom</code><span class="sig-paren">(</span>shared_ptr&lt;Atom&gt; <em>atom</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Space8initAtomE10shared_ptrI4AtomE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize a per-atom quantity. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6feasst5Space5atomsEv">
+<span id="feasst::Space::atomsC"></span><span class="target" id="classfeasst_1_1Space_1aa96e0ed70d6d492d1fcab40440b10dfa"></span>vector&lt;shared_ptr&lt;Atom&gt;&gt; <code class="descname">atoms</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6feasst5Space5atomsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return per-atom list. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6feasst5Space10delPerAtomEKi">
+<span id="feasst::Space::delPerAtom__iC"></span><span class="target" id="classfeasst_1_1Space_1a92d88898872cf71f7cc024fbb90a4182"></span>void <code class="descname">delPerAtom</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em> = -1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6feasst5Space10delPerAtomEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove per-atom quantity. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">index</span></code>: index for multiple per-atom quantities. If -1, remove last. </li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="function">
@@ -1051,15 +1077,15 @@
 <li class="toctree-l1"><a class="reference internal" href="api.html">Application program interface (API)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently asked questions (FAQ)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CHANGELOG.html">Change log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sphinx/dev.html">Guidelines for developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTORS.html">Authors and acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sphinx/contact.html">Contact and bug reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Guidelines for contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../AUTHORS.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact and bug reports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation guide</a></li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="RandomNR3.html"
-                        title="previous chapter">RandomNR3</a></p>
+  <p class="topless"><a href="RandomMersenneTwister.html"
+                        title="previous chapter">RandomMersenneTwister</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="Table.html"
                         title="next chapter">Table</a></p>
@@ -1077,9 +1103,9 @@
           <a href="Table.html" title="Table"
              >next</a> |</li>
         <li class="right" >
-          <a href="RandomNR3.html" title="RandomNR3"
+          <a href="RandomMersenneTwister.html" title="RandomMersenneTwister"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.4.0-3-gfd704dc014 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="api.html" >Application program interface (API)</a> &#187;</li> 
       </ul>
     </div>
