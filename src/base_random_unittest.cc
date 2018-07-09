@@ -28,9 +28,11 @@ TEST(BaseRandom, uniformRanNum) {
     EXPECT_NEAR(1./(max - min + 1), double(x.at(i-1))/n, 5e-2);
   }
   EXPECT_EQ(0, x.at(min-2));
-  ran.writeRngRestart("tmp/rstnr3");
-  BaseRandom ran2("tmp/rstnr3");
-  EXPECT_NEAR(ran.uniformRanNum(), ran2.uniformRanNum(), 1e-19);
+
+//  // check if the restart is the same random number sequence.
+//  ran.writeRngRestart("tmp/rstnr3");
+//  BaseRandom ran2("tmp/rstnr3");
+//  EXPECT_NEAR(ran.uniformRanNum(), ran2.uniformRanNum(), 1e-19);
 }
 
 TEST(BaseRandom, stdNormRanNum) {

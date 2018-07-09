@@ -57,6 +57,8 @@ int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
      {"molTypeInForcefield", molType.str()},
      {"alphaL", "5.6"},
      {"k2max", "38"}});
+  // pair->initAtomCut(1);
+  // pair->equateRcutForAllTypes();
 
   // acceptance criteria
   auto criteria = feasst::makeCriteriaWLTMMC(
@@ -73,12 +75,11 @@ int main(int argc, char** argv) {  // SPCE, SRSW_EOSTMMC
   mc.weight = 0.4;
   feasst::transformTrial(&mc, "translate");
   feasst::transformTrial(&mc, "rotate");
-  shared_ptr<feasst::TrialDelete> tdel = feasst::makeTrialDelete();
+  auto tdel = feasst::makeTrialDelete();
   tdel->numFirstBeads(10);
   mc.weight = 0.1;
   mc.initTrial(tdel);
-  shared_ptr<feasst::TrialAdd> tadd =
-    feasst::makeTrialAdd(space->addMolListType(0).c_str());
+  auto tadd = feasst::makeTrialAdd(space->addMolListType(0).c_str());
   tadd->numFirstBeads(10);
   mc.weight = 0.1;
   mc.initTrial(tadd);

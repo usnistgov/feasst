@@ -90,11 +90,18 @@ class Space : public BaseRandom {
       [ molecule name           ] name of molecule (can be blank)
       atom1 x y z [optional data] atom name followed by xyz coords
       atom2 x y z [ ...         ] and and (optionally) other data. */
+  // HWH Depreciate: doesn't use addMol
   void readXYZ(const char* fileName);
 
   /** Alternative readXYZ, this one adds and deletes molecules in addMolInit.
    *  See above for description of xyz file format. */
   void readXYZ(std::ifstream& file);
+
+  /** Alternative method for python interface */
+  void readXYZAlt(const char* fileName) {
+    std::ifstream file(fileName);
+    readXYZ(file);
+  }
 
   /// Read particle possitions from XTC file format.
   #ifdef XDRFILE_H_
@@ -380,7 +387,7 @@ class Space : public BaseRandom {
   vector<int> tag2mpart();
 
   /// Given addMolInit type, return space which contains only one molecule.
-  shared_ptr<Space> findAddMolInList(const string typeStr);
+  shared_ptr<Space> findAddMolInList(const string typeStr) const;
 
   /// Given addMolInit type, return index of order in which addMolInit began.
   int findAddMolListIndex(const string typeStr);
@@ -505,7 +512,7 @@ class Space : public BaseRandom {
     const double param) { angleParam_[angleType][angleIndex] = param; }
 
   /// Return list of bonds involving iAtom.
-  vector<vector<int> > listBonds(const int iAtom);
+  vector<vector<int> > listBonds(const int iAtom) const;
 
   /// Return list of angles involving atoms iAtom and jAtom.
   vector<vector<int> > listAngles(const int iAtom, const int jAtom);
@@ -728,8 +735,15 @@ class Space : public BaseRandom {
   bool tilted() const;
 
   /// Initialize a per-atom quantity
-  void initAtom(shared_ptr<Atom> group);
+  void initAtom(shared_ptr<Atom> atom);
+
+  /// Return per-atom list
   vector<shared_ptr<Atom> > atoms() const { return atoms_; }
+
+  /// Remove per-atom quantity
+  void delPerAtom(
+    /// index for multiple per-atom quantities. If -1, remove last.
+    const int index = -1);
 
   /// Initialize a group as per-atom quantity
   void initGroup(shared_ptr<Group> group);

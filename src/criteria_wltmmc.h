@@ -299,18 +299,20 @@ class CriteriaWLTMMC : public Criteria {
   /// Reweight lnPI to different value of activity.
   void lnPIrw(const double activrw);
 
-  /** Reweight to saturation conditions my minizing the differences in peak
-   *  heights. */
-  void findSat();
+// HWH mins
+//  /** Reweight to saturation conditions my minizing the differences in peak
+//   *  heights. */
+//  void findSat();
 
   /** For one time, print reweighted macrostate instead of the current
    *  macrostate. */
   void printRWinit() { printRW_ = true; }
 
-  /// Reweight to obtain peak maxima at given nmol.
-  void findPeak(const double nMolPeak,  //!< target peak location
-    const double lnactivGuess   //!< first guess for activity
-    );
+// HWH mins
+//  /// Reweight to obtain peak maxima at given nmol.
+//  void findPeak(const double nMolPeak,  //!< target peak location
+//    const double lnactivGuess   //!< first guess for activity
+//    );
 
 //  /// reweight to find difference in peaks
 //  void peakDiff(const int iPeak, const int jPeak);
@@ -362,17 +364,19 @@ class CriteriaWLTMMC : public Criteria {
     return (-lnPIrw_.front() + log(lnPIrwarea()))/vol/beta_;
   }
 
-  /// Obtain pressure isotherm from lnPI.
-  void lnPIpressureIso(const double volume);
+// HWH mins
+//  /// Obtain pressure isotherm from lnPI.
+//  void lnPIpressureIso(const double volume);
 
-  /// Obtain grand canonical ensemble average from canonical ensemble average.
-  vector<double> lnPIgc2can(vector<double> data);
-
-  /**
-   * obtain grand canonical ensemble average from canonical ensemble average
-   *  input file has macrostate as first column, data as second column
-   */
-  void lnPIgc2can(const char* fileNameIn, const char* fileNameOut);
+// HWH mins
+//  /// Obtain grand canonical ensemble average from canonical ensemble average.
+//  vector<double> lnPIgc2can(vector<double> data);
+//
+//  /**
+//   * obtain grand canonical ensemble average from canonical ensemble average
+//   *  input file has macrostate as first column, data as second column
+//   */
+//  void lnPIgc2can(const char* fileNameIn, const char* fileNameOut);
 
   // data from lnPI
   template<class T>
@@ -390,8 +394,9 @@ class CriteriaWLTMMC : public Criteria {
     return lnPIdata(data, lnPIrw_);
   }
 
-  /// Obtain energy isothermo from lnPI.
-  void lnPIenergyIso();
+// HWH mins
+//  /// Obtain energy isothermo from lnPI.
+//  void lnPIenergyIso();
 
   /// Replace lnPI.
   void lnPIreplace(const vector<long double> &lnPI);
@@ -440,8 +445,8 @@ class CriteriaWLTMMC : public Criteria {
   double lastbin2m() const { return bin2m(nBin_ - 1); }
   double mOld() const { return mOld_; }
   double mNew() const { return mNew_; }
-  double nTunnels() const { return nTunnels_; }
-  double nSweep() const { return nSweep_; }
+  int nTunnels() const { return nTunnels_; }
+  int nSweep() const { return nSweep_; }
   double activrw() const { return activrw_; }
   bool printRW() const { return printRW_; }
   bool collect() const { return collect_; }
@@ -450,7 +455,7 @@ class CriteriaWLTMMC : public Criteria {
   vector<Accumulator> pe() const { return pe_; }
   Accumulator pe(const int bin) { return pe_[bin]; }
   double lnfCollect() const { return lnfCollect_; }
-  vector<double> peMUVT() { lnPIenergyIso(); return peMUVT_; }
+//  vector<double> peMUVT() { lnPIenergyIso(); return peMUVT_; }
   vector<shared_ptr<CriteriaWLTMMC> > crits() { return crits_; }
 
   /// Return estimated standard deviation of lnPI from replicas

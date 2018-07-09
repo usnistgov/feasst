@@ -116,4 +116,3 @@ shared_ptr<AnalyzeCluster> makeAnalyzeCluster(Pair *pair,
 }  // namespace feasst
 
 #endif  // ANALYZECLUSTER_H_
-

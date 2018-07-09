@@ -1232,7 +1232,8 @@ double Pair::allPartEnerForceNoCell() {
 }
 
 void Pair::allPartEnerForceMolCutInner(const double r2, const int iMol,
-  const int jMol, const double dx, const double dy, const double dz) {
+  const int jMol,
+  const double dx_unused, const double dy_unused, const double dz_unused) {
   const vector<int> mol2part = space_->mol2part();
   const vector<double> x = space_->x();
   const vector<double> l = space_->boxLength();
@@ -1240,6 +1241,9 @@ void Pair::allPartEnerForceMolCutInner(const double r2, const int iMol,
     yzTilt = space_->yzTilt();
   const double lx = l[0], ly = l[1], lz = l[2],
     halflx = lx/2., halfly = ly/2., halflz = lz/2.;
+  double energy, force;
+  int neighbor;
+  double dx, dy, dz;
   for (int isite = mol2part[iMol]; isite < mol2part[iMol+1]; ++isite) {
     const double xisite = x[dimen_*isite];
     const double yisite = x[dimen_*isite+1];
@@ -1247,48 +1251,13 @@ void Pair::allPartEnerForceMolCutInner(const double r2, const int iMol,
     const double itypesite = space_->type()[isite];
     for (int jsite = mol2part[jMol]; jsite < mol2part[jMol+1]; ++jsite) {
       // separation distance with periodic boundary conditions
-      double dx = xisite - x[dimen_*jsite];
-      double dx0 = dx;
-      double dy = yisite - x[dimen_*jsite+1];
-      double dy0 = dy;
-      double dz = zisite - x[dimen_*jsite+2];
-      if (fabs(dz) > halflz) {
-        if (dz < 0.) {
-          dz += lz;
-          dy += yzTilt;
-          dx += xzTilt;
-          dy0 += yzTilt;
-          dx0 += xzTilt;
-        } else {
-          dz -= lz;
-          dy -= yzTilt;
-          dx -= xzTilt;
-          dy0 -= yzTilt;
-          dx0 -= xzTilt;
-        }
-      }
-      if (fabs(dy0) > halfly) {
-        if (dy0 < 0.) {
-          dy += ly;
-          dx += xyTilt;
-          dx0 += xyTilt;
-        } else {
-          dy -= ly;
-          dx -= xyTilt;
-          dx0 -= xyTilt;
-        }
-      }
-      if (fabs(dx0) > halflx) {
-        if (dx0 < 0.) {
-          dx += lx;
-        } else {
-          dx -= lx;
-        }
-      }
-      const double r2 = dx*dx + dy*dy + dz*dz;
-
-      allPartEnerForceInner(r2, dx, dy, dz, itypesite,
-        space_->type()[jsite], iMol, jMol);
+      dx = xisite - x[dimen_*jsite];
+      dy = yisite - x[dimen_*jsite+1];
+      dz = zisite - x[dimen_*jsite+2];
+      TRICLINIC_PBC(dx, dy, dz, lx, ly, lz, halflx, halfly, halflz,
+        xyTilt, xzTilt, yzTilt);
+      pairSiteSite_(itypesite, space_->type()[jsite],
+                    &energy, &force, &neighbor, dx, dy, dz);
     }
   }
 }
@@ -2152,6 +2121,14 @@ double Pair::pairLoopParticle_(const vector<int> &siteList, const int noCell) {
     }
   }
   return peSRone_;
+}
+
+void Pair::equateRcutForAllTypes() {
+  for (int iType = 0; iType < space()->nParticleTypes(); ++iType) {
+    for (int jType = 0; jType < space()->nParticleTypes(); ++jType) {
+      rCutijset(iType, jType, rCut_);
+    }
+  }
 }
 
 }  // namespace feasst

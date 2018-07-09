@@ -382,22 +382,6 @@ long long fstoll(const char* searchString, const char* fileName);
  */
 unsigned long long fstoull(const char* searchString, const char* fileName);
 
-/**
- * compute eigenvalues and eigenvectors based on Jacobi rotations. Adapted
- * from LAMMPS, which was adapted from Numerical Recipes jacobi() function
- *  \return error code (1 if failed)
- */
-int jacobi(vector<vector<double> > matrix,  //!< 3x3 real symmetric matrix
-  vector<double> &evalues,            //!< computed eigen values
-  vector<vector<double> > &evectors   //!< computed eigen vectors
-);
-
-/**
- * preform a single Jacobi rotation. Adapted from LAMMPS, via NR.
- */
-void rotateJacobi(vector<vector<double> > &matrix, const int i, const int j,
-  const int k, const int l, const double s, const double tau);
-
 // \return the squared difference between two vectors
 template<class T>
 T sqDiff(const vector<T> &x, const vector<T> &y) {

@@ -262,12 +262,27 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
 
     // initialize confswaps
     initOverlaps(t, &clones);
+
+    // remove configuration bias trials if nMolMax/V < thres
+    if (static_cast<double>(clones[t]->c()->mMax()/
+        clones[t]->space()->volume()) < densThresConfigBias_) {
+      cout << "t " << t << " removing configbias because nMolMax/V "
+           << clones[t]->c()->mMax()/clones[t]->space()->volume()
+           << " is less then thres " << densThresConfigBias_ << endl;
+      clones[t]->removeConfigBias();
+    }
+
     #ifdef MPI_H_
       MPI_Barrier(MPI_COMM_WORLD);
     #endif  // MPI_H_
     #ifdef _OPENMP
       #pragma omp barrier
     #endif  // _OPENMP
+
+    // Here is where, with a barrier, we can end a routine to spawn clones.
+    // also use an mpi_finalize
+
+
     if ( (c_->mType().compare("pairOrder") != 0) &&
          (c_->mType().compare("pressure") != 0) &&
          (c_->mType().compare("lnpres") != 0) &&
@@ -278,15 +293,6 @@ void WLTMMC::runNumSweeps(const int nSweeps,  //!< target number of sweeps
     }
 
     clones[t]->checkTrialCriteria();
-
-    // remove configuration bias trials if nMolMax/V < thres
-    if (static_cast<double>(clones[t]->c()->mMax()/
-        clones[t]->space()->volume()) < densThresConfigBias_) {
-      cout << "t " << t << " removing configbias because nMolMax/V "
-           << clones[t]->c()->mMax()/clones[t]->space()->volume()
-           << " is less then thres " << densThresConfigBias_ << endl;
-      clones[t]->removeConfigBias();
-    }
 
     // initialize all clones before running
     clones[t]->zeroStat();
@@ -499,35 +505,36 @@ int WLTMMC::checkTrialCriteria() {
   return MC::checkTrialCriteria()*match;
 }
 
-vector<double> WLTMMC::printSat() {
-  std::ofstream log_(logFileName_.c_str(),
-                     std::ofstream::out | std::ofstream::app);
-  c_->findSat();
-  c_->printRWinit();
-  c_->printCollectMat(colMatFileName_.c_str());
-  vector<CriteriaWLTMMC> cvec = c_->phaseSplit(c_->lnPIrw());
-  const double pv = (-c_->lnPIrw().front() + log(cvec[0].lnPIarea()))
-                    /space_->volume()/criteria_->beta();
-  const double pl = (-c_->lnPIrw().front() + log(cvec[1].lnPIarea()))
-                    /space_->volume()/criteria_->beta();
-  cvec[0].lnPInorm();
-  cvec[1].lnPInorm();
-  log_ << "#" << className_ << " coexistance between vapor(p=" << pv
-       << ", rho=" << cvec[0].lnPIaverage()/space_->volume()
-       << ") and liquid(p=" << pl << ", rho="
-       << cvec[1].lnPIaverage()/space_->volume() << ") finalized at z("
-       << log(c_->activ()) << ", rw=" << log(c_->activrw()) << ")" << endl;
-  cout << "# rhov rhol psat lnzsat phaseb" << endl;
-  cout << cvec[0].lnPIaverage()/space_->volume() << " "
-       << cvec[1].lnPIaverage()/space_->volume() << " " << pv << " "
-       << log(c_->activrw()) << " " << cvec[0].lastbin2m() << endl;
-  vector<double> returnVec;
-  returnVec.push_back(cvec[0].lnPIaverage()/space_->volume());
-  returnVec.push_back(cvec[1].lnPIaverage()/space_->volume());
-  returnVec.push_back(pv);
-  returnVec.push_back(log(c_->activrw()));
-  return returnVec;
-}
+// HWH mins
+//vector<double> WLTMMC::printSat() {
+//  std::ofstream log_(logFileName_.c_str(),
+//                     std::ofstream::out | std::ofstream::app);
+//  c_->findSat();
+//  c_->printRWinit();
+//  c_->printCollectMat(colMatFileName_.c_str());
+//  vector<CriteriaWLTMMC> cvec = c_->phaseSplit(c_->lnPIrw());
+//  const double pv = (-c_->lnPIrw().front() + log(cvec[0].lnPIarea()))
+//                    /space_->volume()/criteria_->beta();
+//  const double pl = (-c_->lnPIrw().front() + log(cvec[1].lnPIarea()))
+//                    /space_->volume()/criteria_->beta();
+//  cvec[0].lnPInorm();
+//  cvec[1].lnPInorm();
+//  log_ << "#" << className_ << " coexistance between vapor(p=" << pv
+//       << ", rho=" << cvec[0].lnPIaverage()/space_->volume()
+//       << ") and liquid(p=" << pl << ", rho="
+//       << cvec[1].lnPIaverage()/space_->volume() << ") finalized at z("
+//       << log(c_->activ()) << ", rw=" << log(c_->activrw()) << ")" << endl;
+//  cout << "# rhov rhol psat lnzsat phaseb" << endl;
+//  cout << cvec[0].lnPIaverage()/space_->volume() << " "
+//       << cvec[1].lnPIaverage()/space_->volume() << " " << pv << " "
+//       << log(c_->activrw()) << " " << cvec[0].lastbin2m() << endl;
+//  vector<double> returnVec;
+//  returnVec.push_back(cvec[0].lnPIaverage()/space_->volume());
+//  returnVec.push_back(cvec[1].lnPIaverage()/space_->volume());
+//  returnVec.push_back(pv);
+//  returnVec.push_back(log(c_->activrw()));
+//  return returnVec;
+//}
 
 void WLTMMC::writeRestart(const char* fileName) {
   MC::writeRestart(fileName);

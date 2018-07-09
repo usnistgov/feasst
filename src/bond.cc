@@ -8,24 +8,23 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "random.h"
+#include "./bond.h"
+#include "./space.h"
 
 namespace feasst {
 
-Random::Random(const unsigned long long iseed
-  ) : seed_(iseed) {
-  verbose_ = 0;
-  className_.assign("Random");
-}
+Bond::Bond() : Atom() {}
 
-Random::Random(const char* fileName) {
-  verbose_ = 0;
-  className_.assign("Random");
-  (void) fileName;  // avoid unused parameter warning
-}
-
-void Random::seed(const unsigned long long iseed) {
-  seed_ = iseed;
+void Bond::setVal_(const Space &space, const int iatom) {
+  vector<vector<int> > bonds = space.listBonds(iatom);
+  if (bonds.size() <= 0) {
+    return;
+  }
+  const int iMol = space.mol()[iatom];
+  const int firstAtom = space.mol2part()[iMol];
+  int bonded = bonds[0][1];
+  if (bonded == iatom - firstAtom) bonded = bonds[0][2];
+  intVal_[iatom] = bonded;
 }
 
 }  // namespace feasst

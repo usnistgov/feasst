@@ -13,7 +13,7 @@
 
 #include <string>
 #include <vector>
-#include "./pair.h"
+#include "./pair_1lrc.h"
 #include "./table.h"
 
 namespace feasst {
@@ -22,7 +22,7 @@ namespace feasst {
  * Lennard Jones pairwise interactions with long range coulombic interactions
  * treated by the Ewald summation.
  */
-class PairLJCoulEwald : public Pair {
+class PairLJCoulEwald : public PairLRC {
  public:
   /// Constructor
   PairLJCoulEwald(Space* space,
@@ -134,10 +134,6 @@ class PairLJCoulEwald : public Pair {
    */
   void multiPartEnerFrr(const vector<int> mpart, const int flag);
 
-  // Overloaded virtual function from pair.h
-  int multiPartEnerAtomCutInner(const double &r2, const int &itype,
-                                const int &jtype);
-
   // Overloaded virtual in order to use LJ of Oxygen when cheap energy enabled
   void pairParticleParticleCheapEnergy_(const double &r2, const int &itype,
     const int &jtype, double * energy, double * force);
@@ -164,11 +160,15 @@ class PairLJCoulEwald : public Pair {
   /// check size of class variables
   void sizeCheck();
 
+  // Overload for error check
+  void cutShift(const int flag) {
+    ASSERT(linearShiftFlag_ == 1, "cutShift cannot be used without linearShift");
+    PairLRC::cutShift(flag);
+  }
+
   /// read-only access of protected variables
   double peLJ() const { return peLJ_; }
   double peLJone() const { return peLJone_; }
-  double peLRC() const { return peLRC_; }
-  double peLRCone() const { return peLRCone_; }
   double peQReal() const { return peQReal_; }
   double peQRealone() const { return peQRealone_; }
   double peQFrr() const { return peQFrr_; }
@@ -199,12 +199,6 @@ class PairLJCoulEwald : public Pair {
   double peLJ_;     //!< total potential energy from lennard-jones interactions
   double deLJ_;     //!< lennard jones potential energy change
   double peLJone_;  //!< lennard jones potential energy from subset of particles
-  /// total potential energy from standard long range corrections
-  double peLRC_;
-  /// change in potential energy from standard long range corrections
-  double deLRC_;
-  /// potential energy from subset of particle standard long range corrections
-  double peLRCone_;
   /// total potential energy from real space charge interactions
   double peQReal_;
   /// total potential energy from real space charge interactions
@@ -261,10 +255,8 @@ class PairLJCoulEwald : public Pair {
   void forcesFrr_();
 
   /// compute standard long range contributions of all particles
+  // HWH NOTE: depreciate this.
   void lrcConf_();
-
-  /// compute standard long range contributions of one particle ipart
-  double lrcOne_(const int ipart);
 
   /**
    * computes self interaction energies to compensate for Ewald Sum

@@ -11,7 +11,6 @@
 #include "./criteria_wltmmc.h"
 #include "./space.h"
 #include "./pair.h"
-#include "./../extern/mins.h"
 
 namespace feasst {
 
@@ -501,14 +500,15 @@ double CriteriaWLTMMC::lnPIrwsat_(const double activrw) {
   }
 }
 
-void CriteriaWLTMMC::findSat() {
-  Golden g;
-  lnPIrwsat_wrapper_ lnpirwswrap = lnPIrwsat_wrap_();
-  g.bracket(activ_, activ_*1.1, lnpirwswrap);
-  const double activ = g.minimize(lnpirwswrap);
-  lnPIrw(activ);
-  // cout << activrw_ << endl;
-}
+// HWH mins
+//void CriteriaWLTMMC::findSat() {
+//  Golden g;
+//  lnPIrwsat_wrapper_ lnpirwswrap = lnPIrwsat_wrap_();
+//  g.bracket(activ_, activ_*1.1, lnpirwswrap);
+//  const double activ = g.minimize(lnpirwswrap);
+//  lnPIrw(activ);
+//  // cout << activrw_ << endl;
+//}
 
 void CriteriaWLTMMC::initBins(const double mMax, const double mMin,
   const int nBin) {
@@ -573,35 +573,36 @@ int CriteriaWLTMMC::nMolResizeWindow(const double liquidDrop, const int round) {
   return nmx;
 }
 
-void CriteriaWLTMMC::lnPIpressureIso(const double volume) {
-  lnpi2pressure_.clear();
-  lnpi2pressure_.resize(nBin_);
-  pressureVec_.clear();
-  pressureVec_.resize(nBin_);
-  volume_ = volume;
-  ASSERT(fabs(bin2m(0)) < DTOL, "pressure computation requires"
-    << "simulation at N=0, however, bin2m(0) = " << bin2m(0) << ")");
+// HWH mins
+//void CriteriaWLTMMC::lnPIpressureIso(const double volume) {
+//  lnpi2pressure_.clear();
+//  lnpi2pressure_.resize(nBin_);
+//  pressureVec_.clear();
+//  pressureVec_.resize(nBin_);
+//  volume_ = volume;
+//  ASSERT(fabs(bin2m(0)) < DTOL, "pressure computation requires"
+//    << "simulation at N=0, however, bin2m(0) = " << bin2m(0) << ")");
+//
+//  // first, scan for conditions where there is only one (meta)stable phase
+//  nMolPeakPhase_ = 0;
+//  double lnactivGuess = 0.1*log(activ_);
+//  for (int i = 1; i < nBin_-1; ++i) {
+//    findPeak(bin2m(i), lnactivGuess);
+//    lnactivGuess = log(activrw_);
+//    lnpi2pressure_[i] = lnPIrwpressureOnePhase(volume);
+//  }
+//}
 
-  // first, scan for conditions where there is only one (meta)stable phase
-  nMolPeakPhase_ = 0;
-  double lnactivGuess = 0.1*log(activ_);
-  for (int i = 1; i < nBin_-1; ++i) {
-    findPeak(bin2m(i), lnactivGuess);
-    lnactivGuess = log(activrw_);
-    lnpi2pressure_[i] = lnPIrwpressureOnePhase(volume);
-  }
-}
-
-void CriteriaWLTMMC::findPeak(const double nMolPeak,
-  const double lnactivGuess) {
-  nMolPeak_ = nMolPeak;
-  Golden g;
-  lnPIrwnmx_wrapper_ lnpirwwrap = lnPIrwnmx_wrap_();
-  g.bracket(lnactivGuess, 1.05*lnactivGuess, lnpirwwrap);
-  const double lnactiv = g.minimize(lnpirwwrap);
-  lnPIrw(exp(lnactiv));
-  // cout << "target " << nMolPeak << " activ " << lnactiv << endl;
-}
+//void CriteriaWLTMMC::findPeak(const double nMolPeak,
+//  const double lnactivGuess) {
+//  nMolPeak_ = nMolPeak;
+//  Golden g;
+//  lnPIrwnmx_wrapper_ lnpirwwrap = lnPIrwnmx_wrap_();
+//  g.bracket(lnactivGuess, 1.05*lnactivGuess, lnpirwwrap);
+//  const double lnactiv = g.minimize(lnpirwwrap);
+//  lnPIrw(exp(lnactiv));
+//  // cout << "target " << nMolPeak << " activ " << lnactiv << endl;
+//}
 
 double CriteriaWLTMMC::lnPIrwnmx_(const double lnactivrw) {
   lnPIrw(exp(lnactivrw));
@@ -777,13 +778,14 @@ void CriteriaWLTMMC::lnPIreplace(const vector<long double> &lnPI) {
   }
 }
 
-void CriteriaWLTMMC::lnPIenergyIso() {
-  vector<double> pe;
-  for (int i = 0; i < nBin_; ++i) {
-    pe.push_back(pe_[i].average());
-  }
-  peMUVT_ = lnPIgc2can(pe);
-}
+// HWH mins
+//void CriteriaWLTMMC::lnPIenergyIso() {
+//  vector<double> pe;
+//  for (int i = 0; i < nBin_; ++i) {
+//    pe.push_back(pe_[i].average());
+//  }
+//  peMUVT_ = lnPIgc2can(pe);
+//}
 
 void CriteriaWLTMMC::readlnPIEner(const char* fileName) {
   std::ifstream fs(fileName);
@@ -1075,55 +1077,57 @@ void CriteriaWLTMMC::readlnPIEnerCol(const char* fileName) {
   lnPInorm();
 }
 
-vector<double> CriteriaWLTMMC::lnPIgc2can(const vector<double> data) {
-  vector<double> returnData(data.size());
-  nMolPeakPhase_ = 0;
-  double lnactivGuess = 0.1*log(activ_);
-  for (int i = 1; i < nBin_-1; ++i) {
-    findPeak(bin2m(i), lnactivGuess);
-    lnactivGuess = log(activrw_);
-    returnData[i] = lnPIrwdata(data);
-  }
-  return returnData;
-}
+// HWH mins
+//vector<double> CriteriaWLTMMC::lnPIgc2can(const vector<double> data) {
+//  vector<double> returnData(data.size());
+//  nMolPeakPhase_ = 0;
+//  double lnactivGuess = 0.1*log(activ_);
+//  for (int i = 1; i < nBin_-1; ++i) {
+//    findPeak(bin2m(i), lnactivGuess);
+//    lnactivGuess = log(activrw_);
+//    returnData[i] = lnPIrwdata(data);
+//  }
+//  return returnData;
+//}
 
-void CriteriaWLTMMC::lnPIgc2can(const char* fileNameIn,
-  const char* fileNameOut) {
-  // read canonical ensemble data from file
-  vector<double> dataNVT(nBin_);
-  std::ifstream fileIn(fileNameIn);
-
-  // skip all lines beginning with the character "#"
-  // skipCharsInFile('#', fileIn);
-
-  string line;
-  int index;
-  double data;
-  while (!fileIn.eof()) {
-    fileIn >> index >> data;
-    cout << "index " << index << " data " << data << endl;
-    if ( (index < 0) || (index > nBin_ - 1) ) {
-      NOTE("data from file(" << fileNameIn << ") is out of bounds, index("
-        << index << ") > nBin(" << nBin_ << ")");
-      getline(fileIn, line);
-    } else {
-      dataNVT[index] = data;
-    }
-    getline(fileIn, line);
-  }
-
-  // reweight to grand canonical ensemble
-  const vector<double> dataMUVT = lnPIgc2can(dataNVT);
-
-  // output grand canonical ensemble data
-  std::ofstream fileOut(fileNameOut);
-  for (unsigned int i = 0; i < dataMUVT.size(); ++i) {
-    fileOut << i << " " << dataMUVT[i] << endl;
-  }
-
-  vector<int> max = findLocalMaxima(dataMUVT, 1);
-  cout << dataMUVT[max.front()] << endl;
-}
+// HWH mins
+//void CriteriaWLTMMC::lnPIgc2can(const char* fileNameIn,
+//  const char* fileNameOut) {
+//  // read canonical ensemble data from file
+//  vector<double> dataNVT(nBin_);
+//  std::ifstream fileIn(fileNameIn);
+//
+//  // skip all lines beginning with the character "#"
+//  // skipCharsInFile('#', fileIn);
+//
+//  string line;
+//  int index;
+//  double data;
+//  while (!fileIn.eof()) {
+//    fileIn >> index >> data;
+//    cout << "index " << index << " data " << data << endl;
+//    if ( (index < 0) || (index > nBin_ - 1) ) {
+//      NOTE("data from file(" << fileNameIn << ") is out of bounds, index("
+//        << index << ") > nBin(" << nBin_ << ")");
+//      getline(fileIn, line);
+//    } else {
+//      dataNVT[index] = data;
+//    }
+//    getline(fileIn, line);
+//  }
+//
+//  // reweight to grand canonical ensemble
+//  const vector<double> dataMUVT = lnPIgc2can(dataNVT);
+//
+//  // output grand canonical ensemble data
+//  std::ofstream fileOut(fileNameOut);
+//  for (unsigned int i = 0; i < dataMUVT.size(); ++i) {
+//    fileOut << i << " " << dataMUVT[i] << endl;
+//  }
+//
+//  vector<int> max = findLocalMaxima(dataMUVT, 1);
+//  cout << dataMUVT[max.front()] << endl;
+//}
 
 vector<double> CriteriaWLTMMC::heatCapacity() {
   vector<double> cv;

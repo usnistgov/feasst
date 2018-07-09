@@ -8,24 +8,28 @@
  * appropriate acknowledgments of NIST's creation of the data/software.
  */
 
-#include "random.h"
+#ifndef SRC_BOND_H_
+#define SRC_BOND_H_
+
+#include "atom.h"
 
 namespace feasst {
 
-Random::Random(const unsigned long long iseed
-  ) : seed_(iseed) {
-  verbose_ = 0;
-  className_.assign("Random");
-}
+class Space;
 
-Random::Random(const char* fileName) {
-  verbose_ = 0;
-  className_.assign("Random");
-  (void) fileName;  // avoid unused parameter warning
-}
+/**
+ * List first bond per atom/site.
+ */
+class Bond : public Atom {
+ public:
+  /// Constructor
+  Bond();
 
-void Random::seed(const unsigned long long iseed) {
-  seed_ = iseed;
-}
+ protected:
+  // Set value
+  void setVal_(const Space &space, const int iatom);
+};
 
 }  // namespace feasst
+
+#endif  // SRC_BOND_H_

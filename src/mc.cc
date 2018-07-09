@@ -12,7 +12,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "./../extern/mins.h"
 #include "./trial_add.h"
 #include "./trial_delete.h"
 #include "./trial_transform.h"
@@ -89,13 +88,13 @@ MC::MC(const char* fileName) {
 
   strtmp = fstos("nRstFileAnalyze", fileName);
   if (!strtmp.empty()) {
-	  const int nanalyzer = stoi(strtmp);
-	  for (int i = 0; i < nanalyzer; ++i) {
-		  stringstream ss;
-		  ss << "rstFileAnalyze" << i;
-		  const string trialAnaStr = fstos(ss.str().c_str(), fileName);
-		  initAnalyze(makeAnalyze(pair_, trialAnaStr.c_str()));
-	  }
+    const int nanalyzer = stoi(strtmp);
+    for (int i = 0; i < nanalyzer; ++i) {
+      stringstream ss;
+      ss << "rstFileAnalyze" << i;
+      const string trialAnaStr = fstos(ss.str().c_str(), fileName);
+      initAnalyze(makeAnalyze(pair_, trialAnaStr.c_str()));
+    }
   }
 
   nAttempts_ = fstoll("nAttempts", fileName);
@@ -309,7 +308,7 @@ void MC::printStat() {
     std::ofstream log_(logFileName_.c_str(),
                        std::ofstream::out | std::ofstream::app);
     if (printLogHeader_ > 0) {
-      log_ << "# attempts pe/nMol ";
+      log_ << "#attempts pe/nMol ";
       for (unsigned int i = 0; i < trialVec_.size(); ++i) {
         log_ << trialVec_[i]->printStat(true);
       }
@@ -876,13 +875,14 @@ double MC::boylemin_(const double beta) {
   }
 }
 
-double MC::boyle(const double tol) {
-  boyletol_ = tol;
-  Golden g;
-  boyleminwrapper_ boylewrap = boyleminwrap_();
-  g.bracket(criteria_->beta(), criteria_->beta()*100, boylewrap);
-  return g.minimize(boylewrap);
-}
+// HWH mins
+//double MC::boyle(const double tol) {
+//  boyletol_ = tol;
+//  Golden g;
+//  boyleminwrapper_ boylewrap = boyleminwrap_();
+//  g.bracket(criteria_->beta(), criteria_->beta()*100, boylewrap);
+//  return g.minimize(boylewrap);
+//}
 
 /*
  *  first, remove config bias from trialVec, then from trialWeight and trialCumulativeProb
@@ -968,7 +968,7 @@ void MC::tuneTrialParameters_() {
 }
 
 void MC::initMovie(const char* fileName, const int nfreq) {
-	auto analyze = makeAnalyzeTRAJ(pair_,
+  auto analyze = makeAnalyzeTRAJ(pair_,
     {{"nFreqPrint", str(nfreq)},
      {"fileName", fileName},
      {"format", "xyz"}});

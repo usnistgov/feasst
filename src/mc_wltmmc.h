@@ -92,8 +92,9 @@ class WLTMMC : public MC {
   /// Check that criteria of all trials match.
   int checkTrialCriteria();
 
-  /// Print saturation summary.
-  vector<double> printSat();
+// HWH mins
+//  /// Print saturation summary.
+//  vector<double> printSat();
 
   /// Initialize overlapping processors for OMP configuration swap trials.
   void initOverlaps(const int t, vector<shared_ptr<WLTMMC> > *clones);

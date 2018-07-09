@@ -128,7 +128,7 @@ class MC : public BaseRandom {
       nFreqRestart_ = nfreq; }
 
   /// Initialize Analyzer.
-	void initAnalyze(shared_ptr<Analyze> analyze) {
+  void initAnalyze(shared_ptr<Analyze> analyze) {
     // analyze->reconstruct(pair_);
     analyzeVec_.push_back(analyze);
   }
@@ -184,8 +184,9 @@ class MC : public BaseRandom {
     double boxl = -1          //!< box length containing all nonzero energy
   );
 
-  // compute the Boyle temperature, \f$ B_2(T_{Boyle})=0\f$.
-  double boyle(const double tol);
+// HWH mins
+//  // compute the Boyle temperature, \f$ B_2(T_{Boyle})=0\f$.
+//  double boyle(const double tol);
 
   /// Remove all configurational bias trials.
   void removeConfigBias();

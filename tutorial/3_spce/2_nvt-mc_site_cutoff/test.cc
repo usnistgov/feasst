@@ -10,7 +10,7 @@
 
 #include "feasst.h"
 
-int main() {  // SPCE, SRSW_NVTMC
+int main() {  // SPCE, SRSW_NVTMC_SiteCut
   feasst::ranInitByDate();
   auto space = feasst::makeSpace(
     {{"dimen", "3"},
@@ -21,6 +21,8 @@ int main() {  // SPCE, SRSW_NVTMC
      {"molTypeInForcefield", "data.spce"},
      {"alphaL", "5.6"},
      {"k2max", "38"}});
+  pair->initAtomCut(1);
+  pair->equateRcutForAllTypes();
 
   // acceptance criteria
   const double temperature = 298;  // Kelvin
