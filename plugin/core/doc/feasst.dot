@@ -1,0 +1,102 @@
+digraph feasst {
+  Site -> Position;
+  Particle -> Site;
+//	Configuration->Particle;
+	// Configuration->Domain;
+	Domain->Position;
+  edge [color=blue];
+  DomainCuboid->Domain;
+  DomainTriclinic->Domain;
+  edge [color=black];
+	Sytem->Configuration;
+  Perturb->Sytem;
+  Trial->Perturb;
+  Trial->Sytem;
+  Trial->Criteria;
+
+  edge [color=blue];
+  CriteriaFlatHistogram->Criteria;
+  edge [color=black];
+
+  CriteriaFlatHistogram->Histogram;
+  CriteriaFlatHistogram->Bias;
+  CriteriaFlatHistogram->Macrostate;
+//  Criteria->Macrostate;
+//  Criteria->Histogram;
+  Macrostate->Sytem;
+  Macrostate->Histogram;
+  BiasWangLandau->Histogram;
+
+  edge [color=blue];
+  BiasTransitionMatrix->Bias;
+  BiasWangLandau->Bias;
+  edge [color=black];
+
+  BiasTransitionMatrix->Histogram;
+
+  Histogram->Formula;
+
+  edge [color=blue];
+  FormulaPolynomial->Formula;
+  FormulaExponential->Formula;
+  edge [color=black];
+  Histogram->FormulaPolynomial;
+
+//  PositionLattice->Position;
+//  PositionReal->Position;
+
+  edge [color=blue];
+  PerturbMove->Perturb;
+  TrialMove->Trial;
+  PerturbTransfer->Perturb;
+  TrialTransfer->Trial;
+  edge [color=black];
+  TrialMove->PerturbMove;
+
+  TrialTransfer->PerturbTransfer;
+
+//  DomainLattice->Domain;
+//  DomainReal->Domain;
+
+//  DomainLattice->PositionLattice;
+//  DomainReal->PositionReal;
+
+  edge [color=blue];
+  MacrostateNumParticles->Macrostate;
+  edge [color=black];
+
+	Model->Particle;
+
+  edge [color=blue];
+  ModelOneBody->Model;
+  ModelTwoBody->Model;
+  ModelLJ->ModelTwoBody;
+  ModelHardSphere->ModelTwoBody;
+  ModelLRC->ModelOneBody;
+  edge [color=black];
+
+  Sytem->VisitModel;
+  VisitModel->Model;
+  VisitModel->Configuration;
+
+  ModelTwoBody->VisitModel;
+  ModelOneBody->VisitModel;
+
+  edge [color=blue];
+  TrialFactory->Trial;
+  CriteriaMayer->Criteria;
+  CriteriaMetropolis->Criteria;
+  edge [color=black];
+
+  Particles->Particle;
+  Particles->ModelParams;
+  Configuration->Particles;
+
+  // cells
+  Particle->Domain;
+  Domain->Cells;
+
+  // selection
+  Configuration->Selection;
+  Selection->Particles;
+}

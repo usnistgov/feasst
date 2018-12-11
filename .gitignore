@@ -1,0 +1,9 @@
+#use glob syntax
+syntax: glob
+
+*.swp
+*.bak
+build
+build-gtest
+
+py/__pycache__

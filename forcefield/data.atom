@@ -1,0 +1,14 @@
+# LAMMPS-inspired data file
+
+1 atoms
+
+1 atom types
+
+Atom Properties
+
+1 sigma 1.0 epsilon 1.0 cutoff 3.0
+
+Atoms
+
+1 1 1 0 0 0
+
