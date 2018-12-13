@@ -34,10 +34,11 @@ void VisitModel::energy_of_selection(const Configuration& config,
                                      const ModelOneBody& model) {
   energy_ = 0;
   const ModelParams& model_params = config.unique_types().model_params();
-  for (const std::pair<int, std::vector<int> >& pair : config.selection().selection()) {
-    const int particle_index = pair.first;
+  const Selection& selection = config.selection();
+  for (int select_index = 0; select_index < selection.num(); ++select_index) {
+    const int particle_index = selection.particle_index(select_index);
     const Particle& part = config.particle(particle_index);
-    for (int site_index : pair.second) {
+    for (int site_index : config.selection().site_indices(select_index)) {
       const Site& site = part.sites()[site_index];
       energy_ += model.evaluate(site, config, model_params);
     }
@@ -104,10 +105,13 @@ void VisitModel::energy_of_selection(const Configuration& config,
   relative.set_vector(domain.side_length().coord());
   const ModelParams& model_params = config.unique_types().model_params();
   const Selection& selection = config.selection();
-  for (const std::pair<int, std::vector<int> >& pair : selection.selection()) {
-    const int part1_index = pair.first;
+  for (int select_index = 0; select_index < selection.num(); ++select_index) {
+    const int part1_index = selection.particle_index(select_index);
     const Particle part1 = config.particle(part1_index);
-    for (int site1_index : pair.second) {
+    selection.check_size();
+    TRACE("part1_index " << part1_index << " s " << selection.particle_indices().size() << " " << selection.site_indices().size());
+    for (int site1_index : config.selection().site_indices(select_index)) {
+      TRACE("site1_index " << site1_index);
       const Site& site1 = part1.sites()[site1_index];
       for (int part2_index = 0;
            part2_index < config.num_particles();
@@ -133,7 +137,7 @@ void VisitModel::benchmark_(const Configuration& config,
   const DomainCuboid &domain = config.domain();
   Position relative;
   double r2;
-  const int particle1_index = config.selection().selection()[0].first;
+  const int particle1_index = config.selection().particle_index(0);
   const Site& site1 = config.particle(particle1_index).site(0);
   const std::vector<double>& x1 = site1.position().coord();
   const int dimension = x1.size();

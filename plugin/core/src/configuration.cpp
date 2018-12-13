@@ -21,7 +21,7 @@ void Configuration::reset_unique_indices_() {
 }
 
 void Configuration::add_particle_type(const char* file_name) {
-  ASSERT(partial_configs_.size() == 0, "types cannot be added after groups");
+  DEBUG("adding type");
   ASSERT(num_particles() == 0, "types cannot be added after particles");
   particle_types_.add(file_name);
   unique_types_.add(file_name);
@@ -31,27 +31,9 @@ void Configuration::add_(const Particle particle) {
   Particle part = particle;
   part.update_cell(domain());
   particles_.add(part);
-  for (Configuration& partial : partial_configs_) {
-    const Group& group = partial.group_;
-    if (group.dynamic()) {
-      if (group.is_in(part)) {
-        std::vector<int> p2f_sitemap, f2p_sitemap;
-        Particle filtered = group.remove_sites(part,
-                                               &f2p_sitemap,
-                                               &p2f_sitemap);
-        /// Update cell list
-        filtered.update_cell(domain());
-
-        partial.add_(filtered);
-        partial.partial_to_full_.push_back(num_particles() - 1);
-        partial.full_to_partial_.push_back(partial.num_particles() - 1);
-        partial.partial_to_full_site_.push_back(p2f_sitemap);
-        partial.full_to_partial_site_.push_back(f2p_sitemap);
-      } else {
-        partial.full_to_partial_.push_back(-1);
-        partial.full_to_partial_site_.push_back(std::vector<int>());
-      }
-    }
+  select_all_.add_last_particle(particles_);
+  for (GroupSelection& select : group_selects_) {
+    add_to_selection_(num_particles() - 1, &select);
   }
 }
 
@@ -66,36 +48,11 @@ void Configuration::add_particle(const int type) {
 void Configuration::remove_particle_(const int particle_index) {
   reset_unique_indices_();
   particles_.remove(particle_index);
-  for (Configuration& partial : partial_configs_) {
-    const Group& group = partial.group_;
-    if (group.dynamic()) {
-      std::vector<int>* ftp = &partial.full_to_partial_;
-      std::vector<std::vector<int> >* ftps = &partial.full_to_partial_site_;
-      const int partial_particle_index = (*ftp)[particle_index];
-      if (partial_particle_index >= 0) {
-        partial.remove_particle_(partial_particle_index);
-
-        // decrement partial_to_full_
-        std::vector<int>* ptf = &partial.partial_to_full_;
-        std::vector<std::vector<int> >* ptfs = &partial.partial_to_full_site_;
-        for (int index = partial_particle_index;
-             index < partial.num_particles();
-             ++index) {
-          --(*ptf)[index];
-        }
-        ptf->erase(ptf->begin() + partial_particle_index);
-        ptfs->erase(ptfs->begin() + partial_particle_index);
-
-        // decrement full_to_partial_
-        for (int index = particle_index; index < num_particles(); ++index) {
-          if ((*ftp)[index] != -1) {
-            --(*ftp)[index];
-          }
-        }
-      }
-      ftp->erase(ftp->begin() + particle_index);
-      ftps->erase(ftps->begin() + particle_index);
-    }
+  select_all_.remove_particle(particle_index);
+  DEBUG("particle index " << particle_index);
+  DEBUG("num particles " << num_particles());
+  for (GroupSelection& select : group_selects_) {
+    select.remove_particle(particle_index);
   }
 }
 
@@ -133,19 +90,6 @@ void Configuration::displace_particle_(const int particle_index,
   // add the new displacement to the particle position
   particles_.displace(particle_index, new_displacement);
 
-  // do the same for the partial configurations.
-  for (Configuration& partial : partial_configs_) {
-    const Group& group = partial.group_;
-    if (group.dynamic()) {
-      const int partial_particle_index =
-        partial.full_to_partial_[particle_index];
-      if (partial_particle_index >= 0) {
-        const Particle part = particles_.particle(particle_index);
-        const Particle filtered = group.remove_sites(part);
-        partial.replace_position_(partial_particle_index, filtered);
-      }
-    }
-  }
   position_tracker_(particle_index);
 }
 
@@ -155,20 +99,6 @@ void Configuration::displace_site_(const int particle_index,
   Position pos = displacement;
   pos.add(particle(particle_index).site(site_index).position());
   particles_.replace_position(particle_index, site_index, pos);
-  for (Configuration& partial : partial_configs_) {
-    const Group& group = partial.group_;
-    if (group.dynamic()) {
-      const int partial_particle_index =
-        partial.full_to_partial_[particle_index];
-      if (partial_particle_index >= 0) {
-        const int partial_site_index =
-          partial.full_to_partial_site_[particle_index][site_index];
-        partial.replace_position_(partial_particle_index,
-                                  partial_site_index,
-                                  pos);
-      }
-    }
-  }
   position_tracker_(particle_index, site_index);
 }
 
@@ -189,17 +119,6 @@ void Configuration::replace_position_(const int particle_index,
   ASSERT(particles_.particle(particle_index).num_sites() ==
          replacement.num_sites(), "size error");
   particles_.replace_position(particle_index, replacement);
-  for (Configuration& partial : partial_configs_) {
-    const Group& group = partial.group_;
-    if (group.dynamic()) {
-      const int partial_particle_index =
-        partial.full_to_partial_[particle_index];
-      if (partial_particle_index >= 0) {
-        partial.replace_position_(partial_particle_index,
-                                  group.remove_sites(replacement));
-      }
-    }
-  }
   position_tracker_(particle_index);
 }
 
@@ -207,21 +126,13 @@ void Configuration::replace_position_(const int particle_index,
                                       const int site_index,
                                       const Position& replacement) {
   particles_.replace_position(particle_index, site_index, replacement);
-  for (Configuration& partial : partial_configs_) {
-    const Group& group = partial.group_;
-    if (group.dynamic()) {
-      const int partial_particle_index =
-        partial.full_to_partial_[particle_index];
-      if (partial_particle_index >= 0) {
-        const int partial_site_index =
-          partial.full_to_partial_site_[particle_index][site_index];
-        partial.replace_position_(partial_particle_index,
-                                  partial_site_index,
-                                  replacement);
-      }
-    }
-  }
   position_tracker_(particle_index, site_index);
+}
+
+void Configuration::replace_position_(const int particle_index,
+                                      const Position& replacement) {
+  particles_.replace_position(particle_index, replacement);
+  /// HWH no position_tracker_ for just particle positions.
 }
 
 void Configuration::replace_selected_particle_position(
@@ -249,36 +160,18 @@ void Configuration::default_configuration() {
 
 void Configuration::add(const Group group) {
   ASSERT(particle_types_.num() != 0, "add groups after particle types");
-  partial_configs_.push_back(*this);
-  Configuration * partial = &partial_configs_.back();
-  partial->group_ = group;
-  partial->particles_.remove(group);
-  partial->particle_types_.remove(group);
-  partial->unique_types_.remove(group);
-  ASSERT(group_.empty(), "main configuration contains no groups");
+  GroupSelection group_select;
+  group_select.set_group(group);
+  init_selection_(&group_select);
+  group_selects_.push_back(group_select);
 }
 
 void Configuration::position_tracker_(const int particle_index,
                                       const int site_index) {
   /// update cells
   particles_.update_cell(domain(), particle_index, site_index);
-  for (Configuration& partial : partial_configs_) {
-    const int partial_particle_index =
-      partial.full_to_partial_[particle_index];
-    if (partial_particle_index >= 0) {
-      // update cell of entire particle if site_index is -1
-      if (site_index == -1) {
-        partial.particles_.update_cell(partial.domain(),
-                                       partial_particle_index);
-      } else {
-        const int partial_site_index =
-          partial.full_to_partial_site_[particle_index][site_index];
-        partial.particles_.update_cell(partial.domain(),
-                                       partial_particle_index,
-                                       partial_site_index);
-      }
-    }
-  }
+  /// HWH update selection?
+
   /// update neighbors? groups?
 }
 
@@ -288,13 +181,8 @@ void Configuration::position_tracker_() {
   }
 }
 
-void Configuration::init_cells(const double min_length,
-                               const int partial_index) {
-  if (partial_index == -1) {
-    domain_.init_cells(min_length);
-  } else {
-    partial_configs_[partial_index].domain_.init_cells(min_length);
-  }
+void Configuration::init_cells(const double min_length) {
+  domain_.init_cells(min_length);
   position_tracker_();
 }
 
@@ -303,10 +191,13 @@ void Configuration::check_size() const {
   particles_.check_size();
   particle_types_.check_size();
   unique_types_.check_size();
-  for (const Configuration& partial : partial_configs_) {
-    ASSERT(static_cast<int>(partial.full_to_partial_.size()) == num_particles(),
-      "size error");
-    partial.check_size();
+
+  // check that select_all_ is all particles in the configuration.
+  ASSERT(static_cast<int>(select_all_.num_particles()) == particles_.num(),
+    "size error");
+  for (int index = 0; index < particles_.num(); ++index) {
+    ASSERT(static_cast<int>(select_all_.site_indices(index).size()) ==
+      particle(index).num_sites(), "size error");
   }
 }
 
@@ -334,7 +225,6 @@ void Configuration::select_last_particle() {
 void Configuration::select_random_particle_of_type(const int type) {
   ASSERT(type < num_particle_types(),
     "particle type(" << type << ") doesn't exist");
-  int random_index = -1;
 
   // do not select if no particles
   if (num_particles() == 0) {
@@ -342,45 +232,21 @@ void Configuration::select_random_particle_of_type(const int type) {
     return;
   }
 
-  // randomly select a few particles in hopes of finding one of type
-  bool term = false;
-  int iteration = 0;
-  const int max_iteration = 10;
-  while (!term && (iteration < max_iteration)) {
-    random_index = random_.uniform(0, num_particles() - 1);
-    if (particle(random_index).type() == type) {
-      term = true;
-    }
-    ++iteration;
-  }
-
-  // if particle of type is not found, enumerate all choices.
-  if (iteration == max_iteration) {
-    std::vector<int> parts;
-    for (int index = 0; index < num_particles(); ++index) {
-      if (particle(index).type() == type) {
-        parts.push_back(index);
-      }
-    }
-
-    if (parts.size() == 0) {
-      selection_.clear();
-      return;
-    } else {
-      random_index = random_.element(parts);
-    }
-  }
-
-  select_particle(random_index);
+  const int group_index = particle_type_to_group_(type);
+  select_random_particle_of_group(group_index);
 }
 
-void Configuration::set_selection(const Selection selection) {
-  std::string id = selection.unique_id();
+void Configuration::check_id_(const Selection& select) const {
+  std::string id = select.unique_id();
   ASSERT(id.empty() || id == unique_indices_,
     "If selection is obtained from a configuration, it will have a unique" <<
     "identifier attached to it. The id of the selection and the " <<
     "configuration were fount to be inconsistent, likely due to an " <<
     "expired selection (e.g., particles were removed after selection)");
+}
+
+void Configuration::set_selection(const Selection selection) {
+  check_id_(selection);
   selection_ = selection;
 }
 
@@ -398,7 +264,7 @@ void Configuration::select_all() {
   }
 }
 
-void Configuration::load_coordinates(
+void Configuration::update_positions(
     const std::vector<std::vector<double> > coords) {
   ASSERT(static_cast<int>(coords.size()) == num_sites(), "size error");
   DEBUG("dimension: " << dimension());
@@ -443,12 +309,68 @@ void Configuration::select_random_particle(const Group& group) {
 }
 
 void Configuration::displace_selection(const Position &displacement) {
-  for (const std::pair<int, std::vector<int>> pair : selection_.selection()) {
-    const int particle_index = pair.first;
-    for (const int site_index : pair.second) {
+  for (const int& particle_index : selection_.particle_indices()) {
+    for (const int& site_index : selection_.site_indices(particle_index)) {
       displace_site_(particle_index, site_index, displacement);
     }
   }
+}
+
+void Configuration::add_to_selection_(const int particle_index,
+                                      GroupSelection * select) const {
+  const Particle& part = particle(particle_index);
+  const Group group = select->group();
+  if (group.is_in(part)) {
+    select->add_particle(particle_index, group.site_indices(part));
+  }
+}
+
+void Configuration::init_selection_(GroupSelection * group_select) const {
+  for (int part_index = 0; part_index < num_particles(); ++part_index) {
+    add_to_selection_(part_index, group_select);
+  }
+}
+
+void Configuration::select_random_particle_of_group(const int group_index) {
+  ASSERT(group_index < num_groups(), "size error");
+  if (group_index == -1) {
+    select_random_particle();
+  } else {
+    selection_ = group_selects_[group_index].random_particle();
+  }
+  const int num_particles = selection_.num_particles();
+  ASSERT(num_particles == 0 || num_particles == 1,
+    "only one particle should be selected");
+}
+
+void Configuration::update_positions(const PositionSelection& select) {
+  check_id_(select);
+  int pindex = 0;
+  for (int particle_index : select.particle_indices()) {
+    replace_position_(particle_index, select.particle_positions()[pindex]);
+    int sindex = 0;
+    for (int site_index : select.site_indices(pindex)) {
+      replace_position_(particle_index,
+                        site_index,
+                        select.site_positions()[pindex][sindex]);
+      ++sindex;
+    }
+    ++pindex;
+  }
+}
+
+int Configuration::particle_type_to_group_(const int particle_type) {
+  int index;
+  if (num_particle_types() == 1) {
+    return -1;
+  }
+  if (!find_in_list(particle_type, group_store_particle_type_, &index)) {
+    index = num_groups();
+    add(Group().add_particle_type(particle_type));
+    group_store_particle_type_.push_back(particle_type);
+    group_store_group_index_.push_back(index);
+  }
+  return index;
 }
 
 }  // namespace feasst

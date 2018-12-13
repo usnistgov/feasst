@@ -57,7 +57,7 @@ class FileXYZ {
       }
       DEBUG("coord " << coords[i][0]);
     }
-    config->load_coordinates(coords);
+    config->update_positions(coords);
   }
 
   void write(const char* file_name,

@@ -93,6 +93,10 @@ class Particles {
                         const int site_index,
                         const Position& replacement);
 
+  /// Replace position of particle but not site.
+  void replace_position(const int particle_index,
+                        const Position& replacement);
+
   /// Check consistency of dimensionality of positions of particles and sites.
   /// By default, for dimension == -1, determine automatically.
   void check_size(const int dimension = -1) const;

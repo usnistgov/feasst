@@ -35,9 +35,15 @@ class Random {
 
   /// Return a random element within a vector.
   template<class T>
-  T element(const std::vector<T> vector) {
+  T element(const std::vector<T> vector,
+    /// optionally return the index associated with the element.
+    int * index = NULL) {
     ASSERT(vector.size() > 0, "size error");
-    return vector[uniform(0, vector.size() - 1)];
+    const int vec_index = uniform(0, vector.size() - 1);
+    if (index != NULL) {
+      *index = vec_index;
+    }
+    return vector[vec_index];
   }
 
   /// Return a random alpha numeric string of given length.

@@ -59,12 +59,23 @@ void Group::remove_sites(Particle * particle,
   }
 }
 
+/// HWH depreciate after partials are removed
 Particle Group::remove_sites(const Particle particle,
                              std::vector<int> * full_to_partial,
                              std::vector<int> * partial_to_full) const {
   Particle filtered(particle);
   remove_sites(&filtered, full_to_partial, partial_to_full);
   return filtered;
+}
+
+std::vector<int> Group::site_indices(const Particle& particle) const {
+  std::vector<int> indices;
+  for (int index = 0; index < particle.num_sites(); ++index) {
+    if (is_in(particle.site(index))) {
+      indices.push_back(index);
+    }
+  }
+  return indices;
 }
 
 }  // namespace feasst

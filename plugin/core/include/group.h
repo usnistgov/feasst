@@ -52,6 +52,9 @@ class Group {
                         std::vector<int> * full_to_partial_site = NULL,
                         std::vector<int> * partial_to_full_site = NULL) const;
 
+  /// Return the list of site indices in Particle which are in the group.
+  std::vector<int> site_indices(const Particle& particle) const;
+
  private:
   /// If no site types are listed, do not screen by site types.
   std::vector<int> site_types_;

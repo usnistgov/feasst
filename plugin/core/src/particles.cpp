@@ -149,6 +149,11 @@ void Particles::replace_position(const int particle_index,
   particles_[particle_index].replace_position(site_index, replacement);
 }
 
+void Particles::replace_position(const int particle_index,
+                                 const Position& replacement) {
+  particles_[particle_index].set_position(replacement);
+}
+
 void Particles::remove(const int particle_index) {
   ASSERT(particle_index < num(), "size error");
   particles_.erase(particles_.begin() + particle_index);

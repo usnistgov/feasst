@@ -13,12 +13,15 @@ namespace feasst {
  */
 class TrialTranslate : public Trial {
  public:
+  TrialTranslate() { set_group_index(); }
+
   void attempt(Criteria* criteria, System * system) {
     perturb_.before_attempt();
     criteria->before_attempt(system);
     Configuration * config = system->configuration(0);
-    config->select_random_particle();
-    if (config->selection().empty()) {
+    config->select_random_particle_of_group(group_index());
+    if (config->selection().is_empty()) {
+      // no particles present
       accept_criteria_.force_rejection = 1;
     } else {
       const double pe_old = system->energy_of_selection();

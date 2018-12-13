@@ -40,6 +40,16 @@ void resize(const int xs, const int ys, std::vector<std::vector<T> > *vec) {
   }
 }
 
+/// Return the total number of elements in a multidimensional vector.
+template<class T>
+int num_elements(const std::vector<std::vector<T> > vec) {
+  int num = 0;
+  for (const std::vector<T>& element : vec) {
+    num += static_cast<int>(element.size());
+  }
+  return num;
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_CORE_UTILS_H_

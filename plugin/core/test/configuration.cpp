@@ -73,6 +73,7 @@ TEST(Configuration, particle_types_spce) {
 }
 
 TEST(Configuration, group) {
+  feasst::seed_random_by_date();
   feasst::Configuration config;
   config.set_domain(feasst::DomainCuboid().set_cubic(7));
   try {
@@ -81,6 +82,7 @@ TEST(Configuration, group) {
     CATCH_PHRASE("add groups after particle types");
   }
   config.add_particle_type("../forcefield/data.spce");
+  config.add_particle_type("../forcefield/data.lj");
   try {
     feasst::Configuration config_err(config);
     config_err.add_particle(0);
@@ -89,43 +91,40 @@ TEST(Configuration, group) {
   }
   config.add(feasst::Group().add_site_type(0).add_particle_type(0));
   config.add(feasst::Group().add_site_type(0).add_particle_type(1));
-  try {
-    feasst::Configuration config_err(config);
-    config_err.add_particle_type("../forcefield/data.lj");
-    CATCH_PHRASE("types cannot be added after groups");
-  }
+  config.add(feasst::Group().add_site_type(2).add_particle_type(1));
+  EXPECT_EQ(3, config.group_selects().size());
   for (int part = 0; part < 100; ++part) {
     config.add_particle(0);
   }
   feasst::FileXYZ().load("../plugin/core/test/data/spce_sample_config_periodic1.xyz", &config);
-  EXPECT_EQ(1, config.num_particle_types());
-  EXPECT_EQ(2, config.num_site_types());
-  const feasst::Configuration * partial0 = &config.partial(0);
-  EXPECT_EQ(1, partial0->num_site_types());
-  EXPECT_EQ(-8.384130358330E+00, partial0->particle(0).site(0).position().coord(1));
-  EXPECT_EQ(-5.402100413020E+00, partial0->particle(1).site(0).position().coord(1));
-  EXPECT_EQ(300, config.num_sites());
-  EXPECT_EQ(100, partial0->num_sites());
-  EXPECT_EQ(7*7*7, partial0->domain().volume());
-  for (std::vector<int> ptf : partial0->partial_to_full_site()) {
-    EXPECT_EQ(static_cast<int>(ptf.size()), 1);
-    EXPECT_EQ(ptf[0], 0);
+  config.add_particle(1);
+  EXPECT_EQ(2, config.num_particle_types());
+  EXPECT_EQ(3, config.num_site_types());
+  const feasst::GroupSelection& sel0 = config.group_selects()[0];
+  EXPECT_EQ(100, sel0.num_particles());
+  EXPECT_EQ(100, sel0.num_sites());
+  for (int index = 0; index < sel0.num_particles(); ++index) {
+    EXPECT_EQ(1, sel0.site_indices(index).size());
   }
-  for (std::vector<int> ftps : partial0->full_to_partial_site()) {
-    EXPECT_EQ(static_cast<int>(ftps.size()), 3);
-    EXPECT_EQ(ftps[0], 0);
-    EXPECT_EQ(ftps[1], -1);
-    EXPECT_EQ(ftps[2], -1);
-  }
+  const feasst::GroupSelection& sel1 = config.group_select(1);
+  EXPECT_EQ(0, sel1.num_particles());
+  EXPECT_EQ(0, sel1.num_sites());
+  const feasst::GroupSelection& sel2 = config.group_select(2);
+  EXPECT_EQ(1, sel2.num_particles());
+  EXPECT_EQ(1, sel2.num_sites());
 
-  const feasst::Configuration * partial1 = &config.partial(1);
-  EXPECT_EQ(0, partial1->num_site_types());
-  EXPECT_EQ(0, partial1->num_sites());
-  EXPECT_EQ(0, partial1->partial_to_full_site().size());
-  EXPECT_EQ(100, partial1->full_to_partial_site().size());
-  for (std::vector<int> ftps : partial1->full_to_partial_site()) {
-    EXPECT_EQ(static_cast<int>(ftps.size()), 0);
-  }
+  config.select_random_particle_of_group(0);
+  EXPECT_EQ(1, config.selection().num_particles());
+  EXPECT_EQ(1, config.selection().num_sites());
+  EXPECT_EQ(0, config.selection().site_index(0, 0));
+  EXPECT_GT(100, config.selection().particle_index(0));
+  config.select_random_particle_of_group(1);
+  EXPECT_EQ(0, config.selection().num_particles());
+  EXPECT_EQ(0, config.selection().num_sites());
+  config.select_random_particle_of_group(2);
+  EXPECT_EQ(1, config.selection().num_particles());
+  EXPECT_EQ(1, config.selection().num_sites());
+  EXPECT_EQ(100, config.selection().particle_index(0));
 }
 
 TEST(Configuration, cells) {
@@ -139,13 +138,10 @@ TEST(Configuration, cells) {
     CATCH_PHRASE("property not found");
   }
   config.init_cells(1);
-  config.init_cells(1.4, 0);
+  config.init_cells(1.4);
   EXPECT_EQ("cell0", config.domain().cells()[0].label());
-  EXPECT_EQ("cell0", config.partial(0).domain().cells()[0].label());
   EXPECT_EQ(config.domain().cells()[0].num_total(), 7*7*7);
-  EXPECT_EQ(config.partial(0).domain().cells()[0].num_total(), 5*5*5);
   EXPECT_EQ(7*7*7/2. - 0.5, config.particle(0).site(0).property("cell0"));
-  EXPECT_EQ(5*5*5/2. - 0.5, config.partial(0).particle(0).site(0).property("cell0"));
   feasst::Position trajectory({-3.49, -3.49, -3.49});
   config.select_particle(0);
   config.displace_selected_particle(trajectory);
@@ -176,7 +172,7 @@ TEST(Configuration, selection) {
     CATCH_PHRASE("an expired selection");
   }
   config.select_random_particle_of_type(1);
-  EXPECT_TRUE(config.selection().empty());
+  EXPECT_TRUE(config.selection().is_empty());
   config.select_random_particle_of_type(0);
   EXPECT_EQ(1, config.selection().num_particles());
   try {
@@ -193,7 +189,7 @@ TEST(Configuration, selection) {
   int num = 20;
   for (int i = 0; i < num; ++i) {
     config.select_random_particle(feasst::Group().add_particle_type(0));
-    int ipart = config.selection().selection()[0].first;
+    int ipart = config.selection().particle_index(0);
     sum += ipart;
     EXPECT_GE(1, ipart);
   }
@@ -216,5 +212,20 @@ TEST(Configuration, displace_selection) {
   config.displace_selection(disp);
   EXPECT_EQ(1.234+9, config.particle(0).site(9).position().coord(0));
   EXPECT_EQ(8, config.particle(0).site(8).position().coord(0));
+}
+
+TEST(Configuration, position_selection) {
+  feasst::Configuration config;
+  config.set_domain(feasst::DomainCuboid().set_cubic(10));
+  config.add_particle_type("../forcefield/data.chain10");
+  config.add_particle(0);
+  const feasst::Position* position = &config.particle(0).site(5).position();
+  EXPECT_NEAR(0., position->coord(1), 1e-15);
+  feasst::PositionSelection select = config.select_sites(0, {3, 4, 5});
+  select.set_site_position(0, 0, feasst::Position().set_vector({1.1, 1.2, 1.3}));
+  select.set_site_position(0, 1, feasst::Position().set_vector({-1.1, -1.2, -1.3}));
+  select.set_site_position(0, 2, feasst::Position().set_vector({0, 37.5, 50.}));
+  config.update_positions(select);
+  EXPECT_NEAR(37.5, position->coord(1), 1e-15);
 }
 

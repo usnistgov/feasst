@@ -61,7 +61,7 @@ int FileXTC::load(XDRFILE * file,
       coords[i][dim] = x_xtc[i][dim];
     }
   }
-  config->load_coordinates(coords);
+  config->update_positions(coords);
   free(x_xtc);
   if (!file_name.empty()) {
     delete [] fn_xtc;

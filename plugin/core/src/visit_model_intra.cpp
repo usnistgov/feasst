@@ -12,13 +12,12 @@ void VisitModelIntra::energy_of_selection(const Configuration& config,
   const DomainCuboid& domain = config.domain();
   const ModelParams& model_params = config.unique_types().model_params();
   const Selection& selection = config.selection();
-  for (const std::pair<int, std::vector<int> >& pair : selection.selection()) {
-    const int part1_index = pair.first;
+  for (int part1_index : selection.particle_indices()) {
     TRACE("particle: " << part1_index);
     const Particle part1 = config.particle(part1_index);
-    for (int site1_index : pair.second) {
+    for (int site1_index : selection.site_indices(part1_index)) {
       const Site site1 = part1.sites()[site1_index];
-      for (int site2_index : pair.second) {
+      for (int site2_index : selection.site_indices(part1_index)) {
         if (std::abs(site1_index - site2_index) > intra_cut_) {
           TRACE("sites: " << site1_index << " " << site2_index);
           const Site site2 = part1.sites()[site2_index];

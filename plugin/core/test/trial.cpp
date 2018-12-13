@@ -51,7 +51,9 @@ TEST(Trial, MCbenchmark) {
 TEST(Trial, MC) {
   feasst::seed_random_by_date();
   feasst::System system;
-  system.default_system();
+  system.add_configuration(feasst::Configuration());
+  feasst::Configuration * config = system.configuration(0);
+  config->add_particle_type("../forcefield/data.lj");
   feasst::TrialFactory trials;
   auto transfer = std::make_shared<feasst::TrialTransfer>();
   transfer->set_weight(0.25);
@@ -64,7 +66,7 @@ TEST(Trial, MC) {
   //const int nTrialsEq = 1e6, nTrials = 1e6;
   //const int nCheck = 1e4;
   const int nCheck = 1e2;
-  feasst::Configuration * config = system.configurationByPart(0);
+  EXPECT_EQ(1, config->num_particle_types());
   const int nMol = 500;
   const double rho = 1e-3, boxl = pow(double(nMol)/rho, 1./3.);
   config->set_domain(feasst::DomainCuboid().set_cubic(boxl));
@@ -99,7 +101,9 @@ TEST(Trial, WLMC) {
   // feasst::seed_random();
   feasst::seed_random_by_date();
   feasst::System system;
-  system.default_system();
+  system.add_configuration(feasst::Configuration());
+  feasst::Configuration * config = system.configuration(0);
+  config->add_particle_type("../forcefield/data.lj");
 
   // trials
   feasst::TrialFactory trials;
@@ -115,7 +119,6 @@ TEST(Trial, WLMC) {
   //const int nTrialsEq = 1e8, nTrials = 1e8;
   //const int nCheck = 1e6;
   const int nCheck = 1e2;
-  feasst::Configuration * config = system.configurationByPart(0);
   const double boxl = 8;
   //const double rho = 1e-3, boxl = pow(double(nMol)/rho, 1./3.);
   config->set_domain(feasst::DomainCuboid().set_cubic(boxl));

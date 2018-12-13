@@ -23,8 +23,7 @@ namespace feasst {
   Similarly, site types are also defined at the same time as particle types.
 
   Groups of different particle/site types and other metrics may be defined.
-  These groups then define a partial configuration which contains only the
-  particles/sites which are within the group.
+  These groups then define a selection to be used to modify the system.
 
   Perturbations (e.g., removal and displacement) of a selection of
   particles/sites are performed in two stages:
@@ -85,23 +84,16 @@ class Configuration {
   /// Return the number of particles.
   int num_particles() const { return particles_.num(); }
 
-  /* Create a partial configuration */
+  /* Create a selection by group */
 
   /// Add a group (after types are defined but before particles are added).
   void add(const Group group);
 
-  /// Return the partial configuration defined by groups.
-  const Configuration& partial(const int index) const {
-    return partial_configs_[index];
-  }
-
-  /// Return the number of partial configurations.
-  int num_partials() const {
-    return static_cast<int>(partial_configs_.size());
-  }
+  /// Return the number of group selections.
+  int num_groups() const { return static_cast<int>(group_selects_.size()); }
 
   /// Load coordinates by per-site vector containing per-dimension vector.
-  void load_coordinates(const std::vector<std::vector<double> > coords);
+  void update_positions(const std::vector<std::vector<double> > coords);
 
   /* Selections are for modifications of a subset of the configuration.
      Note that the requested selection may not be possible.
@@ -121,6 +113,12 @@ class Configuration {
   /// Select a random particle of a given type.
   void select_random_particle_of_type(const int type);
 
+  /// Select a random particle from group index.
+  void select_random_particle_of_group(
+    /// Group indices are determined by the order of add(Group).
+    /// A group index of -1 indicates all particles.
+    const int group_index);
+
   /// Select a particle by index.
   /// HWH: selection by type and index?
   void select_particle(const int particle_index);
@@ -128,11 +126,22 @@ class Configuration {
   /// Select a site.
   void select_site(const int particle_index, const int site_index);
 
+  /// Select sites.
+  PositionSelection select_sites(const int particle_index,
+                                 const std::vector<int> site_indices) {
+    selection_.clear();
+    selection_.add_sites(particle_index, site_indices);
+    return position_selection();
+  }
+
   /// Select the most recently added particle.
   void select_last_particle();
 
   /// Select all particles in the configuration
   void select_all();
+
+  /// Return selection of all particles and sites in the configuration.
+  const Selection& get_selection_of_all() const { return select_all_; }
 
   /// Return selection.
   const Selection& selection() const { return selection_; }
@@ -142,6 +151,14 @@ class Configuration {
 
   /// Set the selection of particles.
   void set_selection(const Selection selection);
+
+  /// Return the selection and their positions.
+  PositionSelection position_selection() const {
+    return PositionSelection(selection(), particles());
+  }
+
+  /// Update the positions from a selection.
+  void update_positions(const PositionSelection& select);
 
   /* The following are modifications of a subset of the configuration. */
 
@@ -178,10 +195,7 @@ class Configuration {
   /* Interface with Cells */
 
   /// Initialize the cells according to the minimum side length.
-  void init_cells(const double min_length,
-    /// By default, if -1, use cell list on the full configuration.
-    /// To use cell list on a partial config, provide the index.
-    const int partial_index = -1);
+  void init_cells(const double min_length);
 
   /* Checks and hacky additions */
 
@@ -203,42 +217,39 @@ class Configuration {
   /// Check consistency of dimensions and lists.
   void check_size() const;
 
-  // testing only
-  std::vector<std::vector<int> > partial_to_full_site() const {
-    return partial_to_full_site_;
+  /// Return the group-based selections.
+  const std::vector<GroupSelection>& group_selects() const {
+    return group_selects_;
   }
-  std::vector<std::vector<int> > full_to_partial_site() const {
-    return full_to_partial_site_;
+
+  /// Return the group-based selections by index.
+  const GroupSelection& group_select(const int index) const {
+    return group_selects_[index];
   }
 
  private:
   Particles particle_types_;
   Particles unique_types_;
   Particles particles_;
-  std::vector<Configuration> partial_configs_;
   DomainCuboid domain_;
+
+  /// Current selection of particle(s) and site(s)
+  // HWH rename to select_current_
   Selection selection_;
+
+  /// A list of all particle and site indices.
+  Selection select_all_;
+
+  /// Selections based on groups that are continuously updated.
+  // HWH currently only updated when adding and removing particles
+  // HWH but at some point it should check for positional changes
+  // HWH if groups are defined based on positions.
+  std::vector<GroupSelection> group_selects_;
 
   /// Unique identifier for the collection of particle indices.
   std::string unique_indices_;
   void reset_unique_indices_();
   Random random_;
-
-  /// Store the group definition for updating dynamic groups
-  /// Only to be owned/utilized by partial configurations.
-  Group group_;
-
-  /// Store the particle indices corresponding to the full configuration.
-  /// Only to be owned/utilized by partial configurations.
-  std::vector<int> partial_to_full_;
-  std::vector<int> full_to_partial_;
-
-  /// Store site indices, for given particle type, corresponding to the full
-  /// configuration.
-  /// The first index is the particle index, and the second is the site
-  /// Only to be owned/utilized by partial configurations.
-  std::vector<std::vector<int> > partial_to_full_site_;
-  std::vector<std::vector<int> > full_to_partial_site_;
 
   /// Add particle.
   void add_(const Particle particle);
@@ -264,12 +275,32 @@ class Configuration {
                          const int site_index,
                          const Position& replacement);
 
+  /// Replace position of particle but not site.
+  void replace_position_(const int particle_index,
+                         const Position& replacement);
+
   /// Update position trackers of a particle (e.g., cell, neighbor, etc).
   /// Update all sites if site_index == -1.
   void position_tracker_(const int particle_index, const int site_index = -1);
 
   /// Update position trackers of all particles.
   void position_tracker_();
+
+  /// Add particle to selection.
+  void add_to_selection_(const int particle_index,
+                         GroupSelection * select) const;
+
+  /// Initialize selection based on groups
+  void init_selection_(GroupSelection * group_select) const;
+
+  /// Remember groups based on types.
+  std::vector<int> group_store_particle_type_,
+                   group_store_group_index_;
+
+  /// Return the index of the group based on particle types.
+  int particle_type_to_group_(const int particle_type);
+
+  void check_id_(const Selection& select) const;
 };
 
 }  // namespace feasst

@@ -255,3 +255,5 @@ To Do List
 * detail branch rules (branch namespace and descriptive file, merge squash, release tags, etc).
 * Start from fresh repo to reduce number of superficial commits on master branch
 * py/feasst.i depends on which plugins that you use. how to make this user friendly?
+* consider a different way to interface selection and configuration.
+

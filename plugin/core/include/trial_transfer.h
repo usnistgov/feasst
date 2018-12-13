@@ -31,11 +31,9 @@ class TrialTransfer : public Trial {
     /// HWH: change this up for group/type/controlled by config
     double delta_energy = 0;
     config->select_random_particle_of_type(particle_type_);
-    if (config->selection().empty()) {
+    if (config->selection().is_empty()) {
       accept_criteria_.force_rejection = 1;
     } else {
-      ASSERT(config->selection().num_particles() == 1,
-        "only one particle should be selected");
       delta_energy = -system->energy_of_selection();
       const int num_mol_old = config->num_particles();
       perturb_.remove_selected_particle(system);

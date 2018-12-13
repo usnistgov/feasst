@@ -24,8 +24,9 @@ class Position {
   const std::vector<double>& coord() const { return coord_;}
 
   /// Set position vector.
-  void set_vector(const std::vector<double> &doubleVec) {
+  Position& set_vector(const std::vector<double> &doubleVec) {
     coord_ = doubleVec;
+    return *this;
   }
 
   /// Get coordinate value of one dimension.
