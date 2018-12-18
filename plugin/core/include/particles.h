@@ -130,7 +130,8 @@ class Particles {
 
   /// Update the cell by particle and site index.
   /// By default, update entire particle when site_index == -1.
-  void update_cell(const Domain& domain,
+  void update_cell(const Cells& cell,
+                   const Domain& domain,
                    const int particle_index,
                    const int site_index = -1);
 

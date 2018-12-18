@@ -23,8 +23,9 @@ class VisitModelIntra : public VisitModel {
   VisitModelIntra() { set_intra_cut(); }
   int intra_cut() const { return intra_cut_; }
   void set_intra_cut(const int cut = 1) { intra_cut_ = cut; }
-  void energy_of_selection(const Configuration& config,
-                           const ModelTwoBody& model) override;
+  void compute(const Configuration& config,
+               const ModelTwoBody& model,
+               const Select& selection) override;
   ~VisitModelIntra() {}
  private:
   int intra_cut_;

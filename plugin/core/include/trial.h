@@ -19,9 +19,8 @@ class Trial {
   int64_t num_attempts() const { return num_attempts_; }
 
   /// Set the group index for selection of particle to translate.
-  /// By default, a group index of -1 draws from the entire configuration.
-  // HWH consider move to Trial
-  void set_group_index(const int index = -1) { group_index_ = index; }
+  /// By default, a group index of 0 draws from the entire configuration.
+  void set_group_index(const int index = 0) { group_index_ = index; }
 
   /// Return the group index.
   int group_index() const { return group_index_; }

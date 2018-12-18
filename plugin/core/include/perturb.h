@@ -3,6 +3,7 @@
 #define FEASST_CORE_PERTURB_H_
 
 #include "core/include/system.h"
+#include "core/include/select_list.h"
 
 namespace feasst {
 
@@ -26,6 +27,9 @@ class Perturb {
   void set_revert_possible(const bool revert = true) {
     revert_possible_ = revert;
   }
+
+  /// Return the selection
+  virtual const Select& selection() const = 0;
 
   virtual ~Perturb() {}
 

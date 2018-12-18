@@ -4,13 +4,14 @@
 
 #include <string>
 #include <vector>
+#include "core/include/properties.h"
 
 namespace feasst {
 
 /**
   Divide a cuboid domain into cells.
  */
-class Cells {
+class Cells : public PropertiedEntity {
  public:
   /// Create the number, length and neighbors.
   /// By default, abort if there aren't more than \f$3^D\f$ cells,
@@ -32,15 +33,6 @@ class Cells {
   /// Return the number.
   std::vector<int> num() const { return num_; }
 
-//  /// Return the length in a dimension.
-//  double length(const int dimension) const;
-//
-//  /// Return the length in each dimension.
-//  std::vector<double> lengths() const { return lengths_; }
-//
-//  /// Return the minimum side length.
-//  double min_length() const;
-
   /// Clear all private member data.
   void clear();
 
@@ -61,7 +53,6 @@ class Cells {
 
  private:
   std::vector<int> num_;
-//  std::vector<double> lengths_;
   std::vector<std::vector<int> > neighbor_;
   std::string label_;
 

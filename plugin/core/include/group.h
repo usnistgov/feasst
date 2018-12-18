@@ -11,7 +11,7 @@ namespace feasst {
   Define groups based on particle and site types.
   In the future, other metrics may be used, such as position-based ones, etc.
  */
-class Group {
+class Group : public PropertiedEntity {
  public:
   Group();
 
@@ -34,7 +34,8 @@ class Group {
   }
 
   /// Return true if group has no group definitions.
-  bool empty() const;
+  bool is_empty() const { return empty(); }
+  bool empty() const; // HWH depreciate
 
   /// Return true if the site is in the group.
   bool is_in(const Site& site) const;

@@ -29,8 +29,20 @@ class Properties {
   /// Return true if property name exists, and its value.
   bool value(const std::string name, double * value) const;
 
+  /// Return true if property name exists.
+  bool has(const std::string name) const {
+    double val;
+    return value(name, &val);
+  }
+
   /// Check that the property values and names are consistent.
   void check_size();
+
+  /// Return all property names.
+  std::vector<std::string> property_name() const { return property_name_; }
+  
+  /// Return all property values.
+  std::vector<double> property_value() const { return property_value_; }
 
  private:
   std::vector<double> property_value_;
@@ -60,6 +72,11 @@ class PropertiedEntity {
   /// Return the property value by name.
   double property(const std::string name) const {
     return properties_.value(name);
+  }
+
+  /// Return true if entity has property of name.
+  bool has_property(const std::string name) const {
+    return properties_.has(name);
   }
 
  private:

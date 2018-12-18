@@ -12,18 +12,24 @@ namespace feasst {
 class ModelOneBody : public Model {
  public:
   // HWH depreciate
-  double compute(VisitModel& visitor, const Configuration& config, const int iPart) override {
+  double compute(
+      VisitModel& visitor,
+      const Configuration& config,
+      const int iPart) override {
     visitor.loop_by_particle(config, *this, iPart);
     return visitor.energy();
   }
-  double compute_selection(VisitModel& visitor,
-                           const Configuration& config) override {
-    visitor.energy_of_selection(config, *this);
+  double compute(
+      VisitModel& visitor,
+      const Configuration& config,
+      const Select& selection) override {
+    visitor.compute(config, *this, selection);
     return visitor.energy();
   }
-  virtual double evaluate(const Site& site,
-                          const Configuration& config,
-                          const ModelParams& model_params) const = 0;
+  virtual double evaluate(
+      const Site& site,
+      const Configuration& config,
+      const ModelParams& model_params) const = 0;
   virtual ~ModelOneBody() {}
 };
 

@@ -36,13 +36,16 @@ int Domain::cell_id(const Position& position,
   return cells.id(scaled.coord());
 }
 
-void Domain::init_cells(const double min_length) {
+void Domain::init_cells(const double min_length,
+                        const int group_index) {
+  ASSERT(group_index >= 0, "error");
   Cells cell;
   cell.create(min_length, side_length().coord());
   std::stringstream ss;
   ss << "cell";
   ss << cells_.size();
   cell.set_label(ss.str());
+  cell.add_property("group", group_index);
   cells_.push_back(cell);
 }
 

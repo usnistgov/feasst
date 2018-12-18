@@ -13,9 +13,8 @@ TEST(VisitModelIntra, energy) {
   feasst::VisitModelIntra visit;
   // don't compute intraparticle interactions between bonded sites.
   visit.set_intra_cut(1);
-  config.select_all();
-  EXPECT_EQ(config.selection().num_particles(), 1);
-  model.compute_selection(visit, config);
+  EXPECT_EQ(config.num_particles(), 1);
+  model.compute(visit, config, config.selection_of_all());
   // due to periodic boundary conditions matching exactly the length,
   // each bead interacts twice at a distance of 2
   EXPECT_NEAR(10*2*(4*(pow(2, -12)-pow(2, -6))), visit.energy(), 1e-15);

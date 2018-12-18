@@ -9,16 +9,29 @@ namespace feasst {
 
 class TrialFactory : public Trial {
  public:
-  virtual void attempt(Criteria* criteria, System * system) {
+  void attempt(
+      Criteria* criteria,
+      System * system) override {
+    attempt(criteria, system, -1);
+  }
+  void attempt(
+      Criteria* criteria,
+      System * system,
+      /// attempt trial_index. If -1, choose randomly with probabilty
+      /// determined from the weight.
+      const int trial_index) {
     increment_num_attempts();
     ASSERT(num_trials() > 0, "size error");
+    if (trial_index != -1) {
+      attempt_(criteria, system, trial_index);
+      return;
+    }
     const double random_uniform = random_.uniform();
     int attempt = 0;
     int index = 0;
     while (attempt == 0 && index < num_trials()) {
       if (random_uniform < cumulative_probability_[index]) {
-        trials_[index]->attempt(criteria, system);
-        trials_[index]->increment_num_attempts();
+        attempt_(criteria, system, index);
         attempt = 1;
         TRACE("attempt " << attempt);
       }
@@ -48,10 +61,20 @@ class TrialFactory : public Trial {
 
   int num_trials() const { return trials_.size(); }
 
+  std::vector<std::shared_ptr<Trial> > trials() { return trials_; }
+
  private:
   std::vector<std::shared_ptr<Trial> > trials_;
   std::vector<double> cumulative_probability_;
   Random random_;
+
+  void attempt_(
+      Criteria* criteria,
+      System * system,
+      const int index) {
+    trials_[index]->attempt(criteria, system);
+    trials_[index]->increment_num_attempts();
+  }
 };
 
 }  // namespace feasst

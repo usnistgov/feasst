@@ -67,7 +67,10 @@ class Domain {
   /// HWH implement check_size
 
   /// Initialize the cells according to the minimum side length.
-  void init_cells(const double min_length);
+  void init_cells(const double min_length,
+    /// A group index corresponds to a group defined in configuration.
+    /// If this index is set to 0 (default) use all particles and sites.
+    const int group_index = 0);
 
   /// Return the cells.
   const std::vector<Cells>& cells() const { return cells_; }

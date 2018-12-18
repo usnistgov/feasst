@@ -28,14 +28,14 @@ class TrialTransfer : public Trial {
 
   void attempt_to_remove(Criteria* criteria, System * system) {
     Configuration * config = system->configuration(0);
-    /// HWH: change this up for group/type/controlled by config
     double delta_energy = 0;
-    config->select_random_particle_of_type(particle_type_);
-    if (config->selection().is_empty()) {
+    perturb_.select_random_particle(particle_type_, config);
+    if (perturb_.selection().is_empty()) {
       accept_criteria_.force_rejection = 1;
     } else {
-      delta_energy = -system->energy_of_selection();
-      const int num_mol_old = config->num_particles();
+      delta_energy = -system->energy(perturb_.selection());
+      const int group = config->particle_type_to_group(particle_type_); // HWH optimize this
+      const int num_mol_old = config->num_particles(group);
       perturb_.remove_selected_particle(system);
       DEBUG("delta_energy " << delta_energy);
       accept_criteria_.ln_metropolis_prob =
@@ -59,12 +59,12 @@ class TrialTransfer : public Trial {
     Configuration * config = system->configuration(0);
     Particle particle = config->particle_types().particle(particle_type_);
     const Position rand_in_box = config->domain().random_position(&random_);
+    // HWH use select_list to try partical position
     DEBUG("rand_in_box " << rand_in_box.str());
     particle.displace(rand_in_box);
     perturb_.add(particle, system);
-    config->select_last_particle();
     const int num_mol_new = config->num_particles();
-    const double delta_energy = system->energy_of_selection();
+    const double delta_energy = system->energy(perturb_.selection());
     DEBUG("delta_energy " << delta_energy);
     accept_criteria_.ln_metropolis_prob =
       log(config->domain().volume()/double(num_mol_new))

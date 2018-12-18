@@ -72,7 +72,9 @@ class Particle : public TypedEntity, public SpatialEntity {
   void replace_position(const int site_index, const Position& replacement);
 
   /// Update the cells of site index, or the whole particle (default).
-  void update_cell(const Domain& domain, const int site_index = -1);
+  void update_cell(const Cells& cell,
+                   const Domain& domain,
+                   const int site_index = -1);
 
   /// Return the number of bonds.
   int num_bonds() const { return static_cast<int>(bonds_.size()); }

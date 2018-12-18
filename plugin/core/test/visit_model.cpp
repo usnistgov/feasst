@@ -6,6 +6,7 @@
 #include "core/include/file_lmp.h"
 #include "core/include/file_xyz.h"
 #include "core/include/physical_constants.h"
+#include "core/include/select_list.h"
 
 TEST(VisitModel, energy) {
   feasst::Configuration config;
@@ -27,18 +28,21 @@ TEST(VisitModel, energy) {
   feasst::Site site = particle.site(0);
   site.set_position(position);
   particle.set_site(0, site);
-  config.select_particle(1);
-  config.replace_selected_particle_position(particle);
+  feasst::SelectList select;
+  select.particle(1, config);
+  config.replace_position(select, particle);
+  // config.select_particle(1);
+  // config.replace_selected_particle_position(particle);
   EXPECT_EQ(3, config.particle(0).site(0).position().size());
   EXPECT_EQ(0, config.particle(0).site(0).position().coord(0));
   EXPECT_EQ(3, config.particle(1).site(0).position().coord(0));
 
   EXPECT_EQ(config.particle(1).position().coord(0), 3);
-  visit.loop_by_particle(config, model);
+  model.compute(visit, config, select);
   EXPECT_NEAR(4*(pow(2, -12) - pow(2, -6)), visit.energy(), 1e-15);
   config.select_particle(0);
-  //visit.loop_by_particle(config, model, 0);
-  visit.energy_of_selection(config, model);
+  select.particle(0, config);
+  model.compute(visit, config, select);
   EXPECT_NEAR(4*(pow(2, -12) - pow(2, -6)), visit.energy(), 1e-15);
 }
 
@@ -73,6 +77,7 @@ TEST(VisitModel, ModelLRC) {
 }
 
 TEST(VisitModel, spce_reference_config) {
+  feasst::seed_random_by_date();
   feasst::Configuration config;
   config.add_particle_type("../forcefield/data.spce");
   EXPECT_EQ(1, config.particle_types().num());
@@ -85,9 +90,34 @@ TEST(VisitModel, spce_reference_config) {
   feasst::ModelLJ model;
   feasst::VisitModel visit;
   visit.loop_by_particle(config, model);
-  EXPECT_NEAR(99538.736236886805*feasst::ideal_gas_constant/1e3, visit.energy(), 1e-15);
+  const double pe_lj = 99538.736236886805;
+  EXPECT_NEAR(pe_lj*feasst::ideal_gas_constant/1e3, visit.energy(), 1e-15);
   feasst::ModelLRC lrc;
   visit.loop_by_particle(config, lrc);
-  EXPECT_NEAR(-823.71499511652326*feasst::ideal_gas_constant/1e3, visit.energy(), 1e-13);
+  const double pe_lrc = -823.71499511652326;
+  EXPECT_NEAR(pe_lrc*feasst::ideal_gas_constant/1e3, visit.energy(), 1e-13);
+
+  // test adding/deleting particles, resulting in a ghost
+  feasst::SelectList select;
+  select.random_particle(config);
+  visit.compute(config, model, select);
+  const double pe_previous = visit.energy();
+  const double x1_previous = select.particle(config).site(0).position().coord(1);
+  config.add_particle(0);
+  feasst::SelectList new_part;
+  new_part.last_particle_added(&config);
+  config.replace_position(new_part, select.particle(config));
+  config.remove_particle(select);
+  visit.loop_by_particle(config, model);
+  EXPECT_NEAR(pe_lj*feasst::ideal_gas_constant/1e3, visit.energy(), 1e-12);
+  visit.loop_by_particle(config, lrc);
+  EXPECT_NEAR(pe_lrc*feasst::ideal_gas_constant/1e3, visit.energy(), 1e-13);
+  EXPECT_EQ(101, config.particles().num()); // includes one ghost particle
+  EXPECT_EQ(100, config.selection_of_all().num_particles());
+  config.check_size();
+  visit.compute(config, model, new_part);
+  EXPECT_NEAR(pe_previous, visit.energy(), 1e-15);
+  const double x2_previous = new_part.particle(config).site(0).position().coord(1);
+  EXPECT_EQ(x1_previous, x2_previous);
 }
 

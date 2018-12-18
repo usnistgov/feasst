@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_SELECTION_H_
-#define FEASST_CORE_SELECTION_H_
+#ifndef FEASST_CORE_SELECT_H_
+#define FEASST_CORE_SELECT_H_
 
 #include <string>
 #include <vector>
@@ -13,7 +13,7 @@ namespace feasst {
 /**
   Select a subset of particles and sites by storing their respective indices.
  */
-class Selection {
+class Select {
  public:
   /// Return true if nothing is selected.
   bool is_empty() const;
@@ -53,7 +53,7 @@ class Selection {
 
   /// Return the selection of a particle chosen randomly from current
   /// selection.
-  Selection random_particle();
+  Select random_particle();
 
   /// Reduce existing selection to one random particle.
   void reduce_to_random_particle();
@@ -62,9 +62,6 @@ class Selection {
   int num_particles() const {
     return static_cast<int>(particle_indices_.size());
   }
-
-  /// Return number of selected particles.
-  int num() const { return static_cast<int>(particle_indices_.size()); }
 
   /// Return number of selected sites.
   int num_sites() const;
@@ -102,6 +99,9 @@ class Selection {
   /// Check the size of member vectors
   void check_size() const;
 
+ protected:
+  Random * random() { return &random_; }
+
  private:
   std::vector<int> particle_indices_;
   std::vector<std::vector<int> > site_indices_;
@@ -112,7 +112,7 @@ class Selection {
 /**
   A selection based on a group.
  */
-class GroupSelection : public Selection {
+class SelectGroup : public Select {
  public:
   Group group() const { return group_; }
   void set_group(const Group group) { group_ = group; }
@@ -121,63 +121,6 @@ class GroupSelection : public Selection {
   Group group_;
 };
 
-/**
-  A selection which includes site and particle positions.
- */
-class PositionSelection : public Selection {
- public:
-  PositionSelection(const Selection& select, const Particles& particles)
-    : Selection(select) {
-    resize_(select);
-    load_positions(particles);
-  }
-
-  /// Return the site positions.
-  const std::vector<std::vector<Position> >& site_positions() const {
-    return site_positions_;
-  }
-
-  /// Return the particle positions.
-  const std::vector<Position>& particle_positions() const {
-    return particle_positions_;
-  }
-
-  /// Set the position of a site by particle and site index.
-  /// Note that these indices are based on selection, not configuration.
-  void set_site_position(const int particle_index,
-                         const int site_index,
-                         const Position& position);
-
-  /// Set the position of a particle by its index.
-  /// Note that this index is based on selection, not configuration.
-  void set_particle_position(const int particle_index,
-                             const Position& position);
-
-  /// Load the positions from the existing selection indices.
-  void load_positions(const Particles& particles);
-
-  void clear() {
-    Selection::clear();
-    clear_();
-  }
-
- private:
-  std::vector<Position> particle_positions_;
-  std::vector<std::vector<Position> > site_positions_;
-
-  void resize_(const Selection& select) {
-    particle_positions_.resize(select.num_particles());
-    site_positions_.resize(select.num_particles());
-    for (int index = 0; index < select.num_particles(); ++index) {
-      site_positions_[index].resize(select.site_indices(index).size());
-    }
-  }
-
-  void clear_() {
-    particle_positions_.clear(); site_positions_.clear();
-  }
-};
-
 }  // namespace feasst
 
-#endif  // FEASST_CORE_SELECTION_H_
+#endif  // FEASST_CORE_SELECT_H_

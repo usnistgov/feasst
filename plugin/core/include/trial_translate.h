@@ -18,19 +18,18 @@ class TrialTranslate : public Trial {
   void attempt(Criteria* criteria, System * system) {
     perturb_.before_attempt();
     criteria->before_attempt(system);
-    Configuration * config = system->configuration(0);
-    config->select_random_particle_of_group(group_index());
-    if (config->selection().is_empty()) {
+    perturb_.select_random_particle(group_index(), system->config());
+    if (perturb_.selection().is_empty()) {
       // no particles present
       accept_criteria_.force_rejection = 1;
     } else {
-      const double pe_old = system->energy_of_selection();
+      const double pe_old = system->energy(perturb_.selection());
       const Position trajectory = random_.position_in_cube(
         system->dimension(),
         max_move_
       );
       perturb_.translate_selected_particle(trajectory, system);
-      const double pe_new = system->energy_of_selection();
+      const double pe_new = system->energy(perturb_.selection());
       const double delta_energy = pe_new - pe_old;
       accept_criteria_.ln_metropolis_prob = -criteria->beta()*delta_energy;
       accept_criteria_.energy_new = criteria->running_energy() + delta_energy;

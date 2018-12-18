@@ -97,16 +97,14 @@ void Particle::replace_position(const int site_index,
   sites_[site_index].set_position(replacement);
 }
 
-void Particle::update_cell(const Domain& domain, const int site_index) {
-  for (const Cells& cells : domain.cells()) {
-    if (cells.enabled()) {
-      if (site_index == -1) {
-        for (Site& site : sites_) {
-          update_cell_of_site_(cells, domain, &site);
-        }
-      } else {
-        update_cell_of_site_(cells, domain, &sites_[site_index]);
+void Particle::update_cell(const Cells& cells, const Domain& domain, const int site_index) {
+  if (cells.enabled()) {
+    if (site_index == -1) {
+      for (Site& site : sites_) {
+        update_cell_of_site_(cells, domain, &site);
       }
+    } else {
+      update_cell_of_site_(cells, domain, &sites_[site_index]);
     }
   }
 }

@@ -4,14 +4,14 @@
 
 namespace feasst {
 
-void VisitModelIntra::energy_of_selection(const Configuration& config,
-                                          const ModelTwoBody& model) {
+void VisitModelIntra::compute(const Configuration& config,
+                              const ModelTwoBody& model,
+                              const Select& selection) {
   DEBUG("intra particle energy_of_selection");
   double energy = 0;
   Position difference;
   const DomainCuboid& domain = config.domain();
   const ModelParams& model_params = config.unique_types().model_params();
-  const Selection& selection = config.selection();
   for (int part1_index : selection.particle_indices()) {
     TRACE("particle: " << part1_index);
     const Particle part1 = config.particle(part1_index);

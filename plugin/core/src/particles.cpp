@@ -166,10 +166,11 @@ Particles& Particles::default_particles() {
   return *this;
 }
 
-void Particles::update_cell(const Domain& domain,
+void Particles::update_cell(const Cells& cell,
+                            const Domain& domain,
                             const int particle_index,
                             const int site_index) {
-  particles_[particle_index].update_cell(domain, site_index);
+  particles_[particle_index].update_cell(cell, domain, site_index);
 }
 
 }  // namespace feasst

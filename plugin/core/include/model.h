@@ -13,9 +13,9 @@ class Model {
  public:
   /// HWH depreciate
   virtual double compute(VisitModel& visitor, const Configuration& config, const int iPart) = 0;
-
-  virtual double compute_selection(VisitModel& visitor,
-                                   const Configuration& config) = 0;
+  virtual double compute(VisitModel& visitor,
+                         const Configuration& config,
+                         const Select& selection) = 0;
   virtual ~Model() {}
 };
 

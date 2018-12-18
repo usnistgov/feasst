@@ -6,7 +6,8 @@
 #include <vector>
 #include "core/include/domain_cuboid.h"
 #include "core/include/particles.h"
-#include "core/include/selection.h"
+#include "core/include/select.h"
+#include "core/include/select_position.h"
 
 namespace feasst {
 
@@ -23,23 +24,23 @@ namespace feasst {
   Similarly, site types are also defined at the same time as particle types.
 
   Groups of different particle/site types and other metrics may be defined.
-  These groups then define a selection to be used to modify the system.
+  These groups then define a selection which can be used to distinguish subsets
+  of the configuration (e.g., types of particles).
+  This selection may be further reduced to single particles.
+  These selections are then used to modify a subset of the configuration (e.g.,
+  removal and displacement) of a selection of particles/sites.
 
-  Perturbations (e.g., removal and displacement) of a selection of
-  particles/sites are performed in two stages:
-
-   1. selection of particles/sites.
-   2. implementation of the perturbation on the selection.
-
-  Only one selection is stored for a configuration at a given time, so it is
-  imperative that the intended selection is not erroneously changed before the
-  intended perturbation is executed.
+  Finally, the spatial domain contains periodic boundaries and cells.
  */
 class Configuration {
  public:
   Configuration();
 
-  /// Add a particle type that may exist.
+  /** @name Typing
+    Types of sites and particles. */
+  //@{
+
+  /// Add a particle type that may exist by LMP file (see FileLMP).
   void add_particle_type(const char* file_name);
 
   /// Return the number of particle types.
@@ -50,6 +51,13 @@ class Configuration {
 
   /// Return the particle types.
   const Particles& particle_types() const { return particle_types_; }
+
+  /// Modify model parameter of a given site type and name to value.
+  void set_model_param(const char* name,
+                       const int site_type,
+                       const double value) {
+    unique_types_.set_model_param(name, site_type, value);
+  }
 
   /// Return the particle associated with the type.
   const Particle& particle_type(const int type) const {
@@ -67,140 +75,111 @@ class Configuration {
     return unique_types_.particle(type);
   }
 
-  /// Return the particles.
-  const Particles& particles() const { return particles_; }
-
-  /// Add particles of a given type.
-  void add_particle(const int type);
-
-  /// Return particle by index.
-  const Particle& particle(const int index) const {
-    return particles_.particle(index);
-  }
-
-  /// Return the number of sites.
-  int num_sites() const { return particles_.num_sites(); }
-
-  /// Return the number of particles.
-  int num_particles() const { return particles_.num(); }
-
-  /* Create a selection by group */
+  //@}
+  /** @name Groups
+    Groups of sites and particles
+   */
+  //@{
 
   /// Add a group (after types are defined but before particles are added).
-  void add(const Group group);
+  void add(Group group,
+    /// Optionally provide a name. If no name is provided, the name is assigned
+    /// to be the numerical indices of the order of groups added.
+    std::string name = "");
 
   /// Return the number of group selections.
   int num_groups() const { return static_cast<int>(group_selects_.size()); }
 
+  /// Return the index of the group based on particle types.
+  int particle_type_to_group(const int particle_type);
+
+  //@}
+  /** @name Particles
+    Physically existing sites and particles
+   */
+  //@{
+
+  /// Add particles of a given type.
+  void add_particle(const int type);
+
+  /// Return particle by index. Note this index is contiguous from values
+  /// 0 to num_particles -1, unlike the selection indices (due to ghost
+  /// particles).
+  const Particle& particle(const int index,
+    /// Provide a group index to consider only a subset of the configuration.
+    /// By default, a value of zero is for the entire configuration.
+    const int group = 0) const {
+    return particles_.particle(group_selects_[group].particle_index(index));
+  }
+
+  /// Return the number of particles.
+  int num_particles(
+    /// Provide a group index to consider only a subset of the configuration.
+    /// By default, a value of zero is for the entire configuration.
+    const int group = 0) const;
+
+  /// Return the number of sites.
+  int num_sites() const { return particles_.num_sites(); }
+
+  //@}
+  /** @name Modifications
+    Modifications to a configuration (e.g., moving, adding or deleting
+    particles/sites.
+    A subset of the configuration is defined by a Select.
+    Avoid using a Select or SelectPosition object directly.
+    Instead, use a SelectList, which can be input into the following.
+   */
+  //@{
+
   /// Load coordinates by per-site vector containing per-dimension vector.
+  /// Requires coordinates for all sites and dimensions.
   void update_positions(const std::vector<std::vector<double> > coords);
 
-  /* Selections are for modifications of a subset of the configuration.
-     Note that the requested selection may not be possible.
-     In this case the selection remains empty. */
-
-  /// Selection by group.
-  void select(const Group& group);
-
-  /// Select random particle in group.
-  /// Note: this method is relatively unoptimized compared with
-  /// select_random_particle_of_type or using a particle configuration.
-  void select_random_particle(const Group& group);
-
-  /// Select a random particle.
-  void select_random_particle();
-
-  /// Select a random particle of a given type.
-  void select_random_particle_of_type(const int type);
-
-  /// Select a random particle from group index.
-  void select_random_particle_of_group(
-    /// Group indices are determined by the order of add(Group).
-    /// A group index of -1 indicates all particles.
-    const int group_index);
-
-  /// Select a particle by index.
-  /// HWH: selection by type and index?
-  void select_particle(const int particle_index);
-
-  /// Select a site.
-  void select_site(const int particle_index, const int site_index);
-
-  /// Select sites.
-  PositionSelection select_sites(const int particle_index,
-                                 const std::vector<int> site_indices) {
-    selection_.clear();
-    selection_.add_sites(particle_index, site_indices);
-    return position_selection();
-  }
-
-  /// Select the most recently added particle.
-  void select_last_particle();
-
-  /// Select all particles in the configuration
-  void select_all();
-
-  /// Return selection of all particles and sites in the configuration.
-  const Selection& get_selection_of_all() const { return select_all_; }
-
-  /// Return selection.
-  const Selection& selection() const { return selection_; }
-
-  /// Return selected particle.
-  const Particle& selected_particle() const;
-
-  /// Set the selection of particles.
-  void set_selection(const Selection selection);
-
-  /// Return the selection and their positions.
-  PositionSelection position_selection() const {
-    return PositionSelection(selection(), particles());
-  }
-
   /// Update the positions from a selection.
-  void update_positions(const PositionSelection& select);
+  void update_positions(const SelectPosition& select);
 
-  /* The following are modifications of a subset of the configuration. */
-
-  /// Remove particle(s) by selection. Clears selection because no longer valid.
-  void remove_selected_particles();
-
-  /// Same as above except for only one particle that is selected.
-  void remove_selected_particle();
-
-  /// Displace particle(s) by selection.
-  void displace_selected_particles(const Position &displacement);
+  /// Displace selected particle(s).
+  void displace_particles(const Select& selection,
+                          const Position &displacement);
 
   /// Same as above except for only one particle that is selected.
-  void displace_selected_particle(const Position &displacement);
+  void displace_particle(const Select& selection, const Position &displacement);
 
   /// Displace the selection. No periodic boundary conditions applied.
-  void displace_selection(const Position &displacement);
+  void displace(const Select& selection, const Position &displacement);
 
   /// Replace positions of particle by selection.
-  void replace_selected_particle_position(const Particle& replacement);
+  void replace_position(const Select& select, const Particle& replacement);
 
-  /// Replace positions of the last particle.
-  void replace_position_of_last(const Particle& replacement);
+  /// Remove particle(s) in selection.
+  void remove_particles(const Select& selection);
 
-  /* Interface with ModelParams */
+  /// Same as above except for only one particle that is selected.
+  void remove_particle(const Select& selection);
 
-  /// Modify model parameter of a given site type and name to value.
-  void set_model_param(const char* name,
-                       const int site_type,
-                       const double value) {
-    unique_types_.set_model_param(name, site_type, value);
-  }
+  /// Revive the selection which was deleted.
+  void revive(const SelectPosition& selection);
 
-  /* Interface with Cells */
+  //@{
+  /** @name Domain
+    A configuration's domain includes periodic boundaries and cells.
+   */
+  //${
+
+  /// Return the domain of the configuration.
+  const DomainCuboid& domain() const { return domain_; }
+
+  /// Set the domain.
+  void set_domain(const DomainCuboid domain) { domain_ = domain; }
+
+  /// Return the dimensionality of space.
+  int dimension() const { return domain().dimension(); }
 
   /// Initialize the cells according to the minimum side length.
-  void init_cells(const double min_length);
-
-  /* Checks and hacky additions */
-
-  // Used to quickly create a configuration for testing purposes only.
-  void default_configuration();
+  void init_cells(const double min_length,
+    /// By default, cells are applied to all particles and sites.
+    /// Set the group index to consider only a subset.
+    const int group_index = 0);
 
   // HWH consider moving domain from configuration to system.
   // HWH update cells when changing domain.
@@ -210,41 +189,60 @@ class Configuration {
   // displace_particle_
   // position_tracker_->replace_position_
   // init_cells
-  DomainCuboid domain() const { return domain_; }
-  void set_domain(const DomainCuboid domain2) { domain_ = domain2; }
-  int dimension() const { return domain().dimension(); }
 
-  /// Check consistency of dimensions and lists.
-  void check_size() const;
+  //@}
+  /*
+    Functions which require knowledge of ghost particles and thus not for
+    typical users
+   */
 
-  /// Return the group-based selections.
-  const std::vector<GroupSelection>& group_selects() const {
+  // Return selection of all particles and sites in the configuration.
+  const Select& selection_of_all() const { return group_selects_[0]; }
+
+  // Return the particles.
+  // Warning: typically not for users because it may include ghost particles.
+  const Particles& particles() const { return particles_; }
+
+  // Return particle by index provided in selection.
+  // Warning: typically not for users because it may include ghost particles.
+  const Particle& select_particle(const int index) const {
+    return particles_.particle(index);
+  }
+
+  // Return the selection-based index (includes ghosts) of the last particle added.
+  int newest_particle_index() const { return newest_particle_index_; }
+  const Particle& newest_particle() const { return select_particle(newest_particle_index_); }
+
+  // Return the group-based selections.
+  const std::vector<SelectGroup>& group_selects() const {
     return group_selects_;
   }
 
-  /// Return the group-based selections by index.
-  const GroupSelection& group_select(const int index) const {
+  // Return the group-based selections by index.
+  const SelectGroup& group_select(const int index) const {
     return group_selects_[index];
   }
+
+  /* Checks and hacky additions */
+
+  // Used to quickly create a configuration for testing purposes only.
+  void default_configuration();
+
+  /// Check consistency of dimensions and lists.
+  void check_size() const;
 
  private:
   Particles particle_types_;
   Particles unique_types_;
   Particles particles_;
   DomainCuboid domain_;
+  int newest_particle_index_;
 
-  /// Current selection of particle(s) and site(s)
-  // HWH rename to select_current_
-  Selection selection_;
-
-  /// A list of all particle and site indices.
-  Selection select_all_;
-
-  /// Selections based on groups that are continuously updated.
+  /// Selects based on groups that are continuously updated.
   // HWH currently only updated when adding and removing particles
   // HWH but at some point it should check for positional changes
   // HWH if groups are defined based on positions.
-  std::vector<GroupSelection> group_selects_;
+  std::vector<SelectGroup> group_selects_;
 
   /// Unique identifier for the collection of particle indices.
   std::string unique_indices_;
@@ -288,19 +286,29 @@ class Configuration {
 
   /// Add particle to selection.
   void add_to_selection_(const int particle_index,
-                         GroupSelection * select) const;
+                         SelectGroup * select) const;
 
   /// Initialize selection based on groups
-  void init_selection_(GroupSelection * group_select) const;
+  void init_selection_(SelectGroup * group_select) const;
 
   /// Remember groups based on types.
   std::vector<int> group_store_particle_type_,
                    group_store_group_index_;
 
-  /// Return the index of the group based on particle types.
-  int particle_type_to_group_(const int particle_type);
+  /// HWH depreciate one of these.
+  void check_id_(const Select& select) const;
+  void check_id_(const Select* select) const;
+  void check_id_(const std::string id) const;
 
-  void check_id_(const Selection& select) const;
+  // Ghost particles allow quick addition and deletion of particles for use in
+  // the grand canonical ensemble.
+  // ghost particles types are related to real particle types as follows
+  // type_ghost = -type - 1
+  // ghosts are removed from selections and can be brought back by adding.
+  std::vector<SelectGroup> ghosts_;
+
+  /// Return the number of ghost particles.
+  int num_ghosts_() const;
 };
 
 }  // namespace feasst

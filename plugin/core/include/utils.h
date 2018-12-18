@@ -14,7 +14,7 @@ bool find_in_list(const T value, const std::vector<T> &list,
   ) {
   bool in = false;
   *index = -1;
-  for (int i = 0; i < int(list.size()); ++i) {
+  for (int i = 0; i < static_cast<int>(list.size()); ++i) {
     if (list[i] == value) {
       in = true;
       *index = i;

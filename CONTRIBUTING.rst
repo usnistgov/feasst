@@ -238,7 +238,7 @@ Auto
 For quick reference
 ================================================================================
 
-* line counts [find . -name '*.cc' -o -name '*.h' | xargs wc -l | sort -n]
+* line counts [find . -name '*.cpp' -o -name '*.h' | xargs wc -l | sort -n]
 
 To Do List
 ================================================================================

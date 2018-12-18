@@ -13,16 +13,21 @@ class PerturbTransfer : public Perturb {
     Perturb::before_attempt();
   }
 
+  const Select& selection() const override { return selection_; }
+
+  void select_random_particle(const int type, Configuration * config) {
+    ASSERT(optimization_ == 1, "error");
+    const int load_coordinates = 0;  // don't load coordinates
+    selection_.random_particle_of_type(type, config, load_coordinates);
+  }
+
   void add(const Particle &particle, System * system) {
     store_old(system);
     added_ = 1;
     Configuration* config = system->configuration(0);
     config->add_particle(particle.type());
-    config->select_last_particle();
-    if (optimization_ != 0) {
-      selection_ = config->selection();
-    }
-    config->replace_position_of_last(particle);
+    selection_.last_particle_added(config);
+    config->replace_position(selection_, particle);
     set_revert_possible();
   }
 
@@ -31,9 +36,8 @@ class PerturbTransfer : public Perturb {
     added_ = 0;
     Configuration* config = system->configuration(0);
     if (optimization_ != 0) {
-      particle_ = config->selected_particle();
+      config->remove_particles(selection_);
     }
-    config->remove_selected_particles();
     set_revert_possible();
   }
 
@@ -45,12 +49,14 @@ class PerturbTransfer : public Perturb {
         ASSERT(added_ == 1 || added_ == 0,
           "unrecognized added(" << added_ << ")");
         if (added_ == 1) {
-          system()->configuration(0)->set_selection(selection_);
-          remove_selected_particle(system());
+          TRACE("reverting addition");
+          system()->configuration(0)->remove_particles(selection_);
         } else {
-          add(particle_, system());
+          TRACE("reverting deletion");
+          system()->configuration(0)->revive(selection_);
         }
       }
+      TRACE("done reverting");
     }
   }
 
@@ -58,8 +64,7 @@ class PerturbTransfer : public Perturb {
 
  private:
   int added_;
-  Particle particle_;
-  Selection selection_;
+  SelectList selection_;
 };
 
 }  // namespace feasst

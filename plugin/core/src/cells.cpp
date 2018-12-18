@@ -7,19 +7,12 @@
 
 namespace feasst {
 
-//Cells::Cells() {
-//  set_type();
-//  set_group();
-//}
-
 void Cells::create(const double min_length,
                    const std::vector<double> side_lengths) {
   ASSERT(min_length > 1e-15, "min_length(" << min_length << ") too small");
   clear();
   for (double side_length : side_lengths) {
     num_.push_back(static_cast<int>(side_length/min_length));
-//    lengths_.push_back(side_length/
-//                            static_cast<double>(num_.back()));
   }
   if (num_total() <= std::pow(3, side_lengths.size())) {
     clear();
@@ -55,15 +48,8 @@ void Cells::create(const double min_length,
 
 int Cells::num_total() const { return product(num_); }
 
-//double Cells::length(const int dimension) const {
-//  return lengths_[dimension];
-//}
-//
-//double Cells::min_length() const { return minimum(lengths_); }
-
 void Cells::clear() {
   num_.clear();
-//  lengths_.clear();
   neighbor_.clear();
 }
 
@@ -88,7 +74,6 @@ int Cells::id(const std::vector<double>& scaled_coord) const {
   ASSERT(scaled_coord.size() == num_.size(), "size error");
   int cell = 0;
   std::vector<int> cells(scaled_coord.size());
-  //for (const double& coord : scaled_coord) {
   for (int dim = 0; dim < static_cast<int>(cells.size()); ++dim) {
     ASSERT(std::abs(scaled_coord[dim]) < 0.5, "not scaled coordinates");
     cells[dim] = static_cast<int>(

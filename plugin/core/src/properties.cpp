@@ -1,6 +1,7 @@
 #include "core/include/properties.h"
 #include "core/include/debug.h"
 #include "core/include/utils.h"
+#include "core/include/utils_io.h"
 
 namespace feasst {
 
@@ -23,6 +24,7 @@ double Properties::value(const std::string name) const {
 
 bool Properties::value(const std::string name, double * value) const {
   int index;
+  DEBUG("finding " << name << " " << str(property_name_));
   bool found = find_in_list(name, property_name_, &index);
   if (found) {
     *value = property_value_[index];

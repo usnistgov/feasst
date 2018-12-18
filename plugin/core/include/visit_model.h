@@ -18,10 +18,12 @@ class VisitModel {
   double kloop_by_particle(const Configuration& config, const ModelTwoBody& model, const int iPart = -1) const;
   double kloop_by_particle(const Configuration& config, const ModelOneBody& model, const int iPart = -1) const;
 
-  virtual void energy_of_selection(const Configuration& config,
-                                   const ModelTwoBody& model);
-  void energy_of_selection(const Configuration& config,
-                           const ModelOneBody& model);
+  virtual void compute(const Configuration& config,
+                      const ModelTwoBody& model,
+                      const Select& selection);
+  void compute(const Configuration& config,
+              const ModelOneBody& model,
+              const Select& selection);
 
   void init_loop() { energy_ = 0.; };
   /// evaluate pair interactions with a model
@@ -36,7 +38,8 @@ class VisitModel {
  private:
   double energy_;
   void benchmark_(const Configuration& config,
-                                       const ModelTwoBody& model);
+                  const ModelTwoBody& model,
+                  const Select& selection);
 };
 
 }  // namespace feasst

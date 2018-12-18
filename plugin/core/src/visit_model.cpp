@@ -30,23 +30,20 @@ double VisitModel::kloop_by_particle(const Configuration& config,
   return energy;
 }
 
-void VisitModel::energy_of_selection(const Configuration& config,
-                                     const ModelOneBody& model) {
+void VisitModel::compute(const Configuration& config,
+                         const ModelOneBody& model,
+                         const Select& selection) {
   energy_ = 0;
   const ModelParams& model_params = config.unique_types().model_params();
-  const Selection& selection = config.selection();
-  for (int select_index = 0; select_index < selection.num(); ++select_index) {
+  for (int select_index = 0; select_index < selection.num_particles(); ++select_index) {
     const int particle_index = selection.particle_index(select_index);
-    const Particle& part = config.particle(particle_index);
-    for (int site_index : config.selection().site_indices(select_index)) {
+    const Particle& part = config.select_particle(particle_index);
+    for (int site_index : selection.site_indices(select_index)) {
       const Site& site = part.sites()[site_index];
       energy_ += model.evaluate(site, config, model_params);
     }
   }
 }
-
-//  void energy_of_selection(const Configuration& config,
-//                           const ModelTwoBody& model);
 
 void VisitModel::loop_by_particle(const Configuration& config,
                                   const ModelTwoBody& model,
@@ -91,10 +88,11 @@ double VisitModel::kloop_by_particle(const Configuration& config,
   return energy;
 }
 
-void VisitModel::energy_of_selection(const Configuration& config,
-                                     const ModelTwoBody& model) {
+void VisitModel::compute(const Configuration& config,
+                         const ModelTwoBody& model,
+                         const Select& selection) {
   if (optimization_ == 2) {
-    benchmark_(config, model);
+    benchmark_(config, model, selection);
     return;
   }
   DEBUG("energy_of_selection");
@@ -104,20 +102,20 @@ void VisitModel::energy_of_selection(const Configuration& config,
   const DomainCuboid& domain = config.domain();
   relative.set_vector(domain.side_length().coord());
   const ModelParams& model_params = config.unique_types().model_params();
-  const Selection& selection = config.selection();
-  for (int select_index = 0; select_index < selection.num(); ++select_index) {
+  const int group_index = 0;
+  const Select& select_all = config.group_selects()[group_index];
+  for (int select_index = 0; select_index < selection.num_particles(); ++select_index) {
     const int part1_index = selection.particle_index(select_index);
-    const Particle part1 = config.particle(part1_index);
-    selection.check_size();
+    const Particle part1 = config.select_particle(part1_index);
+    // selection.check_size();
     TRACE("part1_index " << part1_index << " s " << selection.particle_indices().size() << " " << selection.site_indices().size());
-    for (int site1_index : config.selection().site_indices(select_index)) {
+    for (int site1_index : selection.site_indices(select_index)) {
       TRACE("site1_index " << site1_index);
       const Site& site1 = part1.sites()[site1_index];
-      for (int part2_index = 0;
-           part2_index < config.num_particles();
-           ++part2_index) {
+      for (int select2_index = 0; select2_index < select_all.num_particles(); ++select2_index) {
+        const int part2_index = select_all.particle_index(select2_index);
         if (part1_index != part2_index) {
-          const Particle& part2 = config.particle(part2_index);
+          const Particle& part2 = config.select_particle(part2_index);
           for (const Site& site2 : part2.sites()) {
             domain.wrap_opt(site1.position(), site2.position(), &relative, &r2);
             energy_ += model.evaluate(relative, site1, site2, model_params);
@@ -129,16 +127,17 @@ void VisitModel::energy_of_selection(const Configuration& config,
 }
 
 void VisitModel::benchmark_(const Configuration& config,
-                            const ModelTwoBody& model) {
+                            const ModelTwoBody& model,
+                            const Select& selection) {
+  ERROR("depreciated");
   DEBUG("benchmark_");
-  ERROR("HWH depreciated");
   energy_ = 0;
   const ModelParams& model_params = config.unique_types().model_params();
   const DomainCuboid &domain = config.domain();
   Position relative;
   double r2;
-  const int particle1_index = config.selection().particle_index(0);
-  const Site& site1 = config.particle(particle1_index).site(0);
+  const int particle1_index = selection.particle_index(0);
+  const Site& site1 = config.select_particle(particle1_index).site(0);
   const std::vector<double>& x1 = site1.position().coord();
   const int dimension = x1.size();
   std::vector<double> dxv(dimension);

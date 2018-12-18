@@ -16,6 +16,7 @@ class System {
 
   void add_configuration(Configuration configuration) { configurations_.push_back(configuration); }
   Configuration* configuration(const int iConfiguration) { return &configurations_[0]; }
+  const Configuration& config() const { return configurations_[0]; }
   int num_configurations() const { return configurations_.size(); }
 
 //  void add(OneBody one_body) { one_bodies_.push_back(one_body); }
@@ -56,8 +57,12 @@ class System {
     return ener;
   }
 
+  double energy(const Select& selection) {
+    return model_.compute(visit_model_, configurations_[0], selection);
+  }
+
   double energy_of_selection() {
-    return model_.compute_selection(visit_model_, configurations_[0]);
+    return model_.compute(visit_model_, configurations_[0], configurations_[0].selection_of_all());
   }
 
   double energy(const ModelTwoBody& model, const int iParticle = -1) const {
