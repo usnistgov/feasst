@@ -40,6 +40,14 @@ T minimum(const std::vector<T> &vec) {
   return *std::min_element(vec.begin(), vec.begin() + vec.size());
 }
 
+/// Return the sign of the value.
+/// Thanks to https://stackoverflow.com/questions/1903954/
+/// is-there-a-standard-sign-function-signum-sgn-in-c-c
+template <typename T>
+int sgn(T val) {
+  return (T(0) < val) - (val < T(0));
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_CORE_UTILS_MATH_H_

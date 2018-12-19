@@ -34,6 +34,7 @@ void VisitModel::compute(const Configuration& config,
                          const ModelOneBody& model,
                          const Select& selection) {
   energy_ = 0;
+  ERROR("HWH: add wrapping of site positions");
   const ModelParams& model_params = config.unique_types().model_params();
   for (int select_index = 0; select_index < selection.num_particles(); ++select_index) {
     const int particle_index = selection.particle_index(select_index);

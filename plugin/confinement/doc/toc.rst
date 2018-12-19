@@ -3,5 +3,5 @@ API
 
 .. toctree::
 
-   Ewald
-   ModelChargeReal
+   Shape
+   ModelHardShape
