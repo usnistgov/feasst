@@ -4,7 +4,7 @@
 
 TEST(VisitModelIntra, energy) {
   feasst::Configuration config;
-  config.set_domain(feasst::DomainCuboid().set_cubic(10));
+  config.set_domain(feasst::Domain().set_cubic(10));
   config.add_particle_type("../forcefield/data.chain10");
   // set cut-off to 2.5 so only beads 2 away can interact.
   config.set_model_param("cutoff", 0, 2.5);
@@ -17,6 +17,6 @@ TEST(VisitModelIntra, energy) {
   model.compute(visit, config, config.selection_of_all());
   // due to periodic boundary conditions matching exactly the length,
   // each bead interacts twice at a distance of 2
-  EXPECT_NEAR(10*2*(4*(pow(2, -12)-pow(2, -6))), visit.energy(), 1e-15);
+  EXPECT_NEAR(10*2*(4*(pow(2, -12)-pow(2, -6))), visit.energy(), feasst::NEAR_ZERO);
 }
 

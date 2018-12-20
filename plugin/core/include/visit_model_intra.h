@@ -24,8 +24,9 @@ class VisitModelIntra : public VisitModel {
   int intra_cut() const { return intra_cut_; }
   void set_intra_cut(const int cut = 1) { intra_cut_ = cut; }
   void compute(const Configuration& config,
-               const ModelTwoBody& model,
-               const Select& selection) override;
+      const ModelTwoBody& model,
+      const Select& selection,
+      const int group_index) override;
   ~VisitModelIntra() {}
  private:
   int intra_cut_;

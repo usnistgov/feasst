@@ -97,23 +97,12 @@ void Particle::replace_position(const int site_index,
   sites_[site_index].set_position(replacement);
 }
 
-void Particle::update_cell(const Cells& cells, const Domain& domain, const int site_index) {
-  if (cells.enabled()) {
-    if (site_index == -1) {
-      for (Site& site : sites_) {
-        update_cell_of_site_(cells, domain, &site);
-      }
-    } else {
-      update_cell_of_site_(cells, domain, &sites_[site_index]);
-    }
-  }
-}
-
-void Particle::update_cell_of_site_(const Cells& cells,
-                                    const Domain& domain,
-                                    Site * site) {
-  site->add_or_set_property(cells.label(),
-                            domain.cell_id(site->position(), cells));
-}
+//void Particle::add_or_set_site_property(const std::string name,
+//                                        const double value) {
+//  for (int site_index = 0; site_index < num_sites(); ++site_index) {
+//    TRACE("name " << name << " value " << value << " site index " << site_index);
+//    add_or_set_site_property(name, value, site_index);
+//  }
+//}
 
 }  // namespace feasst

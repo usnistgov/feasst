@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "core/include/properties.h"
+#include "core/include/select.h"
 
 namespace feasst {
 
@@ -24,9 +25,6 @@ class Cells : public PropertiedEntity {
   /// Return the number.
   int num_total() const;
 
-  /// Return if cells are enabled.
-  bool enabled() const;
-
   /// Return the number in a dimension.
   int num(const int dimension) const { return num_[dimension]; }
 
@@ -41,6 +39,13 @@ class Cells : public PropertiedEntity {
   /// The second is a list of neighboring cells (including self).
   const std::vector<std::vector<int> >& neighbor() const { return neighbor_; }
 
+  /// Return the particles and sites within the cells.
+  /// The first index is the cell index.
+  const std::vector<Select>& particles() const { return particles_; }
+
+  /// Return the number of particles within the cells.
+  int num_sites() const;
+
   /// Return the unique number cell in which the scaled coordinate resides.
   /// Scaled coordinates are positions divided by the respective domain size.
   int id(const std::vector<double>& scaled_coord) const;
@@ -51,13 +56,39 @@ class Cells : public PropertiedEntity {
   /// Set the label.
   void set_label(const std::string label) { label_ = label; }
 
+  ///
+  void add(const Select& select, const int cell) {
+    // INFO("before " << particles_[cell].str());
+    particles_[cell].add(select);
+    // INFO("after " << particles_[cell].str());
+  }
+  void remove(const Select& select, const int cell) {
+    particles_[cell].remove(select);
+  }
+  void update(const Select& select, const int cell_new, const int cell_old) {
+    particles_[cell_old].remove(select);
+    particles_[cell_new].add(select);
+  }
+
  private:
-  std::vector<int> num_;
-  std::vector<std::vector<int> > neighbor_;
   std::string label_;
+
+  // per dimension vectors
+  std::vector<int> num_;
+
+  // per cell vectors
+  std::vector<std::vector<int> > neighbor_;
+  std::vector<Select> particles_; // particles for each cell
 
   /// Return the unique cell id number for a given cell vector.
   int id_(std::vector<int> position);
+
+  /// Build neighbors. HWH optimize this
+  void build_neighbors_2D_();
+  void build_neighbors_3D_();
+
+  /// Build list of particles in cells.
+  void build_particles_();
 };
 
 }  // namespace feasst

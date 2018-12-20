@@ -1,16 +1,67 @@
 #include <gtest/gtest.h>
+#include <vector>
 #include "core/include/select.h"
 #include "core/include/configuration.h"
-#include "core/include/file_xyz.h"
 
-TEST(Select, random_particle) {
+TEST(Select, add_remove) {
   feasst::Configuration config;
-  config.set_domain(feasst::DomainCuboid().set_cubic(7));
   config.add_particle_type("../forcefield/data.spce");
   config.add_particle(0);
-  feasst::Select selected;
-  selected.add_random_particle(config.particles());
-  EXPECT_EQ(0, selected.particle_index(0));
-  std::vector<int> sites = {0, 1, 2};
-  EXPECT_EQ(sites, selected.site_indices(0));
+  config.add_particle(0);
+  feasst::Select oxygen;
+  oxygen.add_site(0, 0);
+  oxygen.add_site(1, 0);
+
+  // individual sites of multiple particles
+  EXPECT_EQ(oxygen.num_sites(), 2);
+  EXPECT_EQ(oxygen.num_particles(), 2);
+  std::vector<int> indices = {0, 1};
+  EXPECT_EQ(oxygen.particle_indices(), indices);
+  indices = {0};
+  EXPECT_EQ(oxygen.site_indices(0), indices);
+  EXPECT_EQ(oxygen.site_indices(1), indices);
+
+  // individual particles
+  feasst::Select part0;
+  part0.add_particle(config.particle(0), 0);
+  EXPECT_EQ(part0.num_sites(), 3);
+  EXPECT_EQ(part0.num_particles(), 1);
+  indices = {0};
+  EXPECT_EQ(part0.particle_indices(), indices);
+  indices = {0, 1, 2};
+  EXPECT_EQ(part0.site_indices(0), indices);
+
+  feasst::Select part1;
+  part1.add_particle(config.particle(1), 1);
+  EXPECT_EQ(part1.num_sites(), 3);
+  EXPECT_EQ(part1.num_particles(), 1);
+  indices = {1};
+  EXPECT_EQ(part1.particle_indices(), indices);
+
+  // add together
+  feasst::Select all;
+  all.add(part0);
+  all.add(part1);
+  EXPECT_EQ(all.num_sites(), 6);
+  EXPECT_EQ(all.num_particles(), 2);
+  indices = {0, 1};
+  EXPECT_EQ(all.particle_indices(), indices);
+  indices = {0, 1, 2};
+  EXPECT_EQ(all.site_indices(0), indices);
+  EXPECT_EQ(all.site_indices(1), indices);
+
+  // adding already existing doesn't change select
+  auto all_bak = all;
+  all.add(part1);
+  EXPECT_TRUE(all.is_equivalent(all_bak));
+
+  // remove some sites of particles
+  all.remove(oxygen);
+  EXPECT_EQ(all.num_sites(), 4);
+  EXPECT_EQ(all.num_particles(), 2);
+  indices = {0, 1};
+  EXPECT_EQ(all.particle_indices(), indices);
+  indices = {1, 2};
+  EXPECT_EQ(all.site_indices(0), indices);
+  EXPECT_EQ(all.site_indices(1), indices);
 }

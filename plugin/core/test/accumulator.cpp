@@ -14,11 +14,11 @@ TEST(Accumulator, constructor) {
     a.accumulate(i);
   }
   EXPECT_EQ(20, a.num_values());
-  EXPECT_NEAR(19/2., a.average(), 1e-15);
+  EXPECT_NEAR(19/2., a.average(), feasst::NEAR_ZERO);
   EXPECT_NEAR(5.916079783, a.std(), 1e-10);
   EXPECT_NEAR(3.2274861218, a.block_stdev(), 1e-10);
-  EXPECT_NEAR(19, a.max(), 1e-15);
-  EXPECT_NEAR(0, a.min(), 1e-15);
+  EXPECT_NEAR(19, a.max(), feasst::NEAR_ZERO);
+  EXPECT_NEAR(0, a.min(), feasst::NEAR_ZERO);
 
   // copy a using copy constructor and constructor and test
   feasst::Accumulator b(a.num_values(), a.sum(), a.sum_of_squared());
@@ -31,7 +31,7 @@ TEST(Accumulator, constructor) {
 
   // reset a and test
   a.reset();
-  EXPECT_NEAR(0., a.average(), 1e-15);
+  EXPECT_NEAR(0., a.average(), feasst::NEAR_ZERO);
   EXPECT_EQ(0, a.num_values());
   EXPECT_EQ(0, a.sum());
   EXPECT_EQ(0, a.sum_of_squared());

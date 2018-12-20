@@ -25,6 +25,7 @@ class LoopOneBody {
     visitor.loop(particles, this, select);
   }
   virtual void work(const Site& site) const = 0;
+  virtual ~LoopOneBody() {}
 };
 
 }  // namespace feasst

@@ -128,12 +128,21 @@ class Particles {
     model_params_.set(name, site_type, value);
   }
 
-  /// Update the cell by particle and site index.
-  /// By default, update entire particle when site_index == -1.
-  void update_cell(const Cells& cell,
-                   const Domain& domain,
-                   const int particle_index,
-                   const int site_index = -1);
+  /// Add the property of sites in a particle.
+  void add_site_property(const std::string name,
+      const double value,
+      const int particle_index,
+      const int site_index) {
+    particles_[particle_index].add_site_property(name, value, site_index);
+  }
+
+  /// Set the property of sites in a particle.
+  void set_site_property(const std::string name,
+      const double value,
+      const int particle_index,
+      const int site_index) {
+    particles_[particle_index].set_site_property(name, value, site_index);
+  }
 
   // Create default particles used for quick testing only.
   // Return self for chain setting.

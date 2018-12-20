@@ -22,28 +22,41 @@ void Cells::create(const double min_length,
   neighbor_.clear();
   neighbor_.resize(num_total());
   if (static_cast<int>(side_lengths.size()) == 3) {
-    for (int xcell1 = 0; xcell1 < num(0); ++xcell1) {
-    for (int ycell1 = 0; ycell1 < num(1); ++ycell1) {
-    for (int zcell1 = 0; zcell1 < num(2); ++zcell1) {
-      const int cell = id_({xcell1, ycell1, zcell1});
-      for (int xcell2 = xcell1 - 1; xcell2 <= xcell1 + 1; ++xcell2) {
-      for (int ycell2 = ycell1 - 1; ycell2 <= ycell1 + 1; ++ycell2) {
-      for (int zcell2 = zcell1 - 1; zcell2 <= zcell1 + 1; ++zcell2) {
-        neighbor_[cell].push_back(id_({xcell2, ycell2, zcell2}));
-      }}}
-    }}}
+    build_neighbors_3D_();
   } else if (static_cast<int>(side_lengths.size()) == 2) {
-    for (int xcell1 = 0; xcell1 < num(0); ++xcell1) {
-    for (int ycell1 = 0; ycell1 < num(1); ++ycell1) {
-      const int cell = id_({xcell1, ycell1});
-      for (int xcell2 = xcell1 - 1; xcell2 <= xcell1 + 1; ++xcell2) {
-      for (int ycell2 = ycell1 - 1; ycell2 <= ycell1 + 1; ++ycell2) {
-        neighbor_[cell].push_back(id_({xcell2, ycell2}));
-      }}
-    }}
+    build_neighbors_2D_();
   } else {
     ASSERT(false, "unrecognized dimension(" << side_lengths.size() << ")");
   }
+  build_particles_();
+}
+
+void Cells::build_neighbors_3D_() {
+  for (int xcell1 = 0; xcell1 < num(0); ++xcell1) {
+  for (int ycell1 = 0; ycell1 < num(1); ++ycell1) {
+  for (int zcell1 = 0; zcell1 < num(2); ++zcell1) {
+    const int cell = id_({xcell1, ycell1, zcell1});
+    for (int xcell2 = xcell1 - 1; xcell2 <= xcell1 + 1; ++xcell2) {
+    for (int ycell2 = ycell1 - 1; ycell2 <= ycell1 + 1; ++ycell2) {
+    for (int zcell2 = zcell1 - 1; zcell2 <= zcell1 + 1; ++zcell2) {
+      neighbor_[cell].push_back(id_({xcell2, ycell2, zcell2}));
+    }}}
+  }}}
+}
+
+void Cells::build_neighbors_2D_() {
+  for (int xcell1 = 0; xcell1 < num(0); ++xcell1) {
+  for (int ycell1 = 0; ycell1 < num(1); ++ycell1) {
+    const int cell = id_({xcell1, ycell1});
+    for (int xcell2 = xcell1 - 1; xcell2 <= xcell1 + 1; ++xcell2) {
+    for (int ycell2 = ycell1 - 1; ycell2 <= ycell1 + 1; ++ycell2) {
+      neighbor_[cell].push_back(id_({xcell2, ycell2}));
+    }}
+  }}
+}
+
+void Cells::build_particles_() {
+  particles_.resize(num_total());
 }
 
 int Cells::num_total() const { return product(num_); }
@@ -89,12 +102,12 @@ int Cells::id(const std::vector<double>& scaled_coord) const {
   return cell;
 }
 
-bool Cells::enabled() const {
-  if (num_total() == 0) {
-    return false;
-  } else {
-    return true;
+int Cells::num_sites() const {
+  int num = 0;
+  for (const Select& sel : particles()) {
+    num += sel.num_sites();
   }
+  return num;
 }
 
 }  // namespace feasst

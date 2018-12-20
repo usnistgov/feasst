@@ -1,18 +1,40 @@
 
 #include <sstream>
+#include <algorithm>
 #include "core/include/select.h"
 #include "core/include/utils.h"
+#include "core/include/utils_math.h"
+#include "core/include/utils_io.h"
+#include "core/include/debug.h"
 
 namespace feasst {
 
-void Select::add_particle(const Particles& particles,
-                             const int particle_index) {
-  const Particle& part = particles.particle(particle_index);
-  add_particle(part, particle_index);
+//void Select::add_particle(const Particles& particles,
+//                             const int particle_index) {
+//  const Particle& part = particles.particle(particle_index);
+//  add_particle(part, particle_index);
+//}
+
+void Select::add(const Select& select) {
+  TRACE("adding " << select.str() << " to " << this->str());
+  for (int select_index = 0;
+       select_index < select.num_particles();
+       ++select_index) {
+    const int particle_index = select.particle_index(select_index);
+    const std::vector<int>& site_indices = select.site_indices(select_index);
+    add_sites(particle_index, site_indices);
+  }
+}
+
+void Select::remove(const Select& select) {
+  for (int select_index = 0; select_index < num_particles(); ++select_index) {
+    remove_sites(select.particle_index(select_index),
+                 select.site_indices(select_index));
+  }
 }
 
 void Select::add_particle(const Particle& particle,
-                             const int particle_index) {
+    const int particle_index) {
   std::vector<int> sites;
   for (int index = 0; index < particle.num_sites(); ++index) {
     sites.push_back(index);
@@ -24,8 +46,8 @@ void Select::add_particle(const Particle& particle,
 std::string Select::str() const {
   std::stringstream ss;
   for (int index = 0; index < num_particles(); ++index) {
-    ss << "p: " << particle_indices_[index] << " s: "
-       << feasst::str(site_indices_[index]) << " ";
+    ss << particle_indices_[index] << ":{"
+       << feasst::str(site_indices_[index]) << "}, ";
   }
   return ss.str();
 }
@@ -37,10 +59,10 @@ bool Select::is_empty() const {
   return false;
 }
 
-int Select::random_particle_index(const Particles& particles) {
-  ASSERT(particles.num() > 0, "size error");
-  return static_cast<int>(particles.num() * random_.uniform());
-}
+//int Select::random_particle_index(const Particles& particles) {
+//  ASSERT(particles.num() > 0, "size error");
+//  return static_cast<int>(particles.num() * random_.uniform());
+//}
 
 int Select::num_sites() const {
   return num_elements(site_indices_);
@@ -83,20 +105,32 @@ void Select::add_site(const int particle_index, const int site_index) {
 }
 
 void Select::add_sites(const int particle_index,
-                          const std::vector<int> site_indices) {
+                       const std::vector<int> site_indices) {
   int index;
   if (find_in_list(particle_index, particle_indices(), &index)) {
-    std::vector<int> * sind = &site_indices_[index];
-    sind->insert(sind->end(), site_indices.begin(), site_indices.end());
+    TRACE(particle_index << " | " << feasst::str(site_indices_[index]) << " + " << feasst::str(site_indices));
+    site_indices_[index] = fst_union(site_indices_[index], site_indices);
   } else {
     particle_indices_.push_back(particle_index);
     site_indices_.push_back(site_indices);
   }
 }
 
-void Select::add_last_particle(const Particles& particles) {
-  add_particle(particles, particles.num() - 1);
+void Select::remove_sites(const int particle_index,
+                          const std::vector<int> site_indices) {
+  int index;
+  if (find_in_list(particle_index, particle_indices(), &index)) {
+    site_indices_[index] = fst_difference(site_indices_[index], site_indices);
+    // completely remove particle if no more sites remain.
+    if (site_indices_[index].size() == 0) {
+      remove_particle_(index);
+    }
+  }
 }
+
+//void Select::add_last_particle(const Particles& particles) {
+//  add_particle(particles, particles.num() - 1);
+//}
 
 void Select::remove_last_particle() {
   particle_indices_.pop_back();
@@ -106,8 +140,7 @@ void Select::remove_last_particle() {
 void Select::remove_particle(const int particle_index) {
   int index;
   if (find_in_list(particle_index, particle_indices_, &index)) {
-    particle_indices_.erase(particle_indices_.begin() + index);
-    site_indices_.erase(site_indices_.begin() + index);
+    remove_particle_(index);
   }
 }
 
@@ -120,6 +153,20 @@ void Select::add_particle(const int particle_index, std::vector<int> site_indice
     particle_indices_.push_back(particle_index);
     site_indices_.push_back(site_indices);
   }
+}
+
+bool Select::is_equivalent(const Select& select) {
+  bool equal = true;
+  if (particle_indices_ != select.particle_indices()) {
+    equal = false;
+  }
+  if (site_indices_ != select.site_indices()) {
+    equal = false;
+  }
+  if (unique_id_ != select.unique_id()) {
+    equal = false;
+  }
+  return equal;
 }
 
 }  // namespace feasst

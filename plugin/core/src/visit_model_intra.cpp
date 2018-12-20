@@ -6,11 +6,12 @@ namespace feasst {
 
 void VisitModelIntra::compute(const Configuration& config,
                               const ModelTwoBody& model,
-                              const Select& selection) {
+                              const Select& selection,
+                              const int group_index) {
   DEBUG("intra particle energy_of_selection");
   double energy = 0;
   Position difference;
-  const DomainCuboid& domain = config.domain();
+  const Domain& domain = config.domain();
   const ModelParams& model_params = config.unique_types().model_params();
   for (int part1_index : selection.particle_indices()) {
     TRACE("particle: " << part1_index);

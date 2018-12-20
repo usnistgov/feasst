@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "core/include/position.h"
+#include "core/include/constants.h"
 
 TEST(Position, getset) {
   feasst::Position pos;
@@ -11,6 +12,6 @@ TEST(Position, getset) {
   EXPECT_EQ(x, x2);
   EXPECT_EQ(3, x.size());
   EXPECT_EQ(pos.coord(1), 796.4);
-  EXPECT_NEAR(pos.dot_product(pos), 636326.37, 1e-15);
-  EXPECT_NEAR(pos.dot_product(pos), pos.squared_distance(), 1e-15);
+  EXPECT_NEAR(pos.dot_product(pos), 636326.37, feasst::NEAR_ZERO);
+  EXPECT_NEAR(pos.dot_product(pos), pos.squared_distance(), feasst::NEAR_ZERO);
 }

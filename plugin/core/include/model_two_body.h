@@ -10,19 +10,27 @@ namespace feasst {
 
 class ModelTwoBody : public Model {
  public:
-  /// HWH depreciate
-  double compute(
-      VisitModel& visitor,
+  double compute(VisitModel& visitor,
       const Configuration& config,
-      const int iPart) override {
-    visitor.loop_by_particle(config, *this, iPart);
+      const int group_index) override {
+    visitor.compute(config, *this, group_index);
     return visitor.energy();
   }
-  double compute(
-      VisitModel& visitor,
+  double compute(VisitModel& visitor, const Configuration& config) override {
+    visitor.compute(config, *this, 0);
+    return visitor.energy();
+  }
+  double compute(VisitModel& visitor,
+      const Configuration& config,
+      const Select& selection,
+      const int group_index) override {
+    visitor.compute(config, *this, selection, group_index);
+    return visitor.energy();
+  }
+  double compute(VisitModel& visitor,
       const Configuration& config,
       const Select& selection) override {
-    visitor.compute(config, *this, selection);
+    visitor.compute(config, *this, selection, 0);
     return visitor.energy();
   }
   virtual double evaluate(

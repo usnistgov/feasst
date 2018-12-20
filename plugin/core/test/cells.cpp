@@ -16,9 +16,9 @@ TEST(Cells, cells) {
   cells.create(3, {12, 12, 13});
   EXPECT_EQ(4*4*4, cells.num_total());
   EXPECT_EQ(4, cells.num()[0]);
-//  EXPECT_NEAR(3., cells.length(0), 1e-15);
-//  EXPECT_NEAR(3., cells.length(1), 1e-15);
-//  EXPECT_NEAR(13./4., cells.length(2), 1e-15);
+//  EXPECT_NEAR(3., cells.length(0), feasst::NEAR_ZERO);
+//  EXPECT_NEAR(3., cells.length(1), feasst::NEAR_ZERO);
+//  EXPECT_NEAR(13./4., cells.length(2), feasst::NEAR_ZERO);
   EXPECT_EQ(cells.neighbor().size(), 4*4*4);
   for (const std::vector<int>& neigh : cells.neighbor()) {
     EXPECT_EQ(neigh.size(), 3*3*3);
@@ -33,8 +33,8 @@ TEST(Cells, cells) {
   cells.create(3, {12, 13});
   EXPECT_EQ(4*4, cells.num_total());
   EXPECT_EQ(4, cells.num()[0]);
-//  EXPECT_NEAR(3., cells.length(0), 1e-15);
-//  EXPECT_NEAR(3., cells.min_length(), 1e-15);
+//  EXPECT_NEAR(3., cells.length(0), feasst::NEAR_ZERO);
+//  EXPECT_NEAR(3., cells.min_length(), feasst::NEAR_ZERO);
   EXPECT_EQ(cells.neighbor().size(), 4*4);
   for (const std::vector<int>& neigh : cells.neighbor()) {
     EXPECT_EQ(neigh.size(), 3*3);

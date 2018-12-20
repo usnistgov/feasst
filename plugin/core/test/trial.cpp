@@ -32,7 +32,7 @@ class TestLJSystem {
     auto translate = std::make_shared<feasst::TrialTranslate>();
     translate->set_weight(0.75);
     trials.add(translate);
-    config->set_domain(feasst::DomainCuboid().set_cubic(box_length));
+    config->set_domain(feasst::Domain().set_cubic(box_length));
     criteria.set_beta(beta);
     criteria.add_activity(activ);
     criteria.set_running_energy(system.energy());
@@ -173,7 +173,7 @@ TEST(Trial, WLMC) {
   const int nCheck = 1e2;
   const double boxl = 8;
   //const double rho = 1e-3, boxl = pow(double(nMol)/rho, 1./3.);
-  config->set_domain(feasst::DomainCuboid().set_cubic(boxl));
+  config->set_domain(feasst::Domain().set_cubic(boxl));
   std::cout << "boxl " << boxl << std::endl;
   feasst::CriteriaFlatHistogram criteria;
   criteria.set_beta(1./1.5);

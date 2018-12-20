@@ -10,36 +10,38 @@ namespace feasst {
 class ModelOneBody;
 class ModelTwoBody;
 
+/**
+  See Model for a description of the compute methods. These are mirrored by
+  simply switching the calling object and the first argument
+  (.e.g, Model.compute(Visitor, ...) vs Visitor.compute(Model, ...)
+ */
 class VisitModel {
  public:
-  // hwh depreciate
-  virtual void loop_by_particle(const Configuration& config, const ModelOneBody& model, const int iPart = -1);
-  virtual void loop_by_particle(const Configuration& config, const ModelTwoBody& model, const int iPart = -1);
-  double kloop_by_particle(const Configuration& config, const ModelTwoBody& model, const int iPart = -1) const;
-  double kloop_by_particle(const Configuration& config, const ModelOneBody& model, const int iPart = -1) const;
-
   virtual void compute(const Configuration& config,
-                      const ModelTwoBody& model,
-                      const Select& selection);
+      const ModelOneBody& model,
+      const int group_index = 0);
+  virtual void compute(const Configuration& config,
+      const ModelTwoBody& model,
+      const int group_index = 0);
+  virtual void compute(const Configuration& config,
+      const ModelTwoBody& model,
+      const Select& selection,
+      const int group_index = 0);
   void compute(const Configuration& config,
-              const ModelOneBody& model,
-              const Select& selection);
+      const ModelOneBody& model,
+      const Select& selection,
+      const int group_index = 0);
 
-  void init_loop() { energy_ = 0.; };
-  /// evaluate pair interactions with a model
-
-  int optimization_ = 1;
-
+  /// Return the energy.
   double energy() const { return energy_; }
+
+  /// Set the energy.
   void set_energy(const double energy) { energy_ = energy; }
 
   virtual ~VisitModel() {}
 
  private:
   double energy_;
-  void benchmark_(const Configuration& config,
-                  const ModelTwoBody& model,
-                  const Select& selection);
 };
 
 }  // namespace feasst

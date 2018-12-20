@@ -13,7 +13,7 @@ struct AcceptanceCriteria {
   double ln_metropolis_prob;
   double energy_new;
   int force_rejection = 0;
-  const System* system;
+  System* system;
   int accepted = -1;
   VisitModel* pair;  // HWH only used for mayer sampling ?
 };

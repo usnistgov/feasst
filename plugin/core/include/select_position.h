@@ -70,6 +70,8 @@ class SelectPosition : public Select {
 
   void resize();//const Select& select);
 
+  virtual ~SelectPosition() {}
+
  private:
   std::vector<Position> particle_positions_;
   std::vector<std::vector<Position> > site_positions_;

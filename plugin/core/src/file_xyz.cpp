@@ -24,7 +24,7 @@ void FileXYZ::load(const char* file_name, Configuration * config) const {
 //      cout << "cord " << str(coord) << endl;
   Position position;
   position.set_vector(coord);
-  DomainCuboid domain = config->domain();
+  Domain domain = config->domain();
   domain.set_side_length(position);
   config->set_domain(domain);
   //config->domain.set_side_length(position);

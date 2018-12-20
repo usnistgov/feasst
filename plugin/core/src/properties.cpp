@@ -35,6 +35,7 @@ bool Properties::value(const std::string name, double * value) const {
 void Properties::set(const std::string name, const double value) {
   int index;
   ASSERT(find_in_list(name, property_name_, &index), "property not found");
+  TRACE("setting " << name << " value " << value);
   property_value_[index] = value;
 }
 

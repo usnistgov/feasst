@@ -5,6 +5,7 @@
 #include <vector>
 #include <numeric>
 #include <algorithm>
+#include <iostream>
 
 namespace feasst {
 
@@ -25,7 +26,7 @@ double average(const std::vector<T> &x) {
 template<class T>
 T product(const std::vector<T> &vec) {
   if (static_cast<int>(vec.size()) == 0) {
-    return 0;
+    return static_cast<T>(0);
   }
   T prod = 1;
   for (int i = 0; i < int(vec.size()); ++i) {
@@ -38,6 +39,32 @@ T product(const std::vector<T> &vec) {
 template<class T>
 T minimum(const std::vector<T> &vec) {
   return *std::min_element(vec.begin(), vec.begin() + vec.size());
+}
+
+/// Compute the union of two vectors.
+template<typename T>
+std::vector<T> fst_union(const std::vector<T>& vec1,
+    const std::vector<T>& vec2) {
+  std::vector<T> both(vec1.size() + vec2.size());
+  typename std::vector<T>::iterator iter;
+  iter = std::set_union(vec1.begin(), vec1.end(),
+                        vec2.begin(), vec2.end(),
+                        both.begin());
+  both.resize(iter - both.begin());
+  return both;
+}
+
+/// Compute the difference of two vectors.
+template<typename T>
+std::vector<T> fst_difference(const std::vector<T>& vec1,
+    const std::vector<T>& vec2) {
+  std::vector<T> both(vec1.size() + vec2.size());
+  typename std::vector<T>::iterator iter;
+  iter = std::set_difference(vec1.begin(), vec1.end(),
+                             vec2.begin(), vec2.end(),
+                             both.begin());
+  both.resize(iter - both.begin());
+  return both;
 }
 
 /// Return the sign of the value.

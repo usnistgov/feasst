@@ -3,7 +3,7 @@
 
 TEST(PerturbTranslate, position) {
   feasst::Configuration config;
-  config.set_domain(feasst::DomainCuboid().set_cubic(5));
+  config.set_domain(feasst::Domain().set_cubic(5));
   config.add_particle_type("../forcefield/data.atom");
   config.add_particle(0);
   feasst::System system;
@@ -12,7 +12,7 @@ TEST(PerturbTranslate, position) {
 //  feasst::Configuration * config = system.configuration(0);
   const std::vector<double> disp = {1.43, -2.5, 0.03};
   for (int dim = 0; dim < static_cast<int>(disp.size()); ++dim) {
-    EXPECT_NEAR(0., system.particle(0).position().coord(dim), 1e-15);
+    EXPECT_NEAR(0., system.particle(0).position().coord(dim), feasst::NEAR_ZERO);
   }
   feasst::Position trajectory(disp);
   feasst::PerturbTranslate perturb;
@@ -23,10 +23,10 @@ TEST(PerturbTranslate, position) {
   INFO("pi " << particle_index);
   perturb.translate_selected_particle(trajectory, &system);
   for (int dim = 0; dim < static_cast<int>(disp.size()); ++dim) {
-    EXPECT_NEAR(disp[dim], system.particle(particle_index).position().coord(dim), 1e-15);
+    EXPECT_NEAR(disp[dim], system.particle(particle_index).position().coord(dim), feasst::NEAR_ZERO);
   }
   perturb.revert();
   for (int dim = 0; dim < static_cast<int>(disp.size()); ++dim) {
-    EXPECT_NEAR(0., system.particle(particle_index).position().coord(dim), 1e-15);
+    EXPECT_NEAR(0., system.particle(particle_index).position().coord(dim), feasst::NEAR_ZERO);
   }
 }

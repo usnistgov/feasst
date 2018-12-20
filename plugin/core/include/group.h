@@ -56,11 +56,15 @@ class Group : public PropertiedEntity {
   /// Return the list of site indices in Particle which are in the group.
   std::vector<int> site_indices(const Particle& particle) const;
 
+  /// Return if the group definition is based on location.
+  bool is_spatial() const { return spatial_; }
+
  private:
   /// If no site types are listed, do not screen by site types.
   std::vector<int> site_types_;
   std::vector<int> particle_types_;
   bool dynamic_;
+  bool spatial_ = false;
 };
 
 }  // namespace feasst

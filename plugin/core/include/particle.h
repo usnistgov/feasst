@@ -5,8 +5,8 @@
 #include <vector>
 #include "core/include/typed_entity.h"
 #include "core/include/site.h"
-#include "core/include/domain.h"
 #include "core/include/bond.h"
+#include "core/include/debug.h"
 
 namespace feasst {
 
@@ -71,10 +71,19 @@ class Particle : public TypedEntity, public SpatialEntity {
   /// Replace the position of site by index.
   void replace_position(const int site_index, const Position& replacement);
 
-  /// Update the cells of site index, or the whole particle (default).
-  void update_cell(const Cells& cell,
-                   const Domain& domain,
-                   const int site_index = -1);
+  /// Add the property of a site.
+  void add_site_property(const std::string name,
+      const double value,
+      const int site_index) {
+    sites_[site_index].add_property(name, value);
+  }
+
+  /// Set the property of a site.
+  void set_site_property(const std::string name,
+      const double value,
+      const int site_index) {
+    sites_[site_index].set_property(name, value);
+  }
 
   /// Return the number of bonds.
   int num_bonds() const { return static_cast<int>(bonds_.size()); }
@@ -95,14 +104,11 @@ class Particle : public TypedEntity, public SpatialEntity {
   void erase_bonds() { bonds_.clear(); }
 
 //  ~Particle() { check_size(); }
+
  private:
   std::vector<Site> sites_;
   std::vector<Site> reference_sites_;
   std::vector<Bond> bonds_;
-
-  void update_cell_of_site_(const Cells& cells,
-                            const Domain& domain,
-                            Site * site);
 };
 
 }  // namespace feasst

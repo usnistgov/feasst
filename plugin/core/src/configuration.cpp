@@ -61,12 +61,38 @@ void Configuration::add_particle(const int type) {
 void Configuration::remove_particle_(const int particle_index) {
   reset_unique_indices_();
   const int type = particles_.particle(particle_index).type();
-  ghosts_[type].add_particle(particles_, particle_index);
+  ghosts_[type].add_particle(select_particle(particle_index), particle_index);
   DEBUG("type " << type);
   DEBUG("particle index " << particle_index);
   DEBUG("num particles " << num_particles());
   for (SelectGroup& select : group_selects_) {
     select.remove_particle(particle_index);
+  }
+
+  // remove particle_index from cell
+  // note: somewhat derivative of position_tracker
+  for (int cell_index = 0;
+       cell_index < static_cast<int>(domain().cells().size());
+       ++cell_index) {
+    const Cells& cells = domain().cells()[cell_index];
+    const int group_index = feasst::round(cells.property("group"));
+    const Particle& part = select_particle(particle_index);
+    const Group& group = group_selects_[group_index].group();
+    if (group.is_in(part)) {
+      for (int site_index = 0; site_index < part.num_sites(); ++site_index) {
+        const Site& site = part.site(site_index);
+        if (group.is_in(site)) {
+          const std::string name = cells.label();
+          double value;
+          if (site.properties().value(name, &value)) {
+            const int cell_old = feasst::round(value);
+            Select select;
+            select.add_site(particle_index, site_index);
+            domain_.remove_from_cell_list(cell_index, select, cell_old);
+          }
+        }
+      }
+    }
   }
 }
 
@@ -90,7 +116,7 @@ void Configuration::remove_particle(const Select& selection) {
 void Configuration::displace_particle_(const int particle_index,
                                        const Position &displacement) {
   // first, obtain the particle position
-  Position position = particle(particle_index).position();
+  Position position = select_particle(particle_index).position();
   position.add(displacement);
 
   // apply boundary conditions on the new position
@@ -110,7 +136,7 @@ void Configuration::displace_site_(const int particle_index,
                                    const int site_index,
                                    const Position &displacement) {
   Position pos = displacement;
-  pos.add(particle(particle_index).site(site_index).position());
+  pos.add(select_particle(particle_index).site(site_index).position());
   particles_.replace_position(particle_index, site_index, pos);
   position_tracker_(particle_index, site_index);
 }
@@ -137,7 +163,7 @@ void Configuration::replace_position(const Select& select,
 
 void Configuration::replace_position_(const int particle_index,
                                       const Particle& replacement) {
-  ASSERT(particles_.particle(particle_index).num_sites() ==
+  ASSERT(select_particle(particle_index).num_sites() ==
          replacement.num_sites(), "size error");
   particles_.replace_position(particle_index, replacement);
   position_tracker_(particle_index);
@@ -185,25 +211,54 @@ void Configuration::add(Group group, std::string name) {
 
 void Configuration::position_tracker_(const int particle_index,
                                       const int site_index) {
-  /// update cells
-  for (const Cells& cells : domain().cells()) {
+  ASSERT(site_index >= 0, "index error");
+  TRACE("update cells");
+  for (int cell_index = 0;
+       cell_index < static_cast<int>(domain().cells().size());
+       ++cell_index) {
+    DEBUG("cell index " << cell_index);
+    const Cells& cells = domain().cells()[cell_index];
     DEBUG("group " << cells.properties().value("group"));
     const int group_index = feasst::round(cells.property("group"));
     ASSERT(group_index >= 0, "error");
-    if (group_index == 0) {
-      // update all particles and sites
-      particles_.update_cell(cells, domain(), particle_index, site_index);
-    } else {
-      const Group& group = group_selects_[group_index].group();
-      const Particle& part = particle(particle_index);
-      if (group.is_in(part)) {
-        for (int gsite : group.site_indices(part)) {
-          particles_.update_cell(cells, domain(), particle_index, gsite);
+    const Particle& part = select_particle(particle_index);
+    const Group& group = group_selects_[group_index].group();
+    if (group.is_in(part)) {
+      const Site& site = part.site(site_index);
+      if (group.is_in(site)) {
+        const int cell_new = domain().cell_id(site.position(), cells);
+        Select select;
+        select.add_site(particle_index, site_index);
+        const std::string name = cells.label();
+        double value;
+        if (site.properties().value(name, &value)) {
+          const int cell_old = feasst::round(value);
+          TRACE("index " << particle_index << " " << site_index);
+          TRACE("new cell " << cell_new << " old cell " << cell_old);
+          particles_.set_site_property(name, cell_new, particle_index, site_index);
+          domain_.update_cell_list(cell_index, select, cell_new, cell_old);
+        } else {
+          particles_.add_site_property(name, cell_new, particle_index, site_index);
+          // INFO("adding to cell list " << cell_index << " cllnw " << cell_new << " si " << site_index);
+          domain_.add_to_cell_list(cell_index, select, cell_new);
         }
       }
     }
   }
-  /// HWH update selection? neighbors?
+
+  TRACE("update selection");
+  for (const SelectGroup& select : group_selects_) {
+    ASSERT(!select.group().is_spatial(), "implement updating of groups");
+  }
+  /// HWH update neighbors?
+}
+
+void Configuration::position_tracker_(const int particle_index) {
+  for (int site_index = 0;
+       site_index < select_particle(particle_index).num_sites();
+       ++site_index) {
+    position_tracker_(particle_index, site_index);
+  }
 }
 
 void Configuration::position_tracker_() {
@@ -231,6 +286,13 @@ void Configuration::check_size() const {
     ASSERT(static_cast<int>(group_selects_[0].site_indices(index).size()) ==
       particle(index).num_sites(), "size error");
   }
+
+  // check that number of particles in cell list is number in selection.
+  for (const Cells& cells : domain().cells()) {
+    const int group_index = feasst::round(cells.property("group"));
+    const Select& select = group_selects_[group_index];
+    ASSERT(select.num_sites() == cells.num_sites(), "size error");
+  }
 }
 
 void Configuration::check_id_(const Select* select) const {
@@ -254,11 +316,9 @@ void Configuration::update_positions(
   ASSERT(static_cast<int>(coords[0].size()) == dimension(), "size error");
   Position position;
   int iter_site = 0;
-  for (int part_index = 0;
-       part_index < num_particles();
-       ++part_index) {
+  for (int part_index : group_selects_[0].particle_indices()) {
     int num_site = 0;
-    Particle part = particle(part_index);
+    Particle part = select_particle(part_index);
     for (int site_index = 0;
          site_index < part.num_sites();
          ++site_index) {
@@ -287,7 +347,7 @@ void Configuration::displace(const Select& selection,
 
 void Configuration::add_to_selection_(const int particle_index,
                                       SelectGroup * select) const {
-  const Particle& part = particles_.particle(particle_index);
+  const Particle& part = select_particle(particle_index);
   const Group group = select->group();
   if (group.is_in(part)) {
     select->add_particle(particle_index, group.site_indices(part));

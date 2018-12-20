@@ -11,7 +11,7 @@ TEST(ModelHardShape, half_space) {
   feasst::ModelHardShape model;
   model.set_shape(std::make_shared<feasst::HalfSpace>(half_space));
   feasst::Configuration config;
-  config.set_domain(feasst::DomainCuboid().set_cubic(8));
+  config.set_domain(feasst::Domain().set_cubic(8));
   config.add_particle_type("../forcefield/data.atom");
   config.add_particle(0);
   const feasst::ModelParams model_params = config.unique_types().model_params();

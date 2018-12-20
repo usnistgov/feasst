@@ -4,7 +4,7 @@
 
 #include <string>
 #include <vector>
-#include "core/include/domain_cuboid.h"
+#include "core/include/domain.h"
 #include "core/include/particles.h"
 #include "core/include/select.h"
 #include "core/include/select_position.h"
@@ -167,10 +167,10 @@ class Configuration {
   //${
 
   /// Return the domain of the configuration.
-  const DomainCuboid& domain() const { return domain_; }
+  const Domain& domain() const { return domain_; }
 
   /// Set the domain.
-  void set_domain(const DomainCuboid domain) { domain_ = domain; }
+  void set_domain(const Domain domain) { domain_ = domain; }
 
   /// Return the dimensionality of space.
   int dimension() const { return domain().dimension(); }
@@ -180,15 +180,6 @@ class Configuration {
     /// By default, cells are applied to all particles and sites.
     /// Set the group index to consider only a subset.
     const int group_index = 0);
-
-  // HWH consider moving domain from configuration to system.
-  // HWH update cells when changing domain.
-  // HWH: account for DomainTriclinic
-  // HWH: functions which would take domain as argument:
-  // add_(particle
-  // displace_particle_
-  // position_tracker_->replace_position_
-  // init_cells
 
   //@}
   /*
@@ -235,7 +226,7 @@ class Configuration {
   Particles particle_types_;
   Particles unique_types_;
   Particles particles_;
-  DomainCuboid domain_;
+  Domain domain_;
   int newest_particle_index_;
 
   /// Selects based on groups that are continuously updated.
@@ -278,8 +269,10 @@ class Configuration {
                          const Position& replacement);
 
   /// Update position trackers of a particle (e.g., cell, neighbor, etc).
-  /// Update all sites if site_index == -1.
-  void position_tracker_(const int particle_index, const int site_index = -1);
+  void position_tracker_(const int particle_index, const int site_index);
+
+  /// Update position trackers of all sites in a particle.
+  void position_tracker_(const int particle_index);
 
   /// Update position trackers of all particles.
   void position_tracker_();
@@ -309,6 +302,10 @@ class Configuration {
 
   /// Return the number of ghost particles.
   int num_ghosts_() const;
+
+  const Particle& particle_(const int index) {
+    return particles_.particle(index);
+  }
 };
 
 }  // namespace feasst

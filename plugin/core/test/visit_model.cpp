@@ -16,8 +16,8 @@ TEST(VisitModel, energy) {
   EXPECT_EQ(config.particle(1).position().coord(0), pos);
   feasst::ModelLJ model;
   feasst::VisitModel visit;
-  visit.loop_by_particle(config, model);
-  EXPECT_NEAR(4*(pow(pos, -12) - pow(pos, -6)), visit.energy(), 1e-15);
+  visit.compute(config, model);
+  EXPECT_NEAR(4*(pow(pos, -12) - pow(pos, -6)), visit.energy(), feasst::NEAR_ZERO);
 
   // check PBCs
   feasst::Position position = config.particle(1).position();
@@ -39,11 +39,11 @@ TEST(VisitModel, energy) {
 
   EXPECT_EQ(config.particle(1).position().coord(0), 3);
   model.compute(visit, config, select);
-  EXPECT_NEAR(4*(pow(2, -12) - pow(2, -6)), visit.energy(), 1e-15);
+  EXPECT_NEAR(4*(pow(2, -12) - pow(2, -6)), visit.energy(), feasst::NEAR_ZERO);
   config.select_particle(0);
   select.particle(0, config);
   model.compute(visit, config, select);
-  EXPECT_NEAR(4*(pow(2, -12) - pow(2, -6)), visit.energy(), 1e-15);
+  EXPECT_NEAR(4*(pow(2, -12) - pow(2, -6)), visit.energy(), feasst::NEAR_ZERO);
 }
 
 TEST(VisitModel, reference_config) {
@@ -54,11 +54,11 @@ TEST(VisitModel, reference_config) {
   EXPECT_EQ(1, config.particle_type(0).num_sites());
   feasst::ModelLJ model;
   feasst::VisitModel visit;
-  visit.loop_by_particle(config, model);
-  EXPECT_NEAR(-16.790321304625856, visit.energy(), 1e-15);
+  visit.compute(config, model);
+  EXPECT_NEAR(-16.790321304625856, visit.energy(), feasst::NEAR_ZERO);
   feasst::ModelLRC lrc;
-  visit.loop_by_particle(config, lrc);
-  EXPECT_NEAR(-0.5451660014945704, visit.energy(), 1e-15);
+  visit.compute(config, lrc);
+  EXPECT_NEAR(-0.5451660014945704, visit.energy(), feasst::NEAR_ZERO);
 }
 
 TEST(VisitModel, ModelLRC) {
@@ -66,14 +66,14 @@ TEST(VisitModel, ModelLRC) {
   config.default_configuration();
   feasst::VisitModel visit;
   feasst::ModelLRC lrc;
-  visit.loop_by_particle(config, lrc);
+  visit.compute(config, lrc);
   const double pe_lrc = (8./3.)*feasst::PI*pow(config.num_particles(), 2)/config.domain().volume()
     *((1./3.)*pow(3, -9) - pow(3, -3));
-  EXPECT_NEAR(pe_lrc, visit.energy(), 1e-15);
+  EXPECT_NEAR(pe_lrc, visit.energy(), feasst::NEAR_ZERO);
 
   // test visit design pattern
   feasst::Model* model = &lrc;
-  EXPECT_NEAR(pe_lrc, model->compute(visit, config, -1), 1e-15);
+  EXPECT_NEAR(pe_lrc, model->compute(visit, config), feasst::NEAR_ZERO);
 }
 
 TEST(VisitModel, spce_reference_config) {
@@ -86,14 +86,14 @@ TEST(VisitModel, spce_reference_config) {
     config.add_particle(0);
   }
   feasst::FileXYZ().load("../plugin/core/test/data/spce_sample_config_periodic1.xyz", &config);
-  EXPECT_NEAR(8000, config.domain().volume(), 1e-15);
+  EXPECT_NEAR(8000, config.domain().volume(), feasst::NEAR_ZERO);
   feasst::ModelLJ model;
   feasst::VisitModel visit;
-  visit.loop_by_particle(config, model);
+  visit.compute(config, model);
   const double pe_lj = 99538.736236886805;
-  EXPECT_NEAR(pe_lj*feasst::ideal_gas_constant/1e3, visit.energy(), 1e-15);
+  EXPECT_NEAR(pe_lj*feasst::ideal_gas_constant/1e3, visit.energy(), feasst::NEAR_ZERO);
   feasst::ModelLRC lrc;
-  visit.loop_by_particle(config, lrc);
+  visit.compute(config, lrc);
   const double pe_lrc = -823.71499511652326;
   EXPECT_NEAR(pe_lrc*feasst::ideal_gas_constant/1e3, visit.energy(), 1e-13);
 
@@ -108,16 +108,15 @@ TEST(VisitModel, spce_reference_config) {
   new_part.last_particle_added(&config);
   config.replace_position(new_part, select.particle(config));
   config.remove_particle(select);
-  visit.loop_by_particle(config, model);
+  visit.compute(config, model);
   EXPECT_NEAR(pe_lj*feasst::ideal_gas_constant/1e3, visit.energy(), 1e-12);
-  visit.loop_by_particle(config, lrc);
+  visit.compute(config, lrc);
   EXPECT_NEAR(pe_lrc*feasst::ideal_gas_constant/1e3, visit.energy(), 1e-13);
   EXPECT_EQ(101, config.particles().num()); // includes one ghost particle
   EXPECT_EQ(100, config.selection_of_all().num_particles());
   config.check_size();
   visit.compute(config, model, new_part);
-  EXPECT_NEAR(pe_previous, visit.energy(), 1e-15);
+  EXPECT_NEAR(pe_previous, visit.energy(), feasst::NEAR_ZERO);
   const double x2_previous = new_part.particle(config).site(0).position().coord(1);
   EXPECT_EQ(x1_previous, x2_previous);
 }
-

@@ -12,6 +12,7 @@ namespace feasst {
 
 /**
   Select a subset of particles and sites by storing their respective indices.
+  HWH Note: all input lists of indices are assumed to be sorted!
  */
 class Select {
  public:
@@ -21,6 +22,12 @@ class Select {
   /// Clear the selection.
   virtual void clear() { particle_indices_.clear(); site_indices_.clear(); }
 
+  /// Add input selection to current.
+  void add(const Select& select);
+
+  /// Remove input selection from current.
+  void remove(const Select& select);
+
   /// Add site by index.
   void add_site(const int particle_index, const int site_index);
 
@@ -28,17 +35,21 @@ class Select {
   void add_sites(const int particle_index,
                  const std::vector<int> site_indices);
 
+  /// Add sites by index.
+  void remove_sites(const int particle_index,
+                    const std::vector<int> site_indices);
+
   /// Add particle index and site indices of that particle.
   void add_particle(const int particle_index, std::vector<int> site_indices);
 
-  /// Add particle by index.
-  void add_particle(const Particles& particles, const int particle_index);
+//  /// Add particle by index.
+//  void add_particle(const Particles& particles, const int particle_index);
 
   /// Add particle by index.
   void add_particle(const Particle& particle, const int particle_index);
 
-  /// Add last particle.
-  void add_last_particle(const Particles& particles);
+//  /// Add last particle.
+//  void add_last_particle(const Particles& particles);
 
   /// Remove the last particle.
   void remove_last_particle();
@@ -46,10 +57,10 @@ class Select {
   /// Remove particle by index.
   void remove_particle(const int particle_index);
 
-  /// Add random particle.
-  void add_random_particle(const Particles& particles) {
-    add_particle(particles, random_particle_index(particles));
-  }
+//  /// Add random particle.
+//  void add_random_particle(const Particles& particles) {
+//    add_particle(particles, random_particle_index(particles));
+//  }
 
   /// Return the selection of a particle chosen randomly from current
   /// selection.
@@ -69,8 +80,8 @@ class Select {
   /// Print the selection.
   std::string str() const;
 
-  /// Return a random index of particles.
-  int random_particle_index(const Particles& particles);
+//  /// Return a random index of particles.
+//  int random_particle_index(const Particles& particles);
 
   /// Return the unique identifier.
   std::string unique_id() const { return unique_id_; }
@@ -99,6 +110,11 @@ class Select {
   /// Check the size of member vectors
   void check_size() const;
 
+  /// Return true if the selections are equivalent.
+  bool is_equivalent(const Select& select);
+
+  virtual ~Select() {}
+
  protected:
   Random * random() { return &random_; }
 
@@ -107,6 +123,12 @@ class Select {
   std::vector<std::vector<int> > site_indices_;
   Random random_;
   std::string unique_id_;
+
+  // remove particle by selection index.
+  void remove_particle_(const int select_index) {
+    particle_indices_.erase(particle_indices_.begin() + select_index);
+    site_indices_.erase(site_indices_.begin() + select_index);
+  }
 };
 
 /**
@@ -116,6 +138,8 @@ class SelectGroup : public Select {
  public:
   Group group() const { return group_; }
   void set_group(const Group group) { group_ = group; }
+
+  virtual ~SelectGroup() {}
 
  private:
   Group group_;

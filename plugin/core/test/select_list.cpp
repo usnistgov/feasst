@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "core/include/select_list.h"
 #include "core/include/file_xyz.h"
+#include "core/include/constants.h"
 
 TEST(SelectList, group) {
   feasst::Configuration config;
@@ -15,8 +16,8 @@ TEST(SelectList, group) {
   select.last_particle_added(&config);
   EXPECT_EQ(1, select.particle_positions().size());
   EXPECT_EQ(3, select.site_positions()[0].size());
-  EXPECT_NEAR(9.606656807740E+00, select.site_positions()[0][0].coord(2), 1e-15);
-  EXPECT_NEAR(6.753621862080E+00, select.site_positions()[0][2].coord(0), 1e-15);
+  EXPECT_NEAR(9.606656807740E+00, select.site_positions()[0][0].coord(2), feasst::NEAR_ZERO);
+  EXPECT_NEAR(6.753621862080E+00, select.site_positions()[0][2].coord(0), feasst::NEAR_ZERO);
 
   // group
   select.clear();

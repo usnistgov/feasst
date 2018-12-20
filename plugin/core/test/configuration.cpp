@@ -3,10 +3,12 @@
 #include "core/include/file_xyz.h"
 #include "core/include/debug.h"
 #include "core/include/select_list.h"
+#include "core/include/constants.h"
+#include "core/include/utils_math.h"
 
 TEST(Configuration, coordinates) {
   feasst::Configuration config;
-  config.set_domain(feasst::DomainCuboid().set_cubic(5));
+  config.set_domain(feasst::Domain().set_cubic(5));
   config.add_particle_type("../forcefield/data.atom");
   config.add_particle(0);
   config.add_particle(0);
@@ -77,7 +79,7 @@ TEST(Configuration, particle_types_spce) {
 TEST(Configuration, group) {
   feasst::seed_random_by_date();
   feasst::Configuration config;
-  config.set_domain(feasst::DomainCuboid().set_cubic(7));
+  config.set_domain(feasst::Domain().set_cubic(7));
   try {
     feasst::Configuration config_err(config);
     config_err.add(feasst::Group().add_site_type(0));
@@ -142,7 +144,7 @@ TEST(Configuration, group) {
 
 TEST(Configuration, cells) {
   feasst::Configuration config;
-  config.set_domain(feasst::DomainCuboid().set_cubic(7));
+  config.set_domain(feasst::Domain().set_cubic(7));
   config.add_particle_type("../forcefield/data.spce");
   config.add(feasst::Group().add_site_type(0));
   config.add_particle(0);
@@ -154,17 +156,41 @@ TEST(Configuration, cells) {
   config.init_cells(1.4, 1);
   EXPECT_EQ("cell0", config.domain().cells()[0].label());
   EXPECT_EQ(config.domain().cells()[0].num_total(), 7*7*7);
-  EXPECT_EQ(7*7*7/2. - 0.5, config.particle(0).site(0).property("cell0"));
-  EXPECT_EQ(5*5*5/2. - 0.5, config.particle(0).site(0).property("cell1"));
+  int cell0 = feasst::round(7*7*7/2. - 0.5);
+  int cell1 = feasst::round(5*5*5/2. - 0.5);
+  const feasst::Site& site = config.particle(0).site(0);
+  EXPECT_EQ(cell0, feasst::round(site.property("cell0")));
+  EXPECT_EQ(cell1, feasst::round(site.property("cell1")));
+  std::vector<int> indices = {0};
+  EXPECT_EQ(config.domain().cells(0).particles()[0].num_particles(), 0);
+  EXPECT_EQ(config.domain().cells(1).particles()[0].num_particles(), 0);
+  EXPECT_EQ(config.domain().cells(0).particles()[cell0].num_particles(), 1);
+  EXPECT_EQ(config.domain().cells(1).particles()[cell1].num_particles(), 1);
   double tmp;
   EXPECT_TRUE(config.particle(0).site(1).properties().value("cell0", &tmp));
   EXPECT_FALSE(config.particle(0).site(1).properties().value("cell1", &tmp));
   feasst::Position trajectory({-3.49, -3.49, -3.49});
+
+  DEBUG("displacing particles");
   feasst::SelectList select;
   select.particle(0, config);
   config.displace_particles(select, trajectory);
   EXPECT_EQ(0, config.particle(0).site(0).property("cell0"));
+  EXPECT_EQ(0, feasst::round(site.property("cell0")));
+  EXPECT_EQ(0, feasst::round(site.property("cell1")));
+  DEBUG("cell02 " << config.particle(0).site(2).has_property("cell0"));
+  DEBUG("pos " << config.particle(0).site(2).position().coord(0));
+  EXPECT_EQ(1, feasst::round(config.particle(0).site(1).property("cell0")));
+  EXPECT_EQ(6, feasst::round(config.particle(0).site(2).property("cell0")));
+  EXPECT_FALSE(config.particle(0).site(1).has_property("cell1"));
+  EXPECT_FALSE(config.particle(0).site(2).has_property("cell1"));
+  EXPECT_EQ(config.domain().cells(0).particles()[cell0].num_particles(), 0);
+  EXPECT_EQ(config.domain().cells(1).particles()[cell1].num_particles(), 0);
+  DEBUG(site.property("cell0"));
+  DEBUG(site.property("cell1"));
+  EXPECT_NE(cell1, feasst::round(site.property("cell1")));
   config.remove_particle(select);
+  INFO("checking size");
   config.check_size();
 }
 
@@ -172,7 +198,7 @@ TEST(Configuration, cells) {
 //TEST(Configuration, selection) {
 //  feasst::seed_random_by_date();
 //  feasst::Configuration config;
-//  config.set_domain(feasst::DomainCuboid().set_cubic(7));
+//  config.set_domain(feasst::Domain().set_cubic(7));
 //  config.add_particle_type("../forcefield/data.spce");
 //  config.add_particle_type("../forcefield/data.lj");
 //  config.add_particle(0);
@@ -217,7 +243,7 @@ TEST(Configuration, cells) {
 
 // TEST(Configuration, displace_selection) {
 //   feasst::Configuration config;
-//   config.set_domain(feasst::DomainCuboid().set_cubic(10));
+//   config.set_domain(feasst::Domain().set_cubic(10));
 //   config.add_particle_type("../forcefield/data.chain10");
 //   config.add_particle(0);
 //   config.select_site(0, 0);
@@ -235,17 +261,17 @@ TEST(Configuration, cells) {
 
 TEST(Configuration, position_selection) {
   feasst::Configuration config;
-  config.set_domain(feasst::DomainCuboid().set_cubic(10));
+  config.set_domain(feasst::Domain().set_cubic(10));
   config.add_particle_type("../forcefield/data.chain10");
   config.add_particle(0);
   const feasst::Position* position = &config.particle(0).site(5).position();
-  EXPECT_NEAR(0., position->coord(1), 1e-15);
+  EXPECT_NEAR(0., position->coord(1), feasst::NEAR_ZERO);
   feasst::SelectList select;
   select.select_sites(config, 0, {3, 4, 5});
   select.set_site_position(0, 0, {1.1, 1.2, 1.3});
   select.set_site_position(0, 1, {-1.1, -1.2, -1.3});
   select.set_site_position(0, 2, {0, 37.5, 50.});
   config.update_positions(select);
-  EXPECT_NEAR(37.5, position->coord(1), 1e-15);
+  EXPECT_NEAR(37.5, position->coord(1), feasst::NEAR_ZERO);
 }
 

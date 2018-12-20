@@ -17,6 +17,6 @@ TEST(ModelChargeReal, SRSW_refconfig) {
   feasst::ModelChargeReal model;
   model.set_alpha(5.6/config.domain().min_side_length());
   feasst::VisitModel visit;
-  visit.loop_by_particle(config, model);
+  visit.compute(config, model);
   EXPECT_NEAR(-4646.8607665992577, visit.energy(), 1e-11);
 }

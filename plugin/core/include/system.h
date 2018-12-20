@@ -41,20 +41,14 @@ class System {
     return configurationByPart(particle_index)->particle(particle_index);
   }
 
-//  DomainCuboid * domain_of_particle(const int iParticle) {
-//    return &configurationByPart(iParticle)->domain;
-//  }
-
   void default_system() {
     Configuration config;
     config.default_configuration();
     add_configuration(config);
   }
 
-  double energy(const int iParticle = -1) {
-    const double ener = energy(model_, iParticle);
-    visit_model_.set_energy(ener);
-    return ener;
+  double energy() {
+    return energy(model_);
   }
 
   double energy(const Select& selection) {
@@ -65,22 +59,14 @@ class System {
     return model_.compute(visit_model_, configurations_[0], configurations_[0].selection_of_all());
   }
 
-  double energy(const ModelTwoBody& model, const int iParticle = -1) const {
+  double energy(const ModelTwoBody& model) {
     ASSERT(configurations_.size() > 0, "size error");
-    //return two_bodies_[0].kloop_by_particle(configurations_[0], model, iParticle);
-    return visit_model_.kloop_by_particle(configurations_[0], model, iParticle);
+    visit_model_.compute(configurations_[0], model);
+    return visit_model_.energy();
   }
 
   ModelTwoBody* model() { return &model_; }
   VisitModel* visitor() { return &visit_model_; }
-
-//  void add(const ModelTwoBody& model) {
-//    two_body_models_.push_back(model);
-//  }
-
-  void set_benchmark() {
-    visit_model_.optimization_ = 2;
-  }
 
  private:
   std::vector<Configuration> configurations_;
