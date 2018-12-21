@@ -18,7 +18,7 @@ class PerturbTranslate : public Perturb {
   void translate_selected_particle(const Position &trajectory,
     System * system) {
     store_old(system);
-    Configuration* config = system->configuration(0);
+    Configuration* config = system->get_configuration();
     config->displace_particles(selection_, trajectory);
     set_revert_possible();
   }
@@ -28,7 +28,7 @@ class PerturbTranslate : public Perturb {
       if (optimization_ == 0) {
         Perturb::revert();
       } else {
-        Configuration* config = system()->configuration(0);
+        Configuration* config = system()->get_configuration();
         config->update_positions(selection_);
       }
     }

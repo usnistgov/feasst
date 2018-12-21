@@ -1,10 +1,11 @@
 #include <gtest/gtest.h>
-#include "core/include/position.h"
+#include "core/test/position_test.h"
 #include "core/include/constants.h"
 
+namespace feasst {
+
 TEST(Position, getset) {
-  feasst::Position pos;
-  pos.set_to_origin_3D();
+  Position pos = default_position();
   EXPECT_EQ(3, pos.size());
   std::vector<double> x = {3.5, 796.4, -45.4};
   pos.set_vector(x);
@@ -12,6 +13,8 @@ TEST(Position, getset) {
   EXPECT_EQ(x, x2);
   EXPECT_EQ(3, x.size());
   EXPECT_EQ(pos.coord(1), 796.4);
-  EXPECT_NEAR(pos.dot_product(pos), 636326.37, feasst::NEAR_ZERO);
-  EXPECT_NEAR(pos.dot_product(pos), pos.squared_distance(), feasst::NEAR_ZERO);
+  EXPECT_NEAR(pos.dot_product(pos), 636326.37, NEAR_ZERO);
+  EXPECT_NEAR(pos.dot_product(pos), pos.squared_distance(), NEAR_ZERO);
 }
+
+}  // namespace feasst

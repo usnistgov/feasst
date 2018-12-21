@@ -44,9 +44,6 @@ class Particle : public TypedEntity, public SpatialEntity {
   /// Displace the Particle. This also displaces the Sites.
   void displace(const Position& displacement);
 
-  /// Initialize the Particle to be a single site on the origin.
-  void default_particle();
-
   /// Store existing Site(s) for later reference.
   void store_reference_sites() { reference_sites_ = sites_; }
 

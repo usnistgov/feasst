@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "core/include/trial_translate.h"
 #include "core/include/trial_transfer.h"
-#include "core/include/trial_factory.h"
+#include "core/include/monte_carlo.h"
 #include "core/include/criteria_metropolis.h"
 #include "core/include/criteria_flat_histogram.h"
 #include "core/include/macrostate_num_particles.h"
@@ -9,6 +9,8 @@
 #include "core/include/histogram.h"
 #include "core/include/utils_io.h"
 #include "core/include/accumulator.h"
+
+namespace feasst {
 
 class TestLJSystem {
  public:
@@ -20,15 +22,16 @@ class TestLJSystem {
   double beta = 1./1.2;
   double activ = exp(-2.775);
   feasst::Configuration * config;
+  feasst::MonteCarlo mc;
 
   void init() {
     system.add_configuration(feasst::Configuration());
-    config = system.configuration(0);
+    config = system.get_configuration();
     config->add_particle_type("../forcefield/data.lj");
     auto transfer = std::make_shared<feasst::TrialTransfer>();
     transfer->set_weight(0.25);
     transfer->set_add_probability(add_probability);
-    trials.add(transfer);
+    // trials.add(transfer);
     auto translate = std::make_shared<feasst::TrialTranslate>();
     translate->set_weight(0.75);
     trials.add(translate);
@@ -36,33 +39,25 @@ class TestLJSystem {
     criteria.set_beta(beta);
     criteria.add_activity(activ);
     criteria.set_running_energy(system.energy());
+    mc.set_criteria(std::make_shared<CriteriaMetropolis>(criteria));
+    mc.set_system(system);
+    // mc.add_trial(transfer);
+    mc.add_trial(translate);
   }
 };
 
-TEST(Trial, MCbenchmark) {
+TEST(MonteCarlo, NVTbenchmark) {
   // feasst::seed_random_by_date();
   feasst::seed_random(1346867550);
   TestLJSystem test;
   test.add_probability = 1.;
   test.activ = 100;
   test.init();
-  // const int nTrials = 1e6;  // about 3 seconds
-  const int nTrials = 1e4;
-  const int nMol = 50;
-
-  // seek 50 particles
-  while (test.config->num_particles() < nMol) {
-    DEBUG("n " << test.config->num_particles());
-    test.trials.attempt(&test.criteria, &test.system, 0);
-  }
-
-  for (int iTrial = 0; iTrial < nTrials; ++iTrial) {
-    test.trials.attempt(&test.criteria, &test.system, 1);
-    if (iTrial%10000==0) std::cout << "t" << iTrial << std::endl;
-  }
+  test.mc.seek_num_particles(50);
+  test.mc.attempt(1e4);
 }
 
-TEST(Trial, NVTMC_SRSW) {
+TEST(MonteCarlo, NVTMC_SRSW) {
   feasst::seed_random_by_date();
   const double rho = 1e-3;
   const int nTrials = 1e3, nCheck = 1e3;
@@ -75,17 +70,11 @@ TEST(Trial, NVTMC_SRSW) {
   test.box_length = pow(double(nMol)/rho, 1./3.);
   test.init();
   feasst::Accumulator pe;
-
-  // seek particles
-  while (test.config->num_particles() < nMol) {
-    DEBUG("n " << test.config->num_particles());
-    test.trials.attempt(&test.criteria, &test.system, 0);
-  }
-
+  test.mc.seek_num_particles(nMol);
   for (int iTrial = 0; iTrial < 2*nTrials; ++iTrial) {
-    test.trials.attempt(&test.criteria, &test.system, 1);
+    test.mc.attempt();
     if (iTrial >= nTrials) {
-      pe.accumulate(test.system.visitor()->energy());
+      pe.accumulate(test.mc.system().visitor().energy());
     }
     if (iTrial % nCheck == 0) {
       std::cout << "t" << iTrial
@@ -98,7 +87,7 @@ TEST(Trial, NVTMC_SRSW) {
   }
 }
 
-TEST(Trial, GCMCbenchmark) {
+TEST(MonteCarlo, GCMCbenchmark) {
   feasst::seed_random(1346867550);
   TestLJSystem test;
   test.activ = 100;
@@ -111,7 +100,7 @@ TEST(Trial, GCMCbenchmark) {
   }
 }
 
-TEST(Trial, MC) {
+TEST(MonteCarlo, MC) {
   feasst::seed_random_by_date();
   TestLJSystem test;
   const int nTrialsEq = 2e2, nTrials = 2e2;
@@ -149,12 +138,12 @@ TEST(Trial, MC) {
   std::cout << "nTrans " << nTrans << " nIns " << nIns << " nDel " << nDel << std::endl;
 }
 
-TEST(Trial, WLMC) {
+TEST(MonteCarlo, WLMC) {
   // feasst::seed_random();
   feasst::seed_random_by_date();
   feasst::System system;
   system.add_configuration(feasst::Configuration());
-  feasst::Configuration * config = system.configuration(0);
+  feasst::Configuration * config = system.get_configuration();
   config->add_particle_type("../forcefield/data.lj");
 
   // trials
@@ -211,3 +200,5 @@ TEST(Trial, WLMC) {
   std::cout << "nTrans " << translate->num_attempts() << " nTransfer " << transfer->num_attempts() << std::endl;
   std::cout << feasst::str(bias->ln_macro_prob()) << std::endl;
 }
+
+}  // namespace feasst

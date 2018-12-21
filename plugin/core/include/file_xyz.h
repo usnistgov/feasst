@@ -10,6 +10,7 @@ namespace feasst {
 class FileXYZ {
  public:
   /// Load the xyz file with file_name into the configuration.
+  /// If no particles in the configuration, try to use the first particle type.
   void load(const char* file_name, Configuration * config) const;
 
   /// Write the configuration to file_name in xyz format.

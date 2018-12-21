@@ -27,7 +27,7 @@ class TrialTransfer : public Trial {
   }
 
   void attempt_to_remove(Criteria* criteria, System * system) {
-    Configuration * config = system->configuration(0);
+    Configuration * config = system->get_configuration();
     double delta_energy = 0;
     perturb_.select_random_particle(particle_type_, config);
     if (perturb_.selection().is_empty()) {
@@ -56,7 +56,7 @@ class TrialTransfer : public Trial {
   }
 
   void attempt_to_add(Criteria* criteria, System * system) {
-    Configuration * config = system->configuration(0);
+    Configuration * config = system->get_configuration();
     Particle particle = config->particle_types().particle(particle_type_);
     const Position rand_in_box = config->domain().random_position(&random_);
     // HWH use select_list to try partical position

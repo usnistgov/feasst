@@ -12,7 +12,7 @@ namespace feasst {
 class MacrostateNumParticles : public Macrostate {
  public:
   double value(const System* system, const Criteria* criteria) {
-    return static_cast<double>(system->num_particles());
+    return static_cast<double>(system->configuration().num_particles());
   }
 
   virtual ~MacrostateNumParticles() {}

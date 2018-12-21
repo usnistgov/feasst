@@ -24,7 +24,7 @@ class PerturbTransfer : public Perturb {
   void add(const Particle &particle, System * system) {
     store_old(system);
     added_ = 1;
-    Configuration* config = system->configuration(0);
+    Configuration* config = system->get_configuration();
     config->add_particle(particle.type());
     selection_.last_particle_added(config);
     config->replace_position(selection_, particle);
@@ -34,7 +34,7 @@ class PerturbTransfer : public Perturb {
   void remove_selected_particle(System * system) {
     store_old(system);
     added_ = 0;
-    Configuration* config = system->configuration(0);
+    Configuration* config = system->get_configuration();
     if (optimization_ != 0) {
       config->remove_particles(selection_);
     }
@@ -50,10 +50,10 @@ class PerturbTransfer : public Perturb {
           "unrecognized added(" << added_ << ")");
         if (added_ == 1) {
           TRACE("reverting addition");
-          system()->configuration(0)->remove_particles(selection_);
+          system()->get_configuration()->remove_particles(selection_);
         } else {
           TRACE("reverting deletion");
-          system()->configuration(0)->revive(selection_);
+          system()->get_configuration()->revive(selection_);
         }
       }
       TRACE("done reverting");

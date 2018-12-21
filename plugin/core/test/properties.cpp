@@ -3,8 +3,10 @@
 #include "core/include/debug.h"
 #include "core/include/constants.h"
 
+namespace feasst {
+
 TEST(Properties, properties) {
-  feasst::Properties properties;
+  Properties properties;
   try {
     properties.value("bananas");
     CATCH_PHRASE("property not found");
@@ -13,15 +15,17 @@ TEST(Properties, properties) {
   EXPECT_FALSE(properties.value("bananas", &value));
   properties.add_or_set("bananas", 12);
   EXPECT_TRUE(properties.value("bananas", &value));
-  EXPECT_NEAR(properties.value("bananas"), 12, feasst::NEAR_ZERO);
+  EXPECT_NEAR(properties.value("bananas"), 12, NEAR_ZERO);
   try {
     properties.set("apples", 2.3);
     CATCH_PHRASE("property not found");
   }
   properties.set("bananas", 2.3);
-  EXPECT_NEAR(properties.value("bananas"), 2.3, feasst::NEAR_ZERO);
+  EXPECT_NEAR(properties.value("bananas"), 2.3, NEAR_ZERO);
   try {
     properties.add("bananas", 12);
     CATCH_PHRASE("already exists");
   }
 }
+
+}  // namespace feasst

@@ -12,15 +12,6 @@ void Particle::displace(const Position& displacement) {
   }
 }
 
-void Particle::default_particle() {
-  default_position();
-  Site site;
-  site.default_site();
-  site.set_position(position());
-  add(site);
-  set_type(0);
-}
-
 void Particle::check_size() {
   for (Site site : sites_) {
     ASSERT(position().size() == site.position().size(), "size error");

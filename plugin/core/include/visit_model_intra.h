@@ -27,6 +27,11 @@ class VisitModelIntra : public VisitModel {
       const ModelTwoBody& model,
       const Select& selection,
       const int group_index) override;
+  void compute(const Configuration& config,
+      const ModelTwoBody& model,
+      const int group_index) override {
+    compute(config, model, config.selection_of_all(), group_index);
+  }
   ~VisitModelIntra() {}
  private:
   int intra_cut_;

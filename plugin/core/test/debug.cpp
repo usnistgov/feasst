@@ -27,12 +27,12 @@ TEST(Debug, WARN_INFO_DEBUG_TRACE) {
 
 TEST(Debug, VERBOSE_LEVEL) {
   const int threshold = 3;
-  if (feasst::VERBOSE_LEVEL < threshold) {
+  if (VERBOSE_LEVEL < threshold) {
     std::cout << "By default, we expect a verbosity level of atleast "
               << threshold << ". This test failure serves as a warning."
               << std::endl;
   }
-  EXPECT_GE(feasst::VERBOSE_LEVEL, threshold);
+  EXPECT_GE(VERBOSE_LEVEL, threshold);
 }
 
 TEST(Debug, feasst_dir_trim_) {

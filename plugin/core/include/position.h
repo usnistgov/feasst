@@ -92,9 +92,6 @@ class SpatialEntity {
     position_.set_coord(dimension, coord);
   }
 
-  /// HWH depreciate.
-  void default_position() { position_.set_to_origin_3D(); }
-
  private:
   Position position_;
 };

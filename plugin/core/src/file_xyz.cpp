@@ -24,17 +24,16 @@ void FileXYZ::load(const char* file_name, Configuration * config) const {
 //      cout << "cord " << str(coord) << endl;
   Position position;
   position.set_vector(coord);
-  Domain domain = config->domain();
-  domain.set_side_length(position);
-  config->set_domain(domain);
-  //config->domain.set_side_length(position);
+  INFO("coord " << feasst::str(coord) << " pos " << position.str());
+  config->set_side_length(position);
+  // ASSERT(config->num_sites() == num_sites, "site mismatch");
   if (config->num_sites() == 0) {
-    if (config->num_particle_types() == 0) {
-      Particle particle;
-      particle.default_particle();
-      config->add_particle_type("../forcefield/data.atom");
-    }
-    for (int site_index = 0; site_index < num_sites; ++site_index) {
+    ASSERT(config->num_particle_types() > 0, "try adding particle type " <<
+      "before loading the configuration");
+    const int site_per_part = config->particle_types().particle(0).num_sites();
+    ASSERT(num_sites % site_per_part == 0, "assumed particle type to load " <<
+      "xyz file is incompatible with number of sites");
+    for (int index = 0; index < num_sites/site_per_part; ++index) {
       config->add_particle(0);
     }
   }

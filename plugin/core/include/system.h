@@ -9,71 +9,46 @@
 #include "core/include/model_lj.h"
 
 namespace feasst {
-
+/**
+  Systems may have multiple configurations but their typing and grouping should be the same.
+  HWH refactor how the configurations are set up (e.g., no add_configuration).
+  This way we can enforce typing.
+  Allow duplication of configuration.
+  Or maybe this should be done in the configuration class itself?
+ */
 class System {
  public:
-  int dimension() const { return configurations_[0].dimension(); }
+  /// Set the configuration.
+  void add_configuration(const Configuration& configuration) { configurations_.push_back(configuration); }
 
-  void add_configuration(Configuration configuration) { configurations_.push_back(configuration); }
-  Configuration* configuration(const int iConfiguration) { return &configurations_[0]; }
-  const Configuration& config() const { return configurations_[0]; }
-  int num_configurations() const { return configurations_.size(); }
+  /// Return the configuration
+  const Configuration& configuration(const int index = 0) const { return configurations_[index]; }
+  Configuration* get_configuration(const int index = 0) { return &configurations_[index]; }
 
-//  void add(OneBody one_body) { one_bodies_.push_back(one_body); }
-//  void add(TwoBody two_body) { two_bodies_.push_back(two_body); }
-//  TwoBody* pair(const int iTwoBody) { return &two_bodies_[iTwoBody]; }
-//  unsigned int num_two_bodies() const { return two_bodies_.size(); }
-
-  int num_particles() const {
-    int num = 0;
-    for (int iConf = 0; iConf < num_configurations(); ++iConf) {
-      num += configurations_[iConf].num_particles();
-    }
-    return num;
-  }
-
-  Configuration * configurationByPart(const int iPart) {
-    ASSERT(configurations_.size() == 1, "error");
-    return &configurations_[0];
-  }
-
-  Particle particle(const int particle_index) {
-    return configurationByPart(particle_index)->particle(particle_index);
-  }
-
-  void default_system() {
-    Configuration config;
-    config.default_configuration();
-    add_configuration(config);
-  }
+  int dimension() const { return configurations_.front().dimension(); }
 
   double energy() {
     return energy(model_);
   }
 
   double energy(const Select& selection) {
-    return model_.compute(visit_model_, configurations_[0], selection);
-  }
-
-  double energy_of_selection() {
-    return model_.compute(visit_model_, configurations_[0], configurations_[0].selection_of_all());
+    return model_.compute(visit_model_, configurations_.front(), selection);
   }
 
   double energy(const ModelTwoBody& model) {
-    ASSERT(configurations_.size() > 0, "size error");
-    visit_model_.compute(configurations_[0], model);
+    ASSERT(dimension() > 0, "size error");
+    visit_model_.compute(configurations_.front(), model);
     return visit_model_.energy();
   }
 
-  ModelTwoBody* model() { return &model_; }
-  VisitModel* visitor() { return &visit_model_; }
+  VisitModel* get_visitor() { return &visit_model_; }
+  const VisitModel& visitor() const { return visit_model_; }
 
  private:
   std::vector<Configuration> configurations_;
   VisitModel visit_model_;
-//  vector<TwoBody> two_bodies_;
-//  vector<OneBody> one_bodies_;
   ModelLJ model_;
+  /// ModelLJSingleComp model_;
 //  vector<ModelTwoBody> two_body_models_;
 //  vector<ModelOneBody> one_body_models_;
 };

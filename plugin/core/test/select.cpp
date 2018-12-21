@@ -3,12 +3,14 @@
 #include "core/include/select.h"
 #include "core/include/configuration.h"
 
+namespace feasst {
+
 TEST(Select, add_remove) {
-  feasst::Configuration config;
+  Configuration config;
   config.add_particle_type("../forcefield/data.spce");
   config.add_particle(0);
   config.add_particle(0);
-  feasst::Select oxygen;
+  Select oxygen;
   oxygen.add_site(0, 0);
   oxygen.add_site(1, 0);
 
@@ -22,7 +24,7 @@ TEST(Select, add_remove) {
   EXPECT_EQ(oxygen.site_indices(1), indices);
 
   // individual particles
-  feasst::Select part0;
+  Select part0;
   part0.add_particle(config.particle(0), 0);
   EXPECT_EQ(part0.num_sites(), 3);
   EXPECT_EQ(part0.num_particles(), 1);
@@ -31,7 +33,7 @@ TEST(Select, add_remove) {
   indices = {0, 1, 2};
   EXPECT_EQ(part0.site_indices(0), indices);
 
-  feasst::Select part1;
+  Select part1;
   part1.add_particle(config.particle(1), 1);
   EXPECT_EQ(part1.num_sites(), 3);
   EXPECT_EQ(part1.num_particles(), 1);
@@ -39,7 +41,7 @@ TEST(Select, add_remove) {
   EXPECT_EQ(part1.particle_indices(), indices);
 
   // add together
-  feasst::Select all;
+  Select all;
   all.add(part0);
   all.add(part1);
   EXPECT_EQ(all.num_sites(), 6);
@@ -65,3 +67,5 @@ TEST(Select, add_remove) {
   EXPECT_EQ(all.site_indices(0), indices);
   EXPECT_EQ(all.site_indices(1), indices);
 }
+
+}  // namespace feasst

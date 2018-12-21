@@ -18,7 +18,7 @@ class TrialTranslate : public Trial {
   void attempt(Criteria* criteria, System * system) {
     perturb_.before_attempt();
     criteria->before_attempt(system);
-    perturb_.select_random_particle(group_index(), system->config());
+    perturb_.select_random_particle(group_index(), system->configuration());
     if (perturb_.selection().is_empty()) {
       // no particles present
       accept_criteria_.force_rejection = 1;
@@ -35,7 +35,7 @@ class TrialTranslate : public Trial {
       accept_criteria_.energy_new = criteria->running_energy() + delta_energy;
       accept_criteria_.force_rejection = 0;
       accept_criteria_.system = system;
-      accept_criteria_.pair = system->visitor();
+      accept_criteria_.pair = system->get_visitor();
     }
     if (criteria->is_accepted(accept_criteria_)) {
       //cout << "accept " << delta_energy << endl;
@@ -43,8 +43,6 @@ class TrialTranslate : public Trial {
       //cout << "reject " << delta_energy << endl;
       perturb_.revert();
     }
-    if (verbose==1) std::cout << "position " << str(system->particle(0).position().coord()) << std::endl;
-    if (verbose==1) std::cout << "position " << str(system->particle(0).site(0).position().coord()) << std::endl;
   }
 
   int verbose = 0;

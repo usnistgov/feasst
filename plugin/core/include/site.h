@@ -22,12 +22,6 @@ class Site : public PropertiedEntity,
              public TypedEntity,
              public SpatialEntity {
  public:
-  /// Initialize the Site to be on the origin and of type 0.
-  void default_site() {
-    default_position();
-    set_type(0);
-  }
-
   /// Displace the Position of the Site.
   void displace(const Position displacement) {
     add_position(displacement);

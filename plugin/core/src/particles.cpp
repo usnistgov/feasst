@@ -160,11 +160,4 @@ void Particles::remove(const int particle_index) {
   particles_.erase(particles_.begin() + particle_index);
 }
 
-Particles& Particles::default_particles() {
-  Particle part;
-  part.default_particle();
-  add(part);
-  return *this;
-}
-
 }  // namespace feasst

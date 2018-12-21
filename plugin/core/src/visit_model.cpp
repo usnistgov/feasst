@@ -101,7 +101,14 @@ void VisitModel::compute(const Configuration& config,
             TRACE("index: " << part1_index << " " << part2_index << " " <<
                   site1_index << " " << site2_index);
             domain.wrap_opt(site1.position(), site2.position(), &relative, &r2);
+//    const double squared_distance = relative.squared_distance();
+//    const int type1 = site1.type();
+//    const int type2 = site2.type();
+//    const double cutoff = (*model_params.mixed_cutoff())[type1][type2];
+//    TRACE("squared dist: " << squared_distance);
+//    if (squared_distance <= cutoff*cutoff) {
             energy_ += model.evaluate(relative, site1, site2, model_params);
+//    }
           }
         }
       }

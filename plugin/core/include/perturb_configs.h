@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_PERTURB_SYSTEMS_H_
-#define FEASST_CORE_PERTURB_SYSTEMS_H_
+#ifndef FEASST_CORE_PERTURB_CONFIGS_H_
+#define FEASST_CORE_PERTURB_CONFIGS_H_
 
 #include "core/include/perturb.h"
 
@@ -9,7 +9,7 @@ namespace feasst {
 /**
   Originally implemented for testing purpose and limited scope.
  */
-class PerturbSystems : public Perturb {
+class PerturbConfigs : public Perturb {
  public:
   void before_attempt() override {
     Perturb::before_attempt();
@@ -20,11 +20,12 @@ class PerturbSystems : public Perturb {
     return donor_part_;
   }
 
-  void transfer_particle(const int index, System * donor, System * acceptor) {
-    donor_part_.particle(index, donor->config());
-    Configuration * donor_config_ = donor->configuration(0);
-    Configuration * acceptor_config_ = acceptor->configuration(0);
-    const Particle& part = donor_part_.particle(*donor->configuration(0));
+  void transfer_particle(const int index, System * system, const int donor, const int acceptor) {
+    ASSERT(donor != acceptor, "donor and acceptor cannot be the same");
+    donor_part_.particle(index, system->configuration(donor));
+    Configuration * donor_config_ = system->get_configuration(donor);
+    Configuration * acceptor_config_ = system->get_configuration(acceptor);
+    const Particle& part = donor_part_.particle(system->configuration(donor));
     const int type = part.type();
     acceptor_config_->add_particle(type);
     acceptor_part_.last_particle_added(acceptor_config_);
@@ -34,7 +35,7 @@ class PerturbSystems : public Perturb {
 
   void revert() { ERROR("not implemented"); }
 
-  ~PerturbSystems() {}
+  ~PerturbConfigs() {}
 
  private:
   SelectList donor_part_;
@@ -43,4 +44,4 @@ class PerturbSystems : public Perturb {
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_PERTURB_SYSTEMS_H_
+#endif  // FEASST_CORE_PERTURB_CONFIGS_H_

@@ -144,10 +144,6 @@ class Particles {
     particles_[particle_index].set_site_property(name, value, site_index);
   }
 
-  // Create default particles used for quick testing only.
-  // Return self for chain setting.
-  Particles& default_particles();
-
  private:
   std::vector<Particle> particles_;
   bool unique_particles_ = false;

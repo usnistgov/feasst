@@ -2,12 +2,14 @@
 #include "core/include/group.h"
 #include "core/include/file_lmp.h"
 
+namespace feasst {
+
 TEST(Group, remove_sites) {
-  feasst::Particle particle = feasst::FileLMP().read("../forcefield/data.spce");
+  Particle particle = FileLMP().read("../forcefield/data.spce");
   EXPECT_EQ(3, particle.num_sites());
 
-  feasst::Particle oxygen(particle);
-  feasst::Group().add_site_type(0).remove_sites(&oxygen);
+  Particle oxygen(particle);
+  Group().add_site_type(0).remove_sites(&oxygen);
   EXPECT_EQ(1, oxygen.num_sites());
 
   feasst::Particle hydrogen(particle);
@@ -24,3 +26,5 @@ TEST(Group, remove_sites) {
 //  EXPECT_EQ(1, partial_to_full[0]);
 //  EXPECT_EQ(2, partial_to_full[1]);
 }
+
+}  // namespace feasst

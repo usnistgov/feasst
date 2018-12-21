@@ -39,6 +39,27 @@ class ModelLJ : public ModelTwoBody {
   double hard_sphere_threshold_sq_ = 0.2*0.2;
 };
 
+/**
+  Like ModelLJ, except it assumes unity for sigma, epsilon and a 3 cutoff.
+ */
+class ModelLJSingleComp : public ModelTwoBody {
+ public:
+  double evaluate(const Position &relative,
+                  const Site& site1,
+                  const Site& site2,
+                  const ModelParams& model_params) const {
+    const double squared_distance = relative.squared_distance();
+    if (squared_distance <= 9) {
+      const double rinv2 = 1./squared_distance;
+      const double rinv6 = rinv2*rinv2*rinv2;
+      return 4.*rinv6*(rinv6 - 1.);
+    }
+    return 0.;
+  }
+
+  virtual ~ModelLJSingleComp() {}
+};
+
 }  // namespace feasst
 
 #endif  // FEASST_CORE_MODEL_LJ_H_

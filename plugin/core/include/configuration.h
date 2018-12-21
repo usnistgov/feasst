@@ -174,7 +174,15 @@ class Configuration {
   /// Return the domain of the configuration.
   const Domain& domain() const { return domain_; }
 
+  /// Set the domain side lengths.
+  // HWH consider scaling particles as well
+  void set_side_length(const Position& sides) {
+//    ASSERT(num_particles() == 0, "domain should only be scaled with particles");
+    domain_.set_side_length(sides);
+  }
+
   /// Set the domain.
+  // HWH depreciate
   void set_domain(const Domain domain) { domain_ = domain; }
 
   /// Return the dimensionality of space.
@@ -220,9 +228,6 @@ class Configuration {
   }
 
   /* Checks and hacky additions */
-
-  // Used to quickly create a configuration for testing purposes only.
-  void default_configuration();
 
   /// Check consistency of dimensions and lists.
   void check_size() const;

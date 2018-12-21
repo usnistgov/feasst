@@ -180,18 +180,6 @@ void Configuration::replace_position_(const int particle_index,
   /// HWH no position_tracker_ for just particle positions.
 }
 
-void Configuration::default_configuration() {
-  domain_.set_cubic(5.);
-  add_particle_type("../forcefield/data.atom");
-  add_particle(0);
-  add_particle(0);
-  Position position = particle(1).site(0).position();
-  position.set_coord(0, 1.25);
-  Particle part1 = particle(1);
-  part1.displace(position);
-  replace_position_(1, part1);
-}
-
 void Configuration::add(Group group, std::string name) {
   ASSERT(group.is_empty() || particle_types_.num() != 0,
     "add groups after particle types");
@@ -276,6 +264,9 @@ void Configuration::check_size() const {
   particles_.check_size();
   particle_types_.check_size();
   unique_types_.check_size();
+
+  ASSERT(particle_types_.num() == num_particle_types(), "er");
+  ASSERT(unique_types_.num_sites() == num_site_types(), "er");
 
   // check that the first group is all particles in the configuration.
   ASSERT(static_cast<int>(group_selects_[0].num_particles()) == num_particles(),
