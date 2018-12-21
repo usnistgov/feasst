@@ -120,4 +120,9 @@ void Domain::init_cells(const double min_length,
   }
 }
 
+const Cells& Domain::cells(const int index) const {
+  ASSERT(index < static_cast<int>(cells_.size()), "index error");
+  return cells_[index];
+}
+
 }  // namespace feasst

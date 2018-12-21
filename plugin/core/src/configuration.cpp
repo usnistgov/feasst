@@ -28,6 +28,7 @@ void Configuration::add_particle_type(const char* file_name) {
   unique_types_.add(file_name);
   ghosts_.push_back(SelectGroup());
   ASSERT(ghosts_.back().group().is_empty(), "");
+  type_to_file_.push_back(file_name);
 }
 
 void Configuration::add_(const Particle particle) {
@@ -98,9 +99,6 @@ void Configuration::remove_particle_(const int particle_index) {
 
 void Configuration::remove_particles(const Select& selection) {
   ASSERT(selection.num_particles() > 0, "no selection");
-  // loop through selection backwards.
-  // HWH: sort selection
-  ASSERT(selection.num_particles() == 1, "implement sort");
   for (int index = selection.num_particles()  - 1;
        index >= 0;
        --index) {

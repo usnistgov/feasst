@@ -70,6 +70,8 @@ class Cells : public PropertiedEntity {
     particles_[cell_new].add(select);
   }
 
+  std::string str() const;
+
  private:
   std::string label_;
 

@@ -44,14 +44,14 @@ class Group : public PropertiedEntity {
   bool is_in(const Particle& particle) const;
 
   /// Remove sites from the particle which are not in the group.
-  void remove_sites(Particle * particle,
-                    std::vector<int> * full_to_partial_site = NULL,
-                    std::vector<int> * partial_to_full_site = NULL) const;
+  void remove_sites(Particle * particle) const;
+//                    std::vector<int> * full_to_partial_site = NULL,
+//                    std::vector<int> * partial_to_full_site = NULL) const;
 
-  /// Return particle with sites removed as described above.
-  Particle remove_sites(const Particle particle,
-                        std::vector<int> * full_to_partial_site = NULL,
-                        std::vector<int> * partial_to_full_site = NULL) const;
+//  /// Return particle with sites removed as described above.
+//  Particle remove_sites(const Particle& particle) const;
+////                        std::vector<int> * full_to_partial_site = NULL,
+////                        std::vector<int> * partial_to_full_site = NULL) const;
 
   /// Return the list of site indices in Particle which are in the group.
   std::vector<int> site_indices(const Particle& particle) const;

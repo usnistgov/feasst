@@ -15,11 +15,11 @@ class Model {
   /// Optionally, restrict to groups of given index.
   virtual double compute(VisitModel& visitor,
       const Configuration& config,
-      const int group_index) = 0;
+      const int group_index) const = 0;
 
   /// Same as above, except the group index is assumed to be zero (which is all
   /// particles and sites in the configuration).
-  virtual double compute(VisitModel& visitor, const Configuration& config) = 0;
+  virtual double compute(VisitModel& visitor, const Configuration& config) const = 0;
 
   /// Visit the model over a selection of the configuration.
   /// Optionally, restrict to groups of given index, which is only relevant for
@@ -27,13 +27,13 @@ class Model {
   virtual double compute(VisitModel& visitor,
       const Configuration& config,
       const Select& selection,
-      const int group_index) = 0;
+      const int group_index) const = 0;
 
   /// Same as above, except the group index is assumed to be zero (which is all
   /// particles and sites in the configuration)
   virtual double compute(VisitModel& visitor,
       const Configuration& config,
-      const Select& selection) = 0;
+      const Select& selection) const = 0;
   virtual ~Model() {}
 };
 

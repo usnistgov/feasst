@@ -1,5 +1,6 @@
 
 #include <cmath>
+#include <sstream>
 #include "core/include/cells.h"
 #include "core/include/utils_math.h"
 #include "core/include/debug.h"
@@ -59,7 +60,9 @@ void Cells::build_particles_() {
   particles_.resize(num_total());
 }
 
-int Cells::num_total() const { return product(num_); }
+int Cells::num_total() const {
+  return product(num_);
+}
 
 void Cells::clear() {
   num_.clear();
@@ -108,6 +111,17 @@ int Cells::num_sites() const {
     num += sel.num_sites();
   }
   return num;
+}
+
+std::string Cells::str() const {
+  std::stringstream ss;
+  for (int cell = 0; cell < num_total(); ++cell) {
+    const Select& select = particles_[cell];
+    if (select.num_particles() != 0) {
+      ss << "cell: " << cell << " p: " << select.str();
+    }
+  }
+  return ss.str();
 }
 
 }  // namespace feasst

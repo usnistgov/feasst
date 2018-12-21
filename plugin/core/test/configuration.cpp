@@ -6,6 +6,19 @@
 #include "core/include/constants.h"
 #include "core/include/utils_math.h"
 
+TEST(Configuration, type_to_file_name) {
+  feasst::Configuration config;
+  config.add_particle_type("../forcefield/data.atom");
+  config.add_particle_type("../forcefield/data.lj");
+  config.add_particle_type("../forcefield/data.spce");
+  config.add_particle_type("../forcefield/data.atom");
+  EXPECT_EQ(4, config.num_particle_types());
+  EXPECT_EQ("../forcefield/data.atom", config.type_to_file_name(0));
+  EXPECT_EQ("../forcefield/data.lj", config.type_to_file_name(1));
+  EXPECT_EQ("../forcefield/data.spce", config.type_to_file_name(2));
+  EXPECT_EQ("../forcefield/data.atom", config.type_to_file_name(3));
+}
+
 TEST(Configuration, coordinates) {
   feasst::Configuration config;
   config.set_domain(feasst::Domain().set_cubic(5));
@@ -274,4 +287,3 @@ TEST(Configuration, position_selection) {
   config.update_positions(select);
   EXPECT_NEAR(37.5, position->coord(1), feasst::NEAR_ZERO);
 }
-

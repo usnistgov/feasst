@@ -27,7 +27,7 @@ void Select::add(const Select& select) {
 }
 
 void Select::remove(const Select& select) {
-  for (int select_index = 0; select_index < num_particles(); ++select_index) {
+  for (int select_index = 0; select_index < select.num_particles(); ++select_index) {
     remove_sites(select.particle_index(select_index),
                  select.site_indices(select_index));
   }

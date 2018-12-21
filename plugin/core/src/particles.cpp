@@ -131,7 +131,8 @@ void Particles::remove(const Group group) {
        --index) {
     Particle * part = &particles_[index];
     if (group.is_in(*part)) {
-      *part = group.remove_sites(*part);
+      group.remove_sites(part);
+      //*part = group.remove_sites(*part);
     } else {
       particles_.erase(particles_.begin() + index);
     }

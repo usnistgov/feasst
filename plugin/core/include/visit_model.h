@@ -40,6 +40,12 @@ class VisitModel {
 
   virtual ~VisitModel() {}
 
+  /// Test if energy of whole system is consistent with sum of energy
+  /// of selection by particles.
+  void check_energy(const Configuration& config,
+      const Model& model,
+      const int group_index = 0);
+
  private:
   double energy_;
 };

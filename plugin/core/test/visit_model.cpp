@@ -59,6 +59,7 @@ TEST(VisitModel, reference_config) {
   feasst::ModelLRC lrc;
   visit.compute(config, lrc);
   EXPECT_NEAR(-0.5451660014945704, visit.energy(), feasst::NEAR_ZERO);
+  visit.check_energy(config, model);
 }
 
 TEST(VisitModel, ModelLRC) {
@@ -119,4 +120,5 @@ TEST(VisitModel, spce_reference_config) {
   EXPECT_NEAR(pe_previous, visit.energy(), feasst::NEAR_ZERO);
   const double x2_previous = new_part.particle(config).site(0).position().coord(1);
   EXPECT_EQ(x1_previous, x2_previous);
+  visit.check_energy(config, model);
 }

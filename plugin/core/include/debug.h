@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <iomanip>
 #include "core/include/custom_exception.h"
 
 namespace feasst {
@@ -35,6 +36,10 @@ namespace feasst {
   for a model) then use TRACE instead.
 */
 constexpr int VERBOSE_LEVEL = 3;
+
+/// Used to output maximum precision to screen
+/// [e.g., INFO(MAX_PRECISION << "energy: " << energy)].
+#define MAX_PRECISION std::setprecision(std::numeric_limits<double>::digits10+2)
 
 /// Return file_name with FEASST_DIR_ path removed.
 std::string feasst_dir_trim_(const char* file_name);

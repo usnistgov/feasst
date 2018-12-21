@@ -64,6 +64,11 @@ class Configuration {
     return particle_types_.particle(type);
   }
 
+  /// Return the file name used to initialize the particle types.
+  std::string type_to_file_name(const int type) const {
+    return type_to_file_[type];
+  }
+
   /// Return the unique types. Only unique sites and bonds are included.
   /// Thus, the site index is the same as the numeric value for the site type.
   /// And the same for bonds.
@@ -306,6 +311,9 @@ class Configuration {
   const Particle& particle_(const int index) {
     return particles_.particle(index);
   }
+
+  /// Store the files used to initialize particle types.
+  std::vector<std::string> type_to_file_;
 };
 
 }  // namespace feasst

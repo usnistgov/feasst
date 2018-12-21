@@ -23,6 +23,8 @@ class Shape {
   /// Return true if the sphere of given center point and diameter is entirely
   /// inside of the shape.
   bool is_inside(const Position& point, const double diameter) const;
+
+  virtual ~Shape() {}
 };
 
 // An object which contains a shape.
@@ -75,6 +77,7 @@ class HalfSpace : public Shape {
 
   double nearest_distance(const Position& point) const override;
 
+  virtual ~HalfSpace() {}
  private:
   int dimension_;
   double intersection_;
@@ -88,6 +91,7 @@ class ShapeIntersect : public Shape {
 
   double nearest_distance(const Position& point) const override;
 
+  virtual ~ShapeIntersect() {}
  private:
   const std::shared_ptr<Shape> shape1_, shape2_;
 };

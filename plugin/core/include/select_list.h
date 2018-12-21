@@ -104,7 +104,8 @@ class SelectList : public SelectPosition {
     for (int index = 0; index < config.num_particles(); ++index) {
       const Particle& part = config.particle(index);
       if (group.is_in(part)) {
-        Particle filtered = group.remove_sites(part);
+        Particle filtered = part;
+        group.remove_sites(&filtered);
         add_particle(filtered, index);
       }
     }

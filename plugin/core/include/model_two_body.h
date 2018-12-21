@@ -12,24 +12,25 @@ class ModelTwoBody : public Model {
  public:
   double compute(VisitModel& visitor,
       const Configuration& config,
-      const int group_index) override {
+      const int group_index) const override {
     visitor.compute(config, *this, group_index);
     return visitor.energy();
   }
-  double compute(VisitModel& visitor, const Configuration& config) override {
+  double compute(VisitModel& visitor,
+      const Configuration& config) const override {
     visitor.compute(config, *this, 0);
     return visitor.energy();
   }
   double compute(VisitModel& visitor,
       const Configuration& config,
       const Select& selection,
-      const int group_index) override {
+      const int group_index) const override {
     visitor.compute(config, *this, selection, group_index);
     return visitor.energy();
   }
   double compute(VisitModel& visitor,
       const Configuration& config,
-      const Select& selection) override {
+      const Select& selection) const override {
     visitor.compute(config, *this, selection, 0);
     return visitor.energy();
   }

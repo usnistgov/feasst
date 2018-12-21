@@ -104,7 +104,7 @@ class Domain {
   const std::vector<Cells>& cells() const { return cells_; }
 
   /// Return the cells by index.
-  const Cells& cells(const int index) const { return cells_[index]; }
+  const Cells& cells(const int index) const;
 
   /// Add selection to cells.
   void add_to_cell_list(const int cell_index,
@@ -181,6 +181,7 @@ class Domain {
           (*dxv)[0] -= xz_;
         }
       }
+      *r2 += (*dxv)[2]*(*dxv)[2];
     }
     if (periodic_[1] && std::abs((*dxv)[1]) > 0.5*side[1]) {
       if ((*dxv)[1] < 0.) {
@@ -198,6 +199,7 @@ class Domain {
         (*dxv)[0] -= side[0];
       }
     }
+    *r2 += (*dxv)[0]*(*dxv)[0] + (*dxv)[1]*(*dxv)[1];
   }
   virtual ~Domain() {}
 
