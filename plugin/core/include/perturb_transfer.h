@@ -19,6 +19,7 @@ class PerturbTransfer : public Perturb {
     ASSERT(optimization_ == 1, "error");
     const int load_coordinates = 0;  // don't load coordinates
     selection_.random_particle_of_type(type, config, load_coordinates);
+    selection_.set_trial_state("old");
   }
 
   void add(const Particle &particle, System * system) {
@@ -27,6 +28,7 @@ class PerturbTransfer : public Perturb {
     Configuration* config = system->get_configuration();
     config->add_particle(particle.type());
     selection_.last_particle_added(config);
+    selection_.set_trial_state("add");
     config->replace_position(selection_, particle);
     set_revert_possible();
   }
@@ -55,6 +57,7 @@ class PerturbTransfer : public Perturb {
           TRACE("reverting deletion");
           system()->get_configuration()->revive(selection_);
         }
+        system()->revert();
       }
       TRACE("done reverting");
     }

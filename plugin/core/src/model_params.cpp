@@ -1,8 +1,15 @@
 
+#include <algorithm>
 #include "core/include/model_params.h"
 #include "core/include/debug.h"
+#include "core/include/utils_math.h"
 
 namespace feasst {
+
+void ModelParam::add(const double value) {
+  values_.push_back(value);
+  max_value_ = *std::max_element(values_.begin(), values_.end());
+}
 
 void ModelParam::add(const Site site, const double default_value) {
   double value;
@@ -28,6 +35,12 @@ void ModelParam::mix() {
       mixed_values_[index1][index2] = mix_(value1, value2);
     }
   }
+  max_mixed_value_ = maximum(mixed_values_);
+}
+
+double ModelParam::mixed_max() const {
+  ASSERT(mixed_values_.size() > 0, "no max");
+  return max_mixed_value_;
 }
 
 double ModelParam::value(const int type) const {

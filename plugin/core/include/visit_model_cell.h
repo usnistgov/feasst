@@ -13,12 +13,14 @@ namespace feasst {
  */
 class VisitModelCell : public VisitModel {
  public:
-  void compute(const Configuration& config,
+  void compute(
       const ModelTwoBody& model,
+      Configuration * config,
       const int cell_index = 0) override;
-  void compute(const Configuration& config,
+  void compute(
       const ModelTwoBody& model,
       const Select& selection,
+      Configuration * config,
       const int cell_index = 0) override;
   ~VisitModelCell() {}
  private:

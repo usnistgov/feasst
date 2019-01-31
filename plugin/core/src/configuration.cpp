@@ -359,6 +359,9 @@ void Configuration::update_positions(const SelectPosition& select) {
       replace_position_(particle_index,
                         site_index,
                         select.site_positions()[pindex][sindex]);
+      replace_properties_(particle_index,
+                          site_index,
+                          select.site_properties()[pindex][sindex]);
       ++sindex;
     }
     ++pindex;
@@ -408,6 +411,15 @@ void Configuration::revive(const SelectPosition& selection) {
       add_to_selection_(particle_index, &select);
     }
   }
+}
+
+const Particle Configuration::particle(const int index,
+                                       const int group) const {
+  const SelectGroup& select_group = group_selects_[group];
+  const int particle_index = select_group.particle_index(index);
+  Particle part = particles_.particle(particle_index);
+  select_group.group().remove_sites(&part);
+  return part;
 }
 
 }  // namespace feasst

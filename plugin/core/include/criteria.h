@@ -15,7 +15,6 @@ struct AcceptanceCriteria {
   int force_rejection = 0;
   System* system;
   int accepted = -1;
-  VisitModel* pair;  // HWH only used for mayer sampling ?
 };
 
 /**

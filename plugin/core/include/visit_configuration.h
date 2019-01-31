@@ -9,9 +9,9 @@ namespace feasst {
 
 class VisitConfiguration : public VisitParticles {
  public:
-  virtual void loop(const Configuration& config,
-                    LoopOneBody * loop_one_body,
-                    const int group_index);
+  void loop(const Configuration& config,
+            LoopOneBody * loop_one_body,
+            const int group_index);
   virtual ~VisitConfiguration() {}
 };
 

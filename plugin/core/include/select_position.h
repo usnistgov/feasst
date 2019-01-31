@@ -9,6 +9,7 @@ namespace feasst {
 
 /**
   A selection which includes site and particle positions.
+  Also include properties (e.g., for ewald, or neighbors, etc)
  */
 class SelectPosition : public Select {
  public:
@@ -37,6 +38,11 @@ class SelectPosition : public Select {
   /// Return the site positions.
   const std::vector<std::vector<Position> >& site_positions() const {
     return site_positions_;
+  }
+
+  /// Return the site positions.
+  const std::vector<std::vector<Properties> >& site_properties() const {
+    return site_properties_;
   }
 
   /// Return the particle positions.
@@ -75,6 +81,7 @@ class SelectPosition : public Select {
  private:
   std::vector<Position> particle_positions_;
   std::vector<std::vector<Position> > site_positions_;
+  std::vector<std::vector<Properties> > site_properties_;
 
   void clear_() {
     particle_positions_.clear(); site_positions_.clear();

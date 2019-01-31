@@ -11,12 +11,13 @@ namespace feasst {
  */
 class ModelExample : public ModelTwoBody {
  public:
-  // Return the energy between sites with a given relative position.
-  double evaluate(const Position &relative,
-                  const Site& site1,
-                  const Site& site2,
-                  const ModelParams& model_params) const;
-
+  double energy(
+      const double squared_distance,
+      const int type1,
+      const int type2,
+      const ModelParams& model_params) const override {
+    return 0;
+  }
   virtual ~ModelExample() {}
 
  private:

@@ -1,6 +1,6 @@
-ModelChargeReal
+PerturbConfigs
 =====================================================
 
-.. doxygenclass:: feasst::ModelChargeReal
+.. doxygenclass:: feasst::PerturbConfigs
    :project: FEASST
    :members:

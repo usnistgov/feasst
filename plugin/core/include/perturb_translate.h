@@ -13,6 +13,7 @@ class PerturbTranslate : public Perturb {
   void select_random_particle(const int group_index, const Configuration& config) {
     ASSERT(optimization_ == 1, "error");
     selection_.random_particle(config, group_index);
+    selection_.set_trial_state("old");
   }
 
   void translate_selected_particle(const Position &trajectory,
@@ -21,15 +22,17 @@ class PerturbTranslate : public Perturb {
     Configuration* config = system->get_configuration();
     config->displace_particles(selection_, trajectory);
     set_revert_possible();
+    selection_.set_trial_state("move");
   }
 
-  void revert() {
+  void revert() override {
     if (revert_possible()) {
       if (optimization_ == 0) {
         Perturb::revert();
       } else {
         Configuration* config = system()->get_configuration();
         config->update_positions(selection_);
+        system()->revert();
       }
     }
   }

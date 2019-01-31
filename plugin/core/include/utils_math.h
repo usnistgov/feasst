@@ -38,7 +38,33 @@ T product(const std::vector<T> &vec) {
 /// Return the minimum element of a vector.
 template<class T>
 T minimum(const std::vector<T> &vec) {
-  return *std::min_element(vec.begin(), vec.begin() + vec.size());
+  return *std::min_element(vec.begin(), vec.end());
+}
+
+/// Return the minimum element of a 2D vector.
+template<class T>
+T minimum(const std::vector<std::vector<T> > &vec) {
+  std::vector<T> mins;
+  for (const std::vector<T>& vec1 : vec) {
+    mins.push_back(*std::min_element(vec1.begin(), vec1.end()));
+  }
+  return *std::min_element(mins.begin(), mins.end());
+}
+
+/// Return the maximum element of a vector.
+template<class T>
+T maximum(const std::vector<T> &vec) {
+  return *std::max_element(vec.begin(), vec.end());
+}
+
+/// Return the maximum element of a 2D vector.
+template<class T>
+T maximum(const std::vector<std::vector<T> > &vec) {
+  std::vector<T> maxs;
+  for (const std::vector<T>& vec1 : vec) {
+    maxs.push_back(*std::max_element(vec1.begin(), vec1.end()));
+  }
+  return *std::max_element(maxs.begin(), maxs.end());
 }
 
 /// Compute the union of two vectors.

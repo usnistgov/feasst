@@ -169,7 +169,7 @@ TEST(Configuration, cells) {
   config.add_particle(0);
   try {
     config.particle(0).site(0).property("cell");
-    CATCH_PHRASE("property not found");
+    CATCH_PHRASE("not found");
   }
   config.init_cells(1);
   config.init_cells(1.4, 1);
@@ -177,7 +177,8 @@ TEST(Configuration, cells) {
   EXPECT_EQ(config.domain().cells()[0].num_total(), 7*7*7);
   int cell0 = round(7*7*7/2. - 0.5);
   int cell1 = round(5*5*5/2. - 0.5);
-  const Site& site = config.particle(0).site(0);
+  Site site = config.particle(0).site(0);
+  INFO(feasst::str(site.properties().property_name()));
   EXPECT_EQ(cell0, round(site.property("cell0")));
   EXPECT_EQ(cell1, round(site.property("cell1")));
   std::vector<int> indices = {0};
@@ -195,6 +196,7 @@ TEST(Configuration, cells) {
   select.particle(0, config);
   config.displace_particles(select, trajectory);
   EXPECT_EQ(0, config.particle(0).site(0).property("cell0"));
+  site = config.particle(0).site(0);
   EXPECT_EQ(0, round(site.property("cell0")));
   EXPECT_EQ(0, round(site.property("cell1")));
   DEBUG("cell02 " << config.particle(0).site(2).has_property("cell0"));
@@ -216,15 +218,14 @@ TEST(Configuration, cells) {
 TEST(Configuration, position_selection) {
   Configuration config = chain10_sample();
   EXPECT_EQ(config.num_particles(), 1);
-  const Position* position = &config.particle(0).site(5).position();
-  EXPECT_NEAR(0., position->coord(1), NEAR_ZERO);
+  EXPECT_NEAR(0., config.particle(0).site(5).position().coord(1), NEAR_ZERO);
   SelectList select;
   select.select_sites(config, 0, {3, 4, 5});
   select.set_site_position(0, 0, {1.1, 1.2, 1.3});
   select.set_site_position(0, 1, {-1.1, -1.2, -1.3});
   select.set_site_position(0, 2, {0, 37.5, 50.});
   config.update_positions(select);
-  EXPECT_NEAR(37.5, position->coord(1), NEAR_ZERO);
+  EXPECT_NEAR(37.5, config.particle(0).site(5).position().coord(1), NEAR_ZERO);
 }
 
 TEST(Configuration, domain_before_cells) {
@@ -233,6 +234,13 @@ TEST(Configuration, domain_before_cells) {
     config.init_cells(1.);
     CATCH_PHRASE("cannot define cells before domain side");
   }
+}
+
+TEST(Configuration, select_particle_by_group) {
+  Configuration config = spce_sample();
+  config.add(Group().add_site_type(0));
+  Particle part = config.particle(2, 1);
+  EXPECT_EQ(1, part.num_sites());
 }
 
 }  // namespace feasst

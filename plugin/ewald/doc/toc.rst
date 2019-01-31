@@ -3,5 +3,8 @@ API
 
 .. toctree::
 
+   ModelChargeIntra
    Ewald
-   ModelChargeReal
+   ModelChargeSelf
+   ModelChargeScreened
+   system_example

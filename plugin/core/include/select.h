@@ -113,6 +113,13 @@ class Select {
   /// Return true if the selections are equivalent.
   bool is_equivalent(const Select& select);
 
+  /// Possible states:
+  /// old -> configuration unchanged from previously accepted state
+  /// add -> added new particles/sites listed in selection
+  /// move -> moved selected particles but total numbers unchanged
+  void set_trial_state(std::string state) { trial_state_ = state; }
+  std::string trial_state() const { return trial_state_; }
+
   virtual ~Select() {}
 
  protected:
@@ -123,6 +130,7 @@ class Select {
   std::vector<std::vector<int> > site_indices_;
   Random random_;
   std::string unique_id_;
+  std::string trial_state_;
 
   // remove particle by selection index.
   void remove_particle_(const int select_index) {

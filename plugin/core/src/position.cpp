@@ -6,7 +6,6 @@
 namespace feasst {
 
 double Position::coord(const int dimension) const {
-  ASSERT(dimension < size() && dimension >= 0, "size error");
   return coord_[dimension];
 }
 

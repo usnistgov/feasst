@@ -3,4 +3,4 @@ API
 
 .. toctree::
 
-   ModelExample
+   ewald/include/system_example

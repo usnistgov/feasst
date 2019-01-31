@@ -17,19 +17,23 @@ class ModelTwoBody;
  */
 class VisitModel {
  public:
-  virtual void compute(const Configuration& config,
+  virtual void compute(
       const ModelOneBody& model,
+      Configuration * config,
       const int group_index = 0);
-  virtual void compute(const Configuration& config,
+  virtual void compute(
       const ModelTwoBody& model,
+      Configuration * config,
       const int group_index = 0);
-  virtual void compute(const Configuration& config,
+  virtual void compute(
       const ModelTwoBody& model,
       const Select& selection,
+      Configuration * config,
       const int group_index = 0);
-  void compute(const Configuration& config,
+  virtual void compute(
       const ModelOneBody& model,
       const Select& selection,
+      Configuration * config,
       const int group_index = 0);
 
   /// Return the energy.
@@ -42,9 +46,21 @@ class VisitModel {
 
   /// Test if energy of whole system is consistent with sum of energy
   /// of selection by particles.
-  void check_energy(const Configuration& config,
+  void check_energy(
       const Model& model,
+      Configuration * config,
       const int group_index = 0);
+
+  virtual void revert() {}
+
+ protected:
+  void inner_(
+    const Site& site1,
+    const Site& site2,
+    const Domain& domain,
+    const ModelParams& model_params,
+    const ModelTwoBody& model,
+    Position * relative);
 
  private:
   double energy_;

@@ -59,6 +59,12 @@ class Configuration {
     unique_types_.set_model_param(name, site_type, value);
   }
 
+  /// Add model parameter of a given name to value.
+  void add_model_param(const std::string name,
+                       const double value) {
+    unique_types_.add_model_param(name, value);
+  }
+
   /// Return the particle associated with the type.
   const Particle& particle_type(const int type) const {
     return particle_types_.particle(type);
@@ -110,12 +116,12 @@ class Configuration {
   /// Return particle by index. Note this index is contiguous from values
   /// 0 to num_particles -1, unlike the selection indices (due to ghost
   /// particles).
-  const Particle& particle(const int index,
+  /// Note that this method can be quite slow because it doesn't require
+  /// knowledge of ghost particles.
+  const Particle particle(const int index,
     /// Provide a group index to consider only a subset of the configuration.
     /// By default, a value of zero is for the entire configuration.
-    const int group = 0) const {
-    return particles_.particle(group_selects_[group].particle_index(index));
-  }
+    const int group = 0) const;
 
   /// Return the number of particles.
   int num_particles(
@@ -210,21 +216,41 @@ class Configuration {
   // Return particle by index provided in selection.
   // Warning: typically not for users because it may include ghost particles.
   const Particle& select_particle(const int index) const {
-    return particles_.particle(index);
-  }
+    return particles_.particle(index); }
 
   // Return the selection-based index (includes ghosts) of the last particle added.
   int newest_particle_index() const { return newest_particle_index_; }
-  const Particle& newest_particle() const { return select_particle(newest_particle_index_); }
+  const Particle& newest_particle() const {
+    return select_particle(newest_particle_index_); }
 
   // Return the group-based selections.
   const std::vector<SelectGroup>& group_selects() const {
-    return group_selects_;
-  }
+    return group_selects_; }
 
   // Return the group-based selections by index.
   const SelectGroup& group_select(const int index) const {
-    return group_selects_[index];
+    return group_selects_[index]; }
+
+  // Add the property to a site in a particle.
+  void add_site_property(const std::string name,
+      const double value,
+      const int particle_index,
+      const int site_index) {
+    particles_.add_site_property(name, value, particle_index, site_index);
+  }
+
+  // Set the property of a site in a particle.
+  void set_site_property(const std::string name,
+      const double value,
+      const int particle_index,
+      const int site_index) {
+    particles_.set_site_property(name, value, particle_index, site_index);
+  }
+  void set_site_property(const int index,
+      const double value,
+      const int particle_index,
+      const int site_index) {
+    particles_.set_site_property(index, value, particle_index, site_index);
   }
 
   /* Checks and hacky additions */
@@ -277,6 +303,12 @@ class Configuration {
   /// Replace position of particle but not site.
   void replace_position_(const int particle_index,
                          const Position& replacement);
+
+  /// Replace properties of site in particle.
+  void replace_properties_(const int particle_index,
+                           const int site_index,
+                           const Properties& properties) {
+    particles_.replace_properties(particle_index, site_index, properties); }
 
   /// Update position trackers of a particle (e.g., cell, neighbor, etc).
   void position_tracker_(const int particle_index, const int site_index);

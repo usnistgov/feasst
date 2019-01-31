@@ -1,3 +1,4 @@
+#include <memory>
 #include <gtest/gtest.h>
 #include "core/include/trial_translate.h"
 #include "core/include/trial_transfer.h"
@@ -9,33 +10,36 @@
 #include "core/include/histogram.h"
 #include "core/include/utils_io.h"
 #include "core/include/accumulator.h"
+#include "core/test/system_test.h"
 
 namespace feasst {
 
 class TestLJSystem {
  public:
-  feasst::System system;
-  feasst::TrialFactory trials;
-  feasst::CriteriaMetropolis criteria;
+  System system;
+  TrialFactory trials;
+  CriteriaMetropolis criteria;
   double add_probability = 0.5;
   double box_length = 8;
   double beta = 1./1.2;
   double activ = exp(-2.775);
-  feasst::Configuration * config;
-  feasst::MonteCarlo mc;
+  Configuration * config;
+  MonteCarlo mc;
 
   void init() {
-    system.add_configuration(feasst::Configuration());
+    system.add_configuration(Configuration());
+    system.set_full(default_potentials());
+    //add_model(std::make_shared<ModelLJ>());
     config = system.get_configuration();
     config->add_particle_type("../forcefield/data.lj");
-    auto transfer = std::make_shared<feasst::TrialTransfer>();
+    auto transfer = std::make_shared<TrialTransfer>();
     transfer->set_weight(0.25);
     transfer->set_add_probability(add_probability);
     // trials.add(transfer);
-    auto translate = std::make_shared<feasst::TrialTranslate>();
+    auto translate = std::make_shared<TrialTranslate>();
     translate->set_weight(0.75);
     trials.add(translate);
-    config->set_domain(feasst::Domain().set_cubic(box_length));
+    config->set_domain(Domain().set_cubic(box_length));
     criteria.set_beta(beta);
     criteria.add_activity(activ);
     criteria.set_running_energy(system.energy());
@@ -47,21 +51,25 @@ class TestLJSystem {
 };
 
 TEST(MonteCarlo, NVTbenchmark) {
-  // feasst::seed_random_by_date();
-  feasst::seed_random(1346867550);
+  seed_random_by_date();
+  // seed_random(1346867550);
   TestLJSystem test;
   test.add_probability = 1.;
   test.activ = 100;
   test.init();
   test.mc.seek_num_particles(50);
+  EXPECT_EQ(test.mc.system().configuration().num_particles(), 50);
   test.mc.attempt(1e4);
+  // test.mc.attempt(1e6); // ~3-4 seconds
+  EXPECT_NEAR(test.mc.get_system()->energy(), test.mc.get_criteria()->running_energy(), 1e-10);
 }
 
 TEST(MonteCarlo, NVTMC_SRSW) {
-  feasst::seed_random_by_date();
+  seed_random_by_date();
   const double rho = 1e-3;
   const int nTrials = 1e3, nCheck = 1e3;
-  // const int nTrials = 1e5, nCheck = 1e3;
+  //const int nTrials = 1e5, nCheck = 1e3;
+  //const int nTrials = 1e7, nCheck = 1e3;
   const int nMol = 500;
   TestLJSystem test;
   test.beta = 1./0.9;
@@ -69,18 +77,21 @@ TEST(MonteCarlo, NVTMC_SRSW) {
   test.activ = 100;
   test.box_length = pow(double(nMol)/rho, 1./3.);
   test.init();
-  feasst::Accumulator pe;
+  Accumulator pe;
   test.mc.seek_num_particles(nMol);
+  EXPECT_EQ(test.mc.system().configuration().num_particles(), 500);
+  EXPECT_EQ(test.mc.trials().num_trials(), 1);
   for (int iTrial = 0; iTrial < 2*nTrials; ++iTrial) {
     test.mc.attempt();
     if (iTrial >= nTrials) {
-      pe.accumulate(test.mc.system().visitor().energy());
+      pe.accumulate(test.criteria.running_energy());
     }
     if (iTrial % nCheck == 0) {
+      const int num = test.mc.system().configuration().num_particles();
       std::cout << "t" << iTrial
                 << " pe " << pe.average()
-                << " pe/n " << pe.average()/test.config->num_particles()
-                << " n " << test.config->num_particles()
+                << " pe/n " << pe.average()/num
+                << " n " << num
                 << " vol " << test.config->domain().volume()
                 << std::endl;
     }
@@ -88,12 +99,12 @@ TEST(MonteCarlo, NVTMC_SRSW) {
 }
 
 TEST(MonteCarlo, GCMCbenchmark) {
-  feasst::seed_random(1346867550);
+  seed_random(1346867550);
   TestLJSystem test;
   test.activ = 100;
   test.init();
   const int nTrials = 1e3;
-  // test.nTrials = 1e7; // benchmark feasst0.5: ~3 seconds
+  // const int nTrials = 2e7;
   for (int iTrial = 0; iTrial < nTrials; ++iTrial) {
     test.trials.attempt(&test.criteria, &test.system);
     if (iTrial%100000==0) std::cout << "t" << iTrial << std::endl;
@@ -101,7 +112,7 @@ TEST(MonteCarlo, GCMCbenchmark) {
 }
 
 TEST(MonteCarlo, MC) {
-  feasst::seed_random_by_date();
+  seed_random_by_date();
   TestLJSystem test;
   const int nTrialsEq = 2e2, nTrials = 2e2;
   // const int nTrialsEq = 1e8, nTrials = 1e8;
@@ -139,20 +150,22 @@ TEST(MonteCarlo, MC) {
 }
 
 TEST(MonteCarlo, WLMC) {
-  // feasst::seed_random();
-  feasst::seed_random_by_date();
-  feasst::System system;
-  system.add_configuration(feasst::Configuration());
-  feasst::Configuration * config = system.get_configuration();
+  // seed_random();
+  seed_random_by_date();
+  System system;
+  system.add_configuration(Configuration());
+  system.set_full(default_potentials());
+  //system.add_model(std::make_shared<ModelLJ>());
+  Configuration * config = system.get_configuration();
   config->add_particle_type("../forcefield/data.lj");
 
   // trials
-  feasst::TrialFactory trials;
-  auto transfer = std::make_shared<feasst::TrialTransfer>();
+  TrialFactory trials;
+  auto transfer = std::make_shared<TrialTransfer>();
   transfer->set_weight(0.25);
   trials.add(transfer);
   //transfer.set_add_probability(1.);
-  auto translate = std::make_shared<feasst::TrialTranslate>();
+  auto translate = std::make_shared<TrialTranslate>();
   translate->set_weight(1);
   trials.add(translate);
 
@@ -162,22 +175,22 @@ TEST(MonteCarlo, WLMC) {
   const int nCheck = 1e2;
   const double boxl = 8;
   //const double rho = 1e-3, boxl = pow(double(nMol)/rho, 1./3.);
-  config->set_domain(feasst::Domain().set_cubic(boxl));
+  config->set_domain(Domain().set_cubic(boxl));
   std::cout << "boxl " << boxl << std::endl;
-  feasst::CriteriaFlatHistogram criteria;
+  CriteriaFlatHistogram criteria;
   criteria.set_beta(1./1.5);
   criteria.add_activity(exp(-2.775));
   //criteria.add_activity(exp(-2.775));
-  feasst::Histogram histogram;
+  Histogram histogram;
   const int nMol = 5;
   histogram.set_width_center(1., 0.);
   for (int i = 0; i <= nMol; ++i) {
     histogram.add(i);
   }
-  auto macrostate = std::make_shared<feasst::MacrostateNumParticles>();
+  auto macrostate = std::make_shared<MacrostateNumParticles>();
   macrostate->set_histogram(histogram);
   criteria.set_macrostate(macrostate);
-  auto bias = std::make_shared<feasst::BiasWangLandau>();
+  auto bias = std::make_shared<BiasWangLandau>();
   bias->resize(histogram);
   criteria.set_bias(bias);
 
@@ -193,12 +206,13 @@ TEST(MonteCarlo, WLMC) {
     }
     if (iTrial % nCheck == 0) {
       std::cout << "n " << config->num_particles() << " pe " << criteria.running_energy() << " av " << peAcc/double(inTrial) << " peExpe " << -9.9165E-03*500 << std::endl;
-      ASSERT(std::abs(system.energy() - criteria.running_energy()) < 1e-7, "mismatch");
+      ASSERT(std::abs(system.energy() - criteria.running_energy()) < 1e-7, "mismatch" <<
+        system.energy() << " " << criteria.running_energy());
     }
     trials.attempt(&criteria, &system);
   }
   std::cout << "nTrans " << translate->num_attempts() << " nTransfer " << transfer->num_attempts() << std::endl;
-  std::cout << feasst::str(bias->ln_macro_prob()) << std::endl;
+  std::cout << str(bias->ln_macro_prob()) << std::endl;
 }
 
 }  // namespace feasst

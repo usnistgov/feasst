@@ -31,7 +31,7 @@ class CriteriaMayer : public Criteria {
   double f12ref_ = -1.;
   Accumulator mayer_;
   Accumulator mayer_ref_;
-  ModelHardSphere reference_model_;
+  int reference_index_ = 0;
 };
 
 }  // namespace feasst

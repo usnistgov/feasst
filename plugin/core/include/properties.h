@@ -17,7 +17,7 @@ class Properties {
   /// Add a new value/name combination.
   void add(const std::string name, const double value);
 
-  /// Add or a new value and name, or set its value if name exists.
+  /// Add a new value and name, or set its value if name exists.
   void add_or_set(const std::string name, const double value);
 
   /// Set the value of property name.
@@ -42,7 +42,11 @@ class Properties {
   std::vector<std::string> property_name() const { return property_name_; }
   
   /// Return all property values.
-  std::vector<double> property_value() const { return property_value_; }
+  const std::vector<double>& property_value() const { return property_value_; }
+
+  /// Set value of property by index.
+  void set_value(const int index, const double value) {
+    property_value_[index] = value; }
 
  private:
   std::vector<double> property_value_;
@@ -78,6 +82,14 @@ class PropertiedEntity {
   bool has_property(const std::string name) const {
     return properties_.has(name);
   }
+
+  /// Set value of property by index.
+  void set_property(const int index, const double value) {
+    properties_.set_value(index, value); }
+
+  /// Set the properties.
+  void set_properties(const Properties& properties) {
+    properties_ = properties; }
 
  private:
   Properties properties_;

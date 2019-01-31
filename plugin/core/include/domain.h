@@ -192,7 +192,7 @@ class Domain {
         (*dxv)[0] -= xy_;
       }
     }
-    if (periodic_[0] && std::abs((*dxv)[0] > 0.5*side[0])) {
+    if (periodic_[0] && std::abs((*dxv)[0]) > 0.5*side[0]) {
       if ((*dxv)[0] < 0.) {
         (*dxv)[0] += side[0];
       } else {

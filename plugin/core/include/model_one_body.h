@@ -11,33 +11,37 @@ namespace feasst {
 
 class ModelOneBody : public Model {
  public:
-  double compute(VisitModel& visitor,
-      const Configuration& config,
-      const int group_index) const override {
-    visitor.compute(config, *this, group_index);
-    return visitor.energy();
+  double compute(
+      const int group_index,
+      Configuration * config,
+      VisitModel * visitor) const override {
+    visitor->compute(*this, config, group_index);
+    return visitor->energy();
   }
-  double compute(VisitModel& visitor,
-      const Configuration& config) const override {
-    visitor.compute(config, *this, 0);
-    return visitor.energy();
+  double compute(
+      Configuration * config,
+      VisitModel * visitor) const override {
+    visitor->compute(*this, config, 0);
+    return visitor->energy();
   }
-  double compute(VisitModel& visitor,
-      const Configuration& config,
+  double compute(
       const Select& selection,
-      const int group_index) const override {
-    visitor.compute(config, *this, selection, group_index);
-    return visitor.energy();
+      const int group_index,
+      Configuration * config,
+      VisitModel * visitor) const override {
+    visitor->compute(*this, selection, config, group_index);
+    return visitor->energy();
   }
-  double compute(VisitModel& visitor,
-      const Configuration& config,
-      const Select& selection) const override {
-    visitor.compute(config, *this, selection, 0);
-    return visitor.energy();
+  double compute(
+      const Select& selection,
+      Configuration * config,
+      VisitModel * visitor) const override {
+    visitor->compute(*this, selection, config, 0);
+    return visitor->energy();
   }
-  virtual double evaluate(
+  virtual double energy(
       const Site& site,
-      const Configuration& config,
+      const Configuration * config,
       const ModelParams& model_params) const = 0;
   virtual ~ModelOneBody() {}
 };

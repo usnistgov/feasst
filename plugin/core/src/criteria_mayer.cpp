@@ -5,7 +5,7 @@
 namespace feasst {
 
 bool CriteriaMayer::is_accepted(const AcceptanceCriteria accept_criteria) {
-  const double energy_new = accept_criteria.pair->energy();
+  const double energy_new = accept_criteria.energy_new;
   const double kF12 = exp(-beta()*energy_new) - 1.;
   bool is_accepted;
   if (verbose) cout << "energy new " << energy_new << " f12 " << kF12 << endl;
@@ -16,7 +16,7 @@ bool CriteriaMayer::is_accepted(const AcceptanceCriteria accept_criteria) {
     is_accepted = true;
     if (verbose) cout << "computing ref" << endl;
     const double energy_reference =
-      accept_criteria.system->energy(reference_model_);
+      accept_criteria.system->reference_energy(reference_index_);
     f12ref_ = exp(-beta()*energy_reference) - 1.;
     if (verbose) cout << "f12ref " << f12ref_ << endl;
   } else {

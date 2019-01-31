@@ -68,6 +68,10 @@ class Particle : public TypedEntity, public SpatialEntity {
   /// Replace the position of site by index.
   void replace_position(const int site_index, const Position& replacement);
 
+  /// Replace the properties of site by index.
+  void replace_properties(const int site_index, const Properties& replacement) {
+    sites_[site_index].set_properties(replacement); }
+
   /// Add the property of a site.
   void add_site_property(const std::string name,
       const double value,
@@ -80,6 +84,11 @@ class Particle : public TypedEntity, public SpatialEntity {
       const double value,
       const int site_index) {
     sites_[site_index].set_property(name, value);
+  }
+  void set_site_property(const int index,
+      const double value,
+      const int site_index) {
+    sites_[site_index].set_property(index, value);
   }
 
   /// Return the number of bonds.

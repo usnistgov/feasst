@@ -20,21 +20,22 @@ namespace feasst {
  */
 class VisitModelIntra : public VisitModel {
  public:
-  VisitModelIntra() { set_intra_cut(); }
   int intra_cut() const { return intra_cut_; }
-  void set_intra_cut(const int cut = 1) { intra_cut_ = cut; }
-  void compute(const Configuration& config,
+  void set_intra_cut(const int cut) { intra_cut_ = cut; }
+  void compute(
       const ModelTwoBody& model,
       const Select& selection,
+      Configuration * config,
       const int group_index) override;
-  void compute(const Configuration& config,
+  void compute(
       const ModelTwoBody& model,
+      Configuration * config,
       const int group_index) override {
-    compute(config, model, config.selection_of_all(), group_index);
+    compute(model, config->selection_of_all(), config, group_index);
   }
   ~VisitModelIntra() {}
  private:
-  int intra_cut_;
+  int intra_cut_ = -1;
 };
 
 }  // namespace feasst

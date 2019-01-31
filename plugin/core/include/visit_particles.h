@@ -11,9 +11,9 @@ class LoopOneBody;
 
 class VisitParticles {
  public:
-  virtual void loop(const Particles& particles,
-                    LoopOneBody * loop,
-                    const Select& select);
+  void loop(const Particles& particles,
+            LoopOneBody * loop,
+            const Select& select);
   virtual ~VisitParticles() {}
 };
 

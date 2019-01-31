@@ -2,8 +2,10 @@
 #include "confinement/include/shape.h"
 #include "core/include/debug.h"
 
+namespace feasst {
+
 TEST(Shape, HalfSpace) {
-  auto half_space = feasst::HalfSpace()
+  auto half_space = HalfSpace()
     .set_dimension(2)
     .set_intersection(1)
     .set_direction(1);
@@ -11,7 +13,7 @@ TEST(Shape, HalfSpace) {
     half_space.set_direction(0.);
     CATCH_PHRASE("direction cannot be infinitesimal");
   }
-  feasst::Position point;
+  Position point;
   point.set_vector({15, -56.54, 2.});
   EXPECT_TRUE(half_space.is_inside(point));
   point.set_vector({15, -56.54, 1.000000000000001});
@@ -31,11 +33,13 @@ TEST(Shape, HalfSpace) {
   point.set_vector({15, -56.54, 2.9999999999});
   EXPECT_TRUE(half_space2.is_inside(point));
 
-  feasst::ShapeIntersect slit(std::make_shared<feasst::HalfSpace>(half_space),
-                              std::make_shared<feasst::HalfSpace>(half_space2));
+  ShapeIntersect slit(std::make_shared<HalfSpace>(half_space),
+                      std::make_shared<HalfSpace>(half_space2));
   point.set_vector({15, -56.54, 1.5});
   EXPECT_NEAR(-0.5, slit.nearest_distance(point), 1e-15);
   EXPECT_TRUE(slit.is_inside(point));
   EXPECT_TRUE(slit.is_inside(point, 0.9999));
   EXPECT_FALSE(slit.is_inside(point, 1.00001));
 }
+
+}  // namespace feasst

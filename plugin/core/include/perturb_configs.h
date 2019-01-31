@@ -33,7 +33,7 @@ class PerturbConfigs : public Perturb {
     donor_config_->remove_particle(donor_part_);
   }
 
-  void revert() { ERROR("not implemented"); }
+  void revert() override { ERROR("not implemented"); }
 
   ~PerturbConfigs() {}
 

@@ -24,7 +24,7 @@ void FileXYZ::load(const char* file_name, Configuration * config) const {
 //      cout << "cord " << str(coord) << endl;
   Position position;
   position.set_vector(coord);
-  INFO("coord " << feasst::str(coord) << " pos " << position.str());
+  TRACE("coord " << feasst::str(coord) << " pos " << position.str());
   config->set_side_length(position);
   // ASSERT(config->num_sites() == num_sites, "site mismatch");
   if (config->num_sites() == 0) {

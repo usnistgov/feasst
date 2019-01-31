@@ -18,7 +18,7 @@ void Properties::add(const std::string name, const double value) {
 
 double Properties::value(const std::string name) const {
   double val;
-  ASSERT(value(name, &val), "property not found");
+  ASSERT(value(name, &val), "property(" << name <<") not found");
   return val;
 }
 
@@ -34,7 +34,8 @@ bool Properties::value(const std::string name, double * value) const {
 
 void Properties::set(const std::string name, const double value) {
   int index;
-  ASSERT(find_in_list(name, property_name_, &index), "property not found");
+  ASSERT(find_in_list(name, property_name_, &index), "property(" << name
+    << ") not found");
   TRACE("setting " << name << " value " << value);
   property_value_[index] = value;
 }

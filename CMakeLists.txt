@@ -6,10 +6,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 
 # manually list the plugins
 #set(FEASST_PLUGINS "core;")
-#set(FEASST_PLUGINS "core;ewald;")
+#set(FEASST_PLUGINS "core;ewald;example;")
 set(FEASST_PLUGINS "core;ewald;example;confinement;")
-#set(FEASST_PLUGINS "core;ewald;example;xtc;")
-
+#set(FEASST_PLUGINS "core;ewald;example;confinement;xtc;")
+message(${FEASST_PLUGINS})
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
 
@@ -103,6 +103,12 @@ endif()
 list (FIND FEASST_PLUGINS "example" _index)
 if (${_index} GREATER -1)
   target_link_libraries(example core)
+endif()
+
+# Confinement
+list (FIND FEASST_PLUGINS "confinement" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(confinement core)
 endif()
 
 # CCACHE

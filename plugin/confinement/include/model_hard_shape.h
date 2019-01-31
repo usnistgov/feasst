@@ -15,9 +15,10 @@ namespace feasst {
 class ModelHardShape : public ModelOneBody,
                        public ShapedEntity {
  public:
-  double evaluate(const Site& site,
-                  const Configuration& config,
-                  const ModelParams& model_params) const {
+  double energy(
+      const Site& site,
+      const Configuration * config,
+      const ModelParams& model_params) const {
     const int type = site.type();
     const double sigma = model_params.sigma().value(type);
     if (shape()->is_inside(site.position(), sigma)) {

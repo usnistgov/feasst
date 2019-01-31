@@ -97,6 +97,12 @@ class Particles {
   void replace_position(const int particle_index,
                         const Position& replacement);
 
+  /// Replace properties of the site by index.
+  void replace_properties(const int particle_index,
+                          const int site_index,
+                          const Properties& replacement) {
+    particles_[particle_index].replace_properties(site_index, replacement); }
+
   /// Check consistency of dimensionality of positions of particles and sites.
   /// By default, for dimension == -1, determine automatically.
   void check_size(const int dimension = -1) const;
@@ -128,6 +134,12 @@ class Particles {
     model_params_.set(name, site_type, value);
   }
 
+  /// Add model parameter of a given name to value.
+  void add_model_param(const std::string name,
+                       const double value) {
+    model_params_.add_property(name, value);
+  }
+
   /// Add the property of sites in a particle.
   void add_site_property(const std::string name,
       const double value,
@@ -142,6 +154,12 @@ class Particles {
       const int particle_index,
       const int site_index) {
     particles_[particle_index].set_site_property(name, value, site_index);
+  }
+  void set_site_property(const int index,
+      const double value,
+      const int particle_index,
+      const int site_index) {
+    particles_[particle_index].set_site_property(index, value, site_index);
   }
 
  private:

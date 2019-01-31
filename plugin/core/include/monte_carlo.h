@@ -4,6 +4,7 @@
 
 #include <memory>
 #include "core/include/trial_factory.h"
+#include "core/include/trial_transfer.h"
 
 namespace feasst {
 
@@ -15,7 +16,7 @@ class MonteCarlo {
     trial_factory_.add(trial);
   }
   const System& system() const { return system_; }
-//  System * get_system() { return &system_; }
+  System * get_system() { return &system_; }  // HWH depreciate: testing only
   std::shared_ptr<Criteria> get_criteria() { return criteria_; }
   const TrialFactory& trials() const { return trial_factory_; }
 

@@ -24,23 +24,22 @@ class TrialTranslate : public Trial {
       accept_criteria_.force_rejection = 1;
     } else {
       const double pe_old = system->energy(perturb_.selection());
+      DEBUG("pe_old " << pe_old);
       const Position trajectory = random_.position_in_cube(
         system->dimension(),
         max_move_
       );
       perturb_.translate_selected_particle(trajectory, system);
       const double pe_new = system->energy(perturb_.selection());
+      DEBUG("pe_new " << pe_new);
       const double delta_energy = pe_new - pe_old;
       accept_criteria_.ln_metropolis_prob = -criteria->beta()*delta_energy;
       accept_criteria_.energy_new = criteria->running_energy() + delta_energy;
       accept_criteria_.force_rejection = 0;
       accept_criteria_.system = system;
-      accept_criteria_.pair = system->get_visitor();
+      DEBUG("delta_energy " << delta_energy);
     }
-    if (criteria->is_accepted(accept_criteria_)) {
-      //cout << "accept " << delta_energy << endl;
-    } else {
-      //cout << "reject " << delta_energy << endl;
+    if (!criteria->is_accepted(accept_criteria_)) {
       perturb_.revert();
     }
   }

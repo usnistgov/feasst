@@ -21,7 +21,7 @@ TEST(FileLMP, data_lj) {
   EXPECT_NEAR(3., particle.site(0).property("cutoff"), NEAR_ZERO);
   try {
     particle.site(0).property("charge");
-    CATCH_PHRASE("property not found");
+    CATCH_PHRASE("not found");
   }
   EXPECT_EQ(0, lmp_file.num_bonds());
   EXPECT_EQ(0, lmp_file.num_bond_types());
@@ -69,7 +69,7 @@ TEST(FileLMP, data_spce) {
   EXPECT_EQ(2, particle.num_bonds());
   try {
     particle.bond(0).property("doesnotexist");
-    CATCH_PHRASE("property not found");
+    CATCH_PHRASE("not found");
   }
   EXPECT_NEAR(1., particle.bond(0).property("l0"), NEAR_ZERO);
   EXPECT_NEAR(450, particle.bond(0).property("k"), NEAR_ZERO);

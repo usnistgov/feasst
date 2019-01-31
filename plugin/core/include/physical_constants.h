@@ -2,6 +2,9 @@
 #ifndef FEASST_CORE_PHYSICAL_CONSTANTS_H_
 #define FEASST_CORE_PHYSICAL_CONSTANTS_H_
 
+#include <math.h>
+#include "core/include/constants.h"
+
 namespace feasst {
 
 /**
@@ -27,6 +30,10 @@ constexpr double permitivity_vacuum = 8.854187817E-12;
 
 /// Elementary charge in units of C
 constexpr double elementary_charge = 1.602176565E-19;
+
+/// Convert e^2/Angstrom to kJ/mol by a factor of units (kJ*A/e^2/mol)
+const double charge_conversion = pow(elementary_charge, 2)/
+              (4*PI*permitivity_vacuum*1e3/1e10/avogadro_constant);
 
 }  // namespace feasst
 

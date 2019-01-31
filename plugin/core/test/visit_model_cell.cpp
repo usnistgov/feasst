@@ -29,16 +29,14 @@ TEST(VisitModelCell, simple_lj) {
   feasst::Position pos;
   pos.set_vector({2, 0, 0});
   config.displace_particle(select, pos);
-  const Site& site0 = config.particle(0).site(0);
-  EXPECT_EQ(0, site0.position().coord(0));
-  const Site& site1 = config.particle(1).site(0);
-  EXPECT_EQ(2, site1.position().coord(0));
+  EXPECT_EQ(0, config.particle(0).site(0).position().coord(0));
+  EXPECT_EQ(2, config.particle(1).site(0).position().coord(0));
   config.init_cells(3);
   const Cells& cells = config.domain().cells(0);
   EXPECT_EQ(5*5*5, cells.num_total());
   const int center = round(5.*5.*5./2. - 0.5);
-  EXPECT_EQ(site0.property("cell0"), center);
-  EXPECT_EQ(site1.property("cell0"), center + 1);
+  EXPECT_EQ(config.particle(0).site(0).property("cell0"), center);
+  EXPECT_EQ(config.particle(1).site(0).property("cell0"), center + 1);
   EXPECT_EQ(cells.particles()[center].num_sites(), 1);
   EXPECT_EQ(cells.particles()[center].particle_index(0), 0);
   EXPECT_EQ(cells.particles()[center].site_index(0, 0), 0);
@@ -49,45 +47,42 @@ TEST(VisitModelCell, simple_lj) {
   ModelLJ model;
   VisitModelCell cell_visit;
   VisitModel visit;
-  model.compute(visit, config);
-  model.compute(cell_visit, config);
+  model.compute(&config, &visit);
+  model.compute(&config, &cell_visit);
   double r2 = 4;
   double pe_lj = 4*(pow(r2, -6) - pow(r2, -3));
   EXPECT_NEAR(visit.energy(), pe_lj, NEAR_ZERO);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), NEAR_ZERO);
 
-  visit.check_energy(config, model);
-  cell_visit.check_energy(config, model);
-
-  visit.check_energy(config, model);
-  cell_visit.check_energy(config, model);
+  visit.check_energy(model, &config);
+  cell_visit.check_energy(model, &config);
 
   DEBUG("Move to the same cell");
   pos.set_vector({-1, 1, 1});
   config.displace_particle(select, pos);
-  EXPECT_EQ(site0.property("cell0"), center);
-  EXPECT_EQ(site1.property("cell0"), center);
+  EXPECT_EQ(config.particle(0).site(0).property("cell0"), center);
+  EXPECT_EQ(config.particle(1).site(0).property("cell0"), center);
   EXPECT_EQ(cells.particles()[center].num_sites(), 2);
   EXPECT_EQ(cells.particles()[center].num_particles(), 2);
   EXPECT_EQ(cells.particles()[center].particle_index(0), 0);
   EXPECT_EQ(cells.particles()[center].particle_index(1), 1);
   EXPECT_EQ(cells.particles()[center].site_index(0, 0), 0);
   EXPECT_EQ(cells.particles()[center].site_index(1, 0), 0);
-  model.compute(visit, config);
-  model.compute(cell_visit, config);
+  model.compute(&config, &visit);
+  model.compute(&config, &cell_visit);
   r2 = 3;
   pe_lj = 4*(pow(r2, -6) - pow(r2, -3));
   EXPECT_NEAR(visit.energy(), pe_lj, NEAR_ZERO);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), NEAR_ZERO);
 
   /// test energy of selection
-  model.compute(visit, config, select);
-  model.compute(cell_visit, config, select);
+  model.compute(select, &config, &visit);
+  model.compute(select, &config, &cell_visit);
   EXPECT_NEAR(visit.energy(), pe_lj, NEAR_ZERO);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-15);
 
-  visit.check_energy(config, model);
-  cell_visit.check_energy(config, model);
+  visit.check_energy(model, &config);
+  cell_visit.check_energy(model, &config);
 }
 
 /// Use a 5 angstrom cut off
@@ -107,20 +102,20 @@ TEST(VisitModelCell, lj_reference_config) {
   ModelLJ model;
   VisitModelCell cell_visit;
   VisitModel visit;
-  model.compute(visit, config);
-  model.compute(cell_visit, config);
+  model.compute(&config, &visit);
+  model.compute(&config, &cell_visit);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-12);
   EXPECT_NEAR(-15.076312312129405, visit.energy(), NEAR_ZERO);
 
   /// test energy of selection
   select.random_particle_of_type(0, &config);
-  model.compute(visit, config, select);
-  model.compute(cell_visit, config, select);
+  model.compute(select, &config, &visit);
+  model.compute(select, &config, &cell_visit);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-15);
   INFO("en " << visit.energy());
 
-  visit.check_energy(config, model);
-  cell_visit.check_energy(config, model);
+  visit.check_energy(model, &config);
+  cell_visit.check_energy(model, &config);
 }
 
 /// Use a 5 angstrom cut off
@@ -151,19 +146,19 @@ TEST(VisitModelCell, spce_reference_config) {
   ModelLJ model;
   VisitModelCell cell_visit;
   VisitModel visit;
-  model.compute(visit, config);
-  model.compute(cell_visit, config);
+  model.compute(&config, &visit);
+  model.compute(&config, &cell_visit);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-12);
   EXPECT_NEAR(896.85497602741475, visit.energy(), NEAR_ZERO);
 
   /// test energy of selection
   select.random_particle_of_type(0, &config);
-  model.compute(visit, config, select);
-  model.compute(cell_visit, config, select);
+  model.compute(select, &config, &visit);
+  model.compute(select, &config, &cell_visit);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-15);
 
-  visit.check_energy(config, model);
-  cell_visit.check_energy(config, model);
+  visit.check_energy(model, &config);
+  cell_visit.check_energy(model, &config);
 }
 
 // add individual particles until reaching the point where the visitors are
@@ -207,7 +202,7 @@ TEST(VisitModelCell, spce_reference_config_buildup) {
     DEBUG("cell list " << config2->domain().cells(0).str());
     EXPECT_EQ(100 - transfers, config1->num_particles());
     EXPECT_EQ(transfers, config2->num_particles());
-    cell_visit.check_energy(*config2, model);
+    cell_visit.check_energy(model, config2);
   }
 }
 

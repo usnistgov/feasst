@@ -10,6 +10,7 @@ TEST(CriteriaMayer, ljb2) {
   seed_random_by_date();
 //  seed_random();
   System system = default_system();
+  system.add_reference(hs_potentials());
   TrialFactory trials;
   auto translate = std::make_shared<TrialTranslate>();
   translate->set_weight(0.75);
@@ -32,7 +33,8 @@ TEST(CriteriaMayer, ljb2) {
     trials.attempt(&criteria, &system);
   }
   std::cout << "a " << criteria.second_virial() << std::endl;
-  EXPECT_NEAR(-5.3, criteria.second_virial(), 10);
+  EXPECT_NEAR(-5.3, criteria.second_virial(), 15);
+  EXPECT_GT(std::abs(2.0944-criteria.second_virial()), 0.0001); // HS value
 }
 
 }  // namespace feasst

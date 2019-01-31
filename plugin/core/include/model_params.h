@@ -19,7 +19,7 @@ namespace feasst {
 class ModelParam {
  public:
   /// Add a new site type.
-  void add(const double value) { values_.push_back(value); }
+  void add(const double value);
 
   /// Set the value of the site type.
   void set(const int site_type, const double value) {
@@ -48,8 +48,8 @@ class ModelParam {
   }
 
   /// Return the mixed values.
-  const std::vector<std::vector<double> >* mixed_values() const {
-    return &mixed_values_;
+  const std::vector<std::vector<double> >& mixed_values() const {
+    return mixed_values_;
   }
 
   /// Return the number of values.
@@ -58,11 +58,19 @@ class ModelParam {
   /// Return the name of the model parameter (e.g., epsilon, cutoff)
   std::string name() { return name_(); }
 
+  /// Return the maximum.
+  double max() const { return max_value_; }
+
+  /// Return the mixed maximum.
+  double mixed_max() const;
+
   virtual ~ModelParam() {};
 
  private:
   std::vector<double> values_;
   std::vector<std::vector<double> > mixed_values_;
+  double max_value_;
+  double max_mixed_value_;
 
   /// Define mixing rules in the derived class.
   virtual double mix_(const double value1, const double value2) = 0;
@@ -125,7 +133,7 @@ class Charge : public ModelParam {
 /**
   Container for all model parameters.
  */
-class ModelParams {
+class ModelParams : public PropertiedEntity {
  public:
   ModelParams();
 
@@ -148,16 +156,16 @@ class ModelParams {
   Charge charge() const { return *charge_; }
 
   /// Return constant pointers for optimized model inner loops.
-  const std::vector<std::vector<double> >* mixed_epsilon() const {
+  const std::vector<std::vector<double> >& mixed_epsilon() const {
     return epsilon_->mixed_values();
   }
-  const std::vector<std::vector<double> >* mixed_sigma() const {
+  const std::vector<std::vector<double> >& mixed_sigma() const {
     return sigma_->mixed_values();
   }
-  const std::vector<std::vector<double> >* mixed_cutoff() const {
+  const std::vector<std::vector<double> >& mixed_cutoff() const {
     return cutoff_->mixed_values();
   }
-  const std::vector<std::vector<double> >* mixed_charge() const {
+  const std::vector<std::vector<double> >& mixed_charge() const {
     return charge_->mixed_values();
   }
 

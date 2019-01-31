@@ -9,7 +9,7 @@ TEST(Properties, properties) {
   Properties properties;
   try {
     properties.value("bananas");
-    CATCH_PHRASE("property not found");
+    CATCH_PHRASE("not found");
   }
   double value;
   EXPECT_FALSE(properties.value("bananas", &value));
@@ -18,7 +18,7 @@ TEST(Properties, properties) {
   EXPECT_NEAR(properties.value("bananas"), 12, NEAR_ZERO);
   try {
     properties.set("apples", 2.3);
-    CATCH_PHRASE("property not found");
+    CATCH_PHRASE("not found");
   }
   properties.set("bananas", 2.3);
   EXPECT_NEAR(properties.value("bananas"), 2.3, NEAR_ZERO);
