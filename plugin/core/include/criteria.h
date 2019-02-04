@@ -10,10 +10,10 @@ namespace feasst {
 // This is the information passed from the system to the acceptance criteria in
 // order to determine whether to accept or reject the trial.
 struct AcceptanceCriteria {
-  double ln_metropolis_prob;
-  double energy_new;
+  double ln_metropolis_prob = 0.;
+  double energy_new = 0.;
   int force_rejection = 0;
-  System* system;
+  System* system = NULL;
   int accepted = -1;
 };
 
@@ -26,10 +26,10 @@ struct AcceptanceCriteria {
 class Criteria {
  public:
   /// Set beta, the inverse temperature \f$ \beta=\frac{1}{k_B T} \f$.
-  void set_beta(const double beta) { beta_ = beta; }
+  void set_beta(const double beta);
 
   /// Return beta.
-  double beta() const { return beta_; }
+  double beta() const;
 
   /// Add an activity for a given type of particle.
   /// Note that z has units length^{-dimension} such that Vz/N is unitless.
@@ -38,9 +38,7 @@ class Criteria {
   void add_activity(const double activity) { activity_.push_back(activity); }
 
   /// Return the activity of the particle type.
-  double activity(const int particle_type = 0) const {
-    return activity_[particle_type];
-  }
+  double activity(const int particle_type = 0) const;
 
   /// This function is called before a trial attempt.
   virtual void before_attempt(const System* system) {}
@@ -61,6 +59,7 @@ class Criteria {
 
  private:
   double beta_;
+  bool beta_initialized_ = false;
   std::vector<double> activity_;
   double running_energy_;
 

@@ -13,6 +13,13 @@ TEST(Criteria, running_energy) {
   TrialTranslate trans;
   CriteriaMetropolis crit;
   crit.set_running_energy(sys.energy());
+  try {
+    auto sys2 = sys;
+    auto crit2 = crit;
+    trans.attempt(&crit2, &sys2);
+    CATCH_PHRASE("beta must be initialized");
+  }
+  crit.set_beta(1.);
   trans.attempt(&crit, &sys);
   EXPECT_NEAR(sys.energy(), crit.running_energy(), NEAR_ZERO);
 }
