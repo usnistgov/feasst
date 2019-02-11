@@ -63,6 +63,33 @@ class TrialFactory : public Trial {
 
   std::vector<std::shared_ptr<Trial> > trials() { return trials_; }
 
+  /// Return the header description for the statuses of the trials (e.g., acceptance, etc).
+  std::string status_header() const override {
+    std::stringstream ss;
+    ss << "attempt ";
+    for (const std::shared_ptr<Trial> trial : trials_) {
+      ss << trial->status_header() << " ";
+    }
+    return ss.str();
+  }
+
+  /// Return the statuses of the trials (e.g., acceptance, etc).
+  std::string status() const override {
+    std::stringstream ss;
+    ss << num_attempts() << " ";
+    for (const std::shared_ptr<Trial> trial : trials_) {
+      ss << trial->status() << " ";
+    }
+    return ss.str();
+  }
+
+  void reset_stats() override {
+    Trial::reset_stats();
+    for (std::shared_ptr<Trial> trial : trials_) {
+      trial->reset_stats();
+    }
+  }
+
  private:
   std::vector<std::shared_ptr<Trial> > trials_;
   std::vector<double> cumulative_probability_;

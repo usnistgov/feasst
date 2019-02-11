@@ -10,6 +10,7 @@
 #include "core/include/histogram.h"
 #include "core/include/utils_io.h"
 #include "core/include/accumulator.h"
+#include "core/include/model_lrc.h"
 #include "core/test/system_test.h"
 
 namespace feasst {
@@ -213,6 +214,57 @@ TEST(MonteCarlo, WLMC) {
   }
   std::cout << "nTrans " << translate->num_attempts() << " nTransfer " << transfer->num_attempts() << std::endl;
   std::cout << str(bias->ln_macro_prob()) << std::endl;
+}
+
+TEST(MonteCarlo, Analyze) {
+  seed_random_by_date();
+  MonteCarlo mc;
+
+  { // add system to mc
+    System sys;
+    { // add configuration to system
+      Configuration config;
+      config.set_domain(Domain().set_cubic(8));
+      config.add_particle_type("../forcefield/data.lj");
+      sys.add_configuration(config);
+    }
+
+    { // add potentials to system
+      Potential potential;
+      potential.set_model(std::make_shared<ModelLJ>());
+      potential.set_visit_model(std::make_shared<VisitModel>());
+      Potentials potentials;
+      potentials.add_potential(potential);
+      potential.set_model(std::make_shared<ModelLRC>());
+      potentials.add_potential(potential);
+      sys.set_full(potentials);
+    }
+    mc.set_system(sys);
+  }
+
+  { // add criteria to mc
+    auto criteria = std::make_shared<CriteriaMetropolis>();
+    criteria->set_beta(1.2);
+    criteria->add_activity(1);
+    mc.set_criteria(criteria);
+  }
+
+  { // add translate to mc
+    auto translate = std::make_shared<TrialTranslate>();
+    translate->set_weight(1);
+    mc.add_trial(translate);
+  }
+
+  mc.seek_num_particles(50);
+
+  { // add analyze to mc
+    auto log = std::make_shared<Log>();
+    log->set_steps_per_write(1e3);
+    log->set_file_name("tmp/log.txt");
+    mc.add_analyze(log);
+  }
+
+  mc.attempt(1e4);
 }
 
 }  // namespace feasst

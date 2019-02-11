@@ -2,9 +2,11 @@
 #ifndef FEASST_CORE_MONTE_CARLO_H_
 #define FEASST_CORE_MONTE_CARLO_H_
 
+#include <vector>
 #include <memory>
 #include "core/include/trial_factory.h"
 #include "core/include/trial_transfer.h"
+#include "core/include/analyze.h"
 
 namespace feasst {
 
@@ -27,18 +29,26 @@ class MonteCarlo {
       attempt();
       add.attempt(criteria_.get(), &system_);
     }
+    trial_factory_.reset_stats();
   }
 
   void attempt(const int num_trials = 1) {
     for (int trial = 0; trial < num_trials; ++trial) {
       trial_factory_.attempt(criteria_.get(), &system_);
+      analyze_factory_.trial(criteria_, system_, trial_factory_);
     }
+  }
+
+  void add_analyze(const std::shared_ptr<Analyze> analyze) {
+    analyze->initialize(criteria_, system_, trial_factory_);
+    analyze_factory_.add(analyze);
   }
 
  private:
   std::shared_ptr<Criteria> criteria_;
   TrialFactory trial_factory_;
   System system_;
+  AnalyzeFactory analyze_factory_;
 };
 
 }  // namespace feasst

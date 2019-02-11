@@ -10,6 +10,10 @@
 namespace feasst {
 
 /**
+  Note to HWH: consider breaking this into two trials, TrialAdd, TrialDelete
+    -increase modularity
+    -independent trial acceptance measures
+    -TrialTransfer may combine them
  */
 class TrialTransfer : public Trial {
  public:
@@ -48,6 +52,7 @@ class TrialTransfer : public Trial {
       accept_criteria_.system = system;
     }
     if (criteria->is_accepted(accept_criteria_)) {
+      record_success();
       DEBUG("accept del " << delta_energy);
     } else {
       DEBUG("reject del " << delta_energy);
@@ -75,8 +80,9 @@ class TrialTransfer : public Trial {
     accept_criteria_.force_rejection = 0;
     accept_criteria_.system = system;
     if (criteria->is_accepted(accept_criteria_)) {
+      record_success();
       DEBUG("accepted add " << delta_energy);
-      // HWH revive ghost, add to cells, update neighbors, etc
+      // HWH revive ghost, add to cells, update neighbors, etc HWH: depreciate this comment?
     } else {
       DEBUG("reject add " << delta_energy);
       perturb_.revert();

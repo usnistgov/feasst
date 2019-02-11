@@ -39,7 +39,9 @@ class TrialTranslate : public Trial {
       accept_criteria_.system = system;
       DEBUG("delta_energy " << delta_energy);
     }
-    if (!criteria->is_accepted(accept_criteria_)) {
+    if (criteria->is_accepted(accept_criteria_)) {
+      record_success();
+    } else {
       perturb_.revert();
     }
   }

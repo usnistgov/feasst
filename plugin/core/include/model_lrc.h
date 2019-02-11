@@ -3,6 +3,7 @@
 #define FEASST_CORE_MODEL_LRC_H_
 
 #include "core/include/model_one_body.h"
+#include "core/include/constants.h"
 
 namespace feasst {
 

@@ -5,9 +5,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pg -g") #profile
 
 # manually list the plugins
-#set(FEASST_PLUGINS "core;")
+set(FEASST_PLUGINS "core;")
 #set(FEASST_PLUGINS "core;ewald;example;")
-set(FEASST_PLUGINS "core;ewald;example;confinement;")
+#set(FEASST_PLUGINS "core;ewald;example;confinement;")
 #set(FEASST_PLUGINS "core;ewald;example;confinement;xtc;")
 message(${FEASST_PLUGINS})
 # set path to XDR if using xtc plugin

@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 #include "core/include/debug.h"
 #include "core/include/configuration.h"
 #include "core/include/visit_model.h"
@@ -97,6 +98,14 @@ class Potentials {
 
   const std::vector<Potential>& potentials() const { return potentials_; }
 
+  double stored_energy() const {
+    double en = 0.;
+    for (const Potential& potential : potentials_) {
+      en += potential.stored_energy();
+    }
+    return en;
+  }
+
  private:
   std::vector<Potential> potentials_;
 };
@@ -135,6 +144,18 @@ class System {
   const Potentials& full() const { return full_; }
 
   void revert() { full_.revert(); }
+
+  /// Return the header of the status of the system for periodic output.
+  std::string status_header() const {
+    return std::string("energy ");
+  }
+
+  /// Return the status of the system for periodic output.
+  std::string status() const {
+    std::stringstream ss;
+    ss << full().stored_energy() << " ";
+    return ss.str();
+  }
 
  private:
   std::vector<Configuration> configurations_;
