@@ -6,6 +6,7 @@ namespace feasst {
 
 void VisitModelIntra::compute(
     const ModelTwoBody& model,
+    const ModelParams& model_params,
     const Select& selection,
     Configuration * config,
     const int group_index) {
@@ -14,7 +15,6 @@ void VisitModelIntra::compute(
   const Domain& domain = config->domain();
   Position relative;
   relative.set_vector(domain.side_length().coord());
-  const ModelParams& model_params = config->unique_types().model_params();
   for (int part1_index : selection.particle_indices()) {
     TRACE("particle: " << part1_index);
     const Particle part1 = config->particle(part1_index);

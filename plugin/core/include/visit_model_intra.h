@@ -24,14 +24,16 @@ class VisitModelIntra : public VisitModel {
   void set_intra_cut(const int cut) { intra_cut_ = cut; }
   void compute(
       const ModelTwoBody& model,
+      const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
       const int group_index) override;
   void compute(
       const ModelTwoBody& model,
+      const ModelParams& model_params,
       Configuration * config,
       const int group_index) override {
-    compute(model, config->selection_of_all(), config, group_index);
+    compute(model, model_params, config->selection_of_all(), config, group_index);
   }
   ~VisitModelIntra() {}
  private:

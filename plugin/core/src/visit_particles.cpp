@@ -3,7 +3,7 @@
 
 namespace feasst {
 
-void VisitParticles::loop(const Particles& particles,
+void VisitParticles::loop(const ParticleFactory& particles,
                           LoopOneBody * loop,
                           const Select& select) {
   for (int select_index = 0;

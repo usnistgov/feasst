@@ -7,6 +7,7 @@
 #include "core/include/trial_factory.h"
 #include "core/include/trial_transfer.h"
 #include "core/include/analyze.h"
+#include "core/include/modify.h"
 
 namespace feasst {
 
@@ -36,6 +37,7 @@ class MonteCarlo {
     for (int trial = 0; trial < num_trials; ++trial) {
       trial_factory_.attempt(criteria_.get(), &system_);
       analyze_factory_.trial(criteria_, system_, trial_factory_);
+      modify_factory_.trial(criteria_, &system_, &trial_factory_);
     }
   }
 
@@ -44,11 +46,17 @@ class MonteCarlo {
     analyze_factory_.add(analyze);
   }
 
+  void add_modify(const std::shared_ptr<Modify> modify) {
+    modify->initialize(criteria_, &system_, &trial_factory_);
+    modify_factory_.add(modify);
+  }
+
  private:
   std::shared_ptr<Criteria> criteria_;
   TrialFactory trial_factory_;
   System system_;
   AnalyzeFactory analyze_factory_;
+  ModifyFactory modify_factory_;
 };
 
 }  // namespace feasst

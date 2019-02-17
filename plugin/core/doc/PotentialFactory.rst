@@ -1,6 +1,6 @@
-Potential
+PotentialFactory
 =====================================================
 
-.. doxygenclass:: feasst::Potential
+.. doxygenclass:: feasst::PotentialFactory
    :project: FEASST
    :members:

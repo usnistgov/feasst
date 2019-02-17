@@ -38,6 +38,7 @@ class Ewald : public VisitModel {
   /// which is stored for optimization
   void compute(
       const ModelOneBody& model,
+      const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
       const int group_index) override {
@@ -54,6 +55,7 @@ class Ewald : public VisitModel {
   /// Compute by entire selection does not require subtraction as above.
   void compute(
       const ModelOneBody& model,
+      const ModelParams& model_params,
       Configuration * config,
       const int group_index = 0) override {
     // for entire configuration, set stored previous energy to zero

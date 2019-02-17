@@ -4,7 +4,7 @@
 
 #include <string>
 #include <vector>
-#include "core/include/particles.h"
+#include "core/include/particle_factory.h"
 #include "core/include/random.h"
 #include "core/include/group.h"
 

@@ -7,4 +7,3 @@ API
    Ewald
    ModelChargeSelf
    ModelChargeScreened
-   system_example

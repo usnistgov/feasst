@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "core/include/model_lj.h"
-#include "core/include/model_lrc.h"
+#include "core/include/long_range_corrections.h"
 #include "core/include/visit_model.h"
 #include "core/include/constants.h"
 #include "core/include/file_lmp.h"
@@ -52,9 +52,10 @@ TEST(VisitModel, reference_config) {
   model.compute(&config, &visit);
   EXPECT_NEAR(-16.790321304625856, visit.energy(), NEAR_ZERO);
   const double energy_prev = visit.energy();
-  ModelLRC lrc;
-  lrc.compute(&config, &visit);
-  EXPECT_NEAR(-0.5451660014945704, visit.energy(), NEAR_ZERO);
+  ModelEmpty empty;
+  LongRangeCorrections lrc;
+  empty.compute(&config, &lrc);
+  EXPECT_NEAR(-0.5451660014945704, lrc.energy(), NEAR_ZERO);
   visit.check_energy(model, &config);
 
   // test factory double counts with two identical LJ models.
@@ -65,20 +66,6 @@ TEST(VisitModel, reference_config) {
   EXPECT_NEAR(2.*energy_prev, visit.energy(), NEAR_ZERO);
 }
 
-TEST(VisitModel, ModelLRC) {
-  Configuration config = default_configuration();
-  VisitModel visit;
-  ModelLRC lrc;
-  visit.compute(lrc, &config);
-  const double pe_lrc = (8./3.)*PI*pow(config.num_particles(), 2)/config.domain().volume()
-    *((1./3.)*pow(3, -9) - pow(3, -3));
-  EXPECT_NEAR(pe_lrc, visit.energy(), NEAR_ZERO);
-
-  // test visit design pattern
-  Model* model = &lrc;
-  EXPECT_NEAR(pe_lrc, model->compute(&config, &visit), NEAR_ZERO);
-}
-
 TEST(VisitModel, spce_reference_config) {
   seed_random_by_date();
   Configuration config = spce_sample();
@@ -87,10 +74,11 @@ TEST(VisitModel, spce_reference_config) {
   visit.compute(model, &config);
   const double pe_lj = 99538.736236886805;
   EXPECT_NEAR(pe_lj*ideal_gas_constant/1e3, visit.energy(), feasst::NEAR_ZERO);
-  ModelLRC lrc;
-  visit.compute(lrc, &config);
+  ModelEmpty empty;
+  LongRangeCorrections lrc;
+  empty.compute(&config, &lrc);
   const double pe_lrc = -823.71499511652326;
-  EXPECT_NEAR(pe_lrc*ideal_gas_constant/1e3, visit.energy(), 1e-13);
+  EXPECT_NEAR(pe_lrc*ideal_gas_constant/1e3, lrc.energy(), 1e-13);
 
   // test adding/deleting particles, resulting in a ghost
   SelectList select;
@@ -105,8 +93,8 @@ TEST(VisitModel, spce_reference_config) {
   config.remove_particle(select);
   visit.compute(model, &config);
   EXPECT_NEAR(pe_lj*ideal_gas_constant/1e3, visit.energy(), 1e-12);
-  visit.compute(lrc, &config);
-  EXPECT_NEAR(pe_lrc*ideal_gas_constant/1e3, visit.energy(), 1e-13);
+  empty.compute(&config, &lrc);
+  EXPECT_NEAR(pe_lrc*ideal_gas_constant/1e3, lrc.energy(), 1e-13);
   EXPECT_EQ(101, config.particles().num()); // includes one ghost particle
   EXPECT_EQ(100, config.selection_of_all().num_particles());
   config.check_size();

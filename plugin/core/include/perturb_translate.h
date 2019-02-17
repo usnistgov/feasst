@@ -6,12 +6,11 @@
 
 namespace feasst {
 
-class PerturbTranslate : public Perturb {
+class PerturbTranslate : public PerturbOptRevert {
  public:
   const Select& selection() const override { return selection_; }
 
   void select_random_particle(const int group_index, const Configuration& config) {
-    ASSERT(optimization_ == 1, "error");
     selection_.random_particle(config, group_index);
     selection_.set_trial_state("old");
   }
@@ -27,13 +26,9 @@ class PerturbTranslate : public Perturb {
 
   void revert() override {
     if (revert_possible()) {
-      if (optimization_ == 0) {
-        Perturb::revert();
-      } else {
-        Configuration* config = system()->get_configuration();
-        config->update_positions(selection_);
-        system()->revert();
-      }
+      Configuration* config = system()->get_configuration();
+      config->update_positions(selection_);
+      system()->revert();
     }
   }
 

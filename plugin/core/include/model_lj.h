@@ -7,6 +7,13 @@
 
 namespace feasst {
 
+/**
+  The Lennard-Jones potential is given by
+
+  \f$ U_{LJ} = 4\epsilon [ (\sigma/r)^{2\alpha} - (\sigma/r)^\alpha ] \f$,
+
+  where \f$\alpha=6\f$ is the default. 
+ */
 class ModelLJ : public ModelTwoBody {
  public:
   double energy(

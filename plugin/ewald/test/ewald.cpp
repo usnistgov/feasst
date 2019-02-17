@@ -6,14 +6,14 @@
 #include "ewald/include/model_charge_intra.h"
 #include "ewald/include/model_charge_screened.h"
 #include "core/include/model_lj.h"
-#include "core/include/model_lrc.h"
+#include "core/include/long_range_corrections.h"
 #include "core/include/visit_model_intra.h"
 #include "core/include/system.h"
 #include "core/include/perturb_translate.h"
 #include "core/include/monte_carlo.h"
 #include "core/include/trial_translate.h"
 #include "core/include/criteria_metropolis.h"
-#include "ewald/include/system_example.h"
+#include "ewald/test/system_example.h"
 
 namespace feasst {
 
@@ -29,7 +29,7 @@ TEST(Ewald, ewald) {
 //  INFO(feasst::str(config.particle(0).site(0).properties().property_value()));
 
   ModelChargeSelf model;  // any place holder model is fine because its not used
-  ewald.compute(model, &config);
+  model.compute(&config, &ewald);
   // ewald.update_eik(config.selection_of_all(), &config);
 
   const std::vector<double> eik = config.particle(0).site(0).properties().property_value();
@@ -59,15 +59,15 @@ TEST(Ewald, system) {
   System sys = spce();
   EXPECT_NEAR(-4062.47263092246, sys.energy(), 1e-10);
   EXPECT_NEAR(-3819.24971214984,
-    sys.full().potentials()[0].stored_energy(), 1e-10);
+    sys.unoptimized().potentials()[0].stored_energy(), 1e-10);
   EXPECT_NEAR(23363.573774608,
-    sys.full().potentials()[1].stored_energy(), 1e-10);
+    sys.unoptimized().potentials()[1].stored_energy(), 1e-10);
   EXPECT_NEAR(-6.84874714555147,
-    sys.full().potentials()[2].stored_energy(), 1e-14);
+    sys.unoptimized().potentials()[2].stored_energy(), 1e-13);
   EXPECT_NEAR(-23652.08040365018,
-    sys.full().potentials()[3].stored_energy(), 1e-12);
+    sys.unoptimized().potentials()[3].stored_energy(), 1e-12);
   EXPECT_NEAR(52.1324574151071,
-    sys.full().potentials()[4].stored_energy(), 1e-12);
+    sys.unoptimized().potentials()[4].stored_energy(), 1e-12);
 }
 
 TEST(Ewald, revert) {

@@ -11,15 +11,9 @@
 
 namespace feasst {
 
-class Analyze {
+class Stepper {
  public:
-  Analyze() { set_steps_per_update(); }
-
-  virtual void initialize(const std::shared_ptr<Criteria> criteria,
-      const System& system,
-      const TrialFactory& trial_factory) {
-    // do nothing by default
-  }
+  Stepper() { set_steps_per_update(); }
 
   /// Check if it is time to update or write. Return true if so.
   bool is_time(const int steps_per, int * steps_since) {
@@ -36,7 +30,7 @@ class Analyze {
     return false;
   }
 
-  /// Write to standard output if file name is not set. Otherwise, to file.
+  /// Write to standard output if file name is not set. Otherwise, output file.
   void printer(const std::string output) {
     if (file_name_.empty()) {
       std::cout << output;
@@ -48,13 +42,47 @@ class Analyze {
     }
   }
 
+  /// Set the number of trial steps per analysis update.
+  /// Disabled if steps is not positive.
+  virtual void set_steps_per_update(const int steps = 1) { steps_per_update_ = steps; }
+
+  /// Set the number of trial steps per writing of analysis to file or screen.
+  /// Disabled if steps is not positive.
+  virtual void set_steps_per_write(const int steps = 1) { steps_per_write_ = steps; }
+
+  /// Set the name of the file to write. If empty, write to screen.
+  void set_file_name(const std::string file_name) { file_name_ = file_name; }
+
+  int steps_per_update() const { return steps_per_update_; }
+  int steps_per_write() const { return steps_per_write_; }
+  int * get_steps_since_update() { return &steps_since_update_; }
+  int * get_steps_since_write() { return &steps_since_write_; }
+
+  virtual ~Stepper() {}
+
+ private:
+  int steps_per_update_;
+  int steps_per_write_;
+  int steps_since_update_ = 0;
+  int steps_since_write_ = 0;
+  std::string file_name_;
+};
+
+class Analyze : public Stepper {
+ public:
+  virtual void initialize(const std::shared_ptr<Criteria> criteria,
+      const System& system,
+      const TrialFactory& trial_factory) {
+    // do nothing by default
+  }
+
   virtual void trial(const std::shared_ptr<Criteria> criteria,
       const System& system,
       const TrialFactory& trial_factory) {
-    if (is_time(steps_per_update_, &steps_since_update_)) {
+    if (is_time(steps_per_update(), get_steps_since_update())) {
       update(criteria, system, trial_factory);
     }
-    if (is_time(steps_per_write_, &steps_since_write_)) {
+    if (is_time(steps_per_write(), get_steps_since_write())) {
       printer(write(criteria, system, trial_factory));
     }
   }
@@ -72,25 +100,7 @@ class Analyze {
     return std::string("");
   }
 
-  /// Set the number of trial steps per analysis update.
-  /// Disabled if steps is not positive.
-  virtual void set_steps_per_update(const int steps = 1) { steps_per_update_ = steps; }
-
-  /// Set the number of trial steps per writing of analysis to file or screen.
-  /// Disabled if steps is not positive.
-  void set_steps_per_write(const int steps = 1) { steps_per_write_ = steps; }
-
-  /// Set the name of the file to write. If empty, write to screen.
-  void set_file_name(const std::string file_name) { file_name_ = file_name; }
-
   virtual ~Analyze() {}
-
- private:
-  int steps_per_update_;
-  int steps_per_write_;
-  int steps_since_update_ = 0;
-  int steps_since_write_ = 0;
-  std::string file_name_;
 };
 
 class AnalyzeFactory : public Analyze {
@@ -124,6 +134,8 @@ class AnalyzeWriteOnly : public Analyze {
 
   void set_steps_per_update(const int steps) override {
     ERROR("This analyze is write only."); }
+
+  void set_steps_per(const int steps) { set_steps_per_write(steps); }
 };
 
 class Log : public AnalyzeWriteOnly {
@@ -132,7 +144,7 @@ class Log : public AnalyzeWriteOnly {
       const System& system,
       const TrialFactory& trial_factory) override {
     std::stringstream ss;
-    ss << "#" << system.status_header() << trial_factory.status_header()
+    ss << "#" << system.status_header() << " " << trial_factory.status_header()
        << std::endl;
     printer(ss.str());
   }
@@ -142,7 +154,7 @@ class Log : public AnalyzeWriteOnly {
       const TrialFactory& trial_factory) override {
     // ensure the following order matches the header from initialization.
     std::stringstream ss;
-    ss << system.status() << trial_factory.status() << std::endl;
+    ss << system.status() << " " << trial_factory.status() << std::endl;
     return ss.str();
   }
 };

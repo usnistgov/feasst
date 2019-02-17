@@ -1,4 +1,4 @@
-#include "core/include/particles.h"
+#include "core/include/particle_factory.h"
 #include "core/include/debug.h"
 #include "core/include/histogram.h"
 #include "core/include/file_lmp.h"
@@ -6,7 +6,7 @@
 
 namespace feasst {
 
-void Particles::add(const Particle& particle) {
+void ParticleFactory::add(const Particle& particle) {
   // compute types and also check none are skipped.
   const int num_site_type = num_site_types();
   const int num_particle_type = num_particle_types();
@@ -22,7 +22,7 @@ void Particles::add(const Particle& particle) {
   check_site_types();
 }
 
-void Particles::check_size(const int dimension) const {
+void ParticleFactory::check_size(const int dimension) const {
   if (particles_.size() != 0) {
     int size = dimension;
     if (size == -1) {
@@ -35,7 +35,7 @@ void Particles::check_size(const int dimension) const {
   }
 }
 
-void Particles::check_types(int * num_site_types,
+void ParticleFactory::check_types(int * num_site_types,
                             int * num_particle_types) const {
   if (particles_.size() == 0) {
     *num_site_types = 0;
@@ -65,7 +65,7 @@ void Particles::check_types(int * num_site_types,
   *num_particle_types = round(particle_type.center_of_last_bin()) + 1;
 }
 
-void Particles::add(const char* file_name) {
+void ParticleFactory::add(const char* file_name) {
   ASSERT(unique_particles_,
     "only add particles by file for defining allowed types");
   // const int kMaxSiteType = check_site_types();
@@ -81,26 +81,26 @@ void Particles::add(const char* file_name) {
   add(particle);
 }
 
-Particles& Particles::unique_particles() {
+ParticleFactory& ParticleFactory::unique_particles() {
   unique_particles_ = true;
   check_site_types();
   ASSERT(num_site_types() == 0, "set before adding particles");
   return *this;
 }
 
-Particles& Particles::unique_types() {
+ParticleFactory& ParticleFactory::unique_types() {
   unique_particles();  // one of each requires unique site types.
   unique_types_ = true;
   ASSERT(num_site_types() == 0, "set before adding particles");
   return *this;
 }
 
-const Particle& Particles::particle(const int particle_index) const {
+const Particle& ParticleFactory::particle(const int particle_index) const {
   ASSERT(particle_index < num(), "size error");
   return particles_[particle_index];
 }
 
-int Particles::num_sites() const {
+int ParticleFactory::num_sites() const {
   int num = 0;
   for (const Particle& particle : particles_) {
     num += particle.num_sites();
@@ -108,24 +108,24 @@ int Particles::num_sites() const {
   return num;
 }
 
-void Particles::check_types() const {
+void ParticleFactory::check_types() const {
   int num_site_types, num_particle_types;
   check_types(&num_site_types, &num_particle_types);
 }
 
-int Particles::check_site_types() const {
+int ParticleFactory::check_site_types() const {
   int num_site_types, num_particle_types;
   check_types(&num_site_types, &num_particle_types);
   return num_site_types;
 }
 
-int Particles::check_particle_types() const {
+int ParticleFactory::check_particle_types() const {
   int num_site_types, num_particle_types;
   check_types(&num_site_types, &num_particle_types);
   return num_particle_types;
 }
 
-void Particles::remove(const Group group) {
+void ParticleFactory::remove(const Group group) {
   for (int index = num() -1;
        index >= 0;
        --index) {
@@ -139,23 +139,23 @@ void Particles::remove(const Group group) {
   }
 }
 
-void Particles::replace_position(const int particle_index,
+void ParticleFactory::replace_position(const int particle_index,
                                  const Particle& replacement) {
   particles_[particle_index].replace_position(replacement);
 }
 
-void Particles::replace_position(const int particle_index,
+void ParticleFactory::replace_position(const int particle_index,
                                  const int site_index,
                                  const Position& replacement) {
   particles_[particle_index].replace_position(site_index, replacement);
 }
 
-void Particles::replace_position(const int particle_index,
+void ParticleFactory::replace_position(const int particle_index,
                                  const Position& replacement) {
   particles_[particle_index].set_position(replacement);
 }
 
-void Particles::remove(const int particle_index) {
+void ParticleFactory::remove(const int particle_index) {
   ASSERT(particle_index < num(), "size error");
   particles_.erase(particles_.begin() + particle_index);
 }

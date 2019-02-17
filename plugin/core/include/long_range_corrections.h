@@ -1,0 +1,91 @@
+
+#ifndef FEASST_CORE_LONG_RANGE_CORRECTIONS_H_
+#define FEASST_CORE_LONG_RANGE_CORRECTIONS_H_
+
+#include <vector>
+#include <sstream>
+#include <algorithm>
+#include "core/include/physical_constants.h"
+#include "core/include/configuration.h"
+#include "core/include/visit_model.h"
+
+namespace feasst {
+
+/**
+ */
+class LongRangeCorrections : public VisitModel {
+ public:
+  // compute number of particles of each type in selection
+  std::vector<int> types(const Select& selection, const Configuration * config) {
+    std::vector<int> count(config->num_site_types());
+    for (int select_index = 0;
+         select_index < selection.num_particles();
+         ++select_index) {
+      const int part_index = selection.particle_index(select_index);
+      const Particle& part = config->select_particle(part_index);
+      for (int site_index : selection.site_indices(select_index)) {
+        const Site& site = part.site(site_index);
+        ++count[site.type()];
+      }
+    }
+    return count;
+  }
+
+  void compute(
+      const ModelOneBody& model,
+      const ModelParams& model_params,
+      const Select& selection,
+      Configuration * config,
+      const int group_index) override {
+    ASSERT(group_index == 0, "not implemented");
+    // find number of particles of each type in selection.
+    std::vector<int> select_types = types(selection, config);
+    double en = 0.;
+    for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
+      const double num_type1 = config->num_particles_of_type(type1);
+      const double num_type1_sel = select_types[type1];
+      for (int type2 = 0; type2 < config->num_site_types(); ++type2) {
+        const double num_type2 = config->num_particles_of_type(type2);
+        const double num_type2_sel = select_types[type2];
+        en += (num_type1*num_type2_sel + num_type1_sel*num_type2 - num_type1_sel*num_type2_sel)
+          *energy_(type1, type2, config, model_params);
+      }
+    }
+    set_energy(en);
+  }
+
+  void compute(
+      const ModelOneBody& model,
+      const ModelParams& model_params,
+      Configuration * config,
+      const int group_index = 0) override {
+    double en = 0;
+    ASSERT(group_index == 0, "not implemented");
+    for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
+      const double num_type1 = config->num_particles_of_type(type1);
+      for (int type2 = 0; type2 < config->num_site_types(); ++type2) {
+        const double num_type2 = config->num_particles_of_type(type2);
+        en += num_type1*num_type2*energy_(type1, type2, config, model_params);
+      }
+    }
+    set_energy(en);
+  }
+
+ private:
+  double energy_(
+      const int type1,
+      const int type2,
+      const Configuration * config,
+      const ModelParams& model_params) const {
+    const double epsilon = model_params.mixed_epsilon()[type1][type2];
+    const double sigma = model_params.mixed_sigma()[type1][type2];
+    const double cutoff = model_params.mixed_cutoff()[type1][type2];
+    const double prefactor = epsilon*(8./3.)*PI*pow(sigma, 3)*
+      ((1./3.)*pow(sigma/cutoff, 9) - pow(sigma/cutoff, 3));
+    return prefactor/config->domain().volume();
+  }
+};
+
+}  // namespace feasst
+
+#endif  // FEASST_CORE_LONG_RANGE_CORRECTIONS_H_

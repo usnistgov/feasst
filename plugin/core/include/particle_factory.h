@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_PARTICLES_H_
-#define FEASST_CORE_PARTICLES_H_
+#ifndef FEASST_CORE_PARTICLE_FACTORY_H_
+#define FEASST_CORE_PARTICLE_FACTORY_H_
 
 #include <vector>
 #include "core/include/particle.h"
@@ -18,27 +18,27 @@ namespace feasst {
 
     2. A list of particle types that may exist in a simulation. In this case
        there can not be multiple particles of the same type.
-       This is enforced by Particles::unique_particles().
+       This is enforced by ParticleFactory::unique_particles().
 
     3. A list of site and bond types (contained within particles) that may exist
        in a simulation.
        In this case, there can not be multiple sites or bonds of the same
        type. This contains site-based and bond-based properties.
-       This is enforced by Particles::unique_types().
+       This is enforced by ParticleFactory::unique_types().
  */
-class Particles {
+class ParticleFactory {
  public:
   /// Adjust the site types of added particles to ensure uniqueness.
   /// Returns self for chain setting.
-  Particles& unique_particles();
+  ParticleFactory& unique_particles();
 
   /**
     Only add sites or bonds which are new as a holder for site- or bond- type
     properties.
-    Note that Particles::unique_particles() is also applied.
+    Note that ParticleFactory::unique_particles() is also applied.
     Returns self for chain setting.
    */
-  Particles& unique_types();
+  ParticleFactory& unique_types();
 
   /**
     Check that no site or particle type is skipped.
@@ -171,4 +171,4 @@ class Particles {
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_PARTICLES_H_
+#endif  // FEASST_CORE_PARTICLE_FACTORY_H_

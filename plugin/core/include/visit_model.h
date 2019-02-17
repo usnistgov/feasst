@@ -19,22 +19,58 @@ class VisitModel {
  public:
   virtual void compute(
       const ModelOneBody& model,
+      const ModelParams& model_params,
       Configuration * config,
       const int group_index = 0);
   virtual void compute(
       const ModelTwoBody& model,
+      const ModelParams& model_params,
       Configuration * config,
       const int group_index = 0);
   virtual void compute(
       const ModelTwoBody& model,
+      const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
       const int group_index = 0);
   virtual void compute(
       const ModelOneBody& model,
+      const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
       const int group_index = 0);
+
+  // If model parameters are not given, then obtain them from the configuration.
+  void compute(
+      const ModelOneBody& model,
+      Configuration * config,
+      const int group_index = 0) {
+    const ModelParams& model_params = config->unique_types().model_params();
+    compute(model, model_params, config, group_index);
+  }
+  void compute(
+      const ModelTwoBody& model,
+      Configuration * config,
+      const int group_index = 0) {
+    const ModelParams& model_params = config->unique_types().model_params();
+    compute(model, model_params, config, group_index);
+  }
+  void compute(
+      const ModelTwoBody& model,
+      const Select& selection,
+      Configuration * config,
+      const int group_index = 0) {
+    const ModelParams& model_params = config->unique_types().model_params();
+    compute(model, model_params, selection, config, group_index);
+  }
+  void compute(
+      const ModelOneBody& model,
+      const Select& selection,
+      Configuration * config,
+      const int group_index = 0) {
+    const ModelParams& model_params = config->unique_types().model_params();
+    compute(model, model_params, selection, config, group_index);
+  }
 
   /// Return the energy.
   double energy() const { return energy_; }

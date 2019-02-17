@@ -29,7 +29,7 @@ class SelectPosition : public Select {
 //    ERROR("not implemented");
 //  }
 
-  SelectPosition(const Select& select, const Particles& particles)
+  SelectPosition(const Select& select, const ParticleFactory& particles)
     : Select(select) {
     resize();
     load_positions(particles);
@@ -67,7 +67,7 @@ class SelectPosition : public Select {
                              const Position& position);
 
   /// Load the positions from the existing selection indices.
-  void load_positions(const Particles& particles);
+  void load_positions(const ParticleFactory& particles);
 
   void clear() override {
     Select::clear();

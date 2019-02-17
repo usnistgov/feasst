@@ -9,6 +9,7 @@ namespace feasst {
 
 void VisitModelCell::compute(
     const ModelTwoBody& model,
+    const ModelParams& model_params,
     Configuration * config,
     const int cell_index) {
   set_energy(0.);
@@ -17,7 +18,6 @@ void VisitModelCell::compute(
   const Cells& cells = domain.cells()[cell_index];
   Position relative;
   relative.set_vector(domain.side_length().coord());
-  const ModelParams& model_params = config->unique_types().model_params();
 
   /** Loop index nomenclature
     ends in 1 or 2 to represent the pair
@@ -89,6 +89,7 @@ void VisitModelCell::compute(
 
 void VisitModelCell::compute(
     const ModelTwoBody& model,
+    const ModelParams& model_params,
     const Select& selection,
     Configuration * config,
     const int cell_index) {
@@ -102,7 +103,6 @@ void VisitModelCell::compute(
   std::stringstream ss;
   ss << "cell" << cell_index;
   const std::string cell_label = ss.str();
-  const ModelParams& model_params = config->unique_types().model_params();
   for (int select1_index = 0;
        select1_index < selection.num_particles();
        ++select1_index) {

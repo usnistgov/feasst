@@ -15,10 +15,12 @@ class VisitModelCell : public VisitModel {
  public:
   void compute(
       const ModelTwoBody& model,
+      const ModelParams& model_params,
       Configuration * config,
       const int cell_index = 0) override;
   void compute(
       const ModelTwoBody& model,
+      const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
       const int cell_index = 0) override;

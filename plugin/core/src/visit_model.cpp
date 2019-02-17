@@ -9,10 +9,10 @@ namespace feasst {
 
 void VisitModel::compute(
     const ModelOneBody& model,
+    const ModelParams& model_params,
     Configuration * config,
     const int group_index) {
   energy_ = 0.;
-  const ModelParams& model_params = config->unique_types().model_params();
   const Select& selection = config->group_selects()[group_index];
   for (int select_index = 0;
        select_index < selection.num_particles();
@@ -28,13 +28,13 @@ void VisitModel::compute(
 
 void VisitModel::compute(
     const ModelOneBody& model,
+    const ModelParams& model_params,
     const Select& selection,
     Configuration * config,
     const int group_index) {
   ASSERT(group_index == 0, "not implemented because redundant to selection");
   energy_ = 0;
   DEBUG("HWH: add wrapping of site positions");
-  const ModelParams& model_params = config->unique_types().model_params();
   for (int select_index = 0; select_index < selection.num_particles(); ++select_index) {
     const int particle_index = selection.particle_index(select_index);
     const Particle& part = config->select_particle(particle_index);
@@ -64,13 +64,13 @@ void VisitModel::inner_(
 
 void VisitModel::compute(
     const ModelTwoBody& model,
+    const ModelParams& model_params,
     Configuration * config,
     const int group_index) {
   energy_ = 0;
   Position relative;
   const Domain& domain = config->domain();
   relative.set_vector(domain.side_length().coord());
-  const ModelParams& model_params = config->unique_types().model_params();
   const Select& selection = config->group_selects()[group_index];
   for (int select1_index = 0;
        select1_index < selection.num_particles() - 1;
@@ -95,6 +95,7 @@ void VisitModel::compute(
 
 void VisitModel::compute(
     const ModelTwoBody& model,
+    const ModelParams& model_params,
     const Select& selection,
     Configuration * config,
     const int group_index) {
@@ -103,7 +104,6 @@ void VisitModel::compute(
   Position relative;
   const Domain& domain = config->domain();
   relative.set_vector(domain.side_length().coord());
-  const ModelParams& model_params = config->unique_types().model_params();
   const Select& select_all = config->group_selects()[group_index];
   // HWH implement multi-particle selection by sorting group selection
   // for particles that are in both selectiona nd group_index.

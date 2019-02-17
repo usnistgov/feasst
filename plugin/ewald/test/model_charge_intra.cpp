@@ -11,7 +11,7 @@ TEST(ModelChargeIntra, SRSW_refconfig) {
   ModelChargeIntra model;
   VisitModelIntra visit;
   visit.set_intra_cut(0);
-  visit.compute(model, &config, 0);
+  model.compute(&config, &visit);
   EXPECT_NEAR(23363.573774608, visit.energy(), 1e-11);
 }
 

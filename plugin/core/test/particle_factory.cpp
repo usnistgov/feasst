@@ -1,13 +1,13 @@
 #include <gtest/gtest.h>
 #include "core/test/particle_test.h"
-#include "core/include/particles.h"
+#include "core/include/particle_factory.h"
 #include "core/include/file_lmp.h"
 
 namespace feasst {
 
-TEST(Particles, size_check) {
+TEST(ParticleFactory, size_check) {
   Particle particle = default_particle();
-  Particles particles;
+  ParticleFactory particles;
   particles.add(particle);
   Position position;
   position.set_vector({0, 0});
@@ -19,8 +19,8 @@ TEST(Particles, size_check) {
   }
 }
 
-TEST(Particles, site_types) {
-  Particles particles;
+TEST(ParticleFactory, site_types) {
+  ParticleFactory particles;
   particles.add(FileLMP().read("../forcefield/data.atom"));
   particles.add(FileLMP().read("../forcefield/data.spce"));
   EXPECT_EQ(2, particles.num_site_types());
@@ -34,8 +34,8 @@ TEST(Particles, site_types) {
   }
 }
 
-TEST(Particles, unique_particles) {
-  Particles particles;
+TEST(ParticleFactory, unique_particles) {
+  ParticleFactory particles;
   particles.unique_particles();
   particles.add("../forcefield/data.atom");
   particles.add("../forcefield/data.spce");

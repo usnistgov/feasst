@@ -10,7 +10,6 @@ namespace feasst {
 /**
   Perturb the system (e.g., displace, add or delete particles).
   Importantly, these moves are reversible upon calling the revert function.
-  Different levels of optimization govern how the revert takes place.
  */
 class Perturb {
  public:
@@ -18,7 +17,10 @@ class Perturb {
   virtual void before_attempt() { revert_possible_ = false; }
 
   /// Revert the perturbation.
-  virtual void revert() { *system_ = system_old_; }
+  virtual void revert() {
+    ASSERT(!optimized_revert(), "nonoptimized revert requires system storage");
+    *system_ = system_old_;
+  }
 
   /// Return whether it is possible to revert.
   bool revert_possible() const { return revert_possible_; }
@@ -37,16 +39,25 @@ class Perturb {
   /* The following protected functions are only to be used by developers */
 
   // Before each perturbation, store the old system.
-  virtual void store_old(System * system);
+  void store_old(System * system) {
+    system_ = system;
+    if (!optimized_revert()) {
+      system_old_ = *system;
+    }
+  }
+
+  virtual bool optimized_revert() { return false; }
 
   System* system() { return system_; }
-
-  int optimization_ = 1;
 
  private:
   System * system_;
   System system_old_;
   bool revert_possible_;
+};
+
+class PerturbOptRevert : public Perturb {
+  bool optimized_revert() override { return true; }
 };
 
 }  // namespace feasst

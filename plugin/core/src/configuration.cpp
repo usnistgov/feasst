@@ -1,6 +1,5 @@
 #include <fstream>
 #include <sstream>
-#include <utility>  // pair
 #include "core/include/configuration.h"
 #include "core/include/file_xyz.h"
 #include "core/include/utils.h"
@@ -29,6 +28,7 @@ void Configuration::add_particle_type(const char* file_name) {
   ghosts_.push_back(SelectGroup());
   ASSERT(ghosts_.back().group().is_empty(), "");
   type_to_file_.push_back(file_name);
+  num_particles_of_type_.push_back(0);
 }
 
 void Configuration::add_(const Particle particle) {
@@ -57,11 +57,13 @@ void Configuration::add_particle(const int type) {
     }
     newest_particle_index_ = index;
   }
+  ++num_particles_of_type_[type];
 }
 
 void Configuration::remove_particle_(const int particle_index) {
   reset_unique_indices_();
   const int type = particles_.particle(particle_index).type();
+  --num_particles_of_type_[type];
   ghosts_[type].add_particle(select_particle(particle_index), particle_index);
   DEBUG("type " << type);
   DEBUG("particle index " << particle_index);
@@ -282,6 +284,12 @@ void Configuration::check_size() const {
     const Select& select = group_selects_[group_index];
     ASSERT(select.num_sites() == cells.num_sites(), "size error");
   }
+
+  // check number of particle types
+  ASSERT(
+    static_cast<int>(num_particles_of_type_.size()) == num_particle_types(),
+    "size error"
+  );
 }
 
 void Configuration::check_id_(const Select* select) const {

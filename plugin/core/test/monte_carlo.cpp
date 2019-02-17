@@ -10,8 +10,9 @@
 #include "core/include/histogram.h"
 #include "core/include/utils_io.h"
 #include "core/include/accumulator.h"
-#include "core/include/model_lrc.h"
 #include "core/test/system_test.h"
+#include "core/include/ui_brief.h"
+#include "core/include/long_range_corrections.h"
 
 namespace feasst {
 
@@ -29,7 +30,7 @@ class TestLJSystem {
 
   void init() {
     system.add_configuration(Configuration());
-    system.set_full(default_potentials());
+    system.add_to_unoptimized(default_potential());
     //add_model(std::make_shared<ModelLJ>());
     config = system.get_configuration();
     config->add_particle_type("../forcefield/data.lj");
@@ -155,7 +156,7 @@ TEST(MonteCarlo, WLMC) {
   seed_random_by_date();
   System system;
   system.add_configuration(Configuration());
-  system.set_full(default_potentials());
+  system.add_to_unoptimized(default_potential());
   //system.add_model(std::make_shared<ModelLJ>());
   Configuration * config = system.get_configuration();
   config->add_particle_type("../forcefield/data.lj");
@@ -233,37 +234,28 @@ TEST(MonteCarlo, Analyze) {
       Potential potential;
       potential.set_model(std::make_shared<ModelLJ>());
       potential.set_visit_model(std::make_shared<VisitModel>());
-      Potentials potentials;
-      potentials.add_potential(potential);
-      potential.set_model(std::make_shared<ModelLRC>());
-      potentials.add_potential(potential);
-      sys.set_full(potentials);
+      potential.set_model_params(sys.configuration());
+      potential.set_model_param("cutoff", 0, 2.);
+      EXPECT_NEAR(potential.model_params().mixed_cutoff()[0][0], 2, NEAR_ZERO);
+      sys.add_to_unoptimized(potential);
+
+      Potential lrc;
+      lrc.set_visit_model(std::make_shared<LongRangeCorrections>());
+      lrc.set_model_params(sys.configuration());
+      lrc.set_model_param("cutoff", 0, 2.);
+      EXPECT_NEAR(lrc.model_params().mixed_cutoff()[0][0], 2, NEAR_ZERO);
+      sys.add_to_unoptimized(lrc);
     }
     mc.set_system(sys);
   }
 
-  { // add criteria to mc
-    auto criteria = std::make_shared<CriteriaMetropolis>();
-    criteria->set_beta(1.2);
-    criteria->add_activity(1);
-    mc.set_criteria(criteria);
-  }
-
-  { // add translate to mc
-    auto translate = std::make_shared<TrialTranslate>();
-    translate->set_weight(1);
-    mc.add_trial(translate);
-  }
-
+  const double beta = 1.2, activity = 1.;
+  set_metropolis_criteria(beta, activity, &mc);
+  set_trial_translate(1., &mc);
   mc.seek_num_particles(50);
-
-  { // add analyze to mc
-    auto log = std::make_shared<Log>();
-    log->set_steps_per_write(1e3);
-    log->set_file_name("tmp/log.txt");
-    mc.add_analyze(log);
-  }
-
+  set_log("tmp/log.txt", 1e3, &mc);
+  set_energy_check(1e-10, 1e3, &mc);
+  set_trial_tune(1e3, &mc);
   mc.attempt(1e4);
 }
 

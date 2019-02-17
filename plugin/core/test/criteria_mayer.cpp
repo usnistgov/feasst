@@ -10,7 +10,7 @@ TEST(CriteriaMayer, ljb2) {
   seed_random_by_date();
 //  seed_random();
   System system = default_system();
-  system.add_reference(hs_potentials());
+  system.add_to_reference(hs_potential());
   TrialFactory trials;
   auto translate = std::make_shared<TrialTranslate>();
   translate->set_weight(0.75);

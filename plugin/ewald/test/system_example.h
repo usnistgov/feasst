@@ -7,7 +7,7 @@
 #include "ewald/include/model_charge_intra.h"
 #include "ewald/include/model_charge_screened.h"
 #include "core/include/model_lj.h"
-#include "core/include/model_lrc.h"
+#include "core/include/long_range_corrections.h"
 #include "core/include/visit_model_intra.h"
 #include "core/test/configuration_test.h"
 
@@ -15,7 +15,7 @@ namespace feasst {
 
 void add_ewald_with(std::shared_ptr<ModelTwoBody> model,
     Configuration * config,
-    Potentials * full) {
+    PotentialFactory * full) {
   { Potential potential;
     auto factory = std::make_shared<ModelTwoBodyFactory>();
     factory->add_model(model);
@@ -32,8 +32,7 @@ void add_ewald_with(std::shared_ptr<ModelTwoBody> model,
     full->add_potential(potential);
   }
   { Potential potential;
-    potential.set_model(std::make_shared<ModelLRC>());
-    potential.set_visit_model(std::make_shared<VisitModel>());
+    potential.set_visit_model(std::make_shared<LongRangeCorrections>());
     full->add_potential(potential);
   }
   { Potential potential;
@@ -52,13 +51,13 @@ void add_ewald_with(std::shared_ptr<ModelTwoBody> model,
 }
 
 System spce() {
-  Potentials full;
+  PotentialFactory full;
   Configuration config = spce_sample();
   config.add_model_param("alpha", 5.6/config.domain().min_side_length());
   add_ewald_with(std::make_shared<ModelLJ>(), &config, &full);
   System sys;
   sys.add_configuration(config);
-  sys.set_full(full);
+  sys.set_unoptimized(full);
   return sys;
 }
 

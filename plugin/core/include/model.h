@@ -12,7 +12,11 @@ class VisitModel;
 class Model {
  public:
   /// Visit the model over the entire configuration.
-  /// Optionally, restrict to groups of given index.
+  virtual double compute(
+    const ModelParams& model_params,
+    const int group_index,
+    Configuration * config,
+    VisitModel * visitor) const = 0;
   virtual double compute(
     const int group_index,
     Configuration * config,
@@ -21,12 +25,22 @@ class Model {
   /// Same as above, except the group index is assumed to be zero (which is all
   /// particles and sites in the configuration).
   virtual double compute(
+    const ModelParams& model_params,
+    Configuration * config,
+    VisitModel * visitor) const = 0;
+  virtual double compute(
     Configuration * config,
     VisitModel * visitor) const = 0;
 
   /// Visit the model over a selection of the configuration.
   /// Optionally, restrict to groups of given index, which is only relevant for
   /// multibody models (e.g., two body and not one body).
+  virtual double compute(
+    const ModelParams& model_params,
+    const Select& selection,
+    const int group_index,
+    Configuration * config,
+    VisitModel * visitor) const = 0;
   virtual double compute(
     const Select& selection,
     const int group_index,
@@ -35,6 +49,11 @@ class Model {
 
   /// Same as above, except the group index is assumed to be zero (which is all
   /// particles and sites in the configuration)
+  virtual double compute(
+    const ModelParams& model_params,
+    const Select& selection,
+    Configuration * config,
+    VisitModel * visitor) const = 0;
   virtual double compute(
     const Select& selection,
     Configuration * config,

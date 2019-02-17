@@ -90,6 +90,12 @@ class TrialFactory : public Trial {
     }
   }
 
+  void tune() override {
+    for (std::shared_ptr<Trial> trial : trials_) {
+      trial->tune();
+    }
+  }
+
  private:
   std::vector<std::shared_ptr<Trial> > trials_;
   std::vector<double> cumulative_probability_;
@@ -100,7 +106,6 @@ class TrialFactory : public Trial {
       System * system,
       const int index) {
     trials_[index]->attempt(criteria, system);
-    trials_[index]->increment_num_attempts();
   }
 };
 

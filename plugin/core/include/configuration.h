@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include "core/include/domain.h"
-#include "core/include/particles.h"
+#include "core/include/particle_factory.h"
 #include "core/include/select.h"
 #include "core/include/select_position.h"
 
@@ -50,7 +50,7 @@ class Configuration {
   int num_site_types() const { return unique_types_.num_sites(); }
 
   /// Return the particle types.
-  const Particles& particle_types() const { return particle_types_; }
+  const ParticleFactory& particle_types() const { return particle_types_; }
 
   /// Modify model parameter of a given site type and name to value.
   void set_model_param(const char* name,
@@ -79,7 +79,7 @@ class Configuration {
   /// Thus, the site index is the same as the numeric value for the site type.
   /// And the same for bonds.
   /// This serves as a container for properties based on site or bond type.
-  const Particles& unique_types() const { return unique_types_; }
+  const ParticleFactory& unique_types() const { return unique_types_; }
 
   /// Return the unique type by individual particle.
   const Particle& unique_type(const int type) const {
@@ -131,6 +131,10 @@ class Configuration {
 
   /// Return the number of sites.
   int num_sites() const { return particles_.num_sites(); }
+
+  /// Return the number of particles of a given particle type.
+  int num_particles_of_type(const int type) const {
+    return num_particles_of_type_[type]; }
 
   //@}
   /** @name Modifications
@@ -211,7 +215,7 @@ class Configuration {
 
   // Return the particles.
   // Warning: typically not for users because it may include ghost particles.
-  const Particles& particles() const { return particles_; }
+  const ParticleFactory& particles() const { return particles_; }
 
   // Return particle by index provided in selection.
   // Warning: typically not for users because it may include ghost particles.
@@ -259,9 +263,9 @@ class Configuration {
   void check_size() const;
 
  private:
-  Particles particle_types_;
-  Particles unique_types_;
-  Particles particles_;
+  ParticleFactory particle_types_;
+  ParticleFactory unique_types_;
+  ParticleFactory particles_;
   Domain domain_;
   int newest_particle_index_;
 
@@ -351,6 +355,9 @@ class Configuration {
 
   /// Store the files used to initialize particle types.
   std::vector<std::string> type_to_file_;
+
+  /// Store the number of particles of each type.
+  std::vector<int> num_particles_of_type_;
 };
 
 }  // namespace feasst

@@ -5,9 +5,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pg -g") #profile
 
 # manually list the plugins
-set(FEASST_PLUGINS "core;")
+#set(FEASST_PLUGINS "core;")
 #set(FEASST_PLUGINS "core;ewald;example;")
-#set(FEASST_PLUGINS "core;ewald;example;confinement;")
+set(FEASST_PLUGINS "core;ewald;example;confinement;")
 #set(FEASST_PLUGINS "core;ewald;example;confinement;xtc;")
 message(${FEASST_PLUGINS})
 # set path to XDR if using xtc plugin
@@ -292,8 +292,8 @@ if (USE_SWIG)
     if (PythonLibs_FOUND)
     else (PythonLibs_FOUND)
       # Try default anaconda home install.
-      set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.6m/")
-      set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.6m.so")
+      set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.7m/")
+      set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.7m.so")
     endif (PythonLibs_FOUND)
   endif (SET_PYTHON_PATH)
   message("PYTHON_INCLUDE_PATH: ${PYTHON_INCLUDE_PATH}")

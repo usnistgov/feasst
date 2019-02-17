@@ -29,7 +29,7 @@ void SelectPosition::set_particle_position(const int particle_index,
   particle_positions_[particle_index] = position;
 }
 
-void SelectPosition::load_positions(const Particles& particles) {
+void SelectPosition::load_positions(const ParticleFactory& particles) {
   int pindex = 0;
   for (int particle_index : particle_indices()) {
     int sindex = 0;
