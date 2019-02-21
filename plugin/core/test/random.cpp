@@ -43,4 +43,21 @@ TEST(Random, element) {
   EXPECT_NEAR(sum, 5*double(num), 15*sqrt(double(num)));
 }
 
+TEST(Random, unit_sphere) {
+  Random random;
+  Position position;
+  position.set_vector({0., 0.});
+  random.unit_sphere_surface(&position);
+  EXPECT_NEAR(position.distance(), 1., NEAR_ZERO);
+  position.set_vector({0., 0., 0.});
+  random.unit_sphere_surface(&position);
+  EXPECT_NEAR(position.distance(), 1., NEAR_ZERO);
+
+//  // visualize
+//  for (int point = 0; point < 1e3; ++point) {
+//    random.unit_sphere_surface(&position);
+//    std::cout << position.str() << std::endl;
+//  }
+}
+
 }  // namespace feasst

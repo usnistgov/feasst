@@ -26,8 +26,8 @@ TEST(Configuration, coordinates) {
   Configuration config;
   config.set_domain(Domain().set_cubic(5));
   config.add_particle_type("../forcefield/data.atom");
-  config.add_particle(0);
-  config.add_particle(0);
+  config.add_particle_of_type(0);
+  config.add_particle_of_type(0);
   Position pos;
   pos.set_to_origin_3D();
   pos.set_coord(0, -583);
@@ -88,7 +88,7 @@ TEST(Configuration, bonds_spce) {
   EXPECT_EQ(2, config.particle_type(0).num_bonds());
   EXPECT_EQ(1, config.unique_type(0).num_bonds());
   EXPECT_EQ(1., config.unique_type(0).bond(0).property("l0"));
-  EXPECT_EQ(450., config.unique_type(0).bond(0).property("k"));
+  EXPECT_EQ(0.000001, config.unique_type(0).bond(0).property("delta"));
   EXPECT_EQ(2, config.particle_type(0).bond(0).num_sites());
   EXPECT_EQ(0, config.particle_type(0).bond(0).site(0));
   EXPECT_EQ(1, config.particle_type(0).bond(0).site(1));
@@ -97,7 +97,7 @@ TEST(Configuration, bonds_spce) {
   EXPECT_EQ(2, config.particle_type(0).bond(1).site(1));
 
   // add an actual particle and see if it has more info than necessary
-  config.add_particle(0);
+  config.add_particle_of_type(0);
   EXPECT_EQ(0, config.particle(0).num_bonds());
 }
 
@@ -114,7 +114,7 @@ TEST(Configuration, group) {
   config.add_particle_type("../forcefield/data.lj");
   try {
     Configuration config_err(config);
-    config_err.add_particle(0);
+    config_err.add_particle_of_type(0);
     config_err.add_particle_type("../forcefield/data.lj");
     CATCH_PHRASE("types cannot be added after particles");
   }
@@ -127,10 +127,10 @@ TEST(Configuration, group) {
   EXPECT_TRUE(config.group_select(3).group().has_property("none"));
   EXPECT_EQ(4, config.group_selects().size());
   for (int part = 0; part < 100; ++part) {
-    config.add_particle(0);
+    config.add_particle_of_type(0);
   }
   FileXYZ().load("../plugin/core/test/data/spce_sample_config_periodic1.xyz", &config);
-  config.add_particle(1);
+  config.add_particle_of_type(1);
   EXPECT_EQ(2, config.num_particle_types());
   EXPECT_EQ(3, config.num_site_types());
   const SelectGroup& sel0 = config.group_select(1);
@@ -166,7 +166,7 @@ TEST(Configuration, cells) {
   config.set_domain(Domain().set_cubic(7));
   config.add_particle_type("../forcefield/data.spce");
   config.add(Group().add_site_type(0));
-  config.add_particle(0);
+  config.add_particle_of_type(0);
   try {
     config.particle(0).site(0).property("cell");
     CATCH_PHRASE("not found");

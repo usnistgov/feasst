@@ -9,7 +9,7 @@ TEST(SelectList, group) {
   Configuration config;
   config.add_particle_type("../forcefield/data.spce");
   for (int part = 0; part < 100; ++part) {
-    config.add_particle(0);
+    config.add_particle_of_type(0);
   }
   FileXYZ().load("../plugin/core/test/data/spce_sample_config_periodic1.xyz", &config);
   SelectList select;

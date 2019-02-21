@@ -13,9 +13,9 @@ namespace feasst {
 
 class MonteCarlo {
  public:
-  void set_criteria(std::shared_ptr<Criteria> criteria) { criteria_ = criteria; }
-  void set_system(const System& system) { system_ = system; }
-  void add_trial(std::shared_ptr<Trial> trial) {
+  void set(std::shared_ptr<Criteria> criteria) { criteria_ = criteria; }
+  void set(const System& system) { system_ = system; }
+  void add(std::shared_ptr<Trial> trial) {
     trial_factory_.add(trial);
   }
   const System& system() const { return system_; }
@@ -41,12 +41,12 @@ class MonteCarlo {
     }
   }
 
-  void add_analyze(const std::shared_ptr<Analyze> analyze) {
+  void add(const std::shared_ptr<Analyze> analyze) {
     analyze->initialize(criteria_, system_, trial_factory_);
     analyze_factory_.add(analyze);
   }
 
-  void add_modify(const std::shared_ptr<Modify> modify) {
+  void add(const std::shared_ptr<Modify> modify) {
     modify->initialize(criteria_, &system_, &trial_factory_);
     modify_factory_.add(modify);
   }

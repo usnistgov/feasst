@@ -15,7 +15,7 @@ TEST(ModelHardShape, half_space) {
   Configuration config;
   config.set_domain(Domain().set_cubic(8));
   config.add_particle_type("../forcefield/data.atom");
-  config.add_particle(0);
+  config.add_particle_of_type(0);
   const ModelParams model_params = config.unique_types().model_params();
   EXPECT_LT(1e100, model.energy(config.particle(0).site(0), &config, model_params));
   Position pos;

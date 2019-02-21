@@ -21,7 +21,6 @@ class ModelHardSphere : public ModelTwoBody {
     return 0.;
   }
   virtual ~ModelHardSphere() {}
- private:
 };
 
 }  // namespace feasst

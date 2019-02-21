@@ -124,7 +124,85 @@ class SelectList : public SelectPosition {
     return config.select_particle(particle_index(0));
   }
 
- private:
+  void truncate_to_max(const int max) {
+    DEBUG("max " << max);
+    DEBUG("before rem " << str());
+    for (int site = num_sites() - 1; site > max; --site) {
+      remove_last_site();
+    }
+    DEBUG("after rem " << str());
+  }
+
+  /// Select all sites between two randomly selected sites in a randomly selected particle in group.
+  void random_segment_in_particle(const int group_index, const Configuration& config) {
+    random_particle(config, group_index);
+    if (num_sites() <= 1) {
+      return; // HWH note this check prevents error/infinite loop below
+    }
+
+    // find two unequal sites
+    int min = 0;
+    int max = min;
+    int attempt = 0;
+    while (min == max) {
+      min = random()->uniform(0, num_sites() - 1);
+      max = random()->uniform(0, num_sites() - 1);
+      ++attempt;
+      ASSERT(attempt < 1e3, "infinite loop");
+    }
+
+    // swap for meaningful min/max
+    if (min > max) {
+      const double temp = min;
+      min = max;
+      max = temp;
+    }
+
+    // remove sites not in min/max, from highest to lowest
+    truncate_to_max(max);
+    reverse();
+    truncate_to_max(num_sites() - min - 1);
+  }
+
+  /// Select all sites between a random endpoint and a randomly selectioned site in a randomly selected particle in group.
+  /// Note that the end point is always returned as the first site.
+  /// Thus, when the end point is the last site, the site order is reversed.
+  void random_end_segment_in_particle(const int group_index, const Configuration& config) {
+    random_particle(config, group_index);
+    if (num_sites() <= 1) {
+      return; // HWH note this check prevents error/infinite loop below
+    }
+
+    // select a random site
+    const int site = random()->uniform(0, num_sites() - 1);
+    DEBUG("site " << site << " num " << num_sites());
+
+    // randomly decide which endpoint to keep in selection
+    bool is_endpoint_beginning;
+    if (site == 0) {
+      is_endpoint_beginning = false;
+    } else if (site == num_sites() - 1) {
+      is_endpoint_beginning = true;
+    } else {
+      if (random()->coin_flip()) {
+        is_endpoint_beginning = false;
+      } else {
+        is_endpoint_beginning = true;
+      }
+    }
+
+    DEBUG("beginning? " << is_endpoint_beginning);
+    if (is_endpoint_beginning) {
+      truncate_to_max(site);
+    } else {
+      DEBUG("befor rev " << str());
+      reverse();
+      DEBUG("after rev " << str());
+      truncate_to_max(num_sites() - site - 1);
+      DEBUG("after trunc " << str());
+    }
+    DEBUG("num " << num_sites() << " indices " << str());
+  }
 };
 
 }  // namespace feasst

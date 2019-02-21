@@ -50,7 +50,7 @@ TEST(Perturb, Revert) {
   trajectory.set_coord(2, 1.25);
   PerturbTranslate attempt2;
   attempt2.select_random_particle(0, *config);
-  attempt2.translate_selected_particle(trajectory, &system2);
+  attempt2.translate_selection(trajectory, &system2);
 }
 
 }  // namespace feasst

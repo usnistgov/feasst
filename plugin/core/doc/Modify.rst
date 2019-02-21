@@ -16,3 +16,7 @@ Modify
 .. doxygenclass:: feasst::EnergyCheck
    :project: FEASST
    :members:
+
+.. doxygenclass:: feasst::Tuner
+   :project: FEASST
+   :members:

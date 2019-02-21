@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "core/test/particle_test.h"
+#include "core/include/file_lmp.h"
 
 namespace feasst {
 
@@ -22,6 +23,14 @@ TEST(Particle, check_size) {
     particle.check_size();
     CATCH_PHRASE("size error");
   }
+}
+
+TEST(Particle, center) {
+  Particle chain = FileLMP().read("../forcefield/data.chain10");
+  EXPECT_EQ(0, chain.position().coord(0));
+  chain.set_position_as_center();
+  EXPECT_EQ(4.5, chain.position().coord(0));
+  EXPECT_EQ(0., chain.position().coord(1));
 }
 
 }  // namespace feasst

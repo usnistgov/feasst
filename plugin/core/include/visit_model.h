@@ -9,6 +9,7 @@ namespace feasst {
 
 class ModelOneBody;
 class ModelTwoBody;
+class ModelThreeBody;
 
 /**
   See Model for a description of the compute methods. These are mirrored by
@@ -23,22 +24,29 @@ class VisitModel {
       Configuration * config,
       const int group_index = 0);
   virtual void compute(
-      const ModelTwoBody& model,
-      const ModelParams& model_params,
-      Configuration * config,
-      const int group_index = 0);
-  virtual void compute(
-      const ModelTwoBody& model,
-      const ModelParams& model_params,
-      const Select& selection,
-      Configuration * config,
-      const int group_index = 0);
-  virtual void compute(
       const ModelOneBody& model,
       const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
       const int group_index = 0);
+  virtual void compute(
+      const ModelTwoBody& model,
+      const ModelParams& model_params,
+      Configuration * config,
+      const int group_index = 0);
+  virtual void compute(
+      const ModelTwoBody& model,
+      const ModelParams& model_params,
+      const Select& selection,
+      Configuration * config,
+      const int group_index = 0);
+  virtual void compute(
+      const ModelThreeBody& model,
+      const ModelParams& model_params,
+      Configuration * config,
+      const int group_index = 0) {
+    ERROR("not implemented");
+  }
 
   // If model parameters are not given, then obtain them from the configuration.
   void compute(
@@ -49,6 +57,14 @@ class VisitModel {
     compute(model, model_params, config, group_index);
   }
   void compute(
+      const ModelOneBody& model,
+      const Select& selection,
+      Configuration * config,
+      const int group_index = 0) {
+    const ModelParams& model_params = config->unique_types().model_params();
+    compute(model, model_params, selection, config, group_index);
+  }
+  void compute(
       const ModelTwoBody& model,
       Configuration * config,
       const int group_index = 0) {
@@ -64,12 +80,11 @@ class VisitModel {
     compute(model, model_params, selection, config, group_index);
   }
   void compute(
-      const ModelOneBody& model,
-      const Select& selection,
+      const ModelThreeBody& model,
       Configuration * config,
       const int group_index = 0) {
     const ModelParams& model_params = config->unique_types().model_params();
-    compute(model, model_params, selection, config, group_index);
+    compute(model, model_params, config, group_index);
   }
 
   /// Return the energy.

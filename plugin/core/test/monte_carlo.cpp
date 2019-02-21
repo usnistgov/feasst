@@ -11,8 +11,8 @@
 #include "core/include/utils_io.h"
 #include "core/include/accumulator.h"
 #include "core/test/system_test.h"
-#include "core/include/ui_brief.h"
 #include "core/include/long_range_corrections.h"
+#include "core/include/visit_model_intra.h"
 #include "core/include/visit_model_cell.h"
 
 namespace feasst {
@@ -30,7 +30,7 @@ class TestLJSystem {
   MonteCarlo mc;
 
   void init() {
-    system.add_configuration(Configuration());
+    system.add(Configuration());
     system.add_to_unoptimized(default_potential());
     //add_model(std::make_shared<ModelLJ>());
     config = system.get_configuration();
@@ -46,10 +46,10 @@ class TestLJSystem {
     criteria.set_beta(beta);
     criteria.add_activity(activ);
     criteria.set_running_energy(system.energy());
-    mc.set_criteria(std::make_shared<CriteriaMetropolis>(criteria));
-    mc.set_system(system);
-    // mc.add_trial(transfer);
-    mc.add_trial(translate);
+    mc.set(std::make_shared<CriteriaMetropolis>(criteria));
+    mc.set(system);
+    // mc.add(transfer);
+    mc.add(translate);
   }
 };
 
@@ -102,7 +102,7 @@ TEST(MonteCarlo, NVTMC_SRSW) {
 }
 
 TEST(MonteCarlo, GCMCbenchmark) {
-  seed_random(1346867550);
+  // seed_random(1346867550);
   TestLJSystem test;
   test.activ = 100;
   test.init();
@@ -156,7 +156,7 @@ TEST(MonteCarlo, WLMC) {
   // seed_random();
   seed_random_by_date();
   System system;
-  system.add_configuration(Configuration());
+  system.add(Configuration());
   system.add_to_unoptimized(default_potential());
   //system.add_model(std::make_shared<ModelLJ>());
   Configuration * config = system.get_configuration();
@@ -224,54 +224,94 @@ TEST(MonteCarlo, Analyze) {
   MonteCarlo mc;
   const double cutoff = 2.;
 
-  { // add system to mc
-    System sys;
-    { // add configuration to system
-      Configuration config;
-      config.set_domain(Domain().set_cubic(8));
-      config.add_particle_type("../forcefield/data.lj");
-      config.init_cells(cutoff);
-      sys.add_configuration(config);
-      EXPECT_EQ(4*4*4, config.domain().cells(0).num_total());
-    }
+  { System system;
+    { Configuration config;
+      config.set_domain(Domain().set_cubic(12));
+      // config.add_particle_type("../forcefield/data.lj");
+      // config.add_particle_type("../forcefield/data.dimer");
+      config.add_particle_type("../forcefield/data.chain10");
+      system.add(config); }
 
-    { // add potentials to system
-      Potential potential;
+    { Potential potential;
       potential.set_model(std::make_shared<ModelLJ>());
       potential.set_visit_model(std::make_shared<VisitModel>());
-      potential.set_model_params(sys.configuration());
+      potential.set_model_params(system.configuration());
       potential.set_model_param("cutoff", 0, cutoff);
       EXPECT_NEAR(potential.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
-      sys.add_to_unoptimized(potential);
-      potential.set_visit_model(std::make_shared<VisitModelCell>());
-      sys.add_to_optimized(potential);
+      system.add_to_unoptimized(potential); }
 
-      Potential lrc;
-      lrc.set_visit_model(std::make_shared<LongRangeCorrections>());
-      lrc.set_model_params(sys.configuration());
-      lrc.set_model_param("cutoff", 0, cutoff);
-      EXPECT_NEAR(lrc.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
-      sys.add_to_unoptimized(lrc);
-      sys.add_to_optimized(lrc);
-    }
-    mc.set_system(sys);
+    { Potential potential;
+      potential.set_model(std::make_shared<ModelHardSphere>());
+      auto visitor = std::make_shared<VisitModelIntra>();
+      visitor->set_intra_cut(1);
+      potential.set_visit_model(visitor);
+      potential.set_model_params(system.configuration());
+      potential.set_model_param("cutoff", 0, 1.);
+      system.add_to_unoptimized(potential); }
+
+//    { Potential lrc;
+//      lrc.set_visit_model(std::make_shared<LongRangeCorrections>());
+//      lrc.set_model_params(system.configuration());
+//      lrc.set_model_param("cutoff", 0, cutoff);
+//      EXPECT_NEAR(lrc.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
+//      system.add_to_unoptimized(lrc); }
+
+    mc.set(system);
   }
 
-  const double beta = 1.2, activity = 1.;
-  set_metropolis_criteria(beta, activity, &mc);
+  { auto criteria = std::make_shared<CriteriaMetropolis>();
+    criteria->set_beta(1.2);
+    criteria->add_activity(1.);
+    mc.set(criteria); }
 
-  { // add translate trial to mc
-    auto translate = std::make_shared<TrialTranslate>();
-    translate->set_weight(1.);
-    translate->set_max_move_bounds(mc.system().configuration().domain());
-    translate->set_max_move(0.1);
-    mc.add_trial(translate);
-  }
+  { auto trial = std::make_shared<TrialTranslate>();
+    trial->set_weight(1.);
+    trial->set_max_move(1.);
+    trial->set_max_move_bounds(mc.system().configuration().domain());
+    mc.add(trial); }
 
-  mc.seek_num_particles(50);
-  set_log("tmp/log.txt", 1e3, &mc);
-  set_energy_check(1e-10, 1e3, &mc);
-  set_trial_tune(1e3, &mc);
+  { auto trial = std::make_shared<TrialRotate>();
+    trial->set_weight(1.);
+    trial->set_max_move(90.);
+    mc.add(trial); }
+
+  { auto trial = std::make_shared<TrialPivot>();
+    trial->set_weight(1.);
+    trial->set_max_move(90.);
+    mc.add(trial); }
+
+  { auto trial = std::make_shared<TrialCrankShaft>();
+    trial->set_weight(1.);
+    trial->set_max_move(90.);
+    trial->set_tunable_percent_change(0.1);
+    mc.add(trial); }
+
+  mc.seek_num_particles(1);
+  const int num_periodic = 1e3;
+
+  { auto log = std::make_shared<Log>();
+    log->set_steps_per_write(num_periodic);
+    log->set_file_name("tmp/log.txt");
+    mc.add(log); }
+
+  { auto movie = std::make_shared<Movie>();
+    movie->set_steps_per(num_periodic);
+    movie->set_file_name("tmp/chain10movie.xyz");
+    mc.add(movie); }
+
+  { auto checker = std::make_shared<EnergyCheck>();
+    checker->set_steps_per_update(num_periodic);
+    checker->set_tolerance(1e-10);
+    mc.add(checker); }
+
+  { auto tuner = std::make_shared<Tuner>();
+    tuner->set_steps_per_update(num_periodic);
+    mc.add(tuner); }
+
+  { auto bondcheck = std::make_shared<RigidBondChecker>();
+    bondcheck->set_steps_per(num_periodic);
+    mc.add(bondcheck); }
+
   mc.attempt(1e4);
 }
 

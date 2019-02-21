@@ -36,4 +36,8 @@ std::string Random::alpha_numeric(const int length) {
   return str;
 }
 
+double Random::uniform_real(const double min, const double max) {
+  return (max - min)*uniform() + min;
+}
+
 }  // namespace feasst

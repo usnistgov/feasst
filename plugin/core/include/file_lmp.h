@@ -23,6 +23,10 @@ class FileLMP {
   int num_bond_types() const { return num_bond_types_; }
   int num_angles() const { return num_angles_; }
   int num_angle_types() const { return num_angle_types_; }
+  int num_dihedrals() const { return num_dihedrals_; }
+  int num_dihedral_types() const { return num_dihedral_types_; }
+  int num_impropers() const { return num_impropers_; }
+  int num_improper_types() const { return num_improper_types_; }
 
  private:
   int num_atoms_ = 0;
@@ -31,6 +35,10 @@ class FileLMP {
   int num_bond_types_ = 0;
   int num_angles_ = 0;
   int num_angle_types_ = 0;
+  int num_dihedrals_ = 0;
+  int num_dihedral_types_ = 0;
+  int num_impropers_ = 0;
+  int num_improper_types_ = 0;
 
   void read_num_and_types_(const std::string file_name);
 

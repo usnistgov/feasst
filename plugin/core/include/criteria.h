@@ -54,7 +54,19 @@ class Criteria {
   void set_running_energy(const double energy) { running_energy_ = energy; }
 
   /// Return the current total energy based on energy changes per trial.
-  double running_energy() { return running_energy_; }
+  double running_energy() const { return running_energy_; }
+
+  /// Return the header of the status for periodic output.
+  std::string status_header() const {
+    return std::string("energy");
+  }
+
+  /// Return the status for periodic output.
+  std::string status() const {
+    std::stringstream ss;
+    ss << running_energy();
+    return ss.str();
+  }
 
   virtual ~Criteria() {}
 

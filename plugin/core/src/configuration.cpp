@@ -40,7 +40,7 @@ void Configuration::add_(const Particle particle) {
   position_tracker_(num_particles() - 1);
 }
 
-void Configuration::add_particle(const int type) {
+void Configuration::add_particle_of_type(const int type) {
   ASSERT(type < num_particle_types(), "type(" << type << ") is not allowed "
     << "when there are only " << num_particle_types() << " particle types");
   // decide whether to add a ghost particle or a new one

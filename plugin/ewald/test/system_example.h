@@ -56,7 +56,7 @@ System spce() {
   config.add_model_param("alpha", 5.6/config.domain().min_side_length());
   add_ewald_with(std::make_shared<ModelLJ>(), &config, &full);
   System sys;
-  sys.add_configuration(config);
+  sys.add(config);
   sys.set_unoptimized(full);
   return sys;
 }

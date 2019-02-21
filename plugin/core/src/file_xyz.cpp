@@ -8,7 +8,7 @@
 
 namespace feasst {
 
-void FileXYZ::load(const char* file_name, Configuration * config) const {
+void FileXYZ::load(const std::string file_name, Configuration * config) const {
   std::ifstream xyz_file(file_name);
   int num_sites;
   std::string line;
@@ -34,7 +34,7 @@ void FileXYZ::load(const char* file_name, Configuration * config) const {
     ASSERT(num_sites % site_per_part == 0, "assumed particle type to load " <<
       "xyz file is incompatible with number of sites");
     for (int index = 0; index < num_sites/site_per_part; ++index) {
-      config->add_particle(0);
+      config->add_particle_of_type(0);
     }
   }
 
@@ -65,14 +65,18 @@ class PrinterXYZ : public LoopOneBody {
   std::shared_ptr<std::ofstream> file_;
 };
 
-void FileXYZ::write(const char* file_name,
-                    const Configuration& config,
-                    int group_index) const {
-  auto file = std::make_shared<std::ofstream>(file_name);
+void FileXYZ::write(const std::string file_name,
+                    const Configuration& config) const {
+  auto file = std::make_shared<std::ofstream>();
+  if (append_ == 0) {
+    file->open(file_name);
+  } else {
+    file->open(file_name, std::ofstream::app);
+  }
   (*file.get()) << config.num_sites() << endl
        << "-1" << endl;
   PrinterXYZ printer(file);
-  VisitConfiguration().loop(config, &printer, group_index);
+  VisitConfiguration().loop(config, &printer, group_index_);
 }
 
 }  // namespace feasst

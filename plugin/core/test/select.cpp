@@ -8,8 +8,8 @@ namespace feasst {
 TEST(Select, add_remove) {
   Configuration config;
   config.add_particle_type("../forcefield/data.spce");
-  config.add_particle(0);
-  config.add_particle(0);
+  config.add_particle_of_type(0);
+  config.add_particle_of_type(0);
   Select oxygen;
   oxygen.add_site(0, 0);
   oxygen.add_site(1, 0);

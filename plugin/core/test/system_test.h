@@ -30,7 +30,7 @@ inline Potential hs_potential() {
 inline System default_system() {
   System sys;
   Configuration config = default_configuration();
-  sys.add_configuration(config);
+  sys.add(config);
   sys.add_to_unoptimized(default_potential());
   return sys;
 }

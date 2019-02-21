@@ -8,6 +8,7 @@
 #include "core/include/particle_factory.h"
 #include "core/include/select.h"
 #include "core/include/select_position.h"
+#include "core/include/matrix.h"
 
 namespace feasst {
 
@@ -111,7 +112,7 @@ class Configuration {
   //@{
 
   /// Add particles of a given type.
-  void add_particle(const int type);
+  void add_particle_of_type(const int type);
 
   /// Return particle by index. Note this index is contiguous from values
   /// 0 to num_particles -1, unlike the selection indices (due to ghost

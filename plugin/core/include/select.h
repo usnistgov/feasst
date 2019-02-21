@@ -35,7 +35,7 @@ class Select {
   void add_sites(const int particle_index,
                  const std::vector<int> site_indices);
 
-  /// Add sites by index.
+  /// Add sites by configuration-based site index.
   void remove_sites(const int particle_index,
                     const std::vector<int> site_indices);
 
@@ -53,6 +53,9 @@ class Select {
 
   /// Remove the last particle.
   void remove_last_particle();
+
+  /// Remove the last site.
+  virtual void remove_last_site();
 
   /// Remove particle by index.
   void remove_particle(const int particle_index);
@@ -119,6 +122,11 @@ class Select {
   /// move -> moved selected particles but total numbers unchanged
   void set_trial_state(std::string state) { trial_state_ = state; }
   std::string trial_state() const { return trial_state_; }
+
+  virtual void reverse() {
+    feasst_reverse(&particle_indices_);
+    feasst_reverse(&site_indices_);
+  }
 
   virtual ~Select() {}
 

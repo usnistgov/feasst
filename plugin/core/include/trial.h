@@ -14,7 +14,7 @@ class Trial {
     reset_stats();
     set_weight();
     set_tunable_acceptance();
-    set_tunable_percent_chage();
+    set_tunable_percent_change();
   }
 
   virtual void attempt(Criteria* criteria, System * system) = 0;
@@ -58,20 +58,18 @@ class Trial {
   bool is_tunable() const { return is_tunable_; }
 
   /// Set the value of the parameter which is tuned (also enables tunning).
-  void set_tunable_param(const double tunable_param) {
+  void set_tunable_param(const double param) {
+    is_tunable_ = true;
+    tunable_param_ = param; }
+  void set_tunable_param_bounded(const double tunable_param) {
     bool is_in_bounds = true;
     if (tunable_param < tunable_param_min_ ||
         tunable_param > tunable_param_max_) {
       is_in_bounds = false;
     }
 
-//    /// if first time setting param, error if not within bounds
-//    if (!is_tunable_) {
-//      ASSERT(is_in_bounds, "tunable_param is not in bounds when initializing");
-//    }
-    is_tunable_ = true;
-    if (is_in_bounds) {
-      tunable_param_ = tunable_param;
+    if (is_tunable_ && is_in_bounds) {
+      set_tunable_param(tunable_param);
     }
   }
 
@@ -101,7 +99,7 @@ class Trial {
   /// Note that a positive percentage means that an increase in the tunable
   /// parameter is expected to result in a decrease in the acceptance.
   /// Input a negative percentage for the reverse expectation.
-  virtual void set_tunable_percent_chage(const double percent = 0.05) {
+  virtual void set_tunable_percent_change(const double percent = 0.05) {
     ASSERT(std::abs(percent) < 1., "percent as decimal should be less than 1");
     tunable_percent_change_ = percent;
   }
@@ -118,7 +116,7 @@ class Trial {
       } else {
         param *= 1. + tunable_percent_change_;
       }
-      set_tunable_param(param);
+      set_tunable_param_bounded(param);
       reset_stats();
     }
   }
@@ -152,7 +150,7 @@ class Trial {
     increment_num_attempts();
   }
 
-  // Decide to accept or reject the trial, and implement this decision.
+  /// Decide to accept or reject the trial, and implement this decision.
   void accept_or_reject(const AcceptanceCriteria& accept_criteria,
       Perturb * perturb,
       Criteria * criteria) {

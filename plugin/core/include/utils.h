@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <numeric>
+#include <algorithm>
 
 namespace feasst {
 
@@ -51,6 +52,19 @@ int num_elements(const std::vector<std::vector<T> > vec) {
     num += static_cast<int>(element.size());
   }
   return num;
+}
+
+template<class T>
+void feasst_reverse(std::vector<T> * vec) {
+  std::reverse(vec->begin(), vec->end());
+}
+
+template<class T>
+void feasst_reverse(std::vector<std::vector<T> > * vec) {
+  std::reverse(vec->begin(), vec->end());
+  for (std::vector<T>& vec1 : *vec) {
+    feasst_reverse(&vec1);
+  }
 }
 
 }  // namespace feasst

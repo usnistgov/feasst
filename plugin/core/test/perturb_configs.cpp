@@ -9,8 +9,8 @@ TEST(PerturbConfigs, transfer_particle) {
   System sys;
   Configuration config;
   config.add_particle_type("../forcefield/data.lj");
-  sys.add_configuration(config);
-  sys.add_configuration(config);
+  sys.add(config);
+  sys.add(config);
   Configuration * donor_config = sys.get_configuration(0);
   Configuration * acceptor_config = sys.get_configuration(1);
   FileXYZ().load("../plugin/core/test/data/lj_sample_config_periodic4.xyz", donor_config);

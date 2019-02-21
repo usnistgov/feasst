@@ -17,6 +17,18 @@ Stepper
    :project: FEASST
    :members:
 
+.. doxygenclass:: feasst::AnalyzeUpdateOnly
+   :project: FEASST
+   :members:
+
 .. doxygenclass:: feasst::Log
+   :project: FEASST
+   :members:
+
+.. doxygenclass:: feasst::Movie
+   :project: FEASST
+   :members:
+
+.. doxygenclass:: feasst::RigidBondChecker
    :project: FEASST
    :members:

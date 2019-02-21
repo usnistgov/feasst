@@ -76,6 +76,16 @@ class SelectPosition : public Select {
 
   void resize();//const Select& select);
 
+  void reverse() override {
+    Select::reverse();
+    feasst_reverse(&particle_positions_);
+    feasst_reverse(&site_positions_);
+    feasst_reverse(&site_properties_);
+  }
+
+  /// Remove the last site.
+  void remove_last_site() override;
+
   virtual ~SelectPosition() {}
 
  private:

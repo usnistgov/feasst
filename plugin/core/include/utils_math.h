@@ -6,6 +6,7 @@
 #include <numeric>
 #include <algorithm>
 #include <iostream>
+#include "core/include/constants.h"
 
 namespace feasst {
 
@@ -99,6 +100,16 @@ std::vector<T> fst_difference(const std::vector<T>& vec1,
 template <typename T>
 int sgn(T val) {
   return (T(0) < val) - (val < T(0));
+}
+
+/// Convert radians to degrees.
+inline double radians_to_degrees(const double radians) {
+  return radians/PI*180.;
+}
+
+/// Convert degrees to radians.
+inline double degrees_to_radians(const double degrees) {
+  return degrees/180.*PI;
 }
 
 }  // namespace feasst

@@ -15,11 +15,6 @@ class PerturbConfigs : public Perturb {
     Perturb::before_attempt();
   }
 
-  const Select& selection() const override {
-    ERROR("not implemented");
-    return donor_part_;
-  }
-
   void transfer_particle(const int index, System * system, const int donor, const int acceptor) {
     ASSERT(donor != acceptor, "donor and acceptor cannot be the same");
     donor_part_.particle(index, system->configuration(donor));
@@ -27,7 +22,7 @@ class PerturbConfigs : public Perturb {
     Configuration * acceptor_config_ = system->get_configuration(acceptor);
     const Particle& part = donor_part_.particle(system->configuration(donor));
     const int type = part.type();
-    acceptor_config_->add_particle(type);
+    acceptor_config_->add_particle_of_type(type);
     acceptor_part_.last_particle_added(acceptor_config_);
     acceptor_config_->replace_position(acceptor_part_, part);
     donor_config_->remove_particle(donor_part_);

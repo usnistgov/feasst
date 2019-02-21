@@ -31,7 +31,40 @@ class Perturb {
   }
 
   /// Return the selection
-  virtual const Select& selection() const = 0;
+  //virtual const Select& selection() const = 0;
+  const SelectList& selection() const { return selection_; }
+
+  void set_selection_state(const std::string state) {
+    selection_.set_trial_state(state); }
+
+  void select_random_particle(const int group_index, const Configuration& config) {
+    selection_.random_particle(config, group_index);
+    set_selection_state("old");
+  }
+
+  void select_last_particle_added(const Configuration * config) {
+    selection_.last_particle_added(config); }
+
+  void select_random_particle_of_type(const int type, Configuration * config,
+    /// Don't load coordinates into selection by default
+    const int load_coordinates = 0) {
+    selection_.random_particle_of_type(type, config, load_coordinates);
+  }
+
+  /// Select all sites between two randomly selected sites in a randomly selected particle in group.
+  void select_random_segment_in_particle(const int group_index, const Configuration& config) {
+    selection_.random_segment_in_particle(group_index, config);
+    set_selection_state("old");
+  }
+
+  /// Select all sites between a random endpoint and a randomly selectioned site in a randomly selected particle in group.
+  /// Note that the end point is always returned as the first site.
+  /// Thus, when the end point is the last site, the site order is reversed.
+  /// HWH note: copy of comment in SelectList
+  void select_random_end_segment_in_particle(const int group_index, const Configuration& config) {
+    selection_.random_end_segment_in_particle(group_index, config);
+    set_selection_state("old");
+  }
 
   virtual ~Perturb() {}
 
@@ -54,6 +87,7 @@ class Perturb {
   System * system_;
   System system_old_;
   bool revert_possible_;
+  SelectList selection_;
 };
 
 class PerturbOptRevert : public Perturb {

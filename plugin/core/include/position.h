@@ -57,8 +57,15 @@ class Position {
   /// Divide self by the position vector.
   void divide(const Position &position);
 
+  /// Divide self by a constant.
+  void divide(const double denominator);
+
+  /// Multiply self by a constant.
+  void multiply(const double constant);
+
   /// Return the dot product of position vector with self.
   double dot_product(const Position &position) const;
+  double dot_product(const std::vector<double> vec) const;
 
   /// Return the squared distance of self from the origin.
   double squared_distance() const;
@@ -69,11 +76,34 @@ class Position {
   /// Return coordinates as a string.
   std::string str() const;
 
+  /// Return the cosine of the angle between self and given vector.
+  double cosine(const Position& position) const;
+
+  /// Normalize the position such that the distance from the origin is unity,
+  /// but the direction from the origin is the same.
+  void normalize();
+
+  /// Return true if the given position is equal to self.
+  bool is_equal(const Position& position) const;
+
   // HWH optimized only
   std::vector<double> * get_coord() { return &coord_; }
 
  private:
   std::vector<double> coord_;
+};
+
+/**
+  Spherical coordinates are defined as follows:
+  The first coordinate is rho >= 0. rho is the distance from origin.
+  The second coordinate is theta.
+  theta is the angle between x-axis and projection of line on x-y axis.
+  The third and final coordinate is phi, 0 <= phi <= PI.
+  phi is the angle between z-axis and line.
+ */
+class PositionSpherical : public Position {
+ public:
+  Position cartesian();
 };
 
 class SpatialEntity {

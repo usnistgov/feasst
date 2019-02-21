@@ -29,7 +29,7 @@ namespace feasst {
 class System {
  public:
   /// Set the configuration.
-  void add_configuration(const Configuration& configuration) { configurations_.push_back(configuration); }
+  void add(const Configuration& configuration) { configurations_.push_back(configuration); }
 
   /// Return the configuration
   const Configuration& configuration(const int index = 0) const { return configurations_[index]; }
@@ -72,20 +72,14 @@ class System {
 
   void revert() { unoptimized_.revert(); }
 
-  /// Return the header of the status of the system for periodic output.
+  /// Return the header of the status for periodic output.
   std::string status_header() const {
-    return std::string("energy");
+    return std::string("");
   }
 
-  /// Return the status of the system for periodic output.
+  /// Return the status for periodic output.
   std::string status() const {
-    std::stringstream ss;
-    if (is_optimized_) {
-      ss << optimized().stored_energy();
-    } else {
-      ss << unoptimized().stored_energy();
-    }
-    return ss.str();
+    return std::string("");
   }
 
   // HWH: depreciate, but used by ewald

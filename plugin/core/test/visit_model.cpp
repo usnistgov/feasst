@@ -86,7 +86,7 @@ TEST(VisitModel, spce_reference_config) {
   visit.compute(model, select, &config);
   const double pe_previous = visit.energy();
   const double x1_previous = select.particle(config).site(0).position().coord(1);
-  config.add_particle(0);
+  config.add_particle_of_type(0);
   SelectList new_part;
   new_part.last_particle_added(&config);
   config.replace_position(new_part, select.particle(config));

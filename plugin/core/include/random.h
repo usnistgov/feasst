@@ -6,6 +6,7 @@
 #include <random>
 #include "core/include/position.h"
 #include "core/include/debug.h"
+#include "core/include/constants.h"
 
 namespace feasst {
 
@@ -29,9 +30,21 @@ class Random {
     return dis_double_(generator_);
   }
 
+  /// Randomly return true or false
+  bool coin_flip() {
+    if (uniform() > 0.5) {
+      return true;
+    }
+    return false;
+  }
+
   /// Return a random integer with a uniform probability distribution
   /// betwee min and max.
   int uniform(const int min, const int max);
+
+  /// Return random real number with a uniform probability distribution
+  /// between min and max.
+  double uniform_real(const double min, const double max);
 
   /// Return a random element within a vector.
   template<class T>
@@ -71,6 +84,24 @@ class Random {
       position.set_coord(dim, (2.*uniform() - 1.)*side_length.coord(dim));
     }
     return position;
+  }
+
+  /// Random point on the surface of a unit sphere.
+  void unit_sphere_surface(Position * position) {
+    if (position->dimension() == 3) {
+      // thanks to http://mathworld.wolfram.com/SpherePointPicking.html
+      const double theta = 2*PI*uniform();
+      const double phi = acos(2*uniform() - 1);
+      PositionSpherical sph;
+      sph.set_vector({1., theta, phi});
+      *position = sph.cartesian();
+    } else if (position->dimension() == 2) {
+      const double theta = 2*PI*uniform();
+      position->set_coord(0, cos(theta));
+      position->set_coord(1, sin(theta));
+    } else {
+      ERROR("unrecognized dimension(" << position->dimension() << ")");
+    }
   }
 
  private:

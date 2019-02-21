@@ -54,4 +54,10 @@ void SelectPosition::resize() {
   }
 }
 
+void SelectPosition::remove_last_site() {
+  Select::remove_last_site();
+  site_positions_[0].pop_back();
+  site_properties_[0].pop_back();
+}
+
 }  // namespace feasst

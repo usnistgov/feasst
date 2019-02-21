@@ -18,12 +18,12 @@ TEST(VisitModelCell, simple_lj) {
   Configuration config;
   config.set_domain(Domain().set_cubic(15));
   config.add_particle_type("../forcefield/data.lj");
-  config.add_particle(0);
+  config.add_particle_of_type(0);
   SelectList select;
-  config.add_particle(0);
+  config.add_particle_of_type(0);
   select.last_particle_added(&config);
   auto select2 = select;
-  config.add_particle(0);
+  config.add_particle_of_type(0);
   select2.last_particle_added(&config);
   config.remove_particle(select2);
   feasst::Position pos;
@@ -93,7 +93,7 @@ TEST(VisitModelCell, lj_reference_config) {
   for (int site_index = 0; site_index < config.num_site_types(); ++site_index) {
     config.set_model_param("cutoff", site_index, rcut);
   }
-  config.add_particle(0);
+  config.add_particle_of_type(0);
   SelectList select;
   select.last_particle_added(&config);
   config.remove_particle(select);
@@ -121,7 +121,7 @@ TEST(VisitModelCell, lj_reference_config) {
 /// Use a 5 angstrom cut off
 TEST(VisitModelCell, spce_reference_config) {
   seed_random_by_date();
-  seed_random();
+  // seed_random();
   Configuration config;
   config.add_particle_type("../forcefield/data.spce");
   const int rcut = 5;
@@ -134,10 +134,10 @@ TEST(VisitModelCell, spce_reference_config) {
     CATCH_PHRASE("cannot define cells before domain side");
   }
   for (int part = 0; part < 100; ++part) {
-    config.add_particle(0);
+    config.add_particle_of_type(0);
   }
   FileXYZ().load("../plugin/core/test/data/spce_sample_config_periodic1.xyz", &config);
-  config.add_particle(0);
+  config.add_particle_of_type(0);
   SelectList select;
   select.last_particle_added(&config);
   config.remove_particle(select);
@@ -155,7 +155,7 @@ TEST(VisitModelCell, spce_reference_config) {
   select.random_particle_of_type(0, &config);
   model.compute(select, &config, &visit);
   model.compute(select, &config, &cell_visit);
-  EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-15);
+  EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-14);
 
   visit.check_energy(model, &config);
   cell_visit.check_energy(model, &config);
@@ -165,7 +165,7 @@ TEST(VisitModelCell, spce_reference_config) {
 // inconsistent
 TEST(VisitModelCell, spce_reference_config_buildup) {
   seed_random_by_date();
-  seed_random();
+  // seed_random();
   Configuration config;
   config.add_particle_type("../forcefield/data.spce");
   const int rcut = 5;
@@ -173,7 +173,7 @@ TEST(VisitModelCell, spce_reference_config_buildup) {
     config.set_model_param("cutoff", site_index, rcut);
   }
   for (int part = 0; part < 100; ++part) {
-    config.add_particle(0);
+    config.add_particle_of_type(0);
   }
   FileXYZ().load("../plugin/core/test/data/spce_sample_config_periodic1.xyz", &config);
   config.init_cells(rcut);
@@ -182,8 +182,8 @@ TEST(VisitModelCell, spce_reference_config_buildup) {
   VisitModel visit;
 
   System sys;
-  sys.add_configuration(config);
-  sys.add_configuration(config);
+  sys.add(config);
+  sys.add(config);
   Configuration * config1 = sys.get_configuration(0);
   Configuration * config2 = sys.get_configuration(1);
 

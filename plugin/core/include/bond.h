@@ -31,6 +31,12 @@ class Bond : public PropertiedEntity, public TypedEntity {
   std::vector<int> site_indicies_;
 };
 
+class Angle : public Bond {};
+class Dihedral : public Bond {};
+class Improper : public Bond {};
+
+// HWH add dihedrals and impropers here
+
 }  // namespace feasst
 
 #endif  // FEASST_CORE_BOND_H_

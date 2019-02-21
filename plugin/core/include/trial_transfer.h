@@ -15,15 +15,14 @@ class TrialTransfer : public Trial {
  public:
   void attempt(Criteria* criteria, System * system) {
     if (random_.uniform() < add_probability_) {
-      before_attempt(criteria, system, &add_);
       attempt_to_add(criteria, system);
     } else {
-      before_attempt(criteria, system, &remove_);
       attempt_to_remove(criteria, system);
     }
   }
 
   void attempt_to_remove(Criteria* criteria, System * system) {
+    before_attempt(criteria, system, &remove_);
     Configuration * config = system->get_configuration();
     double delta_energy = 0;
     remove_.select_random_particle(particle_type_, config);
@@ -31,8 +30,7 @@ class TrialTransfer : public Trial {
       accept_criteria_.force_rejection = 1;
     } else {
       delta_energy = -system->energy(remove_.selection());
-      const int group = config->particle_type_to_group(particle_type_); // HWH optimize this
-      const int num_mol_old = config->num_particles(group);
+      const int num_mol_old = config->num_particles_of_type(particle_type_);
       remove_.remove_selected_particle(system);
       DEBUG("delta_energy " << delta_energy);
       accept_criteria_.ln_metropolis_prob =
@@ -47,11 +45,12 @@ class TrialTransfer : public Trial {
   }
 
   void attempt_to_add(Criteria* criteria, System * system) {
+    before_attempt(criteria, system, &add_);
     Configuration * config = system->get_configuration();
     const Position rand_in_box = config->domain().random_position(&random_);
     DEBUG("rand_in_box " << rand_in_box.str());
     add_.add(particle_type_, rand_in_box, system);
-    const int num_mol_new = config->num_particles();
+    const int num_mol_new = config->num_particles(particle_type_);
     const double delta_energy = system->energy(add_.selection());
     DEBUG("delta_energy " << delta_energy);
     accept_criteria_.ln_metropolis_prob =

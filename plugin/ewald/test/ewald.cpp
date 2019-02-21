@@ -78,7 +78,7 @@ TEST(Ewald, revert) {
   EXPECT_NEAR(-4062.47263092246, sys.energy(), 1e-10);
   PerturbTranslate perturb;
   perturb.select_random_particle(0, sys.configuration());
-  perturb.translate_selected_particle(trajectory, &sys);
+  perturb.translate_selection(trajectory, &sys);
   EXPECT_GT(std::abs(-4062.47263092246 - sys.energy()), 1e-10);
   perturb.revert();
   EXPECT_NEAR(-4062.47263092246, sys.energy(), 1e-10);
@@ -86,13 +86,13 @@ TEST(Ewald, revert) {
 
 TEST(Ewald, MC) {
   MonteCarlo mc;
-  mc.set_system(spce());
+  mc.set(spce());
   auto criteria = std::make_shared<CriteriaMetropolis>();
   criteria->set_beta(1.);
   criteria->set_running_energy(mc.get_system()->energy());
-  mc.set_criteria(criteria);
+  mc.set(criteria);
   auto translate = std::make_shared<TrialTranslate>();
-  mc.add_trial(translate);
+  mc.add(translate);
 //  mc.attempt(100);
 //  INFO(mc.get_system()->energy());
 }

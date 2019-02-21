@@ -14,7 +14,7 @@ TEST(FileXTC, XTC) {
   }
   config.add_particle_type("../forcefield/data.atom");
   for (int i = 0; i < 245; ++i) {
-    config.add_particle(0);
+    config.add_particle_of_type(0);
   }
   EXPECT_EQ(0, file.load(xdrfile_read_only, &config));
   EXPECT_NEAR(0.8275, config.particle(0).site(0).position().coord(0), 1e-5);

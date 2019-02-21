@@ -27,6 +27,10 @@ TEST(FileLMP, data_lj) {
   EXPECT_EQ(0, lmp_file.num_bond_types());
   EXPECT_EQ(0, lmp_file.num_angles());
   EXPECT_EQ(0, lmp_file.num_angle_types());
+  EXPECT_EQ(0, lmp_file.num_dihedrals());
+  EXPECT_EQ(0, lmp_file.num_dihedral_types());
+  EXPECT_EQ(0, lmp_file.num_impropers());
+  EXPECT_EQ(0, lmp_file.num_improper_types());
 }
 
 TEST(FileLMP, data_spce) {
@@ -67,12 +71,22 @@ TEST(FileLMP, data_spce) {
   EXPECT_EQ(1, lmp_file.num_angles());
   EXPECT_EQ(1, lmp_file.num_angle_types());
   EXPECT_EQ(2, particle.num_bonds());
+  EXPECT_EQ(1, particle.num_angles());
   try {
     particle.bond(0).property("doesnotexist");
     CATCH_PHRASE("not found");
   }
   EXPECT_NEAR(1., particle.bond(0).property("l0"), NEAR_ZERO);
-  EXPECT_NEAR(450, particle.bond(0).property("k"), NEAR_ZERO);
+  EXPECT_NEAR(0.000001, particle.bond(0).property("delta"), NEAR_ZERO);
+  EXPECT_NEAR(109.47, particle.angle(0).property("theta0"), NEAR_ZERO);
+  EXPECT_NEAR(0.000001, particle.angle(0).property("delta"), NEAR_ZERO);
+}
+
+TEST(FileLMP, dimer) {
+  FileLMP lmp_file;
+  Particle particle = lmp_file.read("../forcefield/data.dimer");
+  EXPECT_EQ(particle.num_sites(), 2);
+  EXPECT_EQ(-0.5, particle.position().coord(0));
 }
 
 }  // namespace feasst

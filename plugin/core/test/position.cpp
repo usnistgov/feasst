@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
+#include <math.h>
 #include "core/test/position_test.h"
 #include "core/include/constants.h"
+#include "core/include/debug.h"
 
 namespace feasst {
 

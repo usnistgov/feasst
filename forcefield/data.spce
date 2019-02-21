@@ -26,11 +26,11 @@ Atom Properties
 
 Bond Properties
 
-1 k 450 l0 1.0
+1 l0 1.0 delta 0.000001
 
 Angle Properties
 
-1 k 55 theta0 109.47
+1 theta0 109.47 delta 0.000001
 
 Atoms
 

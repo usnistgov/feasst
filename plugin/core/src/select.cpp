@@ -169,4 +169,9 @@ bool Select::is_equivalent(const Select& select) {
   return equal;
 }
 
+void Select::remove_last_site() {
+  ASSERT(site_indices_.size() == 1, "assumes 1 particle");
+  site_indices_[0].pop_back();
+}
+
 }  // namespace feasst

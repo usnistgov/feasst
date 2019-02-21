@@ -96,4 +96,18 @@ void Particle::replace_position(const int site_index,
 //  }
 //}
 
+Position Particle::average_site_position() const {
+  Position center = site(0).position();
+  center.multiply(0);
+  for (const Site& site : sites()) {
+    center.add(site.position());
+  }
+  center.divide(num_sites());
+  return center;
+}
+
+void Particle::set_position_as_center() {
+  set_position(average_site_position());
+}
+
 }  // namespace feasst
