@@ -59,11 +59,36 @@ class Trial {
 
   /// Set the value of the parameter which is tuned (also enables tunning).
   void set_tunable_param(const double tunable_param) {
+    bool is_in_bounds = true;
+    if (tunable_param < tunable_param_min_ ||
+        tunable_param > tunable_param_max_) {
+      is_in_bounds = false;
+    }
+
+//    /// if first time setting param, error if not within bounds
+//    if (!is_tunable_) {
+//      ASSERT(is_in_bounds, "tunable_param is not in bounds when initializing");
+//    }
     is_tunable_ = true;
-    tunable_param_ = tunable_param; }
+    if (is_in_bounds) {
+      tunable_param_ = tunable_param;
+    }
+  }
 
   /// Return the above parameter.
   double tunable_param() const { return tunable_param_; }
+
+  /// Set the maximum value of the tunable parameter.
+  void set_tunable_param_max(const double max) { tunable_param_max_ = max; }
+
+  /// Return the above parameter.
+  double tunable_param_max() const { return tunable_param_max_; }
+
+  /// Set the minimum value of the tunable parameter.
+  void set_tunable_param_min(const double min) { tunable_param_min_ = min; }
+
+  /// Return the above parameter.
+  double tunable_param_min() const { return tunable_param_min_; }
 
   /// Set the value of the desired Trial acceptance.
   void set_tunable_acceptance(const double acceptance = 0.25) {
@@ -149,6 +174,7 @@ class Trial {
 
   bool is_tunable_ = false;
   double tunable_param_, tunable_acceptance_, tunable_percent_change_;
+  double tunable_param_max_, tunable_param_min_;
 };
 
 }  // namespace feasst

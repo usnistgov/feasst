@@ -20,6 +20,11 @@ namespace feasst {
   This way we can enforce typing.
   Allow duplication of configuration.
   Or maybe this should be done in the configuration class itself?
+
+    The first potential is the system without optimizations
+    The second potential is the system with optimizations
+    The remaining potentials are used for cheap energy calculations in configurational bias
+    They can also be used for reference calculations (e.g., hard sphere mayer sampling)
  */
 class System {
  public:
@@ -36,6 +41,9 @@ class System {
     return unoptimized_.energy(&configurations_.front());
   }
   double energy() {
+    if (is_optimized_) {
+      return unoptimized_.energy(&configurations_.front());
+    }
     return unoptimized_.energy(&configurations_.front());
   }
   double reference_energy(const int index = 0) {
@@ -43,10 +51,16 @@ class System {
   }
 
   double energy(const Select& select) {
+    if (is_optimized_) {
+      return optimized_.energy(select, &configurations_.front());
+    }
     return unoptimized_.energy(select, &configurations_.front());
   }
 
   void add_to_unoptimized(const Potential& potential) { unoptimized_.add_potential(potential); }
+  void add_to_optimized(const Potential& potential) {
+    is_optimized_ = true;
+    optimized_.add_potential(potential); }
   void add_to_reference(const Potential& ref, const int index = 0) {
     if (index == 0 && references_.size() == 0) {
       references_.push_back(PotentialFactory());
@@ -54,6 +68,7 @@ class System {
     references_[index].add_potential(ref);
   }
   const PotentialFactory& unoptimized() const { return unoptimized_; }
+  const PotentialFactory& optimized() const { return optimized_; }
 
   void revert() { unoptimized_.revert(); }
 
@@ -65,7 +80,11 @@ class System {
   /// Return the status of the system for periodic output.
   std::string status() const {
     std::stringstream ss;
-    ss << unoptimized().stored_energy();
+    if (is_optimized_) {
+      ss << optimized().stored_energy();
+    } else {
+      ss << unoptimized().stored_energy();
+    }
     return ss.str();
   }
 
@@ -74,15 +93,9 @@ class System {
 
  private:
   std::vector<Configuration> configurations_;
-
-  /**
-    The first potential is the system without optimizations
-    The second potential is the system with optimizations
-    The remaining potentials are used for cheap energy calculations in configurational bias
-    They can also be used for reference calculations (e.g., hard sphere mayer sampling)
-  */
   PotentialFactory unoptimized_;
   PotentialFactory optimized_;
+  bool is_optimized_ = false;
   std::vector<PotentialFactory> references_;
 };
 

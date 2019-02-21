@@ -15,7 +15,7 @@ class TrialTranslate : public Trial {
  public:
   TrialTranslate() {
     set_group_index();
-    set_max_move();
+    // set_max_move();
   }
 
   void attempt(Criteria* criteria, System * system) {
@@ -31,12 +31,14 @@ class TrialTranslate : public Trial {
         system->dimension(),
         max_move()
       );
+      DEBUG("traj " << trajectory.str());
       perturb_.translate_selected_particle(trajectory, system);
       const double pe_new = system->energy(perturb_.selection());
       DEBUG("pe_new " << pe_new);
       const double delta_energy = pe_new - pe_old;
       accept_criteria_.ln_metropolis_prob = -criteria->beta()*delta_energy;
       accept_criteria_.energy_new = criteria->running_energy() + delta_energy;
+      accept_criteria_.energy_new_select = pe_new;
       accept_criteria_.force_rejection = 0;
       accept_criteria_.system = system;
       DEBUG("delta_energy " << delta_energy);
@@ -50,6 +52,10 @@ class TrialTranslate : public Trial {
 
   void set_max_move(const double max_move = 0.1) {
     set_tunable_param(max_move); }
+  void set_max_move_bounds(const Domain& domain) {
+    set_tunable_param_max(domain.min_side_length()/2.);
+    set_tunable_param_min(0.);
+  }
   double max_move() const { return tunable_param(); }
 
  private:

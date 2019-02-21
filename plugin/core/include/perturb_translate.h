@@ -20,6 +20,7 @@ class PerturbTranslate : public PerturbOptRevert {
     store_old(system);
     Configuration* config = system->get_configuration();
     config->displace_particles(selection_, trajectory);
+    DEBUG(selection_.particle_positions()[0].str());
     set_revert_possible();
     selection_.set_trial_state("move");
   }

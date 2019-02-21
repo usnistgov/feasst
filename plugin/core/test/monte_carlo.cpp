@@ -13,6 +13,7 @@
 #include "core/test/system_test.h"
 #include "core/include/ui_brief.h"
 #include "core/include/long_range_corrections.h"
+#include "core/include/visit_model_cell.h"
 
 namespace feasst {
 
@@ -219,7 +220,9 @@ TEST(MonteCarlo, WLMC) {
 
 TEST(MonteCarlo, Analyze) {
   seed_random_by_date();
+  seed_random(1550461468);
   MonteCarlo mc;
+  const double cutoff = 2.;
 
   { // add system to mc
     System sys;
@@ -227,7 +230,9 @@ TEST(MonteCarlo, Analyze) {
       Configuration config;
       config.set_domain(Domain().set_cubic(8));
       config.add_particle_type("../forcefield/data.lj");
+      config.init_cells(cutoff);
       sys.add_configuration(config);
+      EXPECT_EQ(4*4*4, config.domain().cells(0).num_total());
     }
 
     { // add potentials to system
@@ -235,23 +240,34 @@ TEST(MonteCarlo, Analyze) {
       potential.set_model(std::make_shared<ModelLJ>());
       potential.set_visit_model(std::make_shared<VisitModel>());
       potential.set_model_params(sys.configuration());
-      potential.set_model_param("cutoff", 0, 2.);
-      EXPECT_NEAR(potential.model_params().mixed_cutoff()[0][0], 2, NEAR_ZERO);
+      potential.set_model_param("cutoff", 0, cutoff);
+      EXPECT_NEAR(potential.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
       sys.add_to_unoptimized(potential);
+      potential.set_visit_model(std::make_shared<VisitModelCell>());
+      sys.add_to_optimized(potential);
 
       Potential lrc;
       lrc.set_visit_model(std::make_shared<LongRangeCorrections>());
       lrc.set_model_params(sys.configuration());
-      lrc.set_model_param("cutoff", 0, 2.);
-      EXPECT_NEAR(lrc.model_params().mixed_cutoff()[0][0], 2, NEAR_ZERO);
+      lrc.set_model_param("cutoff", 0, cutoff);
+      EXPECT_NEAR(lrc.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
       sys.add_to_unoptimized(lrc);
+      sys.add_to_optimized(lrc);
     }
     mc.set_system(sys);
   }
 
   const double beta = 1.2, activity = 1.;
   set_metropolis_criteria(beta, activity, &mc);
-  set_trial_translate(1., &mc);
+
+  { // add translate trial to mc
+    auto translate = std::make_shared<TrialTranslate>();
+    translate->set_weight(1.);
+    translate->set_max_move_bounds(mc.system().configuration().domain());
+    translate->set_max_move(0.1);
+    mc.add_trial(translate);
+  }
+
   mc.seek_num_particles(50);
   set_log("tmp/log.txt", 1e3, &mc);
   set_energy_check(1e-10, 1e3, &mc);

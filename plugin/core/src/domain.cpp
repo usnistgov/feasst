@@ -98,6 +98,7 @@ int Domain::cell_id(const Position& position,
   Position scaled(position);
   wrap(&scaled);
   scaled.divide(side_length());
+  DEBUG("scaled " << scaled.str() << " pos " << position.str() << " box " << side_length().str());
   return cells.id(scaled.coord());
 }
 

@@ -5,14 +5,14 @@
 namespace feasst {
 
 bool CriteriaMayer::is_accepted(const AcceptanceCriteria accept_criteria) {
-  const double energy_new = accept_criteria.energy_new;
-  const double kF12 = exp(-beta()*energy_new) - 1.;
+  const double energy_new = accept_criteria.energy_new_select;
+  const double f12 = exp(-beta()*energy_new) - 1.;
   bool is_accepted;
-  if (verbose) cout << "energy new " << energy_new << " f12 " << kF12 << endl;
+  if (verbose) cout << "energy new " << energy_new << " f12 " << f12 << endl;
   if ( (accept_criteria.force_rejection != 1) &&
-       (random_.uniform() < std::abs(kF12)/std::abs(f12old_)) ) {
+       (random_.uniform() < std::abs(f12)/std::abs(f12old_)) ) {
     set_running_energy(energy_new);
-    f12old_ = kF12;
+    f12old_ = f12;
     is_accepted = true;
     if (verbose) cout << "computing ref" << endl;
     const double energy_reference =

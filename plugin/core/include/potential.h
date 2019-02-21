@@ -27,6 +27,7 @@ class Potential {
   /// Set the index of the group of configuration which contributes to this
   /// potential. By default, the index is zero, which represents the entire
   /// configuration.
+  /// Note that for VisitModelCell, group_index refers to the cell_index.
   void set_group_index(const int group_index = 0) {group_index_ = group_index; }
 
   /// Return the index of the group

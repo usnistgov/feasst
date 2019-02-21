@@ -12,6 +12,7 @@ namespace feasst {
 struct AcceptanceCriteria {
   double ln_metropolis_prob = 0.;
   double energy_new = 0.;
+  double energy_new_select = 0.;
   int force_rejection = 0;
   System* system = NULL;
   int accepted = -1;
