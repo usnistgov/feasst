@@ -80,7 +80,6 @@
 #include "core/include/modify.h"
 #include "core/include/monte_carlo.h"
 #include "core/include/ui_brief.h"
-#include "core/include/system.h.bak"
 #include "core/include/long_range_corrections.h"
 #include "core/include/visit_particles.h"
 #include "core/include/visit_configuration.h"
@@ -174,7 +173,6 @@ using namespace std;
 %include core/include/modify.h
 %include core/include/monte_carlo.h
 %include core/include/ui_brief.h
-%include core/include/system.h.bak
 %include core/include/long_range_corrections.h
 %include core/include/visit_particles.h
 %include core/include/visit_configuration.h
