@@ -47,7 +47,7 @@ std::string Select::str() const {
   std::stringstream ss;
   for (int index = 0; index < num_particles(); ++index) {
     ss << particle_indices_[index] << ":{"
-       << feasst::str(site_indices_[index]) << "}, ";
+       << feasst_str(site_indices_[index]) << "}, ";
   }
   return ss.str();
 }
@@ -108,7 +108,7 @@ void Select::add_sites(const int particle_index,
                        const std::vector<int> site_indices) {
   int index;
   if (find_in_list(particle_index, particle_indices(), &index)) {
-    TRACE(particle_index << " | " << feasst::str(site_indices_[index]) << " + " << feasst::str(site_indices));
+    TRACE(particle_index << " | " << feasst_str(site_indices_[index]) << " + " << feasst_str(site_indices));
     site_indices_[index] = fst_union(site_indices_[index], site_indices);
   } else {
     particle_indices_.push_back(particle_index);

@@ -2,6 +2,7 @@
 #include "core/include/debug.h"
 #include "core/include/utils_io.h"
 #include "core/include/utils.h"
+#include "core/include/utils_math.h"
 
 namespace feasst {
 
@@ -60,9 +61,9 @@ void Particle::remove_non_unique_types() {
 
 void Particle::remove_site(const int index) {
   sites_.erase(sites_.begin() + index);
-  if (reference_sites_.size() != 0) {
-    reference_sites_.erase(sites_.begin() + index);
-  }
+//  if (reference_sites_.size() != 0) {
+//    reference_sites_.erase(sites_.begin() + index);
+//  }
 }
 
 void Particle::increment_site_types(const int increment) {
@@ -108,6 +109,17 @@ Position Particle::average_site_position() const {
 
 void Particle::set_position_as_center() {
   set_position(average_site_position());
+}
+
+const Bond& Particle::bond(int site_index1, int site_index2) const {
+  DEBUG("sites " << site_index1 << " " << site_index2);
+  for (const Bond& bond : bonds_) {
+    if ( (site_index1 == bond.site(0) && (site_index2 == bond.site(1))) ||
+         (site_index1 == bond.site(1) && (site_index2 == bond.site(0)))) {
+      return bond;
+    }
+  }
+  ERROR("bond between " << site_index1 << " and " << site_index2 << " not found.");
 }
 
 }  // namespace feasst

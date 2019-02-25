@@ -178,7 +178,7 @@ TEST(Configuration, cells) {
   int cell0 = round(7*7*7/2. - 0.5);
   int cell1 = round(5*5*5/2. - 0.5);
   Site site = config.particle(0).site(0);
-  INFO(feasst::str(site.properties().property_name()));
+  INFO(feasst_str(site.properties().property_name()));
   EXPECT_EQ(cell0, round(site.property("cell0")));
   EXPECT_EQ(cell1, round(site.property("cell1")));
   std::vector<int> indices = {0};

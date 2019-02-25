@@ -138,6 +138,7 @@ class BondVisitor {
   }
   void set_energy(const double energy) { energy_ = energy; }
   double energy() const { return energy_; }
+
  private:
   double energy_;
 };

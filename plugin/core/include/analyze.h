@@ -197,6 +197,7 @@ class Movie : public AnalyzeWriteOnly {
     xyz_.write(file_name(), system.configuration());
     return std::string("");
   }
+
  private:
   FileXYZ xyz_;
   FileVMD vmd_;

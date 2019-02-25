@@ -24,7 +24,7 @@ double Properties::value(const std::string name) const {
 
 bool Properties::value(const std::string name, double * value) const {
   int index;
-  DEBUG("finding " << name << " " << str(property_name_));
+  DEBUG("finding " << name << " " << feasst_str(property_name_));
   bool found = find_in_list(name, property_name_, &index);
   if (found) {
     *value = property_value_[index];

@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 #include "core/include/trial_translate.h"
 #include "core/include/trial_transfer.h"
+#include "core/include/trial_regrow.h"
 #include "core/include/monte_carlo.h"
 #include "core/include/criteria_metropolis.h"
 #include "core/include/criteria_flat_histogram.h"
@@ -215,14 +216,14 @@ TEST(MonteCarlo, WLMC) {
     trials.attempt(&criteria, &system);
   }
   std::cout << "nTrans " << translate->num_attempts() << " nTransfer " << transfer->num_attempts() << std::endl;
-  std::cout << str(bias->ln_macro_prob()) << std::endl;
+  std::cout << feasst_str(bias->ln_macro_prob()) << std::endl;
 }
 
 TEST(MonteCarlo, Analyze) {
   seed_random_by_date();
   seed_random(1550461468);
   MonteCarlo mc;
-  const double cutoff = 2.;
+//  const double cutoff = 2.;
 
   { System system;
     { Configuration config;
@@ -236,8 +237,8 @@ TEST(MonteCarlo, Analyze) {
       potential.set_model(std::make_shared<ModelLJ>());
       potential.set_visit_model(std::make_shared<VisitModel>());
       potential.set_model_params(system.configuration());
-      potential.set_model_param("cutoff", 0, cutoff);
-      EXPECT_NEAR(potential.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
+//      potential.set_model_param("cutoff", 0, cutoff);
+//      EXPECT_NEAR(potential.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
       system.add_to_unoptimized(potential); }
 
     { Potential potential;
@@ -249,12 +250,12 @@ TEST(MonteCarlo, Analyze) {
       potential.set_model_param("cutoff", 0, 1.);
       system.add_to_unoptimized(potential); }
 
-//    { Potential lrc;
-//      lrc.set_visit_model(std::make_shared<LongRangeCorrections>());
-//      lrc.set_model_params(system.configuration());
+    { Potential lrc;
+      lrc.set_visit_model(std::make_shared<LongRangeCorrections>());
+      lrc.set_model_params(system.configuration());
 //      lrc.set_model_param("cutoff", 0, cutoff);
 //      EXPECT_NEAR(lrc.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
-//      system.add_to_unoptimized(lrc); }
+      system.add_to_unoptimized(lrc); }
 
     mc.set(system);
   }
@@ -284,6 +285,10 @@ TEST(MonteCarlo, Analyze) {
     trial->set_weight(1.);
     trial->set_max_move(90.);
     trial->set_tunable_percent_change(0.1);
+    mc.add(trial); }
+
+  { auto trial = std::make_shared<TrialRegrow>();
+    trial->set_weight(1.);
     mc.add(trial); }
 
   mc.seek_num_particles(1);

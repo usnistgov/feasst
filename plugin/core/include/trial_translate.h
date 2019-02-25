@@ -100,7 +100,7 @@ class TrialRotate : public TrialMove {
     rot_mat_.axis_angle(axis, angle);
   }
 
-  virtual void move(System * system) override {
+  void move(System * system) override {
     const Position& pivot = perturb_rotate_->selection().particle_positions()[0];
     random_rotation(pivot);
     perturb_rotate_->rotate_selection(pivot, rot_mat_, system);

@@ -12,10 +12,11 @@
 namespace feasst {
 
 /**
+  HWH: determining number of sites of type is inefficient (order N)
  */
 class LongRangeCorrections : public VisitModel {
  public:
-  // compute number of particles of each type in selection
+  // compute number of sites of each type in selection
   std::vector<int> types(const Select& selection, const Configuration * config) {
     std::vector<int> count(config->num_site_types());
     for (int select_index = 0;
@@ -37,15 +38,15 @@ class LongRangeCorrections : public VisitModel {
       const Select& selection,
       Configuration * config,
       const int group_index) override {
-    ASSERT(group_index == 0, "not implemented");
-    // find number of particles of each type in selection.
+    const std::vector<int> num_of_site_type =
+      types(config->group_select(group_index), config);
     std::vector<int> select_types = types(selection, config);
     double en = 0.;
     for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
-      const double num_type1 = config->num_particles_of_type(type1);
+      const double num_type1 = num_of_site_type[type1];
       const double num_type1_sel = select_types[type1];
       for (int type2 = 0; type2 < config->num_site_types(); ++type2) {
-        const double num_type2 = config->num_particles_of_type(type2);
+        const double num_type2 = num_of_site_type[type2];
         const double num_type2_sel = select_types[type2];
         en += (num_type1*num_type2_sel + num_type1_sel*num_type2 - num_type1_sel*num_type2_sel)
           *energy_(type1, type2, config, model_params);
@@ -60,12 +61,12 @@ class LongRangeCorrections : public VisitModel {
       Configuration * config,
       const int group_index = 0) override {
     double en = 0;
-    ASSERT(group_index == 0, "not implemented");
+    const std::vector<int> num_of_site_type =
+      types(config->group_select(group_index), config);
     for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
-      const double num_type1 = config->num_particles_of_type(type1);
       for (int type2 = 0; type2 < config->num_site_types(); ++type2) {
-        const double num_type2 = config->num_particles_of_type(type2);
-        en += num_type1*num_type2*energy_(type1, type2, config, model_params);
+        en += num_of_site_type[type1]*num_of_site_type[type2]*
+          energy_(type1, type2, config, model_params);
       }
     }
     set_energy(en);

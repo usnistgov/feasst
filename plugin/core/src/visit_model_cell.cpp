@@ -120,7 +120,7 @@ void VisitModelCell::compute(
           if (part1_index != part2_index) {
             const Particle part2 = config->select_particle(part2_index);
             TRACE("indices " <<
-                  feasst::str(cell2_parts.site_indices(select2_index)));
+                  feasst_str(cell2_parts.site_indices(select2_index)));
             for (int site2_index : cell2_parts.site_indices(select2_index)) {
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                    site1_index << " " << site2_index);

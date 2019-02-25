@@ -25,7 +25,7 @@ void Ewald::update_wave_vectors(const Configuration& config) {
   const double lz = domain.side_length(2);
   ASSERT(!domain.is_tilted(), "assumes cuboid domain");
   const double volume = domain.volume();
-  const double alpha = config.unique_types().model_params().property("alpha");
+  const double alpha = config.model_params().property("alpha");
   for (int kx = 0; kx <= kmax_; ++kx) {
   for (int ky = -kmax_; ky <= kmax_; ++ky) {
   for (int kz = -kmax_; kz <= kmax_; ++kz) {
@@ -183,7 +183,7 @@ void Ewald::update_eik(const Select& selection, Configuration * config) {
 
       // compute structure factor
       const int type = site.type();
-      const double charge = config->unique_types().model_params().charge().value(type);
+      const double charge = config->model_params().charge().value(type);
       const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().property_value();
       for (int k_index = 0; k_index < num_vectors(); ++k_index) {
         const int kdim = dimension_*k_index;

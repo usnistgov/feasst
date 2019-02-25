@@ -53,6 +53,8 @@ class Configuration {
   /// Return the particle types.
   const ParticleFactory& particle_types() const { return particle_types_; }
 
+  ModelParams model_params() const { return unique_types_.model_params(); }
+
   /// Modify model parameter of a given site type and name to value.
   void set_model_param(const char* name,
                        const int site_type,

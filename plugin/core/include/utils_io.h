@@ -15,7 +15,7 @@ namespace feasst {
 
 /// Return string representation of vector
 template<class T>
-std::string str(const std::vector<T> &vec) {
+std::string feasst_str(const std::vector<T> &vec) {
   std::stringstream ss;
   for (unsigned int i = 0; i < vec.size(); ++i) {
     ss << vec[i] << " ";
@@ -23,10 +23,10 @@ std::string str(const std::vector<T> &vec) {
   return ss.str();
 }
 template<class T>
-std::string str(const std::vector<std::vector<T> > &vec) {
+std::string feasst_str(const std::vector<std::vector<T> > &vec) {
   std::stringstream ss;
   for (unsigned int i = 0; i < vec.size(); ++i) {
-    ss << str(vec[i]) << std::endl;
+    ss << feasst_str(vec[i]) << std::endl;
   }
   return ss.str();
 }

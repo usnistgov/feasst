@@ -79,6 +79,8 @@ class PerturbRotate : public PerturbSelectMove {
   ~PerturbRotate() {}
 
   /// By default, do not recenter the particle position based on sites.
+  /// Recentering uses the old configuration, not the new one, so the particles
+  /// will not be perfectly recentered.
   void set_recenter(const int recenter = 0) { recenter_ = recenter; }
 
  private:

@@ -21,6 +21,13 @@ TEST(Matrix, axis_angle) {
   mat.axis_angle(axis, -135);
   point2.set_vector({0., -sqrt(2.), -sqrt(2.)});
   EXPECT_TRUE(point2.is_equal(mat.multiply(point1)));
+
+  // For a rotation matrix, the inverse should be equal to the transpose
+  RotationMatrix mat_t = mat, mat_inv = mat;
+  mat_t.transpose();
+  mat_inv.invert();
+  EXPECT_TRUE(mat_t.is_equal(mat_inv));
+  EXPECT_FALSE(mat.is_equal(mat_inv));
 }
 
 }  // namespace feasst

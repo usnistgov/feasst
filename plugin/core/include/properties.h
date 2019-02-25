@@ -40,13 +40,15 @@ class Properties {
 
   /// Return all property names.
   std::vector<std::string> property_name() const { return property_name_; }
-  
+
   /// Return all property values.
   const std::vector<double>& property_value() const { return property_value_; }
 
   /// Set value of property by index.
   void set_value(const int index, const double value) {
     property_value_[index] = value; }
+
+  ~Properties() { check_size(); }
 
  private:
   std::vector<double> property_value_;

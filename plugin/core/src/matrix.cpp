@@ -1,10 +1,20 @@
 #include <cmath>
+#include <vector>
 #include "core/include/matrix.h"
 #include "core/include/debug.h"
 #include "core/include/constants.h"
 #include "core/include/utils_math.h"
+#include "core/include/utils_io.h"
 
 namespace feasst {
+
+void Matrix::set_size(const int num_rows, const int num_columns) {
+  matrix_.resize(num_rows, std::vector<double>(num_columns));
+}
+
+void Matrix::set_value(const int row, const int column, const double value) {
+  matrix_[row][column] = value;
+}
 
 void Matrix::check() const {
   ASSERT(matrix().size() != 0, "empty");
@@ -17,6 +27,7 @@ void Matrix::check() const {
 
 void Matrix::transpose() {
   const auto mat = matrix_;
+  set_size(mat[0].size(), mat.size());
   for (int row = 0; row < static_cast<int>(mat.size()); ++row) {
     for (int col = 0; col < static_cast<int>(mat[row].size()); ++col) {
       matrix_[col][row] = mat[row][col];
@@ -39,6 +50,26 @@ Position Matrix::multiply(const Position& vec) const {
   }
   return result;
 }
+
+bool Matrix::is_equal(const Matrix& matrix2) const {
+  check();
+  matrix2.check();
+  if (matrix().size() != matrix2.matrix().size() ||
+      matrix()[0].size() != matrix2.matrix()[0].size()) {
+    return false;
+  }
+  for (int row = 0; row < static_cast<int>(matrix_.size()); ++row) {
+    for (int col = 0; col < static_cast<int>(matrix_[row].size()); ++col) {
+      if (std::abs(matrix()[row][col] -
+                   matrix2.matrix()[row][col]) > NEAR_ZERO) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+std::string Matrix::str() const { return feasst_str(matrix_); }
 
 // thanks to https://en.wikipedia.org/wiki/Determinant
 double MatrixThreeByThree::determinant() const {
@@ -63,8 +94,8 @@ void MatrixThreeByThree::invert() {
 
 void MatrixThreeByThree::check() const {
   Matrix::check();
-  ASSERT(matrix().size() == 3, "wrong size");
   ASSERT(matrix().size() == matrix()[0].size(), "not square");
+  ASSERT(matrix().size() == 3, "wrong size");
 }
 
 void RotationMatrix::check() const {
@@ -75,13 +106,12 @@ void RotationMatrix::check() const {
 
 // thanks to https://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle
 void RotationMatrix::axis_angle(const Position& axis,
-    /// angle in degrees
-    const double angle) {
+    const double degree_angle) {
   Position unit_axis = axis;
   unit_axis.normalize();
   set_size(unit_axis.size(), unit_axis.size());
   ASSERT(unit_axis.size() == 3, "only implemented for 3D");
-  const double radian_angle = degrees_to_radians(angle);
+  const double radian_angle = degrees_to_radians(degree_angle);
   const double c = cos(radian_angle), C = 1-c;
   const double s = sin(radian_angle);
   const double x = unit_axis.coord(0);

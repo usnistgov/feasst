@@ -48,8 +48,8 @@ class Particle : public TypedEntity, public SpatialEntity {
   /// Remove a particular site by its index.
   void remove_site(const int index);
 
-  /// Store existing Site(s) for later reference.
-  void store_reference_sites() { reference_sites_ = sites_; }
+//  /// Store existing Site(s) for later reference.
+//  void store_reference_sites() { reference_sites_ = sites_; }
 
   //@}
   /** @name Typing
@@ -143,6 +143,9 @@ class Particle : public TypedEntity, public SpatialEntity {
   /// Erase all bonds from particle.
   void erase_bonds() { bonds_.clear(); angles_.clear(); }
 
+  /// Find the bond between the given site indices.
+  const Bond& bond(int site_index1, int site_index2) const;
+
   //@}
   /** @name Angles
     Angles between three sites in the particle
@@ -164,57 +167,57 @@ class Particle : public TypedEntity, public SpatialEntity {
   /// Set a angle.
   void set_angle(const int index, const Angle& angle) { angles_[index] = angle; }
 
-  //@}
-  /** @name Dihedrals
-    Dihedrals between four sites in the particle
-   */
-  //@{
-
-  /// Return the number of dihedrals.
-  int num_dihedrals() const { return static_cast<int>(dihedrals_.size()); }
-
-  /// Return the dihedral by index.
-  const Dihedral& dihedral(const int index) const { return dihedrals_[index]; }
-
-  /// Return the dihedrals.
-  const std::vector<Dihedral> dihedrals() const { return dihedrals_; }
-
-  /// Add a dihedral.
-  void add_dihedral(const Dihedral& dihedral) { dihedrals_.push_back(dihedral); }
-
-  /// Set a dihedral.
-  void set_dihedral(const int index, const Dihedral& dihedral) { dihedrals_[index] = dihedral; }
-
-  //@}
-  /** @name Impropers
-    Impropers between four sites in the particle
-   */
-  //@{
-
-  /// Return the number of impropers.
-  int num_impropers() const { return static_cast<int>(impropers_.size()); }
-
-  /// Return the improper by index.
-  const Improper& improper(const int index) const { return impropers_[index]; }
-
-  /// Return the impropers.
-  const std::vector<Improper> impropers() const { return impropers_; }
-
-  /// Add a improper.
-  void add_improper(const Improper& improper) { impropers_.push_back(improper); }
-
-  /// Set a improper.
-  void set_improper(const int index, const Improper& improper) { impropers_[index] = improper; }
+//  //@}
+//  /** @name Dihedrals
+//    Dihedrals between four sites in the particle
+//   */
+//  //@{
+//
+//  /// Return the number of dihedrals.
+//  int num_dihedrals() const { return static_cast<int>(dihedrals_.size()); }
+//
+//  /// Return the dihedral by index.
+//  const Dihedral& dihedral(const int index) const { return dihedrals_[index]; }
+//
+//  /// Return the dihedrals.
+//  const std::vector<Dihedral> dihedrals() const { return dihedrals_; }
+//
+//  /// Add a dihedral.
+//  void add_dihedral(const Dihedral& dihedral) { dihedrals_.push_back(dihedral); }
+//
+//  /// Set a dihedral.
+//  void set_dihedral(const int index, const Dihedral& dihedral) { dihedrals_[index] = dihedral; }
+//
+//  //@}
+//  /** @name Impropers
+//    Impropers between four sites in the particle
+//   */
+//  //@{
+//
+//  /// Return the number of impropers.
+//  int num_impropers() const { return static_cast<int>(impropers_.size()); }
+//
+//  /// Return the improper by index.
+//  const Improper& improper(const int index) const { return impropers_[index]; }
+//
+//  /// Return the impropers.
+//  const std::vector<Improper> impropers() const { return impropers_; }
+//
+//  /// Add a improper.
+//  void add_improper(const Improper& improper) { impropers_.push_back(improper); }
+//
+//  /// Set a improper.
+//  void set_improper(const int index, const Improper& improper) { impropers_[index] = improper; }
 
 //  ~Particle() { check_size(); }
 
  private:
   std::vector<Site> sites_;
-  std::vector<Site> reference_sites_;
+//  std::vector<Site> reference_sites_;
   std::vector<Bond> bonds_;
   std::vector<Angle> angles_;
-  std::vector<Dihedral> dihedrals_;
-  std::vector<Improper> impropers_;
+//  std::vector<Dihedral> dihedrals_;
+//  std::vector<Improper> impropers_;
 };
 
 }  // namespace feasst

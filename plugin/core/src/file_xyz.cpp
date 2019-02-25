@@ -24,7 +24,7 @@ void FileXYZ::load(const std::string file_name, Configuration * config) const {
 //      cout << "cord " << str(coord) << endl;
   Position position;
   position.set_vector(coord);
-  TRACE("coord " << feasst::str(coord) << " pos " << position.str());
+  TRACE("coord " << feasst::feasst_str(coord) << " pos " << position.str());
   config->set_side_length(position);
   // ASSERT(config->num_sites() == num_sites, "site mismatch");
   if (config->num_sites() == 0) {
@@ -77,6 +77,14 @@ void FileXYZ::write(const std::string file_name,
        << "-1" << endl;
   PrinterXYZ printer(file);
   VisitConfiguration().loop(config, &printer, group_index_);
+}
+
+void FileXYZ::write_for_vmd(const std::string file_name,
+    const Configuration& config) const {
+  std::stringstream ss;
+  ss << file_name << ".vmd";
+  write(file_name, config);
+  FileVMD().write(ss.str(), config, file_name);
 }
 
 }  // namespace feasst

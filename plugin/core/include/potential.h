@@ -55,7 +55,7 @@ class Potential {
 
   /// Set the model parameters to the one in the configuration.
   void set_model_params(const Configuration& config) {
-    set_model_params(config.unique_types().model_params());
+    set_model_params(config.model_params());
   }
 
   /// Modify model parameter of a given site type and name to value.

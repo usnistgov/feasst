@@ -66,7 +66,7 @@ double Position::distance() const {
 }
 
 std::string Position::str() const {
-  return feasst::str(coord_);
+  return feasst_str(coord_);
 }
 
 void Position::set_to_origin() {

@@ -33,4 +33,13 @@ TEST(Particle, center) {
   EXPECT_EQ(0., chain.position().coord(1));
 }
 
+TEST(Particle, bond) {
+  Particle chain = FileLMP().read("../forcefield/data.chain10");
+  try {
+    chain.bond(9, 10);
+    CATCH_PHRASE("not found");
+  }
+  EXPECT_EQ(0, chain.bond(9, 8).type());
+}
+
 }  // namespace feasst

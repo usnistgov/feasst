@@ -7,6 +7,23 @@
 
 namespace feasst {
 
+class FileVMD {
+ public:
+  void write(const std::string file_name, const Configuration& config, const std::string traj_file_name) {
+    std::ofstream vmdf(file_name);
+    vmdf << "display projection Orthographic" << endl
+      << "color Display Background white" << endl
+      << "axes location Off" << endl;
+    vmdf << "topo readvarxyz " << trim("/", traj_file_name) << endl;
+    vmdf << "mol modstyle 0 0 VDW 1.0000000 120.000000" << endl;
+    vmdf << "set sel [atomselect top \"name H\"]" << endl;
+    vmdf << "$sel set radius 0.5" << endl;
+// write the radius using sigma
+//    for (int particle_type = 0; particle_type < config.num_particle_types(); ++particle_type) {
+//    }
+  }
+};
+
 /// HWH Add html link to XYZ format
 /// Note that the load() function reads the box length from the second line
 /// according to the format [id lx ly lz]
@@ -26,6 +43,9 @@ class FileXYZ {
   void write(const std::string file_name,
              const Configuration& config) const ;
 
+  void write_for_vmd(const std::string file_name,
+             const Configuration& config) const;
+
   void set_group_index(const int index = 0) { group_index_ = index; }
 
   /// By default, do not append
@@ -34,23 +54,6 @@ class FileXYZ {
  private:
   int group_index_;
   int append_;
-};
-
-class FileVMD {
- public:
-  void write(const std::string file_name, const Configuration& config, const std::string traj_file_name) {
-    std::ofstream vmdf(file_name);
-    vmdf << "display projection Orthographic" << endl
-      << "color Display Background white" << endl
-      << "axes location Off" << endl;
-    vmdf << "topo readvarxyz " << trim("/", traj_file_name) << endl;
-    vmdf << "mol modstyle 0 0 VDW 1.0000000 120.000000" << endl;
-    vmdf << "set sel [atomselect top \"name H\"]" << endl;
-    vmdf << "$sel set radius 0.5" << endl;
-// write the radius using sigma
-//    for (int particle_type = 0; particle_type < config.num_particle_types(); ++particle_type) {
-//    }
-  }
 };
 
 }  // namespace feasst

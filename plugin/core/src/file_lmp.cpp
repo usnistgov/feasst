@@ -140,37 +140,37 @@ Particle FileLMP::read(const std::string file_name) {
     }
   }
 
-  // read Dihedrals section
-  if (num_dihedrals_ > 0) {
-    find_or_fail("Dihedrals", file);
-    int idihedral, a1, a2, a3, a4;
-    for (int dihedral_index = 0; dihedral_index < num_dihedrals_; ++dihedral_index) {
-      file >> idihedral >> itype >> a1 >> a2 >> a3 >> a4;
-      feasst::Dihedral dihedral;
-      dihedral.add_site_index(a1 - 1);
-      dihedral.add_site_index(a2 - 1);
-      dihedral.add_site_index(a3 - 1);
-      dihedral.add_site_index(a4 - 1);
-      dihedral.set_type(itype - 1);
-      particle.add_dihedral(dihedral);
-    }
-  }
-
-  // read Impropers section
-  if (num_impropers_ > 0) {
-    find_or_fail("Impropers", file);
-    int iimproper, a1, a2, a3, a4;
-    for (int improper_index = 0; improper_index < num_impropers_; ++improper_index) {
-      file >> iimproper >> itype >> a1 >> a2 >> a3 >> a4;
-      feasst::Improper improper;
-      improper.add_site_index(a1 - 1);
-      improper.add_site_index(a2 - 1);
-      improper.add_site_index(a3 - 1);
-      improper.add_site_index(a4 - 1);
-      improper.set_type(itype - 1);
-      particle.add_improper(improper);
-    }
-  }
+//  // read Dihedrals section
+//  if (num_dihedrals_ > 0) {
+//    find_or_fail("Dihedrals", file);
+//    int idihedral, a1, a2, a3, a4;
+//    for (int dihedral_index = 0; dihedral_index < num_dihedrals_; ++dihedral_index) {
+//      file >> idihedral >> itype >> a1 >> a2 >> a3 >> a4;
+//      feasst::Dihedral dihedral;
+//      dihedral.add_site_index(a1 - 1);
+//      dihedral.add_site_index(a2 - 1);
+//      dihedral.add_site_index(a3 - 1);
+//      dihedral.add_site_index(a4 - 1);
+//      dihedral.set_type(itype - 1);
+//      particle.add_dihedral(dihedral);
+//    }
+//  }
+//
+//  // read Impropers section
+//  if (num_impropers_ > 0) {
+//    find_or_fail("Impropers", file);
+//    int iimproper, a1, a2, a3, a4;
+//    for (int improper_index = 0; improper_index < num_impropers_; ++improper_index) {
+//      file >> iimproper >> itype >> a1 >> a2 >> a3 >> a4;
+//      feasst::Improper improper;
+//      improper.add_site_index(a1 - 1);
+//      improper.add_site_index(a2 - 1);
+//      improper.add_site_index(a3 - 1);
+//      improper.add_site_index(a4 - 1);
+//      improper.set_type(itype - 1);
+//      particle.add_improper(improper);
+//    }
+//  }
 
   return particle;
 }
@@ -227,16 +227,16 @@ void FileLMP::read_properties_(const std::string property_type,
         Angle angle = particle->angle(type);
         angle.add_property(name, value);
         particle->set_angle(type, angle);
-      } else if (property_type == "dihedral") {
-        DEBUG("adding dihedral coeff of type " << type << " name " << name << " value " << value);
-        Dihedral dihedral = particle->dihedral(type);
-        dihedral.add_property(name, value);
-        particle->set_dihedral(type, dihedral);
-      } else if (property_type == "improper") {
-        DEBUG("adding improper coeff of type " << type << " name " << name << " value " << value);
-        Improper improper = particle->improper(type);
-        improper.add_property(name, value);
-        particle->set_improper(type, improper);
+//      } else if (property_type == "dihedral") {
+//        DEBUG("adding dihedral coeff of type " << type << " name " << name << " value " << value);
+//        Dihedral dihedral = particle->dihedral(type);
+//        dihedral.add_property(name, value);
+//        particle->set_dihedral(type, dihedral);
+//      } else if (property_type == "improper") {
+//        DEBUG("adding improper coeff of type " << type << " name " << name << " value " << value);
+//        Improper improper = particle->improper(type);
+//        improper.add_property(name, value);
+//        particle->set_improper(type, improper);
       } else {
         // HWH add dihedral and impropers here
         ERROR("unrecognized property_type: " << property_type);

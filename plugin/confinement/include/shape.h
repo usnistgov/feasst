@@ -78,6 +78,7 @@ class HalfSpace : public Shape {
   double nearest_distance(const Position& point) const override;
 
   virtual ~HalfSpace() {}
+
  private:
   int dimension_;
   double intersection_;
@@ -92,6 +93,7 @@ class ShapeIntersect : public Shape {
   double nearest_distance(const Position& point) const override;
 
   virtual ~ShapeIntersect() {}
+
  private:
   const std::shared_ptr<Shape> shape1_, shape2_;
 };

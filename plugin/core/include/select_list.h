@@ -3,9 +3,9 @@
 #define FEASST_CORE_SELECT_LIST_H_
 
 #include "core/include/configuration.h"
+#include "core/include/utils_math.h" // move to cpp
 
 namespace feasst {
-
 
 /**
   Similar to Select, except includes configurations as argument.
@@ -152,11 +152,7 @@ class SelectList : public SelectPosition {
     }
 
     // swap for meaningful min/max
-    if (min > max) {
-      const double temp = min;
-      min = max;
-      max = temp;
-    }
+    sort(&min, &max);
 
     // remove sites not in min/max, from highest to lowest
     truncate_to_max(max);
@@ -202,6 +198,17 @@ class SelectList : public SelectPosition {
       DEBUG("after trunc " << str());
     }
     DEBUG("num " << num_sites() << " indices " << str());
+  }
+
+  /// Return the bond between two sites in particle
+  const Bond& bond(const int particle, const int site1, const int site2, const Configuration& config) const {
+    const int particle_index = particle_indices()[particle];
+    const Particle& part = config.select_particle(particle_index);
+    const int particle_type = part.type();
+    const Particle& type = config.particle_types().particle(particle_type);
+    const int bond_type = type.bond(site1, site2).type();
+    const Particle& unique = config.unique_types().particle(particle_type);
+    return unique.bond(bond_type);
   }
 };
 

@@ -112,6 +112,16 @@ inline double degrees_to_radians(const double degrees) {
   return degrees/180.*PI;
 }
 
+/// Sort the values in order of increasing size.
+template <typename T>
+inline void sort(T * min, T * max) {
+  if (*min > *max) {
+    const double temp = *min;
+    *min = *max;
+    *max = temp;
+  }
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_CORE_UTILS_MATH_H_

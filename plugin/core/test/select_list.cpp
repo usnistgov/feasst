@@ -6,6 +6,7 @@
 namespace feasst {
 
 TEST(SelectList, group) {
+  seed_random_by_date();
   Configuration config;
   config.add_particle_type("../forcefield/data.spce");
   for (int part = 0; part < 100; ++part) {
@@ -27,6 +28,21 @@ TEST(SelectList, group) {
   EXPECT_EQ(100, select.num_particles());
   EXPECT_EQ(100, select.num_sites());
   EXPECT_EQ(0, select.site_index(0, 0));
+
+  Select * selp = &select;
+  Select sel2 = selp->random_particle();
+  // HWH DEBUG why cant the following work?
+  // sel2 = select.random_particle();
+  EXPECT_FALSE(select.is_equivalent(sel2));
+  EXPECT_FALSE(select.str().empty());
+  EXPECT_EQ(1, sel2.num_sites());
+  EXPECT_EQ(0, sel2.site_indices(0)[0]);
+
+  select.clear();
+  select.add_random_particle(config, Group().add_site_type(0));
+  EXPECT_EQ(1, select.num_sites());
+  EXPECT_EQ(0, select.site_indices(0)[0]);
+  select.check_size();
 }
 
 }  // namespace feasst

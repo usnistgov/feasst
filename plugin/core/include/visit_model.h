@@ -53,7 +53,7 @@ class VisitModel {
       const ModelOneBody& model,
       Configuration * config,
       const int group_index = 0) {
-    const ModelParams& model_params = config->unique_types().model_params();
+    const ModelParams& model_params = config->model_params();
     compute(model, model_params, config, group_index);
   }
   void compute(
@@ -61,14 +61,14 @@ class VisitModel {
       const Select& selection,
       Configuration * config,
       const int group_index = 0) {
-    const ModelParams& model_params = config->unique_types().model_params();
+    const ModelParams& model_params = config->model_params();
     compute(model, model_params, selection, config, group_index);
   }
   void compute(
       const ModelTwoBody& model,
       Configuration * config,
       const int group_index = 0) {
-    const ModelParams& model_params = config->unique_types().model_params();
+    const ModelParams& model_params = config->model_params();
     compute(model, model_params, config, group_index);
   }
   void compute(
@@ -76,14 +76,14 @@ class VisitModel {
       const Select& selection,
       Configuration * config,
       const int group_index = 0) {
-    const ModelParams& model_params = config->unique_types().model_params();
+    const ModelParams& model_params = config->model_params();
     compute(model, model_params, selection, config, group_index);
   }
   void compute(
       const ModelThreeBody& model,
       Configuration * config,
       const int group_index = 0) {
-    const ModelParams& model_params = config->unique_types().model_params();
+    const ModelParams& model_params = config->model_params();
     compute(model, model_params, config, group_index);
   }
 

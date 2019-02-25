@@ -11,6 +11,8 @@
 
 namespace feasst {
 
+class ModelParams;
+
 /**
   Model parameters depend upon site types, such as epsilon, sigma, etc.
   These parameters may also be mixed between two different site types.
@@ -35,6 +37,12 @@ class ModelParam {
 
   /// Compute the mixed values.
   void mix();
+
+  /// Set the mixed value of the site types.
+  void set_mixed(const int site_type1, const int site_type2, const double value) {
+    mixed_values_[site_type1][site_type2] = value;
+    is_mixed_override_ = true;
+  }
 
   /// Return the value.
   double value(const int type) const;
@@ -64,6 +72,12 @@ class ModelParam {
   /// Return the mixed maximum.
   double mixed_max() const;
 
+  virtual double compute(const int type1, const int type2,
+    const ModelParams& model_params);
+
+  /// Define new parameters modeled after the existing ones
+  virtual void set_param(const ModelParams& existing);
+
   virtual ~ModelParam() {};
 
  private:
@@ -73,9 +87,14 @@ class ModelParam {
   double max_mixed_value_;
 
   /// Define mixing rules in the derived class.
-  virtual double mix_(const double value1, const double value2) = 0;
+  /// The default is a simple average.
+  virtual double mix_(const double value1, const double value2) {
+    return 0.5*(value1 + value2);
+  }
 
-  virtual std::string name_() = 0;
+  virtual std::string name_() { return std::string("generic"); }
+
+  bool is_mixed_override_ = false;
 };
 
 /**
@@ -98,9 +117,6 @@ class Epsilon : public ModelParam {
  */
 class Sigma : public ModelParam {
  private:
-  double mix_(const double value1, const double value2) override {
-    return 0.5*(value1 + value2);
-  }
   std::string name_() override { return std::string("sigma"); }
 };
 
@@ -111,9 +127,6 @@ class Sigma : public ModelParam {
  */
 class CutOff : public ModelParam {
  private:
-  double mix_(const double value1, const double value2) override {
-    return 0.5*(value1 + value2);
-  }
   std::string name_() override { return std::string("cutoff"); }
 };
 
@@ -137,6 +150,9 @@ class ModelParams : public PropertiedEntity {
  public:
   ModelParams();
 
+  /// Deep copy constructor
+  ModelParams(const ModelParams& params);
+
   /// Add all site types in particle.
   void add(const Particle particle);
 
@@ -148,6 +164,11 @@ class ModelParams : public PropertiedEntity {
 
   /// Modify model parameter of a given site type and name to value.
   void set(const char* name, const int site_type, const double value);
+
+  /// Modify the mixed model parameter of a pair of given site types and name
+  /// to value.
+  void set(const char* name, const int site_type1, const int site_type2,
+    const double value);
 
   /// Return model parameters of specific types.
   Epsilon epsilon() const { return *epsilon_; }
@@ -169,6 +190,14 @@ class ModelParams : public PropertiedEntity {
     return charge_->mixed_values();
   }
 
+  /// Add a custom model parameter
+  void add(std::shared_ptr<ModelParam> param) {
+    params_.push_back(param);
+  }
+
+  /// Return the model parameter with the corresponding name.
+  std::shared_ptr<ModelParam> select(const std::string name);
+
  private:
   /// All types of model parameters listed here.
   /// If adding new types, make sure to add them to params_ below.
@@ -180,11 +209,8 @@ class ModelParams : public PropertiedEntity {
   /// Add all of the above to this list.
   std::vector<std::shared_ptr<ModelParam> > params_;
 
-  /// Return the model parameter with the corresponding name.
-  std::shared_ptr<ModelParam> selector_(const std::string name);
-  std::shared_ptr<ModelParam> selector_(const char* name) {
-    return selector_(std::string(name));
-  }
+  /// Add built-in types to params
+  void add_();
 };
 
 }  // namespace feasst

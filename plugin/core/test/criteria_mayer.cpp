@@ -21,8 +21,8 @@ TEST(CriteriaMayer, ljb2) {
   //const int nTrialsEq = 1e6, nTrials = 1e6;
   Configuration * config = system.get_configuration();
   config->set_model_param("cutoff", 0, NEAR_INFINITY);
-  EXPECT_EQ(config->unique_types().model_params().cutoff().value(0), NEAR_INFINITY);
-  const double boxl = 2*(config->unique_types().model_params().cutoff().value(0));
+  EXPECT_EQ(config->model_params().cutoff().value(0), NEAR_INFINITY);
+  const double boxl = 2*(config->model_params().cutoff().value(0));
   config->set_domain(Domain().set_cubic(boxl));
   std::cout << "boxl " << boxl << std::endl;
   CriteriaMayer criteria;
