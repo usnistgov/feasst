@@ -12,7 +12,7 @@ TEST(Particle, getset) {
   site.set_position(position);
 }
 
-TEST(Particle, check_size) {
+TEST(Particle, check) {
   Particle particle = default_particle();
   Site site;
   Position pos;
@@ -20,7 +20,7 @@ TEST(Particle, check_size) {
   site.set_position(pos);
   try {
     particle.add(site);
-    particle.check_size();
+    particle.check();
     CATCH_PHRASE("size error");
   }
 }
@@ -40,6 +40,13 @@ TEST(Particle, bond) {
     CATCH_PHRASE("not found");
   }
   EXPECT_EQ(0, chain.bond(9, 8).type());
+  const int bond = chain.bond_list()[9][0];
+  EXPECT_EQ(8, chain.bond(bond).site(0));
+  EXPECT_EQ(8, chain.bond_neighbor()[9][0]);
+  EXPECT_EQ(9, chain.bond_neighbor()[8][1]);
+  EXPECT_EQ(7, chain.bond_neighbor()[8][0]);
+  EXPECT_EQ(0, chain.bond_neighbor()[1][0]);
+  EXPECT_EQ(2, chain.bond_neighbor()[1][1]);
 }
 
 }  // namespace feasst

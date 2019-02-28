@@ -2,6 +2,7 @@
 #ifndef FEASST_CORE_BOND_H_
 #define FEASST_CORE_BOND_H_
 
+#include <string>
 #include <vector>
 #include "core/include/typed_entity.h"
 #include "core/include/properties.h"
@@ -15,6 +16,8 @@ namespace feasst {
  */
 class Bond : public PropertiedEntity, public TypedEntity {
  public:
+  Bond() { set_name("bond"); }
+
   /// Return the indices of the sites involved in the bond within a particle.
   std::vector<int> site_indices() const { return site_indicies_; }
 
@@ -27,15 +30,33 @@ class Bond : public PropertiedEntity, public TypedEntity {
   /// Add site index.
   void add_site_index(const int index) { site_indicies_.push_back(index); }
 
+  /// Return the name fo the bond.
+  std::string name() { return name_; }
+
+  /// Set the name of the bond.
+  void set_name(const std::string name) { name_ = name; }
+
+  virtual ~Bond() {}
+
  private:
   std::vector<int> site_indicies_;
+  std::string name_;
 };
 
-class Angle : public Bond {};
-class Dihedral : public Bond {};
-class Improper : public Bond {};
+class Angle : public Bond {
+ public:
+  Angle() { set_name("angle"); }
+};
 
-// HWH add dihedrals and impropers here
+class Dihedral : public Bond {
+ public:
+  Dihedral() { set_name("dihedral"); }
+};
+
+class Improper : public Bond {
+ public:
+  Improper() { set_name("improper"); }
+};
 
 }  // namespace feasst
 

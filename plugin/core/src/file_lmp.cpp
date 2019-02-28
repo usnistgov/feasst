@@ -215,6 +215,7 @@ void FileLMP::read_properties_(const std::string property_type,
       const double value = stod(properties[2*index + 2]);
       if (property_type == "site") {
         Site site = particle->site(type);
+        DEBUG("adding " << name << " "  << value);
         site.add_property(name, value);
         particle->set_site(type, site);
       } else if (property_type == "bond") {

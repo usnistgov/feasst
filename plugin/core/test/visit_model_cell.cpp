@@ -43,7 +43,7 @@ TEST(VisitModelCell, simple_lj) {
   EXPECT_EQ(cells.particles()[center + 1].num_sites(), 1);
   EXPECT_EQ(cells.particles()[center + 1].particle_index(0), 1);
   EXPECT_EQ(cells.particles()[center + 1].site_index(0, 0), 0);
-  config.check_size();
+  config.check();
   ModelLJ model;
   VisitModelCell cell_visit;
   VisitModel visit;
@@ -98,7 +98,7 @@ TEST(VisitModelCell, lj_reference_config) {
   select.last_particle_added(&config);
   config.remove_particle(select);
   config.init_cells(rcut);
-  config.check_size();
+  config.check();
   ModelLJ model;
   VisitModelCell cell_visit;
   VisitModel visit;
@@ -142,7 +142,7 @@ TEST(VisitModelCell, spce_reference_config) {
   select.last_particle_added(&config);
   config.remove_particle(select);
   config.init_cells(rcut);
-  config.check_size();
+  config.check();
   ModelLJ model;
   VisitModelCell cell_visit;
   VisitModel visit;

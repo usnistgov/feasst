@@ -92,7 +92,7 @@ class Domain {
   /// Return the minimal side length
   double min_side_length() const;
 
-  /// HWH implement check_size
+  /// HWH implement check
 
   /// Initialize the cells according to the minimum side length.
   void init_cells(const double min_length,

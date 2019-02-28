@@ -78,7 +78,7 @@ class RotationMatrix : public MatrixThreeByThree {
  public:
   /// Compute the rotation matrix given an angle of rotation about a given
   /// axis.
-  void axis_angle(const Position& axis,
+  RotationMatrix& axis_angle(const Position& axis,
     /// The angle is in units of degrees.
     const double degree_angle);
 

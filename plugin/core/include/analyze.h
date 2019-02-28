@@ -175,12 +175,17 @@ class Log : public AnalyzeWriteOnly {
   }
 };
 
+inline std::shared_ptr<Log> LogShrPtr() {
+  return std::make_shared<Log>();
+}
+
 class Movie : public AnalyzeWriteOnly {
  public:
   void initialize(const std::shared_ptr<Criteria> criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
-    ASSERT(!file_name().empty(), "file name required");
+    ASSERT(!file_name().empty(), "file name required. Did you forget to " <<
+      "Analyze::set_file_name()?");
     xyz_.write(file_name(), system.configuration());
     xyz_.set_append(1);
 
@@ -202,6 +207,10 @@ class Movie : public AnalyzeWriteOnly {
   FileXYZ xyz_;
   FileVMD vmd_;
 };
+
+inline std::shared_ptr<Movie> MovieShrPtr() {
+  return std::make_shared<Movie>();
+}
 
 class RigidBondChecker : public AnalyzeUpdateOnly {
  public:

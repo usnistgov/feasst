@@ -72,6 +72,8 @@ class Cells : public PropertiedEntity {
 
   std::string str() const;
 
+  virtual ~Cells() {}
+
  private:
   std::string label_;
 

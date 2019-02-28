@@ -87,6 +87,10 @@ class LongRangeCorrections : public VisitModel {
   }
 };
 
+inline std::shared_ptr<LongRangeCorrections> LongRangeCorrectionsShrPtr() {
+  return std::make_shared<LongRangeCorrections>();
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_CORE_LONG_RANGE_CORRECTIONS_H_

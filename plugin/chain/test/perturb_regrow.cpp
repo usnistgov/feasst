@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "core/include/perturb_regrow.h"
+#include "chain/include/perturb_regrow.h"
 #include "core/include/visit_model_intra.h"
 #include "core/include/model_hard_sphere.h"
 #include "core/include/file_xyz.h"

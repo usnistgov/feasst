@@ -3,9 +3,7 @@
 #define FEASST_CORE_TRIAL_REGROW_H_
 
 #include "core/include/trial_translate.h"
-#include "core/include/perturb_regrow.h"
-#include "core/include/random.h"
-#include "core/include/utils_io.h"
+#include "chain/include/perturb_regrow.h"
 
 namespace feasst {
 

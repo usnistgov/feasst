@@ -28,7 +28,7 @@ TEST(Properties, properties) {
     properties.add("bananas", 12);
     CATCH_PHRASE("already exists");
   }
-  properties.check_size();
+  properties.check();
 }
 
 }  // namespace feasst

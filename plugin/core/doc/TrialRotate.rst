@@ -1,6 +1,6 @@
-DomainCuboid
+TrialRotate
 =====================================================
 
-.. doxygenclass:: feasst::DomainCuboid
+.. doxygenclass:: feasst::TrialRotate
    :project: FEASST
    :members:

@@ -111,7 +111,7 @@ class Select {
   int particle_index(const int index) const { return particle_indices_[index]; }
 
   /// Check the size of member vectors
-  void check_size() const;
+  void check() const;
 
   /// Return true if the selections are equivalent.
   bool is_equivalent(const Select& select);

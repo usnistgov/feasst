@@ -20,13 +20,15 @@ void Configuration::reset_unique_indices_() {
   unique_indices_ = random_.alpha_numeric();
 }
 
-void Configuration::add_particle_type(const char* file_name) {
+void Configuration::add_particle_type(const std::string file_name) {
   DEBUG("adding type");
   ASSERT(num_particles() == 0, "types cannot be added after particles");
   particle_types_.add(file_name);
   unique_types_.add(file_name);
   ghosts_.push_back(SelectGroup());
   ASSERT(ghosts_.back().group().is_empty(), "");
+  ASSERT(!find_in_list(file_name, type_to_file_),
+    "file_name(" << file_name << ") already provided.");
   type_to_file_.push_back(file_name);
   num_particles_of_type_.push_back(0);
 }
@@ -261,11 +263,11 @@ void Configuration::init_cells(const double min_length,
   position_tracker_();
 }
 
-/// HWH add check_size .. domain, positions, particles, etc
-void Configuration::check_size() const {
-  particles_.check_size();
-  particle_types_.check_size();
-  unique_types_.check_size();
+/// HWH add check .. domain, positions, particles, etc
+void Configuration::check() const {
+  particles_.check();
+  particle_types_.check();
+  unique_types_.check();
 
   ASSERT(particle_types_.num() == num_particle_types(), "er");
   ASSERT(unique_types_.num_sites() == num_site_types(), "er");
@@ -290,6 +292,8 @@ void Configuration::check_size() const {
     static_cast<int>(num_particles_of_type_.size()) == num_particle_types(),
     "size error"
   );
+
+  model_params().check();
 }
 
 void Configuration::check_id_(const Select* select) const {

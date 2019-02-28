@@ -93,6 +93,9 @@ class VisitModel {
   /// Set the energy.
   void set_energy(const double energy) { energy_ = energy; }
 
+  /// Increment the energy.
+  void increment_energy(const double energy) { energy_ += energy; }
+
   virtual ~VisitModel() {}
 
   /// Test if energy of whole system is consistent with sum of energy
@@ -105,10 +108,12 @@ class VisitModel {
   virtual void revert() {}
 
  protected:
-  void inner_(
-    const Site& site1,
-    const Site& site2,
-    const Domain& domain,
+  virtual void inner_(
+    const int part1_index,
+    const int site1_index,
+    const int part2_index,
+    const int site2_index,
+    const Configuration * config,
     const ModelParams& model_params,
     const ModelTwoBody& model,
     Position * relative);

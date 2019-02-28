@@ -36,9 +36,12 @@ class Properties {
   }
 
   /// Check that the property values and names are consistent.
-  void check_size();
+  void check() const;
 
   /// Return all property names.
+  std::vector<std::string> names() const { return property_name_; }
+
+  // HWH depreciate. Remove property_ part of name.
   std::vector<std::string> property_name() const { return property_name_; }
 
   /// Return all property values.
@@ -48,7 +51,10 @@ class Properties {
   void set_value(const int index, const double value) {
     property_value_[index] = value; }
 
-  ~Properties() { check_size(); }
+  /// Return the properties as a human readable string.
+  std::string str() const;
+
+  ~Properties() { check(); }
 
  private:
   std::vector<double> property_value_;
@@ -58,7 +64,7 @@ class Properties {
 class PropertiedEntity {
  public:
   /// Add a new property.
-  void add_property(const std::string name, const double value) {
+  virtual void add_property(const std::string name, const double value) {
     properties_.add(name, value);
   }
 
@@ -92,6 +98,11 @@ class PropertiedEntity {
   /// Set the properties.
   void set_properties(const Properties& properties) {
     properties_ = properties; }
+
+  /// Check the properties.
+  virtual void check() const { properties_.check(); }
+
+  virtual ~PropertiedEntity() {}
 
  private:
   Properties properties_;

@@ -81,6 +81,18 @@ class ModifyUpdateOnly : public Modify {
 };
 
 /**
+  Run periodic checks on each class.
+ */
+class Check : public ModifyUpdateOnly {
+ public:
+  void update(std::shared_ptr<Criteria> criteria,
+      System * system,
+      TrialFactory * trial_factory) override {
+    system->get_configuration()->check();
+  }
+};
+
+/**
   Check that the running energy from criteria is equivalent, within tolerance,
   to a fresh (unoptimized) calculation over the entire configuration.
  */
@@ -101,15 +113,19 @@ class EnergyCheck : public ModifyUpdateOnly {
       ". The difference(" << std::abs(energy - running_energy) << ") is " <<
       "greater than the tolerance(" << tolerance_ << ")");
     criteria->set_running_energy(energy);
+    check_.update(criteria, system, trial_factory);
   }
 
  private:
   double tolerance_;
+  Check check_;
 };
 
+inline std::shared_ptr<EnergyCheck> EnergyCheckShrPtr() {
+  return std::make_shared<EnergyCheck>();
+}
+
 /**
-  Check that the running energy from criteria is equivalent, within tolerance,
-  to a fresh (unoptimized) calculation over the entire configuration.
  */
 class Tuner : public ModifyUpdateOnly {
  public:
@@ -119,6 +135,10 @@ class Tuner : public ModifyUpdateOnly {
     trial_factory->tune();
   }
 };
+
+inline std::shared_ptr<Tuner> TunerShrPtr() {
+  return std::make_shared<Tuner>();
+}
 
 }  // namespace feasst
 

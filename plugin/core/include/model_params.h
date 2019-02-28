@@ -20,6 +20,8 @@ class ModelParams;
  */
 class ModelParam {
  public:
+  ModelParam() { set_name("generic"); }
+
   /// Add a new site type.
   void add(const double value);
 
@@ -64,7 +66,7 @@ class ModelParam {
   int size() const { return static_cast<int>(values_.size()); }
 
   /// Return the name of the model parameter (e.g., epsilon, cutoff)
-  std::string name() { return name_(); }
+  std::string name() { return name_; }
 
   /// Return the maximum.
   double max() const { return max_value_; }
@@ -78,9 +80,13 @@ class ModelParam {
   /// Define new parameters modeled after the existing ones
   virtual void set_param(const ModelParams& existing);
 
+  /// Set the name of the model parameter.
+  ModelParam& set_name(const std::string name) { name_ = name; return *this; };
+
   virtual ~ModelParam() {};
 
  private:
+  std::string name_;
   std::vector<double> values_;
   std::vector<std::vector<double> > mixed_values_;
   double max_value_;
@@ -92,8 +98,6 @@ class ModelParam {
     return 0.5*(value1 + value2);
   }
 
-  virtual std::string name_() { return std::string("generic"); }
-
   bool is_mixed_override_ = false;
 };
 
@@ -103,11 +107,13 @@ class ModelParam {
  \f$ \epsilon_{ij} = \sqrt(\epsilon_i \epsilon_j) \f$
  */
 class Epsilon : public ModelParam {
+ public:
+  Epsilon() { set_name("epsilon"); }
+
  private:
   double mix_(const double value1, const double value2) override {
     return std::sqrt(value1*value2);
   }
-  std::string name_() override { return std::string("epsilon"); }
 };
 
 /**
@@ -116,8 +122,8 @@ class Epsilon : public ModelParam {
  \f$ \sigma_{ij} = 0.5*(\sigma_i + \sigma_j) \f$
  */
 class Sigma : public ModelParam {
- private:
-  std::string name_() override { return std::string("sigma"); }
+ public:
+  Sigma() { set_name("sigma"); }
 };
 
 /**
@@ -126,8 +132,8 @@ class Sigma : public ModelParam {
  \f$ r^c_{ij} = 0.5*(r^c_i + r^c_j) \f$
  */
 class CutOff : public ModelParam {
- private:
-  std::string name_() override { return std::string("cutoff"); }
+ public:
+  CutOff() { set_name("cutoff"); }
 };
 
 /**
@@ -136,11 +142,13 @@ class CutOff : public ModelParam {
  \f$ q_{ij} = q_i q_j \f$
  */
 class Charge : public ModelParam {
+ public:
+  Charge() { set_name("charge"); }
+
  private:
   double mix_(const double value1, const double value2) override {
     return value1*value2;
   }
-  std::string name_() override { return std::string("charge"); }
 };
 
 /**
@@ -153,6 +161,9 @@ class ModelParams : public PropertiedEntity {
   /// Deep copy constructor
   ModelParams(const ModelParams& params);
 
+  /// Add all properties in site.
+  void add(const Site site);
+
   /// Add all site types in particle.
   void add(const Particle particle);
 
@@ -163,11 +174,11 @@ class ModelParams : public PropertiedEntity {
   int size() const;
 
   /// Modify model parameter of a given site type and name to value.
-  void set(const char* name, const int site_type, const double value);
+  void set(const std::string name, const int site_type, const double value);
 
   /// Modify the mixed model parameter of a pair of given site types and name
   /// to value.
-  void set(const char* name, const int site_type1, const int site_type2,
+  void set(const std::string name, const int site_type1, const int site_type2,
     const double value);
 
   /// Return model parameters of specific types.
@@ -197,6 +208,9 @@ class ModelParams : public PropertiedEntity {
 
   /// Return the model parameter with the corresponding name.
   std::shared_ptr<ModelParam> select(const std::string name);
+
+  /// Check
+  void check() const override;
 
  private:
   /// All types of model parameters listed here.

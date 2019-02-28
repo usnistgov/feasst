@@ -1,6 +1,6 @@
-DomainTriclinic
+VisitModelPatch
 =====================================================
 
-.. doxygenclass:: feasst::DomainTriclinic
+.. doxygenclass:: feasst::VisitModelPatch
    :project: FEASST
    :members:

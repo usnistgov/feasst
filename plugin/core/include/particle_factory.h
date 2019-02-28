@@ -68,7 +68,7 @@ class ParticleFactory {
   int check_particle_types() const;
 
   /// Add particle by file.
-  void add(const char* file_name);
+  void add(const std::string file_name);
 
   /// Add a particle.
   void add(const Particle& particle);
@@ -105,7 +105,7 @@ class ParticleFactory {
 
   /// Check consistency of dimensionality of positions of particles and sites.
   /// By default, for dimension == -1, determine automatically.
-  void check_size(const int dimension = -1) const;
+  void check(const int dimension = -1) const;
 
   /// Return the number of site types.
   int num_site_types() const { return check_site_types(); }
@@ -127,8 +127,12 @@ class ParticleFactory {
   /// Return the model parameters.
   const ModelParams& model_params() const { return model_params_; }
 
+  /// Add a custom type of model parameter.
+  void add(const std::shared_ptr<ModelParam> param) {
+    model_params_.add(param); }
+
   /// Modify model parameter of a given site type and name to value.
-  void set_model_param(const char* name,
+  void set_model_param(const std::string name,
                        const int site_type,
                        const double value) {
     model_params_.set(name, site_type, value);

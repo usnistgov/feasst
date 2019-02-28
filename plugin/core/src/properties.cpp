@@ -5,7 +5,7 @@
 
 namespace feasst {
 
-void Properties::check_size() {
+void Properties::check() const {
   ASSERT(property_value_.size() == property_name_.size(),
     "size error");
 }
@@ -47,6 +47,15 @@ void Properties::add_or_set(const std::string name, const double value) {
   } else {
     add(name, value);
   }
+}
+
+std::string Properties::str() const {
+  check();
+  std::stringstream ss;
+  for (int index = 0; index < static_cast<int>(property_value_.size()); ++index) {
+    ss << "{" << property_name_[index] << " : " << property_value_[index] << "} ";
+  }
+  return ss.str();
 }
 
 }  // namespace feasst

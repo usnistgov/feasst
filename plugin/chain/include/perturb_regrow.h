@@ -2,7 +2,7 @@
 #ifndef FEASST_CORE_PERTURB_REGROW_H_
 #define FEASST_CORE_PERTURB_REGROW_H_
 
-#include "core/include/perturb_translate.h"
+#include "core/include/perturb_move.h"
 
 namespace feasst {
 
@@ -38,21 +38,10 @@ class PerturbRegrow : public PerturbSelectMove {
  private:
   Random random_;
 
-  void rebond_(const int site_to_update, const int site_bonded_to, System * system, SelectList * bonded) {
-    // obtain the bond length
-    const Configuration& config = system->configuration();
-    const Bond& bond = selection().bond(0, site_to_update, site_bonded_to, config);
-    const double l0 = bond.property("l0");
-
-    // obtain a new position for the site to update
-    const Position& anchor = bonded->site_positions()[0][site_bonded_to];
-    Position rebond = anchor;
-    random_.unit_sphere_surface(&rebond);
-    rebond.multiply(l0);
-    rebond.add(anchor);
-
-    bonded->set_site_position(0, site_to_update, rebond);
-  }
+  void rebond_(const int site_to_update,
+               const int site_bonded_to,
+               System * system,
+               SelectList * bonded);
 };
 
 }  // namespace feasst

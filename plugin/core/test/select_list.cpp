@@ -42,7 +42,7 @@ TEST(SelectList, group) {
   select.add_random_particle(config, Group().add_site_type(0));
   EXPECT_EQ(1, select.num_sites());
   EXPECT_EQ(0, select.site_indices(0)[0]);
-  select.check_size();
+  select.check();
 }
 
 }  // namespace feasst

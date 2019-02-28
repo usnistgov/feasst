@@ -39,18 +39,15 @@ void VisitModelCell::compute(
              select1_index < select1.num_particles();
              ++select1_index) {
           const int part1_index = select1.particle_index(select1_index);
-          const Particle part1 = config->select_particle(part1_index);
           for (int select2_index = 0;
                select2_index < select2.num_particles();
                ++select2_index) {
             const int part2_index = select2.particle_index(select2_index);
             if (part1_index != part2_index) {
-              const Particle part2 = config->select_particle(part2_index);
               for (int site1_index : select1.site_indices(select1_index)) {
-                const Site& site1 = part1.site(site1_index);
                 for (int site2_index : select2.site_indices(select2_index)) {
-                  const Site& site2 = part2.site(site2_index);
-                  inner_(site1, site2, domain, model_params, model, &relative);
+                  inner_(part1_index, site1_index, part2_index, site2_index,
+                         config, model_params, model, &relative);
                 }
               }
             }
@@ -67,18 +64,15 @@ void VisitModelCell::compute(
          select1_index < select.num_particles() - 1;
          ++select1_index) {
       const int part1_index = select.particle_index(select1_index);
-      const Particle part1 = config->select_particle(part1_index);
       for (int select2_index = select1_index + 1;
            select2_index < select.num_particles();
            ++select2_index) {
         const int part2_index = select.particle_index(select2_index);
         if (part1_index != part2_index) {
-          const Particle part2 = config->select_particle(part2_index);
           for (int site1_index : select.site_indices(select1_index)) {
-            const Site& site1 = part1.site(site1_index);
             for (int site2_index : select.site_indices(select2_index)) {
-              const Site& site2 = part2.site(site2_index);
-              inner_(site1, site2, domain, model_params, model, &relative);
+              inner_(part1_index, site1_index, part2_index, site2_index,
+                     config, model_params, model, &relative);
             }
           }
         }
@@ -107,9 +101,9 @@ void VisitModelCell::compute(
        select1_index < selection.num_particles();
        ++select1_index) {
     const int part1_index = selection.particle_index(select1_index);
-    const Particle part1 = config->select_particle(part1_index);
+    const Particle& part1 = config->select_particle(part1_index);
     for (int site1_index : selection.site_indices(select1_index)) {
-      const Site& site1 = part1.sites()[site1_index];
+      const Site& site1 = part1.site(site1_index);
       const int cell1_index = feasst::round(site1.property(cell_label));
       for (int cell2_index : cells.neighbor()[cell1_index]) {
         const Select& cell2_parts = cells.particles()[cell2_index];
@@ -118,14 +112,13 @@ void VisitModelCell::compute(
              ++select2_index) {
           const int part2_index = cell2_parts.particle_index(select2_index);
           if (part1_index != part2_index) {
-            const Particle part2 = config->select_particle(part2_index);
             TRACE("indices " <<
                   feasst_str(cell2_parts.site_indices(select2_index)));
             for (int site2_index : cell2_parts.site_indices(select2_index)) {
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                    site1_index << " " << site2_index);
-              const Site& site2 = part2.sites()[site2_index];
-              inner_(site1, site2, domain, model_params, model, &relative);
+              inner_(part1_index, site1_index, part2_index, site2_index,
+                     config, model_params, model, &relative);
             }
           }
         }

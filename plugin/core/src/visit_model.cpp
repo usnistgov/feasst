@@ -46,14 +46,20 @@ void VisitModel::compute(
 }
 
 void VisitModel::inner_(
-    const Site& site1,
-    const Site& site2,
-    const Domain& domain,
+    const int part1_index,
+    const int site1_index,
+    const int part2_index,
+    const int site2_index,
+    const Configuration * config,
     const ModelParams& model_params,
     const ModelTwoBody& model,
     Position * relative) {
+  const Particle& part1 = config->select_particle(part1_index);
+  const Site& site1 = part1.site(site1_index);
+  const Particle& part2 = config->select_particle(part2_index);
+  const Site& site2 = part2.site(site2_index);
   double squared_distance;
-  domain.wrap_opt(site1.position(), site2.position(), relative, &squared_distance);
+  config->domain().wrap_opt(site1.position(), site2.position(), relative, &squared_distance);
   const int type1 = site1.type();
   const int type2 = site2.type();
   const double cutoff = model_params.mixed_cutoff()[type1][type2];
@@ -76,17 +82,14 @@ void VisitModel::compute(
        select1_index < selection.num_particles() - 1;
        ++select1_index) {
     const int part1_index = selection.particle_index(select1_index);
-    const Particle& part1 = config->select_particle(part1_index);
     for (int select2_index = select1_index + 1;
          select2_index < selection.num_particles();
          ++select2_index) {
       const int part2_index = selection.particle_index(select2_index);
-      const Particle& part2 = config->select_particle(part2_index);
       for (int site1_index : selection.site_indices(select1_index)) {
-        const Site& site1 = part1.site(site1_index);
         for (int site2_index : selection.site_indices(select2_index)) {
-          const Site& site2 = part2.site(site2_index);
-          inner_(site1, site2, domain, model_params, model, &relative);
+          inner_(part1_index, site1_index, part2_index, site2_index,
+                 config, model_params, model, &relative);
         }
       }
     }
@@ -115,7 +118,6 @@ void VisitModel::compute(
        select1_index < selection.num_particles();
        ++select1_index) {
     const int part1_index = selection.particle_index(select1_index);
-    const Particle& part1 = config->select_particle(part1_index);
     TRACE("part1_index " << part1_index << " s " <<
           selection.particle_indices().size() << " " <<
           selection.site_indices().size());
@@ -124,15 +126,13 @@ void VisitModel::compute(
          ++select2_index) {
       const int part2_index = select_all.particle_index(select2_index);
       if (part1_index != part2_index) {
-        const Particle& part2 = config->select_particle(part2_index);
         for (int site1_index : selection.site_indices(select1_index)) {
           TRACE("site1_index " << site1_index);
-          const Site& site1 = part1.site(site1_index);
           for (int site2_index : select_all.site_indices(select2_index)) {
-            const Site& site2 = part2.site(site2_index);
             TRACE("index: " << part1_index << " " << part2_index << " " <<
                   site1_index << " " << site2_index);
-            inner_(site1, site2, domain, model_params, model, &relative);
+            inner_(part1_index, site1_index, part2_index, site2_index,
+                   config, model_params, model, &relative);
           }
         }
       }

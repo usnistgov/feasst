@@ -14,7 +14,7 @@ TEST(ParticleFactory, size_check) {
   particle.set_position(position);
   try {
     particles.add(particle);
-    particles.check_size();
+    particles.check();
     CATCH_PHRASE("size error");
   }
 }

@@ -22,7 +22,7 @@ void ParticleFactory::add(const Particle& particle) {
   check_site_types();
 }
 
-void ParticleFactory::check_size(const int dimension) const {
+void ParticleFactory::check(const int dimension) const {
   if (particles_.size() != 0) {
     int size = dimension;
     if (size == -1) {
@@ -30,7 +30,7 @@ void ParticleFactory::check_size(const int dimension) const {
     }
     for (Particle particle : particles_) {
       ASSERT(particle.position().size() == size, "size error");
-      particle.check_size();
+      particle.check();
     }
   }
 }
@@ -65,7 +65,7 @@ void ParticleFactory::check_types(int * num_site_types,
   *num_particle_types = round(particle_type.center_of_last_bin()) + 1;
 }
 
-void ParticleFactory::add(const char* file_name) {
+void ParticleFactory::add(const std::string file_name) {
   ASSERT(unique_particles_,
     "only add particles by file for defining allowed types");
   // const int kMaxSiteType = check_site_types();

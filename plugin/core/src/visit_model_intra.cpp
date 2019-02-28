@@ -26,14 +26,13 @@ void VisitModelIntra::compute(
     for (int site1_index = 0;
          site1_index < part1.num_sites() - 1;
          ++site1_index) {
-      const Site site1 = part1.sites()[site1_index];
       for (int site2_index = site1_index + 1;
            site2_index < part1.num_sites();
            ++site2_index) {
         if (std::abs(site1_index - site2_index) > intra_cut_) {
           TRACE("sites: " << site1_index << " " << site2_index);
-          const Site site2 = part1.sites()[site2_index];
-          inner_(site1, site2, domain, model_params, model, &relative);
+          inner_(part1_index, site1_index, part1_index, site2_index,
+                 config, model_params, model, &relative);
         }
       }
     }

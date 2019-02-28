@@ -97,7 +97,7 @@ TEST(VisitModel, spce_reference_config) {
   EXPECT_NEAR(pe_lrc*ideal_gas_constant/1e3, lrc.energy(), 1e-13);
   EXPECT_EQ(101, config.particles().num()); // includes one ghost particle
   EXPECT_EQ(100, config.selection_of_all().num_particles());
-  config.check_size();
+  config.check();
   visit.compute(model, new_part, &config);
   EXPECT_NEAR(pe_previous, visit.energy(), NEAR_ZERO);
   const double x2_previous = new_part.particle(config).site(0).position().coord(1);

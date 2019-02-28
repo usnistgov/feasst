@@ -16,10 +16,10 @@ namespace feasst {
  */
 class SelectList : public SelectPosition {
  public:
-  void particle(const int index,
-                const Configuration& config,
-                // By default, if group_index is 0, consider all particles
-                const int group_index = 0) {
+  SelectList& particle(const int index,
+      const Configuration& config,
+      // By default, if group_index is 0, consider all particles
+      const int group_index = 0) {
     // HWH optimize this
     clear();
     const SelectGroup& select = config.group_selects()[group_index];
@@ -27,6 +27,7 @@ class SelectList : public SelectPosition {
     add_particle(select.particle_index(index), select.site_indices(index));
     resize();
     load_positions(config.particles());
+    return *this;
   }
 
   /// Add random particle in group index.
@@ -200,7 +201,7 @@ class SelectList : public SelectPosition {
     DEBUG("num " << num_sites() << " indices " << str());
   }
 
-  /// Return the bond between two sites in particle
+  /// Return the bond type between two sites in particle use for model parameters
   const Bond& bond(const int particle, const int site1, const int site2, const Configuration& config) const {
     const int particle_index = particle_indices()[particle];
     const Particle& part = config.select_particle(particle_index);

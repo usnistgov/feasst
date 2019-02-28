@@ -42,7 +42,7 @@ class Configuration {
   //@{
 
   /// Add a particle type that may exist by LMP file (see FileLMP).
-  void add_particle_type(const char* file_name);
+  void add_particle_type(const std::string file_name);
 
   /// Return the number of particle types.
   int num_particle_types() const { return particle_types_.num(); }
@@ -52,6 +52,12 @@ class Configuration {
 
   /// Return the particle types.
   const ParticleFactory& particle_types() const { return particle_types_; }
+
+  /// Add a custom type of model parameter.
+  /// Name it the same as an atom property before reading file to
+  /// make a custom ModelParam.
+  void add(const std::shared_ptr<ModelParam> param) {
+    unique_types_.add(param); }
 
   ModelParams model_params() const { return unique_types_.model_params(); }
 
@@ -263,7 +269,7 @@ class Configuration {
   /* Checks and hacky additions */
 
   /// Check consistency of dimensions and lists.
-  void check_size() const;
+  void check() const;
 
  private:
   ParticleFactory particle_types_;

@@ -100,9 +100,26 @@ ModelParams::ModelParams(const ModelParams& params) {
   set_properties(params.properties());
 }
 
+void ModelParams::add(const Site site) {
+  std::vector<std::string> names = site.properties().names();
+  for (const std::string name : names) {
+    std::shared_ptr<ModelParam> param = select(name);
+    if (param) {
+      param->add(site);
+//    } else {
+//      auto param = std::make_shared<ModelParam>();
+//      param->set_name(name);
+//      param->add(site);
+//      add(param);
+    }
+  }
+}
+
 void ModelParams::add(const Particle particle) {
   for (std::shared_ptr<ModelParam> param : params_) {
     param->add(particle);
+//for (const Site& site : particle.sites()) {
+//    add(site);
   }
   mix();
 }
@@ -132,18 +149,26 @@ std::shared_ptr<ModelParam> ModelParams::select(
   return NULL;
 }
 
-void ModelParams::set(const char* name,
+void ModelParams::set(const std::string name,
                       const int site_type,
                       const double value) {
   select(name)->set(site_type, value);
   mix();
 }
 
-void ModelParams::set(const char* name,
+void ModelParams::set(const std::string name,
     const int site_type1,
     const int site_type2,
     const double value) {
   select(name)->set_mixed(site_type1, site_type2, value);
+}
+
+void ModelParams::check() const {
+  PropertiedEntity::check();
+  const int size = params_.front()->size();
+  for (std::shared_ptr<ModelParam> parm : params_) {
+    ASSERT(size == parm->size(), "size mismatch");
+  }
 }
 
 }  // namespace feasst

@@ -10,6 +10,7 @@ namespace feasst {
 /**
   Perturb the system (e.g., displace, add or delete particles).
   Importantly, these moves are reversible upon calling the revert function.
+  HWH refactor: consider having perturb only work with configuration and not system.
  */
 class Perturb {
  public:
@@ -33,6 +34,9 @@ class Perturb {
   /// Return the selection
   //virtual const Select& selection() const = 0;
   const SelectList& selection() const { return selection_; }
+
+  /// Set the selection
+  void set_selection(const SelectList& select) { selection_ = select; }
 
   void set_selection_state(const std::string state) {
     selection_.set_trial_state(state); }

@@ -11,7 +11,10 @@ class ModelEmpty : public ModelOneBody {
   double energy(
       const Site& site,
       const Configuration * config,
-      const ModelParams& model_params) const { return 0.; }
+      const ModelParams& model_params) const {
+    ERROR("Empty model should not be called");
+  }
+
   virtual ~ModelEmpty() {}
  private:
 };

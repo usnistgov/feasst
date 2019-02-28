@@ -14,12 +14,14 @@ TEST(Configuration, type_to_file_name) {
   config.add_particle_type("../forcefield/data.atom");
   config.add_particle_type("../forcefield/data.lj");
   config.add_particle_type("../forcefield/data.spce");
-  config.add_particle_type("../forcefield/data.atom");
+  try {
+    config.add_particle_type("../forcefield/data.atom");
+    CATCH_PHRASE("already provided");
+  }
   EXPECT_EQ(4, config.num_particle_types());
   EXPECT_EQ("../forcefield/data.atom", config.type_to_file_name(0));
   EXPECT_EQ("../forcefield/data.lj", config.type_to_file_name(1));
   EXPECT_EQ("../forcefield/data.spce", config.type_to_file_name(2));
-  EXPECT_EQ("../forcefield/data.atom", config.type_to_file_name(3));
 }
 
 TEST(Configuration, coordinates) {
@@ -43,7 +45,7 @@ TEST(Configuration, coordinates) {
 TEST(Configuration, particle_types_lj) {
   Configuration config;
   config.add_particle_type("../forcefield/data.lj");
-  config.check_size();
+  config.check();
   EXPECT_EQ(1, config.particle_types().num());
   EXPECT_EQ(1, config.particle_types().num());
   EXPECT_EQ(1, config.particle_types().num_site_types());
@@ -61,7 +63,7 @@ TEST(Configuration, particle_types_lj) {
 TEST(Configuration, particle_types_spce) {
   Configuration config;
   config.add_particle_type("../forcefield/data.spce");
-  config.check_size();
+  config.check();
   EXPECT_EQ(2, config.particle_types().num_site_types());
   EXPECT_EQ(3, config.particle_types().num_sites());
   EXPECT_EQ(1, config.particle_types().num());
@@ -178,7 +180,6 @@ TEST(Configuration, cells) {
   int cell0 = round(7*7*7/2. - 0.5);
   int cell1 = round(5*5*5/2. - 0.5);
   Site site = config.particle(0).site(0);
-  INFO(feasst_str(site.properties().property_name()));
   EXPECT_EQ(cell0, round(site.property("cell0")));
   EXPECT_EQ(cell1, round(site.property("cell1")));
   std::vector<int> indices = {0};
@@ -211,8 +212,7 @@ TEST(Configuration, cells) {
   DEBUG(site.property("cell1"));
   EXPECT_NE(cell1, round(site.property("cell1")));
   config.remove_particle(select);
-  INFO("checking size");
-  config.check_size();
+  config.check();
 }
 
 TEST(Configuration, position_selection) {

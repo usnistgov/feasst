@@ -105,7 +105,7 @@ void RotationMatrix::check() const {
 }
 
 // thanks to https://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle
-void RotationMatrix::axis_angle(const Position& axis,
+RotationMatrix& RotationMatrix::axis_angle(const Position& axis,
     const double degree_angle) {
   Position unit_axis = axis;
   unit_axis.normalize();
@@ -127,6 +127,7 @@ void RotationMatrix::axis_angle(const Position& axis,
   set_value(2, 1, z*y*C + x*s);
   set_value(2, 2, z*z*C + c);
   check();
+  return *this;
 }
 
 }  // namespace feasst

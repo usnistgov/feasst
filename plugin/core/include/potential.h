@@ -22,6 +22,7 @@ class Potential {
  public:
   Potential() {
     model_ = std::make_shared<ModelEmpty>();
+    visit_model_ = std::make_shared<VisitModel>();
     set_group_index(); }
 
   /// Set the index of the group of configuration which contributes to this
@@ -74,6 +75,7 @@ class Potential {
 
   /// Compute the energy of the entire configuration.
   double energy(Configuration * config) {
+    ASSERT(visit_model_, "visitor must be set.");
     if (model_params_override_) {
       stored_energy_ = model_->compute(model_params_, group_index_, config, visit_model_.get());
     } else {
@@ -84,6 +86,7 @@ class Potential {
 
   /// Compute the energy of a selection of the configuration.
   double energy(const Select& select, Configuration * config) {
+    ASSERT(visit_model_, "visitor must be set.");
     if (model_params_override_) {
       stored_energy_ = model_->compute(model_params_, select, group_index_, config, visit_model_.get());
     } else {

@@ -26,6 +26,18 @@ class Site : public PropertiedEntity,
   void displace(const Position displacement) {
     add_position(displacement);
   }
+
+  /// Return true if the site is a director.
+  /// These are used, for example, by patchy models.
+  bool is_director() const { return is_director_; }
+
+  /// Assign as director if a site has a property named director.
+  void add_property(const std::string name, const double value) override;
+
+  virtual ~Site() {}
+
+ private:
+  bool is_director_ = false;
 };
 
 }  // namespace feasst

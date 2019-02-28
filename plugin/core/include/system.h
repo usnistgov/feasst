@@ -57,6 +57,7 @@ class System {
     return unoptimized_.energy(select, &configurations_.front());
   }
 
+  void add(const Potential& potential) { add_to_unoptimized(potential); }
   void add_to_unoptimized(const Potential& potential) { unoptimized_.add_potential(potential); }
   void add_to_optimized(const Potential& potential) {
     is_optimized_ = true;

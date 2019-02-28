@@ -61,7 +61,7 @@ class Particle : public TypedEntity, public SpatialEntity {
   bool is_isotropic();
 
   /// Check that the dimensionality of the site and particle positions match.
-  void check_size();
+  void check();
 
   /// Increment the types of the sites.
   void increment_site_types(const int increment);
@@ -135,13 +135,13 @@ class Particle : public TypedEntity, public SpatialEntity {
   const std::vector<Bond> bonds() const { return bonds_; }
 
   /// Add a bond.
-  void add_bond(const Bond& bond) { bonds_.push_back(bond); }
+  void add_bond(const Bond& bond);
 
   /// Set a bond.
   void set_bond(const int index, const Bond& bond) { bonds_[index] = bond; }
 
   /// Erase all bonds from particle.
-  void erase_bonds() { bonds_.clear(); angles_.clear(); }
+  void erase_bonds();
 
   /// Find the bond between the given site indices.
   const Bond& bond(int site_index1, int site_index2) const;
@@ -161,10 +161,10 @@ class Particle : public TypedEntity, public SpatialEntity {
   /// Return the angles.
   const std::vector<Angle> angles() const { return angles_; }
 
-  /// Add a angle.
-  void add_angle(const Angle& angle) { angles_.push_back(angle); }
+  /// Add an angle.
+  void add_angle(const Angle& angle);
 
-  /// Set a angle.
+  /// Set an angle.
   void set_angle(const int index, const Angle& angle) { angles_[index] = angle; }
 
 //  //@}
@@ -203,13 +203,17 @@ class Particle : public TypedEntity, public SpatialEntity {
 //  /// Return the impropers.
 //  const std::vector<Improper> impropers() const { return impropers_; }
 //
-//  /// Add a improper.
+//  /// Add an improper.
 //  void add_improper(const Improper& improper) { impropers_.push_back(improper); }
 //
-//  /// Set a improper.
+//  /// Set an improper.
 //  void set_improper(const int index, const Improper& improper) { impropers_[index] = improper; }
 
-//  ~Particle() { check_size(); }
+//  ~Particle() { check(); }
+
+  const std::vector<std::vector<int> >& bond_list() const { return bond_list_; }
+  const std::vector<std::vector<int> >& bond_neighbor() const { return bond_neighbor_; }
+  const std::vector<std::vector<int> >& angle_list() const { return angle_list_; }
 
  private:
   std::vector<Site> sites_;
@@ -218,6 +222,19 @@ class Particle : public TypedEntity, public SpatialEntity {
   std::vector<Angle> angles_;
 //  std::vector<Dihedral> dihedrals_;
 //  std::vector<Improper> impropers_;
+
+  // the first dimension is the site index, the second is:
+  // bond index
+  std::vector<std::vector<int> > bond_list_;
+  // the index of the other site
+  std::vector<std::vector<int> > bond_neighbor_;
+  // angle index
+  std::vector<std::vector<int> > angle_list_;
+
+  void resize_list_(std::vector<std::vector<int> > * list);
+  void add_bond_(const Bond& bond, const int index,
+    std::vector<std::vector<int> > * list);
+  void add_bond_neighbor_(const Bond& bond, std::vector<std::vector<int> > * list);
 };
 
 }  // namespace feasst

@@ -15,14 +15,20 @@ import pyfeasst
 
 external_libs=['xdrfile.h', 'xdrfile_xtc.h']
 
+def is_header(file_name):
+  if file_name.endswith(".h"):
+    return True
+  return False
+
 # extract the included header files from a header
 def included(file_name):
   includes = list()
-  with open(file_name, 'r') as fle:
-    lines = fle.readlines()
-    for line in lines:
-      if line[0:10] == '#include "':
-        includes.append(line.split('"')[1::2][0])
+  if is_header(file_name):
+    with open(file_name, 'r') as fle:
+      lines = fle.readlines()
+      for line in lines:
+        if line[0:10] == '#include "':
+          includes.append(line.split('"')[1::2][0])
   return includes
 
 # return a list of all header files and their included files
@@ -34,8 +40,9 @@ def dependency(path):
       relDir = os.path.relpath(dir_, path)
       relFile = os.path.join(relDir, fileName)
       if '/include/' in relFile:
-        headers.append(relFile)
-        depends.append([relFile, included(relFile)])
+        if is_header(relFile):
+          headers.append(relFile)
+          depends.append([relFile, included(relFile)])
   # check if the includes are clean
   for dep in depends:
     for dep1 in dep[1]:
@@ -67,11 +74,32 @@ def bubble_sort(depends):
         bubbling = True
   return depends
 
+# read the classes from a file
+import re
+def read_class(file_name):
+  cls = list()
+  with open(file_name, 'r') as fle:
+    lines = fle.readlines()
+    for line in lines:
+      if re.search(r'^class ', line) and not re.search(';$', line):
+        cls.append(line.split(' ')[1])
+  return cls
+
+# obtain the headers sorted by dependency
+# write the swig interface file
+with pyfeasst.cd(args.source_dir+'/plugin/'):
+  deps=bubble_sort(dependency('./'))
+  classes=list()
+  # note this method for reading classes is copied below for doc
+  for dep in deps:
+    header = dep[0]
+    cls = read_class(header)
+    classes.append(cls)
+
 # obtain the headers sorted by dependency
 # write the swig interface file
 with pyfeasst.cd(args.source_dir+'/plugin/'):
   with open('../py/feasst.i', 'w') as swig_file:
-    deps=bubble_sort(dependency('./'))
     swig_file.write(
 "/* This is an interface file for swig.\n\
    This file is created by dev/tools/depend.py . Modifications to this\n\
@@ -100,26 +128,18 @@ using namespace std;\n\
 %pythonnondynamic;\n\
 \n\
 ")
+    for cls in classes:
+      for icl in cls:
+        swig_file.write("%shared_ptr(feasst::" + icl + ");\n")
     for dep in deps:
       swig_file.write('%include ' + dep[0] + '\n')
 
 # write the docs
-def read_class(file_name):
-  cls = list()
-  with open(file_name, 'r') as fle:
-    lines = fle.readlines()
-    for line in lines:
-      if re.search(r'^class ', line) and not re.search(';$', line):
-        cls.append(line.split(' ')[1])
-  return cls
-
-import re
 with pyfeasst.cd(args.source_dir+'/plugin/'):
   for mod in next(os.walk('.'))[1]:
     print('mod', mod, 'cd', args.source_dir+'/plugin/')
     with open(mod+'/doc/toc.rst', 'w') as toc:
       toc.write('API\n************\n\n.. toctree::\n\n')
-      deps=bubble_sort(dependency('./'))
       for dep in deps:
         header = dep[0]
         cls = read_class(header)

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "core/include/model_yukawa.h"
+#include "models/include/model_yukawa.h"
 #include "core/test/configuration_test.h"
 
 namespace feasst {

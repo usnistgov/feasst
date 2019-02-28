@@ -144,7 +144,7 @@ void Select::remove_particle(const int particle_index) {
   }
 }
 
-void Select::check_size() const {
+void Select::check() const {
   ASSERT(particle_indices_.size() == site_indices_.size(), "size error");
 }
 
