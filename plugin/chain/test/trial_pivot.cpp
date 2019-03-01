@@ -6,6 +6,7 @@
 #include "core/include/criteria_metropolis.h"
 #include "core/include/file_xyz.h"
 #include "core/include/analyze.h"
+#include "chain/include/analyze_rigid_bonds.h"
 
 namespace feasst {
 
@@ -36,7 +37,7 @@ TEST(TrialPivot, chain10) {
   file.write("tmp/before", system.configuration());
   factory.attempt(criteria.get(), &system);
   file.write("tmp/after", system.configuration());
-  RigidBondChecker checker;
+  AnalyzeRigidBonds checker;
   checker.update(criteria, system, factory);
 }
 

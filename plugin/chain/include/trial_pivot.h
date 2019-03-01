@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_TRIAL_PIVOT_H_
-#define FEASST_CORE_TRIAL_PIVOT_H_
+#ifndef FEASST_CHAIN_TRIAL_PIVOT_H_
+#define FEASST_CHAIN_TRIAL_PIVOT_H_
 
 #include "core/include/trial_rotate.h"
 #include "core/include/utils_io.h"
@@ -28,4 +28,4 @@ class TrialPivot : public TrialRotate {
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_TRIAL_PIVOT_H_
+#endif  // FEASST_CHAIN_TRIAL_PIVOT_H_

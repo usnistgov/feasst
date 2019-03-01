@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 # manually list the plugins
 #set(FEASST_PLUGINS "core;")
 #set(FEASST_PLUGINS "core;ewald;example;")
-set(FEASST_PLUGINS "core;ewald;example;confinement;chain;models;patch;")
+set(FEASST_PLUGINS "core;ewald;example;confinement;chain;models;patch;flat_histogram")
 #set(FEASST_PLUGINS "core;ewald;example;confinement;xtc;")
 message(${FEASST_PLUGINS})
 # set path to XDR if using xtc plugin
@@ -127,6 +127,12 @@ endif()
 list (FIND FEASST_PLUGINS "chain" _index)
 if (${_index} GREATER -1)
   target_link_libraries(chain core)
+endif()
+
+# flat_histogram
+list (FIND FEASST_PLUGINS "flat_histogram" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(flat_histogram core)
 endif()
 
 # CCACHE

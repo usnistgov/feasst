@@ -1,6 +1,6 @@
 
 #include <algorithm>
-#include "core/include/bias_wang_landau.h"
+#include "flat_histogram/include/bias_wang_landau.h"
 #include "core/include/utils_io.h"
 
 namespace feasst {

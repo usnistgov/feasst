@@ -11,7 +11,7 @@ namespace feasst {
 
 class TrialTranslate : public TrialMove {
  public:
-  TrialTranslate() {
+  TrialTranslate(const argtype &args = argtype()) : TrialMove(args) {
     perturb_trans_ = std::make_shared<PerturbTranslate>();
     set_perturb(perturb_trans_);
   }
@@ -31,8 +31,8 @@ class TrialTranslate : public TrialMove {
   Random random_;
 };
 
-inline std::shared_ptr<TrialTranslate> TrialTranslateShrPtr() {
-  return std::make_shared<TrialTranslate>();
+inline std::shared_ptr<TrialTranslate> MakeTrialTranslate(const argtype &args = argtype()) {
+  return std::make_shared<TrialTranslate>(args);
 }
 
 }  // namespace feasst

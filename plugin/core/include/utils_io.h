@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <numeric>
+#include "core/include/debug.h"
 
 using std::cout;
 using std::endl;
@@ -42,6 +43,14 @@ std::string trim(const char* specialchr, const char* phrase,
 
 /// Same as above except for string phrase.
 std::string trim(const char* specialchr, std::string phrase, int from_left = 1);
+
+/// Convert to string with maximum precision
+template <typename T>
+std::string str(const T a_value) {
+  std::ostringstream out;
+  out << MAX_PRECISION << a_value;
+  return out.str();
+}
 
 }  // namespace feasst
 

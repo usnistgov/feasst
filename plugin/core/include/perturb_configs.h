@@ -11,10 +11,6 @@ namespace feasst {
  */
 class PerturbConfigs : public Perturb {
  public:
-  void before_attempt() override {
-    Perturb::before_attempt();
-  }
-
   void transfer_particle(const int index, System * system, const int donor, const int acceptor) {
     ASSERT(donor != acceptor, "donor and acceptor cannot be the same");
     donor_part_.particle(index, system->configuration(donor));

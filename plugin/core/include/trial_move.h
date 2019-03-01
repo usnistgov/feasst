@@ -12,9 +12,20 @@ namespace feasst {
  */
 class TrialMove : public Trial {
  public:
-  TrialMove() {
+  TrialMove(
+    /**
+      max_move : for a given trial, the maximum possible size of the move.
+     */
+    const argtype &args = argtype()) : Trial(args) {
+    // default
     set_group_index();
     // set_max_move();
+
+    // parse
+    args_.init(args);
+    if (args_.key("max_move").used()) {
+      set_max_move(args_.dble());
+    }
   }
   void set_max_move(const double max_move = 0.1) {
     set_tunable_param(max_move); }
@@ -28,7 +39,11 @@ class TrialMove : public Trial {
   virtual void select(System * system) {
     perturb_->select_random_particle(group_index(), system->configuration());
   }
-  void attempt(Criteria* criteria, System * system) {
+  void before_attempt(Criteria* criteria, System * system, Perturb * perturb) override {
+    Trial::before_attempt(criteria, system, perturb);
+    set_max_move_bounds(system->configuration().domain());
+  }
+  void attempt(Criteria* criteria, System * system) override {
     before_attempt(criteria, system, perturb_.get());
     select(system);
     if (perturb_->selection().is_empty()) {

@@ -3,4 +3,3 @@ API
 
 .. toctree::
 
-   FileXTC

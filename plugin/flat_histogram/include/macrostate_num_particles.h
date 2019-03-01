@@ -1,8 +1,8 @@
 
-#ifndef FEASST_CORE_MACROSTATE_NUM_PARTICLES_H_
-#define FEASST_CORE_MACROSTATE_NUM_PARTICLES_H_
+#ifndef FEASST_FLAT_HISTOGRAM_MACROSTATE_NUM_PARTICLES_H_
+#define FEASST_FLAT_HISTOGRAM_MACROSTATE_NUM_PARTICLES_H_
 
-#include "core/include/macrostate.h"
+#include "flat_histogram/include/macrostate.h"
 
 namespace feasst {
 
@@ -20,4 +20,4 @@ class MacrostateNumParticles : public Macrostate {
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_MACROSTATE_NUM_PARTICLES_H_
+#endif  // FEASST_FLAT_HISTOGRAM_MACROSTATE_NUM_PARTICLES_H_

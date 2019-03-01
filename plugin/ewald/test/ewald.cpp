@@ -89,7 +89,6 @@ TEST(Ewald, MC) {
   mc.set(spce());
   auto criteria = std::make_shared<CriteriaMetropolis>();
   criteria->set_beta(1.);
-  criteria->set_running_energy(mc.get_system()->energy());
   mc.set(criteria);
   auto translate = std::make_shared<TrialTranslate>();
   mc.add(translate);

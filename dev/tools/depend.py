@@ -14,6 +14,12 @@ import sys
 import pyfeasst
 
 external_libs=['xdrfile.h', 'xdrfile_xtc.h']
+exclude_plugin=['xtc']
+
+def is_header(file_name):
+  if file_name.endswith(".h"):
+    return True
+  return False
 
 def is_header(file_name):
   if file_name.endswith(".h"):
@@ -39,7 +45,7 @@ def dependency(path):
     for fileName in files:
       relDir = os.path.relpath(dir_, path)
       relFile = os.path.join(relDir, fileName)
-      if '/include/' in relFile:
+      if '/include/' in relFile and [d for d in exclude_plugin if d not in relFile]:
         if is_header(relFile):
           headers.append(relFile)
           depends.append([relFile, included(relFile)])
@@ -126,6 +132,8 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
 %template(DoubleVector) std::vector<double>;\n\
 using namespace std;\n\
 %pythonnondynamic;\n\
+%include \"std_map.i\"\n\
+%template(args) std::map<std::string, std::string>;\n\
 \n\
 ")
     for cls in classes:

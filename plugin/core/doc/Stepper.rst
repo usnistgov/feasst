@@ -28,7 +28,3 @@ Stepper
 .. doxygenclass:: feasst::Movie
    :project: FEASST
    :members:
-
-.. doxygenclass:: feasst::RigidBondChecker
-   :project: FEASST
-   :members:

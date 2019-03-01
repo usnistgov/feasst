@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_MACROSTATE_H_
-#define FEASST_CORE_MACROSTATE_H_
+#ifndef FEASST_FLAT_HISTOGRAM_MACROSTATE_H_
+#define FEASST_FLAT_HISTOGRAM_MACROSTATE_H_
 
 #include "core/include/system.h"
 #include "core/include/criteria.h"
@@ -54,4 +54,4 @@ class Macrostate {
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_MACROSTATE_H_
+#endif  // FEASST_FLAT_HISTOGRAM_MACROSTATE_H_

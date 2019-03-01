@@ -12,6 +12,8 @@ namespace feasst {
 
 class Modify : public Stepper {
  public:
+  Modify(const argtype &args = argtype()) : Stepper(args) {}
+
   virtual void initialize(std::shared_ptr<Criteria> criteria,
       System * system,
       TrialFactory * trial_factory) {
@@ -47,7 +49,13 @@ class Modify : public Stepper {
 
 class ModifyFactory : public Modify {
  public:
-  ModifyFactory() : Modify() {}
+  void initialize(std::shared_ptr<Criteria> criteria,
+      System * system,
+      TrialFactory * trial_factory) override {
+    for (const std::shared_ptr<Modify> modify : modifiers_) {
+      modify->initialize(criteria, system, trial_factory);
+    }
+  }
 
   void add(std::shared_ptr<Modify> modify) {
     modifiers_.push_back(modify);
@@ -70,9 +78,19 @@ class ModifyFactory : public Modify {
 
 class ModifyUpdateOnly : public Modify {
  public:
-  ModifyUpdateOnly() : Modify() {
+  ModifyUpdateOnly(
+    /**
+      steps_per : update every this many steps
+     */
+    const argtype &args = argtype()) : Modify(args) {
     // disable write
-    Modify::set_steps_per_write(-1); }
+    Modify::set_steps_per_write(-1);
+
+    // parse
+    if (!args_.key("steps_per").empty()) {
+      set_steps_per(args_.integer());
+    }
+  }
 
   void set_steps_per_write(const int steps) override {
     ERROR("This modify is update only."); }
@@ -85,6 +103,7 @@ class ModifyUpdateOnly : public Modify {
  */
 class Check : public ModifyUpdateOnly {
  public:
+  Check(const argtype &args = argtype()) : ModifyUpdateOnly(args) {}
   void update(std::shared_ptr<Criteria> criteria,
       System * system,
       TrialFactory * trial_factory) override {
@@ -92,13 +111,33 @@ class Check : public ModifyUpdateOnly {
   }
 };
 
+inline std::shared_ptr<Check> MakeCheck(const argtype &args = argtype()) {
+  return std::make_shared<Check>(args);
+}
+
 /**
   Check that the running energy from criteria is equivalent, within tolerance,
   to a fresh (unoptimized) calculation over the entire configuration.
  */
 class EnergyCheck : public ModifyUpdateOnly {
  public:
-  void set_tolerance(const double tolerance) { tolerance_ = tolerance; }
+  EnergyCheck(
+    /**
+
+    */
+    const argtype &args = argtype()) : ModifyUpdateOnly(args) {
+    // default
+    set_tolerance();
+    
+    // parse
+    args_.init(args);
+    if (!args_.key("tolerance").empty()) {
+      set_tolerance(args_.dble());
+    }
+  }
+  
+  /// Set tolerance for energy drift per check.
+  void set_tolerance(const double tolerance = 1e-10) { tolerance_ = tolerance; }
 
   void update(std::shared_ptr<Criteria> criteria,
       System * system,
@@ -121,14 +160,15 @@ class EnergyCheck : public ModifyUpdateOnly {
   Check check_;
 };
 
-inline std::shared_ptr<EnergyCheck> EnergyCheckShrPtr() {
-  return std::make_shared<EnergyCheck>();
+inline std::shared_ptr<EnergyCheck> MakeEnergyCheck(const argtype &args = argtype()) {
+  return std::make_shared<EnergyCheck>(args);
 }
 
 /**
  */
 class Tuner : public ModifyUpdateOnly {
  public:
+  Tuner(const argtype &args = argtype()) : ModifyUpdateOnly(args) {}
   void update(std::shared_ptr<Criteria> criteria,
       System * system,
       TrialFactory * trial_factory) override {
@@ -138,6 +178,10 @@ class Tuner : public ModifyUpdateOnly {
 
 inline std::shared_ptr<Tuner> TunerShrPtr() {
   return std::make_shared<Tuner>();
+}
+
+inline std::shared_ptr<Tuner> MakeTuner(const argtype &args = argtype()) {
+  return std::make_shared<Tuner>(args);
 }
 
 }  // namespace feasst

@@ -7,28 +7,25 @@ API
    Accumulator
    Properties
    TypedEntity
+   Arguments
    Position
    Formula
    FormulaExponential
    Histogram
    FormulaPolynomial
-   Bias
-   BiasTransitionMatrix
    CustomException
-   Grow
    utils
    debug
    constants
    physical_constants
    Random
    utils_math
-   BiasWangLandau
    Bond
    utils_io
    Site
    Particle
-   FileLMP
    ModelParam
+   FileLMP
    Group
    ParticleFactory
    Select
@@ -36,6 +33,7 @@ API
    VisitParticles
    Cells
    Domain
+   VisitParticles
    Matrix
    Configuration
    FileVMD
@@ -44,11 +42,11 @@ API
    VisitModel
    VisitModelCell
    LongRangeCorrections
-   ModelThreeBody
    ModelTwoBody
-   ModelLJ
    ModelSquareWell
+   ModelLJ
    ModelHardSphere
+   ModelThreeBody
    VisitModelIntra
    BondTwoBody
    ModelOneBody
@@ -58,15 +56,12 @@ API
    System
    Criteria
    CriteriaMayer
-   Macrostate
-   CriteriaFlatHistogram
-   MacrostateNumParticles
    CriteriaMetropolis
    Perturb
-   PerturbSelectMove
-   PerturbRotate
    PerturbConfigs
    PerturbAdd
+   PerturbSelectMove
+   PerturbRotate
    Trial
    TrialTransfer
    TrialMove

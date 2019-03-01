@@ -1,10 +1,10 @@
 
-#ifndef FEASST_CORE_BIAS_WANG_LANDAU_H_
-#define FEASST_CORE_BIAS_WANG_LANDAU_H_
+#ifndef FEASST_FLAT_HISTOGRAM_BIAS_WANG_LANDAU_H_
+#define FEASST_FLAT_HISTOGRAM_BIAS_WANG_LANDAU_H_
 
 #include <vector>
 #include <memory>
-#include "core/include/bias.h"
+#include "flat_histogram/include/bias.h"
 #include "core/include/histogram.h"
 #include "core/include/utils_math.h"
 
@@ -62,4 +62,4 @@ class BiasWangLandau : public Bias {
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_BIAS_WANG_LANDAU_H_
+#endif  // FEASST_FLAT_HISTOGRAM_BIAS_WANG_LANDAU_H_

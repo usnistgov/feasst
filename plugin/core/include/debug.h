@@ -8,6 +8,7 @@
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#include <limits>
 #include "core/include/custom_exception.h"
 
 namespace feasst {

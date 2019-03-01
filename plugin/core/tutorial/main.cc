@@ -7,7 +7,7 @@ feasst::Configuration configuration() {
   config.add_particle_type("../../../../forcefield/data.lj");
   return config;
 }
-    
+
 feasst::Potential lj() {
   feasst::Potential potential;
   potential.set_model(std::make_shared<feasst::ModelLJ>());
@@ -29,10 +29,11 @@ feasst::System system() {
   return system;
 }
 
-std::shared_ptr<feasst::Criteria> criteria() {
+std::shared_ptr<feasst::Criteria> criteria(feasst::System * system) {
   auto criteria = std::make_shared<feasst::CriteriaMetropolis>();
   criteria->set_beta(1.2);
   criteria->add_activity(1);
+  criteria->set_running_energy(system->energy());
   return criteria;
 }
 
@@ -40,34 +41,7 @@ std::shared_ptr<feasst::Trial> translate(const feasst::Domain& domain) {
   auto trial = std::make_shared<feasst::TrialTranslate>();
   trial->set_weight(1);
   trial->set_max_move(2.);
-  trial->set_max_move_bounds(domain);
   return trial;
-}
-
-std::shared_ptr<feasst::Log> log() {
-  auto log = std::make_shared<feasst::Log>();
-  log->set_steps_per_write(1e4);
-  return log;
-}
-
-std::shared_ptr<feasst::Movie> movie() {
-  auto movie = std::make_shared<feasst::Movie>();
-  movie->set_steps_per_write(1e4);
-  movie->set_file_name("movie.xyz");
-  return movie;
-}
-
-std::shared_ptr<feasst::EnergyCheck> check() {
-  auto check = std::make_shared<feasst::EnergyCheck>();
-  check->set_steps_per_update(1e4);
-  check->set_tolerance(1e-10);
-  return check;
-}
-
-std::shared_ptr<feasst::Tuner> tune() {
-  auto tune = std::make_shared<feasst::Tuner>();
-  tune->set_steps_per_update(1e4);
-  return tune;
 }
 
 int main() {
@@ -77,9 +51,14 @@ int main() {
   mc.set(criteria());
   mc.add(translate(mc.system().configuration().domain()));
   mc.seek_num_particles(50);
-  mc.add(log());
-  mc.add(movie());
-  mc.add(check());
-  mc.add(tune());
+  const int num_periodic = 1e4;
+  mc.add(feasst::MakeLog({{"steps_per", feasst::str(num_periodic)}}));
+  mc.add(feasst::MakeMovie(
+   {{"steps_per", feasst::str(num_periodic)},
+    {"file_name", "tmp/lj50movie.xyz"}}));
+  mc.add(feasst::MakeEnergyCheck(
+   {{"steps_per", feasst::str(num_periodic)},
+    {"tolerance", "1e-10"}}));
+  mc.add(feasst::MakeTuner({{"steps_per", feasst::str(num_periodic)}}));
   mc.attempt(1e6);
 }

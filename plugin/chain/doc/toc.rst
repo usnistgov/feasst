@@ -3,7 +3,8 @@ API
 
 .. toctree::
 
-   TrialCrankShaft
+   TrialCrankshaft
    PerturbRegrow
+   AnalyzeRigidBonds
    TrialRegrow
    TrialPivot

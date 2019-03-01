@@ -11,12 +11,35 @@
 #include "core/include/bond_visitor.h"
 #include "core/include/file_xyz.h"
 #include "core/include/debug.h"
+#include "core/include/arguments.h"
 
 namespace feasst {
 
 class Stepper {
  public:
-  Stepper() { set_steps_per_update(); }
+  Stepper(
+    /**
+      steps_per_write : write every this many steps
+      steps_per_update : update every this many steps
+      file_name : file name to save output
+     */
+    const argtype &args = argtype()) {
+
+    // defaults
+    set_steps_per_update();
+
+    // parse
+    args_.init(args);
+    if (args_.key("steps_per_write").used()) {
+      set_steps_per_write(args_.integer());
+    }
+    if (args_.key("steps_per_update").used()) {
+      set_steps_per_update(args_.integer());
+    }
+    if (args_.key("file_name").used()) {
+      set_file_name(args_.str());
+    }
+  }
 
   /// Check if it is time to update or write. Return true if so.
   bool is_time(const int steps_per, int * steps_since) {
@@ -64,6 +87,9 @@ class Stepper {
 
   virtual ~Stepper() {}
 
+ protected:
+  Arguments args_;
+
  private:
   int steps_per_update_;
   int steps_per_write_;
@@ -74,6 +100,8 @@ class Stepper {
 
 class Analyze : public Stepper {
  public:
+  Analyze(const argtype &args = argtype()) : Stepper(args) {}
+
   virtual void initialize(const std::shared_ptr<Criteria> criteria,
       const System& system,
       const TrialFactory& trial_factory) {
@@ -111,6 +139,14 @@ class AnalyzeFactory : public Analyze {
  public:
   AnalyzeFactory() : Analyze() {}
 
+  void initialize(const std::shared_ptr<Criteria> criteria,
+      const System& system,
+      const TrialFactory& trial_factory) override {
+    for (const std::shared_ptr<Analyze> analyze : analyzers_) {
+      analyze->initialize(criteria, system, trial_factory);
+    }
+  }
+
   void add(std::shared_ptr<Analyze> analyze) {
     analyzers_.push_back(analyze);
   }
@@ -132,9 +168,19 @@ class AnalyzeFactory : public Analyze {
 
 class AnalyzeWriteOnly : public Analyze {
  public:
-  AnalyzeWriteOnly() : Analyze() {
+  AnalyzeWriteOnly(
+    /**
+      steps_per : write every this many steps
+     */
+    const argtype &args = argtype()) : Analyze(args) {
     // disable update
-    Analyze::set_steps_per_update(-1); }
+    Analyze::set_steps_per_update(-1);
+
+    // parse
+    if (!args_.key("steps_per").empty()) {
+      set_steps_per(args_.integer());
+    }
+  }
 
   void set_steps_per_update(const int steps) override {
     ERROR("This analyze is write only."); }
@@ -144,9 +190,19 @@ class AnalyzeWriteOnly : public Analyze {
 
 class AnalyzeUpdateOnly : public Analyze {
  public:
-  AnalyzeUpdateOnly() : Analyze() {
+  AnalyzeUpdateOnly(
+    /**
+      steps_per : update every this many steps
+     */
+    const argtype &args = argtype()) : Analyze(args) {
     // disable update
-    Analyze::set_steps_per_write(-1); }
+    Analyze::set_steps_per_write(-1);
+
+    // parse
+    if (!args_.key("steps_per").empty()) {
+      set_steps_per(args_.integer());
+    }
+  }
 
   void set_steps_per_write(const int steps) override {
     ERROR("This analyze is update only."); }
@@ -156,6 +212,7 @@ class AnalyzeUpdateOnly : public Analyze {
 
 class Log : public AnalyzeWriteOnly {
  public:
+  Log(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {}
   void initialize(const std::shared_ptr<Criteria> criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
@@ -175,12 +232,13 @@ class Log : public AnalyzeWriteOnly {
   }
 };
 
-inline std::shared_ptr<Log> LogShrPtr() {
-  return std::make_shared<Log>();
+inline std::shared_ptr<Log> MakeLog(const argtype &args = argtype()) {
+  return std::make_shared<Log>(args);
 }
 
 class Movie : public AnalyzeWriteOnly {
  public:
+  Movie(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {}
   void initialize(const std::shared_ptr<Criteria> criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
@@ -208,26 +266,9 @@ class Movie : public AnalyzeWriteOnly {
   FileVMD vmd_;
 };
 
-inline std::shared_ptr<Movie> MovieShrPtr() {
-  return std::make_shared<Movie>();
+inline std::shared_ptr<Movie> MakeMovie(const argtype &args = argtype()) {
+  return std::make_shared<Movie>(args);
 }
-
-class RigidBondChecker : public AnalyzeUpdateOnly {
- public:
-  void update(const std::shared_ptr<Criteria> criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override {
-    visitor_.compute(bond_, system.configuration());
-    ASSERT(std::abs(visitor_.energy()) < NEAR_ZERO, "bond check failure");
-    visitor_.compute(angle_, system.configuration());
-    ASSERT(std::abs(visitor_.energy()) < NEAR_ZERO, "angle check failure");
-  }
-
- private:
-  BondVisitor visitor_;
-  BondSquareWell bond_;
-  AngleSquareWell angle_;
-};
 
 }  // namespace feasst
 

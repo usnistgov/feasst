@@ -13,6 +13,8 @@ namespace feasst {
  */
 class TrialTransfer : public Trial {
  public:
+  TrialTransfer(const argtype &args = argtype()) : Trial(args) {}
+
   void attempt(Criteria* criteria, System * system) {
     if (random_.uniform() < add_probability_) {
       attempt_to_add(criteria, system);
@@ -79,6 +81,10 @@ class TrialTransfer : public Trial {
   /// set the type of particle
   int particle_type_ = 0;
 };
+
+inline std::shared_ptr<TrialTransfer> MakeTrialTransfer(const argtype &args = argtype()) {
+  return std::make_shared<TrialTransfer>(args);
+}
 
 }  // namespace feasst
 

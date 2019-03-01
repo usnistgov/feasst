@@ -1,11 +1,11 @@
 
-#ifndef FEASST_CORE_CRITERIA_FLAT_HISTOGRAM_H_
-#define FEASST_CORE_CRITERIA_FLAT_HISTOGRAM_H_
+#ifndef FEASST_FLAT_HISTOGRAM_CRITERIA_FLAT_HISTOGRAM_H_
+#define FEASST_FLAT_HISTOGRAM_CRITERIA_FLAT_HISTOGRAM_H_
 
 #include <memory>
 #include "core/include/criteria.h"
-#include "core/include/macrostate.h"
-#include "core/include/bias.h"
+#include "flat_histogram/include/macrostate.h"
+#include "flat_histogram/include/bias.h"
 
 namespace feasst {
 
@@ -43,4 +43,4 @@ class CriteriaFlatHistogram : public Criteria {
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_CRITERIA_FLAT_HISTOGRAM_H_
+#endif  // FEASST_FLAT_HISTOGRAM_CRITERIA_FLAT_HISTOGRAM_H_

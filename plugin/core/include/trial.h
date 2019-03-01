@@ -5,16 +5,28 @@
 #include "core/include/perturb.h"
 #include "core/include/system.h"
 #include "core/include/criteria.h"
+#include "core/include/arguments.h"
 
 namespace feasst {
 
 class Trial {
  public:
-  Trial() {
+  Trial(
+    /**
+      weight: proportional to the likelihood the trial will be attempted
+     */
+    const argtype &args = argtype()) {
+    // default
     reset_stats();
     set_weight();
     set_tunable_acceptance();
     set_tunable_percent_change();
+
+    // parse
+    args_.init(args);
+    if (args_.key("weight").used()) {
+      set_weight(args_.dble());
+    }
   }
 
   virtual void attempt(Criteria* criteria, System * system) = 0;
@@ -144,7 +156,7 @@ class Trial {
   }
 
   /// Initialize some variables before each attempt.
-  void before_attempt(Criteria* criteria, System * system, Perturb * perturb) {
+  virtual void before_attempt(Criteria* criteria, System * system, Perturb * perturb) {
     perturb->before_attempt();
     criteria->before_attempt(system);
     increment_num_attempts();
@@ -164,6 +176,9 @@ class Trial {
   }
 
   virtual ~Trial() {}
+
+ protected:
+  Arguments args_;
 
  private:
   double weight_ = 1.;

@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_PERTURB_REGROW_H_
-#define FEASST_CORE_PERTURB_REGROW_H_
+#ifndef FEASST_CHAIN_PERTURB_REGROW_H_
+#define FEASST_CHAIN_PERTURB_REGROW_H_
 
 #include "core/include/perturb_move.h"
 
@@ -46,4 +46,4 @@ class PerturbRegrow : public PerturbSelectMove {
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_PERTURB_REGROW_H_
+#endif  // FEASST_CHAIN_PERTURB_REGROW_H_

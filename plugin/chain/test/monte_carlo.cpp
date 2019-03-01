@@ -8,21 +8,19 @@
 #include "core/include/trial_transfer.h"
 #include "core/include/monte_carlo.h"
 #include "core/include/criteria_metropolis.h"
-#include "core/include/criteria_flat_histogram.h"
-#include "core/include/macrostate_num_particles.h"
-#include "core/include/bias_wang_landau.h"
-#include "core/include/histogram.h"
 #include "core/include/utils_io.h"
 #include "core/include/accumulator.h"
 #include "core/test/system_test.h"
 #include "core/include/long_range_corrections.h"
 #include "core/include/visit_model_intra.h"
 #include "core/include/visit_model_cell.h"
+#include "chain/include/analyze_rigid_bonds.h"
 
 namespace feasst {
 
 TEST(MonteCarlo, chain) {
   seed_random_by_date();
+  seed_random(1551407871);
   MonteCarlo mc;
 
   { System system;
@@ -54,16 +52,8 @@ TEST(MonteCarlo, chain) {
     mc.set(system);
   }
 
-  { auto criteria = std::make_shared<CriteriaMetropolis>();
-    criteria->set_beta(1.2);
-    criteria->add_activity(1.);
-    mc.set(criteria); }
-
-  { auto trial = std::make_shared<TrialTranslate>();
-    trial->set_weight(1.);
-    trial->set_max_move(1.);
-    trial->set_max_move_bounds(mc.system().configuration().domain());
-    mc.add(trial); }
+  mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"add_activity", "1."}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"max_move", "1."}}));
 
   { auto trial = std::make_shared<TrialRotate>();
     trial->set_weight(1.);
@@ -75,7 +65,7 @@ TEST(MonteCarlo, chain) {
     trial->set_max_move(90.);
     mc.add(trial); }
 
-  { auto trial = std::make_shared<TrialCrankShaft>();
+  { auto trial = std::make_shared<TrialCrankshaft>();
     trial->set_weight(1.);
     trial->set_max_move(90.);
     trial->set_tunable_percent_change(0.1);
@@ -88,28 +78,17 @@ TEST(MonteCarlo, chain) {
   mc.seek_num_particles(1);
   const int num_periodic = 1e3;
 
-  { auto log = std::make_shared<Log>();
-    log->set_steps_per_write(num_periodic);
-    log->set_file_name("tmp/log.txt");
-    mc.add(log); }
-
-  { auto movie = std::make_shared<Movie>();
-    movie->set_steps_per(num_periodic);
-    movie->set_file_name("tmp/chain10movie.xyz");
-    mc.add(movie); }
-
-  { auto checker = std::make_shared<EnergyCheck>();
-    checker->set_steps_per_update(num_periodic);
-    checker->set_tolerance(1e-10);
-    mc.add(checker); }
-
-  { auto tuner = std::make_shared<Tuner>();
-    tuner->set_steps_per_update(num_periodic);
-    mc.add(tuner); }
-
-  { auto bondcheck = std::make_shared<RigidBondChecker>();
-    bondcheck->set_steps_per(num_periodic);
-    mc.add(bondcheck); }
+  mc.add(MakeLog(
+   {{"steps_per", str(num_periodic)},
+    {"file_name", "tmp/chainlog.txt"}}));
+  mc.add(MakeMovie(
+   {{"steps_per", str(num_periodic)},
+    {"file_name", "tmp/chain10movie.xyz"}}));
+  mc.add(MakeEnergyCheck(
+   {{"steps_per", str(num_periodic)},
+    {"tolerance", "1e-10"}}));
+  mc.add(MakeTuner({{"steps_per", str(num_periodic)}}));
+  mc.add(MakeAnalyzeRigidBonds({{"steps_per", str(num_periodic)}}));
 
   mc.attempt(1e4);
 }

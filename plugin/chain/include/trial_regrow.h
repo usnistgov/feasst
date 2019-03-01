@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_TRIAL_REGROW_H_
-#define FEASST_CORE_TRIAL_REGROW_H_
+#ifndef FEASST_CHAIN_TRIAL_REGROW_H_
+#define FEASST_CHAIN_TRIAL_REGROW_H_
 
 #include "core/include/trial_translate.h"
 #include "chain/include/perturb_regrow.h"
@@ -30,4 +30,4 @@ class TrialRegrow : public TrialMove {
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_TRIAL_REGROW_H_
+#endif  // FEASST_CHAIN_TRIAL_REGROW_H_

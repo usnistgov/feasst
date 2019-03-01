@@ -3,6 +3,7 @@
 #define FEASST_CORE_CRITERIA_H_
 
 #include <vector>
+#include "core/include/arguments.h"
 #include "core/include/system.h"
 
 namespace feasst {
@@ -26,6 +27,28 @@ struct AcceptanceCriteria {
  */
 class Criteria {
  public:
+  Criteria(
+    /**
+      beta : inverse temperature, \f$ \beta = \frac{1}{k_B T} \f$
+      add_activity : activity of the next particle type, starting with 0
+        \f$ z = \frac{exp(\beta \mu)}{\Lambda^3} \f$.
+     */
+    const argtype &args = argtype()) {
+    // parse
+    args_.init(args);
+    if (args_.key("beta").used()) {
+      set_beta(args_.dble());
+    }
+    const int max_act = 1e3;
+    int num_act = 0;
+    while (args_.key("add_activity").used() && num_act < max_act) {
+      args_.remove();
+      add_activity(args_.dble());
+      ++num_act;
+    }
+    ASSERT(num_act < max_act, "infinite loop while reading activity");
+  }
+
   /// Set beta, the inverse temperature \f$ \beta=\frac{1}{k_B T} \f$.
   void set_beta(const double beta);
 
@@ -48,7 +71,7 @@ class Criteria {
   virtual bool is_accepted(const AcceptanceCriteria accept_criteria) = 0;
 
   /// Set the current total energy based on energy changes per trial in order
-  /// to avoid avoid recomputation of the energy of the entire configuration.
+  /// to avoid recomputation of the energy of the entire configuration.
   /// For example, Metropolis Monte Carlo trials are concerned with the change
   /// in energy, and this variable tracks the total from the changes.
   void set_running_energy(const double energy) { running_energy_ = energy; }
@@ -69,6 +92,9 @@ class Criteria {
   }
 
   virtual ~Criteria() {}
+
+ protected:
+  Arguments args_;
 
  private:
   double beta_;

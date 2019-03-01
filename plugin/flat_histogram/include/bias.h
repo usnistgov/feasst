@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_BIAS_H_
-#define FEASST_CORE_BIAS_H_
+#ifndef FEASST_FLAT_HISTOGRAM_BIAS_H_
+#define FEASST_FLAT_HISTOGRAM_BIAS_H_
 
 namespace feasst {
 
@@ -28,4 +28,4 @@ class Bias {
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_BIAS_H_
+#endif  // FEASST_FLAT_HISTOGRAM_BIAS_H_

@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_TRIAL_CRANKSHAFT_H_
-#define FEASST_CORE_TRIAL_CRANKSHAFT_H_
+#ifndef FEASST_CHAIN_TRIAL_CRANKSHAFT_H_
+#define FEASST_CHAIN_TRIAL_CRANKSHAFT_H_
 
 #include "core/include/trial_rotate.h"
 #include "core/include/perturb_translate.h"
@@ -9,9 +9,9 @@
 
 namespace feasst {
 
-class TrialCrankShaft : public TrialRotate {
+class TrialCrankshaft : public TrialRotate {
  public:
-  TrialCrankShaft() : TrialRotate() { set_recenter(1); }
+  TrialCrankshaft() : TrialRotate() { set_recenter(1); }
 
   void select(System * system) override {
     perturb_rotate_->select_random_segment_in_particle(group_index(), system->configuration());
@@ -29,9 +29,9 @@ class TrialCrankShaft : public TrialRotate {
     perturb_rotate_->rotate_selection(pivot, rot_mat_, system);
   }
 
-  virtual ~TrialCrankShaft() {}
+  virtual ~TrialCrankshaft() {}
 };
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_TRIAL_CRANKSHAFT_H_
+#endif  // FEASST_CHAIN_TRIAL_CRANKSHAFT_H_
