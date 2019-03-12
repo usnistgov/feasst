@@ -58,4 +58,25 @@ std::string Properties::str() const {
   return ss.str();
 }
 
+void PropertiedEntity::set_properties(const Properties& properties,
+    std::vector<std::string> exclude) {
+  const std::vector<std::string>& name = properties_.property_name();
+  const std::vector<double>& values = properties.property_value();
+  ASSERT(name.size() == values.size(),
+    "the same number of properties must exist to equate them");
+  for (int index = 0; index < static_cast<int>(name.size()); ++index) {
+    bool is_not_excl = true;
+    for (std::string excl : exclude) {
+      const std::string beginning = name[index].substr(0, excl.size());
+      if (beginning == excl) {
+        is_not_excl = false;
+        DEBUG("excluded " << excl << " " << name[index]);
+      }
+    }
+    if (is_not_excl) {
+      set_property(index, values[index]);
+    }
+  }
+}
+
 }  // namespace feasst

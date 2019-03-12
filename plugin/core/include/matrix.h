@@ -66,7 +66,7 @@ class MatrixThreeByThree : public Matrix {
   /// Check that the matrix is square and of the assumed size.
   void check() const override;
 
-  virtual ~MatrixThreeByThree() { check(); }
+  virtual ~MatrixThreeByThree() {}
 };
 
 /**
@@ -85,7 +85,7 @@ class RotationMatrix : public MatrixThreeByThree {
   /// Check that the derminant of a rotation matrix is unity.
   void check() const override;
 
-  virtual ~RotationMatrix() { check(); }
+  virtual ~RotationMatrix() {}
 };
 
 }  // namespace feasst

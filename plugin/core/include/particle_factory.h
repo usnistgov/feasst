@@ -100,8 +100,9 @@ class ParticleFactory {
   /// Replace properties of the site by index.
   void replace_properties(const int particle_index,
                           const int site_index,
-                          const Properties& replacement) {
-    particles_[particle_index].replace_properties(site_index, replacement); }
+                          const Properties& replacement,
+                          const std::vector<std::string> exclude) {
+    particles_[particle_index].replace_properties(site_index, replacement, exclude); }
 
   /// Check consistency of dimensionality of positions of particles and sites.
   /// By default, for dimension == -1, determine automatically.

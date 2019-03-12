@@ -90,7 +90,7 @@ TEST(Ewald, MC) {
   auto criteria = std::make_shared<CriteriaMetropolis>();
   criteria->set_beta(1.);
   mc.set(criteria);
-  auto translate = std::make_shared<TrialTranslate>();
+  auto translate = MakeTrialTranslate({{"max_move", "0.1"}});
   mc.add(translate);
 //  mc.attempt(100);
 //  INFO(mc.get_system()->energy());

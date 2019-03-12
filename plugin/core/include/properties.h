@@ -99,6 +99,11 @@ class PropertiedEntity {
   void set_properties(const Properties& properties) {
     properties_ = properties; }
 
+  /// Set the properties.
+  void set_properties(const Properties& properties,
+    /// exclude properties beginning with any characters in exclude
+    std::vector<std::string> exclude);
+
   /// Check the properties.
   virtual void check() const { properties_.check(); }
 

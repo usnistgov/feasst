@@ -10,20 +10,24 @@ namespace feasst {
  */
 class PerturbRegrow : public PerturbSelectMove {
  public:
-  // assumes selection ends with site which is connected to the rest of the
-  // particle that isn't being regrown, or and end-site, if regrowing entire
-  // segment.
-  void regrow(System * system) {
+  // assumes that if selection begins with first site, then start regrow
+  // from opposite end (by using custom flag)
+  // assumes linear chain
+  void perturb(System * system) override {
     Configuration * config = get_config_before_move(system);
     SelectList bonded = selection();
-    int bonded_to = static_cast<int>(bonded.site_indices()[0].size()) - 1;
-    DEBUG("regrowing sites " << bonded.str());
-    for (int select_index = bonded_to - 1;
-         select_index >= 0;
-         --select_index) {
-      rebond_(select_index, bonded_to, system, &bonded);
-      bonded_to = select_index;
-    }
+    DEBUG("regrowing sites " << selection().str());
+    ASSERT(selection().num_sites() == anchor().num_sites(), "error");
+//    DEBUG("is_reversed " << is_custom_flag());
+//    const int num_sites = static_cast<int>(bonded.site_indices()[0].size());
+    ASSERT(selection().num_sites() == 1, "error");
+//    for (int index = 0; index < selection().num_sites(); ++index) {
+//      int to_update = index;
+//      if (is_custom_flag()) {
+//        to_update = selection().num_sites() - 1 - index;
+//      }
+      rebond_(0, system, &bonded);
+//    }
 
     // recenter particle position
     bonded.set_particle_position(0,
@@ -39,7 +43,6 @@ class PerturbRegrow : public PerturbSelectMove {
   Random random_;
 
   void rebond_(const int site_to_update,
-               const int site_bonded_to,
                System * system,
                SelectList * bonded);
 };

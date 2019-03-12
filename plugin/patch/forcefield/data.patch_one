@@ -9,7 +9,7 @@
 Atom Properties
 
 1 sigma 1.0 epsilon 1.0 cutoff 1.5
-2 sigma 1.0 epsilon 1.0 cutoff 1.5 director 1 angle 5
+2 sigma 1.0 epsilon 1.0 cutoff 1.5 director 1 patch_angle 5
 
 Bond Properties
 

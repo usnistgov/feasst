@@ -16,34 +16,38 @@ TEST(VisitModelPatch, patch_one) {
   config.set_model_param("cutoff", 1, 3.);
   FileXYZ().load("../plugin/patch/test/data/patch5.xyz", &config);
   ModelSquareWell model;
-  VisitModelPatch visitor;
+  VisitModel visit;
+  auto patch = std::make_shared<VisitModelInnerPatch>();
+  visit.set_inner(patch);
+  visit.precompute(&config);
+  patch->set_patch_angle(1, 90.);
   config.add(Group().add_site_type(0));
-  visitor.compute(model, &config, 1);
-  EXPECT_NEAR(-3., visitor.energy(), NEAR_ZERO);
+  visit.compute(model, &config, 1);
+  EXPECT_NEAR(-3., visit.energy(), NEAR_ZERO);
 }
 
 TEST(VisitModelPatch, patch_one_2body) {
   System system;
   { Configuration config;
     config.set_domain(Domain().set_cubic(10.));
-    auto angle = std::make_shared<ModelParam>();
-    angle->set_name("angle");
-    config.add(angle);
+    //{ auto angle = std::make_shared<ModelParam>();
+    //  angle->set_name("angle");
+    //  config.add(angle); }
     config.add_particle_type("../plugin/patch/forcefield/data.patch_one");
-    EXPECT_EQ(0, config.model_params().select("angle")->value(0));
-    EXPECT_EQ(5, config.model_params().select("angle")->value(1));
     config.add(Group().add_site_type(0));
     config.add_particle_of_type(0);
     config.add_particle_of_type(0);
     system.add(config); }
-
+    
   { Potential potential;
     potential.set_model(std::make_shared<ModelSquareWell>());
-    auto visitor = std::make_shared<VisitModelPatch>();
-    visitor->cpa_sq_ = pow(cos(5./180.*PI), 2);
+    auto visitor = std::make_shared<VisitModel>();
+    auto patch = std::make_shared<VisitModelInnerPatch>();
+    visitor->set_inner(patch); 
     potential.set_visit_model(visitor);
     potential.set_group_index(1); // optimization: loop through centers only.
     system.add(potential); }
+  system.precompute();
 
   PerturbTranslate trans;
   trans.set_selection(SelectList().particle(1, system.configuration()));

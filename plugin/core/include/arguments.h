@@ -62,6 +62,11 @@ class Arguments {
 
   argtype args() const { return args_; }  //!< Return args
 
+  /// Print the status of the arguments to human readable string.
+  std::string status() const;
+
+  ~Arguments() { check_all_used(); }
+
  private:
   argtype args_;
   std::string key_;

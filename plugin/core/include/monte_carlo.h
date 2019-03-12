@@ -40,6 +40,7 @@ class MonteCarlo {
   void set(const System& system) {
     system_set_ = true;
     system_ = system;
+    system_.precompute();
   }
 
   /// Once the System is set, it may be accessed on a read-only basis.
@@ -64,6 +65,7 @@ class MonteCarlo {
   /// Typically, one begins by adding trials.
   void add(std::shared_ptr<Trial> trial) {
     ASSERT(criteria_set_, "set Criteria before Trials.");
+    trial->precompute(criteria_, system_);
     trial_factory_.add(trial);
     // If later, perhaps after some initialization, more trials are added,
     // then Analyze and Modify classes may need to be re-initialized.

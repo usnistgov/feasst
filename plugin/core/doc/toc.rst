@@ -9,6 +9,7 @@ API
    TypedEntity
    Arguments
    Position
+   Tunable
    Formula
    FormulaExponential
    Histogram
@@ -30,23 +31,24 @@ API
    ParticleFactory
    Select
    SelectPosition
-   VisitParticles
    Cells
    Domain
    VisitParticles
+   Stepper
+   Modify
    Matrix
    Configuration
    FileVMD
    SelectList
    Model
-   VisitModel
+   VisitModelInner
    VisitModelCell
    LongRangeCorrections
+   ModelThreeBody
    ModelTwoBody
    ModelSquareWell
    ModelLJ
    ModelHardSphere
-   ModelThreeBody
    VisitModelIntra
    BondTwoBody
    ModelOneBody
@@ -63,12 +65,12 @@ API
    PerturbSelectMove
    PerturbRotate
    Trial
-   TrialTransfer
    TrialMove
    TrialRotate
+   TrialTransfer
+   Rosenbluth
    TrialFactory
-   Stepper
-   Modify
+   Analyze
    MonteCarlo
    PerturbTranslate
    TrialTranslate

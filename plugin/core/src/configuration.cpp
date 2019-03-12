@@ -9,11 +9,41 @@
 
 namespace feasst {
 
-Configuration::Configuration() {
+Configuration::Configuration(const argtype& args) {
   particle_types_.unique_particles();
   unique_types_.unique_types();
   reset_unique_indices_();
   add(Group()); // add empty group which represents all particles
+  args_.init(args);
+
+  // parse domain
+  if (args_.key("cubic_box_length").used()) {
+    set_domain(Domain().set_cubic(args_.dble()));
+  }
+
+  // parse types
+  std::string start("particle_type");
+  // if only one particle type, allow drop the subscript
+  if (args_.key(start).used()) {
+    add_particle_type(args_.str());
+  } else {
+    std::stringstream key;
+    int type = num_particle_types();
+    key << start << type;
+    while (args_.key(key.str()).used()) {
+      add_particle_type(args_.str());
+      ++type;
+      ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
+      key.str("");
+      key << start << type;
+    }
+  }
+
+  if (args_.key("init_cells").used()) {
+    const double min_length = args_.dble();
+    int group_index = args_.key("cell_group").dflt("0").integer();
+    init_cells(min_length, group_index);
+  }
 }
 
 void Configuration::reset_unique_indices_() {
@@ -202,7 +232,7 @@ void Configuration::add(Group group, std::string name) {
 void Configuration::position_tracker_(const int particle_index,
                                       const int site_index) {
   ASSERT(site_index >= 0, "index error");
-  TRACE("update cells");
+  DEBUG("update cells");
   for (int cell_index = 0;
        cell_index < static_cast<int>(domain().cells().size());
        ++cell_index) {
@@ -223,20 +253,21 @@ void Configuration::position_tracker_(const int particle_index,
         double value;
         if (site.properties().value(name, &value)) {
           const int cell_old = feasst::round(value);
-          TRACE("index " << particle_index << " " << site_index);
-          TRACE("new cell " << cell_new << " old cell " << cell_old);
+          DEBUG("index " << particle_index << " " << site_index);
+          DEBUG("new cell " << cell_new << " old cell " << cell_old);
+          DEBUG("before new cell set: " << particles_.particle(particle_index).site(site_index).property("cell0"));
           particles_.set_site_property(name, cell_new, particle_index, site_index);
           domain_.update_cell_list(cell_index, select, cell_new, cell_old);
         } else {
           particles_.add_site_property(name, cell_new, particle_index, site_index);
-          // INFO("adding to cell list " << cell_index << " cllnw " << cell_new << " si " << site_index);
+          DEBUG("adding to cell list " << cell_index << " cllnw " << cell_new << " si " << site_index);
           domain_.add_to_cell_list(cell_index, select, cell_new);
         }
       }
     }
   }
 
-  TRACE("update selection");
+  DEBUG("update selection");
   for (const SelectGroup& select : group_selects_) {
     ASSERT(!select.group().is_spatial(), "implement updating of groups");
   }
@@ -284,7 +315,9 @@ void Configuration::check() const {
   for (const Cells& cells : domain().cells()) {
     const int group_index = feasst::round(cells.property("group"));
     const Select& select = group_selects_[group_index];
-    ASSERT(select.num_sites() == cells.num_sites(), "size error");
+    ASSERT(select.num_sites() == cells.num_sites(),
+      "sites in group(" << select.num_sites() << ") is not equal to sites " <<
+      "in cell(" << cells.num_sites() << ")");
   }
 
   // check number of particle types
@@ -368,12 +401,13 @@ void Configuration::update_positions(const SelectPosition& select) {
     replace_position_(particle_index, select.particle_positions()[pindex]);
     int sindex = 0;
     for (int site_index : select.site_indices(pindex)) {
+      replace_properties_(particle_index,
+                          site_index,
+                          select.site_properties()[pindex][sindex],
+                          {"cell"});
       replace_position_(particle_index,
                         site_index,
                         select.site_positions()[pindex][sindex]);
-      replace_properties_(particle_index,
-                          site_index,
-                          select.site_properties()[pindex][sindex]);
       ++sindex;
     }
     ++pindex;
@@ -432,6 +466,13 @@ const Particle Configuration::particle(const int index,
   Particle part = particles_.particle(particle_index);
   select_group.group().remove_sites(&part);
   return part;
+}
+
+void Configuration::add(std::shared_ptr<ModelParam> param) {
+  for (const Particle& particle : unique_types().particles()) {
+    param->add(particle);
+  }
+  unique_types_.add(param);
 }
 
 }  // namespace feasst

@@ -18,7 +18,16 @@ TEST(VisitModelIntra, energy) {
   visit.set_intra_cut(1);
 
   model.compute(&config, &visit);
-  EXPECT_NEAR(10*(4*(pow(2, -12)-pow(2, -6))), visit.energy(), NEAR_ZERO);
+  const double pe_lj =  4*(pow(2, -12)-pow(2, -6));
+  EXPECT_NEAR(10*pe_lj, visit.energy(), NEAR_ZERO);
+
+  Select all = config.selection_of_all();
+  Select ignore;
+  ignore.add_site(0, 0);
+  all.exclude(ignore);
+
+  model.compute(all, &config, &visit);
+  EXPECT_NEAR(8*pe_lj, visit.energy(), NEAR_ZERO);
 }
 
 }  // namespace feasst

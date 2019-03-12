@@ -4,6 +4,7 @@
 
 #include "core/include/system.h"
 #include "core/include/select_list.h"
+#include "core/include/tunable.h"
 
 namespace feasst {
 
@@ -14,6 +15,8 @@ namespace feasst {
  */
 class Perturb {
  public:
+  virtual void perturb(System * system) { ERROR("not implemented"); }
+
   /// Initialize some variables before each attempt.
   virtual void before_attempt() { revert_possible_ = false; }
 
@@ -70,6 +73,17 @@ class Perturb {
     set_selection_state("old");
   }
 
+  void set_tunable(const Tunable tunable) { tunable_ = tunable; }
+  Tunable tunable() const { return tunable_; }
+  void tune(const double value) { tunable_.tune(value); }
+  void set_tune_min_and_max(const double min, const double max) {
+    tunable_.set_min_and_max(min, max); }
+
+  /// Set the anchors, which are not moved in the perturbation but are used
+  /// for reference.
+  void set_anchor(const SelectList& anchor) { anchor_ = anchor; }
+  const SelectList& anchor() const { return anchor_; }
+
   virtual ~Perturb() {}
 
  protected:
@@ -92,6 +106,8 @@ class Perturb {
   System system_old_;
   bool revert_possible_;
   SelectList selection_;
+  SelectList anchor_;
+  Tunable tunable_;
 };
 
 class PerturbOptRevert : public Perturb {

@@ -93,10 +93,16 @@ Position Domain::random_position(Random * random) const {
   return random->position_in_cuboid(side_length_);
 }
 
+// HWH note if there are problems with scaled coordinates here, it probably
+// means there is an issue with wrapping. As currently implemented, translations
+// automatically wrap. So if you're doing a test without them you might run
+// into this issue.
 int Domain::cell_id(const Position& position,
                     const Cells& cells) const {
   Position scaled(position);
+  DEBUG("scaled before wrap " << scaled.str() << " pos " << position.str() << " box " << side_length().str());
   wrap(&scaled);
+  DEBUG("scaled after wrap " << scaled.str() << " pos " << position.str() << " box " << side_length().str());
   scaled.divide(side_length());
   DEBUG("scaled " << scaled.str() << " pos " << position.str() << " box " << side_length().str());
   return cells.id(scaled.coord());

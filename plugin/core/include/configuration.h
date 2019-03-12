@@ -9,6 +9,7 @@
 #include "core/include/select.h"
 #include "core/include/select_position.h"
 #include "core/include/matrix.h"
+#include "core/include/arguments.h"
 
 namespace feasst {
 
@@ -35,7 +36,16 @@ namespace feasst {
  */
 class Configuration {
  public:
-  Configuration();
+  Configuration(
+    /**
+      cubic_box_length : side length of cubic perioidic boundary conditions.
+      particle_type[i] : add the i-th type of particle to the configuration.
+        The [i] is to substituted for an integer 0, 1, 2, ...
+        If only one particle type, you can drop the i.
+      init_cells : build cell list with given minimum length between cells.
+      cell_group : only compute cells for those in given group index.
+     */
+    const argtype& args = argtype());
 
   /** @name Typing
     Types of sites and particles. */
@@ -56,8 +66,7 @@ class Configuration {
   /// Add a custom type of model parameter.
   /// Name it the same as an atom property before reading file to
   /// make a custom ModelParam.
-  void add(const std::shared_ptr<ModelParam> param) {
-    unique_types_.add(param); }
+  void add(std::shared_ptr<ModelParam> param);
 
   ModelParams model_params() const { return unique_types_.model_params(); }
 
@@ -276,6 +285,7 @@ class Configuration {
   ParticleFactory unique_types_;
   ParticleFactory particles_;
   Domain domain_;
+  Arguments args_;
   int newest_particle_index_;
 
   /// Selects based on groups that are continuously updated.
@@ -320,8 +330,9 @@ class Configuration {
   /// Replace properties of site in particle.
   void replace_properties_(const int particle_index,
                            const int site_index,
-                           const Properties& properties) {
-    particles_.replace_properties(particle_index, site_index, properties); }
+                           const Properties& prop,
+                           const std::vector<std::string> exclude) {
+    particles_.replace_properties(particle_index, site_index, prop, exclude); }
 
   /// Update position trackers of a particle (e.g., cell, neighbor, etc).
   void position_tracker_(const int particle_index, const int site_index);
@@ -368,6 +379,11 @@ class Configuration {
   /// Store the number of particles of each type.
   std::vector<int> num_particles_of_type_;
 };
+
+inline std::shared_ptr<Configuration> MakeConfiguration(
+    const argtype &args = argtype()) {
+  return std::make_shared<Configuration>(args);
+}
 
 }  // namespace feasst
 

@@ -59,6 +59,9 @@ class Model {
     Configuration * config,
     VisitModel * visitor) const = 0;
   virtual ~Model() {}
+
+  /// Precompute model parameters based on existing model parameters.
+  virtual void precompute(const ModelParams& existing) {}
 };
 
 }  // namespace feasst

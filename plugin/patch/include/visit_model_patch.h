@@ -3,8 +3,24 @@
 #define FEASST_CORE_VISIT_MODEL_PATCH_H_
 
 #include "core/include/visit_model.h"
+#include "core/include/utils_math.h"
 
 namespace feasst {
+
+class PatchAngle : public ModelParam {
+ public:
+  PatchAngle() { set_name("patch_angle"); }
+};
+
+class CosPatchAngle : public ModelParam {
+ public:
+  CosPatchAngle() { set_name("cos_patch_angle"); }
+
+  double compute(const int type, const ModelParams& model_params) override {
+    const double angle = model_params.select("patch_angle")->value(type);
+    return cos(degrees_to_radians(angle));
+  }
+};
 
 /**
   Patch interactions are defined by two sites. These are called centers or
@@ -29,7 +45,7 @@ namespace feasst {
   The types for the model computation are determined by the directors.
   E.g., the sigmas, epsilons, cutoffs etc are set by the directors.
  */
-class VisitModelPatch : public VisitModel {
+class VisitModelInnerPatch : public VisitModelInner {
  public:
   // HWH make a helper function which
   // 1. sets up rcut of centers based on patches
@@ -45,20 +61,26 @@ class VisitModelPatch : public VisitModel {
 //    const ModelParams& params = config->model_params();
 //    for (int site_type = 0; site_type < config->num_site_types(); ++site_type) {
 //      params.
-//      
 //      if (
-//      
 //      config->add(Group()
-
 //    }
 //  }
 
-  // HWH note: terrible interface to patch angle for all types
-  double cpa_sq_ = pow(cos(90./180.*PI), 2);
+  void precompute(Configuration * config) override {
+    config->add(std::make_shared<PatchAngle>());
+    cos_patch_angle_.set_param(config->model_params());
+  }
+
+  CosPatchAngle cos_patch_angle() const { return cos_patch_angle_; }
+
+  void set_patch_angle(const int type, const double degrees) {
+    const double cosa = cos(degrees_to_radians(degrees));
+    cos_patch_angle_.set(type, cosa);
+  }
 
  protected:
   // compute the interaction between a pair of centers
-  void inner_(
+  void compute(
       const int part1_index,
       const int site1_index,
       const int part2_index,
@@ -67,6 +89,9 @@ class VisitModelPatch : public VisitModel {
       const ModelParams& model_params,
       const ModelTwoBody& model,
       Position * relative) override;
+
+ private:
+  CosPatchAngle cos_patch_angle_;
 };
 
 }  // namespace feasst

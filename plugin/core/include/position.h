@@ -108,16 +108,16 @@ class PositionSpherical : public Position {
 
 class SpatialEntity {
  public:
-  /// Set the Position of the Site.
+  /// Set the Position.
   void set_position(const Position& position) { position_ = position; }
 
   /// Add to the position.
   void add_position(const Position& position) { position_.add(position); }
 
-  /// Return the Position of the Site.
+  /// Return the Position.
   const Position& position() const { return position_; }
 
-  /// Set the coordinate of one dimension of the Particle.
+  /// Set the coordinate of one dimension.
   void set_coordinate(const int dimension, const double coord) {
     position_.set_coord(dimension, coord);
   }

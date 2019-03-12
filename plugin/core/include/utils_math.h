@@ -112,15 +112,24 @@ inline double degrees_to_radians(const double degrees) {
   return degrees/180.*PI;
 }
 
+/// Swap the values.
+template <typename T>
+inline void swap(T * val1, T * val2) {
+  const double temp = *val1;
+  *val1 = *val2;
+  *val2 = temp;
+}
+
 /// Sort the values in order of increasing size.
 template <typename T>
 inline void sort(T * min, T * max) {
   if (*min > *max) {
-    const double temp = *min;
-    *min = *max;
-    *max = temp;
+    swap(min, max);
   }
 }
+
+/// Return the cumulative probability from a weighted series.
+std::vector<double> cumulative_probability(const std::vector<double>& weights);
 
 }  // namespace feasst
 

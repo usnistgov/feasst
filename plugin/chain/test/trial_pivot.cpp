@@ -29,8 +29,7 @@ TEST(TrialPivot, chain10) {
 
   auto criteria = std::make_shared<CriteriaMetropolis>();
   criteria->set_beta(1.0);
-  auto pivot = std::make_shared<TrialPivot>();
-  pivot->set_max_move(90);
+  auto pivot = MakeTrialPivot({{"max_move", "90."}});
   TrialFactory factory;
   factory.add(pivot);
   FileXYZ file;

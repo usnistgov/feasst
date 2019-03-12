@@ -1,3 +1,4 @@
+#include <vector>
 #include <gtest/gtest.h>
 #include "core/include/random.h"
 
@@ -58,6 +59,19 @@ TEST(Random, unit_sphere) {
 //    random.unit_sphere_surface(&position);
 //    std::cout << position.str() << std::endl;
 //  }
+}
+
+TEST(Random, index_from_cumulative_probability) {
+  Random random;
+  std::vector<double> cpdf;
+  const int ncpdf = 10, num = 100;
+  for (int i = 0; i < ncpdf; ++i) cpdf.push_back((i+1)/double(ncpdf));
+  std::vector<double> cpdfran(ncpdf);
+  for (int i = 0; i < num; ++i) {
+    const int j = random.index_from_cumulative_probability(cpdf);
+    ++cpdfran[j];
+  }
+  for (int i = 0; i < ncpdf; ++i) EXPECT_NEAR(cpdfran[i]/double(num), ncpdf/double(num), 0.2);
 }
 
 }  // namespace feasst

@@ -91,7 +91,8 @@ int Cells::id(const std::vector<double>& scaled_coord) const {
   int cell = 0;
   std::vector<int> cells(scaled_coord.size());
   for (int dim = 0; dim < static_cast<int>(cells.size()); ++dim) {
-    ASSERT(std::abs(scaled_coord[dim]) < 0.5, scaled_coord[dim] << " is not "
+    ASSERT(std::abs(scaled_coord[dim]) <= 0.5,
+      MAX_PRECISION << scaled_coord[dim] << " is not "
       << "scaled coordinates");
     cells[dim] = static_cast<int>(
       num_[dim]*(scaled_coord[dim] + 0.5)) % num_[dim];

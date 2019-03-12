@@ -12,7 +12,7 @@ void VisitModel::compute(
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {
-  energy_ = 0.;
+  zero_energy();
   const Select& selection = config->group_selects()[group_index];
   for (int select_index = 0;
        select_index < selection.num_particles();
@@ -33,7 +33,7 @@ void VisitModel::compute(
     Configuration * config,
     const int group_index) {
   ASSERT(group_index == 0, "not implemented because redundant to selection");
-  energy_ = 0;
+  zero_energy();
   DEBUG("HWH: add wrapping of site positions");
   for (int select_index = 0; select_index < selection.num_particles(); ++select_index) {
     const int particle_index = selection.particle_index(select_index);
@@ -45,35 +45,12 @@ void VisitModel::compute(
   }
 }
 
-void VisitModel::inner_(
-    const int part1_index,
-    const int site1_index,
-    const int part2_index,
-    const int site2_index,
-    const Configuration * config,
-    const ModelParams& model_params,
-    const ModelTwoBody& model,
-    Position * relative) {
-  const Particle& part1 = config->select_particle(part1_index);
-  const Site& site1 = part1.site(site1_index);
-  const Particle& part2 = config->select_particle(part2_index);
-  const Site& site2 = part2.site(site2_index);
-  double squared_distance;
-  config->domain().wrap_opt(site1.position(), site2.position(), relative, &squared_distance);
-  const int type1 = site1.type();
-  const int type2 = site2.type();
-  const double cutoff = model_params.mixed_cutoff()[type1][type2];
-  if (squared_distance <= cutoff*cutoff) {
-    energy_ += model.energy(squared_distance, type1, type2, model_params);
-  }
-}
-
 void VisitModel::compute(
     const ModelTwoBody& model,
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {
-  energy_ = 0;
+  zero_energy();
   Position relative;
   const Domain& domain = config->domain();
   relative.set_vector(domain.side_length().coord());
@@ -88,12 +65,13 @@ void VisitModel::compute(
       const int part2_index = selection.particle_index(select2_index);
       for (int site1_index : selection.site_indices(select1_index)) {
         for (int site2_index : selection.site_indices(select2_index)) {
-          inner_(part1_index, site1_index, part2_index, site2_index,
-                 config, model_params, model, &relative);
+          inner()->compute(part1_index, site1_index, part2_index, site2_index,
+                           config, model_params, model, &relative);
         }
       }
     }
   }
+  set_energy(inner()->energy());
 }
 
 void VisitModel::compute(
@@ -103,7 +81,7 @@ void VisitModel::compute(
     Configuration * config,
     const int group_index) {
   DEBUG("visiting model");
-  energy_ = 0;
+  zero_energy();
   Position relative;
   const Domain& domain = config->domain();
   relative.set_vector(domain.side_length().coord());
@@ -113,7 +91,8 @@ void VisitModel::compute(
   // treat those particles separately so no double counting.
   // then remove the part1 != part2 check
   ASSERT(selection.num_particles() == 1, "for multiparticle selections " <<
-    "implement a separate loop for particles in both group and selection.");
+    "implement a separate loop for particles in both group and selection. " <<
+    "Select: " << selection.str());
   for (int select1_index = 0;
        select1_index < selection.num_particles();
        ++select1_index) {
@@ -131,13 +110,14 @@ void VisitModel::compute(
           for (int site2_index : select_all.site_indices(select2_index)) {
             TRACE("index: " << part1_index << " " << part2_index << " " <<
                   site1_index << " " << site2_index);
-            inner_(part1_index, site1_index, part2_index, site2_index,
-                   config, model_params, model, &relative);
+            inner()->compute(part1_index, site1_index, part2_index, site2_index,
+                             config, model_params, model, &relative);
           }
         }
       }
     }
   }
+  set_energy(inner()->energy());
 }
 
 void VisitModel::check_energy(
@@ -163,6 +143,29 @@ void VisitModel::check_energy(
     "is not consistent with half the sum of the energies of the selected " <<
     "particles: " << en_select << ". The difference is: " <<
     en_group - en_select << " with tolerance: " << num*num*1e-15);
+}
+
+void VisitModelInner::compute(
+    const int part1_index,
+    const int site1_index,
+    const int part2_index,
+    const int site2_index,
+    const Configuration * config,
+    const ModelParams& model_params,
+    const ModelTwoBody& model,
+    Position * relative) {
+  const Particle& part1 = config->select_particle(part1_index);
+  const Site& site1 = part1.site(site1_index);
+  const Particle& part2 = config->select_particle(part2_index);
+  const Site& site2 = part2.site(site2_index);
+  double squared_distance;
+  config->domain().wrap_opt(site1.position(), site2.position(), relative, &squared_distance);
+  const int type1 = site1.type();
+  const int type2 = site2.type();
+  const double cutoff = model_params.mixed_cutoff()[type1][type2];
+  if (squared_distance <= cutoff*cutoff) {
+    energy_ += model.energy(squared_distance, type1, type2, model_params);
+  }
 }
 
 }  // namespace feasst

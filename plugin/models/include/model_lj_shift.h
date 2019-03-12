@@ -110,7 +110,7 @@ class ModelLJCutShift : public ModelLJAlpha {
   // - what if model params change, or is defined different by a special potential
   // - how to simplify user interface
   /// Precompute the shift factor for optimization, given existing model parameters.
-  virtual void precompute(const ModelParams& existing) {
+  void precompute(const ModelParams& existing) override {
     precomputed_ = true;
     shift_.set_model(this); // note the model is used here for the computation
     shift_.set_param(existing);
@@ -204,7 +204,7 @@ class EnergyDerivAtCutoff : public ModelParam {
 class ModelLJForceShift : public ModelLJAlpha {
  public:
   /// Precompute the shift factor for optimization, given existing model parameters.
-  void precompute(const ModelParams& existing) {
+  void precompute(const ModelParams& existing) override {
     precomputed_ = true;
     shift_.set_model(this); // note the model is used here for the computation
     shift_.set_param(existing);

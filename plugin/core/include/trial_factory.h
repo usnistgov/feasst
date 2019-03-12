@@ -21,42 +21,27 @@ class TrialFactory : public Trial {
       /// determined from the weight.
       const int trial_index) {
     increment_num_attempts();
-    ASSERT(num_trials() > 0, "size error");
+    if (num_trials() == 0) {
+      return;
+    }
     if (trial_index != -1) {
       attempt_(criteria, system, trial_index);
       return;
     }
-    const double random_uniform = random_.uniform();
-    int attempt = 0;
-    int index = 0;
-    while (attempt == 0 && index < num_trials()) {
-      if (random_uniform < cumulative_probability_[index]) {
-        attempt_(criteria, system, index);
-        attempt = 1;
-        TRACE("attempt " << attempt);
-      }
-      ++index;
-      TRACE("index " << index << " " << random_uniform);
-    }
-    ASSERT(attempt != 0, "trial should have been attempted");
+    const int index = random_.index_from_cumulative_probability(
+      cumulative_probability_);
+    attempt_(criteria, system, index);
   }
 
   void add(std::shared_ptr<Trial> trial) {
     trials_.push_back(trial);
 
     // update probability of selection
-    double total_weight = 0.;
+    std::vector<double> weights;
     for (std::shared_ptr<Trial> trial : trials_) {
-      total_weight += trial->weight();
+      weights.push_back(trial->weight());
     }
-    cumulative_probability_.clear();
-    double probability = 0;
-    for (std::shared_ptr<Trial> trial : trials_) {
-      probability += trial->weight()/total_weight;
-      cumulative_probability_.push_back(probability);
-//      cout << cumulative_probability_.back() << endl;
-    }
-    ASSERT(std::abs(cumulative_probability_.back() - 1) < 1e-15, "weight error");
+    cumulative_probability_ = cumulative_probability(weights);
   }
 
   int num_trials() const { return trials_.size(); }

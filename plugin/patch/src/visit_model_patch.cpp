@@ -4,7 +4,7 @@
 
 namespace feasst {
 
-void VisitModelPatch::inner_(
+void VisitModelInnerPatch::compute(
     const int part1_index,
     const int site1_index,
     const int part2_index,
@@ -24,6 +24,7 @@ void VisitModelPatch::inner_(
   const double cutoff = model_params.mixed_cutoff()[type1][type2];
   // this cutoff should be based on max possible between centers.
   // HWH add error check for this assumption
+//  TRACE("mode parm ang " << model_params.select("angle")->mixed_value(1, 1));
   if (squared_distance <= cutoff*cutoff) {
     // loop through bonds on center1
     const int part1_type = part1.type();
@@ -43,17 +44,17 @@ void VisitModelPatch::inner_(
               dir1_pos.subtract(site1.position());
               dir1_pos.multiply(-1.);
               const double dir1_sq_length = dir1_pos.squared_distance();
-              const double cosp1 = dir1_pos.dot_product(*relative);
-              TRACE("cosp1 " << cosp1 << " cpa_sq_ " << cpa_sq_ << " cosa2 " << cosp1*cosp1/squared_distance/dir1_sq_length);
-              if (cosp1 >= 0 && cosp1*cosp1/squared_distance/dir1_sq_length >= cpa_sq_) {
+              const double cosp1 = dir1_pos.dot_product(*relative)/sqrt(squared_distance*dir1_sq_length);
+              TRACE("cosp1 " << cosp1 << " cosacut " << cos_patch_angle_.value(dir1_type));
+              if (cosp1 >= cos_patch_angle_.value(dir1_type)) {
                 Position dir2_pos = dir2.position();
                 dir2_pos.subtract(site2.position());
                 const double dir2_sq_length = dir2_pos.squared_distance();
-                const double cosp2 = dir2_pos.dot_product(*relative);
-                TRACE("cosp2 " << cosp2 << " cpa_sq_ " << cpa_sq_ << " cosa2 " << cosp2*cosp2/squared_distance/dir2_sq_length);
-                if (cosp2 >= 0 && cosp2*cosp2/squared_distance/dir2_sq_length >= cpa_sq_) {
+                const double cosp2 = dir2_pos.dot_product(*relative)/sqrt(squared_distance*dir2_sq_length);
+                TRACE("cosp2 " << cosp2 << " cosacut " << cos_patch_angle_.value(dir2_type));
+                if (cosp2 >= cos_patch_angle_.value(dir2_type)) {
                   const double en = model.energy(squared_distance, dir1_type, dir2_type, model_params);
-                  increment_energy(en);
+                  add_energy(en);
                 }
               }
             }

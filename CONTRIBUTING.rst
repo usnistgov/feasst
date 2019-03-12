@@ -206,17 +206,7 @@ Naming
 Functions
 --------------------------------------------------------------------------------
 
-* ClassNames are mixed case with starting upper case letter
-* member_names are lower case with underscores
-* private_member_names\_ end with an underscore
-* function_names are also lower case with underscores
-* bools syntax: is_[accepted.., etc]
-* MACROS and CONSTANTS are all upper case.
-* Avoid MACROS and CONSTANTS.
-
-Functions
-
-* Use return values first. Argument ordering: input (value or constant reference), then output (pointer only)
+* Use return values. Argument ordering: input (value or constant reference), then output (pointer only)
 * Overloaded functions -> can you document all in a single comment? good
 * No Default parameters on virtual functions
 
@@ -244,16 +234,18 @@ To Do List
 ================================================================================
 
 * test LJ WL MC saturation
-* fix old styles
 * enforce order for initialization, all possible particles, type-based properties and groups must be defined prior to trial moves?
 * ideal gas as the first tutorial/testcase
-* add dimension arguments to check_size functions
-* The bond types are used to match BondModel with bonds. VisitBonds->for each bond in selection of particles, type->model(sites).
 * specify units in LMP data files?
 * fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu
-* consider getting rid of partial configurations and simply use 'selection' instead.
 * detail branch rules (branch namespace and descriptive file, merge squash, release tags, etc).
-* Start from fresh repo to reduce number of superficial commits on master branch
 * py/feasst.i depends on which plugins that you use. how to make this user friendly?
 * consider a different way to interface selection and configuration.
+* precompute long range corrections and faster types calculation
+* multistage insertions and deletions
+* neighbor lists
+* improve interface/py for system/potentials, etc
+* restarts
+* windowing (MonteCarloFactory class)
+
 

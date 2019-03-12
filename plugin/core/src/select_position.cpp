@@ -60,4 +60,10 @@ void SelectPosition::remove_last_site() {
   site_properties_[0].pop_back();
 }
 
+void SelectPosition::remove_first_site() {
+  Select::remove_first_site();
+  site_positions_[0].erase(site_positions_[0].begin());
+  site_properties_[0].erase(site_properties_[0].begin());
+}
+
 }  // namespace feasst

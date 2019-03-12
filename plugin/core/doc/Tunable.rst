@@ -1,6 +1,6 @@
-TrialCrankShaft
+Tunable
 =====================================================
 
-.. doxygenclass:: feasst::TrialCrankShaft
+.. doxygenclass:: feasst::Tunable
    :project: FEASST
    :members:

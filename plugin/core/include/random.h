@@ -20,8 +20,12 @@ namespace feasst {
 class Random {
  public:
   Random() {
-    generator_ = std::mt19937(rand());
-    dis_double_ = std::uniform_real_distribution<double>(0.0, 1.0);
+    reseed_();
+  }
+
+  // copy constructor should re-seed
+  Random(const Random& random) {
+    reseed_();
   }
 
   /// Return a random real number with a uniform probability distribution
@@ -104,9 +108,40 @@ class Random {
     }
   }
 
+  /// Given a cumulative probability distribution, return a random integer
+  /// index from a uniform probability distribution.
+  /// The cumulative distribution must be monotonically nondecreasing.
+  /// In addition, it must end with the value of unity.
+  int index_from_cumulative_probability(const std::vector<double>& cumulative) {
+    ASSERT(std::abs(cumulative.back() - 1) < NEAR_ZERO,
+      "the cumulative distribution must end with a value of unity");
+    const double random_uniform = uniform();
+    double prev = -1;
+    for (int index = 0; index < static_cast<int>(cumulative.size()); ++index) {
+      const double prob = cumulative[index];
+      ASSERT(prev <= prob, "cumulative probability must be monotonically " <<
+        "nondecreasing");
+      prev = prob;
+      if (random_uniform < cumulative[index]) {
+        return index;
+      }
+    }
+    ERROR("should never reach this point");
+    return -1;
+  }
+
  private:
   std::uniform_real_distribution<double> dis_double_;
   std::mt19937 generator_;
+//  unsigned int seed_;
+
+  // use by constructor and copy constructor
+  void reseed_() {
+    const int seed = rand();
+    TRACE("seed " << seed << " address " << this);
+    generator_ = std::mt19937(seed);
+    dis_double_ = std::uniform_real_distribution<double>(0.0, 1.0);
+  }
 };
 
 /// Initialize random number generator based on date and time.

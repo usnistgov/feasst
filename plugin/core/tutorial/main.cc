@@ -1,13 +1,6 @@
 #include <iostream>
 #include "feasst.h"
 
-feasst::Configuration configuration() {
-  feasst::Configuration config;
-  config.set_domain(feasst::Domain().set_cubic(8));
-  config.add_particle_type("../../../../forcefield/data.lj");
-  return config;
-}
-
 feasst::Potential lj() {
   feasst::Potential potential;
   potential.set_model(std::make_shared<feasst::ModelLJ>());
@@ -23,42 +16,36 @@ feasst::Potential lrc() {
 
 feasst::System system() {
   feasst::System system;
-  system.add(configuration());
+  system.add(feasst::Configuration({
+    {"cubic_box_length", "8"},
+    {"particle_type", "../../../../forcefield/data.lj"},
+  }));
   system.add(lj());
   system.add(lrc());
   return system;
-}
-
-std::shared_ptr<feasst::Criteria> criteria(feasst::System * system) {
-  auto criteria = std::make_shared<feasst::CriteriaMetropolis>();
-  criteria->set_beta(1.2);
-  criteria->add_activity(1);
-  criteria->set_running_energy(system->energy());
-  return criteria;
-}
-
-std::shared_ptr<feasst::Trial> translate(const feasst::Domain& domain) {
-  auto trial = std::make_shared<feasst::TrialTranslate>();
-  trial->set_weight(1);
-  trial->set_max_move(2.);
-  return trial;
 }
 
 int main() {
   feasst::seed_random_by_date();
   feasst::MonteCarlo mc;
   mc.set(system());
-  mc.set(criteria());
-  mc.add(translate(mc.system().configuration().domain()));
+  mc.set(feasst::MakeCriteriaMetropolis({
+    {"beta", "1.2"},
+    {"add_activity", "1."},
+  }));
+  mc.add(feasst::MakeTrialTranslate({
+    {"weight", "1."},
+    {"max_move", "2."},
+  }));
   mc.seek_num_particles(50);
-  const int num_periodic = 1e4;
-  mc.add(feasst::MakeLog({{"steps_per", feasst::str(num_periodic)}}));
+  const int steps_per = 1e4;
+  mc.add(feasst::MakeLog({{"steps_per", feasst::str(steps_per)}}));
   mc.add(feasst::MakeMovie(
-   {{"steps_per", feasst::str(num_periodic)},
-    {"file_name", "tmp/lj50movie.xyz"}}));
+   {{"steps_per", feasst::str(steps_per)},
+    {"file_name", "movie.xyz"}}));
   mc.add(feasst::MakeEnergyCheck(
-   {{"steps_per", feasst::str(num_periodic)},
+   {{"steps_per", feasst::str(steps_per)},
     {"tolerance", "1e-10"}}));
-  mc.add(feasst::MakeTuner({{"steps_per", feasst::str(num_periodic)}}));
+  mc.add(feasst::MakeTuner({{"steps_per", feasst::str(steps_per)}}));
   mc.attempt(1e6);
 }

@@ -51,18 +51,17 @@ double ModelParam::value(const int type) const {
   return values_[type];
 }
 
-double ModelParam::compute(const int type1, const int type2,
-    const ModelParams& model_params) {
-  ERROR("not implemented");
-  return 0.;
-}
-
 void ModelParam::set_param(const ModelParams& existing) {
   // initialize the number of types with zero value
   for (int type = 0; type < existing.size(); ++type) {
     add(0.);
   }
   mix();
+
+  // set the values
+  for (int type = 0; type < existing.size(); ++type) {
+    set(type, compute(type, existing));
+  }
 
   // set the values of the mixed types
   for (int type1 = 0; type1 < existing.size(); ++type1) {
@@ -103,7 +102,7 @@ ModelParams::ModelParams(const ModelParams& params) {
 void ModelParams::add(const Site site) {
   std::vector<std::string> names = site.properties().names();
   for (const std::string name : names) {
-    std::shared_ptr<ModelParam> param = select(name);
+    std::shared_ptr<ModelParam> param = select_(name);
     if (param) {
       param->add(site);
 //    } else {
@@ -138,7 +137,18 @@ int ModelParams::size() const {
   return size;
 }
 
-std::shared_ptr<ModelParam> ModelParams::select(
+const std::shared_ptr<ModelParam> ModelParams::select(
+    const std::string param_name) const {
+  for (const std::shared_ptr<ModelParam> param : params_) {
+    if (param->name() == param_name) {
+      return param;
+    }
+  }
+  ASSERT(0, "unrecognized name(" << param_name << ")");
+  return NULL;
+}
+
+std::shared_ptr<ModelParam> ModelParams::select_(
     const std::string param_name) {
   for (std::shared_ptr<ModelParam> param : params_) {
     if (param->name() == param_name) {
@@ -152,7 +162,7 @@ std::shared_ptr<ModelParam> ModelParams::select(
 void ModelParams::set(const std::string name,
                       const int site_type,
                       const double value) {
-  select(name)->set(site_type, value);
+  select_(name)->set(site_type, value);
   mix();
 }
 
@@ -160,7 +170,7 @@ void ModelParams::set(const std::string name,
     const int site_type1,
     const int site_type2,
     const double value) {
-  select(name)->set_mixed(site_type1, site_type2, value);
+  select_(name)->set_mixed(site_type1, site_type2, value);
 }
 
 void ModelParams::check() const {

@@ -28,11 +28,10 @@ TEST(TrialRotate, spce) {
 
   CriteriaMetropolis criteria;
   criteria.set_beta(1.0);
-  TrialRotate rotate;
+  auto rotate = MakeTrialRotate({{"max_move", "90."}});
   FileXYZ file;
   file.write("tmp/before", system.configuration());
-  rotate.set_max_move(60);
-  rotate.attempt(&criteria, &system);
+  rotate->attempt(&criteria, &system);
   file.write("tmp/after", system.configuration());
 }
 

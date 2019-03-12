@@ -101,6 +101,11 @@ class Potential {
   // Revert any changes to the configuration due to the last energy computation.
   void revert() { visit_model_->revert(); }
 
+  void precompute(Configuration * config) {
+    visit_model_->precompute(config);
+    model_->precompute(config->model_params());
+  }
+
  private:
   int group_index_;
   std::shared_ptr<VisitModel> visit_model_;

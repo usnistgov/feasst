@@ -6,5 +6,5 @@ API
    TrialCrankshaft
    PerturbRegrow
    AnalyzeRigidBonds
-   TrialRegrow
+   StageFactoryRegrow
    TrialPivot

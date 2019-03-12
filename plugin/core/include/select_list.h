@@ -125,15 +125,6 @@ class SelectList : public SelectPosition {
     return config.select_particle(particle_index(0));
   }
 
-  void truncate_to_max(const int max) {
-    DEBUG("max " << max);
-    DEBUG("before rem " << str());
-    for (int site = num_sites() - 1; site > max; --site) {
-      remove_last_site();
-    }
-    DEBUG("after rem " << str());
-  }
-
   /// Select all sites between two randomly selected sites in a randomly selected particle in group.
   void random_segment_in_particle(const int group_index, const Configuration& config) {
     random_particle(config, group_index);
@@ -156,17 +147,15 @@ class SelectList : public SelectPosition {
     sort(&min, &max);
 
     // remove sites not in min/max, from highest to lowest
-    truncate_to_max(max);
-    reverse();
-    truncate_to_max(num_sites() - min - 1);
+    remove_last_sites(num_sites() - max - 1);
+    remove_first_sites(min);
   }
 
   /// Select all sites between a random endpoint and a randomly selectioned site in a randomly selected particle in group.
-  /// Note that the end point is always returned as the first site.
-  /// Thus, when the end point is the last site, the site order is reversed.
   void random_end_segment_in_particle(const int group_index, const Configuration& config) {
     random_particle(config, group_index);
     if (num_sites() <= 1) {
+      DEBUG("num sites(" << num_sites() << ") not large enough");
       return; // HWH note this check prevents error/infinite loop below
     }
 
@@ -190,13 +179,9 @@ class SelectList : public SelectPosition {
 
     DEBUG("beginning? " << is_endpoint_beginning);
     if (is_endpoint_beginning) {
-      truncate_to_max(site);
+      remove_last_sites(num_sites() - site - 1);
     } else {
-      DEBUG("befor rev " << str());
-      reverse();
-      DEBUG("after rev " << str());
-      truncate_to_max(num_sites() - site - 1);
-      DEBUG("after trunc " << str());
+      remove_first_sites(site);
     }
     DEBUG("num " << num_sites() << " indices " << str());
   }
@@ -210,6 +195,14 @@ class SelectList : public SelectPosition {
     const int bond_type = type.bond(site1, site2).type();
     const Particle& unique = config.unique_types().particle(particle_type);
     return unique.bond(bond_type);
+  }
+
+  /// Select the current positions of given selection
+  void store(const Select& select, const Configuration& config) {
+    clear();
+    Select::add(select);
+    resize();
+    load_positions(config.particles());
   }
 };
 

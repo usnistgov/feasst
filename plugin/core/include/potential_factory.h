@@ -56,6 +56,13 @@ class PotentialFactory {
     return en;
   }
 
+  void precompute(Configuration * config) {
+    for (Potential& potential : potentials_) {
+      potential.precompute(config);
+    }
+  }
+
+  int num() const { return static_cast<int>(potentials_.size()); }
  private:
   std::vector<Potential> potentials_;
 };

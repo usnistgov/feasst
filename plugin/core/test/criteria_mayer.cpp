@@ -12,10 +12,9 @@ TEST(CriteriaMayer, ljb2) {
   System system = default_system();
   system.add_to_reference(hs_potential());
   TrialFactory trials;
-  auto translate = std::make_shared<TrialTranslate>();
+  auto translate = MakeTrialTranslate({{"max_move", "0.5"}});
+  /// HWH notes: does this need a max?
   translate->set_weight(0.75);
-  translate->set_tunable_param_max(3);
-  translate->set_max_move(0.5);
   trials.add(translate);
   const int nTrialsEq = 1e4, nTrials = 1e4;
   //const int nTrialsEq = 1e6, nTrials = 1e6;

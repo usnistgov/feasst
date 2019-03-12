@@ -53,9 +53,12 @@ class PerturbRotate : public PerturbSelectMove {
   int recenter_ = 0;
 
   void rotate_(const Position& pivot, const RotationMatrix& rotation, Position * pos) const {
+    TRACE("rotating pivot " << pivot.str() << " pos " << pos->str());
+    TRACE("matrix " << rotation.str());
     pos->subtract(pivot);
     *pos = rotation.multiply(*pos);
     pos->add(pivot);
+    TRACE("new pos " << pos->str());
   }
 };
 

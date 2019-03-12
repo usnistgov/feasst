@@ -57,6 +57,23 @@ class Select {
   /// Remove the last site.
   virtual void remove_last_site();
 
+  /// Remove the last num sites.
+  void remove_last_sites(const int num) {
+    for (int index = 0; index < num; ++index) {
+      remove_last_site();
+    }
+  }
+
+  /// Remove the first site.
+  virtual void remove_first_site();
+
+  /// Remove the first num sites.
+  void remove_first_sites(const int num) {
+    for (int index = 0; index < num; ++index) {
+      remove_first_site();
+    }
+  }
+
   /// Remove particle by index.
   void remove_particle(const int particle_index);
 
@@ -123,10 +140,19 @@ class Select {
   void set_trial_state(std::string state) { trial_state_ = state; }
   std::string trial_state() const { return trial_state_; }
 
-  virtual void reverse() {
-    feasst_reverse(&particle_indices_);
-    feasst_reverse(&site_indices_);
+//  virtual void reverse() {
+//    feasst_reverse(&particle_indices_);
+//    feasst_reverse(&site_indices_);
+//  }
+
+  void exclude(const Select& select) {
+    if (select.num_sites() > 0) {
+      excluded_ = std::make_shared<Select>();
+      excluded_->add(select);
+    }
   }
+
+  const std::shared_ptr<Select> excluded() const { return excluded_; }
 
   virtual ~Select() {}
 
@@ -139,6 +165,7 @@ class Select {
   Random random_;
   std::string unique_id_;
   std::string trial_state_;
+  std::shared_ptr<Select> excluded_;
 
   // remove particle by selection index.
   void remove_particle_(const int select_index) {

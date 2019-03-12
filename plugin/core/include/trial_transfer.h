@@ -24,7 +24,7 @@ class TrialTransfer : public Trial {
   }
 
   void attempt_to_remove(Criteria* criteria, System * system) {
-    before_attempt(criteria, system, &remove_);
+    before_attempt(criteria, system, &remove_, &accept_criteria_);
     Configuration * config = system->get_configuration();
     double delta_energy = 0;
     remove_.select_random_particle(particle_type_, config);
@@ -47,7 +47,7 @@ class TrialTransfer : public Trial {
   }
 
   void attempt_to_add(Criteria* criteria, System * system) {
-    before_attempt(criteria, system, &add_);
+    before_attempt(criteria, system, &add_, &accept_criteria_);
     Configuration * config = system->get_configuration();
     const Position rand_in_box = config->domain().random_position(&random_);
     DEBUG("rand_in_box " << rand_in_box.str());

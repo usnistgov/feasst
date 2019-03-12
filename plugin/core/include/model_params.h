@@ -27,8 +27,7 @@ class ModelParam {
 
   /// Set the value of the site type.
   void set(const int site_type, const double value) {
-    values_[site_type] = value;
-  }
+    values_[site_type] = value; }
 
   /// Add a new site type. If the site does not contain the model parameter,
   /// then add the default value.
@@ -75,7 +74,9 @@ class ModelParam {
   double mixed_max() const;
 
   virtual double compute(const int type1, const int type2,
-    const ModelParams& model_params);
+    const ModelParams& model_params) { return 0.; }
+
+  virtual double compute(const int type1, const ModelParams& model_params) { return 0.; }
 
   /// Define new parameters modeled after the existing ones
   virtual void set_param(const ModelParams& existing);
@@ -95,8 +96,7 @@ class ModelParam {
   /// Define mixing rules in the derived class.
   /// The default is a simple average.
   virtual double mix_(const double value1, const double value2) {
-    return 0.5*(value1 + value2);
-  }
+    return 0.5*(value1 + value2); }
 
   bool is_mixed_override_ = false;
 };
@@ -112,8 +112,7 @@ class Epsilon : public ModelParam {
 
  private:
   double mix_(const double value1, const double value2) override {
-    return std::sqrt(value1*value2);
-  }
+    return std::sqrt(value1*value2); }
 };
 
 /**
@@ -147,8 +146,7 @@ class Charge : public ModelParam {
 
  private:
   double mix_(const double value1, const double value2) override {
-    return value1*value2;
-  }
+    return value1*value2; }
 };
 
 /**
@@ -189,25 +187,20 @@ class ModelParams : public PropertiedEntity {
 
   /// Return constant pointers for optimized model inner loops.
   const std::vector<std::vector<double> >& mixed_epsilon() const {
-    return epsilon_->mixed_values();
-  }
+    return epsilon_->mixed_values(); }
   const std::vector<std::vector<double> >& mixed_sigma() const {
-    return sigma_->mixed_values();
-  }
+    return sigma_->mixed_values(); }
   const std::vector<std::vector<double> >& mixed_cutoff() const {
-    return cutoff_->mixed_values();
-  }
+    return cutoff_->mixed_values(); }
   const std::vector<std::vector<double> >& mixed_charge() const {
-    return charge_->mixed_values();
-  }
+    return charge_->mixed_values(); }
 
   /// Add a custom model parameter
   void add(std::shared_ptr<ModelParam> param) {
-    params_.push_back(param);
-  }
+    params_.push_back(param); }
 
   /// Return the model parameter with the corresponding name.
-  std::shared_ptr<ModelParam> select(const std::string name);
+  const std::shared_ptr<ModelParam> select(const std::string name) const;
 
   /// Check
   void check() const override;
@@ -225,6 +218,8 @@ class ModelParams : public PropertiedEntity {
 
   /// Add built-in types to params
   void add_();
+
+  std::shared_ptr<ModelParam> select_(const std::string name);
 };
 
 }  // namespace feasst

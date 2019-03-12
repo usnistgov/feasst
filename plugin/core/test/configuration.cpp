@@ -6,28 +6,32 @@
 #include "core/include/select_list.h"
 #include "core/include/constants.h"
 #include "core/include/utils_math.h"
+#include "core/include/debug.h"
 
 namespace feasst {
 
 TEST(Configuration, type_to_file_name) {
-  Configuration config;
-  config.add_particle_type("../forcefield/data.atom");
-  config.add_particle_type("../forcefield/data.lj");
-  config.add_particle_type("../forcefield/data.spce");
+  Configuration config({
+    {"particle_type0", "../forcefield/data.atom"},
+    {"particle_type1", "../forcefield/data.lj"},
+    {"particle_type2", "../forcefield/data.spce"},
+  });
   try {
-    config.add_particle_type("../forcefield/data.atom");
+    auto config2 = config;
+    config2.add_particle_type("../forcefield/data.atom");
     CATCH_PHRASE("already provided");
   }
-  EXPECT_EQ(4, config.num_particle_types());
+  EXPECT_EQ(3, config.num_particle_types());
   EXPECT_EQ("../forcefield/data.atom", config.type_to_file_name(0));
   EXPECT_EQ("../forcefield/data.lj", config.type_to_file_name(1));
   EXPECT_EQ("../forcefield/data.spce", config.type_to_file_name(2));
 }
 
 TEST(Configuration, coordinates) {
-  Configuration config;
-  config.set_domain(Domain().set_cubic(5));
-  config.add_particle_type("../forcefield/data.atom");
+  Configuration config({
+    {"cubic_box_length", "5"},
+    {"particle_type0", "../forcefield/data.atom"},
+  });
   config.add_particle_of_type(0);
   config.add_particle_of_type(0);
   Position pos;
@@ -43,46 +47,44 @@ TEST(Configuration, coordinates) {
 }
 
 TEST(Configuration, particle_types_lj) {
-  Configuration config;
-  config.add_particle_type("../forcefield/data.lj");
-  config.check();
-  EXPECT_EQ(1, config.particle_types().num());
-  EXPECT_EQ(1, config.particle_types().num());
-  EXPECT_EQ(1, config.particle_types().num_site_types());
-  EXPECT_EQ(1, config.particle_types().num_sites());
-  EXPECT_EQ(1, config.particle_type(0).num_sites());
-  EXPECT_EQ(0, config.particle_type(0).site(0).type());
-  EXPECT_EQ(1, config.unique_types().num_site_types());
-  EXPECT_EQ(1, config.unique_types().num_sites());
-  EXPECT_EQ(0, config.unique_type(0).site(0).type());
-  EXPECT_EQ(3., config.unique_type(0).site(0).property("cutoff"));
-  EXPECT_EQ(1., config.unique_type(0).site(0).property("epsilon"));
-  EXPECT_EQ(1., config.unique_type(0).site(0).property("sigma"));
+  auto config = MakeConfiguration({{"particle_type0", "../forcefield/data.lj"}});
+  config->check();
+  EXPECT_EQ(1, config->particle_types().num());
+  EXPECT_EQ(1, config->particle_types().num());
+  EXPECT_EQ(1, config->particle_types().num_site_types());
+  EXPECT_EQ(1, config->particle_types().num_sites());
+  EXPECT_EQ(1, config->particle_type(0).num_sites());
+  EXPECT_EQ(0, config->particle_type(0).site(0).type());
+  EXPECT_EQ(1, config->unique_types().num_site_types());
+  EXPECT_EQ(1, config->unique_types().num_sites());
+  EXPECT_EQ(0, config->unique_type(0).site(0).type());
+  EXPECT_EQ(3., config->unique_type(0).site(0).property("cutoff"));
+  EXPECT_EQ(1., config->unique_type(0).site(0).property("epsilon"));
+  EXPECT_EQ(1., config->unique_type(0).site(0).property("sigma"));
 }
 
 TEST(Configuration, particle_types_spce) {
-  Configuration config;
-  config.add_particle_type("../forcefield/data.spce");
-  config.check();
-  EXPECT_EQ(2, config.particle_types().num_site_types());
-  EXPECT_EQ(3, config.particle_types().num_sites());
-  EXPECT_EQ(1, config.particle_types().num());
-  EXPECT_EQ(3, config.particle_type(0).num_sites());
-  EXPECT_EQ(0, config.particle_type(0).site(0).type());
-  EXPECT_EQ(1, config.particle_type(0).site(1).type());
-  EXPECT_EQ(1, config.particle_type(0).site(2).type());
-  EXPECT_EQ(2, config.unique_types().num_site_types());
-  EXPECT_EQ(2, config.unique_types().num_sites());
-  EXPECT_EQ(0, config.unique_type(0).site(0).type());
-  EXPECT_EQ(1, config.unique_type(0).site(1).type());
-  EXPECT_EQ(10., config.unique_type(0).site(0).property("cutoff"));
-  EXPECT_EQ(0.650169581, config.unique_type(0).site(0).property("epsilon"));
-  EXPECT_EQ(3.16555789, config.unique_type(0).site(0).property("sigma"));
-  EXPECT_EQ(-0.8476, config.unique_type(0).site(0).property("charge"));
-  EXPECT_EQ(10., config.unique_type(0).site(1).property("cutoff"));
-  EXPECT_EQ(0., config.unique_type(0).site(1).property("epsilon"));
-  EXPECT_EQ(0., config.unique_type(0).site(1).property("sigma"));
-  EXPECT_EQ(0.4238, config.unique_type(0).site(1).property("charge"));
+  auto config = MakeConfiguration({{"particle_type0", "../forcefield/data.spce"}});
+  config->check();
+  EXPECT_EQ(2, config->particle_types().num_site_types());
+  EXPECT_EQ(3, config->particle_types().num_sites());
+  EXPECT_EQ(1, config->particle_types().num());
+  EXPECT_EQ(3, config->particle_type(0).num_sites());
+  EXPECT_EQ(0, config->particle_type(0).site(0).type());
+  EXPECT_EQ(1, config->particle_type(0).site(1).type());
+  EXPECT_EQ(1, config->particle_type(0).site(2).type());
+  EXPECT_EQ(2, config->unique_types().num_site_types());
+  EXPECT_EQ(2, config->unique_types().num_sites());
+  EXPECT_EQ(0, config->unique_type(0).site(0).type());
+  EXPECT_EQ(1, config->unique_type(0).site(1).type());
+  EXPECT_EQ(10., config->unique_type(0).site(0).property("cutoff"));
+  EXPECT_EQ(0.650169581, config->unique_type(0).site(0).property("epsilon"));
+  EXPECT_EQ(3.16555789, config->unique_type(0).site(0).property("sigma"));
+  EXPECT_EQ(-0.8476, config->unique_type(0).site(0).property("charge"));
+  EXPECT_EQ(10., config->unique_type(0).site(1).property("cutoff"));
+  EXPECT_EQ(0., config->unique_type(0).site(1).property("epsilon"));
+  EXPECT_EQ(0., config->unique_type(0).site(1).property("sigma"));
+  EXPECT_EQ(0.4238, config->unique_type(0).site(1).property("charge"));
 }
 
 TEST(Configuration, bonds_spce) {
@@ -164,9 +166,10 @@ TEST(Configuration, group) {
 }
 
 TEST(Configuration, cells) {
-  Configuration config;
-  config.set_domain(Domain().set_cubic(7));
-  config.add_particle_type("../forcefield/data.spce");
+  Configuration config({
+    {"cubic_box_length", "7"},
+    {"particle_type0", "../forcefield/data.spce"},
+  });
   config.add(Group().add_site_type(0));
   config.add_particle_of_type(0);
   try {

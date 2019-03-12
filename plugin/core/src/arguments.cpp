@@ -1,3 +1,4 @@
+#include <sstream>
 #include <cmath>
 #include "core/include/arguments.h"
 #include "core/include/debug.h"
@@ -98,6 +99,16 @@ double Arguments::dble() {
     << "expected to be a double precision floating point number.");
   }
   return double_value;
+}
+
+std::string Arguments::status() const {
+  std::stringstream ss;
+  ss << "used(";
+  for (std::string used : used_keys_) {
+    ss << used << ", ";
+  }
+  ss << ")";
+  return ss.str();
 }
 
 }  // namespace feasst

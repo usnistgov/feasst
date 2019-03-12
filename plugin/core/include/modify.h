@@ -6,7 +6,9 @@
 #include <memory>
 #include <string>
 #include <fstream>
-#include "core/include/analyze.h"
+#include "core/include/stepper.h"
+#include "core/include/criteria.h"
+#include "core/include/trial_factory.h"
 
 namespace feasst {
 
@@ -23,10 +25,10 @@ class Modify : public Stepper {
   virtual void trial(std::shared_ptr<Criteria> criteria,
       System * system,
       TrialFactory * trial_factory) {
-    if (is_time(steps_per_update(), get_steps_since_update())) {
+    if (is_time(steps_per_update(), &steps_since_update_)) {
       update(criteria, system, trial_factory);
     }
-    if (is_time(steps_per_write(), get_steps_since_write())) {
+    if (is_time(steps_per_write(), &steps_since_write_)) {
       printer(write(criteria, system, trial_factory));
     }
   }
@@ -107,7 +109,7 @@ class Check : public ModifyUpdateOnly {
   void update(std::shared_ptr<Criteria> criteria,
       System * system,
       TrialFactory * trial_factory) override {
-    system->get_configuration()->check();
+    system->configuration().check();
   }
 };
 
@@ -128,14 +130,14 @@ class EnergyCheck : public ModifyUpdateOnly {
     const argtype &args = argtype()) : ModifyUpdateOnly(args) {
     // default
     set_tolerance();
-    
+
     // parse
     args_.init(args);
     if (!args_.key("tolerance").empty()) {
       set_tolerance(args_.dble());
     }
   }
-  
+
   /// Set tolerance for energy drift per check.
   void set_tolerance(const double tolerance = 1e-10) { tolerance_ = tolerance; }
 
@@ -175,10 +177,6 @@ class Tuner : public ModifyUpdateOnly {
     trial_factory->tune();
   }
 };
-
-inline std::shared_ptr<Tuner> TunerShrPtr() {
-  return std::make_shared<Tuner>();
-}
 
 inline std::shared_ptr<Tuner> MakeTuner(const argtype &args = argtype()) {
   return std::make_shared<Tuner>(args);

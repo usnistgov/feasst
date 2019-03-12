@@ -8,8 +8,10 @@ namespace feasst {
 class PerturbSelectMove : public PerturbOptRevert {
  public:
   void revert() override {
+    TRACE("revert possible " << revert_possible());
     if (revert_possible()) {
       Configuration* config = system()->get_configuration();
+      TRACE("reverting positions: " << selection().str());
       config->update_positions(selection());
       system()->revert();
     }

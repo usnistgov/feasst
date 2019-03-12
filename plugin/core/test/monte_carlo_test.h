@@ -1,5 +1,4 @@
 #include <memory>
-#include <gtest/gtest.h>
 #include "core/include/trial_translate.h"
 #include "core/include/monte_carlo.h"
 #include "core/include/criteria_metropolis.h"
@@ -16,10 +15,10 @@ inline MonteCarlo mc_lj() {
 //  const double cutoff = 2.;
 
   { System system;
-    { Configuration config;
-      config.set_domain(Domain().set_cubic(8));
-      config.add_particle_type("../forcefield/data.lj");
-      system.add(config); }
+    system.add(Configuration({
+      {"cubic_box_length", "8"},
+      {"particle_type0", "../forcefield/data.lj"},
+    }));
 
     { Potential potential;
       potential.set_model(std::make_shared<ModelLJ>());

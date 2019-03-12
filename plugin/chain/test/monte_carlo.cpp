@@ -20,20 +20,27 @@ namespace feasst {
 
 TEST(MonteCarlo, chain) {
   seed_random_by_date();
-  seed_random(1551407871);
+  seed_random();
   MonteCarlo mc;
 
   { System system;
-    { Configuration config;
-      config.set_domain(Domain().set_cubic(12));
-      config.add_particle_type("../forcefield/data.chain10");
+    { Configuration config({
+        {"cubic_box_length", "12"},
+        {"particle_type0", "../forcefield/data.chain10"},
+        {"init_cells", "1."},
+      });
+      config.add_particle_of_type(0);
       system.add(config); }
 
     { Potential potential;
       potential.set_model(std::make_shared<ModelLJ>());
       potential.set_visit_model(std::make_shared<VisitModel>());
+      system.add_to_unoptimized(potential);
       potential.set_model_params(system.configuration());
-      system.add_to_unoptimized(potential); }
+      potential.set_model_param("cutoff", 0, 1);
+      potential.set_visit_model(std::make_shared<VisitModelCell>());
+      system.add_to_reference(potential);
+    }
 
     { Potential potential;
       potential.set_model(std::make_shared<ModelHardSphere>());
@@ -42,55 +49,45 @@ TEST(MonteCarlo, chain) {
       potential.set_visit_model(visitor);
       potential.set_model_params(system.configuration());
       potential.set_model_param("cutoff", 0, 1.);
-      system.add_to_unoptimized(potential); }
+      system.add_to_unoptimized(potential);
+    }
 
     { Potential lrc;
       lrc.set_visit_model(std::make_shared<LongRangeCorrections>());
       lrc.set_model_params(system.configuration());
-      system.add_to_unoptimized(lrc); }
+      system.add_to_unoptimized(lrc);
+    }
 
     mc.set(system);
   }
 
   mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"add_activity", "1."}}));
+  mc.seek_num_particles(2);
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"max_move", "1."}}));
-
-  { auto trial = std::make_shared<TrialRotate>();
-    trial->set_weight(1.);
-    trial->set_max_move(90.);
-    mc.add(trial); }
-
-  { auto trial = std::make_shared<TrialPivot>();
-    trial->set_weight(1.);
-    trial->set_max_move(90.);
-    mc.add(trial); }
-
-  { auto trial = std::make_shared<TrialCrankshaft>();
-    trial->set_weight(1.);
-    trial->set_max_move(90.);
-    trial->set_tunable_percent_change(0.1);
-    mc.add(trial); }
-
-  { auto trial = std::make_shared<TrialRegrow>();
-    trial->set_weight(1.);
-    mc.add(trial); }
-
-  mc.seek_num_particles(1);
-  const int num_periodic = 1e3;
-
-  mc.add(MakeLog(
-   {{"steps_per", str(num_periodic)},
-    {"file_name", "tmp/chainlog.txt"}}));
-  mc.add(MakeMovie(
-   {{"steps_per", str(num_periodic)},
-    {"file_name", "tmp/chain10movie.xyz"}}));
-  mc.add(MakeEnergyCheck(
-   {{"steps_per", str(num_periodic)},
-    {"tolerance", "1e-10"}}));
-  mc.add(MakeTuner({{"steps_per", str(num_periodic)}}));
-  mc.add(MakeAnalyzeRigidBonds({{"steps_per", str(num_periodic)}}));
-
-  mc.attempt(1e4);
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"max_move", "20."}}));
+  mc.add(MakeTrialPivot({{"weight", "1."}, {"max_move", "20."}}));
+  mc.add(MakeTrialCrankshaft({{"weight", "1."}, {"max_move", "1."}}));
+  mc.add(MakeTrialRegrow({
+    {"weight", "1."},
+    {"num_steps", "5"},
+    {"reference", "0"},
+  }));
+  const int steps_per = 1e2;
+  mc.add(MakeLog({
+    {"steps_per", str(steps_per)},
+    {"file_name", "tmp/chainlog.txt"},
+  }));
+  mc.add(MakeMovie({
+    {"steps_per", str(steps_per)},
+    {"file_name", "tmp/chain10movie.xyz"},
+  }));
+  mc.add(MakeEnergyCheck({
+    {"steps_per", str(steps_per)},
+    {"tolerance", "1e-10"},
+  }));
+  mc.add(MakeTuner({{"steps_per", str(steps_per)}}));
+  mc.add(MakeAnalyzeRigidBonds({{"steps_per", str(steps_per)}}));
+  mc.attempt(1e3);
 }
 
 }  // namespace feasst

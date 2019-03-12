@@ -27,6 +27,7 @@ void Select::add(const Select& select) {
 }
 
 void Select::remove(const Select& select) {
+  TRACE("removing ");
   for (int select_index = 0; select_index < select.num_particles(); ++select_index) {
     remove_sites(select.particle_index(select_index),
                  select.site_indices(select_index));
@@ -118,6 +119,8 @@ void Select::add_sites(const int particle_index,
 
 void Select::remove_sites(const int particle_index,
                           const std::vector<int> site_indices) {
+  TRACE("removing particle_index " << particle_index);
+  TRACE("removing site_indices " << feasst_str(site_indices));
   int index;
   if (find_in_list(particle_index, particle_indices(), &index)) {
     site_indices_[index] = fst_difference(site_indices_[index], site_indices);
@@ -146,6 +149,9 @@ void Select::remove_particle(const int particle_index) {
 
 void Select::check() const {
   ASSERT(particle_indices_.size() == site_indices_.size(), "size error");
+  for (auto sites : site_indices_) {
+    ASSERT(std::is_sorted(sites.begin(), sites.end()), "must be sorted");
+  }
 }
 
 void Select::add_particle(const int particle_index, std::vector<int> site_indices) {
@@ -172,6 +178,11 @@ bool Select::is_equivalent(const Select& select) {
 void Select::remove_last_site() {
   ASSERT(site_indices_.size() == 1, "assumes 1 particle");
   site_indices_[0].pop_back();
+}
+
+void Select::remove_first_site() {
+  ASSERT(site_indices_.size() == 1, "assumes 1 particle");
+  site_indices_[0].erase(site_indices_[0].begin());
 }
 
 }  // namespace feasst

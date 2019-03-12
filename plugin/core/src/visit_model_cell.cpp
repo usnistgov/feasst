@@ -12,7 +12,7 @@ void VisitModelCell::compute(
     const ModelParams& model_params,
     Configuration * config,
     const int cell_index) {
-  set_energy(0.);
+  zero_energy();
   const Domain& domain = config->domain();
   ASSERT(cell_index < static_cast<int>(domain.cells().size()), "index error");
   const Cells& cells = domain.cells()[cell_index];
@@ -46,8 +46,8 @@ void VisitModelCell::compute(
             if (part1_index != part2_index) {
               for (int site1_index : select1.site_indices(select1_index)) {
                 for (int site2_index : select2.site_indices(select2_index)) {
-                  inner_(part1_index, site1_index, part2_index, site2_index,
-                         config, model_params, model, &relative);
+                  inner()->compute(part1_index, site1_index, part2_index, site2_index,
+                                   config, model_params, model, &relative);
                 }
               }
             }
@@ -71,14 +71,15 @@ void VisitModelCell::compute(
         if (part1_index != part2_index) {
           for (int site1_index : select.site_indices(select1_index)) {
             for (int site2_index : select.site_indices(select2_index)) {
-              inner_(part1_index, site1_index, part2_index, site2_index,
-                     config, model_params, model, &relative);
+              inner()->compute(part1_index, site1_index, part2_index, site2_index,
+                               config, model_params, model, &relative);
             }
           }
         }
       }
     }
   }
+  set_energy(inner()->energy());
 }
 
 void VisitModelCell::compute(
@@ -88,9 +89,9 @@ void VisitModelCell::compute(
     Configuration * config,
     const int cell_index) {
   DEBUG("visiting model");
-  set_energy(0.);
+  zero_energy();
   const Domain& domain = config->domain();
-  ASSERT(cell_index < static_cast<int>(domain.cells().size()), "index error");
+  ASSERT(cell_index < static_cast<int>(domain.cells().size()), "were cells not initialized?");
   const Cells& cells = domain.cells()[cell_index];
   Position relative;
   relative.set_vector(domain.side_length().coord());
@@ -117,14 +118,15 @@ void VisitModelCell::compute(
             for (int site2_index : cell2_parts.site_indices(select2_index)) {
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                    site1_index << " " << site2_index);
-              inner_(part1_index, site1_index, part2_index, site2_index,
-                     config, model_params, model, &relative);
+              inner()->compute(part1_index, site1_index, part2_index, site2_index,
+                               config, model_params, model, &relative);
             }
           }
         }
       }
     }
   }
+  set_energy(inner()->energy());
 }
 
 }  // namespace feasst

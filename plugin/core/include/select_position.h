@@ -15,20 +15,6 @@ class SelectPosition : public Select {
  public:
   SelectPosition() : Select() {}
 
-/// HWH from attempt when inheriting from SelectList
-//  void random_particle(const Configuration& config,
-//      const int group_index = 0) override {
-//    SelectList::random_particle(config, group_index);
-//    resize_();
-//    load_positions(config.particles());
-//  }
-//  void add(const Configuration& config, const Group& group) override {
-//    ERROR("not implemented");
-//  }
-//  void add_random_particle(const Configuration& config, const Group& group) override {
-//    ERROR("not implemented");
-//  }
-
   SelectPosition(const Select& select, const ParticleFactory& particles)
     : Select(select) {
     resize();
@@ -76,15 +62,11 @@ class SelectPosition : public Select {
 
   void resize();//const Select& select);
 
-  void reverse() override {
-    Select::reverse();
-    feasst_reverse(&particle_positions_);
-    feasst_reverse(&site_positions_);
-    feasst_reverse(&site_properties_);
-  }
-
   /// Remove the last site.
   void remove_last_site() override;
+
+  /// Remove the first site.
+  void remove_first_site() override;
 
   virtual ~SelectPosition() {}
 

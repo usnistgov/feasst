@@ -36,6 +36,7 @@ TEST(MonteCarlo, NVT_SRSW) {
     mc.attempt(1);  // ~4 seconds
     pe.accumulate(mc.criteria()->running_energy());
   }
+  // HWH temperature not set
   INFO("pe " << pe.average());
 }
 

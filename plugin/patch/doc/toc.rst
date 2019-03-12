@@ -3,4 +3,4 @@ API
 
 .. toctree::
 
-   VisitModelPatch
+   PatchAngle

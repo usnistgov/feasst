@@ -11,6 +11,30 @@ class ModelOneBody;
 class ModelTwoBody;
 class ModelThreeBody;
 
+class VisitModelInner {
+ public:
+  virtual void compute(
+    const int part1_index,
+    const int site1_index,
+    const int part2_index,
+    const int site2_index,
+    const Configuration * config,
+    const ModelParams& model_params,
+    const ModelTwoBody& model,
+    Position * relative);
+
+  virtual void precompute(Configuration * config) {}
+
+  void set_energy(const double energy) { energy_ = energy; }
+  void add_energy(const double energy) { energy_ += energy; }
+  double energy() const { return energy_; }
+
+  virtual ~VisitModelInner() {}
+
+ private:
+  double energy_ = 0.;
+};
+
 /**
   See Model for a description of the compute methods. These are mirrored by
   simply switching the calling object and the first argument
@@ -18,6 +42,14 @@ class ModelThreeBody;
  */
 class VisitModel {
  public:
+  VisitModel() {
+    set_inner();
+  }
+
+  void set_inner(const std::shared_ptr<VisitModelInner> inner =
+    std::make_shared<VisitModelInner>()) {
+    inner_ = inner; }
+
   virtual void compute(
       const ModelOneBody& model,
       const ModelParams& model_params,
@@ -93,6 +125,11 @@ class VisitModel {
   /// Set the energy.
   void set_energy(const double energy) { energy_ = energy; }
 
+  void zero_energy() {
+    energy_ = 0.;
+    inner_->set_energy(0.);
+  }
+
   /// Increment the energy.
   void increment_energy(const double energy) { energy_ += energy; }
 
@@ -107,19 +144,14 @@ class VisitModel {
 
   virtual void revert() {}
 
- protected:
-  virtual void inner_(
-    const int part1_index,
-    const int site1_index,
-    const int part2_index,
-    const int site2_index,
-    const Configuration * config,
-    const ModelParams& model_params,
-    const ModelTwoBody& model,
-    Position * relative);
+  virtual void precompute(Configuration * config) {
+    inner_->precompute(config); }
+
+  const std::shared_ptr<VisitModelInner> inner() const { return inner_; }
 
  private:
   double energy_;
+  std::shared_ptr<VisitModelInner> inner_;
 };
 
 }  // namespace feasst
