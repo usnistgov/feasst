@@ -114,6 +114,13 @@ class MonteCarlo {
     }
   }
 
+  /// Attempt Monte Carlo trials until Criteria returns completion.
+  void run_until_complete() {
+    while (!criteria_->is_complete()) {
+      attempt(1);
+    }
+  }
+
  private:
   std::shared_ptr<Criteria> criteria_;
   TrialFactory trial_factory_;

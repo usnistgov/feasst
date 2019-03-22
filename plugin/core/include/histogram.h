@@ -5,6 +5,7 @@
 #include <deque>
 #include <memory>
 #include "core/include/formula.h"
+#include "core/include/arguments.h"
 
 namespace feasst {
 
@@ -16,6 +17,14 @@ namespace feasst {
  */
 class Histogram {
  public:
+  Histogram(
+    /**
+      width : constant bin width
+      max : maximum value
+      min : minimum value (default: 0)
+     */
+    const argtype& args = argtype());
+  
   /**
     Depending on the way the bins are defined, the histogram may be told how to
     automatically expand in size if the value is outside of the current bounds.
@@ -74,6 +83,7 @@ class Histogram {
   std::deque<double> edges_;
   bool expandable_ = false;
   std::shared_ptr<Formula> bin_size_;
+  Arguments args_;
 
   // optimization for constant width
   int is_constant_width_ = 0;

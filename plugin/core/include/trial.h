@@ -21,6 +21,7 @@ class Trial {
     // default
     reset_stats();
     set_weight();
+    set_group_index();
 
     // parse
     args_.init(args);

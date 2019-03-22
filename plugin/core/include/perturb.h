@@ -59,8 +59,8 @@ class Perturb {
   }
 
   /// Select all sites between two randomly selected sites in a randomly selected particle in group.
-  void select_random_segment_in_particle(const int group_index, const Configuration& config) {
-    selection_.random_segment_in_particle(group_index, config);
+  void select_random_segment_in_particle(const int group_index, const Configuration& config, const int max_length = -1) {
+    selection_.random_segment_in_particle(group_index, config, max_length);
     set_selection_state("old");
   }
 
@@ -68,8 +68,8 @@ class Perturb {
   /// Note that the end point is always returned as the first site.
   /// Thus, when the end point is the last site, the site order is reversed.
   /// HWH note: copy of comment in SelectList
-  void select_random_end_segment_in_particle(const int group_index, const Configuration& config) {
-    selection_.random_end_segment_in_particle(group_index, config);
+  void select_random_end_segment_in_particle(const int group_index, const Configuration& config, const int max_length = -1) {
+    selection_.random_end_segment_in_particle(group_index, config, max_length);
     set_selection_state("old");
   }
 

@@ -18,6 +18,10 @@ namespace feasst {
  */
 class Macrostate {
  public:
+  Macrostate(const Histogram& histogram) {
+    set(histogram);
+  }
+
   /// Return the current value of the macrostate.
   virtual double value(const System* system, const Criteria* criteria) = 0;
 
@@ -26,25 +30,18 @@ class Macrostate {
   /// methods.
   /// The histogram only serves to determine the bins, and should not be
   /// expanded or have values added during the course of the simulation.
-  void set_histogram(const Histogram histogram) {
-    histogram_ = histogram;
-  }
+  void set(const Histogram histogram) { histogram_ = histogram; }
+
+  /// Return the histogram.
+  const Histogram& histogram() const { return histogram_; }
 
   /// Return the current bin of the macrostate.
   int bin(const System* system, const Criteria* criteria) {
-    return histogram_.bin(value(system, criteria));
-  }
+    return histogram_.bin(value(system, criteria)); }
 
   /// Return whether the current system macrostate is within permissible range
   /// given by the input histogram.
-  bool is_in_range(const System* system, const Criteria* criteria) {
-    const double val = value(system, criteria);
-    if (val <= histogram_.max() &&
-        val >= histogram_.min()) {
-      return true;
-    }
-    return false;
-  }
+  bool is_in_range(const System* system, const Criteria* criteria);
 
   virtual ~Macrostate() {}
 

@@ -11,12 +11,19 @@ namespace feasst {
  */
 class MacrostateNumParticles : public Macrostate {
  public:
+  MacrostateNumParticles(const Histogram& histogram) : Macrostate(histogram) {}
+
   double value(const System* system, const Criteria* criteria) {
     return static_cast<double>(system->configuration().num_particles());
   }
 
   virtual ~MacrostateNumParticles() {}
 };
+
+inline std::shared_ptr<MacrostateNumParticles> MakeMacrostateNumParticles(
+    const Histogram& histogram) {
+  return std::make_shared<MacrostateNumParticles>(histogram);
+}
 
 }  // namespace feasst
 

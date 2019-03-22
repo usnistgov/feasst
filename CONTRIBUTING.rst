@@ -247,5 +247,6 @@ To Do List
 * improve interface/py for system/potentials, etc
 * restarts
 * windowing (MonteCarloFactory class)
-
+* implement triclinic using scaled coordinates: wrap box multiple times with int
+* trial regrow to include grand canonical insertions
 

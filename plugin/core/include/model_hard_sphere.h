@@ -7,6 +7,14 @@
 
 namespace feasst {
 
+/**
+  \f$ U_{HS} = \left\{
+    \begin{array}{lr}
+      \infty & r \le \sigma
+      0 & r > \sigma
+    \end{array}
+  \right. \f$
+ */
 class ModelHardSphere : public ModelTwoBody {
  public:
   double energy(

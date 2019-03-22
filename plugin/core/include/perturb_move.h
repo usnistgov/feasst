@@ -8,10 +8,10 @@ namespace feasst {
 class PerturbSelectMove : public PerturbOptRevert {
  public:
   void revert() override {
-    TRACE("revert possible " << revert_possible());
+    DEBUG("revert possible " << revert_possible());
     if (revert_possible()) {
       Configuration* config = system()->get_configuration();
-      TRACE("reverting positions: " << selection().str());
+      DEBUG("reverting positions: " << selection().str());
       config->update_positions(selection());
       system()->revert();
     }
@@ -19,7 +19,7 @@ class PerturbSelectMove : public PerturbOptRevert {
 
   Configuration * get_config_before_move(System * system) {
     store_old(system);
-    ASSERT(selection().num_sites() > 0, "no selection");
+    // ASSERT(selection().num_sites() > 0, "no selection");
     return system->get_configuration();
   }
 

@@ -35,7 +35,6 @@ API
    Domain
    VisitParticles
    Stepper
-   Modify
    Matrix
    Configuration
    FileVMD
@@ -70,9 +69,9 @@ API
    TrialTransfer
    Rosenbluth
    TrialFactory
+   Modify
    Analyze
    MonteCarlo
    PerturbTranslate
    TrialTranslate
-   ui_brief
    VisitConfiguration

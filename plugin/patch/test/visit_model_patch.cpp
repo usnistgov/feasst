@@ -10,7 +10,6 @@ namespace feasst {
 
 TEST(VisitModelPatch, patch_one) {
   Configuration config;
-  config.set_domain(Domain().set_cubic(10.));
   config.add_particle_type("../plugin/patch/forcefield/data.patch_one");
   config.set_model_param("cutoff", 0, 3.);
   config.set_model_param("cutoff", 1, 3.);
@@ -38,12 +37,12 @@ TEST(VisitModelPatch, patch_one_2body) {
     config.add_particle_of_type(0);
     config.add_particle_of_type(0);
     system.add(config); }
-    
+
   { Potential potential;
     potential.set_model(std::make_shared<ModelSquareWell>());
     auto visitor = std::make_shared<VisitModel>();
     auto patch = std::make_shared<VisitModelInnerPatch>();
-    visitor->set_inner(patch); 
+    visitor->set_inner(patch);
     potential.set_visit_model(visitor);
     potential.set_group_index(1); // optimization: loop through centers only.
     system.add(potential); }

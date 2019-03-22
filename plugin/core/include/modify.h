@@ -119,7 +119,7 @@ inline std::shared_ptr<Check> MakeCheck(const argtype &args = argtype()) {
 
 /**
   Check that the running energy from criteria is equivalent, within tolerance,
-  to a fresh (unoptimized) calculation over the entire configuration.
+  to an (unoptimized) calculation over the entire configuration.
  */
 class EnergyCheck : public ModifyUpdateOnly {
  public:

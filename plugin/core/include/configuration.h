@@ -40,7 +40,7 @@ class Configuration {
     /**
       cubic_box_length : side length of cubic perioidic boundary conditions.
       particle_type[i] : add the i-th type of particle to the configuration.
-        The [i] is to substituted for an integer 0, 1, 2, ...
+        The [i] is to be substituted for an integer 0, 1, 2, ...
         If only one particle type, you can drop the i.
       init_cells : build cell list with given minimum length between cells.
       cell_group : only compute cells for those in given group index.
@@ -148,11 +148,12 @@ class Configuration {
     const int group = 0) const;
 
   /// Return the number of sites.
-  int num_sites() const { return particles_.num_sites(); }
+  int num_sites(
+    /// Provide a group index as described above.
+    const int group = 0) const;
 
   /// Return the number of particles of a given particle type.
-  int num_particles_of_type(const int type) const {
-    return num_particles_of_type_[type]; }
+  int num_particles_of_type(const int type) const;
 
   //@}
   /** @name Modifications
@@ -361,9 +362,8 @@ class Configuration {
 
   // Ghost particles allow quick addition and deletion of particles for use in
   // the grand canonical ensemble.
-  // ghost particles types are related to real particle types as follows
-  // type_ghost = -type - 1
   // ghosts are removed from selections and can be brought back by adding.
+  // each index represents the particle type.
   std::vector<SelectGroup> ghosts_;
 
   /// Return the number of ghost particles.

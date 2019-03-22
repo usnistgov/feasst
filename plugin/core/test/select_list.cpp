@@ -45,4 +45,14 @@ TEST(SelectList, group) {
   select.check();
 }
 
+TEST(SelectList, random_end_segment_in_particle) {
+  seed_random_by_date();
+  Configuration config;
+  config.add_particle_type("../forcefield/data.chain10");
+  config.add_particle_of_type(0);
+  SelectList select;
+  select.random_end_segment_in_particle(0, config, 1);
+  EXPECT_EQ(1, select.num_sites());
+}
+
 }  // namespace feasst

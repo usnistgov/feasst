@@ -2,6 +2,7 @@
 #ifndef FEASST_CORE_DOMAIN_H_
 #define FEASST_CORE_DOMAIN_H_
 
+#include <math.h>
 #include <vector>
 #include "core/include/position.h"
 #include "core/include/random.h"
@@ -15,7 +16,8 @@ namespace feasst {
 
   The origin is always located at the center of the domain.
 
-  By default, periodicity in each dimension is enabled.
+  By default, periodicity in each dimension is enabled when the side lengths
+  are set.
 
   A cuboid-shaped domain may have unique side lengths but the angles between
   the edges of the domain are fixed at ninety degrees.
@@ -35,6 +37,9 @@ namespace feasst {
 
   Thus, the angle, \f$\alpha\f$, between the "x" and "y" vectors is given by
   \f$ |l_x| |l_y| \cos\alpha = \vec{l_x} \cdot \vec{l_y}\f$.
+
+  On the inner workings of Monte Carlo codes
+  https://doi.org/10.1080/08927022.2013.819102
 */
 class Domain {
  public:
@@ -134,6 +139,14 @@ class Domain {
 
   bool is_tilted() const { return is_tilted_; }
 
+  /// Return true if cell list is enabled.
+  bool is_cell_enabled() const {
+    if (cells().size() > 0) {
+      return true;
+    }
+    return false;
+  }
+
   // HWH priority 1 remove r2
   // Optimized domain wrap for use in inner pair loops.
   // Not for typical users.
@@ -151,11 +164,10 @@ class Domain {
     } else {
       for (int dim = 0; dim < dimen; ++dim) {
         (*dxv)[dim] = pos1.coord()[dim] - pos2.coord()[dim];
-        if (periodic_[dim]) {
-          if ((*dxv)[dim] >  0.5*side[dim]) {
-            (*dxv)[dim] -= side[dim];
-          } else if ((*dxv)[dim] < -0.5*side[dim]) {
-            (*dxv)[dim] += side[dim];
+        if (dim < static_cast<int>(side.size())) {
+          const double side_length = side[dim];
+          if (periodic_[dim]) {
+            (*dxv)[dim] -= side_length*rint((*dxv)[dim]/side_length);
           }
         }
         *r2 += (*dxv)[dim]*(*dxv)[dim];
@@ -170,33 +182,29 @@ class Domain {
     const std::vector<double>& side = side_length_.coord();
     std::vector<double>* dxv = (*rel).get_coord();
     if (pos1.dimension() >= 3) {
-      if (periodic_[2] && std::abs((*dxv)[2]) > 0.5*side[2]) {
-        if ((*dxv)[2] < 0.) {
-          (*dxv)[2] += side[2];
-          (*dxv)[1] += yz_;
-          (*dxv)[0] += xz_;
-        } else {
-          (*dxv)[2] -= side[2];
-          (*dxv)[1] -= yz_;
-          (*dxv)[0] -= xz_;
+      if (2 < static_cast<int>(side.size())) {
+        if (periodic_[2]) {
+          const double side_length = side[2];
+          const int num_wrap = rint((*dxv)[2]/side_length);
+          (*dxv)[2] -= num_wrap*side_length;
+          (*dxv)[1] -= num_wrap*yz_;
+          (*dxv)[0] -= num_wrap*xz_;
         }
       }
       *r2 += (*dxv)[2]*(*dxv)[2];
     }
-    if (periodic_[1] && std::abs((*dxv)[1]) > 0.5*side[1]) {
-      if ((*dxv)[1] < 0.) {
-        (*dxv)[1] += side[1];
-        (*dxv)[0] += xy_;
-      } else {
-        (*dxv)[1] -= side[1];
-        (*dxv)[0] -= xy_;
+    if (1 < static_cast<int>(side.size())) {
+      if (periodic_[1]) {
+        const double side_length = side[1];
+        const int num_wrap = rint((*dxv)[1]/side_length);
+        (*dxv)[1] -= num_wrap*side_length;
+        (*dxv)[0] -= num_wrap*xy_;
       }
     }
-    if (periodic_[0] && std::abs((*dxv)[0]) > 0.5*side[0]) {
-      if ((*dxv)[0] < 0.) {
-        (*dxv)[0] += side[0];
-      } else {
-        (*dxv)[0] -= side[0];
+    if (0 < static_cast<int>(side.size())) {
+      if (periodic_[0]) {
+        const double side_length = side[0];
+        (*dxv)[0] -= side_length*rint((*dxv)[0]/side_length);
       }
     }
     *r2 += (*dxv)[0]*(*dxv)[0] + (*dxv)[1]*(*dxv)[1];

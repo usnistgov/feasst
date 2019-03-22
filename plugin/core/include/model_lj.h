@@ -30,7 +30,8 @@ class ModelLJ : public ModelTwoBody {
     const double epsilon = model_params.mixed_epsilon()[type1][type2];
     const double rinv2 = sigma_squared/squared_distance;
     const double rinv6 = rinv2*rinv2*rinv2;
-    return 4.*epsilon*rinv6*(rinv6 - 1.);
+    const double en = 4.*epsilon*rinv6*(rinv6 - 1.);
+    return en;
   }
 
   virtual ~ModelLJ() {}

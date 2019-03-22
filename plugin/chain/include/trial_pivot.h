@@ -9,10 +9,21 @@ namespace feasst {
 
 class TrialPivot : public TrialRotate {
  public:
-  TrialPivot(const argtype& args = argtype()) : TrialRotate(args) { set_recenter(1); }
+    /**
+      max_length : maximum length of selected segment. If -1 (default), then
+        randomly select all possible lengths.
+     */
+  TrialPivot(const argtype& args = argtype()) : TrialRotate(args) {
+    args_.init(args);
+    max_length_ = args_.key("max_length").dflt("-1").integer();
+    set_recenter(1);
+  }
 
   void select(System * system) override {
-    perturb_rotate_->select_random_end_segment_in_particle(group_index(), system->configuration());
+    perturb_rotate_->select_random_end_segment_in_particle(
+      group_index(),
+      system->configuration(),
+      max_length_);
   }
 
   void move(Criteria * criteria, System * system) override {
@@ -29,6 +40,9 @@ class TrialPivot : public TrialRotate {
   }
 
   virtual ~TrialPivot() {}
+
+ private:
+  int max_length_;
 };
 
 inline std::shared_ptr<TrialPivot> MakeTrialPivot(

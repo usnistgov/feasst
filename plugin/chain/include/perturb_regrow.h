@@ -37,6 +37,8 @@ class PerturbRegrow : public PerturbSelectMove {
     after_move();
   }
 
+  void set_in_sphere(const double bond_length, const int index, SelectList * bonded);
+
   ~PerturbRegrow() {}
 
  private:

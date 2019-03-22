@@ -38,7 +38,7 @@ inline MonteCarlo mc_lj() {
     mc.set(system);
   }
 
-  mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"add_activity", "1."}}));
+  mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"max_move", "1."}}));
   const int num_periodic = 1e4;
   mc.add(MakeLog(

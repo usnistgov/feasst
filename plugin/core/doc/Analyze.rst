@@ -24,3 +24,7 @@ Analyze
 .. doxygenclass:: feasst::Movie
    :project: FEASST
    :members:
+
+.. doxygenclass:: feasst::CriteriaWriter
+   :project: FEASST
+   :members:

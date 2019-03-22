@@ -28,8 +28,8 @@ TEST(TrialStagedTranslate, stage) {
           potential.set_model_params(system.configuration());
           potential.set_model_param("cutoff", 0, 1.);
           system.add_to_reference(potential);
-          EXPECT_EQ(3., system.configuration().model_params().cutoff().mixed_value(0, 0)); 
-          EXPECT_EQ(1., system.reference(0, 0).model_params().cutoff().mixed_value(0, 0)); 
+          EXPECT_EQ(3., system.configuration().model_params().cutoff().mixed_value(0, 0));
+          EXPECT_EQ(1., system.reference(0, 0).model_params().cutoff().mixed_value(0, 0));
           try {
             system.unoptimized().potentials()[0].model_params().cutoff().mixed_value(0, 0);
             CATCH_PHRASE("you must first initialize model params");
@@ -40,7 +40,7 @@ TEST(TrialStagedTranslate, stage) {
       mc.set(system);
     }
 
-    mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"add_activity", "1."}}));
+    mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
     mc.seek_num_particles(20);
     if (ref == -1) {
       mc.add(MakeTrialStagedTranslate(
@@ -67,7 +67,7 @@ TEST(TrialStagedTranslate, stage) {
      {{"steps_per", str(num_periodic)},
       {"tolerance", "1e-10"}}));
     mc.add(MakeTuner({{"steps_per", str(num_periodic)}}));
-    // INFO("energy " << mc.criteria()->running_energy()); 
+    // INFO("energy " << mc.criteria()->running_energy());
     mc.attempt(1e3);
   }
 }

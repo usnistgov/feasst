@@ -1,10 +1,31 @@
 
+#include <cmath>
 #include "core/include/histogram.h"
 #include "core/include/debug.h"
 #include "core/include/formula_polynomial.h"
 #include "core/include/utils_math.h"
 
 namespace feasst {
+
+Histogram::Histogram(const argtype& args) {
+  args_.init(args);
+  
+  // construct a constant width bin
+  if (args_.key("width").used()) {
+    const double width = args_.dble();
+    const double max = args_.key("max").dble();
+    const double min = args_.key("min").dflt("0").dble();
+    set_width_center(width, min);
+    ASSERT(max > min, "max(" << max <<") <= min(" << min << ")");
+    double bins = (max - min)/width;
+    int nbins = round(bins);
+    ASSERT(std::abs(bins - nbins) < NEAR_ZERO, "bins(" << bins << ")");
+    for (double bin = min; bin <= max + 10*NEAR_ZERO; ++bin) {
+      add(bin);
+    }
+    return;
+  }
+}
 
 void Histogram::set_bin_size(const std::shared_ptr<Formula> bin_size) {
   set_expandable_();

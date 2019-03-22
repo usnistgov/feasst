@@ -26,7 +26,7 @@ TEST(CriteriaMayer, ljb2) {
   std::cout << "boxl " << boxl << std::endl;
   CriteriaMayer criteria;
   criteria.set_beta(1.);
-  criteria.add_activity(exp(-2.775));
+  criteria.add_chemical_potential(-2.775);
   criteria.set_running_energy(system.energy());
   Random random;
   for (int iTrial = 0; iTrial < nTrialsEq + nTrials; ++iTrial) {

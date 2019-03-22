@@ -4,61 +4,70 @@
 
 #include <vector>
 #include <memory>
+#include "core/include/arguments.h"
 #include "flat_histogram/include/bias.h"
-#include "core/include/histogram.h"
-#include "core/include/utils_math.h"
 
 namespace feasst {
 
 /**
- Wang Landau flat histogram bias.
- HWH: Add literature reference
+  Wang Landau flat histogram bias.
+  https://doi.org/10.1103/PhysRevLett.86.2050
+  https://doi.org/10.1063/1.1615966
+  HWH: Implement "gentle" WL where the bias is updated infrequently.
  */
 class BiasWangLandau : public Bias {
  public:
-  double ln_bias(const int bin_new, const int bin_old) const override {
-    return ln_macro_prob_[bin_old] - ln_macro_prob_[bin_new];
-  }
+  BiasWangLandau(
+    /**
+      min_flatness : Number of flatness checks required for completion.
 
-  void update(const int macrostate_old_,
-              const int macrostate_new_,
-              const double ln_metropolis_prob_,
+      add_to_ln_probability : The initial amount to add to the natural log of
+        the macrostate probability upon visiting that state (default: 1.0).
+
+      reduce_ln_probability : Reduce the amount to add to the natural log of the
+        macrostate probability by multiplcation of this factor upon reaching a
+        sufficiently flat histogram (default: 0.5).
+
+      flatness_threshold : The visited states histogram is determined to be flat
+        when the percentage between minimum visisted states and average reaches
+        this threshold (default: 0.8).
+     */
+    const argtype &args = argtype());
+  void update(const int macrostate_old,
+              const int macrostate_new,
+              const double ln_metropolis_prob,
               const bool is_accepted) override;
-
-  std::vector<double> ln_macro_prob() const override { return ln_macro_prob_; }
-
-  void resize(const Histogram& histogram);
-
-  int verbose = 0;
-
+  const LnProbabilityDistribution& ln_macro_prob() const override {
+    return ln_macro_prob_; }
+  void resize(const Histogram& histogram) override;
+  std::string write() const override;
+  std::string write_per_bin(const int bin) const override;
+  std::string write_per_bin_header() const override;
   virtual ~BiasWangLandau() {}
 
  private:
-  std::vector<double> ln_macro_prob_;
+  Arguments args_;
+  LnProbabilityDistribution ln_macro_prob_;
+  double add_to_ln_probability_ = 0;
+  double reduce_ln_probability_ = 0;
+  double flatness_threshold_ = 0;
 
   /// Count of the number of times a state has been visited since the last time
   /// this histogram was reset after it was deemed to be sufficiently flat.
   std::vector<int> visited_states_;
 
-  /// The amount to add to the natural log of the macrostate probability upon
-  /// visiting that state.
-  double ln_macro_prob_add_ = 1.;
-
-  /// Reduce the amount to add to the natural log of the macrostate probability
-  /// by this factor upon reaching a sufficiently flat histogram.
-  const double ln_reduce_ = 0.5;
-
-  /// The visited states histogram is determined to be flat when the percentage
-  /// difference between minimum visisted states and average reaches this
-  /// threshold.
-  const double visited_threshold_ = 0.8;
-
   /// Number of times the visited states histogram was found to be flat.
-  int flatness_ = 0;
+  int num_flatness_ = 0;
+  int min_flatness_ = 0;
 
   /// Perform update when the visited states histogram is found to be flat.
   void flatness_update_();
 };
+
+inline std::shared_ptr<BiasWangLandau> MakeBiasWangLandau(
+    const argtype& args = argtype()) {
+  return std::make_shared<BiasWangLandau>(args);
+}
 
 }  // namespace feasst
 

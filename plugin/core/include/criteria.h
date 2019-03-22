@@ -29,25 +29,14 @@ class Criteria {
  public:
   Criteria(
     /**
-      beta : inverse temperature, \f$ \beta = \frac{1}{k_B T} \f$
-      add_activity : activity of the next particle type, starting with 0
-        \f$ z = \frac{exp(\beta \mu)}{\Lambda^3} \f$.
+      beta : inverse temperature, \f$ \beta = \frac{1}{k_B T} \f$.
+
+      chemical_potential[i] : chemical potential of the i-th particle type.
+        The [i] is to be substituted for an integer 0, 1, 2, ...
+        If only one particle type, you can drop the [i].
+        The chemical potential must have the inverse units of \f$\beta\f$.
      */
-    const argtype &args = argtype()) {
-    // parse
-    args_.init(args);
-    if (args_.key("beta").used()) {
-      set_beta(args_.dble());
-    }
-    const int max_act = 1e3;
-    int num_act = 0;
-    while (args_.key("add_activity").used() && num_act < max_act) {
-      args_.remove();
-      add_activity(args_.dble());
-      ++num_act;
-    }
-    ASSERT(num_act < max_act, "infinite loop while reading activity");
-  }
+    const argtype &args = argtype());
 
   /// Set beta, the inverse temperature \f$ \beta=\frac{1}{k_B T} \f$.
   void set_beta(const double beta);
@@ -55,14 +44,19 @@ class Criteria {
   /// Return beta.
   double beta() const;
 
-  /// Add an activity for a given type of particle.
+  /// Add a chemical potential for a given type of particle.
   /// Note that z has units length^{-dimension} such that Vz/N is unitless.
   // HWH Note: consider interfacing somehow with system/particle, etc
   // Perhaps System should contain criteria or MC kernel new object
-  void add_activity(const double activity) { activity_.push_back(activity); }
+  void add_chemical_potential(const double chemical_potential) {
+    chemical_potentials_.push_back(chemical_potential); }
 
-  /// Return the activity of the particle type.
-  double activity(const int particle_type = 0) const;
+  /// Return the chemical potential of the particle type.
+  double chemical_potential(const int particle_type = 0) const;
+
+  /// Return the dimensionless product of beta and the chemical potential.
+  double beta_mu(const int particle_type = 0) const {
+    return beta()*chemical_potentials_[particle_type]; }
 
   /// This function is called before a trial attempt.
   virtual void before_attempt(const System* system) {}
@@ -81,15 +75,16 @@ class Criteria {
 
   /// Return the header of the status for periodic output.
   std::string status_header() const {
-    return std::string("energy");
-  }
+    return std::string("energy"); }
 
-  /// Return the status for periodic output.
-  std::string status() const {
-    std::stringstream ss;
-    ss << running_energy();
-    return ss.str();
-  }
+  /// Return the brief status for periodic output.
+  std::string status() const;
+
+  /// Return a human-readable output of all data (not as brief as status).
+  virtual std::string write() const;
+
+  /// Return true if completion requirements are met.
+  virtual bool is_complete() { return false; }
 
   virtual ~Criteria() {}
 
@@ -99,7 +94,7 @@ class Criteria {
  private:
   double beta_;
   bool beta_initialized_ = false;
-  std::vector<double> activity_;
+  std::vector<double> chemical_potentials_;
   double running_energy_;
 
   /// This function is called after a trial attempt but before acceptance

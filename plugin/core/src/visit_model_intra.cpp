@@ -26,6 +26,7 @@ void VisitModelIntra::compute(
 
     // here we use excluded to account for chain regrowth, etc.
     // exclude the particles which haven't been grown yet.
+    // or exclude particles which will form new bonds (reptate).
     Select sites;
     sites.add_particle(part1, part1_index);
     if (selection.excluded()) {
@@ -43,7 +44,35 @@ void VisitModelIntra::compute(
            sel2_index < static_cast<int>(site_indices.size());
            ++sel2_index) {
         const int site2_index = site_indices[sel2_index];
-        if (std::abs(site1_index - site2_index) > intra_cut_) {
+
+        // here we determine if the pair of sites is forced to be included
+        bool include = false;
+        if (selection.old_bond()) {
+          const int incl1_site = selection.site_indices()[0][0];
+          const int incl2_site = selection.old_bond()->site_indices()[0][0];
+          if ( (site1_index == incl1_site &&
+                site2_index == incl2_site) ||
+               (site1_index == incl2_site &&
+                site2_index == incl1_site) ) {
+            include = true;
+            TRACE("include " << include << " incl " << incl1_site << " " << incl2_site);
+          }
+        }
+
+        bool exclude = false;
+        if (selection.new_bond()) {
+          const int excl1_site = selection.site_indices()[0][0];
+          const int excl2_site = selection.new_bond()->site_indices()[0][0];
+          if ( (site1_index == excl1_site &&
+                site2_index == excl2_site) ||
+               (site1_index == excl2_site &&
+                site2_index == excl1_site) ) {
+            exclude = true;
+            TRACE("exclude " << exclude << " excl " << excl1_site << " " << excl2_site);
+          }
+        }
+
+        if ( (include || std::abs(site1_index - site2_index) > intra_cut_) && (!exclude) ) {
           TRACE("sites: " << site1_index << " " << site2_index);
           inner()->compute(part1_index, site1_index, part1_index, site2_index,
                            config, model_params, model, &relative);

@@ -154,6 +154,22 @@ class Select {
 
   const std::shared_ptr<Select> excluded() const { return excluded_; }
 
+  void set_new_bond(const Select& select) {
+    if (select.num_sites() > 0) {
+      new_bond_ = std::make_shared<Select>();
+      new_bond_->add(select);
+    }
+  }
+  const std::shared_ptr<Select> new_bond() const { return new_bond_; }
+
+  void set_old_bond(const Select& select) {
+    if (select.num_sites() > 0) {
+      old_bond_ = std::make_shared<Select>();
+      old_bond_->add(select);
+    }
+  }
+  const std::shared_ptr<Select> old_bond() const { return old_bond_; }
+
   virtual ~Select() {}
 
  protected:
@@ -166,6 +182,8 @@ class Select {
   std::string unique_id_;
   std::string trial_state_;
   std::shared_ptr<Select> excluded_;
+  std::shared_ptr<Select> new_bond_;
+  std::shared_ptr<Select> old_bond_;
 
   // remove particle by selection index.
   void remove_particle_(const int select_index) {

@@ -163,6 +163,10 @@ TEST(Configuration, group) {
   EXPECT_EQ(1, select.num_particles());
   EXPECT_EQ(1, select.num_sites());
   EXPECT_EQ(100, select.particle_index(0));
+
+  EXPECT_EQ(301, config.num_sites());
+  config.remove_particles(select);
+  EXPECT_EQ(300, config.num_sites());
 }
 
 TEST(Configuration, cells) {

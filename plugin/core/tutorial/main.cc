@@ -31,7 +31,7 @@ int main() {
   mc.set(system());
   mc.set(feasst::MakeCriteriaMetropolis({
     {"beta", "1.2"},
-    {"add_activity", "1."},
+    {"chemical_potential", "1."},
   }));
   mc.add(feasst::MakeTrialTranslate({
     {"weight", "1."},

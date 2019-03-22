@@ -440,6 +440,19 @@ int Configuration::num_particles(const int group) const {
   return group_selects_[group].num_particles();
 }
 
+int Configuration::num_sites(const int group) const {
+  if (group == 0) {
+    int num_ghost_sites = 0;
+    for (const SelectGroup& ghost : ghosts_) {
+      num_ghost_sites += ghost.num_sites();
+    }
+    DEBUG("num ghosts " << num_ghost_sites);
+    return particles_.num_sites() - num_ghost_sites;
+  } else {
+    ERROR("not implemented");
+  }
+}
+
 int Configuration::num_ghosts_() const {
   int num = 0;
   for (const SelectGroup& select : ghosts_) {
@@ -452,6 +465,7 @@ void Configuration::revive(const SelectPosition& selection) {
   for (int particle_index : selection.particle_indices()) {
     const Particle& part = select_particle(particle_index);
     const int type = part.type();
+    ++num_particles_of_type_[type];
     ghosts_[type].remove_last_particle();
     for (SelectGroup& select : group_selects_) {
       add_to_selection_(particle_index, &select);
@@ -473,6 +487,13 @@ void Configuration::add(std::shared_ptr<ModelParam> param) {
     param->add(particle);
   }
   unique_types_.add(param);
+}
+
+int Configuration::num_particles_of_type(const int type) const {
+  const int num = num_particles_of_type_[type];
+  ASSERT(num >= 0, "unphysical number(" << num <<")");
+  ASSERT(num <= num_particles(), "unphysical number(" << num <<")");
+  return num;
 }
 
 }  // namespace feasst

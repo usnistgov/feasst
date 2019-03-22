@@ -108,7 +108,9 @@ class AnalyzeUpdateOnly : public Analyze {
 
 class Log : public AnalyzeWriteOnly {
  public:
-  Log(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {}
+  Log(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {
+    set_append();
+  }
   void initialize(const std::shared_ptr<Criteria> criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
@@ -134,7 +136,9 @@ inline std::shared_ptr<Log> MakeLog(const argtype &args = argtype()) {
 
 class Movie : public AnalyzeWriteOnly {
  public:
-  Movie(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {}
+  Movie(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {
+    set_append();
+  }
   void initialize(const std::shared_ptr<Criteria> criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
@@ -164,6 +168,23 @@ class Movie : public AnalyzeWriteOnly {
 
 inline std::shared_ptr<Movie> MakeMovie(const argtype &args = argtype()) {
   return std::make_shared<Movie>(args);
+}
+
+class CriteriaWriter : public AnalyzeWriteOnly {
+ public:
+  CriteriaWriter(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {}
+  std::string write(const std::shared_ptr<Criteria> criteria,
+      const System& system,
+      const TrialFactory& trial_factory) override {
+    // ensure the following order matches the header from initialization.
+    std::stringstream ss;
+    ss << criteria->write() << std::endl;
+    return ss.str();
+  }
+};
+
+inline std::shared_ptr<CriteriaWriter> MakeCriteriaWriter(const argtype &args = argtype()) {
+  return std::make_shared<CriteriaWriter>(args);
 }
 
 }  // namespace feasst

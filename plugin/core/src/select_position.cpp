@@ -22,6 +22,13 @@ void SelectPosition::set_site_position(const int particle_index,
   set_site_position(particle_index, site_index, pos);
 }
 
+void SelectPosition::set_site_properties(
+    const int particle_index,
+    const int site_index,
+    const Properties& properties) {
+  site_properties_[particle_index][site_index] = properties;
+}
+
 void SelectPosition::set_particle_position(const int particle_index,
                                               const Position& position) {
   ASSERT(particle_index < static_cast<int>(particle_positions_.size()),
@@ -37,7 +44,7 @@ void SelectPosition::load_positions(const ParticleFactory& particles) {
     set_particle_position(pindex, part.position());
     for (int site_index : site_indices(pindex)) {
       set_site_position(pindex, sindex, part.site(site_index).position());
-      site_properties_[pindex][sindex] = part.site(site_index).properties();
+      set_site_properties(pindex, sindex, part.site(site_index).properties());
       ++sindex;
     }
     ++pindex;

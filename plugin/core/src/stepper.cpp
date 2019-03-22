@@ -8,6 +8,7 @@ namespace feasst {
 Stepper::Stepper(const argtype &args) {
   // defaults
   set_steps_per_update();
+  set_no_append();
 
   // parse
   args_.init(args);
@@ -19,6 +20,16 @@ Stepper::Stepper(const argtype &args) {
   }
   if (args_.key("file_name").used()) {
     set_file_name(args_.str());
+  }
+  if (args_.key("append").used()) {
+    const int flag = args_.integer();
+    if (flag == 0) {
+      set_no_append();
+    } else if (flag == 1) {
+      set_append();
+    } else {
+      ERROR("unrecognized append argument: " << flag);
+    }
   }
 }
 
@@ -41,7 +52,11 @@ void Stepper::printer(const std::string output) {
     std::cout << output;
   } else {
     std::ofstream file;
-    file.open(file_name_, std::ofstream::out | std::ofstream::app);
+    if (append_) {
+      file.open(file_name_, std::ofstream::out | std::ofstream::app);
+    } else {
+      file.open(file_name_, std::ofstream::out);
+    }
     file << output;
     file.close();
   }

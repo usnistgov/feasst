@@ -16,7 +16,9 @@ namespace feasst {
  */
 class SelectList : public SelectPosition {
  public:
-  SelectList& particle(const int index,
+  SelectList& particle(
+      // HWH document this index.
+      const int index,
       const Configuration& config,
       // By default, if group_index is 0, consider all particles
       const int group_index = 0) {
@@ -126,7 +128,11 @@ class SelectList : public SelectPosition {
   }
 
   /// Select all sites between two randomly selected sites in a randomly selected particle in group.
-  void random_segment_in_particle(const int group_index, const Configuration& config) {
+  void random_segment_in_particle(const int group_index, const Configuration& config,
+      /// Set the maximum length of the segment.
+      /// If -1 (default), consider all possible lengths.
+      const int max_length = -1
+    ) {
     random_particle(config, group_index);
     if (num_sites() <= 1) {
       return; // HWH note this check prevents error/infinite loop below
@@ -138,7 +144,17 @@ class SelectList : public SelectPosition {
     int attempt = 0;
     while (min == max) {
       min = random()->uniform(0, num_sites() - 1);
-      max = random()->uniform(0, num_sites() - 1);
+      if (max_length == -1) {
+        max = random()->uniform(0, num_sites() - 1);
+      } else {
+        max = min + random()->uniform(-max_length, max_length);
+        if (max < 0) {
+          max = 0;
+        }
+        if (max >= num_sites()) {
+          max = num_sites() - 1;
+        }
+      }
       ++attempt;
       ASSERT(attempt < 1e3, "infinite loop");
     }
@@ -152,7 +168,11 @@ class SelectList : public SelectPosition {
   }
 
   /// Select all sites between a random endpoint and a randomly selectioned site in a randomly selected particle in group.
-  void random_end_segment_in_particle(const int group_index, const Configuration& config) {
+  void random_end_segment_in_particle(const int group_index, const Configuration& config,
+      /// Set the maximum length of the segment.
+      /// If -1 (default), consider all possible lengths.
+      const int max_length = -1
+      ) {
     random_particle(config, group_index);
     if (num_sites() <= 1) {
       DEBUG("num sites(" << num_sites() << ") not large enough");
@@ -160,20 +180,34 @@ class SelectList : public SelectPosition {
     }
 
     // select a random site
-    const int site = random()->uniform(0, num_sites() - 1);
-    DEBUG("site " << site << " num " << num_sites());
-
-    // randomly decide which endpoint to keep in selection
+    int site = -1;
     bool is_endpoint_beginning;
-    if (site == 0) {
-      is_endpoint_beginning = false;
-    } else if (site == num_sites() - 1) {
-      is_endpoint_beginning = true;
+    if (max_length == -1) {
+      site = random()->uniform(0, num_sites() - 1);
+
+      DEBUG("site " << site << " num " << num_sites());
+
+      // randomly decide which endpoint to keep in selection
+      if (site == 0) {
+        is_endpoint_beginning = false;
+      } else if (site == num_sites() - 1) {
+        is_endpoint_beginning = true;
+      } else {
+        if (random()->coin_flip()) {
+          is_endpoint_beginning = false;
+        } else {
+          is_endpoint_beginning = true;
+        }
+      }
     } else {
+      ASSERT(max_length > 0, "max_length(" << max_length <<") should be >0 "
+        << "or no segment will be selected");
       if (random()->coin_flip()) {
         is_endpoint_beginning = false;
+        site = random()->uniform(num_sites() - max_length, num_sites() - 1);
       } else {
         is_endpoint_beginning = true;
+        site = random()->uniform(0, max_length - 1);
       }
     }
 

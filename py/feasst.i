@@ -41,7 +41,6 @@
 #include "core/include/domain.h"
 #include "core/include/visit_particles.h"
 #include "core/include/stepper.h"
-#include "core/include/modify.h"
 #include "core/include/matrix.h"
 #include "core/include/configuration.h"
 #include "core/include/file_xyz.h"
@@ -79,21 +78,24 @@
 #include "core/include/trial_transfer.h"
 #include "core/include/rosenbluth.h"
 #include "core/include/trial_factory.h"
+#include "core/include/modify.h"
 #include "core/include/analyze.h"
 #include "core/include/monte_carlo.h"
 #include "core/include/perturb_translate.h"
 #include "core/include/trial_translate.h"
-#include "core/include/ui_brief.h"
 #include "core/include/visit_configuration.h"
 #include "ewald/include/model_charge_intra.h"
 #include "ewald/include/ewald.h"
 #include "ewald/include/model_charge_self.h"
 #include "ewald/include/model_charge_screened.h"
+#include "flat_histogram/include/ln_probability_distribution.h"
 #include "flat_histogram/include/bias.h"
-#include "flat_histogram/include/bias_transition_matrix.h"
 #include "flat_histogram/include/bias_wang_landau.h"
 #include "flat_histogram/include/macrostate.h"
+#include "flat_histogram/include/collection_matrix.h"
+#include "flat_histogram/include/bias_transition_matrix.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
+#include "flat_histogram/include/macrostate_accumulator.h"
 #include "flat_histogram/include/criteria_flat_histogram.h"
 #include "confinement/include/shape.h"
 #include "confinement/include/model_hard_shape.h"
@@ -155,12 +157,6 @@ using namespace std;
 %shared_ptr(feasst::VisitParticles);
 %shared_ptr(feasst::LoopOneBody);
 %shared_ptr(feasst::Stepper);
-%shared_ptr(feasst::Modify);
-%shared_ptr(feasst::ModifyFactory);
-%shared_ptr(feasst::ModifyUpdateOnly);
-%shared_ptr(feasst::Check);
-%shared_ptr(feasst::EnergyCheck);
-%shared_ptr(feasst::Tuner);
 %shared_ptr(feasst::Matrix);
 %shared_ptr(feasst::MatrixThreeByThree);
 %shared_ptr(feasst::RotationMatrix);
@@ -217,12 +213,19 @@ using namespace std;
 %shared_ptr(feasst::Stage);
 %shared_ptr(feasst::StageFactory);
 %shared_ptr(feasst::TrialFactory);
+%shared_ptr(feasst::Modify);
+%shared_ptr(feasst::ModifyFactory);
+%shared_ptr(feasst::ModifyUpdateOnly);
+%shared_ptr(feasst::Check);
+%shared_ptr(feasst::EnergyCheck);
+%shared_ptr(feasst::Tuner);
 %shared_ptr(feasst::Analyze);
 %shared_ptr(feasst::AnalyzeFactory);
 %shared_ptr(feasst::AnalyzeWriteOnly);
 %shared_ptr(feasst::AnalyzeUpdateOnly);
 %shared_ptr(feasst::Log);
 %shared_ptr(feasst::Movie);
+%shared_ptr(feasst::CriteriaWriter);
 %shared_ptr(feasst::MonteCarlo);
 %shared_ptr(feasst::PerturbTranslate);
 %shared_ptr(feasst::TrialTranslate);
@@ -233,11 +236,16 @@ using namespace std;
 %shared_ptr(feasst::Ewald);
 %shared_ptr(feasst::ModelChargeSelf);
 %shared_ptr(feasst::ModelChargeScreened);
+%shared_ptr(feasst::LnProbabilityDistribution);
 %shared_ptr(feasst::Bias);
-%shared_ptr(feasst::BiasTransitionMatrix);
 %shared_ptr(feasst::BiasWangLandau);
 %shared_ptr(feasst::Macrostate);
+%shared_ptr(feasst::TripleBandedCollectionMatrix);
+%shared_ptr(feasst::BiasTransitionMatrix);
 %shared_ptr(feasst::MacrostateNumParticles);
+%shared_ptr(feasst::MacrostateAccumulator);
+%shared_ptr(feasst::MacrostateAccumulatorFactory);
+%shared_ptr(feasst::BinEnergy);
 %shared_ptr(feasst::CriteriaFlatHistogram);
 %shared_ptr(feasst::Shape);
 %shared_ptr(feasst::ShapedEntity);
@@ -283,7 +291,6 @@ using namespace std;
 %include core/include/domain.h
 %include core/include/visit_particles.h
 %include core/include/stepper.h
-%include core/include/modify.h
 %include core/include/matrix.h
 %include core/include/configuration.h
 %include core/include/file_xyz.h
@@ -321,21 +328,24 @@ using namespace std;
 %include core/include/trial_transfer.h
 %include core/include/rosenbluth.h
 %include core/include/trial_factory.h
+%include core/include/modify.h
 %include core/include/analyze.h
 %include core/include/monte_carlo.h
 %include core/include/perturb_translate.h
 %include core/include/trial_translate.h
-%include core/include/ui_brief.h
 %include core/include/visit_configuration.h
 %include ewald/include/model_charge_intra.h
 %include ewald/include/ewald.h
 %include ewald/include/model_charge_self.h
 %include ewald/include/model_charge_screened.h
+%include flat_histogram/include/ln_probability_distribution.h
 %include flat_histogram/include/bias.h
-%include flat_histogram/include/bias_transition_matrix.h
 %include flat_histogram/include/bias_wang_landau.h
 %include flat_histogram/include/macrostate.h
+%include flat_histogram/include/collection_matrix.h
+%include flat_histogram/include/bias_transition_matrix.h
 %include flat_histogram/include/macrostate_num_particles.h
+%include flat_histogram/include/macrostate_accumulator.h
 %include flat_histogram/include/criteria_flat_histogram.h
 %include confinement/include/shape.h
 %include confinement/include/model_hard_shape.h

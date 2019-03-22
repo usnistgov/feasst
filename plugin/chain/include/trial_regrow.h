@@ -92,12 +92,15 @@ class TrialRegrow : public TrialMove, public StagedTrial {
     /**
       reference : index of the reference potential.
       num_steps : number of steps per stage.
+      max_length : maximum length of selected segment. If -1 (default), then
+        randomly select all possible lengths.
      */
     const argtype &args = argtype()) : TrialMove(args) {
     regrow_ = std::make_shared<PerturbRegrow>();
     set_perturb(regrow_);
     DEBUG("reg " << regrow_.get()); //
     args_.init(args);
+    max_length_ = args_.key("max_length").dflt("-1").integer();
     auto stage = std::make_shared<Stage>();
     parse_ref_and_num_steps(args, &args_, stage);
     stage->set(std::make_shared<PerturbRegrow>(*regrow_));
@@ -125,7 +128,10 @@ class TrialRegrow : public TrialMove, public StagedTrial {
   }
 
   void select(System * system) override {
-    regrow_->select_random_end_segment_in_particle(group_index(), system->configuration());
+    regrow_->select_random_end_segment_in_particle(
+      group_index(),
+      system->configuration(),
+      max_length_);
     DEBUG("selection to regrow: " << regrow_->selection().str());
     if (regrow_->selection().num_sites() != 0) {
       stages_.parse_select(regrow_->selection());
@@ -174,6 +180,7 @@ class TrialRegrow : public TrialMove, public StagedTrial {
  private:
   StageFactoryRegrow stages_;
   std::shared_ptr<PerturbRegrow> regrow_;
+  int max_length_;
 };
 
 inline std::shared_ptr<TrialRegrow> MakeTrialRegrow(
