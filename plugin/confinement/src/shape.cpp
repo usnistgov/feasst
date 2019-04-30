@@ -7,6 +7,12 @@
 
 namespace feasst {
 
+std::map<std::string, std::shared_ptr<Shape> >& Shape::deserialize_map() {
+  static std::map<std::string, std::shared_ptr<Shape> >* ans =
+     new std::map<std::string, std::shared_ptr<Shape> >();
+  return *ans;
+}
+
 bool Shape::is_inside(const Position& point) const {
   DEBUG(nearest_distance(point));
   if (nearest_distance(point) < 0) {
@@ -22,22 +28,24 @@ bool Shape::is_inside(const Position& point, const double diameter) const {
   return false;
 }
 
-HalfSpace& HalfSpace::set_direction(
-    const double direction) {
-  ASSERT(std::abs(direction) > 1e-15, "direction cannot be infinitesimal");
-  if (direction > 0) {
-    direction_ = 1.;
-  } else {
-    direction_ = -1.;
-  }
-  return *this;
+void Shape::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+
+std::shared_ptr<Shape> Shape::create(std::istream& istr) const {
+  ERROR("not implemented");
 }
 
-double HalfSpace::nearest_distance(const Position& point) const {
-  DEBUG("c " << point.coord(dimension_) << " " <<
-                -1.*direction_*(point.coord(dimension_) - intersection_));
-  return -1.*direction_*(point.coord(dimension_) - intersection_);
+std::shared_ptr<Shape> Shape::deserialize(std::istream& istr) {
+  return template_deserialize(deserialize_map(), istr);
 }
+
+class MapShapeIntersect {
+ public:
+  MapShapeIntersect() {
+    ShapeIntersect().deserialize_map()["ShapeIntersect"] = MakeShapeIntersect();
+  }
+};
+
+static MapShapeIntersect mapper_ = MapShapeIntersect();
 
 ShapeIntersect::ShapeIntersect(
     const std::shared_ptr<Shape> shape1,
@@ -45,6 +53,7 @@ ShapeIntersect::ShapeIntersect(
     shape1_(shape1),
     shape2_(shape2) {
 }
+
 double ShapeIntersect::nearest_distance(const Position& point) const {
   const double dist1 = shape1_->nearest_distance(point),
                dist2 = shape2_->nearest_distance(point);

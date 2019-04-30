@@ -20,6 +20,7 @@ namespace feasst {
  */
 class VisitModelIntra : public VisitModel {
  public:
+  VisitModelIntra() {}
   int intra_cut() const { return intra_cut_; }
   void set_intra_cut(const int cut) { intra_cut_ = cut; }
   void compute(
@@ -35,8 +36,12 @@ class VisitModelIntra : public VisitModel {
       const int group_index) override {
     compute(model, model_params, config->selection_of_all(), config, group_index);
   }
+  std::shared_ptr<VisitModel> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+  VisitModelIntra(std::istream& istr);
   ~VisitModelIntra() {}
  private:
+  const std::string class_name_ = "VisitModelIntra";
   int intra_cut_ = -1;
 };
 

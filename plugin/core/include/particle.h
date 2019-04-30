@@ -26,6 +26,8 @@ namespace feasst {
  */
 class Particle : public TypedEntity, public SpatialEntity {
  public:
+  Particle() : TypedEntity(), SpatialEntity() {}
+
   /** @name Sites
     Sites of the particle. */
   //@{
@@ -216,6 +218,9 @@ class Particle : public TypedEntity, public SpatialEntity {
   const std::vector<std::vector<int> >& bond_list() const { return bond_list_; }
   const std::vector<std::vector<int> >& bond_neighbor() const { return bond_neighbor_; }
   const std::vector<std::vector<int> >& angle_list() const { return angle_list_; }
+
+  void serialize(std::ostream& ostr) const;
+  Particle(std::istream& istr);
 
  private:
   std::vector<Site> sites_;

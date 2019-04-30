@@ -44,6 +44,11 @@ TEST(Configuration, coordinates) {
   config.displace_particles(select, pos);
   EXPECT_EQ(config.num_particles(), 2);
   EXPECT_EQ(config.dimension(), 3);
+
+  // serialize
+  std::stringstream ss;
+  config.serialize(ss);
+  Configuration config2(ss);
 }
 
 TEST(Configuration, particle_types_lj) {
@@ -218,6 +223,14 @@ TEST(Configuration, cells) {
   DEBUG(site.property("cell0"));
   DEBUG(site.property("cell1"));
   EXPECT_NE(cell1, round(site.property("cell1")));
+
+  // serialize
+  std::stringstream ss;
+  config.serialize(ss);
+  Configuration config2(ss);
+  EXPECT_EQ(6, round(config2.particle(0).site(2).property("cell0")));
+  EXPECT_EQ(config2.domain().cells(1).particles()[cell1].num_particles(), 0);
+
   config.remove_particle(select);
   config.check();
 }

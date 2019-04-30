@@ -43,7 +43,15 @@ class Macrostate {
   /// given by the input histogram.
   bool is_in_range(const System* system, const Criteria* criteria);
 
+  virtual void serialize(std::ostream& ostr) const;
+  virtual std::shared_ptr<Macrostate> create(std::istream& istr) const;
+  std::map<std::string, std::shared_ptr<Macrostate> >& deserialize_map();
+  std::shared_ptr<Macrostate> deserialize(std::istream& istr);
+  Macrostate(std::istream& istr);
   virtual ~Macrostate() {}
+
+ protected:
+  void serialize_macrostate_(std::ostream& ostr) const;
 
  private:
   Histogram histogram_;

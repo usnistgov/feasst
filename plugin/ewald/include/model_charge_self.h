@@ -16,18 +16,45 @@ namespace feasst {
  */
 class ModelChargeSelf : public ModelOneBody {
  public:
+  ModelChargeSelf() {}
+
   double energy(
       const Site& site,
       const Configuration * config,
-      const ModelParams& model_params) const {
+      const ModelParams& model_params) const override {
     const int type = site.type();
     const double charge = model_params.charge().value(type);
-    const double alpha = model_params.property("alpha");
-    return -charge*charge*charge_conversion*alpha/std::sqrt(PI);
+    return -charge*charge*charge_conversion*alpha_/std::sqrt(PI);
+  }
+
+  void precompute(const ModelParams& existing) override {
+    alpha_ = existing.property("alpha");
+  }
+
+  std::shared_ptr<Model> create(std::istream& istr) const override {
+    return std::make_shared<ModelChargeSelf>(istr); }
+
+  void serialize(std::ostream& ostr) const override {
+    ostr << class_name_ << " ";
+    feasst_serialize(alpha_, ostr);
+    feasst_serialize_version(1, ostr);
+  }
+
+  ModelChargeSelf(std::istream& istr) {
+    feasst_deserialize_version(istr);
+    feasst_deserialize(&alpha_, istr);
   }
 
   virtual ~ModelChargeSelf() {}
+
+ private:
+  const std::string class_name_ = "ModelChargeSelf";
+  double alpha_;
 };
+
+inline std::shared_ptr<ModelChargeSelf> MakeModelChargeSelf() {
+  return std::make_shared<ModelChargeSelf>();
+}
 
 }  // namespace feasst
 

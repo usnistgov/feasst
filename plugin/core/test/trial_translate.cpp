@@ -6,6 +6,10 @@
 #include "core/include/visit_model_cell.h"
 #include "core/include/model_lj.h"
 #include "core/include/model_hard_sphere.h"
+#include "core/include/log.h"
+#include "core/include/movie.h"
+#include "core/include/tuner.h"
+#include "core/include/check.h"
 
 namespace feasst {
 

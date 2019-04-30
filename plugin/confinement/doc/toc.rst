@@ -5,3 +5,4 @@ API
 
    Shape
    ModelHardShape
+   HalfSpace

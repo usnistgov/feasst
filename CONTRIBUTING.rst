@@ -225,6 +225,18 @@ Auto
 * only use auto when the type is clear such as auto var = std::make_shared<..>.
 * use of "for (auto element : container) { ... }" is dangerous
 
+Serialization
+--------------------------------------------------------------------------------
+
+* guided by https://isocpp.org/wiki/faq/serialization
+* For inheritance hierarchy, a static deserialize_map is used to relate class
+  name to template.
+* Each object serializes a version that can be used for checks and backwards
+  compatibility.
+* utils_io.h contains many function templates for serialization.
+* In particular, feasst_deserialize_fstdr() needs to be fixed.
+* Don't forget to serialize (private) member data in new implementations.
+
 For quick reference
 ================================================================================
 
@@ -233,8 +245,6 @@ For quick reference
 To Do List
 ================================================================================
 
-* test LJ WL MC saturation
-* enforce order for initialization, all possible particles, type-based properties and groups must be defined prior to trial moves?
 * ideal gas as the first tutorial/testcase
 * specify units in LMP data files?
 * fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu
@@ -244,9 +254,7 @@ To Do List
 * precompute long range corrections and faster types calculation
 * multistage insertions and deletions
 * neighbor lists
-* improve interface/py for system/potentials, etc
 * restarts
 * windowing (MonteCarloFactory class)
-* implement triclinic using scaled coordinates: wrap box multiple times with int
 * trial regrow to include grand canonical insertions
 

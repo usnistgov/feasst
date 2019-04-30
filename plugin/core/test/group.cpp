@@ -27,4 +27,20 @@ TEST(Group, remove_sites) {
 //  EXPECT_EQ(2, partial_to_full[1]);
 }
 
+TEST(Group, serialize) {
+  Group grp;
+  grp.add_site_type(1);
+  grp.add_particle_type(0);
+  std::stringstream ss;
+  grp.serialize(ss);
+  Group grp2(ss);
+  std::stringstream ss2;
+  grp2.serialize(ss2);
+  EXPECT_EQ(ss.str(), ss2.str());
+  Particle particle = FileLMP().read("../forcefield/data.spce");
+  EXPECT_EQ(grp.site_indices(particle), grp2.site_indices(particle));
+  std::vector<int> indices = {1, 2};
+  EXPECT_EQ(grp.site_indices(particle), indices);
+}
+
 }  // namespace feasst

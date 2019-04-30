@@ -17,8 +17,8 @@ class FileLMP {
   /// Read pair properties from file and assign properties to particle
   void read_properties(const std::string file_name, Particle* particle);
 
-  int num_atoms() const { return num_atoms_; }
-  int num_atom_types() const { return num_atom_types_; }
+  int num_sites() const { return num_sites_; }
+  int num_site_types() const { return num_site_types_; }
   int num_bonds() const { return num_bonds_; }
   int num_bond_types() const { return num_bond_types_; }
   int num_angles() const { return num_angles_; }
@@ -29,8 +29,8 @@ class FileLMP {
   int num_improper_types() const { return num_improper_types_; }
 
  private:
-  int num_atoms_ = 0;
-  int num_atom_types_ = 0;
+  int num_sites_ = 0;
+  int num_site_types_ = 0;
   int num_bonds_ = 0;
   int num_bond_types_ = 0;
   int num_angles_ = 0;

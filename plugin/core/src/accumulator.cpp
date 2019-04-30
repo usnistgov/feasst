@@ -20,13 +20,13 @@ Accumulator::Accumulator() {
   reset();
 }
 
-Accumulator::Accumulator(const long long num_values, const long double sum,
-  const long double sum_squared) {
-  reset();
-  num_values_ = num_values;
-  sum_ = sum;
-  sum_squared_ = sum_squared;
-}
+//Accumulator::Accumulator(const long long num_values, const long double sum,
+//  const long double sum_squared) {
+//  reset();
+//  num_values_ = num_values;
+//  sum_ = sum;
+//  sum_squared_ = sum_squared;
+//}
 
 void Accumulator::accumulate(double value) {
   ++num_values_;
@@ -109,6 +109,32 @@ void Accumulator::set_block(const long long num_block) {
 
 void Accumulator::set_moments(const int num_moments) {
   val_moment_.resize(num_moments);
+}
+
+void Accumulator::serialize(std::ostream& ostr) const {
+  feasst_serialize_version(1, ostr);
+  feasst_serialize(num_values_, ostr);
+  feasst_serialize(sum_, ostr);
+  feasst_serialize(sum_squared_, ostr);
+  feasst_serialize(max_, ostr);
+  feasst_serialize(min_, ostr);
+  feasst_serialize(val_moment_, ostr);
+  feasst_serialize(num_blocks_, ostr);
+  feasst_serialize(sum_block_, ostr);
+  feasst_serialize(block_averages_, ostr);
+}
+
+Accumulator::Accumulator(std::istream& istr) {
+  feasst_deserialize_version(istr);
+  feasst_deserialize(&num_values_, istr);
+  feasst_deserialize(&sum_, istr);
+  feasst_deserialize(&sum_squared_, istr);
+  feasst_deserialize(&max_, istr);
+  feasst_deserialize(&min_, istr);
+  feasst_deserialize(&val_moment_, istr);
+  feasst_deserialize(&num_blocks_, istr);
+  feasst_deserialize(&sum_block_, istr);
+  feasst_deserialize(block_averages_, istr);
 }
 
 }  // namespace feasst

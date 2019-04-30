@@ -185,4 +185,37 @@ void Select::remove_first_site() {
   site_indices_[0].erase(site_indices_[0].begin());
 }
 
+void Select::serialize(std::ostream& sstr) const {
+  feasst_serialize_version(1, sstr);
+  feasst_serialize(particle_indices_, sstr);
+  feasst_serialize(site_indices_, sstr);
+  feasst_serialize(unique_id_, sstr);
+  feasst_serialize(trial_state_, sstr);
+  feasst_serialize(excluded_, sstr);
+  feasst_serialize(new_bond_, sstr);
+  feasst_serialize(old_bond_, sstr);
+}
+
+Select::Select(std::istream& sstr) {
+  feasst_deserialize_version(sstr);
+  feasst_deserialize(&particle_indices_, sstr);
+  feasst_deserialize(&site_indices_, sstr);
+  feasst_deserialize(&unique_id_, sstr);
+  feasst_deserialize(&trial_state_, sstr);
+  feasst_deserialize(excluded_, sstr);
+  feasst_deserialize(new_bond_, sstr);
+  feasst_deserialize(old_bond_, sstr);
+}
+
+void SelectGroup::serialize(std::ostream& sstr) const {
+  Select::serialize(sstr);
+  feasst_serialize_version(1, sstr);
+  group_.serialize(sstr);
+}
+
+SelectGroup::SelectGroup(std::istream& sstr) : Select(sstr) {
+  feasst_deserialize_version(sstr);
+  group_ = Group(sstr);
+}
+
 }  // namespace feasst

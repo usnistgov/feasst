@@ -8,3 +8,4 @@ build-gtest
 trash
 
 py/__pycache__
+*__pycache__*

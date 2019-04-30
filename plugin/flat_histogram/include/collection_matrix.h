@@ -24,6 +24,8 @@ namespace feasst {
  */
 class TripleBandedCollectionMatrix {
  public:
+  TripleBandedCollectionMatrix() {}
+
   void resize(const int num_macrostates) {
     matrix_.resize(num_macrostates, std::vector<double>(3, 0.)); }
 
@@ -35,6 +37,10 @@ class TripleBandedCollectionMatrix {
 
   /// Return the matrix
   std::vector<std::vector<double> > matrix() const { return matrix_; }
+
+  void serialize(std::ostream& ostr) const;
+
+  TripleBandedCollectionMatrix(std::istream& istr);
 
  private:
   std::vector<std::vector<double> > matrix_;

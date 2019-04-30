@@ -58,4 +58,14 @@ double TripleBandedCollectionMatrix::sum_(const int macro) {
   return std::accumulate(matrix_[macro].begin(), matrix_[macro].end(), 0.);
 }
 
+void TripleBandedCollectionMatrix::serialize(std::ostream& ostr) const {
+  feasst_serialize_version(1, ostr);
+  feasst_serialize(matrix_, ostr);
+}
+
+TripleBandedCollectionMatrix::TripleBandedCollectionMatrix(std::istream& istr) {
+  feasst_deserialize_version(istr);
+  feasst_deserialize(&matrix_, istr);
+}
+
 }  // namespace feasst

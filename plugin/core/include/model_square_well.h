@@ -9,6 +9,8 @@ namespace feasst {
 
 class ModelSquareWell : public ModelTwoBody {
  public:
+  ModelSquareWell() {}
+
   double energy(
     const double squared_distance,
     const int type1,
@@ -21,8 +23,29 @@ class ModelSquareWell : public ModelTwoBody {
     }
     return -epsilon;
   }
+
+  std::shared_ptr<Model> create(std::istream& istr) const override {
+    return std::make_shared<ModelSquareWell>(istr);
+  }
+
+  void serialize(std::ostream& ostr) const override {
+    ostr << class_name_ << " ";
+    feasst_serialize_version(1, ostr);
+  }
+
+  ModelSquareWell(std::istream& istr) {
+    feasst_deserialize_version(istr);
+  }
+
   virtual ~ModelSquareWell() {}
+
+ private:
+  const std::string class_name_ = "ModelSquareWell";
 };
+
+inline std::shared_ptr<ModelSquareWell> MakeModelSquareWell() {
+  return std::make_shared<ModelSquareWell>();
+}
 
 }  // namespace feasst
 

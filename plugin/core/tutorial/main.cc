@@ -1,35 +1,16 @@
 #include <iostream>
 #include "feasst.h"
 
-feasst::Potential lj() {
-  feasst::Potential potential;
-  potential.set_model(std::make_shared<feasst::ModelLJ>());
-  potential.set_visit_model(std::make_shared<feasst::VisitModel>());
-  return potential;
-}
-
-feasst::Potential lrc() {
-  feasst::Potential potential;
-  potential.set_visit_model(std::make_shared<feasst::LongRangeCorrections>());
-  return potential;
-}
-
-feasst::System system() {
-  feasst::System system;
-  system.add(feasst::Configuration({
-    {"cubic_box_length", "8"},
-    {"particle_type", "../../../../forcefield/data.lj"},
-  }));
-  system.add(lj());
-  system.add(lrc());
-  return system;
-}
-
 int main() {
   feasst::seed_random_by_date();
   feasst::MonteCarlo mc;
-  mc.set(system());
-  mc.set(feasst::MakeCriteriaMetropolis({
+  mc.add(feasst::Configuration({
+    {"cubic_box_length", "8"},
+    {"particle_type", "../../../../forcefield/data.lj"},
+  }));
+  mc.add(feasst::Potential(feasst::MakeModelLJ()));
+  mc.add(feasst::Potential(feasst::MakeLongRangeCorrections()));
+  mc.add(feasst::MakeCriteriaMetropolis({
     {"beta", "1.2"},
     {"chemical_potential", "1."},
   }));

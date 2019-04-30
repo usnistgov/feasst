@@ -10,6 +10,8 @@
 namespace feasst {
 
 /**
+  HWH: Refactor this as an analyze class. Criteria base class should have
+       state numbers.
   Accumulate a value for each bin of a macrostate.
  */
 class MacrostateAccumulator {
@@ -70,7 +72,8 @@ class BinEnergy : public MacrostateAccumulator {
   virtual ~BinEnergy() {}
 
  protected:
-  std::shared_ptr<MacrostateAccumulator> deep_copy_impl_() const override { return std::make_shared<BinEnergy>(*this); }
+  std::shared_ptr<MacrostateAccumulator> deep_copy_impl_() const override {
+    return std::make_shared<BinEnergy>(*this); }
 };
 
 }  // namespace feasst

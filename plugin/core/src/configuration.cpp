@@ -496,4 +496,34 @@ int Configuration::num_particles_of_type(const int type) const {
   return num;
 }
 
+void Configuration::serialize(std::ostream& ostr) const {
+  feasst_serialize_version(1, ostr);
+  particle_types_.serialize(ostr);
+  unique_types_.serialize(ostr);
+  particles_.serialize(ostr);
+  domain_.serialize(ostr);
+  feasst_serialize_fstobj(group_selects_, ostr);
+  feasst_serialize(unique_indices_, ostr);
+  feasst_serialize(group_store_particle_type_, ostr);
+  feasst_serialize(group_store_group_index_, ostr);
+  feasst_serialize_fstobj(ghosts_, ostr);
+  feasst_serialize(type_to_file_, ostr);
+  feasst_serialize(num_particles_of_type_, ostr);
+}
+
+Configuration::Configuration(std::istream& istr) {
+  feasst_deserialize_version(istr);
+  particle_types_ = ParticleFactory(istr);
+  unique_types_ = ParticleFactory(istr);
+  particles_ = ParticleFactory(istr);
+  domain_ = Domain(istr);
+  feasst_deserialize_fstobj(&group_selects_, istr);
+  feasst_deserialize(&unique_indices_, istr);
+  feasst_deserialize(&group_store_particle_type_, istr);
+  feasst_deserialize(&group_store_group_index_, istr);
+  feasst_deserialize_fstobj(&ghosts_, istr);
+  feasst_deserialize(&type_to_file_, istr);
+  feasst_deserialize(&num_particles_of_type_, istr);
+}
+
 }  // namespace feasst

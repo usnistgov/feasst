@@ -15,6 +15,8 @@ namespace feasst {
  */
 class Bias {
  public:
+  Bias() {}
+
   /// Return the natural log of the bias for a transition from a macrostate
   /// in the old bin to a new bin.
   double ln_bias(const int bin_new, const int bin_old) const {
@@ -42,6 +44,10 @@ class Bias {
   /// Return true if completion requirements are met.
   bool is_complete() const { return is_complete_; }
 
+  virtual void serialize(std::ostream& ostr) const;
+  virtual std::shared_ptr<Bias> create(std::istream& istr) const;
+  std::map<std::string, std::shared_ptr<Bias> >& deserialize_map();
+  std::shared_ptr<Bias> deserialize(std::istream& istr);
   virtual ~Bias() {}
 
  protected:
@@ -51,6 +57,9 @@ class Bias {
     const int macrostate_old,
     const int macrostate_new,
     const bool is_accepted);
+
+  void serialize_bias_(std::ostream& ostr) const;
+  Bias(std::istream& istr);
 
  private:
   bool is_complete_ = false;

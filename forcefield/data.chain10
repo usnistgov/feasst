@@ -1,13 +1,13 @@
 # LAMMPS-inspired data file
 # linear flexible chain
 
-10 atoms
+10 sites
 9 bonds
 
-1 atom types
+1 site types
 1 bond types
 
-Atom Properties
+Site Properties
 
 1 epsilon 1 sigma 1.0 cutoff 3.0
 
@@ -15,7 +15,7 @@ Bond Properties
 
 1 l0 1.0 delta 0.00001
 
-Atoms
+Sites
 
 1 1 1 0.0 0.0 0.0
 2 1 1 1.0 0.0 0.0

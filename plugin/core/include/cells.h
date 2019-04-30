@@ -14,6 +14,8 @@ namespace feasst {
  */
 class Cells : public PropertiedEntity {
  public:
+  Cells() {}
+
   /// Create the number, length and neighbors.
   /// By default, abort if there aren't more than \f$3^D\f$ cells,
   /// where D is the dimension.
@@ -72,6 +74,8 @@ class Cells : public PropertiedEntity {
 
   std::string str() const;
 
+  void serialize(std::ostream& ostr) const;
+  Cells(std::istream& istr);
   virtual ~Cells() {}
 
  private:

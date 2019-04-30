@@ -281,11 +281,16 @@ class Configuration {
   /// Check consistency of dimensions and lists.
   void check() const;
 
+  void serialize(std::ostream& ostr) const;
+  Configuration(std::istream& istr);
+
  private:
   ParticleFactory particle_types_;
   ParticleFactory unique_types_;
   ParticleFactory particles_;
   Domain domain_;
+
+  // temporaries (not serialized)
   Arguments args_;
   int newest_particle_index_;
 

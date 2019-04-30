@@ -28,4 +28,29 @@ TEST(UtilsIO, trim) {
   EXPECT_EQ("/home/username/feasst/forcefield/", trim("/", f3, 0));
 }
 
+TEST(UtilsIO, serialize) {
+  std::vector<double> vec2, vec = {0, 1234.203467642396097823666};
+  std::stringstream ss;
+  feasst_serialize(vec, ss);
+  feasst_deserialize(&vec2, ss);
+  EXPECT_EQ(vec, vec2);
+}
+
+TEST(UtilsIO, serialize_string) {
+  std::string str("12bananas");
+  std::stringstream ss;
+  feasst_serialize(str, ss);
+  feasst_serialize(str, ss);
+  std::string str2;
+  feasst_deserialize(&str2, ss);
+  feasst_deserialize(&str2, ss);
+  EXPECT_EQ(str, str2);
+  EXPECT_EQ(str, "12bananas");
+  try {
+    std::string str3("12 bananas");
+    feasst_serialize(str3, ss);
+    CATCH_PHRASE("no spaces");
+  }
+}
+
 }  // namespace feasst

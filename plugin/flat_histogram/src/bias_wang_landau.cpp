@@ -63,4 +63,43 @@ std::string BiasWangLandau::write_per_bin(const int bin) const {
   return ss.str();
 }
 
+class MapBiasWangLandau {
+ public:
+  MapBiasWangLandau() {
+    auto obj = MakeBiasWangLandau({{"min_flatness", "0"}});
+    obj->deserialize_map()["BiasWangLandau"] = obj;
+  }
+};
+
+static MapBiasWangLandau mapper_ = MapBiasWangLandau();
+
+BiasWangLandau::BiasWangLandau(std::istream& istr) : Bias(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 247, "mismatch version: " << version);
+  feasst_deserialize_fstobj(&(ln_macro_prob_), istr);
+  feasst_deserialize(&(add_to_ln_probability_), istr);
+  feasst_deserialize(&(reduce_ln_probability_), istr);
+  feasst_deserialize(&(flatness_threshold_), istr);
+  feasst_deserialize(&(visited_states_), istr);
+  feasst_deserialize(&(num_flatness_), istr);
+  feasst_deserialize(&(min_flatness_), istr);
+}
+
+std::shared_ptr<Bias> BiasWangLandau::create(std::istream& istr) const {
+  return std::make_shared<BiasWangLandau>(istr);
+}
+
+void BiasWangLandau::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_bias_(ostr);
+  feasst_serialize_version(247, ostr);
+  feasst_serialize_fstobj(ln_macro_prob_, ostr);
+  feasst_serialize(add_to_ln_probability_, ostr);
+  feasst_serialize(reduce_ln_probability_, ostr);
+  feasst_serialize(flatness_threshold_, ostr);
+  feasst_serialize(visited_states_, ostr);
+  feasst_serialize(num_flatness_, ostr);
+  feasst_serialize(min_flatness_, ostr);
+}
+
 }  // namespace feasst

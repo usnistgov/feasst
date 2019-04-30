@@ -22,6 +22,8 @@ class Site : public PropertiedEntity,
              public TypedEntity,
              public SpatialEntity {
  public:
+  Site() {}
+
   /// Displace the Position of the Site.
   void displace(const Position displacement) {
     add_position(displacement);
@@ -34,6 +36,8 @@ class Site : public PropertiedEntity,
   /// Assign as director if a site has a property named director.
   void add_property(const std::string name, const double value) override;
 
+  void serialize(std::ostream& ostr) const;
+  Site(std::istream& istr);
   virtual ~Site() {}
 
  private:

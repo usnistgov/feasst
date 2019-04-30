@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "patch/include/visit_model_patch.h"
+#include "patch/include/visit_model_inner_patch.h"
 #include "core/include/file_xyz.h"
 #include "core/include/model_square_well.h"
 #include "core/include/perturb_translate.h"
@@ -8,7 +8,7 @@
 
 namespace feasst {
 
-TEST(VisitModelPatch, patch_one) {
+TEST(VisitModelInnerPatch, patch_one) {
   Configuration config;
   config.add_particle_type("../plugin/patch/forcefield/data.patch_one");
   config.set_model_param("cutoff", 0, 3.);
@@ -23,9 +23,18 @@ TEST(VisitModelPatch, patch_one) {
   config.add(Group().add_site_type(0));
   visit.compute(model, &config, 1);
   EXPECT_NEAR(-3., visit.energy(), NEAR_ZERO);
+
+  // serialize
+  std::stringstream ss, ss2;
+  visit.serialize(ss);
+  auto visit2 = VisitModel().deserialize(ss);
+  visit2->compute(model, &config, 1);
+  EXPECT_NEAR(-3., visit2->energy(), NEAR_ZERO);
+  visit2->serialize(ss2);
+  EXPECT_EQ(ss.str(), ss2.str());
 }
 
-TEST(VisitModelPatch, patch_one_2body) {
+TEST(VisitModelInnerPatch, patch_one_2body) {
   System system;
   { Configuration config;
     config.set_domain(Domain().set_cubic(10.));

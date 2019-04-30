@@ -121,4 +121,14 @@ void Position::multiply(const double constant) {
   }
 }
 
+void Position::serialize(std::ostream& sstr) const {
+  feasst_serialize_version(1, sstr);
+  feasst_serialize(coord_, sstr);
+}
+
+Position::Position(std::istream& sstr) {
+  feasst_deserialize_version(sstr);
+  feasst_deserialize(&coord_, sstr);
+}
+
 }  // namespace feasst

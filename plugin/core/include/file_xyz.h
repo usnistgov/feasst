@@ -3,12 +3,15 @@
 #define FEASST_CORE_FILE_XYZ_H_
 
 #include <fstream>
+#include <sstream>
 #include "core/include/configuration.h"
 
 namespace feasst {
 
 class FileVMD {
  public:
+  FileVMD() {}
+
   void write(const std::string file_name, const Configuration& config, const std::string traj_file_name) {
     std::ofstream vmdf(file_name);
     vmdf << "display projection Orthographic" << endl
@@ -22,6 +25,15 @@ class FileVMD {
 //    for (int particle_type = 0; particle_type < config.num_particle_types(); ++particle_type) {
 //    }
   }
+
+  void serialize(std::ostream& ostr) const {
+    feasst_serialize_version(1, ostr);
+  }
+
+  FileVMD(std::istream& istr) {
+    feasst_deserialize_version(istr);
+  }
+
 };
 
 /// HWH Add html link to XYZ format
@@ -50,6 +62,18 @@ class FileXYZ {
 
   /// By default, do not append
   void set_append(const int append = 0) { append_ = append; }
+
+  void serialize(std::ostream& ostr) const {
+    feasst_serialize_version(1, ostr);
+    feasst_serialize(group_index_, ostr);
+    feasst_serialize(append_, ostr);
+  }
+
+  FileXYZ(std::istream& istr) {
+    feasst_deserialize_version(istr);
+    feasst_deserialize(&group_index_, istr);
+    feasst_deserialize(&append_, istr);
+  }
 
  private:
   int group_index_;

@@ -5,3 +5,5 @@ API
 
    ModelYukawa
    ModelLJAlpha
+   EnergyAtCutoff
+   EnergyDerivAtCutoff

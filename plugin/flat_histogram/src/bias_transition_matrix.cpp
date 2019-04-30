@@ -57,18 +57,18 @@ void BiasTransitionMatrix::update_blocks_(
   // If the blocks haven't been initialized, create new blocks.
   if (blocks_.size() == 0) {
     for (int index = 0; index < 3; ++index) {
-      auto block = std::make_shared<BiasTransitionMatrix>(*this);
-      block->is_block_ = true;
-      block->blocks_.clear();
+      BiasTransitionMatrix block(*this);
+      block.is_block_ = true;
+      block.blocks_.clear();
       blocks_.push_back(block);
     }
   }
 
   // Update one of the randomly chosen blocks.
-  random_.element(blocks_)->update(macrostate_old,
-                                   macrostate_new,
-                                   ln_metropolis_prob,
-                                   is_accepted);
+  random_.element(blocks_).update(macrostate_old,
+                                  macrostate_new,
+                                  ln_metropolis_prob,
+                                  is_accepted);
 }
 
 void BiasTransitionMatrix::resize(const Histogram& histogram) {
@@ -89,7 +89,7 @@ std::string BiasTransitionMatrix::write() const {
 std::string BiasTransitionMatrix::write_per_bin_header() const {
   std::stringstream ss;
   ss << Bias::write_per_bin_header() << " ";
-  for (const std::shared_ptr<BiasTransitionMatrix> block : blocks_) {
+  for (int index = 0; index < static_cast<int>(blocks_.size()); ++index) {
     ss << "lnpi_partial ";
    // block->write_per_bin_header();
   }
@@ -106,11 +106,11 @@ std::string BiasTransitionMatrix::write_per_bin(const int bin) const {
 
   // compute and print the standard deviation of the average of the blocks
   Accumulator acc_block;
-  for (const std::shared_ptr<BiasTransitionMatrix> block : blocks_) {
-    ss << block->ln_macro_prob().value(bin) << " ";
+  for (const BiasTransitionMatrix& block : blocks_) {
+    ss << block.ln_macro_prob().value(bin) << " ";
    // write_per_bin(bin) << " ";
-    DEBUG(block->ln_macro_prob().value(bin));
-    acc_block.accumulate(block->ln_macro_prob().value(bin));
+    DEBUG(block.ln_macro_prob().value(bin));
+    acc_block.accumulate(block.ln_macro_prob().value(bin));
   }
   if (!is_block_) {
     ss << acc_block.stdev_of_av() << " ";
@@ -135,8 +135,8 @@ void BiasTransitionMatrix::infrequent_update_() {
   DEBUG("BiasTransitionMatrix::infrequent_update_() " << is_block_);
   // update the macrostate distribution
   collection_.compute_ln_prob(&ln_macro_prob_);
-  for (const std::shared_ptr<BiasTransitionMatrix> block : blocks_) {
-    block->infrequent_update_();
+  for (BiasTransitionMatrix& block : blocks_) {
+    block.infrequent_update_();
   }
 
   // update the number of sweeps
@@ -148,6 +148,52 @@ void BiasTransitionMatrix::infrequent_update_() {
   if (num_sweeps_ >= min_sweeps_) {
     set_complete_();
   }
+}
+
+class MapBiasTransitionMatrix {
+ public:
+  MapBiasTransitionMatrix() {
+    auto obj = MakeBiasTransitionMatrix({{"min_sweeps", "0"}});
+    obj->deserialize_map()["BiasTransitionMatrix"] = obj;
+  }
+};
+
+static MapBiasTransitionMatrix mapper_ = MapBiasTransitionMatrix();
+
+std::shared_ptr<Bias> BiasTransitionMatrix::create(std::istream& istr) const {
+  return std::make_shared<BiasTransitionMatrix>(istr);
+}
+
+BiasTransitionMatrix::BiasTransitionMatrix(std::istream& istr)
+  : Bias(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(667 == version, "mismatch version: " << version);
+  feasst_deserialize_fstobj(&ln_macro_prob_, istr);
+  feasst_deserialize_fstobj(&collection_, istr);
+  feasst_deserialize(&visits_, istr);
+  feasst_deserialize(&min_visits_, istr);
+  feasst_deserialize(&num_sweeps_, istr);
+  feasst_deserialize(&min_sweeps_, istr);
+  feasst_deserialize(&num_steps_to_update_, istr);
+  feasst_deserialize(&num_steps_since_update_, istr);
+  feasst_deserialize(&is_block_, istr);
+  feasst_deserialize_fstobj(&blocks_, istr);
+}
+
+void BiasTransitionMatrix::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_bias_(ostr);
+  feasst_serialize_version(667, ostr);
+  feasst_serialize_fstobj(ln_macro_prob_, ostr);
+  feasst_serialize_fstobj(collection_, ostr);
+  feasst_serialize(visits_, ostr);
+  feasst_serialize(min_visits_, ostr);
+  feasst_serialize(num_sweeps_, ostr);
+  feasst_serialize(min_sweeps_, ostr);
+  feasst_serialize(num_steps_to_update_, ostr);
+  feasst_serialize(num_steps_since_update_, ostr);
+  feasst_serialize(is_block_, ostr);
+  feasst_serialize_fstobj(blocks_, ostr);
 }
 
 }  // namespace feasst

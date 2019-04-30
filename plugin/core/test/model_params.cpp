@@ -4,9 +4,16 @@
 
 namespace feasst {
 
+TEST(ModelParams, size) {
+  feasst::Configuration config;
+  config.add_particle_type("../forcefield/data.chain10");
+  EXPECT_EQ(1, config.model_params().size());
+}
+
 TEST(ModelParams, max) {
   feasst::Configuration config;
   config.add_particle_type("../forcefield/data.spce");
+  EXPECT_EQ(2, config.model_params().size());
   EXPECT_EQ(config.model_params().epsilon().mixed_max(), 0.650169581);
   EXPECT_EQ(config.model_params().charge().mixed_max(), 0.8476*0.8476);
   EXPECT_EQ(config.model_params().charge().max(), 0.4238);
@@ -28,9 +35,20 @@ TEST(ModelParams, max) {
   }
   params.add(std::make_shared<ModelParam>());
   try {
-    params.select("generic")->value(0);
+    params.select("ModelParam")->value(0);
     CATCH_PHRASE("size error");
   }
+
+  // serialize
+  std::stringstream ss;
+  params.charge().serialize(ss);
+  ModelParam charge2(ss);
+  EXPECT_EQ(params.mixed_charge(), charge2.mixed_values());
+
+  std::stringstream ss2;
+  params.serialize(ss2);
+  ModelParams params2(ss2);
+  EXPECT_EQ(params.mixed_charge(), params2.mixed_charge());
 }
 
 }  // namespace feasst

@@ -59,6 +59,9 @@ class Group : public PropertiedEntity {
   /// Return if the group definition is based on location.
   bool is_spatial() const { return spatial_; }
 
+  void serialize(std::ostream& ostr) const;
+  Group(std::istream& istr);
+
  private:
   /// If no site types are listed, do not screen by site types.
   std::vector<int> site_types_;

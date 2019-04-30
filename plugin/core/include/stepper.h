@@ -55,6 +55,8 @@ class Stepper {
   /// Set file output to not append.
   void set_no_append() { append_ = false; }
 
+  void serialize(std::ostream& ostr) const;
+  Stepper(std::istream& istr);
   virtual ~Stepper() {}
 
  protected:

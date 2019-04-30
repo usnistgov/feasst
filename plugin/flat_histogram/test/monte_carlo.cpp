@@ -51,6 +51,14 @@ TEST(MonteCarlo, WLMC) {
     // mc.attempt(1e6); // note more than 1e4 steps required for TM
     // mc.run_until_complete();
     INFO(mc.criteria()->write());
+
+    // serialize
+    std::stringstream ss, ss2;
+    mc.serialize(ss);
+//    INFO(ss.str());
+    MonteCarlo mc2(ss);
+    mc2.serialize(ss2);
+    EXPECT_EQ(ss.str(), ss2.str());
   }
 }
 

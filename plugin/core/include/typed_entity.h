@@ -12,11 +12,16 @@ namespace feasst {
  */
 class TypedEntity {
  public:
+  TypedEntity() {}
+
   /// Obtain the type.
   int type() const { return type_; }
 
   /// Set the type.
   void set_type(const int type) { type_ = type; }
+
+  void serialize(std::ostream& ostr) const;
+  TypedEntity(std::istream& istr);
 
  private:
   int type_ = 0;

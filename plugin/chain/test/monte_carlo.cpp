@@ -15,6 +15,10 @@
 #include "core/include/long_range_corrections.h"
 #include "core/include/visit_model_intra.h"
 #include "core/include/visit_model_cell.h"
+#include "core/include/log.h"
+#include "core/include/movie.h"
+#include "core/include/tuner.h"
+#include "core/include/check.h"
 #include "chain/include/analyze_rigid_bonds.h"
 
 namespace feasst {
@@ -120,6 +124,13 @@ TEST(MonteCarlo, chain) {
   mc.add(MakeTuner({{"steps_per", str(steps_per)}}));
   mc.add(MakeAnalyzeRigidBonds({{"steps_per", str(steps_per)}}));
   mc.attempt(1e3);
+
+  // serialize
+  std::stringstream ss;
+  mc.serialize(ss);
+  MonteCarlo mc2(ss);
+  EXPECT_EQ(mc2.analyzers().size(), 3);
+  // INFO(ss.str());
 }
 
 }  // namespace feasst

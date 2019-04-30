@@ -112,7 +112,13 @@ TEST(VisitModelCell, lj_reference_config) {
   model.compute(select, &config, &visit);
   model.compute(select, &config, &cell_visit);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-15);
-  INFO("en " << visit.energy());
+
+  // serialize
+  std::stringstream ss;
+  cell_visit.serialize(ss);
+  auto cell_visit2 = cell_visit.deserialize(ss);
+  model.compute(select, &config, cell_visit2.get());
+  EXPECT_NEAR(visit.energy(), cell_visit2->energy(), 5e-15);
 
   visit.check_energy(model, &config);
   cell_visit.check_energy(model, &config);

@@ -8,6 +8,10 @@ namespace feasst {
 void Properties::check() const {
   ASSERT(property_value_.size() == property_name_.size(),
     "size error");
+  // make sure there are no spaces in property names
+  for (const std::string name : property_name_) {
+    ASSERT(num_spaces(name) == 0, "spaces are not allowed in property names");
+  }
 }
 
 void Properties::add(const std::string name, const double value) {
@@ -77,6 +81,22 @@ void PropertiedEntity::set_properties(const Properties& properties,
       set_property(index, values[index]);
     }
   }
+}
+
+void Properties::serialize(std::ostream& ostr) const {
+  check();
+  ostr << MAX_PRECISION;
+  ostr << "1 "; // version
+  feasst_serialize(property_name_, ostr);
+  feasst_serialize(property_value_, ostr);
+}
+
+Properties::Properties(std::istream& istr) {
+  DEBUG("deserializing properties");
+  int version;
+  istr >> version;
+  feasst_deserialize(&property_name_, istr);
+  feasst_deserialize(&property_value_, istr);
 }
 
 }  // namespace feasst

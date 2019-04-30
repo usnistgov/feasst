@@ -4,12 +4,12 @@
 #include "core/include/debug.h"
 #include "core/include/formula_polynomial.h"
 #include "core/include/utils_math.h"
+#include "core/include/utils_io.h"
 
 namespace feasst {
 
 Histogram::Histogram(const argtype& args) {
   args_.init(args);
-  
   // construct a constant width bin
   if (args_.key("width").used()) {
     const double width = args_.dble();
@@ -40,8 +40,7 @@ void Histogram::set_bin_size(const std::shared_ptr<Formula> bin_size) {
 }
 
 void Histogram::set_width_center(const double width, const double center) {
-  auto bin_size = std::make_shared<FormulaPolynomial>();
-  bin_size->set_x0(0);
+  auto bin_size = MakeFormulaPolynomial({{"x0", "0"}});
   bin_size->set_A(0, center).set_A(1, width);
   set_bin_size(bin_size);
   is_constant_width_ = 1;
@@ -116,6 +115,31 @@ void Histogram::add(const double value) {
       ASSERT(increment != -1, "strange range");
     }
   }
+}
+
+void Histogram::serialize(std::ostream& ostr) const {
+  feasst_serialize_version(1, ostr);
+  feasst_serialize(histogram_, ostr);
+  feasst_serialize(edges_, ostr);
+  feasst_serialize(expandable_, ostr);
+  feasst_serialize_fstdr(bin_size_, ostr);
+  feasst_serialize(is_constant_width_, ostr);
+}
+
+Histogram::Histogram(std::istream& istr) {
+  feasst_deserialize_version(istr);
+  feasst_deserialize(&histogram_, istr);
+  feasst_deserialize(&edges_, istr);
+  feasst_deserialize(&expandable_, istr);
+  // feasst_deserialize_fstdr(bin_size_, istr);
+  { // HWH for unknown reasons the above template function does not work
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      bin_size_ = bin_size_->deserialize(istr);
+    }
+  }
+  feasst_deserialize(&is_constant_width_, istr);
 }
 
 }  // namespace feasst

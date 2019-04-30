@@ -45,18 +45,26 @@ class CriteriaFlatHistogram : public Criteria {
     is_macrostate_set_ = true;
   }
 
+  std::shared_ptr<Criteria> create(std::istream& istr) const override {
+    return std::make_shared<CriteriaFlatHistogram>(istr); }
+
+  void serialize(std::ostream& ostr) const override;
+  CriteriaFlatHistogram(std::istream& istr);
+  ~CriteriaFlatHistogram() {}
+
  private:
+  const std::string class_name_ = "CriteriaFlatHistogram";
   std::shared_ptr<Bias> bias_;
   std::shared_ptr<Macrostate> macrostate_;
   int macrostate_old_, macrostate_new_;
-  Random random_;
   MacrostateAccumulatorFactory bin_trackers_;
+  bool is_macrostate_set_ = false;
+
+  Random random_;
 
   void after_attempt_(const System* system) override {
     macrostate_new_ = macrostate_->bin(system, this);
   }
-
-  bool is_macrostate_set_ = false;
 };
 
 inline std::shared_ptr<CriteriaFlatHistogram> MakeCriteriaFlatHistogram(

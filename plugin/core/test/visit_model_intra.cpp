@@ -28,6 +28,13 @@ TEST(VisitModelIntra, energy) {
 
   model.compute(all, &config, &visit);
   EXPECT_NEAR(8*pe_lj, visit.energy(), NEAR_ZERO);
+
+  // serialize
+  std::stringstream ss;
+  visit.serialize(ss);
+  auto visit2 = VisitModel().deserialize(ss);
+  model.compute(all, &config, visit2.get());
+  EXPECT_NEAR(visit.energy(), visit2->energy(), NEAR_ZERO);
 }
 
 }  // namespace feasst

@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_VISIT_MODEL_PATCH_H_
-#define FEASST_CORE_VISIT_MODEL_PATCH_H_
+#ifndef FEASST_MODELS_VISIT_MODEL_INNER_PATCH_H_
+#define FEASST_MODELS_VISIT_MODEL_INNER_PATCH_H_
 
 #include "core/include/visit_model.h"
 #include "core/include/utils_math.h"
@@ -15,6 +15,7 @@ class PatchAngle : public ModelParam {
 class CosPatchAngle : public ModelParam {
  public:
   CosPatchAngle() { set_name("cos_patch_angle"); }
+  CosPatchAngle(std::istream& istr) : ModelParam(istr) {}
 
   double compute(const int type, const ModelParams& model_params) override {
     const double angle = model_params.select("patch_angle")->value(type);
@@ -47,6 +48,8 @@ class CosPatchAngle : public ModelParam {
  */
 class VisitModelInnerPatch : public VisitModelInner {
  public:
+  VisitModelInnerPatch() {}
+
   // HWH make a helper function which
   // 1. sets up rcut of centers based on patches
   // assigns group for centers and uses that
@@ -78,6 +81,12 @@ class VisitModelInnerPatch : public VisitModelInner {
     cos_patch_angle_.set(type, cosa);
   }
 
+  std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
+    return std::make_shared<VisitModelInnerPatch>(istr); }
+  void serialize(std::ostream& ostr) const override;
+  VisitModelInnerPatch(std::istream& istr);
+  virtual ~VisitModelInnerPatch() {}
+
  protected:
   // compute the interaction between a pair of centers
   void compute(
@@ -91,9 +100,10 @@ class VisitModelInnerPatch : public VisitModelInner {
       Position * relative) override;
 
  private:
+  const std::string class_name_ = "VisitModelInnerPatch";
   CosPatchAngle cos_patch_angle_;
 };
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_VISIT_MODEL_PATCH_H_
+#endif  // FEASST_MODELS_VISIT_MODEL_INNER_PATCH_H_

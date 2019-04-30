@@ -28,6 +28,8 @@ namespace feasst {
  */
 class ParticleFactory {
  public:
+  ParticleFactory() {}
+
   /// Adjust the site types of added particles to ensure uniqueness.
   /// Returns self for chain setting.
   ParticleFactory& unique_particles();
@@ -166,6 +168,9 @@ class ParticleFactory {
       const int site_index) {
     particles_[particle_index].set_site_property(index, value, site_index);
   }
+
+  void serialize(std::ostream& ostr) const;
+  ParticleFactory(std::istream& istr);
 
  private:
   std::vector<Particle> particles_;

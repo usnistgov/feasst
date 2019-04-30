@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "confinement/include/model_hard_shape.h"
+#include "confinement/include/half_space.h"
 #include "core/include/configuration.h"
 #include "core/include/select_list.h"
 
@@ -25,6 +26,13 @@ TEST(ModelHardShape, half_space) {
   pos.set_vector({0, 0, -.00001});
   config.displace_particle(config.selection_of_all(), pos);
   EXPECT_LT(1e100, model.energy(config.particle(0).site(0), &config, model_params));
+
+  // serialize
+  std::stringstream ss, ss2;
+  model.serialize(ss);
+  std::shared_ptr<Model> model2 = model.deserialize(ss);
+  model2->serialize(ss2);
+  EXPECT_EQ(ss.str(), ss2.str());
 }
 
 }  // namespace feasst

@@ -16,7 +16,6 @@ namespace feasst {
 
 /**
   Systems may have multiple configurations but their typing and grouping should be the same.
-  HWH refactor how the configurations are set up (e.g., no add_configuration).
   This way we can enforce typing.
   Allow duplication of configuration.
   Or maybe this should be done in the configuration class itself?
@@ -28,6 +27,8 @@ namespace feasst {
  */
 class System {
  public:
+  System() {}
+
   /// Set the configuration.
   void add(const Configuration& configuration) { configurations_.push_back(configuration); }
 
@@ -102,6 +103,24 @@ class System {
   const std::vector<PotentialFactory> references() const { return references_; }
   const Potential& reference(const int ref, const int potential) const {
     return references_[ref].potentials()[potential]; }
+
+  void serialize(std::ostream& sstr) const {
+    feasst_serialize_version(1, sstr);
+    feasst_serialize_fstobj(configurations_, sstr);
+    unoptimized_.serialize(sstr);
+    optimized_.serialize(sstr);
+    feasst_serialize(is_optimized_, sstr);
+    feasst_serialize_fstobj(references_, sstr);
+  }
+
+  System(std::istream& sstr) {
+    feasst_deserialize_version(sstr);
+    feasst_deserialize_fstobj(&configurations_, sstr);
+    unoptimized_ = PotentialFactory(sstr);
+    optimized_ = PotentialFactory(sstr);
+    feasst_deserialize(&is_optimized_, sstr);
+    feasst_deserialize_fstobj(&references_, sstr);
+  }
 
  private:
   std::vector<Configuration> configurations_;

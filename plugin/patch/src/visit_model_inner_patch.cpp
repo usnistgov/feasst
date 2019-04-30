@@ -1,4 +1,4 @@
-#include "patch/include/visit_model_patch.h"
+#include "patch/include/visit_model_inner_patch.h"
 #include "core/include/model_two_body.h"
 #include "core/include/constants.h"
 
@@ -63,6 +63,27 @@ void VisitModelInnerPatch::compute(
       }
     }
   }
+}
+
+class MapVisitModelInnerPatch {
+ public:
+  MapVisitModelInnerPatch() {
+    VisitModelInnerPatch().deserialize_map()["VisitModelInnerPatch"] =
+      std::make_shared<VisitModelInnerPatch>();
+  }
+};
+
+static MapVisitModelInnerPatch mapper_ = MapVisitModelInnerPatch();
+
+VisitModelInnerPatch::VisitModelInnerPatch(std::istream& istr) {
+  feasst_deserialize_version(istr);
+  feasst_deserialize_fstobj(&cos_patch_angle_, istr);
+}
+
+void VisitModelInnerPatch::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  feasst_serialize_version(1, ostr);
+  feasst_serialize_fstobj(cos_patch_angle_, ostr);
 }
 
 }  // namespace feasst

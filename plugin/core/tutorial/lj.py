@@ -2,7 +2,7 @@ import feasst
 
 def lj():
   potential = feasst.Potential()
-  potential.set_model(feasst.ModelLJShrPtr())
+  potential.set_model(feasst.MakeModelLJ())
   return potential
 
 def lj_cell():
@@ -12,7 +12,7 @@ def lj_cell():
 
 def lrc():
   potential = feasst.Potential()
-  potential.set_visit_model(feasst.LongRangeCorrectionsShrPtr())
+  potential.set_visit_model(feasst.MakeLongRangeCorrections())
   return potential
 
 def system(box_length):

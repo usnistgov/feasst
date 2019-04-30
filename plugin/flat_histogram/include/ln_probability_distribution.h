@@ -11,6 +11,8 @@ namespace feasst {
  */
 class LnProbabilityDistribution {
  public:
+  LnProbabilityDistribution() {}
+
   /// Return the value of the bin.
   double value(const int bin) const { return values_[bin]; }
 
@@ -32,6 +34,10 @@ class LnProbabilityDistribution {
 
   /// Normalize such that the sum of the probability is unity.
   void normalize();
+
+  void serialize(std::ostream& ostr) const;
+
+  LnProbabilityDistribution(std::istream& istr);
 
  private:
   std::vector<double> values_;

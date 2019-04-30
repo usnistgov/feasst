@@ -29,6 +29,13 @@ TEST(Properties, properties) {
     CATCH_PHRASE("already exists");
   }
   properties.check();
+
+  // serialize
+  properties.add("now", -10325231);
+  std::stringstream ss;
+  properties.serialize(ss);
+  Properties prop2(ss);
+  EXPECT_EQ(prop2.str(), properties.str());
 }
 
 }  // namespace feasst

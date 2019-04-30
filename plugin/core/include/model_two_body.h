@@ -106,6 +106,12 @@ class ModelTwoBodyFactory : public ModelTwoBody {
     return en;
   }
 
+  void precompute(const ModelParams& existing) override {
+    for (const std::shared_ptr<ModelTwoBody> model : models_) {
+      model->precompute(existing);
+    }
+  }
+
  private:
   std::vector<std::shared_ptr<ModelTwoBody> > models_;
 };

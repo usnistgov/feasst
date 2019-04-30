@@ -15,10 +15,12 @@ namespace feasst {
 class ModelHardShape : public ModelOneBody,
                        public ShapedEntity {
  public:
+  ModelHardShape() : ModelOneBody(), ShapedEntity() {}
+
   double energy(
       const Site& site,
       const Configuration * config,
-      const ModelParams& model_params) const {
+      const ModelParams& model_params) const override {
     const int type = site.type();
     const double sigma = model_params.sigma().value(type);
     if (shape()->is_inside(site.position(), sigma)) {
@@ -27,9 +29,29 @@ class ModelHardShape : public ModelOneBody,
     return NEAR_INFINITY;
   }
 
+  void serialize(std::ostream& ostr) const override {
+    ostr << class_name_ << " ";
+    ShapedEntity::serialize(ostr);
+    feasst_serialize_version(1, ostr);
+  }
+
+  std::shared_ptr<Model> create(std::istream& istr) const override {
+    return std::make_shared<ModelHardShape>(istr);
+  }
+
+  ModelHardShape(std::istream& istr) : ModelOneBody(), ShapedEntity(istr) {
+    feasst_deserialize_version(istr);
+  }
+
   virtual ~ModelHardShape() {}
+
  private:
+  const std::string class_name_ = "ModelHardShape";
 };
+
+inline std::shared_ptr<ModelHardShape> MakeModelHardShape() {
+  return std::make_shared<ModelHardShape>();
+}
 
 }  // namespace feasst
 

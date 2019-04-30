@@ -43,10 +43,13 @@ class BiasWangLandau : public Bias {
   std::string write() const override;
   std::string write_per_bin(const int bin) const override;
   std::string write_per_bin_header() const override;
+  std::shared_ptr<Bias> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+  BiasWangLandau(std::istream& istr);
   virtual ~BiasWangLandau() {}
 
  private:
-  Arguments args_;
+  const std::string class_name_ = "BiasWangLandau";
   LnProbabilityDistribution ln_macro_prob_;
   double add_to_ln_probability_ = 0;
   double reduce_ln_probability_ = 0;
@@ -59,6 +62,8 @@ class BiasWangLandau : public Bias {
   /// Number of times the visited states histogram was found to be flat.
   int num_flatness_ = 0;
   int min_flatness_ = 0;
+
+  Arguments args_;
 
   /// Perform update when the visited states histogram is found to be flat.
   void flatness_update_();

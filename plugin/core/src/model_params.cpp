@@ -6,6 +6,26 @@
 
 namespace feasst {
 
+void ModelParam::serialize(std::ostream& ostr) const {
+  feasst_serialize(name_, ostr);
+  feasst_serialize_version(1, ostr);
+  feasst_serialize(values_, ostr);
+  feasst_serialize(mixed_values_, ostr);
+  feasst_serialize(is_mixed_override_, ostr);
+}
+
+ModelParam::ModelParam(std::istream& istr) {
+  feasst_deserialize(&name_, istr);
+  feasst_deserialize_version(istr);
+  feasst_deserialize(&values_, istr);
+  feasst_deserialize(&mixed_values_, istr);
+  feasst_deserialize(&is_mixed_override_, istr);
+  if (values_.size() > 0) {
+    max_value_ = *std::max_element(values_.begin(), values_.end());
+    max_mixed_value_ = maximum(mixed_values_);
+  }
+}
+
 void ModelParam::add(const double value) {
   values_.push_back(value);
   max_value_ = *std::max_element(values_.begin(), values_.end());
@@ -178,6 +198,38 @@ void ModelParams::check() const {
   const int size = params_.front()->size();
   for (std::shared_ptr<ModelParam> parm : params_) {
     ASSERT(size == parm->size(), "size mismatch");
+  }
+}
+
+// HWH warning: magic number "4"
+void ModelParams::serialize(std::ostream& ostr) const {
+  PropertiedEntity::serialize(ostr);
+  ostr << MAX_PRECISION;
+  feasst_serialize_version(1, ostr);
+  epsilon_->serialize(ostr);
+  sigma_->serialize(ostr);
+  cutoff_->serialize(ostr);
+  charge_->serialize(ostr);
+  ostr << params_.size() << " ";
+  for (int index = 4; index < static_cast<int>(params_.size()); ++index) {
+    params_[index]->serialize(ostr);
+  }
+}
+
+// HWH warning: magic number "4"
+ModelParams::ModelParams(std::istream& istr)
+  : PropertiedEntity(istr) {
+  feasst_deserialize_version(istr);
+  epsilon_ = std::make_shared<Epsilon>(istr);
+  sigma_ = std::make_shared<Sigma>(istr);
+  cutoff_ = std::make_shared<CutOff>(istr);
+  charge_ = std::make_shared<Charge>(istr);
+  add_();
+  int num;
+  istr >> num;
+  params_.resize(num);
+  for (int index = 4; index < num; ++index) {
+    params_[index] = std::make_shared<ModelParam>(istr);
   }
 }
 

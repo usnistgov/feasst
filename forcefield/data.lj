@@ -1,14 +1,14 @@
 # LAMMPS-inspired data file
 
-1 atoms
+1 sites
 
-1 atom types
+1 site types
 
-Atom Properties
+Site Properties
 
 1 sigma 1.0 epsilon 1.0 cutoff 3.0
 
-Atoms
+Sites
 
 1 1 1 0 0 0
 

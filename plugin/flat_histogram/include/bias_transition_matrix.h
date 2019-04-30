@@ -45,13 +45,16 @@ class BiasTransitionMatrix : public Bias {
   std::string write_per_bin(const int bin) const override;
   std::string write_per_bin_header() const override;
 
+  std::shared_ptr<Bias> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+  BiasTransitionMatrix(std::istream& istr);
   virtual ~BiasTransitionMatrix() {}
 
  protected:
   void infrequent_update_();
 
  private:
-  Arguments args_;
+  std::string class_name_ = "BiasTransitionMatrix";
   LnProbabilityDistribution ln_macro_prob_;
   TripleBandedCollectionMatrix collection_;
   std::vector<int> visits_;
@@ -60,8 +63,10 @@ class BiasTransitionMatrix : public Bias {
   int min_sweeps_ = 0;
   int num_steps_to_update_ = 0;
   int num_steps_since_update_ = 0;
-  std::vector<std::shared_ptr<BiasTransitionMatrix> > blocks_;
+  std::vector<BiasTransitionMatrix> blocks_;
   bool is_block_ = false;
+
+  Arguments args_;
   Random random_;
 
   void update_blocks_(

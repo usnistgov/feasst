@@ -56,6 +56,12 @@ TEST(Cells, cells) {
   for (int cell = 0; cell < cells.num_total(); ++cell) {
     EXPECT_EQ(cell, cells.neighbor()[cell][4]);
   }
+
+  // serialize
+  std::stringstream ss;
+  cells.serialize(ss);
+  Cells cells2(ss);
+  EXPECT_EQ(cells.neighbor(), cells2.neighbor());
 }
 
 }  // namespace feasst

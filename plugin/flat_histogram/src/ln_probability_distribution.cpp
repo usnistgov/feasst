@@ -3,6 +3,7 @@
 #include <cmath>
 #include "core/include/utils_math.h"
 #include "core/include/debug.h"
+#include "core/include/utils_io.h"
 #include "flat_histogram/include/ln_probability_distribution.h"
 
 namespace feasst {
@@ -29,6 +30,17 @@ double LnProbabilityDistribution::sum_probability_() {
     sum += exp(ln_prob);
   }
   return sum;
+}
+
+void LnProbabilityDistribution::serialize(std::ostream& ostr) const {
+  feasst_serialize_version(885, ostr);
+  feasst_serialize(values_, ostr);
+}
+
+LnProbabilityDistribution::LnProbabilityDistribution(std::istream& istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(885 == version, "mismatch version: " << version);
+  feasst_deserialize(&values_, istr);
 }
 
 }  // namespace feasst

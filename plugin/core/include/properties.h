@@ -14,6 +14,8 @@ namespace feasst {
  */
 class Properties {
  public:
+  Properties() {}
+
   /// Add a new value/name combination.
   void add(const std::string name, const double value);
 
@@ -54,7 +56,9 @@ class Properties {
   /// Return the properties as a human readable string.
   std::string str() const;
 
-  ~Properties() { check(); }
+  void serialize(std::ostream& ostr) const;
+  Properties(std::istream& istr);
+  ~Properties() {} // check(); }
 
  private:
   std::vector<double> property_value_;
@@ -63,6 +67,8 @@ class Properties {
 
 class PropertiedEntity {
  public:
+  PropertiedEntity() {}
+
   /// Add a new property.
   virtual void add_property(const std::string name, const double value) {
     properties_.add(name, value);
@@ -107,6 +113,8 @@ class PropertiedEntity {
   /// Check the properties.
   virtual void check() const { properties_.check(); }
 
+  void serialize(std::ostream& ostr) const { properties_.serialize(ostr); }
+  PropertiedEntity(std::istream& istr) { properties_ = Properties(istr); }
   virtual ~PropertiedEntity() {}
 
  private:

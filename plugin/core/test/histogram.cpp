@@ -2,6 +2,7 @@
 #include <limits.h>
 #include "core/include/histogram.h"
 #include "core/include/constants.h"
+#include "core/include/debug.h"
 
 namespace feasst {
 
@@ -115,16 +116,12 @@ TEST(Histogram, constructor) {
 
     testhistCenterZero(&h);
 
-//    h.writeRestart("tmp/tmph");
-//    Histogram h2("tmp/tmph");
-//    Histogram* h3 = h.clone();
-//    shared_ptr<Histogram> h4 = h.cloneShrPtr();
-//
-//    testhistCenterZero(&h2);
-//    testhistCenterZero(h3);
-//    testhistCenterZero(h4.get());
-//
-//    delete h3;
+    // serialize
+    std::stringstream ss;
+    h.serialize(ss);
+    Histogram h2(ss);
+    testhistCenterZero(&h2);
+    EXPECT_EQ(1, h2.histogram()[1]);
   }
 }
 

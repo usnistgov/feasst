@@ -62,6 +62,24 @@ class Model {
 
   /// Precompute model parameters based on existing model parameters.
   virtual void precompute(const ModelParams& existing) {}
+
+  // https://isocpp.org/wiki/faq/serialization
+  //typedef std::shared_ptr<Model> (*Factory)(std::istream&);
+
+  /// Output a serialized version of the existing model.
+  virtual void serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+
+  // Derived class implementation of a serialization.
+  virtual std::shared_ptr<Model> create(std::istream& istr) const {
+    ERROR("not implemented"); }
+
+  // Returns a static mapping of class name to model.
+  std::map<std::string, std::shared_ptr<Model> >& deserialize_map();
+
+  /// Return a model given a serialization.
+  std::shared_ptr<Model> deserialize(std::istream& istr) {
+    return template_deserialize(deserialize_map(), istr);
+  }
 };
 
 }  // namespace feasst

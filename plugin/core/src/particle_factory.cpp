@@ -72,13 +72,17 @@ void ParticleFactory::add(const std::string file_name) {
   // HWH ASSERT(kMaxSiteType == model_params_.size(), "size error");
   Particle particle = FileLMP().read(file_name);
 
-  /// assign per-site properties
+  // Assign per-site properties from the data file.
   if (unique_types_) {
     FileLMP().read_properties(file_name, &particle);
-    model_params_.add(particle);
   }
 
   add(particle);
+
+  // Update mole parameters only after the particle has been filtered.
+  if (unique_types_) {
+    model_params_.add(particles_.back());
+  }
 }
 
 ParticleFactory& ParticleFactory::unique_particles() {
@@ -158,6 +162,22 @@ void ParticleFactory::replace_position(const int particle_index,
 void ParticleFactory::remove(const int particle_index) {
   ASSERT(particle_index < num(), "size error");
   particles_.erase(particles_.begin() + particle_index);
+}
+
+void ParticleFactory::serialize(std::ostream& ostr) const {
+  feasst_serialize_version(1, ostr);
+  feasst_serialize_fstobj(particles_, ostr);
+  feasst_serialize(unique_particles_, ostr);
+  feasst_serialize(unique_types_, ostr);
+  model_params_.serialize(ostr);
+}
+
+ParticleFactory::ParticleFactory(std::istream& istr) {
+  feasst_deserialize_version(istr);
+  feasst_deserialize_fstobj(&particles_, istr);
+  feasst_deserialize(&unique_particles_, istr);
+  feasst_deserialize(&unique_types_, istr);
+  model_params_ = ModelParams(istr);
 }
 
 }  // namespace feasst

@@ -2,6 +2,7 @@
 #ifndef FEASST_CORE_MODEL_LJ_H_
 #define FEASST_CORE_MODEL_LJ_H_
 
+#include <memory>
 #include "core/include/model_two_body.h"
 #include "core/include/constants.h"
 
@@ -17,6 +18,10 @@ namespace feasst {
  */
 class ModelLJ : public ModelTwoBody {
  public:
+  ModelLJ() {
+    set_hard_sphere_threshold();
+  }
+
   double energy(
       const double squared_distance,
       const int type1,
@@ -34,13 +39,32 @@ class ModelLJ : public ModelTwoBody {
     return en;
   }
 
+  /// When the distance between sites does not exceed thresshold*sigma,
+  /// then return NEAR_INFINITY energy.
+  void set_hard_sphere_threshold(const double threshold = 0.2) {
+    hard_sphere_threshold_sq_ = threshold*threshold; }
+
+  /// Return the threshold for hard sphere interaction.
+  double hard_sphere_threshold() const {
+    return std::sqrt(hard_sphere_threshold_sq_); }
+  const double& hard_sphere_threshold_sq() const {
+    return hard_sphere_threshold_sq_; }
+
+  std::shared_ptr<Model> create(std::istream& istr) const override {
+    return std::make_shared<ModelLJ>(istr); }
+  void serialize(std::ostream& ostr) const override;
+  ModelLJ(std::istream& istr);
   virtual ~ModelLJ() {}
 
+ protected:
+  void serialize_model_lj_(std::ostream& ostr) const;
+
  private:
-  double hard_sphere_threshold_sq_ = 0.2*0.2;
+  const std::string class_name_ = "ModelLJ";
+  double hard_sphere_threshold_sq_;
 };
 
-inline std::shared_ptr<ModelLJ> ModelLJShrPtr() {
+inline std::shared_ptr<ModelLJ> MakeModelLJ() {
   return std::make_shared<ModelLJ>();
 }
 

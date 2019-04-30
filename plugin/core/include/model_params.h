@@ -20,7 +20,7 @@ class ModelParams;
  */
 class ModelParam {
  public:
-  ModelParam() { set_name("generic"); }
+  ModelParam() { set_name("ModelParam"); }
 
   /// Add a new site type.
   void add(const double value);
@@ -84,6 +84,9 @@ class ModelParam {
   /// Set the name of the model parameter.
   ModelParam& set_name(const std::string name) { name_ = name; return *this; };
 
+  void serialize(std::ostream& ostr) const;
+  ModelParam(std::istream& istr);
+
   virtual ~ModelParam() {};
 
  private:
@@ -92,13 +95,12 @@ class ModelParam {
   std::vector<std::vector<double> > mixed_values_;
   double max_value_;
   double max_mixed_value_;
+  bool is_mixed_override_ = false;
 
   /// Define mixing rules in the derived class.
   /// The default is a simple average.
   virtual double mix_(const double value1, const double value2) {
     return 0.5*(value1 + value2); }
-
-  bool is_mixed_override_ = false;
 };
 
 /**
@@ -109,6 +111,7 @@ class ModelParam {
 class Epsilon : public ModelParam {
  public:
   Epsilon() { set_name("epsilon"); }
+  Epsilon(std::istream& istr) : ModelParam(istr) {}
 
  private:
   double mix_(const double value1, const double value2) override {
@@ -123,6 +126,7 @@ class Epsilon : public ModelParam {
 class Sigma : public ModelParam {
  public:
   Sigma() { set_name("sigma"); }
+  Sigma(std::istream& istr) : ModelParam(istr) {}
 };
 
 /**
@@ -133,6 +137,7 @@ class Sigma : public ModelParam {
 class CutOff : public ModelParam {
  public:
   CutOff() { set_name("cutoff"); }
+  CutOff(std::istream& istr) : ModelParam(istr) {}
 };
 
 /**
@@ -143,6 +148,7 @@ class CutOff : public ModelParam {
 class Charge : public ModelParam {
  public:
   Charge() { set_name("charge"); }
+  Charge(std::istream& istr) : ModelParam(istr) {}
 
  private:
   double mix_(const double value1, const double value2) override {
@@ -204,6 +210,9 @@ class ModelParams : public PropertiedEntity {
 
   /// Check
   void check() const override;
+
+  void serialize(std::ostream& ostr) const;
+  ModelParams(std::istream& istr);
 
  private:
   /// All types of model parameters listed here.

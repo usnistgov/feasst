@@ -78,4 +78,19 @@ std::vector<int> Group::site_indices(const Particle& particle) const {
   return indices;
 }
 
+void Group::serialize(std::ostream& ostr) const {
+  ostr << "1 "; // version
+  feasst_serialize(site_types_, ostr);
+  feasst_serialize(particle_types_, ostr);
+  ostr << dynamic_ << " " << spatial_ << " ";
+}
+
+Group::Group(std::istream& istr) {
+  int version;
+  istr >> version;
+  feasst_deserialize(&site_types_, istr);
+  feasst_deserialize(&particle_types_, istr);
+  istr >> dynamic_ >> spatial_;
+}
+
 }  // namespace feasst

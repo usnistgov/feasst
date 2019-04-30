@@ -126,4 +126,20 @@ std::string Cells::str() const {
   return ss.str();
 }
 
+void Cells::serialize(std::ostream& sstr) const {
+  feasst_serialize_version(1, sstr);
+  feasst_serialize(label_, sstr);
+  feasst_serialize(num_, sstr);
+  feasst_serialize(neighbor_, sstr);
+  feasst_serialize_fstobj(particles_, sstr);
+}
+
+Cells::Cells(std::istream& sstr) {
+  feasst_deserialize_version(sstr);
+  feasst_deserialize(&label_, sstr);
+  feasst_deserialize(&num_, sstr);
+  feasst_deserialize(&neighbor_, sstr);
+  feasst_deserialize_fstobj(&particles_, sstr);
+}
+
 }  // namespace feasst

@@ -13,6 +13,8 @@ namespace feasst {
  */
 class PotentialFactory {
  public:
+  PotentialFactory() {}
+
   void add_potential(const Potential potential) {
     potentials_.push_back(potential); }
 
@@ -63,6 +65,17 @@ class PotentialFactory {
   }
 
   int num() const { return static_cast<int>(potentials_.size()); }
+
+  void serialize(std::ostream& sstr) const {
+    feasst_serialize_version(1, sstr);
+    feasst_serialize_fstobj(potentials_, sstr);
+  }
+
+  PotentialFactory(std::istream& sstr) {
+    feasst_deserialize_version(sstr);
+    feasst_deserialize_fstobj(&potentials_, sstr);
+  }
+
  private:
   std::vector<Potential> potentials_;
 };

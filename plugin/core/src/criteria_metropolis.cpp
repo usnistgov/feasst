@@ -12,4 +12,23 @@ bool CriteriaMetropolis::is_accepted(const AcceptanceCriteria accept_criteria) {
   return false;
 }
 
+class MapCriteriaMetropolis {
+ public:
+  MapCriteriaMetropolis() {
+    CriteriaMetropolis().deserialize_map()["CriteriaMetropolis"] = MakeCriteriaMetropolis();
+  }
+};
+
+static MapCriteriaMetropolis mapper_ = MapCriteriaMetropolis();
+
+CriteriaMetropolis::CriteriaMetropolis(std::istream& istr) : Criteria(istr) {
+  feasst_deserialize_version(istr);
+}
+
+void CriteriaMetropolis::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_criteria_(ostr);
+  feasst_serialize_version(1, ostr);
+}
+
 }  // namespace feasst

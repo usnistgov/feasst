@@ -9,10 +9,6 @@ Shape
    :project: FEASST
    :members:
 
-.. doxygenclass:: feasst::HalfSpace
-   :project: FEASST
-   :members:
-
 .. doxygenclass:: feasst::ShapeIntersect
    :project: FEASST
    :members:

@@ -37,29 +37,11 @@ class Analyze : public Stepper {
       const System& system,
       const TrialFactory& trial_factory);
 
+  virtual void serialize(std::ostream& ostr) const;
+  virtual std::shared_ptr<Analyze> create(std::istream& istr) const;
+  std::map<std::string, std::shared_ptr<Analyze> >& deserialize_map();
+  std::shared_ptr<Analyze> deserialize(std::istream& istr);
   virtual ~Analyze() {}
-};
-
-class AnalyzeFactory : public Analyze {
- public:
-  AnalyzeFactory() : Analyze() {}
-
-  void initialize(const std::shared_ptr<Criteria> criteria,
-    const System& system,
-    const TrialFactory& trial_factory) override;
-
-  void add(std::shared_ptr<Analyze> analyze) {
-    analyzers_.push_back(analyze); }
-
-  const std::vector<std::shared_ptr<Analyze> >& analyzers() const {
-    return analyzers_; }
-
-  void trial(const std::shared_ptr<Criteria> criteria,
-    const System& system,
-    const TrialFactory& trial_factory) override;
-
-  private:
-    std::vector<std::shared_ptr<Analyze> > analyzers_;
 };
 
 class AnalyzeWriteOnly : public Analyze {
@@ -82,6 +64,12 @@ class AnalyzeWriteOnly : public Analyze {
     ERROR("This analyze is write only."); }
 
   void set_steps_per(const int steps) { set_steps_per_write(steps); }
+
+  std::shared_ptr<Analyze> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+
+ private:
+  const std::string class_name_ = "AnalyzeWriteOnly";
 };
 
 class AnalyzeUpdateOnly : public Analyze {
@@ -104,88 +92,13 @@ class AnalyzeUpdateOnly : public Analyze {
     ERROR("This analyze is update only."); }
 
   void set_steps_per(const int steps) { set_steps_per_update(steps); }
-};
 
-class Log : public AnalyzeWriteOnly {
- public:
-  Log(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {
-    set_append();
-  }
-  void initialize(const std::shared_ptr<Criteria> criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override {
-    std::stringstream ss;
-    ss << "#" << criteria->status_header() << " " << trial_factory.status_header()
-       << std::endl;
-    printer(ss.str());
-  }
-
-  std::string write(const std::shared_ptr<Criteria> criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override {
-    // ensure the following order matches the header from initialization.
-    std::stringstream ss;
-    ss << criteria->status() << " " << trial_factory.status() << std::endl;
-    return ss.str();
-  }
-};
-
-inline std::shared_ptr<Log> MakeLog(const argtype &args = argtype()) {
-  return std::make_shared<Log>(args);
-}
-
-class Movie : public AnalyzeWriteOnly {
- public:
-  Movie(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {
-    set_append();
-  }
-  void initialize(const std::shared_ptr<Criteria> criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override {
-    ASSERT(!file_name().empty(), "file name required. Did you forget to " <<
-      "Analyze::set_file_name()?");
-    xyz_.write(file_name(), system.configuration());
-    xyz_.set_append(1);
-
-    // write vmd
-    std::stringstream ss;
-    ss << file_name() << ".vmd";
-    vmd_.write(ss.str(), system.configuration(), file_name());
-  }
-
-  std::string write(const std::shared_ptr<Criteria> criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override {
-    // ensure the following order matches the header from initialization.
-    xyz_.write(file_name(), system.configuration());
-    return std::string("");
-  }
+  std::shared_ptr<Analyze> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
 
  private:
-  FileXYZ xyz_;
-  FileVMD vmd_;
+  const std::string class_name_ = "AnalyzeUpdateOnly";
 };
-
-inline std::shared_ptr<Movie> MakeMovie(const argtype &args = argtype()) {
-  return std::make_shared<Movie>(args);
-}
-
-class CriteriaWriter : public AnalyzeWriteOnly {
- public:
-  CriteriaWriter(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {}
-  std::string write(const std::shared_ptr<Criteria> criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override {
-    // ensure the following order matches the header from initialization.
-    std::stringstream ss;
-    ss << criteria->write() << std::endl;
-    return ss.str();
-  }
-};
-
-inline std::shared_ptr<CriteriaWriter> MakeCriteriaWriter(const argtype &args = argtype()) {
-  return std::make_shared<CriteriaWriter>(args);
-}
 
 }  // namespace feasst
 

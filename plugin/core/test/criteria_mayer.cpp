@@ -35,6 +35,12 @@ TEST(CriteriaMayer, ljb2) {
   std::cout << "a " << criteria.second_virial() << std::endl;
   EXPECT_NEAR(-5.3, criteria.second_virial(), 15);
   EXPECT_GT(std::abs(2.0944-criteria.second_virial()), 0.0001); // HS value
+
+  // serialize
+  std::stringstream ss;
+  criteria.serialize(ss);
+  std::shared_ptr<Criteria> crit2 = criteria.deserialize(ss);
+  EXPECT_EQ(crit2->beta(), 1.);
 }
 
 }  // namespace feasst

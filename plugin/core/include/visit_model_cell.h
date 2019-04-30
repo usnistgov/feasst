@@ -13,6 +13,7 @@ namespace feasst {
  */
 class VisitModelCell : public VisitModel {
  public:
+  VisitModelCell() {}
   void compute(
       const ModelTwoBody& model,
       const ModelParams& model_params,
@@ -24,8 +25,12 @@ class VisitModelCell : public VisitModel {
       const Select& selection,
       Configuration * config,
       const int cell_index = 0) override;
+  std::shared_ptr<VisitModel> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+  VisitModelCell(std::istream& istr);
   ~VisitModelCell() {}
  private:
+  const std::string class_name_ = "VisitModelCell";
 };
 
 }  // namespace feasst

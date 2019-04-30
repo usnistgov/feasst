@@ -63,6 +63,15 @@ TEST(Domain, wrap) {
   EXPECT_NEAR(-7, shift.coord(0), NEAR_ZERO);
   EXPECT_NEAR(-6, shift.coord(1), NEAR_ZERO);
   EXPECT_NEAR(-5, shift.coord(2), NEAR_ZERO);
+
+  // serialize
+  std::stringstream ss;
+  domain.serialize(ss);
+  Domain domain2(ss);
+  EXPECT_EQ(domain.volume(), domain2.volume());
+  EXPECT_EQ(domain.yz(), domain2.yz());
+  EXPECT_EQ(1., domain2.yz());
+  EXPECT_EQ(domain.periodic(2), domain2.periodic(2));
 }
 
 }  // namespace feasst

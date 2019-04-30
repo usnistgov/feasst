@@ -47,6 +47,16 @@ TEST(Particle, bond) {
   EXPECT_EQ(7, chain.bond_neighbor()[8][0]);
   EXPECT_EQ(0, chain.bond_neighbor()[1][0]);
   EXPECT_EQ(2, chain.bond_neighbor()[1][1]);
+
+  // serialize
+  std::stringstream ss;
+  chain.serialize(ss);
+  Particle chain2(ss);
+  std::stringstream ss2;
+  chain2.serialize(ss2);
+  EXPECT_EQ(10, chain2.num_sites());
+  EXPECT_EQ(9, chain2.num_bonds());
+  EXPECT_EQ(0, chain2.bond(9, 8).type());
 }
 
 }  // namespace feasst

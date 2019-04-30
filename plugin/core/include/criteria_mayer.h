@@ -16,6 +16,8 @@ namespace feasst {
  */
 class CriteriaMayer : public Criteria {
  public:
+  CriteriaMayer(const argtype& args = argtype()) : Criteria(args) {}
+
   bool is_accepted(const AcceptanceCriteria accept_criteria) override;
 
   double second_virial() const {
@@ -24,15 +26,27 @@ class CriteriaMayer : public Criteria {
 
   bool verbose = false;
 
+  std::shared_ptr<Criteria> create(std::istream& istr) const override {
+    return std::make_shared<CriteriaMayer>(istr); }
+  void serialize(std::ostream& ostr) const override;
+  CriteriaMayer(std::istream& istr);
   ~CriteriaMayer() {}
+
  private:
-  Random random_;
+  const std::string class_name_ = "CriteriaMayer";
   double f12old_ = -1.;
   double f12ref_ = -1.;
   Accumulator mayer_;
   Accumulator mayer_ref_;
   int reference_index_ = 0;
+
+  // not currently serialized
+  Random random_;
 };
+
+inline std::shared_ptr<CriteriaMayer> MakeCriteriaMayer(const argtype &args = argtype()) {
+  return std::make_shared<CriteriaMayer>(args);
+}
 
 }  // namespace feasst
 

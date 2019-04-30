@@ -83,57 +83,57 @@ foreach (PLUGIN ${FEASST_PLUGINS})
   # create CMAKE_FEASST_PLUGIN_DIRS for Doxygen
   set(CMAKE_FEASST_PLUGIN_DIRS "${CMAKE_FEASST_PLUGIN_DIRS} ${PLUGIN_DIR}/include")
   file (GLOB src_cpp "${PLUGIN_DIR}/src/*.cpp")
-  add_library (${PLUGIN} SHARED ${src_cpp})
-  target_link_libraries(${PLUGIN} ${EXTRA_LIBS})
+  add_library (feasst${PLUGIN} SHARED ${src_cpp})
+  target_link_libraries(feasst${PLUGIN} ${EXTRA_LIBS})
 endforeach (PLUGIN)
 
 # HWH fix this: clang seems to require these dependencies but g++ does not... ?
 # XTC
 list (FIND FEASST_PLUGINS "xtc" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(xtc core)
+  target_link_libraries(feasstxtc feasstcore)
 endif()
 
 # Ewald
 list (FIND FEASST_PLUGINS "ewald" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(ewald core)
+  target_link_libraries(feasstewald feasstcore)
 endif()
 
 # Example
 list (FIND FEASST_PLUGINS "example" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(example core)
+  target_link_libraries(feasstexample feasstcore)
 endif()
 
 # Confinement
 list (FIND FEASST_PLUGINS "confinement" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(confinement core)
+  target_link_libraries(feasstconfinement feasstcore)
 endif()
 
 # patch
 list (FIND FEASST_PLUGINS "patch" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(patch core)
+  target_link_libraries(feasstpatch feasstcore)
 endif()
 
 # models
 list (FIND FEASST_PLUGINS "models" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(models core)
+  target_link_libraries(feasstmodels feasstcore)
 endif()
 
 # chain
 list (FIND FEASST_PLUGINS "chain" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(chain core)
+  target_link_libraries(feasstchain feasstcore)
 endif()
 
 # flat_histogram
 list (FIND FEASST_PLUGINS "flat_histogram" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(flat_histogram core)
+  target_link_libraries(feasstflat_histogram feasstcore)
 endif()
 
 # CCACHE
@@ -269,7 +269,7 @@ if (USE_GTEST)
   target_link_libraries(unittest gtest_main ${EXTRA_LIBS})
 
   foreach (PLUGIN ${FEASST_PLUGINS})
-    target_link_libraries(unittest ${PLUGIN})
+    target_link_libraries(unittest feasst${PLUGIN})
   endforeach (PLUGIN)
   add_test(NAME test COMMAND ./bin/unittest --gtest_shuffle)
 
@@ -278,14 +278,14 @@ endif(USE_GTEST)
 # build feasst library
 add_library (feasst INTERFACE)
 foreach (PLUGIN ${FEASST_PLUGINS})
-  target_link_libraries(feasst INTERFACE ${PLUGIN})
-  target_link_libraries(feasst INTERFACE ${EXTRA_LIBS})
+  target_link_libraries(feasst INTERFACE feasst${PLUGIN})
 endforeach (PLUGIN)
+target_link_libraries(feasst INTERFACE ${EXTRA_LIBS})
 
 # install library inside the binary "build" directory
 file (WRITE ${CMAKE_BINARY_DIR}/feasst.h "")
 foreach (PLUGIN ${FEASST_PLUGINS})
-  target_include_directories(${PLUGIN} INTERFACE
+  target_include_directories(feasst${PLUGIN} INTERFACE
       $<BUILD_INTERFACE:${FEASST_PLUGIN_DIR}/${PLUGIN}/include>
       $<INSTALL_INTERFACE:include/${PLUGIN}/include>)
   file(GLOB feasst_headers "${FEASST_PLUGIN_DIR}/${PLUGIN}/include/*.h")
@@ -296,13 +296,19 @@ foreach (PLUGIN ${FEASST_PLUGINS})
     file (APPEND ${CMAKE_BINARY_DIR}/feasst.h "#include \"${HEADER}\"\n")
   endforeach (HEADER)
 endforeach (PLUGIN)
-foreach (PLUGIN "${FEASST_PLUGINS};feasst")
-  install(TARGETS ${PLUGIN}
+foreach (PLUGIN ${FEASST_PLUGINS})
+  message(feasst${PLUGIN})
+  install(TARGETS feasst${PLUGIN}
       EXPORT feasst-targets
       ARCHIVE DESTINATION lib
       LIBRARY DESTINATION lib
       RUNTIME DESTINATION bin)
 endforeach (PLUGIN)
+install(TARGETS feasst
+    EXPORT feasst-targets
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin)
 install(EXPORT feasst-targets
     FILE feasst-config.cmake
     DESTINATION lib/cmake/feasst)

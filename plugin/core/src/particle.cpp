@@ -175,4 +175,28 @@ void Particle::erase_bonds() {
   angle_list_.clear();
 }
 
+void Particle::serialize(std::ostream& ostr) const {
+  TypedEntity::serialize(ostr);
+  SpatialEntity::serialize(ostr);
+  feasst_serialize_version(1, ostr);
+  feasst_serialize_fstobj(sites_, ostr);
+  feasst_serialize_fstobj(bonds_, ostr);
+  feasst_serialize_fstobj(angles_, ostr);
+  feasst_serialize(bond_list_, ostr);
+  feasst_serialize(bond_neighbor_, ostr);
+  feasst_serialize(angle_list_, ostr);
+}
+
+Particle::Particle(std::istream& istr)
+  : TypedEntity(istr),
+    SpatialEntity(istr) {
+  feasst_deserialize_version(istr);
+  feasst_deserialize_fstobj(&sites_, istr);
+  feasst_deserialize_fstobj(&bonds_, istr);
+  feasst_deserialize_fstobj(&angles_, istr);
+  feasst_deserialize(&bond_list_, istr);
+  feasst_deserialize(&bond_neighbor_, istr);
+  feasst_deserialize(&angle_list_, istr);
+}
+
 }  // namespace feasst

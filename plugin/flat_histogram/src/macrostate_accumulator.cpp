@@ -40,4 +40,5 @@ std::string MacrostateAccumulatorFactory::write_per_bin(const int bin) const {
   }
   return ss.str();
 }
+
 }  // namespace feasst

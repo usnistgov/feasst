@@ -214,4 +214,54 @@ void Ewald::update_eik(const Select& selection, Configuration * config) {
   }
 }
 
+class MapEwald {
+ public:
+  MapEwald() {
+    Ewald().deserialize_map()["Ewald"] = std::make_shared<Ewald>();
+  }
+};
+
+static MapEwald mapper_ = MapEwald();
+
+void Ewald::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_visit_model_(ostr);
+  feasst_serialize_version(319, ostr);
+  feasst_serialize(kmax_, ostr);
+  feasst_serialize(kmax_squared_, ostr);
+  feasst_serialize(kxmax_, ostr);
+  feasst_serialize(kymax_, ostr);
+  feasst_serialize(kzmax_, ostr);
+  feasst_serialize(wave_prefactor_, ostr);
+  feasst_serialize(wave_num_, ostr);
+  feasst_serialize(struct_fact_real_, ostr);
+  feasst_serialize(struct_fact_imag_, ostr);
+  feasst_serialize(struct_fact_real_old_, ostr);
+  feasst_serialize(struct_fact_imag_old_, ostr);
+  feasst_serialize(stored_energy_, ostr);
+  feasst_serialize(stored_energy_old_, ostr);
+}
+
+std::shared_ptr<VisitModel> Ewald::create(std::istream& istr) const {
+  return std::make_shared<Ewald>(istr);
+}
+
+Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(319 == version, version);
+  feasst_deserialize(&kmax_, istr);
+  feasst_deserialize(&kmax_squared_, istr);
+  feasst_deserialize(&kxmax_, istr);
+  feasst_deserialize(&kymax_, istr);
+  feasst_deserialize(&kzmax_, istr);
+  feasst_deserialize(&wave_prefactor_, istr);
+  feasst_deserialize(&wave_num_, istr);
+  feasst_deserialize(&struct_fact_real_, istr);
+  feasst_deserialize(&struct_fact_imag_, istr);
+  feasst_deserialize(&struct_fact_real_old_, istr);
+  feasst_deserialize(&struct_fact_imag_old_, istr);
+  feasst_deserialize(&stored_energy_, istr);
+  feasst_deserialize(&stored_energy_old_, istr);
+}
+
 }  // namespace feasst

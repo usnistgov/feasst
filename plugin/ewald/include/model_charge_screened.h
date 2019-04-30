@@ -16,6 +16,8 @@ namespace feasst {
  */
 class ModelChargeScreened : public ModelTwoBody {
  public:
+  ModelChargeScreened() {}
+
   double energy(
       const double squared_distance,
       const int type1,
@@ -23,12 +25,38 @@ class ModelChargeScreened : public ModelTwoBody {
       const ModelParams& model_params) const override {
     const double mixed_charge = model_params.mixed_charge()[type1][type2];
     const double distance = std::sqrt(squared_distance);
-    const double alpha = model_params.property("alpha");
-    return mixed_charge*charge_conversion*erfc(alpha*distance)/distance;
+    return mixed_charge*charge_conversion*erfc(alpha_*distance)/distance;
+  }
+
+  void precompute(const ModelParams& existing) override {
+    alpha_ = existing.property("alpha");
+  }
+
+  std::shared_ptr<Model> create(std::istream& istr) const override {
+    return std::make_shared<ModelChargeScreened>(istr);
+  }
+
+  void serialize(std::ostream& ostr) const override {
+    ostr << class_name_ << " ";
+    feasst_serialize(alpha_, ostr);
+    feasst_serialize_version(1, ostr);
+  }
+
+  ModelChargeScreened(std::istream& istr) {
+    feasst_deserialize_version(istr);
+    feasst_deserialize(&alpha_, istr);
   }
 
   virtual ~ModelChargeScreened() {}
+
+ private:
+  const std::string class_name_ = "ModelChargeScreened";
+  double alpha_;
 };
+
+inline std::shared_ptr<ModelChargeScreened> MakeModelChargeScreened() {
+  return std::make_shared<ModelChargeScreened>();
+}
 
 }  // namespace feasst
 

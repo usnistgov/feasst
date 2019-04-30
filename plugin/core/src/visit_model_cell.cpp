@@ -129,4 +129,29 @@ void VisitModelCell::compute(
   set_energy(inner()->energy());
 }
 
+class MapVisitModelCell {
+ public:
+  MapVisitModelCell() {
+    VisitModelCell().deserialize_map()["VisitModelCell"] =
+      std::make_shared<VisitModelCell>();
+  }
+};
+
+static MapVisitModelCell mapper_ = MapVisitModelCell();
+
+std::shared_ptr<VisitModel> VisitModelCell::create(std::istream& istr) const {
+  return std::make_shared<VisitModelCell>(istr);
+}
+
+VisitModelCell::VisitModelCell(std::istream& istr) : VisitModel(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(755 == version, version);
+}
+
+void VisitModelCell::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_visit_model_(ostr);
+  feasst_serialize_version(755, ostr);
+}
+
 }  // namespace feasst

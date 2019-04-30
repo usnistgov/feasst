@@ -53,6 +53,13 @@ TEST(Ewald, ewald) {
   EXPECT_NEAR(ewald.struct_fact_imag()[0], 2.3263016099862206, 5e-15);
 
   EXPECT_NEAR(ewald.energy(), 52.1324574151071, 1e-12);
+
+  // serialize
+  std::stringstream ss;
+  ewald.serialize(ss);
+  auto ewald2 = Ewald().deserialize(ss);
+  model.compute(&config, ewald2.get());
+  EXPECT_NEAR(ewald2->energy(), 52.1324574151071, 1e-12);
 }
 
 TEST(Ewald, system) {

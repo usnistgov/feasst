@@ -23,7 +23,12 @@ TEST(Accumulator, constructor) {
   EXPECT_NEAR(0, a.min(), NEAR_ZERO);
 
   // copy a using copy constructor and constructor and test
-  Accumulator b(a.num_values(), a.sum(), a.sum_of_squared());
+  //Accumulator b(a.num_values(), a.sum(), a.sum_of_squared());
+
+  // serialize
+  std::stringstream ss;
+  a.serialize(ss);
+  Accumulator b(ss);
   Accumulator c = a;
   EXPECT_EQ(b.num_values(), c.num_values());
   EXPECT_EQ(b.sum(), c.sum());

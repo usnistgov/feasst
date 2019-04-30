@@ -16,6 +16,8 @@ namespace feasst {
  */
 class Select {
  public:
+  Select() {}
+
   /// Return true if nothing is selected.
   bool is_empty() const;
 
@@ -170,6 +172,8 @@ class Select {
   }
   const std::shared_ptr<Select> old_bond() const { return old_bond_; }
 
+  virtual void serialize(std::ostream& ostr) const;
+  Select(std::istream& istr);
   virtual ~Select() {}
 
  protected:
@@ -197,9 +201,12 @@ class Select {
  */
 class SelectGroup : public Select {
  public:
+  SelectGroup() {}
   Group group() const { return group_; }
   void set_group(const Group group) { group_ = group; }
 
+  void serialize(std::ostream& ostr) const override;
+  SelectGroup(std::istream& istr);
   virtual ~SelectGroup() {}
 
  private:

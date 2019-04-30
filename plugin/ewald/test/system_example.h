@@ -58,6 +58,7 @@ System spce() {
   System sys;
   sys.add(config);
   sys.set_unoptimized(full);
+  sys.precompute();
   return sys;
 }
 

@@ -24,7 +24,7 @@ class Histogram {
       min : minimum value (default: 0)
      */
     const argtype& args = argtype());
-  
+
   /**
     Depending on the way the bins are defined, the histogram may be told how to
     automatically expand in size if the value is outside of the current bounds.
@@ -78,15 +78,19 @@ class Histogram {
   /// Return the histogram.
   std::deque<double> histogram() const { return histogram_; }
 
+  void serialize(std::ostream& ostr) const;
+  Histogram(std::istream& istr);
+
  private:
   std::deque<double> histogram_;
   std::deque<double> edges_;
   bool expandable_ = false;
   std::shared_ptr<Formula> bin_size_;
-  Arguments args_;
 
   // optimization for constant width
   int is_constant_width_ = 0;
+
+  Arguments args_;
 
   void set_expandable_() { expandable_ = true; }
 };

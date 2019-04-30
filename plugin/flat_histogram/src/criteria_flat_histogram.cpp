@@ -63,4 +63,51 @@ std::string CriteriaFlatHistogram::write() const {
   return ss.str();
 }
 
+class MapCriteriaFlatHistogram {
+ public:
+  MapCriteriaFlatHistogram() {
+    CriteriaFlatHistogram().deserialize_map()["CriteriaFlatHistogram"] =
+      MakeCriteriaFlatHistogram();
+  }
+};
+
+static MapCriteriaFlatHistogram mapper_ = MapCriteriaFlatHistogram();
+
+CriteriaFlatHistogram::CriteriaFlatHistogram(std::istream& istr)
+  : Criteria(istr) {
+  feasst_deserialize_version(istr);
+  // feasst_deserialize_fstdr(bias_, istr);
+  { // HWH for unknown reasons the above template function does not work
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      bias_ = bias_->deserialize(istr);
+    }
+  }
+  // feasst_deserialize_fstdr(macrostate_, istr);
+  { // HWH for unknown reasons the above template function does not work
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      macrostate_ = macrostate_->deserialize(istr);
+    }
+  }
+  feasst_deserialize(&macrostate_old_, istr);
+  feasst_deserialize(&macrostate_new_, istr);
+//  feasst_deserialize_fstdr(&bin_trackers_, istr);
+  feasst_deserialize(&is_macrostate_set_, istr);
+}
+
+void CriteriaFlatHistogram::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_criteria_(ostr);
+  feasst_serialize_version(1, ostr);
+  feasst_serialize_fstdr(bias_, ostr);
+  feasst_serialize_fstdr(macrostate_, ostr);
+  feasst_serialize(macrostate_old_, ostr);
+  feasst_serialize(macrostate_new_, ostr);
+//  feasst_serialize(bin_trackers_, ostr);
+  feasst_serialize(is_macrostate_set_, ostr);
+}
+
 }  // namespace feasst

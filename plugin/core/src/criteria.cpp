@@ -59,4 +59,28 @@ std::string Criteria::write() const {
   return ss.str();
 }
 
+std::map<std::string, std::shared_ptr<Criteria> >& Criteria::deserialize_map() {
+  static std::map<std::string, std::shared_ptr<Criteria> >* ans =
+     new std::map<std::string, std::shared_ptr<Criteria> >();
+  return *ans;
+}
+
+void Criteria::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+
+std::shared_ptr<Criteria> Criteria::create(std::istream& istr) const {
+  ERROR("not implemented");
+}
+
+std::shared_ptr<Criteria> Criteria::deserialize(std::istream& istr) {
+  return template_deserialize(deserialize_map(), istr);
+}
+  
+Criteria::Criteria(std::istream& istr) {
+  feasst_deserialize_version(istr);
+  feasst_deserialize(&beta_, istr);
+  feasst_deserialize(&beta_initialized_, istr);
+  feasst_deserialize(&chemical_potentials_, istr);
+  feasst_deserialize(&running_energy_, istr);
+}
+
 }  // namespace feasst

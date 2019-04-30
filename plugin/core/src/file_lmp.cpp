@@ -16,49 +16,49 @@ void FileLMP::read_num_and_types_(const std::string file_name) {
   // skip all lines beginning with the character "#"
   skip_characters('#', file);
 
-  // read number of atoms
+  // read number of sites
   std::string line, descript, descript2;
-  file >> num_atoms_ >> descript;
-  while (descript.compare("atoms") != 0) {
-    file >> num_atoms_ >> descript;
+  file >> num_sites_ >> descript;
+  while (descript.compare("sites") != 0) {
+    file >> num_sites_ >> descript;
   }
 
   // read next line, if it is number of bonds, then record.
-  // Else, it is number of atom types
+  // Else, it is number of site types
   int read_num;
   file >> read_num >> descript;
   if (descript.compare("bonds") == 0) {
     num_bonds_ = read_num;
 
     // read next line, if it is number of angles, then record.
-    // Else, it is number of atom types
+    // Else, it is number of site types
     file >> read_num >> descript;
     if (descript.compare("angles") == 0) {
       num_angles_ = read_num;
-      file >> num_atom_types_ >> descript;
-      ASSERT(descript.compare("atom") == 0,
+      file >> num_site_types_ >> descript;
+      ASSERT(descript.compare("site") == 0,
         "unrecognized lammps DATA format for file " << file_name);
-    } else if (descript.compare("atom") == 0) {
-      num_atom_types_ = read_num;
+    } else if (descript.compare("site") == 0) {
+      num_site_types_ = read_num;
     } else {
       ASSERT(0, "unrecognized lammps DATA format for file " << file_name);
     }
-  } else if (descript.compare("atom") == 0) {
-    num_atom_types_ = read_num;
+  } else if (descript.compare("site") == 0) {
+    num_site_types_ = read_num;
   } else {
     ASSERT(0, "unrecognized lammps DATA format for file " << file_name);
   }
 
-  // read number of atom types, if not already done so
-  if (num_atom_types_ == 0) {
-    file >> num_atom_types_ >> descript >> descript2;
-    while (descript.compare("atom") != 0) {
-      file >> num_atom_types_ >> descript >> descript2;
+  // read number of site types, if not already done so
+  if (num_site_types_ == 0) {
+    file >> num_site_types_ >> descript >> descript2;
+    while (descript.compare("site") != 0) {
+      file >> num_site_types_ >> descript >> descript2;
     }
   } else {
     file >> descript2;
   }
-  ASSERT(num_atom_types_ > 0, "read error");
+  ASSERT(num_site_types_ > 0, "read error");
 
   // read number of bond and angle types
   if (num_bonds_ != 0) {
@@ -84,20 +84,20 @@ Particle FileLMP::read(const std::string file_name) {
 
   read_num_and_types_(file_name);
 
-  // read until Atoms section
-  find_or_fail("Atoms", file);
+  // read until Sites section
+  find_or_fail("Sites", file);
 
-  // read Atoms section
-  int iatom, imol, itype;
+  // read Sites section
+  int isite, imol, itype;
   const int dimension = 3;
   std::vector<double> xtmp(dimension);
   std::string cm, typetmp;
   feasst::Site site;
   feasst::Position position;
   std::string line;
-  for (int i = 0; i < num_atoms_; ++i) {
+  for (int i = 0; i < num_sites_; ++i) {
     std::getline(file, line);
-    file >> iatom >> imol >> itype;
+    file >> isite >> imol >> itype;
     for (int dim = 0; dim < dimension; ++dim) {
       file >> xtmp[dim];
     }
@@ -183,8 +183,8 @@ void FileLMP::read_properties(const std::string file_name,
 
   read_num_and_types_(file_name);
 
-  find_or_fail("Atom Properties", file);
-  read_properties_("site", num_atom_types_, particle, file);
+  find_or_fail("Site Properties", file);
+  read_properties_("site", num_site_types_, particle, file);
   if (num_bonds_ != 0) {
     find_or_fail("Bond Properties", file);
     read_properties_("bond", num_bond_types_, particle, file);

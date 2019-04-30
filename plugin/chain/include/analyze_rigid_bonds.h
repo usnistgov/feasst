@@ -18,7 +18,19 @@ class AnalyzeRigidBonds : public AnalyzeUpdateOnly {
     ASSERT(std::abs(visitor_.energy()) < NEAR_ZERO, "angle check failure");
   }
 
+  std::shared_ptr<Analyze> create(std::istream& istr) const override {
+    auto model = std::make_shared<AnalyzeRigidBonds>();
+    feasst_deserialize_version(istr);
+    return model;
+  }
+
+  void serialize(std::ostream& ostr) const override {
+    ostr << class_name_ << " ";
+    feasst_serialize_version(1, ostr);
+  }
+
  private:
+  const std::string class_name_ = "AnalyzeRigidBonds";
   BondVisitor visitor_;
   BondSquareWell bond_;
   AngleSquareWell angle_;

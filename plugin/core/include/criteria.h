@@ -36,7 +36,7 @@ class Criteria {
         If only one particle type, you can drop the [i].
         The chemical potential must have the inverse units of \f$\beta\f$.
      */
-    const argtype &args = argtype());
+    const argtype& args = argtype());
 
   /// Set beta, the inverse temperature \f$ \beta=\frac{1}{k_B T} \f$.
   void set_beta(const double beta);
@@ -86,10 +86,22 @@ class Criteria {
   /// Return true if completion requirements are met.
   virtual bool is_complete() { return false; }
 
+  virtual void serialize(std::ostream& ostr) const;
+  virtual std::shared_ptr<Criteria> create(std::istream& istr) const;
+  std::map<std::string, std::shared_ptr<Criteria> >& deserialize_map();
+  std::shared_ptr<Criteria> deserialize(std::istream& istr);
+  Criteria(std::istream& istr);
   virtual ~Criteria() {}
 
  protected:
   Arguments args_;
+  void serialize_criteria_(std::ostream& ostr) const {
+    feasst_serialize_version(1, ostr);
+    feasst_serialize(beta_, ostr);
+    feasst_serialize(beta_initialized_, ostr);
+    feasst_serialize(chemical_potentials_, ostr);
+    feasst_serialize(running_energy_, ostr);
+  }
 
  private:
   double beta_;

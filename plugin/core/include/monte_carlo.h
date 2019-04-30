@@ -7,7 +7,9 @@
 #include "core/include/trial_factory.h"
 #include "core/include/trial_transfer.h"
 #include "core/include/analyze.h"
+#include "core/include/analyze_factory.h"
 #include "core/include/modify.h"
+#include "core/include/modify_factory.h"
 
 namespace feasst {
 
@@ -35,7 +37,28 @@ namespace feasst {
  */
 class MonteCarlo {
  public:
-  /// The first action with a Monte Carlo object is to set the System.
+  MonteCarlo() {}
+
+  /// The first action with a Monte Carlo object is to set the Configuration.
+  void add(const Configuration& config) {
+    system_.add(config);
+    config_set_ = true;
+    if (potential_set_) system_set_ = true;
+  }
+
+  /// The configuration may be accessed read-only.
+  const Configuration& configuration(const int index = 0) const {
+    return system_.configuration(index); }
+
+  /// The second action is to add Potentials.
+  void add(const Potential& potential) {
+    system_.add(potential);
+    potential_set_ = true;
+    if (config_set_) system_set_ = true;
+  }
+
+  /// Alternatively, the first and second actions may be combined by setting
+  /// the system directly.
   /// This must be done before setting Criteria.
   void set(const System& system) {
     system_set_ = true;
@@ -49,14 +72,17 @@ class MonteCarlo {
   // HWH depreciate: only in rare cases should the system be modified directly.
   System * get_system() { return &system_; }
 
-  /// The second action is to set the Criteria.
-  /// System must be set first.
-  void set(std::shared_ptr<Criteria> criteria) {
+  /// The third action is to set the Criteria.
+  /// Configuration and Potentials (or System) must be set first.
+  void add(std::shared_ptr<Criteria> criteria) {
     ASSERT(system_set_, "set System before Criteria.");
     criteria->set_running_energy(system_.energy());
     criteria_ = criteria;
     criteria_set_ = true;
   }
+
+  // HWH depreciate
+  void set(std::shared_ptr<Criteria> criteria) { add(criteria); }
 
   /// Once Criteria is set, it may be accessed on a read-only basis.
   const std::shared_ptr<Criteria> criteria() { return criteria_; }
@@ -96,6 +122,10 @@ class MonteCarlo {
     analyze->initialize(criteria_, system_, trial_factory_);
     analyze_factory_.add(analyze);
   }
+  std::vector<std::shared_ptr<Analyze> > analyzers() const {
+    return analyze_factory_.analyzers(); }
+  std::shared_ptr<Analyze> analyze(const int index) const {
+    return analyze_factory_.analyzers()[index]; }
 
   /// A Modifier performs some task after a given number of steps, but may
   /// change the System, Criteria and Trials.
@@ -107,6 +137,8 @@ class MonteCarlo {
   /// Attempt a number of Monte Carlo trials, with subsequent Analyzers and
   /// Modifiers.
   void attempt(const int num_trials = 1) {
+    ASSERT(system_set_, "system must be set before attempting trials.");
+    ASSERT(criteria_set_, "criteria must be set before attempting trials.");
     for (int trial = 0; trial < num_trials; ++trial) {
       trial_factory_.attempt(criteria_.get(), &system_);
       analyze_factory_.trial(criteria_, system_, trial_factory_);
@@ -121,13 +153,38 @@ class MonteCarlo {
     }
   }
 
+  void serialize(std::ostream& ostr) const {
+    feasst_serialize_version(1, ostr);
+    feasst_serialize_fstobj(system_, ostr);
+    feasst_serialize_fstdr(criteria_, ostr);
+    feasst_serialize_fstobj(analyze_factory_, ostr);
+    feasst_serialize_fstobj(modify_factory_, ostr);
+  }
+
+  MonteCarlo(std::istream& istr) {
+    feasst_deserialize_version(istr);
+    feasst_deserialize_fstobj(&system_, istr);
+    // feasst_deserialize_fstdr(criteria_, istr);
+    { // HWH for unknown reasons the above template function does not work
+      int existing;
+      istr >> existing;
+      if (existing != 0) {
+        criteria_ = criteria_->deserialize(istr);
+      }
+    }
+    feasst_deserialize_fstobj(&analyze_factory_, istr);
+    feasst_deserialize_fstobj(&modify_factory_, istr);
+  }
+
  private:
+  System system_;
   std::shared_ptr<Criteria> criteria_;
   TrialFactory trial_factory_;
-  System system_;
   AnalyzeFactory analyze_factory_;
   ModifyFactory modify_factory_;
 
+  bool config_set_ = false;
+  bool potential_set_ = false;
   bool system_set_ = false;
   bool criteria_set_ = false;
 };

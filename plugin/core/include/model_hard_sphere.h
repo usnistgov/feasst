@@ -17,6 +17,8 @@ namespace feasst {
  */
 class ModelHardSphere : public ModelTwoBody {
  public:
+  ModelHardSphere() {}
+
   double energy(
     const double squared_distance,
     const int type1,
@@ -28,8 +30,29 @@ class ModelHardSphere : public ModelTwoBody {
     }
     return 0.;
   }
+
+  std::shared_ptr<Model> create(std::istream& istr) const override {
+    return std::make_shared<ModelHardSphere>(istr); }
+
+  void serialize(std::ostream& ostr) const override {
+    ostr << class_name_ << " ";
+    feasst_serialize_version(607, ostr);
+  }
+
+  ModelHardSphere(std::istream& istr) {
+    const int version = feasst_deserialize_version(istr);
+    ASSERT(607 == version, version);
+  }
+
   virtual ~ModelHardSphere() {}
+
+ private:
+  const std::string class_name_ = "ModelHardSphere";
 };
+
+inline std::shared_ptr<ModelHardSphere> MakeModelHardSphere() {
+  return std::make_shared<ModelHardSphere>();
+}
 
 }  // namespace feasst
 

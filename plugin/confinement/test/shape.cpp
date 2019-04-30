@@ -1,10 +1,12 @@
 #include <gtest/gtest.h>
 #include "confinement/include/shape.h"
+#include "confinement/include/half_space.h"
 #include "core/include/debug.h"
 
 namespace feasst {
 
 TEST(Shape, HalfSpace) {
+  /// HWH use arguments
   auto half_space = HalfSpace()
     .set_dimension(2)
     .set_intersection(1)
@@ -25,6 +27,13 @@ TEST(Shape, HalfSpace) {
   point.set_vector({15, -56.54, 1.4999999999});
   EXPECT_FALSE(half_space.is_inside(point, 1.));
 
+  // serialize
+  std::stringstream ss;
+  half_space.serialize(ss);
+  std::shared_ptr<Shape> half_space3 = half_space.deserialize(ss);
+  point.set_vector({15, -56.54, 1.4999999999});
+  EXPECT_FALSE(half_space3->is_inside(point, 1.));
+
   auto half_space2 = half_space;
   half_space2.set_intersection(3).set_direction(-1);
   EXPECT_TRUE(half_space2.is_inside(point));
@@ -40,6 +49,12 @@ TEST(Shape, HalfSpace) {
   EXPECT_TRUE(slit.is_inside(point));
   EXPECT_TRUE(slit.is_inside(point, 0.9999));
   EXPECT_FALSE(slit.is_inside(point, 1.00001));
+
+  ss.str("");
+  slit.serialize(ss);
+  std::shared_ptr<Shape> slit2 = slit.deserialize(ss);
+  EXPECT_TRUE(slit2->is_inside(point, 0.9999));
+  EXPECT_FALSE(slit2->is_inside(point, 1.00001));
 }
 
 }  // namespace feasst

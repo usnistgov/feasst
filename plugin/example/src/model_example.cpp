@@ -1,8 +1,16 @@
-
 #include "example/include/model_example.h"
 
 namespace feasst {
 
-// place holder
+class MapModelExample {
+ public:
+  MapModelExample() {
+    ModelExample().deserialize_map()["ModelExample"] = MakeModelExample();
+  }
+};
+
+static MapModelExample mapper_ = MapModelExample();
+
+ModelExample::ModelExample() {}
 
 }  // namespace feasst

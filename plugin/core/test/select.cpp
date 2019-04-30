@@ -66,6 +66,23 @@ TEST(Select, add_remove) {
   indices = {1, 2};
   EXPECT_EQ(all.site_indices(0), indices);
   EXPECT_EQ(all.site_indices(1), indices);
+
+  // serialize
+  std::stringstream ss;
+  all.serialize(ss);
+  Select all2(ss);
+  EXPECT_EQ(all2.site_indices(1), indices);
+}
+
+TEST(SelectGroup, serialize) {
+  Configuration config;
+  config.add_particle_type("../forcefield/data.spce");
+  config.add_particle_of_type(0);
+  SelectGroup oxygen;
+  oxygen.set_group(Group().add_site_type(1));
+  std::stringstream ss;
+  oxygen.serialize(ss);
+  SelectGroup oxygen2(ss);
 }
 
 }  // namespace feasst

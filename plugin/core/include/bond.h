@@ -36,26 +36,31 @@ class Bond : public PropertiedEntity, public TypedEntity {
   /// Set the name of the bond.
   void set_name(const std::string name) { name_ = name; }
 
+  void serialize(std::ostream& ostr) const;
+  Bond(std::istream& istr);
   virtual ~Bond() {}
 
  private:
-  std::vector<int> site_indicies_;
   std::string name_;
+  std::vector<int> site_indicies_;
 };
 
 class Angle : public Bond {
  public:
   Angle() { set_name("angle"); }
+  Angle(std::istream& istr) : Bond(istr) {}
 };
 
 class Dihedral : public Bond {
  public:
   Dihedral() { set_name("dihedral"); }
+  Dihedral(std::istream& istr) : Bond(istr) {}
 };
 
 class Improper : public Bond {
  public:
   Improper() { set_name("improper"); }
+  Improper(std::istream& istr) : Bond(istr) {}
 };
 
 }  // namespace feasst

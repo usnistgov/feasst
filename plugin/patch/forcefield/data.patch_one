@@ -1,12 +1,12 @@
 # LAMMPS-inspired data file
 
-2 atoms
+2 sites
 1 bonds
 
-2 atom types
+2 site types
 1 bond types
 
-Atom Properties
+Site Properties
 
 1 sigma 1.0 epsilon 1.0 cutoff 1.5
 2 sigma 1.0 epsilon 1.0 cutoff 1.5 director 1 patch_angle 5
@@ -15,7 +15,7 @@ Bond Properties
 
 1 l0 1.0 delta 0.000001
 
-Atoms
+Sites
 
 1 1 1 0.0 0.0 0.0
 2 1 2 1.0 0.0 0.0

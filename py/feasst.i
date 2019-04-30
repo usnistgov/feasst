@@ -24,15 +24,15 @@
 #include "core/include/utils.h"
 #include "core/include/debug.h"
 #include "core/include/constants.h"
-#include "core/include/physical_constants.h"
 #include "core/include/random.h"
 #include "core/include/utils_math.h"
+#include "core/include/physical_constants.h"
 #include "core/include/bond.h"
 #include "core/include/utils_io.h"
 #include "core/include/site.h"
 #include "core/include/particle.h"
-#include "core/include/model_params.h"
 #include "core/include/file_lmp.h"
+#include "core/include/model_params.h"
 #include "core/include/group.h"
 #include "core/include/particle_factory.h"
 #include "core/include/select.h"
@@ -49,13 +49,15 @@
 #include "core/include/visit_model.h"
 #include "core/include/visit_model_cell.h"
 #include "core/include/long_range_corrections.h"
-#include "patch/include/visit_model_patch.h"
 #include "core/include/model_three_body.h"
+#include "patch/include/visit_model_inner_patch.h"
 #include "core/include/model_two_body.h"
 #include "models/include/model_yukawa.h"
-#include "core/include/model_square_well.h"
 #include "core/include/model_lj.h"
-#include "models/include/model_lj_shift.h"
+#include "models/include/model_lj_alpha.h"
+#include "models/include/model_lj_cut_shift.h"
+#include "models/include/model_lj_force_shift.h"
+#include "core/include/model_square_well.h"
 #include "core/include/model_hard_sphere.h"
 #include "core/include/visit_model_intra.h"
 #include "core/include/bond_visitor.h"
@@ -69,9 +71,9 @@
 #include "core/include/criteria_metropolis.h"
 #include "core/include/perturb.h"
 #include "core/include/perturb_configs.h"
-#include "core/include/perturb_transfer.h"
 #include "core/include/perturb_move.h"
 #include "core/include/perturb_rotate.h"
+#include "core/include/perturb_transfer.h"
 #include "core/include/trial.h"
 #include "core/include/trial_move.h"
 #include "core/include/trial_rotate.h"
@@ -79,7 +81,15 @@
 #include "core/include/rosenbluth.h"
 #include "core/include/trial_factory.h"
 #include "core/include/modify.h"
+#include "core/include/check.h"
+#include "core/include/wall_clock_limit.h"
+#include "core/include/tuner.h"
+#include "core/include/modify_factory.h"
 #include "core/include/analyze.h"
+#include "core/include/movie.h"
+#include "core/include/analyze_factory.h"
+#include "core/include/criteria_writer.h"
+#include "core/include/log.h"
 #include "core/include/monte_carlo.h"
 #include "core/include/perturb_translate.h"
 #include "core/include/trial_translate.h"
@@ -99,10 +109,12 @@
 #include "flat_histogram/include/criteria_flat_histogram.h"
 #include "confinement/include/shape.h"
 #include "confinement/include/model_hard_shape.h"
+#include "confinement/include/half_space.h"
 #include "chain/include/trial_crankshaft.h"
 #include "chain/include/perturb_regrow.h"
 #include "chain/include/analyze_rigid_bonds.h"
 #include "chain/include/trial_regrow.h"
+#include "chain/include/trial_reptate.h"
 #include "chain/include/trial_pivot.h"
 #include "example/include/model_example.h"
 using namespace feasst;
@@ -140,13 +152,13 @@ using namespace std;
 %shared_ptr(feasst::Improper);
 %shared_ptr(feasst::Site);
 %shared_ptr(feasst::Particle);
+%shared_ptr(feasst::FileLMP);
 %shared_ptr(feasst::ModelParam);
 %shared_ptr(feasst::Epsilon);
 %shared_ptr(feasst::Sigma);
 %shared_ptr(feasst::CutOff);
 %shared_ptr(feasst::Charge);
 %shared_ptr(feasst::ModelParams);
-%shared_ptr(feasst::FileLMP);
 %shared_ptr(feasst::Group);
 %shared_ptr(feasst::ParticleFactory);
 %shared_ptr(feasst::Select);
@@ -169,20 +181,20 @@ using namespace std;
 %shared_ptr(feasst::VisitModel);
 %shared_ptr(feasst::VisitModelCell);
 %shared_ptr(feasst::LongRangeCorrections);
+%shared_ptr(feasst::ModelThreeBody);
 %shared_ptr(feasst::PatchAngle);
 %shared_ptr(feasst::CosPatchAngle);
 %shared_ptr(feasst::VisitModelInnerPatch);
-%shared_ptr(feasst::ModelThreeBody);
 %shared_ptr(feasst::ModelTwoBody);
 %shared_ptr(feasst::ModelTwoBodyFactory);
 %shared_ptr(feasst::ModelYukawa);
-%shared_ptr(feasst::ModelSquareWell);
 %shared_ptr(feasst::ModelLJ);
 %shared_ptr(feasst::ModelLJAlpha);
 %shared_ptr(feasst::EnergyAtCutoff);
 %shared_ptr(feasst::ModelLJCutShift);
 %shared_ptr(feasst::EnergyDerivAtCutoff);
 %shared_ptr(feasst::ModelLJForceShift);
+%shared_ptr(feasst::ModelSquareWell);
 %shared_ptr(feasst::ModelHardSphere);
 %shared_ptr(feasst::VisitModelIntra);
 %shared_ptr(feasst::BondTwoBody);
@@ -201,10 +213,10 @@ using namespace std;
 %shared_ptr(feasst::Perturb);
 %shared_ptr(feasst::PerturbOptRevert);
 %shared_ptr(feasst::PerturbConfigs);
-%shared_ptr(feasst::PerturbAdd);
-%shared_ptr(feasst::PerturbRemove);
 %shared_ptr(feasst::PerturbSelectMove);
 %shared_ptr(feasst::PerturbRotate);
+%shared_ptr(feasst::PerturbAdd);
+%shared_ptr(feasst::PerturbRemove);
 %shared_ptr(feasst::Trial);
 %shared_ptr(feasst::TrialMove);
 %shared_ptr(feasst::TrialRotate);
@@ -214,18 +226,19 @@ using namespace std;
 %shared_ptr(feasst::StageFactory);
 %shared_ptr(feasst::TrialFactory);
 %shared_ptr(feasst::Modify);
-%shared_ptr(feasst::ModifyFactory);
 %shared_ptr(feasst::ModifyUpdateOnly);
 %shared_ptr(feasst::Check);
 %shared_ptr(feasst::EnergyCheck);
+%shared_ptr(feasst::WallClockLimit);
 %shared_ptr(feasst::Tuner);
+%shared_ptr(feasst::ModifyFactory);
 %shared_ptr(feasst::Analyze);
-%shared_ptr(feasst::AnalyzeFactory);
 %shared_ptr(feasst::AnalyzeWriteOnly);
 %shared_ptr(feasst::AnalyzeUpdateOnly);
-%shared_ptr(feasst::Log);
 %shared_ptr(feasst::Movie);
+%shared_ptr(feasst::AnalyzeFactory);
 %shared_ptr(feasst::CriteriaWriter);
+%shared_ptr(feasst::Log);
 %shared_ptr(feasst::MonteCarlo);
 %shared_ptr(feasst::PerturbTranslate);
 %shared_ptr(feasst::TrialTranslate);
@@ -249,14 +262,15 @@ using namespace std;
 %shared_ptr(feasst::CriteriaFlatHistogram);
 %shared_ptr(feasst::Shape);
 %shared_ptr(feasst::ShapedEntity);
-%shared_ptr(feasst::HalfSpace);
 %shared_ptr(feasst::ShapeIntersect);
 %shared_ptr(feasst::ModelHardShape);
+%shared_ptr(feasst::HalfSpace);
 %shared_ptr(feasst::TrialCrankshaft);
 %shared_ptr(feasst::PerturbRegrow);
 %shared_ptr(feasst::AnalyzeRigidBonds);
 %shared_ptr(feasst::StageFactoryRegrow);
 %shared_ptr(feasst::TrialRegrow);
+%shared_ptr(feasst::TrialReptate);
 %shared_ptr(feasst::TrialPivot);
 %shared_ptr(feasst::ModelExample);
 %include core/include/file.h
@@ -274,15 +288,15 @@ using namespace std;
 %include core/include/utils.h
 %include core/include/debug.h
 %include core/include/constants.h
-%include core/include/physical_constants.h
 %include core/include/random.h
 %include core/include/utils_math.h
+%include core/include/physical_constants.h
 %include core/include/bond.h
 %include core/include/utils_io.h
 %include core/include/site.h
 %include core/include/particle.h
-%include core/include/model_params.h
 %include core/include/file_lmp.h
+%include core/include/model_params.h
 %include core/include/group.h
 %include core/include/particle_factory.h
 %include core/include/select.h
@@ -299,13 +313,15 @@ using namespace std;
 %include core/include/visit_model.h
 %include core/include/visit_model_cell.h
 %include core/include/long_range_corrections.h
-%include patch/include/visit_model_patch.h
 %include core/include/model_three_body.h
+%include patch/include/visit_model_inner_patch.h
 %include core/include/model_two_body.h
 %include models/include/model_yukawa.h
-%include core/include/model_square_well.h
 %include core/include/model_lj.h
-%include models/include/model_lj_shift.h
+%include models/include/model_lj_alpha.h
+%include models/include/model_lj_cut_shift.h
+%include models/include/model_lj_force_shift.h
+%include core/include/model_square_well.h
 %include core/include/model_hard_sphere.h
 %include core/include/visit_model_intra.h
 %include core/include/bond_visitor.h
@@ -319,9 +335,9 @@ using namespace std;
 %include core/include/criteria_metropolis.h
 %include core/include/perturb.h
 %include core/include/perturb_configs.h
-%include core/include/perturb_transfer.h
 %include core/include/perturb_move.h
 %include core/include/perturb_rotate.h
+%include core/include/perturb_transfer.h
 %include core/include/trial.h
 %include core/include/trial_move.h
 %include core/include/trial_rotate.h
@@ -329,7 +345,15 @@ using namespace std;
 %include core/include/rosenbluth.h
 %include core/include/trial_factory.h
 %include core/include/modify.h
+%include core/include/check.h
+%include core/include/wall_clock_limit.h
+%include core/include/tuner.h
+%include core/include/modify_factory.h
 %include core/include/analyze.h
+%include core/include/movie.h
+%include core/include/analyze_factory.h
+%include core/include/criteria_writer.h
+%include core/include/log.h
 %include core/include/monte_carlo.h
 %include core/include/perturb_translate.h
 %include core/include/trial_translate.h
@@ -349,9 +373,11 @@ using namespace std;
 %include flat_histogram/include/criteria_flat_histogram.h
 %include confinement/include/shape.h
 %include confinement/include/model_hard_shape.h
+%include confinement/include/half_space.h
 %include chain/include/trial_crankshaft.h
 %include chain/include/perturb_regrow.h
 %include chain/include/analyze_rigid_bonds.h
 %include chain/include/trial_regrow.h
+%include chain/include/trial_reptate.h
 %include chain/include/trial_pivot.h
 %include example/include/model_example.h

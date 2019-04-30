@@ -74,4 +74,17 @@ TEST(Random, index_from_cumulative_probability) {
   for (int i = 0; i < ncpdf; ++i) EXPECT_NEAR(cpdfran[i]/double(num), ncpdf/double(num), 0.2);
 }
 
+TEST(Random, serialize) {
+  seed_random_by_date();
+  //seed_random(234652347);
+  Random random;
+  // EXPECT_NEAR(0.99971855963527156, random.uniform(), 1e-6);
+  std::stringstream ss;
+  random.serialize(ss);
+  Random random2(ss);
+  const double next = random.uniform();
+  // EXPECT_NEAR(0.80124978724913187, next, 1e-6);
+  EXPECT_EQ(next, random2.uniform());
+}
+
 }  // namespace feasst

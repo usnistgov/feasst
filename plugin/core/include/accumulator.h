@@ -13,6 +13,7 @@
 
 #include <vector>
 #include <memory>
+#include "core/include/utils_io.h"
 
 namespace feasst {
 
@@ -54,10 +55,6 @@ class Accumulator {
   /// Return standard deviation of the block averages (0 if not enough blocks).
   double block_stdev() const;
 
-  /// Constructor for checkpointing. Note that block averages are not saved.
-  Accumulator(const long long num_values, const long double sum,
-              const long double sum_squared);
-
   /// Return number of values accumulated.
   long long num_values() const { return (long long)num_values_; }
 
@@ -82,8 +79,11 @@ class Accumulator {
   /// Set the highest order of moments recorded.
   void set_moments(const int num_moments = 2);
 
-  /// Return the moments. Note that this is not supported with checkpointing.
+  /// Return the moments.
   std::vector<long double> moments() const { return val_moment_; }
+
+  void serialize(std::ostream& ostr) const;
+  Accumulator(std::istream& istr);
 
  protected:
   long long num_values_;

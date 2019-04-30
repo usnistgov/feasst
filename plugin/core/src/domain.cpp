@@ -132,4 +132,26 @@ const Cells& Domain::cells(const int index) const {
   return cells_[index];
 }
 
+void Domain::serialize(std::ostream& sstr) const {
+  feasst_serialize_version(1, sstr);
+  side_length_.serialize(sstr);
+  feasst_serialize(xy_, sstr);
+  feasst_serialize(xz_, sstr);
+  feasst_serialize(yz_, sstr);
+  feasst_serialize(is_tilted_, sstr);
+  feasst_serialize(periodic_, sstr);
+  feasst_serialize_fstobj(cells_, sstr);
+}
+
+Domain::Domain(std::istream& sstr) {
+  feasst_deserialize_version(sstr);
+  side_length_ = Position(sstr);
+  feasst_deserialize(&xy_, sstr);
+  feasst_deserialize(&xz_, sstr);
+  feasst_deserialize(&yz_, sstr);
+  feasst_deserialize(&is_tilted_, sstr);
+  feasst_deserialize(&periodic_, sstr);
+  feasst_deserialize_fstobj(&cells_, sstr);
+}
+
 }  // namespace feasst

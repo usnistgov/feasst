@@ -25,6 +25,21 @@ class Potential {
     visit_model_ = std::make_shared<VisitModel>();
     set_group_index(); }
 
+  Potential(std::shared_ptr<Model> model) : Potential() {
+    set_model(model);
+  }
+
+  Potential(std::shared_ptr<VisitModel> visit_model) : Potential() {
+    set_visit_model(visit_model);
+  }
+
+  Potential(
+      std::shared_ptr<Model> model,
+      std::shared_ptr<VisitModel> visit_model) : Potential() {
+    set_model(model);
+    set_visit_model(visit_model);
+  }
+
   /// Set the index of the group of configuration which contributes to this
   /// potential. By default, the index is zero, which represents the entire
   /// configuration.
@@ -106,11 +121,14 @@ class Potential {
     model_->precompute(config->model_params());
   }
 
+  void serialize(std::ostream& ostr) const;
+  Potential(std::istream& istr);
+
  private:
   int group_index_;
   std::shared_ptr<VisitModel> visit_model_;
   std::shared_ptr<Model> model_;
-  double stored_energy_;
+  double stored_energy_ = 0.;
 
   bool model_params_override_ = false;
   ModelParams model_params_;

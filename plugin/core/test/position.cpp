@@ -17,6 +17,13 @@ TEST(Position, getset) {
   EXPECT_EQ(pos.coord(1), 796.4);
   EXPECT_NEAR(pos.dot_product(pos), 636326.37, NEAR_ZERO);
   EXPECT_NEAR(pos.dot_product(pos), pos.squared_distance(), NEAR_ZERO);
+
+  // serialize
+  std::stringstream ss;
+  pos.serialize(ss);
+  Position pos2(ss);
+  EXPECT_EQ(pos.coord(), pos2.coord());
+  INFO(ss.str());
 }
 
 }  // namespace feasst

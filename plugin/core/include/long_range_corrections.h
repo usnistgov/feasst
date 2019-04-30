@@ -16,6 +16,8 @@ namespace feasst {
  */
 class LongRangeCorrections : public VisitModel {
  public:
+  LongRangeCorrections() {}
+
   // compute number of sites of each type in selection
   std::vector<int> types(const Select& selection, const Configuration * config) {
     std::vector<int> count(config->num_site_types());
@@ -72,7 +74,24 @@ class LongRangeCorrections : public VisitModel {
     set_energy(en);
   }
 
+  void serialize(std::ostream& ostr) const override {
+    ostr << class_name_ << " ";
+    serialize_visit_model_(ostr);
+    feasst_serialize_version(874, ostr);
+  }
+
+  std::shared_ptr<VisitModel> create(std::istream& istr) const override {
+    return std::make_shared<LongRangeCorrections>(istr);
+  }
+
+  LongRangeCorrections(std::istream& istr) : VisitModel(istr) {
+    const int version = feasst_deserialize_version(istr);
+    ASSERT(874 == version, version);
+  }
+
  private:
+  const std::string class_name_ = "LongRangeCorrections";
+
   double energy_(
       const int type1,
       const int type2,
@@ -87,7 +106,7 @@ class LongRangeCorrections : public VisitModel {
   }
 };
 
-inline std::shared_ptr<LongRangeCorrections> LongRangeCorrectionsShrPtr() {
+inline std::shared_ptr<LongRangeCorrections> MakeLongRangeCorrections() {
   return std::make_shared<LongRangeCorrections>();
 }
 

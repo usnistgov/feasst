@@ -12,8 +12,18 @@
 #include "core/include/long_range_corrections.h"
 #include "core/include/visit_model_intra.h"
 #include "core/include/visit_model_cell.h"
+#include "core/include/wall_clock_limit.h"
 
 namespace feasst {
+
+TEST(MonteCarlo, serialize) {
+  MonteCarlo mc = mc_lj();
+  std::stringstream ss, ss2;
+  mc.serialize(ss);
+  MonteCarlo mc2(ss);
+  mc2.serialize(ss2);
+  EXPECT_EQ(ss.str(), ss2.str());
+}
 
 TEST(MonteCarlo, NVT_benchmark) {
   seed_random_by_date();
@@ -44,6 +54,15 @@ TEST(MonteCarlo, GCMC) {
   MonteCarlo mc = mc_lj();
   mc.add(MakeTrialTransfer());
   mc.attempt(1e4);
+}
+
+TEST(WallClockLimit, limit) {
+  MonteCarlo mc = mc_lj();
+  try {
+    mc.add(MakeWallClockLimit({{"max_hours", "1e-9"}}));
+    mc.attempt(1e4);
+    CATCH_PHRASE("exceed the maximum");
+  }
 }
 
 }  // namespace feasst

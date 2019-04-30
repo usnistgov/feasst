@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_MODEL_YUKAWA_H_
-#define FEASST_CORE_MODEL_YUKAWA_H_
+#ifndef FEASST_MODELS_MODEL_YUKAWA_H_
+#define FEASST_MODELS_MODEL_YUKAWA_H_
 
 #include "core/include/model_two_body.h"
 #include "core/include/constants.h"
@@ -14,7 +14,7 @@ namespace feasst {
  */
 class ModelYukawa : public ModelTwoBody {
  public:
-  ModelYukawa() { set_kappa(); }
+  ModelYukawa();
 
   double energy(
       const double squared_distance,
@@ -30,13 +30,35 @@ class ModelYukawa : public ModelTwoBody {
 
   /// Set the value of the kappa parameter.
   void set_kappa(const double kappa = 1.) { kappa_ = kappa; }
+  double kappa() const { return kappa_; }
+
+  std::shared_ptr<Model> create(std::istream& istr) const override {
+    auto model = std::make_shared<ModelYukawa>();
+    int version;
+    istr >> version;
+    double kappa;
+    istr >> kappa;
+    model->set_kappa(kappa);
+    return model;
+  }
+
+  void serialize(std::ostream& ostr) const override {
+    ostr << class_name_ << " "
+         << "1 " // version
+         << kappa_ << " ";
+  }
 
   virtual ~ModelYukawa() {}
 
  private:
+  const std::string class_name_ = "ModelYukawa";
   double kappa_;
 };
 
+inline std::shared_ptr<ModelYukawa> MakeModelYukawa() {
+  return std::make_shared<ModelYukawa>();
+}
+
 }  // namespace feasst
 
-#endif  // FEASST_CORE_MODEL_YUKAWA_H_
+#endif  // FEASST_MODELS_MODEL_YUKAWA_H_

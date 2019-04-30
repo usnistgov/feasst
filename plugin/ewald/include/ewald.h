@@ -23,6 +23,8 @@ namespace feasst {
  */
 class Ewald : public VisitModel {
  public:
+  Ewald() {}
+
   /// Set all k vectors according to similar size and use symmetry for the x.
   void set_kmax(const double kmax_squared);
 
@@ -86,7 +88,12 @@ class Ewald : public VisitModel {
   std::vector<double> struct_fact_real() const { return struct_fact_real_; }
   std::vector<double> struct_fact_imag() const { return struct_fact_imag_; }
 
+  std::shared_ptr<VisitModel> create(std::istream& istr) const override;
+  Ewald(std::istream& istr);
+  void serialize(std::ostream& ostr) const override;
+
  private:
+  const std::string class_name_ = "Ewald";
   int kmax_;
   int kmax_squared_;
   int kxmax_;

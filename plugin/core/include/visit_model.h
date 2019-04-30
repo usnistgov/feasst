@@ -13,6 +13,8 @@ class ModelThreeBody;
 
 class VisitModelInner {
  public:
+  VisitModelInner() {}
+
   virtual void compute(
     const int part1_index,
     const int site1_index,
@@ -29,9 +31,36 @@ class VisitModelInner {
   void add_energy(const double energy) { energy_ += energy; }
   double energy() const { return energy_; }
 
+  // serialize
+  virtual void serialize(std::ostream& ostr) const {
+    serialize_visit_model_inner_(ostr); }
+
+  VisitModelInner(std::istream& istr) {
+    feasst_deserialize_version(istr);
+    feasst_deserialize(&energy_, istr);
+  }
+
+  virtual std::shared_ptr<VisitModelInner> create(std::istream& istr) const {
+    return std::make_shared<VisitModelInner>(istr);
+  }
+
+  std::map<std::string, std::shared_ptr<VisitModelInner> >& deserialize_map();
+
+  std::shared_ptr<VisitModelInner> deserialize(std::istream& istr) {
+    return template_deserialize(deserialize_map(), istr); }
+
   virtual ~VisitModelInner() {}
 
+ protected:
+  void serialize_visit_model_inner_(std::ostream& ostr) const {
+    ostr << class_name_ << " ";
+    feasst_serialize_version(1, ostr);
+    feasst_serialize(energy_, ostr);
+  }
+
+
  private:
+  const std::string class_name_ = "VisitModelInner";
   double energy_ = 0.;
 };
 
@@ -133,8 +162,6 @@ class VisitModel {
   /// Increment the energy.
   void increment_energy(const double energy) { energy_ += energy; }
 
-  virtual ~VisitModel() {}
-
   /// Test if energy of whole system is consistent with sum of energy
   /// of selection by particles.
   void check_energy(
@@ -149,8 +176,31 @@ class VisitModel {
 
   const std::shared_ptr<VisitModelInner> inner() const { return inner_; }
 
+  // serialization
+  virtual void serialize(std::ostream& ostr) const {
+    ostr << class_name_ << " ";
+    serialize_visit_model_(ostr);
+  }
+
+  virtual std::shared_ptr<VisitModel> create(std::istream& istr) const {
+    return std::make_shared<VisitModel>(istr);
+  }
+
+  std::map<std::string, std::shared_ptr<VisitModel> >& deserialize_map();
+
+  std::shared_ptr<VisitModel> deserialize(std::istream& istr) {
+    return template_deserialize(deserialize_map(), istr); }
+
+  VisitModel(std::istream& istr);
+  virtual ~VisitModel() {}
+
+ protected:
+  void serialize_visit_model_(std::ostream& ostr) const;
+//  void deserialize_visit_model_(std::istream& istr, std::shared_ptr<VisitModel> visitor) const;
+
  private:
-  double energy_;
+  const std::string class_name_ = "VisitModel";
+  double energy_ = 0.;
   std::shared_ptr<VisitModelInner> inner_;
 };
 

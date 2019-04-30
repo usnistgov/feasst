@@ -24,7 +24,7 @@ Nomenclature and style
 * the number of spaces between characters does not matter
 * LMP Coeffs sections were replaced by Properties sections, with different formatting
 
-Atom Properties
+Site Properties
 ================
 
 This is where the biggest difference from the LAMMPS data format is present.
@@ -34,17 +34,17 @@ The format for this section is as follows:
 
 [site index] [label_0] [value_0] ... [label_n] [value_n]
 
-Atoms
+Sites
 ======
 
-Charge is a site-type property, and thus is not included in the atoms properties.
+Charge is a site-type property, and thus is not included for each site.
 In addition, wrapping is also not included.
 
 The format for this section is as follows:
 
 [site index] [particle index] [site type] [x-position] [y-position] [z-position]
 
-Atom Labels
+Site Labels
 =============
 
-Atom labels are used to attach a name to the site type, often used for visualization programs, etc.
+Site labels are used to attach a name to the site type, often used for visualization programs, etc.

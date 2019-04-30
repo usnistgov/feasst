@@ -2,6 +2,7 @@
 #include <fstream>
 #include "core/include/stepper.h"
 #include "core/include/debug.h"
+#include "core/include/utils_io.h"
 
 namespace feasst {
 
@@ -60,6 +61,26 @@ void Stepper::printer(const std::string output) {
     file << output;
     file.close();
   }
+}
+  
+void Stepper::serialize(std::ostream& ostr) const {
+  feasst_serialize_version(1, ostr);
+  feasst_serialize(steps_since_update_, ostr);
+  feasst_serialize(steps_since_write_, ostr);
+  feasst_serialize(steps_per_update_, ostr);
+  feasst_serialize(steps_per_write_, ostr);
+  feasst_serialize(file_name_, ostr);
+  feasst_serialize(append_, ostr);
+}
+
+Stepper::Stepper(std::istream& istr) {
+  feasst_deserialize_version(istr);
+  feasst_deserialize(&steps_since_update_, istr);
+  feasst_deserialize(&steps_since_write_, istr);
+  feasst_deserialize(&steps_per_update_, istr);
+  feasst_deserialize(&steps_per_write_, istr);
+  feasst_deserialize(&file_name_, istr);
+  feasst_deserialize(&append_, istr);
 }
 
 }  // namespace feasst

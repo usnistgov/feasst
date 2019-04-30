@@ -11,6 +11,10 @@
 
 namespace feasst {
 
+double en_lj(const double pos) {
+  return 4*(pow(pos, -12) - pow(pos, -6));
+}
+
 TEST(VisitModel, energy) {
   Configuration config = default_configuration();
   const double pos = 1.25;
@@ -19,7 +23,7 @@ TEST(VisitModel, energy) {
   ModelLJ model;
   VisitModel visit;
   visit.compute(model, &config);
-  EXPECT_NEAR(4*(pow(pos, -12) - pow(pos, -6)), visit.energy(), NEAR_ZERO);
+  EXPECT_NEAR(en_lj(pos), visit.energy(), NEAR_ZERO);
 
   // check PBCs
   Position position = config.particle(1).position();
@@ -39,10 +43,18 @@ TEST(VisitModel, energy) {
 
   EXPECT_EQ(config.particle(1).position().coord(0), 3);
   model.compute(select, &config, &visit);
-  EXPECT_NEAR(4*(pow(2, -12) - pow(2, -6)), visit.energy(), NEAR_ZERO);
+  EXPECT_NEAR(en_lj(2.), visit.energy(), NEAR_ZERO);
   select.particle(0, config);
   model.compute(select, &config, &visit);
-  EXPECT_NEAR(4*(pow(2, -12) - pow(2, -6)), visit.energy(), NEAR_ZERO);
+  EXPECT_NEAR(en_lj(2.), visit.energy(), NEAR_ZERO);
+
+  // serialize
+  std::stringstream ss, ss2;
+  visit.serialize(ss);
+  auto visit2 = visit.deserialize(ss);
+  EXPECT_NEAR(en_lj(2.), visit2->energy(), NEAR_ZERO);
+  visit2->serialize(ss2);
+  EXPECT_EQ(ss.str(), ss2.str());
 }
 
 TEST(VisitModel, reference_config) {

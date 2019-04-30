@@ -13,9 +13,18 @@ namespace feasst {
 class CriteriaMetropolis : public Criteria {
  public:
   CriteriaMetropolis(const argtype &args = argtype()) : Criteria(args) {}
+
   bool is_accepted(const AcceptanceCriteria accept_criteria) override;
 
+  std::shared_ptr<Criteria> create(std::istream& istr) const override {
+    return std::make_shared<CriteriaMetropolis>(istr); }
+
+  void serialize(std::ostream& ostr) const override;
+  CriteriaMetropolis(std::istream& istr);
+  ~CriteriaMetropolis() {}
+
  private:
+  const std::string class_name_ = "CriteriaMetropolis";
   Random random_;
 };
 

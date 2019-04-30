@@ -7,4 +7,5 @@ API
    PerturbRegrow
    AnalyzeRigidBonds
    StageFactoryRegrow
+   TrialReptate
    TrialPivot

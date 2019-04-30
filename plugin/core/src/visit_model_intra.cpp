@@ -83,4 +83,33 @@ void VisitModelIntra::compute(
   set_energy(inner()->energy());
 }
 
+class MapVisitModelIntra {
+ public:
+  MapVisitModelIntra() {
+    VisitModelIntra().deserialize_map()["VisitModelIntra"] =
+      std::make_shared<VisitModelIntra>();
+  }
+};
+
+static MapVisitModelIntra mapper_ = MapVisitModelIntra();
+
+std::shared_ptr<VisitModel> VisitModelIntra::create(std::istream& istr) const {
+  return std::make_shared<VisitModelIntra>(istr);
+}
+
+VisitModelIntra::VisitModelIntra(std::istream& istr) : VisitModel(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(754 == version, version);
+  feasst_deserialize(&intra_cut_, istr);
+}
+
+void VisitModelIntra::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_visit_model_(ostr);
+  feasst_serialize_version(754, ostr);
+  feasst_serialize(intra_cut_, ostr);
+}
+
+
+
 }  // namespace feasst

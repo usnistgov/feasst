@@ -67,15 +67,19 @@ class Domain {
 
   /// Set the xy tilt factor. By default it is zero.
   Domain& set_xy(const double xy = 0.);
+  double xy() const { return xy_; }
 
   /// Set the xz tilt factor.
   Domain& set_xz(const double xz = 0.);
+  double xz() const { return xz_; }
 
   /// Set the yz tilt factor.
   Domain& set_yz(const double yz = 0.);
+  double yz() const { return yz_; }
 
   /// Disable periodicity in a particular dimension.
   void disable(const int dimension) { periodic_[dimension] = false; }
+  bool periodic(const int dimension) const { return periodic_[dimension]; }
 
   /// Return the dimensionality.
   int dimension() const { return side_length_.size(); }
@@ -209,6 +213,9 @@ class Domain {
     }
     *r2 += (*dxv)[0]*(*dxv)[0] + (*dxv)[1]*(*dxv)[1];
   }
+
+  void serialize(std::ostream& ostr) const;
+  Domain(std::istream& istr);
   virtual ~Domain() {}
 
  protected:

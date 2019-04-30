@@ -130,6 +130,18 @@ class Random {
     return -1;
   }
 
+  void serialize(std::ostream& ostr) const {
+    ostr << MAX_PRECISION;
+    ostr << "1 "; // version
+    ostr << generator_;
+  }
+
+  Random(std::istream& istr) {
+    int version;
+    istr >> version;
+    istr >> generator_;
+  }
+
  private:
   std::uniform_real_distribution<double> dis_double_;
   std::mt19937 generator_;

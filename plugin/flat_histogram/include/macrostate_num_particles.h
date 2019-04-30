@@ -13,11 +13,17 @@ class MacrostateNumParticles : public Macrostate {
  public:
   MacrostateNumParticles(const Histogram& histogram) : Macrostate(histogram) {}
 
-  double value(const System* system, const Criteria* criteria) {
+  double value(const System* system, const Criteria* criteria) override {
     return static_cast<double>(system->configuration().num_particles());
   }
 
+  std::shared_ptr<Macrostate> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+  MacrostateNumParticles(std::istream& istr);
   virtual ~MacrostateNumParticles() {}
+
+ private:
+  const std::string class_name_ = "MacrostateNumParticles";
 };
 
 inline std::shared_ptr<MacrostateNumParticles> MakeMacrostateNumParticles(

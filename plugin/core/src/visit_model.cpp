@@ -171,4 +171,57 @@ void VisitModelInner::compute(
   }
 }
 
+class MapVisitModelInner {
+ public:
+  MapVisitModelInner() {
+    VisitModelInner().deserialize_map()["VisitModelInner"] =
+      std::make_shared<VisitModelInner>();
+  }
+};
+
+static MapVisitModelInner mapper_visit_model_inner_ = MapVisitModelInner();
+
+std::map<std::string, std::shared_ptr<VisitModelInner> >& VisitModelInner::deserialize_map() {
+  static std::map<std::string, std::shared_ptr<VisitModelInner> >* ans =
+     new std::map<std::string, std::shared_ptr<VisitModelInner> >();
+  return *ans;
+}
+
+class MapVisitModel {
+ public:
+  MapVisitModel() {
+    VisitModel().deserialize_map()["VisitModel"] =
+      std::make_shared<VisitModel>();
+  }
+};
+
+static MapVisitModel mapper_visit_model_ = MapVisitModel();
+
+std::map<std::string, std::shared_ptr<VisitModel> >& VisitModel::deserialize_map() {
+  static std::map<std::string, std::shared_ptr<VisitModel> >* ans =
+     new std::map<std::string, std::shared_ptr<VisitModel> >();
+  return *ans;
+}
+
+void VisitModel::serialize_visit_model_(std::ostream& ostr) const {
+  feasst_serialize_version(545, ostr);
+  feasst_serialize(energy_, ostr);
+  feasst_serialize_fstdr(inner_, ostr);
+}
+
+//void VisitModel::deserialize_visit_model_(std::istream& istr, std::shared_ptr<VisitModel> visitor) const {
+VisitModel::VisitModel(std::istream& istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(545 == version, "mismatch: " << version);
+  feasst_deserialize(&energy_, istr);
+  // feasst_deserialize_fstdr(inner_, istr);
+  { // for unknown reason, template function above does not work
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      inner_ = inner_->deserialize(istr);
+    }
+  }
+}
+
 }  // namespace feasst

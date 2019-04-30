@@ -89,6 +89,9 @@ class Position {
   // HWH optimized only
   std::vector<double> * get_coord() { return &coord_; }
 
+  void serialize(std::ostream& ostr) const;
+  Position(std::istream& istr);
+
  private:
   std::vector<double> coord_;
 };
@@ -108,6 +111,8 @@ class PositionSpherical : public Position {
 
 class SpatialEntity {
  public:
+  SpatialEntity() {}
+
   /// Set the Position.
   void set_position(const Position& position) { position_ = position; }
 
@@ -121,6 +126,9 @@ class SpatialEntity {
   void set_coordinate(const int dimension, const double coord) {
     position_.set_coord(dimension, coord);
   }
+
+  void serialize(std::ostream& ostr) const { position_.serialize(ostr); }
+  SpatialEntity(std::istream& istr) { position_ = Position(istr); }
 
  private:
   Position position_;
