@@ -71,7 +71,7 @@ TEST(TrialStagedTranslate, stage) {
      {{"steps_per", str(num_periodic)},
       {"tolerance", "1e-10"}}));
     mc.add(MakeTuner({{"steps_per", str(num_periodic)}}));
-    // INFO("energy " << mc.criteria()->running_energy());
+    // INFO("energy " << mc.criteria()->current_energy());
     mc.attempt(1e3);
   }
 }

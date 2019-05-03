@@ -1,19 +1,22 @@
 #include <gtest/gtest.h>
-#include "confinement/include/shape.h"
 #include "confinement/include/half_space.h"
 #include "core/include/debug.h"
 
 namespace feasst {
 
 TEST(Shape, HalfSpace) {
-  /// HWH use arguments
-  auto half_space = HalfSpace()
-    .set_dimension(2)
-    .set_intersection(1)
-    .set_direction(1);
+  HalfSpace half_space({
+    {"dimension", "2"},
+    {"intersection", "1."},
+    {"direction", "1"},
+  });
   try {
-    half_space.set_direction(0.);
-    CATCH_PHRASE("direction cannot be infinitesimal");
+    HalfSpace half_space({
+      {"dimension", "2"},
+      {"intersection", "1."},
+      {"direction", "0"},
+    });
+    CATCH_PHRASE("invalid direction");
   }
   Position point;
   point.set_vector({15, -56.54, 2.});
@@ -28,33 +31,24 @@ TEST(Shape, HalfSpace) {
   EXPECT_FALSE(half_space.is_inside(point, 1.));
 
   // serialize
-  std::stringstream ss;
+  std::stringstream ss, ss2;
   half_space.serialize(ss);
   std::shared_ptr<Shape> half_space3 = half_space.deserialize(ss);
+  half_space3->serialize(ss2);
+  EXPECT_EQ(ss.str(), ss2.str());
   point.set_vector({15, -56.54, 1.4999999999});
   EXPECT_FALSE(half_space3->is_inside(point, 1.));
 
-  auto half_space2 = half_space;
-  half_space2.set_intersection(3).set_direction(-1);
+  auto half_space2 = HalfSpace({
+    {"dimension", "2"},
+    {"intersection", "3."},
+    {"direction", "-1"},
+  });
   EXPECT_TRUE(half_space2.is_inside(point));
   point.set_vector({15, -56.54, 3.000000000000001});
   EXPECT_FALSE(half_space2.is_inside(point));
   point.set_vector({15, -56.54, 2.9999999999});
   EXPECT_TRUE(half_space2.is_inside(point));
-
-  ShapeIntersect slit(std::make_shared<HalfSpace>(half_space),
-                      std::make_shared<HalfSpace>(half_space2));
-  point.set_vector({15, -56.54, 1.5});
-  EXPECT_NEAR(-0.5, slit.nearest_distance(point), 1e-15);
-  EXPECT_TRUE(slit.is_inside(point));
-  EXPECT_TRUE(slit.is_inside(point, 0.9999));
-  EXPECT_FALSE(slit.is_inside(point, 1.00001));
-
-  ss.str("");
-  slit.serialize(ss);
-  std::shared_ptr<Shape> slit2 = slit.deserialize(ss);
-  EXPECT_TRUE(slit2->is_inside(point, 0.9999));
-  EXPECT_FALSE(slit2->is_inside(point, 1.00001));
 }
 
 }  // namespace feasst

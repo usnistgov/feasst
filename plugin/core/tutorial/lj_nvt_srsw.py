@@ -31,7 +31,7 @@ energy = feasst.Accumulator()
 energy.set_block(args.steps_per)
 for trial in range(args.num_steps):
   mc.attempt(1)
-  energy.accumulate(mc.criteria().running_energy())
+  energy.accumulate(mc.criteria().current_energy())
   if trial % args.steps_per == 0:
     print("energy", energy.average(), "+/-", energy.block_stdev())
 

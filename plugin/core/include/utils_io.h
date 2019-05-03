@@ -331,6 +331,15 @@ std::shared_ptr<T> template_deserialize(std::map<std::string, std::shared_ptr<T>
   //return map[class_name]->create(istr);
 }
 
+/// Return a deep copy of a feasst derived class object.
+/// This is implemented via serialization/deserialization.
+template <typename T>
+std::shared_ptr<T> deep_copy_derived(std::shared_ptr<T> object) {
+  std::stringstream ss;
+  object->serialize(ss);
+  return object->deserialize(ss);
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_CORE_UTILS_IO_H_

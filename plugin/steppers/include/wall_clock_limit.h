@@ -1,12 +1,14 @@
 
-#ifndef FEASST_CORE_WALL_CLOCK_LIMIT_H_
-#define FEASST_CORE_WALL_CLOCK_LIMIT_H_
+#ifndef FEASST_STEPPERS_WALL_CLOCK_LIMIT_H_
+#define FEASST_STEPPERS_WALL_CLOCK_LIMIT_H_
 
 #include "core/include/modify.h"
 
 namespace feasst {
 
 /**
+  Terminate the simulation after a given number of CPU hours in order to
+  prevent fragmented checkpoint files.
  */
 class WallClockLimit : public ModifyUpdateOnly {
  public:
@@ -26,21 +28,23 @@ class WallClockLimit : public ModifyUpdateOnly {
       "the maximum(" << max_hours_ << ")");
   }
 
+  std::string class_name() const override { return std::string("WallClockLimit"); }
+
   void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
+    Stepper::serialize(ostr);
     feasst_serialize_version(1, ostr);
     feasst_serialize(max_hours_, ostr);
   }
 
   std::shared_ptr<Modify> create(std::istream& istr) const override {
+    return std::make_shared<WallClockLimit>(istr); }
+
+  WallClockLimit(std::istream& istr) : ModifyUpdateOnly(istr) {
     feasst_deserialize_version(istr);
-    auto modify = std::make_shared<WallClockLimit>();
-    feasst_deserialize(&(modify->max_hours_), istr);
-    return modify;
+    feasst_deserialize(&max_hours_, istr);
   }
 
  private:
-  const std::string class_name_ = "WallClockLimit";
   double max_hours_ = 0;
 };
 
@@ -50,4 +54,4 @@ inline std::shared_ptr<WallClockLimit> MakeWallClockLimit(const argtype &args = 
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_WALL_CLOCK_LIMIT_H_
+#endif  // FEASST_STEPPERS_WALL_CLOCK_LIMIT_H_

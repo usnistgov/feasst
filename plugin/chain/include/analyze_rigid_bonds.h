@@ -18,19 +18,20 @@ class AnalyzeRigidBonds : public AnalyzeUpdateOnly {
     ASSERT(std::abs(visitor_.energy()) < NEAR_ZERO, "angle check failure");
   }
 
+  std::string class_name() const override { return std::string("AnalyzeRigidBonds"); }
+
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
-    auto model = std::make_shared<AnalyzeRigidBonds>();
-    feasst_deserialize_version(istr);
-    return model;
-  }
+    return std::make_shared<AnalyzeRigidBonds>(istr); }
 
   void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
+    Stepper::serialize(ostr);
     feasst_serialize_version(1, ostr);
   }
 
+  AnalyzeRigidBonds(std::istream& istr) : AnalyzeUpdateOnly(istr) {
+    feasst_deserialize_version(istr); }
+
  private:
-  const std::string class_name_ = "AnalyzeRigidBonds";
   BondVisitor visitor_;
   BondSquareWell bond_;
   AngleSquareWell angle_;

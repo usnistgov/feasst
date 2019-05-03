@@ -10,5 +10,4 @@ API
    TripleBandedCollectionMatrix
    BiasTransitionMatrix
    MacrostateNumParticles
-   MacrostateAccumulator
    CriteriaFlatHistogram

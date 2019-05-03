@@ -18,19 +18,18 @@ class Check : public ModifyUpdateOnly {
     system->configuration().check();
   }
 
+  std::string class_name() const override { return std::string("Check"); }
+
   void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
+    Stepper::serialize(ostr);
     feasst_serialize_version(1, ostr);
   }
 
   std::shared_ptr<Modify> create(std::istream& istr) const override {
-    feasst_deserialize_version(istr);
-    auto modify = std::make_shared<Check>();
-    return modify;
-  }
+    return std::make_shared<Check>(istr); }
 
- private:
-  const std::string class_name_ = "Check";
+  Check(std::istream& istr) : ModifyUpdateOnly(istr) {
+    feasst_deserialize_version(istr); }
 };
 
 inline std::shared_ptr<Check> MakeCheck(const argtype &args = argtype()) {
@@ -67,42 +66,44 @@ class EnergyCheck : public ModifyUpdateOnly {
       System * system,
       TrialFactory * trial_factory) override {
     const double energy = system->unoptimized_energy();
-    const double running_energy = criteria->running_energy();
-    ASSERT(std::abs(energy - running_energy) < tolerance_,
+    const double current_energy = criteria->current_energy();
+    ASSERT(std::abs(energy - current_energy) < tolerance_,
       "Energy check failure. There is a problem with the potentials. " <<
       "The unoptimized energy of the entire configuration was computed as " <<
       energy << " but the running energy from criteria (the accumulation of a "
-      << "change in energy over a series of steps) is " << running_energy <<
-      ". The difference(" << std::abs(energy - running_energy) << ") is " <<
+      << "change in energy over a series of steps) is " << current_energy <<
+      ". The difference(" << std::abs(energy - current_energy) << ") is " <<
       "greater than the tolerance(" << tolerance_ << ")");
-    criteria->set_running_energy(energy);
+    criteria->set_current_energy(energy);
     check_->update(criteria, system, trial_factory);
   }
 
+  std::string class_name() const override { return std::string("EnergyCheck"); }
+
   void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
+    Stepper::serialize(ostr);
     feasst_serialize_version(1, ostr);
     feasst_serialize(tolerance_, ostr);
     feasst_serialize_fstdr(check_, ostr);
   }
 
   std::shared_ptr<Modify> create(std::istream& istr) const override {
+    return std::make_shared<EnergyCheck>(istr); }
+
+  EnergyCheck(std::istream& istr) : ModifyUpdateOnly(istr) {
     feasst_deserialize_version(istr);
-    auto modify = std::make_shared<EnergyCheck>();
-    feasst_deserialize(&(modify->tolerance_), istr);
+    feasst_deserialize(&tolerance_, istr);
     // feasst_deserialize_fstdr(modify->check_, istr);
     { // HWH for unknown reasons the above template function does not work
       int existing;
       istr >> existing;
       if (existing != 0) {
-        modify->check_ = modify->check_->deserialize(istr);
+        check_ = check_->deserialize(istr);
       }
     }
-    return modify;
   }
 
  private:
-  const std::string class_name_ = "EnergyCheck";
   double tolerance_;
   std::shared_ptr<Modify> check_;
 };

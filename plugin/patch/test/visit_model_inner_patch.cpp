@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 #include "patch/include/visit_model_inner_patch.h"
 #include "core/include/file_xyz.h"
-#include "core/include/model_square_well.h"
 #include "core/include/perturb_translate.h"
 #include "core/include/perturb_rotate.h"
 #include "core/include/file_xyz.h"
+#include "models/include/model_square_well.h"
 
 namespace feasst {
 

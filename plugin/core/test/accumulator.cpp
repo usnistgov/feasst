@@ -26,9 +26,12 @@ TEST(Accumulator, constructor) {
   //Accumulator b(a.num_values(), a.sum(), a.sum_of_squared());
 
   // serialize
-  std::stringstream ss;
+  std::stringstream ss, ss2;
   a.serialize(ss);
   Accumulator b(ss);
+  b.serialize(ss2);
+  EXPECT_EQ(ss.str(), ss2.str());
+
   Accumulator c = a;
   EXPECT_EQ(b.num_values(), c.num_values());
   EXPECT_EQ(b.sum(), c.sum());

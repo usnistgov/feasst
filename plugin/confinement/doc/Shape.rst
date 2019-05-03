@@ -12,3 +12,7 @@ Shape
 .. doxygenclass:: feasst::ShapeIntersect
    :project: FEASST
    :members:
+
+.. doxygenclass:: feasst::ShapeUnion
+   :project: FEASST
+   :members:

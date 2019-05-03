@@ -19,11 +19,10 @@ class Analyze : public Stepper {
  public:
   Analyze(const argtype &args = argtype()) : Stepper(args) {}
 
+  // By default, do nothing during initialization.
   virtual void initialize(const std::shared_ptr<Criteria> criteria,
       const System& system,
-      const TrialFactory& trial_factory) {
-    // do nothing by default
-  }
+      const TrialFactory& trial_factory) {}
 
   virtual void trial(const std::shared_ptr<Criteria> criteria,
       const System& system,
@@ -41,7 +40,9 @@ class Analyze : public Stepper {
   virtual std::shared_ptr<Analyze> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Analyze> >& deserialize_map();
   std::shared_ptr<Analyze> deserialize(std::istream& istr);
+  Analyze(std::istream& istr) : Stepper(istr) {}
   virtual ~Analyze() {}
+  std::string class_name() const override { return std::string("Analyze"); }
 };
 
 class AnalyzeWriteOnly : public Analyze {
@@ -52,7 +53,7 @@ class AnalyzeWriteOnly : public Analyze {
      */
     const argtype &args = argtype()) : Analyze(args) {
     // disable update
-    Analyze::set_steps_per_update(-1);
+    Stepper::set_steps_per_update(-1);
 
     // parse
     if (!args_.key("steps_per").empty()) {
@@ -65,11 +66,7 @@ class AnalyzeWriteOnly : public Analyze {
 
   void set_steps_per(const int steps) { set_steps_per_write(steps); }
 
-  std::shared_ptr<Analyze> create(std::istream& istr) const override;
-  void serialize(std::ostream& ostr) const override;
-
- private:
-  const std::string class_name_ = "AnalyzeWriteOnly";
+  AnalyzeWriteOnly(std::istream& istr) : Analyze(istr) {}
 };
 
 class AnalyzeUpdateOnly : public Analyze {
@@ -93,11 +90,7 @@ class AnalyzeUpdateOnly : public Analyze {
 
   void set_steps_per(const int steps) { set_steps_per_update(steps); }
 
-  std::shared_ptr<Analyze> create(std::istream& istr) const override;
-  void serialize(std::ostream& ostr) const override;
-
- private:
-  const std::string class_name_ = "AnalyzeUpdateOnly";
+  AnalyzeUpdateOnly(std::istream& istr) : Analyze(istr) {}
 };
 
 }  // namespace feasst

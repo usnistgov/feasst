@@ -50,6 +50,10 @@ class Arguments {
   /// Return the conversion of a str of the processed keyword to int.
   int integer();
 
+  /// Return the conversion of a str of the processed keyword to boolean.
+  /// Accept the strings "true", "false", "1" or "0".
+  bool boolean();
+
   /// Upon destruction, check that all provided args were processed.
   /// Automatically include empty string key as processed.
   bool check_all_used();

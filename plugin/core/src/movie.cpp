@@ -5,7 +5,8 @@ namespace feasst {
 class MapMovie {
  public:
   MapMovie() {
-    Movie().deserialize_map()["Movie"] = MakeMovie();
+    auto obj = MakeMovie({{"file_name", "place_holder"}});
+    obj->deserialize_map()["Movie"] = obj;
   }
 };
 

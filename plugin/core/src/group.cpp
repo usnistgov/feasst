@@ -59,7 +59,6 @@ void Group::remove_sites(Particle * particle) const {
   }
 }
 
-///// HWH depreciate after partials are removed
 //Particle Group::remove_sites(const Particle& particle) const {
 ////                             std::vector<int> * full_to_partial,
 ////                             std::vector<int> * partial_to_full) const {

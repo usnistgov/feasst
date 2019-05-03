@@ -8,8 +8,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 # manually list the plugins
 #set(FEASST_PLUGINS "core;")
 #set(FEASST_PLUGINS "core;ewald;example;")
-set(FEASST_PLUGINS "core;ewald;example;confinement;chain;models;patch;flat_histogram")
 #set(FEASST_PLUGINS "core;ewald;example;confinement;xtc;")
+set(FEASST_PLUGINS "core;ewald;example;confinement;chain;models;patch;flat_histogram;mayer;steppers")
 message(${FEASST_PLUGINS})
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
@@ -134,6 +134,18 @@ endif()
 list (FIND FEASST_PLUGINS "flat_histogram" _index)
 if (${_index} GREATER -1)
   target_link_libraries(feasstflat_histogram feasstcore)
+endif()
+
+# mayer
+list (FIND FEASST_PLUGINS "mayer" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstmayer feasstcore)
+endif()
+
+# steppers
+list (FIND FEASST_PLUGINS "steppers" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasststeppers feasstcore)
 endif()
 
 # CCACHE

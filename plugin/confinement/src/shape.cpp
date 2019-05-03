@@ -48,16 +48,42 @@ class MapShapeIntersect {
 static MapShapeIntersect mapper_ = MapShapeIntersect();
 
 ShapeIntersect::ShapeIntersect(
-    const std::shared_ptr<Shape> shape1,
-    const std::shared_ptr<Shape> shape2) :
-    shape1_(shape1),
-    shape2_(shape2) {
+    std::shared_ptr<Shape> shape1,
+    std::shared_ptr<Shape> shape2) {
+  shape1_ = shape1;
+  shape2_ = shape2;
 }
 
 double ShapeIntersect::nearest_distance(const Position& point) const {
   const double dist1 = shape1_->nearest_distance(point),
                dist2 = shape2_->nearest_distance(point);
-  if (std::abs(dist1) < std::abs(dist2)) {
+  if (dist1 > dist2) {
+    return dist1;
+  } else {
+    return dist2;
+  }
+}
+
+class MapShapeUnion {
+ public:
+  MapShapeUnion() {
+    ShapeUnion().deserialize_map()["ShapeUnion"] = std::make_shared<ShapeUnion>();
+  }
+};
+
+static MapShapeUnion mapper_shape_union_ = MapShapeUnion();
+
+ShapeUnion::ShapeUnion(
+    std::shared_ptr<Shape> shape1,
+    std::shared_ptr<Shape> shape2) {
+  shape1_ = shape1;
+  shape2_ = shape2;
+}
+
+double ShapeUnion::nearest_distance(const Position& point) const {
+  const double dist1 = shape1_->nearest_distance(point),
+               dist2 = shape2_->nearest_distance(point);
+  if (dist1 < dist2) {
     return dist1;
   } else {
     return dist2;

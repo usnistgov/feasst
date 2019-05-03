@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "core/include/trial_translate.h"
 #include "core/include/trial_factory.h"
-#include "core/include/criteria_mayer.h"
+#include "mayer/include/criteria_mayer.h"
 #include "core/test/system_test.h"
 
 namespace feasst {
@@ -27,7 +27,7 @@ TEST(CriteriaMayer, ljb2) {
   CriteriaMayer criteria;
   criteria.set_beta(1.);
   criteria.add_chemical_potential(-2.775);
-  criteria.set_running_energy(system.energy());
+  criteria.set_current_energy(system.energy());
   Random random;
   for (int iTrial = 0; iTrial < nTrialsEq + nTrials; ++iTrial) {
     trials.attempt(&criteria, &system);

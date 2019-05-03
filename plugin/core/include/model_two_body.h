@@ -90,7 +90,7 @@ class ModelTwoBodyFactory : public ModelTwoBody {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const {
+      const ModelParams& model_params) const override {
     double en = 0;
     for (const std::shared_ptr<ModelTwoBody> model : models_) {
       en += model->energy(squared_distance, type1, type2, model_params);

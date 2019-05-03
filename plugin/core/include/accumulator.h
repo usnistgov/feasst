@@ -85,7 +85,7 @@ class Accumulator {
   void serialize(std::ostream& ostr) const;
   Accumulator(std::istream& istr);
 
- protected:
+ private:
   long long num_values_;
   long double sum_;
   long double sum_squared_;

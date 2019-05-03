@@ -1,5 +1,5 @@
 
-#include "core/include/criteria_mayer.h"
+#include "mayer/include/criteria_mayer.h"
 #include "core/include/utils_io.h"
 
 namespace feasst {
@@ -11,7 +11,7 @@ bool CriteriaMayer::is_accepted(const AcceptanceCriteria accept_criteria) {
   if (verbose) cout << "energy new " << energy_new << " f12 " << f12 << endl;
   if ( (accept_criteria.force_rejection != 1) &&
        (random_.uniform() < std::abs(f12)/std::abs(f12old_)) ) {
-    set_running_energy(energy_new);
+    set_current_energy(energy_new);
     f12old_ = f12;
     is_accepted = true;
     if (verbose) cout << "computing ref" << endl;

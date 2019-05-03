@@ -47,10 +47,12 @@ class Modify : public Stepper {
     return std::string("");
   }
 
+  std::string class_name() const override { return std::string("Modify"); }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Modify> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Modify> >& deserialize_map();
   std::shared_ptr<Modify> deserialize(std::istream& istr);
+  Modify(std::istream& istr) : Stepper(istr) {}
   virtual ~Modify() {}
 };
 
@@ -75,11 +77,7 @@ class ModifyUpdateOnly : public Modify {
 
   void set_steps_per(const int steps) { set_steps_per_update(steps); }
 
-  std::shared_ptr<Modify> create(std::istream& istr) const override;
-  void serialize(std::ostream& ostr) const override;
-
- private:
-  const std::string class_name_ = "ModifyUpdateOnly";
+  ModifyUpdateOnly(std::istream& istr) : Modify(istr) {}
 };
 
 }  // namespace feasst

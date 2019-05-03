@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_CRITERIA_WRITER_H_
-#define FEASST_CORE_CRITERIA_WRITER_H_
+#ifndef FEASST_STEPPERS_CRITERIA_WRITER_H_
+#define FEASST_STEPPERS_CRITERIA_WRITER_H_
 
 #include "core/include/analyze.h"
 
@@ -8,7 +8,7 @@ namespace feasst {
 
 class CriteriaWriter : public AnalyzeWriteOnly {
  public:
-  CriteriaWriter(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {}
+  CriteriaWriter(const argtype &args = argtype());
   std::string write(const std::shared_ptr<Criteria> criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
@@ -19,18 +19,17 @@ class CriteriaWriter : public AnalyzeWriteOnly {
   }
 
   void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
+    Stepper::serialize(ostr);
     feasst_serialize_version(1, ostr);
   }
 
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
-    feasst_deserialize_version(istr);
-    auto analyze = std::make_shared<CriteriaWriter>();
-    return analyze;
-  }
+    return std::make_shared<CriteriaWriter>(istr); }
 
- private:
-  const std::string class_name_ = "CriteriaWriter";
+  CriteriaWriter(std::istream& istr) : AnalyzeWriteOnly(istr) {
+    feasst_deserialize_version(istr); }
+
+  std::string class_name() const override { return std::string("CriteriaWriter"); }
 };
 
 inline std::shared_ptr<CriteriaWriter> MakeCriteriaWriter(const argtype &args = argtype()) {
@@ -39,4 +38,4 @@ inline std::shared_ptr<CriteriaWriter> MakeCriteriaWriter(const argtype &args = 
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_CRITERIA_WRITER_H_
+#endif  // FEASST_STEPPERS_CRITERIA_WRITER_H_

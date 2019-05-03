@@ -134,7 +134,13 @@ Accumulator::Accumulator(std::istream& istr) {
   feasst_deserialize(&val_moment_, istr);
   feasst_deserialize(&num_blocks_, istr);
   feasst_deserialize(&sum_block_, istr);
-  feasst_deserialize(block_averages_, istr);
+  // feasst_deserialize(block_averages_, istr);
+  // HWH for unknown reasons, the above does not work.
+  int existing;
+  istr >> existing;
+  if (existing != 0) {
+    block_averages_ = std::make_shared<Accumulator>(istr);
+  }
 }
 
 }  // namespace feasst

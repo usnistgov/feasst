@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include "core/include/arguments.h"
 
 namespace feasst {
 
@@ -14,8 +15,16 @@ namespace feasst {
  */
 class Position {
  public:
-  /// Initialize a dimensional space.
-  Position() {}
+  /// Constructor
+  Position(
+    /**
+      x: x-coordinate
+
+      y: y-coordinate. Requires explicit x.
+
+      z: z-coordinate. Requires explicit y.
+     */
+    const argtype& args = argtype());
 
   /// Initialize coordinates by brace initialized position vector.
   explicit Position(std::vector<double> vec) { coord_ = vec; }
@@ -67,6 +76,9 @@ class Position {
   double dot_product(const Position &position) const;
   double dot_product(const std::vector<double> vec) const;
 
+  /// Return the cross product of position with self.
+  Position cross_product(const Position& position) const;
+
   /// Return the squared distance of self from the origin.
   double squared_distance() const;
 
@@ -86,6 +98,11 @@ class Position {
   /// Return true if the given position is equal to self.
   bool is_equal(const Position& position) const;
 
+  /// Nearest distance to axis defined by two points.
+  /// see http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
+  double nearest_distance_to_axis(const Position& point1,
+                                  const Position& point2) const;
+
   // HWH optimized only
   std::vector<double> * get_coord() { return &coord_; }
 
@@ -94,6 +111,7 @@ class Position {
 
  private:
   std::vector<double> coord_;
+  Arguments args_;
 };
 
 /**

@@ -89,6 +89,25 @@ int Arguments::integer() {
   return intVal;
 }
 
+bool Arguments::boolean() {
+  const std::string string_value = str();
+  std::stringstream errmsg;
+  errmsg << "Argument({" << used_keys_.back() << ", " << string_value << "}) was "
+    << "expected to be a boolean";
+  if (string_value == "true") {
+    return true;
+  } else if (string_value == "false") {
+    return false;
+  } else if (string_value == "1") {
+    return true;
+  } else if (string_value == "0") {
+    return false;
+  } else {
+    ASSERT(0, errmsg.str());
+  }
+  return -1;
+}
+
 double Arguments::dble() {
   const std::string string_value = str();
   double double_value = -1;

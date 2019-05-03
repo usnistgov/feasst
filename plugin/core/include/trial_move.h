@@ -29,7 +29,7 @@ class TrialMove : public Trial {
       DEBUG("pe_new " << pe_new);
       const double delta_energy = pe_new - pe_old;
       accept_criteria_.ln_metropolis_prob += -criteria->beta()*delta_energy;
-      accept_criteria_.energy_new = criteria->running_energy() + delta_energy;
+      accept_criteria_.energy_new = criteria->current_energy() + delta_energy;
       accept_criteria_.energy_new_select = pe_new;
       accept_criteria_.system = system;
       DEBUG("delta_energy " << delta_energy);

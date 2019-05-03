@@ -19,7 +19,7 @@ bool CriteriaFlatHistogram::is_accepted(
     macrostate_new_ = macrostate_old_;
     DEBUG("forced rejection");
   } else {
-    after_attempt_(accept_criteria.system);
+    macrostate_new_ = macrostate_->bin(accept_criteria.system, this);
     DEBUG("bias " << bias_->ln_bias(macrostate_new_, macrostate_old_)
       << " old " << macrostate_old_ << " new " << macrostate_new_);
     DEBUG("ln new " << bias_->ln_macro_prob().value(macrostate_new_));
@@ -42,7 +42,9 @@ bool CriteriaFlatHistogram::is_accepted(
                 ln_metropolis_prob,
                 is_accepted);
   if (is_accepted) {
-    set_running_energy(accept_criteria.energy_new);
+    set_current_energy(accept_criteria.energy_new);
+  } else {
+    macrostate_new_ = macrostate_old_;
   }
   return is_accepted;
 }
@@ -53,12 +55,12 @@ std::string CriteriaFlatHistogram::write() const {
   ss << bias_->write();
   ss << "macrostate "
      << bias_->write_per_bin_header() << " "
-     << bin_trackers_.write_per_bin_header() << std::endl;
+     << std::endl;
   const Histogram& hist = macrostate_->histogram();
   for (int bin = 0; bin < hist.size(); ++bin) {
     ss << hist.center_of_bin(bin) << " "
        << bias_->write_per_bin(bin) << " "
-       << bin_trackers_.write_per_bin(bin) << std::endl;
+       << std::endl;
   }
   return ss.str();
 }
@@ -94,7 +96,6 @@ CriteriaFlatHistogram::CriteriaFlatHistogram(std::istream& istr)
   }
   feasst_deserialize(&macrostate_old_, istr);
   feasst_deserialize(&macrostate_new_, istr);
-//  feasst_deserialize_fstdr(&bin_trackers_, istr);
   feasst_deserialize(&is_macrostate_set_, istr);
 }
 
@@ -106,7 +107,6 @@ void CriteriaFlatHistogram::serialize(std::ostream& ostr) const {
   feasst_serialize_fstdr(macrostate_, ostr);
   feasst_serialize(macrostate_old_, ostr);
   feasst_serialize(macrostate_new_, ostr);
-//  feasst_serialize(bin_trackers_, ostr);
   feasst_serialize(is_macrostate_set_, ostr);
 }
 

@@ -68,10 +68,10 @@ class Criteria {
   /// to avoid recomputation of the energy of the entire configuration.
   /// For example, Metropolis Monte Carlo trials are concerned with the change
   /// in energy, and this variable tracks the total from the changes.
-  void set_running_energy(const double energy) { running_energy_ = energy; }
+  void set_current_energy(const double energy) { current_energy_ = energy; }
 
   /// Return the current total energy based on energy changes per trial.
-  double running_energy() const { return running_energy_; }
+  double current_energy() const { return current_energy_; }
 
   /// Return the header of the status for periodic output.
   std::string status_header() const {
@@ -85,6 +85,12 @@ class Criteria {
 
   /// Return true if completion requirements are met.
   virtual bool is_complete() { return false; }
+
+  /// Return the state index for multistate simulations (default: 0).
+  virtual int state() const { return 0; }
+
+  /// Return the number of states. (default: 1).
+  virtual int num_states() const { return 1; }
 
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Criteria> create(std::istream& istr) const;
@@ -100,18 +106,14 @@ class Criteria {
     feasst_serialize(beta_, ostr);
     feasst_serialize(beta_initialized_, ostr);
     feasst_serialize(chemical_potentials_, ostr);
-    feasst_serialize(running_energy_, ostr);
+    feasst_serialize(current_energy_, ostr);
   }
 
  private:
   double beta_;
   bool beta_initialized_ = false;
   std::vector<double> chemical_potentials_;
-  double running_energy_;
-
-  /// This function is called after a trial attempt but before acceptance
-  /// decision.
-  virtual void after_attempt_(const System* system) {}
+  double current_energy_;
 };
 
 }  // namespace feasst

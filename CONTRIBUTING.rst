@@ -22,10 +22,10 @@ Master branch
 This is the release branch.
 This branch may only merge with develop and hotfix branches.
 
-* `Unittest C++ with GTEST`_ and all tests pass
-* `Find memory leaks with Valgrind`_
-* `Test coverage with GCOV and LCOV`_ which must be >85%
-* `Clean up with cpplint and pylint`_
+* `GTEST: Unittest C++`_ and all tests pass
+* `Valgrind: Find memory leaks`_
+* `GCOV and LCOV: Test coverage`_ which must be >85%
+* `cpplint and pylint: Clean up styling`_
 * SWIG and Python unittested
 * `Document`_ new features
 * Tag :code:`git tag -a <version number>` and :code:`git push --tags`
@@ -64,8 +64,11 @@ These branch names must begin with the characters "dead".
 * No rules. Code may not compile.
   HINT: rename branches with "git branch -m <newname>"
 
-Unittest C++ with GTEST
-=======================
+Tools
+================================================================================
+
+GTEST: Unittest C++
+--------------------------------------------------------------------------------
 
 The master branch requires GTEST coverage for all cpp plugins in plugin/name/test.
 
@@ -80,8 +83,8 @@ The master branch requires GTEST coverage for all cpp plugins in plugin/name/tes
 * use :code:`--gtest_shuffle` to randomize the order of the tests
 * use :code:`--gtest_random_seed=SEED` to reproduce an specific order.
 
-Debugging with GDB or LLDB
-================================================================================
+GDB or LLDB: Debugging
+--------------------------------------------------------------------------------
 
 gdb (or lldb on macOS) is especially useful for identifying segfaults via backtraces.
 The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
@@ -103,8 +106,8 @@ gdb can also be used with python as
 
 * use 'gdb catch throw' or 'lldb break set -E C++' to backtrace exceptions
 
-Find memory leaks with Valgrind
-================================================================================
+Valgrind: Find memory leaks
+--------------------------------------------------------------------------------
 
 Valgrind helps to detect memory management bugs.
 
@@ -121,8 +124,8 @@ For example, to run Valgrind on a particular test and output to text file
 * Don't use profiler for leak checks. OMP causes "leaks" O.K.
 * For suppress false-positives (e.g., gomp or gsl), use --gen-suppressions=all to generate suppression files
 
-Test coverage with GCOV and LCOV
-================================================================================
+GCOV and LCOV: Test coverage
+--------------------------------------------------------------------------------
 
 GCC compilers allow testing of coverage with gcov and lcov for visualization.
 
@@ -134,14 +137,14 @@ GCC compilers allow testing of coverage with gcov and lcov for visualization.
 * Open coverage/index.html in your browser.
 * Go into "src" and ignore the external library coverage.
 
-Speed up compilation time with ccache
-================================================================================
+CCACHE: Speed up compilation time
+--------------------------------------------------------------------------------
 
 Something as trivial as changing a comment in a header file can lead to a massive recompile of the entire source.
 Your previous compile is remembered by ccache, leading to near instant recompilation in the above example.
 
-Clean up with cpplint and pylint
-================================================================================
+cpplint and pylint: Clean up styling
+--------------------------------------------------------------------------------
 
 https://google.github.io/styleguide/cppguide.html
 
@@ -225,6 +228,14 @@ Auto
 * only use auto when the type is clear such as auto var = std::make_shared<..>.
 * use of "for (auto element : container) { ... }" is dangerous
 
+Arguments
+--------------------------------------------------------------------------------
+
+* All arguments are provided as strings and converted to the expected type.
+* Check that all arguments are used (e.g., like implicit none, a typo is caught).
+* Argument defaults need to be set and clearly commented.
+* If no default, it is a required argument.
+
 Serialization
 --------------------------------------------------------------------------------
 
@@ -254,7 +265,6 @@ To Do List
 * precompute long range corrections and faster types calculation
 * multistage insertions and deletions
 * neighbor lists
-* restarts
 * windowing (MonteCarloFactory class)
 * trial regrow to include grand canonical insertions
 

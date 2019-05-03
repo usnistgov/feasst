@@ -1,5 +1,6 @@
-file
+ModelLJShape
 =====================================================
 
-.. doxygenfile:: file.h
+.. doxygenclass:: feasst::ModelLJShape
    :project: FEASST
+   :members:

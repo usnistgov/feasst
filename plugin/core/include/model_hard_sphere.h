@@ -8,9 +8,12 @@
 namespace feasst {
 
 /**
+  The potential energy for a hard sphere model of radius \f$\sigma\f$ and
+  separation distance \f$r\f$ is as follows
+
   \f$ U_{HS} = \left\{
     \begin{array}{lr}
-      \infty & r \le \sigma
+      \infty & r \le \sigma \\
       0 & r > \sigma
     \end{array}
   \right. \f$

@@ -3,8 +3,7 @@ API
 
 .. toctree::
 
-   file
-   Accumulator
+   utils_file
    Properties
    TypedEntity
    Arguments
@@ -23,17 +22,18 @@ API
    physical_constants
    Bond
    utils_io
+   Accumulator
    Site
    Particle
-   FileLMP
    ModelParam
+   FileLMP
    Group
    ParticleFactory
    Select
    SelectPosition
+   VisitParticles
    Cells
    Domain
-   VisitParticles
    Stepper
    Matrix
    Configuration
@@ -46,7 +46,6 @@ API
    ModelThreeBody
    ModelTwoBody
    ModelLJ
-   ModelSquareWell
    ModelHardSphere
    VisitModelIntra
    BondTwoBody
@@ -56,30 +55,27 @@ API
    PotentialFactory
    System
    Criteria
-   CriteriaMayer
    CriteriaMetropolis
    Perturb
    PerturbConfigs
+   PerturbAdd
    PerturbSelectMove
    PerturbRotate
-   PerturbAdd
    Trial
-   TrialMove
-   TrialRotate
-   TrialTransfer
-   Rosenbluth
    TrialFactory
    Modify
    Check
-   WallClockLimit
-   Tuner
    ModifyFactory
+   Tuner
+   TrialTransfer
    Analyze
    Movie
    AnalyzeFactory
-   CriteriaWriter
-   Log
    MonteCarlo
+   Log
+   Rosenbluth
+   TrialMove
+   TrialRotate
    PerturbTranslate
    TrialTranslate
    VisitConfiguration

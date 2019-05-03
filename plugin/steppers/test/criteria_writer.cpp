@@ -1,18 +1,16 @@
 #include <sstream>
 #include <gtest/gtest.h>
-#include "core/include/criteria_writer.h"
+#include "steppers/include/criteria_writer.h"
 
 namespace feasst {
 
 TEST(CriteriaWriter, serialize) {
   CriteriaWriter analyze;
-  std::stringstream ss;
+  std::stringstream ss, ss2;
   analyze.serialize(ss);
-  EXPECT_EQ("CriteriaWriter 1 ", ss.str());
   std::shared_ptr<Analyze> analyze2 = CriteriaWriter().deserialize(ss);
-  ss.str("");
-  analyze2->serialize(ss);
-  EXPECT_EQ("CriteriaWriter 1 ", ss.str());
+  analyze2->serialize(ss2);
+  EXPECT_EQ(ss.str(), ss2.str());
 }
 
 }  // namespace feasst

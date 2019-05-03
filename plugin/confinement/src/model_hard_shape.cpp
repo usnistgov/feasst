@@ -5,7 +5,8 @@ namespace feasst {
 class MapModelHardShape {
  public:
   MapModelHardShape() {
-    ModelHardShape().deserialize_map()["ModelHardShape"] = MakeModelHardShape();
+    ModelHardShape().deserialize_map()["ModelHardShape"] =
+      std::make_shared<ModelHardShape>();
   }
 };
 

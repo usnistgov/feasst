@@ -128,9 +128,9 @@ TEST(MonteCarlo, chain) {
   // serialize
   std::stringstream ss;
   mc.serialize(ss);
+  // INFO(ss.str());
   MonteCarlo mc2(ss);
   EXPECT_EQ(mc2.analyzers().size(), 3);
-  // INFO(ss.str());
 }
 
 }  // namespace feasst

@@ -7,7 +7,6 @@
 #include "core/include/criteria.h"
 #include "flat_histogram/include/macrostate.h"
 #include "flat_histogram/include/bias.h"
-#include "flat_histogram/include/macrostate_accumulator.h"
 
 namespace feasst {
 
@@ -17,14 +16,11 @@ namespace feasst {
  */
 class CriteriaFlatHistogram : public Criteria {
  public:
-  CriteriaFlatHistogram(const argtype &args = argtype()) : Criteria(args) {
-    bin_trackers_.add(std::make_shared<BinEnergy>());
-  }
+  CriteriaFlatHistogram(const argtype &args = argtype()) : Criteria(args) {}
 
   void before_attempt(const System* system) override {
     macrostate_old_ = macrostate_->bin(system, this);
     DEBUG("macro old " << macrostate_old_);
-    bin_trackers_.update(macrostate_old_, system, this);
   }
 
   bool is_accepted(const AcceptanceCriteria accept_criteria) override;
@@ -36,7 +32,6 @@ class CriteriaFlatHistogram : public Criteria {
     ASSERT(is_macrostate_set_, "set macrostate before bias");
     bias_ = bias;
     bias_->resize(macrostate_->histogram());
-    bin_trackers_.resize(macrostate_->histogram().size());
   }
 
   /// Set the macrostate which is subject to the bias.
@@ -44,6 +39,10 @@ class CriteriaFlatHistogram : public Criteria {
     macrostate_ = macrostate;
     is_macrostate_set_ = true;
   }
+
+  /// Return the state. Return -1 if state is not determined.
+  int state() const override { return macrostate_new_; }
+  int num_states() const override { return macrostate_->histogram().size(); }
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<CriteriaFlatHistogram>(istr); }
@@ -56,15 +55,11 @@ class CriteriaFlatHistogram : public Criteria {
   const std::string class_name_ = "CriteriaFlatHistogram";
   std::shared_ptr<Bias> bias_;
   std::shared_ptr<Macrostate> macrostate_;
-  int macrostate_old_, macrostate_new_;
-  MacrostateAccumulatorFactory bin_trackers_;
+  int macrostate_old_ = -1;
+  int macrostate_new_ = -1;
   bool is_macrostate_set_ = false;
 
   Random random_;
-
-  void after_attempt_(const System* system) override {
-    macrostate_new_ = macrostate_->bin(system, this);
-  }
 };
 
 inline std::shared_ptr<CriteriaFlatHistogram> MakeCriteriaFlatHistogram(

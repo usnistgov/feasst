@@ -44,6 +44,7 @@ class MonteCarlo {
     system_.add(config);
     config_set_ = true;
     if (potential_set_) system_set_ = true;
+    ASSERT(!criteria_set_, "add config before criteria");
   }
 
   /// The configuration may be accessed read-only.
@@ -55,6 +56,7 @@ class MonteCarlo {
     system_.add(potential);
     potential_set_ = true;
     if (config_set_) system_set_ = true;
+    ASSERT(!criteria_set_, "add potential before criteria");
   }
 
   /// Alternatively, the first and second actions may be combined by setting
@@ -64,6 +66,7 @@ class MonteCarlo {
     system_set_ = true;
     system_ = system;
     system_.precompute();
+    ASSERT(!criteria_set_, "add system before criteria");
   }
 
   /// Once the System is set, it may be accessed on a read-only basis.
@@ -76,7 +79,7 @@ class MonteCarlo {
   /// Configuration and Potentials (or System) must be set first.
   void add(std::shared_ptr<Criteria> criteria) {
     ASSERT(system_set_, "set System before Criteria.");
-    criteria->set_running_energy(system_.energy());
+    criteria->set_current_energy(system_.energy());
     criteria_ = criteria;
     criteria_set_ = true;
   }
@@ -118,10 +121,10 @@ class MonteCarlo {
 
   /// An Analyzer performs some task after a given number of steps, but is
   /// read-only on System, Criteria and Trials.
-  void add(const std::shared_ptr<Analyze> analyze) {
-    analyze->initialize(criteria_, system_, trial_factory_);
-    analyze_factory_.add(analyze);
-  }
+  /// At this stage, multistate non-factory classes are converted into
+  /// factories for each state in criteria.
+  void add(std::shared_ptr<Analyze> analyze);
+
   std::vector<std::shared_ptr<Analyze> > analyzers() const {
     return analyze_factory_.analyzers(); }
   std::shared_ptr<Analyze> analyze(const int index) const {
@@ -130,6 +133,7 @@ class MonteCarlo {
   /// A Modifier performs some task after a given number of steps, but may
   /// change the System, Criteria and Trials.
   void add(const std::shared_ptr<Modify> modify) {
+    ASSERT(criteria_set_, "set Criteria before Modify");
     modify->initialize(criteria_, &system_, &trial_factory_);
     modify_factory_.add(modify);
   }
@@ -140,6 +144,7 @@ class MonteCarlo {
     ASSERT(system_set_, "system must be set before attempting trials.");
     ASSERT(criteria_set_, "criteria must be set before attempting trials.");
     for (int trial = 0; trial < num_trials; ++trial) {
+      DEBUG("mc trial: " << trial);
       trial_factory_.attempt(criteria_.get(), &system_);
       analyze_factory_.trial(criteria_, system_, trial_factory_);
       modify_factory_.trial(criteria_, &system_, &trial_factory_);

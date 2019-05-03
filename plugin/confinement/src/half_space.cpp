@@ -6,21 +6,24 @@ namespace feasst {
 class MapHalfSpace {
  public:
   MapHalfSpace() {
-    HalfSpace().deserialize_map()["HalfSpace"] = MakeHalfSpace();
+    auto obj = MakeHalfSpace({
+      {"dimension", "1"},
+      {"intersection", "1"},
+      {"direction", "1"},
+    });
+    obj->deserialize_map()["HalfSpace"] = obj;
   }
 };
 
 static MapHalfSpace mapper_ = MapHalfSpace();
 
-HalfSpace& HalfSpace::set_direction(
-    const double direction) {
-  ASSERT(std::abs(direction) > 1e-15, "direction cannot be infinitesimal");
-  if (direction > 0) {
-    direction_ = 1.;
-  } else {
-    direction_ = -1.;
-  }
-  return *this;
+HalfSpace::HalfSpace(const argtype &args) : Shape() {
+  args_.init(args);
+  dimension_ = args_.key("dimension").integer();
+  intersection_ = args_.key("intersection").dble();
+  direction_ = args_.key("direction").integer();
+  ASSERT(direction_ == -1 || direction_ == 1, "invalid direction: "
+    << direction_);
 }
 
 double HalfSpace::nearest_distance(const Position& point) const {

@@ -33,10 +33,9 @@ def add_analysis(mc, steps_per):
     {"steps_per" : str(steps_per)})))
   mc.add(feasst.MakeMovie(feasst.args(
     {"steps_per" : str(steps_per),
-     "file_name" : "movie.xyz"})));
+     "file_name" : "movie.xyz"})))
   mc.add(feasst.MakeEnergyCheck(feasst.args(
     {"steps_per" : str(steps_per),
-     "tolerance" : "1e-10"})));
+     "tolerance" : "1e-10"})))
   mc.add(feasst.MakeTuner(feasst.args(
-    {"steps_per" : str(steps_per)})));
-
+    {"steps_per" : str(steps_per)})))

@@ -1,6 +1,8 @@
-#include "core/include/criteria_writer.h"
+#include "steppers/include/criteria_writer.h"
 
 namespace feasst {
+
+CriteriaWriter::CriteriaWriter(const argtype &args) : AnalyzeWriteOnly(args) {}
 
 class MapCriteriaWriter {
  public:

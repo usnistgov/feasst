@@ -43,7 +43,7 @@ class TrialTransfer : public Trial {
         log(double(num_mol_old)/config->domain().volume())
         - criteria->beta()*delta_energy
         - criteria->beta_mu(particle_type_);
-      accept_criteria_.energy_new = criteria->running_energy() + delta_energy;
+      accept_criteria_.energy_new = criteria->current_energy() + delta_energy;
       accept_criteria_.force_rejection = 0;
       accept_criteria_.system = system;
     }
@@ -64,7 +64,7 @@ class TrialTransfer : public Trial {
       log(config->domain().volume()/double(num_mol_new))
       - criteria->beta()*delta_energy
       + criteria->beta_mu(particle_type_);
-    accept_criteria_.energy_new = criteria->running_energy() + delta_energy;
+    accept_criteria_.energy_new = criteria->current_energy() + delta_energy;
     accept_criteria_.force_rejection = 0;
     accept_criteria_.system = system;
     accept_or_reject(accept_criteria_, &add_, criteria);

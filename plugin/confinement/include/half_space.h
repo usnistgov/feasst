@@ -3,6 +3,7 @@
 #define FEASST_CONFINEMENT_HALF_SPACE_H_
 
 #include "confinement/include/shape.h"
+#include "core/include/arguments.h"
 
 namespace feasst {
 
@@ -25,40 +26,41 @@ namespace feasst {
  */
 class HalfSpace : public Shape {
  public:
-  /// Set the dimension of the axis which is perpendicular to the divider.
-  HalfSpace& set_dimension(const int dimension) {
-    dimension_ = dimension;
-    return *this;
-  }
+  HalfSpace(
+    /**
+      dimension : Set the dimension of the axis which is perpendicular to the
+        divider.
+
+      intersection : Set the value where this axis intersects the dividing
+        surface.
+
+      direction : Set the direction at the intersection which is inside.
+        The only accepted values are "1" or "-1".
+     */
+    const argtype &args = argtype());
+
+  /// Return dimension argument.
   int dimension() const { return dimension_; }
-
-  /// Set the value where this axis intersects the dividing surface.
-  HalfSpace& set_intersection(const int intersection) {
-    intersection_ = intersection;
-    return *this;
-  }
-
-  /// Set the direction at the intersection which is inside (e.g., positive
-  /// or negative).
-  HalfSpace& set_direction(const double direction);
 
   double nearest_distance(const Position& point) const override;
 
   void serialize(std::ostream& ostr) const override {
     ostr << class_name_ << " ";
-    feasst_serialize_version(1, ostr);
+    feasst_serialize_version(376, ostr);
     feasst_serialize(dimension_, ostr);
     feasst_serialize(intersection_, ostr);
     feasst_serialize(direction_, ostr);
   }
 
   std::shared_ptr<Shape> create(std::istream& istr) const override {
-    auto shape = std::make_shared<HalfSpace>();
-    feasst_deserialize_version(istr);
-    feasst_deserialize(&(shape->dimension_), istr);
-    feasst_deserialize(&(shape->intersection_), istr);
-    feasst_deserialize(&(shape->direction_), istr);
-    return shape;
+    return std::make_shared<HalfSpace>(istr); }
+
+  HalfSpace(std::istream& istr) {
+    const int version = feasst_deserialize_version(istr);
+    ASSERT(376 == version, version);
+    feasst_deserialize(&dimension_, istr);
+    feasst_deserialize(&intersection_, istr);
+    feasst_deserialize(&direction_, istr);
   }
 
   virtual ~HalfSpace() {}
@@ -68,10 +70,12 @@ class HalfSpace : public Shape {
   int dimension_;
   double intersection_;
   int direction_;
+  Arguments args_;
 };
 
-inline std::shared_ptr<HalfSpace> MakeHalfSpace() {
-  return std::make_shared<HalfSpace>();
+inline std::shared_ptr<HalfSpace> MakeHalfSpace(
+    const argtype& args = argtype()) {
+  return std::make_shared<HalfSpace>(args);
 }
 
 }  // namespace feasst

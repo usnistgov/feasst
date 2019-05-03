@@ -33,7 +33,6 @@ class FileVMD {
   FileVMD(std::istream& istr) {
     feasst_deserialize_version(istr);
   }
-
 };
 
 /// HWH Add html link to XYZ format

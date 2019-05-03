@@ -13,8 +13,8 @@ namespace feasst {
   Wang Landau flat histogram bias.
   https://doi.org/10.1103/PhysRevLett.86.2050
   https://doi.org/10.1063/1.1615966
-  HWH: Implement "gentle" WL where the bias is updated infrequently.
  */
+// HWH: Implement "gentle" WL where the bias is updated infrequently.
 class BiasWangLandau : public Bias {
  public:
   BiasWangLandau(

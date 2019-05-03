@@ -1,6 +1,6 @@
 #include <sstream>
 #include <gtest/gtest.h>
-#include "core/include/model_square_well.h"
+#include "models/include/model_square_well.h"
 
 namespace feasst {
 

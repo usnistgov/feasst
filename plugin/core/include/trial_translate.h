@@ -111,7 +111,7 @@ class TrialStagedTranslate : public TrialMove, public StagedTrial {
     accept_criteria_->force_rejection = reject;
     accept_criteria_->ln_metropolis_prob -= ln_met_old;
     accept_criteria_->ln_metropolis_prob += ln_met_new;
-    accept_criteria_->energy_new = criteria->running_energy() + delta_energy;
+    accept_criteria_->energy_new = criteria->current_energy() + delta_energy;
     accept_criteria_->energy_new_select = en_new;
     accept_criteria_->system = system;
     DEBUG("new en " << accept_criteria_->energy_new);

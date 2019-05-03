@@ -15,7 +15,9 @@ namespace feasst {
 class ModelHardShape : public ModelOneBody,
                        public ShapedEntity {
  public:
-  ModelHardShape() : ModelOneBody(), ShapedEntity() {}
+  ModelHardShape() {} // serialization only
+  ModelHardShape(std::shared_ptr<Shape> shape)
+    : ModelOneBody(), ShapedEntity(shape) {}
 
   double energy(
       const Site& site,
@@ -49,8 +51,9 @@ class ModelHardShape : public ModelOneBody,
   const std::string class_name_ = "ModelHardShape";
 };
 
-inline std::shared_ptr<ModelHardShape> MakeModelHardShape() {
-  return std::make_shared<ModelHardShape>();
+inline std::shared_ptr<ModelHardShape> MakeModelHardShape(
+    std::shared_ptr<Shape> shape) {
+  return std::make_shared<ModelHardShape>(shape);
 }
 
 }  // namespace feasst

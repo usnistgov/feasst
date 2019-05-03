@@ -7,12 +7,12 @@
 namespace feasst {
 
 TEST(ModelHardShape, half_space) {
-  auto half_space = HalfSpace()
-    .set_dimension(2)
-    .set_intersection(1)
-    .set_direction(1);
-  ModelHardShape model;
-  model.set_shape(std::make_shared<HalfSpace>(half_space));
+  HalfSpace half_space({
+    {"dimension", "2"},
+    {"intersection", "1."},
+    {"direction", "1"},
+  });
+  ModelHardShape model(std::make_shared<HalfSpace>(half_space));
   Configuration config;
   config.set_domain(Domain().set_cubic(8));
   config.add_particle_type("../forcefield/data.atom");

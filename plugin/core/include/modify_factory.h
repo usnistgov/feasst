@@ -33,11 +33,11 @@ class ModifyFactory : public Modify {
     }
   }
 
+  std::string class_name() const override { return std::string("ModifyFactory"); }
   void serialize(std::ostream& ostr) const override;
   ModifyFactory(std::istream& istr);
 
  private:
-  std::string class_name_ = "ModifyFactory";
   std::vector<std::shared_ptr<Modify> > modifiers_;
 };
 

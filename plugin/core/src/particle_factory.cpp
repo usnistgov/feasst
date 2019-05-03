@@ -68,8 +68,6 @@ void ParticleFactory::check_types(int * num_site_types,
 void ParticleFactory::add(const std::string file_name) {
   ASSERT(unique_particles_,
     "only add particles by file for defining allowed types");
-  // const int kMaxSiteType = check_site_types();
-  // HWH ASSERT(kMaxSiteType == model_params_.size(), "size error");
   Particle particle = FileLMP().read(file_name);
 
   // Assign per-site properties from the data file.

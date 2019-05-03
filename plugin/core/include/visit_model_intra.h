@@ -40,6 +40,7 @@ class VisitModelIntra : public VisitModel {
   void serialize(std::ostream& ostr) const override;
   VisitModelIntra(std::istream& istr);
   ~VisitModelIntra() {}
+
  private:
   const std::string class_name_ = "VisitModelIntra";
   int intra_cut_ = -1;

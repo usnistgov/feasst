@@ -5,12 +5,11 @@
 namespace feasst {
 
 TEST(Movie, serialize) {
-  Movie analyze;
+  auto movie = MakeMovie({{"file_name", "tmp"}});
   std::stringstream ss, ss2;
-  analyze.serialize(ss);
-  EXPECT_EQ("Movie 1 1 0 0 1 ", ss.str());
-  std::shared_ptr<Analyze> analyze2 = Movie().deserialize(ss);
-  analyze2->serialize(ss2);
+  movie->serialize(ss);
+  std::shared_ptr<Analyze> movie2 = movie->deserialize(ss);
+  movie2->serialize(ss2);
   EXPECT_EQ(ss.str(), ss2.str());
 }
 

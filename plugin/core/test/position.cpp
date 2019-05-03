@@ -19,11 +19,36 @@ TEST(Position, getset) {
   EXPECT_NEAR(pos.dot_product(pos), pos.squared_distance(), NEAR_ZERO);
 
   // serialize
-  std::stringstream ss;
+  std::stringstream ss, ss2;
   pos.serialize(ss);
   Position pos2(ss);
   EXPECT_EQ(pos.coord(), pos2.coord());
-  INFO(ss.str());
+  pos2.serialize(ss2);
+  EXPECT_EQ(ss.str(), ss2.str());
+  //INFO(ss.str());
+}
+
+TEST(Position, cross_product) {
+  auto a = Position().set_vector({1, 2, 3});
+  auto b = Position().set_vector({3.5, 3.5, 3.5});
+  Position c = a.cross_product(b);
+  EXPECT_NEAR(-3.5, c.coord(0), 1e-10);
+  EXPECT_NEAR(7., c.coord(1), 1e-10);
+  EXPECT_NEAR(-3.5, c.coord(2), 1e-10);
+}
+
+TEST(Position, nearest_distance_to_axis) {
+  auto x0 = Position().set_vector({1., 2., 3.});
+  auto x1 = Position().set_vector({2., 3., 4.});
+  auto x2 = Position().set_vector({3., 4., 5.});
+  EXPECT_NEAR(x0.nearest_distance_to_axis(x1, x2), 0, NEAR_ZERO);
+}
+
+TEST(Position, nearest_distance_to_axis2) {
+  auto x0 = Position().set_vector({2.354, -1, 1.});
+  auto x1 = Position().set_vector({0, -1., 0.});
+  auto x2 = Position().set_vector({0., -1., 1});
+  EXPECT_NEAR(x0.nearest_distance_to_axis(x1, x2), 2.354, NEAR_ZERO);
 }
 
 }  // namespace feasst

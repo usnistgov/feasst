@@ -130,5 +130,43 @@ Position::Position(std::istream& sstr) {
   feasst_deserialize_version(sstr);
   feasst_deserialize(&coord_, sstr);
 }
+  
+Position Position::cross_product(const Position& position) const{
+  ASSERT(this->dimension() == 3 && position.dimension() == 3,
+    "implemented for 3D only.");
+  return Position().set_vector({
+    this->coord(1) * position.coord(2) - this->coord(2) * position.coord(1),
+    this->coord(2) * position.coord(0) - this->coord(0) * position.coord(2),
+    this->coord(0) * position.coord(1) - this->coord(1) * position.coord(0)});
+}
+
+double Position::nearest_distance_to_axis(const Position& point1,
+                                          const Position& point2) const {
+  // point0 is self, pij = pi - pj
+  Position p01 = *this, p02 = *this, p21 = point2;
+  p01.subtract(point1);
+  p02.subtract(point2);
+  p21.subtract(point1);
+  return ((p01.cross_product(p02)).distance())/p21.distance();
+}
+
+Position::Position(const argtype& args) {
+  args_.init(args);
+  double x = 0, y = 0, z = 0;
+  if (args_.key("x").used()) {
+    x = args_.dble();
+    if (args_.key("y").used()) {
+      y = args_.dble();
+      if (args_.key("z").used()) {
+        z = args_.dble();
+        set_vector({x, y, z});
+      } else {
+        set_vector({x, y});
+      }
+    } else {
+      set_vector({x});
+    }
+  }
+}
 
 }  // namespace feasst

@@ -17,19 +17,20 @@ class Tuner : public ModifyUpdateOnly {
     trial_factory->tune();
   }
 
+  std::string class_name() const override { return std::string("Tuner"); }
+
   void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
+    Stepper::serialize(ostr);
     feasst_serialize_version(1, ostr);
   }
 
   std::shared_ptr<Modify> create(std::istream& istr) const override {
-    feasst_deserialize_version(istr);
-    auto modify = std::make_shared<Tuner>();
-    return modify;
-  }
+    return std::make_shared<Tuner>(istr); }
+
+  Tuner(std::istream& istr) : ModifyUpdateOnly(istr) {
+    feasst_deserialize_version(istr); }
 
  private:
-  const std::string class_name_ = "Tuner";
 };
 
 inline std::shared_ptr<Tuner> MakeTuner(const argtype &args = argtype()) {

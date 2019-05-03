@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_CRITERIA_MAYER_H_
-#define FEASST_CORE_CRITERIA_MAYER_H_
+#ifndef FEASST_MAYER_CRITERIA_MAYER_H_
+#define FEASST_MAYER_CRITERIA_MAYER_H_
 
 #include "core/include/criteria.h"
 #include "core/include/random.h"
@@ -50,4 +50,4 @@ inline std::shared_ptr<CriteriaMayer> MakeCriteriaMayer(const argtype &args = ar
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_CRITERIA_MAYER_H_
+#endif  // FEASST_MAYER_CRITERIA_MAYER_H_

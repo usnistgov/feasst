@@ -46,7 +46,7 @@ double Criteria::chemical_potential(const int particle_type) const {
 
 std::string Criteria::status() const {
   std::stringstream ss;
-  ss << running_energy();
+  ss << current_energy();
   return ss.str();
 }
 
@@ -80,7 +80,7 @@ Criteria::Criteria(std::istream& istr) {
   feasst_deserialize(&beta_, istr);
   feasst_deserialize(&beta_initialized_, istr);
   feasst_deserialize(&chemical_potentials_, istr);
-  feasst_deserialize(&running_energy_, istr);
+  feasst_deserialize(&current_energy_, istr);
 }
 
 }  // namespace feasst

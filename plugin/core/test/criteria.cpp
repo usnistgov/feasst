@@ -6,13 +6,13 @@
 
 namespace feasst {
 
-TEST(Criteria, running_energy) {
+TEST(Criteria, current_energy) {
   System sys = default_system();
   const double pe_expected = 4*(pow(1.25, -12) - pow(1.25, -6));
   EXPECT_NEAR(sys.energy(), pe_expected, NEAR_ZERO);
   auto trans = MakeTrialTranslate({{"max_move", "0.1"}});
   CriteriaMetropolis crit;
-  crit.set_running_energy(sys.energy());
+  crit.set_current_energy(sys.energy());
   try {
     auto sys2 = sys;
     auto crit2 = crit;
@@ -21,7 +21,7 @@ TEST(Criteria, running_energy) {
   }
   crit.set_beta(1.);
   trans->attempt(&crit, &sys);
-  EXPECT_NEAR(sys.energy(), crit.running_energy(), NEAR_ZERO);
+  EXPECT_NEAR(sys.energy(), crit.current_energy(), NEAR_ZERO);
 }
 
 }  // namespace feasst

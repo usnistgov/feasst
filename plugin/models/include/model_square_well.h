@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CORE_MODEL_SQUARE_WELL_H_
-#define FEASST_CORE_MODEL_SQUARE_WELL_H_
+#ifndef FEASST_MODELS_MODEL_SQUARE_WELL_H_
+#define FEASST_MODELS_MODEL_SQUARE_WELL_H_
 
 #include "core/include/model_two_body.h"
 #include "core/include/constants.h"
@@ -49,4 +49,4 @@ inline std::shared_ptr<ModelSquareWell> MakeModelSquareWell() {
 
 }  // namespace feasst
 
-#endif  // FEASST_CORE_MODEL_SQUARE_WELL_H_
+#endif  // FEASST_MODELS_MODEL_SQUARE_WELL_H_

@@ -30,18 +30,16 @@ class Log : public AnalyzeWriteOnly {
   }
 
   void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
+    Stepper::serialize(ostr);
     feasst_serialize_version(1, ostr);
   }
 
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
-    feasst_deserialize_version(istr);
-    auto analyze = std::make_shared<Log>();
-    return analyze;
-  }
+    return std::make_shared<Log>(istr); }
 
- private:
-  const std::string class_name_ = "Log";
+  Log(std::istream& istr) : AnalyzeWriteOnly(istr) { feasst_deserialize_version(istr); }
+
+  std::string class_name() const override { return std::string("Log"); }
 };
 
 inline std::shared_ptr<Log> MakeLog(const argtype &args = argtype()) {

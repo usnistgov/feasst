@@ -6,7 +6,7 @@ for f in *; do
   #sed 's/ "core\/scr/ "core\/src/' $f > ttmp; mv ttmp $f
   #sed 's/ EWALD_INCLUDE_/ FEASST_EWALD_/' $f > ttmp; mv ttmp $f
   #sed 's///g' $f > ttmp; mv ttmp $f
-  sed 's/, 1e-15/, feasst::NEAR_ZERO/g' $f > ttmp; mv ttmp $f
+  sed 's/running_energy/current_energy/g' $f > ttmp; mv ttmp $f
   #sed 's/DomainCuboid/Domain/g' $f > ttmp; mv ttmp $f
 done
 #rename 's/\.cc/\.cpp/' $(find . -type f)

@@ -7,6 +7,7 @@
 #include "flat_histogram/include/bias_wang_landau.h"
 #include "flat_histogram/include/bias_transition_matrix.h"
 #include "core/include/histogram.h"
+#include "steppers/include/energy.h"
 
 namespace feasst {
 
@@ -47,6 +48,17 @@ TEST(MonteCarlo, WLMC) {
       }
       mc.set(criteria);
     }
+    mc.add(MakeMovie({
+      {"file_name", "tmp/wlmc_movie"},
+      {"steps_per", "1000"},
+      {"multistate", "true"},
+    }));
+    mc.add(MakeEnergy({
+      {"file_name", "tmp/wlmc_energy"},
+      {"steps_per_update", "1"},
+      {"steps_per_write", "1"},
+      {"multistate", "true"},
+    }));
     mc.attempt(1e4);
     // mc.attempt(1e6); // note more than 1e4 steps required for TM
     // mc.run_until_complete();
@@ -55,7 +67,7 @@ TEST(MonteCarlo, WLMC) {
     // serialize
     std::stringstream ss, ss2;
     mc.serialize(ss);
-//    INFO(ss.str());
+    // INFO(ss.str());
     MonteCarlo mc2(ss);
     mc2.serialize(ss2);
     EXPECT_EQ(ss.str(), ss2.str());

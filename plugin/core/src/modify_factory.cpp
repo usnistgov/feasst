@@ -3,11 +3,7 @@
 
 namespace feasst {
 
-ModifyFactory::ModifyFactory(std::istream& istr) {
-  std::string class_name;
-  istr >> class_name;
-  ASSERT(class_name == class_name_, "class_name(" << class_name << ") does "
-    << "not match class_name_(" << class_name_ << ")");
+ModifyFactory::ModifyFactory(std::istream& istr) : Modify(istr) {
   feasst_deserialize_version(istr);
   // feasst_deserialize_fstdr(&modifiers_, istr);
   // HWH for unknown reasons, function template doesn't work
@@ -24,7 +20,7 @@ ModifyFactory::ModifyFactory(std::istream& istr) {
 }
 
 void ModifyFactory::serialize(std::ostream& ostr) const {
-  ostr << class_name_ << " ";
+  Stepper::serialize(ostr);
   feasst_serialize_version(1, ostr);
   feasst_serialize_fstdr(modifiers_, ostr);
 }

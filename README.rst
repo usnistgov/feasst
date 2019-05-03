@@ -12,6 +12,10 @@ README
     :target: https://www.codefactor.io/repository/github/hhatch/feasst/overview/master
     :alt: CodeFactor
 
+.. note::
+
+   Website: https://feasst.hhatch.com
+
 Features
 ================================================================================
 
