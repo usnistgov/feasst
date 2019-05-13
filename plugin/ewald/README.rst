@@ -11,4 +11,4 @@ This is a plugin for the Ewald summation for long-range electrostatics.
 FEASST plugin dependencies
 ============================
 
-* core
+* system

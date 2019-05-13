@@ -11,4 +11,4 @@ This is a plugin for Mayer-Sampling Monte Carlo.
 FEASST plugin dependencies
 ============================
 
-* core
+* Monte Carlo

@@ -3,8 +3,8 @@
 #define FEASST_FLAT_HISTOGRAM_CRITERIA_FLAT_HISTOGRAM_H_
 
 #include <memory>
-#include "core/include/accumulator.h"
-#include "core/include/criteria.h"
+#include "math/include/accumulator.h"
+#include "monte_carlo/include/criteria.h"
 #include "flat_histogram/include/macrostate.h"
 #include "flat_histogram/include/bias.h"
 

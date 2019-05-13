@@ -2,9 +2,9 @@
 #ifndef FEASST_FLAT_HISTOGRAM_MACROSTATE_H_
 #define FEASST_FLAT_HISTOGRAM_MACROSTATE_H_
 
-#include "core/include/system.h"
-#include "core/include/criteria.h"
-#include "core/include/histogram.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/criteria.h"
+#include "math/include/histogram.h"
 
 namespace feasst {
 

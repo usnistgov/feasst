@@ -2,7 +2,7 @@
 #ifndef FEASST_CHAIN_ANALYZE_RIGID_BONDS_H_
 #define FEASST_CHAIN_ANALYZE_RIGID_BONDS_H_
 
-#include "core/include/analyze.h"
+#include "monte_carlo/include/analyze.h"
 
 namespace feasst {
 

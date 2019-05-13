@@ -247,6 +247,7 @@ Serialization
 * utils_io.h contains many function templates for serialization.
 * In particular, feasst_deserialize_fstdr() needs to be fixed.
 * Don't forget to serialize (private) member data in new implementations.
+* To compare differences between two serializations, paste into file and using "s/ /\r/g"
 
 For quick reference
 ================================================================================

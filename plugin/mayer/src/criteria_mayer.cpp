@@ -1,6 +1,6 @@
 
 #include "mayer/include/criteria_mayer.h"
-#include "core/include/utils_io.h"
+#include "utils/include/utils_io.h"
 
 namespace feasst {
 

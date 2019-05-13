@@ -2,10 +2,10 @@
 #include <cmath>
 #include <algorithm>
 #include "flat_histogram/include/collection_matrix.h"
-#include "core/include/utils_io.h"
-#include "core/include/utils_math.h"
-#include "core/include/debug.h"
-#include "core/include/accumulator.h"
+#include "utils/include/utils_io.h"
+#include "math/include/utils_math.h"
+#include "utils/include/debug.h"
+#include "math/include/accumulator.h"
 
 namespace feasst {
 

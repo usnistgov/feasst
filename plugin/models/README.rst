@@ -11,4 +11,4 @@ This plugin contains extra models
 FEASST plugin dependencies
 ============================
 
-* core
+* system

@@ -2,7 +2,7 @@
 #ifndef FEASST_STEPPERS_WALL_CLOCK_LIMIT_H_
 #define FEASST_STEPPERS_WALL_CLOCK_LIMIT_H_
 
-#include "core/include/modify.h"
+#include "monte_carlo/include/modify.h"
 
 namespace feasst {
 

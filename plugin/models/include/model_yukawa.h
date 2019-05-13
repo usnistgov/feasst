@@ -2,8 +2,8 @@
 #ifndef FEASST_MODELS_MODEL_YUKAWA_H_
 #define FEASST_MODELS_MODEL_YUKAWA_H_
 
-#include "core/include/model_two_body.h"
-#include "core/include/constants.h"
+#include "system/include/model_two_body.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 

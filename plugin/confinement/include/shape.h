@@ -5,8 +5,8 @@
 #include <memory>
 #include <map>
 #include <sstream>
-#include "core/include/position.h"
-#include "core/include/utils_io.h"
+#include "math/include/position.h"
+#include "utils/include/utils_io.h"
 
 namespace feasst {
 
@@ -40,9 +40,6 @@ class ShapedEntity {
   ShapedEntity() {}
   ShapedEntity(std::shared_ptr<Shape> shape) {
     shape_ = shape; }
-
-  /// Set the shape.
-  void set_shape(const std::shared_ptr<Shape> shape) { shape_ = shape; }
 
   /// Return the shape.
   const std::shared_ptr<Shape> shape() const { return shape_; }

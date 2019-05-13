@@ -30,4 +30,4 @@ Associated CMake flag
 FEASST plugin dependencies
 ============================
 
-* core
+* system

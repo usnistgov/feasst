@@ -2,14 +2,14 @@
 #ifndef FEASST_EWALD_SYSTEM_EXAMPLE_H_
 #define FEASST_EWALD_SYSTEM_EXAMPLE_H_
 
-#include "core/include/system.h"
+#include "system/include/system.h"
 #include "ewald/include/model_charge_self.h"
 #include "ewald/include/model_charge_intra.h"
 #include "ewald/include/model_charge_screened.h"
-#include "core/include/model_lj.h"
-#include "core/include/long_range_corrections.h"
-#include "core/include/visit_model_intra.h"
-#include "core/test/configuration_test.h"
+#include "system/include/model_lj.h"
+#include "system/include/long_range_corrections.h"
+#include "system/include/visit_model_intra.h"
+#include "configuration/test/configuration_test.h"
 
 namespace feasst {
 

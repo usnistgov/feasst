@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "core/test/configuration_test.h"
-#include "core/include/configuration.h"
+#include "configuration/test/configuration_test.h"
+#include "configuration/include/configuration.h"
 
 namespace feasst {
 

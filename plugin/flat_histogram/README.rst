@@ -13,4 +13,4 @@ this order parameter.
 FEASST plugin dependencies
 ============================
 
-* core
+* Monte Carlo

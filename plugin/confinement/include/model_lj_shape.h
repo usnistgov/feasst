@@ -2,10 +2,10 @@
 #ifndef FEASST_CONFINEMENT_MODEL_LJ_SHAPE_H_
 #define FEASST_CONFINEMENT_MODEL_LJ_SHAPE_H_
 
-#include "core/include/model_one_body.h"
+#include "system/include/model_one_body.h"
 #include "confinement/include/shape.h"
-#include "core/include/constants.h"
-#include "core/include/arguments.h"
+#include "math/include/constants.h"
+#include "utils/include/arguments.h"
 
 namespace feasst {
 

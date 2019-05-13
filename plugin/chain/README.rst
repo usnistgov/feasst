@@ -11,4 +11,4 @@ Simulate linear chains
 FEASST plugin dependencies
 ============================
 
-* core
+* Monte Carlo

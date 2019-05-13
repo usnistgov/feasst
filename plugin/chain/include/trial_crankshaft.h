@@ -2,10 +2,10 @@
 #ifndef FEASST_CHAIN_TRIAL_CRANKSHAFT_H_
 #define FEASST_CHAIN_TRIAL_CRANKSHAFT_H_
 
-#include "core/include/trial_rotate.h"
-#include "core/include/perturb_translate.h"
-#include "core/include/random.h"
-#include "core/include/utils_io.h"
+#include "monte_carlo/include/trial_rotate.h"
+#include "monte_carlo/include/perturb_translate.h"
+#include "math/include/random.h"
+#include "utils/include/utils_io.h"
 
 namespace feasst {
 

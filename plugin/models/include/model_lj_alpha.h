@@ -2,7 +2,7 @@
 #ifndef FEASST_MODELS_MODEL_LJ_ALPHA_H_
 #define FEASST_MODELS_MODEL_LJ_ALPHA_H_
 
-#include "core/include/model_lj.h"
+#include "system/include/model_lj.h"
 
 namespace feasst {
 

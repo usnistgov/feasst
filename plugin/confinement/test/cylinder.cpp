@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "confinement/include/cylinder.h"
-#include "core/include/debug.h"
+#include "utils/include/debug.h"
 
 namespace feasst {
 
@@ -17,13 +17,9 @@ TEST(Shape, Cylinder) {
   EXPECT_TRUE(cylinder.is_inside(point, 0.9999));
   EXPECT_FALSE(cylinder.is_inside(point, 1.00001));
 
-  std::stringstream ss, ss2;
-  cylinder.serialize(ss);
-  std::shared_ptr<Shape> cylinder2 = cylinder.deserialize(ss);
+  auto cylinder2 = test_serialize<Cylinder, Shape>(cylinder);
   EXPECT_TRUE(cylinder2->is_inside(point, 0.9999));
   EXPECT_FALSE(cylinder2->is_inside(point, 1.00001));
-  cylinder2->serialize(ss2);
-  EXPECT_EQ(ss.str(), ss2.str());
 }
 
 }  // namespace feasst

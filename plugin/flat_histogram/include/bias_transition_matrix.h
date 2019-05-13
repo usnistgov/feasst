@@ -4,7 +4,7 @@
 
 #include <vector>
 #include <memory>
-#include "core/include/arguments.h"
+#include "utils/include/arguments.h"
 #include "flat_histogram/include/bias.h"
 #include "flat_histogram/include/collection_matrix.h"
 

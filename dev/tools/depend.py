@@ -151,14 +151,17 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
       for dep in deps:
         header = dep[0]
         cls = read_class(header)
+        # print('cls', cls)
         if re.search(mod, header):
           if cls:
             doc = mod + '/doc/' + cls[0] + '.rst'
             toc.write('   ' + cls[0] + '\n')
           else:
             funcfile = re.sub(mod+r'/include/', '', re.sub(r'.h$', '', header))
-            doc = mod + '/doc/' + funcfile + '.rst'
-            toc.write('   ' + funcfile + '\n')
+            if funcfile[:len(mod)] == mod:
+              # print('funcfile', funcfile)
+              doc = mod + '/doc/' + funcfile + '.rst'
+              toc.write('   ' + funcfile + '\n')
           with open(doc, 'w') as fle:
             if cls:
               fle.write(cls[0]+'\n')

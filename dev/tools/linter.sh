@@ -6,7 +6,14 @@ for f in *; do
   #sed 's/ "core\/scr/ "core\/src/' $f > ttmp; mv ttmp $f
   #sed 's/ EWALD_INCLUDE_/ FEASST_EWALD_/' $f > ttmp; mv ttmp $f
   #sed 's///g' $f > ttmp; mv ttmp $f
-  sed 's/running_energy/current_energy/g' $f > ttmp; mv ttmp $f
+  #sed 's/_CORE_/_MONTE_CARLO_/g' $f > ttmp; mv ttmp $f
+  #sed 's/_CORE_/_SYSTEM_/g' $f > ttmp; mv ttmp $f
+  #sed 's/core\/include/system\/include/g' $f > ttmp; mv ttmp $f
+  #sed 's/core\/test/system\/test/g' $f > ttmp; mv ttmp $f
+#  sed 's/_STEPPERS_/_MONTE_CARLO_/g' $f > ttmp; mv ttmp $f
+  sed 's/steppers\/include\/analyze/monte_carlo\/include\/analyze/g' $f > ttmp; mv ttmp $f
+  sed 's/steppers\/include\/stepper/monte_carlo\/include\/stepper/g' $f > ttmp; mv ttmp $f
+  sed 's/steppers\/include\/modify/monte_carlo\/include\/modify/g' $f > ttmp; mv ttmp $f
   #sed 's/DomainCuboid/Domain/g' $f > ttmp; mv ttmp $f
 done
 #rename 's/\.cc/\.cpp/' $(find . -type f)

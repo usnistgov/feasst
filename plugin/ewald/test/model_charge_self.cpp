@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "ewald/include/model_charge_self.h"
-#include "core/test/configuration_test.h"
+#include "configuration/test/configuration_test.h"
 
 namespace feasst {
 
@@ -13,10 +13,7 @@ TEST(ModelChargeSelf, SRSW_refconfig) {
   visit.compute(model, &config);
   EXPECT_NEAR(-23652.08040365018, visit.energy(), 1e-11);
 
-  // serialize
-  std::stringstream ss;
-  model.serialize(ss);
-  auto model2 = ModelChargeSelf().deserialize(ss);
+  auto model2 = test_serialize<ModelChargeSelf, Model>(model);
   model2->compute(&config, &visit);
   EXPECT_NEAR(-23652.08040365018, visit.energy(), 1e-10);
 }

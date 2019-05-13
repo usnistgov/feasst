@@ -1,8 +1,8 @@
 
 #include <sstream>
-#include "core/include/accumulator.h"
-#include "core/include/debug.h"
-#include "core/include/utils_io.h"
+#include "math/include/accumulator.h"
+#include "utils/include/debug.h"
+#include "utils/include/utils_io.h"
 #include "flat_histogram/include/bias.h"
 
 namespace feasst {

@@ -2,7 +2,7 @@
 #ifndef FEASST_CHAIN_TRIAL_REGROW_H_
 #define FEASST_CHAIN_TRIAL_REGROW_H_
 
-#include "core/include/trial_translate.h"
+#include "monte_carlo/include/trial_translate.h"
 #include "chain/include/perturb_regrow.h"
 
 namespace feasst {

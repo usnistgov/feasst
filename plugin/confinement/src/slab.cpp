@@ -1,7 +1,7 @@
 #include <cmath>
 #include "confinement/include/slab.h"
 #include "confinement/include/half_space.h"
-#include "core/include/utils_math.h"
+#include "math/include/utils_math.h"
 
 namespace feasst {
 

@@ -2,8 +2,8 @@
 #ifndef FEASST_CHAIN_TRIAL_PIVOT_H_
 #define FEASST_CHAIN_TRIAL_PIVOT_H_
 
-#include "core/include/trial_rotate.h"
-#include "core/include/utils_io.h"
+#include "monte_carlo/include/trial_rotate.h"
+#include "utils/include/utils_io.h"
 
 namespace feasst {
 

@@ -2,8 +2,8 @@
 #ifndef FEASST_MODELS_VISIT_MODEL_INNER_PATCH_H_
 #define FEASST_MODELS_VISIT_MODEL_INNER_PATCH_H_
 
-#include "core/include/visit_model.h"
-#include "core/include/utils_math.h"
+#include "system/include/visit_model.h"
+#include "math/include/utils_math.h"
 
 namespace feasst {
 

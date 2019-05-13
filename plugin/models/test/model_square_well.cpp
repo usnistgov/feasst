@@ -1,18 +1,12 @@
-#include <sstream>
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "models/include/model_square_well.h"
 
 namespace feasst {
 
 TEST(ModelSquareWell, serialize) {
   ModelSquareWell model;
-  std::stringstream istr;
-  model.serialize(istr);
-  EXPECT_EQ("ModelSquareWell 1 ", istr.str());
-  std::shared_ptr<Model> model2 = ModelSquareWell().deserialize(istr);
-  istr.str("");
-  model2->serialize(istr);
-  EXPECT_EQ("ModelSquareWell 1 ", istr.str());
+  std::shared_ptr<Model> model2 = test_serialize<ModelSquareWell, Model>(model,
+    "ModelSquareWell 1 ");
 }
 
 }  // namespace feasst

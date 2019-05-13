@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include "chain/include/perturb_regrow.h"
-#include "core/include/visit_model_intra.h"
-#include "core/include/model_hard_sphere.h"
-#include "core/include/file_xyz.h"
+#include "system/include/visit_model_intra.h"
+#include "system/include/model_hard_sphere.h"
+#include "configuration/include/file_xyz.h"
 
 namespace feasst {
 

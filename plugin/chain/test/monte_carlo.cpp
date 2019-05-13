@@ -1,24 +1,24 @@
 #include <memory>
-#include <gtest/gtest.h>
-#include "core/include/trial_translate.h"
-#include "core/include/trial_rotate.h"
+#include "utils/test/utils.h"
+#include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial_rotate.h"
 #include "chain/include/trial_pivot.h"
 #include "chain/include/trial_crankshaft.h"
 #include "chain/include/trial_regrow.h"
 #include "chain/include/trial_reptate.h"
-#include "core/include/trial_transfer.h"
-#include "core/include/monte_carlo.h"
-#include "core/include/criteria_metropolis.h"
-#include "core/include/utils_io.h"
-#include "core/include/accumulator.h"
-#include "core/test/system_test.h"
-#include "core/include/long_range_corrections.h"
-#include "core/include/visit_model_intra.h"
-#include "core/include/visit_model_cell.h"
-#include "core/include/log.h"
-#include "core/include/movie.h"
-#include "core/include/tuner.h"
-#include "core/include/check.h"
+#include "monte_carlo/include/trial_transfer.h"
+#include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/include/criteria_metropolis.h"
+#include "utils/include/utils_io.h"
+#include "math/include/accumulator.h"
+#include "system/test/system_test.h"
+#include "system/include/long_range_corrections.h"
+#include "system/include/visit_model_intra.h"
+#include "system/include/visit_model_cell.h"
+#include "steppers/include/log.h"
+#include "steppers/include/movie.h"
+#include "steppers/include/tuner.h"
+#include "steppers/include/check.h"
 #include "chain/include/analyze_rigid_bonds.h"
 
 namespace feasst {
@@ -125,11 +125,8 @@ TEST(MonteCarlo, chain) {
   mc.add(MakeAnalyzeRigidBonds({{"steps_per", str(steps_per)}}));
   mc.attempt(1e3);
 
-  // serialize
-  std::stringstream ss;
-  mc.serialize(ss);
   // INFO(ss.str());
-  MonteCarlo mc2(ss);
+  MonteCarlo mc2 = test_serialize(mc);
   EXPECT_EQ(mc2.analyzers().size(), 3);
 }
 

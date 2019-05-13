@@ -2,8 +2,8 @@
 #ifndef FEASST_STEPPERS_ENERGY_H_
 #define FEASST_STEPPERS_ENERGY_H_
 
-#include "core/include/analyze.h"
-#include "core/include/accumulator.h"
+#include "monte_carlo/include/analyze.h"
+#include "math/include/accumulator.h"
 
 namespace feasst {
 

@@ -1,9 +1,9 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "patch/include/visit_model_inner_patch.h"
-#include "core/include/file_xyz.h"
-#include "core/include/perturb_translate.h"
-#include "core/include/perturb_rotate.h"
-#include "core/include/file_xyz.h"
+#include "configuration/include/file_xyz.h"
+#include "monte_carlo/include/perturb_translate.h"
+#include "monte_carlo/include/perturb_rotate.h"
+#include "configuration/include/file_xyz.h"
 #include "models/include/model_square_well.h"
 
 namespace feasst {
@@ -24,14 +24,9 @@ TEST(VisitModelInnerPatch, patch_one) {
   visit.compute(model, &config, 1);
   EXPECT_NEAR(-3., visit.energy(), NEAR_ZERO);
 
-  // serialize
-  std::stringstream ss, ss2;
-  visit.serialize(ss);
-  auto visit2 = VisitModel().deserialize(ss);
+  auto visit2 = test_serialize<VisitModel, VisitModel>(visit);
   visit2->compute(model, &config, 1);
   EXPECT_NEAR(-3., visit2->energy(), NEAR_ZERO);
-  visit2->serialize(ss2);
-  EXPECT_EQ(ss.str(), ss2.str());
 }
 
 TEST(VisitModelInnerPatch, patch_one_2body) {

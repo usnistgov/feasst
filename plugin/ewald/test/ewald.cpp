@@ -1,18 +1,18 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "ewald/include/ewald.h"
-#include "core/test/configuration_test.h"
+#include "configuration/test/configuration_test.h"
 #include "ewald/include/ewald.h"
 #include "ewald/include/model_charge_self.h"
 #include "ewald/include/model_charge_intra.h"
 #include "ewald/include/model_charge_screened.h"
-#include "core/include/model_lj.h"
-#include "core/include/long_range_corrections.h"
-#include "core/include/visit_model_intra.h"
-#include "core/include/system.h"
-#include "core/include/perturb_translate.h"
-#include "core/include/monte_carlo.h"
-#include "core/include/trial_translate.h"
-#include "core/include/criteria_metropolis.h"
+#include "system/include/model_lj.h"
+#include "system/include/long_range_corrections.h"
+#include "system/include/visit_model_intra.h"
+#include "system/include/system.h"
+#include "monte_carlo/include/perturb_translate.h"
+#include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/criteria_metropolis.h"
 #include "ewald/test/system_example.h"
 
 namespace feasst {
@@ -55,9 +55,7 @@ TEST(Ewald, ewald) {
   EXPECT_NEAR(ewald.energy(), 52.1324574151071, 1e-12);
 
   // serialize
-  std::stringstream ss;
-  ewald.serialize(ss);
-  auto ewald2 = Ewald().deserialize(ss);
+  auto ewald2 = test_serialize<Ewald, VisitModel>(ewald);
   model.compute(&config, ewald2.get());
   EXPECT_NEAR(ewald2->energy(), 52.1324574151071, 1e-12);
 }

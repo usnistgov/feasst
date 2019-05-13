@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <memory>
 #include "confinement/include/shape.h"
-#include "core/include/debug.h"
+#include "utils/include/debug.h"
 
 namespace feasst {
 

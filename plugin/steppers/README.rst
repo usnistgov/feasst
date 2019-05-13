@@ -11,4 +11,4 @@ This plugin contains additional "Steppers" which include regular analysis and mo
 FEASST plugin dependencies
 ============================
 
-* core
+* Monte Carlo

@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "models/include/model_lj_force_shift.h"
-#include "core/include/configuration.h"
+#include "configuration/include/configuration.h"
 
 namespace feasst {
 
@@ -17,12 +17,7 @@ TEST(ModelLJAlpha, serialize) {
   ModelLJAlpha model;
   model.set_alpha(12);
   model.set_hard_sphere_threshold(0.3);
-  std::stringstream ss, ss2;
-  model.serialize(ss);
-  EXPECT_EQ("ModelLJAlpha 763 0.089999999999999997 713 12 ", ss.str());
-  std::shared_ptr<Model> model2 = ModelLJAlpha().deserialize(ss);
-  model2->serialize(ss2);
-  EXPECT_EQ(ss.str(), ss2.str());
+  std::shared_ptr<Model> model2 = test_serialize<ModelLJAlpha, Model>(model, "ModelLJAlpha 763 0.089999999999999997 713 12 ");
 }
 
 }  // namespace feasst

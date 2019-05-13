@@ -1,12 +1,11 @@
-
-#include <gtest/gtest.h>
-#include "core/include/monte_carlo.h"
-#include "core/test/monte_carlo_test.h"
+#include "utils/test/utils.h"
+#include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/test/monte_carlo_test.h"
 #include "flat_histogram/include/criteria_flat_histogram.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/bias_wang_landau.h"
 #include "flat_histogram/include/bias_transition_matrix.h"
-#include "core/include/histogram.h"
+#include "math/include/histogram.h"
 #include "steppers/include/energy.h"
 
 namespace feasst {
@@ -64,13 +63,7 @@ TEST(MonteCarlo, WLMC) {
     // mc.run_until_complete();
     INFO(mc.criteria()->write());
 
-    // serialize
-    std::stringstream ss, ss2;
-    mc.serialize(ss);
-    // INFO(ss.str());
-    MonteCarlo mc2(ss);
-    mc2.serialize(ss2);
-    EXPECT_EQ(ss.str(), ss2.str());
+    MonteCarlo mc2 = test_serialize_no_comp(mc);
   }
 }
 

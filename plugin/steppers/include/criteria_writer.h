@@ -2,7 +2,7 @@
 #ifndef FEASST_STEPPERS_CRITERIA_WRITER_H_
 #define FEASST_STEPPERS_CRITERIA_WRITER_H_
 
-#include "core/include/analyze.h"
+#include "monte_carlo/include/analyze.h"
 
 namespace feasst {
 

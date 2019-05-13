@@ -3,7 +3,7 @@ API
 
 .. toctree::
 
-   ModelChargeIntra
    Ewald
-   ModelChargeSelf
+   ModelChargeIntra
    ModelChargeScreened
+   ModelChargeSelf

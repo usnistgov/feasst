@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "confinement/include/half_space.h"
-#include "core/include/debug.h"
+#include "utils/include/debug.h"
 
 namespace feasst {
 
@@ -31,11 +31,7 @@ TEST(Shape, HalfSpace) {
   EXPECT_FALSE(half_space.is_inside(point, 1.));
 
   // serialize
-  std::stringstream ss, ss2;
-  half_space.serialize(ss);
-  std::shared_ptr<Shape> half_space3 = half_space.deserialize(ss);
-  half_space3->serialize(ss2);
-  EXPECT_EQ(ss.str(), ss2.str());
+  auto half_space3 = test_serialize<HalfSpace, Shape>(half_space);
   point.set_vector({15, -56.54, 1.4999999999});
   EXPECT_FALSE(half_space3->is_inside(point, 1.));
 

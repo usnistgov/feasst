@@ -2,9 +2,9 @@
 #ifndef FEASST_EWALD_MODEL_CHARGE_SELF_H_
 #define FEASST_EWALD_MODEL_CHARGE_SELF_H_
 
-#include "core/include/model_one_body.h"
-#include "core/include/constants.h"
-#include "core/include/physical_constants.h"
+#include "system/include/model_one_body.h"
+#include "math/include/constants.h"
+#include "system/include/physical_constants.h"
 
 namespace feasst {
 

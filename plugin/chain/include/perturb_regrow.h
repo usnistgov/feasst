@@ -2,7 +2,7 @@
 #ifndef FEASST_CHAIN_PERTURB_REGROW_H_
 #define FEASST_CHAIN_PERTURB_REGROW_H_
 
-#include "core/include/perturb_move.h"
+#include "monte_carlo/include/perturb_move.h"
 
 namespace feasst {
 

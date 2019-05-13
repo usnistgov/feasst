@@ -5,9 +5,9 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-#include "core/include/physical_constants.h"
-#include "core/include/configuration.h"
-#include "core/include/visit_model.h"
+#include "system/include/physical_constants.h"
+#include "configuration/include/configuration.h"
+#include "system/include/visit_model.h"
 
 namespace feasst {
 

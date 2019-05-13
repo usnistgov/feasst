@@ -2,8 +2,8 @@
 #ifndef FEASST_CHAIN_TRIAL_REPTATE_H_
 #define FEASST_CHAIN_TRIAL_REPTATE_H_
 
-#include "core/include/trial.h"
-#include "core/include/utils_io.h"
+#include "monte_carlo/include/trial.h"
+#include "utils/include/utils_io.h"
 #include "chain/include/perturb_regrow.h"
 
 namespace feasst {

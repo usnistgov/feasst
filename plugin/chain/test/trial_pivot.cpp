@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 #include "chain/include/trial_pivot.h"
-#include "core/include/trial_factory.h"
-#include "core/include/system.h"
-#include "core/include/model_lj.h"
-#include "core/include/criteria_metropolis.h"
-#include "core/include/file_xyz.h"
-#include "core/include/analyze.h"
+#include "monte_carlo/include/trial_factory.h"
+#include "system/include/system.h"
+#include "system/include/model_lj.h"
+#include "monte_carlo/include/criteria_metropolis.h"
+#include "configuration/include/file_xyz.h"
+#include "monte_carlo/include/analyze.h"
 #include "chain/include/analyze_rigid_bonds.h"
 
 namespace feasst {

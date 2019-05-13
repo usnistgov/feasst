@@ -1,9 +1,9 @@
 
 #include <math.h>
 #include <cmath>
-#include "core/include/utils_math.h"
-#include "core/include/debug.h"
-#include "core/include/utils_io.h"
+#include "math/include/utils_math.h"
+#include "utils/include/debug.h"
+#include "utils/include/utils_io.h"
 #include "flat_histogram/include/ln_probability_distribution.h"
 
 namespace feasst {

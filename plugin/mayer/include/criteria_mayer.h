@@ -2,10 +2,10 @@
 #ifndef FEASST_MAYER_CRITERIA_MAYER_H_
 #define FEASST_MAYER_CRITERIA_MAYER_H_
 
-#include "core/include/criteria.h"
-#include "core/include/random.h"
-#include "core/include/accumulator.h"
-#include "core/include/model_hard_sphere.h"
+#include "monte_carlo/include/criteria.h"
+#include "math/include/random.h"
+#include "math/include/accumulator.h"
+#include "system/include/model_hard_sphere.h"
 
 namespace feasst {
 

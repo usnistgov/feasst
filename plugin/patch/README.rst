@@ -11,4 +11,4 @@ Patchy, orientation-dependent interactions.
 FEASST plugin dependencies
 ============================
 
-* core
+* system

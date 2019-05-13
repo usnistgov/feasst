@@ -3,8 +3,8 @@
 #define FEASST_FLAT_HISTOGRAM_BIAS_H_
 
 #include <vector>
-#include "core/include/histogram.h"
-#include "core/include/random.h"
+#include "math/include/histogram.h"
+#include "math/include/random.h"
 #include "flat_histogram/include/ln_probability_distribution.h"
 
 namespace feasst {

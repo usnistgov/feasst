@@ -1,9 +1,9 @@
 
 #include <algorithm>
 #include "flat_histogram/include/bias_wang_landau.h"
-#include "core/include/utils_io.h"
-#include "core/include/utils_math.h"
-#include "core/include/debug.h"
+#include "utils/include/utils_io.h"
+#include "math/include/utils_math.h"
+#include "utils/include/debug.h"
 
 namespace feasst {
 

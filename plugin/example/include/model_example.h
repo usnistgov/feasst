@@ -2,7 +2,7 @@
 #ifndef FEASST_EXAMPLE_MODEL_EXAMPLE_H_
 #define FEASST_EXAMPLE_MODEL_EXAMPLE_H_
 
-#include "core/include/model_two_body.h"
+#include "system/include/model_two_body.h"
 
 namespace feasst {
 

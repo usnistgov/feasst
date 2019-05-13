@@ -1,7 +1,7 @@
 import sys
 import argparse
 import feasst
-sys.path.insert(0, '../../core/tutorial') # lj directory
+sys.path.insert(0, '../../monte_carlo/tutorial') # lj directory
 import lj
 
 parser = argparse.ArgumentParser()

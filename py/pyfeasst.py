@@ -15,3 +15,9 @@ class cd:
 
     def __exit__(self, etype, value, traceback):
         os.chdir(self._savedPath)
+
+import subprocess
+
+def bash_command(cmd):
+    subprocess.call(cmd, shell=True, executable='/bin/bash')
+    #subprocess.Popen(['/bin/bash', '-c', cmd])

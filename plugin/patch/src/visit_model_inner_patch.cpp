@@ -1,6 +1,6 @@
 #include "patch/include/visit_model_inner_patch.h"
-#include "core/include/model_two_body.h"
-#include "core/include/constants.h"
+#include "system/include/model_two_body.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 

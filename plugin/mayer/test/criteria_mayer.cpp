@@ -1,8 +1,8 @@
-#include <gtest/gtest.h>
-#include "core/include/trial_translate.h"
-#include "core/include/trial_factory.h"
+#include "utils/test/utils.h"
+#include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial_factory.h"
 #include "mayer/include/criteria_mayer.h"
-#include "core/test/system_test.h"
+#include "system/test/system_test.h"
 
 namespace feasst {
 
@@ -36,10 +36,7 @@ TEST(CriteriaMayer, ljb2) {
   EXPECT_NEAR(-5.3, criteria.second_virial(), 15);
   EXPECT_GT(std::abs(2.0944-criteria.second_virial()), 0.0001); // HS value
 
-  // serialize
-  std::stringstream ss;
-  criteria.serialize(ss);
-  std::shared_ptr<Criteria> crit2 = criteria.deserialize(ss);
+  std::shared_ptr<Criteria> crit2 = test_serialize<CriteriaMayer, Criteria>(criteria);
   EXPECT_EQ(crit2->beta(), 1.);
 }
 

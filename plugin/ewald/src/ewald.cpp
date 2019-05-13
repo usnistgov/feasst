@@ -1,6 +1,6 @@
 
 #include "ewald/include/ewald.h"
-#include "core/include/constants.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 

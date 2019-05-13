@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "models/include/model_lj_force_shift.h"
-#include "core/include/configuration.h"
+#include "configuration/include/configuration.h"
 
 namespace feasst {
 
@@ -21,16 +21,8 @@ TEST(ModelLJForceShift, serialize) {
   shift->set_alpha(12);
   shift->set_hard_sphere_threshold(0.3);
   shift->precompute(config.model_params());
-  std::stringstream ss;
-  shift->serialize(ss);
-  std::string expected("ModelLJForceShift 763 0.089999999999999997 713 12 923 1 ModelParam 1 2 0 0 2 2 -2.6332331818264547e-06 -0 2 -0 -0 1 1 ModelParam 1 2 0 0 2 2 3.1598766187506022e-06 0 2 0 0 1 1 ");
-  EXPECT_EQ(expected, ss.str());
-  std::stringstream ss2;
-  ss2 << ss.str();
-  std::shared_ptr<Model> model2 = ModelLJAlpha().deserialize(ss2);
-  ss.str(std::string());
-  model2->serialize(ss);
-  EXPECT_EQ(expected, ss.str());
+  std::shared_ptr<Model> model2 = test_serialize<ModelLJForceShift, Model>(*shift,
+    "ModelLJForceShift 763 0.089999999999999997 713 12 923 1 ModelParam 1 2 0 0 2 2 -2.6332331818264547e-06 -0 2 -0 -0 1 1 ModelParam 1 2 0 0 2 2 3.1598766187506022e-06 0 2 0 0 1 1 ");
 }
 
 }  // namespace feasst

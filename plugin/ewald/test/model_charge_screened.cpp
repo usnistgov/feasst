@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "ewald/include/model_charge_screened.h"
-#include "core/test/configuration_test.h"
+#include "configuration/test/configuration_test.h"
 
 namespace feasst {
 
@@ -13,10 +13,7 @@ TEST(ModelChargeScreened, SRSW_refconfig) {
   visit.compute(model, &config);
   EXPECT_NEAR(-4646.8607665992467, visit.energy(), 1e-10);
 
-  // serialize
-  std::stringstream ss;
-  model.serialize(ss);
-  auto model2 = ModelChargeScreened().deserialize(ss);
+  auto model2 = test_serialize<ModelChargeScreened, Model>(model);
   model2->compute(&config, &visit);
   EXPECT_NEAR(-4646.8607665992467, visit.energy(), 1e-10);
 }

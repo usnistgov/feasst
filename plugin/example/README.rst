@@ -11,4 +11,4 @@ This is an example plugin to copy and paste as a template for your own plugin.
 FEASST plugin dependencies
 ============================
 
-* core
+* system

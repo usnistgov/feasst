@@ -3,7 +3,7 @@
 #define FEASST_CONFINEMENT_SPHERE_H_
 
 #include "confinement/include/shape.h"
-#include "core/include/arguments.h"
+#include "utils/include/arguments.h"
 
 namespace feasst {
 

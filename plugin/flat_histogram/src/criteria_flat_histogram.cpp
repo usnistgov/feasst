@@ -1,6 +1,6 @@
 
 #include "flat_histogram/include/criteria_flat_histogram.h"
-#include "core/include/utils_io.h"
+#include "utils/include/utils_io.h"
 
 namespace feasst {
 

@@ -11,4 +11,4 @@ This is a plugin for confinement.
 FEASST plugin dependencies
 ============================
 
-* core
+* system

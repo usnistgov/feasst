@@ -1,14 +1,13 @@
-
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "confinement/include/sphere.h"
 #include "confinement/include/slab.h"
 #include "confinement/include/model_hard_shape.h"
-#include "core/include/monte_carlo.h"
-#include "core/include/trial_translate.h"
-#include "core/include/movie.h"
-#include "core/include/log.h"
-#include "core/include/model_lj.h"
-#include "core/include/criteria_metropolis.h"
+#include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/include/trial_translate.h"
+#include "steppers/include/movie.h"
+#include "steppers/include/log.h"
+#include "system/include/model_lj.h"
+#include "monte_carlo/include/criteria_metropolis.h"
 
 namespace feasst {
 
@@ -40,6 +39,9 @@ TEST(MonteCarlo, ShapeUnion) {
    {{"steps_per", str(steps_per)},
     {"file_name", "movie.xyz"}}));
   mc.attempt(1e3);
+
+  // serialize
+  test_serialize(mc);
 }
 
 }  // namespace feasst

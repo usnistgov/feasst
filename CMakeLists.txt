@@ -6,10 +6,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pg -g") #profile
 
 # manually list the plugins
-#set(FEASST_PLUGINS "core;")
-#set(FEASST_PLUGINS "core;ewald;example;")
-#set(FEASST_PLUGINS "core;ewald;example;confinement;xtc;")
-set(FEASST_PLUGINS "core;ewald;example;confinement;chain;models;patch;flat_histogram;mayer;steppers")
+#set(FEASST_PLUGINS "system;")
+#set(FEASST_PLUGINS "system;ewald;example;")
+#set(FEASST_PLUGINS "system;ewald;example;confinement;xtc;")
+set(FEASST_PLUGINS "system;ewald;example;confinement;chain;models;patch;flat_histogram;mayer;steppers;math;utils;monte_carlo;configuration")
 message(${FEASST_PLUGINS})
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
@@ -91,61 +91,91 @@ endforeach (PLUGIN)
 # XTC
 list (FIND FEASST_PLUGINS "xtc" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstxtc feasstcore)
+  target_link_libraries(feasstxtc feasstsystem)
 endif()
 
 # Ewald
 list (FIND FEASST_PLUGINS "ewald" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstewald feasstcore)
+  target_link_libraries(feasstewald feasstsystem)
 endif()
 
 # Example
 list (FIND FEASST_PLUGINS "example" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstexample feasstcore)
+  target_link_libraries(feasstexample feasstsystem)
 endif()
 
 # Confinement
 list (FIND FEASST_PLUGINS "confinement" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstconfinement feasstcore)
+  target_link_libraries(feasstconfinement feasstsystem)
 endif()
 
 # patch
 list (FIND FEASST_PLUGINS "patch" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstpatch feasstcore)
+  target_link_libraries(feasstpatch feasstsystem)
 endif()
 
 # models
 list (FIND FEASST_PLUGINS "models" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstmodels feasstcore)
+  target_link_libraries(feasstmodels feasstsystem)
 endif()
 
 # chain
 list (FIND FEASST_PLUGINS "chain" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstchain feasstcore)
+  target_link_libraries(feasstchain feasstmonte_carlo)
 endif()
 
 # flat_histogram
 list (FIND FEASST_PLUGINS "flat_histogram" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstflat_histogram feasstcore)
+  target_link_libraries(feasstflat_histogram feasstmonte_carlo)
 endif()
 
 # mayer
 list (FIND FEASST_PLUGINS "mayer" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstmayer feasstcore)
+  target_link_libraries(feasstmayer feasstmonte_carlo)
 endif()
 
 # steppers
 list (FIND FEASST_PLUGINS "steppers" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasststeppers feasstcore)
+  target_link_libraries(feasststeppers feasstmonte_carlo)
+endif()
+
+# math
+list (FIND FEASST_PLUGINS "math" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstmath feasstutils)
+endif()
+
+# utils
+list (FIND FEASST_PLUGINS "utils" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstutils)
+endif()
+
+# monte_carlo
+list (FIND FEASST_PLUGINS "monte_carlo" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstmonte_carlo feasstsystem)
+endif()
+
+# configuration
+list (FIND FEASST_PLUGINS "configuration" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstconfiguration feasstmath)
+endif()
+
+# system
+list (FIND FEASST_PLUGINS "system" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstsystem feasstconfiguration)
 endif()
 
 # CCACHE
