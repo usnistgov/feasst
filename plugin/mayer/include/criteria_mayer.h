@@ -18,13 +18,12 @@ class CriteriaMayer : public Criteria {
  public:
   CriteriaMayer(const argtype& args = argtype()) : Criteria(args) {}
 
-  bool is_accepted(const AcceptanceCriteria accept_criteria) override;
+  bool is_accepted(const Acceptance& acceptance,
+    const System * system) override;
 
   double second_virial() const {
     return (2./3.)*PI*mayer_.average()/mayer_ref_.average();
   }
-
-  bool verbose = false;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<CriteriaMayer>(istr); }
@@ -38,7 +37,6 @@ class CriteriaMayer : public Criteria {
   double f12ref_ = -1.;
   Accumulator mayer_;
   Accumulator mayer_ref_;
-  int reference_index_ = 0;
 
   // not currently serialized
   Random random_;

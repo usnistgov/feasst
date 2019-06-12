@@ -9,6 +9,8 @@ See the example plugin as a template for creating your own.
 .. toctree::
    :glob:
 
+   utils/README
+   math/README
    configuration/README
    system/README
    monte_carlo/README

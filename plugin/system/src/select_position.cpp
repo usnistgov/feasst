@@ -8,7 +8,8 @@ void SelectPosition::set_site_position(const int particle_index,
                                        const int site_index,
                                        const Position& position) {
   ASSERT(particle_index < static_cast<int>(particle_positions_.size()),
-    "size error");
+    "particle_index(" << particle_index << ") is larger than position size: "
+    << particle_positions_.size());
   ASSERT(site_index < static_cast<int>(site_positions_[particle_index].size()),
     "size error");
   site_positions_[particle_index][site_index] = position;

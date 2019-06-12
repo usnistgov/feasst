@@ -1,5 +1,5 @@
-math/include/utils_math
+utils/include/utils_io
 =====================================================
 
-.. doxygenfile:: math/include/utils_math.h
+.. doxygenfile:: utils/include/utils_io.h
    :project: FEASST

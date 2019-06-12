@@ -7,7 +7,7 @@ namespace feasst {
 Group::Group() { set_dynamic(); }
 
 bool Group::empty() const {
-  if ( (particle_types_.size() == 0) &&
+  if ( (particle_types_.size() == 0) and
        (site_types_.size() == 0) ) {
     return true;
   }
@@ -38,7 +38,7 @@ void Group::remove_sites(Particle * particle) const {
 //                         std::vector<int> * full_to_partial,
 //                         std::vector<int> * partial_to_full) const {
 //  // compute site mappings (if requested) before removal
-//  if (full_to_partial != NULL && partial_to_full != NULL) {
+//  if (full_to_partial != NULL and partial_to_full != NULL) {
 //    int partial_site = 0;
 //    for (int index = 0; index < particle->num_sites(); ++index) {
 //      if (is_in(particle->site(index))) {

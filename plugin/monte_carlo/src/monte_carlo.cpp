@@ -5,7 +5,7 @@ namespace feasst {
 void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
   ASSERT(criteria_set_, "set Criteria before Analyze");
   DEBUG("class name? " << analyze->class_name());
-  if (analyze->is_multistate() && analyze->class_name() != "AnalyzeFactory") {
+  if (analyze->is_multistate() and analyze->class_name() != "AnalyzeFactory") {
     auto multi = MakeAnalyzeFactory({{"multistate", "true"}});
     DEBUG("making multi " << multi->is_multistate());
     for (int state = 0; state < criteria_->num_states(); ++state) {

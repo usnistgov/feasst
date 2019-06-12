@@ -15,7 +15,8 @@ void Properties::check() const {
 }
 
 void Properties::add(const std::string name, const double value) {
-  ASSERT(!find_in_list(name, property_name_), "property already exists");
+  ASSERT(!find_in_list(name, property_name_),
+    "property(" << name << ") already exists");
   property_value_.push_back(value);
   property_name_.push_back(name);
 }
@@ -63,14 +64,14 @@ std::string Properties::str() const {
 }
 
 void PropertiedEntity::set_properties(const Properties& properties,
-    std::vector<std::string> exclude) {
+    const std::vector<std::string>& exclude) {
   const std::vector<std::string>& name = properties_.property_name();
   const std::vector<double>& values = properties.property_value();
   ASSERT(name.size() == values.size(),
     "the same number of properties must exist to equate them");
   for (int index = 0; index < static_cast<int>(name.size()); ++index) {
     bool is_not_excl = true;
-    for (std::string excl : exclude) {
+    for (const std::string& excl : exclude) {
       const std::string beginning = name[index].substr(0, excl.size());
       if (beginning == excl) {
         is_not_excl = false;

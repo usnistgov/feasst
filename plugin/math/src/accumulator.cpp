@@ -11,6 +11,7 @@
 // #include <cmath>
 #include <math.h>
 #include <numeric>
+#include <sstream>
 #include "math/include/accumulator.h"
 #include "math/include/constants.h"
 
@@ -109,6 +110,12 @@ void Accumulator::set_block(const long long num_block) {
 
 void Accumulator::set_moments(const int num_moments) {
   val_moment_.resize(num_moments);
+}
+
+std::string Accumulator::str() const {
+  std::stringstream ss;
+  ss << average() << " +/- " <<  block_stdev();
+  return ss.str();
 }
 
 void Accumulator::serialize(std::ostream& ostr) const {

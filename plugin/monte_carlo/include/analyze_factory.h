@@ -14,8 +14,7 @@ class AnalyzeFactory : public Analyze {
     const System& system,
     const TrialFactory& trial_factory) override;
 
-  void add(std::shared_ptr<Analyze> analyze) {
-    analyzers_.push_back(analyze); }
+  void add(std::shared_ptr<Analyze> analyze) { analyzers_.push_back(analyze); }
 
   const std::vector<std::shared_ptr<Analyze> >& analyzers() const {
     return analyzers_; }
@@ -33,6 +32,11 @@ class AnalyzeFactory : public Analyze {
 
  private:
   std::vector<std::shared_ptr<Analyze> > analyzers_;
+
+  void trial_(const std::shared_ptr<Criteria> criteria,
+    const System& system,
+    const TrialFactory& trial_factory,
+    const int index);
 };
 
 inline std::shared_ptr<AnalyzeFactory> MakeAnalyzeFactory(const argtype &args = argtype()) {

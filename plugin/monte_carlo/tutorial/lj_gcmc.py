@@ -18,8 +18,8 @@ mc.set(feasst.MakeCriteriaMetropolis(feasst.args(
   {"beta": str(1./args.temperature),
    "chemical_potential": str(args.chemical_potential)})))
 mc.add(feasst.MakeTrialTranslate(feasst.args(
-  {"weight": "1.", "max_move": "2."})))
-mc.add(feasst.MakeTrialTransfer(feasst.args(
-  {"weight": "1."})))
+  {"weight": "1.", "tunable_param": "2."})))
+mc.add(feasst.MakeTrialAdd(feasst.args({"weight": "1."})))
+mc.add(feasst.MakeTrialRemove(feasst.args({"weight": "1."})))
 lj.add_analysis(mc, args.steps_per)
 mc.attempt(args.num_steps)

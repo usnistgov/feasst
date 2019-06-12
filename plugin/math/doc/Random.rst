@@ -1,5 +1,6 @@
-utils_math
+Random
 =====================================================
 
-.. doxygenfile:: utils_math.h
+.. doxygenclass:: feasst::Random
    :project: FEASST
+   :members:

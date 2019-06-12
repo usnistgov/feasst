@@ -97,7 +97,7 @@ class TrialReptate : public Trial {
 
       bonded = regrow_.selection();
       regrow_.set_in_sphere(bond_length, 0, &bonded);
-      config->update_positions(bonded);
+      config->update_positions(bonded, false);
       DEBUG("bonded " << bonded.str() << " pos " << bonded.site_positions()[0][0].str());
       DEBUG("sel " << regrow_.selection().str());
       regrow_.after_move();
@@ -139,7 +139,7 @@ class TrialReptate : public Trial {
         entire.set_site_properties(0, 0, bonded.site_properties()[0][0]);
       }
       DEBUG("entire " << entire.str() << " pos " << entire.site_positions()[0][0].str() << " end " << entire.site_positions()[0][49].str());
-      config->update_positions(entire);
+      config->update_positions(entire, false);
     } else {
       DEBUG("rejected");
       DEBUG("sel " << regrow_.selection().str());
@@ -147,6 +147,8 @@ class TrialReptate : public Trial {
       regrow_.revert();
     }
   }
+
+  std::string class_name() const override { return std::string("TrialReptate"); }
 
   virtual ~TrialReptate() {}
 

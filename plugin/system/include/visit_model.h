@@ -174,8 +174,6 @@ class VisitModel {
   virtual void precompute(Configuration * config) {
     inner_->precompute(config); }
 
-  const std::shared_ptr<VisitModelInner> inner() const { return inner_; }
-
   // serialization
   virtual void serialize(std::ostream& ostr) const {
     ostr << class_name_ << " ";
@@ -197,12 +195,25 @@ class VisitModel {
  protected:
   void serialize_visit_model_(std::ostream& ostr) const;
 //  void deserialize_visit_model_(std::istream& istr, std::shared_ptr<VisitModel> visitor) const;
+  VisitModelInner * inner() const { return inner_.get(); }
+
+  // optimization to avoid repeated construction of Position.
+  Position relative_;
+  void init_relative_(const Domain& domain, Position * relative) {
+    if (relative->dimension() != domain.dimension()) {
+      relative->set_vector(domain.side_length().coord());
+    }
+  }
 
  private:
   const std::string class_name_ = "VisitModel";
   double energy_ = 0.;
   std::shared_ptr<VisitModelInner> inner_;
 };
+
+inline std::shared_ptr<VisitModel> MakeVisitModel() {
+  return std::make_shared<VisitModel>();
+}
 
 }  // namespace feasst
 

@@ -46,6 +46,10 @@ class VisitModelIntra : public VisitModel {
   int intra_cut_ = -1;
 };
 
+inline std::shared_ptr<VisitModelIntra> MakeVisitModelIntra() {
+  return std::make_shared<VisitModelIntra>();
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_SYSTEM_VISIT_MODEL_INTRA_H_

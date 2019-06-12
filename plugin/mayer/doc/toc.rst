@@ -4,3 +4,4 @@ API
 .. toctree::
 
    CriteriaMayer
+   TrialComputeMoveMayer

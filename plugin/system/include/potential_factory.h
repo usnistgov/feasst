@@ -5,7 +5,9 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <sstream>
 #include "system/include/potential.h"
+//#include "utils/include/timer.h"
 
 namespace feasst {
 
@@ -16,29 +18,32 @@ class PotentialFactory {
   PotentialFactory() {}
 
   void add_potential(const Potential potential) {
-    potentials_.push_back(potential); }
+    potentials_.push_back(potential);
+  }
 
   double energy(Configuration * config) {
     double en = 0;
     int index = 0;
-    while ((index < static_cast<int>(potentials_.size())) &&
+    while ((index < static_cast<int>(potentials_.size())) and
            (en < NEAR_INFINITY)) {
       en += potentials_[index].energy(config);
       ++index;
     }
-    //INFO("en " << en);
+    DEBUG("en " << en);
+    DEBUG(str());
     return en;
   }
 
   double energy(const Select& select, Configuration * config) {
     double en = 0;
     int index = 0;
-    while ((index < static_cast<int>(potentials_.size())) &&
+    while ((index < static_cast<int>(potentials_.size())) and
            (en < NEAR_INFINITY)) {
       en += potentials_[index].energy(select, config);
       ++index;
     }
-    //INFO("en " << en);
+    DEBUG("en " << en);
+    DEBUG(str());
     return en;
   }
 
@@ -50,12 +55,17 @@ class PotentialFactory {
 
   const std::vector<Potential>& potentials() const { return potentials_; }
 
-  double stored_energy() const {
-    double en = 0.;
+  std::vector<double> stored_energy_profile() const {
+    std::vector<double> en;
     for (const Potential& potential : potentials_) {
-      en += potential.stored_energy();
+      en.push_back(potential.stored_energy());
     }
     return en;
+  }
+
+  double stored_energy() const {
+    std::vector<double> en = stored_energy_profile();
+    return std::accumulate(en.begin(), en.end(), 0.);
   }
 
   void precompute(Configuration * config) {
@@ -65,6 +75,15 @@ class PotentialFactory {
   }
 
   int num() const { return static_cast<int>(potentials_.size()); }
+
+  std::string str() const {
+    std::stringstream ss;
+    ss << "PotentialFactory: ";
+    for (const Potential& potential : potentials_) {
+      ss << potential.stored_energy() << " ";
+    }
+    return ss.str();
+  }
 
   void serialize(std::ostream& sstr) const {
     feasst_serialize_version(1, sstr);
@@ -78,6 +97,7 @@ class PotentialFactory {
 
  private:
   std::vector<Potential> potentials_;
+//  Timer timer_;
 };
 
 }  // namespace feasst

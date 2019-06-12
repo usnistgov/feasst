@@ -7,6 +7,7 @@
 namespace feasst {
 
 /**
+  Periodically adjust Trial parameters based on acceptance.
  */
 class Tuner : public ModifyUpdateOnly {
  public:

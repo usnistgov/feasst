@@ -24,7 +24,7 @@ void BiasTransitionMatrix::update(const int macrostate_old,
   const int bin = bin_(macrostate_old, macrostate_new, is_accepted);
   const int index = macrostate_new - macrostate_old + 1;
   DEBUG("bin " << bin << " index " << index);
-  ASSERT(index >= 0 && index <= 2, "index(" << index << ") must be 0, 1 or 2");
+  ASSERT(index >= 0 and index <= 2, "index(" << index << ") must be 0, 1 or 2");
   if (is_accepted) {
     ++visits_[bin];
   }

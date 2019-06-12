@@ -3,10 +3,11 @@ API
 
 .. toctree::
 
-   Check
-   WallClockLimit
    Tuner
-   Energy
+   WallClockLimit
+   Check
+   CheckEnergy
    CriteriaWriter
-   Log
+   Energy
    Movie
+   Log

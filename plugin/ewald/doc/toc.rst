@@ -4,6 +4,7 @@ API
 .. toctree::
 
    Ewald
-   ModelChargeIntra
-   ModelChargeScreened
    ModelChargeSelf
+   ModelChargeScreened
+   ModelChargeIntra
+   utils_ewald

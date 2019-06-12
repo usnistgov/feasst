@@ -1,5 +1,6 @@
-constants
+FormulaPolynomial
 =====================================================
 
-.. doxygenfile:: constants.h
+.. doxygenclass:: feasst::FormulaPolynomial
    :project: FEASST
+   :members:

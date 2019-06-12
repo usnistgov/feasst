@@ -28,14 +28,15 @@ def system(box_length):
     system.add_to_optimized(lrc())
   return system
 
-def add_analysis(mc, steps_per):
+def add_analysis(mc, steps_per, proc="", log=""):
   mc.add(feasst.MakeLog(feasst.args(
-    {"steps_per" : str(steps_per)})))
+    {"steps_per" : str(steps_per),
+     "file_name": str(log)})))
   mc.add(feasst.MakeMovie(feasst.args(
     {"steps_per" : str(steps_per),
-     "file_name" : "movie.xyz"})))
-  mc.add(feasst.MakeEnergyCheck(feasst.args(
+     "file_name" : "movie"+str(proc)+".xyz"})))
+  mc.add(feasst.MakeCheckEnergy(feasst.args(
     {"steps_per" : str(steps_per),
-     "tolerance" : "1e-10"})))
+     "tolerance" : "1e-8"})))
   mc.add(feasst.MakeTuner(feasst.args(
     {"steps_per" : str(steps_per)})))

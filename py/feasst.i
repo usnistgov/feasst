@@ -9,118 +9,115 @@
 %module feasst
 
 %{
-#include "utils/include/utils_file.h"
-#include "utils/include/arguments.h"
-#include "utils/include/custom_exception.h"
-#include "utils/include/utils.h"
-#include "utils/include/debug.h"
-#include "utils/include/utils_io.h"
+#include "math/include/constants.h"
+#include "system/include/physical_constants.h"
+#include "math/include/utils_math.h"
 #include "configuration/include/properties.h"
 #include "configuration/include/typed_entity.h"
 #include "configuration/include/bond.h"
+#include "flat_histogram/include/ln_probability_distribution.h"
+#include "flat_histogram/include/collection_matrix.h"
 #include "monte_carlo/include/tunable.h"
+#include "utils/include/utils_file.h"
+#include "utils/include/timer.h"
+#include "utils/include/custom_exception.h"
+#include "utils/include/arguments.h"
+#include "utils/include/checkpoint.h"
 #include "monte_carlo/include/stepper.h"
-#include "math/include/accumulator.h"
+#include "math/include/formula.h"
+#include "math/include/formula_polynomial.h"
+#include "math/include/formula_exponential.h"
+#include "math/include/histogram.h"
 #include "math/include/position.h"
+#include "math/include/matrix.h"
+#include "utils/include/utils.h"
+#include "utils/include/debug.h"
+#include "utils/include/utils_io.h"
+#include "confinement/include/shape.h"
+#include "confinement/include/half_space.h"
+#include "confinement/include/slab.h"
+#include "confinement/include/cylinder.h"
+#include "confinement/include/sphere.h"
 #include "configuration/include/site.h"
+#include "math/include/accumulator.h"
+#include "math/include/random.h"
+#include "flat_histogram/include/bias.h"
+#include "flat_histogram/include/bias_transition_matrix.h"
+#include "flat_histogram/include/bias_wang_landau.h"
 #include "configuration/include/particle.h"
 #include "configuration/include/group.h"
 #include "configuration/include/file_lmp.h"
 #include "configuration/include/model_params.h"
 #include "configuration/include/particle_factory.h"
-#include "math/include/formula.h"
-#include "math/include/formula_exponential.h"
-#include "math/include/histogram.h"
-#include "math/include/formula_polynomial.h"
-#include "math/include/constants.h"
-#include "system/include/physical_constants.h"
-#include "math/include/random.h"
 #include "configuration/include/select.h"
 #include "system/include/select_position.h"
 #include "configuration/include/cells.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/visit_particles.h"
-#include "math/include/utils_math.h"
-#include "math/include/matrix.h"
 #include "configuration/include/configuration.h"
 #include "system/include/model.h"
 #include "system/include/visit_model.h"
+#include "system/include/visit_model_intra.h"
+#include "system/include/long_range_corrections.h"
+#include "system/include/visit_model_cell.h"
+#include "patch/include/visit_model_inner_patch.h"
 #include "ewald/include/ewald.h"
+#include "configuration/include/file_xyz.h"
+#include "configuration/include/visit_configuration.h"
+#include "system/include/select_list.h"
+#include "configuration/include/bond_visitor.h"
+#include "system/include/model_three_body.h"
+#include "system/include/model_one_body.h"
+#include "confinement/include/model_hard_shape.h"
+#include "ewald/include/model_charge_self.h"
+#include "confinement/include/model_lj_shape.h"
+#include "system/include/model_empty.h"
+#include "system/include/potential.h"
+#include "system/include/potential_factory.h"
 #include "system/include/model_two_body.h"
-#include "models/include/model_yukawa.h"
-#include "models/include/model_square_well.h"
+#include "ewald/include/model_charge_screened.h"
 #include "system/include/model_hard_sphere.h"
 #include "ewald/include/model_charge_intra.h"
+#include "system/include/model_two_body_factory.h"
+#include "example/include/model_example.h"
+#include "models/include/model_yukawa.h"
+#include "models/include/model_square_well.h"
 #include "system/include/model_lj.h"
 #include "models/include/model_lj_alpha.h"
 #include "models/include/model_lj_cut_shift.h"
 #include "models/include/model_lj_force_shift.h"
-#include "ewald/include/model_charge_screened.h"
-#include "system/include/model_one_body.h"
-#include "ewald/include/model_charge_self.h"
-#include "system/include/model_empty.h"
-#include "system/include/potential.h"
-#include "system/include/potential_factory.h"
-#include "system/include/model_three_body.h"
-#include "system/include/visit_model_cell.h"
-#include "patch/include/visit_model_inner_patch.h"
-#include "system/include/long_range_corrections.h"
-#include "system/include/visit_model_intra.h"
-#include "system/include/select_list.h"
-#include "configuration/include/file_xyz.h"
-#include "configuration/include/visit_configuration.h"
-#include "configuration/include/bond_visitor.h"
 #include "system/include/system.h"
+#include "ewald/include/utils_ewald.h"
 #include "monte_carlo/include/criteria.h"
+#include "mayer/include/criteria_mayer.h"
 #include "monte_carlo/include/criteria_metropolis.h"
+#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/perturb.h"
+#include "monte_carlo/include/rosenbluth.h"
+#include "monte_carlo/include/perturb_configs.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/modify.h"
-#include "steppers/include/check.h"
-#include "steppers/include/wall_clock_limit.h"
 #include "steppers/include/tuner.h"
+#include "steppers/include/wall_clock_limit.h"
+#include "steppers/include/check.h"
+#include "steppers/include/check_energy.h"
 #include "monte_carlo/include/modify_factory.h"
-#include "monte_carlo/include/rosenbluth.h"
-#include "monte_carlo/include/perturb_move.h"
-#include "monte_carlo/include/perturb_translate.h"
-#include "monte_carlo/include/perturb_rotate.h"
-#include "monte_carlo/include/perturb_transfer.h"
-#include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/analyze.h"
-#include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
-#include "steppers/include/log.h"
+#include "steppers/include/energy.h"
 #include "monte_carlo/include/analyze_factory.h"
-#include "steppers/include/movie.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/perturb_configs.h"
-#include "monte_carlo/include/trial_move.h"
-#include "monte_carlo/include/trial_rotate.h"
-#include "monte_carlo/include/trial_translate.h"
-#include "mayer/include/criteria_mayer.h"
-#include "flat_histogram/include/ln_probability_distribution.h"
-#include "flat_histogram/include/bias.h"
-#include "flat_histogram/include/bias_wang_landau.h"
+#include "steppers/include/movie.h"
+#include "steppers/include/log.h"
+#include "mayer/include/trial.h"
 #include "flat_histogram/include/macrostate.h"
-#include "flat_histogram/include/collection_matrix.h"
-#include "flat_histogram/include/bias_transition_matrix.h"
-#include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/criteria_flat_histogram.h"
-#include "confinement/include/shape.h"
-#include "confinement/include/slab.h"
-#include "confinement/include/cylinder.h"
-#include "confinement/include/sphere.h"
-#include "confinement/include/model_lj_shape.h"
-#include "confinement/include/model_hard_shape.h"
-#include "confinement/include/half_space.h"
-#include "chain/include/trial_crankshaft.h"
-#include "chain/include/perturb_regrow.h"
+#include "flat_histogram/include/macrostate_num_particles.h"
 #include "chain/include/analyze_rigid_bonds.h"
-#include "chain/include/trial_regrow.h"
-#include "chain/include/trial_reptate.h"
-#include "chain/include/trial_pivot.h"
-#include "example/include/model_example.h"
+#include "chain/include/trial_select.h"
+#include "chain/include/perturb.h"
+#include "chain/include/trial.h"
 using namespace feasst;
 %}
 
@@ -129,14 +126,13 @@ using namespace feasst;
 %include "std_shared_ptr.i"
 %include "std_iostream.i"
 %template(IntVector) std::vector<int>;
+%template(IntIntVector) std::vector<std::vector<int> >;
 %template(DoubleVector) std::vector<double>;
 using namespace std;
 %pythonnondynamic;
 %include "std_map.i"
 %template(args) std::map<std::string, std::string>;
 
-%shared_ptr(feasst::Arguments);
-%shared_ptr(feasst::CustomException);
 %shared_ptr(feasst::Properties);
 %shared_ptr(feasst::PropertiedEntity);
 %shared_ptr(feasst::TypedEntity);
@@ -144,13 +140,38 @@ using namespace std;
 %shared_ptr(feasst::Angle);
 %shared_ptr(feasst::Dihedral);
 %shared_ptr(feasst::Improper);
+%shared_ptr(feasst::LnProbabilityDistribution);
+%shared_ptr(feasst::TripleBandedCollectionMatrix);
 %shared_ptr(feasst::Tunable);
+%shared_ptr(feasst::Timer);
+%shared_ptr(feasst::CustomException);
+%shared_ptr(feasst::Arguments);
+%shared_ptr(feasst::Checkpoint);
 %shared_ptr(feasst::Stepper);
-%shared_ptr(feasst::Accumulator);
+%shared_ptr(feasst::Formula);
+%shared_ptr(feasst::FormulaPolynomial);
+%shared_ptr(feasst::FormulaExponential);
+%shared_ptr(feasst::Histogram);
 %shared_ptr(feasst::Position);
 %shared_ptr(feasst::PositionSpherical);
 %shared_ptr(feasst::SpatialEntity);
+%shared_ptr(feasst::Matrix);
+%shared_ptr(feasst::MatrixThreeByThree);
+%shared_ptr(feasst::RotationMatrix);
+%shared_ptr(feasst::Shape);
+%shared_ptr(feasst::ShapedEntity);
+%shared_ptr(feasst::ShapeIntersect);
+%shared_ptr(feasst::ShapeUnion);
+%shared_ptr(feasst::HalfSpace);
+%shared_ptr(feasst::Slab);
+%shared_ptr(feasst::Cylinder);
+%shared_ptr(feasst::Sphere);
 %shared_ptr(feasst::Site);
+%shared_ptr(feasst::Accumulator);
+%shared_ptr(feasst::Random);
+%shared_ptr(feasst::Bias);
+%shared_ptr(feasst::BiasTransitionMatrix);
+%shared_ptr(feasst::BiasWangLandau);
 %shared_ptr(feasst::Particle);
 %shared_ptr(feasst::Group);
 %shared_ptr(feasst::FileLMP);
@@ -161,11 +182,6 @@ using namespace std;
 %shared_ptr(feasst::Charge);
 %shared_ptr(feasst::ModelParams);
 %shared_ptr(feasst::ParticleFactory);
-%shared_ptr(feasst::Formula);
-%shared_ptr(feasst::FormulaExponential);
-%shared_ptr(feasst::Histogram);
-%shared_ptr(feasst::FormulaPolynomial);
-%shared_ptr(feasst::Random);
 %shared_ptr(feasst::Select);
 %shared_ptr(feasst::SelectGroup);
 %shared_ptr(feasst::SelectPosition);
@@ -173,222 +189,216 @@ using namespace std;
 %shared_ptr(feasst::Domain);
 %shared_ptr(feasst::VisitParticles);
 %shared_ptr(feasst::LoopOneBody);
-%shared_ptr(feasst::Matrix);
-%shared_ptr(feasst::MatrixThreeByThree);
-%shared_ptr(feasst::RotationMatrix);
 %shared_ptr(feasst::Configuration);
 %shared_ptr(feasst::Model);
 %shared_ptr(feasst::VisitModelInner);
 %shared_ptr(feasst::VisitModel);
+%shared_ptr(feasst::VisitModelIntra);
+%shared_ptr(feasst::LongRangeCorrections);
+%shared_ptr(feasst::VisitModelCell);
+%shared_ptr(feasst::PatchAngle);
+%shared_ptr(feasst::CosPatchAngle);
+%shared_ptr(feasst::VisitModelInnerPatch);
 %shared_ptr(feasst::Ewald);
+%shared_ptr(feasst::FileVMD);
+%shared_ptr(feasst::FileXYZ);
+%shared_ptr(feasst::VisitConfiguration);
+%shared_ptr(feasst::SelectList);
+%shared_ptr(feasst::BondTwoBody);
+%shared_ptr(feasst::BondSquareWell);
+%shared_ptr(feasst::BondThreeBody);
+%shared_ptr(feasst::AngleSquareWell);
+%shared_ptr(feasst::BondVisitor);
+%shared_ptr(feasst::ModelThreeBody);
+%shared_ptr(feasst::ModelOneBody);
+%shared_ptr(feasst::ModelHardShape);
+%shared_ptr(feasst::ModelChargeSelf);
+%shared_ptr(feasst::ModelLJShape);
+%shared_ptr(feasst::ModelEmpty);
+%shared_ptr(feasst::Potential);
+%shared_ptr(feasst::PotentialFactory);
 %shared_ptr(feasst::ModelTwoBody);
-%shared_ptr(feasst::ModelTwoBodyFactory);
-%shared_ptr(feasst::ModelYukawa);
-%shared_ptr(feasst::ModelSquareWell);
+%shared_ptr(feasst::ModelChargeScreened);
 %shared_ptr(feasst::ModelHardSphere);
 %shared_ptr(feasst::ModelChargeIntra);
+%shared_ptr(feasst::ModelTwoBodyFactory);
+%shared_ptr(feasst::ModelExample);
+%shared_ptr(feasst::ModelYukawa);
+%shared_ptr(feasst::ModelSquareWell);
 %shared_ptr(feasst::ModelLJ);
 %shared_ptr(feasst::ModelLJAlpha);
 %shared_ptr(feasst::EnergyAtCutoff);
 %shared_ptr(feasst::ModelLJCutShift);
 %shared_ptr(feasst::EnergyDerivAtCutoff);
 %shared_ptr(feasst::ModelLJForceShift);
-%shared_ptr(feasst::ModelChargeScreened);
-%shared_ptr(feasst::ModelOneBody);
-%shared_ptr(feasst::ModelChargeSelf);
-%shared_ptr(feasst::ModelEmpty);
-%shared_ptr(feasst::Potential);
-%shared_ptr(feasst::PotentialFactory);
-%shared_ptr(feasst::ModelThreeBody);
-%shared_ptr(feasst::VisitModelCell);
-%shared_ptr(feasst::PatchAngle);
-%shared_ptr(feasst::CosPatchAngle);
-%shared_ptr(feasst::VisitModelInnerPatch);
-%shared_ptr(feasst::LongRangeCorrections);
-%shared_ptr(feasst::VisitModelIntra);
-%shared_ptr(feasst::SelectList);
-%shared_ptr(feasst::FileVMD);
-%shared_ptr(feasst::FileXYZ);
-%shared_ptr(feasst::VisitConfiguration);
-%shared_ptr(feasst::BondTwoBody);
-%shared_ptr(feasst::BondSquareWell);
-%shared_ptr(feasst::BondThreeBody);
-%shared_ptr(feasst::AngleSquareWell);
-%shared_ptr(feasst::BondVisitor);
 %shared_ptr(feasst::System);
+%shared_ptr(feasst::Acceptance);
 %shared_ptr(feasst::Criteria);
+%shared_ptr(feasst::CriteriaMayer);
 %shared_ptr(feasst::CriteriaMetropolis);
+%shared_ptr(feasst::TrialSelect);
+%shared_ptr(feasst::TrialSelectParticle);
+%shared_ptr(feasst::TrialSelectParticleOfType);
+%shared_ptr(feasst::TrialSelectDoNothing);
 %shared_ptr(feasst::Perturb);
-%shared_ptr(feasst::PerturbOptRevert);
+%shared_ptr(feasst::PerturbMove);
+%shared_ptr(feasst::PerturbTranslate);
+%shared_ptr(feasst::PerturbRotate);
+%shared_ptr(feasst::PerturbAnywhere);
+%shared_ptr(feasst::PerturbAdd);
+%shared_ptr(feasst::PerturbRemove);
+%shared_ptr(feasst::Rosenbluth);
+%shared_ptr(feasst::PerturbConfigs);
+%shared_ptr(feasst::TrialStage);
+%shared_ptr(feasst::TrialCompute);
 %shared_ptr(feasst::Trial);
+%shared_ptr(feasst::TrialComputeMove);
+%shared_ptr(feasst::TrialMove);
+%shared_ptr(feasst::TrialTranslate);
+%shared_ptr(feasst::TrialRotate);
+%shared_ptr(feasst::TrialComputeAdd);
+%shared_ptr(feasst::TrialAdd);
+%shared_ptr(feasst::TrialComputeRemove);
+%shared_ptr(feasst::TrialRemove);
 %shared_ptr(feasst::TrialFactory);
 %shared_ptr(feasst::Modify);
 %shared_ptr(feasst::ModifyUpdateOnly);
-%shared_ptr(feasst::Check);
-%shared_ptr(feasst::EnergyCheck);
-%shared_ptr(feasst::WallClockLimit);
 %shared_ptr(feasst::Tuner);
+%shared_ptr(feasst::WallClockLimit);
+%shared_ptr(feasst::Check);
+%shared_ptr(feasst::CheckEnergy);
 %shared_ptr(feasst::ModifyFactory);
-%shared_ptr(feasst::Rosenbluth);
-%shared_ptr(feasst::Stage);
-%shared_ptr(feasst::StageFactory);
-%shared_ptr(feasst::PerturbSelectMove);
-%shared_ptr(feasst::PerturbTranslate);
-%shared_ptr(feasst::PerturbRotate);
-%shared_ptr(feasst::PerturbAdd);
-%shared_ptr(feasst::PerturbRemove);
-%shared_ptr(feasst::TrialTransfer);
 %shared_ptr(feasst::Analyze);
 %shared_ptr(feasst::AnalyzeWriteOnly);
 %shared_ptr(feasst::AnalyzeUpdateOnly);
-%shared_ptr(feasst::Energy);
 %shared_ptr(feasst::CriteriaWriter);
-%shared_ptr(feasst::Log);
+%shared_ptr(feasst::Energy);
 %shared_ptr(feasst::AnalyzeFactory);
-%shared_ptr(feasst::Movie);
 %shared_ptr(feasst::MonteCarlo);
-%shared_ptr(feasst::PerturbConfigs);
-%shared_ptr(feasst::TrialMove);
-%shared_ptr(feasst::TrialRotate);
-%shared_ptr(feasst::TrialTranslate);
-%shared_ptr(feasst::StagedTrial);
-%shared_ptr(feasst::TrialStagedTranslate);
-%shared_ptr(feasst::CriteriaMayer);
-%shared_ptr(feasst::LnProbabilityDistribution);
-%shared_ptr(feasst::Bias);
-%shared_ptr(feasst::BiasWangLandau);
+%shared_ptr(feasst::Movie);
+%shared_ptr(feasst::Log);
+%shared_ptr(feasst::TrialComputeMoveMayer);
+%shared_ptr(feasst::TrialTranslateMayer);
 %shared_ptr(feasst::Macrostate);
-%shared_ptr(feasst::TripleBandedCollectionMatrix);
-%shared_ptr(feasst::BiasTransitionMatrix);
-%shared_ptr(feasst::MacrostateNumParticles);
 %shared_ptr(feasst::CriteriaFlatHistogram);
-%shared_ptr(feasst::Shape);
-%shared_ptr(feasst::ShapedEntity);
-%shared_ptr(feasst::ShapeIntersect);
-%shared_ptr(feasst::ShapeUnion);
-%shared_ptr(feasst::Slab);
-%shared_ptr(feasst::Cylinder);
-%shared_ptr(feasst::Sphere);
-%shared_ptr(feasst::ModelLJShape);
-%shared_ptr(feasst::ModelHardShape);
-%shared_ptr(feasst::HalfSpace);
-%shared_ptr(feasst::TrialCrankshaft);
-%shared_ptr(feasst::PerturbRegrow);
+%shared_ptr(feasst::MacrostateNumParticles);
 %shared_ptr(feasst::AnalyzeRigidBonds);
-%shared_ptr(feasst::StageFactoryRegrow);
-%shared_ptr(feasst::TrialRegrow);
-%shared_ptr(feasst::TrialReptate);
+%shared_ptr(feasst::TrialSelectSegment);
+%shared_ptr(feasst::TrialSelectEndSegment);
+%shared_ptr(feasst::TrialSelectReptate);
+%shared_ptr(feasst::PerturbPivot);
+%shared_ptr(feasst::PerturbCrankshaft);
+%shared_ptr(feasst::PerturbDistanceFromAnchor);
+%shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::TrialPivot);
-%shared_ptr(feasst::ModelExample);
-%include utils/include/utils_file.h
-%include utils/include/arguments.h
-%include utils/include/custom_exception.h
-%include utils/include/utils.h
-%include utils/include/debug.h
-%include utils/include/utils_io.h
+%shared_ptr(feasst::TrialCrankshaft);
+%shared_ptr(feasst::TrialReptate);
+%include math/include/constants.h
+%include system/include/physical_constants.h
+%include math/include/utils_math.h
 %include configuration/include/properties.h
 %include configuration/include/typed_entity.h
 %include configuration/include/bond.h
+%include flat_histogram/include/ln_probability_distribution.h
+%include flat_histogram/include/collection_matrix.h
 %include monte_carlo/include/tunable.h
+%include utils/include/utils_file.h
+%include utils/include/timer.h
+%include utils/include/custom_exception.h
+%include utils/include/arguments.h
+%include utils/include/checkpoint.h
 %include monte_carlo/include/stepper.h
-%include math/include/accumulator.h
+%include math/include/formula.h
+%include math/include/formula_polynomial.h
+%include math/include/formula_exponential.h
+%include math/include/histogram.h
 %include math/include/position.h
+%include math/include/matrix.h
+%include utils/include/utils.h
+%include utils/include/debug.h
+%include utils/include/utils_io.h
+%include confinement/include/shape.h
+%include confinement/include/half_space.h
+%include confinement/include/slab.h
+%include confinement/include/cylinder.h
+%include confinement/include/sphere.h
 %include configuration/include/site.h
+%include math/include/accumulator.h
+%include math/include/random.h
+%include flat_histogram/include/bias.h
+%include flat_histogram/include/bias_transition_matrix.h
+%include flat_histogram/include/bias_wang_landau.h
 %include configuration/include/particle.h
 %include configuration/include/group.h
 %include configuration/include/file_lmp.h
 %include configuration/include/model_params.h
 %include configuration/include/particle_factory.h
-%include math/include/formula.h
-%include math/include/formula_exponential.h
-%include math/include/histogram.h
-%include math/include/formula_polynomial.h
-%include math/include/constants.h
-%include system/include/physical_constants.h
-%include math/include/random.h
 %include configuration/include/select.h
 %include system/include/select_position.h
 %include configuration/include/cells.h
 %include configuration/include/domain.h
 %include configuration/include/visit_particles.h
-%include math/include/utils_math.h
-%include math/include/matrix.h
 %include configuration/include/configuration.h
 %include system/include/model.h
 %include system/include/visit_model.h
+%include system/include/visit_model_intra.h
+%include system/include/long_range_corrections.h
+%include system/include/visit_model_cell.h
+%include patch/include/visit_model_inner_patch.h
 %include ewald/include/ewald.h
+%include configuration/include/file_xyz.h
+%include configuration/include/visit_configuration.h
+%include system/include/select_list.h
+%include configuration/include/bond_visitor.h
+%include system/include/model_three_body.h
+%include system/include/model_one_body.h
+%include confinement/include/model_hard_shape.h
+%include ewald/include/model_charge_self.h
+%include confinement/include/model_lj_shape.h
+%include system/include/model_empty.h
+%include system/include/potential.h
+%include system/include/potential_factory.h
 %include system/include/model_two_body.h
-%include models/include/model_yukawa.h
-%include models/include/model_square_well.h
+%include ewald/include/model_charge_screened.h
 %include system/include/model_hard_sphere.h
 %include ewald/include/model_charge_intra.h
+%include system/include/model_two_body_factory.h
+%include example/include/model_example.h
+%include models/include/model_yukawa.h
+%include models/include/model_square_well.h
 %include system/include/model_lj.h
 %include models/include/model_lj_alpha.h
 %include models/include/model_lj_cut_shift.h
 %include models/include/model_lj_force_shift.h
-%include ewald/include/model_charge_screened.h
-%include system/include/model_one_body.h
-%include ewald/include/model_charge_self.h
-%include system/include/model_empty.h
-%include system/include/potential.h
-%include system/include/potential_factory.h
-%include system/include/model_three_body.h
-%include system/include/visit_model_cell.h
-%include patch/include/visit_model_inner_patch.h
-%include system/include/long_range_corrections.h
-%include system/include/visit_model_intra.h
-%include system/include/select_list.h
-%include configuration/include/file_xyz.h
-%include configuration/include/visit_configuration.h
-%include configuration/include/bond_visitor.h
 %include system/include/system.h
+%include ewald/include/utils_ewald.h
 %include monte_carlo/include/criteria.h
+%include mayer/include/criteria_mayer.h
 %include monte_carlo/include/criteria_metropolis.h
+%include monte_carlo/include/trial_select.h
 %include monte_carlo/include/perturb.h
+%include monte_carlo/include/rosenbluth.h
+%include monte_carlo/include/perturb_configs.h
 %include monte_carlo/include/trial.h
 %include monte_carlo/include/trial_factory.h
 %include monte_carlo/include/modify.h
-%include steppers/include/check.h
-%include steppers/include/wall_clock_limit.h
 %include steppers/include/tuner.h
+%include steppers/include/wall_clock_limit.h
+%include steppers/include/check.h
+%include steppers/include/check_energy.h
 %include monte_carlo/include/modify_factory.h
-%include monte_carlo/include/rosenbluth.h
-%include monte_carlo/include/perturb_move.h
-%include monte_carlo/include/perturb_translate.h
-%include monte_carlo/include/perturb_rotate.h
-%include monte_carlo/include/perturb_transfer.h
-%include monte_carlo/include/trial_transfer.h
 %include monte_carlo/include/analyze.h
-%include steppers/include/energy.h
 %include steppers/include/criteria_writer.h
-%include steppers/include/log.h
+%include steppers/include/energy.h
 %include monte_carlo/include/analyze_factory.h
-%include steppers/include/movie.h
 %include monte_carlo/include/monte_carlo.h
-%include monte_carlo/include/perturb_configs.h
-%include monte_carlo/include/trial_move.h
-%include monte_carlo/include/trial_rotate.h
-%include monte_carlo/include/trial_translate.h
-%include mayer/include/criteria_mayer.h
-%include flat_histogram/include/ln_probability_distribution.h
-%include flat_histogram/include/bias.h
-%include flat_histogram/include/bias_wang_landau.h
+%include steppers/include/movie.h
+%include steppers/include/log.h
+%include mayer/include/trial.h
 %include flat_histogram/include/macrostate.h
-%include flat_histogram/include/collection_matrix.h
-%include flat_histogram/include/bias_transition_matrix.h
-%include flat_histogram/include/macrostate_num_particles.h
 %include flat_histogram/include/criteria_flat_histogram.h
-%include confinement/include/shape.h
-%include confinement/include/slab.h
-%include confinement/include/cylinder.h
-%include confinement/include/sphere.h
-%include confinement/include/model_lj_shape.h
-%include confinement/include/model_hard_shape.h
-%include confinement/include/half_space.h
-%include chain/include/trial_crankshaft.h
-%include chain/include/perturb_regrow.h
+%include flat_histogram/include/macrostate_num_particles.h
 %include chain/include/analyze_rigid_bonds.h
-%include chain/include/trial_regrow.h
-%include chain/include/trial_reptate.h
-%include chain/include/trial_pivot.h
-%include example/include/model_example.h
+%include chain/include/trial_select.h
+%include chain/include/perturb.h
+%include chain/include/trial.h

@@ -2,10 +2,14 @@
 #ifndef FEASST_MONTE_CARLO_MONTE_CARLO_H_
 #define FEASST_MONTE_CARLO_MONTE_CARLO_H_
 
+#include <sstream>
+#include <iostream>
 #include <vector>
 #include <memory>
+#include "utils/include/checkpoint.h"
+//#include "utils/include/timer.h"
 #include "monte_carlo/include/trial_factory.h"
-#include "monte_carlo/include/trial_transfer.h"
+//#include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/analyze.h"
 #include "monte_carlo/include/analyze_factory.h"
 #include "monte_carlo/include/modify.h"
@@ -38,6 +42,12 @@ namespace feasst {
 class MonteCarlo {
  public:
   MonteCarlo() {}
+//    timer_other_ = timer_.add("other");
+//    timer_trial_ = timer_.add("trial");
+//    timer_analyze_ = timer_.add("analyze");
+//    timer_modify_ = timer_.add("modify");
+//    timer_checkpoint_ = timer_.add("checkpoint");
+//  }
 
   /// The first action with a Monte Carlo object is to set the Configuration.
   void add(const Configuration& config) {
@@ -53,10 +63,15 @@ class MonteCarlo {
 
   /// The second action is to add Potentials.
   void add(const Potential& potential) {
+    ASSERT(!criteria_set_, "add potential before criteria");
     system_.add(potential);
     potential_set_ = true;
     if (config_set_) system_set_ = true;
-    ASSERT(!criteria_set_, "add potential before criteria");
+  }
+
+  /// Add potential to reference.
+  void add_to_reference(const Potential& potential) {
+    system_.add_to_reference(potential);
   }
 
   /// Alternatively, the first and second actions may be combined by setting
@@ -74,6 +89,7 @@ class MonteCarlo {
 
   // HWH depreciate: only in rare cases should the system be modified directly.
   System * get_system() { return &system_; }
+  Criteria * get_criteria() { return criteria_.get(); }
 
   /// The third action is to set the Criteria.
   /// Configuration and Potentials (or System) must be set first.
@@ -94,7 +110,7 @@ class MonteCarlo {
   /// Typically, one begins by adding trials.
   void add(std::shared_ptr<Trial> trial) {
     ASSERT(criteria_set_, "set Criteria before Trials.");
-    trial->precompute(criteria_, system_);
+    trial->precompute(criteria_.get(), &system_);
     trial_factory_.add(trial);
     // If later, perhaps after some initialization, more trials are added,
     // then Analyze and Modify classes may need to be re-initialized.
@@ -110,8 +126,9 @@ class MonteCarlo {
   /// configuration with a given number of particles, without necessarily
   /// satisfying detailed balance.
   void seek_num_particles(const int num) {
-    TrialTransfer add;
-    add.set_add_probability(1);
+    ASSERT(system_.configuration().num_particles() <= num,
+      "assumes you only want to add particles, not delete them");
+    TrialAdd add;
     while (system_.configuration().num_particles() < num) {
       attempt();
       add.attempt(criteria_.get(), &system_);
@@ -138,6 +155,10 @@ class MonteCarlo {
     modify_factory_.add(modify);
   }
 
+  /// Add a checkpoint.
+  void add(const std::shared_ptr<Checkpoint> checkpoint) {
+    checkpoint_ = checkpoint; }
+
   /// Attempt a number of Monte Carlo trials, with subsequent Analyzers and
   /// Modifiers.
   void attempt(const int num_trials = 1) {
@@ -145,10 +166,18 @@ class MonteCarlo {
     ASSERT(criteria_set_, "criteria must be set before attempting trials.");
     for (int trial = 0; trial < num_trials; ++trial) {
       DEBUG("mc trial: " << trial);
+      //timer_.start(timer_trial_);
       trial_factory_.attempt(criteria_.get(), &system_);
+      //timer_.start(timer_analyze_);
       analyze_factory_.trial(criteria_, system_, trial_factory_);
+      //timer_.start(timer_modify_);
       modify_factory_.trial(criteria_, &system_, &trial_factory_);
+      if (checkpoint_) {
+        //timer_.start(timer_checkpoint_);
+        checkpoint_->check(*this);
+      }
     }
+    //timer_.start(timer_other_);
   }
 
   /// Attempt Monte Carlo trials until Criteria returns completion.
@@ -158,12 +187,25 @@ class MonteCarlo {
     }
   }
 
+//  const Timer& timer() const { return timer_; }
+//  std::string timer_str() const {
+//    std::stringstream ss;
+//    const double trial_missing = timer_.missing_percent("trial", trial_factory_.timer());
+//    ss << timer_.str()
+//       << "*** TrialFactory Profile ***" << std::endl
+//       << trial_factory_.timer().str()
+//       << "missing CPU hours percentage: " << trial_missing;
+//    return ss.str();
+//  }
+
   void serialize(std::ostream& ostr) const {
     feasst_serialize_version(1, ostr);
     feasst_serialize_fstobj(system_, ostr);
     feasst_serialize_fstdr(criteria_, ostr);
+    // feasst_serialize_fstobj(trial_factory_, ostr);
     feasst_serialize_fstobj(analyze_factory_, ostr);
     feasst_serialize_fstobj(modify_factory_, ostr);
+    feasst_serialize(checkpoint_, ostr);
   }
 
   MonteCarlo(std::istream& istr) {
@@ -177,8 +219,10 @@ class MonteCarlo {
         criteria_ = criteria_->deserialize(istr);
       }
     }
+    // feasst_deserialize_fstobj(&trial_factory_, istr);
     feasst_deserialize_fstobj(&analyze_factory_, istr);
     feasst_deserialize_fstobj(&modify_factory_, istr);
+    feasst_deserialize(checkpoint_, istr);
   }
 
  private:
@@ -187,6 +231,11 @@ class MonteCarlo {
   TrialFactory trial_factory_;
   AnalyzeFactory analyze_factory_;
   ModifyFactory modify_factory_;
+  std::shared_ptr<Checkpoint> checkpoint_;
+
+//  Timer timer_;
+//  int timer_other_, timer_trial_, timer_analyze_, timer_modify_;
+//  int timer_checkpoint_;
 
   bool config_set_ = false;
   bool potential_set_ = false;

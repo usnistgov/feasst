@@ -169,8 +169,10 @@ class Configuration {
   /// Requires coordinates for all sites and dimensions.
   void update_positions(const std::vector<std::vector<double> > coords);
 
-  /// Update the positions from a selection.
-  void update_positions(const SelectPosition& select);
+  /// Update the positions and properties from a selection.
+  void update_positions(const SelectPosition& select,
+    /// Wrap positions within domain based, on particle position (default).
+    const bool wrap = true);
 
   /// Displace selected particle(s).
   void displace_particles(const Select& selection,
@@ -262,6 +264,14 @@ class Configuration {
     particles_.add_site_property(name, value, particle_index, site_index);
   }
 
+  // Add or set the property of a site in a particle.
+  void add_or_set_site_property(const std::string name,
+      const double value,
+      const int particle_index,
+      const int site_index) {
+    particles_.add_or_set_site_property(name, value, particle_index, site_index);
+  }
+
   // Set the property of a site in a particle.
   void set_site_property(const std::string name,
       const double value,
@@ -300,10 +310,10 @@ class Configuration {
   // HWH if groups are defined based on positions.
   std::vector<SelectGroup> group_selects_;
 
-  /// Unique identifier for the collection of particle indices.
-  std::string unique_indices_;
-  void reset_unique_indices_();
-  Random random_;
+//  /// Unique identifier for the collection of particle indices.
+//  std::string unique_indices_;
+//  void reset_unique_indices_();
+//  Random random_;
 
   /// Add particle.
   void add_(const Particle particle);
@@ -337,8 +347,11 @@ class Configuration {
   void replace_properties_(const int particle_index,
                            const int site_index,
                            const Properties& prop,
-                           const std::vector<std::string> exclude) {
+                           const std::vector<std::string>& exclude) {
     particles_.replace_properties(particle_index, site_index, prop, exclude); }
+
+  /// Store the excluded properties used in replace_properties_ (optimization).
+  std::vector<std::string> excluded_properties_ = {"cell"};
 
   /// Update position trackers of a particle (e.g., cell, neighbor, etc).
   void position_tracker_(const int particle_index, const int site_index);
@@ -360,10 +373,10 @@ class Configuration {
   std::vector<int> group_store_particle_type_,
                    group_store_group_index_;
 
-  /// HWH depreciate one of these.
-  void check_id_(const Select& select) const;
-  void check_id_(const Select* select) const;
-  void check_id_(const std::string id) const;
+//  /// HWH depreciate one of these.
+//  void check_id_(const Select& select) const;
+//  void check_id_(const Select* select) const;
+//  void check_id_(const std::string id) const;
 
   // Ghost particles allow quick addition and deletion of particles for use in
   // the grand canonical ensemble.
@@ -383,6 +396,8 @@ class Configuration {
 
   /// Store the number of particles of each type.
   std::vector<int> num_particles_of_type_;
+
+  void wrap_(const int particle_index);
 };
 
 inline std::shared_ptr<Configuration> MakeConfiguration(

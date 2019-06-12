@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chain/include/trial_pivot.h"
+#include "chain/include/trial.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "system/include/system.h"
 #include "system/include/model_lj.h"
@@ -12,6 +12,7 @@ namespace feasst {
 
 TEST(TrialPivot, chain10) {
   seed_random_by_date();
+  seed_random(1560361761);
   System system;
   {
     Configuration config;
@@ -28,16 +29,20 @@ TEST(TrialPivot, chain10) {
   }
 
   auto criteria = std::make_shared<CriteriaMetropolis>();
-  criteria->set_beta(1.0);
-  auto pivot = MakeTrialPivot({{"max_move", "90."}});
+  criteria->set_beta(100.0);
+  auto pivot = MakeTrialPivot({{"tunable_param", "90."}});
   TrialFactory factory;
   factory.add(pivot);
+  factory.precompute(criteria.get(), &system);
   FileXYZ file;
   file.write("tmp/before", system.configuration());
-  factory.attempt(criteria.get(), &system);
-  file.write("tmp/after", system.configuration());
   AnalyzeRigidBonds checker;
-  checker.update(criteria, system, factory);
+  for (int i = 0; i < 50; ++i) {
+    factory.attempt(criteria.get(), &system);
+    file.write("tmp/after", system.configuration());
+    checker.update(criteria, system, factory);
+  }
+  EXPECT_NE(0, system.configuration().particle(0).site(0).position().coord(0));
 }
 
 }  // namespace feasst

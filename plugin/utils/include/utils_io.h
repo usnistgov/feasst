@@ -20,18 +20,23 @@ namespace feasst {
 
 /// Return string representation of vector
 template<class T>
-std::string feasst_str(const std::vector<T> &vec) {
+std::string feasst_str(const std::vector<T> &vec,
+  /// use maximum precision
+  const bool max_precision = false) {
   std::stringstream ss;
+  if (max_precision) ss << MAX_PRECISION;
   for (unsigned int i = 0; i < vec.size(); ++i) {
     ss << vec[i] << " ";
   }
   return ss.str();
 }
 template<class T>
-std::string feasst_str(const std::vector<std::vector<T> > &vec) {
+std::string feasst_str(const std::vector<std::vector<T> > &vec,
+  /// use maximum precision
+  const bool max_precision = false) {
   std::stringstream ss;
   for (unsigned int i = 0; i < vec.size(); ++i) {
-    ss << feasst_str(vec[i]) << std::endl;
+    ss << feasst_str(vec[i], max_precision) << std::endl;
   }
   return ss.str();
 }

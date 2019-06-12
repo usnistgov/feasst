@@ -23,7 +23,9 @@ class CriteriaFlatHistogram : public Criteria {
     DEBUG("macro old " << macrostate_old_);
   }
 
-  bool is_accepted(const AcceptanceCriteria accept_criteria) override;
+  bool is_accepted(const Acceptance& acceptance,
+    const System * system) override;
+
   std::string write() const override;
   bool is_complete() override { return bias_->is_complete(); }
 

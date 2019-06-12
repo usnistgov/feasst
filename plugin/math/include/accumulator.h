@@ -82,6 +82,9 @@ class Accumulator {
   /// Return the moments.
   std::vector<long double> moments() const { return val_moment_; }
 
+  /// Return human readable status as a string.
+  std::string str() const;
+
   void serialize(std::ostream& ostr) const;
   Accumulator(std::istream& istr);
 

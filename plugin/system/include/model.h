@@ -63,6 +63,14 @@ class Model {
   /// Precompute model parameters based on existing model parameters.
   virtual void precompute(const ModelParams& existing) {}
 
+  // Moved from ModelTwoBody to Model for ease of serialization of
+  // ModelTwoBodyFactory
+  virtual double energy(
+      const double squared_distance,
+      const int type1,
+      const int type2,
+      const ModelParams& model_params) const { ERROR("not implemented"); }
+
   // https://isocpp.org/wiki/faq/serialization
   //typedef std::shared_ptr<Model> (*Factory)(std::istream&);
 

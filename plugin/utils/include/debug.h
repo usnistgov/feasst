@@ -48,7 +48,7 @@ std::string feasst_dir_trim_(const char* file_name);
 /// If the assertion condition is not true, throw exception with message.
 # define ASSERT(condition, message) \
 { \
-  if (!(condition) && feasst::VERBOSE_LEVEL >= 1) { \
+  if (!(condition) and feasst::VERBOSE_LEVEL >= 1) { \
     std::stringstream macro_err_msg_; \
     macro_err_msg_ << "# Assertion `" #condition "` failed " \
              << feasst::feasst_dir_trim_(__FILE__) \
@@ -84,7 +84,7 @@ FAIL() << "Expected failure"; \
 /// Warn with message to standard output if condition is true.
 # define WARN_IF(condition, message) \
 { \
-  if (condition && feasst::VERBOSE_LEVEL >= 2) { \
+  if (condition and feasst::VERBOSE_LEVEL >= 2) { \
     std::stringstream macro_err_msg_; \
     std::clog << "# Warning if `" #condition "` " \
               << feasst::feasst_dir_trim_(__FILE__) \

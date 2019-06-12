@@ -11,13 +11,4 @@ class MapCheck {
 
 static MapCheck mapper_ = MapCheck();
 
-class MapEnergyCheck {
- public:
-  MapEnergyCheck() {
-    EnergyCheck().deserialize_map()["EnergyCheck"] = MakeEnergyCheck();
-  }
-};
-
-static MapEnergyCheck mapper_energy_check_ = MapEnergyCheck();
-
 }  // namespace feasst

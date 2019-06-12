@@ -32,31 +32,37 @@ class SelectList : public SelectPosition {
     return *this;
   }
 
-  /// Add random particle in group index.
-  virtual void random_particle(const Configuration& config,
+  /// Add random particle in group index. Return the number of particles to
+  /// choose from.
+  int random_particle(const Configuration& config,
       // By default, if group_index is 0, consider all particles
       const int group_index = 0,
       // By default, load coordinates. Set to zero if not needed.
       const int load_coordinates = 1) {
     // HWH optimize this
-    clear();
+    //clear();
     ASSERT(group_index >= 0, "error");
     const int num = config.num_particles(group_index);
     if (num > 0) {
       const int index = random()->uniform(0, num - 1);
-      const SelectGroup& select = config.group_selects()[group_index];
+      const SelectGroup& select = config.group_select(group_index);
       DEBUG("index " << group_index << " " << index);
       DEBUG("num " << select.num_particles());
-      add_particle(select.particle_index(index), select.site_indices(index));
+      const bool fast = replace_indices(select.particle_index(index), select.site_indices(index));
+      // add_particle(select.particle_index(index), select.site_indices(index));
       if (load_coordinates == 1) {
-        resize();
+        if (!fast) resize();
         load_positions(config.particles());
       }
+    } else {
+      clear();
     }
+    return num;
   }
 
-  /// Add random particle of given type.
-  void random_particle_of_type(const int type,
+  /// Add random particle of given type. Return the number of particles to
+  /// choose from.
+  int random_particle_of_type(const int type,
                                Configuration * config,
       // By default, load coordinates. Set to zero if not needed.
       const int load_coordinates = 1) {
@@ -66,12 +72,12 @@ class SelectList : public SelectPosition {
     // do not select if no particles
     if (config->num_particles() == 0) {
       clear();
-      return;
+      return 0;
     }
 
     const int group_index = config->particle_type_to_group(type);
     // HWH is *config slow here?
-    random_particle(*config, group_index, load_coordinates);
+    return random_particle(*config, group_index, load_coordinates);
   }
 
   /// Select the last particle that was added to configuration.
@@ -168,15 +174,17 @@ class SelectList : public SelectPosition {
   }
 
   /// Select all sites between a random endpoint and a randomly selectioned site in a randomly selected particle in group.
-  void random_end_segment_in_particle(const int group_index, const Configuration& config,
+  /// Return true if the endpoint is at the beginning.
+  bool random_end_segment_in_particle(const int group_index, const Configuration& config,
       /// Set the maximum length of the segment.
       /// If -1 (default), consider all possible lengths.
       const int max_length = -1
       ) {
     random_particle(config, group_index);
+    // HWH note this check prevents error/infinite loop below
     if (num_sites() <= 1) {
       DEBUG("num sites(" << num_sites() << ") not large enough");
-      return; // HWH note this check prevents error/infinite loop below
+      return false;
     }
 
     // select a random site
@@ -218,6 +226,7 @@ class SelectList : public SelectPosition {
       remove_first_sites(site);
     }
     DEBUG("num " << num_sites() << " indices " << str());
+    return is_endpoint_beginning;
   }
 
   /// Return the bond type between two sites in particle use for model parameters

@@ -4,9 +4,9 @@ API
 .. toctree::
 
    Shape
+   HalfSpace
    Slab
    Cylinder
    Sphere
-   ModelLJShape
    ModelHardShape
-   HalfSpace
+   ModelLJShape

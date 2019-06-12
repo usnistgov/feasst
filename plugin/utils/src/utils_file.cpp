@@ -16,14 +16,14 @@ bool find(const char* search_string, std::ifstream &file) {
   std::getline(file, line);
   const int nMax = 1e5;
   int i = 0;
-  while ((line.compare(search_string) != 0) &&
-         (i != nMax) && (!file.fail())) {
+  while ((line.compare(search_string) != 0) and
+         (i != nMax) and (!file.fail())) {
     std::getline(file, line);
     ++i;
     // std::cout << line << std::endl;
   }
   // check if not found
-  if (i == nMax || file.fail()) {
+  if (i == nMax or file.fail()) {
     return false;
   }
   return true;

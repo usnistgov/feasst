@@ -6,6 +6,9 @@
 
 namespace feasst {
 
+/**
+  Periodically write Criteria.
+ */
 class CriteriaWriter : public AnalyzeWriteOnly {
  public:
   CriteriaWriter(const argtype &args = argtype());

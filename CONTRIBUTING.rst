@@ -96,6 +96,13 @@ In bash
    gdb [program executable name]
    r [flags]
 
+or
+
+.. code-block:: bash
+
+   gdb --batch --command=../dev/test.gdb ./bin/unittest
+
+
 gdb can also be used with python as
 
 .. code-block:: bash
@@ -105,6 +112,9 @@ gdb can also be used with python as
    r [python script] [optional flags]
 
 * use 'gdb catch throw' or 'lldb break set -E C++' to backtrace exceptions
+
+* use gdb as a profiler by ctrl c in the middle and backtrace: https://stackoverflow.com/a/378024
+* use gdb as a parallel profiler: http://poormansprofiler.org/
 
 Valgrind: Find memory leaks
 --------------------------------------------------------------------------------
@@ -205,6 +215,7 @@ Naming
 * bools syntax: is_[accepted.., etc]
 * MACROS and CONSTANTS are all upper case.
 * Avoid MACROS and CONSTANTS.
+* use "and", "or" instead of "&&", "||"
 
 Functions
 --------------------------------------------------------------------------------
@@ -268,4 +279,18 @@ To Do List
 * neighbor lists
 * windowing (MonteCarloFactory class)
 * trial regrow to include grand canonical insertions
-
+* consider optimization of Ewald: init ewald storage on particle types, precompute property index.
+* serialize/deserialize trials,perturbs,select_list,...
+* rotate particle during insertion
+* refactor perturb/trials... selection->original_selection, commenting/naming
+* Criteria running energies may contain a part from each potential to simplify debugging.
+* next commit: Added windowing, checkpointing to test LJ TMMC. Preparing for SPCE SRSW and changed wrapping.
+* trial selects (and perturbations?) can record probabilities via Kofke's method
+* implement timer for profiles (with hierarchies by class... tried this, but its too slow)
+* implement a timer to auto-balance trial weights.
+* consider refactoring particle to a composite site (maybe not the best idea)
+* label design patterns. E.g., system is a facade
+* find a better way for two different classes to take from the same argument list and still maintain unused checks.
+* when selecting from cpdf, use lnp instead of p?
+* insert optimization: update cell list of sites when added, but of domain only when finalized.
+* update status printing for trials

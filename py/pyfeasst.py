@@ -16,8 +16,18 @@ class cd:
     def __exit__(self, etype, value, traceback):
         os.chdir(self._savedPath)
 
-import subprocess
-
-def bash_command(cmd):
-    subprocess.call(cmd, shell=True, executable='/bin/bash')
-    #subprocess.Popen(['/bin/bash', '-c', cmd])
+#def vector_vector_to_list(vec):
+#    """ converts a swig stl vector to python list """
+#    lst = list()
+#    for index1 in range(len(vec)):
+#        lst2 = list()
+#        for index2 in range(len(vec[index1])):
+#          lst2.append(vec[index1][index2])
+#        lst.append(lst2)
+#    return lst
+#
+## HWH depreciate this
+#import subprocess
+#def bash_command(cmd):
+#    subprocess.call(cmd, shell=True, executable='/bin/bash')
+#    #subprocess.Popen(['/bin/bash', '-c', cmd])

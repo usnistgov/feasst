@@ -31,7 +31,7 @@ class Select {
   void remove(const Select& select);
 
   /// Add site by index.
-  void add_site(const int particle_index, const int site_index);
+  virtual void add_site(const int particle_index, const int site_index);
 
   /// Add sites by index.
   void add_sites(const int particle_index,
@@ -97,7 +97,9 @@ class Select {
   }
 
   /// Return number of selected sites.
-  int num_sites() const;
+  int num_sites(
+    /// Return numbers of sites in particle. If -1 (default), in all particles.
+    const int particle_index = -1) const;
 
   /// Print the selection.
   std::string str() const;
@@ -105,11 +107,11 @@ class Select {
 //  /// Return a random index of particles.
 //  int random_particle_index(const Particles& particles);
 
-  /// Return the unique identifier.
-  std::string unique_id() const { return unique_id_; }
+//  /// Return the unique identifier.
+//  std::string unique_id() const { return unique_id_; }
 
-  /// Set the unique identifier.
-  void set_unique_id(const std::string id) { unique_id_ = id; }
+//  /// Set the unique identifier.
+//  void set_unique_id(const std::string id) { unique_id_ = id; }
 
   /// Return the particle indices.
   const std::vector<int>& particle_indices() const { return particle_indices_; }
@@ -172,18 +174,60 @@ class Select {
   }
   const std::shared_ptr<Select> old_bond() const { return old_bond_; }
 
+  /// Replace current indices with those given. Return true if replace is done
+  /// quickly due to match in existing size.
+  bool replace_indices(const int particle_index, const std::vector<int>& site_indices) {
+    if (static_cast<int>(particle_indices_.size()) == 1 and
+        site_indices_.size() == site_indices.size()) {
+      particle_indices_[0] = particle_index;
+      site_indices_[0] = site_indices;
+      return true;
+    }
+    clear();
+    add_particle(particle_index, site_indices);
+    return false;
+  }
+
+//  /// Exchange current site and particle indices with those in select.
+//  /// Return false if there is a mismatch in size, resulting in failed exchange.
+//  /// Otherwise, return true.
+//  bool exchange_indices(const Select& select) {
+//    if (particle_indices_.size() != select.particle_indices().size()) {
+//      return false;
+//    } else {
+//      for (int ipart = 0; ipart < static_cast<int>(site_indices_.size()); ++ipart) {
+//        particle_indices_[ipart] = select.particle_indices()[ipart];
+//        std::vector<int> * sites = &site_indices_[ipart];
+//        const std::vector<int>& sel_sites = select.site_indices_[ipart];
+//        if (sites->size() != sel_sites.size()) {
+//          return false;
+//        } else {
+//          for (int isite = 0; isite < static_cast<int>(sites->size()); ++isite) {
+//            (*sites)[isite] = sel_sites[isite];
+//          }
+//        }
+//      }
+//    }
+//    return true;
+//  }
+
   virtual void serialize(std::ostream& ostr) const;
   Select(std::istream& istr);
   virtual ~Select() {}
 
  protected:
-  Random * random() { return &random_; }
+  Random * random() {
+    if (!random_) {
+      random_ = std::make_shared<Random>();
+    }
+    return random_.get();
+  }
 
  private:
   std::vector<int> particle_indices_;
   std::vector<std::vector<int> > site_indices_;
-  Random random_;
-  std::string unique_id_;
+  std::shared_ptr<Random> random_;
+  // std::string unique_id_;
   std::string trial_state_;
   std::shared_ptr<Select> excluded_;
   std::shared_ptr<Select> new_bond_;
@@ -202,7 +246,7 @@ class Select {
 class SelectGroup : public Select {
  public:
   SelectGroup() {}
-  Group group() const { return group_; }
+  const Group& group() const { return group_; }
   void set_group(const Group group) { group_ = group; }
 
   void serialize(std::ostream& ostr) const override;

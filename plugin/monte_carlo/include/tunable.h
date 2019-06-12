@@ -49,12 +49,18 @@ class Tunable {
   /// the target.
   void tune(const double actual);
 
+  /// Serialize.
+  void serialize(std::ostream& ostr) const;
+
+  /// Construct from serialization.
+  Tunable(std::istream& istr);
+
  private:
   bool is_enabled_ = true;
   double value_ = 0.;
   bool is_bound_ = false;
-  double max_;
-  double min_;
+  double max_ = 0.;
+  double min_ = 0.;
   double target_;
   double percent_change_;
 };

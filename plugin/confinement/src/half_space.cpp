@@ -22,7 +22,7 @@ HalfSpace::HalfSpace(const argtype &args) : Shape() {
   dimension_ = args_.key("dimension").integer();
   intersection_ = args_.key("intersection").dble();
   direction_ = args_.key("direction").integer();
-  ASSERT(direction_ == -1 || direction_ == 1, "invalid direction: "
+  ASSERT(direction_ == -1 or direction_ == 1, "invalid direction: "
     << direction_);
 }
 

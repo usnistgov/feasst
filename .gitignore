@@ -1,11 +1,17 @@
 #use glob syntax
 syntax: glob
 
-*.swp
-*.bak
 build
 build-gtest
 trash
 
 py/__pycache__
 *__pycache__*
+
+# file types
+*.swp
+*.bak
+*.txt
+*.vmd
+*.xyz
+*.csv

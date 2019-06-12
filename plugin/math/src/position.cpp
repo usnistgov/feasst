@@ -66,7 +66,7 @@ double Position::distance() const {
 }
 
 std::string Position::str() const {
-  return feasst_str(coord_);
+  return feasst_str(coord_, true);
 }
 
 void Position::set_to_origin() {
@@ -132,7 +132,7 @@ Position::Position(std::istream& sstr) {
 }
   
 Position Position::cross_product(const Position& position) const{
-  ASSERT(this->dimension() == 3 && position.dimension() == 3,
+  ASSERT(this->dimension() == 3 and position.dimension() == 3,
     "implemented for 3D only.");
   return Position().set_vector({
     this->coord(1) * position.coord(2) - this->coord(2) * position.coord(1),
@@ -151,6 +151,7 @@ double Position::nearest_distance_to_axis(const Position& point1,
 }
 
 Position::Position(const argtype& args) {
+  Arguments args_;
   args_.init(args);
   double x = 0, y = 0, z = 0;
   if (args_.key("x").used()) {

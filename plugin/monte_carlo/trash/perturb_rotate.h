@@ -15,20 +15,12 @@ class PerturbRotate : public PerturbSelectMove {
       System * system) {
     Configuration * config = get_config_before_move(system);
     SelectList rotated = selection();
-    // for each site/particle in selection
+    rotate(pivot, rotation, &rotated);
+
+    // rotate or recenter particle positions
     for (int select_index = 0;
          select_index < rotated.num_particles();
          ++select_index) {
-      // rotate site positions
-      for (int site = 0;
-           site < static_cast<int>(rotated.site_indices(select_index).size());
-           ++site) {
-        Position position = rotated.site_positions()[select_index][site];
-        rotate_(pivot, rotation, &position);
-        rotated.set_site_position(select_index, site, position);
-      }
-
-      // rotate or recenter particle positions
       if (recenter_ == 0) {
         Position position = rotated.particle_positions()[select_index];
         rotate_(pivot, rotation, &position);
@@ -39,9 +31,31 @@ class PerturbRotate : public PerturbSelectMove {
         rotated.set_particle_position(select_index, center);
       }
     }
+
     config->update_positions(rotated);
     after_move();
   }
+
+  void rotate(
+      const Position& pivot,
+      const RotationMatrix& rotation,
+      SelectList * rotated) {
+
+    // for each site/particle in selection
+    for (int select_index = 0;
+         select_index < rotated->num_particles();
+         ++select_index) {
+      // rotate site positions
+      for (int site = 0;
+           site < static_cast<int>(rotated->site_indices(select_index).size());
+           ++site) {
+        Position position = rotated->site_positions()[select_index][site];
+        rotate_(pivot, rotation, &position);
+        rotated->set_site_position(select_index, site, position);
+      }
+    }
+  }
+
   ~PerturbRotate() {}
 
   /// By default, do not recenter the particle position based on sites.

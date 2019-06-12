@@ -12,7 +12,7 @@ class PerturbSelectMove : public PerturbOptRevert {
     if (revert_possible()) {
       Configuration* config = system()->get_configuration();
       DEBUG("reverting positions: " << selection().str());
-      config->update_positions(selection());
+      config->update_positions(selection(), false); // don't wrap if reverting
       system()->revert();
     }
   }

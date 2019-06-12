@@ -71,49 +71,7 @@ class ModelTwoBody : public Model {
     visitor->compute(*this, selection, config, 0);
     return visitor->energy();
   }
-  virtual double energy(
-      const double squared_distance,
-      const int type1,
-      const int type2,
-      const ModelParams& model_params) const = 0;
   virtual ~ModelTwoBody() {}
-};
-
-class ModelTwoBodyFactory : public ModelTwoBody {
- public:
-  void add_model(std::shared_ptr<ModelTwoBody> model) {
-    models_.push_back(model); }
-  const std::vector<std::shared_ptr<ModelTwoBody> >& models() const {
-    return models_; }
-
-  double energy(
-      const double squared_distance,
-      const int type1,
-      const int type2,
-      const ModelParams& model_params) const override {
-    double en = 0;
-    for (const std::shared_ptr<ModelTwoBody> model : models_) {
-      en += model->energy(squared_distance, type1, type2, model_params);
-    }
-//    int index = 0;
-//    while ((index < static_cast<int>(models_.size())) &&
-//           (en < NEAR_INFINITY)) {
-//      en += models_[index]->energy(squared_distance,
-//                                   type1, type2, model_params);
-//      ++index;
-//    }
-    //INFO("en " << en);
-    return en;
-  }
-
-  void precompute(const ModelParams& existing) override {
-    for (const std::shared_ptr<ModelTwoBody> model : models_) {
-      model->precompute(existing);
-    }
-  }
-
- private:
-  std::vector<std::shared_ptr<ModelTwoBody> > models_;
 };
 
 }  // namespace feasst

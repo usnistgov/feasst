@@ -12,7 +12,11 @@ namespace feasst {
  */
 class Energy : public Analyze {
  public:
-  Energy(const argtype &args = argtype());
+  Energy(
+    /**
+      num_block : number of updated per block (default: 1e5).
+     */
+    const argtype &args = argtype());
 
   void update(const std::shared_ptr<Criteria> criteria,
       const System& system,
@@ -29,14 +33,19 @@ class Energy : public Analyze {
     return ss.str();
   }
 
+  const Accumulator& energy() const { return energy_; }
+
   std::string class_name() const override { return std::string("Energy"); }
+
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<Energy>(istr); }
+
   void serialize(std::ostream& ostr) const override {
     Stepper::serialize(ostr);
     feasst_serialize_version(1, ostr);
     feasst_serialize_fstobj(energy_, ostr);
   }
+
   Energy(std::istream& istr) : Analyze(istr) {
     feasst_deserialize_version(istr);
     feasst_deserialize_fstobj(&energy_, istr);

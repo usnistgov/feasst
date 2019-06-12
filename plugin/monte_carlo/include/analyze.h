@@ -7,7 +7,7 @@
 #include <string>
 #include <fstream>
 #include "monte_carlo/include/trial_factory.h"
-#include "monte_carlo/include/trial_transfer.h"
+//#include "monte_carlo/include/trial_transfer.h"
 #include "configuration/include/bond_visitor.h"
 #include "configuration/include/file_xyz.h"
 #include "monte_carlo/include/stepper.h"

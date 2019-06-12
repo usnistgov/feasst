@@ -16,7 +16,7 @@ int main() {
   }));
   mc.add(feasst::MakeTrialTranslate({
     {"weight", "1."},
-    {"max_move", "2."},
+    {"tunable_param", "2."},
   }));
   mc.seek_num_particles(50);
   const int steps_per = 1e4;
@@ -24,7 +24,7 @@ int main() {
   mc.add(feasst::MakeMovie(
    {{"steps_per", feasst::str(steps_per)},
     {"file_name", "movie.xyz"}}));
-  mc.add(feasst::MakeEnergyCheck(
+  mc.add(feasst::MakeCheckEnergy(
    {{"steps_per", feasst::str(steps_per)},
     {"tolerance", "1e-10"}}));
   mc.add(feasst::MakeTuner({{"steps_per", feasst::str(steps_per)}}));

@@ -177,6 +177,8 @@ class TrialRegrow : public TrialMove, public StagedTrial {
     regrow_->after_move();  // required for reverting
   }
 
+  std::string class_name() const override { return std::string("TrialRegrow"); }
+
  private:
   StageFactoryRegrow stages_;
   std::shared_ptr<PerturbRegrow> regrow_;

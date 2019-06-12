@@ -14,8 +14,7 @@ void VisitModelIntra::compute(
   ASSERT(group_index == 0, "need to implement site1 loop filtering particles by group");
   zero_energy();
   const Domain& domain = config->domain();
-  Position relative;
-  relative.set_vector(domain.side_length().coord());
+  init_relative_(domain, &relative_);
   for (int part1_index : selection.particle_indices()) {
     TRACE("particle: " << part1_index);
     const Particle& part1 = config->select_particle(part1_index);
@@ -50,9 +49,9 @@ void VisitModelIntra::compute(
         if (selection.old_bond()) {
           const int incl1_site = selection.site_indices()[0][0];
           const int incl2_site = selection.old_bond()->site_indices()[0][0];
-          if ( (site1_index == incl1_site &&
-                site2_index == incl2_site) ||
-               (site1_index == incl2_site &&
+          if ( (site1_index == incl1_site and
+                site2_index == incl2_site) or
+               (site1_index == incl2_site and
                 site2_index == incl1_site) ) {
             include = true;
             TRACE("include " << include << " incl " << incl1_site << " " << incl2_site);
@@ -63,19 +62,19 @@ void VisitModelIntra::compute(
         if (selection.new_bond()) {
           const int excl1_site = selection.site_indices()[0][0];
           const int excl2_site = selection.new_bond()->site_indices()[0][0];
-          if ( (site1_index == excl1_site &&
-                site2_index == excl2_site) ||
-               (site1_index == excl2_site &&
+          if ( (site1_index == excl1_site and
+                site2_index == excl2_site) or
+               (site1_index == excl2_site and
                 site2_index == excl1_site) ) {
             exclude = true;
             TRACE("exclude " << exclude << " excl " << excl1_site << " " << excl2_site);
           }
         }
 
-        if ( (include || std::abs(site1_index - site2_index) > intra_cut_) && (!exclude) ) {
+        if ( (include or std::abs(site1_index - site2_index) > intra_cut_) and (!exclude) ) {
           TRACE("sites: " << site1_index << " " << site2_index);
           inner()->compute(part1_index, site1_index, part1_index, site2_index,
-                           config, model_params, model, &relative);
+                           config, model_params, model, &relative_);
         }
       }
     }

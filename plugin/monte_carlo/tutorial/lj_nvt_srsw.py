@@ -19,21 +19,28 @@ mc.set(feasst.MakeCriteriaMetropolis(feasst.args(
   {"beta": str(1./args.temperature),
    "chemical_potential": "1."})))
 mc.add(feasst.MakeTrialTranslate(feasst.args(
-  {"weight": "1.", "max_move": "2."})))
+  {"weight": "1.", "tunable_param": "2."})))
 lj.add_analysis(mc, args.steps_per)
 mc.seek_num_particles(args.num_particles)
 
 # equilibrate
 mc.attempt(args.num_steps_equilibrate)
 
+# compute average energy using a stepper/analysis
+energy = feasst.MakeEnergy(feasst.args({
+  "steps_per_update": "1",
+  "steps_per_write": str(args.steps_per),
+#  "file_name": "energy.txt",
+}))
+mc.add(energy);
+
+# compute average using just this script
+energy_alt = feasst.Accumulator()
+
 # production
-energy = feasst.Accumulator()
-energy.set_block(args.steps_per)
 for trial in range(args.num_steps):
   mc.attempt(1)
-  energy.accumulate(mc.criteria().current_energy())
-  if trial % args.steps_per == 0:
-    print("energy", energy.average(), "+/-", energy.block_stdev())
+  energy_alt.accumulate(mc.criteria().current_energy())
 
-print("energy", energy.average(), "+/-", energy.block_stdev())
+print("energy:", energy.energy().str(), "alternative:", energy_alt.average(), "+/-", energy_alt.block_stdev())
 print("box length", mc.system().configuration().domain().side_length().str())

@@ -3,7 +3,7 @@
 #include "confinement/include/slab.h"
 #include "confinement/include/model_hard_shape.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/log.h"
 #include "system/include/model_lj.h"
@@ -30,14 +30,18 @@ TEST(MonteCarlo, ShapeUnion) {
   }));
   mc.add(MakeTrialTranslate({
     {"weight", "1."},
-    {"max_move", "2."},
+    {"tunable_param", "2."},
   }));
-  mc.seek_num_particles(50);
-  const int steps_per = 1e3;
-  mc.add(MakeLog({{"steps_per", str(steps_per)}}));
-  mc.add(MakeMovie(
-   {{"steps_per", str(steps_per)},
-    {"file_name", "movie.xyz"}}));
+  mc.seek_num_particles(10);
+  const int steps_per = 1e0;
+  mc.add(MakeLog({
+    {"steps_per", str(steps_per)},
+    {"file_name", "tmp/confine_log.txt"}
+  }));
+  mc.add(MakeMovie({
+    {"steps_per", str(steps_per)},
+    {"file_name", "tmp/confine_movie.xyz"}
+  }));
   mc.attempt(1e3);
 
   // serialize

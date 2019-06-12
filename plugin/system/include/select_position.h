@@ -7,6 +7,7 @@
 
 namespace feasst {
 
+// HWH move to configuration plugin?
 /**
   A selection which includes site and particle positions.
   Also include properties (e.g., for ewald, or neighbors, etc)
@@ -73,6 +74,34 @@ class SelectPosition : public Select {
 
   /// Remove the first site.
   void remove_first_site() override;
+
+  void add_site(const int particle_index, const int site_index) override {
+    Select::add_site(particle_index, site_index);
+    resize();
+  }
+//  /// Similar to Select::exchange_indices, but also positions and properties.
+//  bool exchange_indices_positions(const SelectPosition& select) {
+//    if (!exchange_indices(select)) return false;
+//    for (int ipart = 0; ipart < static_cast<int>(site_positions_.size()); ++ipart) {
+//      particle_positions_[ipart] = select.particle_positions()[ipart];
+//      std::vector<Position> * sites = &site_positions_[ipart];
+//      const std::vector<Position>& sel_sites = select.site_positions_[ipart];
+//      if (sites->size() != sel_sites.size()) {
+//        return false;
+//      } else {
+//        for (int isite = 0; isite < static_cast<int>(sites->size()); ++isite) {
+//          // HWH opt consider implementing position/properties exchange
+//          (*sites)[isite] = sel_sites[isite];
+//          site_properties_[ipart][isite] = select.site_properties_[ipart][isite];
+//        }
+//      }
+//    }
+//    return true;
+//  }
+
+  // optimized access to site positions.
+  Position * get_site_position(const int particle_index, const int site_index) {
+    return &site_positions_[particle_index][site_index]; }
 
   virtual ~SelectPosition() {}
 

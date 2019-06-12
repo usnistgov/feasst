@@ -35,9 +35,11 @@ class TrialPivot : public TrialRotate {
     }
     const Position& pivot = perturb_rotate_->selection().site_positions()[0][pivot_index];
     DEBUG("pivot " << pivot.str());
-    random_rotation(pivot);
+    random_rotation(pivot, &rot_mat_);
     perturb_rotate_->rotate_selection(pivot, rot_mat_, system);
   }
+
+  std::string class_name() const override { return std::string("TrialPivot"); }
 
   virtual ~TrialPivot() {}
 

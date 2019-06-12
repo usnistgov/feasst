@@ -4,7 +4,7 @@
 
 namespace feasst {
 
-void Ewald::set_kmax(const double kmax_squared) {
+void Ewald::set_kmax_squared(const double kmax_squared) {
   kmax_squared_ = kmax_squared;
   kmax_ = static_cast<int>(std::sqrt(kmax_squared_)) + 1;
   kxmax_ = kmax_ + 1;
@@ -30,8 +30,8 @@ void Ewald::update_wave_vectors(const Configuration& config) {
   for (int ky = -kmax_; ky <= kmax_; ++ky) {
   for (int kz = -kmax_; kz <= kmax_; ++kz) {
     const int k2 = kx*kx + ky*ky + kz*kz;
-    if ( (k2 < kmax_squared_) && (k2 != 0) ) {  // allen tildesley, srsw
-    // if ( (k2 <= kmax_squared_) && (k2 != 0) ) {  // gerhard
+    if ( (k2 < kmax_squared_) and (k2 != 0) ) {  // allen tildesley, srsw
+    // if ( (k2 <= kmax_squared_) and (k2 != 0) ) {  // gerhard
       kvec.set_vector({2.*PI*kx/lx,
                        2.*PI*ky/ly,
                        2.*PI*kz/lz});
@@ -76,7 +76,7 @@ void Ewald::init_wave_vector_storage(Configuration * config, const Select& selec
           for (int k = 0; k < num_k; ++k) {
             ss.str("");
             ss << "eik" << comp << coord << k;
-            config->add_site_property(ss.str(), 0., part_index, site_index);
+            config->add_or_set_site_property(ss.str(), 0., part_index, site_index);
           }
         }
       }

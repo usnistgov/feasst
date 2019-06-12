@@ -4,22 +4,20 @@
 
 namespace feasst {
 
-bool CriteriaFlatHistogram::is_accepted(
-    const AcceptanceCriteria accept_criteria) {
+bool CriteriaFlatHistogram::is_accepted(const Acceptance& acceptance,
+    const System * system) {
   ASSERT(bias_ != NULL, "bias must be initialized before trials");
   bool is_accepted;
-  double ln_metropolis_prob = accept_criteria.ln_metropolis_prob;
-//  DEBUG("accepted? " << exp(accept_criteria.ln_metropolis_prob +
-//                        bias_->ln_bias(macrostate_new_,
-//                                       macrostate_old_)));
-  if (accept_criteria.force_rejection == 1 ||
-      !macrostate_->is_in_range(accept_criteria.system, this)) {
+  double ln_metropolis_prob = acceptance.ln_metropolis_prob();
+  if (acceptance.reject() or
+      !macrostate_->is_in_range(system, this)) {
     is_accepted = false;
     ln_metropolis_prob = -NEAR_INFINITY;
     macrostate_new_ = macrostate_old_;
     DEBUG("forced rejection");
   } else {
-    macrostate_new_ = macrostate_->bin(accept_criteria.system, this);
+    macrostate_new_ = macrostate_->bin(system, this)
+                    + acceptance.macrostate_shift();
     DEBUG("bias " << bias_->ln_bias(macrostate_new_, macrostate_old_)
       << " old " << macrostate_old_ << " new " << macrostate_new_);
     DEBUG("ln new " << bias_->ln_macro_prob().value(macrostate_new_));
@@ -42,7 +40,7 @@ bool CriteriaFlatHistogram::is_accepted(
                 ln_metropolis_prob,
                 is_accepted);
   if (is_accepted) {
-    set_current_energy(accept_criteria.energy_new);
+    set_current_energy(acceptance.energy_new());
   } else {
     macrostate_new_ = macrostate_old_;
   }

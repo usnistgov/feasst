@@ -1,8 +1,7 @@
 #include "utils/test/utils.h"
 #include "patch/include/visit_model_inner_patch.h"
 #include "configuration/include/file_xyz.h"
-#include "monte_carlo/include/perturb_translate.h"
-#include "monte_carlo/include/perturb_rotate.h"
+#include "monte_carlo/include/perturb.h"
 #include "configuration/include/file_xyz.h"
 #include "models/include/model_square_well.h"
 
@@ -52,34 +51,38 @@ TEST(VisitModelInnerPatch, patch_one_2body) {
     system.add(potential); }
   system.precompute();
 
-  PerturbTranslate trans;
-  trans.set_selection(SelectList().particle(1, system.configuration()));
+  PerturbAnywhere anywhere;
+  TrialSelect tsel;
+  tsel.set_mobile(SelectList().particle(1, system.configuration()));
   auto traj = Position().set_vector({1.4, 0., 0.});
-  trans.translate_selection(traj, &system);
+  anywhere.set_position(traj, &system, &tsel);
 
   PerturbRotate rotate;
-  rotate.set_selection(SelectList().particle(1, system.configuration()));
+  tsel.set_mobile(SelectList().particle(1, system.configuration()));
   auto axis = Position().set_vector({0., 0., 1.});
   FileXYZ file;
   file.write_for_vmd("tmp/patch.xyz", system.configuration());
-  rotate.rotate_selection(traj,
+  rotate.move(
+    traj,
     RotationMatrix().axis_angle(axis, 180.),
-    &system);
+    &system,
+    &tsel
+  );
   file.set_append(1);
   file.write("tmp/patch.xyz", system.configuration());
 
   EXPECT_NEAR(-1., system.energy(), NEAR_ZERO);
 
-  rotate.revert();
-  rotate.rotate_selection(traj,
-    RotationMatrix().axis_angle(axis, 180 - 4.999),
-    &system);
+  rotate.move(traj,
+    RotationMatrix().axis_angle(axis, -4.999),
+    &system,
+    &tsel);
   EXPECT_NEAR(-1., system.energy(), NEAR_ZERO);
 
-  rotate.revert();
-  rotate.rotate_selection(traj,
-    RotationMatrix().axis_angle(axis, 180 - 5.001),
-    &system);
+  rotate.move(traj,
+    RotationMatrix().axis_angle(axis, -0.002),
+    &system,
+    &tsel);
   EXPECT_NEAR(0., system.energy(), NEAR_ZERO);
 }
 

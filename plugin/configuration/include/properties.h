@@ -56,6 +56,9 @@ class Properties {
   /// Return the properties as a human readable string.
   std::string str() const;
 
+  /// Return the number of properties.
+  int num() const { return static_cast<int>(property_value_.size()); }
+
   void serialize(std::ostream& ostr) const;
   Properties(std::istream& istr);
   ~Properties() {} // check(); }
@@ -85,7 +88,7 @@ class PropertiedEntity {
   }
 
   /// Return properties.
-  Properties properties() const { return properties_; }
+  const Properties& properties() const { return properties_; }
 
   /// Return the property value by name.
   double property(const std::string name) const {
@@ -108,7 +111,7 @@ class PropertiedEntity {
   /// Set the properties.
   void set_properties(const Properties& properties,
     /// exclude properties beginning with any characters in exclude
-    std::vector<std::string> exclude);
+    const std::vector<std::string>& exclude);
 
   /// Check the properties.
   virtual void check() const { properties_.check(); }

@@ -1,5 +1,5 @@
-debug
+utils/include/utils
 =====================================================
 
-.. doxygenfile:: debug.h
+.. doxygenfile:: utils/include/utils.h
    :project: FEASST

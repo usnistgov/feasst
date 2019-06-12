@@ -42,6 +42,8 @@ class TrialCrankshaft : public TrialRotate {
     perturb_rotate_->rotate_selection(pivot, rot_mat_, system);
   }
 
+  std::string class_name() const override { return std::string("TrialCrankshaft"); }
+
   virtual ~TrialCrankshaft() {}
 
  private:

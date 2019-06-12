@@ -51,9 +51,8 @@ void VisitModel::compute(
     Configuration * config,
     const int group_index) {
   zero_energy();
-  Position relative;
   const Domain& domain = config->domain();
-  relative.set_vector(domain.side_length().coord());
+  init_relative_(domain, &relative_);
   const Select& selection = config->group_selects()[group_index];
   for (int select1_index = 0;
        select1_index < selection.num_particles() - 1;
@@ -66,7 +65,7 @@ void VisitModel::compute(
       for (int site1_index : selection.site_indices(select1_index)) {
         for (int site2_index : selection.site_indices(select2_index)) {
           inner()->compute(part1_index, site1_index, part2_index, site2_index,
-                           config, model_params, model, &relative);
+                           config, model_params, model, &relative_);
         }
       }
     }
@@ -82,9 +81,8 @@ void VisitModel::compute(
     const int group_index) {
   DEBUG("visiting model");
   zero_energy();
-  Position relative;
   const Domain& domain = config->domain();
-  relative.set_vector(domain.side_length().coord());
+  init_relative_(domain, &relative_);
   const Select& select_all = config->group_selects()[group_index];
   // HWH implement multi-particle selection by sorting group selection
   // for particles that are in both selectiona nd group_index.
@@ -111,7 +109,7 @@ void VisitModel::compute(
             TRACE("index: " << part1_index << " " << part2_index << " " <<
                   site1_index << " " << site2_index);
             inner()->compute(part1_index, site1_index, part2_index, site2_index,
-                             config, model_params, model, &relative);
+                             config, model_params, model, &relative_);
           }
         }
       }

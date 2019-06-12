@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "monte_carlo/include/perturb_translate.h"
+#include "monte_carlo/include/perturb.h"
 
 namespace feasst {
 
@@ -23,19 +23,16 @@ TEST(PerturbTranslate, position) {
   }
   Position trajectory(disp);
   PerturbTranslate perturb;
-  perturb.select_random_particle(0, config);
-  const int particle_index = perturb.selection().particle_index(0);
-  INFO("pi " << particle_index);
-  perturb.translate_selection(trajectory, &system);
+  TrialSelectParticleOfType tsel;
+  tsel.select(&system);
+  perturb.perturb(&system, &tsel);
+  const int particle_index = tsel.mobile().particle_index(0);
 
   // change custom property to test revert
   system.get_configuration()->set_site_property("banana", 2.2, 0, 0);
 
-  for (int dim = 0; dim < static_cast<int>(disp.size()); ++dim) {
-    EXPECT_NEAR(disp[dim], config.particle(particle_index).position().coord(dim), NEAR_ZERO);
-  }
   EXPECT_NEAR(2.2, config.particle(0).site(0).property("banana"), NEAR_ZERO);
-  perturb.revert();
+  perturb.revert(&system);
   for (int dim = 0; dim < static_cast<int>(disp.size()); ++dim) {
     EXPECT_NEAR(0., config.particle(particle_index).position().coord(dim), NEAR_ZERO);
   }

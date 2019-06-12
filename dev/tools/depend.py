@@ -14,12 +14,8 @@ import sys
 import pyfeasst
 
 external_libs=['xdrfile.h', 'xdrfile_xtc.h']
-exclude_plugin=['xtc']
-
-def is_header(file_name):
-  if file_name.endswith(".h"):
-    return True
-  return False
+include_plugin=['utils','math','configuration','system','steppers','monte_carlo','mayer']
+include_plugin=['utils','math','configuration','system','steppers','monte_carlo','mayer','models','patch','example','confinement','chain','flat_histogram','ewald']
 
 def is_header(file_name):
   if file_name.endswith(".h"):
@@ -42,13 +38,16 @@ def dependency(path):
   depends = list()
   headers = list()
   for dir_, _, files in os.walk(path):
-    for fileName in files:
-      relDir = os.path.relpath(dir_, path)
-      relFile = os.path.join(relDir, fileName)
-      if '/include/' in relFile and [d for d in exclude_plugin if d not in relFile]:
-        if is_header(relFile):
-          headers.append(relFile)
-          depends.append([relFile, included(relFile)])
+    if [d for d in include_plugin if d in dir_]:
+      for fileName in files:
+        relDir = os.path.relpath(dir_, path)
+        relFile = os.path.join(relDir, fileName)
+        if '/include/' in relFile and [d for d in include_plugin if d in relFile]:
+          if is_header(relFile):
+            headers.append(relFile)
+            depends.append([relFile, included(relFile)])
+            #print('***************************')
+            #print(relFile, included(relFile))
   # check if the includes are clean
   for dep in depends:
     for dep1 in dep[1]:
@@ -65,6 +64,8 @@ def bubble_sort(depends):
     assert(iteration < 1e4) # something is wrong with the headers
     prev = list()
     bubbling = False
+    #print('************************')
+    #print(depends)
     for index, dep in enumerate(depends):
       prev.append(dep[0])
       buble = 0
@@ -74,6 +75,7 @@ def bubble_sort(depends):
       for idep in dep[1]:
         if idep not in prev:
           buble = 1
+          #print('idep',idep)
       if buble == 1 and not last:
         depends[index], depends[index+1] = depends[index+1], depends[index]
         prev[-1] = depends[index][0]
@@ -129,6 +131,7 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
 %include \"std_shared_ptr.i\"\n\
 %include \"std_iostream.i\"\n\
 %template(IntVector) std::vector<int>;\n\
+%template(IntIntVector) std::vector<std::vector<int> >;\n\
 %template(DoubleVector) std::vector<double>;\n\
 using namespace std;\n\
 %pythonnondynamic;\n\
@@ -145,35 +148,47 @@ using namespace std;\n\
 # write the docs
 with pyfeasst.cd(args.source_dir+'/plugin/'):
   for mod in next(os.walk('.'))[1]:
-    print('mod', mod, 'cd', args.source_dir+'/plugin/')
-    with open(mod+'/doc/toc.rst', 'w') as toc:
-      toc.write('API\n************\n\n.. toctree::\n\n')
-      for dep in deps:
-        header = dep[0]
-        cls = read_class(header)
-        # print('cls', cls)
-        if re.search(mod, header):
-          if cls:
-            doc = mod + '/doc/' + cls[0] + '.rst'
-            toc.write('   ' + cls[0] + '\n')
-          else:
-            funcfile = re.sub(mod+r'/include/', '', re.sub(r'.h$', '', header))
-            if funcfile[:len(mod)] == mod:
-              # print('funcfile', funcfile)
-              doc = mod + '/doc/' + funcfile + '.rst'
+    if [d for d in include_plugin if d in mod]:
+      print('mod', mod, 'cd', args.source_dir+'/plugin/')
+      with open(mod+'/doc/toc.rst', 'w') as toc:
+        toc.write('API\n************\n\n.. toctree::\n\n')
+        for dep in deps:
+          header = dep[0]
+          cls = read_class(header)
+          print('cls', cls, 'header', header)
+          if re.search(mod, header):
+            if cls:
+              if 'utils' in doc:
+                print("hi", doc)
+              doc = mod + '/doc/' + cls[0] + '.rst'
+              toc.write('   ' + cls[0] + '\n')
+            else:
+              funcfile = re.sub(mod+r'/include/', '', re.sub(r'.h$', '', header))
+              print('functfile', funcfile, 'mod', mod)
+              print('funcfile', funcfile)
               toc.write('   ' + funcfile + '\n')
-          with open(doc, 'w') as fle:
-            if cls:
-              fle.write(cls[0]+'\n')
-            else:
-              fle.write(funcfile + '\n')
-            fle.write('=====================================================\n')
-            if cls:
-              for cl in cls:
-                fle.write('\n')
-                fle.write('.. doxygenclass:: feasst::' + cl + '\n')
-                fle.write('   :project: FEASST\n')
-                fle.write('   :members:\n')
-            else:
-                fle.write('\n')
-                fle.write('.. doxygenfile:: ' + funcfile + '.h\n   :project: FEASST\n')
+              if 'include' in funcfile:
+                doc = re.sub(r'include', r'doc', funcfile)
+                if 'rst' not in funcfile:
+                  doc = doc + '.rst'
+              else:
+                #funcfile[:len(mod)] == mod:
+                doc = mod + '/doc/' + funcfile + '.rst'
+                funcfile = mod + '/include/' + funcfile
+              print('doc', doc)
+            with open(doc, 'w') as fle:
+              print('doc', doc)
+              if cls:
+                fle.write(cls[0]+'\n')
+              else:
+                fle.write(funcfile + '\n')
+              fle.write('=====================================================\n')
+              if cls:
+                for cl in cls:
+                  fle.write('\n')
+                  fle.write('.. doxygenclass:: feasst::' + cl + '\n')
+                  fle.write('   :project: FEASST\n')
+                  fle.write('   :members:\n')
+              else:
+                  fle.write('\n')
+                  fle.write('.. doxygenfile:: ' + funcfile + '.h\n   :project: FEASST\n')

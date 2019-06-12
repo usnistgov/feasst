@@ -13,7 +13,8 @@ namespace feasst {
 TEST(MonteCarlo, WLMC) {
   for (int crit_type = 0; crit_type < 2; ++crit_type) {
     MonteCarlo mc = mc_lj();
-    mc.add(MakeTrialTransfer({{"weight", "0.25"}}));
+    mc.add(MakeTrialAdd({{"weight", "0.25"}}));
+    mc.add(MakeTrialRemove({{"weight", "0.25"}}));
     { auto criteria = MakeCriteriaFlatHistogram({
         {"beta", str(1./1.5)},
         {"chemical_potential", "-2.352321"}

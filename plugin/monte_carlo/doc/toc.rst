@@ -5,23 +5,16 @@ API
 
    Tunable
    Stepper
-   Criteria
+   Acceptance
    CriteriaMetropolis
+   TrialSelect
    Perturb
-   Trial
+   Rosenbluth
+   PerturbConfigs
+   TrialStage
    TrialFactory
    Modify
    ModifyFactory
-   Rosenbluth
-   PerturbSelectMove
-   PerturbTranslate
-   PerturbRotate
-   PerturbAdd
-   TrialTransfer
    Analyze
    AnalyzeFactory
    MonteCarlo
-   PerturbConfigs
-   TrialMove
-   TrialRotate
-   TrialTranslate

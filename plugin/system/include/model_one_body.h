@@ -76,6 +76,9 @@ class ModelOneBody : public Model {
       const Configuration * config,
       const ModelParams& model_params) const = 0;
   virtual ~ModelOneBody() {}
+
+ private:
+  using Model::energy;  // remove hidden overloaded virtual function warnings.
 };
 
 }  // namespace feasst

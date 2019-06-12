@@ -88,9 +88,15 @@ double Domain::min_side_length() const {
 }
 
 Position Domain::random_position(Random * random) const {
+  Position position;
+  random_position(&position, random);
+  return position;
+}
+
+void Domain::random_position(Position * position, Random * random) const {
   DEBUG("side_length_ " << side_length_.str());
   ASSERT(!is_tilted(), "implement triclinic");
-  return random->position_in_cuboid(side_length_);
+  return random->position_in_cuboid(side_length_, position);
 }
 
 // HWH note if there are problems with scaled coordinates here, it probably

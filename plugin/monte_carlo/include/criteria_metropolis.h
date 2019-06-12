@@ -14,7 +14,8 @@ class CriteriaMetropolis : public Criteria {
  public:
   CriteriaMetropolis(const argtype &args = argtype()) : Criteria(args) {}
 
-  bool is_accepted(const AcceptanceCriteria accept_criteria) override;
+  bool is_accepted(const Acceptance& acceptance,
+    const System * system) override;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<CriteriaMetropolis>(istr); }

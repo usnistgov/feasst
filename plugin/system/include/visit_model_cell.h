@@ -33,6 +33,10 @@ class VisitModelCell : public VisitModel {
   const std::string class_name_ = "VisitModelCell";
 };
 
+inline std::shared_ptr<VisitModelCell> MakeVisitModelCell() {
+  return std::make_shared<VisitModelCell>();
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_SYSTEM_VISIT_MODEL_CELL_H_

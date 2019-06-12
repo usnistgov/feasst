@@ -28,6 +28,7 @@ class ModelHardSphere : public ModelTwoBody {
     const int type2,
     const ModelParams& model_params) const override {
     const double& sigma = model_params.mixed_sigma()[type1][type2];
+    // INFO("r2 " << squared_distance);
     if (squared_distance <= sigma*sigma) {
       return NEAR_INFINITY;
     }

@@ -57,7 +57,7 @@ Position Matrix::multiply(const Position& vec) const {
 bool Matrix::is_equal(const Matrix& matrix2) const {
   check();
   matrix2.check();
-  if (matrix().size() != matrix2.matrix().size() ||
+  if (matrix().size() != matrix2.matrix().size() or
       matrix()[0].size() != matrix2.matrix()[0].size()) {
     return false;
   }
@@ -131,6 +131,12 @@ RotationMatrix& RotationMatrix::axis_angle(const Position& axis,
   set_value(2, 2, z*z*C + c);
   check();
   return *this;
+}
+
+void RotationMatrix::rotate(const Position& pivot, Position * rotated) const {
+  rotated->subtract(pivot);
+  *rotated = multiply(*rotated);
+  rotated->add(pivot);
 }
 
 }  // namespace feasst

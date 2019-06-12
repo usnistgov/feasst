@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
-#include "monte_carlo/include/trial_rotate.h"
-#include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/trial.h"
 #include "configuration/test/configuration_test.h"
 #include "system/include/system.h"
 #include "system/include/model_lj.h"
@@ -28,7 +27,7 @@ TEST(TrialRotate, spce) {
 
   CriteriaMetropolis criteria;
   criteria.set_beta(1.0);
-  auto rotate = MakeTrialRotate({{"max_move", "90."}});
+  auto rotate = MakeTrialRotate({{"tunable_param", "90."}});
   FileXYZ file;
   file.write("tmp/before", system.configuration());
   rotate->attempt(&criteria, &system);

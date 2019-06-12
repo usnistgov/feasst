@@ -1,4 +1,5 @@
-for f in *; do
+#for f in *; do
+for f in `find . -name '*.cpp' -o -name '*.h'`; do
   #sed 's/get_vector(/coord(/g' $f > ttmp; mv ttmp $f
   #sed 's/get_//g' $f > ttmp; mv ttmp $f
   #sed 's/ "include/ "core\/include/' $f > ttmp; mv ttmp $f
@@ -11,9 +12,9 @@ for f in *; do
   #sed 's/core\/include/system\/include/g' $f > ttmp; mv ttmp $f
   #sed 's/core\/test/system\/test/g' $f > ttmp; mv ttmp $f
 #  sed 's/_STEPPERS_/_MONTE_CARLO_/g' $f > ttmp; mv ttmp $f
-  sed 's/steppers\/include\/analyze/monte_carlo\/include\/analyze/g' $f > ttmp; mv ttmp $f
-  sed 's/steppers\/include\/stepper/monte_carlo\/include\/stepper/g' $f > ttmp; mv ttmp $f
-  sed 's/steppers\/include\/modify/monte_carlo\/include\/modify/g' $f > ttmp; mv ttmp $f
+  sed 's/||/or/g' $f > ttmp; mv ttmp $f
+  sed 's/\&\&/and/g' $f > ttmp; mv ttmp $f
+  rm $f/ttmp
   #sed 's/DomainCuboid/Domain/g' $f > ttmp; mv ttmp $f
 done
 #rename 's/\.cc/\.cpp/' $(find . -type f)

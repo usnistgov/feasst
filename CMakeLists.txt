@@ -6,10 +6,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pg -g") #profile
 
 # manually list the plugins
-#set(FEASST_PLUGINS "system;")
-#set(FEASST_PLUGINS "system;ewald;example;")
-#set(FEASST_PLUGINS "system;ewald;example;confinement;xtc;")
-set(FEASST_PLUGINS "system;ewald;example;confinement;chain;models;patch;flat_histogram;mayer;steppers;math;utils;monte_carlo;configuration")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;flat_histogram;mayer")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;")
 message(${FEASST_PLUGINS})
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")

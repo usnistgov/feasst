@@ -15,7 +15,8 @@ namespace feasst {
  */
 class Position {
  public:
-  /// Constructor
+  Position() {}
+
   Position(
     /**
       x: x-coordinate
@@ -24,7 +25,7 @@ class Position {
 
       z: z-coordinate. Requires explicit y.
      */
-    const argtype& args = argtype());
+    const argtype& args);
 
   /// Initialize coordinates by brace initialized position vector.
   explicit Position(std::vector<double> vec) { coord_ = vec; }
@@ -111,7 +112,6 @@ class Position {
 
  private:
   std::vector<double> coord_;
-  Arguments args_;
 };
 
 /**

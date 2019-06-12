@@ -103,7 +103,7 @@ class ParticleFactory {
   void replace_properties(const int particle_index,
                           const int site_index,
                           const Properties& replacement,
-                          const std::vector<std::string> exclude) {
+                          const std::vector<std::string>& exclude) {
     particles_[particle_index].replace_properties(site_index, replacement, exclude); }
 
   /// Check consistency of dimensionality of positions of particles and sites.
@@ -153,6 +153,14 @@ class ParticleFactory {
       const int particle_index,
       const int site_index) {
     particles_[particle_index].add_site_property(name, value, site_index);
+  }
+
+  /// Add or set the property of sites in a particle.
+  void add_or_set_site_property(const std::string name,
+      const double value,
+      const int particle_index,
+      const int site_index) {
+    particles_[particle_index].add_or_set_site_property(name, value, site_index);
   }
 
   /// Set the property of sites in a particle.

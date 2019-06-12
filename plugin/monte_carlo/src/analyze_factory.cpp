@@ -27,13 +27,23 @@ void AnalyzeFactory::trial(const std::shared_ptr<Criteria> criteria,
   DEBUG("multistate? " << is_multistate() << " class? " << class_name());
   if (is_multistate()) {
     DEBUG("state? " << criteria->state() << " class " << analyzers_[criteria->state()]->class_name());
-    analyzers_[criteria->state()]->trial(criteria, system, trial_factory);
+    trial_(criteria, system, trial_factory, criteria->state());
   } else {
-    for (const std::shared_ptr<Analyze> analyze : analyzers_) {
-      DEBUG(analyze->class_name());
-      analyze->trial(criteria, system, trial_factory);
+    for (int index = 0; index < static_cast<int>(analyzers_.size()); ++index) {
+//    for (const std::shared_ptr<Analyze> analyze : analyzers_) {
+      trial_(criteria, system, trial_factory, index);
     }
   }
+}
+
+void AnalyzeFactory::trial_(const std::shared_ptr<Criteria> criteria,
+    const System& system,
+    const TrialFactory& trial_factory,
+    const int index) {
+  // timer_.start(index + 1);
+  DEBUG(analyzers_[index]->class_name());
+  analyzers_[index]->trial(criteria, system, trial_factory);
+  // timer_.end();
 }
 
 AnalyzeFactory::AnalyzeFactory(std::istream& istr) : Analyze(istr) {

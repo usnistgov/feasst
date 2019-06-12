@@ -26,7 +26,7 @@ class Ewald : public VisitModel {
   Ewald() {}
 
   /// Set all k vectors according to similar size and use symmetry for the x.
-  void set_kmax(const double kmax_squared);
+  void set_kmax_squared(const double kmax_squared);
 
   /// Precompute the wave vectors within cutoff, coefficients, and also resize
   /// the structure factors.
@@ -130,6 +130,10 @@ class Ewald : public VisitModel {
     return 1.0;
   }
 };
+
+inline std::shared_ptr<Ewald> MakeEwald() {
+  return std::make_shared<Ewald>();
+}
 
 }  // namespace feasst
 

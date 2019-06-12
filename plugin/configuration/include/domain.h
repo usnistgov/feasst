@@ -88,7 +88,8 @@ class Domain {
   double volume() const;
 
   /// Return the shift necessary to wrap the position.
-  virtual Position shift(const Position& position) const;
+  // HWH optmize this more.
+  Position shift(const Position& position) const;
 
   /// Wrap the input position.
   void wrap(Position * position) const;
@@ -97,6 +98,9 @@ class Domain {
   /// Require random number generator to keep method constant and prevent
   /// seeding to the same value over and over again.
   Position random_position(Random * random) const;
+
+  /// Optimized verison of the above, which allows update of existing position.
+  void random_position(Position * position, Random * random) const;
 
   /// Return the minimal side length
   double min_side_length() const;

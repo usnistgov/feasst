@@ -1,6 +1,5 @@
 #include "utils/test/utils.h"
-#include "monte_carlo/include/trial_translate.h"
-#include "monte_carlo/include/trial_factory.h"
+#include "mayer/include/trial.h"
 #include "mayer/include/criteria_mayer.h"
 #include "system/test/system_test.h"
 
@@ -11,11 +10,10 @@ TEST(CriteriaMayer, ljb2) {
   // seed_random();
   System system = default_system();
   system.add_to_reference(hs_potential());
-  TrialFactory trials;
-  auto translate = MakeTrialTranslate({{"max_move", "0.5"}});
+  auto translate = MakeTrialTranslateMayer({{"reference_index", "0"}});
+  //auto translate = MakeTrialTranslate({{"tunable_param", "0.5"}});
   /// HWH notes: does this need a max?
   translate->set_weight(0.75);
-  trials.add(translate);
   const int nTrialsEq = 1e4, nTrials = 1e4;
   //const int nTrialsEq = 1e6, nTrials = 1e6;
   Configuration * config = system.get_configuration();
@@ -30,7 +28,7 @@ TEST(CriteriaMayer, ljb2) {
   criteria.set_current_energy(system.energy());
   Random random;
   for (int iTrial = 0; iTrial < nTrialsEq + nTrials; ++iTrial) {
-    trials.attempt(&criteria, &system);
+    translate->attempt(&criteria, &system);
   }
   std::cout << "a " << criteria.second_virial() << std::endl;
   EXPECT_NEAR(-5.3, criteria.second_virial(), 15);

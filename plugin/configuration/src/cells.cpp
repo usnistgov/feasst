@@ -102,7 +102,7 @@ int Cells::id(const std::vector<double>& scaled_coord) const {
     }
     cell += prod;
   }
-  ASSERT( (cell >= 0) && (cell < num_total()),
+  ASSERT( (cell >= 0) and (cell < num_total()),
     "cell(" << cell << ")");
   return cell;
 }

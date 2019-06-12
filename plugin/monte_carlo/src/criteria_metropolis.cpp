@@ -3,10 +3,12 @@
 
 namespace feasst {
 
-bool CriteriaMetropolis::is_accepted(const AcceptanceCriteria accept_criteria) {
-  if ( (accept_criteria.force_rejection != 1) &&
-       (random_.uniform() < exp(accept_criteria.ln_metropolis_prob)) ) {
-    set_current_energy(accept_criteria.energy_new);
+bool CriteriaMetropolis::is_accepted(const Acceptance& acceptance,
+    const System * system) {
+  if ( (!acceptance.reject()) and
+       (random_.uniform() < exp(acceptance.ln_metropolis_prob())) ) {
+    DEBUG("accepted");
+    set_current_energy(acceptance.energy_new());
     return true;
   }
   return false;

@@ -82,6 +82,9 @@ class RotationMatrix : public MatrixThreeByThree {
     /// The angle is in units of degrees.
     const double degree_angle);
 
+  /// Rotate a position given a pivot point.
+  void rotate(const Position& pivot, Position * rotated) const;
+
   /// Check that the derminant of a rotation matrix is unity.
   void check() const override;
 

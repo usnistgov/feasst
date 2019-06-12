@@ -21,7 +21,15 @@ typedef std::map<std::string, argtype> arglist;
  */
 class Arguments {
  public:
+  Arguments() {}
+
+  /**
+    Initialize the arguments using a brace enclosed initializer list.
+   */
   void init(const argtype &args);
+
+  /// Construct via brace enclosed initializer list.
+  Arguments(const argtype &args) { init(args); }
 
   /**
    * Set the argument key (the first in the map/dictionary pair).
@@ -69,7 +77,10 @@ class Arguments {
   /// Print the status of the arguments to human readable string.
   std::string status() const;
 
-  ~Arguments() { check_all_used(); }
+  /// Don't check for unused arguments upon destruction.
+  void dont_check() { check_ = false; }
+
+  ~Arguments() { if (check_) check_all_used(); }
 
  private:
   argtype args_;
@@ -77,6 +88,7 @@ class Arguments {
   std::string default_value_;
   std::vector<std::string> used_keys_;
   bool remove_ = false;
+  bool check_ = true;
 };
 
 }  // namespace feasst

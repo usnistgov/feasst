@@ -12,4 +12,6 @@ class MapAnalyzeRigidBonds {
 
 static MapAnalyzeRigidBonds mapper_ = MapAnalyzeRigidBonds();
 
+AnalyzeRigidBonds::AnalyzeRigidBonds(const argtype &args) : AnalyzeUpdateOnly(args) {}
+
 }  // namespace feasst

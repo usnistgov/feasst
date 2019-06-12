@@ -51,24 +51,23 @@ class System {
     // for when bonded energies, etc come into play,
     // perhaps have energy of full system use reference potentials.
     // this way CB could distinguish external and internal interactions.
-    if (is_optimized_) {
-      return optimized_.energy(&configurations_.front());
-    }
-    return unoptimized_.energy(&configurations_.front());
+    return potentials_()->energy(&configurations_.front());
   }
+
+  double energy(const Select& select) {
+    return potentials_()->energy(select, &configurations_.front());
+  }
+
+  std::vector<double> stored_energy_profile() const {
+    return const_potentials_()->stored_energy_profile();
+  }
+
   double reference_energy(const int index = 0) {
     return reference_(index)->energy(&configurations_.front());
   }
+
   double reference_energy(const Select& select, const int index = 0) {
     return reference_(index)->energy(select, &configurations_.front());
-  }
-
-
-  double energy(const Select& select) {
-    if (is_optimized_) {
-      return optimized_.energy(select, &configurations_.front());
-    }
-    return unoptimized_.energy(select, &configurations_.front());
   }
 
   void add(const Potential& potential) { add_to_unoptimized(potential); }
@@ -77,7 +76,7 @@ class System {
     is_optimized_ = true;
     optimized_.add_potential(potential); }
   void add_to_reference(const Potential& ref, const int index = 0) {
-    if (index == 0 && references_.size() == 0) {
+    if (index == 0 and references_.size() == 0) {
       references_.push_back(PotentialFactory());
     }
     reference_(index)->add_potential(ref);
@@ -103,6 +102,8 @@ class System {
   const std::vector<PotentialFactory> references() const { return references_; }
   const Potential& reference(const int ref, const int potential) const {
     return references_[ref].potentials()[potential]; }
+  const Potential& potential(const int index) const {
+    return unoptimized_.potentials()[index]; }
 
   void serialize(std::ostream& sstr) const {
     feasst_serialize_version(1, sstr);
@@ -133,6 +134,20 @@ class System {
     ASSERT(index < static_cast<int>(references_.size()),
       "unrecognized reference");
     return &references_[index];
+  }
+
+  PotentialFactory * potentials_() {
+    if (is_optimized_) {
+      return &optimized_;
+    }
+    return &unoptimized_;
+  }
+
+  const PotentialFactory * const_potentials_() const {
+    if (is_optimized_) {
+      return &optimized_;
+    }
+    return &unoptimized_;
   }
 };
 

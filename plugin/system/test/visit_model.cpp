@@ -7,6 +7,7 @@
 #include "configuration/include/file_xyz.h"
 #include "system/include/physical_constants.h"
 #include "system/include/select_list.h"
+#include "system/include/model_two_body_factory.h"
 #include "system/test/system_test.h"
 
 namespace feasst {
@@ -41,7 +42,7 @@ TEST(VisitModel, energy) {
   EXPECT_EQ(0, config.particle(0).site(0).position().coord(0));
   EXPECT_EQ(3, config.particle(1).site(0).position().coord(0));
 
-  EXPECT_EQ(config.particle(1).position().coord(0), 3);
+  EXPECT_EQ(3, config.particle(1).position().coord(0));
   model.compute(select, &config, &visit);
   EXPECT_NEAR(en_lj(2.), visit.energy(), NEAR_ZERO);
   select.particle(0, config);

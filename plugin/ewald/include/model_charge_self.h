@@ -36,8 +36,8 @@ class ModelChargeSelf : public ModelOneBody {
 
   void serialize(std::ostream& ostr) const override {
     ostr << class_name_ << " ";
-    feasst_serialize(alpha_, ostr);
     feasst_serialize_version(1, ostr);
+    feasst_serialize(alpha_, ostr);
   }
 
   ModelChargeSelf(std::istream& istr) {

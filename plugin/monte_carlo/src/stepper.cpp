@@ -58,7 +58,7 @@ void Stepper::set_state(const int state) {
   state_ = state;
   if (!file_name_.empty()) {
     std::stringstream ss;
-    ss << file_name_ << "_state" << state;
+    ss << "state" << state << "_" << file_name_;
     file_name_ = ss.str();
   }
 }

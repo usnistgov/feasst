@@ -5,7 +5,7 @@ namespace feasst {
 
 bool Macrostate::is_in_range(const System* system, const Criteria* criteria) {
   const double val = value(system, criteria);
-  if (val <= histogram_.max() &&
+  if (val <= histogram_.max() and
       val >= histogram_.min()) {
     return true;
   }

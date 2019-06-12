@@ -6,11 +6,13 @@
 
 namespace feasst {
 
+/**
+  Periodically print the status of the Criteria and Trials, typically in a
+  one line format with header.
+ */
 class Log : public AnalyzeWriteOnly {
  public:
-  Log(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {
-    set_append();
-  }
+  Log(const argtype& args = argtype());
   void initialize(const std::shared_ptr<Criteria> criteria,
       const System& system,
       const TrialFactory& trial_factory) override {

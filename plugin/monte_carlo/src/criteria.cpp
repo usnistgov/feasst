@@ -74,7 +74,15 @@ std::shared_ptr<Criteria> Criteria::create(std::istream& istr) const {
 std::shared_ptr<Criteria> Criteria::deserialize(std::istream& istr) {
   return template_deserialize(deserialize_map(), istr);
 }
-  
+
+void Criteria::serialize_criteria_(std::ostream& ostr) const {
+  feasst_serialize_version(1, ostr);
+  feasst_serialize(beta_, ostr);
+  feasst_serialize(beta_initialized_, ostr);
+  feasst_serialize(chemical_potentials_, ostr);
+  feasst_serialize(current_energy_, ostr);
+}
+
 Criteria::Criteria(std::istream& istr) {
   feasst_deserialize_version(istr);
   feasst_deserialize(&beta_, istr);

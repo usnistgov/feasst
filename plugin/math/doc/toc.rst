@@ -3,11 +3,13 @@ API
 
 .. toctree::
 
-   Accumulator
-   Position
+   constants
+   utils_math
    Formula
+   FormulaPolynomial
    FormulaExponential
    Histogram
-   FormulaPolynomial
-   Random
+   Position
    Matrix
+   Accumulator
+   Random

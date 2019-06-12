@@ -11,4 +11,8 @@ class MapLog {
 
 static MapLog mapper_ = MapLog();
 
+Log::Log(const argtype& args) : AnalyzeWriteOnly(args) {
+  set_append();
+}
+
 }  // namespace feasst

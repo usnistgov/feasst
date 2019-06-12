@@ -8,15 +8,79 @@
 
 namespace feasst {
 
-// This is the information passed from the system to the acceptance criteria in
-// order to determine whether to accept or reject the trial.
-struct AcceptanceCriteria {
-  double ln_metropolis_prob = 0.;
-  double energy_new = 0.;
-  double energy_new_select = 0.;
-  int force_rejection = 0;
-  System* system = NULL;
-  int accepted = -1;
+/*
+  This object contains information necessary for Criteria to make a decision on
+  whether or not to accept or reject a trial.
+ */
+class Acceptance {
+ public:
+  Acceptance() { reset(); }
+
+  /// Return the natural logarithm of the Metropolis acceptance probability.
+  double ln_metropolis_prob() const { return ln_metropolis_prob_; }
+
+  /// Set the above quantity.
+  void set_ln_metropolis_prob(const double prob = 0.) {
+    ln_metropolis_prob_ = prob; }
+
+  /// Add to the above quantity.
+  void add_to_ln_metropolis_prob(const double prob = 0.) {
+    ln_metropolis_prob_ += prob; }
+
+  /// Return whether or not to reject the trial outright.
+  bool reject() const { return reject_; }
+
+  /// Set the above quantity.
+  void set_reject(const bool reject = false) {
+    reject_ = reject; }
+
+  /// Reset all stored quantities before each trial.
+  void reset() {
+    set_ln_metropolis_prob();
+    set_reject();
+    energy_new_ = 0.;
+    energy_old_ = 0.;
+    macrostate_shift_ = 0;
+  }
+
+  /// Return the energy of the new configuration.
+  double energy_new() const { return energy_new_; }
+
+  /// Set the above quantity.
+  void set_energy_new(const double energy) { energy_new_ = energy; }
+
+  /// Add to the above quantity.
+  void add_to_energy_new(const double energy) { energy_new_ += energy; }
+
+  /// Return the energy of the old configuration.
+  double energy_old() const { return energy_old_; }
+
+  /// Set the above quantity.
+  void set_energy_old(const double energy) { energy_old_ = energy; }
+
+  /// Return the above quantity.
+  void add_to_energy_old(const double energy) { energy_old_ += energy; }
+
+  /// Return the energy of the reference.
+  double energy_ref() const { return energy_ref_; }
+
+  /// Set the above quantity.
+  void set_energy_ref(const double energy) { energy_ref_ = energy; }
+
+  /// Return the shift in the macrostate due to an optimization where
+  /// Perturb does not completely update system until finalize.
+  int macrostate_shift() const { return macrostate_shift_; }
+
+  /// Set the above.
+  void set_macrostate_shift(const int shift) { macrostate_shift_ = shift; }
+
+ private:
+  double ln_metropolis_prob_;
+  double energy_new_;
+  double energy_old_;
+  double energy_ref_;
+  int macrostate_shift_;
+  bool reject_;
 };
 
 /**
@@ -62,7 +126,8 @@ class Criteria {
   virtual void before_attempt(const System* system) {}
 
   /// Return whether or not the trial attempt should be accepted.
-  virtual bool is_accepted(const AcceptanceCriteria accept_criteria) = 0;
+  virtual bool is_accepted(const Acceptance& acceptance_,
+    const System * system) = 0;
 
   /// Set the current total energy based on energy changes per trial in order
   /// to avoid recomputation of the energy of the entire configuration.
@@ -101,13 +166,7 @@ class Criteria {
 
  protected:
   Arguments args_;
-  void serialize_criteria_(std::ostream& ostr) const {
-    feasst_serialize_version(1, ostr);
-    feasst_serialize(beta_, ostr);
-    feasst_serialize(beta_initialized_, ostr);
-    feasst_serialize(chemical_potentials_, ostr);
-    feasst_serialize(current_energy_, ostr);
-  }
+  void serialize_criteria_(std::ostream& ostr) const;
 
  private:
   double beta_;

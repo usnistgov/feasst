@@ -101,7 +101,7 @@ class Particle : public TypedEntity, public SpatialEntity {
   /// Replace the properties of site by index.
   void replace_properties(const int site_index,
       const Properties& replacement,
-      const std::vector<std::string> exclude) {
+      const std::vector<std::string>& exclude) {
     sites_[site_index].set_properties(replacement, exclude); }
 
   /// Add the property of a site.
@@ -109,6 +109,13 @@ class Particle : public TypedEntity, public SpatialEntity {
       const double value,
       const int site_index) {
     sites_[site_index].add_property(name, value);
+  }
+
+  /// Add or set the property of a site.
+  void add_or_set_site_property(const std::string name,
+      const double value,
+      const int site_index) {
+    sites_[site_index].add_or_set_property(name, value);
   }
 
   /// Set the property of a site.

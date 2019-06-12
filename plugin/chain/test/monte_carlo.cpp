@@ -1,12 +1,7 @@
 #include <memory>
 #include "utils/test/utils.h"
-#include "monte_carlo/include/trial_translate.h"
-#include "monte_carlo/include/trial_rotate.h"
-#include "chain/include/trial_pivot.h"
-#include "chain/include/trial_crankshaft.h"
-#include "chain/include/trial_regrow.h"
-#include "chain/include/trial_reptate.h"
-#include "monte_carlo/include/trial_transfer.h"
+#include "monte_carlo/include/trial.h"
+#include "chain/include/trial.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/criteria_metropolis.h"
 #include "utils/include/utils_io.h"
@@ -19,6 +14,7 @@
 #include "steppers/include/movie.h"
 #include "steppers/include/tuner.h"
 #include "steppers/include/check.h"
+#include "steppers/include/check_energy.h"
 #include "chain/include/analyze_rigid_bonds.h"
 
 namespace feasst {
@@ -81,43 +77,42 @@ System chain_system() {
 
 TEST(MonteCarlo, chain) {
   seed_random_by_date();
-  // seed_random(1553020283);
+//  seed_random(1558446617);
+//  seed_random(1558448907);
+//  seed_random(1558451183);
   MonteCarlo mc;
   mc.set(chain_system());
   mc.set(MakeCriteriaMetropolis({{"beta", "0.8"}, {"chemical_potential", "1."}}));
   mc.seek_num_particles(2);
-  mc.add(MakeTrialTranslate({{"weight", "1."}, {"max_move", "1."}}));
-  mc.add(MakeTrialRotate({{"weight", "1."}, {"max_move", "20."}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "20."}}));
   mc.add(MakeTrialPivot({
     {"weight", "1."},
-    {"max_move", "20."},
+    {"tunable_param", "20."},
     {"max_length", "30"},
   }));
-  mc.add(MakeTrialReptate({{"weight", "1."}}));
+//  mc.add(MakeTrialReptate({{"weight", "1."}}));
   mc.add(MakeTrialCrankshaft({
     {"weight", "1."},
-    {"max_move", "25."},
+    {"tunable_param", "25."},
     {"max_length", "5."},
   }));
-  mc.add(MakeTrialRegrow({
-    {"weight", "0.1"},
-    {"num_steps", "5"},
-    {"reference", "0"},
-    {"max_length", "5"},
-  }));
+//  mc.add(MakeTrialRegrow({
+//    {"weight", "0.1"},
+//    {"num_steps", "5"},
+//    {"reference", "0"},
+//    {"max_length", "5"},
+//  }));
   const int steps_per = 1e2;
   mc.add(MakeLog({
     {"steps_per", str(steps_per)},
-    // {"steps_per", "1"},
     {"file_name", "tmp/chainlog.txt"},
   }));
   mc.add(MakeMovie({
-    // {"steps_per", "1"},
     {"steps_per", str(steps_per)},
     {"file_name", "tmp/chain10movie.xyz"},
   }));
-  mc.add(MakeEnergyCheck({
-    // {"steps_per", "1"},
+  mc.add(MakeCheckEnergy({
     {"steps_per", str(steps_per)},
     {"tolerance", "1e-10"},
   }));
@@ -125,7 +120,6 @@ TEST(MonteCarlo, chain) {
   mc.add(MakeAnalyzeRigidBonds({{"steps_per", str(steps_per)}}));
   mc.attempt(1e3);
 
-  // INFO(ss.str());
   MonteCarlo mc2 = test_serialize(mc);
   EXPECT_EQ(mc2.analyzers().size(), 3);
 }

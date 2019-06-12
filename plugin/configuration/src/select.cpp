@@ -62,18 +62,21 @@ bool Select::is_empty() const {
 
 //int Select::random_particle_index(const Particles& particles) {
 //  ASSERT(particles.num() > 0, "size error");
-//  return static_cast<int>(particles.num() * random_.uniform());
+//  return static_cast<int>(particles.num() * random()->uniform());
 //}
 
-int Select::num_sites() const {
-  return num_elements(site_indices_);
+int Select::num_sites(const int particle_index) const {
+  if (particle_index == -1) {
+    return num_elements(site_indices_);
+  }
+  return static_cast<int>(site_indices_[particle_index].size());
 }
 
 Select Select::random_particle() {
   Select select;
   if (num_particles() > 0) {
     int select_index;
-    const int particle_index = random_.element(particle_indices_,
+    const int particle_index = random()->element(particle_indices_,
                                                &select_index);
     DEBUG("num " << num_particles());
     DEBUG("index " << particle_index);
@@ -88,7 +91,7 @@ void Select::reduce_to_random_particle() {
   if (num_particles() <=0) {
     return;
   }
-  const int particle_index = random_.element(particle_indices_);
+  const int particle_index = random()->element(particle_indices_);
   const std::vector<int> sites = site_indices_[particle_index];
   clear();
   particle_indices_.push_back(particle_index);
@@ -169,9 +172,9 @@ bool Select::is_equivalent(const Select& select) {
   if (site_indices_ != select.site_indices()) {
     equal = false;
   }
-  if (unique_id_ != select.unique_id()) {
-    equal = false;
-  }
+//  if (unique_id_ != select.unique_id()) {
+//    equal = false;
+//  }
   return equal;
 }
 
@@ -189,7 +192,7 @@ void Select::serialize(std::ostream& sstr) const {
   feasst_serialize_version(1, sstr);
   feasst_serialize(particle_indices_, sstr);
   feasst_serialize(site_indices_, sstr);
-  feasst_serialize(unique_id_, sstr);
+  // feasst_serialize(unique_id_, sstr);
   feasst_serialize(trial_state_, sstr);
   feasst_serialize(excluded_, sstr);
   feasst_serialize(new_bond_, sstr);
@@ -200,7 +203,7 @@ Select::Select(std::istream& sstr) {
   feasst_deserialize_version(sstr);
   feasst_deserialize(&particle_indices_, sstr);
   feasst_deserialize(&site_indices_, sstr);
-  feasst_deserialize(&unique_id_, sstr);
+  // feasst_deserialize(&unique_id_, sstr);
   feasst_deserialize(&trial_state_, sstr);
   feasst_deserialize(excluded_, sstr);
   feasst_deserialize(new_bond_, sstr);

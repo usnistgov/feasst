@@ -16,8 +16,7 @@ void VisitModelCell::compute(
   const Domain& domain = config->domain();
   ASSERT(cell_index < static_cast<int>(domain.cells().size()), "index error");
   const Cells& cells = domain.cells()[cell_index];
-  Position relative;
-  relative.set_vector(domain.side_length().coord());
+  init_relative_(domain, &relative_);
 
   /** Loop index nomenclature
     ends in 1 or 2 to represent the pair
@@ -47,7 +46,7 @@ void VisitModelCell::compute(
               for (int site1_index : select1.site_indices(select1_index)) {
                 for (int site2_index : select2.site_indices(select2_index)) {
                   inner()->compute(part1_index, site1_index, part2_index, site2_index,
-                                   config, model_params, model, &relative);
+                                   config, model_params, model, &relative_);
                 }
               }
             }
@@ -72,7 +71,7 @@ void VisitModelCell::compute(
           for (int site1_index : select.site_indices(select1_index)) {
             for (int site2_index : select.site_indices(select2_index)) {
               inner()->compute(part1_index, site1_index, part2_index, site2_index,
-                               config, model_params, model, &relative);
+                               config, model_params, model, &relative_);
             }
           }
         }
@@ -93,8 +92,7 @@ void VisitModelCell::compute(
   const Domain& domain = config->domain();
   ASSERT(cell_index < static_cast<int>(domain.cells().size()), "were cells not initialized?");
   const Cells& cells = domain.cells()[cell_index];
-  Position relative;
-  relative.set_vector(domain.side_length().coord());
+  init_relative_(domain, &relative_);
   std::stringstream ss;
   ss << "cell" << cell_index;
   const std::string cell_label = ss.str();
@@ -119,7 +117,7 @@ void VisitModelCell::compute(
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                    site1_index << " " << site2_index);
               inner()->compute(part1_index, site1_index, part2_index, site2_index,
-                               config, model_params, model, &relative);
+                               config, model_params, model, &relative_);
             }
           }
         }
