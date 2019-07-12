@@ -22,7 +22,8 @@ namespace feasst {
 Configuration config() {
   Configuration config({
     {"cubic_box_length", "12"},
-    {"particle_type0", "../plugin/chain/forcefield/data.chain50"},
+    {"particle_type0", "../forcefield/data.chain10"},
+    //{"particle_type0", "../plugin/chain/forcefield/data.chain50"},
     {"init_cells", "1."},
   });
   config.add_particle_of_type(0);
@@ -77,33 +78,49 @@ System chain_system() {
 
 TEST(MonteCarlo, chain) {
   seed_random_by_date();
-//  seed_random(1558446617);
-//  seed_random(1558448907);
-//  seed_random(1558451183);
+  // seed_random(1560441809);
   MonteCarlo mc;
   mc.set(chain_system());
-  mc.set(MakeCriteriaMetropolis({{"beta", "0.8"}, {"chemical_potential", "1."}}));
+  mc.set(MakeCriteriaMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));
   mc.seek_num_particles(2);
-  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "20."}}));
+  mc.add(MakeTrialTranslate({
+    {"weight", "1."},
+    {"tunable_param", "1."},
+    {"reference_index", "0"},
+    {"num_steps", "2"},
+  }));
+  mc.add(MakeTrialRotate({
+    {"weight", "1."},
+    {"tunable_param", "20."},
+    {"reference_index", "0"},
+    {"num_steps", "2"},
+  }));
   mc.add(MakeTrialPivot({
     {"weight", "1."},
     {"tunable_param", "20."},
     {"max_length", "30"},
+    {"reference_index", "0"},
+    {"num_steps", "2"},
   }));
-//  mc.add(MakeTrialReptate({{"weight", "1."}}));
+  mc.add(MakeTrialReptate({
+    {"weight", "1."},
+//    {"reference_index", "0"},
+//    {"num_steps", "2"},
+  }));
   mc.add(MakeTrialCrankshaft({
     {"weight", "1."},
     {"tunable_param", "25."},
     {"max_length", "5."},
+    {"reference_index", "0"},
+    {"num_steps", "2"},
   }));
-//  mc.add(MakeTrialRegrow({
-//    {"weight", "0.1"},
-//    {"num_steps", "5"},
-//    {"reference", "0"},
-//    {"max_length", "5"},
+//  mc.add(MakeTrialRegrowLinear({
+////    {"weight", "0.1"},
+//    {"num_steps", "1"},
+////    {"reference", "0"},
+////    {"max_length", "5"},
 //  }));
-  const int steps_per = 1e2;
+  const int steps_per = 1e0;
   mc.add(MakeLog({
     {"steps_per", str(steps_per)},
     {"file_name", "tmp/chainlog.txt"},
@@ -118,7 +135,7 @@ TEST(MonteCarlo, chain) {
   }));
   mc.add(MakeTuner({{"steps_per", str(steps_per)}}));
   mc.add(MakeAnalyzeRigidBonds({{"steps_per", str(steps_per)}}));
-  mc.attempt(1e3);
+  mc.attempt(3e2);
 
   MonteCarlo mc2 = test_serialize(mc);
   EXPECT_EQ(mc2.analyzers().size(), 3);

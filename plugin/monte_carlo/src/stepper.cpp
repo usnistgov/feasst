@@ -40,6 +40,7 @@ bool Stepper::is_time(const int steps_per, int * steps_since) {
 }
 
 void Stepper::printer(const std::string output) {
+  DEBUG("filename? " << file_name_);
   if (file_name_.empty()) {
     std::cout << output;
   } else {

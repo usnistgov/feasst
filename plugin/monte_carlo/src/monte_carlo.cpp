@@ -21,7 +21,7 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
     }
     analyze = multi;
   }
-  analyze->initialize(criteria_, system_, trial_factory_);
+  analyze->initialize(criteria_.get(), system_, trial_factory_);
   DEBUG("mults " << analyze->is_multistate() << " class name? " << analyze->class_name());
   analyze_factory_.add(analyze);
 }

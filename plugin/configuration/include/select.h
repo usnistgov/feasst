@@ -33,6 +33,16 @@ class Select {
   /// Add site by index.
   virtual void add_site(const int particle_index, const int site_index);
 
+  /// Set site by index
+  void set_site(const int particle_index, const int site_index, const int index) {
+    site_indices_[particle_index][site_index] = index;
+  }
+
+  /// Set particle by index
+  void set_particle(const int particle_index, const int index) {
+    particle_indices_[particle_index] = index;
+  }
+
   /// Add sites by index.
   void add_sites(const int particle_index,
                  const std::vector<int> site_indices);
@@ -138,11 +148,13 @@ class Select {
   bool is_equivalent(const Select& select);
 
   /// Possible states:
-  /// old -> configuration unchanged from previously accepted state
-  /// add -> added new particles/sites listed in selection
-  /// move -> moved selected particles but total numbers unchanged
-  void set_trial_state(std::string state) { trial_state_ = state; }
-  std::string trial_state() const { return trial_state_; }
+  /// 0 -> old -> configuration unchanged from previously accepted state
+  /// 1 -> move -> moved selected particles but total numbers unchanged
+  /// 2 -> add -> added new particles/sites listed in selection
+  int trial_state() const { return trial_state_; }
+
+  /// Set the trial state.
+  void set_trial_state(const int state) { trial_state_ = state; }
 
 //  virtual void reverse() {
 //    feasst_reverse(&particle_indices_);
@@ -172,7 +184,14 @@ class Select {
       old_bond_->add(select);
     }
   }
+
   const std::shared_ptr<Select> old_bond() const { return old_bond_; }
+
+  void reset_excluded_and_bond() {
+    excluded_.reset();
+    new_bond_.reset();
+    old_bond_.reset();
+  }
 
   /// Replace current indices with those given. Return true if replace is done
   /// quickly due to match in existing size.
@@ -228,7 +247,7 @@ class Select {
   std::vector<std::vector<int> > site_indices_;
   std::shared_ptr<Random> random_;
   // std::string unique_id_;
-  std::string trial_state_;
+  int trial_state_ = -1;
   std::shared_ptr<Select> excluded_;
   std::shared_ptr<Select> new_bond_;
   std::shared_ptr<Select> old_bond_;

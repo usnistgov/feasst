@@ -62,6 +62,7 @@ class VisitModelInner {
  private:
   const std::string class_name_ = "VisitModelInner";
   double energy_ = 0.;
+  double squared_distance_;
 };
 
 /**

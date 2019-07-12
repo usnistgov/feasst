@@ -1,0 +1,65 @@
+import sys
+import unittest
+import feasst
+sys.path.insert(0, feasst.install_dir() + '/plugin/monte_carlo/py') # lj directory
+import lj
+
+class TestSystemLJ(unittest.TestCase):
+    def test_two_particle(self):
+        feasst.seed_random_by_date()
+        feasst.seed_random()
+        #system = lj.system(box_length=10, num=2)
+        config = feasst.Configuration(feasst.args(
+            {"cubic_box_length": "10",
+             "particle_type": feasst.install_dir() + "/forcefield/data.lj"}))
+        config.add_particle_of_type(0)
+        config.add_particle_of_type(0)
+        system = feasst.System()
+        system.add(config)
+        system.add(feasst.Potential(feasst.MakeModelLJ()))
+        system.add(feasst.Potential(feasst.MakeLongRangeCorrections()))
+
+        self.assertEqual(2, system.configuration().num_particles())
+        self.assertAlmostEqual(0,
+            system.configuration().particle(0).site(0).position(0))
+        self.assertAlmostEqual(0,
+            system.configuration().particle(1).site(0).position(0))
+
+        select = feasst.TrialSelectParticle()
+        select.select(system)
+        self.assertEqual(1, select.mobile().num_sites())
+        print("particle", select.mobile().particle_index(0))
+        place = feasst.PerturbTranslate()
+        print("pos",
+            system.configuration().particle(0).site(0).position(0),
+            system.configuration().particle(1).site(0).position(0)
+        )
+        print(system)
+        print("config", system.configuration(), system.get_configuration())
+        place.move(
+            feasst.Position(feasst.args({"x": "1.234", "y": "0", "z": "0"})),
+        #place.perturb(
+            system,
+            select
+        )
+        print(system)
+        self.assertEqual(2, system.configuration().num_particles())
+        print("pos",
+            system.configuration().particle(0).site(0).position(0),
+            system.configuration().particle(1).site(0).position(0),
+            system.configuration().particle(0).position(0),
+            system.configuration().particle(1).position(0)
+        )
+        self.assertNotEqual(
+            system.configuration().particle(0).site(0).position(0),
+            system.configuration().particle(1).site(0).position(0)
+        )
+        self.assertEqual(1,
+            system.configuration().particle(0).site(0).position(0) +
+            system.configuration().particle(1).site(0).position(0)
+        )
+        system.energy()
+        print("energy:", system.potential(0).stored_energy())
+
+if __name__ == "__main__":
+    unittest.main()

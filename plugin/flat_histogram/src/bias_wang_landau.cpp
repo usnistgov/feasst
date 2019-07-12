@@ -19,6 +19,7 @@ void BiasWangLandau::flatness_update_() {
   DEBUG(feasst_str(visited_states_));
   std::fill(visited_states_.begin(), visited_states_.end(), 0);
   add_to_ln_probability_ *= reduce_ln_probability_;
+  DEBUG("add_to_ln_probability_ " << add_to_ln_probability_);
   ++num_flatness_;
   ln_macro_prob_.normalize();
   if (num_flatness_ >= min_flatness_) {

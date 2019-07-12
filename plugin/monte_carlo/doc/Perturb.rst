@@ -28,3 +28,7 @@ Perturb
 .. doxygenclass:: feasst::PerturbRemove
    :project: FEASST
    :members:
+
+.. doxygenclass:: feasst::PerturbDistanceFromAnchor
+   :project: FEASST
+   :members:

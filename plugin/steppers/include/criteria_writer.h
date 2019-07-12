@@ -12,7 +12,7 @@ namespace feasst {
 class CriteriaWriter : public AnalyzeWriteOnly {
  public:
   CriteriaWriter(const argtype &args = argtype());
-  std::string write(const std::shared_ptr<Criteria> criteria,
+  std::string write(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
     // ensure the following order matches the header from initialization.

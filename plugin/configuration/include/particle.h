@@ -62,6 +62,10 @@ class Particle : public TypedEntity, public SpatialEntity {
   /// Return true if the particle is isotropic (e.g., 1 or less sites)
   bool is_isotropic();
 
+  /// Set a site as physical/nonphysical.
+  void set_site_physical(const int site, const bool physical) {
+    sites_[site].set_physical(physical); }
+
   /// Check that the dimensionality of the site and particle positions match.
   void check();
 

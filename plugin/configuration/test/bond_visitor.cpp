@@ -8,7 +8,7 @@ TEST(BondVisitor, spce) {
   Configuration config = spce_sample();
   EXPECT_EQ(2, config.particle_type(0).num_bonds());
   EXPECT_EQ(1, config.unique_type(0).num_bonds());
-  EXPECT_NEAR(1., config.unique_type(0).bond(0).property("l0"), NEAR_ZERO);
+  EXPECT_NEAR(1., config.unique_type(0).bond(0).property("length"), NEAR_ZERO);
   BondVisitor visitor;
   BondSquareWell model;
   visitor.compute(model, config);

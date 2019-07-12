@@ -95,7 +95,7 @@ void Ewald::update_eik(const Select& selection, Configuration * config) {
   const double twopilx = 2.*PI/lx,
                twopily = 2.*PI/ly,
                twopilz = 2.*PI/lz;
-  if (selection.trial_state() == "add") {
+  if (selection.trial_state() == 2) {
     init_wave_vector_storage(config, selection);
   }
   for (int select_index = 0;
@@ -119,7 +119,7 @@ void Ewald::update_eik(const Select& selection, Configuration * config) {
       const int eikiz0_index = eikiy0_index + kymax_;
 //        INFO(eikrx0_index << " " << eikry0_index << " " << eikrz0_index << " "
 //          << eikix0_index << " " << eikiy0_index << " " << eikiz0_index);
-      if (selection.trial_state() != "old") {
+      if (selection.trial_state() != 0) {
         config->set_site_property(eikrx0_index, 1., part_index, site_index);
         config->set_site_property(eikix0_index, 0., part_index, site_index);
         config->set_site_property(eikry0_index, 1., part_index, site_index);

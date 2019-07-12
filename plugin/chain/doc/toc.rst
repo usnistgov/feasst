@@ -4,6 +4,6 @@ API
 .. toctree::
 
    AnalyzeRigidBonds
-   TrialSelectSegment
    PerturbPivot
+   TrialSelectSegment
    TrialPivot

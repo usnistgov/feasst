@@ -11,9 +11,14 @@ TEST(Accumulator, constructor) {
   EXPECT_NEAR(-NEAR_INFINITY, a.max(), 1);
   EXPECT_NEAR(NEAR_INFINITY, a.min(), 1);
 
+  try {
+    a.last_value();
+    CATCH_PHRASE("no values accumul");
+  }
   for (int i = 0; i < 20; ++i) {
     a.accumulate(i);
   }
+  EXPECT_EQ(19, a.last_value());
   EXPECT_EQ(20, a.num_values());
   EXPECT_NEAR(19/2., a.average(), NEAR_ZERO);
   EXPECT_NEAR(5.916079783, a.std(), 1e-10);

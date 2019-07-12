@@ -27,7 +27,8 @@ TEST(TrialRotate, spce) {
 
   CriteriaMetropolis criteria;
   criteria.set_beta(1.0);
-  auto rotate = MakeTrialRotate({{"tunable_param", "90."}});
+  auto rotate = MakeTrialRotate({{"tunable_param", "90."}, {"weight", "0.5"}});
+  EXPECT_EQ(0.5, rotate->weight());
   FileXYZ file;
   file.write("tmp/before", system.configuration());
   rotate->attempt(&criteria, &system);

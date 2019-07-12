@@ -76,8 +76,8 @@ Select Select::random_particle() {
   Select select;
   if (num_particles() > 0) {
     int select_index;
-    const int particle_index = random()->element(particle_indices_,
-                                               &select_index);
+    const int particle_index = random()->const_element(particle_indices_,
+                                                       &select_index);
     DEBUG("num " << num_particles());
     DEBUG("index " << particle_index);
     const std::vector<int> sites = site_indices_[select_index];
@@ -91,7 +91,7 @@ void Select::reduce_to_random_particle() {
   if (num_particles() <=0) {
     return;
   }
-  const int particle_index = random()->element(particle_indices_);
+  const int particle_index = random()->const_element(particle_indices_);
   const std::vector<int> sites = site_indices_[particle_index];
   clear();
   particle_indices_.push_back(particle_index);

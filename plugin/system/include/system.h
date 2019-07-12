@@ -4,124 +4,124 @@
 
 #include <vector>
 #include <memory>
-#include <string>
-#include "utils/include/debug.h"
 #include "configuration/include/configuration.h"
-#include "system/include/visit_model.h"
-#include "system/include/model_empty.h"
-#include "math/include/constants.h"
 #include "system/include/potential_factory.h"
 
 namespace feasst {
 
 /**
-  Systems may have multiple configurations but their typing and grouping should be the same.
-  This way we can enforce typing.
-  Allow duplication of configuration.
-  Or maybe this should be done in the configuration class itself?
+  System is a facade design pattern in order to constrain and/or simplify
+  the interface with multiple configurations and multiple lists of potentials.
+  The typing and grouping of multiple configurations should be the same.
+  There are three types of potentials.
 
-    The first potential is the system without optimizations
-    The second potential is the system with optimizations
-    The remaining potentials are used for cheap energy calculations in configurational bias
-    They can also be used for reference calculations (e.g., hard sphere mayer sampling)
+  1. The first is without optimizations.
+
+  2. The second is with optimizations, which may be periodically compared
+     with the first.
+
+  3. The remaining potentials are used for reference.
+     For example, cheap energy calculations in dual-cut configurational bias.
+     Also Mayer-sampling.
  */
 class System {
  public:
   System() {}
 
-  /// Set the configuration.
-  void add(const Configuration& configuration) { configurations_.push_back(configuration); }
+  /** @name Configurations
+    Store and retrieve a list of configurations. */
+  //@{
+
+  /// Add a configuration.
+  void add(const Configuration& configuration);
 
   /// Return the configuration
-  const Configuration& configuration(const int index = 0) const { return configurations_[index]; }
-  Configuration* get_configuration(const int index = 0) { return &configurations_[index]; }
+  const Configuration& configuration(const int config = 0) const;
 
-  int dimension(const int config_index = 0) const {
-    const int dim = configurations_[0].dimension();
-    for (const Configuration& config : configurations_) {
-      ASSERT(dim == config.dimension(), "dimensions of configs do not match");
-    }
-    return dim;
-  }
+  /// Get the configuration as a pointer.
+  /// This interface is to be avoided if possible.
+  Configuration* get_configuration(const int config = 0);
 
-  double unoptimized_energy() {
-    return unoptimized_.energy(&configurations_.front());
-  }
-  double energy() {
-    // for when bonded energies, etc come into play,
-    // perhaps have energy of full system use reference potentials.
-    // this way CB could distinguish external and internal interactions.
-    return potentials_()->energy(&configurations_.front());
-  }
+  /// Return the dimensionality of the system.
+  int dimension(const int config = 0) const;
 
-  double energy(const Select& select) {
-    return potentials_()->energy(select, &configurations_.front());
-  }
+  //@}
+  /** @name Potentails
+    Store and retrieve a list of potentials.
+   */
+  //@{
 
-  std::vector<double> stored_energy_profile() const {
-    return const_potentials_()->stored_energy_profile();
-  }
+  /// Add a potential. By default, this is unoptimized.
+  void add(const Potential& potential);
 
-  double reference_energy(const int index = 0) {
-    return reference_(index)->energy(&configurations_.front());
-  }
+  /// Add an unoptimized potential.
+  void add_to_unoptimized(const Potential& potential);
 
-  double reference_energy(const Select& select, const int index = 0) {
-    return reference_(index)->energy(select, &configurations_.front());
-  }
-
-  void add(const Potential& potential) { add_to_unoptimized(potential); }
-  void add_to_unoptimized(const Potential& potential) { unoptimized_.add_potential(potential); }
-  void add_to_optimized(const Potential& potential) {
-    is_optimized_ = true;
-    optimized_.add_potential(potential); }
-  void add_to_reference(const Potential& ref, const int index = 0) {
-    if (index == 0 and references_.size() == 0) {
-      references_.push_back(PotentialFactory());
-    }
-    reference_(index)->add_potential(ref);
-  }
+  /// Return the unoptimized potentials.
   const PotentialFactory& unoptimized() const { return unoptimized_; }
-  const PotentialFactory& optimized() const { return optimized_; }
 
-  void revert() { unoptimized_.revert(); }
-
-  // HWH: depreciate, but used by ewald
-  void set_unoptimized(const PotentialFactory& unoptimized) { unoptimized_ = unoptimized; }
-
-  void precompute() {
-    unoptimized_.precompute(&configurations_.front());
-    if (is_optimized_) {
-      optimized_.precompute(&configurations_.front());
-    }
-    for (PotentialFactory& ref : references_) {
-      ref.precompute(&configurations_.front());
-    }
-  }
-
-  const std::vector<PotentialFactory> references() const { return references_; }
-  const Potential& reference(const int ref, const int potential) const {
-    return references_[ref].potentials()[potential]; }
+  /// Return an unoptimized potential.
   const Potential& potential(const int index) const {
     return unoptimized_.potentials()[index]; }
 
-  void serialize(std::ostream& sstr) const {
-    feasst_serialize_version(1, sstr);
-    feasst_serialize_fstobj(configurations_, sstr);
-    unoptimized_.serialize(sstr);
-    optimized_.serialize(sstr);
-    feasst_serialize(is_optimized_, sstr);
-    feasst_serialize_fstobj(references_, sstr);
-  }
+  /// Add an optimized potential.
+  void add_to_optimized(const Potential& potential);
 
-  System(std::istream& sstr) {
-    feasst_deserialize_version(sstr);
-    feasst_deserialize_fstobj(&configurations_, sstr);
-    unoptimized_ = PotentialFactory(sstr);
-    optimized_ = PotentialFactory(sstr);
-    feasst_deserialize(&is_optimized_, sstr);
-    feasst_deserialize_fstobj(&references_, sstr);
-  }
+  /// Return the optimized potentials.
+  const PotentialFactory& optimized() const { return optimized_; }
+
+  /// Add a reference potential.
+  void add_to_reference(const Potential& ref,
+    /// Store different references by index.
+    const int index = 0);
+
+  /// Return a reference potential.
+  const Potential& reference(const int ref, const int potential) const;
+
+  /// Return the list of reference potentials.
+  const std::vector<PotentialFactory> references() const { return references_; }
+
+  //@}
+  /** @name Energy
+    Compute energies using a combination of configurations and potentials.
+   */
+
+  /// Precompute quantities for optimizations before calculation of energies.
+  void precompute();
+
+  /// Return the unoptimized energy. The following use optimized if available.
+  double unoptimized_energy(const int config = 0);
+
+  /// Return the energy of all.
+  // HWH note:
+  // for when bonded energies, etc come into play,
+  // perhaps have energy of full system use reference potentials.
+  // this way CB could distinguish external and internal interactions.
+  double energy(const int config = 0);
+
+  /// Return the energy of the selection.
+  double energy(const Select& select, const int config = 0);
+
+  /// Return the profile of energies that were last computed.
+  std::vector<double> stored_energy_profile() const {
+    return const_potentials_()->stored_energy_profile(); }
+
+  /// Return the reference energy.
+  double reference_energy(const int ref = 0, const int config = 0) {
+    return reference_(ref)->energy(&configurations_[0]); }
+
+  /// Return the reference energy of the selection.
+  double reference_energy(const Select& select, const int ref = 0,
+    const int config = 0);
+
+  /// Revert changes due to perturbations.
+  void revert() { unoptimized_.revert(); }
+
+  /// Serialize
+  void serialize(std::ostream& sstr) const;
+
+  /// Deserialize
+  explicit System(std::istream& sstr);
 
  private:
   std::vector<Configuration> configurations_;
@@ -130,25 +130,9 @@ class System {
   bool is_optimized_ = false;
   std::vector<PotentialFactory> references_;
 
-  PotentialFactory * reference_(const int index) {
-    ASSERT(index < static_cast<int>(references_.size()),
-      "unrecognized reference");
-    return &references_[index];
-  }
-
-  PotentialFactory * potentials_() {
-    if (is_optimized_) {
-      return &optimized_;
-    }
-    return &unoptimized_;
-  }
-
-  const PotentialFactory * const_potentials_() const {
-    if (is_optimized_) {
-      return &optimized_;
-    }
-    return &unoptimized_;
-  }
+  PotentialFactory * reference_(const int index);
+  PotentialFactory * potentials_();
+  const PotentialFactory * const_potentials_() const;
 };
 
 }  // namespace feasst

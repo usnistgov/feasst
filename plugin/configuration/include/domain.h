@@ -7,6 +7,7 @@
 #include "math/include/position.h"
 #include "math/include/random.h"
 #include "configuration/include/cells.h"
+#include "math/include/utils_math.h"
 
 namespace feasst {
 
@@ -102,8 +103,11 @@ class Domain {
   /// Optimized verison of the above, which allows update of existing position.
   void random_position(Position * position, Random * random) const;
 
-  /// Return the minimal side length
-  double min_side_length() const;
+  /// Return the minimum side length
+  double min_side_length() const { return minimum(side_length_.coord()); }
+
+  /// Return the maximum side length
+  double max_side_length() const { return maximum(side_length_.coord()); }
 
   /// HWH implement check
 

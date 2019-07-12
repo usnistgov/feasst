@@ -17,7 +17,7 @@ class PerturbPivot : public PerturbRotate {
   /// Dont rotate the particle positions.
   void move(System * system,
       TrialSelect * select) override {
-    const Position& pivot = select->anchor().site_positions()[0][0];
+    const Position& pivot = select->anchor_position(0, 0, system);
     DEBUG("piv " << pivot.str());
     PerturbRotate::move(system, select, pivot, false);
     DEBUG(select->mobile().site_positions()[0][0].str());
@@ -52,31 +52,6 @@ class PerturbCrankshaft : public PerturbRotate {
   // temporary
   Position axis_;
   RotationMatrix rot_mat_;
-};
-
-/// Put first site in selection in a sphere about the first site in anchor.
-class PerturbDistanceFromAnchor : public PerturbMove {
- public:
-  PerturbDistanceFromAnchor(const argtype& args = argtype()) : PerturbMove(args) {}
-  virtual void precompute(const TrialSelect * select, System * system) {
-    // determine the bond length
-    // or input the bond length
-  }
-
-  void move(System * system,
-      TrialSelect * select) override {
-    SelectList * mobile = select->get_mobile();
-    Position * site = mobile->get_site_position(0, 0);
-    random_.unit_sphere_surface(site);
-    site->multiply(distance_);
-    site->add(select->anchor().site_positions()[0][0]);
-  }
-
- private:
-  double distance_ = 1.;
-
-  // temporary
-  Random random_;
 };
 
 /**

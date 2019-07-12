@@ -36,6 +36,9 @@ class CriteriaFlatHistogram : public Criteria {
     bias_->resize(macrostate_->histogram());
   }
 
+  /// Return the bias.
+  const Bias * bias() const { return bias_.get(); }
+
   /// Set the macrostate which is subject to the bias.
   void set(const std::shared_ptr<Macrostate> macrostate) {
     macrostate_ = macrostate;

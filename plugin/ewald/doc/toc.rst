@@ -5,6 +5,6 @@ API
 
    Ewald
    ModelChargeSelf
-   ModelChargeScreened
    ModelChargeIntra
+   ModelChargeScreened
    utils_ewald

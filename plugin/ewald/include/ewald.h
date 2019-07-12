@@ -124,7 +124,7 @@ class Ewald : public VisitModel {
   }
 
   double sign_(const Select& select) {
-    if (select.trial_state() == "old") {
+    if (select.trial_state() == 0) {
       return -1.0;
     }
     return 1.0;

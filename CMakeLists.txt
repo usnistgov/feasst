@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 
 # manually list the plugins
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;")
-#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;flat_histogram;mayer")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain")
 set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;")
 message(${FEASST_PLUGINS})
 # set path to XDR if using xtc plugin
@@ -392,6 +392,7 @@ if (USE_SWIG)
     configure_file(${CMAKE_SOURCE_DIR}/py/pyfeasst.py ${CMAKE_SOURCE_DIR}/build/pyfeasst.py @ONLY)
 
     add_test(NAME pytest COMMAND ${CMAKE_SOURCE_DIR}/py/run.sh ${CMAKE_SOURCE_DIR}/py/test.py)
+    add_test(NAME pytutorial COMMAND python -m unittest discover ../plugin)
   else (SWIG_FOUND)
     message("SWIG NOT FOUND")
   endif (SWIG_FOUND)

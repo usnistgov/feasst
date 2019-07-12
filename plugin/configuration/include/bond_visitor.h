@@ -26,9 +26,9 @@ class BondSquareWell : public BondTwoBody {
   double energy(
       const Position& relative,
       const Bond& bond) const override {
-    const double l0 = bond.property("l0");
+    const double length = bond.property("length");
     const double delta = bond.property("delta");
-    if (std::abs(relative.distance() - l0) > 0.5*delta) {
+    if (std::abs(relative.distance() - length) > 0.5*delta) {
       return NEAR_INFINITY;
     }
     return 0.;

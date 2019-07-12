@@ -215,7 +215,7 @@ Naming
 * bools syntax: is_[accepted.., etc]
 * MACROS and CONSTANTS are all upper case.
 * Avoid MACROS and CONSTANTS.
-* use "and", "or" instead of "&&", "||"
+* use "and", "or" instead of "&&", "||" (HWH: change this to follow Google?)
 
 Functions
 --------------------------------------------------------------------------------
@@ -233,11 +233,18 @@ Classes
 * For setters with multiple arguments, the first are vector indices as in order x[0] = 3...
 * getptr_member_name returns constant pointer (optimization only)
 
+Loops and if
+--------------------------------------------------------------------------------
+
+* use of "for (auto element : container) { ... }" is dangerous
+* for simple loops over containers, use "for (element : container)"
+* for loops where you need the index, use:
+  for (int index = 0; index < static_cast<int>(container.size()); ++index)
+
 Auto
 --------------------------------------------------------------------------------
 
 * only use auto when the type is clear such as auto var = std::make_shared<..>.
-* use of "for (auto element : container) { ... }" is dangerous
 
 Arguments
 --------------------------------------------------------------------------------
@@ -271,26 +278,16 @@ To Do List
 * ideal gas as the first tutorial/testcase
 * specify units in LMP data files?
 * fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu
-* detail branch rules (branch namespace and descriptive file, merge squash, release tags, etc).
 * py/feasst.i depends on which plugins that you use. how to make this user friendly?
-* consider a different way to interface selection and configuration.
-* precompute long range corrections and faster types calculation
-* multistage insertions and deletions
 * neighbor lists
-* windowing (MonteCarloFactory class)
 * trial regrow to include grand canonical insertions
 * consider optimization of Ewald: init ewald storage on particle types, precompute property index.
 * serialize/deserialize trials,perturbs,select_list,...
-* rotate particle during insertion
-* refactor perturb/trials... selection->original_selection, commenting/naming
 * Criteria running energies may contain a part from each potential to simplify debugging.
-* next commit: Added windowing, checkpointing to test LJ TMMC. Preparing for SPCE SRSW and changed wrapping.
-* trial selects (and perturbations?) can record probabilities via Kofke's method
 * implement timer for profiles (with hierarchies by class... tried this, but its too slow)
 * implement a timer to auto-balance trial weights.
-* consider refactoring particle to a composite site (maybe not the best idea)
-* label design patterns. E.g., system is a facade
 * find a better way for two different classes to take from the same argument list and still maintain unused checks.
 * when selecting from cpdf, use lnp instead of p?
 * insert optimization: update cell list of sites when added, but of domain only when finalized.
-* update status printing for trials
+* wl lj comparison is off
+* Python interface cannot take a system pointer to modify system (e.g., perturb, in monte_carlo/tutorial/test_lj_model.py.bak

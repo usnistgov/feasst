@@ -36,6 +36,9 @@ class Tunable {
   /// Enable tuning.
   void enable() { is_enabled_ = true; }
 
+  /// Return if enabled.
+  bool is_enabled() const { return is_enabled_; }
+
   /// A positive percent change indicates that the value of the parameter and
   /// the target have an inverse relationship.
   /// Thus, if the actual value is greater than the target, the value will be

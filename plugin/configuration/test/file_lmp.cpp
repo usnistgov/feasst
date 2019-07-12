@@ -75,7 +75,7 @@ TEST(FileLMP, data_spce) {
     particle.bond(0).property("doesnotexist");
     CATCH_PHRASE("not found");
   }
-  EXPECT_NEAR(1., particle.bond(0).property("l0"), NEAR_ZERO);
+  EXPECT_NEAR(1., particle.bond(0).property("length"), NEAR_ZERO);
   EXPECT_NEAR(0.000001, particle.bond(0).property("delta"), NEAR_ZERO);
   EXPECT_NEAR(109.47, particle.angle(0).property("theta0"), NEAR_ZERO);
   EXPECT_NEAR(0.000001, particle.angle(0).property("delta"), NEAR_ZERO);

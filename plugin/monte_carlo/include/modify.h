@@ -17,13 +17,13 @@ class Modify : public Stepper {
  public:
   Modify(const argtype &args = argtype()) : Stepper(args) {}
 
-  virtual void initialize(std::shared_ptr<Criteria> criteria,
+  virtual void initialize(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) {
     // do nothing by default
   }
 
-  virtual void trial(std::shared_ptr<Criteria> criteria,
+  virtual void trial(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) {
     if (is_time(steps_per_update(), &steps_since_update_)) {
@@ -34,13 +34,13 @@ class Modify : public Stepper {
     }
   }
 
-  virtual void update(std::shared_ptr<Criteria> criteria,
+  virtual void update(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) {
     ERROR("not implemented");
   }
 
-  virtual std::string write(std::shared_ptr<Criteria> criteria,
+  virtual std::string write(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) {
     ERROR("not implemented");

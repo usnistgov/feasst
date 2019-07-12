@@ -10,7 +10,7 @@ class ModifyFactory : public Modify {
  public:
   ModifyFactory() {}
 
-  void initialize(std::shared_ptr<Criteria> criteria,
+  void initialize(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) override {
     for (const std::shared_ptr<Modify> modify : modifiers_) {
@@ -25,7 +25,7 @@ class ModifyFactory : public Modify {
   const std::vector<std::shared_ptr<Modify> >& modifiers() const {
     return modifiers_; }
 
-  void trial(std::shared_ptr<Criteria> criteria,
+  void trial(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) override {
     for (const std::shared_ptr<Modify> modify : modifiers_) {

@@ -20,21 +20,27 @@ class Analyze : public Stepper {
   Analyze(const argtype &args = argtype()) : Stepper(args) {}
 
   // By default, do nothing during initialization.
-  virtual void initialize(const std::shared_ptr<Criteria> criteria,
+  virtual void initialize(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory) {}
 
-  virtual void trial(const std::shared_ptr<Criteria> criteria,
+  virtual void trial(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory);
 
-  virtual void update(const std::shared_ptr<Criteria> criteria,
+  virtual void update(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory);
 
-  virtual std::string write(const std::shared_ptr<Criteria> criteria,
+  virtual std::string write(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory);
+
+  virtual const std::vector<std::shared_ptr<Analyze> >& analyzers() const {
+    ERROR("not implemented"); }
+
+  virtual const Analyze * analyze(const int index) const {
+    ERROR("not implemented"); }
 
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Analyze> create(std::istream& istr) const;

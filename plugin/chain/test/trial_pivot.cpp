@@ -12,7 +12,6 @@ namespace feasst {
 
 TEST(TrialPivot, chain10) {
   seed_random_by_date();
-  seed_random(1560361761);
   System system;
   {
     Configuration config;
@@ -40,7 +39,7 @@ TEST(TrialPivot, chain10) {
   for (int i = 0; i < 50; ++i) {
     factory.attempt(criteria.get(), &system);
     file.write("tmp/after", system.configuration());
-    checker.update(criteria, system, factory);
+    checker.update(criteria.get(), system, factory);
   }
   EXPECT_NE(0, system.configuration().particle(0).site(0).position().coord(0));
 }

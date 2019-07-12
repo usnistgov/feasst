@@ -77,16 +77,6 @@ void Domain::wrap(Position * position) const {
   position->add(shift(*position));
 }
 
-double Domain::min_side_length() const {
-  double min = NEAR_INFINITY;
-  for (double coord : side_length_.coord()) {
-    if (coord < min) {
-      min = coord;
-    }
-  }
-  return min;
-}
-
 Position Domain::random_position(Random * random) const {
   Position position;
   random_position(&position, random);

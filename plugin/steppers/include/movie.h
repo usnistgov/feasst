@@ -22,7 +22,7 @@ class Movie : public AnalyzeWriteOnly {
   }
 
   /// Write the sample VMD files and the initial configuration.
-  void initialize(const std::shared_ptr<Criteria> criteria,
+  void initialize(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
     ASSERT(!file_name().empty(), "file name required. Did you forget to " <<
@@ -41,7 +41,7 @@ class Movie : public AnalyzeWriteOnly {
   }
 
   /// Write the configuration.
-  std::string write(const std::shared_ptr<Criteria> criteria,
+  std::string write(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
     // ensure the following order matches the header from initialization.

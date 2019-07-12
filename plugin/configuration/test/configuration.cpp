@@ -93,7 +93,7 @@ TEST(Configuration, bonds_spce) {
   Configuration config = spce_sample();
   EXPECT_EQ(2, config.particle_type(0).num_bonds());
   EXPECT_EQ(1, config.unique_type(0).num_bonds());
-  EXPECT_EQ(1., config.unique_type(0).bond(0).property("l0"));
+  EXPECT_EQ(1., config.unique_type(0).bond(0).property("length"));
   EXPECT_EQ(0.000001, config.unique_type(0).bond(0).property("delta"));
   EXPECT_EQ(2, config.particle_type(0).bond(0).num_sites());
   EXPECT_EQ(0, config.particle_type(0).bond(0).site(0));

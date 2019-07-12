@@ -229,8 +229,11 @@ class SelectList : public SelectPosition {
     return is_endpoint_beginning;
   }
 
-  /// Return the bond type between two sites in particle use for model parameters
-  const Bond& bond(const int particle, const int site1, const int site2, const Configuration& config) const {
+  /// Return the bond between two sites in particle use for model parameters
+  const Bond& bond(
+    /// The particle index is the one in the selection, not the configuration
+    const int particle,
+    const int site1, const int site2, const Configuration& config) const {
     const int particle_index = particle_indices()[particle];
     const Particle& part = config.select_particle(particle_index);
     const int particle_type = part.type();

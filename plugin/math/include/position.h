@@ -140,6 +140,10 @@ class SpatialEntity {
   /// Return the Position.
   const Position& position() const { return position_; }
 
+  /// Return the Position in a given dimension.
+  const double position(const int dimension) const {
+    return position_.coord(dimension); }
+
   /// Set the coordinate of one dimension.
   void set_coordinate(const int dimension, const double coord) {
     position_.set_coord(dimension, coord);

@@ -83,4 +83,10 @@ TEST(Arguments, arglist) {
   EXPECT_TRUE(pair->second == "val2");
 }
 
+TEST(Arguments, boolean) {
+  Arguments args(argtype({{"bananas", "1"}}));
+  EXPECT_TRUE(args.key("bananas").boolean());
+  EXPECT_EQ("used(bananas, )", args.status());
+}
+
 }  // namespace feasst

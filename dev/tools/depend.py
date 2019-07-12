@@ -14,8 +14,8 @@ import sys
 import pyfeasst
 
 external_libs=['xdrfile.h', 'xdrfile_xtc.h']
-include_plugin=['utils','math','configuration','system','steppers','monte_carlo','mayer']
-include_plugin=['utils','math','configuration','system','steppers','monte_carlo','mayer','models','patch','example','confinement','chain','flat_histogram','ewald']
+include_plugin=['utils','math','configuration','system','steppers','monte_carlo','flat_histogram']
+#include_plugin=['utils','math','configuration','system','steppers','monte_carlo','mayer','models','patch','example','confinement','chain','flat_histogram','ewald']
 
 def is_header(file_name):
   if file_name.endswith(".h"):
@@ -133,6 +133,7 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
 %template(IntVector) std::vector<int>;\n\
 %template(IntIntVector) std::vector<std::vector<int> >;\n\
 %template(DoubleVector) std::vector<double>;\n\
+%template(AnalyzeVector) std::vector<std::shared_ptr<Analyze> >;\n\
 using namespace std;\n\
 %pythonnondynamic;\n\
 %include \"std_map.i\"\n\

@@ -256,6 +256,10 @@ class Configuration {
   const SelectGroup& group_select(const int index) const {
     return group_selects_[index]; }
 
+  // Set site as physical/nonphysical.
+  void set_site_physical(const int particle, const int site, const bool phys) {
+    particles_.set_site_physical(particle, site, phys); }
+
   // Add the property to a site in a particle.
   void add_site_property(const std::string name,
       const double value,

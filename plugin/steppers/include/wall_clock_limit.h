@@ -20,7 +20,7 @@ class WallClockLimit : public ModifyUpdateOnly {
     max_hours_ = args_.key("max_hours").dble();
     set_steps_per(args_.key("steps_per").dflt("1").integer());
   }
-  void update(std::shared_ptr<Criteria> criteria,
+  void update(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) override {
     const double hours = double(clock())/double(CLOCKS_PER_SEC)/60./60.;

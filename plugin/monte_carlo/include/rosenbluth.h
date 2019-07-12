@@ -3,6 +3,7 @@
 #define FEASST_MONTE_CARLO_ROSENBLUTH_H_
 
 #include "system/include/select_list.h"
+#include "system/include/system.h"
 
 namespace feasst {
 

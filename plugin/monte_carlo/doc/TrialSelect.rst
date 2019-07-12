@@ -16,3 +16,11 @@ TrialSelect
 .. doxygenclass:: feasst::TrialSelectDoNothing
    :project: FEASST
    :members:
+
+.. doxygenclass:: feasst::TrialSelectSiteInParticleType
+   :project: FEASST
+   :members:
+
+.. doxygenclass:: feasst::TrialSelectBond
+   :project: FEASST
+   :members:

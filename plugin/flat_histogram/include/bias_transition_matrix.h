@@ -66,7 +66,6 @@ class BiasTransitionMatrix : public Bias {
   std::vector<BiasTransitionMatrix> blocks_;
   bool is_block_ = false;
 
-  Arguments args_;
   Random random_;
 
   void update_blocks_(

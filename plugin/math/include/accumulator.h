@@ -85,6 +85,9 @@ class Accumulator {
   /// Return human readable status as a string.
   std::string str() const;
 
+  /// Return the last value accumulated.
+  double last_value() const;
+
   void serialize(std::ostream& ostr) const;
   Accumulator(std::istream& istr);
 
@@ -93,6 +96,7 @@ class Accumulator {
   long double sum_;
   long double sum_squared_;
   double max_, min_;
+  double last_value_;
 
   /// maximum number of moments before Taylor series truncation
   ///  e.g., 2 (default) includes moments 1 and 2

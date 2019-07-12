@@ -22,7 +22,7 @@ class Site : public PropertiedEntity,
              public TypedEntity,
              public SpatialEntity {
  public:
-  Site() {}
+  Site() { set_physical(); }
 
   /// Displace the Position of the Site.
   void displace(const Position displacement) {
@@ -36,12 +36,20 @@ class Site : public PropertiedEntity,
   /// Assign as director if a site has a property named director.
   void add_property(const std::string name, const double value) override;
 
+  /// Return true if the site is physically present.
+  /// These are used, for example, in particle regrowth.
+  bool is_physical() const { return is_physical_; }
+
+  /// Set as physical/nonphysical (default: physical).
+  void set_physical(const bool physical = true) { is_physical_ = physical; }
+
   void serialize(std::ostream& ostr) const;
   Site(std::istream& istr);
   virtual ~Site() {}
 
  private:
   bool is_director_ = false;
+  bool is_physical_;
 };
 
 }  // namespace feasst

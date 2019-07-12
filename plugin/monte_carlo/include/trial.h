@@ -70,14 +70,15 @@ class TrialStage {
 //  const Perturb * perturb() const { return perturb_.get(); }
 
   /// Initialization before any stage attempt.
-  void precompute(System * system) {
+  virtual void precompute(System * system) {
     select_->precompute(system);
     perturb_->precompute(select_.get(), system);
   }
 
   /// Initializations before each stage attempt.
-  void before_stage() {
-    perturb_->before_perturb();
+  void before_select() {
+    select_->before_select();
+    perturb_->before_select();
   }
 
   /// Attempt all steps in a stage.
@@ -128,8 +129,20 @@ class TrialStage {
     perturb_->finalize(system);
   }
 
+  /// Call after old configuration but before new.
+  void mid_stage() { select_->mid_stage(); }
+
   void tune(const double acceptance) {
     perturb_->tune(acceptance);
+  }
+
+
+  std::string status_header() const {
+    return perturb_->status_header();
+  }
+
+  std::string status() const {
+    return perturb_->status();
   }
 
  private:
@@ -163,20 +176,24 @@ class TrialCompute {
           return;
         }
       }
-      ln_rosenbluth += log(stage->rosenbluth().total_rosenbluth());
       double energy;
       if (old == 1) {
         energy = stage->rosenbluth().energy(0);
         acceptance->add_to_energy_old(energy);
+        ln_rosenbluth -= log(stage->rosenbluth().total_rosenbluth());
+        DEBUG("adding to old energy " << energy);
       } else {
         energy = stage->rosenbluth().chosen_energy();
         acceptance->add_to_energy_new(energy);
+        ln_rosenbluth += log(stage->rosenbluth().total_rosenbluth());
+        DEBUG("adding to new energy " << energy);
       }
       energy_change += energy;
       if (stage->reference() >= 0) {
         reference_used = true;
       }
     }
+    DEBUG("reference used? " << reference_used);
     if (reference_used) {
       ASSERT(static_cast<int>(stages->size()) == 1,
         "implement a select_all in trial including selection of all trials?");
@@ -191,6 +208,7 @@ class TrialCompute {
         acceptance->set_energy_new(en_full);
       }
     }
+    DEBUG("ln_rosenbluth " << ln_rosenbluth);
     acceptance->add_to_ln_metropolis_prob(ln_rosenbluth);
   }
 
@@ -240,17 +258,21 @@ class TrialCompute {
  */
 class Trial {
  public:
-  Trial() {
-    set_weight();
+  Trial(
+    /**
+      weight : unnormalized relative probability of selection of this trial
+        with respect to all trials (default: 1).
+     */
+    const argtype& args = argtype()) {
+    Arguments args_(args);
+    args_.dont_check();
+    weight_ = args_.key("weight").dflt("1").dble();
     set_mayer();
   }
 
   /// Return the unnormalized relative probability of selection of this trial
   /// with respect to all trials.
   double weight() const { return weight_; }
-
-  /// Set the above weight.
-  void set_weight(const double weight = 1.) { weight_ = weight; }
 
   /// Add a TrialStage in order.
   // HWH depreciate
@@ -301,14 +323,20 @@ class Trial {
   /// Return the header description for the status of the trial (e.g., acceptance, etc).
   virtual std::string status_header() const {
     std::stringstream ss;
-    ss << "acceptance";
+    ss << "acceptance ";
+    for (const TrialStage * stage : stages_ptr_) {
+      ss << stage->status_header();
+    }
     return ss.str();
   }
 
   /// Return the status of the trial (e.g., acceptance, etc).
   virtual std::string status() const {
     std::stringstream ss;
-    ss << acceptance();
+    ss << acceptance() << " ";
+    for (const TrialStage * stage : stages_ptr_) {
+      ss << stage->status();
+    }
     return ss.str();
   }
 
@@ -334,10 +362,11 @@ class Trial {
   /// Attempt a trial.
   virtual void attempt(Criteria * criteria, System * system) {
     ++num_attempts_;
+    DEBUG("new trial attempt " << num_attempts_);
     acceptance_.reset();
     criteria->before_attempt(system);
     for (std::shared_ptr<TrialStage> stage : stages_) {
-      stage->before_stage();
+      stage->before_select();
       stage->select(system, &acceptance_);
     }
     if (!acceptance_.reject()) {
@@ -379,9 +408,15 @@ class TrialComputeMove : public TrialCompute {
     System * system,
     Acceptance * acceptance,
     std::vector<TrialStage*> * stages) override {
+    DEBUG("TrialComputeMove");
     compute_rosenbluth(1, criteria, system, acceptance, stages);
+    for (TrialStage * stage : *stages) stage->mid_stage();
     compute_rosenbluth(0, criteria, system, acceptance, stages);
-    acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new() - acceptance->energy_old());
+    DEBUG("old: " << criteria->current_energy() << " " << acceptance->energy_old());
+    DEBUG("new: " << acceptance->energy_new());
+    DEBUG("energy change: " << acceptance->energy_new() - acceptance->energy_old());
+    const double delta_energy = acceptance->energy_new() - acceptance->energy_old();
+    acceptance->set_energy_new(criteria->current_energy() + delta_energy);
   }
 };
 
@@ -391,7 +426,7 @@ class TrialMove : public Trial {
   TrialMove(
     std::shared_ptr<TrialSelect> select,
     std::shared_ptr<PerturbMove> perturb,
-    const argtype& args = argtype()) {
+    const argtype& args = argtype()) : Trial(args) {
     add_stage(select, perturb, args);
     set(std::make_shared<TrialComputeMove>());
   }
@@ -440,6 +475,7 @@ class TrialComputeAdd : public TrialCompute {
       System * system,
       Acceptance * acceptance,
       std::vector<TrialStage*> * stages) override {
+    DEBUG("TrialComputeAdd");
     compute_rosenbluth(0, criteria, system, acceptance, stages);
     const TrialSelect * select = (*stages)[0]->trial_select();
     system->get_configuration()->revive(select->mobile());
@@ -459,11 +495,10 @@ class TrialComputeAdd : public TrialCompute {
 /// Attempt to add a particle.
 class TrialAdd : public Trial {
  public:
-  TrialAdd(const argtype& args = argtype()) {
-    auto perturb = std::make_shared<PerturbAdd>(args);
+  TrialAdd(const argtype& args = argtype()) : Trial(args) {
     add_stage(
       std::make_shared<TrialSelectDoNothing>(),
-      perturb,
+      std::make_shared<PerturbAdd>(args),
       args
     );
     set(std::make_shared<TrialComputeAdd>());
@@ -482,6 +517,7 @@ class TrialComputeRemove : public TrialCompute {
       System * system,
       Acceptance * acceptance,
       std::vector<TrialStage*> * stages) override {
+    DEBUG("TrialComputeRemove");
     compute_rosenbluth(1, criteria, system, acceptance, stages);
     acceptance->set_energy_new(criteria->current_energy() - acceptance->energy_old());
     acceptance->set_macrostate_shift(-1);
@@ -503,7 +539,7 @@ class TrialComputeRemove : public TrialCompute {
 /// Attempt to remove a particle.
 class TrialRemove : public Trial {
  public:
-  TrialRemove(const argtype& args = argtype()) {
+  TrialRemove(const argtype& args = argtype()) : Trial(args) {
     argtype args2(args);
     args2.insert({"load_coordinates", "false"});
     add_stage(

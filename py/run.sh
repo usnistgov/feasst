@@ -7,4 +7,4 @@ fi
 # Obtain the current directory of the script.
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-PYTHONPATH=$PYTHONPATH:${DIR}/../build python3 $@
+PYTHONPATH=$PYTHONPATH:${DIR}/../build python3 -u $@

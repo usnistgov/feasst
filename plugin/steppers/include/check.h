@@ -12,7 +12,7 @@ namespace feasst {
 class Check : public ModifyUpdateOnly {
  public:
   Check(const argtype &args = argtype()) : ModifyUpdateOnly(args) {}
-  void update(std::shared_ptr<Criteria> criteria,
+  void update(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) override {
     system->configuration().check();

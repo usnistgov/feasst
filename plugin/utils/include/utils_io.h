@@ -18,6 +18,9 @@ using std::endl;
 
 namespace feasst {
 
+/// Return the feasst install directory as a string.
+inline std::string install_dir() { return std::string(FEASST_DIR_); }
+
 /// Return string representation of vector
 template<class T>
 std::string feasst_str(const std::vector<T> &vec,

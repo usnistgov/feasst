@@ -17,23 +17,30 @@ TEST(PerturbTranslate, position) {
   // system.add_model(std::make_shared<ModelLJ>());
   const Configuration& config = system.configuration();
   EXPECT_NEAR(1., config.particle(0).site(0).property("banana"), NEAR_ZERO);
-  const std::vector<double> disp = {1.43, -2.5, 0.03};
-  for (int dim = 0; dim < static_cast<int>(disp.size()); ++dim) {
+  for (int dim = 0; dim < config.dimension(); ++dim) {
     EXPECT_NEAR(0., config.particle(0).position().coord(dim), NEAR_ZERO);
+    EXPECT_NEAR(0., config.particle(0).site(0).position().coord(dim), NEAR_ZERO);
   }
-  Position trajectory(disp);
   PerturbTranslate perturb;
   TrialSelectParticleOfType tsel;
   tsel.select(&system);
   perturb.perturb(&system, &tsel);
   const int particle_index = tsel.mobile().particle_index(0);
 
-  // change custom property to test revert
+  // did the particle actually move away from the origin?
+  for (int dim = 0; dim < config.dimension(); ++dim) {
+    EXPECT_NE(0., config.particle(particle_index).position().coord(dim));
+    EXPECT_NE(0., config.particle(particle_index).site(0).position().coord(dim));
+  }
+
+  // change custom property (2.2) to see if revert puts it back to original (1).
   system.get_configuration()->set_site_property("banana", 2.2, 0, 0);
 
   EXPECT_NEAR(2.2, config.particle(0).site(0).property("banana"), NEAR_ZERO);
   perturb.revert(&system);
-  for (int dim = 0; dim < static_cast<int>(disp.size()); ++dim) {
+
+  // did the particle go back to the origin?
+  for (int dim = 0; dim < config.dimension(); ++dim) {
     EXPECT_NEAR(0., config.particle(particle_index).position().coord(dim), NEAR_ZERO);
   }
   EXPECT_NEAR(1., config.particle(0).site(0).property("banana"), NEAR_ZERO);

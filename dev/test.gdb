@@ -1,3 +1,3 @@
-catch throw
-r --gtest_filter=*Pivot*
+#catch throw
+r --gtest_filter=*FHMC*
 bt

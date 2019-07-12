@@ -70,8 +70,8 @@ class TrialSelectEndSegment : public TrialSelectSegment {
     }
     DEBUG("is_endpoint_beginning, " << is_endpoint_beginning);
     DEBUG("site index " << select_index);
-    anchor_.set_site_position(0, 0, mobile_.site_positions()[0][select_index]);
-    DEBUG("anchor pos " << anchor_.site_positions()[0][0].str());
+    anchor_.set_site(0, 0, mobile_.site_indices()[0][select_index]);
+    anchor_.set_particle(0, mobile_.particle_indices()[0]);
   }
 };
 
@@ -94,20 +94,24 @@ class TrialSelectReptate : public TrialSelectEndSegment {
     const int particle_index = mobile_.particle_indices()[0];
     const Configuration& config = system->configuration();
     const Particle& particle = config.select_particle(particle_index);
-    int site_index = 0;
-    int site_bonded_to = 1;
+    int anchor_index = 0;
+    int site_bonded_to = particle.num_sites() - 2;
+    DEBUG("is_endpoint_beginning " << is_endpoint_beginning);
     if (is_endpoint_beginning) {
-      site_index = particle.num_sites() - 1;
-      site_bonded_to = site_index - 1;
+      anchor_index = particle.num_sites() - 1;
+      site_bonded_to = 1;
     }
-    anchor_.set_site_position(0, 0, particle.site(site_index).position());
-
-    // exclude the anchor from interactions.
-    mobile_.set_new_bond(anchor_);
-
-    // include interactions with site that use to be bonded
+    // for the old configuration, set the anchor to the old bond.
+    anchor_.set_site(0, 0, anchor_index);
+    anchor_.set_particle(0, particle_index);
     ASSERT(bonded_to_.replace_indices(particle_index, {site_bonded_to}),
       "bonded_to_ wasn't initialized to proper size on precompute");
+  }
+
+  void mid_stage() override {
+    // exclude the anchor from interactions.
+    // include interactions with site that use to be bonded
+    mobile_.set_new_bond(anchor_);
     mobile_.set_old_bond(bonded_to_);
   }
 

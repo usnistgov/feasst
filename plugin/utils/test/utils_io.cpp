@@ -3,6 +3,10 @@
 
 namespace feasst {
 
+TEST(UtilsIO, install_dir) {
+  EXPECT_EQ(FEASST_DIR_, install_dir());
+}
+
 TEST(UtilsIO, split) {
   const std::vector<std::string> str = split("This is a string");
   EXPECT_EQ(4, str.size());

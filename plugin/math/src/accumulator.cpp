@@ -30,6 +30,7 @@ Accumulator::Accumulator() {
 //}
 
 void Accumulator::accumulate(double value) {
+  last_value_ = value;
   ++num_values_;
   sum_ += value;
   sum_squared_ += value*value;
@@ -114,7 +115,15 @@ void Accumulator::set_moments(const int num_moments) {
 
 std::string Accumulator::str() const {
   std::stringstream ss;
-  ss << average() << " +/- " <<  block_stdev();
+  ss << "average stdev block_stdev ";
+  for (int i = 0; i < static_cast<int>(val_moment_.size()); ++i) {
+    ss << "moment" << i << " ";
+  }
+  ss << std::endl;
+  ss << average() << " " << stdev() << " " << block_stdev() << " ";
+  for (const long double moment : val_moment_) {
+    ss << moment << " ";
+  }
   return ss.str();
 }
 
@@ -150,5 +159,9 @@ Accumulator::Accumulator(std::istream& istr) {
   }
 }
 
-}  // namespace feasst
+double Accumulator::last_value() const {
+  ASSERT(num_values_ > 0, "no values accumulated");
+  return last_value_;
+}
 
+}  // namespace feasst

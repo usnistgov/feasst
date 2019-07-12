@@ -9,7 +9,7 @@ namespace feasst {
 class AnalyzeRigidBonds : public AnalyzeUpdateOnly {
  public:
   AnalyzeRigidBonds(const argtype &args = argtype());
-  void update(const std::shared_ptr<Criteria> criteria,
+  void update(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
     visitor_.compute(bond_, system.configuration());

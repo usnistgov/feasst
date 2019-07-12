@@ -2,6 +2,7 @@
 #include "system/include/model_lj.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model.h"
+#include "system/include/model_empty.h"
 #include "math/include/constants.h"
 #include "configuration/include/file_lmp.h"
 #include "configuration/include/file_xyz.h"

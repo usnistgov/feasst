@@ -41,15 +41,34 @@ class Random {
   /// between min and max.
   double uniform_real(const double min, const double max);
 
-  /// Return a random element within a vector.
+  /// Return a random index of a vector.
   template<class T>
-  T element(const std::vector<T> vector,
-    /// optionally return the index associated with the element.
-    int * index = NULL) {
+  const int index(const std::vector<T>& vector) {
     ASSERT(vector.size() > 0, "size error");
     const int vec_index = uniform(0, vector.size() - 1);
-    if (index != NULL) {
-      *index = vec_index;
+    return vec_index;
+  }
+
+  /// Return a pointer to a random element within a vector.
+  template<class T>
+  T * element(std::vector<T> * vector,
+    /// optionally return the index associated with the element.
+    int * return_index = NULL) {
+    const int vec_index = index(*vector);
+    if (return_index != NULL) {
+      *return_index = vec_index;
+    }
+    return &(*vector)[vec_index];
+  }
+
+  /// Return a constant reference to a random element within a vector.
+  template<class T>
+  const T& const_element(const std::vector<T>& vector,
+    /// optionally return the index associated with the element.
+    int * return_index = NULL) {
+    const int vec_index = index(vector);
+    if (return_index != NULL) {
+      *return_index = vec_index;
     }
     return vector[vec_index];
   }
@@ -84,7 +103,7 @@ class Random {
   RotationMatrix rotation(
     /// dimensionality of space
     const int dimension,
-    /// maximum angle of rotation.
+    /// maximum angle of rotation in degrees.
     const double max_angle = 180);
 
   /// Serialize.

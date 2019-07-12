@@ -40,7 +40,7 @@ TEST(Random, element) {
   double sum = 0;
   const int num = 1e5;
   for (int i = 0; i < num; ++i) {
-    sum += random.element(vec);
+    sum += random.const_element(vec);
   }
   EXPECT_NEAR(sum, 5*double(num), 15*sqrt(double(num)));
 }

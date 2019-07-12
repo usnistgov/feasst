@@ -18,22 +18,24 @@ class Energy : public Analyze {
      */
     const argtype &args = argtype());
 
-  void update(const std::shared_ptr<Criteria> criteria,
+  void update(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
     energy_.accumulate(criteria->current_energy());
   }
 
-  std::string write(const std::shared_ptr<Criteria> criteria,
+  std::string write(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
     std::stringstream ss;
-    ss << energy_.average() << " ";
-    // INFO(ss.str());
+    ss << energy_.str() << " ";
+    DEBUG(ss.str());
     return ss.str();
   }
 
   const Accumulator& energy() const { return energy_; }
+
+  const Accumulator& accumulator() const override { return energy(); }
 
   std::string class_name() const override { return std::string("Energy"); }
 

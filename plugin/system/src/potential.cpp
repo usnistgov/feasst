@@ -1,6 +1,64 @@
+#include <memory>
 #include "system/include/potential.h"
+#include "system/include/model_empty.h"
 
 namespace feasst {
+
+Potential::Potential() {
+  model_ = std::make_shared<ModelEmpty>();
+  visit_model_ = std::make_shared<VisitModel>();
+  set_group_index();
+}
+
+Potential::Potential(std::shared_ptr<Model> model) : Potential() {
+  set_model(model);
+}
+
+Potential::Potential(std::shared_ptr<VisitModel> visit_model) : Potential() {
+  set_visit_model(visit_model);
+}
+
+Potential::Potential(
+    std::shared_ptr<Model> model,
+    std::shared_ptr<VisitModel> visit_model) : Potential() {
+  set_model(model);
+  set_visit_model(visit_model);
+}
+
+void Potential::set_model_param(const char* name,
+    const int site_type,
+    const double value) {
+  ASSERT(model_params_override_, "you must first initialize model params");
+  model_params_.set(name, site_type, value);
+}
+
+const ModelParams& Potential::model_params() const {
+  ASSERT(model_params_override_, "you must first initialize model params");
+  return model_params_;
+}
+
+double Potential::energy(Configuration * config) {
+  ASSERT(visit_model_, "visitor must be set.");
+  if (model_params_override_) {
+    stored_energy_ = model_->compute(model_params_, group_index_, config,
+                                     visit_model_.get());
+  } else {
+    stored_energy_ = model_->compute(group_index_, config, visit_model_.get());
+  }
+  return stored_energy_;
+}
+
+double Potential::energy(const Select& select, Configuration * config) {
+  ASSERT(visit_model_, "visitor must be set.");
+  if (model_params_override_) {
+    stored_energy_ = model_->compute(model_params_, select, group_index_,
+                                     config, visit_model_.get());
+  } else {
+    stored_energy_ = model_->compute(select, group_index_, config,
+                                     visit_model_.get());
+  }
+  return stored_energy_;
+}
 
 void Potential::serialize(std::ostream& ostr) const {
   feasst_serialize_version(432, ostr);

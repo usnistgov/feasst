@@ -13,7 +13,7 @@ class MapAnalyzeFactory {
 
 static MapAnalyzeFactory mapper_ = MapAnalyzeFactory();
 
-void AnalyzeFactory::initialize(const std::shared_ptr<Criteria> criteria,
+void AnalyzeFactory::initialize(const Criteria * criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   for (std::shared_ptr<Analyze> analyze : analyzers_) {
@@ -21,7 +21,7 @@ void AnalyzeFactory::initialize(const std::shared_ptr<Criteria> criteria,
   }
 }
 
-void AnalyzeFactory::trial(const std::shared_ptr<Criteria> criteria,
+void AnalyzeFactory::trial(const Criteria * criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   DEBUG("multistate? " << is_multistate() << " class? " << class_name());
@@ -36,7 +36,7 @@ void AnalyzeFactory::trial(const std::shared_ptr<Criteria> criteria,
   }
 }
 
-void AnalyzeFactory::trial_(const std::shared_ptr<Criteria> criteria,
+void AnalyzeFactory::trial_(const Criteria * criteria,
     const System& system,
     const TrialFactory& trial_factory,
     const int index) {

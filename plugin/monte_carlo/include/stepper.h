@@ -4,6 +4,7 @@
 
 #include <string>
 #include "utils/include/arguments.h"
+#include "math/include/accumulator.h"
 
 namespace feasst {
 
@@ -49,6 +50,9 @@ class Stepper {
 
   /// Return the state.
   int state() const { return state_; }
+
+  /// Return the accumulator.
+  virtual const Accumulator& accumulator() const { ERROR("not implemented"); }
 
   virtual std::string class_name() const { return std::string("Stepper"); }
 

@@ -25,9 +25,8 @@ class cd:
 #          lst2.append(vec[index1][index2])
 #        lst.append(lst2)
 #    return lst
-#
-## HWH depreciate this
-#import subprocess
-#def bash_command(cmd):
-#    subprocess.call(cmd, shell=True, executable='/bin/bash')
-#    #subprocess.Popen(['/bin/bash', '-c', cmd])
+
+import subprocess
+def bash_command(cmd):
+    subprocess.call(cmd, shell=True, executable='/bin/bash')
+    #subprocess.Popen(['/bin/bash', '-c', cmd])

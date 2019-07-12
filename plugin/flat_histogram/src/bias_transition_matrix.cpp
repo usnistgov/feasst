@@ -9,7 +9,7 @@
 namespace feasst {
 
 BiasTransitionMatrix::BiasTransitionMatrix(const argtype &args) {
-  args_.init(args);
+  Arguments args_(args);
   min_visits_ = args_.key("min_visits").dflt("100").integer();
   min_sweeps_ = args_.key("min_sweeps").integer();
   num_steps_to_update_ =
@@ -50,9 +50,7 @@ void BiasTransitionMatrix::update_blocks_(
     const bool is_accepted) {
   // If the object that is updating is a block, don't update blocks or you'll
   // have an infinite recursion.
-  if (is_block_) {
-    return;
-  }
+  if (is_block_) return;
 
   // If the blocks haven't been initialized, create new blocks.
   if (blocks_.size() == 0) {
@@ -65,10 +63,10 @@ void BiasTransitionMatrix::update_blocks_(
   }
 
   // Update one of the randomly chosen blocks.
-  random_.element(blocks_).update(macrostate_old,
-                                  macrostate_new,
-                                  ln_metropolis_prob,
-                                  is_accepted);
+  random_.element(&blocks_)->update(macrostate_old,
+                                    macrostate_new,
+                                    ln_metropolis_prob,
+                                    is_accepted);
 }
 
 void BiasTransitionMatrix::resize(const Histogram& histogram) {
@@ -93,9 +91,7 @@ std::string BiasTransitionMatrix::write_per_bin_header() const {
     ss << "lnpi_partial ";
    // block->write_per_bin_header();
   }
-  if (!is_block_) {
-    ss << "lnpi_stdev ";
-  }
+  if (!is_block_) ss << "lnpi_stdev ";
   ss << "c0 c1 c2";
   return ss.str();
 }

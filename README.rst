@@ -22,6 +22,14 @@ Features
 * NVT/muVT LJ (with LRC) simulations with Metropolis or Wang-Landau acceptance criteria.
 * Second virial coefficient using Mayer sampling for LJ with HS reference.
 
+Usage
+================================================================================
+
+The following example Lennard-Jones Monte Carlo simulation may be found in the `<plugin/monte_carlo/tutorial/>`_ directory.
+
+.. literalinclude:: plugin/monte_carlo/tutorial/lj_brief.py
+   :language: py
+
 Compile
 ================================================================================
 

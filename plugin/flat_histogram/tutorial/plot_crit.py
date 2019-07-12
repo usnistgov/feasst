@@ -7,7 +7,7 @@ dfall = list()
 prev=0
 for p in range(np):
   df1=pd.read_csv("crit"+str(p)+".txt", delim_whitespace=True, header=3)
-  df1["ln_prob"] += prev - df1["ln_prob"].iloc[0]
+#  df1["ln_prob"] += prev - df1["ln_prob"].iloc[0]
   dfall.append(df1)
   prev = df1["ln_prob"].iloc[-1]
 

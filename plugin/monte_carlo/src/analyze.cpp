@@ -23,7 +23,7 @@ std::shared_ptr<Analyze> Analyze::deserialize(std::istream& istr) {
     true);
 }
 
-void Analyze::trial(const std::shared_ptr<Criteria> criteria,
+void Analyze::trial(const Criteria * criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   if (is_time(steps_per_update(), &steps_since_update_)) {
@@ -34,13 +34,13 @@ void Analyze::trial(const std::shared_ptr<Criteria> criteria,
   }
 }
 
-void Analyze::update(const std::shared_ptr<Criteria> criteria,
+void Analyze::update(const Criteria * criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   ERROR("not implemented");
 }
 
-std::string Analyze::write(const std::shared_ptr<Criteria> criteria,
+std::string Analyze::write(const Criteria * criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   ERROR("not implemented");

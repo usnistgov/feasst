@@ -3,11 +3,12 @@ API
 
 .. toctree::
 
-   Tuner
-   WallClockLimit
    Check
    CheckEnergy
-   CriteriaWriter
+   WallClockLimit
+   Tuner
    Energy
+   NumParticles
+   CriteriaWriter
    Movie
    Log

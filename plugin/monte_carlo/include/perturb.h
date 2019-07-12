@@ -10,6 +10,7 @@
 #include "monte_carlo/include/tunable.h"
 #include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_select.h"
+#include "math/include/accumulator.h"
 
 namespace feasst {
 
@@ -31,7 +32,7 @@ namespace feasst {
  */
 class Perturb {
  public:
-  Perturb(
+  explicit Perturb(
     /**
       tunable_param : initial value of the tunable parameter (default: 0.1).
      */
@@ -39,12 +40,16 @@ class Perturb {
     Arguments args_(args);
     args_.dont_check();
     tunable_.set_value(args_.key("tunable_param").dflt("0.1").dble());
-    before_perturb();
+    before_select();
     set_probability();
   }
 
   /// Return the tunable parameter.
-  Tunable tunable() const { return tunable_; }
+  const Tunable& tunable() const { return tunable_; }
+
+  /// Set the minimum and maximum values of the tunable parameter.
+  void set_tunable_min_and_max(const double min, const double max) {
+    tunable_.set_min_and_max(min, max); }
 
   /// Set the value of the tunable parameter.
   void set_tunable(const double value) { tunable_.set_value(value); }
@@ -55,7 +60,7 @@ class Perturb {
   virtual void precompute(const TrialSelect * select, System * system) {}
 
   /// Before perturbation, initialize some optimiation parameters.
-  void before_perturb() {
+  void before_select() {
     revert_possible_ = false;
     finalize_possible_  = false;
   }
@@ -118,6 +123,25 @@ class Perturb {
   /// Set the probability.
   void set_probability(const double prob = 1) { probability_ = prob; }
 
+  virtual std::string status_header() const {
+    std::stringstream ss;
+    if (tunable().is_enabled()) {
+      ss << "tunable ";
+    }
+    return ss.str();
+  }
+
+  virtual std::string status() const {
+    std::stringstream ss;
+    if (tunable().is_enabled()) {
+      ss << tunable_.value() << " ";
+    }
+    return ss.str();
+  }
+
+ protected:
+  void disable_tunable_() { tunable_.disable(); }
+
  private:
   Tunable tunable_;
 
@@ -146,12 +170,12 @@ class PerturbMove : public Perturb {
       const bool is_position_held = false
       ) override {
     if (is_position_held) {
-      select->set_trial_state("old");
+      select->set_trial_state(0);
       return;
     }
     move(system, select);
     set_revert_possible(true, select);
-    select->set_trial_state("move");
+    select->set_trial_state(1);
   }
 
   /// For perturbations that only move particles and/or sites, the revert step
@@ -173,6 +197,11 @@ class PerturbMove : public Perturb {
 class PerturbTranslate : public PerturbMove {
  public:
   PerturbTranslate(const argtype& args = argtype()) : PerturbMove(args) {}
+
+  void precompute(const TrialSelect * select, System * system) override {
+    set_tunable_min_and_max(0,
+      0.5*system->configuration().domain().max_side_length());
+  }
 
   /// Change the position in the selection given a trajectory.
   void update_selection(const Position& trajectory,
@@ -226,7 +255,9 @@ class PerturbTranslate : public PerturbMove {
  */
 class PerturbRotate : public PerturbMove {
  public:
-  PerturbRotate(const argtype& args = argtype()) : PerturbMove(args) {}
+  PerturbRotate(const argtype& args = argtype()) : PerturbMove(args) {
+    set_tunable_min_and_max(0., 360.);
+  }
 
   /// Change the position in the selection given a pivot and rotation matrix.
   void update_selection(const Position& pivot,
@@ -284,6 +315,7 @@ class PerturbRotate : public PerturbMove {
       const Position& pivot,
       /// Rotate particle positions if true. Otherwise, do not.
       const bool rotate_particle_position) {
+    if (is_rotation_not_needed_(select, pivot)) return;
     const double max_angle = tunable().value();
     ASSERT(std::abs(max_angle) > NEAR_ZERO, "max angle is too small");
     const Position& piv_sel = piv_sel_(pivot, select);
@@ -305,6 +337,22 @@ class PerturbRotate : public PerturbMove {
       return select->mobile().particle_positions()[0];
     }
     return pivot;
+  }
+
+  // HWH optimization
+  // check to see if rotation is not necessary when pivot is equivalent to
+  // the only rotated position.
+  bool is_rotation_not_needed_(const TrialSelect * select,
+      const Position& pivot) {
+    const SelectList& rotated = select->mobile();
+    if (rotated.num_particles() == 1) {
+      if (static_cast<int>(rotated.site_indices()[0].size()) == 1) {
+        if (rotated.site_positions()[0][0].is_equal(pivot)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 };
 
@@ -374,7 +422,9 @@ class PerturbAdd : public Perturb {
     config->add_particle_of_type(particle_type_);
     SelectList * added = select->get_mobile();
     added->last_particle_added(config);
-    added->set_trial_state("add");
+    added->set_trial_state(2);
+    select->set_probability(
+      1./static_cast<double>(config->num_particles_of_type(particle_type_)));
     if (center.dimension() == 0) {
       anywhere_.perturb(system, select, is_position_held);
     } else {
@@ -389,14 +439,36 @@ class PerturbAdd : public Perturb {
       system->get_configuration()->remove_particles(revert_select()->mobile());
       system->revert();
     }
+    accumulate_(system);
+  }
+
+  void finalize(System * system) override { accumulate_(system); }
+
+  std::string status_header() const override {
+    std::stringstream ss;
+    ss << "n" << particle_type_;
+    return ss.str();
+  }
+
+  std::string status() const override {
+    std::stringstream ss;
+    ss << num_particles_.last_value();
+    return ss.str();
   }
 
  private:
   PerturbAnywhere anywhere_;
   int particle_type_;
+  Accumulator num_particles_;
 
   // temporary
   Position empty_;
+
+  void accumulate_(System * system) {
+    num_particles_.accumulate(
+      system->configuration().num_particles_of_type(particle_type_)
+    );
+  }
 };
 
 /**
@@ -404,14 +476,16 @@ class PerturbAdd : public Perturb {
  */
 class PerturbRemove : public Perturb {
  public:
-  PerturbRemove() {}
+  PerturbRemove() {
+    disable_tunable_();
+  }
 
   void perturb(
       System * system,
       TrialSelect * select,
       const bool is_position_held = true
       ) override {
-    select->set_trial_state("old");
+    select->set_trial_state(0);
     set_finalize_possible(true, select);
 
     if (is_position_held) {
@@ -437,6 +511,44 @@ class PerturbRemove : public Perturb {
 
  private:
   PerturbAnywhere anywhere_;
+};
+
+/// Put first site in selection in a sphere about the first site in anchor.
+class PerturbDistanceFromAnchor : public PerturbMove {
+ public:
+  PerturbDistanceFromAnchor(const argtype& args = argtype())
+    : PerturbMove(args) {
+    disable_tunable_();
+  }
+
+  virtual void precompute(const TrialSelect * select, System * system) {
+    // determine the bond length
+    // or input the bond length
+    if (select->has_property("bond_length")) {
+      distance_ = select->property("bond_length");
+    } else {
+      WARN("using default distance (typically for reptation): " << distance_);
+    }
+  }
+
+  void move(System * system,
+      TrialSelect * select) override {
+    SelectList * mobile = select->get_mobile();
+    Position * site = mobile->get_site_position(0, 0);
+    DEBUG("mobile " << mobile->str());
+    DEBUG("old pos " << site->str());
+    random_.unit_sphere_surface(site);
+    site->multiply(distance_);
+    site->add(select->anchor_position(0, 0, system));
+    DEBUG("new pos " << site->str());
+    system->get_configuration()->update_positions(select->mobile());
+  }
+
+ private:
+  double distance_ = 1.;
+
+  // temporary
+  Random random_;
 };
 
 }  // namespace feasst

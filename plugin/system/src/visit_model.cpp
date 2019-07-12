@@ -21,7 +21,9 @@ void VisitModel::compute(
     const Particle& part = config->select_particle(part_index);
     for (int site_index : selection.site_indices(select_index)) {
       const Site& site = part.site(site_index);
-      energy_ += model.energy(site, config, model_params);
+      if (site.is_physical()) {
+        energy_ += model.energy(site, config, model_params);
+      }
     }
   }
 }
@@ -40,7 +42,9 @@ void VisitModel::compute(
     const Particle& part = config->select_particle(particle_index);
     for (int site_index : selection.site_indices(select_index)) {
       const Site& site = part.site(site_index);
-      energy_ += model.energy(site, config, model_params);
+      if (site.is_physical()) {
+        energy_ += model.energy(site, config, model_params);
+      }
     }
   }
 }
@@ -154,18 +158,21 @@ void VisitModelInner::compute(
     Position * relative) {
   const Particle& part1 = config->select_particle(part1_index);
   const Site& site1 = part1.site(site1_index);
-  const Particle& part2 = config->select_particle(part2_index);
-  const Site& site2 = part2.site(site2_index);
-  double squared_distance;
-  config->domain().wrap_opt(site1.position(), site2.position(), relative, &squared_distance);
-  const int type1 = site1.type();
-  const int type2 = site2.type();
-  const double cutoff = model_params.mixed_cutoff()[type1][type2];
-  if (squared_distance <= cutoff*cutoff) {
-    energy_ += model.energy(squared_distance, type1, type2, model_params);
-    TRACE("indices " << part1_index << " " << site1_index << " " <<
-      part2_index << " " << site2_index);
-    TRACE("energy " << energy_);
+  if (site1.is_physical()) {
+    const Particle& part2 = config->select_particle(part2_index);
+    const Site& site2 = part2.site(site2_index);
+    if (site2.is_physical()) {
+      config->domain().wrap_opt(site1.position(), site2.position(), relative, &squared_distance_);
+      const int type1 = site1.type();
+      const int type2 = site2.type();
+      const double cutoff = model_params.mixed_cutoff()[type1][type2];
+      if (squared_distance_ <= cutoff*cutoff) {
+        energy_ += model.energy(squared_distance_, type1, type2, model_params);
+        TRACE("indices " << part1_index << " " << site1_index << " " <<
+          part2_index << " " << site2_index);
+        TRACE("energy " << energy_);
+      }
+    }
   }
 }
 

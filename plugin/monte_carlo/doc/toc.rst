@@ -6,11 +6,10 @@ API
    Tunable
    Stepper
    Acceptance
-   CriteriaMetropolis
    TrialSelect
    Perturb
-   Rosenbluth
    PerturbConfigs
+   Rosenbluth
    TrialStage
    TrialFactory
    Modify
@@ -18,3 +17,4 @@ API
    Analyze
    AnalyzeFactory
    MonteCarlo
+   CriteriaMetropolis

@@ -41,6 +41,7 @@ bool CriteriaFlatHistogram::is_accepted(const Acceptance& acceptance,
                 is_accepted);
   if (is_accepted) {
     set_current_energy(acceptance.energy_new());
+    DEBUG("current energy: " << current_energy());
   } else {
     macrostate_new_ = macrostate_old_;
   }

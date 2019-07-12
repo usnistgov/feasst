@@ -26,7 +26,7 @@ class CheckEnergy : public ModifyUpdateOnly {
     check_ = MakeCheck();
   }
 
-  void update(std::shared_ptr<Criteria> criteria,
+  void update(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) override {
     DEBUG("computing unoptimized energy for check");

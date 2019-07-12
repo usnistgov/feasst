@@ -76,7 +76,7 @@ inline std::vector<double> segment(
   return segment;
 }
 
-/// Segment an range into windows by exponential scaling.
+/// Segment a range into windows by exponential scaling.
 inline std::vector<std::vector<int> > window(
     const int min,   //!< minimum in range
     const int max,   //!< maximum in range

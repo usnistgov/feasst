@@ -142,16 +142,21 @@ class MonteCarlo {
   /// factories for each state in criteria.
   void add(std::shared_ptr<Analyze> analyze);
 
-  std::vector<std::shared_ptr<Analyze> > analyzers() const {
+  const std::vector<std::shared_ptr<Analyze> >& analyzers() const {
     return analyze_factory_.analyzers(); }
-  std::shared_ptr<Analyze> analyze(const int index) const {
-    return analyze_factory_.analyzers()[index]; }
+  const Analyze * analyze(const int index) const {
+    return analyze_factory_.analyzers()[index].get(); }
+  int num_analyzers() const {
+    return static_cast<int>(analyze_factory_.analyzers().size()); }
+
+//  const std::shared_ptr<Analyze> analyze(const int index) const {
+//    return analyze_factory_.analyzers()[index]; }
 
   /// A Modifier performs some task after a given number of steps, but may
   /// change the System, Criteria and Trials.
   void add(const std::shared_ptr<Modify> modify) {
     ASSERT(criteria_set_, "set Criteria before Modify");
-    modify->initialize(criteria_, &system_, &trial_factory_);
+    modify->initialize(criteria_.get(), &system_, &trial_factory_);
     modify_factory_.add(modify);
   }
 
@@ -169,9 +174,9 @@ class MonteCarlo {
       //timer_.start(timer_trial_);
       trial_factory_.attempt(criteria_.get(), &system_);
       //timer_.start(timer_analyze_);
-      analyze_factory_.trial(criteria_, system_, trial_factory_);
+      analyze_factory_.trial(criteria_.get(), system_, trial_factory_);
       //timer_.start(timer_modify_);
-      modify_factory_.trial(criteria_, &system_, &trial_factory_);
+      modify_factory_.trial(criteria_.get(), &system_, &trial_factory_);
       if (checkpoint_) {
         //timer_.start(timer_checkpoint_);
         checkpoint_->check(*this);

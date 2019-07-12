@@ -13,7 +13,7 @@ namespace feasst {
 class Log : public AnalyzeWriteOnly {
  public:
   Log(const argtype& args = argtype());
-  void initialize(const std::shared_ptr<Criteria> criteria,
+  void initialize(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
     std::stringstream ss;
@@ -22,7 +22,7 @@ class Log : public AnalyzeWriteOnly {
     printer(ss.str());
   }
 
-  std::string write(const std::shared_ptr<Criteria> criteria,
+  std::string write(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
     // ensure the following order matches the header from initialization.

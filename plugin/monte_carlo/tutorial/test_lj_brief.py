@@ -2,7 +2,8 @@ import feasst
 feasst.seed_random_by_date()
 mc = feasst.MonteCarlo()
 mc.add(feasst.Configuration(feasst.args(
-  {"cubic_box_length": "8", "particle_type": "../../../forcefield/data.lj"})))
+  {"cubic_box_length": "8",
+   "particle_type": feasst.install_dir() + "/forcefield/data.lj"})))
 mc.add(feasst.Potential(feasst.MakeModelLJ()))
 mc.add(feasst.Potential(feasst.MakeLongRangeCorrections()))
 mc.add(feasst.MakeCriteriaMetropolis(feasst.args(
