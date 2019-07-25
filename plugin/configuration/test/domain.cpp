@@ -22,7 +22,7 @@ TEST(Domain, min_side_length) {
 TEST(Domain, random_position) {
   Domain domain;
   Random random;
-  domain.set_cubic(1);
+  domain.set_cubic(2);
   int inside = 0;
   const int trials = 1e3;
   for (int trial = 0; trial < trials; ++trial) {

@@ -75,6 +75,11 @@ void Position::set_to_origin() {
   }
 }
 
+void Position::set_to_origin(const int dimension) {
+  coord_.resize(dimension);
+  set_to_origin();
+}
+
 double Position::cosine(const Position& position) const {
   return dot_product(position)/distance()/position.distance();
 }
@@ -168,6 +173,37 @@ Position::Position(const argtype& args) {
       set_vector({x});
     }
   }
+}
+
+void Position::orthogonal(const Position& orthogonal) {
+  ASSERT(orthogonal.size() == 3,
+    "only implemented for 3D");
+  if (size() != 3) set_to_origin(3);
+
+  // find index with least absolute value
+  int min = 0;
+  if (std::abs(orthogonal.coord(1)) < std::abs(orthogonal.coord(min))) min = 1;
+  if (std::abs(orthogonal.coord(2)) < std::abs(orthogonal.coord(min))) min = 2;
+
+  // define orthogonal vector by setting the min to 0 and swapping the other
+  // two indices, setting one of the swapped negative.
+  if (min == 0) {
+    coord_[0] = 0.;
+    coord_[1] = -orthogonal.coord(2);
+    coord_[2] = orthogonal.coord(1);
+  } else if (min == 1) {
+    coord_[0] = -orthogonal.coord(2);
+    coord_[1] = 0.;
+    coord_[2] = orthogonal.coord(0);
+  } else {
+    coord_[0] = -orthogonal.coord(1);
+    coord_[1] = orthogonal.coord(0);
+    coord_[2] = 0.;
+  }
+  normalize();
+  ASSERT(std::abs(dot_product(orthogonal)) < 100*NEAR_ZERO,
+    "self(" << str() << " is not orthogonal with: " << orthogonal.str() <<
+    " if the dot product of the two is: " << dot_product(orthogonal));
 }
 
 }  // namespace feasst

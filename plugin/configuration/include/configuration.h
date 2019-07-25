@@ -171,7 +171,7 @@ class Configuration {
 
   /// Update the positions and properties from a selection.
   void update_positions(const SelectPosition& select,
-    /// Wrap positions within domain based, on particle position (default).
+    /// Wrap positions within domain based on particle position (default).
     const bool wrap = true);
 
   /// Displace selected particle(s).
@@ -192,9 +192,6 @@ class Configuration {
 
   /// Same as above except for only one particle that is selected.
   void remove_particle(const Select& selection);
-
-  /// Revive the selection which was deleted.
-  void revive(const SelectPosition& selection);
 
   //@{
   /** @name Domain
@@ -231,6 +228,9 @@ class Configuration {
     typical users
    */
 
+  /// Revive the particles in the selection previously removed (ghosts).
+  void revive(const SelectPosition& selection);
+
   // Return selection of all particles and sites in the configuration.
   const Select& selection_of_all() const { return group_selects_[0]; }
 
@@ -256,9 +256,11 @@ class Configuration {
   const SelectGroup& group_select(const int index) const {
     return group_selects_[index]; }
 
-  // Set site as physical/nonphysical.
-  void set_site_physical(const int particle, const int site, const bool phys) {
-    particles_.set_site_physical(particle, site, phys); }
+  // Return ghost particles.
+  const std::vector<SelectGroup>& ghosts() const { return ghosts_; }
+
+  // Set selection as physical/nonphysical
+  void set_selection_physical(const Select& select, const bool phys);
 
   // Add the property to a site in a particle.
   void add_site_property(const std::string name,

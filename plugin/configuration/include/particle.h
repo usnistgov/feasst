@@ -159,7 +159,7 @@ class Particle : public TypedEntity, public SpatialEntity {
   void erase_bonds();
 
   /// Find the bond between the given site indices.
-  const Bond& bond(int site_index1, int site_index2) const;
+  const Bond& bond(const int site_index1, const int site_index2) const;
 
   //@}
   /** @name Angles
@@ -181,6 +181,11 @@ class Particle : public TypedEntity, public SpatialEntity {
 
   /// Set an angle.
   void set_angle(const int index, const Angle& angle) { angles_[index] = angle; }
+
+  /// Find the angle between given sites 1-2-3, with 2 as the vertex.
+  const Angle& angle(const int site_index1,
+                     const int site_index2,
+                     const int site_index3) const;
 
 //  //@}
 //  /** @name Dihedrals

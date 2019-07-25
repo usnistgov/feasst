@@ -29,9 +29,11 @@ class CheckEnergy : public ModifyUpdateOnly {
   void update(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) override {
+    check_->update(criteria, system, trial_factory);
     DEBUG("computing unoptimized energy for check");
     const double energy = system->unoptimized_energy();
     const double current_energy = criteria->current_energy();
+    DEBUG("energy " << energy);
     ASSERT(std::abs(energy - current_energy) < tolerance_,
       "Energy check failure. There is a problem with the potentials. " <<
       "The unoptimized energy of the entire configuration was computed as " <<
@@ -41,7 +43,6 @@ class CheckEnergy : public ModifyUpdateOnly {
       "greater than the tolerance(" << tolerance_ << "). "
       << system->unoptimized().str());
     criteria->set_current_energy(energy);
-    check_->update(criteria, system, trial_factory);
   }
 
   std::string class_name() const override { return std::string("CheckEnergy"); }

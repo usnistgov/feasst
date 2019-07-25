@@ -23,13 +23,14 @@ class TrialSelectSegment : public TrialSelect {
 
   int max_length() const { return max_length_; }
 
-  void select(System* system) override {
+  bool select(const Select& perturbed, System* system) override {
     mobile_.random_segment_in_particle(
       group_index(),
       system->configuration(),
       max_length()
     );
     mobile_original_ = mobile_;
+    return true;
   }
 
  private:
@@ -47,17 +48,18 @@ class TrialSelectEndSegment : public TrialSelectSegment {
     anchor_.add_site(0, 0);
   }
 
-  void select(System* system) override {
+  bool select(const Select& perturbed, System* system) override {
     bool is_endpoint_beginning = mobile_.random_end_segment_in_particle(
       group_index(),
       system->configuration(),
       max_length()
     );
     if (mobile_.num_sites() <= 0) {
-      return;
+      return false;
     }
-    mobile_original_ = mobile_;
     update_anchor(is_endpoint_beginning, system);
+    mobile_original_ = mobile_;
+    return true;
   }
 
   virtual void update_anchor(const bool is_endpoint_beginning,
@@ -118,6 +120,20 @@ class TrialSelectReptate : public TrialSelectEndSegment {
  private:
   // temporary
   SelectList bonded_to_;
+};
+
+/// Select the perturbed site. Used for selection of first stage with growth
+/// expected ensemble. Particular particle, not random particle.
+class TrialSelectPerturbed : public TrialSelect {
+ public:
+  TrialSelectPerturbed(const argtype& args = argtype()) : TrialSelect(args) {}
+
+  bool select(const Select& perturbed, System* system) override {
+    if (perturbed.num_sites() == 0) return false;
+    mobile_.replace_particle(perturbed, 0, system->configuration());
+    mobile_original_ = mobile_;
+    return true;
+  }
 };
 
 }  // namespace feasst

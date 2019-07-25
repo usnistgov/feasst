@@ -155,7 +155,7 @@ void Particle::add_angle(const Angle& angle) {
   add_bond_(angle, angle_index, &angle_list_);
 }
 
-const Bond& Particle::bond(int site_index1, int site_index2) const {
+const Bond& Particle::bond(const int site_index1, const int site_index2) const {
   DEBUG("sites " << site_index1 << " " << site_index2);
   for (const int bond_index : bond_list_[site_index1]) {
     const Bond& bond = Particle::bond(bond_index);
@@ -165,6 +165,25 @@ const Bond& Particle::bond(int site_index1, int site_index2) const {
     }
   }
   ERROR("bond between " << site_index1 << " and " << site_index2 << " not found.");
+}
+
+const Angle& Particle::angle(const int site_index1,
+    const int site_index2,
+    const int site_index3) const {
+  DEBUG("sites " << site_index1 << " " << site_index2 << " " << site_index3);
+  for (const int angle_index : angle_list_[site_index1]) {
+    const Angle& angle = Particle::angle(angle_index);
+    if ( ( (site_index1 == angle.site(0)) and
+           (site_index2 == angle.site(1)) and
+           (site_index3 == angle.site(2)) ) or
+         ( (site_index1 == angle.site(2)) and
+           (site_index2 == angle.site(1)) and
+           (site_index3 == angle.site(0)) ) ) {
+      return angle;
+    }
+  }
+  ERROR("angle between " << site_index1 << " - " << site_index2 << " - " <<
+    site_index3 << " not found.");
 }
 
 void Particle::erase_bonds() {

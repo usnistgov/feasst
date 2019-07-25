@@ -15,66 +15,86 @@ void VisitModelIntra::compute(
   zero_energy();
   const Domain& domain = config->domain();
   init_relative_(domain, &relative_);
-  for (int part1_index : selection.particle_indices()) {
+  for (int sp1index = 0;
+       sp1index < static_cast<int>(selection.particle_indices().size());
+       ++sp1index) {
+    const int part1_index = selection.particle_index(sp1index);
+  //for (int part1_index : selection.particle_indices()) {
     TRACE("particle: " << part1_index);
     const Particle& part1 = config->select_particle(part1_index);
     // the first site loop is over all sites in part1 and group_index
     // the second is all sites in selection
-    // but this creates non-trivial double counting/optimization issues
-    // for ease of implementation, we simply loop over all unique pairs of sites
+    // HWH optimize this
 
     // here we use excluded to account for chain regrowth, etc.
     // exclude the particles which haven't been grown yet.
     // or exclude particles which will form new bonds (reptate).
-    Select sites;
-    sites.add_particle(part1, part1_index);
+    Select sites1 = selection;
     if (selection.excluded()) {
-      sites.remove(*(selection.excluded()));
+      sites1.remove(*(selection.excluded()));
       TRACE("excluded " << selection.excluded()->str());
     }
-    TRACE("sites: " << sites.str());
-    const std::vector<int>& site_indices = sites.site_indices(0);
+    TRACE("sites1: " << sites1.str());
+    const std::vector<int>& site1_indices = sites1.site_indices(0);
+
+    Select sites2;
+    sites2.add_particle(part1, part1_index);
+    if (selection.excluded()) {
+      sites2.remove(*(selection.excluded()));
+      TRACE("excluded " << selection.excluded()->str());
+    }
+    TRACE("sites2: " << sites2.str());
+    const std::vector<int>& site2_indices = sites2.site_indices(0);
+
     for (int sel1_index = 0;
-         sel1_index < static_cast<int>(site_indices.size()) - 1;
+         sel1_index < static_cast<int>(site1_indices.size());
          ++sel1_index) {
-      TRACE("sel1_index " << sel1_index << " size " << site_indices.size());
-      const int site1_index = site_indices[sel1_index];
-      for (int sel2_index = sel1_index + 1;
-           sel2_index < static_cast<int>(site_indices.size());
+      TRACE("sel1_index " << sel1_index << " size " << site1_indices.size());
+      const int site1_index = site1_indices[sel1_index];
+      for (int sel2_index = 0;
+           sel2_index < static_cast<int>(site2_indices.size());
            ++sel2_index) {
-        const int site2_index = site_indices[sel2_index];
+        const int site2_index = site2_indices[sel2_index];
 
-        // here we determine if the pair of sites is forced to be included
-        bool include = false;
-        if (selection.old_bond()) {
-          const int incl1_site = selection.site_indices()[0][0];
-          const int incl2_site = selection.old_bond()->site_indices()[0][0];
-          if ( (site1_index == incl1_site and
-                site2_index == incl2_site) or
-               (site1_index == incl2_site and
-                site2_index == incl1_site) ) {
-            include = true;
-            TRACE("include " << include << " incl " << incl1_site << " " << incl2_site);
+        // if sites in particle selection > 1, attempt the following check.
+        // if site2 is in selection, then require site1 < site2
+        if (!find_in_list(site2_index, site1_indices) or
+            site1_index < site2_index) {
+
+          // here we determine if the pair of sites is forced to be included
+          bool include = false;
+          if (selection.old_bond()) {
+            const int incl1_site = site1_indices[0];
+            const int incl2_site = selection.old_bond()->site_indices()[sp1index][0];
+            if ( (site1_index == incl1_site and
+                  site2_index == incl2_site) or
+                 (site1_index == incl2_site and
+                  site2_index == incl1_site) ) {
+              include = true;
+              TRACE("include " << include << " incl " << incl1_site << " " << incl2_site);
+            }
           }
-        }
 
-        bool exclude = false;
-        if (selection.new_bond()) {
-          const int excl1_site = selection.site_indices()[0][0];
-          const int excl2_site = selection.new_bond()->site_indices()[0][0];
-          if ( (site1_index == excl1_site and
-                site2_index == excl2_site) or
-               (site1_index == excl2_site and
-                site2_index == excl1_site) ) {
-            exclude = true;
-            TRACE("exclude " << exclude << " excl " << excl1_site << " " << excl2_site);
+          // here we determine if the pair of sites is forced to be excluded
+          bool exclude = false;
+          if (selection.new_bond()) {
+            const int excl1_site = site1_indices[0];
+            const int excl2_site = selection.new_bond()->site_indices()[sp1index][0];
+            if ( (site1_index == excl1_site and
+                  site2_index == excl2_site) or
+                 (site1_index == excl2_site and
+                  site2_index == excl1_site) ) {
+              exclude = true;
+              TRACE("exclude " << exclude << " excl " << excl1_site << " " << excl2_site);
+            }
           }
-        }
 
-        if ( (include or std::abs(site1_index - site2_index) > intra_cut_) and (!exclude) ) {
-          TRACE("sites: " << site1_index << " " << site2_index);
-          inner()->compute(part1_index, site1_index, part1_index, site2_index,
-                           config, model_params, model, &relative_);
+          // forced exclude takes precedent over forced include
+          if ( (include or std::abs(site1_index - site2_index) > intra_cut_) and (!exclude) ) {
+            TRACE("sites: " << site1_index << " " << site2_index);
+            inner()->compute(part1_index, site1_index, part1_index, site2_index,
+                             config, model_params, model, &relative_);
+          }
         }
       }
     }

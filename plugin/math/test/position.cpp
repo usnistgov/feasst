@@ -2,6 +2,7 @@
 #include <math.h>
 #include "system/test/position_test.h"
 #include "math/include/constants.h"
+#include "math/include/random.h"
 #include "utils/include/debug.h"
 
 namespace feasst {
@@ -44,6 +45,18 @@ TEST(Position, nearest_distance_to_axis2) {
   auto x1 = Position().set_vector({0, -1., 0.});
   auto x2 = Position().set_vector({0., -1., 1});
   EXPECT_NEAR(x0.nearest_distance_to_axis(x1, x2), 2.354, NEAR_ZERO);
+}
+
+TEST(Position, orthogonal) {
+  Random ran;
+  Position xa, xb;
+  xa.set_to_origin(3);
+  xb.set_to_origin(3);
+  for (int i = 0; i < 100; ++i) {
+    ran.unit_sphere_surface(&xa);
+    xb.orthogonal(xa);
+    EXPECT_NEAR(0, xa.dot_product(xb), NEAR_ZERO);
+  }
 }
 
 }  // namespace feasst

@@ -18,12 +18,28 @@ namespace feasst {
  */
 class Macrostate {
  public:
-  Macrostate(const Histogram& histogram) {
+  Macrostate(const Histogram& histogram,
+    /**
+      soft_max : optionally, set a soft maximum (default: same as histogram).
+                 These soft limits may be changed during a simulation.
+      soft_min : minimum as described above (default: same as histogram).
+     */
+    const argtype& args = argtype()) {
     set(histogram);
-  }
 
-  /// Return the current value of the macrostate.
-  virtual double value(const System* system, const Criteria* criteria) = 0;
+    // soft limits
+    Arguments args_(args);
+    is_soft_bound_ = false;
+    if (args_.key("soft_max").used()) {
+      is_soft_bound_ = true;
+      soft_max_ = args_.integer();
+      if (args_.key("soft_min").used()) {
+        soft_min_ = args_.integer();
+      } else {
+        soft_min_ = histogram_.min();
+      }
+    }
+  }
 
   /// Set the bins of the macrostate by providing a Histogram.
   /// This is required before the macrostate can be used for flat histogram
@@ -35,6 +51,15 @@ class Macrostate {
   /// Return the histogram.
   const Histogram& histogram() const { return histogram_; }
 
+  /// Return the soft maximum (default: histogram max).
+  const int soft_max() const;
+
+  /// Return the soft minimum (default: histogram min).
+  const int soft_min() const;
+
+  /// Return the current value of the macrostate.
+  virtual double value(const System* system, const Criteria* criteria) = 0;
+
   /// Return the current bin of the macrostate.
   int bin(const System* system, const Criteria* criteria) {
     return histogram_.bin(value(system, criteria)); }
@@ -42,6 +67,9 @@ class Macrostate {
   /// Return whether the current system macrostate is within permissible range
   /// given by the input histogram.
   bool is_in_range(const System* system, const Criteria* criteria);
+
+  /// Swap the soft bounds with another macrostate.
+  void swap_soft_bounds(Macrostate * macrostate);
 
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Macrostate> create(std::istream& istr) const;
@@ -55,6 +83,9 @@ class Macrostate {
 
  private:
   Histogram histogram_;
+  bool is_soft_bound_;
+  int soft_max_;
+  int soft_min_;
 };
 
 /// Segment an range into pieces by exponential scaling.

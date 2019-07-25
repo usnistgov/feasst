@@ -55,4 +55,13 @@ TEST(Particle, bond) {
   EXPECT_EQ(0, chain2.bond(9, 8).type());
 }
 
+TEST(Particle, angle) {
+  Particle spce = FileLMP().read("../forcefield/data.spce");
+  try {
+    spce.angle(0, 1, 2);
+    CATCH_PHRASE("not found");
+  }
+  EXPECT_EQ(0, spce.angle(1, 0, 2).type());
+}
+
 }  // namespace feasst

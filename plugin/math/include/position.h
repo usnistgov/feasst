@@ -58,6 +58,9 @@ class Position {
   /// Set the position of self to the origin.
   void set_to_origin();
 
+  /// Resize to given dimension, then set to the origin.
+  void set_to_origin(const int dimension);
+
   /// Add position vector to self.
   void add(const Position &position);
 
@@ -103,6 +106,9 @@ class Position {
   /// see http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
   double nearest_distance_to_axis(const Position& point1,
                                   const Position& point2) const;
+
+  /// Set self orthogonal to given position.
+  void orthogonal(const Position& orthogonal);
 
   // HWH optimized only
   std::vector<double> * get_coord() { return &coord_; }

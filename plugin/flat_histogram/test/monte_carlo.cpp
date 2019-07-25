@@ -32,10 +32,10 @@ std::shared_ptr<CriteriaFlatHistogram> crit_fh(const int crit_type) {
     {"beta", str(1./1.5)},
     {"chemical_potential", "-2.352321"}
   });
-  criteria->set(MakeMacrostateNumParticles(Histogram({
-    {"width", "1"},
-    {"max", "5"},
-  })));
+  criteria->set(MakeMacrostateNumParticles(
+    Histogram({{"width", "1"}, {"max", "5"}}),
+    {{"soft_max", "5"}}
+  ));
   if (crit_type == 0) {
     criteria->set(MakeBiasTransitionMatrix({
       {"min_sweeps", "10"},
@@ -71,7 +71,7 @@ TEST(MonteCarlo, FHMC) {
   for (int crit_type = 0; crit_type < 1; ++crit_type) {
   // for (int crit_type = 0; crit_type < 2; ++crit_type) {
     MonteCarlo mc = mc_lj();
-    mc.add(MakeTrialAdd({{"weight", "0.25"}}));
+    mc.add(MakeTrialAdd({{"particle_type", "0"}, {"weight", "0.25"}}));
     mc.add(MakeTrialRemove({{"weight", "0.25"}}));
     mc.set(crit_fh(crit_type));
     mc.add(MakeMovie({
@@ -102,6 +102,7 @@ TEST(MonteCarlo, FHMC) {
     //const LnProbabilityDistribution * lnpi = &criteria->bias()->ln_macro_prob();
     //INFO(lnpi->value(0));
     INFO(energy_av(0, mc));
+    EXPECT_LE(mc.system().configuration().num_particles(), 5);
   }
 }
 

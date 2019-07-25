@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chain/include/trial.h"
+#include "chain/include/trial_grow.h"
 #include "system/include/system.h"
 #include "system/include/model_lj.h"
 #include "monte_carlo/include/criteria_metropolis.h"
@@ -9,7 +9,7 @@
 
 namespace feasst {
 
-TEST(TrialRegrow, chain10) {
+TEST(TrialGrow, chain10) {
   seed_random_by_date();
   System system;
   {
@@ -28,7 +28,10 @@ TEST(TrialRegrow, chain10) {
 
   auto criteria = std::make_shared<CriteriaMetropolis>();
   criteria->set_beta(100.0);
-  auto pivot = MakeTrialRegrowLinear();
+  auto pivot = MakeTrialGrowLinear(
+    std::make_shared<TrialComputeMove>(),
+    {{"particle_type", "0"}}
+  );
   TrialFactory factory;
   factory.add(pivot);
   factory.precompute(criteria.get(), &system);

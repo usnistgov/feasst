@@ -8,7 +8,7 @@
 
 namespace feasst {
 
-/*
+/**
   This object contains information necessary for Criteria to make a decision on
   whether or not to accept or reject a trial.
  */
@@ -41,6 +41,7 @@ class Acceptance {
     energy_new_ = 0.;
     energy_old_ = 0.;
     macrostate_shift_ = 0;
+    perturbed_.clear();
   }
 
   /// Return the energy of the new configuration.
@@ -74,6 +75,12 @@ class Acceptance {
   /// Set the above.
   void set_macrostate_shift(const int shift) { macrostate_shift_ = shift; }
 
+  /// Add to perturbed selection.
+  void add_to_perturbed(const Select& select) { perturbed_.add(select); }
+
+  /// Return the perturbed selection.
+  const Select& perturbed() const { return perturbed_; }
+
  private:
   double ln_metropolis_prob_;
   double energy_new_;
@@ -81,6 +88,7 @@ class Acceptance {
   double energy_ref_;
   int macrostate_shift_;
   bool reject_;
+  Select perturbed_;
 };
 
 /**

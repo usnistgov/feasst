@@ -104,7 +104,7 @@ class MonteCarlo {
   void set(std::shared_ptr<Criteria> criteria) { add(criteria); }
 
   /// Once Criteria is set, it may be accessed on a read-only basis.
-  const std::shared_ptr<Criteria> criteria() { return criteria_; }
+  const Criteria * criteria() { return criteria_.get(); }
 
   /// The remaining actions can be done in almost any order.
   /// Typically, one begins by adding trials.
@@ -121,17 +121,23 @@ class MonteCarlo {
   /// Access the trials on a read-only basis.
   const TrialFactory& trials() const { return trial_factory_; }
 
+  /// Access the trials on a read-only basis.
+  const Trial * trial(const int index) const {
+    return trial_factory_.trial(index); }
+
   /// HWH consider depreciating this. While convenient, it confuses many users.
   /// Before the production simulation, one may wish to quickly seek an initial
   /// configuration with a given number of particles, without necessarily
   /// satisfying detailed balance.
+  /// Thus, all stats are reset.
   void seek_num_particles(const int num) {
     ASSERT(system_.configuration().num_particles() <= num,
       "assumes you only want to add particles, not delete them");
-    TrialAdd add;
+    auto add = MakeTrialAdd({{"particle_type", "0"}});
+    add->precompute(criteria_.get(), &system_);
     while (system_.configuration().num_particles() < num) {
       attempt();
-      add.attempt(criteria_.get(), &system_);
+      add->attempt(criteria_.get(), &system_);
     }
     trial_factory_.reset_stats();
   }

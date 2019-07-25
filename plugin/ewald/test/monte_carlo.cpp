@@ -36,11 +36,13 @@ TEST(MonteCarlo, spce) {
   mc.add(MakeLog({{"file_name", "tmp/spce_log.txt"}}));
   mc.add(MakeTuner({{"steps_per", str(steps_per)}}));
   mc.add(MakeCheckEnergy({{"tolerance", "1e-8"}, {"steps_per", str(steps_per)}}));
-  test_serialize(mc);
+
   // Theres something wrong with MC and Ewald
-  // mc.seek_num_particles(10);
+  // mc.seek_num_particles(1);
   // INFO(mc.system().configuration().num_particles());
   // mc.attempt(1e3);
+
+  test_serialize(mc);
 }
 
 }  // namespace feasst

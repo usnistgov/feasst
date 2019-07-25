@@ -14,8 +14,8 @@ import sys
 import pyfeasst
 
 external_libs=['xdrfile.h', 'xdrfile_xtc.h']
-include_plugin=['utils','math','configuration','system','steppers','monte_carlo','flat_histogram']
-#include_plugin=['utils','math','configuration','system','steppers','monte_carlo','mayer','models','patch','example','confinement','chain','flat_histogram','ewald']
+#include_plugin=['utils','math','configuration','system','steppers','monte_carlo','flat_histogram']
+include_plugin=['utils','math','configuration','system','steppers','monte_carlo','mayer','models','patch','example','confinement','chain','flat_histogram','ewald']
 
 def is_header(file_name):
   if file_name.endswith(".h"):

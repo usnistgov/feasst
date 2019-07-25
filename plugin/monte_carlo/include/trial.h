@@ -57,18 +57,6 @@ class TrialStage {
   /// Return the above.
   const TrialSelect * trial_select() const { return select_.get(); }
 
-  /// Perform the selection.
-  void select(System * system, Acceptance * acceptance) {
-    select_->select(system);
-    select_->check(acceptance);
-  }
-
-  /// Set the perturbation.
-  void set(std::shared_ptr<Perturb> perturb) { perturb_ = perturb; }
-
-//  /// Return the above.
-//  const Perturb * perturb() const { return perturb_.get(); }
-
   /// Initialization before any stage attempt.
   virtual void precompute(System * system) {
     select_->precompute(system);
@@ -81,14 +69,42 @@ class TrialStage {
     perturb_->before_select();
   }
 
+  /// Perform the selection and update the acceptance.
+  /// Set sites involved in stage as unphysical.
+  void select(System * system, Acceptance * acceptance) {
+    const bool is_selected = select_->select(acceptance->perturbed(), system);
+    if (is_selected) {
+      acceptance->add_to_perturbed(select_->mobile());
+      set_mobile_physical(false, system);
+    } else {
+      acceptance->set_reject(true);
+    }
+  }
+
+  /// Set the perturbation.
+  void set(std::shared_ptr<Perturb> perturb) { perturb_ = perturb; }
+
+//  /// Return the above.
+//  const Perturb * perturb() const { return perturb_.get(); }
+
+  /// Set mobile selection physical.
+  void set_mobile_physical(const bool physical, System * system) {
+    system->get_configuration()->set_selection_physical(
+      select_->mobile(),
+      physical
+    );
+  }
+
   /// Attempt all steps in a stage.
   /// Consider reference potentials and compute Rosenbluth factors.
+  /// Set sites involves in stage as physical.
   virtual void attempt(
     System * system,
     Criteria * criteria,
     /// Set to 1 for "old" system and "0" for new.
     const int old) {
     ASSERT(perturb_, "perturb not set");
+    set_mobile_physical(true, system);
     for (int step = 0; step < rosenbluth_.num(); ++step) {
       // DEBUG(perturb_->class_name());
       bool is_position_held = false;
@@ -118,6 +134,13 @@ class TrialStage {
     }
   }
 
+  /// Call between multiple attempts (e.g., old vs new)
+  /// Set mobile sites unphysical.
+  void mid_stage(System * system) {
+    select_->mid_stage();
+    set_mobile_physical(false, system);
+  }
+
   /// Revert the attempt.
   void revert(System * system) {
     perturb_->revert(system);
@@ -129,13 +152,9 @@ class TrialStage {
     perturb_->finalize(system);
   }
 
-  /// Call after old configuration but before new.
-  void mid_stage() { select_->mid_stage(); }
-
   void tune(const double acceptance) {
     perturb_->tune(acceptance);
   }
-
 
   std::string status_header() const {
     return perturb_->status_header();
@@ -173,6 +192,9 @@ class TrialCompute {
         if (!stage->is_mayer()) {
           acceptance->set_reject(true);
           DEBUG("auto reject");
+          for (TrialStage* stage : *stages) {
+            stage->set_mobile_physical(true, system);
+          }
           return;
         }
       }
@@ -195,9 +217,8 @@ class TrialCompute {
     }
     DEBUG("reference used? " << reference_used);
     if (reference_used) {
-      ASSERT(static_cast<int>(stages->size()) == 1,
-        "implement a select_all in trial including selection of all trials?");
-      const double en_full = system->energy((*stages)[0]->trial_select()->mobile());
+      ASSERT(acceptance->perturbed().num_sites() > 0, "error");
+      const double en_full = system->energy(acceptance->perturbed());
       acceptance->add_to_ln_metropolis_prob(-1.*criteria->beta()*
         (en_full - energy_change));
       DEBUG("energy ref: " << energy_change);
@@ -274,13 +295,6 @@ class Trial {
   /// with respect to all trials.
   double weight() const { return weight_; }
 
-  /// Add a TrialStage in order.
-  // HWH depreciate
-  void add(std::shared_ptr<TrialStage> stage) {
-    stages_.push_back(stage);
-    stages_ptr_.push_back(stages_.back().get());
-  }
-
   /// Add a stage which includes selection and perturbation with arguments.
   void add_stage(
     std::shared_ptr<TrialSelect> select,
@@ -289,7 +303,13 @@ class Trial {
     auto stage = std::make_shared<TrialStage>(args);
     stage->set(select);
     stage->set(perturb);
-    add(stage);
+    add_(stage);
+  }
+
+  /// Set a stage, as can be done just before each attempt.
+  void set(const int index, std::shared_ptr<TrialStage> stage) {
+    stages_[index] = stage;
+    stages_ptr_[index] = stage.get();
   }
 
   /// Return the stages.
@@ -359,13 +379,16 @@ class Trial {
   /// Set the computation of the trial and acceptance.
   void set(std::shared_ptr<TrialCompute> compute) { compute_ = compute; }
 
-  /// Attempt a trial.
-  virtual void attempt(Criteria * criteria, System * system) {
+  virtual void before_select(Acceptance * acceptance) {}
+
+  /// Attempt a trial. Return true if accepted.
+  virtual bool attempt(Criteria * criteria, System * system) {
     ++num_attempts_;
     DEBUG("new trial attempt " << num_attempts_);
     acceptance_.reset();
     criteria->before_attempt(system);
-    for (std::shared_ptr<TrialStage> stage : stages_) {
+    before_select(&acceptance_);
+    for (TrialStage * stage : stages_ptr_) {
       stage->before_select();
       stage->select(system, &acceptance_);
     }
@@ -379,18 +402,30 @@ class Trial {
       for (int index = num_stages() - 1; index >= 0; --index) {
         stages_[index]->finalize(system);
       }
+      return true;
     } else {
       DEBUG("rejected");
       for (int index = num_stages() - 1; index >= 0; --index) {
         stages_[index]->revert(system);
       }
+      return false;
     }
   }
+
+  // Return Acceptance, which is a temporary object.
+  const Acceptance& accept() const { return acceptance_; }
 
   std::string class_name() const { return class_name_; }
 
  protected:
   std::string class_name_ = "Trial";
+
+  void add_(std::shared_ptr<TrialStage> stage) {
+    stages_.push_back(stage);
+    stages_ptr_.push_back(stages_.back().get());
+  }
+
+  TrialStage * get_stage_(const int index) { return stages_[index].get(); }
 
  private:
   std::vector<std::shared_ptr<TrialStage> > stages_;
@@ -401,6 +436,10 @@ class Trial {
   int64_t num_attempts_ = 0, num_success_ = 0;
 };
 
+inline std::shared_ptr<Trial> MakeTrial(const argtype& args = argtype()) {
+  return std::make_shared<Trial>(args);
+}
+
 class TrialComputeMove : public TrialCompute {
  public:
   void perturb_and_acceptance(
@@ -410,7 +449,7 @@ class TrialComputeMove : public TrialCompute {
     std::vector<TrialStage*> * stages) override {
     DEBUG("TrialComputeMove");
     compute_rosenbluth(1, criteria, system, acceptance, stages);
-    for (TrialStage * stage : *stages) stage->mid_stage();
+    for (TrialStage * stage : *stages) stage->mid_stage(system);
     compute_rosenbluth(0, criteria, system, acceptance, stages);
     DEBUG("old: " << criteria->current_energy() << " " << acceptance->energy_old());
     DEBUG("new: " << acceptance->energy_new());
@@ -483,7 +522,8 @@ class TrialComputeAdd : public TrialCompute {
     { // Metropolis
       const Configuration& config = system->configuration();
       const double volume = config.domain().volume();
-      const int particle_type = select->particle_type();
+      const int particle_index = select->mobile().particle_index(0);
+      const int particle_type = config.select_particle(particle_index).type();
       acceptance->add_to_ln_metropolis_prob(
         log(volume*select->probability())
         + criteria->beta_mu(particle_type)
@@ -497,7 +537,7 @@ class TrialAdd : public Trial {
  public:
   TrialAdd(const argtype& args = argtype()) : Trial(args) {
     add_stage(
-      std::make_shared<TrialSelectDoNothing>(),
+      std::make_shared<TrialSelectParticle>(args),
       std::make_shared<PerturbAdd>(args),
       args
     );
@@ -525,7 +565,8 @@ class TrialComputeRemove : public TrialCompute {
       const Configuration& config = system->configuration();
       const double volume = config.domain().volume();
       const TrialSelect * select = (*stages)[0]->trial_select();
-      const int particle_type = select->particle_type();
+      const int particle_index = select->mobile().particle_index(0);
+      const int particle_type = config.select_particle(particle_index).type();
       DEBUG("volume " << volume << " selprob " << select->probability() << " betamu " << criteria->beta_mu(particle_type));
       acceptance->add_to_ln_metropolis_prob(
         - log(volume*select->probability())
@@ -543,7 +584,7 @@ class TrialRemove : public Trial {
     argtype args2(args);
     args2.insert({"load_coordinates", "false"});
     add_stage(
-      std::make_shared<TrialSelectParticleOfType>(args2),
+      std::make_shared<TrialSelectParticle>(args2),
       std::make_shared<PerturbRemove>(),
       args
     );

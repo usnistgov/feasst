@@ -21,6 +21,7 @@ TEST(VisitModelIntra, energy) {
   const double pe_lj =  4*(pow(2, -12)-pow(2, -6));
   EXPECT_NEAR(10*pe_lj, visit.energy(), NEAR_ZERO);
 
+  // test exclusion of first site (no 0-2 or 0-8 interaction)
   Select all = config.selection_of_all();
   Select ignore;
   ignore.add_site(0, 0);

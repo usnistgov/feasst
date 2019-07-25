@@ -75,7 +75,7 @@ TEST(Ewald, revert) {
   EXPECT_NEAR(-4062.47263092246, system.energy(), 1e-10);
   PerturbTranslate perturb;
   TrialSelectParticle tsel;
-  tsel.select(&system);
+  tsel.select(Select(), &system);
   perturb.perturb(&system, &tsel);
   EXPECT_GT(std::abs(-4062.47263092246 - system.energy()), 1e-10);
   perturb.revert(&system);

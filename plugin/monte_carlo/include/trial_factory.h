@@ -13,7 +13,7 @@ class TrialFactory : public Trial {
  public:
   TrialFactory() { class_name_ = "TrialFactory"; }
 
-  void attempt(
+  bool attempt(
       Criteria* criteria,
       System * system,
       /// attempt trial_index. If -1, choose randomly with probabilty
@@ -21,18 +21,17 @@ class TrialFactory : public Trial {
       const int trial_index) {
     // timer_.start(0);
     increment_num_attempts();
-    if (num_trials() == 0) return;
+    if (num_trials() == 0) return false;
     if (trial_index != -1) {
-      attempt_(criteria, system, trial_index);
-      return;
+      return attempt_(criteria, system, trial_index);
     }
     const int index = random_.index_from_cumulative_probability(
       cumulative_probability_);
-    attempt_(criteria, system, index);
+    return attempt_(criteria, system, index);
   }
 
-  void attempt(Criteria* criteria, System * system) override {
-    attempt(criteria, system, -1); }
+  bool attempt(Criteria* criteria, System * system) override {
+    return attempt(criteria, system, -1); }
 
   void add(std::shared_ptr<Trial> trial) {
     trials_.push_back(trial);
@@ -50,7 +49,10 @@ class TrialFactory : public Trial {
 
   int num_trials() const { return static_cast<int>(trials_.size()); }
 
+  // HWH depreciate
   std::vector<std::shared_ptr<Trial> > trials() { return trials_; }
+
+  const Trial * trial(const int index) const { return trials_[index].get(); }
 
   /// Return the header description for the statuses of the trials (e.g., acceptance, etc).
   std::string status_header() const override {
@@ -102,12 +104,12 @@ class TrialFactory : public Trial {
 
   Random random_;
 
-  void attempt_(
+  bool attempt_(
       Criteria* criteria,
       System * system,
       const int index) {
     //timer_.start(index + 1);  // +1 for "other"
-    trials_[index]->attempt(criteria, system);
+    return trials_[index]->attempt(criteria, system);
     //timer_.end();
   }
 };

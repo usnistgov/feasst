@@ -7,14 +7,14 @@ API
    Stepper
    Acceptance
    TrialSelect
+   Rosenbluth
    Perturb
    PerturbConfigs
-   Rosenbluth
    TrialStage
    TrialFactory
-   Modify
-   ModifyFactory
    Analyze
    AnalyzeFactory
+   Modify
+   ModifyFactory
    MonteCarlo
    CriteriaMetropolis

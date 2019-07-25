@@ -1,14 +1,14 @@
-PerturbPivot
+TrialGrowLinear
 =====================================================
 
-.. doxygenclass:: feasst::PerturbPivot
+.. doxygenclass:: feasst::TrialGrowLinear
    :project: FEASST
    :members:
 
-.. doxygenclass:: feasst::PerturbCrankshaft
+.. doxygenclass:: feasst::TrialComputeGrow
    :project: FEASST
    :members:
 
-.. doxygenclass:: feasst::PerturbReptate
+.. doxygenclass:: feasst::TrialGrowthExpanded
    :project: FEASST
    :members:

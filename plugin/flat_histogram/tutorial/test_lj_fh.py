@@ -20,9 +20,9 @@ def criteria_flathist(macro_min, macro_max, chemical_potential=-2.352321, tmmc=T
         criteria.set(feasst.MakeBiasWangLandau(feasst.args({"min_flatness": "20"})))
     return criteria
 
-def mc(proc, macro_min=0, macro_max=370, steps_per=1e6, tmmc=True):
+def mc(proc, macro_min=0, macro_max=370, steps_per=1e6, tmmc=True, forcefield='data.lj'):
     mc = feasst.MonteCarlo()
-    mc.set(lj.system(box_length=8))
+    mc.set(lj.system(box_length=8, forcefield=forcefield))
 
     # add the minimum number of particles to the system
     mc.set(feasst.MakeCriteriaMetropolis(feasst.args(

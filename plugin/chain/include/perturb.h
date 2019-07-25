@@ -58,12 +58,12 @@ class PerturbCrankshaft : public PerturbRotate {
   For a reptation, if new bond is accepted, then change the positions of all the
   sites along the chain.
  */
-class PerturbReptate : public PerturbDistanceFromAnchor {
+class PerturbReptate : public PerturbDistance {
  public:
-  PerturbReptate(const argtype& args = argtype()) : PerturbDistanceFromAnchor(args) {}
+  PerturbReptate(const argtype& args = argtype()) : PerturbDistance(args) {}
   void move(System * system,
       TrialSelect * select) override {
-    PerturbDistanceFromAnchor::move(system, select);
+    PerturbDistance::move(system, select);
     set_finalize_possible(true, select);
   }
 

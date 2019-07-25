@@ -2,12 +2,13 @@ cmake_minimum_required (VERSION 2.6)
 project (FEASST)
 set (CMAKE_CXX_STANDARD 11)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -pthread")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -pthread")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pg -g") #profile
 
 # manually list the plugins
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;")
-#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram")
 set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;")
 message(${FEASST_PLUGINS})
 # set path to XDR if using xtc plugin

@@ -11,7 +11,8 @@ namespace feasst {
  */
 class MacrostateNumParticles : public Macrostate {
  public:
-  MacrostateNumParticles(const Histogram& histogram) : Macrostate(histogram) {}
+  MacrostateNumParticles(const Histogram& histogram,
+    const argtype& args = argtype()) : Macrostate(histogram, args) {}
 
   double value(const System* system, const Criteria* criteria) override {
     return static_cast<double>(system->configuration().num_particles());
@@ -27,8 +28,8 @@ class MacrostateNumParticles : public Macrostate {
 };
 
 inline std::shared_ptr<MacrostateNumParticles> MakeMacrostateNumParticles(
-    const Histogram& histogram) {
-  return std::make_shared<MacrostateNumParticles>(histogram);
+    const Histogram& histogram, const argtype& args = argtype()) {
+  return std::make_shared<MacrostateNumParticles>(histogram, args);
 }
 
 }  // namespace feasst

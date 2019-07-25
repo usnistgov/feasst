@@ -188,6 +188,15 @@ void Select::remove_first_site() {
   site_indices_[0].erase(site_indices_[0].begin());
 }
 
+bool Select::is_overlap(const Select& select) const {
+  for (const int part : select.particle_indices()) {
+    if (find_in_list(part, particle_indices())) {
+      return true;
+    }
+  }
+  return false;
+}
+
 void Select::serialize(std::ostream& sstr) const {
   feasst_serialize_version(1, sstr);
   feasst_serialize(particle_indices_, sstr);

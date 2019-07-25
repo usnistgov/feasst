@@ -47,7 +47,7 @@ class Select {
   void add_sites(const int particle_index,
                  const std::vector<int> site_indices);
 
-  /// Add sites by configuration-based site index.
+  /// Remove sites by configuration-based site index.
   void remove_sites(const int particle_index,
                     const std::vector<int> site_indices);
 
@@ -229,6 +229,9 @@ class Select {
 //    }
 //    return true;
 //  }
+
+  /// Return true if the selection contains a particle in self.
+  bool is_overlap(const Select& select) const;
 
   virtual void serialize(std::ostream& ostr) const;
   Select(std::istream& istr);

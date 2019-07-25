@@ -12,3 +12,7 @@ TrialSelectSegment
 .. doxygenclass:: feasst::TrialSelectReptate
    :project: FEASST
    :members:
+
+.. doxygenclass:: feasst::TrialSelectPerturbed
+   :project: FEASST
+   :members:

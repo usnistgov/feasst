@@ -67,7 +67,7 @@ void Random::position_in_cuboid(const Position& side_length, Position * position
   ASSERT(side_length.dimension() == 3, "size error");
   position->set_to_origin_3D();
   for (int dim = 0; dim < side_length.dimension(); ++dim) {
-    position->set_coord(dim, (2.*uniform() - 1.)*side_length.coord(dim));
+    position->set_coord(dim, (uniform() - 0.5)*side_length.coord(dim));
   }
 }
 

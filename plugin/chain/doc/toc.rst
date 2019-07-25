@@ -7,3 +7,4 @@ API
    PerturbPivot
    TrialSelectSegment
    TrialPivot
+   TrialGrowLinear

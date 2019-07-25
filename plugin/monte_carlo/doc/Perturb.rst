@@ -29,6 +29,10 @@ Perturb
    :project: FEASST
    :members:
 
-.. doxygenclass:: feasst::PerturbDistanceFromAnchor
+.. doxygenclass:: feasst::PerturbDistance
+   :project: FEASST
+   :members:
+
+.. doxygenclass:: feasst::PerturbDistanceAndAngle
    :project: FEASST
    :members:

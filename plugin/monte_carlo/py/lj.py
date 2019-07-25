@@ -15,11 +15,11 @@ def lrc():
     potential.set_visit_model(feasst.MakeLongRangeCorrections())
     return potential
 
-def system(box_length, num=0):
+def system(box_length, num=0, forcefield='data.lj'):
     system = feasst.System()
     config = feasst.Configuration(feasst.args(
         {"cubic_box_length": str(box_length),
-         "particle_type": feasst.install_dir() + "/forcefield/data.lj",
+         "particle_type": feasst.install_dir() + '/forcefield/' + forcefield,
          "init_cells": "3"}))
     for i in range(num): config.add_particle_of_type(0)
     system.add(config)

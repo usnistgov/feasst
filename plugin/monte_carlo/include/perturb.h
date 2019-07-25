@@ -57,7 +57,7 @@ class Perturb {
   /// Tune the parameter based on difference between target and actual.
   void tune(const double actual) { tunable_.tune(actual); }
 
-  virtual void precompute(const TrialSelect * select, System * system) {}
+  virtual void precompute(TrialSelect * select, System * system) {}
 
   /// Before perturbation, initialize some optimiation parameters.
   void before_select() {
@@ -198,7 +198,7 @@ class PerturbTranslate : public PerturbMove {
  public:
   PerturbTranslate(const argtype& args = argtype()) : PerturbMove(args) {}
 
-  void precompute(const TrialSelect * select, System * system) override {
+  void precompute(TrialSelect * select, System * system) override {
     set_tunable_min_and_max(0,
       0.5*system->configuration().domain().max_side_length());
   }
@@ -339,7 +339,7 @@ class PerturbRotate : public PerturbMove {
     return pivot;
   }
 
-  // HWH optimization
+  // optimization
   // check to see if rotation is not necessary when pivot is equivalent to
   // the only rotated position.
   bool is_rotation_not_needed_(const TrialSelect * select,
@@ -373,6 +373,7 @@ class PerturbAnywhere : public PerturbMove {
     rotate_.move(system, select);
     system->configuration().domain().random_position(&random_in_box_, &random_);
     set_position(random_in_box_, system, select);
+    DEBUG("anywhere: " << random_in_box_.str());
   }
 
  private:
@@ -390,18 +391,12 @@ class PerturbAnywhere : public PerturbMove {
 // HWH optimize -> update cell list in finalize?
 class PerturbAdd : public Perturb {
  public:
-  PerturbAdd(
-    /**
-      particle_type: type of particle in configuration to add (default: 0).
-     */
-    const argtype& args = argtype()) : Perturb(args) {
-    Arguments args_(args);
-    args_.dont_check();
-    particle_type_ = args_.key("particle_type").dflt("0").integer();
-  }
+  PerturbAdd(const argtype& args = argtype()) : Perturb(args) {}
 
-  /// Return the particle type to add.
-  int particle_type() const { return particle_type_; }
+  //initialize ghost selection in TrialSelect?
+  void precompute(TrialSelect * select, System * system) override {
+    select->set_ghost(true);
+  }
 
   void perturb(
       System * system,
@@ -418,13 +413,22 @@ class PerturbAdd : public Perturb {
     const Position& center,
     const bool is_position_held = false
   ) {
+    DEBUG("is_position_held " << is_position_held);
     Configuration* config = system->get_configuration();
-    config->add_particle_of_type(particle_type_);
-    SelectList * added = select->get_mobile();
-    added->last_particle_added(config);
-    added->set_trial_state(2);
+    config->revive(select->mobile());
+    select->set_trial_state(2);
+
+    // obtain probability
+    const int particle_type = config->select_particle(
+      select->mobile().particle_index(0)
+    ).type();
+    DEBUG("type " << particle_type);
+    for (const Select& ghost : config->ghosts()) {
+      DEBUG("ghost " << ghost.str());
+    }
     select->set_probability(
-      1./static_cast<double>(config->num_particles_of_type(particle_type_)));
+      1./static_cast<double>(config->num_particles_of_type(particle_type)));
+
     if (center.dimension() == 0) {
       anywhere_.perturb(system, select, is_position_held);
     } else {
@@ -436,40 +440,33 @@ class PerturbAdd : public Perturb {
   void revert(System * system) override {
     if (revert_possible()) {
       DEBUG(revert_select()->mobile().str());
+      DEBUG("nump " << system->configuration().num_particles());
       system->get_configuration()->remove_particles(revert_select()->mobile());
       system->revert();
     }
-    accumulate_(system);
   }
-
-  void finalize(System * system) override { accumulate_(system); }
 
   std::string status_header() const override {
     std::stringstream ss;
-    ss << "n" << particle_type_;
     return ss.str();
   }
 
   std::string status() const override {
     std::stringstream ss;
-    ss << num_particles_.last_value();
     return ss.str();
   }
 
  private:
   PerturbAnywhere anywhere_;
-  int particle_type_;
-  Accumulator num_particles_;
+  Select whole_particle_;
 
   // temporary
   Position empty_;
-
-  void accumulate_(System * system) {
-    num_particles_.accumulate(
-      system->configuration().num_particles_of_type(particle_type_)
-    );
-  }
 };
+
+inline std::shared_ptr<PerturbAdd> MakePerturbAdd(const argtype& args = argtype()) {
+  return std::make_shared<PerturbAdd>(args);
+}
 
 /**
   Remove a particle from the system.
@@ -514,14 +511,16 @@ class PerturbRemove : public Perturb {
 };
 
 /// Put first site in selection in a sphere about the first site in anchor.
-class PerturbDistanceFromAnchor : public PerturbMove {
+/// HWH: could enable tuning and position w.r.t. previous bond placement
+///      for higher acceptance probability
+class PerturbDistance : public PerturbMove {
  public:
-  PerturbDistanceFromAnchor(const argtype& args = argtype())
+  PerturbDistance(const argtype& args = argtype())
     : PerturbMove(args) {
     disable_tunable_();
   }
 
-  virtual void precompute(const TrialSelect * select, System * system) {
+  void precompute(TrialSelect * select, System * system) override {
     // determine the bond length
     // or input the bond length
     if (select->has_property("bond_length")) {
@@ -530,6 +529,8 @@ class PerturbDistanceFromAnchor : public PerturbMove {
       WARN("using default distance (typically for reptation): " << distance_);
     }
   }
+
+  double distance() const { return distance_; }
 
   void move(System * system,
       TrialSelect * select) override {
@@ -549,6 +550,65 @@ class PerturbDistanceFromAnchor : public PerturbMove {
 
   // temporary
   Random random_;
+};
+
+/// Put first site in selection, i, in a sphere about the first site in anchor,
+///  j, and at an angle i,j,k (vertex: j) about the second site in anchor, j.
+class PerturbDistanceAndAngle : public PerturbDistance {
+ public:
+  PerturbDistanceAndAngle(const argtype& args = argtype())
+    : PerturbDistance(args) {}
+
+  void precompute(TrialSelect * select, System * system) override {
+    PerturbDistance::precompute(select, system);
+    angle_ = select->property("theta0");
+    origin_.set_to_origin(system->configuration().dimension());
+    rjk_ = origin_;
+  }
+
+  void move(System * system,
+      TrialSelect * select) override {
+    SelectList * mobile = select->get_mobile();
+    Position * site = mobile->get_site_position(0, 0);
+    DEBUG("mobile " << mobile->str());
+    DEBUG("old pos " << site->str());
+
+    // set site to the vector |r_j - r_k| and store this unit vector
+    const Position& rj = select->anchor_position(0, 0, system);
+    const Position& rk = select->anchor_position(0, 1, system);
+    *site = rj;
+    site->subtract(rk);
+    rjk_ = *site;
+    DEBUG("rjk " << rjk_.str());
+    //rjk_.normalize();
+
+    // rotate site by (PI-theta0) about vector orthogonal to r_jk
+    orthogonal_jk_.orthogonal(*site);
+    DEBUG("ortho " << orthogonal_jk_.str());
+    rot_mat_.axis_angle(orthogonal_jk_, PI - angle_);
+    DEBUG("site == rj: " << site->str());
+    rot_mat_.rotate(origin_, site);
+    DEBUG("site rotated to angle: " << site->str());
+
+    // randomly spin site about rjk.
+    rot_mat_.axis_angle(rjk_, 2*PI*random_.uniform());
+    rot_mat_.rotate(origin_, site);
+
+    site->add(rj);  // return frame of reference
+
+    DEBUG("new pos " << site->str());
+    system->get_configuration()->update_positions(select->mobile());
+  }
+
+ private:
+  double angle_;
+
+  // temporary
+  Random random_;
+  Position rjk_;
+  Position orthogonal_jk_;
+  Position origin_;
+  RotationMatrix rot_mat_;
 };
 
 }  // namespace feasst

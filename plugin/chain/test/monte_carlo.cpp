@@ -2,7 +2,9 @@
 #include "utils/test/utils.h"
 #include "monte_carlo/include/trial.h"
 #include "chain/include/trial.h"
+#include "chain/include/trial_grow.h"
 #include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/test/monte_carlo_test.h"
 #include "monte_carlo/include/criteria_metropolis.h"
 #include "utils/include/utils_io.h"
 #include "math/include/accumulator.h"
@@ -79,10 +81,11 @@ System chain_system() {
 TEST(MonteCarlo, chain) {
   seed_random_by_date();
   // seed_random(1560441809);
+  // seed_random(1563281196);
   MonteCarlo mc;
   mc.set(chain_system());
   mc.set(MakeCriteriaMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));
-  mc.seek_num_particles(2);
+  mc.seek_num_particles(1);
   mc.add(MakeTrialTranslate({
     {"weight", "1."},
     {"tunable_param", "1."},
@@ -114,13 +117,16 @@ TEST(MonteCarlo, chain) {
     {"reference_index", "0"},
     {"num_steps", "2"},
   }));
-//  mc.add(MakeTrialRegrowLinear({
-////    {"weight", "0.1"},
-//    {"num_steps", "1"},
-////    {"reference", "0"},
-////    {"max_length", "5"},
-//  }));
-  const int steps_per = 1e0;
+  mc.add(MakeTrialGrowLinear(
+    std::make_shared<TrialComputeMove>(),
+    {
+//      {"weight", "0.1"},
+      {"particle_type", "0"},
+      {"num_steps", "3"},
+      {"reference", "0"},
+    }
+  ));
+  const int steps_per = 1e2;
   mc.add(MakeLog({
     {"steps_per", str(steps_per)},
     {"file_name", "tmp/chainlog.txt"},
@@ -139,6 +145,17 @@ TEST(MonteCarlo, chain) {
 
   MonteCarlo mc2 = test_serialize(mc);
   EXPECT_EQ(mc2.analyzers().size(), 3);
+}
+
+TEST(MonteCarlo, TrialGrowthExpanded) {
+  seed_random_by_date();
+  // seed_random(1563999738);
+  const std::string data = "../forcefield/data.dimer";
+  MonteCarlo mc = mc_lj(8, data, 1e2, true);
+  mc.set(MakeCriteriaMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));
+  mc.add(MakeTrialGrowthExpanded(build_(1, data), build_(2, data)));
+  EXPECT_EQ(2, mc.trials().num_trials());
+  mc.attempt(1e3);
 }
 
 }  // namespace feasst

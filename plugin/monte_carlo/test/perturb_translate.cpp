@@ -22,8 +22,8 @@ TEST(PerturbTranslate, position) {
     EXPECT_NEAR(0., config.particle(0).site(0).position().coord(dim), NEAR_ZERO);
   }
   PerturbTranslate perturb;
-  TrialSelectParticleOfType tsel;
-  tsel.select(&system);
+  TrialSelectParticle tsel;
+  tsel.select(Select(), &system);
   perturb.perturb(&system, &tsel);
   const int particle_index = tsel.mobile().particle_index(0);
 

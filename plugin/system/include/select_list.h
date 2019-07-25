@@ -32,8 +32,19 @@ class SelectList : public SelectPosition {
     return *this;
   }
 
+  // fast replace of single particle
+  void replace_particle(const Select& replacement,
+      const int sp_index, // selection particle index
+      const Configuration& config) {
+    bool fast = replace_indices(replacement.particle_index(sp_index),
+                                replacement.site_indices(sp_index));
+    if (!fast) resize();
+    load_positions(config.particles());
+  }
+
   /// Add random particle in group index. Return the number of particles to
   /// choose from.
+  /// HWH depreciated
   int random_particle(const Configuration& config,
       // By default, if group_index is 0, consider all particles
       const int group_index = 0,
@@ -81,6 +92,7 @@ class SelectList : public SelectPosition {
   }
 
   /// Select the last particle that was added to configuration.
+  // HWH depreciate
   void last_particle_added(const Configuration * config) {
     // HWH optimize for add delete trial
     clear();
@@ -249,6 +261,31 @@ class SelectList : public SelectPosition {
     Select::add(select);
     resize();
     load_positions(config.particles());
+  }
+
+  /// Remove unphysical sites from selection
+  void remove_unphysical_sites(const Configuration& config) {
+    Select unphysical;
+    for (int sp_index = 0;
+         sp_index < static_cast<int>(particle_indices().size());
+         ++sp_index) {
+      const int p_index = particle_indices()[sp_index];
+    //for (const int p_index : particle_indices()) {
+      std::vector<int> sites;
+      for (const int s_index : site_indices(sp_index)) {
+        if (!config.select_particle(p_index).site(s_index).is_physical()) {
+          sites.push_back(s_index);
+        }
+      }
+      if (sites.size() > 0) {
+        unphysical.add_sites(p_index, sites);
+      }
+    }
+    if (unphysical.num_particles() > 0) {
+      remove(unphysical);
+      resize();
+      load_positions(config.particles());
+    }
   }
 };
 

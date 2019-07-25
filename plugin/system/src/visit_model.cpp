@@ -54,6 +54,7 @@ void VisitModel::compute(
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {
+  TRACE("VisitModel for TwoBody entire config");
   zero_energy();
   const Domain& domain = config->domain();
   init_relative_(domain, &relative_);
@@ -126,6 +127,7 @@ void VisitModel::check_energy(
     const Model& model,
     Configuration * config,
     const int group_index) {
+  TRACE("checking energy");
   model.compute(group_index, config, this);
   const double en_group = energy();
 
@@ -167,10 +169,12 @@ void VisitModelInner::compute(
       const int type2 = site2.type();
       const double cutoff = model_params.mixed_cutoff()[type1][type2];
       if (squared_distance_ <= cutoff*cutoff) {
-        energy_ += model.energy(squared_distance_, type1, type2, model_params);
+        const double energy = model.energy(squared_distance_, type1, type2, model_params);
+        energy_ += energy;
+        //energy_ += model.energy(squared_distance_, type1, type2, model_params);
         TRACE("indices " << part1_index << " " << site1_index << " " <<
           part2_index << " " << site2_index);
-        TRACE("energy " << energy_);
+        TRACE("energy " << energy_ << " " << energy);
       }
     }
   }

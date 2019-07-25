@@ -20,10 +20,11 @@ TEST(Perturb, Revert) {
   EXPECT_NEAR(pe_original, visit.energy(), NEAR_ZERO);
   Position position;
   position.set_vector({0, 1.25, 0});
-  TrialSelectParticleOfType tsel;
-  SelectList * mobile = tsel.get_mobile();
-  mobile->particle(0, system.configuration());
-  add.add(&system, &tsel, position);
+  auto tsel_ghost = MakeTrialSelectParticle({{"particle_type", "0"}});
+  // precompute adds argument {"ghost", "true"} to tsel
+  add.precompute(tsel_ghost.get(), &system);
+  tsel_ghost->select(Select(), &system);
+  add.add(&system, tsel_ghost.get(), position);
   EXPECT_EQ(config->num_particles(), 3);
   model.compute(config, &visit);
   const double tri_distance = sqrt(1.25*1.25 + 1.25*1.25);
@@ -38,28 +39,20 @@ TEST(Perturb, Revert) {
   EXPECT_NEAR(pe_original, visit.energy(), NEAR_ZERO);
   Configuration* config2 = system2.get_configuration();
   PerturbRemove remove;
-  tsel.select(&system2);
-  INFO(tsel.mobile().str());
-  remove.perturb(&system2, &tsel);
+  auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
+  tsel->select(Select(), &system2);
+  remove.perturb(&system2, tsel.get());
   EXPECT_EQ(2, config2->num_particles());
   remove.finalize(&system2);
-  //remove.select_random_particle(0, config);
-  //remove.remove_selected_particle(&system2);
   EXPECT_EQ(1, config2->num_particles());
   model.compute(config2, &visit);
   EXPECT_EQ(0., visit.energy());
-//  remove.revert(&system2);
-//  EXPECT_EQ(2, config2->num_particles());
-//  model.compute(config2, &visit);
-//  EXPECT_NEAR(pe_original, visit.energy(), NEAR_ZERO);
 
   Position trajectory({0., 0., 0.});
   trajectory.set_coord(2, 1.25);
   PerturbTranslate attempt2;
-  tsel.select(&system);
-  attempt2.perturb(&system, &tsel);
- // select_random_particle(0, *config);
- // attempt2.translate_selection(trajectory, &system2);
+  tsel->select(Select(), &system);
+  attempt2.perturb(&system, tsel.get());
 }
 
 }  // namespace feasst

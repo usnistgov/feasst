@@ -50,7 +50,7 @@ TEST(MonteCarlo, GCMC) {
   seed_random();
   MonteCarlo mc = mc_lj();
   mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "-2"}}));
-  mc.add(MakeTrialAdd());
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   mc.add(MakeTrialRemove());
   mc.add(MakeNumParticles({{"steps_per_write", "10000"}}));
   // mc.add(MakeTrialTransfer());
@@ -118,5 +118,42 @@ TEST(MonteCarlo, GCMC) {
 //
 //   //DEBUG(mc.timer().str());
 // }
+
+TEST(MonteCarlo, grow) {
+  seed_random_by_date();
+  for (int i = 0; i < 1; ++i) { // lj dimer
+  // for (int i = 1; i < 2; ++i) { // spce
+  //for (int i = 0; i < 2; ++i) { // both
+    double box_length = 8.;
+    std::string data = "../forcefield/data.dimer";
+    if (i == 1) {
+      box_length=20;
+      data = "../forcefield/data.spce";
+    }
+    MonteCarlo mc = mc_lj(box_length, data);
+    mc.add(build_(0, data));  // 0: move
+    mc.add(build_(1, data));  // 1: add
+    mc.add(build_(2, data));  // 2: remove
+    EXPECT_FALSE(mc.trial(0)->stage(0)->trial_select()->is_ghost());  // translate
+    EXPECT_FALSE(mc.trial(1)->stage(0)->trial_select()->is_ghost());  // grow
+    EXPECT_TRUE (mc.trial(2)->stage(0)->trial_select()->is_ghost());
+    EXPECT_FALSE(mc.trial(3)->stage(0)->trial_select()->is_ghost());
+    mc.seek_num_particles(3);
+    mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
+    mc.add(MakeMovie(
+     {{"steps_per", "1"},
+      {"file_name", "tmp/grow.xyz"}}));
+    for (int i = 0; i < 2e1; ++i) {
+      mc.attempt(1);
+      //mc.configuration().check();
+    }
+    EXPECT_LT(mc.configuration().num_particles(), 3);
+    mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "100"}}));
+    mc.attempt(2e1);
+    EXPECT_GT(mc.configuration().num_particles(), 3);
+    mc.configuration().check();
+    // INFO(mc.trial(1)->accept().perturbed().str());
+  }
+}
 
 }  // namespace feasst

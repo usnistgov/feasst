@@ -67,6 +67,18 @@ void feasst_reverse(std::vector<std::vector<T> > * vec) {
   }
 }
 
+template<class T>
+bool is_duplicate(const std::vector<T>& vec) {
+  std::vector<T> vec2 = vec;
+  std::sort(vec2.begin(), vec2.end());
+  for (int i = 1; i < static_cast<int>(vec2.size()); ++i) {
+    if (vec2[i] == vec2[i - 1]) {
+      return true;
+    }
+  }
+  return false;
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_UTILS_H_

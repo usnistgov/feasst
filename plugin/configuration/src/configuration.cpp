@@ -294,7 +294,10 @@ void Configuration::check() const {
 
   // check that the first group is all particles in the configuration.
   ASSERT(static_cast<int>(group_selects_[0].num_particles()) == num_particles(),
-    "size error");
+    "The number of particles in the first group(" <<
+    group_selects_[0].num_particles() << ") is not equal to the number of " <<
+    "particles: " << num_particles()
+  );
   for (int index = 0; index < num_particles(); ++index) {
     ASSERT(static_cast<int>(group_selects_[0].site_indices(index).size()) ==
       particle(index).num_sites(), "size error");
@@ -314,6 +317,25 @@ void Configuration::check() const {
     static_cast<int>(num_particles_of_type_.size()) == num_particle_types(),
     "size error"
   );
+
+//  // check all sites are physical
+//  for (const Particle& part : particles_.particles()) {
+//    for (const Site& site : part.sites()) {
+//      ASSERT(site.is_physical(), "All sites should be physical.");
+//    }
+//  }
+
+  // check that a particle is not simultaneously a ghost and a real particle
+  for (const Select& ghost : ghosts_) {
+    ASSERT(!group_selects_[0].is_overlap(ghost),
+      "ghost particle cannot also be real");
+  }
+
+  // check that a particle is not listed as a ghost twice
+  for (const Select ghost : ghosts_) {
+    ASSERT(!is_duplicate(ghost.particle_indices()),
+      "the same particle cannot be listed as a ghost twice");
+  }
 
   model_params().check();
 }
@@ -467,7 +489,8 @@ void Configuration::revive(const SelectPosition& selection) {
     const Particle& part = select_particle(particle_index);
     const int type = part.type();
     ++num_particles_of_type_[type];
-    ghosts_[type].remove_last_particle();
+    DEBUG("ghost particles " << ghosts_[type].num_particles());
+    ghosts_[type].remove_particle(particle_index);
     for (SelectGroup& select : group_selects_) {
       add_to_selection_(particle_index, &select);
     }
@@ -494,7 +517,8 @@ void Configuration::add(std::shared_ptr<ModelParam> param) {
 int Configuration::num_particles_of_type(const int type) const {
   const int num = num_particles_of_type_[type];
   ASSERT(num >= 0, "unphysical number(" << num <<")");
-  ASSERT(num <= num_particles(), "unphysical number(" << num <<")");
+  ASSERT(num <= num_particles(), "unphysical number of particles of type(" <<
+    num << ") when number of particles is: " << num_particles());
   return num;
 }
 
@@ -519,6 +543,24 @@ void Configuration::wrap_(const int particle_index) {
 //      select->set_site_position(pindex, sindex, site_position);
 //    }
 //  }
+}
+
+void Configuration::set_selection_physical(const Select& select,
+    const bool phys) {
+  for (int sp_index = 0;
+       sp_index < static_cast<int>(select.particle_indices().size());
+       ++sp_index) {
+    const std::vector<int>& site_indices = select.site_indices()[sp_index];
+    for (int ss_index = 0;
+         ss_index < static_cast<int>(site_indices.size());
+         ++ss_index) {
+      particles_.set_site_physical(
+        select.particle_indices()[sp_index],
+        site_indices[ss_index],
+        phys
+      );
+    }
+  }
 }
 
 void Configuration::serialize(std::ostream& ostr) const {
