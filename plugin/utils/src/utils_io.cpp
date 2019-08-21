@@ -45,7 +45,7 @@ int num_spaces(const std::string str) {
 }
 
 void feasst_serialize(const std::string str, std::ostream& ostr) {
-  ASSERT(num_spaces(str) == 0, "no spaces in serialized string");
+  ASSERT(num_spaces(str) == 0, "no spaces in serialized string(" << str << ")");
   if (str.empty()) {
     ostr << "0 ";
   } else {

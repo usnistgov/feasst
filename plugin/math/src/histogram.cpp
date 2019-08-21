@@ -51,7 +51,9 @@ void Histogram::set_edges(const std::deque<double> edges) {
   set_not_expandable();
 }
 int Histogram::bin(const double value) const {
-  ASSERT(value <= max() and value >= min(), "out of range");
+  ASSERT(value <= max() and value >= min(),
+    "histogram value(" << value << ") is out of range. max(" << max() <<
+    ") min( " << min() << ")");
   if (is_constant_width_ == 1) {
     const double kWidth = edges_[1] - edges_[0];
     return round((value - center_of_bin(0))/kWidth);

@@ -1,7 +1,11 @@
 language: cpp
 
+os:
+  - linux
+#  - osx
+
 compiler:
-  # - clang
+  - clang
   - gcc
 
 addons:
@@ -19,6 +23,12 @@ before_script:
   - mkdir build
   - pushd build
   - export CODECOV_TOKEN="e17b0bb1-d93e-40de-b62b-9b7193459821"
+
+install:
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
+      brew install swig valgrind lcov
+    fi
 
 script:
   - cmake -DUSE_SWIG=ON -DUSE_GTEST=ON -DUSE_GCOV=ON ..

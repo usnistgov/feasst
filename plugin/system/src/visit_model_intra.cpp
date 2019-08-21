@@ -60,7 +60,6 @@ void VisitModelIntra::compute(
         // if site2 is in selection, then require site1 < site2
         if (!find_in_list(site2_index, site1_indices) or
             site1_index < site2_index) {
-
           // here we determine if the pair of sites is forced to be included
           bool include = false;
           if (selection.old_bond()) {

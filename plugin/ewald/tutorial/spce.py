@@ -14,4 +14,3 @@ def system(config, alphaL = 5.6, kmax_squared=27):
   system.add(config)
   system.precompute()
   return system
-

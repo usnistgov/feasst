@@ -1,6 +1,6 @@
-TrialGrowLinear
+MacrostateGrowthExpanded
 =====================================================
 
-.. doxygenclass:: feasst::TrialGrowLinear
+.. doxygenclass:: feasst::MacrostateGrowthExpanded
    :project: FEASST
    :members:

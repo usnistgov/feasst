@@ -147,15 +147,4 @@ TEST(MonteCarlo, chain) {
   EXPECT_EQ(mc2.analyzers().size(), 3);
 }
 
-TEST(MonteCarlo, TrialGrowthExpanded) {
-  seed_random_by_date();
-  // seed_random(1563999738);
-  const std::string data = "../forcefield/data.dimer";
-  MonteCarlo mc = mc_lj(8, data, 1e2, true);
-  mc.set(MakeCriteriaMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));
-  mc.add(MakeTrialGrowthExpanded(build_(1, data), build_(2, data)));
-  EXPECT_EQ(2, mc.trials().num_trials());
-  mc.attempt(1e3);
-}
-
 }  // namespace feasst

@@ -5,6 +5,7 @@
 namespace feasst {
 
 Criteria::Criteria(const argtype &args) {
+  set_trial_state();
   // parse
   args_.init(args);
   if (args_.key("beta").used()) {
@@ -59,6 +60,10 @@ std::string Criteria::write() const {
   return ss.str();
 }
 
+void Criteria::set_trial_state(const int state, const int num) {
+  trial_state_ = state;
+  num_trial_states_ = num;
+}
 std::map<std::string, std::shared_ptr<Criteria> >& Criteria::deserialize_map() {
   static std::map<std::string, std::shared_ptr<Criteria> >* ans =
      new std::map<std::string, std::shared_ptr<Criteria> >();
@@ -81,6 +86,8 @@ void Criteria::serialize_criteria_(std::ostream& ostr) const {
   feasst_serialize(beta_initialized_, ostr);
   feasst_serialize(chemical_potentials_, ostr);
   feasst_serialize(current_energy_, ostr);
+  feasst_serialize(trial_state_, ostr);
+  feasst_serialize(num_trial_states_, ostr);
 }
 
 Criteria::Criteria(std::istream& istr) {
@@ -89,6 +96,8 @@ Criteria::Criteria(std::istream& istr) {
   feasst_deserialize(&beta_initialized_, istr);
   feasst_deserialize(&chemical_potentials_, istr);
   feasst_deserialize(&current_energy_, istr);
+  feasst_deserialize(&trial_state_, istr);
+  feasst_deserialize(&num_trial_states_, istr);
 }
 
 }  // namespace feasst

@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 project (FEASST)
 set (CMAKE_CXX_STANDARD 11)
+cmake_policy(SET CMP0042 NEW) # removes warning about macosx_rpath
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -pthread")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -pthread")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
@@ -8,8 +9,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 
 # manually list the plugins
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;")
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram")
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram;growth_expanded")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded")
 message(${FEASST_PLUGINS})
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
@@ -176,6 +177,13 @@ endif()
 list (FIND FEASST_PLUGINS "system" _index)
 if (${_index} GREATER -1)
   target_link_libraries(feasstsystem feasstconfiguration)
+endif()
+
+# growth_expanded
+list (FIND FEASST_PLUGINS "growth_expanded" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstgrowth_expanded feasstchain)
+  target_link_libraries(feasstgrowth_expanded feasstflat_histogram)
 endif()
 
 # CCACHE
@@ -384,7 +392,11 @@ if (USE_SWIG)
 
     SET_SOURCE_FILES_PROPERTIES("${CMAKE_SOURCE_DIR}/py/feasst.i" PROPERTIES CPLUSPLUS ON)
     #SET_SOURCE_FILES_PROPERTIES("${CMAKE_CURRENT_BINARY_DIR}/feasst.i" PROPERTIES SWIG_FLAGS "-includeall")
-    SWIG_ADD_MODULE(feasst python "${CMAKE_SOURCE_DIR}/py/feasst.i")
+    if (${CMAKE_VERSION} VERSION_LESS "3.0.0")
+      SWIG_ADD_MODULE(feasst python "${CMAKE_SOURCE_DIR}/py/feasst.i")
+    else ()
+      SWIG_ADD_LIBRARY(feasst LANGUAGE python SOURCES "${CMAKE_SOURCE_DIR}/py/feasst.i")
+    endif ()
     SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS})
     SWIG_LINK_LIBRARIES(feasst feasst)
     add_dependencies(_feasst build-time-make-directory)

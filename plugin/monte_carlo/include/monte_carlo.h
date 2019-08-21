@@ -254,6 +254,12 @@ class MonteCarlo {
   bool criteria_set_ = false;
 };
 
+/// Initialize an add and remove trial simultaneously with the same arguments
+inline void add_trial_transfer(MonteCarlo * mc, const argtype& args = argtype()) {
+  mc->add(MakeTrialAdd(args));
+  mc->add(MakeTrialRemove(args));
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_MONTE_CARLO_MONTE_CARLO_H_

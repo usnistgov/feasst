@@ -87,7 +87,7 @@ class TrialFactory : public Trial {
     }
   }
 
-  virtual void precompute(Criteria * criteria, System * system) override {
+  void precompute(Criteria * criteria, System * system) override {
     for (std::shared_ptr<Trial> trial : trials_) {
       trial->precompute(criteria, system);
     }

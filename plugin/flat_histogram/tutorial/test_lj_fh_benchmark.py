@@ -1,40 +1,49 @@
 import sys
-import math
 import unittest
-import argparse
 import feasst
-sys.path.insert(0, feasst.install_dir() + '/plugin/monte_carlo/py') # lj directory
-import lj
 import pyfeasst
-import test_lj_fh
+sys.path.insert(0, feasst.install_dir() + '/plugin/flat_histogram/py')
+import lj_fh
 
 class TestLJ_FH_benchmark(unittest.TestCase):
     def test(self):
-        #return
         feasst.seed_random_by_date()
-
-        #windows=[[0,2],[2,15],[15,25]]
-        windows=feasst.window(0, 370, 8, 2)
-        #print(windows)
-        #windows=pyfeasst.vector_vector_to_list(feasst.window(0, 25, 3, 2))
-
-        serial = False
+        # serial = False
         serial = True
         if serial:
-            criteria, mc2 = test_lj_fh.mc(proc=0, macro_min=0, macro_max=370, tmmc=True)
+            criteria = lj_fh.criteria_flathist(macro_min=0, macro_max=370, tmmc=True)
+            mc2 = lj_fh.mc(criteria=criteria)
             #print(criteria.write())
 
         else:
-          # parallel
-          import multiprocessing as mp
-          processes = [mp.Process(target=test_lj_fh.mc, args=(x, windows[x][0], windows[x][1])) for x in range(len(windows))]
-          #processes = [mp.Process(target=mc, args=(window[0], window[1])) for window in windows]
+            # parallel
+            #windows=[[0,2],[2,15],[15,25]]
+            num_procs = 3
+            windows=feasst.window(0, 370, num_procs, 2)
+            print(windows)
+            #windows=pyfeasst.vector_vector_to_list(feasst.window(0, 25, 3, 2))
 
-          for p in processes:
-            p.start()
+            # HWH issue with multiprocessing if criterium object is provided as arg
+            import multiprocessing as mp
+  #          with mp.Pool(processes = num_procs) as pool:
+  #              pool.starmap(lj_fh.mc, zip(range(num_procs), repeat(criteria=lj_fh.criteria_flathist(macro_min=
 
-          for p in processes:
-            p.join()
+            processes = []
+          # criterium = []
+            for x in range(len(windows)):
+              # criterium.append(lj_fh.criteria_flathist(macro_min=windows[x][0], macro_max=windows[x][1]))
+              # processes.append(mp.Process(target=lj_fh.mc, args=(x,)))
+                processes.append(mp.Process(target=lj_fh.mc, args=(x, lj_fh.criteria_flathist(macro_min=windows[x][0], macro_max=windows[x][1]))))
+              # processes.append(mp.Process(target=lj_fh.mc, args=(x, criterium[x], )))
+            #processes = [mp.Process(target=lj_fh.mc, args=(x,)) for x in range(len(windows))]
+            #processes = [mp.Process(target=lj_fh.mc, args=(x, lj_fh.criteria_flathist(windows[x][0], windows[x][1]))) for x in range(len(windows))]
+           #processes = [mp.Process(target=lj_fh.mc, args=(x, lj_fh.criteria_flathist(windows[x][0], windows[x][1]))) for x in range(len(windows))]
+
+            for p in processes:
+                p.start()
+
+            for p in processes:
+                p.join()
 
 if __name__ == "__main__":
     unittest.main()

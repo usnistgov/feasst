@@ -16,7 +16,7 @@ df.to_csv("combined.csv")
 
 plt.plot(df["macrostate"], df["ln_prob"])
 
-dfprev = pd.read_csv('colMat_core0', delim_whitespace=True, header=18)
+dfprev = pd.read_csv('colMat_core0.bak', delim_whitespace=True, header=18)
 print(dfprev)
 
 plt.legend()

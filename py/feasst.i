@@ -120,6 +120,8 @@
 #include "chain/include/trial.h"
 #include "chain/include/trial_grow.h"
 #include "example/include/model_example.h"
+#include "growth_expanded/include/trial_growth_expanded.h"
+#include "growth_expanded/include/macrostate_growth_expanded.h"
 using namespace feasst;
 %}
 
@@ -299,9 +301,12 @@ using namespace std;
 %shared_ptr(feasst::TrialCrankshaft);
 %shared_ptr(feasst::TrialReptate);
 %shared_ptr(feasst::TrialGrowLinear);
+%shared_ptr(feasst::ModelExample);
+%shared_ptr(feasst::TrialComputeGrowAdd);
+%shared_ptr(feasst::TrialComputeGrowRemove);
 %shared_ptr(feasst::TrialComputeGrow);
 %shared_ptr(feasst::TrialGrowthExpanded);
-%shared_ptr(feasst::ModelExample);
+%shared_ptr(feasst::MacrostateGrowthExpanded);
 %include utils/include/utils_file.h
 %include utils/include/timer.h
 %include utils/include/arguments.h
@@ -413,3 +418,5 @@ using namespace std;
 %include chain/include/trial.h
 %include chain/include/trial_grow.h
 %include example/include/model_example.h
+%include growth_expanded/include/trial_growth_expanded.h
+%include growth_expanded/include/macrostate_growth_expanded.h

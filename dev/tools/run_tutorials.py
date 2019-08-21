@@ -26,4 +26,3 @@ for dir_, _, files in os.walk(args.source_dir + '/plugin/'):
         print('pyfile', pyfile, dir_)
         with pyfeasst.cd(dir_):
             pyfeasst.bash_command('../../../py/run.sh ' + pyfile)
-

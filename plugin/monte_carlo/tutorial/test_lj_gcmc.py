@@ -14,8 +14,8 @@ class TestLJ_GCMC(unittest.TestCase):
            "chemical_potential": "-8.352321"})))
         mc.add(feasst.MakeTrialTranslate(feasst.args(
           {"weight": "1.", "tunable_param": "2."})))
-        mc.add(feasst.MakeTrialAdd(feasst.args({"weight": "1."})))
-        mc.add(feasst.MakeTrialRemove(feasst.args({"weight": "1."})))
+        feasst.add_trial_transfer(mc, feasst.args(
+          {"weight": "1.", "particle_type": "0"}))
         lj.add_analysis(mc, int(1e3))
         mc.attempt(int(1e4))
         self.assertTrue(mc.system().configuration().num_particles() > 0)

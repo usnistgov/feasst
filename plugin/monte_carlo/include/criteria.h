@@ -70,10 +70,11 @@ class Acceptance {
 
   /// Return the shift in the macrostate due to an optimization where
   /// Perturb does not completely update system until finalize.
+  /// HWH this assumes a particular macrostate is used for the given trial.
   int macrostate_shift() const { return macrostate_shift_; }
 
-  /// Set the above.
-  void set_macrostate_shift(const int shift) { macrostate_shift_ = shift; }
+  /// Add to the above.
+  void add_to_macrostate_shift(const int shift) { macrostate_shift_ += shift; }
 
   /// Add to perturbed selection.
   void add_to_perturbed(const Select& select) { perturbed_.add(select); }
@@ -165,6 +166,15 @@ class Criteria {
   /// Return the number of states. (default: 1).
   virtual int num_states() const { return 1; }
 
+  /// Set the trial state.
+  void set_trial_state(const int state = 0, const int num = 1);
+
+  /// Return the trial state.
+  int trial_state() const { return trial_state_; }
+
+  /// Return number of trial states.
+  int num_trial_states() const { return num_trial_states_; }
+
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Criteria> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Criteria> >& deserialize_map();
@@ -181,6 +191,8 @@ class Criteria {
   bool beta_initialized_ = false;
   std::vector<double> chemical_potentials_;
   double current_energy_;
+  int trial_state_;
+  int num_trial_states_;
 };
 
 }  // namespace feasst

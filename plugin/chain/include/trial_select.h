@@ -33,6 +33,8 @@ class TrialSelectSegment : public TrialSelect {
     return true;
   }
 
+  virtual ~TrialSelectSegment() {}
+
  private:
   int max_length_;
 };
@@ -75,6 +77,8 @@ class TrialSelectEndSegment : public TrialSelectSegment {
     anchor_.set_site(0, 0, mobile_.site_indices()[0][select_index]);
     anchor_.set_particle(0, mobile_.particle_indices()[0]);
   }
+
+  virtual ~TrialSelectEndSegment() {}
 };
 
 const argtype TrialSelectReptateArg_ = {{"max_length", "1"}};
@@ -117,6 +121,8 @@ class TrialSelectReptate : public TrialSelectEndSegment {
     mobile_.set_old_bond(bonded_to_);
   }
 
+  virtual ~TrialSelectReptate() {}
+
  private:
   // temporary
   SelectList bonded_to_;
@@ -134,6 +140,8 @@ class TrialSelectPerturbed : public TrialSelect {
     mobile_original_ = mobile_;
     return true;
   }
+
+  virtual ~TrialSelectPerturbed() {}
 };
 
 }  // namespace feasst

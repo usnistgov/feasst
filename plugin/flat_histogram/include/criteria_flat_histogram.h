@@ -45,6 +45,9 @@ class CriteriaFlatHistogram : public Criteria {
     is_macrostate_set_ = true;
   }
 
+  /// Return the macrostate.
+  const Macrostate * macrostate() const { return macrostate_.get(); }
+
   /// Return the state. Return -1 if state is not determined.
   int state() const override { return macrostate_new_; }
   int num_states() const override { return macrostate_->histogram().size(); }

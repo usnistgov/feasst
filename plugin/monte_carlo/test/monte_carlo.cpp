@@ -50,8 +50,9 @@ TEST(MonteCarlo, GCMC) {
   seed_random();
   MonteCarlo mc = mc_lj();
   mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "-2"}}));
-  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
-  mc.add(MakeTrialRemove());
+  add_trial_transfer(&mc, {{"particle_type", "0"}});
+  //mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  //mc.add(MakeTrialRemove());
   mc.add(MakeNumParticles({{"steps_per_write", "10000"}}));
   // mc.add(MakeTrialTransfer());
 //  mc.add(MakeCheckpoint({{"file_name", "tmp/gcmc"}, {"num_hours", "1"}}));

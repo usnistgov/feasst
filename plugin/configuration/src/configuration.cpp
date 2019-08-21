@@ -148,7 +148,6 @@ void Configuration::remove_particle(const Select& selection) {
 
 void Configuration::displace_particle_(const int particle_index,
                                        const Position &displacement) {
-
   particles_.displace(particle_index, displacement);
   position_tracker_(particle_index);
 }

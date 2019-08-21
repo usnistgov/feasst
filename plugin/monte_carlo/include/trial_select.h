@@ -138,6 +138,8 @@ class TrialSelect : public PropertiedEntity {
   /// Return true if selecting from ghost particles.
   bool is_ghost() const { return is_ghost_; }
 
+  virtual ~TrialSelect() {}
+
  protected:
   SelectList mobile_original_;
   SelectList mobile_;
@@ -262,6 +264,8 @@ class TrialSelectParticle : public TrialSelect {
     return true;
   }
 
+  virtual ~TrialSelectParticle() {}
+
  private:
   bool load_coordinates_;
   int site_;
@@ -314,6 +318,7 @@ class TrialSelectBond : public TrialSelect {
     int particle_index = -1;
     if (perturbed.num_sites() > 0) {
       particle_index = perturbed.particle_indices().back();
+      set_probability(1.);
     } else {
       // select random particle of correct type
       const int group_index = config->particle_type_to_group(particle_type());
@@ -322,6 +327,7 @@ class TrialSelectBond : public TrialSelect {
       const int index = random_.uniform(0, num - 1);
       const SelectGroup& select = config->group_select(group_index);
       particle_index = select.particle_index(index);
+      set_probability(1./static_cast<double>(num));
     }
     mobile_.set_particle(0, particle_index);
     anchor_.set_particle(0, particle_index);
@@ -331,6 +337,8 @@ class TrialSelectBond : public TrialSelect {
     mobile_original_ = mobile_;
     return true;
   }
+
+  virtual ~TrialSelectBond() {}
 
  private:
   int mobile_site_;
@@ -376,6 +384,8 @@ class TrialSelectAngle : public TrialSelectBond {
     add_property("theta0", angle.property("theta0"));
     anchor_.add_site(0, anchor_site2_);
   }
+
+  virtual ~TrialSelectAngle() {}
 
  private:
   int anchor_site2_;

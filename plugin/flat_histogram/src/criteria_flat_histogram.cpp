@@ -16,8 +16,11 @@ bool CriteriaFlatHistogram::is_accepted(const Acceptance& acceptance,
     macrostate_new_ = macrostate_old_;
     DEBUG("forced rejection");
   } else {
+    DEBUG("macroshift " << acceptance.macrostate_shift());
+    // the shift factory multiplied by number of states assumes only one
+    // particle is added during an entire growth expanded cycle
     macrostate_new_ = macrostate_->bin(system, this)
-                    + acceptance.macrostate_shift();
+                    + acceptance.macrostate_shift()*num_trial_states();
     DEBUG("bias " << bias_->ln_bias(macrostate_new_, macrostate_old_)
       << " old " << macrostate_old_ << " new " << macrostate_new_);
     DEBUG("ln new " << bias_->ln_macro_prob().value(macrostate_new_));

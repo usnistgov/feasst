@@ -39,7 +39,7 @@ class ModelThreeBody : public Model {
     visitor->compute(*this, config, 0);
     return visitor->energy();
   }
-  virtual double energy(
+  virtual double energy3(
       const int type1,
       const int type2,
       const int type3,

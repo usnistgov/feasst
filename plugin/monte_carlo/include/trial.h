@@ -58,7 +58,7 @@ class TrialStage {
   const TrialSelect * trial_select() const { return select_.get(); }
 
   /// Initialization before any stage attempt.
-  virtual void precompute(System * system) {
+  void precompute(System * system) {
     select_->precompute(system);
     perturb_->precompute(select_.get(), system);
   }
@@ -98,7 +98,7 @@ class TrialStage {
   /// Attempt all steps in a stage.
   /// Consider reference potentials and compute Rosenbluth factors.
   /// Set sites involves in stage as physical.
-  virtual void attempt(
+  void attempt(
     System * system,
     Criteria * criteria,
     /// Set to 1 for "old" system and "0" for new.
@@ -238,6 +238,8 @@ class TrialCompute {
     System * system,
     Acceptance * acceptance,
     std::vector<TrialStage*> * stages) = 0;
+
+  virtual ~TrialCompute() {}
 };
 
 /*
@@ -343,7 +345,7 @@ class Trial {
   /// Return the header description for the status of the trial (e.g., acceptance, etc).
   virtual std::string status_header() const {
     std::stringstream ss;
-    ss << "acceptance ";
+    ss << class_name_ << " ";
     for (const TrialStage * stage : stages_ptr_) {
       ss << stage->status_header();
     }
@@ -379,15 +381,15 @@ class Trial {
   /// Set the computation of the trial and acceptance.
   void set(std::shared_ptr<TrialCompute> compute) { compute_ = compute; }
 
-  virtual void before_select(Acceptance * acceptance) {}
+  virtual void before_select(Acceptance * acceptance, Criteria * criteria) {}
 
   /// Attempt a trial. Return true if accepted.
   virtual bool attempt(Criteria * criteria, System * system) {
     ++num_attempts_;
-    DEBUG("new trial attempt " << num_attempts_);
+    DEBUG("new trial attempt " << num_attempts_ << " " << class_name());
     acceptance_.reset();
     criteria->before_attempt(system);
-    before_select(&acceptance_);
+    before_select(&acceptance_, criteria);
     for (TrialStage * stage : stages_ptr_) {
       stage->before_select();
       stage->select(system, &acceptance_);
@@ -416,6 +418,8 @@ class Trial {
   const Acceptance& accept() const { return acceptance_; }
 
   std::string class_name() const { return class_name_; }
+
+  virtual ~Trial() {}
 
  protected:
   std::string class_name_ = "Trial";
@@ -457,6 +461,7 @@ class TrialComputeMove : public TrialCompute {
     const double delta_energy = acceptance->energy_new() - acceptance->energy_old();
     acceptance->set_energy_new(criteria->current_energy() + delta_energy);
   }
+  virtual ~TrialComputeMove() {}
 };
 
 /// Attempt to rigidly move a selection in a Trial in one stage.
@@ -468,7 +473,9 @@ class TrialMove : public Trial {
     const argtype& args = argtype()) : Trial(args) {
     add_stage(select, perturb, args);
     set(std::make_shared<TrialComputeMove>());
+    class_name_ = "TrialMove";
   }
+  virtual ~TrialMove() {}
 };
 
 /// Attempt a rigid translation of a random particle.
@@ -481,7 +488,10 @@ class TrialTranslate : public TrialMove {
       std::make_shared<TrialSelectParticle>(),
       std::make_shared<PerturbTranslate>(args),
       args
-    ) {};
+    ) {
+    class_name_ = "TrialTranslate";
+  }
+  virtual ~TrialTranslate() {}
 };
 
 inline std::shared_ptr<TrialTranslate> MakeTrialTranslate(
@@ -499,7 +509,10 @@ class TrialRotate : public TrialMove {
       std::make_shared<TrialSelectParticle>(),
       std::make_shared<PerturbRotate>(args),
       args
-    ) {};
+    ) {
+    class_name_ = "TrialRotate";
+  }
+  virtual ~TrialRotate() {}
 };
 
 inline std::shared_ptr<TrialRotate> MakeTrialRotate(
@@ -524,12 +537,14 @@ class TrialComputeAdd : public TrialCompute {
       const double volume = config.domain().volume();
       const int particle_index = select->mobile().particle_index(0);
       const int particle_type = config.select_particle(particle_index).type();
+      DEBUG("volume " << volume << " selprob " << select->probability() << " betamu " << criteria->beta_mu(particle_type));
       acceptance->add_to_ln_metropolis_prob(
         log(volume*select->probability())
         + criteria->beta_mu(particle_type)
       );
     }
   }
+  virtual ~TrialComputeAdd() {}
 };
 
 /// Attempt to add a particle.
@@ -542,7 +557,9 @@ class TrialAdd : public Trial {
       args
     );
     set(std::make_shared<TrialComputeAdd>());
+    class_name_ = "TrialAdd";
   }
+  virtual ~TrialAdd() {}
 };
 
 inline std::shared_ptr<TrialAdd> MakeTrialAdd(
@@ -560,7 +577,7 @@ class TrialComputeRemove : public TrialCompute {
     DEBUG("TrialComputeRemove");
     compute_rosenbluth(1, criteria, system, acceptance, stages);
     acceptance->set_energy_new(criteria->current_energy() - acceptance->energy_old());
-    acceptance->set_macrostate_shift(-1);
+    acceptance->add_to_macrostate_shift(-1);
     { // Metropolis
       const Configuration& config = system->configuration();
       const double volume = config.domain().volume();
@@ -575,6 +592,7 @@ class TrialComputeRemove : public TrialCompute {
       DEBUG("lnmet " << acceptance->ln_metropolis_prob());
     }
   }
+  virtual ~TrialComputeRemove() {}
 };
 
 /// Attempt to remove a particle.
@@ -589,7 +607,9 @@ class TrialRemove : public Trial {
       args
     );
     set(std::make_shared<TrialComputeRemove>());
+    class_name_ = "TrialRemove";
   }
+  virtual ~TrialRemove() {}
 };
 
 inline std::shared_ptr<TrialRemove> MakeTrialRemove(

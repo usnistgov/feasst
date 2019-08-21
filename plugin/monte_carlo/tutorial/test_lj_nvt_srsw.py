@@ -30,7 +30,7 @@ class TestLJ_NVT_SRSW(unittest.TestCase):
           "steps_per_write": str(steps_per),
           "file_name": "lj_nvt_srsw_energy.txt",
         }))
-        mc.add(energy);
+        mc.add(energy)
 
         # compute average using this script
         energy_alt = feasst.Accumulator()

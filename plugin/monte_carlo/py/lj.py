@@ -21,7 +21,8 @@ def system(box_length, num=0, forcefield='data.lj'):
         {"cubic_box_length": str(box_length),
          "particle_type": feasst.install_dir() + '/forcefield/' + forcefield,
          "init_cells": "3"}))
-    for i in range(num): config.add_particle_of_type(0)
+    for i in range(num):
+        config.add_particle_of_type(0)
     system.add(config)
     system.add(lj())
     system.add(lrc())

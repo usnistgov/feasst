@@ -291,3 +291,4 @@ To Do List
 * insert optimization: update cell list of sites when added, but of domain only when finalized.
 * wl lj comparison is off
 * Python interface cannot take a system pointer to modify system (e.g., perturb, in monte_carlo/tutorial/test_lj_model.py.bak
+* IF using argtype for custom object, considering single string constructors. E.g., for position in cylinder.h, use {"point0", "0 0 0"}

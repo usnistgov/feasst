@@ -19,8 +19,6 @@ class CheckEnergy : public ModifyUpdateOnly {
         and recomputed energy (default: 1e-10).
     */
     const argtype &args = argtype()) : ModifyUpdateOnly(args) {
-
-    // parse
     args_.init(args);
     tolerance_ = args_.key("tolerance").dflt(str(1e-10)).dble();
     check_ = MakeCheck();

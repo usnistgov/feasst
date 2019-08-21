@@ -139,6 +139,8 @@ class Perturb {
     return ss.str();
   }
 
+  virtual ~Perturb() {}
+
  protected:
   void disable_tunable_() { tunable_.disable(); }
 
@@ -189,6 +191,8 @@ class PerturbMove : public Perturb {
       system->revert();
     }
   }
+
+  virtual ~PerturbMove() {}
 };
 
 /**
@@ -199,7 +203,7 @@ class PerturbTranslate : public PerturbMove {
   PerturbTranslate(const argtype& args = argtype()) : PerturbMove(args) {}
 
   void precompute(TrialSelect * select, System * system) override {
-    set_tunable_min_and_max(0,
+    set_tunable_min_and_max(2*NEAR_ZERO,
       0.5*system->configuration().domain().max_side_length());
   }
 
@@ -240,9 +244,12 @@ class PerturbTranslate : public PerturbMove {
       &trajectory_
     );
     DEBUG("max move " << tunable().value());
-    ASSERT(tunable().value() > NEAR_ZERO, "tunable is too small");
+    ASSERT(tunable().value() > NEAR_ZERO, "tunable(" << tunable().value()
+      << ") is too small");
     move(trajectory_, system, select);
   }
+
+  virtual ~PerturbTranslate() {}
 
  private:
   // optimization or temporary objects
@@ -256,7 +263,7 @@ class PerturbTranslate : public PerturbMove {
 class PerturbRotate : public PerturbMove {
  public:
   PerturbRotate(const argtype& args = argtype()) : PerturbMove(args) {
-    set_tunable_min_and_max(0., 360.);
+    set_tunable_min_and_max(2*NEAR_ZERO, 360.);
   }
 
   /// Change the position in the selection given a pivot and rotation matrix.
@@ -329,6 +336,8 @@ class PerturbRotate : public PerturbMove {
 
   Random * random() { return &random_; }
 
+  virtual ~PerturbRotate() {}
+
  private:
   Random random_;
 
@@ -375,6 +384,8 @@ class PerturbAnywhere : public PerturbMove {
     set_position(random_in_box_, system, select);
     DEBUG("anywhere: " << random_in_box_.str());
   }
+
+  virtual ~PerturbAnywhere() {}
 
  private:
   PerturbTranslate translate_;
@@ -456,6 +467,8 @@ class PerturbAdd : public Perturb {
     return ss.str();
   }
 
+  virtual ~PerturbAdd() {}
+
  private:
   PerturbAnywhere anywhere_;
   Select whole_particle_;
@@ -506,6 +519,8 @@ class PerturbRemove : public Perturb {
     }
   }
 
+  virtual ~PerturbRemove() {}
+
  private:
   PerturbAnywhere anywhere_;
 };
@@ -544,6 +559,8 @@ class PerturbDistance : public PerturbMove {
     DEBUG("new pos " << site->str());
     system->get_configuration()->update_positions(select->mobile());
   }
+
+  virtual ~PerturbDistance() {}
 
  private:
   double distance_ = 1.;
@@ -599,6 +616,8 @@ class PerturbDistanceAndAngle : public PerturbDistance {
     DEBUG("new pos " << site->str());
     system->get_configuration()->update_positions(select->mobile());
   }
+
+  virtual ~PerturbDistanceAndAngle() {}
 
  private:
   double angle_;

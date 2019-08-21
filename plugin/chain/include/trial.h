@@ -21,7 +21,10 @@ class TrialPivot : public TrialMove {
       std::make_shared<TrialSelectEndSegment>(),
       std::make_shared<PerturbPivot>(args),
       args
-    ) {};
+    ) {
+    class_name_ = "TrialPivot";
+  }
+  virtual ~TrialPivot() {}
 };
 
 inline std::shared_ptr<TrialPivot> MakeTrialPivot(
@@ -39,6 +42,11 @@ class TrialCrankshaft : public TrialMove {
       std::make_shared<PerturbCrankshaft>(args),
       args
     ) {};
+
+  virtual ~TrialCrankshaft() {}
+
+ protected:
+  std::string class_name_ = "TrialCrankshaft";
 };
 
 inline std::shared_ptr<TrialCrankshaft> MakeTrialCrankshaft(
@@ -55,7 +63,10 @@ class TrialReptate : public TrialMove {
       std::make_shared<TrialSelectReptate>(),
       std::make_shared<PerturbReptate>(args),
       args
-    ) {};
+    ) {
+    class_name_ = "TrialReptate";
+  }
+  virtual ~TrialReptate() {}
 };
 
 inline std::shared_ptr<TrialReptate> MakeTrialReptate(

@@ -34,5 +34,3 @@ lj.add_analysis(mc, 1)
 #assert(False) # implement random rotation of inserted particles.
 mc.seek_num_particles(512)
 mc.attempt(int(1e5))
-
-
