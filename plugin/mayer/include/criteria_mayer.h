@@ -3,7 +3,6 @@
 #define FEASST_MAYER_CRITERIA_MAYER_H_
 
 #include "monte_carlo/include/criteria.h"
-#include "math/include/random.h"
 #include "math/include/accumulator.h"
 #include "system/include/model_hard_sphere.h"
 
@@ -19,7 +18,8 @@ class CriteriaMayer : public Criteria {
   CriteriaMayer(const argtype& args = argtype()) : Criteria(args) {}
 
   bool is_accepted(const Acceptance& acceptance,
-    const System * system) override;
+    const System * system,
+    const double uniform_random) override;
 
   double second_virial() const {
     return (2./3.)*PI*mayer_.average()/mayer_ref_.average();
@@ -37,9 +37,6 @@ class CriteriaMayer : public Criteria {
   double f12ref_ = -1.;
   Accumulator mayer_;
   Accumulator mayer_ref_;
-
-  // not currently serialized
-  Random random_;
 };
 
 inline std::shared_ptr<CriteriaMayer> MakeCriteriaMayer(const argtype &args = argtype()) {

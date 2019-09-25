@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "math/include/random_mt19937.h"
 #include "monte_carlo/include/trial.h"
 #include "configuration/test/configuration_test.h"
 #include "system/include/system.h"
@@ -31,7 +32,8 @@ TEST(TrialRotate, spce) {
   EXPECT_EQ(0.5, rotate->weight());
   FileXYZ file;
   file.write("tmp/before", system.configuration());
-  rotate->attempt(&criteria, &system);
+  RandomMT19937 random;
+  rotate->attempt(&criteria, &system, &random);
   file.write("tmp/after", system.configuration());
 }
 

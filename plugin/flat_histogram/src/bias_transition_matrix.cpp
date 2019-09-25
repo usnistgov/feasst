@@ -1,5 +1,6 @@
 
 #include <algorithm>
+#include <math.h>
 #include "flat_histogram/include/bias_transition_matrix.h"
 #include "utils/include/utils_io.h"
 #include "math/include/utils_math.h"
@@ -43,6 +44,11 @@ void BiasTransitionMatrix::update(const int macrostate_old,
   }
 }
 
+void BiasTransitionMatrix::revert(const int macrostate_new,
+    const int macrostate_old) {
+  ERROR("not implemented: what if infrequent update needs to be reverted?");
+}
+
 void BiasTransitionMatrix::update_blocks_(
     const int macrostate_old,
     const int macrostate_new,
@@ -62,11 +68,15 @@ void BiasTransitionMatrix::update_blocks_(
     }
   }
 
-  // Update one of the randomly chosen blocks.
-  random_.element(&blocks_)->update(macrostate_old,
-                                    macrostate_new,
-                                    ln_metropolis_prob,
-                                    is_accepted);
+  // Update one of the blocks.
+  ++iter_block_;
+  if (iter_block_ == static_cast<int>(blocks_.size())) {
+    iter_block_ = 0;
+  }
+  blocks_[iter_block_].update(macrostate_old,
+                              macrostate_new,
+                              ln_metropolis_prob,
+                              is_accepted);
 }
 
 void BiasTransitionMatrix::resize(const Histogram& histogram) {

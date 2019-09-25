@@ -1,5 +1,6 @@
 #include <memory>
 #include <gtest/gtest.h>
+#include "math/include/random_mt19937.h"
 #include "monte_carlo/include/criteria_metropolis.h"
 #include "monte_carlo/include/trial.h"
 #include "system/test/system_test.h"
@@ -13,14 +14,15 @@ TEST(Criteria, current_energy) {
   auto trans = MakeTrialTranslate({{"tunable_param", "0.1"}});
   CriteriaMetropolis crit;
   crit.set_current_energy(sys.energy());
+  RandomMT19937 random;
   try {
     auto sys2 = sys;
     auto crit2 = crit;
-    trans->attempt(&crit2, &sys2);
+    trans->attempt(&crit2, &sys2, &random);
     CATCH_PHRASE("beta must be initialized");
   }
   crit.set_beta(1.);
-  trans->attempt(&crit, &sys);
+  trans->attempt(&crit, &sys, &random);
   EXPECT_NEAR(sys.energy(), crit.current_energy(), NEAR_ZERO);
 }
 

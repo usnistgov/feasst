@@ -12,8 +12,9 @@ class TrialComputeMoveMayer : public TrialCompute {
       Criteria * criteria,
       System * system,
       Acceptance * acceptance,
-      std::vector<TrialStage*> * stages) override {
-    compute_rosenbluth(0, criteria, system, acceptance, stages);
+      std::vector<TrialStage*> * stages,
+      Random * random) override {
+    compute_rosenbluth(0, criteria, system, acceptance, stages, random);
     acceptance->set_energy_new(acceptance->energy_new());
   }
 };

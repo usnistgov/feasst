@@ -9,6 +9,7 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
+#include <omp.h>
 #include "utils/include/custom_exception.h"
 
 namespace feasst {
@@ -21,14 +22,14 @@ namespace feasst {
 
   0. FATAL (not implemented)
   1. ERROR and ASSERT
-  2. WARN and WARN_IF
+  2. WARN
   3. INFO
   4. DEBUG
   5. TRACE
 
   These macros will print if they are equal to or less than the verbosity level.
   Tests which expect exceptions (many) will fail if VERBOSE_LEVEL is set to 0.
-  WARN_IF and ASSERT include the conditional as the first argument.
+  ASSERT includes the conditional as the first argument.
 
   A way to decide whether to use TRACE or DEBUG is as follows.
   If the printout is once every trial move or less frequent, then DEBUG is
@@ -45,15 +46,32 @@ constexpr int VERBOSE_LEVEL = 3;
 /// Return file_name with FEASST_DIR_ path removed.
 std::string feasst_dir_trim_(const char* file_name);
 
+/// Throw exception
+# ifdef _OPENMP
+# define FEASST_MACRO_EXCEPTION(message, name) \
+{ \
+  std::stringstream macro_err_msg_; \
+  macro_err_msg_ << "# " << name << omp_get_thread_num() << " " \
+           << feasst::feasst_dir_trim_(__FILE__) \
+           << ":" << __LINE__ << ": " << message; \
+  throw feasst::CustomException(macro_err_msg_); \
+}
+# else  // _OPENMP
+# define FEASST_MACRO_EXCEPTION(message, name) \
+{ \
+  std::stringstream macro_err_msg_; \
+  macro_err_msg_ << "# " << name << " " \
+           << feasst::feasst_dir_trim_(__FILE__) \
+           << ":" << __LINE__ << ": " << message; \
+  throw feasst::CustomException(macro_err_msg_); \
+}
+# endif  // _OPENMP
+
 /// If the assertion condition is not true, throw exception with message.
 # define ASSERT(condition, message) \
 { \
   if (!(condition) and feasst::VERBOSE_LEVEL >= 1) { \
-    std::stringstream macro_err_msg_; \
-    macro_err_msg_ << "# Assertion `" #condition "` failed " \
-             << feasst::feasst_dir_trim_(__FILE__) \
-             << ":" << __LINE__ << ": " << message; \
-    throw feasst::CustomException(macro_err_msg_); \
+    FEASST_MACRO_EXCEPTION(message, "Assertion `" #condition "` failed") \
   } \
 }
 
@@ -61,11 +79,7 @@ std::string feasst_dir_trim_(const char* file_name);
 # define ERROR(message) \
 { \
   if (feasst::VERBOSE_LEVEL >= 1) { \
-    std::stringstream macro_err_msg_; \
-    macro_err_msg_ << "# Error " \
-             << feasst::feasst_dir_trim_(__FILE__) \
-             << ":" << __LINE__ << ": " << message; \
-    throw feasst::CustomException(macro_err_msg_); \
+    FEASST_MACRO_EXCEPTION(message, "Error") \
   } \
 }
 
@@ -81,57 +95,32 @@ FAIL() << "Expected failure"; \
 } catch(...) { \
   FAIL() << "Unrecognized exception"; \
 
-/// Warn with message to standard output if condition is true.
-# define WARN_IF(condition, message) \
-{ \
-  if (condition and feasst::VERBOSE_LEVEL >= 2) { \
-    std::stringstream macro_err_msg_; \
-    std::clog << "# Warning if `" #condition "` " \
-              << feasst::feasst_dir_trim_(__FILE__) \
-              << ":" << __LINE__ << ": " << message << std::endl; \
-  } \
-}
-
-/// Warn with message to standard output.
-# define WARN(message) \
-{ \
-  if (feasst::VERBOSE_LEVEL >= 2) { \
-    std::stringstream macro_err_msg_; \
-    std::clog << "# Warning " \
-              << feasst::feasst_dir_trim_(__FILE__) \
-              << ":" << __LINE__ << ": " << message << std::endl; \
-  } \
-}
-
-/// Inform with message to standard output.
-# define INFO(message) \
-{ \
-  if (feasst::VERBOSE_LEVEL >= 3) { \
-    std::clog << "# Info " \
-              << feasst::feasst_dir_trim_(__FILE__) \
-              << ":" << __LINE__ << ": " << message << std::endl; \
-  } \
-}
-
 /// Debug with message to standard output.
-# define DEBUG(message) \
+# ifdef _OPENMP
+# define FEASST_MACRO_OUTPUT(message, name, level) \
 { \
-  if (feasst::VERBOSE_LEVEL >= 4) { \
-    std::clog << "# Debug " \
-              << feasst::feasst_dir_trim_(__FILE__) \
-              << ":" << __LINE__ << ": " << message << std::endl; \
+  if (feasst::VERBOSE_LEVEL >= level) { \
+    std::clog << "# " << name << omp_get_thread_num() \
+              << " [" << feasst::feasst_dir_trim_(__FILE__) << ":" << __LINE__ \
+              << "] " << message << std::endl; \
   } \
 }
+# else  // _OPENMP
+# define FEASST_MACRO_OUTPUT(message, name, level) \
+{ \
+  if (feasst::VERBOSE_LEVEL >= level) { \
+    std::clog << "# " << name \
+              << " [" << feasst::feasst_dir_trim_(__FILE__) << ":" << __LINE__ \
+              << "] " << message << std::endl; \
+  } \
+}
+#endif  // _OPENMP
 
-/// Trace with message to standard output.
-# define TRACE(message) \
-{ \
-  if (feasst::VERBOSE_LEVEL >= 5) { \
-    std::clog << "# Trace " \
-              << feasst::feasst_dir_trim_(__FILE__) \
-              << ":" << __LINE__ << ": " << message << std::endl; \
-  } \
-}
+/// Define and name the various levels of verbosity.
+# define WARN(message) FEASST_MACRO_OUTPUT(message, "Warn ", 2)
+# define INFO(message) FEASST_MACRO_OUTPUT(message, "Info ", 3)
+# define DEBUG(message) FEASST_MACRO_OUTPUT(message, "Debug", 4)
+# define TRACE(message) FEASST_MACRO_OUTPUT(message, "Trace", 5)
 
 }  // namespace feasst
 

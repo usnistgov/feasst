@@ -9,8 +9,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 
 # manually list the plugins
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;pipeline")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram;growth_expanded")
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded;pipeline")
 message(${FEASST_PLUGINS})
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
@@ -46,10 +47,8 @@ endif()
 # GCOV
 if (USE_GCOV)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -fprofile-arcs -ftest-coverage")
-  if(CMAKE_COMPILER_IS_GNUCXX)
-    include(CodeCoverage)
-    setup_target_for_coverage(coverage unittest coverage)
-  endif()
+  include(CodeCoverage)
+  setup_target_for_coverage(coverage unittest coverage)
 endif (USE_GCOV)
 
 #strip leading whitespace from EXTRA_LIBS
@@ -186,6 +185,12 @@ if (${_index} GREATER -1)
   target_link_libraries(feasstgrowth_expanded feasstflat_histogram)
 endif()
 
+# pipeline
+list (FIND FEASST_PLUGINS "pipeline" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstpipeline feasstmonte_carlo)
+endif()
+
 # CCACHE
 if (USE_CCACHE)
   find_program(CCACHE_PROGRAM ccache)
@@ -194,6 +199,17 @@ if (USE_CCACHE)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
   endif(CCACHE_PROGRAM)
 endif(USE_CCACHE)
+
+# OMP
+if(POLICY CMP0012)
+  cmake_policy(SET CMP0012 NEW)
+endif()
+find_package(OpenMP)
+if(OPENMP_FOUND)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
 
 # SPHINX
 if (USE_SPHINX)
@@ -397,8 +413,11 @@ if (USE_SWIG)
     else ()
       SWIG_ADD_LIBRARY(feasst LANGUAGE python SOURCES "${CMAKE_SOURCE_DIR}/py/feasst.i")
     endif ()
-    SWIG_LINK_LIBRARIES(feasst ${PYTHON_LIBRARIES} ${EXTRA_LIBS})
+    SWIG_LINK_LIBRARIES(feasst ${EXTRA_LIBS})
     SWIG_LINK_LIBRARIES(feasst feasst)
+    if (APPLE)
+      set_target_properties(_feasst PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+    endif (APPLE)
     add_dependencies(_feasst build-time-make-directory)
 
     # put pyfeasst into build

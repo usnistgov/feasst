@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "math/include/random_mt19937.h"
 #include "chain/include/trial.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "system/include/system.h"
@@ -36,8 +37,9 @@ TEST(TrialPivot, chain10) {
   FileXYZ file;
   file.write("tmp/before", system.configuration());
   AnalyzeRigidBonds checker;
+  RandomMT19937 random;
   for (int i = 0; i < 50; ++i) {
-    factory.attempt(criteria.get(), &system);
+    factory.attempt(criteria.get(), &system, &random);
     file.write("tmp/after", system.configuration());
     checker.update(criteria.get(), system, factory);
   }

@@ -5,6 +5,25 @@
 
 namespace feasst {
 
+std::map<std::string, std::shared_ptr<Random> >& Random::deserialize_map() {
+  static std::map<std::string, std::shared_ptr<Random> >* ans =
+     new std::map<std::string, std::shared_ptr<Random> >();
+  return *ans;
+}
+
+std::shared_ptr<Random> Random::deserialize(std::istream& istr) {
+  return template_deserialize(deserialize_map(), istr,
+    // true argument denotes rewinding to reread class name
+    // this allows derived class constructor to read class name.
+    true);
+}
+
+Random::Random(std::istream& istr) {
+  std::string class_name;
+  istr >> class_name;
+  ASSERT(!class_name.empty(), "mismatch");
+}
+
 void seed_random_by_date() {
   const int t = time(NULL);
   srand ( t );
@@ -15,11 +34,6 @@ void seed_random(const int seed) {
   srand ( seed );
   INFO("Initializing random number generator for reproduction with seed("
     << seed << ")");
-}
-
-int Random::uniform(const int min, const int max) {
-  auto dis_int = std::uniform_int_distribution<int>(min, max);
-  return dis_int(generator_);
 }
 
 bool Random::coin_flip() {
@@ -124,25 +138,6 @@ RotationMatrix Random::rotation(const int dimension, const double max_angle) {
   unit_sphere_surface(&axis);
   const double angle = uniform_real(-max_angle, max_angle);
   return RotationMatrix().axis_angle(axis, angle);
-}
-
-void Random::reseed_() {
-  const int seed = rand();
-  TRACE("seed " << seed << " address " << this);
-  generator_ = std::mt19937(seed);
-  dis_double_ = std::uniform_real_distribution<double>(0.0, 1.0);
-}
-
-void Random::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(101, ostr);
-  ostr << MAX_PRECISION;
-  ostr << generator_;
-}
-
-Random::Random(std::istream& istr) {
-  const int verison = feasst_deserialize_version(istr);
-  ASSERT(verison == 101, "version");
-  istr >> generator_;
 }
 
 }  // namespace feasst

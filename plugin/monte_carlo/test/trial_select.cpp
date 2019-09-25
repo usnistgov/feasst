@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "math/include/random_mt19937.h"
 #include "monte_carlo/include/trial_select.h"
 #include "configuration/test/configuration_test.h"
 #include "system/test/system_test.h"
@@ -11,8 +12,9 @@ TEST(TrialSelectParticle, select) {
   TrialSelectParticle select;
   int num_zero = 0;
   const int num_select = 1e2;
+  RandomMT19937 random;
   for (int i = 0; i < num_select; ++i) {
-    select.select(Select(), &system);
+    select.select(Select(), &system, &random);
     EXPECT_EQ(1, select.mobile().num_sites());
     if (select.mobile().particle_index(0) == 0) ++num_zero;
   }

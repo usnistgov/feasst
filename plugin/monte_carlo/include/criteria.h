@@ -136,13 +136,17 @@ class Criteria {
 
   /// Return whether or not the trial attempt should be accepted.
   virtual bool is_accepted(const Acceptance& acceptance_,
-    const System * system) = 0;
+    const System * system,
+    const double uniform_random) = 0;
 
   /// Set the current total energy based on energy changes per trial in order
   /// to avoid recomputation of the energy of the entire configuration.
   /// For example, Metropolis Monte Carlo trials are concerned with the change
   /// in energy, and this variable tracks the total from the changes.
-  void set_current_energy(const double energy) { current_energy_ = energy; }
+  void set_current_energy(const double energy) {
+    previous_energy_ = current_energy_;
+    current_energy_ = energy;
+  }
 
   /// Return the current total energy based on energy changes per trial.
   double current_energy() const { return current_energy_; }
@@ -175,6 +179,9 @@ class Criteria {
   /// Return number of trial states.
   int num_trial_states() const { return num_trial_states_; }
 
+  /// Revert changes from previous trial.
+  virtual void revert() {current_energy_ = previous_energy_; }
+
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Criteria> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Criteria> >& deserialize_map();
@@ -191,6 +198,7 @@ class Criteria {
   bool beta_initialized_ = false;
   std::vector<double> chemical_potentials_;
   double current_energy_;
+  double previous_energy_;
   int trial_state_;
   int num_trial_states_;
 };

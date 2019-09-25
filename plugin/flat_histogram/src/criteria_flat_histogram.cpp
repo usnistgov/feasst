@@ -5,7 +5,8 @@
 namespace feasst {
 
 bool CriteriaFlatHistogram::is_accepted(const Acceptance& acceptance,
-    const System * system) {
+    const System * system,
+    const double uniform_random) {
   ASSERT(bias_ != NULL, "bias must be initialized before trials");
   bool is_accepted;
   double ln_metropolis_prob = acceptance.ln_metropolis_prob();
@@ -27,7 +28,7 @@ bool CriteriaFlatHistogram::is_accepted(const Acceptance& acceptance,
     DEBUG("ln old " << bias_->ln_macro_prob().value(macrostate_old_));
     DEBUG("ln met " << ln_metropolis_prob);
     DEBUG("ln tot " << ln_metropolis_prob + bias_->ln_bias(macrostate_new_, macrostate_old_));
-    if (random_.uniform() < exp(ln_metropolis_prob +
+    if (uniform_random < exp(ln_metropolis_prob +
                                 bias_->ln_bias(macrostate_new_,
                                                macrostate_old_))) {
       is_accepted = true;
@@ -65,6 +66,12 @@ std::string CriteriaFlatHistogram::write() const {
        << std::endl;
   }
   return ss.str();
+}
+
+void CriteriaFlatHistogram::revert() {
+  Criteria::revert();
+  bias_->revert(macrostate_new_, macrostate_old_);
+  macrostate_new_ = macrostate_old_;
 }
 
 class MapCriteriaFlatHistogram {

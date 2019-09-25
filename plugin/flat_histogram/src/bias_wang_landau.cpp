@@ -45,6 +45,10 @@ void BiasWangLandau::resize(const Histogram& histogram) {
   visited_states_.resize(histogram.size());
 }
 
+void BiasWangLandau::revert(const int macrostate_new, const int macrostate_old) {
+  ERROR("not implemented: how to revert flatness update?");
+}
+
 std::string BiasWangLandau::write() const {
   std::stringstream ss;
   ss << Bias::write();

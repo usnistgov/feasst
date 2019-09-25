@@ -5,13 +5,14 @@
 namespace feasst {
 
 bool CriteriaMayer::is_accepted(const Acceptance& acceptance,
-    const System * system) {
+    const System * system,
+    const double uniform_random) {
   const double energy_new = acceptance.energy_new();
   const double f12 = exp(-beta()*energy_new) - 1.;
   bool is_accepted;
   DEBUG("energy new " << energy_new << " f12 " << f12);
   if (!acceptance.reject() and
-      (random_.uniform() < std::abs(f12)/std::abs(f12old_)) ) {
+      (uniform_random < std::abs(f12)/std::abs(f12old_)) ) {
     set_current_energy(energy_new);
     f12old_ = f12;
     is_accepted = true;

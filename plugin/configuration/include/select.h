@@ -89,17 +89,9 @@ class Select {
   /// Remove particle by index.
   void remove_particle(const int particle_index);
 
-//  /// Add random particle.
-//  void add_random_particle(const Particles& particles) {
-//    add_particle(particles, random_particle_index(particles));
-//  }
-
   /// Return the selection of a particle chosen randomly from current
   /// selection.
-  Select random_particle();
-
-  /// Reduce existing selection to one random particle.
-  void reduce_to_random_particle();
+  Select random_particle(Random * random);
 
   /// Return number of selected particles.
   int num_particles() const {
@@ -113,15 +105,6 @@ class Select {
 
   /// Print the selection.
   std::string str() const;
-
-//  /// Return a random index of particles.
-//  int random_particle_index(const Particles& particles);
-
-//  /// Return the unique identifier.
-//  std::string unique_id() const { return unique_id_; }
-
-//  /// Set the unique identifier.
-//  void set_unique_id(const std::string id) { unique_id_ = id; }
 
   /// Return the particle indices.
   const std::vector<int>& particle_indices() const { return particle_indices_; }
@@ -237,19 +220,9 @@ class Select {
   Select(std::istream& istr);
   virtual ~Select() {}
 
- protected:
-  Random * random() {
-    if (!random_) {
-      random_ = std::make_shared<Random>();
-    }
-    return random_.get();
-  }
-
  private:
   std::vector<int> particle_indices_;
   std::vector<std::vector<int> > site_indices_;
-  std::shared_ptr<Random> random_;
-  // std::string unique_id_;
   int trial_state_ = -1;
   std::shared_ptr<Select> excluded_;
   std::shared_ptr<Select> new_bond_;

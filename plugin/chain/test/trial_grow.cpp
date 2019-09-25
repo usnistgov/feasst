@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "math/include/random_mt19937.h"
 #include "chain/include/trial_grow.h"
 #include "system/include/system.h"
 #include "system/include/model_lj.h"
@@ -38,8 +39,9 @@ TEST(TrialGrow, chain10) {
   FileXYZ file;
   file.write("tmp/before2", system.configuration());
   AnalyzeRigidBonds checker;
+  RandomMT19937 random;
   for (int i = 0; i < 50; ++i) {
-    factory.attempt(criteria.get(), &system);
+    factory.attempt(criteria.get(), &system, &random);
     file.write("tmp/after2", system.configuration());
     checker.update(criteria.get(), system, factory);
   }

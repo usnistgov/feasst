@@ -8,14 +8,14 @@ namespace feasst {
 
 /// Select a random segment.
 // HWH optimzie by settting endpoints as anchors.
-class TrialSelectSegment : public TrialSelect {
+class TrialSelectSegment : public TrialSelectParticle {
  public:
   TrialSelectSegment(
     /**
       max_length : maximum length of selected segment. If -1 (default), then
         randomly select all possible lengths.
      */
-    const argtype& args = argtype()) : TrialSelect(args) {
+    const argtype& args = argtype()) : TrialSelectParticle(args) {
     Arguments args_(args);
     args_.dont_check();
     max_length_ = args_.key("max_length").dflt("-1").integer();
@@ -23,10 +23,55 @@ class TrialSelectSegment : public TrialSelect {
 
   int max_length() const { return max_length_; }
 
-  bool select(const Select& perturbed, System* system) override {
-    mobile_.random_segment_in_particle(
-      group_index(),
+  /// Select all sites between two randomly selected sites in a randomly selected particle in group.
+  void random_segment_in_particle(
+      const Configuration& config,
+      SelectPosition * select,
+      Random * random,
+      /// Set the maximum length of the segment.
+      /// If -1 (default), consider all possible lengths.
+      const int max_length = -1
+    ) {
+    random_particle(config, select, random);
+    const int num_sites = select->num_sites();
+    if (num_sites <= 1) {
+      return; // HWH note this check prevents error/infinite loop below
+    }
+
+    // find two unequal sites
+    int min = 0;
+    int max = min;
+    int attempt = 0;
+    while (min == max) {
+      min = random->uniform(0, num_sites - 1);
+      if (max_length == -1) {
+        max = random->uniform(0, num_sites - 1);
+      } else {
+        max = min + random->uniform(-max_length, max_length);
+        if (max < 0) {
+          max = 0;
+        }
+        if (max >= num_sites) {
+          max = num_sites - 1;
+        }
+      }
+      ++attempt;
+      ASSERT(attempt < 1e3, "infinite loop");
+    }
+
+    // swap for meaningful min/max
+    sort(&min, &max);
+
+    // remove sites not in min/max, from highest to lowest
+    select->remove_last_sites(num_sites - max - 1);
+    select->remove_first_sites(min);
+  }
+
+  bool select(const Select& perturbed, System* system, Random * random) override {
+    random_segment_in_particle(
       system->configuration(),
+      &mobile_,
+      random,
       max_length()
     );
     mobile_original_ = mobile_;
@@ -50,10 +95,70 @@ class TrialSelectEndSegment : public TrialSelectSegment {
     anchor_.add_site(0, 0);
   }
 
-  bool select(const Select& perturbed, System* system) override {
-    bool is_endpoint_beginning = mobile_.random_end_segment_in_particle(
-      group_index(),
+  /// Select all sites between a random endpoint and a randomly selectioned site in a randomly selected particle in group.
+  /// Return true if the endpoint is at the beginning.
+  bool random_end_segment_in_particle(const Configuration& config,
+      SelectPosition * select,
+      Random * random,
+      /// Set the maximum length of the segment.
+      /// If -1 (default), consider all possible lengths.
+      const int max_length = -1
+      ) {
+    random_particle(config, select, random);
+    const int num_sites = select->num_sites();
+    // HWH note this check prevents error/infinite loop below
+    if (num_sites <= 1) {
+      DEBUG("num sites(" << num_sites << ") not large enough");
+      return false;
+    }
+
+    // select a random site
+    int site = -1;
+    bool is_endpoint_beginning;
+    if (max_length == -1) {
+      site = random->uniform(0, num_sites - 1);
+
+      DEBUG("site " << site << " num " << num_sites);
+
+      // randomly decide which endpoint to keep in selection
+      if (site == 0) {
+        is_endpoint_beginning = false;
+      } else if (site == num_sites - 1) {
+        is_endpoint_beginning = true;
+      } else {
+        if (random->coin_flip()) {
+          is_endpoint_beginning = false;
+        } else {
+          is_endpoint_beginning = true;
+        }
+      }
+    } else {
+      ASSERT(max_length > 0, "max_length(" << max_length <<") should be >0 "
+        << "or no segment will be selected");
+      if (random->coin_flip()) {
+        is_endpoint_beginning = false;
+        site = random->uniform(num_sites - max_length, num_sites - 1);
+      } else {
+        is_endpoint_beginning = true;
+        site = random->uniform(0, max_length - 1);
+      }
+    }
+
+    DEBUG("beginning? " << is_endpoint_beginning);
+    if (is_endpoint_beginning) {
+      select->remove_last_sites(num_sites - site - 1);
+    } else {
+      select->remove_first_sites(site);
+    }
+    DEBUG("num " << num_sites << " indices " << select->str());
+    return is_endpoint_beginning;
+  }
+
+  bool select(const Select& perturbed, System* system, Random * random) override {
+    bool is_endpoint_beginning = random_end_segment_in_particle(
       system->configuration(),
+      &mobile_,
+      random,
       max_length()
     );
     if (mobile_.num_sites() <= 0) {
@@ -134,7 +239,7 @@ class TrialSelectPerturbed : public TrialSelect {
  public:
   TrialSelectPerturbed(const argtype& args = argtype()) : TrialSelect(args) {}
 
-  bool select(const Select& perturbed, System* system) override {
+  bool select(const Select& perturbed, System* system, Random * random) override {
     if (perturbed.num_sites() == 0) return false;
     mobile_.replace_particle(perturbed, 0, system->configuration());
     mobile_original_ = mobile_;

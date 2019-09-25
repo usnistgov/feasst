@@ -316,11 +316,6 @@ class Configuration {
   // HWH if groups are defined based on positions.
   std::vector<SelectGroup> group_selects_;
 
-//  /// Unique identifier for the collection of particle indices.
-//  std::string unique_indices_;
-//  void reset_unique_indices_();
-//  Random random_;
-
   /// Add particle.
   void add_(const Particle particle);
 

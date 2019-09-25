@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "math/include/random_mt19937.h"
 #include "mayer/include/trial.h"
 #include "mayer/include/criteria_mayer.h"
 #include "system/test/system_test.h"
@@ -25,9 +26,9 @@ TEST(CriteriaMayer, ljb2) {
   criteria.set_beta(1.);
   criteria.add_chemical_potential(-2.775);
   criteria.set_current_energy(system.energy());
-  Random random;
+  RandomMT19937 random;
   for (int iTrial = 0; iTrial < nTrialsEq + nTrials; ++iTrial) {
-    translate->attempt(&criteria, &system);
+    translate->attempt(&criteria, &system, &random);
   }
   std::cout << "a " << criteria.second_virial() << std::endl;
   EXPECT_NEAR(-5.3, criteria.second_virial(), 15);

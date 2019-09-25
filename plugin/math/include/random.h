@@ -5,8 +5,10 @@
 #include <vector>
 #include <random>
 #include <string>
+#include <memory>
 #include "math/include/position.h"
 #include "utils/include/debug.h"
+#include "utils/include/utils_io.h"
 #include "math/include/constants.h"
 #include "math/include/matrix.h"
 
@@ -21,21 +23,18 @@ namespace feasst {
  */
 class Random {
  public:
-  Random() { reseed_(); }
-
-  // copy constructor should re-seed
-  Random(const Random& random) { reseed_(); }
+  Random() {}
 
   /// Return a random real number with a uniform probability distribution
   /// between 0 and 1.
-  double uniform() { return dis_double_(generator_); }
-
-  /// Randomly return true or false
-  bool coin_flip();
+  virtual double uniform() = 0;
 
   /// Return a random integer with a uniform probability distribution
   /// betwee min and max.
-  int uniform(const int min, const int max);
+  virtual int uniform(const int min, const int max) = 0;
+
+  /// Randomly return true or false
+  bool coin_flip();
 
   /// Return random real number with a uniform probability distribution
   /// between min and max.
@@ -107,16 +106,17 @@ class Random {
     const double max_angle = 180);
 
   /// Serialize.
-  void serialize(std::ostream& ostr) const;
+  virtual void serialize(std::ostream& ostr) const = 0;
+  virtual std::shared_ptr<Random> create(std::istream& istr) const = 0;
+  std::map<std::string, std::shared_ptr<Random> >& deserialize_map();
+  std::shared_ptr<Random> deserialize(std::istream& istr);
+  virtual ~Random() {}
 
-  /// Deserialize.
-  explicit Random(std::istream& istr);
+ protected:
+  Random(std::istream& istr);
 
  private:
-  std::uniform_real_distribution<double> dis_double_;
-  std::mt19937 generator_;
-
-  void reseed_();
+  virtual void reseed_() = 0;
 };
 
 /// Initialize random number generator based on date and time.

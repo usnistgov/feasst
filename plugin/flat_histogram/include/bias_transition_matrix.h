@@ -41,13 +41,14 @@ class BiasTransitionMatrix : public Bias {
   const LnProbabilityDistribution& ln_macro_prob() const override {
     return ln_macro_prob_; }
   void resize(const Histogram& histogram) override;
+  void revert(const int macrostate_new, const int macrostate_old) override;
   std::string write() const override;
   std::string write_per_bin(const int bin) const override;
   std::string write_per_bin_header() const override;
 
   std::shared_ptr<Bias> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
-  BiasTransitionMatrix(std::istream& istr);
+  explicit BiasTransitionMatrix(std::istream& istr);
   virtual ~BiasTransitionMatrix() {}
 
  protected:
@@ -63,10 +64,10 @@ class BiasTransitionMatrix : public Bias {
   int min_sweeps_ = 0;
   int num_steps_to_update_ = 0;
   int num_steps_since_update_ = 0;
+
   std::vector<BiasTransitionMatrix> blocks_;
   bool is_block_ = false;
-
-  Random random_;
+  int iter_block_= -1;
 
   void update_blocks_(
       const int macrostate_old,

@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "math/include/random_mt19937.h"
 #include "system/include/model_lj.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model.h"
@@ -7,9 +8,9 @@
 #include "configuration/include/file_lmp.h"
 #include "configuration/include/file_xyz.h"
 #include "system/include/physical_constants.h"
-#include "system/include/select_list.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/test/system_test.h"
+#include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
 
@@ -92,7 +93,9 @@ TEST(VisitModel, spce_reference_config) {
 
   // test adding/deleting particles, resulting in a ghost
   SelectList select;
-  select.random_particle(config);
+  TrialSelectParticle tselect;
+  RandomMT19937 random;
+  tselect.random_particle(config, &select, &random);
   visit.compute(model, select, &config);
   const double pe_previous = visit.energy();
   const double x1_previous = select.particle(config).site(0).position().coord(1);

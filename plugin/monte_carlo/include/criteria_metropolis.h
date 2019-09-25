@@ -3,7 +3,6 @@
 #define FEASST_MONTE_CARLO_CRITERIA_METROPOLIS_H_
 
 #include "monte_carlo/include/criteria.h"
-#include "math/include/random.h"
 
 namespace feasst {
 
@@ -15,7 +14,8 @@ class CriteriaMetropolis : public Criteria {
   CriteriaMetropolis(const argtype &args = argtype()) : Criteria(args) {}
 
   bool is_accepted(const Acceptance& acceptance,
-    const System * system) override;
+    const System * system,
+    const double uniform_random) override;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<CriteriaMetropolis>(istr); }
@@ -26,7 +26,6 @@ class CriteriaMetropolis : public Criteria {
 
  private:
   const std::string class_name_ = "CriteriaMetropolis";
-  Random random_;
 };
 
 inline std::shared_ptr<CriteriaMetropolis> MakeCriteriaMetropolis(const argtype &args = argtype()) {

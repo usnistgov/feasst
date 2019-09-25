@@ -1,12 +1,12 @@
 #include <vector>
 #include <gtest/gtest.h>
 #include "utils/test/utils.h"
-#include "math/include/random.h"
+#include "math/include/random_mt19937.h"
 
 namespace feasst {
 
 TEST(Random, uniform) {
-  Random random;
+  RandomMT19937 random;
   double sum = 0;
   const int num = 1e5;
   for (int i = 0; i < num; ++i) {
@@ -16,7 +16,7 @@ TEST(Random, uniform) {
 }
 
 TEST(Random, uniform_int) {
-  Random random;
+  RandomMT19937 random;
   double sum = 0;
   const int num = 1e5;
   for (int i = 0; i < num; ++i) {
@@ -26,7 +26,7 @@ TEST(Random, uniform_int) {
 }
 
 TEST(Random, alpha_numeric) {
-  Random random;
+  RandomMT19937 random;
   const int size = 10;
   std::string unique = random.alpha_numeric(size);
   INFO("unique alpha numeric: " << unique);
@@ -35,7 +35,7 @@ TEST(Random, alpha_numeric) {
 }
 
 TEST(Random, element) {
-  Random random;
+  RandomMT19937 random;
   std::vector<int> vec = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   double sum = 0;
   const int num = 1e5;
@@ -46,7 +46,7 @@ TEST(Random, element) {
 }
 
 TEST(Random, unit_sphere) {
-  Random random;
+  RandomMT19937 random;
   Position position;
   position.set_vector({0., 0.});
   random.unit_sphere_surface(&position);
@@ -63,7 +63,7 @@ TEST(Random, unit_sphere) {
 }
 
 TEST(Random, index_from_cumulative_probability) {
-  Random random;
+  RandomMT19937 random;
   std::vector<double> cpdf;
   const int ncpdf = 10, num = 100;
   for (int i = 0; i < ncpdf; ++i) cpdf.push_back((i+1)/double(ncpdf));
@@ -78,7 +78,9 @@ TEST(Random, index_from_cumulative_probability) {
 TEST(Random, serialize) {
   seed_random_by_date();
   //seed_random(234652347);
-  Random random, random2 = test_serialize(random);
+//  RandomMT19937 random;
+//  std::shared_ptr<Random> random2 = test_serialize(random);
+  RandomMT19937 random, random2 = test_serialize(random);
   // EXPECT_NEAR(0.99971855963527156, random.uniform(), 1e-6);
   const double next = random.uniform();
   // EXPECT_NEAR(0.80124978724913187, next, 1e-6);

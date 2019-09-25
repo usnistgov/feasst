@@ -4,7 +4,6 @@
 
 #include <vector>
 #include "math/include/histogram.h"
-#include "math/include/random.h"
 #include "flat_histogram/include/ln_probability_distribution.h"
 
 namespace feasst {
@@ -43,6 +42,9 @@ class Bias {
 
   /// Return true if completion requirements are met.
   bool is_complete() const { return is_complete_; }
+
+  /// Revert changes from previous trial.
+  virtual void revert(const int macrostate_new, const int macrostate_old) = 0;
 
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Bias> create(std::istream& istr) const;

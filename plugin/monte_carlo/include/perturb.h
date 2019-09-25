@@ -69,6 +69,7 @@ class Perturb {
   virtual void perturb(
     System * system,
     TrialSelect * select,
+    Random * random,
     /// If position is held, all but perform the actual perturbation, as typically
     /// required for calculations of old configurations and Rosenbluth factors.
     const bool is_position_held = false
@@ -162,20 +163,21 @@ class PerturbMove : public Perturb {
   PerturbMove(const argtype& args = argtype()) : Perturb(args) {}
 
   /// Move the selection of the system.
-  virtual void move(System * system, TrialSelect * select) = 0;
+  virtual void move(System * system, TrialSelect * select, Random * random) = 0;
 
   // The perturbation move is simplified such that the move of the selection of
   // the system is all that remains to be implemented.
   void perturb(
       System * system,
       TrialSelect * select,
+      Random * random,
       const bool is_position_held = false
       ) override {
     if (is_position_held) {
       select->set_trial_state(0);
       return;
     }
-    move(system, select);
+    move(system, select, random);
     set_revert_possible(true, select);
     select->set_trial_state(1);
   }
@@ -237,8 +239,8 @@ class PerturbTranslate : public PerturbMove {
   }
 
   /// Move the selected particles using the tuning parameter.
-  void move(System * system, TrialSelect * select) override {
-    random_.position_in_cube(
+  void move(System * system, TrialSelect * select, Random * random) override {
+    random->position_in_cube(
       system->dimension(),
       tunable().value(),
       &trajectory_
@@ -252,8 +254,7 @@ class PerturbTranslate : public PerturbMove {
   virtual ~PerturbTranslate() {}
 
  private:
-  // optimization or temporary objects
-  Random random_;
+  // temporary objects
   Position trajectory_;
 };
 
@@ -309,15 +310,17 @@ class PerturbRotate : public PerturbMove {
   /// Set the pivot using the first particle position, and also
   /// rotate the particle positions.
   void move(System * system,
-      TrialSelect * select) override {
+      TrialSelect * select,
+      Random * random) override {
     ASSERT(select->mobile().num_sites() > 0, "selection error");
     const Position& pivot = select->mobile().particle_positions()[0];
-    move(system, select, pivot, true);
+    move(system, select, random, pivot, true);
   }
 
   /// Rotate the selected particles using the tuning parameter.
   void move(System * system,
       TrialSelect * select,
+      Random * random,
       /// If pivot is empty, use first particle position.
       const Position& pivot,
       /// Rotate particle positions if true. Otherwise, do not.
@@ -327,20 +330,16 @@ class PerturbRotate : public PerturbMove {
     ASSERT(std::abs(max_angle) > NEAR_ZERO, "max angle is too small");
     const Position& piv_sel = piv_sel_(pivot, select);
     move(piv_sel,
-      random_.rotation(piv_sel.dimension(), max_angle),
+      random->rotation(piv_sel.dimension(), max_angle),
       system,
       select,
       rotate_particle_position
     );
   }
 
-  Random * random() { return &random_; }
-
   virtual ~PerturbRotate() {}
 
  private:
-  Random random_;
-
   const Position& piv_sel_(const Position& pivot, const TrialSelect * select) {
     if (pivot.dimension() == 0) {
       return select->mobile().particle_positions()[0];
@@ -376,11 +375,11 @@ class PerturbAnywhere : public PerturbMove {
     translate_.move(center, system, select);
   }
 
-  void move(System * system, TrialSelect * select) override {
+  void move(System * system, TrialSelect * select, Random * random) override {
     ASSERT(std::abs(rotate_.tunable().value() - 180.) < NEAR_ZERO,
       "rotation tunable should be 180");
-    rotate_.move(system, select);
-    system->configuration().domain().random_position(&random_in_box_, &random_);
+    rotate_.move(system, select, random);
+    system->configuration().domain().random_position(&random_in_box_, random);
     set_position(random_in_box_, system, select);
     DEBUG("anywhere: " << random_in_box_.str());
   }
@@ -391,9 +390,8 @@ class PerturbAnywhere : public PerturbMove {
   PerturbTranslate translate_;
   PerturbRotate rotate_;
 
-  // optimization or temporary
+  // temporary
   Position random_in_box_;
-  Random random_;
 };
 
 /**
@@ -412,14 +410,16 @@ class PerturbAdd : public Perturb {
   void perturb(
       System * system,
       TrialSelect * select,
+      Random * random,
       const bool is_position_held = false
       ) override {
-    add(system, select, empty_, is_position_held);
+    add(system, select, random, empty_, is_position_held);
   }
 
   void add(
     System * system,
     TrialSelect * select,
+    Random * random,
     /// place particle anywhere if center is of zero dimension.
     const Position& center,
     const bool is_position_held = false
@@ -441,7 +441,7 @@ class PerturbAdd : public Perturb {
       1./static_cast<double>(config->num_particles_of_type(particle_type)));
 
     if (center.dimension() == 0) {
-      anywhere_.perturb(system, select, is_position_held);
+      anywhere_.perturb(system, select, random, is_position_held);
     } else {
       anywhere_.set_position(center, system, select);
     }
@@ -493,6 +493,7 @@ class PerturbRemove : public Perturb {
   void perturb(
       System * system,
       TrialSelect * select,
+      Random * random,
       const bool is_position_held = true
       ) override {
     select->set_trial_state(0);
@@ -501,7 +502,7 @@ class PerturbRemove : public Perturb {
     if (is_position_held) {
       anywhere_.set_revert_possible(false, NULL);
     } else {
-      anywhere_.perturb(system, select, is_position_held);
+      anywhere_.perturb(system, select, random, is_position_held);
       set_revert_possible(true, select);
     }
   }
@@ -548,12 +549,13 @@ class PerturbDistance : public PerturbMove {
   double distance() const { return distance_; }
 
   void move(System * system,
-      TrialSelect * select) override {
+      TrialSelect * select,
+      Random * random) override {
     SelectList * mobile = select->get_mobile();
     Position * site = mobile->get_site_position(0, 0);
     DEBUG("mobile " << mobile->str());
     DEBUG("old pos " << site->str());
-    random_.unit_sphere_surface(site);
+    random->unit_sphere_surface(site);
     site->multiply(distance_);
     site->add(select->anchor_position(0, 0, system));
     DEBUG("new pos " << site->str());
@@ -564,9 +566,6 @@ class PerturbDistance : public PerturbMove {
 
  private:
   double distance_ = 1.;
-
-  // temporary
-  Random random_;
 };
 
 /// Put first site in selection, i, in a sphere about the first site in anchor,
@@ -584,7 +583,8 @@ class PerturbDistanceAndAngle : public PerturbDistance {
   }
 
   void move(System * system,
-      TrialSelect * select) override {
+      TrialSelect * select,
+      Random * random) override {
     SelectList * mobile = select->get_mobile();
     Position * site = mobile->get_site_position(0, 0);
     DEBUG("mobile " << mobile->str());
@@ -608,7 +608,7 @@ class PerturbDistanceAndAngle : public PerturbDistance {
     DEBUG("site rotated to angle: " << site->str());
 
     // randomly spin site about rjk.
-    rot_mat_.axis_angle(rjk_, 2*PI*random_.uniform());
+    rot_mat_.axis_angle(rjk_, 2*PI*random->uniform());
     rot_mat_.rotate(origin_, site);
 
     site->add(rj);  // return frame of reference
@@ -623,7 +623,6 @@ class PerturbDistanceAndAngle : public PerturbDistance {
   double angle_;
 
   // temporary
-  Random random_;
   Position rjk_;
   Position orthogonal_jk_;
   Position origin_;

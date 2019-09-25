@@ -46,10 +46,6 @@ Configuration::Configuration(const argtype& args) {
   }
 }
 
-//void Configuration::reset_unique_indices_() {
-//  unique_indices_ = random_.alpha_numeric();
-//}
-
 void Configuration::add_particle_type(const std::string file_name) {
   DEBUG("adding type");
   ASSERT(num_particles() == 0, "types cannot be added after particles");

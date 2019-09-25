@@ -13,26 +13,7 @@ class TrialFactory : public Trial {
  public:
   TrialFactory() { class_name_ = "TrialFactory"; }
 
-  bool attempt(
-      Criteria* criteria,
-      System * system,
-      /// attempt trial_index. If -1, choose randomly with probabilty
-      /// determined from the weight.
-      const int trial_index) {
-    // timer_.start(0);
-    increment_num_attempts();
-    if (num_trials() == 0) return false;
-    if (trial_index != -1) {
-      return attempt_(criteria, system, trial_index);
-    }
-    const int index = random_.index_from_cumulative_probability(
-      cumulative_probability_);
-    return attempt_(criteria, system, index);
-  }
-
-  bool attempt(Criteria* criteria, System * system) override {
-    return attempt(criteria, system, -1); }
-
+  /// Add a trial.
   void add(std::shared_ptr<Trial> trial) {
     trials_.push_back(trial);
 
@@ -47,12 +28,51 @@ class TrialFactory : public Trial {
     // timer_.add(trials_.back()->class_name());
   }
 
+  /// Return the number of trials.
   int num_trials() const { return static_cast<int>(trials_.size()); }
 
   // HWH depreciate
   std::vector<std::shared_ptr<Trial> > trials() { return trials_; }
 
+  /// Return a trial by index of the order trials were added.
   const Trial * trial(const int index) const { return trials_[index].get(); }
+
+  /// Return the index of a trial selected with probability proportional to its
+  /// weight.
+  int random_index(Random * random) {
+    ASSERT(num_trials() > 0, "no trials to select");
+    return random->index_from_cumulative_probability(cumulative_probability_);
+  }
+
+  /// Attempt one of the trials. Return true if accepted.
+  bool attempt(
+      Criteria* criteria,
+      System * system,
+      /// attempt trial_index. If -1, choose randomly with probabilty
+      /// determined from the weight.
+      const int trial_index,
+      Random * random) {
+    // timer_.start(0);
+    if (num_trials() == 0) return false;
+    if (trial_index != -1) {
+      return attempt_(criteria, system, trial_index, random);
+    }
+    return attempt_(criteria, system, random_index(random), random);
+  }
+
+  /// Attempt one of the trials with selection probability proportional to
+  /// the weight.
+  bool attempt(Criteria* criteria, System * system, Random * random) override {
+    return attempt(criteria, system, -1, random); }
+
+  /// Revert changes to system by trial index.
+  void revert(const int index, const bool accepted, System * system) {
+    trials_[index]->revert(index, accepted, system); }
+
+  void mimic_trial_rejection(const int index) {
+    INFO("index " << index << " " << trials_.size());
+    trials_[index]->increment_num_attempts();
+  }
 
   /// Return the header description for the statuses of the trials (e.g., acceptance, etc).
   std::string status_header() const override {
@@ -93,6 +113,14 @@ class TrialFactory : public Trial {
     }
   }
 
+  int64_t num_attempts() const override {
+    int64_t num = 0;
+    for (std::shared_ptr<Trial> trial : trials_) {
+      num += trial->num_attempts();
+    }
+    return num;
+  }
+
 //  std::string class_name() const override { return std::string("TrialFactory"); }
 
 //  const Timer& timer() const { return timer_; }
@@ -102,14 +130,13 @@ class TrialFactory : public Trial {
   std::vector<double> cumulative_probability_;
 //  Timer timer_;
 
-  Random random_;
-
   bool attempt_(
       Criteria* criteria,
       System * system,
-      const int index) {
+      const int index,
+      Random * random) {
     //timer_.start(index + 1);  // +1 for "other"
-    return trials_[index]->attempt(criteria, system);
+    return trials_[index]->attempt(criteria, system, random);
     //timer_.end();
   }
 };

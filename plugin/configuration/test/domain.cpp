@@ -1,6 +1,7 @@
 #include "utils/test/utils.h"
 #include "configuration/include/domain.h"
 #include "math/include/constants.h"
+#include "math/include/random_mt19937.h"
 
 namespace feasst {
 
@@ -21,7 +22,7 @@ TEST(Domain, min_side_length) {
 // compute the volume of a sphere
 TEST(Domain, random_position) {
   Domain domain;
-  Random random;
+  RandomMT19937 random;
   domain.set_cubic(2);
   int inside = 0;
   const int trials = 1e3;

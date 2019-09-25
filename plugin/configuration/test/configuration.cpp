@@ -3,10 +3,11 @@
 #include "configuration/include/configuration.h"
 #include "configuration/include/file_xyz.h"
 #include "utils/include/debug.h"
-#include "system/include/select_list.h"
+//#include "system/include/select_list.h"
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
 #include "utils/include/debug.h"
+#include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
 
@@ -152,23 +153,23 @@ TEST(Configuration, group) {
   EXPECT_EQ(1, sel2.num_particles());
   EXPECT_EQ(1, sel2.num_sites());
 
-  SelectList select;
-  select.random_particle(config, 1);
-  EXPECT_EQ(1, select.num_particles());
-  EXPECT_EQ(1, select.num_sites());
-  EXPECT_EQ(0, select.site_index(0, 0));
-  EXPECT_GT(100, select.particle_index(0));
-  select.random_particle(config, 2);
-  EXPECT_EQ(0, select.num_particles());
-  EXPECT_EQ(0, select.num_sites());
-  select.random_particle(config, 3);
-  EXPECT_EQ(1, select.num_particles());
-  EXPECT_EQ(1, select.num_sites());
-  EXPECT_EQ(100, select.particle_index(0));
-
+//  TrialSelectParticle tselect;
+//  tselect.random_particle(config, 1);
+//  EXPECT_EQ(1, tselect.mobile().num_particles());
+//  EXPECT_EQ(1, tselect.mobile().num_sites());
+//  EXPECT_EQ(0, tselect.mobile().site_index(0, 0));
+//  EXPECT_GT(100, tselect.mobile().particle_index(0));
+//  tselect.random_particle(config, 2);
+//  EXPECT_EQ(0, tselect.mobile().num_particles());
+//  EXPECT_EQ(0, tselect.mobile().num_sites());
+//  tselect.random_particle(config, 3);
+//  EXPECT_EQ(1, tselect.mobile().num_particles());
+//  EXPECT_EQ(1, tselect.mobile().num_sites());
+//  EXPECT_EQ(100, tselect.mobile().particle_index(0));
+//
   EXPECT_EQ(301, config.num_sites());
-  config.remove_particles(select);
-  EXPECT_EQ(300, config.num_sites());
+//  config.remove_particles(select);
+//  EXPECT_EQ(300, config.num_sites());
 }
 
 TEST(Configuration, cells) {

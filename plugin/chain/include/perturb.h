@@ -15,11 +15,10 @@ class PerturbPivot : public PerturbRotate {
   /// Rotate the selected particles using the tuning parameter.
   /// Set the pivot to the anchor.
   /// Dont rotate the particle positions.
-  void move(System * system,
-      TrialSelect * select) override {
+  void move(System * system, TrialSelect * select, Random * random) override {
     const Position& pivot = select->anchor_position(0, 0, system);
     DEBUG("piv " << pivot.str());
-    PerturbRotate::move(system, select, pivot, false);
+    PerturbRotate::move(system, select, random, pivot, false);
     DEBUG(select->mobile().site_positions()[0][0].str());
     DEBUG(select->mobile().site_positions()[0][1].str());
   }
@@ -34,14 +33,13 @@ class PerturbCrankshaft : public PerturbRotate {
   /// Set the pivot and axis of rotation by the ends of the selection.
   /// Select rotation angle randomly, bounded by tunable parameter.
   /// Dont rotate the particle positions.
-  void move(System * system,
-      TrialSelect * select) override {
+  void move(System * system, TrialSelect * select, Random * random) override {
     const Position& pivot = select->mobile().site_positions()[0].front();
     axis_ = select->mobile().site_positions()[0].back();
     axis_.subtract(pivot);
     axis_.normalize();
     const double max_angle = tunable().value();
-    const double angle = random()->uniform_real(-max_angle, max_angle);
+    const double angle = random->uniform_real(-max_angle, max_angle);
     rot_mat_.axis_angle(axis_, angle);
     PerturbRotate::move(pivot, rot_mat_, system, select,
       false // do not rotate particle positions
@@ -61,9 +59,8 @@ class PerturbCrankshaft : public PerturbRotate {
 class PerturbReptate : public PerturbDistance {
  public:
   PerturbReptate(const argtype& args = argtype()) : PerturbDistance(args) {}
-  void move(System * system,
-      TrialSelect * select) override {
-    PerturbDistance::move(system, select);
+  void move(System * system, TrialSelect * select, Random * random) override {
+    PerturbDistance::move(system, select, random);
     set_finalize_possible(true, select);
   }
 

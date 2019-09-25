@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "math/include/random_mt19937.h"
 #include "configuration/test/configuration_test.h"
 #include "system/include/visit_model_cell.h"
 #include "configuration/include/file_xyz.h"
@@ -107,7 +108,10 @@ TEST(VisitModelCell, lj_reference_config) {
   EXPECT_NEAR(-15.076312312129405, visit.energy(), NEAR_ZERO);
 
   /// test energy of selection
-  select.random_particle_of_type(0, &config);
+  auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
+  RandomMT19937 random;
+  //select.random_particle_of_type(0, &config);
+  tsel->random_particle(config, &select, &random);
   model.compute(select, &config, &visit);
   model.compute(select, &config, &cell_visit);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-15);
@@ -154,7 +158,10 @@ TEST(VisitModelCell, spce_reference_config) {
   EXPECT_NEAR(896.85497602741475, visit.energy(), NEAR_ZERO);
 
   /// test energy of selection
-  select.random_particle_of_type(0, &config);
+  auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
+  //select.random_particle_of_type(0, &config);
+  RandomMT19937 random;
+  tsel->random_particle(config, &select, &random);
   model.compute(select, &config, &visit);
   model.compute(select, &config, &cell_visit);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-14);

@@ -71,8 +71,8 @@ class TrialStage {
 
   /// Perform the selection and update the acceptance.
   /// Set sites involved in stage as unphysical.
-  void select(System * system, Acceptance * acceptance) {
-    const bool is_selected = select_->select(acceptance->perturbed(), system);
+  void select(System * system, Acceptance * acceptance, Random * random) {
+    const bool is_selected = select_->select(acceptance->perturbed(), system, random);
     if (is_selected) {
       acceptance->add_to_perturbed(select_->mobile());
       set_mobile_physical(false, system);
@@ -102,14 +102,15 @@ class TrialStage {
     System * system,
     Criteria * criteria,
     /// Set to 1 for "old" system and "0" for new.
-    const int old) {
+    const int old,
+    Random * random) {
     ASSERT(perturb_, "perturb not set");
     set_mobile_physical(true, system);
     for (int step = 0; step < rosenbluth_.num(); ++step) {
       // DEBUG(perturb_->class_name());
       bool is_position_held = false;
       if (step == 0 and old == 1) is_position_held = true;
-      perturb_->perturb(system, select_.get(), is_position_held);
+      perturb_->perturb(system, select_.get(), random, is_position_held);
       rosenbluth_.store(step, select_->mobile(), system);
       if (reference_ == -1) {
         DEBUG("select " << select_->mobile().str());
@@ -120,7 +121,7 @@ class TrialStage {
       }
       perturb_->revert(system);
     }
-    rosenbluth_.compute(criteria->beta());
+    rosenbluth_.compute(criteria->beta(), random);
     if (old != 1) {
       if (rosenbluth_.chosen_step() != -1) {
         DEBUG("updating positions " << rosenbluth_.chosen().str());
@@ -182,12 +183,13 @@ class TrialCompute {
     Criteria * criteria,
     System * system,
     Acceptance * acceptance,
-    std::vector<TrialStage*> * stages) {
+    std::vector<TrialStage*> * stages,
+    Random * random) {
     double ln_rosenbluth = 0.;
     double energy_change = 0.;
     bool reference_used = false;
     for (TrialStage* stage : *stages) {
-      stage->attempt(system, criteria, old);
+      stage->attempt(system, criteria, old, random);
       if (stage->rosenbluth().chosen_step() == -1) {
         if (!stage->is_mayer()) {
           acceptance->set_reject(true);
@@ -237,7 +239,8 @@ class TrialCompute {
     Criteria * criteria,
     System * system,
     Acceptance * acceptance,
-    std::vector<TrialStage*> * stages) = 0;
+    std::vector<TrialStage*> * stages,
+    Random * random) = 0;
 
   virtual ~TrialCompute() {}
 };
@@ -327,9 +330,13 @@ class Trial {
   int64_t num_success() const { return num_success_; }
 
   /// Number of attempts.
-  int64_t num_attempts() const { return num_attempts_; }
+  virtual int64_t num_attempts() const { return num_attempts_; }
 
-  void increment_num_attempts() { ++num_attempts_; }
+  /// Increment the number of attempts for acceptance.
+  void increment_num_attempts() {
+    ++num_attempts_;
+//    INFO("num attempts " << num_attempts_ << " " << this);
+  }
 
   /// Return the ratio of the number of successful attempts and total attempts.
   double acceptance() const {
@@ -383,22 +390,40 @@ class Trial {
 
   virtual void before_select(Acceptance * acceptance, Criteria * criteria) {}
 
+  /// Revert all stages in reverse order.
+  void revert(System * system) {
+    for (int index = num_stages() - 1; index >= 0; --index) {
+      stages_[index]->revert(system);
+    }
+  }
+
+  // Revert changes to system as if trial was never attempted.
+  void revert(const int index, const bool accepted, System * system) {
+    if (accepted) {
+      revert(system);
+      --num_success_;
+    }
+    --num_attempts_;
+  }
+
   /// Attempt a trial. Return true if accepted.
-  virtual bool attempt(Criteria * criteria, System * system) {
+  virtual bool attempt(Criteria * criteria, System * system, Random * random) {
+    DEBUG("**********************************************************");
+    DEBUG("* " << class_name() << " attempt " << num_attempts_ << " *");
+    DEBUG("**********************************************************");
     ++num_attempts_;
-    DEBUG("new trial attempt " << num_attempts_ << " " << class_name());
     acceptance_.reset();
     criteria->before_attempt(system);
     before_select(&acceptance_, criteria);
     for (TrialStage * stage : stages_ptr_) {
       stage->before_select();
-      stage->select(system, &acceptance_);
+      stage->select(system, &acceptance_, random);
     }
     if (!acceptance_.reject()) {
       compute_->perturb_and_acceptance(
-        criteria, system, &acceptance_, &stages_ptr_);
+        criteria, system, &acceptance_, &stages_ptr_, random);
     }
-    if (criteria->is_accepted(acceptance_, system)) {
+    if (criteria->is_accepted(acceptance_, system, random->uniform())) {
       DEBUG("accepted");
       ++num_success_;
       for (int index = num_stages() - 1; index >= 0; --index) {
@@ -407,9 +432,7 @@ class Trial {
       return true;
     } else {
       DEBUG("rejected");
-      for (int index = num_stages() - 1; index >= 0; --index) {
-        stages_[index]->revert(system);
-      }
+      revert(system);
       return false;
     }
   }
@@ -450,11 +473,12 @@ class TrialComputeMove : public TrialCompute {
     Criteria * criteria,
     System * system,
     Acceptance * acceptance,
-    std::vector<TrialStage*> * stages) override {
+    std::vector<TrialStage*> * stages,
+    Random * random) override {
     DEBUG("TrialComputeMove");
-    compute_rosenbluth(1, criteria, system, acceptance, stages);
+    compute_rosenbluth(1, criteria, system, acceptance, stages, random);
     for (TrialStage * stage : *stages) stage->mid_stage(system);
-    compute_rosenbluth(0, criteria, system, acceptance, stages);
+    compute_rosenbluth(0, criteria, system, acceptance, stages, random);
     DEBUG("old: " << criteria->current_energy() << " " << acceptance->energy_old());
     DEBUG("new: " << acceptance->energy_new());
     DEBUG("energy change: " << acceptance->energy_new() - acceptance->energy_old());
@@ -526,9 +550,10 @@ class TrialComputeAdd : public TrialCompute {
       Criteria * criteria,
       System * system,
       Acceptance * acceptance,
-      std::vector<TrialStage*> * stages) override {
+      std::vector<TrialStage*> * stages,
+      Random * random) override {
     DEBUG("TrialComputeAdd");
-    compute_rosenbluth(0, criteria, system, acceptance, stages);
+    compute_rosenbluth(0, criteria, system, acceptance, stages, random);
     const TrialSelect * select = (*stages)[0]->trial_select();
     system->get_configuration()->revive(select->mobile());
     acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
@@ -573,9 +598,10 @@ class TrialComputeRemove : public TrialCompute {
       Criteria * criteria,
       System * system,
       Acceptance * acceptance,
-      std::vector<TrialStage*> * stages) override {
+      std::vector<TrialStage*> * stages,
+      Random * random) override {
     DEBUG("TrialComputeRemove");
-    compute_rosenbluth(1, criteria, system, acceptance, stages);
+    compute_rosenbluth(1, criteria, system, acceptance, stages, random);
     acceptance->set_energy_new(criteria->current_energy() - acceptance->energy_old());
     acceptance->add_to_macrostate_shift(-1);
     { // Metropolis

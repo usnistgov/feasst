@@ -2,7 +2,7 @@
 #include <math.h>
 #include "system/test/position_test.h"
 #include "math/include/constants.h"
-#include "math/include/random.h"
+#include "math/include/random_mt19937.h"
 #include "utils/include/debug.h"
 
 namespace feasst {
@@ -48,12 +48,12 @@ TEST(Position, nearest_distance_to_axis2) {
 }
 
 TEST(Position, orthogonal) {
-  Random ran;
+  RandomMT19937 random;
   Position xa, xb;
   xa.set_to_origin(3);
   xb.set_to_origin(3);
   for (int i = 0; i < 100; ++i) {
-    ran.unit_sphere_surface(&xa);
+    random.unit_sphere_surface(&xa);
     xb.orthogonal(xa);
     EXPECT_NEAR(0, xa.dot_product(xb), NEAR_ZERO);
   }

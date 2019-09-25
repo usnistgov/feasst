@@ -68,7 +68,8 @@ class TrialSelect : public PropertiedEntity {
   virtual bool select(
     /// Perturbed is included to allow chaining of selection based on previous.
     const Select& perturbed,
-    System * system) {
+    System * system,
+    Random * random) {
     ERROR("not implemented"); }
 
   /// Precompute quantities before simulation for optimization.
@@ -144,7 +145,6 @@ class TrialSelect : public PropertiedEntity {
   SelectList mobile_original_;
   SelectList mobile_;
   Select anchor_;
-  Random * random() { return &random_; }
 
  private:
   Arguments args_;
@@ -155,7 +155,6 @@ class TrialSelect : public PropertiedEntity {
 
   // optimzation or temporary object
   double probability_;
-  Random random_;
 };
 
 /// Select a random particle for trial.
@@ -191,11 +190,12 @@ class TrialSelectParticle : public TrialSelect {
   /// Add random particle in group index to select.
   /// Return the number of particles to choose from.
   int random_particle(const Configuration& config,
-      SelectPosition * select) {
+      SelectPosition * select,
+      Random * random) {
     ASSERT(group_index() >= 0, "error");
     const int num = config.num_particles(group_index());
     if (num > 0) {
-      const int index = random()->uniform(0, num - 1);
+      const int index = random->uniform(0, num - 1);
       const SelectGroup& ran = config.group_select(group_index());
       DEBUG("index " << group_index() << " " << index);
       DEBUG("num " << ran.num_particles());
@@ -250,12 +250,12 @@ class TrialSelectParticle : public TrialSelect {
     }
   }
 
-  bool select(const Select& perturbed, System* system) override {
+  bool select(const Select& perturbed, System* system, Random * random) override {
     if (is_ghost()) {
       ghost_particle(system->get_configuration(), &mobile_);
       set_probability(1.);
     } else {
-      const int num = random_particle(system->configuration(), &mobile_);
+      const int num = random_particle(system->configuration(), &mobile_, random);
       if (num <= 0) return false;
       set_probability(1./static_cast<double>(num));
     }
@@ -313,7 +313,7 @@ class TrialSelectBond : public TrialSelect {
     mobile_.add_site(0, mobile_site_);
   }
 
-  bool select(const Select& perturbed, System * system) override {
+  bool select(const Select& perturbed, System * system, Random * random) override {
     Configuration * config = system->get_configuration();
     int particle_index = -1;
     if (perturbed.num_sites() > 0) {
@@ -324,7 +324,7 @@ class TrialSelectBond : public TrialSelect {
       const int group_index = config->particle_type_to_group(particle_type());
       const int num = config->num_particles(group_index);
       if (num <= 0) return false;
-      const int index = random_.uniform(0, num - 1);
+      const int index = random->uniform(0, num - 1);
       const SelectGroup& select = config->group_select(group_index);
       particle_index = select.particle_index(index);
       set_probability(1./static_cast<double>(num));
@@ -343,7 +343,6 @@ class TrialSelectBond : public TrialSelect {
  private:
   int mobile_site_;
   int anchor_site_;
-  Random random_;
 };
 
 inline std::shared_ptr<TrialSelectBond> MakeTrialSelectBond(

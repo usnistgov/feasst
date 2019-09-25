@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <sstream>
 #include "utils/include/debug.h"
 
 namespace feasst {
@@ -18,7 +19,6 @@ TEST(Debug, ERROR) {
 }
 
 TEST(Debug, WARN_INFO_DEBUG_TRACE) {
-  WARN_IF(1 > 0, "WARN_IF");
   WARN("WARN");
   INFO("INFO");
   DEBUG("DEBUG");
@@ -36,7 +36,9 @@ TEST(Debug, VERBOSE_LEVEL) {
 }
 
 TEST(Debug, feasst_dir_trim_) {
-  std::string dir = feasst_dir_trim_(FEASST_DIR_);
+  std::stringstream ss;
+  ss << FEASST_DIR_ << "/plugin/";
+  std::string dir = feasst_dir_trim_(ss.str().c_str());
   EXPECT_EQ(0, dir.size());
 }
 

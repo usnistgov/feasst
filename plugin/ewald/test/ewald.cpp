@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "math/include/random_mt19937.h"
 #include "ewald/include/ewald.h"
 #include "configuration/test/configuration_test.h"
 #include "ewald/include/ewald.h"
@@ -70,13 +71,12 @@ TEST(Ewald, system) {
 TEST(Ewald, revert) {
   seed_random_by_date();
   System system = spce();
-  //const std::vector<double> disp = {1.43, -2.5, 0.03};
-  //Position trajectory(disp);
   EXPECT_NEAR(-4062.47263092246, system.energy(), 1e-10);
   PerturbTranslate perturb;
   TrialSelectParticle tsel;
-  tsel.select(Select(), &system);
-  perturb.perturb(&system, &tsel);
+  RandomMT19937 random;
+  tsel.select(Select(), &system, &random);
+  perturb.perturb(&system, &tsel, &random);
   EXPECT_GT(std::abs(-4062.47263092246 - system.energy()), 1e-10);
   perturb.revert(&system);
   EXPECT_NEAR(-4062.47263092246, system.energy(), 1e-10);

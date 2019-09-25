@@ -53,7 +53,7 @@ class ModelLJ : public ModelTwoBody {
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ModelLJ>(istr); }
   void serialize(std::ostream& ostr) const override;
-  ModelLJ(std::istream& istr);
+  explicit ModelLJ(std::istream& istr);
   virtual ~ModelLJ() {}
 
  protected:

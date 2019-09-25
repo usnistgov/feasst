@@ -38,7 +38,7 @@ class Rosenbluth {
 
   /// Compute Boltzmann factors and cumulative probabilities for all steps.
   /// Choose one of the steps based on the probabilities.
-  void compute(const double beta) {
+  void compute(const double beta, Random * random) {
     for (int step = 0; step < num(); ++step) {
       boltzman_[step] = exp(-beta*energy_[step]);
     }
@@ -52,7 +52,7 @@ class Rosenbluth {
     }
     cumulative_ = cumulative_probability(boltzman_);
     TRACE("cumulative " << feasst_str(cumulative_));
-    chosen_step_ = random_.index_from_cumulative_probability(cumulative_);
+    chosen_step_ = random->index_from_cumulative_probability(cumulative_);
   }
 
   /// Return the stored selection of the step.
@@ -89,7 +89,6 @@ class Rosenbluth {
   std::vector<SelectList> stored_;
   double total_rosenbluth_;
   int chosen_step_;
-  Random random_;
 };
 
 }  // namespace feasst

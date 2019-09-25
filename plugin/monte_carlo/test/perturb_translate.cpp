@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "math/include/random_mt19937.h"
 #include "monte_carlo/include/perturb.h"
 
 namespace feasst {
@@ -23,8 +24,9 @@ TEST(PerturbTranslate, position) {
   }
   PerturbTranslate perturb;
   TrialSelectParticle tsel;
-  tsel.select(Select(), &system);
-  perturb.perturb(&system, &tsel);
+  RandomMT19937 random;
+  tsel.select(Select(), &system, &random);
+  perturb.perturb(&system, &tsel, &random);
   const int particle_index = tsel.mobile().particle_index(0);
 
   // did the particle actually move away from the origin?

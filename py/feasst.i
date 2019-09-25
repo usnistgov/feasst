@@ -39,6 +39,7 @@
 #include "math/include/utils_math.h"
 #include "math/include/matrix.h"
 #include "math/include/random.h"
+#include "math/include/random_mt19937.h"
 #include "configuration/include/select.h"
 #include "system/include/select_position.h"
 #include "configuration/include/cells.h"
@@ -76,27 +77,27 @@
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/trial_select.h"
+#include "monte_carlo/include/criteria_metropolis.h"
 #include "monte_carlo/include/rosenbluth.h"
 #include "monte_carlo/include/perturb.h"
 #include "monte_carlo/include/perturb_configs.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/trial_factory.h"
-#include "monte_carlo/include/analyze.h"
-#include "monte_carlo/include/analyze_factory.h"
-#include "steppers/include/log.h"
-#include "steppers/include/movie.h"
-#include "steppers/include/criteria_writer.h"
-#include "steppers/include/energy.h"
-#include "steppers/include/num_particles.h"
 #include "monte_carlo/include/modify.h"
 #include "steppers/include/check.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/wall_clock_limit.h"
 #include "steppers/include/tuner.h"
 #include "monte_carlo/include/modify_factory.h"
+#include "monte_carlo/include/analyze.h"
+#include "monte_carlo/include/analyze_factory.h"
 #include "monte_carlo/include/monte_carlo.h"
+#include "steppers/include/criteria_writer.h"
+#include "steppers/include/movie.h"
+#include "steppers/include/log.h"
+#include "steppers/include/energy.h"
+#include "steppers/include/num_particles.h"
 #include "ewald/include/utils_ewald.h"
-#include "monte_carlo/include/criteria_metropolis.h"
 #include "mayer/include/criteria_mayer.h"
 #include "mayer/include/trial.h"
 #include "flat_histogram/include/ln_probability_distribution.h"
@@ -119,6 +120,7 @@
 #include "chain/include/trial_select.h"
 #include "chain/include/trial.h"
 #include "chain/include/trial_grow.h"
+#include "pipeline/include/pipeline.h"
 #include "example/include/model_example.h"
 #include "growth_expanded/include/trial_growth_expanded.h"
 #include "growth_expanded/include/macrostate_growth_expanded.h"
@@ -174,6 +176,7 @@ using namespace std;
 %shared_ptr(feasst::MatrixThreeByThree);
 %shared_ptr(feasst::RotationMatrix);
 %shared_ptr(feasst::Random);
+%shared_ptr(feasst::RandomMT19937);
 %shared_ptr(feasst::Select);
 %shared_ptr(feasst::SelectGroup);
 %shared_ptr(feasst::SelectPosition);
@@ -227,6 +230,7 @@ using namespace std;
 %shared_ptr(feasst::TrialSelectParticle);
 %shared_ptr(feasst::TrialSelectBond);
 %shared_ptr(feasst::TrialSelectAngle);
+%shared_ptr(feasst::CriteriaMetropolis);
 %shared_ptr(feasst::Rosenbluth);
 %shared_ptr(feasst::Perturb);
 %shared_ptr(feasst::PerturbMove);
@@ -250,15 +254,6 @@ using namespace std;
 %shared_ptr(feasst::TrialComputeRemove);
 %shared_ptr(feasst::TrialRemove);
 %shared_ptr(feasst::TrialFactory);
-%shared_ptr(feasst::Analyze);
-%shared_ptr(feasst::AnalyzeWriteOnly);
-%shared_ptr(feasst::AnalyzeUpdateOnly);
-%shared_ptr(feasst::AnalyzeFactory);
-%shared_ptr(feasst::Log);
-%shared_ptr(feasst::Movie);
-%shared_ptr(feasst::CriteriaWriter);
-%shared_ptr(feasst::Energy);
-%shared_ptr(feasst::NumParticles);
 %shared_ptr(feasst::Modify);
 %shared_ptr(feasst::ModifyUpdateOnly);
 %shared_ptr(feasst::Check);
@@ -266,8 +261,16 @@ using namespace std;
 %shared_ptr(feasst::WallClockLimit);
 %shared_ptr(feasst::Tuner);
 %shared_ptr(feasst::ModifyFactory);
+%shared_ptr(feasst::Analyze);
+%shared_ptr(feasst::AnalyzeWriteOnly);
+%shared_ptr(feasst::AnalyzeUpdateOnly);
+%shared_ptr(feasst::AnalyzeFactory);
 %shared_ptr(feasst::MonteCarlo);
-%shared_ptr(feasst::CriteriaMetropolis);
+%shared_ptr(feasst::CriteriaWriter);
+%shared_ptr(feasst::Movie);
+%shared_ptr(feasst::Log);
+%shared_ptr(feasst::Energy);
+%shared_ptr(feasst::NumParticles);
 %shared_ptr(feasst::CriteriaMayer);
 %shared_ptr(feasst::TrialComputeMoveMayer);
 %shared_ptr(feasst::TrialTranslateMayer);
@@ -301,6 +304,8 @@ using namespace std;
 %shared_ptr(feasst::TrialCrankshaft);
 %shared_ptr(feasst::TrialReptate);
 %shared_ptr(feasst::TrialGrowLinear);
+%shared_ptr(feasst::Pool);
+%shared_ptr(feasst::Pipeline);
 %shared_ptr(feasst::ModelExample);
 %shared_ptr(feasst::TrialComputeGrowAdd);
 %shared_ptr(feasst::TrialComputeGrowRemove);
@@ -337,6 +342,7 @@ using namespace std;
 %include math/include/utils_math.h
 %include math/include/matrix.h
 %include math/include/random.h
+%include math/include/random_mt19937.h
 %include configuration/include/select.h
 %include system/include/select_position.h
 %include configuration/include/cells.h
@@ -374,27 +380,27 @@ using namespace std;
 %include system/include/system.h
 %include monte_carlo/include/criteria.h
 %include monte_carlo/include/trial_select.h
+%include monte_carlo/include/criteria_metropolis.h
 %include monte_carlo/include/rosenbluth.h
 %include monte_carlo/include/perturb.h
 %include monte_carlo/include/perturb_configs.h
 %include monte_carlo/include/trial.h
 %include monte_carlo/include/trial_factory.h
-%include monte_carlo/include/analyze.h
-%include monte_carlo/include/analyze_factory.h
-%include steppers/include/log.h
-%include steppers/include/movie.h
-%include steppers/include/criteria_writer.h
-%include steppers/include/energy.h
-%include steppers/include/num_particles.h
 %include monte_carlo/include/modify.h
 %include steppers/include/check.h
 %include steppers/include/check_energy.h
 %include steppers/include/wall_clock_limit.h
 %include steppers/include/tuner.h
 %include monte_carlo/include/modify_factory.h
+%include monte_carlo/include/analyze.h
+%include monte_carlo/include/analyze_factory.h
 %include monte_carlo/include/monte_carlo.h
+%include steppers/include/criteria_writer.h
+%include steppers/include/movie.h
+%include steppers/include/log.h
+%include steppers/include/energy.h
+%include steppers/include/num_particles.h
 %include ewald/include/utils_ewald.h
-%include monte_carlo/include/criteria_metropolis.h
 %include mayer/include/criteria_mayer.h
 %include mayer/include/trial.h
 %include flat_histogram/include/ln_probability_distribution.h
@@ -417,6 +423,7 @@ using namespace std;
 %include chain/include/trial_select.h
 %include chain/include/trial.h
 %include chain/include/trial_grow.h
+%include pipeline/include/pipeline.h
 %include example/include/model_example.h
 %include growth_expanded/include/trial_growth_expanded.h
 %include growth_expanded/include/macrostate_growth_expanded.h

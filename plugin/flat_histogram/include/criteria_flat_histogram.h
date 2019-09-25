@@ -24,7 +24,8 @@ class CriteriaFlatHistogram : public Criteria {
   }
 
   bool is_accepted(const Acceptance& acceptance,
-    const System * system) override;
+    const System * system,
+    const double uniform_random) override;
 
   std::string write() const override;
   bool is_complete() override { return bias_->is_complete(); }
@@ -52,6 +53,9 @@ class CriteriaFlatHistogram : public Criteria {
   int state() const override { return macrostate_new_; }
   int num_states() const override { return macrostate_->histogram().size(); }
 
+  /// Revert changes from previous trial.
+  void revert() override;
+
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<CriteriaFlatHistogram>(istr); }
 
@@ -66,8 +70,6 @@ class CriteriaFlatHistogram : public Criteria {
   int macrostate_old_ = -1;
   int macrostate_new_ = -1;
   bool is_macrostate_set_ = false;
-
-  Random random_;
 };
 
 inline std::shared_ptr<CriteriaFlatHistogram> MakeCriteriaFlatHistogram(

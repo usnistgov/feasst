@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <random>
+#include "math/include/random_mt19937.h"
 #include "monte_carlo/include/perturb.h"
 #include "system/include/model_lj.h"
 #include "system/test/system_test.h"
@@ -23,8 +24,9 @@ TEST(Perturb, Revert) {
   auto tsel_ghost = MakeTrialSelectParticle({{"particle_type", "0"}});
   // precompute adds argument {"ghost", "true"} to tsel
   add.precompute(tsel_ghost.get(), &system);
-  tsel_ghost->select(Select(), &system);
-  add.add(&system, tsel_ghost.get(), position);
+  RandomMT19937 random;
+  tsel_ghost->select(Select(), &system, &random);
+  add.add(&system, tsel_ghost.get(), &random, position);
   EXPECT_EQ(config->num_particles(), 3);
   model.compute(config, &visit);
   const double tri_distance = sqrt(1.25*1.25 + 1.25*1.25);
@@ -40,8 +42,8 @@ TEST(Perturb, Revert) {
   Configuration* config2 = system2.get_configuration();
   PerturbRemove remove;
   auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
-  tsel->select(Select(), &system2);
-  remove.perturb(&system2, tsel.get());
+  tsel->select(Select(), &system2, &random);
+  remove.perturb(&system2, tsel.get(), &random);
   EXPECT_EQ(2, config2->num_particles());
   remove.finalize(&system2);
   EXPECT_EQ(1, config2->num_particles());
@@ -51,8 +53,8 @@ TEST(Perturb, Revert) {
   Position trajectory({0., 0., 0.});
   trajectory.set_coord(2, 1.25);
   PerturbTranslate attempt2;
-  tsel->select(Select(), &system);
-  attempt2.perturb(&system, tsel.get());
+  tsel->select(Select(), &system, &random);
+  attempt2.perturb(&system, tsel.get(), &random);
 }
 
 }  // namespace feasst

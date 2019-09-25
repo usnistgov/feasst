@@ -15,9 +15,10 @@ class TrialComputeGrowAdd : public TrialCompute {
       Criteria * criteria,
       System * system,
       Acceptance * acceptance,
-      std::vector<TrialStage*> * stages) override {
+      std::vector<TrialStage*> * stages,
+      Random * random) override {
     DEBUG("TrialComputeAdd");
-    compute_rosenbluth(0, criteria, system, acceptance, stages);
+    compute_rosenbluth(0, criteria, system, acceptance, stages, random);
     const TrialSelect * select = (*stages)[0]->trial_select();
     system->get_configuration()->revive(select->mobile());
     acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
@@ -43,9 +44,10 @@ class TrialComputeGrowRemove : public TrialCompute {
       Criteria * criteria,
       System * system,
       Acceptance * acceptance,
-      std::vector<TrialStage*> * stages) override {
+      std::vector<TrialStage*> * stages,
+      Random * random) override {
     DEBUG("TrialComputeRemove");
-    compute_rosenbluth(1, criteria, system, acceptance, stages);
+    compute_rosenbluth(1, criteria, system, acceptance, stages, random);
     acceptance->set_energy_new(criteria->current_energy() - acceptance->energy_old());
     acceptance->add_to_macrostate_shift(-1);
     { // Metropolis
@@ -75,11 +77,12 @@ class TrialComputeGrow : public TrialCompute {
     Criteria * criteria,
     System * system,
     Acceptance * acceptance,
-    std::vector<TrialStage*> * stages) override {
+    std::vector<TrialStage*> * stages,
+    Random * random) override {
     DEBUG("TrialComputeGrow");
     ASSERT(shrink_ == 0 or shrink_ == 1,
       "shrink(" << shrink_ << ") must be initialized");
-    compute_rosenbluth(shrink_, criteria, system, acceptance, stages);
+    compute_rosenbluth(shrink_, criteria, system, acceptance, stages, random);
     const TrialSelect * select = (*stages)[0]->trial_select();
     //const int particle_index = select->mobile().particle_index(0);
     //const int particle_type = system->configuration().select_particle(particle_index).type();
@@ -212,14 +215,14 @@ class TrialGrowthExpanded : public Trial {
   }
 
   // Trial::growth_stage_ -> Criteria::trial_stage?
-  bool attempt(Criteria * criteria, System * system) override {
+  bool attempt(Criteria * criteria, System * system, Random * random) override {
     DEBUG("num " << system->configuration().num_particles());
     // whether accepted or rejected, select new growing particle when stage0
     if (growth_stage_ == 0) {
-      growing_particle_->select(growing_particle_->anchor(), system);
+      growing_particle_->select(growing_particle_->anchor(), system, random);
     }
-    growing_ = random_.coin_flip();
-    const bool accepted = Trial::attempt(criteria, system);
+    growing_ = random->coin_flip();
+    const bool accepted = Trial::attempt(criteria, system, random);
     DEBUG("accepted? " << accepted);
     if (accepted) {
       growth_stage_ = current_growth_stage_(growing_);
@@ -245,7 +248,6 @@ class TrialGrowthExpanded : public Trial {
   int growth_stage_ = 0;
 
   // not serialized
-  Random random_;
   bool growing_;
 
   int current_growth_stage_(const bool growing) const {
