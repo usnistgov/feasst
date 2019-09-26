@@ -3,7 +3,7 @@
 #include "confinement/include/slab.h"
 #include "confinement/include/model_hard_shape.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/trial.h"
+#include "monte_carlo/include/trial_translate.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/log.h"
 #include "system/include/model_lj.h"

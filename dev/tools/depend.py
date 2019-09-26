@@ -148,6 +148,7 @@ using namespace std;\n\
 
 # write the docs
 with pyfeasst.cd(args.source_dir+'/plugin/'):
+  doc = ''
   for mod in next(os.walk('.'))[1]:
     if [d for d in include_plugin if d in mod]:
       print('mod', mod, 'cd', args.source_dir+'/plugin/')

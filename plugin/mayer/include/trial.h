@@ -2,7 +2,7 @@
 #ifndef FEASST_MAYER_TRIAL_H_
 #define FEASST_MAYER_TRIAL_H_
 
-#include "monte_carlo/include/trial.h"
+#include "monte_carlo/include/trial_translate.h"
 
 namespace feasst {
 

@@ -1,0 +1,92 @@
+#include <vector>
+#include "monte_carlo/include/trial_compute.h"
+
+namespace feasst {
+
+void TrialCompute::compute_rosenbluth(
+    const int old,
+    Criteria * criteria,
+    System * system,
+    Acceptance * acceptance,
+    std::vector<TrialStage*> * stages,
+    Random * random) {
+  double ln_rosenbluth = 0.;
+  double energy_change = 0.;
+  bool reference_used = false;
+  for (TrialStage* stage : *stages) {
+    stage->attempt(system, criteria, old, random);
+    if (stage->rosenbluth().chosen_step() == -1) {
+      if (!stage->is_mayer()) {
+        acceptance->set_reject(true);
+        DEBUG("auto reject");
+        for (TrialStage* stage : *stages) {
+          stage->set_mobile_physical(true, system);
+        }
+        return;
+      }
+    }
+    double energy;
+    if (old == 1) {
+      energy = stage->rosenbluth().energy(0);
+      acceptance->add_to_energy_old(energy);
+      ln_rosenbluth -= log(stage->rosenbluth().total_rosenbluth());
+      DEBUG("adding to old energy " << energy);
+    } else {
+      energy = stage->rosenbluth().chosen_energy();
+      acceptance->add_to_energy_new(energy);
+      ln_rosenbluth += log(stage->rosenbluth().total_rosenbluth());
+      DEBUG("adding to new energy " << energy);
+    }
+    energy_change += energy;
+    if (stage->reference() >= 0) {
+      reference_used = true;
+    }
+  }
+  DEBUG("reference used? " << reference_used);
+  if (reference_used) {
+    ASSERT(acceptance->perturbed().num_sites() > 0, "error");
+    const double en_full = system->energy(acceptance->perturbed());
+    acceptance->add_to_ln_metropolis_prob(-1.*criteria->beta()*
+      (en_full - energy_change));
+    DEBUG("energy ref: " << energy_change);
+    acceptance->set_energy_ref(energy_change);
+    if (old == 1) {
+      acceptance->set_energy_old(en_full);
+    } else {
+      acceptance->set_energy_new(en_full);
+    }
+  }
+  DEBUG("ln_rosenbluth " << ln_rosenbluth);
+  acceptance->add_to_ln_metropolis_prob(ln_rosenbluth);
+}
+
+std::map<std::string, std::shared_ptr<TrialCompute> >& TrialCompute::deserialize_map() {
+  static std::map<std::string, std::shared_ptr<TrialCompute> >* ans =
+     new std::map<std::string, std::shared_ptr<TrialCompute> >();
+  return *ans;
+}
+
+void TrialCompute::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+
+std::shared_ptr<TrialCompute> TrialCompute::create(std::istream& istr) const {
+  ERROR("not implemented");
+}
+
+std::shared_ptr<TrialCompute> TrialCompute::deserialize(std::istream& istr) {
+  return template_deserialize(deserialize_map(), istr,
+    // true argument denotes rewinding to reread class name
+    // this allows derived class constructor to read class name.
+    true);
+}
+
+void TrialCompute::serialize_trial_compute_(std::ostream& ostr) const {
+  feasst_serialize_version(803, ostr);
+}
+
+TrialCompute::TrialCompute(std::istream& istr) {
+  istr >> class_name_;
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(803 == version, "mismatch version: " << version);
+}
+
+}  // namespace feasst

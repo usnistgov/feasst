@@ -55,7 +55,6 @@ class BiasTransitionMatrix : public Bias {
   void infrequent_update_();
 
  private:
-  std::string class_name_ = "BiasTransitionMatrix";
   LnProbabilityDistribution ln_macro_prob_;
   TripleBandedCollectionMatrix collection_;
   std::vector<int> visits_;

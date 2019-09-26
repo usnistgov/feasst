@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include <random>
 #include "math/include/random_mt19937.h"
-#include "monte_carlo/include/perturb.h"
+#include "monte_carlo/include/trial_select_particle.h"
+#include "monte_carlo/include/perturb_add.h"
+#include "monte_carlo/include/perturb_remove.h"
 #include "system/include/model_lj.h"
 #include "system/test/system_test.h"
 #include "configuration/test/particle_test.h"

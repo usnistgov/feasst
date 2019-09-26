@@ -10,8 +10,9 @@
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/system.h"
-#include "monte_carlo/include/perturb.h"
+#include "monte_carlo/include/perturb_translate.h"
 #include "ewald/test/system_example.h"
+#include "monte_carlo/include/trial_select_particle.h"
 
 namespace feasst {
 

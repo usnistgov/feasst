@@ -1,13 +1,12 @@
 
-#ifndef FEASST_SYSTEM_SELECT_POSITION_H_
-#define FEASST_SYSTEM_SELECT_POSITION_H_
+#ifndef FEASST_CONFIGURATION_SELECT_POSITION_H_
+#define FEASST_CONFIGURATION_SELECT_POSITION_H_
 
 #include <vector>
 #include "configuration/include/select.h"
 
 namespace feasst {
 
-// HWH move to configuration plugin?
 /**
   A selection which includes site and particle positions.
   Also include properties (e.g., for ewald, or neighbors, etc)
@@ -103,6 +102,8 @@ class SelectPosition : public Select {
   Position * get_site_position(const int particle_index, const int site_index) {
     return &site_positions_[particle_index][site_index]; }
 
+  void serialize(std::ostream& ostr) const override;
+  SelectPosition(std::istream& istr);
   virtual ~SelectPosition() {}
 
  private:
@@ -111,10 +112,12 @@ class SelectPosition : public Select {
   std::vector<std::vector<Properties> > site_properties_;
 
   void clear_() {
-    particle_positions_.clear(); site_positions_.clear();
+    particle_positions_.clear();
+    site_positions_.clear();
+    site_properties_.clear();
   }
 };
 
 }  // namespace feasst
 
-#endif  // FEASST_SYSTEM_SELECT_POSITION_H_
+#endif  // FEASST_CONFIGURATION_SELECT_POSITION_H_

@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
-#include "monte_carlo/include/trial.h"
+#include "monte_carlo/include/trial_rotate.h"
 #include "configuration/test/configuration_test.h"
 #include "system/include/system.h"
 #include "system/include/model_lj.h"
@@ -35,6 +35,8 @@ TEST(TrialRotate, spce) {
   RandomMT19937 random;
   rotate->attempt(&criteria, &system, &random);
   file.write("tmp/after", system.configuration());
+
+  test_serialize(*rotate);
 }
 
 }  // namespace feasst

@@ -24,6 +24,9 @@ before_script:
   - pushd build
   - export CODECOV_TOKEN="e17b0bb1-d93e-40de-b62b-9b7193459821"
 
+before_install:
+  - export LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
+
 install:
   - |
     if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then

@@ -50,7 +50,6 @@ class BiasWangLandau : public Bias {
   virtual ~BiasWangLandau() {}
 
  private:
-  const std::string class_name_ = "BiasWangLandau";
   LnProbabilityDistribution ln_macro_prob_;
   double add_to_ln_probability_ = 0;
   double reduce_ln_probability_ = 0;

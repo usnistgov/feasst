@@ -4,7 +4,14 @@ API
 .. toctree::
 
    AnalyzeRigidBonds
-   PerturbPivot
-   TrialSelectSegment
-   TrialPivot
+   TrialSelectPerturbed
    TrialGrowLinear
+   PerturbPivot
+   PerturbCrankshaft
+   PerturbReptate
+   TrialSelectSegment
+   TrialCrankshaft
+   TrialSelectEndSegment
+   TrialPivot
+   TrialSelectReptate
+   TrialReptate

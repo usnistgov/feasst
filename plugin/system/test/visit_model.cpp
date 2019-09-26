@@ -10,7 +10,7 @@
 #include "system/include/physical_constants.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/test/system_test.h"
-#include "monte_carlo/include/trial_select.h"
+#include "monte_carlo/include/trial_select_particle.h"
 
 namespace feasst {
 

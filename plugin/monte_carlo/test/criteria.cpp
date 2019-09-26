@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/criteria_metropolis.h"
-#include "monte_carlo/include/trial.h"
+#include "monte_carlo/include/trial_translate.h"
 #include "system/test/system_test.h"
 
 namespace feasst {

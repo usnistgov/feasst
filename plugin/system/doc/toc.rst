@@ -4,20 +4,19 @@ API
 .. toctree::
 
    physical_constants
-   SelectPosition
    Model
    VisitModelInner
    ModelOneBody
    ModelEmpty
-   ModelTwoBody
-   ModelLJ
-   ModelHardSphere
-   ModelTwoBodyFactory
    ModelThreeBody
-   VisitModelCell
-   LongRangeCorrections
    VisitModelIntra
-   SelectList
+   LongRangeCorrections
+   VisitModelCell
    Potential
    PotentialFactory
    System
+   SelectList
+   ModelTwoBody
+   ModelLJ
+   ModelTwoBodyFactory
+   ModelHardSphere

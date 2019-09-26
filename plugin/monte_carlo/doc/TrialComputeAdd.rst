@@ -1,6 +1,6 @@
-PerturbRegrow
+TrialComputeAdd
 =====================================================
 
-.. doxygenclass:: feasst::PerturbRegrow
+.. doxygenclass:: feasst::TrialComputeAdd
    :project: FEASST
    :members:

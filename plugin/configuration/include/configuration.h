@@ -7,7 +7,7 @@
 #include "configuration/include/domain.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
-#include "system/include/select_position.h"
+#include "configuration/include/select_position.h"
 #include "math/include/matrix.h"
 #include "utils/include/arguments.h"
 

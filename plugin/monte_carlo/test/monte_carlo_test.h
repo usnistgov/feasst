@@ -1,7 +1,4 @@
 #include <memory>
-#include "monte_carlo/include/trial.h"
-#include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/criteria_metropolis.h"
 #include "utils/include/utils_io.h"
 #include "math/include/accumulator.h"
 #include "system/include/long_range_corrections.h"
@@ -12,6 +9,12 @@
 #include "steppers/include/tuner.h"
 #include "steppers/include/check.h"
 #include "steppers/include/check_energy.h"
+#include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial_select_bond.h"
+#include "monte_carlo/include/trial_select_angle.h"
+#include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/include/criteria_metropolis.h"
+#include "monte_carlo/include/perturb_distance_angle.h"
 
 namespace feasst {
 
@@ -102,7 +105,7 @@ inline std::shared_ptr<Trial> build_(const int flag, const std::string data) {
         {"anchor_site", "0"},
         {"anchor_site2", "1"}
       }),
-      std::make_shared<PerturbDistanceAndAngle>(),
+      std::make_shared<PerturbDistanceAngle>(),
       {{"num_steps", "4"}}
     );
   }

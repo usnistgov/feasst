@@ -8,6 +8,7 @@
 namespace feasst {
 
 BiasWangLandau::BiasWangLandau(const argtype &args) {
+  class_name_ = "BiasWangLandau";
   args_.init(args);
   min_flatness_ = args_.key("min_flatness").integer();
   flatness_threshold_ = args_.key("flatness_threshold").dflt("0.8").dble();

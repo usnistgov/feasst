@@ -151,7 +151,7 @@ TEST(MonteCarlo, grow) {
     EXPECT_LT(mc.configuration().num_particles(), 3);
     mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "100"}}));
     mc.attempt(2e1);
-    EXPECT_GT(mc.configuration().num_particles(), 1);
+    EXPECT_GE(mc.configuration().num_particles(), 1);
     mc.configuration().check();
     // INFO(mc.trial(1)->accept().perturbed().str());
   }

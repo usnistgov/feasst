@@ -1,6 +1,6 @@
 
 #include <sstream>
-#include "system/include/select_position.h"
+#include "configuration/include/select_position.h"
 
 namespace feasst {
 
@@ -74,4 +74,18 @@ void SelectPosition::remove_first_site() {
   site_properties_[0].erase(site_properties_[0].begin());
 }
 
+void SelectPosition::serialize(std::ostream& sstr) const {
+  feasst_serialize_version(800, sstr);
+  feasst_serialize_fstobj(particle_positions_, sstr);
+  feasst_serialize_fstobj(site_positions_, sstr);
+  feasst_serialize_fstobj(site_properties_, sstr);
+}
+
+SelectPosition::SelectPosition(std::istream& sstr) {
+  const int version = feasst_deserialize_version(sstr);
+  ASSERT(version == 800, "version");
+  feasst_deserialize_fstobj(&particle_positions_, sstr);
+  feasst_deserialize_fstobj(&site_positions_, sstr);
+  feasst_deserialize_fstobj(&site_properties_, sstr);
+}
 }  // namespace feasst

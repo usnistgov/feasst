@@ -125,6 +125,14 @@ class TrialFactory : public Trial {
 
 //  const Timer& timer() const { return timer_; }
 
+  std::shared_ptr<Trial> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialFactory(std::istream& istr);
+  virtual ~TrialFactory() {}
+
+ protected:
+  void serialize_trial_factory_(std::ostream& ostr) const;
+
  private:
   std::vector<std::shared_ptr<Trial> > trials_;
   std::vector<double> cumulative_probability_;
@@ -140,6 +148,10 @@ class TrialFactory : public Trial {
     //timer_.end();
   }
 };
+
+inline std::shared_ptr<TrialFactory> MakeTrialFactory() {
+  return std::make_shared<TrialFactory>();
+}
 
 }  // namespace feasst
 

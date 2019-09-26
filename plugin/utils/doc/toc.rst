@@ -3,13 +3,13 @@ API
 
 .. toctree::
 
+   math/include/utils_math
    utils_file
    Timer
+   CustomException
    Arguments
    Checkpoint
-   CustomException
    utils
    debug
    utils_io
-   math/include/utils_math
    ewald/include/utils_ewald

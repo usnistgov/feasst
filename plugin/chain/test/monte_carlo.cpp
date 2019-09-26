@@ -1,8 +1,11 @@
 #include <memory>
 #include "utils/test/utils.h"
 #include "monte_carlo/include/trial.h"
-#include "chain/include/trial.h"
+#include "monte_carlo/include/trial_rotate.h"
 #include "chain/include/trial_grow.h"
+#include "chain/include/trial_pivot.h"
+#include "chain/include/trial_crankshaft.h"
+#include "chain/include/trial_reptate.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
 #include "monte_carlo/include/criteria_metropolis.h"

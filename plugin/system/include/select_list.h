@@ -12,10 +12,13 @@ namespace feasst {
     Selects are for modifications of a subset of the configuration.
     Note that the requested selection may not be possible.
     In this case the selection remains empty.
-  HWH: contain SelectPosition instead of inheriting from it to hide selection interface
  */
+// HWH: contain SelectPosition instead of inheriting from it to hide selection interface
+// HWH: consider depreciating/moving SelectList
 class SelectList : public SelectPosition {
  public:
+  SelectList() {}
+
   SelectList& particle(
       // HWH document this index.
       const int index,
@@ -135,6 +138,11 @@ class SelectList : public SelectPosition {
       load_positions(config.particles());
     }
   }
+
+  void serialize(std::ostream& ostr) const override {
+    SelectPosition::serialize(ostr); }
+  SelectList(std::istream& istr) : SelectPosition(istr) {}
+  virtual ~SelectList() {}
 };
 
 }  // namespace feasst

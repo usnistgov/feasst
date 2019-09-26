@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "math/include/random_mt19937.h"
-#include "monte_carlo/include/trial_select.h"
+#include "monte_carlo/include/trial_select_particle.h"
 #include "configuration/test/configuration_test.h"
 #include "system/test/system_test.h"
 

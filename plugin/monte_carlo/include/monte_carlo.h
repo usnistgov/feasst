@@ -10,6 +10,8 @@
 #include "math/include/random_mt19937.h"
 //#include "utils/include/timer.h"
 #include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/trial_add.h"
+#include "monte_carlo/include/trial_remove.h"
 //#include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/analyze.h"
 #include "monte_carlo/include/analyze_factory.h"
@@ -234,11 +236,19 @@ class MonteCarlo {
 //    return ss.str();
 //  }
 
+  void after_trial_() {
+    analyze_factory_.trial(criteria_.get(), system_, trial_factory_);
+    modify_factory_.trial(criteria_.get(), &system_, &trial_factory_);
+    if (checkpoint_) {
+      checkpoint_->check(*this);
+    }
+  }
+
   void serialize(std::ostream& ostr) const {
     feasst_serialize_version(1, ostr);
     feasst_serialize_fstobj(system_, ostr);
     feasst_serialize_fstdr(criteria_, ostr);
-    // feasst_serialize_fstobj(trial_factory_, ostr);
+    feasst_serialize_fstobj(trial_factory_, ostr);
     feasst_serialize_fstobj(analyze_factory_, ostr);
     feasst_serialize_fstobj(modify_factory_, ostr);
     feasst_serialize(checkpoint_, ostr);
@@ -259,7 +269,7 @@ class MonteCarlo {
         criteria_ = criteria_->deserialize(istr);
       }
     }
-    // feasst_deserialize_fstobj(&trial_factory_, istr);
+    feasst_deserialize_fstobj(&trial_factory_, istr);
     feasst_deserialize_fstobj(&analyze_factory_, istr);
     feasst_deserialize_fstobj(&modify_factory_, istr);
     feasst_deserialize(checkpoint_, istr);
@@ -269,13 +279,7 @@ class MonteCarlo {
     feasst_deserialize(&criteria_set_, istr);
   }
 
-  void after_trial_() {
-    analyze_factory_.trial(criteria_.get(), system_, trial_factory_);
-    modify_factory_.trial(criteria_.get(), &system_, &trial_factory_);
-    if (checkpoint_) {
-      checkpoint_->check(*this);
-    }
-  }
+  virtual ~MonteCarlo() {}
 
  private:
   System system_;

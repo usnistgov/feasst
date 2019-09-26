@@ -9,6 +9,7 @@
 #include "system/include/select_list.h"
 #include "math/include/utils_math.h"
 #include "monte_carlo/include/perturb_configs.h"
+#include "monte_carlo/include/trial_select_particle.h"
 
 namespace feasst {
 

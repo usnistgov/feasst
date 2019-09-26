@@ -52,9 +52,7 @@ void Bias::serialize_bias_(std::ostream& ostr) const {
 }
 
 Bias::Bias(std::istream& istr) {
-  std::string class_name;
-  istr >> class_name;
-  ASSERT(!class_name.empty(), "mismatch");
+  istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
   ASSERT(863 == version, "mismatch version: " << version);
   feasst_deserialize(&is_complete_, istr);

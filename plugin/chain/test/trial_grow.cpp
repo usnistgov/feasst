@@ -1,6 +1,7 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
 #include "chain/include/trial_grow.h"
+#include "monte_carlo/include/trial_compute_move.h"
 #include "system/include/system.h"
 #include "system/include/model_lj.h"
 #include "monte_carlo/include/criteria_metropolis.h"
@@ -29,12 +30,12 @@ TEST(TrialGrow, chain10) {
 
   auto criteria = std::make_shared<CriteriaMetropolis>();
   criteria->set_beta(100.0);
-  auto pivot = MakeTrialGrowLinear(
+  auto grow = MakeTrialGrowLinear(
     std::make_shared<TrialComputeMove>(),
     {{"particle_type", "0"}}
   );
   TrialFactory factory;
-  factory.add(pivot);
+  factory.add(grow);
   factory.precompute(criteria.get(), &system);
   FileXYZ file;
   file.write("tmp/before2", system.configuration());
@@ -46,6 +47,8 @@ TEST(TrialGrow, chain10) {
     checker.update(criteria.get(), system, factory);
   }
   EXPECT_NE(0, system.configuration().particle(0).site(0).position().coord(0));
+
+  test_serialize(*grow);
 }
 
 }  // namespace feasst

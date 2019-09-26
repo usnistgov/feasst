@@ -40,6 +40,10 @@ TEST(MonteCarlo, TrialGrowthExpanded) {
   mc.attempt(1e2);
 //    INFO(mc.criteria()->write());
 //  }
+  test_serialize(mc);
+//  std::stringstream ss;
+//  mc.serialize(ss);
+//  INFO(ss.str());
 }
 
 }  // namespace feasst

@@ -4,10 +4,10 @@ API
 .. toctree::
 
    LnProbabilityDistribution
+   TripleBandedCollectionMatrix
    Bias
    BiasWangLandau
-   Macrostate
-   TripleBandedCollectionMatrix
    BiasTransitionMatrix
-   MacrostateNumParticles
+   Macrostate
    CriteriaFlatHistogram
+   MacrostateNumParticles

@@ -5,13 +5,12 @@ namespace feasst {
 
 TEST(Tunable, serialize) {
   Tunable tunable;
-  
-  std::stringstream ss, ss2;
-  tunable.serialize(ss);
-  INFO(ss.str());
-  Tunable tunable2(ss);
-  tunable2.serialize(ss2);
-  INFO(ss2.str());
+//  std::stringstream ss, ss2;
+//  tunable.serialize(ss);
+//  INFO(ss.str());
+//  Tunable tunable2(ss);
+//  tunable2.serialize(ss2);
+//  INFO(ss2.str());
 
   test_serialize(tunable);
 }

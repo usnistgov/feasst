@@ -2,10 +2,13 @@
 #ifndef FEASST_CHAIN_TRIAL_GROW_H_
 #define FEASST_CHAIN_TRIAL_GROW_H_
 
-#include <vector>
 #include <string>
 #include <memory>
-#include "chain/include/trial.h"
+#include "monte_carlo/include/trial.h"
+#include "monte_carlo/include/trial_select_particle.h"
+#include "monte_carlo/include/trial_select_bond.h"
+#include "monte_carlo/include/perturb_distance.h"
+#include "monte_carlo/include/perturb_anywhere.h"
 
 namespace feasst {
 
@@ -20,6 +23,7 @@ class TrialGrowLinear : public Trial {
       particle_type : type of particle in configuration (default: 0).
      */
     const argtype& args = argtype()) : Trial(args) {
+    class_name_ = "TrialGrowLinear";
     stored_args_ = args;
     set(compute);
   }
@@ -54,6 +58,11 @@ class TrialGrowLinear : public Trial {
     // precompute stages
     Trial::precompute(criteria, system);
   }
+
+  std::shared_ptr<Trial> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialGrowLinear(std::istream& istr);
+  virtual ~TrialGrowLinear() {}
 
  private:
   argtype stored_args_;

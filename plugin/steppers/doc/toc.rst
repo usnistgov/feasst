@@ -7,8 +7,8 @@ API
    CheckEnergy
    WallClockLimit
    Tuner
+   Energy
+   NumParticles
    CriteriaWriter
    Movie
    Log
-   Energy
-   NumParticles

@@ -3,5 +3,5 @@ API
 
 .. toctree::
 
-   TrialComputeGrowAdd
    MacrostateGrowthExpanded
+   TrialComputeGrowAdd

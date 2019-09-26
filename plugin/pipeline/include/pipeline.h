@@ -46,6 +46,8 @@ class Pipeline : public MonteCarlo {
 
   Pipeline(std::istream& istr) : MonteCarlo(istr) {}
 
+  virtual ~Pipeline() {}
+
  private:
   // void distribute_for_();
 

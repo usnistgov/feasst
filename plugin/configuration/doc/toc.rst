@@ -8,15 +8,16 @@ API
    Bond
    Site
    Particle
-   Group
    FileLMP
    ModelParam
+   Group
    ParticleFactory
    Select
    Cells
    Domain
+   SelectPosition
    VisitParticles
    Configuration
-   FileVMD
    VisitConfiguration
+   FileVMD
    BondTwoBody

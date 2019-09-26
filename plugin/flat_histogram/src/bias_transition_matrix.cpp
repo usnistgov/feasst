@@ -10,6 +10,7 @@
 namespace feasst {
 
 BiasTransitionMatrix::BiasTransitionMatrix(const argtype &args) {
+  class_name_ = "BiasTransitionMatrix";
   Arguments args_(args);
   min_visits_ = args_.key("min_visits").dflt("100").integer();
   min_sweeps_ = args_.key("min_sweeps").integer();
@@ -172,6 +173,7 @@ std::shared_ptr<Bias> BiasTransitionMatrix::create(std::istream& istr) const {
 
 BiasTransitionMatrix::BiasTransitionMatrix(std::istream& istr)
   : Bias(istr) {
+  ASSERT(class_name_ == "BiasTransitionMatrix", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
   ASSERT(667 == version, "mismatch version: " << version);
   feasst_deserialize_fstobj(&ln_macro_prob_, istr);

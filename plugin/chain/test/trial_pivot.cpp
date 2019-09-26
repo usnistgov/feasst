@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
-#include "chain/include/trial.h"
+#include "chain/include/trial_pivot.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "system/include/system.h"
 #include "system/include/model_lj.h"
@@ -44,6 +44,8 @@ TEST(TrialPivot, chain10) {
     checker.update(criteria.get(), system, factory);
   }
   EXPECT_NE(0, system.configuration().particle(0).site(0).position().coord(0));
+
+  test_serialize(*pivot);
 }
 
 }  // namespace feasst

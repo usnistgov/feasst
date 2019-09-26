@@ -215,6 +215,29 @@ void feasst_deserialize_fstobj(std::vector<T> * vector, std::istream& istr) {
   }
 }
 
+/// Serialize 2D vector of feasst objects
+template <typename T>
+void feasst_serialize_fstobj(const std::vector<std::vector<T> >& vector,
+    std::ostream& ostr) {
+  ostr << vector.size() << " ";
+  for (const std::vector<T>& element : vector) {
+    feasst_serialize_fstobj(element, ostr);
+  }
+}
+
+/// Deserialize 2D vector of feasst objects
+template <typename T>
+void feasst_deserialize_fstobj(std::vector<std::vector<T> > * vector,
+    std::istream& istr) {
+  int dim1;
+  istr >> dim1;
+  for (int index = 0; index < dim1; ++index) {
+    std::vector<T> vec;
+    feasst_deserialize_fstobj(&vec, istr);
+    vector->push_back(vec);
+  }
+}
+
 /// Serialize feasst object stored as shared pointer
 template <typename T>
 void feasst_serialize(const std::shared_ptr<T> ptr, std::ostream& ostr) {

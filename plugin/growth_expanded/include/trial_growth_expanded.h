@@ -6,11 +6,13 @@
 #include <string>
 #include <memory>
 #include "chain/include/trial_grow.h"
+#include "chain/include/trial_select_perturbed.h"
 
 namespace feasst {
 
 class TrialComputeGrowAdd : public TrialCompute {
  public:
+  TrialComputeGrowAdd() { class_name_ = "TrialComputeGrowAdd"; }
   void perturb_and_acceptance(
       Criteria * criteria,
       System * system,
@@ -35,11 +37,15 @@ class TrialComputeGrowAdd : public TrialCompute {
       );
     }
   }
+  std::shared_ptr<TrialCompute> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialComputeGrowAdd(std::istream& istr);
   virtual ~TrialComputeGrowAdd() {}
 };
 
 class TrialComputeGrowRemove : public TrialCompute {
  public:
+  TrialComputeGrowRemove() { class_name_ = "TrialComputeGrowRemove"; }
   void perturb_and_acceptance(
       Criteria * criteria,
       System * system,
@@ -65,6 +71,9 @@ class TrialComputeGrowRemove : public TrialCompute {
       DEBUG("lnmet " << acceptance->ln_metropolis_prob());
     }
   }
+  std::shared_ptr<TrialCompute> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialComputeGrowRemove(std::istream& istr);
   virtual ~TrialComputeGrowRemove() {}
 };
 
@@ -73,6 +82,7 @@ class TrialComputeGrowRemove : public TrialCompute {
 // otherwise flat histogram takes care of it just fine
 class TrialComputeGrow : public TrialCompute {
  public:
+  TrialComputeGrow() { class_name_ = "TrialComputeGrow"; }
   void perturb_and_acceptance(
     Criteria * criteria,
     System * system,
@@ -103,6 +113,9 @@ class TrialComputeGrow : public TrialCompute {
   void set_shrink() { shrink_ = 1; }
   void set_grow() { shrink_ = 0; }
 
+  std::shared_ptr<TrialCompute> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialComputeGrow(std::istream& istr);
   virtual ~TrialComputeGrow() {}
 
  private:
@@ -236,6 +249,9 @@ class TrialGrowthExpanded : public Trial {
     return accepted;
   }
 
+  std::shared_ptr<Trial> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+  explicit TrialGrowthExpanded(std::istream& istr);
   virtual ~TrialGrowthExpanded() {}
 
  private:

@@ -46,6 +46,7 @@ class Bias {
   /// Revert changes from previous trial.
   virtual void revert(const int macrostate_new, const int macrostate_old) = 0;
 
+  std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Bias> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Bias> >& deserialize_map();
@@ -53,6 +54,8 @@ class Bias {
   virtual ~Bias() {}
 
  protected:
+  std::string class_name_ = "Bias";
+
   void set_complete_() { is_complete_ = true; }
 
   int bin_(

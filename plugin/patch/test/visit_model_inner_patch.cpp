@@ -1,9 +1,8 @@
 #include "utils/test/utils.h"
 #include "patch/include/visit_model_inner_patch.h"
 #include "configuration/include/file_xyz.h"
-#include "monte_carlo/include/perturb.h"
-#include "configuration/include/file_xyz.h"
 #include "models/include/model_square_well.h"
+#include "monte_carlo/include/perturb_anywhere.h"
 
 namespace feasst {
 
