@@ -3,6 +3,7 @@
 #define FEASST_SYSTEM_POTENTIAL_H_
 
 #include <memory>
+#include "utils/include/cache.h"
 #include "configuration/include/configuration.h"
 #include "system/include/visit_model.h"
 #include "system/include/model.h"
@@ -89,6 +90,16 @@ class Potential {
   /// Revert any changes to the configuration due to the last energy computation
   void revert() { visit_model_->revert(); }
 
+  /// Return the cache.
+  const Cache& cache() const { return cache_; }
+
+  /// Set Cache to load.
+  void load_cache(const bool load) { cache_.set_load(load); }
+
+  /// Set Cache to unload.
+  void unload_cache(const Potential& potential) {
+    cache_.set_unload(potential.cache()); }
+
   /// Serialize.
   void serialize(std::ostream& ostr) const;
 
@@ -100,9 +111,9 @@ class Potential {
   std::shared_ptr<VisitModel> visit_model_;
   std::shared_ptr<Model> model_;
   double stored_energy_ = 0.;
-
   bool model_params_override_ = false;
   ModelParams model_params_;
+  Cache cache_;
 };
 
 }  // namespace feasst

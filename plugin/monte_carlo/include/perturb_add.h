@@ -12,14 +12,11 @@ namespace feasst {
 // HWH optimize -> update cell list in finalize?
 class PerturbAdd : public Perturb {
  public:
-  PerturbAdd(const argtype& args = argtype()) : Perturb(args) {
-    class_name_ = "PerturbAdd";
-  }
+  PerturbAdd(const argtype& args = argtype());
 
   //initialize ghost selection in TrialSelect?
   void precompute(TrialSelect * select, System * system) override {
-    select->set_ghost(true);
-  }
+    select->set_ghost(true); }
 
   void perturb(
       System * system,
@@ -63,6 +60,7 @@ class PerturbAdd : public Perturb {
   }
 
   void revert(System * system) override {
+    DEBUG("revert_possible " << revert_possible());
     if (revert_possible()) {
       DEBUG(revert_select()->mobile().str());
       DEBUG("nump " << system->configuration().num_particles());

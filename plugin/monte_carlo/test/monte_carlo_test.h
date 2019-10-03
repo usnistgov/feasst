@@ -37,11 +37,11 @@ inline void crit_trial_analyze(MonteCarlo * mc,
   mc->add(MakeTuner({{"steps_per", str(num_periodic)}}));
 }
 
-inline MonteCarlo mc_lj(const double box_length = 8,
+inline void mc_lj(MonteCarlo * mc,
+    const double box_length = 8,
     const std::string data = "../forcefield/data.lj",
     const int num_periodic = 1e4,
     const bool translate = true) {
-  MonteCarlo mc;
 //  const double cutoff = 2.;
 
   { System system;
@@ -67,10 +67,9 @@ inline MonteCarlo mc_lj(const double box_length = 8,
       //system.add_to_unoptimized(lrc);
     }
 
-    mc.set(system);
+    mc->set(system);
   }
-  crit_trial_analyze(&mc, num_periodic, translate);
-  return mc;
+  crit_trial_analyze(mc, num_periodic, translate);
 }
 
 // flag == 0, move; 1, add; 2, remove

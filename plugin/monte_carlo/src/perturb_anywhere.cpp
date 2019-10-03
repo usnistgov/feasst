@@ -3,6 +3,14 @@
 
 namespace feasst {
 
+PerturbAnywhere::PerturbAnywhere() {
+  class_name_ = "PerturbAnywhere";
+  rotate_.set_tunable(180.);
+  rotate_.disable_tunable_();
+  translate_.disable_tunable_();
+  disable_tunable_();
+}
+
 class MapPerturbAnywhere {
  public:
   MapPerturbAnywhere() {

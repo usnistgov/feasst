@@ -2,6 +2,10 @@
 
 namespace feasst {
 
+TrialComputeRemove::TrialComputeRemove() {
+  class_name_ = "TrialComputeRemove";
+}
+
 class MapTrialComputeRemove {
  public:
   MapTrialComputeRemove() {

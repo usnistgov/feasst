@@ -80,4 +80,17 @@ PotentialFactory::PotentialFactory(std::istream& sstr) {
   feasst_deserialize_fstobj(&potentials_, sstr);
 }
 
+void PotentialFactory::load_cache(const bool load) {
+  for (Potential& potential : potentials_) {
+    potential.load_cache(load);
+  }
+}
+
+void PotentialFactory::unload_cache(const PotentialFactory& factory) {
+  ASSERT(num() == factory.num(), "size mismatch");
+  for (int ip = 0; ip < num(); ++ip) {
+    potentials_[ip].unload_cache(factory.potentials_[ip]);
+  }
+}
+
 }  // namespace feasst

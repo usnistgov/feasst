@@ -11,9 +11,7 @@ namespace feasst {
  */
 class PerturbTranslate : public PerturbMove {
  public:
-  PerturbTranslate(const argtype& args = argtype()) : PerturbMove(args) {
-    class_name_ = "PerturbTranslate";
-  }
+  PerturbTranslate(const argtype& args = argtype());
 
   void precompute(TrialSelect * select, System * system) override {
     set_tunable_min_and_max(2*NEAR_ZERO,

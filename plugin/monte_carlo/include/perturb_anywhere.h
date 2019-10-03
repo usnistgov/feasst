@@ -11,13 +11,13 @@ namespace feasst {
 /// Rigidly move rigidly anywhere in the box with any orientation.
 class PerturbAnywhere : public PerturbMove {
  public:
-  PerturbAnywhere() {
-    class_name_ = "PerturbAnywhere";
-    rotate_.set_tunable(180.);
-  }
+  PerturbAnywhere();
 
+  // assumes first particle center is placed on origin before translation to center
   void set_position(const Position& center, System * system, TrialSelect * select) {
-    translate_.move(center, system, select);
+    Position add = center;
+    add.subtract(select->mobile().particle_positions()[0]);
+    translate_.move(add, system, select);
   }
 
   void move(System * system, TrialSelect * select, Random * random) override {

@@ -112,4 +112,21 @@ const PotentialFactory * System::const_potentials_() const {
   return &unoptimized_;
 }
 
+void System::load_cache(const bool load) {
+  unoptimized_.load_cache(load);
+  optimized_.load_cache(load);
+  for (PotentialFactory& ref : references_) {
+    ref.load_cache(load);
+  }
+}
+
+void System::unload_cache(const System& system) {
+  unoptimized_.unload_cache(system.unoptimized_);
+  optimized_.unload_cache(system.optimized_);
+  ASSERT(references_.size() == system.references_.size(), "size mismatch");
+  for (int iref = 0; iref < static_cast<int>(references_.size()); ++iref) {
+    references_[iref].unload_cache(system.references_[iref]);
+  }
+}
+
 }  // namespace feasst

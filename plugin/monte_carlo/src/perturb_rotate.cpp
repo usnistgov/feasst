@@ -3,6 +3,11 @@
 
 namespace feasst {
 
+PerturbRotate::PerturbRotate(const argtype& args) : PerturbMove(args) {
+  class_name_ = "PerturbRotate";
+  set_tunable_min_and_max(2*NEAR_ZERO, 360.);
+}
+
 class MapPerturbRotate {
  public:
   MapPerturbRotate() {

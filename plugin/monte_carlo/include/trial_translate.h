@@ -15,14 +15,7 @@ class TrialTranslate : public TrialMove {
  public:
   TrialTranslate(
     /// These arguments are sent to both PerturbTranslate and TrialStage.
-    const argtype& args = argtype())
-    : TrialMove(
-      std::make_shared<TrialSelectParticle>(),
-      std::make_shared<PerturbTranslate>(args),
-      args
-    ) {
-    class_name_ = "TrialTranslate";
-  }
+    const argtype& args = argtype());
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit TrialTranslate(std::istream& istr);

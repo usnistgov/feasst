@@ -5,7 +5,8 @@
 namespace feasst {
 
 TEST(WallClockLimit, limit) {
-  MonteCarlo mc = mc_lj();
+  MonteCarlo mc;
+  mc_lj(&mc);
   try {
     mc.add(MakeWallClockLimit({{"max_hours", "1e-9"}}));
     mc.attempt(1e4);

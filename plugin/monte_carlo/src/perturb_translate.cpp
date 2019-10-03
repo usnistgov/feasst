@@ -3,6 +3,10 @@
 
 namespace feasst {
 
+PerturbTranslate::PerturbTranslate(const argtype& args) : PerturbMove(args) {
+  class_name_ = "PerturbTranslate";
+}
+
 class MapPerturbTranslate {
  public:
   MapPerturbTranslate() {

@@ -2,6 +2,16 @@
 
 namespace feasst {
 
+TrialAdd::TrialAdd(const argtype& args) : Trial(args) {
+  add_stage(
+    std::make_shared<TrialSelectParticle>(args),
+    std::make_shared<PerturbAdd>(args),
+    args
+  );
+  set(std::make_shared<TrialComputeAdd>());
+  class_name_ = "TrialAdd";
+}
+
 class MapTrialAdd {
  public:
   MapTrialAdd() {

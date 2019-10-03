@@ -70,7 +70,8 @@ TEST(MonteCarlo, FHMC) {
   // seed_random(1560889975);
   for (int crit_type = 0; crit_type < 1; ++crit_type) {
   // for (int crit_type = 0; crit_type < 2; ++crit_type) {
-    MonteCarlo mc = mc_lj();
+    MonteCarlo mc;
+    mc_lj(&mc);
     mc.add(MakeTrialAdd({{"particle_type", "0"}, {"weight", "0.25"}}));
     mc.add(MakeTrialRemove({{"weight", "0.25"}}));
     mc.set(crit_fh(crit_type));

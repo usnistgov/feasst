@@ -185,7 +185,7 @@ void feasst_deserialize(std::vector<std::vector<T> > * vector,
 
 /// Serialize feasst object
 template <typename T>
-void feasst_serialize_fstobj(const T obj, std::ostream& ostr) {
+void feasst_serialize_fstobj(const T& obj, std::ostream& ostr) {
   obj.serialize(ostr);
 }
 

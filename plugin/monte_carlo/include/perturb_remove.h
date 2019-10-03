@@ -11,10 +11,7 @@ namespace feasst {
  */
 class PerturbRemove : public Perturb {
  public:
-  PerturbRemove() {
-    class_name_ = "PerturbRemove";
-    disable_tunable_();
-  }
+  PerturbRemove();
 
   void perturb(
       System * system,

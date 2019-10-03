@@ -3,6 +3,8 @@
 
 namespace feasst {
 
+TrialCompute::TrialCompute() {}
+
 void TrialCompute::compute_rosenbluth(
     const int old,
     Criteria * criteria,

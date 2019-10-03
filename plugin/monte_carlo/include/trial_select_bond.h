@@ -20,13 +20,7 @@ class TrialSelectBond : public TrialSelect {
       mobile_site : index of the mobile site.
       anchor_site : index of the anchor site.
      */
-    const argtype& args = argtype()) : TrialSelect(args) {
-    class_name_ = "TrialSelectBond";
-    Arguments args_(args);
-    args_.dont_check();
-    mobile_site_ = args_.key("mobile_site").integer();
-    anchor_site_ = args_.key("anchor_site").integer();
-  }
+    const argtype& args = argtype());
 
   int anchor_site() const { return anchor_site_; }
   int mobile_site() const { return mobile_site_; }

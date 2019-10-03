@@ -60,6 +60,13 @@ void ModelParam::mix() {
   max_mixed_value_ = maximum(mixed_values_);
 }
 
+void ModelParam::set_mixed(const int site_type1,
+    const int site_type2,
+    const double value) {
+  mixed_values_[site_type1][site_type2] = value;
+  is_mixed_override_ = true;
+}
+
 double ModelParam::mixed_max() const {
   ASSERT(mixed_values_.size() > 0, "no max");
   return max_mixed_value_;

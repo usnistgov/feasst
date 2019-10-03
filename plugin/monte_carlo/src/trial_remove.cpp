@@ -2,6 +2,18 @@
 
 namespace feasst {
 
+TrialRemove::TrialRemove(const argtype& args) : Trial(args) {
+  argtype args2(args);
+  args2.insert({"load_coordinates", "false"});
+  add_stage(
+    std::make_shared<TrialSelectParticle>(args2),
+    std::make_shared<PerturbRemove>(),
+    args
+  );
+  set(std::make_shared<TrialComputeRemove>());
+  class_name_ = "TrialRemove";
+}
+
 class MapTrialRemove {
  public:
   MapTrialRemove() {

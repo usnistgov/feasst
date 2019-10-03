@@ -28,7 +28,7 @@ Stepper::Stepper(const argtype &args) {
 bool Stepper::is_time(const int steps_per, int * steps_since) {
   if (steps_per > 0) {
     ++(*steps_since);
-    if (*steps_since == steps_per) {
+    if (*steps_since >= steps_per) {
       *steps_since = 0;
       return true;
     } else {

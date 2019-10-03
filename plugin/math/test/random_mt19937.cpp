@@ -80,11 +80,24 @@ TEST(Random, serialize) {
   //seed_random(234652347);
 //  RandomMT19937 random;
 //  std::shared_ptr<Random> random2 = test_serialize(random);
-  RandomMT19937 random, random2 = test_serialize(random);
+  RandomMT19937 random;
+  random.set_cache_to_load(true);
+  RandomMT19937 random2 = test_serialize(random);
   // EXPECT_NEAR(0.99971855963527156, random.uniform(), 1e-6);
   const double next = random.uniform();
   // EXPECT_NEAR(0.80124978724913187, next, 1e-6);
   EXPECT_EQ(next, random2.uniform());
+  RandomMT19937 random3;
+  random3.set_cache_to_unload(random2);
+  EXPECT_EQ(next, random3.uniform());
+  random3.set_cache_to_load(false);
+  EXPECT_NE(random.uniform(), random3.uniform());
+  try {
+    random3.set_cache_to_unload(random2);
+    random3.uniform();
+    random3.uniform();
+    CATCH_PHRASE("can not unload if nothing stored");
+  }
 }
 
 }  // namespace feasst

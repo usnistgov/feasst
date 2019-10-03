@@ -143,20 +143,31 @@ void Select::add_particle(const int particle_index, std::vector<int> site_indice
   }
 }
 
-bool Select::is_equivalent(const Select& select) {
-  bool equal = true;
+bool Select::is_equal(const Select& select) const {
   if (particle_indices_ != select.particle_indices()) {
-    equal = false;
+    DEBUG("particle indices are not equivalent: " <<
+      feasst_str(particle_indices_) <<
+      feasst_str(select.particle_indices()));
+    return false;
   }
   if (site_indices_ != select.site_indices()) {
-    equal = false;
+    DEBUG("site indices are not equivalent: " <<
+      feasst_str(site_indices_) <<
+      feasst_str(select.site_indices()));
+    return false;
   }
-  return equal;
+  return true;
 }
 
 void Select::remove_last_site() {
   ASSERT(site_indices_.size() == 1, "assumes 1 particle");
   site_indices_[0].pop_back();
+}
+
+void Select::remove_last_sites(const int num) {
+  for (int index = 0; index < num; ++index) {
+    remove_last_site();
+  }
 }
 
 void Select::remove_first_site() {
@@ -173,8 +184,59 @@ bool Select::is_overlap(const Select& select) const {
   return false;
 }
 
+void Select::remove_first_sites(const int num) {
+  for (int index = 0; index < num; ++index) {
+    remove_first_site();
+  }
+}
+
+void Select::exclude(const Select& select) {
+  if (select.num_sites() > 0) {
+    excluded_ = std::make_shared<Select>();
+    excluded_->add(select);
+  }
+}
+
+void Select::set_new_bond(const Select& select) {
+  if (select.num_sites() > 0) {
+    new_bond_ = std::make_shared<Select>();
+    new_bond_->add(select);
+  }
+}
+
+void Select::set_old_bond(const Select& select) {
+  if (select.num_sites() > 0) {
+    old_bond_ = std::make_shared<Select>();
+    old_bond_->add(select);
+  }
+}
+
+void Select::reset_excluded_and_bond() {
+  excluded_.reset();
+  new_bond_.reset();
+  old_bond_.reset();
+}
+
+bool Select::replace_indices(const int particle_index,
+    const std::vector<int>& site_indices) {
+  if (static_cast<int>(particle_indices_.size()) == 1 and
+      site_indices_.size() == site_indices.size()) {
+    particle_indices_[0] = particle_index;
+    site_indices_[0] = site_indices;
+    return true;
+  }
+  clear();
+  add_particle(particle_index, site_indices);
+  return false;
+}
+
+void Select::remove_particle_(const int select_index) {
+  particle_indices_.erase(particle_indices_.begin() + select_index);
+  site_indices_.erase(site_indices_.begin() + select_index);
+}
+
 void Select::serialize(std::ostream& sstr) const {
-  feasst_serialize_version(1, sstr);
+  feasst_serialize_version(183, sstr);
   feasst_serialize(particle_indices_, sstr);
   feasst_serialize(site_indices_, sstr);
   feasst_serialize(trial_state_, sstr);
@@ -184,7 +246,8 @@ void Select::serialize(std::ostream& sstr) const {
 }
 
 Select::Select(std::istream& sstr) {
-  feasst_deserialize_version(sstr);
+  const int version = feasst_deserialize_version(sstr);
+  ASSERT(version == 183, "version mismatch: " << version);
   feasst_deserialize(&particle_indices_, sstr);
   feasst_deserialize(&site_indices_, sstr);
   feasst_deserialize(&trial_state_, sstr);

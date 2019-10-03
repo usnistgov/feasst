@@ -16,7 +16,7 @@ namespace feasst {
  */
 class Bond : public PropertiedEntity, public TypedEntity {
  public:
-  Bond() { set_name("bond"); }
+  Bond() { class_name_ = "Bond"; }
 
   /// Return the indices of the sites involved in the bond within a particle.
   std::vector<int> site_indices() const { return site_indicies_; }
@@ -30,36 +30,34 @@ class Bond : public PropertiedEntity, public TypedEntity {
   /// Add site index.
   void add_site_index(const int index) { site_indicies_.push_back(index); }
 
-  /// Return the name fo the bond.
-  std::string name() { return name_; }
-
-  /// Set the name of the bond.
-  void set_name(const std::string name) { name_ = name; }
+  std::string class_name() { return class_name_; }
 
   void serialize(std::ostream& ostr) const;
   Bond(std::istream& istr);
   virtual ~Bond() {}
 
+ protected:
+  std::string class_name_;
+
  private:
-  std::string name_;
   std::vector<int> site_indicies_;
 };
 
 class Angle : public Bond {
  public:
-  Angle() { set_name("angle"); }
+  Angle() { class_name_ = "Angle"; }
   Angle(std::istream& istr) : Bond(istr) {}
 };
 
 class Dihedral : public Bond {
  public:
-  Dihedral() { set_name("dihedral"); }
+  Dihedral() { class_name_ = "Dihedral"; }
   Dihedral(std::istream& istr) : Bond(istr) {}
 };
 
 class Improper : public Bond {
  public:
-  Improper() { set_name("improper"); }
+  Improper() { class_name_ = "Improper"; }
   Improper(std::istream& istr) : Bond(istr) {}
 };
 

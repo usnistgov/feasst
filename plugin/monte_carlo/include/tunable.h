@@ -52,6 +52,9 @@ class Tunable {
   /// the target.
   void tune(const double actual);
 
+  // Check if approximately equal to given tunable.
+  bool is_equal(const Tunable& tunable) const;
+
   /// Serialize.
   void serialize(std::ostream& ostr) const;
 

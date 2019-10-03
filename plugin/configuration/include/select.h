@@ -12,7 +12,7 @@ namespace feasst {
 
 /**
   Select a subset of particles and sites by storing their respective indices.
-  HWH Note: all input lists of indices are assumed to be sorted!
+  For optimization, all input lists of indices are assumed to be sorted.
  */
 class Select {
  public:
@@ -34,14 +34,14 @@ class Select {
   virtual void add_site(const int particle_index, const int site_index);
 
   /// Set site by index
-  void set_site(const int particle_index, const int site_index, const int index) {
-    site_indices_[particle_index][site_index] = index;
-  }
+  void set_site(const int particle_index,
+      const int site_index,
+      const int index) {
+    site_indices_[particle_index][site_index] = index; }
 
   /// Set particle by index
   void set_particle(const int particle_index, const int index) {
-    particle_indices_[particle_index] = index;
-  }
+    particle_indices_[particle_index] = index; }
 
   /// Add sites by index.
   void add_sites(const int particle_index,
@@ -70,21 +70,13 @@ class Select {
   virtual void remove_last_site();
 
   /// Remove the last num sites.
-  void remove_last_sites(const int num) {
-    for (int index = 0; index < num; ++index) {
-      remove_last_site();
-    }
-  }
+  void remove_last_sites(const int num);
 
   /// Remove the first site.
   virtual void remove_first_site();
 
   /// Remove the first num sites.
-  void remove_first_sites(const int num) {
-    for (int index = 0; index < num; ++index) {
-      remove_first_site();
-    }
-  }
+  void remove_first_sites(const int num);
 
   /// Remove particle by index.
   void remove_particle(const int particle_index);
@@ -110,7 +102,8 @@ class Select {
   const std::vector<int>& particle_indices() const { return particle_indices_; }
 
   /// Return the site indices.
-  const std::vector<std::vector<int> >& site_indices() const { return site_indices_; }
+  const std::vector<std::vector<int> >& site_indices() const {
+    return site_indices_; }
 
   /// Return the site indices of particle
   const std::vector<int>& site_indices(const int particle_index) const {
@@ -118,8 +111,7 @@ class Select {
   }
 
   int site_index(const int particle_index, const int site_index) const {
-    return site_indices_[particle_index][site_index];
-  }
+    return site_indices_[particle_index][site_index]; }
 
   // Return the particle index given selection index.
   int particle_index(const int index) const { return particle_indices_[index]; }
@@ -128,7 +120,7 @@ class Select {
   void check() const;
 
   /// Return true if the selections are equivalent.
-  bool is_equivalent(const Select& select);
+  bool is_equal(const Select& select) const;
 
   /// Possible states:
   /// 0 -> old -> configuration unchanged from previously accepted state
@@ -144,74 +136,31 @@ class Select {
 //    feasst_reverse(&site_indices_);
 //  }
 
-  void exclude(const Select& select) {
-    if (select.num_sites() > 0) {
-      excluded_ = std::make_shared<Select>();
-      excluded_->add(select);
-    }
-  }
+  /// Excluded site list.
+  void exclude(const Select& select);
 
+  /// Return excluded list.
   const std::shared_ptr<Select> excluded() const { return excluded_; }
 
-  void set_new_bond(const Select& select) {
-    if (select.num_sites() > 0) {
-      new_bond_ = std::make_shared<Select>();
-      new_bond_->add(select);
-    }
-  }
+  /// Sites to become bonded.
+  void set_new_bond(const Select& select);
+
+  /// Return sites to become bonded.
   const std::shared_ptr<Select> new_bond() const { return new_bond_; }
 
-  void set_old_bond(const Select& select) {
-    if (select.num_sites() > 0) {
-      old_bond_ = std::make_shared<Select>();
-      old_bond_->add(select);
-    }
-  }
+  /// Sites which are bonded.
+  void set_old_bond(const Select& select);
 
+  /// Return sites which are bonded.
   const std::shared_ptr<Select> old_bond() const { return old_bond_; }
 
-  void reset_excluded_and_bond() {
-    excluded_.reset();
-    new_bond_.reset();
-    old_bond_.reset();
-  }
+  /// Reset excluded and bonded sites.
+  void reset_excluded_and_bond();
 
   /// Replace current indices with those given. Return true if replace is done
   /// quickly due to match in existing size.
-  bool replace_indices(const int particle_index, const std::vector<int>& site_indices) {
-    if (static_cast<int>(particle_indices_.size()) == 1 and
-        site_indices_.size() == site_indices.size()) {
-      particle_indices_[0] = particle_index;
-      site_indices_[0] = site_indices;
-      return true;
-    }
-    clear();
-    add_particle(particle_index, site_indices);
-    return false;
-  }
-
-//  /// Exchange current site and particle indices with those in select.
-//  /// Return false if there is a mismatch in size, resulting in failed exchange.
-//  /// Otherwise, return true.
-//  bool exchange_indices(const Select& select) {
-//    if (particle_indices_.size() != select.particle_indices().size()) {
-//      return false;
-//    } else {
-//      for (int ipart = 0; ipart < static_cast<int>(site_indices_.size()); ++ipart) {
-//        particle_indices_[ipart] = select.particle_indices()[ipart];
-//        std::vector<int> * sites = &site_indices_[ipart];
-//        const std::vector<int>& sel_sites = select.site_indices_[ipart];
-//        if (sites->size() != sel_sites.size()) {
-//          return false;
-//        } else {
-//          for (int isite = 0; isite < static_cast<int>(sites->size()); ++isite) {
-//            (*sites)[isite] = sel_sites[isite];
-//          }
-//        }
-//      }
-//    }
-//    return true;
-//  }
+  bool replace_indices(const int particle_index,
+    const std::vector<int>& site_indices);
 
   /// Return true if the selection contains a particle in self.
   bool is_overlap(const Select& select) const;
@@ -229,10 +178,7 @@ class Select {
   std::shared_ptr<Select> old_bond_;
 
   // remove particle by selection index.
-  void remove_particle_(const int select_index) {
-    particle_indices_.erase(particle_indices_.begin() + select_index);
-    site_indices_.erase(site_indices_.begin() + select_index);
-  }
+  void remove_particle_(const int select_index);
 };
 
 /**

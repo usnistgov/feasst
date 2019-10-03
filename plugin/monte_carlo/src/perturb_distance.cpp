@@ -3,6 +3,11 @@
 
 namespace feasst {
 
+PerturbDistance::PerturbDistance(const argtype& args) : PerturbMove(args) {
+  class_name_ = "PerturbDistance";
+  disable_tunable_();
+}
+
 class MapPerturbDistance {
  public:
   MapPerturbDistance() {

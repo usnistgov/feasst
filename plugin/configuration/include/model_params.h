@@ -40,10 +40,9 @@ class ModelParam {
   void mix();
 
   /// Set the mixed value of the site types.
-  void set_mixed(const int site_type1, const int site_type2, const double value) {
-    mixed_values_[site_type1][site_type2] = value;
-    is_mixed_override_ = true;
-  }
+  void set_mixed(const int site_type1,
+    const int site_type2,
+    const double value);
 
   /// Return the value.
   double value(const int type) const;
@@ -58,8 +57,7 @@ class ModelParam {
 
   /// Return the mixed values.
   const std::vector<std::vector<double> >& mixed_values() const {
-    return mixed_values_;
-  }
+    return mixed_values_; }
 
   /// Return the number of values.
   int size() const { return static_cast<int>(values_.size()); }

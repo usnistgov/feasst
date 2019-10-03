@@ -2,6 +2,14 @@
 
 namespace feasst {
 
+TrialSelectAngle::TrialSelectAngle(const argtype& args)
+  : TrialSelectBond(args) {
+  class_name_ = "TrialSelectAngle";
+  Arguments args_(args);
+  args_.dont_check();
+  anchor_site2_ = args_.key("anchor_site2").integer();
+}
+
 class MapTrialSelectAngle {
  public:
   MapTrialSelectAngle() {

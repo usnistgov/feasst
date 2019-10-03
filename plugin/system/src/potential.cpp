@@ -39,23 +39,29 @@ const ModelParams& Potential::model_params() const {
 
 double Potential::energy(Configuration * config) {
   ASSERT(visit_model_, "visitor must be set.");
-  if (model_params_override_) {
-    stored_energy_ = model_->compute(model_params_, group_index_, config,
-                                     visit_model_.get());
-  } else {
-    stored_energy_ = model_->compute(group_index_, config, visit_model_.get());
+  if (!cache_.is_unloading(&stored_energy_)) {
+    if (model_params_override_) {
+      stored_energy_ = model_->compute(model_params_, group_index_, config,
+                                       visit_model_.get());
+    } else {
+      stored_energy_ = model_->compute(group_index_, config, visit_model_.get());
+    }
+    cache_.load(stored_energy_);
   }
   return stored_energy_;
 }
 
 double Potential::energy(const Select& select, Configuration * config) {
   ASSERT(visit_model_, "visitor must be set.");
-  if (model_params_override_) {
-    stored_energy_ = model_->compute(model_params_, select, group_index_,
-                                     config, visit_model_.get());
-  } else {
-    stored_energy_ = model_->compute(select, group_index_, config,
-                                     visit_model_.get());
+  if (!cache_.is_unloading(&stored_energy_)) {
+    if (model_params_override_) {
+      stored_energy_ = model_->compute(model_params_, select, group_index_,
+                                       config, visit_model_.get());
+    } else {
+      stored_energy_ = model_->compute(select, group_index_, config,
+                                       visit_model_.get());
+    }
+    cache_.load(stored_energy_);
   }
   return stored_energy_;
 }
@@ -70,6 +76,7 @@ void Potential::serialize(std::ostream& ostr) const {
   if (model_params_override_) {
     feasst_serialize_fstobj(model_params_, ostr);
   }
+  feasst_serialize_fstobj(cache_, ostr);
 }
 
 Potential::Potential(std::istream& istr) {
@@ -97,6 +104,7 @@ Potential::Potential(std::istream& istr) {
   if (model_params_override_) {
     feasst_deserialize_fstobj(&model_params_, istr);
   }
+  feasst_deserialize_fstobj(&cache_, istr);
 }
 
 }  // namespace feasst

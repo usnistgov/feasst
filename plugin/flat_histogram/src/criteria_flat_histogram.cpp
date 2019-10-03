@@ -68,8 +68,8 @@ std::string CriteriaFlatHistogram::write() const {
   return ss.str();
 }
 
-void CriteriaFlatHistogram::revert() {
-  Criteria::revert();
+void CriteriaFlatHistogram::revert(const bool accepted) {
+  Criteria::revert(accepted);
   bias_->revert(macrostate_new_, macrostate_old_);
   macrostate_new_ = macrostate_old_;
 }

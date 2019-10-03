@@ -47,7 +47,7 @@ void ParticleFactory::check_types(int * num_site_types,
   site_type.set_width_center(1, 0);
   Histogram particle_type(site_type);
   for (const Particle particle : particles_) {
-    DEBUG("particle type " << particle.type());
+    TRACE("particle type " << particle.type());
     particle_type.add(particle.type());
     for (const Site site : particle.sites()) {
       site_type.add(site.type());

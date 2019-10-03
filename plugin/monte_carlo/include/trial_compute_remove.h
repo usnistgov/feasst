@@ -14,9 +14,7 @@ namespace feasst {
 
 class TrialComputeRemove : public TrialCompute {
  public:
-  TrialComputeRemove() {
-    class_name_ = "TrialComputeRemove";
-  }
+  TrialComputeRemove();
 
   void perturb_and_acceptance(
       Criteria * criteria,

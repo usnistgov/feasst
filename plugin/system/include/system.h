@@ -117,6 +117,12 @@ class System {
   /// Revert changes due to perturbations.
   void revert() { unoptimized_.revert(); }
 
+  /// Set cache to load energy calculations.
+  void load_cache(const bool load);
+
+  /// Set cache to unload energy calclatuions.
+  void unload_cache(const System& system);
+
   /// Serialize
   void serialize(std::ostream& sstr) const;
 

@@ -2,6 +2,8 @@
 
 namespace feasst {
 
+TrialFactory::TrialFactory() { class_name_ = "TrialFactory"; }
+
 class MapTrialFactory {
  public:
   MapTrialFactory() {

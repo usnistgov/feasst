@@ -3,6 +3,11 @@
 
 namespace feasst {
 
+PerturbAdd::PerturbAdd(const argtype& args) : Perturb(args) {
+  class_name_ = "PerturbAdd";
+  disable_tunable_();
+}
+
 class MapPerturbAdd {
  public:
   MapPerturbAdd() {

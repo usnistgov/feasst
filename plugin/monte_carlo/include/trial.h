@@ -89,7 +89,7 @@ class Trial {
   int64_t num_success() const { return num_success_; }
 
   /// Number of attempts.
-  virtual int64_t num_attempts() const { return num_attempts_; }
+  int64_t num_attempts() const { return num_attempts_; }
 
   /// Increment the number of attempts for acceptance.
   void increment_num_attempts() { ++num_attempts_; }
@@ -130,11 +130,23 @@ class Trial {
   // Revert changes to system as if trial was never attempted.
   void revert(const int index, const bool accepted, System * system);
 
+  // Finalize all stages in reverse order.
+  void finalize(System * system);
+
+  // Require manual finalization of trials (e.g., Pipeline).
+  void set_finalize_delayed(const bool delayed = false) {
+    is_finalize_delayed_ = delayed; }
+
   /// Attempt a trial. Return true if accepted.
   virtual bool attempt(Criteria * criteria, System * system, Random * random);
 
+  /* Checks and hacky additions */
+
   // Return Acceptance, which is a temporary object.
   const Acceptance& accept() const { return acceptance_; }
+
+  // Check if approximately equal to given trial.
+  bool is_equal(const Trial& trial) const;
 
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
@@ -161,6 +173,7 @@ class Trial {
   std::shared_ptr<TrialCompute> compute_;
   double weight_ = 1.;
   int64_t num_attempts_ = 0, num_success_ = 0;
+  bool is_finalize_delayed_;
 
   // temporary or duplicate
   Acceptance acceptance_;

@@ -54,7 +54,7 @@ class CriteriaFlatHistogram : public Criteria {
   int num_states() const override { return macrostate_->histogram().size(); }
 
   /// Revert changes from previous trial.
-  void revert() override;
+  void revert(const bool accepted) override;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<CriteriaFlatHistogram>(istr); }

@@ -10,10 +10,7 @@ namespace feasst {
 ///  j, and at an angle i,j,k (vertex: j) about the second site in anchor, j.
 class PerturbDistanceAngle : public PerturbDistance {
  public:
-  PerturbDistanceAngle(const argtype& args = argtype())
-    : PerturbDistance(args) {
-    class_name_ = "PerturbDistanceAngle";
-  }
+  PerturbDistanceAngle(const argtype& args = argtype());
 
   void precompute(TrialSelect * select, System * system) override {
     PerturbDistance::precompute(select, system);
@@ -63,7 +60,7 @@ class PerturbDistanceAngle : public PerturbDistance {
   virtual ~PerturbDistanceAngle() {}
 
  private:
-  double angle_;
+  double angle_ = 0.;
 
   // temporary
   Position rjk_;

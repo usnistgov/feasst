@@ -61,8 +61,8 @@ class TrialStage {
   /// Set the perturbation.
   void set(std::shared_ptr<Perturb> perturb) { perturb_ = perturb; }
 
-//  /// Return the above.
-//  const Perturb * perturb() const { return perturb_.get(); }
+  /// Return the above.
+  const Perturb * perturb() const { return perturb_.get(); }
 
   /// Set mobile selection physical.
   void set_mobile_physical(const bool physical, System * system);
@@ -108,10 +108,8 @@ class TrialStage {
   int reference_ = -1;
   std::shared_ptr<Perturb> perturb_;
   std::shared_ptr<TrialSelect> select_;
-  bool is_mayer_;
-
-  // temporary
   Rosenbluth rosenbluth_;
+  bool is_mayer_;
 };
 
 }  // namespace feasst

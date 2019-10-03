@@ -3,12 +3,14 @@
 #define FEASST_MATH_RANDOM_H_
 
 #include <vector>
+#include <deque>
 #include <random>
 #include <string>
 #include <memory>
-#include "math/include/position.h"
 #include "utils/include/debug.h"
+#include "utils/include/cache.h"
 #include "utils/include/utils_io.h"
+#include "math/include/position.h"
 #include "math/include/constants.h"
 #include "math/include/matrix.h"
 
@@ -20,18 +22,21 @@ namespace feasst {
 
   1. seed_random_by_date()
   2. seed_random(seed)
+
+  Note that all other Random distributions depend upon the uniform distribution,
+  such that reproduction by storage is simplified.
  */
 class Random {
  public:
-  Random() {}
+  Random();
 
   /// Return a random real number with a uniform probability distribution
   /// between 0 and 1.
-  virtual double uniform() = 0;
+  double uniform();
 
   /// Return a random integer with a uniform probability distribution
   /// betwee min and max.
-  virtual int uniform(const int min, const int max) = 0;
+  int uniform(const int min, const int max);
 
   /// Randomly return true or false
   bool coin_flip();
@@ -105,7 +110,18 @@ class Random {
     /// maximum angle of rotation in degrees.
     const double max_angle = 180);
 
+  /// Return the cache.
+  const Cache& cache() const { return cache_; }
+
+  /// Set Cache to load.
+  void set_cache_to_load(const bool load) { cache_.set_load(load); }
+
+  /// Set Cache to unload.
+  void set_cache_to_unload(const Random& random) {
+    cache_.set_unload(random.cache()); }
+
   /// Serialize.
+  std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const = 0;
   virtual std::shared_ptr<Random> create(std::istream& istr) const = 0;
   std::map<std::string, std::shared_ptr<Random> >& deserialize_map();
@@ -113,10 +129,16 @@ class Random {
   virtual ~Random() {}
 
  protected:
+  std::string class_name_ = "Random";
+  void serialize_random_(std::ostream& ostr) const;
   Random(std::istream& istr);
 
  private:
+  Cache cache_;
+
   virtual void reseed_() = 0;
+  virtual double gen_uniform_() = 0;
+  virtual int gen_uniform_(const int min, const int max) = 0;
 };
 
 /// Initialize random number generator based on date and time.

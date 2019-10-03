@@ -22,12 +22,7 @@ class TrialSelectAngle : public TrialSelectBond {
     /**
       anchor_site2 : index of second anchor site.
      */
-    const argtype& args = argtype()) : TrialSelectBond(args) {
-    class_name_ = "TrialSelectAngle";
-    Arguments args_(args);
-    args_.dont_check();
-    anchor_site2_ = args_.key("anchor_site2").integer();
-  }
+    const argtype& args = argtype());
 
   // angle theta0 is added as a property
   // anchor is sized

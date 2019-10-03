@@ -5,6 +5,28 @@
 
 namespace feasst {
 
+Random::Random() {}
+
+double Random::uniform() {
+  double ran;
+  if (!cache_.is_unloading(&ran)) {
+    ran = gen_uniform_();
+    cache_.load(ran);
+  }
+  DEBUG("ran: " << ran);
+  return ran;
+}
+
+int Random::uniform(const int min, const int max) {
+  ASSERT(max >= min, "max:" << max << " must be > min:" << min);
+  return int(uniform() * (max - min + 1)) + min;
+}
+
+void Random::serialize_random_(std::ostream& ostr) const {
+  feasst_serialize_version(979, ostr);
+  feasst_serialize_fstobj(cache_, ostr);
+}
+
 std::map<std::string, std::shared_ptr<Random> >& Random::deserialize_map() {
   static std::map<std::string, std::shared_ptr<Random> >* ans =
      new std::map<std::string, std::shared_ptr<Random> >();
@@ -19,9 +41,10 @@ std::shared_ptr<Random> Random::deserialize(std::istream& istr) {
 }
 
 Random::Random(std::istream& istr) {
-  std::string class_name;
-  istr >> class_name;
-  ASSERT(!class_name.empty(), "mismatch");
+  istr >> class_name_;
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 979, "mismatch version: " << version);
+  feasst_deserialize_fstobj(&cache_, istr);
 }
 
 void seed_random_by_date() {

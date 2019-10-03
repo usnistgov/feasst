@@ -3,6 +3,11 @@
 
 namespace feasst {
 
+PerturbDistanceAngle::PerturbDistanceAngle(const argtype& args)
+  : PerturbDistance(args) {
+  class_name_ = "PerturbDistanceAngle";
+}
+
 class MapPerturbDistanceAngle {
  public:
   MapPerturbDistanceAngle() {

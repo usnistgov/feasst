@@ -9,7 +9,9 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
-#include <omp.h>
+#ifdef _OPENMP
+  #include <omp.h>
+#endif // _OPENMP
 #include "utils/include/custom_exception.h"
 
 namespace feasst {
@@ -37,6 +39,8 @@ namespace feasst {
   If the printout is more than once every trial (e.g., inside the visitor loop
   for a model) then use TRACE instead.
 */
+// HWH update verbose levels: per trial, per energy calc, per interaction
+// HWH also verbosity levels for each plugin and classes.
 constexpr int VERBOSE_LEVEL = 3;
 
 /// Used to output maximum precision to screen

@@ -35,7 +35,7 @@ TEST(SelectList, group) {
   Select sel2 = selp->random_particle(&random);
   // HWH DEBUG why cant the following work?
   // sel2 = select.random_particle();
-  EXPECT_FALSE(select.is_equivalent(sel2));
+  EXPECT_FALSE(select.is_equal(sel2));
   EXPECT_FALSE(select.str().empty());
   EXPECT_EQ(1, sel2.num_sites());
   EXPECT_EQ(0, sel2.site_indices(0)[0]);

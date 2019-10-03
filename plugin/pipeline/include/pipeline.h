@@ -11,7 +11,7 @@ namespace feasst {
 class Pool {
  public:
   void set_index(const int index) {
-    INFO("index " << index);
+    DEBUG("index " << index);
     index_ = index; }
   int index() const { return index_; }
   void set_ln_prob(const double ln_prob) { ln_prob_ = ln_prob; }
@@ -25,28 +25,32 @@ class Pool {
     return ss.str();
   }
 
-  private:
-   int index_;
-   double ln_prob_;
-   bool accepted_;
+  MonteCarlo mc;
+
+ private:
+  int index_;
+  double ln_prob_;
+  bool accepted_;
 };
 
 /**
-  A trial attempt farms trials to processors then reconstructs the serial
-  Markov chain.
+  Farm a trial to each processor, then reconstruct the serial Markov chain.
  */
 class Pipeline : public MonteCarlo {
  public:
-  Pipeline() {}
-//    set_num_pool();
-//  }
+  Pipeline() {
+    activate_pipeline();
+  }
 
-  /// Set number of trials in pool. If -1, set to number of threads.
-//  void set_num_pool(const int num = -1) { num_pool_ = num; }
+  void activate_pipeline(const bool active = true) { is_activated_ = active; }
 
+  void serialize(std::ostream& ostr) const override { ERROR("not implemented"); }
   Pipeline(std::istream& istr) : MonteCarlo(istr) {}
 
   virtual ~Pipeline() {}
+
+ protected:
+  void attempt_(const int num_trials, TrialFactory * trial_factory, Random * random) override;
 
  private:
   // void distribute_for_();
@@ -56,20 +60,11 @@ class Pipeline : public MonteCarlo {
   // https://cvw.cac.cornell.edu/OpenMP/whileloop
 //  void distribute_while_();
 
-  std::vector<MonteCarlo> clones_;
-//  int num_pool_;
   int num_threads_;
+  bool is_activated_ = true;
+  int steps_per_check_ = 1e4;
 
-  std::vector<Pool> trial_pool_;
-
-  void attempt_(
-      System * system,
-      Criteria * criteria,
-      TrialFactory * trial_factory,
-      AnalyzeFactory * analyze_factory,
-      ModifyFactory * modify_factory,
-      Checkpoint * checkpoint,
-      Random * random) override;
+  std::vector<Pool> pool_;
 
   // Pick a clone based on jthread. If i==j, use this object instead.
   MonteCarlo * clone_(const int ithread, const int jthread);

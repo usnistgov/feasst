@@ -11,7 +11,6 @@ TEST(Tunable, serialize) {
 //  Tunable tunable2(ss);
 //  tunable2.serialize(ss2);
 //  INFO(ss2.str());
-
   test_serialize(tunable);
 }
 

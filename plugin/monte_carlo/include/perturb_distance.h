@@ -11,11 +11,7 @@ namespace feasst {
 ///      for higher acceptance probability
 class PerturbDistance : public PerturbMove {
  public:
-  PerturbDistance(const argtype& args = argtype())
-    : PerturbMove(args) {
-    class_name_ = "PerturbDistance";
-    disable_tunable_();
-  }
+  PerturbDistance(const argtype& args = argtype());
 
   void precompute(TrialSelect * select, System * system) override {
     // determine the bond length

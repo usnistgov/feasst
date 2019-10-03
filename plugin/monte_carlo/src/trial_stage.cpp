@@ -82,6 +82,7 @@ void TrialStage::serialize(std::ostream& ostr) const {
   feasst_serialize(reference_, ostr);
   feasst_serialize_fstdr(perturb_, ostr);
   feasst_serialize_fstdr(select_, ostr);
+  feasst_serialize_fstobj(rosenbluth_, ostr);
   feasst_serialize(is_mayer_, ostr);
 }
 
@@ -105,6 +106,7 @@ TrialStage::TrialStage(std::istream& istr) {
       select_ = select_->deserialize(istr);
     }
   }
+  feasst_deserialize_fstobj(&rosenbluth_, istr);
   feasst_deserialize(&is_mayer_, istr);
 }
 

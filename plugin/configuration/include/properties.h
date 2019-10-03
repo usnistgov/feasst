@@ -74,26 +74,22 @@ class PropertiedEntity {
 
   /// Add a new property.
   virtual void add_property(const std::string name, const double value) {
-    properties_.add(name, value);
-  }
+    properties_.add(name, value); }
 
   /// Add a property, or set its value if name already exists.
   void add_or_set_property(const std::string name, const double value) {
-    properties_.add_or_set(name, value);
-  }
+    properties_.add_or_set(name, value); }
 
   /// Set the value of an existing property.
   void set_property(const std::string name, const double value) {
-    properties_.set(name, value);
-  }
+    properties_.set(name, value); }
 
   /// Return properties.
   const Properties& properties() const { return properties_; }
 
   /// Return the property value by name.
   double property(const std::string name) const {
-    return properties_.value(name);
-  }
+    return properties_.value(name); }
 
   /// Return true if entity has property of name.
   bool has_property(const std::string name) const {

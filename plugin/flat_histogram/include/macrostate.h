@@ -30,6 +30,7 @@ class Macrostate {
     // soft limits
     Arguments args_(args);
     is_soft_bound_ = false;
+    soft_min_ = soft_max_ = 0.;
     if (args_.key("soft_max").used()) {
       is_soft_bound_ = true;
       soft_max_ = args_.integer();

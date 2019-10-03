@@ -8,11 +8,13 @@
 namespace feasst {
 
 /**
-  Store the energies and Rosenbluth factories necessary for configurational
+  Store the energies and Rosenbluth factors necessary for configurational
   bias Monte Carlo trials.
  */
 class Rosenbluth {
  public:
+  Rosenbluth() {}
+
   /// Resize the energy, Boltmann factors by the number of steps in the trial.
   void resize(const int num) {
     energy_.resize(num);
@@ -82,13 +84,34 @@ class Rosenbluth {
   /// Return the chosen step
   int chosen_step() const { return chosen_step_; }
 
+  /// Serialize.
+  void serialize(std::ostream& ostr) const {
+    feasst_serialize_version(507, ostr);
+    feasst_serialize(energy_, ostr);
+    feasst_serialize(boltzman_, ostr);
+    feasst_serialize(cumulative_, ostr);
+    feasst_serialize_fstobj(stored_, ostr);
+  }
+
+  /// Deserialize
+  Rosenbluth(std::istream& istr) {
+    const int version = feasst_deserialize_version(istr);
+    ASSERT(version == 507, "version: " << version);
+    feasst_deserialize(&energy_, istr);
+    feasst_deserialize(&boltzman_, istr);
+    feasst_deserialize(&cumulative_, istr);
+    feasst_deserialize_fstobj(&stored_, istr);
+  }
+
  private:
   std::vector<double> energy_;
   std::vector<double> boltzman_;
   std::vector<double> cumulative_;
   std::vector<SelectList> stored_;
+
+  // temporary
   double total_rosenbluth_;
-  int chosen_step_;
+  int chosen_step_ = -1;
 };
 
 }  // namespace feasst

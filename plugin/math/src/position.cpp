@@ -206,4 +206,9 @@ void Position::orthogonal(const Position& orthogonal) {
     " if the dot product of the two is: " << dot_product(orthogonal));
 }
 
+Position& Position::set_vector(const std::vector<double> &doubleVec) {
+  coord_ = doubleVec;
+  return *this;
+}
+
 }  // namespace feasst

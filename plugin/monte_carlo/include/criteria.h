@@ -180,7 +180,7 @@ class Criteria {
   int num_trial_states() const { return num_trial_states_; }
 
   /// Revert changes from previous trial.
-  virtual void revert() {current_energy_ = previous_energy_; }
+  virtual void revert(const bool accepted);
 
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Criteria> create(std::istream& istr) const;
@@ -197,8 +197,8 @@ class Criteria {
   double beta_;
   bool beta_initialized_ = false;
   std::vector<double> chemical_potentials_;
-  double current_energy_;
-  double previous_energy_;
+  double current_energy_ = 0.;
+  double previous_energy_ = 0.;
   int trial_state_;
   int num_trial_states_;
 };

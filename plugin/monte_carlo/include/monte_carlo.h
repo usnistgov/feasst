@@ -56,6 +56,9 @@ class MonteCarlo {
   /// Set the random number generator.
   void set(std::shared_ptr<Random> random) { random_ = random; }
 
+  /// Return the random number generator.
+  const Random * random() const { return random_.get(); }
+
   /// The first action with a Monte Carlo object is to set the Configuration.
   void add(const Configuration& config) {
     system_.add(config);
@@ -111,7 +114,7 @@ class MonteCarlo {
   void set(std::shared_ptr<Criteria> criteria) { add(criteria); }
 
   /// Once Criteria is set, it may be accessed on a read-only basis.
-  const Criteria * criteria() { return criteria_.get(); }
+  const Criteria * criteria() const { return criteria_.get(); }
 
   /// The remaining actions can be done in almost any order.
   /// Typically, one begins by adding trials.
@@ -177,38 +180,43 @@ class MonteCarlo {
   void add(const std::shared_ptr<Checkpoint> checkpoint) {
     checkpoint_ = checkpoint; }
 
-  /// Attempt one trial, with subsequent analysers and modifiers.
-  void attempt() {
+  void before_attempts_() {
     ASSERT(system_set_, "system must be set before attempting trials.");
     ASSERT(criteria_set_, "criteria must be set before attempting trials.");
-    attempt_(
-      &system_,
-      criteria_.get(),
-      &trial_factory_,
-      &analyze_factory_,
-      &modify_factory_,
-      checkpoint_.get(),
-      random_.get()
-    );
+  }
+
+  /// Attempt one trial, with subsequent analysers and modifiers.
+  void attempt() {
+//    before_attempts_();
+    attempt_(1, &trial_factory_, random_.get());
+    //timer_.start(timer_trial_);
+//    trial_factory_.attempt(criteria, system, random);
+//    after_trial_();
   }
 
   /// Attempt a number of Monte Carlo trials.
-  void attempt(const int num_trials) {
-    for (int trial = 0; trial < num_trials; ++trial) {
-      DEBUG("mc trial: " << trial);
-      attempt();
-    }
-  }
+  void attempt(const int num_trials) { attempt_(num_trials, &trial_factory_, random_.get()); }
 
   /// Attempt trial index without analyzers, modifiers or checkpoints.
-  bool attempt_trial(const int index, Random * random) {
-    return trial_factory_.attempt(criteria_.get(), &system_, index, random);
+  bool attempt_trial(const int index) {
+    return trial_factory_.attempt(criteria_.get(), &system_, index, random_.get());
   }
 
   /// Revert changes from previous trial.
   void revert(const int trial_index, const bool accepted) {
     trial_factory_.revert(trial_index, accepted, &system_);
-    criteria_->revert();
+    DEBUG("reverting " << criteria_->current_energy());
+    criteria_->revert(accepted);
+  }
+
+  /// Finalize changes from previous trial.
+  void finalize(const int trial_index) {
+    trial_factory_.finalize(trial_index, &system_);
+  }
+
+  // HWH hackish interface for pipeline
+  void delay_finalize() {
+    trial_factory_.delay_finalize();
   }
 
   /// Attempt Monte Carlo trials until Criteria returns completion.
@@ -223,6 +231,19 @@ class MonteCarlo {
     trial_factory_.mimic_trial_rejection(trial_index);
     // HWH add this for FH
     // criteria_->mimic_trial_rejection(ln_prob);
+  }
+
+  /// Load random numbers and energy calculations into cache.
+  void load_cache(const bool load) {
+    random_->set_cache_to_load(load);
+    system_.load_cache(load);
+  }
+
+  /// Unload random numbers and energy calculations from cache.
+  void unload_cache(const MonteCarlo& mc) {
+  //Random& random, const System& system) {
+    random_->set_cache_to_unload((*mc.random_));
+    system_.unload_cache(mc.system());
   }
 
 //  const Timer& timer() const { return timer_; }
@@ -244,14 +265,15 @@ class MonteCarlo {
     }
   }
 
-  void serialize(std::ostream& ostr) const {
-    feasst_serialize_version(1, ostr);
+  virtual void serialize(std::ostream& ostr) const {
+    feasst_serialize_version(529, ostr);
     feasst_serialize_fstobj(system_, ostr);
     feasst_serialize_fstdr(criteria_, ostr);
     feasst_serialize_fstobj(trial_factory_, ostr);
     feasst_serialize_fstobj(analyze_factory_, ostr);
     feasst_serialize_fstobj(modify_factory_, ostr);
     feasst_serialize(checkpoint_, ostr);
+    feasst_serialize_fstdr(random_, ostr);
     feasst_serialize(config_set_, ostr);
     feasst_serialize(potential_set_, ostr);
     feasst_serialize(system_set_, ostr);
@@ -259,7 +281,12 @@ class MonteCarlo {
   }
 
   MonteCarlo(std::istream& istr) {
-    feasst_deserialize_version(istr);
+    //INFO(istr.rdbuf());
+    //int tmp;
+    //istr >> tmp;
+    //INFO("tmp " << tmp);
+    const int version = feasst_deserialize_version(istr);
+    ASSERT(version == 529, "version: " << version);
     feasst_deserialize_fstobj(&system_, istr);
     // feasst_deserialize_fstdr(criteria_, istr);
     { // HWH for unknown reasons the above template function does not work
@@ -273,6 +300,14 @@ class MonteCarlo {
     feasst_deserialize_fstobj(&analyze_factory_, istr);
     feasst_deserialize_fstobj(&modify_factory_, istr);
     feasst_deserialize(checkpoint_, istr);
+    // HWH for unknown reasons, this function template does not work.
+    //feasst_deserialize_fstdr(random_, istr);
+    { int existing;
+      istr >> existing;
+      if (existing != 0) {
+        random_ = random_->deserialize(istr);
+      }
+    }
     feasst_deserialize(&config_set_, istr);
     feasst_deserialize(&potential_set_, istr);
     feasst_deserialize(&system_set_, istr);
@@ -280,6 +315,16 @@ class MonteCarlo {
   }
 
   virtual ~MonteCarlo() {}
+
+ protected:
+  virtual void attempt_(const int num_trials, TrialFactory * trial_factory, Random * random) {
+    before_attempts_();
+    for (int trial = 0; trial < num_trials; ++trial) {
+      DEBUG("mc trial: " << trial);
+      trial_factory->attempt(criteria_.get(), &system_, random_.get());
+      after_trial_();
+    }
+  }
 
  private:
   System system_;
@@ -293,19 +338,6 @@ class MonteCarlo {
 //  Timer timer_;
 //  int timer_other_, timer_trial_, timer_analyze_, timer_modify_;
 //  int timer_checkpoint_;
-
-  virtual void attempt_(
-      System * system,
-      Criteria * criteria,
-      TrialFactory * trial_factory,
-      AnalyzeFactory * analyze_factory,
-      ModifyFactory * modify_factory,
-      Checkpoint * checkpoint,
-      Random * random) {
-    //timer_.start(timer_trial_);
-    trial_factory->attempt(criteria, system, random);
-    after_trial_();
-  }
 
   bool config_set_ = false;
   bool potential_set_ = false;

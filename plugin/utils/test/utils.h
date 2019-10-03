@@ -13,12 +13,13 @@ T test_serialize(const T& object,
     bool compare = true) {
   std::stringstream ss, ss2;
   object.serialize(ss);
+  DEBUG(ss.str());
   if (!expected.empty()) {
     EXPECT_EQ(ss.str(), expected);
   }
   auto object2 = T(ss);
   object2.serialize(ss2);
-  // INFO(ss.str());
+  DEBUG(ss.str());
   if (compare) {
     EXPECT_EQ(ss.str(), ss2.str());
   }

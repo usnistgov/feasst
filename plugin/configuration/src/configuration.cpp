@@ -558,6 +558,36 @@ void Configuration::set_selection_physical(const Select& select,
   }
 }
 
+bool Configuration::is_equal(const Configuration& configuration) const {
+  // check particles/sites of non-ghosts.
+  if (!selection_of_all().is_equal(configuration.selection_of_all())) {
+    DEBUG("unequal selection");
+    return false;
+  }
+
+  // check position of first particle.
+  if (num_particles() > 0) {
+    for (int pindex = 0; pindex < num_particles(); ++pindex) {
+      const Particle p1 = particle(pindex);
+      const Particle p2 = configuration.particle(pindex);
+      if (!p1.position().is_equal(p2.position())) {
+        DEBUG("unequal positions: " << p1.position().str() << " "
+          << p2.position().str());
+        return false;
+      }
+      for (int is = 0; is < p1.num_sites(); ++is) {
+        if (!p1.site(is).position().is_equal(p2.site(is).position())) {
+          DEBUG("unequal site" << is << " positions: "
+            << p1.site(is).position().str() << " "
+            << p2.site(is).position().str());
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+}
+
 void Configuration::serialize(std::ostream& ostr) const {
   feasst_serialize_version(1, ostr);
   particle_types_.serialize(ostr);
@@ -565,7 +595,6 @@ void Configuration::serialize(std::ostream& ostr) const {
   particles_.serialize(ostr);
   domain_.serialize(ostr);
   feasst_serialize_fstobj(group_selects_, ostr);
-//  feasst_serialize(unique_indices_, ostr);
   feasst_serialize(group_store_particle_type_, ostr);
   feasst_serialize(group_store_group_index_, ostr);
   feasst_serialize_fstobj(ghosts_, ostr);
@@ -580,7 +609,6 @@ Configuration::Configuration(std::istream& istr) {
   particles_ = ParticleFactory(istr);
   domain_ = Domain(istr);
   feasst_deserialize_fstobj(&group_selects_, istr);
-//  feasst_deserialize(&unique_indices_, istr);
   feasst_deserialize(&group_store_particle_type_, istr);
   feasst_deserialize(&group_store_group_index_, istr);
   feasst_deserialize_fstobj(&ghosts_, istr);

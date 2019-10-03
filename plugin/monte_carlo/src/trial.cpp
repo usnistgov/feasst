@@ -7,8 +7,9 @@ namespace feasst {
 Trial::Trial(const argtype& args) {
   Arguments args_(args);
   args_.dont_check();
-  weight_ = args_.key("weight").dflt("1").dble();
   set_mayer();
+  set_finalize_delayed();
+  weight_ = args_.key("weight").dflt("1").dble();
 }
 
 void Trial::add_stage(
@@ -27,6 +28,7 @@ void Trial::set(const int index, std::shared_ptr<TrialStage> stage) {
 }
 
 void Trial::reset_stats() {
+  DEBUG("reset_stats");
   num_attempts_ = 0;
   num_success_ = 0;
 }
@@ -50,8 +52,10 @@ std::string Trial::status() const {
 }
 
 void Trial::tune() {
-  for (auto stage : stages_) stage->tune(acceptance());
-  reset_stats();
+  if (num_attempts_ > 0) {
+    for (auto stage : stages_) stage->tune(acceptance());
+    reset_stats();
+  }
 }
 
 void Trial::precompute(Criteria * criteria, System * system) {
@@ -74,6 +78,12 @@ void Trial::revert(const int index, const bool accepted, System * system) {
   --num_attempts_;
 }
 
+void Trial::finalize(System * system) {
+  for (int index = num_stages() - 1; index >= 0; --index) {
+    stages_[index]->finalize(system);
+  }
+}
+
 bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   DEBUG("**********************************************************");
   DEBUG("* " << class_name() << " attempt " << num_attempts_ << " *");
@@ -90,11 +100,12 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
     compute_->perturb_and_acceptance(
       criteria, system, &acceptance_, &stages_ptr_, random);
   }
+  DEBUG("num attempts: " << num_attempts_);
   if (criteria->is_accepted(acceptance_, system, random->uniform())) {
     DEBUG("accepted");
     ++num_success_;
-    for (int index = num_stages() - 1; index >= 0; --index) {
-      stages_[index]->finalize(system);
+    if (!is_finalize_delayed_) {
+      finalize(system);
     }
     return true;
   } else {
@@ -131,6 +142,27 @@ void Trial::refresh_stages_ptr_() {
   }
 }
 
+bool Trial::is_equal(const Trial& trial) const {
+  if (num_attempts_ != trial.num_attempts_) {
+    DEBUG("unequal number of attempts:" << num_attempts_ << " "
+      << trial.num_attempts_);
+    return false;
+  }
+  if (num_success_ != trial.num_success_) {
+    DEBUG("unequal number of success:" << num_success_ << " "
+      << trial.num_success_);
+    return false;
+  }
+  if (weight_ != trial.weight_) {
+    DEBUG("unequal weight:" << weight_ << " " << trial.weight_);
+    return false;
+  }
+  if (!stages_[0]->perturb()->tunable().is_equal(trial.stages_[0]->perturb()->tunable())) {
+    return false;
+  }
+  return true;
+}
+
 void Trial::serialize_trial_(std::ostream& ostr) const {
   feasst_serialize_version(570, ostr);
   feasst_serialize(stages_, ostr);
@@ -139,6 +171,7 @@ void Trial::serialize_trial_(std::ostream& ostr) const {
   feasst_serialize(weight_, ostr);
   feasst_serialize(num_attempts_, ostr);
   feasst_serialize(num_success_, ostr);
+  feasst_serialize(is_finalize_delayed_, ostr);
 }
 
 Trial::Trial(std::istream& istr) {
@@ -172,6 +205,7 @@ Trial::Trial(std::istream& istr) {
   feasst_deserialize(&weight_, istr);
   feasst_deserialize(&num_attempts_, istr);
   feasst_deserialize(&num_success_, istr);
+  feasst_deserialize(&is_finalize_delayed_, istr);
 }
 
 }  // namespace feasst

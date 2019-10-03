@@ -30,7 +30,7 @@ before_install:
 install:
   - |
     if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
-      brew install swig valgrind lcov
+      brew install swig valgrind lcov libomp
     fi
 
 script:

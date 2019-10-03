@@ -20,22 +20,7 @@ class TrialSelectParticle : public TrialSelect {
 
       ghost : select ghost particles (default: false).
      */
-    const argtype& args = argtype()) : TrialSelect(args) {
-    class_name_ = "TrialSelectParticle";
-    Arguments args_(args);
-    args_.dont_check();
-    load_coordinates_ = args_.key("load_coordinates").dflt("true").boolean();
-
-    // parse site
-    site_ = args_.key("site").dflt("-1").integer();
-    if (site_ != -1) {
-      mobile_.clear();
-      mobile_.add_site(0, site_);
-      site_vec_ =  {site_};
-    }
-
-    set_ghost(args_.key("ghost").dflt("false").boolean());
-  }
+    const argtype& args = argtype());
 
   /// Return true if loading coordinates into selection.
   bool load_coordinates() const { return load_coordinates_; }

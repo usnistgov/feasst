@@ -4,6 +4,13 @@
 
 namespace feasst {
 
+SelectPosition::SelectPosition(const Select& select,
+  const ParticleFactory& particles)
+  : Select(select) {
+  resize();
+  load_positions(particles);
+}
+
 void SelectPosition::set_site_position(const int particle_index,
                                        const int site_index,
                                        const Position& position) {
@@ -72,6 +79,22 @@ void SelectPosition::remove_first_site() {
   Select::remove_first_site();
   site_positions_[0].erase(site_positions_[0].begin());
   site_properties_[0].erase(site_properties_[0].begin());
+}
+
+void SelectPosition::clear() {
+  Select::clear();
+  clear_();
+}
+
+void SelectPosition::add_site(const int particle_index, const int site_index) {
+  Select::add_site(particle_index, site_index);
+  resize();
+}
+
+void SelectPosition::clear_() {
+  particle_positions_.clear();
+  site_positions_.clear();
+  site_properties_.clear();
 }
 
 void SelectPosition::serialize(std::ostream& sstr) const {

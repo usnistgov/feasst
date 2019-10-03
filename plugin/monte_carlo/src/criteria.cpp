@@ -64,6 +64,14 @@ void Criteria::set_trial_state(const int state, const int num) {
   trial_state_ = state;
   num_trial_states_ = num;
 }
+
+void Criteria::revert(const bool accepted) {
+  if (accepted) {
+    current_energy_ = previous_energy_;
+  }
+}
+
+
 std::map<std::string, std::shared_ptr<Criteria> >& Criteria::deserialize_map() {
   static std::map<std::string, std::shared_ptr<Criteria> >* ans =
      new std::map<std::string, std::shared_ptr<Criteria> >();

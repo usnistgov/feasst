@@ -2,6 +2,10 @@
 
 namespace feasst {
 
+TrialComputeAdd::TrialComputeAdd() {
+  class_name_ = "TrialComputeAdd";
+}
+
 class MapTrialComputeAdd {
  public:
   MapTrialComputeAdd() {

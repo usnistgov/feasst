@@ -13,9 +13,7 @@ namespace feasst {
 
 class TrialComputeMove : public TrialCompute {
  public:
-  TrialComputeMove() {
-    class_name_ = "TrialComputeMove";
-  }
+  TrialComputeMove();
 
   void perturb_and_acceptance(
     Criteria * criteria,

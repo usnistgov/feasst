@@ -47,6 +47,12 @@ class PotentialFactory {
   /// Revert any changes to the configuration due to the last energy computation
   void revert();
 
+  /// Set cache to load energy calculations.
+  void load_cache(const bool load);
+
+  /// Set cache to unload energy calclatuions.
+  void unload_cache(const PotentialFactory& factory);
+
   /// Serialize.
   void serialize(std::ostream& sstr) const;
 

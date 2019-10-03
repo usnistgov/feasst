@@ -109,9 +109,10 @@ class Perturb {
   std::shared_ptr<Perturb> deserialize(std::istream& istr);
   virtual ~Perturb() {}
 
+  void disable_tunable_() { tunable_.disable(); }
+
  protected:
   std::string class_name_ = "Perturb";
-  void disable_tunable_() { tunable_.disable(); }
   void serialize_perturb_(std::ostream& ostr) const;
   Perturb(std::istream& istr);
 

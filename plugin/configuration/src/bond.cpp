@@ -8,18 +8,17 @@ namespace feasst {
 Bond::Bond(std::istream& istr)
   : PropertiedEntity(istr),
     TypedEntity(istr) {
-  int version;
-  istr >> version;
-  istr >> name_;
+  istr >> class_name_;
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 743, "version mismatch: " << version);
   feasst_deserialize(&site_indicies_, istr);
 }
 
 void Bond::serialize(std::ostream& ostr) const {
   PropertiedEntity::serialize(ostr);
   TypedEntity::serialize(ostr);
-  ostr << MAX_PRECISION;
-  ostr << "1 "; // version
-  ostr << name_ << " ";
+  ostr << class_name_ << " ";
+  feasst_serialize_version(743, ostr);
   feasst_serialize(site_indicies_, ostr);
 }
 

@@ -15,26 +15,19 @@ class SelectPosition : public Select {
  public:
   SelectPosition() : Select() {}
 
-  SelectPosition(const Select& select, const ParticleFactory& particles)
-    : Select(select) {
-    resize();
-    load_positions(particles);
-  }
+  SelectPosition(const Select& select, const ParticleFactory& particles);
 
   /// Return the site positions.
   const std::vector<std::vector<Position> >& site_positions() const {
-    return site_positions_;
-  }
+    return site_positions_; }
 
   /// Return the site positions.
   const std::vector<std::vector<Properties> >& site_properties() const {
-    return site_properties_;
-  }
+    return site_properties_; }
 
   /// Return the particle positions.
   const std::vector<Position>& particle_positions() const {
-    return particle_positions_;
-  }
+    return particle_positions_; }
 
   /// Set the position of a site by particle and site index.
   /// Note that these indices are based on selection, not configuration.
@@ -61,12 +54,9 @@ class SelectPosition : public Select {
   /// Load the positions from the existing selection indices.
   void load_positions(const ParticleFactory& particles);
 
-  void clear() override {
-    Select::clear();
-    clear_();
-  }
+  void clear() override;
 
-  void resize();//const Select& select);
+  void resize();
 
   /// Remove the last site.
   void remove_last_site() override;
@@ -74,10 +64,8 @@ class SelectPosition : public Select {
   /// Remove the first site.
   void remove_first_site() override;
 
-  void add_site(const int particle_index, const int site_index) override {
-    Select::add_site(particle_index, site_index);
-    resize();
-  }
+  void add_site(const int particle_index, const int site_index) override;
+
 //  /// Similar to Select::exchange_indices, but also positions and properties.
 //  bool exchange_indices_positions(const SelectPosition& select) {
 //    if (!exchange_indices(select)) return false;
@@ -111,11 +99,7 @@ class SelectPosition : public Select {
   std::vector<std::vector<Position> > site_positions_;
   std::vector<std::vector<Properties> > site_properties_;
 
-  void clear_() {
-    particle_positions_.clear();
-    site_positions_.clear();
-    site_properties_.clear();
-  }
+  void clear_();
 };
 
 }  // namespace feasst

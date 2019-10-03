@@ -297,6 +297,10 @@ class Configuration {
   /// Check consistency of dimensions and lists.
   void check() const;
 
+  /// Check if configuration is approximately equivalent.
+  /// Not all quantities are checked, including ghosts, etc.
+  bool is_equal(const Configuration& configuration) const;
+
   void serialize(std::ostream& ostr) const;
   Configuration(std::istream& istr);
 

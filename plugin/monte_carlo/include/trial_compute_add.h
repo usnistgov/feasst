@@ -14,9 +14,7 @@ namespace feasst {
 
 class TrialComputeAdd : public TrialCompute {
  public:
-  TrialComputeAdd() {
-    class_name_ = "TrialComputeAdd";
-  }
+  TrialComputeAdd();
 
   void perturb_and_acceptance(
       Criteria * criteria,

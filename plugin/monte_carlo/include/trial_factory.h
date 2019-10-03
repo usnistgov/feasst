@@ -11,7 +11,7 @@ namespace feasst {
 
 class TrialFactory : public Trial {
  public:
-  TrialFactory() { class_name_ = "TrialFactory"; }
+  TrialFactory();
 
   /// Add a trial.
   void add(std::shared_ptr<Trial> trial) {
@@ -52,6 +52,7 @@ class TrialFactory : public Trial {
       /// determined from the weight.
       const int trial_index,
       Random * random) {
+    increment_num_attempts();
     // timer_.start(0);
     if (num_trials() == 0) return false;
     if (trial_index != -1) {
@@ -70,9 +71,13 @@ class TrialFactory : public Trial {
     trials_[index]->revert(index, accepted, system); }
 
   void mimic_trial_rejection(const int index) {
-    INFO("index " << index << " " << trials_.size());
+    DEBUG("index " << index << " " << trials_.size());
     trials_[index]->increment_num_attempts();
+    increment_num_attempts();
   }
+
+  void finalize(const int index, System * system) {
+    trials_[index]->finalize(system); }
 
   /// Return the header description for the statuses of the trials (e.g., acceptance, etc).
   std::string status_header() const override {
@@ -82,6 +87,13 @@ class TrialFactory : public Trial {
       ss << trial->status_header() << " ";
     }
     return ss.str();
+  }
+
+  // Require manual finalization of trials (e.g., Pipeline).
+  void delay_finalize() {
+    for (std::shared_ptr<Trial> trial : trials_) {
+      trial->set_finalize_delayed(true);
+    }
   }
 
   /// Return the statuses of the trials (e.g., acceptance, etc).
@@ -113,17 +125,32 @@ class TrialFactory : public Trial {
     }
   }
 
-  int64_t num_attempts() const override {
-    int64_t num = 0;
-    for (std::shared_ptr<Trial> trial : trials_) {
-      num += trial->num_attempts();
-    }
-    return num;
-  }
+//  int64_t num_attempts() const override {
+//    int64_t num = 0;
+//    for (const std::shared_ptr<Trial> trial : trials_) {
+//      num += trial->num_attempts();
+//    }
+//    return num;
+//  }
 
 //  std::string class_name() const override { return std::string("TrialFactory"); }
 
 //  const Timer& timer() const { return timer_; }
+
+  bool is_equal(const TrialFactory& factory) const {
+    if (num_trials() != factory.num_trials()) {
+      DEBUG("unequal number of trials: " << num_trials() << " "
+        << factory.num_trials());
+      return false;
+    }
+    for (int it = 0; it < num_trials(); ++it) {
+      if (!trials_[it]->is_equal(*(factory.trials_[it]))) {
+        DEBUG("unequal trial" << it);
+        return false;
+      }
+    }
+    return true;
+  }
 
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

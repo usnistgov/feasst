@@ -16,6 +16,7 @@ void Site::serialize(std::ostream& ostr) const {
   SpatialEntity::serialize(ostr);
   feasst_serialize_version(1, ostr);
   feasst_serialize(is_director_, ostr);
+  feasst_serialize(is_physical_, ostr);
 }
 
 Site::Site(std::istream& istr)
@@ -24,6 +25,7 @@ Site::Site(std::istream& istr)
     SpatialEntity(istr) {
   feasst_deserialize_version(istr);
   feasst_deserialize(&is_director_, istr);
+  feasst_deserialize(&is_physical_, istr);
 }
 
 }  // namespace feasst

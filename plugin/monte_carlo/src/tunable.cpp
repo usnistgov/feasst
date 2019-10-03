@@ -3,6 +3,7 @@
 #include "utils/include/debug.h"
 #include "monte_carlo/include/tunable.h"
 #include "utils/include/utils_io.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -18,6 +19,7 @@ void Tunable::set_min_and_max(const double min, const double max) {
 }
 
 void Tunable::set_value(const double value) {
+  DEBUG("setting val: " << value);
   if (is_bound_) {
     if (value > min_ and value < max_) {
       value_ = value;
@@ -35,6 +37,7 @@ void Tunable::set_percent_change(const double percent) {
 void Tunable::tune(const double actual) {
   if (is_enabled_) {
     double value = value_;
+    DEBUG("target: " << target_ << " actual: " << actual);
     if (actual < target_) {
       value *= 1. - percent_change_;
     } else {
@@ -66,6 +69,18 @@ Tunable::Tunable(std::istream& istr) {
   feasst_deserialize(&min_, istr);
   feasst_deserialize(&target_, istr);
   feasst_deserialize(&percent_change_, istr);
+}
+
+bool Tunable::is_equal(const Tunable& tunable) const {
+  if (is_enabled_ != tunable.is_enabled_) {
+    DEBUG("unequal is_enabled:" << is_enabled_ << " " << tunable.is_enabled_);
+    return false;
+  }
+  if (std::abs(value_ - tunable.value_) > NEAR_ZERO) {
+    DEBUG("unequal value:" << value_ << " " << tunable.value_);
+    return false;
+  }
+  return true;
 }
 
 }  // namespace feasst

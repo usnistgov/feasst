@@ -2,6 +2,15 @@
 
 namespace feasst {
 
+TrialRotate::TrialRotate(const argtype& args)
+  : TrialMove(
+    std::make_shared<TrialSelectParticle>(),
+    std::make_shared<PerturbRotate>(args),
+    args
+  ) {
+  class_name_ = "TrialRotate";
+}
+
 class MapTrialRotate {
  public:
   MapTrialRotate() {

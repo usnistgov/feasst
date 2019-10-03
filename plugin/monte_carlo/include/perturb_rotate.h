@@ -11,10 +11,7 @@ namespace feasst {
  */
 class PerturbRotate : public PerturbMove {
  public:
-  PerturbRotate(const argtype& args = argtype()) : PerturbMove(args) {
-    class_name_ = "PerturbRotate";
-    set_tunable_min_and_max(2*NEAR_ZERO, 360.);
-  }
+  PerturbRotate(const argtype& args = argtype());
 
   /// Change the position in the selection given a pivot and rotation matrix.
   void update_selection(const Position& pivot,

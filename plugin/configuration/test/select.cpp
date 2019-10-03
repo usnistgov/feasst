@@ -55,7 +55,7 @@ TEST(Select, add_remove) {
   // adding already existing doesn't change select
   auto all_bak = all;
   all.add(part1);
-  EXPECT_TRUE(all.is_equivalent(all_bak));
+  EXPECT_TRUE(all.is_equal(all_bak));
 
   // remove some sites of particles
   all.remove(oxygen);

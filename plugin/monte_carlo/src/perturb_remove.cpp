@@ -3,6 +3,11 @@
 
 namespace feasst {
 
+PerturbRemove::PerturbRemove() {
+  class_name_ = "PerturbRemove";
+  disable_tunable_();
+}
+
 class MapPerturbRemove {
  public:
   MapPerturbRemove() {

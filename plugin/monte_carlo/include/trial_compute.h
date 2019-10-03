@@ -14,7 +14,7 @@ namespace feasst {
 /// Implement the perturbation and calculation of acceptance.
 class TrialCompute {
  public:
-  TrialCompute() {}
+  TrialCompute();
 
   /// Perform the stages on the system and compute the acceptance.
   void compute_rosenbluth(

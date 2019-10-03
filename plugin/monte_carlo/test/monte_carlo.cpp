@@ -15,22 +15,36 @@
 namespace feasst {
 
 TEST(MonteCarlo, serialize) {
-  MonteCarlo mc = mc_lj(), mc2 = test_serialize(mc);
+  seed_random_by_date();
+  seed_random(1569880054);
+  MonteCarlo mc;
+  mc_lj(&mc);
+//  { std::stringstream ss;
+//    mc.serialize(ss);
+//    INFO(ss.str());
+//    MonteCarlo mc2(ss);
+//  }
+  MonteCarlo mc2 = test_serialize(mc);
 }
 
 TEST(MonteCarlo, NVT_benchmark) {
   seed_random_by_date();
   seed_random();
-  MonteCarlo mc = mc_lj();
+  MonteCarlo mc;
+  mc_lj(&mc);
   mc.seek_num_particles(50);
-  // mc.attempt(1e6);  // ~3.5 seconds (now 4.1)
-  mc.attempt(1e4);
+  // mc.seek_num_particles(250);
+  // mc.attempt(1e6);  // ~3.5 seconds (now 4.1) with 50
+  // mc.seek_num_particles(450);
+  // mc.attempt(1e5);  // 15 sec with 450 on slow computer
+  mc.attempt(1e3);
   // DEBUG("\n" << mc.timer_str());
 }
 
 TEST(MonteCarlo, NVT_SRSW) {
   seed_random_by_date();
-  MonteCarlo mc = mc_lj();
+  MonteCarlo mc;
+  mc_lj(&mc);
   const int nMol = 500;
   const double rho = 1e-3, length = pow(static_cast<double>(nMol)/rho, 1./3.);
   mc.get_system()->get_configuration()->set_side_length(
@@ -48,7 +62,8 @@ TEST(MonteCarlo, NVT_SRSW) {
 
 TEST(MonteCarlo, GCMC) {
   seed_random();
-  MonteCarlo mc = mc_lj();
+  MonteCarlo mc;
+  mc_lj(&mc);
   mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "-2"}}));
   add_trial_transfer(&mc, {{"particle_type", "0"}});
   //mc.add(MakeTrialAdd({{"particle_type", "0"}}));
@@ -131,7 +146,8 @@ TEST(MonteCarlo, grow) {
       box_length=20;
       data = "../forcefield/data.spce";
     }
-    MonteCarlo mc = mc_lj(box_length, data);
+    MonteCarlo mc;
+    mc_lj(&mc, box_length, data);
     mc.add(build_(0, data));  // 0: move
     mc.add(build_(1, data));  // 1: add
     mc.add(build_(2, data));  // 2: remove

@@ -33,8 +33,6 @@ class Checkpoint {
       return;
     }
     const double hours = cpu_hours();
-    //static_cast<double>(clock())
-    //                     /static_cast<double>(CLOCKS_PER_SEC)/60./60.;
     if (hours > previous_hours_ + num_hours_) {
       previous_hours_ = hours;
       std::ofstream file(file_name_.c_str(),

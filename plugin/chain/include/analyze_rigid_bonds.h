@@ -32,6 +32,7 @@ class AnalyzeRigidBonds : public AnalyzeUpdateOnly {
     feasst_deserialize_version(istr); }
 
  private:
+  // HWH serialize bonds
   BondVisitor visitor_;
   BondSquareWell bond_;
   AngleSquareWell angle_;
