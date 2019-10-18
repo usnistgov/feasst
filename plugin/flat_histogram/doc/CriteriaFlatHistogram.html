@@ -1,0 +1,227 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CriteriaFlatHistogram &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Patch" href="../../patch/README.html" />
+    <link rel="prev" title="MacrostateNumParticles" href="MacrostateNumParticles.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../patch/README.html" title="Patch"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="MacrostateNumParticles.html" title="MacrostateNumParticles"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Flat histogram</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="criteriaflathistogram">
+<h1>CriteriaFlatHistogram<a class="headerlink" href="#criteriaflathistogram" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst21CriteriaFlatHistogramE">
+<span id="_CPPv2N6feasst21CriteriaFlatHistogramE"></span><span id="feasst::CriteriaFlatHistogram"></span><span class="target" id="classfeasst_1_1CriteriaFlatHistogram"></span><em class="property">class </em><code class="descname">CriteriaFlatHistogram</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv3N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a><a class="headerlink" href="#_CPPv3N6feasst21CriteriaFlatHistogramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The macrostate must be defined before the bias. Use MacrostateAccumulator to compute custom per-macrostate quantities. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst21CriteriaFlatHistogram14before_attemptEPK6System">
+<span id="_CPPv2N6feasst21CriteriaFlatHistogram14before_attemptEPK6System"></span><span id="feasst::CriteriaFlatHistogram::before_attempt__SystemCP"></span><span class="target" id="classfeasst_1_1CriteriaFlatHistogram_1a92807fbdaa5961ee445aff890428d618"></span>void <code class="descname">before_attempt</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv3N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst21CriteriaFlatHistogram14before_attemptEPK6System" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called before a trial attempt. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst21CriteriaFlatHistogram11is_acceptedERK10AcceptancePK6SystemKd">
+<span id="_CPPv2N6feasst21CriteriaFlatHistogram11is_acceptedERK10AcceptancePK6SystemKd"></span><span id="feasst::CriteriaFlatHistogram::is_accepted__AcceptanceCR.SystemCP.doubleC"></span><span class="target" id="classfeasst_1_1CriteriaFlatHistogram_1a7caaf0cd65d6a7b9408854d1c69017b5"></span>bool <code class="descname">is_accepted</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv3N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> &amp;<em>acceptance_</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv3N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <em class="property">const</em> double <em>uniform_random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst21CriteriaFlatHistogram11is_acceptedERK10AcceptancePK6SystemKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return whether or not the trial attempt should be accepted. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst21CriteriaFlatHistogram5writeEv">
+<span id="_CPPv2NK6feasst21CriteriaFlatHistogram5writeEv"></span><span id="feasst::CriteriaFlatHistogram::writeC"></span><span class="target" id="classfeasst_1_1CriteriaFlatHistogram_1aa23f02fa1d8c4dbd57cda7b44d5996b2"></span>std::string <code class="descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst21CriteriaFlatHistogram5writeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a human-readable output of all data (not as brief as status). </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst21CriteriaFlatHistogram11is_completeEv">
+<span id="_CPPv2N6feasst21CriteriaFlatHistogram11is_completeEv"></span><span id="feasst::CriteriaFlatHistogram::is_complete"></span><span class="target" id="classfeasst_1_1CriteriaFlatHistogram_1ad02a0028c9f937630accc308b6b56ce5"></span>bool <code class="descname">is_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst21CriteriaFlatHistogram11is_completeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if completion requirements are met. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst21CriteriaFlatHistogram3setEKNSt10shared_ptrI10MacrostateEE">
+<span id="_CPPv2N6feasst21CriteriaFlatHistogram3setEKNSt10shared_ptrI10MacrostateEE"></span><span id="feasst::CriteriaFlatHistogram::set__std::shared_ptr:Macrostate:C"></span><span class="target" id="classfeasst_1_1CriteriaFlatHistogram_1a1a110180660cfcf363f778739e8ce05b"></span>void <code class="descname">set</code><span class="sig-paren">(</span><em class="property">const</em> std::shared_ptr&lt;<a class="reference internal" href="Macrostate.html#_CPPv3N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a>&gt; <em>macrostate</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst21CriteriaFlatHistogram3setEKNSt10shared_ptrI10MacrostateEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the macrostate which is subject to the bias. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst21CriteriaFlatHistogram10macrostateEv">
+<span id="_CPPv2NK6feasst21CriteriaFlatHistogram10macrostateEv"></span><span id="feasst::CriteriaFlatHistogram::macrostateC"></span><span class="target" id="classfeasst_1_1CriteriaFlatHistogram_1a638f875a82b82184432e01122fad7de0"></span><em class="property">const</em> <a class="reference internal" href="Macrostate.html#_CPPv3N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a> *<code class="descname">macrostate</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst21CriteriaFlatHistogram10macrostateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the macrostate. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst21CriteriaFlatHistogram3setEKNSt10shared_ptrI4BiasEE">
+<span id="_CPPv2N6feasst21CriteriaFlatHistogram3setEKNSt10shared_ptrI4BiasEE"></span><span id="feasst::CriteriaFlatHistogram::set__std::shared_ptr:Bias:C"></span><span class="target" id="classfeasst_1_1CriteriaFlatHistogram_1ab62c0c2898dc3161fdc6dfc1d3d08bcb"></span>void <code class="descname">set</code><span class="sig-paren">(</span><em class="property">const</em> std::shared_ptr&lt;<a class="reference internal" href="Bias.html#_CPPv3N6feasst4BiasE" title="feasst::Bias">Bias</a>&gt; <em>bias</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst21CriteriaFlatHistogram3setEKNSt10shared_ptrI4BiasEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the bias for the flat histogram method. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst21CriteriaFlatHistogram4biasEv">
+<span id="_CPPv2NK6feasst21CriteriaFlatHistogram4biasEv"></span><span id="feasst::CriteriaFlatHistogram::biasC"></span><span class="target" id="classfeasst_1_1CriteriaFlatHistogram_1a12481d9ce2f0e26161d55d73092f8ec7"></span><em class="property">const</em> <a class="reference internal" href="Bias.html#_CPPv3N6feasst4BiasE" title="feasst::Bias">Bias</a> *<code class="descname">bias</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst21CriteriaFlatHistogram4biasEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the bias. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst21CriteriaFlatHistogram5stateEv">
+<span id="_CPPv2NK6feasst21CriteriaFlatHistogram5stateEv"></span><span id="feasst::CriteriaFlatHistogram::stateC"></span><span class="target" id="classfeasst_1_1CriteriaFlatHistogram_1a0fc4de52d15304bb88325a1cad9e0251"></span>int <code class="descname">state</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst21CriteriaFlatHistogram5stateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the state. Return -1 if state is not determined. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst21CriteriaFlatHistogram10num_statesEv">
+<span id="_CPPv2NK6feasst21CriteriaFlatHistogram10num_statesEv"></span><span id="feasst::CriteriaFlatHistogram::num_statesC"></span><span class="target" id="classfeasst_1_1CriteriaFlatHistogram_1ae80ecabdce5efc605008d0db1f3d8976"></span>int <code class="descname">num_states</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst21CriteriaFlatHistogram10num_statesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of states. (default: 1). </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst21CriteriaFlatHistogram6revertEKb">
+<span id="_CPPv2N6feasst21CriteriaFlatHistogram6revertEKb"></span><span id="feasst::CriteriaFlatHistogram::revert__bC"></span><span class="target" id="classfeasst_1_1CriteriaFlatHistogram_1afce5aa792a881ef39c01097ae6016cb4"></span>void <code class="descname">revert</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>accepted</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst21CriteriaFlatHistogram6revertEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Revert changes from previous trial. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Flat histogram</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="LnProbabilityDistribution.html">LnProbabilityDistribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BiasWangLandau.html">BiasWangLandau</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BiasTransitionMatrix.html">BiasTransitionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">CriteriaFlatHistogram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="MacrostateNumParticles.html"
+                        title="previous chapter">MacrostateNumParticles</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../patch/README.html"
+                        title="next chapter">Patch</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../patch/README.html" title="Patch"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="MacrostateNumParticles.html" title="MacrostateNumParticles"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Flat histogram</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

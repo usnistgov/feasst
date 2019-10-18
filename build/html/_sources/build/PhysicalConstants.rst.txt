@@ -1,5 +1,0 @@
-PhysicalConstants
-=====================================================
-
-.. doxygenfile:: physical_constants.h
-   :project: FEASST

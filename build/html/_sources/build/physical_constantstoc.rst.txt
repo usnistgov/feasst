@@ -1,5 +1,0 @@
-PhysicalConstants Classes
-=======================================================
-
-.. toctree::
-   PhysicalConstants

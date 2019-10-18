@@ -1,7 +1,0 @@
-Criteria Classes
-=======================================================
-
-.. toctree::
-   Criteria
-   CriteriaMetropolis
-   CriteriaWLTMMC

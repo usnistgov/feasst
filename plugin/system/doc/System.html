@@ -1,0 +1,349 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>System &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="SelectList" href="SelectList.html" />
+    <link rel="prev" title="PotentialFactory" href="PotentialFactory.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="SelectList.html" title="SelectList"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="PotentialFactory.html" title="PotentialFactory"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >System</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="system">
+<h1>System<a class="headerlink" href="#system" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst6SystemE">
+<span id="_CPPv2N6feasst6SystemE"></span><span id="feasst::System"></span><span class="target" id="classfeasst_1_1System"></span><em class="property">class </em><code class="descname">System</code><a class="headerlink" href="#_CPPv3N6feasst6SystemE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#classfeasst_1_1System"><span class="std std-ref">System</span></a> is a facade design pattern in order to constrain and/or simplify the interface with multiple configurations and multiple lists of potentials. The typing and grouping of multiple configurations should be the same. There are three types of potentials.</p>
+<p><ol class="arabic simple">
+<li>The first is without optimizations.</li>
+<li>The second is with optimizations, which may be periodically compared with the first.</li>
+<li>The remaining potentials are used for reference. For example, cheap energy calculations in dual-cut configurational bias. Also Mayer-sampling. </li>
+</ol>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Configurations</p>
+<p>Store and retrieve a list of configurations. </p>
+<dl class="function">
+<dt id="_CPPv3N6feasst6System3addERK13Configuration">
+<span id="_CPPv2N6feasst6System3addERK13Configuration"></span><span id="feasst::System::add__ConfigurationCR"></span><span class="target" id="classfeasst_1_1System_1a8fc86723259086952c4a492f0e4af4dc"></span>void <code class="descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>configuration</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System3addERK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a configuration. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6System13configurationEKi">
+<span id="_CPPv2NK6feasst6System13configurationEKi"></span><span id="feasst::System::configuration__iCC"></span><span class="target" id="classfeasst_1_1System_1a6a292e2456947e1c9b460e6cd79d651a"></span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<code class="descname">configuration</code><span class="sig-paren">(</span><em class="property">const</em> int <em>config</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6System13configurationEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the configuration. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System17get_configurationEKi">
+<span id="_CPPv2N6feasst6System17get_configurationEKi"></span><span id="feasst::System::get_configuration__iC"></span><span class="target" id="classfeasst_1_1System_1a065c2ed234c8f0f340e31d56601d10c0"></span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<code class="descname">get_configuration</code><span class="sig-paren">(</span><em class="property">const</em> int <em>config</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System17get_configurationEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the configuration as a pointer. This interface is to be avoided if possible. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6System9dimensionEKi">
+<span id="_CPPv2NK6feasst6System9dimensionEKi"></span><span id="feasst::System::dimension__iCC"></span><span class="target" id="classfeasst_1_1System_1aa7150a3185a3175ea1e639a36b4046f2"></span>int <code class="descname">dimension</code><span class="sig-paren">(</span><em class="property">const</em> int <em>config</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6System9dimensionEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the dimensionality of the system. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Potentails</p>
+<p>Store and retrieve a list of potentials. </p>
+<dl class="function">
+<dt id="_CPPv3N6feasst6System3addERK9Potential">
+<span id="_CPPv2N6feasst6System3addERK9Potential"></span><span id="feasst::System::add__PotentialCR"></span><span class="target" id="classfeasst_1_1System_1a4a0f4a8fce281747d020928917fe9e0c"></span>void <code class="descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv3N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System3addERK9Potential" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a potential. By default, this is unoptimized. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System18add_to_unoptimizedERK9Potential">
+<span id="_CPPv2N6feasst6System18add_to_unoptimizedERK9Potential"></span><span id="feasst::System::add_to_unoptimized__PotentialCR"></span><span class="target" id="classfeasst_1_1System_1af743007abd65a51e1eb144162af62c62"></span>void <code class="descname">add_to_unoptimized</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv3N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System18add_to_unoptimizedERK9Potential" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add an unoptimized potential. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6System11unoptimizedEv">
+<span id="_CPPv2NK6feasst6System11unoptimizedEv"></span><span id="feasst::System::unoptimizedC"></span><span class="target" id="classfeasst_1_1System_1aa020c94df516ae7a37e6ea79fcd825a6"></span><em class="property">const</em> <a class="reference internal" href="PotentialFactory.html#_CPPv3N6feasst16PotentialFactoryE" title="feasst::PotentialFactory">PotentialFactory</a> &amp;<code class="descname">unoptimized</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6System11unoptimizedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the unoptimized potentials. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6System9potentialEKi">
+<span id="_CPPv2NK6feasst6System9potentialEKi"></span><span id="feasst::System::potential__iCC"></span><span class="target" id="classfeasst_1_1System_1ac1682a2485f394f3ac51f88e466a072c"></span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv3N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<code class="descname">potential</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6System9potentialEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return an unoptimized potential. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System16add_to_optimizedERK9Potential">
+<span id="_CPPv2N6feasst6System16add_to_optimizedERK9Potential"></span><span id="feasst::System::add_to_optimized__PotentialCR"></span><span class="target" id="classfeasst_1_1System_1a2804f6d2ca91bcb8d92fd44992f28ed9"></span>void <code class="descname">add_to_optimized</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv3N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System16add_to_optimizedERK9Potential" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add an optimized potential. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6System9optimizedEv">
+<span id="_CPPv2NK6feasst6System9optimizedEv"></span><span id="feasst::System::optimizedC"></span><span class="target" id="classfeasst_1_1System_1a9d446c3782b7c90b218a68d91baf4016"></span><em class="property">const</em> <a class="reference internal" href="PotentialFactory.html#_CPPv3N6feasst16PotentialFactoryE" title="feasst::PotentialFactory">PotentialFactory</a> &amp;<code class="descname">optimized</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6System9optimizedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the optimized potentials. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System16add_to_referenceERK9PotentialKi">
+<span id="_CPPv2N6feasst6System16add_to_referenceERK9PotentialKi"></span><span id="feasst::System::add_to_reference__PotentialCR.iC"></span><span class="target" id="classfeasst_1_1System_1a697a520953d3d200e3bbffd8ae77ac5a"></span>void <code class="descname">add_to_reference</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv3N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>ref</em>, <em class="property">const</em> int <em>index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System16add_to_referenceERK9PotentialKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a reference potential. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">index</span></code>: Store different references by index. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6System9referenceEKiKi">
+<span id="_CPPv2NK6feasst6System9referenceEKiKi"></span><span id="feasst::System::reference__iC.iCC"></span><span class="target" id="classfeasst_1_1System_1a4129720fdccade7c801704774e0c010c"></span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv3N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<code class="descname">reference</code><span class="sig-paren">(</span><em class="property">const</em> int <em>ref</em>, <em class="property">const</em> int <em>potential</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6System9referenceEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a reference potential. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6System10referencesEv">
+<span id="_CPPv2NK6feasst6System10referencesEv"></span><span id="feasst::System::referencesC"></span><span class="target" id="classfeasst_1_1System_1a7b5673b20768ccb194c32d5d25b9998c"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="PotentialFactory.html#_CPPv3N6feasst16PotentialFactoryE" title="feasst::PotentialFactory">PotentialFactory</a>&gt; <code class="descname">references</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6System10referencesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the list of reference potentials. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Energy</p>
+<p>Compute energies using a combination of configurations and potentials. </p>
+<dl class="function">
+<dt id="_CPPv3N6feasst6System10precomputeEv">
+<span id="_CPPv2N6feasst6System10precomputeEv"></span><span id="feasst::System::precompute"></span><span class="target" id="classfeasst_1_1System_1a7255ce2b5178ad1c6ed0bee3037c1e84"></span>void <code class="descname">precompute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System10precomputeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Precompute quantities for optimizations before calculation of energies. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System18unoptimized_energyEKi">
+<span id="_CPPv2N6feasst6System18unoptimized_energyEKi"></span><span id="feasst::System::unoptimized_energy__iC"></span><span class="target" id="classfeasst_1_1System_1ae1e29287b68577ec8ba8249ed163288b"></span>double <code class="descname">unoptimized_energy</code><span class="sig-paren">(</span><em class="property">const</em> int <em>config</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System18unoptimized_energyEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the unoptimized energy. The following use optimized if available. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System6energyEKi">
+<span id="_CPPv2N6feasst6System6energyEKi"></span><span id="feasst::System::energy__iC"></span><span class="target" id="classfeasst_1_1System_1a5fbe66c2ea6f05b3136a7fddf5ced234"></span>double <code class="descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> int <em>config</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System6energyEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the energy of all. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System6energyERK6SelectKi">
+<span id="_CPPv2N6feasst6System6energyERK6SelectKi"></span><span id="feasst::System::energy__SelectCR.iC"></span><span class="target" id="classfeasst_1_1System_1a73b6ed36ce7cc0f932a1f813464d8fbd"></span>double <code class="descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> int <em>config</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System6energyERK6SelectKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the energy of the selection. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6System13stored_energyEv">
+<span id="_CPPv2NK6feasst6System13stored_energyEv"></span><span id="feasst::System::stored_energyC"></span><span class="target" id="classfeasst_1_1System_1a10b046644bc22bc757a06dd51342d279"></span>double <code class="descname">stored_energy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6System13stored_energyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the last computed energy. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6System21stored_energy_profileEv">
+<span id="_CPPv2NK6feasst6System21stored_energy_profileEv"></span><span id="feasst::System::stored_energy_profileC"></span><span class="target" id="classfeasst_1_1System_1a9855c90ed7d26b4e952c88761258ef2c"></span>std::vector&lt;double&gt; <code class="descname">stored_energy_profile</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6System21stored_energy_profileEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the profile of energies that were last computed. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System16reference_energyEKiKi">
+<span id="_CPPv2N6feasst6System16reference_energyEKiKi"></span><span id="feasst::System::reference_energy__iC.iC"></span><span class="target" id="classfeasst_1_1System_1ad06f4e77136173591c300e13e4af9e5e"></span>double <code class="descname">reference_energy</code><span class="sig-paren">(</span><em class="property">const</em> int <em>ref</em> = 0, <em class="property">const</em> int <em>config</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System16reference_energyEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the reference energy. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System16reference_energyERK6SelectKiKi">
+<span id="_CPPv2N6feasst6System16reference_energyERK6SelectKiKi"></span><span id="feasst::System::reference_energy__SelectCR.iC.iC"></span><span class="target" id="classfeasst_1_1System_1ad608c468ddeb0de008a6b12895a70d5f"></span>double <code class="descname">reference_energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> int <em>ref</em> = 0, <em class="property">const</em> int <em>config</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System16reference_energyERK6SelectKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the reference energy of the selection. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System6revertEv">
+<span id="_CPPv2N6feasst6System6revertEv"></span><span id="feasst::System::revert"></span><span class="target" id="classfeasst_1_1System_1aa6743feaa920e5569137ee20d4be0876"></span>void <code class="descname">revert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System6revertEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Revert changes due to perturbations. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System10load_cacheEKb">
+<span id="_CPPv2N6feasst6System10load_cacheEKb"></span><span id="feasst::System::load_cache__bC"></span><span class="target" id="classfeasst_1_1System_1ab8d902b004b4bbbd4542c75f7bfd30f2"></span>void <code class="descname">load_cache</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>load</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System10load_cacheEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set cache to load energy calculations. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System12unload_cacheERK6System">
+<span id="_CPPv2N6feasst6System12unload_cacheERK6System"></span><span id="feasst::System::unload_cache__SystemCR"></span><span class="target" id="classfeasst_1_1System_1a9a4f312f1e19d8a92f5f9a783aa7d00d"></span>void <code class="descname">unload_cache</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv3N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System12unload_cacheERK6System" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set cache to unload energy calclatuions. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6System9serializeERNSt7ostreamE">
+<span id="_CPPv2NK6feasst6System9serializeERNSt7ostreamE"></span><span id="feasst::System::serialize__osRC"></span><span class="target" id="classfeasst_1_1System_1aaa1e0d4c6211650854897ca771f40249"></span>void <code class="descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>sstr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6System9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Serialize. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6System6SystemERNSt7istreamE">
+<span id="_CPPv2N6feasst6System6SystemERNSt7istreamE"></span><span id="feasst::System::System__isR"></span><span class="target" id="classfeasst_1_1System_1a9b2b25729ae896e113a9544ab0d571f0"></span><code class="descname">System</code><span class="sig-paren">(</span>std::istream &amp;<em>sstr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6System6SystemERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Deserialize. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="physical_constants.html">system/include/physical_constants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelLJ.html">ModelLJ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelHardSphere.html">ModelHardSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">System</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectList.html">SelectList</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="PotentialFactory.html"
+                        title="previous chapter">PotentialFactory</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="SelectList.html"
+                        title="next chapter">SelectList</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="SelectList.html" title="SelectList"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="PotentialFactory.html" title="PotentialFactory"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >System</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

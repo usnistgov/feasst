@@ -1,0 +1,464 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Configuration &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="FileVMD" href="FileVMD.html" />
+    <link rel="prev" title="VisitParticles" href="VisitParticles.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="FileVMD.html" title="FileVMD"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="VisitParticles.html" title="VisitParticles"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Configuration</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst13ConfigurationE">
+<span id="_CPPv2N6feasst13ConfigurationE"></span><span id="feasst::Configuration"></span><span class="target" id="classfeasst_1_1Configuration"></span><em class="property">class </em><code class="descname">Configuration</code><a class="headerlink" href="#_CPPv3N6feasst13ConfigurationE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A configuration contains both the particles and the spatial domain/boundaries.</p>
+<p>For the particles, this includes both the pool of particles which may exist (referred to as particle types) in addition to the particles which physically exist (referred to as particles).</p>
+<p>Before particles are physically added to the system, all particle types which may exist must be defined. Once particles are added to the system, new particle types cannot be added. Similarly, site types are also defined at the same time as particle types.</p>
+<p>Groups of different particle/site types and other metrics may be defined. These groups then define a selection which can be used to distinguish subsets of the configuration (e.g., types of particles). This selection may be further reduced to single particles. These selections are then used to modify a subset of the configuration (e.g., removal and displacement) of a selection of particles/sites.</p>
+<p>Finally, the spatial domain contains periodic boundaries and cells. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Construction</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration13ConfigurationERK7argtype">
+<span id="_CPPv2N6feasst13Configuration13ConfigurationERK7argtype"></span><span id="feasst::Configuration::Configuration__argtypeCR"></span><span class="target" id="classfeasst_1_1Configuration_1a34ae03406a1e030c9d2526bdcb27d6d6"></span><code class="descname">Configuration</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration13ConfigurationERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li>cubic_box_length - side length of cubic perioidic boundary conditions.</li>
+<li>particle_type[i] - add the i-th type of particle to the configuration. The [i] is to be substituted for an integer 0, 1, 2, … If only one particle type, you can drop the i.</li>
+<li>init_cells - build cell list with given minimum length between cells.</li>
+<li>cell_group - only compute cells for those in given group index. </li>
+</ul>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Typing</p>
+<p>Types of sites and particles. </p>
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration17add_particle_typeEKNSt6stringE">
+<span id="_CPPv2N6feasst13Configuration17add_particle_typeEKNSt6stringE"></span><span id="feasst::Configuration::add_particle_type__ssC"></span><span class="target" id="classfeasst_1_1Configuration_1ac4613c3ffd187df8176ae450399d79ec"></span>void <code class="descname">add_particle_type</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration17add_particle_typeEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a particle type that may exist by LMP file (see <a class="reference internal" href="FileLMP.html#classfeasst_1_1FileLMP"><span class="std std-ref">FileLMP</span></a>). </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration18num_particle_typesEv">
+<span id="_CPPv2NK6feasst13Configuration18num_particle_typesEv"></span><span id="feasst::Configuration::num_particle_typesC"></span><span class="target" id="classfeasst_1_1Configuration_1a9a1d58f52d28788096b9bbf07e4dc815"></span>int <code class="descname">num_particle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration18num_particle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of particle types. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration14num_site_typesEv">
+<span id="_CPPv2NK6feasst13Configuration14num_site_typesEv"></span><span id="feasst::Configuration::num_site_typesC"></span><span class="target" id="classfeasst_1_1Configuration_1a1b3a2b704a8f9738e5ee7c33263f65b7"></span>int <code class="descname">num_site_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration14num_site_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of site types. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration14particle_typesEv">
+<span id="_CPPv2NK6feasst13Configuration14particle_typesEv"></span><span id="feasst::Configuration::particle_typesC"></span><span class="target" id="classfeasst_1_1Configuration_1ad46066349b467a9af5a1b54a735b0c83"></span><em class="property">const</em> <a class="reference internal" href="ParticleFactory.html#_CPPv3N6feasst15ParticleFactoryE" title="feasst::ParticleFactory">ParticleFactory</a> &amp;<code class="descname">particle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration14particle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the particle types. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration3addENSt10shared_ptrI10ModelParamEE">
+<span id="_CPPv2N6feasst13Configuration3addENSt10shared_ptrI10ModelParamEE"></span><span id="feasst::Configuration::add__std::shared_ptr:ModelParam:"></span><span class="target" id="classfeasst_1_1Configuration_1aa3ded9856f737b44dbc5ab6270998e79"></span>void <code class="descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="ModelParam.html#_CPPv3N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a>&gt; <em>param</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration3addENSt10shared_ptrI10ModelParamEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a custom type of model parameter. Name it the same as an atom property before reading file to make a custom <a class="reference internal" href="ModelParam.html#classfeasst_1_1ModelParam"><span class="std std-ref">ModelParam</span></a>. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration15set_model_paramEPKcKiKd">
+<span id="_CPPv2N6feasst13Configuration15set_model_paramEPKcKiKd"></span><span id="feasst::Configuration::set_model_param__cCP.iC.doubleC"></span><span class="target" id="classfeasst_1_1Configuration_1a94510ec8f04ac71ae28c82883fcd3081"></span>void <code class="descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em>, <em class="property">const</em> int <em>site_type</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration15set_model_paramEPKcKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> model parameter of a given site type and name to value. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration15add_model_paramEKNSt6stringEKd">
+<span id="_CPPv2N6feasst13Configuration15add_model_paramEKNSt6stringEKd"></span><span id="feasst::Configuration::add_model_param__ssC.doubleC"></span><span class="target" id="classfeasst_1_1Configuration_1ab6d87f104ab73b231bc687e6a438a74c"></span>void <code class="descname">add_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration15add_model_paramEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add model parameter of a given name to value. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration13particle_typeEKi">
+<span id="_CPPv2NK6feasst13Configuration13particle_typeEKi"></span><span id="feasst::Configuration::particle_type__iCC"></span><span class="target" id="classfeasst_1_1Configuration_1a61462e50b27aae4cfd198896e321eb69"></span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<code class="descname">particle_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration13particle_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the particle associated with the type. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration17type_to_file_nameEKi">
+<span id="_CPPv2NK6feasst13Configuration17type_to_file_nameEKi"></span><span id="feasst::Configuration::type_to_file_name__iCC"></span><span class="target" id="classfeasst_1_1Configuration_1a94a554d23c645891e99232565c874cfb"></span>std::string <code class="descname">type_to_file_name</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration17type_to_file_nameEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the file name used to initialize the particle types. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration12unique_typesEv">
+<span id="_CPPv2NK6feasst13Configuration12unique_typesEv"></span><span id="feasst::Configuration::unique_typesC"></span><span class="target" id="classfeasst_1_1Configuration_1a85ed308c25fdd5c2a92fa4caa8cd4eec"></span><em class="property">const</em> <a class="reference internal" href="ParticleFactory.html#_CPPv3N6feasst15ParticleFactoryE" title="feasst::ParticleFactory">ParticleFactory</a> &amp;<code class="descname">unique_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration12unique_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the unique types. Only unique sites and bonds are included. Thus, the site index is the same as the numeric value for the site type. And the same for bonds. This serves as a container for properties based on site or bond type. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration11unique_typeEKi">
+<span id="_CPPv2NK6feasst13Configuration11unique_typeEKi"></span><span id="feasst::Configuration::unique_type__iCC"></span><span class="target" id="classfeasst_1_1Configuration_1aaedabe021b43987e76c77519dcc7eda0"></span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<code class="descname">unique_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration11unique_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the unique type by individual particle. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Groups</p>
+<p>Groups of sites and particles </p>
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration3addE5GroupNSt6stringE">
+<span id="_CPPv2N6feasst13Configuration3addE5GroupNSt6stringE"></span><span id="feasst::Configuration::add__Group.ss"></span><span class="target" id="classfeasst_1_1Configuration_1adf15339197878610f8c918398f6a709b"></span>void <code class="descname">add</code><span class="sig-paren">(</span><a class="reference internal" href="Group.html#_CPPv3N6feasst5GroupE" title="feasst::Group">Group</a> <em>group</em>, std::string <em>name</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration3addE5GroupNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a group (after types are defined but before particles are added). </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code>: Optionally provide a name. If no name is provided, the name is assigned to be the numerical indices of the order of groups added. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration10num_groupsEv">
+<span id="_CPPv2NK6feasst13Configuration10num_groupsEv"></span><span id="feasst::Configuration::num_groupsC"></span><span class="target" id="classfeasst_1_1Configuration_1a6d7ceb9a28f248f33ea23743a9024d49"></span>int <code class="descname">num_groups</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration10num_groupsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of group selections. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration22particle_type_to_groupEKi">
+<span id="_CPPv2N6feasst13Configuration22particle_type_to_groupEKi"></span><span id="feasst::Configuration::particle_type_to_group__iC"></span><span class="target" id="classfeasst_1_1Configuration_1a4061b0efcc9e3eb5e005dcf307620a74"></span>int <code class="descname">particle_type_to_group</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration22particle_type_to_groupEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the index of the group based on particle types. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Particles</p>
+<p>Physically existing sites and particles </p>
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration20add_particle_of_typeEKi">
+<span id="_CPPv2N6feasst13Configuration20add_particle_of_typeEKi"></span><span id="feasst::Configuration::add_particle_of_type__iC"></span><span class="target" id="classfeasst_1_1Configuration_1a4ab557cc3f4ec4deccfefd770264138c"></span>void <code class="descname">add_particle_of_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration20add_particle_of_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add particles of a given type. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration8particleEKiKi">
+<span id="_CPPv2NK6feasst13Configuration8particleEKiKi"></span><span id="feasst::Configuration::particle__iC.iCC"></span><span class="target" id="classfeasst_1_1Configuration_1a25e3cb0898b74f5272ad505a03e30261"></span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> <code class="descname">particle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> int <em>group</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration8particleEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">group</span></code>: Provide a group index to consider only a subset of the configuration. By default, a value of zero is for the entire configuration. </li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Return particle by index. Note this index is contiguous from values 0 to num_particles -1, unlike the selection indices (due to ghost particles). Note that this method can be quite slow because it doesn’t require knowledge of ghost particles. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration13num_particlesEKi">
+<span id="_CPPv2NK6feasst13Configuration13num_particlesEKi"></span><span id="feasst::Configuration::num_particles__iCC"></span><span class="target" id="classfeasst_1_1Configuration_1a664494c52182f63d3aaf3102566781d0"></span>int <code class="descname">num_particles</code><span class="sig-paren">(</span><em class="property">const</em> int <em>group</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration13num_particlesEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of particles. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">group</span></code>: Provide a group index to consider only a subset of the configuration. By default, a value of zero is for the entire configuration. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration9num_sitesEKi">
+<span id="_CPPv2NK6feasst13Configuration9num_sitesEKi"></span><span id="feasst::Configuration::num_sites__iCC"></span><span class="target" id="classfeasst_1_1Configuration_1ac462ee42247b2a21509bb3bec05fd6b1"></span>int <code class="descname">num_sites</code><span class="sig-paren">(</span><em class="property">const</em> int <em>group</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration9num_sitesEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of sites. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">group</span></code>: Provide a group index as described above. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration21num_particles_of_typeEKi">
+<span id="_CPPv2NK6feasst13Configuration21num_particles_of_typeEKi"></span><span id="feasst::Configuration::num_particles_of_type__iCC"></span><span class="target" id="classfeasst_1_1Configuration_1a40de900a75f06144aa9324d6c7e7aadf"></span>int <code class="descname">num_particles_of_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration21num_particles_of_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of particles of a given particle type. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Modifications</p>
+<p>Modifications to a configuration (e.g., moving, adding or deleting particles/sites. A subset of the configuration is defined by a <a class="reference internal" href="Select.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a>. Avoid using a <a class="reference internal" href="Select.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> or <a class="reference internal" href="SelectPosition.html#classfeasst_1_1SelectPosition"><span class="std std-ref">SelectPosition</span></a> object directly. Instead, use a <a class="reference internal" href="../../system/doc/SelectList.html#classfeasst_1_1SelectList"><span class="std std-ref">SelectList</span></a>, which can be input into the following. </p>
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEE">
+<span id="_CPPv2N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEE"></span><span id="feasst::Configuration::update_positions__std::vector:std::vector:double::C"></span><span class="target" id="classfeasst_1_1Configuration_1a530bd77e401f43e9777f25f96b3a9ea5"></span>void <code class="descname">update_positions</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;double&gt;&gt; <em>coords</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration16update_positionsEKNSt6vectorINSt6vectorIdEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Load coordinates by per-site vector containing per-dimension vector. Requires coordinates for all sites and dimensions. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration16update_positionsERK14SelectPositionKb">
+<span id="_CPPv2N6feasst13Configuration16update_positionsERK14SelectPositionKb"></span><span id="feasst::Configuration::update_positions__SelectPositionCR.bC"></span><span class="target" id="classfeasst_1_1Configuration_1a1f1bec358c4e41c88d7ce8c63c482442"></span>void <code class="descname">update_positions</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="SelectPosition.html#_CPPv3N6feasst14SelectPositionE" title="feasst::SelectPosition">SelectPosition</a> &amp;<em>select</em>, <em class="property">const</em> bool <em>wrap</em> = true<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration16update_positionsERK14SelectPositionKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update the positions and properties from a selection. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">wrap</span></code>: Wrap positions within domain based on particle position (default). </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration18displace_particlesERK6SelectRK8Position">
+<span id="_CPPv2N6feasst13Configuration18displace_particlesERK6SelectRK8Position"></span><span id="feasst::Configuration::displace_particles__SelectCR.PositionCR"></span><span class="target" id="classfeasst_1_1Configuration_1a7c56dae43b8de182b257c507ea27fb77"></span>void <code class="descname">displace_particles</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>displacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration18displace_particlesERK6SelectRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Displace selected particle(s). </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration17displace_particleERK6SelectRK8Position">
+<span id="_CPPv2N6feasst13Configuration17displace_particleERK6SelectRK8Position"></span><span id="feasst::Configuration::displace_particle__SelectCR.PositionCR"></span><span class="target" id="classfeasst_1_1Configuration_1afaed217edc21bb6b9e0116b33feccb86"></span>void <code class="descname">displace_particle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>displacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration17displace_particleERK6SelectRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above except for only one particle that is selected. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration8displaceERK6SelectRK8Position">
+<span id="_CPPv2N6feasst13Configuration8displaceERK6SelectRK8Position"></span><span id="feasst::Configuration::displace__SelectCR.PositionCR"></span><span class="target" id="classfeasst_1_1Configuration_1a30cf8b830614ce7b08eb1a806a7da80e"></span>void <code class="descname">displace</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>displacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration8displaceERK6SelectRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Displace the selection. No periodic boundary conditions applied. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration16replace_positionERK6SelectRK8Particle">
+<span id="_CPPv2N6feasst13Configuration16replace_positionERK6SelectRK8Particle"></span><span id="feasst::Configuration::replace_position__SelectCR.ParticleCR"></span><span class="target" id="classfeasst_1_1Configuration_1a02d008449116337e12c7d264f88f243a"></span>void <code class="descname">replace_position</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>replacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration16replace_positionERK6SelectRK8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Replace positions of particle by selection. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration16remove_particlesERK6Select">
+<span id="_CPPv2N6feasst13Configuration16remove_particlesERK6Select"></span><span id="feasst::Configuration::remove_particles__SelectCR"></span><span class="target" id="classfeasst_1_1Configuration_1a534352daed6ea83da40186153b011aa3"></span>void <code class="descname">remove_particles</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration16remove_particlesERK6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove particle(s) in selection. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration15remove_particleERK6Select">
+<span id="_CPPv2N6feasst13Configuration15remove_particleERK6Select"></span><span id="feasst::Configuration::remove_particle__SelectCR"></span><span class="target" id="classfeasst_1_1Configuration_1a213e447ffb26bfa8e87b834a2cbc3932"></span>void <code class="descname">remove_particle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration15remove_particleERK6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above except for only one particle that is selected. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Domain</p>
+<p>A configuration’s domain includes periodic boundaries and cells. </p>
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration6domainEv">
+<span id="_CPPv2NK6feasst13Configuration6domainEv"></span><span id="feasst::Configuration::domainC"></span><span class="target" id="classfeasst_1_1Configuration_1a10b62741530f7332e52ced1d82db0671"></span><em class="property">const</em> <a class="reference internal" href="Domain.html#_CPPv3N6feasst6DomainE" title="feasst::Domain">Domain</a> &amp;<code class="descname">domain</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration6domainEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the domain of the configuration. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration15set_side_lengthERK8Position">
+<span id="_CPPv2N6feasst13Configuration15set_side_lengthERK8Position"></span><span id="feasst::Configuration::set_side_length__PositionCR"></span><span class="target" id="classfeasst_1_1Configuration_1a0e351236e9ba11ee78b9aa8397f5a4a2"></span>void <code class="descname">set_side_length</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>sides</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration15set_side_lengthERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the domain side lengths. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration10set_domainEK6Domain">
+<span id="_CPPv2N6feasst13Configuration10set_domainEK6Domain"></span><span id="feasst::Configuration::set_domain__DomainC"></span><span class="target" id="classfeasst_1_1Configuration_1a1c6c2d118ff9eb01e88ac655266619f3"></span>void <code class="descname">set_domain</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Domain.html#_CPPv3N6feasst6DomainE" title="feasst::Domain">Domain</a> <em>domain</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration10set_domainEK6Domain" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the domain. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration9dimensionEv">
+<span id="_CPPv2NK6feasst13Configuration9dimensionEv"></span><span id="feasst::Configuration::dimensionC"></span><span class="target" id="classfeasst_1_1Configuration_1a950f79be863f3df780e21313010ce414"></span>int <code class="descname">dimension</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration9dimensionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the dimensionality of space. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration10init_cellsEKdKi">
+<span id="_CPPv2N6feasst13Configuration10init_cellsEKdKi"></span><span id="feasst::Configuration::init_cells__doubleC.iC"></span><span class="target" id="classfeasst_1_1Configuration_1a8ba785fcac328d22bc17b8edf0011678"></span>void <code class="descname">init_cells</code><span class="sig-paren">(</span><em class="property">const</em> double <em>min_length</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration10init_cellsEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize the cells according to the minimum side length. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">group_index</span></code>: By default, cells are applied to all particles and sites. Set the group index to consider only a subset. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst13Configuration6reviveERK14SelectPosition">
+<span id="_CPPv2N6feasst13Configuration6reviveERK14SelectPosition"></span><span id="feasst::Configuration::revive__SelectPositionCR"></span><span class="target" id="classfeasst_1_1Configuration_1aba0c639232a2607322b4b7cae5ad3a5e"></span>void <code class="descname">revive</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="SelectPosition.html#_CPPv3N6feasst14SelectPositionE" title="feasst::SelectPosition">SelectPosition</a> &amp;<em>selection</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst13Configuration6reviveERK14SelectPosition" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Revive the particles in the selection previously removed (ghosts). </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration5checkEv">
+<span id="_CPPv2NK6feasst13Configuration5checkEv"></span><span id="feasst::Configuration::checkC"></span><span class="target" id="classfeasst_1_1Configuration_1a2ef281f20f97b63df6024cf88db03db6"></span>void <code class="descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration5checkEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> consistency of dimensions and lists. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst13Configuration8is_equalERK13Configuration">
+<span id="_CPPv2NK6feasst13Configuration8is_equalERK13Configuration"></span><span id="feasst::Configuration::is_equal__ConfigurationCRC"></span><span class="target" id="classfeasst_1_1Configuration_1ae8338f2d1ac8f64ccf263ff56d34c462"></span>bool <code class="descname">is_equal</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>configuration</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst13Configuration8is_equalERK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> if configuration is approximately equivalent. Not all quantities are checked, including ghosts, etc. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Properties.html">Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TypedEntity.html">TypedEntity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bond.html">Bond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Site.html">Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectPosition.html">SelectPosition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="VisitParticles.html"
+                        title="previous chapter">VisitParticles</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="FileVMD.html"
+                        title="next chapter">FileVMD</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="FileVMD.html" title="FileVMD"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="VisitParticles.html" title="VisitParticles"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Configuration</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

@@ -1,6 +1,0 @@
-Random Classes
-=======================================================
-
-.. toctree::
-   Random
-   RandomMersenneTwister

@@ -1,0 +1,192 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>HalfSpace &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Ewald" href="../../ewald/README.html" />
+    <link rel="prev" title="ModelHardShape" href="ModelHardShape.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../ewald/README.html" title="Ewald"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ModelHardShape.html" title="ModelHardShape"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Confinement</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="halfspace">
+<h1>HalfSpace<a class="headerlink" href="#halfspace" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst9HalfSpaceE">
+<span id="_CPPv2N6feasst9HalfSpaceE"></span><span id="feasst::HalfSpace"></span><span class="target" id="classfeasst_1_1HalfSpace"></span><em class="property">class </em><code class="descname">HalfSpace</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="Shape.html#_CPPv3N6feasst5ShapeE" title="feasst::Shape">Shape</a><a class="headerlink" href="#_CPPv3N6feasst9HalfSpaceE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A half space divides space by a plane (or line in 2D). If you are on the “right” side of this divding surface, then you are inside. Otherwise, you are not.</p>
+<p>With the current implementation, the dividing surface is assumed perpendicular to one of the coordinate axes.</p>
+<p>Thus, there are only three variables required to specify the half space.</p>
+<p><ol class="arabic simple">
+<li>The dimension of the axis which is perpendicular to the dividing surface</li>
+<li>The coordinate value of the intersection of the dividing surface with this axis.</li>
+<li>The direction along this axis which is ‘inside’ the shape. </li>
+</ol>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst9HalfSpace9HalfSpaceERK7argtype">
+<span id="_CPPv2N6feasst9HalfSpace9HalfSpaceERK7argtype"></span><span id="feasst::HalfSpace::HalfSpace__argtypeCR"></span><span class="target" id="classfeasst_1_1HalfSpace_1af005222ba4e7d9ec47649f3d5feed3aa"></span><code class="descname">HalfSpace</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9HalfSpace9HalfSpaceERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last">
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">args</span></code>: dimension : Set the dimension of the axis which is perpendicular to the divider.</p>
+<p>intersection : Set the value where this axis intersects the dividing surface.</p>
+<p>direction : Set the direction at the intersection which is inside. The only accepted values are “1” or “-1”. </p>
+</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst9HalfSpace9dimensionEv">
+<span id="_CPPv2NK6feasst9HalfSpace9dimensionEv"></span><span id="feasst::HalfSpace::dimensionC"></span><span class="target" id="classfeasst_1_1HalfSpace_1ace026b188478573641bd4b6bf4792514"></span>int <code class="descname">dimension</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst9HalfSpace9dimensionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return dimension argument. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst9HalfSpace16nearest_distanceERK8Position">
+<span id="_CPPv2NK6feasst9HalfSpace16nearest_distanceERK8Position"></span><span id="feasst::HalfSpace::nearest_distance__PositionCRC"></span><span class="target" id="classfeasst_1_1HalfSpace_1af711c771650bd8373321a9bbb06e9cbf"></span>double <code class="descname">nearest_distance</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst9HalfSpace16nearest_distanceERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the distance from the point to the nearest point on the surface. The distance is negative if the point is inside of the shape. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Confinement</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Shape.html">Shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Slab.html">Slab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cylinder.html">Cylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Sphere.html">Sphere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelLJShape.html">ModelLJShape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelHardShape.html">ModelHardShape</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">HalfSpace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ModelHardShape.html"
+                        title="previous chapter">ModelHardShape</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../ewald/README.html"
+                        title="next chapter">Ewald</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../ewald/README.html" title="Ewald"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ModelHardShape.html" title="ModelHardShape"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Confinement</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

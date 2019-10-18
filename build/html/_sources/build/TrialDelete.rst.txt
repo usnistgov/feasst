@@ -1,6 +1,0 @@
-TrialDelete
-=====================================================
-
-.. doxygenclass:: feasst::TrialDelete
-   :project: FEASST
-   :members:

@@ -1,0 +1,196 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Ewald &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="ModelChargeSelf" href="ModelChargeSelf.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="toc.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ModelChargeSelf.html" title="ModelChargeSelf"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="toc.html" title="&lt;no title&gt;"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Ewald</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="ewald">
+<h1>Ewald<a class="headerlink" href="#ewald" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst5EwaldE">
+<span id="_CPPv2N6feasst5EwaldE"></span><span id="feasst::Ewald"></span><span class="target" id="classfeasst_1_1Ewald"></span><em class="property">class </em><code class="descname">Ewald</code> : <em class="property">public</em> <a class="reference internal" href="utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/VisitModelInner.html#_CPPv3N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv3N6feasst5EwaldE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Note to HWH: For reverting, there are a few aspects<ol class="arabic simple">
+<li>The eik per-site properties are reverted by the selection</li>
+<li>The structure factor must also be reverted, through perturb-&gt;system-&gt;potential interface.</li>
+<li>Visitor needs to know if its a ‘new’ or ‘old’ configuration ? (what about transfers?)</li>
+</ol>
+</p>
+<p>HWH: If selection = all, don’t do difference HWH: If selection not all (how know? config?) then calc energy first before updating struct. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst5Ewald16set_kmax_squaredEKd">
+<span id="_CPPv2N6feasst5Ewald16set_kmax_squaredEKd"></span><span id="feasst::Ewald::set_kmax_squared__doubleC"></span><span class="target" id="classfeasst_1_1Ewald_1a096439009fcc49bb73527309e32e320a"></span>void <code class="descname">set_kmax_squared</code><span class="sig-paren">(</span><em class="property">const</em> double <em>kmax_squared</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Ewald16set_kmax_squaredEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set all k vectors according to similar size and use symmetry for the x. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst5Ewald19update_wave_vectorsERK13Configuration">
+<span id="_CPPv2N6feasst5Ewald19update_wave_vectorsERK13Configuration"></span><span id="feasst::Ewald::update_wave_vectors__ConfigurationCR"></span><span class="target" id="classfeasst_1_1Ewald_1ab5f8bbb07a131c17bf232fb1aeab5e9e"></span>void <code class="descname">update_wave_vectors</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Ewald19update_wave_vectorsERK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Precompute the wave vectors within cutoff, coefficients, and also resize the structure factors. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst5Ewald24init_wave_vector_storageEP13ConfigurationKi">
+<span id="_CPPv2N6feasst5Ewald24init_wave_vector_storageEP13ConfigurationKi"></span><span id="feasst::Ewald::init_wave_vector_storage__ConfigurationP.iC"></span><span class="target" id="classfeasst_1_1Ewald_1a587db418455c594a5fe2fc2374b073a5"></span>void <code class="descname">init_wave_vector_storage</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Ewald24init_wave_vector_storageEP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize custom site properties to store wave vector components. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi">
+<span id="_CPPv2N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi"></span><span id="feasst::Ewald::compute__ModelOneBodyCR.ModelParamsCR.SelectCR.ConfigurationP.iC"></span><span class="target" id="classfeasst_1_1Ewald_1a38a41debd5d1ba57b872030f783d670b"></span>void <code class="descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv3N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a> &amp;<em>model</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv3N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute by selection requires subtracting from the total energy, which is stored for optimization </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsP13ConfigurationKi">
+<span id="_CPPv2N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsP13ConfigurationKi"></span><span id="feasst::Ewald::compute__ModelOneBodyCR.ModelParamsCR.ConfigurationP.iC"></span><span class="target" id="classfeasst_1_1Ewald_1a76e190a7411a4b7ba6f404a9d1854858"></span>void <code class="descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv3N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a> &amp;<em>model</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv3N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute by entire selection does not require subtraction as above. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst5Ewald10update_eikERK6SelectP13Configuration">
+<span id="_CPPv2N6feasst5Ewald10update_eikERK6SelectP13Configuration"></span><span id="feasst::Ewald::update_eik__SelectCR.ConfigurationP"></span><span class="target" id="classfeasst_1_1Ewald_1a55d7d5c9eb50de0b4fd5efa54cfcb99a"></span>void <code class="descname">update_eik</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Ewald10update_eikERK6SelectP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update the site-stored eik properties and also the structure factor. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Ewald</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Ewald</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelChargeSelf.html">ModelChargeSelf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelChargeIntra.html">ModelChargeIntra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelChargeScreened.html">ModelChargeScreened</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils_ewald.html">ewald/include/utils_ewald</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="toc.html"
+                        title="previous chapter">&lt;no title&gt;</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ModelChargeSelf.html"
+                        title="next chapter">ModelChargeSelf</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ModelChargeSelf.html" title="ModelChargeSelf"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="toc.html" title="&lt;no title&gt;"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Ewald</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,331 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TrialSelect &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Perturb" href="Perturb.html" />
+    <link rel="prev" title="Rosenbluth" href="Rosenbluth.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Perturb.html" title="Perturb"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Rosenbluth.html" title="Rosenbluth"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Monte Carlo</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="trialselect">
+<h1>TrialSelect<a class="headerlink" href="#trialselect" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst11TrialSelectE">
+<span id="_CPPv2N6feasst11TrialSelectE"></span><span id="feasst::TrialSelect"></span><span class="target" id="classfeasst_1_1TrialSelect"></span><em class="property">class </em><code class="descname">TrialSelect</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../configuration/doc/Properties.html#_CPPv3N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv3N6feasst11TrialSelectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> the mobile particles and sites that are to be perturbed via trials. Store the original position in mobile_original for reverting. Also store the ‘anchor’ particles and sites which are not mobile but may be required to complete the perturbation (e.g., bonds). </p>
+<p>Subclassed by <a class="reference internal" href="TrialSelectBond.html#classfeasst_1_1TrialSelectBond"><span class="std std-ref">feasst::TrialSelectBond</span></a>, <a class="reference internal" href="TrialSelectParticle.html#classfeasst_1_1TrialSelectParticle"><span class="std std-ref">feasst::TrialSelectParticle</span></a>, <a class="reference internal" href="../../chain/doc/TrialSelectPerturbed.html#classfeasst_1_1TrialSelectPerturbed"><span class="std std-ref">feasst::TrialSelectPerturbed</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst11TrialSelect11TrialSelectERK7argtype">
+<span id="_CPPv2N6feasst11TrialSelect11TrialSelectERK7argtype"></span><span id="feasst::TrialSelect::TrialSelect__argtypeCR"></span><span class="target" id="classfeasst_1_1TrialSelect_1a3ef85964babe7dad3a7ee08d9b7ecb35"></span><code class="descname">TrialSelect</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst11TrialSelect11TrialSelectERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">args</span></code>: group_index : index of group definied within system (default: 0). <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">particle_type</span> <span class="p">:</span> <span class="nb">type</span> <span class="n">of</span> <span class="n">particle</span> <span class="ow">in</span> <span class="n">configuration</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+ </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst11TrialSelect11group_indexEv">
+<span id="_CPPv2NK6feasst11TrialSelect11group_indexEv"></span><span id="feasst::TrialSelect::group_indexC"></span><span class="target" id="classfeasst_1_1TrialSelect_1a51e632bdf2d1e85c294e9e03600e0206"></span>int <code class="descname">group_index</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst11TrialSelect11group_indexEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the index of group for selection. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst11TrialSelect13particle_typeEv">
+<span id="_CPPv2NK6feasst11TrialSelect13particle_typeEv"></span><span id="feasst::TrialSelect::particle_typeC"></span><span class="target" id="classfeasst_1_1TrialSelect_1ae738bcbc5a78daf1c309472090a41462"></span>int <code class="descname">particle_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst11TrialSelect13particle_typeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the particle type. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst11TrialSelect13before_selectEv">
+<span id="_CPPv2N6feasst11TrialSelect13before_selectEv"></span><span id="feasst::TrialSelect::before_select"></span><span class="target" id="classfeasst_1_1TrialSelect_1a388ba90327391e60ffdd5701ee73d210"></span>void <code class="descname">before_select</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst11TrialSelect13before_selectEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Perform upkeep before select. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst11TrialSelect6selectERK6SelectP6SystemP6Random">
+<span id="_CPPv2N6feasst11TrialSelect6selectERK6SelectP6SystemP6Random"></span><span id="feasst::TrialSelect::select__SelectCR.SystemP.RandomP"></span><span class="target" id="classfeasst_1_1TrialSelect_1a2ac29f78bf30cf584bf3f585216b26cc"></span><em class="property">virtual</em> bool <code class="descname">select</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>perturbed</em>, <a class="reference internal" href="../../system/doc/System.html#_CPPv3N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv3N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst11TrialSelect6selectERK6SelectP6SystemP6Random" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">perturbed</span></code>: Perturbed is included to allow chaining of selection based on previous. </li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Perform the selection as implemented in the derived class. Return false if the selection cannot be made. Otherwise, return true. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst11TrialSelect10precomputeEP6System">
+<span id="_CPPv2N6feasst11TrialSelect10precomputeEP6System"></span><span id="feasst::TrialSelect::precompute__SystemP"></span><span class="target" id="classfeasst_1_1TrialSelect_1a6c5e326a3c772398af7a90a90ce72df6"></span><em class="property">virtual</em> void <code class="descname">precompute</code><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv3N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst11TrialSelect10precomputeEP6System" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Precompute quantities before simulation for optimization. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst11TrialSelect6mobileEv">
+<span id="_CPPv2NK6feasst11TrialSelect6mobileEv"></span><span id="feasst::TrialSelect::mobileC"></span><span class="target" id="classfeasst_1_1TrialSelect_1a631e69d296dde970350925e6edee2c53"></span><em class="property">const</em> <a class="reference internal" href="../../system/doc/SelectList.html#_CPPv3N6feasst10SelectListE" title="feasst::SelectList">SelectList</a> &amp;<code class="descname">mobile</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst11TrialSelect6mobileEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the mobile selection. These can change during the trial. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst11TrialSelect10get_mobileEv">
+<span id="_CPPv2N6feasst11TrialSelect10get_mobileEv"></span><span id="feasst::TrialSelect::get_mobile"></span><span class="target" id="classfeasst_1_1TrialSelect_1a5150fdbccf3973ea5e66cb6a91ef43ae"></span><a class="reference internal" href="../../system/doc/SelectList.html#_CPPv3N6feasst10SelectListE" title="feasst::SelectList">SelectList</a> *<code class="descname">get_mobile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst11TrialSelect10get_mobileEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a pointer to the mobile selection. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst11TrialSelect10set_mobileERK10SelectList">
+<span id="_CPPv2N6feasst11TrialSelect10set_mobileERK10SelectList"></span><span id="feasst::TrialSelect::set_mobile__SelectListCR"></span><span class="target" id="classfeasst_1_1TrialSelect_1a6db915312b3068e2908c5a25bdb25436"></span>void <code class="descname">set_mobile</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/SelectList.html#_CPPv3N6feasst10SelectListE" title="feasst::SelectList">SelectList</a> &amp;<em>mobile</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst11TrialSelect10set_mobileERK10SelectList" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the mobile selection. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst11TrialSelect15mobile_originalEv">
+<span id="_CPPv2NK6feasst11TrialSelect15mobile_originalEv"></span><span id="feasst::TrialSelect::mobile_originalC"></span><span class="target" id="classfeasst_1_1TrialSelect_1a600a8403c5e74c632bc45addc7a51b1f"></span><em class="property">const</em> <a class="reference internal" href="../../system/doc/SelectList.html#_CPPv3N6feasst10SelectListE" title="feasst::SelectList">SelectList</a> &amp;<code class="descname">mobile_original</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst11TrialSelect15mobile_originalEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return originally-seleted mobile. These do not change during trial. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst11TrialSelect6anchorEv">
+<span id="_CPPv2NK6feasst11TrialSelect6anchorEv"></span><span id="feasst::TrialSelect::anchorC"></span><span class="target" id="classfeasst_1_1TrialSelect_1a969459dc0515db9544a76d5d34d93564"></span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<code class="descname">anchor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst11TrialSelect6anchorEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the anchor selection. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst11TrialSelect15anchor_positionEKiKiPK6System">
+<span id="_CPPv2N6feasst11TrialSelect15anchor_positionEKiKiPK6System"></span><span id="feasst::TrialSelect::anchor_position__iC.iC.SystemCP"></span><span class="target" id="classfeasst_1_1TrialSelect_1af3d80f81f712f9241e415abf451fadcb"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<code class="descname">anchor_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv3N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst11TrialSelect15anchor_positionEKiKiPK6System" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return anchor position. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">particle_index</span></code>: anchor index, not configuration index </li>
+<li><code class="docutils literal notranslate"><span class="pre">site_index</span></code>: anchor index </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst11TrialSelect15set_trial_stateEKi">
+<span id="_CPPv2N6feasst11TrialSelect15set_trial_stateEKi"></span><span id="feasst::TrialSelect::set_trial_state__iC"></span><span class="target" id="classfeasst_1_1TrialSelect_1a14f4d4d200c3964742ca4f7366ac7431"></span>void <code class="descname">set_trial_state</code><span class="sig-paren">(</span><em class="property">const</em> int <em>state</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst11TrialSelect15set_trial_stateEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the state of the trial for the mobile select (e.g., old, move, add). See <a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select_1a101c5d7121aec0a384ed76cae9ffe33f"><span class="std std-ref">Select::trial_state</span></a> </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst11TrialSelect12reset_mobileEv">
+<span id="_CPPv2N6feasst11TrialSelect12reset_mobileEv"></span><span id="feasst::TrialSelect::reset_mobile"></span><span class="target" id="classfeasst_1_1TrialSelect_1a6efb84984f2dcac4323c37c43d91f8b9"></span>void <code class="descname">reset_mobile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst11TrialSelect12reset_mobileEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reset the mobile selection to the original. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst11TrialSelect11probabilityEv">
+<span id="_CPPv2NK6feasst11TrialSelect11probabilityEv"></span><span id="feasst::TrialSelect::probabilityC"></span><span class="target" id="classfeasst_1_1TrialSelect_1a05dff9a13f3ea9aa6e21f99e69dd52c3"></span>double <code class="descname">probability</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst11TrialSelect11probabilityEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the probability of the selection. For example, if a random particle type is selected, then the probability is the inverse of the number of particles of that type. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst11TrialSelect15set_probabilityEKd">
+<span id="_CPPv2N6feasst11TrialSelect15set_probabilityEKd"></span><span id="feasst::TrialSelect::set_probability__doubleC"></span><span class="target" id="classfeasst_1_1TrialSelect_1a5852a225b1d8ebda3301004af05d00e0"></span>void <code class="descname">set_probability</code><span class="sig-paren">(</span><em class="property">const</em> double <em>prob</em> = 1<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst11TrialSelect15set_probabilityEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the probability of selection. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst11TrialSelect9mid_stageEv">
+<span id="_CPPv2N6feasst11TrialSelect9mid_stageEv"></span><span id="feasst::TrialSelect::mid_stage"></span><span class="target" id="classfeasst_1_1TrialSelect_1aeef3b37e93c6d0f76fbde90be4f9b70a"></span><em class="property">virtual</em> void <code class="descname">mid_stage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst11TrialSelect9mid_stageEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Call after old configuration but before new. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst11TrialSelect9set_ghostEKb">
+<span id="_CPPv2N6feasst11TrialSelect9set_ghostEKb"></span><span id="feasst::TrialSelect::set_ghost__bC"></span><span class="target" id="classfeasst_1_1TrialSelect_1aec638be60de97d27b722440ed9605f82"></span>void <code class="descname">set_ghost</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>ghost</em> = true<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst11TrialSelect9set_ghostEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> from ghost particles. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst11TrialSelect8is_ghostEv">
+<span id="_CPPv2NK6feasst11TrialSelect8is_ghostEv"></span><span id="feasst::TrialSelect::is_ghostC"></span><span class="target" id="classfeasst_1_1TrialSelect_1ab8f1ba9ed55c00abca9128d64921d6df"></span>bool <code class="descname">is_ghost</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst11TrialSelect8is_ghostEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if selecting from ghost particles. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Monte Carlo</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Stepper.html">Stepper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CriteriaMetropolis.html">CriteriaMetropolis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">TrialSelect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbConfigs.html">PerturbConfigs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Rosenbluth.html"
+                        title="previous chapter">Rosenbluth</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Perturb.html"
+                        title="next chapter">Perturb</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Perturb.html" title="Perturb"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Rosenbluth.html" title="Rosenbluth"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Monte Carlo</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

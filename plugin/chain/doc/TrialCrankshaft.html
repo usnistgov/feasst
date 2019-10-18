@@ -1,0 +1,173 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TrialCrankshaft &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="PerturbPivot" href="PerturbPivot.html" />
+    <link rel="prev" title="TrialSelectReptate" href="TrialSelectReptate.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="PerturbPivot.html" title="PerturbPivot"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="TrialSelectReptate.html" title="TrialSelectReptate"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Chain</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="trialcrankshaft">
+<h1>TrialCrankshaft<a class="headerlink" href="#trialcrankshaft" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst15TrialCrankshaftE">
+<span id="_CPPv2N6feasst15TrialCrankshaftE"></span><span id="feasst::TrialCrankshaft"></span><span class="target" id="classfeasst_1_1TrialCrankshaft"></span><em class="property">class </em><code class="descname">TrialCrankshaft</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/TrialMove.html#_CPPv3N6feasst9TrialMoveE" title="feasst::TrialMove">TrialMove</a><a class="headerlink" href="#_CPPv3N6feasst15TrialCrankshaftE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst15TrialCrankshaft15TrialCrankshaftERK7argtype">
+<span id="_CPPv2N6feasst15TrialCrankshaft15TrialCrankshaftERK7argtype"></span><span id="feasst::TrialCrankshaft::TrialCrankshaft__argtypeCR"></span><span class="target" id="classfeasst_1_1TrialCrankshaft_1a47c1c5da165931e8f668d4d3300d2035"></span><code class="descname">TrialCrankshaft</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15TrialCrankshaft15TrialCrankshaftERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">args</span></code>: These arguments are sent to both <a class="reference internal" href="PerturbCrankshaft.html#classfeasst_1_1PerturbCrankshaft"><span class="std std-ref">PerturbCrankshaft</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#classfeasst_1_1TrialStage"><span class="std std-ref">TrialStage</span></a>. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Chain</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AnalyzeRigidBonds.html">AnalyzeRigidBonds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialSelectSegment.html">TrialSelectSegment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialSelectEndSegment.html">TrialSelectEndSegment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialSelectReptate.html">TrialSelectReptate</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TrialCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbPivot.html">PerturbPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialSelectPerturbed.html">TrialSelectPerturbed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialPivot.html">TrialPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="TrialSelectReptate.html"
+                        title="previous chapter">TrialSelectReptate</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="PerturbPivot.html"
+                        title="next chapter">PerturbPivot</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="PerturbPivot.html" title="PerturbPivot"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="TrialSelectReptate.html" title="TrialSelectReptate"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Chain</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

@@ -1,54 +1,37 @@
-*****************************
-Guidelines for contributing
-*****************************
+***************************
+Contributing
+***************************
 
-Developers and contributors of FEASST may consider the following guidelines
-in order to simplify collaboration.
-
-Semantic versioning
-####################
-
-FEASST version policy follows Semantic Versioning 2.0.0 http://semver.org/spec/v2.0.0.html.
-
-In a nutshell, this means that version x.y.z-a-[version control id][abbreviated commit hash]
-
-* x. Major version number. Public API is backwards incompatible with previous versions.
-* y. Minor version number. New features but the public API is fully backwards compatible.
-* z. This version number changes if the source code has changed in the slightest.
-* a. This version changes if the documentation changes but the source code is the same.
-* And the version control id is "g" for GitHub, for example, followed by the commit hash.
-
-Although all efforts are made for restart files to be backwards compatible, they may only be compatible for the same version x.y.z.
+Developers and contributors of FEASST may consider the following guidelines in order to simplify collaboration.
 
 Branch policies
-###############
+=======================
 
-Branches in Git are extremely useful for working on different features within
-the same code base and then merging them into a final product or release.
+Branches in Git are extremely useful for working on different features within the same code base and then merging them into a final product or release.
 
 https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
 
-Using and naming branches in a way that is consistent may simplify this
-process. The policies below are based loosely on the following blog.
+Using and naming branches in a way that is consistent may simplify this process.
+The policies below are based loosely on the following blog.
 
 http://nvie.com/posts/a-successful-git-branching-model/
 
 Master branch
-*************
+--------------------------------------------------------------------------------
 
 This is the release branch.
-This branch may only merge with development and hotfix branches.
+This branch may only merge with develop and hotfix branches.
 
-* `Unittest with GTEST`_ and all tests pass
-* `Find memory leaks with Valgrind`_
-* `Test coverage with GCOV and LCOV`_ which must be >75% (aim for 100%)
-* `Clean up with cpplint and pylint`_
+* `GTEST: Unittest C++`_ and all tests pass
+* `Valgrind: Find memory leaks`_
+* `GCOV and LCOV: Test coverage`_ which must be >85%
+* `cpplint and pylint: Clean up styling`_
 * SWIG and Python unittested
-* Update packages
-* Document new features
+* `Document`_ new features
+* Tag :code:`git tag -a <version number>` and :code:`git push --tags`
 
-Development (dev) branch
-*************************
+Develop branch
+--------------------------------------------------------------------------------
 
 This is the development branch.
 
@@ -56,91 +39,55 @@ Tested and complete implementation of new features are added here.
 
 * Code must compile and gtests pass successfully
 * Consider feature compatibility with swig python interface
+* When merging into this branch, use --squash to add the entire feature with a single commit.
+  Alternatively, you could also rebase your private branch.
 
 Hotfix branch
-**************
+--------------------------------------------------------------------------------
 
 The hotfix branch is for implementation of bug fixes to the master branch.
-These branches have a short life span. After merging with master and dev,
-they are deleted.
+After merging with master and develop, they are deleted.
 
-Feature (ftr_*) branches
-*************************
+Feature branches
+--------------------------------------------------------------------------------
 
 These branches are for the development of new features.
-These branch names must begin with the characters "ftr_*".
-Once tested and complete, these branches may be merged into dev.
-
-* Code must compile.
-  HINT: use "git stash" over lazy commits, or use your own local branch
+These branch names must begin with characters which identify the main developer of the feature (e..g, hwh/feature)
+The main developer sets the branch policy.
 
 Dead (dead_*) branches
-***********************
+--------------------------------------------------------------------------------
 
-These branches may record an incomplete attempt of a feature that may be
-relevant in the future.
+These branches may record an incomplete attempt of a feature that may be relevant in the future.
 These branch names must begin with the characters "dead".
 
 * No rules. Code may not compile.
   HINT: rename branches with "git branch -m <newname>"
 
-Public/private repositories with package tools
-###############################################
+Tools
+================================================================================
 
-.. include:: tools/package/README.rst
+GTEST: Unittest C++
+--------------------------------------------------------------------------------
 
-Unittest with GTEST
-####################
-
-The master branch requires GTEST coverage. All interface files have an
-associated ``*_unittest`` file such as the following.
-
-.. code-block:: c++
-
-    #include "space.h"
-
-    TEST(Space, init_config){
-      Space space(3);
-      EXPECT_EQ(3, space.dimen());  // 3D space
-      EXPECT_FALSE(space.dimen() == 2);
-      EXPECT_LT(2, space.dimen());
-      EXPECT_NEAR(3., space.dimen(), DTOL);
-    }
-
-CMake and the Makefile will automatically detect and compile these tests.
-For example
+The master branch requires GTEST coverage for all cpp plugins in plugin/name/test.
 
 .. code-block:: bash
 
-   cmake -DUSE_GTEST=ON .
-   make unittest -j 8
-   ./bin/unittest --gtest_shuffle --gtest_filter=Space.ini*
+    cmake -DUSE_GTEST=ON ..
+    make unittest -j12
+    ./bin/unittest
 
-The optional gtest flags randomly shuffle the order of the tests, and run
-specific tests, respectively.
-To use a seed to reproduce an error, use --gtest_random_seed=SEED.
+* use :code:`--gtest_filter=*Name*` to run specific tests
+* use :code:`./bin/unittest \|& more` to pipe stderr to stdout.
+* use :code:`--gtest_shuffle` to randomize the order of the tests
+* use :code:`--gtest_random_seed=SEED` to reproduce an specific order.
 
-If there are a lot of errors, typically the best testing order would be::
+GDB or LLDB: Debugging
+--------------------------------------------------------------------------------
 
-    shape
-    base
-    functions
-    table
-    accumulator
-    histogram
-    random
-    space
-    pair
-    analyze
-    criteria
-    trial
-    mc
-    ui_*
-
-Debugging with GDB or LLDB
-###########################
-
-gdb (or lldb on macOS) is especially useful for identifying segfaults via backtraces. The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
+gdb (or lldb on macOS) is especially useful for identifying segfaults via backtraces.
+The -g flag in compilation pulls the symbols so that you can get correct line numbers in the gdb output.
 
 In bash
 
@@ -149,16 +96,28 @@ In bash
    gdb [program executable name]
    r [flags]
 
+or
+
+.. code-block:: bash
+
+   gdb --batch --command=../dev/test.gdb ./bin/unittest
+
+
 gdb can also be used with python as
 
 .. code-block:: bash
 
+   export PYTHONPATH=$PYTHONPATH:~/feasst/build/
    gdb python
    r [python script] [optional flags]
 
+* use 'gdb catch throw' or 'lldb break set -E C++' to backtrace exceptions
 
-Find memory leaks with Valgrind
-#################################
+* use gdb as a profiler by ctrl c in the middle and backtrace: https://stackoverflow.com/a/378024
+* use gdb as a parallel profiler: http://poormansprofiler.org/
+
+Valgrind: Find memory leaks
+--------------------------------------------------------------------------------
 
 Valgrind helps to detect memory management bugs.
 
@@ -175,38 +134,37 @@ For example, to run Valgrind on a particular test and output to text file
 * Don't use profiler for leak checks. OMP causes "leaks" O.K.
 * For suppress false-positives (e.g., gomp or gsl), use --gen-suppressions=all to generate suppression files
 
-Test coverage with GCOV and LCOV
-###################################
+GCOV and LCOV: Test coverage
+--------------------------------------------------------------------------------
 
 GCC compilers allow testing of coverage with gcov and lcov for visualization.
 
+* Code: currently implemented with Travis CI and CodeCov and available online.
+  See .travis.yml for example of how to use lcov
 * Use GCOV with CMake: cmake -DUSE_GCOV .
   Note: this disables optimization, so don't use it for production simulations.
 * make coverage
 * Open coverage/index.html in your browser.
 * Go into "src" and ignore the external library coverage.
 
-Speed up compilation time with ccache
-######################################
+CCACHE: Speed up compilation time
+--------------------------------------------------------------------------------
 
-If you haven't used ccache before, give it a try.
+Something as trivial as changing a comment in a header file can lead to a massive recompile of the entire source.
+Your previous compile is remembered by ccache, leading to near instant recompilation in the above example.
 
-Clean up with cpplint and pylint
-#######################################
+cpplint and pylint: Clean up styling
+--------------------------------------------------------------------------------
 
 https://google.github.io/styleguide/cppguide.html
 
 https://github.com/google/styleguide/tree/gh-pages/cpplint
 
-Tag and archive
-#####################
+Document
+================================================================================
 
-git tag -a <version number>
-
-git archive master --prefix='feasst'`git describe master`'/' | gzip > feasst`git describe master`.tar.gz
-
-Documentation setup
-####################
+Setup
+--------------------------------------------------------------------------------
 
 pip install sphinx
 pip install breathe
@@ -226,78 +184,118 @@ pip install sphinx_rtd_theme
 
 run sphinx: make html
 
-Sphinx/Breathe/Doxygen tips
-############################
+Sphinx/Breathe/Doxygen notes
+--------------------------------------------------------------------------------
 
-* Link from rst file to C++ function: ``:cpp:func:`className::function()```
-* Link from rst file to fst file: ``:doc:`/tutorial/asdf```
+* Link from rst file to C++ function: ``:cpp:func:`link <feasst::className::function()>```
+* Link from rst file to C++ function: ``:cpp:class:`link <feasst:className>```
+* Link from rst file to fst file: ``:doc:`/tutorial/asdf``` [note, / references root]
 * Link from C++ to C++: ``className::function()``
 * Link from C++ source to rst file: ``<a href="tutorial/asdf.html">test</a>``
 * For math in C++ comments::
 
    \f$ latex code here \f$
 
-To do list
-#####################
+Style
+================================================================================
 
-* json reader to server as 'input script' to launch simulations
-* json as checkpoint file
-* MD with stochastic dynamics integrator
-* Perfect checkpointing
-* Automated full-checkpoint testing
-* for xyz2bin, in afterAttempt MC, use unique hash on log file and xyz configuration for error check
-  -- implement with WLTMMC, use criteria to find order param column in log, then readxyz hash, find log hash match, demix conf based on the bin
-* have criteria class backup colmat/stats periodically, based on sweeps?, that can be post processed (e.g., energy stats)
-* remove periodicity from x/y/z dimensions (no rush here)
-* split functions.h into a variety of base_fileio, base_math, base_utils, etc
-* Use Histogram class for CriteriaWLTMMC instead of its own hard-coded version
-* To reduce the size of Space, have it inherit multiple base classes, e.g.,
-  Domain which contains box lengths and cell list, etc (but needs to know about particle positions?)
-* Fix nomenclature.. atom == particle, mol == ?.. maybe change to sites / particles
-* add ASSERT(rCutij.size() == 0 for linearShift in PairLJMulti so people don't run into issues with rCutij.clear
-* Numerical implementation of quadratic equation could help with config bias: https://en.wikipedia.org/wiki/Quadratic_equation#Quadratic_formula_and_its_derivation
-* Improve handling of default parameters for documentation and perhaps json (e.g. checkpointing above)?
-* implement arbitrary order parameters as a class/factory method within CriteriaWLTMMC to allow users to define their own order parameters. These order parameters also must operate on Space/Pair objects (and also perhaps a Trial for expanded ensemble).
-* runNumSweeps instead should have something where one generates the clones as vector<shrptr>, then runNumSweep takes these as input. That way one can modify the clones as one sees fit (also in multiprocessor restarts) before running the clones. It would take a lot of the hidden magic out without complicating the interface too drastically.
-* Fix GSL memory leaks
-* Add verbosity level for printing debug messages
-* Make a citation generator for techniques that are used.
-* move checkBond from MC to analyze class for rigid particle simulations (or as part of checkE?)
-* Move some analysis outside of space class
-  - but what if things like trials use the analysis, such as clusters?
-  - ""This trial requires MC to have an analyze class...""
-* document log file and tuning, changing acceptance percentage
-* Include PDF version of manual in release tarballs
-* Package FEASST as a Docker app
-* move unittests to tutorials: ljmultilambda2D, NPTandLJvLJMulti, semigrand,
-* Fix the API TOC for non-derived classes (e.g., TOC disappears when you select "Histogram")
-* Add test case with AnalyzeCluster and AnalyzeScatter.
-* Add test case with PairTabular1D (and/or improve beyond linear interpolation).
-* Incorporate more "tools" as part of the test cases (e.g., rw, restart, xyz2bin, etc).
-* feasst.nist.gov instead of pages.nist.gov/feasst ?
-* sphinx_rtd_theme doesn't work with NIST header/footer
-* Use short version number for display on FEASST html
-* Customize restart directory name
-* Fix tutorial 1/3 by taking arguments with unittest in python.
-* Use packages to dynamically add the disclaim in the release.
-* rename feasst.str.. python doesn't like it.
-* Eventually convert all raw pointers to shared pointers (but interface blind to shared_ptr vs unique_ptr), which also allows removal of space from MC class
-* Custom derived Analysis class should be able to clone without more boiler plate
-* Operations to assign atoms to groups, and be able to apply groups to most operations like analyze
-* Separate PairLJCoul into different classes for LJ, real-space Q and Ewald. Use PairHybrid to combine them.
-* Once subspace efficiently implemented, pairHybrid can store different pairs with different subspaces to optimize e.g., the LJ interaction on oxygens only (for MFB?)
-* Rename some variables... mpart should be msite? ran vs rand.
-* Implement Mayer sampling within the context of all of the Trial classes (currently just TrialTransform - translate).
-* For library build (1) configure input/output of unittests/tutorials (2) external and internal cmake sandbox builds
-* After added feasst namespace to swig, why does the type of "PairLJCoulEwald::erft()" show up as "SwgPyObject" instead of "class feasst.erftable"
-* Update the FAQ, or make it more links to tutorials which seem to be more likely to stay up-to-date.
-* Update documentation/tutorial/FAQ for PairTabular1D.
-* Use sphinx doctest to test python tutorials
-* For tutorial 1/3, add rw and test with coexistence and/or pressure.
-* Add CMakeLists.txt build in tutorial 1/0 to nightly build.
-* targAccept more clear to user
-* the order of the %includes in feasst.i are important (e.g., see pair_lj vs pair_lrc). Consider moving away from automated factories. For now, a simple solution where pair_lrc was renamed pair_1lrc so it is included first.
-* remove masses and box from data files
-* lammps data format real units uses kcal for energy, but I use kJ. Misleading for eps.
-* implement perfect restart of c++ implementation of Mersenne twister.
-* implement eigenvalue and eigenvector computation for nematic order and gyration tensor analysis.
+Reference guides for C++
+--------------------------------------------------------------------------------
+
+* http://www.cplusplus.com/
+* https://google.github.io/styleguide/cppguide.html
+* http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
+
+Naming
+--------------------------------------------------------------------------------
+
+* ClassNames are mixed case with starting upper case letter
+* member_names are lower case with underscores
+* private_member_names\_ end with an underscore
+* function_names are also lower case with underscores
+* bools syntax: is_[accepted.., etc]
+* MACROS and CONSTANTS are all upper case.
+* Avoid MACROS and CONSTANTS.
+* use "and", "or" instead of "&&", "||" (HWH: change this to follow Google?)
+
+Functions
+--------------------------------------------------------------------------------
+
+* Use return values. Argument ordering: input (value or constant reference), then output (pointer only)
+* Overloaded functions -> can you document all in a single comment? good
+* No Default parameters on virtual functions
+
+Classes
+--------------------------------------------------------------------------------
+
+* Nearly all data members should be private. Limit protected members
+* member_name() returns const member
+* set_member_name(member_name) sets member
+* For setters with multiple arguments, the first are vector indices as in order x[0] = 3...
+* getptr_member_name returns constant pointer (optimization only)
+
+Loops and if
+--------------------------------------------------------------------------------
+
+* use of "for (auto element : container) { ... }" is dangerous
+* for simple loops over containers, use "for (element : container)"
+* for loops where you need the index, use:
+  for (int index = 0; index < static_cast<int>(container.size()); ++index)
+
+Auto
+--------------------------------------------------------------------------------
+
+* only use auto when the type is clear such as auto var = std::make_shared<..>.
+
+Arguments
+--------------------------------------------------------------------------------
+
+* All arguments are provided as strings and converted to the expected type.
+* Check that all arguments are used (e.g., like implicit none, a typo is caught).
+* Argument defaults need to be set and clearly commented.
+* If no default, it is a required argument.
+
+Serialization
+--------------------------------------------------------------------------------
+
+* guided by https://isocpp.org/wiki/faq/serialization
+* For inheritance hierarchy, a static deserialize_map is used to relate class
+  name to template.
+* Each object serializes a version that can be used for checks and backwards
+  compatibility.
+* utils_io.h contains many function templates for serialization.
+* In particular, feasst_deserialize_fstdr() needs to be fixed.
+* Don't forget to serialize (private) member data in new implementations.
+* To compare differences between two serializations, paste into file and using "s/ /\r/g"
+
+For quick reference
+================================================================================
+
+* line counts [find . -name '*.cpp' -o -name '*.h' | xargs wc -l | sort -n]
+
+To Do List
+================================================================================
+
+* ideal gas as the first tutorial/testcase
+* specify units in LMP data files?
+* fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu
+* py/feasst.i depends on which plugins that you use. how to make this user friendly?
+* neighbor lists
+* trial regrow to include grand canonical insertions
+* consider optimization of Ewald: init ewald storage on particle types, precompute property index.
+* serialize/deserialize trials,perturbs,select_list,...
+* Criteria running energies may contain a part from each potential to simplify debugging.
+* implement timer for profiles (with hierarchies by class... tried this, but its too slow)
+* implement a timer to auto-balance trial weights.
+* find a better way for two different classes to take from the same argument list and still maintain unused checks.
+* when selecting from cpdf, use lnp instead of p?
+* insert optimization: update cell list of sites when added, but of domain only when finalized.
+* wl lj comparison is off
+* Python interface cannot take a system pointer to modify system (e.g., perturb, in monte_carlo/tutorial/test_lj_model.py.bak
+* IF using argtype for custom object, considering single string constructors. E.g., for position in cylinder.h, use {"point0", "0 0 0"}
+* Python debug script: easy for user to run gdb/valgrind
+* Toggle more debug levels, and localized to certain files/plugins, etc
+* force precompute when reinitializing system, criteria, etc in MonteCarlo
+* MonteCarlo subclass Simulation
+* swig python wrap arguments std::istream and std::ostream for serialization
+* add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects

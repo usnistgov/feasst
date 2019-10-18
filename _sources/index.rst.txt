@@ -1,26 +1,26 @@
 .. FEASST documentation master file.
 
+###############################################################################
 FEASST: Free Energy and Advanced Sampling Simulation Toolkit
-=============================================================
+###############################################################################
 
 .. include:: README.rst
 
 Contents:
 
-.. image:: sphinx/feasst.png
+.. image:: dev/sphinx/feasst.png
    :align: right
 
 .. toctree::
-   :maxdepth: 3
 
    README
-   TUTORIAL
-   build/api
-   FAQ
-   CHANGELOG
-   CONTRIBUTING
-   AUTHORS
+   tutorial/README.rst
+   plugin/README
+   py/README
+   forcefield/README
    CONTACT
+   CONTRIBUTING
+   ACKNOWLEDGEMENT
    CITATION
 
 Index

@@ -1,6 +1,0 @@
-MC
-=====================================================
-
-.. doxygenclass:: feasst::MC
-   :project: FEASST
-   :members:

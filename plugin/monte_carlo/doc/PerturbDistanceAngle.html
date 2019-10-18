@@ -1,0 +1,195 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>PerturbDistanceAngle &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="PerturbRotate" href="PerturbRotate.html" />
+    <link rel="prev" title="PerturbDistance" href="PerturbDistance.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="PerturbRotate.html" title="PerturbRotate"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="PerturbDistance.html" title="PerturbDistance"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Monte Carlo</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="perturbdistanceangle">
+<h1>PerturbDistanceAngle<a class="headerlink" href="#perturbdistanceangle" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst20PerturbDistanceAngleE">
+<span id="_CPPv2N6feasst20PerturbDistanceAngleE"></span><span id="feasst::PerturbDistanceAngle"></span><span class="target" id="classfeasst_1_1PerturbDistanceAngle"></span><em class="property">class </em><code class="descname">PerturbDistanceAngle</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="PerturbDistance.html#_CPPv3N6feasst15PerturbDistanceE" title="feasst::PerturbDistance">PerturbDistance</a><a class="headerlink" href="#_CPPv3N6feasst20PerturbDistanceAngleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Put first site in selection, i, in a sphere about the first site in anchor, j, and at an angle i,j,k (vertex: j) about the second site in anchor, j. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst20PerturbDistanceAngle4moveEP6SystemP11TrialSelectP6Random">
+<span id="_CPPv2N6feasst20PerturbDistanceAngle4moveEP6SystemP11TrialSelectP6Random"></span><span id="feasst::PerturbDistanceAngle::move__SystemP.TrialSelectP.RandomP"></span><span class="target" id="classfeasst_1_1PerturbDistanceAngle_1ac82af6e5a135f05ea66dc0851ccc2f0f"></span>void <code class="descname">move</code><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv3N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="TrialSelect.html#_CPPv3N6feasst11TrialSelectE" title="feasst::TrialSelect">TrialSelect</a> *<em>select</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv3N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst20PerturbDistanceAngle4moveEP6SystemP11TrialSelectP6Random" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Move the selection of the system. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Monte Carlo</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Stepper.html">Stepper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CriteriaMetropolis.html">CriteriaMetropolis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbConfigs.html">PerturbConfigs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">PerturbDistanceAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="PerturbDistance.html"
+                        title="previous chapter">PerturbDistance</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="PerturbRotate.html"
+                        title="next chapter">PerturbRotate</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="PerturbRotate.html" title="PerturbRotate"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="PerturbDistance.html" title="PerturbDistance"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Monte Carlo</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

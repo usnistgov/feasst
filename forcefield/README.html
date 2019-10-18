@@ -1,0 +1,157 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Forcefield &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contact" href="../CONTACT.html" />
+    <link rel="prev" title="pyFEASST" href="../py/README.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../CONTACT.html" title="Contact"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../py/README.html" title="pyFEASST"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.8.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="forcefield">
+<h1>Forcefield<a class="headerlink" href="#forcefield" title="Permalink to this headline">¶</a></h1>
+<p>The forcefield directory is a place for files which describe atoms, molecules and coarse-grained models.</p>
+<div class="section" id="data-files">
+<h2>Data files<a class="headerlink" href="#data-files" title="Permalink to this headline">¶</a></h2>
+<p>Files which begin with the name “data” are LAMMPS-inspired data files.</p>
+<p><a class="reference external" href="https://lammps.sandia.gov/doc/read_data.html">https://lammps.sandia.gov/doc/read_data.html</a></p>
+<p>They deviate from LAMMPS data files as follows:</p>
+<div class="section" id="nomenclature-and-style">
+<h3>Nomenclature and style<a class="headerlink" href="#nomenclature-and-style" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>atoms in LAMMPS are analogous to sites in FEASST.</li>
+<li>molecules in LAMMPS are analogous to particles in FEASST.</li>
+<li>FEASST site and particle indices begin with 0, but we retain the “start with one” definition for the data file format.</li>
+<li>characters are case sensitive</li>
+<li>the number of spaces between characters does not matter</li>
+<li>LMP Coeffs sections were replaced by Properties sections, with different formatting</li>
+</ul>
+</div>
+<div class="section" id="site-properties">
+<h3>Site Properties<a class="headerlink" href="#site-properties" title="Permalink to this headline">¶</a></h3>
+<p>This is where the biggest difference from the LAMMPS data format is present.
+Each site type may have a list of properties given by a label and value.</p>
+<p>The format for this section is as follows:</p>
+<p>[site index] [label_0] [value_0] … [label_n] [value_n]</p>
+</div>
+<div class="section" id="sites">
+<h3>Sites<a class="headerlink" href="#sites" title="Permalink to this headline">¶</a></h3>
+<p>Charge is a site-type property, and thus is not included for each site.
+In addition, wrapping is also not included.</p>
+<p>The format for this section is as follows:</p>
+<p>[site index] [particle index] [site type] [x-position] [y-position] [z-position]</p>
+</div>
+<div class="section" id="site-labels">
+<h3>Site Labels<a class="headerlink" href="#site-labels" title="Permalink to this headline">¶</a></h3>
+<p>Site labels are used to attach a name to the site type, often used for visualization programs, etc.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Forcefield</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#data-files">Data files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nomenclature-and-style">Nomenclature and style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#site-properties">Site Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sites">Sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#site-labels">Site Labels</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../py/README.html"
+                        title="previous chapter">pyFEASST</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../CONTACT.html"
+                        title="next chapter">Contact</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../CONTACT.html" title="Contact"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../py/README.html" title="pyFEASST"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.8.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

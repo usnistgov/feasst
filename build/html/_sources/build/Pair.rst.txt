@@ -1,6 +1,0 @@
-Pair
-=====================================================
-
-.. doxygenclass:: feasst::Pair
-   :project: FEASST
-   :members:

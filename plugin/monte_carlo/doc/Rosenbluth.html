@@ -1,0 +1,267 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Rosenbluth &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="TrialSelect" href="TrialSelect.html" />
+    <link rel="prev" title="CriteriaMetropolis" href="CriteriaMetropolis.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="TrialSelect.html" title="TrialSelect"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CriteriaMetropolis.html" title="CriteriaMetropolis"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Monte Carlo</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="rosenbluth">
+<h1>Rosenbluth<a class="headerlink" href="#rosenbluth" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst10RosenbluthE">
+<span id="_CPPv2N6feasst10RosenbluthE"></span><span id="feasst::Rosenbluth"></span><span class="target" id="classfeasst_1_1Rosenbluth"></span><em class="property">class </em><code class="descname">Rosenbluth</code><a class="headerlink" href="#_CPPv3N6feasst10RosenbluthE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Store the energies and <a class="reference internal" href="#classfeasst_1_1Rosenbluth"><span class="std std-ref">Rosenbluth</span></a> factors necessary for configurational bias Monte Carlo trials. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst10Rosenbluth6resizeEKi">
+<span id="_CPPv2N6feasst10Rosenbluth6resizeEKi"></span><span id="feasst::Rosenbluth::resize__iC"></span><span class="target" id="classfeasst_1_1Rosenbluth_1aee79ea1df3d68d937a357d69378f8f95"></span>void <code class="descname">resize</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10Rosenbluth6resizeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Resize the energy, Boltmann factors by the number of steps in the trial. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Rosenbluth3numEv">
+<span id="_CPPv2NK6feasst10Rosenbluth3numEv"></span><span id="feasst::Rosenbluth::numC"></span><span class="target" id="classfeasst_1_1Rosenbluth_1a397cf55fc22585d7cbccaf13708d49d0"></span>int <code class="descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Rosenbluth3numEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of steps. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10Rosenbluth5storeEKiRK10SelectListPK6System">
+<span id="_CPPv2N6feasst10Rosenbluth5storeEKiRK10SelectListPK6System"></span><span id="feasst::Rosenbluth::store__iC.SelectListCR.SystemCP"></span><span class="target" id="classfeasst_1_1Rosenbluth_1a97fe270e43c720584d4d877333378301"></span>void <code class="descname">store</code><span class="sig-paren">(</span><em class="property">const</em> int <em>step</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/SelectList.html#_CPPv3N6feasst10SelectListE" title="feasst::SelectList">SelectList</a> &amp;<em>select</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv3N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10Rosenbluth5storeEKiRK10SelectListPK6System" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Store the selection for each step. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10Rosenbluth10set_energyEKiKd">
+<span id="_CPPv2N6feasst10Rosenbluth10set_energyEKiKd"></span><span id="feasst::Rosenbluth::set_energy__iC.doubleC"></span><span class="target" id="classfeasst_1_1Rosenbluth_1a3c0d245912c9a15b6c5651796050b55f"></span>void <code class="descname">set_energy</code><span class="sig-paren">(</span><em class="property">const</em> int <em>step</em>, <em class="property">const</em> double <em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10Rosenbluth10set_energyEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the energy of the step by step. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10Rosenbluth7computeEKdP6Random">
+<span id="_CPPv2N6feasst10Rosenbluth7computeEKdP6Random"></span><span id="feasst::Rosenbluth::compute__doubleC.RandomP"></span><span class="target" id="classfeasst_1_1Rosenbluth_1aec20056b0adf614780bab00e382a4f56"></span>void <code class="descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> double <em>beta</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv3N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10Rosenbluth7computeEKdP6Random" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute Boltzmann factors and cumulative probabilities for all steps. Choose one of the steps based on the probabilities. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Rosenbluth6storedEKi">
+<span id="_CPPv2NK6feasst10Rosenbluth6storedEKi"></span><span id="feasst::Rosenbluth::stored__iCC"></span><span class="target" id="classfeasst_1_1Rosenbluth_1a0a5a1aceec11d28325928c92f9066921"></span><em class="property">const</em> <a class="reference internal" href="../../system/doc/SelectList.html#_CPPv3N6feasst10SelectListE" title="feasst::SelectList">SelectList</a> &amp;<code class="descname">stored</code><span class="sig-paren">(</span><em class="property">const</em> int <em>step</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Rosenbluth6storedEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the stored selection of the step. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Rosenbluth6chosenEv">
+<span id="_CPPv2NK6feasst10Rosenbluth6chosenEv"></span><span id="feasst::Rosenbluth::chosenC"></span><span class="target" id="classfeasst_1_1Rosenbluth_1a665eacc0b4c88f6801081f48b89c366b"></span><em class="property">const</em> <a class="reference internal" href="../../system/doc/SelectList.html#_CPPv3N6feasst10SelectListE" title="feasst::SelectList">SelectList</a> &amp;<code class="descname">chosen</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Rosenbluth6chosenEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the chosen selection. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Rosenbluth13chosen_energyEv">
+<span id="_CPPv2NK6feasst10Rosenbluth13chosen_energyEv"></span><span id="feasst::Rosenbluth::chosen_energyC"></span><span class="target" id="classfeasst_1_1Rosenbluth_1a6d64c29f970bbfcb7c17d9e67350d2e0"></span>double <code class="descname">chosen_energy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Rosenbluth13chosen_energyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the chosen energy. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Rosenbluth16total_rosenbluthEv">
+<span id="_CPPv2NK6feasst10Rosenbluth16total_rosenbluthEv"></span><span id="feasst::Rosenbluth::total_rosenbluthC"></span><span class="target" id="classfeasst_1_1Rosenbluth_1a59f892014fe4d70abf275affddc78bbc"></span>double <code class="descname">total_rosenbluth</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Rosenbluth16total_rosenbluthEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the total rosenbluth factor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Rosenbluth6energyEKi">
+<span id="_CPPv2NK6feasst10Rosenbluth6energyEKi"></span><span id="feasst::Rosenbluth::energy__iCC"></span><span class="target" id="classfeasst_1_1Rosenbluth_1aa57b8f03974841a5e698a60b0093ce55"></span>double <code class="descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> int <em>step</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Rosenbluth6energyEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the energy for a given step. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Rosenbluth11chosen_stepEv">
+<span id="_CPPv2NK6feasst10Rosenbluth11chosen_stepEv"></span><span id="feasst::Rosenbluth::chosen_stepC"></span><span class="target" id="classfeasst_1_1Rosenbluth_1a354c5506dd92e255b1b47214baf7dbfb"></span>int <code class="descname">chosen_step</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Rosenbluth11chosen_stepEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the chosen step. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Rosenbluth9serializeERNSt7ostreamE">
+<span id="_CPPv2NK6feasst10Rosenbluth9serializeERNSt7ostreamE"></span><span id="feasst::Rosenbluth::serialize__osRC"></span><span class="target" id="classfeasst_1_1Rosenbluth_1a156bf75149f8159d04adeb268ef5c7e1"></span>void <code class="descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Rosenbluth9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Serialize. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10Rosenbluth10RosenbluthERNSt7istreamE">
+<span id="_CPPv2N6feasst10Rosenbluth10RosenbluthERNSt7istreamE"></span><span id="feasst::Rosenbluth::Rosenbluth__isR"></span><span class="target" id="classfeasst_1_1Rosenbluth_1a650e0c59e3e4d1c624a2f51aabb77afe"></span><code class="descname">Rosenbluth</code><span class="sig-paren">(</span>std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10Rosenbluth10RosenbluthERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Deserialize. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Monte Carlo</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Stepper.html">Stepper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CriteriaMetropolis.html">CriteriaMetropolis</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Rosenbluth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbConfigs.html">PerturbConfigs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="CriteriaMetropolis.html"
+                        title="previous chapter">CriteriaMetropolis</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="TrialSelect.html"
+                        title="next chapter">TrialSelect</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="TrialSelect.html" title="TrialSelect"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CriteriaMetropolis.html" title="CriteriaMetropolis"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Monte Carlo</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

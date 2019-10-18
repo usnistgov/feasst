@@ -1,0 +1,140 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>pyFEASST &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Forcefield" href="../forcefield/README.html" />
+    <link rel="prev" title="Pool" href="../plugin/pipeline/doc/Pool.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../forcefield/README.html" title="Forcefield"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../plugin/pipeline/doc/Pool.html" title="Pool"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.8.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pyfeasst">
+<h1>pyFEASST<a class="headerlink" href="#pyfeasst" title="Permalink to this headline">¶</a></h1>
+<p>Python support for FEASST includes the following:</p>
+<div class="section" id="run-sh">
+<h2>run.sh<a class="headerlink" href="#run-sh" title="Permalink to this headline">¶</a></h2>
+<p>Shell script which assumes that feasst was compiled in the directory /path/to/feasst/build/ and that run.sh itself is in /path/to/feasst/py.
+The script sets PYTHONPATH.
+This script assumes python3 but you could easily modify it for your use.
+CMakeLists.txt also assumes python3 for finding LIBS, so you’d have to manually specify the python paths as described in the installation instructions.</p>
+</div>
+<div class="section" id="pyfeasst-py">
+<h2>pyfeasst.py<a class="headerlink" href="#pyfeasst-py" title="Permalink to this headline">¶</a></h2>
+<p>Collection of utility python functions and classes for use with FEASST.</p>
+</div>
+<div class="section" id="test-py">
+<h2>test.py<a class="headerlink" href="#test-py" title="Permalink to this headline">¶</a></h2>
+<p>Unittests for python interface.</p>
+</div>
+<div class="section" id="feasst-i">
+<h2>feasst.i<a class="headerlink" href="#feasst-i" title="Permalink to this headline">¶</a></h2>
+<p>This is the SWIG interface file for wrapping C++ to Python.
+Typically only developers would be interested in this file.
+It is generated using a script because the order of including headers is important.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">Plugin</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyFEASST</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#run-sh">run.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyfeasst-py">pyfeasst.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-py">test.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#feasst-i">feasst.i</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../plugin/pipeline/doc/Pool.html"
+                        title="previous chapter">Pool</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../forcefield/README.html"
+                        title="next chapter">Forcefield</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../forcefield/README.html" title="Forcefield"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../plugin/pipeline/doc/Pool.html" title="Pool"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">FEASST v0.8.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

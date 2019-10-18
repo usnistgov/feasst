@@ -1,0 +1,221 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Group &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="FileLMP" href="FileLMP.html" />
+    <link rel="prev" title="Particle" href="Particle.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="FileLMP.html" title="FileLMP"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Particle.html" title="Particle"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Configuration</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="group">
+<h1>Group<a class="headerlink" href="#group" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst5GroupE">
+<span id="_CPPv2N6feasst5GroupE"></span><span id="feasst::Group"></span><span class="target" id="classfeasst_1_1Group"></span><em class="property">class </em><code class="descname">Group</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv3N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv3N6feasst5GroupE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Define groups based on particle and site types. In the future, other metrics may be used, such as position-based ones, etc. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst5Group11set_dynamicEv">
+<span id="_CPPv2N6feasst5Group11set_dynamicEv"></span><span id="feasst::Group::set_dynamic"></span><span class="target" id="classfeasst_1_1Group_1a196b47711d83b657b3180ef23a4c79c1"></span>void <code class="descname">set_dynamic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Group11set_dynamicEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Dynamic groups indicate that they should be updated (default behavior). </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst5Group13add_site_typeEKi">
+<span id="_CPPv2N6feasst5Group13add_site_typeEKi"></span><span id="feasst::Group::add_site_type__iC"></span><span class="target" id="classfeasst_1_1Group_1a5736d5c79c20c0fdc5e772addb862382"></span><a class="reference internal" href="#_CPPv3N6feasst5GroupE" title="feasst::Group">Group</a> &amp;<code class="descname">add_site_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Group13add_site_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add site type as included. Return self for chain setting. If no site types are defined, then all site types are in the group. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst5Group17add_particle_typeEKi">
+<span id="_CPPv2N6feasst5Group17add_particle_typeEKi"></span><span id="feasst::Group::add_particle_type__iC"></span><span class="target" id="classfeasst_1_1Group_1a3f65512fc9a4f506d8daa83b42bd7547"></span><a class="reference internal" href="#_CPPv3N6feasst5GroupE" title="feasst::Group">Group</a> &amp;<code class="descname">add_particle_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Group17add_particle_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add particle type as included. Return self for chain setting. If no particle types are defined, then all particle types are included. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Group8is_emptyEv">
+<span id="_CPPv2NK6feasst5Group8is_emptyEv"></span><span id="feasst::Group::is_emptyC"></span><span class="target" id="classfeasst_1_1Group_1abfd013e316ef4c2921afcc0984445a25"></span>bool <code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Group8is_emptyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if group has no group definitions. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Group5is_inERK4Site">
+<span id="_CPPv2NK6feasst5Group5is_inERK4Site"></span><span id="feasst::Group::is_in__SiteCRC"></span><span class="target" id="classfeasst_1_1Group_1a23c57cad832527988864fab116163644"></span>bool <code class="descname">is_in</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Site.html#_CPPv3N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Group5is_inERK4Site" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if the site is in the group. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Group5is_inERK8Particle">
+<span id="_CPPv2NK6feasst5Group5is_inERK8Particle"></span><span id="feasst::Group::is_in__ParticleCRC"></span><span class="target" id="classfeasst_1_1Group_1a4590b28bee9a634103d6bda1c0725b59"></span>bool <code class="descname">is_in</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Group5is_inERK8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if the particle is in the group. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Group12remove_sitesEP8Particle">
+<span id="_CPPv2NK6feasst5Group12remove_sitesEP8Particle"></span><span id="feasst::Group::remove_sites__ParticlePC"></span><span class="target" id="classfeasst_1_1Group_1a495d575dfb4f91f8c849c356af9932c5"></span>void <code class="descname">remove_sites</code><span class="sig-paren">(</span><a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> *<em>particle</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Group12remove_sitesEP8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove sites from the particle which are not in the group. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Group12site_indicesERK8Particle">
+<span id="_CPPv2NK6feasst5Group12site_indicesERK8Particle"></span><span id="feasst::Group::site_indices__ParticleCRC"></span><span class="target" id="classfeasst_1_1Group_1aa5caf8294678968aa66eb5008362e378"></span>std::vector&lt;int&gt; <code class="descname">site_indices</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Group12site_indicesERK8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the list of site indices in <a class="reference internal" href="Particle.html#classfeasst_1_1Particle"><span class="std std-ref">Particle</span></a> which are in the group. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Group10is_spatialEv">
+<span id="_CPPv2NK6feasst5Group10is_spatialEv"></span><span id="feasst::Group::is_spatialC"></span><span class="target" id="classfeasst_1_1Group_1a79f25b704d8cbd33ba471d9aa268e382"></span>bool <code class="descname">is_spatial</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Group10is_spatialEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return if the group definition is based on location. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Properties.html">Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TypedEntity.html">TypedEntity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bond.html">Bond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Site.html">Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectPosition.html">SelectPosition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Particle.html"
+                        title="previous chapter">Particle</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="FileLMP.html"
+                        title="next chapter">FileLMP</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="FileLMP.html" title="FileLMP"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Particle.html" title="Particle"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Configuration</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

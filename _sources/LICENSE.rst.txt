@@ -1,5 +1,5 @@
 License
-###########
+================================================================================
 
 This license was obtained from https://www.nist.gov/director/licensing (revised as of July 2017).
 

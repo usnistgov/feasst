@@ -1,6 +1,0 @@
-PairIdeal
-=====================================================
-
-.. doxygenclass:: feasst::PairIdeal
-   :project: FEASST
-   :members:

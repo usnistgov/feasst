@@ -1,6 +1,0 @@
-TrialConfSwapTXT
-=====================================================
-
-.. doxygenclass:: feasst::TrialConfSwapTXT
-   :project: FEASST
-   :members:

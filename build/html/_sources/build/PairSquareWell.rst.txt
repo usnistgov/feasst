@@ -1,6 +1,0 @@
-PairSquareWell
-=====================================================
-
-.. doxygenclass:: feasst::PairSquareWell
-   :project: FEASST
-   :members:

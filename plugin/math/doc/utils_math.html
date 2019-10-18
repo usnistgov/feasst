@@ -1,0 +1,249 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>math/include/utils_math &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Matrix" href="Matrix.html" />
+    <link rel="prev" title="math/include/constants" href="constants.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Matrix.html" title="Matrix"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="constants.html" title="math/include/constants"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Math</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="math-include-utils-math">
+<h1>math/include/utils_math<a class="headerlink" href="#math-include-utils-math" title="Permalink to this headline">¶</a></h1>
+<dl class="type">
+<dt id="_CPPv36feasst">
+<span id="_CPPv26feasst"></span><span id="feasst"></span><span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="descname">feasst</code><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst5roundEd">
+<span id="_CPPv2N6feasst5roundEd"></span><span id="feasst::round__double"></span><span class="target" id="namespacefeasst_1abef815f4d62482787c04e10d4bea1b9f"></span>int <code class="descname">round</code><span class="sig-paren">(</span>double <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5roundEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return rounded double to nearest integer. This rounding is implemented as floor(x+0.5), such that feasstRound(-0.5) == 0. The cplusplus library round(-0.5) from math.h results in round(-0.5) == -1, such that rounding at the halfway point is away from zero. This breaks the first bin on histograms. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst7averageERKNSt6vectorI1TEE">
+<span id="_CPPv2N6feasst7averageERKNSt6vectorI1TEE"></span><span id="feasst::average__std::vector:T:CR"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1a2824dda4272531808536bf00901b49db"></span>double <code class="descname">average</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;T&gt; &amp;<em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst7averageERKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the average of a vector. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst7productERKNSt6vectorI1TEE">
+<span id="_CPPv2N6feasst7productERKNSt6vectorI1TEE"></span><span id="feasst::product__std::vector:T:CR"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1a7ba948aff3444a9c5082b7038b3d2a97"></span>T <code class="descname">product</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;T&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst7productERKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return product of all elements of a vector. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst7minimumERKNSt6vectorI1TEE">
+<span id="_CPPv2N6feasst7minimumERKNSt6vectorI1TEE"></span><span id="feasst::minimum__std::vector:T:CR"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1a7b9b5d769c1cb5bec5aba3e7b4964a27"></span>T <code class="descname">minimum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;T&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst7minimumERKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the minimum element of a vector. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst7minimumERKNSt6vectorINSt6vectorI1TEEEE">
+<span id="_CPPv2N6feasst7minimumERKNSt6vectorINSt6vectorI1TEEEE"></span><span id="feasst::minimum__std::vector:std::vector:T::CR"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1a7e8f8a1dba93e1c87f60cb8d88398337"></span>T <code class="descname">minimum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;T&gt;&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst7minimumERKNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the minimum element of a 2D vector. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst7maximumERKNSt6vectorI1TEE">
+<span id="_CPPv2N6feasst7maximumERKNSt6vectorI1TEE"></span><span id="feasst::maximum__std::vector:T:CR"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1a23f6b42e1aaaa9b82aeb33a452575908"></span>T <code class="descname">maximum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;T&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst7maximumERKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the maximum element of a vector. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst7maximumERKNSt6vectorINSt6vectorI1TEEEE">
+<span id="_CPPv2N6feasst7maximumERKNSt6vectorINSt6vectorI1TEEEE"></span><span id="feasst::maximum__std::vector:std::vector:T::CR"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1a2b3270fb82f9d18a8f3018d195735b48"></span>T <code class="descname">maximum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;T&gt;&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst7maximumERKNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the maximum element of a 2D vector. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst9fst_unionERKNSt6vectorI1TEERKNSt6vectorI1TEE">
+<span id="_CPPv2N6feasst9fst_unionERKNSt6vectorI1TEERKNSt6vectorI1TEE"></span><span id="feasst::fst_union__std::vector:T:CR.std::vector:T:CR"></span><em class="property">template </em>&lt;<em class="property">typename</em> T&gt;<br /><span class="target" id="namespacefeasst_1a1a20db9dba8c35e83ea91df2f0490cb9"></span>std::vector&lt;T&gt; <code class="descname">fst_union</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;T&gt; &amp;<em>vec1</em>, <em class="property">const</em> std::vector&lt;T&gt; &amp;<em>vec2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9fst_unionERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the union of two vectors. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst14fst_differenceERKNSt6vectorI1TEERKNSt6vectorI1TEE">
+<span id="_CPPv2N6feasst14fst_differenceERKNSt6vectorI1TEERKNSt6vectorI1TEE"></span><span id="feasst::fst_difference__std::vector:T:CR.std::vector:T:CR"></span><em class="property">template </em>&lt;<em class="property">typename</em> T&gt;<br /><span class="target" id="namespacefeasst_1a30e0483188bbcdc1dec8f84712331239"></span>std::vector&lt;T&gt; <code class="descname">fst_difference</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;T&gt; &amp;<em>vec1</em>, <em class="property">const</em> std::vector&lt;T&gt; &amp;<em>vec2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14fst_differenceERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the difference of two vectors. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst3sgnE1T">
+<span id="_CPPv2N6feasst3sgnE1T"></span><span id="feasst::sgn__T"></span><em class="property">template </em>&lt;<em class="property">typename</em> T&gt;<br /><span class="target" id="namespacefeasst_1a76bd0f8b99d39109e7a3a267a6d6219a"></span>int <code class="descname">sgn</code><span class="sig-paren">(</span>T <em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst3sgnE1T" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the sign of the value. Thanks to <a class="reference external" href="https://stackoverflow.com/questions/1903954/">https://stackoverflow.com/questions/1903954/</a> is-there-a-standard-sign-function-signum-sgn-in-c-c </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst18radians_to_degreesEKd">
+<span id="_CPPv2N6feasst18radians_to_degreesEKd"></span><span id="feasst::radians_to_degrees__doubleC"></span><span class="target" id="namespacefeasst_1a83d88d120d45f74bb69773a0abadd352"></span>double <code class="descname">radians_to_degrees</code><span class="sig-paren">(</span><em class="property">const</em> double <em>radians</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst18radians_to_degreesEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Convert radians to degrees. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst18degrees_to_radiansEKd">
+<span id="_CPPv2N6feasst18degrees_to_radiansEKd"></span><span id="feasst::degrees_to_radians__doubleC"></span><span class="target" id="namespacefeasst_1a1638f4669082755c51c710e9ce214b7e"></span>double <code class="descname">degrees_to_radians</code><span class="sig-paren">(</span><em class="property">const</em> double <em>degrees</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst18degrees_to_radiansEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Convert degrees to radians. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst4swapEP1TP1T">
+<span id="_CPPv2N6feasst4swapEP1TP1T"></span><span id="feasst::swap__TP.TP"></span><em class="property">template </em>&lt;<em class="property">typename</em> T&gt;<br /><span class="target" id="namespacefeasst_1a08861a171c7eb3abdb1aa7eaf48d1043"></span>void <code class="descname">swap</code><span class="sig-paren">(</span>T *<em>val1</em>, T *<em>val2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst4swapEP1TP1T" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Swap the values. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst4sortEP1TP1T">
+<span id="_CPPv2N6feasst4sortEP1TP1T"></span><span id="feasst::sort__TP.TP"></span><em class="property">template </em>&lt;<em class="property">typename</em> T&gt;<br /><span class="target" id="namespacefeasst_1acd1528ac88d67a4e0dcb86e1fd3efcd5"></span>void <code class="descname">sort</code><span class="sig-paren">(</span>T *<em>min</em>, T *<em>max</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst4sortEP1TP1T" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Sort the values in order of increasing size. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst22cumulative_probabilityERKNSt6vectorIdEE">
+<span id="_CPPv2N6feasst22cumulative_probabilityERKNSt6vectorIdEE"></span><span id="feasst::cumulative_probability__std::vector:double:CR"></span><span class="target" id="namespacefeasst_1af533f59d3c2f610702ed031bb84ad457"></span>std::vector&lt;double&gt; <code class="descname">cumulative_probability</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>weights</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst22cumulative_probabilityERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the cumulative probability from a weighted series. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Accumulator.html">Accumulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Position.html">Position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Histogram.html">Histogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FormulaPolynomial.html">FormulaPolynomial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">math/include/utils_math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Random.html">Random</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="constants.html"
+                        title="previous chapter">math/include/constants</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Matrix.html"
+                        title="next chapter">Matrix</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Matrix.html" title="Matrix"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="constants.html" title="math/include/constants"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Math</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

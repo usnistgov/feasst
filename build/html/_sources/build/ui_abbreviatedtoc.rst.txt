@@ -1,5 +1,0 @@
-AbbreviatedUI Classes
-=======================================================
-
-.. toctree::
-   AbbreviatedUI

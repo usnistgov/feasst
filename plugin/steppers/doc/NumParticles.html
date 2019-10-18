@@ -1,0 +1,185 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>NumParticles &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="CriteriaWriter" href="CriteriaWriter.html" />
+    <link rel="prev" title="Energy" href="Energy.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CriteriaWriter.html" title="CriteriaWriter"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Energy.html" title="Energy"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Steppers</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="numparticles">
+<h1>NumParticles<a class="headerlink" href="#numparticles" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst12NumParticlesE">
+<span id="_CPPv2N6feasst12NumParticlesE"></span><span id="feasst::NumParticles"></span><span class="target" id="classfeasst_1_1NumParticles"></span><em class="property">class </em><code class="descname">NumParticles</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv3N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a><a class="headerlink" href="#_CPPv3N6feasst12NumParticlesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Accumulate statistics for number of particles. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst12NumParticles12NumParticlesERK7argtype">
+<span id="_CPPv2N6feasst12NumParticles12NumParticlesERK7argtype"></span><span id="feasst::NumParticles::NumParticles__argtypeCR"></span><span class="target" id="classfeasst_1_1NumParticles_1a15bc8861889816f0ab84d791438baecb"></span><code class="descname">NumParticles</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst12NumParticles12NumParticlesERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">args</span></code>: num_block : number of updated per block (default: 1e5). <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">particle_type</span> <span class="p">:</span> <span class="n">index</span> <span class="n">of</span> <span class="n">particle</span> <span class="nb">type</span> <span class="kn">from</span> <span class="nn">configuration.</span>
+    <span class="n">If</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">sum</span> <span class="nb">all</span> <span class="n">particles</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span>
+
+  <span class="n">group</span> <span class="p">:</span> <span class="n">index</span> <span class="n">of</span> <span class="n">group</span> <span class="kn">from</span> <span class="nn">configuration.</span>
+    <span class="n">If</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">sum</span> <span class="nb">all</span> <span class="n">particles</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span>
+    <span class="n">Can</span> <span class="n">only</span> <span class="n">be</span> <span class="n">specified</span> <span class="k">if</span> <span class="n">particle_type</span> <span class="ow">is</span> <span class="o">-</span><span class="mf">1.</span>
+</pre></div>
+</div>
+ </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst12NumParticles11accumulatorEv">
+<span id="_CPPv2NK6feasst12NumParticles11accumulatorEv"></span><span id="feasst::NumParticles::accumulatorC"></span><span class="target" id="classfeasst_1_1NumParticles_1af2fd2af10a1ae839da44cd1bda84e80a"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv3N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a> &amp;<code class="descname">accumulator</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12NumParticles11accumulatorEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the accumulator. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Steppers</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Check.html">Check</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="WallClockLimit.html">WallClockLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Tuner.html">Tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Energy.html">Energy</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">NumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Movie.html">Movie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Energy.html"
+                        title="previous chapter">Energy</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="CriteriaWriter.html"
+                        title="next chapter">CriteriaWriter</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CriteriaWriter.html" title="CriteriaWriter"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Energy.html" title="Energy"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Steppers</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

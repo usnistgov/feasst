@@ -1,0 +1,192 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Bias &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="BiasWangLandau" href="BiasWangLandau.html" />
+    <link rel="prev" title="LnProbabilityDistribution" href="LnProbabilityDistribution.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="BiasWangLandau.html" title="BiasWangLandau"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="LnProbabilityDistribution.html" title="LnProbabilityDistribution"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Flat histogram</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="bias">
+<h1>Bias<a class="headerlink" href="#bias" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst4BiasE">
+<span id="_CPPv2N6feasst4BiasE"></span><span id="feasst::Bias"></span><span class="target" id="classfeasst_1_1Bias"></span><em class="property">class </em><code class="descname">Bias</code><a class="headerlink" href="#_CPPv3N6feasst4BiasE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a> for flat histogram Monte Carlo. Assumes a one-dimensional macrostate. </p>
+<p>Subclassed by <a class="reference internal" href="BiasTransitionMatrix.html#classfeasst_1_1BiasTransitionMatrix"><span class="std std-ref">feasst::BiasTransitionMatrix</span></a>, <a class="reference internal" href="BiasWangLandau.html#classfeasst_1_1BiasWangLandau"><span class="std std-ref">feasst::BiasWangLandau</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3NK6feasst4Bias7ln_biasEKiKi">
+<span id="_CPPv2NK6feasst4Bias7ln_biasEKiKi"></span><span id="feasst::Bias::ln_bias__iC.iCC"></span><span class="target" id="classfeasst_1_1Bias_1a6c6c07141284d4fd40f89432fd86c2d3"></span>double <code class="descname">ln_bias</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bin_new</em>, <em class="property">const</em> int <em>bin_old</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst4Bias7ln_biasEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the natural log of the bias for a transition from a macrostate in the old bin to a new bin. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst4Bias6updateEKiKiKdKb">
+<span id="_CPPv2N6feasst4Bias6updateEKiKiKdKb"></span><span id="feasst::Bias::update__iC.iC.doubleC.bC"></span><span class="target" id="classfeasst_1_1Bias_1a3b83f03141c10c5d4e1aaac37ac88ded"></span><em class="property">virtual</em> void <code class="descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_old</em>, <em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> double <em>ln_metropolis_prob</em>, <em class="property">const</em> bool <em>is_accepted</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv3N6feasst4Bias6updateEKiKiKdKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update the bias due to an attempted transition. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst4Bias13ln_macro_probEv">
+<span id="_CPPv2NK6feasst4Bias13ln_macro_probEv"></span><span id="feasst::Bias::ln_macro_probC"></span><span class="target" id="classfeasst_1_1Bias_1ab9cbd0650f5242de4566e9bf0d824293"></span><em class="property">virtual</em> <em class="property">const</em> <a class="reference internal" href="LnProbabilityDistribution.html#_CPPv3N6feasst25LnProbabilityDistributionE" title="feasst::LnProbabilityDistribution">LnProbabilityDistribution</a> &amp;<code class="descname">ln_macro_prob</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv3NK6feasst4Bias13ln_macro_probEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The estimate of the natural log of the macrostate probability. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst4Bias11is_completeEv">
+<span id="_CPPv2NK6feasst4Bias11is_completeEv"></span><span id="feasst::Bias::is_completeC"></span><span class="target" id="classfeasst_1_1Bias_1a9ec7cfe76e4c1951b13b0f6759091348"></span>bool <code class="descname">is_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst4Bias11is_completeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if completion requirements are met. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst4Bias6revertEKiKi">
+<span id="_CPPv2N6feasst4Bias6revertEKiKi"></span><span id="feasst::Bias::revert__iC.iC"></span><span class="target" id="classfeasst_1_1Bias_1ae1eed04e1a98ce88195796c35cf9fc79"></span><em class="property">virtual</em> void <code class="descname">revert</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> int <em>macrostate_old</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv3N6feasst4Bias6revertEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Revert changes from previous trial. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Flat histogram</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="LnProbabilityDistribution.html">LnProbabilityDistribution</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BiasWangLandau.html">BiasWangLandau</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BiasTransitionMatrix.html">BiasTransitionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CriteriaFlatHistogram.html">CriteriaFlatHistogram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="LnProbabilityDistribution.html"
+                        title="previous chapter">LnProbabilityDistribution</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="BiasWangLandau.html"
+                        title="next chapter">BiasWangLandau</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="BiasWangLandau.html" title="BiasWangLandau"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="LnProbabilityDistribution.html" title="LnProbabilityDistribution"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Flat histogram</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

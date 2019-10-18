@@ -1,0 +1,220 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Shape &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Slab" href="Slab.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="toc.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Slab.html" title="Slab"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="toc.html" title="&lt;no title&gt;"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Confinement</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="shape">
+<h1>Shape<a class="headerlink" href="#shape" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst5ShapeE">
+<span id="_CPPv2N6feasst5ShapeE"></span><span id="feasst::Shape"></span><span class="target" id="classfeasst_1_1Shape"></span><em class="property">class </em><code class="descname">Shape</code><a class="headerlink" href="#_CPPv3N6feasst5ShapeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Shapes may be defined by either a simple mathematical formula or an interpolated data table. </p>
+<p>Subclassed by <a class="reference internal" href="Cylinder.html#classfeasst_1_1Cylinder"><span class="std std-ref">feasst::Cylinder</span></a>, <a class="reference internal" href="HalfSpace.html#classfeasst_1_1HalfSpace"><span class="std std-ref">feasst::HalfSpace</span></a>, <a class="reference internal" href="#classfeasst_1_1ShapeIntersect"><span class="std std-ref">feasst::ShapeIntersect</span></a>, <a class="reference internal" href="#classfeasst_1_1ShapeUnion"><span class="std std-ref">feasst::ShapeUnion</span></a>, <a class="reference internal" href="Slab.html#classfeasst_1_1Slab"><span class="std std-ref">feasst::Slab</span></a>, <a class="reference internal" href="Sphere.html#classfeasst_1_1Sphere"><span class="std std-ref">feasst::Sphere</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Shape16nearest_distanceERK8Position">
+<span id="_CPPv2NK6feasst5Shape16nearest_distanceERK8Position"></span><span id="feasst::Shape::nearest_distance__PositionCRC"></span><span class="target" id="classfeasst_1_1Shape_1a3a5cd961d260283b7d80bde61fb82a02"></span><em class="property">virtual</em> double <code class="descname">nearest_distance</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point</em><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv3NK6feasst5Shape16nearest_distanceERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the distance from the point to the nearest point on the surface. The distance is negative if the point is inside of the shape. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Shape9is_insideERK8Position">
+<span id="_CPPv2NK6feasst5Shape9is_insideERK8Position"></span><span id="feasst::Shape::is_inside__PositionCRC"></span><span class="target" id="classfeasst_1_1Shape_1a6ad6c7c87418b452aa11c9cb9a69f586"></span>bool <code class="descname">is_inside</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Shape9is_insideERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if the point is inside of the shape. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Shape9is_insideERK8PositionKd">
+<span id="_CPPv2NK6feasst5Shape9is_insideERK8PositionKd"></span><span id="feasst::Shape::is_inside__PositionCR.doubleCC"></span><span class="target" id="classfeasst_1_1Shape_1a07007e39ace7f15cbfcaab1e779f386c"></span>bool <code class="descname">is_inside</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point</em>, <em class="property">const</em> double <em>diameter</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Shape9is_insideERK8PositionKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if the sphere of given center point and diameter is entirely inside of the shape. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv3N6feasst12ShapedEntityE">
+<span id="_CPPv2N6feasst12ShapedEntityE"></span><span id="feasst::ShapedEntity"></span><span class="target" id="classfeasst_1_1ShapedEntity"></span><em class="property">class </em><code class="descname">ShapedEntity</code><a class="headerlink" href="#_CPPv3N6feasst12ShapedEntityE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Subclassed by <a class="reference internal" href="ModelHardShape.html#classfeasst_1_1ModelHardShape"><span class="std std-ref">feasst::ModelHardShape</span></a>, <a class="reference internal" href="ModelLJShape.html#classfeasst_1_1ModelLJShape"><span class="std std-ref">feasst::ModelLJShape</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3NK6feasst12ShapedEntity5shapeEv">
+<span id="_CPPv2NK6feasst12ShapedEntity5shapeEv"></span><span id="feasst::ShapedEntity::shapeC"></span><span class="target" id="classfeasst_1_1ShapedEntity_1a4e2d0b78c3cfe32ae180348d509db0bf"></span><em class="property">const</em> std::shared_ptr&lt;<a class="reference internal" href="#_CPPv3N6feasst5ShapeE" title="feasst::Shape">Shape</a>&gt; <code class="descname">shape</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12ShapedEntity5shapeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the shape. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv3N6feasst14ShapeIntersectE">
+<span id="_CPPv2N6feasst14ShapeIntersectE"></span><span id="feasst::ShapeIntersect"></span><span class="target" id="classfeasst_1_1ShapeIntersect"></span><em class="property">class </em><code class="descname">ShapeIntersect</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv3N6feasst5ShapeE" title="feasst::Shape">Shape</a><a class="headerlink" href="#_CPPv3N6feasst14ShapeIntersectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Represents the intersection of two shapes. This is done by returning the largest value of the nearest distance. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3NK6feasst14ShapeIntersect16nearest_distanceERK8Position">
+<span id="_CPPv2NK6feasst14ShapeIntersect16nearest_distanceERK8Position"></span><span id="feasst::ShapeIntersect::nearest_distance__PositionCRC"></span><span class="target" id="classfeasst_1_1ShapeIntersect_1a9c813657cad760198767c50e2cf0536e"></span>double <code class="descname">nearest_distance</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst14ShapeIntersect16nearest_distanceERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the distance from the point to the nearest point on the surface. The distance is negative if the point is inside of the shape. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv3N6feasst10ShapeUnionE">
+<span id="_CPPv2N6feasst10ShapeUnionE"></span><span id="feasst::ShapeUnion"></span><span class="target" id="classfeasst_1_1ShapeUnion"></span><em class="property">class </em><code class="descname">ShapeUnion</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv3N6feasst5ShapeE" title="feasst::Shape">Shape</a><a class="headerlink" href="#_CPPv3N6feasst10ShapeUnionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Represents the union of two shapes. This is done by returning the smallest value of the nearest distance. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3NK6feasst10ShapeUnion16nearest_distanceERK8Position">
+<span id="_CPPv2NK6feasst10ShapeUnion16nearest_distanceERK8Position"></span><span id="feasst::ShapeUnion::nearest_distance__PositionCRC"></span><span class="target" id="classfeasst_1_1ShapeUnion_1aed9c3a80f78d3e6b15ef23ee9a3c7773"></span>double <code class="descname">nearest_distance</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10ShapeUnion16nearest_distanceERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the distance from the point to the nearest point on the surface. The distance is negative if the point is inside of the shape. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Confinement</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Slab.html">Slab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cylinder.html">Cylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Sphere.html">Sphere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelLJShape.html">ModelLJShape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelHardShape.html">ModelHardShape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="HalfSpace.html">HalfSpace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="toc.html"
+                        title="previous chapter">&lt;no title&gt;</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Slab.html"
+                        title="next chapter">Slab</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Slab.html" title="Slab"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="toc.html" title="&lt;no title&gt;"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Confinement</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,201 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>VisitModelInner &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="ModelOneBody" href="ModelOneBody.html" />
+    <link rel="prev" title="Model" href="Model.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ModelOneBody.html" title="ModelOneBody"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Model.html" title="Model"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >System</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="visitmodelinner">
+<h1>VisitModelInner<a class="headerlink" href="#visitmodelinner" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst15VisitModelInnerE">
+<span id="_CPPv2N6feasst15VisitModelInnerE"></span><span id="feasst::VisitModelInner"></span><span class="target" id="classfeasst_1_1VisitModelInner"></span><em class="property">class </em><code class="descname">VisitModelInner</code><a class="headerlink" href="#_CPPv3N6feasst15VisitModelInnerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Subclassed by <a class="reference internal" href="../../patch/doc/PatchAngle.html#classfeasst_1_1VisitModelInnerPatch"><span class="std std-ref">feasst::VisitModelInnerPatch</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv3N6feasst10VisitModelE">
+<span id="_CPPv2N6feasst10VisitModelE"></span><span id="feasst::VisitModel"></span><span class="target" id="classfeasst_1_1VisitModel"></span><em class="property">class </em><code class="descname">VisitModel</code><a class="headerlink" href="#_CPPv3N6feasst10VisitModelE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>See <a class="reference internal" href="Model.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a> for a description of the compute methods. These are mirrored by simply switching the calling object and the first argument (.e.g, <a class="reference internal" href="Model.html#classfeasst_1_1Model_1aa3e50ae7c3791affd6db2da5383599bd"><span class="std std-ref">Model.compute</span></a>(Visitor, …) vs Visitor.compute(<a class="reference internal" href="Model.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a>, …) </p>
+<p>Subclassed by <a class="reference internal" href="../../ewald/doc/Ewald.html#classfeasst_1_1Ewald"><span class="std std-ref">feasst::Ewald</span></a>, <a class="reference internal" href="LongRangeCorrections.html#classfeasst_1_1LongRangeCorrections"><span class="std std-ref">feasst::LongRangeCorrections</span></a>, <a class="reference internal" href="VisitModelCell.html#classfeasst_1_1VisitModelCell"><span class="std std-ref">feasst::VisitModelCell</span></a>, <a class="reference internal" href="VisitModelIntra.html#classfeasst_1_1VisitModelIntra"><span class="std std-ref">feasst::VisitModelIntra</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3NK6feasst10VisitModel6energyEv">
+<span id="_CPPv2NK6feasst10VisitModel6energyEv"></span><span id="feasst::VisitModel::energyC"></span><span class="target" id="classfeasst_1_1VisitModel_1ac450b60fd8e64d103856f5df405b6a34"></span>double <code class="descname">energy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10VisitModel6energyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the energy. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10VisitModel10set_energyEKd">
+<span id="_CPPv2N6feasst10VisitModel10set_energyEKd"></span><span id="feasst::VisitModel::set_energy__doubleC"></span><span class="target" id="classfeasst_1_1VisitModel_1a1a26c43a7b064f9eaa24b43a2b53e9da"></span>void <code class="descname">set_energy</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10VisitModel10set_energyEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the energy. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10VisitModel16increment_energyEKd">
+<span id="_CPPv2N6feasst10VisitModel16increment_energyEKd"></span><span id="feasst::VisitModel::increment_energy__doubleC"></span><span class="target" id="classfeasst_1_1VisitModel_1ad458337717154e8d39c5e2d9d3281b63"></span>void <code class="descname">increment_energy</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10VisitModel16increment_energyEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Increment the energy. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10VisitModel12check_energyERK5ModelP13ConfigurationKi">
+<span id="_CPPv2N6feasst10VisitModel12check_energyERK5ModelP13ConfigurationKi"></span><span id="feasst::VisitModel::check_energy__ModelCR.ConfigurationP.iC"></span><span class="target" id="classfeasst_1_1VisitModel_1a6825dcf44eb6dbba6e1a57875822ad81"></span>void <code class="descname">check_energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Model.html#_CPPv3N6feasst5ModelE" title="feasst::Model">Model</a> &amp;<em>model</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10VisitModel12check_energyERK5ModelP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Test if energy of whole system is consistent with sum of energy of selection by particles. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="physical_constants.html">system/include/physical_constants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelLJ.html">ModelLJ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelHardSphere.html">ModelHardSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectList.html">SelectList</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Model.html"
+                        title="previous chapter">Model</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ModelOneBody.html"
+                        title="next chapter">ModelOneBody</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ModelOneBody.html" title="ModelOneBody"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Model.html" title="Model"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >System</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

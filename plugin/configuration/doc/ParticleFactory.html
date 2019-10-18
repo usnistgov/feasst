@@ -1,0 +1,364 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ParticleFactory &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Select" href="Select.html" />
+    <link rel="prev" title="ModelParam" href="ModelParam.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Select.html" title="Select"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ModelParam.html" title="ModelParam"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Configuration</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="particlefactory">
+<h1>ParticleFactory<a class="headerlink" href="#particlefactory" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst15ParticleFactoryE">
+<span id="_CPPv2N6feasst15ParticleFactoryE"></span><span id="feasst::ParticleFactory"></span><span class="target" id="classfeasst_1_1ParticleFactory"></span><em class="property">class </em><code class="descname">ParticleFactory</code><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactoryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A container for a list of particles. There are effectively three different uses:</p>
+<p><ol class="arabic simple">
+<li>A list of particles that exist in a simulation. In this case there can be multiple particles and sites of the same type.</li>
+<li>A list of particle types that may exist in a simulation. In this case there can not be multiple particles of the same type. This is enforced by <a class="reference internal" href="#classfeasst_1_1ParticleFactory_1a31549b524941fd90212ff44cef6842b0"><span class="std std-ref">ParticleFactory::unique_particles()</span></a>.</li>
+<li>A list of site and bond types (contained within particles) that may exist in a simulation. In this case, there can not be multiple sites or bonds of the same type. This contains site-based and bond-based properties. This is enforced by <a class="reference internal" href="#classfeasst_1_1ParticleFactory_1a83dfd7b926e4d6d0607537280589650e"><span class="std std-ref">ParticleFactory::unique_types()</span></a>. </li>
+</ol>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory16unique_particlesEv">
+<span id="_CPPv2N6feasst15ParticleFactory16unique_particlesEv"></span><span id="feasst::ParticleFactory::unique_particles"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a31549b524941fd90212ff44cef6842b0"></span><a class="reference internal" href="#_CPPv3N6feasst15ParticleFactoryE" title="feasst::ParticleFactory">ParticleFactory</a> &amp;<code class="descname">unique_particles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory16unique_particlesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Adjust the site types of added particles to ensure uniqueness. Returns self for chain setting. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory12unique_typesEv">
+<span id="_CPPv2N6feasst15ParticleFactory12unique_typesEv"></span><span id="feasst::ParticleFactory::unique_types"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a83dfd7b926e4d6d0607537280589650e"></span><a class="reference internal" href="#_CPPv3N6feasst15ParticleFactoryE" title="feasst::ParticleFactory">ParticleFactory</a> &amp;<code class="descname">unique_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory12unique_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Only add sites or bonds which are new as a holder for site- or bond- type properties. Note that <a class="reference internal" href="#classfeasst_1_1ParticleFactory_1a31549b524941fd90212ff44cef6842b0"><span class="std std-ref">ParticleFactory::unique_particles()</span></a> is also applied. Returns self for chain setting. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst15ParticleFactory11check_typesEPiPi">
+<span id="_CPPv2NK6feasst15ParticleFactory11check_typesEPiPi"></span><span id="feasst::ParticleFactory::check_types__iP.iPC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a1bcd08860459fee2084297a6f70a0be1"></span>void <code class="descname">check_types</code><span class="sig-paren">(</span>int *<em>num_site_types</em>, int *<em>num_particle_types</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst15ParticleFactory11check_typesEPiPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site or particle type is skipped. As particles and sites are added, a never before seen type must be only one higher than the previous maximum index. Types begin with 0.</p>
+<p>For example, a particle with sites of type {0, 2} is invalid because the second site of type “2” appears without a previous type “1” site.</p>
+<p>In another example, a particle with sites of type {1,2} is invalid because the site type doesn’t begin with 0.</p>
+<p>Note: for partial configurations by groups, these checks may not apply. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst15ParticleFactory11check_typesEv">
+<span id="_CPPv2NK6feasst15ParticleFactory11check_typesEv"></span><span id="feasst::ParticleFactory::check_typesC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a65dfce0c22230a2d274c9c3d04ceb961"></span>void <code class="descname">check_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst15ParticleFactory11check_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site or particle type is skipped. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst15ParticleFactory16check_site_typesEv">
+<span id="_CPPv2NK6feasst15ParticleFactory16check_site_typesEv"></span><span id="feasst::ParticleFactory::check_site_typesC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1aee6f209981edccb4cde5801e38f6d068"></span>int <code class="descname">check_site_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst15ParticleFactory16check_site_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no site type is skipped. <dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>number of site types. </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst15ParticleFactory20check_particle_typesEv">
+<span id="_CPPv2NK6feasst15ParticleFactory20check_particle_typesEv"></span><span id="feasst::ParticleFactory::check_particle_typesC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a67f134b3523ae1299e805943b8b04735"></span>int <code class="descname">check_particle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst15ParticleFactory20check_particle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that no particle type is skipped. <dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>number of particle types. </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory3addEKNSt6stringE">
+<span id="_CPPv2N6feasst15ParticleFactory3addEKNSt6stringE"></span><span id="feasst::ParticleFactory::add__ssC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1ad45e1092645377b55db31c9f0e7fd6ed"></span>void <code class="descname">add</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory3addEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add particle by file. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory3addERK8Particle">
+<span id="_CPPv2N6feasst15ParticleFactory3addERK8Particle"></span><span id="feasst::ParticleFactory::add__ParticleCR"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a33b62ee06cac412489dcf2a43b566b9d"></span>void <code class="descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory3addERK8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a particle. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory6removeEKi">
+<span id="_CPPv2N6feasst15ParticleFactory6removeEKi"></span><span id="feasst::ParticleFactory::remove__iC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a5fad5eda02af061272bb15d9a00f6998"></span>void <code class="descname">remove</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory6removeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove particle by index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst15ParticleFactory8particleEKi">
+<span id="_CPPv2NK6feasst15ParticleFactory8particleEKi"></span><span id="feasst::ParticleFactory::particle__iCC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a190aa42341e75934f880a904f1639f84"></span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<code class="descname">particle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst15ParticleFactory8particleEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return particle by index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst15ParticleFactory9particlesEv">
+<span id="_CPPv2NK6feasst15ParticleFactory9particlesEv"></span><span id="feasst::ParticleFactory::particlesC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1aa20144f7a99e29c60518a52be0e9c1d6"></span>std::vector&lt;<a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a>&gt; <code class="descname">particles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst15ParticleFactory9particlesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return particles. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst15ParticleFactory3numEv">
+<span id="_CPPv2NK6feasst15ParticleFactory3numEv"></span><span id="feasst::ParticleFactory::numC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1aa40a7de68ccf14bc9e458ba9df019cf3"></span>int <code class="descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst15ParticleFactory3numEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of particles. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory16replace_positionEKiRK8Particle">
+<span id="_CPPv2N6feasst15ParticleFactory16replace_positionEKiRK8Particle"></span><span id="feasst::ParticleFactory::replace_position__iC.ParticleCR"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a52cc3ba4f2c3dd8383c4500636463248"></span>void <code class="descname">replace_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>replacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory16replace_positionEKiRK8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Replace position of the particle by index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory16replace_positionEKiKiRK8Position">
+<span id="_CPPv2N6feasst15ParticleFactory16replace_positionEKiKiRK8Position"></span><span id="feasst::ParticleFactory::replace_position__iC.iC.PositionCR"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a30405ab633af349eafcac67441a4beca"></span>void <code class="descname">replace_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>replacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory16replace_positionEKiKiRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Replace position of the site by index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory16replace_positionEKiRK8Position">
+<span id="_CPPv2N6feasst15ParticleFactory16replace_positionEKiRK8Position"></span><span id="feasst::ParticleFactory::replace_position__iC.PositionCR"></span><span class="target" id="classfeasst_1_1ParticleFactory_1aa80e690aa2b5bb1b46f3165f05cd57f0"></span>void <code class="descname">replace_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>replacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory16replace_positionEKiRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Replace position of particle but not site. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory18replace_propertiesEKiKiRK10PropertiesRKNSt6vectorINSt6stringEEE">
+<span id="_CPPv2N6feasst15ParticleFactory18replace_propertiesEKiKiRK10PropertiesRKNSt6vectorINSt6stringEEE"></span><span id="feasst::ParticleFactory::replace_properties__iC.iC.PropertiesCR.std::vector:ss:CR"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a7d402646e03333adbe40228b28c8118c"></span>void <code class="descname">replace_properties</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="Properties.html#_CPPv3N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>replacement</em>, <em class="property">const</em> std::vector&lt;std::string&gt; &amp;<em>exclude</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory18replace_propertiesEKiKiRK10PropertiesRKNSt6vectorINSt6stringEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Replace properties of the site by index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst15ParticleFactory5checkEKi">
+<span id="_CPPv2NK6feasst15ParticleFactory5checkEKi"></span><span id="feasst::ParticleFactory::check__iCC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a7f02e497528944b0b98e9ae8adea785a"></span>void <code class="descname">check</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em> = -1<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst15ParticleFactory5checkEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> consistency of dimensionality of positions of particles and sites. By default, for dimension == -1, determine automatically. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst15ParticleFactory14num_site_typesEv">
+<span id="_CPPv2NK6feasst15ParticleFactory14num_site_typesEv"></span><span id="feasst::ParticleFactory::num_site_typesC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1afa50d7323cfdecf762f883b810d6f754"></span>int <code class="descname">num_site_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst15ParticleFactory14num_site_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of site types. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst15ParticleFactory9num_sitesEv">
+<span id="_CPPv2NK6feasst15ParticleFactory9num_sitesEv"></span><span id="feasst::ParticleFactory::num_sitesC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a037073ea059301502751d230ffe76251"></span>int <code class="descname">num_sites</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst15ParticleFactory9num_sitesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of sites. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst15ParticleFactory18num_particle_typesEv">
+<span id="_CPPv2NK6feasst15ParticleFactory18num_particle_typesEv"></span><span id="feasst::ParticleFactory::num_particle_typesC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a87b54d35ca7f0280b6a2ac99b00285a4"></span>int <code class="descname">num_particle_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst15ParticleFactory18num_particle_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of particle types. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory6removeEK5Group">
+<span id="_CPPv2N6feasst15ParticleFactory6removeEK5Group"></span><span id="feasst::ParticleFactory::remove__GroupC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1ae27f4bf797cb337352aa0e5bf59f02fa"></span>void <code class="descname">remove</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Group.html#_CPPv3N6feasst5GroupE" title="feasst::Group">Group</a> <em>group</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory6removeEK5Group" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove particles and sites based on the group. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory8displaceEKiRK8Position">
+<span id="_CPPv2N6feasst15ParticleFactory8displaceEKiRK8Position"></span><span id="feasst::ParticleFactory::displace__iC.PositionCR"></span><span class="target" id="classfeasst_1_1ParticleFactory_1aca3911330c56a1b6bc067c5c542e98d7"></span>void <code class="descname">displace</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>displacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory8displaceEKiRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Displace the particle with given index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst15ParticleFactory12model_paramsEv">
+<span id="_CPPv2NK6feasst15ParticleFactory12model_paramsEv"></span><span id="feasst::ParticleFactory::model_paramsC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a0b12b382faea7050c99d4413d36063d9"></span><em class="property">const</em> <a class="reference internal" href="ModelParam.html#_CPPv3N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<code class="descname">model_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst15ParticleFactory12model_paramsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the model parameters. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory3addEKNSt10shared_ptrI10ModelParamEE">
+<span id="_CPPv2N6feasst15ParticleFactory3addEKNSt10shared_ptrI10ModelParamEE"></span><span id="feasst::ParticleFactory::add__std::shared_ptr:ModelParam:C"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a8d4dd2db82e4df89e927b159c93f2bb1"></span>void <code class="descname">add</code><span class="sig-paren">(</span><em class="property">const</em> std::shared_ptr&lt;<a class="reference internal" href="ModelParam.html#_CPPv3N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a>&gt; <em>param</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory3addEKNSt10shared_ptrI10ModelParamEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a custom type of model parameter. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory15set_model_paramEKNSt6stringEKiKd">
+<span id="_CPPv2N6feasst15ParticleFactory15set_model_paramEKNSt6stringEKiKd"></span><span id="feasst::ParticleFactory::set_model_param__ssC.iC.doubleC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1aab094650f11900a3babcb1f177ee5d0e"></span>void <code class="descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> int <em>site_type</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory15set_model_paramEKNSt6stringEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> model parameter of a given site type and name to value. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory15add_model_paramEKNSt6stringEKd">
+<span id="_CPPv2N6feasst15ParticleFactory15add_model_paramEKNSt6stringEKd"></span><span id="feasst::ParticleFactory::add_model_param__ssC.doubleC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a298cae10656f499e1c5ee57847048a59"></span>void <code class="descname">add_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory15add_model_paramEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add model parameter of a given name to value. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory17set_site_physicalEKiKiKb">
+<span id="_CPPv2N6feasst15ParticleFactory17set_site_physicalEKiKiKb"></span><span id="feasst::ParticleFactory::set_site_physical__iC.iC.bC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a8ec9ba314338946d2da032cede7aab14"></span>void <code class="descname">set_site_physical</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle</em>, <em class="property">const</em> int <em>site</em>, <em class="property">const</em> bool <em>phys</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory17set_site_physicalEKiKiKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set site as physical/nonphysical. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory17add_site_propertyEKNSt6stringEKdKiKi">
+<span id="_CPPv2N6feasst15ParticleFactory17add_site_propertyEKNSt6stringEKdKiKi"></span><span id="feasst::ParticleFactory::add_site_property__ssC.doubleC.iC.iC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1a3e20d7faf0633d75e84777b8a7ee9a37"></span>void <code class="descname">add_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory17add_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add the property of sites in a particle. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory24add_or_set_site_propertyEKNSt6stringEKdKiKi">
+<span id="_CPPv2N6feasst15ParticleFactory24add_or_set_site_propertyEKNSt6stringEKdKiKi"></span><span id="feasst::ParticleFactory::add_or_set_site_property__ssC.doubleC.iC.iC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1accabcd281c05a2ddc0223bca0f4912d5"></span>void <code class="descname">add_or_set_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory24add_or_set_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add or set the property of sites in a particle. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst15ParticleFactory17set_site_propertyEKNSt6stringEKdKiKi">
+<span id="_CPPv2N6feasst15ParticleFactory17set_site_propertyEKNSt6stringEKdKiKi"></span><span id="feasst::ParticleFactory::set_site_property__ssC.doubleC.iC.iC"></span><span class="target" id="classfeasst_1_1ParticleFactory_1afb940058db74af7873e10e16569c6203"></span>void <code class="descname">set_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst15ParticleFactory17set_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the property of sites in a particle. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Properties.html">Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TypedEntity.html">TypedEntity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bond.html">Bond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Site.html">Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ParticleFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectPosition.html">SelectPosition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ModelParam.html"
+                        title="previous chapter">ModelParam</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Select.html"
+                        title="next chapter">Select</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Select.html" title="Select"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ModelParam.html" title="ModelParam"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Configuration</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

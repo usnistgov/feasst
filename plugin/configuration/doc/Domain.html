@@ -1,0 +1,334 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Domain &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="SelectPosition" href="SelectPosition.html" />
+    <link rel="prev" title="Cells" href="Cells.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="SelectPosition.html" title="SelectPosition"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Cells.html" title="Cells"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Configuration</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="domain">
+<h1>Domain<a class="headerlink" href="#domain" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst6DomainE">
+<span id="_CPPv2N6feasst6DomainE"></span><span id="feasst::Domain"></span><span class="target" id="classfeasst_1_1Domain"></span><em class="property">class </em><code class="descname">Domain</code><a class="headerlink" href="#_CPPv3N6feasst6DomainE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A <a class="reference internal" href="#classfeasst_1_1Domain"><span class="std std-ref">Domain</span></a> represents the spatial boundaries and constraints imposed upon the positions of the particles.</p>
+<p>The origin is always located at the center of the domain.</p>
+<p>By default, periodicity in each dimension is enabled when the side lengths are set.</p>
+<p>A cuboid-shaped domain may have unique side lengths but the angles between the edges of the domain are fixed at ninety degrees. In two-dimensions, the cuboid reduces to a rectangle. The cuboid domain may be faster and cells are specific to cuboid domain.</p>
+<p>A triclinic-shaped domain is similar to cuboid-shaped except that the angles between the boundaries may different from ninety degrees. In two-dimensions, this reduces to a parallelogram.</p>
+<p>The triclinic periodic cell is defined by a vector for each dimension. This implementation is only valid for the following two- or three-dimensions.</p>
+<p>For the first (i.e., “x”), <span class="math notranslate nohighlight">\( \vec{l_x} = {l_x, 0, 0} \)</span> For the second (i.e., “y”), <span class="math notranslate nohighlight">\( vec{l_y} = {xy, l_y, 0} \)</span> For the third (i.e., “z”), <span class="math notranslate nohighlight">\( \vec{l_z} = {xz, yz, l_z} \)</span></p>
+<p>Thus, the angle, <span class="math notranslate nohighlight">\(\alpha\)</span>, between the “x” and “y” vectors is given by <span class="math notranslate nohighlight">\( |l_x| |l_y| \cos\alpha = \vec{l_x} \cdot \vec{l_y}\)</span>.</p>
+<p>On the inner workings of Monte Carlo codes <a class="reference external" href="https://doi.org/10.1080/08927022.2013.819102">https://doi.org/10.1080/08927022.2013.819102</a> </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain11side_lengthEv">
+<span id="_CPPv2NK6feasst6Domain11side_lengthEv"></span><span id="feasst::Domain::side_lengthC"></span><span class="target" id="classfeasst_1_1Domain_1a34c8cea71f72ae937c2aed8e1c90df53"></span><a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> <code class="descname">side_length</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain11side_lengthEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the side lengths. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain11side_lengthEKi">
+<span id="_CPPv2NK6feasst6Domain11side_lengthEKi"></span><span id="feasst::Domain::side_length__iCC"></span><span class="target" id="classfeasst_1_1Domain_1a562a8e0091ee9fc29d2852a5eb36c468"></span>double <code class="descname">side_length</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain11side_lengthEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the side length. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Domain15set_side_lengthERK8Position">
+<span id="_CPPv2N6feasst6Domain15set_side_lengthERK8Position"></span><span id="feasst::Domain::set_side_length__PositionCR"></span><span class="target" id="classfeasst_1_1Domain_1abc4f6ce78d61804ef24f213ed0a45e78"></span>void <code class="descname">set_side_length</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>side_length</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Domain15set_side_lengthERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the side lengths. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Domain15set_side_lengthEKiKd">
+<span id="_CPPv2N6feasst6Domain15set_side_lengthEKiKd"></span><span id="feasst::Domain::set_side_length__iC.doubleC"></span><span class="target" id="classfeasst_1_1Domain_1acbb22ae41cb394b7d8989136998e74f8"></span>void <code class="descname">set_side_length</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <em class="property">const</em> double <em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Domain15set_side_lengthEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the side length. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Domain9set_cubicEKd">
+<span id="_CPPv2N6feasst6Domain9set_cubicEKd"></span><span id="feasst::Domain::set_cubic__doubleC"></span><span class="target" id="classfeasst_1_1Domain_1adb75f6a5384aad2b94a4e4ac6d870dd0"></span><a class="reference internal" href="#_CPPv3N6feasst6DomainE" title="feasst::Domain">Domain</a> &amp;<code class="descname">set_cubic</code><span class="sig-paren">(</span><em class="property">const</em> double <em>box_length</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Domain9set_cubicEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the cubic box length. Return self for chain setting. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Domain6set_xyEKd">
+<span id="_CPPv2N6feasst6Domain6set_xyEKd"></span><span id="feasst::Domain::set_xy__doubleC"></span><span class="target" id="classfeasst_1_1Domain_1a89ec76c8f0ea88dc1d84397b37325602"></span><a class="reference internal" href="#_CPPv3N6feasst6DomainE" title="feasst::Domain">Domain</a> &amp;<code class="descname">set_xy</code><span class="sig-paren">(</span><em class="property">const</em> double <em>xy</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Domain6set_xyEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the xy tilt factor. By default it is zero. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Domain6set_xzEKd">
+<span id="_CPPv2N6feasst6Domain6set_xzEKd"></span><span id="feasst::Domain::set_xz__doubleC"></span><span class="target" id="classfeasst_1_1Domain_1a5453304bb5df0c52c82b2e003b0d560a"></span><a class="reference internal" href="#_CPPv3N6feasst6DomainE" title="feasst::Domain">Domain</a> &amp;<code class="descname">set_xz</code><span class="sig-paren">(</span><em class="property">const</em> double <em>xz</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Domain6set_xzEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the xz tilt factor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Domain6set_yzEKd">
+<span id="_CPPv2N6feasst6Domain6set_yzEKd"></span><span id="feasst::Domain::set_yz__doubleC"></span><span class="target" id="classfeasst_1_1Domain_1a43936f2a96717c28e7f13d152e682dfd"></span><a class="reference internal" href="#_CPPv3N6feasst6DomainE" title="feasst::Domain">Domain</a> &amp;<code class="descname">set_yz</code><span class="sig-paren">(</span><em class="property">const</em> double <em>yz</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Domain6set_yzEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the yz tilt factor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Domain7disableEKi">
+<span id="_CPPv2N6feasst6Domain7disableEKi"></span><span id="feasst::Domain::disable__iC"></span><span class="target" id="classfeasst_1_1Domain_1a206a0b8403c4bde632408d9af3c34471"></span>void <code class="descname">disable</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Domain7disableEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable periodicity in a particular dimension. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain9dimensionEv">
+<span id="_CPPv2NK6feasst6Domain9dimensionEv"></span><span id="feasst::Domain::dimensionC"></span><span class="target" id="classfeasst_1_1Domain_1af41e31a8adfb8fa9b7b0ae9f0508245d"></span>int <code class="descname">dimension</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain9dimensionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the dimensionality. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain6volumeEv">
+<span id="_CPPv2NK6feasst6Domain6volumeEv"></span><span id="feasst::Domain::volumeC"></span><span class="target" id="classfeasst_1_1Domain_1a393109e1c5808d0526c5c4f2773abe5b"></span>double <code class="descname">volume</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain6volumeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the volume. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain5shiftERK8Position">
+<span id="_CPPv2NK6feasst6Domain5shiftERK8Position"></span><span id="feasst::Domain::shift__PositionCRC"></span><span class="target" id="classfeasst_1_1Domain_1a7d737b43b63a8e1608d5b5499afa48fe"></span><a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> <code class="descname">shift</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain5shiftERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the shift necessary to wrap the position. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain4wrapEP8Position">
+<span id="_CPPv2NK6feasst6Domain4wrapEP8Position"></span><span id="feasst::Domain::wrap__PositionPC"></span><span class="target" id="classfeasst_1_1Domain_1a5325572800631b4d59c6092eedd32ee7"></span>void <code class="descname">wrap</code><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> *<em>position</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain4wrapEP8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Wrap the input position. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain15random_positionEP6Random">
+<span id="_CPPv2NK6feasst6Domain15random_positionEP6Random"></span><span id="feasst::Domain::random_position__RandomPC"></span><span class="target" id="classfeasst_1_1Domain_1a11ec549853489fb5af3a628edafef96f"></span><a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> <code class="descname">random_position</code><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Random.html#_CPPv3N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain15random_positionEP6Random" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return random position within boundaries. Require random number generator to keep method constant and prevent seeding to the same value over and over again. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain15random_positionEP8PositionP6Random">
+<span id="_CPPv2NK6feasst6Domain15random_positionEP8PositionP6Random"></span><span id="feasst::Domain::random_position__PositionP.RandomPC"></span><span class="target" id="classfeasst_1_1Domain_1ad8c3550a7a1329874c9044244f8db3e7"></span>void <code class="descname">random_position</code><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> *<em>position</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv3N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain15random_positionEP8PositionP6Random" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Optimized verison of the above, which allows update of existing position. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain15min_side_lengthEv">
+<span id="_CPPv2NK6feasst6Domain15min_side_lengthEv"></span><span id="feasst::Domain::min_side_lengthC"></span><span class="target" id="classfeasst_1_1Domain_1a62a25ec9f89ab8c4bed4e6e87198c3f3"></span>double <code class="descname">min_side_length</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain15min_side_lengthEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the minimum side length. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain15max_side_lengthEv">
+<span id="_CPPv2NK6feasst6Domain15max_side_lengthEv"></span><span id="feasst::Domain::max_side_lengthC"></span><span class="target" id="classfeasst_1_1Domain_1a73dcc000bc9eda557d0a18254b1e6d46"></span>double <code class="descname">max_side_length</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain15max_side_lengthEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the maximum side length. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Domain10init_cellsEKdKi">
+<span id="_CPPv2N6feasst6Domain10init_cellsEKdKi"></span><span id="feasst::Domain::init_cells__doubleC.iC"></span><span class="target" id="classfeasst_1_1Domain_1a474fd77ddb49782be8bc587e68774f89"></span>void <code class="descname">init_cells</code><span class="sig-paren">(</span><em class="property">const</em> double <em>min_length</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Domain10init_cellsEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HWH implement check. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">group_index</span></code>: A group index corresponds to a group defined in configuration. If this index is set to 0 (default) use all particles and sites. </li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Initialize the cells according to the minimum side length. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain5cellsEv">
+<span id="_CPPv2NK6feasst6Domain5cellsEv"></span><span id="feasst::Domain::cellsC"></span><span class="target" id="classfeasst_1_1Domain_1a46f09990971b2b90705906fe2f004df9"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Cells.html#_CPPv3N6feasst5CellsE" title="feasst::Cells">Cells</a>&gt; &amp;<code class="descname">cells</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain5cellsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the cells. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain5cellsEKi">
+<span id="_CPPv2NK6feasst6Domain5cellsEKi"></span><span id="feasst::Domain::cells__iCC"></span><span class="target" id="classfeasst_1_1Domain_1aa7f937f0abb1937582a44a181e4bbc05"></span><em class="property">const</em> <a class="reference internal" href="Cells.html#_CPPv3N6feasst5CellsE" title="feasst::Cells">Cells</a> &amp;<code class="descname">cells</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain5cellsEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the cells by index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Domain16add_to_cell_listEKiRK6SelectKi">
+<span id="_CPPv2N6feasst6Domain16add_to_cell_listEKiRK6SelectKi"></span><span id="feasst::Domain::add_to_cell_list__iC.SelectCR.iC"></span><span class="target" id="classfeasst_1_1Domain_1a8378f85cd8bba4e031d7b39f5a57ac86"></span>void <code class="descname">add_to_cell_list</code><span class="sig-paren">(</span><em class="property">const</em> int <em>cell_index</em>, <em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> int <em>particle_cell</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Domain16add_to_cell_listEKiRK6SelectKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add selection to cells. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Domain16update_cell_listEKiRK6SelectKiKi">
+<span id="_CPPv2N6feasst6Domain16update_cell_listEKiRK6SelectKiKi"></span><span id="feasst::Domain::update_cell_list__iC.SelectCR.iC.iC"></span><span class="target" id="classfeasst_1_1Domain_1a6545bf7f28628135289e01227b22d3cf"></span>void <code class="descname">update_cell_list</code><span class="sig-paren">(</span><em class="property">const</em> int <em>cell_index</em>, <em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> int <em>cell_new</em>, <em class="property">const</em> int <em>cell_old</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Domain16update_cell_listEKiRK6SelectKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update selection in cells. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Domain21remove_from_cell_listEKiRK6SelectKi">
+<span id="_CPPv2N6feasst6Domain21remove_from_cell_listEKiRK6SelectKi"></span><span id="feasst::Domain::remove_from_cell_list__iC.SelectCR.iC"></span><span class="target" id="classfeasst_1_1Domain_1afa07b1c747e97708cac4d881b4100e6f"></span>void <code class="descname">remove_from_cell_list</code><span class="sig-paren">(</span><em class="property">const</em> int <em>cell_index</em>, <em class="property">const</em> <a class="reference internal" href="Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> int <em>cell</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Domain21remove_from_cell_listEKiRK6SelectKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove selection from cells. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain7cell_idERK8PositionRK5Cells">
+<span id="_CPPv2NK6feasst6Domain7cell_idERK8PositionRK5Cells"></span><span id="feasst::Domain::cell_id__PositionCR.CellsCRC"></span><span class="target" id="classfeasst_1_1Domain_1a7a0335848667fce52c8c5b47f5cfadd1"></span>int <code class="descname">cell_id</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em>, <em class="property">const</em> <a class="reference internal" href="Cells.html#_CPPv3N6feasst5CellsE" title="feasst::Cells">Cells</a> &amp;<em>cells</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain7cell_idERK8PositionRK5Cells" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the unique number cell for the position. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Domain15is_cell_enabledEv">
+<span id="_CPPv2NK6feasst6Domain15is_cell_enabledEv"></span><span id="feasst::Domain::is_cell_enabledC"></span><span class="target" id="classfeasst_1_1Domain_1a74aea06a7b26fc775a248ccdf1beff48"></span>bool <code class="descname">is_cell_enabled</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Domain15is_cell_enabledEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if cell list is enabled. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Properties.html">Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TypedEntity.html">TypedEntity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bond.html">Bond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Site.html">Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectPosition.html">SelectPosition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Cells.html"
+                        title="previous chapter">Cells</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="SelectPosition.html"
+                        title="next chapter">SelectPosition</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="SelectPosition.html" title="SelectPosition"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Cells.html" title="Cells"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Configuration</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

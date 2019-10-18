@@ -1,0 +1,243 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>utils/include/debug &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="utils/include/utils_io" href="utils_io.html" />
+    <link rel="prev" title="utils/include/utils" href="utils.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="utils_io.html" title="utils/include/utils_io"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="utils.html" title="utils/include/utils"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Utilities</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="utils-include-debug">
+<h1>utils/include/debug<a class="headerlink" href="#utils-include-debug" title="Permalink to this headline">¶</a></h1>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Defines</p>
+<dl class="macro">
+<dt id="c.MAX_PRECISION">
+<span class="target" id="debug_8h_1a4ed9e805da6b82cc662002e83173a2b8"></span><code class="descname">MAX_PRECISION</code><a class="headerlink" href="#c.MAX_PRECISION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to output maximum precision to screen [e.g., INFO(MAX_PRECISION &lt;&lt; “energy: ” &lt;&lt; energy)]. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.FEASST_MACRO_EXCEPTION">
+<span class="target" id="debug_8h_1a2c3c7aaf97c960e6b57aaf8f2f068599"></span><code class="descname">FEASST_MACRO_EXCEPTION</code><span class="sig-paren">(</span>message, name<span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_MACRO_EXCEPTION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Throw exception. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ASSERT">
+<span class="target" id="debug_8h_1aa06eedd6f738a415870e97a375337d51"></span><code class="descname">ASSERT</code><span class="sig-paren">(</span>condition, message<span class="sig-paren">)</span><a class="headerlink" href="#c.ASSERT" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the assertion condition is not true, throw exception with message. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ERROR">
+<span class="target" id="debug_8h_1ae225ab718bd4f5e2221129f026d3d8f1"></span><code class="descname">ERROR</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.ERROR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Throw exception with message. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.CATCH_PHRASE">
+<span class="target" id="debug_8h_1a78d87e85f74552745f117bf54641ec20"></span><code class="descname">CATCH_PHRASE</code><span class="sig-paren">(</span>phrase<span class="sig-paren">)</span><a class="headerlink" href="#c.CATCH_PHRASE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expect to catch exception with phrase in message. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.FEASST_MACRO_OUTPUT">
+<span class="target" id="debug_8h_1a42a13dcca672d013fc25504a9de6fab9"></span><code class="descname">FEASST_MACRO_OUTPUT</code><span class="sig-paren">(</span>message, name, level<span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_MACRO_OUTPUT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Debug with message to standard output. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.WARN">
+<span class="target" id="debug_8h_1a02450a0cb9e4af683314a1560943350a"></span><code class="descname">WARN</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.WARN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define and name the various levels of verbosity. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.INFO">
+<span class="target" id="debug_8h_1a809f816dd6df4e17499413cff1926fd4"></span><code class="descname">INFO</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.INFO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.DEBUG">
+<span class="target" id="debug_8h_1ab94a24f0a37b3963eb64f201cebf60a9"></span><code class="descname">DEBUG</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.DEBUG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.TRACE">
+<span class="target" id="debug_8h_1a670dccd8f2591bf2f2f4732030c3a458"></span><code class="descname">TRACE</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.TRACE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="type">
+<dt id="_CPPv36feasst">
+<span id="_CPPv26feasst"></span><span id="feasst"></span><span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="descname">feasst</code><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst16feasst_dir_trim_EPKc">
+<span id="_CPPv2N6feasst16feasst_dir_trim_EPKc"></span><span id="feasst::feasst_dir_trim___cCP"></span><span class="target" id="namespacefeasst_1a682bd5a8531ab31f36751ee47b45578c"></span>std::string <code class="descname">feasst_dir_trim_</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst16feasst_dir_trim_EPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return file_name with FEASST_DIR_ path removed. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Variables</p>
+<dl class="member">
+<dt id="_CPPv3N6feasst13VERBOSE_LEVELE">
+<span id="_CPPv2N6feasst13VERBOSE_LEVELE"></span><span id="feasst::VERBOSE_LEVEL__i"></span><span class="target" id="namespacefeasst_1af6d3fe8aa2fbb3508c0fef521a7046a3"></span><em class="property">constexpr</em> int <code class="descname">VERBOSE_LEVEL</code> = 3<a class="headerlink" href="#_CPPv3N6feasst13VERBOSE_LEVELE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The verbosity level sets which error and debugging checks and messages are utilized.</p>
+<p>The order of verbosity is as follows:</p>
+<p>0. FATAL (not implemented)<ol class="arabic simple">
+<li>ERROR and ASSERT</li>
+<li>WARN</li>
+<li>INFO</li>
+<li>DEBUG</li>
+<li>TRACE</li>
+</ol>
+</p>
+<p>These macros will print if they are equal to or less than the verbosity level. Tests which expect exceptions (many) will fail if VERBOSE_LEVEL is set to 0. ASSERT includes the conditional as the first argument.</p>
+<p>A way to decide whether to use TRACE or DEBUG is as follows. If the printout is once every trial move or less frequent, then DEBUG is acceptable. If the printout is more than once every trial (e.g., inside the visitor loop for a model) then use TRACE instead. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="utils_file.html">utils/include/utils_file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Arguments.html">Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html">utils/include/utils</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">utils/include/debug</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils_io.html">utils/include/utils_io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="utils.html"
+                        title="previous chapter">utils/include/utils</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="utils_io.html"
+                        title="next chapter">utils/include/utils_io</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="utils_io.html" title="utils/include/utils_io"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="utils.html" title="utils/include/utils"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Utilities</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

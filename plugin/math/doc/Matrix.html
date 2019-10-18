@@ -1,0 +1,284 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Matrix &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Random" href="Random.html" />
+    <link rel="prev" title="math/include/utils_math" href="utils_math.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Random.html" title="Random"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="utils_math.html" title="math/include/utils_math"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Math</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="matrix">
+<h1>Matrix<a class="headerlink" href="#matrix" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst6MatrixE">
+<span id="_CPPv2N6feasst6MatrixE"></span><span id="feasst::Matrix"></span><span class="target" id="classfeasst_1_1Matrix"></span><em class="property">class </em><code class="descname">Matrix</code><a class="headerlink" href="#_CPPv3N6feasst6MatrixE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A <a class="reference internal" href="#classfeasst_1_1Matrix"><span class="std std-ref">Matrix</span></a> is represented by rows and columns. The first index is the row, and the second is the column. </p>
+<p>Subclassed by <a class="reference internal" href="#classfeasst_1_1MatrixThreeByThree"><span class="std std-ref">feasst::MatrixThreeByThree</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst6Matrix8set_sizeEKiKi">
+<span id="_CPPv2N6feasst6Matrix8set_sizeEKiKi"></span><span id="feasst::Matrix::set_size__iC.iC"></span><span class="target" id="classfeasst_1_1Matrix_1a74fb57a10943f0b3be1d1b3ad309bfae"></span>void <code class="descname">set_size</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num_rows</em>, <em class="property">const</em> int <em>num_columns</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Matrix8set_sizeEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the size by number of rows and columns. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Matrix9set_valueEKiKiKd">
+<span id="_CPPv2N6feasst6Matrix9set_valueEKiKiKd"></span><span id="feasst::Matrix::set_value__iC.iC.doubleC"></span><span class="target" id="classfeasst_1_1Matrix_1a6775b204f07058d4fc114ad649267999"></span>void <code class="descname">set_value</code><span class="sig-paren">(</span><em class="property">const</em> int <em>row</em>, <em class="property">const</em> int <em>column</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Matrix9set_valueEKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the value of an element given by the row and column index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Matrix5valueEKiKi">
+<span id="_CPPv2NK6feasst6Matrix5valueEKiKi"></span><span id="feasst::Matrix::value__iC.iCC"></span><span class="target" id="classfeasst_1_1Matrix_1ad56e9acdbd9bcf6d1d36ecbb32cd02c9"></span>double <code class="descname">value</code><span class="sig-paren">(</span><em class="property">const</em> int <em>row</em>, <em class="property">const</em> int <em>column</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Matrix5valueEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the value of the element. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Matrix6matrixEv">
+<span id="_CPPv2NK6feasst6Matrix6matrixEv"></span><span id="feasst::Matrix::matrixC"></span><span class="target" id="classfeasst_1_1Matrix_1a4d52894233895b63eac3d6d66f23da49"></span>std::vector&lt;std::vector&lt;double&gt;&gt; <code class="descname">matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Matrix6matrixEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the entire matrix. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Matrix5checkEv">
+<span id="_CPPv2NK6feasst6Matrix5checkEv"></span><span id="feasst::Matrix::checkC"></span><span class="target" id="classfeasst_1_1Matrix_1a3a6c8b5a57cbe6f6aa786a6ba1069b1e"></span><em class="property">virtual</em> void <code class="descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Matrix5checkEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that each row and column are the same size. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Matrix9transposeEv">
+<span id="_CPPv2N6feasst6Matrix9transposeEv"></span><span id="feasst::Matrix::transpose"></span><span class="target" id="classfeasst_1_1Matrix_1ae2624015fa2af4b2c58b41e8b5c659e3"></span>void <code class="descname">transpose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Matrix9transposeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Switch the rows and columns. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst6Matrix8multiplyEKd">
+<span id="_CPPv2N6feasst6Matrix8multiplyEKd"></span><span id="feasst::Matrix::multiply__doubleC"></span><span class="target" id="classfeasst_1_1Matrix_1ace9e4c86558c34784bfe63bb9aeda291"></span>void <code class="descname">multiply</code><span class="sig-paren">(</span><em class="property">const</em> double <em>constant</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6Matrix8multiplyEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Multiply all elements by a constant. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Matrix8multiplyERK8Position">
+<span id="_CPPv2NK6feasst6Matrix8multiplyERK8Position"></span><span id="feasst::Matrix::multiply__PositionCRC"></span><span class="target" id="classfeasst_1_1Matrix_1ac0a375e8e84db28621c94ae2b16c7718"></span><a class="reference internal" href="Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> <code class="descname">multiply</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>vec</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Matrix8multiplyERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the vector which is a product of the multiplication of a matrix with the given vector. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Matrix8is_equalERK6Matrix">
+<span id="_CPPv2NK6feasst6Matrix8is_equalERK6Matrix"></span><span id="feasst::Matrix::is_equal__MatrixCRC"></span><span class="target" id="classfeasst_1_1Matrix_1a23114d27d13af699e70a025feeead903"></span>bool <code class="descname">is_equal</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv3N6feasst6MatrixE" title="feasst::Matrix">Matrix</a> &amp;<em>matrix</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Matrix8is_equalERK6Matrix" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if all elements are equal to the given matrix. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst6Matrix3strEv">
+<span id="_CPPv2NK6feasst6Matrix3strEv"></span><span id="feasst::Matrix::strC"></span><span class="target" id="classfeasst_1_1Matrix_1a9857fa38756e8dd842d1bea7b854fa54"></span>std::string <code class="descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst6Matrix3strEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the matrix as a human readable string. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv3N6feasst18MatrixThreeByThreeE">
+<span id="_CPPv2N6feasst18MatrixThreeByThreeE"></span><span id="feasst::MatrixThreeByThree"></span><span class="target" id="classfeasst_1_1MatrixThreeByThree"></span><em class="property">class </em><code class="descname">MatrixThreeByThree</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv3N6feasst6MatrixE" title="feasst::Matrix">Matrix</a><a class="headerlink" href="#_CPPv3N6feasst18MatrixThreeByThreeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This class assumes the matrix is square with three columns and three rows. This assumption allows for more easy or efficient operations. </p>
+<p>Subclassed by <a class="reference internal" href="#classfeasst_1_1RotationMatrix"><span class="std std-ref">feasst::RotationMatrix</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3NK6feasst18MatrixThreeByThree11determinantEv">
+<span id="_CPPv2NK6feasst18MatrixThreeByThree11determinantEv"></span><span id="feasst::MatrixThreeByThree::determinantC"></span><span class="target" id="classfeasst_1_1MatrixThreeByThree_1acf671d9f9dd0654b3cdf06fc835a70f4"></span>double <code class="descname">determinant</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst18MatrixThreeByThree11determinantEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the determinant. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst18MatrixThreeByThree6invertEv">
+<span id="_CPPv2N6feasst18MatrixThreeByThree6invertEv"></span><span id="feasst::MatrixThreeByThree::invert"></span><span class="target" id="classfeasst_1_1MatrixThreeByThree_1a5c61923f5abb964e00057655884abb24"></span>void <code class="descname">invert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst18MatrixThreeByThree6invertEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Invert the matrix. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst18MatrixThreeByThree5checkEv">
+<span id="_CPPv2NK6feasst18MatrixThreeByThree5checkEv"></span><span id="feasst::MatrixThreeByThree::checkC"></span><span class="target" id="classfeasst_1_1MatrixThreeByThree_1a825a9ce8c9338330f72c92abb383abbe"></span>void <code class="descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst18MatrixThreeByThree5checkEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that the matrix is square and of the assumed size. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv3N6feasst14RotationMatrixE">
+<span id="_CPPv2N6feasst14RotationMatrixE"></span><span id="feasst::RotationMatrix"></span><span class="target" id="classfeasst_1_1RotationMatrix"></span><em class="property">class </em><code class="descname">RotationMatrix</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv3N6feasst18MatrixThreeByThreeE" title="feasst::MatrixThreeByThree">MatrixThreeByThree</a><a class="headerlink" href="#_CPPv3N6feasst14RotationMatrixE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rotation matrices represent a rotation of a rigid body. They must be square with a unit determinant. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst14RotationMatrix10axis_angleERK8PositionKd">
+<span id="_CPPv2N6feasst14RotationMatrix10axis_angleERK8PositionKd"></span><span id="feasst::RotationMatrix::axis_angle__PositionCR.doubleC"></span><span class="target" id="classfeasst_1_1RotationMatrix_1aef81d94047187b70c83fbe9534c6a4dd"></span><a class="reference internal" href="#_CPPv3N6feasst14RotationMatrixE" title="feasst::RotationMatrix">RotationMatrix</a> &amp;<code class="descname">axis_angle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>axis</em>, <em class="property">const</em> double <em>degree_angle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14RotationMatrix10axis_angleERK8PositionKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">degree_angle</span></code>: The angle is in units of degrees. </li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Compute the rotation matrix given an angle of rotation about a given axis. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst14RotationMatrix6rotateERK8PositionP8Position">
+<span id="_CPPv2NK6feasst14RotationMatrix6rotateERK8PositionP8Position"></span><span id="feasst::RotationMatrix::rotate__PositionCR.PositionPC"></span><span class="target" id="classfeasst_1_1RotationMatrix_1a2b94f99e6e87cbc50fd5741958a8b425"></span>void <code class="descname">rotate</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>pivot</em>, <a class="reference internal" href="Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> *<em>rotated</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst14RotationMatrix6rotateERK8PositionP8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rotate a position given a pivot point. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst14RotationMatrix5checkEv">
+<span id="_CPPv2NK6feasst14RotationMatrix5checkEv"></span><span id="feasst::RotationMatrix::checkC"></span><span class="target" id="classfeasst_1_1RotationMatrix_1ab722f16b43f6822a7e9586509ca2d89d"></span>void <code class="descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst14RotationMatrix5checkEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that the derminant of a rotation matrix is unity. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Accumulator.html">Accumulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Position.html">Position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Histogram.html">Histogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FormulaPolynomial.html">FormulaPolynomial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils_math.html">math/include/utils_math</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Random.html">Random</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="utils_math.html"
+                        title="previous chapter">math/include/utils_math</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Random.html"
+                        title="next chapter">Random</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Random.html" title="Random"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="utils_math.html" title="math/include/utils_math"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Math</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

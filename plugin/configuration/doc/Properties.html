@@ -1,0 +1,316 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Properties &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="TypedEntity" href="TypedEntity.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="toc.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="TypedEntity.html" title="TypedEntity"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="toc.html" title="&lt;no title&gt;"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Configuration</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="properties">
+<h1>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst10PropertiesE">
+<span id="_CPPv2N6feasst10PropertiesE"></span><span id="feasst::Properties"></span><span class="target" id="classfeasst_1_1Properties"></span><em class="property">class </em><code class="descname">Properties</code><a class="headerlink" href="#_CPPv3N6feasst10PropertiesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Manage custom properties (sites, bonds, etc), typically for use in plugins. There is a performance cost associated with accessing the properties by name. But accessing the values by index should be done carefully. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst10Properties3addEKNSt6stringEKd">
+<span id="_CPPv2N6feasst10Properties3addEKNSt6stringEKd"></span><span id="feasst::Properties::add__ssC.doubleC"></span><span class="target" id="classfeasst_1_1Properties_1a8b607e2e9a59bbd72079e3816b67a108"></span>void <code class="descname">add</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10Properties3addEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a new value/name combination. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10Properties10add_or_setEKNSt6stringEKd">
+<span id="_CPPv2N6feasst10Properties10add_or_setEKNSt6stringEKd"></span><span id="feasst::Properties::add_or_set__ssC.doubleC"></span><span class="target" id="classfeasst_1_1Properties_1a9323a3f76a921d83dcc3bccf6ce2eba9"></span>void <code class="descname">add_or_set</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10Properties10add_or_setEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a new value and name, or set its value if name exists. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10Properties3setEKNSt6stringEKd">
+<span id="_CPPv2N6feasst10Properties3setEKNSt6stringEKd"></span><span id="feasst::Properties::set__ssC.doubleC"></span><span class="target" id="classfeasst_1_1Properties_1a86311b6b3c89f1decc976a32939d2507"></span>void <code class="descname">set</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10Properties3setEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the value of property name. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Properties5valueEKNSt6stringE">
+<span id="_CPPv2NK6feasst10Properties5valueEKNSt6stringE"></span><span id="feasst::Properties::value__ssCC"></span><span class="target" id="classfeasst_1_1Properties_1a070be299a3540e8731a20fd85d579e1c"></span>double <code class="descname">value</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Properties5valueEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return property value by name. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Properties5valueEKNSt6stringEPd">
+<span id="_CPPv2NK6feasst10Properties5valueEKNSt6stringEPd"></span><span id="feasst::Properties::value__ssC.doublePC"></span><span class="target" id="classfeasst_1_1Properties_1a78c23e1c382ed28b4877f08b0bb6355b"></span>bool <code class="descname">value</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, double *<em>value</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Properties5valueEKNSt6stringEPd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if property name exists, and its value. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Properties3hasEKNSt6stringE">
+<span id="_CPPv2NK6feasst10Properties3hasEKNSt6stringE"></span><span id="feasst::Properties::has__ssCC"></span><span class="target" id="classfeasst_1_1Properties_1aec27d8799e2b3fec8cf924d7af8f1a8b"></span>bool <code class="descname">has</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Properties3hasEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if property name exists. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Properties5checkEv">
+<span id="_CPPv2NK6feasst10Properties5checkEv"></span><span id="feasst::Properties::checkC"></span><span class="target" id="classfeasst_1_1Properties_1ac5c7cee9ad2e55c625f798ab6b7b6114"></span>void <code class="descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Properties5checkEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that the property values and names are consistent. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Properties5namesEv">
+<span id="_CPPv2NK6feasst10Properties5namesEv"></span><span id="feasst::Properties::namesC"></span><span class="target" id="classfeasst_1_1Properties_1a57fd8250099df3ab29857713ac686602"></span>std::vector&lt;std::string&gt; <code class="descname">names</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Properties5namesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return all property names. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Properties14property_valueEv">
+<span id="_CPPv2NK6feasst10Properties14property_valueEv"></span><span id="feasst::Properties::property_valueC"></span><span class="target" id="classfeasst_1_1Properties_1a00be78b1ed39ebd9dcfa8c8c728ddfb3"></span><em class="property">const</em> std::vector&lt;double&gt; &amp;<code class="descname">property_value</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Properties14property_valueEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return all property values. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10Properties9set_valueEKiKd">
+<span id="_CPPv2N6feasst10Properties9set_valueEKiKd"></span><span id="feasst::Properties::set_value__iC.doubleC"></span><span class="target" id="classfeasst_1_1Properties_1afb2747b7c31dd7749ca050296962878e"></span>void <code class="descname">set_value</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10Properties9set_valueEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set value of property by index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Properties3strEv">
+<span id="_CPPv2NK6feasst10Properties3strEv"></span><span id="feasst::Properties::strC"></span><span class="target" id="classfeasst_1_1Properties_1a8f24e6dbf2d1a4bd7b4a89500ca2c90c"></span>std::string <code class="descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Properties3strEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the properties as a human readable string. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10Properties3numEv">
+<span id="_CPPv2NK6feasst10Properties3numEv"></span><span id="feasst::Properties::numC"></span><span class="target" id="classfeasst_1_1Properties_1a8454985fbdba1e2c4dde53656c107e03"></span>int <code class="descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10Properties3numEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of properties. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv3N6feasst16PropertiedEntityE">
+<span id="_CPPv2N6feasst16PropertiedEntityE"></span><span id="feasst::PropertiedEntity"></span><span class="target" id="classfeasst_1_1PropertiedEntity"></span><em class="property">class </em><code class="descname">PropertiedEntity</code><a class="headerlink" href="#_CPPv3N6feasst16PropertiedEntityE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Subclassed by <a class="reference internal" href="Bond.html#classfeasst_1_1Bond"><span class="std std-ref">feasst::Bond</span></a>, <a class="reference internal" href="Cells.html#classfeasst_1_1Cells"><span class="std std-ref">feasst::Cells</span></a>, <a class="reference internal" href="Group.html#classfeasst_1_1Group"><span class="std std-ref">feasst::Group</span></a>, <a class="reference internal" href="ModelParam.html#classfeasst_1_1ModelParams"><span class="std std-ref">feasst::ModelParams</span></a>, <a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">feasst::Site</span></a>, <a class="reference internal" href="../../monte_carlo/doc/TrialSelect.html#classfeasst_1_1TrialSelect"><span class="std std-ref">feasst::TrialSelect</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst16PropertiedEntity12add_propertyEKNSt6stringEKd">
+<span id="_CPPv2N6feasst16PropertiedEntity12add_propertyEKNSt6stringEKd"></span><span id="feasst::PropertiedEntity::add_property__ssC.doubleC"></span><span class="target" id="classfeasst_1_1PropertiedEntity_1a693054b08d6f045c2e954a611d03a430"></span><em class="property">virtual</em> void <code class="descname">add_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst16PropertiedEntity12add_propertyEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a new property. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst16PropertiedEntity19add_or_set_propertyEKNSt6stringEKd">
+<span id="_CPPv2N6feasst16PropertiedEntity19add_or_set_propertyEKNSt6stringEKd"></span><span id="feasst::PropertiedEntity::add_or_set_property__ssC.doubleC"></span><span class="target" id="classfeasst_1_1PropertiedEntity_1ac79ea2baca68be095f8b17d8af321549"></span>void <code class="descname">add_or_set_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst16PropertiedEntity19add_or_set_propertyEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a property, or set its value if name already exists. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst16PropertiedEntity12set_propertyEKNSt6stringEKd">
+<span id="_CPPv2N6feasst16PropertiedEntity12set_propertyEKNSt6stringEKd"></span><span id="feasst::PropertiedEntity::set_property__ssC.doubleC"></span><span class="target" id="classfeasst_1_1PropertiedEntity_1a4949423b883ac2bb1d276dec37b91001"></span>void <code class="descname">set_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst16PropertiedEntity12set_propertyEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the value of an existing property. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst16PropertiedEntity10propertiesEv">
+<span id="_CPPv2NK6feasst16PropertiedEntity10propertiesEv"></span><span id="feasst::PropertiedEntity::propertiesC"></span><span class="target" id="classfeasst_1_1PropertiedEntity_1a4df43e1287eb414a4bda9bacc3f6ca47"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv3N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<code class="descname">properties</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst16PropertiedEntity10propertiesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return properties. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst16PropertiedEntity8propertyEKNSt6stringE">
+<span id="_CPPv2NK6feasst16PropertiedEntity8propertyEKNSt6stringE"></span><span id="feasst::PropertiedEntity::property__ssCC"></span><span class="target" id="classfeasst_1_1PropertiedEntity_1ae316b8901625fd4e9ea75ba86496e9b6"></span>double <code class="descname">property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst16PropertiedEntity8propertyEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the property value by name. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst16PropertiedEntity12has_propertyEKNSt6stringE">
+<span id="_CPPv2NK6feasst16PropertiedEntity12has_propertyEKNSt6stringE"></span><span id="feasst::PropertiedEntity::has_property__ssCC"></span><span class="target" id="classfeasst_1_1PropertiedEntity_1ad68188e137599506d28be2eaf28df0de"></span>bool <code class="descname">has_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst16PropertiedEntity12has_propertyEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if entity has property of name. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst16PropertiedEntity12set_propertyEKiKd">
+<span id="_CPPv2N6feasst16PropertiedEntity12set_propertyEKiKd"></span><span id="feasst::PropertiedEntity::set_property__iC.doubleC"></span><span class="target" id="classfeasst_1_1PropertiedEntity_1a82e0a849ed2ccc093888e6f07c657fb8"></span>void <code class="descname">set_property</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst16PropertiedEntity12set_propertyEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set value of property by index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst16PropertiedEntity14set_propertiesERK10Properties">
+<span id="_CPPv2N6feasst16PropertiedEntity14set_propertiesERK10Properties"></span><span id="feasst::PropertiedEntity::set_properties__PropertiesCR"></span><span class="target" id="classfeasst_1_1PropertiedEntity_1ad110e1ea63b73886c50a08963d2aab48"></span>void <code class="descname">set_properties</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv3N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>properties</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst16PropertiedEntity14set_propertiesERK10Properties" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the properties. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst16PropertiedEntity14set_propertiesERK10PropertiesRKNSt6vectorINSt6stringEEE">
+<span id="_CPPv2N6feasst16PropertiedEntity14set_propertiesERK10PropertiesRKNSt6vectorINSt6stringEEE"></span><span id="feasst::PropertiedEntity::set_properties__PropertiesCR.std::vector:ss:CR"></span><span class="target" id="classfeasst_1_1PropertiedEntity_1afbc6193ebaf11c88b5726eddf3d2c10a"></span>void <code class="descname">set_properties</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv3N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>properties</em>, <em class="property">const</em> std::vector&lt;std::string&gt; &amp;<em>exclude</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst16PropertiedEntity14set_propertiesERK10PropertiesRKNSt6vectorINSt6stringEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the properties. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">exclude</span></code>: exclude properties beginning with any characters in exclude </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst16PropertiedEntity5checkEv">
+<span id="_CPPv2NK6feasst16PropertiedEntity5checkEv"></span><span id="feasst::PropertiedEntity::checkC"></span><span class="target" id="classfeasst_1_1PropertiedEntity_1aa5472ff256e8a1afe9bc660693d55a30"></span><em class="property">virtual</em> void <code class="descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst16PropertiedEntity5checkEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> the properties. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Configuration</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TypedEntity.html">TypedEntity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Bond.html">Bond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Site.html">Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectPosition.html">SelectPosition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="toc.html"
+                        title="previous chapter">&lt;no title&gt;</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="TypedEntity.html"
+                        title="next chapter">TypedEntity</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="TypedEntity.html" title="TypedEntity"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="toc.html" title="&lt;no title&gt;"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Configuration</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

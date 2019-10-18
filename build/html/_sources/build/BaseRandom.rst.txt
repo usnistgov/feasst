@@ -1,6 +1,0 @@
-BaseRandom
-=====================================================
-
-.. doxygenclass:: feasst::BaseRandom
-   :project: FEASST
-   :members:

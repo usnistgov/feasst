@@ -1,0 +1,402 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>MonteCarlo &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Example" href="../../example/README.html" />
+    <link rel="prev" title="AnalyzeFactory" href="AnalyzeFactory.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../example/README.html" title="Example"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="AnalyzeFactory.html" title="AnalyzeFactory"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Monte Carlo</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="montecarlo">
+<h1>MonteCarlo<a class="headerlink" href="#montecarlo" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst10MonteCarloE">
+<span id="_CPPv2N6feasst10MonteCarloE"></span><span id="feasst::MonteCarlo"></span><span class="target" id="classfeasst_1_1MonteCarlo"></span><em class="property">class </em><code class="descname">MonteCarlo</code><a class="headerlink" href="#_CPPv3N6feasst10MonteCarloE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enforce order of Monte Carlo initialization: 1 config<ul class="simple">
+<li>particle types</li>
+<li>domain</li>
+<li>model parameters (based on types)</li>
+<li>groups 2 potentials</li>
+<li>models</li>
+<li>model precomputes(type depend)</li>
+<li>visitors<ul>
+<li>cells</li>
+</ul>
+</li>
+<li>visitor precomputes 3 system finalized 4 criteria</li>
+<li>set running energy 5 trials and steppers in mixed order</li>
+<li>trial precomputes?</li>
+<li>nmolseek</li>
+<li>analyzers and modifers<ul>
+<li>ana and mod precomputes </li>
+</ul>
+</li>
+</ul>
+</p>
+<p>Subclassed by <a class="reference internal" href="../../pipeline/doc/Pool.html#classfeasst_1_1Pipeline"><span class="std std-ref">feasst::Pipeline</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo3setENSt10shared_ptrI6RandomEE">
+<span id="_CPPv2N6feasst10MonteCarlo3setENSt10shared_ptrI6RandomEE"></span><span id="feasst::MonteCarlo::set__std::shared_ptr:Random:"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a1aa60c005e4e93f6215e9b78b6c434b4"></span>void <code class="descname">set</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="../../math/doc/Random.html#_CPPv3N6feasst6RandomE" title="feasst::Random">Random</a>&gt; <em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo3setENSt10shared_ptrI6RandomEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the random number generator. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10MonteCarlo6randomEv">
+<span id="_CPPv2NK6feasst10MonteCarlo6randomEv"></span><span id="feasst::MonteCarlo::randomC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a88d3e8d554a4a1dc909da827dd2da9cc"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Random.html#_CPPv3N6feasst6RandomE" title="feasst::Random">Random</a> *<code class="descname">random</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10MonteCarlo6randomEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the random number generator. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo13offset_randomEv">
+<span id="_CPPv2N6feasst10MonteCarlo13offset_randomEv"></span><span id="feasst::MonteCarlo::offset_random"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a4d02bff89a4a189636e86e304b349fe3"></span>void <code class="descname">offset_random</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo13offset_randomEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Offset random number generator. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo3addERK13Configuration">
+<span id="_CPPv2N6feasst10MonteCarlo3addERK13Configuration"></span><span id="feasst::MonteCarlo::add__ConfigurationCR"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a72fb83b340fe003bfb1d9202f1eda373"></span>void <code class="descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo3addERK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The first action with a Monte Carlo object is to set the <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10MonteCarlo13configurationEKi">
+<span id="_CPPv2NK6feasst10MonteCarlo13configurationEKi"></span><span id="feasst::MonteCarlo::configuration__iCC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a9dcb9c4726d2ac63fa5a48673842334e"></span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<code class="descname">configuration</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10MonteCarlo13configurationEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The configuration may be accessed read-only. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo3addERK9Potential">
+<span id="_CPPv2N6feasst10MonteCarlo3addERK9Potential"></span><span id="feasst::MonteCarlo::add__PotentialCR"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a4514729736161d488af06125980543e9"></span>void <code class="descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/Potential.html#_CPPv3N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo3addERK9Potential" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The second action is to add Potentials. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo16add_to_optimizedERK9Potential">
+<span id="_CPPv2N6feasst10MonteCarlo16add_to_optimizedERK9Potential"></span><span id="feasst::MonteCarlo::add_to_optimized__PotentialCR"></span><span class="target" id="classfeasst_1_1MonteCarlo_1ad54cae5d5a335ee40c0ef71c86b78858"></span>void <code class="descname">add_to_optimized</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/Potential.html#_CPPv3N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo16add_to_optimizedERK9Potential" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add potential to optimized. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo16add_to_referenceERK9Potential">
+<span id="_CPPv2N6feasst10MonteCarlo16add_to_referenceERK9Potential"></span><span id="feasst::MonteCarlo::add_to_reference__PotentialCR"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a8e2eb9a32bb96f580d52fe4f288b6a06"></span>void <code class="descname">add_to_reference</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/Potential.html#_CPPv3N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo16add_to_referenceERK9Potential" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add potential to reference. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo3setERK6System">
+<span id="_CPPv2N6feasst10MonteCarlo3setERK6System"></span><span id="feasst::MonteCarlo::set__SystemCR"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a075dd713abe76e97b398e7b20ba807f5"></span>void <code class="descname">set</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv3N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo3setERK6System" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Alternatively, the first and second actions may be combined by setting the system directly. This must be done before setting <a class="reference internal" href="Acceptance.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a>. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10MonteCarlo6systemEv">
+<span id="_CPPv2NK6feasst10MonteCarlo6systemEv"></span><span id="feasst::MonteCarlo::systemC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a3fb2fc865809be07e35841ad937e8c4f"></span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv3N6feasst6SystemE" title="feasst::System">System</a> &amp;<code class="descname">system</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10MonteCarlo6systemEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Once the <a class="reference internal" href="../../system/doc/System.html#classfeasst_1_1System"><span class="std std-ref">System</span></a> is set, it may be accessed on a read-only basis. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo3addENSt10shared_ptrI8CriteriaEE">
+<span id="_CPPv2N6feasst10MonteCarlo3addENSt10shared_ptrI8CriteriaEE"></span><span id="feasst::MonteCarlo::add__std::shared_ptr:Criteria:"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a22979254b8d20032453b0c5b62ff335d"></span>void <code class="descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Acceptance.html#_CPPv3N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a>&gt; <em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo3addENSt10shared_ptrI8CriteriaEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The third action is to set the <a class="reference internal" href="Acceptance.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a>. <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a> and Potentials (or <a class="reference internal" href="../../system/doc/System.html#classfeasst_1_1System"><span class="std std-ref">System</span></a>) must be set first. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10MonteCarlo8criteriaEv">
+<span id="_CPPv2NK6feasst10MonteCarlo8criteriaEv"></span><span id="feasst::MonteCarlo::criteriaC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a2bcddedd4c2b673e826b521e0cd4dea0"></span><em class="property">const</em> <a class="reference internal" href="Acceptance.html#_CPPv3N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<code class="descname">criteria</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10MonteCarlo8criteriaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Once <a class="reference internal" href="Acceptance.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> is set, it may be accessed on a read-only basis. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo3addENSt10shared_ptrI5TrialEE">
+<span id="_CPPv2N6feasst10MonteCarlo3addENSt10shared_ptrI5TrialEE"></span><span id="feasst::MonteCarlo::add__std::shared_ptr:Trial:"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a43e4d9d0fb0f2383cff58329defb1a1d"></span>void <code class="descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Trial.html#_CPPv3N6feasst5TrialE" title="feasst::Trial">Trial</a>&gt; <em>trial</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo3addENSt10shared_ptrI5TrialEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The remaining actions can be done in almost any order. Typically, one begins by adding trials. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10MonteCarlo6trialsEv">
+<span id="_CPPv2NK6feasst10MonteCarlo6trialsEv"></span><span id="feasst::MonteCarlo::trialsC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1af9b2ba54274d2a7342e1821cac5d1b5c"></span><em class="property">const</em> <a class="reference internal" href="TrialFactory.html#_CPPv3N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a> &amp;<code class="descname">trials</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10MonteCarlo6trialsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Access the trials on a read-only basis. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10MonteCarlo5trialEKi">
+<span id="_CPPv2NK6feasst10MonteCarlo5trialEKi"></span><span id="feasst::MonteCarlo::trial__iCC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a298b81ac7c7061f2e71b81eaa3d1e479"></span><em class="property">const</em> <a class="reference internal" href="Trial.html#_CPPv3N6feasst5TrialE" title="feasst::Trial">Trial</a> *<code class="descname">trial</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10MonteCarlo5trialEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Access the trials on a read-only basis. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo18seek_num_particlesEKi">
+<span id="_CPPv2N6feasst10MonteCarlo18seek_num_particlesEKi"></span><span id="feasst::MonteCarlo::seek_num_particles__iC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a7a51ac43d7fd68882ae639f89fe9070a"></span>void <code class="descname">seek_num_particles</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo18seek_num_particlesEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HWH consider depreciating this. While convenient, it confuses many users. Before the production simulation, one may wish to quickly seek an initial configuration with a given number of particles, without necessarily satisfying detailed balance. Thus, all stats are reset. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo3addENSt10shared_ptrI7AnalyzeEE">
+<span id="_CPPv2N6feasst10MonteCarlo3addENSt10shared_ptrI7AnalyzeEE"></span><span id="feasst::MonteCarlo::add__std::shared_ptr:Analyze:"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a603b474b265f64093cebb9a826bb6138"></span>void <code class="descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Analyze.html#_CPPv3N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a>&gt; <em>analyze</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo3addENSt10shared_ptrI7AnalyzeEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>An Analyzer performs some task after a given number of steps, but is read-only on <a class="reference internal" href="../../system/doc/System.html#classfeasst_1_1System"><span class="std std-ref">System</span></a>, <a class="reference internal" href="Acceptance.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> and Trials. At this stage, multistate non-factory classes are converted into factories for each state in criteria. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10MonteCarlo9analyzersEv">
+<span id="_CPPv2NK6feasst10MonteCarlo9analyzersEv"></span><span id="feasst::MonteCarlo::analyzersC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1ab7b045e700b8c7a182553bdde8143c90"></span><em class="property">const</em> std::vector&lt;std::shared_ptr&lt;<a class="reference internal" href="Analyze.html#_CPPv3N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a>&gt;&gt; &amp;<code class="descname">analyzers</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10MonteCarlo9analyzersEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return all analyzers. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10MonteCarlo7analyzeEKi">
+<span id="_CPPv2NK6feasst10MonteCarlo7analyzeEKi"></span><span id="feasst::MonteCarlo::analyze__iCC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a8daa61817212f4dcc4f946669bba07db"></span><em class="property">const</em> <a class="reference internal" href="Analyze.html#_CPPv3N6feasst7AnalyzeE" title="feasst::Analyze">Analyze</a> *<code class="descname">analyze</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10MonteCarlo7analyzeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return an Analayze by index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst10MonteCarlo13num_analyzersEv">
+<span id="_CPPv2NK6feasst10MonteCarlo13num_analyzersEv"></span><span id="feasst::MonteCarlo::num_analyzersC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a931274aefe4c0e20b26555ba5a00aec3"></span>int <code class="descname">num_analyzers</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst10MonteCarlo13num_analyzersEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of analyzers. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo3addEKNSt10shared_ptrI6ModifyEE">
+<span id="_CPPv2N6feasst10MonteCarlo3addEKNSt10shared_ptrI6ModifyEE"></span><span id="feasst::MonteCarlo::add__std::shared_ptr:Modify:C"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a311a0fd1867266aea021854fb78addd4"></span>void <code class="descname">add</code><span class="sig-paren">(</span><em class="property">const</em> std::shared_ptr&lt;<a class="reference internal" href="Modify.html#_CPPv3N6feasst6ModifyE" title="feasst::Modify">Modify</a>&gt; <em>modify</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo3addEKNSt10shared_ptrI6ModifyEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A Modifier performs some task after a given number of steps, but may change the <a class="reference internal" href="../../system/doc/System.html#classfeasst_1_1System"><span class="std std-ref">System</span></a>, <a class="reference internal" href="Acceptance.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> and Trials. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo3addEKNSt10shared_ptrI10CheckpointEE">
+<span id="_CPPv2N6feasst10MonteCarlo3addEKNSt10shared_ptrI10CheckpointEE"></span><span id="feasst::MonteCarlo::add__std::shared_ptr:Checkpoint:C"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a90a29d6e4fb78d2fe030f6f9f066cb9c"></span>void <code class="descname">add</code><span class="sig-paren">(</span><em class="property">const</em> std::shared_ptr&lt;<a class="reference internal" href="../../utils/doc/Checkpoint.html#_CPPv3N6feasst10CheckpointE" title="feasst::Checkpoint">Checkpoint</a>&gt; <em>checkpoint</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo3addEKNSt10shared_ptrI10CheckpointEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a checkpoint. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo7attemptEv">
+<span id="_CPPv2N6feasst10MonteCarlo7attemptEv"></span><span id="feasst::MonteCarlo::attempt"></span><span class="target" id="classfeasst_1_1MonteCarlo_1acf57eb5013497f50b77ac262b78f5ed8"></span>void <code class="descname">attempt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo7attemptEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attempt one trial, with subsequent analysers and modifiers. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo7attemptEKi">
+<span id="_CPPv2N6feasst10MonteCarlo7attemptEKi"></span><span id="feasst::MonteCarlo::attempt__iC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1aded349596a7595b3ab7ac4afbba921ed"></span>void <code class="descname">attempt</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num_trials</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo7attemptEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attempt a number of Monte Carlo trials. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo17reset_trial_statsEv">
+<span id="_CPPv2N6feasst10MonteCarlo17reset_trial_statsEv"></span><span id="feasst::MonteCarlo::reset_trial_stats"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a666b7c0c2005651597e599bca555dc5f"></span><em class="property">virtual</em> void <code class="descname">reset_trial_stats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo17reset_trial_statsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reset trial statistics. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo13attempt_trialEKi">
+<span id="_CPPv2N6feasst10MonteCarlo13attempt_trialEKi"></span><span id="feasst::MonteCarlo::attempt_trial__iC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a7d14d9b8705bbabd97f431bf92591ce2"></span>bool <code class="descname">attempt_trial</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo13attempt_trialEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attempt trial index without analyzers, modifiers or checkpoints. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo6revertEKiKb">
+<span id="_CPPv2N6feasst10MonteCarlo6revertEKiKb"></span><span id="feasst::MonteCarlo::revert__iC.bC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1ac93a7679332c03fd20b075460a96c27a"></span>void <code class="descname">revert</code><span class="sig-paren">(</span><em class="property">const</em> int <em>trial_index</em>, <em class="property">const</em> bool <em>accepted</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo6revertEKiKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Revert changes from previous trial. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo8finalizeEKi">
+<span id="_CPPv2N6feasst10MonteCarlo8finalizeEKi"></span><span id="feasst::MonteCarlo::finalize__iC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1ab9c464afb53e0f59e318b9c690630646"></span>void <code class="descname">finalize</code><span class="sig-paren">(</span><em class="property">const</em> int <em>trial_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo8finalizeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Finalize changes from previous trial. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo18run_until_completeEv">
+<span id="_CPPv2N6feasst10MonteCarlo18run_until_completeEv"></span><span id="feasst::MonteCarlo::run_until_complete"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a11ebfabff85acc31239ce261ffcdd132"></span>void <code class="descname">run_until_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo18run_until_completeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attempt Monte Carlo trials until <a class="reference internal" href="Acceptance.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> returns completion. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo21mimic_trial_rejectionEKiKd">
+<span id="_CPPv2N6feasst10MonteCarlo21mimic_trial_rejectionEKiKd"></span><span id="feasst::MonteCarlo::mimic_trial_rejection__iC.doubleC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a3b1c274e9f378fc878ddceacb661baf5"></span>void <code class="descname">mimic_trial_rejection</code><span class="sig-paren">(</span><em class="property">const</em> int <em>trial_index</em>, <em class="property">const</em> double <em>ln_prob</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo21mimic_trial_rejectionEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Mimic a rejection by a trial. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo10load_cacheEKb">
+<span id="_CPPv2N6feasst10MonteCarlo10load_cacheEKb"></span><span id="feasst::MonteCarlo::load_cache__bC"></span><span class="target" id="classfeasst_1_1MonteCarlo_1a01ee48c5849ae813dde781d889236f8d"></span>void <code class="descname">load_cache</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>load</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo10load_cacheEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Load random numbers and energy calculations into cache. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst10MonteCarlo12unload_cacheERK10MonteCarlo">
+<span id="_CPPv2N6feasst10MonteCarlo12unload_cacheERK10MonteCarlo"></span><span id="feasst::MonteCarlo::unload_cache__MonteCarloCR"></span><span class="target" id="classfeasst_1_1MonteCarlo_1aec6504617ff918109f3c7d5848c33e86"></span>void <code class="descname">unload_cache</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv3N6feasst10MonteCarloE" title="feasst::MonteCarlo">MonteCarlo</a> &amp;<em>mc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst10MonteCarlo12unload_cacheERK10MonteCarlo" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unload random numbers and energy calculations from cache. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Monte Carlo</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Stepper.html">Stepper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CriteriaMetropolis.html">CriteriaMetropolis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbConfigs.html">PerturbConfigs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">MonteCarlo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="AnalyzeFactory.html"
+                        title="previous chapter">AnalyzeFactory</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../example/README.html"
+                        title="next chapter">Example</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../example/README.html" title="Example"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="AnalyzeFactory.html" title="AnalyzeFactory"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Monte Carlo</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

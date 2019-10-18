@@ -1,0 +1,211 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Timer &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Cache" href="Cache.html" />
+    <link rel="prev" title="utils/include/utils_file" href="utils_file.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Cache.html" title="Cache"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="utils_file.html" title="utils/include/utils_file"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Utilities</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="timer">
+<h1>Timer<a class="headerlink" href="#timer" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst5TimerE">
+<span id="_CPPv2N6feasst5TimerE"></span><span id="feasst::Timer"></span><span class="target" id="classfeasst_1_1Timer"></span><em class="property">class </em><code class="descname">Timer</code><a class="headerlink" href="#_CPPv3N6feasst5TimerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst5Timer3addERKNSt6stringE">
+<span id="_CPPv2N6feasst5Timer3addERKNSt6stringE"></span><span id="feasst::Timer::add__ssCR"></span><span class="target" id="classfeasst_1_1Timer_1aceedcb70f2061999388ac4190940d3aa"></span>int <code class="descname">add</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Timer3addERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a new profile name. Return the index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst5Timer5startEKi">
+<span id="_CPPv2N6feasst5Timer5startEKi"></span><span id="feasst::Timer::start__iC"></span><span class="target" id="classfeasst_1_1Timer_1a7377e7360b8d275f0467393d379e2fe7"></span>void <code class="descname">start</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Timer5startEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the profile to the index and record the time. When a new index is started, or timer is ended, then the elapsed time is recorded. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst5Timer3endEv">
+<span id="_CPPv2N6feasst5Timer3endEv"></span><span id="feasst::Timer::end"></span><span class="target" id="classfeasst_1_1Timer_1ae84439af150fd3d022896bd4d43aefdb"></span>void <code class="descname">end</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Timer3endEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>End the current timer. Record previous index if exists. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Timer10sum_clocksEv">
+<span id="_CPPv2NK6feasst5Timer10sum_clocksEv"></span><span id="feasst::Timer::sum_clocksC"></span><span class="target" id="classfeasst_1_1Timer_1a5bccdc6fa8977f3afcc5dc705a8265e0"></span>clock_t <code class="descname">sum_clocks</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Timer10sum_clocksEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the sum of clock ticks. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Timer6clocksEKi">
+<span id="_CPPv2NK6feasst5Timer6clocksEKi"></span><span id="feasst::Timer::clocks__iCC"></span><span class="target" id="classfeasst_1_1Timer_1a6cb946cc878964522c1c4f46d7707b5d"></span>clock_t <code class="descname">clocks</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Timer6clocksEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of clock ticks for an index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Timer5hoursEKi">
+<span id="_CPPv2NK6feasst5Timer5hoursEKi"></span><span id="feasst::Timer::hours__iCC"></span><span class="target" id="classfeasst_1_1Timer_1a777214141abd8ec1356fe14a124e1260"></span>double <code class="descname">hours</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Timer5hoursEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the total CPU hours of the index. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Timer5hoursEKNSt6stringE">
+<span id="_CPPv2NK6feasst5Timer5hoursEKNSt6stringE"></span><span id="feasst::Timer::hours__ssCC"></span><span class="target" id="classfeasst_1_1Timer_1a28d3483eab4b626091c9938c1d15ad98"></span>double <code class="descname">hours</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Timer5hoursEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the total CPU hours of the name. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Timer5hoursEv">
+<span id="_CPPv2NK6feasst5Timer5hoursEv"></span><span id="feasst::Timer::hoursC"></span><span class="target" id="classfeasst_1_1Timer_1aef44b968161f5a6cd88a8cb5834146b6"></span>double <code class="descname">hours</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Timer5hoursEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the total CPU hours of all indices. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst5Timer15missing_percentEKNSt6stringERK5Timer">
+<span id="_CPPv2NK6feasst5Timer15missing_percentEKNSt6stringERK5Timer"></span><span id="feasst::Timer::missing_percent__ssC.TimerCRC"></span><span class="target" id="classfeasst_1_1Timer_1a2466db47fbb5eb08c9e1806bbe9e9eb3"></span>double <code class="descname">missing_percent</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv3N6feasst5TimerE" title="feasst::Timer">Timer</a> &amp;<em>timer</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Timer15missing_percentEKNSt6stringERK5Timer" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The total clocks in this timer for name should be the same as total clocks in timer for all names. Return the missing percent. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="utils_file.html">utils/include/utils_file</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Arguments.html">Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html">utils/include/utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debug.html">utils/include/debug</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils_io.html">utils/include/utils_io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="utils_file.html"
+                        title="previous chapter">utils/include/utils_file</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Cache.html"
+                        title="next chapter">Cache</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Cache.html" title="Cache"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="utils_file.html" title="utils/include/utils_file"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Utilities</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

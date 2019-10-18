@@ -1,0 +1,179 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ModelLJAlpha &#8212; FEASST v0.8.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
+    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="EnergyAtCutoff" href="EnergyAtCutoff.html" />
+    <link rel="prev" title="ModelSquareWell" href="ModelSquareWell.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="EnergyAtCutoff.html" title="EnergyAtCutoff"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ModelSquareWell.html" title="ModelSquareWell"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="modelljalpha">
+<h1>ModelLJAlpha<a class="headerlink" href="#modelljalpha" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst12ModelLJAlphaE">
+<span id="_CPPv2N6feasst12ModelLJAlphaE"></span><span id="feasst::ModelLJAlpha"></span><span class="target" id="classfeasst_1_1ModelLJAlpha"></span><em class="property">class </em><code class="descname">ModelLJAlpha</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelLJ.html#_CPPv3N6feasst7ModelLJE" title="feasst::ModelLJ">ModelLJ</a><a class="headerlink" href="#_CPPv3N6feasst12ModelLJAlphaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The Lennard-Jones potential, <span class="math notranslate nohighlight">\(U_{LJ}\)</span> is described in <a class="reference internal" href="../../system/doc/ModelLJ.html#classfeasst_1_1ModelLJ"><span class="std std-ref">ModelLJ</span></a>. In this class, the <span class="math notranslate nohighlight">\(\alpha\)</span> parameter may be varied (default: 6). </p>
+<p>Subclassed by <a class="reference internal" href="EnergyAtCutoff.html#classfeasst_1_1ModelLJCutShift"><span class="std std-ref">feasst::ModelLJCutShift</span></a>, <a class="reference internal" href="EnergyDerivAtCutoff.html#classfeasst_1_1ModelLJForceShift"><span class="std std-ref">feasst::ModelLJForceShift</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst12ModelLJAlpha9set_alphaEKd">
+<span id="_CPPv2N6feasst12ModelLJAlpha9set_alphaEKd"></span><span id="feasst::ModelLJAlpha::set_alpha__doubleC"></span><span class="target" id="classfeasst_1_1ModelLJAlpha_1a82066d53c32ed4261dd1587fdb24de45"></span><em class="property">virtual</em> void <code class="descname">set_alpha</code><span class="sig-paren">(</span><em class="property">const</em> double <em>alpha</em> = 6<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst12ModelLJAlpha9set_alphaEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the value of <span class="math notranslate nohighlight">\(\alpha\)</span>. The default value is 6. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst12ModelLJAlpha5alphaEv">
+<span id="_CPPv2NK6feasst12ModelLJAlpha5alphaEv"></span><span id="feasst::ModelLJAlpha::alphaC"></span><span class="target" id="classfeasst_1_1ModelLJAlpha_1af15d88e2c641fc92ac57a75afd418ea7"></span><em class="property">const</em> double &amp;<code class="descname">alpha</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12ModelLJAlpha5alphaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the value of alpha. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst12ModelLJAlpha5du_drEKdKiKiRK11ModelParams">
+<span id="_CPPv2NK6feasst12ModelLJAlpha5du_drEKdKiKiRK11ModelParams"></span><span id="feasst::ModelLJAlpha::du_dr__doubleC.iC.iC.ModelParamsCRC"></span><span class="target" id="classfeasst_1_1ModelLJAlpha_1a578ad74300af691c5c26568f93258586"></span>double <code class="descname">du_dr</code><span class="sig-paren">(</span><em class="property">const</em> double <em>distance</em>, <em class="property">const</em> int <em>type1</em>, <em class="property">const</em> int <em>type2</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv3N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12ModelLJAlpha5du_drEKdKiKiRK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the derivative in the potential energy with respect to distance. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst12ModelLJAlpha9serializeERNSt7ostreamE">
+<span id="_CPPv2NK6feasst12ModelLJAlpha9serializeERNSt7ostreamE"></span><span id="feasst::ModelLJAlpha::serialize__osRC"></span><span class="target" id="classfeasst_1_1ModelLJAlpha_1a5534e0fc7ddd86d1e1b12466c735e536"></span>void <code class="descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12ModelLJAlpha9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Output a serialized version of the existing model. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ModelYukawa.html">ModelYukawa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ModelSquareWell.html">ModelSquareWell</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ModelLJAlpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EnergyAtCutoff.html">EnergyAtCutoff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="EnergyDerivAtCutoff.html">EnergyDerivAtCutoff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ModelSquareWell.html"
+                        title="previous chapter">ModelSquareWell</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="EnergyAtCutoff.html"
+                        title="next chapter">EnergyAtCutoff</a></p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="EnergyAtCutoff.html" title="EnergyAtCutoff"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ModelSquareWell.html" title="ModelSquareWell"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../README.html" >Models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115121490-6');
+</script>
+
+
+  </body>
+</html>

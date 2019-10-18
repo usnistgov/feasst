@@ -1,6 +1,0 @@
-TrialSwap
-=====================================================
-
-.. doxygenclass:: feasst::TrialSwap
-   :project: FEASST
-   :members:
