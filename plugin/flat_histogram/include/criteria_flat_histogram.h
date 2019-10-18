@@ -30,6 +30,15 @@ class CriteriaFlatHistogram : public Criteria {
   std::string write() const override;
   bool is_complete() override { return bias_->is_complete(); }
 
+  /// Set the macrostate which is subject to the bias.
+  void set(const std::shared_ptr<Macrostate> macrostate) {
+    macrostate_ = macrostate;
+    is_macrostate_set_ = true;
+  }
+
+  /// Return the macrostate.
+  const Macrostate * macrostate() const { return macrostate_.get(); }
+
   /// Set the bias for the flat histogram method.
   void set(const std::shared_ptr<Bias> bias) {
     ASSERT(is_macrostate_set_, "set macrostate before bias");
@@ -40,15 +49,6 @@ class CriteriaFlatHistogram : public Criteria {
   /// Return the bias.
   const Bias * bias() const { return bias_.get(); }
 
-  /// Set the macrostate which is subject to the bias.
-  void set(const std::shared_ptr<Macrostate> macrostate) {
-    macrostate_ = macrostate;
-    is_macrostate_set_ = true;
-  }
-
-  /// Return the macrostate.
-  const Macrostate * macrostate() const { return macrostate_.get(); }
-
   /// Return the state. Return -1 if state is not determined.
   int state() const override { return macrostate_new_; }
   int num_states() const override { return macrostate_->histogram().size(); }
@@ -58,7 +58,6 @@ class CriteriaFlatHistogram : public Criteria {
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<CriteriaFlatHistogram>(istr); }
-
   void serialize(std::ostream& ostr) const override;
   CriteriaFlatHistogram(std::istream& istr);
   ~CriteriaFlatHistogram() {}

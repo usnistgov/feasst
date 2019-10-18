@@ -2,16 +2,21 @@
 System
 ************
 
-.. image:: ../../build/doxy_html/position_8h__dep__incl.png
-    :width: 500pt
+The System contains the particles and domain in which they reside.
 
-This plugin is the core of the FEASST simulation program.
+Tutorial
+=========
 
-.. toctree::
-
-   doc/toc
+.. include:: tutorial/README.rst
 
 FEASST plugin dependencies
 ============================
 
-* configuration
+* :doc:`../configuration/README`
+
+API
+===
+
+.. toctree::
+
+   doc/toc

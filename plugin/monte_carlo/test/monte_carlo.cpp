@@ -15,8 +15,6 @@
 namespace feasst {
 
 TEST(MonteCarlo, serialize) {
-  seed_random_by_date();
-  seed_random(1569880054);
   MonteCarlo mc;
   mc_lj(&mc);
 //  { std::stringstream ss;
@@ -28,10 +26,9 @@ TEST(MonteCarlo, serialize) {
 }
 
 TEST(MonteCarlo, NVT_benchmark) {
-  seed_random_by_date();
-  seed_random();
   MonteCarlo mc;
   mc_lj(&mc);
+  mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.seek_num_particles(50);
   // mc.seek_num_particles(250);
   // mc.attempt(1e6);  // ~3.5 seconds (now 4.1) with 50
@@ -42,7 +39,6 @@ TEST(MonteCarlo, NVT_benchmark) {
 }
 
 TEST(MonteCarlo, NVT_SRSW) {
-  seed_random_by_date();
   MonteCarlo mc;
   mc_lj(&mc);
   const int nMol = 500;
@@ -61,9 +57,9 @@ TEST(MonteCarlo, NVT_SRSW) {
 }
 
 TEST(MonteCarlo, GCMC) {
-  seed_random();
   MonteCarlo mc;
   mc_lj(&mc);
+  mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "-2"}}));
   add_trial_transfer(&mc, {{"particle_type", "0"}});
   //mc.add(MakeTrialAdd({{"particle_type", "0"}}));
@@ -82,11 +78,6 @@ TEST(MonteCarlo, GCMC) {
 
 // // HWH delete
 // TEST(MonteCarlo, new_trial) {
-//   seed_random_by_date();
-// //  seed_random(1558629935);
-//   //seed_random(1558643002);
-// //  seed_random(1558662620);
-//   seed_random();
 //   MonteCarlo mc = mc_lj();
 //   {
 //     Potential lj_dual_cut(MakeModelLJ(), MakeVisitModelCell());
@@ -136,7 +127,6 @@ TEST(MonteCarlo, GCMC) {
 // }
 
 TEST(MonteCarlo, grow) {
-  seed_random_by_date();
   for (int i = 0; i < 1; ++i) { // lj dimer
   // for (int i = 1; i < 2; ++i) { // spce
   //for (int i = 0; i < 2; ++i) { // both

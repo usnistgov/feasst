@@ -12,7 +12,6 @@
 namespace feasst {
 
 TEST(TrialPivot, chain10) {
-  seed_random_by_date();
   System system;
   {
     Configuration config;

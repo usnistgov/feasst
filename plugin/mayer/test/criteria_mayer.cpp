@@ -7,8 +7,6 @@
 namespace feasst {
 
 TEST(CriteriaMayer, ljb2) {
-  seed_random_by_date();
-  // seed_random();
   System system = default_system();
   system.add_to_reference(hs_potential());
   auto translate = MakeTrialTranslateMayer({{"reference_index", "0"}, {"weight", "0.75"}});

@@ -31,7 +31,7 @@ class ModelParam {
 
   /// Add a new site type. If the site does not contain the model parameter,
   /// then add the default value.
-  void add(const Site site, const double default_value = 0.);
+  void add(const Site site, const double default_value = 0);
 
   /// Add all site types in particle.
   void add(const Particle particle);

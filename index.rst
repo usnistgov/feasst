@@ -14,10 +14,14 @@ Contents:
 .. toctree::
 
    README
+   tutorial/README.rst
    plugin/README
    py/README
    forcefield/README
+   CONTACT
    CONTRIBUTING
+   ACKNOWLEDGEMENT
+   CITATION
 
 Index
 ==================

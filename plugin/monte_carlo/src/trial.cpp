@@ -157,8 +157,10 @@ bool Trial::is_equal(const Trial& trial) const {
     DEBUG("unequal weight:" << weight_ << " " << trial.weight_);
     return false;
   }
-  if (!stages_[0]->perturb()->tunable().is_equal(trial.stages_[0]->perturb()->tunable())) {
-    return false;
+  if (num_stages() > 0) {
+    if (!stages_[0]->perturb()->tunable().is_equal(trial.stages_[0]->perturb()->tunable())) {
+      return false;
+    }
   }
   return true;
 }

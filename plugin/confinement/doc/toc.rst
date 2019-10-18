@@ -1,12 +1,10 @@
-API
-************
 
 .. toctree::
 
    Shape
-   Sphere
-   Cylinder
    Slab
-   HalfSpace
+   Cylinder
+   Sphere
    ModelLJShape
    ModelHardShape
+   HalfSpace

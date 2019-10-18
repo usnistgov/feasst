@@ -125,7 +125,6 @@ FAIL() << "Expected failure"; \
 # define INFO(message) FEASST_MACRO_OUTPUT(message, "Info ", 3)
 # define DEBUG(message) FEASST_MACRO_OUTPUT(message, "Debug", 4)
 # define TRACE(message) FEASST_MACRO_OUTPUT(message, "Trace", 5)
-
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_DEBUG_H_

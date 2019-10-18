@@ -78,7 +78,6 @@ TEST(VisitModel, reference_config) {
 }
 
 TEST(VisitModel, spce_reference_config) {
-  seed_random_by_date();
   Configuration config = spce_sample();
   ModelLJ model;
   VisitModel visit;

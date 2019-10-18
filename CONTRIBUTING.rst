@@ -187,8 +187,9 @@ run sphinx: make html
 Sphinx/Breathe/Doxygen notes
 --------------------------------------------------------------------------------
 
-* Link from rst file to C++ function: ``:cpp:func:`className::function()```
-* Link from rst file to fst file: ``:doc:`/tutorial/asdf```
+* Link from rst file to C++ function: ``:cpp:func:`link <feasst::className::function()>```
+* Link from rst file to C++ function: ``:cpp:class:`link <feasst:className>```
+* Link from rst file to fst file: ``:doc:`/tutorial/asdf``` [note, / references root]
 * Link from C++ to C++: ``className::function()``
 * Link from C++ source to rst file: ``<a href="tutorial/asdf.html">test</a>``
 * For math in C++ comments::
@@ -292,3 +293,9 @@ To Do List
 * wl lj comparison is off
 * Python interface cannot take a system pointer to modify system (e.g., perturb, in monte_carlo/tutorial/test_lj_model.py.bak
 * IF using argtype for custom object, considering single string constructors. E.g., for position in cylinder.h, use {"point0", "0 0 0"}
+* Python debug script: easy for user to run gdb/valgrind
+* Toggle more debug levels, and localized to certain files/plugins, etc
+* force precompute when reinitializing system, criteria, etc in MonteCarlo
+* MonteCarlo subclass Simulation
+* swig python wrap arguments std::istream and std::ostream for serialization
+* add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects

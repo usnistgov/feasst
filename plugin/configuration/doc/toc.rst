@@ -1,5 +1,3 @@
-API
-************
 
 .. toctree::
 
@@ -8,9 +6,9 @@ API
    Bond
    Site
    Particle
+   Group
    FileLMP
    ModelParam
-   Group
    ParticleFactory
    Select
    Cells
@@ -18,6 +16,6 @@ API
    SelectPosition
    VisitParticles
    Configuration
-   VisitConfiguration
    FileVMD
+   VisitConfiguration
    BondTwoBody

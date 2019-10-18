@@ -65,9 +65,6 @@ TEST(BiasWangLandau, args) {
 }
 
 TEST(MonteCarlo, FHMC) {
-  seed_random();
-  // seed_random_by_date();
-  // seed_random(1560889975);
   for (int crit_type = 0; crit_type < 1; ++crit_type) {
   // for (int crit_type = 0; crit_type < 2; ++crit_type) {
     MonteCarlo mc;

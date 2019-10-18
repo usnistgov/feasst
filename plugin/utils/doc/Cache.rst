@@ -1,6 +1,6 @@
-PerturbSelectMove
+Cache
 =====================================================
 
-.. doxygenclass:: feasst::PerturbSelectMove
+.. doxygenclass:: feasst::Cache
    :project: FEASST
    :members:

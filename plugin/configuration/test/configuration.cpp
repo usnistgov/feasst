@@ -109,7 +109,6 @@ TEST(Configuration, bonds_spce) {
 }
 
 TEST(Configuration, group) {
-  seed_random_by_date();
   Configuration config;
   config.set_domain(Domain().set_cubic(7));
   try {

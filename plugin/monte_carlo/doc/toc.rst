@@ -1,5 +1,3 @@
-API
-************
 
 .. toctree::
 
@@ -7,35 +5,35 @@ API
    Stepper
    Acceptance
    CriteriaMetropolis
+   Rosenbluth
    TrialSelect
    Perturb
+   PerturbConfigs
    PerturbMove
-   PerturbRotate
    PerturbTranslate
+   PerturbDistance
+   PerturbDistanceAngle
+   PerturbRotate
    PerturbAnywhere
    PerturbAdd
    PerturbRemove
-   PerturbDistance
-   PerturbDistanceAngle
-   PerturbConfigs
-   TrialSelectParticle
    TrialSelectBond
    TrialSelectAngle
-   Rosenbluth
+   TrialSelectParticle
    TrialStage
    TrialCompute
    TrialComputeMove
-   TrialComputeRemove
    TrialComputeAdd
+   TrialComputeRemove
    Trial
+   TrialAdd
    TrialRemove
    TrialFactory
    Modify
    ModifyFactory
-   TrialAdd
    TrialMove
-   TrialTranslate
    TrialRotate
+   TrialTranslate
    Analyze
    AnalyzeFactory
    MonteCarlo

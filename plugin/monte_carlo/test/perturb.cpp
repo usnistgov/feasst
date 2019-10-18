@@ -11,7 +11,6 @@
 namespace feasst {
 
 TEST(Perturb, Revert) {
-  seed_random_by_date();
   System system = default_system();
   PerturbAdd add;
   System system2(system);

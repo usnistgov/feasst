@@ -1,5 +1,3 @@
-API
-************
 
 .. toctree::
 
@@ -8,15 +6,15 @@ API
    VisitModelInner
    ModelOneBody
    ModelEmpty
+   ModelTwoBody
+   ModelLJ
+   ModelHardSphere
+   ModelTwoBodyFactory
    ModelThreeBody
-   VisitModelIntra
-   LongRangeCorrections
    VisitModelCell
+   LongRangeCorrections
+   VisitModelIntra
    Potential
    PotentialFactory
    System
    SelectList
-   ModelTwoBody
-   ModelLJ
-   ModelTwoBodyFactory
-   ModelHardSphere

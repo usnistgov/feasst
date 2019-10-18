@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 11)
 
 # Tell cmake where to find the feasst library
@@ -31,6 +31,8 @@ if(OPENMP_FOUND)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
+add_definitions("-DFEASST_DIR_=\"${CMAKE_PREFIX_PATH}\"")
+
 include_directories("${CMAKE_PREFIX_PATH}/include")
-add_executable (main main.cpp)
-target_link_libraries (main LINK_PUBLIC feasst)
+add_executable (lj_brief lj_brief.cpp)
+target_link_libraries (lj_brief LINK_PUBLIC feasst)

@@ -1,13 +1,11 @@
-API
-************
 
 .. toctree::
 
    LnProbabilityDistribution
-   TripleBandedCollectionMatrix
    Bias
    BiasWangLandau
-   BiasTransitionMatrix
    Macrostate
-   CriteriaFlatHistogram
+   TripleBandedCollectionMatrix
+   BiasTransitionMatrix
    MacrostateNumParticles
+   CriteriaFlatHistogram

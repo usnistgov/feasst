@@ -1,7 +1,5 @@
-API
-************
 
 .. toctree::
 
-   TrialComputeMoveMayer
    CriteriaMayer
+   TrialComputeMoveMayer

@@ -102,6 +102,12 @@ class TrialSelectParticle : public TrialSelect {
     return true;
   }
 
+  /// Select a particular particle by index
+  void select_particle(const int particle_index, const Configuration& config) {
+    // Note, this index does not include ghost particles
+    mobile_.particle(particle_index, config, 0);
+  }
+
   std::shared_ptr<TrialSelect> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit TrialSelectParticle(std::istream& istr);

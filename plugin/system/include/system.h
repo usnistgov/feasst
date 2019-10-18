@@ -102,6 +102,10 @@ class System {
   /// Return the energy of the selection.
   double energy(const Select& select, const int config = 0);
 
+  /// Return the last computed energy.
+  double stored_energy() const {
+    return const_potentials_()->stored_energy(); }
+
   /// Return the profile of energies that were last computed.
   std::vector<double> stored_energy_profile() const {
     return const_potentials_()->stored_energy_profile(); }

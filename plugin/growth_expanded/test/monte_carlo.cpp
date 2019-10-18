@@ -12,8 +12,6 @@
 namespace feasst {
 
 TEST(MonteCarlo, TrialGrowthExpanded) {
-  seed_random_by_date();
-  // seed_random(1563999738);
   const std::string data = "../forcefield/data.dimer";
   MonteCarlo mc;
   mc_lj(&mc, 8, data, 1e2, true);

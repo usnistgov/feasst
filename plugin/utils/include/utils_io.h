@@ -21,6 +21,9 @@ namespace feasst {
 /// Return the feasst install directory as a string.
 inline std::string install_dir() { return std::string(FEASST_DIR_); }
 
+/// Return the given string with the feasst install directory appended.
+std::string append_install_dir(const char * chars);
+
 /// Return string representation of vector
 template<class T>
 std::string feasst_str(const std::vector<T> &vec,
@@ -359,6 +362,24 @@ std::shared_ptr<T> deep_copy_derived(std::shared_ptr<T> object) {
   object->serialize(ss);
   return object->deserialize(ss);
 }
+
+// HWH unforunately, templates require all objects to have serialization.
+// HWH when SWIG wrapped to each class automatically
+/// For use with SWIG-wrapped Python interface
+//template <class T>
+//std::string serialize(const T& object) {
+//  std::stringstream ss;
+//  object.serialize(ss);
+//  return ss.str();
+//}
+//
+///// For use with SWIG-wrapped Python interface
+//template <class T>
+//T * deserialize(const std::string str) {
+//  std::stringstream ss;
+//  ss << str;
+//  return &T(ss);
+//}
 
 }  // namespace feasst
 

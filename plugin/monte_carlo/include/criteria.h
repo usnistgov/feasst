@@ -20,11 +20,11 @@ class Acceptance {
   double ln_metropolis_prob() const { return ln_metropolis_prob_; }
 
   /// Set the above quantity.
-  void set_ln_metropolis_prob(const double prob = 0.) {
+  void set_ln_metropolis_prob(const double prob = 0) {
     ln_metropolis_prob_ = prob; }
 
   /// Add to the above quantity.
-  void add_to_ln_metropolis_prob(const double prob = 0.) {
+  void add_to_ln_metropolis_prob(const double prob = 0) {
     ln_metropolis_prob_ += prob; }
 
   /// Return whether or not to reject the trial outright.
@@ -152,8 +152,7 @@ class Criteria {
   double current_energy() const { return current_energy_; }
 
   /// Return the header of the status for periodic output.
-  std::string status_header() const {
-    return std::string("energy"); }
+  std::string status_header() const;
 
   /// Return the brief status for periodic output.
   std::string status() const;

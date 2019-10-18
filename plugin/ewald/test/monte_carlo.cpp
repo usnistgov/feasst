@@ -12,8 +12,6 @@
 namespace feasst {
 
 TEST(MonteCarlo, spce) {
-  seed_random_by_date();
-  seed_random(1558469499);
   MonteCarlo mc;
   {
     System system;

@@ -28,5 +28,13 @@ class cd:
 
 import subprocess
 def bash_command(cmd):
+    """Execute a bash command using subprocess"""
     subprocess.call(cmd, shell=True, executable='/bin/bash')
     #subprocess.Popen(['/bin/bash', '-c', cmd])
+
+def read_checkpoint(filename):
+    """Return contents of checkpoint file as a string"""
+    with open (filename, "r") as myfile:
+        checkpoint=myfile.readlines()
+    assert(len(checkpoint) == 1)  # checkpoint files should have only one line
+    return checkpoint[0]

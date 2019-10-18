@@ -168,6 +168,10 @@ class Trial {
 
   TrialStage * get_stage_(const int index) { return stages_[index].get(); }
 
+  void increment_num_success_() { ++num_success_; }
+  void decrement_num_success_() { --num_success_; }
+  void decrement_num_attempts_() { --num_attempts_; }
+
  private:
   std::vector<std::shared_ptr<TrialStage> > stages_;
   std::shared_ptr<TrialCompute> compute_;

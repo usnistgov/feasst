@@ -14,7 +14,8 @@ import sys
 import pyfeasst
 
 external_libs=['xdrfile.h', 'xdrfile_xtc.h']
-#include_plugin=['utils','math','configuration','system','steppers','monte_carlo','flat_histogram']
+include_plugin=['utils','math','configuration','system','steppers','monte_carlo']
+include_plugin=['utils','math','configuration','system','steppers','monte_carlo','flat_histogram']
 include_plugin=['utils','math','configuration','system','steppers','monte_carlo','mayer','models','patch','example','confinement','chain','flat_histogram','ewald','growth_expanded','pipeline']
 
 def is_header(file_name):
@@ -145,6 +146,11 @@ using namespace std;\n\
         swig_file.write("%shared_ptr(feasst::" + icl + ");\n")
     for dep in deps:
       swig_file.write('%include ' + dep[0] + '\n')
+# Attempting to add SWIG wrap to serialization of all classes
+#    for cls in classes:
+#      for icl in cls:
+#        for ser in ["serialize", "deserialize"]:
+#          swig_file.write("%template(" + ser + icl + ") feasst::" + ser + "<feasst::" + icl + ">;\n")
 
 # write the docs
 with pyfeasst.cd(args.source_dir+'/plugin/'):
@@ -153,7 +159,7 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
     if [d for d in include_plugin if d in mod]:
       print('mod', mod, 'cd', args.source_dir+'/plugin/')
       with open(mod+'/doc/toc.rst', 'w') as toc:
-        toc.write('API\n************\n\n.. toctree::\n\n')
+        toc.write('\n.. toctree::\n\n')
         for dep in deps:
           header = dep[0]
           cls = read_class(header)

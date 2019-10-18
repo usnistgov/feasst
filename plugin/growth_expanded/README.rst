@@ -1,5 +1,5 @@
 ***************
-Growth Expanded
+Growth expanded
 ***************
 
 This plugin is for growth expanded ensemble simulations.

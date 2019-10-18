@@ -1,20 +1,17 @@
-import sys
-import math
 import unittest
-import argparse
-import feasst
-#sys.path.insert(0, feasst.install_dir() + '/plugin/monte_carlo/py')
-#import lj
-sys.path.insert(0, feasst.install_dir() + '/plugin/flat_histogram/py')
+import fh
 import lj_fh
-import pyfeasst
 
-class TestLJ_WL(unittest.TestCase):
+class TestFlatHistogramLJ(unittest.TestCase):
+    """Test flat histogram grand canonical ensemble Monte Carlo simulations"""
     def test_serial_5max(self):
-        feasst.seed_random_by_date()
-        criteria = lj_fh.criteria_flathist(macro_min=0, macro_max=5, tmmc=True)
-        mc2 = lj_fh.mc()
-        lnpi_previous=[
+        """Compare the free energies and potential energies with the NIST SRSW
+        https://www.nist.gov/programs-projects/nist-standard-reference-simulation-website
+        https://mmlapps.nist.gov/srs/LJ_PURE/eostmmc.htm
+        """
+        criteria = fh.criteria_flathist(macro_min=0, macro_max=5, tmmc=True)
+        monte_carlo = lj_fh.monte_carlo(criteria=criteria)
+        lnpi_previous = [
             [-18.707570324988800000, 1],
             [-14.037373358321800000, 0.037092307087640365],
             [-10.050312091655200000, 0.03696447428346385],
@@ -22,7 +19,7 @@ class TestLJ_WL(unittest.TestCase):
             [-3.145637424988510000, 0.03809721387875822],
             [-0.045677458321876000, 0.03845757460933292]
         ]
-        energy_previous=[
+        energy_previous = [
             [0, 1e-14],
             [-0.0006057402333333332, 6.709197666659334e-10],
             [-0.030574223333333334, 9.649146611661053e-06],
@@ -36,12 +33,14 @@ class TestLJ_WL(unittest.TestCase):
                 criteria.bias().ln_macro_prob().value(macro),
                 delta=lnpi_previous[macro][1]
             )
-            energy_accumulator = mc2.analyze(mc2.num_analyzers()-1).analyze(macro).accumulator()
+            energy_analyzer = monte_carlo.analyze(monte_carlo.num_analyzers() - 1)
+            energy_accumulator = energy_analyzer.analyze(macro).accumulator()
+            stdev = (energy_previous[macro][1]**2 + energy_accumulator.block_stdev()**2)**(1./2.)
             self.assertAlmostEqual(
                 energy_previous[macro][0],
                 energy_accumulator.average(),
                 #criteria.bias().ln_macro_prob().value(macro),
-                delta=2*(energy_previous[macro][1]**2 + energy_accumulator.block_stdev()**2)**(1./2.)
+                delta=4*stdev
             )
 
 if __name__ == "__main__":

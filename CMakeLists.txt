@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 3.10)
 project (FEASST)
 set (CMAKE_CXX_STANDARD 11)
 cmake_policy(SET CMP0042 NEW) # removes warning about macosx_rpath
@@ -9,7 +9,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 
 # manually list the plugins
 set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;")
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;pipeline")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;flat_histogram")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;pipeline")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram;growth_expanded")
 set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded;pipeline")
@@ -227,8 +228,8 @@ if (USE_SPHINX)
 
   find_package(Sphinx REQUIRED)
 
-  # set(SPHINX_THEME "nature")
-  set(SPHINX_THEME "sphinx_rtd_theme")
+  set(SPHINX_THEME "nature")
+  # set(SPHINX_THEME "sphinx_rtd_theme")
 
   # configured documentation tools and intermediate build results
   set(BINARY_BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/_build")

@@ -82,9 +82,6 @@ System chain_system() {
 }
 
 TEST(MonteCarlo, chain) {
-  seed_random_by_date();
-  // seed_random(1560441809);
-  // seed_random(1563281196);
   MonteCarlo mc;
   mc.set(chain_system());
   mc.set(MakeCriteriaMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));

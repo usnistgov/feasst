@@ -1,7 +1,5 @@
-API
-************
 
 .. toctree::
 
-   MacrostateGrowthExpanded
    TrialComputeGrowAdd
+   MacrostateGrowthExpanded

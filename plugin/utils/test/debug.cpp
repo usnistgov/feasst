@@ -37,7 +37,7 @@ TEST(Debug, VERBOSE_LEVEL) {
 
 TEST(Debug, feasst_dir_trim_) {
   std::stringstream ss;
-  ss << FEASST_DIR_ << "/plugin/";
+  ss << FEASST_DIR_ << "/";
   std::string dir = feasst_dir_trim_(ss.str().c_str());
   EXPECT_EQ(0, dir.size());
 }

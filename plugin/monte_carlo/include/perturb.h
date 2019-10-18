@@ -31,6 +31,7 @@ class Perturb {
   explicit Perturb(
     /**
       tunable_param : initial value of the tunable parameter (default: 0.1).
+      tunable_target_acceptance : optionally set target acceptance.
      */
     const argtype& args = argtype());
 

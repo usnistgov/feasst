@@ -45,8 +45,20 @@ double Criteria::chemical_potential(const int particle_type) const {
   return chemical_potentials_[particle_type];
 }
 
+std::string Criteria::status_header() const {
+  std::stringstream ss;
+  if (num_states() > 1) {
+    ss << "state ";
+  }
+  ss << "energy";
+  return ss.str();
+}
+
 std::string Criteria::status() const {
   std::stringstream ss;
+  if (num_states() > 1) {
+    ss << state() << " ";
+  }
   ss << current_energy();
   return ss.str();
 }

@@ -70,7 +70,6 @@ TEST(Ewald, system) {
 }
 
 TEST(Ewald, revert) {
-  seed_random_by_date();
   System system = spce();
   EXPECT_NEAR(-4062.47263092246, system.energy(), 1e-10);
   PerturbTranslate perturb;

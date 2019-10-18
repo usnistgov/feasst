@@ -4,11 +4,13 @@
 namespace feasst {
 
 Perturb::Perturb(const argtype& args) {
+  set_probability();
   Arguments args_(args);
   args_.dont_check();
   tunable_.set_value(args_.key("tunable_param").dflt("0.1").dble());
-  before_select();
-  set_probability();
+  if (args_.key("tunable_target_acceptance").used()) {
+    tunable_.set_target(args_.dble());
+  }
 }
 
 void Perturb::before_select() {

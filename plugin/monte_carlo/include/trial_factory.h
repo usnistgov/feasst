@@ -50,15 +50,19 @@ class TrialFactory : public Trial {
       System * system,
       /// attempt trial_index. If -1, choose randomly with probabilty
       /// determined from the weight.
-      const int trial_index,
+      int trial_index,
       Random * random) {
     increment_num_attempts();
     // timer_.start(0);
     if (num_trials() == 0) return false;
-    if (trial_index != -1) {
-      return attempt_(criteria, system, trial_index, random);
+    if (trial_index == -1) {
+      trial_index = random_index(random);
     }
-    return attempt_(criteria, system, random_index(random), random);
+    //timer_.start(index + 1);  // +1 for "other"
+    const bool accepted = trials_[trial_index]->attempt(criteria, system, random);
+    //timer_.end();
+    if (accepted) increment_num_success_();
+    return accepted;
   }
 
   /// Attempt one of the trials with selection probability proportional to
@@ -68,7 +72,12 @@ class TrialFactory : public Trial {
 
   /// Revert changes to system by trial index.
   void revert(const int index, const bool accepted, System * system) {
-    trials_[index]->revert(index, accepted, system); }
+    trials_[index]->revert(index, accepted, system);
+    if (accepted) {
+      decrement_num_success_();
+    }
+    decrement_num_attempts_();
+  }
 
   void mimic_trial_rejection(const int index) {
     DEBUG("index " << index << " " << trials_.size());
@@ -143,6 +152,9 @@ class TrialFactory : public Trial {
         << factory.num_trials());
       return false;
     }
+    if (!Trial::is_equal(factory)) {
+      return false;
+    }
     for (int it = 0; it < num_trials(); ++it) {
       if (!trials_[it]->is_equal(*(factory.trials_[it]))) {
         DEBUG("unequal trial" << it);
@@ -164,16 +176,6 @@ class TrialFactory : public Trial {
   std::vector<std::shared_ptr<Trial> > trials_;
   std::vector<double> cumulative_probability_;
 //  Timer timer_;
-
-  bool attempt_(
-      Criteria* criteria,
-      System * system,
-      const int index,
-      Random * random) {
-    //timer_.start(index + 1);  // +1 for "other"
-    return trials_[index]->attempt(criteria, system, random);
-    //timer_.end();
-  }
 };
 
 inline std::shared_ptr<TrialFactory> MakeTrialFactory() {

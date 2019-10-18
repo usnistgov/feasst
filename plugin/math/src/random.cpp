@@ -5,7 +5,31 @@
 
 namespace feasst {
 
-Random::Random() {}
+Random::Random(const argtype& args) {
+  Arguments args_;
+  args_.init(args);
+  const std::string seed_str = args_.key("seed").dflt("date").str();
+  if (seed_str == "date") {
+    seed_random_by_date();
+  } else if (seed_str == "default") {
+    seed_random();
+  } else {
+    args_.init(args);
+    seed_random(args_.key("seed").integer());
+  }
+}
+
+void Random::seed_random_by_date() {
+  const int t = time(NULL);
+  srand ( t );
+  INFO("time(seed): " << t);
+}
+
+void Random::seed_random(const int seed) {
+  srand ( seed );
+  INFO("Initializing random number generator for reproduction with seed("
+    << seed << ")");
+}
 
 double Random::uniform() {
   double ran;
@@ -45,18 +69,6 @@ Random::Random(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 979, "mismatch version: " << version);
   feasst_deserialize_fstobj(&cache_, istr);
-}
-
-void seed_random_by_date() {
-  const int t = time(NULL);
-  srand ( t );
-  INFO("time(seed): " << t);
-}
-
-void seed_random(const int seed) {
-  srand ( seed );
-  INFO("Initializing random number generator for reproduction with seed("
-    << seed << ")");
 }
 
 bool Random::coin_flip() {

@@ -5,6 +5,12 @@
 
 namespace feasst {
 
+std::string append_install_dir(const char * chars) {
+  std::stringstream ss;
+  ss << std::string(FEASST_DIR_) << "/" << chars;
+  return ss.str();
+}
+
 // thanks to http://www.cplusplus.com/forum/beginner/87238/
 std::vector<std::string> split(const std::string str) {
   std::istringstream buffer(str);

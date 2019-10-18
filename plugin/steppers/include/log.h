@@ -17,7 +17,7 @@ class Log : public AnalyzeWriteOnly {
       const System& system,
       const TrialFactory& trial_factory) override {
     std::stringstream ss;
-    ss << "#" << criteria->status_header() << " " << trial_factory.status_header()
+    ss << criteria->status_header() << " " << trial_factory.status_header()
        << std::endl;
     printer(ss.str());
   }

@@ -76,8 +76,6 @@ TEST(Random, index_from_cumulative_probability) {
 }
 
 TEST(Random, serialize) {
-  seed_random_by_date();
-  //seed_random(234652347);
 //  RandomMT19937 random;
 //  std::shared_ptr<Random> random2 = test_serialize(random);
   RandomMT19937 random;

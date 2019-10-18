@@ -36,20 +36,27 @@ namespace feasst {
  */
 class Configuration {
  public:
-  Configuration(
-    /**
-      cubic_box_length : side length of cubic perioidic boundary conditions.
-      particle_type[i] : add the i-th type of particle to the configuration.
+  //@{
+  /** @name Construction
+   */
+
+  /**
+    args:
+    - cubic_box_length - side length of cubic perioidic boundary conditions.
+    - particle_type[i] - add the i-th type of particle to the configuration.
         The [i] is to be substituted for an integer 0, 1, 2, ...
         If only one particle type, you can drop the i.
-      init_cells : build cell list with given minimum length between cells.
-      cell_group : only compute cells for those in given group index.
-     */
-    const argtype& args = argtype());
+    - init_cells - build cell list with given minimum length between cells.
+    - cell_group - only compute cells for those in given group index.
+   */
+  Configuration(const argtype& args = argtype());
 
+  //@}
   /** @name Typing
-    Types of sites and particles. */
+    Types of sites and particles.
+   */
   //@{
+
 
   /// Add a particle type that may exist by LMP file (see FileLMP).
   void add_particle_type(const std::string file_name);

@@ -1,0 +1,31 @@
+digraph parallel {
+  configs [label="Configurations"];
+  pots [label="Potentials"];
+  sys [label="System"];
+  //sys [label="System"; style="dashed"];
+  crit [label="Criteria"]
+  critfh [label="CriteriaFlatHistogram"]
+  trials [label="Trials"];
+  an [label="Analyze/Modify"];
+  mc [label="MonteCarlo"]
+
+  mc -> sys
+  mc -> crit
+  mc -> trials
+  mc -> an
+
+  sys -> configs
+  sys -> pots
+
+  configs -> Particles
+  configs -> Domain
+
+  pots -> Models
+  pots -> VisitModels
+
+  crit -> CriteriaMetropolis [style="dashed"]
+  crit -> critfh [style="dashed"]
+
+  critfh -> Macrostate
+  critfh -> Bias
+}

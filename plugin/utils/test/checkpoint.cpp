@@ -13,10 +13,9 @@ TEST(Checkpoint, init) {
     prod *= i;
     check.check(check);
   }
-  std::ifstream file("tmp/checkpoint");
-  std::stringstream buffer;
-  buffer << file.rdbuf();
-  Checkpoint check2(buffer);
+  std::stringstream ss;
+  check.serialize(ss);
+  Checkpoint check2(ss);
   EXPECT_EQ(check2.num_hours(), 1e-7);
   test_serialize(check);
 }

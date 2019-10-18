@@ -1,0 +1,12 @@
+digraph parallel {
+  critfh [label="CriteriaFlatHistogram"];
+  macro [label="Macrostate"];
+  bias [label="Bias"];
+
+  critfh -> macro
+  critfh -> bias
+  macro -> MacrostateNumParticles [style="dashed"]
+  bias -> LnProbabilityDistribution
+  bias -> BiasWangLandau [style="dashed"]
+  bias -> BiasTransitionMatrix [style="dashed"]
+}

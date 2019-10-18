@@ -7,6 +7,7 @@
 #include <random>
 #include <string>
 #include <memory>
+#include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "utils/include/cache.h"
 #include "utils/include/utils_io.h"
@@ -28,7 +29,22 @@ namespace feasst {
  */
 class Random {
  public:
-  Random();
+  Random(
+    /**
+      seed : Provide an integer to seed the random number generator.
+             If the string "date" is provided, then use the date to generate
+             the seed.
+             If no seed is provided, the date will be used.
+             If the string "default" is provided, then use the default integer
+             included in the following seed_random function definition.
+     */
+    const argtype& args = argtype());
+
+  /// Initialize random number generator based on date and time.
+  void seed_random_by_date();
+
+  /// Initialize random number generator to seed value for reproducibility.
+  void seed_random(const int seed = 1346867550);
 
   /// Return a random real number with a uniform probability distribution
   /// between 0 and 1.
@@ -82,7 +98,7 @@ class Random {
 
   /// Return a random position within a cube of side length with the origin
   /// at the center.
-  Position position_in_cube(const int dimension, const double length = 1.);
+  Position position_in_cube(const int dimension, const double length = 1);
 
   /// Optimized version of the above, in that an existing position is modified.
   void position_in_cube(const int dimension, const double length, Position * position);
@@ -140,12 +156,6 @@ class Random {
   virtual double gen_uniform_() = 0;
   virtual int gen_uniform_(const int min, const int max) = 0;
 };
-
-/// Initialize random number generator based on date and time.
-void seed_random_by_date();
-
-/// Initialize random number generator to seed value for reproducibility.
-void seed_random(const int seed = 1346867550);
 
 }  // namespace feasst
 

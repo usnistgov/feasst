@@ -15,7 +15,6 @@ namespace feasst {
 
 /// Use a 5 angstrom cut off
 TEST(VisitModelCell, simple_lj) {
-  seed_random_by_date();
   Configuration config;
   config.set_domain(Domain().set_cubic(15));
   config.add_particle_type("../forcefield/data.lj");
@@ -88,7 +87,6 @@ TEST(VisitModelCell, simple_lj) {
 
 /// Use a 5 angstrom cut off
 TEST(VisitModelCell, lj_reference_config) {
-  seed_random_by_date();
   Configuration config = lj_sample();
   const int rcut = 2;
   for (int site_index = 0; site_index < config.num_site_types(); ++site_index) {
@@ -127,8 +125,6 @@ TEST(VisitModelCell, lj_reference_config) {
 
 /// Use a 5 angstrom cut off
 TEST(VisitModelCell, spce_reference_config) {
-  seed_random_by_date();
-  // seed_random();
   Configuration config;
   config.add_particle_type("../forcefield/data.spce");
   const int rcut = 5;
@@ -174,8 +170,6 @@ TEST(VisitModelCell, spce_reference_config) {
 // add individual particles until reaching the point where the visitors are
 // inconsistent
 TEST(VisitModelCell, spce_reference_config_buildup) {
-  seed_random_by_date();
-  // seed_random();
   Configuration config;
   config.add_particle_type("../forcefield/data.spce");
   const int rcut = 5;

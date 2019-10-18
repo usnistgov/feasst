@@ -12,7 +12,7 @@ namespace feasst {
  */
 class RandomMT19937 : public Random {
  public:
-  RandomMT19937() {
+  RandomMT19937(const argtype& args = argtype()) : Random(args) {
     class_name_ = "RandomMT19937";
     reseed_();
   }
@@ -37,8 +37,8 @@ class RandomMT19937 : public Random {
   int gen_uniform_(const int min, const int max) override;
 };
 
-inline std::shared_ptr<RandomMT19937> MakeRandomMT19937() {
-  return std::make_shared<RandomMT19937>();
+inline std::shared_ptr<RandomMT19937> MakeRandomMT19937(const argtype& args = argtype()) {
+  return std::make_shared<RandomMT19937>(args);
 }
 
 }  // namespace feasst

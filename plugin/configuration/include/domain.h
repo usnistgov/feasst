@@ -67,15 +67,15 @@ class Domain {
   Domain& set_cubic(const double box_length);
 
   /// Set the xy tilt factor. By default it is zero.
-  Domain& set_xy(const double xy = 0.);
+  Domain& set_xy(const double xy = 0);
   double xy() const { return xy_; }
 
   /// Set the xz tilt factor.
-  Domain& set_xz(const double xz = 0.);
+  Domain& set_xz(const double xz = 0);
   double xz() const { return xz_; }
 
   /// Set the yz tilt factor.
-  Domain& set_yz(const double yz = 0.);
+  Domain& set_yz(const double yz = 0);
   double yz() const { return yz_; }
 
   /// Disable periodicity in a particular dimension.

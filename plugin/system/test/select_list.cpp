@@ -7,7 +7,6 @@
 namespace feasst {
 
 TEST(SelectList, group) {
-  seed_random_by_date();
   Configuration config;
   config.add_particle_type("../forcefield/data.spce");
   for (int part = 0; part < 100; ++part) {
@@ -44,7 +43,6 @@ TEST(SelectList, group) {
 }
 
 //TEST(SelectList, random_end_segment_in_particle) {
-//  seed_random_by_date();
 //  Configuration config;
 //  config.add_particle_type("../forcefield/data.chain10");
 //  config.add_particle_of_type(0);

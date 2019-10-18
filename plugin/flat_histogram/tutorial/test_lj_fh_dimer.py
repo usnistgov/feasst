@@ -7,7 +7,6 @@ import lj_fh
 
 class TestLJ_FH_benchmark(unittest.TestCase):
     def test(self):
-        feasst.seed_random_by_date()
         serial = False
         serial = True
         if serial:

@@ -1,16 +1,14 @@
-API
-************
 
 .. toctree::
 
-   constants
-   utils_math
+   Accumulator
+   Position
    Formula
-   FormulaPolynomial
    FormulaExponential
    Histogram
-   Position
+   FormulaPolynomial
+   constants
+   utils_math
    Matrix
    Random
    RandomMT19937
-   Accumulator

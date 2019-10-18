@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 if [ -z $1 ]; then
-  echo "Usage: ./run_py.sh [name of python script].py [optional arguments]"
+  echo "Usage: ./run.sh [name of python script].py [optional arguments]"
   exit
 fi
 

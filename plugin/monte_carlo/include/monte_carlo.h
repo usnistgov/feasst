@@ -59,6 +59,9 @@ class MonteCarlo {
   /// Return the random number generator.
   const Random * random() const { return random_.get(); }
 
+  /// Offset random number generator.
+  void offset_random() { random_->uniform(); }
+
   /// The first action with a Monte Carlo object is to set the Configuration.
   void add(const Configuration& config) {
     system_.add(config);
@@ -79,10 +82,13 @@ class MonteCarlo {
     if (config_set_) system_set_ = true;
   }
 
+  /// Add potential to optimized.
+  void add_to_optimized(const Potential& potential) {
+    system_.add_to_optimized(potential); }
+
   /// Add potential to reference.
   void add_to_reference(const Potential& potential) {
-    system_.add_to_reference(potential);
-  }
+    system_.add_to_reference(potential); }
 
   /// Alternatively, the first and second actions may be combined by setting
   /// the system directly.
@@ -158,15 +164,17 @@ class MonteCarlo {
   /// factories for each state in criteria.
   void add(std::shared_ptr<Analyze> analyze);
 
+  /// Return all analyzers.
   const std::vector<std::shared_ptr<Analyze> >& analyzers() const {
     return analyze_factory_.analyzers(); }
+
+  /// Return an Analayze by index.
   const Analyze * analyze(const int index) const {
     return analyze_factory_.analyzers()[index].get(); }
+
+  /// Return the number of analyzers.
   int num_analyzers() const {
     return static_cast<int>(analyze_factory_.analyzers().size()); }
-
-//  const std::shared_ptr<Analyze> analyze(const int index) const {
-//    return analyze_factory_.analyzers()[index]; }
 
   /// A Modifier performs some task after a given number of steps, but may
   /// change the System, Criteria and Trials.
@@ -196,6 +204,9 @@ class MonteCarlo {
 
   /// Attempt a number of Monte Carlo trials.
   void attempt(const int num_trials) { attempt_(num_trials, &trial_factory_, random_.get()); }
+
+  /// Reset trial statistics
+  virtual void reset_trial_stats() { trial_factory_.reset_stats(); }
 
   /// Attempt trial index without analyzers, modifiers or checkpoints.
   bool attempt_trial(const int index) {
@@ -280,6 +291,12 @@ class MonteCarlo {
     feasst_serialize(criteria_set_, ostr);
   }
 
+  std::string serialize() {
+    std::stringstream ss;
+    serialize(ss);
+    return ss.str();
+  }
+
   MonteCarlo(std::istream& istr) {
     //INFO(istr.rdbuf());
     //int tmp;
@@ -312,6 +329,11 @@ class MonteCarlo {
     feasst_deserialize(&potential_set_, istr);
     feasst_deserialize(&system_set_, istr);
     feasst_deserialize(&criteria_set_, istr);
+  }
+
+  MonteCarlo deserialize(const std::string str) {
+    std::stringstream ss(str);
+    return MonteCarlo(ss);
   }
 
   virtual ~MonteCarlo() {}

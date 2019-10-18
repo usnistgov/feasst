@@ -29,7 +29,7 @@ class ModelYukawa : public ModelTwoBody {
   }
 
   /// Set the value of the kappa parameter.
-  void set_kappa(const double kappa = 1.) { kappa_ = kappa; }
+  void set_kappa(const double kappa = 1) { kappa_ = kappa; }
   double kappa() const { return kappa_; }
 
   std::shared_ptr<Model> create(std::istream& istr) const override {

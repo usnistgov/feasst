@@ -1,17 +1,15 @@
-API
-************
 
 .. toctree::
 
-   AnalyzeRigidBonds
-   TrialSelectPerturbed
    TrialGrowLinear
-   PerturbPivot
+   AnalyzeRigidBonds
    PerturbCrankshaft
-   PerturbReptate
    TrialSelectSegment
-   TrialCrankshaft
    TrialSelectEndSegment
-   TrialPivot
    TrialSelectReptate
+   TrialCrankshaft
+   PerturbPivot
+   TrialSelectPerturbed
+   TrialPivot
+   PerturbReptate
    TrialReptate
