@@ -1,125 +1,104 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>TrialSelectParticle &#8212; FEASST v0.8.0 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
-    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
-    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>TrialSelectParticle &mdash; FEASST v0.8.0-1-gead8d12ca1-dirty documentation</title>
+  
+
+  
+  
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="TrialStage" href="TrialStage.html" />
-    <link rel="prev" title="TrialSelectAngle" href="TrialSelectAngle.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="TrialStage.html" title="TrialStage"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="TrialSelectAngle.html" title="TrialSelectAngle"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../README.html" >Monte Carlo</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
-      </ul>
-    </div>  
+    <link rel="prev" title="TrialSelectAngle" href="TrialSelectAngle.html" />
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+	<!-- frame blocking -->
+	<script type="text/javascript">
+		if (top !=self) {
+			top.location=self.location;
+		}
+	</script>
+
+	<!-- NIST header and footer -->
+	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> FEASST
+          
+
+          
+          </a>
+
+          
             
-  <div class="section" id="trialselectparticle">
-<h1>TrialSelectParticle<a class="headerlink" href="#trialselectparticle" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="_CPPv3N6feasst19TrialSelectParticleE">
-<span id="_CPPv2N6feasst19TrialSelectParticleE"></span><span id="feasst::TrialSelectParticle"></span><span class="target" id="classfeasst_1_1TrialSelectParticle"></span><em class="property">class </em><code class="descname">TrialSelectParticle</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="TrialSelect.html#_CPPv3N6feasst11TrialSelectE" title="feasst::TrialSelect">TrialSelect</a><a class="headerlink" href="#_CPPv3N6feasst19TrialSelectParticleE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> a random particle for trial. </p>
-<p>Subclassed by <a class="reference internal" href="../../chain/doc/TrialSelectSegment.html#classfeasst_1_1TrialSelectSegment"><span class="std std-ref">feasst::TrialSelectSegment</span></a></p>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
-<dl class="function">
-<dt id="_CPPv3N6feasst19TrialSelectParticle19TrialSelectParticleERK7argtype">
-<span id="_CPPv2N6feasst19TrialSelectParticle19TrialSelectParticleERK7argtype"></span><span id="feasst::TrialSelectParticle::TrialSelectParticle__argtypeCR"></span><span class="target" id="classfeasst_1_1TrialSelectParticle_1ad2ed2e3515ee6ec03c7c3e62eab2bf76"></span><code class="descname">TrialSelectParticle</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst19TrialSelectParticle19TrialSelectParticleERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">args</span></code>: load_coordinates : load the coordinates into the selection (default: true) <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">site</span> <span class="p">:</span> <span class="n">site</span> <span class="n">index</span> <span class="n">to</span> <span class="n">select</span><span class="o">.</span> <span class="n">If</span> <span class="nb">all</span> <span class="n">sites</span><span class="p">,</span> <span class="nb">set</span> <span class="n">to</span> <span class="o">-</span><span class="mi">1</span> <span class="p">(</span><span class="n">default</span><span class="p">)</span><span class="o">.</span>
+            
+              <div class="version">
+                v0.8.0-1-gead8d12ca1-dirty
+              </div>
+            
+          
 
-  <span class="n">ghost</span> <span class="p">:</span> <span class="n">select</span> <span class="n">ghost</span> <span class="n">particles</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">)</span><span class="o">.</span>
-</pre></div>
-</div>
- </li>
-</ul>
-</dd>
-</dl>
-</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv3NK6feasst19TrialSelectParticle16load_coordinatesEv">
-<span id="_CPPv2NK6feasst19TrialSelectParticle16load_coordinatesEv"></span><span id="feasst::TrialSelectParticle::load_coordinatesC"></span><span class="target" id="classfeasst_1_1TrialSelectParticle_1a6c2f6376787c1288b7fbf96734ef3318"></span>bool <code class="descname">load_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst19TrialSelectParticle16load_coordinatesEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return true if loading coordinates into selection. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv3N6feasst19TrialSelectParticle15random_particleERK13ConfigurationP14SelectPositionP6Random">
-<span id="_CPPv2N6feasst19TrialSelectParticle15random_particleERK13ConfigurationP14SelectPositionP6Random"></span><span id="feasst::TrialSelectParticle::random_particle__ConfigurationCR.SelectPositionP.RandomP"></span><span class="target" id="classfeasst_1_1TrialSelectParticle_1ade807675a78d36971228c6a62b6e5b97"></span>int <code class="descname">random_particle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <a class="reference internal" href="../../configuration/doc/SelectPosition.html#_CPPv3N6feasst14SelectPositionE" title="feasst::SelectPosition">SelectPosition</a> *<em>select</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv3N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst19TrialSelectParticle15random_particleERK13ConfigurationP14SelectPositionP6Random" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Add random particle in group index to select. Return the number of particles to choose from. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv3N6feasst19TrialSelectParticle14ghost_particleEP13ConfigurationP14SelectPosition">
-<span id="_CPPv2N6feasst19TrialSelectParticle14ghost_particleEP13ConfigurationP14SelectPosition"></span><span id="feasst::TrialSelectParticle::ghost_particle__ConfigurationP.SelectPositionP"></span><span class="target" id="classfeasst_1_1TrialSelectParticle_1a2d4490772212cfff565d6043677d9406"></span>void <code class="descname">ghost_particle</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="../../configuration/doc/SelectPosition.html#_CPPv3N6feasst14SelectPositionE" title="feasst::SelectPosition">SelectPosition</a> *<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst19TrialSelectParticle14ghost_particleEP13ConfigurationP14SelectPosition" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Add random particle in group index to select. Return the number of particles to choose from. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv3N6feasst19TrialSelectParticle6selectERK6SelectP6SystemP6Random">
-<span id="_CPPv2N6feasst19TrialSelectParticle6selectERK6SelectP6SystemP6Random"></span><span id="feasst::TrialSelectParticle::select__SelectCR.SystemP.RandomP"></span><span class="target" id="classfeasst_1_1TrialSelectParticle_1a4117483394e9c554059a53f017b1dd4d"></span>bool <code class="descname">select</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>perturbed</em>, <a class="reference internal" href="../../system/doc/System.html#_CPPv3N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv3N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst19TrialSelectParticle6selectERK6SelectP6SystemP6Random" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Perform the selection as implemented in the derived class. Return false if the selection cannot be made. Otherwise, return true. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv3N6feasst19TrialSelectParticle15select_particleEKiRK13Configuration">
-<span id="_CPPv2N6feasst19TrialSelectParticle15select_particleEKiRK13Configuration"></span><span id="feasst::TrialSelectParticle::select_particle__iC.ConfigurationCR"></span><span class="target" id="classfeasst_1_1TrialSelectParticle_1ae2fb731f0640479a73250509ab83451a"></span>void <code class="descname">select_particle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst19TrialSelectParticle15select_particleEKiRK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> a particular particle by index. </p>
-</dd></dl>
-
-</div>
-</dd></dl>
-
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
 
-
-          </div>
+          
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h3><a href="../../../index.html">Table of Contents</a></h3>
-<ul class="current">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
@@ -193,46 +172,194 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="TrialSelectAngle.html"
-                        title="previous chapter">TrialSelectAngle</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="TrialStage.html"
-                        title="next chapter">TrialStage</a></p>
+            
+          
         </div>
       </div>
-      <div class="clearer"></div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">FEASST</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../README.html">Plugin</a> &raquo;</li>
+        
+          <li><a href="../README.html">Monte Carlo</a> &raquo;</li>
+        
+          <li><a href="toc.html">&lt;no title&gt;</a> &raquo;</li>
+        
+      <li>TrialSelectParticle</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="trialselectparticle">
+<h1>TrialSelectParticle<a class="headerlink" href="#trialselectparticle" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst19TrialSelectParticleE">
+<span id="_CPPv2N6feasst19TrialSelectParticleE"></span><span id="feasst::TrialSelectParticle"></span><span class="target" id="classfeasst_1_1TrialSelectParticle"></span><em class="property">class </em><code class="descname">TrialSelectParticle</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="TrialSelect.html#_CPPv3N6feasst11TrialSelectE" title="feasst::TrialSelect">TrialSelect</a><a class="headerlink" href="#_CPPv3N6feasst19TrialSelectParticleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> a random particle for trial. </p>
+<p>Subclassed by <a class="reference internal" href="../../chain/doc/TrialSelectSegment.html#classfeasst_1_1TrialSelectSegment"><span class="std std-ref">feasst::TrialSelectSegment</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3N6feasst19TrialSelectParticle19TrialSelectParticleERK7argtype">
+<span id="_CPPv2N6feasst19TrialSelectParticle19TrialSelectParticleERK7argtype"></span><span id="feasst::TrialSelectParticle::TrialSelectParticle__argtypeCR"></span><span class="target" id="classfeasst_1_1TrialSelectParticle_1ad2ed2e3515ee6ec03c7c3e62eab2bf76"></span><code class="descname">TrialSelectParticle</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst19TrialSelectParticle19TrialSelectParticleERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">args</span></code>: load_coordinates : load the coordinates into the selection (default: true) <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">site</span> <span class="p">:</span> <span class="n">site</span> <span class="n">index</span> <span class="n">to</span> <span class="n">select</span><span class="o">.</span> <span class="n">If</span> <span class="nb">all</span> <span class="n">sites</span><span class="p">,</span> <span class="nb">set</span> <span class="n">to</span> <span class="o">-</span><span class="mi">1</span> <span class="p">(</span><span class="n">default</span><span class="p">)</span><span class="o">.</span>
+
+  <span class="n">ghost</span> <span class="p">:</span> <span class="n">select</span> <span class="n">ghost</span> <span class="n">particles</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+ </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst19TrialSelectParticle16load_coordinatesEv">
+<span id="_CPPv2NK6feasst19TrialSelectParticle16load_coordinatesEv"></span><span id="feasst::TrialSelectParticle::load_coordinatesC"></span><span class="target" id="classfeasst_1_1TrialSelectParticle_1a6c2f6376787c1288b7fbf96734ef3318"></span>bool <code class="descname">load_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst19TrialSelectParticle16load_coordinatesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if loading coordinates into selection. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst19TrialSelectParticle15random_particleERK13ConfigurationP14SelectPositionP6Random">
+<span id="_CPPv2N6feasst19TrialSelectParticle15random_particleERK13ConfigurationP14SelectPositionP6Random"></span><span id="feasst::TrialSelectParticle::random_particle__ConfigurationCR.SelectPositionP.RandomP"></span><span class="target" id="classfeasst_1_1TrialSelectParticle_1ade807675a78d36971228c6a62b6e5b97"></span>int <code class="descname">random_particle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <a class="reference internal" href="../../configuration/doc/SelectPosition.html#_CPPv3N6feasst14SelectPositionE" title="feasst::SelectPosition">SelectPosition</a> *<em>select</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv3N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst19TrialSelectParticle15random_particleERK13ConfigurationP14SelectPositionP6Random" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add random particle in group index to select. Return the number of particles to choose from. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst19TrialSelectParticle14ghost_particleEP13ConfigurationP14SelectPosition">
+<span id="_CPPv2N6feasst19TrialSelectParticle14ghost_particleEP13ConfigurationP14SelectPosition"></span><span id="feasst::TrialSelectParticle::ghost_particle__ConfigurationP.SelectPositionP"></span><span class="target" id="classfeasst_1_1TrialSelectParticle_1a2d4490772212cfff565d6043677d9406"></span>void <code class="descname">ghost_particle</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="../../configuration/doc/SelectPosition.html#_CPPv3N6feasst14SelectPositionE" title="feasst::SelectPosition">SelectPosition</a> *<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst19TrialSelectParticle14ghost_particleEP13ConfigurationP14SelectPosition" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add random particle in group index to select. Return the number of particles to choose from. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst19TrialSelectParticle6selectERK6SelectP6SystemP6Random">
+<span id="_CPPv2N6feasst19TrialSelectParticle6selectERK6SelectP6SystemP6Random"></span><span id="feasst::TrialSelectParticle::select__SelectCR.SystemP.RandomP"></span><span class="target" id="classfeasst_1_1TrialSelectParticle_1a4117483394e9c554059a53f017b1dd4d"></span>bool <code class="descname">select</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>perturbed</em>, <a class="reference internal" href="../../system/doc/System.html#_CPPv3N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv3N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst19TrialSelectParticle6selectERK6SelectP6SystemP6Random" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Perform the selection as implemented in the derived class. Return false if the selection cannot be made. Otherwise, return true. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3N6feasst19TrialSelectParticle15select_particleEKiRK13Configuration">
+<span id="_CPPv2N6feasst19TrialSelectParticle15select_particleEKiRK13Configuration"></span><span id="feasst::TrialSelectParticle::select_particle__iC.ConfigurationCR"></span><span class="target" id="classfeasst_1_1TrialSelectParticle_1ae2fb731f0640479a73250509ab83451a"></span>void <code class="descname">select_particle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst19TrialSelectParticle15select_particleEKiRK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="../../configuration/doc/Select.html#classfeasst_1_1Select"><span class="std std-ref">Select</span></a> a particular particle by index. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="TrialStage.html" class="btn btn-neutral float-right" title="TrialStage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="TrialSelectAngle.html" class="btn btn-neutral" title="TrialSelectAngle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="TrialStage.html" title="TrialStage"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="TrialSelectAngle.html" title="TrialSelectAngle"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../README.html" >Monte Carlo</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
-      </ul>
-    </div>
+  
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
+  <hr/>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <div role="contentinfo">
+    <p>
 
-  gtag('config', 'UA-115121490-6');
-</script>
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
 
 
-  </body>
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>

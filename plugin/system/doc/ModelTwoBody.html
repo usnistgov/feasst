@@ -1,100 +1,104 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ModelTwoBody &#8212; FEASST v0.8.0 documentation</title>
-    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" />
-    <link rel="stylesheet" type="text/css" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-    <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
-    <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-    <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ModelTwoBody &mdash; FEASST v0.8.0-1-gead8d12ca1-dirty documentation</title>
+  
+
+  
+  
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css" type="text/css" />
+  <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="ModelLJ" href="ModelLJ.html" />
-    <link rel="prev" title="ModelEmpty" href="ModelEmpty.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="ModelLJ.html" title="ModelLJ"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="ModelEmpty.html" title="ModelEmpty"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../README.html" >System</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="toc.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
-      </ul>
-    </div>  
+    <link rel="prev" title="ModelEmpty" href="ModelEmpty.html" />
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+	<!-- frame blocking -->
+	<script type="text/javascript">
+		if (top !=self) {
+			top.location=self.location;
+		}
+	</script>
+
+	<!-- NIST header and footer -->
+	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> FEASST
+          
+
+          
+          </a>
+
+          
             
-  <div class="section" id="modeltwobody">
-<h1>ModelTwoBody<a class="headerlink" href="#modeltwobody" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="_CPPv3N6feasst12ModelTwoBodyE">
-<span id="_CPPv2N6feasst12ModelTwoBodyE"></span><span id="feasst::ModelTwoBody"></span><span class="target" id="classfeasst_1_1ModelTwoBody"></span><em class="property">class </em><code class="descname">ModelTwoBody</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="Model.html#_CPPv3N6feasst5ModelE" title="feasst::Model">Model</a><a class="headerlink" href="#_CPPv3N6feasst12ModelTwoBodyE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Subclassed by <a class="reference internal" href="../../ewald/doc/ModelChargeIntra.html#classfeasst_1_1ModelChargeIntra"><span class="std std-ref">feasst::ModelChargeIntra</span></a>, <a class="reference internal" href="../../ewald/doc/ModelChargeScreened.html#classfeasst_1_1ModelChargeScreened"><span class="std std-ref">feasst::ModelChargeScreened</span></a>, <a class="reference internal" href="../../example/doc/ModelExample.html#classfeasst_1_1ModelExample"><span class="std std-ref">feasst::ModelExample</span></a>, <a class="reference internal" href="ModelHardSphere.html#classfeasst_1_1ModelHardSphere"><span class="std std-ref">feasst::ModelHardSphere</span></a>, <a class="reference internal" href="ModelLJ.html#classfeasst_1_1ModelLJ"><span class="std std-ref">feasst::ModelLJ</span></a>, <a class="reference internal" href="../../models/doc/ModelSquareWell.html#classfeasst_1_1ModelSquareWell"><span class="std std-ref">feasst::ModelSquareWell</span></a>, <a class="reference internal" href="ModelTwoBodyFactory.html#classfeasst_1_1ModelTwoBodyFactory"><span class="std std-ref">feasst::ModelTwoBodyFactory</span></a>, <a class="reference internal" href="../../models/doc/ModelYukawa.html#classfeasst_1_1ModelYukawa"><span class="std std-ref">feasst::ModelYukawa</span></a></p>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
-<dl class="function">
-<dt id="_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsKiP13ConfigurationP10VisitModel">
-<span id="_CPPv2NK6feasst12ModelTwoBody7computeERK11ModelParamsKiP13ConfigurationP10VisitModel"></span><span id="feasst::ModelTwoBody::compute__ModelParamsCR.iC.ConfigurationP.VisitModelPC"></span><span class="target" id="classfeasst_1_1ModelTwoBody_1ab66c175849841fdd4350cf1cfb1f3ea5"></span>double <code class="descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv3N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> int <em>group_index</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModelInner.html#_CPPv3N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsKiP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Visit the model over the entire configuration. </p>
-</dd></dl>
+            
+              <div class="version">
+                v0.8.0-1-gead8d12ca1-dirty
+              </div>
+            
+          
 
-<dl class="function">
-<dt id="_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsP13ConfigurationP10VisitModel">
-<span id="_CPPv2NK6feasst12ModelTwoBody7computeERK11ModelParamsP13ConfigurationP10VisitModel"></span><span id="feasst::ModelTwoBody::compute__ModelParamsCR.ConfigurationP.VisitModelPC"></span><span class="target" id="classfeasst_1_1ModelTwoBody_1ad834dead336d0ea3a3a2f3d02bedd0cb"></span>double <code class="descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv3N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModelInner.html#_CPPv3N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Same as above, except the group index is assumed to be zero (which is all particles and sites in the configuration). </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel">
-<span id="_CPPv2NK6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel"></span><span id="feasst::ModelTwoBody::compute__ModelParamsCR.SelectCR.iC.ConfigurationP.VisitModelPC"></span><span class="target" id="classfeasst_1_1ModelTwoBody_1a2c43347fb7ea81e69e2db878e4a0bd38"></span>double <code class="descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv3N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <em class="property">const</em> int <em>group_index</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModelInner.html#_CPPv3N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Visit the model over a selection of the configuration. Optionally, restrict to groups of given index, which is only relevant for multibody models (e.g., two body and not one body). </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel">
-<span id="_CPPv2NK6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel"></span><span id="feasst::ModelTwoBody::compute__ModelParamsCR.SelectCR.ConfigurationP.VisitModelPC"></span><span class="target" id="classfeasst_1_1ModelTwoBody_1a17bbd7f5ff74bff83531f760d0a703fc"></span>double <code class="descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv3N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModelInner.html#_CPPv3N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Same as above, except the group index is assumed to be zero (which is all particles and sites in the configuration) </p>
-</dd></dl>
-
-</div>
-</dd></dl>
-
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
 
-
-          </div>
+          
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h3><a href="../../../index.html">Table of Contents</a></h3>
-<ul class="current">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
@@ -149,46 +153,169 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="ModelEmpty.html"
-                        title="previous chapter">ModelEmpty</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="ModelLJ.html"
-                        title="next chapter">ModelLJ</a></p>
+            
+          
         </div>
       </div>
-      <div class="clearer"></div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">FEASST</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../README.html">Plugin</a> &raquo;</li>
+        
+          <li><a href="../README.html">System</a> &raquo;</li>
+        
+          <li><a href="toc.html">&lt;no title&gt;</a> &raquo;</li>
+        
+      <li>ModelTwoBody</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="modeltwobody">
+<h1>ModelTwoBody<a class="headerlink" href="#modeltwobody" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv3N6feasst12ModelTwoBodyE">
+<span id="_CPPv2N6feasst12ModelTwoBodyE"></span><span id="feasst::ModelTwoBody"></span><span class="target" id="classfeasst_1_1ModelTwoBody"></span><em class="property">class </em><code class="descname">ModelTwoBody</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="Model.html#_CPPv3N6feasst5ModelE" title="feasst::Model">Model</a><a class="headerlink" href="#_CPPv3N6feasst12ModelTwoBodyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Subclassed by <a class="reference internal" href="../../ewald/doc/ModelChargeIntra.html#classfeasst_1_1ModelChargeIntra"><span class="std std-ref">feasst::ModelChargeIntra</span></a>, <a class="reference internal" href="../../ewald/doc/ModelChargeScreened.html#classfeasst_1_1ModelChargeScreened"><span class="std std-ref">feasst::ModelChargeScreened</span></a>, <a class="reference internal" href="../../example/doc/ModelExample.html#classfeasst_1_1ModelExample"><span class="std std-ref">feasst::ModelExample</span></a>, <a class="reference internal" href="ModelHardSphere.html#classfeasst_1_1ModelHardSphere"><span class="std std-ref">feasst::ModelHardSphere</span></a>, <a class="reference internal" href="ModelLJ.html#classfeasst_1_1ModelLJ"><span class="std std-ref">feasst::ModelLJ</span></a>, <a class="reference internal" href="../../models/doc/ModelSquareWell.html#classfeasst_1_1ModelSquareWell"><span class="std std-ref">feasst::ModelSquareWell</span></a>, <a class="reference internal" href="ModelTwoBodyFactory.html#classfeasst_1_1ModelTwoBodyFactory"><span class="std std-ref">feasst::ModelTwoBodyFactory</span></a>, <a class="reference internal" href="../../models/doc/ModelYukawa.html#classfeasst_1_1ModelYukawa"><span class="std std-ref">feasst::ModelYukawa</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsKiP13ConfigurationP10VisitModel">
+<span id="_CPPv2NK6feasst12ModelTwoBody7computeERK11ModelParamsKiP13ConfigurationP10VisitModel"></span><span id="feasst::ModelTwoBody::compute__ModelParamsCR.iC.ConfigurationP.VisitModelPC"></span><span class="target" id="classfeasst_1_1ModelTwoBody_1ab66c175849841fdd4350cf1cfb1f3ea5"></span>double <code class="descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv3N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> int <em>group_index</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModelInner.html#_CPPv3N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsKiP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Visit the model over the entire configuration. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsP13ConfigurationP10VisitModel">
+<span id="_CPPv2NK6feasst12ModelTwoBody7computeERK11ModelParamsP13ConfigurationP10VisitModel"></span><span id="feasst::ModelTwoBody::compute__ModelParamsCR.ConfigurationP.VisitModelPC"></span><span class="target" id="classfeasst_1_1ModelTwoBody_1ad834dead336d0ea3a3a2f3d02bedd0cb"></span>double <code class="descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv3N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModelInner.html#_CPPv3N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, except the group index is assumed to be zero (which is all particles and sites in the configuration). </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel">
+<span id="_CPPv2NK6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel"></span><span id="feasst::ModelTwoBody::compute__ModelParamsCR.SelectCR.iC.ConfigurationP.VisitModelPC"></span><span class="target" id="classfeasst_1_1ModelTwoBody_1a2c43347fb7ea81e69e2db878e4a0bd38"></span>double <code class="descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv3N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <em class="property">const</em> int <em>group_index</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModelInner.html#_CPPv3N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectKiP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Visit the model over a selection of the configuration. Optionally, restrict to groups of given index, which is only relevant for multibody models (e.g., two body and not one body). </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel">
+<span id="_CPPv2NK6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel"></span><span id="feasst::ModelTwoBody::compute__ModelParamsCR.SelectCR.ConfigurationP.VisitModelPC"></span><span class="target" id="classfeasst_1_1ModelTwoBody_1a17bbd7f5ff74bff83531f760d0a703fc"></span>double <code class="descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv3N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv3N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModelInner.html#_CPPv3N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst12ModelTwoBody7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, except the group index is assumed to be zero (which is all particles and sites in the configuration) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ModelLJ.html" class="btn btn-neutral float-right" title="ModelLJ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ModelEmpty.html" class="btn btn-neutral" title="ModelEmpty" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="ModelLJ.html" title="ModelLJ"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="ModelEmpty.html" title="ModelEmpty"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">FEASST v0.8.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../README.html" >Plugin</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../README.html" >System</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="toc.html" >&lt;no title&gt;</a> &#187;</li> 
-      </ul>
-    </div>
+  
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
+  <hr/>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <div role="contentinfo">
+    <p>
 
-  gtag('config', 'UA-115121490-6');
-</script>
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
 
 
-  </body>
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>
