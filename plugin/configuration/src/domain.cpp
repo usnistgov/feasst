@@ -119,7 +119,8 @@ void Domain::init_cells(const double min_length,
   if (cell.num_total() > 0) {
     cells_.push_back(cell);
   } else {
-    INFO("Requested cell list rejected: did not meet requirements.");
+    INFO("Requested cell list rejected: min_length:" << min_length <<
+         " did not meet requirements.");
   }
 }
 

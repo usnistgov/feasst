@@ -1,11 +1,11 @@
 
 .. toctree::
 
-   LnProbabilityDistribution
+   LnProbability
    Bias
-   BiasWangLandau
    Macrostate
+   FlatHistogram
+   WangLandau
    TripleBandedCollectionMatrix
-   BiasTransitionMatrix
+   TransitionMatrix
    MacrostateNumParticles
-   CriteriaFlatHistogram

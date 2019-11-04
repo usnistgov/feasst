@@ -38,7 +38,6 @@ class PerturbAdd : public Perturb {
     DEBUG("is_position_held " << is_position_held);
     Configuration* config = system->get_configuration();
     config->revive(select->mobile());
-    select->set_trial_state(2);
 
     // obtain probability
     const int particle_type = config->select_particle(
@@ -57,6 +56,10 @@ class PerturbAdd : public Perturb {
       anywhere_.set_position(center, system, select);
     }
     set_revert_possible(true, select);
+
+    // setting trial state should go last so other perturbs do not overwrite
+    DEBUG("setting trial state 3");
+    select->set_trial_state(3);
   }
 
   void revert(System * system) override {

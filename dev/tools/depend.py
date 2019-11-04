@@ -14,9 +14,11 @@ import sys
 import pyfeasst
 
 external_libs=['xdrfile.h', 'xdrfile_xtc.h']
-include_plugin=['utils','math','configuration','system','steppers','monte_carlo']
-include_plugin=['utils','math','configuration','system','steppers','monte_carlo','flat_histogram']
-include_plugin=['utils','math','configuration','system','steppers','monte_carlo','mayer','models','patch','example','confinement','chain','flat_histogram','ewald','growth_expanded','pipeline']
+# read plugins.txt written by CMakeLists.txt
+with open("plugins.txt", "r") as plugin_file:
+    include_plugin = plugin_file.readlines()[0].split(' ')
+    print(include_plugin)
+#include_plugin=['utils','math','configuration','system','steppers','monte_carlo','mayer','models','patch','example','confinement','chain','flat_histogram','ewald','growth_expanded','pipeline']
 
 def is_header(file_name):
   if file_name.endswith(".h"):

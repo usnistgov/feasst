@@ -328,7 +328,7 @@ void Configuration::check() const {
 
   // check that a particle is not listed as a ghost twice
   for (const Select ghost : ghosts_) {
-    ASSERT(!is_duplicate(ghost.particle_indices()),
+    ASSERT(!has_duplicate(ghost.particle_indices()),
       "the same particle cannot be listed as a ghost twice");
   }
 
@@ -586,6 +586,12 @@ bool Configuration::is_equal(const Configuration& configuration) const {
     }
   }
   return true;
+}
+
+void Configuration::add_excluded_property(const std::string name) {
+  if (!find_in_list(name, excluded_properties_)) {
+    excluded_properties_.push_back(name);
+  }
 }
 
 void Configuration::serialize(std::ostream& ostr) const {

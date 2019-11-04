@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.7)
 project (FEASST)
 set (CMAKE_CXX_STANDARD 11)
 cmake_policy(SET CMP0042 NEW) # removes warning about macosx_rpath
@@ -8,20 +8,31 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pg -g") #profile
 
 # manually list the plugins
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;")
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;flat_histogram")
+# Note: for developement and testing, reducing plugins decreases compile time
+#set(FEASST_PLUGINS "utils;math")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;ewald")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;flat_histogram")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;pipeline")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram;growth_expanded")
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded;pipeline")
-message(${FEASST_PLUGINS})
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded;pipeline;xtc")
+# Note, if you change the plugin list and want to use the python interface,
+# you also need to run "../py/run.sh ../dev/tools/depend.py -s ../"
+
+# print plugins
+string (REPLACE ";" " " FEASST_PLUGINS_STR "${FEASST_PLUGINS}")
+message(${FEASST_PLUGINS_STR})
+file(WRITE "${CMAKE_BINARY_DIR}/plugins.txt" "${FEASST_PLUGINS_STR}")
+
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
 
 # set the install location (default: in the binary build directory)"
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}")
 
-option(USE_GTEST "Use gtest" ON)
+option(USE_GTEST "Use gtest" OFF)
 option(USE_CCACHE "Use ccache to speed up builds" ON)
 option(USE_SPHINX "Use SPHINX for documentation" OFF)
 option(USE_SWIG "Use SWIG for python interface" OFF)
@@ -30,7 +41,7 @@ option(USE_GCOV "Use Coverage" OFF)
 # If you would like to use the python interface, you may need to specify the
 # python library and include path variables below. If not specified then
 # CMake attempts to find the libraries on its own.
-option(SET_PYTHON_PATH "Manually define PYTHON_INCLUDE_PATH and PYTHON_LIBRARIES" OFF)
+option(SET_PYTHON_PATH "Manually define PYTHON_INCLUDE_DIR and PYTHON_LIBRARY" OFF)
 
 # Users typically would not edit below this comment
 
@@ -228,8 +239,8 @@ if (USE_SPHINX)
 
   find_package(Sphinx REQUIRED)
 
-  set(SPHINX_THEME "nature")
-  # set(SPHINX_THEME "sphinx_rtd_theme")
+  # set(SPHINX_THEME "nature")
+  set(SPHINX_THEME "sphinx_rtd_theme")
 
   # configured documentation tools and intermediate build results
   set(BINARY_BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/_build")
@@ -258,6 +269,16 @@ if (USE_SPHINX)
     ${CMAKE_SOURCE_DIR}/dev/sphinx/_build/_static/leave_notice.js ${BINARY_BUILD_DIR}/_static/leave_notice.js COPYONLY)
   configure_file(
     ${CMAKE_SOURCE_DIR}/dev/sphinx/_build/_templates/layout.html ${BINARY_BUILD_DIR}/_templates/layout.html COPYONLY)
+  configure_file(
+    ${CMAKE_SOURCE_DIR}/dev/sphinx/_build/_templates/footer.html ${BINARY_BUILD_DIR}/_templates/footer.html COPYONLY)
+  configure_file(
+    ${CMAKE_SOURCE_DIR}/dev/sphinx/_build/_templates/breadholder.html ${BINARY_BUILD_DIR}/_templates/breadholder.html COPYONLY)
+  configure_file(
+    ${CMAKE_SOURCE_DIR}/dev/sphinx/_build/_templates/breadcrumbs.html ${BINARY_BUILD_DIR}/_templates/breadcrumbs.html COPYONLY)
+  configure_file(
+    ${CMAKE_SOURCE_DIR}/dev/sphinx/_build/_templates/boilerplate-header.html ${BINARY_BUILD_DIR}/_templates/boilerplate-header.html COPYONLY)
+  configure_file(
+    ${CMAKE_SOURCE_DIR}/dev/sphinx/_build/_templates/boilerplate-footer.html ${BINARY_BUILD_DIR}/_templates/boilerplate-footer.html COPYONLY)
 
   add_custom_target(html ALL
     ${SPHINX_EXECUTABLE}
@@ -391,17 +412,17 @@ if (USE_SWIG)
     if (PythonLibs_FOUND)
     else (PythonLibs_FOUND)
       # Try default anaconda home install.
-      set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.7m/")
-      set(PYTHON_LIBRARIES "$ENV{HOME}/anaconda3/lib/libpython3.7m.so")
+      set(PYTHON_INCLUDE_DIR "$ENV{HOME}/anaconda3/include/python3.7m/")
+      set(PYTHON_LIBRARY "$ENV{HOME}/anaconda3/lib/libpython3.7m.so")
     endif (PythonLibs_FOUND)
   endif (SET_PYTHON_PATH)
-  message("PYTHON_INCLUDE_PATH: ${PYTHON_INCLUDE_PATH}")
-  message("PYTHON_LIBRARIES: ${PYTHON_LIBRARIES}")
+  message("PYTHON_INCLUDE_DIR: ${PYTHON_INCLUDE_DIR}")
+  message("PYTHON_LIBRARY: ${PYTHON_LIBRARY}")
 
   FIND_PACKAGE(SWIG)
   if (SWIG_FOUND)
     INCLUDE(${SWIG_USE_FILE})
-    INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+    INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIR})
     #INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
     get_filename_component(barename "${CMAKE_CURRENT_BINARY_DIR}" NAME)
     add_custom_target(build-time-make-directory ALL
@@ -410,7 +431,7 @@ if (USE_SWIG)
 
     SET_SOURCE_FILES_PROPERTIES("${CMAKE_SOURCE_DIR}/py/feasst.i" PROPERTIES CPLUSPLUS ON)
     #SET_SOURCE_FILES_PROPERTIES("${CMAKE_CURRENT_BINARY_DIR}/feasst.i" PROPERTIES SWIG_FLAGS "-includeall")
-    if (${CMAKE_VERSION} VERSION_LESS "3.0.0")
+    if (${CMAKE_VERSION} VERSION_LESS "3.10.0")
       SWIG_ADD_MODULE(feasst python "${CMAKE_SOURCE_DIR}/py/feasst.i")
     else ()
       SWIG_ADD_LIBRARY(feasst LANGUAGE python SOURCES "${CMAKE_SOURCE_DIR}/py/feasst.i")
@@ -425,8 +446,24 @@ if (USE_SWIG)
     # put pyfeasst into build
     configure_file(${CMAKE_SOURCE_DIR}/py/pyfeasst.py ${CMAKE_SOURCE_DIR}/build/pyfeasst.py @ONLY)
 
-    add_test(NAME pytest COMMAND ${CMAKE_SOURCE_DIR}/py/run.sh ${CMAKE_SOURCE_DIR}/py/test.py)
-    add_test(NAME pytutorial COMMAND python -m unittest discover ../plugin)
+    # # prep feasst.i (as well as documentation)
+    # execute_process(
+    #   COMMAND ../py/run.sh ../dev/tools/depend.py -s ../
+    #   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    # )
+
+    # install using setup.py
+    set(OUTPUT    "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
+    set(SETUP_PY  "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
+    configure_file("${CMAKE_SOURCE_DIR}/dev/tools/setup.py.in" ${SETUP_PY})
+    add_custom_command(OUTPUT ${OUTPUT}
+                       COMMAND python setup.py build
+                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT})
+    add_custom_target(target ALL DEPENDS ${OUTPUT})
+    install(CODE "execute_process(COMMAND python ${SETUP_PY} install)")
+
+    add_test(NAME pytest COMMAND python ${CMAKE_SOURCE_DIR}/py/test.py)
+    add_test(NAME pytutorial COMMAND python ../dev/tools/run_tutorials.py)
   else (SWIG_FOUND)
     message("SWIG NOT FOUND")
   endif (SWIG_FOUND)

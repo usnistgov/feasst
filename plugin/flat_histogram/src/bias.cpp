@@ -9,7 +9,7 @@ namespace feasst {
 
 std::string Bias::write_per_bin(const int bin) const {
   std::stringstream ss;
-  ss << ln_macro_prob().value(bin);
+  ss << ln_prob().value(bin);
   return ss.str();
 }
 

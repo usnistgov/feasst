@@ -5,10 +5,19 @@ Confinement
 This is a plugin for confinement.
 
 .. toctree::
+   :glob:
 
-   doc/toc
+   tutorial/tutorial*
 
 FEASST plugin dependencies
 ============================
 
 * system
+
+API
+===
+
+.. toctree::
+
+   doc/toc
+

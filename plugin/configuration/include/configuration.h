@@ -23,7 +23,10 @@ namespace feasst {
   Before particles are physically added to the system, all particle types which
   may exist must be defined.
   Once particles are added to the system, new particle types cannot be added.
-  Similarly, site types are also defined at the same time as particle types.
+  Similarly, site and bond types are also defined at the same time as particle
+  types and are referred to as unique types.
+  Unique types are stored in essentially the same fashion as particle types,
+  except they have been stripped of their non-unique sites and bonds.
 
   Groups of different particle/site types and other metrics may be defined.
   These groups then define a selection which can be used to distinguish subsets
@@ -32,7 +35,15 @@ namespace feasst {
   These selections are then used to modify a subset of the configuration (e.g.,
   removal and displacement) of a selection of particles/sites.
 
-  Finally, the spatial domain contains periodic boundaries and cells.
+  The spatial domain contains periodic boundaries and cells.
+
+  Finally, note that an optimization for grand canonical ensemble simulations
+  allows for the possibility of ghost particles.
+  Ghost particles do not interact and serve as a pool for adding/removing
+  particles in an optimized fashion without having to resize the particle
+  arrays.
+  Thus, one must use caution when accessing particles and sites by indices,
+  because these indices may include ghost particles.
  */
 class Configuration {
  public:
@@ -129,24 +140,36 @@ class Configuration {
   /// Return the index of the group based on particle types.
   int particle_type_to_group(const int particle_type);
 
+  /// Return the group-based selections.
+  const std::vector<SelectGroup>& group_selects() const {
+    return group_selects_; }
+
+  /// Return the group-based selections by index.
+  const SelectGroup& group_select(const int index) const {
+    return group_selects_[index]; }
+
   //@}
   /** @name Particles
     Physically existing sites and particles
    */
   //@{
 
-  /// Add particles of a given type.
+  /// Add a particle of a given type.
   void add_particle_of_type(const int type);
 
   /// Return particle by index. Note this index is contiguous from values
   /// 0 to num_particles -1, unlike the selection indices (due to ghost
   /// particles).
-  /// Note that this method can be quite slow because it doesn't require
-  /// knowledge of ghost particles.
+  /// Note that this method can be slow because the particle index
+  /// filters out ghost particles.
   const Particle particle(const int index,
     /// Provide a group index to consider only a subset of the configuration.
     /// By default, a value of zero is for the entire configuration.
     const int group = 0) const;
+
+  /// Return selection of all particles and sites in the configuration.
+  /// This selection does not include ghost particles.
+  const Select& selection_of_all() const { return group_selects_[0]; }
 
   /// Return the number of particles.
   int num_particles(
@@ -161,6 +184,10 @@ class Configuration {
 
   /// Return the number of particles of a given particle type.
   int num_particles_of_type(const int type) const;
+
+  /// Return the last particle added.
+  const Particle& newest_particle() const {
+    return select_particle(newest_particle_index_); }
 
   //@}
   /** @name Modifications
@@ -230,46 +257,41 @@ class Configuration {
     const int group_index = 0);
 
   //@}
-  /*
+  /** @name Ghosts
     Functions which require knowledge of ghost particles and thus not for
-    typical users
+    typical users.
    */
+  //@{
 
   /// Revive the particles in the selection previously removed (ghosts).
   void revive(const SelectPosition& selection);
 
-  // Return selection of all particles and sites in the configuration.
-  const Select& selection_of_all() const { return group_selects_[0]; }
-
-  // Return the particles.
-  // Warning: typically not for users because it may include ghost particles.
+  /// Return the particles.
+  /// Warning: typically not for users because it may include ghost particles.
   const ParticleFactory& particles() const { return particles_; }
 
-  // Return particle by index provided in selection.
-  // Warning: typically not for users because it may include ghost particles.
+  /// Return particle by index provided in selection.
+  /// Warning: typically not for users because it may include ghost particles.
   const Particle& select_particle(const int index) const {
     return particles_.particle(index); }
 
-  // Return the selection-based index (includes ghosts) of the last particle added.
+  /// Return the selection-based index (includes ghosts) of the last particle added.
   int newest_particle_index() const { return newest_particle_index_; }
-  const Particle& newest_particle() const {
-    return select_particle(newest_particle_index_); }
 
-  // Return the group-based selections.
-  const std::vector<SelectGroup>& group_selects() const {
-    return group_selects_; }
-
-  // Return the group-based selections by index.
-  const SelectGroup& group_select(const int index) const {
-    return group_selects_[index]; }
-
-  // Return ghost particles.
+  /// Return ghost particles.
   const std::vector<SelectGroup>& ghosts() const { return ghosts_; }
 
-  // Set selection as physical/nonphysical
+  //@}
+  /** @name Sites
+    Modify properties of sites directly.
+    Note that indices include ghosts.
+   */
+  //@{
+
+  /// Set selection as physical/nonphysical
   void set_selection_physical(const Select& select, const bool phys);
 
-  // Add the property to a site in a particle.
+  /// Add the property to a site in a particle.
   void add_site_property(const std::string name,
       const double value,
       const int particle_index,
@@ -277,7 +299,7 @@ class Configuration {
     particles_.add_site_property(name, value, particle_index, site_index);
   }
 
-  // Add or set the property of a site in a particle.
+  /// Add or set the property of a site in a particle.
   void add_or_set_site_property(const std::string name,
       const double value,
       const int particle_index,
@@ -285,13 +307,24 @@ class Configuration {
     particles_.add_or_set_site_property(name, value, particle_index, site_index);
   }
 
-  // Set the property of a site in a particle.
+  /// Add or set the property of a site in a particle type.
+  void add_or_set_particle_type_site_property(const std::string name,
+      const double value,
+      const int particle_type,
+      const int site_index) {
+    particle_types_.add_or_set_site_property(name, value, particle_type,
+                                             site_index);
+  }
+
+  /// Set the property of a site in a particle by name.
   void set_site_property(const std::string name,
       const double value,
       const int particle_index,
       const int site_index) {
     particles_.set_site_property(name, value, particle_index, site_index);
   }
+
+  /// Set the property of a site in a particle by index.
   void set_site_property(const int index,
       const double value,
       const int particle_index,
@@ -299,7 +332,14 @@ class Configuration {
     particles_.set_site_property(index, value, particle_index, site_index);
   }
 
-  /* Checks and hacky additions */
+  /// Add an property excluded from Configuration::update_positions()
+  void add_excluded_property(const std::string name);
+
+  //@}
+  /** @name Checks
+    Consistency checks and tests.
+   */
+  //@{
 
   /// Check consistency of dimensions and lists.
   void check() const;
@@ -308,7 +348,12 @@ class Configuration {
   /// Not all quantities are checked, including ghosts, etc.
   bool is_equal(const Configuration& configuration) const;
 
+  //@}
+
+  /// Serialize
   void serialize(std::ostream& ostr) const;
+
+  /// Deserialize
   Configuration(std::istream& istr);
 
  private:

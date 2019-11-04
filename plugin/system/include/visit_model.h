@@ -171,6 +171,7 @@ class VisitModel {
       const int group_index = 0);
 
   virtual void revert() {}
+  virtual void finalize() {}
 
   virtual void precompute(Configuration * config) {
     inner_->precompute(config); }

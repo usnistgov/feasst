@@ -1,0 +1,29 @@
+digraph parallel {
+  bgcolor=transparent
+  configs [label="Configurations"];
+  pots [label="Potentials"];
+  sys [label="System"];
+  mods [label="Models"];
+  vis [label="VisitModels"];
+  mod1 [label="ModelOneBody"];
+  mod2 [label="ModelTwoBody"];
+  mod3 [label="ModelThreeBody"];
+
+  sys -> configs
+  sys -> pots
+
+  configs -> Particles
+  configs -> Domain
+
+  pots -> mods
+  pots -> vis
+
+  mods -> mod1 [style="dashed"]
+  mods -> mod2 [style="dashed"]
+  mods -> mod3 [style="dashed"]
+
+  mod2 -> ModelHardSphere [style="dashed"]
+
+  vis -> VisitModelIntra [style="dashed"]
+  vis -> VisitModelCell [style="dashed"]
+}

@@ -8,14 +8,14 @@ def criteria_flathist(temperature=1.5,
                       iterations=20,  # number of sweeps (TM) or flatness (WL)
                       steps_per=1e6): # if TM, steps per update
     """Return a flat histogram acceptance criteria with number of particles as the macrostate"""
-    criteria = feasst.MakeCriteriaFlatHistogram(feasst.args(
+    criteria = feasst.MakeFlatHistogram(feasst.args(
         {"beta": str(1./temperature),
          "chemical_potential": str(chemical_potential)}))
     criteria.set(feasst.MakeMacrostateNumParticles(feasst.Histogram(feasst.args(
         {"width": "1", "min": str(macro_min), "max": str(macro_max)}))))
     if tmmc:
-        criteria.set(feasst.MakeBiasTransitionMatrix(feasst.args(
+        criteria.set(feasst.MakeTransitionMatrix(feasst.args(
             {"min_sweeps": str(iterations), "num_steps_to_update": str(steps_per)})))
     else:
-        criteria.set(feasst.MakeBiasWangLandau(feasst.args({"min_flatness": str(iterations)})))
+        criteria.set(feasst.MakeWangLandau(feasst.args({"min_flatness": str(iterations)})))
     return criteria

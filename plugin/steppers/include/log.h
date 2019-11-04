@@ -13,6 +13,7 @@ namespace feasst {
 class Log : public AnalyzeWriteOnly {
  public:
   Log(const argtype& args = argtype());
+
   void initialize(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory) override {

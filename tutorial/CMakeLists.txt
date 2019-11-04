@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 11)
 
 # Tell cmake where to find the feasst library
-set(CMAKE_PREFIX_PATH "$ENV{HOME}/feasst1.0/build/")
+set(CMAKE_PREFIX_PATH "$ENV{HOME}/feasst/build/")
 
 find_package(feasst REQUIRED)
 
@@ -34,5 +34,5 @@ endif()
 add_definitions("-DFEASST_DIR_=\"${CMAKE_PREFIX_PATH}\"")
 
 include_directories("${CMAKE_PREFIX_PATH}/include")
-add_executable (lj_brief lj_brief.cpp)
-target_link_libraries (lj_brief LINK_PUBLIC feasst)
+add_executable (tutorial tutorial.cpp)
+target_link_libraries (tutorial LINK_PUBLIC feasst)

@@ -7,7 +7,7 @@
 #include "steppers/include/movie.h"
 #include "steppers/include/log.h"
 #include "system/include/model_lj.h"
-#include "monte_carlo/include/criteria_metropolis.h"
+#include "monte_carlo/include/metropolis.h"
 
 namespace feasst {
 
@@ -24,7 +24,7 @@ TEST(MonteCarlo, ShapeUnion) {
       Position({{"x", "0"}, {"y", "0"}, {"z", "0"}})),
     MakeSlab({{"dimension", "2"}, {"bound0", "-1"}, {"bound1", "1"}})
   ))));
-  mc.add(MakeCriteriaMetropolis({
+  mc.add(MakeMetropolis({
     {"beta", "1.2"},
     {"chemical_potential", "1."},
   }));

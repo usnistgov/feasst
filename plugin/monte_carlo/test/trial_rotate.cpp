@@ -4,7 +4,7 @@
 #include "configuration/test/configuration_test.h"
 #include "system/include/system.h"
 #include "system/include/model_lj.h"
-#include "monte_carlo/include/criteria_metropolis.h"
+#include "monte_carlo/include/metropolis.h"
 #include "configuration/include/file_xyz.h"
 #include "monte_carlo/include/analyze.h"
 
@@ -26,7 +26,7 @@ TEST(TrialRotate, spce) {
     system.add_to_unoptimized(potential);
   }
 
-  CriteriaMetropolis criteria;
+  Metropolis criteria;
   criteria.set_beta(1.0);
   auto rotate = MakeTrialRotate({{"tunable_param", "90."}, {"weight", "0.5"}});
   EXPECT_EQ(0.5, rotate->weight());

@@ -56,10 +56,12 @@ void TrialStage::attempt(System * system, Criteria * criteria, const int old,
       rosenbluth_.set_energy(step,
         system->reference_energy(select_->mobile(), reference_));
     }
-    perturb_->revert(system);
+    if (rosenbluth_.num() > 1) {
+      perturb_->revert(system);
+    }
   }
   rosenbluth_.compute(criteria->beta(), random);
-  if (old != 1) {
+  if (old != 1 && rosenbluth_.num() > 1) {
     if (rosenbluth_.chosen_step() != -1) {
       DEBUG("updating positions " << rosenbluth_.chosen().str());
       DEBUG("pos0 " << rosenbluth_.chosen().site_positions()[0][0].str());

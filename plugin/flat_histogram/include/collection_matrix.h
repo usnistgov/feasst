@@ -4,7 +4,7 @@
 
 #include <vector>
 #include <memory>
-#include "flat_histogram/include/ln_probability_distribution.h"
+#include "flat_histogram/include/ln_probability.h"
 
 namespace feasst {
 
@@ -33,7 +33,7 @@ class TripleBandedCollectionMatrix {
   void increment(const int macro, const int state_change, const double add);
 
   /// Update the ln_prob according to the collection matrix.
-  void compute_ln_prob(LnProbabilityDistribution * ln_prob);
+  void compute_ln_prob(LnProbability * ln_prob);
 
   /// Return the matrix
   std::vector<std::vector<double> > matrix() const { return matrix_; }

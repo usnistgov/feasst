@@ -13,7 +13,7 @@
 #include "monte_carlo/include/trial_select_bond.h"
 #include "monte_carlo/include/trial_select_angle.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/criteria_metropolis.h"
+#include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/perturb_distance_angle.h"
 
 namespace feasst {
@@ -21,7 +21,7 @@ namespace feasst {
 inline void crit_trial_analyze(MonteCarlo * mc,
     const int num_periodic = 1e4,
     const bool translate = true) {
-  mc->set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc->set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   if (translate) {
     mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   }

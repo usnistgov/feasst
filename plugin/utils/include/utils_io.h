@@ -4,6 +4,7 @@
 
 #include <string>
 #include <sstream>
+#include <fstream>
 #include <iostream>
 #include <vector>
 #include <deque>
@@ -19,9 +20,16 @@ using std::endl;
 namespace feasst {
 
 /// Return the feasst install directory as a string.
+/// Warning: This does not work with pip or conda Python.
+///          Instead, use pyfeasst.forcefield_dir().
 inline std::string install_dir() { return std::string(FEASST_DIR_); }
 
+/// Return the feasst version as a string.
+inline std::string version() { return std::string(FEASST_VERSION_); }
+
 /// Return the given string with the feasst install directory appended.
+/// Warning: This does not work with pip or conda Python.
+///          Instead, use pyfeasst.forcefield_dir().
 std::string append_install_dir(const char * chars);
 
 /// Return string representation of vector
@@ -361,6 +369,15 @@ std::shared_ptr<T> deep_copy_derived(std::shared_ptr<T> object) {
   std::stringstream ss;
   object->serialize(ss);
   return object->deserialize(ss);
+}
+
+/// Return a deep copy.
+/// This is implemented via serialization/deserialization.
+template <typename T>
+T deep_copy(const T& object) {
+  std::stringstream ss;
+  object.serialize(ss);
+  return T(ss);
 }
 
 // HWH unforunately, templates require all objects to have serialization.

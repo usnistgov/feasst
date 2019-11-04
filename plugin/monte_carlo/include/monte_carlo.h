@@ -63,24 +63,14 @@ class MonteCarlo {
   void offset_random() { random_->uniform(); }
 
   /// The first action with a Monte Carlo object is to set the Configuration.
-  void add(const Configuration& config) {
-    system_.add(config);
-    config_set_ = true;
-    if (potential_set_) system_set_ = true;
-    ASSERT(!criteria_set_, "add config before criteria");
-  }
+  void add(const Configuration& config);
 
   /// The configuration may be accessed read-only.
   const Configuration& configuration(const int index = 0) const {
     return system_.configuration(index); }
 
   /// The second action is to add Potentials.
-  void add(const Potential& potential) {
-    ASSERT(!criteria_set_, "add potential before criteria");
-    system_.add(potential);
-    potential_set_ = true;
-    if (config_set_) system_set_ = true;
-  }
+  void add(const Potential& potential);
 
   /// Add potential to optimized.
   void add_to_optimized(const Potential& potential) {
@@ -93,12 +83,7 @@ class MonteCarlo {
   /// Alternatively, the first and second actions may be combined by setting
   /// the system directly.
   /// This must be done before setting Criteria.
-  void set(const System& system) {
-    system_set_ = true;
-    system_ = system;
-    system_.precompute();
-    ASSERT(!criteria_set_, "add system before criteria");
-  }
+  void set(const System& system);
 
   /// Once the System is set, it may be accessed on a read-only basis.
   const System& system() const { return system_; }
@@ -109,12 +94,7 @@ class MonteCarlo {
 
   /// The third action is to set the Criteria.
   /// Configuration and Potentials (or System) must be set first.
-  void add(std::shared_ptr<Criteria> criteria) {
-    ASSERT(system_set_, "set System before Criteria.");
-    criteria->set_current_energy(system_.energy());
-    criteria_ = criteria;
-    criteria_set_ = true;
-  }
+  void add(std::shared_ptr<Criteria> criteria);
 
   // HWH depreciate
   void set(std::shared_ptr<Criteria> criteria) { add(criteria); }
@@ -124,15 +104,7 @@ class MonteCarlo {
 
   /// The remaining actions can be done in almost any order.
   /// Typically, one begins by adding trials.
-  void add(std::shared_ptr<Trial> trial) {
-    ASSERT(criteria_set_, "set Criteria before Trials.");
-    trial->precompute(criteria_.get(), &system_);
-    trial_factory_.add(trial);
-    // If later, perhaps after some initialization, more trials are added,
-    // then Analyze and Modify classes may need to be re-initialized.
-    // analyze_factory_.initialize(criteria_, system_, trial_factory_);
-    // modify_factory_.initialize(criteria_, &system_, &trial_factory_);
-  }
+  void add(std::shared_ptr<Trial> trial);
 
   /// Access the trials on a read-only basis.
   const TrialFactory& trials() const { return trial_factory_; }
@@ -146,17 +118,7 @@ class MonteCarlo {
   /// configuration with a given number of particles, without necessarily
   /// satisfying detailed balance.
   /// Thus, all stats are reset.
-  void seek_num_particles(const int num) {
-    ASSERT(system_.configuration().num_particles() <= num,
-      "assumes you only want to add particles, not delete them");
-    auto add = MakeTrialAdd({{"particle_type", "0"}});
-    add->precompute(criteria_.get(), &system_);
-    while (system_.configuration().num_particles() < num) {
-      attempt();
-      add->attempt(criteria_.get(), &system_, random_.get());
-    }
-    trial_factory_.reset_stats();
-  }
+  void seek_num_particles(const int num);
 
   /// An Analyzer performs some task after a given number of steps, but is
   /// read-only on System, Criteria and Trials.
@@ -178,11 +140,7 @@ class MonteCarlo {
 
   /// A Modifier performs some task after a given number of steps, but may
   /// change the System, Criteria and Trials.
-  void add(const std::shared_ptr<Modify> modify) {
-    ASSERT(criteria_set_, "set Criteria before Modify");
-    modify->initialize(criteria_.get(), &system_, &trial_factory_);
-    modify_factory_.add(modify);
-  }
+  void add(const std::shared_ptr<Modify> modify);
 
   /// Add a checkpoint.
   void add(const std::shared_ptr<Checkpoint> checkpoint) {

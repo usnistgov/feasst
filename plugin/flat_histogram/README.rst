@@ -6,17 +6,18 @@ Flat histogram Monte Carlo methods bias the system along a macrostate, or order 
 
 .. figure:: doc/flat_histogram.svg
 
-:cpp:class:`CriteriaFlatHistogram <feasst::CriteriaFlatHistogram>` contains a :cpp:class:`Macrostate <feasst::Macrostate>` and a :cpp:class:`Bias <feasst::Bias>`.
+:cpp:class:`FlatHistogram <feasst::FlatHistogram>` contains a :cpp:class:`Macrostate <feasst::Macrostate>` and a :cpp:class:`Bias <feasst::Bias>`.
 The :cpp:class:`Macrostate <feasst::Macrostate>` could be the :cpp:class:`number of particles <feasst::MacrostateNumParticles>` or some other quantity such as the energy of a parameter of the model.
-The method of :cpp:class:`Bias <feasst::Bias>` includes :cpp:class:`Wang-Landau <feasst::BiasWangLandau>` and :cpp:class:`Transition-Matrix <feasst::BiasTransitionMatrix>`.
-Importantly, the :cpp:class:`Bias <feasst::Bias>` computes the :cpp:class:`probability distribution of the macrostate <feasst::LnProbabilityDistribution>` on the fly, which is related to the free energy.
+The method of :cpp:class:`Bias <feasst::Bias>` includes :cpp:class:`Wang-Landau <feasst::WangLandau>` and :cpp:class:`Transition-Matrix <feasst::TransitionMatrix>`.
+Importantly, the :cpp:class:`Bias <feasst::Bias>` computes the :cpp:class:`probability distribution of the macrostate <feasst::LnProbability>` on the fly, which is related to the free energy.
 
 Tutorial
 =========
 
 .. toctree::
+   :glob:
 
-   tutorial/README
+   tutorial/tutorial*
 
 FEASST plugin dependencies
 ============================

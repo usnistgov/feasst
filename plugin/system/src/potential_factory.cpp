@@ -70,6 +70,12 @@ void PotentialFactory::revert() {
   }
 }
 
+void PotentialFactory::finalize() {
+  for (Potential& potential : potentials_) {
+    potential.finalize();
+  }
+}
+
 void PotentialFactory::serialize(std::ostream& sstr) const {
   feasst_serialize_version(1, sstr);
   feasst_serialize_fstobj(potentials_, sstr);

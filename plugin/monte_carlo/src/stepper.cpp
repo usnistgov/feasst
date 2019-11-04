@@ -15,13 +15,19 @@ Stepper::Stepper(const argtype &args) {
     set_file_name(args_.str());
   }
 
-  // append
   if (args_.key("append").dflt("0").boolean()) {
     set_append();
   } else {
     set_no_append();
   }
 
+  if (args_.key("clear_file").dflt("false").boolean()) {
+    ASSERT(!file_name_.empty(), "file_name is a required argument with clear.");
+    std::ofstream file;
+    file.open(file_name_, std::ofstream::out);
+    file.close();
+  }
+  
   set_multistate(args_.key("multistate").dflt("0").boolean());
 }
 

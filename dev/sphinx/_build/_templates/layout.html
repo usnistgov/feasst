@@ -1,16 +1,15 @@
 {% extends '!layout.html' %}
 
-{% block footer %}
+{% block extrahead %}
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
+	<!-- frame blocking -->
+	<script type="text/javascript">
+		if (top !=self) {
+			top.location=self.location;
+		}
+	</script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115121490-6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-115121490-6');
-</script>
+	<!-- NIST header and footer -->
+	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 {% endblock %}

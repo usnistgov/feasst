@@ -68,7 +68,7 @@ void feasst_reverse(std::vector<std::vector<T> > * vec) {
 }
 
 template<class T>
-bool is_duplicate(const std::vector<T>& vec) {
+bool has_duplicate(const std::vector<T>& vec) {
   std::vector<T> vec2 = vec;
   std::sort(vec2.begin(), vec2.end());
   for (int i = 1; i < static_cast<int>(vec2.size()); ++i) {
@@ -77,6 +77,21 @@ bool is_duplicate(const std::vector<T>& vec) {
     }
   }
   return false;
+}
+
+template<class T>
+bool is_equal(const std::vector<T>& vec1,
+              const std::vector<T>& vec2,
+              const double tolerance = 1e-15) {
+  if (vec1.size() != vec2.size()) {
+    return false;
+  }
+  for (int i = 1; i < static_cast<int>(vec1.size()); ++i) {
+    if (std::abs(vec1[i] - vec2[i]) > tolerance) {
+      return false;
+    }
+  }
+  return true;
 }
 
 }  // namespace feasst

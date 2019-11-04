@@ -24,7 +24,6 @@ namespace feasst {
  */
 class Accumulator {
  public:
-  /// Constructor
   Accumulator();
 
   /// Add a value to the running sum of values and higher moments.

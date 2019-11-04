@@ -5,33 +5,45 @@
 
 namespace feasst {
 
-Random::Random(const argtype& args) {
+Random::Random(const argtype& args) {}
+
+// parsing seed in constructor leads to pure virtual function reseed_
+void Random::parse_seed_(const argtype& args) {
   Arguments args_;
   args_.init(args);
-  const std::string seed_str = args_.key("seed").dflt("date").str();
-  if (seed_str == "date") {
-    seed_random_by_date();
-  } else if (seed_str == "default") {
-    seed_random();
-  } else {
-    args_.init(args);
-    seed_random(args_.key("seed").integer());
+  if (args_.key("seed").used()) {
+    const std::string seed_str = args_.str();
+    if (seed_str == "date") {
+      seed_by_date();
+    } else if (seed_str == "default") {
+      seed();
+    } else {
+      args_.init(args);
+      seed(args_.key("seed").integer());
+    }
   }
 }
 
-void Random::seed_random_by_date() {
+void Random::seed_by_date() {
   const int t = time(NULL);
   srand ( t );
   INFO("time(seed): " << t);
+  reseed_();
+  is_seeded_ = true;
 }
 
-void Random::seed_random(const int seed) {
+void Random::seed(const int seed) {
   srand ( seed );
   INFO("Initializing random number generator for reproduction with seed("
     << seed << ")");
+  reseed_();
+  is_seeded_ = true;
 }
 
 double Random::uniform() {
+  if (!is_seeded_) {
+    seed_by_date();
+  }
   double ran;
   if (!cache_.is_unloading(&ran)) {
     ran = gen_uniform_();
@@ -49,6 +61,7 @@ int Random::uniform(const int min, const int max) {
 void Random::serialize_random_(std::ostream& ostr) const {
   feasst_serialize_version(979, ostr);
   feasst_serialize_fstobj(cache_, ostr);
+  feasst_serialize(is_seeded_, ostr);
 }
 
 std::map<std::string, std::shared_ptr<Random> >& Random::deserialize_map() {
@@ -69,6 +82,7 @@ Random::Random(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 979, "mismatch version: " << version);
   feasst_deserialize_fstobj(&cache_, istr);
+  feasst_deserialize(&is_seeded_, istr);
 }
 
 bool Random::coin_flip() {

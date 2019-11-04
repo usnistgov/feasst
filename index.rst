@@ -14,7 +14,7 @@ Contents:
 .. toctree::
 
    README
-   tutorial/README.rst
+   tutorial/tutorial.ipynb
    plugin/README
    py/README
    forcefield/README

@@ -14,11 +14,8 @@ class RandomMT19937 : public Random {
  public:
   RandomMT19937(const argtype& args = argtype()) : Random(args) {
     class_name_ = "RandomMT19937";
-    reseed_();
+    parse_seed_(args);
   }
-
-  // copy constructor should re-seed
-  RandomMT19937(const RandomMT19937& random) { reseed_(); }
 
   std::shared_ptr<Random> create(std::istream& istr) const override {
     return std::make_shared<RandomMT19937>(istr); }

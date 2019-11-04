@@ -29,18 +29,24 @@ class Stepper {
       append : append file output if set to true.
         Do not append if false (default: "false").
 
+      clear_file : set true to clear contents of file_name, if exists.
+        (default: false).
+
       multistate :  set "true" to copy for each state (default: "false")
      */
     const argtype &args = argtype());
-
-  /// Return the file name.
-  std::string file_name() const { return file_name_; }
 
   /// Return the number of steps per update
   int steps_per_update() const { return steps_per_update_; }
 
   /// Return the number of steps per write.
   int steps_per_write() const { return steps_per_write_; }
+
+  /// Return the file name.
+  std::string file_name() const { return file_name_; }
+
+  /// Return true if appending.
+  bool append() const { return append_; }
 
   /// Set the state. Append file name if not empty.
   void set_state(const int state = 0);

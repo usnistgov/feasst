@@ -10,7 +10,7 @@
 namespace feasst {
 
 void TripleBandedCollectionMatrix::compute_ln_prob(
-    LnProbabilityDistribution * ln_prob) {
+    LnProbability * ln_prob) {
   ln_prob->set_value(0, 0.);
   for (int macro = 1; macro < ln_prob->size(); ++macro) {
     const double ln_prob_previous = ln_prob->value(macro - 1);

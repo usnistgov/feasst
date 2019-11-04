@@ -1,0 +1,17 @@
+import sys
+import unittest
+import feasst
+sys.path.insert(0, feasst.install_dir() + '/plugin/ewald/tutorial/')
+import spce
+
+class TestEwaldSPCEREF(unittest.TestCase):
+    def test(self):
+        config = feasst.Configuration(feasst.args({"particle_type":
+                                                   feasst.install_dir() + "/forcefield/data.spce"}))
+        feasst.FileXYZ().load(feasst.install_dir() +
+                              "/plugin/system/test/data/spce_sample_config_periodic1.xyz", config)
+        system = spce.system(config)
+        self.assertAlmostEqual(system.energy(), -4062.47263092246, 10)
+
+if __name__ == "__main__":
+    unittest.main()

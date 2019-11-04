@@ -31,12 +31,17 @@ class CheckEnergy : public ModifyUpdateOnly {
     DEBUG("computing unoptimized energy for check");
     const double energy = system->unoptimized_energy();
     const double current_energy = criteria->current_energy();
-    DEBUG("energy " << energy);
+    DEBUG("energy:" << energy << " "
+       << "current_energy: " << current_energy << " "
+       << "diff: " << energy - current_energy
+    );
     ASSERT(std::abs(energy - current_energy) < tolerance_,
+      MAX_PRECISION <<
       "Energy check failure. There is a problem with the potentials. " <<
       "The unoptimized energy of the entire configuration was computed as " <<
-      energy << " but the running energy from criteria (the accumulation of a "
-      << "change in energy over a series of steps) is " << current_energy <<
+      energy << " but the running energy from criteria " <<
+      "(the accumulation of a change in energy over a series of steps) is " <<
+      current_energy <<
       ". The difference(" << std::abs(energy - current_energy) << ") is " <<
       "greater than the tolerance(" << tolerance_ << "). "
       << system->unoptimized().str());

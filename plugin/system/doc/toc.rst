@@ -14,7 +14,7 @@
    VisitModelCell
    LongRangeCorrections
    VisitModelIntra
+   SelectList
    Potential
    PotentialFactory
    System
-   SelectList

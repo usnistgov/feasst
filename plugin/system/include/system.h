@@ -121,6 +121,9 @@ class System {
   /// Revert changes due to perturbations.
   void revert() { unoptimized_.revert(); }
 
+  /// Finalize changes due to perturbations.
+  void finalize() { unoptimized_.finalize(); }
+
   /// Set cache to load energy calculations.
   void load_cache(const bool load);
 

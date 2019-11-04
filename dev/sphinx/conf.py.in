@@ -14,7 +14,7 @@
 
 import sys
 import os
-#import sphinx_rtd_theme
+import sphinx_rtd_theme
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -36,7 +36,8 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
-    'breathe'
+    'breathe',
+    'nbsphinx'
 ]
 
 breathe_projects = {
@@ -91,7 +92,8 @@ language = None
 # This patterns also effect to html_static_path and html_extra_path
 # use to exclude tutorial but... exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'tutorial', 'test',
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'test',
-  'extern', 'googletest-src', 'googletest-build', 'googletest-download']
+  'extern', 'googletest-src', 'googletest-build', 'googletest-download',
+  '**.ipynb_checkpoints']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -123,9 +125,9 @@ todo_include_todos = True
 #Custom Java/CSS stuff
 def setup(app):
     # header and footer
-    app.add_stylesheet('https://pages.nist.gov/nist-header-footer/css/nist-combined.css')
+    #app.add_stylesheet('https://pages.nist.gov/nist-header-footer/css/nist-combined.css')
     app.add_javascript('https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js')
-    app.add_javascript('https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js')
+    #app.add_javascript('https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js')
     app.add_javascript('https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js')
     app.add_stylesheet('https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css')
     app.add_javascript('leave_notice.js')

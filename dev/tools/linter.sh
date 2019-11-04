@@ -1,5 +1,5 @@
 #for f in *; do
-for f in `find . -name '*.cpp' -o -name '*.h'`; do
+for f in `find . -name '*.cpp' -o -name '*.h' -o -name '*.py' -o -name '*.dot'`; do
   #sed 's/get_vector(/coord(/g' $f > ttmp; mv ttmp $f
   #sed 's/get_//g' $f > ttmp; mv ttmp $f
   #sed 's/ "include/ "core\/include/' $f > ttmp; mv ttmp $f
@@ -12,10 +12,13 @@ for f in `find . -name '*.cpp' -o -name '*.h'`; do
   #sed 's/core\/include/system\/include/g' $f > ttmp; mv ttmp $f
   #sed 's/core\/test/system\/test/g' $f > ttmp; mv ttmp $f
 #  sed 's/_STEPPERS_/_MONTE_CARLO_/g' $f > ttmp; mv ttmp $f
-  sed 's/||/or/g' $f > ttmp; mv ttmp $f
-  sed 's/\&\&/and/g' $f > ttmp; mv ttmp $f
-  rm $f/ttmp
+  #sed 's/||/or/g' $f > ttmp; mv ttmp $f
+  #sed 's/\&\&/and/g' $f > ttmp; mv ttmp $f
+  #rm $f/ttmp
   #sed 's/DomainCuboid/Domain/g' $f > ttmp; mv ttmp $f
+  #sed 's/CriteriaMetropolis/Metropolis/g' $f > ttmp; mv ttmp $f
+  #sed 's/criteria_metropolis\.h/metropolis\.h/g' $f > ttmp; mv ttmp $f
+  sed 's/criteria_flat_histogram_test\.h/flat_histogram_test\.h/g' $f > ttmp; mv ttmp $f
 done
 #rename 's/\.cc/\.cpp/' $(find . -type f)
 #rename -n 's/\.cc/\.cpp/' $(find . -type f)

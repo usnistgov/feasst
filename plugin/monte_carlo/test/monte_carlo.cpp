@@ -3,7 +3,7 @@
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
-#include "monte_carlo/include/criteria_metropolis.h"
+#include "monte_carlo/include/metropolis.h"
 #include "utils/include/utils_io.h"
 #include "math/include/accumulator.h"
 #include "system/test/system_test.h"
@@ -60,7 +60,7 @@ TEST(MonteCarlo, GCMC) {
   MonteCarlo mc;
   mc_lj(&mc);
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
-  mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "-2"}}));
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-2"}}));
   add_trial_transfer(&mc, {{"particle_type", "0"}});
   //mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   //mc.add(MakeTrialRemove());
@@ -86,7 +86,7 @@ TEST(MonteCarlo, GCMC) {
 //     mc.add_to_reference(lj_dual_cut);
 //   }
 //   mc.seek_num_particles(50);
-//   mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "-4"}}));
+//   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-4"}}));
 //   auto translate = MakeTrialTranslate({{"reference_index", "-1"}, {"num_steps", "1"}});
 //   auto add = MakeTrialAdd();
 //   //auto add = MakeTrialAdd({{"reference_index", "0"}, {"num_steps", "3"}});
@@ -146,7 +146,7 @@ TEST(MonteCarlo, grow) {
     EXPECT_TRUE (mc.trial(2)->stage(0)->trial_select()->is_ghost());
     EXPECT_FALSE(mc.trial(3)->stage(0)->trial_select()->is_ghost());
     mc.seek_num_particles(3);
-    mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
+    mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
     mc.add(MakeMovie(
      {{"steps_per", "1"},
       {"file_name", "tmp/grow.xyz"}}));
@@ -155,7 +155,7 @@ TEST(MonteCarlo, grow) {
       //mc.configuration().check();
     }
     EXPECT_LT(mc.configuration().num_particles(), 3);
-    mc.set(MakeCriteriaMetropolis({{"beta", "1.2"}, {"chemical_potential", "100"}}));
+    mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "100"}}));
     mc.attempt(2e1);
     EXPECT_GE(mc.configuration().num_particles(), 1);
     mc.configuration().check();

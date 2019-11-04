@@ -58,7 +58,7 @@ std::string Properties::str() const {
   check();
   std::stringstream ss;
   for (int index = 0; index < static_cast<int>(property_value_.size()); ++index) {
-    ss << "{" << property_name_[index] << " : " << property_value_[index] << "} ";
+    ss << "{" << property_name_[index] << " : " << property_value_[index] << "}, ";
   }
   return ss.str();
 }

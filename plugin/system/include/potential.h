@@ -90,6 +90,9 @@ class Potential {
   /// Revert any changes to the configuration due to the last energy computation
   void revert() { visit_model_->revert(); }
 
+  /// Finalize changes to the configuration due to the last energy computation
+  void finalize() { visit_model_->finalize(); }
+
   /// Return the cache.
   const Cache& cache() const { return cache_; }
 

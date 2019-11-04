@@ -4,7 +4,7 @@
 #include "monte_carlo/include/trial_compute_move.h"
 #include "system/include/system.h"
 #include "system/include/model_lj.h"
-#include "monte_carlo/include/criteria_metropolis.h"
+#include "monte_carlo/include/metropolis.h"
 #include "configuration/include/file_xyz.h"
 #include "monte_carlo/include/analyze.h"
 #include "chain/include/analyze_rigid_bonds.h"
@@ -27,7 +27,7 @@ TEST(TrialGrow, chain10) {
     system.add_to_unoptimized(potential);
   }
 
-  auto criteria = std::make_shared<CriteriaMetropolis>();
+  auto criteria = std::make_shared<Metropolis>();
   criteria->set_beta(100.0);
   auto grow = MakeTrialGrowLinear(
     std::make_shared<TrialComputeMove>(),

@@ -19,11 +19,6 @@ namespace feasst {
 
 /**
   Psuedo random number generator class.
-  Initialize the random number seed by global function methods
-
-  1. seed_random_by_date()
-  2. seed_random(seed)
-
   Note that all other Random distributions depend upon the uniform distribution,
   such that reproduction by storage is simplified.
  */
@@ -34,17 +29,18 @@ class Random {
       seed : Provide an integer to seed the random number generator.
              If the string "date" is provided, then use the date to generate
              the seed.
-             If no seed is provided, the date will be used.
+             If no seed is provided, but random numbers are requested, then
+             the date will be used to generate a seed.
              If the string "default" is provided, then use the default integer
-             included in the following seed_random function definition.
+             included in Random::seed().
      */
     const argtype& args = argtype());
 
-  /// Initialize random number generator based on date and time.
-  void seed_random_by_date();
+  /// Generate seed from date and time.
+  void seed_by_date();
 
-  /// Initialize random number generator to seed value for reproducibility.
-  void seed_random(const int seed = 1346867550);
+  /// Input seed by value for reproducibility.
+  void seed(const int seed = 1346867550);
 
   /// Return a random real number with a uniform probability distribution
   /// between 0 and 1.
@@ -149,8 +145,11 @@ class Random {
   void serialize_random_(std::ostream& ostr) const;
   Random(std::istream& istr);
 
+  void parse_seed_(const argtype& args);
+
  private:
   Cache cache_;
+  bool is_seeded_ = false;
 
   virtual void reseed_() = 0;
   virtual double gen_uniform_() = 0;

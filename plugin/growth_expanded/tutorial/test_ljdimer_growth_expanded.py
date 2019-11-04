@@ -12,12 +12,11 @@ import lj_fh
 class TestLJ_FH_benchmark(unittest.TestCase):
     def test(self):
         #return
-        feasst.seed_random_by_date()
 
         serial = False
         serial = True
         if serial:
-            criteria = feasst.MakeCriteriaFlatHistogram(feasst.args(
+            criteria = feasst.MakeFlatHistogram(feasst.args(
                 {"beta": str(1./1.5),
                  "chemical_potential": "-2.35231"}
             ))
@@ -25,7 +24,7 @@ class TestLJ_FH_benchmark(unittest.TestCase):
                 feasst.Histogram(feasst.args({"width": "0.5", "max": "10"})),
                 #feasst.args({"soft_max": "10"})
             ))
-            criteria.set(feasst.MakeBiasTransitionMatrix(feasst.args(
+            criteria.set(feasst.MakeTransitionMatrix(feasst.args(
                 {"min_sweeps": "10", "num_steps_to_update": str(int(1e6))}
             )))
             mc2 = lj_fh.mc(criteria=criteria, forcefield='data.dimer')

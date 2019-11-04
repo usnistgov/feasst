@@ -65,6 +65,9 @@ class Macrostate {
   int bin(const System* system, const Criteria* criteria) {
     return histogram_.bin(value(system, criteria)); }
 
+  /// Return the value of the bin.
+  double value(const int bin) const { return histogram_.center_of_bin(bin); }
+
   /// Return whether the current system macrostate is within permissible range
   /// given by the input histogram.
   bool is_in_range(const System* system, const Criteria* criteria);

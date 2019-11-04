@@ -104,7 +104,7 @@ FAIL() << "Expected failure"; \
 # define FEASST_MACRO_OUTPUT(message, name, level) \
 { \
   if (feasst::VERBOSE_LEVEL >= level) { \
-    std::clog << "# " << name << omp_get_thread_num() \
+    std::cout << "# " << name << omp_get_thread_num() \
               << " [" << feasst::feasst_dir_trim_(__FILE__) << ":" << __LINE__ \
               << "] " << message << std::endl; \
   } \
@@ -113,7 +113,7 @@ FAIL() << "Expected failure"; \
 # define FEASST_MACRO_OUTPUT(message, name, level) \
 { \
   if (feasst::VERBOSE_LEVEL >= level) { \
-    std::clog << "# " << name \
+    std::cout << "# " << name \
               << " [" << feasst::feasst_dir_trim_(__FILE__) << ":" << __LINE__ \
               << "] " << message << std::endl; \
   } \

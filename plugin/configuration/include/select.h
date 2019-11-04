@@ -16,7 +16,9 @@ namespace feasst {
  */
 class Select {
  public:
-  Select() {}
+  Select() {
+    set_trial_state();
+  }
 
   /// Return true if nothing is selected.
   bool is_empty() const;
@@ -125,11 +127,12 @@ class Select {
   /// Possible states:
   /// 0 -> old -> configuration unchanged from previously accepted state
   /// 1 -> move -> moved selected particles but total numbers unchanged
-  /// 2 -> add -> added new particles/sites listed in selection
+  /// 2 -> remove -> remove existing particles/sites listed in selection
+  /// 3 -> add -> added new particles/sites listed in selection
   int trial_state() const { return trial_state_; }
 
   /// Set the trial state.
-  void set_trial_state(const int state) { trial_state_ = state; }
+  void set_trial_state(const int state = -1) { trial_state_ = state; }
 
 //  virtual void reverse() {
 //    feasst_reverse(&particle_indices_);
@@ -172,7 +175,7 @@ class Select {
  private:
   std::vector<int> particle_indices_;
   std::vector<std::vector<int> > site_indices_;
-  int trial_state_ = -1;
+  int trial_state_;
   std::shared_ptr<Select> excluded_;
   std::shared_ptr<Select> new_bond_;
   std::shared_ptr<Select> old_bond_;

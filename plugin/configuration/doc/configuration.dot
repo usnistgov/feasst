@@ -1,0 +1,23 @@
+digraph parallel {
+  bgcolor=transparent
+  sites [label="Sites"];
+  parts [label="Particles, ParticleTypes, UniqueTypes"];
+  domain [label="Domain"];
+  configs [label="Configuration"];
+  pos [label="Position"];
+
+  configs -> parts
+  configs -> domain
+
+  parts -> sites
+  parts -> Bonds
+  //parts -> Angles
+  //parts -> Dihedrals
+  //parts -> Impropers
+
+  domain -> Cells
+
+  parts -> pos
+  domain -> pos
+  sites -> pos
+}

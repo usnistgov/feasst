@@ -22,8 +22,8 @@ namespace feasst {
 
     3. A list of site and bond types (contained within particles) that may exist
        in a simulation.
-       In this case, there can not be multiple sites or bonds of the same
-       type. This contains site-based and bond-based properties.
+       In this case, there can not be multiple sites or bonds of the same type.
+       This contains site-based and bond-based properties.
        This is enforced by ParticleFactory::unique_types().
  */
 class ParticleFactory {

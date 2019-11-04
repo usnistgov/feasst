@@ -8,7 +8,7 @@
 #include "chain/include/trial_reptate.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
-#include "monte_carlo/include/criteria_metropolis.h"
+#include "monte_carlo/include/metropolis.h"
 #include "utils/include/utils_io.h"
 #include "math/include/accumulator.h"
 #include "system/test/system_test.h"
@@ -84,7 +84,7 @@ System chain_system() {
 TEST(MonteCarlo, chain) {
   MonteCarlo mc;
   mc.set(chain_system());
-  mc.set(MakeCriteriaMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));
   mc.seek_num_particles(1);
   mc.add(MakeTrialTranslate({
     {"weight", "1."},

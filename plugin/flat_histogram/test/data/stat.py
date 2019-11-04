@@ -2,6 +2,7 @@
 
 import os
 import pandas as pd
+import numpy as np
 
 temps = ["120", "150"]
 
@@ -25,4 +26,5 @@ for temp in temps:
     dfstd = grp.std()
     dfstd.rename(columns={"energy": "energystd", "lnPI": "lnPIstd"}, inplace=True)
     df=pd.concat([grp.mean(), dfstd], axis=1)
+    df['lnPI'] -= np.log(sum(np.exp(df['lnPI'])))
     df.to_csv("stat" + str(temp) + ".csv")

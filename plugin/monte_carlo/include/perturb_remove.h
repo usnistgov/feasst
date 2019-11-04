@@ -19,7 +19,6 @@ class PerturbRemove : public Perturb {
       Random * random,
       const bool is_position_held = true
       ) override {
-    select->set_trial_state(0);
     set_finalize_possible(true, select);
 
     if (is_position_held) {
@@ -28,9 +27,13 @@ class PerturbRemove : public Perturb {
       anywhere_.perturb(system, select, random, is_position_held);
       set_revert_possible(true, select);
     }
+
+    // setting trial state should go last so other perturbs do not overwrite
+    select->set_trial_state(2);
   }
 
   void finalize(System * system) override {
+    system->finalize();
     if (finalize_possible()) {
       system->get_configuration()->remove_particles(finalize_select()->mobile());
       // system->revert();

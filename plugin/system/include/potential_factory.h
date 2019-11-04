@@ -47,6 +47,9 @@ class PotentialFactory {
   /// Revert any changes to the configuration due to the last energy computation
   void revert();
 
+  /// Finalize changes due to perturbations.
+  void finalize();
+
   /// Set cache to load energy calculations.
   void load_cache(const bool load);
 

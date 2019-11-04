@@ -4,7 +4,7 @@
 
 #include <vector>
 #include "math/include/histogram.h"
-#include "flat_histogram/include/ln_probability_distribution.h"
+#include "flat_histogram/include/ln_probability.h"
 
 namespace feasst {
 
@@ -19,7 +19,7 @@ class Bias {
   /// Return the natural log of the bias for a transition from a macrostate
   /// in the old bin to a new bin.
   double ln_bias(const int bin_new, const int bin_old) const {
-    return ln_macro_prob().value(bin_old) - ln_macro_prob().value(bin_new); }
+    return ln_prob().value(bin_old) - ln_prob().value(bin_new); }
 
   /// Update the bias due to an attempted transition.
   virtual void update(
@@ -28,10 +28,13 @@ class Bias {
     const double ln_metropolis_prob,
     const bool is_accepted) = 0;
 
-  /// The estimate of the natural log of the macrostate probability.
-  virtual const LnProbabilityDistribution& ln_macro_prob() const = 0;
+  /// The natural log of the macrostate probability.
+  virtual const LnProbability& ln_prob() const = 0;
 
   virtual void resize(const Histogram& histogram) = 0;
+
+  /// Set the macrostate probability distribution.
+  virtual void set_ln_prob(const LnProbability& ln_prob) = 0;
 
   virtual std::string write() const { return std::string(""); }
 

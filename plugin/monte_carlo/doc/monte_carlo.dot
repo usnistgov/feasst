@@ -1,14 +1,19 @@
 digraph parallel {
+  bgcolor=transparent
   configs [label="Configurations"];
   pots [label="Potentials"];
+  ran [label="Random"];
   sys [label="System"];
   //sys [label="System"; style="dashed"];
   crit [label="Criteria"]
-  critfh [label="CriteriaFlatHistogram"]
+  met [label="Metropolis"]
+  critfh [label="FlatHistogram"]
   trials [label="Trials"];
   an [label="Analyze/Modify"];
-  mc [label="MonteCarlo"]
+  mc [label="MonteCarlo"];
 
+  {rank = same; mc; ran}
+  mc -> ran
   mc -> sys
   mc -> crit
   mc -> trials
@@ -23,9 +28,9 @@ digraph parallel {
   pots -> Models
   pots -> VisitModels
 
-  crit -> CriteriaMetropolis [style="dashed"]
-  crit -> critfh [style="dashed"]
-
   critfh -> Macrostate
   critfh -> Bias
+
+  crit -> met [style="dashed"]
+  crit -> critfh [style="dashed"]
 }

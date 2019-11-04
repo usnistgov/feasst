@@ -2,12 +2,16 @@
 System
 ************
 
-The System contains the particles and domain in which they reside.
+The System contains the configuration and also the interaction potentials.
+
+.. figure:: doc/system.svg
 
 Tutorial
 =========
 
-.. include:: tutorial/README.rst
+.. toctree::
+
+   tutorial/tutorial.ipynb
 
 FEASST plugin dependencies
 ============================

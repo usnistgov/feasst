@@ -52,6 +52,32 @@ T minimum(const std::vector<std::vector<T> > &vec) {
   return *std::min_element(mins.begin(), mins.end());
 }
 
+/** Return the minimum element of a 2D vector with smoothing.
+    The returned indices must be global minimum between +/- num_smooth. */
+template<class T>
+std::vector<int> local_minimum_indices(const std::vector<T> &vec,
+                                       const int num_smooth) {
+  std::vector<int> mins;
+  if (vec.size() == 0) {
+    mins.push_back(0);
+    return mins;
+  }
+  const int size = static_cast<int>(vec.size());
+  for (int index = 1; index < size - 1; ++index) {
+    int lower = index - num_smooth;
+    if (lower < 0) lower = 0;
+    int upper = index + num_smooth;
+    if (upper > size - 1) upper = size - 1;
+    auto min_iter = std::min_element(vec.begin() + lower,
+                                     vec.begin() + upper + 1);
+    const int minimum = std::distance(vec.begin(), min_iter);
+    if (minimum == index) {
+      mins.push_back(index);
+    }
+  }
+  return mins;
+}
+
 /// Return the maximum element of a vector.
 template<class T>
 T maximum(const std::vector<T> &vec) {

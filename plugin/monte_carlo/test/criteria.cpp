@@ -1,7 +1,7 @@
 #include <memory>
 #include <gtest/gtest.h>
 #include "math/include/random_mt19937.h"
-#include "monte_carlo/include/criteria_metropolis.h"
+#include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "system/test/system_test.h"
 
@@ -12,7 +12,7 @@ TEST(Criteria, current_energy) {
   const double pe_expected = 4*(pow(1.25, -12) - pow(1.25, -6));
   EXPECT_NEAR(sys.energy(), pe_expected, NEAR_ZERO);
   auto trans = MakeTrialTranslate({{"tunable_param", "0.1"}});
-  CriteriaMetropolis crit;
+  Metropolis crit;
   crit.set_current_energy(sys.energy());
   RandomMT19937 random;
   try {

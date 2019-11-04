@@ -25,7 +25,9 @@ class TrialComputeAdd : public TrialCompute {
     DEBUG("TrialComputeAdd");
     compute_rosenbluth(0, criteria, system, acceptance, stages, random);
     const TrialSelect * select = (*stages)[0]->trial_select();
-    system->get_configuration()->revive(select->mobile());
+    if ((*stages)[0]->rosenbluth().num() > 1) {
+      system->get_configuration()->revive(select->mobile());
+    }
     acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
     { // Metropolis
       const Configuration& config = system->configuration();

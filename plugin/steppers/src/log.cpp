@@ -12,7 +12,11 @@ class MapLog {
 static MapLog mapper_ = MapLog();
 
 Log::Log(const argtype& args) : AnalyzeWriteOnly(args) {
-  set_append();
+  if (args_.key("append").dflt("true").boolean()) {
+    set_append();
+  } else {
+    ERROR("append is required");
+  }
 }
 
 }  // namespace feasst

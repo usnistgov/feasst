@@ -1,6 +1,6 @@
 import feasst
 
-def add(monte_carlo, steps_per, proc="", log=""):
+def add(monte_carlo, steps_per, proc="", log="log.txt"):
     """Add Log, Movie, CheckEnergy and Tuner to monte_carlo
 
     steps_per -- perform analysis every this many steps

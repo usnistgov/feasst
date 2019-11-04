@@ -1,10 +1,7 @@
 #include "utils/test/utils.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
-#include "flat_histogram/include/criteria_flat_histogram.h"
-#include "flat_histogram/include/macrostate_num_particles.h"
-#include "flat_histogram/include/bias_wang_landau.h"
-#include "flat_histogram/include/bias_transition_matrix.h"
+#include "flat_histogram/test/flat_histogram_test.h"
 #include "math/include/histogram.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
@@ -15,51 +12,30 @@ const double energy_av(const int macro, const MonteCarlo& mc) {
   return mc.analyzers().back()->analyzers()[macro]->accumulator().average();
 }
 
-TEST(CriteriaFlatHistogram, order) {
-  auto criteria = MakeCriteriaFlatHistogram({
+TEST(FlatHistogram, order) {
+  auto criteria = MakeFlatHistogram({
     {"beta", str(1./1.5)},
     {"chemical_potential", "-2.352321"}
   });
   try {
     auto criteria2 = criteria;
-    criteria2->set(MakeBiasWangLandau({{"min_flatness", "20"}}));
+    criteria2->set(MakeWangLandau({{"min_flatness", "20"}}));
     CATCH_PHRASE("set macrostate before bias");
   }
 }
 
-std::shared_ptr<CriteriaFlatHistogram> crit_fh(const int crit_type) {
-  auto criteria = MakeCriteriaFlatHistogram({
-    {"beta", str(1./1.5)},
-    {"chemical_potential", "-2.352321"}
-  });
-  criteria->set(MakeMacrostateNumParticles(
-    Histogram({{"width", "1"}, {"max", "5"}}),
-    {{"soft_max", "5"}}
-  ));
-  if (crit_type == 0) {
-    criteria->set(MakeBiasTransitionMatrix({
-      {"min_sweeps", "10"},
-      // {"num_steps_to_update", str(1e5)},  // benchmark 1.7 seconds
-      {"num_steps_to_update", "1"}, // fast
-    }));
-  } else {
-    criteria->set(MakeBiasWangLandau({{"min_flatness", "1"}}));
-  }
-  return criteria;
-}
-
-TEST(BiasTransitionMatrix, args) {
+TEST(TransitionMatrix, args) {
   try {
     auto criteria = crit_fh(0);
-    criteria->set(MakeBiasTransitionMatrix());
+    criteria->set(MakeTransitionMatrix());
     CATCH_PHRASE("key(min_sweeps) is required");
   }
 }
 
-TEST(BiasWangLandau, args) {
+TEST(WangLandau, args) {
   try {
     auto criteria = crit_fh(1);
-    criteria->set(MakeBiasWangLandau());
+    criteria->set(MakeWangLandau());
     CATCH_PHRASE("key(min_flatness) is required");
   }
 }
@@ -97,7 +73,7 @@ TEST(MonteCarlo, FHMC) {
     INFO(mc2.analyzers().back()->analyzers().back()->accumulator().average());
 
     // compare with known values of lnpi and energy
-    //const LnProbabilityDistribution * lnpi = &criteria->bias()->ln_macro_prob();
+    //const LnProbability * lnpi = &criteria->bias()->ln_macro_prob();
     //INFO(lnpi->value(0));
     INFO(energy_av(0, mc));
     EXPECT_LE(mc.system().configuration().num_particles(), 5);

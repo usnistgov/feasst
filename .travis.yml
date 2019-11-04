@@ -35,10 +35,13 @@ install:
 
 script:
   - cmake -DUSE_SWIG=ON -DUSE_GTEST=ON -DUSE_GCOV=ON ..
+#  - make _feasst
   - make
   - make coverage
+#  - make install
 #  - make test
   - valgrind ./bin/unittest
+#  - python ../py/test.py
   - ../py/run.sh ../py/test.py
 
 after_success:

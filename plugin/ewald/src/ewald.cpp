@@ -10,7 +10,7 @@ void Ewald::set_kmax_squared(const double kmax_squared) {
   kxmax_ = kmax_ + 1;
   kymax_ = 2*kmax_ + 1;
   kzmax_ = kymax_;
-//    INFO("kxmax " << kxmax_ << " kymax " << kymax_ << " kzmax " << kzmax_);
+  DEBUG("kxmax " << kxmax_ << " kymax " << kymax_ << " kzmax " << kzmax_);
 }
 
 void Ewald::update_wave_vectors(const Configuration& config) {
@@ -39,8 +39,8 @@ void Ewald::update_wave_vectors(const Configuration& config) {
       double factor = 1.;
       if (kx != 0) factor = 2;
       wave_prefactor_.push_back(2.*PI*factor*exp(-k_sq/4./alpha/alpha)/k_sq/volume);
-      //INFO(wave_prefactor_.back() << " k2 " << k_sq << " alpha " << alpha << "  vol " << volume);
-      //INFO(2.*PI*factor*exp(-k_sq/4./alpha/alpha));
+      DEBUG(wave_prefactor_.back() << " k2 " << k_sq << " alpha " << alpha << "  vol " << volume);
+      DEBUG(2.*PI*factor*exp(-k_sq/4./alpha/alpha));
       wave_num_.push_back(kx);
       wave_num_.push_back(ky);
       wave_num_.push_back(kz);
@@ -50,41 +50,69 @@ void Ewald::update_wave_vectors(const Configuration& config) {
   struct_fact_imag_.resize(num_vectors());
 }
 
+std::vector<std::string> Ewald::eik_gen_() {
+  std::vector<std::string> eiks;
+  std::stringstream ss;
+  for (std::string comp : {"r", "i"}) {
+    for (std::string coord : {"x", "y", "z"}) {
+      int num_k = -1;
+      if (coord == "x") {
+        num_k = kxmax_;
+      } else if (coord == "y") {
+        num_k = kymax_;
+      } else if (coord == "z") {
+        num_k = kzmax_;
+      } else {
+        ERROR("unrecognized coord: " << coord);
+      }
+      for (int k = 0; k < num_k; ++k) {
+        ss.str("");
+        ss << "eik" << comp << coord << k;
+        eiks.push_back(ss.str());
+      }
+    }
+  }
+  return eiks;
+}
+
 void Ewald::init_wave_vector_storage(Configuration * config, const int group_index) {
   const Select& selection = config->group_selects()[group_index];
   init_wave_vector_storage(config, selection);
-}
-void Ewald::init_wave_vector_storage(Configuration * config, const Select& selection) {
-  std::stringstream ss;
-  for (int select_index = 0;
-       select_index < selection.num_particles();
-       ++select_index) {
-    const int part_index = selection.particle_index(select_index);
-    for (int site_index : selection.site_indices(select_index)) {
-      for (std::string comp : {"r", "i"}) {
-        for (std::string coord : {"x", "y", "z"}) {
-          int num_k = -1;
-          if (coord == "x") {
-            num_k = kxmax_;
-          } else if (coord == "y") {
-            num_k = kymax_;
-          } else if (coord == "z") {
-            num_k = kzmax_;
-          } else {
-            ERROR("unrecognized coord: " << coord);
-          }
-          for (int k = 0; k < num_k; ++k) {
-            ss.str("");
-            ss << "eik" << comp << coord << k;
-            config->add_or_set_site_property(ss.str(), 0., part_index, site_index);
-          }
-        }
+  // also add eik properties to the particle types
+  const std::vector<std::string> eiks = eik_gen_();
+  for (int part_type = 0; part_type < config->num_particle_types();
+       ++part_type) {
+    const Particle& part = config->particle_type(part_type);
+    for (int site = 0; site < part.num_sites(); ++site) {
+      for (const std::string& eik : eiks) {
+        config->add_or_set_particle_type_site_property(eik, 0.,
+          part_type, site);
       }
     }
   }
 }
 
-void Ewald::update_eik(const Select& selection, Configuration * config) {
+void Ewald::init_wave_vector_storage(Configuration * config, const Select& selection) {
+  const std::vector<std::string> eiks = eik_gen_();
+  for (int select_index = 0;
+       select_index < selection.num_particles();
+       ++select_index) {
+    const int part_index = selection.particle_index(select_index);
+    for (int site_index : selection.site_indices(select_index)) {
+      for (const std::string& eik : eiks) {
+        config->add_or_set_site_property(eik, 0., part_index, site_index);
+      }
+    }
+  }
+}
+
+void Ewald::update_struct_fact_eik(const Select& selection,
+                                   Configuration * config,
+                                   std::vector<double> * struct_fact_real,
+                                   std::vector<double> * struct_fact_imag) {
+  ASSERT(struct_fact_real->size() == struct_fact_real_.size(),
+    "While struct_fact_real_ is of size: " << struct_fact_real_.size() <<
+    " struct_fact_real is of size: " << struct_fact_real->size());
   const double struct_sign = sign_(selection);
   std::stringstream ss;
   std::string eikrx0("eikrx0");
@@ -95,6 +123,7 @@ void Ewald::update_eik(const Select& selection, Configuration * config) {
   const double twopilx = 2.*PI/lx,
                twopily = 2.*PI/ly,
                twopilz = 2.*PI/lz;
+  DEBUG("trial_state " << selection.trial_state());
   if (selection.trial_state() == 2) {
     init_wave_vector_storage(config, selection);
   }
@@ -117,9 +146,12 @@ void Ewald::update_eik(const Select& selection, Configuration * config) {
       const int eikix0_index = eikrx0_index + kxmax_ + kymax_ + kzmax_;
       const int eikiy0_index = eikix0_index + kxmax_ + kmax_;
       const int eikiz0_index = eikiy0_index + kymax_;
-//        INFO(eikrx0_index << " " << eikry0_index << " " << eikrz0_index << " "
-//          << eikix0_index << " " << eikiy0_index << " " << eikiz0_index);
-      if (selection.trial_state() != 0) {
+      DEBUG(eikrx0_index << " " << eikry0_index << " " << eikrz0_index << " "
+        << eikix0_index << " " << eikiy0_index << " " << eikiz0_index);
+
+      // update the eik of the selection
+      if (selection.trial_state() != 0) { // HWH why is state 2 required?
+      //if (selection.trial_state() != 0 && selection.trial_state() != 2) {
         config->set_site_property(eikrx0_index, 1., part_index, site_index);
         config->set_site_property(eikix0_index, 0., part_index, site_index);
         config->set_site_property(eikry0_index, 1., part_index, site_index);
@@ -137,10 +169,10 @@ void Ewald::update_eik(const Select& selection, Configuration * config) {
         config->set_site_property(eikiz0_index + 1, sin(twopilz*pos[2]), part_index, site_index);
         {
           const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().property_value();
-  //          INFO("test " << eik[eikrx0_index + 1] << " " << cos(twopilx*pos[0]) << " " <<
-  //            site.properties().property_value()[0] << " " <<
-  //            site.properties().property_value()[eikrx0_index + 1] << " "
-  //          );
+          DEBUG("test " << eik[eikrx0_index + 1] << " " << cos(twopilx*pos[0]) << " " <<
+            site.properties().property_value()[0] << " " <<
+            site.properties().property_value()[eikrx0_index + 1] << " "
+          );
           config->set_site_property(eikry0_index - 1, eik[eikry0_index + 1], part_index, site_index);
           config->set_site_property(eikiy0_index - 1, -eik[eikiy0_index + 1], part_index, site_index);
           config->set_site_property(eikrz0_index - 1, eik[eikrz0_index + 1], part_index, site_index);
@@ -190,14 +222,14 @@ void Ewald::update_eik(const Select& selection, Configuration * config) {
         const double kx = wave_num_[kdim];
         const double ky = wave_num_[kdim + 1];
         const double kz = wave_num_[kdim + 2];
-//          INFO("k " << k_index << " kx " << kx << " ky " << ky << " kz " << kz << " size " << num_vectors() << " kdim " << kdim);
+        DEBUG("k " << k_index << " kx " << kx << " ky " << ky << " kz " << kz << " size " << num_vectors() << " kdim " << kdim);
         const double eikrx = eik[eikrx0_index + kx];
         const double eikix = eik[eikix0_index + kx];
         const double eikry = eik[eikry0_index + ky];
         const double eikiy = eik[eikiy0_index + ky];
         const double eikrz = eik[eikrz0_index + kz];
         const double eikiz = eik[eikiz0_index + kz];
-//          INFO("eik[r,i]x " << eikrx << " " << eikix << " y " << eikry << " " << eikiy << " z " << eikrz << " " << eikiz << " sz " << eik.size());
+        DEBUG("eik[r,i]x " << eikrx << " " << eikix << " y " << eikry << " " << eikiy << " z " << eikrz << " " << eikiz << " sz " << eik.size());
         const double eikr = eikrx*eikry*eikrz
                    - eikix*eikiy*eikrz
                    - eikix*eikry*eikiz
@@ -206,9 +238,9 @@ void Ewald::update_eik(const Select& selection, Configuration * config) {
                    + eikrx*eikry*eikiz
                    + eikrx*eikiy*eikrz
                    + eikix*eikry*eikrz;
-//          INFO("charge " << charge << " eikr " << eikr << " eiki " << eiki);
-        struct_fact_real_[k_index] += struct_sign*charge*eikr;
-        struct_fact_imag_[k_index] += struct_sign*charge*eiki;
+        DEBUG("charge " << charge << " eikr " << eikr << " eiki " << eiki << " sign " << struct_sign);
+        (*struct_fact_real)[k_index] += struct_sign*charge*eikr;
+        (*struct_fact_imag)[k_index] += struct_sign*charge*eiki;
       }
     }
   }
@@ -236,10 +268,7 @@ void Ewald::serialize(std::ostream& ostr) const {
   feasst_serialize(wave_num_, ostr);
   feasst_serialize(struct_fact_real_, ostr);
   feasst_serialize(struct_fact_imag_, ostr);
-  feasst_serialize(struct_fact_real_old_, ostr);
-  feasst_serialize(struct_fact_imag_old_, ostr);
   feasst_serialize(stored_energy_, ostr);
-  feasst_serialize(stored_energy_old_, ostr);
 }
 
 std::shared_ptr<VisitModel> Ewald::create(std::istream& istr) const {
@@ -258,10 +287,7 @@ Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
   feasst_deserialize(&wave_num_, istr);
   feasst_deserialize(&struct_fact_real_, istr);
   feasst_deserialize(&struct_fact_imag_, istr);
-  feasst_deserialize(&struct_fact_real_old_, istr);
-  feasst_deserialize(&struct_fact_imag_old_, istr);
   feasst_deserialize(&stored_energy_, istr);
-  feasst_deserialize(&stored_energy_old_, istr);
 }
 
 }  // namespace feasst

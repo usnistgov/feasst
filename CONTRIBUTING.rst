@@ -177,10 +177,12 @@ add something like the following to your sphinx index.rst::
        :members:
 
 add the following to your sphinx conf.py
-  extensions = [ "breathe" ]
+  extensions = [ "breathe", "nbsphinx" ]
   breathe_projects = {"FEASST":"../xml"}
+  breathe_domain_by_extension = {"h" : "cc"}
 
 pip install sphinx_rtd_theme
+pip install nbsphinx
 
 run sphinx: make html
 
@@ -190,11 +192,24 @@ Sphinx/Breathe/Doxygen notes
 * Link from rst file to C++ function: ``:cpp:func:`link <feasst::className::function()>```
 * Link from rst file to C++ function: ``:cpp:class:`link <feasst:className>```
 * Link from rst file to fst file: ``:doc:`/tutorial/asdf``` [note, / references root]
+* Link from rst file to ipynb file : ```Tutorial <tutorial/tutorial.html>`_``
 * Link from C++ to C++: ``className::function()``
 * Link from C++ source to rst file: ``<a href="tutorial/asdf.html">test</a>``
 * For math in C++ comments::
 
    \f$ latex code here \f$
+
+Pip notes
+-------------------------
+
+dev/tools/pip_install.sh
+
+Anaconda cloud notes
+-------------------------
+
+https://docs.anaconda.com/anaconda-cloud/user-guide/getting-started/
+* conda build purge
+* still haven't gotten this to work because of overlinking
 
 Style
 ================================================================================
@@ -279,11 +294,9 @@ To Do List
 * ideal gas as the first tutorial/testcase
 * specify units in LMP data files?
 * fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu
-* py/feasst.i depends on which plugins that you use. how to make this user friendly?
 * neighbor lists
 * trial regrow to include grand canonical insertions
 * consider optimization of Ewald: init ewald storage on particle types, precompute property index.
-* serialize/deserialize trials,perturbs,select_list,...
 * Criteria running energies may contain a part from each potential to simplify debugging.
 * implement timer for profiles (with hierarchies by class... tried this, but its too slow)
 * implement a timer to auto-balance trial weights.
@@ -299,3 +312,4 @@ To Do List
 * MonteCarlo subclass Simulation
 * swig python wrap arguments std::istream and std::ostream for serialization
 * add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects
+* Refactor Select classes. There are too many, and VisitModels may prefer to update select properties (e.g., cell, eik)
