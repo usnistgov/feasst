@@ -4,9 +4,12 @@
    Tunable
    Stepper
    Acceptance
-   CriteriaMetropolis
    Rosenbluth
+   Criteria
+   Metropolis
    TrialSelect
+   TrialSelectBond
+   TrialSelectAngle
    Perturb
    PerturbConfigs
    PerturbMove
@@ -17,23 +20,21 @@
    PerturbAnywhere
    PerturbAdd
    PerturbRemove
-   TrialSelectBond
-   TrialSelectAngle
    TrialSelectParticle
    TrialStage
    TrialCompute
-   TrialComputeMove
-   TrialComputeAdd
    TrialComputeRemove
    Trial
-   TrialAdd
-   TrialRemove
    TrialFactory
    Modify
    ModifyFactory
-   TrialMove
-   TrialRotate
-   TrialTranslate
    Analyze
    AnalyzeFactory
+   TrialRemove
+   TrialComputeAdd
+   TrialAdd
+   TrialComputeMove
+   TrialMove
+   TrialTranslate
+   TrialRotate
    MonteCarlo

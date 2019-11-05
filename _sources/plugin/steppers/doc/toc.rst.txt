@@ -5,8 +5,8 @@
    CheckEnergy
    WallClockLimit
    Tuner
-   Energy
-   NumParticles
-   CriteriaWriter
    Movie
+   NumParticles
+   Energy
    Log
+   CriteriaWriter

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>utils/include/debug &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>utils/include/debug &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="utils_file.html">utils/include/utils_file</a></li>
@@ -227,76 +235,100 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="utils-include-debug">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="utils-include-debug">
 <h1>utils/include/debug<a class="headerlink" href="#utils-include-debug" title="Permalink to this headline">¶</a></h1>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Defines</p>
 <dl class="macro">
 <dt id="c.MAX_PRECISION">
-<span class="target" id="debug_8h_1a4ed9e805da6b82cc662002e83173a2b8"></span><code class="descname">MAX_PRECISION</code><a class="headerlink" href="#c.MAX_PRECISION" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="debug_8h_1a4ed9e805da6b82cc662002e83173a2b8"></span><code class="sig-name descname">MAX_PRECISION</code><a class="headerlink" href="#c.MAX_PRECISION" title="Permalink to this definition">¶</a></dt>
 <dd><p>Used to output maximum precision to screen [e.g., INFO(MAX_PRECISION &lt;&lt; “energy: ” &lt;&lt; energy)]. </p>
 </dd></dl>
 
 <dl class="macro">
 <dt id="c.FEASST_MACRO_EXCEPTION">
-<span class="target" id="debug_8h_1a2c3c7aaf97c960e6b57aaf8f2f068599"></span><code class="descname">FEASST_MACRO_EXCEPTION</code><span class="sig-paren">(</span>message, name<span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_MACRO_EXCEPTION" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="debug_8h_1a2c3c7aaf97c960e6b57aaf8f2f068599"></span><code class="sig-name descname">FEASST_MACRO_EXCEPTION</code><span class="sig-paren">(</span>message, name<span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_MACRO_EXCEPTION" title="Permalink to this definition">¶</a></dt>
 <dd><p>Throw exception. </p>
 </dd></dl>
 
 <dl class="macro">
 <dt id="c.ASSERT">
-<span class="target" id="debug_8h_1aa06eedd6f738a415870e97a375337d51"></span><code class="descname">ASSERT</code><span class="sig-paren">(</span>condition, message<span class="sig-paren">)</span><a class="headerlink" href="#c.ASSERT" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="debug_8h_1aa06eedd6f738a415870e97a375337d51"></span><code class="sig-name descname">ASSERT</code><span class="sig-paren">(</span>condition, message<span class="sig-paren">)</span><a class="headerlink" href="#c.ASSERT" title="Permalink to this definition">¶</a></dt>
 <dd><p>If the assertion condition is not true, throw exception with message. </p>
 </dd></dl>
 
 <dl class="macro">
 <dt id="c.ERROR">
-<span class="target" id="debug_8h_1ae225ab718bd4f5e2221129f026d3d8f1"></span><code class="descname">ERROR</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.ERROR" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="debug_8h_1ae225ab718bd4f5e2221129f026d3d8f1"></span><code class="sig-name descname">ERROR</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.ERROR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Throw exception with message. </p>
 </dd></dl>
 
 <dl class="macro">
 <dt id="c.CATCH_PHRASE">
-<span class="target" id="debug_8h_1a78d87e85f74552745f117bf54641ec20"></span><code class="descname">CATCH_PHRASE</code><span class="sig-paren">(</span>phrase<span class="sig-paren">)</span><a class="headerlink" href="#c.CATCH_PHRASE" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="debug_8h_1a78d87e85f74552745f117bf54641ec20"></span><code class="sig-name descname">CATCH_PHRASE</code><span class="sig-paren">(</span>phrase<span class="sig-paren">)</span><a class="headerlink" href="#c.CATCH_PHRASE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Expect to catch exception with phrase in message. </p>
 </dd></dl>
 
 <dl class="macro">
 <dt id="c.FEASST_MACRO_OUTPUT">
-<span class="target" id="debug_8h_1a42a13dcca672d013fc25504a9de6fab9"></span><code class="descname">FEASST_MACRO_OUTPUT</code><span class="sig-paren">(</span>message, name, level<span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_MACRO_OUTPUT" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="debug_8h_1a42a13dcca672d013fc25504a9de6fab9"></span><code class="sig-name descname">FEASST_MACRO_OUTPUT</code><span class="sig-paren">(</span>message, name, level<span class="sig-paren">)</span><a class="headerlink" href="#c.FEASST_MACRO_OUTPUT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Debug with message to standard output. </p>
 </dd></dl>
 
 <dl class="macro">
 <dt id="c.WARN">
-<span class="target" id="debug_8h_1a02450a0cb9e4af683314a1560943350a"></span><code class="descname">WARN</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.WARN" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="debug_8h_1a02450a0cb9e4af683314a1560943350a"></span><code class="sig-name descname">WARN</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.WARN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define and name the various levels of verbosity. </p>
 </dd></dl>
 
 <dl class="macro">
 <dt id="c.INFO">
-<span class="target" id="debug_8h_1a809f816dd6df4e17499413cff1926fd4"></span><code class="descname">INFO</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.INFO" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="debug_8h_1a809f816dd6df4e17499413cff1926fd4"></span><code class="sig-name descname">INFO</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.INFO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="macro">
 <dt id="c.DEBUG">
-<span class="target" id="debug_8h_1ab94a24f0a37b3963eb64f201cebf60a9"></span><code class="descname">DEBUG</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.DEBUG" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="debug_8h_1ab94a24f0a37b3963eb64f201cebf60a9"></span><code class="sig-name descname">DEBUG</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.DEBUG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="macro">
 <dt id="c.TRACE">
-<span class="target" id="debug_8h_1a670dccd8f2591bf2f2f4732030c3a458"></span><code class="descname">TRACE</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.TRACE" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="debug_8h_1a670dccd8f2591bf2f2f4732030c3a458"></span><code class="sig-name descname">TRACE</code><span class="sig-paren">(</span>message<span class="sig-paren">)</span><a class="headerlink" href="#c.TRACE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <dl class="type">
-<dt id="_CPPv36feasst">
-<span id="_CPPv26feasst"></span><span id="feasst"></span><span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="descname">feasst</code><br /></dt>
+<dt id="_CPPv46feasst">
+<span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Functions</p>
 <dl class="function">
-<dt id="_CPPv3N6feasst16feasst_dir_trim_EPKc">
-<span id="_CPPv2N6feasst16feasst_dir_trim_EPKc"></span><span id="feasst::feasst_dir_trim___cCP"></span><span class="target" id="namespacefeasst_1a682bd5a8531ab31f36751ee47b45578c"></span>std::string <code class="descname">feasst_dir_trim_</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst16feasst_dir_trim_EPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst16feasst_dir_trim_EPKc">
+<span class="target" id="namespacefeasst_1a682bd5a8531ab31f36751ee47b45578c"></span>std::string <code class="sig-name descname">feasst_dir_trim_</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16feasst_dir_trim_EPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return file_name with FEASST_DIR_ path removed. </p>
 </dd></dl>
 
@@ -304,16 +336,16 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Variables</p>
 <dl class="member">
-<dt id="_CPPv3N6feasst13VERBOSE_LEVELE">
-<span id="_CPPv2N6feasst13VERBOSE_LEVELE"></span><span id="feasst::VERBOSE_LEVEL__i"></span><span class="target" id="namespacefeasst_1af6d3fe8aa2fbb3508c0fef521a7046a3"></span><em class="property">constexpr</em> int <code class="descname">VERBOSE_LEVEL</code> = 3<a class="headerlink" href="#_CPPv3N6feasst13VERBOSE_LEVELE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst13VERBOSE_LEVELE">
+<span class="target" id="namespacefeasst_1af6d3fe8aa2fbb3508c0fef521a7046a3"></span><em class="property">constexpr</em> int <code class="sig-name descname">VERBOSE_LEVEL</code> = 3<a class="headerlink" href="#_CPPv4N6feasst13VERBOSE_LEVELE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The verbosity level sets which error and debugging checks and messages are utilized.</p>
 <p>The order of verbosity is as follows:</p>
 <p>0. FATAL (not implemented)<ol class="arabic simple">
-<li>ERROR and ASSERT</li>
-<li>WARN</li>
-<li>INFO</li>
-<li>DEBUG</li>
-<li>TRACE</li>
+<li><p>ERROR and ASSERT</p></li>
+<li><p>WARN</p></li>
+<li><p>INFO</p></li>
+<li><p>DEBUG</p></li>
+<li><p>TRACE</p></li>
 </ol>
 </p>
 <p>These macros will print if they are equal to or less than the verbosity level. Tests which expect exceptions (many) will fail if VERBOSE_LEVEL is set to 0. ASSERT includes the conditional as the first argument.</p>
@@ -336,7 +368,7 @@
         <a href="utils_io.html" class="btn btn-neutral float-right" title="utils/include/utils_io" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="utils.html" class="btn btn-neutral" title="utils/include/utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="utils.html" class="btn btn-neutral float-left" title="utils/include/utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -441,29 +473,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

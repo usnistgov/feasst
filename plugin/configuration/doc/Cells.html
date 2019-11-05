@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Cells &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>Cells &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
@@ -236,77 +244,101 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cells">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="cells">
 <h1>Cells<a class="headerlink" href="#cells" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv3N6feasst5CellsE">
-<span id="_CPPv2N6feasst5CellsE"></span><span id="feasst::Cells"></span><span class="target" id="classfeasst_1_1Cells"></span><em class="property">class </em><code class="descname">Cells</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv3N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv3N6feasst5CellsE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5CellsE">
+<span class="target" id="classfeasst_1_1Cells"></span><em class="property">class </em><code class="sig-name descname">Cells</code> : <em class="property">public</em> <a class="reference internal" href="../../math/doc/constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv4N6feasst5CellsE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Divide a cuboid domain into cells. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv3N6feasst5Cells6createEKdKNSt6vectorIdEE">
-<span id="_CPPv2N6feasst5Cells6createEKdKNSt6vectorIdEE"></span><span id="feasst::Cells::create__doubleC.std::vector:double:C"></span><span class="target" id="classfeasst_1_1Cells_1a70b06db1f56307b65afaff7adfab3b3a"></span>void <code class="descname">create</code><span class="sig-paren">(</span><em class="property">const</em> double <em>min_length</em>, <em class="property">const</em> std::vector&lt;double&gt; <em>side_lengths</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Cells6createEKdKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Cells6createEKdKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Cells_1a70b06db1f56307b65afaff7adfab3b3a"></span>void <code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="property">const</em> double <em>min_length</em>, <em class="property">const</em> std::vector&lt;double&gt; <em>side_lengths</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cells6createEKdKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Create the number, length and neighbors. By default, abort if there aren’t more than <span class="math notranslate nohighlight">\(3^D\)</span> cells, where D is the dimension. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Cells9num_totalEv">
-<span id="_CPPv2NK6feasst5Cells9num_totalEv"></span><span id="feasst::Cells::num_totalC"></span><span class="target" id="classfeasst_1_1Cells_1a7b1df51800751d995eb49a25b99a4689"></span>int <code class="descname">num_total</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Cells9num_totalEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Cells9num_totalEv">
+<span class="target" id="classfeasst_1_1Cells_1a7b1df51800751d995eb49a25b99a4689"></span>int <code class="sig-name descname">num_total</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cells9num_totalEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Cells3numEKi">
-<span id="_CPPv2NK6feasst5Cells3numEKi"></span><span id="feasst::Cells::num__iCC"></span><span class="target" id="classfeasst_1_1Cells_1a3da0a5c91687574047489ab8a9db173d"></span>int <code class="descname">num</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Cells3numEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Cells3numEKi">
+<span class="target" id="classfeasst_1_1Cells_1a3da0a5c91687574047489ab8a9db173d"></span>int <code class="sig-name descname">num</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cells3numEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number in a dimension. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Cells3numEv">
-<span id="_CPPv2NK6feasst5Cells3numEv"></span><span id="feasst::Cells::numC"></span><span class="target" id="classfeasst_1_1Cells_1abd1a3f8e7dcaa9b90cf251a40daaca2d"></span>std::vector&lt;int&gt; <code class="descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Cells3numEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Cells3numEv">
+<span class="target" id="classfeasst_1_1Cells_1abd1a3f8e7dcaa9b90cf251a40daaca2d"></span>std::vector&lt;int&gt; <code class="sig-name descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cells3numEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst5Cells5clearEv">
-<span id="_CPPv2N6feasst5Cells5clearEv"></span><span id="feasst::Cells::clear"></span><span class="target" id="classfeasst_1_1Cells_1aa37afa0cd9d2d30625aafe84586c2b7e"></span>void <code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Cells5clearEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Cells5clearEv">
+<span class="target" id="classfeasst_1_1Cells_1aa37afa0cd9d2d30625aafe84586c2b7e"></span>void <code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cells5clearEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Clear all private member data. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Cells8neighborEv">
-<span id="_CPPv2NK6feasst5Cells8neighborEv"></span><span id="feasst::Cells::neighborC"></span><span class="target" id="classfeasst_1_1Cells_1a550039fda96fa0f3bdfd1567d64b13e3"></span><em class="property">const</em> std::vector&lt;std::vector&lt;int&gt;&gt; &amp;<code class="descname">neighbor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Cells8neighborEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Cells8neighborEv">
+<span class="target" id="classfeasst_1_1Cells_1a550039fda96fa0f3bdfd1567d64b13e3"></span><em class="property">const</em> std::vector&lt;std::vector&lt;int&gt;&gt; &amp;<code class="sig-name descname">neighbor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cells8neighborEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the neighbors. The first index is the cell. The second is a list of neighboring cells (including self). </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Cells9particlesEv">
-<span id="_CPPv2NK6feasst5Cells9particlesEv"></span><span id="feasst::Cells::particlesC"></span><span class="target" id="classfeasst_1_1Cells_1a4f90a9510d0bbbc7ae405918763f839f"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a>&gt; &amp;<code class="descname">particles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Cells9particlesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Cells9particlesEv">
+<span class="target" id="classfeasst_1_1Cells_1a4f90a9510d0bbbc7ae405918763f839f"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a>&gt; &amp;<code class="sig-name descname">particles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cells9particlesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the particles and sites within the cells. The first index is the cell index. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Cells9num_sitesEv">
-<span id="_CPPv2NK6feasst5Cells9num_sitesEv"></span><span id="feasst::Cells::num_sitesC"></span><span class="target" id="classfeasst_1_1Cells_1ad3b465a6ccdc39c282029a09cee2ae55"></span>int <code class="descname">num_sites</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Cells9num_sitesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Cells9num_sitesEv">
+<span class="target" id="classfeasst_1_1Cells_1ad3b465a6ccdc39c282029a09cee2ae55"></span>int <code class="sig-name descname">num_sites</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cells9num_sitesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of particles within the cells. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Cells2idERKNSt6vectorIdEE">
-<span id="_CPPv2NK6feasst5Cells2idERKNSt6vectorIdEE"></span><span id="feasst::Cells::id__std::vector:double:CRC"></span><span class="target" id="classfeasst_1_1Cells_1af9a49f7919a7e36de69da96fcf80ec2f"></span>int <code class="descname">id</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>scaled_coord</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Cells2idERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Cells2idERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Cells_1af9a49f7919a7e36de69da96fcf80ec2f"></span>int <code class="sig-name descname">id</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>scaled_coord</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cells2idERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the unique number cell in which the scaled coordinate resides. Scaled coordinates are positions divided by the respective domain size. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Cells5labelEv">
-<span id="_CPPv2NK6feasst5Cells5labelEv"></span><span id="feasst::Cells::labelC"></span><span class="target" id="classfeasst_1_1Cells_1a4ae0f30f4aff9951b106fe1e95e19d7e"></span>std::string <code class="descname">label</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Cells5labelEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Cells5labelEv">
+<span class="target" id="classfeasst_1_1Cells_1a4ae0f30f4aff9951b106fe1e95e19d7e"></span>std::string <code class="sig-name descname">label</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cells5labelEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the label. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst5Cells9set_labelEKNSt6stringE">
-<span id="_CPPv2N6feasst5Cells9set_labelEKNSt6stringE"></span><span id="feasst::Cells::set_label__ssC"></span><span class="target" id="classfeasst_1_1Cells_1a821b23e29739783d2f3c9bf97bbf576d"></span>void <code class="descname">set_label</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>label</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Cells9set_labelEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Cells9set_labelEKNSt6stringE">
+<span class="target" id="classfeasst_1_1Cells_1a821b23e29739783d2f3c9bf97bbf576d"></span>void <code class="sig-name descname">set_label</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>label</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cells9set_labelEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the label. </p>
 </dd></dl>
 
@@ -326,7 +358,7 @@
         <a href="Domain.html" class="btn btn-neutral float-right" title="Domain" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Select.html" class="btn btn-neutral" title="Select" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Select.html" class="btn btn-neutral float-left" title="Select" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -431,29 +463,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

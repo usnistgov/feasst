@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Particle &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>Particle &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
@@ -236,17 +244,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="particle">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="particle">
 <h1>Particle<a class="headerlink" href="#particle" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv3N6feasst8ParticleE">
-<span id="_CPPv2N6feasst8ParticleE"></span><span id="feasst::Particle"></span><span class="target" id="classfeasst_1_1Particle"></span><em class="property">class </em><code class="descname">Particle</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="TypedEntity.html#_CPPv3N6feasst11TypedEntityE" title="feasst::TypedEntity">TypedEntity</a>, <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst13SpatialEntityE" title="feasst::SpatialEntity">SpatialEntity</a><a class="headerlink" href="#_CPPv3N6feasst8ParticleE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8ParticleE">
+<span class="target" id="classfeasst_1_1Particle"></span><em class="property">class </em><code class="sig-name descname">Particle</code> : <em class="property">public</em> <a class="reference internal" href="../../math/doc/constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="TypedEntity.html#_CPPv4N6feasst11TypedEntityE" title="feasst::TypedEntity">TypedEntity</a>, <em class="property">public</em> <a class="reference internal" href="../../math/doc/constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst13SpatialEntityE" title="feasst::SpatialEntity">SpatialEntity</a><a class="headerlink" href="#_CPPv4N6feasst8ParticleE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Particles may be a collection of sites (anisotropic) or a single site (isotropic).</p>
 <p>The position of a site is often used as its “center” with respect to whole-particle operations such as the following:</p>
 <p><ol class="arabic simple">
-<li>distance-based particle cut-off methods</li>
-<li>wrapping positions about periodic boundary conditions</li>
-<li>rigid rotation of the particle</li>
+<li><p>distance-based particle cut-off methods</p></li>
+<li><p>wrapping positions about periodic boundary conditions</p></li>
+<li><p>rigid rotation of the particle</p></li>
 </ol>
 </p>
 <p>Each site has its own position which is not relative to the position of the particle. Reference sites may be stored optionally. </p>
@@ -254,38 +286,38 @@
 <p class="breathe-sectiondef-title rubric">Sites</p>
 <p>Sites of the particle. </p>
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle3addE4Site">
-<span id="_CPPv2N6feasst8Particle3addE4Site"></span><span id="feasst::Particle::add__Site"></span><span class="target" id="classfeasst_1_1Particle_1a482e15b4ebe0ff20a18aeb6deb3c60ab"></span>void <code class="descname">add</code><span class="sig-paren">(</span><a class="reference internal" href="Site.html#_CPPv3N6feasst4SiteE" title="feasst::Site">Site</a> <em>site</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle3addE4Site" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle3addE4Site">
+<span class="target" id="classfeasst_1_1Particle_1a482e15b4ebe0ff20a18aeb6deb3c60ab"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><a class="reference internal" href="Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> <em>site</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle3addE4Site" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add a <a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> to the <a class="reference internal" href="#classfeasst_1_1Particle"><span class="std std-ref">Particle</span></a>. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst8Particle4siteEKi">
-<span id="_CPPv2NK6feasst8Particle4siteEKi"></span><span id="feasst::Particle::site__iCC"></span><span class="target" id="classfeasst_1_1Particle_1ae68e86dd5d6fe01f12581c5eeadcdfd3"></span><em class="property">const</em> <a class="reference internal" href="Site.html#_CPPv3N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<code class="descname">site</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst8Particle4siteEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Particle4siteEKi">
+<span class="target" id="classfeasst_1_1Particle_1ae68e86dd5d6fe01f12581c5eeadcdfd3"></span><em class="property">const</em> <a class="reference internal" href="Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<code class="sig-name descname">site</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle4siteEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return a site for a given index. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle8set_siteEKiRK4Site">
-<span id="_CPPv2N6feasst8Particle8set_siteEKiRK4Site"></span><span id="feasst::Particle::set_site__iC.SiteCR"></span><span class="target" id="classfeasst_1_1Particle_1a9a172ef8bfc3a1f23b08d34d557dbe94"></span>void <code class="descname">set_site</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> <a class="reference internal" href="Site.html#_CPPv3N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle8set_siteEKiRK4Site" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle8set_siteEKiRK4Site">
+<span class="target" id="classfeasst_1_1Particle_1a9a172ef8bfc3a1f23b08d34d557dbe94"></span>void <code class="sig-name descname">set_site</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> <a class="reference internal" href="Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle8set_siteEKiRK4Site" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the site of a given index. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst8Particle5sitesEv">
-<span id="_CPPv2NK6feasst8Particle5sitesEv"></span><span id="feasst::Particle::sitesC"></span><span class="target" id="classfeasst_1_1Particle_1a43b986eae765dd21a8575195b63d2f6b"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Site.html#_CPPv3N6feasst4SiteE" title="feasst::Site">Site</a>&gt; &amp;<code class="descname">sites</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst8Particle5sitesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Particle5sitesEv">
+<span class="target" id="classfeasst_1_1Particle_1a43b986eae765dd21a8575195b63d2f6b"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a>&gt; &amp;<code class="sig-name descname">sites</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle5sitesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the sites. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst8Particle9num_sitesEv">
-<span id="_CPPv2NK6feasst8Particle9num_sitesEv"></span><span id="feasst::Particle::num_sitesC"></span><span class="target" id="classfeasst_1_1Particle_1a58f4a08d041beeb9520c920add533d73"></span>int <code class="descname">num_sites</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst8Particle9num_sitesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Particle9num_sitesEv">
+<span class="target" id="classfeasst_1_1Particle_1a58f4a08d041beeb9520c920add533d73"></span>int <code class="sig-name descname">num_sites</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle9num_sitesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of Sites. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle11remove_siteEKi">
-<span id="_CPPv2N6feasst8Particle11remove_siteEKi"></span><span id="feasst::Particle::remove_site__iC"></span><span class="target" id="classfeasst_1_1Particle_1acad74e6782b517fcac5e35aa5477f19c"></span>void <code class="descname">remove_site</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle11remove_siteEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle11remove_siteEKi">
+<span class="target" id="classfeasst_1_1Particle_1acad74e6782b517fcac5e35aa5477f19c"></span>void <code class="sig-name descname">remove_site</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle11remove_siteEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Remove a particular site by its index. </p>
 </dd></dl>
 
@@ -294,32 +326,32 @@
 <p class="breathe-sectiondef-title rubric">Typing</p>
 <p><a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> types and checks </p>
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle12is_isotropicEv">
-<span id="_CPPv2N6feasst8Particle12is_isotropicEv"></span><span id="feasst::Particle::is_isotropic"></span><span class="target" id="classfeasst_1_1Particle_1a2dbc47c1721017b000e238f905f44b14"></span>bool <code class="descname">is_isotropic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle12is_isotropicEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle12is_isotropicEv">
+<span class="target" id="classfeasst_1_1Particle_1a2dbc47c1721017b000e238f905f44b14"></span>bool <code class="sig-name descname">is_isotropic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle12is_isotropicEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if the particle is isotropic (e.g., 1 or less sites) </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle17set_site_physicalEKiKb">
-<span id="_CPPv2N6feasst8Particle17set_site_physicalEKiKb"></span><span id="feasst::Particle::set_site_physical__iC.bC"></span><span class="target" id="classfeasst_1_1Particle_1ac56ba7854ad1c31e49a89438e9ed33c9"></span>void <code class="descname">set_site_physical</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site</em>, <em class="property">const</em> bool <em>physical</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle17set_site_physicalEKiKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle17set_site_physicalEKiKb">
+<span class="target" id="classfeasst_1_1Particle_1ac56ba7854ad1c31e49a89438e9ed33c9"></span>void <code class="sig-name descname">set_site_physical</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site</em>, <em class="property">const</em> bool <em>physical</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle17set_site_physicalEKiKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set a site as physical/nonphysical. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle5checkEv">
-<span id="_CPPv2N6feasst8Particle5checkEv"></span><span id="feasst::Particle::check"></span><span class="target" id="classfeasst_1_1Particle_1a1f6be6df4380f84e9d3efdec54bf1568"></span>void <code class="descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle5checkEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle5checkEv">
+<span class="target" id="classfeasst_1_1Particle_1a1f6be6df4380f84e9d3efdec54bf1568"></span>void <code class="sig-name descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle5checkEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that the dimensionality of the site and particle positions match. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle20increment_site_typesEKi">
-<span id="_CPPv2N6feasst8Particle20increment_site_typesEKi"></span><span id="feasst::Particle::increment_site_types__iC"></span><span class="target" id="classfeasst_1_1Particle_1a259d67341316d894b50250923b70d54e"></span>void <code class="descname">increment_site_types</code><span class="sig-paren">(</span><em class="property">const</em> int <em>increment</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle20increment_site_typesEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle20increment_site_typesEKi">
+<span class="target" id="classfeasst_1_1Particle_1a259d67341316d894b50250923b70d54e"></span>void <code class="sig-name descname">increment_site_types</code><span class="sig-paren">(</span><em class="property">const</em> int <em>increment</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle20increment_site_typesEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Increment the types of the sites. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle23remove_non_unique_typesEv">
-<span id="_CPPv2N6feasst8Particle23remove_non_unique_typesEv"></span><span id="feasst::Particle::remove_non_unique_types"></span><span class="target" id="classfeasst_1_1Particle_1afa08267fa425059228c8da386e128eed"></span>void <code class="descname">remove_non_unique_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle23remove_non_unique_typesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle23remove_non_unique_typesEv">
+<span class="target" id="classfeasst_1_1Particle_1afa08267fa425059228c8da386e128eed"></span>void <code class="sig-name descname">remove_non_unique_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle23remove_non_unique_typesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Remove sites and bonds which are of the same type as a previous one. </p>
 </dd></dl>
 
@@ -328,32 +360,32 @@
 <p class="breathe-sectiondef-title rubric">Movement</p>
 <p>Move the sites and the particle. </p>
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle8displaceERK8Position">
-<span id="_CPPv2N6feasst8Particle8displaceERK8Position"></span><span id="feasst::Particle::displace__PositionCR"></span><span class="target" id="classfeasst_1_1Particle_1a30bf5c6ba815620a164a2d8bc1db11b8"></span>void <code class="descname">displace</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>displacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle8displaceERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle8displaceERK8Position">
+<span class="target" id="classfeasst_1_1Particle_1a30bf5c6ba815620a164a2d8bc1db11b8"></span>void <code class="sig-name descname">displace</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>displacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle8displaceERK8Position" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Displace the <a class="reference internal" href="#classfeasst_1_1Particle"><span class="std std-ref">Particle</span></a>. This also displaces the Sites. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle16replace_positionERK8Particle">
-<span id="_CPPv2N6feasst8Particle16replace_positionERK8Particle"></span><span id="feasst::Particle::replace_position__ParticleCR"></span><span class="target" id="classfeasst_1_1Particle_1a0aa1a91aee95d975a0cc7140e10b86b1"></span>void <code class="descname">replace_position</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle16replace_positionERK8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle16replace_positionERK8Particle">
+<span class="target" id="classfeasst_1_1Particle_1a0aa1a91aee95d975a0cc7140e10b86b1"></span>void <code class="sig-name descname">replace_position</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle16replace_positionERK8Particle" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Swap the positions of particle with self. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle16replace_positionEKiRK8Position">
-<span id="_CPPv2N6feasst8Particle16replace_positionEKiRK8Position"></span><span id="feasst::Particle::replace_position__iC.PositionCR"></span><span class="target" id="classfeasst_1_1Particle_1a517f9fa7d9273baa1d8d6b143783e5a1"></span>void <code class="descname">replace_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>replacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle16replace_positionEKiRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle16replace_positionEKiRK8Position">
+<span class="target" id="classfeasst_1_1Particle_1a517f9fa7d9273baa1d8d6b143783e5a1"></span>void <code class="sig-name descname">replace_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>replacement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle16replace_positionEKiRK8Position" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Replace the position of site by index. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst8Particle21average_site_positionEv">
-<span id="_CPPv2NK6feasst8Particle21average_site_positionEv"></span><span id="feasst::Particle::average_site_positionC"></span><span class="target" id="classfeasst_1_1Particle_1a33ed260737334d10e7a0525eedabd8e6"></span><a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> <code class="descname">average_site_position</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst8Particle21average_site_positionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Particle21average_site_positionEv">
+<span class="target" id="classfeasst_1_1Particle_1a33ed260737334d10e7a0525eedabd8e6"></span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> <code class="sig-name descname">average_site_position</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle21average_site_positionEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the average of the site positions. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle22set_position_as_centerEv">
-<span id="_CPPv2N6feasst8Particle22set_position_as_centerEv"></span><span id="feasst::Particle::set_position_as_center"></span><span class="target" id="classfeasst_1_1Particle_1a6f02dd595733817e0def0cf3b5aa4a15"></span>void <code class="descname">set_position_as_center</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle22set_position_as_centerEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle22set_position_as_centerEv">
+<span class="target" id="classfeasst_1_1Particle_1a6f02dd595733817e0def0cf3b5aa4a15"></span>void <code class="sig-name descname">set_position_as_center</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle22set_position_as_centerEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the particle position as the average of site positions. </p>
 </dd></dl>
 
@@ -362,26 +394,26 @@
 <p class="breathe-sectiondef-title rubric">Properties</p>
 <p>Change the properties of the sites in the particle </p>
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle18replace_propertiesEKiRK10PropertiesRKNSt6vectorINSt6stringEEE">
-<span id="_CPPv2N6feasst8Particle18replace_propertiesEKiRK10PropertiesRKNSt6vectorINSt6stringEEE"></span><span id="feasst::Particle::replace_properties__iC.PropertiesCR.std::vector:ss:CR"></span><span class="target" id="classfeasst_1_1Particle_1ac4cb9deae2c1a7faa0c6abdb10c165cb"></span>void <code class="descname">replace_properties</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="Properties.html#_CPPv3N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>replacement</em>, <em class="property">const</em> std::vector&lt;std::string&gt; &amp;<em>exclude</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle18replace_propertiesEKiRK10PropertiesRKNSt6vectorINSt6stringEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle18replace_propertiesEKiRK10PropertiesRKNSt6vectorINSt6stringEEE">
+<span class="target" id="classfeasst_1_1Particle_1ac4cb9deae2c1a7faa0c6abdb10c165cb"></span>void <code class="sig-name descname">replace_properties</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="Properties.html#_CPPv4N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>replacement</em>, <em class="property">const</em> std::vector&lt;std::string&gt; &amp;<em>exclude</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle18replace_propertiesEKiRK10PropertiesRKNSt6vectorINSt6stringEEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Replace the properties of site by index. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle17add_site_propertyEKNSt6stringEKdKi">
-<span id="_CPPv2N6feasst8Particle17add_site_propertyEKNSt6stringEKdKi"></span><span id="feasst::Particle::add_site_property__ssC.doubleC.iC"></span><span class="target" id="classfeasst_1_1Particle_1a01db440892054f475baf1d90b774de14"></span>void <code class="descname">add_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle17add_site_propertyEKNSt6stringEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle17add_site_propertyEKNSt6stringEKdKi">
+<span class="target" id="classfeasst_1_1Particle_1a01db440892054f475baf1d90b774de14"></span>void <code class="sig-name descname">add_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle17add_site_propertyEKNSt6stringEKdKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add the property of a site. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle24add_or_set_site_propertyEKNSt6stringEKdKi">
-<span id="_CPPv2N6feasst8Particle24add_or_set_site_propertyEKNSt6stringEKdKi"></span><span id="feasst::Particle::add_or_set_site_property__ssC.doubleC.iC"></span><span class="target" id="classfeasst_1_1Particle_1a725daf1a4c4e9ac29b242822b50009dc"></span>void <code class="descname">add_or_set_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle24add_or_set_site_propertyEKNSt6stringEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle24add_or_set_site_propertyEKNSt6stringEKdKi">
+<span class="target" id="classfeasst_1_1Particle_1a725daf1a4c4e9ac29b242822b50009dc"></span>void <code class="sig-name descname">add_or_set_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle24add_or_set_site_propertyEKNSt6stringEKdKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add or set the property of a site. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle17set_site_propertyEKNSt6stringEKdKi">
-<span id="_CPPv2N6feasst8Particle17set_site_propertyEKNSt6stringEKdKi"></span><span id="feasst::Particle::set_site_property__ssC.doubleC.iC"></span><span class="target" id="classfeasst_1_1Particle_1a93605ed2ce0cdea5c54ee9297dfe213d"></span>void <code class="descname">set_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle17set_site_propertyEKNSt6stringEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle17set_site_propertyEKNSt6stringEKdKi">
+<span class="target" id="classfeasst_1_1Particle_1a93605ed2ce0cdea5c54ee9297dfe213d"></span>void <code class="sig-name descname">set_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle17set_site_propertyEKNSt6stringEKdKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the property of a site. </p>
 </dd></dl>
 
@@ -390,44 +422,44 @@
 <p class="breathe-sectiondef-title rubric">Bonds</p>
 <p>Bonds between two sites in the particle </p>
 <dl class="function">
-<dt id="_CPPv3NK6feasst8Particle9num_bondsEv">
-<span id="_CPPv2NK6feasst8Particle9num_bondsEv"></span><span id="feasst::Particle::num_bondsC"></span><span class="target" id="classfeasst_1_1Particle_1a51d44e7d80f05cae5cb6d18a72bd2014"></span>int <code class="descname">num_bonds</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst8Particle9num_bondsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Particle9num_bondsEv">
+<span class="target" id="classfeasst_1_1Particle_1a51d44e7d80f05cae5cb6d18a72bd2014"></span>int <code class="sig-name descname">num_bonds</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle9num_bondsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of bonds. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst8Particle4bondEKi">
-<span id="_CPPv2NK6feasst8Particle4bondEKi"></span><span id="feasst::Particle::bond__iCC"></span><span class="target" id="classfeasst_1_1Particle_1af6b4c0bca3cbc1c3cc864c6259ef2947"></span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv3N6feasst4BondE" title="feasst::Bond">Bond</a> &amp;<code class="descname">bond</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst8Particle4bondEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Particle4bondEKi">
+<span class="target" id="classfeasst_1_1Particle_1af6b4c0bca3cbc1c3cc864c6259ef2947"></span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst4BondE" title="feasst::Bond">Bond</a> &amp;<code class="sig-name descname">bond</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle4bondEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the bond by index. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst8Particle5bondsEv">
-<span id="_CPPv2NK6feasst8Particle5bondsEv"></span><span id="feasst::Particle::bondsC"></span><span class="target" id="classfeasst_1_1Particle_1aa09b15f184fef6d7a6211d0b8d63d6c3"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Bond.html#_CPPv3N6feasst4BondE" title="feasst::Bond">Bond</a>&gt; <code class="descname">bonds</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst8Particle5bondsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Particle5bondsEv">
+<span class="target" id="classfeasst_1_1Particle_1aa09b15f184fef6d7a6211d0b8d63d6c3"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Bond.html#_CPPv4N6feasst4BondE" title="feasst::Bond">Bond</a>&gt; <code class="sig-name descname">bonds</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle5bondsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the bonds. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle8add_bondERK4Bond">
-<span id="_CPPv2N6feasst8Particle8add_bondERK4Bond"></span><span id="feasst::Particle::add_bond__BondCR"></span><span class="target" id="classfeasst_1_1Particle_1abf67204fdc60c2c31bd397081eda8da8"></span>void <code class="descname">add_bond</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv3N6feasst4BondE" title="feasst::Bond">Bond</a> &amp;<em>bond</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle8add_bondERK4Bond" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle8add_bondERK4Bond">
+<span class="target" id="classfeasst_1_1Particle_1abf67204fdc60c2c31bd397081eda8da8"></span>void <code class="sig-name descname">add_bond</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst4BondE" title="feasst::Bond">Bond</a> &amp;<em>bond</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle8add_bondERK4Bond" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add a bond. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle8set_bondEKiRK4Bond">
-<span id="_CPPv2N6feasst8Particle8set_bondEKiRK4Bond"></span><span id="feasst::Particle::set_bond__iC.BondCR"></span><span class="target" id="classfeasst_1_1Particle_1a13b7395d5ea389605fc1ec1b97d4da53"></span>void <code class="descname">set_bond</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv3N6feasst4BondE" title="feasst::Bond">Bond</a> &amp;<em>bond</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle8set_bondEKiRK4Bond" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle8set_bondEKiRK4Bond">
+<span class="target" id="classfeasst_1_1Particle_1a13b7395d5ea389605fc1ec1b97d4da53"></span>void <code class="sig-name descname">set_bond</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst4BondE" title="feasst::Bond">Bond</a> &amp;<em>bond</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle8set_bondEKiRK4Bond" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set a bond. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle11erase_bondsEv">
-<span id="_CPPv2N6feasst8Particle11erase_bondsEv"></span><span id="feasst::Particle::erase_bonds"></span><span class="target" id="classfeasst_1_1Particle_1afc927689451e3999eb06274c5ad9e0c6"></span>void <code class="descname">erase_bonds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle11erase_bondsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle11erase_bondsEv">
+<span class="target" id="classfeasst_1_1Particle_1afc927689451e3999eb06274c5ad9e0c6"></span>void <code class="sig-name descname">erase_bonds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle11erase_bondsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Erase all bonds from particle. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst8Particle4bondEKiKi">
-<span id="_CPPv2NK6feasst8Particle4bondEKiKi"></span><span id="feasst::Particle::bond__iC.iCC"></span><span class="target" id="classfeasst_1_1Particle_1a6ad5c324d8468dac77a06967d209bd75"></span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv3N6feasst4BondE" title="feasst::Bond">Bond</a> &amp;<code class="descname">bond</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index1</em>, <em class="property">const</em> int <em>site_index2</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst8Particle4bondEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Particle4bondEKiKi">
+<span class="target" id="classfeasst_1_1Particle_1a6ad5c324d8468dac77a06967d209bd75"></span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst4BondE" title="feasst::Bond">Bond</a> &amp;<code class="sig-name descname">bond</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index1</em>, <em class="property">const</em> int <em>site_index2</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle4bondEKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Find the bond between the given site indices. </p>
 </dd></dl>
 
@@ -436,38 +468,38 @@
 <p class="breathe-sectiondef-title rubric">Angles</p>
 <p>Angles between three sites in the particle </p>
 <dl class="function">
-<dt id="_CPPv3NK6feasst8Particle10num_anglesEv">
-<span id="_CPPv2NK6feasst8Particle10num_anglesEv"></span><span id="feasst::Particle::num_anglesC"></span><span class="target" id="classfeasst_1_1Particle_1a066e24f79438592a82542e19253b6c87"></span>int <code class="descname">num_angles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst8Particle10num_anglesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Particle10num_anglesEv">
+<span class="target" id="classfeasst_1_1Particle_1a066e24f79438592a82542e19253b6c87"></span>int <code class="sig-name descname">num_angles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle10num_anglesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of angles. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst8Particle5angleEKi">
-<span id="_CPPv2NK6feasst8Particle5angleEKi"></span><span id="feasst::Particle::angle__iCC"></span><span class="target" id="classfeasst_1_1Particle_1a3647c226a70ecd4553c77d413e8c2d0d"></span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv3N6feasst5AngleE" title="feasst::Angle">Angle</a> &amp;<code class="descname">angle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst8Particle5angleEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Particle5angleEKi">
+<span class="target" id="classfeasst_1_1Particle_1a3647c226a70ecd4553c77d413e8c2d0d"></span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst5AngleE" title="feasst::Angle">Angle</a> &amp;<code class="sig-name descname">angle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle5angleEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the angle by index. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst8Particle6anglesEv">
-<span id="_CPPv2NK6feasst8Particle6anglesEv"></span><span id="feasst::Particle::anglesC"></span><span class="target" id="classfeasst_1_1Particle_1ad14884a447d9fe0182636abed9666b90"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Bond.html#_CPPv3N6feasst5AngleE" title="feasst::Angle">Angle</a>&gt; <code class="descname">angles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst8Particle6anglesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Particle6anglesEv">
+<span class="target" id="classfeasst_1_1Particle_1ad14884a447d9fe0182636abed9666b90"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Bond.html#_CPPv4N6feasst5AngleE" title="feasst::Angle">Angle</a>&gt; <code class="sig-name descname">angles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle6anglesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the angles. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle9add_angleERK5Angle">
-<span id="_CPPv2N6feasst8Particle9add_angleERK5Angle"></span><span id="feasst::Particle::add_angle__AngleCR"></span><span class="target" id="classfeasst_1_1Particle_1a510340b5aa613a9f0368b21530a5705f"></span>void <code class="descname">add_angle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv3N6feasst5AngleE" title="feasst::Angle">Angle</a> &amp;<em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle9add_angleERK5Angle" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle9add_angleERK5Angle">
+<span class="target" id="classfeasst_1_1Particle_1a510340b5aa613a9f0368b21530a5705f"></span>void <code class="sig-name descname">add_angle</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst5AngleE" title="feasst::Angle">Angle</a> &amp;<em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle9add_angleERK5Angle" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add an angle. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst8Particle9set_angleEKiRK5Angle">
-<span id="_CPPv2N6feasst8Particle9set_angleEKiRK5Angle"></span><span id="feasst::Particle::set_angle__iC.AngleCR"></span><span class="target" id="classfeasst_1_1Particle_1a7e228d17668f7f6e3c3dcb1694224a13"></span>void <code class="descname">set_angle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv3N6feasst5AngleE" title="feasst::Angle">Angle</a> &amp;<em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst8Particle9set_angleEKiRK5Angle" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst8Particle9set_angleEKiRK5Angle">
+<span class="target" id="classfeasst_1_1Particle_1a7e228d17668f7f6e3c3dcb1694224a13"></span>void <code class="sig-name descname">set_angle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst5AngleE" title="feasst::Angle">Angle</a> &amp;<em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Particle9set_angleEKiRK5Angle" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set an angle. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst8Particle5angleEKiKiKi">
-<span id="_CPPv2NK6feasst8Particle5angleEKiKiKi"></span><span id="feasst::Particle::angle__iC.iC.iCC"></span><span class="target" id="classfeasst_1_1Particle_1a58437d25a141d3fa8a9fb3369fcb6e8d"></span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv3N6feasst5AngleE" title="feasst::Angle">Angle</a> &amp;<code class="descname">angle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index1</em>, <em class="property">const</em> int <em>site_index2</em>, <em class="property">const</em> int <em>site_index3</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst8Particle5angleEKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst8Particle5angleEKiKiKi">
+<span class="target" id="classfeasst_1_1Particle_1a58437d25a141d3fa8a9fb3369fcb6e8d"></span><em class="property">const</em> <a class="reference internal" href="Bond.html#_CPPv4N6feasst5AngleE" title="feasst::Angle">Angle</a> &amp;<code class="sig-name descname">angle</code><span class="sig-paren">(</span><em class="property">const</em> int <em>site_index1</em>, <em class="property">const</em> int <em>site_index2</em>, <em class="property">const</em> int <em>site_index3</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst8Particle5angleEKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Find the angle between given sites 1-2-3, with 2 as the vertex. </p>
 </dd></dl>
 
@@ -491,7 +523,7 @@
         <a href="Group.html" class="btn btn-neutral float-right" title="Group" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Site.html" class="btn btn-neutral" title="Site" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Site.html" class="btn btn-neutral float-left" title="Site" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -596,29 +628,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

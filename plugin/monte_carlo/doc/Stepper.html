@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Stepper &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>Stepper &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
@@ -112,9 +120,12 @@
 <li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Stepper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CriteriaMetropolis.html">CriteriaMetropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Criteria.html">Criteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbConfigs.html">PerturbConfigs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
@@ -125,25 +136,23 @@
 <li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 </ul>
 </li>
@@ -258,25 +267,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="stepper">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="stepper">
 <h1>Stepper<a class="headerlink" href="#stepper" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv3N6feasst7StepperE">
-<span id="_CPPv2N6feasst7StepperE"></span><span id="feasst::Stepper"></span><span class="target" id="classfeasst_1_1Stepper"></span><em class="property">class </em><code class="descname">Stepper</code><a class="headerlink" href="#_CPPv3N6feasst7StepperE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst7StepperE">
+<span class="target" id="classfeasst_1_1Stepper"></span><em class="property">class </em><code class="sig-name descname">Stepper</code><a class="headerlink" href="#_CPPv4N6feasst7StepperE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Perform an action (update or write) every so many steps. This action could be read-only (see analyze) or not (see modify). Write to screen if file name is not provided. </p>
 <p>Subclassed by <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">feasst::Analyze</span></a>, <a class="reference internal" href="Modify.html#classfeasst_1_1Modify"><span class="std std-ref">feasst::Modify</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv3N6feasst7Stepper7StepperERK7argtype">
-<span id="_CPPv2N6feasst7Stepper7StepperERK7argtype"></span><span id="feasst::Stepper::Stepper__argtypeCR"></span><span class="target" id="classfeasst_1_1Stepper_1a7b52d911673c0c94fa4046256cd79309"></span><code class="descname">Stepper</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst7Stepper7StepperERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last">
-<li><p class="first"><code class="docutils literal notranslate"><span class="pre">args</span></code>: steps_per_write : Set the number of trial steps per write (default: 1). Disabled if negative value is provided.</p>
+<dt id="_CPPv4N6feasst7Stepper7StepperERK7argtype">
+<span class="target" id="classfeasst_1_1Stepper_1a7b52d911673c0c94fa4046256cd79309"></span><code class="sig-name descname">Stepper</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Stepper7StepperERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl>
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist">
+<li><p><code class="docutils literal notranslate"><span class="pre">args</span></code>: steps_per_write : Set the number of trial steps per write (default: 1). Disabled if negative value is provided.</p>
 <p>steps_per_update : Set the number of trial steps per update (default: 1). Disabled if negative value is provided.</p>
 <p>file_name : Set the file name to write output (default: empty). If empty, write to screen.</p>
 <p>append : append file output if set to true. Do not append if false (default: “false”).</p>
+<p>clear_file : set true to clear contents of file_name, if exists. (default: false).</p>
 <p>multistate : set “true” to copy for each state (default: “false”) </p>
 </li>
 </ul>
@@ -286,44 +319,50 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst7Stepper9file_nameEv">
-<span id="_CPPv2NK6feasst7Stepper9file_nameEv"></span><span id="feasst::Stepper::file_nameC"></span><span class="target" id="classfeasst_1_1Stepper_1afc8ba8e5d6bd164c0578b1db02e606d0"></span>std::string <code class="descname">file_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst7Stepper9file_nameEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the file name. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv3NK6feasst7Stepper16steps_per_updateEv">
-<span id="_CPPv2NK6feasst7Stepper16steps_per_updateEv"></span><span id="feasst::Stepper::steps_per_updateC"></span><span class="target" id="classfeasst_1_1Stepper_1a63c7bba1a276668c67c2070ec16511a3"></span>int <code class="descname">steps_per_update</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst7Stepper16steps_per_updateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst7Stepper16steps_per_updateEv">
+<span class="target" id="classfeasst_1_1Stepper_1a63c7bba1a276668c67c2070ec16511a3"></span>int <code class="sig-name descname">steps_per_update</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper16steps_per_updateEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of steps per update. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst7Stepper15steps_per_writeEv">
-<span id="_CPPv2NK6feasst7Stepper15steps_per_writeEv"></span><span id="feasst::Stepper::steps_per_writeC"></span><span class="target" id="classfeasst_1_1Stepper_1a11c41616688350f4132d3589e88804fe"></span>int <code class="descname">steps_per_write</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst7Stepper15steps_per_writeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst7Stepper15steps_per_writeEv">
+<span class="target" id="classfeasst_1_1Stepper_1a11c41616688350f4132d3589e88804fe"></span>int <code class="sig-name descname">steps_per_write</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper15steps_per_writeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of steps per write. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst7Stepper9set_stateEKi">
-<span id="_CPPv2N6feasst7Stepper9set_stateEKi"></span><span id="feasst::Stepper::set_state__iC"></span><span class="target" id="classfeasst_1_1Stepper_1ab76e5f351c188368f104c3652a0861d4"></span>void <code class="descname">set_state</code><span class="sig-paren">(</span><em class="property">const</em> int <em>state</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst7Stepper9set_stateEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst7Stepper9file_nameEv">
+<span class="target" id="classfeasst_1_1Stepper_1afc8ba8e5d6bd164c0578b1db02e606d0"></span>std::string <code class="sig-name descname">file_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper9file_nameEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the file name. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4NK6feasst7Stepper6appendEv">
+<span class="target" id="classfeasst_1_1Stepper_1a7406bbba50252547b966b4e089608336"></span>bool <code class="sig-name descname">append</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper6appendEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if appending. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst7Stepper9set_stateEKi">
+<span class="target" id="classfeasst_1_1Stepper_1ab76e5f351c188368f104c3652a0861d4"></span>void <code class="sig-name descname">set_state</code><span class="sig-paren">(</span><em class="property">const</em> int <em>state</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst7Stepper9set_stateEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the state. Append file name if not empty. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst7Stepper13is_multistateEv">
-<span id="_CPPv2NK6feasst7Stepper13is_multistateEv"></span><span id="feasst::Stepper::is_multistateC"></span><span class="target" id="classfeasst_1_1Stepper_1a6f7107406850dd517a2affacd52c25a5"></span>bool <code class="descname">is_multistate</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst7Stepper13is_multistateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst7Stepper13is_multistateEv">
+<span class="target" id="classfeasst_1_1Stepper_1a6f7107406850dd517a2affacd52c25a5"></span>bool <code class="sig-name descname">is_multistate</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper13is_multistateEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return if multistate. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst7Stepper5stateEv">
-<span id="_CPPv2NK6feasst7Stepper5stateEv"></span><span id="feasst::Stepper::stateC"></span><span class="target" id="classfeasst_1_1Stepper_1a7d35a05499da0ef493c402a28de967b8"></span>int <code class="descname">state</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst7Stepper5stateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst7Stepper5stateEv">
+<span class="target" id="classfeasst_1_1Stepper_1a7d35a05499da0ef493c402a28de967b8"></span>int <code class="sig-name descname">state</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper5stateEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the state. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst7Stepper11accumulatorEv">
-<span id="_CPPv2NK6feasst7Stepper11accumulatorEv"></span><span id="feasst::Stepper::accumulatorC"></span><span class="target" id="classfeasst_1_1Stepper_1aba7c9d767518ecefb9c2cec53ca53b55"></span><em class="property">virtual</em> <em class="property">const</em> <a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv3N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a> &amp;<code class="descname">accumulator</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst7Stepper11accumulatorEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst7Stepper11accumulatorEv">
+<span class="target" id="classfeasst_1_1Stepper_1aba7c9d767518ecefb9c2cec53ca53b55"></span><em class="property">virtual</em> <em class="property">const</em> <a class="reference internal" href="../../math/doc/Accumulator.html#_CPPv4N6feasst11AccumulatorE" title="feasst::Accumulator">Accumulator</a> &amp;<code class="sig-name descname">accumulator</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper11accumulatorEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the accumulator. </p>
 </dd></dl>
 
@@ -343,7 +382,7 @@
         <a href="Acceptance.html" class="btn btn-neutral float-right" title="Acceptance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Tunable.html" class="btn btn-neutral" title="Tunable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Tunable.html" class="btn btn-neutral float-left" title="Tunable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -448,29 +487,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

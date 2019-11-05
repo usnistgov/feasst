@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>math/include/constants &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>math/include/constants &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
@@ -229,28 +237,52 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="math-include-constants">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="math-include-constants">
 <h1>math/include/constants<a class="headerlink" href="#math-include-constants" title="Permalink to this headline">¶</a></h1>
 <dl class="type">
-<dt id="_CPPv36feasst">
-<span id="_CPPv26feasst"></span><span id="feasst"></span><span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="descname">feasst</code><br /></dt>
+<dt id="_CPPv46feasst">
+<span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><a class="headerlink" href="#_CPPv46feasst" title="Permalink to this definition">¶</a><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Variables</p>
 <dl class="member">
-<dt id="_CPPv3N6feasst13NEAR_INFINITYE">
-<span id="_CPPv2N6feasst13NEAR_INFINITYE"></span><span id="feasst::NEAR_INFINITY__double"></span><span class="target" id="namespacefeasst_1aa10cbb0669216ae14004df636ecfe4c6"></span><em class="property">constexpr</em> double <code class="descname">NEAR_INFINITY</code> = std::numeric_limits&lt;double&gt;::max()/1e10<a class="headerlink" href="#_CPPv3N6feasst13NEAR_INFINITYE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst13NEAR_INFINITYE">
+<span class="target" id="namespacefeasst_1aa10cbb0669216ae14004df636ecfe4c6"></span><em class="property">constexpr</em> double <code class="sig-name descname">NEAR_INFINITY</code> = std::numeric_limits&lt;double&gt;::max() / 1e10<a class="headerlink" href="#_CPPv4N6feasst13NEAR_INFINITYE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>An almost infinity large number to the limits of double precision. </p>
 </dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N6feasst9NEAR_ZEROE">
-<span id="_CPPv2N6feasst9NEAR_ZEROE"></span><span id="feasst::NEAR_ZERO__double"></span><span class="target" id="namespacefeasst_1ac74b5853d5626048f220900be3ed1493"></span><em class="property">constexpr</em> double <code class="descname">NEAR_ZERO</code> = 1e-15<a class="headerlink" href="#_CPPv3N6feasst9NEAR_ZEROE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9NEAR_ZEROE">
+<span class="target" id="namespacefeasst_1ac74b5853d5626048f220900be3ed1493"></span><em class="property">constexpr</em> double <code class="sig-name descname">NEAR_ZERO</code> = 1e-15<a class="headerlink" href="#_CPPv4N6feasst9NEAR_ZEROE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The smallest number within numerical precision. </p>
 </dd></dl>
 
 <dl class="member">
-<dt id="_CPPv3N6feasst2PIE">
-<span id="_CPPv2N6feasst2PIE"></span><span id="feasst::PI__double"></span><span class="target" id="namespacefeasst_1af5437ad97a0473c6a200fb6dfdfae173"></span><em class="property">constexpr</em> double <code class="descname">PI</code> = 3.14159265358979323846264338327950<a class="headerlink" href="#_CPPv3N6feasst2PIE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst2PIE">
+<span class="target" id="namespacefeasst_1af5437ad97a0473c6a200fb6dfdfae173"></span><em class="property">constexpr</em> double <code class="sig-name descname">PI</code> = 3.14159265358979323846264338327950<a class="headerlink" href="#_CPPv4N6feasst2PIE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>PI = 3.14159265358979323846264338327950 truncated to double precision. </p>
 </dd></dl>
 
@@ -270,7 +302,7 @@
         <a href="utils_math.html" class="btn btn-neutral float-right" title="math/include/utils_math" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="FormulaPolynomial.html" class="btn btn-neutral" title="FormulaPolynomial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="FormulaPolynomial.html" class="btn btn-neutral float-left" title="FormulaPolynomial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -375,29 +407,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

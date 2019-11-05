@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Timer &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>Timer &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="utils_file.html">utils/include/utils_file</a></li>
@@ -227,64 +235,88 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="timer">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="timer">
 <h1>Timer<a class="headerlink" href="#timer" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv3N6feasst5TimerE">
-<span id="_CPPv2N6feasst5TimerE"></span><span id="feasst::Timer"></span><span class="target" id="classfeasst_1_1Timer"></span><em class="property">class </em><code class="descname">Timer</code><a class="headerlink" href="#_CPPv3N6feasst5TimerE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5TimerE">
+<span class="target" id="classfeasst_1_1Timer"></span><em class="property">class </em><code class="sig-name descname">Timer</code><a class="headerlink" href="#_CPPv4N6feasst5TimerE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv3N6feasst5Timer3addERKNSt6stringE">
-<span id="_CPPv2N6feasst5Timer3addERKNSt6stringE"></span><span id="feasst::Timer::add__ssCR"></span><span class="target" id="classfeasst_1_1Timer_1aceedcb70f2061999388ac4190940d3aa"></span>int <code class="descname">add</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Timer3addERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Timer3addERKNSt6stringE">
+<span class="target" id="classfeasst_1_1Timer_1aceedcb70f2061999388ac4190940d3aa"></span>int <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Timer3addERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add a new profile name. Return the index. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst5Timer5startEKi">
-<span id="_CPPv2N6feasst5Timer5startEKi"></span><span id="feasst::Timer::start__iC"></span><span class="target" id="classfeasst_1_1Timer_1a7377e7360b8d275f0467393d379e2fe7"></span>void <code class="descname">start</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Timer5startEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Timer5startEKi">
+<span class="target" id="classfeasst_1_1Timer_1a7377e7360b8d275f0467393d379e2fe7"></span>void <code class="sig-name descname">start</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Timer5startEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the profile to the index and record the time. When a new index is started, or timer is ended, then the elapsed time is recorded. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst5Timer3endEv">
-<span id="_CPPv2N6feasst5Timer3endEv"></span><span id="feasst::Timer::end"></span><span class="target" id="classfeasst_1_1Timer_1ae84439af150fd3d022896bd4d43aefdb"></span>void <code class="descname">end</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Timer3endEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Timer3endEv">
+<span class="target" id="classfeasst_1_1Timer_1ae84439af150fd3d022896bd4d43aefdb"></span>void <code class="sig-name descname">end</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Timer3endEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>End the current timer. Record previous index if exists. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Timer10sum_clocksEv">
-<span id="_CPPv2NK6feasst5Timer10sum_clocksEv"></span><span id="feasst::Timer::sum_clocksC"></span><span class="target" id="classfeasst_1_1Timer_1a5bccdc6fa8977f3afcc5dc705a8265e0"></span>clock_t <code class="descname">sum_clocks</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Timer10sum_clocksEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Timer10sum_clocksEv">
+<span class="target" id="classfeasst_1_1Timer_1a5bccdc6fa8977f3afcc5dc705a8265e0"></span>clock_t <code class="sig-name descname">sum_clocks</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Timer10sum_clocksEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the sum of clock ticks. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Timer6clocksEKi">
-<span id="_CPPv2NK6feasst5Timer6clocksEKi"></span><span id="feasst::Timer::clocks__iCC"></span><span class="target" id="classfeasst_1_1Timer_1a6cb946cc878964522c1c4f46d7707b5d"></span>clock_t <code class="descname">clocks</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Timer6clocksEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Timer6clocksEKi">
+<span class="target" id="classfeasst_1_1Timer_1a6cb946cc878964522c1c4f46d7707b5d"></span>clock_t <code class="sig-name descname">clocks</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Timer6clocksEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of clock ticks for an index. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Timer5hoursEKi">
-<span id="_CPPv2NK6feasst5Timer5hoursEKi"></span><span id="feasst::Timer::hours__iCC"></span><span class="target" id="classfeasst_1_1Timer_1a777214141abd8ec1356fe14a124e1260"></span>double <code class="descname">hours</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Timer5hoursEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Timer5hoursEKi">
+<span class="target" id="classfeasst_1_1Timer_1a777214141abd8ec1356fe14a124e1260"></span>double <code class="sig-name descname">hours</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Timer5hoursEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the total CPU hours of the index. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Timer5hoursEKNSt6stringE">
-<span id="_CPPv2NK6feasst5Timer5hoursEKNSt6stringE"></span><span id="feasst::Timer::hours__ssCC"></span><span class="target" id="classfeasst_1_1Timer_1a28d3483eab4b626091c9938c1d15ad98"></span>double <code class="descname">hours</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Timer5hoursEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Timer5hoursEKNSt6stringE">
+<span class="target" id="classfeasst_1_1Timer_1a28d3483eab4b626091c9938c1d15ad98"></span>double <code class="sig-name descname">hours</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Timer5hoursEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the total CPU hours of the name. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Timer5hoursEv">
-<span id="_CPPv2NK6feasst5Timer5hoursEv"></span><span id="feasst::Timer::hoursC"></span><span class="target" id="classfeasst_1_1Timer_1aef44b968161f5a6cd88a8cb5834146b6"></span>double <code class="descname">hours</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Timer5hoursEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Timer5hoursEv">
+<span class="target" id="classfeasst_1_1Timer_1aef44b968161f5a6cd88a8cb5834146b6"></span>double <code class="sig-name descname">hours</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Timer5hoursEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the total CPU hours of all indices. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Timer15missing_percentEKNSt6stringERK5Timer">
-<span id="_CPPv2NK6feasst5Timer15missing_percentEKNSt6stringERK5Timer"></span><span id="feasst::Timer::missing_percent__ssC.TimerCRC"></span><span class="target" id="classfeasst_1_1Timer_1a2466db47fbb5eb08c9e1806bbe9e9eb3"></span>double <code class="descname">missing_percent</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv3N6feasst5TimerE" title="feasst::Timer">Timer</a> &amp;<em>timer</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Timer15missing_percentEKNSt6stringERK5Timer" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Timer15missing_percentEKNSt6stringERK5Timer">
+<span class="target" id="classfeasst_1_1Timer_1a2466db47fbb5eb08c9e1806bbe9e9eb3"></span>double <code class="sig-name descname">missing_percent</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst5TimerE" title="feasst::Timer">Timer</a> &amp;<em>timer</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Timer15missing_percentEKNSt6stringERK5Timer" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The total clocks in this timer for name should be the same as total clocks in timer for all names. Return the missing percent. </p>
 </dd></dl>
 
@@ -304,7 +336,7 @@
         <a href="Cache.html" class="btn btn-neutral float-right" title="Cache" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="utils_file.html" class="btn btn-neutral" title="utils/include/utils_file" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="utils_file.html" class="btn btn-neutral float-left" title="utils/include/utils_file" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -409,29 +441,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contributing &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>Contributing &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/README.html">Plugin</a></li>
 <li class="toctree-l1"><a class="reference internal" href="py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forcefield/README.html">Forcefield</a></li>
@@ -125,6 +133,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#document">Document</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#setup">Setup</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sphinx-breathe-doxygen-notes">Sphinx/Breathe/Doxygen notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pip-notes">Pip notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#anaconda-cloud-notes">Anaconda cloud notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#style">Style</a><ul>
@@ -227,7 +237,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="contributing">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="contributing">
 <h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
 <p>Developers and contributors of FEASST may consider the following guidelines in order to simplify collaboration.</p>
 <div class="section" id="branch-policies">
@@ -242,13 +276,13 @@ The policies below are based loosely on the following blog.</p>
 <p>This is the release branch.
 This branch may only merge with develop and hotfix branches.</p>
 <ul class="simple">
-<li><a class="reference internal" href="#gtest-unittest-c">GTEST: Unittest C++</a> and all tests pass</li>
-<li><a class="reference internal" href="#valgrind-find-memory-leaks">Valgrind: Find memory leaks</a></li>
-<li><a class="reference internal" href="#gcov-and-lcov-test-coverage">GCOV and LCOV: Test coverage</a> which must be &gt;85%</li>
-<li><a class="reference internal" href="#cpplint-and-pylint-clean-up-styling">cpplint and pylint: Clean up styling</a></li>
-<li>SWIG and Python unittested</li>
-<li><a class="reference internal" href="#document">Document</a> new features</li>
-<li>Tag <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span> <span class="pre">-a</span> <span class="pre">&lt;version</span> <span class="pre">number&gt;</span></code> and <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">--tags</span></code></li>
+<li><p><a class="reference internal" href="#gtest-unittest-c">GTEST: Unittest C++</a> and all tests pass</p></li>
+<li><p><a class="reference internal" href="#valgrind-find-memory-leaks">Valgrind: Find memory leaks</a></p></li>
+<li><p><a class="reference internal" href="#gcov-and-lcov-test-coverage">GCOV and LCOV: Test coverage</a> which must be &gt;85%</p></li>
+<li><p><a class="reference internal" href="#cpplint-and-pylint-clean-up-styling">cpplint and pylint: Clean up styling</a></p></li>
+<li><p>SWIG and Python unittested</p></li>
+<li><p><a class="reference internal" href="#document">Document</a> new features</p></li>
+<li><p>Tag <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span> <span class="pre">-a</span> <span class="pre">&lt;version</span> <span class="pre">number&gt;</span></code> and <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">--tags</span></code></p></li>
 </ul>
 </div>
 <div class="section" id="develop-branch">
@@ -256,10 +290,10 @@ This branch may only merge with develop and hotfix branches.</p>
 <p>This is the development branch.</p>
 <p>Tested and complete implementation of new features are added here.</p>
 <ul class="simple">
-<li>Code must compile and gtests pass successfully</li>
-<li>Consider feature compatibility with swig python interface</li>
-<li>When merging into this branch, use –squash to add the entire feature with a single commit.
-Alternatively, you could also rebase your private branch.</li>
+<li><p>Code must compile and gtests pass successfully</p></li>
+<li><p>Consider feature compatibility with swig python interface</p></li>
+<li><p>When merging into this branch, use –squash to add the entire feature with a single commit.
+Alternatively, you could also rebase your private branch.</p></li>
 </ul>
 </div>
 <div class="section" id="hotfix-branch">
@@ -278,8 +312,8 @@ The main developer sets the branch policy.</p>
 <p>These branches may record an incomplete attempt of a feature that may be relevant in the future.
 These branch names must begin with the characters “dead”.</p>
 <ul class="simple">
-<li>No rules. Code may not compile.
-HINT: rename branches with “git branch -m &lt;newname&gt;”</li>
+<li><p>No rules. Code may not compile.
+HINT: rename branches with “git branch -m &lt;newname&gt;”</p></li>
 </ul>
 </div>
 </div>
@@ -294,10 +328,10 @@ make unittest -j12
 </pre></div>
 </div>
 <ul class="simple">
-<li>use <code class="code docutils literal notranslate"><span class="pre">--gtest_filter=*Name*</span></code> to run specific tests</li>
-<li>use <code class="code docutils literal notranslate"><span class="pre">./bin/unittest</span> <span class="pre">\|&amp;</span> <span class="pre">more</span></code> to pipe stderr to stdout.</li>
-<li>use <code class="code docutils literal notranslate"><span class="pre">--gtest_shuffle</span></code> to randomize the order of the tests</li>
-<li>use <code class="code docutils literal notranslate"><span class="pre">--gtest_random_seed=SEED</span></code> to reproduce an specific order.</li>
+<li><p>use <code class="code docutils literal notranslate"><span class="pre">--gtest_filter=*Name*</span></code> to run specific tests</p></li>
+<li><p>use <code class="code docutils literal notranslate"><span class="pre">./bin/unittest</span> <span class="pre">\|&amp;</span> <span class="pre">more</span></code> to pipe stderr to stdout.</p></li>
+<li><p>use <code class="code docutils literal notranslate"><span class="pre">--gtest_shuffle</span></code> to randomize the order of the tests</p></li>
+<li><p>use <code class="code docutils literal notranslate"><span class="pre">--gtest_random_seed=SEED</span></code> to reproduce an specific order.</p></li>
 </ul>
 </div>
 <div class="section" id="gdb-or-lldb-debugging">
@@ -320,9 +354,9 @@ r <span class="o">[</span>python script<span class="o">]</span> <span class="o">
 </pre></div>
 </div>
 <ul class="simple">
-<li>use ‘gdb catch throw’ or ‘lldb break set -E C++’ to backtrace exceptions</li>
-<li>use gdb as a profiler by ctrl c in the middle and backtrace: <a class="reference external" href="https://stackoverflow.com/a/378024">https://stackoverflow.com/a/378024</a></li>
-<li>use gdb as a parallel profiler: <a class="reference external" href="http://poormansprofiler.org/">http://poormansprofiler.org/</a></li>
+<li><p>use ‘gdb catch throw’ or ‘lldb break set -E C++’ to backtrace exceptions</p></li>
+<li><p>use gdb as a profiler by ctrl c in the middle and backtrace: <a class="reference external" href="https://stackoverflow.com/a/378024">https://stackoverflow.com/a/378024</a></p></li>
+<li><p>use gdb as a parallel profiler: <a class="reference external" href="http://poormansprofiler.org/">http://poormansprofiler.org/</a></p></li>
 </ul>
 </div>
 <div class="section" id="valgrind-find-memory-leaks">
@@ -334,23 +368,23 @@ r <span class="o">[</span>python script<span class="o">]</span> <span class="o">
 </pre></div>
 </div>
 <ul class="simple">
-<li>For uninitialized value errors, try –track-origins=yes</li>
-<li>For leaks, try –leak-check=full –show-leak-kinds=all</li>
-<li>Don’t use profiler for leak checks. OMP causes “leaks” O.K.</li>
-<li>For suppress false-positives (e.g., gomp or gsl), use –gen-suppressions=all to generate suppression files</li>
+<li><p>For uninitialized value errors, try –track-origins=yes</p></li>
+<li><p>For leaks, try –leak-check=full –show-leak-kinds=all</p></li>
+<li><p>Don’t use profiler for leak checks. OMP causes “leaks” O.K.</p></li>
+<li><p>For suppress false-positives (e.g., gomp or gsl), use –gen-suppressions=all to generate suppression files</p></li>
 </ul>
 </div>
 <div class="section" id="gcov-and-lcov-test-coverage">
 <h3>GCOV and LCOV: Test coverage<a class="headerlink" href="#gcov-and-lcov-test-coverage" title="Permalink to this headline">¶</a></h3>
 <p>GCC compilers allow testing of coverage with gcov and lcov for visualization.</p>
 <ul class="simple">
-<li>Code: currently implemented with Travis CI and CodeCov and available online.
-See .travis.yml for example of how to use lcov</li>
-<li>Use GCOV with CMake: cmake -DUSE_GCOV .
-Note: this disables optimization, so don’t use it for production simulations.</li>
-<li>make coverage</li>
-<li>Open coverage/index.html in your browser.</li>
-<li>Go into “src” and ignore the external library coverage.</li>
+<li><p>Code: currently implemented with Travis CI and CodeCov and available online.
+See .travis.yml for example of how to use lcov</p></li>
+<li><p>Use GCOV with CMake: cmake -DUSE_GCOV .
+Note: this disables optimization, so don’t use it for production simulations.</p></li>
+<li><p>make coverage</p></li>
+<li><p>Open coverage/index.html in your browser.</p></li>
+<li><p>Go into “src” and ignore the external library coverage.</p></li>
 </ul>
 </div>
 <div class="section" id="ccache-speed-up-compilation-time">
@@ -378,33 +412,41 @@ add something like the following to your sphinx index.rst:</p>
    <span class="p">:</span><span class="n">members</span><span class="p">:</span>
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>add the following to your sphinx conf.py</dt>
-<dd>extensions = [ “breathe” ]
-breathe_projects = {“FEASST”:”../xml”}</dd>
+<dl class="simple">
+<dt>add the following to your sphinx conf.py</dt><dd><p>extensions = [ “breathe”, “nbsphinx” ]
+breathe_projects = {“FEASST”:”../xml”}
+breathe_domain_by_extension = {“h” : “cc”}</p>
+</dd>
 </dl>
-<p>pip install sphinx_rtd_theme</p>
+<p>pip install sphinx_rtd_theme
+pip install nbsphinx</p>
 <p>run sphinx: make html</p>
 </div>
 <div class="section" id="sphinx-breathe-doxygen-notes">
 <h3>Sphinx/Breathe/Doxygen notes<a class="headerlink" href="#sphinx-breathe-doxygen-notes" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p class="first">Link from rst file to C++ function: <code class="docutils literal notranslate"><span class="pre">:cpp:func:`link</span> <span class="pre">&lt;feasst::className::function()&gt;`</span></code></p>
-</li>
-<li><p class="first">Link from rst file to C++ function: <code class="docutils literal notranslate"><span class="pre">:cpp:class:`link</span> <span class="pre">&lt;feasst:className&gt;`</span></code></p>
-</li>
-<li><p class="first">Link from rst file to fst file: <code class="docutils literal notranslate"><span class="pre">:doc:`/tutorial/asdf`</span></code> [note, / references root]</p>
-</li>
-<li><p class="first">Link from C++ to C++: <code class="docutils literal notranslate"><span class="pre">className::function()</span></code></p>
-</li>
-<li><p class="first">Link from C++ source to rst file: <code class="docutils literal notranslate"><span class="pre">&lt;a</span> <span class="pre">href=&quot;tutorial/asdf.html&quot;&gt;test&lt;/a&gt;</span></code></p>
-</li>
-<li><p class="first">For math in C++ comments:</p>
+<li><p>Link from rst file to C++ function: <code class="docutils literal notranslate"><span class="pre">:cpp:func:`link</span> <span class="pre">&lt;feasst::className::function()&gt;`</span></code></p></li>
+<li><p>Link from rst file to C++ function: <code class="docutils literal notranslate"><span class="pre">:cpp:class:`link</span> <span class="pre">&lt;feasst:className&gt;`</span></code></p></li>
+<li><p>Link from rst file to fst file: <code class="docutils literal notranslate"><span class="pre">:doc:`/tutorial/asdf`</span></code> [note, / references root]</p></li>
+<li><p>Link from rst file to ipynb file : <code class="docutils literal notranslate"><span class="pre">`Tutorial</span> <span class="pre">&lt;tutorial/tutorial.html&gt;`_</span></code></p></li>
+<li><p>Link from C++ to C++: <code class="docutils literal notranslate"><span class="pre">className::function()</span></code></p></li>
+<li><p>Link from C++ source to rst file: <code class="docutils literal notranslate"><span class="pre">&lt;a</span> <span class="pre">href=&quot;tutorial/asdf.html&quot;&gt;test&lt;/a&gt;</span></code></p></li>
+<li><p>For math in C++ comments:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\f$ latex code here \f$
 </pre></div>
 </div>
 </li>
 </ul>
+</div>
+<div class="section" id="pip-notes">
+<h3>Pip notes<a class="headerlink" href="#pip-notes" title="Permalink to this headline">¶</a></h3>
+<p>dev/tools/pip_install.sh</p>
+</div>
+<div class="section" id="anaconda-cloud-notes">
+<h3>Anaconda cloud notes<a class="headerlink" href="#anaconda-cloud-notes" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://docs.anaconda.com/anaconda-cloud/user-guide/getting-started/">https://docs.anaconda.com/anaconda-cloud/user-guide/getting-started/</a>
+* conda build purge
+* still haven’t gotten this to work because of overlinking</p>
 </div>
 </div>
 <div class="section" id="style">
@@ -412,113 +454,112 @@ breathe_projects = {“FEASST”:”../xml”}</dd>
 <div class="section" id="reference-guides-for-c">
 <h3>Reference guides for C++<a class="headerlink" href="#reference-guides-for-c" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><a class="reference external" href="http://www.cplusplus.com/">http://www.cplusplus.com/</a></li>
-<li><a class="reference external" href="https://google.github.io/styleguide/cppguide.html">https://google.github.io/styleguide/cppguide.html</a></li>
-<li><a class="reference external" href="http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines</a></li>
+<li><p><a class="reference external" href="http://www.cplusplus.com/">http://www.cplusplus.com/</a></p></li>
+<li><p><a class="reference external" href="https://google.github.io/styleguide/cppguide.html">https://google.github.io/styleguide/cppguide.html</a></p></li>
+<li><p><a class="reference external" href="http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines</a></p></li>
 </ul>
 </div>
 <div class="section" id="naming">
 <h3>Naming<a class="headerlink" href="#naming" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>ClassNames are mixed case with starting upper case letter</li>
-<li>member_names are lower case with underscores</li>
-<li>private_member_names_ end with an underscore</li>
-<li>function_names are also lower case with underscores</li>
-<li>bools syntax: is_[accepted.., etc]</li>
-<li>MACROS and CONSTANTS are all upper case.</li>
-<li>Avoid MACROS and CONSTANTS.</li>
-<li>use “and”, “or” instead of “&amp;&amp;”, “||” (HWH: change this to follow Google?)</li>
+<li><p>ClassNames are mixed case with starting upper case letter</p></li>
+<li><p>member_names are lower case with underscores</p></li>
+<li><p>private_member_names_ end with an underscore</p></li>
+<li><p>function_names are also lower case with underscores</p></li>
+<li><p>bools syntax: is_[accepted.., etc]</p></li>
+<li><p>MACROS and CONSTANTS are all upper case.</p></li>
+<li><p>Avoid MACROS and CONSTANTS.</p></li>
+<li><p>use “and”, “or” instead of “&amp;&amp;”, “||” (HWH: change this to follow Google?)</p></li>
 </ul>
 </div>
 <div class="section" id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Use return values. Argument ordering: input (value or constant reference), then output (pointer only)</li>
-<li>Overloaded functions -&gt; can you document all in a single comment? good</li>
-<li>No Default parameters on virtual functions</li>
+<li><p>Use return values. Argument ordering: input (value or constant reference), then output (pointer only)</p></li>
+<li><p>Overloaded functions -&gt; can you document all in a single comment? good</p></li>
+<li><p>No Default parameters on virtual functions</p></li>
 </ul>
 </div>
 <div class="section" id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Nearly all data members should be private. Limit protected members</li>
-<li>member_name() returns const member</li>
-<li>set_member_name(member_name) sets member</li>
-<li>For setters with multiple arguments, the first are vector indices as in order x[0] = 3…</li>
-<li>getptr_member_name returns constant pointer (optimization only)</li>
+<li><p>Nearly all data members should be private. Limit protected members</p></li>
+<li><p>member_name() returns const member</p></li>
+<li><p>set_member_name(member_name) sets member</p></li>
+<li><p>For setters with multiple arguments, the first are vector indices as in order x[0] = 3…</p></li>
+<li><p>getptr_member_name returns constant pointer (optimization only)</p></li>
 </ul>
 </div>
 <div class="section" id="loops-and-if">
 <h3>Loops and if<a class="headerlink" href="#loops-and-if" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>use of “for (auto element : container) { … }” is dangerous</li>
-<li>for simple loops over containers, use “for (element : container)”</li>
-<li>for loops where you need the index, use:
-for (int index = 0; index &lt; static_cast&lt;int&gt;(container.size()); ++index)</li>
+<li><p>use of “for (auto element : container) { … }” is dangerous</p></li>
+<li><p>for simple loops over containers, use “for (element : container)”</p></li>
+<li><p>for loops where you need the index, use:
+for (int index = 0; index &lt; static_cast&lt;int&gt;(container.size()); ++index)</p></li>
 </ul>
 </div>
 <div class="section" id="auto">
 <h3>Auto<a class="headerlink" href="#auto" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>only use auto when the type is clear such as auto var = std::make_shared&lt;..&gt;.</li>
+<li><p>only use auto when the type is clear such as auto var = std::make_shared&lt;..&gt;.</p></li>
 </ul>
 </div>
 <div class="section" id="arguments">
 <h3>Arguments<a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>All arguments are provided as strings and converted to the expected type.</li>
-<li>Check that all arguments are used (e.g., like implicit none, a typo is caught).</li>
-<li>Argument defaults need to be set and clearly commented.</li>
-<li>If no default, it is a required argument.</li>
+<li><p>All arguments are provided as strings and converted to the expected type.</p></li>
+<li><p>Check that all arguments are used (e.g., like implicit none, a typo is caught).</p></li>
+<li><p>Argument defaults need to be set and clearly commented.</p></li>
+<li><p>If no default, it is a required argument.</p></li>
 </ul>
 </div>
 <div class="section" id="serialization">
 <h3>Serialization<a class="headerlink" href="#serialization" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>guided by <a class="reference external" href="https://isocpp.org/wiki/faq/serialization">https://isocpp.org/wiki/faq/serialization</a></li>
-<li>For inheritance hierarchy, a static deserialize_map is used to relate class
-name to template.</li>
-<li>Each object serializes a version that can be used for checks and backwards
-compatibility.</li>
-<li>utils_io.h contains many function templates for serialization.</li>
-<li>In particular, feasst_deserialize_fstdr() needs to be fixed.</li>
-<li>Don’t forget to serialize (private) member data in new implementations.</li>
-<li>To compare differences between two serializations, paste into file and using “s/ /r/g”</li>
+<li><p>guided by <a class="reference external" href="https://isocpp.org/wiki/faq/serialization">https://isocpp.org/wiki/faq/serialization</a></p></li>
+<li><p>For inheritance hierarchy, a static deserialize_map is used to relate class
+name to template.</p></li>
+<li><p>Each object serializes a version that can be used for checks and backwards
+compatibility.</p></li>
+<li><p>utils_io.h contains many function templates for serialization.</p></li>
+<li><p>In particular, feasst_deserialize_fstdr() needs to be fixed.</p></li>
+<li><p>Don’t forget to serialize (private) member data in new implementations.</p></li>
+<li><p>To compare differences between two serializations, paste into file and using “s/ /r/g”</p></li>
 </ul>
 </div>
 </div>
 <div class="section" id="for-quick-reference">
 <h2>For quick reference<a class="headerlink" href="#for-quick-reference" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>line counts [find . -name ‘<em>.cpp’ -o -name ‘</em>.h’ | xargs wc -l | sort -n]</li>
+<li><p>line counts [find . -name ‘<em>.cpp’ -o -name ‘</em>.h’ | xargs wc -l | sort -n]</p></li>
 </ul>
 </div>
 <div class="section" id="to-do-list">
 <h2>To Do List<a class="headerlink" href="#to-do-list" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>ideal gas as the first tutorial/testcase</li>
-<li>specify units in LMP data files?</li>
-<li>fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu</li>
-<li>py/feasst.i depends on which plugins that you use. how to make this user friendly?</li>
-<li>neighbor lists</li>
-<li>trial regrow to include grand canonical insertions</li>
-<li>consider optimization of Ewald: init ewald storage on particle types, precompute property index.</li>
-<li>serialize/deserialize trials,perturbs,select_list,…</li>
-<li>Criteria running energies may contain a part from each potential to simplify debugging.</li>
-<li>implement timer for profiles (with hierarchies by class… tried this, but its too slow)</li>
-<li>implement a timer to auto-balance trial weights.</li>
-<li>find a better way for two different classes to take from the same argument list and still maintain unused checks.</li>
-<li>when selecting from cpdf, use lnp instead of p?</li>
-<li>insert optimization: update cell list of sites when added, but of domain only when finalized.</li>
-<li>wl lj comparison is off</li>
-<li>Python interface cannot take a system pointer to modify system (e.g., perturb, in monte_carlo/tutorial/test_lj_model.py.bak</li>
-<li>IF using argtype for custom object, considering single string constructors. E.g., for position in cylinder.h, use {“point0”, “0 0 0”}</li>
-<li>Python debug script: easy for user to run gdb/valgrind</li>
-<li>Toggle more debug levels, and localized to certain files/plugins, etc</li>
-<li>force precompute when reinitializing system, criteria, etc in MonteCarlo</li>
-<li>MonteCarlo subclass Simulation</li>
-<li>swig python wrap arguments std::istream and std::ostream for serialization</li>
-<li>add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects</li>
+<li><p>ideal gas as the first tutorial/testcase</p></li>
+<li><p>specify units in LMP data files?</p></li>
+<li><p>fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu</p></li>
+<li><p>neighbor lists</p></li>
+<li><p>trial regrow to include grand canonical insertions</p></li>
+<li><p>consider optimization of Ewald: init ewald storage on particle types, precompute property index.</p></li>
+<li><p>Criteria running energies may contain a part from each potential to simplify debugging.</p></li>
+<li><p>implement timer for profiles (with hierarchies by class… tried this, but its too slow)</p></li>
+<li><p>implement a timer to auto-balance trial weights.</p></li>
+<li><p>find a better way for two different classes to take from the same argument list and still maintain unused checks.</p></li>
+<li><p>when selecting from cpdf, use lnp instead of p?</p></li>
+<li><p>insert optimization: update cell list of sites when added, but of domain only when finalized.</p></li>
+<li><p>wl lj comparison is off</p></li>
+<li><p>Python interface cannot take a system pointer to modify system (e.g., perturb, in monte_carlo/tutorial/test_lj_model.py.bak</p></li>
+<li><p>IF using argtype for custom object, considering single string constructors. E.g., for position in cylinder.h, use {“point0”, “0 0 0”}</p></li>
+<li><p>Python debug script: easy for user to run gdb/valgrind</p></li>
+<li><p>Toggle more debug levels, and localized to certain files/plugins, etc</p></li>
+<li><p>force precompute when reinitializing system, criteria, etc in MonteCarlo</p></li>
+<li><p>MonteCarlo subclass Simulation</p></li>
+<li><p>swig python wrap arguments std::istream and std::ostream for serialization</p></li>
+<li><p>add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects</p></li>
+<li><p>Refactor Select classes. There are too many, and VisitModels may prefer to update select properties (e.g., cell, eik)</p></li>
 </ul>
 </div>
 </div>
@@ -534,7 +575,7 @@ compatibility.</li>
         <a href="ACKNOWLEDGEMENT.html" class="btn btn-neutral float-right" title="Acknowledgement" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="CONTACT.html" class="btn btn-neutral" title="Contact" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="CONTACT.html" class="btn btn-neutral float-left" title="Contact" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -639,29 +680,16 @@ compatibility.</li>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

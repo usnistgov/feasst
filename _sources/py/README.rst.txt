@@ -4,14 +4,6 @@ pyFEASST
 
 Python support for FEASST includes the following:
 
-run.sh
-=========
-
-Shell script which assumes that feasst was compiled in the directory /path/to/feasst/build/ and that run.sh itself is in /path/to/feasst/py.
-The script sets PYTHONPATH.
-This script assumes python3 but you could easily modify it for your use.
-CMakeLists.txt also assumes python3 for finding LIBS, so you'd have to manually specify the python paths as described in the installation instructions.
-
 pyfeasst.py
 ============
 

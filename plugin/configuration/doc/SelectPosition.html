@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>SelectPosition &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>SelectPosition &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
@@ -236,84 +244,108 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="selectposition">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="selectposition">
 <h1>SelectPosition<a class="headerlink" href="#selectposition" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv3N6feasst14SelectPositionE">
-<span id="_CPPv2N6feasst14SelectPositionE"></span><span id="feasst::SelectPosition"></span><span class="target" id="classfeasst_1_1SelectPosition"></span><em class="property">class </em><code class="descname">SelectPosition</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="Select.html#_CPPv3N6feasst6SelectE" title="feasst::Select">Select</a><a class="headerlink" href="#_CPPv3N6feasst14SelectPositionE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst14SelectPositionE">
+<span class="target" id="classfeasst_1_1SelectPosition"></span><em class="property">class </em><code class="sig-name descname">SelectPosition</code> : <em class="property">public</em> <a class="reference internal" href="../../math/doc/constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a><a class="headerlink" href="#_CPPv4N6feasst14SelectPositionE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A selection which includes site and particle positions. Also include properties (e.g., for ewald, or neighbors, etc) </p>
 <p>Subclassed by <a class="reference internal" href="../../system/doc/SelectList.html#classfeasst_1_1SelectList"><span class="std std-ref">feasst::SelectList</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv3NK6feasst14SelectPosition14site_positionsEv">
-<span id="_CPPv2NK6feasst14SelectPosition14site_positionsEv"></span><span id="feasst::SelectPosition::site_positionsC"></span><span class="target" id="classfeasst_1_1SelectPosition_1a25139ac4743de6773c5220600a32890b"></span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a>&gt;&gt; &amp;<code class="descname">site_positions</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst14SelectPosition14site_positionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst14SelectPosition14site_positionsEv">
+<span class="target" id="classfeasst_1_1SelectPosition_1a25139ac4743de6773c5220600a32890b"></span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a>&gt;&gt; &amp;<code class="sig-name descname">site_positions</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst14SelectPosition14site_positionsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the site positions. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst14SelectPosition15site_propertiesEv">
-<span id="_CPPv2NK6feasst14SelectPosition15site_propertiesEv"></span><span id="feasst::SelectPosition::site_propertiesC"></span><span class="target" id="classfeasst_1_1SelectPosition_1a16c507dec1675009bac3f973059bf6c8"></span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="Properties.html#_CPPv3N6feasst10PropertiesE" title="feasst::Properties">Properties</a>&gt;&gt; &amp;<code class="descname">site_properties</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst14SelectPosition15site_propertiesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst14SelectPosition15site_propertiesEv">
+<span class="target" id="classfeasst_1_1SelectPosition_1a16c507dec1675009bac3f973059bf6c8"></span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="Properties.html#_CPPv4N6feasst10PropertiesE" title="feasst::Properties">Properties</a>&gt;&gt; &amp;<code class="sig-name descname">site_properties</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst14SelectPosition15site_propertiesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the site positions. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst14SelectPosition18particle_positionsEv">
-<span id="_CPPv2NK6feasst14SelectPosition18particle_positionsEv"></span><span id="feasst::SelectPosition::particle_positionsC"></span><span class="target" id="classfeasst_1_1SelectPosition_1aba6f408866045818df8dab106fd035b7"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a>&gt; &amp;<code class="descname">particle_positions</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst14SelectPosition18particle_positionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst14SelectPosition18particle_positionsEv">
+<span class="target" id="classfeasst_1_1SelectPosition_1aba6f408866045818df8dab106fd035b7"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a>&gt; &amp;<code class="sig-name descname">particle_positions</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst14SelectPosition18particle_positionsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the particle positions. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst14SelectPosition17set_site_positionEKiKiRK8Position">
-<span id="_CPPv2N6feasst14SelectPosition17set_site_positionEKiKiRK8Position"></span><span id="feasst::SelectPosition::set_site_position__iC.iC.PositionCR"></span><span class="target" id="classfeasst_1_1SelectPosition_1a81f3fa524727f93a4c8bbc6bdce3f2d7"></span>void <code class="descname">set_site_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14SelectPosition17set_site_positionEKiKiRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst14SelectPosition17set_site_positionEKiKiRK8Position">
+<span class="target" id="classfeasst_1_1SelectPosition_1a81f3fa524727f93a4c8bbc6bdce3f2d7"></span>void <code class="sig-name descname">set_site_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14SelectPosition17set_site_positionEKiKiRK8Position" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the position of a site by particle and site index. Note that these indices are based on selection, not configuration. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst14SelectPosition17set_site_positionEKiKiKNSt6vectorIdEE">
-<span id="_CPPv2N6feasst14SelectPosition17set_site_positionEKiKiKNSt6vectorIdEE"></span><span id="feasst::SelectPosition::set_site_position__iC.iC.std::vector:double:C"></span><span class="target" id="classfeasst_1_1SelectPosition_1a96bcdb2b499ba73649e01a312b96c64e"></span>void <code class="descname">set_site_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> std::vector&lt;double&gt; <em>coord</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14SelectPosition17set_site_positionEKiKiKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst14SelectPosition17set_site_positionEKiKiKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1SelectPosition_1a96bcdb2b499ba73649e01a312b96c64e"></span>void <code class="sig-name descname">set_site_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> std::vector&lt;double&gt; <em>coord</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14SelectPosition17set_site_positionEKiKiKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Same as above except vector position is accepted. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst14SelectPosition19set_site_propertiesEKiKiRK10Properties">
-<span id="_CPPv2N6feasst14SelectPosition19set_site_propertiesEKiKiRK10Properties"></span><span id="feasst::SelectPosition::set_site_properties__iC.iC.PropertiesCR"></span><span class="target" id="classfeasst_1_1SelectPosition_1a0810da66b3235f81e58cf13501b00fc3"></span>void <code class="descname">set_site_properties</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="Properties.html#_CPPv3N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>properties</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14SelectPosition19set_site_propertiesEKiKiRK10Properties" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst14SelectPosition19set_site_propertiesEKiKiRK10Properties">
+<span class="target" id="classfeasst_1_1SelectPosition_1a0810da66b3235f81e58cf13501b00fc3"></span>void <code class="sig-name descname">set_site_properties</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="Properties.html#_CPPv4N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>properties</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14SelectPosition19set_site_propertiesEKiKiRK10Properties" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the property of a site by particle and site index. Note that these indices are based on selection, not configuration. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst14SelectPosition21set_particle_positionEKiRK8Position">
-<span id="_CPPv2N6feasst14SelectPosition21set_particle_positionEKiRK8Position"></span><span id="feasst::SelectPosition::set_particle_position__iC.PositionCR"></span><span class="target" id="classfeasst_1_1SelectPosition_1a1459bd96f0dd3dae288d09b90a453181"></span>void <code class="descname">set_particle_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv3N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14SelectPosition21set_particle_positionEKiRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst14SelectPosition21set_particle_positionEKiRK8Position">
+<span class="target" id="classfeasst_1_1SelectPosition_1a1459bd96f0dd3dae288d09b90a453181"></span>void <code class="sig-name descname">set_particle_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14SelectPosition21set_particle_positionEKiRK8Position" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the position of a particle by its index. Note that this index is based on selection, not configuration. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst14SelectPosition14load_positionsERK15ParticleFactory">
-<span id="_CPPv2N6feasst14SelectPosition14load_positionsERK15ParticleFactory"></span><span id="feasst::SelectPosition::load_positions__ParticleFactoryCR"></span><span class="target" id="classfeasst_1_1SelectPosition_1a70b20589c4fea96ca3b87c00eefde1ca"></span>void <code class="descname">load_positions</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="ParticleFactory.html#_CPPv3N6feasst15ParticleFactoryE" title="feasst::ParticleFactory">ParticleFactory</a> &amp;<em>particles</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14SelectPosition14load_positionsERK15ParticleFactory" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst14SelectPosition14load_positionsERK15ParticleFactory">
+<span class="target" id="classfeasst_1_1SelectPosition_1a70b20589c4fea96ca3b87c00eefde1ca"></span>void <code class="sig-name descname">load_positions</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="ParticleFactory.html#_CPPv4N6feasst15ParticleFactoryE" title="feasst::ParticleFactory">ParticleFactory</a> &amp;<em>particles</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14SelectPosition14load_positionsERK15ParticleFactory" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Load the positions from the existing selection indices. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst14SelectPosition5clearEv">
-<span id="_CPPv2N6feasst14SelectPosition5clearEv"></span><span id="feasst::SelectPosition::clear"></span><span class="target" id="classfeasst_1_1SelectPosition_1a57fe610e945d0b8b12cd60060d217086"></span>void <code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14SelectPosition5clearEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst14SelectPosition5clearEv">
+<span class="target" id="classfeasst_1_1SelectPosition_1a57fe610e945d0b8b12cd60060d217086"></span>void <code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14SelectPosition5clearEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Clear the selection. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst14SelectPosition16remove_last_siteEv">
-<span id="_CPPv2N6feasst14SelectPosition16remove_last_siteEv"></span><span id="feasst::SelectPosition::remove_last_site"></span><span class="target" id="classfeasst_1_1SelectPosition_1a67b9260ffc950f5b61f0305502526c18"></span>void <code class="descname">remove_last_site</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14SelectPosition16remove_last_siteEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst14SelectPosition16remove_last_siteEv">
+<span class="target" id="classfeasst_1_1SelectPosition_1a67b9260ffc950f5b61f0305502526c18"></span>void <code class="sig-name descname">remove_last_site</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14SelectPosition16remove_last_siteEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Remove the last site. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst14SelectPosition17remove_first_siteEv">
-<span id="_CPPv2N6feasst14SelectPosition17remove_first_siteEv"></span><span id="feasst::SelectPosition::remove_first_site"></span><span class="target" id="classfeasst_1_1SelectPosition_1ac699d67ad803e3ec5865049fce96c36e"></span>void <code class="descname">remove_first_site</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14SelectPosition17remove_first_siteEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst14SelectPosition17remove_first_siteEv">
+<span class="target" id="classfeasst_1_1SelectPosition_1ac699d67ad803e3ec5865049fce96c36e"></span>void <code class="sig-name descname">remove_first_site</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14SelectPosition17remove_first_siteEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Remove the first site. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst14SelectPosition8add_siteEKiKi">
-<span id="_CPPv2N6feasst14SelectPosition8add_siteEKiKi"></span><span id="feasst::SelectPosition::add_site__iC.iC"></span><span class="target" id="classfeasst_1_1SelectPosition_1abe43d5846fa1de74b829de908586d9ea"></span>void <code class="descname">add_site</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14SelectPosition8add_siteEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst14SelectPosition8add_siteEKiKi">
+<span class="target" id="classfeasst_1_1SelectPosition_1abe43d5846fa1de74b829de908586d9ea"></span>void <code class="sig-name descname">add_site</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14SelectPosition8add_siteEKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add site by index. </p>
 </dd></dl>
 
@@ -333,7 +365,7 @@
         <a href="VisitParticles.html" class="btn btn-neutral float-right" title="VisitParticles" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Domain.html" class="btn btn-neutral" title="Domain" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Domain.html" class="btn btn-neutral float-left" title="Domain" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -438,29 +470,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

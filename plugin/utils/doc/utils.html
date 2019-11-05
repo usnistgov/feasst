@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>utils/include/utils &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>utils/include/utils &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="utils_file.html">utils/include/utils_file</a></li>
@@ -227,21 +235,44 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="utils-include-utils">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="utils-include-utils">
 <h1>utils/include/utils<a class="headerlink" href="#utils-include-utils" title="Permalink to this headline">¶</a></h1>
 <dl class="type">
-<dt id="_CPPv36feasst">
-<span id="_CPPv26feasst"></span><span id="feasst"></span><span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="descname">feasst</code><br /></dt>
+<dt id="_CPPv46feasst">
+<span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Functions</p>
 <dl class="function">
-<dt id="_CPPv3N6feasst12find_in_listEK1TRKNSt6vectorI1TEEPi">
-<span id="_CPPv2N6feasst12find_in_listEK1TRKNSt6vectorI1TEEPi"></span><span id="feasst::find_in_list__TC.std::vector:T:CR.iP"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1a591698c749adc95b89af3ec7d5f974d1"></span>bool <code class="descname">find_in_list</code><span class="sig-paren">(</span><em class="property">const</em> T <em>value</em>, <em class="property">const</em> std::vector&lt;T&gt; &amp;<em>list</em>, int *<em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst12find_in_listEK1TRKNSt6vectorI1TEEPi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I0EN6feasst12find_in_listEbK1TRKNSt6vectorI1TEEPi">
+<span class="target" id="namespacefeasst_1a591698c749adc95b89af3ec7d5f974d1"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />bool <code class="sig-name descname">find_in_list</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst12find_in_listEbK1TRKNSt6vectorI1TEEPi" title="feasst::find_in_list::T">T</a> <em>value</em>, <em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst12find_in_listEbK1TRKNSt6vectorI1TEEPi" title="feasst::find_in_list::T">T</a>&gt; &amp;<em>list</em>, int *<em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst12find_in_listEbK1TRKNSt6vectorI1TEEPi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return if value is found in list, and the index of that value in list. </p>
-<p><dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">index</span></code>: last index in list where value was found </li>
+<p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">index</span></code>: last index in list where value was found </p></li>
 </ul>
 </dd>
 </dl>
@@ -249,36 +280,41 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst12find_in_listEK1TRKNSt6vectorI1TEE">
-<span id="_CPPv2N6feasst12find_in_listEK1TRKNSt6vectorI1TEE"></span><span id="feasst::find_in_list__TC.std::vector:T:CR"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1a03a712bb1c91bcbacd763c9e3edb8bb9"></span>bool <code class="descname">find_in_list</code><span class="sig-paren">(</span><em class="property">const</em> T <em>value</em>, <em class="property">const</em> std::vector&lt;T&gt; &amp;<em>list</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst12find_in_listEK1TRKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I0EN6feasst12find_in_listEbK1TRKNSt6vectorI1TEE">
+<span class="target" id="namespacefeasst_1a03a712bb1c91bcbacd763c9e3edb8bb9"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />bool <code class="sig-name descname">find_in_list</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst12find_in_listEbK1TRKNSt6vectorI1TEEPi" title="feasst::find_in_list::T">T</a> <em>value</em>, <em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst12find_in_listEbK1TRKNSt6vectorI1TEEPi" title="feasst::find_in_list::T">T</a>&gt; &amp;<em>list</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst12find_in_listEbK1TRKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return if value is found in list. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst6resizeEKiKiPNSt6vectorINSt6vectorI1TEEEE">
-<span id="_CPPv2N6feasst6resizeEKiKiPNSt6vectorINSt6vectorI1TEEEE"></span><span id="feasst::resize__iC.iC.std::vector:std::vector:T::P"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1a90fb80a9b8b26d1f4d69673671312a83"></span>void <code class="descname">resize</code><span class="sig-paren">(</span><em class="property">const</em> int <em>xs</em>, <em class="property">const</em> int <em>ys</em>, std::vector&lt;std::vector&lt;T&gt;&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst6resizeEKiKiPNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I0EN6feasst6resizeEvKiKiPNSt6vectorINSt6vectorI1TEEEE">
+<span class="target" id="namespacefeasst_1a90fb80a9b8b26d1f4d69673671312a83"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">resize</code><span class="sig-paren">(</span><em class="property">const</em> int <em>xs</em>, <em class="property">const</em> int <em>ys</em>, std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6resizeEvKiKiPNSt6vectorINSt6vectorI1TEEEE" title="feasst::resize::T">T</a>&gt;&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6resizeEvKiKiPNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Resize two dimensional vector to size xs, ys. Note to HWH: rewrite using variadic templates for arbitrary dimensions </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst12num_elementsEKNSt6vectorINSt6vectorI1TEEEE">
-<span id="_CPPv2N6feasst12num_elementsEKNSt6vectorINSt6vectorI1TEEEE"></span><span id="feasst::num_elements__std::vector:std::vector:T::C"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1adc2fe030f841b2da9b2b4506ef853960"></span>int <code class="descname">num_elements</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;T&gt;&gt; <em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst12num_elementsEKNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I0EN6feasst12num_elementsEiKNSt6vectorINSt6vectorI1TEEEE">
+<span class="target" id="namespacefeasst_1adc2fe030f841b2da9b2b4506ef853960"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />int <code class="sig-name descname">num_elements</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst12num_elementsEiKNSt6vectorINSt6vectorI1TEEEE" title="feasst::num_elements::T">T</a>&gt;&gt; <em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst12num_elementsEiKNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the total number of elements in a multidimensional vector. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst14feasst_reverseEPNSt6vectorI1TEE">
-<span id="_CPPv2N6feasst14feasst_reverseEPNSt6vectorI1TEE"></span><span id="feasst::feasst_reverse__std::vector:T:P"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1a6681aa35ee04c9b077e57c01e47d9480"></span>void <code class="descname">feasst_reverse</code><span class="sig-paren">(</span>std::vector&lt;T&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14feasst_reverseEPNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I0EN6feasst14feasst_reverseEvPNSt6vectorI1TEE">
+<span class="target" id="namespacefeasst_1a6681aa35ee04c9b077e57c01e47d9480"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_reverse</code><span class="sig-paren">(</span>std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst14feasst_reverseEvPNSt6vectorI1TEE" title="feasst::feasst_reverse::T">T</a>&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst14feasst_reverseEvPNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst14feasst_reverseEPNSt6vectorINSt6vectorI1TEEEE">
-<span id="_CPPv2N6feasst14feasst_reverseEPNSt6vectorINSt6vectorI1TEEEE"></span><span id="feasst::feasst_reverse__std::vector:std::vector:T::P"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1af4fea6f7ca8fa4293b7a358260d0dc0d"></span>void <code class="descname">feasst_reverse</code><span class="sig-paren">(</span>std::vector&lt;std::vector&lt;T&gt;&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst14feasst_reverseEPNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I0EN6feasst14feasst_reverseEvPNSt6vectorINSt6vectorI1TEEEE">
+<span class="target" id="namespacefeasst_1af4fea6f7ca8fa4293b7a358260d0dc0d"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_reverse</code><span class="sig-paren">(</span>std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst14feasst_reverseEvPNSt6vectorI1TEE" title="feasst::feasst_reverse::T">T</a>&gt;&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst14feasst_reverseEvPNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst12is_duplicateERKNSt6vectorI1TEE">
-<span id="_CPPv2N6feasst12is_duplicateERKNSt6vectorI1TEE"></span><span id="feasst::is_duplicate__std::vector:T:CR"></span><em class="property">template </em>&lt;<em class="property">class</em> T&gt;<br /><span class="target" id="namespacefeasst_1aad39c0f0105b387c96246bd442902118"></span>bool <code class="descname">is_duplicate</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;T&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst12is_duplicateERKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I0EN6feasst13has_duplicateEbRKNSt6vectorI1TEE">
+<span class="target" id="namespacefeasst_1aaa8fefb2c4064d054d3f703134b42c84"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />bool <code class="sig-name descname">has_duplicate</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst13has_duplicateEbRKNSt6vectorI1TEE" title="feasst::has_duplicate::T">T</a>&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst13has_duplicateEbRKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4I0EN6feasst8is_equalEbRKNSt6vectorI1TEERKNSt6vectorI1TEEKd">
+<span class="target" id="namespacefeasst_1ad4815968f2d19699aed5152c50b151ef"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />bool <code class="sig-name descname">is_equal</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst8is_equalEbRKNSt6vectorI1TEERKNSt6vectorI1TEEKd" title="feasst::is_equal::T">T</a>&gt; &amp;<em>vec1</em>, <em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst8is_equalEbRKNSt6vectorI1TEERKNSt6vectorI1TEEKd" title="feasst::is_equal::T">T</a>&gt; &amp;<em>vec2</em>, <em class="property">const</em> double <em>tolerance</em> = 1e-15<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst8is_equalEbRKNSt6vectorI1TEERKNSt6vectorI1TEEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </div>
@@ -297,7 +333,7 @@
         <a href="debug.html" class="btn btn-neutral float-right" title="utils/include/debug" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="CustomException.html" class="btn btn-neutral" title="CustomException" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="CustomException.html" class="btn btn-neutral float-left" title="CustomException" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -402,29 +438,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Cache &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>Cache &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="utils_file.html">utils/include/utils_file</a></li>
@@ -227,52 +235,76 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cache">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="cache">
 <h1>Cache<a class="headerlink" href="#cache" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv3N6feasst5CacheE">
-<span id="_CPPv2N6feasst5CacheE"></span><span id="feasst::Cache"></span><span class="target" id="classfeasst_1_1Cache"></span><em class="property">class </em><code class="descname">Cache</code><a class="headerlink" href="#_CPPv3N6feasst5CacheE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5CacheE">
+<span class="target" id="classfeasst_1_1Cache"></span><em class="property">class </em><code class="sig-name descname">Cache</code><a class="headerlink" href="#_CPPv4N6feasst5CacheE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv3N6feasst5Cache8set_loadEKb">
-<span id="_CPPv2N6feasst5Cache8set_loadEKb"></span><span id="feasst::Cache::set_load__bC"></span><span class="target" id="classfeasst_1_1Cache_1a4775ae650be1b8c30868843a92450b7a"></span>void <code class="descname">set_load</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>store</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Cache8set_loadEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Cache8set_loadEKb">
+<span class="target" id="classfeasst_1_1Cache_1a4775ae650be1b8c30868843a92450b7a"></span>void <code class="sig-name descname">set_load</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>store</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache8set_loadEKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Store numbers if true (default: false). Either way, any previously stored values are reset, and unloading is disabled. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst5Cache10set_unloadEKb">
-<span id="_CPPv2N6feasst5Cache10set_unloadEKb"></span><span id="feasst::Cache::set_unload__bC"></span><span class="target" id="classfeasst_1_1Cache_1ab00d7febb7cbeb731329908aae3231e2"></span>void <code class="descname">set_unload</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>unload</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Cache10set_unloadEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Cache10set_unloadEKb">
+<span class="target" id="classfeasst_1_1Cache_1ab00d7febb7cbeb731329908aae3231e2"></span>void <code class="sig-name descname">set_unload</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>unload</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache10set_unloadEKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Unload numbers if true (default: false). Either way, loading is disabled. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst5Cache10set_unloadERK5Cache">
-<span id="_CPPv2N6feasst5Cache10set_unloadERK5Cache"></span><span id="feasst::Cache::set_unload__CacheCR"></span><span class="target" id="classfeasst_1_1Cache_1ad8039364a4fa851a808c2f3af078eb34"></span>void <code class="descname">set_unload</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv3N6feasst5CacheE" title="feasst::Cache">Cache</a> &amp;<em>cache</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Cache10set_unloadERK5Cache" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Cache10set_unloadERK5Cache">
+<span class="target" id="classfeasst_1_1Cache_1ad8039364a4fa851a808c2f3af078eb34"></span>void <code class="sig-name descname">set_unload</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst5CacheE" title="feasst::Cache">Cache</a> &amp;<em>cache</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache10set_unloadERK5Cache" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Preset numbers to those stored by another <a class="reference internal" href="#classfeasst_1_1Cache"><span class="std std-ref">Cache</span></a>. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst5Cache12is_unloadingEPd">
-<span id="_CPPv2N6feasst5Cache12is_unloadingEPd"></span><span id="feasst::Cache::is_unloading__doubleP"></span><span class="target" id="classfeasst_1_1Cache_1a0985e32d772a35c91d89a9ef1495db82"></span>bool <code class="descname">is_unloading</code><span class="sig-paren">(</span>double *<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Cache12is_unloadingEPd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Cache12is_unloadingEPd">
+<span class="target" id="classfeasst_1_1Cache_1a0985e32d772a35c91d89a9ef1495db82"></span>bool <code class="sig-name descname">is_unloading</code><span class="sig-paren">(</span>double *<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache12is_unloadingEPd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if unloading into value. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst5Cache4loadEKd">
-<span id="_CPPv2N6feasst5Cache4loadEKd"></span><span id="feasst::Cache::load__doubleC"></span><span class="target" id="classfeasst_1_1Cache_1ae6c5c5d9647abc80e17ead59a903d01a"></span>void <code class="descname">load</code><span class="sig-paren">(</span><em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Cache4loadEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Cache4loadEKd">
+<span class="target" id="classfeasst_1_1Cache_1ae6c5c5d9647abc80e17ead59a903d01a"></span>void <code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache4loadEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Attempt to load value into cache. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Cache9serializeERNSt7ostreamE">
-<span id="_CPPv2NK6feasst5Cache9serializeERNSt7ostreamE"></span><span id="feasst::Cache::serialize__osRC"></span><span class="target" id="classfeasst_1_1Cache_1a74df575b985b4192ae08e05cffaf79ab"></span>void <code class="descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Cache9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Cache9serializeERNSt7ostreamE">
+<span class="target" id="classfeasst_1_1Cache_1a74df575b985b4192ae08e05cffaf79ab"></span>void <code class="sig-name descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cache9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Serialize. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst5Cache5CacheERNSt7istreamE">
-<span id="_CPPv2N6feasst5Cache5CacheERNSt7istreamE"></span><span id="feasst::Cache::Cache__isR"></span><span class="target" id="classfeasst_1_1Cache_1ad82e8c6719cbd5e5e61f0948f1b7e30b"></span><code class="descname">Cache</code><span class="sig-paren">(</span>std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Cache5CacheERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Cache5CacheERNSt7istreamE">
+<span class="target" id="classfeasst_1_1Cache_1ad82e8c6719cbd5e5e61f0948f1b7e30b"></span><code class="sig-name descname">Cache</code><span class="sig-paren">(</span>std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache5CacheERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Deserialize. </p>
 </dd></dl>
 
@@ -292,7 +324,7 @@
         <a href="Arguments.html" class="btn btn-neutral float-right" title="Arguments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Timer.html" class="btn btn-neutral" title="Timer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Timer.html" class="btn btn-neutral float-left" title="Timer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -397,29 +429,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

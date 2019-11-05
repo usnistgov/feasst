@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Plugin &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>Plugin &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,20 +19,33 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Utilities" href="utils/README.html" />
-    <link rel="prev" title="Tutorial" href="../tutorial/README.html" />
+    <link rel="prev" title="Tutorial" href="../tutorial/tutorial.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Plugin</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="math/README.html">Math</a></li>
@@ -209,11 +217,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="plugin">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="plugin">
 <h1>Plugin<a class="headerlink" href="#plugin" title="Permalink to this headline">¶</a></h1>
 <p>A plugin is a distinct piece of the FEASST simulation program.
 They are designed to reduce dependencies and allow for others to easily develop their own plugins and modifications without affecting the rest of the code.
-See the example plugin as a template for creating your own.</p>
+See the example plugin as a template for creating your own.
+Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMakeLists.txt of the root directory of FEASST.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="utils/README.html">Utilities</a><ul>
@@ -267,7 +300,10 @@ See the example plugin as a template for creating your own.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="system/README.html">System</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="system/README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="system/README.html#tutorial">Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="system/tutorial/tutorial.html">Lennard Jones reference configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="system/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="system/README.html#api">API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/physical_constants.html">system/include/physical_constants</a></li>
@@ -283,24 +319,31 @@ See the example plugin as a template for creating your own.</p>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/VisitModelIntra.html">VisitModelIntra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system/doc/SelectList.html">SelectList</a></li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/Potential.html">Potential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/PotentialFactory.html">PotentialFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="system/doc/System.html">System</a></li>
-<li class="toctree-l3"><a class="reference internal" href="system/doc/SelectList.html">SelectList</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="monte_carlo/README.html">Monte Carlo</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="monte_carlo/README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monte_carlo/README.html#tutorial">Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/tutorial/tutorial_1_lj_nvt.html">Canonical ensemble Monte Carlo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/tutorial/tutorial_2_lj_gcmc.html">Grand canonical ensemble Monte Carlo</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="monte_carlo/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="monte_carlo/README.html#api">API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Tunable.html">Tunable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Stepper.html">Stepper</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Acceptance.html">Acceptance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/CriteriaMetropolis.html">CriteriaMetropolis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Rosenbluth.html">Rosenbluth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Criteria.html">Criteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Metropolis.html">Metropolis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialSelect.html">TrialSelect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Perturb.html">Perturb</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbConfigs.html">PerturbConfigs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbMove.html">PerturbMove</a></li>
@@ -311,33 +354,35 @@ See the example plugin as a template for creating your own.</p>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/PerturbRemove.html">PerturbRemove</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialCompute.html">TrialCompute</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Trial.html">Trial</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialFactory.html">TrialFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Modify.html">Modify</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/ModifyFactory.html">ModifyFactory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialMove.html">TrialMove</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialRotate.html">TrialRotate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialTranslate.html">TrialTranslate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/Analyze.html">Analyze</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/AnalyzeFactory.html">AnalyzeFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialRemove.html">TrialRemove</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialMove.html">TrialMove</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/TrialRotate.html">TrialRotate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="monte_carlo/doc/MonteCarlo.html">MonteCarlo</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="example/README.html">Example</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="example/doc/ModelExample.html">ModelExample</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example/tutorial/tutorial.html">Example tutorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example/README.html#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="example/doc/ModelExample.html">ModelExample</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="models/README.html">Models</a><ul>
@@ -354,34 +399,35 @@ See the example plugin as a template for creating your own.</p>
 <li class="toctree-l2"><a class="reference internal" href="steppers/doc/CheckEnergy.html">CheckEnergy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="steppers/doc/WallClockLimit.html">WallClockLimit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="steppers/doc/Tuner.html">Tuner</a></li>
-<li class="toctree-l2"><a class="reference internal" href="steppers/doc/Energy.html">Energy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="steppers/doc/NumParticles.html">NumParticles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="steppers/doc/CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="steppers/doc/Movie.html">Movie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="steppers/doc/NumParticles.html">NumParticles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="steppers/doc/Energy.html">Energy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="steppers/doc/Log.html">Log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="steppers/doc/CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="steppers/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="flat_histogram/README.html">Flat histogram</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="flat_histogram/README.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="flat_histogram/tutorial/README.html">Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="flat_histogram/tutorial/README.html#grand-canonical-ensemble-transition-matrix-monte-carlo">Grand canonical ensemble transition-matrix Monte Carlo</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="flat_histogram/tutorial/README.html#ensemble-averages">Ensemble averages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="flat_histogram/tutorial/README.html#histogram-reweighting">Histogram reweighting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/tutorial/tutorial_1_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/tutorial/tutorial_2_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flat_histogram/tutorial/tutorial_2_reweight_supercritical.html#Grand-canonical-ensemble-averages">Grand canonical ensemble averages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flat_histogram/tutorial/tutorial_2_reweight_supercritical.html#Histogram-reweighting">Histogram reweighting</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/tutorial/tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="flat_histogram/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flat_histogram/README.html#api">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/LnProbabilityDistribution.html">LnProbabilityDistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/LnProbability.html">LnProbability</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/Bias.html">Bias</a></li>
-<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/BiasWangLandau.html">BiasWangLandau</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/Macrostate.html">Macrostate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/WangLandau.html">WangLandau</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/BiasTransitionMatrix.html">BiasTransitionMatrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/MacrostateNumParticles.html">MacrostateNumParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="flat_histogram/doc/CriteriaFlatHistogram.html">CriteriaFlatHistogram</a></li>
 </ul>
 </li>
 </ul>
@@ -421,33 +467,32 @@ See the example plugin as a template for creating your own.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="confinement/README.html">Confinement</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="confinement/doc/Shape.html">Shape</a></li>
-<li class="toctree-l2"><a class="reference internal" href="confinement/doc/Slab.html">Slab</a></li>
-<li class="toctree-l2"><a class="reference internal" href="confinement/doc/Cylinder.html">Cylinder</a></li>
-<li class="toctree-l2"><a class="reference internal" href="confinement/doc/Sphere.html">Sphere</a></li>
-<li class="toctree-l2"><a class="reference internal" href="confinement/doc/ModelLJShape.html">ModelLJShape</a></li>
-<li class="toctree-l2"><a class="reference internal" href="confinement/doc/ModelHardShape.html">ModelHardShape</a></li>
-<li class="toctree-l2"><a class="reference internal" href="confinement/doc/HalfSpace.html">HalfSpace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="confinement/tutorial/tutorial.html">Slab, cylindrical, spherical and mixed confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="confinement/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="confinement/README.html#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="confinement/doc/Shape.html">Shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="confinement/doc/Slab.html">Slab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="confinement/doc/Cylinder.html">Cylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="confinement/doc/Sphere.html">Sphere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="confinement/doc/ModelLJShape.html">ModelLJShape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="confinement/doc/ModelHardShape.html">ModelHardShape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="confinement/doc/HalfSpace.html">HalfSpace</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ewald/README.html">Ewald</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ewald/doc/Ewald.html">Ewald</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ewald/doc/ModelChargeSelf.html">ModelChargeSelf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ewald/doc/ModelChargeIntra.html">ModelChargeIntra</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ewald/doc/ModelChargeScreened.html">ModelChargeScreened</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ewald/doc/utils_ewald.html">ewald/include/utils_ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ewald/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ewald/README.html#api">API</a><ul class="simple">
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="growth_expanded/README.html">Growth expanded</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="growth_expanded/doc/TrialComputeGrowAdd.html">TrialComputeGrowAdd</a></li>
-<li class="toctree-l2"><a class="reference internal" href="growth_expanded/doc/MacrostateGrowthExpanded.html">MacrostateGrowthExpanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="growth_expanded/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pipeline/README.html">Pipeline</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pipeline/doc/Pool.html">Pool</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pipeline/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -466,7 +511,7 @@ See the example plugin as a template for creating your own.</p>
         <a href="utils/README.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../tutorial/README.html" class="btn btn-neutral" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../tutorial/tutorial.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -571,29 +616,16 @@ See the example plugin as a template for creating your own.</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

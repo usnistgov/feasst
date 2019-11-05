@@ -5,6 +5,7 @@ Plugin
 A plugin is a distinct piece of the FEASST simulation program.
 They are designed to reduce dependencies and allow for others to easily develop their own plugins and modifications without affecting the rest of the code.
 See the example plugin as a template for creating your own.
+Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMakeLists.txt of the root directory of FEASST.
 
 .. toctree::
    :glob:

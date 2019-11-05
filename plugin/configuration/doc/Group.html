@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Group &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>Group &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
@@ -236,65 +244,89 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="group">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="group">
 <h1>Group<a class="headerlink" href="#group" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv3N6feasst5GroupE">
-<span id="_CPPv2N6feasst5GroupE"></span><span id="feasst::Group"></span><span class="target" id="classfeasst_1_1Group"></span><em class="property">class </em><code class="descname">Group</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv36feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv3N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv3N6feasst5GroupE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5GroupE">
+<span class="target" id="classfeasst_1_1Group"></span><em class="property">class </em><code class="sig-name descname">Group</code> : <em class="property">public</em> <a class="reference internal" href="../../math/doc/constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv4N6feasst5GroupE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Define groups based on particle and site types. In the future, other metrics may be used, such as position-based ones, etc. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv3N6feasst5Group11set_dynamicEv">
-<span id="_CPPv2N6feasst5Group11set_dynamicEv"></span><span id="feasst::Group::set_dynamic"></span><span class="target" id="classfeasst_1_1Group_1a196b47711d83b657b3180ef23a4c79c1"></span>void <code class="descname">set_dynamic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Group11set_dynamicEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Group11set_dynamicEv">
+<span class="target" id="classfeasst_1_1Group_1a196b47711d83b657b3180ef23a4c79c1"></span>void <code class="sig-name descname">set_dynamic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Group11set_dynamicEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Dynamic groups indicate that they should be updated (default behavior). </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst5Group13add_site_typeEKi">
-<span id="_CPPv2N6feasst5Group13add_site_typeEKi"></span><span id="feasst::Group::add_site_type__iC"></span><span class="target" id="classfeasst_1_1Group_1a5736d5c79c20c0fdc5e772addb862382"></span><a class="reference internal" href="#_CPPv3N6feasst5GroupE" title="feasst::Group">Group</a> &amp;<code class="descname">add_site_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Group13add_site_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Group13add_site_typeEKi">
+<span class="target" id="classfeasst_1_1Group_1a5736d5c79c20c0fdc5e772addb862382"></span><a class="reference internal" href="#_CPPv4N6feasst5GroupE" title="feasst::Group">Group</a> &amp;<code class="sig-name descname">add_site_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Group13add_site_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add site type as included. Return self for chain setting. If no site types are defined, then all site types are in the group. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst5Group17add_particle_typeEKi">
-<span id="_CPPv2N6feasst5Group17add_particle_typeEKi"></span><span id="feasst::Group::add_particle_type__iC"></span><span class="target" id="classfeasst_1_1Group_1a3f65512fc9a4f506d8daa83b42bd7547"></span><a class="reference internal" href="#_CPPv3N6feasst5GroupE" title="feasst::Group">Group</a> &amp;<code class="descname">add_particle_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst5Group17add_particle_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst5Group17add_particle_typeEKi">
+<span class="target" id="classfeasst_1_1Group_1a3f65512fc9a4f506d8daa83b42bd7547"></span><a class="reference internal" href="#_CPPv4N6feasst5GroupE" title="feasst::Group">Group</a> &amp;<code class="sig-name descname">add_particle_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Group17add_particle_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add particle type as included. Return self for chain setting. If no particle types are defined, then all particle types are included. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Group8is_emptyEv">
-<span id="_CPPv2NK6feasst5Group8is_emptyEv"></span><span id="feasst::Group::is_emptyC"></span><span class="target" id="classfeasst_1_1Group_1abfd013e316ef4c2921afcc0984445a25"></span>bool <code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Group8is_emptyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Group8is_emptyEv">
+<span class="target" id="classfeasst_1_1Group_1abfd013e316ef4c2921afcc0984445a25"></span>bool <code class="sig-name descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Group8is_emptyEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if group has no group definitions. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Group5is_inERK4Site">
-<span id="_CPPv2NK6feasst5Group5is_inERK4Site"></span><span id="feasst::Group::is_in__SiteCRC"></span><span class="target" id="classfeasst_1_1Group_1a23c57cad832527988864fab116163644"></span>bool <code class="descname">is_in</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Site.html#_CPPv3N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Group5is_inERK4Site" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Group5is_inERK4Site">
+<span class="target" id="classfeasst_1_1Group_1a23c57cad832527988864fab116163644"></span>bool <code class="sig-name descname">is_in</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Group5is_inERK4Site" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if the site is in the group. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Group5is_inERK8Particle">
-<span id="_CPPv2NK6feasst5Group5is_inERK8Particle"></span><span id="feasst::Group::is_in__ParticleCRC"></span><span class="target" id="classfeasst_1_1Group_1a4590b28bee9a634103d6bda1c0725b59"></span>bool <code class="descname">is_in</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Group5is_inERK8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Group5is_inERK8Particle">
+<span class="target" id="classfeasst_1_1Group_1a4590b28bee9a634103d6bda1c0725b59"></span>bool <code class="sig-name descname">is_in</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Group5is_inERK8Particle" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if the particle is in the group. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Group12remove_sitesEP8Particle">
-<span id="_CPPv2NK6feasst5Group12remove_sitesEP8Particle"></span><span id="feasst::Group::remove_sites__ParticlePC"></span><span class="target" id="classfeasst_1_1Group_1a495d575dfb4f91f8c849c356af9932c5"></span>void <code class="descname">remove_sites</code><span class="sig-paren">(</span><a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> *<em>particle</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Group12remove_sitesEP8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Group12remove_sitesEP8Particle">
+<span class="target" id="classfeasst_1_1Group_1a495d575dfb4f91f8c849c356af9932c5"></span>void <code class="sig-name descname">remove_sites</code><span class="sig-paren">(</span><a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> *<em>particle</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Group12remove_sitesEP8Particle" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Remove sites from the particle which are not in the group. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Group12site_indicesERK8Particle">
-<span id="_CPPv2NK6feasst5Group12site_indicesERK8Particle"></span><span id="feasst::Group::site_indices__ParticleCRC"></span><span class="target" id="classfeasst_1_1Group_1aa5caf8294678968aa66eb5008362e378"></span>std::vector&lt;int&gt; <code class="descname">site_indices</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv3N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Group12site_indicesERK8Particle" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Group12site_indicesERK8Particle">
+<span class="target" id="classfeasst_1_1Group_1aa5caf8294678968aa66eb5008362e378"></span>std::vector&lt;int&gt; <code class="sig-name descname">site_indices</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a> &amp;<em>particle</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Group12site_indicesERK8Particle" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the list of site indices in <a class="reference internal" href="Particle.html#classfeasst_1_1Particle"><span class="std std-ref">Particle</span></a> which are in the group. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst5Group10is_spatialEv">
-<span id="_CPPv2NK6feasst5Group10is_spatialEv"></span><span id="feasst::Group::is_spatialC"></span><span class="target" id="classfeasst_1_1Group_1a79f25b704d8cbd33ba471d9aa268e382"></span>bool <code class="descname">is_spatial</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst5Group10is_spatialEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst5Group10is_spatialEv">
+<span class="target" id="classfeasst_1_1Group_1a79f25b704d8cbd33ba471d9aa268e382"></span>bool <code class="sig-name descname">is_spatial</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Group10is_spatialEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return if the group definition is based on location. </p>
 </dd></dl>
 
@@ -314,7 +346,7 @@
         <a href="FileLMP.html" class="btn btn-neutral float-right" title="FileLMP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Particle.html" class="btn btn-neutral" title="Particle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Particle.html" class="btn btn-neutral float-left" title="Particle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -419,29 +451,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

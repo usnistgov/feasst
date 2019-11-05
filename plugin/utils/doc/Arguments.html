@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Arguments &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>Arguments &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -45,21 +58,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -73,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -99,7 +107,7 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="utils_file.html">utils/include/utils_file</a></li>
@@ -227,107 +235,131 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="arguments">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="arguments">
 <h1>Arguments<a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="_CPPv3N6feasst9ArgumentsE">
-<span id="_CPPv2N6feasst9ArgumentsE"></span><span id="feasst::Arguments"></span><span class="target" id="classfeasst_1_1Arguments"></span><em class="property">class </em><code class="descname">Arguments</code><a class="headerlink" href="#_CPPv3N6feasst9ArgumentsE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9ArgumentsE">
+<span class="target" id="classfeasst_1_1Arguments"></span><em class="property">class </em><code class="sig-name descname">Arguments</code><a class="headerlink" href="#_CPPv4N6feasst9ArgumentsE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The <a class="reference internal" href="#classfeasst_1_1Arguments"><span class="std std-ref">Arguments</span></a> class takes in arguments as a map of strings (e.g., key,value pairs in a dictionary). It then uses chainsetters to access the key values and finds keys that were used for error checking. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments4initERK7argtype">
-<span id="_CPPv2N6feasst9Arguments4initERK7argtype"></span><span id="feasst::Arguments::init__argtypeCR"></span><span class="target" id="classfeasst_1_1Arguments_1ae5623229e5fbf7d9c95bb009e131ca19"></span>void <code class="descname">init</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments4initERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments4initERK7argtype">
+<span class="target" id="classfeasst_1_1Arguments_1ae5623229e5fbf7d9c95bb009e131ca19"></span>void <code class="sig-name descname">init</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments4initERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize the arguments using a brace enclosed initializer list. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments9ArgumentsERK7argtype">
-<span id="_CPPv2N6feasst9Arguments9ArgumentsERK7argtype"></span><span id="feasst::Arguments::Arguments__argtypeCR"></span><span class="target" id="classfeasst_1_1Arguments_1a75986e2e59068121f18a9fcbe4de4b03"></span><code class="descname">Arguments</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments9ArgumentsERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments9ArgumentsERK7argtype">
+<span class="target" id="classfeasst_1_1Arguments_1a75986e2e59068121f18a9fcbe4de4b03"></span><code class="sig-name descname">Arguments</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments9ArgumentsERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct via brace enclosed initializer list. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments3keyERKNSt6stringE">
-<span id="_CPPv2N6feasst9Arguments3keyERKNSt6stringE"></span><span id="feasst::Arguments::key__ssCR"></span><span class="target" id="classfeasst_1_1Arguments_1aabca733e4a49bbbc890ccabb8923d764"></span><a class="reference internal" href="#_CPPv3N6feasst9ArgumentsE" title="feasst::Arguments">Arguments</a> &amp;<code class="descname">key</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments3keyERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments3keyERKNSt6stringE">
+<span class="target" id="classfeasst_1_1Arguments_1aabca733e4a49bbbc890ccabb8923d764"></span><a class="reference internal" href="#_CPPv4N6feasst9ArgumentsE" title="feasst::Arguments">Arguments</a> &amp;<code class="sig-name descname">key</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments3keyERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the argument key (the first in the map/dictionary pair). Store the key for error processing. Return self for chainsetting. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments4dfltERKNSt6stringE">
-<span id="_CPPv2N6feasst9Arguments4dfltERKNSt6stringE"></span><span id="feasst::Arguments::dflt__ssCR"></span><span class="target" id="classfeasst_1_1Arguments_1a52181c4a047a6bf9ac6d394cd9ceb0f5"></span><a class="reference internal" href="#_CPPv3N6feasst9ArgumentsE" title="feasst::Arguments">Arguments</a> &amp;<code class="descname">dflt</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>defaultVal</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments4dfltERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments4dfltERKNSt6stringE">
+<span class="target" id="classfeasst_1_1Arguments_1a52181c4a047a6bf9ac6d394cd9ceb0f5"></span><a class="reference internal" href="#_CPPv4N6feasst9ArgumentsE" title="feasst::Arguments">Arguments</a> &amp;<code class="sig-name descname">dflt</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>defaultVal</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments4dfltERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the default value if key is not present in args. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments5emptyEv">
-<span id="_CPPv2N6feasst9Arguments5emptyEv"></span><span id="feasst::Arguments::empty"></span><span class="target" id="classfeasst_1_1Arguments_1aed40dcf5eb382759838df1d03efd339f"></span>bool <code class="descname">empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments5emptyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments5emptyEv">
+<span class="target" id="classfeasst_1_1Arguments_1aed40dcf5eb382759838df1d03efd339f"></span>bool <code class="sig-name descname">empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments5emptyEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if key is not present in args. Otherwise, false. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments4usedEv">
-<span id="_CPPv2N6feasst9Arguments4usedEv"></span><span id="feasst::Arguments::used"></span><span class="target" id="classfeasst_1_1Arguments_1a041c9d36bc76f358c8e8f723eaa5934c"></span>bool <code class="descname">used</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments4usedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments4usedEv">
+<span class="target" id="classfeasst_1_1Arguments_1a041c9d36bc76f358c8e8f723eaa5934c"></span>bool <code class="sig-name descname">used</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments4usedEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if the key is used (e.g., the inverse of <a class="reference internal" href="#classfeasst_1_1Arguments_1aed40dcf5eb382759838df1d03efd339f"><span class="std std-ref">empty()</span></a>). </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments3strEv">
-<span id="_CPPv2N6feasst9Arguments3strEv"></span><span id="feasst::Arguments::str"></span><span class="target" id="classfeasst_1_1Arguments_1a19f8f2594e48b790ae7e3e637d287cfd"></span>std::string <code class="descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments3strEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments3strEv">
+<span class="target" id="classfeasst_1_1Arguments_1a19f8f2594e48b790ae7e3e637d287cfd"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments3strEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the value of the processed keyword. Reset key and dflt </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments4dbleEv">
-<span id="_CPPv2N6feasst9Arguments4dbleEv"></span><span id="feasst::Arguments::dble"></span><span class="target" id="classfeasst_1_1Arguments_1aa71bc8e1578d6010e4571fe10a95526c"></span>double <code class="descname">dble</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments4dbleEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments4dbleEv">
+<span class="target" id="classfeasst_1_1Arguments_1aa71bc8e1578d6010e4571fe10a95526c"></span>double <code class="sig-name descname">dble</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments4dbleEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the conversion of a str of the processed keyword to double a precision floating point number. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments7integerEv">
-<span id="_CPPv2N6feasst9Arguments7integerEv"></span><span id="feasst::Arguments::integer"></span><span class="target" id="classfeasst_1_1Arguments_1a1cbd8d61f1160258b1a9005591b2ac03"></span>int <code class="descname">integer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments7integerEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments7integerEv">
+<span class="target" id="classfeasst_1_1Arguments_1a1cbd8d61f1160258b1a9005591b2ac03"></span>int <code class="sig-name descname">integer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments7integerEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the conversion of a str of the processed keyword to int. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments7booleanEv">
-<span id="_CPPv2N6feasst9Arguments7booleanEv"></span><span id="feasst::Arguments::boolean"></span><span class="target" id="classfeasst_1_1Arguments_1a2d0368e3f207963d9613c3c9cbd42773"></span>bool <code class="descname">boolean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments7booleanEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments7booleanEv">
+<span class="target" id="classfeasst_1_1Arguments_1a2d0368e3f207963d9613c3c9cbd42773"></span>bool <code class="sig-name descname">boolean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments7booleanEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the conversion of a str of the processed keyword to boolean. Accept the strings “true”, “false”, “1” or “0”. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments14check_all_usedEv">
-<span id="_CPPv2N6feasst9Arguments14check_all_usedEv"></span><span id="feasst::Arguments::check_all_used"></span><span class="target" id="classfeasst_1_1Arguments_1a62991f587b91d75bf0d0554aae5e3db8"></span>bool <code class="descname">check_all_used</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments14check_all_usedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments14check_all_usedEv">
+<span class="target" id="classfeasst_1_1Arguments_1a62991f587b91d75bf0d0554aae5e3db8"></span>bool <code class="sig-name descname">check_all_used</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments14check_all_usedEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Upon destruction, check that all provided args were processed. Automatically include empty string key as processed. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments6removeEv">
-<span id="_CPPv2N6feasst9Arguments6removeEv"></span><span id="feasst::Arguments::remove"></span><span class="target" id="classfeasst_1_1Arguments_1a3e7bef6320a0dc64f689940299827efe"></span><a class="reference internal" href="#_CPPv3N6feasst9ArgumentsE" title="feasst::Arguments">Arguments</a> &amp;<code class="descname">remove</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments6removeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments6removeEv">
+<span class="target" id="classfeasst_1_1Arguments_1a3e7bef6320a0dc64f689940299827efe"></span><a class="reference internal" href="#_CPPv4N6feasst9ArgumentsE" title="feasst::Arguments">Arguments</a> &amp;<code class="sig-name descname">remove</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments6removeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Chainset argparse to remove the next arg returned by str from args. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst9Arguments4sizeEv">
-<span id="_CPPv2NK6feasst9Arguments4sizeEv"></span><span id="feasst::Arguments::sizeC"></span><span class="target" id="classfeasst_1_1Arguments_1aa152d7cbad60fa3a5354a007355b8851"></span>int <code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst9Arguments4sizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst9Arguments4sizeEv">
+<span class="target" id="classfeasst_1_1Arguments_1aa152d7cbad60fa3a5354a007355b8851"></span>int <code class="sig-name descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Arguments4sizeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the size of the args (e.g., the number) </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst9Arguments4argsEv">
-<span id="_CPPv2NK6feasst9Arguments4argsEv"></span><span id="feasst::Arguments::argsC"></span><span class="target" id="classfeasst_1_1Arguments_1aef8490122408032a6ad2fb42dea79520"></span>argtype <code class="descname">args</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst9Arguments4argsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst9Arguments4argsEv">
+<span class="target" id="classfeasst_1_1Arguments_1aef8490122408032a6ad2fb42dea79520"></span>argtype <code class="sig-name descname">args</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Arguments4argsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return args. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3NK6feasst9Arguments6statusEv">
-<span id="_CPPv2NK6feasst9Arguments6statusEv"></span><span id="feasst::Arguments::statusC"></span><span class="target" id="classfeasst_1_1Arguments_1a62f4299ad2df9f49937edab8d0e59bd7"></span>std::string <code class="descname">status</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK6feasst9Arguments6statusEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst9Arguments6statusEv">
+<span class="target" id="classfeasst_1_1Arguments_1a62f4299ad2df9f49937edab8d0e59bd7"></span>std::string <code class="sig-name descname">status</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Arguments6statusEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Print the status of the arguments to human readable string. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv3N6feasst9Arguments10dont_checkEv">
-<span id="_CPPv2N6feasst9Arguments10dont_checkEv"></span><span id="feasst::Arguments::dont_check"></span><span class="target" id="classfeasst_1_1Arguments_1ac2b48cebfe11563b88f8a10133691b5a"></span>void <code class="descname">dont_check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv3N6feasst9Arguments10dont_checkEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst9Arguments10dont_checkEv">
+<span class="target" id="classfeasst_1_1Arguments_1ac2b48cebfe11563b88f8a10133691b5a"></span>void <code class="sig-name descname">dont_check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments10dont_checkEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Don’t check for unused arguments upon destruction. </p>
 </dd></dl>
 
@@ -347,7 +379,7 @@
         <a href="Checkpoint.html" class="btn btn-neutral float-right" title="Checkpoint" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Cache.html" class="btn btn-neutral" title="Cache" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Cache.html" class="btn btn-neutral float-left" title="Cache" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -452,29 +484,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

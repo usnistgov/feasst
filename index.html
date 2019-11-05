@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.8.0-3-gcab3a1e92b documentation</title>
+  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
   
 
   
@@ -19,13 +19,26 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script type="text/javascript" src="_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
@@ -44,21 +57,16 @@
 	<link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
 
 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -72,7 +80,7 @@
             
             
               <div class="version">
-                v0.8.0-3-gcab3a1e92b
+                v0.8.0-1-g3cea9539f8
               </div>
             
           
@@ -98,7 +106,7 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/README.html">Plugin</a></li>
 <li class="toctree-l1"><a class="reference internal" href="py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forcefield/README.html">Forcefield</a></li>
@@ -189,7 +197,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="feasst-free-energy-and-advanced-sampling-simulation-toolkit">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="feasst-free-energy-and-advanced-sampling-simulation-toolkit">
 <h1>FEASST: Free Energy and Advanced Sampling Simulation Toolkit<a class="headerlink" href="#feasst-free-energy-and-advanced-sampling-simulation-toolkit" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="readme">
 <h2>README<a class="headerlink" href="#readme" title="Permalink to this headline">¶</a></h2>
@@ -198,14 +230,14 @@
 <a class="reference external image-reference" href="https://www.codefactor.io/repository/github/hhatch/feasst/overview/master"><img alt="CodeFactor" src="https://www.codefactor.io/repository/github/hhatch/feasst/badge/master" /></a>
 <p>The Free Energy and Advanced Sampling Simulation Toolkit (FEASST) is a free,
 open-source, modular program to conduct molecular and particle-based
-simulations with flat-histogram Monte Carlo and molecular dynamics methods.</p>
+simulations with flat-histogram Monte Carlo methods.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>Manuscript: <a class="reference external" href="https://doi.org/10.6028/jres.123.004">https://doi.org/10.6028/jres.123.004</a></p>
 <p>Website: <a class="reference external" href="https://pages.nist.gov/feasst/">https://pages.nist.gov/feasst/</a></p>
 <p>Website DOI: <a class="reference external" href="https://doi.org/10.18434/M3S095">https://doi.org/10.18434/M3S095</a></p>
 <p>Code repository: <a class="reference external" href="https://github.com/usnistgov/feasst">https://github.com/usnistgov/feasst</a></p>
-<p class="last">Discussion list: <a class="reference external" href="https://groups.google.com/a/list.nist.gov/d/forum/feasst">https://groups.google.com/a/list.nist.gov/d/forum/feasst</a></p>
+<p>Discussion list: <a class="reference external" href="https://groups.google.com/a/list.nist.gov/d/forum/feasst">https://groups.google.com/a/list.nist.gov/d/forum/feasst</a></p>
 </div>
 <div class="section" id="features">
 <h3>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
@@ -214,86 +246,108 @@ simulations with flat-histogram Monte Carlo and molecular dynamics methods.</p>
 Some features include but are not limited to the following:</p>
 <p>Simulation techniques</p>
 <ul class="simple">
-<li>Wang-Landau Monte Carlo</li>
-<li>Transition-matrix Monte Carlo</li>
-<li>Metropolis Monte Carlo</li>
-<li>Mayer-sampling Monte Carlo</li>
-<li>Configurational bias</li>
+<li><p>Wang-Landau Monte Carlo</p></li>
+<li><p>Transition-matrix Monte Carlo</p></li>
+<li><p>Metropolis Monte Carlo</p></li>
+<li><p>Mayer-sampling Monte Carlo</p></li>
+<li><p>Configurational bias</p></li>
 </ul>
 <p>Thermodynamic ensembles</p>
 <ul class="simple">
-<li>Microcanonical ensemble</li>
-<li>Canonical ensemble</li>
-<li>Grad canonical ensemble</li>
+<li><p>Microcanonical ensemble</p></li>
+<li><p>Canonical ensemble</p></li>
+<li><p>Grand canonical ensemble</p></li>
 </ul>
 <p>Intermolecular interactions</p>
 <ul class="simple">
-<li>Hard spheres</li>
-<li>Lennard-Jones with Yukawa, LRC, force shift</li>
-<li>Patchy particles</li>
-<li>Charged interactions with the Ewald summation</li>
-<li>Cylindrical and slit pore confinement</li>
+<li><p>Hard spheres</p></li>
+<li><p>Lennard-Jones with Yukawa, LRC, force shift</p></li>
+<li><p>Patchy particles</p></li>
+<li><p>Charged interactions with the Ewald summation</p></li>
+<li><p>Cylindrical and slit pore confinement</p></li>
 </ul>
 <p>Modern software</p>
 <ul class="simple">
-<li>Interface with C++ or as a Python module</li>
-<li>OpenMP parallelization</li>
-<li>Checkpointing to save and restart simulations</li>
+<li><p>Interface with C++ or as a Python module</p></li>
+<li><p>OpenMP parallelization</p></li>
+<li><p>Checkpointing to save and restart simulations</p></li>
 </ul>
 </div>
 <div class="section" id="usage">
 <h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
-<p>The following example Lennard-Jones Monte Carlo simulation may be found in <a class="reference internal" href="tutorial/README.html"><span class="doc">Tutorial</span></a>.</p>
+<p>The following example Lennard-Jones Monte Carlo simulation may be found in <a class="reference external" href="tutorial/tutorial.html">Tutorial</a>.</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">feasst</span>
 
 <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;date&quot;</span><span class="p">})))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
      <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/data.lj&quot;</span><span class="p">})))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeModelLJ</span><span class="p">()))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeCriteriaMetropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;2.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_target_acceptance&quot;</span><span class="p">:</span> <span class="s2">&quot;0.2&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTuner</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="s2">&quot;10000&quot;</span><span class="p">})))</span>
+<span class="n">steps_per</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTuner</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">)})))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">seek_num_particles</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
-<span class="n">steps_per</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">)</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLog</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">)})))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMovie</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span> <span class="s2">&quot;file_name&quot;</span> <span class="p">:</span> <span class="s2">&quot;movie.xyz&quot;</span><span class="p">})))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeCheckEnergy</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span> <span class="s2">&quot;tolerance&quot;</span> <span class="p">:</span> <span class="s2">&quot;1e-8&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;date&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="python-usage">
-<h3>Python usage<a class="headerlink" href="#python-usage" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="build-from-source-code">
+<h3>Build from source code<a class="headerlink" href="#build-from-source-code" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="python-install">
+<h4>Python install<a class="headerlink" href="#python-install" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>SWIG is required. Version 3.0.12 is recommended if your current SWIG version does not work properly.</p></li>
+<li><p>Anaconda with Python 3 is recommended.</p></li>
+<li><p>First, it is recommended to make a new python virtual environment.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 -m venv ~/feasst_env
+<span class="nb">source</span> ~/feasst_env/bin/activate
+pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>In the next step, CMake attempts to find the python libraries.
+But you may want to specify them manually.</p></li>
+</ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir /path/to/feasst/build
 <span class="nb">cd</span> /path/to/feasst/build
 cmake -DUSE_SWIG<span class="o">=</span>ON ..
-make _feasst -j12
-../py/run.sh ../py/test.py  <span class="c1"># optional test</span>
+make _feasst -j<span class="nv">$CPU_COUNT</span>
+make install -j<span class="nv">$CPU_COUNT</span>
+python ../py/test.py  <span class="c1"># optional test</span>
 </pre></div>
 </div>
-<p>CMake attempts to find the python libraries.
-But you may want to specify them manually as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>ON -DSET_PYTHON_PATH<span class="o">=</span>ON -DPYTHON_INCLUDE_PATH<span class="o">=</span>/path/to/anaconda/include/python3.6m -DPYTHON_LIBRARIES<span class="o">=</span>/path/to/anaconda/lib/libpython3.6m.so ..
+<ul class="simple">
+<li><p>For manually setting the python path.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>ON -DSET_PYTHON_PATH<span class="o">=</span>ON -DPYTHON_INCLUDE_DIR<span class="o">=</span>/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY<span class="o">=</span>/path/to/anaconda/lib/libpython3.7m.so ..
 </pre></div>
 </div>
-<p>It is recommended to use SWIG version 3 or 4 and not 2.</p>
-<p>Python scrips are then run using /path/to/feasst/py/run.sh, which sets PYTHONPATH to /path/to/feasst/build.
-Alternatively, you could set the python path manually.</p>
+<ul class="simple">
+<li><p>You can deactivate and delete your python virtual environment as follows:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>deactivate
+rm -r ~/feasst_env  <span class="c1"># if you&#39;d like to reinstall or update</span>
+</pre></div>
 </div>
-<div class="section" id="c-usage">
-<h3>C++ usage<a class="headerlink" href="#c-usage" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="c-install">
+<h4>C++ install<a class="headerlink" href="#c-install" title="Permalink to this headline">¶</a></h4>
 <p>First, install the C++ library.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir /path/to/feasst/build
 <span class="nb">cd</span> /path/to/feasst/build
 cmake ..
-make install -j12
+make install -j<span class="nv">$CPU_COUNT</span>
 make <span class="nb">test</span>         <span class="c1"># optional test</span>
 </pre></div>
 </div>
@@ -302,7 +356,7 @@ make <span class="nb">test</span>         <span class="c1"># optional test</span
 mkdir build<span class="p">;</span> <span class="nb">cd</span> build
 cmake ..
 make
-./lj_brief
+./tutorial
 </pre></div>
 </div>
 <p>CMake defaults to install in the build directory.
@@ -310,9 +364,27 @@ But you can also specify the path as follows.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span>/path/to/install/dir ..
 </pre></div>
 </div>
-<p>Later when you build your executable you need to specify this path as follows:</p>
+<p>Later, when you build your tutorial executable, if your build directory is not <cite>~/feasst/build</cite>, then specify the path to the build directory as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_PREFIX_PATH<span class="o">=</span>/path/to/install/dir ..
 </pre></div>
+</div>
+</div>
+<div class="section" id="troubleshooting-install">
+<h4>Troubleshooting install<a class="headerlink" href="#troubleshooting-install" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="os-x">
+<h5>OS X<a class="headerlink" href="#os-x" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>SWIG (from Homebrew) is likely version 4, which sometimes causes a SEGFAULT when trying to run feasst.
+Try SWIG version 3 instead.</p></li>
+<li><p>Sometimes CMake has trouble finding anaconda, and if you use SET_PYTHON_PATH described above, you may need to look out for the .dylib instead of .so</p></li>
+</ul>
+</div>
+<div class="section" id="centos">
+<h5>CentOS<a class="headerlink" href="#centos" title="Permalink to this headline">¶</a></h5>
+<p>CMake and SWIG versions are usually too old.
+Try cmake3 instead of cmake.
+Otherwise try SWIG 3.</p>
+</div>
 </div>
 </div>
 <div class="section" id="contact">
@@ -328,10 +400,10 @@ But you can also specify the path as follows.</p>
 <p>Any and all bug reports are greatly appreciated in order to improve FEASST.</p>
 <p>The following checklist is recommended to improve reproducibility so that I can get back to you more quickly.</p>
 <ul class="simple">
-<li>Reproduce the issue with minimal example to reduce the complexity, run time and file size.</li>
-<li>Provide all output.</li>
-<li>Provide the version (e.g. bash command “git describe –abbrev=10 –dirty –always –tags”).</li>
-<li>Provide the user code (e.g., C++ with int main() or .py).</li>
+<li><p>Reproduce the issue with minimal example to reduce the complexity, run time and file size.</p></li>
+<li><p>Provide all output.</p></li>
+<li><p>Provide the version (e.g. bash command “git describe –abbrev=10 –dirty –always –tags”).</p></li>
+<li><p>Provide the user code (e.g., C++ with int main() or .py).</p></li>
 </ul>
 </div>
 <div class="section" id="email-list">
@@ -362,8 +434,16 @@ But you can also specify the path as follows.</p>
 <li class="toctree-l1"><a class="reference internal" href="README.html">README</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="README.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#python-usage">Python usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#c-usage">C++ usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#build-from-source-code">Build from source code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="README.html#python-install">Python install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#c-install">C++ install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="README.html#troubleshooting-install">Troubleshooting install</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="README.html#os-x">OS X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="README.html#centos">CentOS</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#contact">Contact</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="README.html#project-lead">Project lead</a></li>
 <li class="toctree-l3"><a class="reference internal" href="README.html#bug-reporting">Bug reporting</a></li>
@@ -375,10 +455,13 @@ But you can also specify the path as follows.</p>
 <li class="toctree-l2"><a class="reference internal" href="README.html#license">License</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/README.html">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/README.html#installation-and-interface">Installation and Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/README.html#canonical-ensemble-lennard-jones-monte-carlo">Canonical ensemble Lennard-Jones Monte Carlo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/README.html#additional-tutorials">Additional tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#Installation-and-Interface">Installation and Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial/tutorial.html#Python-or-C++?">Python or C++?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#Canonical-ensemble-Lennard-Jones-Monte-Carlo">Canonical ensemble Lennard-Jones Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#Additional-tutorials">Additional tutorials</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="plugin/README.html">Plugin</a><ul>
@@ -433,7 +516,10 @@ But you can also specify the path as follows.</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/system/README.html">System</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugin/system/README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/system/README.html#tutorial">Tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/tutorial/tutorial.html">Lennard Jones reference configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/system/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/system/README.html#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/physical_constants.html">system/include/physical_constants</a></li>
@@ -449,24 +535,31 @@ But you can also specify the path as follows.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelIntra.html">VisitModelIntra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/SelectList.html">SelectList</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Potential.html">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/PotentialFactory.html">PotentialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/System.html">System</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/SelectList.html">SelectList</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/monte_carlo/README.html">Monte Carlo</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/README.html#tutorial">Tutorial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_1_lj_nvt.html">Canonical ensemble Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/tutorial/tutorial_2_lj_gcmc.html">Grand canonical ensemble Monte Carlo</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/README.html#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Tunable.html">Tunable</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Stepper.html">Stepper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Acceptance.html">Acceptance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/CriteriaMetropolis.html">CriteriaMetropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Rosenbluth.html">Rosenbluth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Criteria.html">Criteria</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Metropolis.html">Metropolis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelect.html">TrialSelect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectBond.html">TrialSelectBond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbConfigs.html">PerturbConfigs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbMove.html">PerturbMove</a></li>
@@ -477,33 +570,35 @@ But you can also specify the path as follows.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbRemove.html">PerturbRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectBond.html">TrialSelectBond</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialCompute.html">TrialCompute</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Trial.html">Trial</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialFactory.html">TrialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/ModifyFactory.html">ModifyFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialMove.html">TrialMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialRotate.html">TrialRotate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialTranslate.html">TrialTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Analyze.html">Analyze</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/AnalyzeFactory.html">AnalyzeFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialRemove.html">TrialRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialRotate.html">TrialRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/MonteCarlo.html">MonteCarlo</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/example/README.html">Example</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugin/example/doc/ModelExample.html">ModelExample</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/example/tutorial/tutorial.html">Example tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/example/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/example/README.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/example/doc/ModelExample.html">ModelExample</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/models/README.html">Models</a><ul>
@@ -520,34 +615,35 @@ But you can also specify the path as follows.</p>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckEnergy.html">CheckEnergy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/WallClockLimit.html">WallClockLimit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Tuner.html">Tuner</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Energy.html">Energy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/NumParticles.html">NumParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Movie.html">Movie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/NumParticles.html">NumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Energy.html">Energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Log.html">Log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/flat_histogram/README.html">Flat histogram</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/README.html#tutorial">Tutorial</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/README.html">Files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/README.html#grand-canonical-ensemble-transition-matrix-monte-carlo">Grand canonical ensemble transition-matrix Monte Carlo</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="plugin/flat_histogram/tutorial/README.html#ensemble-averages">Ensemble averages</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/flat_histogram/tutorial/README.html#histogram-reweighting">Histogram reweighting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_1_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_2_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_2_reweight_supercritical.html#Grand-canonical-ensemble-averages">Grand canonical ensemble averages</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_2_reweight_supercritical.html#Histogram-reweighting">Histogram reweighting</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/README.html#api">API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/LnProbabilityDistribution.html">LnProbabilityDistribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/LnProbability.html">LnProbability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/Bias.html">Bias</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/BiasWangLandau.html">BiasWangLandau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/Macrostate.html">Macrostate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/WangLandau.html">WangLandau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/BiasTransitionMatrix.html">BiasTransitionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/MacrostateNumParticles.html">MacrostateNumParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/CriteriaFlatHistogram.html">CriteriaFlatHistogram</a></li>
 </ul>
 </li>
 </ul>
@@ -587,40 +683,38 @@ But you can also specify the path as follows.</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/confinement/README.html">Confinement</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/doc/Shape.html">Shape</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/doc/Slab.html">Slab</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/doc/Cylinder.html">Cylinder</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/doc/Sphere.html">Sphere</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/doc/ModelLJShape.html">ModelLJShape</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/doc/ModelHardShape.html">ModelHardShape</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/doc/HalfSpace.html">HalfSpace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/tutorial/tutorial.html">Slab, cylindrical, spherical and mixed confinement</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/confinement/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/confinement/README.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/Shape.html">Shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/Slab.html">Slab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/Cylinder.html">Cylinder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/Sphere.html">Sphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelLJShape.html">ModelLJShape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelHardShape.html">ModelHardShape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/HalfSpace.html">HalfSpace</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/ewald/README.html">Ewald</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/doc/Ewald.html">Ewald</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/doc/ModelChargeSelf.html">ModelChargeSelf</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/doc/ModelChargeIntra.html">ModelChargeIntra</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/doc/ModelChargeScreened.html">ModelChargeScreened</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/doc/utils_ewald.html">ewald/include/utils_ewald</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/ewald/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/README.html#api">API</a><ul class="simple">
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/growth_expanded/README.html">Growth expanded</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugin/growth_expanded/doc/TrialComputeGrowAdd.html">TrialComputeGrowAdd</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/growth_expanded/doc/MacrostateGrowthExpanded.html">MacrostateGrowthExpanded</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/growth_expanded/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/pipeline/README.html">Pipeline</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugin/pipeline/doc/Pool.html">Pool</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/pipeline/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="py/README.html">pyFEASST</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="py/README.html#run-sh">run.sh</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py/README.html#pyfeasst-py">pyfeasst.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py/README.html#test-py">test.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py/README.html#feasst-i">feasst.i</a></li>
@@ -664,6 +758,8 @@ But you can also specify the path as follows.</p>
 <li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#document">Document</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#setup">Setup</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#sphinx-breathe-doxygen-notes">Sphinx/Breathe/Doxygen notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#pip-notes">Pip notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#anaconda-cloud-notes">Anaconda cloud notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#style">Style</a><ul>
@@ -692,7 +788,7 @@ But you can also specify the path as follows.</p>
 <div class="section" id="index">
 <h3>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 </ul>
 </div>
 </div>
@@ -812,29 +908,16 @@ But you can also specify the path as follows.</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="_static/leave_notice.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
