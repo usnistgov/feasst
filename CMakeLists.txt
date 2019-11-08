@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.7)
+cmake_minimum_required (VERSION 3.5)
 project (FEASST)
 set (CMAKE_CXX_STANDARD 11)
 cmake_policy(SET CMP0042 NEW) # removes warning about macosx_rpath
@@ -457,7 +457,7 @@ if (USE_SWIG)
     set(SETUP_PY  "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
     configure_file("${CMAKE_SOURCE_DIR}/dev/tools/setup.py.in" ${SETUP_PY})
     add_custom_command(OUTPUT ${OUTPUT}
-                       COMMAND python setup.py build
+                       COMMAND python3 setup.py build
                        COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT})
     add_custom_target(target ALL DEPENDS ${OUTPUT})
     install(CODE "execute_process(COMMAND python ${SETUP_PY} install)")

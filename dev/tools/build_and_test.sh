@@ -1,7 +1,11 @@
 mkdir -p build
 cd build
+python3 -m venv feasst_test_env
+source feasst_test_env/bin/activate
+pip install jupyter matplotlib pandas scipy
 cmake -DUSE_GTEST=ON -DUSE_SWIG=ON ..
-make -j 4
+make _feasst -j8
+make install -j8
 echo "" > summary_long.log
 echo "" > summary.log
 

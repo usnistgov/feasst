@@ -100,8 +100,9 @@ Python install
 
 .. code-block:: bash
 
-    mkdir /path/to/feasst/build
-    cd /path/to/feasst/build
+    git clone https://github.com/usnistgov/feasst.git
+    mkdir feasst/build
+    cd feasst/build
     cmake -DUSE_SWIG=ON ..
     make _feasst -j$CPU_COUNT
     make install -j$CPU_COUNT
@@ -127,8 +128,9 @@ First, install the C++ library.
 
 .. code-block:: bash
 
-    mkdir /path/to/feasst/build
-    cd /path/to/feasst/build
+    git clone https://github.com/usnistgov/feasst.git
+    mkdir feasst/build
+    cd feasst/build
     cmake ..
     make install -j$CPU_COUNT
     make test         # optional test
@@ -159,20 +161,73 @@ Later, when you build your tutorial executable, if your build directory is not `
 Troubleshooting install
 ------------------------
 
-OS X
-~~~~~~~~
+macOS Mojave
+~~~~~~~~~~~~~~
 
 * SWIG (from Homebrew) is likely version 4, which sometimes causes a SEGFAULT when trying to run feasst.
   Try SWIG version 3 instead.
 
 * Sometimes CMake has trouble finding anaconda, and if you use SET_PYTHON_PATH described above, you may need to look out for the .dylib instead of .so
 
-CentOS
+CentOS 7
 ~~~~~~~~~
 
 CMake and SWIG versions are usually too old.
-Try cmake3 instead of cmake.
-Otherwise try SWIG 3.
+Try the command cmake3 instead of cmake.
+Otherwise, install SWIG 3.
+
+Windows 10
+~~~~~~~~~~~
+
+* Install Windows subsystem for Linux (Ubuntu 16)
+* See Ubuntu 16
+
+Ubuntu 16
+~~~~~~~~~~
+
+* Update to CMake 3 (https://cmake.org/download/)
+* sudo apt install swig
+
+Ubuntu 18
+~~~~~~~~~~~~
+
+* We are not aware of any issues with an Ubuntu 18 install.
+
+Build from Docker
+===================
+
+First, install docker
+
+ * Ubuntu: `apt install docker docker.io`
+ * macOS: `brew cask install docker docker.io`
+ * CentOS: `yum install docker docker.io`
+
+You could pull feasst from docker hub:
+
+.. code-block:: bash
+
+    sudo docker pull hhatch/feasst
+
+Alternatively you could build your docker image from source
+
+.. code-block:: bash
+
+    git clone https://github.com/usnistgov/feasst.git
+    sudo docker build -t feasst feasst/
+
+Then you can interactively run feasst via
+
+.. code-block:: bash
+
+    sudo docker run -it feasst
+
+Or with `~/notebooks`
+
+.. code-block:: bash
+
+    sudo docker run -v ~/notebooks:/mnt/notebooks -i -t -p 8888:8888 feasst /bin/bash -c "jupyter notebook --notebook-dir=/mnt/notebooks --ip='*' --port=8888 --no-browser --allow-root"
+
+You can also `avoid root <https://docs.docker.com/install/linux/linux-postinstall/>`.
 
 .. include:: CONTACT.rst
 

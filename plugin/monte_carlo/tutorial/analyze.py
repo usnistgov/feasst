@@ -9,7 +9,8 @@ def add(monte_carlo, steps_per, proc="", log="log.txt"):
     """
     monte_carlo.add(feasst.MakeLog(feasst.args(
         {"steps_per" : str(steps_per),
-         "file_name": str(log)})))
+         "file_name": str(log),
+         "clear_file": "true"})))
     monte_carlo.add(feasst.MakeMovie(feasst.args(
         {"steps_per" : str(steps_per),
          "file_name" : "movie"+str(proc)+".xyz"})))
