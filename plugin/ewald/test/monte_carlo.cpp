@@ -8,6 +8,8 @@
 #include "steppers/include/log.h"
 #include "steppers/include/tuner.h"
 #include "steppers/include/check_energy.h"
+#include "steppers/include/check_properties.h"
+#include "steppers/include/cpu_time.h"
 
 namespace feasst {
 
@@ -15,6 +17,7 @@ TEST(MonteCarlo, spce) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "1234"}}));
   // mc.set(MakeRandomMT19937({{"seed", "1572272377"}}));
+  // mc.set(MakeRandomMT19937({{"seed", "1574171557"}}));
   std::shared_ptr<Ewald> ewald;
   {
     System system;
@@ -33,7 +36,7 @@ TEST(MonteCarlo, spce) {
   }
   //INFO(mc.system().configuration().particle_type(0).site(0).properties().str());
   //INFO(feasst_str(ewald->struct_fact_real_));
-  const int steps_per = 1e1;
+  const int steps_per = 1e2;
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-9"}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "1."}}));
@@ -43,6 +46,8 @@ TEST(MonteCarlo, spce) {
   mc.add(MakeLog({{"file_name", "tmp/spce_log.txt"}, {"steps_per", str(steps_per)}}));
   mc.add(MakeTuner({{"steps_per", str(steps_per)}}));
   mc.add(MakeCheckEnergy({{"tolerance", "1e-8"}, {"steps_per", str(steps_per)}}));
+  mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
+  mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));
 
   // Theres something wrong with MC and Ewald
   mc.seek_num_particles(2);
@@ -63,6 +68,7 @@ TEST(MonteCarlo, spce) {
 //  INFO("props " << mc.system().configuration().particle(0).site(1).properties().str());
 
   test_serialize(mc);
+  INFO(mc.analyze(2)->accumulator().str());
 }
 
 }  // namespace feasst

@@ -190,9 +190,11 @@ class Ewald : public VisitModel {
         const int part_index = old_select_.particle_index(ipart);
         for (int isite = 0; isite < old_select_.num_sites(ipart); ++isite) {
           const int site_index = old_select_.site_index(ipart, isite);
+          const Site& site = old_config_->select_particle(part_index).site(site_index);
+          const int eikrx0_index = find_eikrx0_(site);
           const std::vector<double>& vals = old_eiks_[ipart][isite].property_value();
           for (int iprop = 0; iprop < static_cast<int>(vals.size()); ++iprop) {
-            old_config_->set_site_property(iprop, vals[iprop], part_index, site_index);
+            old_config_->set_site_property(eikrx0_index + iprop, vals[iprop], part_index, site_index);
           }
         }
       }
@@ -209,6 +211,7 @@ class Ewald : public VisitModel {
     stored_energy_ = stored_energy_new_;
     struct_fact_real_ = struct_fact_real_new_;
     struct_fact_imag_ = struct_fact_imag_new_;
+    revertable_ = false;
   }
 
   int num_vectors() const { return static_cast<int>(wave_prefactor_.size()); }
@@ -276,6 +279,16 @@ class Ewald : public VisitModel {
       return -1.0;
     }
     return 1.0;
+  }
+
+  // temporary
+  std::string eikrx0_str_ = "eikrx0";
+  int find_eikrx0_(const Site& site) {
+    int eikrx0_index = 0;
+    ASSERT(
+      find_in_list(eikrx0_str_, site.properties().property_name(), &eikrx0_index),
+      "eikrx0 doesn't exist");
+    return eikrx0_index;
   }
 };
 

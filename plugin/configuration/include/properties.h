@@ -59,6 +59,9 @@ class Properties {
   /// Return the number of properties.
   int num() const { return static_cast<int>(property_value_.size()); }
 
+  /// Return true if the properties are equivalent.
+  bool is_equal(const Properties& properties) const;
+
   void serialize(std::ostream& ostr) const;
   Properties(std::istream& istr);
   ~Properties() {} // check(); }

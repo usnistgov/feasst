@@ -44,9 +44,9 @@ class Rosenbluth {
     for (int step = 0; step < num(); ++step) {
       boltzman_[step] = exp(-beta*energy_[step]);
     }
-    TRACE("boltzman " << feasst_str(boltzman_));
+    DEBUG("boltzman " << feasst_str(boltzman_));
     total_rosenbluth_ = std::accumulate(boltzman_.begin(), boltzman_.end(), 0.);
-    TRACE("rosen " << total_rosenbluth_);
+    DEBUG("rosen " << total_rosenbluth_);
     DEBUG("energy " << feasst_str(energy_));
     if (total_rosenbluth_ <= 0) {
       chosen_step_ = -1;

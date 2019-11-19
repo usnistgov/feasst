@@ -83,6 +83,10 @@ void PropertiedEntity::set_properties(const Properties& properties,
     }
   }
 }
+  
+bool Properties::is_equal(const Properties& properties) const {
+  return feasst::is_equal(property_value_, properties.property_value_);
+}
 
 void Properties::serialize(std::ostream& ostr) const {
   check();
@@ -93,7 +97,6 @@ void Properties::serialize(std::ostream& ostr) const {
 }
 
 Properties::Properties(std::istream& istr) {
-  DEBUG("deserializing properties");
   int version;
   istr >> version;
   feasst_deserialize(&property_name_, istr);

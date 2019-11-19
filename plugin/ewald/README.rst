@@ -3,7 +3,6 @@ Ewald
 *********
 
 This is a plugin for the Ewald summation for long-range electrostatics.
-This plugin is experimental and not ready for production simulations.
 
 .. toctree::
 

@@ -16,7 +16,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;pipeline")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram;growth_expanded")
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded;pipeline;xtc")
 # Note, if you change the plugin list and want to use the python interface,
 # you also need to run "../py/run.sh ../dev/tools/depend.py -s ../"
@@ -456,10 +456,10 @@ if (USE_SWIG)
     set(OUTPUT    "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
     set(SETUP_PY  "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
     configure_file("${CMAKE_SOURCE_DIR}/dev/tools/setup.py.in" ${SETUP_PY})
-    add_custom_command(OUTPUT ${OUTPUT}
-                       COMMAND python3 setup.py build
-                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT})
-    add_custom_target(target ALL DEPENDS ${OUTPUT})
+#    add_custom_command(OUTPUT ${OUTPUT}
+#                       COMMAND python3 setup.py build
+#                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT})
+#    add_custom_target(target ALL DEPENDS ${OUTPUT})
     install(CODE "execute_process(COMMAND python ${SETUP_PY} install)")
 
     add_test(NAME pytest COMMAND python ${CMAKE_SOURCE_DIR}/py/test.py)

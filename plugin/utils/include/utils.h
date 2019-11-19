@@ -84,10 +84,14 @@ bool is_equal(const std::vector<T>& vec1,
               const std::vector<T>& vec2,
               const double tolerance = 1e-15) {
   if (vec1.size() != vec2.size()) {
+    // DEBUG("size of vec1:" << vec1.size() << " != size of vec2:" <<
+    //       vec2.size());
     return false;
   }
   for (int i = 1; i < static_cast<int>(vec1.size()); ++i) {
     if (std::abs(vec1[i] - vec2[i]) > tolerance) {
+      // DEBUG(MAX_PRECISION << "vec1[" << i << "]:" << vec1[i] << " != " <<
+      //       "vec2[" << i << "]:" << vec2[i]);
       return false;
     }
   }

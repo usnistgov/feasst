@@ -115,7 +115,6 @@ void Ewald::update_struct_fact_eik(const Select& selection,
     " struct_fact_real is of size: " << struct_fact_real->size());
   const double struct_sign = sign_(selection);
   std::stringstream ss;
-  std::string eikrx0("eikrx0");
   const Domain& domain = config->domain();
   const double lx = domain.side_length(0);
   const double ly = domain.side_length(1);
@@ -134,11 +133,8 @@ void Ewald::update_struct_fact_eik(const Select& selection,
     for (int site_index : selection.site_indices(select_index)) {
       // obtain the index for the property
       // this assumes all eik in site are contiguous and ordered
-      int eikrx0_index = 0;
       const Site& site = config->select_particle(part_index).site(site_index);
-      ASSERT(
-        find_in_list(eikrx0, site.properties().property_name(), &eikrx0_index),
-        "eikrx0 doesn't exist");
+      const int eikrx0_index = find_eikrx0_(site);
       // calculate eik of kx = 0 explicitly
       ASSERT(kymax_ == kzmax_, "assumption");
       const int eikry0_index = eikrx0_index + kxmax_ + kmax_;
@@ -146,7 +142,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
       const int eikix0_index = eikrx0_index + kxmax_ + kymax_ + kzmax_;
       const int eikiy0_index = eikix0_index + kxmax_ + kmax_;
       const int eikiz0_index = eikiy0_index + kymax_;
-      DEBUG(eikrx0_index << " " << eikry0_index << " " << eikrz0_index << " "
+      TRACE(eikrx0_index << " " << eikry0_index << " " << eikrz0_index << " "
         << eikix0_index << " " << eikiy0_index << " " << eikiz0_index);
 
       // update the eik of the selection
@@ -169,7 +165,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
         config->set_site_property(eikiz0_index + 1, sin(twopilz*pos[2]), part_index, site_index);
         {
           const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().property_value();
-          DEBUG("test " << eik[eikrx0_index + 1] << " " << cos(twopilx*pos[0]) << " " <<
+          TRACE("test " << eik[eikrx0_index + 1] << " " << cos(twopilx*pos[0]) << " " <<
             site.properties().property_value()[0] << " " <<
             site.properties().property_value()[eikrx0_index + 1] << " "
           );
@@ -222,14 +218,14 @@ void Ewald::update_struct_fact_eik(const Select& selection,
         const double kx = wave_num_[kdim];
         const double ky = wave_num_[kdim + 1];
         const double kz = wave_num_[kdim + 2];
-        DEBUG("k " << k_index << " kx " << kx << " ky " << ky << " kz " << kz << " size " << num_vectors() << " kdim " << kdim);
+        TRACE("k " << k_index << " kx " << kx << " ky " << ky << " kz " << kz << " size " << num_vectors() << " kdim " << kdim);
         const double eikrx = eik[eikrx0_index + kx];
         const double eikix = eik[eikix0_index + kx];
         const double eikry = eik[eikry0_index + ky];
         const double eikiy = eik[eikiy0_index + ky];
         const double eikrz = eik[eikrz0_index + kz];
         const double eikiz = eik[eikiz0_index + kz];
-        DEBUG("eik[r,i]x " << eikrx << " " << eikix << " y " << eikry << " " << eikiy << " z " << eikrz << " " << eikiz << " sz " << eik.size());
+        TRACE("eik[r,i]x " << eikrx << " " << eikix << " y " << eikry << " " << eikiy << " z " << eikrz << " " << eikiz << " sz " << eik.size());
         const double eikr = eikrx*eikry*eikrz
                    - eikix*eikiy*eikrz
                    - eikix*eikry*eikiz
@@ -238,7 +234,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
                    + eikrx*eikry*eikiz
                    + eikrx*eikiy*eikrz
                    + eikix*eikry*eikrz;
-        DEBUG("charge " << charge << " eikr " << eikr << " eiki " << eiki << " sign " << struct_sign);
+        TRACE("charge " << charge << " eikr " << eikr << " eiki " << eiki << " sign " << struct_sign);
         (*struct_fact_real)[k_index] += struct_sign*charge*eikr;
         (*struct_fact_imag)[k_index] += struct_sign*charge*eiki;
       }

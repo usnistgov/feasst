@@ -1,7 +1,7 @@
 # pyfeasst - collection of python utilities
 
 import os
-import feasst
+#import feasst
 
 class cd:
     """Context manager for changing the current working directory
@@ -40,5 +40,5 @@ def read_checkpoint(filename):
     assert(len(checkpoint) == 1)  # checkpoint files should have only one line
     return checkpoint[0]
 
-def forcefield_dir(filename=''):
-    return os.path.dirname(os.path.realpath(feasst.__file__)) + '/forcefield/' + filename
+#def forcefield_dir(filename=''):
+#    return os.path.dirname(os.path.realpath(feasst.__file__)) + '/forcefield/' + filename
