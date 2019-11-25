@@ -47,14 +47,15 @@ void ModelParam::add(const Particle particle) {
 }
 
 void ModelParam::mix() {
-  ASSERT(!is_mixed_override_, "mixed values were set specifically. " <<
-    "And they would be overridden by this call to mix. Set mixed values last");
   resize(size(), size(), &mixed_values_);
+  override_resize_();
   for (int index1 = 0; index1 < size(); ++index1) {
     const double value1 = values_[index1];
     for (int index2 = 0; index2 < size(); ++index2) {
-      const double value2 = values_[index2];
-      mixed_values_[index1][index2] = mix_(value1, value2);
+      if (!is_mixed_override_[index1][index2]) {
+        const double value2 = values_[index2];
+        mixed_values_[index1][index2] = mix_(value1, value2);
+      }
     }
   }
   max_mixed_value_ = maximum(mixed_values_);
@@ -64,7 +65,10 @@ void ModelParam::set_mixed(const int site_type1,
     const int site_type2,
     const double value) {
   mixed_values_[site_type1][site_type2] = value;
-  is_mixed_override_ = true;
+  mixed_values_[site_type2][site_type1] = value;
+  override_resize_();
+  is_mixed_override_[site_type1][site_type2] = true;
+  is_mixed_override_[site_type2][site_type1] = true;
 }
 
 double ModelParam::mixed_max() const {
@@ -94,6 +98,17 @@ void ModelParam::set_param(const ModelParams& existing) {
   for (int type1 = 0; type1 < existing.size(); ++type1) {
     for (int type2 = 0; type2 < existing.size(); ++type2) {
       set_mixed(type1, type2, compute(type1, type2, existing));
+    }
+  }
+}
+
+void ModelParam::override_resize_() {
+  // assumes square size
+  const int previous_size = static_cast<int>(is_mixed_override_.size());
+  resize(size(), size(), &is_mixed_override_);
+  for (int index1 = previous_size; index1 < size(); ++index1) {
+    for (int index2 = previous_size; index2 < size(); ++index2) {
+      is_mixed_override_[index1][index2] = false;
     }
   }
 }

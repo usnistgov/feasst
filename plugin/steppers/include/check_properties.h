@@ -55,9 +55,6 @@ class CheckProperties : public ModifyUpdateOnly {
     const int version = feasst_deserialize_version(istr);
     ASSERT(version == 281, "version: " << version);
   }
-
- private:
-  double tolerance_;
 };
 
 inline std::shared_ptr<CheckProperties> MakeCheckProperties(const argtype &args = argtype()) {

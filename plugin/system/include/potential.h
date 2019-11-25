@@ -42,8 +42,7 @@ class Potential {
     visit_model_ = visit_model; }
 
   /// Return the method used to compute.
-  const std::shared_ptr<VisitModel> visit_model() const {
-    return visit_model_; }
+  const VisitModel * visit_model() const { return visit_model_.get(); }
 
   /// Set the index of the group in the configuration which contributes to this
   /// potential. By default, the index is zero, which represents the entire

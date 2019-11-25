@@ -83,7 +83,7 @@ void PropertiedEntity::set_properties(const Properties& properties,
     }
   }
 }
-  
+
 bool Properties::is_equal(const Properties& properties) const {
   return feasst::is_equal(property_value_, properties.property_value_);
 }

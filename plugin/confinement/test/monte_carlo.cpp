@@ -6,7 +6,7 @@
 #include "monte_carlo/include/trial_translate.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/log.h"
-#include "system/include/model_lj.h"
+#include "system/include/lennard_jones.h"
 #include "monte_carlo/include/metropolis.h"
 
 namespace feasst {
@@ -17,7 +17,7 @@ TEST(MonteCarlo, ShapeUnion) {
     {"cubic_box_length", "8"},
     {"particle_type", "../forcefield/data.lj"},
   }));
-  mc.add(Potential(MakeModelLJ()));
+  mc.add(Potential(MakeLennardJones()));
   mc.add(Potential(MakeModelHardShape(MakeShapeUnion(
     MakeSphere(
       {{"radius", "2"}},

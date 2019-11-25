@@ -4,13 +4,17 @@
 
 namespace feasst {
 
-bool Macrostate::is_in_range(const System* system, const Criteria* criteria) {
+bool Macrostate::is_allowed(const System* system, const Criteria* criteria) {
   const double val = value(system, criteria);
-  if (val <= soft_max() and val >= soft_min()) {
-    return true;
-  } else {
+  if (val > soft_max() or val < soft_min()) {
     return false;
   }
+  for (int con = 0; con < static_cast<int>(constraints_.size()); ++con) {
+    if (!constraints_[con]->is_allowed(system, criteria)) {
+      return false;
+    }
+  }
+  return true;
 }
 
 const int Macrostate::soft_max() const {
@@ -58,6 +62,7 @@ void Macrostate::serialize_macrostate_(std::ostream& ostr) const {
   feasst_serialize(is_soft_bound_, ostr);
   feasst_serialize(soft_max_, ostr);
   feasst_serialize(soft_min_, ostr);
+  ASSERT(constraints_.size() == 0, "constraint serialization not implemented");
 }
 
 Macrostate::Macrostate(std::istream& istr) {

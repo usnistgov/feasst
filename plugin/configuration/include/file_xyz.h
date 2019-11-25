@@ -19,8 +19,11 @@ class FileVMD {
       << "axes location Off" << endl;
     vmdf << "topo readvarxyz " << trim("/", traj_file_name) << endl;
     vmdf << "mol modstyle 0 0 VDW 1.0000000 120.000000" << endl;
-    vmdf << "set sel [atomselect top \"name H\"]" << endl;
-    vmdf << "$sel set radius 0.5" << endl;
+    for (int stype = 0; stype < config.num_site_types(); ++stype) {
+      vmdf << "set sel [atomselect top \"name " << stype << "\"]" << endl;
+      const double radius = 0.5*config.model_params().sigma().value(stype);
+      vmdf << "$sel set radius " << radius << endl;
+    }
 // write the radius using sigma
 //    for (int particle_type = 0; particle_type < config.num_particle_types(); ++particle_type) {
 //    }

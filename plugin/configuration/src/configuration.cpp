@@ -48,7 +48,7 @@ Configuration::Configuration(const argtype& args) {
 
 void Configuration::add_particle_type(const std::string file_name) {
   DEBUG("adding type");
-  ASSERT(num_particles() == 0, "types cannot be added after particles");
+  ASSERT(particles_.num() == 0, "types cannot be added after particles");
   particle_types_.add(file_name);
   unique_types_.add(file_name);
   ghosts_.push_back(SelectGroup());
@@ -63,20 +63,22 @@ void Configuration::add_(const Particle particle) {
   Particle part = particle;
   particles_.add(part);
   for (SelectGroup& select : group_selects_) {
-    add_to_selection_(num_particles() - 1, &select);
+    add_to_selection_(particles_.num() - 1, &select);
   }
-  position_tracker_(num_particles() - 1);
+  position_tracker_(particles_.num() - 1);
 }
 
 void Configuration::add_particle_of_type(const int type) {
+  DEBUG("adding type: " << type);
   ASSERT(type < num_particle_types(), "type(" << type << ") is not allowed "
     << "when there are only " << num_particle_types() << " particle types");
   // decide whether to add a ghost particle or a new one
+  DEBUG("numg " << ghosts_[type].num_particles());
   if (ghosts_[type].num_particles() == 0) {
     Particle part = particle_types_.particle(type);
     part.erase_bonds();
     add_(part);
-    newest_particle_index_ = num_particles() - 1;
+    newest_particle_index_ = particles_.num() - 1;
   } else {
     const int index = ghosts_[type].particle_index(0);
     ghosts_[type].remove_particle(index);
@@ -267,7 +269,7 @@ void Configuration::position_tracker_(const int particle_index) {
 }
 
 void Configuration::position_tracker_() {
-  for (int index = 0; index < num_particles(); ++index) {
+  for (int index : selection_of_all().particle_indices()) {
     position_tracker_(index);
   }
 }
@@ -395,8 +397,10 @@ void Configuration::add_to_selection_(const int particle_index,
 }
 
 void Configuration::init_selection_(SelectGroup * group_select) const {
-  for (int part_index = 0; part_index < num_particles(); ++part_index) {
-    add_to_selection_(part_index, group_select);
+  if (num_particles() > 0) {
+    for (int part_index : selection_of_all().particle_indices()) {
+      add_to_selection_(part_index, group_select);
+    }
   }
 }
 
@@ -467,7 +471,7 @@ int Configuration::num_sites(const int group) const {
   for (const SelectGroup& ghost : ghosts_) {
     num_ghost_sites += ghost.num_sites();
   }
-  DEBUG("num ghosts " << num_ghost_sites);
+  DEBUG("num ghost sites " << num_ghost_sites);
   return particles_.num_sites() - num_ghost_sites;
 }
 
@@ -481,6 +485,7 @@ int Configuration::num_ghosts_() const {
 
 void Configuration::revive(const SelectPosition& selection) {
   for (int particle_index : selection.particle_indices()) {
+    DEBUG("reviving particle_index: " << particle_index);
     const Particle& part = select_particle(particle_index);
     const int type = part.type();
     ++num_particles_of_type_[type];
@@ -592,6 +597,14 @@ void Configuration::add_excluded_property(const std::string name) {
   if (!find_in_list(name, excluded_properties_)) {
     excluded_properties_.push_back(name);
   }
+}
+
+int Configuration::max_sites_in_any_particle() const {
+  int mx = 0;
+  for (int type = 0; type < num_particle_types(); ++type) {
+    mx = std::max(mx, particle_type(type).num_sites());
+  }
+  return mx;
 }
 
 void Configuration::serialize(std::ostream& ostr) const {

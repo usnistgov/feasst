@@ -4,58 +4,97 @@
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/perturb_add.h"
 #include "monte_carlo/include/perturb_remove.h"
-#include "system/include/model_lj.h"
+#include "system/include/lennard_jones.h"
 #include "system/test/system_test.h"
 #include "configuration/test/particle_test.h"
 
 namespace feasst {
 
+// Test the ability to revert addition, removal and translation
 TEST(Perturb, Revert) {
-  System system = default_system();
-  PerturbAdd add;
-  System system2(system);
-  ModelLJ model;
-  VisitModel visit;
-  Configuration* config = system.get_configuration();
-  model.compute(config, &visit);
-  const double pe_original = 4*(pow(1.25, -12) - pow(1.25, -6));
-  EXPECT_NEAR(pe_original, visit.energy(), NEAR_ZERO);
-  Position position;
-  position.set_vector({0, 1.25, 0});
-  auto tsel_ghost = MakeTrialSelectParticle({{"particle_type", "0"}});
-  // precompute adds argument {"ghost", "true"} to tsel
-  add.precompute(tsel_ghost.get(), &system);
-  RandomMT19937 random;
-  tsel_ghost->select(Select(), &system, &random);
-  add.add(&system, tsel_ghost.get(), &random, position);
-  EXPECT_EQ(config->num_particles(), 3);
-  model.compute(config, &visit);
-  const double tri_distance = sqrt(1.25*1.25 + 1.25*1.25);
-  const double peTri = 4*(pow(tri_distance, -12) - pow(tri_distance, -6));
-  EXPECT_NEAR(2*pe_original + peTri, visit.energy(), NEAR_ZERO);
-  add.revert(&system);
-  EXPECT_EQ(config->num_particles(), 2);
-  model.compute(config, &visit);
-  EXPECT_NEAR(pe_original, visit.energy(), NEAR_ZERO);
+  // try both without and with map
+  for (int map = 0; map <= 1; ++map) {
+    INFO("map: " << map);
+    System system = default_system();
+    if (map == 1) {
+      system.set_unoptimized(0,
+        Potential(MakeLennardJones(),
+                  MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+    }
+    const double pe_original = 4*(pow(1.25, -12) - pow(1.25, -6));
+    EXPECT_NEAR(pe_original, system.energy(), NEAR_ZERO);
 
-  model.compute(config, &visit);
-  EXPECT_NEAR(pe_original, visit.energy(), NEAR_ZERO);
-  Configuration* config2 = system2.get_configuration();
-  PerturbRemove remove;
-  auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
-  tsel->select(Select(), &system2, &random);
-  remove.perturb(&system2, tsel.get(), &random);
-  EXPECT_EQ(2, config2->num_particles());
-  remove.finalize(&system2);
-  EXPECT_EQ(1, config2->num_particles());
-  model.compute(config2, &visit);
-  EXPECT_EQ(0., visit.energy());
+    if (map == 1) {
+      EXPECT_NEAR(pe_original,
+                  system.potential(0).visit_model()->inner()->energy_map()->total(),
+                  10*NEAR_ZERO);
+    }
 
-  Position trajectory({0., 0., 0.});
-  trajectory.set_coord(2, 1.25);
-  PerturbTranslate attempt2;
-  tsel->select(Select(), &system, &random);
-  attempt2.perturb(&system, tsel.get(), &random);
+    // prep to add a third particle
+    Position position;
+    position.set_vector({0, 1.25, 0});
+    auto tsel_ghost = MakeTrialSelectParticle({{"particle_type", "0"}});
+    // precompute adds argument {"ghost", "true"} to tsel
+    PerturbAdd add;
+    add.precompute(tsel_ghost.get(), &system);
+    RandomMT19937 random;
+    tsel_ghost->select(Select(), &system, &random);
+    add.add(&system, tsel_ghost.get(), &random, position);
+    EXPECT_EQ(system.configuration().num_particles(), 3);
+    const double tri_distance = sqrt(1.25*1.25 + 1.25*1.25);
+    const double peTri = 4*(pow(tri_distance, -12) - pow(tri_distance, -6));
+    EXPECT_NEAR(2*pe_original + peTri, system.energy(), NEAR_ZERO);
+
+    if (map == 1) {
+      EXPECT_NEAR(2*pe_original + peTri,
+                  system.potential(0).visit_model()->inner()->energy_map()->total(),
+                  10*NEAR_ZERO);
+    }
+
+    // revert the addition of the third particle
+    add.revert(&system);
+    EXPECT_EQ(system.configuration().num_particles(), 2);
+    EXPECT_NEAR(pe_original, system.energy(), NEAR_ZERO);
+
+    if (map == 1) {
+      EXPECT_NEAR(pe_original,
+                  system.potential(0).visit_model()->inner()->energy_map()->total(),
+                  10*NEAR_ZERO);
+    }
+
+    // translate a particle
+    Position trajectory({0., 0., 0.});
+    trajectory.set_coord(2, 1.25);
+    PerturbTranslate translate;
+    auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
+    tsel->select(Select(), &system, &random);
+    translate.perturb(&system, tsel.get(), &random);
+    EXPECT_NE(pe_original, system.energy());
+    translate.revert(&system);
+    EXPECT_NEAR(pe_original, system.energy(), NEAR_ZERO);
+
+    if (map == 1) {
+      EXPECT_NEAR(pe_original,
+                  system.potential(0).visit_model()->inner()->energy_map()->total(),
+                  10*NEAR_ZERO);
+    }
+
+    // remove one of the remaining two particles
+    PerturbRemove remove;
+    tsel->select(Select(), &system, &random);
+    remove.perturb(&system, tsel.get(), &random);
+    EXPECT_EQ(2, system.configuration().num_particles());
+    remove.finalize(&system);
+    EXPECT_EQ(1, system.configuration().num_particles());
+    EXPECT_EQ(0., system.energy());
+
+// uncomment this to fix map reversion upon particle removal
+//    if (map == 1) {
+//      EXPECT_NEAR(0.,
+//                  system.potential(0).visit_model()->inner()->energy_map()->total(),
+//                  10*NEAR_ZERO);
+//    }
+  }
 }
 
 }  // namespace feasst

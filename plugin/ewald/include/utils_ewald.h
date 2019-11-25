@@ -15,7 +15,6 @@ namespace feasst {
 
 inline std::shared_ptr<Ewald> add_ewald_with(
     std::shared_ptr<ModelTwoBody> model,
-    Configuration * config,
     System * system,
     const int kmax_squared = 27) {
   { Potential potential;
@@ -41,8 +40,8 @@ inline std::shared_ptr<Ewald> add_ewald_with(
   auto ewald = MakeEwald();
   { Potential potential;
     ewald->set_kmax_squared(kmax_squared);
-    ewald->update_wave_vectors(*config);
-    ewald->init_wave_vector_storage(config);
+    ewald->update_wave_vectors(system->configuration());
+    ewald->init_wave_vector_storage(system->get_configuration());
     potential.set_visit_model(ewald);
     system->add(potential);
   }

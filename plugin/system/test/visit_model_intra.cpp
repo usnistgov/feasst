@@ -1,14 +1,15 @@
 #include "utils/test/utils.h"
 #include "system/include/visit_model_intra.h"
-#include "system/include/model_lj.h"
+#include "system/include/lennard_jones.h"
 #include "configuration/test/configuration_test.h"
 
 namespace feasst {
 
 TEST(VisitModelIntra, energy) {
   Configuration config = chain10_sample();
-  ModelLJ model;
+  LennardJones model;
   VisitModelIntra visit;
+  visit.precompute(&config);
   // set cut-off to 2.5 so only beads 2 away can interact.
   // due to periodic boundary conditions matching exactly the length,
   // each bead interacts once each at a distance of 2

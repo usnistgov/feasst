@@ -6,14 +6,23 @@
 
 namespace feasst {
 
-void PotentialFactory::add_potential(const Potential potential) {
+void PotentialFactory::add_potential(const Potential& potential) {
   potentials_.push_back(potential);
+}
+
+void PotentialFactory::set_potential(const int index,
+                                     const Potential& potential) {
+  potentials_[index] = potential;
 }
 
 void PotentialFactory::precompute(Configuration * config) {
   for (Potential& potential : potentials_) {
     potential.precompute(config);
   }
+}
+
+void PotentialFactory::precompute(const int index, Configuration * config) {
+  potentials_[index].precompute(config);
 }
 
 double PotentialFactory::energy(Configuration * config) {

@@ -1,6 +1,5 @@
-#include "patch/include/visit_model_inner_patch.h"
 #include "system/include/model_two_body.h"
-#include "math/include/constants.h"
+#include "patch/include/visit_model_inner_patch.h"
 
 namespace feasst {
 
@@ -56,7 +55,7 @@ void VisitModelInnerPatch::compute(
                     TRACE("cosp2 " << cosp2 << " cosacut " << cos_patch_angle_.value(dir2_type));
                     if (cosp2 >= cos_patch_angle_.value(dir2_type)) {
                       const double en = model.energy(squared_distance, dir1_type, dir2_type, model_params);
-                      add_energy(en);
+                      add_energy(en, part1_index, site1_index, part2_index, site2_index);
                     }
                   }
                 }

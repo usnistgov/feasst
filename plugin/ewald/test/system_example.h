@@ -4,7 +4,7 @@
 
 #include "system/include/system.h"
 #include "ewald/include/utils_ewald.h"
-#include "system/include/model_lj.h"
+#include "system/include/lennard_jones.h"
 #include "configuration/test/configuration_test.h"
 
 namespace feasst {
@@ -13,8 +13,8 @@ inline System spce() {
   Configuration config = spce_sample();
   config.add_model_param("alpha", 5.6/config.domain().min_side_length());
   System sys;
-  add_ewald_with(MakeModelLJ(), &config, &sys);
   sys.add(config);
+  add_ewald_with(MakeLennardJones(), &sys);
   { Potential potential;
     potential.set_visit_model(MakeLongRangeCorrections());
     sys.add(potential);

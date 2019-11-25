@@ -31,7 +31,7 @@ TEST(MonteCarlo, NVT_benchmark) {
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.seek_num_particles(50);
   // mc.seek_num_particles(250);
-  // mc.attempt(1e6);  // ~3.5 seconds (now 4.1) with 50
+  // mc.attempt(1e6);  // ~3.5 seconds (now 4.1) with 50 [5 sec 11/21/19]
   // mc.seek_num_particles(450);
   // mc.attempt(1e5);  // 15 sec with 450 on slow computer
   mc.attempt(1e3);
@@ -59,6 +59,8 @@ TEST(MonteCarlo, NVT_SRSW) {
 TEST(MonteCarlo, GCMC) {
   MonteCarlo mc;
   mc_lj(&mc);
+  mc.set(0, Potential(MakeLennardJones(),
+    MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-2"}}));
   add_trial_transfer(&mc, {{"particle_type", "0"}});
@@ -73,7 +75,9 @@ TEST(MonteCarlo, GCMC) {
 //    }
 //    mc.attempt(1);
 //  }
-  mc.attempt(1e4);  // ~4.7 seconds with ~100 particles
+  mc.attempt(1e2);  // ~4.7 seconds with ~100 particles
+  INFO(mc.criteria()->current_energy());
+  INFO(mc.system().potential(0).visit_model()->inner()->energy_map()->total());
 }
 
 // // HWH delete

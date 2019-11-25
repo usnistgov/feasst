@@ -7,7 +7,7 @@ int main() {
     {"cubic_box_length", "8"},
     {"particle_type", feasst::append_install_dir("forcefield/data.lj")},
   }));
-  mc.add(feasst::Potential(feasst::MakeModelLJ()));
+  mc.add(feasst::Potential(feasst::MakeLennardJones()));
   mc.add(feasst::Potential(feasst::MakeLongRangeCorrections()));
   mc.add(feasst::MakeMetropolis(
     {{"beta", "1.2"}, {"chemical_potential", "1."}}));

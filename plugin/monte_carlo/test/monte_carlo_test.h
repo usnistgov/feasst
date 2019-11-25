@@ -3,13 +3,14 @@
 #include "math/include/accumulator.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_cell.h"
-#include "system/include/model_lj.h"
+#include "system/include/lennard_jones.h"
 #include "steppers/include/log.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/tuner.h"
 #include "steppers/include/check.h"
 #include "steppers/include/check_energy.h"
 #include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_select_bond.h"
 #include "monte_carlo/include/trial_select_angle.h"
 #include "monte_carlo/include/monte_carlo.h"
@@ -20,10 +21,14 @@ namespace feasst {
 
 inline void crit_trial_analyze(MonteCarlo * mc,
     const int num_periodic = 1e4,
-    const bool translate = true) {
+    const bool translate = true,
+    const bool rotate = false) {
   mc->set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   if (translate) {
     mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  }
+  if (rotate) {
+    mc->add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "1."}}));
   }
   mc->add(MakeLog(
    {{"steps_per", str(num_periodic)},
@@ -52,7 +57,7 @@ inline void mc_lj(MonteCarlo * mc,
     }));
 
     { Potential potential;
-      potential.set_model(std::make_shared<ModelLJ>());
+      potential.set_model(std::make_shared<LennardJones>());
       potential.set_visit_model(std::make_shared<VisitModel>());
       potential.set_model_params(system.configuration());
 //      potential.set_model_param("cutoff", 0, cutoff);

@@ -29,12 +29,12 @@
    TrialFactory
    Modify
    ModifyFactory
-   Analyze
-   AnalyzeFactory
    TrialRemove
    TrialAdd
    TrialComputeMove
    TrialMove
    TrialRotate
    TrialTranslate
+   Analyze
+   AnalyzeFactory
    MonteCarlo

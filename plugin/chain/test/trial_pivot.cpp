@@ -3,7 +3,7 @@
 #include "chain/include/trial_pivot.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "system/include/system.h"
-#include "system/include/model_lj.h"
+#include "system/include/lennard_jones.h"
 #include "monte_carlo/include/metropolis.h"
 #include "configuration/include/file_xyz.h"
 #include "monte_carlo/include/analyze.h"
@@ -22,7 +22,7 @@ TEST(TrialPivot, chain10) {
   }
   { // add potentials to system
     Potential potential;
-    potential.set_model(std::make_shared<ModelLJ>());
+    potential.set_model(std::make_shared<LennardJones>());
     potential.set_visit_model(std::make_shared<VisitModel>());
     system.add_to_unoptimized(potential);
   }

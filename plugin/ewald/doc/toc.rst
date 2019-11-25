@@ -1,8 +1,8 @@
 
 .. toctree::
 
-   Ewald
-   ModelChargeSelf
    ModelChargeIntra
    ModelChargeScreened
+   ModelChargeSelf
+   Ewald
    utils_ewald

@@ -2,6 +2,7 @@
 #ifndef FEASST_UTILS_UTILS_H_
 #define FEASST_UTILS_UTILS_H_
 
+#include <cmath>
 #include <vector>
 #include <numeric>
 #include <algorithm>

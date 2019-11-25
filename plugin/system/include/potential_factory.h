@@ -18,7 +18,12 @@ class PotentialFactory {
   PotentialFactory() {}
 
   /// Add potential.
-  void add_potential(const Potential potential);
+  // HWH rename add
+  void add_potential(const Potential& potential);
+
+  /// Set a potential.
+  // HWH rename set
+  void set_potential(const int index, const Potential& potential);
 
   /// Return the potentials.
   const std::vector<Potential>& potentials() const { return potentials_; }
@@ -28,6 +33,9 @@ class PotentialFactory {
 
   /// Precompute quantities for optimizations before calculation of energies.
   void precompute(Configuration * config);
+
+  /// Precompute a particular potential by index.
+  void precompute(const int index, Configuration * config);
 
   /// Compute the energy of the given configuration.
   double energy(Configuration * config);

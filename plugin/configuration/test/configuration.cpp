@@ -64,6 +64,7 @@ TEST(Configuration, particle_types_lj) {
   EXPECT_EQ(3., config->unique_type(0).site(0).property("cutoff"));
   EXPECT_EQ(1., config->unique_type(0).site(0).property("epsilon"));
   EXPECT_EQ(1., config->unique_type(0).site(0).property("sigma"));
+  EXPECT_EQ(1, config->max_sites_in_any_particle());
 }
 
 TEST(Configuration, particle_types_spce) {
@@ -88,6 +89,7 @@ TEST(Configuration, particle_types_spce) {
   EXPECT_EQ(0., config->unique_type(0).site(1).property("epsilon"));
   EXPECT_EQ(0., config->unique_type(0).site(1).property("sigma"));
   EXPECT_EQ(0.4238, config->unique_type(0).site(1).property("charge"));
+  EXPECT_EQ(3, config->max_sites_in_any_particle());
 }
 
 TEST(Configuration, bonds_spce) {

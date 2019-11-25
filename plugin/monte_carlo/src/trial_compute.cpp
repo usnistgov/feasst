@@ -31,12 +31,12 @@ void TrialCompute::compute_rosenbluth(
     if (old == 1) {
       energy = stage->rosenbluth().energy(0);
       acceptance->add_to_energy_old(energy);
-      ln_rosenbluth -= log(stage->rosenbluth().total_rosenbluth());
+      ln_rosenbluth -= stage->rosenbluth().ln_total_rosenbluth();
       DEBUG("adding to old energy " << energy);
     } else {
       energy = stage->rosenbluth().chosen_energy();
       acceptance->add_to_energy_new(energy);
-      ln_rosenbluth += log(stage->rosenbluth().total_rosenbluth());
+      ln_rosenbluth += stage->rosenbluth().ln_total_rosenbluth();
       DEBUG("adding to new energy " << energy);
     }
     energy_change += energy;

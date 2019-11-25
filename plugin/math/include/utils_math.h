@@ -52,6 +52,46 @@ T minimum(const std::vector<std::vector<T> > &vec) {
   return *std::min_element(mins.begin(), mins.end());
 }
 
+/// Return the sum of all elements in a vector.
+template<class T>
+T sum(const std::vector<T>& vec) {
+  T sm = 0;
+  for (const T& element : vec) {
+    sm += element;
+  }
+  return sm;
+}
+
+/// Return the sum of all elements in a 2D vector.
+template<class T>
+T sum(const std::vector<std::vector<T> >& vec2) {
+  T sm = 0;
+  for (const std::vector<T>& vec : vec2) {
+    sm += sum(vec);
+  }
+  return sm;
+}
+
+/// Return the sum of all elements in a 3D vector.
+template<class T>
+T sum(const std::vector<std::vector<std::vector<T> > >& vec3) {
+  T sm = 0;
+  for (const std::vector<std::vector<T> >& vec2 : vec3) {
+    sm += sum(vec2);
+  }
+  return sm;
+}
+
+/// Return the sum of all elements in a 4D vector.
+template<class T>
+T sum(const std::vector<std::vector<std::vector<std::vector<T> > > >& vec4) {
+  T sm = 0;
+  for (const std::vector<std::vector<std::vector<T> > >& vec3 : vec4) {
+    sm += sum(vec3);
+  }
+  return sm;
+}
+
 /** Return the minimum element of a 2D vector with smoothing.
     The returned indices must be global minimum between +/- num_smooth. */
 template<class T>
@@ -95,6 +135,7 @@ T maximum(const std::vector<std::vector<T> > &vec) {
 }
 
 /// Compute the union of two vectors.
+/// HWH: rename fst->feasst
 template<typename T>
 std::vector<T> fst_union(const std::vector<T>& vec1,
     const std::vector<T>& vec2) {

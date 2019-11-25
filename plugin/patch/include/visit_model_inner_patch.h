@@ -1,27 +1,12 @@
 
-#ifndef FEASST_MODELS_VISIT_MODEL_INNER_PATCH_H_
-#define FEASST_MODELS_VISIT_MODEL_INNER_PATCH_H_
+#ifndef FEASST_PATCH_VISIT_MODEL_INNER_PATCH_H_
+#define FEASST_PATCH_VISIT_MODEL_INNER_PATCH_H_
 
-#include "system/include/visit_model.h"
 #include "math/include/utils_math.h"
+#include "system/include/visit_model.h"
+#include "patch/include/patch_angle.h"
 
 namespace feasst {
-
-class PatchAngle : public ModelParam {
- public:
-  PatchAngle() { set_name("patch_angle"); }
-};
-
-class CosPatchAngle : public ModelParam {
- public:
-  CosPatchAngle() { set_name("cos_patch_angle"); }
-  CosPatchAngle(std::istream& istr) : ModelParam(istr) {}
-
-  double compute(const int type, const ModelParams& model_params) override {
-    const double angle = model_params.select("patch_angle")->value(type);
-    return cos(degrees_to_radians(angle));
-  }
-};
 
 /**
   Patch interactions are defined by two sites. These are called centers or
@@ -81,13 +66,6 @@ class VisitModelInnerPatch : public VisitModelInner {
     cos_patch_angle_.set(type, cosa);
   }
 
-  std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
-    return std::make_shared<VisitModelInnerPatch>(istr); }
-  void serialize(std::ostream& ostr) const override;
-  VisitModelInnerPatch(std::istream& istr);
-  virtual ~VisitModelInnerPatch() {}
-
- protected:
   // compute the interaction between a pair of centers
   void compute(
       const int part1_index,
@@ -99,6 +77,12 @@ class VisitModelInnerPatch : public VisitModelInner {
       const ModelTwoBody& model,
       Position * relative) override;
 
+  std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
+    return std::make_shared<VisitModelInnerPatch>(istr); }
+  void serialize(std::ostream& ostr) const override;
+  VisitModelInnerPatch(std::istream& istr);
+  virtual ~VisitModelInnerPatch() {}
+
  private:
   const std::string class_name_ = "VisitModelInnerPatch";
   CosPatchAngle cos_patch_angle_;
@@ -106,4 +90,4 @@ class VisitModelInnerPatch : public VisitModelInner {
 
 }  // namespace feasst
 
-#endif  // FEASST_MODELS_VISIT_MODEL_INNER_PATCH_H_
+#endif  // FEASST_PATCH_VISIT_MODEL_INNER_PATCH_H_

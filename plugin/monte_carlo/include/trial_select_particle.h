@@ -55,19 +55,25 @@ class TrialSelectParticle : public TrialSelect {
     return num;
   }
 
-  /// Add random particle in group index to select.
-  /// Return the number of particles to choose from.
   void ghost_particle(Configuration * config,
     SelectPosition * select) {
     ASSERT(static_cast<int>(config->ghosts().size()) > particle_type(),
       "type not recognized");
     // if no ghosts, create one
+    DEBUG("particle_type: " << particle_type());
+    DEBUG("nump " << config->num_particles());
     DEBUG("num ghosts " << config->ghosts()[particle_type()].num_particles());
+    DEBUG("newest particle " << config->newest_particle_index());
     if (config->ghosts()[particle_type()].num_particles() == 0) {
       config->add_particle_of_type(particle_type());
       Select add;
+      DEBUG("newest particle " << config->newest_particle_index());
       add.add_particle(config->newest_particle(), config->newest_particle_index());
+      DEBUG("add sel: " << add.str());
       config->remove_particles(add);
+      const int num_ghosts = config->ghosts()[particle_type()].num_particles();
+      ASSERT(num_ghosts == 1,
+        "ghost wasn't added as expected, num: " << num_ghosts);
     }
     const Select& ghost = config->ghosts()[particle_type()];
     bool fast;
@@ -83,7 +89,9 @@ class TrialSelectParticle : public TrialSelect {
       config->set_selection_physical(*select, true);
     }
     if (load_coordinates()) {
-      if (!fast) select->resize();
+      if (!fast) {
+        select->resize();
+      }
       select->load_positions(config->particles());
     }
   }

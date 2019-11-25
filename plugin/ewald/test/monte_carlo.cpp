@@ -29,8 +29,8 @@ TEST(MonteCarlo, spce) {
       config.add_model_param("alpha", 5.6/config.domain().min_side_length());
 //      config.add_particle_of_type(0);
       const int kmax_squared = 3;
-      ewald = add_ewald_with(MakeModelLJ(), &config, &system, kmax_squared);
       system.add(config);
+      ewald = add_ewald_with(MakeLennardJones(), &system, kmax_squared);
     }
     mc.set(system);
   }
@@ -49,7 +49,6 @@ TEST(MonteCarlo, spce) {
   mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
   mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));
 
-  // Theres something wrong with MC and Ewald
   mc.seek_num_particles(2);
   // INFO(mc.system().configuration().num_particles());
 //  INFO("props " << mc.system().configuration().particle(0).site(1).properties().str());

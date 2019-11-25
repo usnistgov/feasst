@@ -1,4 +1,3 @@
-#include <vector>
 #include <sstream>
 #include "system/include/visit_model_cell.h"
 #include "system/include/model_two_body.h"
@@ -45,8 +44,8 @@ void VisitModelCell::compute(
             if (part1_index != part2_index) {
               for (int site1_index : select1.site_indices(select1_index)) {
                 for (int site2_index : select2.site_indices(select2_index)) {
-                  inner()->compute(part1_index, site1_index, part2_index, site2_index,
-                                   config, model_params, model, &relative_);
+                  get_inner_()->compute(part1_index, site1_index, part2_index, site2_index,
+                                        config, model_params, model, &relative_);
                 }
               }
             }
@@ -70,8 +69,8 @@ void VisitModelCell::compute(
         if (part1_index != part2_index) {
           for (int site1_index : select.site_indices(select1_index)) {
             for (int site2_index : select.site_indices(select2_index)) {
-              inner()->compute(part1_index, site1_index, part2_index, site2_index,
-                               config, model_params, model, &relative_);
+              get_inner_()->compute(part1_index, site1_index, part2_index, site2_index,
+                                    config, model_params, model, &relative_);
             }
           }
         }
@@ -116,8 +115,8 @@ void VisitModelCell::compute(
             for (int site2_index : cell2_parts.site_indices(select2_index)) {
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                    site1_index << " " << site2_index);
-              inner()->compute(part1_index, site1_index, part2_index, site2_index,
-                               config, model_params, model, &relative_);
+              get_inner_()->compute(part1_index, site1_index, part2_index, site2_index,
+                                    config, model_params, model, &relative_);
             }
           }
         }

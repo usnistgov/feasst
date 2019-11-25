@@ -6,7 +6,7 @@
 #include "ewald/include/model_charge_self.h"
 #include "ewald/include/model_charge_intra.h"
 #include "ewald/include/model_charge_screened.h"
-#include "system/include/model_lj.h"
+#include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/system.h"

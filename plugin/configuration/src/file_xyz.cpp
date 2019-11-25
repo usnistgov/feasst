@@ -55,11 +55,13 @@ void FileXYZ::load(const std::string file_name, Configuration * config) const {
 }
 
 // Utility class to print XYZ files from selection.
-class PrinterXYZ : public LoopOneBody {
+class PrinterXYZ : public LoopConfigOneBody {
  public:
   PrinterXYZ(std::shared_ptr<std::ofstream> file) : file_(file) {}
-  void work(const Site& site) const override {
-    (*file_.get()) << "H " << site.position().str() << endl;
+  void work(const Site& site,
+      const Configuration& config,
+      const LoopDescriptor& data) const override {
+    (*file_.get()) << site.type() << " " << site.position().str() << endl;
   }
  private:
   std::shared_ptr<std::ofstream> file_;

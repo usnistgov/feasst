@@ -5,6 +5,7 @@
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
 #include "math/include/histogram.h"
+#include "flat_histogram/include/constraint.h"
 
 namespace feasst {
 
@@ -68,9 +69,13 @@ class Macrostate {
   /// Return the value of the bin.
   double value(const int bin) const { return histogram_.center_of_bin(bin); }
 
+  /// Add a constraint.
+  void add(std::shared_ptr<Constraint> constraint) {
+    constraints_.push_back(constraint); }
+
   /// Return whether the current system macrostate is within permissible range
-  /// given by the input histogram.
-  bool is_in_range(const System* system, const Criteria* criteria);
+  /// given by the input histogram and check any additional constraints.
+  bool is_allowed(const System* system, const Criteria* criteria);
 
   /// Swap the soft bounds with another macrostate.
   void swap_soft_bounds(Macrostate * macrostate);
@@ -90,6 +95,7 @@ class Macrostate {
   bool is_soft_bound_;
   int soft_max_;
   int soft_min_;
+  std::vector<std::shared_ptr<Constraint> > constraints_;
 };
 
 /// Segment an range into pieces by exponential scaling.

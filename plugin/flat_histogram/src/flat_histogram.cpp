@@ -11,7 +11,7 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
   bool is_accepted;
   double ln_metropolis_prob = acceptance.ln_metropolis_prob();
   if (acceptance.reject() or
-      !macrostate_->is_in_range(system, this)) {
+      !macrostate_->is_allowed(system, this)) {
     is_accepted = false;
     ln_metropolis_prob = -NEAR_INFINITY;
     macrostate_new_ = macrostate_old_;

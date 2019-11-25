@@ -106,18 +106,31 @@ bool Position::is_equal(const Position& position) const {
   return true;
 }
 
-Position PositionSpherical::cartesian() {
-  ASSERT(dimension() == 3, "requires 3D");
-  const double rho = coord(0);
-  const double theta = coord(1);
-  const double phi = coord(2);
+Position& Position::set_from_spherical(const std::vector<double> &vec) {
+  const int dimen = static_cast<int>(vec.size());
+  if (dimen == 3) {
+    set_from_spherical(vec[0], vec[1], vec[2]);
+  } else if (dimen == 2) {
+    set_from_spherical(vec[0], vec[1]);
+  } else {
+    ERROR("unrecognized dimension:" << vec.size());
+  }
+  return *this;
+}
+
+void Position::set_from_spherical(const double rho,
+                                  const double theta,
+                                  const double phi) {
   const double sine_phi = sin(phi);
-  Position pos;
-  pos.set_vector({
+  set_vector({
     rho*sine_phi*cos(theta),
     rho*sine_phi*sin(theta),
     rho*cos(phi)});
-  return pos;
+}
+
+void Position::set_from_spherical(const double rho,
+                                  const double theta) {
+  set_vector({rho*cos(theta), rho*sin(theta)});
 }
 
 void Position::multiply(const double constant) {
@@ -135,7 +148,7 @@ Position::Position(std::istream& sstr) {
   feasst_deserialize_version(sstr);
   feasst_deserialize(&coord_, sstr);
 }
-  
+
 Position Position::cross_product(const Position& position) const{
   ASSERT(this->dimension() == 3 and position.dimension() == 3,
     "implemented for 3D only.");
@@ -206,8 +219,8 @@ void Position::orthogonal(const Position& orthogonal) {
     " if the dot product of the two is: " << dot_product(orthogonal));
 }
 
-Position& Position::set_vector(const std::vector<double> &doubleVec) {
-  coord_ = doubleVec;
+Position& Position::set_vector(const std::vector<double> &vec) {
+  coord_ = vec;
   return *this;
 }
 

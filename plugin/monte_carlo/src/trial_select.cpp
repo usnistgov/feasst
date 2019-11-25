@@ -34,9 +34,11 @@ int TrialSelect::particle_type() const {
 }
 
 void TrialSelect::precompute(System * system) {
+  DEBUG("is_particle_type_set_ " << is_particle_type_set_);
   if (is_particle_type_set_) {
     group_index_ = system->get_configuration()->particle_type_to_group(
       particle_type_);
+    DEBUG("group_index_ " << group_index_);
   }
 }
 
@@ -52,7 +54,7 @@ const Position& TrialSelect::anchor_position(const int particle_index,
 void TrialSelect::set_ghost(const bool ghost) {
   is_ghost_ = ghost;
   if (is_ghost_) {
-    ASSERT(group_index() == 0, "ghost particles cannot be selected by groups");
+    // ASSERT(group_index() == 0, "ghost particles cannot be selected by groups");
     ASSERT(particle_type() >= 0, "ghost particles must be selected by type");
   }
 }

@@ -3,18 +3,20 @@
 
    physical_constants
    Model
+   EnergyMap
+   SelectList
    VisitModelInner
+   VisitModel
+   ModelTwoBody
+   ModelTwoBodyFactory
+   HardSphere
+   LennardJones
+   Potential
+   PotentialFactory
+   System
    ModelOneBody
    ModelEmpty
-   ModelTwoBody
-   ModelLJ
-   ModelHardSphere
-   ModelTwoBodyFactory
    ModelThreeBody
    VisitModelCell
    LongRangeCorrections
    VisitModelIntra
-   SelectList
-   Potential
-   PotentialFactory
-   System

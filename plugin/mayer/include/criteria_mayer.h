@@ -4,7 +4,6 @@
 
 #include "monte_carlo/include/criteria.h"
 #include "math/include/accumulator.h"
-#include "system/include/model_hard_sphere.h"
 
 namespace feasst {
 

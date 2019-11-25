@@ -6,9 +6,9 @@
    WallClockLimit
    Tuner
    CheckProperties
-   Movie
-   NumParticles
-   Energy
-   Log
-   CriteriaWriter
    CPUTime
+   CriteriaWriter
+   Log
+   Energy
+   NumParticles
+   Movie

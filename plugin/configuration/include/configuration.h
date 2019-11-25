@@ -86,7 +86,7 @@ class Configuration {
   /// make a custom ModelParam.
   void add(std::shared_ptr<ModelParam> param);
 
-  ModelParams model_params() const { return unique_types_.model_params(); }
+  const ModelParams& model_params() const { return unique_types_.model_params(); }
 
   /// Modify model parameter of a given site type and name to value.
   void set_model_param(const char* name,
@@ -121,6 +121,9 @@ class Configuration {
   const Particle& unique_type(const int type) const {
     return unique_types_.particle(type);
   }
+
+  /// Return the maximum number of sites in any particle type.
+  int max_sites_in_any_particle() const;
 
   //@}
   /** @name Groups

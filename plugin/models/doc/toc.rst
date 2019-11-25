@@ -1,8 +1,8 @@
 
 .. toctree::
 
-   ModelYukawa
-   ModelSquareWell
-   ModelLJAlpha
-   EnergyAtCutoff
-   EnergyDerivAtCutoff
+   SquareWell
+   Yukawa
+   LennardJonesAlpha
+   LennardJonesCutShift
+   LennardJonesForceShift

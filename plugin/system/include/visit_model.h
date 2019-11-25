@@ -4,66 +4,13 @@
 
 #include "system/include/model.h"
 #include "configuration/include/configuration.h"
+#include "system/include/visit_model_inner.h"
 
 namespace feasst {
 
 class ModelOneBody;
 class ModelTwoBody;
 class ModelThreeBody;
-
-class VisitModelInner {
- public:
-  VisitModelInner() {}
-
-  virtual void compute(
-    const int part1_index,
-    const int site1_index,
-    const int part2_index,
-    const int site2_index,
-    const Configuration * config,
-    const ModelParams& model_params,
-    const ModelTwoBody& model,
-    Position * relative);
-
-  virtual void precompute(Configuration * config) {}
-
-  void set_energy(const double energy) { energy_ = energy; }
-  void add_energy(const double energy) { energy_ += energy; }
-  double energy() const { return energy_; }
-
-  // serialize
-  virtual void serialize(std::ostream& ostr) const {
-    serialize_visit_model_inner_(ostr); }
-
-  VisitModelInner(std::istream& istr) {
-    feasst_deserialize_version(istr);
-    feasst_deserialize(&energy_, istr);
-  }
-
-  virtual std::shared_ptr<VisitModelInner> create(std::istream& istr) const {
-    return std::make_shared<VisitModelInner>(istr);
-  }
-
-  std::map<std::string, std::shared_ptr<VisitModelInner> >& deserialize_map();
-
-  std::shared_ptr<VisitModelInner> deserialize(std::istream& istr) {
-    return template_deserialize(deserialize_map(), istr); }
-
-  virtual ~VisitModelInner() {}
-
- protected:
-  void serialize_visit_model_inner_(std::ostream& ostr) const {
-    ostr << class_name_ << " ";
-    feasst_serialize_version(1, ostr);
-    feasst_serialize(energy_, ostr);
-  }
-
-
- private:
-  const std::string class_name_ = "VisitModelInner";
-  double energy_ = 0.;
-  double squared_distance_;
-};
 
 /**
   See Model for a description of the compute methods. These are mirrored by
@@ -76,9 +23,15 @@ class VisitModel {
     set_inner();
   }
 
+  VisitModel(std::shared_ptr<VisitModelInner> inner) {
+    set_inner(inner);
+  }
+
   void set_inner(const std::shared_ptr<VisitModelInner> inner =
     std::make_shared<VisitModelInner>()) {
     inner_ = inner; }
+
+  const VisitModelInner * const inner() const { return inner_.get(); }
 
   virtual void compute(
       const ModelOneBody& model,
@@ -170,8 +123,9 @@ class VisitModel {
       Configuration * config,
       const int group_index = 0);
 
-  virtual void revert() {}
-  virtual void finalize() {}
+  virtual void prep_for_revert() { inner_->prep_for_revert(); }
+  virtual void revert() { inner_->revert(); }
+  virtual void finalize() { inner_->finalize(); }
 
   virtual void precompute(Configuration * config) {
     inner_->precompute(config); }
@@ -197,11 +151,14 @@ class VisitModel {
  protected:
   void serialize_visit_model_(std::ostream& ostr) const;
 //  void deserialize_visit_model_(std::istream& istr, std::shared_ptr<VisitModel> visitor) const;
-  VisitModelInner * inner() const { return inner_.get(); }
+  VisitModelInner * get_inner_() const { return inner_.get(); }
 
+  // HWH hacky addition: also, prep inner for reverting,
+  // because this is called at beginning of every pair-wise selection compute
   // optimization to avoid repeated construction of Position.
   Position relative_;
   void init_relative_(const Domain& domain, Position * relative) {
+    prep_for_revert();
     if (relative->dimension() != domain.dimension()) {
       relative->set_vector(domain.side_length().coord());
     }
@@ -215,6 +172,11 @@ class VisitModel {
 
 inline std::shared_ptr<VisitModel> MakeVisitModel() {
   return std::make_shared<VisitModel>();
+}
+
+inline std::shared_ptr<VisitModel> MakeVisitModel(
+    std::shared_ptr<VisitModelInner> inner) {
+  return std::make_shared<VisitModel>(inner);
 }
 
 }  // namespace feasst

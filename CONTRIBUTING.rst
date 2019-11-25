@@ -314,5 +314,4 @@ To Do List
 * add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects
 * Refactor Select classes. There are too many, and VisitModels may prefer to update select properties (e.g., cell, eik)
 * Jupyter notebook output should go to cells, not terminal that runs jupyter.
-* log file estimated time to finish, attempts per second
 * implement gibbs ensemble

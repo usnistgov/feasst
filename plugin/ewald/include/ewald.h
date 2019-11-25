@@ -227,14 +227,6 @@ class Ewald : public VisitModel {
   Ewald(std::istream& istr);
   void serialize(std::ostream& ostr) const override;
 
-  std::vector<double> struct_fact_real_;
-  std::vector<double> struct_fact_imag_;
-
-  // temporary
-  std::vector<double> struct_fact_real_new_;
-  std::vector<double> struct_fact_imag_new_;
-  double stored_energy_new_ = 0.;
-
  private:
   const std::string class_name_ = "Ewald";
   int kmax_;
@@ -247,13 +239,21 @@ class Ewald : public VisitModel {
   const int dimension_ = 3;
   double stored_energy_ = 0.;
 
+  std::vector<double> struct_fact_real_;
+  std::vector<double> struct_fact_imag_;
+
+  // temporary
+  std::vector<double> struct_fact_real_new_;
+  std::vector<double> struct_fact_imag_new_;
+  double stored_energy_new_ = 0.;
+
   // temporary
   // HWH not sure this is the best way to store and revert eiks
   // HWH but a refactor would require argument SelectParticle * select
   // HWH to put eiks in selection and no longer exclude them from update.
   std::vector<std::vector<Properties> > old_eiks_;
   Select old_select_;
-  bool revertable_;
+  bool revertable_ = false;
   Configuration * old_config_;
 
 //  void store_energy_struct_fact_() {

@@ -51,8 +51,11 @@ class System {
    */
   //@{
 
-  /// Add a potential. By default, this is unoptimized.
-  void add(const Potential& potential);
+  /// Add a potential. By default, the potential is considered unoptimized.
+  void add(const Potential& potential) { add_to_unoptimized(potential); }
+
+  /// Set an unoptimized potential.
+  void set_unoptimized(const int index, const Potential& potential);
 
   /// Add an unoptimized potential.
   void add_to_unoptimized(const Potential& potential);

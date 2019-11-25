@@ -5,7 +5,7 @@ monte_carlo.set(feasst.MakeRandomMT19937(feasst.args({"seed" : "date"})))
 monte_carlo.add(feasst.Configuration(feasst.args(
     {"cubic_box_length": "8",
      "particle_type": feasst.install_dir() + "/forcefield/data.lj"})))
-monte_carlo.add(feasst.Potential(feasst.MakeModelLJ()))
+monte_carlo.add(feasst.Potential(feasst.MakeLennardJones()))
 monte_carlo.add(feasst.Potential(feasst.MakeLongRangeCorrections()))
 monte_carlo.add(feasst.MakeMetropolis(feasst.args(
     {"beta": "1.5", "chemical_potential": "1."})))

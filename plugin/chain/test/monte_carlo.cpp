@@ -37,7 +37,7 @@ Configuration config() {
 
 Potential lj() {
   Potential lj;
-  lj.set_model(std::make_shared<ModelLJ>());
+  lj.set_model(std::make_shared<LennardJones>());
   return lj;
 }
 

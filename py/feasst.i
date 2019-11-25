@@ -17,6 +17,7 @@
 #include "utils/include/custom_exception.h"
 #include "utils/include/utils.h"
 #include "utils/include/debug.h"
+#include "utils/include/serialize.h"
 #include "utils/include/utils_io.h"
 #include "configuration/include/properties.h"
 #include "configuration/include/typed_entity.h"
@@ -48,31 +49,21 @@
 #include "configuration/include/visit_particles.h"
 #include "configuration/include/configuration.h"
 #include "system/include/model.h"
-#include "system/include/visit_model.h"
-#include "patch/include/visit_model_inner_patch.h"
-#include "ewald/include/ewald.h"
-#include "system/include/model_one_body.h"
-#include "ewald/include/model_charge_self.h"
-#include "system/include/model_empty.h"
-#include "system/include/model_two_body.h"
-#include "models/include/model_yukawa.h"
-#include "models/include/model_square_well.h"
-#include "ewald/include/model_charge_intra.h"
-#include "system/include/model_lj.h"
-#include "models/include/model_lj_alpha.h"
-#include "models/include/model_lj_cut_shift.h"
-#include "models/include/model_lj_force_shift.h"
-#include "system/include/model_hard_sphere.h"
-#include "ewald/include/model_charge_screened.h"
-#include "system/include/model_two_body_factory.h"
-#include "system/include/model_three_body.h"
-#include "system/include/visit_model_cell.h"
-#include "system/include/long_range_corrections.h"
-#include "system/include/visit_model_intra.h"
+#include "system/include/energy_map.h"
 #include "system/include/select_list.h"
-#include "configuration/include/file_xyz.h"
-#include "configuration/include/visit_configuration.h"
-#include "configuration/include/bond_visitor.h"
+#include "system/include/visit_model_inner.h"
+#include "system/include/visit_model.h"
+#include "system/include/model_two_body.h"
+#include "models/include/square_well.h"
+#include "models/include/yukawa.h"
+#include "ewald/include/model_charge_intra.h"
+#include "system/include/model_two_body_factory.h"
+#include "system/include/hard_sphere.h"
+#include "system/include/lennard_jones.h"
+#include "models/include/lennard_jones_alpha.h"
+#include "models/include/lennard_jones_cut_shift.h"
+#include "models/include/lennard_jones_force_shift.h"
+#include "ewald/include/model_charge_screened.h"
 #include "system/include/potential.h"
 #include "system/include/potential_factory.h"
 #include "system/include/system.h"
@@ -106,30 +97,44 @@
 #include "steppers/include/tuner.h"
 #include "steppers/include/check_properties.h"
 #include "monte_carlo/include/modify_factory.h"
-#include "monte_carlo/include/analyze.h"
-#include "monte_carlo/include/analyze_factory.h"
-#include "steppers/include/movie.h"
-#include "steppers/include/num_particles.h"
-#include "steppers/include/energy.h"
-#include "steppers/include/log.h"
-#include "steppers/include/criteria_writer.h"
-#include "steppers/include/cpu_time.h"
 #include "monte_carlo/include/trial_remove.h"
 #include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/trial_compute_move.h"
 #include "monte_carlo/include/trial_move.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_translate.h"
+#include "patch/include/patch_angle.h"
+#include "patch/include/visit_model_inner_patch.h"
+#include "system/include/model_one_body.h"
+#include "ewald/include/model_charge_self.h"
+#include "system/include/model_empty.h"
+#include "system/include/model_three_body.h"
+#include "system/include/visit_model_cell.h"
+#include "system/include/long_range_corrections.h"
+#include "ewald/include/ewald.h"
+#include "system/include/visit_model_intra.h"
 #include "ewald/include/utils_ewald.h"
+#include "configuration/include/file_xyz.h"
+#include "configuration/include/visit_configuration.h"
+#include "configuration/include/bond_visitor.h"
+#include "monte_carlo/include/analyze.h"
+#include "steppers/include/cpu_time.h"
+#include "steppers/include/criteria_writer.h"
+#include "steppers/include/log.h"
+#include "steppers/include/energy.h"
+#include "steppers/include/num_particles.h"
+#include "steppers/include/movie.h"
+#include "monte_carlo/include/analyze_factory.h"
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "mayer/include/criteria_mayer.h"
 #include "mayer/include/trial.h"
 #include "flat_histogram/include/ln_probability.h"
 #include "flat_histogram/include/bias.h"
+#include "flat_histogram/include/wang_landau.h"
+#include "flat_histogram/include/constraint.h"
 #include "flat_histogram/include/macrostate.h"
 #include "flat_histogram/include/flat_histogram.h"
-#include "flat_histogram/include/wang_landau.h"
 #include "flat_histogram/include/collection_matrix.h"
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
@@ -185,7 +190,6 @@ using namespace std;
 %shared_ptr(feasst::Accumulator);
 %shared_ptr(feasst::Stepper);
 %shared_ptr(feasst::Position);
-%shared_ptr(feasst::PositionSpherical);
 %shared_ptr(feasst::SpatialEntity);
 %shared_ptr(feasst::Site);
 %shared_ptr(feasst::Particle);
@@ -216,41 +220,24 @@ using namespace std;
 %shared_ptr(feasst::LoopOneBody);
 %shared_ptr(feasst::Configuration);
 %shared_ptr(feasst::Model);
+%shared_ptr(feasst::EnergyMap);
+%shared_ptr(feasst::EnergyMapAll);
+%shared_ptr(feasst::SelectList);
 %shared_ptr(feasst::VisitModelInner);
 %shared_ptr(feasst::VisitModel);
-%shared_ptr(feasst::PatchAngle);
-%shared_ptr(feasst::CosPatchAngle);
-%shared_ptr(feasst::VisitModelInnerPatch);
-%shared_ptr(feasst::Ewald);
-%shared_ptr(feasst::ModelOneBody);
-%shared_ptr(feasst::ModelChargeSelf);
-%shared_ptr(feasst::ModelEmpty);
 %shared_ptr(feasst::ModelTwoBody);
-%shared_ptr(feasst::ModelYukawa);
-%shared_ptr(feasst::ModelSquareWell);
+%shared_ptr(feasst::SquareWell);
+%shared_ptr(feasst::Yukawa);
 %shared_ptr(feasst::ModelChargeIntra);
-%shared_ptr(feasst::ModelLJ);
-%shared_ptr(feasst::ModelLJAlpha);
-%shared_ptr(feasst::EnergyAtCutoff);
-%shared_ptr(feasst::ModelLJCutShift);
-%shared_ptr(feasst::EnergyDerivAtCutoff);
-%shared_ptr(feasst::ModelLJForceShift);
-%shared_ptr(feasst::ModelHardSphere);
-%shared_ptr(feasst::ModelChargeScreened);
 %shared_ptr(feasst::ModelTwoBodyFactory);
-%shared_ptr(feasst::ModelThreeBody);
-%shared_ptr(feasst::VisitModelCell);
-%shared_ptr(feasst::LongRangeCorrections);
-%shared_ptr(feasst::VisitModelIntra);
-%shared_ptr(feasst::SelectList);
-%shared_ptr(feasst::FileVMD);
-%shared_ptr(feasst::FileXYZ);
-%shared_ptr(feasst::VisitConfiguration);
-%shared_ptr(feasst::BondTwoBody);
-%shared_ptr(feasst::BondSquareWell);
-%shared_ptr(feasst::BondThreeBody);
-%shared_ptr(feasst::AngleSquareWell);
-%shared_ptr(feasst::BondVisitor);
+%shared_ptr(feasst::HardSphere);
+%shared_ptr(feasst::LennardJones);
+%shared_ptr(feasst::LennardJonesAlpha);
+%shared_ptr(feasst::EnergyAtCutoff);
+%shared_ptr(feasst::EnergyDerivAtCutoff);
+%shared_ptr(feasst::LennardJonesCutShift);
+%shared_ptr(feasst::LennardJonesForceShift);
+%shared_ptr(feasst::ModelChargeScreened);
 %shared_ptr(feasst::Potential);
 %shared_ptr(feasst::PotentialFactory);
 %shared_ptr(feasst::System);
@@ -285,22 +272,42 @@ using namespace std;
 %shared_ptr(feasst::Tuner);
 %shared_ptr(feasst::CheckProperties);
 %shared_ptr(feasst::ModifyFactory);
-%shared_ptr(feasst::Analyze);
-%shared_ptr(feasst::AnalyzeWriteOnly);
-%shared_ptr(feasst::AnalyzeUpdateOnly);
-%shared_ptr(feasst::AnalyzeFactory);
-%shared_ptr(feasst::Movie);
-%shared_ptr(feasst::NumParticles);
-%shared_ptr(feasst::Energy);
-%shared_ptr(feasst::Log);
-%shared_ptr(feasst::CriteriaWriter);
-%shared_ptr(feasst::CPUTime);
 %shared_ptr(feasst::TrialRemove);
 %shared_ptr(feasst::TrialAdd);
 %shared_ptr(feasst::TrialComputeMove);
 %shared_ptr(feasst::TrialMove);
 %shared_ptr(feasst::TrialRotate);
 %shared_ptr(feasst::TrialTranslate);
+%shared_ptr(feasst::PatchAngle);
+%shared_ptr(feasst::CosPatchAngle);
+%shared_ptr(feasst::VisitModelInnerPatch);
+%shared_ptr(feasst::ModelOneBody);
+%shared_ptr(feasst::ModelChargeSelf);
+%shared_ptr(feasst::ModelEmpty);
+%shared_ptr(feasst::ModelThreeBody);
+%shared_ptr(feasst::VisitModelCell);
+%shared_ptr(feasst::LongRangeCorrections);
+%shared_ptr(feasst::Ewald);
+%shared_ptr(feasst::VisitModelIntra);
+%shared_ptr(feasst::FileVMD);
+%shared_ptr(feasst::FileXYZ);
+%shared_ptr(feasst::VisitConfiguration);
+%shared_ptr(feasst::LoopConfigOneBody);
+%shared_ptr(feasst::BondTwoBody);
+%shared_ptr(feasst::BondSquareWell);
+%shared_ptr(feasst::BondThreeBody);
+%shared_ptr(feasst::AngleSquareWell);
+%shared_ptr(feasst::BondVisitor);
+%shared_ptr(feasst::Analyze);
+%shared_ptr(feasst::AnalyzeWriteOnly);
+%shared_ptr(feasst::AnalyzeUpdateOnly);
+%shared_ptr(feasst::CPUTime);
+%shared_ptr(feasst::CriteriaWriter);
+%shared_ptr(feasst::Log);
+%shared_ptr(feasst::Energy);
+%shared_ptr(feasst::NumParticles);
+%shared_ptr(feasst::Movie);
+%shared_ptr(feasst::AnalyzeFactory);
 %shared_ptr(feasst::RandomMT19937);
 %shared_ptr(feasst::MonteCarlo);
 %shared_ptr(feasst::CriteriaMayer);
@@ -308,9 +315,10 @@ using namespace std;
 %shared_ptr(feasst::TrialTranslateMayer);
 %shared_ptr(feasst::LnProbability);
 %shared_ptr(feasst::Bias);
+%shared_ptr(feasst::WangLandau);
+%shared_ptr(feasst::Constraint);
 %shared_ptr(feasst::Macrostate);
 %shared_ptr(feasst::FlatHistogram);
-%shared_ptr(feasst::WangLandau);
 %shared_ptr(feasst::TripleBandedCollectionMatrix);
 %shared_ptr(feasst::TransitionMatrix);
 %shared_ptr(feasst::MacrostateNumParticles);
@@ -345,6 +353,7 @@ using namespace std;
 %include utils/include/custom_exception.h
 %include utils/include/utils.h
 %include utils/include/debug.h
+%include utils/include/serialize.h
 %include utils/include/utils_io.h
 %include configuration/include/properties.h
 %include configuration/include/typed_entity.h
@@ -376,31 +385,21 @@ using namespace std;
 %include configuration/include/visit_particles.h
 %include configuration/include/configuration.h
 %include system/include/model.h
-%include system/include/visit_model.h
-%include patch/include/visit_model_inner_patch.h
-%include ewald/include/ewald.h
-%include system/include/model_one_body.h
-%include ewald/include/model_charge_self.h
-%include system/include/model_empty.h
-%include system/include/model_two_body.h
-%include models/include/model_yukawa.h
-%include models/include/model_square_well.h
-%include ewald/include/model_charge_intra.h
-%include system/include/model_lj.h
-%include models/include/model_lj_alpha.h
-%include models/include/model_lj_cut_shift.h
-%include models/include/model_lj_force_shift.h
-%include system/include/model_hard_sphere.h
-%include ewald/include/model_charge_screened.h
-%include system/include/model_two_body_factory.h
-%include system/include/model_three_body.h
-%include system/include/visit_model_cell.h
-%include system/include/long_range_corrections.h
-%include system/include/visit_model_intra.h
+%include system/include/energy_map.h
 %include system/include/select_list.h
-%include configuration/include/file_xyz.h
-%include configuration/include/visit_configuration.h
-%include configuration/include/bond_visitor.h
+%include system/include/visit_model_inner.h
+%include system/include/visit_model.h
+%include system/include/model_two_body.h
+%include models/include/square_well.h
+%include models/include/yukawa.h
+%include ewald/include/model_charge_intra.h
+%include system/include/model_two_body_factory.h
+%include system/include/hard_sphere.h
+%include system/include/lennard_jones.h
+%include models/include/lennard_jones_alpha.h
+%include models/include/lennard_jones_cut_shift.h
+%include models/include/lennard_jones_force_shift.h
+%include ewald/include/model_charge_screened.h
 %include system/include/potential.h
 %include system/include/potential_factory.h
 %include system/include/system.h
@@ -434,30 +433,44 @@ using namespace std;
 %include steppers/include/tuner.h
 %include steppers/include/check_properties.h
 %include monte_carlo/include/modify_factory.h
-%include monte_carlo/include/analyze.h
-%include monte_carlo/include/analyze_factory.h
-%include steppers/include/movie.h
-%include steppers/include/num_particles.h
-%include steppers/include/energy.h
-%include steppers/include/log.h
-%include steppers/include/criteria_writer.h
-%include steppers/include/cpu_time.h
 %include monte_carlo/include/trial_remove.h
 %include monte_carlo/include/trial_add.h
 %include monte_carlo/include/trial_compute_move.h
 %include monte_carlo/include/trial_move.h
 %include monte_carlo/include/trial_rotate.h
 %include monte_carlo/include/trial_translate.h
+%include patch/include/patch_angle.h
+%include patch/include/visit_model_inner_patch.h
+%include system/include/model_one_body.h
+%include ewald/include/model_charge_self.h
+%include system/include/model_empty.h
+%include system/include/model_three_body.h
+%include system/include/visit_model_cell.h
+%include system/include/long_range_corrections.h
+%include ewald/include/ewald.h
+%include system/include/visit_model_intra.h
 %include ewald/include/utils_ewald.h
+%include configuration/include/file_xyz.h
+%include configuration/include/visit_configuration.h
+%include configuration/include/bond_visitor.h
+%include monte_carlo/include/analyze.h
+%include steppers/include/cpu_time.h
+%include steppers/include/criteria_writer.h
+%include steppers/include/log.h
+%include steppers/include/energy.h
+%include steppers/include/num_particles.h
+%include steppers/include/movie.h
+%include monte_carlo/include/analyze_factory.h
 %include math/include/random_mt19937.h
 %include monte_carlo/include/monte_carlo.h
 %include mayer/include/criteria_mayer.h
 %include mayer/include/trial.h
 %include flat_histogram/include/ln_probability.h
 %include flat_histogram/include/bias.h
+%include flat_histogram/include/wang_landau.h
+%include flat_histogram/include/constraint.h
 %include flat_histogram/include/macrostate.h
 %include flat_histogram/include/flat_histogram.h
-%include flat_histogram/include/wang_landau.h
 %include flat_histogram/include/collection_matrix.h
 %include flat_histogram/include/transition_matrix.h
 %include flat_histogram/include/macrostate_num_particles.h

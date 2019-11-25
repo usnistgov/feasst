@@ -10,8 +10,8 @@ namespace feasst {
 
 /**
   Positions are a set of coordinates (abbreviated here as "coord") in the
-  Euclidean coordinate system. The number of coordinates is the dimensionality
-  of the Euclidean space.
+  Euclidean/Cartesian coordinate system.
+  The number of coordinates is the dimensionality of the Euclidean space.
  */
 class Position {
  public:
@@ -34,7 +34,30 @@ class Position {
   const std::vector<double>& coord() const { return coord_;}
 
   /// Set position vector.
-  Position& set_vector(const std::vector<double> &doubleVec);
+  Position& set_vector(const std::vector<double> &vec);
+
+  /// Set vector given Cartesian coordinates (same as above).
+  Position& set_from_cartesian(const std::vector<double> &vec) {
+    return set_vector(vec); }
+
+  /**
+    Set vector given Spherical coordinates (2 or 3-dimensional).
+    Spherical coordinates are defined as follows:
+    The first coordinate is rho >= 0. rho is the distance from origin.
+    The second coordinate is theta.
+    theta is the angle between x-axis and projection of line on x-y axis.
+    In 3D, the third and final coordinate is phi, 0 <= phi <= PI.
+    phi is the angle between z-axis and line.
+   */
+  Position& set_from_spherical(const std::vector<double> &vec);
+
+  /// Same as above for 3D.
+  void set_from_spherical(const double rho,
+                          const double theta,
+                          const double phi);
+
+  /// Same as above for 2D.
+  void set_from_spherical(const double rho, const double theta);
 
   /// Get coordinate value of one dimension.
   double coord(const int dimension) const;
@@ -115,19 +138,6 @@ class Position {
 
  private:
   std::vector<double> coord_;
-};
-
-/**
-  Spherical coordinates are defined as follows:
-  The first coordinate is rho >= 0. rho is the distance from origin.
-  The second coordinate is theta.
-  theta is the angle between x-axis and projection of line on x-y axis.
-  The third and final coordinate is phi, 0 <= phi <= PI.
-  phi is the angle between z-axis and line.
- */
-class PositionSpherical : public Position {
- public:
-  Position cartesian();
 };
 
 class SpatialEntity {

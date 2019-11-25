@@ -114,13 +114,13 @@ std::string TransitionMatrix::write_per_bin(const int bin) const {
   // compute and print the standard deviation of the average of the blocks
   Accumulator acc_block;
   for (const TransitionMatrix& block : blocks_) {
-    ss << block.ln_prob().value(bin) << " ";
+    ss << MAX_PRECISION << block.ln_prob().value(bin) << " ";
    // write_per_bin(bin) << " ";
     DEBUG(block.ln_prob().value(bin));
     acc_block.accumulate(block.ln_prob().value(bin));
   }
   if (!is_block_) {
-    ss << acc_block.stdev_of_av() << " ";
+    ss << MAX_PRECISION << acc_block.stdev_of_av() << " ";
 //    const std::vector<double>& cols =  collection_.matrix()[bin];
 //    ss << "sz " << cols.size() << " " ;
 //    for (auto element : cols) {
@@ -128,7 +128,8 @@ std::string TransitionMatrix::write_per_bin(const int bin) const {
 //      ss << element << " ";
 //    }
 //    ss << "size " << collection_.matrix()[bin].size() << " ";
-    ss << collection_.matrix()[bin][0] << " "
+    ss << MAX_PRECISION
+       << collection_.matrix()[bin][0] << " "
        << collection_.matrix()[bin][1] << " "
        << collection_.matrix()[bin][2];
 //    ss << " " << cols[0] << " "

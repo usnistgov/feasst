@@ -93,12 +93,16 @@ class ModelParam {
   std::vector<std::vector<double> > mixed_values_;
   double max_value_;
   double max_mixed_value_;
-  bool is_mixed_override_ = false;
+  std::vector<std::vector<bool> > is_mixed_override_;
 
   /// Define mixing rules in the derived class.
   /// The default is a simple average.
   virtual double mix_(const double value1, const double value2) {
     return 0.5*(value1 + value2); }
+
+  // resize is_mixed_override_ by setting to false by default but not
+  // overwriting any that were previously set to true.
+  void override_resize_();
 };
 
 /**

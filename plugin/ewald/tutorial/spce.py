@@ -5,11 +5,11 @@ def lrc():
     potential.set_visit_model(feasst.MakeLongRangeCorrections())
     return potential
 
-def system(config, alphaL = 5.6, kmax_squared=27):
+def system(config, alphaL = 5.6, kmax_squared=38):
     config.add_model_param("alpha", alphaL/config.domain().min_side_length())
     system = feasst.System()
     system.add(config)
-    feasst.add_ewald_with(feasst.MakeModelLJ(), config, system, kmax_squared)
-    #system.add(lrc())
-    #system.precompute()
+    feasst.add_ewald_with(feasst.MakeLennardJones(), system, kmax_squared)
+    system.add(feasst.Potential(feasst.MakeLongRangeCorrections()))
+    # system.precompute()
     return system

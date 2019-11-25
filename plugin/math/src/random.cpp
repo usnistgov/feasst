@@ -145,13 +145,10 @@ void Random::unit_sphere_surface(Position * position) {
     // thanks to http://mathworld.wolfram.com/SpherePointPicking.html
     const double theta = 2*PI*uniform();
     const double phi = acos(2*uniform() - 1);
-    PositionSpherical sph;
-    sph.set_vector({1., theta, phi});
-    *position = sph.cartesian();
+    position->set_from_spherical(1., theta, phi);
   } else if (position->dimension() == 2) {
     const double theta = 2*PI*uniform();
-    position->set_coord(0, cos(theta));
-    position->set_coord(1, sin(theta));
+    position->set_from_spherical(1., theta);
   } else {
     ERROR("unrecognized dimension(" << position->dimension() << ")");
   }
@@ -159,7 +156,7 @@ void Random::unit_sphere_surface(Position * position) {
 
 int Random::index_from_cumulative_probability(
     const std::vector<double>& cumulative) {
-  ASSERT(std::abs(cumulative.back() - 1) < NEAR_ZERO,
+  ASSERT(std::abs(cumulative.back() - 1) < 10.*NEAR_ZERO,
     "the cumulative distribution must end with a value of unity");
   if (static_cast<int>(cumulative.size()) == 1) return 0;
   const double random_uniform = uniform();
@@ -173,7 +170,13 @@ int Random::index_from_cumulative_probability(
       return index;
     }
   }
-  ERROR("should never reach this point");
+  INFO("This should never happen: " << feasst_str(cumulative) <<
+       " ran " << random_uniform);
+  // catch nearly impossible round off error
+  if (std::abs(cumulative.back() - 1) <= NEAR_ZERO) {
+    return static_cast<int>(cumulative.size()) - 1;
+  }
+  ERROR("This should never happen even more!");
   return -1;
 }
 

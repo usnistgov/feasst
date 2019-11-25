@@ -72,6 +72,9 @@ class MonteCarlo {
   /// The second action is to add Potentials.
   void add(const Potential& potential);
 
+  /// Set an existing potential.
+  void set(const int index, const Potential& potential);
+
   /// Add potential to optimized.
   void add_to_optimized(const Potential& potential) {
     system_.add_to_optimized(potential); }

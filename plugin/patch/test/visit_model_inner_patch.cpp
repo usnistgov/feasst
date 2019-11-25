@@ -1,7 +1,7 @@
 #include "utils/test/utils.h"
 #include "patch/include/visit_model_inner_patch.h"
 #include "configuration/include/file_xyz.h"
-#include "models/include/model_square_well.h"
+#include "models/include/square_well.h"
 #include "monte_carlo/include/perturb_anywhere.h"
 
 namespace feasst {
@@ -12,7 +12,7 @@ TEST(VisitModelInnerPatch, patch_one) {
   config.set_model_param("cutoff", 0, 3.);
   config.set_model_param("cutoff", 1, 3.);
   FileXYZ().load("../plugin/patch/test/data/patch5.xyz", &config);
-  ModelSquareWell model;
+  SquareWell model;
   VisitModel visit;
   auto patch = std::make_shared<VisitModelInnerPatch>();
   visit.set_inner(patch);
@@ -41,7 +41,7 @@ TEST(VisitModelInnerPatch, patch_one_2body) {
     system.add(config); }
 
   { Potential potential;
-    potential.set_model(std::make_shared<ModelSquareWell>());
+    potential.set_model(std::make_shared<SquareWell>());
     auto visitor = std::make_shared<VisitModel>();
     auto patch = std::make_shared<VisitModelInnerPatch>();
     visitor->set_inner(patch);

@@ -69,8 +69,8 @@ void VisitModel::compute(
       const int part2_index = selection.particle_index(select2_index);
       for (int site1_index : selection.site_indices(select1_index)) {
         for (int site2_index : selection.site_indices(select2_index)) {
-          inner()->compute(part1_index, site1_index, part2_index, site2_index,
-                           config, model_params, model, &relative_);
+          get_inner_()->compute(part1_index, site1_index, part2_index, site2_index,
+                                config, model_params, model, &relative_);
         }
       }
     }
@@ -113,8 +113,8 @@ void VisitModel::compute(
           for (int site2_index : select_all.site_indices(select2_index)) {
             TRACE("index: " << part1_index << " " << part2_index << " " <<
                   site1_index << " " << site2_index);
-            inner()->compute(part1_index, site1_index, part2_index, site2_index,
-                             config, model_params, model, &relative_);
+            get_inner_()->compute(part1_index, site1_index, part2_index, site2_index,
+                                  config, model_params, model, &relative_);
           }
         }
       }
@@ -147,53 +147,6 @@ void VisitModel::check_energy(
     "is not consistent with half the sum of the energies of the selected " <<
     "particles: " << en_select << ". The difference is: " <<
     en_group - en_select << " with tolerance: " << num*num*1e-15);
-}
-
-void VisitModelInner::compute(
-    const int part1_index,
-    const int site1_index,
-    const int part2_index,
-    const int site2_index,
-    const Configuration * config,
-    const ModelParams& model_params,
-    const ModelTwoBody& model,
-    Position * relative) {
-  const Particle& part1 = config->select_particle(part1_index);
-  const Site& site1 = part1.site(site1_index);
-  if (site1.is_physical()) {
-    const Particle& part2 = config->select_particle(part2_index);
-    const Site& site2 = part2.site(site2_index);
-    if (site2.is_physical()) {
-      config->domain().wrap_opt(site1.position(), site2.position(), relative, &squared_distance_);
-      const int type1 = site1.type();
-      const int type2 = site2.type();
-      const double cutoff = model_params.mixed_cutoff()[type1][type2];
-      if (squared_distance_ <= cutoff*cutoff) {
-        const double energy = model.energy(squared_distance_, type1, type2, model_params);
-        energy_ += energy;
-        //energy_ += model.energy(squared_distance_, type1, type2, model_params);
-        TRACE("indices " << part1_index << " " << site1_index << " " <<
-          part2_index << " " << site2_index);
-        TRACE("energy " << energy_ << " " << energy);
-      }
-    }
-  }
-}
-
-class MapVisitModelInner {
- public:
-  MapVisitModelInner() {
-    VisitModelInner().deserialize_map()["VisitModelInner"] =
-      std::make_shared<VisitModelInner>();
-  }
-};
-
-static MapVisitModelInner mapper_visit_model_inner_ = MapVisitModelInner();
-
-std::map<std::string, std::shared_ptr<VisitModelInner> >& VisitModelInner::deserialize_map() {
-  static std::map<std::string, std::shared_ptr<VisitModelInner> >* ans =
-     new std::map<std::string, std::shared_ptr<VisitModelInner> >();
-  return *ans;
 }
 
 class MapVisitModel {

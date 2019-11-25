@@ -87,15 +87,7 @@ Python install
 
 * Anaconda with Python 3 is recommended.
 
-* First, it is recommended to make a new python virtual environment.
-
-.. code-block:: bash
-
-    python3 -m venv ~/feasst_env
-    source ~/feasst_env/bin/activate
-    pip install jupyter matplotlib pandas scipy # for tutorials
-
-* In the next step, CMake attempts to find the python libraries.
+* CMake attempts to find the python libraries during compilation.
   But you may want to specify them manually.
 
 .. code-block:: bash
@@ -107,19 +99,13 @@ Python install
     make _feasst -j$CPU_COUNT
     make install -j$CPU_COUNT
     python ../py/test.py  # optional test
+    pip install jupyter matplotlib pandas scipy # for tutorials
 
 * For manually setting the python path.
 
 .. code-block:: bash
 
     cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY=/path/to/anaconda/lib/libpython3.7m.so ..
-
-* You can deactivate and delete your python virtual environment as follows:
-
-.. code-block:: bash
-
-    deactivate
-    rm -r ~/feasst_env  # if you'd like to reinstall or update
 
 C++ install
 ----------------

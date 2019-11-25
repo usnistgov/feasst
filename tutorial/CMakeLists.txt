@@ -32,6 +32,7 @@ if(OPENMP_FOUND)
 endif()
 
 add_definitions("-DFEASST_DIR_=\"${CMAKE_PREFIX_PATH}\"")
+add_definitions("-DFEASST_VERSION_=\"${GIT_COMMIT_HASH} ${GIT_BRANCH}\"")
 
 include_directories("${CMAKE_PREFIX_PATH}/include")
 add_executable (tutorial tutorial.cpp)

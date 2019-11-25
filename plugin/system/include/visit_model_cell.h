@@ -13,7 +13,7 @@ namespace feasst {
  */
 class VisitModelCell : public VisitModel {
  public:
-  VisitModelCell() {}
+  VisitModelCell() : VisitModel() {}
   void compute(
       const ModelTwoBody& model,
       const ModelParams& model_params,

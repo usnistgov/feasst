@@ -91,8 +91,8 @@ void VisitModelIntra::compute(
           // forced exclude takes precedent over forced include
           if ( (include or std::abs(site1_index - site2_index) > intra_cut_) and (!exclude) ) {
             TRACE("sites: " << site1_index << " " << site2_index);
-            inner()->compute(part1_index, site1_index, part1_index, site2_index,
-                             config, model_params, model, &relative_);
+            get_inner_()->compute(part1_index, site1_index, part1_index, site2_index,
+                                  config, model_params, model, &relative_);
           }
         }
       }

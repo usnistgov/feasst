@@ -12,8 +12,16 @@ void MonteCarlo::add(const Configuration& config) {
 void MonteCarlo::add(const Potential& potential) {
   ASSERT(!criteria_set_, "add potential before criteria");
   system_.add(potential);
+  system_.precompute();
   potential_set_ = true;
   if (config_set_) system_set_ = true;
+}
+
+void MonteCarlo::set(const int index, const Potential& potential) {
+  // ASSERT(!criteria_set_, "add potential before criteria");
+  ASSERT(potential_set_ || system_set_, "add potential before setting one");
+  system_.set_unoptimized(index, potential);
+  system_.precompute();
 }
 
 void MonteCarlo::set(const System& system) {

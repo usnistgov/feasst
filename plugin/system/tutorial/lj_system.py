@@ -28,7 +28,7 @@ def system(config):
     """
     sys = feasst.System()
     sys.add(config)
-    sys.add(feasst.Potential(feasst.MakeModelLJ()))
+    sys.add(feasst.Potential(feasst.MakeLennardJones()))
     sys.add(feasst.Potential(feasst.MakeLongRangeCorrections()))
     # If the requested cell list spacing is not large enough for the box, the cell list will
     # be disabled even if a cell list was requested previously.
@@ -38,7 +38,7 @@ def system(config):
         # Optimized potentials are used for most energy calculations, but
         # CheckEnergy asserts that it is equivalent to the unoptimized
         # potential.
-        sys.add_to_optimized(feasst.Potential(feasst.MakeModelLJ(), feasst.MakeVisitModelCell()))
+        sys.add_to_optimized(feasst.Potential(feasst.MakeLennardJones(), feasst.MakeVisitModelCell()))
         sys.add_to_optimized(feasst.Potential(feasst.MakeLongRangeCorrections()))
         # While the cell list is optimized, the LRCs are not. Regardless, the LRCs are added so
         # that the energy is equivalent to the unoptimized potentials.
