@@ -44,6 +44,8 @@ Configuration::Configuration(const argtype& args) {
     int group_index = args_.key("cell_group").dflt("0").integer();
     init_cells(min_length, group_index);
   }
+
+  init_wrap(args_.key("wrap").dflt("true").boolean());
 }
 
 void Configuration::add_particle_type(const std::string file_name) {
@@ -404,8 +406,8 @@ void Configuration::init_selection_(SelectGroup * group_select) const {
   }
 }
 
-void Configuration::update_positions(const SelectPosition& select, const bool wrap) {
-  // check_id_(select);
+void Configuration::update_positions(const SelectPosition& select,
+                                     const bool no_wrap) {
   int pindex = 0;
   for (int particle_index : select.particle_indices()) {
     replace_position_(particle_index, select.particle_positions()[pindex]);
@@ -423,11 +425,11 @@ void Configuration::update_positions(const SelectPosition& select, const bool wr
     }
 
     // check if particle needs to be wrapped, for whole-particle updates only.
-    if (wrap) {
+    if (!no_wrap) {
       if (select.num_sites(pindex) ==
           select_particle(particle_index).num_sites()) {
         DEBUG("wrapping");
-        wrap_(particle_index);
+        wrap_particle(particle_index);
       }
     }
     ++pindex;
@@ -522,27 +524,17 @@ int Configuration::num_particles_of_type(const int type) const {
   return num;
 }
 
-// HWH optimize pbc_shift
-void Configuration::wrap_(const int particle_index) {
-  Position part_position = select_particle(particle_index).position();
-  const Position pbc_shift = domain().shift(part_position);
-  DEBUG("part_position " << part_position.str());
-  DEBUG("pbc " << pbc_shift.str());
-  if (pbc_shift.squared_distance() > NEAR_ZERO) {
-    displace_particle_(particle_index, pbc_shift);
+void Configuration::wrap_particle(const int particle_index) {
+  if (wrap_) {
+    Position part_position = select_particle(particle_index).position();
+    const Position pbc_shift = domain().shift(part_position);
+    DEBUG("part_position " << part_position.str());
+    DEBUG("pbc " << pbc_shift.str());
+    if (pbc_shift.squared_distance() > NEAR_ZERO) {
+      displace_particle_(particle_index, pbc_shift);
+      DEBUG("new part position " << select_particle(particle_index).position().str());
+    }
   }
-//    INFO("part " << part_position.str());
-//    INFO("pbc " << pbc_shift.str());
-//    part_position.add(pbc_shift);
-//    select->set_particle_position(pindex, part_position);
-//    for (int sindex = 0;
-//         sindex < static_cast<int>(select->site_indices(pindex).size());
-//         ++sindex) {
-//      Position site_position = select->site_positions()[pindex][sindex];
-//      site_position.add(pbc_shift);
-//      select->set_site_position(pindex, sindex, site_position);
-//    }
-//  }
 }
 
 void Configuration::set_selection_physical(const Select& select,
@@ -619,6 +611,7 @@ void Configuration::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(ghosts_, ostr);
   feasst_serialize(type_to_file_, ostr);
   feasst_serialize(num_particles_of_type_, ostr);
+  feasst_serialize(wrap_, ostr);
 }
 
 Configuration::Configuration(std::istream& istr) {
@@ -633,6 +626,7 @@ Configuration::Configuration(std::istream& istr) {
   feasst_deserialize_fstobj(&ghosts_, istr);
   feasst_deserialize(&type_to_file_, istr);
   feasst_deserialize(&num_particles_of_type_, istr);
+  feasst_deserialize(&wrap_, istr);
 }
 
 }  // namespace feasst

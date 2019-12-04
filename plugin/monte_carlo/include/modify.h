@@ -2,44 +2,37 @@
 #ifndef FEASST_MONTE_CARLO_MODIFY_H_
 #define FEASST_MONTE_CARLO_MODIFY_H_
 
-#include <vector>
 #include <memory>
 #include <string>
-#include <fstream>
-#include <time.h>
+#include <map>
 #include "monte_carlo/include/stepper.h"
-#include "monte_carlo/include/criteria.h"
 #include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
 
+/**
+  Perform an action every so many steps.
+ */
 class Modify : public Stepper {
  public:
-  Modify(const argtype &args = argtype()) : Stepper(args) {}
+  explicit Modify(const argtype &args = argtype()) : Stepper(args) {}
 
+  /// Initialize and precompute before trials.
   virtual void initialize(Criteria * criteria,
       System * system,
-      TrialFactory * trial_factory) {
-    // do nothing by default
-  }
+      TrialFactory * trial_factory) {}
 
+  /// Check every trial if action is to be performed.
   virtual void trial(Criteria * criteria,
       System * system,
-      TrialFactory * trial_factory) {
-    if (is_time(steps_per_update(), &steps_since_update_)) {
-      update(criteria, system, trial_factory);
-    }
-    if (is_time(steps_per_write(), &steps_since_write_)) {
-      printer(write(criteria, system, trial_factory));
-    }
-  }
+      TrialFactory * trial_factory);
 
+  /// Perform update action.
   virtual void update(Criteria * criteria,
       System * system,
-      TrialFactory * trial_factory) {
-    ERROR("not implemented");
-  }
+      TrialFactory * trial_factory) { ERROR("not implemented"); }
 
+  /// Perform write action.
   virtual std::string write(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) {
@@ -47,37 +40,39 @@ class Modify : public Stepper {
     return std::string("");
   }
 
+  // Access to factory of Modify objects.
+  virtual const std::vector<std::shared_ptr<Modify> >& modifiers() const {
+    ERROR("not implemented"); }
+  virtual const Modify * modify(const int index) const {
+    ERROR("not implemented"); }
+
+  // serialization
   std::string class_name() const override { return std::string("Modify"); }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Modify> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Modify> >& deserialize_map();
   std::shared_ptr<Modify> deserialize(std::istream& istr);
-  Modify(std::istream& istr) : Stepper(istr) {}
+  explicit Modify(std::istream& istr) : Stepper(istr) {}
   virtual ~Modify() {}
 };
 
+/**
+  This Modify does not perform writes.
+ */
 class ModifyUpdateOnly : public Modify {
  public:
-  ModifyUpdateOnly(
-    /**
-      steps_per : update every this many steps
-     */
-    const argtype &args = argtype()) : Modify(args) {
-    // disable write
-    Modify::set_steps_per_write(-1);
-
-    // parse
-    if (!args_.key("steps_per").empty()) {
-      set_steps_per(args_.integer());
-    }
-  }
+  /**
+    args:
+    - steps_per: update every this many steps
+   */
+  explicit ModifyUpdateOnly(const argtype &args = argtype());
 
   void set_steps_per_write(const int steps) override {
     ERROR("This modify is update only."); }
 
   void set_steps_per(const int steps) { set_steps_per_update(steps); }
 
-  ModifyUpdateOnly(std::istream& istr) : Modify(istr) {}
+  explicit ModifyUpdateOnly(std::istream& istr) : Modify(istr) {}
 };
 
 }  // namespace feasst

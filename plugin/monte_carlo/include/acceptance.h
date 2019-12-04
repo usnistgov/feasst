@@ -33,14 +33,7 @@ class Acceptance {
     reject_ = reject; }
 
   /// Reset all stored quantities before each trial.
-  void reset() {
-    set_ln_metropolis_prob();
-    set_reject();
-    energy_new_ = 0.;
-    energy_old_ = 0.;
-    macrostate_shift_ = 0;
-    perturbed_.clear();
-  }
+  void reset();
 
   /// Return the energy of the new configuration.
   double energy_new() const { return energy_new_; }

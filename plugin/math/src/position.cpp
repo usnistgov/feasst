@@ -17,6 +17,12 @@ void Position::set_coord(const int dimension, const double coord) {
   coord_[dimension] = coord;
 }
 
+void Position::add_to_coord(const int dimension, const double coord) {
+  ASSERT(dimension < size(), "dimension(" << dimension << ") < size(" << size()
+    << ")");
+  coord_[dimension] += coord;
+}
+
 void Position::add(const Position &position) {
   ASSERT(position.size() == size(), "size mismatch");
   for (int dim = 0; dim < size(); ++dim) {

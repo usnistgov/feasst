@@ -18,25 +18,15 @@ namespace feasst {
  */
 class TrialSelectAngle : public TrialSelectBond {
  public:
-  TrialSelectAngle(
-    /**
-      anchor_site2 : index of second anchor site.
-     */
-    const argtype& args = argtype());
+  /**
+    args:
+    - anchor_site2 : index of second anchor site.
+   */
+  explicit TrialSelectAngle(const argtype& args = argtype());
 
   // angle theta0 is added as a property
   // anchor is sized
-  void precompute(System * system) override {
-    TrialSelectBond::precompute(system);
-    const Particle& part = system->configuration().particle_types().particle(particle_type());
-    const int angle_type = part.angle(mobile_site(),
-                                      anchor_site(),
-                                      anchor_site2_).type();
-    const Angle& angle = system->configuration().unique_types().particle(
-      particle_type()).angle(angle_type);
-    add_property("theta0", angle.property("theta0"));
-    anchor_.add_site(0, anchor_site2_);
-  }
+  void precompute(System * system) override;
 
   std::shared_ptr<TrialSelect> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

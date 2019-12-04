@@ -41,34 +41,31 @@ class Properties {
   void check() const;
 
   /// Return all property names.
-  std::vector<std::string> names() const { return property_name_; }
-
-  // HWH depreciate. Remove property_ part of name.
-  std::vector<std::string> property_name() const { return property_name_; }
+  std::vector<std::string> names() const { return names_; }
 
   /// Return all property values.
-  const std::vector<double>& property_value() const { return property_value_; }
+  const std::vector<double>& values() const { return values_; }
 
   /// Set value of property by index.
   void set_value(const int index, const double value) {
-    property_value_[index] = value; }
+    values_[index] = value; }
 
   /// Return the properties as a human readable string.
   std::string str() const;
 
   /// Return the number of properties.
-  int num() const { return static_cast<int>(property_value_.size()); }
+  int num() const { return static_cast<int>(values_.size()); }
 
   /// Return true if the properties are equivalent.
   bool is_equal(const Properties& properties) const;
 
   void serialize(std::ostream& ostr) const;
   Properties(std::istream& istr);
-  ~Properties() {} // check(); }
+  ~Properties() {}
 
  private:
-  std::vector<double> property_value_;
-  std::vector<std::string> property_name_;
+  std::vector<double> values_;
+  std::vector<std::string> names_;
 };
 
 class PropertiedEntity {
@@ -111,9 +108,6 @@ class PropertiedEntity {
   void set_properties(const Properties& properties,
     /// exclude properties beginning with any characters in exclude
     const std::vector<std::string>& exclude);
-
-  /// Check the properties.
-  virtual void check() const { properties_.check(); }
 
   void serialize(std::ostream& ostr) const { properties_.serialize(ostr); }
   PropertiedEntity(std::istream& istr) { properties_ = Properties(istr); }

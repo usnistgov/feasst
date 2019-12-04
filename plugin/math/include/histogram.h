@@ -17,13 +17,13 @@ namespace feasst {
  */
 class Histogram {
  public:
-  Histogram(
-    /**
-      width : constant bin width
-      max : maximum value
-      min : minimum value (default: 0)
-     */
-    const argtype& args = argtype());
+  /**
+    args:
+    - width: constant bin width
+    - max: maximum value
+    - min: minimum value (default: 0)
+   */
+  Histogram(const argtype& args = argtype());
 
   /**
     Depending on the way the bins are defined, the histogram may be told how to

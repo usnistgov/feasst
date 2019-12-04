@@ -16,6 +16,32 @@ class MapTrialComputeAdd {
 
 static MapTrialComputeAdd mapper_ = MapTrialComputeAdd();
 
+void TrialComputeAdd::perturb_and_acceptance(
+    Criteria * criteria,
+    System * system,
+    Acceptance * acceptance,
+    std::vector<TrialStage*> * stages,
+    Random * random) {
+  DEBUG("TrialComputeAdd");
+  compute_rosenbluth(0, criteria, system, acceptance, stages, random);
+  const TrialSelect * select = (*stages)[0]->trial_select();
+  if ((*stages)[0]->rosenbluth().num() > 1) {
+    system->get_configuration()->revive(select->mobile());
+  }
+  acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
+  { // Metropolis
+    const Configuration& config = system->configuration();
+    const double volume = config.domain().volume();
+    const int particle_index = select->mobile().particle_index(0);
+    const int particle_type = config.select_particle(particle_index).type();
+    DEBUG("volume " << volume << " selprob " << select->probability() << " betamu " << criteria->beta_mu(particle_type));
+    acceptance->add_to_ln_metropolis_prob(
+      log(volume*select->probability())
+      + criteria->beta_mu(particle_type)
+    );
+  }
+}
+
 std::shared_ptr<TrialCompute> TrialComputeAdd::create(std::istream& istr) const {
   return std::make_shared<TrialComputeAdd>(istr);
 }

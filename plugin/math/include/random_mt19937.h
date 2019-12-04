@@ -7,16 +7,14 @@
 namespace feasst {
 
 /**
-  Mersenne Twister 19937 generator
+  Mersenne Twister 19937 generator.
   http://www.cplusplus.com/reference/random/mt19937/
  */
 class RandomMT19937 : public Random {
  public:
-  RandomMT19937(const argtype& args = argtype()) : Random(args) {
-    class_name_ = "RandomMT19937";
-    parse_seed_(args);
-  }
+  RandomMT19937(const argtype& args = argtype());
 
+  // serialize
   std::shared_ptr<Random> create(std::istream& istr) const override {
     return std::make_shared<RandomMT19937>(istr); }
   void serialize(std::ostream& ostr) const override;
@@ -34,7 +32,8 @@ class RandomMT19937 : public Random {
   int gen_uniform_(const int min, const int max) override;
 };
 
-inline std::shared_ptr<RandomMT19937> MakeRandomMT19937(const argtype& args = argtype()) {
+inline std::shared_ptr<RandomMT19937> MakeRandomMT19937(
+    const argtype& args = argtype()) {
   return std::make_shared<RandomMT19937>(args);
 }
 

@@ -21,6 +21,25 @@ class MapPerturbAnywhere {
 
 static MapPerturbAnywhere mapper_ = MapPerturbAnywhere();
 
+void PerturbAnywhere::set_position(const Position& center,
+                                   System * system,
+                                   TrialSelect * select) {
+  Position add = center;
+  add.subtract(select->mobile().particle_positions()[0]);
+  translate_.move(add, system, select);
+}
+
+void PerturbAnywhere::move(System * system,
+                           TrialSelect * select,
+                           Random * random) {
+  ASSERT(std::abs(rotate_.tunable().value() - 180.) < NEAR_ZERO,
+    "rotation tunable should be 180");
+  rotate_.move(system, select, random);
+  system->configuration().domain().random_position(&random_in_box_, random);
+  set_position(random_in_box_, system, select);
+  DEBUG("anywhere: " << random_in_box_.str());
+}
+
 std::shared_ptr<Perturb> PerturbAnywhere::create(std::istream& istr) const {
   return std::make_shared<PerturbAnywhere>(istr);
 }

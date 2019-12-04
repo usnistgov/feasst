@@ -18,28 +18,7 @@ class PerturbRotate : public PerturbMove {
       const RotationMatrix& rotation,
       TrialSelect * select,
       /// Rotate particle positions (default). Otherwise, do not.
-      const bool rotate_particle_position = true) {
-    SelectList * rotated = select->get_mobile();
-    for (int select_index = 0;
-         select_index < rotated->num_particles();
-         ++select_index) {
-      // rotate site positions
-      for (int site = 0;
-           site < static_cast<int>(rotated->site_indices(select_index).size());
-           ++site) {
-        Position position = rotated->site_positions()[select_index][site];
-        rotation.rotate(pivot, &position);
-        rotated->set_site_position(select_index, site, position);
-      }
-
-      // rotate or recenter particle positions
-      if (rotate_particle_position) {
-        Position position = rotated->particle_positions()[select_index];
-        rotation.rotate(pivot, &position);
-        rotated->set_particle_position(select_index, position);
-      }
-    }
-  }
+      const bool rotate_particle_position = true);
 
   /// Change the position of the selection given a pivot and rotation matrix.
   void move(const Position& pivot,
@@ -47,21 +26,14 @@ class PerturbRotate : public PerturbMove {
       System * system,
       TrialSelect * select,
       /// Rotate particle positions (default). Otherwise, do not.
-      const bool rotate_particle_position = true) {
-    update_selection(pivot, rotation, select, rotate_particle_position);
-    system->get_configuration()->update_positions(select->mobile());
-  }
+      const bool rotate_particle_position = true);
 
   /// Rotate the selected particles using the tuning parameter.
   /// Set the pivot using the first particle position, and also
   /// rotate the particle positions.
   void move(System * system,
       TrialSelect * select,
-      Random * random) override {
-    ASSERT(select->mobile().num_sites() > 0, "selection error");
-    const Position& pivot = select->mobile().particle_positions()[0];
-    move(system, select, random, pivot, true);
-  }
+      Random * random) override;
 
   /// Rotate the selected particles using the tuning parameter.
   void move(System * system,
@@ -70,19 +42,9 @@ class PerturbRotate : public PerturbMove {
       /// If pivot is empty, use first particle position.
       const Position& pivot,
       /// Rotate particle positions if true. Otherwise, do not.
-      const bool rotate_particle_position) {
-    if (is_rotation_not_needed_(select, pivot)) return;
-    const double max_angle = tunable().value();
-    ASSERT(std::abs(max_angle) > NEAR_ZERO, "max angle is too small");
-    const Position& piv_sel = piv_sel_(pivot, select);
-    move(piv_sel,
-      random->rotation(piv_sel.dimension(), max_angle),
-      system,
-      select,
-      rotate_particle_position
-    );
-  }
+      const bool rotate_particle_position);
 
+  // serialize
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit PerturbRotate(std::istream& istr);
@@ -116,7 +78,8 @@ class PerturbRotate : public PerturbMove {
   }
 };
 
-inline std::shared_ptr<PerturbRotate> MakePerturbRotate(const argtype& args = argtype()) {
+inline std::shared_ptr<PerturbRotate> MakePerturbRotate(
+    const argtype& args = argtype()) {
   return std::make_shared<PerturbRotate>(args);
 }
 

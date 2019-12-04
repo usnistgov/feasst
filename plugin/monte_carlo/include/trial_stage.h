@@ -21,14 +21,13 @@ namespace feasst {
  */
 class TrialStage {
  public:
-  TrialStage(
-    /**
-      num_steps: number of rosenbluth steps (default: 1).
-
-      reference_index: index of reference potential.
-        Otherwise, if full potential is desired, set to -1 (default: -1).
-     */
-    const argtype& args = argtype());
+  /**
+    args:
+    - num_steps: number of rosenbluth steps (default: 1).
+    - reference_index: index of reference potential.
+      Otherwise, if full potential is desired, set to -1 (default: -1).
+   */
+  explicit TrialStage(const argtype& args = argtype());
 
   /// Return the index of the reference potential.
   int reference() const { return reference_; }
@@ -100,7 +99,7 @@ class TrialStage {
   void serialize(std::ostream& ostr) const;
 
   /// Deserialize.
-  TrialStage(std::istream& istr);
+  explicit TrialStage(std::istream& istr);
 
   ~TrialStage() {}
 

@@ -18,6 +18,38 @@ class MapPerturbRemove {
 
 static MapPerturbRemove mapper_ = MapPerturbRemove();
 
+void PerturbRemove::perturb(
+    System * system,
+    TrialSelect * select,
+    Random * random,
+    const bool is_position_held) {
+  set_finalize_possible(true, select);
+
+  if (is_position_held) {
+    anywhere_.set_revert_possible(false, NULL);
+  } else {
+    anywhere_.perturb(system, select, random, is_position_held);
+    set_revert_possible(true, select);
+  }
+
+  // setting trial state should go last so other perturbs do not overwrite
+  select->set_trial_state(2);
+}
+
+void PerturbRemove::finalize(System * system) {
+  system->finalize();
+  if (finalize_possible()) {
+    system->get_configuration()->remove_particles(finalize_select()->mobile());
+    // system->revert();
+  }
+}
+
+void PerturbRemove::revert(System * system) {
+  if (revert_possible()) {
+    anywhere_.revert(system);
+  }
+}
+
 std::shared_ptr<Perturb> PerturbRemove::create(std::istream& istr) const {
   return std::make_shared<PerturbRemove>(istr);
 }

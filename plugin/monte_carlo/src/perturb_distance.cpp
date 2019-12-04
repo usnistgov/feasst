@@ -22,6 +22,30 @@ std::shared_ptr<Perturb> PerturbDistance::create(std::istream& istr) const {
   return std::make_shared<PerturbDistance>(istr);
 }
 
+void PerturbDistance::precompute(TrialSelect * select, System * system) {
+  // determine the bond length
+  // or input the bond length
+  if (select->has_property("bond_length")) {
+    distance_ = select->property("bond_length");
+  } else {
+    WARN("using default distance (typically for reptation): " << distance_);
+  }
+}
+
+void PerturbDistance::move(System * system,
+                           TrialSelect * select,
+                           Random * random) {
+  SelectList * mobile = select->get_mobile();
+  Position * site = mobile->get_site_position(0, 0);
+  DEBUG("mobile " << mobile->str());
+  DEBUG("old pos " << site->str());
+  random->unit_sphere_surface(site);
+  site->multiply(distance_);
+  site->add(select->anchor_position(0, 0, system));
+  DEBUG("new pos " << site->str());
+  system->get_configuration()->update_positions(select->mobile());
+}
+
 PerturbDistance::PerturbDistance(std::istream& istr)
   : PerturbMove(istr) {
   // HWH can't check this if this is a base class

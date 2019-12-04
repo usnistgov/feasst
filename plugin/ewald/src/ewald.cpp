@@ -164,10 +164,10 @@ void Ewald::update_struct_fact_eik(const Select& selection,
         config->set_site_property(eikrz0_index + 1, cos(twopilz*pos[2]), part_index, site_index);
         config->set_site_property(eikiz0_index + 1, sin(twopilz*pos[2]), part_index, site_index);
         {
-          const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().property_value();
+          const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
           TRACE("test " << eik[eikrx0_index + 1] << " " << cos(twopilx*pos[0]) << " " <<
-            site.properties().property_value()[0] << " " <<
-            site.properties().property_value()[eikrx0_index + 1] << " "
+            site.properties().values()[0] << " " <<
+            site.properties().values()[eikrx0_index + 1] << " "
           );
           config->set_site_property(eikry0_index - 1, eik[eikry0_index + 1], part_index, site_index);
           config->set_site_property(eikiy0_index - 1, -eik[eikiy0_index + 1], part_index, site_index);
@@ -177,7 +177,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
 
         // compute remaining eik by recursion
         for (int kx = 2; kx <= kmax_; ++kx) {
-          const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().property_value();
+          const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
           const double eikr = eik[eikrx0_index + kx - 1]*eik[eikrx0_index + 1] -
             eik[eikix0_index + kx - 1]*eik[eikix0_index + 1];
           config->set_site_property(eikrx0_index + kx, eikr, part_index, site_index);
@@ -186,7 +186,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
           config->set_site_property(eikix0_index + kx, eiki, part_index, site_index);
         }
         for (int ky = 2; ky <= kmax_; ++ky) {
-          const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().property_value();
+          const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
           const double eikr = eik[eikry0_index + ky - 1]*eik[eikry0_index + 1] -
             eik[eikiy0_index + ky - 1]*eik[eikiy0_index + 1];
           config->set_site_property(eikry0_index + ky, eikr, part_index, site_index);
@@ -197,7 +197,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
           config->set_site_property(eikiy0_index - ky, -eiki, part_index, site_index);
         }
         for (int kz = 2; kz <= kmax_; ++kz) {
-          const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().property_value();
+          const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
           const double eikr = eik[eikrz0_index + kz - 1]*eik[eikrz0_index + 1] -
             eik[eikiz0_index + kz - 1]*eik[eikiz0_index + 1];
           config->set_site_property(eikrz0_index + kz, eikr, part_index, site_index);
@@ -212,7 +212,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
       // compute structure factor
       const int type = site.type();
       const double charge = config->model_params().charge().value(type);
-      const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().property_value();
+      const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
       for (int k_index = 0; k_index < num_vectors(); ++k_index) {
         const int kdim = dimension_*k_index;
         const double kx = wave_num_[kdim];

@@ -20,8 +20,7 @@ inline double cpu_hours(const clock_t& clock) {
 }
 
 /*
-  Timer is used to generate a profile.
-  HWH: depreciate or remove this class. It is too slow and skews the profile.
+  Timer is used to profile time spend on various parts of the code.
  */
 class Timer {
  public:

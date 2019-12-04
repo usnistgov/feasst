@@ -1,6 +1,6 @@
-ModelChargeIntra
+MacrostateGrowthExpanded
 =====================================================
 
-.. doxygenclass:: feasst::ModelChargeIntra
+.. doxygenclass:: feasst::MacrostateGrowthExpanded
    :project: FEASST
    :members:

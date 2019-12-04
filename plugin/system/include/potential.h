@@ -35,7 +35,7 @@ class Potential {
   void set_model(std::shared_ptr<Model> model) { model_ = model; }
 
   /// Return the model.
-  const std::shared_ptr<Model> model() const { return model_; }
+  const Model * model() const { return model_.get(); }
 
   /// Set the method used to compute.
   void set_visit_model(std::shared_ptr<VisitModel> visit_model) {

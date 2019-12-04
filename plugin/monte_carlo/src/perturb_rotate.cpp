@@ -22,6 +22,66 @@ std::shared_ptr<Perturb> PerturbRotate::create(std::istream& istr) const {
   return std::make_shared<PerturbRotate>(istr);
 }
 
+void PerturbRotate::update_selection(const Position& pivot,
+    const RotationMatrix& rotation,
+    TrialSelect * select,
+    const bool rotate_particle_position) {
+  SelectList * rotated = select->get_mobile();
+  for (int select_index = 0;
+       select_index < rotated->num_particles();
+       ++select_index) {
+    // rotate site positions
+    for (int site = 0;
+         site < static_cast<int>(rotated->site_indices(select_index).size());
+         ++site) {
+      Position position = rotated->site_positions()[select_index][site];
+      rotation.rotate(pivot, &position);
+      rotated->set_site_position(select_index, site, position);
+    }
+
+    // rotate or recenter particle positions
+    if (rotate_particle_position) {
+      Position position = rotated->particle_positions()[select_index];
+      rotation.rotate(pivot, &position);
+      rotated->set_particle_position(select_index, position);
+    }
+  }
+}
+
+void PerturbRotate::move(const Position& pivot,
+    const RotationMatrix& rotation,
+    System * system,
+    TrialSelect * select,
+    const bool rotate_particle_position) {
+  update_selection(pivot, rotation, select, rotate_particle_position);
+  system->get_configuration()->update_positions(select->mobile());
+}
+
+void PerturbRotate::move(System * system,
+    TrialSelect * select,
+    Random * random) {
+  ASSERT(select->mobile().num_sites() > 0, "selection error");
+  const Position& pivot = select->mobile().particle_positions()[0];
+  move(system, select, random, pivot, true);
+}
+
+void PerturbRotate::move(System * system,
+    TrialSelect * select,
+    Random * random,
+    const Position& pivot,
+    const bool rotate_particle_position) {
+  if (is_rotation_not_needed_(select, pivot)) return;
+  const double max_angle = tunable().value();
+  ASSERT(std::abs(max_angle) > NEAR_ZERO, "max angle is too small");
+  const Position& piv_sel = piv_sel_(pivot, select);
+  move(piv_sel,
+    random->rotation(piv_sel.dimension(), max_angle),
+    system,
+    select,
+    rotate_particle_position
+  );
+}
+
 PerturbRotate::PerturbRotate(std::istream& istr)
   : PerturbMove(istr) {
   // ASSERT(class_name_ == "PerturbRotate", "name: " << class_name_);

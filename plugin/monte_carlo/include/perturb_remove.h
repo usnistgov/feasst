@@ -17,35 +17,11 @@ class PerturbRemove : public Perturb {
       System * system,
       TrialSelect * select,
       Random * random,
-      const bool is_position_held = true
-      ) override {
-    set_finalize_possible(true, select);
+      const bool is_position_held = true) override;
+  void finalize(System * system) override;
+  void revert(System * system) override;
 
-    if (is_position_held) {
-      anywhere_.set_revert_possible(false, NULL);
-    } else {
-      anywhere_.perturb(system, select, random, is_position_held);
-      set_revert_possible(true, select);
-    }
-
-    // setting trial state should go last so other perturbs do not overwrite
-    select->set_trial_state(2);
-  }
-
-  void finalize(System * system) override {
-    system->finalize();
-    if (finalize_possible()) {
-      system->get_configuration()->remove_particles(finalize_select()->mobile());
-      // system->revert();
-    }
-  }
-
-  void revert(System * system) override {
-    if (revert_possible()) {
-      anywhere_.revert(system);
-    }
-  }
-
+  // serialize
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit PerturbRemove(std::istream& istr);

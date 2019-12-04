@@ -10,9 +10,12 @@ bool Metropolis::is_accepted(const Acceptance& acceptance,
        (uniform_random < exp(acceptance.ln_metropolis_prob())) ) {
     DEBUG("accepted");
     set_current_energy(acceptance.energy_new());
-    return true;
+    was_accepted_ = true;
+  } else {
+    DEBUG("rejected");
+    was_accepted_ = false;
   }
-  return false;
+  return was_accepted_;
 }
 
 class MapMetropolis {

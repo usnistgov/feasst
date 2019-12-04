@@ -17,16 +17,15 @@ namespace feasst {
  */
 class Criteria {
  public:
-  Criteria(
-    /**
-      beta : inverse temperature, \f$ \beta = \frac{1}{k_B T} \f$.
-
-      chemical_potential[i] : chemical potential of the i-th particle type.
-        The [i] is to be substituted for an integer 0, 1, 2, ...
-        If only one particle type, you can drop the [i].
-        The chemical potential must have the inverse units of \f$\beta\f$.
-     */
-    const argtype& args = argtype());
+  /**
+    args:
+    - beta: inverse temperature, \f$ \beta = \frac{1}{k_B T} \f$.
+    - chemical_potential[i]: chemical potential of the i-th particle type.
+      The [i] is to be substituted for an integer 0, 1, 2, ...
+      If only one particle type, you can drop the [i].
+      The chemical potential must have the inverse units of \f$\beta\f$.
+   */
+  Criteria(const argtype& args = argtype());
 
   /// Set beta, the inverse temperature \f$ \beta=\frac{1}{k_B T} \f$.
   void set_beta(const double beta);
@@ -59,6 +58,9 @@ class Criteria {
   virtual bool is_accepted(const Acceptance& acceptance_,
     const System * system,
     const double uniform_random) = 0;
+
+  /// Return whether or not the last trial attempt was accepted.
+  bool was_accepted() const { return was_accepted_; }
 
   /// Set the current total energy based on energy changes per trial in order
   /// to avoid recomputation of the energy of the entire configuration.
@@ -102,6 +104,7 @@ class Criteria {
   /// Revert changes from previous trial.
   virtual void revert(const bool accepted);
 
+  // serialize
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Criteria> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Criteria> >& deserialize_map();
@@ -112,6 +115,7 @@ class Criteria {
  protected:
   Arguments args_;
   void serialize_criteria_(std::ostream& ostr) const;
+  bool was_accepted_ = false;
 
  private:
   double beta_;

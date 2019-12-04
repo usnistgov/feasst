@@ -1,6 +1,6 @@
 
-#ifndef FEASST_EWALD_MODEL_CHARGE_SELF_H_
-#define FEASST_EWALD_MODEL_CHARGE_SELF_H_
+#ifndef FEASST_EWALD_CHARGE_SELF_H_
+#define FEASST_EWALD_CHARGE_SELF_H_
 
 #include "system/include/model_one_body.h"
 #include "math/include/constants.h"
@@ -14,9 +14,9 @@ namespace feasst {
     2. energy: kJ/mol
     3. charge: elementary
  */
-class ModelChargeSelf : public ModelOneBody {
+class ChargeSelf : public ModelOneBody {
  public:
-  ModelChargeSelf() {}
+  ChargeSelf() {}
 
   double energy(
       const Site& site,
@@ -32,7 +32,7 @@ class ModelChargeSelf : public ModelOneBody {
   }
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
-    return std::make_shared<ModelChargeSelf>(istr); }
+    return std::make_shared<ChargeSelf>(istr); }
 
   void serialize(std::ostream& ostr) const override {
     ostr << class_name_ << " ";
@@ -40,22 +40,22 @@ class ModelChargeSelf : public ModelOneBody {
     feasst_serialize(alpha_, ostr);
   }
 
-  ModelChargeSelf(std::istream& istr) {
+  ChargeSelf(std::istream& istr) {
     feasst_deserialize_version(istr);
     feasst_deserialize(&alpha_, istr);
   }
 
-  virtual ~ModelChargeSelf() {}
+  virtual ~ChargeSelf() {}
 
  private:
-  const std::string class_name_ = "ModelChargeSelf";
+  const std::string class_name_ = "ChargeSelf";
   double alpha_;
 };
 
-inline std::shared_ptr<ModelChargeSelf> MakeModelChargeSelf() {
-  return std::make_shared<ModelChargeSelf>();
+inline std::shared_ptr<ChargeSelf> MakeChargeSelf() {
+  return std::make_shared<ChargeSelf>();
 }
 
 }  // namespace feasst
 
-#endif  // FEASST_EWALD_MODEL_CHARGE_SELF_H_
+#endif  // FEASST_EWALD_CHARGE_SELF_H_

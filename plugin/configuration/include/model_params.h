@@ -211,7 +211,7 @@ class ModelParams : public PropertiedEntity {
   const std::shared_ptr<ModelParam> select(const std::string name) const;
 
   /// Check
-  void check() const override;
+  void check() const;
 
   void serialize(std::ostream& ostr) const;
   ModelParams(std::istream& istr);

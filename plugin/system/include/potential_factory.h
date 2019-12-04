@@ -11,19 +11,17 @@
 namespace feasst {
 
 /**
-  A list of potentials with group operations.
+  A list of potentials.
  */
 class PotentialFactory {
  public:
   PotentialFactory() {}
 
   /// Add potential.
-  // HWH rename add
-  void add_potential(const Potential& potential);
+  void add(const Potential& potential);
 
   /// Set a potential.
-  // HWH rename set
-  void set_potential(const int index, const Potential& potential);
+  void set(const int index, const Potential& potential);
 
   /// Return the potentials.
   const std::vector<Potential>& potentials() const { return potentials_; }

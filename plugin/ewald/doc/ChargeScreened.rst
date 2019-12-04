@@ -1,6 +1,6 @@
-ModelChargeScreened
+ChargeScreened
 =====================================================
 
-.. doxygenclass:: feasst::ModelChargeScreened
+.. doxygenclass:: feasst::ChargeScreened
    :project: FEASST
    :members:

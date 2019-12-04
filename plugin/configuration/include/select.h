@@ -184,6 +184,7 @@ class Select {
   void remove_particle_(const int select_index);
 };
 
+// HWH make this part of Select? refactor select to reduce inheritance overuse
 /**
   A selection based on a group.
  */

@@ -15,38 +15,6 @@
 
 namespace feasst {
 
-/*
-  Trial optionals:
-    - internal vs external potential (e.g., bonded cb, long-range, etc)
-
-  Trial:
-    - before trial attempts: precompute
-    - during trial attempts:
-    - select all
-      - turn off interactions for selections which have not been perturbed yet
-      - add can't select anything before perturbation
-    - cycle CB stages - not, CB may require old/new building
-      - select stage
-      - record old (opt: ref)
-      - cycle k steps
-        - perturb(select_stage)
-        - record new (opt: ref)
-        - if k!=1, revert
-        - if k==1, continue perturbations (even multiple stages before decision?)
-      - update rosenbluth
-      - turn on interaction of perturbed stage selection
-      - if k!=1,
-        - decide
-        - replicate chosen perturb
-    - decide all stages (opt: full - ref)
-      - note, mayer sampling can use ref term computed during stages
-      - note, current energy.. may be obtained in different ways
-        - for most, current = previous current + delta
-        - for mayer sampling, don't use delta energy.
-    - keep/revert all stages
-
- */
-
 /**
   A trial contains a number of TrialStages.
   The Acceptance is computed as the stages are enacted, and then sent to
@@ -54,12 +22,12 @@ namespace feasst {
  */
 class Trial {
  public:
-  Trial(
-    /**
-      weight : unnormalized relative probability of selection of this trial
-        with respect to all trials (default: 1).
-     */
-    const argtype& args = argtype());
+  /**
+    args:
+    - weight: unnormalized relative probability of selection of this trial
+      with respect to all trials (default: 1).
+   */
+  explicit Trial(const argtype& args = argtype());
 
   /// Return the unnormalized relative probability of selection of this trial
   /// with respect to all trials.
@@ -74,16 +42,16 @@ class Trial {
   /// Set a stage, as can be done just before each attempt.
   void set(const int index, std::shared_ptr<TrialStage> stage);
 
-  /// Return the stages.
-  const std::vector<std::shared_ptr<TrialStage> > stages() const {
-    return stages_; }
+  /// Number of stages.
+  int num_stages() const { return static_cast<int>(stages_.size()); }
 
   /// Return a stage.
   const TrialStage * stage(const int index) const {
     return stages_[index].get(); }
 
-  /// Number of stages.
-  int num_stages() const { return static_cast<int>(stages_.size()); }
+  // HWH depreciate
+  const std::vector<std::shared_ptr<TrialStage> > stages() const {
+    return stages_; }
 
   /// Number of successful attempts.
   int64_t num_success() const { return num_success_; }
@@ -148,6 +116,7 @@ class Trial {
   // Check if approximately equal to given trial.
   bool is_equal(const Trial& trial) const;
 
+  // serialize
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Trial> create(std::istream& istr) const;

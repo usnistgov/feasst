@@ -135,9 +135,8 @@ T maximum(const std::vector<std::vector<T> > &vec) {
 }
 
 /// Compute the union of two vectors.
-/// HWH: rename fst->feasst
 template<typename T>
-std::vector<T> fst_union(const std::vector<T>& vec1,
+std::vector<T> feasst_union(const std::vector<T>& vec1,
     const std::vector<T>& vec2) {
   std::vector<T> both(vec1.size() + vec2.size());
   typename std::vector<T>::iterator iter;
@@ -150,7 +149,7 @@ std::vector<T> fst_union(const std::vector<T>& vec1,
 
 /// Compute the difference of two vectors.
 template<typename T>
-std::vector<T> fst_difference(const std::vector<T>& vec1,
+std::vector<T> feasst_difference(const std::vector<T>& vec1,
     const std::vector<T>& vec2) {
   std::vector<T> both(vec1.size() + vec2.size());
   typename std::vector<T>::iterator iter;

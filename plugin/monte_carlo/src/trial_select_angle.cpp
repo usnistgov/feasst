@@ -20,6 +20,18 @@ class MapTrialSelectAngle {
 
 static MapTrialSelectAngle mapper_ = MapTrialSelectAngle();
 
+void TrialSelectAngle::precompute(System * system) {
+  TrialSelectBond::precompute(system);
+  const Particle& part = system->configuration().particle_types().particle(particle_type());
+  const int angle_type = part.angle(mobile_site(),
+                                    anchor_site(),
+                                    anchor_site2_).type();
+  const Angle& angle = system->configuration().unique_types().particle(
+    particle_type()).angle(angle_type);
+  add_property("theta0", angle.property("theta0"));
+  anchor_.add_site(0, anchor_site2_);
+}
+
 std::shared_ptr<TrialSelect> TrialSelectAngle::create(std::istream& istr) const {
   return std::make_shared<TrialSelectAngle>(istr);
 }

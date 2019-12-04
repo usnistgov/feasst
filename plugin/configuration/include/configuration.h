@@ -55,10 +55,11 @@ class Configuration {
     args:
     - cubic_box_length - side length of cubic perioidic boundary conditions.
     - particle_type[i] - add the i-th type of particle to the configuration.
-        The [i] is to be substituted for an integer 0, 1, 2, ...
-        If only one particle type, you can drop the i.
+      The [i] is to be substituted for an integer 0, 1, 2, ...
+      If only one particle type, you can drop the i.
     - init_cells - build cell list with given minimum length between cells.
     - cell_group - only compute cells for those in given group index.
+    - wrap - wrap particle centers within domain (default: true).
    */
   Configuration(const argtype& args = argtype());
 
@@ -67,7 +68,6 @@ class Configuration {
     Types of sites and particles.
    */
   //@{
-
 
   /// Add a particle type that may exist by LMP file (see FileLMP).
   void add_particle_type(const std::string file_name);
@@ -165,6 +165,8 @@ class Configuration {
   /// particles).
   /// Note that this method can be slow because the particle index
   /// filters out ghost particles.
+  /// Note: this method can be prone to errors if used to define a constant
+  /// reference to, for example, site or position in particle.
   const Particle particle(const int index,
     /// Provide a group index to consider only a subset of the configuration.
     /// By default, a value of zero is for the entire configuration.
@@ -208,10 +210,10 @@ class Configuration {
 
   /// Update the positions and properties from a selection.
   void update_positions(const SelectPosition& select,
-    /// Wrap positions within domain based on particle position (default).
-    const bool wrap = true);
+    /// If true, do not wrap. If false, defer to default behavior.
+    const bool no_wrap = false);
 
-  /// Displace selected particle(s).
+  /// Displace selected particle(s). No periodic boundary conditions applied.
   void displace_particles(const Select& selection,
                           const Position &displacement);
 
@@ -247,7 +249,7 @@ class Configuration {
   }
 
   /// Set the domain.
-  // HWH depreciate
+  // HWH depreciate ?
   void set_domain(const Domain domain) { domain_ = domain; }
 
   /// Return the dimensionality of space.
@@ -258,6 +260,9 @@ class Configuration {
     /// By default, cells are applied to all particles and sites.
     /// Set the group index to consider only a subset.
     const int group_index = 0);
+
+  /// Set whether or not to wrap particles
+  void init_wrap(const bool wrap = true) { wrap_ = wrap; }
 
   //@}
   /** @name Ghosts
@@ -284,6 +289,9 @@ class Configuration {
   /// Return ghost particles.
   const std::vector<SelectGroup>& ghosts() const { return ghosts_; }
 
+  /// Wrap particle position. The index may include ghost particles.
+  void wrap_particle(const int particle_index);
+
   //@}
   /** @name Sites
     Modify properties of sites directly.
@@ -293,6 +301,13 @@ class Configuration {
 
   /// Set selection as physical/nonphysical
   void set_selection_physical(const Select& select, const bool phys);
+
+  /// Set particle property.
+  void set_property(const std::string name,
+      const double value,
+      const int particle_index) {
+    particles_.set_property(name, value, particle_index);
+  }
 
   /// Add the property to a site in a particle.
   void add_site_property(const std::string name,
@@ -364,6 +379,7 @@ class Configuration {
   ParticleFactory unique_types_;
   ParticleFactory particles_;
   Domain domain_;
+  bool wrap_;
 
   // temporaries (not serialized)
   Arguments args_;
@@ -456,8 +472,6 @@ class Configuration {
 
   /// Store the number of particles of each type.
   std::vector<int> num_particles_of_type_;
-
-  void wrap_(const int particle_index);
 };
 
 inline std::shared_ptr<Configuration> MakeConfiguration(

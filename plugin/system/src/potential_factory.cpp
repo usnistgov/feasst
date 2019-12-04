@@ -6,12 +6,12 @@
 
 namespace feasst {
 
-void PotentialFactory::add_potential(const Potential& potential) {
+void PotentialFactory::add(const Potential& potential) {
   potentials_.push_back(potential);
 }
 
-void PotentialFactory::set_potential(const int index,
-                                     const Potential& potential) {
+void PotentialFactory::set(const int index,
+                           const Potential& potential) {
   potentials_[index] = potential;
 }
 

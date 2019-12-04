@@ -34,6 +34,7 @@ class TrialCompute {
     std::vector<TrialStage*> * stages,
     Random * random) = 0;
 
+  // serialize
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<TrialCompute> create(std::istream& istr) const;

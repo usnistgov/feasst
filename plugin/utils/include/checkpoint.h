@@ -16,12 +16,12 @@ namespace feasst {
  */
 class Checkpoint {
  public:
-  Checkpoint(
-    /**
-      num_hours : number of hours between printing of checkpoint file (default: 12).
-      file_name : Output file name. The default is empty, and no checkpointing.
-     */
-    const argtype &args = argtype());
+  /**
+    args:
+    - num_hours: number of hours between printing of checkpoint file (default: 12).
+    - file_name: Output file name. The default is empty, and no checkpointing.
+   */
+  Checkpoint(const argtype &args = argtype());
 
   /// Return number of hours between writing file.
   double num_hours() const { return num_hours_; }

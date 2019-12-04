@@ -16,6 +16,23 @@ class MapTrialComputeMove {
 
 static MapTrialComputeMove mapper_ = MapTrialComputeMove();
 
+void TrialComputeMove::perturb_and_acceptance(
+    Criteria * criteria,
+    System * system,
+    Acceptance * acceptance,
+    std::vector<TrialStage*> * stages,
+    Random * random) {
+  DEBUG("TrialComputeMove");
+  compute_rosenbluth(1, criteria, system, acceptance, stages, random);
+  for (TrialStage * stage : *stages) stage->mid_stage(system);
+  compute_rosenbluth(0, criteria, system, acceptance, stages, random);
+  DEBUG("old: " << criteria->current_energy() << " " << acceptance->energy_old());
+  DEBUG("new: " << acceptance->energy_new());
+  DEBUG("energy change: " << acceptance->energy_new() - acceptance->energy_old());
+  const double delta_energy = acceptance->energy_new() - acceptance->energy_old();
+  acceptance->set_energy_new(criteria->current_energy() + delta_energy);
+}
+
 std::shared_ptr<TrialCompute> TrialComputeMove::create(std::istream& istr) const {
   return std::make_shared<TrialComputeMove>(istr);
 }

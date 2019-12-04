@@ -13,12 +13,12 @@
    Perturb
    PerturbMove
    PerturbTranslate
-   PerturbDistance
-   PerturbDistanceAngle
    PerturbRotate
    PerturbAnywhere
    PerturbRemove
    PerturbAdd
+   PerturbDistance
+   PerturbDistanceAngle
    PerturbConfigs
    TrialSelectParticle
    TrialStage
@@ -26,15 +26,15 @@
    TrialComputeRemove
    TrialComputeAdd
    Trial
-   TrialFactory
-   Modify
-   ModifyFactory
    TrialRemove
-   TrialAdd
-   TrialComputeMove
-   TrialMove
-   TrialRotate
-   TrialTranslate
+   TrialFactory
    Analyze
    AnalyzeFactory
+   Modify
+   ModifyFactory
+   TrialComputeMove
+   TrialMove
+   TrialTranslate
+   TrialRotate
+   TrialAdd
    MonteCarlo

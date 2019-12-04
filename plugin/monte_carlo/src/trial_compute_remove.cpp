@@ -16,7 +16,33 @@ class MapTrialComputeRemove {
 
 static MapTrialComputeRemove mapper_ = MapTrialComputeRemove();
 
-std::shared_ptr<TrialCompute> TrialComputeRemove::create(std::istream& istr) const {
+void TrialComputeRemove::perturb_and_acceptance(
+    Criteria * criteria,
+    System * system,
+    Acceptance * acceptance,
+    std::vector<TrialStage*> * stages,
+    Random * random) {
+  DEBUG("TrialComputeRemove");
+  compute_rosenbluth(1, criteria, system, acceptance, stages, random);
+  acceptance->set_energy_new(criteria->current_energy() - acceptance->energy_old());
+  acceptance->add_to_macrostate_shift(-1);
+  { // Metropolis
+    const Configuration& config = system->configuration();
+    const double volume = config.domain().volume();
+    const TrialSelect * select = (*stages)[0]->trial_select();
+    const int particle_index = select->mobile().particle_index(0);
+    const int particle_type = config.select_particle(particle_index).type();
+    DEBUG("volume " << volume << " selprob " << select->probability() << " betamu " << criteria->beta_mu(particle_type));
+    acceptance->add_to_ln_metropolis_prob(
+      - log(volume*select->probability())
+      - criteria->beta_mu(particle_type)
+    );
+    DEBUG("lnmet " << acceptance->ln_metropolis_prob());
+  }
+}
+
+std::shared_ptr<TrialCompute> TrialComputeRemove::create(
+    std::istream& istr) const {
   return std::make_shared<TrialComputeRemove>(istr);
 }
 

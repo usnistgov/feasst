@@ -2,70 +2,36 @@
 #ifndef FEASST_STEPPERS_MOVIE_H_
 #define FEASST_STEPPERS_MOVIE_H_
 
+#include "configuration/include/file_xyz.h"
 #include "monte_carlo/include/analyze.h"
 
 namespace feasst {
 
+// HWH cite XYZ or allow different formats.
 /**
   Write a trajectory of the site positions using XYZ file format.
-  Does not overwrite existing file.
+  Does not overwrite existing file by default.
  */
-// HWH cite XYZ.
 class Movie : public AnalyzeWriteOnly {
  public:
-  Movie(const argtype &args = argtype()) : AnalyzeWriteOnly(args) {
-    set_append();
-
-    // require file_name
-    args_.init(args);
-    ASSERT(args_.key("file_name").used(), "file name is required");
-  }
+  Movie(const argtype &args = argtype());
 
   /// Write the sample VMD files and the initial configuration.
   void initialize(const Criteria * criteria,
       const System& system,
-      const TrialFactory& trial_factory) override {
-    ASSERT(!file_name().empty(), "file name required. Did you forget to " <<
-      "Analyze::set_file_name()?");
-
-    // write xyz
-    xyz_.set_append(1);
-    if (state() == criteria->state()) {
-      xyz_.write(file_name(), system.configuration());
-    }
-
-    // write vmd
-    std::stringstream ss;
-    ss << file_name() << ".vmd";
-    vmd_.write(ss.str(), system.configuration(), file_name());
-  }
+      const TrialFactory& trial_factory) override;
 
   /// Write the configuration.
   std::string write(const Criteria * criteria,
       const System& system,
-      const TrialFactory& trial_factory) override {
-    // ensure the following order matches the header from initialization.
-    xyz_.write(file_name(), system.configuration());
-    return std::string("");
-  }
+      const TrialFactory& trial_factory) override;
 
+  // serialize
   std::string class_name() const override { return std::string("Movie"); }
-
-  void serialize(std::ostream& ostr) const override {
-    Stepper::serialize(ostr);
-    feasst_serialize_version(1, ostr);
-    feasst_serialize_fstobj(xyz_, ostr);
-    feasst_serialize_fstobj(vmd_, ostr);
-  }
-
+  void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<Movie>(istr); }
-
-  Movie(std::istream& istr) : AnalyzeWriteOnly(istr) {
-    feasst_deserialize_version(istr);
-    feasst_deserialize_fstobj(&xyz_, istr);
-    feasst_deserialize_fstobj(&vmd_, istr);
-  }
+  Movie(std::istream& istr);
 
  private:
   FileXYZ xyz_;

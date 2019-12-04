@@ -14,7 +14,7 @@ namespace feasst {
 /// Attempt to remove a particle.
 class TrialRemove : public Trial {
  public:
-  TrialRemove(const argtype& args = argtype());
+  explicit TrialRemove(const argtype& args = argtype());
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit TrialRemove(std::istream& istr);

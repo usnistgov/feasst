@@ -17,6 +17,7 @@ void Particle::check() {
   for (Site site : sites_) {
     ASSERT(position().size() == site.position().size(), "size error");
   }
+  properties().check();
 }
 
 void Particle::remove_non_unique_types() {
@@ -195,6 +196,7 @@ void Particle::erase_bonds() {
 }
 
 void Particle::serialize(std::ostream& ostr) const {
+  PropertiedEntity::serialize(ostr);
   TypedEntity::serialize(ostr);
   SpatialEntity::serialize(ostr);
   feasst_serialize_version(1, ostr);
@@ -207,7 +209,8 @@ void Particle::serialize(std::ostream& ostr) const {
 }
 
 Particle::Particle(std::istream& istr)
-  : TypedEntity(istr),
+  : PropertiedEntity(istr),
+    TypedEntity(istr),
     SpatialEntity(istr) {
   feasst_deserialize_version(istr);
   feasst_deserialize_fstobj(&sites_, istr);

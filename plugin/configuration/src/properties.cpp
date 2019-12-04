@@ -6,19 +6,19 @@
 namespace feasst {
 
 void Properties::check() const {
-  ASSERT(property_value_.size() == property_name_.size(),
+  ASSERT(values_.size() == names_.size(),
     "size error");
   // make sure there are no spaces in property names
-  for (const std::string name : property_name_) {
+  for (const std::string name : names_) {
     ASSERT(num_spaces(name) == 0, "spaces are not allowed in property names");
   }
 }
 
 void Properties::add(const std::string name, const double value) {
-  ASSERT(!find_in_list(name, property_name_),
+  ASSERT(!find_in_list(name, names_),
     "property(" << name << ") already exists");
-  property_value_.push_back(value);
-  property_name_.push_back(name);
+  values_.push_back(value);
+  names_.push_back(name);
 }
 
 double Properties::value(const std::string name) const {
@@ -29,26 +29,26 @@ double Properties::value(const std::string name) const {
 
 bool Properties::value(const std::string name, double * value) const {
   int index;
-  DEBUG("finding " << name << " " << feasst_str(property_name_));
-  bool found = find_in_list(name, property_name_, &index);
+  DEBUG("finding " << name << " " << feasst_str(names_));
+  bool found = find_in_list(name, names_, &index);
   if (found) {
-    *value = property_value_[index];
+    *value = values_[index];
   }
   return found;
 }
 
 void Properties::set(const std::string name, const double value) {
   int index;
-  ASSERT(find_in_list(name, property_name_, &index), "property(" << name
+  ASSERT(find_in_list(name, names_, &index), "property(" << name
     << ") not found");
   TRACE("setting " << name << " value " << value);
-  property_value_[index] = value;
+  values_[index] = value;
 }
 
 void Properties::add_or_set(const std::string name, const double value) {
   int index;
-  if (find_in_list(name, property_name_, &index)) {
-    property_value_[index] = value;
+  if (find_in_list(name, names_, &index)) {
+    values_[index] = value;
   } else {
     add(name, value);
   }
@@ -57,16 +57,16 @@ void Properties::add_or_set(const std::string name, const double value) {
 std::string Properties::str() const {
   check();
   std::stringstream ss;
-  for (int index = 0; index < static_cast<int>(property_value_.size()); ++index) {
-    ss << "{" << property_name_[index] << " : " << property_value_[index] << "}, ";
+  for (int index = 0; index < static_cast<int>(values_.size()); ++index) {
+    ss << "{" << names_[index] << " : " << values_[index] << "}, ";
   }
   return ss.str();
 }
 
 void PropertiedEntity::set_properties(const Properties& properties,
     const std::vector<std::string>& exclude) {
-  const std::vector<std::string>& name = properties_.property_name();
-  const std::vector<double>& values = properties.property_value();
+  const std::vector<std::string>& name = properties_.names();
+  const std::vector<double>& values = properties.values();
   ASSERT(name.size() == values.size(),
     "the same number of properties must exist to equate them");
   for (int index = 0; index < static_cast<int>(name.size()); ++index) {
@@ -85,22 +85,22 @@ void PropertiedEntity::set_properties(const Properties& properties,
 }
 
 bool Properties::is_equal(const Properties& properties) const {
-  return feasst::is_equal(property_value_, properties.property_value_);
+  return feasst::is_equal(values_, properties.values_);
 }
 
 void Properties::serialize(std::ostream& ostr) const {
   check();
   ostr << MAX_PRECISION;
-  ostr << "1 "; // version
-  feasst_serialize(property_name_, ostr);
-  feasst_serialize(property_value_, ostr);
+  feasst_serialize_version(847, ostr);
+  feasst_serialize(names_, ostr);
+  feasst_serialize(values_, ostr);
 }
 
 Properties::Properties(std::istream& istr) {
-  int version;
-  istr >> version;
-  feasst_deserialize(&property_name_, istr);
-  feasst_deserialize(&property_value_, istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(847 == version, "version mismatch:" << version);
+  feasst_deserialize(&names_, istr);
+  feasst_deserialize(&values_, istr);
 }
 
 }  // namespace feasst

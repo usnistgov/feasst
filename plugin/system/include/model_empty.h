@@ -6,6 +6,7 @@
 
 namespace feasst {
 
+/// This model throws an exception if used.
 class ModelEmpty : public ModelOneBody {
  public:
   ModelEmpty() {}

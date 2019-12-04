@@ -20,13 +20,13 @@ TEST(VisitModel, spce_reference_config) {
   VisitModel visit;
   visit.precompute(&config);
   visit.compute(model, &config);
-  const double pe_lj = 99538.736236886805;
-  EXPECT_NEAR(pe_lj*ideal_gas_constant/1e3, visit.energy(), feasst::NEAR_ZERO);
+  const double pe_lj = 827.61105444941393;
+  EXPECT_NEAR(pe_lj, visit.energy(), feasst::NEAR_ZERO);
   ModelEmpty empty;
   LongRangeCorrections lrc;
   empty.compute(&config, &lrc);
-  const double pe_lrc = -823.71499511652326;
-  EXPECT_NEAR(pe_lrc*ideal_gas_constant/1e3, lrc.energy(), 1e-13);
+  const double pe_lrc = -6.8487471455514575;
+  EXPECT_NEAR(pe_lrc, lrc.energy(), 1e-13);
 
   // test adding/deleting particles, resulting in a ghost
   SelectList select;
@@ -42,9 +42,9 @@ TEST(VisitModel, spce_reference_config) {
   config.replace_position(new_part, select.particle(config));
   config.remove_particle(select);
   visit.compute(model, &config);
-  EXPECT_NEAR(pe_lj*ideal_gas_constant/1e3, visit.energy(), 1e-12);
+  EXPECT_NEAR(pe_lj, visit.energy(), 1e-12);
   empty.compute(&config, &lrc);
-  EXPECT_NEAR(pe_lrc*ideal_gas_constant/1e3, lrc.energy(), 1e-13);
+  EXPECT_NEAR(pe_lrc, lrc.energy(), 1e-13);
   EXPECT_EQ(101, config.particles().num()); // includes one ghost particle
   EXPECT_EQ(100, config.selection_of_all().num_particles());
   config.check();

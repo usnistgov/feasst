@@ -222,6 +222,9 @@ class Domain {
     *r2 += (*dxv)[0]*(*dxv)[0] + (*dxv)[1]*(*dxv)[1];
   }
 
+  /// Return the shift for number of wraps, num_wrap, in a given dimension, dim.
+  void unwrap(const int dim, const int num_wrap, Position * shift) const;
+
   void serialize(std::ostream& ostr) const;
   Domain(std::istream& istr);
   virtual ~Domain() {}

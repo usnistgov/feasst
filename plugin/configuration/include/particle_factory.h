@@ -124,8 +124,7 @@ class ParticleFactory {
 
   /// Displace the particle with given index.
   void displace(const int particle_index, const Position& displacement) {
-    particles_[particle_index].displace(displacement);
-  }
+    particles_[particle_index].displace(displacement); }
 
   /// Return the model parameters.
   const ModelParams& model_params() const { return model_params_; }
@@ -138,48 +137,63 @@ class ParticleFactory {
   void set_model_param(const std::string name,
                        const int site_type,
                        const double value) {
-    model_params_.set(name, site_type, value);
-  }
+    model_params_.set(name, site_type, value); }
 
   /// Add model parameter of a given name to value.
   void add_model_param(const std::string name,
                        const double value) {
-    model_params_.add_property(name, value);
-  }
+    model_params_.add_property(name, value); }
 
   /// Set site as physical/nonphysical.
   void set_site_physical(const int particle, const int site, const bool phys) {
     particles_[particle].set_site_physical(site, phys); }
+
+  /// Add particle property.
+  void add_property(const std::string name,
+      const double value,
+      const int particle_index) {
+    particles_[particle_index].add_property(name, value); }
+
+  /// Add property to all particles.
+  void add_property(const std::string name, const double value) {
+    for (Particle& part : particles_) {
+      part.add_property(name, value);
+    }
+  }
+
+  /// Set particle property.
+  void set_property(const std::string name,
+      const double value,
+      const int particle_index) {
+    particles_[particle_index].set_property(name, value); }
 
   /// Add the property of sites in a particle.
   void add_site_property(const std::string name,
       const double value,
       const int particle_index,
       const int site_index) {
-    particles_[particle_index].add_site_property(name, value, site_index);
-  }
+    particles_[particle_index].add_site_property(name, value, site_index); }
 
   /// Add or set the property of sites in a particle.
   void add_or_set_site_property(const std::string name,
       const double value,
       const int particle_index,
       const int site_index) {
-    particles_[particle_index].add_or_set_site_property(name, value, site_index);
-  }
+    particles_[particle_index].add_or_set_site_property(name, value, site_index); }
 
   /// Set the property of sites in a particle.
   void set_site_property(const std::string name,
       const double value,
       const int particle_index,
       const int site_index) {
-    particles_[particle_index].set_site_property(name, value, site_index);
-  }
+    particles_[particle_index].set_site_property(name, value, site_index); }
+
+  /// Set the property of sites in a particle by index instead of name.
   void set_site_property(const int index,
       const double value,
       const int particle_index,
       const int site_index) {
-    particles_[particle_index].set_site_property(index, value, site_index);
-  }
+    particles_[particle_index].set_site_property(index, value, site_index); }
 
   void serialize(std::ostream& ostr) const;
   ParticleFactory(std::istream& istr);

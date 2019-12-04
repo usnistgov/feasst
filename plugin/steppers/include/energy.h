@@ -12,46 +12,31 @@ namespace feasst {
  */
 class Energy : public Analyze {
  public:
-  Energy(
-    /**
-      num_block : number of updated per block (default: 1e5).
-     */
-    const argtype &args = argtype());
+  /**
+    args:
+    - num_block: number of updated per block (default: 1e5).
+   */
+  explicit Energy(const argtype &args = argtype());
 
   void update(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
-    energy_.accumulate(criteria->current_energy());
-  }
+    energy_.accumulate(criteria->current_energy()); }
 
   std::string write(const Criteria * criteria,
       const System& system,
-      const TrialFactory& trial_factory) override {
-    std::stringstream ss;
-    ss << energy_.str() << " ";
-    DEBUG(ss.str());
-    return ss.str();
-  }
+      const TrialFactory& trial_factory) override;
 
   const Accumulator& energy() const { return energy_; }
 
   const Accumulator& accumulator() const override { return energy(); }
 
+  // serialize
   std::string class_name() const override { return std::string("Energy"); }
-
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<Energy>(istr); }
-
-  void serialize(std::ostream& ostr) const override {
-    Stepper::serialize(ostr);
-    feasst_serialize_version(1, ostr);
-    feasst_serialize_fstobj(energy_, ostr);
-  }
-
-  Energy(std::istream& istr) : Analyze(istr) {
-    feasst_deserialize_version(istr);
-    feasst_deserialize_fstobj(&energy_, istr);
-  }
+  void serialize(std::ostream& ostr) const;
+  explicit Energy(std::istream& istr);
 
  private:
   Accumulator energy_;

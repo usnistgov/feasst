@@ -43,18 +43,29 @@ class Bond : public PropertiedEntity, public TypedEntity {
   std::vector<int> site_indicies_;
 };
 
+/**
+  The Angle has three site indices, listed in order of the angle.
+  For example, angle ABC has a vertex at B.
+  The 0 index is A, 1 is B and 2 is C.
+ */
 class Angle : public Bond {
  public:
   Angle() { class_name_ = "Angle"; }
   Angle(std::istream& istr) : Bond(istr) {}
 };
 
+/**
+  This a place holder. Dihedrals are not fully implemented.
+ */
 class Dihedral : public Bond {
  public:
   Dihedral() { class_name_ = "Dihedral"; }
   Dihedral(std::istream& istr) : Bond(istr) {}
 };
 
+/**
+  This a place holder. Impropers are not fully implemented.
+ */
 class Improper : public Bond {
  public:
   Improper() { class_name_ = "Improper"; }

@@ -11,10 +11,10 @@
 
 namespace feasst {
 
+// HWH: determining number of sites of type is inefficient (order N)
 /**
   See Allen and Tildesley or Frenkel and Smit.
  */
-// HWH: determining number of sites of type is inefficient (order N)
 class LongRangeCorrections : public VisitModel {
  public:
   LongRangeCorrections() {}

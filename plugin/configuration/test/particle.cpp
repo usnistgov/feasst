@@ -62,6 +62,7 @@ TEST(Particle, angle) {
     CATCH_PHRASE("not found");
   }
   EXPECT_EQ(0, spce.angle(1, 0, 2).type());
+  Particle spce2 = test_serialize(spce);
 }
 
 }  // namespace feasst

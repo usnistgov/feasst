@@ -47,4 +47,24 @@ std::string Analyze::write(const Criteria * criteria,
   return std::string("");
 }
 
+AnalyzeWriteOnly::AnalyzeWriteOnly(const argtype &args) : Analyze(args) {
+  // disable update
+  Stepper::set_steps_per_update(-1);
+
+  // parse
+  if (!args_.key("steps_per").empty()) {
+    set_steps_per(args_.integer());
+  }
+}
+
+AnalyzeUpdateOnly::AnalyzeUpdateOnly(const argtype &args) : Analyze(args) {
+  // disable update
+  Analyze::set_steps_per_write(-1);
+
+  // parse
+  if (!args_.key("steps_per").empty()) {
+    set_steps_per(args_.integer());
+  }
+}
+
 }  // namespace feasst

@@ -17,6 +17,8 @@ class Group : public PropertiedEntity {
 
   /// Dynamic groups indicate that they should be updated (default behavior).
   void set_dynamic() { dynamic_ = true; }
+
+  /// Return true if dynamic.
   bool dynamic() const { return dynamic_; }
 
   /// Add site type as included. Return self for chain setting.
@@ -34,8 +36,7 @@ class Group : public PropertiedEntity {
   }
 
   /// Return true if group has no group definitions.
-  bool is_empty() const { return empty(); }
-  bool empty() const; // HWH depreciate
+  bool is_empty() const;
 
   /// Return true if the site is in the group.
   bool is_in(const Site& site) const;
@@ -45,13 +46,6 @@ class Group : public PropertiedEntity {
 
   /// Remove sites from the particle which are not in the group.
   void remove_sites(Particle * particle) const;
-//                    std::vector<int> * full_to_partial_site = NULL,
-//                    std::vector<int> * partial_to_full_site = NULL) const;
-
-//  /// Return particle with sites removed as described above.
-//  Particle remove_sites(const Particle& particle) const;
-////                        std::vector<int> * full_to_partial_site = NULL,
-////                        std::vector<int> * partial_to_full_site = NULL) const;
 
   /// Return the list of site indices in Particle which are in the group.
   std::vector<int> site_indices(const Particle& particle) const;

@@ -5,7 +5,7 @@
 #include <sstream>
 #include <memory>
 #include "monte_carlo/include/trial.h"
-//#include "utils/include/timer.h"
+// #include "utils/include/timer.h"
 
 namespace feasst {
 
@@ -14,35 +14,17 @@ class TrialFactory : public Trial {
   TrialFactory();
 
   /// Add a trial.
-  void add(std::shared_ptr<Trial> trial) {
-    trials_.push_back(trial);
-
-    // update probability of selection
-    std::vector<double> weights;
-    for (std::shared_ptr<Trial> trial : trials_) {
-      weights.push_back(trial->weight());
-    }
-    cumulative_probability_ = cumulative_probability(weights);
-    //std::stringstream ss;
-    //ss << trials_.back()->class_name()"trial" << num_trials() - 1;
-    // timer_.add(trials_.back()->class_name());
-  }
+  void add(std::shared_ptr<Trial> trial);
 
   /// Return the number of trials.
   int num_trials() const { return static_cast<int>(trials_.size()); }
-
-  // HWH depreciate
-  std::vector<std::shared_ptr<Trial> > trials() { return trials_; }
 
   /// Return a trial by index of the order trials were added.
   const Trial * trial(const int index) const { return trials_[index].get(); }
 
   /// Return the index of a trial selected with probability proportional to its
   /// weight.
-  int random_index(Random * random) {
-    ASSERT(num_trials() > 0, "no trials to select");
-    return random->index_from_cumulative_probability(cumulative_probability_);
-  }
+  int random_index(Random * random);
 
   /// Attempt one of the trials. Return true if accepted.
   bool attempt(
@@ -51,19 +33,7 @@ class TrialFactory : public Trial {
       /// attempt trial_index. If -1, choose randomly with probabilty
       /// determined from the weight.
       int trial_index,
-      Random * random) {
-    increment_num_attempts();
-    // timer_.start(0);
-    if (num_trials() == 0) return false;
-    if (trial_index == -1) {
-      trial_index = random_index(random);
-    }
-    //timer_.start(index + 1);  // +1 for "other"
-    const bool accepted = trials_[trial_index]->attempt(criteria, system, random);
-    //timer_.end();
-    if (accepted) increment_num_success_();
-    return accepted;
-  }
+      Random * random);
 
   /// Attempt one of the trials with selection probability proportional to
   /// the weight.
@@ -71,99 +41,32 @@ class TrialFactory : public Trial {
     return attempt(criteria, system, -1, random); }
 
   /// Revert changes to system by trial index.
-  void revert(const int index, const bool accepted, System * system) {
-    trials_[index]->revert(index, accepted, system);
-    if (accepted) {
-      decrement_num_success_();
-    }
-    decrement_num_attempts_();
-  }
+  void revert(const int index, const bool accepted, System * system);
 
-  void mimic_trial_rejection(const int index) {
-    DEBUG("index " << index << " " << trials_.size());
-    trials_[index]->increment_num_attempts();
-    increment_num_attempts();
-  }
+  void mimic_trial_rejection(const int index);
 
   void finalize(const int index, System * system) {
     trials_[index]->finalize(system); }
 
-  /// Return the header description for the statuses of the trials (e.g., acceptance, etc).
-  std::string status_header() const override {
-    std::stringstream ss;
-    ss << "attempt ";
-    for (const std::shared_ptr<Trial> trial : trials_) {
-      ss << trial->status_header() << " ";
-    }
-    return ss.str();
-  }
+  /// Return the header description for the statuses of the trials (e.g.,
+  /// acceptance, etc).
+  std::string status_header() const override;
 
   // Require manual finalization of trials (e.g., Pipeline).
-  void delay_finalize() {
-    for (std::shared_ptr<Trial> trial : trials_) {
-      trial->set_finalize_delayed(true);
-    }
-  }
+  void delay_finalize();
 
   /// Return the statuses of the trials (e.g., acceptance, etc).
-  std::string status() const override {
-    std::stringstream ss;
-    ss << num_attempts() << " ";
-    for (const std::shared_ptr<Trial> trial : trials_) {
-      ss << trial->status() << " ";
-    }
-    return ss.str();
-  }
+  std::string status() const override;
 
-  void reset_stats() override {
-    Trial::reset_stats();
-    for (std::shared_ptr<Trial> trial : trials_) {
-      trial->reset_stats();
-    }
-  }
-
-  void tune() override {
-    for (std::shared_ptr<Trial> trial : trials_) {
-      trial->tune();
-    }
-  }
-
-  void precompute(Criteria * criteria, System * system) override {
-    for (std::shared_ptr<Trial> trial : trials_) {
-      trial->precompute(criteria, system);
-    }
-  }
-
-//  int64_t num_attempts() const override {
-//    int64_t num = 0;
-//    for (const std::shared_ptr<Trial> trial : trials_) {
-//      num += trial->num_attempts();
-//    }
-//    return num;
-//  }
-
-//  std::string class_name() const override { return std::string("TrialFactory"); }
+  void reset_stats() override;
+  void tune() override;
+  void precompute(Criteria * criteria, System * system) override;
 
 //  const Timer& timer() const { return timer_; }
 
-  bool is_equal(const TrialFactory& factory) const {
-    if (num_trials() != factory.num_trials()) {
-      DEBUG("unequal number of trials: " << num_trials() << " "
-        << factory.num_trials());
-      return false;
-    }
-    if (!Trial::is_equal(factory)) {
-      return false;
-    }
-    for (int it = 0; it < num_trials(); ++it) {
-      if (!trials_[it]->is_equal(*(factory.trials_[it]))) {
-        DEBUG("unequal trial" << it);
-        return false;
-      }
-    }
-    return true;
-  }
+  bool is_equal(const TrialFactory& factory) const;
 
+  // serialize
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit TrialFactory(std::istream& istr);

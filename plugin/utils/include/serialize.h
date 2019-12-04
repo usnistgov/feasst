@@ -434,24 +434,6 @@ T deep_copy(const T& object) {
   return T(ss);
 }
 
-// HWH unforunately, templates require all objects to have serialization.
-// HWH when SWIG wrapped to each class automatically
-/// For use with SWIG-wrapped Python interface
-//template <class T>
-//std::string serialize(const T& object) {
-//  std::stringstream ss;
-//  object.serialize(ss);
-//  return ss.str();
-//}
-//
-///// For use with SWIG-wrapped Python interface
-//template <class T>
-//T * deserialize(const std::string str) {
-//  std::stringstream ss;
-//  ss << str;
-//  return &T(ss);
-//}
-
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_SERIALIZE_H_

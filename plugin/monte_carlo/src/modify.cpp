@@ -23,4 +23,24 @@ std::shared_ptr<Modify> Modify::deserialize(std::istream& istr) {
     true);
 }
 
+void Modify::trial(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
+  if (is_time(steps_per_update(), &steps_since_update_)) {
+    update(criteria, system, trial_factory);
+  }
+  if (is_time(steps_per_write(), &steps_since_write_)) {
+    printer(write(criteria, system, trial_factory));
+  }
+}
+
+ModifyUpdateOnly::ModifyUpdateOnly(const argtype &args) : Modify(args) {
+    // disable write
+    Modify::set_steps_per_write(-1);
+
+    // parse
+    if (!args_.key("steps_per").empty()) {
+      set_steps_per(args_.integer());
+    }
+  }
 }  // namespace feasst

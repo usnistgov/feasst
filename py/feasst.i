@@ -56,14 +56,14 @@
 #include "system/include/model_two_body.h"
 #include "models/include/square_well.h"
 #include "models/include/yukawa.h"
-#include "ewald/include/model_charge_intra.h"
+#include "ewald/include/charge_screened_intra.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/lennard_jones.h"
 #include "models/include/lennard_jones_alpha.h"
 #include "models/include/lennard_jones_cut_shift.h"
 #include "models/include/lennard_jones_force_shift.h"
-#include "ewald/include/model_charge_screened.h"
+#include "ewald/include/charge_screened.h"
 #include "system/include/potential.h"
 #include "system/include/potential_factory.h"
 #include "system/include/system.h"
@@ -76,12 +76,12 @@
 #include "monte_carlo/include/perturb.h"
 #include "monte_carlo/include/perturb_move.h"
 #include "monte_carlo/include/perturb_translate.h"
-#include "monte_carlo/include/perturb_distance.h"
-#include "monte_carlo/include/perturb_distance_angle.h"
 #include "monte_carlo/include/perturb_rotate.h"
 #include "monte_carlo/include/perturb_anywhere.h"
 #include "monte_carlo/include/perturb_remove.h"
 #include "monte_carlo/include/perturb_add.h"
+#include "monte_carlo/include/perturb_distance.h"
+#include "monte_carlo/include/perturb_distance_angle.h"
 #include "monte_carlo/include/perturb_configs.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/trial_stage.h"
@@ -89,24 +89,32 @@
 #include "monte_carlo/include/trial_compute_remove.h"
 #include "monte_carlo/include/trial_compute_add.h"
 #include "monte_carlo/include/trial.h"
+#include "monte_carlo/include/trial_remove.h"
 #include "monte_carlo/include/trial_factory.h"
+#include "monte_carlo/include/analyze.h"
+#include "steppers/include/energy.h"
+#include "steppers/include/num_particles.h"
+#include "monte_carlo/include/analyze_factory.h"
+#include "steppers/include/log.h"
+#include "steppers/include/criteria_writer.h"
+#include "steppers/include/cpu_time.h"
 #include "monte_carlo/include/modify.h"
 #include "steppers/include/check.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/wall_clock_limit.h"
 #include "steppers/include/tuner.h"
+#include "steppers/include/mean_squared_displacement.h"
 #include "steppers/include/check_properties.h"
 #include "monte_carlo/include/modify_factory.h"
-#include "monte_carlo/include/trial_remove.h"
-#include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/trial_compute_move.h"
 #include "monte_carlo/include/trial_move.h"
-#include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial_rotate.h"
+#include "monte_carlo/include/trial_add.h"
 #include "patch/include/patch_angle.h"
 #include "patch/include/visit_model_inner_patch.h"
 #include "system/include/model_one_body.h"
-#include "ewald/include/model_charge_self.h"
+#include "ewald/include/charge_self.h"
 #include "system/include/model_empty.h"
 #include "system/include/model_three_body.h"
 #include "system/include/visit_model_cell.h"
@@ -115,16 +123,9 @@
 #include "system/include/visit_model_intra.h"
 #include "ewald/include/utils_ewald.h"
 #include "configuration/include/file_xyz.h"
+#include "steppers/include/movie.h"
 #include "configuration/include/visit_configuration.h"
 #include "configuration/include/bond_visitor.h"
-#include "monte_carlo/include/analyze.h"
-#include "steppers/include/cpu_time.h"
-#include "steppers/include/criteria_writer.h"
-#include "steppers/include/log.h"
-#include "steppers/include/energy.h"
-#include "steppers/include/num_particles.h"
-#include "steppers/include/movie.h"
-#include "monte_carlo/include/analyze_factory.h"
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "mayer/include/criteria_mayer.h"
@@ -157,7 +158,10 @@
 #include "chain/include/trial_pivot.h"
 #include "chain/include/perturb_reptate.h"
 #include "chain/include/trial_reptate.h"
+#include "pipeline/include/pipeline.h"
 #include "example/include/model_example.h"
+#include "growth_expanded/include/trial_growth_expanded.h"
+#include "growth_expanded/include/macrostate_growth_expanded.h"
 using namespace feasst;
 %}
 
@@ -228,7 +232,7 @@ using namespace std;
 %shared_ptr(feasst::ModelTwoBody);
 %shared_ptr(feasst::SquareWell);
 %shared_ptr(feasst::Yukawa);
-%shared_ptr(feasst::ModelChargeIntra);
+%shared_ptr(feasst::ChargeScreenedIntra);
 %shared_ptr(feasst::ModelTwoBodyFactory);
 %shared_ptr(feasst::HardSphere);
 %shared_ptr(feasst::LennardJones);
@@ -237,7 +241,7 @@ using namespace std;
 %shared_ptr(feasst::EnergyDerivAtCutoff);
 %shared_ptr(feasst::LennardJonesCutShift);
 %shared_ptr(feasst::LennardJonesForceShift);
-%shared_ptr(feasst::ModelChargeScreened);
+%shared_ptr(feasst::ChargeScreened);
 %shared_ptr(feasst::Potential);
 %shared_ptr(feasst::PotentialFactory);
 %shared_ptr(feasst::System);
@@ -250,12 +254,12 @@ using namespace std;
 %shared_ptr(feasst::Perturb);
 %shared_ptr(feasst::PerturbMove);
 %shared_ptr(feasst::PerturbTranslate);
-%shared_ptr(feasst::PerturbDistance);
-%shared_ptr(feasst::PerturbDistanceAngle);
 %shared_ptr(feasst::PerturbRotate);
 %shared_ptr(feasst::PerturbAnywhere);
 %shared_ptr(feasst::PerturbRemove);
 %shared_ptr(feasst::PerturbAdd);
+%shared_ptr(feasst::PerturbDistance);
+%shared_ptr(feasst::PerturbDistanceAngle);
 %shared_ptr(feasst::PerturbConfigs);
 %shared_ptr(feasst::TrialSelectParticle);
 %shared_ptr(feasst::TrialStage);
@@ -263,26 +267,36 @@ using namespace std;
 %shared_ptr(feasst::TrialComputeRemove);
 %shared_ptr(feasst::TrialComputeAdd);
 %shared_ptr(feasst::Trial);
+%shared_ptr(feasst::TrialRemove);
 %shared_ptr(feasst::TrialFactory);
+%shared_ptr(feasst::Analyze);
+%shared_ptr(feasst::AnalyzeWriteOnly);
+%shared_ptr(feasst::AnalyzeUpdateOnly);
+%shared_ptr(feasst::Energy);
+%shared_ptr(feasst::NumParticles);
+%shared_ptr(feasst::AnalyzeFactory);
+%shared_ptr(feasst::Log);
+%shared_ptr(feasst::CriteriaWriter);
+%shared_ptr(feasst::CPUTime);
 %shared_ptr(feasst::Modify);
 %shared_ptr(feasst::ModifyUpdateOnly);
 %shared_ptr(feasst::Check);
 %shared_ptr(feasst::CheckEnergy);
 %shared_ptr(feasst::WallClockLimit);
 %shared_ptr(feasst::Tuner);
+%shared_ptr(feasst::MeanSquaredDisplacement);
 %shared_ptr(feasst::CheckProperties);
 %shared_ptr(feasst::ModifyFactory);
-%shared_ptr(feasst::TrialRemove);
-%shared_ptr(feasst::TrialAdd);
 %shared_ptr(feasst::TrialComputeMove);
 %shared_ptr(feasst::TrialMove);
-%shared_ptr(feasst::TrialRotate);
 %shared_ptr(feasst::TrialTranslate);
+%shared_ptr(feasst::TrialRotate);
+%shared_ptr(feasst::TrialAdd);
 %shared_ptr(feasst::PatchAngle);
 %shared_ptr(feasst::CosPatchAngle);
 %shared_ptr(feasst::VisitModelInnerPatch);
 %shared_ptr(feasst::ModelOneBody);
-%shared_ptr(feasst::ModelChargeSelf);
+%shared_ptr(feasst::ChargeSelf);
 %shared_ptr(feasst::ModelEmpty);
 %shared_ptr(feasst::ModelThreeBody);
 %shared_ptr(feasst::VisitModelCell);
@@ -291,6 +305,7 @@ using namespace std;
 %shared_ptr(feasst::VisitModelIntra);
 %shared_ptr(feasst::FileVMD);
 %shared_ptr(feasst::FileXYZ);
+%shared_ptr(feasst::Movie);
 %shared_ptr(feasst::VisitConfiguration);
 %shared_ptr(feasst::LoopConfigOneBody);
 %shared_ptr(feasst::BondTwoBody);
@@ -298,16 +313,6 @@ using namespace std;
 %shared_ptr(feasst::BondThreeBody);
 %shared_ptr(feasst::AngleSquareWell);
 %shared_ptr(feasst::BondVisitor);
-%shared_ptr(feasst::Analyze);
-%shared_ptr(feasst::AnalyzeWriteOnly);
-%shared_ptr(feasst::AnalyzeUpdateOnly);
-%shared_ptr(feasst::CPUTime);
-%shared_ptr(feasst::CriteriaWriter);
-%shared_ptr(feasst::Log);
-%shared_ptr(feasst::Energy);
-%shared_ptr(feasst::NumParticles);
-%shared_ptr(feasst::Movie);
-%shared_ptr(feasst::AnalyzeFactory);
 %shared_ptr(feasst::RandomMT19937);
 %shared_ptr(feasst::MonteCarlo);
 %shared_ptr(feasst::CriteriaMayer);
@@ -344,7 +349,14 @@ using namespace std;
 %shared_ptr(feasst::TrialPivot);
 %shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::TrialReptate);
+%shared_ptr(feasst::Pool);
+%shared_ptr(feasst::Pipeline);
 %shared_ptr(feasst::ModelExample);
+%shared_ptr(feasst::TrialComputeGrowAdd);
+%shared_ptr(feasst::TrialComputeGrowRemove);
+%shared_ptr(feasst::TrialComputeGrow);
+%shared_ptr(feasst::TrialGrowthExpanded);
+%shared_ptr(feasst::MacrostateGrowthExpanded);
 %include utils/include/utils_file.h
 %include utils/include/timer.h
 %include utils/include/cache.h
@@ -392,14 +404,14 @@ using namespace std;
 %include system/include/model_two_body.h
 %include models/include/square_well.h
 %include models/include/yukawa.h
-%include ewald/include/model_charge_intra.h
+%include ewald/include/charge_screened_intra.h
 %include system/include/model_two_body_factory.h
 %include system/include/hard_sphere.h
 %include system/include/lennard_jones.h
 %include models/include/lennard_jones_alpha.h
 %include models/include/lennard_jones_cut_shift.h
 %include models/include/lennard_jones_force_shift.h
-%include ewald/include/model_charge_screened.h
+%include ewald/include/charge_screened.h
 %include system/include/potential.h
 %include system/include/potential_factory.h
 %include system/include/system.h
@@ -412,12 +424,12 @@ using namespace std;
 %include monte_carlo/include/perturb.h
 %include monte_carlo/include/perturb_move.h
 %include monte_carlo/include/perturb_translate.h
-%include monte_carlo/include/perturb_distance.h
-%include monte_carlo/include/perturb_distance_angle.h
 %include monte_carlo/include/perturb_rotate.h
 %include monte_carlo/include/perturb_anywhere.h
 %include monte_carlo/include/perturb_remove.h
 %include monte_carlo/include/perturb_add.h
+%include monte_carlo/include/perturb_distance.h
+%include monte_carlo/include/perturb_distance_angle.h
 %include monte_carlo/include/perturb_configs.h
 %include monte_carlo/include/trial_select_particle.h
 %include monte_carlo/include/trial_stage.h
@@ -425,24 +437,32 @@ using namespace std;
 %include monte_carlo/include/trial_compute_remove.h
 %include monte_carlo/include/trial_compute_add.h
 %include monte_carlo/include/trial.h
+%include monte_carlo/include/trial_remove.h
 %include monte_carlo/include/trial_factory.h
+%include monte_carlo/include/analyze.h
+%include steppers/include/energy.h
+%include steppers/include/num_particles.h
+%include monte_carlo/include/analyze_factory.h
+%include steppers/include/log.h
+%include steppers/include/criteria_writer.h
+%include steppers/include/cpu_time.h
 %include monte_carlo/include/modify.h
 %include steppers/include/check.h
 %include steppers/include/check_energy.h
 %include steppers/include/wall_clock_limit.h
 %include steppers/include/tuner.h
+%include steppers/include/mean_squared_displacement.h
 %include steppers/include/check_properties.h
 %include monte_carlo/include/modify_factory.h
-%include monte_carlo/include/trial_remove.h
-%include monte_carlo/include/trial_add.h
 %include monte_carlo/include/trial_compute_move.h
 %include monte_carlo/include/trial_move.h
-%include monte_carlo/include/trial_rotate.h
 %include monte_carlo/include/trial_translate.h
+%include monte_carlo/include/trial_rotate.h
+%include monte_carlo/include/trial_add.h
 %include patch/include/patch_angle.h
 %include patch/include/visit_model_inner_patch.h
 %include system/include/model_one_body.h
-%include ewald/include/model_charge_self.h
+%include ewald/include/charge_self.h
 %include system/include/model_empty.h
 %include system/include/model_three_body.h
 %include system/include/visit_model_cell.h
@@ -451,16 +471,9 @@ using namespace std;
 %include system/include/visit_model_intra.h
 %include ewald/include/utils_ewald.h
 %include configuration/include/file_xyz.h
+%include steppers/include/movie.h
 %include configuration/include/visit_configuration.h
 %include configuration/include/bond_visitor.h
-%include monte_carlo/include/analyze.h
-%include steppers/include/cpu_time.h
-%include steppers/include/criteria_writer.h
-%include steppers/include/log.h
-%include steppers/include/energy.h
-%include steppers/include/num_particles.h
-%include steppers/include/movie.h
-%include monte_carlo/include/analyze_factory.h
 %include math/include/random_mt19937.h
 %include monte_carlo/include/monte_carlo.h
 %include mayer/include/criteria_mayer.h
@@ -493,4 +506,7 @@ using namespace std;
 %include chain/include/trial_pivot.h
 %include chain/include/perturb_reptate.h
 %include chain/include/trial_reptate.h
+%include pipeline/include/pipeline.h
 %include example/include/model_example.h
+%include growth_expanded/include/trial_growth_expanded.h
+%include growth_expanded/include/macrostate_growth_expanded.h

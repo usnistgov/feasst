@@ -12,37 +12,22 @@ namespace feasst {
  */
 class Log : public AnalyzeWriteOnly {
  public:
-  Log(const argtype& args = argtype());
+  explicit Log(const argtype& args = argtype());
 
   void initialize(const Criteria * criteria,
       const System& system,
-      const TrialFactory& trial_factory) override {
-    std::stringstream ss;
-    ss << criteria->status_header() << " " << trial_factory.status_header()
-       << std::endl;
-    printer(ss.str());
-  }
+      const TrialFactory& trial_factory) override;
 
   std::string write(const Criteria * criteria,
       const System& system,
-      const TrialFactory& trial_factory) override {
-    // ensure the following order matches the header from initialization.
-    std::stringstream ss;
-    ss << criteria->status() << " " << trial_factory.status() << std::endl;
-    return ss.str();
-  }
+      const TrialFactory& trial_factory) override;
 
-  void serialize(std::ostream& ostr) const override {
-    Stepper::serialize(ostr);
-    feasst_serialize_version(1, ostr);
-  }
-
+  // serialize
+  std::string class_name() const override { return std::string("Log"); }
+  void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<Log>(istr); }
-
-  Log(std::istream& istr) : AnalyzeWriteOnly(istr) { feasst_deserialize_version(istr); }
-
-  std::string class_name() const override { return std::string("Log"); }
+  Log(std::istream& istr);
 };
 
 inline std::shared_ptr<Log> MakeLog(const argtype &args = argtype()) {

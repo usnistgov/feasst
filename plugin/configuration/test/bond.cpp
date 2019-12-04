@@ -10,7 +10,7 @@ TEST(Bond, serialize) {
   bond.set_type(45);
   bond.add_property("banana", 12);
 
-  Bond bond2 = test_serialize(bond, "1 1 banana 1 12 1 45 Bond 743 2 12 1 ");
+  Bond bond2 = test_serialize(bond, "847 1 banana 1 12 1 45 Bond 743 2 12 1 ");
   EXPECT_EQ(bond2.type(), 45);
   EXPECT_EQ(bond2.property("banana"), 12.0);
   EXPECT_EQ(bond2.site(0), 12);
@@ -23,7 +23,7 @@ TEST(Angle, serialize) {
   angle.set_type(45);
   angle.add_property("banana", 12);
 
-  Angle angle2 = test_serialize(angle, "1 1 banana 1 12 1 45 Angle 743 2 12 1 ");
+  Angle angle2 = test_serialize(angle, "847 1 banana 1 12 1 45 Angle 743 2 12 1 ");
   EXPECT_EQ(angle2.class_name(), "Angle");
 }
 

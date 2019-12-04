@@ -17,13 +17,12 @@ namespace feasst {
  */
 class TrialSelect : public PropertiedEntity {
  public:
-  TrialSelect(
-    /**
-      group_index : index of group definied within system (default: 0).
-
-      particle_type : type of particle in configuration (default: -1)
-     */
-    const argtype& args = argtype());
+  /**
+    args:
+    - group_index: index of group definied within system (default: 0).
+    - particle_type: type of particle in configuration (default: -1)
+   */
+  explicit TrialSelect(const argtype& args = argtype());
 
   /// Return the index of group for selection.
   int group_index() const { return group_index_; }

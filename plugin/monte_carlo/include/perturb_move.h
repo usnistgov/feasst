@@ -13,7 +13,7 @@ namespace feasst {
  */
 class PerturbMove : public Perturb {
  public:
-  PerturbMove(const argtype& args = argtype()) : Perturb(args) {}
+  explicit PerturbMove(const argtype& args = argtype()) : Perturb(args) {}
 
   /// Move the selection of the system.
   virtual void move(System * system, TrialSelect * select, Random * random) = 0;
@@ -24,30 +24,13 @@ class PerturbMove : public Perturb {
       System * system,
       TrialSelect * select,
       Random * random,
-      const bool is_position_held = false
-      ) override {
-    if (is_position_held) {
-      select->set_trial_state(0);
-      return;
-    }
-    move(system, select, random);
-    set_revert_possible(true, select);
-    select->set_trial_state(1);
-  }
+      const bool is_position_held = false) override;
 
   /// For perturbations that only move particles and/or sites, the revert step
   /// is the same for all. Simply put the original positions back.
-  void revert(System * system) override {
-    if (revert_possible()) {
-      Configuration* config = system->get_configuration();
-      config->update_positions(revert_select()->mobile_original(),
-        // don't wrap if reverting
-        false);
-      system->revert();
-    }
-  }
+  void revert(System * system) override;
 
-  PerturbMove(std::istream& istr) : Perturb(istr) {}
+  explicit PerturbMove(std::istream& istr) : Perturb(istr) {}
   virtual ~PerturbMove() {}
 };
 

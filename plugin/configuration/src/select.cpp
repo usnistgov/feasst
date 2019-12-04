@@ -96,7 +96,7 @@ void Select::add_sites(const int particle_index,
   int index;
   if (find_in_list(particle_index, particle_indices(), &index)) {
     TRACE(particle_index << " | " << feasst_str(site_indices_[index]) << " + " << feasst_str(site_indices));
-    site_indices_[index] = fst_union(site_indices_[index], site_indices);
+    site_indices_[index] = feasst_union(site_indices_[index], site_indices);
   } else {
     particle_indices_.push_back(particle_index);
     site_indices_.push_back(site_indices);
@@ -109,7 +109,7 @@ void Select::remove_sites(const int particle_index,
   TRACE("removing site_indices " << feasst_str(site_indices));
   int index;
   if (find_in_list(particle_index, particle_indices(), &index)) {
-    site_indices_[index] = fst_difference(site_indices_[index], site_indices);
+    site_indices_[index] = feasst_difference(site_indices_[index], site_indices);
     // completely remove particle if no more sites remain.
     if (site_indices_[index].size() == 0) {
       remove_particle_(index);

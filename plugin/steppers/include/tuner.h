@@ -11,27 +11,19 @@ namespace feasst {
  */
 class Tuner : public ModifyUpdateOnly {
  public:
-  Tuner(const argtype &args = argtype()) : ModifyUpdateOnly(args) {}
+  explicit Tuner(const argtype &args = argtype()) : ModifyUpdateOnly(args) {}
+
   void update(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) override {
-    trial_factory->tune();
-  }
+    trial_factory->tune(); }
 
+  // serialize
   std::string class_name() const override { return std::string("Tuner"); }
-
-  void serialize(std::ostream& ostr) const override {
-    Stepper::serialize(ostr);
-    feasst_serialize_version(1, ostr);
-  }
-
+  void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Modify> create(std::istream& istr) const override {
     return std::make_shared<Tuner>(istr); }
-
-  Tuner(std::istream& istr) : ModifyUpdateOnly(istr) {
-    feasst_deserialize_version(istr); }
-
- private:
+  explicit Tuner(std::istream& istr);
 };
 
 inline std::shared_ptr<Tuner> MakeTuner(const argtype &args = argtype()) {

@@ -1,6 +1,6 @@
-ModelChargeSelf
+MeanSquaredDisplacement
 =====================================================
 
-.. doxygenclass:: feasst::ModelChargeSelf
+.. doxygenclass:: feasst::MeanSquaredDisplacement
    :project: FEASST
    :members:

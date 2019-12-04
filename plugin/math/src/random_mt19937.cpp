@@ -24,6 +24,11 @@ class MapRandomMT19937 {
 
 static MapRandomMT19937 mapper_ = MapRandomMT19937();
 
+RandomMT19937::RandomMT19937(const argtype& args) : Random(args) {
+  class_name_ = "RandomMT19937";
+  parse_seed_(args);
+}
+
 void RandomMT19937::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_random_(ostr);

@@ -49,6 +49,7 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
   } else {
     macrostate_new_ = macrostate_old_;
   }
+  was_accepted_ = is_accepted;
   return is_accepted;
 }
 

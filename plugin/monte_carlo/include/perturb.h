@@ -28,12 +28,13 @@ namespace feasst {
  */
 class Perturb {
  public:
-  explicit Perturb(
-    /**
-      tunable_param : initial value of the tunable parameter (default: 0.1).
-      tunable_target_acceptance : optionally set target acceptance.
-     */
-    const argtype& args = argtype());
+  /**
+    args:
+    - tunable_param: initial value of the tunable parameter (default: 0.1).
+    - tunable_target_acceptance: optionally set target acceptance.
+    - tunable_percent_change: optionally set the percent change.
+   */
+  explicit Perturb(const argtype& args = argtype());
 
   /// Return the tunable parameter.
   const Tunable& tunable() const { return tunable_; }
@@ -103,6 +104,7 @@ class Perturb {
   /// Print status
   virtual std::string status() const;
 
+  // serialize
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Perturb> create(std::istream& istr) const;

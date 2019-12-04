@@ -315,3 +315,4 @@ To Do List
 * Refactor Select classes. There are too many, and VisitModels may prefer to update select properties (e.g., cell, eik)
 * Jupyter notebook output should go to cells, not terminal that runs jupyter.
 * implement gibbs ensemble
+* lint file_[xyz,lmp]

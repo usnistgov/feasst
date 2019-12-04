@@ -34,7 +34,8 @@ class Accumulator {
 
   /// Return standard deviation e.g., fluctuation of all (correlated) values.
   double stdev() const;
-  // HWH depreciate
+
+  /// Same as above.
   double std() const { return stdev(); }
 
   /// Return the standard deviation of the average (e.g., std/sqrt(num_samples))

@@ -26,20 +26,20 @@ int System::dimension(const int config) const {
 
 void System::add_to_unoptimized(const Potential& potential) {
   // HWH assume one config
-  unoptimized_.add_potential(potential);
+  unoptimized_.add(potential);
   unoptimized_.precompute(unoptimized_.num() - 1, &configurations_[0]);
 }
 
 void System::set_unoptimized(const int index, const Potential& potential) {
   // HWH assume one config
-  unoptimized_.set_potential(index, potential);
+  unoptimized_.set(index, potential);
   unoptimized_.precompute(unoptimized_.num() - 1, &configurations_[0]);
 }
 
 void System::add_to_optimized(const Potential& potential) {
   is_optimized_ = true;
   // HWH assume one config
-  optimized_.add_potential(potential);
+  optimized_.add(potential);
   optimized_.precompute(optimized_.num() - 1, &configurations_[0]);
 }
 
@@ -54,7 +54,7 @@ void System::add_to_reference(const Potential& ref, const int index) {
     references_.push_back(PotentialFactory());
   }
   // HWH assume one config
-  reference_(index)->add_potential(ref);
+  reference_(index)->add(ref);
   reference_(index)->precompute(reference_(index)->num() - 1,
                                 &configurations_[0]);
 }

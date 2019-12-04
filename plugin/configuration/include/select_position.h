@@ -40,6 +40,12 @@ class SelectPosition : public Select {
                          const int site_index,
                          const std::vector<double> coord);
 
+  /// Add to the position of a site by particle and site index.
+  /// Note that these indices are based on selection, not configuration.
+  void add_to_site_position(const int particle_index,
+                            const int site_index,
+                            const Position& position);
+
   /// Set the property of a site by particle and site index.
   /// Note that these indices are based on selection, not configuration.
   void set_site_properties(const int particle_index,

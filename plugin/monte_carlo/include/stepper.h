@@ -15,26 +15,21 @@ namespace feasst {
  */
 class Stepper {
  public:
-  Stepper(
-    /**
-      steps_per_write : Set the number of trial steps per write (default: 1).
-        Disabled if negative value is provided.
-
-      steps_per_update : Set the number of trial steps per update (default: 1).
-        Disabled if negative value is provided.
-
-      file_name : Set the file name to write output (default: empty).
-        If empty, write to screen.
-
-      append : append file output if set to true.
-        Do not append if false (default: "false").
-
-      clear_file : set true to clear contents of file_name, if exists.
-        (default: false).
-
-      multistate :  set "true" to copy for each state (default: "false")
-     */
-    const argtype &args = argtype());
+  /**
+    args:
+    - steps_per_write: Set the number of trial steps per write (default: 1).
+      Disabled if negative value is provided.
+    - steps_per_update: Set the number of trial steps per update (default: 1).
+      Disabled if negative value is provided.
+    - file_name: Set the file name to write output (default: empty).
+      If empty, write to screen.
+    - append: append file output if set to true.
+      Do not append if false (default: "false").
+    - clear_file: set true to clear contents of file_name, if exists.
+      (default: false).
+    - multistate:  set "true" to copy for each state (default: "false")
+   */
+  Stepper(const argtype &args = argtype());
 
   /// Return the number of steps per update
   int steps_per_update() const { return steps_per_update_; }

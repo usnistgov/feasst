@@ -17,15 +17,13 @@ class Position {
  public:
   Position() {}
 
-  Position(
-    /**
-      x: x-coordinate
-
-      y: y-coordinate. Requires explicit x.
-
-      z: z-coordinate. Requires explicit y.
-     */
-    const argtype& args);
+  /**
+    args:
+    - x: x-coordinate
+    - y: y-coordinate. Requires explicit x.
+    - z: z-coordinate. Requires explicit y.
+   */
+  Position(const argtype& args);
 
   /// Initialize coordinates by brace initialized position vector.
   explicit Position(std::vector<double> vec) { coord_ = vec; }
@@ -64,6 +62,9 @@ class Position {
 
   /// Set coordinate value of one dimension.
   void set_coord(const int dimension, const double coord);
+
+  /// Add to coordinate value of one dimension.
+  void add_to_coord(const int dimension, const double coord);
 
   /// Return the dimensionality of the position.
   int size() const { return coord_.size(); }

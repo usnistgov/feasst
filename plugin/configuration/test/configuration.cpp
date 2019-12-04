@@ -28,7 +28,7 @@ TEST(Configuration, type_to_file_name) {
   EXPECT_EQ("../forcefield/data.spce", config.type_to_file_name(2));
 }
 
-TEST(Configuration, coordinates) {
+TEST(Configuration, coordinates_and_wrapping) {
   Configuration config({
     {"cubic_box_length", "5"},
     {"particle_type0", "../forcefield/data.atom"},
@@ -43,10 +43,28 @@ TEST(Configuration, coordinates) {
   SelectList select;
   select.particle(0, config);
   config.displace_particles(select, pos);
+  config.wrap_particle(0);
   EXPECT_EQ(config.num_particles(), 2);
   EXPECT_EQ(config.dimension(), 3);
 
   Configuration config2 = test_serialize(config);
+
+  { const Position& site_position = config2.select_particle(0).site(0).position();
+    EXPECT_NEAR(2.,       site_position.coord(0), 10*NEAR_ZERO);
+    EXPECT_NEAR(-1.66,    site_position.coord(1), 10*NEAR_ZERO);
+    EXPECT_NEAR(0.005783, site_position.coord(2), 10*NEAR_ZERO);
+  }
+
+  // test unwrapped
+  config2.init_wrap(false);
+  config2.displace_particles(select, pos);
+  config2.wrap_particle(0);
+  Configuration config3 = test_serialize(config2);
+  { const Position& site_position = config3.select_particle(0).site(0).position();
+    EXPECT_NEAR(2 - 583,       site_position.coord(0), 10*NEAR_ZERO);
+    EXPECT_NEAR(-1.66 + 83.34,    site_position.coord(1), 10*NEAR_ZERO);
+    EXPECT_NEAR(0.005783 + 0.005783, site_position.coord(2), 10*NEAR_ZERO);
+  }
 }
 
 TEST(Configuration, particle_types_lj) {

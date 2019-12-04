@@ -120,7 +120,7 @@ void ModelParams::add_() {
   add(charge_);
 }
 
-ModelParams::ModelParams() {
+ModelParams::ModelParams() : PropertiedEntity() {
   epsilon_ = std::make_shared<Epsilon>();
   sigma_ = std::make_shared<Sigma>();
   cutoff_ = std::make_shared<CutOff>();
@@ -128,7 +128,7 @@ ModelParams::ModelParams() {
   add_();
 }
 
-ModelParams::ModelParams(const ModelParams& params) {
+ModelParams::ModelParams(const ModelParams& params) : PropertiedEntity() {
   epsilon_ = std::make_shared<Epsilon>(*params.epsilon_);
   sigma_ = std::make_shared<Sigma>(*params.sigma_);
   cutoff_ = std::make_shared<CutOff>(*params.cutoff_);
@@ -216,11 +216,11 @@ void ModelParams::set(const std::string name,
 }
 
 void ModelParams::check() const {
-  PropertiedEntity::check();
   const int size = params_.front()->size();
   for (std::shared_ptr<ModelParam> parm : params_) {
     ASSERT(size == parm->size(), "size mismatch");
   }
+  properties().check();
 }
 
 // HWH warning: magic number "4"

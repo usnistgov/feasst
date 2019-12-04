@@ -6,10 +6,10 @@
 
 namespace feasst {
 
+// HWH depreciate
 /**
   Originally implemented for testing purpose and limited scope.
  */
-// HWH depreciate
 class PerturbConfigs : public Perturb {
  public:
   void transfer_particle(const int index, System * system, const int donor, const int acceptor) {

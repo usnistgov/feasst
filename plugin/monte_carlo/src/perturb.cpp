@@ -11,6 +11,9 @@ Perturb::Perturb(const argtype& args) {
   if (args_.key("tunable_target_acceptance").used()) {
     tunable_.set_target(args_.dble());
   }
+  if (args_.key("tunable_percent_change").used()) {
+    tunable_.set_percent_change(args_.dble());
+  }
 }
 
 void Perturb::before_select() {

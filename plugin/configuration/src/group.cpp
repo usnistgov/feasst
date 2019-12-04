@@ -6,7 +6,7 @@ namespace feasst {
 
 Group::Group() { set_dynamic(); }
 
-bool Group::empty() const {
+bool Group::is_empty() const {
   if ( (particle_types_.size() == 0) and
        (site_types_.size() == 0) ) {
     return true;

@@ -129,6 +129,33 @@ const Cells& Domain::cells(const int index) const {
   return cells_[index];
 }
 
+void Domain::unwrap(const int dim, const int num_wrap, Position * shift) const {
+  // do nothing if not periodic
+  if (!periodic(dim)) {
+    return;
+  }
+
+  // simple method if cuboid
+  if (!is_tilted()) {
+    shift->add_to_coord(dim, num_wrap*side_length(dim));
+    return;
+  }
+
+  // otherwise, unwrap triclinic box
+  if (dim == 2) {
+    shift->add_to_coord(2, num_wrap*side_length(dim));
+    shift->add_to_coord(1, num_wrap*yz());
+    shift->add_to_coord(0, num_wrap*xz());
+  } else if (dim == 1) {
+    shift->add_to_coord(1, num_wrap*side_length(dim));
+    shift->add_to_coord(0, num_wrap*xy());
+  } else if (dim == 0) {
+    shift->add_to_coord(0, num_wrap*side_length(dim));
+  } else {
+    ERROR("unrecognized dim:" << dim);
+  }
+}
+
 void Domain::serialize(std::ostream& sstr) const {
   feasst_serialize_version(1, sstr);
   side_length_.serialize(sstr);

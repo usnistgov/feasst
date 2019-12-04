@@ -3,6 +3,7 @@
 #define FEASST_CONFIGURATION_PARTICLE_H_
 
 #include <vector>
+#include "configuration/include/properties.h"
 #include "configuration/include/typed_entity.h"
 #include "configuration/include/site.h"
 #include "configuration/include/bond.h"
@@ -24,9 +25,11 @@ namespace feasst {
   Each site has its own position which is not relative to the position of
   the particle. Reference sites may be stored optionally.
  */
-class Particle : public TypedEntity, public SpatialEntity {
+class Particle : public PropertiedEntity,
+                 public TypedEntity,
+                 public SpatialEntity {
  public:
-  Particle() : TypedEntity(), SpatialEntity() {}
+  Particle() : PropertiedEntity(), TypedEntity(), SpatialEntity() {}
 
   /** @name Sites
     Sites of the particle. */
@@ -49,9 +52,6 @@ class Particle : public TypedEntity, public SpatialEntity {
 
   /// Remove a particular site by its index.
   void remove_site(const int index);
-
-//  /// Store existing Site(s) for later reference.
-//  void store_reference_sites() { reference_sites_ = sites_; }
 
   //@}
   /** @name Typing
@@ -240,7 +240,6 @@ class Particle : public TypedEntity, public SpatialEntity {
 
  private:
   std::vector<Site> sites_;
-//  std::vector<Site> reference_sites_;
   std::vector<Bond> bonds_;
   std::vector<Angle> angles_;
 //  std::vector<Dihedral> dihedrals_;

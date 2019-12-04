@@ -13,9 +13,8 @@ namespace feasst {
 /// Attempt a rigid rotation of a random particle.
 class TrialRotate : public TrialMove {
  public:
-  TrialRotate(
-    /// These arguments are sent to both PerturbRotate and TrialStage.
-    const argtype& args = argtype());
+  /// These arguments are sent to both PerturbRotate and TrialStage.
+  explicit TrialRotate(const argtype& args = argtype());
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit TrialRotate(std::istream& istr);

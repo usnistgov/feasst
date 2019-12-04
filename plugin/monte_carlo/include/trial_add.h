@@ -15,7 +15,7 @@ namespace feasst {
 /// Attempt to add a particle.
 class TrialAdd : public Trial {
  public:
-  TrialAdd(const argtype& args = argtype());
+  explicit TrialAdd(const argtype& args = argtype());
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit TrialAdd(std::istream& istr);

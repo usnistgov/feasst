@@ -13,4 +13,40 @@ static MapCPUTime mapper_ = MapCPUTime();
 
 CPUTime::CPUTime(const argtype& args) : AnalyzeWriteOnly(args) {}
 
+void CPUTime::initialize(const Criteria * criteria,
+    const System& system,
+    const TrialFactory& trial_factory) {
+  num_writes_ = 0;
+  initialize_time_ = cpu_hours();
+}
+
+std::string CPUTime::write(const Criteria * criteria,
+    const System& system,
+    const TrialFactory& trial_factory) {
+  std::stringstream ss;
+  ++num_writes_;
+  const double elapsed_hours = cpu_hours() - initialize_time_;
+  const double steps_per_second = num_writes_*steps_per_write()
+                                  /(elapsed_hours*60*60);
+  steps_per_second_.accumulate(steps_per_second);
+  ss << "elapsed_hours: " << elapsed_hours << " "
+     << "steps per second: " << steps_per_second << " "
+     << std::endl;
+  return ss.str();
+}
+
+void CPUTime::serialize(std::ostream& ostr) const {
+  Stepper::serialize(ostr);
+  feasst_serialize_version(235, ostr);
+  feasst_serialize(num_writes_, ostr);
+  feasst_serialize(initialize_time_, ostr);
+}
+
+CPUTime::CPUTime(std::istream& istr) : AnalyzeWriteOnly(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(235 == version, "version mismatch:" << version);
+  feasst_deserialize(&num_writes_, istr);
+  feasst_deserialize(&initialize_time_, istr);
+}
+
 }  // namespace feasst
