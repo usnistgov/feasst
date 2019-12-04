@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Accumulator &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>Accumulator &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -137,6 +137,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -242,13 +243,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -285,6 +286,12 @@
 <dt id="_CPPv4NK6feasst11Accumulator5stdevEv">
 <span class="target" id="classfeasst_1_1Accumulator_1a2b8507f4a0be7b6362cf4a1688821a3d"></span>double <code class="sig-name descname">stdev</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator5stdevEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return standard deviation e.g., fluctuation of all (correlated) values. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4NK6feasst11AccumulatorStEv">
+<span class="target" id="classfeasst_1_1Accumulator_1a93c061555d8ce53e5d3efd565fba3537"></span>double <code class="sig-name descname">std</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11AccumulatorStEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above. </p>
 </dd></dl>
 
 <dl class="function">
@@ -363,13 +370,13 @@
 
 <dl class="function">
 <dt id="_CPPv4NK6feasst11Accumulator7momentsEv">
-<span class="target" id="classfeasst_1_1Accumulator_1ac7a640217a21aa6993202cc7e82cd5ea"></span>std::vector&lt;long double&gt; <code class="sig-name descname">moments</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator7momentsEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1ac7a640217a21aa6993202cc7e82cd5ea"></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std">std</a>::vector&lt;long double&gt; <code class="sig-name descname">moments</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator7momentsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the moments. </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv4NK6feasst11Accumulator3strEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a95ad880aa781d9057a7b3b491fe5555e"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator3strEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Accumulator_1a95ad880aa781d9057a7b3b491fe5555e"></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std">std</a>::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator3strEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return human readable status as a string. </p>
 </dd></dl>
 

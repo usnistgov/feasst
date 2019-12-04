@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Flat histogram &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>Flat histogram &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Grand canonical ensemble transition-matrix Monte Carlo" href="tutorial/tutorial_1_lj_gcmc.html" />
-    <link rel="prev" title="CriteriaWriter" href="../steppers/doc/CriteriaWriter.html" />
+    <link rel="prev" title="Movie" href="../steppers/doc/Movie.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -122,15 +122,17 @@
 <li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_1_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_2_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="doc/LnProbability.html">LnProbability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Bias.html">Bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/WangLandau.html">WangLandau</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Macrostate.html">Macrostate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/FlatHistogram.html">FlatHistogram</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/WangLandau.html">WangLandau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/MacrostateNumParticles.html">MacrostateNumParticles</a></li>
@@ -143,6 +145,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pipeline/README.html">Pipeline</a></li>
@@ -244,13 +247,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -269,7 +272,7 @@
 <div class="figure align-default">
 <img alt="../../_images/flat_histogram.svg" src="../../_images/flat_histogram.svg" /></div>
 <p><a class="reference internal" href="doc/FlatHistogram.html#_CPPv4N6feasst13FlatHistogramE" title="feasst::FlatHistogram"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">FlatHistogram</span></code></a> contains a <a class="reference internal" href="doc/Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Macrostate</span></code></a> and a <a class="reference internal" href="doc/Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Bias</span></code></a>.
-The <a class="reference internal" href="doc/Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Macrostate</span></code></a> could be the <a class="reference internal" href="doc/MacrostateNumParticles.html#_CPPv4N6feasst22MacrostateNumParticlesE" title="feasst::MacrostateNumParticles"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">number</span> <span class="pre">of</span> <span class="pre">particles</span></code></a> or some other quantity such as the energy of a parameter of the model.
+The <a class="reference internal" href="doc/Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Macrostate</span></code></a> could be the <a class="reference internal" href="doc/MacrostateNumParticles.html#_CPPv4N6feasst22MacrostateNumParticlesE" title="feasst::MacrostateNumParticles"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">number</span> <span class="pre">of</span> <span class="pre">particles</span></code></a> or some other quantity such as the energy or a parameter of a model.
 The method of <a class="reference internal" href="doc/Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Bias</span></code></a> includes <a class="reference internal" href="doc/WangLandau.html#_CPPv4N6feasst10WangLandauE" title="feasst::WangLandau"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Wang-Landau</span></code></a> and <a class="reference internal" href="doc/TransitionMatrix.html#_CPPv4N6feasst16TransitionMatrixE" title="feasst::TransitionMatrix"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Transition-Matrix</span></code></a>.
 Importantly, the <a class="reference internal" href="doc/Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Bias</span></code></a> computes the <a class="reference internal" href="doc/LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">probability</span> <span class="pre">distribution</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">macrostate</span></code></a> on the fly, which is related to the free energy.</p>
 <div class="section" id="tutorial">
@@ -283,6 +286,7 @@ Importantly, the <a class="reference internal" href="doc/Bias.html#_CPPv4N6feass
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
 </ul>
 </div>
 </div>
@@ -298,9 +302,10 @@ Importantly, the <a class="reference internal" href="doc/Bias.html#_CPPv4N6feass
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="doc/LnProbability.html">LnProbability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Bias.html">Bias</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/WangLandau.html">WangLandau</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Constraint.html">Constraint</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Macrostate.html">Macrostate</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/FlatHistogram.html">FlatHistogram</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/WangLandau.html">WangLandau</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/MacrostateNumParticles.html">MacrostateNumParticles</a></li>
@@ -320,7 +325,7 @@ Importantly, the <a class="reference internal" href="doc/Bias.html#_CPPv4N6feass
         <a href="tutorial/tutorial_1_lj_gcmc.html" class="btn btn-neutral float-right" title="Grand canonical ensemble transition-matrix Monte Carlo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../steppers/doc/CriteriaWriter.html" class="btn btn-neutral float-left" title="CriteriaWriter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../steppers/doc/Movie.html" class="btn btn-neutral float-left" title="Movie" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

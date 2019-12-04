@@ -8,7 +8,3 @@ PatchAngle
 .. doxygenclass:: feasst::CosPatchAngle
    :project: FEASST
    :members:
-
-.. doxygenclass:: feasst::VisitModelInnerPatch
-   :project: FEASST
-   :members:

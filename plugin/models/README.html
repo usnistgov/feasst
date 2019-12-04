@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>Models &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -116,11 +116,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../monte_carlo/README.html">Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../example/README.html">Example</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Models</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelYukawa.html">ModelYukawa</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelSquareWell.html">ModelSquareWell</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/ModelLJAlpha.html">ModelLJAlpha</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyAtCutoff.html">EnergyAtCutoff</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/EnergyDerivAtCutoff.html">EnergyDerivAtCutoff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/SquareWell.html">SquareWell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/Yukawa.html">Yukawa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/LennardJonesAlpha.html">LennardJonesAlpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/LennardJonesCutShift.html">LennardJonesCutShift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/LennardJonesForceShift.html">LennardJonesForceShift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -131,6 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pipeline/README.html">Pipeline</a></li>
@@ -232,13 +233,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -256,11 +257,11 @@
 <p>This plugin contains extra models</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="doc/ModelYukawa.html">ModelYukawa</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ModelSquareWell.html">ModelSquareWell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ModelLJAlpha.html">ModelLJAlpha</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/EnergyAtCutoff.html">EnergyAtCutoff</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/EnergyDerivAtCutoff.html">EnergyDerivAtCutoff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/SquareWell.html">SquareWell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Yukawa.html">Yukawa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/LennardJonesAlpha.html">LennardJonesAlpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/LennardJonesCutShift.html">LennardJonesCutShift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/LennardJonesForceShift.html">LennardJonesForceShift</a></li>
 </ul>
 </div>
 <div class="section" id="feasst-plugin-dependencies">

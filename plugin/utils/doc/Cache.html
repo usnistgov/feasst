@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Cache &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>Cache &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -118,6 +118,7 @@
 <li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html">utils/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debug.html">utils/include/debug</a></li>
+<li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils_io.html">utils/include/utils_io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -135,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -240,13 +242,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -273,9 +275,21 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="_CPPv4NK6feasst5Cache10is_loadingEv">
+<span class="target" id="classfeasst_1_1Cache_1a0b2394a438e6fa8a14b1849dd1a813dc"></span>bool <code class="sig-name descname">is_loading</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cache10is_loadingEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if loading. </p>
+</dd></dl>
+
+<dl class="function">
 <dt id="_CPPv4N6feasst5Cache10set_unloadEKb">
 <span class="target" id="classfeasst_1_1Cache_1ab00d7febb7cbeb731329908aae3231e2"></span>void <code class="sig-name descname">set_unload</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>unload</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cache10set_unloadEKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Unload numbers if true (default: false). Either way, loading is disabled. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4NK6feasst5Cache12is_unloadingEv">
+<span class="target" id="classfeasst_1_1Cache_1ab78cb4ddc3a68ef42b318637556da2bb"></span>bool <code class="sig-name descname">is_unloading</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cache12is_unloadingEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if unloading. </p>
 </dd></dl>
 
 <dl class="function">

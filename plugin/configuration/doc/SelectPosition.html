@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>SelectPosition &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>SelectPosition &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -144,6 +144,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -249,13 +250,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -272,7 +273,7 @@
 <h1>SelectPosition<a class="headerlink" href="#selectposition" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="_CPPv4N6feasst14SelectPositionE">
-<span class="target" id="classfeasst_1_1SelectPosition"></span><em class="property">class </em><code class="sig-name descname">SelectPosition</code> : <em class="property">public</em> <a class="reference internal" href="../../math/doc/constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a><a class="headerlink" href="#_CPPv4N6feasst14SelectPositionE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1SelectPosition"></span><em class="property">class </em><code class="sig-name descname">SelectPosition</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a><a class="headerlink" href="#_CPPv4N6feasst14SelectPositionE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A selection which includes site and particle positions. Also include properties (e.g., for ewald, or neighbors, etc) </p>
 <p>Subclassed by <a class="reference internal" href="../../system/doc/SelectList.html#classfeasst_1_1SelectList"><span class="std std-ref">feasst::SelectList</span></a></p>
 <div class="breathe-sectiondef docutils container">
@@ -305,6 +306,12 @@
 <dt id="_CPPv4N6feasst14SelectPosition17set_site_positionEKiKiKNSt6vectorIdEE">
 <span class="target" id="classfeasst_1_1SelectPosition_1a96bcdb2b499ba73649e01a312b96c64e"></span>void <code class="sig-name descname">set_site_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> std::vector&lt;double&gt; <em>coord</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14SelectPosition17set_site_positionEKiKiKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Same as above except vector position is accepted. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst14SelectPosition20add_to_site_positionEKiKiRK8Position">
+<span class="target" id="classfeasst_1_1SelectPosition_1ae44f9e397e75a975e7667f5edc41811d"></span>void <code class="sig-name descname">add_to_site_position</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14SelectPosition20add_to_site_positionEKiKiRK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add to the position of a site by particle and site index. Note that these indices are based on selection, not configuration. </p>
 </dd></dl>
 
 <dl class="function">

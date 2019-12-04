@@ -3,9 +3,10 @@
 
    LnProbability
    Bias
+   WangLandau
+   Constraint
    Macrostate
    FlatHistogram
-   WangLandau
    TripleBandedCollectionMatrix
    TransitionMatrix
    MacrostateNumParticles

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Position &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>Position &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -137,6 +137,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -242,13 +243,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -266,24 +267,17 @@
 <dl class="class">
 <dt id="_CPPv4N6feasst8PositionE">
 <span class="target" id="classfeasst_1_1Position"></span><em class="property">class </em><code class="sig-name descname">Position</code><a class="headerlink" href="#_CPPv4N6feasst8PositionE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Positions are a set of coordinates (abbreviated here as “coord”) in the Euclidean coordinate system. The number of coordinates is the dimensionality of the Euclidean space. </p>
-<p>Subclassed by <a class="reference internal" href="#classfeasst_1_1PositionSpherical"><span class="std std-ref">feasst::PositionSpherical</span></a></p>
+<dd><p>Positions are a set of coordinates (abbreviated here as “coord”) in the Euclidean/Cartesian coordinate system. The number of coordinates is the dimensionality of the Euclidean space. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
 <dt id="_CPPv4N6feasst8Position8PositionERK7argtype">
 <span class="target" id="classfeasst_1_1Position_1a5c524cbad4ea448ab148846df51b094b"></span><code class="sig-name descname">Position</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position8PositionERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">args</span></code>: x: x-coordinate <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">y</span><span class="p">:</span> <span class="n">y</span><span class="o">-</span><span class="n">coordinate</span><span class="o">.</span> <span class="n">Requires</span> <span class="n">explicit</span> <span class="n">x</span><span class="o">.</span>
-
-  <span class="n">z</span><span class="p">:</span> <span class="n">z</span><span class="o">-</span><span class="n">coordinate</span><span class="o">.</span> <span class="n">Requires</span> <span class="n">explicit</span> <span class="n">y</span><span class="o">.</span>
-</pre></div>
-</div>
- </p></li>
+<dd><p>args:<ul class="simple">
+<li><p>x: x-coordinate</p></li>
+<li><p>y: y-coordinate. Requires explicit x.</p></li>
+<li><p>z: z-coordinate. Requires explicit y. </p></li>
 </ul>
-</dd>
-</dl>
 </p>
 </dd></dl>
 
@@ -301,8 +295,32 @@
 
 <dl class="function">
 <dt id="_CPPv4N6feasst8Position10set_vectorERKNSt6vectorIdEE">
-<span class="target" id="classfeasst_1_1Position_1a08d9dbecdc1992d0bd423a0d4e71029f"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<code class="sig-name descname">set_vector</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>doubleVec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position10set_vectorERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Position_1a243e37868602bd0d654956fc7f30bcd6"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<code class="sig-name descname">set_vector</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position10set_vectorERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set position vector. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst8Position18set_from_cartesianERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Position_1a2bc30c0f75d05579a3abf2ece0c8505f"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<code class="sig-name descname">set_from_cartesian</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_cartesianERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set vector given Cartesian coordinates (same as above). </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst8Position18set_from_sphericalERKNSt6vectorIdEE">
+<span class="target" id="classfeasst_1_1Position_1abc26a91c66f4db5e592861053bb90c49"></span><a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<code class="sig-name descname">set_from_spherical</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_sphericalERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set vector given Spherical coordinates (2 or 3-dimensional). Spherical coordinates are defined as follows: The first coordinate is rho &gt;= 0. rho is the distance from origin. The second coordinate is theta. theta is the angle between x-axis and projection of line on x-y axis. In 3D, the third and final coordinate is phi, 0 &lt;= phi &lt;= PI. phi is the angle between z-axis and line. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst8Position18set_from_sphericalEKdKdKd">
+<span class="target" id="classfeasst_1_1Position_1a62863f33566b64f3f3a18aa2441f5f5f"></span>void <code class="sig-name descname">set_from_spherical</code><span class="sig-paren">(</span><em class="property">const</em> double <em>rho</em>, <em class="property">const</em> double <em>theta</em>, <em class="property">const</em> double <em>phi</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_sphericalEKdKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above for 3D. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst8Position18set_from_sphericalEKdKd">
+<span class="target" id="classfeasst_1_1Position_1af65e2766f7b1997f532b2afc908d318a"></span>void <code class="sig-name descname">set_from_spherical</code><span class="sig-paren">(</span><em class="property">const</em> double <em>rho</em>, <em class="property">const</em> double <em>theta</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position18set_from_sphericalEKdKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above for 2D. </p>
 </dd></dl>
 
 <dl class="function">
@@ -315,6 +333,12 @@
 <dt id="_CPPv4N6feasst8Position9set_coordEKiKd">
 <span class="target" id="classfeasst_1_1Position_1adaa201e7fadf2a62cd5b687037b6bc1b"></span>void <code class="sig-name descname">set_coord</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <em class="property">const</em> double <em>coord</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position9set_coordEKiKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set coordinate value of one dimension. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst8Position12add_to_coordEKiKd">
+<span class="target" id="classfeasst_1_1Position_1a4e15e294bb735d7189e03e7668721823"></span>void <code class="sig-name descname">add_to_coord</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <em class="property">const</em> double <em>coord</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst8Position12add_to_coordEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add to coordinate value of one dimension. </p>
 </dd></dl>
 
 <dl class="function">
@@ -438,12 +462,6 @@
 </dd></dl>
 
 </div>
-</dd></dl>
-
-<dl class="class">
-<dt id="_CPPv4N6feasst17PositionSphericalE">
-<span class="target" id="classfeasst_1_1PositionSpherical"></span><em class="property">class </em><code class="sig-name descname">PositionSpherical</code> : <em class="property">public</em> <a class="reference internal" href="constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a><a class="headerlink" href="#_CPPv4N6feasst17PositionSphericalE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Spherical coordinates are defined as follows: The first coordinate is rho &gt;= 0. rho is the distance from origin. The second coordinate is theta. theta is the angle between x-axis and projection of line on x-y axis. The third and final coordinate is phi, 0 &lt;= phi &lt;= PI. phi is the angle between z-axis and line. </p>
 </dd></dl>
 
 <dl class="class">

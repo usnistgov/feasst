@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -80,7 +80,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -202,13 +202,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -283,7 +283,7 @@ Some features include but are not limited to the following:</p>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
      <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/data.lj&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeModelLJ</span><span class="p">()))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
@@ -308,23 +308,17 @@ Some features include but are not limited to the following:</p>
 <ul class="simple">
 <li><p>SWIG is required. Version 3.0.12 is recommended if your current SWIG version does not work properly.</p></li>
 <li><p>Anaconda with Python 3 is recommended.</p></li>
-<li><p>First, it is recommended to make a new python virtual environment.</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 -m venv ~/feasst_env
-<span class="nb">source</span> ~/feasst_env/bin/activate
-pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>In the next step, CMake attempts to find the python libraries.
+<li><p>CMake attempts to find the python libraries during compilation.
 But you may want to specify them manually.</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir /path/to/feasst/build
-<span class="nb">cd</span> /path/to/feasst/build
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
+mkdir feasst/build
+<span class="nb">cd</span> feasst/build
 cmake -DUSE_SWIG<span class="o">=</span>ON ..
 make _feasst -j<span class="nv">$CPU_COUNT</span>
 make install -j<span class="nv">$CPU_COUNT</span>
 python ../py/test.py  <span class="c1"># optional test</span>
+pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -333,19 +327,13 @@ python ../py/test.py  <span class="c1"># optional test</span>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>ON -DSET_PYTHON_PATH<span class="o">=</span>ON -DPYTHON_INCLUDE_DIR<span class="o">=</span>/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY<span class="o">=</span>/path/to/anaconda/lib/libpython3.7m.so ..
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>You can deactivate and delete your python virtual environment as follows:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>deactivate
-rm -r ~/feasst_env  <span class="c1"># if you&#39;d like to reinstall or update</span>
-</pre></div>
-</div>
 </div>
 <div class="section" id="c-install">
 <h4>C++ install<a class="headerlink" href="#c-install" title="Permalink to this headline">¶</a></h4>
 <p>First, install the C++ library.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir /path/to/feasst/build
-<span class="nb">cd</span> /path/to/feasst/build
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
+mkdir feasst/build
+<span class="nb">cd</span> feasst/build
 cmake ..
 make install -j<span class="nv">$CPU_COUNT</span>
 make <span class="nb">test</span>         <span class="c1"># optional test</span>
@@ -371,20 +359,78 @@ But you can also specify the path as follows.</p>
 </div>
 <div class="section" id="troubleshooting-install">
 <h4>Troubleshooting install<a class="headerlink" href="#troubleshooting-install" title="Permalink to this headline">¶</a></h4>
-<div class="section" id="os-x">
-<h5>OS X<a class="headerlink" href="#os-x" title="Permalink to this headline">¶</a></h5>
+<div class="section" id="macos-mojave">
+<h5>macOS Mojave<a class="headerlink" href="#macos-mojave" title="Permalink to this headline">¶</a></h5>
 <ul class="simple">
 <li><p>SWIG (from Homebrew) is likely version 4, which sometimes causes a SEGFAULT when trying to run feasst.
 Try SWIG version 3 instead.</p></li>
 <li><p>Sometimes CMake has trouble finding anaconda, and if you use SET_PYTHON_PATH described above, you may need to look out for the .dylib instead of .so</p></li>
 </ul>
 </div>
-<div class="section" id="centos">
-<h5>CentOS<a class="headerlink" href="#centos" title="Permalink to this headline">¶</a></h5>
+<div class="section" id="centos-7">
+<h5>CentOS 7<a class="headerlink" href="#centos-7" title="Permalink to this headline">¶</a></h5>
 <p>CMake and SWIG versions are usually too old.
-Try cmake3 instead of cmake.
-Otherwise try SWIG 3.</p>
+Try the command cmake3 instead of cmake.
+Otherwise, install SWIG 3.</p>
 </div>
+<div class="section" id="windows-10">
+<h5>Windows 10<a class="headerlink" href="#windows-10" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>Install Windows subsystem for Linux (Ubuntu 16)</p></li>
+<li><p>See Ubuntu 16</p></li>
+</ul>
+</div>
+<div class="section" id="ubuntu-16">
+<h5>Ubuntu 16<a class="headerlink" href="#ubuntu-16" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>Update to CMake 3 (<a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a>)</p></li>
+<li><p>sudo apt install swig</p></li>
+</ul>
+</div>
+<div class="section" id="ubuntu-18">
+<h5>Ubuntu 18<a class="headerlink" href="#ubuntu-18" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>We are not aware of any issues with an Ubuntu 18 install.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="build-from-docker">
+<h3>Build from Docker<a class="headerlink" href="#build-from-docker" title="Permalink to this headline">¶</a></h3>
+<p>Installation via <a class="reference external" href="docker.io">Docker</a> is an alternative if you are experiencing installation issues.
+Unfortunately there is a performance penalty using this method.</p>
+<p>First, install docker</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Ubuntu: <cite>apt install docker</cite></p></li>
+<li><p>macOS: download and install Docker Desktop.</p></li>
+<li><p>CentOS: <cite>yum install docker</cite></p></li>
+</ul>
+</div></blockquote>
+<p>On a mac, run Docker.app, login, startup and skip this step.
+Otherwise, start docker and create a <a class="reference external" href="https://docs.docker.com/install/linux/linux-postinstall/">docker group</a> to avoid root.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo service docker start
+sudo groupadd docker
+sudo usermod -aG docker <span class="nv">$USER</span>
+newgrp docker
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
+docker build -t hhatch/feasst:firsttry feasst/
+</pre></div>
+</div>
+<p>Alternatively you could pull feasst from docker hub (version may be old):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull hhatch/feasst:firsttry
+</pre></div>
+</div>
+<p>Then you can interactively run feasst via</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/scripts:/mnt/scripts -it hhatch/feasst:firsttry
+<span class="nb">cd</span> /mnt/scripts
+</pre></div>
+</div>
+<p>Or with <cite>~/notebooks</cite></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/notebooks:/mnt/notebooks -i -t -p <span class="m">8888</span>:8888 hhatch/feasst:firsttry /bin/bash -c <span class="s2">&quot;jupyter notebook --notebook-dir=/mnt/notebooks --ip=&#39;*&#39; --port=8888 --no-browser --allow-root&quot;</span>
+</pre></div>
 </div>
 </div>
 <div class="section" id="contact">
@@ -438,12 +484,16 @@ Otherwise try SWIG 3.</p>
 <li class="toctree-l3"><a class="reference internal" href="README.html#python-install">Python install</a></li>
 <li class="toctree-l3"><a class="reference internal" href="README.html#c-install">C++ install</a></li>
 <li class="toctree-l3"><a class="reference internal" href="README.html#troubleshooting-install">Troubleshooting install</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="README.html#os-x">OS X</a></li>
-<li class="toctree-l4"><a class="reference internal" href="README.html#centos">CentOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="README.html#macos-mojave">macOS Mojave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="README.html#centos-7">CentOS 7</a></li>
+<li class="toctree-l4"><a class="reference internal" href="README.html#windows-10">Windows 10</a></li>
+<li class="toctree-l4"><a class="reference internal" href="README.html#ubuntu-16">Ubuntu 16</a></li>
+<li class="toctree-l4"><a class="reference internal" href="README.html#ubuntu-18">Ubuntu 18</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#build-from-docker">Build from Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#contact">Contact</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="README.html#project-lead">Project lead</a></li>
 <li class="toctree-l3"><a class="reference internal" href="README.html#bug-reporting">Bug reporting</a></li>
@@ -474,6 +524,7 @@ Otherwise try SWIG 3.</p>
 <li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/CustomException.html">CustomException</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/utils.html">utils/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/debug.html">utils/include/debug</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/utils/doc/utils_io.html">utils/include/utils_io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/utils/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -524,21 +575,23 @@ Otherwise try SWIG 3.</p>
 <li class="toctree-l3"><a class="reference internal" href="plugin/system/README.html#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/physical_constants.html">system/include/physical_constants</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Model.html">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/EnergyMap.html">EnergyMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/SelectList.html">SelectList</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModel.html">VisitModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBody.html">ModelTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/HardSphere.html">HardSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LennardJones.html">LennardJones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Potential.html">Potential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/PotentialFactory.html">PotentialFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/System.html">System</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelEmpty.html">ModelEmpty</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBody.html">ModelTwoBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelLJ.html">ModelLJ</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelHardSphere.html">ModelHardSphere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelThreeBody.html">ModelThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelIntra.html">VisitModelIntra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/SelectList.html">SelectList</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Potential.html">Potential</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/PotentialFactory.html">PotentialFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/System.html">System</a></li>
 </ul>
 </li>
 </ul>
@@ -554,39 +607,39 @@ Otherwise try SWIG 3.</p>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Tunable.html">Tunable</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Stepper.html">Stepper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Acceptance.html">Acceptance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Criteria.html">Criteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Metropolis.html">Metropolis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelect.html">TrialSelect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectBond.html">TrialSelectBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Perturb.html">Perturb</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbConfigs.html">PerturbConfigs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistance.html">PerturbDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbRemove.html">PerturbRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbConfigs.html">PerturbConfigs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Trial.html">Trial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialFactory.html">TrialFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Modify.html">Modify</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Analyze.html">Analyze</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/AnalyzeFactory.html">AnalyzeFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialRemove.html">TrialRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Modify.html">Modify</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeMove.html">TrialComputeMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialMove.html">TrialMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialTranslate.html">TrialTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialRotate.html">TrialRotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/MonteCarlo.html">MonteCarlo</a></li>
 </ul>
 </li>
@@ -602,24 +655,27 @@ Otherwise try SWIG 3.</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/models/README.html">Models</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/ModelYukawa.html">ModelYukawa</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/ModelSquareWell.html">ModelSquareWell</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/ModelLJAlpha.html">ModelLJAlpha</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/EnergyAtCutoff.html">EnergyAtCutoff</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/EnergyDerivAtCutoff.html">EnergyDerivAtCutoff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/SquareWell.html">SquareWell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/Yukawa.html">Yukawa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/LennardJonesAlpha.html">LennardJonesAlpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/LennardJonesCutShift.html">LennardJonesCutShift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/models/doc/LennardJonesForceShift.html">LennardJonesForceShift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/models/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/steppers/README.html">Steppers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Energy.html">Energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/NumParticles.html">NumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Log.html">Log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CriteriaWriter.html">CriteriaWriter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Check.html">Check</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckEnergy.html">CheckEnergy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/WallClockLimit.html">WallClockLimit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Tuner.html">Tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/MeanSquaredDisplacement.html">MeanSquaredDisplacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Movie.html">Movie</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/NumParticles.html">NumParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Energy.html">Energy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Log.html">Log</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -632,15 +688,17 @@ Otherwise try SWIG 3.</p>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/README.html#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/LnProbability.html">LnProbability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/Bias.html">Bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/WangLandau.html">WangLandau</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/Macrostate.html">Macrostate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/FlatHistogram.html">FlatHistogram</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/WangLandau.html">WangLandau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/TransitionMatrix.html">TransitionMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/MacrostateNumParticles.html">MacrostateNumParticles</a></li>
@@ -650,6 +708,7 @@ Otherwise try SWIG 3.</p>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/patch/README.html">Patch</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/PatchAngle.html">PatchAngle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/patch/doc/VisitModelInnerPatch.html">VisitModelInnerPatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/patch/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -697,18 +756,38 @@ Otherwise try SWIG 3.</p>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/egce/README.html">Expanded Grand Canonical Ensemble</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/egce/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/egce/README.html#api">API</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/ewald/README.html">Ewald</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/doc/ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/doc/ChargeScreened.html">ChargeScreened</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/doc/ChargeSelf.html">ChargeSelf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/doc/Ewald.html">Ewald</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/doc/utils_ewald.html">ewald/include/utils_ewald</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/ewald/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/README.html#api">API</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="plugin/ewald/README.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/ewald/doc/ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/ewald/doc/ChargeScreened.html">ChargeScreened</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/ewald/doc/ChargeSelf.html">ChargeSelf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/ewald/doc/Ewald.html">Ewald</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/ewald/doc/utils_ewald.html">ewald/include/utils_ewald</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/growth_expanded/README.html">Growth expanded</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/growth_expanded/doc/TrialComputeGrowAdd.html">TrialComputeGrowAdd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/growth_expanded/doc/MacrostateGrowthExpanded.html">MacrostateGrowthExpanded</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/growth_expanded/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/pipeline/README.html">Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/pipeline/doc/Pool.html">Pool</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/pipeline/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>

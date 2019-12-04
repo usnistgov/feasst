@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Group &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>Group &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -144,6 +144,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -249,13 +250,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -272,7 +273,7 @@
 <h1>Group<a class="headerlink" href="#group" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="_CPPv4N6feasst5GroupE">
-<span class="target" id="classfeasst_1_1Group"></span><em class="property">class </em><code class="sig-name descname">Group</code> : <em class="property">public</em> <a class="reference internal" href="../../math/doc/constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv4N6feasst5GroupE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Group"></span><em class="property">class </em><code class="sig-name descname">Group</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv4N6feasst5GroupE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Define groups based on particle and site types. In the future, other metrics may be used, such as position-based ones, etc. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -280,6 +281,12 @@
 <dt id="_CPPv4N6feasst5Group11set_dynamicEv">
 <span class="target" id="classfeasst_1_1Group_1a196b47711d83b657b3180ef23a4c79c1"></span>void <code class="sig-name descname">set_dynamic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Group11set_dynamicEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Dynamic groups indicate that they should be updated (default behavior). </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4NK6feasst5Group7dynamicEv">
+<span class="target" id="classfeasst_1_1Group_1a68614a5292077c79c4684eb54409ab80"></span>bool <code class="sig-name descname">dynamic</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Group7dynamicEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if dynamic. </p>
 </dd></dl>
 
 <dl class="function">

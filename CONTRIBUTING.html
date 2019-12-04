@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contributing &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>Contributing &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -242,13 +242,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -560,6 +560,9 @@ compatibility.</p></li>
 <li><p>swig python wrap arguments std::istream and std::ostream for serialization</p></li>
 <li><p>add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects</p></li>
 <li><p>Refactor Select classes. There are too many, and VisitModels may prefer to update select properties (e.g., cell, eik)</p></li>
+<li><p>Jupyter notebook output should go to cells, not terminal that runs jupyter.</p></li>
+<li><p>implement gibbs ensemble</p></li>
+<li><p>lint file_[xyz,lmp]</p></li>
 </ul>
 </div>
 </div>

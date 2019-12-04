@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ModelExample &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>ModelExample &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -131,6 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -236,13 +237,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -259,14 +260,14 @@
 <h1>ModelExample<a class="headerlink" href="#modelexample" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="_CPPv4N6feasst12ModelExampleE">
-<span class="target" id="classfeasst_1_1ModelExample"></span><em class="property">class </em><code class="sig-name descname">ModelExample</code> : <em class="property">public</em> <a class="reference internal" href="../../math/doc/constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst12ModelExampleE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1ModelExample"></span><em class="property">class </em><code class="sig-name descname">ModelExample</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst12ModelExampleE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>This is an example template for implementing your own custom <a class="reference internal" href="../../system/doc/Model.html#classfeasst_1_1Model"><span class="std std-ref">Model</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
 <dt id="_CPPv4NK6feasst12ModelExample6energyEKdKiKiRK11ModelParams">
 <span class="target" id="classfeasst_1_1ModelExample_1ad5d1973b50b02b487566bd3304df3a3d"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> double <em>squared_distance</em>, <em class="property">const</em> int <em>type1</em>, <em class="property">const</em> int <em>type2</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12ModelExample6energyEKdKiKiRK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>The energy between two site types depends upon the distance between them and the model parameters. See existing Models, such as <a class="reference internal" href="../../system/doc/ModelLJ.html#classfeasst_1_1ModelLJ"><span class="std std-ref">ModelLJ</span></a> or <a class="reference internal" href="../../models/doc/EnergyAtCutoff.html#classfeasst_1_1ModelLJCutShift"><span class="std std-ref">ModelLJCutShift</span></a> for inspiration. </p>
+<dd><p>The energy between two site types depends upon the distance between them and the model parameters. See existing Models, such as ModelLJ or ModelLJCutShift for inspiration. </p>
 </dd></dl>
 
 <dl class="function">

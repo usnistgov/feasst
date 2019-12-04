@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Potential &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>Potential &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="PotentialFactory" href="PotentialFactory.html" />
-    <link rel="prev" title="SelectList" href="SelectList.html" />
+    <link rel="prev" title="LennardJones" href="LennardJones.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -118,21 +118,23 @@
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="physical_constants.html">system/include/physical_constants</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectList.html">SelectList</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HardSphere.html">HardSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="LennardJones.html">LennardJones</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Potential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelLJ.html">ModelLJ</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelHardSphere.html">ModelHardSphere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SelectList.html">SelectList</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Potential</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 </ul>
 </li>
 </ul>
@@ -147,6 +149,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -252,13 +255,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -276,7 +279,7 @@
 <dl class="class">
 <dt id="_CPPv4N6feasst9PotentialE">
 <span class="target" id="classfeasst_1_1Potential"></span><em class="property">class </em><code class="sig-name descname">Potential</code><a class="headerlink" href="#_CPPv4N6feasst9PotentialE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>A potential represents both the model and the method used to compute the model (e.g., <a class="reference internal" href="VisitModelInner.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>) for a given <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. A potential also allows customization of the model parameters templated but separate from those in the <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. </p>
+<dd><p>A potential represents both the model and the method used to compute the model (e.g., <a class="reference internal" href="VisitModel.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>) for a given <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. A potential also allows customization of the model parameters templated but separate from those in the <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
@@ -293,13 +296,13 @@
 
 <dl class="function">
 <dt id="_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI10VisitModelEE">
-<span class="target" id="classfeasst_1_1Potential_1ae5972e966b21b66eaca9b2f9e1d4d853"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="VisitModelInner.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a>&gt; <em>visit_model</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI10VisitModelEE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Potential_1ae5972e966b21b66eaca9b2f9e1d4d853"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a>&gt; <em>visit_model</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI10VisitModelEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct with given visitor and empty model. </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI5ModelEENSt10shared_ptrI10VisitModelEE">
-<span class="target" id="classfeasst_1_1Potential_1a3f7a497370db458d06f04d03911c7871"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a>&gt; <em>model</em>, std::shared_ptr&lt;<a class="reference internal" href="VisitModelInner.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a>&gt; <em>visit_model</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI5ModelEENSt10shared_ptrI10VisitModelEE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Potential_1a3f7a497370db458d06f04d03911c7871"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a>&gt; <em>model</em>, std::shared_ptr&lt;<a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a>&gt; <em>visit_model</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI5ModelEENSt10shared_ptrI10VisitModelEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct with given model and visitor. </p>
 </dd></dl>
 
@@ -311,19 +314,19 @@
 
 <dl class="function">
 <dt id="_CPPv4NK6feasst9Potential5modelEv">
-<span class="target" id="classfeasst_1_1Potential_1a2e01f540b91306b51b969daa886217ec"></span><em class="property">const</em> std::shared_ptr&lt;<a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a>&gt; <code class="sig-name descname">model</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential5modelEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Potential_1afb9cfea1274280520116a2e468aecb19"></span><em class="property">const</em> <a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a> *<code class="sig-name descname">model</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential5modelEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the model. </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv4N6feasst9Potential15set_visit_modelENSt10shared_ptrI10VisitModelEE">
-<span class="target" id="classfeasst_1_1Potential_1af64fd568cb76d2b90cb5c86ddc1ae4a6"></span>void <code class="sig-name descname">set_visit_model</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="VisitModelInner.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a>&gt; <em>visit_model</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential15set_visit_modelENSt10shared_ptrI10VisitModelEE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Potential_1af64fd568cb76d2b90cb5c86ddc1ae4a6"></span>void <code class="sig-name descname">set_visit_model</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a>&gt; <em>visit_model</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential15set_visit_modelENSt10shared_ptrI10VisitModelEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the method used to compute. </p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv4NK6feasst9Potential11visit_modelEv">
-<span class="target" id="classfeasst_1_1Potential_1a08918905eee54132240f37088457f9e8"></span><em class="property">const</em> std::shared_ptr&lt;<a class="reference internal" href="VisitModelInner.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a>&gt; <code class="sig-name descname">visit_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential11visit_modelEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Potential_1a57a63ac0f4e59ade461520848a5ff4bb"></span><em class="property">const</em> <a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<code class="sig-name descname">visit_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential11visit_modelEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the method used to compute. </p>
 </dd></dl>
 
@@ -445,7 +448,7 @@
         <a href="PotentialFactory.html" class="btn btn-neutral float-right" title="PotentialFactory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="SelectList.html" class="btn btn-neutral float-left" title="SelectList" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="LennardJones.html" class="btn btn-neutral float-left" title="LennardJones" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

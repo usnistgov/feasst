@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Properties &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>Properties &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -144,6 +144,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -249,13 +250,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -325,8 +326,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv4NK6feasst10Properties14property_valueEv">
-<span class="target" id="classfeasst_1_1Properties_1a00be78b1ed39ebd9dcfa8c8c728ddfb3"></span><em class="property">const</em> std::vector&lt;double&gt; &amp;<code class="sig-name descname">property_value</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Properties14property_valueEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst10Properties6valuesEv">
+<span class="target" id="classfeasst_1_1Properties_1af84b27fbe795a49241fab7ada425a4c2"></span><em class="property">const</em> std::vector&lt;double&gt; &amp;<code class="sig-name descname">values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Properties6valuesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return all property values. </p>
 </dd></dl>
 
@@ -348,13 +349,19 @@
 <dd><p>Return the number of properties. </p>
 </dd></dl>
 
+<dl class="function">
+<dt id="_CPPv4NK6feasst10Properties8is_equalERK10Properties">
+<span class="target" id="classfeasst_1_1Properties_1a17ae42379ba422631aa5efd2c0b2950e"></span>bool <code class="sig-name descname">is_equal</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>properties</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Properties8is_equalERK10Properties" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if the properties are equivalent. </p>
+</dd></dl>
+
 </div>
 </dd></dl>
 
 <dl class="class">
 <dt id="_CPPv4N6feasst16PropertiedEntityE">
 <span class="target" id="classfeasst_1_1PropertiedEntity"></span><em class="property">class </em><code class="sig-name descname">PropertiedEntity</code><a class="headerlink" href="#_CPPv4N6feasst16PropertiedEntityE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Subclassed by <a class="reference internal" href="Bond.html#classfeasst_1_1Bond"><span class="std std-ref">feasst::Bond</span></a>, <a class="reference internal" href="Cells.html#classfeasst_1_1Cells"><span class="std std-ref">feasst::Cells</span></a>, <a class="reference internal" href="Group.html#classfeasst_1_1Group"><span class="std std-ref">feasst::Group</span></a>, <a class="reference internal" href="ModelParam.html#classfeasst_1_1ModelParams"><span class="std std-ref">feasst::ModelParams</span></a>, <a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">feasst::Site</span></a>, <a class="reference internal" href="../../monte_carlo/doc/TrialSelect.html#classfeasst_1_1TrialSelect"><span class="std std-ref">feasst::TrialSelect</span></a></p>
+<dd><p>Subclassed by <a class="reference internal" href="Bond.html#classfeasst_1_1Bond"><span class="std std-ref">feasst::Bond</span></a>, <a class="reference internal" href="Cells.html#classfeasst_1_1Cells"><span class="std std-ref">feasst::Cells</span></a>, <a class="reference internal" href="Group.html#classfeasst_1_1Group"><span class="std std-ref">feasst::Group</span></a>, <a class="reference internal" href="ModelParam.html#classfeasst_1_1ModelParams"><span class="std std-ref">feasst::ModelParams</span></a>, <a class="reference internal" href="Particle.html#classfeasst_1_1Particle"><span class="std std-ref">feasst::Particle</span></a>, <a class="reference internal" href="Site.html#classfeasst_1_1Site"><span class="std std-ref">feasst::Site</span></a>, <a class="reference internal" href="../../monte_carlo/doc/TrialSelect.html#classfeasst_1_1TrialSelect"><span class="std std-ref">feasst::TrialSelect</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
@@ -416,12 +423,6 @@
 </dd>
 </dl>
 </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv4NK6feasst16PropertiedEntity5checkEv">
-<span class="target" id="classfeasst_1_1PropertiedEntity_1aa5472ff256e8a1afe9bc660693d55a30"></span><em class="property">virtual</em> void <code class="sig-name descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16PropertiedEntity5checkEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="../../steppers/doc/Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> the properties. </p>
 </dd></dl>
 
 </div>

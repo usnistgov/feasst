@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>math/include/utils_math &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>math/include/utils_math &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -137,6 +137,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -242,13 +243,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -266,7 +267,9 @@
 <dl class="type">
 <dt id="_CPPv46feasst">
 <span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><br /></dt>
-<dd><div class="breathe-sectiondef docutils container">
+<dd><p>Utility functions for serialization of objects into human-readable character streams. Each serialization function has an accompying deserialization function which performs the inverse operation.</p>
+<p>Note that some deserialization functions of derived objects do not work as the commented templates. But when the source code is copied to the specific object’s deserialization function, then it does work, for unknown reasons. </p>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Functions</p>
 <dl class="function">
 <dt id="_CPPv4N6feasst5roundEd">
@@ -299,6 +302,30 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="_CPPv4I0EN6feasst3sumE1TRKNSt6vectorI1TEE">
+<span class="target" id="namespacefeasst_1a0faa49341332fb8c3853265d3503c644"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst3sumE1TRKNSt6vectorI1TEE" title="feasst::sum::T">T</a> <code class="sig-name descname">sum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst3sumE1TRKNSt6vectorI1TEE" title="feasst::sum::T">T</a>&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst3sumE1TRKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the sum of all elements in a vector. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4I0EN6feasst3sumE1TRKNSt6vectorINSt6vectorI1TEEEE">
+<span class="target" id="namespacefeasst_1aa51ce44774ce00d3a37b7927026d9274"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst3sumE1TRKNSt6vectorI1TEE" title="feasst::sum::T">T</a> <code class="sig-name descname">sum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst3sumE1TRKNSt6vectorI1TEE" title="feasst::sum::T">T</a>&gt;&gt; &amp;<em>vec2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst3sumE1TRKNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the sum of all elements in a 2D vector. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4I0EN6feasst3sumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE">
+<span class="target" id="namespacefeasst_1a56db5e0b2b2af3eb71f85a226e1c412e"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst3sumE1TRKNSt6vectorI1TEE" title="feasst::sum::T">T</a> <code class="sig-name descname">sum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst3sumE1TRKNSt6vectorI1TEE" title="feasst::sum::T">T</a>&gt;&gt;&gt; &amp;<em>vec3</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst3sumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the sum of all elements in a 3D vector. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4I0EN6feasst3sumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE">
+<span class="target" id="namespacefeasst_1a4341a512499da306499c90c0e199dc4b"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst3sumE1TRKNSt6vectorI1TEE" title="feasst::sum::T">T</a> <code class="sig-name descname">sum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst3sumE1TRKNSt6vectorI1TEE" title="feasst::sum::T">T</a>&gt;&gt;&gt;&gt; &amp;<em>vec4</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst3sumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the sum of all elements in a 4D vector. </p>
+</dd></dl>
+
+<dl class="function">
 <dt id="_CPPv4I0EN6feasst21local_minimum_indicesENSt6vectorIiEERKNSt6vectorI1TEEKi">
 <span class="target" id="namespacefeasst_1a7403da05cc3dc3461a6d55949fc64266"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />std::vector&lt;int&gt; <code class="sig-name descname">local_minimum_indices</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst21local_minimum_indicesENSt6vectorIiEERKNSt6vectorI1TEEKi" title="feasst::local_minimum_indices::T">T</a>&gt; &amp;<em>vec</em>, <em class="property">const</em> int <em>num_smooth</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst21local_minimum_indicesENSt6vectorIiEERKNSt6vectorI1TEEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the minimum element of a 2D vector with smoothing. The returned indices must be global minimum between +/- num_smooth. </p>
@@ -317,14 +344,14 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv4I0EN6feasst9fst_unionENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE">
-<span class="target" id="namespacefeasst_1a1a20db9dba8c35e83ea91df2f0490cb9"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst9fst_unionENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="feasst::fst_union::T">T</a>&gt; <code class="sig-name descname">fst_union</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst9fst_unionENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="feasst::fst_union::T">T</a>&gt; &amp;<em>vec1</em>, <em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst9fst_unionENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="feasst::fst_union::T">T</a>&gt; &amp;<em>vec2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst9fst_unionENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I0EN6feasst12feasst_unionENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE">
+<span class="target" id="namespacefeasst_1ac15b7b50ba448359a87115a6cbd40002"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst12feasst_unionENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="feasst::feasst_union::T">T</a>&gt; <code class="sig-name descname">feasst_union</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst12feasst_unionENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="feasst::feasst_union::T">T</a>&gt; &amp;<em>vec1</em>, <em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst12feasst_unionENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="feasst::feasst_union::T">T</a>&gt; &amp;<em>vec2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst12feasst_unionENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute the union of two vectors. </p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv4I0EN6feasst14fst_differenceENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE">
-<span class="target" id="namespacefeasst_1a30e0483188bbcdc1dec8f84712331239"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst14fst_differenceENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="feasst::fst_difference::T">T</a>&gt; <code class="sig-name descname">fst_difference</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst14fst_differenceENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="feasst::fst_difference::T">T</a>&gt; &amp;<em>vec1</em>, <em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst14fst_differenceENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="feasst::fst_difference::T">T</a>&gt; &amp;<em>vec2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst14fst_differenceENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I0EN6feasst17feasst_differenceENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE">
+<span class="target" id="namespacefeasst_1a6cd60fd9bae28ceba424320e7cfc0dab"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst17feasst_differenceENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="feasst::feasst_difference::T">T</a>&gt; <code class="sig-name descname">feasst_difference</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst17feasst_differenceENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="feasst::feasst_difference::T">T</a>&gt; &amp;<em>vec1</em>, <em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst17feasst_differenceENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="feasst::feasst_difference::T">T</a>&gt; &amp;<em>vec2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst17feasst_differenceENSt6vectorI1TEERKNSt6vectorI1TEERKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute the difference of two vectors. </p>
 </dd></dl>
 

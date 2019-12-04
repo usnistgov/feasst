@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>CheckEnergy &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>CheckEnergy &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -117,15 +117,18 @@
 <li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Steppers</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Energy.html">Energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NumParticles.html">NumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Check.html">Check</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">CheckEnergy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="WallClockLimit.html">WallClockLimit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tuner.html">Tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html">MeanSquaredDisplacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Movie.html">Movie</a></li>
-<li class="toctree-l3"><a class="reference internal" href="NumParticles.html">NumParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Energy.html">Energy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -135,6 +138,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -240,13 +244,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -263,20 +267,23 @@
 <h1>CheckEnergy<a class="headerlink" href="#checkenergy" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="_CPPv4N6feasst11CheckEnergyE">
-<span class="target" id="classfeasst_1_1CheckEnergy"></span><em class="property">class </em><code class="sig-name descname">CheckEnergy</code> : <em class="property">public</em> <a class="reference internal" href="../../math/doc/constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Modify.html#_CPPv4N6feasst16ModifyUpdateOnlyE" title="feasst::ModifyUpdateOnly">ModifyUpdateOnly</a><a class="headerlink" href="#_CPPv4N6feasst11CheckEnergyE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1CheckEnergy"></span><em class="property">class </em><code class="sig-name descname">CheckEnergy</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Modify.html#_CPPv4N6feasst16ModifyUpdateOnlyE" title="feasst::ModifyUpdateOnly">ModifyUpdateOnly</a><a class="headerlink" href="#_CPPv4N6feasst11CheckEnergyE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="Check.html#classfeasst_1_1Check"><span class="std std-ref">Check</span></a> that the running energy from criteria is equivalent, within tolerance, to an (unoptimized) calculation over the entire configuration. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
 <dt id="_CPPv4N6feasst11CheckEnergy11CheckEnergyERK7argtype">
 <span class="target" id="classfeasst_1_1CheckEnergy_1abb1b15a6d1bb6589605312a592483ef2"></span><code class="sig-name descname">CheckEnergy</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11CheckEnergy11CheckEnergyERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">args</span></code>: tolerance : relative absolute difference between running energy and recomputed energy (default: 1e-10). </p></li>
+<dd><p>args:<ul class="simple">
+<li><p>tolerance: relative absolute difference between running energy and recomputed energy (default: 1e-10). </p></li>
 </ul>
-</dd>
-</dl>
 </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst11CheckEnergy6updateEP8CriteriaP6SystemP12TrialFactory">
+<span class="target" id="classfeasst_1_1CheckEnergy_1a9757214b2276143cc4d3dac036aa0744"></span>void <code class="sig-name descname">update</code><span class="sig-paren">(</span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a> *<em>trial_factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11CheckEnergy6updateEP8CriteriaP6SystemP12TrialFactory" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Perform update action. </p>
 </dd></dl>
 
 </div>

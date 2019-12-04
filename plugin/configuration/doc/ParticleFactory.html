@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ParticleFactory &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>ParticleFactory &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -144,6 +144,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -249,13 +250,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -456,6 +457,24 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="_CPPv4N6feasst15ParticleFactory12add_propertyEKNSt6stringEKdKi">
+<span class="target" id="classfeasst_1_1ParticleFactory_1ae24c9e20e43e9bf109c833f76441bb7e"></span>void <code class="sig-name descname">add_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory12add_propertyEKNSt6stringEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add particle property. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst15ParticleFactory12add_propertyEKNSt6stringEKd">
+<span class="target" id="classfeasst_1_1ParticleFactory_1ae47489c2059dd8e235ca9caca80692e2"></span>void <code class="sig-name descname">add_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory12add_propertyEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add property to all particles. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst15ParticleFactory12set_propertyEKNSt6stringEKdKi">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a37fe392e3166dd3eb4bb528aadf4bc87"></span>void <code class="sig-name descname">set_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory12set_propertyEKNSt6stringEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set particle property. </p>
+</dd></dl>
+
+<dl class="function">
 <dt id="_CPPv4N6feasst15ParticleFactory17add_site_propertyEKNSt6stringEKdKiKi">
 <span class="target" id="classfeasst_1_1ParticleFactory_1a3e20d7faf0633d75e84777b8a7ee9a37"></span>void <code class="sig-name descname">add_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory17add_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add the property of sites in a particle. </p>
@@ -471,6 +490,12 @@
 <dt id="_CPPv4N6feasst15ParticleFactory17set_site_propertyEKNSt6stringEKdKiKi">
 <span class="target" id="classfeasst_1_1ParticleFactory_1afb940058db74af7873e10e16569c6203"></span>void <code class="sig-name descname">set_site_property</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory17set_site_propertyEKNSt6stringEKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the property of sites in a particle. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst15ParticleFactory17set_site_propertyEKiKdKiKi">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a1b0c6252a8fa5bdcca7a01bb0e682ecb"></span>void <code class="sig-name descname">set_site_property</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> double <em>value</em>, <em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory17set_site_propertyEKiKdKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the property of sites in a particle by index instead of name. </p>
 </dd></dl>
 
 </div>

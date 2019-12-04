@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Log &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>Log &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="CriteriaWriter" href="CriteriaWriter.html" />
-    <link rel="prev" title="Energy" href="Energy.html" />
+    <link rel="prev" title="NumParticles" href="NumParticles.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -117,15 +117,18 @@
 <li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Steppers</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Energy.html">Energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NumParticles.html">NumParticles</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Check.html">Check</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="WallClockLimit.html">WallClockLimit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tuner.html">Tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html">MeanSquaredDisplacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Movie.html">Movie</a></li>
-<li class="toctree-l3"><a class="reference internal" href="NumParticles.html">NumParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Energy.html">Energy</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Log</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -135,6 +138,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -240,13 +244,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -263,8 +267,23 @@
 <h1>Log<a class="headerlink" href="#log" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="_CPPv4N6feasst3LogE">
-<span class="target" id="classfeasst_1_1Log"></span><em class="property">class </em><code class="sig-name descname">Log</code> : <em class="property">public</em> <a class="reference internal" href="../../math/doc/constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst16AnalyzeWriteOnlyE" title="feasst::AnalyzeWriteOnly">AnalyzeWriteOnly</a><a class="headerlink" href="#_CPPv4N6feasst3LogE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Log"></span><em class="property">class </em><code class="sig-name descname">Log</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst16AnalyzeWriteOnlyE" title="feasst::AnalyzeWriteOnly">AnalyzeWriteOnly</a><a class="headerlink" href="#_CPPv4N6feasst3LogE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Periodically print the status of the <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> and Trials, typically in a one line format with header. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv4N6feasst3Log10initializeEPK8CriteriaRK6SystemRK12TrialFactory">
+<span class="target" id="classfeasst_1_1Log_1aa119eeb540472ddb9cdba512fcf6bc3c"></span>void <code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a> &amp;<em>trial_factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst3Log10initializeEPK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize and precompute before trials. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst3Log5writeEPK8CriteriaRK6SystemRK12TrialFactory">
+<span class="target" id="classfeasst_1_1Log_1a3e475393c2cc0e925e27bb9908349b5e"></span>std::string <code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/TrialFactory.html#_CPPv4N6feasst12TrialFactoryE" title="feasst::TrialFactory">TrialFactory</a> &amp;<em>trial_factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst3Log5writeEPK8CriteriaRK6SystemRK12TrialFactory" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Perform write action. </p>
+</dd></dl>
+
+</div>
 </dd></dl>
 
 </div>
@@ -280,7 +299,7 @@
         <a href="CriteriaWriter.html" class="btn btn-neutral float-right" title="CriteriaWriter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Energy.html" class="btn btn-neutral float-left" title="Energy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="NumParticles.html" class="btn btn-neutral float-left" title="NumParticles" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

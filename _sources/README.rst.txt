@@ -87,38 +87,25 @@ Python install
 
 * Anaconda with Python 3 is recommended.
 
-* First, it is recommended to make a new python virtual environment.
-
-.. code-block:: bash
-
-    python3 -m venv ~/feasst_env
-    source ~/feasst_env/bin/activate
-    pip install jupyter matplotlib pandas scipy # for tutorials
-
-* In the next step, CMake attempts to find the python libraries.
+* CMake attempts to find the python libraries during compilation.
   But you may want to specify them manually.
 
 .. code-block:: bash
 
-    mkdir /path/to/feasst/build
-    cd /path/to/feasst/build
+    git clone https://github.com/usnistgov/feasst.git
+    mkdir feasst/build
+    cd feasst/build
     cmake -DUSE_SWIG=ON ..
     make _feasst -j$CPU_COUNT
     make install -j$CPU_COUNT
     python ../py/test.py  # optional test
+    pip install jupyter matplotlib pandas scipy # for tutorials
 
 * For manually setting the python path.
 
 .. code-block:: bash
 
     cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY=/path/to/anaconda/lib/libpython3.7m.so ..
-
-* You can deactivate and delete your python virtual environment as follows:
-
-.. code-block:: bash
-
-    deactivate
-    rm -r ~/feasst_env  # if you'd like to reinstall or update
 
 C++ install
 ----------------
@@ -127,8 +114,9 @@ First, install the C++ library.
 
 .. code-block:: bash
 
-    mkdir /path/to/feasst/build
-    cd /path/to/feasst/build
+    git clone https://github.com/usnistgov/feasst.git
+    mkdir feasst/build
+    cd feasst/build
     cmake ..
     make install -j$CPU_COUNT
     make test         # optional test
@@ -159,20 +147,83 @@ Later, when you build your tutorial executable, if your build directory is not `
 Troubleshooting install
 ------------------------
 
-OS X
-~~~~~~~~
+macOS Mojave
+~~~~~~~~~~~~~~
 
 * SWIG (from Homebrew) is likely version 4, which sometimes causes a SEGFAULT when trying to run feasst.
   Try SWIG version 3 instead.
 
 * Sometimes CMake has trouble finding anaconda, and if you use SET_PYTHON_PATH described above, you may need to look out for the .dylib instead of .so
 
-CentOS
+CentOS 7
 ~~~~~~~~~
 
 CMake and SWIG versions are usually too old.
-Try cmake3 instead of cmake.
-Otherwise try SWIG 3.
+Try the command cmake3 instead of cmake.
+Otherwise, install SWIG 3.
+
+Windows 10
+~~~~~~~~~~~
+
+* Install Windows subsystem for Linux (Ubuntu 16)
+* See Ubuntu 16
+
+Ubuntu 16
+~~~~~~~~~~
+
+* Update to CMake 3 (https://cmake.org/download/)
+* sudo apt install swig
+
+Ubuntu 18
+~~~~~~~~~~~~
+
+* We are not aware of any issues with an Ubuntu 18 install.
+
+Build from Docker
+===================
+
+Installation via `Docker <docker.io>`_ is an alternative if you are experiencing installation issues.
+Unfortunately there is a performance penalty using this method.
+
+First, install docker
+
+ * Ubuntu: `apt install docker`
+ * macOS: download and install Docker Desktop.
+ * CentOS: `yum install docker`
+
+On a mac, run Docker.app, login, startup and skip this step.
+Otherwise, start docker and create a `docker group <https://docs.docker.com/install/linux/linux-postinstall/>`_ to avoid root.
+
+.. code-block:: bash
+
+    sudo service docker start
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+    newgrp docker
+
+.. code-block:: bash
+
+    git clone https://github.com/usnistgov/feasst.git
+    docker build -t hhatch/feasst:firsttry feasst/
+
+Alternatively you could pull feasst from docker hub (version may be old):
+
+.. code-block:: bash
+
+    docker pull hhatch/feasst:firsttry
+
+Then you can interactively run feasst via
+
+.. code-block:: bash
+
+    docker run -v ~/scripts:/mnt/scripts -it hhatch/feasst:firsttry
+    cd /mnt/scripts
+
+Or with `~/notebooks`
+
+.. code-block:: bash
+
+    docker run -v ~/notebooks:/mnt/notebooks -i -t -p 8888:8888 hhatch/feasst:firsttry /bin/bash -c "jupyter notebook --notebook-dir=/mnt/notebooks --ip='*' --port=8888 --no-browser --allow-root"
 
 .. include:: CONTACT.rst
 

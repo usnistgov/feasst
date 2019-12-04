@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>README &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>README &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -113,12 +113,16 @@
 <li class="toctree-l3"><a class="reference internal" href="#python-install">Python install</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#c-install">C++ install</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#troubleshooting-install">Troubleshooting install</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#os-x">OS X</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#centos">CentOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macos-mojave">macOS Mojave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#centos-7">CentOS 7</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#windows-10">Windows 10</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ubuntu-16">Ubuntu 16</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ubuntu-18">Ubuntu 18</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#build-from-docker">Build from Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#contact">Contact</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#project-lead">Project lead</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bug-reporting">Bug reporting</a></li>
@@ -226,13 +230,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -305,7 +309,7 @@ Some features include but are not limited to the following:</p>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
      <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/data.lj&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeModelLJ</span><span class="p">()))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
@@ -330,23 +334,17 @@ Some features include but are not limited to the following:</p>
 <ul class="simple">
 <li><p>SWIG is required. Version 3.0.12 is recommended if your current SWIG version does not work properly.</p></li>
 <li><p>Anaconda with Python 3 is recommended.</p></li>
-<li><p>First, it is recommended to make a new python virtual environment.</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 -m venv ~/feasst_env
-<span class="nb">source</span> ~/feasst_env/bin/activate
-pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>In the next step, CMake attempts to find the python libraries.
+<li><p>CMake attempts to find the python libraries during compilation.
 But you may want to specify them manually.</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir /path/to/feasst/build
-<span class="nb">cd</span> /path/to/feasst/build
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
+mkdir feasst/build
+<span class="nb">cd</span> feasst/build
 cmake -DUSE_SWIG<span class="o">=</span>ON ..
 make _feasst -j<span class="nv">$CPU_COUNT</span>
 make install -j<span class="nv">$CPU_COUNT</span>
 python ../py/test.py  <span class="c1"># optional test</span>
+pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -355,19 +353,13 @@ python ../py/test.py  <span class="c1"># optional test</span>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>ON -DSET_PYTHON_PATH<span class="o">=</span>ON -DPYTHON_INCLUDE_DIR<span class="o">=</span>/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY<span class="o">=</span>/path/to/anaconda/lib/libpython3.7m.so ..
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>You can deactivate and delete your python virtual environment as follows:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>deactivate
-rm -r ~/feasst_env  <span class="c1"># if you&#39;d like to reinstall or update</span>
-</pre></div>
-</div>
 </div>
 <div class="section" id="c-install">
 <h3>C++ install<a class="headerlink" href="#c-install" title="Permalink to this headline">¶</a></h3>
 <p>First, install the C++ library.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir /path/to/feasst/build
-<span class="nb">cd</span> /path/to/feasst/build
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
+mkdir feasst/build
+<span class="nb">cd</span> feasst/build
 cmake ..
 make install -j<span class="nv">$CPU_COUNT</span>
 make <span class="nb">test</span>         <span class="c1"># optional test</span>
@@ -393,20 +385,78 @@ But you can also specify the path as follows.</p>
 </div>
 <div class="section" id="troubleshooting-install">
 <h3>Troubleshooting install<a class="headerlink" href="#troubleshooting-install" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="os-x">
-<h4>OS X<a class="headerlink" href="#os-x" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="macos-mojave">
+<h4>macOS Mojave<a class="headerlink" href="#macos-mojave" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>SWIG (from Homebrew) is likely version 4, which sometimes causes a SEGFAULT when trying to run feasst.
 Try SWIG version 3 instead.</p></li>
 <li><p>Sometimes CMake has trouble finding anaconda, and if you use SET_PYTHON_PATH described above, you may need to look out for the .dylib instead of .so</p></li>
 </ul>
 </div>
-<div class="section" id="centos">
-<h4>CentOS<a class="headerlink" href="#centos" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="centos-7">
+<h4>CentOS 7<a class="headerlink" href="#centos-7" title="Permalink to this headline">¶</a></h4>
 <p>CMake and SWIG versions are usually too old.
-Try cmake3 instead of cmake.
-Otherwise try SWIG 3.</p>
+Try the command cmake3 instead of cmake.
+Otherwise, install SWIG 3.</p>
 </div>
+<div class="section" id="windows-10">
+<h4>Windows 10<a class="headerlink" href="#windows-10" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>Install Windows subsystem for Linux (Ubuntu 16)</p></li>
+<li><p>See Ubuntu 16</p></li>
+</ul>
+</div>
+<div class="section" id="ubuntu-16">
+<h4>Ubuntu 16<a class="headerlink" href="#ubuntu-16" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>Update to CMake 3 (<a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a>)</p></li>
+<li><p>sudo apt install swig</p></li>
+</ul>
+</div>
+<div class="section" id="ubuntu-18">
+<h4>Ubuntu 18<a class="headerlink" href="#ubuntu-18" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>We are not aware of any issues with an Ubuntu 18 install.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="build-from-docker">
+<h2>Build from Docker<a class="headerlink" href="#build-from-docker" title="Permalink to this headline">¶</a></h2>
+<p>Installation via <a class="reference external" href="docker.io">Docker</a> is an alternative if you are experiencing installation issues.
+Unfortunately there is a performance penalty using this method.</p>
+<p>First, install docker</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Ubuntu: <cite>apt install docker</cite></p></li>
+<li><p>macOS: download and install Docker Desktop.</p></li>
+<li><p>CentOS: <cite>yum install docker</cite></p></li>
+</ul>
+</div></blockquote>
+<p>On a mac, run Docker.app, login, startup and skip this step.
+Otherwise, start docker and create a <a class="reference external" href="https://docs.docker.com/install/linux/linux-postinstall/">docker group</a> to avoid root.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo service docker start
+sudo groupadd docker
+sudo usermod -aG docker <span class="nv">$USER</span>
+newgrp docker
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
+docker build -t hhatch/feasst:firsttry feasst/
+</pre></div>
+</div>
+<p>Alternatively you could pull feasst from docker hub (version may be old):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull hhatch/feasst:firsttry
+</pre></div>
+</div>
+<p>Then you can interactively run feasst via</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/scripts:/mnt/scripts -it hhatch/feasst:firsttry
+<span class="nb">cd</span> /mnt/scripts
+</pre></div>
+</div>
+<p>Or with <cite>~/notebooks</cite></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/notebooks:/mnt/notebooks -i -t -p <span class="m">8888</span>:8888 hhatch/feasst:firsttry /bin/bash -c <span class="s2">&quot;jupyter notebook --notebook-dir=/mnt/notebooks --ip=&#39;*&#39; --port=8888 --no-browser --allow-root&quot;</span>
+</pre></div>
 </div>
 </div>
 <div class="section" id="contact">

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>&lt;no title&gt; &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -207,13 +207,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -231,39 +231,39 @@
 <li class="toctree-l1"><a class="reference internal" href="Tunable.html">Tunable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Stepper.html">Stepper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Criteria.html">Criteria</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Perturb.html">Perturb</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PerturbConfigs.html">PerturbConfigs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerturbConfigs.html">PerturbConfigs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Trial.html">Trial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Modify.html">Modify</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Analyze.html">Analyze</a></li>
 <li class="toctree-l1"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Modify.html">Modify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 </ul>
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Analysis of a one-phase (supercritical) simulation &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>Analysis of a one-phase (supercritical) simulation &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -122,6 +122,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tutorial_1_lj_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Analysis of a one-phase (supercritical) simulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -133,6 +134,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -236,16 +238,16 @@
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput div.prompt,
-div.nbinput div.input_area,
-div.nbinput div[class*=highlight],
-div.nbinput div[class*=highlight] pre,
-div.nboutput,
-div.nbinput div.prompt,
-div.nbinput div.output_area,
-div.nboutput div[class*=highlight],
-div.nboutput div[class*=highlight] pre {
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
     background: none;
     border: none;
     padding: 0 0;
@@ -254,13 +256,13 @@ div.nboutput div[class*=highlight] pre {
 }
 
 /* avoid gaps between output lines */
-div.nboutput div[class*=highlight] pre {
+div.nboutput.container div[class*=highlight] pre {
     line-height: normal;
 }
 
 /* input/output containers */
-div.nbinput,
-div.nboutput {
+div.nbinput.container,
+div.nboutput.container {
     display: -webkit-flex;
     display: flex;
     align-items: flex-start;
@@ -268,35 +270,35 @@ div.nboutput {
     width: 100%;
 }
 @media (max-width: 540px) {
-    div.nbinput,
-    div.nboutput {
+    div.nbinput.container,
+    div.nboutput.container {
         flex-direction: column;
     }
 }
 
 /* input container */
-div.nbinput {
+div.nbinput.container {
     padding-top: 5px;
 }
 
 /* last container */
-div.nblast {
+div.nblast.container {
     padding-bottom: 5px;
 }
 
 /* input prompt */
-div.nbinput div.prompt pre {
+div.nbinput.container div.prompt pre {
     color: #307FC1;
 }
 
 /* output prompt */
-div.nboutput div.prompt pre {
+div.nboutput.container div.prompt pre {
     color: #BF5B3D;
 }
 
 /* all prompts */
-div.nbinput div.prompt,
-div.nboutput div.prompt {
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
     min-width: 5ex;
     padding-top: 0.4em;
     padding-right: 0.4em;
@@ -304,56 +306,56 @@ div.nboutput div.prompt {
     flex: 0;
 }
 @media (max-width: 540px) {
-    div.nbinput div.prompt,
-    div.nboutput div.prompt {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
         text-align: left;
         padding: 0.4em;
     }
-    div.nboutput div.prompt.empty {
+    div.nboutput.container div.prompt.empty {
         padding: 0;
     }
 }
 
 /* disable scrollbars on prompts */
-div.nbinput div.prompt pre,
-div.nboutput div.prompt pre {
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
     overflow: hidden;
 }
 
 /* input/output area */
-div.nbinput div.input_area,
-div.nboutput div.output_area {
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
     padding: 0.4em;
     -webkit-flex: 1;
     flex: 1;
     overflow: auto;
 }
 @media (max-width: 540px) {
-    div.nbinput div.input_area,
-    div.nboutput div.output_area {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
         width: 100%;
     }
 }
 
 /* input area */
-div.nbinput div.input_area {
+div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
     background: #f5f5f5;
 }
 
 /* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
+div.nboutput.container div[class*=MathJax] {
     text-align: left !important;
 }
 
 /* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput div.math p {
+div.nboutput.container div.math p {
     text-align: left;
 }
 
 /* standard error */
-div.nboutput div.output_area.stderr {
+div.nboutput.container div.output_area.stderr {
     background: #fdd;
 }
 
@@ -434,13 +436,13 @@ div.rendered_html tbody tr:hover {
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -455,9 +457,9 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Analysis-of-a-one-phase-(supercritical)-simulation">
 <h1>Analysis of a one-phase (supercritical) simulation<a class="headerlink" href="#Analysis-of-a-one-phase-(supercritical)-simulation" title="Permalink to this headline">¶</a></h1>
-<p>In this previous example, we generated a macrostate distribution and average energy over a small range of number of particles. In this example, we demonstrate how to analyze a macrostate probability distribution and average energy from the NIST SRSW for <span class="math notranslate nohighlight">\(T^*=1.5\)</span>. You could alternatively use the previous tutorial to generate a macrostate distribution with <span class="math notranslate nohighlight">\(N_{max}=370\)</span> rather than using the NIST SRSW data set.</p>
-<p>We begin with canonical ensemble average properties at each value of <span class="math notranslate nohighlight">\(N\)</span> as well as the probability to observe this <span class="math notranslate nohighlight">\(N\)</span> for a given <span class="math notranslate nohighlight">\(\mu\)</span>. With appropriate grand canonical ensemble averaging and histogram reweighting, we can instead obtain properties which depend continuously on <span class="math notranslate nohighlight">\(N\)</span> and take into account the probabilities of nearby states to improve the average. From the plots below, we can see that our most probable state is approximately <span class="math notranslate nohighlight">\(N=310\)</span>, with an average
-energy of approximately <span class="math notranslate nohighlight">\(-1250\)</span>, but we require grand canonical ensemble averages to compute these quantities more precisely.</p>
+<p>In the previous example, we generated a macrostate distribution and average energy over a small range of number of particles. In this example, we demonstrate how to analyze a macrostate probability distribution and average energy from the NIST SRSW for <span class="math notranslate nohighlight">\(T^*=1.5\)</span>. You could alternatively use the previous tutorial to generate a macrostate distribution with <span class="math notranslate nohighlight">\(N_{max}=370\)</span> rather than using the NIST SRSW data set.</p>
+<p>We begin with canonical ensemble average properties at each value of <span class="math notranslate nohighlight">\(N\)</span> as well as the probability to observe this <span class="math notranslate nohighlight">\(N\)</span> for a given <span class="math notranslate nohighlight">\(\mu\)</span>. From the plots below, we can estimate our most probable state is approximately <span class="math notranslate nohighlight">\(N=310\)</span>, with an average energy of approximately <span class="math notranslate nohighlight">\(-1250\)</span>. But there is a more rigorous way to compute grand canonical ensemble averages as described below, which will yeild a more precise result and, with the help of histogram reweighting, will yeild
+properties continuously in <span class="math notranslate nohighlight">\(N\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -494,10 +496,10 @@ energy of approximately <span class="math notranslate nohighlight">\(-1250\)</sp
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.lines.Line2D at 0x7f37670e3a50&gt;
-</pre></div>
-</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.lines.Line2D at 0x7f37670e3a50&gt;
+</pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
@@ -514,13 +516,13 @@ energy of approximately <span class="math notranslate nohighlight">\(-1250\)</sp
 <p>Note that this macrostate distribution has only one maximum and therefore only one stable phase. The next tutorial will consider a lower temperature with phase separation.</p>
 <div class="section" id="Grand-canonical-ensemble-averages">
 <h2>Grand canonical ensemble averages<a class="headerlink" href="#Grand-canonical-ensemble-averages" title="Permalink to this headline">¶</a></h2>
-<p>For a macrostate of the number of particles, <span class="math notranslate nohighlight">\(N\)</span>, the canonical ensemble average of some extensive quantity, <span class="math notranslate nohighlight">\(A\)</span>, from the flat histogram simulations are computed as follows:</p>
+<p>For a macrostate of the number of particles, <span class="math notranslate nohighlight">\(N\)</span>, the canonical ensemble average of some extensive quantity, <span class="math notranslate nohighlight">\(A\)</span>, from the a flat histogram simulation is computed as follows:</p>
 <div class="math notranslate nohighlight">
-\[\langle A(N) \rangle_{NVT} = \frac{\sum_{i=0}^{N_{trial}} A(i) \delta(n_i - N)}{\sum_{i=0}^{N_{trial}} \delta(n_i - N)}\]</div>
-<p>Instead of only utilizing the canonical ensemble averages at only discrete values of the macrostate, one should instead compute a grand canonical ensemble average using the macrostate probability distribution and all of the canonical ensemble averages in the range <span class="math notranslate nohighlight">\(N \epsilon (N_{min}, N_{max})\)</span>, or <span class="math notranslate nohighlight">\((0, 370)\)</span> in this example.</p>
+\[\langle A\rangle_{NVT}(N) = \frac{\sum_{i=0}^{N_{trial}} A(i) \delta(n_i - N)}{\sum_{i=0}^{N_{trial}} \delta(n_i - N)},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\delta\)</span> is the Dirac delta function. Instead of only utilizing the canonical ensemble averages at only discrete values of the macrostate, one should instead compute a grand canonical ensemble average using the macrostate probability distribution, <span class="math notranslate nohighlight">\(\Pi\)</span>, and all of the canonical ensemble averages in the range <span class="math notranslate nohighlight">\(N \epsilon (N_{min}, N_{max})\)</span>, or <span class="math notranslate nohighlight">\((0, 370)\)</span> in this example.</p>
 <p>Thus, grand canonical ensemble averages are defined as:</p>
 <div class="math notranslate nohighlight">
-\[\langle A(\langle N\rangle_{\mu VT}) \rangle_{\mu VT} = \sum_{n=N_{min}}^{N_{max}}\langle A(n) \rangle_{NVT}\Pi(n; \mu)\]</div>
+\[\langle A \rangle_{\mu VT}(\langle N\rangle_{\mu VT}) = \sum_{n=N_{min}}^{N_{max}}\langle A \rangle_{NVT}(n)\Pi(n; \mu)\]</div>
 <p>Where</p>
 <div class="math notranslate nohighlight">
 \[\langle N\rangle_{\mu VT} = \sum_{n=N_{min}}^{N_{max}} n\Pi(n; \mu)\]</div>
@@ -614,10 +616,10 @@ U(mu = -3.5 ) = -321.875225434354
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.lines.Line2D at 0x7f37671393d0&gt;
-</pre></div>
-</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.lines.Line2D at 0x7f37671393d0&gt;
+</pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>VisitModelCell &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>VisitModelCell &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -118,21 +118,23 @@
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="physical_constants.html">system/include/physical_constants</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SelectList.html">SelectList</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="HardSphere.html">HardSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="LennardJones.html">LennardJones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelLJ.html">ModelLJ</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelHardSphere.html">ModelHardSphere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SelectList.html">SelectList</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 </ul>
 </li>
 </ul>
@@ -147,6 +149,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -252,13 +255,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -275,7 +278,7 @@
 <h1>VisitModelCell<a class="headerlink" href="#visitmodelcell" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="_CPPv4N6feasst14VisitModelCellE">
-<span class="target" id="classfeasst_1_1VisitModelCell"></span><em class="property">class </em><code class="sig-name descname">VisitModelCell</code> : <em class="property">public</em> <a class="reference internal" href="../../math/doc/constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="VisitModelInner.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst14VisitModelCellE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1VisitModelCell"></span><em class="property">class </em><code class="sig-name descname">VisitModelCell</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst14VisitModelCellE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute many-body inter-particle interactions using a cell list. The cell index is determined by the number of times <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration_1a8ba785fcac328d22bc17b8edf0011678"><span class="std std-ref">Configuration::init_cells</span></a> is called. </p>
 </dd></dl>
 

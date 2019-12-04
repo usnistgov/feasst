@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Movie &mdash; FEASST v0.8.0-1-g3cea9539f8 documentation</title>
+  <title>Movie &mdash; FEASST v0.9.0 documentation</title>
   
 
   
@@ -44,8 +44,8 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="NumParticles" href="NumParticles.html" />
-    <link rel="prev" title="Tuner" href="Tuner.html" />
+    <link rel="next" title="Flat histogram" href="../../flat_histogram/README.html" />
+    <link rel="prev" title="CheckProperties" href="CheckProperties.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.8.0-1-g3cea9539f8
+                v0.9.0
               </div>
             
           
@@ -117,15 +117,18 @@
 <li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Steppers</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Energy.html">Energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NumParticles.html">NumParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CPUTime.html">CPUTime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Check.html">Check</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="WallClockLimit.html">WallClockLimit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tuner.html">Tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MeanSquaredDisplacement.html">MeanSquaredDisplacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Movie</a></li>
-<li class="toctree-l3"><a class="reference internal" href="NumParticles.html">NumParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Energy.html">Energy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Log.html">Log</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -135,6 +138,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
@@ -240,13 +244,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -263,8 +267,8 @@
 <h1>Movie<a class="headerlink" href="#movie" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="_CPPv4N6feasst5MovieE">
-<span class="target" id="classfeasst_1_1Movie"></span><em class="property">class </em><code class="sig-name descname">Movie</code> : <em class="property">public</em> <a class="reference internal" href="../../math/doc/constants.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst16AnalyzeWriteOnlyE" title="feasst::AnalyzeWriteOnly">AnalyzeWriteOnly</a><a class="headerlink" href="#_CPPv4N6feasst5MovieE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Write a trajectory of the site positions using XYZ file format. Does not overwrite existing file. </p>
+<span class="target" id="classfeasst_1_1Movie"></span><em class="property">class </em><code class="sig-name descname">Movie</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst16AnalyzeWriteOnlyE" title="feasst::AnalyzeWriteOnly">AnalyzeWriteOnly</a><a class="headerlink" href="#_CPPv4N6feasst5MovieE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write a trajectory of the site positions using XYZ file format. Does not overwrite existing file by default. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="function">
@@ -292,10 +296,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="NumParticles.html" class="btn btn-neutral float-right" title="NumParticles" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../../flat_histogram/README.html" class="btn btn-neutral float-right" title="Flat histogram" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Tuner.html" class="btn btn-neutral float-left" title="Tuner" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="CheckProperties.html" class="btn btn-neutral float-left" title="CheckProperties" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

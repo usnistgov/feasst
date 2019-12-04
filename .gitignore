@@ -3,3 +3,7 @@ syntax: glob
 build/
 src/factories.cc
 src/feasst.h
+
+*ipynb_checkpoints*
+*__pycache__*
+build-gtest
