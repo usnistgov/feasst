@@ -1,8 +1,10 @@
 #use glob syntax
 syntax: glob
 build/
-src/factories.cc
-src/feasst.h
+
+*txt
+*xyz
+*vmd
 
 *ipynb_checkpoints*
 *__pycache__*

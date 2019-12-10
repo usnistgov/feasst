@@ -1,7 +1,6 @@
 
 .. toctree::
 
-   physical_constants
    Model
    EnergyMap
    SelectList
@@ -11,12 +10,12 @@
    ModelTwoBodyFactory
    HardSphere
    LennardJones
+   ModelThreeBody
    Potential
    PotentialFactory
    System
    ModelOneBody
    ModelEmpty
-   ModelThreeBody
    VisitModelCell
    LongRangeCorrections
    VisitModelIntra

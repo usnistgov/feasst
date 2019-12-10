@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Configuration &mdash; FEASST v0.9.0 documentation</title>
+  <title>Configuration &mdash; FEASST v0.9.0-1-gce5ca7b875 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.9.0
+                v0.9.0-1-gce5ca7b875
               </div>
             
           
@@ -119,6 +119,7 @@
 <li class="toctree-l3"><a class="reference internal" href="Particle.html">Particle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PhysicalConstants.html">PhysicalConstants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ModelParam.html">ModelParam</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ParticleFactory.html">ParticleFactory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
@@ -286,11 +287,12 @@
 <dt id="_CPPv4N6feasst13Configuration13ConfigurationERK7argtype">
 <span class="target" id="classfeasst_1_1Configuration_1a34ae03406a1e030c9d2526bdcb27d6d6"></span><code class="sig-name descname">Configuration</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration13ConfigurationERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>cubic_box_length - side length of cubic perioidic boundary conditions.</p></li>
-<li><p>particle_type[i] - add the i-th type of particle to the configuration. The [i] is to be substituted for an integer 0, 1, 2, … If only one particle type, you can drop the i.</p></li>
-<li><p>init_cells - build cell list with given minimum length between cells.</p></li>
-<li><p>cell_group - only compute cells for those in given group index.</p></li>
-<li><p>wrap - wrap particle centers within domain (default: true). </p></li>
+<li><p>cubic_box_length: side length of cubic perioidic boundary conditions.</p></li>
+<li><p>particle_type[i]: add the i-th type of particle to the configuration. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one particle type, the “[i]” is optional.</p></li>
+<li><p>init_cells[i]: build cell list with given minimum length between cells. The “[i]” is to be substituted for an integer 0, 1, 2, … If only one cell, the “[i]” is optional.</p></li>
+<li><p>cell_group[i]: only compute cells for those in given group index for cell of corresponding “i” (default: 0).</p></li>
+<li><p>wrap: wrap particle centers within domain (default: true).</p></li>
+<li><p>physical_constants: optional class_name of <a class="reference internal" href="PhysicalConstants.html#classfeasst_1_1PhysicalConstants"><span class="std std-ref">PhysicalConstants</span></a>. </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -339,6 +341,12 @@
 <dt id="_CPPv4N6feasst13Configuration15add_model_paramEKNSt6stringEKd">
 <span class="target" id="classfeasst_1_1Configuration_1ab6d87f104ab73b231bc687e6a438a74c"></span>void <code class="sig-name descname">add_model_param</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration15add_model_paramEKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add model parameter of a given name to value. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4N6feasst13Configuration22set_physical_constantsENSt10shared_ptrI17PhysicalConstantsEE">
+<span class="target" id="classfeasst_1_1Configuration_1a070c6cc8181aae94ae792002634787fa"></span>void <code class="sig-name descname">set_physical_constants</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="PhysicalConstants.html#_CPPv4N6feasst17PhysicalConstantsE" title="feasst::PhysicalConstants">PhysicalConstants</a>&gt; <em>constants</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13Configuration22set_physical_constantsENSt10shared_ptrI17PhysicalConstantsEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the physical constants in model parameters. </p>
 </dd></dl>
 
 <dl class="function">
