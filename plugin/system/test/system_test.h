@@ -14,17 +14,7 @@
 namespace feasst {
 
 inline Potential default_potential() {
-  Potential potential;
-  potential.set_model(std::make_shared<LennardJones>());
-  potential.set_visit_model(std::make_shared<VisitModel>());
-  return potential;
-}
-
-inline Potential hs_potential() {
-  Potential potential;
-  potential.set_model(std::make_shared<HardSphere>());
-  potential.set_visit_model(std::make_shared<VisitModel>());
-  return potential;
+  return Potential(MakeLennardJones());
 }
 
 inline System default_system() {

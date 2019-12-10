@@ -35,7 +35,7 @@ class Energy : public Analyze {
   std::string class_name() const override { return std::string("Energy"); }
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<Energy>(istr); }
-  void serialize(std::ostream& ostr) const;
+  void serialize(std::ostream& ostr) const override;
   explicit Energy(std::istream& istr);
 
  private:

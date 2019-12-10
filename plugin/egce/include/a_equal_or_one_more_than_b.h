@@ -20,6 +20,8 @@ class AEqualOrOneMoreThanB : public Constraint {
     }
     return false;
   }
+
+  virtual ~AEqualOrOneMoreThanB() {}
 };
 
 }  // namespace feasst

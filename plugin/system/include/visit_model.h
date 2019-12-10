@@ -20,12 +20,10 @@ class ModelThreeBody;
 class VisitModel {
  public:
   VisitModel() {
-    set_inner();
-  }
+    set_inner(); }
 
   VisitModel(std::shared_ptr<VisitModelInner> inner) {
-    set_inner(inner);
-  }
+    set_inner(inner); }
 
   void set_inner(const std::shared_ptr<VisitModelInner> inner =
     std::make_shared<VisitModelInner>()) {
@@ -131,6 +129,7 @@ class VisitModel {
     inner_->precompute(config); }
 
   // serialization
+  std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const {
     ostr << class_name_ << " ";
     serialize_visit_model_(ostr);

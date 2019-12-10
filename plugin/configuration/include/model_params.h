@@ -7,6 +7,7 @@
 #include <cmath>
 #include <string>
 #include "utils/include/utils.h"
+#include "configuration/include/physical_constants.h"
 #include "configuration/include/particle.h"
 
 namespace feasst {
@@ -210,6 +211,17 @@ class ModelParams : public PropertiedEntity {
   /// Return the model parameter with the corresponding name.
   const std::shared_ptr<ModelParam> select(const std::string name) const;
 
+  /// Set the physical constants.
+  void set_physical_constants(std::shared_ptr<PhysicalConstants> constants =
+    std::make_shared<CODATA2018>());
+
+  /// Return the physical constants.
+  const PhysicalConstants * physical_constants() const {
+    return physical_constants_.get(); }
+
+  /// Return the physical constants.
+  const PhysicalConstants * constants() const { return physical_constants(); }
+
   /// Check
   void check() const;
 
@@ -226,6 +238,8 @@ class ModelParams : public PropertiedEntity {
 
   /// Add all of the above to this list.
   std::vector<std::shared_ptr<ModelParam> > params_;
+
+  std::shared_ptr<PhysicalConstants> physical_constants_;
 
   /// Add built-in types to params
   void add_();

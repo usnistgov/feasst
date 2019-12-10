@@ -29,25 +29,19 @@ TEST(VisitModelInnerPatch, patch_one) {
 
 TEST(VisitModelInnerPatch, patch_one_2body) {
   System system;
-  { Configuration config;
-    config.set_domain(Domain().set_cubic(10.));
-    //{ auto angle = std::make_shared<ModelParam>();
-    //  angle->set_name("angle");
-    //  config.add(angle); }
-    config.add_particle_type("../plugin/patch/forcefield/data.patch_one");
+  { Configuration config({
+      {"cubic_box_length", "10"},
+      {"particle_type", "../plugin/patch/forcefield/data.patch_one"}
+    });
     config.add(Group().add_site_type(0));
     config.add_particle_of_type(0);
     config.add_particle_of_type(0);
-    system.add(config); }
+    system.add(config);
+  }
 
-  { Potential potential;
-    potential.set_model(std::make_shared<SquareWell>());
-    auto visitor = std::make_shared<VisitModel>();
-    auto patch = std::make_shared<VisitModelInnerPatch>();
-    visitor->set_inner(patch);
-    potential.set_visit_model(visitor);
-    potential.set_group_index(1); // optimization: loop through centers only.
-    system.add(potential); }
+  system.add(Potential(MakeSquareWell(),
+                       MakeVisitModel(MakeVisitModelInnerPatch()),
+                       {{"group_index", "1"}}));  // optimization: loop centers
   system.precompute();
 
   PerturbAnywhere anywhere;

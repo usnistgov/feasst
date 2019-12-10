@@ -16,19 +16,26 @@ Configuration::Configuration(const argtype& args) {
   add(Group()); // add empty group which represents all particles
   args_.init(args);
 
-  // parse domain
+  DEBUG("parse physical constants");
+  if (args_.key("physical_constants").used()) {
+    std::stringstream ss(args_.str());
+    set_physical_constants(MakeCODATA2014()->deserialize(ss));
+  }
+
+  DEBUG("parse domain");
   if (args_.key("cubic_box_length").used()) {
     set_domain(Domain().set_cubic(args_.dble()));
   }
 
-  // parse types
+  DEBUG("parse types");
   std::string start("particle_type");
+
   // if only one particle type, allow drop the subscript
   if (args_.key(start).used()) {
     add_particle_type(args_.str());
   } else {
-    std::stringstream key;
     int type = num_particle_types();
+    std::stringstream key;
     key << start << type;
     while (args_.key(key.str()).used()) {
       add_particle_type(args_.str());
@@ -39,10 +46,30 @@ Configuration::Configuration(const argtype& args) {
     }
   }
 
-  if (args_.key("init_cells").used()) {
+  DEBUG("parse cells");
+  // HWH this process is kind of copy and pasted from above for particle types
+  // HWH make this more modular
+  start.assign("init_cells");
+  // if only one cell, drop subscript
+  if (args_.key(start).used()) {
     const double min_length = args_.dble();
     int group_index = args_.key("cell_group").dflt("0").integer();
     init_cells(min_length, group_index);
+  } else {
+    int type = domain().num_cells();
+    std::stringstream key;
+    key << start << type;
+    while (args_.key(key.str()).used()) {
+      const double min_length = args_.dble();
+      std::stringstream cgrp;
+      cgrp << "cell_group" << type;
+      int group_index = args_.key(cgrp.str()).dflt("0").integer();
+      init_cells(min_length, group_index);
+      ++type;
+      ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
+      key.str("");
+      key << start << type;
+    }
   }
 
   init_wrap(args_.key("wrap").dflt("true").boolean());

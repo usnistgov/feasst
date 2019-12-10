@@ -126,6 +126,7 @@ ModelParams::ModelParams() : PropertiedEntity() {
   cutoff_ = std::make_shared<CutOff>();
   charge_ = std::make_shared<Charge>();
   add_();
+  set_physical_constants();
 }
 
 ModelParams::ModelParams(const ModelParams& params) : PropertiedEntity() {
@@ -139,6 +140,7 @@ ModelParams::ModelParams(const ModelParams& params) : PropertiedEntity() {
     add(params.params_[extra]);
   }
   set_properties(params.properties());
+  set_physical_constants(params.physical_constants_);
 }
 
 void ModelParams::add(const Site site) {
@@ -215,6 +217,11 @@ void ModelParams::set(const std::string name,
   select_(name)->set_mixed(site_type1, site_type2, value);
 }
 
+void ModelParams::set_physical_constants(
+    std::shared_ptr<PhysicalConstants> constants) {
+  physical_constants_ = constants;
+}
+
 void ModelParams::check() const {
   const int size = params_.front()->size();
   for (std::shared_ptr<ModelParam> parm : params_) {
@@ -236,6 +243,7 @@ void ModelParams::serialize(std::ostream& ostr) const {
   for (int index = 4; index < static_cast<int>(params_.size()); ++index) {
     params_[index]->serialize(ostr);
   }
+  feasst_serialize_fstdr(physical_constants_, ostr);
 }
 
 // HWH warning: magic number "4"
@@ -252,6 +260,14 @@ ModelParams::ModelParams(std::istream& istr)
   params_.resize(num);
   for (int index = 4; index < num; ++index) {
     params_[index] = std::make_shared<ModelParam>(istr);
+  }
+  // feasst_deserialize_fstdr(&physical_constants_, istr);
+  // HWH for unknown reasons, this function template does not work.
+  { int existing;
+    istr >> existing;
+    if (existing != 0) {
+      physical_constants_ = physical_constants_->deserialize(istr);
+    }
   }
 }
 

@@ -144,6 +144,10 @@ class ParticleFactory {
                        const double value) {
     model_params_.add_property(name, value); }
 
+  /// Set the physical constants in model parameters.
+  void set_physical_constants(std::shared_ptr<PhysicalConstants> constants) {
+    model_params_.set_physical_constants(constants); }
+
   /// Set site as physical/nonphysical.
   void set_site_physical(const int particle, const int site, const bool phys) {
     particles_[particle].set_site_physical(site, phys); }

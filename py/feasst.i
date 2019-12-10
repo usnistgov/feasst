@@ -30,14 +30,14 @@
 #include "configuration/include/particle.h"
 #include "configuration/include/group.h"
 #include "configuration/include/file_lmp.h"
-#include "configuration/include/model_params.h"
-#include "configuration/include/particle_factory.h"
 #include "math/include/formula.h"
 #include "math/include/formula_exponential.h"
 #include "math/include/histogram.h"
 #include "math/include/formula_polynomial.h"
 #include "math/include/constants.h"
-#include "system/include/physical_constants.h"
+#include "configuration/include/physical_constants.h"
+#include "configuration/include/model_params.h"
+#include "configuration/include/particle_factory.h"
 #include "math/include/utils_math.h"
 #include "math/include/matrix.h"
 #include "math/include/random.h"
@@ -64,6 +64,7 @@
 #include "models/include/lennard_jones_cut_shift.h"
 #include "models/include/lennard_jones_force_shift.h"
 #include "ewald/include/charge_screened.h"
+#include "system/include/model_three_body.h"
 #include "system/include/potential.h"
 #include "system/include/potential_factory.h"
 #include "system/include/system.h"
@@ -116,7 +117,6 @@
 #include "system/include/model_one_body.h"
 #include "ewald/include/charge_self.h"
 #include "system/include/model_empty.h"
-#include "system/include/model_three_body.h"
 #include "system/include/visit_model_cell.h"
 #include "system/include/long_range_corrections.h"
 #include "ewald/include/ewald.h"
@@ -199,6 +199,14 @@ using namespace std;
 %shared_ptr(feasst::Particle);
 %shared_ptr(feasst::Group);
 %shared_ptr(feasst::FileLMP);
+%shared_ptr(feasst::Formula);
+%shared_ptr(feasst::FormulaExponential);
+%shared_ptr(feasst::Histogram);
+%shared_ptr(feasst::FormulaPolynomial);
+%shared_ptr(feasst::PhysicalConstants);
+%shared_ptr(feasst::CODATA2018);
+%shared_ptr(feasst::CODATA2014);
+%shared_ptr(feasst::CODATA2010);
 %shared_ptr(feasst::ModelParam);
 %shared_ptr(feasst::Epsilon);
 %shared_ptr(feasst::Sigma);
@@ -206,10 +214,6 @@ using namespace std;
 %shared_ptr(feasst::Charge);
 %shared_ptr(feasst::ModelParams);
 %shared_ptr(feasst::ParticleFactory);
-%shared_ptr(feasst::Formula);
-%shared_ptr(feasst::FormulaExponential);
-%shared_ptr(feasst::Histogram);
-%shared_ptr(feasst::FormulaPolynomial);
 %shared_ptr(feasst::Matrix);
 %shared_ptr(feasst::MatrixThreeByThree);
 %shared_ptr(feasst::RotationMatrix);
@@ -242,6 +246,7 @@ using namespace std;
 %shared_ptr(feasst::LennardJonesCutShift);
 %shared_ptr(feasst::LennardJonesForceShift);
 %shared_ptr(feasst::ChargeScreened);
+%shared_ptr(feasst::ModelThreeBody);
 %shared_ptr(feasst::Potential);
 %shared_ptr(feasst::PotentialFactory);
 %shared_ptr(feasst::System);
@@ -298,7 +303,6 @@ using namespace std;
 %shared_ptr(feasst::ModelOneBody);
 %shared_ptr(feasst::ChargeSelf);
 %shared_ptr(feasst::ModelEmpty);
-%shared_ptr(feasst::ModelThreeBody);
 %shared_ptr(feasst::VisitModelCell);
 %shared_ptr(feasst::LongRangeCorrections);
 %shared_ptr(feasst::Ewald);
@@ -378,14 +382,14 @@ using namespace std;
 %include configuration/include/particle.h
 %include configuration/include/group.h
 %include configuration/include/file_lmp.h
-%include configuration/include/model_params.h
-%include configuration/include/particle_factory.h
 %include math/include/formula.h
 %include math/include/formula_exponential.h
 %include math/include/histogram.h
 %include math/include/formula_polynomial.h
 %include math/include/constants.h
-%include system/include/physical_constants.h
+%include configuration/include/physical_constants.h
+%include configuration/include/model_params.h
+%include configuration/include/particle_factory.h
 %include math/include/utils_math.h
 %include math/include/matrix.h
 %include math/include/random.h
@@ -412,6 +416,7 @@ using namespace std;
 %include models/include/lennard_jones_cut_shift.h
 %include models/include/lennard_jones_force_shift.h
 %include ewald/include/charge_screened.h
+%include system/include/model_three_body.h
 %include system/include/potential.h
 %include system/include/potential_factory.h
 %include system/include/system.h
@@ -464,7 +469,6 @@ using namespace std;
 %include system/include/model_one_body.h
 %include ewald/include/charge_self.h
 %include system/include/model_empty.h
-%include system/include/model_three_body.h
 %include system/include/visit_model_cell.h
 %include system/include/long_range_corrections.h
 %include ewald/include/ewald.h

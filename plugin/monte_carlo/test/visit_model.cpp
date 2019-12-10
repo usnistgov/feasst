@@ -7,7 +7,6 @@
 #include "math/include/constants.h"
 #include "configuration/include/file_lmp.h"
 #include "configuration/include/file_xyz.h"
-#include "system/include/physical_constants.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/test/system_test.h"
 #include "monte_carlo/include/trial_select_particle.h"

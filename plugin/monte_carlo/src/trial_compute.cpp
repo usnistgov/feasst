@@ -48,14 +48,17 @@ void TrialCompute::compute_rosenbluth(
   if (reference_used) {
     ASSERT(acceptance->perturbed().num_sites() > 0, "error");
     const double en_full = system->energy(acceptance->perturbed());
-    acceptance->add_to_ln_metropolis_prob(-1.*criteria->beta()*
-      (en_full - energy_change));
+    DEBUG("en_full: " << en_full);
     DEBUG("energy ref: " << energy_change);
     acceptance->set_energy_ref(energy_change);
     if (old == 1) {
       acceptance->set_energy_old(en_full);
+      acceptance->add_to_ln_metropolis_prob(-1.*criteria->beta()*
+        (-en_full + energy_change));
     } else {
       acceptance->set_energy_new(en_full);
+      acceptance->add_to_ln_metropolis_prob(-1.*criteria->beta()*
+        (en_full - energy_change));
     }
   }
   DEBUG("ln_rosenbluth " << ln_rosenbluth);

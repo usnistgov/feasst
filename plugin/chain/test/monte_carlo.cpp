@@ -35,49 +35,30 @@ Configuration config() {
   return config;
 }
 
-Potential lj() {
-  Potential lj;
-  lj.set_model(std::make_shared<LennardJones>());
-  return lj;
-}
-
 Potential lj_dual_cut(const Configuration config) {
-  Potential lj_dual_cut = lj();
+  Potential lj_dual_cut(MakeLennardJones(), MakeVisitModelCell());
   lj_dual_cut.set_model_params(config);
   lj_dual_cut.set_model_param("cutoff", 0, 1);
-  lj_dual_cut.set_visit_model(std::make_shared<VisitModelCell>());
   return lj_dual_cut;
 }
 
-Potential lj_intra() {
-  Potential lj_intra = lj();
-  auto visitor = std::make_shared<VisitModelIntra>();
-  visitor->set_intra_cut(1);
-  lj_intra.set_visit_model(visitor);
-  return lj_intra;
-}
-
 Potential lj_intra_dual_cut(const Configuration config) {
-  Potential lj_intra_dual_cut = lj_intra();
+  Potential lj_intra_dual_cut(MakeLennardJones(),
+                              MakeVisitModelIntra({{"cutoff", "1"}}));
   lj_intra_dual_cut.set_model_params(config);
   lj_intra_dual_cut.set_model_param("cutoff", 0, 1);
   return lj_intra_dual_cut;
 }
 
-Potential lrc() {
-  Potential lrc;
-  lrc.set_visit_model(std::make_shared<LongRangeCorrections>());
-  return lrc;
-}
-
 System chain_system() {
   System system;
   system.add(config());
-  system.add_to_unoptimized(lj());
+  system.add_to_unoptimized(Potential(MakeLennardJones()));
   system.add_to_reference(lj_dual_cut(system.configuration()));
-  system.add_to_unoptimized(lj_intra());
+  system.add_to_unoptimized(Potential(MakeLennardJones(),
+                                      MakeVisitModelIntra({{"cutoff", "1"}})));
   system.add_to_reference(lj_intra_dual_cut(system.configuration()));
-  system.add_to_unoptimized(lrc());
+  system.add_to_unoptimized(Potential(MakeLongRangeCorrections()));
   return system;
 }
 

@@ -117,6 +117,9 @@ class Domain {
     /// If this index is set to 0 (default) use all particles and sites.
     const int group_index = 0);
 
+  /// Return the number of cell lists.
+  int num_cells() const { return static_cast<int>(cells_.size()); }
+
   /// Return the cells.
   const std::vector<Cells>& cells() const { return cells_; }
 

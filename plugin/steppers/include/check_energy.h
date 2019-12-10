@@ -27,7 +27,7 @@ class CheckEnergy : public ModifyUpdateOnly {
   std::string class_name() const override { return std::string("CheckEnergy"); }
 
   // serialize
-  void serialize(std::ostream& ostr) const;
+  void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Modify> create(std::istream& istr) const override {
     return std::make_shared<CheckEnergy>(istr); }
   explicit CheckEnergy(std::istream& istr);

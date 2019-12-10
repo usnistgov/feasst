@@ -17,7 +17,7 @@ class ModifyFactory : public Modify {
   void add(std::shared_ptr<Modify> modify) { modifiers_.push_back(modify); }
 
   /// Return the Modify objects.
-  const std::vector<std::shared_ptr<Modify> >& modifiers() const {
+  const std::vector<std::shared_ptr<Modify> >& modifiers() const override {
     return modifiers_; }
 
   void initialize(Criteria * criteria,

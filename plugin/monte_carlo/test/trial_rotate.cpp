@@ -13,18 +13,13 @@ namespace feasst {
 TEST(TrialRotate, spce) {
   System system;
   {
-    Configuration config;
-    config.add_particle_type("../forcefield/data.spce");
-    config.add_particle_of_type(0);
-    system.add(config);
+    auto config = MakeConfiguration(
+      {{"particle_type", "../forcefield/data.spce"}});
+    config->add_particle_of_type(0);
+    system.add(*config);
   }
 
-  {
-    Potential potential;
-    potential.set_model(std::make_shared<LennardJones>());
-    potential.set_visit_model(std::make_shared<VisitModel>());
-    system.add_to_unoptimized(potential);
-  }
+  system.add(Potential(MakeLennardJones()));
 
   Metropolis criteria;
   criteria.set_beta(1.0);

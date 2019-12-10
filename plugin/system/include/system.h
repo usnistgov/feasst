@@ -88,6 +88,7 @@ class System {
   /** @name Energy
     Compute energies using a combination of configurations and potentials.
    */
+  //@{
 
   /// Precompute quantities for optimizations before calculation of energies.
   void precompute();
@@ -118,8 +119,12 @@ class System {
     return reference_(ref)->energy(&configurations_[0]); }
 
   /// Return the reference energy of the selection.
-  double reference_energy(const Select& select, const int ref = 0,
+  double reference_energy(const Select& select,
+    const int ref = 0,
     const int config = 0);
+
+  //@}
+  // Other functions:
 
   /// Revert changes due to perturbations.
   void revert() { unoptimized_.revert(); }

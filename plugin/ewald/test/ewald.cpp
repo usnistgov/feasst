@@ -52,13 +52,25 @@ TEST(Ewald, ewald) {
 }
 
 TEST(Ewald, system) {
-  System system = spce();
-  EXPECT_NEAR(-4062.4726240791533, system.energy(), 1e-10);
-  EXPECT_NEAR(-3819.2497056377961, system.potential(0).stored_energy(), 1e-10);
-  EXPECT_NEAR(23363.573741866534, system.potential(1).stored_energy(), 1e-10);
-  EXPECT_NEAR(-23652.080370504391, system.potential(2).stored_energy(), 1e-12);
-  EXPECT_NEAR(52.13245734204947, system.potential(3).stored_energy(), 1e-12);
-  EXPECT_NEAR(-6.84874714555147, system.potential(4).stored_energy(), 1e-13);
+  const double en_lrc = -6.84874714555147;
+  {
+    System system = spce("CODATA2010");
+    EXPECT_NEAR(-4062.47263092246, system.energy(), 1e-10);
+    EXPECT_NEAR(-3819.24971214984, system.potential(0).stored_energy(), 1e-10);
+    EXPECT_NEAR(23363.573774608, system.potential(1).stored_energy(), 1e-10);
+    EXPECT_NEAR(-23652.08040365018, system.potential(2).stored_energy(), 1e-12);
+    EXPECT_NEAR(52.1324574151071, system.potential(3).stored_energy(), 1e-12);
+    EXPECT_NEAR(en_lrc, system.potential(4).stored_energy(), 1e-13);
+  }
+  {
+    System system = spce("CODATA2018");
+    EXPECT_NEAR(-4062.4726240791533, system.energy(), 1e-10);
+    EXPECT_NEAR(-3819.2497056377961, system.potential(0).stored_energy(), 1e-10);
+    EXPECT_NEAR(23363.573741866534, system.potential(1).stored_energy(), 1e-10);
+    EXPECT_NEAR(-23652.080370504391, system.potential(2).stored_energy(), 1e-12);
+    EXPECT_NEAR(52.13245734204947, system.potential(3).stored_energy(), 1e-12);
+    EXPECT_NEAR(en_lrc, system.potential(4).stored_energy(), 1e-13);
+  }
 }
 
 TEST(Ewald, revert) {

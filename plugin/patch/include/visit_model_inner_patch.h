@@ -88,6 +88,10 @@ class VisitModelInnerPatch : public VisitModelInner {
   CosPatchAngle cos_patch_angle_;
 };
 
+inline std::shared_ptr<VisitModelInner> MakeVisitModelInnerPatch() {
+  return std::make_shared<VisitModelInnerPatch>();
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_PATCH_VISIT_MODEL_INNER_PATCH_H_

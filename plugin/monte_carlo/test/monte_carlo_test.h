@@ -56,16 +56,13 @@ inline void mc_lj(MonteCarlo * mc,
       //{"init_cells", "1."}
     }));
 
-    { Potential potential;
-      potential.set_model(std::make_shared<LennardJones>());
-      potential.set_visit_model(std::make_shared<VisitModel>());
+    { Potential potential(MakeLennardJones());
       potential.set_model_params(system.configuration());
 //      potential.set_model_param("cutoff", 0, cutoff);
 //      EXPECT_NEAR(potential.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
       system.add_to_unoptimized(potential); }
 
-    { Potential lrc;
-      lrc.set_visit_model(std::make_shared<LongRangeCorrections>());
+    { Potential lrc(MakeLongRangeCorrections());
       lrc.set_model_params(system.configuration());
 //      lrc.set_model_param("cutoff", 0, cutoff);
 //      EXPECT_NEAR(lrc.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);

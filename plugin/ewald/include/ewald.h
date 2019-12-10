@@ -5,7 +5,6 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-#include "system/include/physical_constants.h"
 #include "configuration/include/configuration.h"
 #include "system/include/visit_model.h"
 
@@ -77,8 +76,9 @@ class Ewald : public VisitModel {
     update_struct_fact_eik(config->group_select(group_index), config,
                            &struct_fact_real_,
                            &struct_fact_imag_);
-    stored_energy_ = fourier_energy_(struct_fact_real_,
-                                     struct_fact_imag_);
+    const double conversion = model_params.constants()->charge_conversion();
+    stored_energy_ = conversion*fourier_energy_(struct_fact_real_,
+                                                struct_fact_imag_);
     DEBUG("stored_energy_ " << stored_energy_);
     set_energy(stored_energy_);
   }
@@ -165,8 +165,9 @@ class Ewald : public VisitModel {
                                               &struct_fact_imag_new_);
     // compute new energy
     if (selection.trial_state() != 0) {
-      stored_energy_new_ = fourier_energy_(struct_fact_real_new_,
-                                           struct_fact_imag_new_);
+      const double conversion = model_params.constants()->charge_conversion();
+      stored_energy_new_ = conversion*fourier_energy_(struct_fact_real_new_,
+                                                      struct_fact_imag_new_);
     }
     if (selection.trial_state() == 0) {
       enrg = stored_energy_;
@@ -271,7 +272,7 @@ class Ewald : public VisitModel {
       en += wave_prefactor_[k]*(struct_fact_real[k]*struct_fact_real[k]
                               + struct_fact_imag[k]*struct_fact_imag[k]);
     }
-    return charge_conversion*en;
+    return en;
   }
 
   double sign_(const Select& select) {

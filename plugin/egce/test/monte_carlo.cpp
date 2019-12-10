@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "system/include/model_hard_sphere.h"
+#include "system/include/hard_sphere.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "ewald/test/system_example.h"
 #include "monte_carlo/include/metropolis.h"
@@ -40,7 +40,7 @@ MonteCarlo mc_rpm() {
 //      INFO(config.particle(0).site(0).position().str());
 //      INFO(config.particle(1).site(0).position().str());
       const int kmax_squared = 38;
-      ewald = add_ewald_with(MakeModelHardSphere(), &config, &system, kmax_squared);
+      ewald = add_ewald_with(MakeHardSphere(), &system, kmax_squared);
       system.add(config);
     }
     mc.set(system);

@@ -5,7 +5,6 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-#include "system/include/physical_constants.h"
 #include "configuration/include/configuration.h"
 #include "system/include/visit_model.h"
 

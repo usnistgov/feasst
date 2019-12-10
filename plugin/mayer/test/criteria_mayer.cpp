@@ -8,7 +8,7 @@ namespace feasst {
 
 TEST(CriteriaMayer, ljb2) {
   System system = default_system();
-  system.add_to_reference(hs_potential());
+  system.add_to_reference(Potential(MakeHardSphere()));
   auto translate = MakeTrialTranslateMayer({{"reference_index", "0"}, {"weight", "0.75"}});
   //auto translate = MakeTrialTranslate({{"tunable_param", "0.5"}});
   /// HWH notes: does this need a max?

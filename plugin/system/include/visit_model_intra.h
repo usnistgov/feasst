@@ -2,6 +2,7 @@
 #ifndef FEASST_SYSTEM_VISIT_MODEL_INTRA_H_
 #define FEASST_SYSTEM_VISIT_MODEL_INTRA_H_
 
+#include "utils/include/arguments.h"
 #include "system/include/visit_model.h"
 
 namespace feasst {
@@ -11,18 +12,17 @@ namespace feasst {
   this does not include bonded interaction energies, but "inter"-like models
   such as lennard jones but between sites in the same particle (e.g., long
   chains).
-  Note that there is currently a simple method to determine which intraparticle
-  interactions to consider.
-  The intra_cut variable basically means to ignore any site index which is
-  +/-intra_cut away.
-  For example, by default, the intra_cut=1 is used to model a freely jointed
-  linear chain
  */
 class VisitModelIntra : public VisitModel {
  public:
-  VisitModelIntra() {}
-  int intra_cut() const { return intra_cut_; }
-  void set_intra_cut(const int cut) { intra_cut_ = cut; }
+  /**
+    args:
+    - cutoff: ignore the interaction between a pair of sites when
+      |i-j| <= cutoff (integer, default: -1).
+   */
+  explicit VisitModelIntra(const argtype& args = argtype());
+  int cutoff() const { return cutoff_; }
+  void set_cutoff(const int cut) { cutoff_ = cut; }
   void compute(
       const ModelTwoBody& model,
       const ModelParams& model_params,
@@ -43,11 +43,12 @@ class VisitModelIntra : public VisitModel {
 
  private:
   const std::string class_name_ = "VisitModelIntra";
-  int intra_cut_ = -1;
+  int cutoff_;
 };
 
-inline std::shared_ptr<VisitModelIntra> MakeVisitModelIntra() {
-  return std::make_shared<VisitModelIntra>();
+inline std::shared_ptr<VisitModelIntra> MakeVisitModelIntra(
+    const argtype& args = argtype()) {
+  return std::make_shared<VisitModelIntra>(args);
 }
 
 }  // namespace feasst

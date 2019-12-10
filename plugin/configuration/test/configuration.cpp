@@ -278,4 +278,17 @@ TEST(Configuration, select_particle_by_group) {
   EXPECT_EQ(1, part.num_sites());
 }
 
+TEST(Configuration, physical_constants) {
+  auto config = MakeConfiguration({{"physical_constants", "CODATA2010"}});
+  EXPECT_EQ(config->model_params().physical_constants()->boltzmann_constant(),
+            1.3806488E-23);
+  auto config2 = MakeConfiguration();
+  EXPECT_EQ(config2->model_params().physical_constants()->boltzmann_constant(),
+            1.380649E-23);
+  try {
+    auto config3 = MakeConfiguration({{"physical_constants", "bananas"}});
+    CATCH_PHRASE("The class name \"bananas\" is not recognized");
+  }
+}
+
 }  // namespace feasst

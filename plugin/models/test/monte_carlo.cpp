@@ -37,8 +37,7 @@ TEST(MonteCarlo, trimer) {
     lj_wca->set_wca(0, 1, &params);
     lj_wca->set_wca(1, 1, &params);
     //lj_wca->precompute(params);
-    Potential potential;
-    potential.set_model(lj_wca);
+    Potential potential(lj_wca);
     potential.set_model_params(params);
     mc.add(potential);
   }

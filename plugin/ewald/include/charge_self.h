@@ -4,7 +4,6 @@
 
 #include "system/include/model_one_body.h"
 #include "math/include/constants.h"
-#include "system/include/physical_constants.h"
 
 namespace feasst {
 
@@ -24,11 +23,12 @@ class ChargeSelf : public ModelOneBody {
       const ModelParams& model_params) const override {
     const int type = site.type();
     const double charge = model_params.charge().value(type);
-    return -charge*charge*charge_conversion*alpha_/std::sqrt(PI);
+    return -charge*charge*conversion_factor_*alpha_/std::sqrt(PI);
   }
 
   void precompute(const ModelParams& existing) override {
     alpha_ = existing.property("alpha");
+    conversion_factor_ = existing.constants()->charge_conversion();
   }
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
@@ -38,11 +38,13 @@ class ChargeSelf : public ModelOneBody {
     ostr << class_name_ << " ";
     feasst_serialize_version(1, ostr);
     feasst_serialize(alpha_, ostr);
+    feasst_serialize(conversion_factor_, ostr);
   }
 
   ChargeSelf(std::istream& istr) {
     feasst_deserialize_version(istr);
     feasst_deserialize(&alpha_, istr);
+    feasst_deserialize(&conversion_factor_, istr);
   }
 
   virtual ~ChargeSelf() {}
@@ -50,6 +52,7 @@ class ChargeSelf : public ModelOneBody {
  private:
   const std::string class_name_ = "ChargeSelf";
   double alpha_;
+  double conversion_factor_;
 };
 
 inline std::shared_ptr<ChargeSelf> MakeChargeSelf() {

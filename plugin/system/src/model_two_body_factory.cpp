@@ -13,6 +13,14 @@ class MapModelTwoBodyFactory {
 
 static MapModelTwoBodyFactory mapper_ = MapModelTwoBodyFactory();
 
+ModelTwoBodyFactory::ModelTwoBodyFactory(
+    std::vector<std::shared_ptr<ModelTwoBody> > models)
+  : ModelTwoBodyFactory() {
+  for (auto model : models) {
+    add_model(model);
+  }
+}
+
 void ModelTwoBodyFactory::precompute(const ModelParams& existing) {
   for (const std::shared_ptr<Model> model : models_) {
     model->precompute(existing);

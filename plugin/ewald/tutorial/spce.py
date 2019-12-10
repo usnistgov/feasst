@@ -1,10 +1,5 @@
 import feasst
 
-def lrc():
-    potential = feasst.Potential()
-    potential.set_visit_model(feasst.MakeLongRangeCorrections())
-    return potential
-
 def system(config, alphaL = 5.6, kmax_squared=38):
     config.add_model_param("alpha", alphaL/config.domain().min_side_length())
     system = feasst.System()

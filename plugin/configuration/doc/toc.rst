@@ -8,6 +8,7 @@
    Particle
    Group
    FileLMP
+   PhysicalConstants
    ModelParam
    ParticleFactory
    Select

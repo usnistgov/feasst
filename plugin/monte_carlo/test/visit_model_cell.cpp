@@ -5,7 +5,6 @@
 #include "configuration/include/file_xyz.h"
 #include "system/include/lennard_jones.h"
 #include "math/include/constants.h"
-#include "system/include/physical_constants.h"
 #include "system/include/select_list.h"
 #include "math/include/utils_math.h"
 #include "monte_carlo/include/perturb_configs.h"

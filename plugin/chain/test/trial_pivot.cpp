@@ -14,20 +14,14 @@ namespace feasst {
 TEST(TrialPivot, chain10) {
   System system;
   {
-    Configuration config;
-    config.set_domain(Domain().set_cubic(12));
-    config.add_particle_type("../forcefield/data.chain10");
+    Configuration config({{"cubic_box_length", "12"},
+                          {"particle_type", "../forcefield/data.chain10"}});
     config.add_particle_of_type(0);
     system.add(config);
   }
-  { // add potentials to system
-    Potential potential;
-    potential.set_model(std::make_shared<LennardJones>());
-    potential.set_visit_model(std::make_shared<VisitModel>());
-    system.add_to_unoptimized(potential);
-  }
+  system.add(Potential(MakeLennardJones()));
 
-  auto criteria = std::make_shared<Metropolis>();
+  auto criteria = MakeMetropolis();
   criteria->set_beta(100.0);
   auto pivot = MakeTrialPivot({{"tunable_param", "90."}});
   TrialFactory factory;

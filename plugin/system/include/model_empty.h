@@ -38,6 +38,10 @@ class ModelEmpty : public ModelOneBody {
   const std::string class_name_ = "ModelEmpty";
 };
 
+inline std::shared_ptr<ModelEmpty> MakeModelEmpty() {
+  return std::make_shared<ModelEmpty>();
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_SYSTEM_MODEL_EMPTY_H_

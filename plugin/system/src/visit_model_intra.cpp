@@ -4,6 +4,11 @@
 
 namespace feasst {
 
+VisitModelIntra::VisitModelIntra(const argtype& args) {
+  Arguments args_(args);
+  set_cutoff(args_.key("cutoff").dflt("-1").integer());
+}
+
 void VisitModelIntra::compute(
     const ModelTwoBody& model,
     const ModelParams& model_params,
@@ -89,7 +94,7 @@ void VisitModelIntra::compute(
           }
 
           // forced exclude takes precedent over forced include
-          if ( (include or std::abs(site1_index - site2_index) > intra_cut_) and (!exclude) ) {
+          if ( (include or std::abs(site1_index - site2_index) > cutoff_) and (!exclude) ) {
             TRACE("sites: " << site1_index << " " << site2_index);
             get_inner_()->compute(part1_index, site1_index, part1_index, site2_index,
                                   config, model_params, model, &relative_);
@@ -118,14 +123,14 @@ std::shared_ptr<VisitModel> VisitModelIntra::create(std::istream& istr) const {
 VisitModelIntra::VisitModelIntra(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(754 == version, version);
-  feasst_deserialize(&intra_cut_, istr);
+  feasst_deserialize(&cutoff_, istr);
 }
 
 void VisitModelIntra::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_(ostr);
   feasst_serialize_version(754, ostr);
-  feasst_serialize(intra_cut_, ostr);
+  feasst_serialize(cutoff_, ostr);
 }
 
 

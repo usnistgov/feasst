@@ -4,7 +4,6 @@
 
 #include "system/include/model_two_body.h"
 #include "math/include/constants.h"
-#include "system/include/physical_constants.h"
 
 namespace feasst {
 
@@ -25,11 +24,12 @@ class ChargeScreenedIntra : public ModelTwoBody {
       const ModelParams& model_params) const override {
     const double mixed_charge = model_params.mixed_charge()[type1][type2];
     const double distance = std::sqrt(squared_distance);
-    return -mixed_charge*charge_conversion*erf(alpha_*distance)/distance;
+    return -mixed_charge*conversion_factor_*erf(alpha_*distance)/distance;
   }
 
   void precompute(const ModelParams& existing) override {
     alpha_ = existing.property("alpha");
+    conversion_factor_ = existing.constants()->charge_conversion();
   }
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
@@ -39,11 +39,13 @@ class ChargeScreenedIntra : public ModelTwoBody {
     ostr << class_name_ << " ";
     feasst_serialize_version(1, ostr);
     feasst_serialize(alpha_, ostr);
+    feasst_serialize(conversion_factor_, ostr);
   }
 
   ChargeScreenedIntra(std::istream& istr) {
     feasst_deserialize_version(istr);
     feasst_deserialize(&alpha_, istr);
+    feasst_deserialize(&conversion_factor_, istr);
   }
 
   virtual ~ChargeScreenedIntra() {}
@@ -51,6 +53,7 @@ class ChargeScreenedIntra : public ModelTwoBody {
  private:
   const std::string class_name_ = "ChargeScreenedIntra";
   double alpha_;
+  double conversion_factor_;
 };
 
 inline std::shared_ptr<ChargeScreenedIntra> MakeChargeScreenedIntra() {

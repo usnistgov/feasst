@@ -45,7 +45,8 @@ void System::add_to_optimized(const Potential& potential) {
 
 PotentialFactory * System::reference_(const int index) {
   ASSERT(index < static_cast<int>(references_.size()),
-    "unrecognized reference");
+    "unrecognized reference: " << index <<
+    ". There are " << references_.size());
   return &references_[index];
 }
 
@@ -93,8 +94,9 @@ double System::energy(const Select& select, const int config) {
   return potentials_()->energy(select, &configurations_[0]);
 }
 
-double System::reference_energy(const Select& select, const int ref,
-  const int config) {
+double System::reference_energy(const Select& select,
+    const int ref,
+    const int config) {
   return reference_(ref)->energy(select, &configurations_[0]);
 }
 

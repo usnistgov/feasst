@@ -53,13 +53,17 @@ class Configuration {
 
   /**
     args:
-    - cubic_box_length - side length of cubic perioidic boundary conditions.
-    - particle_type[i] - add the i-th type of particle to the configuration.
-      The [i] is to be substituted for an integer 0, 1, 2, ...
-      If only one particle type, you can drop the i.
-    - init_cells - build cell list with given minimum length between cells.
-    - cell_group - only compute cells for those in given group index.
-    - wrap - wrap particle centers within domain (default: true).
+    - cubic_box_length: side length of cubic perioidic boundary conditions.
+    - particle_type[i]: add the i-th type of particle to the configuration.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+      If only one particle type, the "[i]" is optional.
+    - init_cells[i]: build cell list with given minimum length between cells.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+      If only one cell, the "[i]" is optional.
+    - cell_group[i]: only compute cells for those in given group index
+      for cell of corresponding "i" (default: 0).
+    - wrap: wrap particle centers within domain (default: true).
+    - physical_constants: optional class_name of PhysicalConstants.
    */
   Configuration(const argtype& args = argtype());
 
@@ -100,6 +104,10 @@ class Configuration {
                        const double value) {
     unique_types_.add_model_param(name, value);
   }
+
+  /// Set the physical constants in model parameters.
+  void set_physical_constants(std::shared_ptr<PhysicalConstants> constants) {
+    unique_types_.set_physical_constants(constants); }
 
   /// Return the particle associated with the type.
   const Particle& particle_type(const int type) const {

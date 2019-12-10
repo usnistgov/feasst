@@ -4,6 +4,7 @@
 
 #include <memory>
 #include "utils/include/cache.h"
+#include "utils/include/arguments.h"
 #include "configuration/include/configuration.h"
 #include "system/include/visit_model.h"
 #include "system/include/model.h"
@@ -18,40 +19,42 @@ namespace feasst {
  */
 class Potential {
  public:
-  /// Construct with the default visitor and empty model.
-  Potential();
+  /**
+    Construct with the default visitor and default model (emtpy).
 
-  /// Constract with given model and default visitor.
-  explicit Potential(std::shared_ptr<Model> model);
+    args:
+    - group_index: set the index of the group in the configuration which
+      contributes to this potential (default: 0, representing entire config).
+    - cell_index: set the index of the cell, only to be used with
+      VisitModelCell.
+      This also overrides group_index.
+   */
+  explicit Potential(const argtype& args = argtype());
 
-  /// Construct with given visitor and empty model.
-  explicit Potential(std::shared_ptr<VisitModel> visit_model);
+  /// Return the index of the group
+  int group_index() const { return group_index_; }
 
-  /// Construct with given model and visitor.
-  Potential(std::shared_ptr<Model> model,
-    std::shared_ptr<VisitModel> visit_model);
+  /// Return the index of the cell
+  int cell_index() const;
 
-  /// Set the model.
-  void set_model(std::shared_ptr<Model> model) { model_ = model; }
+  /// Constract with model and default visitor.
+  explicit Potential(std::shared_ptr<Model> model,
+                     const argtype& args = argtype());
 
   /// Return the model.
   const Model * model() const { return model_.get(); }
 
-  /// Set the method used to compute.
-  void set_visit_model(std::shared_ptr<VisitModel> visit_model) {
-    visit_model_ = visit_model; }
+  /// Construct with visitor and default model.
+  explicit Potential(std::shared_ptr<VisitModel> visit_model,
+                     const argtype& args = argtype());
 
   /// Return the method used to compute.
   const VisitModel * visit_model() const { return visit_model_.get(); }
 
-  /// Set the index of the group in the configuration which contributes to this
-  /// potential. By default, the index is zero, which represents the entire
-  /// configuration.
-  /// Note that for VisitModelCell, group_index refers to the cell_index.
-  void set_group_index(const int group_index = 0) {group_index_ = group_index; }
-
-  /// Return the index of the group
-  int group_index() const { return group_index_; }
+  /// Construct with model and visitor.
+  Potential(std::shared_ptr<Model> model,
+            std::shared_ptr<VisitModel> visit_model,
+            const argtype& args = argtype());
 
   /// Set the model parameters. If not set, use the one from configuration.
   void set_model_params(const ModelParams& model_params) {
@@ -71,10 +74,14 @@ class Potential {
   /// Return the model parameters.
   const ModelParams& model_params() const;
 
+  /// Return the model parameters.
+  /// Use model parameters from configuration if they have not been overriden.
+  const ModelParams& model_params(const Configuration * config) const;
+
   /// Precompute quantities for optimizations before calculation of energies.
   void precompute(Configuration * config) {
     visit_model_->precompute(config);
-    model_->precompute(config->model_params());
+    model_->precompute(model_params(config));
   }
 
   /// Compute the energy of the entire configuration.

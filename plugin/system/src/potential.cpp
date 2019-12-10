@@ -4,25 +4,33 @@
 
 namespace feasst {
 
-Potential::Potential() {
+Potential::Potential(const argtype& args) {
   model_ = std::make_shared<ModelEmpty>();
   visit_model_ = std::make_shared<VisitModel>();
-  set_group_index();
+
+  Arguments args_(args);
+  group_index_ = args_.key("group_index").dflt("0").integer();
+  if (args_.key("cell_index").used()) {
+    ASSERT(group_index_ == 0, "cell_index overrides group_index");
+    group_index_ = args_.integer();
+  }
 }
 
-Potential::Potential(std::shared_ptr<Model> model) : Potential() {
-  set_model(model);
+Potential::Potential(std::shared_ptr<Model> model,
+                     const argtype& args) : Potential(args) {
+  model_ = model;
 }
 
-Potential::Potential(std::shared_ptr<VisitModel> visit_model) : Potential() {
-  set_visit_model(visit_model);
+Potential::Potential(std::shared_ptr<VisitModel> visit_model,
+                     const argtype& args) : Potential(args) {
+  visit_model_ = visit_model;
 }
 
 Potential::Potential(
     std::shared_ptr<Model> model,
-    std::shared_ptr<VisitModel> visit_model) : Potential() {
-  set_model(model);
-  set_visit_model(visit_model);
+    std::shared_ptr<VisitModel> visit_model,
+    const argtype& args) : Potential(model, args) {
+  visit_model_ = visit_model;
 }
 
 void Potential::set_model_param(const char* name,
@@ -35,6 +43,13 @@ void Potential::set_model_param(const char* name,
 const ModelParams& Potential::model_params() const {
   ASSERT(model_params_override_, "you must first initialize model params");
   return model_params_;
+}
+
+const ModelParams& Potential::model_params(const Configuration * config) const {
+  if (model_params_override_) {
+    return model_params_;
+  }
+  return config->model_params(); 
 }
 
 double Potential::energy(Configuration * config) {
@@ -64,6 +79,11 @@ double Potential::energy(const Select& select, Configuration * config) {
     cache_.load(stored_energy_);
   }
   return stored_energy_;
+}
+
+int Potential::cell_index() const {
+  ASSERT(visit_model_->class_name() == "VisitModelCell", "error");
+  return group_index();
 }
 
 void Potential::serialize(std::ostream& ostr) const {

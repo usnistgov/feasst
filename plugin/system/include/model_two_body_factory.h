@@ -18,6 +18,9 @@ class ModelTwoBodyFactory : public ModelTwoBody {
  public:
   ModelTwoBodyFactory() {}
 
+  /// Construct with a vector of two body models.
+  ModelTwoBodyFactory(std::vector<std::shared_ptr<ModelTwoBody> > models);
+
   /// Add a two body model.
   void add_model(std::shared_ptr<ModelTwoBody> model) {
     models_.push_back(model); }
@@ -49,6 +52,11 @@ class ModelTwoBodyFactory : public ModelTwoBody {
 
 inline std::shared_ptr<ModelTwoBodyFactory> MakeModelTwoBodyFactory() {
   return std::make_shared<ModelTwoBodyFactory>();
+}
+
+inline std::shared_ptr<ModelTwoBodyFactory> MakeModelTwoBodyFactory(
+    std::vector<std::shared_ptr<ModelTwoBody> > models) {
+  return std::make_shared<ModelTwoBodyFactory>(models);
 }
 
 }  // namespace feasst
