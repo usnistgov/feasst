@@ -49,7 +49,7 @@ const ModelParams& Potential::model_params(const Configuration * config) const {
   if (model_params_override_) {
     return model_params_;
   }
-  return config->model_params(); 
+  return config->model_params();
 }
 
 double Potential::energy(Configuration * config) {

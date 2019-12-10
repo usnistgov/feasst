@@ -18,7 +18,7 @@ for f in `find . -name '*.cpp' -o -name '*.h' -o -name '*.py' -o -name '*.dot'`;
   #sed 's/DomainCuboid/Domain/g' $f > ttmp; mv ttmp $f
   #sed 's/CriteriaMetropolis/Metropolis/g' $f > ttmp; mv ttmp $f
   #sed 's/criteria_metropolis\.h/metropolis\.h/g' $f > ttmp; mv ttmp $f
-  sed 's/criteria_flat_histogram_test\.h/flat_histogram_test\.h/g' $f > ttmp; mv ttmp $f
+  sed 's/ $//g' $f > ttmp; mv ttmp $f
 done
 #rename 's/\.cc/\.cpp/' $(find . -type f)
 #rename -n 's/\.cc/\.cpp/' $(find . -type f)

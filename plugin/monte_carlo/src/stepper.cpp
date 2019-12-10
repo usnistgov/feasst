@@ -27,7 +27,7 @@ Stepper::Stepper(const argtype &args) {
     file.open(file_name_, std::ofstream::out);
     file.close();
   }
-  
+
   set_multistate(args_.key("multistate").dflt("0").boolean());
 }
 
