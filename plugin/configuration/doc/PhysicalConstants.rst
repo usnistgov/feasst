@@ -16,3 +16,7 @@ PhysicalConstants
 .. doxygenclass:: feasst::CODATA2010
    :project: FEASST
    :members:
+
+.. doxygenclass:: feasst::PhysicalConstantsCustom
+   :project: FEASST
+   :members:

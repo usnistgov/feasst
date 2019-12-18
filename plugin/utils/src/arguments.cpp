@@ -94,9 +94,9 @@ bool Arguments::boolean() {
   std::stringstream errmsg;
   errmsg << "Argument({" << used_keys_.back() << ", " << string_value << "}) was "
     << "expected to be a boolean";
-  if (string_value == "true") {
+  if (string_value == "true" || string_value == "True") {
     return true;
-  } else if (string_value == "false") {
+  } else if (string_value == "false" || string_value == "False") {
     return false;
   } else if (string_value == "1") {
     return true;

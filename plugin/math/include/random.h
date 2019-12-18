@@ -27,12 +27,11 @@ class Random {
   /**
     args:
     - seed : Provide an integer to seed the random number generator.
-             If the string "date" is provided, then use the date to generate
-             the seed.
-             If no seed is provided, but random numbers are requested, then
-             the date will be used to generate a seed.
-             If the string "default" is provided, then use the default integer
-             included in Random::seed().
+      If the string "date" is provided, then use the date to generate the seed.
+      If no seed is provided, but random numbers are requested, then
+      the date will be used to generate a seed.
+      If the string "default" is provided, then use the default integer
+      included in Random::seed().
    */
   Random(const argtype& args = argtype());
 

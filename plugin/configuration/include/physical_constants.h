@@ -140,6 +140,43 @@ inline std::shared_ptr<CODATA2010> MakeCODATA2010() {
   return std::make_shared<CODATA2010>();
 }
 
+/**
+ * Define custom physical constants.
+ */
+class PhysicalConstantsCustom : public PhysicalConstants {
+ public:
+  /**
+    args:
+    - boltzmann_constant
+    - avogadro_constant
+    - permitivity_vacuum
+    - elementary_charge
+   */
+  PhysicalConstantsCustom(const argtype& args = argtype());
+
+  const double boltzmann_constant() const override { return boltzmann_constant_; }
+  const double avogadro_constant() const override { return avogadro_constant_; }
+  const double permitivity_vacuum() const override { return permitivity_vacuum_; }
+  const double elementary_charge() const override { return elementary_charge_; }
+
+  std::shared_ptr<PhysicalConstants> create(std::istream& istr) const override {
+    return std::make_shared<PhysicalConstantsCustom>(istr); }
+  void serialize(std::ostream& ostr) const override;
+  explicit PhysicalConstantsCustom(std::istream& istr);
+  virtual ~PhysicalConstantsCustom() {}
+
+ private:
+  double boltzmann_constant_;
+  double avogadro_constant_;
+  double permitivity_vacuum_;
+  double elementary_charge_;
+};
+
+inline std::shared_ptr<PhysicalConstantsCustom> MakePhysicalConstantsCustom(
+    const argtype& args = argtype()) {
+  return std::make_shared<PhysicalConstantsCustom>(args);
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_CONFIGURATION_PHYSICAL_CONSTANTS_H_

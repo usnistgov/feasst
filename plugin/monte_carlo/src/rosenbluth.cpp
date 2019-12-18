@@ -38,7 +38,7 @@ void Rosenbluth::compute(const double beta, Random * random) {
   }
   TRACE("cumulative " << feasst_str(cumulative_));
   const double last = cumulative_.back();
-  ASSERT(std::abs(cumulative_.back() - 1.) < 10000.*NEAR_ZERO,
+  ASSERT(std::abs(cumulative_.back() - 1.) < 100000000.*NEAR_ZERO,
     "cumulative probability must end in 1. " <<
     MAX_PRECISION << last);
   for (double& element : cumulative_) {

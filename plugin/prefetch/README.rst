@@ -1,8 +1,8 @@
 *********
-Pipeline
+Prefetch
 *********
 
-OMP parallelize Monte Carlo simulations using a pipeline of the trial moves.
+OMP parallelize Monte Carlo simulations by prefetching trial moves.
 For MacOS, "brew install libomp"
 
 .. toctree::

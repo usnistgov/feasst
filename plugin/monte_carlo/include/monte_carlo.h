@@ -237,6 +237,9 @@ class MonteCarlo {
     }
   }
 
+  const PhysicalConstants * physical_constants() const {
+    return configuration().model_params().physical_constants(); }
+
   virtual void serialize(std::ostream& ostr) const {
     feasst_serialize_version(529, ostr);
     feasst_serialize_fstobj(system_, ostr);

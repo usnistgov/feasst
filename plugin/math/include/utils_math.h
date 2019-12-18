@@ -6,6 +6,7 @@
 #include <numeric>
 #include <algorithm>
 #include <iostream>
+#include "utils/include/debug.h"
 #include "math/include/constants.h"
 
 namespace feasst {
@@ -39,6 +40,7 @@ T product(const std::vector<T> &vec) {
 /// Return the minimum element of a vector.
 template<class T>
 T minimum(const std::vector<T> &vec) {
+  ASSERT(vec.size() > 0, "vector has no elements");
   return *std::min_element(vec.begin(), vec.end());
 }
 

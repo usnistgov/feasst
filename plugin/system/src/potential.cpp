@@ -14,6 +14,7 @@ Potential::Potential(const argtype& args) {
     ASSERT(group_index_ == 0, "cell_index overrides group_index");
     group_index_ = args_.integer();
   }
+  prevent_cache_ = args_.key("prevent_cache").dflt("False").boolean();
 }
 
 Potential::Potential(std::shared_ptr<Model> model,
@@ -54,7 +55,7 @@ const ModelParams& Potential::model_params(const Configuration * config) const {
 
 double Potential::energy(Configuration * config) {
   ASSERT(visit_model_, "visitor must be set.");
-  if (!cache_.is_unloading(&stored_energy_)) {
+  if (prevent_cache_ || !cache_.is_unloading(&stored_energy_)) {
     if (model_params_override_) {
       stored_energy_ = model_->compute(model_params_, group_index_, config,
                                        visit_model_.get());
@@ -68,7 +69,7 @@ double Potential::energy(Configuration * config) {
 
 double Potential::energy(const Select& select, Configuration * config) {
   ASSERT(visit_model_, "visitor must be set.");
-  if (!cache_.is_unloading(&stored_energy_)) {
+  if (prevent_cache_ || !cache_.is_unloading(&stored_energy_)) {
     if (model_params_override_) {
       stored_energy_ = model_->compute(model_params_, select, group_index_,
                                        config, visit_model_.get());
@@ -86,6 +87,18 @@ int Potential::cell_index() const {
   return group_index();
 }
 
+void Potential::precompute(Configuration * config) {
+  visit_model_->precompute(config);
+  const ModelParams& params = model_params(config);
+  model_->precompute(params);
+  const double max_cutoff = maximum(params.cutoff().values());
+  const double half_min_side = 0.5*config->domain().min_side_length();
+  if (max_cutoff - NEAR_ZERO > half_min_side) {
+    WARN("The maximum cutoff:" << max_cutoff << " is greater than half the " <<
+         "minimum side length: " << half_min_side);
+  }
+}
+
 void Potential::serialize(std::ostream& ostr) const {
   feasst_serialize_version(432, ostr);
   feasst_serialize(group_index_, ostr);
@@ -97,6 +110,7 @@ void Potential::serialize(std::ostream& ostr) const {
     feasst_serialize_fstobj(model_params_, ostr);
   }
   feasst_serialize_fstobj(cache_, ostr);
+  feasst_serialize(prevent_cache_, ostr);
 }
 
 Potential::Potential(std::istream& istr) {
@@ -125,6 +139,7 @@ Potential::Potential(std::istream& istr) {
     feasst_deserialize_fstobj(&model_params_, istr);
   }
   feasst_deserialize_fstobj(&cache_, istr);
+  feasst_deserialize(&prevent_cache_, istr);
 }
 
 }  // namespace feasst

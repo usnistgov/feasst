@@ -3,21 +3,21 @@
 #ifdef _OPENMP
   #include <omp.h>
 #endif // _OPENMP
-#include "pipeline/include/pipeline.h"
+#include "prefetch/include/prefetch.h"
 
-// // use this to turn pipeline serial to simply debugging
+// // use this to turn prefetch serial to simply debugging
 // #define DEBUG_SERIAL_MODE_5324634
 
 namespace feasst {
 
-MonteCarlo * Pipeline::clone_(const int ithread, const int jthread) {
-  if (ithread == jthread) {
+MonteCarlo * Prefetch::clone_(const int ithread) {
+  if (ithread == 0) {
     return this;
   }
-  return &pool_[jthread].mc;
+  return &pool_[ithread].mc;
 }
 
-void Pipeline::attempt_(
+void Prefetch::attempt_(
     const int num_trials,
     TrialFactory * trial_factory,
     Random * random) {
@@ -56,22 +56,24 @@ void Pipeline::attempt_(
     delay_finalize();
 
     //clones_.resize(num_threads_);
-    for (Pool& proc : pool_) {
-    //{MonteCarlo& clone : clones_) {
+    for (int thread = 1; thread < num_threads_; ++thread) {
       std::stringstream clone_ss;
       MonteCarlo::serialize(clone_ss);
-      proc.mc = MonteCarlo(clone_ss);
+      pool_[thread].mc = MonteCarlo(clone_ss);
     }
 
     // offset random number chains so that clones are not equal
     for (int i = 0; i < num_threads_ - 1; ++i) {
       for (int j = i + 1; j < num_threads_; ++j) {
-        pool_[i].mc.offset_random();
+        clone_(i)->offset_random();
       }
     }
-  }
 
-  before_attempts_();
+    // run some checks before attempting trials
+    for (int thread = 0; thread < num_threads_; ++thread) {
+      clone_(thread)->before_attempts_();
+    }
+  }
 
   #ifdef _OPENMP
   #pragma omp parallel private(proc_id)
@@ -86,7 +88,7 @@ void Pipeline::attempt_(
 
     if (proc_id == 0) {
       DEBUG("************************");
-      DEBUG("* Begin Pipeline cycle *");
+      DEBUG("* Begin Prefetch cycle *");
       DEBUG("************************");
     }
 
@@ -111,7 +113,8 @@ void Pipeline::attempt_(
 
     // set random number generators to store (zero storage for selecting trial?).
     Pool * pool = &pool_[proc_id];
-    pool->mc.load_cache(true);
+    MonteCarlo * mc = clone_(proc_id);
+    mc->load_cache(true);
 
     #ifdef DEBUG_SERIAL_MODE_5324634
     #pragma omp critical
@@ -121,11 +124,8 @@ void Pipeline::attempt_(
     // Each processor attempts their trial in parallel,
     // without analyze modify or checkpoint.
     // Store new macrostate and acceptance prob
-    MonteCarlo * mc = &(pool->mc);
     pool->set_accepted(mc->attempt_trial(pool->index()));
-    pool->set_ln_prob(
-      mc->trial(pool->index())->accept().ln_metropolis_prob()
-    );
+    pool->set_ln_prob(mc->trial(pool->index())->accept().ln_metropolis_prob());
     DEBUG("critical proc_id " << proc_id << " " << pool->str());
     DEBUG("nump " << mc->system().configuration().num_particles());
 
@@ -162,7 +162,7 @@ void Pipeline::attempt_(
     if (first_thread_accepted != num_threads_) {
       if (proc_id > first_thread_accepted) {
         DEBUG("reverting trial " << proc_id);
-        pool->mc.revert(pool->index(), pool->accepted());
+        mc->revert(pool->index(), pool->accepted());
       }
     }
 
@@ -182,9 +182,11 @@ void Pipeline::attempt_(
         DEBUG("mimic failed " << ithread);
         // loop through other threads to update
         for (int jthread = 0; jthread < num_threads_; ++jthread) {
-          MonteCarlo * mc = clone_(ithread, jthread);
-          mc->mimic_trial_rejection(
-            pool->index(), pool->ln_prob());
+          if (ithread != jthread) {
+            clone_(jthread)->mimic_trial_rejection(
+              pool_[ithread].index(),
+              pool_[ithread].ln_prob());
+          }
         }
         DEBUG("num attempts " << pool->mc.trials().num_attempts() << " "
                               << pool->mc.trials().num_success() << " " << &pool->mc);
@@ -205,14 +207,14 @@ void Pipeline::attempt_(
     if (first_thread_accepted < num_threads_) {
       DEBUG("Replicate first accepted trial in all other threads");
       Pool * accepted_pool = &pool_[first_thread_accepted];
-      if (proc_id == 0) {
-        accepted_pool->mc.finalize(accepted_pool->index());
+      if (proc_id == first_thread_accepted) {
+        mc->finalize(accepted_pool->index());
+      } else {
+        // load/unload system energies and random numbers
+        mc->unload_cache(*clone_(first_thread_accepted));
+        mc->attempt_trial(accepted_pool->index());
+        mc->finalize(accepted_pool->index());
       }
-      MonteCarlo * mc = clone_(first_thread_accepted, proc_id);
-      // attempt to load/unload system energies, just like random numbers
-      mc->unload_cache(accepted_pool->mc);
-      mc->attempt_trial(accepted_pool->index());
-      mc->finalize(accepted_pool->index());
     }
 
     #ifdef DEBUG_SERIAL_MODE_5324634
@@ -229,12 +231,10 @@ void Pipeline::attempt_(
     #endif
 
     // disable cache
-    pool_[proc_id].mc.load_cache(false);
-    if (num_threads_ == 1 || proc_id == 1) load_cache(false);
+    mc->load_cache(false);
 
     // perform after trial on all clones/master after multiple trials performed
-    pool_[proc_id].mc.after_trial_();
-    if (num_threads_ == 1 || proc_id == 1) after_trial_();
+    mc->after_trial_();
 
     #ifdef DEBUG_SERIAL_MODE_5324634
     }
@@ -250,15 +250,16 @@ void Pipeline::attempt_(
     #endif
 
     // periodically check that all threads are equal
-    if (itrial % steps_per_check_ == 0) {
+    if (itrial % steps_per_check_ == 0 &&
+        proc_id > 0) {
       const double energy = criteria()->current_energy();
       DEBUG("check that the current energy of all threads and master are the same: " << energy);
       const double tolerance = 1e-8;
-      const MonteCarlo& mc = pool_[proc_id].mc;
-      const double diff = mc.criteria()->current_energy() - energy;
+      const MonteCarlo& mcc = *clone_(proc_id);
+      const double diff = mcc.criteria()->current_energy() - energy;
       ASSERT(fabs(diff) <= tolerance, "diff: " << diff);
-      ASSERT(system().configuration().is_equal(mc.system().configuration()), "configs not equal thread" << proc_id);
-      ASSERT(trials().is_equal(mc.trials()), "trials not equal thread" << proc_id);
+      ASSERT(system().configuration().is_equal(mcc.system().configuration()), "configs not equal thread" << proc_id);
+      ASSERT(trials().is_equal(mcc.trials()), "trials not equal thread" << proc_id);
     }
 
     #ifdef DEBUG_SERIAL_MODE_5324634

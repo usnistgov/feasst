@@ -28,6 +28,8 @@ class Potential {
     - cell_index: set the index of the cell, only to be used with
       VisitModelCell.
       This also overrides group_index.
+    - prevent_cache: set this to true in order to prevent the use of cache
+      (default: False)
    */
   explicit Potential(const argtype& args = argtype());
 
@@ -79,10 +81,7 @@ class Potential {
   const ModelParams& model_params(const Configuration * config) const;
 
   /// Precompute quantities for optimizations before calculation of energies.
-  void precompute(Configuration * config) {
-    visit_model_->precompute(config);
-    model_->precompute(model_params(config));
-  }
+  void precompute(Configuration * config);
 
   /// Compute the energy of the entire configuration.
   double energy(Configuration * config);
@@ -123,6 +122,7 @@ class Potential {
   bool model_params_override_ = false;
   ModelParams model_params_;
   Cache cache_;
+  bool prevent_cache_;
 };
 
 }  // namespace feasst

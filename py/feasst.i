@@ -139,6 +139,7 @@
 #include "flat_histogram/include/collection_matrix.h"
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
+#include "prefetch/include/prefetch.h"
 #include "confinement/include/shape.h"
 #include "confinement/include/slab.h"
 #include "confinement/include/cylinder.h"
@@ -158,7 +159,6 @@
 #include "chain/include/trial_pivot.h"
 #include "chain/include/perturb_reptate.h"
 #include "chain/include/trial_reptate.h"
-#include "pipeline/include/pipeline.h"
 #include "example/include/model_example.h"
 #include "growth_expanded/include/trial_growth_expanded.h"
 #include "growth_expanded/include/macrostate_growth_expanded.h"
@@ -207,6 +207,7 @@ using namespace std;
 %shared_ptr(feasst::CODATA2018);
 %shared_ptr(feasst::CODATA2014);
 %shared_ptr(feasst::CODATA2010);
+%shared_ptr(feasst::PhysicalConstantsCustom);
 %shared_ptr(feasst::ModelParam);
 %shared_ptr(feasst::Epsilon);
 %shared_ptr(feasst::Sigma);
@@ -331,6 +332,8 @@ using namespace std;
 %shared_ptr(feasst::TripleBandedCollectionMatrix);
 %shared_ptr(feasst::TransitionMatrix);
 %shared_ptr(feasst::MacrostateNumParticles);
+%shared_ptr(feasst::Pool);
+%shared_ptr(feasst::Prefetch);
 %shared_ptr(feasst::Shape);
 %shared_ptr(feasst::ShapedEntity);
 %shared_ptr(feasst::ShapeIntersect);
@@ -353,8 +356,6 @@ using namespace std;
 %shared_ptr(feasst::TrialPivot);
 %shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::TrialReptate);
-%shared_ptr(feasst::Pool);
-%shared_ptr(feasst::Pipeline);
 %shared_ptr(feasst::ModelExample);
 %shared_ptr(feasst::TrialComputeGrowAdd);
 %shared_ptr(feasst::TrialComputeGrowRemove);
@@ -491,6 +492,7 @@ using namespace std;
 %include flat_histogram/include/collection_matrix.h
 %include flat_histogram/include/transition_matrix.h
 %include flat_histogram/include/macrostate_num_particles.h
+%include prefetch/include/prefetch.h
 %include confinement/include/shape.h
 %include confinement/include/slab.h
 %include confinement/include/cylinder.h
@@ -510,7 +512,6 @@ using namespace std;
 %include chain/include/trial_pivot.h
 %include chain/include/perturb_reptate.h
 %include chain/include/trial_reptate.h
-%include pipeline/include/pipeline.h
 %include example/include/model_example.h
 %include growth_expanded/include/trial_growth_expanded.h
 %include growth_expanded/include/macrostate_growth_expanded.h

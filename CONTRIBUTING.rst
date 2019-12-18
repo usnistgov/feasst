@@ -316,3 +316,5 @@ To Do List
 * Jupyter notebook output should go to cells, not terminal that runs jupyter.
 * implement gibbs ensemble
 * lint file_[xyz,lmp]
+* chain setters don't seem to work with the python interface (e.g., groups). Replace with arguments.
+* rename pipeline plugin to prefetch

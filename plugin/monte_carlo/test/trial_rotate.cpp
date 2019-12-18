@@ -14,7 +14,9 @@ TEST(TrialRotate, spce) {
   System system;
   {
     auto config = MakeConfiguration(
-      {{"particle_type", "../forcefield/data.spce"}});
+      {{"particle_type", "../forcefield/data.spce"},
+       {"cubic_box_length", "4"}
+       });
     config->add_particle_of_type(0);
     system.add(*config);
   }

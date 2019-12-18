@@ -25,7 +25,7 @@ inline std::shared_ptr<Ewald> add_ewald_with(
   { ewald->set_kmax_squared(kmax_squared);
     ewald->update_wave_vectors(system->configuration());
     ewald->init_wave_vector_storage(system->get_configuration());
-    system->add(Potential(ewald));
+    system->add(Potential(ewald, {{"prevent_cache", "True"}}));
   }
   return ewald;
 }

@@ -37,9 +37,6 @@ bool Stepper::is_time(const int steps_per, int * steps_since) {
     if (*steps_since >= steps_per) {
       *steps_since = 0;
       return true;
-    } else {
-      ASSERT(*steps_since < steps_per,
-        "skipped an analysis step?");
     }
   }
   return false;

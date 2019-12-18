@@ -30,8 +30,10 @@ void MeanSquaredDisplacement::update(Criteria * criteria,
     TrialFactory * trial_factory) {
 
   // check for new origins
-  if (updates_since_origin_ == updates_per_origin_) {
+  if (updates_since_origin_ >= updates_per_origin_) {
     const SelectGroup& new_origin = system->configuration().group_select(group_index_);
+    INFO("num particles: " << new_origin.num_particles());
+    INFO("num sites: " << new_origin.num_sites());
     if (origins_.size() != 0) {
       ASSERT(new_origin.num_particles() == origins_.back().num_particles(),
         "The previous number of particles: " << origins_.back().num_particles() <<

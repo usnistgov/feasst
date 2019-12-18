@@ -59,7 +59,7 @@ class Arguments {
   int integer();
 
   /// Return the conversion of a str of the processed keyword to boolean.
-  /// Accept the strings "true", "false", "1" or "0".
+  /// Accept the strings "True", "False", "1", "0", "true" or "false".
   bool boolean();
 
   /// Upon destruction, check that all provided args were processed.

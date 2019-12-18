@@ -5,6 +5,6 @@ Pool
    :project: FEASST
    :members:
 
-.. doxygenclass:: feasst::Pipeline
+.. doxygenclass:: feasst::Prefetch
    :project: FEASST
    :members:

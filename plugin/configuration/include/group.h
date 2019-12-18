@@ -7,6 +7,8 @@
 
 namespace feasst {
 
+// HWH: chain-setters don't work well with python.
+// HWH: use arguments instead
 /**
   Define groups based on particle and site types.
   In the future, other metrics may be used, such as position-based ones, etc.
