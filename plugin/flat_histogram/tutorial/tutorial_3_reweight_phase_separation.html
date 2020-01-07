@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Analysis of a two-phase (phase separated) simulation &mdash; FEASST v0.9.0-1-gce5ca7b875 documentation</title>
+  <title>Analysis of a two-phase (phase separated) simulation &mdash; FEASST v0.10.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.9.0-1-gce5ca7b875
+                v0.10.0
               </div>
             
           
@@ -137,7 +137,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -544,7 +545,7 @@ Text(200, -40, &#39;high density phase\n(more probable)&#39;)
     <span class="n">ln_prob_rw</span> <span class="o">=</span> <span class="n">criteria</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="n">delta_conjugate</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ln_prob_rw</span><span class="o">.</span><span class="n">saturation_objective</span><span class="p">(</span><span class="n">delta_conjugate</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">minimize</span>
 <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">beta_mu_rw</span><span class="p">:</span> <span class="n">objective</span><span class="p">(</span><span class="n">criteria</span><span class="p">,</span> <span class="n">beta_mu_rw</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
 <span class="n">mu_saturation</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">criteria</span><span class="o">.</span><span class="n">beta</span><span class="p">()</span>
 <span class="n">delta_conjugate</span> <span class="o">=</span> <span class="n">criteria</span><span class="o">.</span><span class="n">beta</span><span class="p">()</span><span class="o">*</span><span class="n">mu_saturation</span> <span class="o">-</span> <span class="n">criteria</span><span class="o">.</span><span class="n">beta_mu</span><span class="p">()</span>

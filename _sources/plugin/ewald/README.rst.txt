@@ -8,6 +8,14 @@ This is a plugin for the Ewald summation for long-range electrostatics.
 
    doc/toc
 
+Tutorial
+=========
+
+.. toctree::
+   :glob:
+
+   tutorial/tutorial*
+
 FEASST plugin dependencies
 ============================
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PhysicalConstants &mdash; FEASST v0.9.0-1-gce5ca7b875 documentation</title>
+  <title>PhysicalConstants &mdash; FEASST v0.10.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.9.0-1-gce5ca7b875
+                v0.10.0
               </div>
             
           
@@ -148,7 +148,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../pipeline/README.html">Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -275,7 +276,7 @@
 <dl class="class">
 <dt id="_CPPv4N6feasst17PhysicalConstantsE">
 <span class="target" id="classfeasst_1_1PhysicalConstants"></span><em class="property">class </em><code class="sig-name descname">PhysicalConstants</code><a class="headerlink" href="#_CPPv4N6feasst17PhysicalConstantsE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Subclassed by <a class="reference internal" href="#classfeasst_1_1CODATA2010"><span class="std std-ref">feasst::CODATA2010</span></a>, <a class="reference internal" href="#classfeasst_1_1CODATA2014"><span class="std std-ref">feasst::CODATA2014</span></a>, <a class="reference internal" href="#classfeasst_1_1CODATA2018"><span class="std std-ref">feasst::CODATA2018</span></a></p>
+<dd><p>Subclassed by <a class="reference internal" href="#classfeasst_1_1CODATA2010"><span class="std std-ref">feasst::CODATA2010</span></a>, <a class="reference internal" href="#classfeasst_1_1CODATA2014"><span class="std std-ref">feasst::CODATA2014</span></a>, <a class="reference internal" href="#classfeasst_1_1CODATA2018"><span class="std std-ref">feasst::CODATA2018</span></a>, <a class="reference internal" href="#classfeasst_1_1PhysicalConstantsCustom"><span class="std std-ref">feasst::PhysicalConstantsCustom</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Base constants</p>
 <dl class="function">
@@ -414,6 +415,51 @@
 <dl class="function">
 <dt id="_CPPv4NK6feasst10CODATA201017elementary_chargeEv">
 <span class="target" id="classfeasst_1_1CODATA2010_1a984e888e73db69761c0096a3c1f44815"></span><em class="property">const</em> double <code class="sig-name descname">elementary_charge</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10CODATA201017elementary_chargeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Elementary charge in units of C. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N6feasst23PhysicalConstantsCustomE">
+<span class="target" id="classfeasst_1_1PhysicalConstantsCustom"></span><em class="property">class </em><code class="sig-name descname">PhysicalConstantsCustom</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst17PhysicalConstantsE" title="feasst::PhysicalConstants">PhysicalConstants</a><a class="headerlink" href="#_CPPv4N6feasst23PhysicalConstantsCustomE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Define custom physical constants. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv4N6feasst23PhysicalConstantsCustom23PhysicalConstantsCustomERK7argtype">
+<span class="target" id="classfeasst_1_1PhysicalConstantsCustom_1a0b7c1f1a71b2cbdcd4db082da15f5296"></span><code class="sig-name descname">PhysicalConstantsCustom</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst23PhysicalConstantsCustom23PhysicalConstantsCustomERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>boltzmann_constant</p></li>
+<li><p>avogadro_constant</p></li>
+<li><p>permitivity_vacuum</p></li>
+<li><p>elementary_charge </p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4NK6feasst23PhysicalConstantsCustom18boltzmann_constantEv">
+<span class="target" id="classfeasst_1_1PhysicalConstantsCustom_1afecc4c76e01b2316c3ab47a733316010"></span><em class="property">const</em> double <code class="sig-name descname">boltzmann_constant</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst23PhysicalConstantsCustom18boltzmann_constantEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Boltzman constant in units of Joules per Kelvin. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4NK6feasst23PhysicalConstantsCustom17avogadro_constantEv">
+<span class="target" id="classfeasst_1_1PhysicalConstantsCustom_1a2af5c83ecb5e36a90e9508ea8ffe39e1"></span><em class="property">const</em> double <code class="sig-name descname">avogadro_constant</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst23PhysicalConstantsCustom17avogadro_constantEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Avogadro’s constant units of number of particles per mol. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4NK6feasst23PhysicalConstantsCustom18permitivity_vacuumEv">
+<span class="target" id="classfeasst_1_1PhysicalConstantsCustom_1a8dcd72c858e59e2ccd571925291a4019"></span><em class="property">const</em> double <code class="sig-name descname">permitivity_vacuum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst23PhysicalConstantsCustom18permitivity_vacuumEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Permitivity of vacuum in units of C^2/J/m. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv4NK6feasst23PhysicalConstantsCustom17elementary_chargeEv">
+<span class="target" id="classfeasst_1_1PhysicalConstantsCustom_1a9bfa09c5127666f475cce4a6a6a48def"></span><em class="property">const</em> double <code class="sig-name descname">elementary_charge</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst23PhysicalConstantsCustom17elementary_chargeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Elementary charge in units of C. </p>
 </dd></dl>
 
