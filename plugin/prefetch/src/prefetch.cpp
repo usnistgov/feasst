@@ -81,193 +81,193 @@ void Prefetch::attempt_(
     proc_id = omp_get_thread_num();
   #endif // _OPENMP
 
-  for (int itrial = 0; itrial < num_trials; ++itrial) {
-    #ifndef _OPENMP
-    for (proc_id = 0; proc_id < num_threads_; ++proc_id) {
-    #endif // _OPENMP
+    for (int itrial = 0; itrial < num_trials; ++itrial) {
+      #ifndef _OPENMP
+      for (proc_id = 0; proc_id < num_threads_; ++proc_id) {
+      #endif // _OPENMP
 
-    if (proc_id == 0) {
-      DEBUG("************************");
-      DEBUG("* Begin Prefetch cycle *");
-      DEBUG("************************");
-    }
-
-    #ifdef _OPENMP
-    #pragma omp barrier
-    #endif // _OPENMP
-
-    // ordered list of randomly generated moves identified by index of trial.
-    if (proc_id == 0) {
-      for (int ithread = 0; ithread < num_threads_; ++ithread) {
-        pool_[ithread].set_index(trial_factory->random_index(random));
-        DEBUG("num attempts " << pool_[ithread].mc.trials().num_attempts() << " "
-                              << pool_[ithread].mc.trials().num_success() << " " << &pool_[ithread].mc);
+      if (proc_id == 0) {
+        DEBUG("************************");
+        DEBUG("* Begin Prefetch cycle *");
+        DEBUG("************************");
       }
-      DEBUG("num attempts master " << trials().num_attempts() << " "
-                                   << trials().num_success() << " " << this);
-    }
 
-    #ifdef _OPENMP
-    #pragma omp barrier
-    #endif // _OPENMP
+      #ifdef _OPENMP
+      #pragma omp barrier
+      #endif // _OPENMP
 
-    // set random number generators to store (zero storage for selecting trial?).
-    Pool * pool = &pool_[proc_id];
-    MonteCarlo * mc = clone_(proc_id);
-    mc->load_cache(true);
-
-    #ifdef DEBUG_SERIAL_MODE_5324634
-    #pragma omp critical
-    {
-    #endif
-
-    // Each processor attempts their trial in parallel,
-    // without analyze modify or checkpoint.
-    // Store new macrostate and acceptance prob
-    pool->set_accepted(mc->attempt_trial(pool->index()));
-    pool->set_ln_prob(mc->trial(pool->index())->accept().ln_metropolis_prob());
-    DEBUG("critical proc_id " << proc_id << " " << pool->str());
-    DEBUG("nump " << mc->system().configuration().num_particles());
-
-    #ifdef DEBUG_SERIAL_MODE_5324634
-    }
-    #endif
-
-    #ifdef _OPENMP
-    #pragma omp barrier
-    #endif // _OPENMP
-
-    // Determine first trial accepted (if any).
-    if (proc_id == 0) {
-      first_thread_accepted = num_threads_;
-      for (int ithread = 0; ithread < num_threads_; ++ithread) {
-        if (pool_[ithread].accepted() &&
-            first_thread_accepted == num_threads_) {
-          first_thread_accepted = ithread;
+      // ordered list of randomly generated moves identified by index of trial.
+      if (proc_id == 0) {
+        for (int ithread = 0; ithread < num_threads_; ++ithread) {
+          pool_[ithread].set_index(trial_factory->random_index(random));
+          DEBUG("num attempts " << pool_[ithread].mc.trials().num_attempts() << " "
+                                << pool_[ithread].mc.trials().num_success() << " " << &pool_[ithread].mc);
         }
+        DEBUG("num attempts master " << trials().num_attempts() << " "
+                                     << trials().num_success() << " " << this);
       }
-      DEBUG("first thread " << first_thread_accepted);
-    }
 
-    #ifdef _OPENMP
-    #pragma omp barrier
-    #endif // _OPENMP
+      #ifdef _OPENMP
+      #pragma omp barrier
+      #endif // _OPENMP
 
-    #ifdef DEBUG_SERIAL_MODE_5324634
-    #pragma omp critical
-    {
-    #endif
+      // set random number generators to store (zero storage for selecting trial?).
+      Pool * pool = &pool_[proc_id];
+      MonteCarlo * mc = clone_(proc_id);
+      mc->load_cache(true);
 
-    // revert trials after accepted trial.
-    if (first_thread_accepted != num_threads_) {
-      if (proc_id > first_thread_accepted) {
-        DEBUG("reverting trial " << proc_id);
-        mc->revert(pool->index(), pool->accepted());
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      #pragma omp critical
+      {
+      #endif
+
+      // Each processor attempts their trial in parallel,
+      // without analyze modify or checkpoint.
+      // Store new macrostate and acceptance prob
+      pool->set_accepted(mc->attempt_trial(pool->index()));
+      pool->set_ln_prob(mc->trial(pool->index())->accept().ln_metropolis_prob());
+      DEBUG("critical proc_id " << proc_id << " " << pool->str());
+      DEBUG("nump " << mc->system().configuration().num_particles());
+
+      #ifdef DEBUG_SERIAL_MODE_5324634
       }
-    }
+      #endif
 
-    #ifdef DEBUG_SERIAL_MODE_5324634
-    }
-    #endif
+      #ifdef _OPENMP
+      #pragma omp barrier
+      #endif // _OPENMP
 
-    #ifdef _OPENMP
-    #pragma omp barrier
-    #endif // _OPENMP
-
-    if (proc_id == 0) {
-      DEBUG("for each thread up to the first accepted, "
-         << "update other threads (incl. main) regarding failed attempt by "
-         << "thread. update steppers");
-      for (int ithread = 0; ithread < first_thread_accepted; ++ithread) {
-        DEBUG("mimic failed " << ithread);
-        // loop through other threads to update
-        for (int jthread = 0; jthread < num_threads_; ++jthread) {
-          if (ithread != jthread) {
-            clone_(jthread)->mimic_trial_rejection(
-              pool_[ithread].index(),
-              pool_[ithread].ln_prob());
+      // Determine first trial accepted (if any).
+      if (proc_id == 0) {
+        first_thread_accepted = num_threads_;
+        for (int ithread = 0; ithread < num_threads_; ++ithread) {
+          if (pool_[ithread].accepted() &&
+              first_thread_accepted == num_threads_) {
+            first_thread_accepted = ithread;
           }
         }
-        DEBUG("num attempts " << pool->mc.trials().num_attempts() << " "
-                              << pool->mc.trials().num_success() << " " << &pool->mc);
+        DEBUG("first thread " << first_thread_accepted);
       }
-      DEBUG("num attempts master " << trials().num_attempts() << " "
-                                   << trials().num_success() << " " << this);
-    }
 
-    #ifdef _OPENMP
-    #pragma omp barrier
-    #endif // _OPENMP
+      #ifdef _OPENMP
+      #pragma omp barrier
+      #endif // _OPENMP
 
-    #ifdef DEBUG_SERIAL_MODE_5324634
-    #pragma omp critical
-    {
-    #endif
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      #pragma omp critical
+      {
+      #endif
 
-    if (first_thread_accepted < num_threads_) {
-      DEBUG("Replicate first accepted trial in all other threads");
-      Pool * accepted_pool = &pool_[first_thread_accepted];
-      if (proc_id == first_thread_accepted) {
-        mc->finalize(accepted_pool->index());
-      } else {
-        // load/unload system energies and random numbers
-        mc->unload_cache(*clone_(first_thread_accepted));
-        mc->attempt_trial(accepted_pool->index());
-        mc->finalize(accepted_pool->index());
+      // revert trials after accepted trial.
+      if (first_thread_accepted != num_threads_) {
+        if (proc_id > first_thread_accepted) {
+          DEBUG("reverting trial " << proc_id);
+          mc->revert(pool->index(), pool->accepted());
+        }
       }
+
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      }
+      #endif
+
+      #ifdef _OPENMP
+      #pragma omp barrier
+      #endif // _OPENMP
+
+      if (proc_id == 0) {
+        DEBUG("for each thread up to the first accepted, "
+           << "update other threads (incl. main) regarding failed attempt by "
+           << "thread. update steppers");
+        for (int ithread = 0; ithread < first_thread_accepted; ++ithread) {
+          DEBUG("mimic failed " << ithread);
+          // loop through other threads to update
+          for (int jthread = 0; jthread < num_threads_; ++jthread) {
+            if (ithread != jthread) {
+              clone_(jthread)->mimic_trial_rejection(
+                pool_[ithread].index(),
+                pool_[ithread].ln_prob());
+            }
+          }
+          DEBUG("num attempts " << pool->mc.trials().num_attempts() << " "
+                                << pool->mc.trials().num_success() << " " << &pool->mc);
+        }
+        DEBUG("num attempts master " << trials().num_attempts() << " "
+                                     << trials().num_success() << " " << this);
+      }
+
+      #ifdef _OPENMP
+      #pragma omp barrier
+      #endif // _OPENMP
+
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      #pragma omp critical
+      {
+      #endif
+
+      if (first_thread_accepted < num_threads_) {
+        DEBUG("Replicate first accepted trial in all other threads");
+        Pool * accepted_pool = &pool_[first_thread_accepted];
+        if (proc_id == first_thread_accepted) {
+          mc->finalize(accepted_pool->index());
+        } else {
+          // load/unload system energies and random numbers
+          mc->unload_cache(*clone_(first_thread_accepted));
+          mc->attempt_trial(accepted_pool->index());
+          mc->finalize(accepted_pool->index());
+        }
+      }
+
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      }
+      #endif
+
+      #ifdef _OPENMP
+      #pragma omp barrier
+      #endif // _OPENMP
+
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      #pragma omp critical
+      {
+      #endif
+
+      // disable cache
+      mc->load_cache(false);
+
+      // perform after trial on all clones/master after multiple trials performed
+      mc->after_trial_();
+
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      }
+      #endif
+
+      #ifdef _OPENMP
+      #pragma omp barrier
+      #endif // _OPENMP
+
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      #pragma omp critical
+      {
+      #endif
+
+      // periodically check that all threads are equal
+      if (itrial % steps_per_check_ == 0 &&
+          proc_id > 0) {
+        const double energy = criteria()->current_energy();
+        DEBUG("check that the current energy of all threads and master are the same: " << energy);
+        const double tolerance = 1e-8;
+        const MonteCarlo& mcc = *clone_(proc_id);
+        const double diff = mcc.criteria()->current_energy() - energy;
+        ASSERT(fabs(diff) <= tolerance, "diff: " << diff);
+        ASSERT(system().configuration().is_equal(mcc.system().configuration()), "configs not equal thread" << proc_id);
+        ASSERT(trials().is_equal(mcc.trials()), "trials not equal thread" << proc_id);
+      }
+
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      }
+      #endif
+
+      // periodically equate all clones to main to prevent drift (energy checks?)
     }
-
-    #ifdef DEBUG_SERIAL_MODE_5324634
-    }
-    #endif
-
-    #ifdef _OPENMP
-    #pragma omp barrier
-    #endif // _OPENMP
-
-    #ifdef DEBUG_SERIAL_MODE_5324634
-    #pragma omp critical
-    {
-    #endif
-
-    // disable cache
-    mc->load_cache(false);
-
-    // perform after trial on all clones/master after multiple trials performed
-    mc->after_trial_();
-
-    #ifdef DEBUG_SERIAL_MODE_5324634
-    }
-    #endif
-
-    #ifdef _OPENMP
-    #pragma omp barrier
-    #endif // _OPENMP
-
-    #ifdef DEBUG_SERIAL_MODE_5324634
-    #pragma omp critical
-    {
-    #endif
-
-    // periodically check that all threads are equal
-    if (itrial % steps_per_check_ == 0 &&
-        proc_id > 0) {
-      const double energy = criteria()->current_energy();
-      DEBUG("check that the current energy of all threads and master are the same: " << energy);
-      const double tolerance = 1e-8;
-      const MonteCarlo& mcc = *clone_(proc_id);
-      const double diff = mcc.criteria()->current_energy() - energy;
-      ASSERT(fabs(diff) <= tolerance, "diff: " << diff);
-      ASSERT(system().configuration().is_equal(mcc.system().configuration()), "configs not equal thread" << proc_id);
-      ASSERT(trials().is_equal(mcc.trials()), "trials not equal thread" << proc_id);
-    }
-
-    #ifdef DEBUG_SERIAL_MODE_5324634
-    }
-    #endif
-
-    // periodically equate all clones to main to prevent drift (energy checks?)
-  }
   }
 }
 

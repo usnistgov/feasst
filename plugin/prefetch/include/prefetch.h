@@ -8,42 +8,13 @@
 #include "utils/include/arguments.h"
 #include "monte_carlo/include/monte_carlo.h"
 
-/*
-Algorithm:
-- produce clones in "Pool".
-  Arbitrarily say thread=0 is main/master.
-  Thus, use pool for storage but don't access/utilize mc of thread0 in pool
-  clones use serialization/deserialization to produce a deep copy
-
-- tell trials to delay finalization until called manually
-  Trials objects have an attempt/revert/finalize paradigm
-
-- offset random number chains by pulling random numbers from clone i in an i/j pairwise loop
-
-- spawn each thread, t, and perform following steps in parallel unless otherwise specified
-
-- randomly generate and store indices of trials which will be conducted
-
-- enable caching of RNGs/potentials
-
-- attempt trial, store whether accepted and ln_prob (utilized by FH?, otherwise not necessary)
-
-- all threads wait for trial completion, and determination of the first thread which was accepted, t_fa
-
-- revert other trials, t > t_fa
-
-- all threads wait for reversion completion
-
-- all other threads wait while first thread mimics rejections of trials t=0, .. t_fa-1 (fast) using trial index (and ln_prob for FH only) - no trial actually performed, only num attempts updated [optimize, do this in parallel?)
-
-- in parallel, replicate t_fa in all threads, utilizing cache. Wait for all threads.
-
-- in parallel, disable cache, perform after_trial. Wait for all threads
-
-- periodically check that all threads are equal
-*/
-
 namespace feasst {
+
+/*
+  Store clones in Pool.
+  Arbitrarily assign thread=0 to main/master.
+  Thus, don't access mc of thread 0.
+*/
 
 class Pool {
  public:

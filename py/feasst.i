@@ -159,6 +159,7 @@
 #include "chain/include/trial_pivot.h"
 #include "chain/include/perturb_reptate.h"
 #include "chain/include/trial_reptate.h"
+#include "opt_lj/include/visit_model_opt_lj.h"
 #include "example/include/model_example.h"
 #include "growth_expanded/include/trial_growth_expanded.h"
 #include "growth_expanded/include/macrostate_growth_expanded.h"
@@ -356,6 +357,7 @@ using namespace std;
 %shared_ptr(feasst::TrialPivot);
 %shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::TrialReptate);
+%shared_ptr(feasst::VisitModelOptLJ);
 %shared_ptr(feasst::ModelExample);
 %shared_ptr(feasst::TrialComputeGrowAdd);
 %shared_ptr(feasst::TrialComputeGrowRemove);
@@ -512,6 +514,7 @@ using namespace std;
 %include chain/include/trial_pivot.h
 %include chain/include/perturb_reptate.h
 %include chain/include/trial_reptate.h
+%include opt_lj/include/visit_model_opt_lj.h
 %include example/include/model_example.h
 %include growth_expanded/include/trial_growth_expanded.h
 %include growth_expanded/include/macrostate_growth_expanded.h
