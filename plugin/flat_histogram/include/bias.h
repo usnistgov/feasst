@@ -22,11 +22,26 @@ class Bias {
     return ln_prob().value(bin_old) - ln_prob().value(bin_new); }
 
   /// Update the bias due to an attempted transition.
-  virtual void update(
+  virtual void update_or_revert(
     const int macrostate_old,
     const int macrostate_new,
     const double ln_metropolis_prob,
-    const bool is_accepted) = 0;
+    const bool is_accepted,
+    const bool revert) = 0;
+
+  /// Update only.
+  void update(
+      const int macrostate_old,
+      const int macrostate_new,
+      const double ln_metropolis_prob,
+      const bool is_accepted) {
+    update_or_revert(macrostate_old, macrostate_new,
+           ln_metropolis_prob, is_accepted, false);
+  }
+
+
+  /// Perform an infrequent update to the bias.
+  virtual void infrequent_update() {}
 
   /// The natural log of the macrostate probability.
   virtual const LnProbability& ln_prob() const = 0;
@@ -45,9 +60,6 @@ class Bias {
 
   /// Return true if completion requirements are met.
   bool is_complete() const { return is_complete_; }
-
-  /// Revert changes from previous trial.
-  virtual void revert(const int macrostate_new, const int macrostate_old) = 0;
 
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;

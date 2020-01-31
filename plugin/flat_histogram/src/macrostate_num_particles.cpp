@@ -7,8 +7,9 @@ namespace feasst {
 class MapMacrostateNumParticles {
  public:
   MapMacrostateNumParticles() {
-    MacrostateNumParticles(Histogram()).deserialize_map()["MacrostateNumParticles"] =
-      MakeMacrostateNumParticles(Histogram());
+    auto hist = MakeHistogram({{"width", "1"}, {"max", "1"}});
+    MacrostateNumParticles(*hist).deserialize_map()["MacrostateNumParticles"] =
+      MakeMacrostateNumParticles(*hist);
   }
 };
 

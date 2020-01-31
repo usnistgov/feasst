@@ -15,7 +15,7 @@ class ModelEmpty : public ModelOneBody {
       const Site& site,
       const Configuration * config,
       const ModelParams& model_params) const override {
-    ERROR("Empty model should not be called");
+    FATAL("Empty model should not be called");
   }
 
   std::shared_ptr<Model> create(std::istream& istr) const override {

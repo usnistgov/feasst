@@ -27,10 +27,10 @@ CustomException::CustomException(std::stringstream& m) {
   // Otherwise, you may never see the error message!
   #ifdef _OPENMP
     if (omp_get_num_threads() > 1) {
-      #pragma omp critical
-      {
-        std::cerr << msg_ << std::endl;
-      }
+      //#pragma omp critical
+     // {
+        std::cout << msg_ << std::endl;
+     // }
     }
   #endif  // _OPENMP
 }
@@ -44,17 +44,17 @@ void CustomException::catMessage_() {
   #endif  // MPI_H_
   #ifdef _OPENMP
     nproc = omp_get_thread_num();
-    #pragma omp critical
-    {
+//    #pragma omp critical
+//    {
   #endif  // _OPENMP
 
   std::stringstream message;
   message << "Throw on proc " << nproc << " : " << msg_;
   msg_.assign(message.str());
 
-  #ifdef _OPENMP
-    }
-  #endif  // _OPENMP
+//  #ifdef _OPENMP
+//    }
+//  #endif  // _OPENMP
 }
 
 }  // namespace feasst

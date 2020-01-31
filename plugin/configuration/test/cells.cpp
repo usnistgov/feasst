@@ -7,14 +7,14 @@ namespace feasst {
 TEST(Cells, cells) {
   Cells cells;
   EXPECT_EQ(0, cells.num_total());
-  try {
+  TRY(
     cells.create(3, {14});
     CATCH_PHRASE("unrecognized dim");
-  }
-  try {
+  );
+  TRY(
     cells.create(3, {14, 14, 14, 14});
     CATCH_PHRASE("unrecognized dim");
-  }
+  );
   cells.create(3, {12, 12, 13});
   EXPECT_EQ(4*4*4, cells.num_total());
   EXPECT_EQ(4, cells.num()[0]);
@@ -23,10 +23,10 @@ TEST(Cells, cells) {
     EXPECT_EQ(neigh.size(), 3*3*3);
   }
   EXPECT_EQ(0, cells.id({-0.49, -0.49, -0.49}));
-  try {
+  TRY(
     EXPECT_EQ(0, cells.id({-0.501, -0.49, -0.49}));
     CATCH_PHRASE("not scaled");
-  }
+  );
 
   /// 2D
   cells.create(3, {12, 13});
@@ -41,10 +41,10 @@ TEST(Cells, cells) {
   cells.create(1, {6, 6});
   EXPECT_EQ(6*6, cells.num_total());
   EXPECT_EQ(6, cells.num()[0]);
-  try {
+  TRY(
     EXPECT_EQ(0, cells.id({-0.49, -0.49, -0.49}));
     CATCH_PHRASE("size error");
-  }
+  );
   EXPECT_EQ(0, cells.id({-0.49, -0.49}));
   EXPECT_EQ(14, cells.id({-0.001, -0.001}));
   EXPECT_EQ(21, cells.id({0.001, 0.001}));

@@ -93,10 +93,13 @@ class Potential {
   double stored_energy() const { return stored_energy_; }
 
   /// Revert any changes to the configuration due to the last energy computation
-  void revert() { visit_model_->revert(); }
+  void revert(const Select& selection) { visit_model_->revert(selection); }
 
   /// Finalize changes to the configuration due to the last energy computation
   void finalize() { visit_model_->finalize(); }
+
+  /// Remove particle(s) in selection.
+  void remove_particles(const Select& selection);
 
   /// Return the cache.
   const Cache& cache() const { return cache_; }

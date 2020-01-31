@@ -18,10 +18,10 @@ TEST(FileLMP, data_lj) {
   EXPECT_NEAR(1., particle.site(0).property("epsilon"), NEAR_ZERO);
   EXPECT_NEAR(1., particle.site(0).property("sigma"), NEAR_ZERO);
   EXPECT_NEAR(3., particle.site(0).property("cutoff"), NEAR_ZERO);
-  try {
+  TRY(
     particle.site(0).property("charge");
     CATCH_PHRASE("not found");
-  }
+  );
   EXPECT_EQ(0, lmp_file.num_bonds());
   EXPECT_EQ(0, lmp_file.num_bond_types());
   EXPECT_EQ(0, lmp_file.num_angles());
@@ -71,10 +71,10 @@ TEST(FileLMP, data_spce) {
   EXPECT_EQ(1, lmp_file.num_angle_types());
   EXPECT_EQ(2, particle.num_bonds());
   EXPECT_EQ(1, particle.num_angles());
-  try {
+  TRY(
     particle.bond(0).property("doesnotexist");
     CATCH_PHRASE("not found");
-  }
+  );
   EXPECT_NEAR(1., particle.bond(0).property("length"), NEAR_ZERO);
   EXPECT_NEAR(0.000001, particle.bond(0).property("delta"), NEAR_ZERO);
   EXPECT_NEAR(109.47, particle.angle(0).property("theta0"), NEAR_ZERO);

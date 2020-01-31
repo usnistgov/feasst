@@ -1,0 +1,89 @@
+#include "cluster/include/trial_rigid_cluster.h"
+#include "cluster/include/trial_select_cluster.h"
+#include "cluster/include/trial_compute_move_cluster.h"
+#include "monte_carlo/include/perturb_translate.h"
+#include "cluster/include/perturb_rotate_com.h"
+
+namespace feasst {
+
+TrialTranslateCluster::TrialTranslateCluster(
+  std::shared_ptr<ClusterCriteria> cluster_criteria,
+  const argtype& args)
+  : Trial(args) {
+  add_stage(MakeTrialSelectCluster(cluster_criteria, args),
+            MakePerturbTranslate(args));
+  set(std::make_shared<TrialComputeMoveCluster>());
+  class_name_ = "TrialTranslateCluster";
+}
+
+class MapTrialTranslateCluster {
+ public:
+  MapTrialTranslateCluster() {
+    auto obj = MakeTrialTranslateCluster(MakeClusterCriteria());
+    obj->deserialize_map()["TrialTranslateCluster"] = obj;
+  }
+};
+
+static MapTrialTranslateCluster mapper_trial_translate_cluster_ = MapTrialTranslateCluster();
+
+std::shared_ptr<Trial> TrialTranslateCluster::create(std::istream& istr) const {
+  return std::make_shared<TrialTranslateCluster>(istr);
+}
+
+TrialTranslateCluster::TrialTranslateCluster(std::istream& istr) : Trial(istr) {
+  // ASSERT(class_name_ == "TrialTranslateCluster", "name: " << class_name_);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(349 == version, "mismatch version: " << version);
+}
+
+void TrialTranslateCluster::serialize_trial_translate_cluster_(std::ostream& ostr) const {
+  serialize_trial_(ostr);
+  feasst_serialize_version(349, ostr);
+}
+
+void TrialTranslateCluster::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_trial_translate_cluster_(ostr);
+}
+
+TrialRotateCluster::TrialRotateCluster(
+  std::shared_ptr<ClusterCriteria> cluster_criteria,
+  const argtype& args)
+  : Trial(args) {
+  add_stage(MakeTrialSelectCluster(cluster_criteria, args),
+            MakePerturbRotateCOM(args));
+  set(std::make_shared<TrialComputeMoveCluster>());
+  class_name_ = "TrialRotateCluster";
+}
+
+class MapTrialRotateCluster {
+ public:
+  MapTrialRotateCluster() {
+    auto obj = MakeTrialRotateCluster(MakeClusterCriteria());
+    obj->deserialize_map()["TrialRotateCluster"] = obj;
+  }
+};
+
+static MapTrialRotateCluster mapper_trial_rotate_cluster_ = MapTrialRotateCluster();
+
+std::shared_ptr<Trial> TrialRotateCluster::create(std::istream& istr) const {
+  return std::make_shared<TrialRotateCluster>(istr);
+}
+
+TrialRotateCluster::TrialRotateCluster(std::istream& istr) : Trial(istr) {
+  // ASSERT(class_name_ == "TrialRotateCluster", "name: " << class_name_);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(349 == version, "mismatch version: " << version);
+}
+
+void TrialRotateCluster::serialize_trial_rotate_cluster_(std::ostream& ostr) const {
+  serialize_trial_(ostr);
+  feasst_serialize_version(349, ostr);
+}
+
+void TrialRotateCluster::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_trial_rotate_cluster_(ostr);
+}
+
+}  // namespace feasst

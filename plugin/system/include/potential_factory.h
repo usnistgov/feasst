@@ -51,10 +51,13 @@ class PotentialFactory {
   std::string str() const;
 
   /// Revert any changes to the configuration due to the last energy computation
-  void revert();
+  void revert(const Select& select);
 
   /// Finalize changes due to perturbations.
   void finalize();
+
+  /// Remove particle(s) in selection.
+  void remove_particles(const Select& selection);
 
   /// Set cache to load energy calculations.
   void load_cache(const bool load);

@@ -13,7 +13,7 @@ namespace feasst {
 inline Configuration default_configuration() {
   Configuration config;
   Position sides;
-  sides.set_vector({5, 5, 5});
+  sides.set_vector({6, 6, 6});
   config.set_side_length(sides);
   config.add_particle_type("../forcefield/data.atom");
   config.add_particle_of_type(0);

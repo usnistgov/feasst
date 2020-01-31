@@ -28,10 +28,13 @@ void WangLandau::flatness_update_() {
   }
 }
 
-void WangLandau::update(const int macrostate_old,
-                            const int macrostate_new,
-                            const double ln_metropolis_prob,
-                            const bool is_accepted) {
+void WangLandau::update_or_revert(
+    const int macrostate_old,
+    const int macrostate_new,
+    const double ln_metropolis_prob,
+    const bool is_accepted,
+    const bool revert) {
+  ASSERT(!revert, "not implemented");
   int bin = bin_(macrostate_old, macrostate_new, is_accepted);
   ln_prob_.add(bin, add_to_ln_probability_);
   ++visited_states_[bin];
@@ -44,10 +47,6 @@ void WangLandau::update(const int macrostate_old,
 void WangLandau::resize(const Histogram& histogram) {
   ln_prob_.resize(histogram.size());
   visited_states_.resize(histogram.size());
-}
-
-void WangLandau::revert(const int macrostate_new, const int macrostate_old) {
-  ERROR("not implemented: how to revert flatness update?");
 }
 
 std::string WangLandau::write() const {

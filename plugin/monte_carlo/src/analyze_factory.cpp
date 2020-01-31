@@ -13,9 +13,9 @@ class MapAnalyzeFactory {
 
 static MapAnalyzeFactory mapper_ = MapAnalyzeFactory();
 
-void AnalyzeFactory::initialize(const Criteria * criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void AnalyzeFactory::initialize(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
   for (std::shared_ptr<Analyze> analyze : analyzers_) {
     analyze->initialize(criteria, system, trial_factory);
   }
@@ -26,11 +26,13 @@ void AnalyzeFactory::trial(const Criteria * criteria,
     const TrialFactory& trial_factory) {
   DEBUG("multistate? " << is_multistate() << " class? " << class_name());
   if (is_multistate()) {
-    DEBUG("state? " << criteria->state() << " class " << analyzers_[criteria->state()]->class_name());
+    DEBUG("state? " << criteria->state());
+    DEBUG("class " << analyzers_[criteria->state()]->class_name());
     trial_(criteria, system, trial_factory, criteria->state());
   } else {
     for (int index = 0; index < static_cast<int>(analyzers_.size()); ++index) {
 //    for (const std::shared_ptr<Analyze> analyze : analyzers_) {
+      DEBUG("index " << index);
       trial_(criteria, system, trial_factory, index);
     }
   }
@@ -41,6 +43,7 @@ void AnalyzeFactory::trial_(const Criteria * criteria,
     const TrialFactory& trial_factory,
     const int index) {
   // timer_.start(index + 1);
+  DEBUG("index " << index << " sz " << analyzers_.size());
   DEBUG(analyzers_[index]->class_name());
   analyzers_[index]->trial(criteria, system, trial_factory);
   // timer_.end();

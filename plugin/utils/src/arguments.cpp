@@ -82,7 +82,7 @@ int Arguments::integer() {
   try {
     intVal = stoi(string_value);
   } catch (...) {
-    ASSERT(0, errmsg.str());
+    FATAL(errmsg.str());
   }
   const double dble = stod(string_value);
   ASSERT(std::abs(dble - static_cast<double>(intVal)) < 10*NEAR_ZERO, errmsg.str());
@@ -114,7 +114,7 @@ double Arguments::dble() {
   try {
     double_value = stod(string_value);
   } catch (...) {
-    ASSERT(0, "Argument({" << used_keys_.back() << ", " << string_value << "}) was "
+    FATAL("Argument({" << used_keys_.back() << ", " << string_value << "}) was "
     << "expected to be a double precision floating point number.");
   }
   return double_value;

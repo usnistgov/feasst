@@ -43,7 +43,7 @@ class TrialFactory : public Trial {
   /// Revert changes to system by trial index.
   void revert(const int index, const bool accepted, System * system);
 
-  void mimic_trial_rejection(const int index);
+  void imitate_trial_rejection(const int index);
 
   void finalize(const int index, System * system) {
     trials_[index]->finalize(system); }

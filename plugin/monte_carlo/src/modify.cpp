@@ -10,10 +10,10 @@ std::map<std::string, std::shared_ptr<Modify> >& Modify::deserialize_map() {
   return *ans;
 }
 
-void Modify::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+void Modify::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<Modify> Modify::create(std::istream& istr) const {
-  ERROR("not implemented");
+  FATAL("not implemented");
 }
 
 std::shared_ptr<Modify> Modify::deserialize(std::istream& istr) {

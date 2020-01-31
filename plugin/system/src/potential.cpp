@@ -99,6 +99,10 @@ void Potential::precompute(Configuration * config) {
   }
 }
 
+void Potential::remove_particles(const Select& selection) {
+  visit_model_->remove_particles(selection);
+}
+
 void Potential::serialize(std::ostream& ostr) const {
   feasst_serialize_version(432, ostr);
   feasst_serialize(group_index_, ostr);

@@ -61,7 +61,7 @@ void PerturbAdd::revert(System * system) {
     DEBUG(revert_select()->mobile().str());
     DEBUG("nump " << system->configuration().num_particles());
     system->get_configuration()->remove_particles(revert_select()->mobile());
-    system->revert();
+    system->revert(revert_select()->mobile());
   }
 }
 

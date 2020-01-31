@@ -7,6 +7,7 @@
 #include "system/include/lennard_jones.h"
 #include "system/test/system_test.h"
 #include "configuration/test/particle_test.h"
+#include "system/include/energy_map_all.h"
 
 namespace feasst {
 
@@ -26,7 +27,7 @@ TEST(Perturb, Revert) {
 
     if (map == 1) {
       EXPECT_NEAR(pe_original,
-                  system.potential(0).visit_model()->inner()->energy_map()->total(),
+                  system.potential(0).visit_model()->inner()->energy_map()->total_energy(),
                   10*NEAR_ZERO);
     }
 
@@ -47,7 +48,7 @@ TEST(Perturb, Revert) {
 
     if (map == 1) {
       EXPECT_NEAR(2*pe_original + peTri,
-                  system.potential(0).visit_model()->inner()->energy_map()->total(),
+                  system.potential(0).visit_model()->inner()->energy_map()->total_energy(),
                   10*NEAR_ZERO);
     }
 
@@ -58,7 +59,7 @@ TEST(Perturb, Revert) {
 
     if (map == 1) {
       EXPECT_NEAR(pe_original,
-                  system.potential(0).visit_model()->inner()->energy_map()->total(),
+                  system.potential(0).visit_model()->inner()->energy_map()->total_energy(),
                   10*NEAR_ZERO);
     }
 
@@ -70,12 +71,16 @@ TEST(Perturb, Revert) {
     tsel->select(Select(), &system, &random);
     translate.perturb(&system, tsel.get(), &random);
     EXPECT_NE(pe_original, system.energy());
+    if (map == 1) {
+      EXPECT_NE(pe_original,
+                system.potential(0).visit_model()->inner()->energy_map()->total_energy());
+    }
     translate.revert(&system);
     EXPECT_NEAR(pe_original, system.energy(), NEAR_ZERO);
 
     if (map == 1) {
       EXPECT_NEAR(pe_original,
-                  system.potential(0).visit_model()->inner()->energy_map()->total(),
+                  system.potential(0).visit_model()->inner()->energy_map()->total_energy(),
                   10*NEAR_ZERO);
     }
 
@@ -84,16 +89,29 @@ TEST(Perturb, Revert) {
     tsel->select(Select(), &system, &random);
     remove.perturb(&system, tsel.get(), &random);
     EXPECT_EQ(2, system.configuration().num_particles());
+
+    // revert removal
+    remove.revert(&system);
+
+    EXPECT_NEAR(pe_original, system.energy(), NEAR_ZERO);
+    if (map == 1) {
+      EXPECT_NEAR(pe_original,
+                  system.potential(0).visit_model()->inner()->energy_map()->total_energy(),
+                  10*NEAR_ZERO);
+    }
+
+    // finalize removal
+    remove.perturb(&system, tsel.get(), &random);
     remove.finalize(&system);
     EXPECT_EQ(1, system.configuration().num_particles());
     EXPECT_EQ(0., system.energy());
 
-// uncomment this to fix map reversion upon particle removal
-//    if (map == 1) {
-//      EXPECT_NEAR(0.,
-//                  system.potential(0).visit_model()->inner()->energy_map()->total(),
-//                  10*NEAR_ZERO);
-//    }
+    // uncomment this to fix map reversion upon particle removal
+    if (map == 1) {
+      EXPECT_NEAR(0.,
+                  system.potential(0).visit_model()->inner()->energy_map()->total_energy(),
+                  10*NEAR_ZERO);
+    }
   }
 }
 

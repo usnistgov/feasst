@@ -10,8 +10,7 @@ def criteria_flathist(temperature=1.5,
                       macro_min=0,    # minimum macrostate
                       macro_max=370,  # maximum macrostate
                       tmmc=True,      # use Transition-Matrix (TM) if true, else Wang-Landau (WL)
-                      iterations=20,  # number of sweeps (TM) or flatness (WL)
-                      steps_per=1e5): # if TM, steps per update
+                      iterations=20): # number of sweeps (TM) or flatness (WL)
     """Return a flat histogram acceptance criteria with number of particles as the macrostate"""
     criteria = feasst.MakeFlatHistogram(feasst.args(
         {"beta": str(1./temperature),
@@ -19,8 +18,7 @@ def criteria_flathist(temperature=1.5,
     criteria.set(feasst.MakeMacrostateNumParticles(feasst.Histogram(feasst.args(
         {"width": "1", "min": str(macro_min), "max": str(macro_max)}))))
     if tmmc:
-        criteria.set(feasst.MakeTransitionMatrix(feasst.args(
-            {"min_sweeps": str(iterations), "num_steps_to_update": str(steps_per)})))
+        criteria.set(feasst.MakeTransitionMatrix(feasst.args({"min_sweeps": str(iterations)})))
     else:
         criteria.set(feasst.MakeWangLandau(feasst.args({"min_flatness": str(iterations)})))
     return criteria
@@ -54,6 +52,7 @@ def monte_carlo(proc=0,                          # processor number
     analyze.add(monte_carlo0, steps_per, proc=proc, log="log"+str(proc)+".txt")
 
     # periodically write the status of the flat histogram criteria
+    monte_carlo0.add(feasst.MakeCriteriaUpdater(feasst.args({"steps_per": str(steps_per)})))
     monte_carlo0.add(feasst.MakeCriteriaWriter(feasst.args(
         {"steps_per": str(steps_per), "file_name": "crit"+str(proc)+".txt"})))
 

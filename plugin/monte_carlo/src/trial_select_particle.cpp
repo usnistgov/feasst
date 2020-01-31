@@ -66,7 +66,6 @@ void TrialSelectParticle::ghost_particle(Configuration * config,
   DEBUG("particle_type: " << particle_type());
   DEBUG("nump " << config->num_particles());
   DEBUG("num ghosts " << config->ghosts()[particle_type()].num_particles());
-  DEBUG("newest particle " << config->newest_particle_index());
   if (config->ghosts()[particle_type()].num_particles() == 0) {
     config->add_particle_of_type(particle_type());
     Select add;

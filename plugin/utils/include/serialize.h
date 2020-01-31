@@ -248,6 +248,61 @@ void feasst_deserialize(std::vector<std::vector<std::vector<std::vector<T> > > >
   }
 }
 
+/// Serialize the 5D vector.
+template <typename T>
+void feasst_serialize(const std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > >& vector,
+    std::ostream& ostr) {
+  ostr << MAX_PRECISION;
+  ostr << vector.size() << " ";
+  for (const std::vector<std::vector<std::vector<std::vector<T> > > >& vec2 : vector) {
+    ostr << vec2.size() << " ";
+    for (const std::vector<std::vector<std::vector<T> > >& vec3 : vec2) {
+      ostr << vec3.size() << " ";
+      for (const std::vector<std::vector<T> >& vec4 : vec3) {
+        ostr << vec4.size() << " ";
+        for (const std::vector<T>& vec5 : vec4) {
+          ostr << vec5.size() << " ";
+          for (const T& element : vec5) {
+            ostr << element << " ";
+          }
+        }
+      }
+    }
+  }
+}
+
+/// Deserialize the 5D vector.
+template <typename T>
+void feasst_deserialize(std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > * vector,
+    std::istream& istr) {
+  int dim1;
+  istr >> dim1;
+  vector->resize(dim1);
+  for (int index1 = 0; index1 < dim1; ++index1) {
+    int dim2;
+    istr >> dim2;
+    (*vector)[index1].resize(dim2);
+    for (int index2 = 0; index2 < dim2; ++index2) {
+      int dim3;
+      istr >> dim3;
+      (*vector)[index1][index2].resize(dim3);
+      for (int index3 = 0; index3 < dim3; ++index3) {
+        int dim4;
+        istr >> dim4;
+        (*vector)[index1][index2][index3].resize(dim4);
+        for (int index4 = 0; index4 < dim4; ++index4) {
+          int dim5;
+          istr >> dim5;
+          (*vector)[index1][index2][index3][index4].resize(dim5);
+          for (int index5 = 0; index5 < dim5; ++index5) {
+            istr >> (*vector)[index1][index2][index3][index4][index5];
+          }
+        }
+      }
+    }
+  }
+}
+
 /// Serialize feasst object
 template <typename T>
 void feasst_serialize_fstobj(const T& obj, std::ostream& ostr) {
@@ -403,13 +458,15 @@ std::shared_ptr<T> template_deserialize(std::map<std::string, std::shared_ptr<T>
     istr.seekg(pos, istr.beg); // rewind to before reading the class name.
   }
   DEBUG("deserializing: " << class_name << " rewind? " << rewind);
-  ASSERT(map.count(class_name) != 0, "The class name \"" << class_name << "\" "
+  if (map.count(class_name) == 0) {
+    FATAL("The class name \"" << class_name << "\" "
     << "is not recognized during deserialization. "
     << "If the above class name is empty, there was a mis-match in stream. "
     << "Otherwise, this is likely due to the lack of a static mapper "
     << "which is typically implemented within the cpp file. "
     << "In rare cases, the absence of a constructor implementation inside "
     << "the cpp file possibly leads optimization to ignore the mapper.");
+  }
   std::shared_ptr<T> obj = map[class_name]->create(istr);
   DEBUG("obj " << obj);
   return obj;
@@ -420,6 +477,12 @@ std::shared_ptr<T> template_deserialize(std::map<std::string, std::shared_ptr<T>
 /// This is implemented via serialization/deserialization.
 template <typename T>
 std::shared_ptr<T> deep_copy_derived(std::shared_ptr<T> object) {
+  std::stringstream ss;
+  object->serialize(ss);
+  return object->deserialize(ss);
+}
+template <typename T>
+std::shared_ptr<T> deep_copy_derived(T * object) {
   std::stringstream ss;
   object->serialize(ss);
   return object->deserialize(ss);

@@ -23,6 +23,7 @@ Histogram::Histogram(const argtype& args) {
     for (double bin = min; bin <= max + 10*NEAR_ZERO; ++bin) {
       add(bin);
     }
+    DEBUG("edges " << feasst_str(edges_));
     return;
   }
 }

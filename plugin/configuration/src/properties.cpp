@@ -30,17 +30,17 @@ double Properties::value(const std::string name) const {
 bool Properties::value(const std::string name, double * value) const {
   int index;
   DEBUG("finding " << name << " " << feasst_str(names_));
-  bool found = find_in_list(name, names_, &index);
-  if (found) {
+  bool is_found = find_in_list(name, names_, &index);
+  if (is_found) {
     *value = values_[index];
   }
-  return found;
+  return is_found;
 }
 
 void Properties::set(const std::string name, const double value) {
-  int index;
-  ASSERT(find_in_list(name, names_, &index), "property(" << name
-    << ") not found");
+  int index = 0;
+  const bool is_found = find_in_list(name, names_, &index);
+  ASSERT(is_found, "property(" << name << ") not found");
   TRACE("setting " << name << " value " << value);
   values_[index] = value;
 }

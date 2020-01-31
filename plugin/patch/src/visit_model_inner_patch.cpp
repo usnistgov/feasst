@@ -11,13 +11,22 @@ void VisitModelInnerPatch::compute(
     const Configuration * config,
     const ModelParams& model_params,
     const ModelTwoBody& model,
-    Position * relative) {
+    const bool is_old_config,
+    Position * relative,
+    Position * pbc) {
+  // HWH copy-pasted from base class.. make this a function?
+  if (is_old_config && energy_map()) {
+    DEBUG("using old map");
+    query_ixn(part1_index, site1_index, part2_index, site2_index);
+    return;
+  }
   const Particle& part1 = config->select_particle(part1_index);
   const Site& site1 = part1.site(site1_index);
   const Particle& part2 = config->select_particle(part2_index);
   const Site& site2 = part2.site(site2_index);
+  clear_ixn(part1_index, site1_index, part2_index, site2_index);
   double squared_distance;
-  config->domain().wrap_opt(site1.position(), site2.position(), relative, &squared_distance);
+  config->domain().wrap_opt(site1.position(), site2.position(), relative, pbc, &squared_distance);
   const int type1 = site1.type();
   const int type2 = site2.type();
   const double cutoff = model_params.mixed_cutoff()[type1][type2];
@@ -55,7 +64,8 @@ void VisitModelInnerPatch::compute(
                     TRACE("cosp2 " << cosp2 << " cosacut " << cos_patch_angle_.value(dir2_type));
                     if (cosp2 >= cos_patch_angle_.value(dir2_type)) {
                       const double en = model.energy(squared_distance, dir1_type, dir2_type, model_params);
-                      add_energy(en, part1_index, site1_index, part2_index, site2_index);
+                      update_ixn(en, part1_index, site1_index, part2_index,
+                                 site2_index, squared_distance, pbc);
                     }
                   }
                 }

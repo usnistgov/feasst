@@ -6,6 +6,7 @@
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/wang_landau.h"
 #include "steppers/include/criteria_writer.h"
+#include "steppers/include/criteria_updater.h"
 #include "growth_expanded/include/trial_growth_expanded.h"
 #include "growth_expanded/include/macrostate_growth_expanded.h"
 
@@ -26,7 +27,6 @@ TEST(MonteCarlo, TrialGrowthExpanded) {
     ));
     criteria->set(MakeTransitionMatrix({
       {"min_sweeps", "10"},
-      {"num_steps_to_update", str(1e6)}, // fast
     }));
     // criteria->set(MakeWangLandau({{"min_flatness", "1"}}));
     mc.set(criteria);
@@ -34,6 +34,7 @@ TEST(MonteCarlo, TrialGrowthExpanded) {
 
   mc.add(MakeTrialGrowthExpanded(build_(1, data), build_(2, data)));
   mc.add(MakeCriteriaWriter({{"steps_per_write", str(int(1e6))}}));
+  mc.add(MakeCriteriaUpdater({{"steps_per_write", str(int(1e6))}}));
   EXPECT_EQ(2, mc.trials().num_trials());
 //  for (int i = 0; i < 50; ++i) {
   mc.attempt(1e2);

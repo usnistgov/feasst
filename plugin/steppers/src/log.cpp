@@ -19,11 +19,11 @@ Log::Log(const argtype& args) : AnalyzeWriteOnly(args) {
   }
 }
 
-void Log::initialize(const Criteria * criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void Log::initialize(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
   std::stringstream ss;
-  ss << criteria->status_header() << " " << trial_factory.status_header()
+  ss << criteria->status_header() << " " << trial_factory->status_header()
      << std::endl;
   printer(ss.str());
 }

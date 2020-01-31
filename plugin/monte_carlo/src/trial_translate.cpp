@@ -1,4 +1,6 @@
 #include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial_select_particle.h"
+#include "monte_carlo/include/perturb_translate.h"
 
 namespace feasst {
 

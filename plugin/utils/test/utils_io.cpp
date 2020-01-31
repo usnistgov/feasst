@@ -50,11 +50,11 @@ TEST(UtilsIO, serialize_string) {
   feasst_deserialize(&str2, ss);
   EXPECT_EQ(str, str2);
   EXPECT_EQ(str, "12bananas");
-  try {
+  TRY(
     std::string str3("12 bananas");
     feasst_serialize(str3, ss);
     CATCH_PHRASE("no spaces");
-  }
+  );
 }
 
 }  // namespace feasst

@@ -29,7 +29,7 @@ void Perturb::set_revert_possible(const bool revert_possible,
 
 void Perturb::revert(System * system) {
   if (revert_possible_) {
-    ERROR("not implemented");
+    FATAL("not implemented");
   }
 }
 
@@ -44,7 +44,7 @@ void Perturb::set_finalize_possible(const bool finalize_possible,
 void Perturb::finalize(System * system) {
   system->finalize();
   if (finalize_possible_) {
-    ERROR("not implemented");
+    FATAL("not implemented");
   }
 }
 
@@ -70,10 +70,10 @@ std::map<std::string, std::shared_ptr<Perturb> >& Perturb::deserialize_map() {
   return *ans;
 }
 
-void Perturb::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+void Perturb::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<Perturb> Perturb::create(std::istream& istr) const {
-  ERROR("not implemented");
+  FATAL("not implemented");
 }
 
 std::shared_ptr<Perturb> Perturb::deserialize(std::istream& istr) {

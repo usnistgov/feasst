@@ -90,12 +90,12 @@ TEST(Random, serialize) {
   EXPECT_EQ(next, random3.uniform());
   random3.set_cache_to_load(false);
   EXPECT_NE(random.uniform(), random3.uniform());
-  try {
+  TRY(
     random3.set_cache_to_unload(random2);
     random3.uniform();
     random3.uniform();
     CATCH_PHRASE("can not unload if nothing stored");
-  }
+  );
 }
 
 }  // namespace feasst

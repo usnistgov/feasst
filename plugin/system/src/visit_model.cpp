@@ -57,7 +57,7 @@ void VisitModel::compute(
   TRACE("VisitModel for TwoBody entire config");
   zero_energy();
   const Domain& domain = config->domain();
-  init_relative_(domain, &relative_);
+  init_relative_(domain, &relative_, &pbc_);
   const Select& selection = config->group_selects()[group_index];
   for (int select1_index = 0;
        select1_index < selection.num_particles() - 1;
@@ -70,7 +70,8 @@ void VisitModel::compute(
       for (int site1_index : selection.site_indices(select1_index)) {
         for (int site2_index : selection.site_indices(select2_index)) {
           get_inner_()->compute(part1_index, site1_index, part2_index, site2_index,
-                                config, model_params, model, &relative_);
+                                config, model_params, model, false, &relative_,
+                                &pbc_);
         }
       }
     }
@@ -87,34 +88,96 @@ void VisitModel::compute(
   DEBUG("visiting model");
   zero_energy();
   const Domain& domain = config->domain();
-  init_relative_(domain, &relative_);
+  init_relative_(domain, &relative_, &pbc_);
   const Select& select_all = config->group_selects()[group_index];
-  // HWH implement multi-particle selection by sorting group selection
-  // for particles that are in both selectiona nd group_index.
-  // treat those particles separately so no double counting.
-  // then remove the part1 != part2 check
-  ASSERT(selection.num_particles() == 1, "for multiparticle selections " <<
-    "implement a separate loop for particles in both group and selection. " <<
-    "Select: " << selection.str());
-  for (int select1_index = 0;
-       select1_index < selection.num_particles();
-       ++select1_index) {
-    const int part1_index = selection.particle_index(select1_index);
-    TRACE("part1_index " << part1_index << " s " <<
-          selection.particle_indices().size() << " " <<
-          selection.site_indices().size());
-    for (int select2_index = 0;
-         select2_index < select_all.num_particles();
-         ++select2_index) {
-      const int part2_index = select_all.particle_index(select2_index);
-      if (part1_index != part2_index) {
+  prep_for_revert(selection);
+  bool is_old_config = false;
+  if (selection.trial_state() == 0 ||
+      selection.trial_state() == 2) {
+    is_old_config = true;
+  }
+  // If only one particle in selection, simply exclude part1==part2
+  if (selection.num_particles() == 1) {
+    for (int select1_index = 0;
+         select1_index < selection.num_particles();
+         ++select1_index) {
+      const int part1_index = selection.particle_index(select1_index);
+      TRACE("part1_index " << part1_index << " s " <<
+            selection.particle_indices().size() << " " <<
+            selection.site_indices().size());
+      for (int select2_index = 0;
+           select2_index < select_all.num_particles();
+           ++select2_index) {
+        const int part2_index = select_all.particle_index(select2_index);
+        if (part1_index != part2_index) {
+          for (int site1_index : selection.site_indices(select1_index)) {
+            TRACE("site1_index " << site1_index);
+            for (int site2_index : select_all.site_indices(select2_index)) {
+              TRACE("index: " << part1_index << " " << part2_index << " " <<
+                    site1_index << " " << site2_index);
+              get_inner_()->compute(part1_index, site1_index,
+                                    part2_index, site2_index,
+                                    config, model_params, model,
+                                    is_old_config,
+                                    &relative_, &pbc_);
+            }
+          }
+        }
+      }
+    }
+  // If selection is more than one particle, remove those in selection from
+  // select_all.
+  // Calculate energy in two separate loops.
+  } else {
+    Select select_others = select_all;
+    select_others.remove(selection);
+    for (int select1_index = 0;
+         select1_index < selection.num_particles();
+         ++select1_index) {
+      const int part1_index = selection.particle_index(select1_index);
+      TRACE("part1_index " << part1_index << " s " <<
+            selection.particle_indices().size() << " " <<
+            selection.site_indices().size());
+      for (int select2_index = 0;
+           select2_index < select_others.num_particles();
+           ++select2_index) {
+        const int part2_index = select_others.particle_index(select2_index);
         for (int site1_index : selection.site_indices(select1_index)) {
           TRACE("site1_index " << site1_index);
-          for (int site2_index : select_all.site_indices(select2_index)) {
+          for (int site2_index : select_others.site_indices(select2_index)) {
             TRACE("index: " << part1_index << " " << part2_index << " " <<
                   site1_index << " " << site2_index);
-            get_inner_()->compute(part1_index, site1_index, part2_index, site2_index,
-                                  config, model_params, model, &relative_);
+            get_inner_()->compute(part1_index, site1_index,
+                                  part2_index, site2_index,
+                                  config, model_params, model,
+                                  is_old_config,
+                                  &relative_, &pbc_);
+          }
+        }
+      }
+    }
+    for (int select1_index = 0;
+         select1_index < selection.num_particles() - 1;
+         ++select1_index) {
+      const int part1_index = selection.particle_index(select1_index);
+      TRACE("sel1 " << select1_index << " part1_index " << part1_index << " s " <<
+            selection.particle_indices().size() << " " <<
+            selection.site_indices().size());
+      for (int select2_index = select1_index + 1;
+           select2_index < selection.num_particles();
+           ++select2_index) {
+        const int part2_index = selection.particle_index(select2_index);
+        TRACE("sel2 " << select2_index << " part2_index " << part2_index);
+        for (int site1_index : selection.site_indices(select1_index)) {
+          TRACE("site1_index " << site1_index);
+          for (int site2_index : selection.site_indices(select2_index)) {
+            TRACE("index: " << part1_index << " " << part2_index << " " <<
+                  site1_index << " " << site2_index);
+            get_inner_()->compute(part1_index, site1_index,
+                                  part2_index, site2_index,
+                                  config, model_params, model,
+                                  is_old_config,
+                                  &relative_, &pbc_);
           }
         }
       }

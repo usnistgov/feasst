@@ -11,19 +11,19 @@ TEST(Arguments, Arguments) {
   EXPECT_EQ(args.key("yo").dflt("hi").str(), "hi");
 
   // test if a key is empty before it is set
-  try {
+  TRY(
     args.empty();
     CATCH_PHRASE("key must be set before");
-  }
+  );
 
   // test if a key is empty after set
   EXPECT_TRUE(args.key("yo").empty());
 
   // test if all keywords have been used
-  try {
+  TRY(
     EXPECT_FALSE(args.check_all_used());
     CATCH_PHRASE("All keywords provided in args must be used");
-  }
+  );
 
   // test if provided key is empty
   EXPECT_FALSE(args.key("key1").empty());
@@ -44,18 +44,18 @@ TEST(Arguments, Arguments) {
 }
 
 TEST(Arguments, integer) {
-  try {
+  TRY(
     Arguments args;
     args.init({{"key1", "val1"}});
     args.key("key1").integer();
     CATCH_PHRASE("was expected to be an integer");
-  }
-  try {
+  );
+  TRY(
     Arguments args;
     args.init({{"key1", "1.1"}});
     args.key("key1").integer();
     CATCH_PHRASE("was expected to be an integer");
-  }
+  );
 
   Arguments args;
   args.init({{"key1", "1."}});
@@ -63,12 +63,12 @@ TEST(Arguments, integer) {
 }
 
 TEST(Arguments, dble) {
-  try {
+  TRY(
     Arguments args;
     args.init({{"key1", "mymypie"}});
     args.key("key1").dble();
     CATCH_PHRASE("was expected to be a double precision floating point number");
-  }
+  );
   Arguments args;
   args.init({{"key1", "3.1415"}});
   EXPECT_NEAR(3.1415, args.key("key1").dble(), NEAR_ZERO);

@@ -61,7 +61,7 @@ double LnProbability::saturation_objective(
   } else if (size == 1) {
     return saturation_objective_boundary(delta_conjugate, mins[0]);
   } else {
-    ERROR("Found " << size << " minimums: " << feasst_str(mins));
+    FATAL("Found " << size << " minimums: " << feasst_str(mins));
   }
 }
 

@@ -55,6 +55,17 @@ std::string feasst_str(const std::vector<std::vector<T> > &vec,
   }
   return ss.str();
 }
+template<class T>
+std::string feasst_str(const std::deque<T> &deq,
+  /// use maximum precision
+  const bool max_precision = false) {
+  std::stringstream ss;
+  if (max_precision) ss << MAX_PRECISION;
+  for (unsigned int i = 0; i < deq.size(); ++i) {
+    ss << deq[i] << " ";
+  }
+  return ss.str();
+}
 
 /// Split a string into a vector of strings via space delimitors.
 std::vector<std::string> split(const std::string str);

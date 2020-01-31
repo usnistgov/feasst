@@ -39,7 +39,7 @@ void PerturbRemove::perturb(
 void PerturbRemove::finalize(System * system) {
   system->finalize();
   if (finalize_possible()) {
-    system->get_configuration()->remove_particles(finalize_select()->mobile());
+    system->remove_particles(finalize_select()->mobile());
     // system->revert();
   }
 }

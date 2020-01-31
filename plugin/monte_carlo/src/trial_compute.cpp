@@ -71,10 +71,10 @@ std::map<std::string, std::shared_ptr<TrialCompute> >& TrialCompute::deserialize
   return *ans;
 }
 
-void TrialCompute::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+void TrialCompute::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<TrialCompute> TrialCompute::create(std::istream& istr) const {
-  ERROR("not implemented");
+  FATAL("not implemented");
 }
 
 std::shared_ptr<TrialCompute> TrialCompute::deserialize(std::istream& istr) {

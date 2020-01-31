@@ -2,9 +2,11 @@
 #ifndef FEASST_SYSTEM_ENERGY_MAP_H_
 #define FEASST_SYSTEM_ENERGY_MAP_H_
 
-#include <vector>
+#include "utils/include/arguments.h"
 #include "system/include/model.h"
 #include "configuration/include/configuration.h"
+#include "system/include/select_list.h"
+#include "system/include/cluster_criteria.h"
 
 namespace feasst {
 
@@ -13,15 +15,36 @@ namespace feasst {
  */
 class EnergyMap {
  public:
-  EnergyMap() {}
+  EnergyMap(
+    /**
+      args:
+      - default_value: set initial or cleared values to this.
+     */
+    const argtype& args = argtype()) {
+    Arguments args_(args);
+    default_value_ = args_.key("default_value").dflt("0.").dble();
+  }
+
+  double default_value() const { return default_value_; }
+
+  virtual void clear(
+      const int part1_index,
+      const int site1_index,
+      const int part2_index,
+      const int site2_index) = 0;
   virtual double update(
       const double energy,
       const int part1_index,
       const int site1_index,
       const int part2_index,
-      const int site2_index) {
-    return energy;
-  }
+      const int site2_index,
+      const double squared_distance,
+      const Position * pbc) = 0;
+  virtual double query(
+      const int part1_index,
+      const int site1_index,
+      const int part2_index,
+      const int site2_index) = 0;
   virtual void precompute(Configuration * config) {}
 
   /* HWH
@@ -31,21 +54,34 @@ class EnergyMap {
     But theres no quick way to skip over the zeros (except using selection?)
     Or maybe its same efficiency to have old and new...
   */
-  virtual void prep_for_revert() {}
-  virtual void revert() {}
+  virtual void prep_for_revert(const Select& select) {}
+  virtual void revert(const Select& select) {}
+  virtual void remove_particles(const Select& select) {}
+  virtual double total_energy() const { FATAL("not implemented"); }
 
-  virtual const std::vector<std::vector<std::vector<std::vector<double> > > >&
-    map() const { ERROR("not implemented"); }
-
-  virtual double total() const { ERROR("not implemented"); }
+  /**
+    Add neighboring particles to selection which interact with node
+    based on an energy less than or equal to the tolerance.
+    The cluster also has positions taking into account periodic boundary
+    conditions, which is why frame of reference is used recurisvely.
+   */
+  virtual void select_cluster(const ClusterCriteria * cluster_criteria,
+                              const Configuration& config,
+                              const int particle_node,
+                              SelectPosition * cluster,
+                              const Position& frame_of_reference) const {
+    FATAL("not implemented"); }
 
   // serialization
   virtual std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const {
     serialize_energy_map_(ostr); }
-  EnergyMap(std::istream& istr) { feasst_deserialize_version(istr); }
-  virtual std::shared_ptr<EnergyMap> create(std::istream& istr) const {
-    return std::make_shared<EnergyMap>(istr); }
+  EnergyMap(std::istream& istr) {
+    const int version = feasst_deserialize_version(istr);
+    ASSERT(version == 945, "version mismatch: " << version);
+    feasst_deserialize(&default_value_, istr);
+  }
+  virtual std::shared_ptr<EnergyMap> create(std::istream& istr) const = 0;
   std::map<std::string, std::shared_ptr<EnergyMap> >& deserialize_map();
   std::shared_ptr<EnergyMap> deserialize(std::istream& istr) {
     return template_deserialize(deserialize_map(), istr); }
@@ -54,48 +90,14 @@ class EnergyMap {
  protected:
   void serialize_energy_map_(std::ostream& ostr) const {
     ostr << class_name_ << " ";
-    feasst_serialize_version(1, ostr);
+    feasst_serialize_version(945, ostr);
+    feasst_serialize(default_value_, ostr);
   }
 
  private:
+  double default_value_;
   const std::string class_name_ = "EnergyMap";
 };
-
-class EnergyMapAll : public EnergyMap {
- public:
-  EnergyMapAll() {}
-  double update(
-      const double energy,
-      const int part1_index,
-      const int site1_index,
-      const int part2_index,
-      const int site2_index) override;
-  void precompute(Configuration * config) override;
-  void prep_for_revert() override { map_old_ = map_; }
-  void revert() override { map_ = map_old_; }
-  const std::vector<std::vector<std::vector<std::vector<double> > > >& map()
-    const override { return map_; }
-  double total() const override { return 0.5*sum(map()); }
-
-  // serialization
-  std::string class_name() const override { return class_name_; }
-  std::shared_ptr<EnergyMap> create(std::istream& istr) const override {
-    return std::make_shared<EnergyMapAll>(istr); }
-  void serialize(std::ostream& ostr) const override;
-  EnergyMapAll(std::istream& istr);
-  virtual ~EnergyMapAll() {}
-
- private:
-  const std::string class_name_ = "EnergyMapAll";
-  std::vector<std::vector<std::vector<std::vector<double> > > > map_, map_old_;
-  // HWH optimization, could make variation in size but hard to initialize
-  int site_max_;  // largest number of sites in a particle.
-  int part_max_() { return static_cast<int>(map_.size()); }
-};
-
-inline std::shared_ptr<EnergyMapAll> MakeEnergyMapAll() {
-  return std::make_shared<EnergyMapAll>();
-}
 
 }  // namespace feasst
 

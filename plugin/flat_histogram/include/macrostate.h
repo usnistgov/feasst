@@ -21,8 +21,9 @@ class Macrostate {
  public:
   Macrostate(const Histogram& histogram,
     /**
-      soft_max : optionally, set a soft maximum (default: same as histogram).
+      soft_max : optionally, set a soft maximum (default: last histogram bin).
                  These soft limits may be changed during a simulation.
+                 Note that this max is an integer bin number.
       soft_min : minimum as described above (default: same as histogram).
      */
     const argtype& args = argtype()) {
@@ -30,17 +31,17 @@ class Macrostate {
 
     // soft limits
     Arguments args_(args);
-    is_soft_bound_ = false;
-    soft_min_ = soft_max_ = 0.;
+    soft_min_ = 0;
+    soft_max_ = histogram_.size() - 1;
     if (args_.key("soft_max").used()) {
-      is_soft_bound_ = true;
       soft_max_ = args_.integer();
       if (args_.key("soft_min").used()) {
         soft_min_ = args_.integer();
-      } else {
-        soft_min_ = histogram_.min();
       }
     }
+    DEBUG("soft min " << soft_min_);
+    DEBUG("soft max " << soft_max_);
+    DEBUG("edges " << feasst_str(histogram_.edges()));
   }
 
   /// Set the bins of the macrostate by providing a Histogram.
@@ -53,11 +54,11 @@ class Macrostate {
   /// Return the histogram.
   const Histogram& histogram() const { return histogram_; }
 
-  /// Return the soft maximum (default: histogram max).
-  const int soft_max() const;
+  /// Return the soft maximum.
+  const int soft_max() const { return soft_max_; }
 
-  /// Return the soft minimum (default: histogram min).
-  const int soft_min() const;
+  /// Return the soft minimum.
+  const int soft_min() const { return soft_min_; }
 
   /// Return the current value of the macrostate.
   virtual double value(const System* system, const Criteria* criteria) = 0;
@@ -75,7 +76,9 @@ class Macrostate {
 
   /// Return whether the current system macrostate is within permissible range
   /// given by the input histogram and check any additional constraints.
-  bool is_allowed(const System* system, const Criteria* criteria);
+  bool is_allowed(const System* system,
+                  const Criteria* criteria,
+                  const int shift);
 
   /// Swap the soft bounds with another macrostate.
   void swap_soft_bounds(Macrostate * macrostate);
@@ -84,7 +87,7 @@ class Macrostate {
   virtual std::shared_ptr<Macrostate> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Macrostate> >& deserialize_map();
   std::shared_ptr<Macrostate> deserialize(std::istream& istr);
-  Macrostate(std::istream& istr);
+  explicit Macrostate(std::istream& istr);
   virtual ~Macrostate() {}
 
  protected:
@@ -92,7 +95,6 @@ class Macrostate {
 
  private:
   Histogram histogram_;
-  bool is_soft_bound_;
   int soft_max_;
   int soft_min_;
   std::vector<std::shared_ptr<Constraint> > constraints_;

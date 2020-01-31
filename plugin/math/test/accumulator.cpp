@@ -11,10 +11,10 @@ TEST(Accumulator, constructor) {
   EXPECT_NEAR(-NEAR_INFINITY, a.max(), 1);
   EXPECT_NEAR(NEAR_INFINITY, a.min(), 1);
 
-  try {
+  TRY(
     a.last_value();
     CATCH_PHRASE("no values accumul");
-  }
+  );
   for (int i = 0; i < 20; ++i) {
     a.accumulate(i);
   }

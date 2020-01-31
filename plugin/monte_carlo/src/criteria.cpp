@@ -77,7 +77,7 @@ void Criteria::set_trial_state(const int state, const int num) {
   num_trial_states_ = num;
 }
 
-void Criteria::revert(const bool accepted) {
+void Criteria::revert(const bool accepted, const double ln_prob) {
   if (accepted) {
     current_energy_ = previous_energy_;
   }
@@ -90,14 +90,29 @@ std::map<std::string, std::shared_ptr<Criteria> >& Criteria::deserialize_map() {
   return *ans;
 }
 
-void Criteria::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+void Criteria::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<Criteria> Criteria::create(std::istream& istr) const {
-  ERROR("not implemented");
+  FATAL("not implemented");
 }
 
 std::shared_ptr<Criteria> Criteria::deserialize(std::istream& istr) {
   return template_deserialize(deserialize_map(), istr);
+}
+
+bool Criteria::is_equal(const Criteria * criteria) const {
+  if (beta_ != criteria->beta_) return false;
+  if (current_energy_ != criteria->current_energy_) return false;
+  if (trial_state_ != criteria->trial_state_) return false;
+  std::stringstream ss1, ss2;
+  serialize(ss1);
+  criteria->serialize(ss2);
+  if (ss1.str() != ss2.str()) {
+    INFO(ss1.str());
+    INFO(ss2.str());
+    return false;
+  }
+  return true;
 }
 
 void Criteria::serialize_criteria_(std::ostream& ostr) const {

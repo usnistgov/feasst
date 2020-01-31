@@ -372,7 +372,8 @@ class Configuration {
 
   /// Check if configuration is approximately equivalent.
   /// Not all quantities are checked, including ghosts, etc.
-  bool is_equal(const Configuration& configuration) const;
+  bool is_equal(const Configuration& configuration,
+                const double tolerance) const;
 
   //@}
 

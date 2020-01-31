@@ -73,9 +73,9 @@ std::string PotentialFactory::str() const {
   return ss.str();
 }
 
-void PotentialFactory::revert() {
+void PotentialFactory::revert(const Select& select) {
   for (Potential& potential : potentials_) {
-    potential.revert();
+    potential.revert(select);
   }
 }
 
@@ -105,6 +105,12 @@ void PotentialFactory::unload_cache(const PotentialFactory& factory) {
   ASSERT(num() == factory.num(), "size mismatch");
   for (int ip = 0; ip < num(); ++ip) {
     potentials_[ip].unload_cache(factory.potentials_[ip]);
+  }
+}
+
+void PotentialFactory::remove_particles(const Select& selection) {
+  for (Potential& potential : potentials_) {
+    potential.remove_particles(selection);
   }
 }
 

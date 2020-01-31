@@ -75,7 +75,9 @@ class VisitModelInnerPatch : public VisitModelInner {
       const Configuration * config,
       const ModelParams& model_params,
       const ModelTwoBody& model,
-      Position * relative) override;
+      const bool is_old_config,
+      Position * relative,
+      Position * pbc) override;
 
   std::shared_ptr<VisitModelInner> create(std::istream& istr) const override {
     return std::make_shared<VisitModelInnerPatch>(istr); }

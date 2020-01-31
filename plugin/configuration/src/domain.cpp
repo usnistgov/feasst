@@ -64,11 +64,12 @@ double Domain::volume() const {
 
 Position Domain::shift(const Position& position) const {
   // use the optimized version for consistency
-  Position pos2, rel;
+  Position pos2, rel, pbc;
   pos2.set_to_origin_3D();
+  pbc.set_to_origin_3D();
   rel = position;
   double r2;
-  wrap_opt(position, pos2, &rel, &r2);
+  wrap_opt(position, pos2, &rel, &pbc, &r2);
   rel.subtract(position);
   return rel;
 }

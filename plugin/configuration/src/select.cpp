@@ -146,7 +146,7 @@ void Select::add_particle(const int particle_index, std::vector<int> site_indice
 bool Select::is_equal(const Select& select) const {
   if (particle_indices_ != select.particle_indices()) {
     DEBUG("particle indices are not equivalent: " <<
-      feasst_str(particle_indices_) <<
+      feasst_str(particle_indices_) << " vs " <<
       feasst_str(select.particle_indices()));
     return false;
   }

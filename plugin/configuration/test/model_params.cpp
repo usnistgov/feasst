@@ -29,15 +29,15 @@ TEST(ModelParams, max) {
   // custom model parameters
   ModelParams params = config.model_params();
   EXPECT_EQ(0.650169581, params.select("epsilon")->value(0));
-  try {
+  TRY(
     params.select("mistyped");
     CATCH_PHRASE("unrecognized name");
-  }
+  );
   params.add(std::make_shared<ModelParam>());
-  try {
+  TRY(
     params.select("ModelParam")->value(0);
     CATCH_PHRASE("size error");
-  }
+  );
 
   // serialize
   ModelParam charge2 = test_serialize(params.charge());

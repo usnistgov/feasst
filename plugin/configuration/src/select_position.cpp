@@ -70,6 +70,22 @@ void SelectPosition::load_positions(const ParticleFactory& particles) {
   }
 }
 
+void SelectPosition::load_positions_of_last(const Particle& particle,
+    const Position& frame_of_reference) {
+  particle_positions_.push_back(particle.position());
+  particle_positions_.back().add(frame_of_reference);
+  const int pindex = num_particles() - 1;
+  std::vector<Position> site_posit;
+  std::vector<Properties> site_props;
+  for (int sindex : site_indices(pindex)) {
+    site_posit.push_back(particle.site(sindex).position());
+    site_posit.back().add(frame_of_reference);
+    site_props.push_back(particle.site(sindex).properties());
+  }
+  site_positions_.push_back(site_posit);
+  site_properties_.push_back(site_props);
+}
+
 void SelectPosition::resize() {
   particle_positions_.resize(num_particles());
   site_positions_.resize(num_particles());

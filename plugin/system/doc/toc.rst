@@ -2,20 +2,22 @@
 .. toctree::
 
    Model
-   EnergyMap
    SelectList
+   ClusterCriteria
+   EnergyMap
+   EnergyMapAll
    VisitModelInner
    VisitModel
    ModelTwoBody
    ModelTwoBodyFactory
    HardSphere
    LennardJones
-   ModelThreeBody
    Potential
    PotentialFactory
    System
+   ModelThreeBody
+   VisitModelCell
    ModelOneBody
    ModelEmpty
-   VisitModelCell
    LongRangeCorrections
    VisitModelIntra

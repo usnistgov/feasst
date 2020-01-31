@@ -165,7 +165,7 @@ const Bond& Particle::bond(const int site_index1, const int site_index2) const {
       return bond;
     }
   }
-  ERROR("bond between " << site_index1 << " and " << site_index2 << " not found.");
+  FATAL("bond between " << site_index1 << " and " << site_index2 << " not found.");
 }
 
 const Angle& Particle::angle(const int site_index1,
@@ -183,7 +183,7 @@ const Angle& Particle::angle(const int site_index1,
       return angle;
     }
   }
-  ERROR("angle between " << site_index1 << " - " << site_index2 << " - " <<
+  FATAL("angle between " << site_index1 << " - " << site_index2 << " - " <<
     site_index3 << " not found.");
 }
 

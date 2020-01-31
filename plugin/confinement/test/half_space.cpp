@@ -10,14 +10,14 @@ TEST(Shape, HalfSpace) {
     {"intersection", "1."},
     {"direction", "1"},
   });
-  try {
+  TRY(
     HalfSpace half_space({
       {"dimension", "2"},
       {"intersection", "1."},
       {"direction", "0"},
     });
     CATCH_PHRASE("invalid direction");
-  }
+  );
   Position point;
   point.set_vector({15, -56.54, 2.});
   EXPECT_TRUE(half_space.is_inside(point));

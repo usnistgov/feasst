@@ -10,10 +10,10 @@ std::map<std::string, std::shared_ptr<Formula> >& Formula::deserialize_map() {
   return *ans;
 }
 
-void Formula::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+void Formula::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<Formula> Formula::create(std::istream& istr) const {
-  ERROR("not implemented");
+  FATAL("not implemented");
 }
 
 std::shared_ptr<Formula> Formula::deserialize(std::istream& istr) {

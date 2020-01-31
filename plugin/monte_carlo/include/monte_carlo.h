@@ -10,13 +10,15 @@
 #include "math/include/random_mt19937.h"
 //#include "utils/include/timer.h"
 #include "monte_carlo/include/trial_factory.h"
-#include "monte_carlo/include/trial_add.h"
-#include "monte_carlo/include/trial_remove.h"
 //#include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/analyze.h"
 #include "monte_carlo/include/analyze_factory.h"
 #include "monte_carlo/include/modify.h"
 #include "monte_carlo/include/modify_factory.h"
+
+// for convenient interface
+#include "monte_carlo/include/trial_add.h"
+#include "monte_carlo/include/trial_remove.h"
 
 namespace feasst {
 
@@ -175,10 +177,12 @@ class MonteCarlo {
   }
 
   /// Revert changes from previous trial.
-  void revert(const int trial_index, const bool accepted) {
+  void revert(const int trial_index,
+      const bool accepted,
+      const double ln_prob) {
     trial_factory_.revert(trial_index, accepted, &system_);
     DEBUG("reverting " << criteria_->current_energy());
-    criteria_->revert(accepted);
+    criteria_->revert(accepted, ln_prob);
   }
 
   /// Finalize changes from previous trial.
@@ -193,16 +197,16 @@ class MonteCarlo {
 
   /// Attempt Monte Carlo trials until Criteria returns completion.
   void run_until_complete() {
-    while (!criteria_->is_complete()) {
-      attempt(1);
-    }
+    run_until_complete_(&trial_factory_, random_.get());
   }
 
   /// Mimic a rejection by a trial.
-  void mimic_trial_rejection(const int trial_index, const double ln_prob) {
-    trial_factory_.mimic_trial_rejection(trial_index);
-    // HWH add this for FH
-    // criteria_->mimic_trial_rejection(ln_prob);
+  void imitate_trial_rejection(const int trial_index,
+      const double ln_prob,
+      const int state_old,
+      const int state_new) {
+    trial_factory_.imitate_trial_rejection(trial_index);
+    criteria_->imitate_trial_rejection(ln_prob, state_old, state_new);
   }
 
   /// Load random numbers and energy calculations into cache.
@@ -230,7 +234,15 @@ class MonteCarlo {
 //  }
 
   void after_trial_() {
+    after_trial_analyze_();
+    after_trial_modify_();
+  }
+
+  void after_trial_analyze_() {
     analyze_factory_.trial(criteria_.get(), system_, trial_factory_);
+  }
+
+  void after_trial_modify_() {
     modify_factory_.trial(criteria_.get(), &system_, &trial_factory_);
     if (checkpoint_) {
       checkpoint_->check(*this);
@@ -303,12 +315,19 @@ class MonteCarlo {
   virtual ~MonteCarlo() {}
 
  protected:
-  virtual void attempt_(const int num_trials, TrialFactory * trial_factory, Random * random) {
+  virtual void attempt_(int num_trials, TrialFactory * trial_factory, Random * random) {
     before_attempts_();
     for (int trial = 0; trial < num_trials; ++trial) {
       DEBUG("mc trial: " << trial);
-      trial_factory->attempt(criteria_.get(), &system_, random_.get());
+      trial_factory->attempt(criteria_.get(), &system_, random);
       after_trial_();
+    }
+  }
+
+  virtual void run_until_complete_(TrialFactory * trial_factory,
+                                   Random * random) {
+    while (!criteria_->is_complete()) {
+      attempt_(1, trial_factory, random);
     }
   }
 
@@ -331,7 +350,7 @@ class MonteCarlo {
   bool criteria_set_ = false;
 };
 
-/// Initialize an add and remove trial simultaneously with the same arguments
+/// Initialize an add and remove trial simultaneously with the same arguments.
 inline void add_trial_transfer(MonteCarlo * mc, const argtype& args = argtype()) {
   mc->add(MakeTrialAdd(args));
   mc->add(MakeTrialRemove(args));

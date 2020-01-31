@@ -60,6 +60,11 @@ class SelectPosition : public Select {
   /// Load the positions from the existing selection indices.
   void load_positions(const ParticleFactory& particles);
 
+  /// Load the positions and properties of the last particle added.
+  void load_positions_of_last(const Particle& particle,
+                              /// shift the positions by the frame of reference
+                              const Position& frame_of_reference);
+
   void clear() override;
 
   void resize();

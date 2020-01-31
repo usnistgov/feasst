@@ -95,6 +95,9 @@ class TrialStage {
   /// Print status.
   std::string status() const { return perturb_->status(); }
 
+  // HWH avoid using this
+  TrialSelect * get_trial_select() { return select_.get(); }
+
   /// Serialize.
   void serialize(std::ostream& ostr) const;
 

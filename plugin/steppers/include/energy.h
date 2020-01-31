@@ -21,6 +21,7 @@ class Energy : public Analyze {
   void update(const Criteria * criteria,
       const System& system,
       const TrialFactory& trial_factory) override {
+    DEBUG("en: " << criteria->current_energy());
     energy_.accumulate(criteria->current_energy()); }
 
   std::string write(const Criteria * criteria,

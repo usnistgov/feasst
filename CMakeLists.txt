@@ -3,28 +3,29 @@ project (FEASST)
 set (CMAKE_CXX_STANDARD 11)
 cmake_policy(SET CMP0042 NEW) # removes warning about macosx_rpath
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -pthread")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -pthread")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pg -g") #profile
 
 # manually list the plugins
 # Note: for developement and testing, reducing plugins decreases compile time
+set(FEASST_PLUGINS "utils")
 #set(FEASST_PLUGINS "utils;math")
-set(FEASST_PLUGINS "utils;math;configuration")
+#set(FEASST_PLUGINS "utils;math;configuration")
 #set(FEASST_PLUGINS "utils;math;configuration;system")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo")
-#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;opt_lj")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;opt_lj;cluster")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;prefetch;ewald")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;ewald")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;patch")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;ewald;flat_histogram")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;flat_histogram")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;flat_histogram;prefetch")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;prefetch")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram;growth_expanded")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald")
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded;prefetch;opt_lj")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded;prefetch;opt_lj;cluster")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded;prefetch;xtc")
 # Note, if you change the plugin list and want to use the python interface,
 # you also need to run "../py/run.sh ../dev/tools/depend.py -s ../"
@@ -352,7 +353,8 @@ if (USE_GTEST)
   # Add googletest directly to our build. This defines
   # the gtest and gtest_main targets.
   add_subdirectory(${CMAKE_SOURCE_DIR}/build-gtest/googletest-src
-                   ${CMAKE_SOURCE_DIR}/build-gtest/googletest-build)
+                   ${CMAKE_SOURCE_DIR}/build-gtest/googletest-build
+                   EXCLUDE_FROM_ALL)
 
   # The gtest/gtest_main targets carry header search path
   # dependencies automatically when using CMake 2.8.11 or

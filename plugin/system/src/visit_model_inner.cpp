@@ -29,20 +29,29 @@ void VisitModelInner::compute(
     const Configuration * config,
     const ModelParams& model_params,
     const ModelTwoBody& model,
-    Position * relative) {
+    const bool is_old_config,
+    Position * relative,
+    Position * pbc) {
+  if (is_old_config && energy_map()) {
+    DEBUG("using old map");
+    query_ixn(part1_index, site1_index, part2_index, site2_index);
+    return;
+  }
   const Particle& part1 = config->select_particle(part1_index);
   const Site& site1 = part1.site(site1_index);
+  clear_ixn(part1_index, site1_index, part2_index, site2_index);
   if (site1.is_physical()) {
     const Particle& part2 = config->select_particle(part2_index);
     const Site& site2 = part2.site(site2_index);
     if (site2.is_physical()) {
-      config->domain().wrap_opt(site1.position(), site2.position(), relative, &squared_distance_);
+      config->domain().wrap_opt(site1.position(), site2.position(), relative, pbc, &squared_distance_);
       const int type1 = site1.type();
       const int type2 = site2.type();
       const double cutoff = model_params.mixed_cutoff()[type1][type2];
       if (squared_distance_ <= cutoff*cutoff) {
         const double energy = model.energy(squared_distance_, type1, type2, model_params);
-        add_energy(energy, part1_index, site1_index, part2_index, site2_index);
+        update_ixn(energy, part1_index, site1_index, part2_index, site2_index,
+                   squared_distance_, pbc);
         //energy_ += model.energy(squared_distance_, type1, type2, model_params);
         TRACE("indices " << part1_index << " " << site1_index << " " <<
           part2_index << " " << site2_index);

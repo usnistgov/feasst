@@ -39,7 +39,6 @@ std::shared_ptr<TrialCompute> TrialComputeMove::create(std::istream& istr) const
 
 TrialComputeMove::TrialComputeMove(std::istream& istr)
   : TrialCompute(istr) {
-  // ASSERT(class_name_ == "TrialComputeMove", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
   ASSERT(888 == version, "mismatch version: " << version);
 }

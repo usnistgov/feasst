@@ -16,9 +16,9 @@ class AnalyzeFactory : public Analyze {
  public:
   explicit AnalyzeFactory(const argtype &args = argtype()) : Analyze(args) {}
 
-  void initialize(const Criteria * criteria,
-    const System& system,
-    const TrialFactory& trial_factory) override;
+  void initialize(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) override;
 
   /// Add an Analyze object.
   void add(std::shared_ptr<Analyze> analyze) { analyzers_.push_back(analyze); }

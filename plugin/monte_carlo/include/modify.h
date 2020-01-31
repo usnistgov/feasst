@@ -30,21 +30,21 @@ class Modify : public Stepper {
   /// Perform update action.
   virtual void update(Criteria * criteria,
       System * system,
-      TrialFactory * trial_factory) { ERROR("not implemented"); }
+      TrialFactory * trial_factory) { FATAL("not implemented"); }
 
   /// Perform write action.
   virtual std::string write(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) {
-    ERROR("not implemented");
+    FATAL("not implemented");
     return std::string("");
   }
 
   // Access to factory of Modify objects.
   virtual const std::vector<std::shared_ptr<Modify> >& modifiers() const {
-    ERROR("not implemented"); }
+    FATAL("not implemented"); }
   virtual const Modify * modify(const int index) const {
-    ERROR("not implemented"); }
+    FATAL("not implemented"); }
 
   // serialization
   std::string class_name() const override { return std::string("Modify"); }

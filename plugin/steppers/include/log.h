@@ -14,9 +14,9 @@ class Log : public AnalyzeWriteOnly {
  public:
   explicit Log(const argtype& args = argtype());
 
-  void initialize(const Criteria * criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  void initialize(Criteria * criteria,
+      System * system,
+      TrialFactory * trial_factory) override;
 
   std::string write(const Criteria * criteria,
       const System& system,

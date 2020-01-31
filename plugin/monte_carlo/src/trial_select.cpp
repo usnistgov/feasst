@@ -65,10 +65,10 @@ std::map<std::string, std::shared_ptr<TrialSelect> >& TrialSelect::deserialize_m
   return *ans;
 }
 
-void TrialSelect::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+void TrialSelect::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<TrialSelect> TrialSelect::create(std::istream& istr) const {
-  ERROR("not implemented");
+  FATAL("not implemented");
 }
 
 std::shared_ptr<TrialSelect> TrialSelect::deserialize(std::istream& istr) {

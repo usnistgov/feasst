@@ -60,11 +60,11 @@ TEST(VisitModelCell, spce_reference_config) {
   for (int site_index = 0; site_index < config.num_site_types(); ++site_index) {
     config.set_model_param("cutoff", site_index, rcut);
   }
-  try {
+  TRY(
     auto config2 = config;
     config2.init_cells(rcut);
     CATCH_PHRASE("cannot define cells before domain side");
-  }
+  );
   for (int part = 0; part < 100; ++part) {
     config.add_particle_of_type(0);
   }

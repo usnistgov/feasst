@@ -22,7 +22,7 @@ namespace feasst {
 
   The order of verbosity is as follows:
 
-  0. FATAL (not implemented)
+  0. FATAL
   1. ERROR and ASSERT
   2. WARN
   3. INFO
@@ -39,9 +39,9 @@ namespace feasst {
   If the printout is more than once every trial (e.g., inside the visitor loop
   for a model) then use TRACE instead.
 */
+constexpr int VERBOSE_LEVEL = 3;
 // HWH update verbose levels: per trial, per energy calc, per interaction
 // HWH also verbosity levels for each plugin and classes.
-constexpr int VERBOSE_LEVEL = 3;
 
 /// Used to output maximum precision to screen
 /// [e.g., INFO(MAX_PRECISION << "energy: " << energy)].
@@ -84,6 +84,24 @@ std::string feasst_dir_trim_(const char* file_name);
 { \
   if (feasst::VERBOSE_LEVEL >= 1) { \
     FEASST_MACRO_EXCEPTION(message, "Error") \
+  } \
+}
+
+/// Throw exception with message.
+# define FATAL(message) \
+{ \
+  if (feasst::VERBOSE_LEVEL >= 0) { \
+    FEASST_MACRO_EXCEPTION(message, "Fatal error") \
+  } \
+}
+
+/// Try block to expect an error. Disable if VERBOSE_LEVEL is 0.
+# define TRY(code) \
+{ \
+  if (feasst::VERBOSE_LEVEL > 0) { \
+    try { \
+      code \
+    } \
   } \
 }
 

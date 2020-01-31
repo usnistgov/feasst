@@ -106,13 +106,16 @@ class System {
   /// Return the energy of the selection.
   double energy(const Select& select, const int config = 0);
 
+  /// Return a constant pointer to the full potentials.
+  const PotentialFactory * const_potentials() const;
+
   /// Return the last computed energy.
   double stored_energy() const {
-    return const_potentials_()->stored_energy(); }
+    return const_potentials()->stored_energy(); }
 
   /// Return the profile of energies that were last computed.
   std::vector<double> stored_energy_profile() const {
-    return const_potentials_()->stored_energy_profile(); }
+    return const_potentials()->stored_energy_profile(); }
 
   /// Return the reference energy.
   double reference_energy(const int ref = 0, const int config = 0) {
@@ -127,10 +130,13 @@ class System {
   // Other functions:
 
   /// Revert changes due to perturbations.
-  void revert() { unoptimized_.revert(); }
+  void revert(const Select& selection) { unoptimized_.revert(selection); }
 
   /// Finalize changes due to perturbations.
   void finalize() { unoptimized_.finalize(); }
+
+  /// Remove particle(s) in selection.
+  void remove_particles(const Select& selection);
 
   /// Set cache to load energy calculations.
   void load_cache(const bool load);
@@ -153,7 +159,6 @@ class System {
 
   PotentialFactory * reference_(const int index);
   PotentialFactory * potentials_();
-  const PotentialFactory * const_potentials_() const;
 };
 
 }  // namespace feasst

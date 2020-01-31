@@ -23,7 +23,7 @@ class Histogram {
     - max: maximum value
     - min: minimum value (default: 0)
    */
-  Histogram(const argtype& args = argtype());
+  explicit Histogram(const argtype& args = argtype());
 
   /**
     Depending on the way the bins are defined, the histogram may be told how to
@@ -79,7 +79,7 @@ class Histogram {
   std::deque<double> histogram() const { return histogram_; }
 
   void serialize(std::ostream& ostr) const;
-  Histogram(std::istream& istr);
+  explicit Histogram(std::istream& istr);
 
  private:
   std::deque<double> histogram_;
@@ -94,6 +94,11 @@ class Histogram {
 
   void set_expandable_() { expandable_ = true; }
 };
+
+inline std::shared_ptr<Histogram> MakeHistogram(
+    const argtype &args = argtype()) {
+  return std::make_shared<Histogram>(args);
+}
 
 }  // namespace feasst
 

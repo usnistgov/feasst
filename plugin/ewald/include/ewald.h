@@ -137,7 +137,6 @@ class Ewald : public VisitModel {
 
     // if "old" half of move, store eik for reverting
     if (selection.trial_state() == 0) {
-      old_select_ = selection;
       // check and resize
       if (static_cast<int>(old_eiks_.size()) != selection.num_particles()) {
         old_eiks_.resize(selection.num_particles());
@@ -184,13 +183,13 @@ class Ewald : public VisitModel {
     set_energy(enrg);
   }
 
-  void revert() override {
+  void revert(const Select& select) override {
     if (revertable_) {
       DEBUG("reverting");
-      for (int ipart = 0; ipart < old_select_.num_particles(); ++ipart) {
-        const int part_index = old_select_.particle_index(ipart);
-        for (int isite = 0; isite < old_select_.num_sites(ipart); ++isite) {
-          const int site_index = old_select_.site_index(ipart, isite);
+      for (int ipart = 0; ipart < select.num_particles(); ++ipart) {
+        const int part_index = select.particle_index(ipart);
+        for (int isite = 0; isite < select.num_sites(ipart); ++isite) {
+          const int site_index = select.site_index(ipart, isite);
           const Site& site = old_config_->select_particle(part_index).site(site_index);
           const int eikrx0_index = find_eikrx0_(site);
           const std::vector<double>& vals = old_eiks_[ipart][isite].values();
@@ -253,7 +252,6 @@ class Ewald : public VisitModel {
   // HWH but a refactor would require argument SelectParticle * select
   // HWH to put eiks in selection and no longer exclude them from update.
   std::vector<std::vector<Properties> > old_eiks_;
-  Select old_select_;
   bool revertable_ = false;
   Configuration * old_config_;
 

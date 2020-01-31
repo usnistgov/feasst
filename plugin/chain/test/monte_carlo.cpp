@@ -104,7 +104,7 @@ TEST(MonteCarlo, chain) {
 //      {"weight", "0.1"},
       {"particle_type", "0"},
       {"num_steps", "3"},
-      {"reference", "0"},
+      {"reference_index", "0"},
     }
   ));
   const int steps_per = 1e2;

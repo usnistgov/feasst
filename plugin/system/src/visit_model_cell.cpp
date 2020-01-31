@@ -15,7 +15,7 @@ void VisitModelCell::compute(
   const Domain& domain = config->domain();
   ASSERT(cell_index < static_cast<int>(domain.cells().size()), "index error");
   const Cells& cells = domain.cells()[cell_index];
-  init_relative_(domain, &relative_);
+  init_relative_(domain, &relative_, &pbc_);
 
   /** Loop index nomenclature
     ends in 1 or 2 to represent the pair
@@ -44,8 +44,9 @@ void VisitModelCell::compute(
             if (part1_index != part2_index) {
               for (int site1_index : select1.site_indices(select1_index)) {
                 for (int site2_index : select2.site_indices(select2_index)) {
-                  get_inner_()->compute(part1_index, site1_index, part2_index, site2_index,
-                                        config, model_params, model, &relative_);
+                  get_inner_()->compute(part1_index, site1_index, part2_index,
+                                        site2_index, config, model_params,
+                                        model, false, &relative_, &pbc_);
                 }
               }
             }
@@ -69,8 +70,9 @@ void VisitModelCell::compute(
         if (part1_index != part2_index) {
           for (int site1_index : select.site_indices(select1_index)) {
             for (int site2_index : select.site_indices(select2_index)) {
-              get_inner_()->compute(part1_index, site1_index, part2_index, site2_index,
-                                    config, model_params, model, &relative_);
+              get_inner_()->compute(part1_index, site1_index, part2_index,
+                                    site2_index, config, model_params, model,
+                                    false, &relative_, &pbc_);
             }
           }
         }
@@ -89,9 +91,11 @@ void VisitModelCell::compute(
   DEBUG("visiting model");
   zero_energy();
   const Domain& domain = config->domain();
+  ASSERT(selection.num_particles() == 1, "assumes 1 particle selection");
   ASSERT(cell_index < static_cast<int>(domain.cells().size()), "were cells not initialized?");
   const Cells& cells = domain.cells()[cell_index];
-  init_relative_(domain, &relative_);
+  init_relative_(domain, &relative_, &pbc_);
+  prep_for_revert(selection);
   std::stringstream ss;
   ss << "cell" << cell_index;
   const std::string cell_label = ss.str();
@@ -115,8 +119,9 @@ void VisitModelCell::compute(
             for (int site2_index : cell2_parts.site_indices(select2_index)) {
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                    site1_index << " " << site2_index);
-              get_inner_()->compute(part1_index, site1_index, part2_index, site2_index,
-                                    config, model_params, model, &relative_);
+              get_inner_()->compute(part1_index, site1_index, part2_index,
+                                    site2_index, config, model_params, model,
+                                    false, &relative_, &pbc_);
             }
           }
         }

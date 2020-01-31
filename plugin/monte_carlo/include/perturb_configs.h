@@ -25,7 +25,7 @@ class PerturbConfigs : public Perturb {
     donor_config_->remove_particle(donor_part_);
   }
 
-  void revert(System * system) override { ERROR("not implemented"); }
+  void revert(System * system) override { FATAL("not implemented"); }
 
   ~PerturbConfigs() {}
 

@@ -2,7 +2,6 @@
 #include "math/include/position.h"
 #include "utils/include/debug.h"
 #include "utils/include/utils_io.h"
-#include "math/include/constants.h"
 #include "math/include/utils_math.h"
 
 namespace feasst {
@@ -100,12 +99,13 @@ void Position::normalize() {
   divide(distance());
 }
 
-bool Position::is_equal(const Position& position) const {
+bool Position::is_equal(const Position& position,
+                        const double tolerance) const {
   if (size() != position.size()) {
     return false;
   }
   for (int index = 0; index < static_cast<int>(size()); ++index) {
-    if (std::abs(position.coord(index) - coord_[index]) > NEAR_ZERO) {
+    if (std::abs(position.coord(index) - coord_[index]) > tolerance) {
       return false;
     }
   }

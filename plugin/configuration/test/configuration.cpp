@@ -17,11 +17,11 @@ TEST(Configuration, type_to_file_name) {
     {"particle_type1", "../forcefield/data.lj"},
     {"particle_type2", "../forcefield/data.spce"},
   });
-  try {
+  TRY(
     auto config2 = config;
     config2.add_particle_type("../forcefield/data.atom");
     CATCH_PHRASE("already provided");
-  }
+  );
   EXPECT_EQ(3, config.num_particle_types());
   EXPECT_EQ("../forcefield/data.atom", config.type_to_file_name(0));
   EXPECT_EQ("../forcefield/data.lj", config.type_to_file_name(1));
@@ -131,19 +131,19 @@ TEST(Configuration, bonds_spce) {
 TEST(Configuration, group) {
   Configuration config;
   config.set_domain(Domain().set_cubic(7));
-  try {
+  TRY(
     Configuration config_err(config);
     config_err.add(Group().add_site_type(0));
     CATCH_PHRASE("add groups after particle types");
-  }
+  );
   config.add_particle_type("../forcefield/data.spce");
   config.add_particle_type("../forcefield/data.lj");
-  try {
+  TRY(
     Configuration config_err(config);
     config_err.add_particle_of_type(0);
     config_err.add_particle_type("../forcefield/data.lj");
     CATCH_PHRASE("types cannot be added after particles");
-  }
+  );
   config.add(Group().add_site_type(0).add_particle_type(0), "O");
   config.add(Group().add_site_type(0).add_particle_type(1), "H");
   config.add(Group().add_site_type(2).add_particle_type(1), "none");
@@ -198,10 +198,10 @@ TEST(Configuration, cells) {
   });
   config.add(Group().add_site_type(0));
   config.add_particle_of_type(0);
-  try {
+  TRY(
     config.particle(0).site(0).property("cell");
     CATCH_PHRASE("not found");
-  }
+  );
   config.init_cells(1);
   config.init_cells(1.4, 1);
   EXPECT_EQ("cell0", config.domain().cells()[0].label());
@@ -265,10 +265,10 @@ TEST(Configuration, position_selection) {
 
 TEST(Configuration, domain_before_cells) {
   Configuration config;
-  try {
+  TRY(
     config.init_cells(1.);
     CATCH_PHRASE("cannot define cells before domain side");
-  }
+  );
 }
 
 TEST(Configuration, select_particle_by_group) {
@@ -285,10 +285,10 @@ TEST(Configuration, physical_constants) {
   auto config2 = MakeConfiguration();
   EXPECT_EQ(config2->model_params().physical_constants()->boltzmann_constant(),
             1.380649E-23);
-  try {
+  TRY(
     auto config3 = MakeConfiguration({{"physical_constants", "bananas"}});
     CATCH_PHRASE("The class name \"bananas\" is not recognized");
-  }
+  );
 }
 
 }  // namespace feasst

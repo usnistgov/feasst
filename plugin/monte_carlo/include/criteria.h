@@ -59,8 +59,11 @@ class Criteria {
     const System * system,
     const double uniform_random) = 0;
 
+  /// Return the acceptance of the last trial.
+  const Acceptance& acceptance() const { return last_acceptance_; }
+
   /// Return whether or not the last trial attempt was accepted.
-  bool was_accepted() const { return was_accepted_; }
+  // bool was_accepted() const { return was_accepted_; }
 
   /// Set the current total energy based on energy changes per trial in order
   /// to avoid recomputation of the energy of the entire configuration.
@@ -84,7 +87,7 @@ class Criteria {
   virtual std::string write() const;
 
   /// Return true if completion requirements are met.
-  virtual bool is_complete() { return false; }
+  virtual bool is_complete() const { return false; }
 
   /// Return the state index for multistate simulations (default: 0).
   virtual int state() const { return 0; }
@@ -101,8 +104,23 @@ class Criteria {
   /// Return number of trial states.
   int num_trial_states() const { return num_trial_states_; }
 
+  // HWH for prefetch
+  virtual int state_old() const { return 0; }
+  virtual int state_new() const { return 0; }
+
   /// Revert changes from previous trial.
-  virtual void revert(const bool accepted);
+  virtual void revert(const bool accepted, const double ln_prob);
+
+  /// Imitate a trial rejection (used in FlatHistogram).
+  virtual void imitate_trial_rejection(const double ln_prob,
+    const int state_old,
+    const int state_new) {}
+
+  /// Update.
+  virtual void update() {}
+
+  /// Return true if equivalent.
+  virtual bool is_equal(const Criteria * criteria) const;
 
   // serialize
   virtual void serialize(std::ostream& ostr) const;
@@ -116,6 +134,9 @@ class Criteria {
   Arguments args_;
   void serialize_criteria_(std::ostream& ostr) const;
   bool was_accepted_ = false;
+
+  // temporary
+  Acceptance last_acceptance_;
 
  private:
   double beta_;

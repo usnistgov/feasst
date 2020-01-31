@@ -30,7 +30,7 @@ TEST(VisitModel, energy) {
 
   // check PBCs
   Position position = config.particle(1).position();
-  position.set_coord(0, 3);
+  position.set_coord(0, 4);
 
   Particle particle = config.particle(1);
   particle.set_position(position);
@@ -42,9 +42,9 @@ TEST(VisitModel, energy) {
   config.replace_position(select, particle);
   EXPECT_EQ(3, config.particle(0).site(0).position().size());
   EXPECT_EQ(0, config.particle(0).site(0).position().coord(0));
-  EXPECT_EQ(3, config.particle(1).site(0).position().coord(0));
+  EXPECT_EQ(4, config.particle(1).site(0).position().coord(0));
 
-  EXPECT_EQ(3, config.particle(1).position().coord(0));
+  EXPECT_EQ(4, config.particle(1).position().coord(0));
   model.compute(select, &config, &visit);
   EXPECT_NEAR(en_lj(2.), visit.energy(), NEAR_ZERO);
   select.particle(0, config);
@@ -79,10 +79,7 @@ TEST(VisitModel, reference_config) {
   EXPECT_NEAR(2.*energy_prev, visit.energy(), NEAR_ZERO);
 
   // Energy map is not used by default
-  try {
-    visit.inner()->energy_map()->map();
-    CATCH_PHRASE("not implemented");
-  }
+  EXPECT_FALSE(visit.inner()->energy_map());
 }
 
 }  // namespace feasst

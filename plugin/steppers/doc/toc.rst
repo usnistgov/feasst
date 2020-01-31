@@ -3,13 +3,14 @@
 
    Energy
    NumParticles
+   WallClockLimit
    Log
    CriteriaWriter
    CPUTime
    Check
    CheckEnergy
-   WallClockLimit
    Tuner
+   CriteriaUpdater
    MeanSquaredDisplacement
    CheckProperties
    Movie

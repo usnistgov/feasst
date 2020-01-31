@@ -33,10 +33,10 @@ std::map<std::string, std::shared_ptr<Bias> >& Bias::deserialize_map() {
   return *ans;
 }
 
-void Bias::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+void Bias::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<Bias> Bias::create(std::istream& istr) const {
-  ERROR("not implemented");
+  FATAL("not implemented");
 }
 
 std::shared_ptr<Bias> Bias::deserialize(std::istream& istr) {

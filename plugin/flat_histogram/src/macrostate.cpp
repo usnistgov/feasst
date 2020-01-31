@@ -4,9 +4,16 @@
 
 namespace feasst {
 
-bool Macrostate::is_allowed(const System* system, const Criteria* criteria) {
+bool Macrostate::is_allowed(const System* system,
+                            const Criteria* criteria,
+                            const int shift) {
   const double val = value(system, criteria);
-  if (val > soft_max() or val < soft_min()) {
+  if (val > histogram_.max() || val < histogram_.min()) {
+    return false;
+  }
+  const int ibin = histogram_.bin(val) + shift;
+  DEBUG("ibin " << ibin << " max " << soft_max() << " min " << soft_min());
+  if (ibin > soft_max() or ibin < soft_min()) {
     return false;
   }
   for (int con = 0; con < static_cast<int>(constraints_.size()); ++con) {
@@ -17,25 +24,7 @@ bool Macrostate::is_allowed(const System* system, const Criteria* criteria) {
   return true;
 }
 
-const int Macrostate::soft_max() const {
-  if (is_soft_bound_) {
-    return soft_max_;
-  } else {
-    return histogram_.max();
-  }
-}
-
-const int Macrostate::soft_min() const {
-  if (is_soft_bound_) {
-    return soft_min_;
-  } else {
-    return histogram_.min();
-  }
-}
-
 void Macrostate::swap_soft_bounds(Macrostate * macrostate) {
-  ASSERT(is_soft_bound_ and macrostate->is_soft_bound_,
-    "macrostates are not both soft bound");
   swap(&soft_max_, &(macrostate->soft_max_));
   swap(&soft_min_, &(macrostate->soft_min_));
 }
@@ -46,10 +35,10 @@ std::map<std::string, std::shared_ptr<Macrostate> >& Macrostate::deserialize_map
   return *ans;
 }
 
-void Macrostate::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+void Macrostate::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<Macrostate> Macrostate::create(std::istream& istr) const {
-  ERROR("not implemented");
+  FATAL("not implemented");
 }
 
 std::shared_ptr<Macrostate> Macrostate::deserialize(std::istream& istr) {
@@ -59,7 +48,6 @@ std::shared_ptr<Macrostate> Macrostate::deserialize(std::istream& istr) {
 void Macrostate::serialize_macrostate_(std::ostream& ostr) const {
   feasst_serialize_version(520, ostr);
   feasst_serialize_fstobj(histogram_, ostr);
-  feasst_serialize(is_soft_bound_, ostr);
   feasst_serialize(soft_max_, ostr);
   feasst_serialize(soft_min_, ostr);
   ASSERT(constraints_.size() == 0, "constraint serialization not implemented");
@@ -68,7 +56,6 @@ void Macrostate::serialize_macrostate_(std::ostream& ostr) const {
 Macrostate::Macrostate(std::istream& istr) {
   ASSERT(feasst_deserialize_version(istr) == 520, "version check");
   feasst_deserialize_fstobj(&histogram_, istr);
-  feasst_deserialize(&is_soft_bound_, istr);
   feasst_deserialize(&soft_max_, istr);
   feasst_deserialize(&soft_min_, istr);
 }

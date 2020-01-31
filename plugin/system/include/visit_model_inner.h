@@ -13,7 +13,7 @@ class ModelTwoBody;
 class VisitModelInner {
  public:
   VisitModelInner() {
-    set_energy_map();
+    //set_energy_map();
   }
 
   VisitModelInner(const std::shared_ptr<EnergyMap> map) {
@@ -28,32 +28,72 @@ class VisitModelInner {
     const Configuration * config,
     const ModelParams& model_params,
     const ModelTwoBody& model,
-    Position * relative);
+    const bool is_old_config,
+    Position * relative,
+    Position * pbc
+    );
 
   virtual void precompute(Configuration * config) {
-    energy_map_->precompute(config);
+    if (energy_map_) {
+      energy_map_->precompute(config);
+    }
   }
 
   void set_energy(const double energy) { energy_ = energy; }
-  void add_energy(
+  void update_ixn(
       const double energy,
       const int part1_index,
       const int site1_index,
       const int part2_index,
+      const int site2_index,
+      const double squared_distance,
+      const Position * pbc) {
+    energy_ += energy;
+    if (energy_map_) {
+      energy_map_->update(energy, part1_index, site1_index, part2_index,
+                          site2_index, squared_distance, pbc);
+    }
+  }
+  void clear_ixn(
+      const int part1_index,
+      const int site1_index,
+      const int part2_index,
       const int site2_index) {
-    energy_ += energy_map_->update(energy, part1_index, site1_index, part2_index, site2_index);
+    if (energy_map_) {
+      Position pos;
+      energy_map_->clear(part1_index, site1_index, part2_index, site2_index);
+    }
+  }
+  void query_ixn(
+      const int part1_index,
+      const int site1_index,
+      const int part2_index,
+      const int site2_index) {
+    if (energy_map_) {
+      energy_ += energy_map_->query(part1_index, site1_index, part2_index, site2_index);
+    }
   }
 
   double energy() const { return energy_; }
 
-  virtual void prep_for_revert() { energy_map_->prep_for_revert(); }
-  virtual void revert() { energy_map_->revert(); }
-  virtual void finalize() {}
+  void prep_for_revert(const Select& selection) {
+    if (energy_map_) {
+      energy_map_->prep_for_revert(selection);
+    }
+  }
+  void revert(const Select& select) {
+    if (energy_map_) {
+      energy_map_->revert(select);
+    }
+  }
+  void finalize() {}
+  void remove_particles(const Select& selection) {
+    if (energy_map_) {
+      energy_map_->remove_particles(selection);
+    }
+  }
 
-  void set_energy_map(
-      std::shared_ptr<EnergyMap> map = std::make_shared<EnergyMap>()) {
-      //std::shared_ptr<EnergyMap> map = std::make_shared<EnergyMapAll>()) {
-    energy_map_ = map; }
+  void set_energy_map(std::shared_ptr<EnergyMap> map) { energy_map_ = map; }
 
   const EnergyMap * energy_map() const { return energy_map_.get(); }
 

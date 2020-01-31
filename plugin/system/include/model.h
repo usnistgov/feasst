@@ -69,17 +69,17 @@ class Model {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const { ERROR("not implemented"); }
+      const ModelParams& model_params) const { FATAL("not implemented"); }
 
   // https://isocpp.org/wiki/faq/serialization
   //typedef std::shared_ptr<Model> (*Factory)(std::istream&);
 
   /// Output a serialized version of the existing model.
-  virtual void serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+  virtual void serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
   // Derived class implementation of a serialization.
   virtual std::shared_ptr<Model> create(std::istream& istr) const {
-    ERROR("not implemented"); }
+    FATAL("not implemented"); }
 
   // Returns a static mapping of class name to model.
   std::map<std::string, std::shared_ptr<Model> >& deserialize_map();

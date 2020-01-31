@@ -19,9 +19,9 @@ class Analyze : public Stepper {
   explicit Analyze(const argtype &args = argtype()) : Stepper(args) {}
 
   /// Initialize and precompute before trials.
-  virtual void initialize(const Criteria * criteria,
-      const System& system,
-      const TrialFactory& trial_factory) {}
+  virtual void initialize(Criteria * criteria,
+      System * system,
+      TrialFactory * trial_factory) {}
 
   /// Check every trial if action is to be performed.
   virtual void trial(const Criteria * criteria,
@@ -40,9 +40,9 @@ class Analyze : public Stepper {
 
   // Access to factory of Analyze objects.
   virtual const std::vector<std::shared_ptr<Analyze> >& analyzers() const {
-    ERROR("not implemented"); }
+    FATAL("not implemented"); }
   virtual const Analyze * analyze(const int index) const {
-    ERROR("not implemented"); }
+    FATAL("not implemented"); }
 
   // serialization
   virtual void serialize(std::ostream& ostr) const;

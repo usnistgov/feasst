@@ -5,6 +5,7 @@
 #include "math/include/histogram.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
+#include "steppers/include/criteria_updater.h"
 
 namespace feasst {
 
@@ -17,42 +18,46 @@ TEST(FlatHistogram, order) {
     {"beta", str(1./1.5)},
     {"chemical_potential", "-2.352321"}
   });
-  try {
+  TRY(
     auto criteria2 = criteria;
     criteria2->set(MakeWangLandau({{"min_flatness", "20"}}));
     CATCH_PHRASE("set macrostate before bias");
-  }
+  );
 }
 
 TEST(TransitionMatrix, args) {
-  try {
+  TRY(
     auto criteria = crit_fh(0);
     criteria->set(MakeTransitionMatrix());
     CATCH_PHRASE("key(min_sweeps) is required");
-  }
+  );
 }
 
 TEST(WangLandau, args) {
-  try {
+  TRY(
     auto criteria = crit_fh(1);
     criteria->set(MakeWangLandau());
     CATCH_PHRASE("key(min_flatness) is required");
-  }
+  );
 }
 
 TEST(MonteCarlo, FHMC) {
-  for (int crit_type = 0; crit_type < 1; ++crit_type) {
-  // for (int crit_type = 0; crit_type < 2; ++crit_type) {
+  // for (int crit_type = 0; crit_type < 1; ++crit_type) {
+  for (int crit_type = 0; crit_type < 2; ++crit_type) {
     MonteCarlo mc;
+    // mc.set(MakeRandomMT19937({{"seed", "default"}}));
     mc_lj(&mc);
-    mc.add(MakeTrialAdd({{"particle_type", "0"}, {"weight", "0.25"}}));
-    mc.add(MakeTrialRemove({{"weight", "0.25"}}));
+    // mc.seek_num_particles(4);
+    add_trial_transfer(&mc, {{"particle_type", "0"}, {"weight", "0.25"}});
     mc.set(crit_fh(crit_type));
     mc.add(MakeMovie({
       {"file_name", "tmp/wlmc_movie"},
       {"steps_per", str(1e4)},
       {"multistate", "true"},
     }));
+    if (crit_type == 0) {
+      mc.add(MakeCriteriaUpdater({{"steps_per", str(1)}}));
+    }
     mc.add(MakeCriteriaWriter({
       {"steps_per", str(1e4)},
       {"file_name", "tmp/ljcrit.txt"},

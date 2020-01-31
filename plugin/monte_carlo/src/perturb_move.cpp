@@ -23,7 +23,7 @@ void PerturbMove::revert(System * system) {
     config->update_positions(revert_select()->mobile_original(),
       // don't wrap if reverting
       false);
-    system->revert();
+    system->revert(revert_select()->mobile_original());
   }
 }
 

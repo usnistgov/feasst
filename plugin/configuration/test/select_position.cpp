@@ -9,7 +9,6 @@ TEST(SelectPosition, serialize) {
   config.add_particle_type("../forcefield/data.spce");
   config.add_particle_of_type(0);
   SelectPosition sel(config.group_select(0), config.particles());
-  INFO(sel.str());
   SelectPosition sel2 = test_serialize(sel);
 }
 

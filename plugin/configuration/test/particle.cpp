@@ -18,11 +18,11 @@ TEST(Particle, check) {
   Position pos;
   pos.set_vector({0, 0});
   site.set_position(pos);
-  try {
+  TRY(
     particle.add(site);
     particle.check();
     CATCH_PHRASE("size error");
-  }
+  );
 }
 
 TEST(Particle, center) {
@@ -35,10 +35,10 @@ TEST(Particle, center) {
 
 TEST(Particle, bond) {
   Particle chain = FileLMP().read("../forcefield/data.chain10");
-  try {
+  TRY(
     chain.bond(9, 10);
     CATCH_PHRASE("not found");
-  }
+  );
   EXPECT_EQ(0, chain.bond(9, 8).type());
   const int bond = chain.bond_list()[9][0];
   EXPECT_EQ(8, chain.bond(bond).site(0));
@@ -57,10 +57,10 @@ TEST(Particle, bond) {
 
 TEST(Particle, angle) {
   Particle spce = FileLMP().read("../forcefield/data.spce");
-  try {
+  TRY(
     spce.angle(0, 1, 2);
     CATCH_PHRASE("not found");
-  }
+  );
   EXPECT_EQ(0, spce.angle(1, 0, 2).type());
   Particle spce2 = test_serialize(spce);
 }

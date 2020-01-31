@@ -20,22 +20,22 @@ Movie::Movie(const argtype &args ) : AnalyzeWriteOnly(args) {
   ASSERT(args_.key("file_name").used(), "file name is required");
 }
 
-void Movie::initialize(const Criteria * criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void Movie::initialize(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
   ASSERT(!file_name().empty(), "file name required. Did you forget to " <<
     "Analyze::set_file_name()?");
 
   // write xyz
   xyz_.set_append(1);
   if (state() == criteria->state()) {
-    xyz_.write(file_name(), system.configuration());
+    xyz_.write(file_name(), system->configuration());
   }
 
   // write vmd
   std::stringstream ss;
   ss << file_name() << ".vmd";
-  vmd_.write(ss.str(), system.configuration(), file_name());
+  vmd_.write(ss.str(), system->configuration(), file_name());
 }
 
 std::string Movie::write(const Criteria * criteria,

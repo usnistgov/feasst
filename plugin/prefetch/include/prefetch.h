@@ -48,13 +48,21 @@ class Prefetch : public MonteCarlo {
  public:
   Prefetch(
     /**
-      steps_per_check : number of steps between check (default: 1e5)
+      args:
+      - steps_per_check: number of steps between check (default: 1e5)
+      - load_balance: batches contain all of the same trial type (default: true).
+        This violates detailed balance, but "local detailed balance" is still
+        satisfied.
+        https://doi.org/10.1063/1.477973
      */
     const argtype& args = argtype()) {
     activate_prefetch();
     Arguments args_(args);
     steps_per_check_ = args_.key("steps_per_check").dflt("100000").integer();
+    load_balance_ = args_.key("load_balance").dflt("true").boolean();
   }
+
+  int steps_per_check() const { return steps_per_check_; }
 
   void activate_prefetch(const bool active = true) { is_activated_ = active; }
   void reset_trial_stats() override {
@@ -64,13 +72,28 @@ class Prefetch : public MonteCarlo {
     }
   }
 
-  void serialize(std::ostream& ostr) const override { ERROR("not implemented"); }
-  Prefetch(std::istream& istr) : MonteCarlo(istr) {}
+  void serialize(std::ostream& ostr) const override {
+    MonteCarlo::serialize(ostr);
+    feasst_serialize_version(348, ostr);
+    feasst_serialize(is_activated_, ostr);
+    feasst_serialize(steps_per_check_, ostr);
+    feasst_serialize(steps_since_check_, ostr);
+    feasst_serialize(load_balance_, ostr);
+  }
+  Prefetch(std::istream& istr) : MonteCarlo(istr) {
+    const int version = feasst_deserialize_version(istr);
+    ASSERT(version == 348, "version: " << version);
+    feasst_deserialize(&is_activated_, istr);
+    feasst_deserialize(&steps_per_check_, istr);
+    feasst_deserialize(&steps_since_check_, istr);
+    feasst_deserialize(&load_balance_, istr);
+  }
 
   virtual ~Prefetch() {}
 
  protected:
-  void attempt_(const int num_trials, TrialFactory * trial_factory, Random * random) override;
+  void attempt_(int num_trials, TrialFactory * trial_factory, Random * random) override;
+  void run_until_complete_(TrialFactory * trial_factory, Random * random) override;
 
  private:
   // void distribute_for_();
@@ -80,10 +103,13 @@ class Prefetch : public MonteCarlo {
   // https://cvw.cac.cornell.edu/OpenMP/whileloop
 //  void distribute_while_();
 
-  int num_threads_;
   bool is_activated_;
   int steps_per_check_;
+  int steps_since_check_;
+  bool load_balance_;
 
+  // temporary
+  int num_threads_;
   std::vector<Pool> pool_;
 
   // Pick a clone based on ithread

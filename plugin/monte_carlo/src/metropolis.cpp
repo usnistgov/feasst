@@ -15,6 +15,7 @@ bool Metropolis::is_accepted(const Acceptance& acceptance,
     DEBUG("rejected");
     was_accepted_ = false;
   }
+  last_acceptance_ = acceptance;
   return was_accepted_;
 }
 

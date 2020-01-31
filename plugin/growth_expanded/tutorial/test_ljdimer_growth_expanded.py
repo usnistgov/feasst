@@ -7,7 +7,7 @@ sys.path.insert(0, feasst.install_dir() + '/plugin/monte_carlo/py')
 import lj
 import pyfeasst
 sys.path.insert(0, feasst.install_dir() + '/plugin/flat_histogram/py')
-import lj_fh
+import fh
 
 class TestLJ_FH_benchmark(unittest.TestCase):
     def test(self):
@@ -24,10 +24,11 @@ class TestLJ_FH_benchmark(unittest.TestCase):
                 feasst.Histogram(feasst.args({"width": "0.5", "max": "10"})),
                 #feasst.args({"soft_max": "10"})
             ))
-            criteria.set(feasst.MakeTransitionMatrix(feasst.args(
-                {"min_sweeps": "10", "num_steps_to_update": str(int(1e6))}
-            )))
-            mc2 = lj_fh.mc(criteria=criteria, forcefield='data.dimer')
+            criteria.set(feasst.MakeTransitionMatrix(feasst.args({"min_sweeps": "10"})))
+                , "num_steps_to_update": str(int(1e6))}
+            mc2 = fh.monte_carlo(criteria=criteria, forcefield='data.dimer', run=False)
+            mc2.add(feasst.MakeCriteriaWriter(feasst.args({"steps_per": str(int(1e6))})))
+            mc2.run_until_complete()
             #print(criteria.write())
 
         else:

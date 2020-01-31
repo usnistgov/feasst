@@ -29,31 +29,27 @@ class TransitionMatrix : public Bias {
         another macrostate this number of times (default: 100).
 
       min_sweeps : Number of sweeps required for completion.
-
-      num_steps_to_update : Number of steps to update macrostate
-        distribution (default: 1e6).
      */
     const argtype &args = argtype());
-  void update(const int macrostate_old,
-              const int macrostate_new,
-              const double ln_metropolis_prob,
-              const bool is_accepted) override;
+  void update_or_revert(
+    const int macrostate_old,
+    const int macrostate_new,
+    const double ln_metropolis_prob,
+    const bool is_accepted,
+    const bool revert) override;
   const LnProbability& ln_prob() const override {
     return ln_prob_; }
   void resize(const Histogram& histogram) override;
-  void revert(const int macrostate_new, const int macrostate_old) override;
   std::string write() const override;
   std::string write_per_bin(const int bin) const override;
   std::string write_per_bin_header() const override;
   void set_ln_prob(const LnProbability& ln_prob) override;
+  void infrequent_update() override;
 
   std::shared_ptr<Bias> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit TransitionMatrix(std::istream& istr);
   virtual ~TransitionMatrix() {}
-
- protected:
-  void infrequent_update_();
 
  private:
   LnProbability ln_prob_;
@@ -62,8 +58,6 @@ class TransitionMatrix : public Bias {
   int min_visits_ = 0;
   int num_sweeps_ = 0;
   int min_sweeps_ = 0;
-  int num_steps_to_update_ = 0;
-  int num_steps_since_update_ = 0;
 
   std::vector<TransitionMatrix> blocks_;
   bool is_block_ = false;
@@ -73,7 +67,8 @@ class TransitionMatrix : public Bias {
       const int macrostate_old,
       const int macrostate_new,
       const double ln_metropolis_prob,
-      const bool is_accepted);
+      const bool is_accepted,
+      const bool revert);
 };
 
 inline std::shared_ptr<TransitionMatrix> MakeTransitionMatrix(

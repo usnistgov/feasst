@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "utils/include/arguments.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -27,6 +28,9 @@ class Position {
 
   /// Initialize coordinates by brace initialized position vector.
   explicit Position(std::vector<double> vec) { coord_ = vec; }
+
+  /// Initialize coordinates on origin with given dimensionality.
+  explicit Position(const int dimension) { set_to_origin(dimension); }
 
   /// Return a copy of the position vector.
   const std::vector<double>& coord() const { return coord_;}
@@ -121,7 +125,8 @@ class Position {
   void normalize();
 
   /// Return true if the given position is equal to self.
-  bool is_equal(const Position& position) const;
+  bool is_equal(const Position& position,
+                const double tolerance = NEAR_ZERO) const;
 
   /// Nearest distance to axis defined by two points.
   /// see http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html

@@ -58,7 +58,7 @@ class VisitModel {
       const ModelParams& model_params,
       Configuration * config,
       const int group_index = 0) {
-    ERROR("not implemented");
+    FATAL("not implemented");
   }
 
   // If model parameters are not given, then obtain them from the configuration.
@@ -121,9 +121,12 @@ class VisitModel {
       Configuration * config,
       const int group_index = 0);
 
-  virtual void prep_for_revert() { inner_->prep_for_revert(); }
-  virtual void revert() { inner_->revert(); }
+  virtual void prep_for_revert(const Select& selection) {
+    inner_->prep_for_revert(selection); }
+  virtual void revert(const Select& selection) { inner_->revert(selection); }
   virtual void finalize() { inner_->finalize(); }
+  void remove_particles(const Select& selection) {
+    inner_->remove_particles(selection); }
 
   virtual void precompute(Configuration * config) {
     inner_->precompute(config); }
@@ -155,11 +158,12 @@ class VisitModel {
   // HWH hacky addition: also, prep inner for reverting,
   // because this is called at beginning of every pair-wise selection compute
   // optimization to avoid repeated construction of Position.
-  Position relative_;
-  void init_relative_(const Domain& domain, Position * relative) {
-    prep_for_revert();
+  Position relative_, pbc_;
+  void init_relative_(const Domain& domain, Position * relative,
+                      Position * pbc) {
     if (relative->dimension() != domain.dimension()) {
       relative->set_vector(domain.side_length().coord());
+      pbc->set_vector(domain.side_length().coord());
     }
   }
 

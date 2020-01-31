@@ -28,10 +28,10 @@ bool Shape::is_inside(const Position& point, const double diameter) const {
   return false;
 }
 
-void Shape::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+void Shape::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<Shape> Shape::create(std::istream& istr) const {
-  ERROR("not implemented");
+  FATAL("not implemented");
 }
 
 std::shared_ptr<Shape> Shape::deserialize(std::istream& istr) {

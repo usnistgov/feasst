@@ -11,6 +11,7 @@
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"
 #include "steppers/include/num_particles.h"
+#include "system/include/energy_map_all.h"
 
 namespace feasst {
 
@@ -28,10 +29,14 @@ TEST(MonteCarlo, serialize) {
 TEST(MonteCarlo, NVT_benchmark) {
   MonteCarlo mc;
   mc_lj(&mc);
+  //mc.set(0, Potential(MakeLennardJones(),
+  //  MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+//  mc.add_to_optimized(Potential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
+//                                MakeVisitModelOptLJ()));
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.seek_num_particles(50);
   // mc.seek_num_particles(250);
-  // mc.attempt(1e6);  // ~3.5 seconds (now 4.1) with 50 [5 sec 11/21/19]
+  //mc.attempt(1e6);  // 5.4s with 50 (see opt_lj for 4.3s)
   // mc.seek_num_particles(450);
   // mc.attempt(1e5);  // 15 sec with 450 on slow computer
   mc.attempt(1e3);
@@ -61,23 +66,28 @@ TEST(MonteCarlo, GCMC) {
   mc_lj(&mc);
   mc.set(0, Potential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-  mc.set(MakeRandomMT19937({{"seed", "default"}}));
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-2"}}));
+  //mc.set(MakeRandomMT19937({{"seed", "default"}}));
+  //mc.set(MakeRandomMT19937({{"seed", "1580133688"}}));
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
   add_trial_transfer(&mc, {{"particle_type", "0"}});
   //mc.add(MakeTrialAdd({{"particle_type", "0"}}));
   //mc.add(MakeTrialRemove());
-  mc.add(MakeNumParticles({{"steps_per_write", "10000"}}));
+  mc.add(MakeNumParticles({{"steps_per_write", "1000"},
+                           {"file_name", "tmp/ljnum.txt"}}));
   // mc.add(MakeTrialTransfer());
 //  mc.add(MakeCheckpoint({{"file_name", "tmp/gcmc"}, {"num_hours", "1"}}));
-//  for (int i = 0; i < 1e6; ++i) {
+  for (int i = 0; i < 1e4; ++i) {
 //    if (i%100==0) {
 //      INFO(mc.system().configuration().num_particles());
 //    }
-//    mc.attempt(1);
-//  }
-  mc.attempt(1e2);  // ~4.7 seconds with ~100 particles
-  INFO(mc.criteria()->current_energy());
-  INFO(mc.system().potential(0).visit_model()->inner()->energy_map()->total());
+    mc.attempt(1);
+    const double en = mc.criteria()->current_energy();
+    const double en_map = mc.system().potential(0).visit_model()->inner()->energy_map()->total_energy();
+    // INFO(feasst_str(mc.system().potential(0).visit_model()->inner()->energy_map()->map()));
+    if (std::abs(en - en_map) > 1e-8) {
+      INFO(MAX_PRECISION << "not the same: " << en << " " << en_map);
+    }
+  }
 }
 
 // // HWH delete

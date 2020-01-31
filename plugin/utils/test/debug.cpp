@@ -5,17 +5,17 @@
 namespace feasst {
 
 TEST(Debug, ASSERT) {
-  try {
+  TRY(
     ASSERT(0, "failure");
     CATCH_PHRASE("failure");
-  }
+  );
 }
 
 TEST(Debug, ERROR) {
-  try {
+  TRY(
     ERROR("failure");
     CATCH_PHRASE("failure");
-  }
+  );
 }
 
 TEST(Debug, WARN_INFO_DEBUG_TRACE) {
@@ -23,16 +23,6 @@ TEST(Debug, WARN_INFO_DEBUG_TRACE) {
   INFO("INFO");
   DEBUG("DEBUG");
   TRACE("TRACE");
-}
-
-TEST(Debug, VERBOSE_LEVEL) {
-  const int threshold = 3;
-  if (VERBOSE_LEVEL < threshold) {
-    std::cout << "By default, we expect a verbosity level of atleast "
-              << threshold << ". This test failure serves as a warning."
-              << std::endl;
-  }
-  EXPECT_GE(VERBOSE_LEVEL, threshold);
 }
 
 TEST(Debug, feasst_dir_trim_) {

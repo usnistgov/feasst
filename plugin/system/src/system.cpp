@@ -118,7 +118,7 @@ System::System(std::istream& sstr) {
   feasst_deserialize_fstobj(&references_, sstr);
 }
 
-const PotentialFactory * System::const_potentials_() const {
+const PotentialFactory * System::const_potentials() const {
   if (is_optimized_) {
     return &optimized_;
   }
@@ -139,6 +139,15 @@ void System::unload_cache(const System& system) {
   ASSERT(references_.size() == system.references_.size(), "size mismatch");
   for (int iref = 0; iref < static_cast<int>(references_.size()); ++iref) {
     references_[iref].unload_cache(system.references_[iref]);
+  }
+}
+
+void System::remove_particles(const Select& selection) {
+  configurations_[0].remove_particles(selection);
+  unoptimized_.remove_particles(selection);
+  optimized_.remove_particles(selection);
+  for (PotentialFactory& ref : references_) {
+    ref.remove_particles(selection);
   }
 }
 

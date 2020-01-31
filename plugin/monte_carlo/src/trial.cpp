@@ -121,10 +121,10 @@ std::map<std::string, std::shared_ptr<Trial> >& Trial::deserialize_map() {
   return *ans;
 }
 
-void Trial::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+void Trial::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<Trial> Trial::create(std::istream& istr) const {
-  ERROR("not implemented");
+  FATAL("not implemented");
 }
 
 std::shared_ptr<Trial> Trial::deserialize(std::istream& istr) {

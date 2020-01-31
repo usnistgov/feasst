@@ -8,10 +8,10 @@ TEST(FileXTC, XTC) {
   feasst::FileXTC file;
   std::string file_name = "../plugin/xtc/test/data/1L2Y.xtc";
   XDRFILE * xdrfile_read_only = xdrfile_open(file_name.c_str(), "r");
-  try {
+  TRY(
     file.load(xdrfile_read_only, &config, "../plugin/xtc/test/data/1L2Y.xtc");
     CATCH_PHRASE("does not match number of atoms in xtc");
-  }
+  );
   config.add_particle_type("../forcefield/data.atom");
   for (int i = 0; i < 245; ++i) {
     config.add_particle_of_type(0);

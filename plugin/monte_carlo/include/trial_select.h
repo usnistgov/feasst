@@ -4,6 +4,7 @@
 
 #include "utils/include/debug.h"
 #include "utils/include/arguments.h"
+#include "math/include/accumulator.h"
 #include "system/include/system.h"
 #include "system/include/select_list.h"
 
@@ -40,7 +41,7 @@ class TrialSelect : public PropertiedEntity {
     const Select& perturbed,
     System * system,
     Random * random) {
-    ERROR("not implemented"); }
+    FATAL("not implemented"); }
 
   /// Precompute quantities before simulation for optimization.
   virtual void precompute(System * system);
@@ -92,6 +93,10 @@ class TrialSelect : public PropertiedEntity {
   /// Return true if selecting from ghost particles.
   bool is_ghost() const { return is_ghost_; }
 
+  /// Return printable properties.
+  const std::map<std::string, Accumulator>& printable() const { return printable_; }
+  const Accumulator& printable(const std::string str) { return printable_[str]; }
+
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<TrialSelect> create(std::istream& istr) const;
@@ -104,6 +109,7 @@ class TrialSelect : public PropertiedEntity {
   SelectList mobile_original_;
   SelectList mobile_;
   Select anchor_;
+  std::map<std::string, Accumulator> printable_;
 
   void serialize_trial_select_(std::ostream& ostr) const;
   TrialSelect(std::istream& istr);

@@ -108,6 +108,8 @@ class Select {
     return site_indices_; }
 
   /// Return the site indices of particle
+  /// Note that particle_index is the index of selection, not particle index
+  ///   from configuration.
   const std::vector<int>& site_indices(const int particle_index) const {
     return site_indices_[particle_index];
   }

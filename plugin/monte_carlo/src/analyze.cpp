@@ -10,10 +10,10 @@ std::map<std::string, std::shared_ptr<Analyze> >& Analyze::deserialize_map() {
   return *ans;
 }
 
-void Analyze::serialize(std::ostream& ostr) const { ERROR("not implemented"); }
+void Analyze::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<Analyze> Analyze::create(std::istream& istr) const {
-  ERROR("not implemented");
+  FATAL("not implemented");
 }
 
 std::shared_ptr<Analyze> Analyze::deserialize(std::istream& istr) {
@@ -37,13 +37,13 @@ void Analyze::trial(const Criteria * criteria,
 void Analyze::update(const Criteria * criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  ERROR("not implemented");
+  FATAL("not implemented");
 }
 
 std::string Analyze::write(const Criteria * criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  ERROR("not implemented");
+  FATAL("not implemented");
   return std::string("");
 }
 

@@ -28,7 +28,7 @@ class FlatHistogram : public Criteria {
     const double uniform_random) override;
 
   std::string write() const override;
-  bool is_complete() override { return bias_->is_complete(); }
+  bool is_complete() const override { return bias_->is_complete(); }
 
   /// Set the macrostate which is subject to the bias.
   void set(const std::shared_ptr<Macrostate> macrostate) {
@@ -52,9 +52,12 @@ class FlatHistogram : public Criteria {
   /// Return the state. Return -1 if state is not determined.
   int state() const override { return macrostate_new_; }
   int num_states() const override { return macrostate_->histogram().size(); }
+  int state_old() const override { return macrostate_old_; }
+  int state_new() const override { return macrostate_new_; }
 
   /// Revert changes from previous trial.
-  void revert(const bool accepted) override;
+  // HWH rename: delete
+  void revert(const bool accepted, const double ln_prob) override;
 
   // HWH consider moving the below functions to a new class or util
 
@@ -139,6 +142,14 @@ class FlatHistogram : public Criteria {
       const int phase = 0) const {
     return average_macrostate(ln_prob_(), phase);
   }
+
+  void imitate_trial_rejection(const double ln_prob,
+      const int state_old,
+      const int state_new) override {
+    bias_->update(state_old, state_new, ln_prob, false);
+  }
+
+  void update() override { bias_->infrequent_update(); }
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<FlatHistogram>(istr); }

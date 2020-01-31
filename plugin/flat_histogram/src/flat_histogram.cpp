@@ -10,20 +10,20 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
   ASSERT(bias_ != NULL, "bias must be initialized before trials");
   bool is_accepted;
   double ln_metropolis_prob = acceptance.ln_metropolis_prob();
+  DEBUG("macroshift " << acceptance.macrostate_shift());
+  const int shift = acceptance.macrostate_shift()*num_trial_states();
   if (acceptance.reject() or
-      !macrostate_->is_allowed(system, this)) {
+      !macrostate_->is_allowed(system, this, shift)) {
     is_accepted = false;
     ln_metropolis_prob = -NEAR_INFINITY;
     macrostate_new_ = macrostate_old_;
     DEBUG("forced rejection");
   } else {
-    DEBUG("macroshift " << acceptance.macrostate_shift());
     // the shift factory multiplied by number of states assumes only one
     // particle is added during an entire growth expanded cycle
-    macrostate_new_ = macrostate_->bin(system, this)
-                    + acceptance.macrostate_shift()*num_trial_states();
-    DEBUG("bias " << bias_->ln_bias(macrostate_new_, macrostate_old_)
-      << " old " << macrostate_old_ << " new " << macrostate_new_);
+    macrostate_new_ = macrostate_->bin(system, this) + shift;
+    DEBUG("old " << macrostate_old_ << " new " << macrostate_new_);
+    DEBUG("bias " << bias_->ln_bias(macrostate_new_, macrostate_old_));
     DEBUG("ln new " << bias_->ln_prob().value(macrostate_new_));
     DEBUG("ln old " << bias_->ln_prob().value(macrostate_old_));
     DEBUG("ln met " << ln_metropolis_prob);
@@ -46,10 +46,9 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
   if (is_accepted) {
     set_current_energy(acceptance.energy_new());
     DEBUG("current energy: " << current_energy());
-  } else {
-    macrostate_new_ = macrostate_old_;
   }
   was_accepted_ = is_accepted;
+  last_acceptance_ = acceptance;
   return is_accepted;
 }
 
@@ -69,9 +68,13 @@ std::string FlatHistogram::write() const {
   return ss.str();
 }
 
-void FlatHistogram::revert(const bool accepted) {
-  Criteria::revert(accepted);
-  bias_->revert(macrostate_new_, macrostate_old_);
+void FlatHistogram::revert(const bool accepted, const double ln_prob) {
+  Criteria::revert(accepted, ln_prob);
+  bias_->update_or_revert(macrostate_old_,
+                          macrostate_new_,
+                          ln_prob,
+                          accepted,
+                          true);
   macrostate_new_ = macrostate_old_;
 }
 

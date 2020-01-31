@@ -12,6 +12,7 @@ namespace feasst {
 class VisitModelOptLJ : public VisitModel {
  public:
   VisitModelOptLJ() : VisitModel() {}
+  VisitModelOptLJ(std::shared_ptr<VisitModelInner> inner) : VisitModel(inner) {}
   void compute(
       const ModelTwoBody& model,
       const ModelParams& model_params,
@@ -32,6 +33,11 @@ class VisitModelOptLJ : public VisitModel {
 
 inline std::shared_ptr<VisitModelOptLJ> MakeVisitModelOptLJ() {
   return std::make_shared<VisitModelOptLJ>();
+}
+
+inline std::shared_ptr<VisitModelOptLJ> MakeVisitModelOptLJ(
+    std::shared_ptr<VisitModelInner> inner) {
+  return std::make_shared<VisitModelOptLJ>(inner);
 }
 
 }  // namespace feasst

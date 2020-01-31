@@ -494,7 +494,7 @@ int Configuration::num_particles(const int group) const {
 }
 
 int Configuration::num_sites(const int group) const {
-  if (group != 0) ERROR("not implemented");
+  if (group != 0) FATAL("not implemented");
 
   int num_ghost_sites = 0;
   for (const SelectGroup& ghost : ghosts_) {
@@ -582,10 +582,11 @@ void Configuration::set_selection_physical(const Select& select,
   }
 }
 
-bool Configuration::is_equal(const Configuration& configuration) const {
+bool Configuration::is_equal(const Configuration& configuration,
+                             const double tolerance) const {
   // check particles/sites of non-ghosts.
   if (!selection_of_all().is_equal(configuration.selection_of_all())) {
-    DEBUG("unequal selection");
+    INFO("unequal selection");
     return false;
   }
 
@@ -594,14 +595,14 @@ bool Configuration::is_equal(const Configuration& configuration) const {
     for (int pindex = 0; pindex < num_particles(); ++pindex) {
       const Particle p1 = particle(pindex);
       const Particle p2 = configuration.particle(pindex);
-      if (!p1.position().is_equal(p2.position())) {
-        DEBUG("unequal positions: " << p1.position().str() << " "
+      if (!p1.position().is_equal(p2.position(), tolerance)) {
+        INFO("unequal positions: " << p1.position().str() << " "
           << p2.position().str());
         return false;
       }
       for (int is = 0; is < p1.num_sites(); ++is) {
-        if (!p1.site(is).position().is_equal(p2.site(is).position())) {
-          DEBUG("unequal site" << is << " positions: "
+        if (!p1.site(is).position().is_equal(p2.site(is).position(), tolerance)) {
+          INFO("unequal site" << is << " positions: "
             << p1.site(is).position().str() << " "
             << p2.site(is).position().str());
           return false;

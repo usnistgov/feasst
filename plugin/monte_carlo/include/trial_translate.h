@@ -5,8 +5,6 @@
 #include <memory>
 #include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_move.h"
-#include "monte_carlo/include/trial_select_particle.h"
-#include "monte_carlo/include/perturb_translate.h"
 
 namespace feasst {
 

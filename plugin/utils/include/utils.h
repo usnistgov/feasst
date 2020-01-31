@@ -9,7 +9,7 @@
 
 namespace feasst {
 
-/// Return if value is found in list, and the index of that value in list.
+/// Return true if value is found in list, and the index of that value in list.
 template<class T>
 bool find_in_list(const T value, const std::vector<T> &list,
   int * index  //!< last index in list where value was found
@@ -28,7 +28,7 @@ bool find_in_list(const T value, const std::vector<T> &list,
   return in;
 }
 
-/// Return if value is found in list
+/// Return true if value is found in list
 template<class T>
 bool find_in_list(const T value, const std::vector<T> &list) {
   int index;

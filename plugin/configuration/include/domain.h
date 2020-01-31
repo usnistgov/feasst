@@ -162,65 +162,70 @@ class Domain {
     return false;
   }
 
-  // HWH priority 1 remove r2
   // Optimized domain wrap for use in inner pair loops.
   // Not for typical users.
   void wrap_opt(const Position& pos1,
       const Position& pos2,
       Position * rel,
+      Position * pbc,
       double * r2) const {
+    if (is_tilted_) {
+      wrap_triclinic_opt(pos1, pos2, rel, pbc, r2);
+      return;
+    }
     const int dimen = pos1.dimension();
     *r2 = 0;
     const std::vector<double>& side = side_length_.coord();
     std::vector<double>* dxv = (*rel).get_coord();
-    if (is_tilted_) {
-      wrap_triclinic_opt(pos1, pos2, rel, r2);
-      return;
-    } else {
-      for (int dim = 0; dim < dimen; ++dim) {
-        (*dxv)[dim] = pos1.coord()[dim] - pos2.coord()[dim];
-        if (dim < static_cast<int>(side.size())) {
-          const double side_length = side[dim];
-          if (periodic_[dim]) {
-            (*dxv)[dim] -= side_length*rint((*dxv)[dim]/side_length);
-          }
-        }
-        *r2 += (*dxv)[dim]*(*dxv)[dim];
+    std::vector<double>* dbc = (*pbc).get_coord();
+    for (int dim = 0; dim < dimen; ++dim) {
+      (*dxv)[dim] = pos1.coord()[dim] - pos2.coord()[dim];
+      (*dbc)[dim] = 0.;
+      const double side_length = side[dim];
+      if (periodic_[dim]) {
+        (*dbc)[dim] -= side_length*rint((*dxv)[dim]/side_length);
+        (*dxv)[dim] += (*dbc)[dim];
       }
+      *r2 += (*dxv)[dim]*(*dxv)[dim];
     }
   }
   void wrap_triclinic_opt(const Position& pos1,
       const Position& pos2,
       Position * rel,
+      Position * pbc,
       double * r2) const {
     *r2 = 0;
     const std::vector<double>& side = side_length_.coord();
     std::vector<double>* dxv = (*rel).get_coord();
+    std::vector<double>* dbc = (*pbc).get_coord();
     if (pos1.dimension() >= 3) {
-      if (2 < static_cast<int>(side.size())) {
-        if (periodic_[2]) {
-          const double side_length = side[2];
-          const int num_wrap = rint((*dxv)[2]/side_length);
-          (*dxv)[2] -= num_wrap*side_length;
-          (*dxv)[1] -= num_wrap*yz_;
-          (*dxv)[0] -= num_wrap*xz_;
-        }
+      (*dxv)[2] = pos1.coord()[2] - pos2.coord()[2];
+      if (periodic_[2]) {
+        const double side_length = side[2];
+        const int num_wrap = rint((*dxv)[2]/side_length);
+        (*dbc)[2] -= num_wrap*side_length;
+        (*dbc)[1] -= num_wrap*yz_;
+        (*dbc)[0] -= num_wrap*xz_;
+        (*dxv)[2] += (*dbc)[2];
+        (*dxv)[1] += (*dbc)[1];
+        (*dxv)[0] += (*dbc)[0];
       }
       *r2 += (*dxv)[2]*(*dxv)[2];
     }
-    if (1 < static_cast<int>(side.size())) {
-      if (periodic_[1]) {
-        const double side_length = side[1];
-        const int num_wrap = rint((*dxv)[1]/side_length);
-        (*dxv)[1] -= num_wrap*side_length;
-        (*dxv)[0] -= num_wrap*xy_;
-      }
+    (*dxv)[1] = pos1.coord()[1] - pos2.coord()[1];
+    if (periodic_[1]) {
+      const double side_length = side[1];
+      const int num_wrap = rint((*dxv)[1]/side_length);
+      (*dbc)[1] -= num_wrap*side_length;
+      (*dbc)[0] -= num_wrap*xy_;
+      (*dxv)[1] += (*dbc)[1];
+      (*dxv)[0] -= (*dbc)[0];
     }
-    if (0 < static_cast<int>(side.size())) {
-      if (periodic_[0]) {
-        const double side_length = side[0];
-        (*dxv)[0] -= side_length*rint((*dxv)[0]/side_length);
-      }
+    (*dxv)[0] = pos1.coord()[0] - pos2.coord()[0];
+    if (periodic_[0]) {
+      const double side_length = side[0];
+      (*dbc)[0] -= side_length*rint((*dxv)[0]/side_length);
+      (*dxv)[0] += (*dbc)[0];
     }
     *r2 += (*dxv)[0]*(*dxv)[0] + (*dxv)[1]*(*dxv)[1];
   }

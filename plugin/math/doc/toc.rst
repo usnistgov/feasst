@@ -2,12 +2,12 @@
 .. toctree::
 
    Accumulator
-   Position
    Formula
    FormulaExponential
    Histogram
    FormulaPolynomial
    constants
+   Position
    utils_math
    Matrix
    Random

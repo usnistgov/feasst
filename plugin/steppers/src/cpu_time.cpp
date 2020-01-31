@@ -13,9 +13,9 @@ static MapCPUTime mapper_ = MapCPUTime();
 
 CPUTime::CPUTime(const argtype& args) : AnalyzeWriteOnly(args) {}
 
-void CPUTime::initialize(const Criteria * criteria,
-    const System& system,
-    const TrialFactory& trial_factory) {
+void CPUTime::initialize(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
   num_writes_ = 0;
   initialize_time_ = cpu_hours();
 }

@@ -36,6 +36,7 @@ void TripleBandedCollectionMatrix::compute_ln_prob(
             const double ln_prob_new = ln_prob_previous
                                      + log(prob_increase/prob_decrease);
             TRACE("ln_prob_new " << ln_prob_new);
+            ASSERT(!std::isnan(ln_prob_new), "error");
             ASSERT(std::abs(ln_prob_new) < NEAR_INFINITY, "ln_prob_new:" << ln_prob_new);
             ln_prob->set_value(macro, ln_prob_new);
           }

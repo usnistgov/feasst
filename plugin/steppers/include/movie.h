@@ -17,9 +17,9 @@ class Movie : public AnalyzeWriteOnly {
   Movie(const argtype &args = argtype());
 
   /// Write the sample VMD files and the initial configuration.
-  void initialize(const Criteria * criteria,
-      const System& system,
-      const TrialFactory& trial_factory) override;
+  void initialize(Criteria * criteria,
+      System * system,
+      TrialFactory * trial_factory) override;
 
   /// Write the configuration.
   std::string write(const Criteria * criteria,
