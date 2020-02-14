@@ -46,6 +46,11 @@ class SelectPosition : public Select {
                             const int site_index,
                             const Position& position);
 
+  /// Add to the position of a particle by index.
+  /// Note that these indices are based on selection, not configuration.
+  void add_to_particle_position(const int particle_index,
+                                const Position& position);
+
   /// Set the property of a site by particle and site index.
   /// Note that these indices are based on selection, not configuration.
   void set_site_properties(const int particle_index,
@@ -100,6 +105,10 @@ class SelectPosition : public Select {
   // optimized access to site positions.
   Position * get_site_position(const int particle_index, const int site_index) {
     return &site_positions_[particle_index][site_index]; }
+
+  // optimized access to particle positions.
+  Position * get_particle_position(const int particle_index) {
+    return &particle_positions_[particle_index]; }
 
   void serialize(std::ostream& ostr) const override;
   SelectPosition(std::istream& istr);

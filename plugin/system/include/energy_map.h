@@ -27,11 +27,11 @@ class EnergyMap {
 
   double default_value() const { return default_value_; }
 
-  virtual void clear(
+  void clear(
       const int part1_index,
       const int site1_index,
       const int part2_index,
-      const int site2_index) = 0;
+      const int site2_index);
   virtual double update(
       const double energy,
       const int part1_index,
@@ -39,14 +39,19 @@ class EnergyMap {
       const int part2_index,
       const int site2_index,
       const double squared_distance,
-      const Position * pbc) = 0;
-  virtual double query(
+      const Position * pbc);
+  virtual bool is_queryable() const { return true; }
+  double query(
       const int part1_index,
       const int site1_index,
       const int part2_index,
-      const int site2_index) = 0;
-  virtual void precompute(Configuration * config) {}
+      const int site2_index);
+  void precompute(Configuration * config);
 
+  // HWH move to a finalize instead of revert-heavy stance
+  // update partial map
+  // Don't update full map until ...
+  // finalize(selection)
   /* HWH
     For reverting, consider two different maps: total, and partial.
     The partial is zero except for the interactions of the selection.
@@ -56,8 +61,8 @@ class EnergyMap {
   */
   virtual void prep_for_revert(const Select& select) {}
   virtual void revert(const Select& select) {}
-  virtual void remove_particles(const Select& select) {}
-  virtual double total_energy() const { FATAL("not implemented"); }
+  virtual void finalize(const Select& select) {}
+  double total_energy() const;
 
   /**
     Add neighboring particles to selection which interact with node
@@ -72,6 +77,13 @@ class EnergyMap {
                               const Position& frame_of_reference) const {
     FATAL("not implemented"); }
 
+  /// Compare old and new maps to see if cluster has changed.
+  /// This is useful for detailed balance with rigid cluster moves.
+  virtual bool is_cluster_changed(const ClusterCriteria * cluster_criteria,
+    const Select& select) const { FATAL("not implemented"); }
+
+  virtual void check() const {}
+
   // serialization
   virtual std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const {
@@ -80,6 +92,8 @@ class EnergyMap {
     const int version = feasst_deserialize_version(istr);
     ASSERT(version == 945, "version mismatch: " << version);
     feasst_deserialize(&default_value_, istr);
+    feasst_deserialize(&site_max_, istr);
+    feasst_deserialize(&dimen_, istr);
   }
   virtual std::shared_ptr<EnergyMap> create(std::istream& istr) const = 0;
   std::map<std::string, std::shared_ptr<EnergyMap> >& deserialize_map();
@@ -92,11 +106,34 @@ class EnergyMap {
     ostr << class_name_ << " ";
     feasst_serialize_version(945, ostr);
     feasst_serialize(default_value_, ostr);
+    feasst_serialize(site_max_, ostr);
+    feasst_serialize(dimen_, ostr);
   }
+
+  virtual void resize_(const int part1_index,
+                       const int site1_index,
+                       const int part2_index,
+                       const int site2_index) = 0;
+
+  virtual std::vector<double> * smap_(const int part1_index,
+                                      const int site1_index,
+                                      const int part2_index,
+                                      const int site2_index) = 0;
+  virtual std::vector<double> * smap_new_(const int part1_index,
+                                          const int site1_index,
+                                          const int part2_index,
+                                          const int site2_index) = 0;
+
+  virtual const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& map() const = 0;
+  int dimen() const { return dimen_; }
+  int site_max() const { return site_max_; }
 
  private:
   double default_value_;
   const std::string class_name_ = "EnergyMap";
+  // HWH optimization, could make variation in size but hard to initialize
+  int site_max_;  // largest number of sites in a particle.
+  int dimen_ = -1; // record dimension of pbc wrap
 };
 
 }  // namespace feasst

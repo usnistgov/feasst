@@ -627,6 +627,24 @@ int Configuration::max_sites_in_any_particle() const {
   return mx;
 }
 
+void Configuration::set_site_type(const int particle_type,
+                                  const int site,
+                                  const int site_type) {
+  ASSERT(domain().cells().size() == 0,
+    "check if cell list needs to be updated with changing type");
+  for (const SelectGroup& group : group_selects_) {
+    if (find_in_list(site_type, group.group().site_types())) {
+      ERROR("check if groups need to be updated with changing type");
+    }
+  }
+  particle_types_.set_site_type(particle_type, site, site_type);
+  for (int particle = 0; particle < particles_.num(); ++particle) {
+    if (particles_.particle(particle).type() == particle_type) {
+      particles_.set_site_type(particle, site, site_type);
+    }
+  }
+}
+
 void Configuration::serialize(std::ostream& ostr) const {
   feasst_serialize_version(1, ostr);
   particle_types_.serialize(ostr);

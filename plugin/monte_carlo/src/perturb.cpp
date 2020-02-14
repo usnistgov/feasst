@@ -42,7 +42,7 @@ void Perturb::set_finalize_possible(const bool finalize_possible,
 }
 
 void Perturb::finalize(System * system) {
-  system->finalize();
+  //system->finalize();
   if (finalize_possible_) {
     FATAL("not implemented");
   }

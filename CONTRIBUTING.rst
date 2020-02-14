@@ -317,4 +317,7 @@ To Do List
 * implement gibbs ensemble
 * lint file_[xyz,lmp]
 * chain setters don't seem to work with the python interface (e.g., groups). Replace with arguments.
-* rename pipeline plugin to prefetch
+* regrow but within near existing, for 'free dof, e.g. azimuthal in  angle, sphere in bond, etc'
+* put cell list in finalize-heavy paradigm, update_positions updates cell of selection, finalize updates entire cell list. linked list
+* config could use revert,finalize to update cell list only on finalization, and maybe not have to exclude from cell properties (why exclude?). same with ewald
+* HS-only simulations can use TrialComputeMoveMayer without computing energy of old configuration

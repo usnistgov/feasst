@@ -93,13 +93,10 @@ class Potential {
   double stored_energy() const { return stored_energy_; }
 
   /// Revert any changes to the configuration due to the last energy computation
-  void revert(const Select& selection) { visit_model_->revert(selection); }
+  void revert(const Select& select) { visit_model_->revert(select); }
 
   /// Finalize changes to the configuration due to the last energy computation
-  void finalize() { visit_model_->finalize(); }
-
-  /// Remove particle(s) in selection.
-  void remove_particles(const Select& selection);
+  void finalize(const Select& select) { visit_model_->finalize(select); }
 
   /// Return the cache.
   const Cache& cache() const { return cache_; }
@@ -110,6 +107,8 @@ class Potential {
   /// Set Cache to unload.
   void unload_cache(const Potential& potential) {
     cache_.set_unload(potential.cache()); }
+
+  void check() const;
 
   /// Serialize.
   void serialize(std::ostream& ostr) const;

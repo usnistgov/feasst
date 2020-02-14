@@ -29,7 +29,7 @@ void PerturbRemove::perturb(
     anywhere_.set_revert_possible(false, NULL);
   } else {
     anywhere_.perturb(system, select, random, is_position_held);
-    set_revert_possible(true, select);
+    anywhere_.set_revert_possible(true, select);
   }
 
   // setting trial state should go last so other perturbs do not overwrite
@@ -37,15 +37,13 @@ void PerturbRemove::perturb(
 }
 
 void PerturbRemove::finalize(System * system) {
-  system->finalize();
   if (finalize_possible()) {
-    system->remove_particles(finalize_select()->mobile());
-    // system->revert();
+    system->finalize(finalize_select()->mobile());
   }
 }
 
 void PerturbRemove::revert(System * system) {
-  if (revert_possible()) {
+  if (anywhere_.revert_possible()) {
     anywhere_.revert(system);
   }
 }

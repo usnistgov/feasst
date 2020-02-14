@@ -82,6 +82,16 @@ class Configuration {
   /// Return the number of site types.
   int num_site_types() const { return unique_types_.num_sites(); }
 
+  /// Return the particle associated with the type.
+  const Particle& particle_type(const int type) const {
+    return particle_types_.particle(type);
+  }
+
+  /// Return the file name used to initialize the particle types.
+  std::string type_to_file_name(const int type) const {
+    return type_to_file_[type];
+  }
+
   /// Return the particle types.
   const ParticleFactory& particle_types() const { return particle_types_; }
 
@@ -109,16 +119,6 @@ class Configuration {
   void set_physical_constants(std::shared_ptr<PhysicalConstants> constants) {
     unique_types_.set_physical_constants(constants); }
 
-  /// Return the particle associated with the type.
-  const Particle& particle_type(const int type) const {
-    return particle_types_.particle(type);
-  }
-
-  /// Return the file name used to initialize the particle types.
-  std::string type_to_file_name(const int type) const {
-    return type_to_file_[type];
-  }
-
   /// Return the unique types. Only unique sites and bonds are included.
   /// Thus, the site index is the same as the numeric value for the site type.
   /// And the same for bonds.
@@ -132,6 +132,11 @@ class Configuration {
 
   /// Return the maximum number of sites in any particle type.
   int max_sites_in_any_particle() const;
+
+  /// Change the site type of a given site in all particles of given type.
+  void set_site_type(const int particle_type,
+                     const int site,
+                     const int site_type);
 
   //@}
   /** @name Groups

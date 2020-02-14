@@ -35,6 +35,7 @@ class PerturbAdd : public Perturb {
     const bool is_position_held = false);
 
   void revert(System * system) override;
+  void finalize(System * system) override;
   std::string status_header() const override;
   std::string status() const override;
 

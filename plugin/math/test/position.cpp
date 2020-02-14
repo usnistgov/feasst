@@ -59,4 +59,18 @@ TEST(Position, orthogonal) {
   }
 }
 
+TEST(Position, reflect) {
+  Position x0({0, 0, 0});
+  Position x1({1, -6.3, 0.3});
+  x1.reflect(x0);
+  EXPECT_NEAR(-1, x1.coord(0), NEAR_ZERO);
+  EXPECT_NEAR(6.3, x1.coord(1), NEAR_ZERO);
+  EXPECT_NEAR(-0.3, x1.coord(2), NEAR_ZERO);
+  Position x2({-0.5, 5.3, -0.7});
+  x1.reflect(x2);
+  EXPECT_NEAR(0, x1.coord(0), NEAR_ZERO);
+  EXPECT_NEAR(4.3, x1.coord(1), NEAR_ZERO);
+  EXPECT_NEAR(-1.1, x1.coord(2), NEAR_ZERO);
+}
+
 }  // namespace feasst

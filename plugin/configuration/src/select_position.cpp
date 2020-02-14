@@ -41,6 +41,14 @@ void SelectPosition::add_to_site_position(const int particle_index,
   site_positions_[particle_index][site_index].add(position);
 }
 
+void SelectPosition::add_to_particle_position(const int particle_index,
+                                              const Position& position) {
+  ASSERT(particle_index < static_cast<int>(particle_positions_.size()),
+    "particle_index(" << particle_index << ") is larger than position size: "
+    << particle_positions_.size());
+  particle_positions_[particle_index].add(position);
+}
+
 void SelectPosition::set_site_properties(
     const int particle_index,
     const int site_index,

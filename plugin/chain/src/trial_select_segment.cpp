@@ -21,11 +21,13 @@ TrialSelectSegment::TrialSelectSegment(std::istream& istr)
   // ASSERT(class_name_ == "TrialSelectSegment", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
   ASSERT(658 == version, "mismatch version: " << version);
+  feasst_deserialize(&max_length_, istr);
 }
 
 void TrialSelectSegment::serialize_trial_select_segment_(std::ostream& ostr) const {
   serialize_trial_select_particle_(ostr);
   feasst_serialize_version(658, ostr);
+  feasst_serialize(max_length_, ostr);
 }
 
 void TrialSelectSegment::serialize(std::ostream& ostr) const {

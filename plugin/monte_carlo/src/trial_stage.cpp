@@ -51,7 +51,7 @@ void TrialStage::attempt(System * system, Criteria * criteria, const int old,
     rosenbluth_.store(step, select_->mobile(), system);
     if (reference_ == -1) {
       DEBUG("select " << select_->mobile().str());
-      rosenbluth_.set_energy(step, system->energy(select_->mobile()));
+      rosenbluth_.set_energy(step, system->perturbed_energy(select_->mobile()));
     } else {
       rosenbluth_.set_energy(step,
         system->reference_energy(select_->mobile(), reference_));
@@ -77,6 +77,10 @@ void TrialStage::attempt(System * system, Criteria * criteria, const int old,
 void TrialStage::mid_stage(System * system) {
   select_->mid_stage();
   set_mobile_physical(false, system);
+}
+
+bool TrialStage::are_constraints_satisfied(const System& system) const {
+  return select_->are_constraints_satisfied(system);
 }
 
 void TrialStage::serialize(std::ostream& ostr) const {

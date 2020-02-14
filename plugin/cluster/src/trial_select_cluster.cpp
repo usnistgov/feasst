@@ -23,18 +23,19 @@ class MapTrialSelectCluster {
 
 static MapTrialSelectCluster mapper_ = MapTrialSelectCluster();
 
+const EnergyMap * TrialSelectCluster::map_(const System& system) const {
+  if (cluster_criteria_->reference_potential() == -1) {
+    return system.const_potentials()->potentials()[
+      cluster_criteria_->potential_index()].visit_model()->inner()->energy_map();
+  }
+  return system.reference(cluster_criteria_->reference_potential(),
+                          cluster_criteria_->potential_index()
+                         ).visit_model()->inner()->energy_map();
+}
+
 void TrialSelectCluster::select_cluster(const int first_particle,
     const System& system,
     SelectList * select) {
-  const EnergyMap * map;
-  if (cluster_criteria_->reference_potential() == -1) {
-    map = system.const_potentials()->potentials()[
-      cluster_criteria_->potential_index()].visit_model()->inner()->energy_map();
-  } else {
-    map = system.reference(cluster_criteria_->reference_potential(),
-                           cluster_criteria_->potential_index()
-                          ).visit_model()->inner()->energy_map();
-  }
   select->clear();
   const Configuration& config = system.configuration();
   const Particle& part = config.select_particle(first_particle);
@@ -43,8 +44,12 @@ void TrialSelectCluster::select_cluster(const int first_particle,
   select->load_positions_of_last(part, frame_of_reference);
   DEBUG("first node " << select->str());
   DEBUG("first node pos " << select->site_positions()[0][0].str());
-  map->select_cluster(cluster_criteria_.get(), config, first_particle,
-                      select, frame_of_reference);
+  map_(system)->select_cluster(cluster_criteria_.get(), config, first_particle,
+                               select, frame_of_reference);
+}
+
+bool TrialSelectCluster::are_constraints_satisfied(const System& system) const {
+  return !map_(system)->is_cluster_changed(cluster_criteria_.get(), mobile_);
 }
 
 std::vector<SelectList> TrialSelectCluster::select_clusters(

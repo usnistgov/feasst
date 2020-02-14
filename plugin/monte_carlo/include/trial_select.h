@@ -97,6 +97,10 @@ class TrialSelect : public PropertiedEntity {
   const std::map<std::string, Accumulator>& printable() const { return printable_; }
   const Accumulator& printable(const std::string str) { return printable_[str]; }
 
+  /// Return true if constraints are satisfied.
+  virtual bool are_constraints_satisfied(const System& system) const {
+    return true; }
+
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<TrialSelect> create(std::istream& istr) const;

@@ -39,6 +39,7 @@ void CheckEnergy::update(Criteria * criteria,
     "greater than the tolerance(" << tolerance_ << "). "
     << system->unoptimized().str());
   criteria->set_current_energy(energy);
+  // loop over all queryable maps and check those as well.
 }
 
 void CheckEnergy::serialize(std::ostream& ostr) const {

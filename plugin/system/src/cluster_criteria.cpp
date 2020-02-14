@@ -16,10 +16,11 @@ ClusterCriteria::ClusterCriteria(const argtype& args) {
     args_.key("maximum_distance").dflt(str(std::sqrt(NEAR_INFINITY))).dble(), 2);
 }
 
-bool ClusterCriteria::is_accepted(const std::vector<double>& data) const {
-  if (data[0] < energy_maximum_ &&
-      data[1] > minimum_distance_sq_ &&
-      data[1] < maximum_distance_sq_) {
+bool ClusterCriteria::is_accepted(const double energy,
+                                  const double squared_distance) const {
+  if (energy < energy_maximum_ &&
+      squared_distance > minimum_distance_sq_ &&
+      squared_distance < maximum_distance_sq_) {
     return true;
   }
   return false;

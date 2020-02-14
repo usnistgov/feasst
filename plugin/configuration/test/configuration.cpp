@@ -291,4 +291,19 @@ TEST(Configuration, physical_constants) {
   );
 }
 
+TEST(Configuration, set_type_type) {
+  Configuration config = spce_sample();
+  config.add_particle_of_type(0);
+  config.add_particle_of_type(0);
+  EXPECT_EQ(1, config.particle_type(0).site(1).type());
+  EXPECT_EQ(1, config.particle(0).site(1).type());
+  EXPECT_EQ(1, config.particle(1).site(1).type());
+  EXPECT_EQ(2, config.particle(1).num_sites_of_type(1));
+  config.set_site_type(0, 1, 0);
+  EXPECT_EQ(0, config.particle_type(0).site(1).type());
+  EXPECT_EQ(0, config.particle(0).site(1).type());
+  EXPECT_EQ(0, config.particle(1).site(1).type());
+  EXPECT_EQ(1, config.particle(1).num_sites_of_type(1));
+}
+
 }  // namespace feasst

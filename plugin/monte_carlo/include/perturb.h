@@ -52,7 +52,7 @@ class Perturb {
   virtual void precompute(TrialSelect * select, System * system) {}
 
   /// Before perturbation, initialize some optimiation parameters.
-  void before_select();
+  virtual void before_select();
 
   /// Perturb the selection of the system.
   virtual void perturb(

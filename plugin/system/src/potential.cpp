@@ -99,8 +99,8 @@ void Potential::precompute(Configuration * config) {
   }
 }
 
-void Potential::remove_particles(const Select& selection) {
-  visit_model_->remove_particles(selection);
+void Potential::check() const {
+  visit_model_->check();
 }
 
 void Potential::serialize(std::ostream& ostr) const {

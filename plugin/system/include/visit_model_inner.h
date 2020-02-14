@@ -60,7 +60,6 @@ class VisitModelInner {
       const int part2_index,
       const int site2_index) {
     if (energy_map_) {
-      Position pos;
       energy_map_->clear(part1_index, site1_index, part2_index, site2_index);
     }
   }
@@ -76,26 +75,36 @@ class VisitModelInner {
 
   double energy() const { return energy_; }
 
-  void prep_for_revert(const Select& selection) {
+  void prep_for_revert(const Select& select) {
     if (energy_map_) {
-      energy_map_->prep_for_revert(selection);
+      energy_map_->prep_for_revert(select);
     }
   }
   void revert(const Select& select) {
+    // HWH optimize, maybe map_new doens't have to be same
+    // or have to revert, but how to calc new clusters
+    // before finalize to check cluster constraint?
     if (energy_map_) {
       energy_map_->revert(select);
     }
   }
-  void finalize() {}
-  void remove_particles(const Select& selection) {
+  void finalize(const Select& select) {
     if (energy_map_) {
-      energy_map_->remove_particles(selection);
+      energy_map_->finalize(select);
     }
   }
 
   void set_energy_map(std::shared_ptr<EnergyMap> map) { energy_map_ = map; }
 
   const EnergyMap * energy_map() const { return energy_map_.get(); }
+
+  bool is_energy_map_queryable() const;
+
+  void check() const {
+    if (energy_map_) {
+      energy_map_->check();
+    }
+  }
 
   // serialize
   virtual void serialize(std::ostream& ostr) const {

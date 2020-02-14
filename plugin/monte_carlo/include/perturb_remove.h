@@ -18,6 +18,10 @@ class PerturbRemove : public Perturb {
       TrialSelect * select,
       Random * random,
       const bool is_position_held = true) override;
+  void before_select() override {
+    Perturb::before_select();
+    anywhere_.before_select();
+  }
   void finalize(System * system) override;
   void revert(System * system) override;
 

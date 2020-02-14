@@ -136,6 +136,9 @@ class Position {
   /// Set self orthogonal to given position.
   void orthogonal(const Position& orthogonal);
 
+  /// Reflect self about a point.
+  void reflect(const Position& reflection_point);
+
   // HWH optimized only
   std::vector<double> * get_coord() { return &coord_; }
 

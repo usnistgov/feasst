@@ -29,6 +29,10 @@ class TrialSelectCluster : public TrialSelect {
   void select_cluster(const int first_particle, const System& system) {
     select_cluster(first_particle, system, &mobile_); }
 
+  // Return true if the cluster has changed (e.g., increased in size)
+  // for detailed balance constraint of rigid cluster moves.
+  bool are_constraints_satisfied(const System& system) const override;
+
   /// Return a list of selections representing individual cluster.
   std::vector<SelectList> select_clusters(const System& system);
 
@@ -47,6 +51,7 @@ class TrialSelectCluster : public TrialSelect {
  private:
   std::shared_ptr<ClusterCriteria> cluster_criteria_;
   std::shared_ptr<TrialSelectParticle> select_particle_;
+  const EnergyMap * map_(const System& system) const;
 };
 
 inline std::shared_ptr<TrialSelectCluster> MakeTrialSelectCluster(

@@ -31,24 +31,31 @@ void TrialComputeMoveCluster::perturb_and_acceptance(
   for (TrialStage * stage : *stages) stage->mid_stage(system);
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
 
-  /** Compute new cluster and require the same cluster size to ensure detailed
-      balance. Cluster sizes can only increase as they are rigidly translated
-      or rotated. */
-  if (!cselect_) {
-    std::stringstream ss;
-    csel->serialize(ss);
-    cselect_ = std::make_shared<TrialSelectCluster>(ss);
-  }
-  cselect_->select_cluster(csel->mobile().particle_index(0), *system);
-  const int size_new = cselect_->mobile().num_particles();
-  DEBUG("size_new " << size_new);
-  if (size_old != size_new) {
-    ASSERT(size_old < size_new, "old size: " << size_old << " must be smaller "
-      << "than new size: " << size_new << " unless rigid translate/rotation "
-      << "improperly broke apart the cluster");
-    acceptance->set_reject(true);
-  }
-  //ASSERT(size_old == size_new, "detailed balance");
+// Use this test to check cluster constraints are working.
+//  /** Compute new cluster and require the same cluster size to ensure detailed
+//      balance. Cluster sizes can only increase as they are rigidly translated
+//      or rotated. */
+//  if (!cselect_) {
+//    std::stringstream ss;
+//    csel->serialize(ss);
+//    cselect_ = std::make_shared<TrialSelectCluster>(ss);
+//  }
+//  cselect_->select_new_cluster(csel->mobile().particle_index(0), *system);
+//  const int size_new = cselect_->mobile().num_particles();
+//  DEBUG("size_new " << size_new);
+//  if (size_old != size_new) {
+//    ASSERT(size_old < size_new, "old size: " << size_old << " must be smaller "
+//      << "than new size: " << size_new << " unless rigid translate/rotation "
+//      << "improperly broke apart the cluster");
+//    ASSERT(!csel->is_constraint_satisfied(*system), "cluster should have changed");
+//    INFO("reject due to cluster changing");
+//    ASSERT(acceptance->reject(), "rej");
+//    acceptance->set_reject(true);
+//  } else {
+//    ASSERT(csel->is_constraint_satisfied(*system), "cluster should not have changed");
+//    ASSERT(!acceptance->reject(), "rej");
+//  }
+//  //ASSERT(size_old == size_new, "detailed balance");
 
   DEBUG("old: " << criteria->current_energy() << " " << acceptance->energy_old());
   DEBUG("new: " << acceptance->energy_new());

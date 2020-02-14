@@ -11,7 +11,6 @@
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"
 #include "steppers/include/num_particles.h"
-#include "system/include/energy_map_all.h"
 
 namespace feasst {
 
@@ -64,81 +63,12 @@ TEST(MonteCarlo, NVT_SRSW) {
 TEST(MonteCarlo, GCMC) {
   MonteCarlo mc;
   mc_lj(&mc);
-  mc.set(0, Potential(MakeLennardJones(),
-    MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-  //mc.set(MakeRandomMT19937({{"seed", "default"}}));
-  //mc.set(MakeRandomMT19937({{"seed", "1580133688"}}));
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
   add_trial_transfer(&mc, {{"particle_type", "0"}});
-  //mc.add(MakeTrialAdd({{"particle_type", "0"}}));
-  //mc.add(MakeTrialRemove());
   mc.add(MakeNumParticles({{"steps_per_write", "1000"},
                            {"file_name", "tmp/ljnum.txt"}}));
-  // mc.add(MakeTrialTransfer());
-//  mc.add(MakeCheckpoint({{"file_name", "tmp/gcmc"}, {"num_hours", "1"}}));
-  for (int i = 0; i < 1e4; ++i) {
-//    if (i%100==0) {
-//      INFO(mc.system().configuration().num_particles());
-//    }
-    mc.attempt(1);
-    const double en = mc.criteria()->current_energy();
-    const double en_map = mc.system().potential(0).visit_model()->inner()->energy_map()->total_energy();
-    // INFO(feasst_str(mc.system().potential(0).visit_model()->inner()->energy_map()->map()));
-    if (std::abs(en - en_map) > 1e-8) {
-      INFO(MAX_PRECISION << "not the same: " << en << " " << en_map);
-    }
-  }
+  mc.attempt(1e4);
 }
-
-// // HWH delete
-// TEST(MonteCarlo, new_trial) {
-//   MonteCarlo mc = mc_lj();
-//   {
-//     Potential lj_dual_cut(MakeModelLJ(), MakeVisitModelCell());
-//     lj_dual_cut.set_model_params(mc.system().configuration());
-//     lj_dual_cut.set_model_param("cutoff", 0, 1);
-//     mc.add_to_reference(lj_dual_cut);
-//   }
-//   mc.seek_num_particles(50);
-//   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-4"}}));
-//   auto translate = MakeTrialTranslate({{"reference_index", "-1"}, {"num_steps", "1"}});
-//   auto add = MakeTrialAdd();
-//   //auto add = MakeTrialAdd({{"reference_index", "0"}, {"num_steps", "3"}});
-//   auto remove = MakeTrialRemove();
-//   //auto remove = MakeTrialRemove({{"reference_index", "0"}, {"num_steps", "3"}});
-//   EXPECT_EQ(translate->stages()[0]->rosenbluth().num(), 1);
-//   EXPECT_EQ(translate->stages()[0]->reference(), -1);
-//   const double old_energy = mc.get_system()->energy();
-//   EXPECT_NEAR(old_energy, mc.criteria()->current_energy(), 50*NEAR_ZERO);
-//   for (int step = 0; step < 1e4; ++step) {
-//     DEBUG("translating");
-//     translate->attempt(mc.get_criteria(), mc.get_system());
-//     DEBUG("adding");
-//     add->attempt(mc.get_criteria(), mc.get_system());
-//     DEBUG("removing");
-//     remove->attempt(mc.get_criteria(), mc.get_system());
-//     DEBUG("num " << mc.system().configuration().num_particles());
-//   }
-//   const double new_energy = mc.get_system()->energy();
-//   EXPECT_NE(old_energy, new_energy);
-//   EXPECT_NEAR(new_energy, mc.criteria()->current_energy(), 1e-10);
-//   // EXPECT_NEAR(new_energy, mc.criteria()->current_energy(), 500*NEAR_ZERO);
-//   EXPECT_TRUE(translate->num_success() > 0);
-//   EXPECT_TRUE(add->num_success() > 0);
-//   EXPECT_TRUE(remove->num_success() > 0);
-//
-//   // test PerturbRemove
-//   PerturbRemove perturb_remove;
-//   auto sel = std::make_shared<TrialSelectParticleOfType>();
-//   sel->select(mc.get_system());
-//   const int num = mc.system().configuration().num_particles();
-//   perturb_remove.perturb(mc.get_system(), sel.get());
-//   EXPECT_EQ(num, mc.system().configuration().num_particles());
-//   perturb_remove.finalize(mc.get_system());
-//   EXPECT_EQ(num - 1, mc.system().configuration().num_particles());
-//
-//   //DEBUG(mc.timer().str());
-// }
 
 TEST(MonteCarlo, grow) {
   for (int i = 0; i < 1; ++i) { // lj dimer

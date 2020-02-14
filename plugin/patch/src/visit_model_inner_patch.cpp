@@ -15,7 +15,7 @@ void VisitModelInnerPatch::compute(
     Position * relative,
     Position * pbc) {
   // HWH copy-pasted from base class.. make this a function?
-  if (is_old_config && energy_map()) {
+  if (is_old_config && is_energy_map_queryable()) {
     DEBUG("using old map");
     query_ixn(part1_index, site1_index, part2_index, site2_index);
     return;

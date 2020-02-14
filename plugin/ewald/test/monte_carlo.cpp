@@ -15,7 +15,7 @@ namespace feasst {
 
 TEST(MonteCarlo, spce) {
   MonteCarlo mc;
-  // mc.set(MakeRandomMT19937({{"seed", "1234"}}));
+  mc.set(MakeRandomMT19937({{"seed", "1234"}}));
   // mc.set(MakeRandomMT19937({{"seed", "1572272377"}}));
   // mc.set(MakeRandomMT19937({{"seed", "1574171557"}}));
   std::shared_ptr<Ewald> ewald;
@@ -49,7 +49,7 @@ TEST(MonteCarlo, spce) {
   mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
   mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));
 
-  mc.seek_num_particles(2);
+  //mc.seek_num_particles(2);
   // INFO(mc.system().configuration().num_particles());
 //  INFO("props " << mc.system().configuration().particle(0).site(1).properties().str());
   mc.attempt(1e3);

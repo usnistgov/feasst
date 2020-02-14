@@ -3,6 +3,6 @@
 
    ChargeScreenedIntra
    ChargeScreened
-   Ewald
    ChargeSelf
+   Ewald
    utils_ewald

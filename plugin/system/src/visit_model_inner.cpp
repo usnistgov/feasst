@@ -32,7 +32,7 @@ void VisitModelInner::compute(
     const bool is_old_config,
     Position * relative,
     Position * pbc) {
-  if (is_old_config && energy_map()) {
+  if (is_old_config && is_energy_map_queryable()) {
     DEBUG("using old map");
     query_ixn(part1_index, site1_index, part2_index, site2_index);
     return;
@@ -59,6 +59,15 @@ void VisitModelInner::compute(
       }
     }
   }
+}
+
+bool VisitModelInner::is_energy_map_queryable() const {
+  if (energy_map_) {
+    if (energy_map_->is_queryable()) {
+      return true;
+    }
+  }
+  return false;
 }
 
 }  // namespace feasst

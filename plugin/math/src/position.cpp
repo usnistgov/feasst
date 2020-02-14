@@ -230,4 +230,10 @@ Position& Position::set_vector(const std::vector<double> &vec) {
   return *this;
 }
 
+void Position::reflect(const Position& reflection_point) {
+  for (int dim = 0; dim < dimension(); ++dim) {
+    coord_[dim] = 2.*reflection_point.coord(dim) - coord_[dim];
+  }
+}
+
 }  // namespace feasst

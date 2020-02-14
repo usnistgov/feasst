@@ -10,6 +10,9 @@
 
 namespace feasst {
 
+// HWH Update: use a finalize-heavy instead of revert-heavy strategy
+// This means that new eik are calculated and stored separate from system wide properties,
+// and system-wide only udpated upon finalize
 /**
   This implementation appears to work correctly.
   However, it is not optimized and will be subject to change in future versions.
@@ -71,16 +74,16 @@ class Ewald : public VisitModel {
       const int group_index = 0) override {
     // for entire configuration, set stored previous energy to zero
     // store_energy_struct_fact_();
-    std::fill(struct_fact_real_.begin(), struct_fact_real_.end(), 0.);
-    std::fill(struct_fact_imag_.begin(), struct_fact_imag_.end(), 0.);
+    std::fill(struct_fact_real_new_.begin(), struct_fact_real_new_.end(), 0.);
+    std::fill(struct_fact_imag_new_.begin(), struct_fact_imag_new_.end(), 0.);
     update_struct_fact_eik(config->group_select(group_index), config,
-                           &struct_fact_real_,
-                           &struct_fact_imag_);
+                           &struct_fact_real_new_,
+                           &struct_fact_imag_new_);
     const double conversion = model_params.constants()->charge_conversion();
-    stored_energy_ = conversion*fourier_energy_(struct_fact_real_,
-                                                struct_fact_imag_);
-    DEBUG("stored_energy_ " << stored_energy_);
-    set_energy(stored_energy_);
+    stored_energy_new_ = conversion*fourier_energy_(struct_fact_real_new_,
+                                                    struct_fact_imag_new_);
+    DEBUG("stored_energy_ " << stored_energy_new_);
+    set_energy(stored_energy_new_);
   }
 
   /**
@@ -132,6 +135,7 @@ class Ewald : public VisitModel {
     // initialize new structure factor, unless its a new move position
     if (selection.trial_state() != 1) {
       struct_fact_real_new_ = struct_fact_real_;
+      DEBUG("size " << struct_fact_real_new_.size() << " " << struct_fact_real_.size());
       struct_fact_imag_new_ = struct_fact_imag_;
     }
 
@@ -206,8 +210,10 @@ class Ewald : public VisitModel {
 //    stored_energy_ = stored_energy_old_;
   }
 
-  void finalize() override {
+  // HWH refactor Ewald for finalization (e.g., do not enter eiks until finalize?)
+  void finalize(const Select& select) override {
     DEBUG("finalizing");
+    ASSERT(struct_fact_real_new_.size() > 0, "hi");
     stored_energy_ = stored_energy_new_;
     struct_fact_real_ = struct_fact_real_new_;
     struct_fact_imag_ = struct_fact_imag_new_;

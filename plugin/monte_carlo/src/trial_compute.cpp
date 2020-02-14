@@ -27,6 +27,9 @@ void TrialCompute::compute_rosenbluth(
         return;
       }
     }
+    if (!stage->are_constraints_satisfied(*system)) {
+      acceptance->set_reject(true);
+    }
     double energy;
     if (old == 1) {
       energy = stage->rosenbluth().energy(0);
@@ -47,7 +50,7 @@ void TrialCompute::compute_rosenbluth(
   DEBUG("reference used? " << reference_used);
   if (reference_used) {
     ASSERT(acceptance->perturbed().num_sites() > 0, "error");
-    const double en_full = system->energy(acceptance->perturbed());
+    const double en_full = system->perturbed_energy(acceptance->perturbed());
     DEBUG("en_full: " << en_full);
     DEBUG("energy ref: " << energy_change);
     acceptance->set_energy_ref(energy_change);

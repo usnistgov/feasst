@@ -48,6 +48,8 @@ void Ewald::update_wave_vectors(const Configuration& config) {
   }}}
   struct_fact_real_.resize(num_vectors());
   struct_fact_imag_.resize(num_vectors());
+  struct_fact_real_new_.resize(num_vectors());
+  struct_fact_imag_new_.resize(num_vectors());
 }
 
 std::vector<std::string> Ewald::eik_gen_() {
@@ -235,6 +237,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
                    + eikrx*eikiy*eikrz
                    + eikix*eikry*eikrz;
         TRACE("charge " << charge << " eikr " << eikr << " eiki " << eiki << " sign " << struct_sign);
+        TRACE(struct_fact_real->size());
         (*struct_fact_real)[k_index] += struct_sign*charge*eikr;
         (*struct_fact_imag)[k_index] += struct_sign*charge*eiki;
       }
@@ -264,6 +267,8 @@ void Ewald::serialize(std::ostream& ostr) const {
   feasst_serialize(wave_num_, ostr);
   feasst_serialize(struct_fact_real_, ostr);
   feasst_serialize(struct_fact_imag_, ostr);
+  feasst_serialize(struct_fact_real_new_, ostr);
+  feasst_serialize(struct_fact_imag_new_, ostr);
   feasst_serialize(stored_energy_, ostr);
 }
 
@@ -283,6 +288,8 @@ Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
   feasst_deserialize(&wave_num_, istr);
   feasst_deserialize(&struct_fact_real_, istr);
   feasst_deserialize(&struct_fact_imag_, istr);
+  feasst_deserialize(&struct_fact_real_new_, istr);
+  feasst_deserialize(&struct_fact_imag_new_, istr);
   feasst_deserialize(&stored_energy_, istr);
 }
 

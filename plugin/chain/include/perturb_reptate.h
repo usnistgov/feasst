@@ -21,6 +21,7 @@ class PerturbReptate : public PerturbDistance {
   }
 
   void finalize(System * system) override {
+    // HWH could also use revert_select instead of finalize_select?
     const SelectList& mobile = finalize_select()->mobile();
     const int part_index = mobile.particle_indices()[0];
     SelectList entire = SelectList().particle(part_index,

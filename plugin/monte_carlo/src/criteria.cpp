@@ -115,6 +115,12 @@ bool Criteria::is_equal(const Criteria * criteria) const {
   return true;
 }
 
+double Criteria::beta_mu(const int particle_type) const {
+  ASSERT(particle_type < static_cast<int>(chemical_potentials_.size()),
+    "chemical potential of particle_type: " << particle_type << " not set.");
+  return beta()*chemical_potentials_[particle_type];
+}
+
 void Criteria::serialize_criteria_(std::ostream& ostr) const {
   feasst_serialize_version(1, ostr);
   feasst_serialize(beta_, ostr);

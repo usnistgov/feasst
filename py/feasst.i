@@ -52,7 +52,6 @@
 #include "system/include/select_list.h"
 #include "system/include/cluster_criteria.h"
 #include "system/include/energy_map.h"
-#include "system/include/energy_map_all.h"
 #include "system/include/visit_model_inner.h"
 #include "system/include/visit_model.h"
 #include "system/include/model_two_body.h"
@@ -66,7 +65,6 @@
 #include "models/include/lennard_jones_cut_shift.h"
 #include "models/include/lennard_jones_force_shift.h"
 #include "ewald/include/charge_screened.h"
-#include "ewald/include/ewald.h"
 #include "system/include/potential.h"
 #include "system/include/potential_factory.h"
 #include "system/include/system.h"
@@ -118,11 +116,12 @@
 #include "system/include/model_three_body.h"
 #include "patch/include/patch_angle.h"
 #include "patch/include/visit_model_inner_patch.h"
-#include "system/include/visit_model_cell.h"
 #include "system/include/model_one_body.h"
 #include "ewald/include/charge_self.h"
 #include "system/include/model_empty.h"
+#include "system/include/visit_model_cell.h"
 #include "system/include/long_range_corrections.h"
+#include "ewald/include/ewald.h"
 #include "system/include/visit_model_intra.h"
 #include "ewald/include/utils_ewald.h"
 #include "configuration/include/file_xyz.h"
@@ -152,6 +151,8 @@
 #include "confinement/include/half_space.h"
 #include "chain/include/trial_grow.h"
 #include "chain/include/analyze_rigid_bonds.h"
+#include "chain/include/trial_select_site_of_type.h"
+#include "chain/include/compute_synthesis.h"
 #include "chain/include/perturb_crankshaft.h"
 #include "chain/include/trial_select_segment.h"
 #include "chain/include/trial_select_end_segment.h"
@@ -162,8 +163,16 @@
 #include "chain/include/trial_pivot.h"
 #include "chain/include/perturb_reptate.h"
 #include "chain/include/trial_reptate.h"
+#include "chain/include/perturb_site_type.h"
+#include "chain/include/trial_swap_sites.h"
+#include "chain/include/trial_synthesis.h"
+#include "cluster/include/energy_map_neigh.h"
+#include "cluster/include/energy_map_all.h"
 #include "cluster/include/trial_rigid_cluster.h"
 #include "cluster/include/perturb_rotate_com.h"
+#include "cluster/include/energy_map_all_criteria.h"
+#include "cluster/include/trial_compute_gca.h"
+#include "cluster/include/perturb_point_reflect.h"
 #include "cluster/include/trial_select_cluster.h"
 #include "cluster/include/trial_compute_move_cluster.h"
 #include "cluster/include/utils_cluster.h"
@@ -241,7 +250,6 @@ using namespace std;
 %shared_ptr(feasst::SelectList);
 %shared_ptr(feasst::ClusterCriteria);
 %shared_ptr(feasst::EnergyMap);
-%shared_ptr(feasst::EnergyMapAll);
 %shared_ptr(feasst::VisitModelInner);
 %shared_ptr(feasst::VisitModel);
 %shared_ptr(feasst::ModelTwoBody);
@@ -257,7 +265,6 @@ using namespace std;
 %shared_ptr(feasst::LennardJonesCutShift);
 %shared_ptr(feasst::LennardJonesForceShift);
 %shared_ptr(feasst::ChargeScreened);
-%shared_ptr(feasst::Ewald);
 %shared_ptr(feasst::Potential);
 %shared_ptr(feasst::PotentialFactory);
 %shared_ptr(feasst::System);
@@ -313,11 +320,12 @@ using namespace std;
 %shared_ptr(feasst::PatchAngle);
 %shared_ptr(feasst::CosPatchAngle);
 %shared_ptr(feasst::VisitModelInnerPatch);
-%shared_ptr(feasst::VisitModelCell);
 %shared_ptr(feasst::ModelOneBody);
 %shared_ptr(feasst::ChargeSelf);
 %shared_ptr(feasst::ModelEmpty);
+%shared_ptr(feasst::VisitModelCell);
 %shared_ptr(feasst::LongRangeCorrections);
+%shared_ptr(feasst::Ewald);
 %shared_ptr(feasst::VisitModelIntra);
 %shared_ptr(feasst::FileVMD);
 %shared_ptr(feasst::FileXYZ);
@@ -357,6 +365,8 @@ using namespace std;
 %shared_ptr(feasst::HalfSpace);
 %shared_ptr(feasst::TrialGrowLinear);
 %shared_ptr(feasst::AnalyzeRigidBonds);
+%shared_ptr(feasst::TrialSelectSiteOfType);
+%shared_ptr(feasst::ComputeSynthesis);
 %shared_ptr(feasst::PerturbCrankshaft);
 %shared_ptr(feasst::TrialSelectSegment);
 %shared_ptr(feasst::TrialSelectEndSegment);
@@ -367,9 +377,17 @@ using namespace std;
 %shared_ptr(feasst::TrialPivot);
 %shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::TrialReptate);
+%shared_ptr(feasst::PerturbSiteType);
+%shared_ptr(feasst::TrialSwapSites);
+%shared_ptr(feasst::TrialSynthesis);
+%shared_ptr(feasst::EnergyMapNeigh);
+%shared_ptr(feasst::EnergyMapAll);
 %shared_ptr(feasst::TrialTranslateCluster);
 %shared_ptr(feasst::TrialRotateCluster);
 %shared_ptr(feasst::PerturbRotateCOM);
+%shared_ptr(feasst::EnergyMapAllCriteria);
+%shared_ptr(feasst::TrialComputeGCA);
+%shared_ptr(feasst::PerturbPointReflect);
 %shared_ptr(feasst::TrialSelectCluster);
 %shared_ptr(feasst::TrialComputeMoveCluster);
 %shared_ptr(feasst::VisitModelOptLJ);
@@ -422,7 +440,6 @@ using namespace std;
 %include system/include/select_list.h
 %include system/include/cluster_criteria.h
 %include system/include/energy_map.h
-%include system/include/energy_map_all.h
 %include system/include/visit_model_inner.h
 %include system/include/visit_model.h
 %include system/include/model_two_body.h
@@ -436,7 +453,6 @@ using namespace std;
 %include models/include/lennard_jones_cut_shift.h
 %include models/include/lennard_jones_force_shift.h
 %include ewald/include/charge_screened.h
-%include ewald/include/ewald.h
 %include system/include/potential.h
 %include system/include/potential_factory.h
 %include system/include/system.h
@@ -488,11 +504,12 @@ using namespace std;
 %include system/include/model_three_body.h
 %include patch/include/patch_angle.h
 %include patch/include/visit_model_inner_patch.h
-%include system/include/visit_model_cell.h
 %include system/include/model_one_body.h
 %include ewald/include/charge_self.h
 %include system/include/model_empty.h
+%include system/include/visit_model_cell.h
 %include system/include/long_range_corrections.h
+%include ewald/include/ewald.h
 %include system/include/visit_model_intra.h
 %include ewald/include/utils_ewald.h
 %include configuration/include/file_xyz.h
@@ -522,6 +539,8 @@ using namespace std;
 %include confinement/include/half_space.h
 %include chain/include/trial_grow.h
 %include chain/include/analyze_rigid_bonds.h
+%include chain/include/trial_select_site_of_type.h
+%include chain/include/compute_synthesis.h
 %include chain/include/perturb_crankshaft.h
 %include chain/include/trial_select_segment.h
 %include chain/include/trial_select_end_segment.h
@@ -532,8 +551,16 @@ using namespace std;
 %include chain/include/trial_pivot.h
 %include chain/include/perturb_reptate.h
 %include chain/include/trial_reptate.h
+%include chain/include/perturb_site_type.h
+%include chain/include/trial_swap_sites.h
+%include chain/include/trial_synthesis.h
+%include cluster/include/energy_map_neigh.h
+%include cluster/include/energy_map_all.h
 %include cluster/include/trial_rigid_cluster.h
 %include cluster/include/perturb_rotate_com.h
+%include cluster/include/energy_map_all_criteria.h
+%include cluster/include/trial_compute_gca.h
+%include cluster/include/perturb_point_reflect.h
 %include cluster/include/trial_select_cluster.h
 %include cluster/include/trial_compute_move_cluster.h
 %include cluster/include/utils_cluster.h

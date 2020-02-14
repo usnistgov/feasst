@@ -29,6 +29,7 @@ void PerturbAdd::add(
     const Position& center,
     const bool is_position_held) {
   DEBUG("is_position_held " << is_position_held);
+  DEBUG(select->mobile().str());
   Configuration* config = system->get_configuration();
   config->revive(select->mobile());
 
@@ -49,6 +50,7 @@ void PerturbAdd::add(
     anywhere_.set_position(center, system, select);
   }
   set_revert_possible(true, select);
+  set_finalize_possible(true, select);
 
   // setting trial state should go last so other perturbs do not overwrite
   DEBUG("setting trial state 3");
@@ -60,8 +62,14 @@ void PerturbAdd::revert(System * system) {
   if (revert_possible()) {
     DEBUG(revert_select()->mobile().str());
     DEBUG("nump " << system->configuration().num_particles());
-    system->get_configuration()->remove_particles(revert_select()->mobile());
     system->revert(revert_select()->mobile());
+  }
+}
+
+void PerturbAdd::finalize(System * system) {
+  DEBUG("finalize_possible " << finalize_possible());
+  if (finalize_possible()) {
+    system->finalize(finalize_select()->mobile());
   }
 }
 

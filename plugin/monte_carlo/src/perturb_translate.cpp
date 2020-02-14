@@ -1,5 +1,5 @@
 
-#include "monte_carlo/include/perturb_anywhere.h"
+#include "monte_carlo/include/perturb_translate.h"
 
 namespace feasst {
 
@@ -28,15 +28,11 @@ void PerturbTranslate::update_selection(const Position& trajectory,
   for (int select_index = 0;
        select_index < displaced->num_particles();
        ++select_index) {
-    Position displaced_part(displaced->particle_positions()[select_index]);
-    displaced_part.add(trajectory);
-    displaced->set_particle_position(select_index, displaced_part);
+    displaced->add_to_particle_position(select_index, trajectory);
     for (int site = 0;
          site < static_cast<int>(displaced->site_indices(select_index).size());
          ++site) {
-      Position displaced_site(displaced->site_positions()[select_index][site]);
-      displaced_site.add(trajectory);
-      displaced->set_site_position(select_index, site, displaced_site);
+      displaced->add_to_site_position(select_index, site, trajectory);
     }
   }
 }

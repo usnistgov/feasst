@@ -16,6 +16,7 @@ class Check : public ModifyUpdateOnly {
       System * system,
       TrialFactory * trial_factory) override {
     system->configuration().check();
+    system->check();
   }
 
   std::string class_name() const override { return std::string("Check"); }

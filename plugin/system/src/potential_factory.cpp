@@ -79,9 +79,9 @@ void PotentialFactory::revert(const Select& select) {
   }
 }
 
-void PotentialFactory::finalize() {
+void PotentialFactory::finalize(const Select& select) {
   for (Potential& potential : potentials_) {
-    potential.finalize();
+    potential.finalize(select);
   }
 }
 
@@ -108,9 +108,9 @@ void PotentialFactory::unload_cache(const PotentialFactory& factory) {
   }
 }
 
-void PotentialFactory::remove_particles(const Select& selection) {
-  for (Potential& potential : potentials_) {
-    potential.remove_particles(selection);
+void PotentialFactory::check() const {
+  for (const Potential& potential : potentials_) {
+    potential.check();
   }
 }
 

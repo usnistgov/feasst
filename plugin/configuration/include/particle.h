@@ -75,6 +75,12 @@ class Particle : public PropertiedEntity,
   /// Remove sites and bonds which are of the same type as a previous one.
   void remove_non_unique_types();
 
+  /// Set the site type.
+  void set_site_type(const int site, const int type) {
+    sites_[site].set_type(type); }
+
+  int num_sites_of_type(const int type) const;
+
   //@}
   /** @name Movement
     Move the sites and the particle.

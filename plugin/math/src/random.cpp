@@ -113,8 +113,7 @@ double Random::uniform_real(const double min, const double max) {
 void Random::position_in_cube(const int dimension,
     const double length,
     Position * position) {
-  ASSERT(dimension == 3, "size error");
-  position->set_to_origin_3D();
+  position->set_to_origin(dimension);
   for (int dim = 0; dim < dimension; ++dim) {
     position->set_coord(dim, (2.*uniform() - 1.)*length);
   }

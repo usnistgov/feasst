@@ -195,6 +195,16 @@ void Particle::erase_bonds() {
   angle_list_.clear();
 }
 
+int Particle::num_sites_of_type(const int type) const {
+  int num = 0;
+  for (const Site& site : sites_) {
+    if (site.type() == type) {
+      ++num;
+    }
+  }
+  return num;
+}
+
 void Particle::serialize(std::ostream& ostr) const {
   PropertiedEntity::serialize(ostr);
   TypedEntity::serialize(ostr);

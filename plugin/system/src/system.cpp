@@ -76,7 +76,9 @@ void System::precompute() {
 }
 
 double System::unoptimized_energy(const int config) {
-  return unoptimized_.energy(&configurations_[0]);
+  const double en = unoptimized_.energy(&configurations_[config]);
+  unoptimized_.finalize(configurations_[config].selection_of_all());
+  return en;
 }
 
 PotentialFactory * System::potentials_() {
@@ -87,17 +89,19 @@ PotentialFactory * System::potentials_() {
 }
 
 double System::energy(const int config) {
-  return potentials_()->energy(&configurations_[0]);
+  const double en = potentials_()->energy(&configurations_[config]);
+  finalize(config);
+  return en;
 }
 
-double System::energy(const Select& select, const int config) {
-  return potentials_()->energy(select, &configurations_[0]);
+double System::perturbed_energy(const Select& select, const int config) {
+  return potentials_()->energy(select, &configurations_[config]);
 }
 
 double System::reference_energy(const Select& select,
     const int ref,
     const int config) {
-  return reference_(ref)->energy(select, &configurations_[0]);
+  return reference_(ref)->energy(select, &configurations_[config]);
 }
 
 void System::serialize(std::ostream& sstr) const {
@@ -142,12 +146,27 @@ void System::unload_cache(const System& system) {
   }
 }
 
-void System::remove_particles(const Select& selection) {
-  configurations_[0].remove_particles(selection);
-  unoptimized_.remove_particles(selection);
-  optimized_.remove_particles(selection);
-  for (PotentialFactory& ref : references_) {
-    ref.remove_particles(selection);
+void System::finalize(const Select& select, const int config) {
+  if (select.trial_state() == 2) {
+    // finalize removal
+    configurations_[config].remove_particles(select);
+  }
+  potentials_()->finalize(select);
+}
+
+void System::revert(const Select& select, const int config) {
+  if (select.trial_state() == 3) {
+    // revert addition
+    configurations_[config].remove_particles(select);
+  }
+  potentials_()->revert(select);
+}
+
+void System::check() const {
+  unoptimized_.check();
+  optimized_.check();
+  for (const PotentialFactory& ref : references_) {
+    ref.check();
   }
 }
 

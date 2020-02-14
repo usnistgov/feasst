@@ -30,6 +30,9 @@ class Group : public PropertiedEntity {
     return *this;
   }
 
+  /// Return the list of site types in the group.
+  const std::vector<int> site_types() const { return site_types_; }
+
   /// Add particle type as included. Return self for chain setting.
   /// If no particle types are defined, then all particle types are included.
   Group& add_particle_type(const int type) {

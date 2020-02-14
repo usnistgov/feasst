@@ -14,16 +14,25 @@ void PerturbMove::perturb(
   }
   move(system, select, random);
   set_revert_possible(true, select);
+  set_finalize_possible(true, select);
   select->set_trial_state(1);
 }
 
 void PerturbMove::revert(System * system) {
+  DEBUG("revert? " << revert_possible());
   if (revert_possible()) {
     Configuration* config = system->get_configuration();
     config->update_positions(revert_select()->mobile_original(),
       // don't wrap if reverting
       false);
+    DEBUG("mobile orig " << revert_select()->mobile_original().str());
     system->revert(revert_select()->mobile_original());
+  }
+}
+
+void PerturbMove::finalize(System * system) {
+  if (finalize_possible()) {
+    system->finalize(finalize_select()->mobile_original());
   }
 }
 

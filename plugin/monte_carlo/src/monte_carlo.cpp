@@ -33,7 +33,7 @@ void MonteCarlo::set(const System& system) {
 
 void MonteCarlo::add(std::shared_ptr<Criteria> criteria) {
   ASSERT(system_set_, "set System before Criteria.");
-  criteria->set_current_energy(system_.energy());
+  criteria->set_current_energy(system_.unoptimized_energy());
   DEBUG("current energy: " << criteria->current_energy());
   criteria_ = criteria;
   criteria_set_ = true;

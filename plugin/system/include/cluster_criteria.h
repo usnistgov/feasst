@@ -9,6 +9,7 @@
 
 namespace feasst {
 
+// HWH consider renaming to NeighborCriteria or something like that
 /**
   Criteria for determining clusters.
  */
@@ -32,10 +33,8 @@ class ClusterCriteria {
   double maximum_distance() const { return std::sqrt(maximum_distance_sq_); }
 
   /// Return true if criteria are satisfied.
-  bool is_accepted(
-    /// data is assumed to be in the format of EnergyMap
-    /// (e.g., energy, squared_distance, pbc shifts).
-    const std::vector<double>& data) const;
+  bool is_accepted(const double energy,
+                   const double squared_distance) const;
 
   /// Serialize.
   void serialize(std::ostream& ostr) const;

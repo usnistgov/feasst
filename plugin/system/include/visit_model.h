@@ -123,13 +123,13 @@ class VisitModel {
 
   virtual void prep_for_revert(const Select& selection) {
     inner_->prep_for_revert(selection); }
-  virtual void revert(const Select& selection) { inner_->revert(selection); }
-  virtual void finalize() { inner_->finalize(); }
-  void remove_particles(const Select& selection) {
-    inner_->remove_particles(selection); }
+  virtual void revert(const Select& select) { inner_->revert(select); }
+  virtual void finalize(const Select& select) { inner_->finalize(select); }
 
   virtual void precompute(Configuration * config) {
     inner_->precompute(config); }
+
+  void check() const { inner_->check(); }
 
   // serialization
   std::string class_name() const { return class_name_; }

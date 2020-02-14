@@ -29,6 +29,7 @@ class PerturbMove : public Perturb {
   /// For perturbations that only move particles and/or sites, the revert step
   /// is the same for all. Simply put the original positions back.
   void revert(System * system) override;
+  void finalize(System * system) override;
 
   explicit PerturbMove(std::istream& istr) : Perturb(istr) {}
   virtual ~PerturbMove() {}

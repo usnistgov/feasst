@@ -20,6 +20,7 @@ TEST(Ewald, ewald) {
 
   ModelEmpty model;  // any place holder model is fine because its not used
   model.compute(&config, &ewald);
+  ewald.finalize(Select());
   // ewald.update_eik(config.selection_of_all(), &config);
 
   const std::vector<double> eik = config.particle(0).site(0).properties().values();
@@ -48,6 +49,7 @@ TEST(Ewald, ewald) {
   // serialize
   auto ewald2 = test_serialize<Ewald, VisitModel>(ewald);
   model.compute(&config, ewald2.get());
+  ewald2->finalize(Select());
   EXPECT_NEAR(ewald2->energy(), en, 1e-12);
 }
 

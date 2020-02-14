@@ -97,14 +97,15 @@ class System {
   double unoptimized_energy(const int config = 0);
 
   /// Return the energy of all.
+  double energy(const int config = 0);
   // HWH note:
   // for when bonded energies, etc come into play,
   // perhaps have energy of full system use reference potentials.
   // this way CB could distinguish external and internal interactions.
-  double energy(const int config = 0);
 
   /// Return the energy of the selection.
-  double energy(const Select& select, const int config = 0);
+  /// But do not finalize this energy (e.g., Ewald, neighbors, etc).
+  double perturbed_energy(const Select& select, const int config = 0);
 
   /// Return a constant pointer to the full potentials.
   const PotentialFactory * const_potentials() const;
@@ -119,7 +120,7 @@ class System {
 
   /// Return the reference energy.
   double reference_energy(const int ref = 0, const int config = 0) {
-    return reference_(ref)->energy(&configurations_[0]); }
+    return reference_(ref)->energy(&configurations_[config]); }
 
   /// Return the reference energy of the selection.
   double reference_energy(const Select& select,
@@ -129,20 +130,24 @@ class System {
   //@}
   // Other functions:
 
-  /// Revert changes due to perturbations.
-  void revert(const Select& selection) { unoptimized_.revert(selection); }
+  // HWH revert and finalize should only call the factory that was used last
+  // e.g., optimized, ref, unopt, etc
+  /// Revert changes due to energy computation of perturbations.
+  void revert(const Select& select, const int config = 0);
 
-  /// Finalize changes due to perturbations.
-  void finalize() { unoptimized_.finalize(); }
-
-  /// Remove particle(s) in selection.
-  void remove_particles(const Select& selection);
+  /// Finalize changes due to energy computation of perturbations.
+  void finalize(const Select& select, const int config = 0);
+  void finalize(const int config = 0) {
+    finalize(configurations_[config].selection_of_all(), config); }
 
   /// Set cache to load energy calculations.
   void load_cache(const bool load);
 
   /// Set cache to unload energy calclatuions.
   void unload_cache(const System& system);
+
+  /// Run checks.
+  void check() const;
 
   /// Serialize
   void serialize(std::ostream& sstr) const;
@@ -152,6 +157,7 @@ class System {
 
  private:
   std::vector<Configuration> configurations_;
+  // HWH should each config have its own set of the three potential factories?
   PotentialFactory unoptimized_;
   PotentialFactory optimized_;
   bool is_optimized_ = false;

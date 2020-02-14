@@ -3,7 +3,7 @@
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/test/monte_carlo_test.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
-#include "system/include/energy_map_all.h"
+//#include "system/include/energy_map_all.h"
 
 namespace feasst {
 

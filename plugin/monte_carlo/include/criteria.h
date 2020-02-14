@@ -48,8 +48,7 @@ class Criteria {
   double chemical_potential(const int particle_type = 0) const;
 
   /// Return the dimensionless product of beta and the chemical potential.
-  double beta_mu(const int particle_type = 0) const {
-    return beta()*chemical_potentials_[particle_type]; }
+  double beta_mu(const int particle_type = 0) const;
 
   /// This function is called before a trial attempt.
   virtual void before_attempt(const System* system) {}

@@ -80,6 +80,9 @@ class TrialStage {
   /// Set mobile sites unphysical.
   void mid_stage(System * system);
 
+  /// Return true if constraints are satisfied.
+  bool are_constraints_satisfied(const System& system) const;
+
   /// Revert the attempt.
   void revert(System * system) { perturb_->revert(system); }
 

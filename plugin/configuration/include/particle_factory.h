@@ -119,6 +119,12 @@ class ParticleFactory {
   /// Return the number of particle types.
   int num_particle_types() const { return check_particle_types(); }
 
+  /// Change the site type of a given site in a particle.
+  void set_site_type(const int particle,
+                     const int site,
+                     const int site_type) {
+    particles_[particle].set_site_type(site, site_type); }
+
   /// Remove particles and sites based on the group.
   void remove(const Group group);
 

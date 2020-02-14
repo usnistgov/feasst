@@ -54,16 +54,15 @@ class PotentialFactory {
   void revert(const Select& select);
 
   /// Finalize changes due to perturbations.
-  void finalize();
-
-  /// Remove particle(s) in selection.
-  void remove_particles(const Select& selection);
+  void finalize(const Select& select);
 
   /// Set cache to load energy calculations.
   void load_cache(const bool load);
 
   /// Set cache to unload energy calclatuions.
   void unload_cache(const PotentialFactory& factory);
+
+  void check() const;
 
   /// Serialize.
   void serialize(std::ostream& sstr) const;

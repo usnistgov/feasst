@@ -3,6 +3,8 @@
 
    TrialGrowLinear
    AnalyzeRigidBonds
+   TrialSelectSiteOfType
+   ComputeSynthesis
    PerturbCrankshaft
    TrialSelectSegment
    TrialSelectEndSegment
@@ -13,3 +15,6 @@
    TrialPivot
    PerturbReptate
    TrialReptate
+   PerturbSiteType
+   TrialSwapSites
+   TrialSynthesis

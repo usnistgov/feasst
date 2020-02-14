@@ -5,7 +5,6 @@
    SelectList
    ClusterCriteria
    EnergyMap
-   EnergyMapAll
    VisitModelInner
    VisitModel
    ModelTwoBody
@@ -16,8 +15,8 @@
    PotentialFactory
    System
    ModelThreeBody
-   VisitModelCell
    ModelOneBody
    ModelEmpty
+   VisitModelCell
    LongRangeCorrections
    VisitModelIntra

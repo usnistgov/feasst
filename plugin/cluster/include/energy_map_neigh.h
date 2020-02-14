@@ -1,0 +1,91 @@
+
+#ifndef FEASST_CLUSTER_ENERGY_MAP_NEIGH_H_
+#define FEASST_CLUSTER_ENERGY_MAP_NEIGH_H_
+
+#include <vector>
+#include "utils/include/arguments.h"
+#include "system/include/energy_map.h"
+#include "system/include/cluster_criteria.h"
+
+namespace feasst {
+/**
+  Map energies between neighboring particles.
+  This data structure is intended to scale with particles
+  better than EnergyMapAll.
+  Although for small system sizes or large cutoffs, EnergyMapAll may be faster
+  because it does not require sorting.
+
+  Clear is used to generate a new map with only those particles in part1
+  that represent the computed selection.
+
+  Update populates the new map, which should be appropriately sized for part1.
+
+  Finalize uses the new map to update the map.
+ */
+class EnergyMapNeigh : public EnergyMap {
+ public:
+  EnergyMapNeigh(const argtype& args = argtype()) : EnergyMap(args) {}
+  double update(
+      const double energy,
+      const int part1_index,
+      const int site1_index,
+      const int part2_index,
+      const int site2_index,
+      const double squared_distance,
+      const Position * pbc) override;
+  void revert(const Select& select) override;
+  void select_cluster(const ClusterCriteria * cluster_criteria,
+                      const Configuration& config,
+                      const int particle_node,
+                      SelectPosition * cluster,
+                      const Position& frame_of_reference) const override;
+
+  // serialization
+  std::string class_name() const override { return class_name_; }
+  std::shared_ptr<EnergyMap> create(std::istream& istr) const override {
+    return std::make_shared<EnergyMapNeigh>(istr); }
+  void serialize(std::ostream& ostr) const override;
+  EnergyMapNeigh(std::istream& istr);
+  virtual ~EnergyMapNeigh() {}
+
+ protected:
+  void serialize_energy_map_neigh_(std::ostream& ostr) const;
+  void resize_(const int part1, const int site1, const int part2, const int site2) override;
+  std::vector<double> * smap_(const int part1_index,
+                              const int site1_index,
+                              const int part2_index,
+                              const int site2_index) override;
+  std::vector<double> * smap_new_(const int part1_index,
+                                  const int site1_index,
+                                  const int part2_index,
+                                  const int site2_index) override;
+  const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& map() const override { return map_; }
+
+ private:
+  const std::string class_name_ = "EnergyMapNeigh";
+
+  /// The first index is the particle index, which mirrors config
+  /// The second index for the list of neighbors
+  /// The data are the particle index from config
+  /// The neighbors should be sorted to allow for quick comparison with
+  /// other lists of neighbors.
+  std::vector<std::vector<int> > neighbor_, neighbor_new_;
+
+  /// As opposed to EnergyMapAll, the second index corresponds with neighbor_ above,
+  /// instead of listing all particles in config
+  std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > > map_, map_new_;
+
+  int part_max_() { return static_cast<int>(map_.size()); }
+  bool is_cluster_(const ClusterCriteria * cluster_criteria,
+                   const std::vector<std::vector<std::vector<double> > >& smap,
+                   Position * frame) const;
+};
+
+inline std::shared_ptr<EnergyMapNeigh> MakeEnergyMapNeigh(
+    const argtype& args = argtype()) {
+  return std::make_shared<EnergyMapNeigh>(args);
+}
+
+}  // namespace feasst
+
+#endif  // FEASST_CLUSTER_ENERGY_MAP_NEIGH_H_
