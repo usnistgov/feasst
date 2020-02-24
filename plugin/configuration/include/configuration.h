@@ -115,9 +115,19 @@ class Configuration {
     unique_types_.add_model_param(name, value);
   }
 
-  /// Set the physical constants in model parameters.
+  /// Add or set model parameter of a given name to value.
+  void add_or_set_model_param(const std::string name,
+                              const double value) {
+    unique_types_.add_or_set_model_param(name, value);
+  }
+
+  /// Set the physical constants.
   void set_physical_constants(std::shared_ptr<PhysicalConstants> constants) {
     unique_types_.set_physical_constants(constants); }
+
+  /// Return the physical constants.
+  const PhysicalConstants * physical_constants() const {
+    return model_params().physical_constants(); }
 
   /// Return the unique types. Only unique sites and bonds are included.
   /// Thus, the site index is the same as the numeric value for the site type.
@@ -154,7 +164,11 @@ class Configuration {
   int num_groups() const { return static_cast<int>(group_selects_.size()); }
 
   /// Return the index of the group based on particle types.
-  int particle_type_to_group(const int particle_type);
+  /// If the group does not exist, return -1.
+  int particle_type_to_group(const int particle_type) const;
+
+  /// Same as above, except create the group if it does not already exist.
+  int particle_type_to_group_create(const int particle_type);
 
   /// Return the group-based selections.
   const std::vector<SelectGroup>& group_selects() const {
@@ -207,6 +221,13 @@ class Configuration {
   const Particle& newest_particle() const {
     return select_particle(newest_particle_index_); }
 
+  /// Return the number of sites of each type in selection.
+  std::vector<int> num_sites_of_type(const Select& selection) const;
+
+  /// Return the number of sites of each type in group.
+  std::vector<int> num_sites_of_type(const int group_index = 0.) const {
+    return num_sites_of_type(group_selects()[group_index]); }
+
   //@}
   /** @name Modifications
     Modifications to a configuration (e.g., moving, adding or deleting
@@ -244,6 +265,10 @@ class Configuration {
 
   /// Same as above except for only one particle that is selected.
   void remove_particle(const Select& selection);
+
+  /// Set the particle positions of the group to the geometric center of the
+  /// site positions.
+  void recenter_particle_positions(const int group_index = 0);
 
   //@{
   /** @name Domain
@@ -374,6 +399,9 @@ class Configuration {
 
   /// Check consistency of dimensions and lists.
   void check() const;
+
+  /// Return true if all sites are physical.
+  bool are_all_sites_physical() const;
 
   /// Check if configuration is approximately equivalent.
   /// Not all quantities are checked, including ghosts, etc.

@@ -35,6 +35,10 @@ class System {
   /// Add a configuration.
   void add(const Configuration& configuration);
 
+  /// Return the number of configurations.
+  int num_configurations() const {
+    return static_cast<int>(configurations_.size()); }
+
   /// Return the configuration
   const Configuration& configuration(const int config = 0) const;
 

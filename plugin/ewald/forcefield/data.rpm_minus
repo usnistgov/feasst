@@ -12,13 +12,13 @@ charge elementary
 
 Site Labels
 
-1 H
+0 H
 
 Site Properties
 
-1 sigma 1.0 epsilon 1.0 cutoff 10 charge -1.0
+0 sigma 1.0 epsilon 1.0 cutoff 10 charge -1.0
 
 Sites
 
-1 1 1  0                    0                    0
+0 0 0.0 0.0 0.0
 

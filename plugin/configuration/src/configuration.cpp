@@ -344,13 +344,6 @@ void Configuration::check() const {
     "size error"
   );
 
-//  // check all sites are physical
-//  for (const Particle& part : particles_.particles()) {
-//    for (const Site& site : part.sites()) {
-//      ASSERT(site.is_physical(), "All sites should be physical.");
-//    }
-//  }
-
   // check that a particle is not simultaneously a ghost and a real particle
   for (const Select& ghost : ghosts_) {
     ASSERT(!group_selects_[0].is_overlap(ghost),
@@ -364,6 +357,17 @@ void Configuration::check() const {
   }
 
   model_params().check();
+}
+
+bool Configuration::are_all_sites_physical() const {
+  for (const Particle& part : particles_.particles()) {
+    for (const Site& site : part.sites()) {
+      if (!site.is_physical()) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 //void Configuration::check_id_(const Select* select) const {
@@ -463,18 +467,33 @@ void Configuration::update_positions(const SelectPosition& select,
   }
 }
 
-int Configuration::particle_type_to_group(const int particle_type) {
+int Configuration::particle_type_to_group(const int particle_type) const {
   int index;
   if (num_particle_types() == 1) {
     return 0;
   }
+  DEBUG("group_stored.. " << feasst_str(group_store_particle_type_));
+  DEBUG("num_groups " << num_groups());
+  DEBUG("particle_type " << particle_type);
   if (!find_in_list(particle_type, group_store_particle_type_, &index)) {
-    index = num_groups();
-    add(Group().add_particle_type(particle_type));
-    group_store_particle_type_.push_back(particle_type);
-    group_store_group_index_.push_back(index);
+    return -1;
   }
-  return index;
+  return group_store_group_index_[index];
+}
+
+int Configuration::particle_type_to_group_create(const int particle_type) {
+  const int grp = particle_type_to_group(particle_type);
+  if (grp != -1) {
+    return grp;
+  }
+  add(Group().add_particle_type(particle_type));
+  group_store_particle_type_.push_back(particle_type);
+  group_store_group_index_.push_back(num_groups() - 1);
+  const int index = static_cast<int>(group_store_group_index_.size()) - 1;
+  DEBUG("index " << index);
+  DEBUG("group_stored p.. " << feasst_str(group_store_particle_type_));
+  DEBUG("group_stored g.. " << feasst_str(group_store_group_index_));
+  return group_store_group_index_[index];
 }
 
 int Configuration::num_particles(const int group) const {
@@ -630,8 +649,14 @@ int Configuration::max_sites_in_any_particle() const {
 void Configuration::set_site_type(const int particle_type,
                                   const int site,
                                   const int site_type) {
-  ASSERT(domain().cells().size() == 0,
-    "check if cell list needs to be updated with changing type");
+  for (int cell_index = 0;
+       cell_index < static_cast<int>(domain().cells().size());
+       ++cell_index) {
+    const Cells& cells = domain().cells()[cell_index];
+    const int group_index = feasst::round(cells.property("group"));
+    ASSERT(group_index == 0,
+      "check if cell list needs to be updated with changing type");
+  }
   for (const SelectGroup& group : group_selects_) {
     if (find_in_list(site_type, group.group().site_types())) {
       ERROR("check if groups need to be updated with changing type");
@@ -643,6 +668,35 @@ void Configuration::set_site_type(const int particle_type,
       particles_.set_site_type(particle, site, site_type);
     }
   }
+}
+
+void Configuration::recenter_particle_positions(const int group_index) {
+  //SelectPosition all(group_selects_[0], particles_);
+  const SelectGroup& group = group_selects_[group_index];
+  for (int spindex = 0; spindex < group.num_particles(); ++spindex) {
+    const int pindex = group.particle_index(spindex);
+    //ParticleFactory factory;
+    //factory.add(select_particle(pindex));
+    SelectPosition sel(pindex, select_particle(pindex));
+    sel.set_particle_position(0, sel.geometric_center());
+    update_positions(sel);
+  }
+}
+
+std::vector<int> Configuration::num_sites_of_type(
+    const Select& selection) const {
+  std::vector<int> count(num_site_types());
+  for (int select_index = 0;
+       select_index < selection.num_particles();
+       ++select_index) {
+    const int part_index = selection.particle_index(select_index);
+    const Particle& part = select_particle(part_index);
+    for (int site_index : selection.site_indices(select_index)) {
+      const Site& site = part.site(site_index);
+      ++count[site.type()];
+    }
+  }
+  return count;
 }
 
 void Configuration::serialize(std::ostream& ostr) const {

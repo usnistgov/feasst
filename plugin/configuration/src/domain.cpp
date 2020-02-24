@@ -157,6 +157,19 @@ void Domain::unwrap(const int dim, const int num_wrap, Position * shift) const {
   }
 }
 
+bool Domain::is_cubic() const {
+  if (side_length_.size() == 0) {
+    return false;
+  }
+  const double length0 = side_length_.coord(0);
+  for (const double& len : side_length_.coord()) {
+    if (std::abs(len - length0) > NEAR_ZERO) {
+      return false;
+    }
+  }
+  return true;
+}
+
 void Domain::serialize(std::ostream& sstr) const {
   feasst_serialize_version(1, sstr);
   side_length_.serialize(sstr);

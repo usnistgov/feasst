@@ -66,6 +66,9 @@ class Domain {
   /// Return self for chain setting.
   Domain& set_cubic(const double box_length);
 
+  /// Return true if all side lengths are equal.
+  bool is_cubic() const;
+
   /// Set the xy tilt factor. By default it is zero.
   Domain& set_xy(const double xy = 0);
   double xy() const { return xy_; }

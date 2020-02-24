@@ -27,16 +27,17 @@ class Random {
   /**
     args:
     - seed : Provide an integer to seed the random number generator.
-      If the string "date" is provided, then use the date to generate the seed.
+      If the string "time" is provided, then use the time and date to generate
+      the seed.
       If no seed is provided, but random numbers are requested, then
-      the date will be used to generate a seed.
+      the time will be used to generate a seed.
       If the string "default" is provided, then use the default integer
       included in Random::seed().
    */
   Random(const argtype& args = argtype());
 
-  /// Generate seed from date and time.
-  void seed_by_date();
+  /// Generate seed from time and date.
+  void seed_by_time();
 
   /// Input seed by value for reproducibility.
   void seed(const int seed = 1346867550);

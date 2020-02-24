@@ -23,27 +23,28 @@ class TrialSelectSiteOfType : public TrialSelect {
 
   int site_type() const { return site_type_; }
 
-  void precompute(System * system) override {
-  }
-
   /// Select a random site of given type in randomly selected particle.
-  bool random_site_in_particle(
+  int random_site_in_particle(
       const Configuration& config,
       SelectPosition * select,
       Random * random) {
     ASSERT(config.num_site_types() > site_type(),
       "site_type: " << site_type() << " is not present in system.");
+    DEBUG("group_index " << group_index());
     const SelectGroup& group = config.group_select(group_index());
     const int num_particles = group.num_particles();
     if (num_particles == 0) {
-      return false;
+      DEBUG("no particles");
+      return 0;
     }
     const int pindex = random->uniform(0, num_particles - 1);
     const int particle_index = group.particle_index(pindex);
+    DEBUG("particle_index " << particle_index);
     const Particle& part = config.select_particle(particle_index);
     const int num_sites_of_type = part.num_sites_of_type(site_type());
     if (num_sites_of_type == 0) {
-      return false;
+      DEBUG("no sites of type");
+      return 0;
     }
     const int sindex = random->uniform(0, num_sites_of_type - 1);
 
@@ -67,16 +68,19 @@ class TrialSelectSiteOfType : public TrialSelect {
     }
     select->set_particle(0, particle_index);
     select->set_site(0, 0, site_index);
-    return true;
+    DEBUG("selected: " << select->str());
+    return num_sites_of_type;
   }
 
   bool select(const Select& perturbed, System* system, Random * random) override {
-    const bool found = random_site_in_particle(
+    const int num = random_site_in_particle(
       system->configuration(),
       &mobile_,
       random);
+    if (num <= 0) return false;
+    set_probability(1./static_cast<double>(num));
     mobile_original_ = mobile_;
-    return found;
+    return true;
   }
 
   std::shared_ptr<TrialSelect> create(std::istream& istr) const override;

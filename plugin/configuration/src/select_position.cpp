@@ -63,17 +63,21 @@ void SelectPosition::set_particle_position(const int particle_index,
   particle_positions_[particle_index] = position;
 }
 
+void SelectPosition::load_position(const int pindex,
+    const Particle& particle) {
+  set_particle_position(pindex, particle.position());
+  int sindex = 0;
+  for (int site_index : site_indices(pindex)) {
+    set_site_position(pindex, sindex, particle.site(site_index).position());
+    set_site_properties(pindex, sindex, particle.site(site_index).properties());
+    ++sindex;
+  }
+}
+
 void SelectPosition::load_positions(const ParticleFactory& particles) {
   int pindex = 0;
   for (int particle_index : particle_indices()) {
-    int sindex = 0;
-    const Particle& part = particles.particle(particle_index);
-    set_particle_position(pindex, part.position());
-    for (int site_index : site_indices(pindex)) {
-      set_site_position(pindex, sindex, part.site(site_index).position());
-      set_site_properties(pindex, sindex, part.site(site_index).properties());
-      ++sindex;
-    }
+    load_position(pindex, particles.particle(particle_index));
     ++pindex;
   }
 }
@@ -130,6 +134,33 @@ void SelectPosition::clear_() {
   particle_positions_.clear();
   site_positions_.clear();
   site_properties_.clear();
+}
+
+Position SelectPosition::geometric_center(const int particle_index) const {
+  Position center(particle_positions()[0].dimension());
+  // consider all particles if particle index is not provided
+  if (particle_index == -1) {
+    for (int sp = 0; sp < num_particles(); ++sp) {
+      for (int ss = 0; ss < num_sites(sp); ++ss) {
+        center.add(site_positions()[sp][ss]);
+      }
+    }
+    center.divide(num_sites());
+  } else {
+    const int sp = particle_index;
+    for (int ss = 0; ss < num_sites(sp); ++ss) {
+      center.add(site_positions()[sp][ss]);
+    }
+    center.divide(num_sites(particle_index));
+  }
+  return center;
+}
+
+SelectPosition::SelectPosition(const int particle_index,
+    const Particle& particle) {
+  add_particle(particle, particle_index);
+  resize();
+  load_position(0, particle);
 }
 
 void SelectPosition::serialize(std::ostream& sstr) const {

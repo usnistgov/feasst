@@ -9,6 +9,7 @@ namespace feasst {
 /**
   For a reptation, if new bond is accepted, then change the positions of all the
   sites along the chain.
+  For heteropolymers, this perturbation changes the composition.
  */
 class PerturbReptate : public PerturbDistance {
  public:
@@ -28,22 +29,32 @@ class PerturbReptate : public PerturbDistance {
                                               system->configuration(),
                                               0 // group that includes all
                                               );
+    const Particle& part = system->configuration().select_particle(part_index);
     if (mobile.site_indices()[0][0] == 0) {
+      const int site_type = part.site(0).type();
       for (int site = 1; site < entire.num_sites(); ++site) {
         entire.set_site_position(0, site - 1, entire.site_positions()[0][site]);
         entire.set_site_properties(0, site - 1, entire.site_properties()[0][site]);
+        system->get_configuration()->set_site_type(part_index, site - 1,
+                                                   part.site(site).type());
       }
       entire.set_site_position(0, entire.num_sites() - 1, mobile.site_positions()[0][0]);
       entire.set_site_properties(0, entire.num_sites() - 1, mobile.site_properties()[0][0]);
+      system->get_configuration()->set_site_type(part_index,
+                                                 entire.num_sites() - 1,
+                                                 site_type);
     } else {
+      const int site_type = part.site(entire.num_sites() - 1).type();
       for (int site = entire.num_sites() - 1; site >= 1; --site) {
         entire.set_site_position(0, site, entire.site_positions()[0][site - 1]);
         entire.set_site_properties(0, site, entire.site_properties()[0][site - 1]);
+        system->get_configuration()->set_site_type(part_index, site,
+                                                   part.site(site - 1).type());
       }
       entire.set_site_position(0, 0, mobile.site_positions()[0][0]);
       entire.set_site_properties(0, 0, mobile.site_properties()[0][0]);
+      system->get_configuration()->set_site_type(part_index, 0, site_type);
     }
-    DEBUG("entire " << entire.str() << " pos " << entire.site_positions()[0][0].str() << " end " << entire.site_positions()[0][49].str());
     system->get_configuration()->update_positions(entire, false);
   }
   std::shared_ptr<Perturb> create(std::istream& istr) const override;

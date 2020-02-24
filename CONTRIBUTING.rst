@@ -298,7 +298,7 @@ To Do List
 * trial regrow to include grand canonical insertions
 * consider optimization of Ewald: init ewald storage on particle types, precompute property index.
 * Criteria running energies may contain a part from each potential to simplify debugging.
-* implement timer for profiles (with hierarchies by class... tried this, but its too slow)
+* implement timer for profiles (with hierarchies by class... tried this, but its too slow. Time only infrequently?)
 * implement a timer to auto-balance trial weights.
 * find a better way for two different classes to take from the same argument list and still maintain unused checks.
 * when selecting from cpdf, use lnp instead of p?
@@ -321,3 +321,5 @@ To Do List
 * put cell list in finalize-heavy paradigm, update_positions updates cell of selection, finalize updates entire cell list. linked list
 * config could use revert,finalize to update cell list only on finalization, and maybe not have to exclude from cell properties (why exclude?). same with ewald
 * HS-only simulations can use TrialComputeMoveMayer without computing energy of old configuration
+* Refactor arguments so that they can be checked for usage (especially in Trials)
+* Rename TrialSelect->SelectTrial, TrialCompute->ComputeTrial. Rename Compute->Decide?.

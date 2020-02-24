@@ -2,21 +2,21 @@
 #ifndef FEASST_STEPPERS_CHECK_H_
 #define FEASST_STEPPERS_CHECK_H_
 
-#include "monte_carlo/include/modify.h"
+#include "monte_carlo/include/analyze.h"
 
 namespace feasst {
 
 /**
   Run periodic checks on each class.
  */
-class Check : public ModifyUpdateOnly {
+class Check : public AnalyzeUpdateOnly {
  public:
-  Check(const argtype &args = argtype()) : ModifyUpdateOnly(args) {}
-  void update(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override {
-    system->configuration().check();
-    system->check();
+  Check(const argtype &args = argtype()) : AnalyzeUpdateOnly(args) {}
+  void update(const Criteria * criteria,
+      const System& system,
+      const TrialFactory& trial_factory) override {
+    system.configuration().check();
+    system.check();
   }
 
   std::string class_name() const override { return std::string("Check"); }
@@ -26,10 +26,10 @@ class Check : public ModifyUpdateOnly {
     feasst_serialize_version(1, ostr);
   }
 
-  std::shared_ptr<Modify> create(std::istream& istr) const override {
+  std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<Check>(istr); }
 
-  Check(std::istream& istr) : ModifyUpdateOnly(istr) {
+  Check(std::istream& istr) : AnalyzeUpdateOnly(istr) {
     feasst_deserialize_version(istr); }
 };
 

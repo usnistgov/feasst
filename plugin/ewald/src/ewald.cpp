@@ -4,13 +4,52 @@
 
 namespace feasst {
 
-void Ewald::set_kmax_squared(const double kmax_squared) {
-  kmax_squared_ = kmax_squared;
-  kmax_ = static_cast<int>(std::sqrt(kmax_squared_)) + 1;
-  kxmax_ = kmax_ + 1;
-  kymax_ = 2*kmax_ + 1;
-  kzmax_ = kymax_;
-  DEBUG("kxmax " << kxmax_ << " kymax " << kymax_ << " kzmax " << kzmax_);
+Ewald::Ewald(const argtype& args) {
+  Arguments args_(args);
+  if (args_.key("tolerance").used()) {
+    tolerance_ = std::make_shared<double>(args_.dble());
+  }
+  if (args_.key("alpha").used()) {
+    alpha_arg_ = std::make_shared<double>(args_.dble());
+  }
+  if (args_.key("kxmax").used()) {
+    kxmax_arg_ = std::make_shared<int>(args_.integer());
+  }
+  if (args_.key("kymax").used()) {
+    kymax_arg_ = std::make_shared<int>(args_.integer());
+  }
+  if (args_.key("kzmax").used()) {
+    kzmax_arg_ = std::make_shared<int>(args_.integer());
+  }
+  if (args_.key("kmax_squared").used()) {
+    kmax_sq_arg_ = std::make_shared<int>(args_.integer());
+  }
+}
+
+void Ewald::tolerance_to_alpha_ks(const double tolerance,
+    const Configuration& config, double * alpha,
+    int * kxmax, int * kymax, int * kzmax, const int num_particles) {
+  const double cutoff = config.model_params().cutoff().max();
+
+  // extrapolate to a different number of particles with a factor.
+  double factor = 1.;
+  if (num_particles != -1) {
+    ASSERT(num_particles > 0, "num_particles:" << num_particles
+      << " should be > 0");
+    factor = num_particles/config.num_particles();
+  }
+
+  // determine alpha
+  *alpha = std::sqrt(config.num_sites()*cutoff*config.domain().volume());
+  *alpha *= tolerance/(2.*std::sqrt(factor)*sum_squared_charge_(config));
+  if (*alpha >= 1.) {
+    *alpha = (1.35 - 0.15*log(tolerance))/cutoff; // from LAMMPS
+  } else {
+    *alpha = std::sqrt(-log(*alpha))/cutoff;
+  }
+  *kxmax = estimate_kmax_(*alpha, config, tolerance, 0);
+  *kymax = estimate_kmax_(*alpha, config, tolerance, 1);
+  *kzmax = estimate_kmax_(*alpha, config, tolerance, 2);
 }
 
 void Ewald::update_wave_vectors(const Configuration& config) {
@@ -29,13 +68,12 @@ void Ewald::update_wave_vectors(const Configuration& config) {
   for (int kx = 0; kx <= kmax_; ++kx) {
   for (int ky = -kmax_; ky <= kmax_; ++ky) {
   for (int kz = -kmax_; kz <= kmax_; ++kz) {
-    const int k2 = kx*kx + ky*ky + kz*kz;
-    if ( (k2 < kmax_squared_) and (k2 != 0) ) {  // allen tildesley, srsw
-    // if ( (k2 <= kmax_squared_) and (k2 != 0) ) {  // gerhard
-      kvec.set_vector({2.*PI*kx/lx,
-                       2.*PI*ky/ly,
-                       2.*PI*kz/lz});
-      const double k_sq = kvec.squared_distance();
+    kvec.set_vector({2.*PI*kx/lx,
+                     2.*PI*ky/ly,
+                     2.*PI*kz/lz});
+    const double k_sq = kvec.squared_distance();
+    if ( (k_sq < kmax_squared_) and (std::abs(k_sq) > NEAR_ZERO) ) { // allen tildesley, srsw
+    // if ( (k2 <= kmax_squared_) and (std::abs(k_sq) > NEAR_ZERO) ) {  // gerhard
       double factor = 1.;
       if (kx != 0) factor = 2;
       wave_prefactor_.push_back(2.*PI*factor*exp(-k_sq/4./alpha/alpha)/k_sq/volume);
@@ -106,6 +144,46 @@ void Ewald::init_wave_vector_storage(Configuration * config, const Select& selec
       }
     }
   }
+}
+
+void Ewald::precompute(Configuration * config) {
+  if (tolerance_) {
+    ASSERT(!alpha_arg_ && !kxmax_arg_ && !kymax_arg_ && !kzmax_arg_,
+      "tolerance overrides all other arguments");
+    double alpha;
+    tolerance_to_alpha_ks(*tolerance_, *config, &alpha, &kxmax_, &kymax_, &kzmax_);
+    config->add_or_set_model_param("alpha", alpha);
+  } else if (kmax_sq_arg_) {
+    ASSERT(!kxmax_arg_ && !kymax_arg_ && !kzmax_arg_,
+      "kmax_squared argument overrides k[x,y,z]max arguments.");
+    ASSERT(config->domain().is_cubic(),
+      "Domain must be cubic to set kmax_squared");
+    kmax_ = static_cast<int>(std::sqrt(*kmax_sq_arg_)) + 1;
+    kxmax_ = kmax_ + 1;
+    kymax_ = 2*kmax_ + 1;
+    kzmax_ = kymax_;
+    kmax_squared_ = *kmax_sq_arg_*pow(2.*PI/config->domain().min_side_length(), 2);
+    DEBUG("kxmax " << kxmax_ << " kymax " << kymax_ << " kzmax " << kzmax_);
+    DEBUG("kmax_squared_ " << kmax_squared_);
+    ASSERT(alpha_arg_, "alpha is required with kmax_squared argument");
+    config->add_or_set_model_param("alpha", *alpha_arg_);
+  } else {
+    kxmax_ = *kxmax_arg_;
+    kymax_ = *kymax_arg_;
+    kzmax_ = *kzmax_arg_;
+    double gsqxmx = pow(2*PI*kxmax_/config->domain().side_length(0), 2);
+    double gsqymx = pow(2*PI*kymax_/config->domain().side_length(1), 2);
+    double gsqzmx = pow(2*PI*kzmax_/config->domain().side_length(2), 2);
+    kmax_squared_ = std::max(gsqxmx, gsqymx);
+    kmax_squared_ = std::max(kmax_squared_, gsqzmx);
+    ASSERT(alpha_arg_ && kxmax_arg_ && kymax_arg_ && kzmax_arg_,
+      "if tolerance or kmax_squared are not given, then alpha, kxmax, kymax "
+      << "and kzmax are required");
+    config->add_or_set_model_param("alpha", *alpha_arg_);
+  }
+  config->add_excluded_property("eik");
+  update_wave_vectors(*config);
+  init_wave_vector_storage(config);
 }
 
 void Ewald::update_struct_fact_eik(const Select& selection,
@@ -258,6 +336,12 @@ void Ewald::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_(ostr);
   feasst_serialize_version(319, ostr);
+  feasst_serialize_sp(tolerance_, ostr);
+  feasst_serialize_sp(alpha_arg_, ostr);
+  feasst_serialize_sp(kxmax_arg_, ostr);
+  feasst_serialize_sp(kymax_arg_, ostr);
+  feasst_serialize_sp(kzmax_arg_, ostr);
+  feasst_serialize_sp(kmax_sq_arg_, ostr);
   feasst_serialize(kmax_, ostr);
   feasst_serialize(kmax_squared_, ostr);
   feasst_serialize(kxmax_, ostr);
@@ -279,6 +363,45 @@ std::shared_ptr<VisitModel> Ewald::create(std::istream& istr) const {
 Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(319 == version, version);
+//  feasst_deserialize(tolerance_, istr);
+//  feasst_deserialize(alpha_arg_, istr);
+  double value;
+  int existing;
+  istr >> existing;
+  if (existing != 0) {
+    istr >> value;
+    tolerance_ = std::make_shared<double>(value);
+  }
+  istr >> existing;
+  if (existing != 0) {
+    istr >> value;
+    alpha_arg_ = std::make_shared<double>(value);
+  }
+  //feasst_deserialize(kxmax_arg_, istr);
+  //feasst_deserialize(kymax_arg_, istr);
+  //feasst_deserialize(kzmax_arg_, istr);
+  //feasst_deserialize(kmax_sq_arg_, istr);
+  int int_value;
+  istr >> existing;
+  if (existing != 0) {
+    istr >> int_value;
+    kxmax_arg_ = std::make_shared<int>(int_value);
+  }
+  istr >> existing;
+  if (existing != 0) {
+    istr >> int_value;
+    kymax_arg_ = std::make_shared<int>(int_value);
+  }
+  istr >> existing;
+  if (existing != 0) {
+    istr >> int_value;
+    kzmax_arg_ = std::make_shared<int>(int_value);
+  }
+  istr >> existing;
+  if (existing != 0) {
+    istr >> int_value;
+    kmax_sq_arg_ = std::make_shared<int>(int_value);
+  }
   feasst_deserialize(&kmax_, istr);
   feasst_deserialize(&kmax_squared_, istr);
   feasst_deserialize(&kxmax_, istr);

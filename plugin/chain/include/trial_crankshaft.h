@@ -16,7 +16,7 @@ class TrialCrankshaft : public TrialMove {
     /// These arguments are sent to both PerturbCrankshaft and TrialStage.
     const argtype& args = argtype())
     : TrialMove(
-      std::make_shared<TrialSelectSegment>(),
+      std::make_shared<TrialSelectSegment>(args),
       std::make_shared<PerturbCrankshaft>(args),
       args
     ) {
@@ -27,9 +27,6 @@ class TrialCrankshaft : public TrialMove {
   void serialize(std::ostream& ostr) const override;
   explicit TrialCrankshaft(std::istream& istr);
   virtual ~TrialCrankshaft() {}
-
- protected:
-  std::string class_name_ = "TrialCrankshaft";
 };
 
 inline std::shared_ptr<TrialCrankshaft> MakeTrialCrankshaft(

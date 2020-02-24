@@ -5,7 +5,7 @@ namespace feasst {
 class MapTrialSwapSites {
  public:
   MapTrialSwapSites() {
-    auto obj = MakeTrialSwapSites({{"site_type1", "0"}, {"site_type2", "1"}});
+    auto obj = MakeTrialSwapSites({{"particle_type", "0"}, {"site_type1", "0"}, {"site_type2", "1"}});
     obj->deserialize_map()["TrialSwapSites"] = obj;
   }
 };

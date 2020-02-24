@@ -358,6 +358,50 @@ void feasst_deserialize_fstobj(std::vector<std::vector<T> > * vector,
   }
 }
 
+/// Serialize double stored as shared pointer
+inline void feasst_serialize_sp(const std::shared_ptr<double> ptr, std::ostream& ostr) {
+  if (ptr) {
+    ostr << "1 ";
+    feasst_serialize(*ptr, ostr);
+  } else {
+    ostr << "0 ";
+  }
+}
+
+// HWH for unknown reasons, this function template does not work.
+///// Deserialize double stored as shared pointer
+//inline void feasst_deserialize(std::shared_ptr<double> ptr, std::istream& istr) {
+//  int existing;
+//  istr >> existing;
+//  if (existing != 0) {
+//    double value;
+//    istr >> value;
+//    ptr = std::make_shared<double>(value);
+//  }
+//}
+
+/// Serialize int stored as shared pointer
+inline void feasst_serialize_sp(const std::shared_ptr<int> ptr, std::ostream& ostr) {
+  if (ptr) {
+    ostr << "1 ";
+    feasst_serialize(*ptr, ostr);
+  } else {
+    ostr << "0 ";
+  }
+}
+
+// HWH for unknown reasons, this function template does not work.
+///// Deserialize int stored as shared pointer
+//inline void feasst_deserialize(std::shared_ptr<int> ptr, std::istream& istr) {
+//  int existing;
+//  istr >> existing;
+//  if (existing != 0) {
+//    int value;
+//    istr >> value;
+//    ptr = std::make_shared<int>(value);
+//  }
+//}
+
 /// Serialize feasst object stored as shared pointer
 template <typename T>
 void feasst_serialize(const std::shared_ptr<T> ptr, std::ostream& ostr) {

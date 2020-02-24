@@ -150,6 +150,11 @@ class ParticleFactory {
                        const double value) {
     model_params_.add_property(name, value); }
 
+  /// Add or set model parameter of a given name to value.
+  void add_or_set_model_param(const std::string name,
+                              const double value) {
+    model_params_.add_or_set_property(name, value); }
+
   /// Set the physical constants in model parameters.
   void set_physical_constants(std::shared_ptr<PhysicalConstants> constants) {
     model_params_.set_physical_constants(constants); }

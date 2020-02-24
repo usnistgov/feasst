@@ -20,7 +20,7 @@ CheckEnergy::CheckEnergy(const argtype &args) : ModifyUpdateOnly(args) {
 void CheckEnergy::update(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
-  check_->update(criteria, system, trial_factory);
+  check_->update(criteria, *system, *trial_factory);
   DEBUG("computing unoptimized energy for check");
   const double energy = system->unoptimized_energy();
   const double current_energy = criteria->current_energy();

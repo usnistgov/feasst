@@ -20,6 +20,7 @@ class Criteria {
   /**
     args:
     - beta: inverse temperature, \f$ \beta = \frac{1}{k_B T} \f$.
+    - pH: negative of the log-base-10 of the proton concentration.
     - chemical_potential[i]: chemical potential of the i-th particle type.
       The [i] is to be substituted for an integer 0, 1, 2, ...
       If only one particle type, you can drop the [i].
@@ -27,11 +28,17 @@ class Criteria {
    */
   Criteria(const argtype& args = argtype());
 
-  /// Set beta, the inverse temperature \f$ \beta=\frac{1}{k_B T} \f$.
+  /// Set beta.
   void set_beta(const double beta);
 
   /// Return beta.
   double beta() const;
+
+  /// Set the pH.
+  void set_pH(const double pH);
+
+  /// Return the pH.
+  double pH() const;
 
   /// Add a chemical potential for a given type of particle.
   /// Note that z has units length^{-dimension} such that Vz/N is unitless.
@@ -138,13 +145,15 @@ class Criteria {
   Acceptance last_acceptance_;
 
  private:
-  double beta_;
+  double beta_ = 0.;
   bool beta_initialized_ = false;
   std::vector<double> chemical_potentials_;
   double current_energy_ = 0.;
   double previous_energy_ = 0.;
   int trial_state_;
   int num_trial_states_;
+  double pH_ = 0.;
+  bool pH_initialized_ = false;
 };
 
 }  // namespace feasst

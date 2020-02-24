@@ -34,7 +34,7 @@ class CheckEnergy : public ModifyUpdateOnly {
 
  private:
   double tolerance_;
-  std::shared_ptr<Modify> check_;
+  std::shared_ptr<Analyze> check_;
 };
 
 inline std::shared_ptr<CheckEnergy> MakeCheckEnergy(

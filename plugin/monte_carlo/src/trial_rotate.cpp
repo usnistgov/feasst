@@ -4,7 +4,7 @@ namespace feasst {
 
 TrialRotate::TrialRotate(const argtype& args)
   : TrialMove(
-    std::make_shared<TrialSelectParticle>(),
+    std::make_shared<TrialSelectParticle>(args),
     std::make_shared<PerturbRotate>(args),
     args
   ) {

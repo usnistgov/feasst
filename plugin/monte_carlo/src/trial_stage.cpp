@@ -20,17 +20,20 @@ void TrialStage::before_select() {
   perturb_->before_select();
 }
 
-void TrialStage::select(System * system,
+bool TrialStage::select(System * system,
     Acceptance * acceptance,
     Random * random) {
   const bool is_selected = select_->select(acceptance->perturbed(),
                                            system, random);
+  DEBUG("is_selected " << is_selected);
   if (is_selected) {
     acceptance->add_to_perturbed(select_->mobile());
-    set_mobile_physical(false, system);
+//    set_mobile_physical(false, system);
+//    DEBUG("select: " << select_->mobile().str());
   } else {
     acceptance->set_reject(true);
   }
+  return is_selected;
 }
 
 void TrialStage::set_mobile_physical(const bool physical, System * system) {
@@ -43,6 +46,7 @@ void TrialStage::attempt(System * system, Criteria * criteria, const int old,
     Random * random) {
   ASSERT(perturb_, "perturb not set");
   set_mobile_physical(true, system);
+  DEBUG("setting mobile physical: " << select_->mobile().str());
   for (int step = 0; step < rosenbluth_.num(); ++step) {
     // DEBUG(perturb_->class_name());
     bool is_position_held = false;

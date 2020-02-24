@@ -54,8 +54,9 @@ class TrialStage {
   void before_select();
 
   /// Perform the selection and update the acceptance.
-  /// Set sites involved in stage as unphysical.
-  void select(System * system, Acceptance * acceptance, Random * random);
+  /// Return false if selection fails.
+  /// Otherwise, set sites involved in stage as unphysical and return true.
+  bool select(System * system, Acceptance * acceptance, Random * random);
 
   /// Set the perturbation.
   void set(std::shared_ptr<Perturb> perturb) { perturb_ = perturb; }

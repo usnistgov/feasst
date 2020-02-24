@@ -13,22 +13,11 @@ class PerturbRotateCOM : public PerturbRotate {
     class_name_ = "PerturbRotateCOM";
   }
 
-  Position geometric_center(const SelectPosition& select) {
-    Position center(select.particle_positions()[0].dimension());
-    for (int sp = 0; sp < select.num_particles(); ++sp) {
-      for (int ss = 0; ss < select.num_sites(sp); ++ss) {
-        center.add(select.site_positions()[sp][ss]);
-      }
-    }
-    center.divide(select.num_particles());
-    return center;
-  }
-
   /// Rotate the selected particles using the tuning parameter.
   /// Set the pivot to the geometric center of the mobile selection.
   /// Rotate the particle positions.
   void move(System * system, TrialSelect * select, Random * random) override {
-    const Position pivot = geometric_center(select->mobile());
+    const Position pivot = select->mobile().geometric_center();
     DEBUG("piv " << pivot.str());
     PerturbRotate::move(system, select, random, pivot, true);
   }

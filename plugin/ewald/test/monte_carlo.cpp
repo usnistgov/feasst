@@ -26,12 +26,20 @@ TEST(MonteCarlo, spce) {
         {"cubic_box_length", "24.8586887"},
         {"particle_type", "../forcefield/data.spce"}
       });
-      config.add_model_param("alpha", 5.6/config.domain().min_side_length());
 //      config.add_particle_of_type(0);
-      const int kmax_squared = 3;
       system.add(config);
-      ewald = add_ewald_with(MakeLennardJones(), &system, kmax_squared);
     }
+//    ewald = add_ewald_with(MakeLennardJones(), &system, kmax_squared);
+    system.add(Potential(
+      MakeEwald({{"kmax_squared", "3"},
+                 {"alpha", str(5.6/system.configuration().domain().min_side_length())}}),
+                       {{"prevent_cache", "true"}}));
+    system.add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
+                                               MakeChargeScreened()})));
+    system.add(Potential(MakeChargeScreenedIntra(),
+                       MakeVisitModelIntra({{"cutoff", "0"}})));
+    system.add(Potential(MakeChargeSelf()));
+    system.add(Potential(MakeLongRangeCorrections()));
     mc.set(system);
   }
   //INFO(mc.system().configuration().particle_type(0).site(0).properties().str());

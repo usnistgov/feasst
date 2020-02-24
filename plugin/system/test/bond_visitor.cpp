@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "configuration/include/bond_visitor.h"
+#include "system/include/bond_visitor.h"
 #include "system/test/system_test.h"
 
 namespace feasst {

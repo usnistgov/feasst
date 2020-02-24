@@ -8,29 +8,29 @@
    Metropolis
    Rosenbluth
    TrialSelect
-   TrialSelectParticle
    TrialSelectBond
    TrialSelectAngle
    Perturb
    PerturbMove
+   PerturbDistance
+   PerturbDistanceAngle
    PerturbTranslate
    PerturbRotate
    PerturbAnywhere
-   PerturbRemove
    PerturbAdd
-   PerturbDistance
-   PerturbDistanceAngle
+   PerturbRemove
    PerturbConfigs
+   TrialSelectParticle
    TrialStage
    TrialCompute
    TrialComputeRemove
    Trial
-   TrialRemove
    TrialFactory
    Analyze
    AnalyzeFactory
    Modify
    ModifyFactory
+   TrialRemove
    TrialComputeAdd
    TrialAdd
    TrialComputeMove

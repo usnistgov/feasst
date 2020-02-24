@@ -15,7 +15,7 @@ class TrialPivot : public TrialMove {
     /// These arguments are sent to both PerturbPivot and TrialStage.
     const argtype& args = argtype())
     : TrialMove(
-      std::make_shared<TrialSelectEndSegment>(),
+      std::make_shared<TrialSelectEndSegment>(args),
       std::make_shared<PerturbPivot>(args),
       args
     ) {

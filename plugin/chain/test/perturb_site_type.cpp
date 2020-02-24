@@ -16,10 +16,10 @@ TEST(PerturbSiteType, serialize) {
   const Configuration& config = sys.configuration();
   auto morph = MakePerturbSiteType({{"type", "0"}});
   Select first_site;
-  first_site.add_site(0, 0);
-  EXPECT_EQ(config.particle(0).site(0).type(), 0);
+  first_site.add_site(0, 1);
+  EXPECT_EQ(config.particle(0).site(1).type(), 0);
   morph->set_site_type(&sys, first_site, 1);
-  EXPECT_EQ(config.particle(0).site(0).type(), 1);
+  EXPECT_EQ(config.particle(0).site(1).type(), 1);
   PerturbSiteType morph2 = test_serialize(*morph);
 }
 

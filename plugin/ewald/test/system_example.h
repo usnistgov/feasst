@@ -2,17 +2,23 @@
 #ifndef FEASST_EWALD_SYSTEM_EXAMPLE_H_
 #define FEASST_EWALD_SYSTEM_EXAMPLE_H_
 
-#include "system/include/system.h"
-#include "ewald/include/utils_ewald.h"
-#include "system/include/lennard_jones.h"
-#include "system/include/potential.h"
 #include "configuration/test/configuration_test.h"
+#include "system/include/system.h"
+#include "system/include/lennard_jones.h"
+#include "system/include/long_range_corrections.h"
+#include "system/include/potential.h"
+#include "system/include/model_two_body_factory.h"
+#include "system/include/visit_model_intra.h"
+#include "ewald/include/ewald.h"
+#include "ewald/include/charge_screened.h"
+#include "ewald/include/charge_screened_intra.h"
+#include "ewald/include/charge_self.h"
 
 namespace feasst {
 
 inline System spce(const std::string physical_constants = "") {
   Configuration config = spce_sample();
-  config.add_model_param("alpha", 5.6/config.domain().min_side_length());
+//  config.add_model_param("alpha", 5.6/config.domain().min_side_length());
   if (!physical_constants.empty()) {
     if (physical_constants == "CODATA2010") {
       config.set_physical_constants(MakeCODATA2010());
@@ -24,10 +30,60 @@ inline System spce(const std::string physical_constants = "") {
   }
   System sys;
   sys.add(config);
-  add_ewald_with(MakeLennardJones(), &sys);
+  sys.add(Potential(
+    MakeEwald({{"kmax_squared", "27"},
+               {"alpha", str(5.6/config.domain().min_side_length())}}),
+                     {{"prevent_cache", "true"}}));
+  sys.add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
+                                             MakeChargeScreened()})));
+  sys.add(Potential(MakeChargeScreenedIntra(),
+                     MakeVisitModelIntra({{"cutoff", "0"}})));
+  sys.add(Potential(MakeChargeSelf()));
   sys.add(Potential(MakeLongRangeCorrections()));
-  sys.precompute();
+  sys.precompute(); // HWH don't need this precompute?
   return sys;
+}
+
+inline System chain(const double alpha,
+                    const int kmax_squared) {
+  System system;
+  { Configuration config({
+      {"cubic_box_length", "20"},
+      {"particle_type0", "../plugin/chain/forcefield/data.chain10titratable"},
+      {"particle_type1", "../plugin/ewald/forcefield/data.rpm_minus"},
+      {"particle_type2", "../plugin/ewald/forcefield/data.rpm_plus"},
+    });
+//    config.add_particle_of_type(0);
+    config.add_particle_of_type(1);
+    config.add_particle_of_type(2);
+    config.update_positions({{0, 0, 0}, {2, 0, 0}});
+    double alpha2;
+    int kxmax, kymax, kzmax;
+    Ewald().tolerance_to_alpha_ks(0.0001, config, &alpha2, &kxmax, &kymax, &kzmax);
+    INFO("alpha2 " << alpha2);
+//    const double rms = Ewald().fourier_rms(alpha2, 3, config, 0);
+//    INFO("rms0 " << rms);
+    INFO("kxmax " << kxmax);
+    config.add_model_param("alpha", alpha);
+    system.add(config);
+  }
+  auto ewald= MakeEwald({{"kmax_squared", "27"},
+               {"alpha", str(5.6/system.configuration().domain().min_side_length())}});
+  system.add(Potential(ewald,
+                     {{"prevent_cache", "true"}}));
+  system.add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
+                                                MakeChargeScreened()})));
+  system.add(Potential(MakeChargeScreenedIntra(),
+                       MakeVisitModelIntra({{"cutoff", "0"}})));
+  system.add(Potential(MakeChargeSelf()));
+//  system.add(Potential(MakeLongRangeCorrections()));
+//  auto ewald = add_ewald_with(MakeLennardJones(), &system, kmax_squared);
+  system.add(Potential(MakeLennardJones(), MakeVisitModelIntra({{"cutoff", "1"}})));
+  INFO("kxmax " << ewald->kxmax());
+  INFO("kymax " << ewald->kymax());
+  INFO("kzmax " << ewald->kzmax());
+  INFO("num_vectors " << ewald->num_vectors());
+  return system;
 }
 
 inline void test_cases(

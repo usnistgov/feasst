@@ -34,6 +34,7 @@ int TrialSelectParticle::random_particle(const Configuration& config,
     SelectPosition * select,
     Random * random) {
   ASSERT(group_index() >= 0, "error");
+  DEBUG("grp " << group_index());
   const int num = config.num_particles(group_index());
   if (num > 0) {
     const int index = random->uniform(0, num - 1);
@@ -101,16 +102,21 @@ void TrialSelectParticle::ghost_particle(Configuration * config,
 bool TrialSelectParticle::select(const Select& perturbed,
                                  System* system,
                                  Random * random) {
+  DEBUG("is_ghost " << is_ghost());
   if (is_ghost()) {
     ghost_particle(system->get_configuration(), &mobile_);
     set_probability(1.);
   } else {
     const int num = random_particle(system->configuration(), &mobile_, random);
+    DEBUG("num " << num);
     if (num <= 0) return false;
     set_probability(1./static_cast<double>(num));
   }
+  DEBUG("selected " << mobile_.str());
   mobile_.remove_unphysical_sites(system->configuration());
+  ASSERT(mobile_.num_particles() > 0, "all sites shouldn't be unphysical");
   mobile_original_ = mobile_;
+  DEBUG("selected " << mobile_.str());
   return true;
 }
 

@@ -12,15 +12,15 @@ namespace feasst {
 
 TEST(Ewald, ewald) {
   Configuration config = spce_sample();
-  config.add_model_param("alpha", 5.6/config.domain().min_side_length());
-  Ewald ewald;
-  ewald.set_kmax_squared(27); // if this is changed, also update eik**0_index
-  ewald.update_wave_vectors(config);
-  ewald.init_wave_vector_storage(&config);
+  auto ewald = MakeEwald({
+    {"alpha", str(5.6/config.domain().min_side_length())},
+    {"kmax_squared", "27"}
+  });
+  ewald->precompute(&config);
 
   ModelEmpty model;  // any place holder model is fine because its not used
-  model.compute(&config, &ewald);
-  ewald.finalize(Select());
+  model.compute(&config, ewald.get());
+  ewald->finalize(Select());
   // ewald.update_eik(config.selection_of_all(), &config);
 
   const std::vector<double> eik = config.particle(0).site(0).properties().values();
@@ -40,17 +40,31 @@ TEST(Ewald, ewald) {
   EXPECT_NEAR(eik[iz0_index + 1], -0.52837486359383823, NEAR_ZERO);
   EXPECT_NEAR(eik[iz0_index - 1], 0.52837486359383823, NEAR_ZERO);
 
-  EXPECT_NEAR(ewald.struct_fact_real()[0], -1.829963812936731, 5e-15);
-  EXPECT_NEAR(ewald.struct_fact_imag()[0], 2.3263016099862206, 5e-15);
+  EXPECT_NEAR(ewald->struct_fact_real()[0], -1.829963812936731, 5e-15);
+  EXPECT_NEAR(ewald->struct_fact_imag()[0], 2.3263016099862206, 5e-15);
 
   const double en = 52.13245734204947;
-  EXPECT_NEAR(ewald.energy(), en, 1e-12);
+  EXPECT_NEAR(ewald->energy(), en, 1e-12);
 
   // serialize
-  auto ewald2 = test_serialize<Ewald, VisitModel>(ewald);
+  auto ewald2 = test_serialize<Ewald, VisitModel>(*ewald);
   model.compute(&config, ewald2.get());
   ewald2->finalize(Select());
   EXPECT_NEAR(ewald2->energy(), en, 1e-12);
+}
+
+// compare with LAMMPS 2/20/2020
+TEST(Ewald, chain) {
+  System system = chain(0.76064, 144);
+  //System system = chain(0.6994, 16);
+  INFO(MAX_PRECISION << system.configuration().model_params().physical_constants()->charge_conversion());
+  INFO(system.energy());
+  INFO(system.potential(0).stored_energy());  // LJ + inter charge = 0
+  INFO(system.potential(1).stored_energy());  // ChargeScreenedIntra
+  INFO(system.potential(2).stored_energy());  // ChargeSelf
+  INFO(system.potential(3).stored_energy());  // KSpace
+  INFO(system.potential(4).stored_energy());  // LJ intra
+  EXPECT_EQ(5, system.unoptimized().num());
 }
 
 TEST(Ewald, system) {
@@ -58,19 +72,19 @@ TEST(Ewald, system) {
   {
     System system = spce("CODATA2010");
     EXPECT_NEAR(-4062.47263092246, system.energy(), 1e-10);
-    EXPECT_NEAR(-3819.24971214984, system.potential(0).stored_energy(), 1e-10);
-    EXPECT_NEAR(23363.573774608, system.potential(1).stored_energy(), 1e-10);
-    EXPECT_NEAR(-23652.08040365018, system.potential(2).stored_energy(), 1e-12);
-    EXPECT_NEAR(52.1324574151071, system.potential(3).stored_energy(), 1e-12);
+    EXPECT_NEAR(52.1324574151071, system.potential(0).stored_energy(), 1e-12);
+    EXPECT_NEAR(-3819.24971214984, system.potential(1).stored_energy(), 1e-10);
+    EXPECT_NEAR(23363.573774608, system.potential(2).stored_energy(), 1e-10);
+    EXPECT_NEAR(-23652.08040365018, system.potential(3).stored_energy(), 1e-12);
     EXPECT_NEAR(en_lrc, system.potential(4).stored_energy(), 1e-13);
   }
   {
     System system = spce("CODATA2018");
     EXPECT_NEAR(-4062.4726240791533, system.energy(), 1e-10);
-    EXPECT_NEAR(-3819.2497056377961, system.potential(0).stored_energy(), 1e-10);
-    EXPECT_NEAR(23363.573741866534, system.potential(1).stored_energy(), 1e-10);
-    EXPECT_NEAR(-23652.080370504391, system.potential(2).stored_energy(), 1e-12);
-    EXPECT_NEAR(52.13245734204947, system.potential(3).stored_energy(), 1e-12);
+    EXPECT_NEAR(52.13245734204947, system.potential(0).stored_energy(), 1e-12);
+    EXPECT_NEAR(-3819.2497056377961, system.potential(1).stored_energy(), 1e-10);
+    EXPECT_NEAR(23363.573741866534, system.potential(2).stored_energy(), 1e-10);
+    EXPECT_NEAR(-23652.080370504391, system.potential(3).stored_energy(), 1e-12);
     EXPECT_NEAR(en_lrc, system.potential(4).stored_energy(), 1e-13);
   }
 }

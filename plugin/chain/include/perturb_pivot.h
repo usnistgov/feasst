@@ -21,7 +21,6 @@ class PerturbPivot : public PerturbRotate {
     DEBUG("piv " << pivot.str());
     PerturbRotate::move(system, select, random, pivot, false);
     DEBUG(select->mobile().site_positions()[0][0].str());
-    DEBUG(select->mobile().site_positions()[0][1].str());
   }
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

@@ -9,7 +9,7 @@
 
 namespace feasst {
 
-/// Use a map of string pairs to function as a dictionary for arguments.
+/// Use a map of string pairs as a dictionary for arguments.
 typedef std::map<std::string, std::string> argtype;
 typedef std::map<std::string, argtype> arglist;
 

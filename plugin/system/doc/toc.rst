@@ -2,6 +2,7 @@
 .. toctree::
 
    Model
+   BondTwoBody
    SelectList
    ClusterCriteria
    EnergyMap

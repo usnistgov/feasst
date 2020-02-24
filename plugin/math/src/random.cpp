@@ -13,8 +13,8 @@ void Random::parse_seed_(const argtype& args) {
   args_.init(args);
   if (args_.key("seed").used()) {
     const std::string seed_str = args_.str();
-    if (seed_str == "date") {
-      seed_by_date();
+    if (seed_str == "time") {
+      seed_by_time();
     } else if (seed_str == "default") {
       seed();
     } else {
@@ -24,7 +24,7 @@ void Random::parse_seed_(const argtype& args) {
   }
 }
 
-void Random::seed_by_date() {
+void Random::seed_by_time() {
   const int t = time(NULL);
   srand ( t );
   INFO("time(seed): " << t);
@@ -42,7 +42,7 @@ void Random::seed(const int seed) {
 
 double Random::uniform() {
   if (!is_seeded_) {
-    seed_by_date();
+    seed_by_time();
   }
   double ran;
   if (!cache_.is_unloading(&ran)) {

@@ -18,21 +18,21 @@ class LongRangeCorrections : public VisitModel {
  public:
   LongRangeCorrections() {}
 
-  // compute number of sites of each type in selection
-  std::vector<int> types(const Select& selection, const Configuration * config) {
-    std::vector<int> count(config->num_site_types());
-    for (int select_index = 0;
-         select_index < selection.num_particles();
-         ++select_index) {
-      const int part_index = selection.particle_index(select_index);
-      const Particle& part = config->select_particle(part_index);
-      for (int site_index : selection.site_indices(select_index)) {
-        const Site& site = part.site(site_index);
-        ++count[site.type()];
-      }
-    }
-    return count;
-  }
+//  // compute number of sites of each type in selection
+//  std::vector<int> types(const Select& selection, const Configuration * config) {
+//    std::vector<int> count(config->num_site_types());
+//    for (int select_index = 0;
+//         select_index < selection.num_particles();
+//         ++select_index) {
+//      const int part_index = selection.particle_index(select_index);
+//      const Particle& part = config->select_particle(part_index);
+//      for (int site_index : selection.site_indices(select_index)) {
+//        const Site& site = part.site(site_index);
+//        ++count[site.type()];
+//      }
+//    }
+//    return count;
+//  }
 
   void compute(
       const ModelOneBody& model,
@@ -41,8 +41,8 @@ class LongRangeCorrections : public VisitModel {
       Configuration * config,
       const int group_index) override {
     const std::vector<int> num_of_site_type =
-      types(config->group_select(group_index), config);
-    std::vector<int> select_types = types(selection, config);
+      config->num_sites_of_type(group_index);
+    std::vector<int> select_types = config->num_sites_of_type(selection);
     double en = 0.;
     for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
       const double num_type1 = num_of_site_type[type1];
@@ -64,7 +64,7 @@ class LongRangeCorrections : public VisitModel {
       const int group_index = 0) override {
     double en = 0;
     const std::vector<int> num_of_site_type =
-      types(config->group_select(group_index), config);
+      config->num_sites_of_type(group_index);
     for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
       for (int type2 = 0; type2 < config->num_site_types(); ++type2) {
         en += num_of_site_type[type1]*num_of_site_type[type2]*

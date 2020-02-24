@@ -22,10 +22,12 @@ class TrialSelectSegment : public TrialSelectParticle {
     max_length_ = args_.key("max_length").dflt("-1").integer();
   }
 
+  /// Return the maximum length.
   int max_length() const { return max_length_; }
 
   /// Select all sites between two randomly selected sites in a randomly selected particle in group.
-  void random_segment_in_particle(
+  /// Return true if selection is valid
+  bool random_segment_in_particle(
       const Configuration& config,
       SelectPosition * select,
       Random * random,
@@ -35,8 +37,10 @@ class TrialSelectSegment : public TrialSelectParticle {
     ) {
     random_particle(config, select, random);
     const int num_sites = select->num_sites();
+    DEBUG("num_sites " << num_sites);
     if (num_sites <= 1) {
-      return; // HWH note this check prevents error/infinite loop below
+      // HWH note this check prevents error/infinite loop below
+      return false;
     }
 
     // find two unequal sites
@@ -66,15 +70,19 @@ class TrialSelectSegment : public TrialSelectParticle {
     // remove sites not in min/max, from highest to lowest
     select->remove_last_sites(num_sites - max - 1);
     select->remove_first_sites(min);
+    return true;
   }
 
   bool select(const Select& perturbed, System* system, Random * random) override {
-    random_segment_in_particle(
+    const bool is_found = random_segment_in_particle(
       system->configuration(),
       &mobile_,
       random,
       max_length()
     );
+    if (!is_found) {
+      return false;
+    }
     mobile_original_ = mobile_;
     return true;
   }

@@ -88,7 +88,7 @@ Particle FileLMP::read(const std::string file_name) {
   find_or_fail("Sites", file);
 
   // read Sites section
-  int isite, imol, itype;
+  int isite, itype;
   const int dimension = 3;
   std::vector<double> xtmp(dimension);
   std::string cm, typetmp;
@@ -97,7 +97,7 @@ Particle FileLMP::read(const std::string file_name) {
   std::string line;
   for (int i = 0; i < num_sites_; ++i) {
     std::getline(file, line);
-    file >> isite >> imol >> itype;
+    file >> isite >> itype;
     for (int dim = 0; dim < dimension; ++dim) {
       file >> xtmp[dim];
     }
@@ -107,7 +107,7 @@ Particle FileLMP::read(const std::string file_name) {
       particle.set_position(position);
     }
     site.set_position(position);
-    site.set_type(itype - 1);
+    site.set_type(itype);
     particle.add(site);
   }
 
@@ -118,9 +118,9 @@ Particle FileLMP::read(const std::string file_name) {
     for (int bond_index = 0; bond_index < num_bonds_; ++bond_index) {
       file >> ibond >> itype >> a1 >> a2;
       feasst::Bond bond;
-      bond.add_site_index(a1 - 1);
-      bond.add_site_index(a2 - 1);
-      bond.set_type(itype - 1);
+      bond.add_site_index(a1);
+      bond.add_site_index(a2);
+      bond.set_type(itype);
       particle.add_bond(bond);
     }
   }
@@ -132,10 +132,10 @@ Particle FileLMP::read(const std::string file_name) {
     for (int angle_index = 0; angle_index < num_angles_; ++angle_index) {
       file >> iangle >> itype >> a1 >> a2 >> a3;
       feasst::Angle angle;
-      angle.add_site_index(a1 - 1);
-      angle.add_site_index(a2 - 1);
-      angle.add_site_index(a3 - 1);
-      angle.set_type(itype - 1);
+      angle.add_site_index(a1);
+      angle.add_site_index(a2);
+      angle.add_site_index(a3);
+      angle.set_type(itype);
       particle.add_angle(angle);
     }
   }
@@ -147,11 +147,11 @@ Particle FileLMP::read(const std::string file_name) {
 //    for (int dihedral_index = 0; dihedral_index < num_dihedrals_; ++dihedral_index) {
 //      file >> idihedral >> itype >> a1 >> a2 >> a3 >> a4;
 //      feasst::Dihedral dihedral;
-//      dihedral.add_site_index(a1 - 1);
-//      dihedral.add_site_index(a2 - 1);
-//      dihedral.add_site_index(a3 - 1);
-//      dihedral.add_site_index(a4 - 1);
-//      dihedral.set_type(itype - 1);
+//      dihedral.add_site_index(a1);
+//      dihedral.add_site_index(a2);
+//      dihedral.add_site_index(a3);
+//      dihedral.add_site_index(a4);
+//      dihedral.set_type(itype);
 //      particle.add_dihedral(dihedral);
 //    }
 //  }
@@ -163,11 +163,11 @@ Particle FileLMP::read(const std::string file_name) {
 //    for (int improper_index = 0; improper_index < num_impropers_; ++improper_index) {
 //      file >> iimproper >> itype >> a1 >> a2 >> a3 >> a4;
 //      feasst::Improper improper;
-//      improper.add_site_index(a1 - 1);
-//      improper.add_site_index(a2 - 1);
-//      improper.add_site_index(a3 - 1);
-//      improper.add_site_index(a4 - 1);
-//      improper.set_type(itype - 1);
+//      improper.add_site_index(a1);
+//      improper.add_site_index(a2);
+//      improper.add_site_index(a3);
+//      improper.add_site_index(a4);
+//      improper.set_type(itype);
 //      particle.add_improper(improper);
 //    }
 //  }
@@ -209,7 +209,7 @@ void FileLMP::read_properties_(const std::string property_type,
     ASSERT(properties.size() >= 3, "size error");
     ASSERT(properties.size() % 2 == 1, "size error");
     const int num_properties = (properties.size() - 1)/2;
-    const int type = stoi(properties[0]) - 1;
+    const int type = stoi(properties[0]);
     for (int index = 0; index < num_properties; ++index) {
       const std::string name = properties[2*index + 1];
       const double value = stod(properties[2*index + 2]);

@@ -2,7 +2,7 @@
 #ifndef FEASST_CHAIN_ANALYZE_RIGID_BONDS_H_
 #define FEASST_CHAIN_ANALYZE_RIGID_BONDS_H_
 
-#include "configuration/include/bond_visitor.h"
+#include "system/include/bond_visitor.h"
 #include "monte_carlo/include/analyze.h"
 
 namespace feasst {
@@ -26,11 +26,15 @@ class AnalyzeRigidBonds : public AnalyzeUpdateOnly {
 
   void serialize(std::ostream& ostr) const override {
     Stepper::serialize(ostr);
-    feasst_serialize_version(1, ostr);
+    feasst_serialize_version(549, ostr);
+    //FATAL("bond visitors,potentials not implemented");
   }
 
   AnalyzeRigidBonds(std::istream& istr) : AnalyzeUpdateOnly(istr) {
-    feasst_deserialize_version(istr); }
+    const int version = feasst_deserialize_version(istr);
+    ASSERT(version == 549, "version mismatch: " << version);
+    //FATAL("bond visitors,potentials not implemented");
+  }
 
  private:
   // HWH serialize bonds

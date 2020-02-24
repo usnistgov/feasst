@@ -4,14 +4,14 @@
 namespace feasst {
 
 TEST(TrialSelectReptate, serialize) {
-  TrialSelectReptate add;
+  auto add = MakeTrialSelectReptate({{"max_length", "1"}});
 //  std::stringstream ss;
 //  add.serialize(ss);
 //  INFO(ss.str());
 //  TrialSelectReptate add2(ss);
 //  add2.serialize(ss);
 //  INFO(ss.str());
-  TrialSelectReptate add2 = test_serialize(add);
+  TrialSelectReptate add2 = test_serialize(*add);
 }
 
 }  // namespace feasst

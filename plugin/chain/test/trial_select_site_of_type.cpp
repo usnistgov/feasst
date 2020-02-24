@@ -13,13 +13,13 @@ TEST(TrialSelectSiteOfType, serialize) {
   SelectPosition site;
   auto random = MakeRandomMT19937();
   sel->random_site_in_particle(config, &site, random.get());
-  EXPECT_EQ(site.site_index(0, 0), 1);
+  EXPECT_EQ(site.site_index(0, 0), 0);
   auto sel2 = MakeTrialSelectSiteOfType({{"site_type", "2"}});
   sel2->random_site_in_particle(config, &site, random.get());
   EXPECT_EQ(site.site_index(0, 0), 2);
   auto sel3 = MakeTrialSelectSiteOfType({{"site_type", "0"}});
   sel3->random_site_in_particle(config, &site, random.get());
-  EXPECT_TRUE(site.site_index(0, 0) == 0 ||
+  EXPECT_TRUE(site.site_index(0, 0) == 1 ||
               site.site_index(0, 0) == 3 ||
               site.site_index(0, 0) == 4 ||
               site.site_index(0, 0) == 5 ||

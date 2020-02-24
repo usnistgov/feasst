@@ -29,7 +29,8 @@ double PotentialFactory::energy(Configuration * config) {
   double en = 0;
   int index = 0;
   while ((index < static_cast<int>(potentials_.size())) and
-         (en < NEAR_INFINITY)) {
+         (en < NEAR_INFINITY/10.)) {
+    DEBUG("potential index: " << index);
     en += potentials_[index].energy(config);
     ++index;
   }

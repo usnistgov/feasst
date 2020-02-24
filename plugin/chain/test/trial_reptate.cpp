@@ -4,8 +4,8 @@
 namespace feasst {
 
 TEST(TrialReptate, serialize) {
-  TrialReptate add;
-  TrialReptate add2 = test_serialize(add);
+  auto add = MakeTrialReptate({{"max_length", "1"}});
+  TrialReptate add2 = test_serialize(*add);
 }
 
 }  // namespace feasst

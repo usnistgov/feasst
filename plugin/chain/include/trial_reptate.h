@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CHAIN_TRIAL_H_
-#define FEASST_CHAIN_TRIAL_H_
+#ifndef FEASST_CHAIN_TRIAL_REPTATE_H_
+#define FEASST_CHAIN_TRIAL_REPTATE_H_
 
 #include <string>
 #include <memory>
@@ -10,13 +10,19 @@
 
 namespace feasst {
 
+/**
+  Reptate a linear chain by taking one end and adding it to the other end.
+  For heteropolymers, this perturbation changes the composition of all
+  particles with the same type.
+  Thus, individual heteropolymers should be added as unique particle types.
+ */
 class TrialReptate : public TrialMove {
  public:
   TrialReptate(
     /// These arguments are sent to both PerturbReptate and TrialStage.
     const argtype& args = argtype())
     : TrialMove(
-      std::make_shared<TrialSelectReptate>(),
+      std::make_shared<TrialSelectReptate>(args),
       std::make_shared<PerturbReptate>(args),
       args
     ) {
@@ -35,4 +41,4 @@ inline std::shared_ptr<TrialReptate> MakeTrialReptate(
 
 }  // namespace feasst
 
-#endif  // FEASST_CHAIN_TRIAL_H_
+#endif  // FEASST_CHAIN_TRIAL_REPTATE_H_

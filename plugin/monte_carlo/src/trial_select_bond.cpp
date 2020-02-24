@@ -42,7 +42,7 @@ bool TrialSelectBond::select(const Select& perturbed,
     set_probability(1.);
   } else {
     // select random particle of correct type
-    const int group_index = config->particle_type_to_group(particle_type());
+    const int group_index = config->particle_type_to_group_create(particle_type());
     const int num = config->num_particles(group_index);
     if (num <= 0) return false;
     const int index = random->uniform(0, num - 1);

@@ -92,11 +92,19 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   acceptance_.reset();
   criteria->before_attempt(system);
   before_select(&acceptance_, criteria);
+
+  // Perform selections. If one selection fails, do not continue selecting.
   for (TrialStage * stage : stages_ptr_) {
     stage->before_select();
-    stage->select(system, &acceptance_, random);
+    DEBUG("selecting");
+    if (!acceptance_.reject()) {
+      stage->select(system, &acceptance_, random);
+    }
   }
   if (!acceptance_.reject()) {
+    for (TrialStage * stage : stages_ptr_) {
+      stage->set_mobile_physical(false, system);
+    }
     compute_->perturb_and_acceptance(
       criteria, system, &acceptance_, &stages_ptr_, random);
   }

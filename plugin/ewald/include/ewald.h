@@ -37,10 +37,42 @@ namespace feasst {
  */
 class Ewald : public VisitModel {
  public:
-  Ewald() {}
+  /**
+    args:
+    - tolerance: determine the alpha parameter and number of wave vectors by
+      specifying the accuracy relative to the energy of two unit charges
+      separated by a distance of one unit.
+    - alpha: optionally specify the alpha parameter in units of inverse length.
+    - kxmax: optionally specify the maximum wave vectors in the first dimension.
+    - kymax: same as above, but in the second dimension.
+    - kzmax: same as above, but in the third dimension.
+    - kmax_squared: optionally set the squared maximum integer wave vector for
+      cubic domains only, which also sets kxmax, etc.
+   */
+  Ewald(const argtype& args = argtype());
 
-  /// Set all k vectors according to similar size and use symmetry for the x.
-  void set_kmax_squared(const double kmax_squared);
+  /**
+    Recommend an alpha parameter for Ewald as described and implemented in LAMMPS
+    https://lammps.sandia.gov/doc/kspace_style.html
+    https://doi.org/10.1080/08927029208049126
+    https://doi.org/10.1063/1.470043
+   */
+  void tolerance_to_alpha_ks(
+      /// Estimated tolerance for the energy.
+      /// This is relative to the energy exerted by two unit charges
+      /// separated by a distance of one unit.
+      const double tolerance,
+      const Configuration& config,
+      /// Return the alpha
+      double * alpha,
+      /// Return the maximum number of Fourier vectors in the x dimension.
+      int * kxmax,
+      /// as above but in y
+      int * kymax,
+      /// as above but in z
+      int * kzmax,
+      /// Extrapolate to a different number of particles (unless -1).
+      const int num_particles = -1);
 
   /// Precompute the wave vectors within cutoff, coefficients, and also resize
   /// the structure factors.
@@ -61,9 +93,7 @@ class Ewald : public VisitModel {
   /// Add "eik" to list of config's excluded properties during selection updates
   // HWH do the same for VisitModelCell
   // HWH add init_wave_vector_storage here
-  void precompute(Configuration * config) override {
-    config->add_excluded_property("eik");
-  }
+  void precompute(Configuration * config) override;
 
   /// Compute interactions of entire group in configuration from scratch.
   /// This is not optimized for smaller perturbations to the configuration.
@@ -221,6 +251,9 @@ class Ewald : public VisitModel {
   }
 
   int num_vectors() const { return static_cast<int>(wave_prefactor_.size()); }
+  int kxmax() const { return kxmax_; }
+  int kymax() const { return kymax_; }
+  int kzmax() const { return kzmax_; }
 
   void check_size() const {
     ASSERT(wave_prefactor_.size() == wave_num_.size(), "size err");
@@ -235,8 +268,11 @@ class Ewald : public VisitModel {
 
  private:
   const std::string class_name_ = "Ewald";
+  // HWH serialize
+  std::shared_ptr<double> tolerance_, alpha_arg_;
+  std::shared_ptr<int> kxmax_arg_, kymax_arg_, kzmax_arg_, kmax_sq_arg_;
   int kmax_;
-  int kmax_squared_;
+  double kmax_squared_;
   int kxmax_;
   int kymax_;
   int kzmax_;
@@ -269,6 +305,47 @@ class Ewald : public VisitModel {
 
   std::vector<std::string> eik_gen_();
 
+  /// Return the sum of the squared charge.
+  double sum_squared_charge_(const Configuration& config) {
+    double sum_sq_q = 0.;
+    const std::vector<int> num_sites_of_type = config.num_sites_of_type();
+    for (int type = 0;
+         type < static_cast<int>(num_sites_of_type.size());
+         ++type) {
+      const double charge = config.model_params().charge().value(type);
+      sum_sq_q += charge*charge*num_sites_of_type[type];
+    }
+    return sum_sq_q;
+  }
+
+  /// Return the Fourier root mean squared accuracy for a given dimension.
+  double fourier_rms_(
+      const double alpha,
+      const int kmax,
+      const Configuration& config,
+      const int dimen) {
+    ASSERT(config.num_particles() > 0, "error");
+    INFO("alpha: " << alpha);
+    const double side_length = config.domain().side_length(dimen);
+    return 2.*sum_squared_charge_(config)*alpha/side_length *
+      std::sqrt(1./(PI*kmax*config.num_sites())) *
+      exp(-pow(PI*kmax/alpha/side_length, 2));
+  }
+
+  int estimate_kmax_(
+      const double alpha,
+      const Configuration& config,
+      const double tolerance,
+      const int dimen) {
+    int kmax = 0;
+    double err = NEAR_INFINITY;
+    while (err > tolerance) {
+      kmax += 1;
+      err = fourier_rms_(alpha, kmax, config, dimen);
+    }
+    return kmax;
+  }
+
   double fourier_energy_(const std::vector<double>& struct_fact_real,
                          const std::vector<double>& struct_fact_imag) {
     double en = 0;
@@ -297,8 +374,8 @@ class Ewald : public VisitModel {
   }
 };
 
-inline std::shared_ptr<Ewald> MakeEwald() {
-  return std::make_shared<Ewald>();
+inline std::shared_ptr<Ewald> MakeEwald(const argtype& args = argtype()) {
+  return std::make_shared<Ewald>(args);
 }
 
 }  // namespace feasst

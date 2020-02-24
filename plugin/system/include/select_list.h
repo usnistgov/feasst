@@ -20,7 +20,7 @@ class SelectList : public SelectPosition {
   SelectList() {}
 
   SelectList& particle(
-      // HWH document this index.
+      // This is the particle index corresponding to the group selection.
       const int index,
       const Configuration& config,
       // By default, if group_index is 0, consider all particles
@@ -121,10 +121,13 @@ class SelectList : public SelectPosition {
          sp_index < static_cast<int>(particle_indices().size());
          ++sp_index) {
       const int p_index = particle_indices()[sp_index];
+      DEBUG("p_index " << p_index);
     //for (const int p_index : particle_indices()) {
       std::vector<int> sites;
       for (const int s_index : site_indices(sp_index)) {
+        DEBUG("s_index " << s_index);
         if (!config.select_particle(p_index).site(s_index).is_physical()) {
+          DEBUG("unphysical");
           sites.push_back(s_index);
         }
       }

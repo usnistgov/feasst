@@ -36,7 +36,8 @@ int TrialSelect::particle_type() const {
 void TrialSelect::precompute(System * system) {
   DEBUG("is_particle_type_set_ " << is_particle_type_set_);
   if (is_particle_type_set_) {
-    group_index_ = system->get_configuration()->particle_type_to_group(
+    DEBUG("particle_type " << particle_type_);
+    group_index_ = system->get_configuration()->particle_type_to_group_create(
       particle_type_);
     DEBUG("group_index_ " << group_index_);
   }

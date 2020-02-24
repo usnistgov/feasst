@@ -5,7 +5,7 @@ namespace feasst {
 class MapTrialReptate {
  public:
   MapTrialReptate() {
-    auto obj = MakeTrialReptate();
+    auto obj = MakeTrialReptate({{"max_length", "1"}});
     obj->deserialize_map()["TrialReptate"] = obj;
   }
 };

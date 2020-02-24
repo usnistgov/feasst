@@ -6,7 +6,7 @@ namespace feasst {
 
 TrialTranslate::TrialTranslate(const argtype& args)
   : TrialMove(
-    std::make_shared<TrialSelectParticle>(),
+    std::make_shared<TrialSelectParticle>(args),
     std::make_shared<PerturbTranslate>(args),
     args
   ) {

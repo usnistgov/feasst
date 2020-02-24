@@ -12,7 +12,7 @@ TEST(MeanSquaredDisplacement, msd) {
     {"steps_per_update", "10"},
     {"steps_per_write", "100"},
     {"updates_per_origin", "10"},
-    {"file_name", "msd.txt"},
+    {"file_name", "tmp/msd.txt"},
   }));
   mc.attempt(1e3);
   MonteCarlo mc2 = test_serialize(mc);

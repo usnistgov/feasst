@@ -56,7 +56,7 @@ double EnergyMapNeigh::update(
     const int site2_index,
     const double squared_distance,
     const Position * pbc) {
-
+  FATAL("not implemented");
 }
 
 //void EnergyMapNeigh::remove_particles(const Select& select) {

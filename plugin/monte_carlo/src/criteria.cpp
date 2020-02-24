@@ -27,6 +27,10 @@ Criteria::Criteria(const argtype &args) {
       key << start << type;
     }
   }
+
+  if (args_.key("pH").used()) {
+    set_pH(args_.dble());
+  }
 }
 
 void Criteria::set_beta(const double beta) {
@@ -37,6 +41,16 @@ void Criteria::set_beta(const double beta) {
 double Criteria::beta() const {
   ASSERT(beta_initialized_, "beta must be initialized before use");
   return beta_;
+}
+
+void Criteria::set_pH(const double pH) {
+  pH_ = pH;
+  pH_initialized_ = true;
+}
+
+double Criteria::pH() const {
+  ASSERT(pH_initialized_, "pH must be initialized before use");
+  return pH_;
 }
 
 double Criteria::chemical_potential(const int particle_type) const {
@@ -125,6 +139,8 @@ void Criteria::serialize_criteria_(std::ostream& ostr) const {
   feasst_serialize_version(1, ostr);
   feasst_serialize(beta_, ostr);
   feasst_serialize(beta_initialized_, ostr);
+  feasst_serialize(pH_, ostr);
+  feasst_serialize(pH_initialized_, ostr);
   feasst_serialize(chemical_potentials_, ostr);
   feasst_serialize(current_energy_, ostr);
   feasst_serialize(previous_energy_, ostr);
@@ -136,6 +152,8 @@ Criteria::Criteria(std::istream& istr) {
   feasst_deserialize_version(istr);
   feasst_deserialize(&beta_, istr);
   feasst_deserialize(&beta_initialized_, istr);
+  feasst_deserialize(&pH_, istr);
+  feasst_deserialize(&pH_initialized_, istr);
   feasst_deserialize(&chemical_potentials_, istr);
   feasst_deserialize(&current_energy_, istr);
   feasst_deserialize(&previous_energy_, istr);

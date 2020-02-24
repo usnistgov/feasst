@@ -6,12 +6,13 @@
 
 namespace feasst {
 
-const argtype TrialSelectReptateArg_ = {{"max_length", "1"}};
-
 /// Select a random end point for reptation.
 class TrialSelectReptate : public TrialSelectEndSegment {
  public:
-  TrialSelectReptate() : TrialSelectEndSegment(TrialSelectReptateArg_) {
+  TrialSelectReptate(const argtype& args = argtype())
+    : TrialSelectEndSegment(args) {
+    ASSERT(max_length() == 1,
+      "requires max_length(" << max_length() << ") of 1");
     class_name_ = "TrialSelectReptate";
   }
 
@@ -61,8 +62,9 @@ class TrialSelectReptate : public TrialSelectEndSegment {
   SelectList bonded_to_;
 };
 
-inline std::shared_ptr<TrialSelectReptate> MakeTrialSelectReptate() {
-  return std::make_shared<TrialSelectReptate>();
+inline std::shared_ptr<TrialSelectReptate> MakeTrialSelectReptate(
+    const argtype& args = argtype()) {
+  return std::make_shared<TrialSelectReptate>(args);
 }
 
 }  // namespace feasst

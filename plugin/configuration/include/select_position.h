@@ -17,6 +17,8 @@ class SelectPosition : public Select {
 
   SelectPosition(const Select& select, const ParticleFactory& particles);
 
+  SelectPosition(const int particle_index, const Particle& particle);
+
   /// Return the site positions.
   const std::vector<std::vector<Position> >& site_positions() const {
     return site_positions_; }
@@ -62,6 +64,9 @@ class SelectPosition : public Select {
   void set_particle_position(const int particle_index,
                              const Position& position);
 
+  /// Load the positions of a particle with existing selection indices.
+  void load_position(const int pindex, const Particle& particle);
+
   /// Load the positions from the existing selection indices.
   void load_positions(const ParticleFactory& particles);
 
@@ -81,6 +86,11 @@ class SelectPosition : public Select {
   void remove_first_site() override;
 
   void add_site(const int particle_index, const int site_index) override;
+
+  /// Return the geometric center of the selection.
+  Position geometric_center(
+    /// Consider only one particle, or all particles (-1).
+    const int particle_index = -1) const;
 
 //  /// Similar to Select::exchange_indices, but also positions and properties.
 //  bool exchange_indices_positions(const SelectPosition& select) {

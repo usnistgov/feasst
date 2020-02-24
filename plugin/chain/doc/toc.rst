@@ -4,7 +4,7 @@
    TrialGrowLinear
    AnalyzeRigidBonds
    TrialSelectSiteOfType
-   ComputeSynthesis
+   RecenterParticles
    PerturbCrankshaft
    TrialSelectSegment
    TrialSelectEndSegment
@@ -13,8 +13,12 @@
    PerturbPivot
    TrialSelectPerturbed
    TrialPivot
+   ComputeProtonation
+   ComputeDeprotonation
    PerturbReptate
    TrialReptate
    PerturbSiteType
+   TrialProtonation
+   TrialDeprotonation
+   utils_chain
    TrialSwapSites
-   TrialSynthesis

@@ -23,6 +23,8 @@ void PerturbRemove::perturb(
     TrialSelect * select,
     Random * random,
     const bool is_position_held) {
+  DEBUG("setting finalize possible: " << select->mobile().str());
+  ASSERT(select->mobile().num_particles() > 0, "error");
   set_finalize_possible(true, select);
 
   if (is_position_held) {
@@ -43,6 +45,7 @@ void PerturbRemove::finalize(System * system) {
 }
 
 void PerturbRemove::revert(System * system) {
+  DEBUG("anywhere_.revert_possible() " << anywhere_.revert_possible());
   if (anywhere_.revert_possible()) {
     anywhere_.revert(system);
   }

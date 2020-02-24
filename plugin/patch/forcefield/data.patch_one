@@ -8,19 +8,19 @@
 
 Site Properties
 
-1 sigma 1.0 epsilon 1.0 cutoff 1.5
-2 sigma 1.0 epsilon 1.0 cutoff 1.5 director 1 patch_angle 5
+0 sigma 1.0 epsilon 1.0 cutoff 1.5
+1 sigma 1.0 epsilon 1.0 cutoff 1.5 director 1 patch_angle 5
 
 Bond Properties
 
-1 length 1.0 delta 0.000001
+0 length 1.0 delta 0.000001
 
 Sites
 
-1 1 1 0.0 0.0 0.0
-2 1 2 1.0 0.0 0.0
+0 0 0.0 0.0 0.0
+1 1 1.0 0.0 0.0
 
 Bonds
 
-1 1 1 2
+0 0 0 1
 

@@ -40,8 +40,7 @@ void Select::add_particle(const Particle& particle,
   for (int index = 0; index < particle.num_sites(); ++index) {
     sites.push_back(index);
   }
-  particle_indices_.push_back(particle_index);
-  site_indices_.push_back(sites);
+  add_particle(particle_index, sites);
 }
 
 std::string Select::str() const {
@@ -64,6 +63,9 @@ int Select::num_sites(const int particle_index) const {
   if (particle_index == -1) {
     return num_elements(site_indices_);
   }
+  ASSERT(particle_index < static_cast<int>(site_indices_.size()),
+    "particle_index:" << particle_index << " is too large for selection "
+    << " with " << site_indices_.size() << " particles");
   return static_cast<int>(site_indices_[particle_index].size());
 }
 

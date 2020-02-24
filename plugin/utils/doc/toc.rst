@@ -12,5 +12,5 @@
    serialize
    utils_io
    math/include/utils_math
-   ewald/include/utils_ewald
+   chain/include/utils_chain
    cluster/include/utils_cluster

@@ -30,12 +30,13 @@ class TrialSwapSites : public Trial {
     const int site_type2 = args_.key("site_type2").integer();
     ASSERT(site_type1 != site_type2, "site types should not match: " <<
       site_type1 << " " << site_type2);
+    const std::string part_type = args_.key("particle_type").str();
     add_stage(
-      MakeTrialSelectSiteOfType({{"site_type", str(site_type1)}}),
+      MakeTrialSelectSiteOfType({{"site_type", str(site_type1)}, {"particle_type", part_type}}),
       MakePerturbSiteType({{"type", str(site_type2)}})
     );
     add_stage(
-      MakeTrialSelectSiteOfType({{"site_type", str(site_type2)}}),
+      MakeTrialSelectSiteOfType({{"site_type", str(site_type2)}, {"particle_type", part_type}}),
       MakePerturbSiteType({{"type", str(site_type1)}})
     );
   }

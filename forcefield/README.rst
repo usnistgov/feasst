@@ -19,7 +19,8 @@ Nomenclature and style
 
 * atoms in LAMMPS are analogous to sites in FEASST.
 * molecules in LAMMPS are analogous to particles in FEASST.
-* FEASST site and particle indices begin with 0, but we retain the "start with one" definition for the data file format.
+* FEASST data files may only contain one particle.
+* all FEASST indices (types, sites, etc) begin with 0, not 1.
 * characters are case sensitive
 * the number of spaces between characters does not matter
 * LMP Coeffs sections were replaced by Properties sections, with different formatting
@@ -42,7 +43,7 @@ In addition, wrapping is also not included.
 
 The format for this section is as follows:
 
-[site index] [particle index] [site type] [x-position] [y-position] [z-position]
+[site index] [site type] [x-position] [y-position] [z-position]
 
 Site Labels
 =============
