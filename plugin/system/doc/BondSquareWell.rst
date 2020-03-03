@@ -1,6 +1,6 @@
-SelectPosition
+BondSquareWell
 =====================================================
 
-.. doxygenclass:: feasst::SelectPosition
+.. doxygenclass:: feasst::BondSquareWell
    :project: FEASST
    :members:

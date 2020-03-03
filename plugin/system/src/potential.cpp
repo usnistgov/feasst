@@ -92,7 +92,7 @@ void Potential::precompute(Configuration * config) {
   const ModelParams& params = model_params(config);
   model_->precompute(params);
   const double max_cutoff = maximum(params.cutoff().values());
-  const double half_min_side = 0.5*config->domain().min_side_length();
+  const double half_min_side = 0.5*config->domain()->min_side_length();
   if (max_cutoff - NEAR_ZERO > half_min_side) {
     WARN("The maximum cutoff:" << max_cutoff << " is greater than half the " <<
          "minimum side length: " << half_min_side);

@@ -88,6 +88,9 @@ class System {
   /// Return the list of reference potentials.
   const std::vector<PotentialFactory> references() const { return references_; }
 
+  /// Return a constant pointer to the full potentials.
+  const PotentialFactory * const_potentials() const;
+
   //@}
   /** @name Energy
     Compute energies using a combination of configurations and potentials.
@@ -110,9 +113,6 @@ class System {
   /// Return the energy of the selection.
   /// But do not finalize this energy (e.g., Ewald, neighbors, etc).
   double perturbed_energy(const Select& select, const int config = 0);
-
-  /// Return a constant pointer to the full potentials.
-  const PotentialFactory * const_potentials() const;
 
   /// Return the last computed energy.
   double stored_energy() const {

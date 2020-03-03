@@ -42,6 +42,9 @@ class Position {
   Position& set_from_cartesian(const std::vector<double> &vec) {
     return set_vector(vec); }
 
+  /// Add another coordinate dimension.
+  void push_back(const double coord) { coord_.push_back(coord); }
+
   /**
     Set vector given Spherical coordinates (2 or 3-dimensional).
     Spherical coordinates are defined as follows:

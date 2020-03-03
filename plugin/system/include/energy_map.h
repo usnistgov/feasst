@@ -73,7 +73,7 @@ class EnergyMap {
   virtual void select_cluster(const ClusterCriteria * cluster_criteria,
                               const Configuration& config,
                               const int particle_node,
-                              SelectPosition * cluster,
+                              Select * cluster,
                               const Position& frame_of_reference) const {
     FATAL("not implemented"); }
 

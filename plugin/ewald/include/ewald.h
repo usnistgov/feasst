@@ -12,7 +12,7 @@ namespace feasst {
 
 // HWH Update: use a finalize-heavy instead of revert-heavy strategy
 // This means that new eik are calculated and stored separate from system wide properties,
-// and system-wide only udpated upon finalize
+// and system-wide only updated upon finalize
 /**
   This implementation appears to work correctly.
   However, it is not optimized and will be subject to change in future versions.
@@ -156,21 +156,23 @@ class Ewald : public VisitModel {
       "otherwise implement filtering of selection based on group.");
     double enrg = 0.;
     DEBUG("selection.trial_state() " << selection.trial_state());
-    ASSERT(selection.trial_state() == 0 ||
-           selection.trial_state() == 1 ||
-           selection.trial_state() == 2 ||
-           selection.trial_state() == 3,
-      "unrecognized trial_state: " << selection.trial_state());
+    const int state = selection.trial_state();
+    DEBUG("state " << state);
+    ASSERT(state == 0 ||
+           state == 1 ||
+           state == 2 ||
+           state == 3,
+      "unrecognized trial_state: " << state);
 
     // initialize new structure factor, unless its a new move position
-    if (selection.trial_state() != 1) {
+    if (state != 1) {
       struct_fact_real_new_ = struct_fact_real_;
       DEBUG("size " << struct_fact_real_new_.size() << " " << struct_fact_real_.size());
       struct_fact_imag_new_ = struct_fact_imag_;
     }
 
     // if "old" half of move, store eik for reverting
-    if (selection.trial_state() == 0) {
+    if (state == 0) {
       // check and resize
       if (static_cast<int>(old_eiks_.size()) != selection.num_particles()) {
         old_eiks_.resize(selection.num_particles());
@@ -187,43 +189,52 @@ class Ewald : public VisitModel {
           (*eik) = config->select_particle(part_index).site(site_index).properties();
         }
       }
+      ASSERT(!revertable_, "Ewald compute called multiple times for "
+       << "reversion. This may mean that a trial with multiple stages "
+       << " should use reference potentials without Ewald.");
       revertable_ = true;
       old_config_ = config;
+      old_select_ = const_cast<Select*>(&selection);
       DEBUG("setting revertable");
-    } else if (selection.trial_state() != 1) {
+    } else if (state != 1) {
       revertable_ = false;
     }
 
     update_struct_fact_eik(selection, config, &struct_fact_real_new_,
                                               &struct_fact_imag_new_);
     // compute new energy
-    if (selection.trial_state() != 0) {
+    if (state != 0) {
       const double conversion = model_params.constants()->charge_conversion();
       stored_energy_new_ = conversion*fourier_energy_(struct_fact_real_new_,
                                                       struct_fact_imag_new_);
     }
-    if (selection.trial_state() == 0) {
+    if (state == 0) {
       enrg = stored_energy_;
-    } else if (selection.trial_state() == 1) {
+    } else if (state == 1) {
       enrg = stored_energy_new_;
-    } else if (selection.trial_state() == 2) {
+    } else if (state == 2) {
+      // contribution = energy with - energy without
+      // for remove, energy old - energy new
       enrg = stored_energy_ - stored_energy_new_;
-    } else if (selection.trial_state() == 3) {
+    } else if (state == 3) {
+      // contribution = energy with - energy without
+      // for add, energy new - energy old
       enrg = stored_energy_new_ - stored_energy_;
     }
     DEBUG("enrg: " << enrg);
     DEBUG("stored_energy_ " << stored_energy_ << " "
-          "stored_energy_new_ " << stored_energy_new_);
+         "stored_energy_new_ " << stored_energy_new_);
     set_energy(enrg);
   }
 
   void revert(const Select& select) override {
+    DEBUG("revertable? " << revertable_);
     if (revertable_) {
-      DEBUG("reverting");
-      for (int ipart = 0; ipart < select.num_particles(); ++ipart) {
-        const int part_index = select.particle_index(ipart);
-        for (int isite = 0; isite < select.num_sites(ipart); ++isite) {
-          const int site_index = select.site_index(ipart, isite);
+      DEBUG("reverting sel " << old_select_->str());
+      for (int ipart = 0; ipart < old_select_->num_particles(); ++ipart) {
+        const int part_index = old_select_->particle_index(ipart);
+        for (int isite = 0; isite < old_select_->num_sites(ipart); ++isite) {
+          const int site_index = old_select_->site_index(ipart, isite);
           const Site& site = old_config_->select_particle(part_index).site(site_index);
           const int eikrx0_index = find_eikrx0_(site);
           const std::vector<double>& vals = old_eiks_[ipart][isite].values();
@@ -232,6 +243,7 @@ class Ewald : public VisitModel {
           }
         }
       }
+      revertable_ = false;
     }
 //    ERROR("shouldn't be here");
 //    struct_fact_real_ = struct_fact_real_old_;
@@ -243,7 +255,7 @@ class Ewald : public VisitModel {
   // HWH refactor Ewald for finalization (e.g., do not enter eiks until finalize?)
   void finalize(const Select& select) override {
     DEBUG("finalizing");
-    ASSERT(struct_fact_real_new_.size() > 0, "hi");
+    ASSERT(struct_fact_real_new_.size() > 0, "error");
     stored_energy_ = stored_energy_new_;
     struct_fact_real_ = struct_fact_real_new_;
     struct_fact_imag_ = struct_fact_imag_new_;
@@ -267,7 +279,6 @@ class Ewald : public VisitModel {
   void serialize(std::ostream& ostr) const override;
 
  private:
-  const std::string class_name_ = "Ewald";
   // HWH serialize
   std::shared_ptr<double> tolerance_, alpha_arg_;
   std::shared_ptr<int> kxmax_arg_, kymax_arg_, kzmax_arg_, kmax_sq_arg_;
@@ -296,6 +307,7 @@ class Ewald : public VisitModel {
   std::vector<std::vector<Properties> > old_eiks_;
   bool revertable_ = false;
   Configuration * old_config_;
+  const Select * old_select_;
 
 //  void store_energy_struct_fact_() {
 //    stored_energy_old_ = stored_energy_;
@@ -325,8 +337,8 @@ class Ewald : public VisitModel {
       const Configuration& config,
       const int dimen) {
     ASSERT(config.num_particles() > 0, "error");
-    INFO("alpha: " << alpha);
-    const double side_length = config.domain().side_length(dimen);
+    DEBUG("alpha: " << alpha);
+    const double side_length = config.domain()->side_length(dimen);
     return 2.*sum_squared_charge_(config)*alpha/side_length *
       std::sqrt(1./(PI*kmax*config.num_sites())) *
       exp(-pow(PI*kmax/alpha/side_length, 2));
@@ -356,8 +368,11 @@ class Ewald : public VisitModel {
     return en;
   }
 
-  double sign_(const Select& select) {
-    if (select.trial_state() == 0 || select.trial_state() == 2) {
+  double sign_(const Select& select, const int pindex) {
+    int state = select.trial_state();
+    DEBUG("state " << state);
+    // ASSERT(state != -1, "error, state: " << state);
+    if (state == 0 || state == 2) {
       return -1.0;
     }
     return 1.0;

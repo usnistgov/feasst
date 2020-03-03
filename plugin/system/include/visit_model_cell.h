@@ -13,7 +13,8 @@ namespace feasst {
  */
 class VisitModelCell : public VisitModel {
  public:
-  VisitModelCell() : VisitModel() {}
+  VisitModelCell() : VisitModel() {
+    class_name_ = "VisitModelCell"; }
   void compute(
       const ModelTwoBody& model,
       const ModelParams& model_params,
@@ -29,8 +30,6 @@ class VisitModelCell : public VisitModel {
   void serialize(std::ostream& ostr) const override;
   VisitModelCell(std::istream& istr);
   ~VisitModelCell() {}
- private:
-  const std::string class_name_ = "VisitModelCell";
 };
 
 inline std::shared_ptr<VisitModelCell> MakeVisitModelCell() {

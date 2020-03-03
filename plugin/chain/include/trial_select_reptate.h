@@ -17,6 +17,7 @@ class TrialSelectReptate : public TrialSelectEndSegment {
   }
 
   void precompute(System * system) override {
+    TrialSelectEndSegment::precompute(system);
     anchor_.clear();
     anchor_.add_site(0, 0);
     bonded_to_.clear();
@@ -58,7 +59,6 @@ class TrialSelectReptate : public TrialSelectEndSegment {
   void serialize_trial_select_reptate_(std::ostream& ostr) const;
 
  private:
-  // temporary
   SelectList bonded_to_;
 };
 

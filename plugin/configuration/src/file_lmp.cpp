@@ -220,26 +220,17 @@ void FileLMP::read_properties_(const std::string property_type,
         particle->set_site(type, site);
       } else if (property_type == "bond") {
         DEBUG("adding bond coeff of type " << type << " name " << name << " value " << value);
-        Bond bond = particle->bond(type);
-        bond.add_property(name, value);
-        particle->set_bond(type, bond);
+        particle->add_bond_property(type, name, value);
       } else if (property_type == "angle") {
         DEBUG("adding angle coeff of type " << type << " name " << name << " value " << value);
-        Angle angle = particle->angle(type);
-        angle.add_property(name, value);
-        particle->set_angle(type, angle);
+        particle->add_angle_property(type, name, value);
 //      } else if (property_type == "dihedral") {
 //        DEBUG("adding dihedral coeff of type " << type << " name " << name << " value " << value);
-//        Dihedral dihedral = particle->dihedral(type);
-//        dihedral.add_property(name, value);
-//        particle->set_dihedral(type, dihedral);
+//        particle->add_dihedral_property(type, name, value);
 //      } else if (property_type == "improper") {
 //        DEBUG("adding improper coeff of type " << type << " name " << name << " value " << value);
-//        Improper improper = particle->improper(type);
-//        improper.add_property(name, value);
-//        particle->set_improper(type, improper);
+//        particle->add_improper_property(type, name, value);
       } else {
-        // HWH add dihedral and impropers here
         ERROR("unrecognized property_type: " << property_type);
       }
     }

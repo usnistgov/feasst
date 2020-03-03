@@ -21,8 +21,8 @@ TEST(MonteCarlo, cluster) {
     MonteCarlo monte_carlo;
     // monte_carlo.set(MakeRandomMT19937({{"seed", "default"}}));
     monte_carlo.set(MakeRandomMT19937({{"seed", "1580855528"}}));
-    monte_carlo.add(Configuration({{"cubic_box_length", "8"},
-                                   {"particle_type", "../forcefield/data.lj"}}));
+    monte_carlo.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
+                                  {{"particle_type", "../forcefield/data.lj"}}));
     monte_carlo.add(Potential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
     monte_carlo.add(MakeMetropolis({{"beta", "40"}, {"chemical_potential", "1."}}));
@@ -73,7 +73,7 @@ TEST(MonteCarlo, cluster) {
 
 TEST(MonteCarlo, GCMCmap) {
   MonteCarlo mc;
-  mc_lj(&mc);
+  mc_lj(&mc, 8., "../forcefield/data.lj", 1e4, true, false);
   mc.set(0, Potential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));

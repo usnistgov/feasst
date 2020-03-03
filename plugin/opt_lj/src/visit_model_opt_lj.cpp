@@ -12,11 +12,11 @@ void VisitModelOptLJ::compute(
   DEBUG("visiting model");
   zero_energy();
   double energy = 0.;
-  const Domain& domain = config->domain();
+  const Domain * domain = config->domain();
   double xi, yi, zi, dx, dy, dz;
-  const double lx = domain.side_length(0),
-               ly = domain.side_length(1),
-               lz = domain.side_length(2);
+  const double lx = domain->side_length(0),
+               ly = domain->side_length(1),
+               lz = domain->side_length(2);
   const Select& select_all = config->group_selects()[group_index];
 //  LennardJones lj_; // model appears to be faster on stack
   // HWH implement multi-particle selection by sorting group selection

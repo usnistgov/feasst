@@ -47,7 +47,7 @@ TEST(MonteCarlo, NVT_SRSW) {
   mc_lj(&mc);
   const int nMol = 500;
   const double rho = 1e-3, length = pow(static_cast<double>(nMol)/rho, 1./3.);
-  mc.get_system()->get_configuration()->set_side_length(
+  mc.get_system()->get_configuration()->set_side_lengths(
     Position().set_vector({length, length, length}));
   mc.seek_num_particles(nMol);
   Accumulator pe;

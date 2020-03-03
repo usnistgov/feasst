@@ -25,7 +25,7 @@ void FileXYZ::load(const std::string file_name, Configuration * config) const {
   Position position;
   position.set_vector(coord);
   TRACE("coord " << feasst::feasst_str(coord) << " pos " << position.str());
-  config->set_side_length(position);
+  config->set_side_lengths(position);
   // ASSERT(config->num_sites() == num_sites, "site mismatch");
   if (config->num_sites() == 0) {
     ASSERT(config->num_particle_types() > 0, "try adding particle type " <<

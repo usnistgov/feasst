@@ -6,6 +6,7 @@
 #include <vector>
 #include <numeric>
 #include <algorithm>
+#include "utils/include/debug.h"
 
 namespace feasst {
 
@@ -85,14 +86,13 @@ bool is_equal(const std::vector<T>& vec1,
               const std::vector<T>& vec2,
               const double tolerance = 1e-15) {
   if (vec1.size() != vec2.size()) {
-    // DEBUG("size of vec1:" << vec1.size() << " != size of vec2:" <<
-    //       vec2.size());
+    TRACE("size of vec1:" << vec1.size() << " != size of vec2:" << vec2.size());
     return false;
   }
   for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {
     if (std::abs(vec1[index] - vec2[index]) > tolerance) {
-      // DEBUG(MAX_PRECISION << "vec1[" << i << "]:" << vec1[index] << " != " <<
-      //       "vec2[" << i << "]:" << vec2[index]);
+      TRACE(MAX_PRECISION << "vec1[" << index << "]:" << vec1[index] << " != "
+        << "vec2[" << index << "]:" << vec2[index]);
       return false;
     }
   }

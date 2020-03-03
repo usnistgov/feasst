@@ -84,8 +84,9 @@ void PropertiedEntity::set_properties(const Properties& properties,
   }
 }
 
-bool Properties::is_equal(const Properties& properties) const {
-  return feasst::is_equal(values_, properties.values_);
+bool Properties::is_equal(const Properties& properties,
+    const double tolerance) const {
+  return feasst::is_equal(values_, properties.values_, tolerance);
 }
 
 void Properties::serialize(std::ostream& ostr) const {

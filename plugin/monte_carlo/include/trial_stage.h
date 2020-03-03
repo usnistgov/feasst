@@ -72,6 +72,7 @@ class TrialStage {
   /// Set sites involves in stage as physical.
   void attempt(
     System * system,
+    Acceptance * acceptance,
     Criteria * criteria,
     /// Set to 1 for "old" system and "0" for new.
     const int old,

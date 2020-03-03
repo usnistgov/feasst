@@ -1,6 +1,6 @@
-ComputeProtonation
+VisitModelBond
 =====================================================
 
-.. doxygenclass:: feasst::ComputeProtonation
+.. doxygenclass:: feasst::VisitModelBond
    :project: FEASST
    :members:

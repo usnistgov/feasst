@@ -31,7 +31,7 @@ void MeanSquaredDisplacement::update(Criteria * criteria,
 
   // check for new origins
   if (updates_since_origin_ >= updates_per_origin_) {
-    const SelectGroup& new_origin = system->configuration().group_select(group_index_);
+    const Select& new_origin = system->configuration().group_select(group_index_);
     DEBUG("num particles: " << new_origin.num_particles());
     DEBUG("num sites: " << new_origin.num_sites());
     if (origins_.size() != 0) {
@@ -41,8 +41,8 @@ void MeanSquaredDisplacement::update(Criteria * criteria,
         new_origin.num_particles() <<
         " This implementation assumes constant number of particles");
     }
-    SelectPosition new_origin_coord =
-      SelectPosition(new_origin, system->configuration().particles());
+    Select new_origin_coord =
+      Select(new_origin, system->configuration().particles());
     origins_.push_back(new_origin_coord);
     updates_since_origin_ = 0;
   }
@@ -99,11 +99,11 @@ MeanSquaredDisplacement::MeanSquaredDisplacement(std::istream& istr)
 
 void MeanSquaredDisplacement::update_msd_(const int updates,
     const Configuration& config,
-    const SelectPosition& old_parts) {
+    const Select& old_parts) {
   if (updates >= static_cast<int>(msd_.size())) {
     msd_.resize(updates + 1);
   }
-  const SelectGroup& select = config.group_select(group_index_);
+  const Select& select = config.group_select(group_index_);
   DEBUG("num: " << config.num_particles());
   for (int select_index = 0;
        select_index < select.num_particles();

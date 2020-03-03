@@ -43,6 +43,8 @@ class LongRangeCorrections : public VisitModel {
     const std::vector<int> num_of_site_type =
       config->num_sites_of_type(group_index);
     std::vector<int> select_types = config->num_sites_of_type(selection);
+    DEBUG("sel: " << selection.str());
+    DEBUG("num sites of type in selection: " << feasst_str(select_types));
     double en = 0.;
     for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
       const double num_type1 = num_of_site_type[type1];
@@ -65,6 +67,7 @@ class LongRangeCorrections : public VisitModel {
     double en = 0;
     const std::vector<int> num_of_site_type =
       config->num_sites_of_type(group_index);
+    DEBUG("num sites of type in group: " << feasst_str(num_of_site_type));
     for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
       for (int type2 = 0; type2 < config->num_site_types(); ++type2) {
         en += num_of_site_type[type1]*num_of_site_type[type2]*
@@ -102,7 +105,7 @@ class LongRangeCorrections : public VisitModel {
     const double cutoff = model_params.mixed_cutoff()[type1][type2];
     const double prefactor = epsilon*(8./3.)*PI*pow(sigma, 3)*
       ((1./3.)*pow(sigma/cutoff, 9) - pow(sigma/cutoff, 3));
-    return prefactor/config->domain().volume();
+    return prefactor/config->domain()->volume();
   }
 };
 

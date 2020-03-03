@@ -9,8 +9,7 @@ namespace feasst {
 TEST(EnergyMap, energy_map) {
   Configuration config = lj_sample();
   LennardJones model;
-  VisitModel visit;
-  visit.set_inner(MakeVisitModelInner(MakeEnergyMapAll()));
+  VisitModel visit(MakeVisitModelInner(MakeEnergyMapAll()));
   visit.precompute(&config);
   model.compute(&config, &visit);
   // HWH: perhaps figure out how to remove this finalize

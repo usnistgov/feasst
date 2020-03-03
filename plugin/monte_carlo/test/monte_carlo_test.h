@@ -46,28 +46,31 @@ inline void mc_lj(MonteCarlo * mc,
     const double box_length = 8,
     const std::string data = "../forcefield/data.lj",
     const int num_periodic = 1e4,
-    const bool translate = true) {
+    const bool translate = true,
+    const bool lrc = true) {
 //  const double cutoff = 2.;
 
   { System system;
-    system.add(Configuration({
-      {"cubic_box_length", str(box_length)},
-      {"particle_type0", data},
+    system.add(Configuration(
+      MakeDomain({{"cubic_box_length", str(box_length)}}),
+      {{"particle_type0", data},
       //{"init_cells", "1."}
     }));
-
-    { Potential potential(MakeLennardJones());
-      potential.set_model_params(system.configuration());
-//      potential.set_model_param("cutoff", 0, cutoff);
-//      EXPECT_NEAR(potential.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
-      system.add_to_unoptimized(potential); }
-
-    { Potential lrc(MakeLongRangeCorrections());
-      lrc.set_model_params(system.configuration());
-//      lrc.set_model_param("cutoff", 0, cutoff);
-//      EXPECT_NEAR(lrc.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
-      //system.add_to_unoptimized(lrc);
+    system.add(Potential(MakeLennardJones()));
+//    { Potential potential(MakeLennardJones());
+//      potential.set_model_params(system.configuration());
+////      potential.set_model_param("cutoff", 0, cutoff);
+////      EXPECT_NEAR(potential.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
+//      system.add_to_unoptimized(potential); }
+    if (lrc) {
+      system.add(Potential(MakeLongRangeCorrections()));
     }
+//    { Potential lrc(MakeLongRangeCorrections());
+//      lrc.set_model_params(system.configuration());
+////      lrc.set_model_param("cutoff", 0, cutoff);
+////      EXPECT_NEAR(lrc.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
+//      //system.add_to_unoptimized(lrc);
+//    }
 
     mc->set(system);
   }

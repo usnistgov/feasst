@@ -29,7 +29,7 @@ bool TrialStage::select(System * system,
   if (is_selected) {
     acceptance->add_to_perturbed(select_->mobile());
 //    set_mobile_physical(false, system);
-//    DEBUG("select: " << select_->mobile().str());
+    DEBUG("select: " << select_->mobile().str());
   } else {
     acceptance->set_reject(true);
   }
@@ -42,7 +42,10 @@ void TrialStage::set_mobile_physical(const bool physical, System * system) {
     physical);
 }
 
-void TrialStage::attempt(System * system, Criteria * criteria, const int old,
+void TrialStage::attempt(System * system,
+    Acceptance * acceptance,
+    Criteria * criteria,
+    const int old,
     Random * random) {
   ASSERT(perturb_, "perturb not set");
   set_mobile_physical(true, system);
@@ -52,6 +55,7 @@ void TrialStage::attempt(System * system, Criteria * criteria, const int old,
     bool is_position_held = false;
     if (step == 0 && old == 1) is_position_held = true;
     perturb_->perturb(system, select_.get(), random, is_position_held);
+    DEBUG("updating state " << select_->mobile().trial_state());
     rosenbluth_.store(step, select_->mobile(), system);
     if (reference_ == -1) {
       DEBUG("select " << select_->mobile().str());

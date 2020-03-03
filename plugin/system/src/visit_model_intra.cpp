@@ -5,6 +5,7 @@
 namespace feasst {
 
 VisitModelIntra::VisitModelIntra(const argtype& args) {
+  class_name_ = "VisitModelIntra";
   Arguments args_(args);
   set_cutoff(args_.key("cutoff").dflt("-1").integer());
 }
@@ -18,7 +19,7 @@ void VisitModelIntra::compute(
   TRACE("intra particle energy_of_selection");
   ASSERT(group_index == 0, "need to implement site1 loop filtering particles by group");
   zero_energy();
-  const Domain& domain = config->domain();
+  const Domain * domain = config->domain();
   init_relative_(domain, &relative_, &pbc_);
   prep_for_revert(selection);
   for (int sp1index = 0;
@@ -35,7 +36,9 @@ void VisitModelIntra::compute(
     // here we use excluded to account for chain regrowth, etc.
     // exclude the particles which haven't been grown yet.
     // or exclude particles which will form new bonds (reptate).
-    Select sites1 = selection;
+    Select sites1;
+    sites1.add_sites(selection.particle_index(sp1index),
+                     selection.site_indices(sp1index));
     if (selection.excluded()) {
       sites1.remove(*(selection.excluded()));
       TRACE("excluded " << selection.excluded()->str());
@@ -64,38 +67,23 @@ void VisitModelIntra::compute(
 
         // if sites in particle selection > 1, attempt the following check.
         // if site2 is in selection, then require site1 < site2
-        if (!find_in_list(site2_index, site1_indices) or
+        if (!find_in_list(site2_index, site1_indices) ||
             site1_index < site2_index) {
-          // here we determine if the pair of sites is forced to be included
           bool include = false;
           if (selection.old_bond()) {
-            const int incl1_site = site1_indices[0];
-            const int incl2_site = selection.old_bond()->site_indices()[sp1index][0];
-            if ( (site1_index == incl1_site and
-                  site2_index == incl2_site) or
-                 (site1_index == incl2_site and
-                  site2_index == incl1_site) ) {
+            if (site2_index == selection.old_bond()->site_indices()[sp1index][0]) {
               include = true;
-              TRACE("include " << include << " incl " << incl1_site << " " << incl2_site);
             }
           }
-
-          // here we determine if the pair of sites is forced to be excluded
           bool exclude = false;
           if (selection.new_bond()) {
-            const int excl1_site = site1_indices[0];
-            const int excl2_site = selection.new_bond()->site_indices()[sp1index][0];
-            if ( (site1_index == excl1_site and
-                  site2_index == excl2_site) or
-                 (site1_index == excl2_site and
-                  site2_index == excl1_site) ) {
+            if (site2_index == selection.new_bond()->site_indices()[sp1index][0]) {
               exclude = true;
-              TRACE("exclude " << exclude << " excl " << excl1_site << " " << excl2_site);
             }
           }
 
           // forced exclude takes precedent over forced include
-          if ( (include or std::abs(site1_index - site2_index) > cutoff_) and (!exclude) ) {
+          if ( (include || std::abs(site1_index - site2_index) > cutoff_) && (!exclude) ) {
             TRACE("sites: " << site1_index << " " << site2_index);
             get_inner_()->compute(part1_index, site1_index, part1_index, site2_index,
                                   config, model_params, model, false, &relative_, &pbc_);
@@ -106,6 +94,25 @@ void VisitModelIntra::compute(
   }
   set_energy(inner()->energy());
 }
+
+//          const bool exclude = check_bond(site1_index, site2_index,
+//                                          selection.new_bond(), sp1index, site1_indices[0]);
+//  // here we determine if the pair of sites is forced to be included
+//bool VisitModelIntra::check_bond(const int site1_index, const int site2_index,
+//  const Select* bond, const int spindex, const int s1in) {
+//  if (bond) {
+//    const int incl1_site = s1in;
+//    const int incl2_site = bond->site_indices()[spindex][0];
+//    if ( (site1_index == incl1_site and
+//          site2_index == incl2_site) or
+//         (site1_index == incl2_site and
+//          site2_index == incl1_site) ) {
+//      TRACE("check " << incl1_site << " " << incl2_site);
+//      return true;
+//    }
+//  }
+//  return false;
+//}
 
 class MapVisitModelIntra {
  public:

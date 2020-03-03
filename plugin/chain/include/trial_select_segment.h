@@ -29,7 +29,7 @@ class TrialSelectSegment : public TrialSelectParticle {
   /// Return true if selection is valid
   bool random_segment_in_particle(
       const Configuration& config,
-      SelectPosition * select,
+      Select * select,
       Random * random,
       /// Set the maximum length of the segment.
       /// If -1 (default), consider all possible lengths.

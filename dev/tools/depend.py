@@ -13,6 +13,9 @@ args = parser.parse_args()
 import sys
 import pyfeasst
 
+verbose=False
+#verbose=True
+
 external_libs=['xdrfile.h', 'xdrfile_xtc.h']
 # read plugins.txt written by CMakeLists.txt
 with open("plugins.txt", "r") as plugin_file:
@@ -49,13 +52,15 @@ def dependency(path):
           if is_header(relFile):
             headers.append(relFile)
             depends.append([relFile, included(relFile)])
-            #print('***************************')
-            #print(relFile, included(relFile))
+            if verbose:
+              print('***************************')
+              print(relFile, included(relFile))
   # check if the includes are clean
   for dep in depends:
     for dep1 in dep[1]:
       if dep1 not in (headers + external_libs):
-        raise Exception(dep1, 'is included by', dep[0], 'but has wrong directory structure')
+        hi=0
+        #raise Exception(dep1, 'is included by', dep[0], 'but has wrong directory structure')
   return depends
 
 # bubble sort by moving headers up if they include a file not below them.
@@ -67,8 +72,9 @@ def bubble_sort(depends):
     assert(iteration < 1e4) # something is wrong with the headers
     prev = list()
     bubbling = False
-    #print('************************')
-    #print(depends)
+    if verbose:
+      print('************************')
+      print(depends)
     for index, dep in enumerate(depends):
       prev.append(dep[0])
       buble = 0
@@ -78,7 +84,8 @@ def bubble_sort(depends):
       for idep in dep[1]:
         if idep not in prev:
           buble = 1
-          #print('idep',idep)
+          if verbose:
+            print('idep',idep)
       if buble == 1 and not last:
         depends[index], depends[index+1] = depends[index+1], depends[index]
         prev[-1] = depends[index][0]
@@ -136,7 +143,7 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
 %template(IntVector) std::vector<int>;\n\
 %template(IntIntVector) std::vector<std::vector<int> >;\n\
 %template(DoubleVector) std::vector<double>;\n\
-%template(AnalyzeVector) std::vector<std::shared_ptr<Analyze> >;\n\
+%template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;\n\
 using namespace std;\n\
 %pythonnondynamic;\n\
 %include \"std_map.i\"\n\
@@ -159,23 +166,24 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
   doc = ''
   for mod in next(os.walk('.'))[1]:
     if [d for d in include_plugin if d in mod]:
-      print('mod', mod, 'cd', args.source_dir+'/plugin/')
+      if verbose:
+        print('mod', mod, 'cd', args.source_dir+'/plugin/')
       with open(mod+'/doc/toc.rst', 'w') as toc:
         toc.write('\n.. toctree::\n\n')
         for dep in deps:
           header = dep[0]
           cls = read_class(header)
-          print('cls', cls, 'header', header)
-          if re.search(mod, header):
+          if verbose:
+            print('cls', cls, 'header', header)
+          if re.search(mod+'/include/', header):
             if cls:
-              if 'utils' in doc:
-                print("hi", doc)
               doc = mod + '/doc/' + cls[0] + '.rst'
               toc.write('   ' + cls[0] + '\n')
             else:
               funcfile = re.sub(mod+r'/include/', '', re.sub(r'.h$', '', header))
-              print('functfile', funcfile, 'mod', mod)
-              print('funcfile', funcfile)
+              if verbose:
+                print('functfile', funcfile, 'mod', mod)
+                print('funcfile', funcfile)
               toc.write('   ' + funcfile + '\n')
               if 'include' in funcfile:
                 doc = re.sub(r'include', r'doc', funcfile)
@@ -185,9 +193,11 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
                 #funcfile[:len(mod)] == mod:
                 doc = mod + '/doc/' + funcfile + '.rst'
                 funcfile = mod + '/include/' + funcfile
-              print('doc', doc)
+              if verbose:
+                print('doc', doc)
             with open(doc, 'w') as fle:
-              print('doc', doc)
+              if verbose:
+                print('doc', doc)
               if cls:
                 fle.write(cls[0]+'\n')
               else:

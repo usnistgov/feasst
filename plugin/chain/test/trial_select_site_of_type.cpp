@@ -5,18 +5,18 @@
 namespace feasst {
 
 TEST(TrialSelectSiteOfType, serialize) {
-  Configuration config({
-    {"particle_type", "../plugin/chain/forcefield/data.chain10titratable"},
-    {"cubic_box_length", "20"}});
+  Configuration config(MakeDomain({{"cubic_box_length", "20"}}),
+    {{"particle_type", "../forcefield/data.chain10titratable"}});
   config.add_particle_of_type(0);
   auto sel = MakeTrialSelectSiteOfType({{"site_type", "1"}});
-  SelectPosition site;
+  Select site;
   auto random = MakeRandomMT19937();
   sel->random_site_in_particle(config, &site, random.get());
   EXPECT_EQ(site.site_index(0, 0), 0);
   auto sel2 = MakeTrialSelectSiteOfType({{"site_type", "2"}});
   sel2->random_site_in_particle(config, &site, random.get());
-  EXPECT_EQ(site.site_index(0, 0), 2);
+  EXPECT_TRUE(site.site_index(0, 0) == 2 ||
+              site.site_index(0, 0) == 9);
   auto sel3 = MakeTrialSelectSiteOfType({{"site_type", "0"}});
   sel3->random_site_in_particle(config, &site, random.get());
   EXPECT_TRUE(site.site_index(0, 0) == 1 ||
@@ -25,8 +25,8 @@ TEST(TrialSelectSiteOfType, serialize) {
               site.site_index(0, 0) == 5 ||
               site.site_index(0, 0) == 6 ||
               site.site_index(0, 0) == 7 ||
-              site.site_index(0, 0) == 8 ||
-              site.site_index(0, 0) == 9);
+              site.site_index(0, 0) == 8);// ||
+//              site.site_index(0, 0) == 9);
   TrialSelectSiteOfType sel4 = test_serialize(*sel);
   auto sel5 = MakeTrialSelectSiteOfType({{"site_type", "3"}});
   try {

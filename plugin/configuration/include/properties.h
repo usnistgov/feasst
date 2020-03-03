@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <string>
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -57,7 +58,8 @@ class Properties {
   int num() const { return static_cast<int>(values_.size()); }
 
   /// Return true if the properties are equivalent.
-  bool is_equal(const Properties& properties) const;
+  bool is_equal(const Properties& properties,
+                const double tolerance = NEAR_ZERO) const;
 
   void serialize(std::ostream& ostr) const;
   Properties(std::istream& istr);

@@ -9,12 +9,12 @@ TEST(Group, remove_sites) {
   EXPECT_EQ(3, particle.num_sites());
 
   Particle oxygen(particle);
-  Group().add_site_type(0).remove_sites(&oxygen);
+  MakeGroup({{"add_site_type", "0"}})->remove_sites(&oxygen);
   EXPECT_EQ(1, oxygen.num_sites());
 
   feasst::Particle hydrogen(particle);
 //  std::vector<int> full_to_partial, partial_to_full;
-  feasst::Group().add_site_type(1).remove_sites(&hydrogen);
+  MakeGroup({{"add_site_type", "1"}})->remove_sites(&hydrogen);
 //                                                &full_to_partial,
 //                                                &partial_to_full);
   EXPECT_EQ(2, hydrogen.num_sites());
@@ -28,19 +28,18 @@ TEST(Group, remove_sites) {
 }
 
 TEST(Group, serialize) {
-  Group grp;
-  grp.add_site_type(1);
-  grp.add_particle_type(0);
+  auto grp = MakeGroup({{"add_site_type", "1"},
+                          {"add_particle_type", "0"}});
   std::stringstream ss;
-  grp.serialize(ss);
+  grp->serialize(ss);
   Group grp2(ss);
   std::stringstream ss2;
   grp2.serialize(ss2);
   EXPECT_EQ(ss.str(), ss2.str());
   Particle particle = FileLMP().read("../forcefield/data.spce");
-  EXPECT_EQ(grp.site_indices(particle), grp2.site_indices(particle));
+  EXPECT_EQ(grp->site_indices(particle), grp2.site_indices(particle));
   std::vector<int> indices = {1, 2};
-  EXPECT_EQ(grp.site_indices(particle), indices);
+  EXPECT_EQ(grp->site_indices(particle), indices);
 }
 
 }  // namespace feasst

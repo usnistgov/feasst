@@ -17,6 +17,14 @@ Energy::Energy(const argtype &args) : Analyze(args) {
   energy_.set_block(args_.key("num_blocks").dflt(str(1e5)).integer());
 }
 
+void Energy::update(const Criteria * criteria,
+    const System& system,
+    const TrialFactory& trial_factory) {
+  DEBUG("en: " << criteria->current_energy());
+  DEBUG("state: " << state());
+  energy_.accumulate(criteria->current_energy());
+}
+
 std::string Energy::write(const Criteria * criteria,
     const System& system,
     const TrialFactory& trial_factory) {

@@ -3,6 +3,7 @@
 #define FEASST_CONFIGURATION_GROUP_H_
 
 #include <vector>
+#include "utils/include/arguments.h"
 #include "configuration/include/particle.h"
 
 namespace feasst {
@@ -15,30 +16,23 @@ namespace feasst {
  */
 class Group : public PropertiedEntity {
  public:
-  Group();
-
-  /// Dynamic groups indicate that they should be updated (default behavior).
-  void set_dynamic() { dynamic_ = true; }
-
-  /// Return true if dynamic.
-  bool dynamic() const { return dynamic_; }
-
-  /// Add site type as included. Return self for chain setting.
-  /// If no site types are defined, then all site types are in the group.
-  Group& add_site_type(const int type) {
-    site_types_.push_back(type);
-    return *this;
-  }
+  /**
+    args:
+    - add_site_type: add a site type. If none, all sites included.
+    - add_particle_type: add a particle type. If none, all particles included.
+    - dynamic: set true if groups should be updated (default: true).
+    - spatial: set true if group is based on location (default: false).
+   */
+  explicit Group(const argtype& args = argtype());
 
   /// Return the list of site types in the group.
   const std::vector<int> site_types() const { return site_types_; }
 
-  /// Add particle type as included. Return self for chain setting.
-  /// If no particle types are defined, then all particle types are included.
-  Group& add_particle_type(const int type) {
-    particle_types_.push_back(type);
-    return *this;
-  }
+  /// Return true if dynamic.
+  bool is_dynamic() const { return dynamic_; }
+
+  /// Return if the group definition is based on location.
+  bool is_spatial() const { return spatial_; }
 
   /// Return true if group has no group definitions.
   bool is_empty() const;
@@ -55,9 +49,6 @@ class Group : public PropertiedEntity {
   /// Return the list of site indices in Particle which are in the group.
   std::vector<int> site_indices(const Particle& particle) const;
 
-  /// Return if the group definition is based on location.
-  bool is_spatial() const { return spatial_; }
-
   void serialize(std::ostream& ostr) const;
   Group(std::istream& istr);
 
@@ -66,8 +57,12 @@ class Group : public PropertiedEntity {
   std::vector<int> site_types_;
   std::vector<int> particle_types_;
   bool dynamic_;
-  bool spatial_ = false;
+  bool spatial_;
 };
+
+inline std::shared_ptr<Group> MakeGroup(const argtype &args = argtype()) {
+  return std::make_shared<Group>(args);
+}
 
 }  // namespace feasst
 

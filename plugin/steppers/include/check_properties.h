@@ -11,6 +11,10 @@ namespace feasst {
  */
 class CheckProperties : public ModifyUpdateOnly {
  public:
+  /**
+    args:
+    - tolerance: acceptable deviation (default: 1e-15).
+   */
   explicit CheckProperties(const argtype &args = argtype());
 
   void update(Criteria * criteria,
@@ -24,6 +28,9 @@ class CheckProperties : public ModifyUpdateOnly {
   std::shared_ptr<Modify> create(std::istream& istr) const override {
     return std::make_shared<CheckProperties>(istr); }
   explicit CheckProperties(std::istream& istr);
+
+ private:
+  double tolerance_;
 };
 
 inline std::shared_ptr<CheckProperties> MakeCheckProperties(const argtype &args = argtype()) {

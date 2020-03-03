@@ -46,7 +46,7 @@ bool TrialSelectBond::select(const Select& perturbed,
     const int num = config->num_particles(group_index);
     if (num <= 0) return false;
     const int index = random->uniform(0, num - 1);
-    const SelectGroup& select = config->group_select(group_index);
+    const Select& select = config->group_select(group_index);
     particle_index = select.particle_index(index);
     set_probability(1./static_cast<double>(num));
   }

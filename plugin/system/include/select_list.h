@@ -13,9 +13,9 @@ namespace feasst {
     Note that the requested selection may not be possible.
     In this case the selection remains empty.
  */
-// HWH: contain SelectPosition instead of inheriting from it to hide selection interface
+// HWH: contain Select instead of inheriting from it to hide selection interface
 // HWH: consider depreciating/moving SelectList
-class SelectList : public SelectPosition {
+class SelectList : public Select {
  public:
   SelectList() {}
 
@@ -27,10 +27,10 @@ class SelectList : public SelectPosition {
       const int group_index = 0) {
     // HWH optimize this
     clear();
-    const SelectGroup& select = config.group_selects()[group_index];
+    const Select& select = config.group_selects()[group_index];
     ASSERT(index < select.num_particles(), "error");
     add_particle(select.particle_index(index), select.site_indices(index));
-    resize();
+    resize_positions();
     load_positions(config.particles());
     return *this;
   }
@@ -41,7 +41,7 @@ class SelectList : public SelectPosition {
       const Configuration& config) {
     bool fast = replace_indices(replacement.particle_index(sp_index),
                                 replacement.site_indices(sp_index));
-    if (!fast) resize();
+    if (!fast) resize_positions();
     load_positions(config.particles());
   }
 
@@ -51,27 +51,8 @@ class SelectList : public SelectPosition {
     // HWH optimize for add delete trial
     clear();
     add_particle(config->newest_particle(), config->newest_particle_index());
-    resize();
+    resize_positions();
     load_positions(config->particles());
-  }
-
-  /// Select sites.
-  void select_sites(const Configuration& config,
-                    const int particle_index,
-                    const std::vector<int> site_indices) {
-    clear();
-    // filter the particle index.
-    const int index = config.selection_of_all().particle_index(particle_index);
-    add_sites(index, site_indices);
-    resize();
-    load_positions(config.particles());
-  }
-
-  /// Select a site.
-  void select_site(const Configuration& config,
-                   const int particle_index,
-                   const int site_index) {
-    select_sites(config, particle_index, {site_index});
   }
 
   /// Note: this method is relatively unoptimized compared with other options.
@@ -110,7 +91,7 @@ class SelectList : public SelectPosition {
   void store(const Select& select, const Configuration& config) {
     clear();
     Select::add(select);
-    resize();
+    resize_positions();
     load_positions(config.particles());
   }
 
@@ -137,14 +118,14 @@ class SelectList : public SelectPosition {
     }
     if (unphysical.num_particles() > 0) {
       remove(unphysical);
-      resize();
+      resize_positions();
       load_positions(config.particles());
     }
   }
 
   void serialize(std::ostream& ostr) const override {
-    SelectPosition::serialize(ostr); }
-  SelectList(std::istream& istr) : SelectPosition(istr) {}
+    Select::serialize(ostr); }
+  SelectList(std::istream& istr) : Select(istr) {}
   virtual ~SelectList() {}
 };
 

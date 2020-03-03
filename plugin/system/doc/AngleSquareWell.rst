@@ -1,5 +1,6 @@
-chain/include/utils_chain
+AngleSquareWell
 =====================================================
 
-.. doxygenfile:: chain/include/utils_chain.h
+.. doxygenclass:: feasst::AngleSquareWell
    :project: FEASST
+   :members:

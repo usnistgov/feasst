@@ -12,7 +12,9 @@ class MapCheckProperties {
 static MapCheckProperties mapper_check_properties_ = MapCheckProperties();
 
 CheckProperties::CheckProperties(const argtype &args)
-  : ModifyUpdateOnly(args) {}
+  : ModifyUpdateOnly(args) {
+  tolerance_ = args_.key("tolerance").dflt(str(1e-15)).dble();
+}
 
 void CheckProperties::update(Criteria * criteria,
     System * system,
@@ -23,7 +25,8 @@ void CheckProperties::update(Criteria * criteria,
   // update properties
   system->unoptimized_energy();
 
-  // see if any eik were not updated properly
+  // see if any properties do not match the copy
+  bool failure = false;
   const Select& selection = config.selection_of_all();
   for (int select_index = 0;
        select_index < selection.num_particles();
@@ -32,24 +35,28 @@ void CheckProperties::update(Criteria * criteria,
     for (int site_index : selection.site_indices(select_index)) {
       const Site& site1 = config.select_particle(part_index).site(site_index);
       const Site& site2 = system->configuration().select_particle(part_index).site(site_index);
-      if (!site1.properties().is_equal(site2.properties())) {
+      if (!site1.properties().is_equal(site2.properties(), tolerance_)) {
         INFO(site1.properties().str());
         INFO(site2.properties().str());
-        ERROR("The site properties (old/new) are not equal for " <<
-              "part_index:" << part_index << " and site_index:" << site_index);
+        INFO("The site properties (old/new) are not equal for " <<
+             "part_index:" << part_index << " and site_index:" << site_index);
+        failure = true;
       }
     }
+    ASSERT(!failure, "check failed");
   }
 }
 
 void CheckProperties::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
   feasst_serialize_version(281, ostr);
+  feasst_serialize(tolerance_, ostr);
 }
 
 CheckProperties::CheckProperties(std::istream& istr) : ModifyUpdateOnly(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 281, "version: " << version);
+  feasst_deserialize(&tolerance_, istr);
 }
 
 }  // namespace feasst

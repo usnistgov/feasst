@@ -26,12 +26,12 @@ class TrialSelectParticle : public TrialSelect {
   /// Add random particle in group index to select.
   /// Return the number of particles to choose from.
   int random_particle(const Configuration& config,
-      SelectPosition * select,
+      Select * select,
       Random * random);
 
   /// Select a ghost particle.
   void ghost_particle(Configuration * config,
-    SelectPosition * select);
+    Select * select);
 
   bool select(const Select& perturbed,
               System* system,

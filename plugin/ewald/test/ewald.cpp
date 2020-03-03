@@ -13,7 +13,7 @@ namespace feasst {
 TEST(Ewald, ewald) {
   Configuration config = spce_sample();
   auto ewald = MakeEwald({
-    {"alpha", str(5.6/config.domain().min_side_length())},
+    {"alpha", str(5.6/config.domain()->min_side_length())},
     {"kmax_squared", "27"}
   });
   ewald->precompute(&config);
@@ -57,13 +57,13 @@ TEST(Ewald, ewald) {
 TEST(Ewald, chain) {
   System system = chain(0.76064, 144);
   //System system = chain(0.6994, 16);
-  INFO(MAX_PRECISION << system.configuration().model_params().physical_constants()->charge_conversion());
-  INFO(system.energy());
-  INFO(system.potential(0).stored_energy());  // LJ + inter charge = 0
-  INFO(system.potential(1).stored_energy());  // ChargeScreenedIntra
-  INFO(system.potential(2).stored_energy());  // ChargeSelf
-  INFO(system.potential(3).stored_energy());  // KSpace
-  INFO(system.potential(4).stored_energy());  // LJ intra
+  DEBUG(MAX_PRECISION << system.configuration().model_params().physical_constants()->charge_conversion());
+  DEBUG(system.energy());
+  DEBUG(system.potential(0).stored_energy());  // LJ + inter charge = 0
+  DEBUG(system.potential(1).stored_energy());  // ChargeScreenedIntra
+  DEBUG(system.potential(2).stored_energy());  // ChargeSelf
+  DEBUG(system.potential(3).stored_energy());  // KSpace
+  DEBUG(system.potential(4).stored_energy());  // LJ intra
   EXPECT_EQ(5, system.unoptimized().num());
 }
 

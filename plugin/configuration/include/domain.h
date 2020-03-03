@@ -44,23 +44,40 @@ namespace feasst {
 */
 class Domain {
  public:
-  Domain();
+  /**
+    args:
+    - side_length[i]: set the side length of the i-th dimension.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+    - cubic_box_length: side length of cubic perioidic boundary conditions.
+    - xy: set the tilt along the x-y direction (default: 0).
+    - xz: set the tilt along the x-z direction (default: 0).
+    - yz: set the tilt along the y-z direction (default: 0).
+    - init_cells[i]: build cell list with given minimum length between cells.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+      If only one cell, the "[i]" is optional.
+    - cell_group[i]: only compute cells for those in given group index
+      for cell of corresponding "i" (default: 0).
+   */
+  Domain(const argtype& args = argtype());
 
   /// Get the side lengths.
-  Position side_length() const { return side_length_; }
+  Position side_lengths() const { return side_lengths_; }
 
   /// Get the side length.
   double side_length(const int dimension) const {
-    return side_length_.coord(dimension);
+    return side_lengths_.coord(dimension);
   }
 
   /// Set the side lengths.
-  void set_side_length(const Position& side_length);
+  void set_side_lengths(const Position& side_lengths);
 
   /// Set the side length.
   void set_side_length(const int dimension, const double length) {
-    side_length_.set_coord(dimension, length);
+    side_lengths_.set_coord(dimension, length);
   }
+
+  /// Add a side length (and dimensionality) to the domain.
+  void add_side_length(const double length) { side_lengths_.push_back(length); }
 
   /// Set the cubic box length.
   /// Return self for chain setting.
@@ -69,16 +86,13 @@ class Domain {
   /// Return true if all side lengths are equal.
   bool is_cubic() const;
 
-  /// Set the xy tilt factor. By default it is zero.
-  Domain& set_xy(const double xy = 0);
+  /// Return the xy tilt factor. By default it is zero.
   double xy() const { return xy_; }
 
-  /// Set the xz tilt factor.
-  Domain& set_xz(const double xz = 0);
+  /// Return the xz tilt factor.
   double xz() const { return xz_; }
 
-  /// Set the yz tilt factor.
-  Domain& set_yz(const double yz = 0);
+  /// Return the yz tilt factor.
   double yz() const { return yz_; }
 
   /// Disable periodicity in a particular dimension.
@@ -86,7 +100,7 @@ class Domain {
   bool periodic(const int dimension) const { return periodic_[dimension]; }
 
   /// Return the dimensionality.
-  int dimension() const { return side_length_.size(); }
+  int dimension() const { return side_lengths_.size(); }
 
   /// Return the volume.
   double volume() const;
@@ -107,10 +121,10 @@ class Domain {
   void random_position(Position * position, Random * random) const;
 
   /// Return the minimum side length
-  double min_side_length() const { return minimum(side_length_.coord()); }
+  double min_side_length() const;
 
   /// Return the maximum side length
-  double max_side_length() const { return maximum(side_length_.coord()); }
+  double max_side_length() const;
 
   /// HWH implement check
 
@@ -178,7 +192,7 @@ class Domain {
     }
     const int dimen = pos1.dimension();
     *r2 = 0;
-    const std::vector<double>& side = side_length_.coord();
+    const std::vector<double>& side = side_lengths_.coord();
     std::vector<double>* dxv = (*rel).get_coord();
     std::vector<double>* dbc = (*pbc).get_coord();
     for (int dim = 0; dim < dimen; ++dim) {
@@ -198,7 +212,7 @@ class Domain {
       Position * pbc,
       double * r2) const {
     *r2 = 0;
-    const std::vector<double>& side = side_length_.coord();
+    const std::vector<double>& side = side_lengths_.coord();
     std::vector<double>* dxv = (*rel).get_coord();
     std::vector<double>* dbc = (*pbc).get_coord();
     if (pos1.dimension() >= 3) {
@@ -241,14 +255,22 @@ class Domain {
   virtual ~Domain() {}
 
  protected:
-  Position side_length_;
+  Position side_lengths_;
   double xy_, xz_, yz_;
   bool is_tilted_ = false;
   std::vector<bool> periodic_;
 
   /// Cell lists
   std::vector<Cells> cells_;
+
+  void set_xy_(const double yz);
+  void set_xz_(const double yz);
+  void set_yz_(const double yz);
 };
+
+inline std::shared_ptr<Domain> MakeDomain(const argtype &args = argtype()) {
+  return std::make_shared<Domain>(args);
+}
 
 }  // namespace feasst
 

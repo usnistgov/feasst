@@ -16,7 +16,7 @@ void TrialCompute::compute_rosenbluth(
   double energy_change = 0.;
   bool reference_used = false;
   for (TrialStage* stage : *stages) {
-    stage->attempt(system, criteria, old, random);
+    stage->attempt(system, acceptance, criteria, old, random);
     if (stage->rosenbluth().chosen_step() == -1) {
       if (!stage->is_mayer()) {
         acceptance->set_reject(true);
@@ -50,6 +50,17 @@ void TrialCompute::compute_rosenbluth(
   DEBUG("reference used? " << reference_used);
   if (reference_used) {
     ASSERT(acceptance->perturbed().num_sites() > 0, "error");
+    acceptance->set_perturbed_state((*stages)[0]->trial_select()->mobile().trial_state());
+    DEBUG(acceptance->perturbed().str());
+//    { // delete me
+//      for (int p = 0; p < acceptance->perturbed().num_particles(); ++p) {
+//        const int pindex = acceptance->perturbed().particle_index(p);
+//        for (int s : acceptance->perturbed().site_indices(p)) {
+//          DEBUG("ps " << p << " " << s << " ph " << system->configuration().select_particle(pindex).site(s).is_physical());
+//        }
+//      }
+//    }
+    DEBUG("state " << acceptance->perturbed().trial_state());
     const double en_full = system->perturbed_energy(acceptance->perturbed());
     DEBUG("en_full: " << en_full);
     DEBUG("energy ref: " << energy_change);

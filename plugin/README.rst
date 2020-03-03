@@ -1,5 +1,5 @@
 ***************************
-Plugin
+Plugins
 ***************************
 
 A plugin is a distinct piece of the FEASST simulation program.
@@ -8,7 +8,6 @@ See the example plugin as a template for creating your own.
 Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMakeLists.txt of the root directory of FEASST.
 
 .. toctree::
-   :glob:
 
    utils/README
    math/README
@@ -22,4 +21,18 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
    patch/README
    mayer/README
    xtc/README
-   */README
+   chain/README
+   confinement/README
+   ewald/README
+   opt_lj/README
+
+Plugins in development
+************************
+
+.. toctree::
+
+   cluster/README
+   egce/README
+   growth_expanded/README
+   prefetch/README
+   ph/README

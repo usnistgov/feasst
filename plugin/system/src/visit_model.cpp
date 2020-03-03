@@ -56,7 +56,7 @@ void VisitModel::compute(
     const int group_index) {
   TRACE("VisitModel for TwoBody entire config");
   zero_energy();
-  const Domain& domain = config->domain();
+  const Domain * domain = config->domain();
   init_relative_(domain, &relative_, &pbc_);
   const Select& selection = config->group_selects()[group_index];
   for (int select1_index = 0;
@@ -87,7 +87,7 @@ void VisitModel::compute(
     const int group_index) {
   DEBUG("visiting model");
   zero_energy();
-  const Domain& domain = config->domain();
+  const Domain * domain = config->domain();
   init_relative_(domain, &relative_, &pbc_);
   const Select& select_all = config->group_selects()[group_index];
   prep_for_revert(selection);
@@ -129,6 +129,7 @@ void VisitModel::compute(
   // select_all.
   // Calculate energy in two separate loops.
   } else {
+    TRACE("more than one particle in selection");
     Select select_others = select_all;
     select_others.remove(selection);
     for (int select1_index = 0;
@@ -142,16 +143,18 @@ void VisitModel::compute(
            select2_index < select_others.num_particles();
            ++select2_index) {
         const int part2_index = select_others.particle_index(select2_index);
-        for (int site1_index : selection.site_indices(select1_index)) {
-          TRACE("site1_index " << site1_index);
-          for (int site2_index : select_others.site_indices(select2_index)) {
-            TRACE("index: " << part1_index << " " << part2_index << " " <<
-                  site1_index << " " << site2_index);
-            get_inner_()->compute(part1_index, site1_index,
-                                  part2_index, site2_index,
-                                  config, model_params, model,
-                                  is_old_config,
-                                  &relative_, &pbc_);
+        if (part1_index != part2_index) {
+          for (int site1_index : selection.site_indices(select1_index)) {
+            TRACE("site1_index " << site1_index);
+            for (int site2_index : select_others.site_indices(select2_index)) {
+              TRACE("index: " << part1_index << " " << part2_index << " " <<
+                    site1_index << " " << site2_index);
+              get_inner_()->compute(part1_index, site1_index,
+                                    part2_index, site2_index,
+                                    config, model_params, model,
+                                    is_old_config,
+                                    &relative_, &pbc_);
+            }
           }
         }
       }
@@ -167,17 +170,19 @@ void VisitModel::compute(
            select2_index < selection.num_particles();
            ++select2_index) {
         const int part2_index = selection.particle_index(select2_index);
-        TRACE("sel2 " << select2_index << " part2_index " << part2_index);
-        for (int site1_index : selection.site_indices(select1_index)) {
-          TRACE("site1_index " << site1_index);
-          for (int site2_index : selection.site_indices(select2_index)) {
-            TRACE("index: " << part1_index << " " << part2_index << " " <<
-                  site1_index << " " << site2_index);
-            get_inner_()->compute(part1_index, site1_index,
-                                  part2_index, site2_index,
-                                  config, model_params, model,
-                                  is_old_config,
-                                  &relative_, &pbc_);
+        if (part1_index != part2_index) {
+          TRACE("sel2 " << select2_index << " part2_index " << part2_index);
+          for (int site1_index : selection.site_indices(select1_index)) {
+            TRACE("site1_index " << site1_index);
+            for (int site2_index : selection.site_indices(select2_index)) {
+              TRACE("index: " << part1_index << " " << part2_index << " " <<
+                    site1_index << " " << site2_index);
+              get_inner_()->compute(part1_index, site1_index,
+                                    part2_index, site2_index,
+                                    config, model_params, model,
+                                    is_old_config,
+                                    &relative_, &pbc_);
+            }
           }
         }
       }
@@ -228,6 +233,13 @@ std::map<std::string, std::shared_ptr<VisitModel> >& VisitModel::deserialize_map
   return *ans;
 }
 
+std::shared_ptr<VisitModel> VisitModel::deserialize(std::istream& istr) {
+  return template_deserialize(deserialize_map(), istr,
+    // true argument denotes rewinding to reread class name
+    // this allows derived class constructor to read class name.
+    true);
+}
+
 void VisitModel::serialize_visit_model_(std::ostream& ostr) const {
   feasst_serialize_version(545, ostr);
   feasst_serialize(energy_, ostr);
@@ -236,6 +248,7 @@ void VisitModel::serialize_visit_model_(std::ostream& ostr) const {
 
 //void VisitModel::deserialize_visit_model_(std::istream& istr, std::shared_ptr<VisitModel> visitor) const {
 VisitModel::VisitModel(std::istream& istr) {
+  istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
   ASSERT(545 == version, "mismatch: " << version);
   feasst_deserialize(&energy_, istr);

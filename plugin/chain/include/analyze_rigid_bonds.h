@@ -3,6 +3,8 @@
 #define FEASST_CHAIN_ANALYZE_RIGID_BONDS_H_
 
 #include "system/include/bond_visitor.h"
+#include "system/include/bond_square_well.h"
+#include "system/include/angle_square_well.h"
 #include "monte_carlo/include/analyze.h"
 
 namespace feasst {
@@ -27,17 +29,20 @@ class AnalyzeRigidBonds : public AnalyzeUpdateOnly {
   void serialize(std::ostream& ostr) const override {
     Stepper::serialize(ostr);
     feasst_serialize_version(549, ostr);
-    //FATAL("bond visitors,potentials not implemented");
+    feasst_serialize_fstobj(visitor_, ostr);
+    feasst_serialize_fstobj(bond_, ostr);
+    feasst_serialize_fstobj(angle_, ostr);
   }
 
   AnalyzeRigidBonds(std::istream& istr) : AnalyzeUpdateOnly(istr) {
     const int version = feasst_deserialize_version(istr);
     ASSERT(version == 549, "version mismatch: " << version);
-    //FATAL("bond visitors,potentials not implemented");
+    feasst_deserialize_fstobj(&visitor_, istr);
+    feasst_deserialize_fstobj(&bond_, istr);
+    feasst_deserialize_fstobj(&angle_, istr);
   }
 
  private:
-  // HWH serialize bonds
   BondVisitor visitor_;
   BondSquareWell bond_;
   AngleSquareWell angle_;

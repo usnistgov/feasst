@@ -5,6 +5,7 @@
 namespace feasst {
 
 Ewald::Ewald(const argtype& args) {
+  class_name_ = "Ewald";
   Arguments args_(args);
   if (args_.key("tolerance").used()) {
     tolerance_ = std::make_shared<double>(args_.dble());
@@ -40,7 +41,7 @@ void Ewald::tolerance_to_alpha_ks(const double tolerance,
   }
 
   // determine alpha
-  *alpha = std::sqrt(config.num_sites()*cutoff*config.domain().volume());
+  *alpha = std::sqrt(config.num_sites()*cutoff*config.domain()->volume());
   *alpha *= tolerance/(2.*std::sqrt(factor)*sum_squared_charge_(config));
   if (*alpha >= 1.) {
     *alpha = (1.35 - 0.15*log(tolerance))/cutoff; // from LAMMPS
@@ -58,12 +59,12 @@ void Ewald::update_wave_vectors(const Configuration& config) {
   std::vector<double> kvect(3);
   Position kvec;
   kvec.set_to_origin_3D();
-  const Domain& domain = config.domain();
-  const double lx = domain.side_length(0);
-  const double ly = domain.side_length(1);
-  const double lz = domain.side_length(2);
-  ASSERT(!domain.is_tilted(), "assumes cuboid domain");
-  const double volume = domain.volume();
+  const Domain * domain = config.domain();
+  const double lx = domain->side_length(0);
+  const double ly = domain->side_length(1);
+  const double lz = domain->side_length(2);
+  ASSERT(!domain->is_tilted(), "assumes cuboid domain");
+  const double volume = domain->volume();
   const double alpha = config.model_params().property("alpha");
   for (int kx = 0; kx <= kmax_; ++kx) {
   for (int ky = -kmax_; ky <= kmax_; ++ky) {
@@ -156,13 +157,13 @@ void Ewald::precompute(Configuration * config) {
   } else if (kmax_sq_arg_) {
     ASSERT(!kxmax_arg_ && !kymax_arg_ && !kzmax_arg_,
       "kmax_squared argument overrides k[x,y,z]max arguments.");
-    ASSERT(config->domain().is_cubic(),
+    ASSERT(config->domain()->is_cubic(),
       "Domain must be cubic to set kmax_squared");
     kmax_ = static_cast<int>(std::sqrt(*kmax_sq_arg_)) + 1;
     kxmax_ = kmax_ + 1;
     kymax_ = 2*kmax_ + 1;
     kzmax_ = kymax_;
-    kmax_squared_ = *kmax_sq_arg_*pow(2.*PI/config->domain().min_side_length(), 2);
+    kmax_squared_ = *kmax_sq_arg_*pow(2.*PI/config->domain()->min_side_length(), 2);
     DEBUG("kxmax " << kxmax_ << " kymax " << kymax_ << " kzmax " << kzmax_);
     DEBUG("kmax_squared_ " << kmax_squared_);
     ASSERT(alpha_arg_, "alpha is required with kmax_squared argument");
@@ -171,9 +172,9 @@ void Ewald::precompute(Configuration * config) {
     kxmax_ = *kxmax_arg_;
     kymax_ = *kymax_arg_;
     kzmax_ = *kzmax_arg_;
-    double gsqxmx = pow(2*PI*kxmax_/config->domain().side_length(0), 2);
-    double gsqymx = pow(2*PI*kymax_/config->domain().side_length(1), 2);
-    double gsqzmx = pow(2*PI*kzmax_/config->domain().side_length(2), 2);
+    double gsqxmx = pow(2*PI*kxmax_/config->domain()->side_length(0), 2);
+    double gsqymx = pow(2*PI*kymax_/config->domain()->side_length(1), 2);
+    double gsqzmx = pow(2*PI*kzmax_/config->domain()->side_length(2), 2);
     kmax_squared_ = std::max(gsqxmx, gsqymx);
     kmax_squared_ = std::max(kmax_squared_, gsqzmx);
     ASSERT(alpha_arg_ && kxmax_arg_ && kymax_arg_ && kzmax_arg_,
@@ -193,131 +194,131 @@ void Ewald::update_struct_fact_eik(const Select& selection,
   ASSERT(struct_fact_real->size() == struct_fact_real_.size(),
     "While struct_fact_real_ is of size: " << struct_fact_real_.size() <<
     " struct_fact_real is of size: " << struct_fact_real->size());
-  const double struct_sign = sign_(selection);
   std::stringstream ss;
-  const Domain& domain = config->domain();
-  const double lx = domain.side_length(0);
-  const double ly = domain.side_length(1);
-  const double lz = domain.side_length(2);
+  const Domain * domain = config->domain();
+  const double lx = domain->side_length(0);
+  const double ly = domain->side_length(1);
+  const double lz = domain->side_length(2);
   const double twopilx = 2.*PI/lx,
                twopily = 2.*PI/ly,
                twopilz = 2.*PI/lz;
-  DEBUG("trial_state " << selection.trial_state());
-  if (selection.trial_state() == 2) {
-    init_wave_vector_storage(config, selection);
-  }
+  const int state = selection.trial_state();
   for (int select_index = 0;
        select_index < selection.num_particles();
        ++select_index) {
     const int part_index = selection.particle_index(select_index);
-    for (int site_index : selection.site_indices(select_index)) {
+    const double struct_sign = sign_(selection, select_index);
+    for (int ss_index = 0; ss_index < selection.num_sites(select_index); ++ss_index) {
+      const int site_index = selection.site_index(select_index, ss_index);
       // obtain the index for the property
       // this assumes all eik in site are contiguous and ordered
       const Site& site = config->select_particle(part_index).site(site_index);
-      const int eikrx0_index = find_eikrx0_(site);
-      // calculate eik of kx = 0 explicitly
-      ASSERT(kymax_ == kzmax_, "assumption");
-      const int eikry0_index = eikrx0_index + kxmax_ + kmax_;
-      const int eikrz0_index = eikry0_index + kymax_;
-      const int eikix0_index = eikrx0_index + kxmax_ + kymax_ + kzmax_;
-      const int eikiy0_index = eikix0_index + kxmax_ + kmax_;
-      const int eikiz0_index = eikiy0_index + kymax_;
-      TRACE(eikrx0_index << " " << eikry0_index << " " << eikrz0_index << " "
-        << eikix0_index << " " << eikiy0_index << " " << eikiz0_index);
+      if (site.is_physical()) {
+        const int eikrx0_index = find_eikrx0_(site);
+        // calculate eik of kx = 0 explicitly
+        ASSERT(kymax_ == kzmax_, "assumption");
+        const int eikry0_index = eikrx0_index + kxmax_ + kmax_;
+        const int eikrz0_index = eikry0_index + kymax_;
+        const int eikix0_index = eikrx0_index + kxmax_ + kymax_ + kzmax_;
+        const int eikiy0_index = eikix0_index + kxmax_ + kmax_;
+        const int eikiz0_index = eikiy0_index + kymax_;
+        TRACE(eikrx0_index << " " << eikry0_index << " " << eikrz0_index << " "
+          << eikix0_index << " " << eikiy0_index << " " << eikiz0_index);
 
-      // update the eik of the selection
-      if (selection.trial_state() != 0) { // HWH why is state 2 required?
-      //if (selection.trial_state() != 0 && selection.trial_state() != 2) {
-        config->set_site_property(eikrx0_index, 1., part_index, site_index);
-        config->set_site_property(eikix0_index, 0., part_index, site_index);
-        config->set_site_property(eikry0_index, 1., part_index, site_index);
-        config->set_site_property(eikiy0_index, 0., part_index, site_index);
-        config->set_site_property(eikrz0_index, 1., part_index, site_index);
-        config->set_site_property(eikiz0_index, 0., part_index, site_index);
+        // update the eik of the selection
+        if (state != 0 && state != 2) {
+          config->set_site_property(eikrx0_index, 1., part_index, site_index);
+          config->set_site_property(eikix0_index, 0., part_index, site_index);
+          config->set_site_property(eikry0_index, 1., part_index, site_index);
+          config->set_site_property(eikiy0_index, 0., part_index, site_index);
+          config->set_site_property(eikrz0_index, 1., part_index, site_index);
+          config->set_site_property(eikiz0_index, 0., part_index, site_index);
 
-        // calculate eik of kx = +/-1 explicitly
-        const std::vector<double> pos = config->select_particle(part_index).site(site_index).position().coord();
-        config->set_site_property(eikrx0_index + 1, cos(twopilx*pos[0]), part_index, site_index);
-        config->set_site_property(eikix0_index + 1, sin(twopilx*pos[0]), part_index, site_index);
-        config->set_site_property(eikry0_index + 1, cos(twopily*pos[1]), part_index, site_index);
-        config->set_site_property(eikiy0_index + 1, sin(twopily*pos[1]), part_index, site_index);
-        config->set_site_property(eikrz0_index + 1, cos(twopilz*pos[2]), part_index, site_index);
-        config->set_site_property(eikiz0_index + 1, sin(twopilz*pos[2]), part_index, site_index);
-        {
-          const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
-          TRACE("test " << eik[eikrx0_index + 1] << " " << cos(twopilx*pos[0]) << " " <<
-            site.properties().values()[0] << " " <<
-            site.properties().values()[eikrx0_index + 1] << " "
-          );
-          config->set_site_property(eikry0_index - 1, eik[eikry0_index + 1], part_index, site_index);
-          config->set_site_property(eikiy0_index - 1, -eik[eikiy0_index + 1], part_index, site_index);
-          config->set_site_property(eikrz0_index - 1, eik[eikrz0_index + 1], part_index, site_index);
-          config->set_site_property(eikiz0_index - 1, -eik[eikiz0_index + 1], part_index, site_index);
+          // calculate eik of kx = +/-1 explicitly
+          const std::vector<double> pos = config->select_particle(part_index).site(site_index).position().coord();
+          config->set_site_property(eikrx0_index + 1, cos(twopilx*pos[0]), part_index, site_index);
+          config->set_site_property(eikix0_index + 1, sin(twopilx*pos[0]), part_index, site_index);
+          config->set_site_property(eikry0_index + 1, cos(twopily*pos[1]), part_index, site_index);
+          config->set_site_property(eikiy0_index + 1, sin(twopily*pos[1]), part_index, site_index);
+          config->set_site_property(eikrz0_index + 1, cos(twopilz*pos[2]), part_index, site_index);
+          config->set_site_property(eikiz0_index + 1, sin(twopilz*pos[2]), part_index, site_index);
+          {
+            const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
+            TRACE("test " << eik[eikrx0_index + 1] << " " << cos(twopilx*pos[0]) << " " <<
+              site.properties().values()[0] << " " <<
+              site.properties().values()[eikrx0_index + 1] << " "
+            );
+            config->set_site_property(eikry0_index - 1, eik[eikry0_index + 1], part_index, site_index);
+            config->set_site_property(eikiy0_index - 1, -eik[eikiy0_index + 1], part_index, site_index);
+            config->set_site_property(eikrz0_index - 1, eik[eikrz0_index + 1], part_index, site_index);
+            config->set_site_property(eikiz0_index - 1, -eik[eikiz0_index + 1], part_index, site_index);
+          }
+
+          // compute remaining eik by recursion
+          for (int kx = 2; kx <= kmax_; ++kx) {
+            const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
+            const double eikr = eik[eikrx0_index + kx - 1]*eik[eikrx0_index + 1] -
+              eik[eikix0_index + kx - 1]*eik[eikix0_index + 1];
+            config->set_site_property(eikrx0_index + kx, eikr, part_index, site_index);
+            const double eiki = eik[eikrx0_index + kx - 1]*eik[eikix0_index + 1] +
+              eik[eikix0_index + kx - 1]*eik[eikrx0_index + 1];
+            config->set_site_property(eikix0_index + kx, eiki, part_index, site_index);
+          }
+          for (int ky = 2; ky <= kmax_; ++ky) {
+            const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
+            const double eikr = eik[eikry0_index + ky - 1]*eik[eikry0_index + 1] -
+              eik[eikiy0_index + ky - 1]*eik[eikiy0_index + 1];
+            config->set_site_property(eikry0_index + ky, eikr, part_index, site_index);
+            const double eiki = eik[eikry0_index + ky - 1]*eik[eikiy0_index + 1] +
+              eik[eikiy0_index + ky - 1]*eik[eikry0_index + 1];
+            config->set_site_property(eikiy0_index + ky, eiki, part_index, site_index);
+            config->set_site_property(eikry0_index - ky, eikr, part_index, site_index);
+            config->set_site_property(eikiy0_index - ky, -eiki, part_index, site_index);
+          }
+          for (int kz = 2; kz <= kmax_; ++kz) {
+            const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
+            const double eikr = eik[eikrz0_index + kz - 1]*eik[eikrz0_index + 1] -
+              eik[eikiz0_index + kz - 1]*eik[eikiz0_index + 1];
+            config->set_site_property(eikrz0_index + kz, eikr, part_index, site_index);
+            const double eiki = eik[eikrz0_index + kz - 1]*eik[eikiz0_index + 1] +
+              eik[eikiz0_index + kz - 1]*eik[eikrz0_index + 1];
+            config->set_site_property(eikiz0_index + kz, eiki, part_index, site_index);
+            config->set_site_property(eikrz0_index - kz, eikr, part_index, site_index);
+            config->set_site_property(eikiz0_index - kz, -eiki, part_index, site_index);
+          }
         }
 
-        // compute remaining eik by recursion
-        for (int kx = 2; kx <= kmax_; ++kx) {
-          const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
-          const double eikr = eik[eikrx0_index + kx - 1]*eik[eikrx0_index + 1] -
-            eik[eikix0_index + kx - 1]*eik[eikix0_index + 1];
-          config->set_site_property(eikrx0_index + kx, eikr, part_index, site_index);
-          const double eiki = eik[eikrx0_index + kx - 1]*eik[eikix0_index + 1] +
-            eik[eikix0_index + kx - 1]*eik[eikrx0_index + 1];
-          config->set_site_property(eikix0_index + kx, eiki, part_index, site_index);
+        // compute structure factor
+        const int type = site.type();
+        const double charge = config->model_params().charge().value(type);
+        const Particle& p = config->select_particle(part_index);
+        const std::vector<double>& eik = p.site(site_index).properties().values();
+        for (int k_index = 0; k_index < num_vectors(); ++k_index) {
+          const int kdim = dimension_*k_index;
+          const double kx = wave_num_[kdim];
+          const double ky = wave_num_[kdim + 1];
+          const double kz = wave_num_[kdim + 2];
+          TRACE("k " << k_index << " kx " << kx << " ky " << ky << " kz " << kz << " size " << num_vectors() << " kdim " << kdim);
+          const double eikrx = eik[eikrx0_index + kx];
+          const double eikix = eik[eikix0_index + kx];
+          const double eikry = eik[eikry0_index + ky];
+          const double eikiy = eik[eikiy0_index + ky];
+          const double eikrz = eik[eikrz0_index + kz];
+          const double eikiz = eik[eikiz0_index + kz];
+          TRACE("eik[r,i]x " << eikrx << " " << eikix << " y " << eikry << " " << eikiy << " z " << eikrz << " " << eikiz << " sz " << eik.size());
+          const double eikr = eikrx*eikry*eikrz
+                     - eikix*eikiy*eikrz
+                     - eikix*eikry*eikiz
+                     - eikrx*eikiy*eikiz;
+          const double eiki = -eikix*eikiy*eikiz
+                     + eikrx*eikry*eikiz
+                     + eikrx*eikiy*eikrz
+                     + eikix*eikry*eikrz;
+          TRACE("charge " << charge << " eikr " << eikr << " eiki " << eiki << " sign " << struct_sign);
+          TRACE(struct_fact_real->size());
+          (*struct_fact_real)[k_index] += struct_sign*charge*eikr;
+          (*struct_fact_imag)[k_index] += struct_sign*charge*eiki;
         }
-        for (int ky = 2; ky <= kmax_; ++ky) {
-          const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
-          const double eikr = eik[eikry0_index + ky - 1]*eik[eikry0_index + 1] -
-            eik[eikiy0_index + ky - 1]*eik[eikiy0_index + 1];
-          config->set_site_property(eikry0_index + ky, eikr, part_index, site_index);
-          const double eiki = eik[eikry0_index + ky - 1]*eik[eikiy0_index + 1] +
-            eik[eikiy0_index + ky - 1]*eik[eikry0_index + 1];
-          config->set_site_property(eikiy0_index + ky, eiki, part_index, site_index);
-          config->set_site_property(eikry0_index - ky, eikr, part_index, site_index);
-          config->set_site_property(eikiy0_index - ky, -eiki, part_index, site_index);
-        }
-        for (int kz = 2; kz <= kmax_; ++kz) {
-          const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
-          const double eikr = eik[eikrz0_index + kz - 1]*eik[eikrz0_index + 1] -
-            eik[eikiz0_index + kz - 1]*eik[eikiz0_index + 1];
-          config->set_site_property(eikrz0_index + kz, eikr, part_index, site_index);
-          const double eiki = eik[eikrz0_index + kz - 1]*eik[eikiz0_index + 1] +
-            eik[eikiz0_index + kz - 1]*eik[eikrz0_index + 1];
-          config->set_site_property(eikiz0_index + kz, eiki, part_index, site_index);
-          config->set_site_property(eikrz0_index - kz, eikr, part_index, site_index);
-          config->set_site_property(eikiz0_index - kz, -eiki, part_index, site_index);
-        }
-      }
-
-      // compute structure factor
-      const int type = site.type();
-      const double charge = config->model_params().charge().value(type);
-      const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
-      for (int k_index = 0; k_index < num_vectors(); ++k_index) {
-        const int kdim = dimension_*k_index;
-        const double kx = wave_num_[kdim];
-        const double ky = wave_num_[kdim + 1];
-        const double kz = wave_num_[kdim + 2];
-        TRACE("k " << k_index << " kx " << kx << " ky " << ky << " kz " << kz << " size " << num_vectors() << " kdim " << kdim);
-        const double eikrx = eik[eikrx0_index + kx];
-        const double eikix = eik[eikix0_index + kx];
-        const double eikry = eik[eikry0_index + ky];
-        const double eikiy = eik[eikiy0_index + ky];
-        const double eikrz = eik[eikrz0_index + kz];
-        const double eikiz = eik[eikiz0_index + kz];
-        TRACE("eik[r,i]x " << eikrx << " " << eikix << " y " << eikry << " " << eikiy << " z " << eikrz << " " << eikiz << " sz " << eik.size());
-        const double eikr = eikrx*eikry*eikrz
-                   - eikix*eikiy*eikrz
-                   - eikix*eikry*eikiz
-                   - eikrx*eikiy*eikiz;
-        const double eiki = -eikix*eikiy*eikiz
-                   + eikrx*eikry*eikiz
-                   + eikrx*eikiy*eikrz
-                   + eikix*eikry*eikrz;
-        TRACE("charge " << charge << " eikr " << eikr << " eiki " << eiki << " sign " << struct_sign);
-        TRACE(struct_fact_real->size());
-        (*struct_fact_real)[k_index] += struct_sign*charge*eikr;
-        (*struct_fact_imag)[k_index] += struct_sign*charge*eiki;
       }
     }
   }

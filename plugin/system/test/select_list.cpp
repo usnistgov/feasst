@@ -24,7 +24,7 @@ TEST(SelectList, group) {
 
   // group
   select.clear();
-  select.add(config, Group().add_site_type(0));
+  select.add(config, *MakeGroup({{"add_site_type", "0"}}));
   EXPECT_EQ(100, select.num_particles());
   EXPECT_EQ(100, select.num_sites());
   EXPECT_EQ(0, select.site_index(0, 0));

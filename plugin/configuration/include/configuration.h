@@ -7,7 +7,6 @@
 #include "configuration/include/domain.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
-#include "configuration/include/select_position.h"
 #include "math/include/matrix.h"
 #include "utils/include/arguments.h"
 
@@ -53,19 +52,17 @@ class Configuration {
 
   /**
     args:
-    - cubic_box_length: side length of cubic perioidic boundary conditions.
     - particle_type[i]: add the i-th type of particle to the configuration.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
       If only one particle type, the "[i]" is optional.
-    - init_cells[i]: build cell list with given minimum length between cells.
-      The "[i]" is to be substituted for an integer 0, 1, 2, ...
-      If only one cell, the "[i]" is optional.
-    - cell_group[i]: only compute cells for those in given group index
-      for cell of corresponding "i" (default: 0).
     - wrap: wrap particle centers within domain (default: true).
     - physical_constants: optional class_name of PhysicalConstants.
    */
-  Configuration(const argtype& args = argtype());
+  explicit Configuration(const argtype& args = argtype());
+
+  /// Same as above, but also set the domain.
+  Configuration(std::shared_ptr<Domain> domain, const argtype& args = argtype())
+    : Configuration(args) {domain_ = domain; }
 
   //@}
   /** @name Typing
@@ -155,7 +152,7 @@ class Configuration {
   //@{
 
   /// Add a group (after types are defined but before particles are added).
-  void add(Group group,
+  void add(std::shared_ptr<Group> group,
     /// Optionally provide a name. If no name is provided, the name is assigned
     /// to be the numerical indices of the order of groups added.
     std::string name = "");
@@ -171,11 +168,11 @@ class Configuration {
   int particle_type_to_group_create(const int particle_type);
 
   /// Return the group-based selections.
-  const std::vector<SelectGroup>& group_selects() const {
+  const std::vector<Select>& group_selects() const {
     return group_selects_; }
 
   /// Return the group-based selections by index.
-  const SelectGroup& group_select(const int index) const {
+  const Select& group_select(const int index) const {
     return group_selects_[index]; }
 
   //@}
@@ -228,12 +225,13 @@ class Configuration {
   std::vector<int> num_sites_of_type(const int group_index = 0.) const {
     return num_sites_of_type(group_selects()[group_index]); }
 
+  // HWH update the below comment regarding SelectList
   //@}
   /** @name Modifications
     Modifications to a configuration (e.g., moving, adding or deleting
     particles/sites.
     A subset of the configuration is defined by a Select.
-    Avoid using a Select or SelectPosition object directly.
+    Avoid using a Select object directly.
     Instead, use a SelectList, which can be input into the following.
    */
   //@{
@@ -243,9 +241,11 @@ class Configuration {
   void update_positions(const std::vector<std::vector<double> > coords);
 
   /// Update the positions and properties from a selection.
-  void update_positions(const SelectPosition& select,
+  void update_positions(const Select& select,
     /// If true, do not wrap. If false, defer to default behavior.
-    const bool no_wrap = false);
+    const bool no_wrap = false,
+    /// If true, do not exclude properties.
+    const bool no_exclude = false);
 
   /// Displace selected particle(s). No periodic boundary conditions applied.
   void displace_particles(const Select& selection,
@@ -276,28 +276,18 @@ class Configuration {
    */
   //${
 
+  /// Set the domain.
+  void set(std::shared_ptr<Domain> domain);
+
   /// Return the domain of the configuration.
-  const Domain& domain() const { return domain_; }
+  const Domain * domain() const { return domain_.get(); }
 
   /// Set the domain side lengths.
   // HWH consider scaling particles as well
-  void set_side_length(const Position& sides) {
-//    ASSERT(num_particles() == 0, "domain should only be scaled with particles");
-    domain_.set_side_length(sides);
-  }
-
-  /// Set the domain.
-  // HWH depreciate ?
-  void set_domain(const Domain domain) { domain_ = domain; }
+  void set_side_lengths(const Position& sides);
 
   /// Return the dimensionality of space.
-  int dimension() const { return domain().dimension(); }
-
-  /// Initialize the cells according to the minimum side length.
-  void init_cells(const double min_length,
-    /// By default, cells are applied to all particles and sites.
-    /// Set the group index to consider only a subset.
-    const int group_index = 0);
+  int dimension() const { return domain()->dimension(); }
 
   /// Set whether or not to wrap particles
   void init_wrap(const bool wrap = true) { wrap_ = wrap; }
@@ -310,7 +300,7 @@ class Configuration {
   //@{
 
   /// Revive the particles in the selection previously removed (ghosts).
-  void revive(const SelectPosition& selection);
+  void revive(const Select& selection);
 
   /// Return the particles.
   /// Warning: typically not for users because it may include ghost particles.
@@ -325,7 +315,7 @@ class Configuration {
   int newest_particle_index() const { return newest_particle_index_; }
 
   /// Return ghost particles.
-  const std::vector<SelectGroup>& ghosts() const { return ghosts_; }
+  const std::vector<Select>& ghosts() const { return ghosts_; }
 
   /// Wrap particle position. The index may include ghost particles.
   void wrap_particle(const int particle_index);
@@ -414,13 +404,13 @@ class Configuration {
   void serialize(std::ostream& ostr) const;
 
   /// Deserialize
-  Configuration(std::istream& istr);
+  explicit Configuration(std::istream& istr);
 
  private:
   ParticleFactory particle_types_;
   ParticleFactory unique_types_;
   ParticleFactory particles_;
-  Domain domain_;
+  std::shared_ptr<Domain> domain_;
   bool wrap_;
 
   // temporaries (not serialized)
@@ -431,7 +421,7 @@ class Configuration {
   // HWH currently only updated when adding and removing particles
   // HWH but at some point it should check for positional changes
   // HWH if groups are defined based on positions.
-  std::vector<SelectGroup> group_selects_;
+  std::vector<Select> group_selects_;
 
   /// Add particle.
   void add_(const Particle particle);
@@ -470,6 +460,7 @@ class Configuration {
 
   /// Store the excluded properties used in replace_properties_ (optimization).
   std::vector<std::string> excluded_properties_ = {"cell"};
+  std::vector<std::string> excl_prop_non_usr_ = excluded_properties_;
 
   /// Update position trackers of a particle (e.g., cell, neighbor, etc).
   void position_tracker_(const int particle_index, const int site_index);
@@ -482,10 +473,10 @@ class Configuration {
 
   /// Add particle to selection.
   void add_to_selection_(const int particle_index,
-                         SelectGroup * select) const;
+                         Select * select) const;
 
   /// Initialize selection based on groups
-  void init_selection_(SelectGroup * group_select) const;
+  void init_selection_(Select * group_select) const;
 
   /// Remember groups based on types.
   std::vector<int> group_store_particle_type_,
@@ -500,7 +491,7 @@ class Configuration {
   // the grand canonical ensemble.
   // ghosts are removed from selections and can be brought back by adding.
   // each index represents the particle type.
-  std::vector<SelectGroup> ghosts_;
+  std::vector<Select> ghosts_;
 
   /// Return the number of ghost particles.
   int num_ghosts_() const;
@@ -517,8 +508,13 @@ class Configuration {
 };
 
 inline std::shared_ptr<Configuration> MakeConfiguration(
-    const argtype &args = argtype()) {
+    const argtype &args = argtype()
+    ) {
   return std::make_shared<Configuration>(args);
+}
+inline std::shared_ptr<Configuration> MakeConfiguration(
+    std::shared_ptr<Domain> domain, const argtype &args = argtype()) {
+  return std::make_shared<Configuration>(domain, args);
 }
 
 }  // namespace feasst

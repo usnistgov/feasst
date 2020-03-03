@@ -17,7 +17,7 @@ ModelTwoBodyFactory::ModelTwoBodyFactory(
     std::vector<std::shared_ptr<ModelTwoBody> > models)
   : ModelTwoBodyFactory() {
   for (auto model : models) {
-    add_model(model);
+    add(model);
   }
 }
 

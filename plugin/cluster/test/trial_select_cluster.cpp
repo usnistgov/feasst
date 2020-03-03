@@ -17,8 +17,8 @@ TEST(TrialSelectCluster, serialize) {
   //mc_lj(&mc);
   System sys;
   {
-    Configuration config({{"cubic_box_length", "8"},
-                          {"particle_type", "../forcefield/data.lj"}});
+    Configuration config(MakeDomain({{"cubic_box_length", "8"}}),
+                         {{"particle_type", "../forcefield/data.lj"}});
     config.add_particle_of_type(0);
     config.add_particle_of_type(0);
     config.add_particle_of_type(0);
@@ -44,7 +44,7 @@ TEST(TrialSelectCluster, serialize) {
   auto ran = MakeRandomMT19937();
   ran = MakeRandomMT19937({{"seed", "1580154124"}});
   add.select(Select(), &sys, ran.get());
-  // INFO(add.mobile().str());
+  // DEBUG(add.mobile().str());
 
   if (add.mobile().num_particles() == 1) {
     EXPECT_EQ(2, add.mobile().particle_index(0));
@@ -55,7 +55,7 @@ TEST(TrialSelectCluster, serialize) {
     } else {
       EXPECT_EQ(1, add.mobile().particle_index(0));
     }
-    INFO(add.mobile().str());
+    DEBUG(add.mobile().str());
     EXPECT_NEAR(en_lj(1.25), sys.perturbed_energy(add.mobile()), NEAR_ZERO);
   }
 
@@ -64,22 +64,22 @@ TEST(TrialSelectCluster, serialize) {
   PerturbTranslate trans;
   trans.perturb(&sys, &add, ran.get());
   if (add.mobile().num_particles() == 1) {
-    INFO(sys.configuration().particle(2).site(0).position().str());
+    DEBUG(sys.configuration().particle(2).site(0).position().str());
     EXPECT_NEAR(0, sys.perturbed_energy(add.mobile()), NEAR_ZERO);
   } else {
-    INFO(sys.configuration().particle(0).site(0).position().str());
-    INFO(sys.configuration().particle(1).site(0).position().str());
+    DEBUG(sys.configuration().particle(0).site(0).position().str());
+    DEBUG(sys.configuration().particle(1).site(0).position().str());
     EXPECT_NEAR(en_lj(1.25), sys.perturbed_energy(add.mobile()), NEAR_ZERO);
   }
 
   auto rotate = MakePerturbRotateCOM({{"tunable_param", "50"}});
   rotate->perturb(&sys, &add, ran.get());
   if (add.mobile().num_particles() == 1) {
-    INFO(sys.configuration().particle(2).site(0).position().str());
+    DEBUG(sys.configuration().particle(2).site(0).position().str());
     EXPECT_NEAR(0, sys.perturbed_energy(add.mobile()), NEAR_ZERO);
   } else {
-    INFO(sys.configuration().particle(0).site(0).position().str());
-    INFO(sys.configuration().particle(1).site(0).position().str());
+    DEBUG(sys.configuration().particle(0).site(0).position().str());
+    DEBUG(sys.configuration().particle(1).site(0).position().str());
     EXPECT_NEAR(en_lj(1.25), sys.perturbed_energy(add.mobile()), NEAR_ZERO);
   }
 }

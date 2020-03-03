@@ -1,10 +1,10 @@
 
 .. toctree::
 
-   Properties
    TypedEntity
-   Bond
    PhysicalConstants
+   Properties
+   Bond
    Site
    Particle
    Group
@@ -14,7 +14,6 @@
    Select
    Cells
    Domain
-   SelectPosition
    VisitParticles
    Configuration
    FileVMD

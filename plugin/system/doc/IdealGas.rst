@@ -1,6 +1,6 @@
-ComputeSynthesis
+IdealGas
 =====================================================
 
-.. doxygenclass:: feasst::ComputeSynthesis
+.. doxygenclass:: feasst::IdealGas
    :project: FEASST
    :members:

@@ -25,12 +25,11 @@ MonteCarlo mc_rpm() {
   {
     System system;
     {
-      Configuration config({
-        {"cubic_box_length", "12"},
+      Configuration config(MakeDomain({{"cubic_box_length", "12"}}), {
         {"particle_type0", "../plugin/ewald/forcefield/data.rpm_plus"},
         {"particle_type1", "../plugin/ewald/forcefield/data.rpm_minus"}
       });
-      config.add_model_param("alpha", 4.8913043/config.domain().min_side_length());
+      config.add_model_param("alpha", 4.8913043/config.domain()->min_side_length());
 //      config.add_particle_of_type(0);
 //      config.add_particle_of_type(1);
 //      EXPECT_EQ(0, config.particle_type(0).type());

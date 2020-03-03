@@ -1,7 +1,6 @@
 
 .. toctree::
 
-   ClusterCriteria
    EnergyMapNeigh
    EnergyMapAll
    TrialTranslateCluster

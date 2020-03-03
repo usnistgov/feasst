@@ -21,7 +21,7 @@ class EnergyMapAll : public EnergyMap {
   void select_cluster(const ClusterCriteria * cluster_criteria,
                       const Configuration& config,
                       const int particle_node,
-                      SelectPosition * cluster,
+                      Select * cluster,
                       const Position& frame_of_reference) const override;
   bool is_cluster_changed(const ClusterCriteria * cluster_criteria,
     const Select& select) const override;

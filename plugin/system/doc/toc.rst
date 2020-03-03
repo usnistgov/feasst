@@ -1,14 +1,19 @@
 
 .. toctree::
 
-   Model
    BondTwoBody
+   BondSquareWell
+   BondThreeBody
+   AngleSquareWell
+   BondVisitor
+   Model
    SelectList
    ClusterCriteria
    EnergyMap
    VisitModelInner
    VisitModel
    ModelTwoBody
+   IdealGas
    ModelTwoBodyFactory
    HardSphere
    LennardJones
@@ -18,6 +23,7 @@
    ModelThreeBody
    ModelOneBody
    ModelEmpty
+   VisitModelBond
    VisitModelCell
    LongRangeCorrections
    VisitModelIntra

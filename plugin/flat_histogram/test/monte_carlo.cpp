@@ -42,14 +42,15 @@ TEST(WangLandau, args) {
 }
 
 TEST(MonteCarlo, FHMC) {
-  // for (int crit_type = 0; crit_type < 1; ++crit_type) {
-  for (int crit_type = 0; crit_type < 2; ++crit_type) {
+  for (int crit_type = 0; crit_type < 1; ++crit_type) {
+  // for (int crit_type = 0; crit_type < 2; ++crit_type) {
     MonteCarlo mc;
     // mc.set(MakeRandomMT19937({{"seed", "default"}}));
     mc_lj(&mc);
     // mc.seek_num_particles(4);
     add_trial_transfer(&mc, {{"particle_type", "0"}, {"weight", "0.25"}});
-    mc.set(crit_fh(crit_type));
+    auto crit = crit_fh(crit_type);
+    mc.set(crit);//crit_fh(crit_type));
     mc.add(MakeMovie({
       {"file_name", "tmp/wlmc_movie"},
       {"steps_per", str(1e4)},
@@ -75,12 +76,22 @@ TEST(MonteCarlo, FHMC) {
 
     MonteCarlo mc2 = test_serialize_no_comp(mc);
 
-    INFO(mc2.analyzers().back()->analyzers().back()->accumulator().average());
+    // compare with known values of lnpi
+    const LnProbability * lnpi = &crit->bias()->ln_prob();
+    EXPECT_NEAR(lnpi->value(0), -18.707570324988800000, 0.4);
+    EXPECT_NEAR(lnpi->value(1), -14.037373358321800000, 0.4);
+    EXPECT_NEAR(lnpi->value(2), -10.050312091655200000, 0.4);
+    EXPECT_NEAR(lnpi->value(3), -6.458920624988570000, 0.4);
+    EXPECT_NEAR(lnpi->value(4), -3.145637424988510000, 0.4);
+    EXPECT_NEAR(lnpi->value(5), -0.045677458321876000, 0.4);
 
-    // compare with known values of lnpi and energy
-    //const LnProbability * lnpi = &criteria->bias()->ln_macro_prob();
-    //INFO(lnpi->value(0));
-    INFO(energy_av(0, mc));
+    // compare with known values of energy
+    EXPECT_NEAR(energy_av(0, mc), 0, 1e-14);
+    EXPECT_NEAR(energy_av(1, mc), -0.000605740233333333, 1e-8);
+    EXPECT_NEAR(energy_av(2, mc), -0.030574223333333334, 0.02);
+    EXPECT_NEAR(energy_av(3, mc), -0.089928316, 0.03);
+    EXPECT_NEAR(energy_av(4, mc), -0.1784570533333333, 0.04);
+    EXPECT_NEAR(energy_av(5, mc), -0.29619201333333334, 0.1);
     EXPECT_LE(mc.system().configuration().num_particles(), 5);
   }
 }

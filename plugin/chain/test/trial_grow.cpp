@@ -14,8 +14,8 @@ namespace feasst {
 TEST(TrialGrow, chain10) {
   System system;
   {
-    Configuration config({{"cubic_box_length", "12"},
-                          {"particle_type", "../forcefield/data.chain10"}});
+    Configuration config(MakeDomain({{"cubic_box_length", "12"}}),
+                         {{"particle_type", "../forcefield/data.chain10"}});
     config.add_particle_of_type(0);
     system.add(config);
   }

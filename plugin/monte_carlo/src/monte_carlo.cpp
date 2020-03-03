@@ -11,7 +11,8 @@ void MonteCarlo::add(const Configuration& config) {
 
 void MonteCarlo::add(const Potential& potential) {
   ASSERT(!criteria_set_, "add potential before criteria");
-  ASSERT(config_set_, "config must be set before adding a potential");
+  ASSERT(config_set_ || system_set_, "config:" << config_set_ <<
+    " or system:" << system_set_ << " must be set before adding a potential");
   system_.add(potential);
   system_.precompute();
   potential_set_ = true;
@@ -42,8 +43,23 @@ void MonteCarlo::add(std::shared_ptr<Criteria> criteria) {
 
 void MonteCarlo::add(std::shared_ptr<Trial> trial) {
   ASSERT(criteria_set_, "set Criteria before Trials.");
+
+  // Require the use of reference potentials for multi-stage trials with Ewald.
+  if (trial->num_stages() > 1) {
+    if (trial->stage(0)->reference() == -1) {
+      for (const Potential& pot : system_.const_potentials()->potentials()) {
+        if (pot.visit_model()->class_name() == "Ewald") {
+          ERROR(trial->class_name() << " should use a reference potential "
+            << "without Ewald due to multiple stages which complicate revert");
+        }
+      }
+    }
+  }
+
   trial->precompute(criteria_.get(), &system_);
   trial_factory_.add(trial);
+
+  // HWH depreciate?
   // If later, perhaps after some initialization, more trials are added,
   // then Analyze and Modify classes may need to be re-initialized.
   // analyze_factory_.initialize(criteria_, system_, trial_factory_);

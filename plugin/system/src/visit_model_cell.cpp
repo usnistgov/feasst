@@ -12,9 +12,9 @@ void VisitModelCell::compute(
     Configuration * config,
     const int cell_index) {
   zero_energy();
-  const Domain& domain = config->domain();
-  ASSERT(cell_index < static_cast<int>(domain.cells().size()), "index error");
-  const Cells& cells = domain.cells()[cell_index];
+  const Domain * domain = config->domain();
+  ASSERT(cell_index < static_cast<int>(domain->cells().size()), "index error");
+  const Cells& cells = domain->cells()[cell_index];
   init_relative_(domain, &relative_, &pbc_);
 
   /** Loop index nomenclature
@@ -90,10 +90,10 @@ void VisitModelCell::compute(
     const int cell_index) {
   DEBUG("visiting model");
   zero_energy();
-  const Domain& domain = config->domain();
+  const Domain * domain = config->domain();
   ASSERT(selection.num_particles() == 1, "assumes 1 particle selection");
-  ASSERT(cell_index < static_cast<int>(domain.cells().size()), "were cells not initialized?");
-  const Cells& cells = domain.cells()[cell_index];
+  ASSERT(cell_index < static_cast<int>(domain->cells().size()), "were cells not initialized?");
+  const Cells& cells = domain->cells()[cell_index];
   init_relative_(domain, &relative_, &pbc_);
   prep_for_revert(selection);
   std::stringstream ss;

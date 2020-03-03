@@ -11,7 +11,8 @@ namespace feasst {
  */
 class VisitModelOptLJ : public VisitModel {
  public:
-  VisitModelOptLJ() : VisitModel() {}
+  VisitModelOptLJ() : VisitModel() {
+    class_name_ = "VisitModelOptLJ"; }
   VisitModelOptLJ(std::shared_ptr<VisitModelInner> inner) : VisitModel(inner) {}
   void compute(
       const ModelTwoBody& model,
@@ -24,9 +25,8 @@ class VisitModelOptLJ : public VisitModel {
   void serialize(std::ostream& ostr) const override;
   VisitModelOptLJ(std::istream& istr);
   ~VisitModelOptLJ() {}
- private:
-  const std::string class_name_ = "VisitModelOptLJ";
 
+ private:
   // temporary
   double squared_distance_;
 };

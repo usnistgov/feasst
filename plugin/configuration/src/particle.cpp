@@ -209,7 +209,7 @@ void Particle::serialize(std::ostream& ostr) const {
   PropertiedEntity::serialize(ostr);
   TypedEntity::serialize(ostr);
   SpatialEntity::serialize(ostr);
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(365, ostr);
   feasst_serialize_fstobj(sites_, ostr);
   feasst_serialize_fstobj(bonds_, ostr);
   feasst_serialize_fstobj(angles_, ostr);
@@ -222,7 +222,8 @@ Particle::Particle(std::istream& istr)
   : PropertiedEntity(istr),
     TypedEntity(istr),
     SpatialEntity(istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 365, "version mismatch: " << version);
   feasst_deserialize_fstobj(&sites_, istr);
   feasst_deserialize_fstobj(&bonds_, istr);
   feasst_deserialize_fstobj(&angles_, istr);

@@ -1,7 +1,6 @@
 
 .. toctree::
 
-   Movie
    Energy
    NumParticles
    CheckPhysicality
@@ -15,3 +14,4 @@
    CriteriaUpdater
    MeanSquaredDisplacement
    CheckProperties
+   Movie

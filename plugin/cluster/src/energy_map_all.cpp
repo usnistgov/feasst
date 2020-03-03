@@ -117,7 +117,7 @@ void EnergyMapAll::finalize(const Select& select) {
 void EnergyMapAll::select_cluster(const ClusterCriteria * cluster_criteria,
                                   const Configuration& config,
                                   const int particle_node,
-                                  SelectPosition * cluster,
+                                  Select * cluster,
                                   const Position& frame_of_reference) const {
   DEBUG("particle_node " << particle_node);
   DEBUG("map size " << map_.size());

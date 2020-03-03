@@ -26,7 +26,7 @@ class TrialComputeGrowAdd : public TrialCompute {
     acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
     { // Metropolis
       const Configuration& config = system->configuration();
-      const double volume = config.domain().volume();
+      const double volume = config.domain()->volume();
       const int particle_index = select->mobile().particle_index(0);
       const int particle_type = config.select_particle(particle_index).type();
       DEBUG("volume " << volume << " selprob " << select->probability() << " betamu " << criteria->beta_mu(particle_type));
@@ -58,7 +58,7 @@ class TrialComputeGrowRemove : public TrialCompute {
     acceptance->add_to_macrostate_shift(-1);
     { // Metropolis
       const Configuration& config = system->configuration();
-      const double volume = config.domain().volume();
+      const double volume = config.domain()->volume();
       const TrialSelect * select = (*stages)[0]->trial_select();
       const int particle_index = select->mobile().particle_index(0);
       const int particle_type = config.select_particle(particle_index).type();
@@ -103,7 +103,7 @@ class TrialComputeGrow : public TrialCompute {
     );
 
 //    const Configuration& config = system->configuration();
-//    const double volume = config.domain().volume();
+//    const double volume = config.domain()->volume();
 //    acceptance->add_to_ln_metropolis_prob(
 //      log(select->probability())
 //      + criteria->beta_mu(particle_type)/criteria->num_trial_states()

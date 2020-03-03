@@ -12,10 +12,10 @@ def configuration(box_length=8, forcefield='data.lj', num=0):
     forcefield -- the file describing the particle
     num -- the number of particles of the first type to add.
     """
-    config = feasst.Configuration(feasst.args(
+    config = feasst.Configuration(feasst.MakeDomain(feasst.args(
         {"cubic_box_length": str(box_length),
-         "particle_type": feasst.install_dir() + '/forcefield/' + forcefield,
-         "init_cells": "3"})) # optionally attempt to create a cell list
+         "init_cells": "3"})), # optionally attempt to create a cell list
+        feasst.args({"particle_type": feasst.install_dir() + '/forcefield/' + forcefield}))
     for _ in range(num):
         config.add_particle_of_type(0)
     return config

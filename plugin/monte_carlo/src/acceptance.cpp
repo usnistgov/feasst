@@ -12,4 +12,13 @@ void Acceptance::reset() {
   perturbed_.clear();
 }
 
+void Acceptance::add_to_perturbed(const Select& select) {
+  perturbed_.add(select);
+}
+
+void Acceptance::set_perturbed_state(const int state) {
+  DEBUG("state " << state);
+  perturbed_.set_trial_state(state);
+}
+
 }  // namespace feasst

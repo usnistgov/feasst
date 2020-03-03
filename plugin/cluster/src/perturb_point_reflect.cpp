@@ -19,7 +19,7 @@ static MapPerturbPointReflect mapper_ = MapPerturbPointReflect();
 
 void PerturbPointReflect::precompute(TrialSelect * select, System * system) {
   set_tunable_min_and_max(2*NEAR_ZERO,
-    0.5*system->configuration().domain().max_side_length());
+    0.5*system->configuration().domain()->max_side_length());
 }
 
 void PerturbPointReflect::update_selection(const Position& reflect,

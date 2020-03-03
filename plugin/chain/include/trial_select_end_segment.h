@@ -15,6 +15,7 @@ class TrialSelectEndSegment : public TrialSelectSegment {
     class_name_ = "TrialSelectEndSegment";
   }
   void precompute(System * system) override {
+    TrialSelectSegment::precompute(system);
     anchor_.clear();
     anchor_.add_site(0, 0);
   }
@@ -23,7 +24,7 @@ class TrialSelectEndSegment : public TrialSelectSegment {
   /// Return true if the endpoint is at the beginning.
   bool random_end_segment_in_particle(const Configuration& config,
       const int max_length,
-      SelectPosition * select,
+      Select * select,
       Random * random,
       /// Set the maximum length of the segment.
       /// If -1 (default), consider all possible lengths.

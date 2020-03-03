@@ -18,7 +18,7 @@ TEST(VisitModelInnerPatch, patch_one) {
   visit.set_inner(patch);
   visit.precompute(&config);
   patch->set_patch_angle(1, 90.);
-  config.add(Group().add_site_type(0));
+  config.add(MakeGroup({{"add_site_type", "0"}}));
   visit.compute(model, &config, 1);
   EXPECT_NEAR(-3., visit.energy(), NEAR_ZERO);
 
@@ -29,11 +29,11 @@ TEST(VisitModelInnerPatch, patch_one) {
 
 TEST(VisitModelInnerPatch, patch_one_2body) {
   System system;
-  { Configuration config({
-      {"cubic_box_length", "10"},
-      {"particle_type", "../plugin/patch/forcefield/data.patch_one"}
-    });
-    config.add(Group().add_site_type(0));
+  { Configuration config(
+      MakeDomain({{"cubic_box_length", "10"}}),
+      {{"particle_type", "../plugin/patch/forcefield/data.patch_one"}}
+    );
+    config.add(MakeGroup({{"add_site_type", "0"}}));
     config.add_particle_of_type(0);
     config.add_particle_of_type(0);
     system.add(config);

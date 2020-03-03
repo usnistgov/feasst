@@ -15,13 +15,11 @@
 #include "utils/include/arguments.h"
 #include "utils/include/checkpoint.h"
 #include "utils/include/custom_exception.h"
-#include "utils/include/utils.h"
 #include "utils/include/debug.h"
+#include "utils/include/utils.h"
 #include "utils/include/serialize.h"
 #include "utils/include/utils_io.h"
-#include "configuration/include/properties.h"
 #include "configuration/include/typed_entity.h"
-#include "configuration/include/bond.h"
 #include "monte_carlo/include/tunable.h"
 #include "math/include/accumulator.h"
 #include "monte_carlo/include/stepper.h"
@@ -31,7 +29,12 @@
 #include "math/include/formula_polynomial.h"
 #include "math/include/constants.h"
 #include "configuration/include/physical_constants.h"
+#include "configuration/include/properties.h"
+#include "configuration/include/bond.h"
 #include "math/include/position.h"
+#include "system/include/bond_two_body.h"
+#include "system/include/bond_square_well.h"
+#include "system/include/bond_three_body.h"
 #include "configuration/include/site.h"
 #include "configuration/include/particle.h"
 #include "configuration/include/group.h"
@@ -39,26 +42,26 @@
 #include "configuration/include/model_params.h"
 #include "configuration/include/particle_factory.h"
 #include "math/include/utils_math.h"
+#include "system/include/angle_square_well.h"
 #include "math/include/matrix.h"
 #include "math/include/random.h"
 #include "configuration/include/select.h"
 #include "monte_carlo/include/acceptance.h"
 #include "configuration/include/cells.h"
 #include "configuration/include/domain.h"
-#include "configuration/include/select_position.h"
 #include "configuration/include/visit_particles.h"
 #include "configuration/include/configuration.h"
-#include "system/include/model.h"
 #include "system/include/bond_visitor.h"
+#include "system/include/model.h"
 #include "system/include/select_list.h"
 #include "system/include/cluster_criteria.h"
 #include "system/include/energy_map.h"
-#include "configuration/include/file_xyz.h"
 #include "system/include/visit_model_inner.h"
 #include "system/include/visit_model.h"
 #include "system/include/model_two_body.h"
 #include "models/include/square_well.h"
 #include "models/include/yukawa.h"
+#include "system/include/ideal_gas.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/lennard_jones.h"
@@ -93,7 +96,6 @@
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/analyze.h"
-#include "steppers/include/movie.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/check_physicality.h"
@@ -123,10 +125,13 @@
 #include "system/include/model_one_body.h"
 #include "ewald/include/charge_self.h"
 #include "system/include/model_empty.h"
+#include "system/include/visit_model_bond.h"
 #include "system/include/visit_model_cell.h"
 #include "system/include/long_range_corrections.h"
 #include "ewald/include/ewald.h"
 #include "system/include/visit_model_intra.h"
+#include "configuration/include/file_xyz.h"
+#include "steppers/include/movie.h"
 #include "configuration/include/visit_configuration.h"
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/monte_carlo.h"
@@ -141,7 +146,6 @@
 #include "flat_histogram/include/collection_matrix.h"
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
-#include "prefetch/include/prefetch.h"
 #include "confinement/include/shape.h"
 #include "confinement/include/slab.h"
 #include "confinement/include/cylinder.h"
@@ -161,14 +165,9 @@
 #include "chain/include/perturb_pivot.h"
 #include "chain/include/trial_select_perturbed.h"
 #include "chain/include/trial_pivot.h"
-#include "chain/include/compute_protonation.h"
-#include "chain/include/compute_deprotonation.h"
 #include "chain/include/perturb_reptate.h"
 #include "chain/include/trial_reptate.h"
 #include "chain/include/perturb_site_type.h"
-#include "chain/include/trial_protonation.h"
-#include "chain/include/trial_deprotonation.h"
-#include "chain/include/utils_chain.h"
 #include "chain/include/trial_swap_sites.h"
 #include "cluster/include/energy_map_neigh.h"
 #include "cluster/include/energy_map_all.h"
@@ -194,7 +193,7 @@ using namespace feasst;
 %template(IntVector) std::vector<int>;
 %template(IntIntVector) std::vector<std::vector<int> >;
 %template(DoubleVector) std::vector<double>;
-%template(AnalyzeVector) std::vector<std::shared_ptr<Analyze> >;
+%template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;
 using namespace std;
 %pythonnondynamic;
 %include "std_map.i"
@@ -205,13 +204,7 @@ using namespace std;
 %shared_ptr(feasst::Arguments);
 %shared_ptr(feasst::Checkpoint);
 %shared_ptr(feasst::CustomException);
-%shared_ptr(feasst::Properties);
-%shared_ptr(feasst::PropertiedEntity);
 %shared_ptr(feasst::TypedEntity);
-%shared_ptr(feasst::Bond);
-%shared_ptr(feasst::Angle);
-%shared_ptr(feasst::Dihedral);
-%shared_ptr(feasst::Improper);
 %shared_ptr(feasst::Tunable);
 %shared_ptr(feasst::Accumulator);
 %shared_ptr(feasst::Stepper);
@@ -224,8 +217,17 @@ using namespace std;
 %shared_ptr(feasst::CODATA2014);
 %shared_ptr(feasst::CODATA2010);
 %shared_ptr(feasst::PhysicalConstantsCustom);
+%shared_ptr(feasst::Properties);
+%shared_ptr(feasst::PropertiedEntity);
+%shared_ptr(feasst::Bond);
+%shared_ptr(feasst::Angle);
+%shared_ptr(feasst::Dihedral);
+%shared_ptr(feasst::Improper);
 %shared_ptr(feasst::Position);
 %shared_ptr(feasst::SpatialEntity);
+%shared_ptr(feasst::BondTwoBody);
+%shared_ptr(feasst::BondSquareWell);
+%shared_ptr(feasst::BondThreeBody);
 %shared_ptr(feasst::Site);
 %shared_ptr(feasst::Particle);
 %shared_ptr(feasst::Group);
@@ -237,35 +239,29 @@ using namespace std;
 %shared_ptr(feasst::Charge);
 %shared_ptr(feasst::ModelParams);
 %shared_ptr(feasst::ParticleFactory);
+%shared_ptr(feasst::AngleSquareWell);
 %shared_ptr(feasst::Matrix);
 %shared_ptr(feasst::MatrixThreeByThree);
 %shared_ptr(feasst::RotationMatrix);
 %shared_ptr(feasst::Random);
 %shared_ptr(feasst::Select);
-%shared_ptr(feasst::SelectGroup);
 %shared_ptr(feasst::Acceptance);
 %shared_ptr(feasst::Cells);
 %shared_ptr(feasst::Domain);
-%shared_ptr(feasst::SelectPosition);
 %shared_ptr(feasst::VisitParticles);
 %shared_ptr(feasst::LoopOneBody);
 %shared_ptr(feasst::Configuration);
-%shared_ptr(feasst::Model);
-%shared_ptr(feasst::BondTwoBody);
-%shared_ptr(feasst::BondSquareWell);
-%shared_ptr(feasst::BondThreeBody);
-%shared_ptr(feasst::AngleSquareWell);
 %shared_ptr(feasst::BondVisitor);
+%shared_ptr(feasst::Model);
 %shared_ptr(feasst::SelectList);
 %shared_ptr(feasst::ClusterCriteria);
 %shared_ptr(feasst::EnergyMap);
-%shared_ptr(feasst::FileVMD);
-%shared_ptr(feasst::FileXYZ);
 %shared_ptr(feasst::VisitModelInner);
 %shared_ptr(feasst::VisitModel);
 %shared_ptr(feasst::ModelTwoBody);
 %shared_ptr(feasst::SquareWell);
 %shared_ptr(feasst::Yukawa);
+%shared_ptr(feasst::IdealGas);
 %shared_ptr(feasst::ModelTwoBodyFactory);
 %shared_ptr(feasst::HardSphere);
 %shared_ptr(feasst::LennardJones);
@@ -304,7 +300,6 @@ using namespace std;
 %shared_ptr(feasst::Analyze);
 %shared_ptr(feasst::AnalyzeWriteOnly);
 %shared_ptr(feasst::AnalyzeUpdateOnly);
-%shared_ptr(feasst::Movie);
 %shared_ptr(feasst::Energy);
 %shared_ptr(feasst::NumParticles);
 %shared_ptr(feasst::CheckPhysicality);
@@ -336,10 +331,14 @@ using namespace std;
 %shared_ptr(feasst::ModelOneBody);
 %shared_ptr(feasst::ChargeSelf);
 %shared_ptr(feasst::ModelEmpty);
+%shared_ptr(feasst::VisitModelBond);
 %shared_ptr(feasst::VisitModelCell);
 %shared_ptr(feasst::LongRangeCorrections);
 %shared_ptr(feasst::Ewald);
 %shared_ptr(feasst::VisitModelIntra);
+%shared_ptr(feasst::FileVMD);
+%shared_ptr(feasst::FileXYZ);
+%shared_ptr(feasst::Movie);
 %shared_ptr(feasst::VisitConfiguration);
 %shared_ptr(feasst::LoopConfigOneBody);
 %shared_ptr(feasst::RandomMT19937);
@@ -356,8 +355,6 @@ using namespace std;
 %shared_ptr(feasst::TripleBandedCollectionMatrix);
 %shared_ptr(feasst::TransitionMatrix);
 %shared_ptr(feasst::MacrostateNumParticles);
-%shared_ptr(feasst::Pool);
-%shared_ptr(feasst::Prefetch);
 %shared_ptr(feasst::Shape);
 %shared_ptr(feasst::ShapedEntity);
 %shared_ptr(feasst::ShapeIntersect);
@@ -380,13 +377,9 @@ using namespace std;
 %shared_ptr(feasst::PerturbPivot);
 %shared_ptr(feasst::TrialSelectPerturbed);
 %shared_ptr(feasst::TrialPivot);
-%shared_ptr(feasst::ComputeProtonation);
-%shared_ptr(feasst::ComputeDeprotonation);
 %shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::TrialReptate);
 %shared_ptr(feasst::PerturbSiteType);
-%shared_ptr(feasst::TrialProtonation);
-%shared_ptr(feasst::TrialDeprotonation);
 %shared_ptr(feasst::TrialSwapSites);
 %shared_ptr(feasst::EnergyMapNeigh);
 %shared_ptr(feasst::EnergyMapAll);
@@ -411,13 +404,11 @@ using namespace std;
 %include utils/include/arguments.h
 %include utils/include/checkpoint.h
 %include utils/include/custom_exception.h
-%include utils/include/utils.h
 %include utils/include/debug.h
+%include utils/include/utils.h
 %include utils/include/serialize.h
 %include utils/include/utils_io.h
-%include configuration/include/properties.h
 %include configuration/include/typed_entity.h
-%include configuration/include/bond.h
 %include monte_carlo/include/tunable.h
 %include math/include/accumulator.h
 %include monte_carlo/include/stepper.h
@@ -427,7 +418,12 @@ using namespace std;
 %include math/include/formula_polynomial.h
 %include math/include/constants.h
 %include configuration/include/physical_constants.h
+%include configuration/include/properties.h
+%include configuration/include/bond.h
 %include math/include/position.h
+%include system/include/bond_two_body.h
+%include system/include/bond_square_well.h
+%include system/include/bond_three_body.h
 %include configuration/include/site.h
 %include configuration/include/particle.h
 %include configuration/include/group.h
@@ -435,26 +431,26 @@ using namespace std;
 %include configuration/include/model_params.h
 %include configuration/include/particle_factory.h
 %include math/include/utils_math.h
+%include system/include/angle_square_well.h
 %include math/include/matrix.h
 %include math/include/random.h
 %include configuration/include/select.h
 %include monte_carlo/include/acceptance.h
 %include configuration/include/cells.h
 %include configuration/include/domain.h
-%include configuration/include/select_position.h
 %include configuration/include/visit_particles.h
 %include configuration/include/configuration.h
-%include system/include/model.h
 %include system/include/bond_visitor.h
+%include system/include/model.h
 %include system/include/select_list.h
 %include system/include/cluster_criteria.h
 %include system/include/energy_map.h
-%include configuration/include/file_xyz.h
 %include system/include/visit_model_inner.h
 %include system/include/visit_model.h
 %include system/include/model_two_body.h
 %include models/include/square_well.h
 %include models/include/yukawa.h
+%include system/include/ideal_gas.h
 %include system/include/model_two_body_factory.h
 %include system/include/hard_sphere.h
 %include system/include/lennard_jones.h
@@ -489,7 +485,6 @@ using namespace std;
 %include monte_carlo/include/trial.h
 %include monte_carlo/include/trial_factory.h
 %include monte_carlo/include/analyze.h
-%include steppers/include/movie.h
 %include steppers/include/energy.h
 %include steppers/include/num_particles.h
 %include steppers/include/check_physicality.h
@@ -519,10 +514,13 @@ using namespace std;
 %include system/include/model_one_body.h
 %include ewald/include/charge_self.h
 %include system/include/model_empty.h
+%include system/include/visit_model_bond.h
 %include system/include/visit_model_cell.h
 %include system/include/long_range_corrections.h
 %include ewald/include/ewald.h
 %include system/include/visit_model_intra.h
+%include configuration/include/file_xyz.h
+%include steppers/include/movie.h
 %include configuration/include/visit_configuration.h
 %include math/include/random_mt19937.h
 %include monte_carlo/include/monte_carlo.h
@@ -537,7 +535,6 @@ using namespace std;
 %include flat_histogram/include/collection_matrix.h
 %include flat_histogram/include/transition_matrix.h
 %include flat_histogram/include/macrostate_num_particles.h
-%include prefetch/include/prefetch.h
 %include confinement/include/shape.h
 %include confinement/include/slab.h
 %include confinement/include/cylinder.h
@@ -557,14 +554,9 @@ using namespace std;
 %include chain/include/perturb_pivot.h
 %include chain/include/trial_select_perturbed.h
 %include chain/include/trial_pivot.h
-%include chain/include/compute_protonation.h
-%include chain/include/compute_deprotonation.h
 %include chain/include/perturb_reptate.h
 %include chain/include/trial_reptate.h
 %include chain/include/perturb_site_type.h
-%include chain/include/trial_protonation.h
-%include chain/include/trial_deprotonation.h
-%include chain/include/utils_chain.h
 %include chain/include/trial_swap_sites.h
 %include cluster/include/energy_map_neigh.h
 %include cluster/include/energy_map_all.h

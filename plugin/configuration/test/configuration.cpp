@@ -3,11 +3,9 @@
 #include "configuration/include/configuration.h"
 #include "configuration/include/file_xyz.h"
 #include "utils/include/debug.h"
-//#include "system/include/select_list.h"
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
 #include "utils/include/debug.h"
-#include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
 
@@ -28,11 +26,20 @@ TEST(Configuration, type_to_file_name) {
   EXPECT_EQ("../forcefield/data.spce", config.type_to_file_name(2));
 }
 
+TEST(Configuration, non_cubic_domain) {
+  Configuration config;
+  config.set(MakeDomain({
+    {"side_length0", "3"},
+    {"side_length1", "4"},
+    {"side_length2", "5"},
+  }));
+  EXPECT_EQ(config.dimension(), 3);
+  EXPECT_EQ(config.domain()->volume(), 3*4*5);
+}
+
 TEST(Configuration, coordinates_and_wrapping) {
-  Configuration config({
-    {"cubic_box_length", "5"},
-    {"particle_type0", "../forcefield/data.atom"},
-  });
+  Configuration config(MakeDomain({{"cubic_box_length", "5"}}),
+    {{"particle_type0", "../forcefield/data.atom"}});
   config.add_particle_of_type(0);
   config.add_particle_of_type(0);
   Position pos;
@@ -40,8 +47,8 @@ TEST(Configuration, coordinates_and_wrapping) {
   pos.set_coord(0, -583);
   pos.set_coord(1, 83.34);
   pos.set_coord(2, 0.005783);
-  SelectList select;
-  select.particle(0, config);
+  Select select(0, config.select_particle(0));
+  //select.particle(0, config);
   config.displace_particles(select, pos);
   config.wrap_particle(0);
   EXPECT_EQ(config.num_particles(), 2);
@@ -129,46 +136,46 @@ TEST(Configuration, bonds_spce) {
 }
 
 TEST(Configuration, group) {
-  Configuration config;
-  config.set_domain(Domain().set_cubic(7));
+  auto config = MakeConfiguration(MakeDomain({{"cubic_box_length", "7"}}));
   TRY(
-    Configuration config_err(config);
-    config_err.add(Group().add_site_type(0));
+    Configuration config_err(*config);
+    config_err.add(MakeGroup({{"add_site_type", "0"}}));
     CATCH_PHRASE("add groups after particle types");
   );
-  config.add_particle_type("../forcefield/data.spce");
-  config.add_particle_type("../forcefield/data.lj");
+  config->add_particle_type("../forcefield/data.spce");
+  config->add_particle_type("../forcefield/data.lj");
   TRY(
-    Configuration config_err(config);
+    Configuration config_err(*config);
     config_err.add_particle_of_type(0);
     config_err.add_particle_type("../forcefield/data.lj");
     CATCH_PHRASE("types cannot be added after particles");
   );
-  config.add(Group().add_site_type(0).add_particle_type(0), "O");
-  config.add(Group().add_site_type(0).add_particle_type(1), "H");
-  config.add(Group().add_site_type(2).add_particle_type(1), "none");
-  EXPECT_TRUE(config.group_select(0).group().has_property("0"));
-  EXPECT_TRUE(config.group_select(1).group().has_property("O"));
-  EXPECT_TRUE(config.group_select(2).group().has_property("H"));
-  EXPECT_TRUE(config.group_select(3).group().has_property("none"));
-  EXPECT_EQ(4, config.group_selects().size());
+  config->add(MakeGroup({{"add_site_type", "0"}, {"add_particle_type", "0"}}), "O");
+  config->add(MakeGroup({{"add_site_type", "0"}, {"add_particle_type", "1"}}), "H");
+  config->add(MakeGroup({{"add_site_type", "2"}, {"add_particle_type", "1"}}), "none");
+  EXPECT_TRUE(config->group_select(0).group()->has_property("0"));
+  EXPECT_TRUE(config->group_select(1).group()->has_property("O"));
+  EXPECT_TRUE(config->group_select(2).group()->has_property("H"));
+  EXPECT_TRUE(config->group_select(3).group()->has_property("none"));
+  EXPECT_EQ(4, config->group_selects().size());
   for (int part = 0; part < 100; ++part) {
-    config.add_particle_of_type(0);
+    config->add_particle_of_type(0);
   }
-  FileXYZ().load("../plugin/system/test/data/spce_sample_config_periodic1.xyz", &config);
-  config.add_particle_of_type(1);
-  EXPECT_EQ(2, config.num_particle_types());
-  EXPECT_EQ(3, config.num_site_types());
-  const SelectGroup& sel0 = config.group_select(1);
+  FileXYZ().load("../plugin/system/test/data/spce_sample_config_periodic1.xyz",
+                 config.get());
+  config->add_particle_of_type(1);
+  EXPECT_EQ(2, config->num_particle_types());
+  EXPECT_EQ(3, config->num_site_types());
+  const Select& sel0 = config->group_select(1);
   EXPECT_EQ(100, sel0.num_particles());
   EXPECT_EQ(100, sel0.num_sites());
   for (int index = 0; index < sel0.num_particles(); ++index) {
     EXPECT_EQ(1, sel0.site_indices(index).size());
   }
-  const SelectGroup& sel1 = config.group_select(2);
+  const Select& sel1 = config->group_select(2);
   EXPECT_EQ(0, sel1.num_particles());
   EXPECT_EQ(0, sel1.num_sites());
-  const SelectGroup& sel2 = config.group_select(3);
+  const Select& sel2 = config->group_select(3);
   EXPECT_EQ(1, sel2.num_particles());
   EXPECT_EQ(1, sel2.num_sites());
 
@@ -186,44 +193,46 @@ TEST(Configuration, group) {
 //  EXPECT_EQ(1, tselect.mobile().num_sites());
 //  EXPECT_EQ(100, tselect.mobile().particle_index(0));
 //
-  EXPECT_EQ(301, config.num_sites());
-//  config.remove_particles(select);
-//  EXPECT_EQ(300, config.num_sites());
+  EXPECT_EQ(301, config->num_sites());
+//  config->remove_particles(select);
+//  EXPECT_EQ(300, config->num_sites());
 }
 
 TEST(Configuration, cells) {
-  Configuration config({
-    {"cubic_box_length", "7"},
-    {"particle_type0", "../forcefield/data.spce"},
-  });
-  config.add(Group().add_site_type(0));
+  Configuration config(MakeDomain({{"cubic_box_length", "7"}}),
+    {{"particle_type0", "../forcefield/data.spce"}});
+  config.add(MakeGroup({{"add_site_type", "0"}}));
   config.add_particle_of_type(0);
   TRY(
     config.particle(0).site(0).property("cell");
     CATCH_PHRASE("not found");
   );
-  config.init_cells(1);
-  config.init_cells(1.4, 1);
-  EXPECT_EQ("cell0", config.domain().cells()[0].label());
-  EXPECT_EQ(config.domain().cells()[0].num_total(), 7*7*7);
+  auto domain = std::make_shared<Domain>(*config.domain());
+  domain->init_cells(1);
+  domain->init_cells(1.4, 1);
+//  config.init_cells(1);
+//  config.init_cells(1.4, 1);
+  config.set(domain);
+  EXPECT_EQ("cell0", config.domain()->cells()[0].label());
+  EXPECT_EQ(config.domain()->cells()[0].num_total(), 7*7*7);
   int cell0 = round(7*7*7/2. - 0.5);
   int cell1 = round(5*5*5/2. - 0.5);
   Site site = config.particle(0).site(0);
   EXPECT_EQ(cell0, round(site.property("cell0")));
   EXPECT_EQ(cell1, round(site.property("cell1")));
   std::vector<int> indices = {0};
-  EXPECT_EQ(config.domain().cells(0).particles()[0].num_particles(), 0);
-  EXPECT_EQ(config.domain().cells(1).particles()[0].num_particles(), 0);
-  EXPECT_EQ(config.domain().cells(0).particles()[cell0].num_particles(), 1);
-  EXPECT_EQ(config.domain().cells(1).particles()[cell1].num_particles(), 1);
+  EXPECT_EQ(config.domain()->cells(0).particles()[0].num_particles(), 0);
+  EXPECT_EQ(config.domain()->cells(1).particles()[0].num_particles(), 0);
+  EXPECT_EQ(config.domain()->cells(0).particles()[cell0].num_particles(), 1);
+  EXPECT_EQ(config.domain()->cells(1).particles()[cell1].num_particles(), 1);
   double tmp;
   EXPECT_TRUE(config.particle(0).site(1).properties().value("cell0", &tmp));
   EXPECT_FALSE(config.particle(0).site(1).properties().value("cell1", &tmp));
   Position trajectory({-3.49, -3.49, -3.49});
 
   DEBUG("displacing particles");
-  SelectList select;
-  select.particle(0, config);
+  Select select(0, config.select_particle(0));
+  //select.particle(0, config);
   config.displace_particles(select, trajectory);
   EXPECT_EQ(0, config.particle(0).site(0).property("cell0"));
   site = config.particle(0).site(0);
@@ -235,8 +244,8 @@ TEST(Configuration, cells) {
   EXPECT_EQ(6, round(config.particle(0).site(2).property("cell0")));
   EXPECT_FALSE(config.particle(0).site(1).has_property("cell1"));
   EXPECT_FALSE(config.particle(0).site(2).has_property("cell1"));
-  EXPECT_EQ(config.domain().cells(0).particles()[cell0].num_particles(), 0);
-  EXPECT_EQ(config.domain().cells(1).particles()[cell1].num_particles(), 0);
+  EXPECT_EQ(config.domain()->cells(0).particles()[cell0].num_particles(), 0);
+  EXPECT_EQ(config.domain()->cells(1).particles()[cell1].num_particles(), 0);
   DEBUG(site.property("cell0"));
   DEBUG(site.property("cell1"));
   EXPECT_NE(cell1, round(site.property("cell1")));
@@ -244,36 +253,28 @@ TEST(Configuration, cells) {
   // serialize
   Configuration config2 = test_serialize(config);
   EXPECT_EQ(6, round(config2.particle(0).site(2).property("cell0")));
-  EXPECT_EQ(config2.domain().cells(1).particles()[cell1].num_particles(), 0);
+  EXPECT_EQ(config2.domain()->cells(1).particles()[cell1].num_particles(), 0);
 
   config.remove_particle(select);
   config.check();
 }
 
-TEST(Configuration, position_selection) {
-  Configuration config = chain10_sample();
-  EXPECT_EQ(config.num_particles(), 1);
-  EXPECT_NEAR(0., config.particle(0).site(5).position().coord(1), NEAR_ZERO);
-  SelectList select;
-  select.select_sites(config, 0, {3, 4, 5});
-  select.set_site_position(0, 0, {1.1, 1.2, 1.3});
-  select.set_site_position(0, 1, {-1.1, -1.2, -1.3});
-  select.set_site_position(0, 2, {0, 37.5, 50.});
-  config.update_positions(select);
-  EXPECT_NEAR(37.5, config.particle(0).site(5).position().coord(1), NEAR_ZERO);
-}
-
-TEST(Configuration, domain_before_cells) {
-  Configuration config;
-  TRY(
-    config.init_cells(1.);
-    CATCH_PHRASE("cannot define cells before domain side");
-  );
-}
+//TEST(Configuration, position_selection) {
+//  Configuration config = chain10_sample();
+//  EXPECT_EQ(config.num_particles(), 1);
+//  EXPECT_NEAR(0., config.particle(0).site(5).position().coord(1), NEAR_ZERO);
+//  SelectList select;
+//  select.select_sites(config, 0, {3, 4, 5});
+//  select.set_site_position(0, 0, {1.1, 1.2, 1.3});
+//  select.set_site_position(0, 1, {-1.1, -1.2, -1.3});
+//  select.set_site_position(0, 2, {0, 37.5, 50.});
+//  config.update_positions(select);
+//  EXPECT_NEAR(37.5, config.particle(0).site(5).position().coord(1), NEAR_ZERO);
+//}
 
 TEST(Configuration, select_particle_by_group) {
   Configuration config = spce_sample();
-  config.add(Group().add_site_type(0));
+  config.add(MakeGroup({{"add_site_type", "0"}}));
   Particle part = config.particle(2, 1);
   EXPECT_EQ(1, part.num_sites());
 }

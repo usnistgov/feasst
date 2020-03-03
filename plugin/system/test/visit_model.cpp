@@ -72,9 +72,7 @@ TEST(VisitModel, reference_config) {
   visit.check_energy(model, &config);
 
   // test factory double counts with two identical LJ models.
-  ModelTwoBodyFactory factory;
-  factory.add_model(std::make_shared<LennardJones>());
-  factory.add_model(std::make_shared<LennardJones>());
+  ModelTwoBodyFactory factory({MakeLennardJones(), MakeLennardJones()});
   factory.compute(&config, &visit);
   EXPECT_NEAR(2.*energy_prev, visit.energy(), NEAR_ZERO);
 

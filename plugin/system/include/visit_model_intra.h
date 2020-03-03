@@ -42,7 +42,6 @@ class VisitModelIntra : public VisitModel {
   ~VisitModelIntra() {}
 
  private:
-  const std::string class_name_ = "VisitModelIntra";
   int cutoff_;
 };
 

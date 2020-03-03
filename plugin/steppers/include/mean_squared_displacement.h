@@ -48,14 +48,14 @@ class MeanSquaredDisplacement : public Modify {
   int updates_since_origin_;
   int updates_per_origin_;
   int group_index_;
-  std::vector<SelectPosition> origins_;
+  std::vector<Select> origins_;
   std::vector<Accumulator> msd_;
 
   int num_frames_() const { return static_cast<int>(msd_.size()); }
 
   void update_msd_(const int updates,
       const Configuration& config,
-      const SelectPosition& old_parts);
+      const Select& old_parts);
 };
 
 inline std::shared_ptr<MeanSquaredDisplacement> MakeMeanSquaredDisplacement(

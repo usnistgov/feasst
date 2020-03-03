@@ -67,8 +67,11 @@ class Acceptance {
   /// Add to the above.
   void add_to_macrostate_shift(const int shift) { macrostate_shift_ += shift; }
 
-  /// Add to perturbed selection.
-  void add_to_perturbed(const Select& select) { perturbed_.add(select); }
+  /// Add to perturbed selection and equate trial state.
+  void add_to_perturbed(const Select& select);
+
+  /// Set perturbed trial state.
+  void set_perturbed_state(const int state);
 
   /// Return the perturbed selection.
   const Select& perturbed() const { return perturbed_; }

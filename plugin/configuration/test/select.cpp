@@ -72,13 +72,21 @@ TEST(Select, add_remove) {
   EXPECT_EQ(all2.site_indices(1), indices);
 }
 
-TEST(SelectGroup, serialize) {
+TEST(Select, group) {
   Configuration config;
   config.add_particle_type("../forcefield/data.spce");
   config.add_particle_of_type(0);
-  SelectGroup oxygen;
-  oxygen.set_group(Group().add_site_type(1));
-  SelectGroup oxygen2 = test_serialize(oxygen);
+  Select oxygen;
+  oxygen.set_group(MakeGroup({{"add_site_type", "1"}}));
+  Select oxygen2 = test_serialize(oxygen);
+}
+
+TEST(Select, position) {
+  Configuration config;
+  config.add_particle_type("../forcefield/data.spce");
+  config.add_particle_of_type(0);
+  Select sel(config.group_select(0), config.particles());
+  Select sel2 = test_serialize(sel);
 }
 
 }  // namespace feasst

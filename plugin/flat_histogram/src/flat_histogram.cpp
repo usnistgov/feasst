@@ -46,6 +46,9 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
   if (is_accepted) {
     set_current_energy(acceptance.energy_new());
     DEBUG("current energy: " << current_energy());
+  } else {
+    // return the macrostate to the current value, as used by Analyze, etc.
+    macrostate_new_ = macrostate_old_;
   }
   was_accepted_ = is_accepted;
   last_acceptance_ = acceptance;

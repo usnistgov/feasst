@@ -5,58 +5,99 @@
 
 namespace feasst {
 
-Domain::Domain() {
-  set_xy();
-  set_xz();
-  set_yz();
+Domain::Domain(const argtype& args) {
+  Arguments args_(args);
+
+  bool is_cubic = args_.key("cubic_box_length").used();
+  if (is_cubic) {
+    set_cubic(args_.dble());
+  }
+
+  std::string start("side_length");
+  {
+    int dim = dimension();
+    std::stringstream key;
+    key << start << dim;
+    while (args_.key(key.str()).used()) {
+      ASSERT(!is_cubic, "cubic_box_length argument should not be used in " <<
+        "conjunction with side_length arguments");
+      add_side_length(args_.dble());
+      ++dim;
+      ASSERT(dim < 1e8, "dim(" << dim << ") is very high. Infinite loop?");
+      key.str("");
+      key << start << dim;
+    }
+  }
+  set_xy_(args_.key("xy").dflt("0.0").dble());
+  set_xz_(args_.key("xz").dflt("0.0").dble());
+  set_yz_(args_.key("yz").dflt("0.0").dble());
+
+  DEBUG("parse cells");
+  // HWH make this more modular
+  start.assign("init_cells");
+  // if only one cell, drop subscript
+  if (args_.key(start).used()) {
+    const double min_length = args_.dble();
+    int group_index = args_.key("cell_group").dflt("0").integer();
+    init_cells(min_length, group_index);
+  } else {
+    int cell = 0;
+    std::stringstream key;
+    key << start << cell;
+    while (args_.key(key.str()).used()) {
+      const double min_length = args_.dble();
+      std::stringstream cgrp;
+      cgrp << "cell_group" << cell;
+      int group_index = args_.key(cgrp.str()).dflt("0").integer();
+      init_cells(min_length, group_index);
+      ++cell;
+      ASSERT(cell < 1e8, "cell(" << cell << ") is very high. Infinite loop?");
+      key.str("");
+      key << start << cell;
+    }
+  }
 }
 
 Domain& Domain::set_cubic(const double box_length) {
-  std::vector<double> cube = {box_length, box_length, box_length};
-  Position side_length;
-  side_length.set_vector(cube);
-  set_side_length(side_length);
+  set_side_lengths(Position().set_vector({box_length, box_length, box_length}));
   return *this;
 }
 
-void Domain::set_side_length(const Position& side_length) {
-  side_length_ = side_length;
+void Domain::set_side_lengths(const Position& side_lengths) {
+  side_lengths_ = side_lengths;
   for (int dim = static_cast<int>(periodic_.size());
-       dim < static_cast<int>(side_length_.size());
+       dim < static_cast<int>(side_lengths_.size());
        ++dim) {
      periodic_.push_back(true);
   }
   ASSERT(static_cast<int>(periodic_.size()) ==
-         static_cast<int>(side_length_.size()), "size error");
+         static_cast<int>(side_lengths_.size()), "size error");
 }
 
-Domain& Domain::set_xy(const double xy) {
+void Domain::set_xy_(const double xy) {
   xy_ = xy;
   if (std::abs(xy_) > NEAR_ZERO) {
     is_tilted_ = true;
   }
-  return *this;
 }
 
-Domain& Domain::set_xz(const double xz) {
+void Domain::set_xz_(const double xz) {
   xz_ = xz;
   if (std::abs(xz_) > NEAR_ZERO) {
     is_tilted_ = true;
   }
-  return *this;
 }
 
-Domain& Domain::set_yz(const double yz) {
+void Domain::set_yz_(const double yz) {
   yz_ = yz;
   if (std::abs(yz_) > NEAR_ZERO) {
     is_tilted_ = true;
   }
-  return *this;
 }
 
 double Domain::volume() const {
   double vol = 1.;
-  for (double length : side_length_.coord()) {
+  for (double length : side_lengths_.coord()) {
     vol *= length;
   }
   return vol;
@@ -85,9 +126,9 @@ Position Domain::random_position(Random * random) const {
 }
 
 void Domain::random_position(Position * position, Random * random) const {
-  DEBUG("side_length_ " << side_length_.str());
+  DEBUG("side_lengths_ " << side_lengths_.str());
   ASSERT(!is_tilted(), "implement triclinic");
-  return random->position_in_cuboid(side_length_, position);
+  return random->position_in_cuboid(side_lengths_, position);
 }
 
 // HWH note if there are problems with scaled coordinates here, it probably
@@ -97,21 +138,24 @@ void Domain::random_position(Position * position, Random * random) const {
 int Domain::cell_id(const Position& position,
                     const Cells& cells) const {
   Position scaled(position);
-  DEBUG("scaled before wrap " << scaled.str() << " pos " << position.str() << " box " << side_length().str());
+  DEBUG("scaled before wrap " << scaled.str() << " pos " << position.str() <<
+    " box " << side_lengths().str());
   wrap(&scaled);
-  DEBUG("scaled after wrap " << scaled.str() << " pos " << position.str() << " box " << side_length().str());
-  scaled.divide(side_length());
-  DEBUG("scaled " << scaled.str() << " pos " << position.str() << " box " << side_length().str());
+  DEBUG("scaled after wrap " << scaled.str() << " pos " << position.str() <<
+    " box " << side_lengths().str());
+  scaled.divide(side_lengths());
+  DEBUG("scaled " << scaled.str() << " pos " << position.str() << " box "
+    << side_lengths().str());
   return cells.id(scaled.coord());
 }
 
 void Domain::init_cells(const double min_length,
                         const int group_index) {
-  ASSERT(side_length().size() > 0, "cannot define cells before domain sides");
+  ASSERT(side_lengths().size() > 0, "cannot define cells before domain sides");
   ASSERT(!is_tilted(), "implement triclinic");
   ASSERT(group_index >= 0, "error");
   Cells cell;
-  cell.create(min_length, side_length().coord());
+  cell.create(min_length, side_lengths().coord());
   std::stringstream ss;
   ss << "cell";
   ss << cells_.size();
@@ -158,11 +202,11 @@ void Domain::unwrap(const int dim, const int num_wrap, Position * shift) const {
 }
 
 bool Domain::is_cubic() const {
-  if (side_length_.size() == 0) {
+  if (side_lengths_.size() == 0) {
     return false;
   }
-  const double length0 = side_length_.coord(0);
-  for (const double& len : side_length_.coord()) {
+  const double length0 = side_lengths_.coord(0);
+  for (const double& len : side_lengths_.coord()) {
     if (std::abs(len - length0) > NEAR_ZERO) {
       return false;
     }
@@ -170,9 +214,19 @@ bool Domain::is_cubic() const {
   return true;
 }
 
+double Domain::min_side_length() const {
+  ASSERT(side_lengths_.dimension() > 0, "no side lengths");
+  return minimum(side_lengths_.coord());
+}
+
+double Domain::max_side_length() const {
+  ASSERT(side_lengths_.dimension() > 0, "no side lengths");
+  return maximum(side_lengths_.coord());
+}
+
 void Domain::serialize(std::ostream& sstr) const {
   feasst_serialize_version(1, sstr);
-  side_length_.serialize(sstr);
+  side_lengths_.serialize(sstr);
   feasst_serialize(xy_, sstr);
   feasst_serialize(xz_, sstr);
   feasst_serialize(yz_, sstr);
@@ -183,7 +237,7 @@ void Domain::serialize(std::ostream& sstr) const {
 
 Domain::Domain(std::istream& sstr) {
   feasst_deserialize_version(sstr);
-  side_length_ = Position(sstr);
+  side_lengths_ = Position(sstr);
   feasst_deserialize(&xy_, sstr);
   feasst_deserialize(&xz_, sstr);
   feasst_deserialize(&yz_, sstr);

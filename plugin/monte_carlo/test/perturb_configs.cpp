@@ -14,11 +14,11 @@ TEST(PerturbConfigs, transfer_particle) {
   Configuration * donor_config = sys.get_configuration(0);
   Configuration * acceptor_config = sys.get_configuration(1);
   FileXYZ().load("../plugin/system/test/data/lj_sample_config_periodic4.xyz", donor_config);
-  acceptor_config->set_side_length(donor_config->domain().side_length());
+  acceptor_config->set_side_lengths(donor_config->domain()->side_lengths());
   EXPECT_EQ(30, donor_config->num_particles());
   EXPECT_EQ(0, acceptor_config->num_particles());
-  EXPECT_EQ(8*8*8, donor_config->domain().volume());
-  EXPECT_EQ(8*8*8, acceptor_config->domain().volume());
+  EXPECT_EQ(8*8*8, donor_config->domain()->volume());
+  EXPECT_EQ(8*8*8, acceptor_config->domain()->volume());
   const double x_prev = donor_config->particle(29).position().coord(2);
 
   PerturbConfigs perturb;

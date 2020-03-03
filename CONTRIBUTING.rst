@@ -316,10 +316,11 @@ To Do List
 * Jupyter notebook output should go to cells, not terminal that runs jupyter.
 * implement gibbs ensemble
 * lint file_[xyz,lmp]
-* chain setters don't seem to work with the python interface (e.g., groups). Replace with arguments.
 * regrow but within near existing, for 'free dof, e.g. azimuthal in  angle, sphere in bond, etc'
 * put cell list in finalize-heavy paradigm, update_positions updates cell of selection, finalize updates entire cell list. linked list
 * config could use revert,finalize to update cell list only on finalization, and maybe not have to exclude from cell properties (why exclude?). same with ewald
 * HS-only simulations can use TrialComputeMoveMayer without computing energy of old configuration
 * Refactor arguments so that they can be checked for usage (especially in Trials)
 * Rename TrialSelect->SelectTrial, TrialCompute->ComputeTrial. Rename Compute->Decide?.
+* See if there is a performance difference for const_cast pointer to constant Reference. If not, remove const pntrs.
+* Transition from WL to TM

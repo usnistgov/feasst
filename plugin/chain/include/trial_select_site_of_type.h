@@ -26,12 +26,12 @@ class TrialSelectSiteOfType : public TrialSelect {
   /// Select a random site of given type in randomly selected particle.
   int random_site_in_particle(
       const Configuration& config,
-      SelectPosition * select,
+      Select * select,
       Random * random) {
     ASSERT(config.num_site_types() > site_type(),
       "site_type: " << site_type() << " is not present in system.");
     DEBUG("group_index " << group_index());
-    const SelectGroup& group = config.group_select(group_index());
+    const Select& group = config.group_select(group_index());
     const int num_particles = group.num_particles();
     if (num_particles == 0) {
       DEBUG("no particles");

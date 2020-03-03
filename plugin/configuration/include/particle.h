@@ -158,8 +158,9 @@ class Particle : public PropertiedEntity,
   /// Add a bond.
   void add_bond(const Bond& bond);
 
-  /// Set a bond.
-  void set_bond(const int index, const Bond& bond) { bonds_[index] = bond; }
+  /// Add a property to a bond.
+  void add_bond_property(const int bond, const std::string name,
+    const double value) { bonds_[bond].add_property(name, value); }
 
   /// Erase all bonds from particle.
   void erase_bonds();
@@ -185,8 +186,9 @@ class Particle : public PropertiedEntity,
   /// Add an angle.
   void add_angle(const Angle& angle);
 
-  /// Set an angle.
-  void set_angle(const int index, const Angle& angle) { angles_[index] = angle; }
+  /// Add a property to a bond.
+  void add_angle_property(const int angle, const std::string name,
+    const double value) { angles_[angle].add_property(name, value); }
 
   /// Find the angle between given sites 1-2-3, with 2 as the vertex.
   const Angle& angle(const int site_index1,

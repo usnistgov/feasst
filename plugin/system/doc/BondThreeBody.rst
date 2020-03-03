@@ -1,6 +1,6 @@
-EnergyMapAll
+BondThreeBody
 =====================================================
 
-.. doxygenclass:: feasst::EnergyMapAll
+.. doxygenclass:: feasst::BondThreeBody
    :project: FEASST
    :members:

@@ -5,7 +5,7 @@
 #include <string>
 #include "xdrfile.h"
 #include "xdrfile_xtc.h"
-#include "system/include/configuration.h"
+#include "configuration/include/configuration.h"
 
 namespace feasst {
 

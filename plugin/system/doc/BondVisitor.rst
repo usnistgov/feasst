@@ -1,6 +1,6 @@
-ClusterCriteria
+BondVisitor
 =====================================================
 
-.. doxygenclass:: feasst::ClusterCriteria
+.. doxygenclass:: feasst::BondVisitor
    :project: FEASST
    :members:

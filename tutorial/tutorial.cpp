@@ -2,11 +2,9 @@
 
 int main() {
   feasst::MonteCarlo mc;
-  mc.set(feasst::MakeRandomMT19937({{"seed", "date"}}));
-  mc.add(feasst::Configuration({
-    {"cubic_box_length", "8"},
-    {"particle_type", feasst::append_install_dir("forcefield/data.lj")},
-  }));
+  mc.set(feasst::MakeRandomMT19937({{"seed", "time"}}));
+  mc.add(feasst::Configuration(feasst::MakeDomain({{"cubic_box_length", "8"}}),
+    {{"particle_type", feasst::append_install_dir("forcefield/data.lj")}}));
   mc.add(feasst::Potential(feasst::MakeLennardJones()));
   mc.add(feasst::Potential(feasst::MakeLongRangeCorrections()));
   mc.add(feasst::MakeMetropolis(

@@ -33,11 +33,13 @@ class TrialSwapSites : public Trial {
     const std::string part_type = args_.key("particle_type").str();
     add_stage(
       MakeTrialSelectSiteOfType({{"site_type", str(site_type1)}, {"particle_type", part_type}}),
-      MakePerturbSiteType({{"type", str(site_type2)}})
+      MakePerturbSiteType({{"type", str(site_type2)}}),
+      args
     );
     add_stage(
       MakeTrialSelectSiteOfType({{"site_type", str(site_type2)}, {"particle_type", part_type}}),
-      MakePerturbSiteType({{"type", str(site_type1)}})
+      MakePerturbSiteType({{"type", str(site_type1)}}),
+      args
     );
   }
 

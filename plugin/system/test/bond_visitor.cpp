@@ -1,6 +1,8 @@
-#include <gtest/gtest.h>
-#include "system/include/bond_visitor.h"
+#include "utils/test/utils.h"
 #include "system/test/system_test.h"
+#include "system/include/bond_visitor.h"
+#include "system/include/bond_square_well.h"
+#include "system/include/angle_square_well.h"
 
 namespace feasst {
 
@@ -16,6 +18,10 @@ TEST(BondVisitor, spce) {
   AngleSquareWell angle;
   visitor.compute(angle, config);
   EXPECT_NEAR(14*NEAR_INFINITY, visitor.energy(), NEAR_INFINITY/1e10);
+
+  BondVisitor visitor2 = test_serialize(visitor);
+  BondSquareWell model2 = test_serialize(model);
+  AngleSquareWell angle2 = test_serialize(angle);
 }
 
 }  // namespace feasst

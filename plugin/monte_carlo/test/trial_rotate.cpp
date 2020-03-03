@@ -13,10 +13,8 @@ namespace feasst {
 TEST(TrialRotate, spce) {
   System system;
   {
-    auto config = MakeConfiguration(
-      {{"particle_type", "../forcefield/data.spce"},
-       {"cubic_box_length", "4"}
-       });
+    auto config = MakeConfiguration(MakeDomain({{"cubic_box_length", "4"}}),
+      {{"particle_type", "../forcefield/data.spce"}});
     config->add_particle_of_type(0);
     system.add(*config);
   }

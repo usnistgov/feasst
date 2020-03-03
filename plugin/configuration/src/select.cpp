@@ -164,6 +164,10 @@ bool Select::is_equal(const Select& select) const {
 void Select::remove_last_site() {
   ASSERT(site_indices_.size() == 1, "assumes 1 particle");
   site_indices_[0].pop_back();
+  if (site_positions_.size() != 0) {
+    site_positions_[0].pop_back();
+    site_properties_[0].pop_back();
+  }
 }
 
 void Select::remove_last_sites(const int num) {
@@ -175,6 +179,10 @@ void Select::remove_last_sites(const int num) {
 void Select::remove_first_site() {
   ASSERT(site_indices_.size() == 1, "assumes 1 particle");
   site_indices_[0].erase(site_indices_[0].begin());
+  if (site_positions_.size() != 0) {
+    site_positions_[0].erase(site_positions_[0].begin());
+    site_properties_[0].erase(site_properties_[0].begin());
+  }
 }
 
 bool Select::is_overlap(const Select& select) const {
@@ -237,6 +245,158 @@ void Select::remove_particle_(const int select_index) {
   site_indices_.erase(site_indices_.begin() + select_index);
 }
 
+const Group * Select::group() const {
+  ASSERT(group_, "group is not defined");
+  return group_.get();
+}
+
+void Select::set_site_position(const int particle_index,
+                                       const int site_index,
+                                       const Position& position) {
+  ASSERT(particle_index < static_cast<int>(particle_positions_.size()),
+    "particle_index(" << particle_index << ") is larger than position size: "
+    << particle_positions_.size());
+  ASSERT(site_index < static_cast<int>(site_positions_[particle_index].size()),
+    "size error");
+  site_positions_[particle_index][site_index] = position;
+}
+
+void Select::set_site_position(const int particle_index,
+                                       const int site_index,
+                                       const std::vector<double> coord) {
+  Position pos;
+  pos.set_vector(coord);
+  set_site_position(particle_index, site_index, pos);
+}
+
+void Select::add_to_site_position(const int particle_index,
+                                          const int site_index,
+                                          const Position& position) {
+  ASSERT(particle_index < static_cast<int>(particle_positions_.size()),
+    "particle_index(" << particle_index << ") is larger than position size: "
+    << particle_positions_.size());
+  ASSERT(site_index < static_cast<int>(site_positions_[particle_index].size()),
+    "size error");
+  site_positions_[particle_index][site_index].add(position);
+}
+
+void Select::add_to_particle_position(const int particle_index,
+                                              const Position& position) {
+  ASSERT(particle_index < static_cast<int>(particle_positions_.size()),
+    "particle_index(" << particle_index << ") is larger than position size: "
+    << particle_positions_.size());
+  particle_positions_[particle_index].add(position);
+}
+
+void Select::set_site_properties(
+    const int particle_index,
+    const int site_index,
+    const Properties& properties) {
+  site_properties_[particle_index][site_index] = properties;
+}
+
+void Select::set_particle_position(const int particle_index,
+                                   const Position& position) {
+  ASSERT(particle_index < static_cast<int>(particle_positions_.size()),
+    "particle_index: " << particle_index << " must be less than " <<
+    particle_positions_.size());
+  particle_positions_[particle_index] = position;
+}
+
+void Select::load_position(const int pindex,
+    const Particle& particle) {
+  if (particle_positions_.size() == 0) {
+    resize_positions();
+  }
+  set_particle_position(pindex, particle.position());
+  int sindex = 0;
+  for (int site_index : site_indices(pindex)) {
+    set_site_position(pindex, sindex, particle.site(site_index).position());
+    set_site_properties(pindex, sindex, particle.site(site_index).properties());
+    ++sindex;
+  }
+}
+
+void Select::load_positions(const ParticleFactory& particles) {
+  int pindex = 0;
+  for (int particle_index : particle_indices()) {
+    load_position(pindex, particles.particle(particle_index));
+    ++pindex;
+  }
+}
+
+void Select::load_positions_of_last(const Particle& particle,
+    const Position& frame_of_reference) {
+  particle_positions_.push_back(particle.position());
+  particle_positions_.back().add(frame_of_reference);
+  const int pindex = num_particles() - 1;
+  std::vector<Position> site_posit;
+  std::vector<Properties> site_props;
+  for (int sindex : site_indices(pindex)) {
+    site_posit.push_back(particle.site(sindex).position());
+    site_posit.back().add(frame_of_reference);
+    site_props.push_back(particle.site(sindex).properties());
+  }
+  site_positions_.push_back(site_posit);
+  site_properties_.push_back(site_props);
+}
+
+Position Select::geometric_center(const int particle_index) const {
+  Position center(particle_positions()[0].dimension());
+  // consider all particles if particle index is not provided
+  if (particle_index == -1) {
+    for (int sp = 0; sp < num_particles(); ++sp) {
+      for (int ss = 0; ss < num_sites(sp); ++ss) {
+        center.add(site_positions()[sp][ss]);
+      }
+    }
+    center.divide(num_sites());
+  } else {
+    const int sp = particle_index;
+    for (int ss = 0; ss < num_sites(sp); ++ss) {
+      center.add(site_positions()[sp][ss]);
+    }
+    center.divide(num_sites(particle_index));
+  }
+  return center;
+}
+
+void Select::clear() {
+  particle_indices_.clear();
+  site_indices_.clear();
+  particle_positions_.clear();
+  site_positions_.clear();
+  site_properties_.clear();
+}
+
+void Select::resize_positions() {
+  particle_positions_.resize(num_particles());
+  site_positions_.resize(num_particles());
+  site_properties_.resize(num_particles());
+  for (int index = 0; index < num_particles(); ++index) {
+    site_positions_[index].resize(site_indices(index).size());
+    site_properties_[index].resize(site_indices(index).size());
+  }
+}
+
+Select::Select(const Select& select,
+  const ParticleFactory& particles)
+  : Select(select) {
+  resize_positions();
+  load_positions(particles);
+}
+
+Select::Select(const int particle_index,
+    const Particle& particle) {
+  add_particle(particle, particle_index);
+  resize_positions();
+  load_position(0, particle);
+}
+
+void Select::set_trial_state(const int state) {
+  trial_state_ = state;
+}
+
 void Select::serialize(std::ostream& sstr) const {
   feasst_serialize_version(183, sstr);
   feasst_serialize(particle_indices_, sstr);
@@ -245,6 +405,10 @@ void Select::serialize(std::ostream& sstr) const {
   feasst_serialize(excluded_, sstr);
   feasst_serialize(new_bond_, sstr);
   feasst_serialize(old_bond_, sstr);
+  feasst_serialize(group_, sstr);
+  feasst_serialize_fstobj(particle_positions_, sstr);
+  feasst_serialize_fstobj(site_positions_, sstr);
+  feasst_serialize_fstobj(site_properties_, sstr);
 }
 
 Select::Select(std::istream& sstr) {
@@ -253,20 +417,31 @@ Select::Select(std::istream& sstr) {
   feasst_deserialize(&particle_indices_, sstr);
   feasst_deserialize(&site_indices_, sstr);
   feasst_deserialize(&trial_state_, sstr);
-  feasst_deserialize(excluded_, sstr);
-  feasst_deserialize(new_bond_, sstr);
-  feasst_deserialize(old_bond_, sstr);
-}
-
-void SelectGroup::serialize(std::ostream& sstr) const {
-  Select::serialize(sstr);
-  feasst_serialize_version(1, sstr);
-  group_.serialize(sstr);
-}
-
-SelectGroup::SelectGroup(std::istream& sstr) : Select(sstr) {
-  feasst_deserialize_version(sstr);
-  group_ = Group(sstr);
+  // HWH for unknown reasons, this deserialization isn't working
+  // feasst_deserialize(excluded_, sstr);
+  // feasst_deserialize_fstobj(new_bond_, sstr);
+  // feasst_deserialize(old_bond_, sstr);
+  int existing;
+  sstr >> existing;
+  if (existing != 0) {
+    excluded_ = std::make_shared<Select>(sstr);
+  }
+  sstr >> existing;
+  if (existing != 0) {
+    new_bond_ = std::make_shared<Select>(sstr);
+  }
+  sstr >> existing;
+  if (existing != 0) {
+    old_bond_ = std::make_shared<Select>(sstr);
+  }
+  // feasst_deserialize(group_, sstr);
+  sstr >> existing;
+  if (existing != 0) {
+    group_ = std::make_shared<Group>(sstr);
+  }
+  feasst_deserialize_fstobj(&particle_positions_, sstr);
+  feasst_deserialize_fstobj(&site_positions_, sstr);
+  feasst_deserialize_fstobj(&site_properties_, sstr);
 }
 
 }  // namespace feasst

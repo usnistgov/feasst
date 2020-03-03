@@ -12,6 +12,7 @@ class ModelOneBody;
 class ModelTwoBody;
 class ModelThreeBody;
 
+// HWH document and lint VisitModel
 /**
   See Model for a description of the compute methods. These are mirrored by
   simply switching the calling object and the first argument
@@ -19,14 +20,11 @@ class ModelThreeBody;
  */
 class VisitModel {
  public:
-  VisitModel() {
-    set_inner(); }
-
-  VisitModel(std::shared_ptr<VisitModelInner> inner) {
+  explicit VisitModel(std::shared_ptr<VisitModelInner> inner =
+      std::make_shared<VisitModelInner>()) {
     set_inner(inner); }
 
-  void set_inner(const std::shared_ptr<VisitModelInner> inner =
-    std::make_shared<VisitModelInner>()) {
+  void set_inner(const std::shared_ptr<VisitModelInner> inner) {
     inner_ = inner; }
 
   const VisitModelInner * const inner() const { return inner_.get(); }
@@ -137,38 +135,31 @@ class VisitModel {
     ostr << class_name_ << " ";
     serialize_visit_model_(ostr);
   }
-
   virtual std::shared_ptr<VisitModel> create(std::istream& istr) const {
-    return std::make_shared<VisitModel>(istr);
-  }
-
+    return std::make_shared<VisitModel>(istr); }
   std::map<std::string, std::shared_ptr<VisitModel> >& deserialize_map();
-
-  std::shared_ptr<VisitModel> deserialize(std::istream& istr) {
-    return template_deserialize(deserialize_map(), istr); }
-
+  std::shared_ptr<VisitModel> deserialize(std::istream& istr);
   VisitModel(std::istream& istr);
   virtual ~VisitModel() {}
 
  protected:
+  std::string class_name_ = "VisitModel";
   void serialize_visit_model_(std::ostream& ostr) const;
-//  void deserialize_visit_model_(std::istream& istr, std::shared_ptr<VisitModel> visitor) const;
   VisitModelInner * get_inner_() const { return inner_.get(); }
 
-  // HWH hacky addition: also, prep inner for reverting,
+  // HWH hacky addition for optimization: also, prep inner for reverting,
   // because this is called at beginning of every pair-wise selection compute
   // optimization to avoid repeated construction of Position.
   Position relative_, pbc_;
-  void init_relative_(const Domain& domain, Position * relative,
+  void init_relative_(const Domain * domain, Position * relative,
                       Position * pbc) {
-    if (relative->dimension() != domain.dimension()) {
-      relative->set_vector(domain.side_length().coord());
-      pbc->set_vector(domain.side_length().coord());
+    if (relative->dimension() != domain->dimension()) {
+      relative->set_vector(domain->side_lengths().coord());
+      pbc->set_vector(domain->side_lengths().coord());
     }
   }
 
  private:
-  const std::string class_name_ = "VisitModel";
   double energy_ = 0.;
   std::shared_ptr<VisitModelInner> inner_;
 };

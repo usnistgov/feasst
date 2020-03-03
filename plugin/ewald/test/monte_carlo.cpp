@@ -15,29 +15,28 @@ namespace feasst {
 
 TEST(MonteCarlo, spce) {
   MonteCarlo mc;
-  mc.set(MakeRandomMT19937({{"seed", "1234"}}));
+  mc.set(MakeRandomMT19937({{"seed", "time"}}));
+  // mc.set(MakeRandomMT19937({{"seed", "1234"}}));
   // mc.set(MakeRandomMT19937({{"seed", "1572272377"}}));
   // mc.set(MakeRandomMT19937({{"seed", "1574171557"}}));
   std::shared_ptr<Ewald> ewald;
   {
     System system;
     {
-      Configuration config({
-        {"cubic_box_length", "24.8586887"},
-        {"particle_type", "../forcefield/data.spce"}
-      });
-//      config.add_particle_of_type(0);
+      Configuration config(MakeDomain({{"cubic_box_length", "24.8586887"}}),
+        {{"particle_type", "../forcefield/data.spce"}});
       system.add(config);
     }
 //    ewald = add_ewald_with(MakeLennardJones(), &system, kmax_squared);
     system.add(Potential(
       MakeEwald({{"kmax_squared", "3"},
-                 {"alpha", str(5.6/system.configuration().domain().min_side_length())}}),
+                 {"alpha", str(5.6/system.configuration().domain()->min_side_length())}}),
                        {{"prevent_cache", "true"}}));
     system.add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
                                                MakeChargeScreened()})));
-    system.add(Potential(MakeChargeScreenedIntra(),
-                       MakeVisitModelIntra({{"cutoff", "0"}})));
+    //system.add(Potential(MakeChargeScreenedIntra(),
+    //                   MakeVisitModelIntra({{"cutoff", "0"}})));
+    system.add(Potential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
     system.add(Potential(MakeChargeSelf()));
     system.add(Potential(MakeLongRangeCorrections()));
     mc.set(system);
@@ -52,7 +51,7 @@ TEST(MonteCarlo, spce) {
   add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
   mc.add(MakeMovie({{"file_name", "tmp/spce.xyz"}, {"steps_per", str(steps_per)}}));
   mc.add(MakeLog({{"file_name", "tmp/spce_log.txt"}, {"steps_per", str(steps_per)}}));
-  mc.add(MakeTuner({{"steps_per", str(steps_per)}}));
+  mc.add(MakeTuner({{"steps_per", str(1e2)}}));
   mc.add(MakeCheckEnergy({{"tolerance", "1e-8"}, {"steps_per", str(steps_per)}}));
   mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
   mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));

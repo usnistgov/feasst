@@ -12,9 +12,8 @@ namespace feasst {
 
 /// Use a 5 angstrom cut off
 TEST(VisitModelCell, simple_lj) {
-  Configuration config;
-  config.set_domain(Domain().set_cubic(15));
-  config.add_particle_type("../forcefield/data.lj");
+  Configuration config(MakeDomain({{"cubic_box_length", "15"}, {"init_cells", "3"}}),
+    {{"particle_type", "../forcefield/data.lj"}});
   config.add_particle_of_type(0);
   SelectList select;
   config.add_particle_of_type(0);
@@ -28,8 +27,8 @@ TEST(VisitModelCell, simple_lj) {
   config.displace_particle(select, pos);
   EXPECT_EQ(0, config.particle(0).site(0).position().coord(0));
   EXPECT_EQ(2, config.particle(1).site(0).position().coord(0));
-  config.init_cells(3);
-  const Cells& cells = config.domain().cells(0);
+//  config.init_cells(3);
+  const Cells& cells = config.domain()->cells(0);
   EXPECT_EQ(5*5*5, cells.num_total());
   const int center = round(5.*5.*5./2. - 0.5);
   EXPECT_EQ(config.particle(0).site(0).property("cell0"), center);

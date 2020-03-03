@@ -26,7 +26,7 @@ void VisitModelInnerPatch::compute(
   const Site& site2 = part2.site(site2_index);
   clear_ixn(part1_index, site1_index, part2_index, site2_index);
   double squared_distance;
-  config->domain().wrap_opt(site1.position(), site2.position(), relative, pbc, &squared_distance);
+  config->domain()->wrap_opt(site1.position(), site2.position(), relative, pbc, &squared_distance);
   const int type1 = site1.type();
   const int type2 = site2.type();
   const double cutoff = model_params.mixed_cutoff()[type1][type2];

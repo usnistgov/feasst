@@ -18,7 +18,7 @@ TEST(CriteriaMayer, ljb2) {
   config->set_model_param("cutoff", 0, NEAR_INFINITY);
   EXPECT_EQ(config->model_params().cutoff().value(0), NEAR_INFINITY);
   const double boxl = 2*(config->model_params().cutoff().value(0));
-  config->set_domain(Domain().set_cubic(boxl));
+  config->set_side_lengths(Position().set_vector({boxl, boxl, boxl}));
   std::cout << "boxl " << boxl << std::endl;
   CriteriaMayer criteria;
   criteria.set_beta(1.);

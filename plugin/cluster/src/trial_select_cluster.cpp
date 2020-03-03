@@ -55,7 +55,7 @@ bool TrialSelectCluster::are_constraints_satisfied(const System& system) const {
 std::vector<SelectList> TrialSelectCluster::select_clusters(
     const System& system) {
   std::vector<SelectList> clusters;
-  SelectGroup selectable = system.configuration().group_select(group_index());
+  Select selectable = system.configuration().group_select(group_index());
   int num_iter = 0;
   const int max_iter = selectable.num_particles();
   while (selectable.num_particles() != 0) {

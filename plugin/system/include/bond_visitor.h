@@ -6,73 +6,14 @@
 #include "math/include/utils_math.h"
 #include "configuration/include/bond.h"
 #include "configuration/include/configuration.h"
-#include "math/include/constants.h"
+#include "system/include/bond_two_body.h"
+#include "system/include/bond_three_body.h"
 
 namespace feasst {
 
-class BondTwoBody {
- public:
-  virtual double energy(
-      const Position& relative,
-      const Bond& bond) const = 0;
-  virtual ~BondTwoBody() {}
-};
-
-/**
-  U(r) = 0 when |l-l0| < delta/2, otherwise infinity.
- */
-class BondSquareWell : public BondTwoBody {
- public:
-  double energy(
-      const Position& relative,
-      const Bond& bond) const override {
-    const double length = bond.property("length");
-    const double delta = bond.property("delta");
-    if (std::abs(relative.distance() - length) > 0.5*delta) {
-      return NEAR_INFINITY;
-    }
-    return 0.;
-  }
-  virtual ~BondSquareWell() {}
-};
-
-/**
-  angle 0 - 1 - 2
-  r01 = r0 - r1, r21 = r2 - r1
- */
-class BondThreeBody {
- public:
-  virtual double energy(
-      const Position& relative01,
-      const Position& relative21,
-      const Angle& angle) const = 0;
-  virtual ~BondThreeBody() {}
-};
-
-/**
-  U(theta) = 0 when |theta-theta0| < delta/2, otherwise infinity.
-  where theta is in degrees
- */
-class AngleSquareWell : public BondThreeBody {
- public:
-  double energy(
-      const Position& relative01,
-      const Position& relative21,
-      const Angle& angle) const override {
-    const double theta0 = angle.property("theta0");
-    const double delta = angle.property("delta");
-    const double theta = radians_to_degrees(acos(relative01.cosine(relative21)));
-    TRACE("theta " << theta);
-    if (std::abs(theta - theta0) > 0.5*delta) {
-      return NEAR_INFINITY;
-    }
-    return 0.;
-  }
-  virtual ~AngleSquareWell() {}
-};
-
 class BondVisitor {
  public:
+  explicit BondVisitor(const argtype& args = argtype()) {}
   void compute(
       const BondTwoBody& model,
       const Configuration& config,
@@ -139,9 +80,28 @@ class BondVisitor {
   void set_energy(const double energy) { energy_ = energy; }
   double energy() const { return energy_; }
 
+  // serialize
+  std::string class_name() const { return class_name_; }
+  virtual void serialize(std::ostream& ostr) const;
+  virtual std::shared_ptr<BondVisitor> create(std::istream& istr) const;
+  std::map<std::string, std::shared_ptr<BondVisitor> >& deserialize_map();
+  std::shared_ptr<BondVisitor> deserialize(std::istream& istr);
+  BondVisitor(std::istream& istr);
+  virtual ~BondVisitor() {}
+
+ protected:
+  std::string class_name_ = "BondVisitor";
+
+  void serialize_bond_visitor_(std::ostream& ostr) const;
+
  private:
   double energy_;
 };
+
+inline std::shared_ptr<BondVisitor> MakeBondVisitor(
+    const argtype &args = argtype()) {
+  return std::make_shared<BondVisitor>(args);
+}
 
 }  // namespace feasst
 

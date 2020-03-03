@@ -21,11 +21,13 @@ TrialSelectReptate::TrialSelectReptate(std::istream& istr)
   // ASSERT(class_name_ == "TrialSelectReptate", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
   ASSERT(812 == version, "mismatch version: " << version);
+  feasst_deserialize_fstobj(&bonded_to_, istr);
 }
 
 void TrialSelectReptate::serialize_trial_select_reptate_(std::ostream& ostr) const {
   serialize_trial_select_end_segment_(ostr);
   feasst_serialize_version(812, ostr);
+  feasst_serialize_fstobj(bonded_to_, ostr);
 }
 
 void TrialSelectReptate::serialize(std::ostream& ostr) const {

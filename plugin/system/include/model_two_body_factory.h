@@ -22,7 +22,7 @@ class ModelTwoBodyFactory : public ModelTwoBody {
   ModelTwoBodyFactory(std::vector<std::shared_ptr<ModelTwoBody> > models);
 
   /// Add a two body model.
-  void add_model(std::shared_ptr<ModelTwoBody> model) {
+  void add(std::shared_ptr<ModelTwoBody> model) {
     models_.push_back(model); }
 
   /// Return the number of two body models.

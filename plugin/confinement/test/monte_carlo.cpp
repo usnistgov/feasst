@@ -13,10 +13,8 @@ namespace feasst {
 
 TEST(MonteCarlo, ShapeUnion) {
   MonteCarlo mc;
-  mc.add(Configuration({
-    {"cubic_box_length", "8"},
-    {"particle_type", "../forcefield/data.lj"},
-  }));
+  mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
+    {{"particle_type", "../forcefield/data.lj"}}));
   mc.add(Potential(MakeLennardJones()));
   mc.add(Potential(MakeModelHardShape(MakeShapeUnion(
     MakeSphere(

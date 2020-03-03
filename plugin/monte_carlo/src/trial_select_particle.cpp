@@ -31,14 +31,14 @@ class MapTrialSelectParticle {
 static MapTrialSelectParticle mapper_ = MapTrialSelectParticle();
 
 int TrialSelectParticle::random_particle(const Configuration& config,
-    SelectPosition * select,
+    Select * select,
     Random * random) {
   ASSERT(group_index() >= 0, "error");
   DEBUG("grp " << group_index());
   const int num = config.num_particles(group_index());
   if (num > 0) {
     const int index = random->uniform(0, num - 1);
-    const SelectGroup& ran = config.group_select(group_index());
+    const Select& ran = config.group_select(group_index());
     DEBUG("index " << group_index() << " " << index);
     DEBUG("num " << ran.num_particles());
     bool fast;
@@ -50,7 +50,7 @@ int TrialSelectParticle::random_particle(const Configuration& config,
                                      site_vec_);
     }
     if (load_coordinates()) {
-      if (!fast) select->resize();
+      if (!fast) select->resize_positions();
       select->load_positions(config.particles());
     }
   } else {
@@ -60,7 +60,7 @@ int TrialSelectParticle::random_particle(const Configuration& config,
 }
 
 void TrialSelectParticle::ghost_particle(Configuration * config,
-  SelectPosition * select) {
+  Select * select) {
   ASSERT(static_cast<int>(config->ghosts().size()) > particle_type(),
     "type not recognized");
   // if no ghosts, create one
@@ -92,9 +92,8 @@ void TrialSelectParticle::ghost_particle(Configuration * config,
     config->set_selection_physical(*select, true);
   }
   if (load_coordinates()) {
-    if (!fast) {
-      select->resize();
-    }
+    DEBUG("fast " << fast);
+    if (!fast) select->resize_positions();
     select->load_positions(config->particles());
   }
 }
