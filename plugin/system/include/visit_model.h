@@ -2,6 +2,8 @@
 #ifndef FEASST_SYSTEM_VISIT_MODEL_H_
 #define FEASST_SYSTEM_VISIT_MODEL_H_
 
+#include <memory>
+#include <sstream>
 #include "system/include/model.h"
 #include "configuration/include/configuration.h"
 #include "system/include/visit_model_inner.h"

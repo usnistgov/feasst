@@ -29,7 +29,7 @@ class VisitModelCell : public VisitModel {
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   VisitModelCell(std::istream& istr);
-  ~VisitModelCell() {}
+  virtual ~VisitModelCell() {}
 };
 
 inline std::shared_ptr<VisitModelCell> MakeVisitModelCell() {

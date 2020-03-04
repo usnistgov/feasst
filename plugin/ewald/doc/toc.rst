@@ -1,7 +1,9 @@
 
 .. toctree::
 
-   ChargeScreenedIntra
-   ChargeScreened
-   ChargeSelf
    Ewald
+   TrialRemovePair
+   TrialAddPair
+   ChargeScreened
+   ChargeScreenedIntra
+   ChargeSelf

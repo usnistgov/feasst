@@ -30,7 +30,7 @@ class VisitModelBond : public VisitModel {
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   VisitModelBond(std::istream& istr);
-  ~VisitModelBond() {}
+  virtual ~VisitModelBond() {}
 };
 
 inline std::shared_ptr<VisitModelBond> MakeVisitModelBond(

@@ -1,6 +1,8 @@
 #include "utils/test/utils.h"
+#include "system/include/hard_sphere.h"
+#include "system/include/ideal_gas.h"
+#include "system/include/dont_visit_model.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "ewald/test/system_example.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_rotate.h"
@@ -9,45 +11,34 @@
 #include "steppers/include/tuner.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_properties.h"
+#include "steppers/include/check_physicality.h"
 #include "steppers/include/cpu_time.h"
+#include "ewald/test/system_example.h"
+#include "ewald/include/trial_add_pair.h"
+#include "ewald/include/trial_remove_pair.h"
 
 namespace feasst {
 
 TEST(MonteCarlo, spce) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  // mc.set(MakeRandomMT19937({{"seed", "1234"}}));
-  // mc.set(MakeRandomMT19937({{"seed", "1572272377"}}));
-  // mc.set(MakeRandomMT19937({{"seed", "1574171557"}}));
-  std::shared_ptr<Ewald> ewald;
-  {
-    System system;
-    {
-      Configuration config(MakeDomain({{"cubic_box_length", "24.8586887"}}),
-        {{"particle_type", "../forcefield/data.spce"}});
-      system.add(config);
-    }
-//    ewald = add_ewald_with(MakeLennardJones(), &system, kmax_squared);
-    system.add(Potential(
-      MakeEwald({{"kmax_squared", "3"},
-                 {"alpha", str(5.6/system.configuration().domain()->min_side_length())}}),
-                       {{"prevent_cache", "true"}}));
-    system.add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
-                                               MakeChargeScreened()})));
-    //system.add(Potential(MakeChargeScreenedIntra(),
-    //                   MakeVisitModelIntra({{"cutoff", "0"}})));
-    system.add(Potential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
-    system.add(Potential(MakeChargeSelf()));
-    system.add(Potential(MakeLongRangeCorrections()));
-    mc.set(system);
-  }
-  //INFO(mc.system().configuration().particle_type(0).site(0).properties().str());
-  //INFO(feasst_str(ewald->struct_fact_real_));
+  mc.add(Configuration(
+    MakeDomain({{"cubic_box_length", "24.8586887"}}),
+    {{"particle_type", "../forcefield/data.spce"}}
+  ));
+  mc.add(Potential(
+    MakeEwald({{"kmax_squared", "3"},
+               {"alpha", str(5.6/mc.configuration().domain()->min_side_length())}})
+  ));
+  mc.add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
+                                            MakeChargeScreened()})));
+  mc.add(Potential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
+  mc.add(Potential(MakeChargeSelf()));
+  mc.add(Potential(MakeLongRangeCorrections()));
   const int steps_per = 1e2;
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-9"}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "1."}}));
-  // mc.add(MakeTrialRemove({{"weight", "1."}, {"particle_type", "0"}}));
   add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
   mc.add(MakeMovie({{"file_name", "tmp/spce.xyz"}, {"steps_per", str(steps_per)}}));
   mc.add(MakeLog({{"file_name", "tmp/spce_log.txt"}, {"steps_per", str(steps_per)}}));
@@ -55,26 +46,52 @@ TEST(MonteCarlo, spce) {
   mc.add(MakeCheckEnergy({{"tolerance", "1e-8"}, {"steps_per", str(steps_per)}}));
   mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
   mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));
-
-  //mc.seek_num_particles(2);
-  // INFO(mc.system().configuration().num_particles());
-//  INFO("props " << mc.system().configuration().particle(0).site(1).properties().str());
   mc.attempt(1e3);
-
-//  INFO(ewald->num_vectors());
-//  INFO(feasst_str(ewald->struct_fact_real_));
-//  std::vector<double> reals = ewald->struct_fact_real_;
-//  std::vector<double> imags = ewald->struct_fact_imag_;
-//  INFO("props " << mc.system().configuration().particle(0).site(1).properties().str());
-//  mc.get_system()->energy();
-//  INFO(feasst_str(ewald->struct_fact_real_));
-////  EXPECT_EQ(reals, ewald->struct_fact_real_);
-//  EXPECT_TRUE(is_equal(reals, ewald->struct_fact_real_));
-//  EXPECT_TRUE(is_equal(imags, ewald->struct_fact_imag_));
-//  INFO("props " << mc.system().configuration().particle(0).site(1).properties().str());
-
   test_serialize(mc);
-  INFO(mc.analyze(2)->accumulator().str());
+}
+
+TEST(MonteCarlo, rpm) {
+  MonteCarlo mc;
+  mc.set(MakeRandomMT19937({{"seed", "time"}}));
+  mc.add(Configuration(
+    MakeDomain({{"cubic_box_length", "20"}}),
+    {{"particle_type0", "../plugin/ewald/forcefield/data.rpm_plus"},
+     {"particle_type1", "../plugin/ewald/forcefield/data.rpm_minus"}}
+  ));
+  mc.add(Potential(
+    MakeEwald({{"kmax_squared", "3"},
+               {"alpha", str(5.6/mc.configuration().domain()->min_side_length())}})));
+  mc.add(Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
+                                            MakeChargeScreened()})));
+  mc.add(Potential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
+  mc.add(Potential(MakeChargeSelf()));
+  mc.add_to_reference(Potential(MakeDontVisitModel()));
+  const int steps_per = 1e2;
+  mc.set(MakeMetropolis({
+    {"beta", "0.02"},
+    {"chemical_potential0", "-509"},
+    {"chemical_potential1", "-509"},
+  }));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  const argtype transfer_args = {
+    {"weight", "1."},
+    {"particle_type0", "0"},
+    {"particle_type1", "1"},
+    {"reference_index", "0"},
+  };
+  mc.add(MakeTrialAddPair(transfer_args));
+  mc.add(MakeTrialRemovePair(transfer_args));
+  mc.add(MakeMovie({{"file_name", "tmp/rpm.xyz"}, {"steps_per", str(steps_per)}}));
+  mc.add(MakeLog({{"file_name", "tmp/rpm_log.txt"}, {"steps_per", str(steps_per)}}));
+  mc.add(MakeTuner({{"steps_per", str(1e2)}}));
+  mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
+  mc.add(MakeCheckPhysicality({{"steps_per", str(steps_per)}}));
+  mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));
+  mc.add(MakeCheckEnergy({{"tolerance", "1e-8"}, {"steps_per", str(steps_per)}}));
+  mc.attempt(1e3);
+  EXPECT_EQ(mc.configuration().num_particles_of_type(0),
+            mc.configuration().num_particles_of_type(1));
+  test_serialize(mc);
 }
 
 }  // namespace feasst

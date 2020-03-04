@@ -1,3 +1,6 @@
+#include "monte_carlo/include/trial_select_particle.h"
+#include "monte_carlo/include/perturb_add.h"
+#include "monte_carlo/include/trial_compute_add.h"
 #include "monte_carlo/include/trial_add.h"
 
 namespace feasst {

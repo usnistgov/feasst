@@ -1,17 +1,17 @@
 
 .. toctree::
 
-   Energy
-   NumParticles
-   CheckPhysicality
-   WallClockLimit
-   Check
-   Log
-   CriteriaWriter
-   CPUTime
-   CheckEnergy
-   Tuner
-   CriteriaUpdater
-   MeanSquaredDisplacement
    CheckProperties
+   MeanSquaredDisplacement
+   CriteriaUpdater
+   Tuner
+   CPUTime
+   CriteriaWriter
+   Log
+   Check
+   CheckEnergy
+   WallClockLimit
+   CheckPhysicality
+   NumParticles
+   Energy
    Movie
