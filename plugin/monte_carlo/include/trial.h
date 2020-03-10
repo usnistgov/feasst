@@ -128,7 +128,7 @@ class Trial {
   std::string class_name_ = "Trial";
 
   void serialize_trial_(std::ostream& ostr) const;
-  Trial(std::istream& istr);
+  explicit Trial(std::istream& istr);
 
   void add_(std::shared_ptr<TrialStage> stage) {
     stages_.push_back(stage);

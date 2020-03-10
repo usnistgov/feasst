@@ -4,8 +4,6 @@ namespace feasst {
 
 TrialSelectBond::TrialSelectBond(const argtype& args) : TrialSelect(args) {
   class_name_ = "TrialSelectBond";
-  Arguments args_(args);
-  args_.dont_check();
   mobile_site_ = args_.key("mobile_site").integer();
   anchor_site_ = args_.key("anchor_site").integer();
 }

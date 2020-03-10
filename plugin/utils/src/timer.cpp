@@ -65,7 +65,8 @@ int Timer::name_to_index_(const std::string name) const {
   return index;
 }
 
-double Timer::missing_percent(const std::string name, const Timer& timer) const {
+double Timer::missing_percent(const std::string name,
+                              const Timer& timer) const {
   const double major = hours(name);
   const double percent = 100.*(major - timer.hours())/major;
   // ASSERT(percent >= 0, "percent: " << percent << " should be positive.");

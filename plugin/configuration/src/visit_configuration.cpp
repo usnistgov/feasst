@@ -3,7 +3,6 @@
 
 namespace feasst {
 
-// HWH depreciate
 void VisitConfiguration::loop(const Configuration& config,
                               LoopConfigOneBody * loop,
                               const Select& select) {
@@ -15,9 +14,11 @@ void VisitConfiguration::loop(const Configuration& config,
     const Particle& part = config.select_particle(part_index);
     data_.particle_type = part.type();
     for (int site_index : select.site_indices(select_index)) {
-      data_.site_index = site_index;
       const Site& site = part.sites()[site_index];
-      loop->work(site, config, data_);
+      if (site.is_physical()) {
+        data_.site_index = site_index;
+        loop->work(site, config, data_);
+      }
     }
   }
 }

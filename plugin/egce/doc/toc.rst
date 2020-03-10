@@ -2,3 +2,4 @@
 .. toctree::
 
    AEqualOrOneMoreThanB
+   ATwiceB

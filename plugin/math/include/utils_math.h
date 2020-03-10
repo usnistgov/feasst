@@ -2,6 +2,7 @@
 #ifndef FEASST_MATH_UTILS_MATH_H_
 #define FEASST_MATH_UTILS_MATH_H_
 
+#include <utility>
 #include <vector>
 #include <numeric>
 #include <algorithm>
@@ -31,7 +32,7 @@ T product(const std::vector<T> &vec) {
     return static_cast<T>(0);
   }
   T prod = 1;
-  for (int i = 0; i < int(vec.size()); ++i) {
+  for (int i = 0; i < static_cast<int>(vec.size()); ++i) {
     prod *= vec[i];
   }
   return prod;

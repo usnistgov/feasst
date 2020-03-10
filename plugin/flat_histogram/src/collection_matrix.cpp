@@ -52,7 +52,9 @@ void TripleBandedCollectionMatrix::increment(
     const int column,
     const double inc) {
   DEBUG("row " << row << " column " << column << " size " << matrix_.size());
+  DEBUG(matrix_[row][column] << " + " << inc);
   matrix_[row][column] += inc;
+  DEBUG(feasst_str(matrix_[row]));
 }
 
 double TripleBandedCollectionMatrix::sum_(const int macro) {
@@ -60,12 +62,13 @@ double TripleBandedCollectionMatrix::sum_(const int macro) {
 }
 
 void TripleBandedCollectionMatrix::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(2468, ostr);
   feasst_serialize(matrix_, ostr);
 }
 
 TripleBandedCollectionMatrix::TripleBandedCollectionMatrix(std::istream& istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 2468, "unrecognized verison: " << version);
   feasst_deserialize(&matrix_, istr);
 }
 

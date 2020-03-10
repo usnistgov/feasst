@@ -2,6 +2,7 @@
 #ifndef FEASST_MATH_MATRIX_H_
 #define FEASST_MATH_MATRIX_H_
 
+#include <string>
 #include <vector>
 #include "math/include/position.h"
 
@@ -69,12 +70,12 @@ class MatrixThreeByThree : public Matrix {
   virtual ~MatrixThreeByThree() {}
 };
 
+// Note to HWH: extend this class for 2D as well.
 /**
   Rotation matrices represent a rotation of a rigid body.
   They must be square with a unit determinant.
  */
 class RotationMatrix : public MatrixThreeByThree {
- // Note to HWH: extend this class for 2D as well.
  public:
   /// Compute the rotation matrix given an angle of rotation about a given
   /// axis.

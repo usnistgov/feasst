@@ -2,6 +2,9 @@
 #ifndef FEASST_SYSTEM_MODEL_H_
 #define FEASST_SYSTEM_MODEL_H_
 
+#include <memory>
+#include <string>
+#include <map>
 #include "configuration/include/particle.h"
 #include "configuration/include/configuration.h"
 
@@ -71,9 +74,6 @@ class Model {
       const int type2,
       const ModelParams& model_params) const { FATAL("not implemented"); }
 
-  // https://isocpp.org/wiki/faq/serialization
-  //typedef std::shared_ptr<Model> (*Factory)(std::istream&);
-
   /// Output a serialized version of the existing model.
   virtual void serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
@@ -86,8 +86,7 @@ class Model {
 
   /// Return a model given a serialization.
   std::shared_ptr<Model> deserialize(std::istream& istr) {
-    return template_deserialize(deserialize_map(), istr);
-  }
+    return template_deserialize(deserialize_map(), istr); }
 };
 
 }  // namespace feasst

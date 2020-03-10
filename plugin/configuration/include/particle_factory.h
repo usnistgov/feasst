@@ -2,6 +2,8 @@
 #ifndef FEASST_CONFIGURATION_PARTICLE_FACTORY_H_
 #define FEASST_CONFIGURATION_PARTICLE_FACTORY_H_
 
+#include <memory>
+#include <string>
 #include <vector>
 #include "configuration/include/particle.h"
 #include "configuration/include/model_params.h"
@@ -104,7 +106,8 @@ class ParticleFactory {
                           const int site_index,
                           const Properties& replacement,
                           const std::vector<std::string>& exclude) {
-    particles_[particle_index].replace_properties(site_index, replacement, exclude); }
+    particles_[particle_index].replace_properties(site_index, replacement,
+                                                  exclude); }
 
   /// Check consistency of dimensionality of positions of particles and sites.
   /// By default, for dimension == -1, determine automatically.
@@ -194,7 +197,8 @@ class ParticleFactory {
       const double value,
       const int particle_index,
       const int site_index) {
-    particles_[particle_index].add_or_set_site_property(name, value, site_index); }
+    particles_[particle_index].add_or_set_site_property(name, value,
+                                                        site_index); }
 
   /// Set the property of sites in a particle.
   void set_site_property(const std::string name,
@@ -211,7 +215,7 @@ class ParticleFactory {
     particles_[particle_index].set_site_property(index, value, site_index); }
 
   void serialize(std::ostream& ostr) const;
-  ParticleFactory(std::istream& istr);
+  explicit ParticleFactory(std::istream& istr);
 
  private:
   std::vector<Particle> particles_;

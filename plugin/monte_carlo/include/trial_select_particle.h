@@ -17,6 +17,7 @@ class TrialSelectParticle : public TrialSelect {
     - load_coordinates: load the coordinates into the selection (default: true)
     - site: site index to select. If all sites, set to -1 (default).
     - ghost: select ghost particles (default: false).
+    - exclude_perturbed: if true, exclude perturbed particle (default: false)
    */
   explicit TrialSelectParticle(const argtype& args = argtype());
 
@@ -26,12 +27,25 @@ class TrialSelectParticle : public TrialSelect {
   /// Add random particle in group index to select.
   /// Return the number of particles to choose from.
   int random_particle(const Configuration& config,
-      Select * select,
-      Random * random);
+    /// Exclude from selection.
+    const Select * exclude,
+    Select * select,
+    Random * random);
+
+  /// Same as above, but no exclusions.
+  int random_particle(const Configuration& config,
+    Select * select,
+    Random * random) { return random_particle(config, NULL, select, random); }
 
   /// Select a ghost particle.
   void ghost_particle(Configuration * config,
+    /// Exclude from selection.
+    const Select* exclude,
     Select * select);
+
+  /// Same as above, but no exclusions.
+  void ghost_particle(Configuration * config, Select * select) {
+    ghost_particle(config, NULL, select); }
 
   bool select(const Select& perturbed,
               System* system,
@@ -52,8 +66,12 @@ class TrialSelectParticle : public TrialSelect {
 
  private:
   bool load_coordinates_;
+  bool exclude_perturbed_;
   int site_;
   std::vector<int> site_vec_;
+
+  // compute the number of excluded particles which are candidates for selection
+  int num_excluded_(const Configuration& config, const Select * exclude);
 };
 
 inline std::shared_ptr<TrialSelectParticle> MakeTrialSelectParticle(

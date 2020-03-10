@@ -9,9 +9,9 @@
 
 Site Properties
 
-0 epsilon 0.3 sigma 1.0 cutoff 3.0 charge 0.0
-1 epsilon 1 sigma 1.0 cutoff 3.0 charge -1.0
-2 epsilon 0.5 sigma 1.0 cutoff 3.0 charge 1.0
+0 epsilon 0.3 sigma 1.0 cutoff 3.0
+1 epsilon 1 sigma 1.0 cutoff 3.0
+2 epsilon 0.5 sigma 1.0 cutoff 3.0
 
 Bond Properties
 

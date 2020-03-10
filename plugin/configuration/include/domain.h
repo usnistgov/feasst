@@ -3,6 +3,7 @@
 #define FEASST_CONFIGURATION_DOMAIN_H_
 
 #include <math.h>
+#include <memory>
 #include <vector>
 #include "math/include/position.h"
 #include "math/include/random.h"
@@ -58,7 +59,7 @@ class Domain {
     - cell_group[i]: only compute cells for those in given group index
       for cell of corresponding "i" (default: 0).
    */
-  Domain(const argtype& args = argtype());
+  explicit Domain(const argtype& args = argtype());
 
   /// Get the side lengths.
   Position side_lengths() const { return side_lengths_; }
@@ -250,8 +251,14 @@ class Domain {
   /// Return the shift for number of wraps, num_wrap, in a given dimension, dim.
   void unwrap(const int dim, const int num_wrap, Position * shift) const;
 
+  /// Return the header of the status for periodic output.
+  std::string status_header() const;
+
+  /// Return the brief status for periodic output.
+  std::string status() const;
+
   void serialize(std::ostream& ostr) const;
-  Domain(std::istream& istr);
+  explicit Domain(std::istream& istr);
   virtual ~Domain() {}
 
  protected:

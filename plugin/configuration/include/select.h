@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "math/include/random.h"
 #include "configuration/include/group.h"
 #include "configuration/include/particle_factory.h"
@@ -295,7 +296,7 @@ class Select {
   std::string str() const;
 
   virtual void serialize(std::ostream& ostr) const;
-  Select(std::istream& istr);
+  explicit Select(std::istream& istr);
   virtual ~Select() {}
 
  private:

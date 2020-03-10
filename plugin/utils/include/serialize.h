@@ -2,6 +2,7 @@
 #ifndef FEASST_UTILS_SERIALIZE_H_
 #define FEASST_UTILS_SERIALIZE_H_
 
+#include <limits>
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -203,7 +204,8 @@ void feasst_deserialize(std::vector<std::vector<std::vector<T> > > * vector,
 
 /// Serialize the 4D vector.
 template <typename T>
-void feasst_serialize(const std::vector<std::vector<std::vector<std::vector<T> > > >& vector,
+void feasst_serialize(const std::vector<std::vector<std::vector<std::vector<
+    T> > > >& vector,
     std::ostream& ostr) {
   ostr << MAX_PRECISION;
   ostr << vector.size() << " ";
@@ -223,7 +225,8 @@ void feasst_serialize(const std::vector<std::vector<std::vector<std::vector<T> >
 
 /// Deserialize the 4D vector.
 template <typename T>
-void feasst_deserialize(std::vector<std::vector<std::vector<std::vector<T> > > > * vector,
+void feasst_deserialize(std::vector<std::vector<std::vector<std::vector<
+    T> > > > * vector,
     std::istream& istr) {
   int dim1;
   istr >> dim1;
@@ -250,11 +253,13 @@ void feasst_deserialize(std::vector<std::vector<std::vector<std::vector<T> > > >
 
 /// Serialize the 5D vector.
 template <typename T>
-void feasst_serialize(const std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > >& vector,
+void feasst_serialize(const std::vector<std::vector<std::vector<std::vector<
+    std::vector<T> > > > >& vector,
     std::ostream& ostr) {
   ostr << MAX_PRECISION;
   ostr << vector.size() << " ";
-  for (const std::vector<std::vector<std::vector<std::vector<T> > > >& vec2 : vector) {
+  for (const std::vector<std::vector<std::vector<std::vector<T> > > >& vec2
+    : vector) {
     ostr << vec2.size() << " ";
     for (const std::vector<std::vector<std::vector<T> > >& vec3 : vec2) {
       ostr << vec3.size() << " ";
@@ -273,7 +278,8 @@ void feasst_serialize(const std::vector<std::vector<std::vector<std::vector<std:
 
 /// Deserialize the 5D vector.
 template <typename T>
-void feasst_deserialize(std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > * vector,
+void feasst_deserialize(std::vector<std::vector<std::vector<std::vector<
+    std::vector<T> > > > > * vector,
     std::istream& istr) {
   int dim1;
   istr >> dim1;
@@ -359,7 +365,8 @@ void feasst_deserialize_fstobj(std::vector<std::vector<T> > * vector,
 }
 
 /// Serialize double stored as shared pointer
-inline void feasst_serialize_sp(const std::shared_ptr<double> ptr, std::ostream& ostr) {
+inline void feasst_serialize_sp(const std::shared_ptr<double> ptr,
+    std::ostream& ostr) {
   if (ptr) {
     ostr << "1 ";
     feasst_serialize(*ptr, ostr);
@@ -369,19 +376,21 @@ inline void feasst_serialize_sp(const std::shared_ptr<double> ptr, std::ostream&
 }
 
 // HWH for unknown reasons, this function template does not work.
-///// Deserialize double stored as shared pointer
-//inline void feasst_deserialize(std::shared_ptr<double> ptr, std::istream& istr) {
-//  int existing;
-//  istr >> existing;
-//  if (existing != 0) {
-//    double value;
-//    istr >> value;
-//    ptr = std::make_shared<double>(value);
-//  }
-//}
+// /// Deserialize double stored as shared pointer
+// inline void feasst_deserialize(std::shared_ptr<double> ptr,
+//     std::istream& istr) {
+//   int existing;
+//   istr >> existing;
+//   if (existing != 0) {
+//     double value;
+//     istr >> value;
+//     ptr = std::make_shared<double>(value);
+//   }
+// }
 
 /// Serialize int stored as shared pointer
-inline void feasst_serialize_sp(const std::shared_ptr<int> ptr, std::ostream& ostr) {
+inline void feasst_serialize_sp(const std::shared_ptr<int> ptr,
+    std::ostream& ostr) {
   if (ptr) {
     ostr << "1 ";
     feasst_serialize(*ptr, ostr);
@@ -391,16 +400,17 @@ inline void feasst_serialize_sp(const std::shared_ptr<int> ptr, std::ostream& os
 }
 
 // HWH for unknown reasons, this function template does not work.
-///// Deserialize int stored as shared pointer
-//inline void feasst_deserialize(std::shared_ptr<int> ptr, std::istream& istr) {
-//  int existing;
-//  istr >> existing;
-//  if (existing != 0) {
-//    int value;
-//    istr >> value;
-//    ptr = std::make_shared<int>(value);
-//  }
-//}
+// /// Deserialize int stored as shared pointer
+// inline void feasst_deserialize(std::shared_ptr<int> ptr,
+//     std::istream& istr) {
+//   int existing;
+//   istr >> existing;
+//   if (existing != 0) {
+//     int value;
+//     istr >> value;
+//     ptr = std::make_shared<int>(value);
+//   }
+// }
 
 /// Serialize feasst object stored as shared pointer
 template <typename T>
@@ -430,15 +440,15 @@ void feasst_serialize_fstdr(std::shared_ptr<T> ptr, std::ostream& ostr) {
 }
 
 // HWH for unknown reasons, this function template does not work.
-///// Deserialize feasst derived object stored as shared pointer
-//template <typename T>
-//void feasst_deserialize_fstdr(std::shared_ptr<T> ptr, std::istream& istr) {
-//  int existing;
-//  istr >> existing;
-//  if (existing != 0) {
-//    ptr = ptr->deserialize(istr);
-//  }
-//}
+// /// Deserialize feasst derived object stored as shared pointer
+// template <typename T>
+// void feasst_deserialize_fstdr(std::shared_ptr<T> ptr, std::istream& istr) {
+//   int existing;
+//   istr >> existing;
+//   if (existing != 0) {
+//     ptr = ptr->deserialize(istr);
+//   }
+// }
 
 /// Serialize vector of shared pointers of feasst objects
 template <typename T>
@@ -472,34 +482,35 @@ void feasst_serialize_fstdr(const std::vector<std::shared_ptr<T> >& vector,
   }
 }
 
-// HWH for unknown reasons, this function template does not work.
-///// Deserialize vector of shared pointers of feasst derived objects
-//template <typename T>
-//void feasst_deserialize_fstdr(std::vector<std::shared_ptr<T> > * vector,
-//    std::istream& istr) {
-//  int dim1;
-//  istr >> dim1;
-//  vector->resize(dim1);
-//  for (int index = 0; index < dim1; ++index) {
-//    feasst_deserialize_fstdr((*vector)[index], istr);
-//  }
-//}
+//  HWH for unknown reasons, this function template does not work.
+// /// Deserialize vector of shared pointers of feasst derived objects
+// template <typename T>
+// void feasst_deserialize_fstdr(std::vector<std::shared_ptr<T> > * vector,
+//     std::istream& istr) {
+//   int dim1;
+//   istr >> dim1;
+//   vector->resize(dim1);
+//   for (int index = 0; index < dim1; ++index) {
+//     feasst_deserialize_fstdr((*vector)[index], istr);
+//   }
+// }
 
 /// Return a shared pointer to the base class of model after construction of
 /// the full derived class.
 /// see https://isocpp.org/wiki/faq/serialization
 template <typename T>
-std::shared_ptr<T> template_deserialize(std::map<std::string, std::shared_ptr<T> >& map,
+std::shared_ptr<T> template_deserialize(
+    std::map<std::string, std::shared_ptr<T> >& map,
     std::istream& istr,
     /// Rewind istr position to read class name again (default: false).
     bool rewind = false) {
   std::string class_name;
-  int pos = istr.tellg(); // record position before reading
-  istr >> class_name;     // read class name
+  int pos = istr.tellg();  // record position before reading
+  istr >> class_name;      // read class name
 
   // rewind position so constructors can reread class name.
   if (rewind) {
-    istr.seekg(pos, istr.beg); // rewind to before reading the class name.
+    istr.seekg(pos, istr.beg);  // rewind to before reading the class name.
   }
   DEBUG("deserializing: " << class_name << " rewind? " << rewind);
   if (map.count(class_name) == 0) {
@@ -514,7 +525,6 @@ std::shared_ptr<T> template_deserialize(std::map<std::string, std::shared_ptr<T>
   std::shared_ptr<T> obj = map[class_name]->create(istr);
   DEBUG("obj " << obj);
   return obj;
-  //return map[class_name]->create(istr);
 }
 
 /// Return a deep copy of a feasst derived class object.

@@ -2,11 +2,11 @@
 #ifndef FEASST_MONTE_CARLO_TRIAL_COMPUTE_REMOVE_H_
 #define FEASST_MONTE_CARLO_TRIAL_COMPUTE_REMOVE_H_
 
+#include <memory>
 #include <vector>
 #include "utils/include/arguments.h"
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
-#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute.h"
 

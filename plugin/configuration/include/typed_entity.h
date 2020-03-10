@@ -21,7 +21,7 @@ class TypedEntity {
   void set_type(const int type) { type_ = type; }
 
   void serialize(std::ostream& ostr) const;
-  TypedEntity(std::istream& istr);
+  explicit TypedEntity(std::istream& istr);
 
  private:
   int type_ = 0;

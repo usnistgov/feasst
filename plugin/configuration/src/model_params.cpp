@@ -8,7 +8,7 @@ namespace feasst {
 
 void ModelParam::serialize(std::ostream& ostr) const {
   feasst_serialize(name_, ostr);
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(795, ostr);
   feasst_serialize(values_, ostr);
   feasst_serialize(mixed_values_, ostr);
   feasst_serialize(is_mixed_override_, ostr);
@@ -16,7 +16,8 @@ void ModelParam::serialize(std::ostream& ostr) const {
 
 ModelParam::ModelParam(std::istream& istr) {
   feasst_deserialize(&name_, istr);
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 795, "unrecognized version: " << version);
   feasst_deserialize(&values_, istr);
   feasst_deserialize(&mixed_values_, istr);
   feasst_deserialize(&is_mixed_override_, istr);
@@ -234,7 +235,7 @@ void ModelParams::check() const {
 void ModelParams::serialize(std::ostream& ostr) const {
   PropertiedEntity::serialize(ostr);
   ostr << MAX_PRECISION;
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(938, ostr);
   epsilon_->serialize(ostr);
   sigma_->serialize(ostr);
   cutoff_->serialize(ostr);
@@ -249,7 +250,8 @@ void ModelParams::serialize(std::ostream& ostr) const {
 // HWH warning: magic number "4"
 ModelParams::ModelParams(std::istream& istr)
   : PropertiedEntity(istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 938, "unrecognized version: " << version);
   epsilon_ = std::make_shared<Epsilon>(istr);
   sigma_ = std::make_shared<Sigma>(istr);
   cutoff_ = std::make_shared<CutOff>(istr);

@@ -2,6 +2,7 @@
 #ifndef FEASST_SYSTEM_CLUSTER_CRITERIA_H_
 #define FEASST_SYSTEM_CLUSTER_CRITERIA_H_
 
+#include <memory>
 #include "utils/include/arguments.h"
 #include "system/include/model.h"
 #include "configuration/include/configuration.h"
@@ -24,7 +25,7 @@ class ClusterCriteria {
     - minimum_distance: minimum separation distance (default: 0).
     - maximum_distance: maximum separation distance (default: NEAR_INFINITY).
    */
-  ClusterCriteria(const argtype& args = argtype());
+  explicit ClusterCriteria(const argtype& args = argtype());
 
   int reference_potential() const { return reference_potential_; }
   int potential_index() const { return potential_index_; }
@@ -40,7 +41,7 @@ class ClusterCriteria {
   void serialize(std::ostream& ostr) const;
 
   /// Construct from serialization.
-  ClusterCriteria(std::istream& istr);
+  explicit ClusterCriteria(std::istream& istr);
 
  private:
   int reference_potential_;

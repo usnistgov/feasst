@@ -35,7 +35,7 @@ void Trial::reset_stats() {
 
 std::string Trial::status_header() const {
   std::stringstream ss;
-  ss << class_name_ << " ";
+  ss << "," << class_name_;
   for (const TrialStage * stage : stages_ptr_) {
     ss << stage->status_header();
   }
@@ -44,7 +44,7 @@ std::string Trial::status_header() const {
 
 std::string Trial::status() const {
   std::stringstream ss;
-  ss << acceptance() << " ";
+  ss << "," << acceptance();
   for (const TrialStage * stage : stages_ptr_) {
     ss << stage->status();
   }

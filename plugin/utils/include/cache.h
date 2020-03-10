@@ -36,7 +36,7 @@ class Cache {
   void serialize(std::ostream& ostr) const;
 
   /// Deserialize.
-  Cache(std::istream& istr);
+  explicit Cache(std::istream& istr);
 
  private:
   bool is_loading_;

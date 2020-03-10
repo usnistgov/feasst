@@ -44,7 +44,7 @@ static MapCriteriaMayer mapper_ = MapCriteriaMayer();
 void CriteriaMayer::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_criteria_(ostr);
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(3251, ostr);
   feasst_serialize(f12old_, ostr);
   feasst_serialize(f12ref_, ostr);
   feasst_serialize_fstobj(mayer_, ostr);
@@ -52,7 +52,8 @@ void CriteriaMayer::serialize(std::ostream& ostr) const {
 }
 
 CriteriaMayer::CriteriaMayer(std::istream& istr) : Criteria(istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 3251, "unrecognized verison: " << version);
   feasst_deserialize(&f12old_, istr);
   feasst_deserialize(&f12ref_, istr);
   feasst_deserialize_fstobj(&mayer_, istr);

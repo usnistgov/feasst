@@ -89,13 +89,14 @@ class MapVisitModelInnerPatch {
 static MapVisitModelInnerPatch mapper_ = MapVisitModelInnerPatch();
 
 VisitModelInnerPatch::VisitModelInnerPatch(std::istream& istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 255, "unrecognized version: " << version);
   feasst_deserialize_fstobj(&cos_patch_angle_, istr);
 }
 
 void VisitModelInnerPatch::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(255, ostr);
   feasst_serialize_fstobj(cos_patch_angle_, ostr);
 }
 

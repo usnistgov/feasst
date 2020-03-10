@@ -55,33 +55,34 @@ double Criteria::pH() const {
 
 double Criteria::chemical_potential(const int particle_type) const {
   ASSERT(particle_type < static_cast<int>(chemical_potentials_.size()),
-    "chemical potential of type(" << particle_type << ") must be initalized before use");
+    "chemical potential of type(" << particle_type <<
+    ") must be initalized before use");
   return chemical_potentials_[particle_type];
 }
 
 std::string Criteria::status_header() const {
   std::stringstream ss;
   if (num_states() > 1) {
-    ss << "state ";
+    ss << ",state";
   }
-  ss << "energy";
+  ss << ",energy";
   return ss.str();
 }
 
 std::string Criteria::status() const {
   std::stringstream ss;
   if (num_states() > 1) {
-    ss << state() << " ";
+    ss << "," << state();
   }
-  ss << current_energy();
+  ss << "," << current_energy();
   return ss.str();
 }
 
 std::string Criteria::write() const {
   std::stringstream ss;
-  ss << "beta " << beta() << endl;
-  for (double mu : chemical_potentials_) {
-    ss << "mu " << mu << endl;
+  ss << "beta," << MAX_PRECISION << beta() << endl;
+  for (int i = 0; i < static_cast<int>(chemical_potentials_.size()); ++i) {
+    ss << "mu" << i << "," << MAX_PRECISION << chemical_potentials_[i] << endl;
   }
   return ss.str();
 }
@@ -111,7 +112,10 @@ std::shared_ptr<Criteria> Criteria::create(std::istream& istr) const {
 }
 
 std::shared_ptr<Criteria> Criteria::deserialize(std::istream& istr) {
-  return template_deserialize(deserialize_map(), istr);
+  return template_deserialize(deserialize_map(), istr,
+    // true argument denotes rewinding to reread class name
+    // this allows derived class constructor to read class name.
+    true);
 }
 
 bool Criteria::is_equal(const Criteria * criteria) const {
@@ -136,7 +140,7 @@ double Criteria::beta_mu(const int particle_type) const {
 }
 
 void Criteria::serialize_criteria_(std::ostream& ostr) const {
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(692, ostr);
   feasst_serialize(beta_, ostr);
   feasst_serialize(beta_initialized_, ostr);
   feasst_serialize(pH_, ostr);
@@ -149,7 +153,9 @@ void Criteria::serialize_criteria_(std::ostream& ostr) const {
 }
 
 Criteria::Criteria(std::istream& istr) {
-  feasst_deserialize_version(istr);
+  istr >> class_name_;
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 692, "version mismatch: " << version);
   feasst_deserialize(&beta_, istr);
   feasst_deserialize(&beta_initialized_, istr);
   feasst_deserialize(&pH_, istr);

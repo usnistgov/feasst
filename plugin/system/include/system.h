@@ -12,7 +12,8 @@ namespace feasst {
 /**
   System is a facade design pattern in order to constrain and/or simplify
   the interface with multiple configurations and multiple lists of potentials.
-  The typing and grouping of multiple configurations should be the same.
+  The typing and grouping of multiple configurations should be the same, but
+  the domain and particle which physically exist may be different.
   There are three types of potentials.
 
   1. The first is without optimizations.
@@ -26,7 +27,12 @@ namespace feasst {
  */
 class System {
  public:
+  /// Empty constructor
   System() {}
+
+  // HWH make configuration a shared pointer so can be extended?
+  // Construct with a Configuration.
+  // System(std::make_shared<Configuration> config) { add(*config); }
 
   /** @name Configurations
     Store and retrieve a list of configurations. */
@@ -149,6 +155,12 @@ class System {
 
   /// Set cache to unload energy calclatuions.
   void unload_cache(const System& system);
+
+  /// Return the header of the status for periodic output.
+  std::string status_header() const;
+
+  /// Return the brief status for periodic output.
+  std::string status() const;
 
   /// Run checks.
   void check() const;

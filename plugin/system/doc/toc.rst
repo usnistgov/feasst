@@ -12,14 +12,14 @@
    EnergyMap
    VisitModelInner
    VisitModel
+   ModelTwoBody
+   IdealGas
+   ModelTwoBodyFactory
+   HardSphere
+   LennardJones
    Potential
    PotentialFactory
    System
-   ModelTwoBody
-   HardSphere
-   LennardJones
-   IdealGas
-   ModelTwoBodyFactory
    ModelThreeBody
    ModelOneBody
    ModelEmpty

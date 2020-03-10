@@ -33,8 +33,9 @@ class PhysicalConstants {
   virtual const double elementary_charge() const = 0;
 
   //@}
-  /** @name Derivated constants
-    Constants derived from the base constants.
+  /** @name Derivatives
+    Constants derived from the base constants, or utility functions for
+    unit conversion.
    */
   //@{
 
@@ -46,19 +47,30 @@ class PhysicalConstants {
   const double charge_conversion() const { return pow(elementary_charge(), 2)/
     (4*PI*permitivity_vacuum()*1e3/1e10/avogadro_constant()); }
 
+  /// Convert the number density (1/A^3) to g/cm^3
+  inline double number_density_to_grams_per_cm3(const double density, /// 1/A^3
+      const double molecular_weight) {
+    return density*molecular_weight/avogadro_constant()*1e24; }
+
+  /// Convert the density in g/cm^3 to number density (1/A^3)
+  inline double grams_per_cm3_to_number_density(const double density, /// g/cm^3
+      const double molecular_weight) {
+    return density/number_density_to_grams_per_cm3(1., molecular_weight); }
+
   //@}
 
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const = 0;
-  virtual std::shared_ptr<PhysicalConstants> create(std::istream& istr) const = 0;
+  virtual std::shared_ptr<PhysicalConstants> create(
+    std::istream& istr) const = 0;
   std::map<std::string, std::shared_ptr<PhysicalConstants> >& deserialize_map();
   std::shared_ptr<PhysicalConstants> deserialize(std::istream& istr);
-  PhysicalConstants(std::istream& istr) {
+  explicit PhysicalConstants(std::istream& istr) {
     istr >> class_name_; }
   virtual ~PhysicalConstants() {}
 
-  protected:
-   std::string class_name_ = "PhysicalConstants";
+ protected:
+  std::string class_name_ = "PhysicalConstants";
 };
 
 /**
@@ -152,11 +164,13 @@ class PhysicalConstantsCustom : public PhysicalConstants {
     - permitivity_vacuum
     - elementary_charge
    */
-  PhysicalConstantsCustom(const argtype& args = argtype());
+  explicit PhysicalConstantsCustom(const argtype& args = argtype());
 
-  const double boltzmann_constant() const override { return boltzmann_constant_; }
+  const double boltzmann_constant() const override {
+    return boltzmann_constant_; }
   const double avogadro_constant() const override { return avogadro_constant_; }
-  const double permitivity_vacuum() const override { return permitivity_vacuum_; }
+  const double permitivity_vacuum() const override {
+    return permitivity_vacuum_; }
   const double elementary_charge() const override { return elementary_charge_; }
 
   std::shared_ptr<PhysicalConstants> create(std::istream& istr) const override {

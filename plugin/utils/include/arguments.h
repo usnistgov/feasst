@@ -29,7 +29,7 @@ class Arguments {
   void init(const argtype &args);
 
   /// Construct via brace enclosed initializer list.
-  Arguments(const argtype &args) { init(args); }
+  explicit Arguments(const argtype &args) { init(args); }
 
   /**
    * Set the argument key (the first in the map/dictionary pair).

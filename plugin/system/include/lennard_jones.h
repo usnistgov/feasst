@@ -2,6 +2,7 @@
 #ifndef FEASST_SYSTEM_LENNARD_JONES_H_
 #define FEASST_SYSTEM_LENNARD_JONES_H_
 
+#include <string>
 #include <memory>
 #include "system/include/model_two_body.h"
 #include "math/include/constants.h"

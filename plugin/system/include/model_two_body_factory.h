@@ -19,7 +19,8 @@ class ModelTwoBodyFactory : public ModelTwoBody {
   ModelTwoBodyFactory() {}
 
   /// Construct with a vector of two body models.
-  ModelTwoBodyFactory(std::vector<std::shared_ptr<ModelTwoBody> > models);
+  explicit ModelTwoBodyFactory(
+    std::vector<std::shared_ptr<ModelTwoBody> > models);
 
   /// Add a two body model.
   void add(std::shared_ptr<ModelTwoBody> model) {

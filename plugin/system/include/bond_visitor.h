@@ -3,6 +3,9 @@
 #define FEASST_CONFIGURATION_BOND_VISITOR_H_
 
 #include <math.h>
+#include <memory>
+#include <string>
+#include <map>
 #include "math/include/utils_math.h"
 #include "configuration/include/bond.h"
 #include "configuration/include/configuration.h"
@@ -71,7 +74,8 @@ class BondVisitor {
         Position relative21 = position2;
         relative01.subtract(position1);
         relative21.subtract(position1);
-        const Angle& angle_type = config.unique_type(part_type).angle(angle.type());
+        const Angle& angle_type =
+          config.unique_type(part_type).angle(angle.type());
         en += model.energy(relative01, relative21, angle_type);
       }
     }
@@ -86,7 +90,7 @@ class BondVisitor {
   virtual std::shared_ptr<BondVisitor> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<BondVisitor> >& deserialize_map();
   std::shared_ptr<BondVisitor> deserialize(std::istream& istr);
-  BondVisitor(std::istream& istr);
+  explicit BondVisitor(std::istream& istr);
   virtual ~BondVisitor() {}
 
  protected:

@@ -21,7 +21,7 @@ inline std::shared_ptr<FlatHistogram> crit_fh(const int crit_type) {
 //      {"num_steps_to_update", "1"}, // fast
     }));
   } else {
-    criteria->set(MakeWangLandau({{"min_flatness", "1"}}));
+    criteria->set(MakeWangLandau({{"min_flatness", "20"}}));
   }
   return criteria;
 }

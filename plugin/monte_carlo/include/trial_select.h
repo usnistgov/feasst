@@ -101,6 +101,9 @@ class TrialSelect : public PropertiedEntity {
   virtual bool are_constraints_satisfied(const System& system) const {
     return true; }
 
+  /// Return true if particle type is set.
+  bool is_particle_type_set() const { return is_particle_type_set_; }
+
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<TrialSelect> create(std::istream& istr) const;
@@ -110,6 +113,7 @@ class TrialSelect : public PropertiedEntity {
 
  protected:
   std::string class_name_ = "TrialSelect";
+  Arguments args_;
   SelectList mobile_original_;
   SelectList mobile_;
   Select anchor_;

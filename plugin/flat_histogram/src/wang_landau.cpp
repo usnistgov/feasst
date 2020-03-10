@@ -52,19 +52,19 @@ void WangLandau::resize(const Histogram& histogram) {
 std::string WangLandau::write() const {
   std::stringstream ss;
   ss << Bias::write();
-  ss << "num_flatness " << num_flatness_ << std::endl;
+  ss << "num_flatness," << num_flatness_ << std::endl;
   return ss.str();
 }
 
 std::string WangLandau::write_per_bin_header() const {
   std::stringstream ss;
-  ss << Bias::write_per_bin_header() << " visited";
+  ss << Bias::write_per_bin_header() << ",visited";
   return ss.str();
 }
 
 std::string WangLandau::write_per_bin(const int bin) const {
   std::stringstream ss;
-  ss << Bias::write_per_bin(bin) << " " << visited_states_[bin];
+  ss << Bias::write_per_bin(bin) << "," << visited_states_[bin];
   return ss.str();
 }
 

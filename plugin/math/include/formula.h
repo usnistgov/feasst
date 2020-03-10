@@ -31,7 +31,7 @@ class Formula {
   virtual std::shared_ptr<Formula> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Formula> >& deserialize_map();
   std::shared_ptr<Formula> deserialize(std::istream& istr);
-  Formula(std::istream& istr);
+  explicit Formula(std::istream& istr);
   virtual ~Formula() {}
 
  protected:

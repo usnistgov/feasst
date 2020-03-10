@@ -14,7 +14,7 @@ Configuration::Configuration(const argtype& args) {
   particle_types_.unique_particles();
   unique_types_.unique_types();
   // reset_unique_indices_();
-  add(MakeGroup()); // add empty group which represents all particles
+  add(MakeGroup());  // add empty group which represents all particles
   args_.init(args);
 
   DEBUG("parse physical constants");
@@ -74,6 +74,14 @@ void Configuration::add_(const Particle particle) {
   position_tracker_(particles_.num() - 1);
 }
 
+void Configuration::add_non_ghost_particle_of_type(const int type) {
+  Particle part = particle_types_.particle(type);
+  part.erase_bonds();
+  add_(part);
+  newest_particle_index_ = particles_.num() - 1;
+  ++num_particles_of_type_[type];
+}
+
 void Configuration::add_particle_of_type(const int type) {
   DEBUG("adding type: " << type);
   ASSERT(type < num_particle_types(), "type(" << type << ") is not allowed "
@@ -81,10 +89,7 @@ void Configuration::add_particle_of_type(const int type) {
   // decide whether to add a ghost particle or a new one
   DEBUG("numg " << ghosts_[type].num_particles());
   if (ghosts_[type].num_particles() == 0) {
-    Particle part = particle_types_.particle(type);
-    part.erase_bonds();
-    add_(part);
-    newest_particle_index_ = particles_.num() - 1;
+    add_non_ghost_particle_of_type(type);
   } else {
     const int index = ghosts_[type].particle_index(0);
     ghosts_[type].remove_particle(index);
@@ -92,8 +97,8 @@ void Configuration::add_particle_of_type(const int type) {
       add_to_selection_(index, &select);
     }
     newest_particle_index_ = index;
+    ++num_particles_of_type_[type];
   }
-  ++num_particles_of_type_[type];
 }
 
 void Configuration::remove_particle_(const int particle_index) {
@@ -207,7 +212,7 @@ void Configuration::replace_position_(const int particle_index,
 }
 
 void Configuration::add(std::shared_ptr<Group> group, std::string name) {
-  ASSERT(group->is_empty() or particle_types_.num() != 0,
+  ASSERT(group->is_empty() || particle_types_.num() != 0,
     "add groups after particle types");
   if (name == "") {
     std::stringstream ss;
@@ -248,12 +253,17 @@ void Configuration::position_tracker_(const int particle_index,
             const int cell_old = feasst::round(value);
             DEBUG("index " << particle_index << " " << site_index);
             DEBUG("new cell " << cell_new << " old cell " << cell_old);
-            DEBUG("before new cell set: " << particles_.particle(particle_index).site(site_index).property("cell0"));
-            particles_.set_site_property(name, cell_new, particle_index, site_index);
+            DEBUG("before new cell set: " <<
+              particles_.particle(particle_index).site(
+              site_index).property("cell0"));
+            particles_.set_site_property(name, cell_new,
+                                         particle_index, site_index);
             domain_->update_cell_list(cell_index, select, cell_new, cell_old);
           } else {
-            particles_.add_site_property(name, cell_new, particle_index, site_index);
-            DEBUG("adding to cell list " << cell_index << " cllnw " << cell_new << " si " << site_index);
+            particles_.add_site_property(name, cell_new,
+                                         particle_index, site_index);
+            DEBUG("adding to cell list " << cell_index << " cllnw "
+              << cell_new << " si " << site_index);
             domain_->add_to_cell_list(cell_index, select, cell_new);
           }
         }
@@ -300,8 +310,7 @@ void Configuration::check() const {
   ASSERT(static_cast<int>(group_selects_[0].num_particles()) == num_particles(),
     "The number of particles in the first group(" <<
     group_selects_[0].num_particles() << ") is not equal to the number of " <<
-    "particles: " << num_particles()
-  );
+    "particles: " << num_particles());
   for (int index = 0; index < num_particles(); ++index) {
     ASSERT(static_cast<int>(group_selects_[0].site_indices(index).size()) ==
       particle(index).num_sites(), "size error");
@@ -321,8 +330,7 @@ void Configuration::check() const {
   // check number of particle types
   ASSERT(
     static_cast<int>(num_particles_of_type_.size()) == num_particle_types(),
-    "size error"
-  );
+    "size error");
 
   // check that a particle is not simultaneously a ghost and a real particle
   for (const Select& ghost : ghosts_) {
@@ -350,19 +358,19 @@ bool Configuration::are_all_sites_physical() const {
   return true;
 }
 
-//void Configuration::check_id_(const Select* select) const {
-//  check_id_(select->unique_id());
-//}
-//void Configuration::check_id_(const Select& select) const {
-//  check_id_(select.unique_id());
-//}
-//void Configuration::check_id_(const std::string id) const {
-//  ASSERT(id.empty() or id == unique_indices_,
-//    "If selection is obtained from a configuration, it will have a unique" <<
-//    "identifier attached to it. The id of the selection and the " <<
-//    "configuration were fount to be inconsistent, likely due to an " <<
-//    "expired selection (e.g., particles were removed after selection)");
-//}
+// void Configuration::check_id_(const Select* select) const {
+//   check_id_(select->unique_id());
+// }
+// void Configuration::check_id_(const Select& select) const {
+//   check_id_(select.unique_id());
+// }
+// void Configuration::check_id_(const std::string id) const {
+//   ASSERT(id.empty() or id == unique_indices_,
+//     "If selection is obtained from a configuration, it will have a unique" <<
+//     "identifier attached to it. The id of the selection and the " <<
+//     "configuration were fount to be inconsistent, likely due to an " <<
+//     "expired selection (e.g., particles were removed after selection)");
+// }
 
 void Configuration::update_positions(
     const std::vector<std::vector<double> > coords) {
@@ -561,7 +569,7 @@ void Configuration::wrap_particle(const int particle_index) {
     DEBUG("pbc " << pbc_shift.str());
     if (pbc_shift.squared_distance() > NEAR_ZERO) {
       displace_particle_(particle_index, pbc_shift);
-      DEBUG("new part position " << select_particle(particle_index).position().str());
+      DEBUG("new pos " << select_particle(particle_index).position().str());
     }
   }
 }
@@ -578,8 +586,7 @@ void Configuration::set_selection_physical(const Select& select,
       particles_.set_site_physical(
         select.particle_indices()[sp_index],
         site_indices[ss_index],
-        phys
-      );
+        phys);
     }
   }
 }
@@ -603,7 +610,8 @@ bool Configuration::is_equal(const Configuration& configuration,
         return false;
       }
       for (int is = 0; is < p1.num_sites(); ++is) {
-        if (!p1.site(is).position().is_equal(p2.site(is).position(), tolerance)) {
+        if (!p1.site(is).position().is_equal(p2.site(is).position(),
+                                             tolerance)) {
           INFO("unequal site" << is << " positions: "
             << p1.site(is).position().str() << " "
             << p2.site(is).position().str());
@@ -682,7 +690,6 @@ std::vector<int> Configuration::num_sites_of_type(
 }
 
 void Configuration::set_side_lengths(const Position& sides) {
-//    ASSERT(num_particles() == 0, "domain should only be scaled with particles");
   if (domain()) {
     domain_->set_side_lengths(sides);
   } else {
@@ -690,8 +697,26 @@ void Configuration::set_side_lengths(const Position& sides) {
   }
 }
 
+std::string Configuration::status_header() const {
+  std::stringstream ss;
+  ss << domain()->status_header();
+  for (int type = 0; type < num_particle_types(); ++type) {
+    ss << ",p" << type;
+  }
+  return ss.str();
+}
+
+std::string Configuration::status() const {
+  std::stringstream ss;
+  ss << domain()->status();
+  for (int type = 0; type < num_particle_types(); ++type) {
+    ss << "," << num_particles_of_type(type);
+  }
+  return ss.str();
+}
+
 void Configuration::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(7199, ostr);
   particle_types_.serialize(ostr);
   unique_types_.serialize(ostr);
   particles_.serialize(ostr);
@@ -706,7 +731,8 @@ void Configuration::serialize(std::ostream& ostr) const {
 }
 
 Configuration::Configuration(std::istream& istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 7199, "unrecognized version: " << version);
   particle_types_ = ParticleFactory(istr);
   unique_types_ = ParticleFactory(istr);
   particles_ = ParticleFactory(istr);

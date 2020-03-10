@@ -59,14 +59,14 @@ class Potential {
             const argtype& args = argtype());
 
   /// Set the model parameters. If not set, use the one from configuration.
-  void set_model_params(const ModelParams& model_params) {
+  void set(const ModelParams& model_params) {
     model_params_override_ = true;
     model_params_ = model_params;
   }
 
   /// Set the model parameters to the one in the configuration.
   void set_model_params(const Configuration& config) {
-    set_model_params(config.model_params()); }
+    set(config.model_params()); }
 
   /// Modify model parameter of a given site type and name to value.
   void set_model_param(const char* name,

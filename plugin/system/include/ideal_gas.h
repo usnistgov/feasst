@@ -2,6 +2,7 @@
 #ifndef FEASST_SYSTEM_IDEAL_GAS_H_
 #define FEASST_SYSTEM_IDEAL_GAS_H_
 
+#include <string>
 #include <memory>
 #include "system/include/model_two_body.h"
 #include "math/include/constants.h"

@@ -2,6 +2,9 @@
 #ifndef FEASST_SYSTEM_VISIT_MODEL_INNER_H_
 #define FEASST_SYSTEM_VISIT_MODEL_INNER_H_
 
+#include <map>
+#include <string>
+#include <memory>
 #include "configuration/include/configuration.h"
 #include "system/include/model.h"
 #include "system/include/energy_map.h"
@@ -12,13 +15,10 @@ class ModelTwoBody;
 
 class VisitModelInner {
  public:
-  VisitModelInner() {
-    //set_energy_map();
-  }
+  VisitModelInner() {}
 
-  VisitModelInner(const std::shared_ptr<EnergyMap> map) {
-    set_energy_map(map);
-  }
+  explicit VisitModelInner(const std::shared_ptr<EnergyMap> map) {
+    set_energy_map(map); }
 
   virtual void compute(
     const int part1_index,
@@ -30,8 +30,7 @@ class VisitModelInner {
     const ModelTwoBody& model,
     const bool is_old_config,
     Position * relative,
-    Position * pbc
-    );
+    Position * pbc);
 
   virtual void precompute(Configuration * config) {
     if (energy_map_) {
@@ -69,7 +68,8 @@ class VisitModelInner {
       const int part2_index,
       const int site2_index) {
     if (energy_map_) {
-      energy_ += energy_map_->query(part1_index, site1_index, part2_index, site2_index);
+      energy_ += energy_map_->query(part1_index, site1_index,
+                                    part2_index, site2_index);
     }
   }
 
@@ -110,36 +110,16 @@ class VisitModelInner {
   virtual void serialize(std::ostream& ostr) const {
     serialize_visit_model_inner_(ostr); }
 
-  VisitModelInner(std::istream& istr) {
-    feasst_deserialize_version(istr);
-    feasst_deserialize(&energy_, istr);
-    // HWH for unknown reasons, this function template does not work.
-    { int existing;
-      istr >> existing;
-      if (existing != 0) {
-        energy_map_ = energy_map_->deserialize(istr);
-      }
-    }
-  }
-
   virtual std::shared_ptr<VisitModelInner> create(std::istream& istr) const {
-    return std::make_shared<VisitModelInner>(istr);
-  }
-
+    return std::make_shared<VisitModelInner>(istr); }
   std::map<std::string, std::shared_ptr<VisitModelInner> >& deserialize_map();
-
   std::shared_ptr<VisitModelInner> deserialize(std::istream& istr) {
     return template_deserialize(deserialize_map(), istr); }
-
+  explicit VisitModelInner(std::istream& istr);
   virtual ~VisitModelInner() {}
 
  protected:
-  void serialize_visit_model_inner_(std::ostream& ostr) const {
-    ostr << class_name_ << " ";
-    feasst_serialize_version(1, ostr);
-    feasst_serialize(energy_, ostr);
-    feasst_serialize_fstdr(energy_map_, ostr);
-  }
+  void serialize_visit_model_inner_(std::ostream& ostr) const;
 
  private:
   const std::string class_name_ = "VisitModelInner";

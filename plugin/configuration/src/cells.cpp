@@ -127,7 +127,7 @@ std::string Cells::str() const {
 }
 
 void Cells::serialize(std::ostream& sstr) const {
-  feasst_serialize_version(1, sstr);
+  feasst_serialize_version(958, sstr);
   feasst_serialize(label_, sstr);
   feasst_serialize(num_, sstr);
   feasst_serialize(neighbor_, sstr);
@@ -135,7 +135,8 @@ void Cells::serialize(std::ostream& sstr) const {
 }
 
 Cells::Cells(std::istream& sstr) {
-  feasst_deserialize_version(sstr);
+  const int version = feasst_deserialize_version(sstr);
+  ASSERT(version == 958, "unrecognized version: " << version);
   feasst_deserialize(&label_, sstr);
   feasst_deserialize(&num_, sstr);
   feasst_deserialize(&neighbor_, sstr);

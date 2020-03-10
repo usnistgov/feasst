@@ -2,6 +2,7 @@
 #ifndef FEASST_SYSTEM_VISIT_MODEL_BOND_H_
 #define FEASST_SYSTEM_VISIT_MODEL_BOND_H_
 
+#include <memory>
 #include "utils/include/arguments.h"
 #include "system/include/visit_model.h"
 
@@ -25,11 +26,12 @@ class VisitModelBond : public VisitModel {
       const ModelParams& model_params,
       Configuration * config,
       const int group_index) override {
-    compute(model, model_params, config->selection_of_all(), config, group_index);
+    compute(model, model_params, config->selection_of_all(),
+            config, group_index);
   }
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
-  VisitModelBond(std::istream& istr);
+  explicit VisitModelBond(std::istream& istr);
   virtual ~VisitModelBond() {}
 };
 

@@ -13,7 +13,7 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
   DEBUG("macroshift " << acceptance.macrostate_shift());
   const int shift = acceptance.macrostate_shift()*num_trial_states();
   if (acceptance.reject() or
-      !macrostate_->is_allowed(system, this, shift)) {
+      !macrostate_->is_allowed(system, this, acceptance)) {
     is_accepted = false;
     ln_metropolis_prob = -NEAR_INFINITY;
     macrostate_new_ = macrostate_old_;
@@ -59,13 +59,13 @@ std::string FlatHistogram::write() const {
   std::stringstream ss;
   ss << Criteria::write();
   ss << bias_->write();
-  ss << "macrostate "
-     << bias_->write_per_bin_header() << " "
+  ss << "macrostate,"
+     << bias_->write_per_bin_header() << ","
      << std::endl;
   const Histogram& hist = macrostate_->histogram();
   for (int bin = 0; bin < hist.size(); ++bin) {
-    ss << hist.center_of_bin(bin) << " "
-       << bias_->write_per_bin(bin) << " "
+    ss << hist.center_of_bin(bin) << ","
+       << bias_->write_per_bin(bin) << ","
        << std::endl;
   }
   return ss.str();
@@ -93,7 +93,8 @@ static MapFlatHistogram mapper_ = MapFlatHistogram();
 
 FlatHistogram::FlatHistogram(std::istream& istr)
   : Criteria(istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 937, "version mismatch: " << version);
   // feasst_deserialize_fstdr(bias_, istr);
   { // HWH for unknown reasons the above template function does not work
     int existing;
@@ -118,7 +119,7 @@ FlatHistogram::FlatHistogram(std::istream& istr)
 void FlatHistogram::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_criteria_(ostr);
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(937, ostr);
   feasst_serialize_fstdr(bias_, ostr);
   feasst_serialize_fstdr(macrostate_, ostr);
   feasst_serialize(macrostate_old_, ostr);

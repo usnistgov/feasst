@@ -31,20 +31,10 @@ class ModelHardShape : public ModelOneBody,
     return NEAR_INFINITY;
   }
 
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
-    ShapedEntity::serialize(ostr);
-    feasst_serialize_version(1, ostr);
-  }
-
+  void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {
-    return std::make_shared<ModelHardShape>(istr);
-  }
-
-  ModelHardShape(std::istream& istr) : ModelOneBody(), ShapedEntity(istr) {
-    feasst_deserialize_version(istr);
-  }
-
+    return std::make_shared<ModelHardShape>(istr); }
+  explicit ModelHardShape(std::istream& istr);
   virtual ~ModelHardShape() {}
 
  private:

@@ -44,22 +44,8 @@ class ShapedEntity {
   /// Return the shape.
   const std::shared_ptr<Shape> shape() const { return shape_; }
 
-  void serialize(std::ostream& ostr) const {
-    feasst_serialize_version(1, ostr);
-    feasst_serialize_fstdr(shape_, ostr);
-  }
-
-  ShapedEntity(std::istream& istr) {
-    feasst_deserialize_version(istr);
-    // feasst_deserialize_fstdr(shape_, istr);
-    { // HWH for unknown reasons the above template function does not work
-      int existing;
-      istr >> existing;
-      if (existing != 0) {
-        shape_ = shape_->deserialize(istr);
-      }
-    }
-  }
+  void serialize(std::ostream& ostr) const;
+  explicit ShapedEntity(std::istream& istr);
 
  private:
   std::shared_ptr<Shape> shape_;

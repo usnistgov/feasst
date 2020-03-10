@@ -34,20 +34,8 @@ class ChargeScreened : public ModelTwoBody {
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ChargeScreened>(istr); }
-
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
-    feasst_serialize_version(1, ostr);
-    feasst_serialize(alpha_, ostr);
-    feasst_serialize(conversion_factor_, ostr);
-  }
-
-  ChargeScreened(std::istream& istr) {
-    feasst_deserialize_version(istr);
-    feasst_deserialize(&alpha_, istr);
-    feasst_deserialize(&conversion_factor_, istr);
-  }
-
+  void serialize(std::ostream& ostr) const override;
+  explicit ChargeScreened(std::istream& istr);
   virtual ~ChargeScreened() {}
 
  private:

@@ -22,7 +22,7 @@ class VisitConfiguration : public VisitParticles {
             const Select& select);
   void loop(const Configuration& config,
             LoopConfigOneBody * loop_config_one_body,
-            const int group_index) {
+            const int group_index = 0) {
     loop(config, loop_config_one_body, config.group_selects()[group_index]); }
 
   virtual ~VisitConfiguration() {}
@@ -39,7 +39,7 @@ class LoopConfigOneBody {
   }
   virtual void work(const Site& site,
       const Configuration& config,
-      const LoopDescriptor& data) const = 0;
+      const LoopDescriptor& data) = 0;
   virtual ~LoopConfigOneBody() {}
 };
 

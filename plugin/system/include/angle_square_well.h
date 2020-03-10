@@ -3,6 +3,7 @@
 #define FEASST_CONFIGURATION_ANGLE_SQUARE_WELL_H_
 
 #include <math.h>
+#include <memory>
 #include "math/include/utils_math.h"
 #include "math/include/constants.h"
 #include "system/include/bond_three_body.h"
@@ -22,7 +23,8 @@ class AngleSquareWell : public BondThreeBody {
       const Angle& angle) const override {
     const double theta0 = angle.property("theta0");
     const double delta = angle.property("delta");
-    const double theta = radians_to_degrees(acos(relative01.cosine(relative21)));
+    const double theta =
+      radians_to_degrees(acos(relative01.cosine(relative21)));
     TRACE("theta " << theta);
     if (std::abs(theta - theta0) > 0.5*delta) {
       return NEAR_INFINITY;

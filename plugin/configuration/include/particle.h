@@ -3,6 +3,7 @@
 #define FEASST_CONFIGURATION_PARTICLE_H_
 
 #include <vector>
+#include <string>
 #include "configuration/include/properties.h"
 #include "configuration/include/typed_entity.h"
 #include "configuration/include/site.h"
@@ -205,16 +206,19 @@ class Particle : public PropertiedEntity,
 //  int num_dihedrals() const { return static_cast<int>(dihedrals_.size()); }
 //
 //  /// Return the dihedral by index.
-//  const Dihedral& dihedral(const int index) const { return dihedrals_[index]; }
+//  const Dihedral& dihedral(const int index) const {
+//    return dihedrals_[index]; }
 //
 //  /// Return the dihedrals.
 //  const std::vector<Dihedral> dihedrals() const { return dihedrals_; }
 //
 //  /// Add a dihedral.
-//  void add_dihedral(const Dihedral& dihedral) { dihedrals_.push_back(dihedral); }
+//  void add_dihedral(const Dihedral& dihedral) {
+//    dihedrals_.push_back(dihedral); }
 //
 //  /// Set a dihedral.
-//  void set_dihedral(const int index, const Dihedral& dihedral) { dihedrals_[index] = dihedral; }
+//  void set_dihedral(const int index, const Dihedral& dihedral) {
+//    dihedrals_[index] = dihedral; }
 //
 //  //@}
 //  /** @name Impropers
@@ -226,25 +230,30 @@ class Particle : public PropertiedEntity,
 //  int num_impropers() const { return static_cast<int>(impropers_.size()); }
 //
 //  /// Return the improper by index.
-//  const Improper& improper(const int index) const { return impropers_[index]; }
+//  const Improper& improper(const int index) const {
+//    return impropers_[index]; }
 //
 //  /// Return the impropers.
 //  const std::vector<Improper> impropers() const { return impropers_; }
 //
 //  /// Add an improper.
-//  void add_improper(const Improper& improper) { impropers_.push_back(improper); }
+//  void add_improper(const Improper& improper) {
+//    impropers_.push_back(improper); }
 //
 //  /// Set an improper.
-//  void set_improper(const int index, const Improper& improper) { impropers_[index] = improper; }
+//  void set_improper(const int index, const Improper& improper) {
+//    impropers_[index] = improper; }
 
 //  ~Particle() { check(); }
 
   const std::vector<std::vector<int> >& bond_list() const { return bond_list_; }
-  const std::vector<std::vector<int> >& bond_neighbor() const { return bond_neighbor_; }
-  const std::vector<std::vector<int> >& angle_list() const { return angle_list_; }
+  const std::vector<std::vector<int> >& bond_neighbor() const {
+    return bond_neighbor_; }
+  const std::vector<std::vector<int> >& angle_list() const {
+    return angle_list_; }
 
   void serialize(std::ostream& ostr) const;
-  Particle(std::istream& istr);
+  explicit Particle(std::istream& istr);
 
  private:
   std::vector<Site> sites_;
@@ -264,7 +273,8 @@ class Particle : public PropertiedEntity,
   void resize_list_(std::vector<std::vector<int> > * list);
   void add_bond_(const Bond& bond, const int index,
     std::vector<std::vector<int> > * list);
-  void add_bond_neighbor_(const Bond& bond, std::vector<std::vector<int> > * list);
+  void add_bond_neighbor_(const Bond& bond,
+                          std::vector<std::vector<int> > * list);
 };
 
 }  // namespace feasst

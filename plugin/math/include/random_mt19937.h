@@ -2,6 +2,7 @@
 #ifndef FEASST_MATH_RANDOM_MT19937_H_
 #define FEASST_MATH_RANDOM_MT19937_H_
 
+#include <memory>
 #include "math/include/random.h"
 
 namespace feasst {
@@ -12,7 +13,7 @@ namespace feasst {
  */
 class RandomMT19937 : public Random {
  public:
-  RandomMT19937(const argtype& args = argtype());
+  explicit RandomMT19937(const argtype& args = argtype());
 
   // serialize
   std::shared_ptr<Random> create(std::istream& istr) const override {

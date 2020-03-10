@@ -31,7 +31,7 @@ Histogram::Histogram(const argtype& args) {
 void Histogram::set_bin_size(const std::shared_ptr<Formula> bin_size) {
   set_expandable_();
   bin_size_ = bin_size;
-  ASSERT(edges_.size() == 0 and size() == 0, "formula cannot be changed");
+  ASSERT(edges_.size() == 0 && size() == 0, "formula cannot be changed");
   histogram_.push_back(0.);
   const double fabove = bin_size_->evaluate(1);
   const double f0 = bin_size_->evaluate(0);
@@ -52,7 +52,7 @@ void Histogram::set_edges(const std::deque<double> edges) {
   set_not_expandable();
 }
 int Histogram::bin(const double value) const {
-  ASSERT(value <= max() and value >= min(),
+  ASSERT(value <= max() && value >= min(),
     "histogram value(" << value << ") is out of range. max(" << max() <<
     ") min( " << min() << ")");
   if (is_constant_width_ == 1) {
@@ -61,7 +61,7 @@ int Histogram::bin(const double value) const {
   }
   int bin = 0;
   bool found = false;
-  while (!found and bin < size()) {
+  while (!found && bin < size()) {
     if (value < edges_[bin + 1]) {
       found = true;
     }
@@ -79,17 +79,18 @@ double Histogram::center_of_bin(const int bin) const {
 void Histogram::add(const double value) {
   // initialize histogram if not already and formula is set
   ASSERT(edges_.size() != 0, "size error");
-  if ( (value <= max()) and (value >= min()) ) {
+  if ((value <= max()) && (value >= min())) {
     ++histogram_[bin(value)];
   } else {
     // expand histogram if allowed and formula is available.
-    ASSERT(bin_size_ != NULL and expandable_, "out of range");
+    ASSERT(bin_size_ != NULL && expandable_, "out of range");
     int increment = 0;
     const int kMaxIncrements = 1e3;
     int found = 0;
     if (value > max()) {
-      while (found == 0 and increment < kMaxIncrements) {
-        const double new_width = 2*(bin_size_->evaluate(size()) - edges_.back());
+      while (found == 0 && increment < kMaxIncrements) {
+        const double new_width = 2*(bin_size_->evaluate(size()) -
+                                    edges_.back());
         edges_.push_back(edges_.back() + new_width);
         if (value < max()) {
           found = 1;
@@ -101,7 +102,7 @@ void Histogram::add(const double value) {
       }
       ASSERT(increment != kMaxIncrements, "size error");
     } else if (value < min()) {
-      while (found == 0 and increment < kMaxIncrements) {
+      while (found == 0 && increment < kMaxIncrements) {
         const double new_width = 2*(edges_.front() - bin_size_->evaluate(-1));
         edges_.push_front(edges_.front() - new_width);
         if (value > min()) {
@@ -121,7 +122,7 @@ void Histogram::add(const double value) {
 }
 
 void Histogram::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(4226, ostr);
   feasst_serialize(histogram_, ostr);
   feasst_serialize(edges_, ostr);
   feasst_serialize(expandable_, ostr);
@@ -130,7 +131,8 @@ void Histogram::serialize(std::ostream& ostr) const {
 }
 
 Histogram::Histogram(std::istream& istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 4226, "unrecognized verison: " << version);
   feasst_deserialize(&histogram_, istr);
   feasst_deserialize(&edges_, istr);
   feasst_deserialize(&expandable_, istr);

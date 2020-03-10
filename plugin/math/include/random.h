@@ -2,6 +2,7 @@
 #ifndef FEASST_MATH_RANDOM_H_
 #define FEASST_MATH_RANDOM_H_
 
+#include <map>
 #include <vector>
 #include <deque>
 #include <random>
@@ -34,7 +35,7 @@ class Random {
       If the string "default" is provided, then use the default integer
       included in Random::seed().
    */
-  Random(const argtype& args = argtype());
+  explicit Random(const argtype& args = argtype());
 
   /// Generate seed from time and date.
   void seed_by_time();
@@ -97,7 +98,9 @@ class Random {
   Position position_in_cube(const int dimension, const double length = 1);
 
   /// Optimized version of the above, in that an existing position is modified.
-  void position_in_cube(const int dimension, const double length, Position * position);
+  void position_in_cube(const int dimension,
+                        const double length,
+                        Position * position);
 
   /// Return a random position within a cuboid of side lengths with the origin
   /// at the center.
@@ -143,7 +146,7 @@ class Random {
  protected:
   std::string class_name_ = "Random";
   void serialize_random_(std::ostream& ostr) const;
-  Random(std::istream& istr);
+  explicit Random(std::istream& istr);
 
   void parse_seed_(const argtype& args);
 

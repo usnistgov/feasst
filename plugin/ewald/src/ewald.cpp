@@ -1,4 +1,5 @@
 
+#include "configuration/include/visit_configuration.h"
 #include "ewald/include/ewald.h"
 #include "math/include/constants.h"
 
@@ -25,32 +26,31 @@ Ewald::Ewald(const argtype& args) {
   if (args_.key("kmax_squared").used()) {
     kmax_sq_arg_ = std::make_shared<int>(args_.integer());
   }
+//  tolerance_num_sites_ = args_.key("tolerance_num_sites").dflt("-1").integer();
 }
 
 void Ewald::tolerance_to_alpha_ks(const double tolerance,
     const Configuration& config, double * alpha,
-    int * kxmax, int * kymax, int * kzmax, const int num_particles) {
+    int * kxmax, int * kymax, int * kzmax) {
   const double cutoff = config.model_params().cutoff().max();
-
-  // extrapolate to a different number of particles with a factor.
-  double factor = 1.;
-  if (num_particles != -1) {
-    ASSERT(num_particles > 0, "num_particles:" << num_particles
-      << " should be > 0");
-    factor = num_particles/config.num_particles();
-  }
+  int num_sites = config.num_sites();
+  ASSERT(num_sites > 0, "the number of sites: " << num_sites
+    << " must be > 0");
 
   // determine alpha
   *alpha = std::sqrt(config.num_sites()*cutoff*config.domain()->volume());
-  *alpha *= tolerance/(2.*std::sqrt(factor)*sum_squared_charge_(config));
+  *alpha *= tolerance/(2.*sum_squared_charge_(config));
   if (*alpha >= 1.) {
     *alpha = (1.35 - 0.15*log(tolerance))/cutoff; // from LAMMPS
   } else {
     *alpha = std::sqrt(-log(*alpha))/cutoff;
   }
-  *kxmax = estimate_kmax_(*alpha, config, tolerance, 0);
-  *kymax = estimate_kmax_(*alpha, config, tolerance, 1);
-  *kzmax = estimate_kmax_(*alpha, config, tolerance, 2);
+  DEBUG("alpha: " << *alpha);
+  ASSERT(!isnan(*alpha), "alpha is nan");
+  *kxmax = estimate_kmax_(*alpha, config, tolerance, 0, num_sites);
+  *kymax = estimate_kmax_(*alpha, config, tolerance, 1, num_sites);
+  *kzmax = estimate_kmax_(*alpha, config, tolerance, 2, num_sites);
+  DEBUG("numkxyz " << *kxmax << " " << *kymax << " " << *kzmax);
 }
 
 void Ewald::update_wave_vectors(const Configuration& config) {
@@ -66,9 +66,10 @@ void Ewald::update_wave_vectors(const Configuration& config) {
   ASSERT(!domain->is_tilted(), "assumes cuboid domain");
   const double volume = domain->volume();
   const double alpha = config.model_params().property("alpha");
-  for (int kx = 0; kx <= kmax_; ++kx) {
-  for (int ky = -kmax_; ky <= kmax_; ++ky) {
-  for (int kz = -kmax_; kz <= kmax_; ++kz) {
+  DEBUG("kxyzmax " << kxmax_ << " " << kymax_ << " " << kzmax_);
+  for (int kx = 0; kx <= kxmax_; ++kx) {
+  for (int ky = -kymax_; ky <= kymax_; ++ky) {
+  for (int kz = -kzmax_; kz <= kzmax_; ++kz) {
     kvec.set_vector({2.*PI*kx/lx,
                      2.*PI*ky/ly,
                      2.*PI*kz/lz});
@@ -80,11 +81,14 @@ void Ewald::update_wave_vectors(const Configuration& config) {
       wave_prefactor_.push_back(2.*PI*factor*exp(-k_sq/4./alpha/alpha)/k_sq/volume);
       DEBUG(wave_prefactor_.back() << " k2 " << k_sq << " alpha " << alpha << "  vol " << volume);
       DEBUG(2.*PI*factor*exp(-k_sq/4./alpha/alpha));
+      DEBUG("kxyz " << kx << " " << ky << " " << kz);
       wave_num_.push_back(kx);
       wave_num_.push_back(ky);
       wave_num_.push_back(kz);
     }
   }}}
+  DEBUG("num vectors " << num_vectors());
+  ASSERT(num_vectors() > 0, "num_vectors: " << num_vectors());
   struct_fact_real_.resize(num_vectors());
   struct_fact_imag_.resize(num_vectors());
   struct_fact_real_new_.resize(num_vectors());
@@ -98,11 +102,11 @@ std::vector<std::string> Ewald::eik_gen_() {
     for (std::string coord : {"x", "y", "z"}) {
       int num_k = -1;
       if (coord == "x") {
-        num_k = kxmax_;
+        num_k = num_kx_;
       } else if (coord == "y") {
-        num_k = kymax_;
+        num_k = num_ky_;
       } else if (coord == "z") {
-        num_k = kzmax_;
+        num_k = num_kz_;
       } else {
         ERROR("unrecognized coord: " << coord);
       }
@@ -148,40 +152,47 @@ void Ewald::init_wave_vector_storage(Configuration * config, const Select& selec
 }
 
 void Ewald::precompute(Configuration * config) {
-  if (tolerance_) {
-    ASSERT(!alpha_arg_ && !kxmax_arg_ && !kymax_arg_ && !kzmax_arg_,
-      "tolerance overrides all other arguments");
-    double alpha;
-    tolerance_to_alpha_ks(*tolerance_, *config, &alpha, &kxmax_, &kymax_, &kzmax_);
-    config->add_or_set_model_param("alpha", alpha);
-  } else if (kmax_sq_arg_) {
+  if (kmax_sq_arg_ && alpha_arg_) {
     ASSERT(!kxmax_arg_ && !kymax_arg_ && !kzmax_arg_,
       "kmax_squared argument overrides k[x,y,z]max arguments.");
     ASSERT(config->domain()->is_cubic(),
       "Domain must be cubic to set kmax_squared");
-    kmax_ = static_cast<int>(std::sqrt(*kmax_sq_arg_)) + 1;
-    kxmax_ = kmax_ + 1;
-    kymax_ = 2*kmax_ + 1;
-    kzmax_ = kymax_;
+    const int kmax_ = static_cast<int>(std::sqrt(*kmax_sq_arg_)) + 1;
+    kxmax_ = kmax_;
+    kymax_ = kmax_;
+    kzmax_ = kmax_;
     kmax_squared_ = *kmax_sq_arg_*pow(2.*PI/config->domain()->min_side_length(), 2);
-    DEBUG("kxmax " << kxmax_ << " kymax " << kymax_ << " kzmax " << kzmax_);
     DEBUG("kmax_squared_ " << kmax_squared_);
-    ASSERT(alpha_arg_, "alpha is required with kmax_squared argument");
     config->add_or_set_model_param("alpha", *alpha_arg_);
   } else {
-    kxmax_ = *kxmax_arg_;
-    kymax_ = *kymax_arg_;
-    kzmax_ = *kzmax_arg_;
+    if (tolerance_) {
+      ASSERT(!alpha_arg_ && !kxmax_arg_ && !kymax_arg_ && !kzmax_arg_,
+        "tolerance overrides all other arguments");
+      double alpha;
+      tolerance_to_alpha_ks(*tolerance_, *config, &alpha, &kxmax_, &kymax_, &kzmax_);
+      config->add_or_set_model_param("alpha", alpha);
+    } else {
+      ASSERT(kxmax_arg_ && kymax_arg_ && kzmax_arg_,
+        "k[x,y,z]max arguments required if kmax_squared or tolerance not provided");
+      kxmax_ = *kxmax_arg_;
+      kymax_ = *kymax_arg_;
+      kzmax_ = *kzmax_arg_;
+      ASSERT(alpha_arg_,
+        "if tolerance is not given, then alpha is required");
+      config->add_or_set_model_param("alpha", *alpha_arg_);
+    }
     double gsqxmx = pow(2*PI*kxmax_/config->domain()->side_length(0), 2);
     double gsqymx = pow(2*PI*kymax_/config->domain()->side_length(1), 2);
     double gsqzmx = pow(2*PI*kzmax_/config->domain()->side_length(2), 2);
+    DEBUG("gsqxmx " << gsqxmx);
+    DEBUG("2pi/lx " << 2*PI/config->domain()->side_length(0));
     kmax_squared_ = std::max(gsqxmx, gsqymx);
     kmax_squared_ = std::max(kmax_squared_, gsqzmx);
-    ASSERT(alpha_arg_ && kxmax_arg_ && kymax_arg_ && kzmax_arg_,
-      "if tolerance or kmax_squared are not given, then alpha, kxmax, kymax "
-      << "and kzmax are required");
-    config->add_or_set_model_param("alpha", *alpha_arg_);
+    DEBUG("kmax_squared_ " << kmax_squared_);
   }
+  num_kx_ = kxmax_ + 1;
+  num_ky_ = 2*kymax_ + 1;
+  num_kz_ = 2*kzmax_ + 1;
   config->add_excluded_property("eik");
   update_wave_vectors(*config);
   init_wave_vector_storage(config);
@@ -216,12 +227,12 @@ void Ewald::update_struct_fact_eik(const Select& selection,
       if (site.is_physical()) {
         const int eikrx0_index = find_eikrx0_(site);
         // calculate eik of kx = 0 explicitly
-        ASSERT(kymax_ == kzmax_, "assumption");
-        const int eikry0_index = eikrx0_index + kxmax_ + kmax_;
-        const int eikrz0_index = eikry0_index + kymax_;
-        const int eikix0_index = eikrx0_index + kxmax_ + kymax_ + kzmax_;
-        const int eikiy0_index = eikix0_index + kxmax_ + kmax_;
-        const int eikiz0_index = eikiy0_index + kymax_;
+        ASSERT(num_ky_ == num_kz_, "assumption");
+        const int eikry0_index = eikrx0_index + kxmax_ + kymax_ + 1;//num_kx_ + kmax_;
+        const int eikrz0_index = eikry0_index + kymax_ + kzmax_ + 1;//num_ky_;
+        const int eikix0_index = eikrz0_index + kzmax_ + 1;//num_kx_ + num_ky_ + num_kz_;
+        const int eikiy0_index = eikix0_index + kxmax_ + kymax_ + 1;//num_kx_ + kmax_;
+        const int eikiz0_index = eikiy0_index + kymax_ + kzmax_ + 1;//num_ky_;
         TRACE(eikrx0_index << " " << eikry0_index << " " << eikrz0_index << " "
           << eikix0_index << " " << eikiy0_index << " " << eikiz0_index);
 
@@ -255,7 +266,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
           }
 
           // compute remaining eik by recursion
-          for (int kx = 2; kx <= kmax_; ++kx) {
+          for (int kx = 2; kx <= kxmax_; ++kx) {
             const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
             const double eikr = eik[eikrx0_index + kx - 1]*eik[eikrx0_index + 1] -
               eik[eikix0_index + kx - 1]*eik[eikix0_index + 1];
@@ -264,7 +275,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
               eik[eikix0_index + kx - 1]*eik[eikrx0_index + 1];
             config->set_site_property(eikix0_index + kx, eiki, part_index, site_index);
           }
-          for (int ky = 2; ky <= kmax_; ++ky) {
+          for (int ky = 2; ky <= kymax_; ++ky) {
             const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
             const double eikr = eik[eikry0_index + ky - 1]*eik[eikry0_index + 1] -
               eik[eikiy0_index + ky - 1]*eik[eikiy0_index + 1];
@@ -275,7 +286,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
             config->set_site_property(eikry0_index - ky, eikr, part_index, site_index);
             config->set_site_property(eikiy0_index - ky, -eiki, part_index, site_index);
           }
-          for (int kz = 2; kz <= kmax_; ++kz) {
+          for (int kz = 2; kz <= kzmax_; ++kz) {
             const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
             const double eikr = eik[eikrz0_index + kz - 1]*eik[eikrz0_index + 1] -
               eik[eikiz0_index + kz - 1]*eik[eikiz0_index + 1];
@@ -343,11 +354,14 @@ void Ewald::serialize(std::ostream& ostr) const {
   feasst_serialize_sp(kymax_arg_, ostr);
   feasst_serialize_sp(kzmax_arg_, ostr);
   feasst_serialize_sp(kmax_sq_arg_, ostr);
-  feasst_serialize(kmax_, ostr);
-  feasst_serialize(kmax_squared_, ostr);
+//  feasst_serialize(tolerance_num_sites_, ostr);
   feasst_serialize(kxmax_, ostr);
   feasst_serialize(kymax_, ostr);
   feasst_serialize(kzmax_, ostr);
+  feasst_serialize(kmax_squared_, ostr);
+  feasst_serialize(num_kx_, ostr);
+  feasst_serialize(num_ky_, ostr);
+  feasst_serialize(num_kz_, ostr);
   feasst_serialize(wave_prefactor_, ostr);
   feasst_serialize(wave_num_, ostr);
   feasst_serialize(struct_fact_real_, ostr);
@@ -403,11 +417,14 @@ Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
     istr >> int_value;
     kmax_sq_arg_ = std::make_shared<int>(int_value);
   }
-  feasst_deserialize(&kmax_, istr);
-  feasst_deserialize(&kmax_squared_, istr);
+//  feasst_deserialize(&tolerance_num_sites_, istr);
   feasst_deserialize(&kxmax_, istr);
   feasst_deserialize(&kymax_, istr);
   feasst_deserialize(&kzmax_, istr);
+  feasst_deserialize(&kmax_squared_, istr);
+  feasst_deserialize(&num_kx_, istr);
+  feasst_deserialize(&num_ky_, istr);
+  feasst_deserialize(&num_kz_, istr);
   feasst_deserialize(&wave_prefactor_, istr);
   feasst_deserialize(&wave_num_, istr);
   feasst_deserialize(&struct_fact_real_, istr);
@@ -415,6 +432,25 @@ Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
   feasst_deserialize(&struct_fact_real_new_, istr);
   feasst_deserialize(&struct_fact_imag_new_, istr);
   feasst_deserialize(&stored_energy_, istr);
+}
+
+class SumCharge : public LoopConfigOneBody {
+ public:
+  void work(const Site& site,
+      const Configuration& config,
+      const LoopDescriptor& data) override {
+    const int type = site.type();
+    charge_ += config.model_params().charge().value(type);
+  }
+  double charge() const { return charge_; }
+ private:
+  double charge_ = 0.;
+};
+
+double Ewald::net_charge(const Configuration& config) const {
+  SumCharge sum;
+  VisitConfiguration().loop(config, &sum);
+  return sum.charge();
 }
 
 }  // namespace feasst

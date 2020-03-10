@@ -2,6 +2,10 @@
 #ifndef FEASST_SYSTEM_ENERGY_MAP_H_
 #define FEASST_SYSTEM_ENERGY_MAP_H_
 
+#include <string>
+#include <vector>
+#include <memory>
+#include <map>
 #include "utils/include/arguments.h"
 #include "system/include/model.h"
 #include "configuration/include/configuration.h"
@@ -88,7 +92,7 @@ class EnergyMap {
   virtual std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const {
     serialize_energy_map_(ostr); }
-  EnergyMap(std::istream& istr) {
+  explicit EnergyMap(std::istream& istr) {
     const int version = feasst_deserialize_version(istr);
     ASSERT(version == 945, "version mismatch: " << version);
     feasst_deserialize(&default_value_, istr);
@@ -124,7 +128,8 @@ class EnergyMap {
                                           const int part2_index,
                                           const int site2_index) = 0;
 
-  virtual const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& map() const = 0;
+  virtual const std::vector<std::vector<std::vector<std::vector<std::vector<
+    double> > > > >& map() const = 0;
   int dimen() const { return dimen_; }
   int site_max() const { return site_max_; }
 
@@ -133,7 +138,7 @@ class EnergyMap {
   const std::string class_name_ = "EnergyMap";
   // HWH optimization, could make variation in size but hard to initialize
   int site_max_;  // largest number of sites in a particle.
-  int dimen_ = -1; // record dimension of pbc wrap
+  int dimen_ = -1;  // record dimension of pbc wrap
 };
 
 }  // namespace feasst

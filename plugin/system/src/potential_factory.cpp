@@ -87,12 +87,13 @@ void PotentialFactory::finalize(const Select& select) {
 }
 
 void PotentialFactory::serialize(std::ostream& sstr) const {
-  feasst_serialize_version(1, sstr);
+  feasst_serialize_version(8655, sstr);
   feasst_serialize_fstobj(potentials_, sstr);
 }
 
 PotentialFactory::PotentialFactory(std::istream& sstr) {
-  feasst_deserialize_version(sstr);
+  const int version = feasst_deserialize_version(sstr);
+  ASSERT(version == 8655, "unrecognized verison: " << version);
   feasst_deserialize_fstobj(&potentials_, sstr);
 }
 

@@ -17,7 +17,8 @@ void VisitModelIntra::compute(
     Configuration * config,
     const int group_index) {
   TRACE("intra particle energy_of_selection");
-  ASSERT(group_index == 0, "need to implement site1 loop filtering particles by group");
+  ASSERT(group_index == 0,
+    "need to implement site1 loop filtering particles by group");
   zero_energy();
   const Domain * domain = config->domain();
   init_relative_(domain, &relative_, &pbc_);
@@ -26,7 +27,6 @@ void VisitModelIntra::compute(
        sp1index < static_cast<int>(selection.particle_indices().size());
        ++sp1index) {
     const int part1_index = selection.particle_index(sp1index);
-  //for (int part1_index : selection.particle_indices()) {
     TRACE("particle: " << part1_index);
     const Particle& part1 = config->select_particle(part1_index);
     // the first site loop is over all sites in part1 and group_index
@@ -71,22 +71,26 @@ void VisitModelIntra::compute(
             site1_index < site2_index) {
           bool include = false;
           if (selection.old_bond()) {
-            if (site2_index == selection.old_bond()->site_indices()[sp1index][0]) {
+            if (site2_index ==
+                selection.old_bond()->site_indices()[sp1index][0]) {
               include = true;
             }
           }
           bool exclude = false;
           if (selection.new_bond()) {
-            if (site2_index == selection.new_bond()->site_indices()[sp1index][0]) {
+            if (site2_index ==
+                selection.new_bond()->site_indices()[sp1index][0]) {
               exclude = true;
             }
           }
 
           // forced exclude takes precedent over forced include
-          if ( (include || std::abs(site1_index - site2_index) > cutoff_) && (!exclude) ) {
+          if ( (include || std::abs(site1_index - site2_index) > cutoff_) &&
+               (!exclude) ) {
             TRACE("sites: " << site1_index << " " << site2_index);
-            get_inner_()->compute(part1_index, site1_index, part1_index, site2_index,
-                                  config, model_params, model, false, &relative_, &pbc_);
+            get_inner_()->compute(part1_index, site1_index, part1_index,
+              site2_index, config, model_params, model, false, &relative_,
+              &pbc_);
           }
         }
       }
@@ -94,25 +98,6 @@ void VisitModelIntra::compute(
   }
   set_energy(inner()->energy());
 }
-
-//          const bool exclude = check_bond(site1_index, site2_index,
-//                                          selection.new_bond(), sp1index, site1_indices[0]);
-//  // here we determine if the pair of sites is forced to be included
-//bool VisitModelIntra::check_bond(const int site1_index, const int site2_index,
-//  const Select* bond, const int spindex, const int s1in) {
-//  if (bond) {
-//    const int incl1_site = s1in;
-//    const int incl2_site = bond->site_indices()[spindex][0];
-//    if ( (site1_index == incl1_site and
-//          site2_index == incl2_site) or
-//         (site1_index == incl2_site and
-//          site2_index == incl1_site) ) {
-//      TRACE("check " << incl1_site << " " << incl2_site);
-//      return true;
-//    }
-//  }
-//  return false;
-//}
 
 class MapVisitModelIntra {
  public:

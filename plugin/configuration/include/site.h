@@ -44,7 +44,7 @@ class Site : public PropertiedEntity,
   void set_physical(const bool physical = true) { is_physical_ = physical; }
 
   void serialize(std::ostream& ostr) const;
-  Site(std::istream& istr);
+  explicit Site(std::istream& istr);
   virtual ~Site() {}
 
  private:

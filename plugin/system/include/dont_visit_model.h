@@ -2,6 +2,7 @@
 #ifndef FEASST_SYSTEM_DONT_VISIT_MODEL_H_
 #define FEASST_SYSTEM_DONT_VISIT_MODEL_H_
 
+#include <memory>
 #include "system/include/visit_model.h"
 
 namespace feasst {
@@ -43,7 +44,7 @@ class DontVisitModel : public VisitModel {
       const int group_index = 0) override { set_energy(0.); }
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
-  DontVisitModel(std::istream& istr);
+  explicit DontVisitModel(std::istream& istr);
   virtual ~DontVisitModel() {}
 };
 

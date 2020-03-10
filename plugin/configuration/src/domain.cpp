@@ -224,8 +224,20 @@ double Domain::max_side_length() const {
   return maximum(side_lengths_.coord());
 }
 
+std::string Domain::status_header() const {
+  std::stringstream ss;
+  ss << ",volume";
+  return ss.str();
+}
+
+std::string Domain::status() const {
+  std::stringstream ss;
+  ss << "," << volume();
+  return ss.str();
+}
+
 void Domain::serialize(std::ostream& sstr) const {
-  feasst_serialize_version(1, sstr);
+  feasst_serialize_version(841, sstr);
   side_lengths_.serialize(sstr);
   feasst_serialize(xy_, sstr);
   feasst_serialize(xz_, sstr);
@@ -236,7 +248,8 @@ void Domain::serialize(std::ostream& sstr) const {
 }
 
 Domain::Domain(std::istream& sstr) {
-  feasst_deserialize_version(sstr);
+  const int version = feasst_deserialize_version(sstr);
+  ASSERT(version == 841, "version mismatch: " << version);
   side_lengths_ = Position(sstr);
   feasst_deserialize(&xy_, sstr);
   feasst_deserialize(&xz_, sstr);

@@ -2,6 +2,7 @@
 #ifndef FEASST_CONFIGURATION_FILE_XYZ_H_
 #define FEASST_CONFIGURATION_FILE_XYZ_H_
 
+#include <string>
 #include <fstream>
 #include <sstream>
 #include "configuration/include/configuration.h"
@@ -12,7 +13,9 @@ class FileVMD {
  public:
   FileVMD() {}
 
-  void write(const std::string file_name, const Configuration& config, const std::string traj_file_name) {
+  void write(const std::string file_name,
+      const Configuration& config,
+      const std::string traj_file_name) {
     std::ofstream vmdf(file_name);
     vmdf << "display projection Orthographic" << endl
       << "color Display Background white" << endl
@@ -24,16 +27,13 @@ class FileVMD {
       const double radius = 0.5*config.model_params().sigma().value(stype);
       vmdf << "$sel set radius " << radius << endl;
     }
-// write the radius using sigma
-//    for (int particle_type = 0; particle_type < config.num_particle_types(); ++particle_type) {
-//    }
   }
 
   void serialize(std::ostream& ostr) const {
     feasst_serialize_version(1, ostr);
   }
 
-  FileVMD(std::istream& istr) {
+  explicit FileVMD(std::istream& istr) {
     feasst_deserialize_version(istr);
   }
 };
@@ -55,7 +55,7 @@ class FileXYZ {
 
   /// Write the configuration to file_name in xyz format.
   void write(const std::string file_name,
-             const Configuration& config) const ;
+             const Configuration& config) const;
 
   void write_for_vmd(const std::string file_name,
              const Configuration& config) const;
@@ -71,7 +71,7 @@ class FileXYZ {
     feasst_serialize(append_, ostr);
   }
 
-  FileXYZ(std::istream& istr) {
+  explicit FileXYZ(std::istream& istr) {
     feasst_deserialize_version(istr);
     feasst_deserialize(&group_index_, istr);
     feasst_deserialize(&append_, istr);

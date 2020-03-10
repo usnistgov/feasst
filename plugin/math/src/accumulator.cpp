@@ -21,13 +21,13 @@ Accumulator::Accumulator() {
   reset();
 }
 
-//Accumulator::Accumulator(const long long num_values, const long double sum,
-//  const long double sum_squared) {
-//  reset();
-//  num_values_ = num_values;
-//  sum_ = sum;
-//  sum_squared_ = sum_squared;
-//}
+// Accumulator::Accumulator(const long long num_values, const long double sum,
+//   const long double sum_squared) {
+//   reset();
+//   num_values_ = num_values;
+//   sum_ = sum;
+//   sum_squared_ = sum_squared;
+// }
 
 void Accumulator::accumulate(double value) {
   last_value_ = value;
@@ -115,20 +115,20 @@ void Accumulator::set_moments(const int num_moments) {
 
 std::string Accumulator::str() const {
   std::stringstream ss;
-  ss << "average stdev block_stdev ";
+  ss << "average,stdev,block_stdev,";
   for (int i = 0; i < static_cast<int>(val_moment_.size()); ++i) {
-    ss << "moment" << i << " ";
+    ss << "moment" << i << ",";
   }
   ss << std::endl;
-  ss << average() << " " << stdev() << " " << block_stdev() << " ";
+  ss << average() << "," << stdev() << "," << block_stdev() << ",";
   for (const long double moment : val_moment_) {
-    ss << moment << " ";
+    ss << moment << ",";
   }
   return ss.str();
 }
 
 void Accumulator::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(8773, ostr);
   feasst_serialize(num_values_, ostr);
   feasst_serialize(sum_, ostr);
   feasst_serialize(sum_squared_, ostr);
@@ -141,7 +141,8 @@ void Accumulator::serialize(std::ostream& ostr) const {
 }
 
 Accumulator::Accumulator(std::istream& istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 8773, "unrecognized verison: " << version);
   feasst_deserialize(&num_values_, istr);
   feasst_deserialize(&sum_, istr);
   feasst_deserialize(&sum_squared_, istr);

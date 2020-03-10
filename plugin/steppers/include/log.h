@@ -7,8 +7,18 @@
 namespace feasst {
 
 /**
-  Periodically print the status of the Criteria and Trials, typically in a
-  one line format with header.
+  Periodically print the status of the Criteria and Trials in a one-line comma
+  separated value format with headers.
+
+  This log file is designed more for checking status than computing ensemble
+  averages.
+  To compute ensemble averages, consider using a custom Analyze or accumulating
+  the averages every trial step inside your script.
+
+  The ordering of the columns may change at any time.
+  Thus, do not assume a particular order when analyzing the log file.
+  Instead, use the headers to specify columns.
+  For example, the pandas module in python is ideal for this task.
  */
 class Log : public AnalyzeWriteOnly {
  public:

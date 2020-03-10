@@ -7,11 +7,11 @@
 #include <string>
 #include <sstream>
 #include <iostream>
-#include <iomanip>
-#include <limits>
+#include <iomanip>  // setprecision
+#include <limits>  // numeric_limits
 #ifdef _OPENMP
   #include <omp.h>
-#endif // _OPENMP
+#endif  // _OPENMP
 #include "utils/include/custom_exception.h"
 
 namespace feasst {

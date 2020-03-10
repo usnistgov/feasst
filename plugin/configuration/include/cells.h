@@ -75,7 +75,7 @@ class Cells : public PropertiedEntity {
   std::string str() const;
 
   void serialize(std::ostream& ostr) const;
-  Cells(std::istream& istr);
+  explicit Cells(std::istream& istr);
   virtual ~Cells() {}
 
  private:
@@ -86,7 +86,7 @@ class Cells : public PropertiedEntity {
 
   // per cell vectors
   std::vector<std::vector<int> > neighbor_;
-  std::vector<Select> particles_; // particles for each cell
+  std::vector<Select> particles_;  // particles for each cell
 
   /// Return the unique cell id number for a given cell vector.
   int id_(std::vector<int> position);

@@ -46,25 +46,13 @@ TEST(Ewald, ewald) {
   const double en = 52.13245734204947;
   EXPECT_NEAR(ewald->energy(), en, 1e-12);
 
+  EXPECT_NEAR(ewald->net_charge(config), 0., NEAR_ZERO);
+
   // serialize
   auto ewald2 = test_serialize<Ewald, VisitModel>(*ewald);
   model.compute(&config, ewald2.get());
   ewald2->finalize(Select());
   EXPECT_NEAR(ewald2->energy(), en, 1e-12);
-}
-
-// compare with LAMMPS 2/20/2020
-TEST(Ewald, chain) {
-  System system = chain(0.76064, 144);
-  //System system = chain(0.6994, 16);
-  DEBUG(MAX_PRECISION << system.configuration().model_params().physical_constants()->charge_conversion());
-  DEBUG(system.energy());
-  DEBUG(system.potential(0).stored_energy());  // LJ + inter charge = 0
-  DEBUG(system.potential(1).stored_energy());  // ChargeScreenedIntra
-  DEBUG(system.potential(2).stored_energy());  // ChargeSelf
-  DEBUG(system.potential(3).stored_energy());  // KSpace
-  DEBUG(system.potential(4).stored_energy());  // LJ intra
-  EXPECT_EQ(5, system.unoptimized().num());
 }
 
 TEST(Ewald, system) {

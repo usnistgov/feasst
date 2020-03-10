@@ -9,6 +9,7 @@ void Acceptance::reset() {
   energy_new_ = 0.;
   energy_old_ = 0.;
   macrostate_shift_ = 0;
+  macrostate_shift_type_ = 0;
   perturbed_.clear();
 }
 

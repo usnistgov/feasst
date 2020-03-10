@@ -3,6 +3,8 @@
 #define FEASST_CONFIGURATION_BOND_TWO_BODY_H_
 
 #include <memory>
+#include <string>
+#include <map>
 #include "math/include/position.h"
 #include "configuration/include/bond.h"
 
@@ -27,7 +29,7 @@ class BondTwoBody {
   std::string class_name_ = "BondTwoBody";
 
   void serialize_bond_two_body_(std::ostream& ostr) const;
-  BondTwoBody(std::istream& istr);
+  explicit BondTwoBody(std::istream& istr);
 };
 
 }  // namespace feasst

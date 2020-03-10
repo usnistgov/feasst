@@ -2,6 +2,9 @@
 #ifndef FEASST_CONFIGURATION_BOND_THREE_BODY_H_
 #define FEASST_CONFIGURATION_BOND_THREE_BODY_H_
 
+#include <map>
+#include <string>
+#include <memory>
 #include "math/include/position.h"
 #include "configuration/include/bond.h"
 
@@ -31,7 +34,7 @@ class BondThreeBody {
   std::string class_name_ = "BondThreeBody";
 
   void serialize_bond_three_body_(std::ostream& ostr) const;
-  BondThreeBody(std::istream& istr);
+  explicit BondThreeBody(std::istream& istr);
 };
 
 }  // namespace feasst

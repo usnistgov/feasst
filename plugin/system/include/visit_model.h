@@ -3,6 +3,8 @@
 #define FEASST_SYSTEM_VISIT_MODEL_H_
 
 #include <memory>
+#include <string>
+#include <map>
 #include <sstream>
 #include "system/include/model.h"
 #include "configuration/include/configuration.h"
@@ -141,7 +143,7 @@ class VisitModel {
     return std::make_shared<VisitModel>(istr); }
   std::map<std::string, std::shared_ptr<VisitModel> >& deserialize_map();
   std::shared_ptr<VisitModel> deserialize(std::istream& istr);
-  VisitModel(std::istream& istr);
+  explicit VisitModel(std::istream& istr);
   virtual ~VisitModel() {}
 
  protected:

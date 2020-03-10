@@ -11,13 +11,20 @@ namespace feasst {
  */
 class MacrostateNumParticles : public Macrostate {
  public:
+  /**
+   args:
+   - particle_type: number of particles of type. If -1 (default), count all
+     types.
+  */
   MacrostateNumParticles(const Histogram& histogram,
-    const argtype& args = argtype()) : Macrostate(histogram, args) {}
+    const argtype& args = argtype());
 
-  double value(const System* system, const Criteria* criteria) override {
-    return static_cast<double>(system->configuration().num_particles());
-  }
+  /// Same as above but with an added constraint.
+  MacrostateNumParticles(const Histogram& histogram,
+    std::shared_ptr<Constraint> constraint,
+    const argtype& args = argtype());
 
+  double value(const System* system, const Criteria* criteria) override;
   std::shared_ptr<Macrostate> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   MacrostateNumParticles(std::istream& istr);
@@ -25,11 +32,19 @@ class MacrostateNumParticles : public Macrostate {
 
  private:
   const std::string class_name_ = "MacrostateNumParticles";
+  int particle_type_;
 };
 
 inline std::shared_ptr<MacrostateNumParticles> MakeMacrostateNumParticles(
     const Histogram& histogram, const argtype& args = argtype()) {
   return std::make_shared<MacrostateNumParticles>(histogram, args);
+}
+
+inline std::shared_ptr<MacrostateNumParticles> MakeMacrostateNumParticles(
+    const Histogram& histogram,
+    std::shared_ptr<Constraint> constraint,
+    const argtype& args = argtype()) {
+  return std::make_shared<MacrostateNumParticles>(histogram, constraint, args);
 }
 
 }  // namespace feasst

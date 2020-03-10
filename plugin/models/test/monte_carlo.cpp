@@ -37,7 +37,7 @@ TEST(MonteCarlo, trimer) {
     lj_wca->set_wca(1, 1, &params);
     //lj_wca->precompute(params);
     Potential potential(lj_wca);
-    potential.set_model_params(params);
+    potential.set(params);
     mc.add(potential);
   }
   crit_trial_analyze(&mc, 1e2, true, true);

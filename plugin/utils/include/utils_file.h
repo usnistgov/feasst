@@ -2,6 +2,7 @@
 #ifndef FEASST_UTILS_FILE_H_
 #define FEASST_UTILS_FILE_H_
 
+#include <string>
 #include <fstream>
 
 namespace feasst {

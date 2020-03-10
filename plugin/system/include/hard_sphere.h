@@ -2,6 +2,8 @@
 #ifndef FEASST_SYSTEM_HARD_SPHERE_H_
 #define FEASST_SYSTEM_HARD_SPHERE_H_
 
+#include <string>
+#include <memory>
 #include "system/include/model_two_body.h"
 #include "math/include/constants.h"
 
@@ -43,7 +45,7 @@ class HardSphere : public ModelTwoBody {
     feasst_serialize_version(607, ostr);
   }
 
-  HardSphere(std::istream& istr) {
+  explicit HardSphere(std::istream& istr) {
     const int version = feasst_deserialize_version(istr);
     ASSERT(607 == version, version);
   }

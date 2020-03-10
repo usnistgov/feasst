@@ -2,6 +2,8 @@
 #ifndef FEASST_SYSTEM_MODEL_EMPTY_H_
 #define FEASST_SYSTEM_MODEL_EMPTY_H_
 
+#include <memory>
+#include <string>
 #include "system/include/model_one_body.h"
 
 namespace feasst {
@@ -27,7 +29,7 @@ class ModelEmpty : public ModelOneBody {
     feasst_serialize_version(189, ostr);
   }
 
-  ModelEmpty(std::istream& istr) {
+  explicit ModelEmpty(std::istream& istr) {
     const int version = feasst_deserialize_version(istr);
     ASSERT(189 == version, version);
   }

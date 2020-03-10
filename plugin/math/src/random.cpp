@@ -26,14 +26,14 @@ void Random::parse_seed_(const argtype& args) {
 
 void Random::seed_by_time() {
   const int t = time(NULL);
-  srand ( t );
+  srand(t);
   INFO("time(seed): " << t);
   reseed_();
   is_seeded_ = true;
 }
 
 void Random::seed(const int seed) {
-  srand ( seed );
+  srand(seed);
   INFO("Initializing random number generator for reproduction with seed("
     << seed << ")");
   reseed_();
@@ -55,7 +55,7 @@ double Random::uniform() {
 
 int Random::uniform(const int min, const int max) {
   ASSERT(max >= min, "max:" << max << " must be > min:" << min);
-  return int(uniform() * (max - min + 1)) + min;
+  return static_cast<int>(uniform() * (max - min + 1)) + min;
 }
 
 void Random::serialize_random_(std::ostream& ostr) const {
@@ -125,7 +125,8 @@ Position Random::position_in_cube(const int dimension, const double length) {
   return position;
 }
 
-void Random::position_in_cuboid(const Position& side_length, Position * position) {
+void Random::position_in_cuboid(const Position& side_length,
+    Position * position) {
   ASSERT(side_length.dimension() == 3, "size error");
   position->set_to_origin_3D();
   for (int dim = 0; dim < side_length.dimension(); ++dim) {

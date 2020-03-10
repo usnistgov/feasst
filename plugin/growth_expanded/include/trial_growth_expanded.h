@@ -19,7 +19,7 @@ class TrialComputeGrowAdd : public TrialCompute {
       Acceptance * acceptance,
       std::vector<TrialStage*> * stages,
       Random * random) override {
-    DEBUG("TrialComputeAdd");
+    DEBUG("TrialComputeGrowAdd");
     compute_rosenbluth(0, criteria, system, acceptance, stages, random);
     const TrialSelect * select = (*stages)[0]->trial_select();
     system->get_configuration()->revive(select->mobile());

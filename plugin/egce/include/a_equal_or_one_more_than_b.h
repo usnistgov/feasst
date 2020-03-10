@@ -12,17 +12,22 @@ namespace feasst {
  */
 class AEqualOrOneMoreThanB : public Constraint {
  public:
-  bool is_allowed(const System* system, const Criteria* criteria) const override {
-    const int na = system->configuration().num_particles_of_type(0);
-    const int nb = system->configuration().num_particles_of_type(1);
-    if (na == nb || na == nb + 1) {
-      return true;
-    }
-    return false;
-  }
-
+  AEqualOrOneMoreThanB() { class_name_ = "AEqualOrOneMoreThanB"; }
+  bool is_allowed(const System* system,
+    const Criteria* criteria,
+    const Acceptance& acceptance) const override;
+  std::shared_ptr<Constraint> create(std::istream& istr) const override;
+  void serialize(std::ostream& ostr) const override;
+  explicit AEqualOrOneMoreThanB(std::istream& istr);
   virtual ~AEqualOrOneMoreThanB() {}
+
+ protected:
+  void serialize_a_equal_or_one_more_than_b_(std::ostream& ostr) const;
 };
+
+inline std::shared_ptr<AEqualOrOneMoreThanB> MakeAEqualOrOneMoreThanB() {
+  return std::make_shared<AEqualOrOneMoreThanB>();
+}
 
 }  // namespace feasst
 

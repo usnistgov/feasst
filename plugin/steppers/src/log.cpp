@@ -23,7 +23,9 @@ void Log::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
   std::stringstream ss;
-  ss << criteria->status_header() << " " << trial_factory->status_header()
+  ss << system->status_header()
+     << criteria->status_header()
+     << trial_factory->status_header()
      << std::endl;
   printer(ss.str());
 }
@@ -33,7 +35,10 @@ std::string Log::write(const Criteria * criteria,
     const TrialFactory& trial_factory) {
   // ensure the following order matches the header from initialization.
   std::stringstream ss;
-  ss << criteria->status() << " " << trial_factory.status() << std::endl;
+  ss << system.status()
+     << criteria->status()
+     << trial_factory.status()
+     << std::endl;
   return ss.str();
 }
 

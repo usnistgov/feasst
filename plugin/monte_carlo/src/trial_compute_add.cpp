@@ -1,4 +1,5 @@
 #include "monte_carlo/include/trial_compute_add.h"
+#include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
 

@@ -44,13 +44,14 @@ void CheckEnergy::update(Criteria * criteria,
 
 void CheckEnergy::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(715, ostr);
   feasst_serialize(tolerance_, ostr);
   feasst_serialize_fstdr(check_, ostr);
 }
 
 CheckEnergy::CheckEnergy(std::istream& istr) : ModifyUpdateOnly(istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 715, "version mismatch: " << version);
   feasst_deserialize(&tolerance_, istr);
   // feasst_deserialize_fstdr(modify->check_, istr);
   { // HWH for unknown reasons the above template function does not work

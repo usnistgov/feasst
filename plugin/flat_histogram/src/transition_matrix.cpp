@@ -41,6 +41,7 @@ void TransitionMatrix::update_or_revert(
     reverse_prob *= -1.;
   }
   DEBUG("macrostate_old " << macrostate_old << " index " << index);
+  DEBUG("metropolis_prob " << metropolis_prob);
   collection_.increment(macrostate_old, index, metropolis_prob);
   collection_.increment(macrostate_old, 1, reverse_prob);
   update_blocks_(macrostate_old, macrostate_new,
@@ -99,37 +100,37 @@ void TransitionMatrix::resize(const Histogram& histogram) {
 std::string TransitionMatrix::write() const {
   std::stringstream ss;
   ss << Bias::write();
-  ss << "num_sweeps " << num_sweeps_ << std::endl;
-  DEBUG("matrix " << feasst_str(collection_.matrix()));
+  ss << "num_sweeps," << num_sweeps_ << std::endl;
+  DEBUG("matrix," << feasst_str(collection_.matrix()));
   return ss.str();
 }
 
 std::string TransitionMatrix::write_per_bin_header() const {
   std::stringstream ss;
-  ss << Bias::write_per_bin_header() << " ";
+  ss << Bias::write_per_bin_header() << ",";
   for (int index = 0; index < static_cast<int>(blocks_.size()); ++index) {
-    ss << "lnpi_partial ";
+    ss << "lnpi_partial,";
    // block->write_per_bin_header();
   }
-  if (!is_block_) ss << "lnpi_stdev ";
-  ss << "c0 c1 c2";
+  if (!is_block_) ss << "lnpi_stdev,";
+  ss << "c0,c1,c2,";
   return ss.str();
 }
 
 std::string TransitionMatrix::write_per_bin(const int bin) const {
   std::stringstream ss;
-  ss << Bias::write_per_bin(bin) << " ";
+  ss << Bias::write_per_bin(bin) << ",";
 
   // compute and print the standard deviation of the average of the blocks
   Accumulator acc_block;
   for (const TransitionMatrix& block : blocks_) {
-    ss << MAX_PRECISION << block.ln_prob().value(bin) << " ";
-   // write_per_bin(bin) << " ";
+    ss << MAX_PRECISION << block.ln_prob().value(bin) << ",";
+   // write_per_bin(bin) << ",";
     DEBUG(block.ln_prob().value(bin));
     acc_block.accumulate(block.ln_prob().value(bin));
   }
   if (!is_block_) {
-    ss << MAX_PRECISION << acc_block.stdev_of_av() << " ";
+    ss << MAX_PRECISION << acc_block.stdev_of_av() << ",";
 //    const std::vector<double>& cols =  collection_.matrix()[bin];
 //    ss << "sz " << cols.size() << " " ;
 //    for (auto element : cols) {
@@ -138,9 +139,9 @@ std::string TransitionMatrix::write_per_bin(const int bin) const {
 //    }
 //    ss << "size " << collection_.matrix()[bin].size() << " ";
     ss << MAX_PRECISION
-       << collection_.matrix()[bin][0] << " "
-       << collection_.matrix()[bin][1] << " "
-       << collection_.matrix()[bin][2];
+       << collection_.matrix()[bin][0] << ","
+       << collection_.matrix()[bin][1] << ","
+       << collection_.matrix()[bin][2] << ",";
 //    ss << " " << cols[0] << " "
 //      << cols[1] << " "
 //      << cols[2];

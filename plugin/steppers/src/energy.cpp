@@ -29,7 +29,7 @@ std::string Energy::write(const Criteria * criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;
-  ss << energy_.str() << " ";
+  ss << energy_.str();
   DEBUG(ss.str());
   return ss.str();
 }

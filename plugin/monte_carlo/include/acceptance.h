@@ -61,11 +61,16 @@ class Acceptance {
 
   /// Return the shift in the macrostate due to an optimization where
   /// Perturb does not completely update system until finalize.
-  /// HWH this assumes a particular macrostate is used for the given trial.
+  /// This assumes a particular macrostate is used for the given trial.
+  // HWH refactor this so that perturb_remove shows deleted particle but
+  // cell lists, etc are only updated upon finalization (optimization).
   int macrostate_shift() const { return macrostate_shift_; }
+  int macrostate_shift_type() const { return macrostate_shift_type_; }
 
   /// Add to the above.
   void add_to_macrostate_shift(const int shift) { macrostate_shift_ += shift; }
+  void set_macrostate_shift_type(const int type) {
+    macrostate_shift_type_ += type; }
 
   /// Add to perturbed selection and equate trial state.
   void add_to_perturbed(const Select& select);
@@ -82,6 +87,7 @@ class Acceptance {
   double energy_old_;
   double energy_ref_;
   int macrostate_shift_;
+  int macrostate_shift_type_;
   bool reject_;
   Select perturbed_;
 };

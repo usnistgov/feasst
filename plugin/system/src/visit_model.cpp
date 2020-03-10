@@ -37,10 +37,10 @@ void VisitModel::compute(
   ASSERT(group_index == 0, "not implemented because redundant to selection");
   zero_energy();
   DEBUG("HWH: add wrapping of site positions");
-  for (int select_index = 0; select_index < selection.num_particles(); ++select_index) {
-    const int particle_index = selection.particle_index(select_index);
+  for (int sel_index = 0; sel_index < selection.num_particles(); ++sel_index) {
+    const int particle_index = selection.particle_index(sel_index);
     const Particle& part = config->select_particle(particle_index);
-    for (int site_index : selection.site_indices(select_index)) {
+    for (int site_index : selection.site_indices(sel_index)) {
       const Site& site = part.site(site_index);
       if (site.is_physical()) {
         energy_ += model.energy(site, config, model_params);
@@ -69,9 +69,8 @@ void VisitModel::compute(
       const int part2_index = selection.particle_index(select2_index);
       for (int site1_index : selection.site_indices(select1_index)) {
         for (int site2_index : selection.site_indices(select2_index)) {
-          get_inner_()->compute(part1_index, site1_index, part2_index, site2_index,
-                                config, model_params, model, false, &relative_,
-                                &pbc_);
+          get_inner_()->compute(part1_index, site1_index, part2_index,
+            site2_index, config, model_params, model, false, &relative_, &pbc_);
         }
       }
     }
@@ -163,8 +162,8 @@ void VisitModel::compute(
          select1_index < selection.num_particles() - 1;
          ++select1_index) {
       const int part1_index = selection.particle_index(select1_index);
-      TRACE("sel1 " << select1_index << " part1_index " << part1_index << " s " <<
-            selection.particle_indices().size() << " " <<
+      TRACE("sel1 " << select1_index << " part1_index " << part1_index << " s "
+            << selection.particle_indices().size() << " " <<
             selection.site_indices().size());
       for (int select2_index = select1_index + 1;
            select2_index < selection.num_particles();
@@ -227,7 +226,8 @@ class MapVisitModel {
 
 static MapVisitModel mapper_visit_model_ = MapVisitModel();
 
-std::map<std::string, std::shared_ptr<VisitModel> >& VisitModel::deserialize_map() {
+std::map<std::string, std::shared_ptr<VisitModel> >&
+    VisitModel::deserialize_map() {
   static std::map<std::string, std::shared_ptr<VisitModel> >* ans =
      new std::map<std::string, std::shared_ptr<VisitModel> >();
   return *ans;
@@ -246,7 +246,6 @@ void VisitModel::serialize_visit_model_(std::ostream& ostr) const {
   feasst_serialize_fstdr(inner_, ostr);
 }
 
-//void VisitModel::deserialize_visit_model_(std::istream& istr, std::shared_ptr<VisitModel> visitor) const {
 VisitModel::VisitModel(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);

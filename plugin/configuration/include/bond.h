@@ -33,7 +33,7 @@ class Bond : public PropertiedEntity, public TypedEntity {
   std::string class_name() { return class_name_; }
 
   void serialize(std::ostream& ostr) const;
-  Bond(std::istream& istr);
+  explicit Bond(std::istream& istr);
   virtual ~Bond() {}
 
  protected:
@@ -51,7 +51,7 @@ class Bond : public PropertiedEntity, public TypedEntity {
 class Angle : public Bond {
  public:
   Angle() { class_name_ = "Angle"; }
-  Angle(std::istream& istr) : Bond(istr) {}
+  explicit Angle(std::istream& istr) : Bond(istr) {}
 };
 
 /**
@@ -60,7 +60,7 @@ class Angle : public Bond {
 class Dihedral : public Bond {
  public:
   Dihedral() { class_name_ = "Dihedral"; }
-  Dihedral(std::istream& istr) : Bond(istr) {}
+  explicit Dihedral(std::istream& istr) : Bond(istr) {}
 };
 
 /**
@@ -69,7 +69,7 @@ class Dihedral : public Bond {
 class Improper : public Bond {
  public:
   Improper() { class_name_ = "Improper"; }
-  Improper(std::istream& istr) : Bond(istr) {}
+  explicit Improper(std::istream& istr) : Bond(istr) {}
 };
 
 }  // namespace feasst

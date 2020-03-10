@@ -2,6 +2,7 @@
 #ifndef FEASST_CONFIGURATION_CONFIGURATION_H_
 #define FEASST_CONFIGURATION_CONFIGURATION_H_
 
+#include <memory>
 #include <string>
 #include <vector>
 #include "configuration/include/domain.h"
@@ -61,8 +62,8 @@ class Configuration {
   explicit Configuration(const argtype& args = argtype());
 
   /// Same as above, but also set the domain.
-  Configuration(std::shared_ptr<Domain> domain, const argtype& args = argtype())
-    : Configuration(args) {domain_ = domain; }
+  explicit Configuration(std::shared_ptr<Domain> domain,
+    const argtype& args = argtype()) : Configuration(args) {domain_ = domain; }
 
   //@}
   /** @name Typing
@@ -97,7 +98,8 @@ class Configuration {
   /// make a custom ModelParam.
   void add(std::shared_ptr<ModelParam> param);
 
-  const ModelParams& model_params() const { return unique_types_.model_params(); }
+  const ModelParams& model_params() const {
+    return unique_types_.model_params(); }
 
   /// Modify model parameter of a given site type and name to value.
   void set_model_param(const char* name,
@@ -311,7 +313,8 @@ class Configuration {
   const Particle& select_particle(const int index) const {
     return particles_.particle(index); }
 
-  /// Return the selection-based index (includes ghosts) of the last particle added.
+  /// Return the selection-based index (includes ghosts) of the last particle
+  /// added.
   int newest_particle_index() const { return newest_particle_index_; }
 
   /// Return ghost particles.
@@ -319,6 +322,9 @@ class Configuration {
 
   /// Wrap particle position. The index may include ghost particles.
   void wrap_particle(const int particle_index);
+
+  /// Add a particle of a given type without using ghosts.
+  void add_non_ghost_particle_of_type(const int type);
 
   //@}
   /** @name Sites
@@ -350,7 +356,8 @@ class Configuration {
       const double value,
       const int particle_index,
       const int site_index) {
-    particles_.add_or_set_site_property(name, value, particle_index, site_index);
+    particles_.add_or_set_site_property(name, value,
+      particle_index, site_index);
   }
 
   /// Add or set the property of a site in a particle type.
@@ -397,6 +404,12 @@ class Configuration {
   /// Not all quantities are checked, including ghosts, etc.
   bool is_equal(const Configuration& configuration,
                 const double tolerance) const;
+
+  /// Return the header of the status for periodic output.
+  std::string status_header() const;
+
+  /// Return the brief status for periodic output.
+  std::string status() const;
 
   //@}
 

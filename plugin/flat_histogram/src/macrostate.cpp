@@ -4,20 +4,38 @@
 
 namespace feasst {
 
+Macrostate::Macrostate(const Histogram& histogram, const argtype& args) {
+  set(histogram);
+
+  // soft limits
+  args_.init(args);
+  soft_min_ = 0;
+  soft_max_ = histogram_.size() - 1;
+  if (args_.key("soft_max").used()) {
+    soft_max_ = args_.integer();
+    if (args_.key("soft_min").used()) {
+      soft_min_ = args_.integer();
+    }
+  }
+  DEBUG("soft min " << soft_min_);
+  DEBUG("soft max " << soft_max_);
+  DEBUG("edges " << feasst_str(histogram_.edges()));
+}
+
 bool Macrostate::is_allowed(const System* system,
                             const Criteria* criteria,
-                            const int shift) {
+                            const Acceptance& acceptance) {
   const double val = value(system, criteria);
   if (val > histogram_.max() || val < histogram_.min()) {
     return false;
   }
-  const int ibin = histogram_.bin(val) + shift;
+  const int ibin = histogram_.bin(val) + acceptance.macrostate_shift();
   DEBUG("ibin " << ibin << " max " << soft_max() << " min " << soft_min());
   if (ibin > soft_max() or ibin < soft_min()) {
     return false;
   }
   for (int con = 0; con < static_cast<int>(constraints_.size()); ++con) {
-    if (!constraints_[con]->is_allowed(system, criteria)) {
+    if (!constraints_[con]->is_allowed(system, criteria, acceptance)) {
       return false;
     }
   }
@@ -50,7 +68,7 @@ void Macrostate::serialize_macrostate_(std::ostream& ostr) const {
   feasst_serialize_fstobj(histogram_, ostr);
   feasst_serialize(soft_max_, ostr);
   feasst_serialize(soft_min_, ostr);
-  ASSERT(constraints_.size() == 0, "constraint serialization not implemented");
+  feasst_serialize_fstdr(constraints_, ostr);
 }
 
 Macrostate::Macrostate(std::istream& istr) {
@@ -58,6 +76,20 @@ Macrostate::Macrostate(std::istream& istr) {
   feasst_deserialize_fstobj(&histogram_, istr);
   feasst_deserialize(&soft_max_, istr);
   feasst_deserialize(&soft_min_, istr);
+  // HWH for unknown reasons, this function template does not work.
+  // feasst_deserialize_fstdr(constraints_, istr);
+  { int dim1;
+    istr >> dim1;
+    constraints_.resize(dim1);
+    for (int index = 0; index < dim1; ++index) {
+      // feasst_deserialize_fstdr((*vector)[index], istr);
+      int existing;
+      istr >> existing;
+      if (existing != 0) {
+        constraints_[index] = constraints_[index]->deserialize(istr);
+      }
+    }
+  }
 }
 
 }  // namespace feasst

@@ -3,6 +3,7 @@
 #define FEASST_CONFIGURATION_BOND_SQUARE_WELL_H_
 
 #include <math.h>
+#include <memory>
 #include "math/include/constants.h"
 #include "system/include/bond_two_body.h"
 

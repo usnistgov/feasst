@@ -16,7 +16,17 @@ namespace feasst {
  */
 class FlatHistogram : public Criteria {
  public:
-  FlatHistogram(const argtype &args = argtype()) : Criteria(args) {}
+  FlatHistogram(const argtype &args = argtype()) : Criteria(args) {
+    class_name_ = "FlatHistogram";
+  }
+
+  FlatHistogram(std::shared_ptr<Macrostate> macrostate,
+      std::shared_ptr<Bias> bias,
+      const argtype &args = argtype()) : Criteria(args) {
+    class_name_ = "FlatHistogram";
+    set(macrostate);
+    set(bias);
+  }
 
   void before_attempt(const System* system) override {
     macrostate_old_ = macrostate_->bin(system, this);
@@ -158,7 +168,6 @@ class FlatHistogram : public Criteria {
   ~FlatHistogram() {}
 
  private:
-  const std::string class_name_ = "FlatHistogram";
   std::shared_ptr<Bias> bias_;
   std::shared_ptr<Macrostate> macrostate_;
   int macrostate_old_ = -1;
@@ -200,6 +209,13 @@ class FlatHistogram : public Criteria {
 inline std::shared_ptr<FlatHistogram> MakeFlatHistogram(
     const argtype &args = argtype()) {
   return std::make_shared<FlatHistogram>(args);
+}
+
+inline std::shared_ptr<FlatHistogram> MakeFlatHistogram(
+    std::shared_ptr<Macrostate> macrostate,
+    std::shared_ptr<Bias> bias,
+    const argtype &args = argtype()) {
+  return std::make_shared<FlatHistogram>(macrostate, bias, args);
 }
 
 }  // namespace feasst

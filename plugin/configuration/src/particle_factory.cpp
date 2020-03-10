@@ -163,7 +163,7 @@ void ParticleFactory::remove(const int particle_index) {
 }
 
 void ParticleFactory::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(692, ostr);
   feasst_serialize_fstobj(particles_, ostr);
   feasst_serialize(unique_particles_, ostr);
   feasst_serialize(unique_types_, ostr);
@@ -171,7 +171,8 @@ void ParticleFactory::serialize(std::ostream& ostr) const {
 }
 
 ParticleFactory::ParticleFactory(std::istream& istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 692, "unrecognized version: " << version);
   feasst_deserialize_fstobj(&particles_, istr);
   feasst_deserialize(&unique_particles_, istr);
   feasst_deserialize(&unique_types_, istr);

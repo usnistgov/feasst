@@ -4,7 +4,6 @@
 namespace feasst {
 
 TrialSelect::TrialSelect(const argtype& args) : PropertiedEntity() {
-  Arguments args_;
   args_.init(args);
   args_.dont_check();
 
@@ -16,6 +15,7 @@ TrialSelect::TrialSelect(const argtype& args) : PropertiedEntity() {
   group_index_ = 0;
   if (args_.key("particle_type").used()) {
     is_particle_type_set_ = true;
+    DEBUG("is_particle_type_set_ " << is_particle_type_set_);
     particle_type_ = args_.integer();
     ASSERT(args_.key("group_index").empty(),
       "cant specify both particle type and group index");

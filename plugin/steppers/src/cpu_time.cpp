@@ -1,3 +1,4 @@
+#include <iostream>  // std::scientific
 #include "steppers/include/cpu_time.h"
 
 namespace feasst {
@@ -29,8 +30,10 @@ std::string CPUTime::write(const Criteria * criteria,
   const double steps_per_second = num_writes_*steps_per_write()
                                   /(elapsed_hours*60*60);
   steps_per_second_.accumulate(steps_per_second);
-  ss << "elapsed_hours: " << elapsed_hours << " "
+  ss << std::scientific
+     << "elapsed_hours: " << elapsed_hours << " "
      << "steps per second: " << steps_per_second << " "
+     << std::fixed
      << std::endl;
   return ss.str();
 }

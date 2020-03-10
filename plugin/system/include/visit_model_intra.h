@@ -2,6 +2,7 @@
 #ifndef FEASST_SYSTEM_VISIT_MODEL_INTRA_H_
 #define FEASST_SYSTEM_VISIT_MODEL_INTRA_H_
 
+#include <memory>
 #include "utils/include/arguments.h"
 #include "system/include/visit_model.h"
 
@@ -34,11 +35,12 @@ class VisitModelIntra : public VisitModel {
       const ModelParams& model_params,
       Configuration * config,
       const int group_index) override {
-    compute(model, model_params, config->selection_of_all(), config, group_index);
+    compute(model, model_params, config->selection_of_all(),
+            config, group_index);
   }
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
-  VisitModelIntra(std::istream& istr);
+  explicit VisitModelIntra(std::istream& istr);
   ~VisitModelIntra() {}
 
  private:

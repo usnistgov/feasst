@@ -57,7 +57,7 @@ Position Matrix::multiply(const Position& vec) const {
 bool Matrix::is_equal(const Matrix& matrix2) const {
   check();
   matrix2.check();
-  if (matrix().size() != matrix2.matrix().size() or
+  if (matrix().size() != matrix2.matrix().size() ||
       matrix()[0].size() != matrix2.matrix()[0].size()) {
     return false;
   }

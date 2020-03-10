@@ -96,8 +96,8 @@ Python install
     mkdir feasst/build
     cd feasst/build
     cmake -DUSE_SWIG=ON ..
-    make _feasst -j$CPU_COUNT
-    make install -j$CPU_COUNT
+    make _feasst -j4
+    make install -j4
     python ../py/test.py  # optional test
     pip install jupyter matplotlib pandas scipy # for tutorials
 
@@ -118,7 +118,7 @@ First, install the C++ library.
     mkdir feasst/build
     cd feasst/build
     cmake ..
-    make install -j$CPU_COUNT
+    make install -j4
     make test         # optional test
 
 Then, compile the specific simulation you wish to run (e.g., tutorial).

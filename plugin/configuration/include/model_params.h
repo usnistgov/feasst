@@ -6,6 +6,7 @@
 #include <vector>
 #include <cmath>
 #include <string>
+#include <algorithm>
 #include "utils/include/utils.h"
 #include "configuration/include/physical_constants.h"
 #include "configuration/include/particle.h"
@@ -75,18 +76,18 @@ class ModelParam {
   virtual double compute(const int type1, const int type2,
     const ModelParams& model_params) { return 0.; }
 
-  virtual double compute(const int type1, const ModelParams& model_params) { return 0.; }
+  virtual double compute(const int type1, const ModelParams& model_params) {
+    return 0.; }
 
   /// Define new parameters modeled after the existing ones
   virtual void set_param(const ModelParams& existing);
 
   /// Set the name of the model parameter.
-  ModelParam& set_name(const std::string name) { name_ = name; return *this; };
+  ModelParam& set_name(const std::string name) { name_ = name; return *this; }
 
   void serialize(std::ostream& ostr) const;
-  ModelParam(std::istream& istr);
-
-  virtual ~ModelParam() {};
+  explicit ModelParam(std::istream& istr);
+  virtual ~ModelParam() {}
 
  private:
   std::string name_;
@@ -114,7 +115,7 @@ class ModelParam {
 class Epsilon : public ModelParam {
  public:
   Epsilon() { set_name("epsilon"); }
-  Epsilon(std::istream& istr) : ModelParam(istr) {}
+  explicit Epsilon(std::istream& istr) : ModelParam(istr) {}
 
  private:
   double mix_(const double value1, const double value2) override {
@@ -129,7 +130,7 @@ class Epsilon : public ModelParam {
 class Sigma : public ModelParam {
  public:
   Sigma() { set_name("sigma"); }
-  Sigma(std::istream& istr) : ModelParam(istr) {}
+  explicit Sigma(std::istream& istr) : ModelParam(istr) {}
 };
 
 /**
@@ -140,7 +141,7 @@ class Sigma : public ModelParam {
 class CutOff : public ModelParam {
  public:
   CutOff() { set_name("cutoff"); }
-  CutOff(std::istream& istr) : ModelParam(istr) {}
+  explicit CutOff(std::istream& istr) : ModelParam(istr) {}
 
  private:
   double mix_(const double value1, const double value2) override {
@@ -155,7 +156,7 @@ class CutOff : public ModelParam {
 class Charge : public ModelParam {
  public:
   Charge() { set_name("charge"); }
-  Charge(std::istream& istr) : ModelParam(istr) {}
+  explicit Charge(std::istream& istr) : ModelParam(istr) {}
 
  private:
   double mix_(const double value1, const double value2) override {
@@ -230,7 +231,7 @@ class ModelParams : public PropertiedEntity {
   void check() const;
 
   void serialize(std::ostream& ostr) const;
-  ModelParams(std::istream& istr);
+  explicit ModelParams(std::istream& istr);
 
  private:
   /// All types of model parameters listed here.

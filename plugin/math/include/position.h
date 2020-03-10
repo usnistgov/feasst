@@ -24,7 +24,7 @@ class Position {
     - y: y-coordinate. Requires explicit x.
     - z: z-coordinate. Requires explicit y.
    */
-  Position(const argtype& args);
+  explicit Position(const argtype& args);
 
   /// Initialize coordinates by brace initialized position vector.
   explicit Position(std::vector<double> vec) { coord_ = vec; }
@@ -146,7 +146,7 @@ class Position {
   std::vector<double> * get_coord() { return &coord_; }
 
   void serialize(std::ostream& ostr) const;
-  Position(std::istream& istr);
+  explicit Position(std::istream& istr);
 
  private:
   std::vector<double> coord_;
@@ -175,7 +175,7 @@ class SpatialEntity {
   }
 
   void serialize(std::ostream& ostr) const { position_.serialize(ostr); }
-  SpatialEntity(std::istream& istr) { position_ = Position(istr); }
+  explicit SpatialEntity(std::istream& istr) { position_ = Position(istr); }
 
  private:
   Position position_;

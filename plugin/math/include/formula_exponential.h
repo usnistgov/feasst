@@ -3,6 +3,8 @@
 #define FEASST_MATH_FORMULA_EXPONENTIAL_H_
 
 #include <math.h>
+#include <memory>
+#include <string>
 #include "math/include/formula.h"
 
 namespace feasst {
@@ -35,7 +37,7 @@ class FormulaExponential : public Formula {
 
   std::shared_ptr<Formula> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
-  FormulaExponential(std::istream& istr);
+  explicit FormulaExponential(std::istream& istr);
   virtual ~FormulaExponential() {}
 
  private:

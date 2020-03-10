@@ -18,10 +18,11 @@ class Checkpoint {
  public:
   /**
     args:
-    - num_hours: number of hours between printing of checkpoint file (default: 12).
+    - num_hours: number of hours between printing of checkpoint file
+      (default: 12).
     - file_name: Output file name. The default is empty, and no checkpointing.
    */
-  Checkpoint(const argtype &args = argtype());
+  explicit Checkpoint(const argtype &args = argtype());
 
   /// Return number of hours between writing file.
   double num_hours() const { return num_hours_; }

@@ -283,6 +283,11 @@ Serialization
 * Don't forget to serialize (private) member data in new implementations.
 * To compare differences between two serializations, paste into file and using "s/ /\r/g"
 
+File output
+--------------------------------------------------------------------------------
+
+* comma-separated values (CSV) are the preferred format (e.g., comma deliminter)
+
 For quick reference
 ================================================================================
 

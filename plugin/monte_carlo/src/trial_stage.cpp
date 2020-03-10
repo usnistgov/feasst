@@ -30,6 +30,7 @@ bool TrialStage::select(System * system,
     acceptance->add_to_perturbed(select_->mobile());
 //    set_mobile_physical(false, system);
     DEBUG("select: " << select_->mobile().str());
+    DEBUG("perturbed: " << acceptance->perturbed().str());
   } else {
     acceptance->set_reject(true);
   }

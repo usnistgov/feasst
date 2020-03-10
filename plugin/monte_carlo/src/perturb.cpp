@@ -51,7 +51,7 @@ void Perturb::finalize(System * system) {
 std::string Perturb::status_header() const {
   std::stringstream ss;
   if (tunable().is_enabled()) {
-    ss << "tunable ";
+    ss << ",tunable";
   }
   return ss.str();
 }
@@ -59,7 +59,7 @@ std::string Perturb::status_header() const {
 std::string Perturb::status() const {
   std::stringstream ss;
   if (tunable().is_enabled()) {
-    ss << tunable_.value() << " ";
+    ss << "," << tunable_.value();
   }
   return ss.str();
 }

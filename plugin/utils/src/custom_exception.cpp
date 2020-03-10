@@ -27,10 +27,10 @@ CustomException::CustomException(std::stringstream& m) {
   // Otherwise, you may never see the error message!
   #ifdef _OPENMP
     if (omp_get_num_threads() > 1) {
-      //#pragma omp critical
-     // {
+      // #pragma omp critical
+      // {
         std::cout << msg_ << std::endl;
-     // }
+      // }
     }
   #endif  // _OPENMP
 }

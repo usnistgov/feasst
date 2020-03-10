@@ -10,14 +10,15 @@ Checkpoint::Checkpoint(const argtype &args) {
 }
 
 void Checkpoint::serialize(std::ostream& ostr) const {
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(223, ostr);
   feasst_serialize(file_name_, ostr);
   feasst_serialize(previous_hours_, ostr);
   feasst_serialize(num_hours_, ostr);
 }
 
 Checkpoint::Checkpoint(std::istream& istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 223, "version mismatch: " << version);
   feasst_deserialize(&file_name_, istr);
   feasst_deserialize(&previous_hours_, istr);
   feasst_deserialize(&num_hours_, istr);

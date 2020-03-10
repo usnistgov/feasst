@@ -50,7 +50,7 @@ inline System chain(const double alpha,
                     const int kmax_squared) {
   System system;
   { Configuration config(MakeDomain({{"cubic_box_length", "20"}}), {
-      {"particle_type0", "../forcefield/data.chain10titratable"},
+      {"particle_type0", "../forcefield/data.chain10_3types"},
       {"particle_type1", "../plugin/ewald/forcefield/data.rpm_minus"},
       {"particle_type2", "../plugin/ewald/forcefield/data.rpm_plus"},
     });
@@ -81,9 +81,9 @@ inline System chain(const double alpha,
 //  system.add(Potential(MakeLongRangeCorrections()));
 //  auto ewald = add_ewald_with(MakeLennardJones(), &system, kmax_squared);
   system.add(Potential(MakeLennardJones(), MakeVisitModelIntra({{"cutoff", "1"}})));
-  DEBUG("kxmax " << ewald->kxmax());
-  DEBUG("kymax " << ewald->kymax());
-  DEBUG("kzmax " << ewald->kzmax());
+//  DEBUG("kxmax " << ewald->kxmax());
+//  DEBUG("kymax " << ewald->kymax());
+//  DEBUG("kzmax " << ewald->kzmax());
   DEBUG("num_vectors " << ewald->num_vectors());
   return system;
 }

@@ -2,6 +2,7 @@
 #ifndef FEASST_CONFIGURATION_GROUP_H_
 #define FEASST_CONFIGURATION_GROUP_H_
 
+#include <memory>
 #include <vector>
 #include "utils/include/arguments.h"
 #include "configuration/include/particle.h"
@@ -50,7 +51,7 @@ class Group : public PropertiedEntity {
   std::vector<int> site_indices(const Particle& particle) const;
 
   void serialize(std::ostream& ostr) const;
-  Group(std::istream& istr);
+  explicit Group(std::istream& istr);
 
  private:
   /// If no site types are listed, do not screen by site types.

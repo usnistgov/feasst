@@ -2,8 +2,9 @@
 #ifndef FEASST_SYSTEM_SELECT_LIST_H_
 #define FEASST_SYSTEM_SELECT_LIST_H_
 
+#include <vector>
 #include "configuration/include/configuration.h"
-#include "math/include/utils_math.h" // move to cpp
+#include "math/include/utils_math.h"
 
 namespace feasst {
 
@@ -37,7 +38,7 @@ class SelectList : public Select {
 
   // fast replace of single particle
   void replace_particle(const Select& replacement,
-      const int sp_index, // selection particle index
+      const int sp_index,  // selection particle index
       const Configuration& config) {
     bool fast = replace_indices(replacement.particle_index(sp_index),
                                 replacement.site_indices(sp_index));
@@ -103,7 +104,6 @@ class SelectList : public Select {
          ++sp_index) {
       const int p_index = particle_indices()[sp_index];
       DEBUG("p_index " << p_index);
-    //for (const int p_index : particle_indices()) {
       std::vector<int> sites;
       for (const int s_index : site_indices(sp_index)) {
         DEBUG("s_index " << s_index);
@@ -125,7 +125,7 @@ class SelectList : public Select {
 
   void serialize(std::ostream& ostr) const override {
     Select::serialize(ostr); }
-  SelectList(std::istream& istr) : Select(istr) {}
+  explicit SelectList(std::istream& istr) : Select(istr) {}
   virtual ~SelectList() {}
 };
 

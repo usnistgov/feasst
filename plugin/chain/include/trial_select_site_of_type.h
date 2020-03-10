@@ -16,7 +16,6 @@ class TrialSelectSiteOfType : public TrialSelect {
   TrialSelectSiteOfType(
       const argtype& args = argtype()) : TrialSelect(args) {
     class_name_ = "TrialSelectSiteOfType";
-    Arguments args_(args);
     args_.dont_check();
     site_type_ = args_.key("site_type").integer();
   }

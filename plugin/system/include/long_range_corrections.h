@@ -2,7 +2,9 @@
 #ifndef FEASST_SYSTEM_LONG_RANGE_CORRECTIONS_H_
 #define FEASST_SYSTEM_LONG_RANGE_CORRECTIONS_H_
 
+#include <memory>
 #include <vector>
+#include <string>
 #include <sstream>
 #include <algorithm>
 #include "configuration/include/configuration.h"
@@ -19,7 +21,8 @@ class LongRangeCorrections : public VisitModel {
   LongRangeCorrections() {}
 
 //  // compute number of sites of each type in selection
-//  std::vector<int> types(const Select& selection, const Configuration * config) {
+//  std::vector<int> types(const Select& selection,
+//                         const Configuration * config) {
 //    std::vector<int> count(config->num_site_types());
 //    for (int select_index = 0;
 //         select_index < selection.num_particles();
@@ -52,7 +55,9 @@ class LongRangeCorrections : public VisitModel {
       for (int type2 = 0; type2 < config->num_site_types(); ++type2) {
         const double num_type2 = num_of_site_type[type2];
         const double num_type2_sel = select_types[type2];
-        en += (num_type1*num_type2_sel + num_type1_sel*num_type2 - num_type1_sel*num_type2_sel)
+        en += (num_type1*num_type2_sel +
+               num_type1_sel*num_type2 -
+               num_type1_sel*num_type2_sel)
           *energy_(type1, type2, config, model_params);
       }
     }
@@ -87,7 +92,7 @@ class LongRangeCorrections : public VisitModel {
     return std::make_shared<LongRangeCorrections>(istr);
   }
 
-  LongRangeCorrections(std::istream& istr) : VisitModel(istr) {
+  explicit LongRangeCorrections(std::istream& istr) : VisitModel(istr) {
     const int version = feasst_deserialize_version(istr);
     ASSERT(874 == version, version);
   }

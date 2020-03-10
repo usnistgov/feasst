@@ -21,7 +21,8 @@ void ModifyFactory::trial(Criteria * criteria,
 }
 
 ModifyFactory::ModifyFactory(std::istream& istr) : Modify(istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 7177, "unrecognized verison: " << version);
   // feasst_deserialize_fstdr(&modifiers_, istr);
   // HWH for unknown reasons, function template doesn't work
   int dim1;
@@ -38,7 +39,7 @@ ModifyFactory::ModifyFactory(std::istream& istr) : Modify(istr) {
 
 void ModifyFactory::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(7177, ostr);
   feasst_serialize_fstdr(modifiers_, ostr);
 }
 

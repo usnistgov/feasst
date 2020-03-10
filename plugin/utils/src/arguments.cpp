@@ -54,7 +54,7 @@ std::string Arguments::str() {
   return str;
 }
 
-bool Arguments::check_all_used(){
+bool Arguments::check_all_used() {
   used_keys_.push_back("");
   for (const auto &pair : args_) {
     ASSERT(find_in_list(pair.first, used_keys_),
@@ -77,23 +77,24 @@ int Arguments::integer() {
   const std::string string_value = str();
   std::stringstream errmsg;
   int intVal = -1;
-  errmsg << "Argument({" << used_keys_.back() << ", " << string_value << "}) was "
-    << "expected to be an integer";
+  errmsg << "Argument({" << used_keys_.back() << ", " << string_value <<
+    "}) was " << "expected to be an integer";
   try {
     intVal = stoi(string_value);
   } catch (...) {
     FATAL(errmsg.str());
   }
   const double dble = stod(string_value);
-  ASSERT(std::abs(dble - static_cast<double>(intVal)) < 10*NEAR_ZERO, errmsg.str());
+  ASSERT(std::abs(dble - static_cast<double>(intVal)) < 10*NEAR_ZERO,
+    errmsg.str());
   return intVal;
 }
 
 bool Arguments::boolean() {
   const std::string string_value = str();
   std::stringstream errmsg;
-  errmsg << "Argument({" << used_keys_.back() << ", " << string_value << "}) was "
-    << "expected to be a boolean";
+  errmsg << "Argument({" << used_keys_.back() << ", " << string_value <<
+    "}) was " << "expected to be a boolean";
   if (string_value == "true" || string_value == "True") {
     return true;
   } else if (string_value == "false" || string_value == "False") {

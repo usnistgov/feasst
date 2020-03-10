@@ -6,7 +6,7 @@ namespace feasst {
 TEST(SquareWell, serialize) {
   SquareWell model;
   std::shared_ptr<Model> model2 = test_serialize<SquareWell, Model>(model,
-    "SquareWell 1 ");
+    "SquareWell 553 ");
 }
 
 }  // namespace feasst

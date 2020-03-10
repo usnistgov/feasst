@@ -129,6 +129,7 @@ class Criteria {
   virtual bool is_equal(const Criteria * criteria) const;
 
   // serialize
+  std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Criteria> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Criteria> >& deserialize_map();
@@ -137,6 +138,7 @@ class Criteria {
   virtual ~Criteria() {}
 
  protected:
+  std::string class_name_ = "Criteria";
   Arguments args_;
   void serialize_criteria_(std::ostream& ostr) const;
   bool was_accepted_ = false;

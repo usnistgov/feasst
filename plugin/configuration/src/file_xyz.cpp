@@ -60,7 +60,7 @@ class PrinterXYZ : public LoopConfigOneBody {
   PrinterXYZ(std::shared_ptr<std::ofstream> file) : file_(file) {}
   void work(const Site& site,
       const Configuration& config,
-      const LoopDescriptor& data) const override {
+      const LoopDescriptor& data) override {
     (*file_.get()) << site.type() << " " << site.position().str() << endl;
   }
  private:

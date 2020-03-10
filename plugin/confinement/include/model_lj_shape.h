@@ -42,22 +42,10 @@ class ModelLJShape : public ModelOneBody,
     return epsilon * pow(distance/sigma, alpha_);
   }
 
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
-    ShapedEntity::serialize(ostr);
-    feasst_serialize_version(1, ostr);
-    feasst_serialize(alpha_, ostr);
-  }
-
+  void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {
-    return std::make_shared<ModelLJShape>(istr);
-  }
-
-  ModelLJShape(std::istream& istr) : ModelOneBody(), ShapedEntity(istr) {
-    feasst_deserialize_version(istr);
-    feasst_deserialize(&alpha_, istr);
-  }
-
+    return std::make_shared<ModelLJShape>(istr); }
+  explicit ModelLJShape(std::istream& istr);
   virtual ~ModelLJShape() {}
 
  private:

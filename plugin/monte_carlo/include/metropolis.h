@@ -11,7 +11,9 @@ namespace feasst {
  */
 class Metropolis : public Criteria {
  public:
-  Metropolis(const argtype &args = argtype()) : Criteria(args) {}
+  Metropolis(const argtype &args = argtype()) : Criteria(args) {
+    class_name_ = "Metropolis";
+  }
 
   bool is_accepted(const Acceptance& acceptance,
     const System * system,
@@ -23,9 +25,6 @@ class Metropolis : public Criteria {
   void serialize(std::ostream& ostr) const override;
   Metropolis(std::istream& istr);
   ~Metropolis() {}
-
- private:
-  const std::string class_name_ = "Metropolis";
 };
 
 inline std::shared_ptr<Metropolis> MakeMetropolis(const argtype &args = argtype()) {

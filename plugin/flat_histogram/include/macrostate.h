@@ -5,6 +5,7 @@
 #include "system/include/system.h"
 #include "monte_carlo/include/criteria.h"
 #include "math/include/histogram.h"
+#include "monte_carlo/include/acceptance.h"
 #include "flat_histogram/include/constraint.h"
 
 namespace feasst {
@@ -19,30 +20,20 @@ namespace feasst {
  */
 class Macrostate {
  public:
-  Macrostate(const Histogram& histogram,
-    /**
-      soft_max : optionally, set a soft maximum (default: last histogram bin).
-                 These soft limits may be changed during a simulation.
-                 Note that this max is an integer bin number.
-      soft_min : minimum as described above (default: same as histogram).
-     */
-    const argtype& args = argtype()) {
-    set(histogram);
+  /**
+    args:
+    - soft_max : optionally, set a soft maximum (default: last histogram bin).
+      These soft limits may be changed during a simulation.
+      Note that this max is an integer bin number.
+    - soft_min : minimum as described above (default: same as histogram).
+   */
+  Macrostate(const Histogram& histogram,  const argtype& args = argtype());
 
-    // soft limits
-    Arguments args_(args);
-    soft_min_ = 0;
-    soft_max_ = histogram_.size() - 1;
-    if (args_.key("soft_max").used()) {
-      soft_max_ = args_.integer();
-      if (args_.key("soft_min").used()) {
-        soft_min_ = args_.integer();
-      }
-    }
-    DEBUG("soft min " << soft_min_);
-    DEBUG("soft max " << soft_max_);
-    DEBUG("edges " << feasst_str(histogram_.edges()));
-  }
+  /// Same as above, but also add a constraint.
+  Macrostate(const Histogram& histogram,
+      std::shared_ptr<Constraint> constraint,
+      const argtype& args = argtype()) : Macrostate(histogram, args) {
+    add(constraint); }
 
   /// Set the bins of the macrostate by providing a Histogram.
   /// This is required before the macrostate can be used for flat histogram
@@ -76,9 +67,9 @@ class Macrostate {
 
   /// Return whether the current system macrostate is within permissible range
   /// given by the input histogram and check any additional constraints.
-  bool is_allowed(const System* system,
-                  const Criteria* criteria,
-                  const int shift);
+  bool is_allowed(const System * system,
+                  const Criteria * criteria,
+                  const Acceptance& acceptance);
 
   /// Swap the soft bounds with another macrostate.
   void swap_soft_bounds(Macrostate * macrostate);
@@ -92,6 +83,7 @@ class Macrostate {
 
  protected:
   void serialize_macrostate_(std::ostream& ostr) const;
+  Arguments args_;
 
  private:
   Histogram histogram_;

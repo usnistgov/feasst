@@ -146,17 +146,18 @@ void Position::multiply(const double constant) {
 }
 
 void Position::serialize(std::ostream& sstr) const {
-  feasst_serialize_version(1, sstr);
+  feasst_serialize_version(3914, sstr);
   feasst_serialize(coord_, sstr);
 }
 
 Position::Position(std::istream& sstr) {
-  feasst_deserialize_version(sstr);
+  const int version = feasst_deserialize_version(sstr);
+  ASSERT(version == 3914, "unrecognized verison: " << version);
   feasst_deserialize(&coord_, sstr);
 }
 
-Position Position::cross_product(const Position& position) const{
-  ASSERT(this->dimension() == 3 and position.dimension() == 3,
+Position Position::cross_product(const Position& position) const {
+  ASSERT(this->dimension() == 3 && position.dimension() == 3,
     "implemented for 3D only.");
   return Position().set_vector({
     this->coord(1) * position.coord(2) - this->coord(2) * position.coord(1),

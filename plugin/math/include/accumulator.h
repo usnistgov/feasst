@@ -13,6 +13,7 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 #include "utils/include/utils_io.h"
 
 namespace feasst {
@@ -89,7 +90,7 @@ class Accumulator {
   double last_value() const;
 
   void serialize(std::ostream& ostr) const;
-  Accumulator(std::istream& istr);
+  explicit Accumulator(std::istream& istr);
 
  private:
   long long num_values_;

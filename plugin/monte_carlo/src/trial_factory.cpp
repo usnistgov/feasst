@@ -69,9 +69,18 @@ void TrialFactory::imitate_trial_rejection(const int index) {
 
 std::string TrialFactory::status_header() const {
   std::stringstream ss;
-  ss << "attempt ";
+  ss << ",attempt";
   for (int trial = 0; trial < num_trials(); ++trial) {
-    ss << trials_[trial]->status_header() << " ";
+    ss << trials_[trial]->status_header();
+  }
+  return ss.str();
+}
+
+std::string TrialFactory::status() const {
+  std::stringstream ss;
+  ss << "," << num_attempts();
+  for (int trial = 0; trial < num_trials(); ++trial) {
+    ss << trials_[trial]->status();
   }
   return ss.str();
 }
@@ -80,15 +89,6 @@ void TrialFactory::delay_finalize() {
   for (int trial = 0; trial < num_trials(); ++trial) {
     trials_[trial]->set_finalize_delayed(true);
   }
-}
-
-std::string TrialFactory::status() const {
-  std::stringstream ss;
-  ss << num_attempts() << " ";
-  for (int trial = 0; trial < num_trials(); ++trial) {
-    ss << trials_[trial]->status() << " ";
-  }
-  return ss.str();
 }
 
 void TrialFactory::reset_stats() {

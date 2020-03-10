@@ -122,8 +122,10 @@ bool is_equal(const std::vector<std::vector<std::vector<T> > >& vec1,
 }
 
 template<class T>
-bool is_equal(const std::vector<std::vector<std::vector<std::vector<T> > > >& vec1,
-              const std::vector<std::vector<std::vector<std::vector<T> > > >& vec2,
+bool is_equal(const std::vector<std::vector<std::vector<
+              std::vector<T> > > >& vec1,
+              const std::vector<std::vector<std::vector<
+              std::vector<T> > > >& vec2,
               const double tolerance = 1e-15) {
   if (vec1.size() != vec2.size()) return false;
   for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {
@@ -133,8 +135,10 @@ bool is_equal(const std::vector<std::vector<std::vector<std::vector<T> > > >& ve
 }
 
 template<class T>
-bool is_equal(const std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > >& vec1,
-              const std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > >& vec2,
+bool is_equal(const std::vector<std::vector<std::vector<std::vector<
+              std::vector<T> > > > >& vec1,
+              const std::vector<std::vector<std::vector<std::vector<
+              std::vector<T> > > > >& vec2,
               const double tolerance = 1e-15) {
   if (vec1.size() != vec2.size()) return false;
   for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {

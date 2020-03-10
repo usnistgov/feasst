@@ -2,13 +2,12 @@
 #ifndef FEASST_CONFIGURATION_FILE_LMP_H_
 #define FEASST_CONFIGURATION_FILE_LMP_H_
 
+#include <string>
 #include "configuration/include/particle.h"
 
 namespace feasst {
 
-/// HWH link LMP format description
-/// HWH: some major modifications: the charge is read in Pair Coeffs and no wrapping tags
-/// HWH: For now its hard coded for 3 pair properties
+// HWH link LMP format description
 class FileLMP {
  public:
   /// Create a particle from LAMMPS file format.
@@ -45,7 +44,7 @@ class FileLMP {
   void read_properties_(const std::string property_type,
                         const int num_types,
                         Particle * particle,
-                        std::ifstream & file) const ;
+                        std::ifstream & file) const;
 };
 
 }  // namespace feasst

@@ -62,7 +62,7 @@ class Properties {
                 const double tolerance = NEAR_ZERO) const;
 
   void serialize(std::ostream& ostr) const;
-  Properties(std::istream& istr);
+  explicit Properties(std::istream& istr);
   ~Properties() {}
 
  private:
@@ -112,7 +112,8 @@ class PropertiedEntity {
     const std::vector<std::string>& exclude);
 
   void serialize(std::ostream& ostr) const { properties_.serialize(ostr); }
-  PropertiedEntity(std::istream& istr) { properties_ = Properties(istr); }
+  explicit PropertiedEntity(std::istream& istr) {
+    properties_ = Properties(istr); }
   virtual ~PropertiedEntity() {}
 
  private:

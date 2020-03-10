@@ -1,3 +1,4 @@
+#include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/trial_compute_remove.h"
 
 namespace feasst {
@@ -32,6 +33,7 @@ void TrialComputeRemove::perturb_and_acceptance(
     const TrialSelect * select = (*stages)[0]->trial_select();
     const int particle_index = select->mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
+    acceptance->set_macrostate_shift_type(particle_type);
     DEBUG("volume " << volume << " selprob " << select->probability() << " betamu " << criteria->beta_mu(particle_type));
     acceptance->add_to_ln_metropolis_prob(
       - log(volume*select->probability())

@@ -2,6 +2,7 @@
 #ifndef FEASST_EXAMPLE_MODEL_EXAMPLE_H_
 #define FEASST_EXAMPLE_MODEL_EXAMPLE_H_
 
+#include <memory>
 #include "system/include/model_two_body.h"
 
 namespace feasst {
@@ -26,17 +27,12 @@ class ModelExample : public ModelTwoBody {
 
   /// Serialization is the flatening of an object into a stream of characters
   /// which may be saved to file and later deserialized back into the object.
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
-    feasst_serialize_version(1, ostr);
-  }
+  void serialize(std::ostream& ostr) const override;
 
   /// Deserialization is the reverse process of the above.
   std::shared_ptr<Model> create(std::istream& istr) const override {
-    feasst_deserialize_version(istr);
-    return std::make_shared<ModelExample>();
-  }
-
+    return std::make_shared<ModelExample>(istr); }
+  explicit ModelExample(std::istream& istr);
   virtual ~ModelExample() {}
 
  private:

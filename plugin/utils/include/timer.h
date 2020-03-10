@@ -2,9 +2,9 @@
 #ifndef FEASST_UTILS_INCLUDE_TIMER_H_
 #define FEASST_UTILS_INCLUDE_TIMER_H_
 
+#include <time.h>
 #include <string>
 #include <vector>
-#include <time.h>
 #include <map>
 
 namespace feasst {

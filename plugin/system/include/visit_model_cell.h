@@ -2,6 +2,7 @@
 #ifndef FEASST_SYSTEM_VISIT_MODEL_CELL_H_
 #define FEASST_SYSTEM_VISIT_MODEL_CELL_H_
 
+#include <memory>
 #include "system/include/visit_model.h"
 
 namespace feasst {
@@ -28,7 +29,7 @@ class VisitModelCell : public VisitModel {
       const int cell_index = 0) override;
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
-  VisitModelCell(std::istream& istr);
+  explicit VisitModelCell(std::istream& istr);
   virtual ~VisitModelCell() {}
 };
 

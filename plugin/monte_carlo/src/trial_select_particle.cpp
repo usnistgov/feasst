@@ -5,8 +5,6 @@ namespace feasst {
 TrialSelectParticle::TrialSelectParticle(const argtype& args)
   : TrialSelect(args) {
   class_name_ = "TrialSelectParticle";
-  Arguments args_(args);
-  args_.dont_check();
   load_coordinates_ = args_.key("load_coordinates").dflt("true").boolean();
 
   // parse site
@@ -18,6 +16,7 @@ TrialSelectParticle::TrialSelectParticle(const argtype& args)
   }
 
   set_ghost(args_.key("ghost").dflt("false").boolean());
+  exclude_perturbed_ = args_.key("exclude_perturbed").dflt("false").boolean();
 }
 
 class MapTrialSelectParticle {
@@ -30,23 +29,59 @@ class MapTrialSelectParticle {
 
 static MapTrialSelectParticle mapper_ = MapTrialSelectParticle();
 
+int TrialSelectParticle::num_excluded_(const Configuration& config,
+    const Select * exclude) {
+  int num_excluded = 0;
+  if (exclude) {
+    ASSERT(is_particle_type_set(),
+      "exclusion requires group to be defined by particle type to "
+        << "accurately compute number of choices.");
+    for (int ipart = 0; ipart < exclude->num_particles(); ++ipart) {
+      if (config.select_particle(exclude->particle_index(ipart)).type() ==
+          particle_type()) {
+        ++num_excluded;
+      }
+    }
+  }
+  DEBUG("num_excluded " << num_excluded);
+  return num_excluded;
+}
+
 int TrialSelectParticle::random_particle(const Configuration& config,
+    const Select * exclude,
     Select * select,
     Random * random) {
   ASSERT(group_index() >= 0, "error");
+  const int num_excluded = num_excluded_(config, exclude);
   DEBUG("grp " << group_index());
   const int num = config.num_particles(group_index());
-  if (num > 0) {
-    const int index = random->uniform(0, num - 1);
-    const Select& ran = config.group_select(group_index());
-    DEBUG("index " << group_index() << " " << index);
-    DEBUG("num " << ran.num_particles());
+  if (num - num_excluded > 0) {
+    int attempts = 0;
+    const Select * ran;
+    int sel_index = -1;
+    while (sel_index == -1) {
+      const int index = random->uniform(0, num - 1);
+      ran = const_cast<Select*>(&config.group_select(group_index()));
+      DEBUG("index " << group_index() << " " << index);
+      DEBUG("num " << ran->num_particles());
+      if (exclude) {
+        if (!find_in_list(ran->particle_index(index),
+                          exclude->particle_indices())) {
+          sel_index = index;
+        }
+      } else {
+        sel_index = index;
+      }
+      ASSERT(attempts < 100*(num - num_excluded), "attempts:" << attempts
+        << " infinite loop?");
+      ++attempts;
+    }
     bool fast;
     if (site_ == - 1) {
-      fast = select->replace_indices(ran.particle_index(index),
-                                     ran.site_indices(index));
+      fast = select->replace_indices(ran->particle_index(sel_index),
+                                     ran->site_indices(sel_index));
     } else {
-      fast = select->replace_indices(ran.particle_index(index),
+      fast = select->replace_indices(ran->particle_index(sel_index),
                                      site_vec_);
     }
     if (load_coordinates()) {
@@ -56,10 +91,11 @@ int TrialSelectParticle::random_particle(const Configuration& config,
   } else {
     select->clear();
   }
-  return num;
+  return num - num_excluded;
 }
 
 void TrialSelectParticle::ghost_particle(Configuration * config,
+  const Select * exclude,
   Select * select) {
   ASSERT(static_cast<int>(config->ghosts().size()) > particle_type(),
     "type not recognized");
@@ -67,28 +103,42 @@ void TrialSelectParticle::ghost_particle(Configuration * config,
   DEBUG("particle_type: " << particle_type());
   DEBUG("nump " << config->num_particles());
   DEBUG("num ghosts " << config->ghosts()[particle_type()].num_particles());
-  if (config->ghosts()[particle_type()].num_particles() == 0) {
-    config->add_particle_of_type(particle_type());
+  const Select& ghosts = config->ghosts()[particle_type()];
+  const int num_excluded = num_excluded_(
+    const_cast<const Configuration&>(*config), exclude);
+  int pindex = -1;
+  if (ghosts.num_particles() <= num_excluded) {
+    config->add_non_ghost_particle_of_type(particle_type());
     Select add;
     DEBUG("newest particle " << config->newest_particle_index());
     add.add_particle(config->newest_particle(), config->newest_particle_index());
     DEBUG("add sel: " << add.str());
     config->remove_particles(add);
-    const int num_ghosts = config->ghosts()[particle_type()].num_particles();
-    ASSERT(num_ghosts == 1,
+    const int num_ghosts = ghosts.num_particles();
+    ASSERT(num_ghosts > num_excluded,
       "ghost wasn't added as expected, num: " << num_ghosts);
+    pindex = ghosts.num_particles() - 1;
+  } else if (num_excluded > 0) {
+    DEBUG("find an existing ghost that isn't excluded");
+    for (int si = ghosts.num_particles() - 1; si >= 0; --si) {
+      if (!find_in_list(ghosts.particle_index(si),
+                        exclude->particle_indices())) {
+        pindex = si;
+      }
+    }
+  } else {
+    pindex = ghosts.num_particles() - 1;
   }
-  const Select& ghost = config->ghosts()[particle_type()];
   bool fast;
   // replace indices with the last ghost as may be optimal method available
   // to delete.
   if (site_ == -1) {
-    fast = select->replace_indices(ghost.particle_indices().back(),
-                                   ghost.site_indices().back());
+    fast = select->replace_indices(ghosts.particle_index(pindex),
+                                   ghosts.site_indices(pindex));
   } else {
-    fast = select->replace_indices(ghost.particle_indices().back(),
+    fast = select->replace_indices(ghosts.particle_index(pindex),
                                    site_vec_);
-    config->set_selection_physical(ghost, false);
+    config->set_selection_physical(ghosts, false);
     config->set_selection_physical(*select, true);
   }
   if (load_coordinates()) {
@@ -103,10 +153,21 @@ bool TrialSelectParticle::select(const Select& perturbed,
                                  Random * random) {
   DEBUG("is_ghost " << is_ghost());
   if (is_ghost()) {
-    ghost_particle(system->get_configuration(), &mobile_);
+    if (exclude_perturbed_) {
+      ghost_particle(system->get_configuration(),
+        const_cast<Select*>(&perturbed), &mobile_);
+    } else {
+      ghost_particle(system->get_configuration(), &mobile_);
+    }
     set_probability(1.);
   } else {
-    const int num = random_particle(system->configuration(), &mobile_, random);
+    int num = -1;
+    if (exclude_perturbed_) {
+      num = random_particle(system->configuration(),
+        const_cast<Select*>(&perturbed), &mobile_, random);
+    } else {
+      num = random_particle(system->configuration(), &mobile_, random);
+    }
     DEBUG("num " << num);
     if (num <= 0) return false;
     set_probability(1./static_cast<double>(num));
@@ -131,6 +192,7 @@ TrialSelectParticle::TrialSelectParticle(std::istream& istr)
   feasst_deserialize(&load_coordinates_, istr);
   feasst_deserialize(&site_, istr);
   feasst_deserialize(&site_vec_, istr);
+  feasst_deserialize(&exclude_perturbed_, istr);
 }
 
 void TrialSelectParticle::serialize_trial_select_particle_(std::ostream& ostr) const {
@@ -139,6 +201,7 @@ void TrialSelectParticle::serialize_trial_select_particle_(std::ostream& ostr) c
   feasst_serialize(load_coordinates_, ostr);
   feasst_serialize(site_, ostr);
   feasst_serialize(site_vec_, ostr);
+  feasst_serialize(exclude_perturbed_, ostr);
 }
 
 void TrialSelectParticle::serialize(std::ostream& ostr) const {

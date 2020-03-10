@@ -17,7 +17,6 @@ class TrialSelectSegment : public TrialSelectParticle {
      */
     const argtype& args = argtype()) : TrialSelectParticle(args) {
     class_name_ = "TrialSelectSegment";
-    Arguments args_(args);
     args_.dont_check();
     max_length_ = args_.key("max_length").dflt("-1").integer();
   }

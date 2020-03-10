@@ -42,6 +42,9 @@ class Ewald : public VisitModel {
     - tolerance: determine the alpha parameter and number of wave vectors by
       specifying the accuracy relative to the energy of two unit charges
       separated by a distance of one unit.
+    - tolerance_num_sites: for setting parameters with the tolerance,
+      optionally set the number of sites to be used for the parameter
+      calculation rather than the currently existing number of sites (default).
     - alpha: optionally specify the alpha parameter in units of inverse length.
     - kxmax: optionally specify the maximum wave vectors in the first dimension.
     - kymax: same as above, but in the second dimension.
@@ -70,9 +73,7 @@ class Ewald : public VisitModel {
       /// as above but in y
       int * kymax,
       /// as above but in z
-      int * kzmax,
-      /// Extrapolate to a different number of particles (unless -1).
-      const int num_particles = -1);
+      int * kzmax);
 
   /// Precompute the wave vectors within cutoff, coefficients, and also resize
   /// the structure factors.
@@ -263,9 +264,9 @@ class Ewald : public VisitModel {
   }
 
   int num_vectors() const { return static_cast<int>(wave_prefactor_.size()); }
-  int kxmax() const { return kxmax_; }
-  int kymax() const { return kymax_; }
-  int kzmax() const { return kzmax_; }
+  int num_kx() const { return num_kx_; }
+  int num_ky() const { return num_ky_; }
+  int num_kz() const { return num_kz_; }
 
   void check_size() const {
     ASSERT(wave_prefactor_.size() == wave_num_.size(), "size err");
@@ -273,6 +274,9 @@ class Ewald : public VisitModel {
 
   std::vector<double> struct_fact_real() const { return struct_fact_real_; }
   std::vector<double> struct_fact_imag() const { return struct_fact_imag_; }
+
+  /// Return the net charge of the configuration.
+  double net_charge(const Configuration& config) const;
 
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
   Ewald(std::istream& istr);
@@ -282,11 +286,12 @@ class Ewald : public VisitModel {
   // HWH serialize
   std::shared_ptr<double> tolerance_, alpha_arg_;
   std::shared_ptr<int> kxmax_arg_, kymax_arg_, kzmax_arg_, kmax_sq_arg_;
-  int kmax_;
+  int tolerance_num_sites_;
+  int kxmax_, kymax_, kzmax_;
   double kmax_squared_;
-  int kxmax_;
-  int kymax_;
-  int kzmax_;
+  int num_kx_;
+  int num_ky_;
+  int num_kz_;
   std::vector<double> wave_prefactor_;
   std::vector<int> wave_num_;
   const int dimension_ = 3;
@@ -335,12 +340,14 @@ class Ewald : public VisitModel {
       const double alpha,
       const int kmax,
       const Configuration& config,
-      const int dimen) {
-    ASSERT(config.num_particles() > 0, "error");
+      const int dimen,
+      const int num_sites) {
+    ASSERT(num_sites > 0, "error");
+    ASSERT(!isnan(alpha), "alpha is nan");
     DEBUG("alpha: " << alpha);
     const double side_length = config.domain()->side_length(dimen);
     return 2.*sum_squared_charge_(config)*alpha/side_length *
-      std::sqrt(1./(PI*kmax*config.num_sites())) *
+      std::sqrt(1./(PI*kmax*num_sites)) *
       exp(-pow(PI*kmax/alpha/side_length, 2));
   }
 
@@ -348,12 +355,13 @@ class Ewald : public VisitModel {
       const double alpha,
       const Configuration& config,
       const double tolerance,
-      const int dimen) {
+      const int dimen,
+      const int num_sites) {
     int kmax = 0;
     double err = NEAR_INFINITY;
     while (err > tolerance) {
       kmax += 1;
-      err = fourier_rms_(alpha, kmax, config, dimen);
+      err = fourier_rms_(alpha, kmax, config, dimen, num_sites);
     }
     return kmax;
   }

@@ -1,4 +1,4 @@
-
+#include <math.h>  // isinf
 #include "system/include/system.h"
 #include "utils/include/debug.h"
 
@@ -77,6 +77,8 @@ void System::precompute() {
 
 double System::unoptimized_energy(const int config) {
   const double en = unoptimized_.energy(&configurations_[config]);
+  ASSERT(!isinf(en) && !isnan(en), "Energy(" << en << ") is infinite or not "
+    << "a number. Are particles on top of each other?");
   unoptimized_.finalize(configurations_[config].selection_of_all());
   return en;
 }
@@ -105,7 +107,7 @@ double System::reference_energy(const Select& select,
 }
 
 void System::serialize(std::ostream& sstr) const {
-  feasst_serialize_version(1, sstr);
+  feasst_serialize_version(7349, sstr);
   feasst_serialize_fstobj(configurations_, sstr);
   unoptimized_.serialize(sstr);
   optimized_.serialize(sstr);
@@ -114,7 +116,8 @@ void System::serialize(std::ostream& sstr) const {
 }
 
 System::System(std::istream& sstr) {
-  feasst_deserialize_version(sstr);
+  const int version = feasst_deserialize_version(sstr);
+  ASSERT(version == 7349, "unrecognized verison: " << version);
   feasst_deserialize_fstobj(&configurations_, sstr);
   unoptimized_ = PotentialFactory(sstr);
   optimized_ = PotentialFactory(sstr);
@@ -168,6 +171,22 @@ void System::check() const {
   for (const PotentialFactory& ref : references_) {
     ref.check();
   }
+}
+
+std::string System::status_header() const {
+  std::stringstream ss;
+  for (const Configuration& config : configurations_) {
+    ss << config.status_header();
+  }
+  return ss.str();
+}
+
+std::string System::status() const {
+  std::stringstream ss;
+  for (const Configuration& config : configurations_) {
+    ss << config.status();
+  }
+  return ss.str();
 }
 
 }  // namespace feasst

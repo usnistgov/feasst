@@ -26,7 +26,7 @@ namespace feasst {
 class CustomException : public std::exception {
  public:
   /// Instantiate an exeption with a user-defined error message.
-  CustomException(std::stringstream& m);
+  explicit CustomException(std::stringstream& m);
 
   /// Return the user's message
   const char* what() const throw() { return msg_.c_str(); }

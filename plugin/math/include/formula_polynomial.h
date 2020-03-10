@@ -2,8 +2,10 @@
 #ifndef FEASST_MATH_FORMULA_POLYNOMIAL_H_
 #define FEASST_MATH_FORMULA_POLYNOMIAL_H_
 
-#include <vector>
 #include <math.h>
+#include <string>
+#include <memory>
+#include <vector>
 #include "math/include/formula.h"
 
 namespace feasst {
@@ -38,7 +40,7 @@ class FormulaPolynomial : public Formula {
 
   std::shared_ptr<Formula> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
-  FormulaPolynomial(std::istream& istr);
+  explicit FormulaPolynomial(std::istream& istr);
   virtual ~FormulaPolynomial() {}
 
  private:

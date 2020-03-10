@@ -35,7 +35,7 @@ TEST(LennardJonesCutShift, serialize) {
   shift->set_hard_sphere_threshold(0.3);
   shift->precompute(config.model_params());
   std::shared_ptr<Model> model2 = test_serialize<LennardJonesCutShift, Model>(*shift,
-    "LennardJonesCutShift 763 0.089999999999999997 713 12 644 1 ModelParam 1 2 0 0 2 2 -2.6332331818264547e-06 -0 2 -0 -0 2 2 1 1 2 1 1 1 ");
+    "LennardJonesCutShift 763 0.089999999999999997 713 12 644 1 ModelParam 795 2 0 0 2 2 -2.6332331818264547e-06 -0 2 -0 -0 2 2 1 1 2 1 1 1 ");
 }
 
 }  // namespace feasst

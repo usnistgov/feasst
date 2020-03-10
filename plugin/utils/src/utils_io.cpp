@@ -32,7 +32,7 @@ std::string trim(const char* specialchr, const char* phrase, int from_left) {
   }
 
   // erase all characters up to spchr
-  if (int(foundprev) != 0) {
+  if (static_cast<int>(foundprev) != 0) {
     if (from_left == 1) {
       fs.erase(fs.begin(), fs.begin() + foundprev + spchr.size());
     } else {

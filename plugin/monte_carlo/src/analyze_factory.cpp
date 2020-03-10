@@ -50,7 +50,8 @@ void AnalyzeFactory::trial_(const Criteria * criteria,
 }
 
 AnalyzeFactory::AnalyzeFactory(std::istream& istr) : Analyze(istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 1640, "unrecognized verison: " << version);
   // feasst_deserialize_fstdr(&analyzers_, istr);
   // HWH for unknown reasons, function template doesn't work
   int dim1;
@@ -67,7 +68,7 @@ AnalyzeFactory::AnalyzeFactory(std::istream& istr) : Analyze(istr) {
 
 void AnalyzeFactory::serialize(std::ostream& ostr) const {
   Stepper::serialize(ostr);
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(1640, ostr);
   feasst_serialize_fstdr(analyzers_, ostr);
 }
 
