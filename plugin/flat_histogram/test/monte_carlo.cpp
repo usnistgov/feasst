@@ -54,9 +54,9 @@ TEST(WangLandau, args) {
 }
 
 TEST(MonteCarlo, FHMC) {
-  //for (int crit_type = 0; crit_type < 1; ++crit_type) {
-  //for (int crit_type = 1; crit_type < 2; ++crit_type) {
-  for (int crit_type = 0; crit_type < 2; ++crit_type) {
+  // for (int crit_type = 0; crit_type < 1; ++crit_type) {
+  // for (int crit_type = 1; crit_type < 2; ++crit_type) {
+  for (int crit_type = 0; crit_type < 3; ++crit_type) {
     MonteCarlo mc;
     // mc.set(MakeRandomMT19937({{"seed", "default"}}));
     //mc.set(MakeRandomMT19937({{"seed", "1583434540"}}));
@@ -71,9 +71,7 @@ TEST(MonteCarlo, FHMC) {
       {"steps_per", str(1e4)},
       {"multistate", "true"},
     }));
-    if (crit_type == 0) {
-      mc.add(MakeCriteriaUpdater({{"steps_per", str(1)}}));
-    }
+    mc.add(MakeCriteriaUpdater({{"steps_per", str(1)}}));
     mc.add(MakeCriteriaWriter({
       {"steps_per", str(1e4)},
       {"file_name", "tmp/ljcrit.txt"},

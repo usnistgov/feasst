@@ -23,14 +23,14 @@ namespace feasst {
  */
 class TransitionMatrix : public Bias {
  public:
-  TransitionMatrix(
-    /**
-      min_visits : A sweep is performed when all macrostates are visited by
-        another macrostate this number of times (default: 100).
+  /**
+    args:
+    - min_visits : A sweep is performed when all macrostates are visited by
+      another macrostate this number of times (default: 100).
 
-      min_sweeps : Number of sweeps required for completion.
-     */
-    const argtype &args = argtype());
+    - min_sweeps : Number of sweeps required for completion.
+   */
+  TransitionMatrix(const argtype &args = argtype());
   void update_or_revert(
     const int macrostate_old,
     const int macrostate_new,

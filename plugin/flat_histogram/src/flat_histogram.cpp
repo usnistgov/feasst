@@ -60,12 +60,12 @@ std::string FlatHistogram::write() const {
   ss << Criteria::write();
   ss << bias_->write();
   ss << "macrostate,"
-     << bias_->write_per_bin_header() << ","
+     << bias_->write_per_bin_header()
      << std::endl;
   const Histogram& hist = macrostate_->histogram();
   for (int bin = 0; bin < hist.size(); ++bin) {
     ss << hist.center_of_bin(bin) << ","
-       << bias_->write_per_bin(bin) << ","
+       << bias_->write_per_bin(bin)
        << std::endl;
   }
   return ss.str();

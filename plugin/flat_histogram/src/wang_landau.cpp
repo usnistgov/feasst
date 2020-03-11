@@ -9,7 +9,7 @@ namespace feasst {
 
 WangLandau::WangLandau(const argtype &args) {
   class_name_ = "WangLandau";
-  args_.init(args);
+  Arguments args_(args);
   min_flatness_ = args_.key("min_flatness").integer();
   flatness_threshold_ = args_.key("flatness_threshold").dflt("0.8").dble();
   add_to_ln_probability_ = args_.key("add_to_ln_probability").dflt("1.").dble();

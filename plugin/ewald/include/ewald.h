@@ -2,6 +2,7 @@
 #ifndef FEASST_EWALD_EWALD_H_
 #define FEASST_EWALD_EWALD_H_
 
+#include <cmath>  // isnan
 #include <vector>
 #include <sstream>
 #include <algorithm>
@@ -343,7 +344,7 @@ class Ewald : public VisitModel {
       const int dimen,
       const int num_sites) {
     ASSERT(num_sites > 0, "error");
-    ASSERT(!isnan(alpha), "alpha is nan");
+    ASSERT(!std::isnan(alpha), "alpha is nan");
     DEBUG("alpha: " << alpha);
     const double side_length = config.domain()->side_length(dimen);
     return 2.*sum_squared_charge_(config)*alpha/side_length *

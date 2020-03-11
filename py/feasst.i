@@ -151,6 +151,7 @@
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/collection_matrix.h"
 #include "flat_histogram/include/transition_matrix.h"
+#include "flat_histogram/include/wltm.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "confinement/include/shape.h"
 #include "confinement/include/slab.h"
@@ -175,20 +176,8 @@
 #include "chain/include/trial_reptate.h"
 #include "chain/include/perturb_site_type.h"
 #include "chain/include/trial_swap_sites.h"
-#include "cluster/include/energy_map_neigh.h"
-#include "cluster/include/energy_map_all.h"
-#include "cluster/include/trial_rigid_cluster.h"
-#include "cluster/include/perturb_rotate_com.h"
-#include "cluster/include/energy_map_all_criteria.h"
-#include "cluster/include/trial_compute_gca.h"
-#include "cluster/include/perturb_point_reflect.h"
-#include "cluster/include/trial_select_cluster.h"
-#include "cluster/include/trial_compute_move_cluster.h"
-#include "cluster/include/utils_cluster.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 #include "example/include/model_example.h"
-#include "growth_expanded/include/trial_growth_expanded.h"
-#include "growth_expanded/include/macrostate_growth_expanded.h"
 using namespace feasst;
 %}
 
@@ -366,6 +355,7 @@ using namespace std;
 %shared_ptr(feasst::FlatHistogram);
 %shared_ptr(feasst::TripleBandedCollectionMatrix);
 %shared_ptr(feasst::TransitionMatrix);
+%shared_ptr(feasst::WLTM);
 %shared_ptr(feasst::MacrostateNumParticles);
 %shared_ptr(feasst::Shape);
 %shared_ptr(feasst::ShapedEntity);
@@ -393,23 +383,8 @@ using namespace std;
 %shared_ptr(feasst::TrialReptate);
 %shared_ptr(feasst::PerturbSiteType);
 %shared_ptr(feasst::TrialSwapSites);
-%shared_ptr(feasst::EnergyMapNeigh);
-%shared_ptr(feasst::EnergyMapAll);
-%shared_ptr(feasst::TrialTranslateCluster);
-%shared_ptr(feasst::TrialRotateCluster);
-%shared_ptr(feasst::PerturbRotateCOM);
-%shared_ptr(feasst::EnergyMapAllCriteria);
-%shared_ptr(feasst::TrialComputeGCA);
-%shared_ptr(feasst::PerturbPointReflect);
-%shared_ptr(feasst::TrialSelectCluster);
-%shared_ptr(feasst::TrialComputeMoveCluster);
 %shared_ptr(feasst::VisitModelOptLJ);
 %shared_ptr(feasst::ModelExample);
-%shared_ptr(feasst::TrialComputeGrowAdd);
-%shared_ptr(feasst::TrialComputeGrowRemove);
-%shared_ptr(feasst::TrialComputeGrow);
-%shared_ptr(feasst::TrialGrowthExpanded);
-%shared_ptr(feasst::MacrostateGrowthExpanded);
 %include utils/include/utils_file.h
 %include utils/include/timer.h
 %include utils/include/cache.h
@@ -552,6 +527,7 @@ using namespace std;
 %include flat_histogram/include/flat_histogram.h
 %include flat_histogram/include/collection_matrix.h
 %include flat_histogram/include/transition_matrix.h
+%include flat_histogram/include/wltm.h
 %include flat_histogram/include/macrostate_num_particles.h
 %include confinement/include/shape.h
 %include confinement/include/slab.h
@@ -576,17 +552,5 @@ using namespace std;
 %include chain/include/trial_reptate.h
 %include chain/include/perturb_site_type.h
 %include chain/include/trial_swap_sites.h
-%include cluster/include/energy_map_neigh.h
-%include cluster/include/energy_map_all.h
-%include cluster/include/trial_rigid_cluster.h
-%include cluster/include/perturb_rotate_com.h
-%include cluster/include/energy_map_all_criteria.h
-%include cluster/include/trial_compute_gca.h
-%include cluster/include/perturb_point_reflect.h
-%include cluster/include/trial_select_cluster.h
-%include cluster/include/trial_compute_move_cluster.h
-%include cluster/include/utils_cluster.h
 %include opt_lj/include/visit_model_opt_lj.h
 %include example/include/model_example.h
-%include growth_expanded/include/trial_growth_expanded.h
-%include growth_expanded/include/macrostate_growth_expanded.h

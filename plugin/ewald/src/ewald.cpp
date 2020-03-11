@@ -46,7 +46,7 @@ void Ewald::tolerance_to_alpha_ks(const double tolerance,
     *alpha = std::sqrt(-log(*alpha))/cutoff;
   }
   DEBUG("alpha: " << *alpha);
-  ASSERT(!isnan(*alpha), "alpha is nan");
+  ASSERT(!std::isnan(*alpha), "alpha is nan");
   *kxmax = estimate_kmax_(*alpha, config, tolerance, 0, num_sites);
   *kymax = estimate_kmax_(*alpha, config, tolerance, 1, num_sites);
   *kzmax = estimate_kmax_(*alpha, config, tolerance, 2, num_sites);

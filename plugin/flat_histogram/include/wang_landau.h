@@ -9,30 +9,30 @@
 
 namespace feasst {
 
+// HWH: Implement "gentle" WL where the bias is updated infrequently.
 /**
   Wang Landau flat histogram bias.
   https://doi.org/10.1103/PhysRevLett.86.2050
   https://doi.org/10.1063/1.1615966
  */
-// HWH: Implement "gentle" WL where the bias is updated infrequently.
 class WangLandau : public Bias {
  public:
-  WangLandau(
-    /**
-      min_flatness : Number of flatness checks required for completion.
+  /**
+    args:
+    - min_flatness : Number of flatness checks required for completion.
 
-      add_to_ln_probability : The initial amount to add to the natural log of
-        the macrostate probability upon visiting that state (default: 1.0).
+    - add_to_ln_probability : The initial amount to add to the natural log of
+      the macrostate probability upon visiting that state (default: 1.0).
 
-      reduce_ln_probability : Reduce the amount to add to the natural log of the
-        macrostate probability by multiplcation of this factor upon reaching a
-        sufficiently flat histogram (default: 0.5).
+    - reduce_ln_probability : Reduce the amount to add to the natural log of the
+      macrostate probability by multiplcation of this factor upon reaching a
+      sufficiently flat histogram (default: 0.5).
 
-      flatness_threshold : The visited states histogram is determined to be flat
-        when the percentage between minimum visisted states and average reaches
-        this threshold (default: 0.8).
-     */
-    const argtype &args = argtype());
+    - flatness_threshold : The visited states histogram is determined to be flat
+      when the percentage between minimum visisted states and average reaches
+      this threshold (default: 0.8).
+   */
+  WangLandau(const argtype &args = argtype());
   void update_or_revert(
     const int macrostate_old,
     const int macrostate_new,
@@ -46,6 +46,7 @@ class WangLandau : public Bias {
   std::string write_per_bin(const int bin) const override;
   std::string write_per_bin_header() const override;
   void set_ln_prob(const LnProbability& ln_prob) override;
+  const int num_flatness() const { return num_flatness_; }
   std::shared_ptr<Bias> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   WangLandau(std::istream& istr);
@@ -64,8 +65,6 @@ class WangLandau : public Bias {
   /// Number of times the visited states histogram was found to be flat.
   int num_flatness_ = 0;
   int min_flatness_ = 0;
-
-  Arguments args_;
 
   /// Perform update when the visited states histogram is found to be flat.
   void flatness_update_();

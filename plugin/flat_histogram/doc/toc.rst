@@ -9,4 +9,5 @@
    FlatHistogram
    TripleBandedCollectionMatrix
    TransitionMatrix
+   WLTM
    MacrostateNumParticles

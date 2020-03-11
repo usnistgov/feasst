@@ -17,12 +17,13 @@ TEST(TrialSelectParticle, serialize) {
 
 TEST(TrialSelectParticle, exclude_perturbed) {
   System system;
-  { Configuration config({{"particle_type0", "../forcefield/data.lj"},
-                          {"particle_type1", "../forcefield/data.atom"}});
-    config.add_particle_of_type(0);
-    config.add_particle_of_type(0);
-    config.add_particle_of_type(1);
-    system.add(config);
+  { auto config = MakeConfiguration({
+      {"particle_type0", "../forcefield/data.lj"},
+      {"particle_type1", "../forcefield/data.atom"}});
+    config->add_particle_of_type(0);
+    config->add_particle_of_type(0);
+    config->add_particle_of_type(1);
+    system.add(*config);
   }
   auto sel1 = MakeTrialSelectParticle({{"particle_type", "0"}});
   auto sel2 = MakeTrialSelectParticle({{"particle_type", "0"},

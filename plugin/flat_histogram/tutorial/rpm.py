@@ -2,9 +2,9 @@ import feasst
 
 def system(config=None, box_length=8.109613, alphaL = 6.870983963962610000, kmax_squared=38, rcut=4.891304347826090):
     if not config:
-      config = feasst.Configuration(feasst.MakeDomain(feasst.args({"box_length": str(box_length)})),
-        feasst.args({"particle_type0": "../plugin/ewald/forcefield/data.rpm_plus",
-                     "particle_type1": "../plugin/ewald/forcefield/data.rpm_minus"}))
+      config = feasst.Configuration(feasst.MakeDomain(feasst.args({"cubic_box_length": str(box_length)})),
+        feasst.args({"particle_type0": feasst.install_dir() + "/plugin/ewald/forcefield/data.rpm_plus",
+                     "particle_type1": feasst.install_dir() + "/plugin/ewald/forcefield/data.rpm_minus"}))
     config.set_model_param("cutoff", 0, rcut)
     config.set_model_param("cutoff", 1, rcut)
     system = feasst.System()

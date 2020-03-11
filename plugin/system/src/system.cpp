@@ -1,4 +1,4 @@
-#include <math.h>  // isinf
+#include <cmath>  // isinf and isnan
 #include "system/include/system.h"
 #include "utils/include/debug.h"
 
@@ -77,7 +77,8 @@ void System::precompute() {
 
 double System::unoptimized_energy(const int config) {
   const double en = unoptimized_.energy(&configurations_[config]);
-  ASSERT(!isinf(en) && !isnan(en), "Energy(" << en << ") is infinite or not "
+  ASSERT(!std::isinf(en) && !std::isnan(en),
+    "Energy(" << en << ") is infinite or not "
     << "a number. Are particles on top of each other?");
   unoptimized_.finalize(configurations_[config].selection_of_all());
   return en;
