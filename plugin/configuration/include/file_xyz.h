@@ -15,27 +15,10 @@ class FileVMD {
 
   void write(const std::string file_name,
       const Configuration& config,
-      const std::string traj_file_name) {
-    std::ofstream vmdf(file_name);
-    vmdf << "display projection Orthographic" << endl
-      << "color Display Background white" << endl
-      << "axes location Off" << endl;
-    vmdf << "topo readvarxyz " << trim("/", traj_file_name) << endl;
-    vmdf << "mol modstyle 0 0 VDW 1.0000000 120.000000" << endl;
-    for (int stype = 0; stype < config.num_site_types(); ++stype) {
-      vmdf << "set sel [atomselect top \"name " << stype << "\"]" << endl;
-      const double radius = 0.5*config.model_params().sigma().value(stype);
-      vmdf << "$sel set radius " << radius << endl;
-    }
-  }
+      const std::string traj_file_name);
 
-  void serialize(std::ostream& ostr) const {
-    feasst_serialize_version(1, ostr);
-  }
-
-  explicit FileVMD(std::istream& istr) {
-    feasst_deserialize_version(istr);
-  }
+  void serialize(std::ostream& ostr) const;
+  explicit FileVMD(std::istream& istr);
 };
 
 /// HWH Add html link to XYZ format
@@ -65,17 +48,8 @@ class FileXYZ {
   /// By default, do not append
   void set_append(const int append = 0) { append_ = append; }
 
-  void serialize(std::ostream& ostr) const {
-    feasst_serialize_version(1, ostr);
-    feasst_serialize(group_index_, ostr);
-    feasst_serialize(append_, ostr);
-  }
-
-  explicit FileXYZ(std::istream& istr) {
-    feasst_deserialize_version(istr);
-    feasst_deserialize(&group_index_, istr);
-    feasst_deserialize(&append_, istr);
-  }
+  void serialize(std::ostream& ostr) const;
+  explicit FileXYZ(std::istream& istr);
 
  private:
   int group_index_;

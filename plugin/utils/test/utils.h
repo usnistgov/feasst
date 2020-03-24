@@ -2,6 +2,9 @@
 #include <memory>
 #include <gtest/gtest.h>
 #include "utils/include/debug.h"
+#include "utils/include/serialize.h"
+#include "utils/include/utils_io.h"
+#include "math/include/constants.h"
 
 /// Return a copy of the object via serialization.
 /// Test that the serialization of the new object is the same.

@@ -1,4 +1,3 @@
-#include <gtest/gtest.h>
 #include "monte_carlo/test/perturb_test.h"
 
 namespace feasst {

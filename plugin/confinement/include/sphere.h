@@ -22,23 +22,10 @@ class Sphere : public Shape {
 
   double nearest_distance(const Position& point) const override;
 
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
-    feasst_serialize_version(629, ostr);
-    feasst_serialize(radius_, ostr);
-    feasst_serialize_fstobj(center_, ostr);
-  }
-
+  void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Shape> create(std::istream& istr) const override {
     return std::make_shared<Sphere>(istr); }
-
-  Sphere(std::istream& istr) {
-    const int version = feasst_deserialize_version(istr);
-    ASSERT(629 == version, version);
-    feasst_deserialize(&radius_, istr);
-    feasst_deserialize_fstobj(&center_, istr);
-  }
-
+  explicit Sphere(std::istream& istr);
   virtual ~Sphere() {}
 
  private:

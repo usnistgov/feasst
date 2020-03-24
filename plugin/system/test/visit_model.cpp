@@ -9,7 +9,7 @@
 #include "configuration/include/file_xyz.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/test/system_test.h"
-#include "system/include/select_list.h"
+#include "configuration/include/select.h"
 
 namespace feasst {
 
@@ -37,8 +37,8 @@ TEST(VisitModel, energy) {
   Site site = particle.site(0);
   site.set_position(position);
   particle.set_site(0, site);
-  SelectList select;
-  select.particle(1, config);
+  Select select;
+  select.add_particle(config.select_particle(1), 1);
   config.replace_position(select, particle);
   EXPECT_EQ(3, config.particle(0).site(0).position().size());
   EXPECT_EQ(0, config.particle(0).site(0).position().coord(0));
@@ -47,8 +47,9 @@ TEST(VisitModel, energy) {
   EXPECT_EQ(4, config.particle(1).position().coord(0));
   model.compute(select, &config, &visit);
   EXPECT_NEAR(en_lj(2.), visit.energy(), NEAR_ZERO);
-  select.particle(0, config);
-  model.compute(select, &config, &visit);
+  Select select2;
+  select2.add_particle(config.select_particle(0), 0);
+  model.compute(select2, &config, &visit);
   EXPECT_NEAR(en_lj(2.), visit.energy(), NEAR_ZERO);
 
   // serialize

@@ -4,21 +4,17 @@
 
 #include <string>
 #include <sstream>
-#include <fstream>
 #include <iostream>
 #include <vector>
 #include <deque>
-#include <numeric>
-#include <memory>
-#include <map>
-#include "utils/include/debug.h"
-#include "utils/include/utils.h"
-#include "utils/include/serialize.h"
-
-using std::cout;
-using std::endl;
+#include <iomanip>  // setprecision
+#include <limits>  // numeric_limits
 
 namespace feasst {
+
+/// Used to output maximum precision to screen
+/// [e.g., INFO(MAX_PRECISION << "energy: " << energy)].
+#define MAX_PRECISION std::setprecision(std::numeric_limits<double>::digits10+2)
 
 /// Return the feasst install directory as a string.
 /// Warning: This does not work with pip or conda Python.

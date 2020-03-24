@@ -2,11 +2,11 @@
 #ifndef FEASST_MONTE_CARLO_TRIAL_SELECT_H_
 #define FEASST_MONTE_CARLO_TRIAL_SELECT_H_
 
-#include "utils/include/debug.h"
 #include "utils/include/arguments.h"
 #include "math/include/accumulator.h"
+#include "configuration/include/properties.h"
+#include "configuration/include/select.h"
 #include "system/include/system.h"
-#include "system/include/select_list.h"
 
 namespace feasst {
 
@@ -40,23 +40,22 @@ class TrialSelect : public PropertiedEntity {
     /// Perturbed is included to allow chaining of selection based on previous.
     const Select& perturbed,
     System * system,
-    Random * random) {
-    FATAL("not implemented"); }
+    Random * random);
 
   /// Precompute quantities before simulation for optimization.
   virtual void precompute(System * system);
 
   /// Return the mobile selection. These can change during the trial.
-  const SelectList& mobile() const { return mobile_; }
+  const Select& mobile() const { return mobile_; }
 
   /// Return a pointer to the mobile selection.
-  SelectList * get_mobile() { return &mobile_; }
+  Select * get_mobile() { return &mobile_; }
 
   /// Set the mobile selection.
-  void set_mobile(const SelectList& mobile) { mobile_ = mobile; }
+  void set_mobile(const Select& mobile) { mobile_ = mobile; }
 
   /// Return originally-seleted mobile. These do not change during trial.
-  const SelectList& mobile_original() const { return mobile_original_; }
+  const Select& mobile_original() const { return mobile_original_; }
 
   /// Return the anchor selection.
   const Select& anchor() const { return anchor_; }
@@ -104,6 +103,13 @@ class TrialSelect : public PropertiedEntity {
   /// Return true if particle type is set.
   bool is_particle_type_set() const { return is_particle_type_set_; }
 
+  /// Remove unphysical sites from mobile.
+  void remove_unphysical_sites(const Configuration& config);
+
+  /// Fast replace of a single particle in mobile.
+  void replace_mobile(const Select& replacement, const int sel_part_index,
+    const Configuration& config);
+
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<TrialSelect> create(std::istream& istr) const;
@@ -114,8 +120,8 @@ class TrialSelect : public PropertiedEntity {
  protected:
   std::string class_name_ = "TrialSelect";
   Arguments args_;
-  SelectList mobile_original_;
-  SelectList mobile_;
+  Select mobile_original_;
+  Select mobile_;
   Select anchor_;
   std::map<std::string, Accumulator> printable_;
 

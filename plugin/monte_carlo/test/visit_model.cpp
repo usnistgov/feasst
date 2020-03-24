@@ -27,31 +27,32 @@ TEST(VisitModel, spce_reference_config) {
   const double pe_lrc = -6.8487471455514575;
   EXPECT_NEAR(pe_lrc, lrc.energy(), 1e-13);
 
-  // test adding/deleting particles, resulting in a ghost
-  SelectList select;
-  TrialSelectParticle tselect;
-  RandomMT19937 random;
-  tselect.random_particle(config, &select, &random);
-  visit.compute(model, select, &config);
-  const double pe_previous = visit.energy();
-  const double x1_previous = select.particle(config).site(0).position().coord(1);
-  config.add_particle_of_type(0);
-  SelectList new_part;
-  new_part.last_particle_added(&config);
-  config.replace_position(new_part, select.particle(config));
-  config.remove_particle(select);
-  visit.compute(model, &config);
-  EXPECT_NEAR(pe_lj, visit.energy(), 1e-12);
-  empty.compute(&config, &lrc);
-  EXPECT_NEAR(pe_lrc, lrc.energy(), 1e-13);
-  EXPECT_EQ(101, config.particles().num()); // includes one ghost particle
-  EXPECT_EQ(100, config.selection_of_all().num_particles());
-  config.check();
-  visit.compute(model, new_part, &config);
-  EXPECT_NEAR(pe_previous, visit.energy(), NEAR_ZERO);
-  const double x2_previous = new_part.particle(config).site(0).position().coord(1);
-  EXPECT_EQ(x1_previous, x2_previous);
-  visit.check_energy(model, &config);
+//  // test adding/deleting particles, resulting in a ghost
+//  Select select;
+//  TrialSelectParticle tselect;
+//  RandomMT19937 random;
+//  tselect.random_particle(config, &select, &random);
+//  visit.compute(model, select, &config);
+//  const double pe_previous = visit.energy();
+//  const Particle& spart = config.select_particle(select.particle_index(0));
+//  const double x1_previous = spart.site(0).position().coord(1);
+//  config.add_particle_of_type(0);
+//  Select new_part;
+//  new_part.last_particle_added(&config);
+//  config.replace_position(new_part, spart);
+//  config.remove_particle(select);
+//  visit.compute(model, &config);
+//  EXPECT_NEAR(pe_lj, visit.energy(), 1e-12);
+//  empty.compute(&config, &lrc);
+//  EXPECT_NEAR(pe_lrc, lrc.energy(), 1e-13);
+//  EXPECT_EQ(101, config.particles().num()); // includes one ghost particle
+//  EXPECT_EQ(100, config.selection_of_all().num_particles());
+//  config.check();
+//  visit.compute(model, new_part, &config);
+//  EXPECT_NEAR(pe_previous, visit.energy(), NEAR_ZERO);
+//  const double x2_previous = config.select_particle(new_part.particle_index(0)).site(0).position().coord(1);
+//  EXPECT_EQ(x1_previous, x2_previous);
+//  visit.check_energy(model, &config);
 
   // check that the energy of the deleted ghost is the same as the new replacement
   // HWH config.remove_particle(new_

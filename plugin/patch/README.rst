@@ -12,3 +12,4 @@ FEASST plugin dependencies
 ============================
 
 * system
+* models

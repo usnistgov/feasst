@@ -3,7 +3,6 @@
 #define FEASST_CORE_CONFIGURATION_TEST_H_
 
 #include <vector>
-#include <utility>
 #include <string>
 #include "configuration/include/configuration.h"
 #include "configuration/include/file_xyz.h"

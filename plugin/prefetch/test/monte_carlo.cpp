@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "math/include/random_mt19937.h"
 #include "monte_carlo/test/monte_carlo_test.h"
 #include "prefetch/include/prefetch.h"
 #include "flat_histogram/test/flat_histogram_test.h"

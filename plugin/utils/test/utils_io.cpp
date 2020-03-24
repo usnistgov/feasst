@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "utils/include/utils_io.h"
 
 namespace feasst {

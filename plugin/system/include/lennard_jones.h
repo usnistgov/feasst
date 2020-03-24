@@ -5,7 +5,6 @@
 #include <string>
 #include <memory>
 #include "system/include/model_two_body.h"
-#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -27,18 +26,7 @@ class LennardJones : public ModelTwoBody {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const override {
-    const double sigma = model_params.mixed_sigma()[type1][type2];
-    const double sigma_squared = sigma*sigma;
-    if (squared_distance < hard_sphere_threshold_sq_*sigma_squared) {
-      return NEAR_INFINITY;
-    }
-    const double epsilon = model_params.mixed_epsilon()[type1][type2];
-    const double rinv2 = sigma_squared/squared_distance;
-    const double rinv6 = rinv2*rinv2*rinv2;
-    const double en = 4.*epsilon*rinv6*(rinv6 - 1.);
-    return en;
-  }
+      const ModelParams& model_params) const override;
 
   /// When the distance between sites does not exceed thresshold*sigma,
   /// then return NEAR_INFINITY energy.
@@ -46,8 +34,7 @@ class LennardJones : public ModelTwoBody {
     hard_sphere_threshold_sq_ = threshold*threshold; }
 
   /// Return the threshold for hard sphere interaction.
-  double hard_sphere_threshold() const {
-    return std::sqrt(hard_sphere_threshold_sq_); }
+  double hard_sphere_threshold() const;
   const double& hard_sphere_threshold_sq() const {
     return hard_sphere_threshold_sq_; }
 

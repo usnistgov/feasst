@@ -1,4 +1,7 @@
 #include "cluster/include/energy_map_all.h"
+#include "utils/include/utils.h"  // find_in_list
+#include "utils/include/serialize.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 

@@ -3,7 +3,6 @@
 #define FEASST_UTILS_ARGUMENTS_H_
 
 #include <vector>
-#include <iostream>
 #include <map>
 #include <string>
 

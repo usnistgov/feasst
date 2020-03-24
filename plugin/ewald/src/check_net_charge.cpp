@@ -1,4 +1,6 @@
 #include "ewald/include/check_net_charge.h"
+#include "utils/include/serialize.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 

@@ -1,3 +1,5 @@
+#include <cmath>
+#include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_compute_add.h"
 #include "monte_carlo/include/trial_select.h"
 
@@ -37,7 +39,7 @@ void TrialComputeAdd::perturb_and_acceptance(
     const int particle_type = config.select_particle(particle_index).type();
     DEBUG("volume " << volume << " selprob " << select->probability() << " betamu " << criteria->beta_mu(particle_type));
     acceptance->add_to_ln_metropolis_prob(
-      log(volume*select->probability())
+      std::log(volume*select->probability())
       + criteria->beta_mu(particle_type)
     );
   }

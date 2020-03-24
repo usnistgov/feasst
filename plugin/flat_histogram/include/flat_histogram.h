@@ -28,10 +28,7 @@ class FlatHistogram : public Criteria {
     set(bias);
   }
 
-  void before_attempt(const System* system) override {
-    macrostate_old_ = macrostate_->bin(system, this);
-    DEBUG("macro old " << macrostate_old_);
-  }
+  void before_attempt(const System* system) override;
 
   bool is_accepted(const Acceptance& acceptance,
     const System * system,
@@ -50,11 +47,7 @@ class FlatHistogram : public Criteria {
   const Macrostate * macrostate() const { return macrostate_.get(); }
 
   /// Set the bias for the flat histogram method.
-  void set(const std::shared_ptr<Bias> bias) {
-    ASSERT(is_macrostate_set_, "set macrostate before bias");
-    bias_ = bias;
-    bias_->resize(macrostate_->histogram());
-  }
+  void set(const std::shared_ptr<Bias> bias);
 
   /// Return the bias.
   const Bias * bias() const { return bias_.get(); }
@@ -81,15 +74,7 @@ class FlatHistogram : public Criteria {
         If reweighting in potential energy in the microcanonical, the change
         in the thermodynamic conjugate is \f$\Delta(-\beta)\f$.
        */
-      const double delta_conjugate) {
-    LnProbability lnpirw = deep_copy(bias()->ln_prob());
-    for (int macro = 0; macro < lnpirw.size(); ++macro) {
-      lnpirw.add(macro, macrostate()->histogram().center_of_bin(macro)
-                 *delta_conjugate);
-    }
-    lnpirw.normalize();
-    return lnpirw;
-  }
+      const double delta_conjugate);
 
   /// Set the macrostate probability distribution.
   void set_ln_prob(const LnProbability& ln_prob) {
@@ -99,12 +84,7 @@ class FlatHistogram : public Criteria {
   double pressure(const double volume,
       /// Select phase by order of macrostate.
       /// Assumes default method of dividing phase boundary.
-      const int phase = 0) const {
-    int min, max;
-    phase_boundary_(phase, &min, &max);
-    return (-ln_prob_().value(0) + log(ln_prob_().sum_probability(min, max)))
-           /volume/beta();
-  }
+      const int phase = 0) const;
 
   /// Return the ensemble averaged property from a list of properties averaged
   /// at each macrostate.
@@ -113,18 +93,7 @@ class FlatHistogram : public Criteria {
                  const std::vector<double>& macrostate_averages,
                  /// Select phase by order of macrostate.
                  /// Assumes default method of dividing phase boundary.
-                 const int phase = 0) const {
-    ASSERT(ln_prob.size() == static_cast<int>(macrostate_averages.size()),
-      "size mismatch: ln_prob:" << ln_prob.size() <<
-      " macro:" << macrostate_averages.size());
-    int min, max;
-    phase_boundary_(ln_prob, phase, &min, &max);
-    double average = 0.;
-    for (int bin = min; bin < max + 1; ++bin) {
-      average += macrostate_averages[bin]*exp(ln_prob.value(bin));
-    }
-    return average/ln_prob.sum_probability(min, max);
-  }
+                 const int phase = 0) const;
 
   double average(const std::vector<double>& macrostate_averages,
                  /// Select phase by order of macrostate.
@@ -136,15 +105,7 @@ class FlatHistogram : public Criteria {
   double average_macrostate(const LnProbability& ln_prob,
       /// Select phase by order of macrostate.
       /// Assumes default method of dividing phase boundary.
-      const int phase = 0) const {
-    int min, max;
-    phase_boundary_(phase, &min, &max);
-    double average = 0.;
-    for (int bin = min; bin < max + 1; ++bin) {
-      average += macrostate_->value(bin)*exp(ln_prob.value(bin));
-    }
-    return average/ln_prob.sum_probability(min, max);
-  }
+      const int phase = 0) const;
 
   double average_macrostate(
       /// Select phase by order of macrostate.
@@ -179,26 +140,7 @@ class FlatHistogram : public Criteria {
   /// Determine min and max indices for a given phase
   /// Return -1 if no phase boundary.
   void phase_boundary_(const LnProbability& ln_prob,
-      const int phase, int * min, int * max) const {
-    std::vector<int> mins = ln_prob.minima();
-    const double num_min = static_cast<int>(mins.size());
-    if (num_min == 0) {
-      *min = 0;
-      *max = ln_prob.size() - 1;
-    } else if (num_min == 1) {
-      if (phase == 0) {
-        *min = 0;
-        *max = mins[0];
-      } else if (phase == 1) {
-        *min = mins[0];
-        *max = ln_prob.size() - 1;
-      } else {
-        ERROR("unrecognized phase: " << phase);
-      }
-    } else {
-      ERROR("multiple minima: " << num_min << " not implemented");
-    }
-  }
+      const int phase, int * min, int * max) const;
 
   /// Same as above but with the ln_prob_ contained in this class.
   void phase_boundary_(const int phase, int * min, int * max) const {

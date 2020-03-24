@@ -1,3 +1,4 @@
+#include <cmath>  // pow
 #include "utils/test/utils.h"
 #include "models/include/lennard_jones_cut_shift.h"
 #include "configuration/include/configuration.h"
@@ -22,7 +23,7 @@ TEST(LennardJonesCutShift, wca) {
   wca->set_wca(0, 0, &wca_params);
   EXPECT_NEAR(3., config.model_params().mixed_cutoff()[0][0], NEAR_ZERO);
   wca->precompute(wca_params);
-  const double r_wca = pow(2, 1./6.);
+  const double r_wca = std::pow(2, 1./6.);
   EXPECT_NEAR(0., wca->energy(r_wca*r_wca, 0, 0, wca_params), NEAR_ZERO);
   EXPECT_NEAR(1., wca->energy(1., 0, 0, wca_params), NEAR_ZERO);
 }

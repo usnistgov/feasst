@@ -5,7 +5,7 @@
 #include "configuration/include/file_xyz.h"
 #include "system/include/lennard_jones.h"
 #include "math/include/constants.h"
-#include "system/include/select_list.h"
+#include "configuration/include/select.h"
 #include "math/include/utils_math.h"
 
 namespace feasst {
@@ -15,12 +15,10 @@ TEST(VisitModelCell, simple_lj) {
   Configuration config(MakeDomain({{"cubic_box_length", "15"}, {"init_cells", "3"}}),
     {{"particle_type", "../forcefield/data.lj"}});
   config.add_particle_of_type(0);
-  SelectList select;
   config.add_particle_of_type(0);
-  select.last_particle_added(&config);
-  auto select2 = select;
+  Select select(config.newest_particle_index(), config.newest_particle());
   config.add_particle_of_type(0);
-  select2.last_particle_added(&config);
+  Select select2(config.newest_particle_index(), config.newest_particle());
   config.remove_particle(select2);
   feasst::Position pos;
   pos.set_vector({2, 0, 0});

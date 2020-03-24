@@ -1,4 +1,5 @@
 #include <iostream>  // std::scientific
+#include "utils/include/serialize.h"
 #include "steppers/include/cpu_time.h"
 
 namespace feasst {

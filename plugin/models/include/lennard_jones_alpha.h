@@ -24,33 +24,14 @@ class LennardJonesAlpha : public LennardJones {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const override {
-    const double sigma = model_params.mixed_sigma()[type1][type2];
-    const double sigma_squared = sigma*sigma;
-    if (squared_distance < hard_sphere_threshold_sq()*sigma_squared) {
-      return NEAR_INFINITY;
-    }
-    const double epsilon = model_params.mixed_epsilon()[type1][type2];
-    const double rinv2 = sigma_squared/squared_distance;
-    const double rinv_alpha = pow(rinv2, 0.5*alpha_);
-    return 4.*epsilon*rinv_alpha*(rinv_alpha - 1.);
-  }
+      const ModelParams& model_params) const override;
 
   /// Return the derivative in the potential energy with respect to distance.
   double du_dr(
       const double distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const {
-    const double epsilon = model_params.mixed_epsilon()[type1][type2];
-    const double sigma = model_params.mixed_sigma()[type1][type2];
-    const double rinv = sigma/distance;
-    if (sigma == 0) {
-      return 0.;
-    }
-    return 4.*epsilon/sigma*alpha()*(-2*pow(rinv, 2*alpha() + 1)
-                                      + pow(rinv, alpha() + 1));
-  }
+      const ModelParams& model_params) const;
 
   // Derived classes may call the LennardJonesAlpha energy directly.
   double energy_without_shift(
@@ -65,25 +46,12 @@ class LennardJonesAlpha : public LennardJones {
     return std::make_shared<LennardJonesAlpha>(istr);
   }
 
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
-    serialize_lennard_jones_alpha_(ostr);
-  }
-
-  LennardJonesAlpha(std::istream& istr) : LennardJones(istr) {
-    const int version = feasst_deserialize_version(istr);
-    ASSERT(713 == version, version);
-    feasst_deserialize(&alpha_, istr);
-  }
-
+  void serialize(std::ostream& ostr) const override;
+  explicit LennardJonesAlpha(std::istream& istr);
   virtual ~LennardJonesAlpha() {}
 
  protected:
-  void serialize_lennard_jones_alpha_(std::ostream& ostr) const {
-    serialize_lennard_jones_(ostr);
-    feasst_serialize_version(713, ostr);
-    feasst_serialize(alpha_, ostr);
-  }
+  void serialize_lennard_jones_alpha_(std::ostream& ostr) const;
 
  private:
   const std::string class_name_ = "LennardJonesAlpha";

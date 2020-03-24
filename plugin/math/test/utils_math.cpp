@@ -1,7 +1,8 @@
 #include <vector>
-#include <gtest/gtest.h>
-#include "math/include/utils_math.h"
+#include "utils/test/utils.h"
 #include "utils/include/utils_io.h"
+#include "math/include/utils_math.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 

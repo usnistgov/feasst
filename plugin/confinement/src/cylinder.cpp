@@ -1,4 +1,5 @@
 #include <cmath>
+#include "utils/include/serialize.h"
 #include "confinement/include/cylinder.h"
 
 namespace feasst {
@@ -28,6 +29,22 @@ Cylinder::Cylinder(const argtype &args,
 
 double Cylinder::nearest_distance(const Position& point) const {
   return point.nearest_distance_to_axis(point0_, point1_) - radius_;
+}
+
+void Cylinder::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  feasst_serialize_version(629, ostr);
+  feasst_serialize(radius_, ostr);
+  feasst_serialize_fstobj(point0_, ostr);
+  feasst_serialize_fstobj(point1_, ostr);
+}
+
+Cylinder::Cylinder(std::istream& istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(629 == version, version);
+  feasst_deserialize(&radius_, istr);
+  feasst_deserialize_fstobj(&point0_, istr);
+  feasst_deserialize_fstobj(&point1_, istr);
 }
 
 }  // namespace feasst

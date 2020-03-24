@@ -2,10 +2,9 @@
 #ifndef FEASST_SYSTEM_MODEL_ONE_BODY_H_
 #define FEASST_SYSTEM_MODEL_ONE_BODY_H_
 
+#include "configuration/include/configuration.h"
 #include "system/include/model.h"
 #include "system/include/visit_model.h"
-#include "configuration/include/particle.h"
-#include "configuration/include/configuration.h"
 
 namespace feasst {
 

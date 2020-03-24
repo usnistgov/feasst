@@ -16,24 +16,13 @@ class ModelEmpty : public ModelOneBody {
   double energy(
       const Site& site,
       const Configuration * config,
-      const ModelParams& model_params) const override {
-    FATAL("Empty model should not be called");
-  }
+      const ModelParams& model_params) const override;
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ModelEmpty>(istr);
   }
-
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
-    feasst_serialize_version(189, ostr);
-  }
-
-  explicit ModelEmpty(std::istream& istr) {
-    const int version = feasst_deserialize_version(istr);
-    ASSERT(189 == version, version);
-  }
-
+  void serialize(std::ostream& ostr) const override;
+  explicit ModelEmpty(std::istream& istr);
   virtual ~ModelEmpty() {}
 
  private:

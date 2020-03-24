@@ -1,3 +1,4 @@
+#include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_rotate.h"
 
 namespace feasst {

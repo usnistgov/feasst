@@ -53,8 +53,7 @@ class TrialSelectParticle : public TrialSelect {
 
   /// Select a particular particle by index.
   /// Note that this index ignores ghost particles.
-  void select_particle(const int particle_index, const Configuration& config) {
-    mobile_.particle(particle_index, config, 0); }
+  void select_particle(const int particle_index, const Configuration& config);
 
   std::shared_ptr<TrialSelect> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

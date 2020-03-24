@@ -1,5 +1,5 @@
-
 #include "utils/include/debug.h"
+#include "utils/include/serialize.h"
 #include "monte_carlo/include/modify.h"
 
 namespace feasst {
@@ -35,12 +35,38 @@ void Modify::trial(Criteria * criteria,
 }
 
 ModifyUpdateOnly::ModifyUpdateOnly(const argtype &args) : Modify(args) {
-    // disable write
-    Modify::set_steps_per_write(-1);
+  // disable write
+  Modify::set_steps_per_write(-1);
 
-    // parse
-    if (!args_.key("steps_per").empty()) {
-      set_steps_per(args_.integer());
-    }
+  // parse
+  if (!args_.key("steps_per").empty()) {
+    set_steps_per(args_.integer());
   }
+}
+
+void Modify::update(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
+  FATAL("not implemented");
+}
+
+std::string Modify::write(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
+  FATAL("not implemented");
+  return std::string("");
+}
+
+const std::vector<std::shared_ptr<Modify> >& Modify::modifiers() const {
+  FATAL("not implemented");
+}
+
+const Modify * Modify::modify(const int index) const {
+  FATAL("not implemented");
+}
+
+void ModifyUpdateOnly::set_steps_per_write(const int steps) {
+  ERROR("This modify is update only.");
+}
+
 }  // namespace feasst

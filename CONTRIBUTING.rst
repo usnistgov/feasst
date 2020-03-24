@@ -329,3 +329,4 @@ To Do List
 * Rename TrialSelect->SelectTrial, TrialCompute->ComputeTrial. Rename Compute->Decide?.
 * See if there is a performance difference for const_cast pointer to constant Reference. If not, remove const pntrs.
 * Transition from WL to TM
+* Somehow, trial_growth_expanded.h doesn't include debug.h but can compile with ASSERT

@@ -1,4 +1,6 @@
-
+#include <cmath>  // isnan, pow
+#include "utils/include/serialize.h"
+#include "utils/include/utils.h"  // find_in_list
 #include "configuration/include/visit_configuration.h"
 #include "ewald/include/ewald.h"
 #include "math/include/constants.h"
@@ -26,7 +28,6 @@ Ewald::Ewald(const argtype& args) {
   if (args_.key("kmax_squared").used()) {
     kmax_sq_arg_ = std::make_shared<int>(args_.integer());
   }
-//  tolerance_num_sites_ = args_.key("tolerance_num_sites").dflt("-1").integer();
 }
 
 void Ewald::tolerance_to_alpha_ks(const double tolerance,
@@ -161,7 +162,7 @@ void Ewald::precompute(Configuration * config) {
     kxmax_ = kmax_;
     kymax_ = kmax_;
     kzmax_ = kmax_;
-    kmax_squared_ = *kmax_sq_arg_*pow(2.*PI/config->domain()->min_side_length(), 2);
+    kmax_squared_ = *kmax_sq_arg_*std::pow(2.*PI/config->domain()->min_side_length(), 2);
     DEBUG("kmax_squared_ " << kmax_squared_);
     config->add_or_set_model_param("alpha", *alpha_arg_);
   } else {
@@ -181,9 +182,9 @@ void Ewald::precompute(Configuration * config) {
         "if tolerance is not given, then alpha is required");
       config->add_or_set_model_param("alpha", *alpha_arg_);
     }
-    double gsqxmx = pow(2*PI*kxmax_/config->domain()->side_length(0), 2);
-    double gsqymx = pow(2*PI*kymax_/config->domain()->side_length(1), 2);
-    double gsqzmx = pow(2*PI*kzmax_/config->domain()->side_length(2), 2);
+    double gsqxmx = std::pow(2*PI*kxmax_/config->domain()->side_length(0), 2);
+    double gsqymx = std::pow(2*PI*kymax_/config->domain()->side_length(1), 2);
+    double gsqzmx = std::pow(2*PI*kzmax_/config->domain()->side_length(2), 2);
     DEBUG("gsqxmx " << gsqxmx);
     DEBUG("2pi/lx " << 2*PI/config->domain()->side_length(0));
     kmax_squared_ = std::max(gsqxmx, gsqymx);
@@ -354,7 +355,6 @@ void Ewald::serialize(std::ostream& ostr) const {
   feasst_serialize_sp(kymax_arg_, ostr);
   feasst_serialize_sp(kzmax_arg_, ostr);
   feasst_serialize_sp(kmax_sq_arg_, ostr);
-//  feasst_serialize(tolerance_num_sites_, ostr);
   feasst_serialize(kxmax_, ostr);
   feasst_serialize(kymax_, ostr);
   feasst_serialize(kzmax_, ostr);
@@ -417,7 +417,6 @@ Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
     istr >> int_value;
     kmax_sq_arg_ = std::make_shared<int>(int_value);
   }
-//  feasst_deserialize(&tolerance_num_sites_, istr);
   feasst_deserialize(&kxmax_, istr);
   feasst_deserialize(&kymax_, istr);
   feasst_deserialize(&kzmax_, istr);
@@ -451,6 +450,202 @@ double Ewald::net_charge(const Configuration& config) const {
   SumCharge sum;
   VisitConfiguration().loop(config, &sum);
   return sum.charge();
+}
+
+void Ewald::compute(
+    const ModelOneBody& model,
+    const ModelParams& model_params,
+    Configuration * config,
+    const int group_index) {
+  // for entire configuration, set stored previous energy to zero
+  // store_energy_struct_fact_();
+  std::fill(struct_fact_real_new_.begin(), struct_fact_real_new_.end(), 0.);
+  std::fill(struct_fact_imag_new_.begin(), struct_fact_imag_new_.end(), 0.);
+  update_struct_fact_eik(config->group_select(group_index), config,
+                         &struct_fact_real_new_,
+                         &struct_fact_imag_new_);
+  const double conversion = model_params.constants()->charge_conversion();
+  stored_energy_new_ = conversion*fourier_energy_(struct_fact_real_new_,
+                                                  struct_fact_imag_new_);
+  DEBUG("stored_energy_ " << stored_energy_new_);
+  set_energy(stored_energy_new_);
+}
+
+void Ewald::compute(
+    const ModelOneBody& model,
+    const ModelParams& model_params,
+    const Select& selection,
+    Configuration * config,
+    const int group_index) {
+  ASSERT(group_index == 0, "group index cannot be varied because redundant." <<
+    "otherwise implement filtering of selection based on group.");
+  double enrg = 0.;
+  DEBUG("selection.trial_state() " << selection.trial_state());
+  const int state = selection.trial_state();
+  DEBUG("state " << state);
+  ASSERT(state == 0 ||
+         state == 1 ||
+         state == 2 ||
+         state == 3,
+    "unrecognized trial_state: " << state);
+
+  // initialize new structure factor, unless its a new move position
+  if (state != 1) {
+    struct_fact_real_new_ = struct_fact_real_;
+    DEBUG("size " << struct_fact_real_new_.size() << " " << struct_fact_real_.size());
+    struct_fact_imag_new_ = struct_fact_imag_;
+  }
+
+  // if "old" half of move, store eik for reverting
+  if (state == 0) {
+    // check and resize
+    if (static_cast<int>(old_eiks_.size()) != selection.num_particles()) {
+      old_eiks_.resize(selection.num_particles());
+    }
+    for (int ipart = 0; ipart < selection.num_particles(); ++ipart) {
+      std::vector<Properties> * eiks = &old_eiks_[ipart];
+      if (static_cast<int>(eiks->size()) != selection.num_sites(ipart)) {
+        eiks->resize(selection.num_sites(ipart));
+      }
+      for (int isite = 0; isite < selection.num_sites(ipart); ++isite) {
+        Properties * eik = &(*eiks)[isite];
+        const int part_index = selection.particle_index(ipart);
+        const int site_index = selection.site_index(ipart, isite);
+        (*eik) = config->select_particle(part_index).site(site_index).properties();
+      }
+    }
+    ASSERT(!revertable_, "Ewald compute called multiple times for "
+     << "reversion. This may mean that a trial with multiple stages "
+     << " should use reference potentials without Ewald.");
+    revertable_ = true;
+    old_config_ = config;
+    old_select_ = const_cast<Select*>(&selection);
+    DEBUG("setting revertable");
+  } else if (state != 1) {
+    revertable_ = false;
+  }
+
+  update_struct_fact_eik(selection, config, &struct_fact_real_new_,
+                                            &struct_fact_imag_new_);
+  // compute new energy
+  if (state != 0) {
+    const double conversion = model_params.constants()->charge_conversion();
+    stored_energy_new_ = conversion*fourier_energy_(struct_fact_real_new_,
+                                                    struct_fact_imag_new_);
+  }
+  if (state == 0) {
+    enrg = stored_energy_;
+  } else if (state == 1) {
+    enrg = stored_energy_new_;
+  } else if (state == 2) {
+    // contribution = energy with - energy without
+    // for remove, energy old - energy new
+    enrg = stored_energy_ - stored_energy_new_;
+  } else if (state == 3) {
+    // contribution = energy with - energy without
+    // for add, energy new - energy old
+    enrg = stored_energy_new_ - stored_energy_;
+  }
+  DEBUG("enrg: " << enrg);
+  DEBUG("stored_energy_ " << stored_energy_ << " "
+       "stored_energy_new_ " << stored_energy_new_);
+  set_energy(enrg);
+}
+
+void Ewald::revert(const Select& select) {
+  DEBUG("revertable? " << revertable_);
+  if (revertable_) {
+    DEBUG("reverting sel " << old_select_->str());
+    for (int ipart = 0; ipart < old_select_->num_particles(); ++ipart) {
+      const int part_index = old_select_->particle_index(ipart);
+      for (int isite = 0; isite < old_select_->num_sites(ipart); ++isite) {
+        const int site_index = old_select_->site_index(ipart, isite);
+        const Site& site = old_config_->select_particle(part_index).site(site_index);
+        const int eikrx0_index = find_eikrx0_(site);
+        const std::vector<double>& vals = old_eiks_[ipart][isite].values();
+        for (int iprop = 0; iprop < static_cast<int>(vals.size()); ++iprop) {
+          old_config_->set_site_property(eikrx0_index + iprop, vals[iprop], part_index, site_index);
+        }
+      }
+    }
+    revertable_ = false;
+  }
+//    ERROR("shouldn't be here");
+//    struct_fact_real_ = struct_fact_real_old_;
+//    struct_fact_imag_ = struct_fact_imag_old_;
+//    DEBUG("reverting, stored_energy_ " << stored_energy_);
+//    stored_energy_ = stored_energy_old_;
+}
+
+void Ewald::finalize(const Select& select) {
+  DEBUG("finalizing");
+  ASSERT(struct_fact_real_new_.size() > 0, "error");
+  stored_energy_ = stored_energy_new_;
+  struct_fact_real_ = struct_fact_real_new_;
+  struct_fact_imag_ = struct_fact_imag_new_;
+  revertable_ = false;
+}
+
+void Ewald::check_size() const {
+  ASSERT(wave_prefactor_.size() == wave_num_.size(), "size err");
+}
+
+double Ewald::fourier_rms_(
+    const double alpha,
+    const int kmax,
+    const Configuration& config,
+    const int dimen,
+    const int num_sites) {
+  ASSERT(num_sites > 0, "error");
+  ASSERT(!std::isnan(alpha), "alpha is nan");
+  DEBUG("alpha: " << alpha);
+  const double side_length = config.domain()->side_length(dimen);
+  return 2.*sum_squared_charge_(config)*alpha/side_length *
+    std::sqrt(1./(PI*kmax*num_sites)) *
+    exp(-std::pow(PI*kmax/alpha/side_length, 2));
+}
+
+int Ewald::estimate_kmax_(
+    const double alpha,
+    const Configuration& config,
+    const double tolerance,
+    const int dimen,
+    const int num_sites) {
+  int kmax = 0;
+  double err = NEAR_INFINITY;
+  while (err > tolerance) {
+    kmax += 1;
+    err = fourier_rms_(alpha, kmax, config, dimen, num_sites);
+  }
+  return kmax;
+}
+
+double Ewald::fourier_energy_(const std::vector<double>& struct_fact_real,
+                              const std::vector<double>& struct_fact_imag) {
+  double en = 0;
+  for (int k = 0; k < num_vectors(); ++k) {
+    en += wave_prefactor_[k]*(struct_fact_real[k]*struct_fact_real[k]
+                            + struct_fact_imag[k]*struct_fact_imag[k]);
+  }
+  return en;
+}
+
+double Ewald::sign_(const Select& select, const int pindex) {
+  int state = select.trial_state();
+  DEBUG("state " << state);
+  // ASSERT(state != -1, "error, state: " << state);
+  if (state == 0 || state == 2) {
+    return -1.0;
+  }
+  return 1.0;
+}
+
+int Ewald::find_eikrx0_(const Site& site) {
+  int eikrx0_index = 0;
+  ASSERT(
+    find_in_list(eikrx0_str_, site.properties().names(), &eikrx0_index),
+    "eikrx0 doesn't exist");
+  return eikrx0_index;
 }
 
 }  // namespace feasst

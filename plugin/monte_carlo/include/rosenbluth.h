@@ -2,8 +2,7 @@
 #ifndef FEASST_MONTE_CARLO_ROSENBLUTH_H_
 #define FEASST_MONTE_CARLO_ROSENBLUTH_H_
 
-#include "system/include/select_list.h"
-#include "system/include/system.h"
+#include "configuration/include/select.h"
 
 namespace feasst {
 
@@ -22,8 +21,7 @@ class Rosenbluth {
   int num() const { return static_cast<int>(energy_.size()); }
 
   /// Store the selection for each step.
-  void store(const int step, const SelectList& select, const System * system) {
-    stored_[step] = select; }
+  void store(const int step, const Select& select) { stored_[step] = select; }
 
   /// Set the energy of the step by step.
   void set_energy(const int step, const double energy) {
@@ -34,10 +32,10 @@ class Rosenbluth {
   void compute(const double beta, Random * random);
 
   /// Return the stored selection of the step.
-  const SelectList& stored(const int step) const { return stored_[step]; }
+  const Select& stored(const int step) const { return stored_[step]; }
 
   /// Return the chosen selection.
-  const SelectList& chosen() const;
+  const Select& chosen() const;
 
   /// Return the chosen energy.
   double chosen_energy() const;
@@ -61,7 +59,7 @@ class Rosenbluth {
   std::vector<double> energy_;
   std::vector<double> ln_boltzman_;
   std::vector<double> cumulative_;
-  std::vector<SelectList> stored_;
+  std::vector<Select> stored_;
 
   // temporary
   double ln_total_rosenbluth_;

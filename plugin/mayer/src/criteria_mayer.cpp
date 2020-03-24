@@ -1,6 +1,7 @@
-
+#include <cmath>
+#include "utils/include/serialize.h"
 #include "mayer/include/criteria_mayer.h"
-#include "utils/include/utils_io.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -8,7 +9,7 @@ bool CriteriaMayer::is_accepted(const Acceptance& acceptance,
     const System * system,
     const double uniform_random) {
   const double energy_new = acceptance.energy_new();
-  const double f12 = exp(-beta()*energy_new) - 1.;
+  const double f12 = std::exp(-beta()*energy_new) - 1.;
   bool is_accepted;
   DEBUG("energy new " << energy_new << " f12 " << f12);
   if (!acceptance.reject() and
@@ -17,7 +18,7 @@ bool CriteriaMayer::is_accepted(const Acceptance& acceptance,
     f12old_ = f12;
     is_accepted = true;
     DEBUG("computing ref");
-    f12ref_ = exp(-beta()*acceptance.energy_ref()) - 1.;
+    f12ref_ = std::exp(-beta()*acceptance.energy_ref()) - 1.;
     DEBUG("f12ref " << f12ref_);
   } else {
     is_accepted = false;
@@ -58,6 +59,10 @@ CriteriaMayer::CriteriaMayer(std::istream& istr) : Criteria(istr) {
   feasst_deserialize(&f12ref_, istr);
   feasst_deserialize_fstobj(&mayer_, istr);
   feasst_deserialize_fstobj(&mayer_ref_, istr);
+}
+
+double CriteriaMayer::second_virial() const {
+  return (2./3.)*PI*mayer_.average()/mayer_ref_.average();
 }
 
 }  // namespace feasst

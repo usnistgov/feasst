@@ -1,11 +1,13 @@
 #include <memory>
+#include <cmath>
 #include "utils/test/utils.h"
+#include "utils/include/utils_io.h"
+#include "math/include/accumulator.h"
+#include "math/include/random_mt19937.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
 #include "monte_carlo/include/metropolis.h"
-#include "utils/include/utils_io.h"
-#include "math/include/accumulator.h"
 #include "system/test/system_test.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra.h"
@@ -46,7 +48,7 @@ TEST(MonteCarlo, NVT_SRSW) {
   MonteCarlo mc;
   mc_lj(&mc);
   const int nMol = 500;
-  const double rho = 1e-3, length = pow(static_cast<double>(nMol)/rho, 1./3.);
+  const double rho = 1e-3, length = std::pow(static_cast<double>(nMol)/rho, 1./3.);
   mc.get_system()->get_configuration()->set_side_lengths(
     Position().set_vector({length, length, length}));
   mc.seek_num_particles(nMol);

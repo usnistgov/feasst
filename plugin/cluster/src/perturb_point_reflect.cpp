@@ -1,4 +1,6 @@
-
+#include "utils/include/serialize.h"
+#include "math/include/constants.h"
+#include "math/include/random.h"
 #include "cluster/include/perturb_point_reflect.h"
 
 namespace feasst {
@@ -24,7 +26,7 @@ void PerturbPointReflect::precompute(TrialSelect * select, System * system) {
 
 void PerturbPointReflect::update_selection(const Position& reflect,
     TrialSelect * select) {
-  SelectList * reflected = select->get_mobile();
+  Select * reflected = select->get_mobile();
   for (int select_index = 0;
        select_index < reflected->num_particles();
        ++select_index) {

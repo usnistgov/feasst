@@ -1,6 +1,24 @@
+#include "utils/include/serialize.h"
+#include "utils/include/checkpoint.h"
+#include "math/include/random_mt19937.h"
 #include "monte_carlo/include/monte_carlo.h"
+#include "monte_carlo/include/trial_add.h"
+#include "monte_carlo/include/trial_remove.h"
 
 namespace feasst {
+
+MonteCarlo::MonteCarlo() {
+  set(std::make_shared<RandomMT19937>());
+//    timer_other_ = timer_.add("other");
+//    timer_trial_ = timer_.add("trial");
+//    timer_analyze_ = timer_.add("analyze");
+//    timer_modify_ = timer_.add("modify");
+//    timer_checkpoint_ = timer_.add("checkpoint");
+}
+
+void MonteCarlo::offset_random() {
+  random_->uniform();
+}
 
 void MonteCarlo::add(const Configuration& config) {
   system_.add(config);
@@ -106,6 +124,105 @@ void MonteCarlo::seek_num_particles(const int num) {
     add->attempt(criteria_.get(), &system_, random_.get());
   }
   trial_factory_.reset_stats();
+}
+
+void MonteCarlo::add(const std::shared_ptr<Checkpoint> checkpoint) {
+  checkpoint_ = checkpoint;
+}
+
+void MonteCarlo::after_trial_modify_() {
+  modify_factory_.trial(criteria_.get(), &system_, &trial_factory_);
+  if (checkpoint_) {
+    checkpoint_->check(*this);
+  }
+}
+
+void MonteCarlo::serialize(std::ostream& ostr) const {
+  feasst_serialize_version(529, ostr);
+  feasst_serialize_fstobj(system_, ostr);
+  feasst_serialize_fstdr(criteria_, ostr);
+  feasst_serialize_fstobj(trial_factory_, ostr);
+  feasst_serialize_fstobj(analyze_factory_, ostr);
+  feasst_serialize_fstobj(modify_factory_, ostr);
+  feasst_serialize(checkpoint_, ostr);
+  feasst_serialize_fstdr(random_, ostr);
+  feasst_serialize(config_set_, ostr);
+  feasst_serialize(potential_set_, ostr);
+  feasst_serialize(system_set_, ostr);
+  feasst_serialize(criteria_set_, ostr);
+}
+
+MonteCarlo::MonteCarlo(std::istream& istr) {
+  //INFO(istr.rdbuf());
+  //int tmp;
+  //istr >> tmp;
+  //INFO("tmp " << tmp);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 529, "version: " << version);
+  feasst_deserialize_fstobj(&system_, istr);
+  // feasst_deserialize_fstdr(criteria_, istr);
+  { // HWH for unknown reasons the above template function does not work
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      criteria_ = criteria_->deserialize(istr);
+    }
+  }
+  feasst_deserialize_fstobj(&trial_factory_, istr);
+  feasst_deserialize_fstobj(&analyze_factory_, istr);
+  feasst_deserialize_fstobj(&modify_factory_, istr);
+  feasst_deserialize(checkpoint_, istr);
+  // HWH for unknown reasons, this function template does not work.
+  //feasst_deserialize_fstdr(random_, istr);
+  { int existing;
+    istr >> existing;
+    if (existing != 0) {
+      random_ = random_->deserialize(istr);
+    }
+  }
+  feasst_deserialize(&config_set_, istr);
+  feasst_deserialize(&potential_set_, istr);
+  feasst_deserialize(&system_set_, istr);
+  feasst_deserialize(&criteria_set_, istr);
+}
+
+void MonteCarlo::load_cache(const bool load) {
+  random_->set_cache_to_load(load);
+  system_.load_cache(load);
+}
+
+void MonteCarlo::unload_cache(const MonteCarlo& mc) {
+  random_->set_cache_to_unload((*mc.random_));
+  system_.unload_cache(mc.system());
+}
+
+void MonteCarlo::before_attempts_() {
+  ASSERT(system_set_, "system must be set before attempting trials.");
+  ASSERT(criteria_set_, "criteria must be set before attempting trials.");
+}
+
+void MonteCarlo::revert(const int trial_index,
+    const bool accepted,
+    const double ln_prob) {
+  trial_factory_.revert(trial_index, accepted, &system_);
+  DEBUG("reverting " << criteria_->current_energy());
+  criteria_->revert(accepted, ln_prob);
+}
+
+void MonteCarlo::attempt_(int num_trials,
+    TrialFactory * trial_factory,
+    Random * random) {
+  before_attempts_();
+  for (int trial = 0; trial < num_trials; ++trial) {
+    DEBUG("mc trial: " << trial);
+    trial_factory->attempt(criteria_.get(), &system_, random);
+    after_trial_();
+  }
+}
+
+void add_trial_transfer(MonteCarlo * mc, const argtype& args) {
+  mc->add(MakeTrialAdd(args));
+  mc->add(MakeTrialRemove(args));
 }
 
 }  // namespace feasst

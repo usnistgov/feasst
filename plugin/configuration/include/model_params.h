@@ -4,12 +4,10 @@
 
 #include <memory>
 #include <vector>
-#include <cmath>
 #include <string>
-#include <algorithm>
-#include "utils/include/utils.h"
 #include "configuration/include/physical_constants.h"
 #include "configuration/include/particle.h"
+#include "configuration/include/properties.h"
 
 namespace feasst {
 
@@ -118,8 +116,7 @@ class Epsilon : public ModelParam {
   explicit Epsilon(std::istream& istr) : ModelParam(istr) {}
 
  private:
-  double mix_(const double value1, const double value2) override {
-    return std::sqrt(value1*value2); }
+  double mix_(const double value1, const double value2) override;
 };
 
 /**

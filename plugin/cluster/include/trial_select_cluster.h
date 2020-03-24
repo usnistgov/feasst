@@ -23,7 +23,7 @@ class TrialSelectCluster : public TrialSelect {
 
   /// Return a cluster as selection given one particle in the system.
   void select_cluster(const int first_particle, const System& system,
-                      SelectList * select);
+                      Select * select);
 
   // Same as above, except put selection in mobile.
   void select_cluster(const int first_particle, const System& system) {
@@ -34,7 +34,7 @@ class TrialSelectCluster : public TrialSelect {
   bool are_constraints_satisfied(const System& system) const override;
 
   /// Return a list of selections representing individual cluster.
-  std::vector<SelectList> select_clusters(const System& system);
+  std::vector<Select> select_clusters(const System& system);
 
   bool select(const Select& perturbed,
               System* system,

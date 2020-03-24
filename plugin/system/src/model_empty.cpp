@@ -1,4 +1,5 @@
 #include "system/include/model_empty.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -11,5 +12,22 @@ class MapModelEmpty {
 };
 
 static MapModelEmpty mapper_ = MapModelEmpty();
+
+void ModelEmpty::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  feasst_serialize_version(189, ostr);
+}
+
+ModelEmpty::ModelEmpty(std::istream& istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(189 == version, version);
+}
+
+double ModelEmpty::energy(
+    const Site& site,
+    const Configuration * config,
+    const ModelParams& model_params) const {
+  FATAL("Empty model should not be called");
+}
 
 }  // namespace feasst

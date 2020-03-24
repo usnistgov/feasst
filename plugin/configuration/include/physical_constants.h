@@ -2,13 +2,11 @@
 #ifndef FEASST_CONFIGURATION_PHYSICAL_CONSTANTS_H_
 #define FEASST_CONFIGURATION_PHYSICAL_CONSTANTS_H_
 
-#include <math.h>
 #include <sstream>
 #include <memory>
 #include <map>
 #include <string>
 #include "utils/include/arguments.h"
-#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -44,8 +42,7 @@ class PhysicalConstants {
     return boltzmann_constant()*avogadro_constant(); }
 
   /// Convert e^2/Angstrom to kJ/mol by a factor of units (kJ*A/e^2/mol)
-  const double charge_conversion() const { return pow(elementary_charge(), 2)/
-    (4*PI*permitivity_vacuum()*1e3/1e10/avogadro_constant()); }
+  const double charge_conversion() const;
 
   /// Convert the number density (1/A^3) to g/cm^3
   inline double number_density_to_grams_per_cm3(const double density, /// 1/A^3

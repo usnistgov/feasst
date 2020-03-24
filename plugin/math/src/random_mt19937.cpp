@@ -1,5 +1,6 @@
 #include "math/include/random_mt19937.h"
 #include "utils/include/utils_io.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

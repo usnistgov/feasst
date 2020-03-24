@@ -1,6 +1,7 @@
 #include <vector>
 #include "system/include/visit_model_bond.h"
 #include "system/include/model_two_body.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

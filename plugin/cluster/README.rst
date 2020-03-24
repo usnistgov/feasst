@@ -12,7 +12,7 @@ Cluster moves for collective motion of strongly associating particles.
 FEASST plugin dependencies
 ============================
 
-* system
+* monte_carlo
 
 API
 ===

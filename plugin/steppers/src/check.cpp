@@ -1,3 +1,4 @@
+#include "utils/include/serialize.h"
 #include "steppers/include/check.h"
 
 namespace feasst {

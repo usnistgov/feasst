@@ -2,18 +2,14 @@
 #ifndef FEASST_UTILS_SERIALIZE_H_
 #define FEASST_UTILS_SERIALIZE_H_
 
-#include <limits>
 #include <string>
 #include <sstream>
-#include <fstream>
-#include <iostream>
 #include <vector>
 #include <deque>
-#include <numeric>
 #include <memory>
 #include <map>
 #include "utils/include/debug.h"
-#include "utils/include/utils.h"
+#include "utils/include/utils_io.h"
 
 /**
   Utility functions for serialization of objects into human-readable character
@@ -44,8 +40,7 @@ void feasst_deserialize(std::string * str, std::istream& istr);
 /// Serialize generic to full precision.
 template <typename T>
 void feasst_serialize(const T val, std::ostream& ostr) {
-  ostr << std::setprecision(std::numeric_limits<T>::digits10+2)
-       << val << " ";
+  ostr << MAX_PRECISION << val << " ";
 }
 
 /// Deserialize generic

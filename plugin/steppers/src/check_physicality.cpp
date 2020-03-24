@@ -1,4 +1,5 @@
 #include "steppers/include/check_physicality.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

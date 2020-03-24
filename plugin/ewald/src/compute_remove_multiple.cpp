@@ -1,4 +1,6 @@
+#include <cmath>
 #include "monte_carlo/include/trial_select.h"
+#include "utils/include/serialize.h"
 #include "ewald/include/compute_remove_multiple.h"
 
 namespace feasst {
@@ -40,7 +42,7 @@ void ComputeRemoveMultiple::perturb_and_acceptance(
       DEBUG("volume " << volume << " selprob " << select->probability()
         << " betamu " << criteria->beta_mu(particle_type));
       acceptance->add_to_ln_metropolis_prob(
-        - log(volume*select->probability())
+        - std::log(volume*select->probability())
         - criteria->beta_mu(particle_type)
       );
       DEBUG("lnmet " << acceptance->ln_metropolis_prob());

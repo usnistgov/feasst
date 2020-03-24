@@ -1,4 +1,6 @@
+#include <cmath>
 #include "steppers/include/mean_squared_displacement.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -121,7 +123,7 @@ void MeanSquaredDisplacement::update_msd_(const int updates,
         DEBUG(part.site(site_index).position().dimension());
         DEBUG("dim: " << dim);
         const double rn = part.site(site_index).position(dim);
-        rsq += pow(rn - ro, 2);
+        rsq += std::pow(rn - ro, 2);
       }
       msd_[updates].accumulate(rsq);
     }

@@ -1,9 +1,10 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include "math/include/accumulator.h"
 #include "monte_carlo/include/stepper.h"
 #include "utils/include/debug.h"
-#include "utils/include/utils_io.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -93,6 +94,10 @@ Stepper::Stepper(std::istream& istr) {
   feasst_deserialize(&append_, istr);
   feasst_deserialize(&is_multistate_, istr);
   feasst_deserialize(&state_, istr);
+}
+
+const Accumulator& Stepper::accumulator() const {
+  FATAL("not implemented");
 }
 
 }  // namespace feasst

@@ -1,5 +1,5 @@
-
 #include <algorithm>
+#include "utils/include/serialize.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
 
 namespace feasst {

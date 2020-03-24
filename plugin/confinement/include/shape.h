@@ -6,7 +6,6 @@
 #include <map>
 #include <sstream>
 #include "math/include/position.h"
-#include "utils/include/utils_io.h"
 
 namespace feasst {
 
@@ -65,34 +64,10 @@ class ShapeIntersect : public Shape {
 
   double nearest_distance(const Position& point) const override;
 
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
-    feasst_serialize_version(822, ostr);
-    feasst_serialize_fstdr(shape1_, ostr);
-    feasst_serialize_fstdr(shape2_, ostr);
-  }
-
+  void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Shape> create(std::istream& istr) const override {
     return std::make_shared<ShapeIntersect>(istr); }
-
-  ShapeIntersect(std::istream& istr) {
-    const int version = feasst_deserialize_version(istr);
-    ASSERT(822 == version, version);
-
-    // HWH for unknown reasons, below template isn't working in this case.
-    // feasst_deserialize_fstdr(shape1, istr);
-    // feasst_deserialize_fstdr(shape2, istr);
-    int existing;
-    istr >> existing;
-    if (existing != 0) {
-      shape1_ = shape1_->deserialize(istr);
-    }
-    istr >> existing;
-    if (existing != 0) {
-      shape2_ = shape2_->deserialize(istr);
-    }
-  }
-
+  explicit ShapeIntersect(std::istream& istr);
   virtual ~ShapeIntersect() {}
 
  private:
@@ -119,34 +94,10 @@ class ShapeUnion : public Shape {
 
   double nearest_distance(const Position& point) const override;
 
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
-    feasst_serialize_version(172, ostr);
-    feasst_serialize_fstdr(shape1_, ostr);
-    feasst_serialize_fstdr(shape2_, ostr);
-  }
-
+  void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Shape> create(std::istream& istr) const override {
     return std::make_shared<ShapeUnion>(istr); }
-
-  ShapeUnion(std::istream& istr) {
-    const int version = feasst_deserialize_version(istr);
-    ASSERT(172 == version, version);
-
-    // HWH for unknown reasons, below template isn't working in this case.
-    // feasst_deserialize_fstdr(shape1, istr);
-    // feasst_deserialize_fstdr(shape2, istr);
-    int existing;
-    istr >> existing;
-    if (existing != 0) {
-      shape1_ = shape1_->deserialize(istr);
-    }
-    istr >> existing;
-    if (existing != 0) {
-      shape2_ = shape2_->deserialize(istr);
-    }
-  }
-
+  explicit ShapeUnion(std::istream& istr);
   virtual ~ShapeUnion() {}
 
  private:

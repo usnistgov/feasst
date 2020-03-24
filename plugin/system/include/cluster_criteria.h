@@ -6,7 +6,7 @@
 #include "utils/include/arguments.h"
 #include "system/include/model.h"
 #include "configuration/include/configuration.h"
-#include "system/include/select_list.h"
+#include "configuration/include/select.h"
 
 namespace feasst {
 
@@ -30,8 +30,8 @@ class ClusterCriteria {
   int reference_potential() const { return reference_potential_; }
   int potential_index() const { return potential_index_; }
   double energy_maximum() const { return energy_maximum_; }
-  double minimum_distance() const { return std::sqrt(minimum_distance_sq_); }
-  double maximum_distance() const { return std::sqrt(maximum_distance_sq_); }
+  double minimum_distance() const;
+  double maximum_distance() const;
 
   /// Return true if criteria are satisfied.
   bool is_accepted(const double energy,

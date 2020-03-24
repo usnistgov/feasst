@@ -113,8 +113,7 @@ class VisitModelInner {
   virtual std::shared_ptr<VisitModelInner> create(std::istream& istr) const {
     return std::make_shared<VisitModelInner>(istr); }
   std::map<std::string, std::shared_ptr<VisitModelInner> >& deserialize_map();
-  std::shared_ptr<VisitModelInner> deserialize(std::istream& istr) {
-    return template_deserialize(deserialize_map(), istr); }
+  std::shared_ptr<VisitModelInner> deserialize(std::istream& istr);
   explicit VisitModelInner(std::istream& istr);
   virtual ~VisitModelInner() {}
 

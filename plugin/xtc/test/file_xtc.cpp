@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include <string>
+#include "utils/test/utils.h"
 #include "xtc/include/file_xtc.h"
 #include "utils/include/debug.h"
 

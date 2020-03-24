@@ -1,3 +1,4 @@
+#include <cmath>
 #include <string>
 #include "utils/test/utils.h"
 #include "configuration/include/configuration.h"
@@ -17,10 +18,10 @@ TEST(ModelParams, max) {
   EXPECT_EQ(config.model_params().epsilon().mixed_max(), 0.650169581);
   EXPECT_EQ(config.model_params().charge().mixed_max(), 0.8476*0.8476);
   EXPECT_EQ(config.model_params().charge().max(), 0.4238);
-  EXPECT_EQ(pow(0.8476, 2), config.model_params().mixed_charge()[0][0]);
+  EXPECT_EQ(std::pow(0.8476, 2), config.model_params().mixed_charge()[0][0]);
   EXPECT_EQ(-0.8476*0.4238, config.model_params().mixed_charge()[0][1]);
   EXPECT_EQ(-0.8476*0.4238, config.model_params().mixed_charge()[1][0]);
-  EXPECT_EQ(pow(0.4238, 2), config.model_params().mixed_charge()[1][1]);
+  EXPECT_EQ(std::pow(0.4238, 2), config.model_params().mixed_charge()[1][1]);
   config.set_model_param("cutoff", 0, 5);
   EXPECT_EQ(config.model_params().cutoff().mixed_max(), 10);
   config.set_model_param("cutoff", 1, 5);

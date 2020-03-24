@@ -3,6 +3,7 @@
 #include "system/include/model_two_body.h"
 #include "system/include/model_one_body.h"
 #include "math/include/utils_math.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

@@ -1,7 +1,10 @@
-
+#include <cmath>
 #include <vector>
 #include "configuration/include/domain.h"
 #include "math/include/constants.h"
+#include "math/include/utils_math.h"
+#include "utils/include/serialize.h"
+#include "math/include/random.h"
 
 namespace feasst {
 
@@ -257,6 +260,73 @@ Domain::Domain(std::istream& sstr) {
   feasst_deserialize(&is_tilted_, sstr);
   feasst_deserialize(&periodic_, sstr);
   feasst_deserialize_fstobj(&cells_, sstr);
+}
+
+void Domain::wrap_opt(const Position& pos1,
+    const Position& pos2,
+    Position * rel,
+    Position * pbc,
+    double * r2) const {
+  if (is_tilted_) {
+    wrap_triclinic_opt(pos1, pos2, rel, pbc, r2);
+    return;
+  }
+  const int dimen = pos1.dimension();
+  *r2 = 0;
+  const std::vector<double>& side = side_lengths_.coord();
+  std::vector<double>* dxv = (*rel).get_coord();
+  std::vector<double>* dbc = (*pbc).get_coord();
+  for (int dim = 0; dim < dimen; ++dim) {
+    (*dxv)[dim] = pos1.coord()[dim] - pos2.coord()[dim];
+    (*dbc)[dim] = 0.;
+    const double side_length = side[dim];
+    if (periodic_[dim]) {
+      (*dbc)[dim] -= side_length*std::rint((*dxv)[dim]/side_length);
+      (*dxv)[dim] += (*dbc)[dim];
+    }
+    *r2 += (*dxv)[dim]*(*dxv)[dim];
+  }
+}
+
+void Domain::wrap_triclinic_opt(const Position& pos1,
+    const Position& pos2,
+    Position * rel,
+    Position * pbc,
+    double * r2) const {
+  *r2 = 0;
+  const std::vector<double>& side = side_lengths_.coord();
+  std::vector<double>* dxv = (*rel).get_coord();
+  std::vector<double>* dbc = (*pbc).get_coord();
+  if (pos1.dimension() >= 3) {
+    (*dxv)[2] = pos1.coord()[2] - pos2.coord()[2];
+    if (periodic_[2]) {
+      const double side_length = side[2];
+      const int num_wrap = std::rint((*dxv)[2]/side_length);
+      (*dbc)[2] -= num_wrap*side_length;
+      (*dbc)[1] -= num_wrap*yz_;
+      (*dbc)[0] -= num_wrap*xz_;
+      (*dxv)[2] += (*dbc)[2];
+      (*dxv)[1] += (*dbc)[1];
+      (*dxv)[0] += (*dbc)[0];
+    }
+    *r2 += (*dxv)[2]*(*dxv)[2];
+  }
+  (*dxv)[1] = pos1.coord()[1] - pos2.coord()[1];
+  if (periodic_[1]) {
+    const double side_length = side[1];
+    const int num_wrap = std::rint((*dxv)[1]/side_length);
+    (*dbc)[1] -= num_wrap*side_length;
+    (*dbc)[0] -= num_wrap*xy_;
+    (*dxv)[1] += (*dbc)[1];
+    (*dxv)[0] -= (*dbc)[0];
+  }
+  (*dxv)[0] = pos1.coord()[0] - pos2.coord()[0];
+  if (periodic_[0]) {
+    const double side_length = side[0];
+    (*dbc)[0] -= side_length*std::rint((*dxv)[0]/side_length);
+    (*dxv)[0] += (*dbc)[0];
+  }
+  *r2 += (*dxv)[0]*(*dxv)[0] + (*dxv)[1]*(*dxv)[1];
 }
 
 }  // namespace feasst

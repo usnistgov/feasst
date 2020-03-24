@@ -1,4 +1,6 @@
 #include <vector>
+#include "utils/include/serialize.h"
+#include "utils/include/utils.h"  // find_in_list
 #include "system/include/visit_model_intra.h"
 #include "system/include/model_two_body.h"
 

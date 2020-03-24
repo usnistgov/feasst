@@ -1,5 +1,6 @@
 #include "configuration/include/site.h"
 #include "utils/include/debug.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "configuration/test/configuration_test.h"

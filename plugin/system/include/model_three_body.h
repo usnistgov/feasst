@@ -4,8 +4,6 @@
 
 #include "system/include/model.h"
 #include "system/include/visit_model.h"
-#include "configuration/include/particle.h"
-#include "math/include/constants.h"
 
 namespace feasst {
 

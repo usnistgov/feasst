@@ -1,8 +1,7 @@
-
+#include <cmath>  // exp
 #include <algorithm>
-#include <math.h>
 #include "flat_histogram/include/transition_matrix.h"
-#include "utils/include/utils_io.h"
+#include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "utils/include/debug.h"
 #include "math/include/accumulator.h"
@@ -34,7 +33,7 @@ void TransitionMatrix::update_or_revert(
       ++visits_[bin];
     }
   }
-  double metropolis_prob = std::min(1., exp(ln_metropolis_prob));
+  double metropolis_prob = std::min(1., std::exp(ln_metropolis_prob));
   double reverse_prob = 1. - metropolis_prob;
   if (revert) {
     metropolis_prob *= -1.;

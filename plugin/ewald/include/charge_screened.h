@@ -3,7 +3,6 @@
 #define FEASST_EWALD_CHARGE_SCREENED_H_
 
 #include "system/include/model_two_body.h"
-#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -21,16 +20,9 @@ class ChargeScreened : public ModelTwoBody {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const override {
-    const double mixed_charge = model_params.mixed_charge()[type1][type2];
-    const double distance = std::sqrt(squared_distance);
-    return mixed_charge*conversion_factor_*erfc(alpha_*distance)/distance;
-  }
+      const ModelParams& model_params) const override;
 
-  void precompute(const ModelParams& existing) override {
-    alpha_ = existing.property("alpha");
-    conversion_factor_ = existing.constants()->charge_conversion();
-  }
+  void precompute(const ModelParams& existing) override;
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ChargeScreened>(istr); }

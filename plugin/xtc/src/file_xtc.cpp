@@ -1,5 +1,7 @@
 
 #include <fstream>
+#include <iostream>
+#include "utils/include/debug.h"
 #include "xtc/include/file_xtc.h"
 
 namespace feasst {

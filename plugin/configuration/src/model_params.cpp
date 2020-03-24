@@ -1,8 +1,11 @@
 
+#include <cmath>
 #include <algorithm>
 #include "configuration/include/model_params.h"
 #include "utils/include/debug.h"
 #include "math/include/utils_math.h"
+#include "utils/include/serialize.h"
+#include "utils/include/utils.h"  // resize
 
 namespace feasst {
 
@@ -271,6 +274,10 @@ ModelParams::ModelParams(std::istream& istr)
       physical_constants_ = physical_constants_->deserialize(istr);
     }
   }
+}
+
+double Epsilon::mix_(const double value1, const double value2) {
+  return std::sqrt(value1*value2);
 }
 
 }  // namespace feasst

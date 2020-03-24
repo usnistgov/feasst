@@ -93,44 +93,19 @@ class Macrostate {
 };
 
 /// Segment an range into pieces by exponential scaling.
-inline std::vector<double> segment(
+std::vector<double> segment(
     const double min,   //!< minimum in range
     const double max,   //!< maximum in range
     const int num,      //!< number of segments
-    const double exp    //!< exponential parameter
-    ) {
-  ASSERT(num > 0, "num(" << num << ") must be > 0.");
-  std::vector<double> segment(num + 1);
-  segment[0] = min;
-  segment[num] = max;
-  const long double exp_diff =
-    (pow(max, exp) - pow(min, exp))/static_cast<double>(num);
-  for (int index = 1; index < num; ++index) {
-    segment[index] = pow(pow(segment[index - 1], exp) + exp_diff, 1./exp);
-  }
-  return segment;
-}
+    const double exp);  //!< exponential parameter
 
 /// Segment a range into windows by exponential scaling.
-inline std::vector<std::vector<int> > window(
+std::vector<std::vector<int> > window(
     const int min,   //!< minimum in range
     const int max,   //!< maximum in range
     const int num,      //!< number of segments
     const double exp,    //!< exponential parameter
-    const int extra_overlap = 0 //!< extra overlap between windows
-    ) {
-  std::vector<double> boundaries = segment(min, max, num, exp);
-  std::vector<std::vector<int> > windows(num, std::vector<int>(2, 0.));
-  for (int index = 0; index < num; ++index) {
-    if (index == 0) {
-      windows[index][0] = min;
-    } else {
-      windows[index][0] = round(boundaries[index] - extra_overlap);
-    }
-    windows[index][1] = round(boundaries[index + 1]);
-  }
-  return windows;
-}
+    const int extra_overlap = 0);  //!< extra overlap between windows
 
 }  // namespace feasst
 

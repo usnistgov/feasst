@@ -1,5 +1,5 @@
-
 #include "utils/include/debug.h"
+#include "utils/include/serialize.h"
 #include "monte_carlo/include/analyze.h"
 
 namespace feasst {
@@ -47,6 +47,14 @@ std::string Analyze::write(const Criteria * criteria,
   return std::string("");
 }
 
+const std::vector<std::shared_ptr<Analyze> >& Analyze::analyzers() const {
+  FATAL("not implemented");
+}
+
+const Analyze * Analyze::analyze(const int index) const {
+  FATAL("not implemented");
+}
+
 AnalyzeWriteOnly::AnalyzeWriteOnly(const argtype &args) : Analyze(args) {
   // disable update
   Stepper::set_steps_per_update(-1);
@@ -57,6 +65,10 @@ AnalyzeWriteOnly::AnalyzeWriteOnly(const argtype &args) : Analyze(args) {
   }
 }
 
+void AnalyzeWriteOnly::set_steps_per_update(const int steps) {
+  ERROR("This analyze is write only.");
+}
+
 AnalyzeUpdateOnly::AnalyzeUpdateOnly(const argtype &args) : Analyze(args) {
   // disable update
   Analyze::set_steps_per_write(-1);
@@ -65,6 +77,10 @@ AnalyzeUpdateOnly::AnalyzeUpdateOnly(const argtype &args) : Analyze(args) {
   if (!args_.key("steps_per").empty()) {
     set_steps_per(args_.integer());
   }
+}
+
+void AnalyzeUpdateOnly::set_steps_per_write(const int steps) {
+  ERROR("This analyze is update only.");
 }
 
 }  // namespace feasst

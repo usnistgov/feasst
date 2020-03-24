@@ -25,27 +25,10 @@ class Slab : public Shape {
   double nearest_distance(const Position& point) const override {
     return slab_->nearest_distance(point); }
 
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
-    feasst_serialize_version(485, ostr);
-    feasst_serialize(slab_, ostr);
-  }
-
+  void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Shape> create(std::istream& istr) const override {
     return std::make_shared<Slab>(istr); }
-
-  Slab(std::istream& istr) {
-    const int version = feasst_deserialize_version(istr);
-    ASSERT(485 == version, version);
-    // feasst_deserialize(slab_, istr);
-    // HWH for unknown reasons, the above doesn't work
-    int existing;
-    istr >> existing;
-    if (existing != 0) {
-      slab_ = slab_->deserialize(istr);
-    }
-  }
-
+  explicit Slab(std::istream& istr);
   virtual ~Slab() {}
 
  private:

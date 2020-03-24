@@ -3,25 +3,22 @@
 #define FEASST_MONTE_CARLO_MONTE_CARLO_H_
 
 #include <sstream>
-#include <iostream>
 #include <vector>
 #include <memory>
-#include "utils/include/checkpoint.h"
-#include "math/include/random_mt19937.h"
 //#include "utils/include/timer.h"
 #include "monte_carlo/include/trial_factory.h"
-//#include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/analyze.h"
 #include "monte_carlo/include/analyze_factory.h"
 #include "monte_carlo/include/modify.h"
 #include "monte_carlo/include/modify_factory.h"
 
-// for convenient interface
-#include "monte_carlo/include/trial_add.h"
-#include "monte_carlo/include/trial_remove.h"
-
 namespace feasst {
 
+class Checkpoint;
+class Random;
+class RandomMT19937;
+
+// HWH document this class better
 /**
   Enforce order of Monte Carlo initialization:
   1 config
@@ -46,14 +43,8 @@ namespace feasst {
  */
 class MonteCarlo {
  public:
-  MonteCarlo() {
-    random_ = std::make_shared<RandomMT19937>();
-//    timer_other_ = timer_.add("other");
-//    timer_trial_ = timer_.add("trial");
-//    timer_analyze_ = timer_.add("analyze");
-//    timer_modify_ = timer_.add("modify");
-//    timer_checkpoint_ = timer_.add("checkpoint");
-  }
+  /// Construct a MonteCarlo object with RandomMT19937.
+  MonteCarlo();
 
   /// Set the random number generator.
   void set(std::shared_ptr<Random> random) { random_ = random; }
@@ -62,7 +53,7 @@ class MonteCarlo {
   const Random * random() const { return random_.get(); }
 
   /// Offset random number generator.
-  void offset_random() { random_->uniform(); }
+  void offset_random();
 
   /// The first action with a Monte Carlo object is to set the Configuration.
   void add(const Configuration& config);
@@ -148,13 +139,9 @@ class MonteCarlo {
   void add(const std::shared_ptr<Modify> modify);
 
   /// Add a checkpoint.
-  void add(const std::shared_ptr<Checkpoint> checkpoint) {
-    checkpoint_ = checkpoint; }
+  void add(const std::shared_ptr<Checkpoint> checkpoint);
 
-  void before_attempts_() {
-    ASSERT(system_set_, "system must be set before attempting trials.");
-    ASSERT(criteria_set_, "criteria must be set before attempting trials.");
-  }
+  void before_attempts_();
 
   /// Attempt one trial, with subsequent analysers and modifiers.
   void attempt() {
@@ -179,11 +166,7 @@ class MonteCarlo {
   /// Revert changes from previous trial.
   void revert(const int trial_index,
       const bool accepted,
-      const double ln_prob) {
-    trial_factory_.revert(trial_index, accepted, &system_);
-    DEBUG("reverting " << criteria_->current_energy());
-    criteria_->revert(accepted, ln_prob);
-  }
+      const double ln_prob);
 
   /// Finalize changes from previous trial.
   void finalize(const int trial_index) {
@@ -210,17 +193,10 @@ class MonteCarlo {
   }
 
   /// Load random numbers and energy calculations into cache.
-  void load_cache(const bool load) {
-    random_->set_cache_to_load(load);
-    system_.load_cache(load);
-  }
+  void load_cache(const bool load);
 
   /// Unload random numbers and energy calculations from cache.
-  void unload_cache(const MonteCarlo& mc) {
-  //Random& random, const System& system) {
-    random_->set_cache_to_unload((*mc.random_));
-    system_.unload_cache(mc.system());
-  }
+  void unload_cache(const MonteCarlo& mc);
 
 //  const Timer& timer() const { return timer_; }
 //  std::string timer_str() const {
@@ -242,30 +218,12 @@ class MonteCarlo {
     analyze_factory_.trial(criteria_.get(), system_, trial_factory_);
   }
 
-  void after_trial_modify_() {
-    modify_factory_.trial(criteria_.get(), &system_, &trial_factory_);
-    if (checkpoint_) {
-      checkpoint_->check(*this);
-    }
-  }
+  void after_trial_modify_();
 
   const PhysicalConstants * physical_constants() const {
     return configuration().model_params().physical_constants(); }
 
-  virtual void serialize(std::ostream& ostr) const {
-    feasst_serialize_version(529, ostr);
-    feasst_serialize_fstobj(system_, ostr);
-    feasst_serialize_fstdr(criteria_, ostr);
-    feasst_serialize_fstobj(trial_factory_, ostr);
-    feasst_serialize_fstobj(analyze_factory_, ostr);
-    feasst_serialize_fstobj(modify_factory_, ostr);
-    feasst_serialize(checkpoint_, ostr);
-    feasst_serialize_fstdr(random_, ostr);
-    feasst_serialize(config_set_, ostr);
-    feasst_serialize(potential_set_, ostr);
-    feasst_serialize(system_set_, ostr);
-    feasst_serialize(criteria_set_, ostr);
-  }
+  virtual void serialize(std::ostream& ostr) const;
 
   std::string serialize() {
     std::stringstream ss;
@@ -273,39 +231,7 @@ class MonteCarlo {
     return ss.str();
   }
 
-  MonteCarlo(std::istream& istr) {
-    //INFO(istr.rdbuf());
-    //int tmp;
-    //istr >> tmp;
-    //INFO("tmp " << tmp);
-    const int version = feasst_deserialize_version(istr);
-    ASSERT(version == 529, "version: " << version);
-    feasst_deserialize_fstobj(&system_, istr);
-    // feasst_deserialize_fstdr(criteria_, istr);
-    { // HWH for unknown reasons the above template function does not work
-      int existing;
-      istr >> existing;
-      if (existing != 0) {
-        criteria_ = criteria_->deserialize(istr);
-      }
-    }
-    feasst_deserialize_fstobj(&trial_factory_, istr);
-    feasst_deserialize_fstobj(&analyze_factory_, istr);
-    feasst_deserialize_fstobj(&modify_factory_, istr);
-    feasst_deserialize(checkpoint_, istr);
-    // HWH for unknown reasons, this function template does not work.
-    //feasst_deserialize_fstdr(random_, istr);
-    { int existing;
-      istr >> existing;
-      if (existing != 0) {
-        random_ = random_->deserialize(istr);
-      }
-    }
-    feasst_deserialize(&config_set_, istr);
-    feasst_deserialize(&potential_set_, istr);
-    feasst_deserialize(&system_set_, istr);
-    feasst_deserialize(&criteria_set_, istr);
-  }
+  explicit MonteCarlo(std::istream& istr);
 
   MonteCarlo deserialize(const std::string str) {
     std::stringstream ss(str);
@@ -315,14 +241,9 @@ class MonteCarlo {
   virtual ~MonteCarlo() {}
 
  protected:
-  virtual void attempt_(int num_trials, TrialFactory * trial_factory, Random * random) {
-    before_attempts_();
-    for (int trial = 0; trial < num_trials; ++trial) {
-      DEBUG("mc trial: " << trial);
-      trial_factory->attempt(criteria_.get(), &system_, random);
-      after_trial_();
-    }
-  }
+  virtual void attempt_(int num_trials,
+    TrialFactory * trial_factory,
+    Random * random);
 
   virtual void run_until_complete_(TrialFactory * trial_factory,
                                    Random * random) {
@@ -351,10 +272,7 @@ class MonteCarlo {
 };
 
 /// Initialize an add and remove trial simultaneously with the same arguments.
-inline void add_trial_transfer(MonteCarlo * mc, const argtype& args = argtype()) {
-  mc->add(MakeTrialAdd(args));
-  mc->add(MakeTrialRemove(args));
-}
+void add_trial_transfer(MonteCarlo * mc, const argtype& args = argtype());
 
 }  // namespace feasst
 

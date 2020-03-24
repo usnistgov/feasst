@@ -1,3 +1,6 @@
+#include "utils/include/serialize.h"
+#include "utils/include/utils.h"  // find_in_list
+#include "math/include/random.h"
 #include "monte_carlo/include/trial_select_particle.h"
 
 namespace feasst {
@@ -173,7 +176,7 @@ bool TrialSelectParticle::select(const Select& perturbed,
     set_probability(1./static_cast<double>(num));
   }
   DEBUG("selected " << mobile_.str());
-  mobile_.remove_unphysical_sites(system->configuration());
+  remove_unphysical_sites(system->configuration());
   ASSERT(mobile_.num_particles() > 0, "all sites shouldn't be unphysical");
   mobile_original_ = mobile_;
   DEBUG("selected " << mobile_.str());
@@ -207,6 +210,16 @@ void TrialSelectParticle::serialize_trial_select_particle_(std::ostream& ostr) c
 void TrialSelectParticle::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_trial_select_particle_(ostr);
+}
+
+void TrialSelectParticle::select_particle(const int index,
+    const Configuration& config) {
+  mobile_.clear();
+  const Select& select = config.group_selects()[group_index()];
+  ASSERT(index < select.num_particles(), "error");
+  mobile_.add_particle(select.particle_index(index), select.site_indices(index));
+  mobile_.resize_positions();
+  mobile_.load_positions(config.particles());
 }
 
 }  // namespace feasst

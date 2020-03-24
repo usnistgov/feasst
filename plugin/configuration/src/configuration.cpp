@@ -5,6 +5,7 @@
 #include "utils/include/utils.h"
 #include "math/include/utils_math.h"
 #include "utils/include/debug.h"
+#include "utils/include/serialize.h"
 #include "math/include/constants.h"
 
 namespace feasst {

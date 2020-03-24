@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "configuration/include/group.h"
 #include "configuration/include/file_lmp.h"
 

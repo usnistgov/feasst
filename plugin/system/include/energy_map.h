@@ -7,9 +7,8 @@
 #include <memory>
 #include <map>
 #include "utils/include/arguments.h"
-#include "system/include/model.h"
 #include "configuration/include/configuration.h"
-#include "system/include/select_list.h"
+#include "configuration/include/select.h"
 #include "system/include/cluster_criteria.h"
 
 namespace feasst {
@@ -78,13 +77,12 @@ class EnergyMap {
                               const Configuration& config,
                               const int particle_node,
                               Select * cluster,
-                              const Position& frame_of_reference) const {
-    FATAL("not implemented"); }
+                              const Position& frame_of_reference) const;
 
   /// Compare old and new maps to see if cluster has changed.
   /// This is useful for detailed balance with rigid cluster moves.
   virtual bool is_cluster_changed(const ClusterCriteria * cluster_criteria,
-    const Select& select) const { FATAL("not implemented"); }
+    const Select& select) const;
 
   virtual void check() const {}
 
@@ -92,27 +90,14 @@ class EnergyMap {
   virtual std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const {
     serialize_energy_map_(ostr); }
-  explicit EnergyMap(std::istream& istr) {
-    const int version = feasst_deserialize_version(istr);
-    ASSERT(version == 945, "version mismatch: " << version);
-    feasst_deserialize(&default_value_, istr);
-    feasst_deserialize(&site_max_, istr);
-    feasst_deserialize(&dimen_, istr);
-  }
+  explicit EnergyMap(std::istream& istr);
   virtual std::shared_ptr<EnergyMap> create(std::istream& istr) const = 0;
   std::map<std::string, std::shared_ptr<EnergyMap> >& deserialize_map();
-  std::shared_ptr<EnergyMap> deserialize(std::istream& istr) {
-    return template_deserialize(deserialize_map(), istr); }
+  std::shared_ptr<EnergyMap> deserialize(std::istream& istr);
   virtual ~EnergyMap() {}
 
  protected:
-  void serialize_energy_map_(std::ostream& ostr) const {
-    ostr << class_name_ << " ";
-    feasst_serialize_version(945, ostr);
-    feasst_serialize(default_value_, ostr);
-    feasst_serialize(site_max_, ostr);
-    feasst_serialize(dimen_, ostr);
-  }
+  void serialize_energy_map_(std::ostream& ostr) const;
 
   virtual void resize_(const int part1_index,
                        const int site1_index,

@@ -3,6 +3,8 @@
 #define FEASST_MATH_RANDOM_MT19937_H_
 
 #include <memory>
+#include <random>
+#include <sstream>
 #include "math/include/random.h"
 
 namespace feasst {

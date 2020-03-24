@@ -1,3 +1,5 @@
+#include <cmath>  // rint
+#include "utils/include/serialize.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 #include "system/include/lennard_jones.h"
 
@@ -57,11 +59,11 @@ void VisitModelOptLJ::compute(
                 const int type2 = site2.type();
                 const std::vector<double>& coord2 = site2.position().coord();
                 dx = xi - coord2[0];
-                dx -= lx*rint(dx/lx);
+                dx -= lx*std::rint(dx/lx);
                 dy = yi - coord2[1];
-                dy -= ly*rint(dy/ly);
+                dy -= ly*std::rint(dy/ly);
                 dz = zi - coord2[2];
-                dz -= lz*rint(dz/lz);
+                dz -= lz*std::rint(dz/lz);
                 const double squared_distance = dx*dx + dy*dy + dz*dz;
                 const double cutoff = model_params.mixed_cutoff()[type1][type2];
                 if (squared_distance <= cutoff*cutoff) {

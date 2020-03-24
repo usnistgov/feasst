@@ -1,4 +1,5 @@
 #include "chain/include/recenter_particles.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

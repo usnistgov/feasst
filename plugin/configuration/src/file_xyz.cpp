@@ -2,11 +2,35 @@
 #include <fstream>
 #include <sstream>
 #include "configuration/include/file_xyz.h"
-#include "utils/include/utils_io.h"
+#include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "configuration/include/visit_configuration.h"
 
 namespace feasst {
+
+void FileVMD::serialize(std::ostream& ostr) const {
+  feasst_serialize_version(1, ostr);
+}
+
+FileVMD::FileVMD(std::istream& istr) {
+  feasst_deserialize_version(istr);
+}
+
+void FileVMD::write(const std::string file_name,
+    const Configuration& config,
+    const std::string traj_file_name) {
+  std::ofstream vmdf(file_name);
+  vmdf << "display projection Orthographic" << std::endl
+    << "color Display Background white" << std::endl
+    << "axes location Off" << std::endl;
+  vmdf << "topo readvarxyz " << trim("/", traj_file_name) << std::endl;
+  vmdf << "mol modstyle 0 0 VDW 1.0000000 120.000000" << std::endl;
+  for (int stype = 0; stype < config.num_site_types(); ++stype) {
+    vmdf << "set sel [atomselect top \"name " << stype << "\"]" << std::endl;
+    const double radius = 0.5*config.model_params().sigma().value(stype);
+    vmdf << "$sel set radius " << radius << std::endl;
+  }
+}
 
 void FileXYZ::load(const std::string file_name, Configuration * config) const {
   std::ifstream xyz_file(file_name);
@@ -61,7 +85,7 @@ class PrinterXYZ : public LoopConfigOneBody {
   void work(const Site& site,
       const Configuration& config,
       const LoopDescriptor& data) override {
-    (*file_.get()) << site.type() << " " << site.position().str() << endl;
+    (*file_.get()) << site.type() << " " << site.position().str() << std::endl;
   }
  private:
   std::shared_ptr<std::ofstream> file_;
@@ -75,8 +99,8 @@ void FileXYZ::write(const std::string file_name,
   } else {
     file->open(file_name, std::ofstream::app);
   }
-  (*file.get()) << config.num_sites() << endl
-       << "-1" << endl;
+  (*file.get()) << config.num_sites() << std::endl
+       << "-1" << std::endl;
   PrinterXYZ printer(file);
   VisitConfiguration().loop(config, &printer, group_index_);
 }
@@ -89,4 +113,15 @@ void FileXYZ::write_for_vmd(const std::string file_name,
   FileVMD().write(ss.str(), config, file_name);
 }
 
+void FileXYZ::serialize(std::ostream& ostr) const {
+  feasst_serialize_version(1, ostr);
+  feasst_serialize(group_index_, ostr);
+  feasst_serialize(append_, ostr);
+}
+
+FileXYZ::FileXYZ(std::istream& istr) {
+  feasst_deserialize_version(istr);
+  feasst_deserialize(&group_index_, istr);
+  feasst_deserialize(&append_, istr);
+}
 }  // namespace feasst

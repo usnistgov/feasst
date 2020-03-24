@@ -5,7 +5,6 @@
 #include <string>
 #include <memory>
 #include "system/include/model_two_body.h"
-#include "math/include/constants.h"
 
 namespace feasst {
 

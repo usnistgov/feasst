@@ -14,7 +14,6 @@
 #include <vector>
 #include <memory>
 #include <string>
-#include "utils/include/utils_io.h"
 
 namespace feasst {
 

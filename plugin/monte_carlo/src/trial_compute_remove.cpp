@@ -1,3 +1,5 @@
+#include <cmath>
+#include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/trial_compute_remove.h"
 
@@ -36,7 +38,7 @@ void TrialComputeRemove::perturb_and_acceptance(
     acceptance->set_macrostate_shift_type(particle_type);
     DEBUG("volume " << volume << " selprob " << select->probability() << " betamu " << criteria->beta_mu(particle_type));
     acceptance->add_to_ln_metropolis_prob(
-      - log(volume*select->probability())
+      - std::log(volume*select->probability())
       - criteria->beta_mu(particle_type)
     );
     DEBUG("lnmet " << acceptance->ln_metropolis_prob());

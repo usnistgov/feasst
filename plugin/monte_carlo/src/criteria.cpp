@@ -1,5 +1,6 @@
-
 #include <sstream>
+#include <iostream>
+#include "utils/include/serialize.h"
 #include "monte_carlo/include/criteria.h"
 
 namespace feasst {
@@ -80,9 +81,10 @@ std::string Criteria::status() const {
 
 std::string Criteria::write() const {
   std::stringstream ss;
-  ss << "beta," << MAX_PRECISION << beta() << endl;
+  ss << "beta," << MAX_PRECISION << beta() << std::endl;
   for (int i = 0; i < static_cast<int>(chemical_potentials_.size()); ++i) {
-    ss << "mu" << i << "," << MAX_PRECISION << chemical_potentials_[i] << endl;
+    ss << "mu" << i << "," << MAX_PRECISION << chemical_potentials_[i];
+    ss << std::endl;
   }
   return ss.str();
 }

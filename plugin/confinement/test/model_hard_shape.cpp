@@ -2,7 +2,7 @@
 #include "confinement/include/model_hard_shape.h"
 #include "confinement/include/half_space.h"
 #include "configuration/include/configuration.h"
-#include "system/include/select_list.h"
+#include "configuration/include/select.h"
 
 namespace feasst {
 

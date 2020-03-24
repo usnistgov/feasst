@@ -1,9 +1,8 @@
-
-#include <math.h>
 #include <cmath>
+#include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
+#include "math/include/constants.h"
 #include "utils/include/debug.h"
-#include "utils/include/utils_io.h"
 #include "flat_histogram/include/ln_probability.h"
 
 namespace feasst {
@@ -57,7 +56,7 @@ double LnProbability::saturation_objective(
   const std::vector<int> mins = minima();
   const int size = static_cast<int>(mins.size());
   if (size == 0) {
-    return pow(values_.front() - values_.back(), 2);
+    return std::pow(values_.front() - values_.back(), 2);
   } else if (size == 1) {
     return saturation_objective_boundary(delta_conjugate, mins[0]);
   } else {
@@ -70,7 +69,7 @@ double LnProbability::saturation_objective_boundary(
     int phase_boundary) const {
   const double prob_low_dens = sum_probability(0, phase_boundary - 1);
   const double prob_high_dens = sum_probability(phase_boundary, size() - 1);
-  return pow(log(prob_low_dens) - log(prob_high_dens), 2);
+  return std::pow(log(prob_low_dens) - log(prob_high_dens), 2);
 }
 
 }  // namespace feasst

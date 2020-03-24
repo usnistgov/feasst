@@ -2,7 +2,7 @@
 #ifndef FEASST_UTILS_INCLUDE_TIMER_H_
 #define FEASST_UTILS_INCLUDE_TIMER_H_
 
-#include <time.h>
+#include <ctime>
 #include <string>
 #include <vector>
 #include <map>

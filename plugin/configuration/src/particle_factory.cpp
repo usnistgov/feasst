@@ -1,8 +1,10 @@
 #include "configuration/include/particle_factory.h"
 #include "utils/include/debug.h"
-#include "math/include/histogram.h"
-#include "configuration/include/file_lmp.h"
 #include "utils/include/utils.h"
+#include "utils/include/serialize.h"
+#include "math/include/histogram.h"
+#include "math/include/utils_math.h"
+#include "configuration/include/file_lmp.h"
 
 namespace feasst {
 

@@ -3,7 +3,6 @@
 #define FEASST_EWALD_CHARGE_SELF_H_
 
 #include "system/include/model_one_body.h"
-#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -20,16 +19,9 @@ class ChargeSelf : public ModelOneBody {
   double energy(
       const Site& site,
       const Configuration * config,
-      const ModelParams& model_params) const override {
-    const int type = site.type();
-    const double charge = model_params.charge().value(type);
-    return -charge*charge*conversion_factor_*alpha_/std::sqrt(PI);
-  }
+      const ModelParams& model_params) const override;
 
-  void precompute(const ModelParams& existing) override {
-    alpha_ = existing.property("alpha");
-    conversion_factor_ = existing.constants()->charge_conversion();
-  }
+  void precompute(const ModelParams& existing) override;
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ChargeSelf>(istr); }

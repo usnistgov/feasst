@@ -14,33 +14,12 @@ class AnalyzeRigidBonds : public AnalyzeUpdateOnly {
   AnalyzeRigidBonds(const argtype &args = argtype());
   void update(const Criteria * criteria,
       const System& system,
-      const TrialFactory& trial_factory) override {
-    visitor_.compute(bond_, system.configuration());
-    ASSERT(std::abs(visitor_.energy()) < NEAR_ZERO, "bond check failure");
-    visitor_.compute(angle_, system.configuration());
-    ASSERT(std::abs(visitor_.energy()) < NEAR_ZERO, "angle check failure");
-  }
-
+      const TrialFactory& trial_factory) override;
   std::string class_name() const override { return std::string("AnalyzeRigidBonds"); }
-
   std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<AnalyzeRigidBonds>(istr); }
-
-  void serialize(std::ostream& ostr) const override {
-    Stepper::serialize(ostr);
-    feasst_serialize_version(549, ostr);
-    feasst_serialize_fstobj(visitor_, ostr);
-    feasst_serialize_fstobj(bond_, ostr);
-    feasst_serialize_fstobj(angle_, ostr);
-  }
-
-  AnalyzeRigidBonds(std::istream& istr) : AnalyzeUpdateOnly(istr) {
-    const int version = feasst_deserialize_version(istr);
-    ASSERT(version == 549, "version mismatch: " << version);
-    feasst_deserialize_fstobj(&visitor_, istr);
-    feasst_deserialize_fstobj(&bond_, istr);
-    feasst_deserialize_fstobj(&angle_, istr);
-  }
+  void serialize(std::ostream& ostr) const override;
+  explicit AnalyzeRigidBonds(std::istream& istr);
 
  private:
   BondVisitor visitor_;

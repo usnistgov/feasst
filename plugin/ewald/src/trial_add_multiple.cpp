@@ -1,4 +1,5 @@
 #include <algorithm>  // is_sorted
+#include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/perturb_add.h"
 #include "ewald/include/trial_add_multiple.h"

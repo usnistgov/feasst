@@ -1,7 +1,8 @@
 #include <vector>
 #include "system/include/visit_model_inner.h"
 #include "system/include/model_two_body.h"
-#include "system/include/select_list.h"
+#include "configuration/include/select.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -71,6 +72,11 @@ bool VisitModelInner::is_energy_map_queryable() const {
     }
   }
   return false;
+}
+
+std::shared_ptr<VisitModelInner> VisitModelInner::deserialize(
+    std::istream& istr) {
+  return template_deserialize(deserialize_map(), istr);
 }
 
 void VisitModelInner::serialize_visit_model_inner_(std::ostream& ostr) const {

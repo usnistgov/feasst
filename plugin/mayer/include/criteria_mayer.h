@@ -7,6 +7,7 @@
 
 namespace feasst {
 
+// HWH Rename to MayerSampling
 /**
   Mayer-sampling Monte Carlo acceptance criteria.
   Currently assumes hard sphere reference.
@@ -20,9 +21,7 @@ class CriteriaMayer : public Criteria {
     const System * system,
     const double uniform_random) override;
 
-  double second_virial() const {
-    return (2./3.)*PI*mayer_.average()/mayer_ref_.average();
-  }
+  double second_virial() const;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<CriteriaMayer>(istr); }

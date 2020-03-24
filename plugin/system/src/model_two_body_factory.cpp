@@ -1,5 +1,6 @@
 #include <memory>
 #include "system/include/model_two_body_factory.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

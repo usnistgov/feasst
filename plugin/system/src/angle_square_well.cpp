@@ -1,4 +1,7 @@
+#include <cmath>
 #include "utils/include/serialize.h"
+#include "math/include/utils_math.h"
+#include "math/include/constants.h"
 #include "system/include/angle_square_well.h"
 
 namespace feasst {
@@ -33,4 +36,18 @@ void AngleSquareWell::serialize(std::ostream& ostr) const {
   serialize_angle_square_well_(ostr);
 }
 
+double AngleSquareWell::energy(
+    const Position& relative01,
+    const Position& relative21,
+    const Angle& angle) const {
+  const double theta0 = angle.property("theta0");
+  const double delta = angle.property("delta");
+  const double theta =
+    radians_to_degrees(std::acos(relative01.cosine(relative21)));
+  TRACE("theta " << theta);
+  if (std::abs(theta - theta0) > 0.5*delta) {
+    return NEAR_INFINITY;
+  }
+  return 0.;
+}
 }  // namespace feasst

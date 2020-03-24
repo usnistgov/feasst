@@ -1,7 +1,11 @@
+#include <cmath>  // acos
 #include <string>
 #include <sstream>
-#include "math/include/random.h"
 #include "utils/include/utils_io.h"
+#include "utils/include/serialize.h"
+#include "math/include/random.h"
+#include "math/include/constants.h"
+#include "math/include/matrix.h"
 
 namespace feasst {
 
@@ -144,7 +148,7 @@ void Random::unit_sphere_surface(Position * position) {
   if (position->dimension() == 3) {
     // thanks to http://mathworld.wolfram.com/SpherePointPicking.html
     const double theta = 2*PI*uniform();
-    const double phi = acos(2*uniform() - 1);
+    const double phi = std::acos(2*uniform() - 1);
     position->set_from_spherical(1., theta, phi);
   } else if (position->dimension() == 2) {
     const double theta = 2*PI*uniform();

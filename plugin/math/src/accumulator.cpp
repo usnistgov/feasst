@@ -1,19 +1,10 @@
-/*
- * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
- * http://pages.nist.gov/feasst, National Institute of Standards and Technology
- * Harold W. Hatch, harold.hatch@nist.gov
- *
- * Permission to use this data/software is contingent upon your acceptance of
- * the terms of LICENSE.txt and upon your providing
- * appropriate acknowledgments of NIST's creation of the data/software.
- */
 
-// #include <cmath>
-#include <math.h>
+#include <cmath>
 #include <numeric>
 #include <sstream>
 #include "math/include/accumulator.h"
 #include "math/include/constants.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -81,7 +72,7 @@ double Accumulator::stdev() const {
   double stdev = 0;
   if (num_values_ > 1) {
     const double fluct = sum_squared_/static_cast<double>(num_values_)
-                       - pow(average(), 2);
+                       - std::pow(average(), 2);
     if (fluct > 0.) {
       stdev = sqrt(fluct*num_values_ / static_cast<double>(num_values_ - 1));
     }

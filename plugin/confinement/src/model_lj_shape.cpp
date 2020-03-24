@@ -1,4 +1,6 @@
+#include <cmath>
 #include "confinement/include/model_lj_shape.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -24,6 +26,17 @@ ModelLJShape::ModelLJShape(std::istream& istr)
   const int version = feasst_deserialize_version(istr);
   feasst_deserialize(&alpha_, istr);
   ASSERT(version == 1412, "unrecognized verison: " << version);
+}
+
+double ModelLJShape::energy(
+    const Site& site,
+    const Configuration * config,
+    const ModelParams& model_params) const {
+  const int type = site.type();
+  const double sigma = model_params.sigma().value(type);
+  const double epsilon = model_params.epsilon().value(type);
+  const double distance = shape()->nearest_distance(site.position());
+  return epsilon * std::pow(distance/sigma, alpha_);
 }
 
 }  // namespace feasst

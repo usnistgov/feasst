@@ -1,4 +1,5 @@
 #include "system/include/dont_visit_model.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

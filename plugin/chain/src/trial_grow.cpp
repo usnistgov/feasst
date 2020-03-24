@@ -1,3 +1,4 @@
+#include "utils/include/serialize.h"
 #include "chain/include/trial_grow.h"
 #include "monte_carlo/include/trial_compute_move.h"
 

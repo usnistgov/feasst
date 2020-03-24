@@ -2,13 +2,9 @@
 #ifndef FEASST_MATH_UTILS_MATH_H_
 #define FEASST_MATH_UTILS_MATH_H_
 
-#include <utility>
 #include <vector>
-#include <numeric>
-#include <algorithm>
-#include <iostream>
-#include "utils/include/debug.h"
-#include "math/include/constants.h"
+#include <numeric>  // accumulate
+#include <algorithm>  // set_difference, set_union, max_element
 
 namespace feasst {
 
@@ -41,7 +37,7 @@ T product(const std::vector<T> &vec) {
 /// Return the minimum element of a vector.
 template<class T>
 T minimum(const std::vector<T> &vec) {
-  ASSERT(vec.size() > 0, "vector has no elements");
+  // ASSERT(vec.size() > 0, "vector has no elements");
   return *std::min_element(vec.begin(), vec.end());
 }
 
@@ -172,14 +168,10 @@ int sgn(T val) {
 }
 
 /// Convert radians to degrees.
-inline double radians_to_degrees(const double radians) {
-  return radians/PI*180.;
-}
+double radians_to_degrees(const double radians);
 
 /// Convert degrees to radians.
-inline double degrees_to_radians(const double degrees) {
-  return degrees/180.*PI;
-}
+double degrees_to_radians(const double degrees);
 
 /// Swap the values.
 template <typename T>

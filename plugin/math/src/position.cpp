@@ -2,7 +2,9 @@
 #include "math/include/position.h"
 #include "utils/include/debug.h"
 #include "utils/include/utils_io.h"
+#include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -110,6 +112,10 @@ bool Position::is_equal(const Position& position,
     }
   }
   return true;
+}
+
+bool Position::is_equal(const Position& position) const {
+  return is_equal(position, NEAR_ZERO);
 }
 
 Position& Position::set_from_spherical(const std::vector<double> &vec) {

@@ -1,7 +1,7 @@
 
 #include <algorithm>
 #include "flat_histogram/include/wltm.h"
-#include "utils/include/utils_io.h"
+#include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "utils/include/debug.h"
 

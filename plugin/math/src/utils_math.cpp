@@ -1,7 +1,8 @@
-#include <math.h>
+#include <cmath>
 #include "math/include/utils_math.h"
 #include "utils/include/utils_io.h"
 #include "utils/include/debug.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -26,4 +27,13 @@ std::vector<double> cumulative_probability(
   return prob;
 }
 
+double radians_to_degrees(const double radians) {
+  return radians/PI*180.;
+}
+
+double degrees_to_radians(const double degrees) {
+  return degrees/180.*PI;
+}
+
+/// Swap the values.
 }  // namespace feasst

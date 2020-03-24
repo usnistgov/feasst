@@ -1,4 +1,5 @@
 #include "steppers/include/criteria_updater.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

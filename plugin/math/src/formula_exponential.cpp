@@ -1,7 +1,9 @@
 
+#include <cmath>
 #include "math/include/formula_exponential.h"
 #include "utils/include/utils_io.h"
 #include "utils/include/debug.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -34,6 +36,17 @@ void FormulaExponential::serialize(std::ostream& ostr) const {
   feasst_serialize(f0_, ostr);
   feasst_serialize(A_, ostr);
   feasst_serialize(B_, ostr);
+}
+
+double FormulaExponential::evaluate(const double x) {
+  return f0_*exp(A_*std::pow(x - x0(), B_));
+}
+
+FormulaExponential::FormulaExponential(const argtype& args) : Formula(args) {
+  args_.init(args);
+  set_f0(args_.key("f0").dflt("0").dble());
+  set_A(args_.key("A").dflt("1").dble());
+  set_B(args_.key("B").dflt("1").dble());
 }
 
 }  // namespace feasst

@@ -3,11 +3,9 @@
 #define FEASST_CONFIGURATION_SITE_H_
 
 #include <vector>
-#include <utility>
 #include <string>
-#include "configuration/include/typed_entity.h"
 #include "math/include/position.h"
-#include "utils/include/utils_io.h"
+#include "configuration/include/typed_entity.h"
 #include "configuration/include/properties.h"
 
 namespace feasst {

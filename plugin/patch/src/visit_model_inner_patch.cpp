@@ -1,3 +1,6 @@
+#include <cmath>
+#include "utils/include/serialize.h"
+#include "math/include/utils_math.h"
 #include "system/include/model_two_body.h"
 #include "patch/include/visit_model_inner_patch.h"
 
@@ -54,13 +57,13 @@ void VisitModelInnerPatch::compute(
                   dir1_pos.subtract(site1.position());
                   dir1_pos.multiply(-1.);
                   const double dir1_sq_length = dir1_pos.squared_distance();
-                  const double cosp1 = dir1_pos.dot_product(*relative)/sqrt(squared_distance*dir1_sq_length);
+                  const double cosp1 = dir1_pos.dot_product(*relative)/std::sqrt(squared_distance*dir1_sq_length);
                   TRACE("cosp1 " << cosp1 << " cosacut " << cos_patch_angle_.value(dir1_type));
                   if (cosp1 >= cos_patch_angle_.value(dir1_type)) {
                     Position dir2_pos = dir2.position();
                     dir2_pos.subtract(site2.position());
                     const double dir2_sq_length = dir2_pos.squared_distance();
-                    const double cosp2 = dir2_pos.dot_product(*relative)/sqrt(squared_distance*dir2_sq_length);
+                    const double cosp2 = dir2_pos.dot_product(*relative)/std::sqrt(squared_distance*dir2_sq_length);
                     TRACE("cosp2 " << cosp2 << " cosacut " << cos_patch_angle_.value(dir2_type));
                     if (cosp2 >= cos_patch_angle_.value(dir2_type)) {
                       const double en = model.energy(squared_distance, dir1_type, dir2_type, model_params);
@@ -98,6 +101,17 @@ void VisitModelInnerPatch::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   feasst_serialize_version(255, ostr);
   feasst_serialize_fstobj(cos_patch_angle_, ostr);
+}
+
+void VisitModelInnerPatch::precompute(Configuration * config) {
+  config->add(std::make_shared<PatchAngle>());
+  cos_patch_angle_.set_param(config->model_params());
+}
+
+void VisitModelInnerPatch::set_patch_angle(const int type,
+    const double degrees) {
+  const double cosa = std::cos(degrees_to_radians(degrees));
+  cos_patch_angle_.set(type, cosa);
 }
 
 }  // namespace feasst

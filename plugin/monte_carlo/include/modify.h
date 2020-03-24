@@ -30,21 +30,16 @@ class Modify : public Stepper {
   /// Perform update action.
   virtual void update(Criteria * criteria,
       System * system,
-      TrialFactory * trial_factory) { FATAL("not implemented"); }
+      TrialFactory * trial_factory);
 
   /// Perform write action.
   virtual std::string write(Criteria * criteria,
       System * system,
-      TrialFactory * trial_factory) {
-    FATAL("not implemented");
-    return std::string("");
-  }
+      TrialFactory * trial_factory);
 
   // Access to factory of Modify objects.
-  virtual const std::vector<std::shared_ptr<Modify> >& modifiers() const {
-    FATAL("not implemented"); }
-  virtual const Modify * modify(const int index) const {
-    FATAL("not implemented"); }
+  virtual const std::vector<std::shared_ptr<Modify> >& modifiers() const;
+  virtual const Modify * modify(const int index) const;
 
   // serialization
   std::string class_name() const override { return std::string("Modify"); }
@@ -67,8 +62,7 @@ class ModifyUpdateOnly : public Modify {
    */
   explicit ModifyUpdateOnly(const argtype &args = argtype());
 
-  void set_steps_per_write(const int steps) override {
-    ERROR("This modify is update only."); }
+  void set_steps_per_write(const int steps) override;
 
   void set_steps_per(const int steps) { set_steps_per_update(steps); }
 

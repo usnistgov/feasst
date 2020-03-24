@@ -4,9 +4,6 @@
 
 #include <cmath>
 #include <vector>
-#include <numeric>
-#include <algorithm>
-#include "utils/include/debug.h"
 
 namespace feasst {
 
@@ -56,23 +53,24 @@ int num_elements(const std::vector<std::vector<T> > vec) {
   return num;
 }
 
-template<class T>
-void feasst_reverse(std::vector<T> * vec) {
-  std::reverse(vec->begin(), vec->end());
-}
+//template<class T>
+//void feasst_reverse(std::vector<T> * vec) {
+//  std::reverse(vec->begin(), vec->end());
+//}
+//
+//template<class T>
+//void feasst_reverse(std::vector<std::vector<T> > * vec) {
+//  std::reverse(vec->begin(), vec->end());
+//  for (std::vector<T>& vec1 : *vec) {
+//    feasst_reverse(&vec1);
+//  }
+//}
 
-template<class T>
-void feasst_reverse(std::vector<std::vector<T> > * vec) {
-  std::reverse(vec->begin(), vec->end());
-  for (std::vector<T>& vec1 : *vec) {
-    feasst_reverse(&vec1);
-  }
-}
-
+/// Return true if the sorted vector contains a duplicate value.
 template<class T>
 bool has_duplicate(const std::vector<T>& vec) {
   std::vector<T> vec2 = vec;
-  std::sort(vec2.begin(), vec2.end());
+  // HWH assume sorted, std::sort(vec2.begin(), vec2.end());
   for (int i = 1; i < static_cast<int>(vec2.size()); ++i) {
     if (vec2[i] == vec2[i - 1]) {
       return true;
@@ -86,13 +84,13 @@ bool is_equal(const std::vector<T>& vec1,
               const std::vector<T>& vec2,
               const double tolerance = 1e-15) {
   if (vec1.size() != vec2.size()) {
-    TRACE("size of vec1:" << vec1.size() << " != size of vec2:" << vec2.size());
+//    TRACE("size of vec1:" << vec1.size() << " != size of vec2:" << vec2.size());
     return false;
   }
   for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {
     if (std::abs(vec1[index] - vec2[index]) > tolerance) {
-      TRACE(MAX_PRECISION << "vec1[" << index << "]:" << vec1[index] << " != "
-        << "vec2[" << index << "]:" << vec2[index]);
+//      TRACE(MAX_PRECISION << "vec1[" << index << "]:" << vec1[index] << " != "
+//        << "vec2[" << index << "]:" << vec2[index]);
       return false;
     }
   }

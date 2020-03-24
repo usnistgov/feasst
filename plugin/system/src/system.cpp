@@ -1,6 +1,7 @@
 #include <cmath>  // isinf and isnan
 #include "system/include/system.h"
 #include "utils/include/debug.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

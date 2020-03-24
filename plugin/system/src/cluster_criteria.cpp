@@ -1,4 +1,7 @@
+#include <cmath>
 #include "system/include/cluster_criteria.h"
+#include "utils/include/serialize.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -11,8 +14,8 @@ ClusterCriteria::ClusterCriteria(const argtype& args) {
   ASSERT(energy_maximum_ < 0.,
     "energy_maximum:" << energy_maximum_ << " must be less than zero. " <<
     "Otherwise, self interactions and particles outside of cutoff will be added");
-  minimum_distance_sq_ = pow(args_.key("minimum_distance").dflt("0").dble(), 2);
-  maximum_distance_sq_ = pow(
+  minimum_distance_sq_ = std::pow(args_.key("minimum_distance").dflt("0").dble(), 2);
+  maximum_distance_sq_ = std::pow(
     args_.key("maximum_distance").dflt(str(std::sqrt(NEAR_INFINITY))).dble(), 2);
 }
 
@@ -43,6 +46,14 @@ ClusterCriteria::ClusterCriteria(std::istream& istr) {
   feasst_deserialize(&energy_maximum_, istr);
   feasst_deserialize(&minimum_distance_sq_, istr);
   feasst_deserialize(&maximum_distance_sq_, istr);
+}
+
+double ClusterCriteria::minimum_distance() const {
+  return std::sqrt(minimum_distance_sq_);
+}
+
+double ClusterCriteria::maximum_distance() const {
+  return std::sqrt(maximum_distance_sq_);
 }
 
 }  // namespace feasst

@@ -259,19 +259,6 @@ TEST(Configuration, cells) {
   config.check();
 }
 
-//TEST(Configuration, position_selection) {
-//  Configuration config = chain10_sample();
-//  EXPECT_EQ(config.num_particles(), 1);
-//  EXPECT_NEAR(0., config.particle(0).site(5).position().coord(1), NEAR_ZERO);
-//  SelectList select;
-//  select.select_sites(config, 0, {3, 4, 5});
-//  select.set_site_position(0, 0, {1.1, 1.2, 1.3});
-//  select.set_site_position(0, 1, {-1.1, -1.2, -1.3});
-//  select.set_site_position(0, 2, {0, 37.5, 50.});
-//  config.update_positions(select);
-//  EXPECT_NEAR(37.5, config.particle(0).site(5).position().coord(1), NEAR_ZERO);
-//}
-
 TEST(Configuration, select_particle_by_group) {
   Configuration config = spce_sample();
   config.add(MakeGroup({{"add_site_type", "0"}}));

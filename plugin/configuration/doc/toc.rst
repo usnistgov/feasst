@@ -1,20 +1,20 @@
 
 .. toctree::
 
-   TypedEntity
-   PhysicalConstants
    Properties
+   TypedEntity
    Bond
    Site
    Particle
-   Group
    FileLMP
+   PhysicalConstants
    ModelParam
+   Group
    ParticleFactory
    Select
    Cells
    Domain
-   VisitParticles
    Configuration
    FileVMD
+   VisitParticles
    VisitConfiguration

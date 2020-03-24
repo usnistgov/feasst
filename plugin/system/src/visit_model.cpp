@@ -1,9 +1,11 @@
+#include <cmath>
 #include <vector>
 #include "system/include/visit_model.h"
 #include "system/include/model_two_body.h"
 #include "system/include/model_one_body.h"
-#include "system/include/select_list.h"
+#include "configuration/include/select.h"
 #include "math/include/constants.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -199,11 +201,11 @@ void VisitModel::check_energy(
   const double en_group = energy();
 
   // select each particle and compare half the sum with the whole
-  SelectList select;
   double en_select = 0;
   const int num = config->num_particles(group_index);
   for (int part = 0; part < num; ++part) {
-    select.particle(part, *config, group_index);
+    Select select;
+    select.add_particle(config->select_particle(part), part);
     model.compute(select, group_index, config, this);
     TRACE("part " << part << " en " << energy());
     en_select += 0.5*energy();
@@ -259,6 +261,14 @@ VisitModel::VisitModel(std::istream& istr) {
       inner_ = inner_->deserialize(istr);
     }
   }
+}
+
+void VisitModel::compute(
+    const ModelThreeBody& model,
+    const ModelParams& model_params,
+    Configuration * config,
+    const int group_index) {
+  FATAL("not implemented");
 }
 
 }  // namespace feasst

@@ -1,7 +1,8 @@
 #include "configuration/include/properties.h"
 #include "utils/include/debug.h"
 #include "utils/include/utils.h"
-#include "utils/include/utils_io.h"
+#include "utils/include/serialize.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -87,6 +88,10 @@ void PropertiedEntity::set_properties(const Properties& properties,
 bool Properties::is_equal(const Properties& properties,
     const double tolerance) const {
   return feasst::is_equal(values_, properties.values_, tolerance);
+}
+
+bool Properties::is_equal(const Properties& properties) const {
+  return is_equal(properties, NEAR_ZERO);
 }
 
 void Properties::serialize(std::ostream& ostr) const {

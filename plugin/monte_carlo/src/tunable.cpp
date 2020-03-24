@@ -2,7 +2,7 @@
 #include <cmath>
 #include "utils/include/debug.h"
 #include "monte_carlo/include/tunable.h"
-#include "utils/include/utils_io.h"
+#include "utils/include/serialize.h"
 #include "math/include/constants.h"
 
 namespace feasst {

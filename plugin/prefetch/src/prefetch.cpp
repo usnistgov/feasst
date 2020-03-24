@@ -3,7 +3,9 @@
 #ifdef _OPENMP
   #include <omp.h>
 #endif // _OPENMP
-#include <limits.h>
+#include <cmath>
+#include <limits>
+#include "utils/include/serialize.h"
 #include "prefetch/include/prefetch.h"
 
 // // use this to turn prefetch serial to simply debugging
@@ -323,7 +325,7 @@ void Prefetch::attempt_(
         const double tolerance = 1e-8;
         const MonteCarlo& mcc = *clone_(proc_id);
         const double diff = mcc.criteria()->current_energy() - energy;
-        ASSERT(fabs(diff) <= tolerance, "diff: " << diff);
+        ASSERT(std::fabs(diff) <= tolerance, "diff: " << diff);
         ASSERT(system().configuration().is_equal(mcc.system().configuration(), tolerance), "configs not equal thread" << proc_id);
         ASSERT(trials().is_equal(mcc.trials()), "trials not equal thread" << proc_id);
 //        ASSERT(criteria()->is_equal(mcc.criteria()), "criteria not equal: " << proc_id);
@@ -353,6 +355,24 @@ void Prefetch::attempt_(
       }
     }
   }
+}
+
+void Prefetch::serialize(std::ostream& ostr) const {
+  MonteCarlo::serialize(ostr);
+  feasst_serialize_version(348, ostr);
+  feasst_serialize(is_activated_, ostr);
+  feasst_serialize(steps_per_check_, ostr);
+  feasst_serialize(steps_since_check_, ostr);
+  feasst_serialize(load_balance_, ostr);
+}
+
+Prefetch::Prefetch(std::istream& istr) : MonteCarlo(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 348, "version: " << version);
+  feasst_deserialize(&is_activated_, istr);
+  feasst_deserialize(&steps_per_check_, istr);
+  feasst_deserialize(&steps_since_check_, istr);
+  feasst_deserialize(&load_balance_, istr);
 }
 
 }  // namespace feasst

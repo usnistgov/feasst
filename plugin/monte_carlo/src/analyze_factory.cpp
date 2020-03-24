@@ -1,5 +1,5 @@
-
 #include "monte_carlo/include/analyze_factory.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

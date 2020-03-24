@@ -1,4 +1,6 @@
 #include "confinement/include/model_hard_shape.h"
+#include "utils/include/serialize.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -22,6 +24,18 @@ ModelHardShape::ModelHardShape(std::istream& istr)
   : ModelOneBody(), ShapedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 4276, "unrecognized verison: " << version);
+}
+
+double ModelHardShape::energy(
+    const Site& site,
+    const Configuration * config,
+    const ModelParams& model_params) const {
+  const int type = site.type();
+  const double sigma = model_params.sigma().value(type);
+  if (shape()->is_inside(site.position(), sigma)) {
+    return 0.;
+  }
+  return NEAR_INFINITY;
 }
 
 }  // namespace feasst

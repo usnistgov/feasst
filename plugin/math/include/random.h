@@ -5,18 +5,15 @@
 #include <map>
 #include <vector>
 #include <deque>
-#include <random>
 #include <string>
 #include <memory>
 #include "utils/include/arguments.h"
-#include "utils/include/debug.h"
 #include "utils/include/cache.h"
-#include "utils/include/utils_io.h"
 #include "math/include/position.h"
-#include "math/include/constants.h"
-#include "math/include/matrix.h"
 
 namespace feasst {
+
+class RotationMatrix;
 
 /**
   Psuedo random number generator class.
@@ -61,7 +58,7 @@ class Random {
   /// Return a random index of a vector.
   template<class T>
   const int index(const std::vector<T>& vector) {
-    ASSERT(vector.size() > 0, "size error");
+    // ASSERT(vector.size() > 0, "size error");
     const int vec_index = uniform(0, vector.size() - 1);
     return vec_index;
   }

@@ -5,7 +5,6 @@
 #include <string>
 #include <memory>
 #include "system/include/model_two_body.h"
-#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -28,28 +27,12 @@ class HardSphere : public ModelTwoBody {
     const double squared_distance,
     const int type1,
     const int type2,
-    const ModelParams& model_params) const override {
-    const double& sigma = model_params.mixed_sigma()[type1][type2];
-    // INFO("r2 " << squared_distance);
-    if (squared_distance <= sigma*sigma) {
-      return NEAR_INFINITY;
-    }
-    return 0.;
-  }
+    const ModelParams& model_params) const override;
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<HardSphere>(istr); }
-
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
-    feasst_serialize_version(607, ostr);
-  }
-
-  explicit HardSphere(std::istream& istr) {
-    const int version = feasst_deserialize_version(istr);
-    ASSERT(607 == version, version);
-  }
-
+  void serialize(std::ostream& ostr) const override;
+  explicit HardSphere(std::istream& istr);
   virtual ~HardSphere() {}
 
  private:

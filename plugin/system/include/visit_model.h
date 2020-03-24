@@ -59,9 +59,7 @@ class VisitModel {
       const ModelThreeBody& model,
       const ModelParams& model_params,
       Configuration * config,
-      const int group_index = 0) {
-    FATAL("not implemented");
-  }
+      const int group_index = 0);
 
   // If model parameters are not given, then obtain them from the configuration.
   void compute(

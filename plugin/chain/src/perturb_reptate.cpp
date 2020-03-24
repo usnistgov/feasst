@@ -1,4 +1,4 @@
-
+#include "utils/include/serialize.h"
 #include "chain/include/perturb_reptate.h"
 
 namespace feasst {
@@ -37,7 +37,7 @@ void PerturbReptate::serialize(std::ostream& ostr) const {
 void PerturbReptate::finalize(System * system) {
   PerturbDistance::finalize(system);
   // HWH could also use revert_select instead of finalize_select?
-  const SelectList& mobile = finalize_select()->mobile();
+  const Select& mobile = finalize_select()->mobile();
   const int part_index = mobile.particle_indices()[0];
   const Particle& part = system->configuration().select_particle(part_index);
   Select entire(part_index, part);

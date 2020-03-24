@@ -1,4 +1,5 @@
 #include "system/include/energy_map.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -78,6 +79,38 @@ double EnergyMap::total_energy() const {
     }
   }
   return 0.5*en;
+}
+
+std::shared_ptr<EnergyMap> EnergyMap::deserialize(std::istream& istr) {
+  return template_deserialize(deserialize_map(), istr); }
+
+void EnergyMap::serialize_energy_map_(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  feasst_serialize_version(945, ostr);
+  feasst_serialize(default_value_, ostr);
+  feasst_serialize(site_max_, ostr);
+  feasst_serialize(dimen_, ostr);
+}
+
+EnergyMap::EnergyMap(std::istream& istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 945, "version mismatch: " << version);
+  feasst_deserialize(&default_value_, istr);
+  feasst_deserialize(&site_max_, istr);
+  feasst_deserialize(&dimen_, istr);
+}
+
+void EnergyMap::select_cluster(const ClusterCriteria * cluster_criteria,
+                              const Configuration& config,
+                              const int particle_node,
+                              Select * cluster,
+                              const Position& frame_of_reference) const {
+  FATAL("not implemented");
+}
+
+bool EnergyMap::is_cluster_changed(const ClusterCriteria * cluster_criteria,
+    const Select& select) const {
+  FATAL("not implemented");
 }
 
 }  // namespace feasst

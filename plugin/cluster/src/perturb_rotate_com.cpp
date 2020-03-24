@@ -1,4 +1,4 @@
-
+#include "utils/include/serialize.h"
 #include "cluster/include/perturb_rotate_com.h"
 
 namespace feasst {
@@ -32,6 +32,14 @@ void PerturbRotateCOM::serialize_perturb_rotate_com_(std::ostream& ostr) const {
 void PerturbRotateCOM::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_perturb_rotate_com_(ostr);
+}
+
+void PerturbRotateCOM::move(System * system,
+    TrialSelect * select,
+    Random * random) {
+  const Position pivot = select->mobile().geometric_center();
+  DEBUG("piv " << pivot.str());
+  PerturbRotate::move(system, select, random, pivot, true);
 }
 
 }  // namespace feasst

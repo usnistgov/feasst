@@ -8,7 +8,6 @@
 #include "configuration/include/typed_entity.h"
 #include "configuration/include/site.h"
 #include "configuration/include/bond.h"
-#include "utils/include/debug.h"
 
 namespace feasst {
 

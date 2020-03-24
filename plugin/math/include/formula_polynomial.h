@@ -2,7 +2,6 @@
 #ifndef FEASST_MATH_FORMULA_POLYNOMIAL_H_
 #define FEASST_MATH_FORMULA_POLYNOMIAL_H_
 
-#include <math.h>
 #include <string>
 #include <memory>
 #include <vector>
@@ -30,13 +29,7 @@ class FormulaPolynomial : public Formula {
     return *this;
   }
 
-  double evaluate(const double x) override {
-    double result = 0.;
-    for (int i = 0; i < static_cast<int>(A_.size()); ++i) {
-      result += A_[i]*pow(x - x0(), i);
-    }
-    return result;
-  }
+  double evaluate(const double x) override;
 
   std::shared_ptr<Formula> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

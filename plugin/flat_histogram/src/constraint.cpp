@@ -1,4 +1,4 @@
-
+#include "utils/include/serialize.h"
 #include "flat_histogram/include/constraint.h"
 
 namespace feasst {

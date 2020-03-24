@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 #include "utils/include/arguments.h"
-#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -127,9 +126,12 @@ class Position {
   /// but the direction from the origin is the same.
   void normalize();
 
-  /// Return true if the given position is equal to self.
+  /// Return true if the given position is equal to self within tolerance.
   bool is_equal(const Position& position,
-                const double tolerance = NEAR_ZERO) const;
+                const double tolerance) const;
+
+  /// Same as above, but with a default tolerance of NEAR_ZERO.
+  bool is_equal(const Position& position) const;
 
   /// Nearest distance to axis defined by two points.
   /// see http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html

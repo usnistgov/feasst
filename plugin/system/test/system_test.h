@@ -3,7 +3,6 @@
 #define FEASST_CORE_SYSTEM_TEST_H_
 
 #include <vector>
-#include <utility>
 #include <string>
 #include "system/include/system.h"
 #include "system/include/potential.h"

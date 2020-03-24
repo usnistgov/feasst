@@ -1,3 +1,4 @@
+#include <cmath>
 #include "utils/test/utils.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/lennard_jones.h"
@@ -17,7 +18,7 @@ TEST(VisitModelIntra, energy) {
   config.set_model_param("cutoff", 0, 2.5);
 
   model.compute(&config, visit.get());
-  const double pe_lj =  4*(pow(2, -12)-pow(2, -6));
+  const double pe_lj =  4*(std::pow(2, -12) - std::pow(2, -6));
   EXPECT_NEAR(10*pe_lj, visit->energy(), NEAR_ZERO);
 
   // test exclusion of first site (no 0-2 or 0-8 interaction)

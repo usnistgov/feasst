@@ -9,39 +9,12 @@ namespace feasst {
 /// Select a random end point for reptation.
 class TrialSelectReptate : public TrialSelectEndSegment {
  public:
-  TrialSelectReptate(const argtype& args = argtype())
-    : TrialSelectEndSegment(args) {
-    ASSERT(max_length() == 1,
-      "requires max_length(" << max_length() << ") of 1");
-    class_name_ = "TrialSelectReptate";
-  }
+  TrialSelectReptate(const argtype& args = argtype());
 
-  void precompute(System * system) override {
-    TrialSelectEndSegment::precompute(system);
-    anchor_.clear();
-    anchor_.add_site(0, 0);
-    bonded_to_.clear();
-    bonded_to_.add_site(0, 0);
-  }
+  void precompute(System * system) override;
 
   void update_anchor(const bool is_endpoint_beginning,
-    const System * system) override {
-    const int particle_index = mobile_.particle_indices()[0];
-    const Configuration& config = system->configuration();
-    const Particle& particle = config.select_particle(particle_index);
-    int anchor_index = 0;
-    int site_bonded_to = particle.num_sites() - 2;
-    DEBUG("is_endpoint_beginning " << is_endpoint_beginning);
-    if (is_endpoint_beginning) {
-      anchor_index = particle.num_sites() - 1;
-      site_bonded_to = 1;
-    }
-    // for the old configuration, set the anchor to the old bond.
-    anchor_.set_site(0, 0, anchor_index);
-    anchor_.set_particle(0, particle_index);
-    ASSERT(bonded_to_.replace_indices(particle_index, {site_bonded_to}),
-      "bonded_to_ wasn't initialized to proper size on precompute");
-  }
+    const System * system) override;
 
   void mid_stage() override {
     // exclude the anchor from interactions.
@@ -59,7 +32,7 @@ class TrialSelectReptate : public TrialSelectEndSegment {
   void serialize_trial_select_reptate_(std::ostream& ostr) const;
 
  private:
-  SelectList bonded_to_;
+  Select bonded_to_;
 };
 
 inline std::shared_ptr<TrialSelectReptate> MakeTrialSelectReptate(

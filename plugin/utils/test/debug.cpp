@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include <sstream>
+#include "utils/test/utils.h"
 #include "utils/include/debug.h"
 
 namespace feasst {

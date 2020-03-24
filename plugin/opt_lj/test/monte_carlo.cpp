@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "math/include/random_mt19937.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/test/monte_carlo_test.h"

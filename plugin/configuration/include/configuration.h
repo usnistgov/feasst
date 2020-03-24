@@ -5,11 +5,10 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "utils/include/arguments.h"
 #include "configuration/include/domain.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
-#include "math/include/matrix.h"
-#include "utils/include/arguments.h"
 
 namespace feasst {
 
@@ -227,14 +226,11 @@ class Configuration {
   std::vector<int> num_sites_of_type(const int group_index = 0.) const {
     return num_sites_of_type(group_selects()[group_index]); }
 
-  // HWH update the below comment regarding SelectList
   //@}
   /** @name Modifications
     Modifications to a configuration (e.g., moving, adding or deleting
     particles/sites.
     A subset of the configuration is defined by a Select.
-    Avoid using a Select object directly.
-    Instead, use a SelectList, which can be input into the following.
    */
   //@{
 

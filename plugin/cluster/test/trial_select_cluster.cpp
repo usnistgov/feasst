@@ -34,7 +34,7 @@ TEST(TrialSelectCluster, serialize) {
   TrialSelectCluster add(MakeClusterCriteria());
 
   // select all clusters
-  { std::vector<SelectList> clusters = add.select_clusters(sys);
+  { std::vector<Select> clusters = add.select_clusters(sys);
     EXPECT_EQ(2, static_cast<int>(clusters.size()));
     EXPECT_EQ(2, clusters[0].num_particles());
     EXPECT_EQ(1, clusters[1].num_particles());

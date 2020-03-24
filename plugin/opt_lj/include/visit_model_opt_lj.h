@@ -25,10 +25,6 @@ class VisitModelOptLJ : public VisitModel {
   void serialize(std::ostream& ostr) const override;
   VisitModelOptLJ(std::istream& istr);
   ~VisitModelOptLJ() {}
-
- private:
-  // temporary
-  double squared_distance_;
 };
 
 inline std::shared_ptr<VisitModelOptLJ> MakeVisitModelOptLJ() {

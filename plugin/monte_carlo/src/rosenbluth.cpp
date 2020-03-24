@@ -1,5 +1,9 @@
-
+#include <cmath>
+#include "utils/include/serialize.h"
+#include "math/include/constants.h"
 #include "monte_carlo/include/rosenbluth.h"
+#include "math/include/utils_math.h"
+#include "math/include/random.h"
 
 namespace feasst {
 
@@ -48,7 +52,7 @@ void Rosenbluth::compute(const double beta, Random * random) {
   chosen_step_ = random->index_from_cumulative_probability(cumulative_);
 }
 
-const SelectList& Rosenbluth::chosen() const {
+const Select& Rosenbluth::chosen() const {
   ASSERT(chosen_step_ != -1, "error");
   return stored_[chosen_step_];
 }

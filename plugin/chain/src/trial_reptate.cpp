@@ -1,4 +1,5 @@
 #include "chain/include/trial_reptate.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

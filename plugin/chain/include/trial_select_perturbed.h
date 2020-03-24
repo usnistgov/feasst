@@ -16,7 +16,7 @@ class TrialSelectPerturbed : public TrialSelect {
 
   bool select(const Select& perturbed, System* system, Random * random) override {
     if (perturbed.num_sites() == 0) return false;
-    mobile_.replace_particle(perturbed, 0, system->configuration());
+    replace_mobile(perturbed, 0, system->configuration());
     mobile_original_ = mobile_;
     return true;
   }

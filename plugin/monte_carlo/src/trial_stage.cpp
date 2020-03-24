@@ -1,3 +1,4 @@
+#include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_stage.h"
 
 namespace feasst {
@@ -57,7 +58,7 @@ void TrialStage::attempt(System * system,
     if (step == 0 && old == 1) is_position_held = true;
     perturb_->perturb(system, select_.get(), random, is_position_held);
     DEBUG("updating state " << select_->mobile().trial_state());
-    rosenbluth_.store(step, select_->mobile(), system);
+    rosenbluth_.store(step, select_->mobile());
     if (reference_ == -1) {
       DEBUG("select " << select_->mobile().str());
       rosenbluth_.set_energy(step, system->perturbed_energy(select_->mobile()));

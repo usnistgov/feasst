@@ -1,4 +1,4 @@
-
+#include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
@@ -103,4 +103,45 @@ TrialSelect::TrialSelect(std::istream& istr) {
   feasst_deserialize(&is_ghost_, istr);
 }
 
+void TrialSelect::remove_unphysical_sites(const Configuration& config) {
+  Select unphysical;
+  for (int sp_index = 0;
+       sp_index < static_cast<int>(mobile_.particle_indices().size());
+       ++sp_index) {
+    const int p_index = mobile_.particle_indices()[sp_index];
+    DEBUG("p_index " << p_index);
+    std::vector<int> sites;
+    for (const int s_index : mobile_.site_indices(sp_index)) {
+      DEBUG("s_index " << s_index);
+      if (!config.select_particle(p_index).site(s_index).is_physical()) {
+        DEBUG("unphysical");
+        sites.push_back(s_index);
+      }
+    }
+    if (sites.size() > 0) {
+      unphysical.add_sites(p_index, sites);
+    }
+  }
+  if (unphysical.num_particles() > 0) {
+    mobile_.remove(unphysical);
+    mobile_.resize_positions();
+    mobile_.load_positions(config.particles());
+  }
+}
+
+void TrialSelect::replace_mobile(const Select& replacement,
+    const int sp_index,
+    const Configuration& config) {
+  bool fast = mobile_.replace_indices(replacement.particle_index(sp_index),
+                                      replacement.site_indices(sp_index));
+  if (!fast) mobile_.resize_positions();
+  mobile_.load_positions(config.particles());
+}
+
+bool TrialSelect::select(
+    const Select& perturbed,
+    System * system,
+    Random * random) {
+  FATAL("not implemented");
+}
 }  // namespace feasst

@@ -72,23 +72,8 @@ class Prefetch : public MonteCarlo {
     }
   }
 
-  void serialize(std::ostream& ostr) const override {
-    MonteCarlo::serialize(ostr);
-    feasst_serialize_version(348, ostr);
-    feasst_serialize(is_activated_, ostr);
-    feasst_serialize(steps_per_check_, ostr);
-    feasst_serialize(steps_since_check_, ostr);
-    feasst_serialize(load_balance_, ostr);
-  }
-  Prefetch(std::istream& istr) : MonteCarlo(istr) {
-    const int version = feasst_deserialize_version(istr);
-    ASSERT(version == 348, "version: " << version);
-    feasst_deserialize(&is_activated_, istr);
-    feasst_deserialize(&steps_per_check_, istr);
-    feasst_deserialize(&steps_since_check_, istr);
-    feasst_deserialize(&load_balance_, istr);
-  }
-
+  void serialize(std::ostream& ostr) const override;
+  explicit Prefetch(std::istream& istr);
   virtual ~Prefetch() {}
 
  protected:

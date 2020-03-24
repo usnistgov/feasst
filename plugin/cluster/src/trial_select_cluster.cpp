@@ -1,3 +1,4 @@
+#include "utils/include/serialize.h"
 #include "cluster/include/trial_select_cluster.h"
 
 namespace feasst {
@@ -35,7 +36,7 @@ const EnergyMap * TrialSelectCluster::map_(const System& system) const {
 
 void TrialSelectCluster::select_cluster(const int first_particle,
     const System& system,
-    SelectList * select) {
+    Select * select) {
   select->clear();
   const Configuration& config = system.configuration();
   const Particle& part = config.select_particle(first_particle);
@@ -52,14 +53,14 @@ bool TrialSelectCluster::are_constraints_satisfied(const System& system) const {
   return !map_(system)->is_cluster_changed(cluster_criteria_.get(), mobile_);
 }
 
-std::vector<SelectList> TrialSelectCluster::select_clusters(
+std::vector<Select> TrialSelectCluster::select_clusters(
     const System& system) {
-  std::vector<SelectList> clusters;
+  std::vector<Select> clusters;
   Select selectable = system.configuration().group_select(group_index());
   int num_iter = 0;
   const int max_iter = selectable.num_particles();
   while (selectable.num_particles() != 0) {
-    clusters.push_back(SelectList());
+    clusters.push_back(Select());
     select_cluster(selectable.particle_index(0), system, &clusters.back());
     selectable.remove(clusters.back());
     ++num_iter;
@@ -72,7 +73,7 @@ bool TrialSelectCluster::select(const Select& perturbed,
                                  System* system,
                                  Random * random) {
   const Configuration& config = system->configuration();
-  SelectList first_node;
+  Select first_node;
   // HWH use TrialSelectParticle for optional group, particle type, etc.
   const int num = select_particle_->random_particle(config, &first_node, random);
   const int first_particle = first_node.particle_index(0);
@@ -80,7 +81,7 @@ bool TrialSelectCluster::select(const Select& perturbed,
   set_probability(1./static_cast<double>(num));
   select_cluster(first_particle, *system);
   printable_["cluster_size"].accumulate(mobile_.num_particles());
-  mobile_.remove_unphysical_sites(config);
+  remove_unphysical_sites(config);
   mobile_original_ = mobile_;
   return true;
 }

@@ -1,5 +1,6 @@
-
+#include <cmath>
 #include "monte_carlo/include/metropolis.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -7,7 +8,7 @@ bool Metropolis::is_accepted(const Acceptance& acceptance,
     const System * system,
     const double uniform_random) {
   if ( (!acceptance.reject()) and
-       (uniform_random < exp(acceptance.ln_metropolis_prob())) ) {
+       (uniform_random < std::exp(acceptance.ln_metropolis_prob())) ) {
     DEBUG("accepted");
     set_current_energy(acceptance.energy_new());
     was_accepted_ = true;

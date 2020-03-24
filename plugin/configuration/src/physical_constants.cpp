@@ -1,6 +1,7 @@
-
+#include <cmath>
 #include "utils/include/serialize.h"
 #include "configuration/include/physical_constants.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -15,6 +16,11 @@ std::shared_ptr<PhysicalConstants> PhysicalConstants::deserialize(std::istream& 
     // true argument denotes rewinding to reread class name
     // this allows derived class constructor to read class name.
     true);
+}
+
+const double PhysicalConstants::charge_conversion() const {
+  return std::pow(elementary_charge(), 2)/
+  (4*PI*permitivity_vacuum()*1e3/1e10/avogadro_constant());
 }
 
 class MapCODATA2018 {

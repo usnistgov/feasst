@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+#include "utils/test/utils.h"
 #include "monte_carlo/test/perturb_test.h"
 #include "cluster/include/energy_map_all.h"
 

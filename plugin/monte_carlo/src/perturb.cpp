@@ -1,4 +1,4 @@
-
+#include "utils/include/serialize.h"
 #include "monte_carlo/include/perturb.h"
 
 namespace feasst {
@@ -93,6 +93,14 @@ Perturb::Perturb(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(902 == version, "mismatch version: " << version);
   feasst_deserialize_fstobj(&tunable_, istr);
+}
+
+void Perturb::perturb(
+  System * system,
+  TrialSelect * select,
+  Random * random,
+  const bool is_position_held) {
+  FATAL("not implemented");
 }
 
 }  // namespace feasst

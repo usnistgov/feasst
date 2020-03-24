@@ -2,8 +2,7 @@
 #ifndef FEASST_PATCH_PATCH_ANGLE_H_
 #define FEASST_PATCH_PATCH_ANGLE_H_
 
-#include "system/include/visit_model.h"
-#include "math/include/utils_math.h"
+#include "configuration/include/model_params.h"
 
 namespace feasst {
 
@@ -17,10 +16,7 @@ class CosPatchAngle : public ModelParam {
   CosPatchAngle() { set_name("cos_patch_angle"); }
   CosPatchAngle(std::istream& istr) : ModelParam(istr) {}
 
-  double compute(const int type, const ModelParams& model_params) override {
-    const double angle = model_params.select("patch_angle")->value(type);
-    return cos(degrees_to_radians(angle));
-  }
+  double compute(const int type, const ModelParams& model_params) override;
 };
 
 }  // namespace feasst

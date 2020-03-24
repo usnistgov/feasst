@@ -44,25 +44,10 @@ class HalfSpace : public Shape {
 
   double nearest_distance(const Position& point) const override;
 
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " ";
-    feasst_serialize_version(376, ostr);
-    feasst_serialize(dimension_, ostr);
-    feasst_serialize(intersection_, ostr);
-    feasst_serialize(direction_, ostr);
-  }
-
+  void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Shape> create(std::istream& istr) const override {
     return std::make_shared<HalfSpace>(istr); }
-
-  HalfSpace(std::istream& istr) {
-    const int version = feasst_deserialize_version(istr);
-    ASSERT(376 == version, version);
-    feasst_deserialize(&dimension_, istr);
-    feasst_deserialize(&intersection_, istr);
-    feasst_deserialize(&direction_, istr);
-  }
-
+  explicit HalfSpace(std::istream& istr);
   virtual ~HalfSpace() {}
 
  private:

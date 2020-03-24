@@ -1,4 +1,6 @@
-
+#include "utils/include/serialize.h"
+#include "math/include/constants.h"  // PI
+#include "math/include/random.h"
 #include "monte_carlo/include/perturb_distance_angle.h"
 
 namespace feasst {
@@ -32,7 +34,7 @@ void PerturbDistanceAngle::precompute(TrialSelect * select, System * system) {
 void PerturbDistanceAngle::move(System * system,
                                 TrialSelect * select,
                                 Random * random) {
-  SelectList * mobile = select->get_mobile();
+  Select * mobile = select->get_mobile();
   Position * site = mobile->get_site_position(0, 0);
   DEBUG("mobile " << mobile->str());
   DEBUG("old pos " << site->str());

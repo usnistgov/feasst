@@ -1,4 +1,5 @@
 #include "cluster/include/energy_map_all_criteria.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

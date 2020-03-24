@@ -1,3 +1,5 @@
+#include <cmath>
+#include "utils/include/serialize.h"
 #include "steppers/include/check_energy.h"
 
 namespace feasst {

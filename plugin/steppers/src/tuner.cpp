@@ -1,4 +1,5 @@
 #include "steppers/include/tuner.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

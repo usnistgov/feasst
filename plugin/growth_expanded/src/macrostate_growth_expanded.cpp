@@ -1,5 +1,5 @@
-
 #include <algorithm>
+#include "utils/include/serialize.h"
 #include "growth_expanded/include/macrostate_growth_expanded.h"
 
 namespace feasst {
@@ -28,6 +28,24 @@ void MacrostateGrowthExpanded::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_macrostate_(ostr);
   feasst_serialize_version(6030, ostr);
+}
+
+double MacrostateGrowthExpanded::value(const System* system,
+    const Criteria* criteria) {
+  const double num_particles = static_cast<double>(system->configuration().num_particles());
+  double rtrn;
+  DEBUG("nump " << num_particles);
+  DEBUG("state " << criteria->trial_state());
+  DEBUG("num state: " << criteria->num_trial_states());
+  if (criteria->trial_state() == 0) {
+    rtrn = num_particles;
+  } else {
+    rtrn = num_particles - 1 +
+        (static_cast<double>(criteria->trial_state())/
+         static_cast<double>(criteria->num_trial_states()));
+  }
+  DEBUG("rtrn: " << rtrn);
+  return rtrn;
 }
 
 }  // namespace feasst

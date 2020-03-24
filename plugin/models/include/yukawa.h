@@ -2,8 +2,8 @@
 #ifndef FEASST_MODELS_YUKAWA_H_
 #define FEASST_MODELS_YUKAWA_H_
 
+#include <sstream>
 #include "system/include/model_two_body.h"
-#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -20,34 +20,16 @@ class Yukawa : public ModelTwoBody {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const override {
-    const double epsilon = model_params.mixed_epsilon()[type1][type2];
-    const double sigma = model_params.mixed_sigma()[type1][type2];
-    const double distance = sqrt(squared_distance);
-    TRACE("epsilon " << epsilon << " distance " << distance << " kappa " << kappa_);
-    return epsilon*exp(-kappa_*(distance/sigma - 1.))/(distance/sigma);
-  }
+      const ModelParams& model_params) const override;
 
   /// Set the value of the kappa parameter.
   void set_kappa(const double kappa = 1) { kappa_ = kappa; }
   double kappa() const { return kappa_; }
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
-    auto model = std::make_shared<Yukawa>();
-    int version;
-    istr >> version;
-    double kappa;
-    istr >> kappa;
-    model->set_kappa(kappa);
-    return model;
-  }
-
-  void serialize(std::ostream& ostr) const override {
-    ostr << class_name_ << " "
-         << "1 " // version
-         << kappa_ << " ";
-  }
-
+    return std::make_shared<Yukawa>(istr); }
+  void serialize(std::ostream& ostr) const override;
+  explicit Yukawa(std::istream& istr);
   virtual ~Yukawa() {}
 
  private:

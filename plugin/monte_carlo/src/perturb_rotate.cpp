@@ -1,5 +1,8 @@
-
+#include <cmath>
+#include "utils/include/serialize.h"
 #include "monte_carlo/include/perturb_rotate.h"
+#include "math/include/constants.h"
+#include "math/include/random.h"
 
 namespace feasst {
 
@@ -26,7 +29,7 @@ void PerturbRotate::update_selection(const Position& pivot,
     const RotationMatrix& rotation,
     TrialSelect * select,
     const bool rotate_particle_position) {
-  SelectList * rotated = select->get_mobile();
+  Select * rotated = select->get_mobile();
   for (int select_index = 0;
        select_index < rotated->num_particles();
        ++select_index) {

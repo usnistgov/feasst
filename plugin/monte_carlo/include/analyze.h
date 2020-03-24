@@ -39,10 +39,8 @@ class Analyze : public Stepper {
       const TrialFactory& trial_factory);
 
   // Access to factory of Analyze objects.
-  virtual const std::vector<std::shared_ptr<Analyze> >& analyzers() const {
-    FATAL("not implemented"); }
-  virtual const Analyze * analyze(const int index) const {
-    FATAL("not implemented"); }
+  virtual const std::vector<std::shared_ptr<Analyze> >& analyzers() const;
+  virtual const Analyze * analyze(const int index) const;
 
   // serialization
   virtual void serialize(std::ostream& ostr) const;
@@ -65,8 +63,7 @@ class AnalyzeWriteOnly : public Analyze {
    */
   explicit AnalyzeWriteOnly(const argtype &args = argtype());
 
-  void set_steps_per_update(const int steps) override {
-    ERROR("This analyze is write only."); }
+  void set_steps_per_update(const int steps) override;
 
   void set_steps_per(const int steps) { set_steps_per_write(steps); }
 
@@ -84,8 +81,7 @@ class AnalyzeUpdateOnly : public Analyze {
    */
   explicit AnalyzeUpdateOnly(const argtype &args = argtype());
 
-  void set_steps_per_write(const int steps) override {
-    ERROR("This analyze is update only."); }
+  void set_steps_per_write(const int steps) override;
 
   void set_steps_per(const int steps) { set_steps_per_update(steps); }
 

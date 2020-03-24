@@ -2,6 +2,7 @@
 #ifndef FEASST_MONTE_CARLO_PERTURB_ROTATE_H_
 #define FEASST_MONTE_CARLO_PERTURB_ROTATE_H_
 
+#include "math/include/matrix.h"
 #include "monte_carlo/include/perturb_move.h"
 
 namespace feasst {
@@ -66,7 +67,7 @@ class PerturbRotate : public PerturbMove {
   // the only rotated position.
   bool is_rotation_not_needed_(const TrialSelect * select,
       const Position& pivot) {
-    const SelectList& rotated = select->mobile();
+    const Select& rotated = select->mobile();
     if (rotated.num_particles() == 1) {
       if (static_cast<int>(rotated.site_indices()[0].size()) == 1) {
         if (rotated.site_positions()[0][0].is_equal(pivot)) {

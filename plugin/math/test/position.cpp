@@ -1,5 +1,5 @@
+#include <cmath>
 #include "utils/test/utils.h"
-#include <math.h>
 #include "system/test/position_test.h"
 #include "math/include/constants.h"
 #include "math/include/random_mt19937.h"

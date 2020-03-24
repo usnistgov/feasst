@@ -4,7 +4,6 @@
 
 #include "system/include/model_one_body.h"
 #include "confinement/include/shape.h"
-#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -22,14 +21,7 @@ class ModelHardShape : public ModelOneBody,
   double energy(
       const Site& site,
       const Configuration * config,
-      const ModelParams& model_params) const override {
-    const int type = site.type();
-    const double sigma = model_params.sigma().value(type);
-    if (shape()->is_inside(site.position(), sigma)) {
-      return 0.;
-    }
-    return NEAR_INFINITY;
-  }
+      const ModelParams& model_params) const override;
 
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {

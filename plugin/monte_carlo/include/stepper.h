@@ -4,9 +4,10 @@
 
 #include <string>
 #include "utils/include/arguments.h"
-#include "math/include/accumulator.h"
 
 namespace feasst {
+
+class Accumulator;
 
 /**
   Perform an action (update or write) every so many steps.
@@ -53,7 +54,7 @@ class Stepper {
   int state() const { return state_; }
 
   /// Return the accumulator.
-  virtual const Accumulator& accumulator() const { FATAL("not implemented"); }
+  virtual const Accumulator& accumulator() const;
 
   virtual std::string class_name() const { return std::string("Stepper"); }
 

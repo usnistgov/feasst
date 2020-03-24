@@ -1,3 +1,4 @@
+#include "utils/include/serialize.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/perturb_remove.h"
 #include "ewald/include/compute_remove_multiple.h"

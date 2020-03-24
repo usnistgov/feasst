@@ -1,4 +1,5 @@
 #include "system/include/ideal_gas.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

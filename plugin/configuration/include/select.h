@@ -5,11 +5,12 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "math/include/random.h"
 #include "configuration/include/group.h"
 #include "configuration/include/particle_factory.h"
 
 namespace feasst {
+
+class Random;
 
 /**
   Select a subset of particles and sites by storing their respective indices.
@@ -247,11 +248,6 @@ class Select {
 
   /// Set the trial state.
   void set_trial_state(const int state = -1);
-
-//  virtual void reverse() {
-//    feasst_reverse(&particle_indices_);
-//    feasst_reverse(&site_indices_);
-//  }
 
   /// Excluded site list.
   void exclude(const Select& select);

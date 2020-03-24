@@ -1,5 +1,4 @@
 #include "utils/test/utils.h"
-#include <limits.h>
 #include "math/include/histogram.h"
 #include "math/include/constants.h"
 #include "utils/include/debug.h"

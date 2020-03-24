@@ -61,8 +61,7 @@ class Perturb {
     Random * random,
     /// If position is held, all but perform the actual perturbation, as
     /// typically required for calculations of old configurations and Rosenbluth
-    const bool is_position_held = false
-    ) { FATAL("not implemented"); }
+    const bool is_position_held = false);
 
   /// Return whether it is possible to revert.
   bool revert_possible() const { return revert_possible_; }

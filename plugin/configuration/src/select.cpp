@@ -4,7 +4,8 @@
 #include "configuration/include/select.h"
 #include "utils/include/utils.h"
 #include "math/include/utils_math.h"
-#include "utils/include/utils_io.h"
+#include "math/include/random.h"
+#include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 
 namespace feasst {

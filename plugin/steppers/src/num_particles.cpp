@@ -1,4 +1,5 @@
 #include "steppers/include/num_particles.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 

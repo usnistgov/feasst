@@ -2,6 +2,7 @@
 #ifndef FEASST_MONTE_CARLO_PERTURB_DISTANCE_ANGLE_H_
 #define FEASST_MONTE_CARLO_PERTURB_DISTANCE_ANGLE_H_
 
+#include "math/include/matrix.h"
 #include "monte_carlo/include/perturb_distance.h"
 
 namespace feasst {

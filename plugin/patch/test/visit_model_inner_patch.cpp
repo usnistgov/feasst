@@ -3,6 +3,7 @@
 #include "configuration/include/file_xyz.h"
 #include "models/include/square_well.h"
 #include "monte_carlo/include/perturb_anywhere.h"
+#include "monte_carlo/include/trial_select_particle.h"
 
 namespace feasst {
 
@@ -45,13 +46,13 @@ TEST(VisitModelInnerPatch, patch_one_2body) {
   system.precompute();
 
   PerturbAnywhere anywhere;
-  TrialSelect tsel;
-  tsel.set_mobile(SelectList().particle(1, system.configuration()));
+  TrialSelectParticle tsel;
+  tsel.select_particle(1, system.configuration());
   auto traj = Position().set_vector({1.4, 0., 0.});
   anywhere.set_position(traj, &system, &tsel);
 
   PerturbRotate rotate;
-  tsel.set_mobile(SelectList().particle(1, system.configuration()));
+  tsel.select_particle(1, system.configuration());
   auto axis = Position().set_vector({0., 0., 1.});
   FileXYZ file;
   file.write_for_vmd("tmp/patch.xyz", system.configuration());

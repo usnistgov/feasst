@@ -2,8 +2,7 @@
 #ifndef FEASST_CONFIGURATION_TYPED_ENTITY_H_
 #define FEASST_CONFIGURATION_TYPED_ENTITY_H_
 
-#include <vector>
-#include <string>
+#include <sstream>
 
 namespace feasst {
 

@@ -2,12 +2,12 @@
 .. toctree::
 
    LnProbability
+   TripleBandedCollectionMatrix
    Bias
    WangLandau
+   TransitionMatrix
    Constraint
    Macrostate
-   FlatHistogram
-   TripleBandedCollectionMatrix
-   TransitionMatrix
-   WLTM
    MacrostateNumParticles
+   FlatHistogram
+   WLTM

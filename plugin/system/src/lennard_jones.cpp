@@ -1,4 +1,7 @@
+#include <cmath>
 #include "system/include/lennard_jones.h"
+#include "utils/include/serialize.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -25,6 +28,27 @@ LennardJones::LennardJones(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(763 == version, version);
   feasst_deserialize(&hard_sphere_threshold_sq_, istr);
+}
+
+double LennardJones::hard_sphere_threshold() const {
+  return std::sqrt(hard_sphere_threshold_sq_);
+}
+
+double LennardJones::energy(
+    const double squared_distance,
+    const int type1,
+    const int type2,
+    const ModelParams& model_params) const {
+  const double sigma = model_params.mixed_sigma()[type1][type2];
+  const double sigma_squared = sigma*sigma;
+  if (squared_distance < hard_sphere_threshold_sq_*sigma_squared) {
+    return NEAR_INFINITY;
+  }
+  const double epsilon = model_params.mixed_epsilon()[type1][type2];
+  const double rinv2 = sigma_squared/squared_distance;
+  const double rinv6 = rinv2*rinv2*rinv2;
+  const double en = 4.*epsilon*rinv6*(rinv6 - 1.);
+  return en;
 }
 
 }  // namespace feasst

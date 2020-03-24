@@ -10,16 +10,12 @@ namespace feasst {
 // HWH optimzie by settting endpoints as anchors.
 class TrialSelectSegment : public TrialSelectParticle {
  public:
-  TrialSelectSegment(
-    /**
-      max_length : maximum length of selected segment. If -1 (default), then
-        randomly select all possible lengths.
-     */
-    const argtype& args = argtype()) : TrialSelectParticle(args) {
-    class_name_ = "TrialSelectSegment";
-    args_.dont_check();
-    max_length_ = args_.key("max_length").dflt("-1").integer();
-  }
+  /**
+    args:
+    - max_length : maximum length of selected segment. If -1 (default), then
+      randomly select all possible lengths.
+   */
+  TrialSelectSegment(const argtype& args = argtype());
 
   /// Return the maximum length.
   int max_length() const { return max_length_; }
@@ -32,59 +28,11 @@ class TrialSelectSegment : public TrialSelectParticle {
       Random * random,
       /// Set the maximum length of the segment.
       /// If -1 (default), consider all possible lengths.
-      const int max_length = -1
-    ) {
-    random_particle(config, select, random);
-    const int num_sites = select->num_sites();
-    DEBUG("num_sites " << num_sites);
-    if (num_sites <= 1) {
-      // HWH note this check prevents error/infinite loop below
-      return false;
-    }
+      const int max_length = -1);
 
-    // find two unequal sites
-    int min = 0;
-    int max = min;
-    int attempt = 0;
-    while (min == max) {
-      min = random->uniform(0, num_sites - 1);
-      if (max_length == -1) {
-        max = random->uniform(0, num_sites - 1);
-      } else {
-        max = min + random->uniform(-max_length, max_length);
-        if (max < 0) {
-          max = 0;
-        }
-        if (max >= num_sites) {
-          max = num_sites - 1;
-        }
-      }
-      ++attempt;
-      ASSERT(attempt < 1e3, "infinite loop");
-    }
-
-    // swap for meaningful min/max
-    sort(&min, &max);
-
-    // remove sites not in min/max, from highest to lowest
-    select->remove_last_sites(num_sites - max - 1);
-    select->remove_first_sites(min);
-    return true;
-  }
-
-  bool select(const Select& perturbed, System* system, Random * random) override {
-    const bool is_found = random_segment_in_particle(
-      system->configuration(),
-      &mobile_,
-      random,
-      max_length()
-    );
-    if (!is_found) {
-      return false;
-    }
-    mobile_original_ = mobile_;
-    return true;
-  }
+  bool select(const Select& perturbed,
+    System* system,
+    Random * random) override;
 
   std::shared_ptr<TrialSelect> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

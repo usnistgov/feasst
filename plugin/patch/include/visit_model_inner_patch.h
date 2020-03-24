@@ -2,7 +2,6 @@
 #ifndef FEASST_PATCH_VISIT_MODEL_INNER_PATCH_H_
 #define FEASST_PATCH_VISIT_MODEL_INNER_PATCH_H_
 
-#include "math/include/utils_math.h"
 #include "system/include/visit_model.h"
 #include "patch/include/patch_angle.h"
 
@@ -54,17 +53,11 @@ class VisitModelInnerPatch : public VisitModelInner {
 //    }
 //  }
 
-  void precompute(Configuration * config) override {
-    config->add(std::make_shared<PatchAngle>());
-    cos_patch_angle_.set_param(config->model_params());
-  }
+  void precompute(Configuration * config) override;
 
   CosPatchAngle cos_patch_angle() const { return cos_patch_angle_; }
 
-  void set_patch_angle(const int type, const double degrees) {
-    const double cosa = cos(degrees_to_radians(degrees));
-    cos_patch_angle_.set(type, cosa);
-  }
+  void set_patch_angle(const int type, const double degrees);
 
   // compute the interaction between a pair of centers
   void compute(

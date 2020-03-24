@@ -2,13 +2,9 @@
 #ifndef FEASST_UTILS_DEBUG_H_
 #define FEASST_UTILS_DEBUG_H_
 
-#include <signal.h>
-#include <assert.h>
 #include <string>
 #include <sstream>
 #include <iostream>
-#include <iomanip>  // setprecision
-#include <limits>  // numeric_limits
 #ifdef _OPENMP
   #include <omp.h>
 #endif  // _OPENMP
@@ -42,10 +38,6 @@ namespace feasst {
 constexpr int VERBOSE_LEVEL = 3;
 // HWH update verbose levels: per trial, per energy calc, per interaction
 // HWH also verbosity levels for each plugin and classes.
-
-/// Used to output maximum precision to screen
-/// [e.g., INFO(MAX_PRECISION << "energy: " << energy)].
-#define MAX_PRECISION std::setprecision(std::numeric_limits<double>::digits10+2)
 
 /// Return file_name with FEASST_DIR_ path removed.
 std::string feasst_dir_trim_(const char* file_name);

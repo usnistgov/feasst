@@ -2,9 +2,7 @@
 #ifndef FEASST_CONFIGURATION_BOND_SQUARE_WELL_H_
 #define FEASST_CONFIGURATION_BOND_SQUARE_WELL_H_
 
-#include <math.h>
 #include <memory>
-#include "math/include/constants.h"
 #include "system/include/bond_two_body.h"
 
 namespace feasst {
@@ -17,14 +15,7 @@ class BondSquareWell : public BondTwoBody {
   explicit BondSquareWell(const argtype& args = argtype()) {}
   double energy(
       const Position& relative,
-      const Bond& bond) const override {
-    const double length = bond.property("length");
-    const double delta = bond.property("delta");
-    if (std::abs(relative.distance() - length) > 0.5*delta) {
-      return NEAR_INFINITY;
-    }
-    return 0.;
-  }
+      const Bond& bond) const override;
   std::shared_ptr<BondTwoBody> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit BondSquareWell(std::istream& istr);

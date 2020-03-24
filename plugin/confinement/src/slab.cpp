@@ -1,7 +1,9 @@
 #include <cmath>
+#include "utils/include/serialize.h"
 #include "confinement/include/slab.h"
 #include "confinement/include/half_space.h"
 #include "math/include/utils_math.h"
+#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -37,6 +39,24 @@ Slab::Slab(const argtype &args) : Shape() {
     {"direction", str(1)},
   });
   slab_ = std::make_shared<ShapeIntersect>(half0, half1);
+}
+
+void Slab::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  feasst_serialize_version(485, ostr);
+  feasst_serialize(slab_, ostr);
+}
+
+Slab::Slab(std::istream& istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(485 == version, version);
+  // feasst_deserialize(slab_, istr);
+  // HWH for unknown reasons, the above doesn't work
+  int existing;
+  istr >> existing;
+  if (existing != 0) {
+    slab_ = slab_->deserialize(istr);
+  }
 }
 
 }  // namespace feasst

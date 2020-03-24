@@ -1,7 +1,8 @@
-
+#include <cmath>
 #include "math/include/formula_polynomial.h"
 #include "utils/include/utils_io.h"
 #include "utils/include/debug.h"
+#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -30,6 +31,14 @@ void FormulaPolynomial::serialize(std::ostream& ostr) const {
   serialize_formula_(ostr);
   feasst_serialize_version(1, ostr);
   feasst_serialize(A_, ostr);
+}
+
+double FormulaPolynomial::evaluate(const double x) {
+  double result = 0.;
+  for (int i = 0; i < static_cast<int>(A_.size()); ++i) {
+    result += A_[i]*std::pow(x - x0(), i);
+  }
+  return result;
 }
 
 }  // namespace feasst

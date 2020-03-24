@@ -1,4 +1,4 @@
-
+#include "utils/include/serialize.h"
 #include "chain/include/perturb_site_type.h"
 
 namespace feasst {

@@ -1,4 +1,7 @@
+#include "utils/include/serialize.h"
+#include "math/include/utils_math.h"
 #include "monte_carlo/include/trial_factory.h"
+#include "math/include/random.h"
 
 namespace feasst {
 

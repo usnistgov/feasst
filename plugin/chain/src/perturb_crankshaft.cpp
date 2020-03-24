@@ -1,5 +1,6 @@
-
+#include "utils/include/serialize.h"
 #include "chain/include/perturb_crankshaft.h"
+#include "math/include/random.h"
 
 namespace feasst {
 
@@ -32,6 +33,20 @@ void PerturbCrankshaft::serialize_perturb_crankshaft_(std::ostream& ostr) const 
 void PerturbCrankshaft::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_perturb_crankshaft_(ostr);
+}
+
+void PerturbCrankshaft::move(System * system, TrialSelect * select,
+    Random * random) {
+  const Position& pivot = select->mobile().site_positions()[0].front();
+  axis_ = select->mobile().site_positions()[0].back();
+  axis_.subtract(pivot);
+  axis_.normalize();
+  const double max_angle = tunable().value();
+  const double angle = random->uniform_real(-max_angle, max_angle);
+  rot_mat_.axis_angle(axis_, angle);
+  PerturbRotate::move(pivot, rot_mat_, system, select,
+    false // do not rotate particle positions
+  );
 }
 
 }  // namespace feasst

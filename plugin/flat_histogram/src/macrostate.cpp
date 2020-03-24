@@ -1,4 +1,5 @@
-
+#include <cmath>
+#include "utils/include/serialize.h"
 #include "flat_histogram/include/macrostate.h"
 #include "math/include/utils_math.h"
 
@@ -90,6 +91,43 @@ Macrostate::Macrostate(std::istream& istr) {
       }
     }
   }
+}
+
+std::vector<double> segment(
+    const double min,
+    const double max,
+    const int num,
+    const double exp) {
+  ASSERT(num > 0, "num(" << num << ") must be > 0.");
+  std::vector<double> segment(num + 1);
+  segment[0] = min;
+  segment[num] = max;
+  const long double exp_diff =
+    (std::pow(max, exp) - std::pow(min, exp))/static_cast<double>(num);
+  for (int index = 1; index < num; ++index) {
+    segment[index] = std::pow(std::pow(segment[index - 1], exp) + exp_diff, 1./exp);
+  }
+  return segment;
+}
+
+/// Segment a range into windows by exponential scaling.
+std::vector<std::vector<int> > window(
+    const int min,
+    const int max,
+    const int num,
+    const double exp,
+    const int extra_overlap) {
+  std::vector<double> boundaries = segment(min, max, num, exp);
+  std::vector<std::vector<int> > windows(num, std::vector<int>(2, 0.));
+  for (int index = 0; index < num; ++index) {
+    if (index == 0) {
+      windows[index][0] = min;
+    } else {
+      windows[index][0] = round(boundaries[index] - extra_overlap);
+    }
+    windows[index][1] = round(boundaries[index + 1]);
+  }
+  return windows;
 }
 
 }  // namespace feasst

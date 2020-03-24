@@ -1,5 +1,6 @@
-
+#include "utils/include/serialize.h"
 #include "chain/include/perturb_pivot.h"
+#include "math/include/random.h"
 
 namespace feasst {
 
@@ -34,4 +35,11 @@ void PerturbPivot::serialize(std::ostream& ostr) const {
   serialize_perturb_pivot_(ostr);
 }
 
+void PerturbPivot::move(System * system, TrialSelect * select,
+    Random * random) {
+  const Position& pivot = select->anchor_position(0, 0, system);
+  DEBUG("piv " << pivot.str());
+  PerturbRotate::move(system, select, random, pivot, false);
+  DEBUG(select->mobile().site_positions()[0][0].str());
+}
 }  // namespace feasst

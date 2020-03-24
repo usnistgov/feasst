@@ -15,7 +15,7 @@ Tutorial
 FEASST plugin dependencies
 ============================
 
-* system
+* monte_carlo
 
 API
 ===

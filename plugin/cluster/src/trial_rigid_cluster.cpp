@@ -1,3 +1,4 @@
+#include "utils/include/serialize.h"
 #include "cluster/include/trial_rigid_cluster.h"
 #include "cluster/include/trial_select_cluster.h"
 #include "cluster/include/trial_compute_move_cluster.h"

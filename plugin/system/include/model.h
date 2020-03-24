@@ -5,7 +5,6 @@
 #include <memory>
 #include <string>
 #include <map>
-#include "configuration/include/particle.h"
 #include "configuration/include/configuration.h"
 
 namespace feasst {
@@ -72,21 +71,19 @@ class Model {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const { FATAL("not implemented"); }
+      const ModelParams& model_params) const;
 
   /// Output a serialized version of the existing model.
-  virtual void serialize(std::ostream& ostr) const { FATAL("not implemented"); }
+  virtual void serialize(std::ostream& ostr) const;
 
   // Derived class implementation of a serialization.
-  virtual std::shared_ptr<Model> create(std::istream& istr) const {
-    FATAL("not implemented"); }
+  virtual std::shared_ptr<Model> create(std::istream& istr) const;
 
   // Returns a static mapping of class name to model.
   std::map<std::string, std::shared_ptr<Model> >& deserialize_map();
 
   /// Return a model given a serialization.
-  std::shared_ptr<Model> deserialize(std::istream& istr) {
-    return template_deserialize(deserialize_map(), istr); }
+  std::shared_ptr<Model> deserialize(std::istream& istr);
 };
 
 }  // namespace feasst
