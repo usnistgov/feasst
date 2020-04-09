@@ -119,7 +119,7 @@ void Random::position_in_cube(const int dimension,
     Position * position) {
   position->set_to_origin(dimension);
   for (int dim = 0; dim < dimension; ++dim) {
-    position->set_coord(dim, (2.*uniform() - 1.)*length);
+    position->set_coord(dim, (uniform() - 0.5)*length);
   }
 }
 

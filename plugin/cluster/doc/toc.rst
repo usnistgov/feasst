@@ -4,10 +4,10 @@
    EnergyMapNeigh
    EnergyMapAll
    EnergyMapAllCriteria
-   PerturbPointReflect
    PerturbRotateCOM
+   PerturbPointReflect
    TrialSelectCluster
    TrialComputeGCA
    TrialTranslateCluster
-   TrialComputeMoveCluster
    utils_cluster
+   TrialComputeMoveCluster

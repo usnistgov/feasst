@@ -3,7 +3,7 @@
 #define FEASST_STEPPERS_MEAN_SQUARED_DISPLACEMENT_H_
 
 #include <vector>
-#include "monte_carlo/include/modify.h"
+#include "monte_carlo/include/analyze.h"
 
 namespace feasst {
 
@@ -14,7 +14,7 @@ namespace feasst {
   New origins are stored every fixed number of updates.
   Assume the number of particles does not change.
  */
-class MeanSquaredDisplacement : public Modify {
+class MeanSquaredDisplacement : public Analyze {
  public:
   /**
     args:
@@ -28,19 +28,19 @@ class MeanSquaredDisplacement : public Modify {
       System * system,
       TrialFactory * trial_factory) override;
 
-  void update(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+  void update(const Criteria * criteria,
+      const System& system,
+      const TrialFactory& trial_factory) override;
 
-  std::string write(Criteria * criteria,
-      System * system,
-      TrialFactory * trial_factory) override;
+  std::string write(const Criteria * criteria,
+      const System& system,
+      const TrialFactory& trial_factory) override;
 
   // serialize
   std::string class_name() const override {
     return std::string("MeanSquaredDisplacement"); }
   void serialize(std::ostream& ostr) const override;
-  std::shared_ptr<Modify> create(std::istream& istr) const override {
+  std::shared_ptr<Analyze> create(std::istream& istr) const override {
     return std::make_shared<MeanSquaredDisplacement>(istr); }
   MeanSquaredDisplacement(std::istream& istr);
 

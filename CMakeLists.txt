@@ -3,8 +3,8 @@ project (FEASST)
 set (CMAKE_CXX_STANDARD 11)
 cmake_policy(SET CMP0042 NEW) # removes warning about macosx_rpath
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -g -pthread")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1 -Wall -pedantic -g -pthread")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1 -Wall -pedantic -g -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pg -g") #profile
 
 # manually list the plugins
@@ -25,13 +25,13 @@ set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;ewald;flat_histogram")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;flat_histogram")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;flat_histogram;ewald")
-#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;flat_histogram;prefetch")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;flat_histogram;prefetch;ewald")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;ewald;ph;flat_histogram;egce")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram;growth_expanded")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;opt_lj")
-#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded;opt_lj;cluster")
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded;opt_lj;cluster;prefetch;egce;xtc")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded;opt_lj;cluster")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;growth_expanded;opt_lj;cluster;prefetch;egce;xtc")
 # Note, if you change the plugin list and want to use the python interface,
 # you also need to run "../py/run.sh ../dev/tools/depend.py -s ../"
 

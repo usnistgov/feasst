@@ -61,6 +61,8 @@ class Bias {
   /// Return true if completion requirements are met.
   bool is_complete() const { return is_complete_; }
 
+  bool is_equal(const Bias* bias, const double tolerance);
+
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Bias> create(std::istream& istr) const;

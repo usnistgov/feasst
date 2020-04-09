@@ -75,10 +75,7 @@ class Criteria {
   /// to avoid recomputation of the energy of the entire configuration.
   /// For example, Metropolis Monte Carlo trials are concerned with the change
   /// in energy, and this variable tracks the total from the changes.
-  void set_current_energy(const double energy) {
-    previous_energy_ = current_energy_;
-    current_energy_ = energy;
-  }
+  void set_current_energy(const double energy);
 
   /// Return the current total energy based on energy changes per trial.
   double current_energy() const { return current_energy_; }
@@ -126,6 +123,10 @@ class Criteria {
   virtual void update() {}
 
   /// Return true if equivalent.
+  virtual bool is_equal(const Criteria * criteria,
+                        const double tolerance) const;
+
+  /// Same as above but with a default tolerance of NEAR_ZERO
   virtual bool is_equal(const Criteria * criteria) const;
 
   // serialize

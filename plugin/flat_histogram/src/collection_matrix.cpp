@@ -1,6 +1,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include "utils/include/utils.h"  // is_equal
 #include "utils/include/serialize.h"
 #include "utils/include/utils_io.h"
 #include "utils/include/debug.h"
@@ -72,6 +73,17 @@ TripleBandedCollectionMatrix::TripleBandedCollectionMatrix(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 2468, "unrecognized verison: " << version);
   feasst_deserialize(&matrix_, istr);
+}
+
+bool TripleBandedCollectionMatrix::is_equal(
+    const TripleBandedCollectionMatrix& colmat,
+    const double tolerance) const {
+  if (!feasst::is_equal(matrix_, colmat.matrix_, tolerance)) {
+    INFO("colmat not equal " << feasst_str(matrix_));
+    INFO("colmat not equal " << feasst_str(colmat.matrix_));
+    return false;
+  }
+  return true;
 }
 
 }  // namespace feasst

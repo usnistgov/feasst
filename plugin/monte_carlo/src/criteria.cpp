@@ -1,6 +1,9 @@
+#include <cmath>
 #include <sstream>
 #include <iostream>
+#include "utils/include/utils.h"  // is_equal
 #include "utils/include/serialize.h"
+#include "math/include/constants.h"
 #include "monte_carlo/include/criteria.h"
 
 namespace feasst {
@@ -98,6 +101,7 @@ void Criteria::revert(const bool accepted, const double ln_prob) {
   if (accepted) {
     current_energy_ = previous_energy_;
   }
+  //INFO("reverted: " << current_energy_);
 }
 
 
@@ -120,19 +124,38 @@ std::shared_ptr<Criteria> Criteria::deserialize(std::istream& istr) {
     true);
 }
 
-bool Criteria::is_equal(const Criteria * criteria) const {
+bool Criteria::is_equal(const Criteria * criteria,
+    const double tolerance) const {
   if (beta_ != criteria->beta_) return false;
-  if (current_energy_ != criteria->current_energy_) return false;
-  if (trial_state_ != criteria->trial_state_) return false;
-  std::stringstream ss1, ss2;
-  serialize(ss1);
-  criteria->serialize(ss2);
-  if (ss1.str() != ss2.str()) {
-    INFO(ss1.str());
-    INFO(ss2.str());
+  if (!feasst::is_equal(chemical_potentials_,
+              criteria->chemical_potentials_, tolerance)) {
     return false;
   }
+  if (std::abs(current_energy_ - criteria->current_energy_) > tolerance) {
+    INFO(MAX_PRECISION << "current energy not equal: " << current_energy_
+      << " vs " << criteria->current_energy_ << " tol " << tolerance);
+    return false;
+  }
+  if (trial_state_ != criteria->trial_state_) {
+    INFO("trial_states not equal: " << trial_state_
+      << " vs " << criteria->trial_state_);
+    return false;
+  }
+  if (pH_ != criteria->pH_) return false;
+// HWH this doesn't consider tolerance
+//  std::stringstream ss1, ss2;
+//  serialize(ss1);
+//  criteria->serialize(ss2);
+//  if (ss1.str() != ss2.str()) {
+//    INFO(ss1.str());
+//    INFO(ss2.str());
+//    return false;
+//  }
   return true;
+}
+
+bool Criteria::is_equal(const Criteria * criteria) const {
+  return is_equal(criteria, NEAR_ZERO);
 }
 
 double Criteria::beta_mu(const int particle_type) const {
@@ -167,6 +190,13 @@ Criteria::Criteria(std::istream& istr) {
   feasst_deserialize(&previous_energy_, istr);
   feasst_deserialize(&trial_state_, istr);
   feasst_deserialize(&num_trial_states_, istr);
+}
+
+void Criteria::set_current_energy(const double energy) {
+  previous_energy_ = current_energy_;
+  current_energy_ = energy;
+  DEBUG("setting current energy: " << current_energy_);
+  DEBUG("previous " << previous_energy_);
 }
 
 }  // namespace feasst

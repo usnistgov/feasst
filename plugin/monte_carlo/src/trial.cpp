@@ -154,17 +154,17 @@ void Trial::refresh_stages_ptr_() {
 
 bool Trial::is_equal(const Trial& trial) const {
   if (num_attempts_ != trial.num_attempts_) {
-    DEBUG("unequal number of attempts:" << num_attempts_ << " "
+    INFO("unequal number of attempts:" << num_attempts_ << " "
       << trial.num_attempts_);
     return false;
   }
   if (num_success_ != trial.num_success_) {
-    DEBUG("unequal number of success:" << num_success_ << " "
+    INFO("unequal number of success:" << num_success_ << " "
       << trial.num_success_);
     return false;
   }
   if (weight_ != trial.weight_) {
-    DEBUG("unequal weight:" << weight_ << " " << trial.weight_);
+    INFO("unequal weight:" << weight_ << " " << trial.weight_);
     return false;
   }
   if (num_stages() > 0) {

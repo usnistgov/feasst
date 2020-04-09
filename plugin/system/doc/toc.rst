@@ -13,17 +13,17 @@
    VisitModel
    ModelOneBody
    ModelEmpty
-   ModelThreeBody
    LongRangeCorrections
-   DontVisitModel
+   VisitModelBond
+   VisitModelIntra
+   Potential
+   PotentialFactory
+   ModelThreeBody
    VisitModelCell
    ModelTwoBody
+   HardSphere
    IdealGas
    LennardJones
    ModelTwoBodyFactory
-   HardSphere
-   Potential
-   PotentialFactory
+   DontVisitModel
    System
-   VisitModelIntra
-   VisitModelBond

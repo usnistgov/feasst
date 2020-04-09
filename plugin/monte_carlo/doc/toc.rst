@@ -8,10 +8,10 @@
    TrialSelect
    Perturb
    PerturbMove
+   PerturbRotate
    PerturbDistance
    PerturbDistanceAngle
    PerturbTranslate
-   PerturbRotate
    PerturbAnywhere
    PerturbAdd
    PerturbRemove
@@ -22,18 +22,18 @@
    Metropolis
    TrialStage
    TrialCompute
-   TrialComputeAdd
-   TrialComputeMove
    Trial
    TrialFactory
    Modify
    ModifyFactory
    Analyze
    AnalyzeFactory
+   MonteCarlo
    TrialAdd
    TrialRemove
-   MonteCarlo
+   TrialComputeRemove
+   TrialComputeAdd
+   TrialComputeMove
    TrialMove
    TrialRotate
    TrialTranslate
-   TrialComputeRemove

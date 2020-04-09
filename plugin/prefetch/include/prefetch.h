@@ -10,12 +10,13 @@
 
 namespace feasst {
 
-/*
-  Store clones in Pool.
-  Arbitrarily assign thread=0 to main/master.
-  Thus, don't access mc of thread 0.
-*/
+// HWH: consider a parallel while:
+// https://cvw.cac.cornell.edu/OpenMP/whileloop
 
+/**
+  Define a pool of threads, each with their own MonteCarlo object and
+  relevant quantities for reversion.
+*/
 class Pool {
  public:
   void set_index(const int index) {
@@ -46,31 +47,30 @@ class Pool {
  */
 class Prefetch : public MonteCarlo {
  public:
-  Prefetch(
-    /**
-      args:
-      - steps_per_check: number of steps between check (default: 1e5)
-      - load_balance: batches contain all of the same trial type (default: true).
-        This violates detailed balance, but "local detailed balance" is still
-        satisfied.
-        https://doi.org/10.1063/1.477973
-     */
-    const argtype& args = argtype()) {
-    activate_prefetch();
-    Arguments args_(args);
-    steps_per_check_ = args_.key("steps_per_check").dflt("100000").integer();
-    load_balance_ = args_.key("load_balance").dflt("true").boolean();
-  }
+  /**
+    args:
+    - steps_per_check: number of steps between check (default: 1e5)
+    - load_balance: batches contain all of the same trial type (default: true).
+      This violates detailed balance, but "local detailed balance" is still
+      satisfied.
+      https://doi.org/10.1063/1.477973
+   */
+  explicit Prefetch(const argtype& args = argtype());
 
+  /// Return the number of steps between checking equality of threads.
   int steps_per_check() const { return steps_per_check_; }
 
+  /// Activate prefetch.
   void activate_prefetch(const bool active = true) { is_activated_ = active; }
-  void reset_trial_stats() override {
-    MonteCarlo::reset_trial_stats();
-    for (Pool& pool : pool_) {
-      pool.mc.reset_trial_stats();
-    }
-  }
+
+  /// Reset stats of trials of all threads.
+  void reset_trial_stats() override;
+
+  // public interface for unit testing only
+  const std::vector<Pool>& pool() const { return pool_; }
+  // Pick a clone based on ithread.
+  // If ithread == 0, return self. Otherwise, return pool_.
+  MonteCarlo * clone_(const int ithread);
 
   void serialize(std::ostream& ostr) const override;
   explicit Prefetch(std::istream& istr);
@@ -81,13 +81,6 @@ class Prefetch : public MonteCarlo {
   void run_until_complete_(TrialFactory * trial_factory, Random * random) override;
 
  private:
-  // void distribute_for_();
-
-  // Distribute pool of trial(s) to each processor
-  // use a omp parallel while constructed as described in
-  // https://cvw.cac.cornell.edu/OpenMP/whileloop
-//  void distribute_while_();
-
   bool is_activated_;
   int steps_per_check_;
   int steps_since_check_;
@@ -97,8 +90,7 @@ class Prefetch : public MonteCarlo {
   int num_threads_;
   std::vector<Pool> pool_;
 
-  // Pick a clone based on ithread
-  MonteCarlo * clone_(const int ithread);
+  void create(std::vector<Pool> * pool);
 };
 
 inline std::shared_ptr<Prefetch> MakePrefetch(const argtype& args = argtype()) {

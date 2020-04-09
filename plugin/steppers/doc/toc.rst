@@ -3,12 +3,12 @@
 
    CriteriaUpdater
    CheckProperties
-   MeanSquaredDisplacement
    Tuner
    Movie
    CPUTime
    Log
    WallClockLimit
+   MeanSquaredDisplacement
    Check
    CheckEnergy
    CheckPhysicality

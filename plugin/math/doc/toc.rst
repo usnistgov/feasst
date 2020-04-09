@@ -8,7 +8,7 @@
    FormulaPolynomial
    Histogram
    Position
-   Matrix
    Random
    RandomMT19937
+   Matrix
    FormulaExponential

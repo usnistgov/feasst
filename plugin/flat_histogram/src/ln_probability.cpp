@@ -1,4 +1,5 @@
 #include <cmath>
+#include "utils/include/utils.h"  // is_equal
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "math/include/constants.h"
@@ -70,6 +71,16 @@ double LnProbability::saturation_objective_boundary(
   const double prob_low_dens = sum_probability(0, phase_boundary - 1);
   const double prob_high_dens = sum_probability(phase_boundary, size() - 1);
   return std::pow(log(prob_low_dens) - log(prob_high_dens), 2);
+}
+
+bool LnProbability::is_equal(const LnProbability& ln_prob,
+    const double tolerance) const {
+  if (!feasst::is_equal(values_, ln_prob.values_, tolerance)) {
+    INFO("not equal: " << feasst_str(values_));
+    INFO("not equal: " << feasst_str(ln_prob.values_));
+    return false;
+  }
+  return true;
 }
 
 }  // namespace feasst

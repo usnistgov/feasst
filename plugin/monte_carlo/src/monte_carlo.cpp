@@ -16,8 +16,8 @@ MonteCarlo::MonteCarlo() {
 //    timer_checkpoint_ = timer_.add("checkpoint");
 }
 
-void MonteCarlo::offset_random() {
-  random_->uniform();
+void MonteCarlo::seed_random(const int seed) {
+  random_->seed(seed);
 }
 
 void MonteCarlo::add(const Configuration& config) {

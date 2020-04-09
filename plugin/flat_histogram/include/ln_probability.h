@@ -73,6 +73,8 @@ class LnProbability {
     /// The exact index value is included in the second phase.
     int phase_boundary) const;
 
+  bool is_equal(const LnProbability& ln_prob, const double tolerance) const;
+
   void serialize(std::ostream& ostr) const;
   LnProbability(std::istream& istr);
 

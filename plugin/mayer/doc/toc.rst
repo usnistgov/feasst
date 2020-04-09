@@ -1,5 +1,5 @@
 
 .. toctree::
 
-   TrialComputeMoveMayer
    CriteriaMayer
+   TrialComputeMoveMayer

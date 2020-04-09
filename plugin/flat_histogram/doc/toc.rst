@@ -4,10 +4,10 @@
    LnProbability
    TripleBandedCollectionMatrix
    Bias
-   WangLandau
    TransitionMatrix
+   WangLandau
    Constraint
    Macrostate
-   MacrostateNumParticles
    FlatHistogram
+   MacrostateNumParticles
    WLTM

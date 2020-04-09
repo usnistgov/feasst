@@ -21,7 +21,7 @@ static MapPerturbTranslate mapper_ = MapPerturbTranslate();
 
 void PerturbTranslate::precompute(TrialSelect * select, System * system) {
   set_tunable_min_and_max(2*NEAR_ZERO,
-    0.5*system->configuration().domain()->max_side_length());
+    0.5*system->configuration().domain()->max_side_length());  // +/- L/2
 }
 
 void PerturbTranslate::update_selection(const Position& trajectory,
@@ -52,7 +52,7 @@ void PerturbTranslate::move(System * system,
                             Random * random) {
   random->position_in_cube(
     system->dimension(),
-    tunable().value(),
+    2.*tunable().value(), // 2 factor accounts for +/- delta
     &trajectory_
   );
   DEBUG("max move " << tunable().value());

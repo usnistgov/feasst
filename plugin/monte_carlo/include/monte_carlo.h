@@ -52,8 +52,8 @@ class MonteCarlo {
   /// Return the random number generator.
   const Random * random() const { return random_.get(); }
 
-  /// Offset random number generator.
-  void offset_random();
+  /// Seed random number generator.
+  void seed_random(const int seed);
 
   /// The first action with a Monte Carlo object is to set the Configuration.
   void add(const Configuration& config);

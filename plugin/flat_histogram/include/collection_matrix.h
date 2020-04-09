@@ -38,6 +38,9 @@ class TripleBandedCollectionMatrix {
   /// Return the matrix
   std::vector<std::vector<double> > matrix() const { return matrix_; }
 
+  bool is_equal(const TripleBandedCollectionMatrix& colmat,
+      const double tolerance) const;
+
   void serialize(std::ostream& ostr) const;
 
   TripleBandedCollectionMatrix(std::istream& istr);

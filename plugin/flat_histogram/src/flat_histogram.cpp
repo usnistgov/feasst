@@ -47,9 +47,10 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
   if (is_accepted) {
     set_current_energy(acceptance.energy_new());
     DEBUG("current energy: " << current_energy());
+    macrostate_current_ = macrostate_new_;
   } else {
     // return the macrostate to the current value, as used by Analyze, etc.
-    macrostate_new_ = macrostate_old_;
+    macrostate_current_ = macrostate_old_;
   }
   was_accepted_ = is_accepted;
   last_acceptance_ = acceptance;
@@ -114,6 +115,7 @@ FlatHistogram::FlatHistogram(std::istream& istr)
   }
   feasst_deserialize(&macrostate_old_, istr);
   feasst_deserialize(&macrostate_new_, istr);
+  feasst_deserialize(&macrostate_current_, istr);
   feasst_deserialize(&is_macrostate_set_, istr);
 }
 
@@ -125,6 +127,7 @@ void FlatHistogram::serialize(std::ostream& ostr) const {
   feasst_serialize_fstdr(macrostate_, ostr);
   feasst_serialize(macrostate_old_, ostr);
   feasst_serialize(macrostate_new_, ostr);
+  feasst_serialize(macrostate_current_, ostr);
   feasst_serialize(is_macrostate_set_, ostr);
 }
 
@@ -202,6 +205,17 @@ void FlatHistogram::phase_boundary_(const LnProbability& ln_prob,
   } else {
     ERROR("multiple minima: " << num_min << " not implemented");
   }
+}
+
+bool FlatHistogram::is_equal(const FlatHistogram* flat_histogram,
+    const double tolerance) const {
+  if (!Criteria::is_equal(flat_histogram, tolerance)) {
+      return false;
+  }
+  if (macrostate_old_ != flat_histogram->macrostate_old_) return false;
+  if (macrostate_new_ != flat_histogram->macrostate_new_) return false;
+  if (macrostate_current_ != flat_histogram->macrostate_current_) return false;
+  return true;
 }
 
 }  // namespace feasst

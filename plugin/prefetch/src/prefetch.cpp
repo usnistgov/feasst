@@ -1,23 +1,75 @@
-
-// HWH consider making a feasst omp plugin that could interface other parallelization methods
 #ifdef _OPENMP
   #include <omp.h>
 #endif // _OPENMP
 #include <cmath>
 #include <limits>
+#include <random>
 #include "utils/include/serialize.h"
 #include "prefetch/include/prefetch.h"
 
-// // use this to turn prefetch serial to simply debugging
-#define DEBUG_SERIAL_MODE_5324634
+// use this to make prefetch serial and simply debugging
+// #define DEBUG_SERIAL_MODE_5324634
 
 namespace feasst {
+
+Prefetch::Prefetch(const argtype& args) {
+  activate_prefetch();
+  Arguments args_(args);
+  steps_per_check_ = args_.key("steps_per_check").dflt("100000").integer();
+  load_balance_ = args_.key("load_balance").dflt("true").boolean();
+}
+
+void Prefetch::reset_trial_stats() {
+  MonteCarlo::reset_trial_stats();
+  for (Pool& pool : pool_) {
+    pool.mc.reset_trial_stats();
+  }
+}
 
 MonteCarlo * Prefetch::clone_(const int ithread) {
   if (ithread == 0) {
     return this;
   }
   return &pool_[ithread].mc;
+}
+
+void Prefetch::create(std::vector<Pool> * pool) {
+  // Initialize MC clones for each processor in pool_
+  int proc_id;
+  ASSERT(pool_.size() == 0, "pool is of size:" << pool_.size());
+  #ifdef _OPENMP
+    #pragma omp parallel private(proc_id)
+    {
+      proc_id = omp_get_thread_num();
+      DEBUG("hello from " << proc_id);
+      if (proc_id == 0) {
+        num_threads_ = static_cast<int>(omp_get_num_threads());
+      }
+    }
+  #else // _OPENMP
+    num_threads_ = 1;
+  #endif // _OPENMP
+  pool_.resize(num_threads_);
+
+  // set all trials for delayed finalization
+  delay_finalize();
+
+  //clones_.resize(num_threads_);
+  for (int thread = 1; thread < num_threads_; ++thread) {
+    std::stringstream clone_ss;
+    MonteCarlo::serialize(clone_ss);
+    pool_[thread].mc = MonteCarlo(clone_ss);
+  }
+
+  // seed random number generators so that clones are not equal
+  for (int i = 0; i < num_threads_ - 1; ++i) {
+    clone_(i)->seed_random(rand());
+  }
+
+  // run some checks before attempting trials
+  for (int thread = 0; thread < num_threads_; ++thread) {
+    clone_(thread)->before_attempts_();
+  }
 }
 
 void Prefetch::run_until_complete_(TrialFactory * trial_factory,
@@ -38,6 +90,11 @@ void Prefetch::attempt_(
     return;
   }
 
+  // Require OPENMP; however, maintain ability to compile without.
+  #ifndef _OPENMP
+    FATAL("requires openmp");
+  #endif // _OPENMP
+
   // If num_trials is -1, run based on criteria completion
   bool check_criteria_for_completion = false;
   if (num_trials == -1) {
@@ -45,57 +102,13 @@ void Prefetch::attempt_(
     num_trials = std::numeric_limits<int>::max();
   }
 
-  #ifndef _OPENMP
-    ERROR("requires openmp");
-  #endif // _OPENMP
-
-  // initialize MC clones for each processor
-  // and pool size.
-  // alternatively, input the clones by using a functional
-  // approach to creating mc objects
-  int proc_id;
-  int first_thread_accepted;
-  double sum_en = 0;
   if (pool_.size() == 0) {
-    #ifdef _OPENMP
-      #pragma omp parallel private(proc_id)
-      {
-        proc_id = omp_get_thread_num();
-        DEBUG("hello from " << proc_id);
-        if (proc_id == 0) {
-          num_threads_ = static_cast<int>(omp_get_num_threads());
-        }
-      }
-    #else // _OPENMP
-      num_threads_ = 1;
-    #endif // _OPENMP
-//    num_threads_ = 2;
-    pool_.resize(num_threads_);
-
-    // set all trials for delayed finalization
-    delay_finalize();
-
-    //clones_.resize(num_threads_);
-    for (int thread = 1; thread < num_threads_; ++thread) {
-      std::stringstream clone_ss;
-      MonteCarlo::serialize(clone_ss);
-      pool_[thread].mc = MonteCarlo(clone_ss);
-    }
-
-    // offset random number chains so that clones are not equal
-    for (int i = 0; i < num_threads_ - 1; ++i) {
-      for (int j = i + 1; j < num_threads_; ++j) {
-        clone_(i)->offset_random();
-      }
-    }
-
-    // run some checks before attempting trials
-    for (int thread = 0; thread < num_threads_; ++thread) {
-      clone_(thread)->before_attempts_();
-    }
+    create(&pool_);
   }
 
   int itrial = 0;
+  int first_thread_accepted;
+  int proc_id;
   #ifdef _OPENMP
   #pragma omp parallel private(proc_id)
   {
@@ -105,9 +118,18 @@ void Prefetch::attempt_(
     // num_trials may change to terminate loop
     bool complete = false;
     while (!complete) {
+
       #ifndef _OPENMP
       for (proc_id = 0; proc_id < num_threads_; ++proc_id) {
       #endif // _OPENMP
+
+      double previous_energy = criteria()->current_energy();
+      DEBUG("previous_energy " << previous_energy);
+
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      #pragma omp critical
+      {
+      #endif
 
       if (proc_id == 0) {
         DEBUG("************************");
@@ -115,29 +137,31 @@ void Prefetch::attempt_(
         DEBUG("************************");
       }
 
-      #ifdef _OPENMP
-      #pragma omp barrier
-      #endif // _OPENMP
-
-      // ordered list of randomly generated moves identified by index of trial.
+      // ordered list of index of trial to perform on each thread.
       if (proc_id == 0) {
         if (load_balance_) {
+          // perform the same type of trial on each thread.
           const int index = trial_factory->random_index(random);
           for (int ithread = 0; ithread < num_threads_; ++ithread) {
             pool_[ithread].set_index(index);
           }
         } else {
+          // randomly generator the type of trial for each thread.
           for (int ithread = 0; ithread < num_threads_; ++ithread) {
             pool_[ithread].set_index(trial_factory->random_index(random));
           }
         }
-        for (int ithread = 0; ithread < num_threads_; ++ithread) {
-          DEBUG("num attempts " << pool_[ithread].mc.trials().num_attempts() << " "
-                                << pool_[ithread].mc.trials().num_success() << " " << &pool_[ithread].mc);
-        }
-        DEBUG("num attempts master " << trials().num_attempts() << " "
-                                     << trials().num_success() << " " << this);
+//        for (int ithread = 0; ithread < num_threads_; ++ithread) {
+//          DEBUG("num attempts " << pool_[ithread].mc.trials().num_attempts() << " "
+//                                << pool_[ithread].mc.trials().num_success() << " " << &pool_[ithread].mc);
+//        }
+//        DEBUG("num attempts master " << trials().num_attempts() << " "
+//                                     << trials().num_success() << " " << this);
       }
+
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      }
+      #endif
 
       #ifdef _OPENMP
       #pragma omp barrier
@@ -158,6 +182,7 @@ void Prefetch::attempt_(
       // Store new macrostate and acceptance prob
       pool->set_accepted(mc->attempt_trial(pool->index()));
       pool->set_ln_prob(mc->trial(pool->index())->accept().ln_metropolis_prob());
+      DEBUG("proc id " << proc_id << " ln prob " << pool->ln_prob());
       DEBUG("critical proc_id " << proc_id << " " << pool->str());
       DEBUG("nump " << mc->system().configuration().num_particles());
 
@@ -176,7 +201,7 @@ void Prefetch::attempt_(
           if (pool_[ithread].accepted() &&
               first_thread_accepted == num_threads_) {
             first_thread_accepted = ithread;
-            INFO(MAX_PRECISION << ithread << " accepted, en: " << clone_(ithread)->criteria()->current_energy());
+            DEBUG(MAX_PRECISION << ithread << " accepted, en: " << clone_(ithread)->criteria()->current_energy());
           }
         }
         DEBUG("first thread " << first_thread_accepted);
@@ -207,6 +232,7 @@ void Prefetch::attempt_(
       #pragma omp barrier
       #endif // _OPENMP
 
+      // testing decouple here HWH
       if (proc_id == 0) {
         DEBUG("for each thread up to the first accepted, "
            << "update other threads (incl. main) regarding failed attempt by "
@@ -218,7 +244,9 @@ void Prefetch::attempt_(
           DEBUG("nump " << clone_(ithread)->configuration().num_particles());
           for (int jthread = 0; jthread < num_threads_; ++jthread) {
             if (ithread != jthread) {
-              DEBUG("j " << jthread << " lnp " << pool_[ithread].ln_prob() <<
+              DEBUG("j " << jthread <<
+                   " index " << pool_[ithread].index() <<
+                   " lnp " << pool_[ithread].ln_prob() <<
                    " old " << old_criteria->state_old() <<
                    " new " << old_criteria->state_new());
               clone_(jthread)->imitate_trial_rejection(
@@ -229,10 +257,7 @@ void Prefetch::attempt_(
               );
             }
             if (jthread == 0) {
-              clone_(jthread)->after_trial_analyze_();
-            }
-            if (jthread == 0) {
-              sum_en += clone_(jthread)->criteria()->current_energy();
+              after_trial_analyze_();
             }
           }
           DEBUG("num attempts " << pool->mc.trials().num_attempts() << " "
@@ -252,7 +277,7 @@ void Prefetch::attempt_(
       #endif
 
       if (first_thread_accepted < num_threads_) {
-        DEBUG("Replicate first accepted trial in all other threads");
+        DEBUG("Replicate first accepted trial in all other threads in proc_id " << proc_id);
         Pool * accepted_pool = &pool_[first_thread_accepted];
         if (proc_id != first_thread_accepted) {
           // load/unload system energies and random numbers
@@ -263,11 +288,8 @@ void Prefetch::attempt_(
         if (proc_id == 0) {
           after_trial_analyze_();
         }
-        if (proc_id == 0) {
-          sum_en += mc->criteria()->current_energy();
-        }
       } else {
-        INFO("all rejected, en: " << criteria()->current_energy());
+        DEBUG("all rejected, en: " << criteria()->current_energy());
       }
 
       #ifdef DEBUG_SERIAL_MODE_5324634
@@ -299,9 +321,16 @@ void Prefetch::attempt_(
       }
 
       DEBUG("update itrial");
-      if (proc_id <= first_thread_accepted) {
-        ++itrial;
-        ++steps_since_check_;
+      //if (proc_id <= first_thread_accepted) {
+      //  ++itrial;
+      //  ++steps_since_check_;
+      if (proc_id == 0) {
+        int increment = num_threads_;
+        if (first_thread_accepted < num_threads_) {
+          increment = first_thread_accepted + 1;
+        }
+        itrial += increment;
+        steps_since_check_ += increment;
       }
 
       #ifdef DEBUG_SERIAL_MODE_5324634
@@ -325,20 +354,25 @@ void Prefetch::attempt_(
         const double tolerance = 1e-8;
         const MonteCarlo& mcc = *clone_(proc_id);
         const double diff = mcc.criteria()->current_energy() - energy;
-        ASSERT(std::fabs(diff) <= tolerance, "diff: " << diff);
+        ASSERT(fabs(diff) <= tolerance, "diff: " << diff);
         ASSERT(system().configuration().is_equal(mcc.system().configuration(), tolerance), "configs not equal thread" << proc_id);
         ASSERT(trials().is_equal(mcc.trials()), "trials not equal thread" << proc_id);
-//        ASSERT(criteria()->is_equal(mcc.criteria()), "criteria not equal: " << proc_id);
+        ASSERT(criteria()->is_equal(mcc.criteria(), tolerance), "criteria not equal: " << proc_id);
 
         // periodically equate all clones to first thread to prevent drift
-        std::stringstream clone_ss;
-        MonteCarlo::serialize(clone_ss);
-        pool_[proc_id].mc = MonteCarlo(clone_ss);
+//        std::stringstream clone_ss;
+//        MonteCarlo::serialize(clone_ss);
+//        pool_[proc_id].mc = MonteCarlo(clone_ss);
+//        clone_(proc_id)->seed_random(rand());  // HWH not thread safe // HWH consider setting RNG to previous seeds manually
       }
 
       #ifdef DEBUG_SERIAL_MODE_5324634
       }
       #endif
+
+      #ifdef _OPENMP
+      #pragma omp barrier
+      #endif // _OPENMP
 
       DEBUG("itrial: " << itrial);
       if (check_criteria_for_completion) {
@@ -350,9 +384,9 @@ void Prefetch::attempt_(
           complete = true;
         }
       }
-      if (proc_id == 0) {
-        INFO("sum_en: " << sum_en << " n " << itrial << " av " << sum_en/itrial);
-      }
+      #ifdef _OPENMP
+      #pragma omp barrier
+      #endif // _OPENMP
     }
   }
 }

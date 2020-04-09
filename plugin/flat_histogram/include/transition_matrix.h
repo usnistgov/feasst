@@ -45,6 +45,8 @@ class TransitionMatrix : public Bias {
   std::string write_per_bin_header() const override;
   void set_ln_prob(const LnProbability& ln_prob) override;
   void infrequent_update() override;
+  bool is_equal(const TransitionMatrix * transition_matrix,
+    const double tolerance) const;
 
   std::shared_ptr<Bias> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
@@ -52,8 +54,8 @@ class TransitionMatrix : public Bias {
   virtual ~TransitionMatrix() {}
 
  private:
-  LnProbability ln_prob_;
   TripleBandedCollectionMatrix collection_;
+  LnProbability ln_prob_;
   std::vector<int> visits_;
   int min_visits_ = 0;
   int num_sweeps_ = 0;

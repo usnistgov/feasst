@@ -106,12 +106,13 @@ void Accumulator::set_moments(const int num_moments) {
 
 std::string Accumulator::str() const {
   std::stringstream ss;
-  ss << "average,stdev,block_stdev,";
+  ss << "average,stdev,block_stdev,n,";
   for (int i = 0; i < static_cast<int>(val_moment_.size()); ++i) {
     ss << "moment" << i << ",";
   }
   ss << std::endl;
   ss << average() << "," << stdev() << "," << block_stdev() << ",";
+  ss << num_values_ << ",";
   for (const long double moment : val_moment_) {
     ss << moment << ",";
   }

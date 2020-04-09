@@ -53,7 +53,7 @@ class FlatHistogram : public Criteria {
   const Bias * bias() const { return bias_.get(); }
 
   /// Return the state. Return -1 if state is not determined.
-  int state() const override { return macrostate_new_; }
+  int state() const override { return macrostate_current_; }
   int num_states() const override { return macrostate_->histogram().size(); }
   int state_old() const override { return macrostate_old_; }
   int state_new() const override { return macrostate_new_; }
@@ -122,6 +122,9 @@ class FlatHistogram : public Criteria {
 
   void update() override { bias_->infrequent_update(); }
 
+  bool is_equal(const FlatHistogram* flat_histogram,
+    const double tolerance) const;
+
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<FlatHistogram>(istr); }
   void serialize(std::ostream& ostr) const override;
@@ -133,6 +136,7 @@ class FlatHistogram : public Criteria {
   std::shared_ptr<Macrostate> macrostate_;
   int macrostate_old_ = -1;
   int macrostate_new_ = -1;
+  int macrostate_current_ = -1;
   bool is_macrostate_set_ = false;
 
   const LnProbability& ln_prob_() const { return bias_->ln_prob(); }
