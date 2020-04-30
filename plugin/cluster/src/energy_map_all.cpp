@@ -2,6 +2,7 @@
 #include "utils/include/utils.h"  // find_in_list
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "math/include/random.h"
 
 namespace feasst {
 
@@ -117,7 +118,7 @@ void EnergyMapAll::finalize(const Select& select) {
   }
 }
 
-void EnergyMapAll::select_cluster(const ClusterCriteria * cluster_criteria,
+void EnergyMapAll::select_cluster(const NeighborCriteria * neighbor_criteria,
                                   const Configuration& config,
                                   const int particle_node,
                                   Select * cluster,
@@ -133,7 +134,12 @@ void EnergyMapAll::select_cluster(const ClusterCriteria * cluster_criteria,
     // then recurively add part2 as a new node
     if (!find_in_list(part2_index, cluster->particle_indices())) {
       Position frame;
-      if (is_cluster_(cluster_criteria, &map_[particle_node][part2_index], &frame)) {
+      if (is_cluster_(neighbor_criteria,
+                      &map_[particle_node][part2_index],
+                      particle_node,
+                      part2_index,
+                      config,
+                      &frame)) {
         DEBUG("FOR " << frame_of_reference.str());
         frame.add(frame_of_reference);
         //frame.multiply(-1.);
@@ -142,19 +148,29 @@ void EnergyMapAll::select_cluster(const ClusterCriteria * cluster_criteria,
         cluster->load_positions_of_last(part, frame);
         DEBUG("frame: " << frame.str());
         DEBUG("added: " << cluster->site_positions().back().back().str());
-        select_cluster(cluster_criteria, config, part2_index, cluster, frame);
+        select_cluster(neighbor_criteria, config, part2_index, cluster, frame);
       }
     }
   }
 }
 
 bool EnergyMapAll::is_cluster_(
-    const ClusterCriteria * cluster_criteria,
+    const NeighborCriteria * neighbor_criteria,
     const std::vector<std::vector<std::vector<double> > > * smap,
+    const int particle_index0,
+    const int particle_index1,
+    const Configuration& config,
     Position * frame) const {
-  for (const std::vector<std::vector<double> > & map2 : *smap) {
-    for (const std::vector<double>& map1 : map2) {
-      if (cluster_criteria->is_accepted(map1[0], map1[1])) {
+  for (int s0i = 0; s0i < static_cast<int>(smap->size()); ++s0i) {
+    const Site& site0 = config.select_particle(particle_index0).site(s0i);
+    const int site_type0 = site0.type();
+    const std::vector<std::vector<double> >& map2 = (*smap)[s0i];
+    for (int s1i = 0; s1i < static_cast<int>(map2.size()); ++s1i) {
+      const Site& site1 = config.select_particle(particle_index1).site(s1i);
+      const int site_type1 = site1.type();
+      const std::vector<double>& map1 = (*smap)[s0i][s1i];
+      if (neighbor_criteria->is_accepted(map1[0], map1[1],
+                                         site_type0, site_type1)) {
         if (frame != NULL) {
           frame->set_to_origin(dimen());
           for (int dim = 0; dim < dimen(); ++dim) {
@@ -176,17 +192,42 @@ void EnergyMapAll::check() const {
   }
 }
 
-bool EnergyMapAll::is_cluster_changed(const ClusterCriteria * cluster_criteria,
-    const Select& select) const {
+bool EnergyMapAll::is_cluster_changed(const NeighborCriteria * neighbor_criteria,
+    const Select& select,
+    const Configuration& config) const {
   for (int p1 : select.particle_indices()) {
     for (int p2 = 0; p2 < static_cast<int>(map_[p1].size()); ++p2) {
-      if (is_cluster_(cluster_criteria, &map_[p1][p2]) !=
-          is_cluster_(cluster_criteria, &map_new_[p1][p2])) {
+      if (is_cluster_(neighbor_criteria, &map_[p1][p2], p1, p2, config) !=
+          is_cluster_(neighbor_criteria, &map_new_[p1][p2], p1, p2, config)) {
         return true;
       }
     }
   }
   return false;
+}
+
+void EnergyMapAll::neighbors(
+    const NeighborCriteria * neighbor_criteria,
+    const Configuration& config,
+    const int target_particle,
+    const int target_site,
+    const int random_site,
+    Random * random,
+    Select * neighbors) const {
+  neighbors->clear();
+  const Site& site0 = config.select_particle(target_particle).site(target_site);
+  const int site_type0 = site0.type();
+  const std::vector<std::vector<std::vector<std::vector<double> > > > map4 =
+    map_[target_particle];
+  for (int ipart = 0; ipart < static_cast<int>(map4.size()); ++ipart) {
+    const Site& site1 = config.select_particle(ipart).site(random_site);
+    const int site_type1 = site1.type();
+    const std::vector<double> & map1 = map4[ipart][target_site][random_site];
+    if (neighbor_criteria->is_accepted(map1[0], map1[1],
+                                       site_type0, site_type1)) {
+      neighbors->add_site(ipart, random_site);
+    }
+  }
 }
 
 }  // namespace feasst

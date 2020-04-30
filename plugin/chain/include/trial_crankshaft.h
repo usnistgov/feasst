@@ -5,8 +5,6 @@
 #include <string>
 #include <memory>
 #include "monte_carlo/include/trial_move.h"
-#include "chain/include/trial_select_segment.h"
-#include "chain/include/perturb_crankshaft.h"
 
 namespace feasst {
 
@@ -14,14 +12,7 @@ class TrialCrankshaft : public TrialMove {
  public:
   TrialCrankshaft(
     /// These arguments are sent to both PerturbCrankshaft and TrialStage.
-    const argtype& args = argtype())
-    : TrialMove(
-      std::make_shared<TrialSelectSegment>(args),
-      std::make_shared<PerturbCrankshaft>(args),
-      args
-    ) {
-    class_name_ = "TrialCrankshaft";
-  }
+    const argtype& args = argtype());
 
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

@@ -12,9 +12,10 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
   bool is_accepted;
   double ln_metropolis_prob = acceptance.ln_metropolis_prob();
   DEBUG("macroshift " << acceptance.macrostate_shift());
-  const int shift = acceptance.macrostate_shift()*num_trial_states();
-  if (acceptance.reject() or
-      !macrostate_->is_allowed(system, this, acceptance)) {
+//  const int shift = acceptance.macrostate_shift()*num_trial_states();
+  if (acceptance.reject() ||
+      !macrostate_->is_allowed(system, this, acceptance) ||
+      !is_allowed(system, acceptance) ) {
     is_accepted = false;
     ln_metropolis_prob = -NEAR_INFINITY;
     macrostate_new_ = macrostate_old_;
@@ -22,7 +23,8 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
   } else {
     // the shift factory multiplied by number of states assumes only one
     // particle is added during an entire growth expanded cycle
-    macrostate_new_ = macrostate_->bin(system, this) + shift;
+    //macrostate_new_ = macrostate_->bin(system, this) + shift;
+    macrostate_new_ = macrostate_->bin(system, this, acceptance);
     DEBUG("old " << macrostate_old_ << " new " << macrostate_new_);
     DEBUG("bias " << bias_->ln_bias(macrostate_new_, macrostate_old_));
     DEBUG("ln new " << bias_->ln_prob().value(macrostate_new_));
@@ -53,7 +55,6 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
     macrostate_current_ = macrostate_old_;
   }
   was_accepted_ = is_accepted;
-  last_acceptance_ = acceptance;
   return is_accepted;
 }
 
@@ -171,7 +172,7 @@ void FlatHistogram::set(const std::shared_ptr<Bias> bias) {
 }
 
 void FlatHistogram::before_attempt(const System* system) {
-  macrostate_old_ = macrostate_->bin(system, this);
+  macrostate_old_ = macrostate_->bin(system, this, empty_);
   DEBUG("macro old " << macrostate_old_);
 }
 
@@ -207,7 +208,7 @@ void FlatHistogram::phase_boundary_(const LnProbability& ln_prob,
   }
 }
 
-bool FlatHistogram::is_equal(const FlatHistogram* flat_histogram,
+bool FlatHistogram::is_fh_equal(const FlatHistogram* flat_histogram,
     const double tolerance) const {
   if (!Criteria::is_equal(flat_histogram, tolerance)) {
       return false;

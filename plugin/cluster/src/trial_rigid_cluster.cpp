@@ -1,26 +1,26 @@
 #include "utils/include/serialize.h"
 #include "cluster/include/trial_rigid_cluster.h"
-#include "cluster/include/trial_select_cluster.h"
-#include "cluster/include/trial_compute_move_cluster.h"
+#include "cluster/include/select_cluster.h"
+#include "cluster/include/compute_move_cluster.h"
 #include "monte_carlo/include/perturb_translate.h"
 #include "cluster/include/perturb_rotate_com.h"
 
 namespace feasst {
 
 TrialTranslateCluster::TrialTranslateCluster(
-  std::shared_ptr<ClusterCriteria> cluster_criteria,
+  std::shared_ptr<NeighborCriteria> neighbor_criteria,
   const argtype& args)
   : Trial(args) {
-  add_stage(MakeTrialSelectCluster(cluster_criteria, args),
+  add_stage(MakeSelectCluster(neighbor_criteria, args),
             MakePerturbTranslate(args));
-  set(std::make_shared<TrialComputeMoveCluster>());
+  set(std::make_shared<ComputeMoveCluster>());
   class_name_ = "TrialTranslateCluster";
 }
 
 class MapTrialTranslateCluster {
  public:
   MapTrialTranslateCluster() {
-    auto obj = MakeTrialTranslateCluster(MakeClusterCriteria());
+    auto obj = MakeTrialTranslateCluster(MakeNeighborCriteria());
     obj->deserialize_map()["TrialTranslateCluster"] = obj;
   }
 };
@@ -48,19 +48,19 @@ void TrialTranslateCluster::serialize(std::ostream& ostr) const {
 }
 
 TrialRotateCluster::TrialRotateCluster(
-  std::shared_ptr<ClusterCriteria> cluster_criteria,
+  std::shared_ptr<NeighborCriteria> neighbor_criteria,
   const argtype& args)
   : Trial(args) {
-  add_stage(MakeTrialSelectCluster(cluster_criteria, args),
+  add_stage(MakeSelectCluster(neighbor_criteria, args),
             MakePerturbRotateCOM(args));
-  set(std::make_shared<TrialComputeMoveCluster>());
+  set(std::make_shared<ComputeMoveCluster>());
   class_name_ = "TrialRotateCluster";
 }
 
 class MapTrialRotateCluster {
  public:
   MapTrialRotateCluster() {
-    auto obj = MakeTrialRotateCluster(MakeClusterCriteria());
+    auto obj = MakeTrialRotateCluster(MakeNeighborCriteria());
     obj->deserialize_map()["TrialRotateCluster"] = obj;
   }
 };

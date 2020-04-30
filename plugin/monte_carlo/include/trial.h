@@ -33,6 +33,9 @@ class Trial {
   /// with respect to all trials.
   double weight() const { return weight_; }
 
+  // Set the weight.
+  void set_weight(const double weight) { weight_ = weight; }
+
   /// Add a stage which includes selection and perturbation with arguments.
   void add_stage(
     std::shared_ptr<TrialSelect> select,
@@ -144,7 +147,7 @@ class Trial {
  private:
   std::vector<std::shared_ptr<TrialStage> > stages_;
   std::shared_ptr<TrialCompute> compute_;
-  double weight_ = 1.;
+  double weight_;
   int64_t num_attempts_ = 0, num_success_ = 0;
   bool is_finalize_delayed_;
 

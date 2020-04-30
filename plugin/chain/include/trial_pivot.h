@@ -4,8 +4,6 @@
 
 #include <memory>
 #include "monte_carlo/include/trial_move.h"
-#include "chain/include/trial_select_end_segment.h"
-#include "chain/include/perturb_pivot.h"
 
 namespace feasst {
 
@@ -13,14 +11,7 @@ class TrialPivot : public TrialMove {
  public:
   TrialPivot(
     /// These arguments are sent to both PerturbPivot and TrialStage.
-    const argtype& args = argtype())
-    : TrialMove(
-      std::make_shared<TrialSelectEndSegment>(args),
-      std::make_shared<PerturbPivot>(args),
-      args
-    ) {
-    class_name_ = "TrialPivot";
-  }
+    const argtype& args = argtype());
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit TrialPivot(std::istream& istr);

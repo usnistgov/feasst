@@ -2,14 +2,17 @@
 #include <cmath>
 #include <numeric>
 #include <sstream>
+#include "utils/include/utils_io.h"
+#include "utils/include/serialize.h"
 #include "math/include/accumulator.h"
 #include "math/include/constants.h"
-#include "utils/include/serialize.h"
 
 namespace feasst {
 
-Accumulator::Accumulator() {
+Accumulator::Accumulator(const argtype& args) {
   reset();
+  Arguments args_(args);
+  set_block(args_.key("num_block").dflt(feasst::str(1e5)).integer());
 }
 
 // Accumulator::Accumulator(const long long num_values, const long double sum,
@@ -155,6 +158,26 @@ Accumulator::Accumulator(std::istream& istr) {
 double Accumulator::last_value() const {
   ASSERT(num_values_ > 0, "no values accumulated");
   return last_value_;
+}
+
+bool Accumulator::is_equivalent(const Accumulator& accum,
+                                const double t_factor,
+                                const bool verbose) const {
+  const double diff = accum.average() - average();
+  const double stdev = std::sqrt(
+    pow(accum.block_stdev(), 2)/accum.block_averages_->num_values() +
+    pow(block_stdev(), 2)/block_averages_->num_values());
+  if (std::abs(diff) > t_factor*stdev) {
+    if (verbose) {
+      INFO(str());
+      INFO(accum.str());
+      INFO("diff: " << diff);
+      INFO("stdev: " << stdev);
+      INFO("t_factor: " << t_factor);
+    }
+    return false;
+  }
+  return true;
 }
 
 }  // namespace feasst

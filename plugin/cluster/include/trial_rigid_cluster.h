@@ -14,7 +14,7 @@ namespace feasst {
 class TrialTranslateCluster : public Trial {
  public:
   /// These arguments are sent to both PerturbTranslate and TrialStage.
-  TrialTranslateCluster(std::shared_ptr<ClusterCriteria> cluster_criteria,
+  TrialTranslateCluster(std::shared_ptr<NeighborCriteria> neighbor_criteria,
                         const argtype& args = argtype());
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
@@ -26,9 +26,9 @@ class TrialTranslateCluster : public Trial {
 };
 
 inline std::shared_ptr<TrialTranslateCluster> MakeTrialTranslateCluster(
-    std::shared_ptr<ClusterCriteria> cluster_criteria,
+    std::shared_ptr<NeighborCriteria> neighbor_criteria,
     const argtype &args = argtype()) {
-  return std::make_shared<TrialTranslateCluster>(cluster_criteria, args);
+  return std::make_shared<TrialTranslateCluster>(neighbor_criteria, args);
 }
 
 /**
@@ -37,7 +37,7 @@ inline std::shared_ptr<TrialTranslateCluster> MakeTrialTranslateCluster(
 class TrialRotateCluster : public Trial {
  public:
   /// These arguments are sent to both PerturbRotate and TrialStage.
-  TrialRotateCluster(std::shared_ptr<ClusterCriteria> cluster_criteria,
+  TrialRotateCluster(std::shared_ptr<NeighborCriteria> neighbor_criteria,
                      const argtype& args = argtype());
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
@@ -49,9 +49,9 @@ class TrialRotateCluster : public Trial {
 };
 
 inline std::shared_ptr<TrialRotateCluster> MakeTrialRotateCluster(
-    std::shared_ptr<ClusterCriteria> cluster_criteria,
+    std::shared_ptr<NeighborCriteria> neighbor_criteria,
     const argtype &args = argtype()) {
-  return std::make_shared<TrialRotateCluster>(cluster_criteria, args);
+  return std::make_shared<TrialRotateCluster>(neighbor_criteria, args);
 }
 
 }  // namespace feasst

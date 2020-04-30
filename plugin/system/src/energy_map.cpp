@@ -25,8 +25,10 @@ double EnergyMap::update(
     const double energy,
     const int part1_index,
     const int site1_index,
+    const int site1_type,
     const int part2_index,
     const int site2_index,
+    const int site2_type,
     const double squared_distance,
     const Position * pbc) {
   resize_(part1_index, site1_index, part2_index, site2_index);
@@ -100,7 +102,7 @@ EnergyMap::EnergyMap(std::istream& istr) {
   feasst_deserialize(&dimen_, istr);
 }
 
-void EnergyMap::select_cluster(const ClusterCriteria * cluster_criteria,
+void EnergyMap::select_cluster(const NeighborCriteria * cluster_criteria,
                               const Configuration& config,
                               const int particle_node,
                               Select * cluster,
@@ -108,8 +110,24 @@ void EnergyMap::select_cluster(const ClusterCriteria * cluster_criteria,
   FATAL("not implemented");
 }
 
-bool EnergyMap::is_cluster_changed(const ClusterCriteria * cluster_criteria,
-    const Select& select) const {
+bool EnergyMap::is_cluster_changed(const NeighborCriteria * cluster_criteria,
+    const Select& select,
+    const Configuration& config) const {
+  FATAL("not implemented");
+}
+
+const NeighborCriteria * EnergyMap::neighbor_criteria() const {
+  FATAL("not implemented");
+}
+
+void EnergyMap::neighbors(
+    const NeighborCriteria * neighbor_criteria,
+    const Configuration& config,
+    const int target_particle,
+    const int target_site,
+    const int random_site,
+    Random * random,
+    Select * neighbors) const {
   FATAL("not implemented");
 }
 

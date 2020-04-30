@@ -35,5 +35,16 @@ double degrees_to_radians(const double degrees) {
   return degrees/180.*PI;
 }
 
-/// Swap the values.
+double spherical_shell_volume(const double lower,
+    const double upper,
+    const int dimension) {
+  ASSERT(upper > lower, "upper: " << upper << " must be > lower: " << lower);
+  ASSERT(dimension == 2 || dimension == 3, "dimension: " << dimension <<
+    " must be 2 or 3.");
+  double volume = std::pow(upper, dimension) - std::pow(lower, dimension);
+  volume *= PI;
+  if (dimension == 3) volume *= 4./3.;
+  return volume;
+}
+
 }  // namespace feasst

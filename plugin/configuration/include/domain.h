@@ -122,8 +122,6 @@ class Domain {
   void wrap(Position * position) const;
 
   /// Return random position within boundaries.
-  /// Require random number generator to keep method constant and prevent
-  /// seeding to the same value over and over again.
   Position random_position(Random * random) const;
 
   /// Optimized verison of the above, which allows update of existing position.
@@ -175,7 +173,7 @@ class Domain {
   }
 
 
-  /// Return the unique number cell for the position.
+  /// Return the unique cell number for the position.
   int cell_id(const Position& position, const Cells& cells) const;
 
   bool is_tilted() const { return is_tilted_; }

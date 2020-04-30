@@ -190,7 +190,7 @@ Sphinx/Breathe/Doxygen notes
 --------------------------------------------------------------------------------
 
 * Link from rst file to C++ function: ``:cpp:func:`link <feasst::className::function()>```
-* Link from rst file to C++ function: ``:cpp:class:`link <feasst:className>```
+* Link from rst file to C++ class: ``:cpp:class:`link <feasst::className>```
 * Link from rst file to fst file: ``:doc:`/tutorial/asdf``` [note, / references root]
 * Link from rst file to ipynb file : ```Tutorial <tutorial/tutorial.html>`_``
 * Link from C++ to C++: ``className::function()``
@@ -198,6 +198,8 @@ Sphinx/Breathe/Doxygen notes
 * For math in C++ comments::
 
    \f$ latex code here \f$
+
+* For tables, see monte_carlo/include/trial_compute_add.h
 
 Pip notes
 -------------------------
@@ -331,3 +333,4 @@ To Do List
 * Transition from WL to TM
 * Somehow, trial_growth_expanded.h doesn't include debug.h but can compile with ASSERT
 * Speed up RNG by maintaining int_distribution like dis_double_
+* Include tutorial helper scripts, like fh.py, in tutorial discussion where first used.

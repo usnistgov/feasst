@@ -12,6 +12,11 @@
 
 namespace feasst {
 
+/**
+  Attempt to remove a particle.
+  See TrialComputeAdd for derivation of the acceptance probability that is
+  the reverse of this Trial.
+ */
 class TrialComputeRemove : public TrialCompute {
  public:
   TrialComputeRemove();

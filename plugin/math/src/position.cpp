@@ -72,6 +72,20 @@ double Position::distance() const {
   return std::sqrt(squared_distance());
 }
 
+double Position::squared_distance(const Position& position) const {
+  ASSERT(dimension() == position.dimension(), "Err");
+  double dist = 0;
+  for (int dim = 0; dim < dimension(); ++dim) {
+    const double diff = coord_[dim] - position.coord_[dim];
+    dist += diff*diff;
+  }
+  return dist;
+}
+
+double Position::distance(const Position& position) const {
+  return std::sqrt(squared_distance(position));
+}
+
 std::string Position::str() const {
   return feasst_str(coord_, true);
 }

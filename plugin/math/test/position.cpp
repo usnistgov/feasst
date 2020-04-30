@@ -73,4 +73,9 @@ TEST(Position, reflect) {
   EXPECT_NEAR(-1.1, x1.coord(2), NEAR_ZERO);
 }
 
+TEST(Position, distance) {
+  Position x1({1, 2, 3.4}), x2({-5, 8.4, 75});
+  EXPECT_NEAR(x1.distance(x2), 72.135428188928074, NEAR_ZERO);
+}
+
 }  // namespace feasst

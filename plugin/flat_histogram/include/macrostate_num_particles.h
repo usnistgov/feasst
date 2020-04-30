@@ -2,6 +2,7 @@
 #ifndef FEASST_FLAT_HISTOGRAM_MACROSTATE_NUM_PARTICLES_H_
 #define FEASST_FLAT_HISTOGRAM_MACROSTATE_NUM_PARTICLES_H_
 
+#include "monte_carlo/include/constrain_num_particles.h"
 #include "flat_histogram/include/macrostate.h"
 
 namespace feasst {
@@ -19,12 +20,9 @@ class MacrostateNumParticles : public Macrostate {
   MacrostateNumParticles(const Histogram& histogram,
     const argtype& args = argtype());
 
-  /// Same as above but with an added constraint.
-  MacrostateNumParticles(const Histogram& histogram,
-    std::shared_ptr<Constraint> constraint,
-    const argtype& args = argtype());
-
-  double value(const System* system, const Criteria* criteria) override;
+  double value(const System* system,
+    const Criteria* criteria,
+    const Acceptance& acceptance) const override;
   std::shared_ptr<Macrostate> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   MacrostateNumParticles(std::istream& istr);
@@ -32,19 +30,13 @@ class MacrostateNumParticles : public Macrostate {
 
  private:
   const std::string class_name_ = "MacrostateNumParticles";
-  int particle_type_;
+  // int particle_type_;
+  ConstrainNumParticles num_;
 };
 
 inline std::shared_ptr<MacrostateNumParticles> MakeMacrostateNumParticles(
     const Histogram& histogram, const argtype& args = argtype()) {
   return std::make_shared<MacrostateNumParticles>(histogram, args);
-}
-
-inline std::shared_ptr<MacrostateNumParticles> MakeMacrostateNumParticles(
-    const Histogram& histogram,
-    std::shared_ptr<Constraint> constraint,
-    const argtype& args = argtype()) {
-  return std::make_shared<MacrostateNumParticles>(histogram, constraint, args);
 }
 
 }  // namespace feasst

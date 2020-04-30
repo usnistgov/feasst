@@ -1,5 +1,7 @@
 #include "chain/include/trial_crankshaft.h"
 #include "utils/include/serialize.h"
+#include "chain/include/select_segment.h"
+#include "chain/include/perturb_crankshaft.h"
 
 namespace feasst {
 
@@ -12,6 +14,14 @@ class MapTrialCrankshaft {
 };
 
 static MapTrialCrankshaft mapper_ = MapTrialCrankshaft();
+
+TrialCrankshaft::TrialCrankshaft(const argtype& args) : TrialMove(
+    std::make_shared<SelectSegment>(args),
+    std::make_shared<PerturbCrankshaft>(args),
+    args
+  ) {
+  class_name_ = "TrialCrankshaft";
+}
 
 std::shared_ptr<Trial> TrialCrankshaft::create(std::istream& istr) const {
   return std::make_shared<TrialCrankshaft>(istr);

@@ -126,7 +126,7 @@ class MonteCarlo {
   const std::vector<std::shared_ptr<Analyze> >& analyzers() const {
     return analyze_factory_.analyzers(); }
 
-  /// Return an Analayze by index.
+  /// Return an Analyze by index.
   const Analyze * analyze(const int index) const {
     return analyze_factory_.analyzers()[index].get(); }
 
@@ -137,6 +137,14 @@ class MonteCarlo {
   /// A Modifier performs some task after a given number of steps, but may
   /// change the System, Criteria and Trials.
   void add(const std::shared_ptr<Modify> modify);
+
+  /// Return an Modify by index.
+  const Modify * modify(const int index) const {
+    return modify_factory_.modifiers()[index].get(); }
+
+  /// Return the number of modifiers.
+  int num_modifiers() const {
+    return static_cast<int>(modify_factory_.modifiers().size()); }
 
   /// Add a checkpoint.
   void add(const std::shared_ptr<Checkpoint> checkpoint);

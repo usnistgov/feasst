@@ -109,6 +109,12 @@ class Random {
   /// Random point on the surface of a unit sphere.
   void unit_sphere_surface(Position * position);
 
+  /// Random point in a spherical shell.
+  void position_in_spherical_shell(
+    const double lower,
+    const double upper,
+    Position * position);
+
   /// Given a cumulative probability distribution, return a random integer
   /// index from a uniform probability distribution.
   /// The cumulative distribution must be monotonically nondecreasing.

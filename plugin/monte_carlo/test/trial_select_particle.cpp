@@ -32,7 +32,7 @@ TEST(TrialSelectParticle, exclude_perturbed) {
   sel2->precompute(&system);
   auto ran = MakeRandomMT19937();
   ran = MakeRandomMT19937({{"seed", "1583520072"}});
-  sel1->select(Select(), &system, ran.get());
+  sel1->sel(&system, ran.get());
   const int part1_index = sel1->mobile().particle_index(0);
   EXPECT_TRUE(part1_index == 0 || part1_index == 1);
   INFO(sel1->mobile().str());
@@ -50,7 +50,7 @@ TEST(TrialSelectParticle, exclude_perturbed) {
   sel2 = MakeTrialSelectParticle({{"particle_type", "0"}, {"ghost", "true"},
                                   {"exclude_perturbed", "true"}});
   sel1->precompute(&system);
-  sel1->select(Select(), &system, ran.get());
+  sel1->sel(&system, ran.get());
   sel2->precompute(&system);
   sel2->select(sel1->mobile(), &system, ran.get());
   EXPECT_NE(sel1->mobile().particle_index(0), sel2->mobile().particle_index(0));

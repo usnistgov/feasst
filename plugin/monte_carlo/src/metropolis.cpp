@@ -4,10 +4,20 @@
 
 namespace feasst {
 
+Metropolis::Metropolis(const argtype &args) : Criteria(args) {
+  class_name_ = "Metropolis";
+}
+
+Metropolis::Metropolis(std::shared_ptr<Constraint> constraint,
+    const argtype& args) : Metropolis(args) {
+  add(constraint);
+}
+
 bool Metropolis::is_accepted(const Acceptance& acceptance,
     const System * system,
     const double uniform_random) {
-  if ( (!acceptance.reject()) and
+  if ( (!acceptance.reject()) &&
+       (is_allowed(system, acceptance)) &&
        (uniform_random < std::exp(acceptance.ln_metropolis_prob())) ) {
     DEBUG("accepted");
     set_current_energy(acceptance.energy_new());
@@ -16,7 +26,6 @@ bool Metropolis::is_accepted(const Acceptance& acceptance,
     DEBUG("rejected");
     was_accepted_ = false;
   }
-  last_acceptance_ = acceptance;
   return was_accepted_;
 }
 

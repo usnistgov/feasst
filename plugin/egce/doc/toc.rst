@@ -1,5 +1,5 @@
 
 .. toctree::
 
-   ATwiceB
    AEqualOrOneMoreThanB
+   ATwiceB

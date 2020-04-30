@@ -2,7 +2,7 @@
 #ifndef FEASST_EGCE_A_EQUAL_OR_ONE_MORE_THAN_B_H_
 #define FEASST_EGCE_A_EQUAL_OR_ONE_MORE_THAN_B_H_
 
-#include "flat_histogram/include/constraint.h"
+#include "monte_carlo/include/constraint.h"
 
 namespace feasst {
 

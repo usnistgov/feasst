@@ -5,7 +5,7 @@ namespace feasst {
 
 Perturb::Perturb(const argtype& args) {
   set_probability();
-  Arguments args_(args);
+  args_.init(args);
   args_.dont_check();
   tunable_.set_value(args_.key("tunable_param").dflt("0.1").dble());
   if (args_.key("tunable_target_acceptance").used()) {

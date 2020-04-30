@@ -14,6 +14,7 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include "utils/include/arguments.h"
 
 namespace feasst {
 
@@ -24,7 +25,11 @@ namespace feasst {
  */
 class Accumulator {
  public:
-  Accumulator();
+  /**
+    args:
+    - num_block: number of values per block (default: 1e5).
+   */
+  explicit Accumulator(const argtype& args = argtype());
 
   /// Add a value to the running sum of values and higher moments.
   void accumulate(double value);
@@ -88,6 +93,12 @@ class Accumulator {
   /// Return the last value accumulated.
   double last_value() const;
 
+  /// Return true if the Accumulator is equivalent within the given
+  /// confidence interval based on the block average standard deviations.
+  bool is_equivalent(const Accumulator& accumulator,
+    const double t_factor,
+    const bool verbose = false) const;
+
   void serialize(std::ostream& ostr) const;
   explicit Accumulator(std::istream& istr);
 
@@ -109,6 +120,11 @@ class Accumulator {
   /// accumulate averages of each block
   std::shared_ptr<Accumulator> block_averages_;
 };
+
+inline std::shared_ptr<Accumulator> MakeAccumulator(
+    const argtype& args = argtype()) {
+  return std::make_shared<Accumulator>(args);
+}
 
 }  // namespace feasst
 

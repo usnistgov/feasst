@@ -61,6 +61,32 @@ TEST(Random, unit_sphere) {
 //  }
 }
 
+TEST(Random, spherical_shell) {
+  const double upper = 3, lower = 1.;
+  RandomMT19937 random;
+  Position position;
+
+  // 3D
+  position.set_vector({0., 0., 0.});
+  for (int point = 0; point < 1e3; ++point) {
+    random.position_in_spherical_shell(lower, upper, &position);
+    EXPECT_LE(lower, position.distance());
+    EXPECT_GE(upper, position.distance());
+    // visualize
+    // std::cout << position.str() << std::endl;
+  }
+
+  // 2D
+  position.set_vector({0., 0.});
+  for (int point = 0; point < 1e3; ++point) {
+    random.position_in_spherical_shell(lower, upper, &position);
+    EXPECT_LE(lower, position.distance());
+    EXPECT_GE(upper, position.distance());
+    // visualize
+    // std::cout << position.str() << std::endl;
+  }
+}
+
 TEST(Random, index_from_cumulative_probability) {
   RandomMT19937 random;
   std::vector<double> cpdf;

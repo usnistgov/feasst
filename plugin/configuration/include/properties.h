@@ -31,6 +31,9 @@ class Properties {
   /// Return true if property name exists, and its value.
   bool value(const std::string name, double * value) const;
 
+  /// Return true if property name exists, and its value and index.
+  bool value(const std::string name, double * value, int * index) const;
+
   /// Return true if property name exists.
   bool has(const std::string name) const {
     double val;

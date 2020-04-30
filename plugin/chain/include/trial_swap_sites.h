@@ -5,9 +5,6 @@
 #include <string>
 #include <memory>
 #include "monte_carlo/include/trial.h"
-#include "monte_carlo/include/trial_compute_move.h"
-#include "chain/include/trial_select_site_of_type.h"
-#include "chain/include/perturb_site_type.h"
 
 namespace feasst {
 

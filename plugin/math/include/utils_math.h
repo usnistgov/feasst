@@ -192,6 +192,11 @@ inline void sort(T * min, T * max) {
 /// Return the cumulative probability from a weighted series.
 std::vector<double> cumulative_probability(const std::vector<double>& weights);
 
+/// Return the volume in a spherical shell.
+double spherical_shell_volume(const double lower,
+  const double upper,
+  const int dimension);
+
 }  // namespace feasst
 
 #endif  // FEASST_MATH_UTILS_MATH_H_

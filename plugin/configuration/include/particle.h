@@ -79,6 +79,8 @@ class Particle : public PropertiedEntity,
   void set_site_type(const int site, const int type) {
     sites_[site].set_type(type); }
 
+  // HWH optimize this
+  /// Return the number of sites of a given type.
   int num_sites_of_type(const int type) const;
 
   //@}

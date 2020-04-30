@@ -9,7 +9,7 @@
 #include "utils/include/arguments.h"
 #include "configuration/include/configuration.h"
 #include "configuration/include/select.h"
-#include "system/include/cluster_criteria.h"
+#include "system/include/neighbor_criteria.h"
 
 namespace feasst {
 
@@ -30,7 +30,7 @@ class EnergyMap {
 
   double default_value() const { return default_value_; }
 
-  void clear(
+  virtual void clear(
       const int part1_index,
       const int site1_index,
       const int part2_index,
@@ -39,8 +39,10 @@ class EnergyMap {
       const double energy,
       const int part1_index,
       const int site1_index,
+      const int site1_type,
       const int part2_index,
       const int site2_index,
+      const int site2_type,
       const double squared_distance,
       const Position * pbc);
   virtual bool is_queryable() const { return true; }
@@ -73,7 +75,7 @@ class EnergyMap {
     The cluster also has positions taking into account periodic boundary
     conditions, which is why frame of reference is used recurisvely.
    */
-  virtual void select_cluster(const ClusterCriteria * cluster_criteria,
+  virtual void select_cluster(const NeighborCriteria * cluster_criteria,
                               const Configuration& config,
                               const int particle_node,
                               Select * cluster,
@@ -81,8 +83,24 @@ class EnergyMap {
 
   /// Compare old and new maps to see if cluster has changed.
   /// This is useful for detailed balance with rigid cluster moves.
-  virtual bool is_cluster_changed(const ClusterCriteria * cluster_criteria,
-    const Select& select) const;
+  virtual bool is_cluster_changed(const NeighborCriteria * cluster_criteria,
+    const Select& select,
+    const Configuration& config) const;
+
+  /// Return the NeighborCriteria.
+  virtual const NeighborCriteria * neighbor_criteria() const;
+
+  /// Return a random neighboring site of target_site in target_particle.
+  /// This interface was designed for use by AVB methods.
+  virtual void neighbors(
+    const NeighborCriteria * neighbor_criteria,
+    const Configuration& config,
+    const int target_particle,
+    const int target_site,
+    /// random_site is the given site index.
+    const int random_site,
+    Random * random,
+    Select * neighbors) const;
 
   virtual void check() const {}
 
@@ -117,6 +135,9 @@ class EnergyMap {
     double> > > > >& map() const = 0;
   int dimen() const { return dimen_; }
   int site_max() const { return site_max_; }
+
+  // temporary and non-serialized
+  std::vector<int> stored_neighbors_;
 
  private:
   double default_value_;

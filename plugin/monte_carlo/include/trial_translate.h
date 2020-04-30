@@ -8,7 +8,9 @@
 
 namespace feasst {
 
-/// Attempt a rigid translation of a random particle.
+/**
+  Attempt a rigid translation of a random particle.
+ */
 class TrialTranslate : public TrialMove {
  public:
   /// These arguments are sent to both PerturbTranslate and TrialStage.

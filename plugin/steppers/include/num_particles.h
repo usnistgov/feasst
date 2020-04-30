@@ -3,7 +3,6 @@
 #define FEASST_STEPPERS_NUM_PARTICLES_H_
 
 #include "monte_carlo/include/analyze.h"
-#include "math/include/accumulator.h"
 
 namespace feasst {
 
@@ -14,7 +13,6 @@ class NumParticles : public Analyze {
  public:
   /**
     args:
-    - num_block: number of updated per block (default: 1e5).
     - particle_type: index of particle type from configuration.
       If -1, sum all particles (default: -1).
     - group: index of group from configuration.
@@ -31,9 +29,7 @@ class NumParticles : public Analyze {
       const System& system,
       const TrialFactory& trial_factory) override;
 
-  const Accumulator& num_particles() const { return num_particles_; }
-
-  const Accumulator& accumulator() const override { return num_particles(); }
+  const Accumulator& num_particles() const { return accumulator(); }
 
   // serialize
   std::string class_name() const override {
@@ -44,7 +40,6 @@ class NumParticles : public Analyze {
   explicit NumParticles(std::istream& istr);
 
  private:
-  Accumulator num_particles_;
   int particle_type_;
   int group_;
 };

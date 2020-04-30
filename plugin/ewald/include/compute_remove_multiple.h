@@ -12,6 +12,11 @@
 
 namespace feasst {
 
+/**
+  Attempt to remove multiple particles.
+  For a derivation of the acceptance criteria, see ComputeAddMultiple that is
+  the reverse of this trial.
+ */
 class ComputeRemoveMultiple : public TrialCompute {
  public:
   ComputeRemoveMultiple();

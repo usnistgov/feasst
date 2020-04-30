@@ -5,6 +5,7 @@
    CheckProperties
    Tuner
    Movie
+   Energy
    CPUTime
    Log
    WallClockLimit
@@ -13,5 +14,4 @@
    CheckEnergy
    CheckPhysicality
    NumParticles
-   Energy
    CriteriaWriter

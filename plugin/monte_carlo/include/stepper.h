@@ -4,10 +4,9 @@
 
 #include <string>
 #include "utils/include/arguments.h"
+#include "math/include/accumulator.h"
 
 namespace feasst {
-
-class Accumulator;
 
 /**
   Perform an action (update or write) every so many steps.
@@ -28,7 +27,9 @@ class Stepper {
       Do not append if false (default: "false").
     - clear_file: set true to clear contents of file_name, if exists.
       (default: false).
-    - multistate:  set "true" to copy for each state (default: "false")
+    - multistate: set "true" to copy for each state (default: "false")
+    - num_block: number of updated per block in accumulator.
+      If not provided, use default value in Accumulator.
    */
   Stepper(const argtype &args = argtype());
 
@@ -54,7 +55,13 @@ class Stepper {
   int state() const { return state_; }
 
   /// Return the accumulator.
-  virtual const Accumulator& accumulator() const;
+  const Accumulator& accumulator() const { return accumulator_; }
+
+  /// Return the number of steps since update.
+  int steps_since_update() const { return steps_since_update_; }
+
+  /// Return the number of steps since write.
+  int steps_since_write() const { return steps_since_write_; }
 
   virtual std::string class_name() const { return std::string("Stepper"); }
 
@@ -66,6 +73,7 @@ class Stepper {
   Arguments args_;
   int steps_since_update_ = 0;
   int steps_since_write_ = 0;
+  Accumulator accumulator_;
 
   /// Note that this should not be called after set_state, which appends name.
   void set_file_name(const std::string file_name) { file_name_ = file_name; }

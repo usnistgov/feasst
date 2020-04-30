@@ -6,7 +6,7 @@
 #include <string>
 #include <memory>
 #include "chain/include/trial_grow.h"
-#include "chain/include/trial_select_perturbed.h"
+#include "chain/include/select_perturbed.h"
 
 namespace feasst {
 
@@ -131,7 +131,7 @@ class TrialGrowthExpanded : public Trial {
 
     // the first selection stage of shrink should use perturbed
     auto stage = shrink_->stages()[0];
-    stage->set(std::make_shared<TrialSelectPerturbed>());
+    stage->set(std::make_shared<SelectPerturbed>());
     shrink_->set(0, stage);
   }
 
@@ -232,7 +232,7 @@ class TrialGrowthExpanded : public Trial {
     if ( (growing_ and growth_stage_ == 1) or
          (!growing_ and growth_stage_ == num_growth_stages() - 1) ) {
       *growing_particle_->get_mobile() = stages()[0]->trial_select()->mobile();
-      // HWH hard code growing particle to site 0 for TrialSelectPerturbed
+      // HWH hard code growing particle to site 0 for SelectPerturbed
       //  removal. Assumes first site is first stage.
       growing_particle_->get_mobile()->set_site(0, 0, 0);
     }

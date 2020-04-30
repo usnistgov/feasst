@@ -79,8 +79,8 @@ bool TripleBandedCollectionMatrix::is_equal(
     const TripleBandedCollectionMatrix& colmat,
     const double tolerance) const {
   if (!feasst::is_equal(matrix_, colmat.matrix_, tolerance)) {
-    INFO("colmat not equal " << feasst_str(matrix_));
-    INFO("colmat not equal " << feasst_str(colmat.matrix_));
+    INFO("colmat not equal " << feasst_str(matrix_, true));
+    INFO("colmat not equal " << feasst_str(colmat.matrix_, true));
     return false;
   }
   return true;

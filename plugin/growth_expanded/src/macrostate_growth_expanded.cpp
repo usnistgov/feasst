@@ -31,7 +31,8 @@ void MacrostateGrowthExpanded::serialize(std::ostream& ostr) const {
 }
 
 double MacrostateGrowthExpanded::value(const System* system,
-    const Criteria* criteria) {
+    const Criteria* criteria,
+    const Acceptance& acceptance) const {
   const double num_particles = static_cast<double>(system->configuration().num_particles());
   double rtrn;
   DEBUG("nump " << num_particles);

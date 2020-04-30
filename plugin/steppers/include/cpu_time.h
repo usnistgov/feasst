@@ -22,8 +22,6 @@ class CPUTime : public AnalyzeWriteOnly {
       const System& system,
       const TrialFactory& trial_factory) override;
 
-  const Accumulator& accumulator() const override { return steps_per_second_; }
-
   // serialize
   std::string class_name() const override { return std::string("CPUTime"); }
   void serialize(std::ostream& ostr) const override;
@@ -32,7 +30,6 @@ class CPUTime : public AnalyzeWriteOnly {
   CPUTime(std::istream& istr);
 
  private:
-  Accumulator steps_per_second_;
   int num_writes_;
   double initialize_time_;
 };

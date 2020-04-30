@@ -55,8 +55,8 @@ void VisitModelInner::compute(
       if (squared_distance_ <= cutoff*cutoff) {
         const double energy = model.energy(squared_distance_, type1, type2,
                                            model_params);
-        update_ixn(energy, part1_index, site1_index, part2_index, site2_index,
-                   squared_distance_, pbc);
+        update_ixn(energy, part1_index, site1_index, type1, part2_index,
+                   site2_index, type2, squared_distance_, pbc);
         TRACE("indices " << part1_index << " " << site1_index << " " <<
           part2_index << " " << site2_index);
         TRACE("energy " << energy_ << " " << energy);

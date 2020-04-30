@@ -11,6 +11,7 @@
 namespace feasst {
 
 Configuration::Configuration(const argtype& args) {
+  one_site_select_.add_site(0, 0);
   domain_ = std::make_shared<Domain>();
   particle_types_.unique_particles();
   unique_types_.unique_types();
@@ -246,26 +247,27 @@ void Configuration::position_tracker_(const int particle_index,
         const Site& site = part.site(site_index);
         if (group->is_in(site)) {
           const int cell_new = domain()->cell_id(site.position(), cells);
-          Select select;
-          select.add_site(particle_index, site_index);
-          const std::string name = cells.label();
+          one_site_select_.set_particle(0, particle_index);
+          one_site_select_.set_site(0, 0, site_index);
           double value;
-          if (site.properties().value(name, &value)) {
+          int index;
+          if (site.properties().value(cells.label(), &value, &index)) {
             const int cell_old = feasst::round(value);
             DEBUG("index " << particle_index << " " << site_index);
             DEBUG("new cell " << cell_new << " old cell " << cell_old);
             DEBUG("before new cell set: " <<
               particles_.particle(particle_index).site(
               site_index).property("cell0"));
-            particles_.set_site_property(name, cell_new,
+            particles_.set_site_property(index, cell_new,
                                          particle_index, site_index);
-            domain_->update_cell_list(cell_index, select, cell_new, cell_old);
+            domain_->update_cell_list(cell_index, one_site_select_, cell_new,
+                                      cell_old);
           } else {
-            particles_.add_site_property(name, cell_new,
+            particles_.add_site_property(cells.label(), cell_new,
                                          particle_index, site_index);
             DEBUG("adding to cell list " << cell_index << " cllnw "
               << cell_new << " si " << site_index);
-            domain_->add_to_cell_list(cell_index, select, cell_new);
+            domain_->add_to_cell_list(cell_index, one_site_select_, cell_new);
           }
         }
       }

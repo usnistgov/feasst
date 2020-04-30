@@ -49,9 +49,9 @@ TEST(MonteCarlo, rpm_egce_fh) {
   const double beta_mu = -13.94;
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
-      Histogram({{"width", "1"}, {"max", "20"}, {"min", "0"}}),
-      MakeAEqualOrOneMoreThanB()),
+      Histogram({{"width", "1"}, {"max", "20"}, {"min", "0"}})),
     MakeTransitionMatrix({{"min_sweeps", "100"}}),
+    MakeAEqualOrOneMoreThanB(),
     { {"beta", str(1/temperature)},
       {"chemical_potential0", str(beta_mu*temperature)},
       {"chemical_potential1", str(beta_mu*temperature)}}

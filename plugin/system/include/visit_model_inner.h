@@ -43,14 +43,16 @@ class VisitModelInner {
       const double energy,
       const int part1_index,
       const int site1_index,
+      const int site1_type,
       const int part2_index,
       const int site2_index,
+      const int site2_type,
       const double squared_distance,
       const Position * pbc) {
     energy_ += energy;
     if (energy_map_) {
-      energy_map_->update(energy, part1_index, site1_index, part2_index,
-                          site2_index, squared_distance, pbc);
+      energy_map_->update(energy, part1_index, site1_index, site1_type,
+        part2_index, site2_index, site2_type, squared_distance, pbc);
     }
   }
   void clear_ixn(

@@ -11,7 +11,7 @@ namespace feasst {
 /**
   Note that the input shape of this model represents the shape of the cavity.
 
-  /f$ U(r) = \epsilon \left( \frac{r}{\sigma} \right)^\alpha /f$
+  \f$ U(r) = \epsilon \left( \frac{r}{\sigma} \right)^\alpha \f$
  */
 class ModelLJShape : public ModelOneBody,
                        public ShapedEntity {

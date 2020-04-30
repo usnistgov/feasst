@@ -33,4 +33,9 @@ TEST(UtilsMath, minimum) {
   }
 }
 
+TEST(UtilsMath, spherical_shell_volume) {
+  EXPECT_NEAR(spherical_shell_volume(1.7, 3.2, 2), 23.090706003884986, NEAR_ZERO);
+  EXPECT_NEAR(spherical_shell_volume(1.7, 3.2, 3), 116.67875115432494, NEAR_ZERO);
+}
+
 }  // namespace feasst

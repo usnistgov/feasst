@@ -54,8 +54,10 @@ double EnergyMapNeigh::update(
     const double energy,
     const int part1_index,
     const int site1_index,
+    const int site1_type,
     const int part2_index,
     const int site2_index,
+    const int site2_type,
     const double squared_distance,
     const Position * pbc) {
   FATAL("not implemented");
@@ -98,17 +100,20 @@ void EnergyMapNeigh::revert(const Select& select) {
 }
 
 void EnergyMapNeigh::select_cluster(
-    const ClusterCriteria * cluster_criteria,
+    const NeighborCriteria * neighbor_criteria,
     const Configuration& config,
     const int particle_node,
     Select * cluster,
     const Position& frame_of_reference) const {
+  FATAL("not impl");
 }
 
 bool EnergyMapNeigh::is_cluster_(
-    const ClusterCriteria * cluster_criteria,
+    const NeighborCriteria * neighbor_criteria,
     const std::vector<std::vector<std::vector<double> > >& smap,
+    const Configuration& config,
     Position * frame) const {
+  FATAL("not impl");
   return false;
 }
 
@@ -117,4 +122,5 @@ void EnergyMapNeigh::resize_(
     const int site1_index,
     const int part2_index,
     const int site2_index) { FATAL("not impl"); }
+
 }  // namespace feasst

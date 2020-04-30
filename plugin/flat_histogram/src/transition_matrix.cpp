@@ -28,7 +28,7 @@ void TransitionMatrix::update_or_revert(
   const int index = macrostate_new - macrostate_old + 1;
   DEBUG("bin " << bin << " index " << index);
   ASSERT(index >= 0 and index <= 2, "index(" << index << ") must be 0, 1 or 2");
-  if (is_accepted) {
+  if (is_accepted && (macrostate_old != macrostate_new)) {
     if (revert) {
       --visits_[bin];
     } else {

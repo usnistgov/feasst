@@ -22,10 +22,18 @@ class FlatHistogram : public Criteria {
 
   FlatHistogram(std::shared_ptr<Macrostate> macrostate,
       std::shared_ptr<Bias> bias,
-      const argtype &args = argtype()) : Criteria(args) {
-    class_name_ = "FlatHistogram";
+      const argtype &args = argtype()) : FlatHistogram(args) {
+//    class_name_ = "FlatHistogram";
     set(macrostate);
     set(bias);
+  }
+
+  /// Same as above, but with an added Constraint.
+  FlatHistogram(std::shared_ptr<Macrostate> macrostate,
+      std::shared_ptr<Bias> bias,
+      std::shared_ptr<Constraint> constraint,
+      const argtype &args = argtype()) : FlatHistogram(macrostate, bias, args) {
+    add(constraint);
   }
 
   void before_attempt(const System* system) override;
@@ -122,7 +130,7 @@ class FlatHistogram : public Criteria {
 
   void update() override { bias_->infrequent_update(); }
 
-  bool is_equal(const FlatHistogram* flat_histogram,
+  bool is_fh_equal(const FlatHistogram* flat_histogram,
     const double tolerance) const;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
@@ -150,6 +158,9 @@ class FlatHistogram : public Criteria {
   void phase_boundary_(const int phase, int * min, int * max) const {
     phase_boundary_(ln_prob_(), phase, min, max);
   }
+
+  // temporary
+  Acceptance empty_;
 };
 
 inline std::shared_ptr<FlatHistogram> MakeFlatHistogram(
@@ -162,6 +173,14 @@ inline std::shared_ptr<FlatHistogram> MakeFlatHistogram(
     std::shared_ptr<Bias> bias,
     const argtype &args = argtype()) {
   return std::make_shared<FlatHistogram>(macrostate, bias, args);
+}
+
+inline std::shared_ptr<FlatHistogram> MakeFlatHistogram(
+    std::shared_ptr<Macrostate> macrostate,
+    std::shared_ptr<Bias> bias,
+    std::shared_ptr<Constraint> constraint,
+    const argtype &args = argtype()) {
+  return std::make_shared<FlatHistogram>(macrostate, bias, constraint, args);
 }
 
 }  // namespace feasst

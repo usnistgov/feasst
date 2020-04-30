@@ -103,7 +103,7 @@ bool is_equal(const std::vector<std::vector<T> >& vec1,
               const double tolerance = 1e-15) {
   if (vec1.size() != vec2.size()) return false;
   for (int index = 0; index < static_cast<int>(vec1.size()); ++index) {
-    if (!is_equal(vec1[index], vec2[index])) return false;
+    if (!is_equal(vec1[index], vec2[index], tolerance)) return false;
   }
   return true;
 }

@@ -1,5 +1,7 @@
 #include "chain/include/trial_pivot.h"
 #include "utils/include/serialize.h"
+#include "chain/include/select_end_segment.h"
+#include "chain/include/perturb_pivot.h"
 
 namespace feasst {
 
@@ -12,6 +14,14 @@ class MapTrialPivot {
 };
 
 static MapTrialPivot mapper_ = MapTrialPivot();
+
+TrialPivot::TrialPivot(const argtype& args) : TrialMove(
+    std::make_shared<SelectEndSegment>(args),
+    std::make_shared<PerturbPivot>(args),
+    args
+  ) {
+  class_name_ = "TrialPivot";
+}
 
 std::shared_ptr<Trial> TrialPivot::create(std::istream& istr) const {
   return std::make_shared<TrialPivot>(istr);

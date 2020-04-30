@@ -32,7 +32,7 @@ inline void test_revert(System * system) {
   auto random = MakeRandomMT19937();
 //  random = MakeRandomMT19937({{"seed", "default"}});
 //  random = MakeRandomMT19937({{"seed", "1580853628"}});
-  tsel->select(Select(), system, random.get());
+  tsel->sel(system, random.get());
   translate.perturb(system, tsel.get(), random.get());
   EXPECT_GT(std::abs(pe_original - system->energy()), NEAR_ZERO);
 //  if (inner->is_energy_map_queryable()) {
@@ -53,7 +53,7 @@ inline void test_revert(System * system) {
   // precompute adds argument {"ghost", "true"} to tsel
   PerturbAdd add;
   add.precompute(tsel_ghost.get(), system);
-  tsel_ghost->select(Select(), system, random.get());
+  tsel_ghost->sel(system, random.get());
   add.add(system, tsel_ghost.get(), random.get(), position);
   EXPECT_EQ(system->configuration().num_particles(), 3);
   const double tri_distance = sqrt(1.25*1.25 + 1.25*1.25);
@@ -75,7 +75,7 @@ inline void test_revert(System * system) {
 
   // remove one of the remaining two particles
   PerturbRemove remove;
-  tsel->select(Select(), system, random.get());
+  tsel->sel(system, random.get());
   remove.perturb(system, tsel.get(), random.get());
   EXPECT_EQ(2, system->configuration().num_particles());
 
@@ -99,7 +99,7 @@ inline void test_revert(System * system) {
   EXPECT_EQ(0., system->energy());
 
   // add particle (finalize)
-  tsel_ghost->select(Select(), system, random.get());
+  tsel_ghost->sel(system, random.get());
   add.perturb(system, tsel_ghost.get(), random.get());
   const double en2 = system->energy();
   add.finalize(system);
@@ -112,7 +112,7 @@ inline void test_revert(System * system) {
   system->check();
 
   // translate (finalize)
-  tsel->select(Select(), system, random.get());
+  tsel->sel(system, random.get());
   EXPECT_EQ(2, system->configuration().num_particles());
   translate.perturb(system, tsel.get(), random.get());
   const double en2t = system->energy();

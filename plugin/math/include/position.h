@@ -116,6 +116,12 @@ class Position {
   /// Return the distance of self from the origin.
   double distance() const;
 
+  /// Return the squared distance between self and position.
+  double squared_distance(const Position& position) const;
+
+  /// Return distance between self and position.
+  double distance(const Position& position) const;
+
   /// Return coordinates as a string.
   std::string str() const;
 

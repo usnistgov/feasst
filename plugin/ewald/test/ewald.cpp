@@ -84,7 +84,7 @@ TEST(Ewald, revert) {
   PerturbTranslate perturb;
   TrialSelectParticle tsel;
   RandomMT19937 random;
-  tsel.select(Select(), &system, &random);
+  tsel.sel(&system, &random);
   perturb.perturb(&system, &tsel, &random);
   EXPECT_GT(std::abs(en - system.energy()), 1e-10);
   perturb.revert(&system);

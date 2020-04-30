@@ -14,7 +14,9 @@ class MacrostateGrowthExpanded : public Macrostate {
  public:
   MacrostateGrowthExpanded(const Histogram& histogram,
     const argtype& args = argtype()) : Macrostate(histogram, args) {}
-  double value(const System* system, const Criteria* criteria) override;
+  double value(const System* system,
+               const Criteria* criteria,
+               const Acceptance& acceptance) const override;
   std::shared_ptr<Macrostate> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   MacrostateGrowthExpanded(std::istream& istr);

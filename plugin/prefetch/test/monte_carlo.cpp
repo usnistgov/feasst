@@ -10,14 +10,15 @@ namespace feasst {
 TEST(Prefetch, NVT_benchmark) {
   Prefetch mc;
   mc_lj(&mc, 8, "../forcefield/data.lj", 1e1);
-  mc.set(MakeRandomMT19937({{"seed", "default"}}));
+  // mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.activate_prefetch(false);
   mc.seek_num_particles(50);
   // activate prefetch after initial configuration
   mc.activate_prefetch(true);
   // mc.attempt(1e6);  // ~3.5 seconds (now 4.1)
   mc.attempt(1e2);
-  //INFO("num " << mc.trials().num_attempts());
+  EXPECT_EQ(mc.analyze(0)->steps_since_write(),
+            mc.modify(0)->steps_since_update());
 }
 
 TEST(Prefetch, MUVT) {
@@ -45,7 +46,7 @@ TEST(Prefetch, MUVT) {
   std::vector<std::shared_ptr<TransitionMatrix> > tms(mc->pool().size());
   for (int trial = 0; trial < 1e2; ++trial) {
     mc->attempt(1);
-    INFO(mc->pool().size());
+    // INFO(mc->pool().size());
     for (int ipool = 0; ipool < static_cast<int>(mc->pool().size()); ++ipool) {
       std::stringstream ss;
       mc->clone_(ipool)->criteria()->serialize(ss);

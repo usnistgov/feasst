@@ -1,0 +1,93 @@
+#include "utils/include/serialize.h"
+#include "math/include/utils_math.h"
+#include "math/include/random.h"
+#include "cluster/include/perturb_add_avb.h"
+
+namespace feasst {
+
+PerturbAddAVB::PerturbAddAVB(
+    std::shared_ptr<NeighborCriteria> neighbor_criteria,
+    const argtype& args) : Perturb(args) {
+  class_name_ = "PerturbAddAVB";
+  move_ = MakePerturbMoveAVB(neighbor_criteria);
+}
+
+class MapPerturbAddAVB {
+ public:
+  MapPerturbAddAVB() {
+    auto obj = MakePerturbAddAVB(MakeNeighborCriteria());
+    obj->deserialize_map()["PerturbAddAVB"] = obj;
+  }
+};
+
+static MapPerturbAddAVB mapper_ = MapPerturbAddAVB();
+
+std::shared_ptr<Perturb> PerturbAddAVB::create(std::istream& istr) const {
+  return std::make_shared<PerturbAddAVB>(istr);
+}
+
+void PerturbAddAVB::perturb(
+    System * system,
+    TrialSelect * select,
+    Random * random,
+    const bool is_position_held) {
+  DEBUG("is_position_held " << is_position_held);
+  DEBUG(select->mobile().str());
+  Configuration* config = system->get_configuration();
+  config->revive(select->mobile());
+  move_->move(system, select, random);
+  set_revert_possible(true, select);
+  set_finalize_possible(true, select);
+  // setting trial state should go last so other perturbs do not overwrite
+  select->set_trial_state(3);
+}
+
+void PerturbAddAVB::revert(System * system) {
+  DEBUG("revert_possible " << revert_possible());
+  if (revert_possible()) {
+    DEBUG(revert_select()->mobile().str());
+    DEBUG("nump " << system->configuration().num_particles());
+    system->revert(revert_select()->mobile());
+  }
+}
+
+void PerturbAddAVB::finalize(System * system) {
+  DEBUG("finalize_possible " << finalize_possible());
+  if (finalize_possible()) {
+    system->finalize(finalize_select()->mobile());
+  }
+}
+
+std::string PerturbAddAVB::status_header() const {
+  std::stringstream ss;
+  return ss.str();
+}
+
+std::string PerturbAddAVB::status() const {
+  std::stringstream ss;
+  return ss.str();
+}
+
+PerturbAddAVB::PerturbAddAVB(std::istream& istr)
+  : Perturb(istr) {
+  ASSERT(class_name_ == "PerturbAddAVB", "name: " << class_name_);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(2908 == version, "mismatch version: " << version);
+  // HWH for unknown reasons, this function template does not work.
+  // feasst_deserialize_fstdr(move_, istr);
+  { int existing;
+    istr >> existing;
+    if (existing != 0) {
+     move_ = std::make_shared<PerturbMoveAVB>(istr);
+    }
+  }
+}
+
+void PerturbAddAVB::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_perturb_(ostr);
+  feasst_serialize_version(2908, ostr);
+  feasst_serialize_fstdr(move_, ostr);
+}
+
+}  // namespace feasst

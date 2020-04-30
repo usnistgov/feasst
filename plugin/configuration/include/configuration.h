@@ -26,6 +26,7 @@ namespace feasst {
   types and are referred to as unique types.
   Unique types are stored in essentially the same fashion as particle types,
   except they have been stripped of their non-unique sites and bonds.
+  Two different particles cannot share a site type.
 
   Groups of different particle/site types and other metrics may be defined.
   These groups then define a selection which can be used to distinguish subsets
@@ -425,6 +426,7 @@ class Configuration {
   // temporaries (not serialized)
   Arguments args_;
   int newest_particle_index_;
+  Select one_site_select_;
 
   /// Selects based on groups that are continuously updated.
   // HWH currently only updated when adding and removing particles

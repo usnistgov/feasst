@@ -9,6 +9,8 @@
 
 namespace feasst {
 
+class Constraint;
+
 /**
   Determine whether to accept or reject a trial.
   Stores the total energy based on energy changes from each trial.
@@ -26,7 +28,11 @@ class Criteria {
       If only one particle type, you can drop the [i].
       The chemical potential must have the inverse units of \f$\beta\f$.
    */
-  Criteria(const argtype& args = argtype());
+  explicit Criteria(const argtype& args = argtype());
+
+  /// Same as above, but also add a constraint.
+  Criteria(std::shared_ptr<Constraint> constraint,
+    const argtype& args = argtype());
 
   /// Set beta.
   void set_beta(const double beta);
@@ -57,6 +63,14 @@ class Criteria {
   /// Return the dimensionless product of beta and the chemical potential.
   double beta_mu(const int particle_type = 0) const;
 
+  /// Add a constraint.
+  void add(std::shared_ptr<Constraint> constraint) {
+    constraints_.push_back(constraint); }
+
+  /// Return whether constraints are statisfied.
+  bool is_allowed(const System * system,
+                  const Acceptance& acceptance);
+
   /// This function is called before a trial attempt.
   virtual void before_attempt(const System* system) {}
 
@@ -64,9 +78,6 @@ class Criteria {
   virtual bool is_accepted(const Acceptance& acceptance_,
     const System * system,
     const double uniform_random) = 0;
-
-  /// Return the acceptance of the last trial.
-  const Acceptance& acceptance() const { return last_acceptance_; }
 
   /// Return whether or not the last trial attempt was accepted.
   // bool was_accepted() const { return was_accepted_; }
@@ -144,9 +155,6 @@ class Criteria {
   void serialize_criteria_(std::ostream& ostr) const;
   bool was_accepted_ = false;
 
-  // temporary
-  Acceptance last_acceptance_;
-
  private:
   double beta_ = 0.;
   bool beta_initialized_ = false;
@@ -157,6 +165,7 @@ class Criteria {
   int num_trial_states_;
   double pH_ = 0.;
   bool pH_initialized_ = false;
+  std::vector<std::shared_ptr<Constraint> > constraints_;
 };
 
 }  // namespace feasst

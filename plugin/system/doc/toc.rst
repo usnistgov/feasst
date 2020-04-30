@@ -5,9 +5,9 @@
    BondSquareWell
    BondThreeBody
    AngleSquareWell
+   NeighborCriteria
    Model
    BondVisitor
-   ClusterCriteria
    EnergyMap
    VisitModelInner
    VisitModel

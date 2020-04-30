@@ -11,7 +11,9 @@
 
 namespace feasst {
 
-/// Attempt to rigidly move a selection in a Trial in one stage.
+/**
+  Attempt to rigidly move a selection in a Trial in one stage.
+ */
 class TrialMove : public Trial {
  public:
   TrialMove(

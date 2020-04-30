@@ -1,5 +1,8 @@
 #include "chain/include/trial_swap_sites.h"
 #include "utils/include/serialize.h"
+#include "chain/include/select_site_of_type.h"
+#include "chain/include/perturb_site_type.h"
+#include "monte_carlo/include/trial_compute_move.h"
 
 namespace feasst {
 
@@ -40,12 +43,12 @@ TrialSwapSites::TrialSwapSites(const argtype& args) : Trial(args) {
     site_type1 << " " << site_type2);
   const std::string part_type = args_.key("particle_type").str();
   add_stage(
-    MakeTrialSelectSiteOfType({{"site_type", str(site_type1)}, {"particle_type", part_type}}),
+    MakeSelectSiteOfType({{"site_type", str(site_type1)}, {"particle_type", part_type}}),
     MakePerturbSiteType({{"type", str(site_type2)}}),
     args
   );
   add_stage(
-    MakeTrialSelectSiteOfType({{"site_type", str(site_type2)}, {"particle_type", part_type}}),
+    MakeSelectSiteOfType({{"site_type", str(site_type2)}, {"particle_type", part_type}}),
     MakePerturbSiteType({{"type", str(site_type1)}}),
     args
   );

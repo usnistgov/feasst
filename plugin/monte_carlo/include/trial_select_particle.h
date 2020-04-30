@@ -24,6 +24,9 @@ class TrialSelectParticle : public TrialSelect {
   /// Return true if loading coordinates into selection.
   bool load_coordinates() const { return load_coordinates_; }
 
+  /// Return site.
+  int site() const { return site_; }
+
   /// Add random particle in group index to select.
   /// Return the number of particles to choose from.
   int random_particle(const Configuration& config,

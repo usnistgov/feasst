@@ -40,8 +40,11 @@ int TrialSelectParticle::num_excluded_(const Configuration& config,
       "exclusion requires group to be defined by particle type to "
         << "accurately compute number of choices.");
     for (int ipart = 0; ipart < exclude->num_particles(); ++ipart) {
-      if (config.select_particle(exclude->particle_index(ipart)).type() ==
-          particle_type()) {
+      DEBUG("ipart " << ipart);
+      DEBUG(" particle_type() " <<  particle_type());
+      if ( (particle_type() == -1 ) ||
+           (config.select_particle(exclude->particle_index(ipart)).type() ==
+            particle_type()) ) {
         ++num_excluded;
       }
     }
@@ -68,14 +71,17 @@ int TrialSelectParticle::random_particle(const Configuration& config,
       DEBUG("index " << group_index() << " " << index);
       DEBUG("num " << ran->num_particles());
       if (exclude) {
+        DEBUG("exclude: " << exclude->str());
+        DEBUG("ran->particle_index(index) " << ran->particle_index(index));
         if (!find_in_list(ran->particle_index(index),
                           exclude->particle_indices())) {
           sel_index = index;
         }
       } else {
+        DEBUG("not excluded");
         sel_index = index;
       }
-      ASSERT(attempts < 100*(num - num_excluded), "attempts:" << attempts
+      ASSERT(attempts < 1000*(num - num_excluded), "attempts:" << attempts
         << " infinite loop?");
       ++attempts;
     }

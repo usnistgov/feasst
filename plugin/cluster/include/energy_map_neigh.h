@@ -5,7 +5,7 @@
 #include <vector>
 #include "utils/include/arguments.h"
 #include "system/include/energy_map.h"
-#include "system/include/cluster_criteria.h"
+#include "system/include/neighbor_criteria.h"
 
 namespace feasst {
 /**
@@ -29,16 +29,23 @@ class EnergyMapNeigh : public EnergyMap {
       const double energy,
       const int part1_index,
       const int site1_index,
+      const int site1_type,
       const int part2_index,
       const int site2_index,
+      const int site2_type,
       const double squared_distance,
       const Position * pbc) override;
   void revert(const Select& select) override;
-  void select_cluster(const ClusterCriteria * cluster_criteria,
+  void select_cluster(const NeighborCriteria * neighbor_criteria,
                       const Configuration& config,
                       const int particle_node,
                       Select * cluster,
                       const Position& frame_of_reference) const override;
+  void clear(
+      const int part1_index,
+      const int site1_index,
+      const int part2_index,
+      const int site2_index) override {}
 
   // serialization
   std::string class_name() const override { return class_name_; }
@@ -76,8 +83,9 @@ class EnergyMapNeigh : public EnergyMap {
   std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > > map_, map_new_;
 
   int part_max_() { return static_cast<int>(map_.size()); }
-  bool is_cluster_(const ClusterCriteria * cluster_criteria,
+  bool is_cluster_(const NeighborCriteria * neighbor_criteria,
                    const std::vector<std::vector<std::vector<double> > >& smap,
+                   const Configuration& config,
                    Position * frame) const;
 };
 

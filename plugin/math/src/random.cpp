@@ -196,4 +196,31 @@ RotationMatrix Random::rotation(const int dimension, const double max_angle) {
   return RotationMatrix().axis_angle(axis, angle);
 }
 
+void Random::position_in_spherical_shell(
+    const double lower,
+    const double upper,
+    Position * position) {
+  ASSERT(upper >= 0, "upper(" << upper << ") must be positive");
+  ASSERT(lower >= 0, "lower(" << lower << ") must be positive");
+  ASSERT(upper >= lower, "upper (" << upper << ") must be greater than "
+         << "lower (" << lower << ")");
+  const int dimen = position->dimension();
+  if (dimen == 3) {
+    const double lower3 = std::pow(lower, 3);
+    const double upper3 = std::pow(upper, 3);
+    const double factor = std::pow(uniform()*(upper3 - lower3) + lower3, 1./3.);
+    unit_sphere_surface(position);
+    position->multiply(factor);
+  } else if (dimen == 2) {
+    const double theta = 2*PI*uniform();
+    const double lower_sq = lower*lower;
+    const double upper_sq = upper*upper;
+    const double factor = std::sqrt(uniform()*(upper_sq - lower_sq) + lower_sq);
+    position->set_coord(0, factor*std::cos(theta));
+    position->set_coord(1, factor*std::sin(theta));
+  } else {
+    FATAL("unrecognized dimension: " << dimen);
+  }
+}
+
 }  // namespace feasst

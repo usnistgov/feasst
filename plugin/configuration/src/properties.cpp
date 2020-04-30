@@ -24,16 +24,23 @@ void Properties::add(const std::string name, const double value) {
 
 double Properties::value(const std::string name) const {
   double val;
-  ASSERT(value(name, &val), "property(" << name <<") not found");
+  int index;
+  ASSERT(value(name, &val, &index), "property(" << name <<") not found");
   return val;
 }
 
-bool Properties::value(const std::string name, double * value) const {
+bool Properties::value(const std::string name, double * val) const {
   int index;
+  return value(name, val, &index);
+}
+
+bool Properties::value(const std::string name,
+    double * val,
+    int * index) const {
   DEBUG("finding " << name << " " << feasst_str(names_));
-  bool is_found = find_in_list(name, names_, &index);
+  bool is_found = find_in_list(name, names_, index);
   if (is_found) {
-    *value = values_[index];
+    *val = values_[*index];
   }
   return is_found;
 }

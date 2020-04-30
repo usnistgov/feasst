@@ -12,6 +12,48 @@
 
 namespace feasst {
 
+/**
+Attempt to add multiple particles.
+
+For a derivation of the acceptance criteria, see TrialComputeMove and
+TrialComputeAdd for reference.
+For m particles added of types t1, t2, ..., tm:
+
+\rst
++-------------------------------------+----------------------------------------+
+|Forward event                        |Probability, :math:`\pi_{on}`           |
+|                                     |                                        |
+|[reverse event]                      |[reverse probability, :math:`\pi_{no}`] |
++-------------------------------------+----------------------------------------+
+|Select insert trial                  |:math:`1/w`                             |
+|                                     |                                        |
+|[Select remove trial]                |:math:`[1/w]`                           |
++-------------------------------------+----------------------------------------+
+|Place particle of type t1            |:math:`1/V`                             |
+|                                     |                                        |
+|[Delete particle type t1]            |:math:`\left[\frac{1}{N_{t1}+1}\right]` |
++-------------------------------------+----------------------------------------+
+|Place particle of type t2            |:math:`1/V`                             |
+|                                     |                                        |
+|[Delete particle type t2]            |:math:`\left[\frac{1}{N_{t2}+1}\right]` |
++-------------------------------------+----------------------------------------+
+| ...                                 | ...                                    |
++-------------------------------------+----------------------------------------+
+|Place particle of type tm            |:math:`1/V`                             |
+|                                     |                                        |
+|[Delete particle type tm]            |:math:`\left[\frac{1}{N_{tm}+1}\right]` |
++-------------------------------------+----------------------------------------+
+|Accept                               |:math:`min(1, \chi)`                    |
+|                                     |                                        |
+|[Accept]                             |:math:`[min(1, 1/\chi)]`                |
++-------------------------------------+----------------------------------------+
+
+Application of local detailed balance yeilds the acceptance probability,
+
+:math:`\chi = e^{-\beta\Delta U}\prod_{i=1,...,m}\frac{Ve^{\beta\mu_i}}
+{(N_{ti}+1)\Lambda^d}`
+\endrst
+ */
 class ComputeAddMultiple : public TrialCompute {
  public:
   ComputeAddMultiple();

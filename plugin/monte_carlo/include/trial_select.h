@@ -42,6 +42,10 @@ class TrialSelect : public PropertiedEntity {
     System * system,
     Random * random);
 
+  /// Same as above but with an empty perturbed.
+  bool sel(System * system, Random * random) {
+    return select(empty_, system, random); }
+
   /// Precompute quantities before simulation for optimization.
   virtual void precompute(System * system);
 
@@ -128,6 +132,9 @@ class TrialSelect : public PropertiedEntity {
   void serialize_trial_select_(std::ostream& ostr) const;
   TrialSelect(std::istream& istr);
 
+  const EnergyMap * map_(const System& system,
+    const NeighborCriteria * neighbor_criteria) const;
+
  private:
   int group_index_;
   int particle_type_;
@@ -136,6 +143,7 @@ class TrialSelect : public PropertiedEntity {
 
   // not checkpointed
   double probability_;
+  Select empty_;
 };
 
 }  // namespace feasst

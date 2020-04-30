@@ -40,7 +40,7 @@ script:
   - make coverage
 #  - make install
 #  - make test
-  - valgrind ./bin/unittest
+  - valgrind ./bin/unittest --gtest_filter=-*LONG*
 #  - python ../py/test.py
   - ../py/run.sh ../py/test.py
 

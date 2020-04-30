@@ -30,6 +30,10 @@ Stepper::Stepper(const argtype &args) {
   }
 
   set_multistate(args_.key("multistate").dflt("0").boolean());
+
+  if (args_.key("num_blocks").used()) {
+    accumulator_.set_block(args_.integer());
+  }
 }
 
 bool Stepper::is_time(const int steps_per, int * steps_since) {
@@ -79,6 +83,7 @@ void Stepper::serialize(std::ostream& ostr) const {
   feasst_serialize(append_, ostr);
   feasst_serialize(is_multistate_, ostr);
   feasst_serialize(state_, ostr);
+  feasst_serialize_fstobj(accumulator_, ostr);
 }
 
 Stepper::Stepper(std::istream& istr) {
@@ -94,10 +99,7 @@ Stepper::Stepper(std::istream& istr) {
   feasst_deserialize(&append_, istr);
   feasst_deserialize(&is_multistate_, istr);
   feasst_deserialize(&state_, istr);
-}
-
-const Accumulator& Stepper::accumulator() const {
-  FATAL("not implemented");
+  feasst_deserialize_fstobj(&accumulator_, istr);
 }
 
 }  // namespace feasst

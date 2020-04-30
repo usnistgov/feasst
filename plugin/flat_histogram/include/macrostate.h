@@ -6,7 +6,6 @@
 #include "monte_carlo/include/criteria.h"
 #include "math/include/histogram.h"
 #include "monte_carlo/include/acceptance.h"
-#include "flat_histogram/include/constraint.h"
 
 namespace feasst {
 
@@ -29,12 +28,6 @@ class Macrostate {
    */
   Macrostate(const Histogram& histogram,  const argtype& args = argtype());
 
-  /// Same as above, but also add a constraint.
-  Macrostate(const Histogram& histogram,
-      std::shared_ptr<Constraint> constraint,
-      const argtype& args = argtype()) : Macrostate(histogram, args) {
-    add(constraint); }
-
   /// Set the bins of the macrostate by providing a Histogram.
   /// This is required before the macrostate can be used for flat histogram
   /// methods.
@@ -52,21 +45,21 @@ class Macrostate {
   const int soft_min() const { return soft_min_; }
 
   /// Return the current value of the macrostate.
-  virtual double value(const System* system, const Criteria* criteria) = 0;
+  virtual double value(const System* system,
+    const Criteria* criteria,
+    const Acceptance& acceptance) const = 0;
 
   /// Return the current bin of the macrostate.
-  int bin(const System* system, const Criteria* criteria) {
-    return histogram_.bin(value(system, criteria)); }
+  int bin(const System* system,
+      const Criteria* criteria,
+      const Acceptance& acceptance) const {
+    return histogram_.bin(value(system, criteria, acceptance)); }
 
   /// Return the value of the bin.
   double value(const int bin) const { return histogram_.center_of_bin(bin); }
 
-  /// Add a constraint.
-  void add(std::shared_ptr<Constraint> constraint) {
-    constraints_.push_back(constraint); }
-
   /// Return whether the current system macrostate is within permissible range
-  /// given by the input histogram and check any additional constraints.
+  /// given by the input histogram.
   bool is_allowed(const System * system,
                   const Criteria * criteria,
                   const Acceptance& acceptance);
@@ -89,7 +82,6 @@ class Macrostate {
   Histogram histogram_;
   int soft_max_;
   int soft_min_;
-  std::vector<std::shared_ptr<Constraint> > constraints_;
 };
 
 /// Segment an range into pieces by exponential scaling.

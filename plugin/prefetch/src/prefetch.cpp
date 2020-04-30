@@ -317,7 +317,12 @@ void Prefetch::attempt_(
       #else
       {
       #endif
-      mc->after_trial_modify_();
+      for (int im = 0;
+           im < std::min(num_threads_, first_thread_accepted + 1);
+           ++im) {
+        // INFO("im " << im << " first " << first_thread_accepted);
+        mc->after_trial_modify_();
+      }
       }
 
       DEBUG("update itrial");

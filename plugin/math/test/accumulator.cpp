@@ -46,4 +46,15 @@ TEST(Accumulator, constructor) {
   EXPECT_EQ(0, a.sum_of_squared());
 }
 
+TEST(Accumulator, is_equivalent) {
+  auto a = MakeAccumulator({{"num_block", "1"}});
+  auto b = MakeAccumulator({{"num_block", "1"}});
+  std::vector<double> avals = {5, 6, 4, 5.5, 4, 6, 5.1};
+  std::vector<double> bvals = {8, 9, 7, 6.8, 10, 5};
+  for (const double v : avals) a->accumulate(v);
+  for (const double v : bvals) b->accumulate(v);
+  EXPECT_FALSE(a->is_equivalent(*b, 2));
+  EXPECT_TRUE(a->is_equivalent(*b, 10));
+}
+
 }  // namespace feasst

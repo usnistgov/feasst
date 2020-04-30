@@ -9,7 +9,7 @@ make install -j8
 echo "" > summary_long.log
 echo "" > summary.log
 
-valgrind ./bin/unittest >> summary_long.log 2>&1
+valgrind ./bin/unittest --gtest_filter=-*LONG* >> summary_long.log 2>&1
 echo "********** valgrind **********" >> summary.log
 tail -1 summary_long.log >> summary.log
 

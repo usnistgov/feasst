@@ -14,7 +14,7 @@ TEST(TrialSelectParticle, select) {
   const int num_select = 1e2;
   RandomMT19937 random;
   for (int i = 0; i < num_select; ++i) {
-    select.select(Select(), &system, &random);
+    select.sel(&system, &random);
     EXPECT_EQ(1, select.mobile().num_sites());
     if (select.mobile().particle_index(0) == 0) ++num_zero;
   }

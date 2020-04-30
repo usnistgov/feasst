@@ -117,6 +117,7 @@ class Perturb {
   std::string class_name_ = "Perturb";
   void serialize_perturb_(std::ostream& ostr) const;
   Perturb(std::istream& istr);
+  Arguments args_;
 
  private:
   Tunable tunable_;

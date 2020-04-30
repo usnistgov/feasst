@@ -20,9 +20,12 @@
    TrialSelectParticle
    Criteria
    Metropolis
+   Constraint
+   ConstrainNumParticles
    TrialStage
    TrialCompute
    Trial
+   TrialRemove
    TrialFactory
    Modify
    ModifyFactory
@@ -30,7 +33,6 @@
    AnalyzeFactory
    MonteCarlo
    TrialAdd
-   TrialRemove
    TrialComputeRemove
    TrialComputeAdd
    TrialComputeMove

@@ -1,5 +1,7 @@
 #include "chain/include/trial_reptate.h"
 #include "utils/include/serialize.h"
+#include "chain/include/select_reptate.h"
+#include "chain/include/perturb_reptate.h"
 
 namespace feasst {
 
@@ -12,6 +14,14 @@ class MapTrialReptate {
 };
 
 static MapTrialReptate mapper_ = MapTrialReptate();
+
+TrialReptate::TrialReptate(const argtype& args) : TrialMove(
+    std::make_shared<SelectReptate>(args),
+    std::make_shared<PerturbReptate>(args),
+    args
+  ) {
+  class_name_ = "TrialReptate";
+}
 
 std::shared_ptr<Trial> TrialReptate::create(std::istream& istr) const {
   return std::make_shared<TrialReptate>(istr);

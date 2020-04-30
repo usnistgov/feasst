@@ -30,7 +30,7 @@ std::string CPUTime::write(const Criteria * criteria,
   const double elapsed_hours = cpu_hours() - initialize_time_;
   const double steps_per_second = num_writes_*steps_per_write()
                                   /(elapsed_hours*60*60);
-  steps_per_second_.accumulate(steps_per_second);
+  accumulator_.accumulate(steps_per_second);
   ss << std::scientific
      << "elapsed_hours: " << elapsed_hours << " "
      << "steps per second: " << steps_per_second << " "

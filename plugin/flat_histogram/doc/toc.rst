@@ -6,7 +6,6 @@
    Bias
    TransitionMatrix
    WangLandau
-   Constraint
    Macrostate
    FlatHistogram
    MacrostateNumParticles

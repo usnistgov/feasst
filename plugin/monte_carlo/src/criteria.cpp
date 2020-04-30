@@ -5,6 +5,7 @@
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "monte_carlo/include/criteria.h"
+#include "monte_carlo/include/constraint.h"
 
 namespace feasst {
 
@@ -35,6 +36,11 @@ Criteria::Criteria(const argtype &args) {
   if (args_.key("pH").used()) {
     set_pH(args_.dble());
   }
+}
+
+Criteria::Criteria(std::shared_ptr<Constraint> constraint,
+    const argtype& args) : Criteria(args) {
+  add(constraint);
 }
 
 void Criteria::set_beta(const double beta) {
@@ -175,6 +181,7 @@ void Criteria::serialize_criteria_(std::ostream& ostr) const {
   feasst_serialize(previous_energy_, ostr);
   feasst_serialize(trial_state_, ostr);
   feasst_serialize(num_trial_states_, ostr);
+  feasst_serialize_fstdr(constraints_, ostr);
 }
 
 Criteria::Criteria(std::istream& istr) {
@@ -190,6 +197,20 @@ Criteria::Criteria(std::istream& istr) {
   feasst_deserialize(&previous_energy_, istr);
   feasst_deserialize(&trial_state_, istr);
   feasst_deserialize(&num_trial_states_, istr);
+  // HWH for unknown reasons, this function template does not work.
+  // feasst_deserialize_fstdr(constraints_, istr);
+  { int dim1;
+    istr >> dim1;
+    constraints_.resize(dim1);
+    for (int index = 0; index < dim1; ++index) {
+      // feasst_deserialize_fstdr((*vector)[index], istr);
+      int existing;
+      istr >> existing;
+      if (existing != 0) {
+        constraints_[index] = constraints_[index]->deserialize(istr);
+      }
+    }
+  }
 }
 
 void Criteria::set_current_energy(const double energy) {
@@ -197,6 +218,18 @@ void Criteria::set_current_energy(const double energy) {
   current_energy_ = energy;
   DEBUG("setting current energy: " << current_energy_);
   DEBUG("previous " << previous_energy_);
+}
+
+/// Return whether constraints are statisfied.
+bool Criteria::is_allowed(const System * system, const Acceptance& acceptance) {
+  for (const std::shared_ptr<Constraint> con : constraints_) {
+    if (!con->is_allowed(system, this, acceptance)) {
+  //for (int con = 0; con < static_cast<int>(constraints_.size()); ++con) {
+    //if (!constraints_[con]->is_allowed(system, this, acceptance)) {
+      return false;
+    }
+  }
+  return true;
 }
 
 }  // namespace feasst

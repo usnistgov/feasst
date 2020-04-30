@@ -3,7 +3,6 @@
 
    constants
    utils_math
-   Accumulator
    Formula
    FormulaPolynomial
    Histogram
@@ -11,4 +10,5 @@
    Random
    RandomMT19937
    Matrix
+   Accumulator
    FormulaExponential

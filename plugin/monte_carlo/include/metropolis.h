@@ -11,9 +11,11 @@ namespace feasst {
  */
 class Metropolis : public Criteria {
  public:
-  Metropolis(const argtype &args = argtype()) : Criteria(args) {
-    class_name_ = "Metropolis";
-  }
+  explicit Metropolis(const argtype &args = argtype());
+
+  /// Same as above, but with an added constraint.
+  Metropolis(std::shared_ptr<Constraint> constraint,
+    const argtype& args = argtype());
 
   bool is_accepted(const Acceptance& acceptance,
     const System * system,
@@ -29,6 +31,12 @@ class Metropolis : public Criteria {
 
 inline std::shared_ptr<Metropolis> MakeMetropolis(const argtype &args = argtype()) {
   return std::make_shared<Metropolis>(args);
+}
+
+inline std::shared_ptr<Metropolis> MakeMetropolis(
+    std::shared_ptr<Constraint> constraint,
+    const argtype &args = argtype()) {
+  return std::make_shared<Metropolis>(constraint, args);
 }
 
 }  // namespace feasst
