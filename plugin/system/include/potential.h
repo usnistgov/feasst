@@ -44,14 +44,15 @@ class Potential {
                      const argtype& args = argtype());
 
   /// Return the model.
-  const Model * model() const { return model_.get(); }
+  const Model& model() const { return const_cast<Model&>(*model_); }
 
   /// Construct with visitor and default model.
   explicit Potential(std::shared_ptr<VisitModel> visit_model,
                      const argtype& args = argtype());
 
   /// Return the method used to compute.
-  const VisitModel * visit_model() const { return visit_model_.get(); }
+  const VisitModel& visit_model() const {
+    return const_cast<VisitModel&>(*visit_model_); }
 
   /// Construct with model and visitor.
   Potential(std::shared_ptr<Model> model,

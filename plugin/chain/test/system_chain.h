@@ -2,7 +2,7 @@
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"
-#include "system/test/system_test.h"
+#include "system/include/lennard_jones.h"
 
 namespace feasst {
 

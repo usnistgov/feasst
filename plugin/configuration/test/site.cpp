@@ -1,11 +1,11 @@
 #include <fstream>
 #include "utils/test/utils.h"
-#include "configuration/test/site_test.h"
+#include "configuration/include/site.h"
 
 namespace feasst {
 
 TEST(Site, getset) {
-  Site site = default_site();
+  Site site(Position({0, 0, 0}));
   EXPECT_EQ(site.position().coord(0), 0.);
   Position position;
   position.set_vector({3.5, 796.4, -45.4});

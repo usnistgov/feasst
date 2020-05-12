@@ -6,7 +6,7 @@ namespace feasst {
 
 TEST(FormulaPolynomial, serialize) {
   FormulaPolynomial formula;
-  test_serialize<FormulaPolynomial, Formula>(formula, "FormulaPolynomial 1 0 1 0 ");
+  test_serialize<FormulaPolynomial, Formula>(formula, "FormulaPolynomial 5694 0 6937 0 ");
 }
 
 }  // namespace feasst

@@ -4,7 +4,6 @@
 #include "utils/include/utils_io.h"
 #include "math/include/accumulator.h"
 #include "math/include/random_mt19937.h"
-#include "system/test/system_test.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"
@@ -13,13 +12,41 @@
 #include "monte_carlo/test/monte_carlo_test.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/constrain_num_particles.h"
+#include "monte_carlo/include/utils.h"
 #include "steppers/include/num_particles.h"
+#include "steppers/include/check_energy.h"
+#include "steppers/include/movie.h"
+#include "steppers/include/utils.h"
 
 namespace feasst {
 
+//TEST(MonteCarlo, tutorial) {
+//  MonteCarlo mc(
+//    MakeRandomMT19937({{"seed", "time"}}),
+//    Configuration(feasst::MakeDomain({{"cubic_box_length", "8"}}),
+//      {{"particle_type", install_dir() + "/forcefield/data.lj")}}));
+//  mc.add(feasst::Potential(feasst::MakeLennardJones()));
+//  mc.add(feasst::Potential(feasst::MakeLongRangeCorrections()));
+//  mc.add(feasst::MakeMetropolis(
+//    {{"beta", "1.2"}, {"chemical_potential", "1."}}));
+//  mc.add(feasst::MakeTrialTranslate(
+//    {{"tunable_param", "2."}, {"tunable_target_acceptance", "0.2"}}));
+//  const int steps_per = 1e3;
+//  mc.add(feasst::MakeTuner({{"steps_per", feasst::str(steps_per)}}));
+//  mc.seek_num_particles(50);
+//  mc.add(feasst::MakeLog({{"steps_per", feasst::str(steps_per)}}));
+//  mc.add(feasst::MakeMovie(
+//   {{"steps_per", feasst::str(steps_per)}, {"file_name", "movie.xyz"}}));
+//  mc.add(feasst::MakeCheckEnergy(
+//   {{"steps_per", feasst::str(steps_per)}, {"tolerance", "1e-8"}}));
+//  mc.attempt(1e5);
+//}
+
 TEST(MonteCarlo, serialize) {
   MonteCarlo mc;
-  mc_lj(&mc);
+  lennard_jones(&mc);
+  add_common_steppers(&mc, {{"steps_per", str(1e4)},
+                            {"file_append", "tmp/lj"}});
 //  { std::stringstream ss;
 //    mc.serialize(ss);
 //    INFO(ss.str());
@@ -30,7 +57,9 @@ TEST(MonteCarlo, serialize) {
 
 TEST(MonteCarlo, NVT_benchmark) {
   MonteCarlo mc;
-  mc_lj(&mc);
+  lennard_jones(&mc);
+  add_common_steppers(&mc, {{"steps_per", str(1e4)},
+                            {"file_append", "tmp/lj"}});
   //mc.set(0, Potential(MakeLennardJones(),
   //  MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
 //  mc.add_to_optimized(Potential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
@@ -69,7 +98,9 @@ TEST(MonteCarlo, NVT_cell_benchmark) {
 
 TEST(MonteCarlo, NVT_SRSW) {
   MonteCarlo mc;
-  mc_lj(&mc);
+  lennard_jones(&mc);
+  add_common_steppers(&mc, {{"steps_per", str(1e4)},
+                            {"file_append", "tmp/lj"}});
   const int nMol = 500;
   const double rho = 1e-3, length = std::pow(static_cast<double>(nMol)/rho, 1./3.);
   mc.get_system()->get_configuration()->set_side_lengths(
@@ -79,7 +110,7 @@ TEST(MonteCarlo, NVT_SRSW) {
   const int num_trials = 1e3;
   for (int trial = 0; trial < num_trials; ++trial) {
     mc.attempt(1);  // ~4 seconds
-    pe.accumulate(mc.criteria()->current_energy());
+    pe.accumulate(mc.criteria().current_energy());
   }
   // HWH temperature not set
   DEBUG("pe " << pe.average());
@@ -87,7 +118,9 @@ TEST(MonteCarlo, NVT_SRSW) {
 
 TEST(MonteCarlo, GCMC) {
   MonteCarlo mc;
-  mc_lj(&mc);
+  lennard_jones(&mc);
+  add_common_steppers(&mc, {{"steps_per", str(1e4)},
+                            {"file_append", "tmp/lj"}});
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
   add_trial_transfer(&mc, {{"particle_type", "0"}});
   mc.add(MakeNumParticles({{"steps_per_write", str(1e5)},
@@ -101,20 +134,23 @@ TEST(MonteCarlo, grow) {
   // for (int i = 1; i < 2; ++i) { // spce
   //for (int i = 0; i < 2; ++i) { // both
     double box_length = 8.;
-    std::string data = "../forcefield/data.dimer";
+    std::string data = "forcefield/data.dimer";
     if (i == 1) {
       box_length=20;
-      data = "../forcefield/data.spce";
+      data = "forcefield/data.spce";
     }
     MonteCarlo mc;
-    mc_lj(&mc, box_length, data);
+    lennard_jones(&mc, {{"cubic_box_length", str(box_length)},
+                        {"particle", data}});
+    add_common_steppers(&mc, {{"steps_per", str(1e4)},
+                              {"file_append", "tmp/lj"}});
     mc.add(build_(0, data));  // 0: move
     mc.add(build_(1, data));  // 1: add
     mc.add(build_(2, data));  // 2: remove
-    EXPECT_FALSE(mc.trial(0)->stage(0)->trial_select()->is_ghost());  // translate
-    EXPECT_FALSE(mc.trial(1)->stage(0)->trial_select()->is_ghost());  // grow
-    EXPECT_TRUE (mc.trial(2)->stage(0)->trial_select()->is_ghost());
-    EXPECT_FALSE(mc.trial(3)->stage(0)->trial_select()->is_ghost());
+    EXPECT_FALSE(mc.trial(0).stage(0).trial_select().is_ghost());  // translate
+    EXPECT_FALSE(mc.trial(1).stage(0).trial_select().is_ghost());  // grow
+    EXPECT_TRUE (mc.trial(2).stage(0).trial_select().is_ghost());
+    EXPECT_FALSE(mc.trial(3).stage(0).trial_select().is_ghost());
     mc.seek_num_particles(3);
     mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
     mc.add(MakeMovie(
@@ -136,7 +172,9 @@ TEST(MonteCarlo, grow) {
 TEST(MonteCarlo, ConstrainNumParticles) {
   for (const double minimum : {0, 1}) {
     MonteCarlo monte_carlo;
-    mc_lj(&monte_carlo);
+    lennard_jones(&monte_carlo);
+    add_common_steppers(&monte_carlo, {{"steps_per", str(1e4)},
+                                       {"file_append", "tmp/lj"}});
     monte_carlo.seek_num_particles(1);
     monte_carlo.add(MakeMetropolis(
       MakeConstrainNumParticles({{"minimum", str(minimum)},
@@ -147,9 +185,9 @@ TEST(MonteCarlo, ConstrainNumParticles) {
     monte_carlo.add(MakeNumParticles({{"steps_per_write", "10000"}}));
     monte_carlo.attempt(14);
     if (minimum == 0) {
-      EXPECT_LE(monte_carlo.analyze(index)->accumulator().average(), 1);
+      EXPECT_LE(monte_carlo.analyze(index).accumulator().average(), 1);
     } else if (minimum == 1) {
-      EXPECT_GE(monte_carlo.analyze(index)->accumulator().average(), 1);
+      EXPECT_GE(monte_carlo.analyze(index).accumulator().average(), 1);
     }
   }
 }

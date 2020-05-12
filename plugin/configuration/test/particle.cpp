@@ -1,5 +1,4 @@
 #include "utils/test/utils.h"
-#include "configuration/test/particle_test.h"
 #include "configuration/include/file_lmp.h"
 
 namespace feasst {
@@ -13,7 +12,9 @@ TEST(Particle, getset) {
 }
 
 TEST(Particle, check) {
-  Particle particle = default_particle();
+  Particle particle;
+  particle.add(Site(Position({0, 0, 0})));
+  particle.set_position(Position({0, 0, 0}));
   Site site;
   Position pos;
   pos.set_vector({0, 0});

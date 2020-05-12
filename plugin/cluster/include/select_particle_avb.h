@@ -56,14 +56,13 @@ class SelectParticleAVB : public TrialSelect {
   bool inside_;
   bool is_second_target_;
   TrialSelectParticle select_target_;
-  TrialSelectParticle select_outside_;
+  TrialSelectParticle select_mobile_;
 
   // temporary
   Select target_;
   Select second_target_;
   Select empty_;
   Select neighbors_;
-  Select second_neighbors_;
 };
 
 inline std::shared_ptr<SelectParticleAVB> MakeSelectParticleAVB(

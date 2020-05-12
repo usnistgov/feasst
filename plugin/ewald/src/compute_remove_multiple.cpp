@@ -34,15 +34,15 @@ void ComputeRemoveMultiple::perturb_and_acceptance(
   for (const TrialStage * stage : *stages) {
     { // Metropolis
       const Configuration& config = system->configuration();
-      const double volume = config.domain()->volume();
-      const TrialSelect * select = stage->trial_select();
-      const int particle_index = select->mobile().particle_index(0);
+      const double volume = config.domain().volume();
+      const TrialSelect& select = stage->trial_select();
+      const int particle_index = select.mobile().particle_index(0);
       const int particle_type = config.select_particle(particle_index).type();
       DEBUG("lnmet " << acceptance->ln_metropolis_prob());
-      DEBUG("volume " << volume << " selprob " << select->probability()
+      DEBUG("volume " << volume << " selprob " << select.probability()
         << " betamu " << criteria->beta_mu(particle_type));
       acceptance->add_to_ln_metropolis_prob(
-        - std::log(volume*select->probability())
+        - std::log(volume*select.probability())
         - criteria->beta_mu(particle_type)
       );
       DEBUG("lnmet " << acceptance->ln_metropolis_prob());

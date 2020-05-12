@@ -31,7 +31,7 @@ Stepper::Stepper(const argtype &args) {
 
   set_multistate(args_.key("multistate").dflt("0").boolean());
 
-  if (args_.key("num_blocks").used()) {
+  if (args_.key("num_block").used()) {
     accumulator_.set_block(args_.integer());
   }
 }
@@ -67,7 +67,7 @@ void Stepper::set_state(const int state) {
   state_ = state;
   if (!file_name_.empty()) {
     std::stringstream ss;
-    ss << "state" << state << "_" << file_name_;
+    ss << file_name_ << "_state" << state;
     file_name_ = ss.str();
   }
 }

@@ -1,6 +1,5 @@
 #include "utils/test/utils.h"
 #include "ewald/include/charge_screened_intra.h"
-#include "configuration/test/configuration_test.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_bond.h"
 #include "ewald/test/system_example.h"
@@ -28,7 +27,7 @@ TEST(ChargeScreenedIntra, SRSW_refconfig) {
 TEST(ChargeScreenedIntra, SRSW_refconfig_bond) {
   auto config = MakeConfiguration(MakeDomain({{"cubic_box_length", "20"}}),
                                   {{"particle_type", "../forcefield/data.spce"}});
-  config->add_model_param("alpha", 5.6/config->domain()->min_side_length());
+  config->add_model_param("alpha", 5.6/config->domain().min_side_length());
   config->add_particle_of_type(0);
   auto model = MakeChargeScreenedIntra();
   auto intra = MakeVisitModelIntra({{"cutoff", "0"}});

@@ -33,13 +33,13 @@ void ComputeRemoveAVB::perturb_and_acceptance(
   DEBUG("new en " << MAX_PRECISION << acceptance->energy_new());
   { // Metropolis
     const Configuration& config = system->configuration();
-    const TrialSelect * select = (*stages)[0]->trial_select();
-    const int particle_index = select->mobile().particle_index(0);
+    const TrialSelect& select = (*stages)[0]->trial_select();
+    const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
     acceptance->set_macrostate_shift_type(particle_type);
-    DEBUG("selprob " << select->probability() << " betamu " << criteria->beta_mu(particle_type));
+    DEBUG("selprob " << select.probability() << " betamu " << criteria->beta_mu(particle_type));
     acceptance->add_to_ln_metropolis_prob(
-      + std::log(select->probability())
+      + std::log(select.probability())
       - criteria->beta_mu(particle_type)
     );
     DEBUG("lnmet " << acceptance->ln_metropolis_prob());

@@ -4,7 +4,7 @@
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/perturb_translate.h"
 #include "cluster/include/energy_map_all.h"
-#include "cluster/include/energy_map_neigh.h"
+#include "cluster/include/energy_map_neighbor.h"
 #include "cluster/include/perturb_rotate_com.h"
 
 namespace feasst {
@@ -35,7 +35,7 @@ TEST(SelectCluster, serialize) {
     if (map_type == "all") {
       map = MakeEnergyMapAll();
     } else if (map_type == "neigh") {
-      map = MakeEnergyMapNeigh();
+      map = MakeEnergyMapNeighbor();
     }
     sys.add(Potential(MakeLennardJones(),
                       MakeVisitModel(MakeVisitModelInner(map))));

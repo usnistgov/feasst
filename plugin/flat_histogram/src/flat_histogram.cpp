@@ -5,6 +5,27 @@
 
 namespace feasst {
 
+FlatHistogram::FlatHistogram(const argtype &args) : Criteria(args) {
+  class_name_ = "FlatHistogram";
+}
+
+FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
+    std::shared_ptr<Bias> bias,
+    const argtype &args)
+  : FlatHistogram(args) {
+  macrostate_ = macrostate;
+  bias_ = bias;
+  bias_->resize(macrostate_->histogram());
+}
+
+FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
+    std::shared_ptr<Bias> bias,
+    std::shared_ptr<Constraint> constraint,
+    const argtype &args)
+  : FlatHistogram(macrostate, bias, args) {
+  add(constraint);
+}
+
 bool FlatHistogram::is_accepted(const Acceptance& acceptance,
     const System * system,
     const double uniform_random) {
@@ -74,8 +95,8 @@ std::string FlatHistogram::write() const {
   return ss.str();
 }
 
-void FlatHistogram::revert(const bool accepted, const double ln_prob) {
-  Criteria::revert(accepted, ln_prob);
+void FlatHistogram::revert_(const bool accepted, const double ln_prob) {
+  Criteria::revert_(accepted, ln_prob);
   bias_->update_or_revert(macrostate_old_,
                           macrostate_new_,
                           ln_prob,
@@ -165,21 +186,15 @@ double FlatHistogram::average_macrostate(const LnProbability& ln_prob,
   return average/ln_prob.sum_probability(min, max);
 }
 
-void FlatHistogram::set(const std::shared_ptr<Bias> bias) {
-  ASSERT(is_macrostate_set_, "set macrostate before bias");
-  bias_ = bias;
-  bias_->resize(macrostate_->histogram());
-}
-
 void FlatHistogram::before_attempt(const System* system) {
   macrostate_old_ = macrostate_->bin(system, this, empty_);
   DEBUG("macro old " << macrostate_old_);
 }
 
 LnProbability FlatHistogram::reweight(const double delta_conjugate) {
-  LnProbability lnpirw = deep_copy(bias()->ln_prob());
+  LnProbability lnpirw = deep_copy(bias().ln_prob());
   for (int macro = 0; macro < lnpirw.size(); ++macro) {
-    lnpirw.add(macro, macrostate()->histogram().center_of_bin(macro)
+    lnpirw.add(macro, macrostate().histogram().center_of_bin(macro)
                *delta_conjugate);
   }
   lnpirw.normalize();
@@ -208,15 +223,21 @@ void FlatHistogram::phase_boundary_(const LnProbability& ln_prob,
   }
 }
 
-bool FlatHistogram::is_fh_equal(const FlatHistogram* flat_histogram,
+bool FlatHistogram::is_fh_equal(const FlatHistogram& flat_histogram,
     const double tolerance) const {
   if (!Criteria::is_equal(flat_histogram, tolerance)) {
       return false;
   }
-  if (macrostate_old_ != flat_histogram->macrostate_old_) return false;
-  if (macrostate_new_ != flat_histogram->macrostate_new_) return false;
-  if (macrostate_current_ != flat_histogram->macrostate_current_) return false;
+  if (macrostate_old_ != flat_histogram.macrostate_old_) return false;
+  if (macrostate_new_ != flat_histogram.macrostate_new_) return false;
+  if (macrostate_current_ != flat_histogram.macrostate_current_) return false;
   return true;
+}
+
+FlatHistogram::FlatHistogram(const Criteria& criteria) {
+  std::stringstream ss;
+  criteria.serialize(ss);
+  *this = FlatHistogram(ss);
 }
 
 }  // namespace feasst

@@ -1,8 +1,9 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
+#include "system/include/lennard_jones.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trial_factory.h"
-#include "monte_carlo/test/monte_carlo_test.h"
+#include "monte_carlo/include/utils.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 //#include "system/include/energy_map_all.h"
 
@@ -10,7 +11,7 @@ namespace feasst {
 
 TEST(MonteCarlo, NVT_opt_lj_benchmark) {
   MonteCarlo mc;
-  mc_lj(&mc);
+  lennard_jones(&mc);
   // HWH Perhaps implement as optimized potential instead of optimized VisitModel
   mc.add_to_optimized(Potential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
                                 MakeVisitModelOptLJ()));

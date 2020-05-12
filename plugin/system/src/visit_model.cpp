@@ -58,7 +58,7 @@ void VisitModel::compute(
     const int group_index) {
   TRACE("VisitModel for TwoBody entire config");
   zero_energy();
-  const Domain * domain = config->domain();
+  const Domain& domain = config->domain();
   init_relative_(domain, &relative_, &pbc_);
   const Select& selection = config->group_selects()[group_index];
   for (int select1_index = 0;
@@ -77,7 +77,7 @@ void VisitModel::compute(
       }
     }
   }
-  set_energy(inner()->energy());
+  set_energy(inner().energy());
 }
 
 void VisitModel::compute(
@@ -88,7 +88,7 @@ void VisitModel::compute(
     const int group_index) {
   DEBUG("visiting model");
   zero_energy();
-  const Domain * domain = config->domain();
+  const Domain& domain = config->domain();
   init_relative_(domain, &relative_, &pbc_);
   const Select& select_all = config->group_selects()[group_index];
   prep_for_revert(selection);
@@ -189,7 +189,7 @@ void VisitModel::compute(
       }
     }
   }
-  set_energy(inner()->energy());
+  set_energy(inner().energy());
 }
 
 void VisitModel::check_energy(

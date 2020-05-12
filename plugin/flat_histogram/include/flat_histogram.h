@@ -11,30 +11,33 @@
 namespace feasst {
 
 /**
+  Flat histogram acceptance criteria uses a bias to improve sampling and attempt
+  to recover the free energy of the system as a function of the give macrostate.
+
   The macrostate must be defined before the bias.
+
   Use MacrostateAccumulator to compute custom per-macrostate quantities.
  */
 class FlatHistogram : public Criteria {
  public:
-  FlatHistogram(const argtype &args = argtype()) : Criteria(args) {
-    class_name_ = "FlatHistogram";
-  }
+  FlatHistogram(const argtype &args = argtype());
 
   FlatHistogram(std::shared_ptr<Macrostate> macrostate,
       std::shared_ptr<Bias> bias,
-      const argtype &args = argtype()) : FlatHistogram(args) {
-//    class_name_ = "FlatHistogram";
-    set(macrostate);
-    set(bias);
-  }
+      const argtype &args = argtype());
 
   /// Same as above, but with an added Constraint.
   FlatHistogram(std::shared_ptr<Macrostate> macrostate,
       std::shared_ptr<Bias> bias,
       std::shared_ptr<Constraint> constraint,
-      const argtype &args = argtype()) : FlatHistogram(macrostate, bias, args) {
-    add(constraint);
-  }
+      const argtype &args = argtype());
+
+  /// Return the macrostate.
+  const Macrostate& macrostate() const {
+    return const_cast<Macrostate&>(*macrostate_); }
+
+  /// Return the bias.
+  const Bias& bias() const { return const_cast<Bias&>(*bias_); }
 
   void before_attempt(const System* system) override;
 
@@ -45,30 +48,11 @@ class FlatHistogram : public Criteria {
   std::string write() const override;
   bool is_complete() const override { return bias_->is_complete(); }
 
-  /// Set the macrostate which is subject to the bias.
-  void set(const std::shared_ptr<Macrostate> macrostate) {
-    macrostate_ = macrostate;
-    is_macrostate_set_ = true;
-  }
-
-  /// Return the macrostate.
-  const Macrostate * macrostate() const { return macrostate_.get(); }
-
-  /// Set the bias for the flat histogram method.
-  void set(const std::shared_ptr<Bias> bias);
-
-  /// Return the bias.
-  const Bias * bias() const { return bias_.get(); }
-
   /// Return the state. Return -1 if state is not determined.
   int state() const override { return macrostate_current_; }
   int num_states() const override { return macrostate_->histogram().size(); }
   int state_old() const override { return macrostate_old_; }
   int state_new() const override { return macrostate_new_; }
-
-  /// Revert changes from previous trial.
-  // HWH rename: delete
-  void revert(const bool accepted, const double ln_prob) override;
 
   // HWH consider moving the below functions to a new class or util
 
@@ -122,21 +106,25 @@ class FlatHistogram : public Criteria {
     return average_macrostate(ln_prob_(), phase);
   }
 
-  void imitate_trial_rejection(const double ln_prob,
+  // HWH hackish implementation for prefetch
+  // Revert changes from previous trial.
+  // HWH rename: delete
+  void revert_(const bool accepted, const double ln_prob) override;
+  void imitate_trial_rejection_(const double ln_prob,
       const int state_old,
       const int state_new) override {
-    bias_->update(state_old, state_new, ln_prob, false);
-  }
+    bias_->update(state_old, state_new, ln_prob, false); }
 
   void update() override { bias_->infrequent_update(); }
 
-  bool is_fh_equal(const FlatHistogram* flat_histogram,
+  bool is_fh_equal(const FlatHistogram& flat_histogram,
     const double tolerance) const;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<FlatHistogram>(istr); }
   void serialize(std::ostream& ostr) const override;
   FlatHistogram(std::istream& istr);
+  FlatHistogram(const Criteria& criteria);
   ~FlatHistogram() {}
 
  private:

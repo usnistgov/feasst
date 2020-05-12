@@ -28,8 +28,8 @@ class AnalyzeFactory : public Analyze {
     return analyzers_; }
 
   /// Return an Analyze object by index.
-  const Analyze * analyze(const int index) const override {
-    return analyzers_[index].get(); }
+  const Analyze& analyze(const int index) const override {
+    return const_cast<Analyze&>(*analyzers_[index]); }
 
   void trial(const Criteria * criteria,
     const System& system,

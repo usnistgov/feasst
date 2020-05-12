@@ -16,19 +16,23 @@ class MapEnergyMapAll {
 
 static MapEnergyMapAll mapper_ = MapEnergyMapAll();
 
+EnergyMapAll::EnergyMapAll(const argtype& args) : EnergyMap(args) {
+  class_name_ = "EnergyMapAll";
+}
+
 EnergyMapAll::EnergyMapAll(std::istream& istr) : EnergyMap(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 210, "mismatch:" << version);
+  ASSERT(version == 2810, "mismatch:" << version);
   feasst_deserialize(&map_, istr);
 }
 
 void EnergyMapAll::serialize_energy_map_all_(std::ostream& ostr) const {
-  feasst_serialize_version(210, ostr);
+  serialize_energy_map_(ostr);
+  feasst_serialize_version(2810, ostr);
   feasst_serialize(map_, ostr);
 }
 
 void EnergyMapAll::serialize(std::ostream& ostr) const {
-  ostr << class_name_ << " ";
   serialize_energy_map_all_(ostr);
 }
 
@@ -217,7 +221,9 @@ void EnergyMapAll::neighbors(
   neighbors->clear();
   const Site& site0 = config.select_particle(target_particle).site(target_site);
   const int site_type0 = site0.type();
-  const std::vector<std::vector<std::vector<std::vector<double> > > > map4 =
+  DEBUG("target_particle " << target_particle);
+  DEBUG("sz " << map_.size());
+  const std::vector<std::vector<std::vector<std::vector<double> > > >& map4 =
     map_[target_particle];
   for (int ipart = 0; ipart < static_cast<int>(map4.size()); ++ipart) {
     const Site& site1 = config.select_particle(ipart).site(random_site);

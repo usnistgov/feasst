@@ -46,8 +46,8 @@ void VisitModelInner::compute(
     const Particle& part2 = config->select_particle(part2_index);
     const Site& site2 = part2.site(site2_index);
     if (site2.is_physical()) {
-      config->domain()->wrap_opt(site1.position(), site2.position(), relative,
-                                 pbc, &squared_distance_);
+      config->domain().wrap_opt(site1.position(), site2.position(), relative,
+                                pbc, &squared_distance_);
       const int type1 = site1.type();
       const int type2 = site2.type();
       const double cutoff = model_params.mixed_cutoff()[type1][type2];

@@ -1,6 +1,6 @@
-AEqualOrOneMoreThanB
+AEqualB
 =====================================================
 
-.. doxygenclass:: feasst::AEqualOrOneMoreThanB
+.. doxygenclass:: feasst::AEqualB
    :project: FEASST
    :members:

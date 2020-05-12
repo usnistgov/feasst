@@ -1,6 +1,6 @@
 
-#ifndef FEASST_CLUSTER_ENERGY_MAP_NEIGH_H_
-#define FEASST_CLUSTER_ENERGY_MAP_NEIGH_H_
+#ifndef FEASST_CLUSTER_ENERGY_MAP_NEIGHBOR_H_
+#define FEASST_CLUSTER_ENERGY_MAP_NEIGHBOR_H_
 
 #include <vector>
 #include "utils/include/arguments.h"
@@ -22,9 +22,9 @@ namespace feasst {
 
   Finalize uses the new map to update the map.
  */
-class EnergyMapNeigh : public EnergyMap {
+class EnergyMapNeighbor : public EnergyMap {
  public:
-  EnergyMapNeigh(const argtype& args = argtype()) : EnergyMap(args) {}
+  EnergyMapNeighbor(const argtype& args = argtype());
   double update(
       const double energy,
       const int part1_index,
@@ -50,13 +50,13 @@ class EnergyMapNeigh : public EnergyMap {
   // serialization
   std::string class_name() const override { return class_name_; }
   std::shared_ptr<EnergyMap> create(std::istream& istr) const override {
-    return std::make_shared<EnergyMapNeigh>(istr); }
+    return std::make_shared<EnergyMapNeighbor>(istr); }
   void serialize(std::ostream& ostr) const override;
-  EnergyMapNeigh(std::istream& istr);
-  virtual ~EnergyMapNeigh() {}
+  EnergyMapNeighbor(std::istream& istr);
+  virtual ~EnergyMapNeighbor() {}
 
  protected:
-  void serialize_energy_map_neigh_(std::ostream& ostr) const;
+  void serialize_energy_map_neighbor_(std::ostream& ostr) const;
   void resize_(const int part1, const int site1, const int part2, const int site2) override;
   std::vector<double> * smap_(const int part1_index,
                               const int site1_index,
@@ -69,8 +69,6 @@ class EnergyMapNeigh : public EnergyMap {
   const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& map() const override { return map_; }
 
  private:
-  const std::string class_name_ = "EnergyMapNeigh";
-
   /// The first index is the particle index, which mirrors config
   /// The second index for the list of neighbors
   /// The data are the particle index from config
@@ -89,11 +87,11 @@ class EnergyMapNeigh : public EnergyMap {
                    Position * frame) const;
 };
 
-inline std::shared_ptr<EnergyMapNeigh> MakeEnergyMapNeigh(
+inline std::shared_ptr<EnergyMapNeighbor> MakeEnergyMapNeighbor(
     const argtype& args = argtype()) {
-  return std::make_shared<EnergyMapNeigh>(args);
+  return std::make_shared<EnergyMapNeighbor>(args);
 }
 
 }  // namespace feasst
 
-#endif  // FEASST_CLUSTER_ENERGY_MAP_NEIGH_H_
+#endif  // FEASST_CLUSTER_ENERGY_MAP_NEIGHBOR_H_

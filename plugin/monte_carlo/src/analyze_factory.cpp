@@ -27,7 +27,6 @@ void AnalyzeFactory::trial(const Criteria * criteria,
   DEBUG("multistate? " << is_multistate() << " class? " << class_name());
   if (is_multistate()) {
     DEBUG("state? " << criteria->state());
-    DEBUG("class " << analyzers_[criteria->state()]->class_name());
     trial_(criteria, system, trial_factory, criteria->state());
   } else {
     for (int index = 0; index < static_cast<int>(analyzers_.size()); ++index) {
@@ -44,6 +43,8 @@ void AnalyzeFactory::trial_(const Criteria * criteria,
     const int index) {
   // timer_.start(index + 1);
   DEBUG("index " << index << " sz " << analyzers_.size());
+  ASSERT(index < static_cast<int>(analyzers_.size()),
+    "index: " << index << " too large when " << analyzers_.size() << " ans");
   DEBUG(analyzers_[index]->class_name());
   analyzers_[index]->trial(criteria, system, trial_factory);
   // timer_.end();

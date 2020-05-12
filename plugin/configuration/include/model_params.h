@@ -191,10 +191,10 @@ class ModelParams : public PropertiedEntity {
     const double value);
 
   /// Return model parameters of specific types.
-  Epsilon epsilon() const { return *epsilon_; }
-  Sigma sigma() const { return *sigma_; }
-  CutOff cutoff() const { return *cutoff_; }
-  Charge charge() const { return *charge_; }
+  const Epsilon& epsilon() const { return const_cast<Epsilon&>(*epsilon_); }
+  const Sigma& sigma() const { return const_cast<Sigma&>(*sigma_); }
+  const CutOff& cutoff() const { return const_cast<CutOff&>(*cutoff_); }
+  const Charge& charge() const { return const_cast<Charge&>(*charge_); }
 
   /// Return constant pointers for optimized model inner loops.
   const std::vector<std::vector<double> >& mixed_epsilon() const {
@@ -218,11 +218,11 @@ class ModelParams : public PropertiedEntity {
     std::make_shared<CODATA2018>());
 
   /// Return the physical constants.
-  const PhysicalConstants * physical_constants() const {
-    return physical_constants_.get(); }
+  const PhysicalConstants& physical_constants() const {
+    return const_cast<PhysicalConstants&>(*physical_constants_); }
 
   /// Return the physical constants.
-  const PhysicalConstants * constants() const { return physical_constants(); }
+  const PhysicalConstants& constants() const { return physical_constants(); }
 
   /// Check
   void check() const;

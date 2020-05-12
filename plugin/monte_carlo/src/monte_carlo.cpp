@@ -3,7 +3,6 @@
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trial_add.h"
-#include "monte_carlo/include/trial_remove.h"
 
 namespace feasst {
 
@@ -51,7 +50,7 @@ void MonteCarlo::set(const System& system) {
   ASSERT(!criteria_set_, "add system before criteria");
 }
 
-void MonteCarlo::add(std::shared_ptr<Criteria> criteria) {
+void MonteCarlo::set(std::shared_ptr<Criteria> criteria) {
   ASSERT(system_set_, "set System before Criteria.");
   criteria->set_current_energy(system_.unoptimized_energy());
   DEBUG("current energy: " << criteria->current_energy());
@@ -64,9 +63,9 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
 
   // Require the use of reference potentials for multi-stage trials with Ewald.
   if (trial->num_stages() > 1) {
-    if (trial->stage(0)->reference() == -1) {
-      for (const Potential& pot : system_.const_potentials()->potentials()) {
-        if (pot.visit_model()->class_name() == "Ewald") {
+    if (trial->stage(0).reference() == -1) {
+      for (const Potential& pot : system_.potentials().potentials()) {
+        if (pot.visit_model().class_name() == "Ewald") {
           ERROR(trial->class_name() << " should use a reference potential "
             << "without Ewald due to multiple stages which complicate revert");
         }
@@ -186,12 +185,12 @@ MonteCarlo::MonteCarlo(std::istream& istr) {
   feasst_deserialize(&criteria_set_, istr);
 }
 
-void MonteCarlo::load_cache(const bool load) {
+void MonteCarlo::load_cache_(const bool load) {
   random_->set_cache_to_load(load);
   system_.load_cache(load);
 }
 
-void MonteCarlo::unload_cache(const MonteCarlo& mc) {
+void MonteCarlo::unload_cache_(const MonteCarlo& mc) {
   random_->set_cache_to_unload((*mc.random_));
   system_.unload_cache(mc.system());
 }
@@ -201,12 +200,12 @@ void MonteCarlo::before_attempts_() {
   ASSERT(criteria_set_, "criteria must be set before attempting trials.");
 }
 
-void MonteCarlo::revert(const int trial_index,
+void MonteCarlo::revert_(const int trial_index,
     const bool accepted,
     const double ln_prob) {
   trial_factory_.revert(trial_index, accepted, &system_);
   DEBUG("reverting " << criteria_->current_energy());
-  criteria_->revert(accepted, ln_prob);
+  criteria_->revert_(accepted, ln_prob);
 }
 
 void MonteCarlo::attempt_(int num_trials,
@@ -216,13 +215,22 @@ void MonteCarlo::attempt_(int num_trials,
   for (int trial = 0; trial < num_trials; ++trial) {
     DEBUG("mc trial: " << trial);
     trial_factory->attempt(criteria_.get(), &system_, random);
-    after_trial_();
+    after_trial_analyze_();
+    after_trial_modify_();
   }
 }
 
-void add_trial_transfer(MonteCarlo * mc, const argtype& args) {
-  mc->add(MakeTrialAdd(args));
-  mc->add(MakeTrialRemove(args));
+bool MonteCarlo::attempt_trial(const int index) {
+  return trial_factory_.attempt(criteria_.get(), &system_,
+                                index, random_.get());
+}
+
+void MonteCarlo::imitate_trial_rejection_(const int trial_index,
+    const double ln_prob,
+    const int state_old,
+    const int state_new) {
+  trial_factory_.imitate_trial_rejection_(trial_index);
+  criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new);
 }
 
 }  // namespace feasst

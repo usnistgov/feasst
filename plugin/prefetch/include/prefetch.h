@@ -83,7 +83,7 @@ class Prefetch : public MonteCarlo {
  private:
   bool is_activated_;
   int steps_per_check_;
-  int steps_since_check_;
+  int steps_since_check_ = 0;
   bool load_balance_;
 
   // temporary

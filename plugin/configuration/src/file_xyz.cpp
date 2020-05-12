@@ -99,8 +99,13 @@ void FileXYZ::write(const std::string file_name,
   } else {
     file->open(file_name, std::ofstream::app);
   }
+  const Domain& domain = config.domain();
   (*file.get()) << config.num_sites() << std::endl
-       << "-1" << std::endl;
+       << "-1 " << domain.side_lengths().str() << " "
+       << domain.xy() << " "
+       << domain.xz() << " "
+       << domain.yz() << " "
+       << std::endl;
   PrinterXYZ printer(file);
   VisitConfiguration().loop(config, &printer, group_index_);
 }

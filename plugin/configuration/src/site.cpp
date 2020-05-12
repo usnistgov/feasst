@@ -4,6 +4,10 @@
 
 namespace feasst {
 
+Site::Site() : PropertiedEntity(), TypedEntity(), SpatialEntity() {
+  set_physical();
+}
+
 void Site::add_property(const std::string name, const double value) {
   PropertiedEntity::add_property(name, value);
   if (name == "director") {

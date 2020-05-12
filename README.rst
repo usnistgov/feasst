@@ -80,6 +80,8 @@ The following example Lennard-Jones Monte Carlo simulation may be found in `Tuto
 Build from source code
 =======================
 
+To begin, [apt/yum/brew] install g++ cmake git.
+
 Python install
 ----------------
 

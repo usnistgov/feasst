@@ -14,7 +14,7 @@ void VisitModelBond::compute(
   TRACE("intra particle energy_of_selection");
   ASSERT(group_index == 0, "need to implement site1 loop filtering particles by group");
   zero_energy();
-  const Domain * domain = config->domain();
+  const Domain& domain = config->domain();
   init_relative_(domain, &relative_, &pbc_);
   prep_for_revert(selection);
   for (int select_index = 0;
@@ -55,7 +55,7 @@ void VisitModelBond::compute(
         config, model_params, model, false, &relative_, &pbc_);
     }
   }
-  set_energy(inner()->energy());
+  set_energy(inner().energy());
 }
 
 class MapVisitModelBond {

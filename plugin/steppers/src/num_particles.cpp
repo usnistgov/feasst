@@ -14,7 +14,7 @@ class MapNumParticles {
 static MapNumParticles mapper_ = MapNumParticles();
 
 NumParticles::NumParticles(const argtype &args) : Analyze(args) {
-  args_.init(args);
+//  args_.init(args);
   particle_type_ = args_.key("particle_type").dflt("-1").integer();
   group_ = args_.key("group").dflt("-1").integer();
 }

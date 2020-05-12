@@ -40,7 +40,7 @@ class Analyze : public Stepper {
 
   // Access to factory of Analyze objects.
   virtual const std::vector<std::shared_ptr<Analyze> >& analyzers() const;
-  virtual const Analyze * analyze(const int index) const;
+  virtual const Analyze& analyze(const int index) const;
 
   // serialization
   virtual void serialize(std::ostream& ostr) const;

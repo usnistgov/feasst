@@ -100,7 +100,7 @@ std::string feasst_dir_trim_(const char* file_name);
 /// Expect to catch exception with phrase in message.
 # define CATCH_PHRASE(phrase) \
 FAIL() << "Expected failure"; \
-} catch(feasst::CustomException e) { \
+} catch(const feasst::CustomException& e) { \
   std::string what(e.what()); \
   std::stringstream ermsg; \
   ermsg << "The phrase(" << phrase << ") was not contained in the expected " \

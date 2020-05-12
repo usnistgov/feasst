@@ -2,12 +2,13 @@
 #include "math/include/random_mt19937.h"
 #include "mayer/include/trial.h"
 #include "mayer/include/criteria_mayer.h"
-#include "system/test/system_test.h"
+#include "system/include/hard_sphere.h"
+#include "system/include/utils.h"
 
 namespace feasst {
 
 TEST(CriteriaMayer, ljb2) {
-  System system = default_system();
+  System system = two_particle_system();
   system.add_to_reference(Potential(MakeHardSphere()));
   auto translate = MakeTrialTranslateMayer({{"reference_index", "0"}, {"weight", "0.75"}});
   //auto translate = MakeTrialTranslate({{"tunable_param", "0.5"}});

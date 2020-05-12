@@ -6,6 +6,10 @@
 
 namespace feasst {
 
+FormulaPolynomial::FormulaPolynomial(const argtype& args) : Formula(args) {
+  class_name_ = "FormulaPolynomial";
+}
+
 class MapFormulaPolynomial {
  public:
   MapFormulaPolynomial() {
@@ -22,14 +26,14 @@ std::shared_ptr<Formula> FormulaPolynomial::create(std::istream& istr) const {
 
 FormulaPolynomial::FormulaPolynomial(std::istream& istr)
   : Formula(istr) {
-  feasst_deserialize_version(istr);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 6937, "version mismatch: " << version);
   feasst_deserialize(&A_, istr);
 }
 
 void FormulaPolynomial::serialize(std::ostream& ostr) const {
-  ostr << class_name_ << " ";
   serialize_formula_(ostr);
-  feasst_serialize_version(1, ostr);
+  feasst_serialize_version(6937, ostr);
   feasst_serialize(A_, ostr);
 }
 

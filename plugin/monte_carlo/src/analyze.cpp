@@ -51,7 +51,7 @@ const std::vector<std::shared_ptr<Analyze> >& Analyze::analyzers() const {
   FATAL("not implemented");
 }
 
-const Analyze * Analyze::analyze(const int index) const {
+const Analyze& Analyze::analyze(const int index) const {
   FATAL("not implemented");
 }
 

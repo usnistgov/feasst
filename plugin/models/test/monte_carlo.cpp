@@ -8,12 +8,13 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
 #include "monte_carlo/include/metropolis.h"
-#include "system/test/system_test.h"
+#include "monte_carlo/include/utils.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"
 #include "steppers/include/num_particles.h"
 #include "models/include/lennard_jones_cut_shift.h"
+#include "steppers/include/check_energy.h"
 
 namespace feasst {
 
@@ -41,9 +42,13 @@ TEST(MonteCarlo, trimer) {
     potential.set(params);
     mc.add(potential);
   }
-  crit_trial_analyze(&mc, 1e2, true, true);
   mc.set(MakeMetropolis({{"beta", "4"}, {"chemical_potential", "-1"}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "1."}}));
   add_trial_transfer(&mc, {{"particle_type", "0"}});
+  mc.add(MakeCheckEnergy(
+   {{"steps_per", "100"},
+    {"tolerance", "1e-10"}}));
   mc.attempt(1e3);
 }
 

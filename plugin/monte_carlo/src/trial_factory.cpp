@@ -64,7 +64,7 @@ void TrialFactory::revert(const int index,
   decrement_num_attempts_();
 }
 
-void TrialFactory::imitate_trial_rejection(const int index) {
+void TrialFactory::imitate_trial_rejection_(const int index) {
   DEBUG("index " << index << " " << trials_.size());
   trials_[index]->increment_num_attempts();
   increment_num_attempts();

@@ -1,20 +1,19 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
-#include "configuration/test/configuration_test.h"
+#include "configuration/include/utils.h"
 #include "system/include/visit_model_cell.h"
 #include "configuration/include/file_xyz.h"
 #include "system/include/lennard_jones.h"
 #include "math/include/constants.h"
 #include "configuration/include/select.h"
 #include "math/include/utils_math.h"
-//#include "monte_carlo/include/perturb_configs.h"
 #include "monte_carlo/include/trial_select_particle.h"
 
 namespace feasst {
 
 /// Use a 5 angstrom cut off
 TEST(VisitModelCell, lj_reference_config) {
-  Configuration config = lj_sample();
+  Configuration config = lj_sample4();
   const int rcut = 2;
   for (int site_index = 0; site_index < config.num_site_types(); ++site_index) {
     config.set_model_param("cutoff", site_index, rcut);
@@ -22,7 +21,7 @@ TEST(VisitModelCell, lj_reference_config) {
   config.add_particle_of_type(0);
   Select select(config.newest_particle_index(), config.newest_particle());
   config.remove_particle(select);
-  auto domain = std::make_shared<Domain>(*config.domain());
+  auto domain = std::make_shared<Domain>(config.domain());
   domain->init_cells(rcut);
   config.set(domain);
   config.check();
@@ -74,7 +73,7 @@ TEST(VisitModelCell, spce_reference_config) {
   Select select(config.newest_particle_index(), config.newest_particle());
   config.remove_particle(select);
   //config.init_cells(rcut);
-  auto domain = std::make_shared<Domain>(*config.domain());
+  auto domain = std::make_shared<Domain>(config.domain());
   domain->init_cells(rcut);
   config.set(domain);
   config.check();

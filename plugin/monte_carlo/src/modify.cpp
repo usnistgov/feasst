@@ -61,7 +61,7 @@ const std::vector<std::shared_ptr<Modify> >& Modify::modifiers() const {
   FATAL("not implemented");
 }
 
-const Modify * Modify::modify(const int index) const {
+const Modify& Modify::modify(const int index) const {
   FATAL("not implemented");
 }
 

@@ -1,13 +1,12 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/trial_select_particle.h"
-#include "configuration/test/configuration_test.h"
-#include "system/test/system_test.h"
+#include "system/include/utils.h"
 
 namespace feasst {
 
 TEST(TrialSelectParticle, select) {
-  System system = default_system();
+  System system = two_particle_system();
   EXPECT_EQ(2, system.configuration().num_particles());
   TrialSelectParticle select;
   int num_zero = 0;

@@ -1,15 +1,16 @@
 #include "utils/test/utils.h"
 #include "utils/include/utils.h"
-#include "system/include/visit_model.h"
 #include "math/include/constants.h"
 #include "math/include/random_mt19937.h"
-#include "system/test/system_test.h"
+#include "configuration/include/utils.h"
+#include "system/include/visit_model.h"
+#include "system/include/lennard_jones.h"
 #include "cluster/include/energy_map_all.h"
 
 namespace feasst {
 
 TEST(EnergyMap, energy_map) {
-  Configuration config = lj_sample();
+  Configuration config = lj_sample4();
   LennardJones model;
   VisitModel visit(MakeVisitModelInner(MakeEnergyMapAll()));
   visit.precompute(&config);
@@ -19,7 +20,7 @@ TEST(EnergyMap, energy_map) {
   const double en_lj_expect = -16.790321304625856;
   EXPECT_NEAR(en_lj_expect, visit.energy(), NEAR_ZERO);
   EXPECT_NEAR(en_lj_expect,
-              visit.inner()->energy_map()->total_energy(),
+              visit.inner().energy_map().total_energy(),
               1e-13);
 
   // find neighbors within 3 of first particle manually
@@ -37,7 +38,7 @@ TEST(EnergyMap, energy_map) {
 
   RandomMT19937 random;
   Select neighs2;
-  visit.inner()->energy_map()->neighbors(
+  visit.inner().energy_map().neighbors(
     MakeNeighborCriteria().get(),
     config,
     0, 0, 0,
@@ -46,6 +47,8 @@ TEST(EnergyMap, energy_map) {
   const int neighbor = random.const_element(neighs2.particle_indices());
   EXPECT_EQ(13, static_cast<int>(neighs2.num_sites()));
   EXPECT_TRUE(find_in_list(neighbor, neighs2.particle_indices()));
+  
+  test_serialize(visit);
 }
 
 }  // namespace feasst

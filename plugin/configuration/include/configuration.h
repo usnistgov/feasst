@@ -125,7 +125,7 @@ class Configuration {
     unique_types_.set_physical_constants(constants); }
 
   /// Return the physical constants.
-  const PhysicalConstants * physical_constants() const {
+  const PhysicalConstants& physical_constants() const {
     return model_params().physical_constants(); }
 
   /// Return the unique types. Only unique sites and bonds are included.
@@ -279,14 +279,14 @@ class Configuration {
   void set(std::shared_ptr<Domain> domain);
 
   /// Return the domain of the configuration.
-  const Domain * domain() const { return domain_.get(); }
+  const Domain& domain() const { return const_cast<Domain&>(*domain_); }
 
   /// Set the domain side lengths.
   // HWH consider scaling particles as well
   void set_side_lengths(const Position& sides);
 
   /// Return the dimensionality of space.
-  int dimension() const { return domain()->dimension(); }
+  int dimension() const { return domain().dimension(); }
 
   /// Set whether or not to wrap particles
   void init_wrap(const bool wrap = true) { wrap_ = wrap; }

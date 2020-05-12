@@ -14,8 +14,17 @@ class MapEnergyMapAllCriteria {
 
 static MapEnergyMapAllCriteria mapper_ = MapEnergyMapAllCriteria();
 
+EnergyMapAllCriteria::EnergyMapAllCriteria(
+    std::shared_ptr<NeighborCriteria> neighbor_criteria,
+    const argtype& args) : EnergyMapAll(args) {
+  class_name_ = "EnergyMapAllCriteria";
+  neighbor_criteria_ = neighbor_criteria;
+}
+
 EnergyMapAllCriteria::EnergyMapAllCriteria(std::istream& istr)
   : EnergyMapAll(istr) {
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 9284, "mismatch:" << version);
   // feasst_deserialize(neighbor_criteria_, istr);
   { int existing;
     istr >> existing;
@@ -26,8 +35,8 @@ EnergyMapAllCriteria::EnergyMapAllCriteria(std::istream& istr)
 }
 
 void EnergyMapAllCriteria::serialize(std::ostream& ostr) const {
-  ostr << class_name_ << " ";
   serialize_energy_map_all_(ostr);
+  feasst_serialize_version(9284, ostr);
   feasst_serialize(neighbor_criteria_, ostr);
 }
 

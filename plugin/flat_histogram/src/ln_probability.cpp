@@ -83,4 +83,23 @@ bool LnProbability::is_equal(const LnProbability& ln_prob,
   return true;
 }
 
+LnProbability LnProbability::reduce(const int keep_every,
+                                    const int shift) const {
+  std::vector<double> vals;
+  ASSERT(keep_every >= 1, "invalid keep_every: " << keep_every);
+  int starting_macro = shift;
+  int nattempt = 0;
+  while (starting_macro < 0) {
+    starting_macro += keep_every;
+    ++nattempt;
+    ASSERT(nattempt < 1e4, "infinite loop");
+  }
+  for (int macro = starting_macro; macro < size(); macro += keep_every) {
+    vals.push_back(value(macro));
+  }
+  LnProbability reduced(vals);
+  reduced.normalize();
+  return reduced;
+}
+
 }  // namespace feasst

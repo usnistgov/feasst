@@ -3,7 +3,7 @@
 namespace feasst {
 
 TEST(Perturb, Revert) {
-  System system = default_system();
+  System system = two_particle_system();
   test_revert(&system);
 }
 

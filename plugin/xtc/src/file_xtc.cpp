@@ -71,15 +71,15 @@ int FileXTC::load(XDRFILE * file,
 void FileXTC::write(XDRFILE * file, const Configuration& config) {
   int natoms_xtc = config.num_sites();
   matrix box_xtc;
-  box_xtc[0][0] = config.domain()->side_length(0);
+  box_xtc[0][0] = config.domain().side_length(0);
   box_xtc[0][1] = 0;
   box_xtc[0][2] = 0;
   box_xtc[1][0] = 0;
-  box_xtc[1][1] = config.domain()->side_length(1);
+  box_xtc[1][1] = config.domain().side_length(1);
   box_xtc[1][2] = 0;
   box_xtc[2][0] = 0;
   box_xtc[2][1] = 0;
-  box_xtc[2][2] = config.domain()->side_length(2);
+  box_xtc[2][2] = config.domain().side_length(2);
   rvec *x_xtc;
   x_xtc = reinterpret_cast<rvec *>(calloc(natoms_xtc, sizeof(x_xtc[0])));
   float prec_xtc = 1000.0;

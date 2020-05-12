@@ -84,7 +84,11 @@ double EnergyMap::total_energy() const {
 }
 
 std::shared_ptr<EnergyMap> EnergyMap::deserialize(std::istream& istr) {
-  return template_deserialize(deserialize_map(), istr); }
+  return template_deserialize(deserialize_map(), istr,
+    // true argument denotes rewinding to reread class name
+    // this allows derived class constructor to read class name.
+    true);
+}
 
 void EnergyMap::serialize_energy_map_(std::ostream& ostr) const {
   ostr << class_name_ << " ";
@@ -95,6 +99,7 @@ void EnergyMap::serialize_energy_map_(std::ostream& ostr) const {
 }
 
 EnergyMap::EnergyMap(std::istream& istr) {
+  istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 945, "version mismatch: " << version);
   feasst_deserialize(&default_value_, istr);

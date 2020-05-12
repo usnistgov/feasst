@@ -1,15 +1,15 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
+#include "math/include/constants.h"
+#include "configuration/include/file_lmp.h"
+#include "configuration/include/file_xyz.h"
+#include "configuration/include/select.h"
+#include "configuration/include/utils.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model.h"
 #include "system/include/model_empty.h"
-#include "math/include/constants.h"
-#include "configuration/include/file_lmp.h"
-#include "configuration/include/file_xyz.h"
 #include "system/include/model_two_body_factory.h"
-#include "system/test/system_test.h"
-#include "configuration/include/select.h"
 
 namespace feasst {
 
@@ -18,7 +18,7 @@ double en_lj(const double pos) {
 }
 
 TEST(VisitModel, energy) {
-  Configuration config = default_configuration();
+  Configuration config = two_particle_configuration();
   const double pos = 1.25;
   EXPECT_EQ(config.particle(0).position().coord(0), 0);
   EXPECT_EQ(config.particle(1).position().coord(0), pos);
@@ -58,7 +58,7 @@ TEST(VisitModel, energy) {
 }
 
 TEST(VisitModel, reference_config) {
-  Configuration config = lj_sample();
+  Configuration config = lj_sample4();
   LennardJones model;
   VisitModel visit;
   visit.precompute(&config);
@@ -78,7 +78,7 @@ TEST(VisitModel, reference_config) {
   EXPECT_NEAR(2.*energy_prev, visit.energy(), NEAR_ZERO);
 
   // Energy map is not used by default
-  EXPECT_FALSE(visit.inner()->energy_map());
+  EXPECT_FALSE(visit.inner().is_energy_map());
 }
 
 }  // namespace feasst

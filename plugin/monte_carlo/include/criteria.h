@@ -122,23 +122,23 @@ class Criteria {
   virtual int state_old() const { return 0; }
   virtual int state_new() const { return 0; }
 
-  /// Revert changes from previous trial.
-  virtual void revert(const bool accepted, const double ln_prob);
-
-  /// Imitate a trial rejection (used in FlatHistogram).
-  virtual void imitate_trial_rejection(const double ln_prob,
-    const int state_old,
-    const int state_new) {}
-
   /// Update.
   virtual void update() {}
 
   /// Return true if equivalent.
-  virtual bool is_equal(const Criteria * criteria,
+  virtual bool is_equal(const Criteria& criteria,
                         const double tolerance) const;
 
   /// Same as above but with a default tolerance of NEAR_ZERO
-  virtual bool is_equal(const Criteria * criteria) const;
+  virtual bool is_equal(const Criteria& criteria) const;
+
+  // HWH hackish interface for prefetch
+  // Revert changes from previous trial.
+  virtual void revert_(const bool accepted, const double ln_prob);
+  // Imitate a trial rejection (used in FlatHistogram).
+  virtual void imitate_trial_rejection_(const double ln_prob,
+    const int state_old,
+    const int state_new) {}
 
   // serialize
   std::string class_name() const { return class_name_; }

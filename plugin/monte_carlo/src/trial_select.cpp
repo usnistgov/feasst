@@ -15,8 +15,8 @@ TrialSelect::TrialSelect(const argtype& args) : PropertiedEntity() {
   group_index_ = 0;
   if (args_.key("particle_type").used()) {
     is_particle_type_set_ = true;
-    DEBUG("is_particle_type_set_ " << is_particle_type_set_);
     particle_type_ = args_.integer();
+    DEBUG("particle_type " << particle_type_);
     ASSERT(args_.key("group_index").empty(),
       "cant specify both particle type and group index");
   } else {
@@ -145,15 +145,15 @@ bool TrialSelect::select(
   FATAL("not implemented");
 }
 
-const EnergyMap * TrialSelect::map_(const System& system,
+const EnergyMap& TrialSelect::map_(const System& system,
     const NeighborCriteria * neighbor_criteria) const {
   if (neighbor_criteria->reference_potential() == -1) {
-    return system.const_potentials()->potentials()[
-      neighbor_criteria->potential_index()].visit_model()->inner()->energy_map();
+    return system.potentials().potentials()[
+      neighbor_criteria->potential_index()].visit_model().inner().energy_map();
   }
   return system.reference(neighbor_criteria->reference_potential(),
                           neighbor_criteria->potential_index()
-                         ).visit_model()->inner()->energy_map();
+                         ).visit_model().inner().energy_map();
 }
 
 }  // namespace feasst

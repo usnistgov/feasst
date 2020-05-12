@@ -20,7 +20,10 @@ class Site : public PropertiedEntity,
              public TypedEntity,
              public SpatialEntity {
  public:
-  Site() { set_physical(); }
+  Site();
+
+  /// Construct with a position.
+  Site(const Position position) : Site() { set_position(position); }
 
   /// Displace the Position of the Site.
   void displace(const Position displacement) {

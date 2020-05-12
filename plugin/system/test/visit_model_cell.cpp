@@ -1,6 +1,5 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
-#include "configuration/test/configuration_test.h"
 #include "system/include/visit_model_cell.h"
 #include "configuration/include/file_xyz.h"
 #include "system/include/lennard_jones.h"
@@ -26,7 +25,7 @@ TEST(VisitModelCell, simple_lj) {
   EXPECT_EQ(0, config.particle(0).site(0).position().coord(0));
   EXPECT_EQ(2, config.particle(1).site(0).position().coord(0));
 //  config.init_cells(3);
-  const Cells& cells = config.domain()->cells(0);
+  const Cells& cells = config.domain().cells(0);
   EXPECT_EQ(5*5*5, cells.num_total());
   const int center = round(5.*5.*5./2. - 0.5);
   EXPECT_EQ(config.particle(0).site(0).property("cell0"), center);

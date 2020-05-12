@@ -32,7 +32,6 @@ class FormulaExponential : public Formula {
   virtual ~FormulaExponential() {}
 
  private:
-  const std::string class_name_ = "FormulaExponential";
   double f0_;
   double A_;
   double B_;

@@ -1,0 +1,70 @@
+#include <cmath>
+#include "utils/include/serialize.h"
+#include "egce/include/a_half_b.h"
+
+namespace feasst {
+
+AHalfB::AHalfB(const argtype& args) {
+  class_name_ = "AHalfB";
+  Arguments args_(args);
+  extra_ = args_.key("extra").dflt("0").integer();
+  num_A_ = ConstrainNumParticles({
+    {"type", args_.key("particle_type_A").dflt("0").str()}});
+  num_B_ = ConstrainNumParticles({
+    {"type", args_.key("particle_type_B").dflt("1").str()}});
+  ASSERT(num_A_.type() != num_B_.type(), "particle_type_A: " << num_A_.type()
+    << " == particle_type_B_: " << num_B_.type());
+}
+
+bool AHalfB::is_allowed(const System* system,
+    const Criteria* criteria,
+    const Acceptance& acceptance) const {
+  const int nA = num_A_.num_particles(system, acceptance);
+  const int nB = num_B_.num_particles(system, acceptance);
+  bool allowed = false;
+  if ( std::abs(2*nA - nB) <= extra_) {
+    allowed = true;
+  }
+  DEBUG("nA " << nA << " nB " << nB << " extra " << extra_
+    << " allowed " << allowed);
+  return allowed;
+}
+
+class MapAHalfB {
+ public:
+  MapAHalfB() {
+    auto obj = MakeAHalfB();
+    obj->deserialize_map()["AHalfB"] = obj;
+  }
+};
+
+static MapAHalfB mapper_ = MapAHalfB();
+
+std::shared_ptr<Constraint> AHalfB::create(std::istream& istr) const {
+  return std::make_shared<AHalfB>(istr);
+}
+
+AHalfB::AHalfB(std::istream& istr)
+  : Constraint(istr) {
+  // ASSERT(class_name_ == "AHalfB", "name: " << class_name_);
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(2492 == version, "mismatch version: " << version);
+  feasst_deserialize(&extra_, istr);
+  feasst_deserialize_fstobj(&num_A_, istr);
+  feasst_deserialize_fstobj(&num_B_, istr);
+}
+
+void AHalfB::serialize_a_half_b_(std::ostream& ostr) const {
+  serialize_constraint_(ostr);
+  feasst_serialize_version(2492, ostr);
+  feasst_serialize(extra_, ostr);
+  feasst_serialize_fstobj(num_A_, ostr);
+  feasst_serialize_fstobj(num_B_, ostr);
+}
+
+void AHalfB::serialize(std::ostream& ostr) const {
+  ostr << class_name_ << " ";
+  serialize_a_half_b_(ostr);
+}
+
+}  // namespace feasst

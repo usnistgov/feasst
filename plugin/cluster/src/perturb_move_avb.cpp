@@ -59,12 +59,12 @@ void PerturbMoveAVB::move(
   } else {
     // pick a random position in the domain but outside the AV, considering PBC
     const double volume_av = neighbor_criteria_->volume(config.dimension());
-    ASSERT(config.domain()->volume() > volume_av, "AV: " << volume_av
+    ASSERT(config.domain().volume() > volume_av, "AV: " << volume_av
       << " too large for domain");
     int attempts = 0;
     bool found = false;
     while (!found) {
-      config.domain()->random_position(&displace_, random);
+      config.domain().random_position(&displace_, random);
       displace_.subtract(anchor_pos);
       found = !neighbor_criteria_->is_position_accepted(displace_,
                                                         config.domain());

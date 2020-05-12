@@ -103,7 +103,7 @@ void Criteria::set_trial_state(const int state, const int num) {
   num_trial_states_ = num;
 }
 
-void Criteria::revert(const bool accepted, const double ln_prob) {
+void Criteria::revert_(const bool accepted, const double ln_prob) {
   if (accepted) {
     current_energy_ = previous_energy_;
   }
@@ -130,24 +130,24 @@ std::shared_ptr<Criteria> Criteria::deserialize(std::istream& istr) {
     true);
 }
 
-bool Criteria::is_equal(const Criteria * criteria,
+bool Criteria::is_equal(const Criteria& criteria,
     const double tolerance) const {
-  if (beta_ != criteria->beta_) return false;
+  if (beta_ != criteria.beta_) return false;
   if (!feasst::is_equal(chemical_potentials_,
-              criteria->chemical_potentials_, tolerance)) {
+              criteria.chemical_potentials_, tolerance)) {
     return false;
   }
-  if (std::abs(current_energy_ - criteria->current_energy_) > tolerance) {
+  if (std::abs(current_energy_ - criteria.current_energy_) > tolerance) {
     INFO(MAX_PRECISION << "current energy not equal: " << current_energy_
-      << " vs " << criteria->current_energy_ << " tol " << tolerance);
+      << " vs " << criteria.current_energy_ << " tol " << tolerance);
     return false;
   }
-  if (trial_state_ != criteria->trial_state_) {
+  if (trial_state_ != criteria.trial_state_) {
     INFO("trial_states not equal: " << trial_state_
-      << " vs " << criteria->trial_state_);
+      << " vs " << criteria.trial_state_);
     return false;
   }
-  if (pH_ != criteria->pH_) return false;
+  if (pH_ != criteria.pH_) return false;
 // HWH this doesn't consider tolerance
 //  std::stringstream ss1, ss2;
 //  serialize(ss1);
@@ -160,7 +160,7 @@ bool Criteria::is_equal(const Criteria * criteria,
   return true;
 }
 
-bool Criteria::is_equal(const Criteria * criteria) const {
+bool Criteria::is_equal(const Criteria& criteria) const {
   return is_equal(criteria, NEAR_ZERO);
 }
 

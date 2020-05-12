@@ -19,15 +19,10 @@ namespace feasst {
 /// Return the feasst install directory as a string.
 /// Warning: This does not work with pip or conda Python.
 ///          Instead, use pyfeasst.forcefield_dir().
-inline std::string install_dir() { return std::string(FEASST_DIR_); }
+std::string install_dir();
 
 /// Return the feasst version as a string.
-inline std::string version() { return std::string(FEASST_VERSION_); }
-
-/// Return the given string with the feasst install directory appended.
-/// Warning: This does not work with pip or conda Python.
-///          Instead, use pyfeasst.forcefield_dir().
-std::string append_install_dir(const char * chars);
+std::string version();
 
 /// Return string representation of vector
 template<class T>

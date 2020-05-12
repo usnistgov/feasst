@@ -2,12 +2,14 @@
 #include "utils/test/utils.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/lennard_jones.h"
-#include "configuration/test/configuration_test.h"
+#include "configuration/include/utils.h"
 
 namespace feasst {
 
 TEST(VisitModelIntra, energy) {
-  Configuration config = chain10_sample();
+  Configuration config(MakeDomain({{"cubic_box_length", "10"}}),
+    {{"particle_type", "../forcefield/data.chain10"}});
+  config.add_particle_of_type(0);
   LennardJones model;
   // don't compute intraparticle interactions between bonded sites.
   auto visit = MakeVisitModelIntra({{"cutoff", "1"}});

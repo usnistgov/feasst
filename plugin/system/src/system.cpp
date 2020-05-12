@@ -127,11 +127,11 @@ System::System(std::istream& sstr) {
   feasst_deserialize_fstobj(&references_, sstr);
 }
 
-const PotentialFactory * System::const_potentials() const {
+const PotentialFactory& System::potentials() const {
   if (is_optimized_) {
-    return &optimized_;
+    return optimized_;
   }
-  return &unoptimized_;
+  return unoptimized_;
 }
 
 void System::load_cache(const bool load) {

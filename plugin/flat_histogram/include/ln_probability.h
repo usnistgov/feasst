@@ -73,6 +73,13 @@ class LnProbability {
     /// The exact index value is included in the second phase.
     int phase_boundary) const;
 
+  /// Return a reduced lnpi by keeping every this many macrostates.
+  LnProbability reduce(
+    /// for keep_every == 2, return macrostates 0, 2, 4, 6...
+    const int keep_every,
+    /// start from this value (default: 0). If negative, increment by keep_every
+    const int start = 0) const;
+
   bool is_equal(const LnProbability& ln_prob, const double tolerance) const;
 
   void serialize(std::ostream& ostr) const;

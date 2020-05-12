@@ -2,7 +2,7 @@
 #ifndef FEASST_EWALD_SYSTEM_EXAMPLE_H_
 #define FEASST_EWALD_SYSTEM_EXAMPLE_H_
 
-#include "configuration/test/configuration_test.h"
+#include "configuration/include/utils.h"
 #include "system/include/system.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
@@ -18,8 +18,8 @@
 namespace feasst {
 
 inline System spce(const std::string physical_constants = "") {
-  Configuration config = spce_sample();
-//  config.add_model_param("alpha", 5.6/config.domain()->min_side_length());
+  Configuration config = spce_sample1();
+//  config.add_model_param("alpha", 5.6/config.domain().min_side_length());
   if (!physical_constants.empty()) {
     if (physical_constants == "CODATA2010") {
       config.set_physical_constants(MakeCODATA2010());
@@ -33,7 +33,7 @@ inline System spce(const std::string physical_constants = "") {
   sys.add(config);
   sys.add(Potential(
     MakeEwald({{"kmax_squared", "27"},
-               {"alpha", str(5.6/config.domain()->min_side_length())}}),
+               {"alpha", str(5.6/config.domain().min_side_length())}}),
                      {{"prevent_cache", "true"}}));
   sys.add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
                                              MakeChargeScreened()})));
@@ -69,7 +69,7 @@ inline System chain(const double alpha,
     system.add(config);
   }
   auto ewald= MakeEwald({{"kmax_squared", "27"},
-               {"alpha", str(5.6/system.configuration().domain()->min_side_length())}});
+               {"alpha", str(5.6/system.configuration().domain().min_side_length())}});
   system.add(Potential(ewald,
                      {{"prevent_cache", "true"}}));
   system.add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
@@ -95,8 +95,8 @@ inline void test_cases(
     std::shared_ptr<VisitModel> visitor = MakeVisitModel()) {
   for (auto cse : cases) {
     INFO(std::get<0>(cse)->class_name());
-    Configuration config = spce_sample();
-    config.add_model_param("alpha", 5.6/config.domain()->min_side_length());
+    Configuration config = spce_sample1();
+    config.add_model_param("alpha", 5.6/config.domain().min_side_length());
     config.set_physical_constants(std::get<0>(cse));
     Potential potential(model, visitor);
     potential.precompute(&config);

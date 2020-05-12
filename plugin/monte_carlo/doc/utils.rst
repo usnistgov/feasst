@@ -1,6 +1,5 @@
-ATwiceB
+monte_carlo/include/utils
 =====================================================
 
-.. doxygenclass:: feasst::ATwiceB
+.. doxygenfile:: monte_carlo/include/utils.h
    :project: FEASST
-   :members:

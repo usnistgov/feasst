@@ -127,15 +127,15 @@ void TrialComputeGrowAdd::perturb_and_acceptance(
     Random * random) {
   DEBUG("TrialComputeGrowAdd");
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
-  const TrialSelect * select = (*stages)[0]->trial_select();
-  system->get_configuration()->revive(select->mobile());
+  const TrialSelect& select = (*stages)[0]->trial_select();
+  system->get_configuration()->revive(select.mobile());
   acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
   { // Metropolis
     const Configuration& config = system->configuration();
-    const double volume = config.domain()->volume();
-    const int particle_index = select->mobile().particle_index(0);
+    const double volume = config.domain().volume();
+    const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
-    DEBUG("volume " << volume << " selprob " << select->probability() << " betamu " << criteria->beta_mu(particle_type));
+    DEBUG("volume " << volume << " selprob " << select.probability() << " betamu " << criteria->beta_mu(particle_type));
     const double power = 1.;///static_cast<double>(criteria->num_trial_states());
     acceptance->add_to_ln_metropolis_prob(
       power*(std::log(volume)
@@ -156,11 +156,11 @@ void TrialComputeGrowRemove::perturb_and_acceptance(
   acceptance->add_to_macrostate_shift(-1);
   { // Metropolis
     const Configuration& config = system->configuration();
-    const double volume = config.domain()->volume();
-    const TrialSelect * select = (*stages)[0]->trial_select();
-    const int particle_index = select->mobile().particle_index(0);
+    const double volume = config.domain().volume();
+    const TrialSelect& select = (*stages)[0]->trial_select();
+    const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
-    DEBUG("volume " << volume << " selprob " << select->probability() << " betamu " << criteria->beta_mu(particle_type));
+    DEBUG("volume " << volume << " selprob " << select.probability() << " betamu " << criteria->beta_mu(particle_type));
     const double power = 1;//./static_cast<double>(criteria->num_trial_states());
     acceptance->add_to_ln_metropolis_prob(
       power*(- std::log(volume)

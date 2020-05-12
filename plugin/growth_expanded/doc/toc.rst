@@ -1,5 +1,5 @@
 
 .. toctree::
 
-   MacrostateGrowthExpanded
    TrialComputeGrowAdd
+   MacrostateGrowthExpanded

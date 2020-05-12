@@ -18,17 +18,33 @@ std::shared_ptr<Formula> Formula::create(std::istream& istr) const {
 }
 
 std::shared_ptr<Formula> Formula::deserialize(std::istream& istr) {
-  return template_deserialize(deserialize_map(), istr);
+  return template_deserialize(deserialize_map(), istr,
+    // true argument denotes rewinding to reread class name
+    // this allows derived class constructor to read class name.
+    true);
+}
+
+Formula::Formula(const argtype& args) {
+  args_.init(args);
+  x0_ = args_.key("x0").dflt("0").dble();
 }
 
 void Formula::serialize_formula_(std::ostream& ostr) const {
-  feasst_serialize_version(1, ostr);
+  ostr << class_name_ << " ";
+  feasst_serialize_version(5694, ostr);
   feasst_serialize(x0_, ostr);
 }
 
 Formula::Formula(std::istream& istr) {
-  feasst_deserialize_version(istr);
+  istr >> class_name_;
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(version == 5694, "version mismatch: " << version);
   feasst_deserialize(&x0_, istr);
 }
+
+double Formula::evaluate(const double x) { FATAL("not implemented"); }
+
+double Formula::evaluate(const double x, const double y) {
+  FATAL("not implemented"); }
 
 }  // namespace feasst

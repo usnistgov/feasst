@@ -4,10 +4,11 @@
 
 #include <deque>
 #include <memory>
-#include "math/include/formula.h"
 #include "utils/include/arguments.h"
 
 namespace feasst {
+
+class Formula;
 
 /**
   A one-dimensional histogram.

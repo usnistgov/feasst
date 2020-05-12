@@ -36,13 +36,13 @@ SelectParticleAVB::SelectParticleAVB(
   target_args.insert({"site", args_.key("target_site_index").dflt("0").str()});
   select_target_ = TrialSelectParticle(target_args);
 
-  // initialize select_outside_
-  argtype outside_args;
-  outside_args.insert({"load_coordinates", "true"});
-  outside_args.insert({"particle_type",
+  // initialize select_mobile_
+  argtype mobile_args;
+  mobile_args.insert({"load_coordinates", "true"});
+  mobile_args.insert({"particle_type",
     args_.key("particle_type").dflt("-1").str()});
-  outside_args.insert({"site", str(site_index_)});
-  select_outside_ = TrialSelectParticle(outside_args);
+  mobile_args.insert({"site", str(site_index_)});
+  select_mobile_ = TrialSelectParticle(mobile_args);
 
   ASSERT(!args_.key("group_index").used(), "group not implemented with AVB");
 }
@@ -61,6 +61,7 @@ static MapSelectParticleAVB mapper_ = MapSelectParticleAVB();
 void SelectParticleAVB::precompute(System * system) {
   TrialSelect::precompute(system);
   select_target_.precompute(system);
+  select_mobile_.precompute(system);
   anchor_.clear();
   anchor_.add_site(0, select_target_.site());
 }
@@ -75,13 +76,15 @@ bool SelectParticleAVB::select(const Select& perturbed,
       " and ghost:" << is_ghost());
     return false;
   }
+  DEBUG("target sel type: " << select_target_.particle_type());
   const int num = select_target_.random_particle(config, &target_, random);
-  DEBUG("target: " << target_.str());
   DEBUG("num " << num);
   if (num <= 0) {
-    DEBUG("avb not possible if number of neighbors is " << num);
+    DEBUG("avb not possible");
     return false;
   }
+  DEBUG("target: " << target_.str());
+  DEBUG("target type: " << config.select_particle(target_.particle_index(0)).type());
 
   // set anchor
   if (is_second_target_) {
@@ -93,7 +96,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
     anchor_.set_particle(0, target_.particle_index(0));
   }
   ASSERT(target_.num_sites() == 1, "Error");
-  map_(*system, neighbor_criteria_.get())->neighbors(
+  map_(*system, neighbor_criteria_.get()).neighbors(
     neighbor_criteria_.get(),
     config,
     target_.particle_index(0),
@@ -119,7 +122,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
     // only select that is outside: AVB2 out->in
     DEBUG("outside");
     neighbors_.add(target_); // add target to neighbors to exclude.
-    num_out = select_outside_.random_particle(config,
+    num_out = select_mobile_.random_particle(config,
       &neighbors_,
       &mobile_,
       random);
@@ -129,7 +132,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
   }
 
   // precompute volume terms
-  const double volume = config.domain()->volume();
+  const double volume = config.domain().volume();
   const double volume_av = neighbor_criteria_->volume(config.dimension());
   const double volume_out = volume - volume_av;
   ASSERT(volume_out > 0, "AV volume: " << volume_av << " is too large "
@@ -150,7 +153,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
 
   // GCE add
   if (is_ghost() && grand_canonical_ && inside_ && !is_second_target_) {
-    select_target_.ghost_particle(
+    select_mobile_.ghost_particle(
       system->get_configuration(), &empty_, &mobile_);
     set_probability(volume_av/static_cast<double>(num_neighbors + 1));
     if (target_mobile_same_type_) {
@@ -196,7 +199,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
   // AVB4 in->in
   } else if (!is_ghost() && !grand_canonical_ && inside_ && is_second_target_) {
     // obtain the number of neighbors in the second target
-    map_(*system, neighbor_criteria_.get())->neighbors(
+    map_(*system, neighbor_criteria_.get()).neighbors(
       neighbor_criteria_.get(),
       config,
       second_target_.particle_index(0),
@@ -252,7 +255,7 @@ SelectParticleAVB::SelectParticleAVB(std::istream& istr)
   feasst_deserialize(&inside_, istr);
   feasst_deserialize(&is_second_target_, istr);
   feasst_deserialize_fstobj(&select_target_, istr);
-  feasst_deserialize_fstobj(&select_outside_, istr);
+  feasst_deserialize_fstobj(&select_mobile_, istr);
 }
 
 void SelectParticleAVB::serialize_select_particle_avb_(
@@ -265,7 +268,7 @@ void SelectParticleAVB::serialize_select_particle_avb_(
   feasst_serialize(inside_, ostr);
   feasst_serialize(is_second_target_, ostr);
   feasst_serialize_fstobj(select_target_, ostr);
-  feasst_serialize_fstobj(select_outside_, ostr);
+  feasst_serialize_fstobj(select_mobile_, ostr);
 }
 
 void SelectParticleAVB::serialize(std::ostream& ostr) const {

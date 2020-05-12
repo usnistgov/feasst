@@ -84,14 +84,14 @@ double NeighborCriteria::volume(const int dimension) {
 
 bool NeighborCriteria::is_position_accepted(
     const Position& position,
-    const Domain * domain) {
+    const Domain& domain) {
   double squared_distance;
   if (origin_.dimension() == 0) {
-    origin_.set_to_origin(domain->dimension());
-    rel_.set_to_origin(domain->dimension());
-    pbc_.set_to_origin(domain->dimension());
+    origin_.set_to_origin(domain.dimension());
+    rel_.set_to_origin(domain.dimension());
+    pbc_.set_to_origin(domain.dimension());
   }
-  domain->wrap_opt(position, origin_, &rel_, &pbc_, &squared_distance);
+  domain.wrap_opt(position, origin_, &rel_, &pbc_, &squared_distance);
   return squared_distance > minimum_distance_sq_ &&
          squared_distance < maximum_distance_sq_;
 }

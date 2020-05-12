@@ -7,6 +7,7 @@
 #include "utils/include/utils_io.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"  // NEAR_ZERO
+#include "math/include/formula.h"
 
 namespace feasst {
 
@@ -59,6 +60,9 @@ int Histogram::bin(const double value) const {
     ") min( " << min() << ")");
   if (is_constant_width_ == 1) {
     const double kWidth = edges_[1] - edges_[0];
+    DEBUG("kWidth " << kWidth);
+    DEBUG("value " << value);
+    DEBUG("center " << center_of_bin(0));
     return round((value - center_of_bin(0))/kWidth);
   }
   int bin = 0;

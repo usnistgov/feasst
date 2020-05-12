@@ -82,7 +82,7 @@ double LongRangeCorrections::energy_(
   const double cutoff = model_params.mixed_cutoff()[type1][type2];
   const double prefactor = epsilon*(8./3.)*PI*std::pow(sigma, 3)*
     ((1./3.)*std::pow(sigma/cutoff, 9) - std::pow(sigma/cutoff, 3));
-  return prefactor/config->domain()->volume();
+  return prefactor/config->domain().volume();
 }
 
 }  // namespace feasst

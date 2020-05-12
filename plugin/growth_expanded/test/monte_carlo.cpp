@@ -1,7 +1,7 @@
-
 #include "utils/test/utils.h"
-#include "monte_carlo/test/monte_carlo_test.h"
+#include "monte_carlo/include/utils.h"
 #include "monte_carlo/include/metropolis.h"
+#include "monte_carlo/test/monte_carlo_test.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/wang_landau.h"
@@ -13,24 +13,19 @@
 namespace feasst {
 
 TEST(MonteCarlo, TrialGrowthExpanded) {
-  const std::string data = "../forcefield/data.dimer";
+  const std::string data = "forcefield/data.dimer";
   MonteCarlo mc;
-  mc_lj(&mc, 8, data, 1e2, true);
+  lennard_jones(&mc, {{"particle", data}, {"steps_per", str(1e2)}});
+  add_common_steppers(&mc, {{"steps_per", str(1e2)},
+                            {"file_append", "tmp/growth"}});
   mc.set(MakeMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));
   mc.seek_num_particles(4);
-
-  { auto criteria = MakeFlatHistogram({{"beta", str(1./1.5)},
-      {"chemical_potential", "-6.952321"}});
-    criteria->set(MakeMacrostateGrowthExpanded(
-      Histogram({{"width", "0.5"}, {"max", "10"}})//,
-//      {{"soft_max", "10"}}
-    ));
-    criteria->set(MakeTransitionMatrix({
-      {"min_sweeps", "10"},
-    }));
-    // criteria->set(MakeWangLandau({{"min_flatness", "1"}}));
-    mc.set(criteria);
-  }
+  mc.set(MakeFlatHistogram(
+    MakeMacrostateGrowthExpanded(Histogram({{"width", "0.5"}, {"max", "10"}})),
+    MakeTransitionMatrix({{"min_sweeps", "10"}}),
+    // MakeWangLandau({{"min_flatness", "1"}}),
+    { {"beta", str(1./1.5)},
+      {"chemical_potential", "-6.952321"}}));
 
   mc.add(MakeTrialGrowthExpanded(build_(1, data), build_(2, data)));
   mc.add(MakeCriteriaWriter({{"steps_per_write", str(int(1e6))}}));

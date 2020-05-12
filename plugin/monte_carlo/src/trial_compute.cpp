@@ -51,7 +51,7 @@ void TrialCompute::compute_rosenbluth(
   DEBUG("reference used? " << reference_used);
   if (reference_used) {
     ASSERT(acceptance->perturbed().num_sites() > 0, "error");
-    acceptance->set_perturbed_state((*stages)[0]->trial_select()->mobile().trial_state());
+    acceptance->set_perturbed_state((*stages)[0]->trial_select().mobile().trial_state());
     DEBUG(acceptance->perturbed().str());
 //    { // delete me
 //      for (int p = 0; p < acceptance->perturbed().num_particles(); ++p) {

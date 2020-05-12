@@ -26,8 +26,8 @@ void ComputeMoveCluster::perturb_and_acceptance(
   DEBUG("ComputeMoveCluster");
   compute_rosenbluth(1, criteria, system, acceptance, stages, random);
   ASSERT(stages->size() == 1, "assumes 1 stage");
-  const TrialSelect * csel = (*stages)[0]->trial_select();
-  const int size_old = csel->mobile().num_particles();
+  const TrialSelect& csel = (*stages)[0]->trial_select();
+  const int size_old = csel.mobile().num_particles();
   DEBUG("size_old " << size_old);
   for (TrialStage * stage : *stages) stage->mid_stage(system);
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);

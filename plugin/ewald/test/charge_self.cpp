@@ -1,6 +1,5 @@
 #include "utils/test/utils.h"
 #include "ewald/include/charge_self.h"
-#include "configuration/test/configuration_test.h"
 #include "ewald/test/system_example.h"
 
 namespace feasst {

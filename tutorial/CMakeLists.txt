@@ -31,9 +31,6 @@ if(OPENMP_FOUND)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
-add_definitions("-DFEASST_DIR_=\"${CMAKE_PREFIX_PATH}\"")
-add_definitions("-DFEASST_VERSION_=\"${GIT_COMMIT_HASH} ${GIT_BRANCH}\"")
-
 include_directories("${CMAKE_PREFIX_PATH}/include")
 add_executable (tutorial tutorial.cpp)
 target_link_libraries (tutorial LINK_PUBLIC feasst)

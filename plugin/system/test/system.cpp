@@ -1,18 +1,18 @@
 #include "utils/test/utils.h"
 #include "system/include/system.h"
-#include "system/test/system_test.h"
+#include "system/include/utils.h"
 
 namespace feasst {
 
 TEST(System, serialize) {
-  System system = default_system();
+  System system = two_particle_system();
   System system2 = test_serialize(system);
   EXPECT_EQ(system2.configuration().particle(1).site(0).position().coord(0), 1.25);
 }
 
 TEST(System, cache) {
-  System system = default_system();
-  System system2 = default_system();
+  System system = two_particle_system();
+  System system2 = two_particle_system();
   DEBUG("enabling cache");
   system.load_cache(true);
   system.energy();

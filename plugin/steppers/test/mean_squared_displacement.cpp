@@ -1,12 +1,15 @@
 #include "utils/test/utils.h"
 #include "steppers/include/mean_squared_displacement.h"
-#include "monte_carlo/test/monte_carlo_test.h"
+#include "steppers/include/utils.h"
+#include "monte_carlo/include/utils.h"
 
 namespace feasst {
 
 TEST(MeanSquaredDisplacement, msd) {
   MonteCarlo mc;
-  mc_lj(&mc);
+  lennard_jones(&mc);
+  add_common_steppers(&mc, {{"steps_per", str(1e4)},
+                            {"file_append", "tmp/lj"}});
   mc.seek_num_particles(50);
   mc.add(MakeMeanSquaredDisplacement({
     {"steps_per_update", "10"},

@@ -1,7 +1,6 @@
 #include <vector>
 #include <tuple>
 #include "utils/test/utils.h"
-#include "configuration/test/configuration_test.h"
 #include "ewald/include/charge_screened.h"
 #include "ewald/test/system_example.h"
 

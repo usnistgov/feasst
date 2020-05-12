@@ -115,6 +115,7 @@ class EnergyMap {
   virtual ~EnergyMap() {}
 
  protected:
+  std::string class_name_ = "EnergyMap";
   void serialize_energy_map_(std::ostream& ostr) const;
 
   virtual void resize_(const int part1_index,
@@ -141,7 +142,6 @@ class EnergyMap {
 
  private:
   double default_value_;
-  const std::string class_name_ = "EnergyMap";
   // HWH optimization, could make variation in size but hard to initialize
   int site_max_;  // largest number of sites in a particle.
   int dimen_ = -1;  // record dimension of pbc wrap

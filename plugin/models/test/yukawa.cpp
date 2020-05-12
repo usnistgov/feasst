@@ -1,11 +1,11 @@
 #include "utils/test/utils.h"
 #include "models/include/yukawa.h"
-#include "configuration/test/configuration_test.h"
+#include "configuration/include/utils.h"
 
 namespace feasst {
 
 TEST(Yukawa, analytical) {
-  Configuration config = default_configuration();
+  Configuration config = two_particle_configuration();
   Yukawa model;
   model.set_kappa(2.);
   config.set_model_param("epsilon", 0, 0.5);

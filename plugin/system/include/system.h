@@ -95,7 +95,7 @@ class System {
   const std::vector<PotentialFactory> references() const { return references_; }
 
   /// Return a constant pointer to the full potentials.
-  const PotentialFactory * const_potentials() const;
+  const PotentialFactory& potentials() const;
 
   //@}
   /** @name Energy
@@ -122,11 +122,11 @@ class System {
 
   /// Return the last computed energy.
   double stored_energy() const {
-    return const_potentials()->stored_energy(); }
+    return potentials().stored_energy(); }
 
   /// Return the profile of energies that were last computed.
   std::vector<double> stored_energy_profile() const {
-    return const_potentials()->stored_energy_profile(); }
+    return potentials().stored_energy_profile(); }
 
   /// Return the reference energy.
   double reference_energy(const int ref = 0, const int config = 0) {

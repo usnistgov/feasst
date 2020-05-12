@@ -39,7 +39,7 @@ double ChargeScreened::energy(
 
 void ChargeScreened::precompute(const ModelParams& existing) {
   alpha_ = existing.property("alpha");
-  conversion_factor_ = existing.constants()->charge_conversion();
+  conversion_factor_ = existing.constants().charge_conversion();
 }
 
 }  // namespace feasst

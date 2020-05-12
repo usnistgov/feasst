@@ -15,10 +15,7 @@ namespace feasst {
  */
 class FormulaPolynomial : public Formula {
  public:
-  FormulaPolynomial(
-    /**
-     */
-    const argtype& args = argtype()) : Formula(args) {}
+  FormulaPolynomial(const argtype& args = argtype());
 
   FormulaPolynomial& set_A(const int index, const double A) {
     // resize A coefficients if necessary
@@ -37,7 +34,6 @@ class FormulaPolynomial : public Formula {
   virtual ~FormulaPolynomial() {}
 
  private:
-  const std::string class_name_ = "FormulaPolynomial";
   std::vector<double> A_;
 };
 

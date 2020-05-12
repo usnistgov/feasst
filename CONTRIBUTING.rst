@@ -166,8 +166,7 @@ Document
 Setup
 --------------------------------------------------------------------------------
 
-pip install sphinx
-pip install breathe
+pip install sphinx breathe
 doxygen with GENERATE_XML
 run sphinx-quickstart, enable autodoc
 add something like the following to your sphinx index.rst::
@@ -181,8 +180,7 @@ add the following to your sphinx conf.py
   breathe_projects = {"FEASST":"../xml"}
   breathe_domain_by_extension = {"h" : "cc"}
 
-pip install sphinx_rtd_theme
-pip install nbsphinx
+pip install sphinx_rtd_theme nbsphinx
 
 run sphinx: make html
 

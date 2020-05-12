@@ -39,7 +39,7 @@ void Ewald::tolerance_to_alpha_ks(const double tolerance,
     << " must be > 0");
 
   // determine alpha
-  *alpha = std::sqrt(config.num_sites()*cutoff*config.domain()->volume());
+  *alpha = std::sqrt(config.num_sites()*cutoff*config.domain().volume());
   *alpha *= tolerance/(2.*sum_squared_charge_(config));
   if (*alpha >= 1.) {
     *alpha = (1.35 - 0.15*log(tolerance))/cutoff; // from LAMMPS
@@ -60,12 +60,12 @@ void Ewald::update_wave_vectors(const Configuration& config) {
   std::vector<double> kvect(3);
   Position kvec;
   kvec.set_to_origin_3D();
-  const Domain * domain = config.domain();
-  const double lx = domain->side_length(0);
-  const double ly = domain->side_length(1);
-  const double lz = domain->side_length(2);
-  ASSERT(!domain->is_tilted(), "assumes cuboid domain");
-  const double volume = domain->volume();
+  const Domain& domain = config.domain();
+  const double lx = domain.side_length(0);
+  const double ly = domain.side_length(1);
+  const double lz = domain.side_length(2);
+  ASSERT(!domain.is_tilted(), "assumes cuboid domain");
+  const double volume = domain.volume();
   const double alpha = config.model_params().property("alpha");
   DEBUG("kxyzmax " << kxmax_ << " " << kymax_ << " " << kzmax_);
   for (int kx = 0; kx <= kxmax_; ++kx) {
@@ -156,13 +156,13 @@ void Ewald::precompute(Configuration * config) {
   if (kmax_sq_arg_ && alpha_arg_) {
     ASSERT(!kxmax_arg_ && !kymax_arg_ && !kzmax_arg_,
       "kmax_squared argument overrides k[x,y,z]max arguments.");
-    ASSERT(config->domain()->is_cubic(),
+    ASSERT(config->domain().is_cubic(),
       "Domain must be cubic to set kmax_squared");
     const int kmax_ = static_cast<int>(std::sqrt(*kmax_sq_arg_)) + 1;
     kxmax_ = kmax_;
     kymax_ = kmax_;
     kzmax_ = kmax_;
-    kmax_squared_ = *kmax_sq_arg_*std::pow(2.*PI/config->domain()->min_side_length(), 2);
+    kmax_squared_ = *kmax_sq_arg_*std::pow(2.*PI/config->domain().min_side_length(), 2);
     DEBUG("kmax_squared_ " << kmax_squared_);
     config->add_or_set_model_param("alpha", *alpha_arg_);
   } else {
@@ -182,11 +182,11 @@ void Ewald::precompute(Configuration * config) {
         "if tolerance is not given, then alpha is required");
       config->add_or_set_model_param("alpha", *alpha_arg_);
     }
-    double gsqxmx = std::pow(2*PI*kxmax_/config->domain()->side_length(0), 2);
-    double gsqymx = std::pow(2*PI*kymax_/config->domain()->side_length(1), 2);
-    double gsqzmx = std::pow(2*PI*kzmax_/config->domain()->side_length(2), 2);
+    double gsqxmx = std::pow(2*PI*kxmax_/config->domain().side_length(0), 2);
+    double gsqymx = std::pow(2*PI*kymax_/config->domain().side_length(1), 2);
+    double gsqzmx = std::pow(2*PI*kzmax_/config->domain().side_length(2), 2);
     DEBUG("gsqxmx " << gsqxmx);
-    DEBUG("2pi/lx " << 2*PI/config->domain()->side_length(0));
+    DEBUG("2pi/lx " << 2*PI/config->domain().side_length(0));
     kmax_squared_ = std::max(gsqxmx, gsqymx);
     kmax_squared_ = std::max(kmax_squared_, gsqzmx);
     DEBUG("kmax_squared_ " << kmax_squared_);
@@ -207,10 +207,10 @@ void Ewald::update_struct_fact_eik(const Select& selection,
     "While struct_fact_real_ is of size: " << struct_fact_real_.size() <<
     " struct_fact_real is of size: " << struct_fact_real->size());
   std::stringstream ss;
-  const Domain * domain = config->domain();
-  const double lx = domain->side_length(0);
-  const double ly = domain->side_length(1);
-  const double lz = domain->side_length(2);
+  const Domain& domain = config->domain();
+  const double lx = domain.side_length(0);
+  const double ly = domain.side_length(1);
+  const double lz = domain.side_length(2);
   const double twopilx = 2.*PI/lx,
                twopily = 2.*PI/ly,
                twopilz = 2.*PI/lz;
@@ -464,7 +464,7 @@ void Ewald::compute(
   update_struct_fact_eik(config->group_select(group_index), config,
                          &struct_fact_real_new_,
                          &struct_fact_imag_new_);
-  const double conversion = model_params.constants()->charge_conversion();
+  const double conversion = model_params.constants().charge_conversion();
   stored_energy_new_ = conversion*fourier_energy_(struct_fact_real_new_,
                                                   struct_fact_imag_new_);
   DEBUG("stored_energy_ " << stored_energy_new_);
@@ -529,7 +529,7 @@ void Ewald::compute(
                                             &struct_fact_imag_new_);
   // compute new energy
   if (state != 0) {
-    const double conversion = model_params.constants()->charge_conversion();
+    const double conversion = model_params.constants().charge_conversion();
     stored_energy_new_ = conversion*fourier_energy_(struct_fact_real_new_,
                                                     struct_fact_imag_new_);
   }
@@ -599,7 +599,7 @@ double Ewald::fourier_rms_(
   ASSERT(num_sites > 0, "error");
   ASSERT(!std::isnan(alpha), "alpha is nan");
   DEBUG("alpha: " << alpha);
-  const double side_length = config.domain()->side_length(dimen);
+  const double side_length = config.domain().side_length(dimen);
   return 2.*sum_squared_charge_(config)*alpha/side_length *
     std::sqrt(1./(PI*kmax*num_sites)) *
     exp(-std::pow(PI*kmax/alpha/side_length, 2));

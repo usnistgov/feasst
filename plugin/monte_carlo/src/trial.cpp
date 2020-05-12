@@ -168,7 +168,8 @@ bool Trial::is_equal(const Trial& trial) const {
     return false;
   }
   if (num_stages() > 0) {
-    if (!stages_[0]->perturb()->tunable().is_equal(trial.stages_[0]->perturb()->tunable())) {
+    if (!stages_[0]->perturb().tunable().is_equal(
+        trial.stages_[0]->perturb().tunable())) {
       return false;
     }
   }

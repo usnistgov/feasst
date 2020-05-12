@@ -39,7 +39,7 @@ class Modify : public Stepper {
 
   // Access to factory of Modify objects.
   virtual const std::vector<std::shared_ptr<Modify> >& modifiers() const;
-  virtual const Modify * modify(const int index) const;
+  virtual const Modify& modify(const int index) const;
 
   // serialization
   std::string class_name() const override { return std::string("Modify"); }

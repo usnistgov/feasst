@@ -3,14 +3,17 @@
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/metropolis.h"
-#include "monte_carlo/test/monte_carlo_test.h"
+#include "monte_carlo/include/utils.h"
 #include "monte_carlo/include/constrain_num_particles.h"
+#include "monte_carlo/include/utils.h"
 #include "steppers/include/log.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/energy.h"
+#include "steppers/include/utils.h"
 #include "cluster/include/energy_map_all.h"
+#include "cluster/include/energy_map_neighbor.h"
 #include "cluster/include/utils_cluster.h"
 #include "cluster/include/trial_avb4.h"
 #include "cluster/include/select_cluster.h"
@@ -41,20 +44,14 @@ TEST(MonteCarlo, cluster) {
       neighbor_criteria,
       {{"tunable_param", "50"}});
     const int steps_per = 1e0;
-    monte_carlo.add(MakeMovie({{"steps_per", str(steps_per)},
-                               {"file_name", "tmp/cluster.xyz"},
-                               {"clear_file", "true"}}));
-    monte_carlo.add(MakeLog({{"steps_per", str(steps_per)},
-                             {"file_name", "tmp/cluster.txt"},
-                             {"clear_file", "true"}}));
-    monte_carlo.add(MakeCheckEnergy({{"steps_per", str(steps_per)},
-                                     {"tolerance", str(1e-8)}}));
+    add_common_steppers(&monte_carlo, {{"steps_per", str(steps_per)},
+                                       {"file_append", "tmp/lj"}});
     // conduct the trials
-    const VisitModelInner * inner = monte_carlo.system().potential(0).visit_model()->inner();
+    const VisitModelInner& inner = monte_carlo.system().potential(0).visit_model().inner();
     for (int trial = 0; trial < 1e3; ++trial) {
       //INFO("trial " << trial);
       monte_carlo.attempt(1);
-      EXPECT_NEAR(inner->energy_map()->total_energy(),
+      EXPECT_NEAR(inner.energy_map().total_energy(),
                   monte_carlo.system().stored_energy(),
                   NEAR_ZERO);
     }
@@ -78,7 +75,9 @@ TEST(MonteCarlo, cluster) {
 
 TEST(MonteCarlo, GCMCmap) {
   MonteCarlo mc;
-  mc_lj(&mc, 8., "../forcefield/data.lj", 1e4, true, false);
+  lennard_jones(&mc, {{"lrc", "false"}});
+  add_common_steppers(&mc, {{"steps_per", str(1e4)},
+                            {"file_append", "tmp/lj"}});
   mc.set(0, Potential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
@@ -87,8 +86,8 @@ TEST(MonteCarlo, GCMCmap) {
                            {"file_name", "tmp/ljnum.txt"}}));
   for (int i = 0; i < 1e4; ++i) {
     mc.attempt(1);
-    const double en = mc.criteria()->current_energy();
-    const double en_map = mc.system().potential(0).visit_model()->inner()->energy_map()->total_energy();
+    const double en = mc.criteria().current_energy();
+    const double en_map = mc.system().potential(0).visit_model().inner().energy_map().total_energy();
     if (std::abs(en - en_map) > 1e-8) {
       INFO(MAX_PRECISION << "not the same: " << en << " " << en_map);
     }
@@ -107,6 +106,7 @@ MonteCarlo mc_avb_test(
   if (avb) {
     monte_carlo.add(Potential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+      //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
   } else {
     monte_carlo.add(Potential(MakeLennardJones()));
   }
@@ -157,34 +157,34 @@ const double z_factor = 10.;
 TEST(MonteCarlo, GCMC_AVB_LONG) {
   MonteCarlo mc_avb = mc_avb_test(true);
   MonteCarlo mc_noavb = mc_avb_test(false);
-  INFO(mc_avb.analyze(2)->accumulator().str())
-  INFO(mc_avb.analyze(3)->accumulator().str())
-  INFO(mc_noavb.analyze(2)->accumulator().str())
-  INFO(mc_noavb.analyze(3)->accumulator().str())
-  EXPECT_TRUE(mc_avb.analyze(2)->accumulator().is_equivalent(
-            mc_noavb.analyze(2)->accumulator(), z_factor, true));
-//  EXPECT_TRUE(mc_avb.analyze(3)->accumulator().is_equivalent(
-//            mc_noavb.analyze(3)->accumulator(), 3, true));
+  INFO(mc_avb.analyze(2).accumulator().str())
+  INFO(mc_avb.analyze(3).accumulator().str())
+  INFO(mc_noavb.analyze(2).accumulator().str())
+  INFO(mc_noavb.analyze(3).accumulator().str())
+  EXPECT_TRUE(mc_avb.analyze(2).accumulator().is_equivalent(
+            mc_noavb.analyze(2).accumulator(), z_factor, true));
+//  EXPECT_TRUE(mc_avb.analyze(3).accumulator().is_equivalent(
+//            mc_noavb.analyze(3).accumulator(), 3, true));
 }
 
 TEST(MonteCarlo, MC_AVB2_AVB4_LONG) {
   const int num_particles = 10;
   MonteCarlo mc_noavb = mc_avb_test(false, num_particles, true);
-  EXPECT_NEAR(10, mc_noavb.analyze(2)->accumulator().average(), NEAR_ZERO);
-  INFO(mc_noavb.analyze(3)->accumulator().str())
+  EXPECT_NEAR(10, mc_noavb.analyze(2).accumulator().average(), NEAR_ZERO);
+  INFO(mc_noavb.analyze(3).accumulator().str())
 
   MonteCarlo mc_avb2 = mc_avb_test(true, num_particles, true);
-  INFO(mc_avb2.analyze(3)->accumulator().str())
-  EXPECT_NEAR(10, mc_avb2.analyze(2)->accumulator().average(), NEAR_ZERO);
-  EXPECT_TRUE(mc_avb2.analyze(3)->accumulator().is_equivalent(
-             mc_noavb.analyze(3)->accumulator(), z_factor, true));
+  INFO(mc_avb2.analyze(3).accumulator().str())
+  EXPECT_NEAR(10, mc_avb2.analyze(2).accumulator().average(), NEAR_ZERO);
+  EXPECT_TRUE(mc_avb2.analyze(3).accumulator().is_equivalent(
+             mc_noavb.analyze(3).accumulator(), z_factor, true));
 
   if (true) {
     MonteCarlo mc_avb4 = mc_avb_test(true, num_particles, false, true);
-    EXPECT_NEAR(10, mc_avb4.analyze(2)->accumulator().average(), NEAR_ZERO);
-    INFO(mc_avb4.analyze(3)->accumulator().str())
-    EXPECT_TRUE(mc_avb4.analyze(3)->accumulator().is_equivalent(
-               mc_noavb.analyze(3)->accumulator(), z_factor, true));
+    EXPECT_NEAR(10, mc_avb4.analyze(2).accumulator().average(), NEAR_ZERO);
+    INFO(mc_avb4.analyze(3).accumulator().str())
+    EXPECT_TRUE(mc_avb4.analyze(3).accumulator().is_equivalent(
+               mc_noavb.analyze(3).accumulator(), z_factor, true));
   }
 }
 

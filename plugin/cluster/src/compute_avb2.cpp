@@ -33,12 +33,12 @@ void ComputeAVB2::perturb_and_acceptance(
     Random * random) {
   TrialComputeMove::perturb_and_acceptance(
     criteria, system, acceptance, stages, random);
-  const TrialSelect * select = (*stages)[0]->trial_select();
+  const TrialSelect& select = (*stages)[0]->trial_select();
   double factor = p_bias_/(1 - p_bias_);
   if (out_to_in_) {
     factor = (1 - p_bias_)/p_bias_;
   }
-  acceptance->add_to_ln_metropolis_prob(std::log(factor*select->probability()));
+  acceptance->add_to_ln_metropolis_prob(std::log(factor*select.probability()));
 }
 
 std::shared_ptr<TrialCompute> ComputeAVB2::create(std::istream& istr) const {

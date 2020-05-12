@@ -1,13 +1,13 @@
 
 .. toctree::
 
-   utils_file
    Timer
+   utils
    CustomException
-   utils_io
-   Cache
+   debug
+   utils_file
    Arguments
    Checkpoint
-   utils
-   debug
+   utils_io
    serialize
+   Cache

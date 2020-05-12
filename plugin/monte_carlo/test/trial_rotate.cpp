@@ -1,7 +1,6 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/trial_rotate.h"
-#include "configuration/test/configuration_test.h"
 #include "system/include/system.h"
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/metropolis.h"

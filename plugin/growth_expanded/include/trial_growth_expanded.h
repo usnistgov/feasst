@@ -58,10 +58,10 @@ class TrialComputeGrow : public TrialCompute {
     ASSERT(shrink_ == 0 or shrink_ == 1,
       "shrink(" << shrink_ << ") must be initialized");
     compute_rosenbluth(shrink_, criteria, system, acceptance, stages, random);
-    const TrialSelect * select = (*stages)[0]->trial_select();
+    const TrialSelect& select = (*stages)[0]->trial_select();
     //const int particle_index = select->mobile().particle_index(0);
     //const int particle_type = system->configuration().select_particle(particle_index).type();
-    DEBUG("selprob " << select->probability());
+    DEBUG("selprob " << select.probability());
     acceptance->set_energy_new(criteria->current_energy()
       + acceptance->energy_new()
       - acceptance->energy_old()
@@ -123,9 +123,9 @@ class TrialGrowthExpanded : public Trial {
     add_(grow_->stages()[0]);
     DEBUG(shrink_);
     DEBUG("num " << shrink_->stages().size());
-    const TrialSelect * sel = shrink_->stages()[0]->trial_select();
+    const TrialSelect& sel = shrink_->stages()[0]->trial_select();
     growing_particle_ = MakeTrialSelectParticle({
-      {"particle_type", str(sel->particle_type())},
+      {"particle_type", str(sel.particle_type())},
       {"site", "0"}, // HWH hardcoded for site0
     });
 
@@ -231,7 +231,7 @@ class TrialGrowthExpanded : public Trial {
   void update_growing_particle_() {
     if ( (growing_ and growth_stage_ == 1) or
          (!growing_ and growth_stage_ == num_growth_stages() - 1) ) {
-      *growing_particle_->get_mobile() = stages()[0]->trial_select()->mobile();
+      *growing_particle_->get_mobile() = stages()[0]->trial_select().mobile();
       // HWH hard code growing particle to site 0 for SelectPerturbed
       //  removal. Assumes first site is first stage.
       growing_particle_->get_mobile()->set_site(0, 0, 0);

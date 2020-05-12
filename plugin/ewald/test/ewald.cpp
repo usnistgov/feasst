@@ -1,6 +1,6 @@
 #include "utils/test/utils.h"
+#include "configuration/include/utils.h"
 #include "math/include/random_mt19937.h"
-#include "configuration/test/configuration_test.h"
 #include "system/include/model_empty.h"
 #include "system/include/system.h"
 #include "ewald/include/ewald.h"
@@ -11,9 +11,9 @@
 namespace feasst {
 
 TEST(Ewald, ewald) {
-  Configuration config = spce_sample();
+  Configuration config = spce_sample1();
   auto ewald = MakeEwald({
-    {"alpha", str(5.6/config.domain()->min_side_length())},
+    {"alpha", str(5.6/config.domain().min_side_length())},
     {"kmax_squared", "27"}
   });
   ewald->precompute(&config);

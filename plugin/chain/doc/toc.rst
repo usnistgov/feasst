@@ -1,19 +1,19 @@
 
 .. toctree::
 
-   AnalyzeRigidBonds
-   TrialCrankshaft
-   TrialGrowLinear
-   PerturbPivot
-   PerturbCrankshaft
-   PerturbSiteType
-   SelectPerturbed
-   TrialSwapSites
    SelectSiteOfType
-   TrialPivot
-   TrialReptate
-   PerturbReptate
-   RecenterParticles
+   SelectPerturbed
    SelectSegment
    SelectEndSegment
    SelectReptate
+   AnalyzeRigidBonds
+   RecenterParticles
+   TrialSwapSites
+   PerturbReptate
+   TrialPivot
+   TrialReptate
+   TrialCrankshaft
+   PerturbPivot
+   PerturbCrankshaft
+   TrialGrowLinear
+   PerturbSiteType

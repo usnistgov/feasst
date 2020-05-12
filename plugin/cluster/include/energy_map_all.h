@@ -15,7 +15,7 @@ namespace feasst {
  */
 class EnergyMapAll : public EnergyMap {
  public:
-  EnergyMapAll(const argtype& args = argtype()) : EnergyMap(args) {}
+  EnergyMapAll(const argtype& args = argtype());
   void revert(const Select& select) override;
   void finalize(const Select& select) override;
   void select_cluster(const NeighborCriteria * neighbor_criteria,
@@ -64,7 +64,6 @@ class EnergyMapAll : public EnergyMap {
   const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& map() const override { return map_; }
 
  private:
-  const std::string class_name_ = "EnergyMapAll";
   std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > > map_, map_new_;
   int part_max_() { return static_cast<int>(map_.size()); }
   bool is_cluster_(const NeighborCriteria * neighbor_criteria,

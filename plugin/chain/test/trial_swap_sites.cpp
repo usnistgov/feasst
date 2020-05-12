@@ -22,7 +22,7 @@ TEST(TrialSwapSites, swap) {
   trial->attempt(criteria.get(), &sys, random.get());
   EXPECT_EQ(trial->num_success(), 1);
   EXPECT_EQ(sys.configuration().particle(0).site(0).type(), 0);
-  const int site_index = trial->stage(0)->trial_select()->mobile().site_index(0, 0);
+  const int site_index = trial->stage(0).trial_select().mobile().site_index(0, 0);
   EXPECT_TRUE(site_index == 1 ||
               site_index == 3 ||
               site_index == 4 ||

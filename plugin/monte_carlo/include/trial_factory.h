@@ -20,7 +20,8 @@ class TrialFactory : public Trial {
   int num_trials() const { return static_cast<int>(trials_.size()); }
 
   /// Return a trial by index of the order trials were added.
-  const Trial * trial(const int index) const { return trials_[index].get(); }
+  const Trial& trial(const int index) const {
+    return const_cast<Trial&>(*trials_[index]); }
 
   /// Return the index of a trial selected with probability proportional to its
   /// weight.
@@ -43,8 +44,6 @@ class TrialFactory : public Trial {
   /// Revert changes to system by trial index.
   void revert(const int index, const bool accepted, System * system);
 
-  void imitate_trial_rejection(const int index);
-
   void finalize(const int index, System * system) {
     trials_[index]->finalize(system); }
 
@@ -52,8 +51,10 @@ class TrialFactory : public Trial {
   /// acceptance, etc).
   std::string status_header() const override;
 
-  // Require manual finalization of trials (e.g., Pipeline).
+  // HWH hackish interface for prefetch
+  // Require manual finalization of trials (e.g., Prefetch).
   void delay_finalize();
+  void imitate_trial_rejection_(const int index);
 
   /// Return the statuses of the trials (e.g., acceptance, etc).
   std::string status() const override;

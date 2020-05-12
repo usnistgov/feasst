@@ -16,9 +16,12 @@ namespace feasst {
 
 class Checkpoint;
 class Random;
-class RandomMT19937;
 
 // HWH document this class better
+// HWH consider a MonteCarlo interface where everything is input through
+// HWH constructors, so that order of initialization is thoroughly enforced
+// HWH requires ability to initialize simulation (e.g., seek_num)
+// HWH or control of when Analyze/Modify begin (e.g., init/equil phases)
 /**
   Enforce order of Monte Carlo initialization:
   1 config
@@ -50,7 +53,7 @@ class MonteCarlo {
   void set(std::shared_ptr<Random> random) { random_ = random; }
 
   /// Return the random number generator.
-  const Random * random() const { return random_.get(); }
+  //const Random& random() const { return const_cast<Random&>(*random_); }
 
   /// Seed random number generator.
   void seed_random(const int seed);
@@ -90,13 +93,13 @@ class MonteCarlo {
 
   /// The third action is to set the Criteria.
   /// Configuration and Potentials (or System) must be set first.
-  void add(std::shared_ptr<Criteria> criteria);
+  void set(std::shared_ptr<Criteria> criteria);
 
   // HWH depreciate
-  void set(std::shared_ptr<Criteria> criteria) { add(criteria); }
+  void add(std::shared_ptr<Criteria> criteria) { set(criteria); }
 
   /// Once Criteria is set, it may be accessed on a read-only basis.
-  const Criteria * criteria() const { return criteria_.get(); }
+  const Criteria& criteria() const { return const_cast<Criteria&>(*criteria_); }
 
   /// The remaining actions can be done in almost any order.
   /// Typically, one begins by adding trials.
@@ -106,10 +109,11 @@ class MonteCarlo {
   const TrialFactory& trials() const { return trial_factory_; }
 
   /// Access the trials on a read-only basis.
-  const Trial * trial(const int index) const {
+  const Trial& trial(const int index) const {
     return trial_factory_.trial(index); }
 
-  /// HWH consider depreciating this. While convenient, it confuses many users.
+  // HWH consider moving this to utils
+  // HWH consider depreciating this. While convenient, it confuses many users.
   /// Before the production simulation, one may wish to quickly seek an initial
   /// configuration with a given number of particles, without necessarily
   /// satisfying detailed balance.
@@ -127,8 +131,8 @@ class MonteCarlo {
     return analyze_factory_.analyzers(); }
 
   /// Return an Analyze by index.
-  const Analyze * analyze(const int index) const {
-    return analyze_factory_.analyzers()[index].get(); }
+  const Analyze& analyze(const int index) const {
+    return analyze_factory_.analyze(index); }
 
   /// Return the number of analyzers.
   int num_analyzers() const {
@@ -139,8 +143,8 @@ class MonteCarlo {
   void add(const std::shared_ptr<Modify> modify);
 
   /// Return an Modify by index.
-  const Modify * modify(const int index) const {
-    return modify_factory_.modifiers()[index].get(); }
+  const Modify& modify(const int index) const {
+    return modify_factory_.modify(index); }
 
   /// Return the number of modifiers.
   int num_modifiers() const {
@@ -149,62 +153,61 @@ class MonteCarlo {
   /// Add a checkpoint.
   void add(const std::shared_ptr<Checkpoint> checkpoint);
 
-  void before_attempts_();
-
   /// Attempt one trial, with subsequent analysers and modifiers.
-  void attempt() {
-//    before_attempts_();
-    attempt_(1, &trial_factory_, random_.get());
-    //timer_.start(timer_trial_);
-//    trial_factory_.attempt(criteria, system, random);
-//    after_trial_();
-  }
+  // void attempt() { attempt_(1, &trial_factory_, random_.get()); }
 
   /// Attempt a number of Monte Carlo trials.
-  void attempt(const int num_trials) { attempt_(num_trials, &trial_factory_, random_.get()); }
+  void attempt(const int num_trials = 1) {
+    attempt_(num_trials, &trial_factory_, random_.get()); }
 
   /// Reset trial statistics
   virtual void reset_trial_stats() { trial_factory_.reset_stats(); }
 
-  /// Attempt trial index without analyzers, modifiers or checkpoints.
-  bool attempt_trial(const int index) {
-    return trial_factory_.attempt(criteria_.get(), &system_, index, random_.get());
-  }
-
-  /// Revert changes from previous trial.
-  void revert(const int trial_index,
-      const bool accepted,
-      const double ln_prob);
-
-  /// Finalize changes from previous trial.
-  void finalize(const int trial_index) {
-    trial_factory_.finalize(trial_index, &system_);
-  }
-
-  // HWH hackish interface for pipeline
-  void delay_finalize() {
-    trial_factory_.delay_finalize();
-  }
-
   /// Attempt Monte Carlo trials until Criteria returns completion.
   void run_until_complete() {
-    run_until_complete_(&trial_factory_, random_.get());
-  }
+    run_until_complete_(&trial_factory_, random_.get()); }
 
-  /// Mimic a rejection by a trial.
-  void imitate_trial_rejection(const int trial_index,
+  // HWH hackish interface for prefetch
+  void before_attempts_();
+  void delay_finalize_() {
+    trial_factory_.delay_finalize(); }
+  void after_trial_analyze_() {
+    analyze_factory_.trial(criteria_.get(), system_, trial_factory_); }
+  void after_trial_modify_();
+  // Mimic a rejection by a trial.
+  void imitate_trial_rejection_(const int trial_index,
       const double ln_prob,
       const int state_old,
-      const int state_new) {
-    trial_factory_.imitate_trial_rejection(trial_index);
-    criteria_->imitate_trial_rejection(ln_prob, state_old, state_new);
-  }
+      const int state_new);
+  /// Attempt trial index without analyzers, modifiers or checkpoints.
+  bool attempt_trial(const int index);
+  // Revert changes from previous trial.
+  void revert_(const int trial_index,
+      const bool accepted,
+      const double ln_prob);
+  // Finalize changes from previous trial.
+  void finalize_(const int trial_index) {
+    trial_factory_.finalize(trial_index, &system_); }
+  // Load random numbers and energy calculations into cache.
+  void load_cache_(const bool load);
+  // Unload random numbers and energy calculations from cache.
+  void unload_cache_(const MonteCarlo& mc);
 
-  /// Load random numbers and energy calculations into cache.
-  void load_cache(const bool load);
+  virtual void serialize(std::ostream& ostr) const;
+  explicit MonteCarlo(std::istream& istr);
 
-  /// Unload random numbers and energy calculations from cache.
-  void unload_cache(const MonteCarlo& mc);
+// HWH relic from python interface?
+//  std::string serialize() {
+//    std::stringstream ss;
+//    serialize(ss);
+//    return ss.str();
+//  }
+//  MonteCarlo deserialize(const std::string str) {
+//    std::stringstream ss(str);
+//    return MonteCarlo(ss);
+//  }
+
+  virtual ~MonteCarlo() {}
 
 //  const Timer& timer() const { return timer_; }
 //  std::string timer_str() const {
@@ -216,37 +219,6 @@ class MonteCarlo {
 //       << "missing CPU hours percentage: " << trial_missing;
 //    return ss.str();
 //  }
-
-  void after_trial_() {
-    after_trial_analyze_();
-    after_trial_modify_();
-  }
-
-  void after_trial_analyze_() {
-    analyze_factory_.trial(criteria_.get(), system_, trial_factory_);
-  }
-
-  void after_trial_modify_();
-
-  const PhysicalConstants * physical_constants() const {
-    return configuration().model_params().physical_constants(); }
-
-  virtual void serialize(std::ostream& ostr) const;
-
-  std::string serialize() {
-    std::stringstream ss;
-    serialize(ss);
-    return ss.str();
-  }
-
-  explicit MonteCarlo(std::istream& istr);
-
-  MonteCarlo deserialize(const std::string str) {
-    std::stringstream ss(str);
-    return MonteCarlo(ss);
-  }
-
-  virtual ~MonteCarlo() {}
 
  protected:
   virtual void attempt_(int num_trials,
@@ -278,9 +250,6 @@ class MonteCarlo {
   bool system_set_ = false;
   bool criteria_set_ = false;
 };
-
-/// Initialize an add and remove trial simultaneously with the same arguments.
-void add_trial_transfer(MonteCarlo * mc, const argtype& args = argtype());
 
 }  // namespace feasst
 

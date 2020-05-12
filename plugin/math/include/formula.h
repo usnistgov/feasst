@@ -11,22 +11,22 @@
 namespace feasst {
 
 /**
-  Define a formula, used in this code for an expandable histogram.
+  Define a formula that depends on one or more variables, x or y.
  */
-/// HWH Formula remains to be well tested, also in context of histogram.
 class Formula {
  public:
-  Formula(
-    /**
-      x0 : central reference position (default: 0).
-     */
-    const argtype& args = argtype()) {
-    args_.init(args);
-    set_x0(args_.key("x0").dflt("0").dble());
-  }
+  /**
+    args:
+    - x0: central reference position (default: 0).
+   */
+  Formula(const argtype& args = argtype());
   void set_x0(const double x0) { x0_ = x0; }
   double x0() const { return x0_; }
-  virtual double evaluate(const double x) = 0;
+  virtual double evaluate(const double x);
+  virtual double evaluate(const double x, const double y);
+
+  // serialization
+  virtual std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Formula> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Formula> >& deserialize_map();
@@ -35,6 +35,7 @@ class Formula {
   virtual ~Formula() {}
 
  protected:
+  std::string class_name_ = "Formula";
   void serialize_formula_(std::ostream& ostr) const;
   Arguments args_;
 

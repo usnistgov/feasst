@@ -50,7 +50,7 @@ class NeighborCriteria {
   /// Return true if position satisfies criteria, taking into account PBCs.
   bool is_position_accepted(
     const Position& position,
-    const Domain * domain);
+    const Domain& domain);
 
   /// Serialize.
   void serialize(std::ostream& ostr) const;

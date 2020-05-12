@@ -20,6 +20,10 @@ class ModifyFactory : public Modify {
   const std::vector<std::shared_ptr<Modify> >& modifiers() const override {
     return modifiers_; }
 
+  /// Return a Modify object by index.
+  const Modify& modify(const int index) const override {
+    return const_cast<Modify&>(*modifiers_[index]); }
+
   void initialize(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) override;

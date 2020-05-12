@@ -132,7 +132,7 @@ class TrialSelect : public PropertiedEntity {
   void serialize_trial_select_(std::ostream& ostr) const;
   TrialSelect(std::istream& istr);
 
-  const EnergyMap * map_(const System& system,
+  const EnergyMap& map_(const System& system,
     const NeighborCriteria * neighbor_criteria) const;
 
  private:

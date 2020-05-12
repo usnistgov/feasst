@@ -388,7 +388,7 @@ Select::Select(const Select& select,
 }
 
 Select::Select(const int particle_index,
-    const Particle& particle) {
+    const Particle& particle) : Select() {
   add_particle(particle, particle_index);
   resize_positions();
   load_position(0, particle);

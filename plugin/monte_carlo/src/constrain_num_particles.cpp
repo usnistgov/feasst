@@ -17,7 +17,8 @@ int ConstrainNumParticles::num_particles(const System* system,
   const int shift = acceptance.macrostate_shift();
   int num = -1;
   if (type_ != -1) {
-    if (type_ == acceptance.macrostate_shift_type()) {
+    if (acceptance.macrostate_shift_type() == type_ ||
+        acceptance.macrostate_shift_type() == -1) {
       num = system->configuration().num_particles_of_type(type_) + shift;
     } else {
       num = system->configuration().num_particles_of_type(type_);
@@ -25,6 +26,8 @@ int ConstrainNumParticles::num_particles(const System* system,
   } else {
     num = system->configuration().num_particles() + shift;
   }
+  DEBUG("type: " << type_ << " shift " << shift << " mst " << acceptance.macrostate_shift_type());
+  DEBUG("num " << num << " conf.num " << system->configuration().num_particles());
   return num;
 }
 

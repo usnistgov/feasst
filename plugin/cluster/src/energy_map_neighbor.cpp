@@ -1,36 +1,39 @@
-#include "cluster/include/energy_map_neigh.h"
+#include "cluster/include/energy_map_neighbor.h"
 #include "utils/include/utils.h"  // find_in_list
 #include "utils/include/serialize.h"
 
 namespace feasst {
 
-class MapEnergyMapNeigh {
+class MapEnergyMapNeighbor {
  public:
-  MapEnergyMapNeigh() {
-    EnergyMapNeigh().deserialize_map()["EnergyMapNeigh"] =
-      MakeEnergyMapNeigh();
+  MapEnergyMapNeighbor() {
+    EnergyMapNeighbor().deserialize_map()["EnergyMapNeighbor"] =
+      MakeEnergyMapNeighbor();
   }
 };
 
-static MapEnergyMapNeigh mapper_ = MapEnergyMapNeigh();
+static MapEnergyMapNeighbor mapper_ = MapEnergyMapNeighbor();
 
-EnergyMapNeigh::EnergyMapNeigh(std::istream& istr) : EnergyMap(istr) {
+EnergyMapNeighbor::EnergyMapNeighbor(const argtype& args) : EnergyMap(args) {
+  class_name_ = "EnergyMapNeighbor";
+}
+
+EnergyMapNeighbor::EnergyMapNeighbor(std::istream& istr) : EnergyMap(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 210, "mismatch:" << version);
+  ASSERT(version == 2947, "mismatch:" << version);
   feasst_deserialize(&map_, istr);
 }
 
-void EnergyMapNeigh::serialize_energy_map_neigh_(std::ostream& ostr) const {
-  feasst_serialize_version(210, ostr);
+void EnergyMapNeighbor::serialize_energy_map_neighbor_(std::ostream& ostr) const {
+  feasst_serialize_version(2947, ostr);
   feasst_serialize(map_, ostr);
 }
 
-void EnergyMapNeigh::serialize(std::ostream& ostr) const {
-  ostr << class_name_ << " ";
-  serialize_energy_map_neigh_(ostr);
+void EnergyMapNeighbor::serialize(std::ostream& ostr) const {
+  serialize_energy_map_neighbor_(ostr);
 }
 
-std::vector<double> * EnergyMapNeigh::smap_(const int part1_index,
+std::vector<double> * EnergyMapNeighbor::smap_(const int part1_index,
     const int site1_index,
     const int part2_index,
     const int site2_index) {
@@ -40,7 +43,7 @@ std::vector<double> * EnergyMapNeigh::smap_(const int part1_index,
   return &map_[part1_index][index][site1_index][site2_index];
 }
 
-std::vector<double> * EnergyMapNeigh::smap_new_(const int part1_index,
+std::vector<double> * EnergyMapNeighbor::smap_new_(const int part1_index,
     const int site1_index,
     const int part2_index,
     const int site2_index) {
@@ -50,7 +53,7 @@ std::vector<double> * EnergyMapNeigh::smap_new_(const int part1_index,
   return &map_new_[part1_index][index][site1_index][site2_index];
 }
 
-double EnergyMapNeigh::update(
+double EnergyMapNeighbor::update(
     const double energy,
     const int part1_index,
     const int site1_index,
@@ -63,7 +66,7 @@ double EnergyMapNeigh::update(
   FATAL("not implemented");
 }
 
-//void EnergyMapNeigh::remove_particles(const Select& select) {
+//void EnergyMapNeighbor::remove_particles(const Select& select) {
 //  DEBUG("sel: " << select.str());
 //  const int pmax = select.particle_indices().back();
 //  const int smax = select.site_indices().back().back();
@@ -85,7 +88,7 @@ double EnergyMapNeigh::update(
 //  }
 //}
 
-void EnergyMapNeigh::revert(const Select& select) {
+void EnergyMapNeighbor::revert(const Select& select) {
   for (int sel_index = 0; sel_index < select.num_particles(); ++sel_index) {
     const int p1 = select.particle_index(sel_index);
     for (const int s1 : select.site_indices(sel_index)) {
@@ -99,7 +102,7 @@ void EnergyMapNeigh::revert(const Select& select) {
   }
 }
 
-void EnergyMapNeigh::select_cluster(
+void EnergyMapNeighbor::select_cluster(
     const NeighborCriteria * neighbor_criteria,
     const Configuration& config,
     const int particle_node,
@@ -108,7 +111,7 @@ void EnergyMapNeigh::select_cluster(
   FATAL("not impl");
 }
 
-bool EnergyMapNeigh::is_cluster_(
+bool EnergyMapNeighbor::is_cluster_(
     const NeighborCriteria * neighbor_criteria,
     const std::vector<std::vector<std::vector<double> > >& smap,
     const Configuration& config,
@@ -117,7 +120,7 @@ bool EnergyMapNeigh::is_cluster_(
   return false;
 }
 
-void EnergyMapNeigh::resize_(
+void EnergyMapNeighbor::resize_(
     const int part1_index,
     const int site1_index,
     const int part2_index,

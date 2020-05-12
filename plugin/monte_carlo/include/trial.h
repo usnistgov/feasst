@@ -49,8 +49,8 @@ class Trial {
   int num_stages() const { return static_cast<int>(stages_.size()); }
 
   /// Return a stage.
-  const TrialStage * stage(const int index) const {
-    return stages_[index].get(); }
+  const TrialStage& stage(const int index) const {
+    return const_cast<TrialStage&>(*stages_[index]); }
 
   // HWH depreciate
   const std::vector<std::shared_ptr<TrialStage> > stages() const {

@@ -29,9 +29,9 @@ void ComputeAddAVB::perturb_and_acceptance(
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   compute_rosenbluth(0, criteria, system, acceptance, stages, random);
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
-  const TrialSelect * select = (*stages)[0]->trial_select();
+  const TrialSelect& select = (*stages)[0]->trial_select();
   if ((*stages)[0]->rosenbluth().num() > 1) {
-    system->get_configuration()->revive(select->mobile());
+    system->get_configuration()->revive(select.mobile());
   }
   acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
@@ -39,13 +39,13 @@ void ComputeAddAVB::perturb_and_acceptance(
   DEBUG("new en " << MAX_PRECISION << acceptance->energy_new());
   { // Metropolis
     const Configuration& config = system->configuration();
-    const int particle_index = select->mobile().particle_index(0);
+    const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
-    DEBUG("selprob " << select->probability() << " betamu " << criteria->beta_mu(particle_type));
-    DEBUG("lnselprob " << std::log(select->probability()));
+    DEBUG("selprob " << select.probability() << " betamu " << criteria->beta_mu(particle_type));
+    DEBUG("lnselprob " << std::log(select.probability()));
     DEBUG("lnmet " << acceptance->ln_metropolis_prob());
     acceptance->add_to_ln_metropolis_prob(
-      std::log(select->probability())
+      std::log(select.probability())
       + criteria->beta_mu(particle_type)
     );
     DEBUG("lnmet " << acceptance->ln_metropolis_prob());

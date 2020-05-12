@@ -37,7 +37,7 @@ void PerturbAnywhere::move(System * system,
   ASSERT(std::abs(rotate_.tunable().value() - 180.) < NEAR_ZERO,
     "rotation tunable should be 180");
   rotate_.move(system, select, random);
-  system->configuration().domain()->random_position(&random_in_box_, random);
+  system->configuration().domain().random_position(&random_in_box_, random);
   set_position(random_in_box_, system, select);
   DEBUG("anywhere: " << random_in_box_.str());
 }

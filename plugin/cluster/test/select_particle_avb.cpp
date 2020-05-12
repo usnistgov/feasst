@@ -4,7 +4,6 @@
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/perturb_translate.h"
 #include "cluster/include/energy_map_all.h"
-#include "cluster/include/energy_map_neigh.h"
 #include "cluster/include/perturb_rotate_com.h"
 
 namespace feasst {

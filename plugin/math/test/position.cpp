@@ -1,6 +1,5 @@
 #include <cmath>
 #include "utils/test/utils.h"
-#include "system/test/position_test.h"
 #include "math/include/constants.h"
 #include "math/include/random_mt19937.h"
 #include "utils/include/debug.h"
@@ -8,7 +7,7 @@
 namespace feasst {
 
 TEST(Position, getset) {
-  Position pos = default_position();
+  auto pos = Position().set_vector({0., 0., 0.});
   EXPECT_EQ(3, pos.size());
   std::vector<double> x = {3.5, 796.4, -45.4};
   pos.set_vector(x);

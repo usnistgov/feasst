@@ -10,4 +10,11 @@ TEST(TransitionMatrix, serialize) {
   std::shared_ptr<Bias> bias2 = test_serialize<TransitionMatrix, Bias>(*bias);
 }
 
+TEST(TransitionMatrix, args) {
+  TRY(
+    MakeTransitionMatrix();
+    CATCH_PHRASE("key(min_sweeps) is required");
+  );
+}
+
 }  // namespace feasst

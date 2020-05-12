@@ -1,6 +1,5 @@
-EnergyMapNeigh
+system/include/utils
 =====================================================
 
-.. doxygenclass:: feasst::EnergyMapNeigh
+.. doxygenfile:: system/include/utils.h
    :project: FEASST
-   :members:

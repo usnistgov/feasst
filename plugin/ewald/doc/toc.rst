@@ -1,12 +1,13 @@
 
 .. toctree::
 
-   ChargeSelf
-   Ewald
-   ChargeScreened
-   ChargeScreenedIntra
    TrialRemoveMultiple
    TrialAddMultiple
-   CheckNetCharge
-   ComputeAddMultiple
+   ChargeSelf
+   ChargeScreened
+   utils
    ComputeRemoveMultiple
+   ComputeAddMultiple
+   ChargeScreenedIntra
+   Ewald
+   CheckNetCharge

@@ -114,7 +114,9 @@ std::string Accumulator::str() const {
     ss << "moment" << i << ",";
   }
   ss << std::endl;
-  ss << average() << "," << stdev() << "," << block_stdev() << ",";
+  ss << MAX_PRECISION << average() << ",";
+  ss << stdev() << ",";
+  ss << block_stdev() << ",";
   ss << num_values_ << ",";
   for (const long double moment : val_moment_) {
     ss << moment << ",";

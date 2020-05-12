@@ -111,11 +111,12 @@ std::string TransitionMatrix::write_per_bin_header() const {
   std::stringstream ss;
   ss << Bias::write_per_bin_header() << ",";
   for (int index = 0; index < static_cast<int>(blocks_.size()); ++index) {
-    ss << "lnpi_partial,";
+  // for (const TransitionMatrix& block : blocks_) {
+    ss << "ln_prob_" << index << ",";
    // block->write_per_bin_header();
   }
-  if (!is_block_) ss << "lnpi_stdev,";
-  ss << "c0,c1,c2,";
+  if (blocks_.size() > 2) ss << "ln_prob_stdev,";
+  ss << "visits,c0,c1,c2,";
   return ss.str();
 }
 
@@ -131,7 +132,7 @@ std::string TransitionMatrix::write_per_bin(const int bin) const {
     DEBUG(block.ln_prob().value(bin));
     acc_block.accumulate(block.ln_prob().value(bin));
   }
-  if (!is_block_) {
+  if (blocks_.size() > 2) {
     ss << MAX_PRECISION << acc_block.stdev_of_av() << ",";
 //    const std::vector<double>& cols =  collection_.matrix()[bin];
 //    ss << "sz " << cols.size() << " " ;
@@ -140,14 +141,15 @@ std::string TransitionMatrix::write_per_bin(const int bin) const {
 //      ss << element << " ";
 //    }
 //    ss << "size " << collection_.matrix()[bin].size() << " ";
-    ss << MAX_PRECISION
-       << collection_.matrix()[bin][0] << ","
-       << collection_.matrix()[bin][1] << ","
-       << collection_.matrix()[bin][2] << ",";
+  }
+  ss << MAX_PRECISION
+     << visits_[bin] << ","
+     << collection_.matrix()[bin][0] << ","
+     << collection_.matrix()[bin][1] << ","
+     << collection_.matrix()[bin][2] << ",";
 //    ss << " " << cols[0] << " "
 //      << cols[1] << " "
 //      << cols[2];
-  }
   return ss.str();
 }
 

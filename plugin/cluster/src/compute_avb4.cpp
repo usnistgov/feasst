@@ -27,8 +27,8 @@ void ComputeAVB4::perturb_and_acceptance(
     Random * random) {
   TrialComputeMove::perturb_and_acceptance(
     criteria, system, acceptance, stages, random);
-  const TrialSelect * select = (*stages)[0]->trial_select();
-  acceptance->add_to_ln_metropolis_prob(std::log(select->probability()));
+  const TrialSelect& select = (*stages)[0]->trial_select();
+  acceptance->add_to_ln_metropolis_prob(std::log(select.probability()));
 }
 
 std::shared_ptr<TrialCompute> ComputeAVB4::create(std::istream& istr) const {

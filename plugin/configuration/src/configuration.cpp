@@ -55,7 +55,7 @@ Configuration::Configuration(const argtype& args) {
 }
 
 void Configuration::add_particle_type(const std::string file_name) {
-  DEBUG("adding type");
+  DEBUG("adding type: " << file_name);
   ASSERT(particles_.num() == 0, "types cannot be added after particles");
   particle_types_.add(file_name);
   unique_types_.add(file_name);
@@ -119,9 +119,9 @@ void Configuration::remove_particle_(const int particle_index) {
   // remove particle_index from cell
   // note: somewhat derivative of position_tracker
   for (int cell_index = 0;
-       cell_index < static_cast<int>(domain()->cells().size());
+       cell_index < static_cast<int>(domain().cells().size());
        ++cell_index) {
-    const Cells& cells = domain()->cells()[cell_index];
+    const Cells& cells = domain().cells()[cell_index];
     const int group_index = feasst::round(cells.property("group"));
     const Particle& part = select_particle(particle_index);
     const Group * group = group_selects_[group_index].group();
@@ -232,12 +232,12 @@ void Configuration::position_tracker_(const int particle_index,
                                       const int site_index) {
   ASSERT(site_index >= 0, "index error");
   DEBUG("update cells");
-  if (domain()) {
+  if (domain_) {
     for (int cell_index = 0;
-         cell_index < static_cast<int>(domain()->cells().size());
+         cell_index < static_cast<int>(domain().cells().size());
          ++cell_index) {
       DEBUG("cell index " << cell_index);
-      const Cells& cells = domain()->cells()[cell_index];
+      const Cells& cells = domain().cells()[cell_index];
       DEBUG("group " << cells.properties().value("group"));
       const int group_index = feasst::round(cells.property("group"));
       ASSERT(group_index >= 0, "error");
@@ -246,7 +246,7 @@ void Configuration::position_tracker_(const int particle_index,
       if (group->is_in(part)) {
         const Site& site = part.site(site_index);
         if (group->is_in(site)) {
-          const int cell_new = domain()->cell_id(site.position(), cells);
+          const int cell_new = domain().cell_id(site.position(), cells);
           one_site_select_.set_particle(0, particle_index);
           one_site_select_.set_site(0, 0, site_index);
           double value;
@@ -319,9 +319,9 @@ void Configuration::check() const {
       particle(index).num_sites(), "size error");
   }
 
-  if (domain()) {
+  if (domain_) {
     // check that number of particles in cell list is number in selection.
-    for (const Cells& cells : domain()->cells()) {
+    for (const Cells& cells : domain().cells()) {
       const int group_index = feasst::round(cells.property("group"));
       const Select& select = group_selects_[group_index];
       ASSERT(select.num_sites() == cells.num_sites(),
@@ -567,7 +567,7 @@ int Configuration::num_particles_of_type(const int type) const {
 void Configuration::wrap_particle(const int particle_index) {
   if (wrap_) {
     Position part_position = select_particle(particle_index).position();
-    const Position pbc_shift = domain()->shift(part_position);
+    const Position pbc_shift = domain().shift(part_position);
     DEBUG("part_position " << part_position.str());
     DEBUG("pbc " << pbc_shift.str());
     if (pbc_shift.squared_distance() > NEAR_ZERO) {
@@ -644,9 +644,9 @@ void Configuration::set_site_type(const int particle_type,
                                   const int site,
                                   const int site_type) {
   for (int cell_index = 0;
-       cell_index < static_cast<int>(domain()->cells().size());
+       cell_index < static_cast<int>(domain().cells().size());
        ++cell_index) {
-    const Cells& cells = domain()->cells()[cell_index];
+    const Cells& cells = domain().cells()[cell_index];
     const int group_index = feasst::round(cells.property("group"));
     ASSERT(group_index == 0,
       "check if cell list needs to be updated with changing type");
@@ -693,7 +693,7 @@ std::vector<int> Configuration::num_sites_of_type(
 }
 
 void Configuration::set_side_lengths(const Position& sides) {
-  if (domain()) {
+  if (domain_) {
     domain_->set_side_lengths(sides);
   } else {
     WARN("site lengths were attempted to be set without a domain");
@@ -702,7 +702,7 @@ void Configuration::set_side_lengths(const Position& sides) {
 
 std::string Configuration::status_header() const {
   std::stringstream ss;
-  ss << domain()->status_header();
+  ss << domain().status_header();
   for (int type = 0; type < num_particle_types(); ++type) {
     ss << ",p" << type;
   }
@@ -711,7 +711,7 @@ std::string Configuration::status_header() const {
 
 std::string Configuration::status() const {
   std::stringstream ss;
-  ss << domain()->status();
+  ss << domain().status();
   for (int type = 0; type < num_particle_types(); ++type) {
     ss << "," << num_particles_of_type(type);
   }

@@ -45,7 +45,12 @@ class TrialStage {
   void set(std::shared_ptr<TrialSelect> select) { select_ = select; }
 
   /// Return the above.
-  const TrialSelect * trial_select() const { return select_.get(); }
+  const TrialSelect& select() const {
+    return const_cast<TrialSelect&>(*select_); }
+
+  // HWH depreciate
+  const TrialSelect& trial_select() const {
+    return const_cast<TrialSelect&>(*select_); }
 
   /// Initialization before any stage attempt.
   void precompute(System * system);
@@ -62,7 +67,7 @@ class TrialStage {
   void set(std::shared_ptr<Perturb> perturb) { perturb_ = perturb; }
 
   /// Return the above.
-  const Perturb * perturb() const { return perturb_.get(); }
+  const Perturb& perturb() const { return const_cast<Perturb&>(*perturb_); }
 
   /// Set mobile selection physical.
   void set_mobile_physical(const bool physical, System * system);

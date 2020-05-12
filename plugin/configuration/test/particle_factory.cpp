@@ -1,12 +1,13 @@
 #include "utils/test/utils.h"
-#include "configuration/test/particle_test.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/file_lmp.h"
 
 namespace feasst {
 
 TEST(ParticleFactory, size_check) {
-  Particle particle = default_particle();
+  Particle particle;
+  particle.add(Site(Position({0, 0, 0})));
+  particle.set_position(Position({0, 0, 0}));
   ParticleFactory particles;
   particles.add(particle);
   Position position;

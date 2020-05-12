@@ -6,8 +6,7 @@
 #include "monte_carlo/include/perturb_add.h"
 #include "monte_carlo/include/perturb_remove.h"
 #include "system/include/lennard_jones.h"
-#include "system/test/system_test.h"
-#include "configuration/test/particle_test.h"
+#include "system/include/utils.h"
 
 namespace feasst {
 
@@ -17,10 +16,10 @@ inline void test_revert(System * system) {
   const double pe_original = 4*(pow(1.25, -12) - pow(1.25, -6));
   EXPECT_NEAR(pe_original, system->energy(), NEAR_ZERO);
 
-  const VisitModelInner * inner = system->potential(0).visit_model()->inner();
+  const VisitModelInner& inner = system->potential(0).visit_model().inner();
   system->finalize();
-  if (inner->is_energy_map_queryable()) {
-    EXPECT_NEAR(pe_original, inner->energy_map()->total_energy(), 10*NEAR_ZERO);
+  if (inner.is_energy_map_queryable()) {
+    EXPECT_NEAR(pe_original, inner.energy_map().total_energy(), 10*NEAR_ZERO);
   }
   system->check();
 
@@ -35,14 +34,14 @@ inline void test_revert(System * system) {
   tsel->sel(system, random.get());
   translate.perturb(system, tsel.get(), random.get());
   EXPECT_GT(std::abs(pe_original - system->energy()), NEAR_ZERO);
-//  if (inner->is_energy_map_queryable()) {
-//    INFO(inner->energy_map()->total_energy());
-//    EXPECT_GT(std::abs(pe_original - inner->energy_map()->total_energy()), NEAR_ZERO);
+//  if (inner.is_energy_map_queryable()) {
+//    INFO(inner.energy_map().total_energy());
+//    EXPECT_GT(std::abs(pe_original - inner.energy_map().total_energy()), NEAR_ZERO);
 //  }
   translate.revert(system);
   EXPECT_NEAR(pe_original, system->energy(), NEAR_ZERO);
-  if (inner->is_energy_map_queryable()) {
-    EXPECT_NEAR(pe_original, inner->energy_map()->total_energy(), 10*NEAR_ZERO);
+  if (inner.is_energy_map_queryable()) {
+    EXPECT_NEAR(pe_original, inner.energy_map().total_energy(), 10*NEAR_ZERO);
   }
   system->check();
 
@@ -68,8 +67,8 @@ inline void test_revert(System * system) {
   add.revert(system);
   EXPECT_EQ(system->configuration().num_particles(), 2);
   EXPECT_NEAR(pe_original, system->energy(), NEAR_ZERO);
-  if (inner->is_energy_map_queryable()) {
-    EXPECT_NEAR(pe_original, inner->energy_map()->total_energy(), 10*NEAR_ZERO);
+  if (inner.is_energy_map_queryable()) {
+    EXPECT_NEAR(pe_original, inner.energy_map().total_energy(), 10*NEAR_ZERO);
   }
   system->check();
 
@@ -83,8 +82,8 @@ inline void test_revert(System * system) {
   remove.revert(system);
 
   EXPECT_NEAR(pe_original, system->energy(), NEAR_ZERO);
-  if (inner->is_energy_map_queryable()) {
-    EXPECT_NEAR(pe_original, inner->energy_map()->total_energy(), 10*NEAR_ZERO);
+  if (inner.is_energy_map_queryable()) {
+    EXPECT_NEAR(pe_original, inner.energy_map().total_energy(), 10*NEAR_ZERO);
   }
   system->check();
 
@@ -92,8 +91,8 @@ inline void test_revert(System * system) {
   remove.perturb(system, tsel.get(), random.get());
   remove.finalize(system);
   EXPECT_EQ(1, system->configuration().num_particles());
-  if (inner->is_energy_map_queryable()) {
-    EXPECT_NEAR(0., inner->energy_map()->total_energy(), 10*NEAR_ZERO);
+  if (inner.is_energy_map_queryable()) {
+    EXPECT_NEAR(0., inner.energy_map().total_energy(), 10*NEAR_ZERO);
   }
   system->check();
   EXPECT_EQ(0., system->energy());
@@ -106,8 +105,8 @@ inline void test_revert(System * system) {
   EXPECT_EQ(2, system->configuration().num_particles());
   EXPECT_GT(std::abs(en2 - pe_original), NEAR_ZERO);
 //  INFO("en2 " << en2);
-  if (inner->is_energy_map_queryable()) {
-    EXPECT_NEAR(en2, inner->energy_map()->total_energy(), 10*NEAR_ZERO);
+  if (inner.is_energy_map_queryable()) {
+    EXPECT_NEAR(en2, inner.energy_map().total_energy(), 10*NEAR_ZERO);
   }
   system->check();
 

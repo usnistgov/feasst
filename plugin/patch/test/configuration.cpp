@@ -1,5 +1,4 @@
 #include "utils/test/utils.h"
-#include "configuration/test/configuration_test.h"
 #include "configuration/include/configuration.h"
 
 namespace feasst {

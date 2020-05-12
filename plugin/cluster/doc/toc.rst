@@ -1,24 +1,24 @@
 
 .. toctree::
 
-   EnergyMapNeigh
    EnergyMapAll
    EnergyMapAllCriteria
-   PerturbRotateCOM
-   PerturbPointReflect
-   PerturbMoveAVB
-   PerturbAddAVB
-   SelectParticleAVB
+   EnergyMapNeighbor
    SelectCluster
-   ComputeGCA
-   TrialRemoveAVB
-   TrialTranslateCluster
-   TrialAddAVB
+   SelectParticleAVB
    TrialAVB2
-   utils_cluster
+   TrialRemoveAVB
+   TrialAddAVB
    TrialAVB4
+   TrialTranslateCluster
+   utils_cluster
+   ComputeAVB4
+   ComputeGCA
    ComputeRemoveAVB
    ComputeAddAVB
    ComputeMoveCluster
    ComputeAVB2
-   ComputeAVB4
+   PerturbPointReflect
+   PerturbRotateCOM
+   PerturbMoveAVB
+   PerturbAddAVB

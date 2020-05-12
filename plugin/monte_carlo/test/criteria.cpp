@@ -3,12 +3,12 @@
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"
-#include "system/test/system_test.h"
+#include "system/include/utils.h"
 
 namespace feasst {
 
 TEST(Criteria, current_energy) {
-  System sys = default_system();
+  System sys = two_particle_system();
   const double pe_expected = 4*(pow(1.25, -12) - pow(1.25, -6));
   EXPECT_NEAR(sys.energy(), pe_expected, NEAR_ZERO);
   auto trans = MakeTrialTranslate({{"tunable_param", "0.1"}});

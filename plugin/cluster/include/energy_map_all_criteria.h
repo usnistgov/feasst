@@ -14,9 +14,7 @@ namespace feasst {
 class EnergyMapAllCriteria : public EnergyMapAll {
  public:
   EnergyMapAllCriteria(std::shared_ptr<NeighborCriteria> neighbor_criteria,
-      const argtype& args = argtype()) : EnergyMapAll(args) {
-    neighbor_criteria_ = neighbor_criteria;
-  }
+      const argtype& args = argtype());
 
   double update(
       const double energy,
@@ -41,7 +39,6 @@ class EnergyMapAllCriteria : public EnergyMapAll {
   virtual ~EnergyMapAllCriteria() {}
 
  private:
-  const std::string class_name_ = "EnergyMapAllCriteria";
   std::shared_ptr<NeighborCriteria> neighbor_criteria_;
 };
 

@@ -31,7 +31,8 @@ class VisitModel {
   void set_inner(const std::shared_ptr<VisitModelInner> inner) {
     inner_ = inner; }
 
-  const VisitModelInner * const inner() const { return inner_.get(); }
+  const VisitModelInner& inner() const {
+    return const_cast<VisitModelInner&>(*inner_); }
 
   virtual void compute(
       const ModelOneBody& model,
@@ -153,11 +154,11 @@ class VisitModel {
   // because this is called at beginning of every pair-wise selection compute
   // optimization to avoid repeated construction of Position.
   Position relative_, pbc_;
-  void init_relative_(const Domain * domain, Position * relative,
+  void init_relative_(const Domain& domain, Position * relative,
                       Position * pbc) {
-    if (relative->dimension() != domain->dimension()) {
-      relative->set_vector(domain->side_lengths().coord());
-      pbc->set_vector(domain->side_lengths().coord());
+    if (relative->dimension() != domain.dimension()) {
+      relative->set_vector(domain.side_lengths().coord());
+      pbc->set_vector(domain.side_lengths().coord());
     }
   }
 
