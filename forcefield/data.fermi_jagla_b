@@ -1,0 +1,24 @@
+# LAMMPS data file
+
+1 atoms
+
+1 atom types
+
+Pair Coeffs
+
+1 1 1
+
+Atoms
+
+1 1 1 0.0 0 0 0 0 0 0
+
+ConfigurationalBias
+
+2 cbmctypes   #number of types of cmbc moves
+
+gcinsdel 1 0.1  #regrow particle in 1 step with a weight of 0.1
+1 1 avb 1.08 1.0 1 1       # first step, grow atom 1 with 1 trial (avb2 or avb3 equal weight) in aggregation volume region (rup to rlo) of 1 atoms (atom type 1)
+
+regrow 1 0.1  #regrow particle in 1 step with a weight of 0.1
+1 1 avb 1.08 1.0 1 1       # first step, grow atom 1 with 1 trial (avb2 or avb3 equal weight) in aggregation volume region (rup to rlo) of 1 atoms (atom type 1)
+

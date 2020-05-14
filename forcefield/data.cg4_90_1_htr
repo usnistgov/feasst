@@ -1,0 +1,104 @@
+# LAMMPS data file
+#  simple model of a monoclonal antibody
+#
+#          fc(2)
+#          |
+# angle1   |bond 1    angle 2
+#          |
+#          1(hinge)
+#        /   \
+# bond 2/     \ bond 3
+#      /       \
+#   fab1(3)  fab2(4)
+#
+#         angle 3
+
+4 atoms
+3 bonds
+3 angles
+
+4 atom types
+3 bond types
+3 angle types
+
+0.0000000000000000e+00 3.0000000000000000e+00 xlo xhi
+0.0000000000000000e+00 3.0000000000000000e+00 ylo yhi
+0.0000000000000000e+00 3.0000000000000000e+00 zlo zhi
+
+Masses
+
+1 1.0
+2 1.0
+3 1.0
+4 1.0
+
+Pair Coeffs
+
+1 1 1
+2 1 1
+3 1 1
+4 1 1
+
+Bond Coeffs
+
+1 -1 1
+2 -1 1
+3 -1 1
+
+Angle Coeffs
+
+1 -1 90
+2 -1 90
+3 -1 90
+
+Atoms
+
+1 1 1 0.0 0 0 0 0 0 0
+2 1 2 0.0 -0.026675643465371657 -0.41241676758773949 0.91060464519910556 0 0 0
+3 1 3 0.0 0.79966818147369745 -0.55541834513748789 -0.2281255387353297 0 0 0
+4 1 4 0.0 -0.59984932240043265 -0.72209616513122055 -0.34461270829516255 0 0 0
+
+Bonds
+
+1 1 1 2
+2 2 1 3
+3 3 1 4
+
+Angles
+
+1 1 2 1 3
+2 2 2 1 4
+3 3 3 1 4
+
+ConfigurationalBias
+
+7 cbmctypes   #number of types of cmbc moves
+
+gcinsdel 3 1        #regrow entire chain with 3 steps and weight of 1
+2 3 box          #first step: grow atom 1 with 3 trials anywhere in box
+1 3 bond 2      #second: atom 2 with 3 trials given bond with 1
+3 3 branch 4 1 2  #third: atom 3 and 4 simultaneously in branch, 3 trials
+
+regrow 2 0.16666666666666666666
+2 3 bond 1
+3 3 branch 4 1 2
+
+regrow 2 0.16666666666666666666
+3 3 bond 1
+2 3 branch 4 1 3
+
+regrow 2 0.16666666666666666666
+4 3 bond 1
+3 3 branch 2 1 4
+
+regrow 1 0.16666666666666666666
+3 3 branch 4 1 2
+
+regrow 1 0.16666666666666666666
+3 3 branch 2 1 4
+
+regrow 1 0.16666666666666666666
+2 3 branch 4 1 3
+
+
+

@@ -1,0 +1,118 @@
+/*
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of LICENSE.txt and upon your providing
+ * appropriate acknowledgments of NIST's creation of the data/software.
+ */
+
+#ifndef PAIR_HYBRID_H_
+#define PAIR_HYBRID_H_
+
+#include <vector>
+#include <string>
+#include "./pair.h"
+
+namespace feasst {
+
+/**
+ * This class calls multiple other pair classes.
+ *
+ * Although the order does not matter in principal, there are cases where
+ * the "faster" calculation should be added first because hard overlap
+ * detection may skip the next pair.
+ */
+class PairHybrid : public Pair {
+ public:
+  /// Constructor
+  PairHybrid(Space* space, const argtype &args = argtype());
+
+  /// Add pair class.
+  void addPair(Pair* pair) {pairVec_.push_back(pair); }
+
+  /// Return a pair with index in order of the pairs added.
+  Pair* getPair(const int iPair) const { return pairVec_[iPair]; }
+
+  /// Select one pair so that all functions below operate on just that pair.
+  void selectOne(const int iPair) {
+    selected_.resize(1); selected_[0] = iPair; pairPrint_ = iPair;
+  }
+
+  void initEnergy();     //!< function to calculate forces, given positions
+
+  /// potential energy of multiple particles
+  /// This includes an optimization whereby if the potential energy is above
+  /// some threshold then it stops computing the potential for the other
+  /// Pairs. This is useful for something like inserting confined particles.
+  /// It means that fast pairs should be initialized before the slow ones.
+  double multiPartEner(const vector<int> multiPart, const int flag);
+
+  double peTot();   // total potential energy of system
+  double vrTot();   // total virial of system
+
+  /// stores, restores or updates variables to avoid order recompute of entire
+  //  configuration after every change
+  void update(const vector<int> mpart, const int flag, const char* uptype);
+  void update(const double de);
+
+  /// add particle(s)
+  void addPart();
+
+  /// delete one particle
+  void delPart(const int ipart);
+
+  /// delete particles
+  void delPart(const vector<int> mpart);
+
+  /// print configuraiton
+  int printXYZ(const char* fileName, const int initFlag,
+    const std::string comment = "") {
+    return pairVec_[pairPrint_]->printXYZ(fileName, initFlag, comment);
+  }
+
+  /// Identify a particle as non physical or non physical.
+  void ipartNotPhysical(const int ipart);
+  void ipartIsPhysical(const int ipart);
+  void allPartPhysical();
+
+  /// sets the cheapEnergy boolean variable
+  void cheapEnergy(const int flag);
+
+  /// read only access to protected variables
+  int nPairs() const { return static_cast<int>(pairVec_.size()); }
+
+  // Accumulate averages
+  void accumulate();
+  void accumulateReset();
+  Accumulator accumulator(const int iPair) const;
+
+  /// Write restart file.
+  void writeRestart(const char* fileName);
+
+  /// Construct from restart file.
+  PairHybrid(Space* space, const char* fileName);
+
+  ~PairHybrid();
+  virtual PairHybrid* clone(Space* space) const;
+  void reconstruct(Space* space);
+
+ protected:
+  vector<Pair*> pairVec_;   //!< vector of pointers to pairs
+  int pairPrint_;       //!< index of pair to print
+  int clone_;           //!< number of times the object has been cloned
+
+  /// list of selected pairs to compure. If null, compute all
+  vector<int> selected_;
+
+  void defaultConstruction_();
+};
+
+/// Factory method
+shared_ptr<PairHybrid> makePairHybrid(Space* space,
+  const argtype &args = argtype());
+
+}  // namespace feasst
+
+#endif  // PAIR_HYBRID_H_

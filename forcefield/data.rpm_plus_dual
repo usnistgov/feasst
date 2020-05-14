@@ -1,0 +1,22 @@
+# LAMMPS data file
+
+1 atoms
+
+1 atom types
+
+Pair Coeffs
+
+1 1 1
+
+Atoms
+
+1 1 1 1.0 0 0 0 0 0 0
+
+ConfigurationalBias
+
+1 cbmctypes
+
+gcinsdel 2 0.25
+1 1 box
+2 1 box
+

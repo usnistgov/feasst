@@ -1,0 +1,18 @@
+# LAMMPS data file
+
+1 atoms
+
+1 atom types
+
+Pair Coeffs
+
+1 0.996072565027180 3.405
+
+Atoms
+
+1 1 1 0.0 0.0 0.0 0.0 0 0 0
+
+VMD Labels
+
+1 Ar
+

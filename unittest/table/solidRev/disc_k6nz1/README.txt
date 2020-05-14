@@ -1,0 +1,10 @@
+a3=0.2
+eps1=0.4
+eps2=1
+nsurf=100
+k=6
+ntest=100
+dbins=0.1
+nz=1
+depr=0.04
+tabType=tableSR

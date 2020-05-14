@@ -1,0 +1,15 @@
+{
+   GOMP
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:gomp_malloc
+   fun:gomp_init_num_threads
+   fun:initialize_env
+   fun:call_init
+   fun:_dl_init
+   obj:/usr/lib64/ld-2.17.so
+   obj:*
+   obj:*
+   obj:*
+}

@@ -1,0 +1,151 @@
+/*
+ * FEASST - Free Energy and Advanced Sampling Simulation Toolkit
+ * http://pages.nist.gov/feasst, National Institute of Standards and Technology
+ * Harold W. Hatch, harold.hatch@nist.gov
+ *
+ * Permission to use this data/software is contingent upon your acceptance of
+ * the terms of LICENSE.txt and upon your providing
+ * appropriate acknowledgments of NIST's creation of the data/software.
+ */
+
+#ifndef TRIAL_TRANSFORM_H_
+#define TRIAL_TRANSFORM_H_
+
+#include <memory>
+#include <string>
+#include "./trial.h"
+
+namespace feasst {
+
+/**
+ * Attempt a transformation of particle position(s) or simulation box.
+ */
+class TrialTransform : public Trial {
+ public:
+  TrialTransform(Pair *pair, Criteria *criteria,
+    /**
+     *  For rigid single-particle translations, "translate".
+     *
+     *  For rigid single-particle rotations, "rotate". Note that rotations are
+     *    performed about the first site of the molecule. It is possible to add
+     *    a non-interacting site (typically with 0 \f$\epsilon,\sigma\f$ in Pair)
+     *    to place this rotation point at any location.
+     *
+     *  For rigid single-particle line reflections about first site, use
+     *    "line-reflect".
+     *
+     *  For rigid single-particle line reflections about a random bond, use
+     *    "bond-reflect".
+     *
+     *  For rigid single-particle rotations about zaxis, use "zaxis-rotate"
+     *
+     *  For force biased smart Monte Carlo, use "smctrans".
+     *    Note that "smctrans" is for translational moves only, and not rotation,
+     *    and these require center-of-mass forces.
+     *    See http://dx.doi.org/10.1063/1.436415
+     *
+     *  For triclinic cells, "xytilt", "xztilt" and "yztilt".
+     *
+     *  For volume change, "vol". Note that a random walk in performed in lnV,
+     *    which changes the acceptance criteria (see Frenkel-Smit, page 119).
+     *
+     *  For x-dimension box length change, "lxmod". Similarly "lymod", "lzmod".
+     *    These volume changes are also performed in lnV.
+     */
+    const char* transType);
+
+  /// Constructor
+  TrialTransform(Pair *pair, Criteria *criteria,
+    const argtype &args = argtype());
+
+  /// This constructor is not often used, but its purpose is to initialize trial
+  /// for interface before using reconstruct to set object pointers.
+  explicit TrialTransform(const char* transType);
+
+  // tune parameters (e.g., based on acceptance)
+  void tuneParameters();
+  double targAcceptPer;      //!< target acceptance percentage
+
+  /// accumulator for order parameter of trial
+  Accumulator paramAccumulator;
+
+  /// Select molecule/particle type for transformations.
+  /// Currently only implemented for translate/rotate.
+  void selectType(const char* molType) { molType_ = molType; }
+
+  // initialize statistics
+  void zeroStat() { Trial::zeroStat(); paramAccumulator.reset(); }
+
+  /// Write restart file.
+  void writeRestart(const char* fileName);
+
+  /// Construct from restart file.
+  TrialTransform(const char* fileName, Pair *pair,
+                 Criteria *criteria);
+  ~TrialTransform() {}
+  TrialTransform* clone(Pair* pair, Criteria* criteria) const {
+    TrialTransform* t = new TrialTransform(*this);
+    t->reconstruct(pair, criteria); return t;
+  }
+  shared_ptr<TrialTransform> cloneShrPtr(
+    Pair* pair, Criteria* criteria) const {
+    return(std::static_pointer_cast<TrialTransform, Trial>(
+      cloneImpl(pair, criteria)));
+  }
+
+  // Overloaded from base class for status of specific trials.
+  string printStat(const bool header = false);
+
+  /// Return transType.
+  string transType() const { return transType_; }
+
+ protected:
+  string transType_;  //!< type of transformation
+  string molType_;    //!< type of molecule to transform
+
+  void attempt1_();
+
+  /// Attempt to scale the domain by a factor.
+  void scaleAttempt_(const double factor);
+
+  void defaultConstruction_();
+
+  // clone design pattern
+  virtual shared_ptr<Trial> cloneImpl(
+    Pair *pair, Criteria *criteria) const {
+    shared_ptr<TrialTransform> t = make_shared<TrialTransform>(*this);
+    t->reconstruct(pair, criteria);
+    return t;
+  }
+};
+
+/// Factory method
+shared_ptr<TrialTransform> makeTrialTransform(Pair *pair,
+  Criteria *criteria, const char* transType);
+
+/// Factory method
+shared_ptr<TrialTransform> makeTrialTransform(Pair *pair, Criteria *criteria,
+  const argtype &args = argtype());
+
+/// Factory method
+shared_ptr<TrialTransform> makeTrialTransform(const char* transType);
+
+class MC;
+
+/// Add a "TrialTransform" object to the Monte Carlo object, mc.
+void transformTrial(MC *mc, const char* transType, double maxMoveParam = -1);
+
+/// Add a "TrialTransform" object to the Monte Carlo object, mc.
+void addTrialTransform(MC *mc, const argtype &args = argtype());
+
+// Renaming of above:
+void transformTrial(MC *mc, const argtype &args = argtype());
+
+/// Add a "TrialTransform" object to the Monte Carlo object, mc.
+void transformTrial(shared_ptr<MC> mc, const char* transType,
+                    double maxMoveParam = -1);
+
+}  // namespace feasst
+
+#endif  // TRIAL_TRANSFORM_H_
+

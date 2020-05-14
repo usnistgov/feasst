@@ -1,0 +1,6 @@
+my_directory
+src/analyze_my_analyzer
+src/mc_my_private_unittest.cc
+src/pair_my_potential
+src/trial_my_new_method
+src/swigtest/test_my_python_interface.py
