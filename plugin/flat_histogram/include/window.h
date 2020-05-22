@@ -28,6 +28,11 @@ namespace feasst {
   with 4 extra overlap and rounding would result in the following boundaries:
   [[0, 100], [96, 141], [137, 173], [169, 200]] where each of the 4 window
   is expressed as a [min, max] pair.
+
+  Note that TransitionMatrix should have atleast 3 overlap because the first
+  and last macrostates in the window automatically reject deletions/insertions,
+  respectively, which could skew the calculated probability distributions.
+  WangLandau does not have this issue.
  */
 class Window {
  public:

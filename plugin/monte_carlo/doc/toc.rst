@@ -2,6 +2,7 @@
 .. toctree::
 
    Tunable
+   SeekNumParticles
    Stepper
    Rosenbluth
    Acceptance

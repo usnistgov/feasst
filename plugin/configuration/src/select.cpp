@@ -246,9 +246,9 @@ void Select::remove_particle_(const int select_index) {
   site_indices_.erase(site_indices_.begin() + select_index);
 }
 
-const Group * Select::group() const {
+const Group& Select::group() const {
   ASSERT(group_, "group is not defined");
-  return group_.get();
+  return *group_;
 }
 
 void Select::set_site_position(const int particle_index,

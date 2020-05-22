@@ -16,8 +16,8 @@ AHalfB::AHalfB(const argtype& args) {
     << " == particle_type_B_: " << num_B_.type());
 }
 
-bool AHalfB::is_allowed(const System* system,
-    const Criteria* criteria,
+bool AHalfB::is_allowed(const System& system,
+    const Criteria& criteria,
     const Acceptance& acceptance) const {
   const int nA = num_A_.num_particles(system, acceptance);
   const int nB = num_B_.num_particles(system, acceptance);

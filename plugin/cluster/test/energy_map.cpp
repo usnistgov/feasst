@@ -39,7 +39,7 @@ TEST(EnergyMap, energy_map) {
   RandomMT19937 random;
   Select neighs2;
   visit.inner().energy_map().neighbors(
-    MakeNeighborCriteria().get(),
+    *MakeNeighborCriteria(),
     config,
     0, 0, 0,
     &random,
@@ -47,7 +47,7 @@ TEST(EnergyMap, energy_map) {
   const int neighbor = random.const_element(neighs2.particle_indices());
   EXPECT_EQ(13, static_cast<int>(neighs2.num_sites()));
   EXPECT_TRUE(find_in_list(neighbor, neighs2.particle_indices()));
-  
+
   test_serialize(visit);
 }
 

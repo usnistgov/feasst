@@ -8,6 +8,7 @@
 #include "steppers/include/log.h"
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/metropolis.h"
+#include "monte_carlo/include/seek_num_particles.h"
 
 namespace feasst {
 
@@ -30,7 +31,7 @@ TEST(MonteCarlo, ShapeUnion) {
     {"weight", "1."},
     {"tunable_param", "2."},
   }));
-  mc.seek_num_particles(10);
+  SeekNumParticles(10).with_trial_add().run(&mc);
   const int steps_per = 1e0;
   mc.add(MakeLog({
     {"steps_per", str(steps_per)},

@@ -10,5 +10,6 @@
    WangLandau
    WLTM
    Macrostate
-   FlatHistogram
    MacrostateNumParticles
+   FlatHistogram
+   Clones

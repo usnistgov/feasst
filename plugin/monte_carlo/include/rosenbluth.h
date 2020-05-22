@@ -9,6 +9,10 @@ namespace feasst {
 /**
   Store the energies and Rosenbluth factors necessary for configurational
   bias Monte Carlo trials.
+
+  \f$w = \frac{1}{n} \sum_i^n \exp^{-\beta \Delta U}\f$
+
+  where \f$w\f$ is the Rosenbluth weight for \f$n\f$ steps.
  */
 class Rosenbluth {
  public:
@@ -57,7 +61,7 @@ class Rosenbluth {
 
  private:
   std::vector<double> energy_;
-  std::vector<double> ln_boltzman_;
+  std::vector<double> weight_;
   std::vector<double> cumulative_;
   std::vector<Select> stored_;
 

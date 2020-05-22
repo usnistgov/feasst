@@ -226,21 +226,21 @@ void TransitionMatrix::serialize(std::ostream& ostr) const {
   feasst_serialize_fstobj(blocks_, ostr);
 }
 
-bool TransitionMatrix::is_equal(const TransitionMatrix * transition_matrix,
+bool TransitionMatrix::is_equal(const TransitionMatrix& transition_matrix,
     const double tolerance) const {
-  if (!collection_.is_equal(transition_matrix->collection_, tolerance)) {
+  if (!collection_.is_equal(transition_matrix.collection_, tolerance)) {
     return false;
   }
-  if (!ln_prob_.is_equal(transition_matrix->ln_prob_, tolerance)) {
+  if (!ln_prob_.is_equal(transition_matrix.ln_prob_, tolerance)) {
     return false;
   }
-  if (!feasst::is_equal(visits_, transition_matrix->visits_)) {
+  if (!feasst::is_equal(visits_, transition_matrix.visits_)) {
     INFO("visits not equal");
     return false;
   }
-  if (min_visits_ != transition_matrix->min_visits_) return false;
-  if (num_sweeps_ != transition_matrix->num_sweeps_) return false;
-  if (min_sweeps_ != transition_matrix->min_sweeps_) return false;
+  if (min_visits_ != transition_matrix.min_visits_) return false;
+  if (num_sweeps_ != transition_matrix.num_sweeps_) return false;
+  if (min_sweeps_ != transition_matrix.min_sweeps_) return false;
   return true;
 }
 

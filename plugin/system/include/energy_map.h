@@ -75,7 +75,7 @@ class EnergyMap {
     The cluster also has positions taking into account periodic boundary
     conditions, which is why frame of reference is used recurisvely.
    */
-  virtual void select_cluster(const NeighborCriteria * cluster_criteria,
+  virtual void select_cluster(const NeighborCriteria& cluster_criteria,
                               const Configuration& config,
                               const int particle_node,
                               Select * cluster,
@@ -83,17 +83,17 @@ class EnergyMap {
 
   /// Compare old and new maps to see if cluster has changed.
   /// This is useful for detailed balance with rigid cluster moves.
-  virtual bool is_cluster_changed(const NeighborCriteria * cluster_criteria,
+  virtual bool is_cluster_changed(const NeighborCriteria& cluster_criteria,
     const Select& select,
     const Configuration& config) const;
 
   /// Return the NeighborCriteria.
-  virtual const NeighborCriteria * neighbor_criteria() const;
+  virtual const NeighborCriteria& neighbor_criteria() const;
 
   /// Return a random neighboring site of target_site in target_particle.
   /// This interface was designed for use by AVB methods.
   virtual void neighbors(
-    const NeighborCriteria * neighbor_criteria,
+    const NeighborCriteria& neighbor_criteria,
     const Configuration& config,
     const int target_particle,
     const int target_site,

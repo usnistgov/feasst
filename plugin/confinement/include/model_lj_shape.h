@@ -32,7 +32,7 @@ class ModelLJShape : public ModelOneBody,
 
   double energy(
       const Site& site,
-      const Configuration * config,
+      const Configuration& config,
       const ModelParams& model_params) const override;
 
   void serialize(std::ostream& ostr) const override;

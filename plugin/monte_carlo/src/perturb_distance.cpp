@@ -42,7 +42,7 @@ void PerturbDistance::move(System * system,
   DEBUG("old pos " << site->str());
   random->unit_sphere_surface(site);
   site->multiply(distance_);
-  site->add(select->anchor_position(0, 0, system));
+  site->add(select->anchor_position(0, 0, *system));
   DEBUG("new pos " << site->str());
   system->get_configuration()->update_positions(select->mobile());
 }

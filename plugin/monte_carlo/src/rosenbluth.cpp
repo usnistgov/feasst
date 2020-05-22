@@ -9,26 +9,27 @@ namespace feasst {
 
 void Rosenbluth::resize(const int num) {
   energy_.resize(num);
-  ln_boltzman_.resize(num);
+  weight_.resize(num);
   cumulative_.resize(num);
   stored_.resize(num);
 }
 
 void Rosenbluth::compute(const double beta, Random * random) {
+  const double lnk = std::log(num());
   for (int step = 0; step < num(); ++step) {
-    ln_boltzman_[step] = -beta*energy_[step];
+    weight_[step] = -beta*energy_[step] - lnk;
   }
-  DEBUG("ln_boltzman " << feasst_str(ln_boltzman_));
+  DEBUG("ln_boltzman " << feasst_str(weight_));
   // tot = sum(e^-betaU)
   // ln_tot = ln(sum(e^-betaU)
   // shift by constant, C = -max + 10 to avoid overflow.
-  const double shift = 10. - maximum(ln_boltzman_);
+  const double shift = 10. - maximum(weight_);
   DEBUG("shift " << shift);
   ln_total_rosenbluth_ = 0.;
-  for (const double ln : ln_boltzman_) {
+  for (const double ln : weight_) {
     ln_total_rosenbluth_ += exp(ln + shift);
   }
-  ln_total_rosenbluth_ = log(ln_total_rosenbluth_) - shift;
+  ln_total_rosenbluth_ = std::log(ln_total_rosenbluth_) - shift;
   DEBUG("ln_rosen " << ln_total_rosenbluth_);
   DEBUG("energy " << feasst_str(energy_));
   if (ln_total_rosenbluth_ <= -NEAR_INFINITY) {
@@ -37,7 +38,7 @@ void Rosenbluth::compute(const double beta, Random * random) {
   }
   double accumulator = 0.;
   for (int step = 0; step < num(); ++step) {
-    accumulator += exp(ln_boltzman_[step] - ln_total_rosenbluth_);
+    accumulator += exp(weight_[step] - ln_total_rosenbluth_);
     cumulative_[step] = accumulator;
   }
   TRACE("cumulative " << feasst_str(cumulative_));
@@ -68,7 +69,7 @@ double Rosenbluth::chosen_energy() const {
 void Rosenbluth::serialize(std::ostream& ostr) const {
   feasst_serialize_version(507, ostr);
   feasst_serialize(energy_, ostr);
-  feasst_serialize(ln_boltzman_, ostr);
+  feasst_serialize(weight_, ostr);
   feasst_serialize(cumulative_, ostr);
   feasst_serialize_fstobj(stored_, ostr);
 }
@@ -77,7 +78,7 @@ Rosenbluth::Rosenbluth(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 507, "version: " << version);
   feasst_deserialize(&energy_, istr);
-  feasst_deserialize(&ln_boltzman_, istr);
+  feasst_deserialize(&weight_, istr);
   feasst_deserialize(&cumulative_, istr);
   feasst_deserialize_fstobj(&stored_, istr);
 }

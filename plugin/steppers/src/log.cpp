@@ -31,13 +31,13 @@ void Log::initialize(Criteria * criteria,
   printer(ss.str());
 }
 
-std::string Log::write(const Criteria * criteria,
+std::string Log::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   // ensure the following order matches the header from initialization.
   std::stringstream ss;
   ss << system.status()
-     << criteria->status()
+     << criteria.status()
      << trial_factory.status()
      << std::endl;
   return ss.str();

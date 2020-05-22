@@ -39,10 +39,10 @@ class FlatHistogram : public Criteria {
   /// Return the bias.
   const Bias& bias() const { return const_cast<Bias&>(*bias_); }
 
-  void before_attempt(const System* system) override;
+  void before_attempt(const System& system) override;
 
   bool is_accepted(const Acceptance& acceptance,
-    const System * system,
+    const System& system,
     const double uniform_random) override;
 
   std::string write() const override;

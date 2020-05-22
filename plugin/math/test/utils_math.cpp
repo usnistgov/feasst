@@ -38,4 +38,11 @@ TEST(UtilsMath, spherical_shell_volume) {
   EXPECT_NEAR(spherical_shell_volume(1.7, 3.2, 3), 116.67875115432494, NEAR_ZERO);
 }
 
+TEST(UtilsMath, is_in_interval) {
+  EXPECT_TRUE(is_in_interval(5, 6, 4));
+  EXPECT_TRUE(is_in_interval(5, 4.1, 6.1));
+  EXPECT_FALSE(is_in_interval(5, 7.1, 6.1));
+  EXPECT_FALSE(is_in_interval(5, 6.1, 7.1));
+}
+
 }  // namespace feasst

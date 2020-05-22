@@ -34,7 +34,7 @@ TEST(TrialPivot, chain10) {
   for (int i = 0; i < 50; ++i) {
     factory.attempt(criteria.get(), &system, &random);
     file.write("tmp/after", system.configuration());
-    checker.update(criteria.get(), system, factory);
+    checker.update(*criteria, system, factory);
   }
   EXPECT_NE(0, system.configuration().particle(0).site(0).position().coord(0));
 

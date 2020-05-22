@@ -40,11 +40,18 @@ void LongRangeCorrections::compute(
   DEBUG("num sites of type in selection: " << feasst_str(select_types));
   double en = 0.;
   for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
+    DEBUG("type1 " << type1);
     const double num_type1 = num_of_site_type[type1];
     const double num_type1_sel = select_types[type1];
+    DEBUG("num_particles " << config->num_particles());
+    DEBUG("num_type1 " << num_type1);
+    DEBUG("num_type1_sel " << num_type1_sel);
     for (int type2 = 0; type2 < config->num_site_types(); ++type2) {
+      DEBUG("type2 " << type2);
       const double num_type2 = num_of_site_type[type2];
       const double num_type2_sel = select_types[type2];
+      DEBUG("num_type2 " << num_type2);
+      DEBUG("num_type2_sel " << num_type2_sel);
       en += (num_type1*num_type2_sel +
              num_type1_sel*num_type2 -
              num_type1_sel*num_type2_sel)

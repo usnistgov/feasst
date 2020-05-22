@@ -70,7 +70,7 @@ class TrialSelect : public PropertiedEntity {
     const int particle_index,
     /// anchor index
     const int site_index,
-    const System * system);
+    const System& system);
 
   /// Set the state of the trial for the mobile select (e.g., old, move, add).
   /// See Select::trial_state
@@ -133,7 +133,7 @@ class TrialSelect : public PropertiedEntity {
   TrialSelect(std::istream& istr);
 
   const EnergyMap& map_(const System& system,
-    const NeighborCriteria * neighbor_criteria) const;
+    const NeighborCriteria& neighbor_criteria) const;
 
  private:
   int group_index_;

@@ -221,9 +221,9 @@ void Criteria::set_current_energy(const double energy) {
 }
 
 /// Return whether constraints are statisfied.
-bool Criteria::is_allowed(const System * system, const Acceptance& acceptance) {
+bool Criteria::is_allowed(const System& system, const Acceptance& acceptance) {
   for (const std::shared_ptr<Constraint> con : constraints_) {
-    if (!con->is_allowed(system, this, acceptance)) {
+    if (!con->is_allowed(system, *this, acceptance)) {
   //for (int con = 0; con < static_cast<int>(constraints_.size()); ++con) {
     //if (!constraints_[con]->is_allowed(system, this, acceptance)) {
       return false;

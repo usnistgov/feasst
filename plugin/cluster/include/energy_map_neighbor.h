@@ -36,7 +36,7 @@ class EnergyMapNeighbor : public EnergyMap {
       const double squared_distance,
       const Position * pbc) override;
   void revert(const Select& select) override;
-  void select_cluster(const NeighborCriteria * neighbor_criteria,
+  void select_cluster(const NeighborCriteria& neighbor_criteria,
                       const Configuration& config,
                       const int particle_node,
                       Select * cluster,
@@ -81,7 +81,7 @@ class EnergyMapNeighbor : public EnergyMap {
   std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > > map_, map_new_;
 
   int part_max_() { return static_cast<int>(map_.size()); }
-  bool is_cluster_(const NeighborCriteria * neighbor_criteria,
+  bool is_cluster_(const NeighborCriteria& neighbor_criteria,
                    const std::vector<std::vector<std::vector<double> > >& smap,
                    const Configuration& config,
                    Position * frame) const;

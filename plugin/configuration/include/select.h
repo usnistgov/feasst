@@ -147,7 +147,7 @@ class Select {
   void set_group(std::shared_ptr<Group> group) { group_ = group; }
 
   /// Return the group.
-  const Group * group() const;
+  const Group& group() const;
 
   //@}
   /** @name Positions
@@ -260,12 +260,14 @@ class Select {
 
   /// Return sites to become bonded.
   const Select * new_bond() const { return new_bond_.get(); }
+  //const Select& new_bond() const { return *new_bond_; }
 
   /// Sites which are bonded.
   void set_old_bond(const Select& select);
 
   /// Return sites which are bonded.
   const Select * old_bond() const { return old_bond_.get(); }
+  // const Select& old_bond() const { return *old_bond_; }
 
   /// Reset excluded and bonded sites.
   void reset_excluded_and_bond();

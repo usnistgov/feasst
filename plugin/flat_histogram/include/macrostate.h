@@ -44,14 +44,15 @@ class Macrostate {
   /// Return the soft minimum.
   const int soft_min() const { return soft_min_; }
 
+  // HWH change this to const references
   /// Return the current value of the macrostate.
-  virtual double value(const System* system,
-    const Criteria* criteria,
+  virtual double value(const System& system,
+    const Criteria& criteria,
     const Acceptance& acceptance) const = 0;
 
   /// Return the current bin of the macrostate.
-  int bin(const System* system,
-      const Criteria* criteria,
+  int bin(const System& system,
+      const Criteria& criteria,
       const Acceptance& acceptance) const {
     return histogram_.bin(value(system, criteria, acceptance)); }
 
@@ -60,8 +61,8 @@ class Macrostate {
 
   /// Return whether the current system macrostate is within permissible range
   /// given by the input histogram.
-  bool is_allowed(const System * system,
-                  const Criteria * criteria,
+  bool is_allowed(const System& system,
+                  const Criteria& criteria,
                   const Acceptance& acceptance);
 
   /// Swap the soft bounds with another macrostate.

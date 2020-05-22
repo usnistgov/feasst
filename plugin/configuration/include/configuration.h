@@ -281,6 +281,9 @@ class Configuration {
   /// Return the domain of the configuration.
   const Domain& domain() const { return const_cast<Domain&>(*domain_); }
 
+  // Return the domain.
+  Domain * get_domain() { return domain_.get(); }
+
   /// Set the domain side lengths.
   // HWH consider scaling particles as well
   void set_side_lengths(const Position& sides);
@@ -495,7 +498,6 @@ class Configuration {
 
 //  /// HWH depreciate one of these.
 //  void check_id_(const Select& select) const;
-//  void check_id_(const Select* select) const;
 //  void check_id_(const std::string id) const;
 
   // Ghost particles allow quick addition and deletion of particles for use in

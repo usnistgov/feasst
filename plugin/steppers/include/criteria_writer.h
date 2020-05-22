@@ -12,7 +12,7 @@ namespace feasst {
 class CriteriaWriter : public AnalyzeWriteOnly {
  public:
   explicit CriteriaWriter(const argtype &args = argtype());
-  std::string write(const Criteria * criteria,
+  std::string write(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
 

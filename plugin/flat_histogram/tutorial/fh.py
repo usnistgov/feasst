@@ -1,8 +1,8 @@
 import sys
-import feasst
-sys.path.insert(0, feasst.install_dir() + '/plugin/system/tutorial/')
+import feasst as fst
+sys.path.insert(0, fst.install_dir() + '/plugin/system/tutorial/')
 import lj_system
-sys.path.insert(0, feasst.install_dir() + '/plugin/monte_carlo/tutorial/')
+sys.path.insert(0, fst.install_dir() + '/plugin/monte_carlo/tutorial/')
 import analyze
 
 def criteria_flathist(temperature=1.5,
@@ -12,16 +12,16 @@ def criteria_flathist(temperature=1.5,
                       tmmc=True,      # use Transition-Matrix (TM) if true, else Wang-Landau (WL)
                       iterations=20): # number of sweeps (TM) or flatness (WL)
     """Return a flat histogram acceptance criteria with number of particles as the macrostate"""
-    criteria = feasst.MakeFlatHistogram(feasst.args(
-        {"beta": str(1./temperature),
-         "chemical_potential": str(chemical_potential)}))
-    criteria.set(feasst.MakeMacrostateNumParticles(feasst.Histogram(feasst.args(
-        {"width": "1", "min": str(macro_min), "max": str(macro_max)}))))
     if tmmc:
-        criteria.set(feasst.MakeTransitionMatrix(feasst.args({"min_sweeps": str(iterations)})))
+        bias = fst.MakeTransitionMatrix(fst.args({"min_sweeps": str(iterations)}))
     else:
-        criteria.set(feasst.MakeWangLandau(feasst.args({"min_flatness": str(iterations)})))
-    return criteria
+        bias = fst.MakeWangLandau(fst.args({"min_flatness": str(iterations)}))
+    return fst.MakeFlatHistogram(
+        fst.MakeMacrostateNumParticles(fst.Histogram(fst.args(
+            {"width": "1", "min": str(macro_min), "max": str(macro_max)}))),
+        bias,
+        fst.args({"beta": str(1./temperature),
+                     "chemical_potential": str(chemical_potential)}))
 
 def monte_carlo(proc=0,                          # processor number
                 criteria=criteria_flathist(), # flat histogram criteria
@@ -30,21 +30,23 @@ def monte_carlo(proc=0,                          # processor number
                 run=True                         # run the simulation
                 ):
     """Create, run and return a flat histogram grand canonical Monte Carlo simulation"""
-    monte_carlo0 = feasst.MonteCarlo()
+    monte_carlo0 = fst.MonteCarlo()
     monte_carlo0.set(system)
 
     # add the minimum number of particles
-    monte_carlo0.set(feasst.MakeMetropolis(feasst.args(
-        {"beta": "0.001", "chemical_potential": "1"})))
-    monte_carlo0.add(feasst.MakeTrialTranslate(feasst.args(
+    monte_carlo0.set(fst.MakeMetropolis(fst.args(
+        {"beta": "0.1", "chemical_potential": "1"})))
+    monte_carlo0.add(fst.MakeTrialTranslate(fst.args(
         {"weight": "0.375", "tunable_param": "2."})))
     if monte_carlo0.system().configuration().particle_type(0).num_sites() > 1:
-        monte_carlo0.add(feasst.MakeTrialRotate(feasst.args(
+        monte_carlo0.add(fst.MakeTrialRotate(fst.args(
             {"weight": "0.375", "tunable_param": "2."})))
-    feasst.add_trial_transfer(monte_carlo0, feasst.args(
+    fst.add_trial_transfer(monte_carlo0, fst.args(
         {"weight": "0.125", "particle_type": "0"}))
 
-    monte_carlo0.seek_num_particles(criteria.macrostate().soft_min() + 1)
+    min_macro = int(criteria.macrostate().histogram().center_of_bin(0))
+    # print("seeking", min_macro)
+    fst.SeekNumParticles(min_macro).run(monte_carlo0)
 
     # replace the acceptance criteria with flat histogram
     monte_carlo0.set(criteria)
@@ -52,16 +54,16 @@ def monte_carlo(proc=0,                          # processor number
     analyze.add(monte_carlo0, steps_per, proc=proc, log="log"+str(proc)+".txt")
 
     # periodically write the status of the flat histogram criteria
-    monte_carlo0.add(feasst.MakeCriteriaUpdater(feasst.args({"steps_per": str(steps_per)})))
-    monte_carlo0.add(feasst.MakeCriteriaWriter(feasst.args(
+    monte_carlo0.add(fst.MakeCriteriaUpdater(fst.args({"steps_per": str(steps_per)})))
+    monte_carlo0.add(fst.MakeCriteriaWriter(fst.args(
         {"steps_per": str(steps_per), "file_name": "crit"+str(proc)+".txt"})))
 
     # periodically write a checkpoint file
-    monte_carlo0.add(feasst.MakeCheckpoint(feasst.args(
+    monte_carlo0.add(fst.MakeCheckpoint(fst.args(
         {"file_name": "checkpoint"+str(proc)+".txt", "num_hours": "0.01"})))
 
     # periodically write the energy of the macrostates
-    monte_carlo0.add(feasst.MakeEnergy(feasst.args(
+    monte_carlo0.add(fst.MakeEnergy(fst.args(
         {"file_name": "energy"+str(proc)+".txt",
          "steps_per_update": "1",
          "steps_per_write": str(steps_per),

@@ -18,7 +18,7 @@ class ChargeSelf : public ModelOneBody {
 
   double energy(
       const Site& site,
-      const Configuration * config,
+      const Configuration& config,
       const ModelParams& model_params) const override;
 
   void precompute(const ModelParams& existing) override;

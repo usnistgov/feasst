@@ -6,6 +6,7 @@
 #include "monte_carlo/include/utils.h"
 #include "monte_carlo/include/constrain_num_particles.h"
 #include "monte_carlo/include/utils.h"
+#include "monte_carlo/include/seek_num_particles.h"
 #include "steppers/include/log.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/check_energy.h"
@@ -35,7 +36,7 @@ TEST(MonteCarlo, cluster) {
       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
     monte_carlo.add(MakeMetropolis({{"beta", "40"}, {"chemical_potential", "1."}}));
     if (single_particle_translate) monte_carlo.add(MakeTrialTranslate());
-    monte_carlo.seek_num_particles(3);
+    SeekNumParticles(3).with_trial_add().run(&monte_carlo);
     auto neighbor_criteria = MakeNeighborCriteria({{"energy_maximum", "-0.5"}});
     SelectCluster scluster(neighbor_criteria);
     scluster.select_cluster(0, monte_carlo.system());
@@ -111,7 +112,7 @@ MonteCarlo mc_avb_test(
     monte_carlo.add(Potential(MakeLennardJones()));
   }
   monte_carlo.add(MakeMetropolis({{"beta", "0.00001"}, {"chemical_potential", "50."}}));
-  monte_carlo.seek_num_particles(min_particles);
+  SeekNumParticles(min_particles).with_trial_add().run(&monte_carlo);
   monte_carlo.add(MakeMetropolis(
     MakeConstrainNumParticles({{"minimum", str(min_particles)}}),
     {{"beta", "0.2"}, {"chemical_potential", "-20."}}));

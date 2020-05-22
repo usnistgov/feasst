@@ -103,7 +103,7 @@ void EnergyMapNeighbor::revert(const Select& select) {
 }
 
 void EnergyMapNeighbor::select_cluster(
-    const NeighborCriteria * neighbor_criteria,
+    const NeighborCriteria& neighbor_criteria,
     const Configuration& config,
     const int particle_node,
     Select * cluster,
@@ -112,7 +112,7 @@ void EnergyMapNeighbor::select_cluster(
 }
 
 bool EnergyMapNeighbor::is_cluster_(
-    const NeighborCriteria * neighbor_criteria,
+    const NeighborCriteria& neighbor_criteria,
     const std::vector<std::vector<std::vector<double> > >& smap,
     const Configuration& config,
     Position * frame) const {

@@ -12,7 +12,7 @@ namespace feasst {
 class CheckPhysicality : public AnalyzeUpdateOnly {
  public:
   CheckPhysicality(const argtype &args = argtype()) : AnalyzeUpdateOnly(args) {}
-  void update(const Criteria * criteria,
+  void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
   std::string class_name() const override {

@@ -24,14 +24,14 @@ class ConstrainNumParticles : public Constraint {
   /// Return the particle type.
   int type() const { return type_; }
 
-  bool is_allowed(const System* system,
-    const Criteria* criteria,
+  bool is_allowed(const System& system,
+    const Criteria& criteria,
     const Acceptance& acceptance) const override;
-  
+
   /// Return the number of particles, taking into account the potential to shift
   /// (e.g., add or delete) from a trial move.
-  int num_particles(const System* system, const Acceptance& acceptance) const;
-  
+  int num_particles(const System& system, const Acceptance& acceptance) const;
+
   std::shared_ptr<Constraint> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit ConstrainNumParticles(std::istream& istr);

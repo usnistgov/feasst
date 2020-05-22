@@ -20,8 +20,8 @@ class MacrostateNumParticles : public Macrostate {
   MacrostateNumParticles(const Histogram& histogram,
     const argtype& args = argtype());
 
-  double value(const System* system,
-    const Criteria* criteria,
+  double value(const System& system,
+    const Criteria& criteria,
     const Acceptance& acceptance) const override;
   std::shared_ptr<Macrostate> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

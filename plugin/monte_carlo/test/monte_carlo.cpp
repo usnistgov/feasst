@@ -13,6 +13,7 @@
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/constrain_num_particles.h"
 #include "monte_carlo/include/utils.h"
+#include "monte_carlo/include/seek_num_particles.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/movie.h"
@@ -65,7 +66,7 @@ TEST(MonteCarlo, NVT_benchmark) {
 //  mc.add_to_optimized(Potential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
 //                                MakeVisitModelOptLJ()));
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
-  mc.seek_num_particles(50);
+  SeekNumParticles(50).with_trial_add().run(&mc);
   // mc.seek_num_particles(250);
   // mc.attempt(1e6);  // 5.4s with 50 (see opt_lj for 4.3s)
   // mc.seek_num_particles(450);
@@ -81,18 +82,22 @@ TEST(MonteCarlo, NVT_cell_benchmark) {
                        {{"particle_type", "../forcefield/data.lj"}}));
   mc.add(Potential(MakeLennardJones()));
   mc.add_to_reference(Potential(MakeLennardJones(), MakeVisitModelCell()));
-  mc.set(MakeRandomMT19937({{"seed", "default"}}));
+  // mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1"}}));
   mc.add(MakeTrialTranslate({
     {"weight", "1"},
     {"reference_index", "0"},
     {"num_steps", "2"},
     {"tunable_param", "1"}}));
-  const int steps_per = 1e4;
+  const int steps_per = 1e3;
   mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}, {"tolerance", "1e-10"}}));
-  mc.seek_num_particles(50);
+  SeekNumParticles(50)
+    .with_metropolis({{"beta", "0.1"}, {"chemical_potential", "10"}})
+    .with_trial_add()
+    .run(&mc);
   // mc.attempt(1e5);
   mc.attempt(1e3);
+  INFO(mc.criteria().current_energy());
   // mc.attempt(1e6);
 }
 
@@ -105,7 +110,7 @@ TEST(MonteCarlo, NVT_SRSW) {
   const double rho = 1e-3, length = std::pow(static_cast<double>(nMol)/rho, 1./3.);
   mc.get_system()->get_configuration()->set_side_lengths(
     Position().set_vector({length, length, length}));
-  mc.seek_num_particles(nMol);
+  SeekNumParticles(nMol).with_trial_add().run(&mc);
   Accumulator pe;
   const int num_trials = 1e3;
   for (int trial = 0; trial < num_trials; ++trial) {
@@ -123,6 +128,23 @@ TEST(MonteCarlo, GCMC) {
                             {"file_append", "tmp/lj"}});
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
   add_trial_transfer(&mc, {{"particle_type", "0"}});
+  mc.add(MakeNumParticles({{"steps_per_write", str(1e5)},
+                           {"file_name", "tmp/ljnum.txt"}}));
+  mc.attempt(1e4);
+}
+
+TEST(MonteCarlo, GCMC_cell) {
+  MonteCarlo mc;
+  lennard_jones(&mc);
+  mc.get_system()->get_configuration()->get_domain()->init_cells(1.);
+  mc.add_to_reference(Potential(MakeLennardJones(), MakeVisitModelCell()));
+  add_common_steppers(&mc, {{"steps_per", str(1e4)},
+                            {"file_append", "tmp/lj"}});
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
+  add_trial_transfer(&mc,
+    { {"particle_type", "0"},
+      {"num_steps", "4"},
+      {"reference_index", "0"}});
   mc.add(MakeNumParticles({{"steps_per_write", str(1e5)},
                            {"file_name", "tmp/ljnum.txt"}}));
   mc.attempt(1e4);
@@ -151,7 +173,7 @@ TEST(MonteCarlo, grow) {
     EXPECT_FALSE(mc.trial(1).stage(0).trial_select().is_ghost());  // grow
     EXPECT_TRUE (mc.trial(2).stage(0).trial_select().is_ghost());
     EXPECT_FALSE(mc.trial(3).stage(0).trial_select().is_ghost());
-    mc.seek_num_particles(3);
+    SeekNumParticles(3).with_trial_add().run(&mc);
     mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
     mc.add(MakeMovie(
      {{"steps_per", "1"},
@@ -175,7 +197,7 @@ TEST(MonteCarlo, ConstrainNumParticles) {
     lennard_jones(&monte_carlo);
     add_common_steppers(&monte_carlo, {{"steps_per", str(1e4)},
                                        {"file_append", "tmp/lj"}});
-    monte_carlo.seek_num_particles(1);
+    SeekNumParticles(1).with_trial_add().run(&monte_carlo);
     monte_carlo.add(MakeMetropolis(
       MakeConstrainNumParticles({{"minimum", str(minimum)},
                                  {"maximum", str(minimum+1)}}),

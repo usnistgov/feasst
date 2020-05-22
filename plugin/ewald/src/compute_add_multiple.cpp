@@ -30,13 +30,10 @@ void ComputeAddMultiple::perturb_and_acceptance(
   acceptance->set_energy_new(criteria->current_energy() + acceptance->energy_new());
   DEBUG("deltaE " << MAX_PRECISION << acceptance->energy_new());
   for (const TrialStage * stage : *stages) {
-    const TrialSelect& select = stage->trial_select();
-    if (stage->rosenbluth().num() > 1) {
-      system->get_configuration()->revive(select.mobile());
-    }
     { // Metropolis
       const Configuration& config = system->configuration();
       const double volume = config.domain().volume();
+      const TrialSelect& select = stage->trial_select();
       const int particle_index = select.mobile().particle_index(0);
       const int particle_type = config.select_particle(particle_index).type();
       DEBUG("volume " << volume << " selprob " << select.probability() <<

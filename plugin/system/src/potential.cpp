@@ -40,20 +40,22 @@ Potential::Potential(
 void Potential::set_model_param(const char* name,
     const int site_type,
     const double value) {
-  ASSERT(model_params_override_, "you must first initialize model params");
+  ASSERT(model_params_override_, "you must first initialize model params "
+    << "before setting them.");
   model_params_.set(name, site_type, value);
 }
 
 const ModelParams& Potential::model_params() const {
-  ASSERT(model_params_override_, "you must first initialize model params");
+  ASSERT(model_params_override_, "When model parameters are not overriden, "
+    << "you must also provide the configuration as an argument.");
   return model_params_;
 }
 
-const ModelParams& Potential::model_params(const Configuration * config) const {
+const ModelParams& Potential::model_params(const Configuration& config) const {
   if (model_params_override_) {
     return model_params_;
   }
-  return config->model_params();
+  return config.model_params();
 }
 
 double Potential::energy(Configuration * config) {
@@ -92,7 +94,7 @@ int Potential::cell_index() const {
 
 void Potential::precompute(Configuration * config) {
   visit_model_->precompute(config);
-  const ModelParams& params = model_params(config);
+  const ModelParams& params = model_params(*config);
   model_->precompute(params);
   const double max_cutoff = maximum(params.cutoff().values());
   const double half_min_side = 0.5*config->domain().min_side_length();

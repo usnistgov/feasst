@@ -18,7 +18,7 @@ class CriteriaMayer : public Criteria {
   CriteriaMayer(const argtype& args = argtype()) : Criteria(args) {}
 
   bool is_accepted(const Acceptance& acceptance,
-    const System * system,
+    const System& system,
     const double uniform_random) override;
 
   double second_virial() const;

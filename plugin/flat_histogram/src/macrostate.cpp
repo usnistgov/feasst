@@ -23,8 +23,8 @@ Macrostate::Macrostate(const Histogram& histogram, const argtype& args) {
   DEBUG("edges " << feasst_str(histogram_.edges()));
 }
 
-bool Macrostate::is_allowed(const System* system,
-                            const Criteria* criteria,
+bool Macrostate::is_allowed(const System& system,
+                            const Criteria& criteria,
                             const Acceptance& acceptance) {
   const double val = value(system, criteria, acceptance);
   if (val > histogram_.max() || val < histogram_.min()) {

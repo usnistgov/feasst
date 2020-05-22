@@ -39,7 +39,7 @@ void Movie::initialize(Criteria * criteria,
   vmd_.write(ss.str(), system->configuration(), file_name());
 }
 
-std::string Movie::write(const Criteria * criteria,
+std::string Movie::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   // ensure the following order matches the header from initialization.

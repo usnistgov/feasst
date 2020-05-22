@@ -18,7 +18,7 @@ class CheckNetCharge : public AnalyzeUpdateOnly {
     - maximum: maximum acceptable charge (default: 0).
    */
   CheckNetCharge(const argtype &args = argtype());
-  void update(const Criteria * criteria,
+  void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
   std::string class_name() const override {

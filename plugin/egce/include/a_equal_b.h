@@ -20,8 +20,8 @@ class AEqualB : public Constraint {
     - extra_A: allow this many extra A particles (default: 0).
    */
   AEqualB(const argtype& args = argtype());
-  bool is_allowed(const System* system,
-    const Criteria* criteria,
+  bool is_allowed(const System& system,
+    const Criteria& criteria,
     const Acceptance& acceptance) const override;
   std::shared_ptr<Constraint> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

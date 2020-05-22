@@ -8,6 +8,7 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
 #include "monte_carlo/include/metropolis.h"
+#include "monte_carlo/include/seek_num_particles.h"
 #include "steppers/include/log.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/tuner.h"
@@ -30,7 +31,7 @@ TEST(MonteCarlo, chain) {
   MonteCarlo mc;
   mc.set(chain_system());
   mc.set(MakeMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));
-  mc.seek_num_particles(1);
+  SeekNumParticles(1).with_trial_add().run(&mc);
   mc.add(MakeTrialTranslate({
     {"weight", "1."},
     {"tunable_param", "1."},

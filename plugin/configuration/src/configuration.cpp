@@ -124,11 +124,11 @@ void Configuration::remove_particle_(const int particle_index) {
     const Cells& cells = domain().cells()[cell_index];
     const int group_index = feasst::round(cells.property("group"));
     const Particle& part = select_particle(particle_index);
-    const Group * group = group_selects_[group_index].group();
-    if (group->is_in(part)) {
+    const Group& group = group_selects_[group_index].group();
+    if (group.is_in(part)) {
       for (int site_index = 0; site_index < part.num_sites(); ++site_index) {
         const Site& site = part.site(site_index);
-        if (group->is_in(site)) {
+        if (group.is_in(site)) {
           const std::string name = cells.label();
           double value;
           if (site.properties().value(name, &value)) {
@@ -242,10 +242,10 @@ void Configuration::position_tracker_(const int particle_index,
       const int group_index = feasst::round(cells.property("group"));
       ASSERT(group_index >= 0, "error");
       const Particle& part = select_particle(particle_index);
-      const Group * group = group_selects_[group_index].group();
-      if (group->is_in(part)) {
+      const Group& group = group_selects_[group_index].group();
+      if (group.is_in(part)) {
         const Site& site = part.site(site_index);
-        if (group->is_in(site)) {
+        if (group.is_in(site)) {
           const int cell_new = domain().cell_id(site.position(), cells);
           one_site_select_.set_particle(0, particle_index);
           one_site_select_.set_site(0, 0, site_index);
@@ -276,7 +276,7 @@ void Configuration::position_tracker_(const int particle_index,
 
   DEBUG("update selection");
   for (const Select& select : group_selects_) {
-    ASSERT(!select.group()->is_spatial(), "implement updating of groups");
+    ASSERT(!select.group().is_spatial(), "implement updating of groups");
   }
   /// HWH update neighbors?
 }
@@ -361,9 +361,6 @@ bool Configuration::are_all_sites_physical() const {
   return true;
 }
 
-// void Configuration::check_id_(const Select* select) const {
-//   check_id_(select->unique_id());
-// }
 // void Configuration::check_id_(const Select& select) const {
 //   check_id_(select.unique_id());
 // }
@@ -414,9 +411,9 @@ void Configuration::displace(const Select& selection,
 void Configuration::add_to_selection_(const int particle_index,
                                       Select * select) const {
   const Particle& part = select_particle(particle_index);
-  const Group * group = select->group();
-  if (group->is_in(part)) {
-    select->add_particle(particle_index, group->site_indices(part));
+  const Group& group = select->group();
+  if (group.is_in(part)) {
+    select->add_particle(particle_index, group.site_indices(part));
   }
 }
 
@@ -545,7 +542,7 @@ const Particle Configuration::particle(const int index,
   const Select& select_group = group_selects_[group];
   const int particle_index = select_group.particle_index(index);
   Particle part = particles_.particle(particle_index);
-  select_group.group()->remove_sites(&part);
+  select_group.group().remove_sites(&part);
   return part;
 }
 
@@ -557,7 +554,9 @@ void Configuration::add(std::shared_ptr<ModelParam> param) {
 }
 
 int Configuration::num_particles_of_type(const int type) const {
-  const int num = num_particles_of_type_[type];
+  ASSERT(type < num_particle_types(), "type: " << type << " >= num types: "
+    << num_particle_types());
+    const int num = num_particles_of_type_[type];
   ASSERT(num >= 0, "unphysical number(" << num <<")");
   ASSERT(num <= num_particles(), "unphysical number of particles of type(" <<
     num << ") when number of particles is: " << num_particles());
@@ -652,7 +651,7 @@ void Configuration::set_site_type(const int particle_type,
       "check if cell list needs to be updated with changing type");
   }
   for (const Select& group : group_selects_) {
-    if (find_in_list(site_type, group.group()->site_types())) {
+    if (find_in_list(site_type, group.group().site_types())) {
       ERROR("check if groups need to be updated with changing type");
     }
   }

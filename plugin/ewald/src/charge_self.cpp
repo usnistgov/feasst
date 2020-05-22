@@ -30,7 +30,7 @@ ChargeSelf::ChargeSelf(std::istream& istr) {
 
 double ChargeSelf::energy(
     const Site& site,
-    const Configuration * config,
+    const Configuration& config,
     const ModelParams& model_params) const {
   const int type = site.type();
   const double charge = model_params.charge().value(type);

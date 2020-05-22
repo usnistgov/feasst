@@ -41,10 +41,7 @@ def lj_system(box_length, cutoff):
     system = feasst.System()
     config = feasst.Configuration(
         feasst.MakeDomain(feasst.args({"cubic_box_length": str(box_length)})),
-        feasst.args({
-            "particle_type": feasst.install_dir() + '/forcefield/data.lj',
-            # "init_cells": "1."
-        }))
+        feasst.args({"particle_type": feasst.install_dir() + '/forcefield/data.lj'}))
     config.set_model_param("cutoff", 0, cutoff);
     system.add(config)
     system.add(feasst.Potential(feasst.MakeLennardJones()))
@@ -83,7 +80,7 @@ def mc(target_acceptance=0.25,
         # "num_steps": "4",
         # "reference_index": "0",
     })))
-    monte_carlo.seek_num_particles(num_particles)
+    feasst.SeekNumParticles(num_particles).with_trial_add().run(monte_carlo)
     monte_carlo.add(feasst.MakeLog(feasst.args(
         {"steps_per" : str(steps_per),
          "file_name": "log"+file_app+".txt",

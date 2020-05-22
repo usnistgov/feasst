@@ -24,7 +24,7 @@ void VisitModel::compute(
     for (int site_index : selection.site_indices(select_index)) {
       const Site& site = part.site(site_index);
       if (site.is_physical()) {
-        energy_ += model.energy(site, config, model_params);
+        energy_ += model.energy(site, *config, model_params);
       }
     }
   }
@@ -45,7 +45,7 @@ void VisitModel::compute(
     for (int site_index : selection.site_indices(sel_index)) {
       const Site& site = part.site(site_index);
       if (site.is_physical()) {
-        energy_ += model.energy(site, config, model_params);
+        energy_ += model.energy(site, *config, model_params);
       }
     }
   }

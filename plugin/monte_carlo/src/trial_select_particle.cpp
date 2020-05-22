@@ -141,15 +141,17 @@ void TrialSelectParticle::ghost_particle(Configuration * config,
   bool fast;
   // replace indices with the last ghost as may be optimal method available
   // to delete.
+  DEBUG("site_ " << site_);
+  DEBUG("ghosts " << ghosts.str());
   if (site_ == -1) {
     fast = select->replace_indices(ghosts.particle_index(pindex),
                                    ghosts.site_indices(pindex));
   } else {
     fast = select->replace_indices(ghosts.particle_index(pindex),
                                    site_vec_);
-    config->set_selection_physical(ghosts, false);
-    config->set_selection_physical(*select, true);
   }
+  //config->set_selection_physical(ghosts, false);
+  //config->set_selection_physical(*select, true);
   if (load_coordinates()) {
     DEBUG("fast " << fast);
     if (!fast) select->resize_positions();

@@ -18,7 +18,7 @@ class WallClockLimit : public AnalyzeUpdateOnly {
    */
   WallClockLimit(const argtype &args = argtype());
 
-  void update(const Criteria * criteria,
+  void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
 

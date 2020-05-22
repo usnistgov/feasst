@@ -12,7 +12,7 @@ namespace feasst {
 class AnalyzeRigidBonds : public AnalyzeUpdateOnly {
  public:
   AnalyzeRigidBonds(const argtype &args = argtype());
-  void update(const Criteria * criteria,
+  void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
   std::string class_name() const override { return std::string("AnalyzeRigidBonds"); }

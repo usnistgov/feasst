@@ -28,11 +28,11 @@ class MeanSquaredDisplacement : public Analyze {
       System * system,
       TrialFactory * trial_factory) override;
 
-  void update(const Criteria * criteria,
+  void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
 
-  std::string write(const Criteria * criteria,
+  std::string write(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
 

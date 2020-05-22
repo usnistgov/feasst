@@ -12,27 +12,27 @@ ConstrainNumParticles::ConstrainNumParticles(const argtype& args) {
   type_ = args_.key("type").dflt("-1").integer();
 }
 
-int ConstrainNumParticles::num_particles(const System* system,
+int ConstrainNumParticles::num_particles(const System& system,
     const Acceptance& acceptance) const {
   const int shift = acceptance.macrostate_shift();
   int num = -1;
   if (type_ != -1) {
     if (acceptance.macrostate_shift_type() == type_ ||
         acceptance.macrostate_shift_type() == -1) {
-      num = system->configuration().num_particles_of_type(type_) + shift;
+      num = system.configuration().num_particles_of_type(type_) + shift;
     } else {
-      num = system->configuration().num_particles_of_type(type_);
+      num = system.configuration().num_particles_of_type(type_);
     }
   } else {
-    num = system->configuration().num_particles() + shift;
+    num = system.configuration().num_particles() + shift;
   }
   DEBUG("type: " << type_ << " shift " << shift << " mst " << acceptance.macrostate_shift_type());
-  DEBUG("num " << num << " conf.num " << system->configuration().num_particles());
+  DEBUG("num " << num << " conf.num " << system.configuration().num_particles());
   return num;
 }
 
-bool ConstrainNumParticles::is_allowed(const System* system,
-    const Criteria* criteria,
+bool ConstrainNumParticles::is_allowed(const System& system,
+    const Criteria& criteria,
     const Acceptance& acceptance) const {
   const int num = num_particles(system, acceptance);
   bool allowed;

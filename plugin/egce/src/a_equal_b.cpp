@@ -15,8 +15,8 @@ AEqualB::AEqualB(const argtype& args) {
     << " == particle_type_B_: " << num_B_.type());
 }
 
-bool AEqualB::is_allowed(const System* system,
-    const Criteria* criteria,
+bool AEqualB::is_allowed(const System& system,
+    const Criteria& criteria,
     const Acceptance& acceptance) const {
   const int nA = num_A_.num_particles(system, acceptance);
   const int nB = num_B_.num_particles(system, acceptance);

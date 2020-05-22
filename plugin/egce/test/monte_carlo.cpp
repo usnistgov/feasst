@@ -8,6 +8,7 @@
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/utils.h"
+#include "monte_carlo/include/seek_num_particles.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/cpu_time.h"
 #include "steppers/include/criteria_updater.h"
@@ -40,7 +41,7 @@ MonteCarlo rpm_egce(const int min = 0) {
   const double beta_mu = -13.94;
   if (min > 0) {
     mc.set(MakeMetropolis({{"beta", "0.01"}, {"chemical_potential", "1"}}));
-    mc.seek_num_particles(min);
+    SeekNumParticles(min).with_trial_add().run(&mc);
   }
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
@@ -307,6 +308,40 @@ TEST(MonteCarlo, rpm_egce_avb_divalent_LONG) {
       {"target_particle_type", "0"}});
   mc.run_until_complete();
   compare_lnpi_en(mc, min);
+}
+
+TEST(MonteCarlo, rpm_egce_divalent_avb_and_not) {
+  const int min = 0;
+  MonteCarlo mc = dival_egce(min);
+  mc.set(MakeRandomMT19937({{"seed", "time"}}));
+  mc.set(MakeRandomMT19937({{"seed", "default"}}));
+  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
+                                               MakeChargeScreened()}),
+                      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+  mc.set(MakeFlatHistogram(
+    MakeMacrostateNumParticles(
+      Histogram({{"width", "1"}, {"max", "15"}, {"min", str(min)}})),
+    MakeTransitionMatrix({{"min_sweeps", "100"}}),
+    MakeAHalfB({{"extra", "1"}}),
+    {{"beta", str(mc.criteria().beta())},
+     {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
+     {"chemical_potential1", str(mc.criteria().chemical_potential(1))}}));
+  auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "7.5"},
+                                                 {"minimum_distance", "1"},
+                                                 {"site_type0", "0"},
+                                                 {"site_type1", "1"},
+                                                 {"potential_index", "1"}});
+  add_trial_transfer(&mc, {{"particle_type", "0"}});
+  add_trial_transfer(&mc, {{"particle_type", "1"}});
+  add_avb_transfer_trials(&mc, neighbor_criteria,
+    { {"weight", "1."},
+      {"particle_type", "0"},
+      {"target_particle_type", "1"}});
+  add_avb_transfer_trials(&mc, neighbor_criteria,
+    { {"weight", "1."},
+      {"particle_type", "1"},
+      {"target_particle_type", "0"}});
+  mc.attempt(1e3);
 }
 
 }  // namespace feasst

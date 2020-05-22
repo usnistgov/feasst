@@ -22,7 +22,7 @@ class Movie : public AnalyzeWriteOnly {
       TrialFactory * trial_factory) override;
 
   /// Write the configuration.
-  std::string write(const Criteria * criteria,
+  std::string write(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;
 

@@ -27,7 +27,7 @@ void MeanSquaredDisplacement::initialize(Criteria * criteria,
   system->get_configuration()->init_wrap(false);
 }
 
-void MeanSquaredDisplacement::update(const Criteria * criteria,
+void MeanSquaredDisplacement::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
 
@@ -65,7 +65,7 @@ void MeanSquaredDisplacement::update(const Criteria * criteria,
   DEBUG("frames_ " << num_frames_() << " origins " << origins_.size());
 }
 
-std::string MeanSquaredDisplacement::write(const Criteria * criteria,
+std::string MeanSquaredDisplacement::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;

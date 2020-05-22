@@ -3,6 +3,7 @@
 #include "system/include/hard_sphere.h"
 #include "system/include/ideal_gas.h"
 #include "system/include/dont_visit_model.h"
+#include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"
@@ -67,7 +68,19 @@ TEST(MonteCarlo, spce_gce_LONG) {
   const int steps_per = 1e2;
   MonteCarlo mc;
   spce(&mc);
-  add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
+  { const double sigma = mc.configuration().model_params().sigma().value(0);
+    INFO("sigma " << sigma);
+    mc.get_system()->get_configuration()->get_domain()->init_cells(sigma);
+    mc.add_to_reference(Potential(
+      MakeModelTwoBodyFactory({MakeLennardJones(),
+                               MakeChargeScreened()}),
+      MakeVisitModelCell()));
+  }
+  add_trial_transfer(&mc,
+    { {"weight", "1."},
+      {"particle_type", "0"},
+      {"num_steps", "4"},
+      {"reference_index", "0"}});
   add_common_steppers(&mc, {{"steps_per", str(steps_per)},
                             {"file_append", "tmp/spce_gce"},
                             {"tolerance", str(1e-6)}});

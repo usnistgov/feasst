@@ -79,7 +79,7 @@ class Potential {
 
   /// Return the model parameters.
   /// Use model parameters from configuration if they have not been overriden.
-  const ModelParams& model_params(const Configuration * config) const;
+  const ModelParams& model_params(const Configuration& config) const;
 
   /// Precompute quantities for optimizations before calculation of energies.
   void precompute(Configuration * config);

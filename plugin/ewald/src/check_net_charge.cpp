@@ -9,7 +9,7 @@ CheckNetCharge::CheckNetCharge(const argtype &args) : AnalyzeUpdateOnly(args) {
   maximum_ = args_.key("maximum").dflt("0.").dble();
 }
 
-void CheckNetCharge::update(const Criteria * criteria,
+void CheckNetCharge::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   const double net_charge = ewald_.net_charge(system.configuration());

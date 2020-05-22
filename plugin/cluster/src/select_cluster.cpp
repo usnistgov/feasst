@@ -40,14 +40,14 @@ void SelectCluster::select_cluster(const int first_particle,
   select->load_positions_of_last(part, frame_of_reference);
   DEBUG("first node " << select->str());
   DEBUG("first node pos " << select->site_positions()[0][0].str());
-  map_(system, neighbor_criteria_.get()).select_cluster(
-    neighbor_criteria_.get(), config, first_particle,
+  map_(system, *neighbor_criteria_).select_cluster(
+    *neighbor_criteria_, config, first_particle,
     select, frame_of_reference);
 }
 
 bool SelectCluster::are_constraints_satisfied(const System& system) const {
-  return !map_(system, neighbor_criteria_.get()).is_cluster_changed(
-    neighbor_criteria_.get(), mobile_, system.configuration());
+  return !map_(system, *neighbor_criteria_).is_cluster_changed(
+    *neighbor_criteria_, mobile_, system.configuration());
 }
 
 std::vector<Select> SelectCluster::select_clusters(

@@ -23,6 +23,7 @@ before_script:
   - mkdir build
   - pushd build
   - export CODECOV_TOKEN="e17b0bb1-d93e-40de-b62b-9b7193459821"
+  - export OMP_NUM_THREADS=2
 
 before_install:
   - export LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH

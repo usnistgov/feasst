@@ -8,7 +8,17 @@ namespace feasst {
 
 TrialRemove::TrialRemove(const argtype& args) : Trial(args) {
   argtype args2(args);
-  args2.insert({"load_coordinates", "false"});
+
+  // optimization: do not load coordinates if num_steps == 1, by default
+  { Arguments tmpargs(args);
+    tmpargs.dont_check();
+    if (tmpargs.key("num_steps").dflt("1").integer() == 1) {
+      if (!tmpargs.key("load_coordinates").used()) {
+        args2.insert({"load_coordinates", "false"});
+      }
+    }
+  }
+
   add_stage(
     std::make_shared<TrialSelectParticle>(args2),
     std::make_shared<PerturbRemove>(),

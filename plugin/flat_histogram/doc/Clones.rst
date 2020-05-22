@@ -1,6 +1,6 @@
-TrialAddPair
+Clones
 =====================================================
 
-.. doxygenclass:: feasst::TrialAddPair
+.. doxygenclass:: feasst::Clones
    :project: FEASST
    :members:

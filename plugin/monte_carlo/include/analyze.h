@@ -24,17 +24,17 @@ class Analyze : public Stepper {
       TrialFactory * trial_factory) {}
 
   /// Check every trial if action is to be performed.
-  virtual void trial(const Criteria * criteria,
+  virtual void trial(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory);
 
   /// Perform update action.
-  virtual void update(const Criteria * criteria,
+  virtual void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory);
 
   /// Perform write action.
-  virtual std::string write(const Criteria * criteria,
+  virtual std::string write(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory);
 

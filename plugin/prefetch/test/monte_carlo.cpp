@@ -1,6 +1,7 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/utils.h"
+#include "monte_carlo/include/seek_num_particles.h"
 #include "prefetch/include/prefetch.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/utils.h"
@@ -17,7 +18,7 @@ TEST(Prefetch, NVT_benchmark) {
                             {"file_append", "tmp/lj"}});
   // mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.activate_prefetch(false);
-  mc.seek_num_particles(50);
+  SeekNumParticles(50).with_trial_add().run(&mc);
   // activate prefetch after initial configuration
   mc.activate_prefetch(true);
   // mc.attempt(1e6);  // ~3.5 seconds (now 4.1)
@@ -67,7 +68,7 @@ TEST(Prefetch, MUVT) {
       tms[ipool] = std::make_shared<TransitionMatrix>(ss2);
       if (ipool != 0) {
         ASSERT(fhs[0]->is_equal(*fhs[ipool], NEAR_ZERO), "hi");
-        ASSERT(tms[0]->is_equal(tms[ipool].get(), 1e-8), "hi");
+        ASSERT(tms[0]->is_equal(*tms[ipool], 1e-8), "hi");
       }
     }
   }

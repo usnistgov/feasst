@@ -75,7 +75,7 @@ endif()
 if (USE_GCOV)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -fprofile-arcs -ftest-coverage")
   include(CodeCoverage)
-  setup_target_for_coverage(coverage unittest coverage)
+  setup_target_for_coverage(coverage unittest coverage --gtest_filter=-*LONG)
 endif (USE_GCOV)
 
 #strip leading whitespace from EXTRA_LIBS
@@ -400,7 +400,7 @@ if (USE_GTEST)
   foreach (PLUGIN ${FEASST_PLUGINS})
     target_link_libraries(unittest feasst${PLUGIN})
   endforeach (PLUGIN)
-  add_test(NAME test COMMAND ./bin/unittest --gtest_shuffle)
+  add_test(NAME test COMMAND ./bin/unittest --gtest_shuffle --gtest_filter=-*LONG)
 
 endif(USE_GTEST)
 

@@ -28,7 +28,7 @@ ModelHardShape::ModelHardShape(std::istream& istr)
 
 double ModelHardShape::energy(
     const Site& site,
-    const Configuration * config,
+    const Configuration& config,
     const ModelParams& model_params) const {
   const int type = site.type();
   const double sigma = model_params.sigma().value(type);

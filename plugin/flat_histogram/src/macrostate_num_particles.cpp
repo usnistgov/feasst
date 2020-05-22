@@ -11,8 +11,8 @@ MacrostateNumParticles::MacrostateNumParticles(const Histogram& histogram,
   ASSERT(num_.type() >= -1, "particle_type: " << num_.type());
 }
 
-double MacrostateNumParticles::value(const System* system,
-    const Criteria* criteria,
+double MacrostateNumParticles::value(const System& system,
+    const Criteria& criteria,
     const Acceptance& acceptance) const {
   return num_.num_particles(system, acceptance);
 }

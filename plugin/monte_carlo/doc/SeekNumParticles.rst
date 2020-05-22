@@ -1,6 +1,6 @@
-TrialRemovePair
+SeekNumParticles
 =====================================================
 
-.. doxygenclass:: feasst::TrialRemovePair
+.. doxygenclass:: feasst::SeekNumParticles
    :project: FEASST
    :members:

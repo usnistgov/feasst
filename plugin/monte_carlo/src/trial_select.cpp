@@ -45,11 +45,11 @@ void TrialSelect::precompute(System * system) {
 
 const Position& TrialSelect::anchor_position(const int particle_index,
     const int site_index,
-    const System * system) {
+    const System& system) {
   const int part = anchor_.particle_index(particle_index);
   const int site = anchor_.site_index(particle_index, site_index);
   DEBUG("site " << site);
-  return system->configuration().select_particle(part).site(site).position();
+  return system.configuration().select_particle(part).site(site).position();
 }
 
 void TrialSelect::set_ghost(const bool ghost) {
@@ -146,13 +146,13 @@ bool TrialSelect::select(
 }
 
 const EnergyMap& TrialSelect::map_(const System& system,
-    const NeighborCriteria * neighbor_criteria) const {
-  if (neighbor_criteria->reference_potential() == -1) {
+    const NeighborCriteria& neighbor_criteria) const {
+  if (neighbor_criteria.reference_potential() == -1) {
     return system.potentials().potentials()[
-      neighbor_criteria->potential_index()].visit_model().inner().energy_map();
+      neighbor_criteria.potential_index()].visit_model().inner().energy_map();
   }
-  return system.reference(neighbor_criteria->reference_potential(),
-                          neighbor_criteria->potential_index()
+  return system.reference(neighbor_criteria.reference_potential(),
+                          neighbor_criteria.potential_index()
                          ).visit_model().inner().energy_map();
 }
 

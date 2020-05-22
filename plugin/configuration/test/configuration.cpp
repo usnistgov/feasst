@@ -153,10 +153,10 @@ TEST(Configuration, group) {
   config->add(MakeGroup({{"add_site_type", "0"}, {"add_particle_type", "0"}}), "O");
   config->add(MakeGroup({{"add_site_type", "0"}, {"add_particle_type", "1"}}), "H");
   config->add(MakeGroup({{"add_site_type", "2"}, {"add_particle_type", "1"}}), "none");
-  EXPECT_TRUE(config->group_select(0).group()->has_property("0"));
-  EXPECT_TRUE(config->group_select(1).group()->has_property("O"));
-  EXPECT_TRUE(config->group_select(2).group()->has_property("H"));
-  EXPECT_TRUE(config->group_select(3).group()->has_property("none"));
+  EXPECT_TRUE(config->group_select(0).group().has_property("0"));
+  EXPECT_TRUE(config->group_select(1).group().has_property("O"));
+  EXPECT_TRUE(config->group_select(2).group().has_property("H"));
+  EXPECT_TRUE(config->group_select(3).group().has_property("none"));
   EXPECT_EQ(4, config->group_selects().size());
   for (int part = 0; part < 100; ++part) {
     config->add_particle_of_type(0);

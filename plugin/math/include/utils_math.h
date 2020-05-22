@@ -8,6 +8,8 @@
 
 namespace feasst {
 
+// HWH rename utils_math -> utils
+
 /** Return rounded double to nearest integer. This rounding is implemented
  *  as floor(x+0.5), such that feasstRound(-0.5) == 0. The cplusplus library
  *  round(-0.5) from math.h results in round(-0.5) == -1, such that rounding
@@ -188,6 +190,11 @@ inline void sort(T * min, T * max) {
     swap(min, max);
   }
 }
+
+/// Return true if value is between bounds 1 and 2, inclusive.
+bool is_in_interval(const double value,
+                    double bound1,
+                    double bound2);
 
 /// Return the cumulative probability from a weighted series.
 std::vector<double> cumulative_probability(const std::vector<double>& weights);

@@ -47,4 +47,13 @@ double spherical_shell_volume(const double lower,
   return volume;
 }
 
+bool is_in_interval(const double value,
+                    double bound1,
+                    double bound2) {
+  bool is_inside = false;
+  sort(&bound1, &bound2);
+  if (value >= bound1 && value <= bound2) is_inside = true;
+  return is_inside;
+}
+
 }  // namespace feasst

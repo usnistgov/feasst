@@ -14,7 +14,7 @@ Metropolis::Metropolis(std::shared_ptr<Constraint> constraint,
 }
 
 bool Metropolis::is_accepted(const Acceptance& acceptance,
-    const System * system,
+    const System& system,
     const double uniform_random) {
   if ( (!acceptance.reject()) &&
        (is_allowed(system, acceptance)) &&

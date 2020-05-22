@@ -16,8 +16,8 @@ namespace feasst {
 class Constraint {
  public:
   Constraint() {}
-  virtual bool is_allowed(const System* system,
-    const Criteria* criteria,
+  virtual bool is_allowed(const System& system,
+    const Criteria& criteria,
     const Acceptance& acceptance) const = 0;
 
   // serialize

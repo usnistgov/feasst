@@ -25,7 +25,7 @@ ModelEmpty::ModelEmpty(std::istream& istr) {
 
 double ModelEmpty::energy(
     const Site& site,
-    const Configuration * config,
+    const Configuration& config,
     const ModelParams& model_params) const {
   FATAL("Empty model should not be called");
 }

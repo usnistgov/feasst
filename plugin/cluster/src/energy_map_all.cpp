@@ -122,7 +122,7 @@ void EnergyMapAll::finalize(const Select& select) {
   }
 }
 
-void EnergyMapAll::select_cluster(const NeighborCriteria * neighbor_criteria,
+void EnergyMapAll::select_cluster(const NeighborCriteria& neighbor_criteria,
                                   const Configuration& config,
                                   const int particle_node,
                                   Select * cluster,
@@ -159,7 +159,7 @@ void EnergyMapAll::select_cluster(const NeighborCriteria * neighbor_criteria,
 }
 
 bool EnergyMapAll::is_cluster_(
-    const NeighborCriteria * neighbor_criteria,
+    const NeighborCriteria& neighbor_criteria,
     const std::vector<std::vector<std::vector<double> > > * smap,
     const int particle_index0,
     const int particle_index1,
@@ -173,7 +173,7 @@ bool EnergyMapAll::is_cluster_(
       const Site& site1 = config.select_particle(particle_index1).site(s1i);
       const int site_type1 = site1.type();
       const std::vector<double>& map1 = (*smap)[s0i][s1i];
-      if (neighbor_criteria->is_accepted(map1[0], map1[1],
+      if (neighbor_criteria.is_accepted(map1[0], map1[1],
                                          site_type0, site_type1)) {
         if (frame != NULL) {
           frame->set_to_origin(dimen());
@@ -196,7 +196,7 @@ void EnergyMapAll::check() const {
   }
 }
 
-bool EnergyMapAll::is_cluster_changed(const NeighborCriteria * neighbor_criteria,
+bool EnergyMapAll::is_cluster_changed(const NeighborCriteria& neighbor_criteria,
     const Select& select,
     const Configuration& config) const {
   for (int p1 : select.particle_indices()) {
@@ -211,7 +211,7 @@ bool EnergyMapAll::is_cluster_changed(const NeighborCriteria * neighbor_criteria
 }
 
 void EnergyMapAll::neighbors(
-    const NeighborCriteria * neighbor_criteria,
+    const NeighborCriteria& neighbor_criteria,
     const Configuration& config,
     const int target_particle,
     const int target_site,
@@ -229,7 +229,7 @@ void EnergyMapAll::neighbors(
     const Site& site1 = config.select_particle(ipart).site(random_site);
     const int site_type1 = site1.type();
     const std::vector<double> & map1 = map4[ipart][target_site][random_site];
-    if (neighbor_criteria->is_accepted(map1[0], map1[1],
+    if (neighbor_criteria.is_accepted(map1[0], map1[1],
                                        site_type0, site_type1)) {
       neighbors->add_site(ipart, random_site);
     }

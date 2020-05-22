@@ -31,7 +31,7 @@ class AnalyzeFactory : public Analyze {
   const Analyze& analyze(const int index) const override {
     return const_cast<Analyze&>(*analyzers_[index]); }
 
-  void trial(const Criteria * criteria,
+  void trial(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) override;
 
@@ -47,7 +47,7 @@ class AnalyzeFactory : public Analyze {
  private:
   std::vector<std::shared_ptr<Analyze> > analyzers_;
 
-  void trial_(const Criteria * criteria,
+  void trial_(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory,
     const int index);

@@ -22,7 +22,7 @@ void CPUTime::initialize(Criteria * criteria,
   initialize_time_ = cpu_hours();
 }
 
-std::string CPUTime::write(const Criteria * criteria,
+std::string CPUTime::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;

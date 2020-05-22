@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 //#include "utils/include/timer.h"
+#include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/analyze.h"
 #include "monte_carlo/include/analyze_factory.h"
@@ -90,6 +91,8 @@ class MonteCarlo {
   // HWH depreciate: only in rare cases should the system be modified directly.
   System * get_system() { return &system_; }
   Criteria * get_criteria() { return criteria_.get(); }
+  Random * get_random() { return random_.get(); }
+  TrialFactory * get_trial_factory() { return &trial_factory_; }
 
   /// The third action is to set the Criteria.
   /// Configuration and Potentials (or System) must be set first.
@@ -100,6 +103,9 @@ class MonteCarlo {
 
   /// Once Criteria is set, it may be accessed on a read-only basis.
   const Criteria& criteria() const { return const_cast<Criteria&>(*criteria_); }
+
+  /// Initialize the current energy.
+  void initialize_energy();
 
   /// The remaining actions can be done in almost any order.
   /// Typically, one begins by adding trials.
@@ -112,13 +118,13 @@ class MonteCarlo {
   const Trial& trial(const int index) const {
     return trial_factory_.trial(index); }
 
-  // HWH consider moving this to utils
-  // HWH consider depreciating this. While convenient, it confuses many users.
-  /// Before the production simulation, one may wish to quickly seek an initial
-  /// configuration with a given number of particles, without necessarily
-  /// satisfying detailed balance.
-  /// Thus, all stats are reset.
-  void seek_num_particles(const int num);
+//  // HWH consider moving this to utils
+//  // HWH consider depreciating this. While convenient, it confuses many users.
+//  /// Before the production simulation, one may wish to quickly seek an initial
+//  /// configuration with a given number of particles, without necessarily
+//  /// satisfying detailed balance.
+//  /// Thus, all stats are reset.
+//  void seek_num_particles(const int num);
 
   /// An Analyzer performs some task after a given number of steps, but is
   /// read-only on System, Criteria and Trials.
@@ -172,7 +178,7 @@ class MonteCarlo {
   void delay_finalize_() {
     trial_factory_.delay_finalize(); }
   void after_trial_analyze_() {
-    analyze_factory_.trial(criteria_.get(), system_, trial_factory_); }
+    analyze_factory_.trial(*criteria_, system_, trial_factory_); }
   void after_trial_modify_();
   // Mimic a rejection by a trial.
   void imitate_trial_rejection_(const int trial_index,
@@ -196,16 +202,16 @@ class MonteCarlo {
   virtual void serialize(std::ostream& ostr) const;
   explicit MonteCarlo(std::istream& istr);
 
-// HWH relic from python interface?
-//  std::string serialize() {
-//    std::stringstream ss;
-//    serialize(ss);
-//    return ss.str();
-//  }
-//  MonteCarlo deserialize(const std::string str) {
-//    std::stringstream ss(str);
-//    return MonteCarlo(ss);
-//  }
+  // HWH python interface cannot handle stringstreams with serialization.
+  std::string serialize() {
+    std::stringstream ss;
+    serialize(ss);
+    return ss.str();
+  }
+  MonteCarlo deserialize(const std::string str) {
+    std::stringstream ss(str);
+    return MonteCarlo(ss);
+  }
 
   virtual ~MonteCarlo() {}
 

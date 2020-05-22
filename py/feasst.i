@@ -20,6 +20,7 @@
 #include "utils/include/utils_file.h"
 #include "utils/include/arguments.h"
 #include "utils/include/checkpoint.h"
+#include "monte_carlo/include/seek_num_particles.h"
 #include "configuration/include/physical_constants.h"
 #include "utils/include/utils_io.h"
 #include "utils/include/serialize.h"
@@ -208,8 +209,9 @@
 #include "flat_histogram/include/wltm.h"
 #include "flat_histogram/include/macrostate.h"
 #include "growth_expanded/include/macrostate_growth_expanded.h"
-#include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
+#include "flat_histogram/include/flat_histogram.h"
+#include "flat_histogram/include/clones.h"
 using namespace feasst;
 %}
 
@@ -238,6 +240,7 @@ using namespace std;
 %shared_ptr(feasst::CustomException);
 %shared_ptr(feasst::Arguments);
 %shared_ptr(feasst::Checkpoint);
+%shared_ptr(feasst::SeekNumParticles);
 %shared_ptr(feasst::PhysicalConstants);
 %shared_ptr(feasst::CODATA2018);
 %shared_ptr(feasst::CODATA2014);
@@ -446,8 +449,9 @@ using namespace std;
 %shared_ptr(feasst::WLTM);
 %shared_ptr(feasst::Macrostate);
 %shared_ptr(feasst::MacrostateGrowthExpanded);
-%shared_ptr(feasst::FlatHistogram);
 %shared_ptr(feasst::MacrostateNumParticles);
+%shared_ptr(feasst::FlatHistogram);
+%shared_ptr(feasst::Clones);
 %include configuration/include/properties.h
 %include configuration/include/typed_entity.h
 %include configuration/include/bond.h
@@ -459,6 +463,7 @@ using namespace std;
 %include utils/include/utils_file.h
 %include utils/include/arguments.h
 %include utils/include/checkpoint.h
+%include monte_carlo/include/seek_num_particles.h
 %include configuration/include/physical_constants.h
 %include utils/include/utils_io.h
 %include utils/include/serialize.h
@@ -647,5 +652,6 @@ using namespace std;
 %include flat_histogram/include/wltm.h
 %include flat_histogram/include/macrostate.h
 %include growth_expanded/include/macrostate_growth_expanded.h
-%include flat_histogram/include/flat_histogram.h
 %include flat_histogram/include/macrostate_num_particles.h
+%include flat_histogram/include/flat_histogram.h
+%include flat_histogram/include/clones.h

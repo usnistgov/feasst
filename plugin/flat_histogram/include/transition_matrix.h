@@ -45,8 +45,11 @@ class TransitionMatrix : public Bias {
   std::string write_per_bin_header() const override;
   void set_ln_prob(const LnProbability& ln_prob) override;
   void infrequent_update() override;
-  bool is_equal(const TransitionMatrix * transition_matrix,
+  bool is_equal(const TransitionMatrix& transition_matrix,
     const double tolerance) const;
+
+//  // HWH for testing only
+//  TripleBandedCollectionMatrix * get_collection() { return &collection_; }
 
   std::shared_ptr<Bias> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

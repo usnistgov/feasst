@@ -18,19 +18,19 @@ class EnergyMapAll : public EnergyMap {
   EnergyMapAll(const argtype& args = argtype());
   void revert(const Select& select) override;
   void finalize(const Select& select) override;
-  void select_cluster(const NeighborCriteria * neighbor_criteria,
+  void select_cluster(const NeighborCriteria& neighbor_criteria,
                       const Configuration& config,
                       const int particle_node,
                       Select * cluster,
                       const Position& frame_of_reference) const override;
-  bool is_cluster_changed(const NeighborCriteria * neighbor_criteria,
+  bool is_cluster_changed(const NeighborCriteria& neighbor_criteria,
     const Select& select,
     const Configuration& config) const override;
 
   /// Return the neighbors, but beware that the returned constant reference
   /// may change if this routine is called a second time.
   void neighbors(
-    const NeighborCriteria * neighbor_criteria,
+    const NeighborCriteria& neighbor_criteria,
     const Configuration& config,
     const int target_particle,
     const int target_site,
@@ -66,7 +66,7 @@ class EnergyMapAll : public EnergyMap {
  private:
   std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > > map_, map_new_;
   int part_max_() { return static_cast<int>(map_.size()); }
-  bool is_cluster_(const NeighborCriteria * neighbor_criteria,
+  bool is_cluster_(const NeighborCriteria& neighbor_criteria,
                    const std::vector<std::vector<std::vector<double> > > * smap,
                    const int particle_index0,
                    const int particle_index1,

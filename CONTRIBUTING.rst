@@ -330,5 +330,6 @@ To Do List
 * See if there is a performance difference for const_cast pointer to constant Reference. If not, remove const pntrs.
 * Transition from WL to TM
 * Somehow, trial_growth_expanded.h doesn't include debug.h but can compile with ASSERT
-* Speed up RNG by maintaining int_distribution like dis_double_
+* Speed up RNG by maintaining int_distribution like dis_double
 * Include tutorial helper scripts, like fh.py, in tutorial discussion where first used.
+* LRC energy issue with reference potentials because particle isn't revived while computing number of types

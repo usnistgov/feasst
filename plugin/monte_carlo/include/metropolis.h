@@ -18,7 +18,7 @@ class Metropolis : public Criteria {
     const argtype& args = argtype());
 
   bool is_accepted(const Acceptance& acceptance,
-    const System * system,
+    const System& system,
     const double uniform_random) override;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {

@@ -19,7 +19,7 @@ NumParticles::NumParticles(const argtype &args) : Analyze(args) {
   group_ = args_.key("group").dflt("-1").integer();
 }
 
-void NumParticles::update(const Criteria * criteria,
+void NumParticles::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   ASSERT(particle_type_ == -1 || group_ == -1,
@@ -39,7 +39,7 @@ void NumParticles::update(const Criteria * criteria,
   }
 }
 
-std::string NumParticles::write(const Criteria * criteria,
+std::string NumParticles::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;

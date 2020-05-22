@@ -34,7 +34,7 @@ AnalyzeRigidBonds::AnalyzeRigidBonds(std::istream& istr)
   feasst_deserialize_fstobj(&angle_, istr);
 }
 
-void AnalyzeRigidBonds::update(const Criteria * criteria,
+void AnalyzeRigidBonds::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   visitor_.compute(bond_, system.configuration());

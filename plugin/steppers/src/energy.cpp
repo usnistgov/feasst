@@ -17,15 +17,15 @@ Energy::Energy(const argtype &args) : Analyze(args) {
   args_.init(args);
 }
 
-void Energy::update(const Criteria * criteria,
+void Energy::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  DEBUG("en: " << criteria->current_energy());
+  DEBUG("en: " << criteria.current_energy());
   DEBUG("state: " << state());
-  accumulator_.accumulate(criteria->current_energy());
+  accumulator_.accumulate(criteria.current_energy());
 }
 
-std::string Energy::write(const Criteria * criteria,
+std::string Energy::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;

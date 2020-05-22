@@ -96,8 +96,8 @@ bool SelectParticleAVB::select(const Select& perturbed,
     anchor_.set_particle(0, target_.particle_index(0));
   }
   ASSERT(target_.num_sites() == 1, "Error");
-  map_(*system, neighbor_criteria_.get()).neighbors(
-    neighbor_criteria_.get(),
+  map_(*system, *neighbor_criteria_).neighbors(
+    *neighbor_criteria_,
     config,
     target_.particle_index(0),
     target_.site_index(0, 0),
@@ -199,8 +199,8 @@ bool SelectParticleAVB::select(const Select& perturbed,
   // AVB4 in->in
   } else if (!is_ghost() && !grand_canonical_ && inside_ && is_second_target_) {
     // obtain the number of neighbors in the second target
-    map_(*system, neighbor_criteria_.get()).neighbors(
-      neighbor_criteria_.get(),
+    map_(*system, *neighbor_criteria_).neighbors(
+      *neighbor_criteria_,
       config,
       second_target_.particle_index(0),
       second_target_.site_index(0, 0),

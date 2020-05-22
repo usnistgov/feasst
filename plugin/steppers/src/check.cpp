@@ -22,7 +22,7 @@ Check::Check(std::istream& istr) : AnalyzeUpdateOnly(istr) {
   ASSERT(version == 890, "unrecognized version: " << version);
 }
 
-void Check::update(const Criteria * criteria,
+void Check::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   system.configuration().check();

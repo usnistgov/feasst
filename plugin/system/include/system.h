@@ -88,6 +88,8 @@ class System {
     /// Store different references by index.
     const int index = 0);
 
+  int num_references() const { return static_cast<int>(references_.size()); }
+
   /// Return a reference potential.
   const Potential& reference(const int ref, const int potential) const;
 

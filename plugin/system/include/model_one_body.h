@@ -72,7 +72,7 @@ class ModelOneBody : public Model {
   }
   virtual double energy(
       const Site& site,
-      const Configuration * config,
+      const Configuration& config,
       const ModelParams& model_params) const = 0;
   virtual ~ModelOneBody() {}
 

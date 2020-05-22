@@ -47,15 +47,17 @@ void MonteCarlo::set(const System& system) {
   system_set_ = true;
   system_ = system;
   system_.precompute();
-  ASSERT(!criteria_set_, "add system before criteria");
+  // ASSERT(!criteria_set_, "add system before criteria");
+  // HWH used in clones.cpp to transfer configurations
 }
 
 void MonteCarlo::set(std::shared_ptr<Criteria> criteria) {
   ASSERT(system_set_, "set System before Criteria.");
-  criteria->set_current_energy(system_.unoptimized_energy());
-  DEBUG("current energy: " << criteria->current_energy());
   criteria_ = criteria;
   criteria_set_ = true;
+  initialize_energy();
+  // criteria->set_current_energy(system_.unoptimized_energy());
+  DEBUG("current energy: " << criteria->current_energy());
 }
 
 void MonteCarlo::add(std::shared_ptr<Trial> trial) {
@@ -113,17 +115,17 @@ void MonteCarlo::add(const std::shared_ptr<Modify> modify) {
   modify_factory_.add(modify);
 }
 
-void MonteCarlo::seek_num_particles(const int num) {
-  ASSERT(system_.configuration().num_particles() <= num,
-    "assumes you only want to add particles, not delete them");
-  auto add = MakeTrialAdd({{"particle_type", "0"}});
-  add->precompute(criteria_.get(), &system_);
-  while (system_.configuration().num_particles() < num) {
-    attempt();
-    add->attempt(criteria_.get(), &system_, random_.get());
-  }
-  trial_factory_.reset_stats();
-}
+//void MonteCarlo::seek_num_particles(const int num) {
+//  ASSERT(system_.configuration().num_particles() <= num,
+//    "assumes you only want to add particles, not delete them");
+//  auto add = MakeTrialAdd({{"particle_type", "0"}});
+//  add->precompute(criteria_.get(), &system_);
+//  while (system_.configuration().num_particles() < num) {
+//    attempt();
+//    add->attempt(criteria_.get(), &system_, random_.get());
+//  }
+//  reset_trial_stats();
+//}
 
 void MonteCarlo::add(const std::shared_ptr<Checkpoint> checkpoint) {
   checkpoint_ = checkpoint;
@@ -231,6 +233,14 @@ void MonteCarlo::imitate_trial_rejection_(const int trial_index,
     const int state_new) {
   trial_factory_.imitate_trial_rejection_(trial_index);
   criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new);
+}
+
+void MonteCarlo::initialize_energy() {
+  criteria_->set_current_energy(system_.unoptimized_energy());
+  system_.energy();
+  for (int ref = 0; ref < system_.num_references(); ++ref) {
+    system_.reference_energy(ref);
+  }
 }
 
 }  // namespace feasst

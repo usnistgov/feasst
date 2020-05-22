@@ -27,8 +27,8 @@ class EnergyMapAllCriteria : public EnergyMapAll {
       const double squared_distance,
       const Position * pbc) override;
   bool is_queryable() const override { return false; }
-  const NeighborCriteria * neighbor_criteria() const override {
-    return neighbor_criteria_.get(); }
+  const NeighborCriteria& neighbor_criteria() const override {
+    return *neighbor_criteria_; }
 
   // serialization
   std::string class_name() const override { return class_name_; }

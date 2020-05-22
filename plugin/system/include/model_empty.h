@@ -15,7 +15,7 @@ class ModelEmpty : public ModelOneBody {
 
   double energy(
       const Site& site,
-      const Configuration * config,
+      const Configuration& config,
       const ModelParams& model_params) const override;
 
   std::shared_ptr<Model> create(std::istream& istr) const override {

@@ -92,7 +92,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   DEBUG("**********************************************************");
   ++num_attempts_;
   acceptance_.reset();
-  criteria->before_attempt(system);
+  criteria->before_attempt(*system);
   before_select(&acceptance_, criteria);
 
   // Perform selections. If one selection fails, do not continue selecting.
@@ -111,7 +111,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
       criteria, system, &acceptance_, &stages_ptr_, random);
   }
   DEBUG("num attempts: " << num_attempts_);
-  if (criteria->is_accepted(acceptance_, system, random->uniform())) {
+  if (criteria->is_accepted(acceptance_, *system, random->uniform())) {
     DEBUG("accepted");
     ++num_success_;
     if (!is_finalize_delayed_) {

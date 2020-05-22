@@ -68,15 +68,15 @@ class Criteria {
     constraints_.push_back(constraint); }
 
   /// Return whether constraints are statisfied.
-  bool is_allowed(const System * system,
+  bool is_allowed(const System& system,
                   const Acceptance& acceptance);
 
   /// This function is called before a trial attempt.
-  virtual void before_attempt(const System* system) {}
+  virtual void before_attempt(const System& system) {}
 
   /// Return whether or not the trial attempt should be accepted.
   virtual bool is_accepted(const Acceptance& acceptance_,
-    const System * system,
+    const System& system,
     const double uniform_random) = 0;
 
   /// Return whether or not the last trial attempt was accepted.

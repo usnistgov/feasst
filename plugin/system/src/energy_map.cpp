@@ -107,7 +107,7 @@ EnergyMap::EnergyMap(std::istream& istr) {
   feasst_deserialize(&dimen_, istr);
 }
 
-void EnergyMap::select_cluster(const NeighborCriteria * cluster_criteria,
+void EnergyMap::select_cluster(const NeighborCriteria& cluster_criteria,
                               const Configuration& config,
                               const int particle_node,
                               Select * cluster,
@@ -115,18 +115,18 @@ void EnergyMap::select_cluster(const NeighborCriteria * cluster_criteria,
   FATAL("not implemented");
 }
 
-bool EnergyMap::is_cluster_changed(const NeighborCriteria * cluster_criteria,
+bool EnergyMap::is_cluster_changed(const NeighborCriteria& cluster_criteria,
     const Select& select,
     const Configuration& config) const {
   FATAL("not implemented");
 }
 
-const NeighborCriteria * EnergyMap::neighbor_criteria() const {
+const NeighborCriteria& EnergyMap::neighbor_criteria() const {
   FATAL("not implemented");
 }
 
 void EnergyMap::neighbors(
-    const NeighborCriteria * neighbor_criteria,
+    const NeighborCriteria& neighbor_criteria,
     const Configuration& config,
     const int target_particle,
     const int target_site,

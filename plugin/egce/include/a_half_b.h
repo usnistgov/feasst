@@ -20,8 +20,8 @@ class AHalfB : public Constraint {
     - extra: allow |2*A - B| <= extra (default: 0).
    */
   AHalfB(const argtype& args = argtype());
-  bool is_allowed(const System* system,
-    const Criteria* criteria,
+  bool is_allowed(const System& system,
+    const Criteria& criteria,
     const Acceptance& acceptance) const override;
   std::shared_ptr<Constraint> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

@@ -32,11 +32,9 @@ assert(feasst.install_dir() == '/home/hwh/gcfetch/feasst')
 
 def lj_system(box_length):
     system = feasst.System()
-    config = feasst.Configuration(feasst.args({
-        "cubic_box_length": str(box_length),
-        "particle_type": feasst.install_dir() + '/forcefield/data.lj',
-        # "init_cells": "1.",
-    }))
+    config = feasst.Configuration(
+        feasst.Domain(feasst.args({"cubic_box_length": str(box_length)})),
+        feasst.args({"particle_type": feasst.install_dir() + '/forcefield/data.lj'}))
     config.set_model_param("cutoff", 0, args.cutoff);
     system.add(config)
     system.add(feasst.Potential(feasst.MakeLennardJones()))
@@ -66,7 +64,7 @@ def mc(
     nmin = num_particles - args.window_half_width
     nmax = num_particles + args.window_half_width
     if not args.nofh:
-        monte_carlo.seek_num_particles(nmin)
+        feasst.SeekNumParticles(nmin).with_trial_add().run(monte_carlo)
     feasst.add_trial_transfer(monte_carlo, feasst.args({
         "weight": "1",
         "particle_type": "0"}))

@@ -40,8 +40,8 @@ void PerturbDistanceAngle::move(System * system,
   DEBUG("old pos " << site->str());
 
   // set site to the vector |r_j - r_k| and store this unit vector
-  const Position& rj = select->anchor_position(0, 0, system);
-  const Position& rk = select->anchor_position(0, 1, system);
+  const Position& rj = select->anchor_position(0, 0, *system);
+  const Position& rk = select->anchor_position(0, 1, *system);
   *site = rj;
   site->subtract(rk);
   rjk_ = *site;

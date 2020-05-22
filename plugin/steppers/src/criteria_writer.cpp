@@ -14,12 +14,12 @@ class MapCriteriaWriter {
 
 static MapCriteriaWriter mapper_ = MapCriteriaWriter();
 
-std::string CriteriaWriter::write(const Criteria * criteria,
+std::string CriteriaWriter::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   // ensure the following order matches the header from initialization.
   std::stringstream ss;
-  ss << criteria->write() << std::endl;
+  ss << criteria.write() << std::endl;
   return ss.str();
 }
 

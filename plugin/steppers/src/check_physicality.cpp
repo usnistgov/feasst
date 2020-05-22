@@ -24,7 +24,7 @@ CheckPhysicality::CheckPhysicality(std::istream& istr)
   ASSERT(version == 204, "version mismatch: " << version);
 }
 
-void CheckPhysicality::update(const Criteria * criteria,
+void CheckPhysicality::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   for (int ic = 0; ic < system.num_configurations(); ++ic) {

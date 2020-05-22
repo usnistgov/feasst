@@ -77,6 +77,10 @@ void TrialStage::attempt(System * system,
       DEBUG("pos0 " << rosenbluth_.chosen().site_positions()[0][0].str());
       // DEBUG("pos1 " << rosenbluth_.chosen().site_positions()[0][1].str());
       system->get_configuration()->update_positions(rosenbluth_.chosen());
+      // if select->is_ghost() then revive particle
+      if (select_->is_ghost()) {
+        system->get_configuration()->revive(rosenbluth_.chosen());
+      }
     } else if (is_mayer()) {
       ASSERT(rosenbluth_.num() == 1, "assumes 1 step for mayer");
       system->get_configuration()->update_positions(rosenbluth_.stored(0));
