@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Histogram &mdash; FEASST v0.10.0 documentation</title>
+  <title>Histogram &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -44,8 +44,8 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="FormulaPolynomial" href="FormulaPolynomial.html" />
-    <link rel="prev" title="FormulaExponential" href="FormulaExponential.html" />
+    <link rel="next" title="Formula" href="Formula.html" />
+    <link rel="prev" title="Accumulator" href="Accumulator.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -108,19 +108,19 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Accumulator.html">Accumulator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Position.html">Position</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Histogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FormulaPolynomial.html">FormulaPolynomial</a></li>
-<li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils_math.html">math/include/utils_math</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Position.html">Position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Random.html">Random</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -137,11 +137,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -216,7 +214,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugin</a> &raquo;</li>
+          <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
           <li><a href="../README.html">Math</a> &raquo;</li>
         
@@ -265,13 +263,13 @@
 </style>
 <div class="section" id="histogram">
 <h1>Histogram<a class="headerlink" href="#histogram" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="cpp class">
 <dt id="_CPPv4N6feasst9HistogramE">
 <span class="target" id="classfeasst_1_1Histogram"></span><em class="property">class </em><code class="sig-name descname">Histogram</code><a class="headerlink" href="#_CPPv4N6feasst9HistogramE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A one-dimensional histogram. The histogram is defined by a contiguous set of “bins” which may be of constant or variable width. Each time a value is added to the histogram, the bin is found and incremented. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Histogram9HistogramERK7argtype">
 <span class="target" id="classfeasst_1_1Histogram_1a2d70770fbe08f0f2ef5b562a9d0eea89"></span><code class="sig-name descname">Histogram</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Histogram9HistogramERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
@@ -282,85 +280,85 @@
 </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Histogram10expandableEv">
 <span class="target" id="classfeasst_1_1Histogram_1a9687ad95a2a319b4b79ad6fbfebd3945"></span>bool <code class="sig-name descname">expandable</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Histogram10expandableEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Depending on the way the bins are defined, the histogram may be told how to automatically expand in size if the value is outside of the current bounds. Otherwise, adding a value outside of the current bounds will result in an error. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Histogram12set_bin_sizeEKNSt10shared_ptrI7FormulaEE">
 <span class="target" id="classfeasst_1_1Histogram_1ab81b2e9a3236785f52f4772a3ba052af"></span>void <code class="sig-name descname">set_bin_size</code><span class="sig-paren">(</span><em class="property">const</em> std::shared_ptr&lt;<a class="reference internal" href="Formula.html#_CPPv4N6feasst7FormulaE" title="feasst::Formula">Formula</a>&gt; <em>bin_size</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Histogram12set_bin_sizeEKNSt10shared_ptrI7FormulaEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the size of the bins according to a formula, where the initial bin is defined by the formula evaluated at zero. This makes the histogram expandable. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Histogram16set_width_centerEKdKd">
 <span class="target" id="classfeasst_1_1Histogram_1addaff1b5e258c73c6447608283a95b1d"></span>void <code class="sig-name descname">set_width_center</code><span class="sig-paren">(</span><em class="property">const</em> double <em>width</em>, <em class="property">const</em> double <em>center</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Histogram16set_width_centerEKdKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set a constant bin width and fix the center of the initial bin. This makes the histogram expandable. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Histogram9set_edgesEKNSt5dequeIdEE">
 <span class="target" id="classfeasst_1_1Histogram_1ac08e01f1ccc8c4ba95a2033f9fe45a51"></span>void <code class="sig-name descname">set_edges</code><span class="sig-paren">(</span><em class="property">const</em> std::deque&lt;double&gt; <em>edges</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Histogram9set_edgesEKNSt5dequeIdEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the edges or boundaries manually. This makes the histogram not expandable. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Histogram18set_not_expandableEv">
 <span class="target" id="classfeasst_1_1Histogram_1a3d0f49175e20c1405166ea954c20fadc"></span>void <code class="sig-name descname">set_not_expandable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Histogram18set_not_expandableEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Force the histogram not to be expandable. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Histogram5edgesEv">
 <span class="target" id="classfeasst_1_1Histogram_1ad8beca1a30d294f67d723206df0c3688"></span>std::deque&lt;double&gt; <code class="sig-name descname">edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Histogram5edgesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The edges or boundaries of the contiguous set of bins. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Histogram3maxEv">
 <span class="target" id="classfeasst_1_1Histogram_1adfa0a68be0fe6746896a3363b5d42a2e"></span>double <code class="sig-name descname">max</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Histogram3maxEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the maximum edge. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Histogram3minEv">
 <span class="target" id="classfeasst_1_1Histogram_1a518c6082d661aca1b4e9efc0ea05d09e"></span>double <code class="sig-name descname">min</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Histogram3minEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the minimum edge. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Histogram4sizeEv">
 <span class="target" id="classfeasst_1_1Histogram_1ac34f4a6345778d0e7596f84d360aa33d"></span>int <code class="sig-name descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Histogram4sizeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of bins. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Histogram3binEKd">
 <span class="target" id="classfeasst_1_1Histogram_1a2dd21fcd4349d679b3345b0a6c7ebc4a"></span>int <code class="sig-name descname">bin</code><span class="sig-paren">(</span><em class="property">const</em> double <em>value</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Histogram3binEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the bin for a given value. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Histogram13center_of_binEKi">
 <span class="target" id="classfeasst_1_1Histogram_1ad21131051f2fbec2162f0099c4e86868"></span>double <code class="sig-name descname">center_of_bin</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bin</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Histogram13center_of_binEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the center of the bin (e.g., the average of the boundaries). </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Histogram18center_of_last_binEv">
 <span class="target" id="classfeasst_1_1Histogram_1a66e0eac84ada43201da8f43aeab0b56d"></span>double <code class="sig-name descname">center_of_last_bin</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Histogram18center_of_last_binEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the center of the last bin. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Histogram3addEKd">
 <span class="target" id="classfeasst_1_1Histogram_1a94c59a8e6d3e89d4ddb7e63b1e7d506c"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Histogram3addEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Update the histogram by adding a value. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Histogram9histogramEv">
 <span class="target" id="classfeasst_1_1Histogram_1afa846f25ba07770102aa1653df6e2770"></span>std::deque&lt;double&gt; <code class="sig-name descname">histogram</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Histogram9histogramEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the histogram. </p>
@@ -379,10 +377,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="FormulaPolynomial.html" class="btn btn-neutral float-right" title="FormulaPolynomial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Formula.html" class="btn btn-neutral float-right" title="Formula" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="FormulaExponential.html" class="btn btn-neutral float-left" title="FormulaExponential" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Accumulator.html" class="btn btn-neutral float-left" title="Accumulator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

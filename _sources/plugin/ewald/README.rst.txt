@@ -4,10 +4,6 @@ Ewald
 
 This is a plugin for the Ewald summation for long-range electrostatics.
 
-.. toctree::
-
-   doc/toc
-
 Tutorial
 =========
 
@@ -19,7 +15,7 @@ Tutorial
 FEASST plugin dependencies
 ============================
 
-* system
+* monte_carlo
 
 API
 ===

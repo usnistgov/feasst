@@ -2,9 +2,9 @@
 .. toctree::
 
    Shape
-   Slab
+   ModelHardShape
    Cylinder
+   HalfSpace
+   Slab
    Sphere
    ModelLJShape
-   ModelHardShape
-   HalfSpace

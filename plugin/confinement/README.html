@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Confinement &mdash; FEASST v0.10.0 documentation</title>
+  <title>Confinement &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Slab, cylindrical, spherical and mixed confinement" href="tutorial/tutorial.html" />
-    <link rel="prev" title="TrialReptate" href="../chain/doc/TrialReptate.html" />
+    <link rel="prev" title="PerturbSiteType" href="../chain/doc/PerturbSiteType.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -108,7 +108,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../README.html">Plugin</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../configuration/README.html">Configuration</a></li>
@@ -127,21 +127,19 @@
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="doc/Shape.html">Shape</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/Slab.html">Slab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ModelHardShape.html">ModelHardShape</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Cylinder.html">Cylinder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/HalfSpace.html">HalfSpace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Slab.html">Slab</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Sphere.html">Sphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/ModelLJShape.html">ModelLJShape</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/ModelHardShape.html">ModelHardShape</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/HalfSpace.html">HalfSpace</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../ewald/README.html">Ewald</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../py/README.html">pyFEASST</a></li>
@@ -216,7 +214,7 @@
     
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../README.html">Plugin</a> &raquo;</li>
+          <li><a href="../README.html">Plugins</a> &raquo;</li>
         
       <li>Confinement</li>
     
@@ -278,12 +276,12 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="doc/Shape.html">Shape</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Slab.html">Slab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ModelHardShape.html">ModelHardShape</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Cylinder.html">Cylinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/HalfSpace.html">HalfSpace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Slab.html">Slab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Sphere.html">Sphere</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/ModelLJShape.html">ModelLJShape</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ModelHardShape.html">ModelHardShape</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/HalfSpace.html">HalfSpace</a></li>
 </ul>
 </div>
 </div>
@@ -300,7 +298,7 @@
         <a href="tutorial/tutorial.html" class="btn btn-neutral float-right" title="Slab, cylindrical, spherical and mixed confinement" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../chain/doc/TrialReptate.html" class="btn btn-neutral float-left" title="TrialReptate" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../chain/doc/PerturbSiteType.html" class="btn btn-neutral float-left" title="PerturbSiteType" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

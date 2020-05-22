@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorial &mdash; FEASST v0.10.0 documentation</title>
+  <title>Tutorial &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Plugin" href="../plugin/README.html" />
+    <link rel="next" title="Plugins" href="../plugin/README.html" />
     <link rel="prev" title="README" href="../README.html" />
 
 	<!-- frame blocking -->
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -116,7 +116,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#Additional-tutorials">Additional tutorials</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin/README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../forcefield/README.html">Forcefield</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
@@ -272,20 +272,33 @@ div.nboutput.container div.prompt pre {
 /* all prompts */
 div.nbinput.container div.prompt,
 div.nboutput.container div.prompt {
-    min-width: 5ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
 }
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
 @media (max-width: 540px) {
     div.nbinput.container div.prompt,
     div.nboutput.container div.prompt {
+        width: unset;
         text-align: left;
         padding: 0.4em;
     }
     div.nboutput.container div.prompt.empty {
         padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
     }
 }
 
@@ -298,7 +311,6 @@ div.nboutput.container div.prompt pre {
 /* input/output area */
 div.nbinput.container div.input_area,
 div.nboutput.container div.output_area {
-    padding: 0.4em;
     -webkit-flex: 1;
     flex: 1;
     overflow: auto;
@@ -372,6 +384,27 @@ div.nboutput.container div.output_area.stderr {
 .ansi-bold { font-weight: bold; }
 .ansi-underline { text-decoration: underline; }
 
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
 /* Some additional styling taken form the Jupyter notebook CSS */
 div.rendered_html table {
   border: none;
@@ -441,7 +474,7 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Canonical-ensemble-Lennard-Jones-Monte-Carlo">
 <h2>Canonical ensemble Lennard-Jones Monte Carlo<a class="headerlink" href="#Canonical-ensemble-Lennard-Jones-Monte-Carlo" title="Permalink to this headline">¶</a></h2>
 <p>The following simulation <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.py</span></code> demonstrates the basics of FEASST.</p>
-<p>First, a <a class="reference internal" href="../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> object is created and the random number generator is initialized using the C++ implementation of the Mersenne Twister seeded by the date.</p>
+<p>First, a <a class="reference internal" href="../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> object is created and the random number generator is initialized using the C++ implementation of the Mersenne Twister seeded by the time and date.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -449,12 +482,12 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">feasst</span>
 <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;date&quot;</span><span class="p">})))</span>
+<span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">})))</span>
 </pre></div>
 </div>
 </div>
-<p>Care must be taken not to run two identical simulations at the same second on an HPC node using the date, or they will have the same seed and may be equivalent. Instead, consider using a thread safe random number generator to seed the simulations.</p>
-<p>FEASST standard output and error goes to the Jupyter notebook terminal. Thus, you should see output like “# Info 0 [plugin/math/src/random.cpp:30] time(seed): 1572362164” but with a different seed. This seed is provided in case you wanted to reproduce your simulation exactly, which we will do now.</p>
+<p>Care must be taken not to run two identical simulations at the same second on an HPC node using the time and date, or they will have the same seed and may be equivalent. Instead, consider using a thread safe random number generator to seed the simulations.</p>
+<p>FEASST standard output and error goes to the Jupyter notebook terminal. Thus, you should see output like “# Info 0 [plugin/math/src/random.cpp:30] time(seed): 1572362164” but with a different seed. This seed is provided in case you wanted to reproduce your simulation exactly, which we will do now. Note that your simulation may still be different than presented here, possibly because of different compiler implementations.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -470,9 +503,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
-     <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/data.lj&quot;</span><span class="p">})))</span>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeDomain</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">})),</span>
+     <span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/data.lj&quot;</span><span class="p">})))</span>
 </pre></div>
 </div>
 </div>
@@ -495,14 +527,13 @@ You can test this now by changing the `cubic_box_length` argument to an incorrec
 </div>
 <p>In this example, we introduce both the pair-wise <a class="reference internal" href="../plugin/system/doc/LennardJones.html"><span class="doc">Lennard-Jones (LJ) model</span></a>, and also <a class="reference internal" href="../plugin/system/doc/LongRangeCorrections.html"><span class="doc">long-range corrections</span></a>, which approximately account for the cut off of the LJ potential by assuming a pair-wise radial distance distribution function of unity. A FEASST convention is to use a helper function which appends the word <code class="docutils literal notranslate"><span class="pre">Make</span></code> onto the class name when creating pointers to FEASST derived class objects. This
 serves two purposes involving C++11 smart pointers and brace enclosed initializer lists.</p>
-<p>Initialization of the acceptance <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a> includes thermodynamic constraints such as temperature and chemical potential.</p>
+<p>Initialization of the acceptance <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a> includes thermodynamic constraints such as temperature.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
+<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">})))</span>
 </pre></div>
 </div>
 </div>
@@ -525,11 +556,13 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">seek_num_particles</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span></span><span class="n">feasst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">with_metropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">}))</span>\
+    <span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>While <code class="docutils literal notranslate"><span class="pre">seek_num_particles</span></code> appears simple, care must be taken for when to perform this step. A grand canonical simulation is performed here, which is why chemical potential was input to <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>. This function is likely to change in upcoming versions to reflect more nuanced features which are out of the scope of this tutorial.</p>
+<p>A grand canonical simulation is performed here by utilizing a temporary <a class="reference internal" href="../plugin/monte_carlo/doc/TrialAdd.html"><span class="doc">TrialAdd</span></a>, which is why chemical potential was input to <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>.</p>
 <p>Additional <a class="reference internal" href="../plugin/monte_carlo/doc/Analyze.html"><span class="doc">Analyze</span></a> or <a class="reference internal" href="../plugin/monte_carlo/doc/Modify.html"><span class="doc">Modify</span></a> may be added at any time to perform some task contingent upon the number of attempted trials.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
@@ -563,8 +596,8 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 570 ms, sys: 7.99 ms, total: 578 ms
-Wall time: 578 ms
+CPU times: user 696 ms, sys: 1.48 ms, total: 698 ms
+Wall time: 696 ms
 </pre></div></div>
 </div>
 <p>Now we can analyze the simulation by, for example, plotting the instantaneous energy as a function of the number of attempts.</p>
@@ -576,7 +609,7 @@ Wall time: 578 ms
 <span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">,</span> <span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;attempt&#39;</span><span class="p">,</span> <span class="s1">&#39;energy&#39;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;attempt&#39;</span><span class="p">,</span> <span class="s1">&#39;energy&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -586,7 +619,7 @@ Wall time: 578 ms
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f06f0b69110&gt;
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f67df32ddc0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -612,7 +645,7 @@ Wall time: 578 ms
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../plugin/README.html" class="btn btn-neutral float-right" title="Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../plugin/README.html" class="btn btn-neutral float-right" title="Plugins" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../README.html" class="btn btn-neutral float-left" title="README" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

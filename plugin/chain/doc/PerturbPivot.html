@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PerturbPivot &mdash; FEASST v0.10.0 documentation</title>
+  <title>PerturbPivot &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="TrialSelectPerturbed" href="TrialSelectPerturbed.html" />
+    <link rel="next" title="PerturbCrankshaft" href="PerturbCrankshaft.html" />
     <link rel="prev" title="TrialCrankshaft" href="TrialCrankshaft.html" />
 
 	<!-- frame blocking -->
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -108,7 +108,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -122,27 +122,29 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Chain</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectSiteOfType.html">SelectSiteOfType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectPerturbed.html">SelectPerturbed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectSegment.html">SelectSegment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectEndSegment.html">SelectEndSegment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SelectReptate.html">SelectReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="AnalyzeRigidBonds.html">AnalyzeRigidBonds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialSelectSegment.html">TrialSelectSegment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialSelectEndSegment.html">TrialSelectEndSegment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialSelectReptate.html">TrialSelectReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RecenterParticles.html">RecenterParticles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialSwapSites.html">TrialSwapSites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialPivot.html">TrialPivot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="TrialCrankshaft.html">TrialCrankshaft</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">PerturbPivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialSelectPerturbed.html">TrialSelectPerturbed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialPivot.html">TrialPivot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PerturbReptate.html">PerturbReptate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="TrialReptate.html">TrialReptate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbCrankshaft.html">PerturbCrankshaft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TrialGrowLinear.html">TrialGrowLinear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PerturbSiteType.html">PerturbSiteType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -217,7 +219,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugin</a> &raquo;</li>
+          <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
           <li><a href="../README.html">Chain</a> &raquo;</li>
         
@@ -266,12 +268,12 @@
 </style>
 <div class="section" id="perturbpivot">
 <h1>PerturbPivot<a class="headerlink" href="#perturbpivot" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="cpp class">
 <dt id="_CPPv4N6feasst12PerturbPivotE">
-<span class="target" id="classfeasst_1_1PerturbPivot"></span><em class="property">class </em><code class="sig-name descname">PerturbPivot</code> : <em class="property">public</em> <a class="reference internal" href="../../ewald/doc/utils_ewald.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/PerturbRotate.html#_CPPv4N6feasst13PerturbRotateE" title="feasst::PerturbRotate">PerturbRotate</a><a class="headerlink" href="#_CPPv4N6feasst12PerturbPivotE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1PerturbPivot"></span><em class="property">class </em><code class="sig-name descname">PerturbPivot</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/PerturbRotate.html#_CPPv4N6feasst13PerturbRotateE" title="feasst::PerturbRotate">PerturbRotate</a><a class="headerlink" href="#_CPPv4N6feasst12PerturbPivotE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst12PerturbPivot4moveEP6SystemP11TrialSelectP6Random">
 <span class="target" id="classfeasst_1_1PerturbPivot_1a88d3a29736a1691235aff3f6a89c3289"></span>void <code class="sig-name descname">move</code><span class="sig-paren">(</span><a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="../../monte_carlo/doc/TrialSelect.html#_CPPv4N6feasst11TrialSelectE" title="feasst::TrialSelect">TrialSelect</a> *<em>select</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12PerturbPivot4moveEP6SystemP11TrialSelectP6Random" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Rotate the selected particles using the tuning parameter. Set the pivot to the anchor. Dont rotate the particle positions. </p>
@@ -290,7 +292,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="TrialSelectPerturbed.html" class="btn btn-neutral float-right" title="TrialSelectPerturbed" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="PerturbCrankshaft.html" class="btn btn-neutral float-right" title="PerturbCrankshaft" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="TrialCrankshaft.html" class="btn btn-neutral float-left" title="TrialCrankshaft" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

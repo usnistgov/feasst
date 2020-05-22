@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Ewald &mdash; FEASST v0.10.0 documentation</title>
+  <title>Ewald &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -44,8 +44,8 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="ewald/include/utils_ewald" href="utils_ewald.html" />
-    <link rel="prev" title="ChargeSelf" href="ChargeSelf.html" />
+    <link rel="next" title="CheckNetCharge" href="CheckNetCharge.html" />
+    <link rel="prev" title="ChargeScreenedIntra" href="ChargeScreenedIntra.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -108,7 +108,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -123,28 +123,26 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Ewald</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ChargeScreened.html">ChargeScreened</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ChargeSelf.html">ChargeSelf</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Ewald</a></li>
-<li class="toctree-l3"><a class="reference internal" href="utils_ewald.html">ewald/include/utils_ewald</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ChargeScreened.html">ChargeScreened</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialRemoveMultiple.html">TrialRemoveMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAddMultiple.html">TrialAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ChargeSelf.html">ChargeSelf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ChargeScreened.html">ChargeScreened</a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils.html">ewald/include/utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Ewald</a></li>
-<li class="toctree-l4"><a class="reference internal" href="utils_ewald.html">ewald/include/utils_ewald</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CheckNetCharge.html">CheckNetCharge</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -219,7 +217,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugin</a> &raquo;</li>
+          <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
           <li><a href="../README.html">Ewald</a> &raquo;</li>
         
@@ -268,9 +266,9 @@
 </style>
 <div class="section" id="ewald">
 <h1>Ewald<a class="headerlink" href="#ewald" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="cpp class">
 <dt id="_CPPv4N6feasst5EwaldE">
-<span class="target" id="classfeasst_1_1Ewald"></span><em class="property">class </em><code class="sig-name descname">Ewald</code> : <em class="property">public</em> <a class="reference internal" href="utils_ewald.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst5EwaldE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Ewald"></span><em class="property">class </em><code class="sig-name descname">Ewald</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a><a class="headerlink" href="#_CPPv4N6feasst5EwaldE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>This implementation appears to work correctly. However, it is not optimized and will be subject to change in future versions.</p>
 <p>HWH: Add <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> citations.</p>
 <p><a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> is not currently supported for use as a reference state for dual-cut configurational bias. While <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> is supported for use as the full potential for dual-cut configurational bias, <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> cannot and should not be used as one of the reference states because (1) it is slow and (2) see <a class="reference internal" href="#classfeasst_1_1Ewald_1a76e190a7411a4b7ba6f404a9d1854858"><span class="std std-ref">Ewald::compute()</span></a> with selections.</p>
@@ -283,43 +281,69 @@
 <p>HWH: If selection = all, don’t do difference HWH: If selection not all (how know? config?) then calc energy first before updating struct. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
-<dl class="function">
-<dt id="_CPPv4N6feasst5Ewald16set_kmax_squaredEKd">
-<span class="target" id="classfeasst_1_1Ewald_1a096439009fcc49bb73527309e32e320a"></span>void <code class="sig-name descname">set_kmax_squared</code><span class="sig-paren">(</span><em class="property">const</em> double <em>kmax_squared</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald16set_kmax_squaredEKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set all k vectors according to similar size and use symmetry for the x. </p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst5Ewald5EwaldERK7argtype">
+<span class="target" id="classfeasst_1_1Ewald_1abcf782db02b20a383f212ea47593d706"></span><code class="sig-name descname">Ewald</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald5EwaldERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>tolerance: determine the alpha parameter and number of wave vectors by specifying the accuracy relative to the energy of two unit charges separated by a distance of one unit.</p></li>
+<li><p>tolerance_num_sites: for setting parameters with the tolerance, optionally set the number of sites to be used for the parameter calculation rather than the currently existing number of sites (default).</p></li>
+<li><p>alpha: optionally specify the alpha parameter in units of inverse length.</p></li>
+<li><p>kxmax: optionally specify the maximum wave vectors in the first dimension.</p></li>
+<li><p>kymax: same as above, but in the second dimension.</p></li>
+<li><p>kzmax: same as above, but in the third dimension.</p></li>
+<li><p>kmax_squared: optionally set the squared maximum integer wave vector for cubic domains only, which also sets kxmax, etc. </p></li>
+</ul>
+</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst5Ewald21tolerance_to_alpha_ksEKdRK13ConfigurationPdPiPiPi">
+<span class="target" id="classfeasst_1_1Ewald_1a55f61c3a9ed21bd053936a0a0900540c"></span>void <code class="sig-name descname">tolerance_to_alpha_ks</code><span class="sig-paren">(</span><em class="property">const</em> double <em>tolerance</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, double *<em>alpha</em>, int *<em>kxmax</em>, int *<em>kymax</em>, int *<em>kzmax</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald21tolerance_to_alpha_ksEKdRK13ConfigurationPdPiPiPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tolerance</span></code>: Estimated tolerance for the energy. This is relative to the energy exerted by two unit charges separated by a distance of one unit. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code>: Return the alpha </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kxmax</span></code>: Return the maximum number of Fourier vectors in the x dimension. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kymax</span></code>: as above but in y </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kzmax</span></code>: as above but in z </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Recommend an alpha parameter for <a class="reference internal" href="#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> as described and implemented in LAMMPS <a class="reference external" href="https://lammps.sandia.gov/doc/kspace_style.html">https://lammps.sandia.gov/doc/kspace_style.html</a> <a class="reference external" href="https://doi.org/10.1080/08927029208049126">https://doi.org/10.1080/08927029208049126</a> <a class="reference external" href="https://doi.org/10.1063/1.470043">https://doi.org/10.1063/1.470043</a> </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst5Ewald19update_wave_vectorsERK13Configuration">
 <span class="target" id="classfeasst_1_1Ewald_1ab5f8bbb07a131c17bf232fb1aeab5e9e"></span>void <code class="sig-name descname">update_wave_vectors</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald19update_wave_vectorsERK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Precompute the wave vectors within cutoff, coefficients, and also resize the structure factors. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst5Ewald24init_wave_vector_storageEP13ConfigurationKi">
 <span class="target" id="classfeasst_1_1Ewald_1a587db418455c594a5fe2fc2374b073a5"></span>void <code class="sig-name descname">init_wave_vector_storage</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald24init_wave_vector_storageEP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize custom site properties to store wave vector components. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst5Ewald22update_struct_fact_eikERK6SelectP13ConfigurationPNSt6vectorIdEEPNSt6vectorIdEE">
 <span class="target" id="classfeasst_1_1Ewald_1a17e63c40a4fb3bcb4fa24d508e4ab03b"></span>void <code class="sig-name descname">update_struct_fact_eik</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, std::vector&lt;double&gt; *<em>struct_fact_real</em>, std::vector&lt;double&gt; *<em>struct_fact_imag</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald22update_struct_fact_eikERK6SelectP13ConfigurationPNSt6vectorIdEEPNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Update the site-stored eik properties of the selection, and also the structure factor. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst5Ewald10precomputeEP13Configuration">
 <span class="target" id="classfeasst_1_1Ewald_1aaf737e5a29e5e632fb4cc8dd9e1ecca9"></span>void <code class="sig-name descname">precompute</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald10precomputeEP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add “eik” to list of config’s excluded properties during selection updates. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsP13ConfigurationKi">
 <span class="target" id="classfeasst_1_1Ewald_1a76e190a7411a4b7ba6f404a9d1854858"></span>void <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a> &amp;<em>model</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute interactions of entire group in configuration from scratch. This is not optimized for smaller perturbations to the configuration. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi">
 <span class="target" id="classfeasst_1_1Ewald_1a38a41debd5d1ba57b872030f783d670b"></span>void <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/ModelOneBody.html#_CPPv4N6feasst12ModelOneBodyE" title="feasst::ModelOneBody">ModelOneBody</a> &amp;<em>model</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <em class="property">const</em> int <em>group_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald7computeERK12ModelOneBodyRK11ModelParamsRK6SelectP13ConfigurationKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute by selection is optimized for perturbations to the system. Contrary to short range interactions, in this case the energy of the entire system is computed from the structure factor. Thus, to get an energy contribution of a selection, one must take a difference between the configuration with and without the selection’s contributions to the structure factor.</p>
@@ -328,6 +352,12 @@
 <p>For 1, “move”, eik are updated and their contributions are added to the structure factor. Return the new system energy.</p>
 <p>For 2, “remove”, remove the eik contributions to the structure factor without updating the eik. Return the old minus new energy.</p>
 <p>For 3, “add”, eik are updated and their contributions are added to the structure factor. Return the new minus old energy. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Ewald10net_chargeERK13Configuration">
+<span class="target" id="classfeasst_1_1Ewald_1a395fdc50aa64f58c4b3e71dd249ccce9"></span>double <code class="sig-name descname">net_charge</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Ewald10net_chargeERK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the net charge of the configuration. </p>
 </dd></dl>
 
 </div>
@@ -343,10 +373,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="utils_ewald.html" class="btn btn-neutral float-right" title="ewald/include/utils_ewald" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="CheckNetCharge.html" class="btn btn-neutral float-right" title="CheckNetCharge" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ChargeSelf.html" class="btn btn-neutral float-left" title="ChargeSelf" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="ChargeScreenedIntra.html" class="btn btn-neutral float-left" title="ChargeScreenedIntra" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

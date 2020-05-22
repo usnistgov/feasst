@@ -1,15 +1,13 @@
 
 .. toctree::
 
-   utils_file
    Timer
-   Cache
+   utils
+   CustomException
+   debug
+   utils_file
    Arguments
    Checkpoint
-   CustomException
-   utils
-   debug
-   serialize
    utils_io
-   math/include/utils_math
-   ewald/include/utils_ewald
+   serialize
+   Cache

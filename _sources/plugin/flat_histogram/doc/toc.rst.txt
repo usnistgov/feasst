@@ -1,12 +1,15 @@
 
 .. toctree::
 
+   Window
+   WindowExponential
    LnProbability
-   Bias
-   WangLandau
-   Constraint
-   Macrostate
-   FlatHistogram
    TripleBandedCollectionMatrix
+   Bias
    TransitionMatrix
+   WangLandau
+   WLTM
+   Macrostate
    MacrostateNumParticles
+   FlatHistogram
+   Clones

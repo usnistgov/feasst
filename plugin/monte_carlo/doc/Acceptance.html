@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Acceptance &mdash; FEASST v0.10.0 documentation</title>
+  <title>Acceptance &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Criteria" href="Criteria.html" />
-    <link rel="prev" title="Stepper" href="Stepper.html" />
+    <link rel="prev" title="Rosenbluth" href="Rosenbluth.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -108,7 +108,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -118,29 +118,21 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Stepper.html">Stepper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Criteria.html">Criteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Metropolis.html">Metropolis</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbConfigs.html">PerturbConfigs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
@@ -148,12 +140,23 @@
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils.html">monte_carlo/include/utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 </ul>
 </li>
 </ul>
@@ -167,11 +170,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -246,7 +247,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugin</a> &raquo;</li>
+          <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
           <li><a href="../README.html">Monte Carlo</a> &raquo;</li>
         
@@ -295,115 +296,121 @@
 </style>
 <div class="section" id="acceptance">
 <h1>Acceptance<a class="headerlink" href="#acceptance" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="cpp class">
 <dt id="_CPPv4N6feasst10AcceptanceE">
 <span class="target" id="classfeasst_1_1Acceptance"></span><em class="property">class </em><code class="sig-name descname">Acceptance</code><a class="headerlink" href="#_CPPv4N6feasst10AcceptanceE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>This object contains information necessary for <a class="reference internal" href="Criteria.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> to make a decision on whether or not to accept or reject a trial. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Acceptance18ln_metropolis_probEv">
 <span class="target" id="classfeasst_1_1Acceptance_1ae4032a5f156a540d0dbcd9e54024d400"></span>double <code class="sig-name descname">ln_metropolis_prob</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance18ln_metropolis_probEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the natural logarithm of the <a class="reference internal" href="Metropolis.html#classfeasst_1_1Metropolis"><span class="std std-ref">Metropolis</span></a> acceptance probability. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance22set_ln_metropolis_probEKd">
 <span class="target" id="classfeasst_1_1Acceptance_1ab4d3ebf10ebc31da18579afb6af406f9"></span>void <code class="sig-name descname">set_ln_metropolis_prob</code><span class="sig-paren">(</span><em class="property">const</em> double <em>prob</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance22set_ln_metropolis_probEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the above quantity. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance25add_to_ln_metropolis_probEKd">
 <span class="target" id="classfeasst_1_1Acceptance_1ab0ca479b80fc3b020a7c617661db28e3"></span>void <code class="sig-name descname">add_to_ln_metropolis_prob</code><span class="sig-paren">(</span><em class="property">const</em> double <em>prob</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance25add_to_ln_metropolis_probEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add to the above quantity. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Acceptance6rejectEv">
 <span class="target" id="classfeasst_1_1Acceptance_1a746c87e8a20ff100468476e5f8abc741"></span>bool <code class="sig-name descname">reject</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance6rejectEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return whether or not to reject the trial outright. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance10set_rejectEKb">
 <span class="target" id="classfeasst_1_1Acceptance_1a85919fd6375881ef5b94a31115170061"></span>void <code class="sig-name descname">set_reject</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>reject</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance10set_rejectEKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the above quantity. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance5resetEv">
 <span class="target" id="classfeasst_1_1Acceptance_1ab7a25b4b9db4f40201c8485ffae33d8c"></span>void <code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance5resetEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Reset all stored quantities before each trial. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Acceptance10energy_newEv">
 <span class="target" id="classfeasst_1_1Acceptance_1a7e59fcd737e2c85799ed4117971cbc03"></span>double <code class="sig-name descname">energy_new</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance10energy_newEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the energy of the new configuration. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance14set_energy_newEKd">
 <span class="target" id="classfeasst_1_1Acceptance_1a69c55629111fd373db3668c3c91e0eca"></span>void <code class="sig-name descname">set_energy_new</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance14set_energy_newEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the above quantity. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance17add_to_energy_newEKd">
 <span class="target" id="classfeasst_1_1Acceptance_1a920e768ddd16fa9b664a03cd7adb84bc"></span>void <code class="sig-name descname">add_to_energy_new</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance17add_to_energy_newEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add to the above quantity. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Acceptance10energy_oldEv">
 <span class="target" id="classfeasst_1_1Acceptance_1a9418e2a6e90cc96cfc7b54d11c25390f"></span>double <code class="sig-name descname">energy_old</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance10energy_oldEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the energy of the old configuration. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance14set_energy_oldEKd">
 <span class="target" id="classfeasst_1_1Acceptance_1a6448c5932f9e25509e18bd3c78299b16"></span>void <code class="sig-name descname">set_energy_old</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance14set_energy_oldEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the above quantity. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance17add_to_energy_oldEKd">
 <span class="target" id="classfeasst_1_1Acceptance_1a6da0384b41197c093fceb3dc4bfa72f6"></span>void <code class="sig-name descname">add_to_energy_old</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance17add_to_energy_oldEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the above quantity. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Acceptance10energy_refEv">
 <span class="target" id="classfeasst_1_1Acceptance_1a8a2a1b569c2d5d961864708ce2c80569"></span>double <code class="sig-name descname">energy_ref</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance10energy_refEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the energy of the reference. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance14set_energy_refEKd">
 <span class="target" id="classfeasst_1_1Acceptance_1aa21c068c154d080d294ea7a650124bde"></span>void <code class="sig-name descname">set_energy_ref</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance14set_energy_refEKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the above quantity. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Acceptance16macrostate_shiftEv">
 <span class="target" id="classfeasst_1_1Acceptance_1aed51ce534e6794c63078c5101ad9f6dd"></span>int <code class="sig-name descname">macrostate_shift</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance16macrostate_shiftEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the shift in the macrostate due to an optimization where <a class="reference internal" href="Perturb.html#classfeasst_1_1Perturb"><span class="std std-ref">Perturb</span></a> does not completely update system until finalize. HWH this assumes a particular macrostate is used for the given trial. </p>
+<dd><p>Return the shift in the macrostate due to an optimization where <a class="reference internal" href="Perturb.html#classfeasst_1_1Perturb"><span class="std std-ref">Perturb</span></a> does not completely update system until finalize. This assumes a particular macrostate is used for the given trial. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance23add_to_macrostate_shiftEKi">
 <span class="target" id="classfeasst_1_1Acceptance_1a610d2b5f1380f8cc769f62ea1b87cb08"></span>void <code class="sig-name descname">add_to_macrostate_shift</code><span class="sig-paren">(</span><em class="property">const</em> int <em>shift</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance23add_to_macrostate_shiftEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add to the above. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Acceptance16add_to_perturbedERK6Select">
 <span class="target" id="classfeasst_1_1Acceptance_1ad00881274b3a809e7be780185bb5a890"></span>void <code class="sig-name descname">add_to_perturbed</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance16add_to_perturbedERK6Select" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Add to perturbed selection. </p>
+<dd><p>Add to perturbed selection and equate trial state. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst10Acceptance19set_perturbed_stateEKi">
+<span class="target" id="classfeasst_1_1Acceptance_1a2059ebb5dd0e98c42d183936e74ff9da"></span>void <code class="sig-name descname">set_perturbed_state</code><span class="sig-paren">(</span><em class="property">const</em> int <em>state</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Acceptance19set_perturbed_stateEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set perturbed trial state. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Acceptance9perturbedEv">
 <span class="target" id="classfeasst_1_1Acceptance_1ac6f2345f4461eb060e84eb89da4067e7"></span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<code class="sig-name descname">perturbed</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Acceptance9perturbedEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the perturbed selection. </p>
@@ -425,7 +432,7 @@
         <a href="Criteria.html" class="btn btn-neutral float-right" title="Criteria" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Stepper.html" class="btn btn-neutral float-left" title="Stepper" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Rosenbluth.html" class="btn btn-neutral float-left" title="Rosenbluth" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

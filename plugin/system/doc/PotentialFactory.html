@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PotentialFactory &mdash; FEASST v0.10.0 documentation</title>
+  <title>PotentialFactory &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -108,7 +108,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -116,24 +116,33 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondSquareWell.html">BondSquareWell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SelectList.html">SelectList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="HardSphere.html">HardSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="IdealGas.html">IdealGas</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LennardJones.html">LennardJones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">PotentialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
-<li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils.html">system/include/utils</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
 </ul>
 </li>
 </ul>
@@ -148,11 +157,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -227,7 +234,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugin</a> &raquo;</li>
+          <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
           <li><a href="../README.html">System</a> &raquo;</li>
         
@@ -276,109 +283,109 @@
 </style>
 <div class="section" id="potentialfactory">
 <h1>PotentialFactory<a class="headerlink" href="#potentialfactory" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="cpp class">
 <dt id="_CPPv4N6feasst16PotentialFactoryE">
 <span class="target" id="classfeasst_1_1PotentialFactory"></span><em class="property">class </em><code class="sig-name descname">PotentialFactory</code><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactoryE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A list of potentials. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst16PotentialFactory3addERK9Potential">
 <span class="target" id="classfeasst_1_1PotentialFactory_1a88e77e8165952567d2dbc3f14e0c428f"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory3addERK9Potential" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add potential. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst16PotentialFactory3setEKiRK9Potential">
 <span class="target" id="classfeasst_1_1PotentialFactory_1a3499f9239b5209ce2aaa564aa7eeb767"></span>void <code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> <a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory3setEKiRK9Potential" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set a potential. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst16PotentialFactory10potentialsEv">
 <span class="target" id="classfeasst_1_1PotentialFactory_1a8e430624f62cea0e737223f2222e9aed"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Potential.html#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a>&gt; &amp;<code class="sig-name descname">potentials</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory10potentialsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the potentials. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst16PotentialFactory3numEv">
 <span class="target" id="classfeasst_1_1PotentialFactory_1a0ed7e2f6551435342e968f07123fd026"></span>int <code class="sig-name descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory3numEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of potentials. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst16PotentialFactory10precomputeEP13Configuration">
 <span class="target" id="classfeasst_1_1PotentialFactory_1ad859941eeb8bc50ae8fc7959346d12fa"></span>void <code class="sig-name descname">precompute</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory10precomputeEP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Precompute quantities for optimizations before calculation of energies. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst16PotentialFactory10precomputeEKiP13Configuration">
 <span class="target" id="classfeasst_1_1PotentialFactory_1a429007f7061dfdf9b7f6b2d051434eea"></span>void <code class="sig-name descname">precompute</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory10precomputeEKiP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Precompute a particular potential by index. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst16PotentialFactory6energyEP13Configuration">
 <span class="target" id="classfeasst_1_1PotentialFactory_1ace42e1e36cda96941a3e789e62c9372c"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory6energyEP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute the energy of the given configuration. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst16PotentialFactory6energyERK6SelectP13Configuration">
 <span class="target" id="classfeasst_1_1PotentialFactory_1a8f5d32fe04e4eaf8721ef54c072aa26e"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory6energyERK6SelectP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute the energy of the selection in the configuration. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst16PotentialFactory21stored_energy_profileEv">
 <span class="target" id="classfeasst_1_1PotentialFactory_1ac240704676da0e0dfc40925d81dfd7c7"></span>std::vector&lt;double&gt; <code class="sig-name descname">stored_energy_profile</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory21stored_energy_profileEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the profile of energies that were last computed. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst16PotentialFactory13stored_energyEv">
 <span class="target" id="classfeasst_1_1PotentialFactory_1aa65197ec9eaa019efe0626b73032793d"></span>double <code class="sig-name descname">stored_energy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory13stored_energyEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the last computed value of the energy. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst16PotentialFactory3strEv">
 <span class="target" id="classfeasst_1_1PotentialFactory_1a5b0b5af15207fa7b4109aa9c8e40a5d8"></span>std::string <code class="sig-name descname">str</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory3strEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return a human-readable status. </p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv4N6feasst16PotentialFactory6revertEv">
-<span class="target" id="classfeasst_1_1PotentialFactory_1ac9e88ec8884f149f75394cb35b1becfb"></span>void <code class="sig-name descname">revert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory6revertEv" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst16PotentialFactory6revertERK6Select">
+<span class="target" id="classfeasst_1_1PotentialFactory_1a363f03b099ae948e6f0feb90f4b4e6bf"></span>void <code class="sig-name descname">revert</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory6revertERK6Select" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Revert any changes to the configuration due to the last energy computation. </p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv4N6feasst16PotentialFactory8finalizeEv">
-<span class="target" id="classfeasst_1_1PotentialFactory_1afc7552c8bb573dbd9a4409978dfe74b8"></span>void <code class="sig-name descname">finalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory8finalizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst16PotentialFactory8finalizeERK6Select">
+<span class="target" id="classfeasst_1_1PotentialFactory_1a772d83504ece4775f4dee19a1fc21743"></span>void <code class="sig-name descname">finalize</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory8finalizeERK6Select" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Finalize changes due to perturbations. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst16PotentialFactory10load_cacheEKb">
 <span class="target" id="classfeasst_1_1PotentialFactory_1affb40b98d8152bd22e32d8f47ff334b4"></span>void <code class="sig-name descname">load_cache</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>load</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory10load_cacheEKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set cache to load energy calculations. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst16PotentialFactory12unload_cacheERK16PotentialFactory">
 <span class="target" id="classfeasst_1_1PotentialFactory_1aaa333e5cd785789ead2f6b777b448a9b"></span>void <code class="sig-name descname">unload_cache</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst16PotentialFactoryE" title="feasst::PotentialFactory">PotentialFactory</a> &amp;<em>factory</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory12unload_cacheERK16PotentialFactory" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set cache to unload energy calclatuions. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst16PotentialFactory9serializeERNSt7ostreamE">
 <span class="target" id="classfeasst_1_1PotentialFactory_1a7b14853beca153cf83ff7308e92cf837"></span>void <code class="sig-name descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>sstr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst16PotentialFactory9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Serialize. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst16PotentialFactory16PotentialFactoryERNSt7istreamE">
 <span class="target" id="classfeasst_1_1PotentialFactory_1a91b21c53741831980e9a9573343760d0"></span><code class="sig-name descname">PotentialFactory</code><span class="sig-paren">(</span>std::istream &amp;<em>sstr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst16PotentialFactory16PotentialFactoryERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Deserialize. </p>

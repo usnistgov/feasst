@@ -31,12 +31,11 @@
     "\n",
     "def lj_system(box_length):\n",
     "    system = feasst.System()\n",
-    "    system.add(feasst.Configuration(feasst.args({\n",
+    "    system.add(feasst.Configuration(feasst.MakeDomain(feasst.args({\n",
     "        \"cubic_box_length\": str(box_length),\n",
-    "        \"particle_type\": feasst.install_dir() + '/forcefield/data.lj',\n",
     "        \"init_cells0\": \"3.\",\n",
-    "        \"init_cells1\": \"1.\",\n",
-    "    })))\n",
+    "        \"init_cells1\": \"1.\"})),\n",
+    "        feasst.args({\"particle_type\": feasst.install_dir() + '/forcefield/data.lj'})))\n",
     "    assert(system.configuration().domain().num_cells() == 2) # box may be too small\n",
     "\n",
     "    # Add the unoptimized potential for sanity check.\n",
@@ -80,7 +79,7 @@
     "            \"num_steps\": \"2\",       # attempt a number of configurational bias steps\n",
     "            \"reference_index\": \"0\", # using an (optimized) reference potential\n",
     "        })))\n",
-    "        monte_carlo.seek_num_particles(num_particles)\n",
+    "        feasst.SeekNumParticles(num_particles).with_trial_add().run(monte_carlo)\n",
     "        analyze.add(monte_carlo, steps_per)\n",
     "\n",
     "        # equilibrate\n",
@@ -136,8 +135,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "CPU times: user 9min 55s, sys: 352 ms, total: 9min 56s\n",
-      "Wall time: 10min 1s\n"
+      "CPU times: user 13min 16s, sys: 872 ms, total: 13min 16s\n",
+      "Wall time: 13min 16s\n"
      ]
     },
     {
@@ -147,7 +146,7 @@
       "ok\n",
       "\n",
       "----------------------------------------------------------------------\n",
-      "Ran 1 test in 601.085s\n",
+      "Ran 1 test in 796.555s\n",
       "\n",
       "OK\n"
      ]
@@ -155,7 +154,7 @@
     {
      "data": {
       "text/plain": [
-       "<unittest.main.TestProgram at 0x7f22c45e9f90>"
+       "<unittest.main.TestProgram at 0x7f32306703d0>"
       ]
      },
      "execution_count": 2,
@@ -185,7 +184,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.7.5"
+   "version": "3.8.2"
   }
  },
  "nbformat": 4,

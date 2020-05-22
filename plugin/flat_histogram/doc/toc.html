@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; FEASST v0.10.0 documentation</title>
+  <title>&lt;no title&gt; &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="LnProbability" href="LnProbability.html" />
+    <link rel="next" title="Window" href="Window.html" />
     <link rel="prev" title="Grand canonical ensemble transition-matrix Monte Carlo with SPC/E" href="../tutorial/tutorial_4_spce_gcmc.html" />
 
 	<!-- frame blocking -->
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -108,7 +108,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../README.html">Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
@@ -181,7 +181,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugin</a> &raquo;</li>
+          <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
           <li><a href="../README.html">Flat histogram</a> &raquo;</li>
         
@@ -228,15 +228,18 @@
 </style>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="Window.html">Window</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l1"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Bias.html">Bias</a></li>
-<li class="toctree-l1"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Constraint.html">Constraint</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Bias.html">Bias</a></li>
 <li class="toctree-l1"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WLTM.html">WLTM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Clones.html">Clones</a></li>
 </ul>
 </div>
 
@@ -248,7 +251,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="LnProbability.html" class="btn btn-neutral float-right" title="LnProbability" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Window.html" class="btn btn-neutral float-right" title="Window" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../tutorial/tutorial_4_spce_gcmc.html" class="btn btn-neutral float-left" title="Grand canonical ensemble transition-matrix Monte Carlo with SPC/E" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

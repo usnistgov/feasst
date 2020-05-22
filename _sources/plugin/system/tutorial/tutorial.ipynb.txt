@@ -29,8 +29,8 @@
     "def two_particle_config(displacement):\n",
     "    \"\"\"Return a two particle configuration with the given displacement between centers\"\"\"\n",
     "    config = lj_system.configuration(num=2)\n",
-    "    select = feasst.SelectList()\n",
-    "    select.particle(1, config)\n",
+    "    select = feasst.Select()\n",
+    "    select.add_particle(config.select_particle(1), 1)\n",
     "    config.displace_particle(select, displacement)\n",
     "    return config\n",
     "\n",
@@ -107,7 +107,7 @@
     {
      "data": {
       "text/plain": [
-       "<unittest.main.TestProgram at 0x7f28cd878950>"
+       "<unittest.main.TestProgram at 0x7f98798d3790>"
       ]
      },
      "execution_count": 2,
@@ -136,7 +136,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.7.5"
+   "version": "3.8.2"
   }
  },
  "nbformat": 4,

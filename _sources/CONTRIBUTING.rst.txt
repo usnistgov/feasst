@@ -166,8 +166,7 @@ Document
 Setup
 --------------------------------------------------------------------------------
 
-pip install sphinx
-pip install breathe
+pip install sphinx breathe
 doxygen with GENERATE_XML
 run sphinx-quickstart, enable autodoc
 add something like the following to your sphinx index.rst::
@@ -181,8 +180,7 @@ add the following to your sphinx conf.py
   breathe_projects = {"FEASST":"../xml"}
   breathe_domain_by_extension = {"h" : "cc"}
 
-pip install sphinx_rtd_theme
-pip install nbsphinx
+pip install sphinx_rtd_theme nbsphinx
 
 run sphinx: make html
 
@@ -190,7 +188,7 @@ Sphinx/Breathe/Doxygen notes
 --------------------------------------------------------------------------------
 
 * Link from rst file to C++ function: ``:cpp:func:`link <feasst::className::function()>```
-* Link from rst file to C++ function: ``:cpp:class:`link <feasst:className>```
+* Link from rst file to C++ class: ``:cpp:class:`link <feasst::className>```
 * Link from rst file to fst file: ``:doc:`/tutorial/asdf``` [note, / references root]
 * Link from rst file to ipynb file : ```Tutorial <tutorial/tutorial.html>`_``
 * Link from C++ to C++: ``className::function()``
@@ -198,6 +196,8 @@ Sphinx/Breathe/Doxygen notes
 * For math in C++ comments::
 
    \f$ latex code here \f$
+
+* For tables, see monte_carlo/include/trial_compute_add.h
 
 Pip notes
 -------------------------
@@ -283,6 +283,11 @@ Serialization
 * Don't forget to serialize (private) member data in new implementations.
 * To compare differences between two serializations, paste into file and using "s/ /\r/g"
 
+File output
+--------------------------------------------------------------------------------
+
+* comma-separated values (CSV) are the preferred format (e.g., comma deliminter)
+
 For quick reference
 ================================================================================
 
@@ -298,7 +303,7 @@ To Do List
 * trial regrow to include grand canonical insertions
 * consider optimization of Ewald: init ewald storage on particle types, precompute property index.
 * Criteria running energies may contain a part from each potential to simplify debugging.
-* implement timer for profiles (with hierarchies by class... tried this, but its too slow)
+* implement timer for profiles (with hierarchies by class... tried this, but its too slow. Time only infrequently?)
 * implement a timer to auto-balance trial weights.
 * find a better way for two different classes to take from the same argument list and still maintain unused checks.
 * when selecting from cpdf, use lnp instead of p?
@@ -316,5 +321,15 @@ To Do List
 * Jupyter notebook output should go to cells, not terminal that runs jupyter.
 * implement gibbs ensemble
 * lint file_[xyz,lmp]
-* chain setters don't seem to work with the python interface (e.g., groups). Replace with arguments.
-* rename pipeline plugin to prefetch
+* regrow but within near existing, for 'free dof, e.g. azimuthal in  angle, sphere in bond, etc'
+* put cell list in finalize-heavy paradigm, update_positions updates cell of selection, finalize updates entire cell list. linked list
+* config could use revert,finalize to update cell list only on finalization, and maybe not have to exclude from cell properties (why exclude?). same with ewald
+* HS-only simulations can use TrialComputeMoveMayer without computing energy of old configuration
+* Refactor arguments so that they can be checked for usage (especially in Trials)
+* Rename TrialSelect->SelectTrial, TrialCompute->ComputeTrial. Rename Compute->Decide?.
+* See if there is a performance difference for const_cast pointer to constant Reference. If not, remove const pntrs.
+* Transition from WL to TM
+* Somehow, trial_growth_expanded.h doesn't include debug.h but can compile with ASSERT
+* Speed up RNG by maintaining int_distribution like dis_double
+* Include tutorial helper scripts, like fh.py, in tutorial discussion where first used.
+* LRC energy issue with reference potentials because particle isn't revived while computing number of types

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Monte Carlo &mdash; FEASST v0.10.0 documentation</title>
+  <title>Monte Carlo &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Canonical ensemble Monte Carlo" href="tutorial/tutorial_1_lj_nvt.html" />
-    <link rel="prev" title="VisitModelIntra" href="../system/doc/VisitModelIntra.html" />
+    <link rel="prev" title="VisitModelBond" href="../system/doc/VisitModelBond.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -108,7 +108,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../README.html">Plugin</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../configuration/README.html">Configuration</a></li>
@@ -122,29 +122,21 @@
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="doc/Tunable.html">Tunable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Stepper.html">Stepper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Acceptance.html">Acceptance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Criteria.html">Criteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Metropolis.html">Metropolis</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/Rosenbluth.html">Rosenbluth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Constraint.html">Constraint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ConstrainNumParticles.html">ConstrainNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialSelect.html">TrialSelect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectBond.html">TrialSelectBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/Perturb.html">Perturb</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbMove.html">PerturbMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbRotate.html">PerturbRotate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbRemove.html">PerturbRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbAdd.html">PerturbAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbDistance.html">PerturbDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/PerturbConfigs.html">PerturbConfigs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/Perturb.html">Perturb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialCompute.html">TrialCompute</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Trial.html">Trial</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialFactory.html">TrialFactory</a></li>
@@ -152,12 +144,23 @@
 <li class="toctree-l4"><a class="reference internal" href="doc/AnalyzeFactory.html">AnalyzeFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/MonteCarlo.html">MonteCarlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/utils.html">monte_carlo/include/utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbMove.html">PerturbMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialMove.html">TrialMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TrialRotate.html">TrialRotate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/MonteCarlo.html">MonteCarlo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbRemove.html">PerturbRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 </ul>
 </li>
 </ul>
@@ -171,11 +174,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../ewald/README.html">Ewald</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../py/README.html">pyFEASST</a></li>
@@ -250,7 +251,7 @@
     
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../README.html">Plugin</a> &raquo;</li>
+          <li><a href="../README.html">Plugins</a> &raquo;</li>
         
       <li>Monte Carlo</li>
     
@@ -323,29 +324,21 @@ The acceptance <a class="reference internal" href="doc/Criteria.html#_CPPv4N6fea
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="doc/Tunable.html">Tunable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Stepper.html">Stepper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Acceptance.html">Acceptance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Criteria.html">Criteria</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Metropolis.html">Metropolis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Rosenbluth.html">Rosenbluth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Constraint.html">Constraint</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ConstrainNumParticles.html">ConstrainNumParticles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialSelect.html">TrialSelect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectBond.html">TrialSelectBond</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Perturb.html">Perturb</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbMove.html">PerturbMove</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbRotate.html">PerturbRotate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbRemove.html">PerturbRemove</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbAdd.html">PerturbAdd</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbDistance.html">PerturbDistance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/PerturbConfigs.html">PerturbConfigs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialSelectParticle.html">TrialSelectParticle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Perturb.html">Perturb</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialStage.html">TrialStage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialCompute.html">TrialCompute</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Trial.html">Trial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialFactory.html">TrialFactory</a></li>
@@ -353,12 +346,23 @@ The acceptance <a class="reference internal" href="doc/Criteria.html#_CPPv4N6fea
 <li class="toctree-l1"><a class="reference internal" href="doc/AnalyzeFactory.html">AnalyzeFactory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Modify.html">Modify</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/MonteCarlo.html">MonteCarlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/utils.html">monte_carlo/include/utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/TrialAdd.html">TrialAdd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbMove.html">PerturbMove</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialMove.html">TrialMove</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TrialRotate.html">TrialRotate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/MonteCarlo.html">MonteCarlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbAnywhere.html">PerturbAnywhere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbAdd.html">PerturbAdd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbRemove.html">PerturbRemove</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 </ul>
 </div>
 </div>
@@ -375,7 +379,7 @@ The acceptance <a class="reference internal" href="doc/Criteria.html#_CPPv4N6fea
         <a href="tutorial/tutorial_1_lj_nvt.html" class="btn btn-neutral float-right" title="Canonical ensemble Monte Carlo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../system/doc/VisitModelIntra.html" class="btn btn-neutral float-left" title="VisitModelIntra" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../system/doc/VisitModelBond.html" class="btn btn-neutral float-left" title="VisitModelBond" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

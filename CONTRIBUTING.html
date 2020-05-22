@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contributing &mdash; FEASST v0.10.0 documentation</title>
+  <title>Contributing &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -108,7 +108,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plugin/README.html">Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin/README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forcefield/README.html">Forcefield</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a></li>
@@ -146,6 +146,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#auto">Auto</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#arguments">Arguments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#serialization">Serialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-output">File output</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#for-quick-reference">For quick reference</a></li>
@@ -402,8 +403,7 @@ Your previous compile is remembered by ccache, leading to near instant recompila
 <h2>Document<a class="headerlink" href="#document" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="setup">
 <h3>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h3>
-<p>pip install sphinx
-pip install breathe
+<p>pip install sphinx breathe
 doxygen with GENERATE_XML
 run sphinx-quickstart, enable autodoc
 add something like the following to your sphinx index.rst:</p>
@@ -418,15 +418,14 @@ breathe_projects = {“FEASST”:”../xml”}
 breathe_domain_by_extension = {“h” : “cc”}</p>
 </dd>
 </dl>
-<p>pip install sphinx_rtd_theme
-pip install nbsphinx</p>
+<p>pip install sphinx_rtd_theme nbsphinx</p>
 <p>run sphinx: make html</p>
 </div>
 <div class="section" id="sphinx-breathe-doxygen-notes">
 <h3>Sphinx/Breathe/Doxygen notes<a class="headerlink" href="#sphinx-breathe-doxygen-notes" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p>Link from rst file to C++ function: <code class="docutils literal notranslate"><span class="pre">:cpp:func:`link</span> <span class="pre">&lt;feasst::className::function()&gt;`</span></code></p></li>
-<li><p>Link from rst file to C++ function: <code class="docutils literal notranslate"><span class="pre">:cpp:class:`link</span> <span class="pre">&lt;feasst:className&gt;`</span></code></p></li>
+<li><p>Link from rst file to C++ class: <code class="docutils literal notranslate"><span class="pre">:cpp:class:`link</span> <span class="pre">&lt;feasst::className&gt;`</span></code></p></li>
 <li><p>Link from rst file to fst file: <code class="docutils literal notranslate"><span class="pre">:doc:`/tutorial/asdf`</span></code> [note, / references root]</p></li>
 <li><p>Link from rst file to ipynb file : <code class="docutils literal notranslate"><span class="pre">`Tutorial</span> <span class="pre">&lt;tutorial/tutorial.html&gt;`_</span></code></p></li>
 <li><p>Link from C++ to C++: <code class="docutils literal notranslate"><span class="pre">className::function()</span></code></p></li>
@@ -436,6 +435,7 @@ pip install nbsphinx</p>
 </pre></div>
 </div>
 </li>
+<li><p>For tables, see monte_carlo/include/trial_compute_add.h</p></li>
 </ul>
 </div>
 <div class="section" id="pip-notes">
@@ -528,6 +528,12 @@ compatibility.</p></li>
 <li><p>To compare differences between two serializations, paste into file and using “s/ /r/g”</p></li>
 </ul>
 </div>
+<div class="section" id="file-output">
+<h3>File output<a class="headerlink" href="#file-output" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>comma-separated values (CSV) are the preferred format (e.g., comma deliminter)</p></li>
+</ul>
+</div>
 </div>
 <div class="section" id="for-quick-reference">
 <h2>For quick reference<a class="headerlink" href="#for-quick-reference" title="Permalink to this headline">¶</a></h2>
@@ -545,7 +551,7 @@ compatibility.</p></li>
 <li><p>trial regrow to include grand canonical insertions</p></li>
 <li><p>consider optimization of Ewald: init ewald storage on particle types, precompute property index.</p></li>
 <li><p>Criteria running energies may contain a part from each potential to simplify debugging.</p></li>
-<li><p>implement timer for profiles (with hierarchies by class… tried this, but its too slow)</p></li>
+<li><p>implement timer for profiles (with hierarchies by class… tried this, but its too slow. Time only infrequently?)</p></li>
 <li><p>implement a timer to auto-balance trial weights.</p></li>
 <li><p>find a better way for two different classes to take from the same argument list and still maintain unused checks.</p></li>
 <li><p>when selecting from cpdf, use lnp instead of p?</p></li>
@@ -563,8 +569,18 @@ compatibility.</p></li>
 <li><p>Jupyter notebook output should go to cells, not terminal that runs jupyter.</p></li>
 <li><p>implement gibbs ensemble</p></li>
 <li><p>lint file_[xyz,lmp]</p></li>
-<li><p>chain setters don’t seem to work with the python interface (e.g., groups). Replace with arguments.</p></li>
-<li><p>rename pipeline plugin to prefetch</p></li>
+<li><p>regrow but within near existing, for ‘free dof, e.g. azimuthal in  angle, sphere in bond, etc’</p></li>
+<li><p>put cell list in finalize-heavy paradigm, update_positions updates cell of selection, finalize updates entire cell list. linked list</p></li>
+<li><p>config could use revert,finalize to update cell list only on finalization, and maybe not have to exclude from cell properties (why exclude?). same with ewald</p></li>
+<li><p>HS-only simulations can use TrialComputeMoveMayer without computing energy of old configuration</p></li>
+<li><p>Refactor arguments so that they can be checked for usage (especially in Trials)</p></li>
+<li><p>Rename TrialSelect-&gt;SelectTrial, TrialCompute-&gt;ComputeTrial. Rename Compute-&gt;Decide?.</p></li>
+<li><p>See if there is a performance difference for const_cast pointer to constant Reference. If not, remove const pntrs.</p></li>
+<li><p>Transition from WL to TM</p></li>
+<li><p>Somehow, trial_growth_expanded.h doesn’t include debug.h but can compile with ASSERT</p></li>
+<li><p>Speed up RNG by maintaining int_distribution like dis_double</p></li>
+<li><p>Include tutorial helper scripts, like fh.py, in tutorial discussion where first used.</p></li>
+<li><p>LRC energy issue with reference potentials because particle isn’t revived while computing number of types</p></li>
 </ul>
 </div>
 </div>

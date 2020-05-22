@@ -1,5 +1,4 @@
-API
-************
 
 .. toctree::
 
+   FileXTC

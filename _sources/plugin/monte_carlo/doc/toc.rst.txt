@@ -2,29 +2,21 @@
 .. toctree::
 
    Tunable
+   SeekNumParticles
    Stepper
+   Rosenbluth
    Acceptance
    Criteria
    Metropolis
-   Rosenbluth
+   Constraint
+   ConstrainNumParticles
    TrialSelect
    TrialSelectBond
    TrialSelectAngle
-   Perturb
-   PerturbMove
-   PerturbTranslate
-   PerturbRotate
-   PerturbAnywhere
-   PerturbRemove
-   PerturbAdd
-   PerturbDistance
-   PerturbDistanceAngle
-   PerturbConfigs
    TrialSelectParticle
+   Perturb
    TrialStage
    TrialCompute
-   TrialComputeRemove
-   TrialComputeAdd
    Trial
    TrialRemove
    TrialFactory
@@ -32,9 +24,20 @@
    AnalyzeFactory
    Modify
    ModifyFactory
+   MonteCarlo
+   utils
+   TrialAdd
    TrialComputeMove
+   TrialComputeRemove
+   TrialComputeAdd
+   PerturbMove
+   PerturbTranslate
+   PerturbDistance
    TrialMove
    TrialTranslate
+   PerturbRotate
    TrialRotate
-   TrialAdd
-   MonteCarlo
+   PerturbAnywhere
+   PerturbAdd
+   PerturbRemove
+   PerturbDistanceAngle

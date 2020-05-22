@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Potential &mdash; FEASST v0.10.0 documentation</title>
+  <title>Potential &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="PotentialFactory" href="PotentialFactory.html" />
-    <link rel="prev" title="ModelThreeBody" href="ModelThreeBody.html" />
+    <link rel="prev" title="LongRangeCorrections" href="LongRangeCorrections.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -108,7 +108,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -116,24 +116,33 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondSquareWell.html">BondSquareWell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SelectList.html">SelectList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="HardSphere.html">HardSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="IdealGas.html">IdealGas</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LennardJones.html">LennardJones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
-<li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils.html">system/include/utils</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
 </ul>
 </li>
 </ul>
@@ -148,11 +157,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -227,7 +234,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugin</a> &raquo;</li>
+          <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
           <li><a href="../README.html">System</a> &raquo;</li>
         
@@ -276,13 +283,13 @@
 </style>
 <div class="section" id="potential">
 <h1>Potential<a class="headerlink" href="#potential" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="cpp class">
 <dt id="_CPPv4N6feasst9PotentialE">
 <span class="target" id="classfeasst_1_1Potential"></span><em class="property">class </em><code class="sig-name descname">Potential</code><a class="headerlink" href="#_CPPv4N6feasst9PotentialE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A potential represents both the model and the method used to compute the model (e.g., <a class="reference internal" href="VisitModel.html#classfeasst_1_1VisitModel"><span class="std std-ref">VisitModel</span></a>) for a given <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. A potential also allows customization of the model parameters templated but separate from those in the <a class="reference internal" href="../../configuration/doc/Configuration.html#classfeasst_1_1Configuration"><span class="std std-ref">Configuration</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential9PotentialERK7argtype">
 <span class="target" id="classfeasst_1_1Potential_1a78097ec590888810632e6e4bd349a969"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct with the default visitor and default model (emtpy).</p>
@@ -294,139 +301,139 @@
 </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Potential11group_indexEv">
 <span class="target" id="classfeasst_1_1Potential_1a5d633d4ca24c7fcf39a21232cd1e4584"></span>int <code class="sig-name descname">group_index</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential11group_indexEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the index of the group. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Potential10cell_indexEv">
 <span class="target" id="classfeasst_1_1Potential_1a2ca8bbe7a94283c62c15887320d6c2df"></span>int <code class="sig-name descname">cell_index</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential10cell_indexEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the index of the cell. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI5ModelEERK7argtype">
 <span class="target" id="classfeasst_1_1Potential_1ad644af87d16d3cc71327b37920a7e58f"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a>&gt; <em>model</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI5ModelEERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constract with model and default visitor. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Potential5modelEv">
-<span class="target" id="classfeasst_1_1Potential_1afb9cfea1274280520116a2e468aecb19"></span><em class="property">const</em> <a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a> *<code class="sig-name descname">model</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential5modelEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Potential_1ab3914c62fb9ceb55dd5aa00353aed584"></span><em class="property">const</em> <a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a> &amp;<code class="sig-name descname">model</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential5modelEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the model. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI10VisitModelEERK7argtype">
 <span class="target" id="classfeasst_1_1Potential_1a0d454035c610bc144fa40354eb2fc028"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a>&gt; <em>visit_model</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI10VisitModelEERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct with visitor and default model. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Potential11visit_modelEv">
-<span class="target" id="classfeasst_1_1Potential_1a57a63ac0f4e59ade461520848a5ff4bb"></span><em class="property">const</em> <a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<code class="sig-name descname">visit_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential11visit_modelEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Potential_1a259e210c8b5974399b91fac0be1734f7"></span><em class="property">const</em> <a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> &amp;<code class="sig-name descname">visit_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential11visit_modelEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the method used to compute. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI5ModelEENSt10shared_ptrI10VisitModelEERK7argtype">
 <span class="target" id="classfeasst_1_1Potential_1aad4881514f7085760b5034431c40573d"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a>&gt; <em>model</em>, std::shared_ptr&lt;<a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a>&gt; <em>visit_model</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialENSt10shared_ptrI5ModelEENSt10shared_ptrI10VisitModelEERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Construct with model and visitor. </p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv4N6feasst9Potential16set_model_paramsERK11ModelParams">
-<span class="target" id="classfeasst_1_1Potential_1a0be353bb2f660a81ea800ca3b05682d0"></span>void <code class="sig-name descname">set_model_params</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential16set_model_paramsERK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst9Potential3setERK11ModelParams">
+<span class="target" id="classfeasst_1_1Potential_1acf97c0fca284699df3b8799860b1b6a8"></span>void <code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential3setERK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the model parameters. If not set, use the one from configuration. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential16set_model_paramsERK13Configuration">
 <span class="target" id="classfeasst_1_1Potential_1ac50f76ebef074ba1c54062a575e214ba"></span>void <code class="sig-name descname">set_model_params</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential16set_model_paramsERK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the model parameters to the one in the configuration. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential15set_model_paramEPKcKiKd">
 <span class="target" id="classfeasst_1_1Potential_1a23ef95556a7541d4bdcd4ac529e7c512"></span>void <code class="sig-name descname">set_model_param</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em>, <em class="property">const</em> int <em>site_type</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential15set_model_paramEPKcKiKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="../../monte_carlo/doc/Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a> model parameter of a given site type and name to value. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Potential12model_paramsEv">
 <span class="target" id="classfeasst_1_1Potential_1a6e498ba91e3198b7a4d3c11e3a479f24"></span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<code class="sig-name descname">model_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential12model_paramsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the model parameters. </p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv4NK6feasst9Potential12model_paramsEPK13Configuration">
-<span class="target" id="classfeasst_1_1Potential_1a3569b42ff02dff682aaf5b6a5ff84f54"></span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<code class="sig-name descname">model_params</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential12model_paramsEPK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst9Potential12model_paramsERK13Configuration">
+<span class="target" id="classfeasst_1_1Potential_1adadcbe31ef4383ff8d716d6f0339eeaf"></span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<code class="sig-name descname">model_params</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential12model_paramsERK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the model parameters. Use model parameters from configuration if they have not been overriden. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential10precomputeEP13Configuration">
 <span class="target" id="classfeasst_1_1Potential_1a7c11cf9bbbeb2a5c5e280c05ea01619a"></span>void <code class="sig-name descname">precompute</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential10precomputeEP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Precompute quantities for optimizations before calculation of energies. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential6energyEP13Configuration">
 <span class="target" id="classfeasst_1_1Potential_1a9e06ebe61ffead1a3de8814ac4eb9cf0"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential6energyEP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute the energy of the entire configuration. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential6energyERK6SelectP13Configuration">
 <span class="target" id="classfeasst_1_1Potential_1af41f1b12384ddfc27a55babe958a4164"></span>double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential6energyERK6SelectP13Configuration" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Compute the energy of a selection of the configuration. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Potential13stored_energyEv">
 <span class="target" id="classfeasst_1_1Potential_1a31f7658d66de61fc224f57ccc6471bd6"></span>double <code class="sig-name descname">stored_energy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential13stored_energyEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the last computed value of the energy. </p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv4N6feasst9Potential6revertEv">
-<span class="target" id="classfeasst_1_1Potential_1ab270e07be235866d654e7f221ae708d3"></span>void <code class="sig-name descname">revert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential6revertEv" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst9Potential6revertERK6Select">
+<span class="target" id="classfeasst_1_1Potential_1a325ce88da780dbd5a1e383c8c4bf2c4d"></span>void <code class="sig-name descname">revert</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential6revertERK6Select" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Revert any changes to the configuration due to the last energy computation. </p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv4N6feasst9Potential8finalizeEv">
-<span class="target" id="classfeasst_1_1Potential_1ab4e501dc82677a3b69a18f93204c3123"></span>void <code class="sig-name descname">finalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential8finalizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst9Potential8finalizeERK6Select">
+<span class="target" id="classfeasst_1_1Potential_1a56f1cab92e54d50f61a1eed714a62ca7"></span>void <code class="sig-name descname">finalize</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential8finalizeERK6Select" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Finalize changes to the configuration due to the last energy computation. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Potential5cacheEv">
 <span class="target" id="classfeasst_1_1Potential_1aa82948d594f63bb78966eaa6f8f9adea"></span><em class="property">const</em> <a class="reference internal" href="../../utils/doc/Cache.html#_CPPv4N6feasst5CacheE" title="feasst::Cache">Cache</a> &amp;<code class="sig-name descname">cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential5cacheEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the cache. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential10load_cacheEKb">
 <span class="target" id="classfeasst_1_1Potential_1aa59b58f61fb56ac065ca930130fa52fd"></span>void <code class="sig-name descname">load_cache</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>load</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential10load_cacheEKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set <a class="reference internal" href="../../utils/doc/Cache.html#classfeasst_1_1Cache"><span class="std std-ref">Cache</span></a> to load. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential12unload_cacheERK9Potential">
 <span class="target" id="classfeasst_1_1Potential_1a1d0d2e313836c2c274dbec6441d1f671"></span>void <code class="sig-name descname">unload_cache</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6feasst9PotentialE" title="feasst::Potential">Potential</a> &amp;<em>potential</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential12unload_cacheERK9Potential" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set <a class="reference internal" href="../../utils/doc/Cache.html#classfeasst_1_1Cache"><span class="std std-ref">Cache</span></a> to unload. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst9Potential9serializeERNSt7ostreamE">
 <span class="target" id="classfeasst_1_1Potential_1a8401ede8588c0fc060b3277961239eaf"></span>void <code class="sig-name descname">serialize</code><span class="sig-paren">(</span>std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Potential9serializeERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Serialize. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst9Potential9PotentialERNSt7istreamE">
 <span class="target" id="classfeasst_1_1Potential_1add323cd0e4cb18323d179d1aae80ebea"></span><code class="sig-name descname">Potential</code><span class="sig-paren">(</span>std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Potential9PotentialERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Deserialize. </p>
@@ -448,7 +455,7 @@
         <a href="PotentialFactory.html" class="btn btn-neutral float-right" title="PotentialFactory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ModelThreeBody.html" class="btn btn-neutral float-left" title="ModelThreeBody" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="LongRangeCorrections.html" class="btn btn-neutral float-left" title="LongRangeCorrections" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

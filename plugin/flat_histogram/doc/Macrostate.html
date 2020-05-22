@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Macrostate &mdash; FEASST v0.10.0 documentation</title>
+  <title>Macrostate &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -44,8 +44,8 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="FlatHistogram" href="FlatHistogram.html" />
-    <link rel="prev" title="Constraint" href="Constraint.html" />
+    <link rel="next" title="MacrostateNumParticles" href="MacrostateNumParticles.html" />
+    <link rel="prev" title="WLTM" href="WLTM.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -108,7 +108,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -121,15 +121,18 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Macrostate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Bias.html">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Macrostate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 </ul>
 </li>
 </ul>
@@ -139,11 +142,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -218,7 +219,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugin</a> &raquo;</li>
+          <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
           <li><a href="../README.html">Flat histogram</a> &raquo;</li>
         
@@ -267,80 +268,72 @@
 </style>
 <div class="section" id="macrostate">
 <h1>Macrostate<a class="headerlink" href="#macrostate" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="cpp class">
 <dt id="_CPPv4N6feasst10MacrostateE">
 <span class="target" id="classfeasst_1_1Macrostate"></span><em class="property">class </em><code class="sig-name descname">Macrostate</code><a class="headerlink" href="#_CPPv4N6feasst10MacrostateE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The macrostate is the statistical mechanical variable to which we apply bias using flat-histogram methods. Thus, for example, in the grand canonical ensemble with a single component, the macrostate is the number of particles. To apply the flat histogram methods, the macrostate is be broken into a contiguous series of “bins”. </p>
 <p>Subclassed by <a class="reference internal" href="../../growth_expanded/doc/MacrostateGrowthExpanded.html#classfeasst_1_1MacrostateGrowthExpanded"><span class="std std-ref">feasst::MacrostateGrowthExpanded</span></a>, <a class="reference internal" href="MacrostateNumParticles.html#classfeasst_1_1MacrostateNumParticles"><span class="std std-ref">feasst::MacrostateNumParticles</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Macrostate10MacrostateERK9HistogramRK7argtype">
 <span class="target" id="classfeasst_1_1Macrostate_1a407c5777fe2d617c7f0f87311ad6261b"></span><code class="sig-name descname">Macrostate</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram">Histogram</a> &amp;<em>histogram</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Macrostate10MacrostateERK9HistogramRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">args</span></code>: soft_max : optionally, set a soft maximum (default: same as histogram). These soft limits may be changed during a simulation. soft_min : minimum as described above (default: same as histogram). </p></li>
+<dd><p>args:<ul class="simple">
+<li><p>soft_max : optionally, set a soft maximum (default: last histogram bin). These soft limits may be changed during a simulation. Note that this max is an integer bin number.</p></li>
+<li><p>soft_min : minimum as described above (default: same as histogram). </p></li>
 </ul>
-</dd>
-</dl>
 </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Macrostate3setEK9Histogram">
 <span class="target" id="classfeasst_1_1Macrostate_1afbc84b75cd6e7bdf423c37ad01948a4d"></span>void <code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram">Histogram</a> <em>histogram</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Macrostate3setEK9Histogram" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the bins of the macrostate by providing a <a class="reference internal" href="../../math/doc/Histogram.html#classfeasst_1_1Histogram"><span class="std std-ref">Histogram</span></a>. This is required before the macrostate can be used for flat histogram methods. The histogram only serves to determine the bins, and should not be expanded or have values added during the course of the simulation. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Macrostate9histogramEv">
 <span class="target" id="classfeasst_1_1Macrostate_1a82615e280d91c3829876f5deedf0229c"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram">Histogram</a> &amp;<code class="sig-name descname">histogram</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Macrostate9histogramEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the histogram. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Macrostate8soft_maxEv">
 <span class="target" id="classfeasst_1_1Macrostate_1ad6498996f9873f55e2cac709f8327d48"></span><em class="property">const</em> int <code class="sig-name descname">soft_max</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Macrostate8soft_maxEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the soft maximum (default: histogram max). </p>
+<dd><p>Return the soft maximum. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Macrostate8soft_minEv">
 <span class="target" id="classfeasst_1_1Macrostate_1a32ed3d9c5804b2ed7015e77bc4e6a005"></span><em class="property">const</em> int <code class="sig-name descname">soft_min</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Macrostate8soft_minEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the soft minimum (default: histogram min). </p>
+<dd><p>Return the soft minimum. </p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv4N6feasst10Macrostate5valueEPK6SystemPK8Criteria">
-<span class="target" id="classfeasst_1_1Macrostate_1aed374f3d0de6154c04bee605516b890c"></span><em class="property">virtual</em> double <code class="sig-name descname">value</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst10Macrostate5valueEPK6SystemPK8Criteria" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst10Macrostate5valueERK6SystemRK8CriteriaRK10Acceptance">
+<span class="target" id="classfeasst_1_1Macrostate_1ac287ec3ca4dfcaed6ca6a3315455871c"></span><em class="property">virtual</em> double <code class="sig-name descname">value</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> &amp;<em>criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> &amp;<em>acceptance</em><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv4NK6feasst10Macrostate5valueERK6SystemRK8CriteriaRK10Acceptance" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the current value of the macrostate. </p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv4N6feasst10Macrostate3binEPK6SystemPK8Criteria">
-<span class="target" id="classfeasst_1_1Macrostate_1a3109f45b9ee47018aae2a19359e223cf"></span>int <code class="sig-name descname">bin</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Macrostate3binEPK6SystemPK8Criteria" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst10Macrostate3binERK6SystemRK8CriteriaRK10Acceptance">
+<span class="target" id="classfeasst_1_1Macrostate_1a5d72a8f8c3cc763dcd44462274ccbe87"></span>int <code class="sig-name descname">bin</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> &amp;<em>criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> &amp;<em>acceptance</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Macrostate3binERK6SystemRK8CriteriaRK10Acceptance" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the current bin of the macrostate. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst10Macrostate5valueEKi">
 <span class="target" id="classfeasst_1_1Macrostate_1a5b61f0bbc70b087f0e251510fe553563"></span>double <code class="sig-name descname">value</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bin</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Macrostate5valueEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the value of the bin. </p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv4N6feasst10Macrostate3addENSt10shared_ptrI10ConstraintEE">
-<span class="target" id="classfeasst_1_1Macrostate_1ae7bffee2144c50bf440a6b302ca4c2ff"></span>void <code class="sig-name descname">add</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Constraint.html#_CPPv4N6feasst10ConstraintE" title="feasst::Constraint">Constraint</a>&gt; <em>constraint</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Macrostate3addENSt10shared_ptrI10ConstraintEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Add a constraint. </p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst10Macrostate10is_allowedERK6SystemRK8CriteriaRK10Acceptance">
+<span class="target" id="classfeasst_1_1Macrostate_1a3ee681954deb3f4646b5de3647b7634f"></span>bool <code class="sig-name descname">is_allowed</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> &amp;<em>system</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> &amp;<em>criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> &amp;<em>acceptance</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Macrostate10is_allowedERK6SystemRK8CriteriaRK10Acceptance" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return whether the current system macrostate is within permissible range given by the input histogram. </p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv4N6feasst10Macrostate10is_allowedEPK6SystemPK8Criteria">
-<span class="target" id="classfeasst_1_1Macrostate_1a286043fdb935fdcfb4a606ca84aaa96e"></span>bool <code class="sig-name descname">is_allowed</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <em class="property">const</em> <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Macrostate10is_allowedEPK6SystemPK8Criteria" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return whether the current system macrostate is within permissible range given by the input histogram and check any additional constraints. </p>
-</dd></dl>
-
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst10Macrostate16swap_soft_boundsEP10Macrostate">
 <span class="target" id="classfeasst_1_1Macrostate_1a05d38cb740f3feb35ef884cb3c246c2b"></span>void <code class="sig-name descname">swap_soft_bounds</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a> *<em>macrostate</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Macrostate16swap_soft_boundsEP10Macrostate" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Swap the soft bounds with another macrostate. </p>
@@ -359,10 +352,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="FlatHistogram.html" class="btn btn-neutral float-right" title="FlatHistogram" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="MacrostateNumParticles.html" class="btn btn-neutral float-right" title="MacrostateNumParticles" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Constraint.html" class="btn btn-neutral float-left" title="Constraint" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="WLTM.html" class="btn btn-neutral float-left" title="WLTM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

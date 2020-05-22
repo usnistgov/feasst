@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Bias &mdash; FEASST v0.10.0 documentation</title>
+  <title>Bias &mdash; FEASST v0.11.0 documentation</title>
   
 
   
@@ -23,15 +23,15 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
-        <script type="text/javascript" src="../../../_static/leave_notice.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="https://pages.nist.gov/nist-header-footer/js/jquery-1.9.0.min.js"></script>
+        <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
+        <script src="../../../_static/leave_notice.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -44,8 +44,8 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="WangLandau" href="WangLandau.html" />
-    <link rel="prev" title="LnProbability" href="LnProbability.html" />
+    <link rel="next" title="TransitionMatrix" href="TransitionMatrix.html" />
+    <link rel="prev" title="TripleBandedCollectionMatrix" href="TripleBandedCollectionMatrix.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.10.0
+                v0.11.0
               </div>
             
           
@@ -108,7 +108,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugin</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
@@ -121,15 +121,18 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Bias</a></li>
-<li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Bias</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TransitionMatrix.html">TransitionMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WangLandau.html">WangLandau</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 </ul>
 </li>
 </ul>
@@ -139,11 +142,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../egce/README.html">Expanded Grand Canonical Ensemble</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../growth_expanded/README.html">Growth expanded</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../prefetch/README.html">Prefetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
@@ -218,7 +219,7 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugin</a> &raquo;</li>
+          <li><a href="../../README.html">Plugins</a> &raquo;</li>
         
           <li><a href="../README.html">Flat histogram</a> &raquo;</li>
         
@@ -267,47 +268,53 @@
 </style>
 <div class="section" id="bias">
 <h1>Bias<a class="headerlink" href="#bias" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="cpp class">
 <dt id="_CPPv4N6feasst4BiasE">
 <span class="target" id="classfeasst_1_1Bias"></span><em class="property">class </em><code class="sig-name descname">Bias</code><a class="headerlink" href="#_CPPv4N6feasst4BiasE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><a class="reference internal" href="#classfeasst_1_1Bias"><span class="std std-ref">Bias</span></a> for flat histogram Monte Carlo. Assumes a one-dimensional macrostate. </p>
-<p>Subclassed by <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">feasst::TransitionMatrix</span></a>, <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">feasst::WangLandau</span></a></p>
+<p>Subclassed by <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">feasst::TransitionMatrix</span></a>, <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">feasst::WangLandau</span></a>, <a class="reference internal" href="WLTM.html#classfeasst_1_1WLTM"><span class="std std-ref">feasst::WLTM</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst4Bias7ln_biasEKiKi">
 <span class="target" id="classfeasst_1_1Bias_1a6c6c07141284d4fd40f89432fd86c2d3"></span>double <code class="sig-name descname">ln_bias</code><span class="sig-paren">(</span><em class="property">const</em> int <em>bin_new</em>, <em class="property">const</em> int <em>bin_old</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst4Bias7ln_biasEKiKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the natural log of the bias for a transition from a macrostate in the old bin to a new bin. </p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv4N6feasst4Bias6updateEKiKiKdKb">
-<span class="target" id="classfeasst_1_1Bias_1a3b83f03141c10c5d4e1aaac37ac88ded"></span><em class="property">virtual</em> void <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_old</em>, <em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> double <em>ln_metropolis_prob</em>, <em class="property">const</em> bool <em>is_accepted</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst4Bias6updateEKiKiKdKb" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst4Bias16update_or_revertEKiKiKdKbKb">
+<span class="target" id="classfeasst_1_1Bias_1a310b530b6ecc91b5a4147373569399c1"></span><em class="property">virtual</em> void <code class="sig-name descname">update_or_revert</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_old</em>, <em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> double <em>ln_metropolis_prob</em>, <em class="property">const</em> bool <em>is_accepted</em>, <em class="property">const</em> bool <em>revert</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst4Bias16update_or_revertEKiKiKdKbKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Update the bias due to an attempted transition. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst4Bias6updateEKiKiKdKb">
+<span class="target" id="classfeasst_1_1Bias_1a21612a6f793d69637e8292b1e9f24fd6"></span>void <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_old</em>, <em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> double <em>ln_metropolis_prob</em>, <em class="property">const</em> bool <em>is_accepted</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Bias6updateEKiKiKdKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update only. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst4Bias17infrequent_updateEv">
+<span class="target" id="classfeasst_1_1Bias_1ab9607e9c816b84e4ec3fc1b5fd44838f"></span><em class="property">virtual</em> void <code class="sig-name descname">infrequent_update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Bias17infrequent_updateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Perform an infrequent update to the bias. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst4Bias7ln_probEv">
 <span class="target" id="classfeasst_1_1Bias_1a476a2850e2816dd1ccbaa7e8e4ea1f40"></span><em class="property">virtual</em> <em class="property">const</em> <a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> &amp;<code class="sig-name descname">ln_prob</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv4NK6feasst4Bias7ln_probEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The natural log of the macrostate probability. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst4Bias11set_ln_probERK13LnProbability">
 <span class="target" id="classfeasst_1_1Bias_1ae49aa183a9adf4c57f13e7287b4e328a"></span><em class="property">virtual</em> void <code class="sig-name descname">set_ln_prob</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> &amp;<em>ln_prob</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst4Bias11set_ln_probERK13LnProbability" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the macrostate probability distribution. </p>
 </dd></dl>
 
-<dl class="function">
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst4Bias11is_completeEv">
 <span class="target" id="classfeasst_1_1Bias_1a9ec7cfe76e4c1951b13b0f6759091348"></span>bool <code class="sig-name descname">is_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst4Bias11is_completeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if completion requirements are met. </p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv4N6feasst4Bias6revertEKiKi">
-<span class="target" id="classfeasst_1_1Bias_1ae1eed04e1a98ce88195796c35cf9fc79"></span><em class="property">virtual</em> void <code class="sig-name descname">revert</code><span class="sig-paren">(</span><em class="property">const</em> int <em>macrostate_new</em>, <em class="property">const</em> int <em>macrostate_old</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N6feasst4Bias6revertEKiKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Revert changes from previous trial. </p>
 </dd></dl>
 
 </div>
@@ -323,10 +330,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="WangLandau.html" class="btn btn-neutral float-right" title="WangLandau" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="TransitionMatrix.html" class="btn btn-neutral float-right" title="TransitionMatrix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="LnProbability.html" class="btn btn-neutral float-left" title="LnProbability" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="TripleBandedCollectionMatrix.html" class="btn btn-neutral float-left" title="TripleBandedCollectionMatrix" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

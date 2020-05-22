@@ -5,6 +5,7 @@ build/
 *txt
 *xyz
 *vmd
+*ipynb
 
 *ipynb_checkpoints*
 *__pycache__*
