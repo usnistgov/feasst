@@ -81,12 +81,10 @@ class Domain {
   void set_side_lengths(const Position& side_lengths);
 
   /// Set the side length.
-  void set_side_length(const int dimension, const double length) {
-    side_lengths_.set_coord(dimension, length);
-  }
+  void set_side_length(const int dimension, const double length);
 
   /// Add a side length (and dimensionality) to the domain.
-  void add_side_length(const double length) { side_lengths_.push_back(length); }
+  void add_side_length(const double length);
 
   /// Set the cubic box length.
   /// Return self for chain setting.
@@ -115,10 +113,14 @@ class Domain {
   double volume() const;
 
   /// Return the shift necessary to wrap the position.
-  // HWH optmize this more.
+  /// This is an unoptimized version.
   Position shift(const Position& position) const;
 
+  /// Same as above, but optimized to use pre-initialized private data.
+  const Position& shift_opt(const Position& position);
+
   /// Wrap the input position.
+  /// This is an unoptimized version.
   void wrap(Position * position) const;
 
   /// Return random position within boundaries.
@@ -174,7 +176,7 @@ class Domain {
 
 
   /// Return the unique cell number for the position.
-  int cell_id(const Position& position, const Cells& cells) const;
+  int cell_id(const Position& position, const Cells& cells);
 
   bool is_tilted() const { return is_tilted_; }
 
@@ -218,6 +220,11 @@ class Domain {
   double xy_, xz_, yz_;
   bool is_tilted_ = false;
   std::vector<bool> periodic_;
+
+  /// used for optimized pbc
+  Position opt_origin_, opt_rel_, opt_pbc_;
+  double opt_r2_;
+  void resize_opt_(const int dimension);
 
   /// Cell lists
   std::vector<Cells> cells_;

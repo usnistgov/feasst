@@ -16,7 +16,8 @@ namespace feasst {
 class Shape {
  public:
   /// Return the distance from the point to the nearest point on the surface.
-  /// The distance is negative if the point is inside of the shape.
+  /// The distance is negative if the point is inside of the shape and positive
+  /// if it is outside.
   virtual double nearest_distance(const Position& point) const = 0;
 
   /// Return true if the point is inside of the shape.
@@ -37,8 +38,7 @@ class Shape {
 class ShapedEntity {
  public:
   ShapedEntity() {}
-  ShapedEntity(std::shared_ptr<Shape> shape) {
-    shape_ = shape; }
+  ShapedEntity(std::shared_ptr<Shape> shape) { shape_ = shape; }
 
   /// Return the shape.
   const std::shared_ptr<Shape> shape() const { return shape_; }
@@ -49,67 +49,6 @@ class ShapedEntity {
  private:
   std::shared_ptr<Shape> shape_;
 };
-
-/**
-  Represents the intersection of two shapes.
-  This is done by returning the largest value of the nearest distance.
- */
-class ShapeIntersect : public Shape {
- public:
-  // This constructor only to be used for serialization.
-  ShapeIntersect() {}
-
-  ShapeIntersect(std::shared_ptr<Shape> shape1,
-                 std::shared_ptr<Shape> shape2);
-
-  double nearest_distance(const Position& point) const override;
-
-  void serialize(std::ostream& ostr) const override;
-  std::shared_ptr<Shape> create(std::istream& istr) const override {
-    return std::make_shared<ShapeIntersect>(istr); }
-  explicit ShapeIntersect(std::istream& istr);
-  virtual ~ShapeIntersect() {}
-
- private:
-  const std::string class_name_ = "ShapeIntersect";
-  std::shared_ptr<Shape> shape1_, shape2_;
-};
-
-inline std::shared_ptr<ShapeIntersect> MakeShapeIntersect() {
-  return std::make_shared<ShapeIntersect>();
-}
-
-// HWH encompase Intersect and Union with a single two-shape base class.
-/**
-  Represents the union of two shapes.
-  This is done by returning the smallest value of the nearest distance.
- */
-class ShapeUnion : public Shape {
- public:
-  // This constructor only to be used for serialization.
-  ShapeUnion() {}
-
-  ShapeUnion(std::shared_ptr<Shape> shape1,
-             std::shared_ptr<Shape> shape2);
-
-  double nearest_distance(const Position& point) const override;
-
-  void serialize(std::ostream& ostr) const override;
-  std::shared_ptr<Shape> create(std::istream& istr) const override {
-    return std::make_shared<ShapeUnion>(istr); }
-  explicit ShapeUnion(std::istream& istr);
-  virtual ~ShapeUnion() {}
-
- private:
-  const std::string class_name_ = "ShapeUnion";
-  std::shared_ptr<Shape> shape1_, shape2_;
-};
-
-inline std::shared_ptr<ShapeUnion> MakeShapeUnion(
-    std::shared_ptr<Shape> shape1,
-    std::shared_ptr<Shape> shape2) {
-  return std::make_shared<ShapeUnion>(shape1, shape2);
-}
 
 }  // namespace feasst
 

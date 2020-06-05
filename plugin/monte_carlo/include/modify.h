@@ -11,7 +11,8 @@
 namespace feasst {
 
 /**
-  Perform an action every so many steps.
+  Perform an action every so many steps that may change the system, criteria
+  or trials.
  */
 class Modify : public Stepper {
  public:

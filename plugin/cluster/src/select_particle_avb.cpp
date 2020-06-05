@@ -2,6 +2,7 @@
 #include "utils/include/utils.h"
 #include "math/include/utils_math.h"
 #include "math/include/random.h"
+#include "configuration/include/domain.h"
 #include "cluster/include/select_particle_avb.h"
 
 namespace feasst {

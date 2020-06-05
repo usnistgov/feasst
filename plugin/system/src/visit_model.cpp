@@ -1,11 +1,13 @@
 #include <cmath>
 #include <vector>
+#include "utils/include/serialize.h"
+#include "math/include/constants.h"
+#include "configuration/include/select.h"
+#include "configuration/include/configuration.h"
+#include "configuration/include/domain.h"
 #include "system/include/visit_model.h"
 #include "system/include/model_two_body.h"
 #include "system/include/model_one_body.h"
-#include "configuration/include/select.h"
-#include "math/include/constants.h"
-#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -269,6 +271,56 @@ void VisitModel::compute(
     Configuration * config,
     const int group_index) {
   FATAL("not implemented");
+}
+
+void VisitModel::init_relative_(const Domain& domain, Position * relative,
+                                Position * pbc) {
+  if (relative->dimension() != domain.dimension()) {
+    relative->set_vector(domain.side_lengths().coord());
+    pbc->set_vector(domain.side_lengths().coord());
+  }
+}
+
+void VisitModel::compute(
+    const ModelOneBody& model,
+    Configuration * config,
+    const int group_index) {
+  const ModelParams& model_params = config->model_params();
+  compute(model, model_params, config, group_index);
+}
+
+void VisitModel::compute(
+    const ModelOneBody& model,
+    const Select& selection,
+    Configuration * config,
+    const int group_index) {
+  const ModelParams& model_params = config->model_params();
+  compute(model, model_params, selection, config, group_index);
+}
+
+void VisitModel::compute(
+    const ModelTwoBody& model,
+    Configuration * config,
+    const int group_index) {
+  const ModelParams& model_params = config->model_params();
+  compute(model, model_params, config, group_index);
+}
+
+void VisitModel::compute(
+    const ModelTwoBody& model,
+    const Select& selection,
+    Configuration * config,
+    const int group_index) {
+  const ModelParams& model_params = config->model_params();
+  compute(model, model_params, selection, config, group_index);
+}
+
+void VisitModel::compute(
+    const ModelThreeBody& model,
+    Configuration * config,
+    const int group_index) {
+  const ModelParams& model_params = config->model_params();
+  compute(model, model_params, config, group_index);
 }
 
 }  // namespace feasst

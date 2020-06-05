@@ -4,11 +4,14 @@
 
 #include <memory>
 #include "utils/include/arguments.h"
+#include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
 
 class Criteria;
+class Constraint;
 class TrialAdd;
+class Trial;
 class MonteCarlo;
 
 /**
@@ -19,7 +22,7 @@ class SeekNumParticles {
  public:
   /**
     args:
-    - particle_type: type of particle to add (default: 0)
+    - particle_type: type of particle to add. If -1, all types (default: -1).
     - max_attempts: maximum number of trial attempts for seek (default: 1e8).
    */
   SeekNumParticles(const int num, const argtype& args = argtype());
@@ -27,9 +30,24 @@ class SeekNumParticles {
   /// Optionally use a temporary Metropolis criteria with given args.
   SeekNumParticles with_metropolis(const argtype& args);
 
-  /// Use an extra and temporary TrialAdd between every existing Trial.
-  /// If particle_type is not included in args, assume 0.
+  /// Same as above but with a constraint.
+  SeekNumParticles with_metropolis(std::shared_ptr<Constraint> constraint,
+    const argtype& args);
+
+  /**
+    Use an extra and temporary TrialAdd between every existing Trial.
+    If particle_type is not included in args, use value given by class
+    argument particle_type, if not -1.
+    If -1, then use 0.
+   */
   SeekNumParticles with_trial_add(const argtype& args = argtype());
+
+  /**
+    Add an extra trial.
+    Any extra trials, including TrialAdd above, are attempted between each trial
+    already present in MonteCarlo.
+   */
+  SeekNumParticles add(std::shared_ptr<Trial> trial);
 
   /// Perform the seek.
   void run(MonteCarlo * monte_carlo);
@@ -39,7 +57,7 @@ class SeekNumParticles {
   int max_attempts_;
   int particle_type_;
   std::shared_ptr<Criteria> criteria_;
-  std::shared_ptr<TrialAdd> add_;
+  TrialFactory extra_trials_;
 };
 
 inline std::shared_ptr<SeekNumParticles> MakeSeekNumParticles(

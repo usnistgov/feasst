@@ -6,11 +6,12 @@
 #include <string>
 #include <vector>
 #include "utils/include/arguments.h"
-#include "configuration/include/domain.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
 
 namespace feasst {
+
+class Domain;
 
 /**
   A configuration contains both the particles and the spatial domain/boundaries.
@@ -214,6 +215,7 @@ class Configuration {
     const int group = 0) const;
 
   /// Return the number of particles of a given particle type.
+  /// If type == -1, return number of particles of all types.
   int num_particles_of_type(const int type) const;
 
   /// Return the last particle added.
@@ -245,6 +247,12 @@ class Configuration {
     const bool no_wrap = false,
     /// If true, do not exclude properties.
     const bool no_exclude = false);
+
+  /// Copy the existing particles in a given config by replacing positions.
+  /// Types must match config in the same order.
+  void copy_particles(const Configuration& config,
+    /// Add missing particles of the same type.
+    const bool add_missing = false);
 
   /// Displace selected particle(s). No periodic boundary conditions applied.
   void displace_particles(const Select& selection,
@@ -289,7 +297,7 @@ class Configuration {
   void set_side_lengths(const Position& sides);
 
   /// Return the dimensionality of space.
-  int dimension() const { return domain().dimension(); }
+  int dimension() const;
 
   /// Set whether or not to wrap particles
   void init_wrap(const bool wrap = true) { wrap_ = wrap; }
@@ -473,7 +481,7 @@ class Configuration {
     particles_.replace_properties(particle_index, site_index, prop, exclude); }
 
   /// Store the excluded properties used in replace_properties_ (optimization).
-  std::vector<std::string> excluded_properties_ = {"cell"};
+  std::vector<std::string> excluded_properties_;
   std::vector<std::string> excl_prop_non_usr_ = excluded_properties_;
 
   /// Update position trackers of a particle (e.g., cell, neighbor, etc).

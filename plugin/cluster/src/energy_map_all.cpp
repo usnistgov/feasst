@@ -1,8 +1,10 @@
-#include "cluster/include/energy_map_all.h"
 #include "utils/include/utils.h"  // find_in_list
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "math/include/random.h"
+#include "configuration/include/select.h"
+#include "configuration/include/configuration.h"
+#include "cluster/include/energy_map_all.h"
 
 namespace feasst {
 
@@ -24,12 +26,14 @@ EnergyMapAll::EnergyMapAll(std::istream& istr) : EnergyMap(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 2810, "mismatch:" << version);
   feasst_deserialize(&map_, istr);
+  feasst_deserialize(&map_new_, istr);
 }
 
 void EnergyMapAll::serialize_energy_map_all_(std::ostream& ostr) const {
   serialize_energy_map_(ostr);
   feasst_serialize_version(2810, ostr);
   feasst_serialize(map_, ostr);
+  feasst_serialize(map_new_, ostr);
 }
 
 void EnergyMapAll::serialize(std::ostream& ostr) const {

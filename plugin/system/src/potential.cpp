@@ -1,9 +1,11 @@
 #include <memory>
-#include "system/include/potential.h"
-#include "system/include/model_empty.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
+#include "system/include/potential.h"
+#include "system/include/model_empty.h"
 
 namespace feasst {
 
@@ -35,6 +37,11 @@ Potential::Potential(
     std::shared_ptr<VisitModel> visit_model,
     const argtype& args) : Potential(model, args) {
   visit_model_ = visit_model;
+}
+
+void Potential::set(const ModelParams& model_params) {
+  model_params_override_ = true;
+  model_params_ = ModelParams(model_params);
 }
 
 void Potential::set_model_param(const char* name,
@@ -149,6 +156,10 @@ Potential::Potential(std::istream& istr) {
   }
   feasst_deserialize_fstobj(&cache_, istr);
   feasst_deserialize(&prevent_cache_, istr);
+}
+
+void Potential::set_model_params(const Configuration& config) {
+  set(config.model_params());
 }
 
 }  // namespace feasst

@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "configuration/include/domain.h"
 #include "chain/include/perturb_site_type.h"
 
 namespace feasst {

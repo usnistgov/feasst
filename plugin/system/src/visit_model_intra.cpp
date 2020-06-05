@@ -1,6 +1,7 @@
 #include <vector>
 #include "utils/include/serialize.h"
 #include "utils/include/utils.h"  // find_in_list
+#include "configuration/include/configuration.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/model_two_body.h"
 
@@ -128,6 +129,13 @@ void VisitModelIntra::serialize(std::ostream& ostr) const {
   feasst_serialize(cutoff_, ostr);
 }
 
-
+void VisitModelIntra::compute(
+    const ModelTwoBody& model,
+    const ModelParams& model_params,
+    Configuration * config,
+    const int group_index) {
+  compute(model, model_params, config->selection_of_all(),
+          config, group_index);
+}
 
 }  // namespace feasst

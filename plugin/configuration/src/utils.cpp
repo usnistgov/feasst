@@ -1,19 +1,23 @@
 #include "utils/include/utils_io.h"
 #include "configuration/include/utils.h"
 #include "configuration/include/file_xyz.h"
+#include "configuration/include/domain.h"
 
 namespace feasst {
 
 Configuration lj_sample4() {
   auto config = MakeConfiguration({{"particle_type", "../forcefield/data.lj"}});
-  FileXYZ().load("../plugin/system/test/data/lj_sample_config_periodic4.xyz",
+  FileXYZ().load(
+    "../plugin/configuration/test/data/lj_sample_config_periodic4.xyz",
     config.get());
   return *config;
 }
 
 Configuration spce_sample1() {
   auto config = MakeConfiguration({{"particle_type", "../forcefield/data.spce"}});
-  FileXYZ().load("../plugin/system/test/data/spce_sample_config_periodic1.xyz", config.get());
+  FileXYZ().load(
+    "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz",
+    config.get());
   return *config;
 }
 

@@ -1,12 +1,13 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
-#include "configuration/include/utils.h"
-#include "system/include/visit_model_cell.h"
-#include "configuration/include/file_xyz.h"
-#include "system/include/lennard_jones.h"
 #include "math/include/constants.h"
-#include "configuration/include/select.h"
 #include "math/include/utils_math.h"
+#include "configuration/include/utils.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/file_xyz.h"
+#include "configuration/include/select.h"
+#include "system/include/visit_model_cell.h"
+#include "system/include/lennard_jones.h"
 #include "monte_carlo/include/trial_select_particle.h"
 
 namespace feasst {
@@ -68,7 +69,9 @@ TEST(VisitModelCell, spce_reference_config) {
   for (int part = 0; part < 100; ++part) {
     config.add_particle_of_type(0);
   }
-  FileXYZ().load("../plugin/system/test/data/spce_sample_config_periodic1.xyz", &config);
+  FileXYZ().load(
+    "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz",
+    &config);
   config.add_particle_of_type(0);
   Select select(config.newest_particle_index(), config.newest_particle());
   config.remove_particle(select);

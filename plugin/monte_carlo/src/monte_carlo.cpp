@@ -127,7 +127,7 @@ void MonteCarlo::add(const std::shared_ptr<Modify> modify) {
 //  reset_trial_stats();
 //}
 
-void MonteCarlo::add(const std::shared_ptr<Checkpoint> checkpoint) {
+void MonteCarlo::set(const std::shared_ptr<Checkpoint> checkpoint) {
   checkpoint_ = checkpoint;
 }
 
@@ -172,7 +172,14 @@ MonteCarlo::MonteCarlo(std::istream& istr) {
   feasst_deserialize_fstobj(&trial_factory_, istr);
   feasst_deserialize_fstobj(&analyze_factory_, istr);
   feasst_deserialize_fstobj(&modify_factory_, istr);
-  feasst_deserialize(checkpoint_, istr);
+  // HWH for unknown reasons, this function template does not work.
+  //feasst_deserialize(checkpoint_, istr);
+  { int existing;
+    istr >> existing;
+    if (existing != 0) {
+      checkpoint_ = std::make_shared<Checkpoint>(istr);
+    }
+  }
   // HWH for unknown reasons, this function template does not work.
   //feasst_deserialize_fstdr(random_, istr);
   { int existing;

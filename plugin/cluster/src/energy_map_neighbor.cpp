@@ -1,6 +1,7 @@
-#include "cluster/include/energy_map_neighbor.h"
 #include "utils/include/utils.h"  // find_in_list
 #include "utils/include/serialize.h"
+#include "configuration/include/select.h"
+#include "cluster/include/energy_map_neighbor.h"
 
 namespace feasst {
 

@@ -1,4 +1,4 @@
-
+#include "configuration/include/domain.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"

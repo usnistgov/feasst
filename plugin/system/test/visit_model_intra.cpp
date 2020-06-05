@@ -1,8 +1,9 @@
 #include <cmath>
 #include "utils/test/utils.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/utils.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/lennard_jones.h"
-#include "configuration/include/utils.h"
 
 namespace feasst {
 

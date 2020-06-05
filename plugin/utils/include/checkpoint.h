@@ -18,31 +18,47 @@ class Checkpoint {
  public:
   /**
     args:
-    - num_hours: number of hours between printing of checkpoint file
+    - num_hours: Number of hours between printing of checkpoint file
       (default: 12).
-    - file_name: Output file name. The default is empty, and no checkpointing.
+    - file_name: The default is one space (e.g., " ") and no checkpointing.
    */
   explicit Checkpoint(const argtype &args = argtype());
 
   /// Return number of hours between writing file.
   double num_hours() const { return num_hours_; }
 
-  // every num_hours, write object to file_name.
+  /// Write the checkpoint to file.
   template <typename T>
-  void check(const T& obj) {
-    if (file_name_.empty()) {
+  void write(const T& obj) {
+    if (file_name_.empty() || file_name_ == " ") {
       return;
     }
+    std::ofstream file(file_name_.c_str(),
+      std::ofstream::out | std::ofstream::trunc);
+    std::stringstream ss;
+    obj.serialize(ss);
+    file << ss.str();
+    file.close();
+  }
+
+  /// Write object to file_name if num_hours has passed since previous.
+  template <typename T>
+  void check(const T& obj) {
     const double hours = cpu_hours();
     if (hours > previous_hours_ + num_hours_) {
       previous_hours_ = hours;
-      std::ofstream file(file_name_.c_str(),
-        std::ofstream::out | std::ofstream::trunc);
-      std::stringstream ss;
-      obj.serialize(ss);
-      file << ss.str();
-      file.close();
+      write(obj);
     }
+  }
+
+  /// Initialize object by reading from file.
+  template <typename T>
+  void read(T * obj) {
+    std::ifstream file(file_name_.c_str());
+    std::string line;
+    std::getline(file, line);
+    std::stringstream ss(line);
+    *obj = T(ss);
   }
 
   /// Serialize object.

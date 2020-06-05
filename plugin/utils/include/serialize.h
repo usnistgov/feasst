@@ -11,6 +11,8 @@
 #include "utils/include/debug.h"
 #include "utils/include/utils_io.h"
 
+namespace feasst {
+
 /**
   Utility functions for serialization of objects into human-readable character
   streams.
@@ -21,11 +23,9 @@
   the commented templates.
   But when the source code is copied to the specific object's deserialization
   function, then it does work, for unknown reasons.
+
+  For this function, serialize a boolean value.
  */
-
-namespace feasst {
-
-/// Serialize bool.
 void feasst_serialize(const bool val, std::ostream& ostr);
 
 /// Deserialize bool.

@@ -1,4 +1,5 @@
 #include "utils/test/utils.h"
+#include "configuration/include/model_params.h"
 #include "example/include/model_example.h"
 
 namespace feasst {

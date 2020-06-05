@@ -7,10 +7,19 @@
 namespace feasst {
 
 /**
-  Assumes units:
+  Compute energy between two point charges, \f$q_i\f$ and \f$q_j\f$ with a
+  Gaussian screening cloud as utilized by the Ewald summation.
+
+  \f$U = q_i q_j \chi erfc(\alpha r)/r\f$
+
+  where \f$erfc\f$ is the complimentary error function,
+  \f$r\f$ is the separation distance,
+  and \f$\chi\f$ is the charge conversion factor assuming the following units:
     1. length: Angstroms
     2. energy: kJ/mol
     3. charge: elementary
+
+  Avoid Coulomb explosion by returning a large number when \f$r\f$ is near zero.
  */
 class ChargeScreened : public ModelTwoBody {
  public:

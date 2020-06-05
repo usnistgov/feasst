@@ -19,7 +19,9 @@ void Rosenbluth::compute(const double beta, Random * random) {
   for (int step = 0; step < num(); ++step) {
     weight_[step] = -beta*energy_[step] - lnk;
   }
-  DEBUG("ln_boltzman " << feasst_str(weight_));
+  DEBUG("num " << num());
+  DEBUG("weight " << feasst_str(weight_));
+  DEBUG("energy " << feasst_str(energy_));
   // tot = sum(e^-betaU)
   // ln_tot = ln(sum(e^-betaU)
   // shift by constant, C = -max + 10 to avoid overflow.
@@ -30,9 +32,10 @@ void Rosenbluth::compute(const double beta, Random * random) {
     ln_total_rosenbluth_ += exp(ln + shift);
   }
   ln_total_rosenbluth_ = std::log(ln_total_rosenbluth_) - shift;
-  DEBUG("ln_rosen " << ln_total_rosenbluth_);
+  DEBUG("ln_rosen " << ln_total_rosenbluth_ << " inf " << NEAR_INFINITY);
   DEBUG("energy " << feasst_str(energy_));
-  if (ln_total_rosenbluth_ <= -NEAR_INFINITY) {
+  // automatically reject very unlikely acceptances.
+  if (ln_total_rosenbluth_ <= -NEAR_INFINITY/pow(10, num())) {
     chosen_step_ = -1;
     return;
   }
@@ -43,9 +46,9 @@ void Rosenbluth::compute(const double beta, Random * random) {
   }
   TRACE("cumulative " << feasst_str(cumulative_));
   const double last = cumulative_.back();
-  ASSERT(std::abs(cumulative_.back() - 1.) < 100000000.*NEAR_ZERO,
-    "cumulative probability must end in 1. " <<
-    MAX_PRECISION << last);
+  ASSERT(std::abs(last - 1.) < 100000000.*NEAR_ZERO,
+    "cumulative probability ends in " << MAX_PRECISION << last <<
+    " when it should be 1.");
   for (double& element : cumulative_) {
     element /= last;
   }
@@ -81,6 +84,12 @@ Rosenbluth::Rosenbluth(std::istream& istr) {
   feasst_deserialize(&weight_, istr);
   feasst_deserialize(&cumulative_, istr);
   feasst_deserialize_fstobj(&stored_, istr);
+}
+
+void Rosenbluth::set_energy(const int step, const double energy) {
+  DEBUG("en: " << energy);
+  ASSERT(!std::isinf(energy), "energy: " << energy << " is inf.");
+  energy_[step] = energy;
 }
 
 }  // namespace feasst

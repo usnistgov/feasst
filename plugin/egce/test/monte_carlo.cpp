@@ -30,13 +30,14 @@
 
 namespace feasst {
 
-MonteCarlo rpm_egce(const int min = 0) {
+MonteCarlo rpm_egce(const int min = 0, const std::string dual_cut = "-1") {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "default"}}));
-  rpm(&mc, {
+  mc.set(rpm({
     {"cubic_box_length", "12"},
     {"cutoff", "4.891304347826090"},
-    {"alphaL", "6.87098396396261"}});
+    {"alphaL", "6.87098396396261"},
+    {"dual_cut", dual_cut}}));
   const double temperature = 0.047899460618081;
   const double beta_mu = -13.94;
   if (min > 0) {
@@ -54,10 +55,8 @@ MonteCarlo rpm_egce(const int min = 0) {
   mc.set(criteria);
   const int steps_per = 1e5;
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
-  mc.add(MakeCriteriaWriter({
-    {"steps_per", str(steps_per)},
-    {"file_name", "tmp/rpm_egce_crit.txt"},
-  }));
+  mc.add(MakeCriteriaWriter({{"steps_per", str(steps_per)},
+                             {"file_name", "tmp/rpm_egce_crit.txt"}}));
   add_common_steppers(&mc, {{"steps_per", str(steps_per)},
                             {"file_append", "tmp/rpm_egce"}});
   // mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
@@ -73,30 +72,54 @@ MonteCarlo rpm_egce(const int min = 0) {
 }
 
 TEST(MonteCarlo, rpm_egce_fh_LONG) {
-  MonteCarlo mc = rpm_egce();
-  add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
-  add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "1"}});
-  mc.run_until_complete();
-  test_serialize(mc);
+  for (int num_steps : {1, 2}) {
+    INFO("num_steps: " << num_steps);
+    MonteCarlo mc;
+    std::string ref = "-1";
+    if (num_steps == 1) {
+      mc = rpm_egce();
+    } else {
+      mc = rpm_egce(0, "1.");
+      ref = "0";
+    }
+    // mc.set(MakeRandomMT19937({{"seed", "1234"}}));
+    mc.add(MakeTrialTranslate({
+      {"weight", "0.25"},
+      {"tunable_param", "0.1"},
+      {"reference_index", ref},
+      {"num_steps", str(num_steps)}}));
+    add_trial_transfer(&mc, {
+      {"weight", "1."},
+      {"particle_type", "0"},
+      {"reference_index", ref},
+      {"num_steps", str(num_steps)}});
+    add_trial_transfer(&mc, {
+      {"weight", "1."},
+      {"particle_type", "1"},
+      {"reference_index", ref},
+      {"num_steps", str(num_steps)}});
+    MonteCarlo mc2 = test_serialize(mc);
+    mc2.run_until_complete();
 
-  std::stringstream ss;
-  mc.criteria().serialize(ss);
-  FlatHistogram fh(ss);
-  LnProbability lnpi3 = fh.bias().ln_prob().reduce(2);
-  EXPECT_NEAR(lnpi3.value(0), -1.2994315780357, 0.1);
-  EXPECT_NEAR(lnpi3.value(1), -1.08646312498868, 0.1);
-  EXPECT_NEAR(lnpi3.value(2), -0.941850889679828, 0.06);
-  const std::vector<std::shared_ptr<Analyze> >& en = mc.analyzers().back()->analyzers();
-  EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
-  EXPECT_NEAR(en[1]->accumulator().average(), -0.115474, 1e-6);
-  EXPECT_NEAR(en[2]->accumulator().average(), -0.939408, 0.02);
-  EXPECT_NEAR(en[3]->accumulator().average(), -1.32485, 0.03);
-  EXPECT_NEAR(en[4]->accumulator().average(), -2.02625, 0.04);
+    std::stringstream ss;
+    mc2.criteria().serialize(ss);
+    FlatHistogram fh(ss);
+    LnProbability lnpi3 = fh.bias().ln_prob().reduce(2);
+    EXPECT_NEAR(lnpi3.value(0), -1.2994315780357, 0.1);
+    EXPECT_NEAR(lnpi3.value(1), -1.08646312498868, 0.1);
+    EXPECT_NEAR(lnpi3.value(2), -0.941850889679828, 0.06);
+    const std::vector<std::shared_ptr<Analyze> >& en = mc2.analyzers().back()->analyzers();
+    EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
+    EXPECT_NEAR(en[1]->accumulator().average(), -0.115474, 1e-6);
+    EXPECT_NEAR(en[2]->accumulator().average(), -0.939408, 0.02);
+    EXPECT_NEAR(en[3]->accumulator().average(), -1.32485, 0.03);
+    EXPECT_NEAR(en[4]->accumulator().average(), -2.02625, 0.04);
+  }
 }
 
 TEST(MonteCarlo, rpm_egce_fh_min1_LONG) {
   MonteCarlo mc = rpm_egce(1);
-  // rng mc.set(1346867550);
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
   add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "1"}});
   mc.run_until_complete();
@@ -119,6 +142,7 @@ TEST(MonteCarlo, rpm_egce_fh_min1_LONG) {
 
 TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
   MonteCarlo mc = rpm_egce(1);
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   // mc.set(MakeRandomMT19937({{"seed", "1346867550"}}));
   mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
                                                MakeChargeScreened()}),
@@ -155,32 +179,34 @@ TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
   EXPECT_NEAR(en[3]->accumulator().average(), -2.02625, 0.04);
 }
 
-MonteCarlo dival_egce(const int min = 0) {
+MonteCarlo dival_egce(
+    const int min = 0,
+    const int max = 15,
+    const int steps_per = 1e5) {
   const double temperature = 0.25;
   const double beta_mu = -7.94;
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  rpm(&mc, {
+  mc.set(rpm({
     {"delta", "0.3"},
     {"charge_ratio", "2"},
     {"cubic_box_length", "15"},
     {"cutoff", "7.5"},
     {"kmax_squared", "25"},
-    {"alphaL", "5"}});
+    {"alphaL", "5"}}));
   if (min > 0) {
     ASSERT(min == 1, "unrecognized min: " << min);
     mc.get_system()->get_configuration()->add_particle_of_type(1);
   }
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
-      Histogram({{"width", "1"}, {"max", "15"}, {"min", str(min)}})),
+      Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
     MakeTransitionMatrix({{"min_sweeps", "100"}}),
     MakeAHalfB({{"extra", "1"}}),
     {{"beta", str(1/temperature)},
      {"chemical_potential0", str(beta_mu*temperature)},
      {"chemical_potential1", str(beta_mu*temperature)}});
   mc.set(criteria);
-  const int steps_per = 1e5;
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaWriter({
     {"steps_per", str(steps_per)},
@@ -263,6 +289,7 @@ void compare_lnpi_en(const MonteCarlo& mc, const int min) {
 TEST(MonteCarlo, rpm_egce_divalent_LONG) {
   const int min = 0;
   MonteCarlo mc = dival_egce(min);
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
   add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "1"}});
   mc.run_until_complete();
@@ -272,6 +299,7 @@ TEST(MonteCarlo, rpm_egce_divalent_LONG) {
 TEST(MonteCarlo, rpm_egce_min1_divalent_LONG) {
   const int min = 1;
   MonteCarlo mc = dival_egce(1);
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
   add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "1"}});
   mc.run_until_complete();
@@ -281,6 +309,7 @@ TEST(MonteCarlo, rpm_egce_min1_divalent_LONG) {
 TEST(MonteCarlo, rpm_egce_avb_divalent_LONG) {
   const int min = 1;
   MonteCarlo mc = dival_egce(min);
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
   mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
                                                MakeChargeScreened()}),
@@ -311,21 +340,13 @@ TEST(MonteCarlo, rpm_egce_avb_divalent_LONG) {
 }
 
 TEST(MonteCarlo, rpm_egce_divalent_avb_and_not) {
-  const int min = 0;
-  MonteCarlo mc = dival_egce(min);
+  const int min = 0, max = 15, steps_per = 1e3;
+  MonteCarlo mc = dival_egce(min, max, steps_per);
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
                                                MakeChargeScreened()}),
                       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-  mc.set(MakeFlatHistogram(
-    MakeMacrostateNumParticles(
-      Histogram({{"width", "1"}, {"max", "15"}, {"min", str(min)}})),
-    MakeTransitionMatrix({{"min_sweeps", "100"}}),
-    MakeAHalfB({{"extra", "1"}}),
-    {{"beta", str(mc.criteria().beta())},
-     {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
-     {"chemical_potential1", str(mc.criteria().chemical_potential(1))}}));
   auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "7.5"},
                                                  {"minimum_distance", "1"},
                                                  {"site_type0", "0"},
@@ -341,7 +362,7 @@ TEST(MonteCarlo, rpm_egce_divalent_avb_and_not) {
     { {"weight", "1."},
       {"particle_type", "1"},
       {"target_particle_type", "0"}});
-  mc.attempt(1e3);
+  mc.attempt(2*steps_per);
 }
 
 }  // namespace feasst

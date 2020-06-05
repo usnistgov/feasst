@@ -2,7 +2,6 @@
 .. toctree::
 
    Tunable
-   SeekNumParticles
    Stepper
    Rosenbluth
    Acceptance
@@ -15,6 +14,9 @@
    TrialSelectAngle
    TrialSelectParticle
    Perturb
+   PerturbMove
+   PerturbTranslate
+   PerturbDistance
    TrialStage
    TrialCompute
    Trial
@@ -26,13 +28,11 @@
    ModifyFactory
    MonteCarlo
    utils
+   SeekNumParticles
    TrialAdd
-   TrialComputeMove
-   TrialComputeRemove
    TrialComputeAdd
-   PerturbMove
-   PerturbTranslate
-   PerturbDistance
+   TrialComputeRemove
+   TrialComputeMove
    TrialMove
    TrialTranslate
    PerturbRotate

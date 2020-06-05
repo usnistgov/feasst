@@ -51,7 +51,10 @@ void TrialCompute::compute_rosenbluth(
   DEBUG("reference used? " << reference_used);
   if (reference_used) {
     ASSERT(acceptance->perturbed().num_sites() > 0, "error");
-    acceptance->set_perturbed_state((*stages)[0]->trial_select().mobile().trial_state());
+    int trial_state = (*stages)[0]->trial_select().mobile().trial_state();
+    // set the trial state if old configuration and is a move type (1)
+    if (trial_state == 1 && old == 1) trial_state = 0;
+    acceptance->set_perturbed_state(trial_state);
     DEBUG(acceptance->perturbed().str());
 //    { // delete me
 //      for (int p = 0; p < acceptance->perturbed().num_particles(); ++p) {

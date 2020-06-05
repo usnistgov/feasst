@@ -2,6 +2,7 @@
 #include <sstream>
 #include "configuration/include/configuration.h"
 #include "configuration/include/file_xyz.h"
+#include "configuration/include/domain.h"
 #include "utils/include/utils.h"
 #include "math/include/utils_math.h"
 #include "utils/include/debug.h"
@@ -11,7 +12,6 @@
 namespace feasst {
 
 Configuration::Configuration(const argtype& args) {
-  one_site_select_.add_site(0, 0);
   domain_ = std::make_shared<Domain>();
   particle_types_.unique_particles();
   unique_types_.unique_types();
@@ -122,17 +122,15 @@ void Configuration::remove_particle_(const int particle_index) {
        cell_index < static_cast<int>(domain().cells().size());
        ++cell_index) {
     const Cells& cells = domain().cells()[cell_index];
-    const int group_index = feasst::round(cells.property("group"));
+    const int group_index = cells.group();
     const Particle& part = select_particle(particle_index);
     const Group& group = group_selects_[group_index].group();
     if (group.is_in(part)) {
       for (int site_index = 0; site_index < part.num_sites(); ++site_index) {
         const Site& site = part.site(site_index);
         if (group.is_in(site)) {
-          const std::string name = cells.label();
-          double value;
-          if (site.properties().value(name, &value)) {
-            const int cell_old = feasst::round(value);
+          if (cells.type() < site.num_cells()) {
+            const int cell_old = site.cell(cells.type());
             Select select;
             select.add_site(particle_index, site_index);
             domain_->remove_from_cell_list(cell_index, select, cell_old);
@@ -238,33 +236,33 @@ void Configuration::position_tracker_(const int particle_index,
          ++cell_index) {
       DEBUG("cell index " << cell_index);
       const Cells& cells = domain().cells()[cell_index];
-      DEBUG("group " << cells.properties().value("group"));
-      const int group_index = feasst::round(cells.property("group"));
+      DEBUG("group " << cells.group());
+      const int group_index = cells.group();
       ASSERT(group_index >= 0, "error");
       const Particle& part = select_particle(particle_index);
       const Group& group = group_selects_[group_index].group();
       if (group.is_in(part)) {
         const Site& site = part.site(site_index);
         if (group.is_in(site)) {
-          const int cell_new = domain().cell_id(site.position(), cells);
+          const int cell_new = domain_->cell_id(site.position(), cells);
+          if (one_site_select_.num_particles() == 0) {
+            one_site_select_.add_site(0, 0);
+          }
           one_site_select_.set_particle(0, particle_index);
           one_site_select_.set_site(0, 0, site_index);
-          double value;
-          int index;
-          if (site.properties().value(cells.label(), &value, &index)) {
-            const int cell_old = feasst::round(value);
+          Site * sitep = particles_.get_particle(particle_index)->get_site(site_index);
+          if (cells.type() < site.num_cells()) {
+            const int cell_old = site.cell(cells.type());
             DEBUG("index " << particle_index << " " << site_index);
             DEBUG("new cell " << cell_new << " old cell " << cell_old);
             DEBUG("before new cell set: " <<
               particles_.particle(particle_index).site(
               site_index).property("cell0"));
-            particles_.set_site_property(index, cell_new,
-                                         particle_index, site_index);
+            sitep->set_cell(cells.type(), cell_new);
             domain_->update_cell_list(cell_index, one_site_select_, cell_new,
                                       cell_old);
           } else {
-            particles_.add_site_property(cells.label(), cell_new,
-                                         particle_index, site_index);
+            sitep->add_cell(cell_new);
             DEBUG("adding to cell list " << cell_index << " cllnw "
               << cell_new << " si " << site_index);
             domain_->add_to_cell_list(cell_index, one_site_select_, cell_new);
@@ -322,7 +320,7 @@ void Configuration::check() const {
   if (domain_) {
     // check that number of particles in cell list is number in selection.
     for (const Cells& cells : domain().cells()) {
-      const int group_index = feasst::round(cells.property("group"));
+      const int group_index = cells.group();
       const Select& select = group_selects_[group_index];
       ASSERT(select.num_sites() == cells.num_sites(),
         "sites in group(" << select.num_sites() << ") is not equal to sites " <<
@@ -556,7 +554,10 @@ void Configuration::add(std::shared_ptr<ModelParam> param) {
 int Configuration::num_particles_of_type(const int type) const {
   ASSERT(type < num_particle_types(), "type: " << type << " >= num types: "
     << num_particle_types());
-    const int num = num_particles_of_type_[type];
+  if (type == -1) {
+    return num_particles();
+  }
+  const int num = num_particles_of_type_[type];
   ASSERT(num >= 0, "unphysical number(" << num <<")");
   ASSERT(num <= num_particles(), "unphysical number of particles of type(" <<
     num << ") when number of particles is: " << num_particles());
@@ -565,8 +566,8 @@ int Configuration::num_particles_of_type(const int type) const {
 
 void Configuration::wrap_particle(const int particle_index) {
   if (wrap_) {
-    Position part_position = select_particle(particle_index).position();
-    const Position pbc_shift = domain().shift(part_position);
+    const Position& part_position = select_particle(particle_index).position();
+    const Position& pbc_shift = domain_->shift_opt(part_position);
     DEBUG("part_position " << part_position.str());
     DEBUG("pbc " << pbc_shift.str());
     if (pbc_shift.squared_distance() > NEAR_ZERO) {
@@ -646,7 +647,7 @@ void Configuration::set_site_type(const int particle_type,
        cell_index < static_cast<int>(domain().cells().size());
        ++cell_index) {
     const Cells& cells = domain().cells()[cell_index];
-    const int group_index = feasst::round(cells.property("group"));
+    const int group_index = cells.group();
     ASSERT(group_index == 0,
       "check if cell list needs to be updated with changing type");
   }
@@ -753,4 +754,38 @@ Configuration::Configuration(std::istream& istr) {
   feasst_deserialize(&wrap_, istr);
 }
 
+void Configuration::copy_particles(const Configuration& config,
+    const bool add_missing) {
+  for (int ipart = 0; ipart < num_particles(); ++ipart) {
+    const int type1 = particle(ipart).type();
+    const int nsite1 = particle(ipart).num_sites();
+    const int type2 = config.particle(ipart).type();
+    const int nsite2 = config.particle(ipart).num_sites();
+    ASSERT(type1 == type2, "type1: " << type1 << " != type2 " << type2);
+    ASSERT(nsite1 == nsite2, "nsite1: " << nsite1 << " != nsite2 " << nsite2);
+  }
+
+  if (add_missing) {
+    for (int extra = num_particle_types();
+         extra < config.num_particle_types();
+         ++extra) {
+      add_particle_type(config.type_to_file_name(extra));
+    }
+    for (int extra = num_particles(); extra < config.num_particles(); ++extra) {
+      add_particle_of_type(config.particle(extra).type());
+    }
+  }
+  ASSERT(num_particles() == config.num_particles(),
+    "number of particles in config " << num_particles() <<
+    " does not match number of given config " << config.num_particles());
+
+  DEBUG("replace positions");
+  int part2 = 0;
+  for (const int part1 : selection_of_all().particle_indices()) {
+    replace_position_(part1, config.particle(part2));
+    ++part2;
+  }
+}
+
+int Configuration::dimension() const { return domain().dimension(); }
 }  // namespace feasst

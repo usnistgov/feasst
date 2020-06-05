@@ -6,10 +6,11 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include "configuration/include/configuration.h"
 #include "system/include/visit_model.h"
 
 namespace feasst {
+
+class Configuration;
 
 // HWH: determining number of sites of type is inefficient (order N)
 /**

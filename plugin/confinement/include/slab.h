@@ -14,11 +14,11 @@ class Slab : public Shape {
  public:
   Slab(
     /**
-      dimension : Set the dimension which is finite.
+      dimension : The slab surface is perpendicular to this dimensional axis.
 
       bound0 : Set a lower or upper value of the slab.
 
-      bound1 : Set a lower or upper value of the slab.
+      bound1 : Set the second bound, upper or lower, respectively.
      */
     const argtype &args = argtype());
 

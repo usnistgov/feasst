@@ -18,9 +18,24 @@ namespace feasst {
 
   The first index of the matrix is the macrostate.
   The second is the state change as follows:
-    0: macrostate decrease
-    1: macrostate constant
-    2: macrostate increase
+    - 0: macrostate decrease
+    - 1: macrostate constant
+    - 2: macrostate increase
+
+  Beware that the computed probability distribution from this collection matrix
+  may contain spurious values at the two most extreme ends.
+  These two extreme ends are the two pairs of the two lowest and highest
+  indices, respectively.
+  For example, at the highest macrostate, a transition to the next highest
+  macrostate is immediately rejected and thus the macrostate increase part of
+  the collection matrix is zero due to this constraint.
+  However, this would not be the case if the higher macrostate values were
+  allowed.
+  The constraint thus affects the probability at the most extreme values, and
+  these values should be discarded.
+  There are exceptions such as the case with zero particles.
+  In this case, there cannot be less than zero particles so the constraint is
+  physically meaningful and the probability at this macrostate is correct.
  */
 class TripleBandedCollectionMatrix {
  public:

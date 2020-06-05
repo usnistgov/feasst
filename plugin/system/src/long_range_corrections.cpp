@@ -1,7 +1,9 @@
 #include <cmath>
-#include "system/include/long_range_corrections.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
+#include "system/include/long_range_corrections.h"
 
 namespace feasst {
 

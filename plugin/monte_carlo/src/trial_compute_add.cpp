@@ -1,5 +1,6 @@
 #include <cmath>
 #include "utils/include/serialize.h"
+#include "configuration/include/domain.h"
 #include "monte_carlo/include/trial_compute_add.h"
 #include "monte_carlo/include/trial_select.h"
 

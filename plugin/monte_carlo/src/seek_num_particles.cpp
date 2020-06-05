@@ -10,7 +10,7 @@ namespace feasst {
 SeekNumParticles::SeekNumParticles(const int num, const argtype& args) :
   num_(num) {
   Arguments args_(args);
-  particle_type_ = args_.key("particle_type").dflt("0").integer();
+  particle_type_ = args_.key("particle_type").dflt("-1").integer();
   max_attempts_ = args_.key("max_attempts").dflt(str(1e8)).integer();
 }
 
@@ -19,16 +19,30 @@ SeekNumParticles SeekNumParticles::with_metropolis(const argtype& args) {
   return *this;
 }
 
+SeekNumParticles SeekNumParticles::with_metropolis(
+    std::shared_ptr<Constraint> constraint,
+    const argtype& args) {
+  criteria_ = MakeMetropolis(constraint, args);
+  return *this;
+}
+
 SeekNumParticles SeekNumParticles::with_trial_add(const argtype& args) {
   argtype typed_args;
   auto pair = args.find("particle_type");
   if (pair == args.end()) {
-    typed_args.insert({"particle_type", str(particle_type_)});
+    std::string type = str(particle_type_);
+    if (particle_type_ == -1) type = "0";
+    typed_args.insert({"particle_type", type});
   } else {
     ASSERT(pair->second == str(particle_type_), "particle type given to add: "
       << pair->second << " not equal to type of seek: " << particle_type_);
   }
-  add_ = MakeTrialAdd(typed_args);
+  extra_trials_.add(MakeTrialAdd(typed_args));
+  return *this;
+}
+
+SeekNumParticles SeekNumParticles::add(std::shared_ptr<Trial> trial) {
+  extra_trials_.add(trial);
   return *this;
 }
 
@@ -46,15 +60,11 @@ void SeekNumParticles::run(MonteCarlo * monte_carlo) {
   }
   System * sys = monte_carlo->get_system();
   Random * ran = monte_carlo->get_random();
-  if (add_) {
-    add_->precompute(crit, sys);
-  }
+  extra_trials_.precompute(crit, sys);
   monte_carlo->reset_trial_stats();
   while (config.num_particles_of_type(particle_type_) < num_) {
     monte_carlo->get_trial_factory()->attempt(crit, sys, ran);
-    if (add_) {
-      add_->attempt(crit, sys, ran);
-    }
+    extra_trials_.attempt(crit, sys, ran);
     ASSERT(monte_carlo->trials().num_attempts() < max_attempts_,
       "max attempts:  "<< max_attempts_ << " reached during seek");
   }

@@ -1,7 +1,9 @@
 #include <cmath>  // rint
 #include "utils/include/serialize.h"
-#include "opt_lj/include/visit_model_opt_lj.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
 #include "system/include/lennard_jones.h"
+#include "opt_lj/include/visit_model_opt_lj.h"
 
 namespace feasst {
 

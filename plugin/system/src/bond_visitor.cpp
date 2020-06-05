@@ -1,5 +1,6 @@
-#include "system/include/bond_visitor.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/configuration.h"
+#include "system/include/bond_visitor.h"
 
 namespace feasst {
 
@@ -99,4 +100,19 @@ void BondVisitor::compute(
   set_energy(en);
 }
 
+void BondVisitor::compute(
+    const BondTwoBody& model,
+    const Configuration& config,
+    const int group_index) {
+  const Select& selection = config.group_selects()[group_index];
+  compute(model, selection, config);
+}
+
+void BondVisitor::compute(
+    const BondThreeBody& model,
+    const Configuration& config,
+    const int group_index) {
+  const Select& selection = config.group_selects()[group_index];
+  compute(model, selection, config);
+}
 }  // namespace feasst

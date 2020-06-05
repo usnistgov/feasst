@@ -6,6 +6,7 @@
 #include <random>
 #include "utils/include/serialize.h"
 #include "prefetch/include/prefetch.h"
+#include "threads/include/threads_omp.h"
 
 // use this to make prefetch serial and simply debugging
 // #define DEBUG_SERIAL_MODE_5324634
@@ -17,6 +18,7 @@ Prefetch::Prefetch(const argtype& args) {
   Arguments args_(args);
   steps_per_check_ = args_.key("steps_per_check").dflt("100000").integer();
   load_balance_ = args_.key("load_balance").dflt("true").boolean();
+  threads_ = MakeThreadsOMP();
 }
 
 void Prefetch::reset_trial_stats() {
@@ -35,20 +37,12 @@ MonteCarlo * Prefetch::clone_(const int ithread) {
 
 void Prefetch::create(std::vector<Pool> * pool) {
   // Initialize MC clones for each processor in pool_
-  int proc_id;
   ASSERT(pool_.size() == 0, "pool is of size:" << pool_.size());
-  #ifdef _OPENMP
-    #pragma omp parallel private(proc_id)
-    {
-      proc_id = omp_get_thread_num();
-      DEBUG("hello from " << proc_id);
-      if (proc_id == 0) {
-        num_threads_ = static_cast<int>(omp_get_num_threads());
-      }
-    }
-  #else // _OPENMP
+  if (threads_->is_enabled()) {
+    num_threads_ = threads_->num();
+  } else {
     num_threads_ = 1;
-  #endif // _OPENMP
+  }
   pool_.resize(num_threads_);
 
   // set all trials for delayed finalization
@@ -108,7 +102,7 @@ void Prefetch::attempt_(
 
   int itrial = 0;
   int first_thread_accepted;
-  int proc_id;
+  int proc_id = 0;
   #ifdef _OPENMP
   #pragma omp parallel private(proc_id)
   {
@@ -412,6 +406,7 @@ Prefetch::Prefetch(std::istream& istr) : MonteCarlo(istr) {
   feasst_deserialize(&steps_per_check_, istr);
   feasst_deserialize(&steps_since_check_, istr);
   feasst_deserialize(&load_balance_, istr);
+  threads_ = MakeThreadsOMP();
 }
 
 }  // namespace feasst

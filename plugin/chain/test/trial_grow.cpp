@@ -1,13 +1,14 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
-#include "chain/include/trial_grow.h"
-#include "monte_carlo/include/trial_compute_move.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/file_xyz.h"
 #include "system/include/system.h"
 #include "system/include/lennard_jones.h"
+#include "monte_carlo/include/trial_compute_move.h"
 #include "monte_carlo/include/metropolis.h"
-#include "configuration/include/file_xyz.h"
 #include "monte_carlo/include/analyze.h"
 #include "chain/include/analyze_rigid_bonds.h"
+#include "chain/include/trial_grow.h"
 
 namespace feasst {
 

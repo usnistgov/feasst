@@ -1,4 +1,5 @@
 #include <vector>
+#include "configuration/include/configuration.h"
 #include "system/include/visit_model_bond.h"
 #include "system/include/model_two_body.h"
 #include "utils/include/serialize.h"
@@ -81,6 +82,15 @@ void VisitModelBond::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_visit_model_(ostr);
   feasst_serialize_version(895, ostr);
+}
+
+void VisitModelBond::compute(
+    const ModelTwoBody& model,
+    const ModelParams& model_params,
+    Configuration * config,
+    const int group_index) {
+  compute(model, model_params, config->selection_of_all(),
+          config, group_index);
 }
 
 }  // namespace feasst

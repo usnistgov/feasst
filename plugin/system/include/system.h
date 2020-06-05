@@ -131,8 +131,7 @@ class System {
     return potentials().stored_energy_profile(); }
 
   /// Return the reference energy.
-  double reference_energy(const int ref = 0, const int config = 0) {
-    return reference_(ref)->energy(&configurations_[config]); }
+  double reference_energy(const int ref = 0, const int config = 0);
 
   /// Return the reference energy of the selection.
   double reference_energy(const Select& select,
@@ -142,8 +141,6 @@ class System {
   //@}
   // Other functions:
 
-  // HWH revert and finalize should only call the factory that was used last
-  // e.g., optimized, ref, unopt, etc
   /// Revert changes due to energy computation of perturbations.
   void revert(const Select& select, const int config = 0);
 
@@ -180,6 +177,11 @@ class System {
   PotentialFactory optimized_;
   bool is_optimized_ = false;
   std::vector<PotentialFactory> references_;
+
+  // temporary variable, not needed for serialization
+  // In order to finalize or restart the correct reference potential utilized
+  // in a trial, this temporarily stores that reference potential index.
+  int ref_used_last_ = -1;
 
   PotentialFactory * reference_(const int index);
   PotentialFactory * potentials_();

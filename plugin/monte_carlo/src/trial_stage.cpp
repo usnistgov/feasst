@@ -59,6 +59,7 @@ void TrialStage::attempt(System * system,
     perturb_->perturb(system, select_.get(), random, is_position_held);
     DEBUG("updating state " << select_->mobile().trial_state());
     rosenbluth_.store(step, select_->mobile());
+    DEBUG("ref " << reference_);
     if (reference_ == -1) {
       DEBUG("select " << select_->mobile().str());
       rosenbluth_.set_energy(step, system->perturbed_energy(select_->mobile()));
@@ -71,16 +72,17 @@ void TrialStage::attempt(System * system,
     }
   }
   rosenbluth_.compute(criteria->beta(), random);
+  DEBUG("old " << old << " num " << rosenbluth_.num());
   if (old != 1 && rosenbluth_.num() > 1) {
+    if (select_->is_ghost()) {
+      system->get_configuration()->revive(rosenbluth_.stored(0));
+    }
     if (rosenbluth_.chosen_step() != -1) {
       DEBUG("updating positions " << rosenbluth_.chosen().str());
       DEBUG("pos0 " << rosenbluth_.chosen().site_positions()[0][0].str());
       // DEBUG("pos1 " << rosenbluth_.chosen().site_positions()[0][1].str());
       system->get_configuration()->update_positions(rosenbluth_.chosen());
       // if select->is_ghost() then revive particle
-      if (select_->is_ghost()) {
-        system->get_configuration()->revive(rosenbluth_.chosen());
-      }
     } else if (is_mayer()) {
       ASSERT(rosenbluth_.num() == 1, "assumes 1 step for mayer");
       system->get_configuration()->update_positions(rosenbluth_.stored(0));

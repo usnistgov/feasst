@@ -15,6 +15,19 @@ namespace feasst {
  */
 System two_particle_system(const argtype& args = argtype());
 
+/**
+  Return a Lennard-Jones system
+
+  args:
+  - cubic_box_length: default 8
+  - particle: default forcefield/data.lj
+  - lrc: use long range corrections (default: true)
+  - dual_cut: Add a reference potential using this short cutoff with a cell
+    list.
+    If -1, ignore. (default: -1).
+ */
+System lennard_jones(const argtype& args = argtype());
+
 }  // namespace feasst
 
 #endif  // FEASST_SYSTEM_UTILS_H_

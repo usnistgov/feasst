@@ -1,10 +1,13 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
 #include "system/include/lennard_jones.h"
+#include "system/include/utils.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/utils.h"
 #include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/metropolis.h"
+#include "monte_carlo/include/trial_translate.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 //#include "system/include/energy_map_all.h"
 
@@ -12,7 +15,9 @@ namespace feasst {
 
 TEST(MonteCarlo, NVT_opt_lj_benchmark) {
   MonteCarlo mc;
-  lennard_jones(&mc);
+  mc.set(lennard_jones());
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   // HWH Perhaps implement as optimized potential instead of optimized VisitModel
   mc.add_to_optimized(Potential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
                                 MakeVisitModelOptLJ()));

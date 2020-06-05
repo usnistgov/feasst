@@ -44,6 +44,18 @@ class Site : public PropertiedEntity,
   /// Set as physical/nonphysical (default: physical).
   void set_physical(const bool physical = true) { is_physical_ = physical; }
 
+  /// Add a cell.
+  void add_cell(const int cell) { cells_.push_back(cell); }
+
+  /// Set a cell.
+  void set_cell(const int index, const int cell) { cells_[index] = cell; }
+
+  /// Return a cell.
+  int cell(const int index) const { return cells_[index]; }
+
+  /// Return the number of cells.
+  int num_cells() const { return static_cast<int>(cells_.size()); }
+
   void serialize(std::ostream& ostr) const;
   explicit Site(std::istream& istr);
   virtual ~Site() {}
@@ -51,6 +63,7 @@ class Site : public PropertiedEntity,
  private:
   bool is_director_ = false;
   bool is_physical_;
+  std::vector<int> cells_;
 };
 
 }  // namespace feasst

@@ -59,7 +59,7 @@ def monte_carlo(proc=0,                          # processor number
         {"steps_per": str(steps_per), "file_name": "crit"+str(proc)+".txt"})))
 
     # periodically write a checkpoint file
-    monte_carlo0.add(fst.MakeCheckpoint(fst.args(
+    monte_carlo0.set(fst.MakeCheckpoint(fst.args(
         {"file_name": "checkpoint"+str(proc)+".txt", "num_hours": "0.01"})))
 
     # periodically write the energy of the macrostates

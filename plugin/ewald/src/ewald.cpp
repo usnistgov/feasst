@@ -1,9 +1,10 @@
 #include <cmath>  // isnan, pow
 #include "utils/include/serialize.h"
 #include "utils/include/utils.h"  // find_in_list
+#include "math/include/constants.h"
+#include "configuration/include/domain.h"
 #include "configuration/include/visit_configuration.h"
 #include "ewald/include/ewald.h"
-#include "math/include/constants.h"
 
 namespace feasst {
 
@@ -514,9 +515,9 @@ void Ewald::compute(
         (*eik) = config->select_particle(part_index).site(site_index).properties();
       }
     }
-    ASSERT(!revertable_, "Ewald compute called multiple times for "
-     << "reversion. This may mean that a trial with multiple stages "
-     << " should use reference potentials without Ewald.");
+//    ASSERT(!revertable_, "Ewald compute called multiple times for "
+//     << "reversion. This may mean that a trial with multiple stages "
+//     << " should use reference potentials without Ewald.");
     revertable_ = true;
     old_config_ = config;
     old_select_ = const_cast<Select*>(&selection);

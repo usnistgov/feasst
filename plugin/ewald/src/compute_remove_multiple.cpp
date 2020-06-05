@@ -1,7 +1,8 @@
 #include <cmath>
-#include "monte_carlo/include/trial_select.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/domain.h"
 #include "ewald/include/compute_remove_multiple.h"
+#include "monte_carlo/include/trial_select.h"
 
 namespace feasst {
 

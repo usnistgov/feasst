@@ -1,5 +1,6 @@
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/model_params.h"
 #include "models/include/square_well.h"
 
 namespace feasst {

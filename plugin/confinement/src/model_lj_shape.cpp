@@ -1,6 +1,8 @@
 #include <cmath>
-#include "confinement/include/model_lj_shape.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/site.h"
+#include "configuration/include/model_params.h"
+#include "confinement/include/model_lj_shape.h"
 
 namespace feasst {
 
@@ -13,6 +15,12 @@ class MapModelLJShape {
 };
 
 static MapModelLJShape map_model_hard_shape_ = MapModelLJShape();
+
+ModelLJShape::ModelLJShape(std::shared_ptr<Shape> shape,
+  const argtype& args) : ModelOneBody(), ShapedEntity(shape) {
+  args_.init(args);
+  alpha_ = args_.key("alpha").dflt("3").dble();
+}
 
 void ModelLJShape::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";

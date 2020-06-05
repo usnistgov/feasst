@@ -14,21 +14,17 @@ namespace feasst {
   \f$ U(r) = \epsilon \left( \frac{r}{\sigma} \right)^\alpha \f$
  */
 class ModelLJShape : public ModelOneBody,
-                       public ShapedEntity {
+                     public ShapedEntity {
  public:
   ModelLJShape() {} // serialization only
 
   // Constructor
   ModelLJShape(
+    std::shared_ptr<Shape> shape,
     /**
       alpha: set the exponent (default: 3).
      */
-    std::shared_ptr<Shape> shape,
-    const argtype& args = argtype())
-    : ModelOneBody(), ShapedEntity(shape) {
-    args_.init(args);
-    alpha_ = args_.key("alpha").dflt("3").dble();
-  }
+    const argtype& args = argtype());
 
   double energy(
       const Site& site,

@@ -10,7 +10,7 @@ namespace feasst {
 
 /**
   A random particle of given type is selected if previously perturbed sites
-    are not available.
+  are not available.
   Select a single bond from given anchor to mobile sites.
  */
 class TrialSelectBond : public TrialSelect {

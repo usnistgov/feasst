@@ -1,8 +1,11 @@
 #include <vector>
+#include <cmath>
+#include "utils/include/serialize.h"
+#include "configuration/include/select.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
 #include "system/include/visit_model_inner.h"
 #include "system/include/model_two_body.h"
-#include "configuration/include/select.h"
-#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -55,6 +58,19 @@ void VisitModelInner::compute(
       if (squared_distance_ <= cutoff*cutoff) {
         const double energy = model.energy(squared_distance_, type1, type2,
                                            model_params);
+        if (VERBOSE_LEVEL >= 3) {
+          if (std::isinf(energy)) {
+            INFO("part1_index " << part1_index);
+            INFO("site1_index " << site1_index);
+            INFO("part2_index " << part2_index);
+            INFO("site2_index " << site2_index);
+            INFO("relative " << relative->str());
+            INFO("squared_distance_ " << squared_distance_);
+            INFO("pos1 " << site1.position().str());
+            INFO("pos2 " << site2.position().str());
+            FATAL("energy: " << energy << " is inf.");
+          }
+        }
         update_ixn(energy, part1_index, site1_index, type1, part2_index,
                    site2_index, type2, squared_distance_, pbc);
         TRACE("indices " << part1_index << " " << site1_index << " " <<

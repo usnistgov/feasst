@@ -18,32 +18,11 @@ namespace feasst {
 class Checkpoint;
 class Random;
 
-// HWH document this class better
-// HWH consider a MonteCarlo interface where everything is input through
-// HWH constructors, so that order of initialization is thoroughly enforced
-// HWH requires ability to initialize simulation (e.g., seek_num)
-// HWH or control of when Analyze/Modify begin (e.g., init/equil phases)
 /**
-  Enforce order of Monte Carlo initialization:
-  1 config
-    - particle types
-    - domain
-    - model parameters (based on types)
-    - groups
-  2 potentials
-    - models
-    - model precomputes(type depend)
-    - visitors
-      - cells
-    - visitor precomputes
-  3 system finalized
-  4 criteria
-    - set running energy
-  5 trials and steppers in mixed order
-    - trial precomputes?
-    - nmolseek
-    - analyzers and modifers
-      - ana and mod precomputes
+  MonteCarlo contains Trials which perturb the System by generating the
+  probability of acceptance through Criteria that are accepted based on a
+  Random number generator.
+  Between trials, MonteCarlo also contains classes that Analyze or Modify.
  */
 class MonteCarlo {
  public:
@@ -157,7 +136,7 @@ class MonteCarlo {
     return static_cast<int>(modify_factory_.modifiers().size()); }
 
   /// Add a checkpoint.
-  void add(const std::shared_ptr<Checkpoint> checkpoint);
+  void set(const std::shared_ptr<Checkpoint> checkpoint);
 
   /// Attempt one trial, with subsequent analysers and modifiers.
   // void attempt() { attempt_(1, &trial_factory_, random_.get()); }

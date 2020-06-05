@@ -5,11 +5,13 @@
 #include <memory>
 #include "utils/include/cache.h"
 #include "utils/include/arguments.h"
-#include "configuration/include/configuration.h"
+#include "configuration/include/model_params.h"
 #include "system/include/visit_model.h"
 #include "system/include/model.h"
 
 namespace feasst {
+
+class Configuration;
 
 /**
   A potential represents both the model and the method used to compute the
@@ -60,14 +62,12 @@ class Potential {
             const argtype& args = argtype());
 
   /// Set the model parameters. If not set, use the one from configuration.
-  void set(const ModelParams& model_params) {
-    model_params_override_ = true;
-    model_params_ = model_params;
-  }
+  void set(const ModelParams& model_params);
+
+  bool are_model_params_overridden() const { return model_params_override_; }
 
   /// Set the model parameters to the one in the configuration.
-  void set_model_params(const Configuration& config) {
-    set(config.model_params()); }
+  void set_model_params(const Configuration& config);
 
   /// Modify model parameter of a given site type and name to value.
   void set_model_param(const char* name,

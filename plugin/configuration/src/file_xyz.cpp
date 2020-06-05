@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include "configuration/include/file_xyz.h"
+#include "configuration/include/domain.h"
 #include "utils/include/serialize.h"
 #include "utils/include/debug.h"
 #include "configuration/include/visit_configuration.h"

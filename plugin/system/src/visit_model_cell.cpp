@@ -1,9 +1,11 @@
 #include <sstream>
+#include "utils/include/serialize.h"
+#include "math/include/utils_math.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
 #include "system/include/visit_model_cell.h"
 #include "system/include/model_two_body.h"
 #include "system/include/model_one_body.h"
-#include "math/include/utils_math.h"
-#include "utils/include/serialize.h"
 
 namespace feasst {
 
@@ -14,7 +16,10 @@ void VisitModelCell::compute(
     const int cell_index) {
   zero_energy();
   const Domain& domain = config->domain();
-  ASSERT(cell_index < static_cast<int>(domain.cells().size()), "index error");
+  ASSERT(cell_index < static_cast<int>(domain.cells().size()), "the index of "
+    << "the requested cell: " << cell_index << " is too large when there are "
+    << domain.cells().size() << " cell lists. "
+    << "Were cell lists initialized?");
   const Cells& cells = domain.cells()[cell_index];
   init_relative_(domain, &relative_, &pbc_);
 
@@ -93,13 +98,13 @@ void VisitModelCell::compute(
   zero_energy();
   const Domain& domain = config->domain();
   ASSERT(selection.num_particles() == 1, "assumes 1 particle selection");
-  ASSERT(cell_index < static_cast<int>(domain.cells().size()), "were cells not initialized?");
+  ASSERT(cell_index < static_cast<int>(domain.cells().size()), "the index of "
+    << "the requested cell: " << cell_index << " is too large when there are "
+    << domain.cells().size() << " cell lists. "
+    << "Were cell lists initialized?");
   const Cells& cells = domain.cells()[cell_index];
   init_relative_(domain, &relative_, &pbc_);
   prep_for_revert(selection);
-  std::stringstream ss;
-  ss << "cell" << cell_index;
-  const std::string cell_label = ss.str();
   for (int select1_index = 0;
        select1_index < selection.num_particles();
        ++select1_index) {
@@ -107,7 +112,7 @@ void VisitModelCell::compute(
     const Particle& part1 = config->select_particle(part1_index);
     for (int site1_index : selection.site_indices(select1_index)) {
       const Site& site1 = part1.site(site1_index);
-      const int cell1_index = feasst::round(site1.property(cell_label));
+      const int cell1_index = site1.cell(cell_index);
       for (int cell2_index : cells.neighbor()[cell1_index]) {
         const Select& cell2_parts = cells.particles()[cell2_index];
         for (int select2_index = 0;

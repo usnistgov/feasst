@@ -36,6 +36,7 @@ class WindowExponential : public Window {
    */
   explicit WindowExponential(const argtype& args = argtype());
   std::vector<double> segment() const override;
+  virtual ~WindowExponential() {}
 
  private:
   double alpha_;

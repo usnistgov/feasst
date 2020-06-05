@@ -1,6 +1,7 @@
 #include "utils/test/utils.h"
 #include "configuration/include/file_xyz.h"
 #include "configuration/include/utils.h"
+#include "configuration/include/domain.h"
 #include "math/include/constants.h"
 
 namespace feasst {

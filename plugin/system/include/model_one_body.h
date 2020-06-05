@@ -2,11 +2,13 @@
 #ifndef FEASST_SYSTEM_MODEL_ONE_BODY_H_
 #define FEASST_SYSTEM_MODEL_ONE_BODY_H_
 
-#include "configuration/include/configuration.h"
 #include "system/include/model.h"
 #include "system/include/visit_model.h"
 
 namespace feasst {
+
+class Site;
+class Configuration;
 
 class ModelOneBody : public Model {
  public:

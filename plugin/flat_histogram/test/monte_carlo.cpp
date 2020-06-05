@@ -4,10 +4,13 @@
 #include "system/include/hard_sphere.h"
 #include "system/include/dont_visit_model.h"
 #include "system/include/model_two_body_factory.h"
+#include "system/include/utils.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
 #include "monte_carlo/include/utils.h"
 #include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/trial_rotate.h"
+#include "monte_carlo/include/trial_translate.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
@@ -45,16 +48,22 @@ double energy_av(const int macro, const MonteCarlo& mc) {
 
 TEST(MonteCarlo, lj_fh) {
   for (int num_steps : {1, 4}) {
-    // for (const std::string bias_name : {"TM"}) {
     for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
       MonteCarlo mc;
       // mc.set(MakeRandomMT19937({{"seed", "default"}}));
-      lennard_jones(&mc);
       int ref = -1;
-      if (num_steps != 1) {
-        mc.add_to_reference(Potential(MakeHardSphere()));
+      if (num_steps == 1) {
+        mc.set(lennard_jones());
+      } else {
         ref = 0;
+        mc.set(lennard_jones({{"dual_cut", "1."}}));
       }
+      mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+      mc.add(MakeTrialTranslate({
+        {"weight", "1."},
+        {"tunable_param", "1."},
+        {"reference_index", str(ref)},
+        {"num_steps", str(num_steps)}}));
       SeekNumParticles(1).with_trial_add().run(&mc);
       add_trial_transfer(&mc,
         { {"particle_type", "0"},
@@ -117,7 +126,7 @@ TEST(MonteCarlo, lj_fh) {
       // compare with known values of energy
       //EXPECT_NEAR(energy_av(0, mc), 0, 1e-14);
       EXPECT_NEAR(energy_av(0, mc), -0.000605740233333333, 1e-8);
-      EXPECT_NEAR(energy_av(1, mc), -0.030574223333333334, 0.02);
+      EXPECT_NEAR(energy_av(1, mc), -0.030574223333333334, 0.03);
       EXPECT_NEAR(energy_av(2, mc), -0.089928316, 0.05);
       EXPECT_NEAR(energy_av(3, mc), -0.1784570533333333, 0.06);
       EXPECT_NEAR(energy_av(4, mc), -0.29619201333333334, 0.14);
@@ -150,12 +159,15 @@ TEST(MonteCarlo, spce_fh_LONG) {
               {"min_sweeps", "20"}})};
   for (auto bias : biases) {
     MonteCarlo mc;
-    spce(&mc, {{"physical_constants", "CODATA2010"},
-               {"temperature", "525"},
-               {"chemical_potential", "-35.294567543492"},
-               {"cubic_box_length", "20"},
-               {"alphaL", "5.6"},
-               {"kmax_squared", "38"}});
+    mc.set(spce({{"physical_constants", "CODATA2010"},
+                 {"cubic_box_length", "20"},
+                 {"alphaL", "5.6"},
+                 {"kmax_squared", "38"}}));
+    mc.set(MakeMetropolis({
+      {"beta", str(1/kelvin2kJpermol(525, mc.configuration()))},
+      {"chemical_potential", "-35.294567543492"}}));
+    mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
+    mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
     add_trial_transfer(&mc, {{"particle_type", "0"}, {"weight", "4"}});
     const double R = mc.configuration().physical_constants().ideal_gas_constant();
     const double temperature = 525*R/1000; // KJ/mol
@@ -225,11 +237,10 @@ TEST(MonteCarlo, rpm_fh_LONG) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  rpm(&mc, {
+  mc.set(rpm({
     {"cubic_box_length", "12"},
     {"cutoff", "4.891304347826090"},
-    {"alphaL", "6.87098396396261"},
-  });
+    {"alphaL", "6.87098396396261"}}));
   mc.add_to_reference(Potential(MakeDontVisitModel()));
   INFO("charge conversion " << CODATA2018().charge_conversion());
   const double temperature = 0.047899460618081;
@@ -248,6 +259,7 @@ TEST(MonteCarlo, rpm_fh_LONG) {
   );
   mc.set(criteria);
   INFO("beta_mu " << criteria->beta_mu(0));
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   add_trial_transfer_multiple(&mc, {
     {"weight", "4."},
     {"particle_type0", "0"},
@@ -268,13 +280,11 @@ TEST(MonteCarlo, rpm_fh_LONG) {
   mc.add(MakeCheckNetCharge());
   add_common_steppers(&mc, {{"steps_per", str(steps_per)},
                             {"file_append", "tmp/rpm_fh"}});
-  auto energy = MakeEnergy({
+  mc.add(MakeEnergy({
     {"file_name", "tmp/rpm_fh_energy"},
     {"steps_per_update", "1"},
     {"steps_per_write", str(steps_per)},
-    {"multistate", "true"},
-  });
-  mc.add(energy);
+    {"multistate", "true"}}));
   mc.run_until_complete();
 
   test_serialize(mc);
@@ -295,13 +305,13 @@ TEST(MonteCarlo, rpm_fh_divalent_LONG) {
   //const double beta_mu = -23.94;
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  rpm(&mc, {
+  mc.set(rpm({
     {"delta", "0.3"},
     {"charge_ratio", "2"},
     {"cubic_box_length", "15"},
     {"cutoff", "7.5"},
     {"kmax_squared", "25"},
-    {"alphaL", "5"}});
+    {"alphaL", "5"}}));
   mc.add_to_reference(Potential(MakeDontVisitModel()));
 //  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
 //                                               MakeChargeScreened()}),
@@ -316,6 +326,7 @@ TEST(MonteCarlo, rpm_fh_divalent_LONG) {
      {"chemical_potential0", str(beta_mu*temperature)},
      {"chemical_potential1", str(beta_mu*temperature)}});
   mc.set(criteria);
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   add_trial_transfer_multiple(&mc, {
     {"weight", "1."},
     {"particle_type0", "0"},

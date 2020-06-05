@@ -7,11 +7,14 @@
 #include <memory>
 #include <map>
 #include "utils/include/arguments.h"
-#include "configuration/include/configuration.h"
-#include "configuration/include/select.h"
-#include "system/include/neighbor_criteria.h"
 
 namespace feasst {
+
+class Random;
+class Position;
+class Configuration;
+class Select;
+class NeighborCriteria;
 
 /**
   Define a generic interface for derived classes to track interaction energy.

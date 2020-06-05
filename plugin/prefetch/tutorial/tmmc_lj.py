@@ -104,7 +104,7 @@ def mc(
          "steps_per_write": str(steps_per),
          "multistate": "true"})))
 
-    monte_carlo.add(feasst.MakeCheckpoint(feasst.args(
+    monte_carlo.set(feasst.MakeCheckpoint(feasst.args(
         {"file_name": "checkpoint"+file_app+".txt", "num_hours": "0.1"})))
 
     # run until complete is not pprefetched correctly

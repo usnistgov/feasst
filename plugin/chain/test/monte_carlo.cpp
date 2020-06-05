@@ -3,6 +3,7 @@
 #include "utils/include/utils_io.h"
 #include "math/include/accumulator.h"
 #include "system/include/ideal_gas.h"
+#include "configuration/include/domain.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/monte_carlo.h"

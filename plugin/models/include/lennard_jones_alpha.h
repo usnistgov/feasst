@@ -2,6 +2,7 @@
 #ifndef FEASST_MODELS_LENNARD_JONES_ALPHA_H_
 #define FEASST_MODELS_LENNARD_JONES_ALPHA_H_
 
+#include "configuration/include/model_params.h"
 #include "system/include/lennard_jones.h"
 
 namespace feasst {

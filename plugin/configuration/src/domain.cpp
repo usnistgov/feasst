@@ -66,6 +66,12 @@ Domain& Domain::set_cubic(const double box_length) {
   return *this;
 }
 
+void Domain::resize_opt_(const int dimension) {
+  opt_origin_.set_to_origin(dimension);
+  opt_rel_.set_to_origin(dimension);
+  opt_pbc_.set_to_origin(dimension);
+}
+
 void Domain::set_side_lengths(const Position& side_lengths) {
   side_lengths_ = side_lengths;
   for (int dim = static_cast<int>(periodic_.size());
@@ -75,6 +81,17 @@ void Domain::set_side_lengths(const Position& side_lengths) {
   }
   ASSERT(static_cast<int>(periodic_.size()) ==
          static_cast<int>(side_lengths_.size()), "size error");
+  resize_opt_(side_lengths_.dimension());
+}
+
+/// Set the side length.
+void Domain::set_side_length(const int dimension, const double length) {
+  side_lengths_.set_coord(dimension, length);
+}
+
+void Domain::add_side_length(const double length) {
+  side_lengths_.push_back(length);
+  resize_opt_(side_lengths_.dimension());
 }
 
 void Domain::set_xy_(const double xy) {
@@ -118,6 +135,12 @@ Position Domain::shift(const Position& position) const {
   return rel;
 }
 
+const Position& Domain::shift_opt(const Position& position) {
+  wrap_opt(position, opt_origin_, &opt_rel_, &opt_pbc_, &opt_r2_);
+  opt_rel_.subtract(position);
+  return opt_rel_;
+}
+
 void Domain::wrap(Position * position) const {
   position->add(shift(*position));
 }
@@ -139,17 +162,18 @@ void Domain::random_position(Position * position, Random * random) const {
 // automatically wrap. So if you're doing a test without them you might run
 // into this issue.
 int Domain::cell_id(const Position& position,
-                    const Cells& cells) const {
-  Position scaled(position);
-  DEBUG("scaled before wrap " << scaled.str() << " pos " << position.str() <<
+                    const Cells& cells) {
+//  Position scaled(position);
+//  DEBUG("scaled before wrap " << scaled.str() << " pos " << position.str() <<
+//    " box " << side_lengths().str());
+  wrap_opt(position, opt_origin_, &opt_rel_, &opt_pbc_, &opt_r2_);
+  //wrap(&scaled);
+  DEBUG("opt_rel_ after wrap " << opt_rel_.str() << " pos " << position.str() <<
     " box " << side_lengths().str());
-  wrap(&scaled);
-  DEBUG("scaled after wrap " << scaled.str() << " pos " << position.str() <<
-    " box " << side_lengths().str());
-  scaled.divide(side_lengths());
-  DEBUG("scaled " << scaled.str() << " pos " << position.str() << " box "
+  opt_rel_.divide(side_lengths());
+  DEBUG("opt_rel_ " << opt_rel_.str() << " pos " << position.str() << " box "
     << side_lengths().str());
-  return cells.id(scaled.coord());
+  return cells.id(opt_rel_.coord());
 }
 
 void Domain::init_cells(const double min_length,
@@ -159,11 +183,8 @@ void Domain::init_cells(const double min_length,
   ASSERT(group_index >= 0, "error");
   Cells cell;
   cell.create(min_length, side_lengths().coord());
-  std::stringstream ss;
-  ss << "cell";
-  ss << cells_.size();
-  cell.set_label(ss.str());
-  cell.add_property("group", group_index);
+  cell.set_type(cells_.size());
+  cell.set_group(group_index);
   if (cell.num_total() > 0) {
     cells_.push_back(cell);
   } else {
@@ -241,7 +262,7 @@ std::string Domain::status() const {
 
 void Domain::serialize(std::ostream& sstr) const {
   feasst_serialize_version(841, sstr);
-  side_lengths_.serialize(sstr);
+  feasst_serialize_fstobj(side_lengths_, sstr);
   feasst_serialize(xy_, sstr);
   feasst_serialize(xz_, sstr);
   feasst_serialize(yz_, sstr);
@@ -253,13 +274,14 @@ void Domain::serialize(std::ostream& sstr) const {
 Domain::Domain(std::istream& sstr) {
   const int version = feasst_deserialize_version(sstr);
   ASSERT(version == 841, "version mismatch: " << version);
-  side_lengths_ = Position(sstr);
+  feasst_deserialize_fstobj(&side_lengths_, sstr);
   feasst_deserialize(&xy_, sstr);
   feasst_deserialize(&xz_, sstr);
   feasst_deserialize(&yz_, sstr);
   feasst_deserialize(&is_tilted_, sstr);
   feasst_deserialize(&periodic_, sstr);
   feasst_deserialize_fstobj(&cells_, sstr);
+  resize_opt_(side_lengths_.dimension());
 }
 
 void Domain::wrap_opt(const Position& pos1,

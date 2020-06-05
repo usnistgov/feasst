@@ -1,30 +1,30 @@
 
 .. toctree::
 
+   Model
+   EnergyMap
+   VisitModelInner
    BondThreeBody
    AngleSquareWell
    BondTwoBody
+   BondVisitor
    BondSquareWell
    NeighborCriteria
-   EnergyMap
-   Model
-   BondVisitor
-   VisitModelInner
    VisitModel
    ModelTwoBody
+   IdealGas
    ModelTwoBodyFactory
    HardSphere
-   IdealGas
    LennardJones
    DontVisitModel
-   ModelThreeBody
    ModelOneBody
    ModelEmpty
+   ModelThreeBody
+   VisitModelIntra
+   VisitModelCell
    LongRangeCorrections
+   VisitModelBond
    Potential
    PotentialFactory
    System
    utils
-   VisitModelIntra
-   VisitModelCell
-   VisitModelBond

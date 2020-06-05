@@ -27,12 +27,12 @@ void TrialFactory::add(std::shared_ptr<Trial> trial) {
   }
   cumulative_probability_ = cumulative_probability(weights);
   //std::stringstream ss;
-  //ss << trials_.back()->class_name()"trial" << num_trials() - 1;
+  //ss << trials_.back()->class_name()"trial" << num() - 1;
   // timer_.add(trials_.back()->class_name());
 }
 
 int TrialFactory::random_index(Random * random) {
-  ASSERT(num_trials() > 0, "no trials to select");
+  ASSERT(num() > 0, "no trials to select");
   return random->index_from_cumulative_probability(cumulative_probability_);
 }
 
@@ -43,7 +43,7 @@ bool TrialFactory::attempt(
     Random * random) {
   increment_num_attempts();
   // timer_.start(0);
-  if (num_trials() == 0) return false;
+  if (num() == 0) return false;
   if (trial_index == -1) {
     trial_index = random_index(random);
   }
@@ -73,7 +73,7 @@ void TrialFactory::imitate_trial_rejection_(const int index) {
 std::string TrialFactory::status_header() const {
   std::stringstream ss;
   ss << ",attempt";
-  for (int trial = 0; trial < num_trials(); ++trial) {
+  for (int trial = 0; trial < num(); ++trial) {
     ss << trials_[trial]->status_header();
   }
   return ss.str();
@@ -82,27 +82,27 @@ std::string TrialFactory::status_header() const {
 std::string TrialFactory::status() const {
   std::stringstream ss;
   ss << "," << num_attempts();
-  for (int trial = 0; trial < num_trials(); ++trial) {
+  for (int trial = 0; trial < num(); ++trial) {
     ss << trials_[trial]->status();
   }
   return ss.str();
 }
 
 void TrialFactory::delay_finalize() {
-  for (int trial = 0; trial < num_trials(); ++trial) {
+  for (int trial = 0; trial < num(); ++trial) {
     trials_[trial]->set_finalize_delayed(true);
   }
 }
 
 void TrialFactory::reset_stats() {
   Trial::reset_stats();
-  for (int trial = 0; trial < num_trials(); ++trial) {
+  for (int trial = 0; trial < num(); ++trial) {
     trials_[trial]->reset_stats();
   }
 }
 
 void TrialFactory::tune() {
-  for (int trial = 0; trial < num_trials(); ++trial) {
+  for (int trial = 0; trial < num(); ++trial) {
     trials_[trial]->tune();
   }
 }
@@ -114,16 +114,16 @@ void TrialFactory::precompute(Criteria * criteria, System * system) {
 }
 
 bool TrialFactory::is_equal(const TrialFactory& factory) const {
-  if (num_trials() != factory.num_trials()) {
-    INFO("unequal number of trials: " << num_trials() << " "
-      << factory.num_trials());
+  if (num() != factory.num()) {
+    INFO("unequal number of trials: " << num() << " "
+      << factory.num());
     return false;
   }
   if (!Trial::is_equal(factory)) {
     INFO("here");
     return false;
   }
-  for (int it = 0; it < num_trials(); ++it) {
+  for (int it = 0; it < num(); ++it) {
     if (!trials_[it]->is_equal(*(factory.trials_[it]))) {
       INFO("unequal trial" << it);
       return false;

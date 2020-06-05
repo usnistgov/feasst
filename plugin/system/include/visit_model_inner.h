@@ -5,12 +5,13 @@
 #include <map>
 #include <string>
 #include <memory>
-#include "configuration/include/configuration.h"
 #include "system/include/model.h"
 #include "system/include/energy_map.h"
 
 namespace feasst {
 
+class ModelParams;
+class Configuration;
 class ModelTwoBody;
 
 class VisitModelInner {

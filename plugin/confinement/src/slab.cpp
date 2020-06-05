@@ -1,5 +1,6 @@
 #include <cmath>
 #include "utils/include/serialize.h"
+#include "confinement/include/shape_intersect.h"
 #include "confinement/include/slab.h"
 #include "confinement/include/half_space.h"
 #include "math/include/utils_math.h"

@@ -2,6 +2,7 @@
 #include "configuration/include/configuration.h"
 #include "configuration/include/utils.h"
 #include "configuration/include/file_xyz.h"
+#include "configuration/include/domain.h"
 #include "utils/include/debug.h"
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
@@ -161,8 +162,9 @@ TEST(Configuration, group) {
   for (int part = 0; part < 100; ++part) {
     config->add_particle_of_type(0);
   }
-  FileXYZ().load("../plugin/system/test/data/spce_sample_config_periodic1.xyz",
-                 config.get());
+  FileXYZ().load(
+    "../plugin/configuration/test/data/spce_sample_config_periodic1.xyz",
+    config.get());
   config->add_particle_of_type(1);
   EXPECT_EQ(2, config->num_particle_types());
   EXPECT_EQ(3, config->num_site_types());
@@ -203,56 +205,50 @@ TEST(Configuration, cells) {
     {{"particle_type0", "../forcefield/data.spce"}});
   config.add(MakeGroup({{"add_site_type", "0"}}));
   config.add_particle_of_type(0);
-  TRY(
-    config.particle(0).site(0).property("cell");
-    CATCH_PHRASE("not found");
-  );
+  EXPECT_EQ(config.particle(0).site(0).num_cells(), 0);
   auto domain = std::make_shared<Domain>(config.domain());
   domain->init_cells(1);
   domain->init_cells(1.4, 1);
 //  config.init_cells(1);
 //  config.init_cells(1.4, 1);
   config.set(domain);
-  EXPECT_EQ("cell0", config.domain().cells()[0].label());
+  EXPECT_EQ(0, config.domain().cells()[0].type());
   EXPECT_EQ(config.domain().cells()[0].num_total(), 7*7*7);
   int cell0 = round(7*7*7/2. - 0.5);
   int cell1 = round(5*5*5/2. - 0.5);
   Site site = config.particle(0).site(0);
-  EXPECT_EQ(cell0, round(site.property("cell0")));
-  EXPECT_EQ(cell1, round(site.property("cell1")));
+  EXPECT_EQ(cell0, site.cell(0));
+  EXPECT_EQ(cell1, site.cell(1));
   std::vector<int> indices = {0};
   EXPECT_EQ(config.domain().cells(0).particles()[0].num_particles(), 0);
   EXPECT_EQ(config.domain().cells(1).particles()[0].num_particles(), 0);
   EXPECT_EQ(config.domain().cells(0).particles()[cell0].num_particles(), 1);
   EXPECT_EQ(config.domain().cells(1).particles()[cell1].num_particles(), 1);
-  double tmp;
-  EXPECT_TRUE(config.particle(0).site(1).properties().value("cell0", &tmp));
-  EXPECT_FALSE(config.particle(0).site(1).properties().value("cell1", &tmp));
+  EXPECT_EQ(config.particle(0).site(0).num_cells(), 2);
+  EXPECT_EQ(config.particle(0).site(1).num_cells(), 1);
   Position trajectory({-3.49, -3.49, -3.49});
 
   DEBUG("displacing particles");
   Select select(0, config.select_particle(0));
   //select.particle(0, config);
   config.displace_particles(select, trajectory);
-  EXPECT_EQ(0, config.particle(0).site(0).property("cell0"));
+  EXPECT_EQ(0, config.particle(0).site(0).cell(0));
   site = config.particle(0).site(0);
-  EXPECT_EQ(0, round(site.property("cell0")));
-  EXPECT_EQ(0, round(site.property("cell1")));
-  DEBUG("cell02 " << config.particle(0).site(2).has_property("cell0"));
+  EXPECT_EQ(0, site.cell(0));
+  EXPECT_EQ(0, site.cell(1));
   DEBUG("pos " << config.particle(0).site(2).position().coord(0));
-  EXPECT_EQ(1, round(config.particle(0).site(1).property("cell0")));
-  EXPECT_EQ(6, round(config.particle(0).site(2).property("cell0")));
-  EXPECT_FALSE(config.particle(0).site(1).has_property("cell1"));
-  EXPECT_FALSE(config.particle(0).site(2).has_property("cell1"));
+  EXPECT_EQ(1, config.particle(0).site(1).cell(0));
+  EXPECT_EQ(6, config.particle(0).site(2).cell(0));
+  EXPECT_EQ(config.particle(0).site(0).num_cells(), 2);
+  EXPECT_EQ(config.particle(0).site(1).num_cells(), 1);
+  EXPECT_EQ(config.particle(0).site(2).num_cells(), 1);
   EXPECT_EQ(config.domain().cells(0).particles()[cell0].num_particles(), 0);
   EXPECT_EQ(config.domain().cells(1).particles()[cell1].num_particles(), 0);
-  DEBUG(site.property("cell0"));
-  DEBUG(site.property("cell1"));
-  EXPECT_NE(cell1, round(site.property("cell1")));
+  EXPECT_NE(cell1, site.cell(1));
 
   // serialize
   Configuration config2 = test_serialize(config);
-  EXPECT_EQ(6, round(config2.particle(0).site(2).property("cell0")));
+  EXPECT_EQ(6, config2.particle(0).site(2).cell(0));
   EXPECT_EQ(config2.domain().cells(1).particles()[cell1].num_particles(), 0);
 
   config.remove_particle(select);
@@ -292,6 +288,19 @@ TEST(Configuration, set_type_type) {
   EXPECT_EQ(0, config.particle(0).site(1).type());
   EXPECT_EQ(0, config.particle(1).site(1).type());
   EXPECT_EQ(1, config.particle(1).num_sites_of_type(1));
+}
+
+TEST(Configuration, copy_particles) {
+  Configuration config1, config2 = spce_sample1();
+  EXPECT_EQ(0, config1.num_particles());
+  try {
+    config1.copy_particles(config2);
+    CATCH_PHRASE("does not match");
+  }
+  config1.copy_particles(config2, true);
+  EXPECT_EQ(100, config1.num_particles());
+  EXPECT_NEAR(config1.particle(99).site(1).position().coord(1),
+    6.158403915960, NEAR_ZERO);
 }
 
 }  // namespace feasst

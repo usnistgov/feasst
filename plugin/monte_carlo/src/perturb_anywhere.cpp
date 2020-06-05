@@ -1,6 +1,7 @@
 #include <cmath>
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/domain.h"
 #include "monte_carlo/include/perturb_anywhere.h"
 
 namespace feasst {

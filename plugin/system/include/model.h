@@ -5,10 +5,12 @@
 #include <memory>
 #include <string>
 #include <map>
-#include "configuration/include/configuration.h"
 
 namespace feasst {
 
+class ModelParams;
+class Select;
+class Configuration;
 class VisitModel;
 
 class Model {

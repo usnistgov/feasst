@@ -22,6 +22,7 @@ void Site::serialize(std::ostream& ostr) const {
   feasst_serialize_version(480, ostr);
   feasst_serialize(is_director_, ostr);
   feasst_serialize(is_physical_, ostr);
+  feasst_serialize(cells_, ostr);
 }
 
 Site::Site(std::istream& istr)
@@ -32,6 +33,7 @@ Site::Site(std::istream& istr)
   ASSERT(version == 480, "unrecognized version: " << version);
   feasst_deserialize(&is_director_, istr);
   feasst_deserialize(&is_physical_, istr);
+  feasst_deserialize(&cells_, istr);
 }
 
 }  // namespace feasst

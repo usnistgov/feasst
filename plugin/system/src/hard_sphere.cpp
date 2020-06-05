@@ -1,6 +1,7 @@
-#include "system/include/hard_sphere.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/model_params.h"
+#include "system/include/hard_sphere.h"
 
 namespace feasst {
 

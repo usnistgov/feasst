@@ -82,6 +82,8 @@ double System::unoptimized_energy(const int config) {
     "Energy(" << en << ") is infinite or not "
     << "a number. Are particles on top of each other?");
   unoptimized_.finalize(configurations_[config].selection_of_all());
+  ref_used_last_ = -1;
+  DEBUG("ref_used_last_ " << ref_used_last_);
   return en;
 }
 
@@ -95,16 +97,28 @@ PotentialFactory * System::potentials_() {
 double System::energy(const int config) {
   const double en = potentials_()->energy(&configurations_[config]);
   finalize(config);
+  ref_used_last_ = -1;
+  DEBUG("ref_used_last_ " << ref_used_last_);
   return en;
 }
 
 double System::perturbed_energy(const Select& select, const int config) {
+  ref_used_last_ = -1;
+  DEBUG("ref_used_last_ " << ref_used_last_);
   return potentials_()->energy(select, &configurations_[config]);
+}
+
+double System::reference_energy(const int ref, const int config) {
+  ref_used_last_ = ref;
+  DEBUG("ref_used_last_ " << ref_used_last_);
+  return reference_(ref)->energy(&configurations_[config]);
 }
 
 double System::reference_energy(const Select& select,
     const int ref,
     const int config) {
+  ref_used_last_ = ref;
+  DEBUG("ref_used_last_ " << ref_used_last_);
   return reference_(ref)->energy(select, &configurations_[config]);
 }
 
@@ -156,7 +170,12 @@ void System::finalize(const Select& select, const int config) {
     // finalize removal
     configurations_[config].remove_particles(select);
   }
-  potentials_()->finalize(select);
+  DEBUG("ref_used_last_ " << ref_used_last_);
+  if (ref_used_last_ != -1) {
+    references_[ref_used_last_].finalize(select);
+  } else {
+    potentials_()->finalize(select);
+  }
 }
 
 void System::revert(const Select& select, const int config) {
@@ -164,7 +183,12 @@ void System::revert(const Select& select, const int config) {
     // revert addition
     configurations_[config].remove_particles(select);
   }
-  potentials_()->revert(select);
+  DEBUG("ref_used_last_ " << ref_used_last_);
+  if (ref_used_last_ != -1) {
+    references_[ref_used_last_].revert(select);
+  } else {
+    potentials_()->revert(select);
+  }
 }
 
 void System::check() const {

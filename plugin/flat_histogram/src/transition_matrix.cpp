@@ -45,7 +45,7 @@ void TransitionMatrix::update_or_revert(
   DEBUG("metropolis_prob " << metropolis_prob);
   collection_.increment(macrostate_old, index, metropolis_prob);
   collection_.increment(macrostate_old, 1, reverse_prob);
-  DEBUG("colmat " << feasst_str(collection_.matrix()));
+  TRACE("colmat " << feasst_str(collection_.matrix()));
   update_blocks_(macrostate_old, macrostate_new,
                  ln_metropolis_prob, is_accepted, revert);
 }
@@ -103,7 +103,7 @@ std::string TransitionMatrix::write() const {
   std::stringstream ss;
   ss << Bias::write();
   ss << "num_sweeps," << num_sweeps_ << std::endl;
-  DEBUG("matrix," << feasst_str(collection_.matrix()));
+  TRACE("matrix," << feasst_str(collection_.matrix()));
   return ss.str();
 }
 

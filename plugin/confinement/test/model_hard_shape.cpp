@@ -3,6 +3,7 @@
 #include "confinement/include/half_space.h"
 #include "configuration/include/configuration.h"
 #include "configuration/include/select.h"
+#include "configuration/include/domain.h"
 
 namespace feasst {
 

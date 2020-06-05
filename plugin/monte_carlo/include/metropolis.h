@@ -8,6 +8,8 @@ namespace feasst {
 
 /**
   Metropolis acceptance criteria.
+
+  https://doi.org/10.1063%2F1.1699114
  */
 class Metropolis : public Criteria {
  public:

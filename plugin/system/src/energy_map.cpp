@@ -1,5 +1,6 @@
-#include "system/include/energy_map.h"
 #include "utils/include/serialize.h"
+#include "configuration/include/configuration.h"
+#include "system/include/energy_map.h"
 
 namespace feasst {
 

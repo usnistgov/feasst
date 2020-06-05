@@ -1,11 +1,16 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/domain.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/ideal_gas.h"
 #include "system/include/dont_visit_model.h"
 #include "system/include/visit_model_cell.h"
+#include "system/include/lennard_jones.h"
+#include "system/include/model_two_body_factory.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
+#include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/utils.h"
 #include "steppers/include/check_properties.h"
@@ -14,10 +19,10 @@
 #include "steppers/include/utils.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/num_particles.h"
-#include "ewald/test/system_example.h"
 #include "ewald/include/trial_add_multiple.h"
 #include "ewald/include/trial_remove_multiple.h"
 #include "ewald/include/check_net_charge.h"
+#include "ewald/include/charge_screened.h"
 #include "ewald/include/utils.h"
 
 namespace feasst {
@@ -32,13 +37,16 @@ namespace feasst {
 TEST(MonteCarlo, spce_nvt_LONG) {
   const int steps_per = 1e5;
   MonteCarlo mc;
-  spce(&mc, {{"physical_constants", "CODATA2010"},
-             {"temperature", "298"},
-             {"chemical_potential", "-35.294567543492"},
-             {"cubic_box_length", "24.8586887"},
-             {"alphaL", "5.6"},
-             {"kmax_squared", "38"},
-             {"xyz_file", install_dir() + "/plugin/ewald/test/data/spce_sample_config_hummer_eq.xyz"}});
+  mc.set(spce({
+    {"physical_constants", "CODATA2010"},
+    {"cubic_box_length", "24.8586887"},
+    {"alphaL", "5.6"},
+    {"kmax_squared", "38"},
+    {"xyz_file", install_dir() + "/plugin/ewald/test/data/spce_sample_config_hummer_eq.xyz"}}));
+  mc.set(MakeMetropolis({
+    {"beta", str(1/kelvin2kJpermol(298, mc.configuration()))}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   EXPECT_NEAR(mc.criteria().current_energy(), -24027.470339718111, 1e-10);
   // add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
   add_common_steppers(&mc, {{"steps_per", str(steps_per)},
@@ -67,7 +75,7 @@ TEST(MonteCarlo, spce_nvt_LONG) {
 TEST(MonteCarlo, spce_gce_LONG) {
   const int steps_per = 1e2;
   MonteCarlo mc;
-  spce(&mc);
+  mc.set(spce());
   { const double sigma = mc.configuration().model_params().sigma().value(0);
     INFO("sigma " << sigma);
     mc.get_system()->get_configuration()->get_domain()->init_cells(sigma);
@@ -76,6 +84,11 @@ TEST(MonteCarlo, spce_gce_LONG) {
                                MakeChargeScreened()}),
       MakeVisitModelCell()));
   }
+  mc.set(MakeMetropolis({
+    {"beta", str(1/kelvin2kJpermol(525))},
+    {"chemical_potential", "-35.294567543492"}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   add_trial_transfer(&mc,
     { {"weight", "1."},
       {"particle_type", "0"},
@@ -97,7 +110,12 @@ TEST(MonteCarlo, spce_gce_LONG) {
 // Fast test to be run with valgrind
 TEST(MonteCarlo, spce) {
   MonteCarlo mc;
-  spce(&mc);
+  mc.set(spce());
+  mc.set(MakeMetropolis({
+    {"beta", str(1/kelvin2kJpermol(525))},
+    {"chemical_potential", "-35.294567543492"}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
   add_common_steppers(&mc, {{"steps_per", str(5e2)},
                             {"file_append", "tmp/spce"},
@@ -108,7 +126,7 @@ TEST(MonteCarlo, spce) {
 TEST(MonteCarlo, rpm) {
   MonteCarlo mc;
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  rpm(&mc, {{"cubic_box_length", "20"}});
+  mc.set(rpm({{"cubic_box_length", "20"}}));
   { Configuration * config = mc.get_system()->get_configuration();
     config->add_particle_of_type(0);
     config->add_particle_of_type(1);
@@ -128,6 +146,7 @@ TEST(MonteCarlo, rpm) {
     {"particle_type1", "1"},
     {"reference_index", "0"},
   };
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.add(MakeTrialAddMultiple(transfer_args));
   mc.add(MakeTrialRemoveMultiple(transfer_args));
   mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));

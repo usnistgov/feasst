@@ -14,7 +14,7 @@ class Sphere : public Shape {
  public:
   Sphere(
     /**
-      radius : Set the radius of the cylinder.
+      radius : Set the radius of the sphere.
      */
     const argtype &args,
     /// position of the center of the sphere.

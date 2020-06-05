@@ -14,7 +14,7 @@ namespace feasst {
   Flat histogram acceptance criteria uses a bias to improve sampling and attempt
   to recover the free energy of the system as a function of the give macrostate.
 
-  The macrostate must be defined before the bias.
+  The Macrostate must be defined before the bias.
 
   Use MacrostateAccumulator to compute custom per-macrostate quantities.
  */

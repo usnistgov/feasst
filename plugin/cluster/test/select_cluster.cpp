@@ -1,5 +1,6 @@
 #include "utils/test/utils.h"
 #include "cluster/include/select_cluster.h"
+#include "configuration/include/domain.h"
 #include "math/include/random_mt19937.h"
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/perturb_translate.h"

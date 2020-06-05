@@ -4,7 +4,6 @@
 
 #include <string>
 #include <vector>
-#include "configuration/include/properties.h"
 #include "configuration/include/select.h"
 
 namespace feasst {
@@ -12,16 +11,16 @@ namespace feasst {
 /**
   Divide a cuboid domain into cells.
  */
-class Cells : public PropertiedEntity {
+class Cells {
  public:
-  Cells() {}
+  Cells() { set_group(); }
 
-  /// Create the number, length and neighbors.
-  /// By default, abort if there aren't more than \f$3^D\f$ cells,
-  /// where D is the dimension.
   // HWH: better optimize method of building list of neighboring cells.
   // HWH: currently too slow to NPT, frequent rebuilds or large systems.
   // HWH: consider elongated boxes for minimal requirement.
+  /// Create the number, length and neighbors.
+  /// By default, abort if there aren't more than \f$3^D\f$ cells,
+  /// where D is the dimension.
   void create(const double min_length, const std::vector<double> side_lengths);
 
   /// Return the number.
@@ -32,6 +31,12 @@ class Cells : public PropertiedEntity {
 
   /// Return the number.
   std::vector<int> num() const { return num_; }
+
+  /// Set the group.
+  void set_group(const int index = 0) { group_ = index; }
+
+  /// Return the group.
+  int group() const { return group_; }
 
   /// Clear all private member data.
   void clear();
@@ -52,11 +57,11 @@ class Cells : public PropertiedEntity {
   /// Scaled coordinates are positions divided by the respective domain size.
   int id(const std::vector<double>& scaled_coord) const;
 
-  /// Return the label.
-  std::string label() const { return label_; }
+  /// Return the type.
+  int type() const { return type_; }
 
-  /// Set the label.
-  void set_label(const std::string label) { label_ = label; }
+  /// Set the type.
+  void set_type(const int type) { type_ = type; }
 
   ///
   void add(const Select& select, const int cell) {
@@ -79,7 +84,8 @@ class Cells : public PropertiedEntity {
   virtual ~Cells() {}
 
  private:
-  std::string label_;
+  int group_;
+  int type_ = -1;
 
   // per dimension vectors
   std::vector<int> num_;

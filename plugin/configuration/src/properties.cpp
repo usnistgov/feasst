@@ -37,7 +37,7 @@ bool Properties::value(const std::string name, double * val) const {
 bool Properties::value(const std::string name,
     double * val,
     int * index) const {
-  DEBUG("finding " << name << " " << feasst_str(names_));
+  DEBUG("finding " << name << " in " << feasst_str(names_));
   bool is_found = find_in_list(name, names_, index);
   if (is_found) {
     *val = values_[*index];

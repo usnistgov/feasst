@@ -10,7 +10,7 @@ namespace feasst {
 
 /**
   Perform an action (update or write) every so many steps.
-  This action could be read-only (see analyze) or not (see modify).
+  This action could be read-only (see Analyze) or not (see Modify).
   Write to screen if file name is not provided.
  */
 class Stepper {

@@ -11,7 +11,7 @@
 namespace feasst {
 
 /**
-  Begin with Wang Landau and end with Transition Matrix.
+  Begin with WangLandau and end with TransitionMatrix.
  */
 class WLTM : public Bias {
  public:

@@ -7,12 +7,12 @@
 namespace feasst {
 
 /**
-  Store the energies and Rosenbluth factors necessary for configurational
-  bias Monte Carlo trials.
+Store the energies and Rosenbluth factors necessary for configurational bias
+Monte Carlo trials.
 
-  \f$w = \frac{1}{n} \sum_i^n \exp^{-\beta \Delta U}\f$
+\f$w = \frac{1}{n} \sum_i^n \exp^{-\beta \Delta U}\f$
 
-  where \f$w\f$ is the Rosenbluth weight for \f$n\f$ steps.
+where \f$w\f$ is the Rosenbluth weight for \f$n\f$ steps.
  */
 class Rosenbluth {
  public:
@@ -28,8 +28,7 @@ class Rosenbluth {
   void store(const int step, const Select& select) { stored_[step] = select; }
 
   /// Set the energy of the step by step.
-  void set_energy(const int step, const double energy) {
-    energy_[step] = energy; }
+  void set_energy(const int step, const double energy);
 
   /// Compute Boltzmann factors and cumulative probabilities for all steps.
   /// Choose one of the steps based on the probabilities.

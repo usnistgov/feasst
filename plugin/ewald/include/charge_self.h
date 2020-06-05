@@ -7,10 +7,12 @@
 namespace feasst {
 
 /**
-  Assumes units:
-    1. length: Angstroms
-    2. energy: kJ/mol
-    3. charge: elementary
+  Compute the correction energy used to remove the spurious self-self
+  interaction that the Ewald summation includes
+
+  \f$U = -q_i q_i \chi \frac{\alpha}{\sqrt{\pi}} \f$
+
+  see ChargeScreened for details.
  */
 class ChargeSelf : public ModelOneBody {
  public:

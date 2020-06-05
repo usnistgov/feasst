@@ -44,7 +44,7 @@ void AnalyzeFactory::trial_(const Criteria& criteria,
   // timer_.start(index + 1);
   DEBUG("index " << index << " sz " << analyzers_.size());
   ASSERT(index < static_cast<int>(analyzers_.size()),
-    "index: " << index << " too large when " << analyzers_.size() << " ans");
+    "index: " << index << " too large when there are " << analyzers_.size());
   DEBUG(analyzers_[index]->class_name());
   analyzers_[index]->trial(criteria, system, trial_factory);
   // timer_.end();

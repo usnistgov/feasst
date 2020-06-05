@@ -1,6 +1,8 @@
 #include <cmath>
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/configuration.h"
 #include "system/include/model_two_body.h"
 #include "patch/include/visit_model_inner_patch.h"
 

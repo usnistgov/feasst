@@ -7,10 +7,12 @@
 namespace feasst {
 
 /**
-  Assumes units:
-    1. length: Angstroms
-    2. energy: kJ/mol
-    3. charge: elementary
+  Compute the correction energy used to remove the spurious intra-particle
+  interactions that the Ewald summation includes
+
+  \f$U = -q_i q_j \chi erf(\alpha r)/r\f$
+
+  see ChargeScreened for details.
  */
 class ChargeScreenedIntra : public ModelTwoBody {
  public:

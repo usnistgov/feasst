@@ -7,7 +7,7 @@ namespace feasst {
 Checkpoint::Checkpoint(const argtype &args) {
   args_.init(args);
   num_hours_ = args_.key("num_hours").dflt("12").dble();
-  file_name_ = args_.key("file_name").dflt("").str();
+  file_name_ = args_.key("file_name").dflt(" ").str();
 }
 
 void Checkpoint::serialize(std::ostream& ostr) const {

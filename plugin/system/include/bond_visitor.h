@@ -6,11 +6,13 @@
 #include <string>
 #include <map>
 #include "configuration/include/bond.h"
-#include "configuration/include/configuration.h"
 #include "system/include/bond_two_body.h"
 #include "system/include/bond_three_body.h"
 
 namespace feasst {
+
+class Configuration;
+class Select;
 
 class BondVisitor {
  public:
@@ -18,10 +20,7 @@ class BondVisitor {
   void compute(
       const BondTwoBody& model,
       const Configuration& config,
-      const int group_index = 0) {
-    const Select& selection = config.group_selects()[group_index];
-    compute(model, selection, config);
-  }
+      const int group_index = 0);
   void compute(
       const BondTwoBody& model,
       const Select& selection,
@@ -29,10 +28,7 @@ class BondVisitor {
   void compute(
       const BondThreeBody& model,
       const Configuration& config,
-      const int group_index = 0) {
-    const Select& selection = config.group_selects()[group_index];
-    compute(model, selection, config);
-  }
+      const int group_index = 0);
   void compute(
       const BondThreeBody& model,
       const Select& selection,

@@ -1,5 +1,6 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/domain.h"
 #include "chain/include/select_site_of_type.h"
 
 namespace feasst {

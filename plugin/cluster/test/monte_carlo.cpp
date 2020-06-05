@@ -1,6 +1,8 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
 #include "system/include/lennard_jones.h"
+#include "system/include/utils.h"
+#include "configuration/include/domain.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/utils.h"
@@ -76,7 +78,9 @@ TEST(MonteCarlo, cluster) {
 
 TEST(MonteCarlo, GCMCmap) {
   MonteCarlo mc;
-  lennard_jones(&mc, {{"lrc", "false"}});
+  mc.set(lennard_jones({{"lrc", "false"}}));
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   add_common_steppers(&mc, {{"steps_per", str(1e4)},
                             {"file_append", "tmp/lj"}});
   mc.set(0, Potential(MakeLennardJones(),

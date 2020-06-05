@@ -1,7 +1,10 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
+#include "system/include/utils.h"
 #include "monte_carlo/include/utils.h"
 #include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/metropolis.h"
+#include "monte_carlo/include/trial_translate.h"
 #include "prefetch/include/prefetch.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/utils.h"
@@ -13,8 +16,10 @@ namespace feasst {
 
 TEST(Prefetch, NVT_benchmark) {
   Prefetch mc;
-  lennard_jones(&mc, {{"steps_per", str(1e1)}});
-  add_common_steppers(&mc, {{"steps_per", str(1e4)},
+  mc.set(lennard_jones());
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  add_common_steppers(&mc, {{"steps_per", str(1e1)},
                             {"file_append", "tmp/lj"}});
   // mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.activate_prefetch(false);
@@ -29,8 +34,10 @@ TEST(Prefetch, NVT_benchmark) {
 
 TEST(Prefetch, MUVT) {
   auto mc = MakePrefetch({{"steps_per_check", "1"}});
-  lennard_jones(mc.get(), {{"steps_per", str(1e1)}});
-  add_common_steppers(mc.get(), {{"steps_per", str(1e4)},
+  mc->set(lennard_jones());
+  mc->set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  add_common_steppers(mc.get(), {{"steps_per", str(1e1)},
                                  {"file_append", "tmp/lj"}});
   //mc_lj(mc.get(), 8, "../forcefield/data.lj", 1e1, true, false);
   // mc->set(MakeRandomMT19937({{"seed", "default"}}));

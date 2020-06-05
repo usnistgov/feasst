@@ -3,6 +3,7 @@
 #define FEASST_EWALD_SYSTEM_EXAMPLE_H_
 
 #include "configuration/include/utils.h"
+#include "configuration/include/domain.h"
 #include "system/include/system.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"

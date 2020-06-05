@@ -58,7 +58,9 @@ TEST(Cells, cells) {
   }
 
   // serialize
+  cells.set_group(39);
   Cells cells2 = test_serialize(cells);
+  EXPECT_EQ(cells2.group(), 39);
   EXPECT_EQ(cells.neighbor(), cells2.neighbor());
 }
 

@@ -16,8 +16,9 @@ namespace feasst {
 /**
   A stage contains both a selection and perturbation.
   Random realizations of the perturbation are performed in a number of steps.
-  A reference potential may be used during these steps, following the dual-cut
-  configurational bias approach: http://doi.org/10.1080/002689798167881
+  The use of reference potentials in stages is a generalization of the dual-cut
+  configurational bias (DC-CB) methodology as described in
+  http://doi.org/10.1080/002689798167881.
  */
 class TrialStage {
  public:

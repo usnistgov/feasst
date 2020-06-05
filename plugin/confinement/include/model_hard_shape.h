@@ -8,8 +8,8 @@
 namespace feasst {
 
 /**
-  Note that the input shape of this model represents the shape of the cavity.
-  Thus, the hard interaction is outside of the shape, not inside.
+  Create a cavity of a given shape, where the potential energy outside of the
+  shape is infinite.
  */
 class ModelHardShape : public ModelOneBody,
                        public ShapedEntity {

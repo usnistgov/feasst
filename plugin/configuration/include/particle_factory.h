@@ -214,6 +214,9 @@ class ParticleFactory {
       const int site_index) {
     particles_[particle_index].set_site_property(index, value, site_index); }
 
+  // This interface is for optimization and not for typical use
+  Particle * get_particle(const int index) { return &particles_[index]; }
+
   void serialize(std::ostream& ostr) const;
   explicit ParticleFactory(std::istream& istr);
 

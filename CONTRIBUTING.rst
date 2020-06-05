@@ -331,5 +331,6 @@ To Do List
 * Transition from WL to TM
 * Somehow, trial_growth_expanded.h doesn't include debug.h but can compile with ASSERT
 * Speed up RNG by maintaining int_distribution like dis_double
-* Include tutorial helper scripts, like fh.py, in tutorial discussion where first used.
-* LRC energy issue with reference potentials because particle isn't revived while computing number of types
+* Document utils lj, spce, rpm in tutorials
+* Cell list uses slow wrap method
+* Add a FAQ for common compile errors: "no known conversion from brace-enclosed initializer list to const argtype&" often means that a parameter was not converted to a string.

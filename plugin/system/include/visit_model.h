@@ -6,12 +6,13 @@
 #include <string>
 #include <map>
 #include <sstream>
-#include "system/include/model.h"
-#include "configuration/include/configuration.h"
+#include "math/include/position.h"
 #include "system/include/visit_model_inner.h"
 
 namespace feasst {
 
+class Domain;
+class Configuration;
 class ModelOneBody;
 class ModelTwoBody;
 class ModelThreeBody;
@@ -66,40 +67,25 @@ class VisitModel {
   void compute(
       const ModelOneBody& model,
       Configuration * config,
-      const int group_index = 0) {
-    const ModelParams& model_params = config->model_params();
-    compute(model, model_params, config, group_index);
-  }
+      const int group_index = 0);
   void compute(
       const ModelOneBody& model,
       const Select& selection,
       Configuration * config,
-      const int group_index = 0) {
-    const ModelParams& model_params = config->model_params();
-    compute(model, model_params, selection, config, group_index);
-  }
+      const int group_index = 0);
   void compute(
       const ModelTwoBody& model,
       Configuration * config,
-      const int group_index = 0) {
-    const ModelParams& model_params = config->model_params();
-    compute(model, model_params, config, group_index);
-  }
+      const int group_index = 0);
   void compute(
       const ModelTwoBody& model,
       const Select& selection,
       Configuration * config,
-      const int group_index = 0) {
-    const ModelParams& model_params = config->model_params();
-    compute(model, model_params, selection, config, group_index);
-  }
+      const int group_index = 0);
   void compute(
       const ModelThreeBody& model,
       Configuration * config,
-      const int group_index = 0) {
-    const ModelParams& model_params = config->model_params();
-    compute(model, model_params, config, group_index);
-  }
+      const int group_index = 0);
 
   /// Return the energy.
   double energy() const { return energy_; }
@@ -155,12 +141,7 @@ class VisitModel {
   // optimization to avoid repeated construction of Position.
   Position relative_, pbc_;
   void init_relative_(const Domain& domain, Position * relative,
-                      Position * pbc) {
-    if (relative->dimension() != domain.dimension()) {
-      relative->set_vector(domain.side_lengths().coord());
-      pbc->set_vector(domain.side_lengths().coord());
-    }
-  }
+                      Position * pbc);
 
  private:
   double energy_ = 0.;

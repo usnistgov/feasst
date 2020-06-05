@@ -25,10 +25,7 @@ class VisitModelBond : public VisitModel {
       const ModelTwoBody& model,
       const ModelParams& model_params,
       Configuration * config,
-      const int group_index) override {
-    compute(model, model_params, config->selection_of_all(),
-            config, group_index);
-  }
+      const int group_index) override;
   std::shared_ptr<VisitModel> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit VisitModelBond(std::istream& istr);

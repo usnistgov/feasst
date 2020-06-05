@@ -1,6 +1,8 @@
 #include <cmath>
-#include "ewald/include/charge_screened_intra.h"
 #include "utils/include/serialize.h"
+#include "math/include/constants.h"
+#include "configuration/include/model_params.h"
+#include "ewald/include/charge_screened_intra.h"
 
 namespace feasst {
 
@@ -32,8 +34,11 @@ double ChargeScreenedIntra::energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) const {
-  const double mixed_charge = model_params.mixed_charge()[type1][type2];
   const double distance = std::sqrt(squared_distance);
+  if (std::abs(distance) < NEAR_ZERO) {
+    return NEAR_INFINITY;
+  }
+  const double mixed_charge = model_params.mixed_charge()[type1][type2];
   return -mixed_charge*conversion_factor_*erf(alpha_*distance)/distance;
 }
 

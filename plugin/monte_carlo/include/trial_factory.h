@@ -9,6 +9,9 @@
 
 namespace feasst {
 
+/**
+  Contains multiple Trials.
+ */
 class TrialFactory : public Trial {
  public:
   TrialFactory();
@@ -17,7 +20,7 @@ class TrialFactory : public Trial {
   void add(std::shared_ptr<Trial> trial);
 
   /// Return the number of trials.
-  int num_trials() const { return static_cast<int>(trials_.size()); }
+  int num() const { return static_cast<int>(trials_.size()); }
 
   /// Return a trial by index of the order trials were added.
   const Trial& trial(const int index) const {

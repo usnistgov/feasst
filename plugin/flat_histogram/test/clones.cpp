@@ -1,6 +1,10 @@
 #include "utils/test/utils.h"
+#include "utils/include/checkpoint.h"
+#include "system/include/utils.h"
 #include "monte_carlo/include/utils.h"
 #include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/metropolis.h"
+#include "monte_carlo/include/trial_translate.h"
 #include "steppers/include/utils.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
@@ -15,7 +19,9 @@ namespace feasst {
 MonteCarlo monte_carlo(const int thread, const int min, const int max) {
   const int steps_per = 1e2;
   MonteCarlo mc;
-  lennard_jones(&mc);
+  mc.set(lennard_jones());
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   add_trial_transfer(&mc, {{"particle_type", "0"}, {"weight", "4"}});
   mc.add(MakeFlatHistogram(
     MakeMacrostateNumParticles(
@@ -73,8 +79,14 @@ TEST(Clones, lj_fh) {
   clones2.initialize_and_run_until_complete();
   DEBUG("0: " << feasst_str(clones2.flat_histogram(0).bias().ln_prob().values()));
   DEBUG("1: " << feasst_str(clones2.flat_histogram(1).bias().ln_prob().values()));
-  DEBUG(feasst_str(clones2.ln_prob().values()));
+//  INFO(feasst_str(clones2.ln_prob().values()));
   EXPECT_NEAR(clones2.ln_prob().value(0), -36.9, 0.7);
+
+  MakeCheckpoint({{"file_name", "tmp/rstclone"}})->write(clones2);
+  Clones clones3;
+  MakeCheckpoint({{"file_name", "tmp/rstclone"}})->read(&clones3);
+//  INFO(feasst_str(clones3.ln_prob().values()));
+  EXPECT_TRUE(clones3.ln_prob().is_equal(clones2.ln_prob(), 1e-8));
 }
 
 }  // namespace feasst

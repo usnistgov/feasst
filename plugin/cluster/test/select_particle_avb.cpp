@@ -1,8 +1,9 @@
 #include "utils/test/utils.h"
-#include "cluster/include/select_particle_avb.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/domain.h"
 #include "system/include/lennard_jones.h"
 #include "monte_carlo/include/perturb_translate.h"
+#include "cluster/include/select_particle_avb.h"
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/perturb_rotate_com.h"
 

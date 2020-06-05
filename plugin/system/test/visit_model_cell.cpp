@@ -1,11 +1,12 @@
 #include "utils/test/utils.h"
-#include "math/include/random_mt19937.h"
-#include "system/include/visit_model_cell.h"
-#include "configuration/include/file_xyz.h"
-#include "system/include/lennard_jones.h"
 #include "math/include/constants.h"
-#include "configuration/include/select.h"
+#include "math/include/random_mt19937.h"
 #include "math/include/utils_math.h"
+#include "system/include/visit_model_cell.h"
+#include "system/include/lennard_jones.h"
+#include "configuration/include/file_xyz.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/select.h"
 
 namespace feasst {
 
@@ -28,8 +29,8 @@ TEST(VisitModelCell, simple_lj) {
   const Cells& cells = config.domain().cells(0);
   EXPECT_EQ(5*5*5, cells.num_total());
   const int center = round(5.*5.*5./2. - 0.5);
-  EXPECT_EQ(config.particle(0).site(0).property("cell0"), center);
-  EXPECT_EQ(config.particle(1).site(0).property("cell0"), center + 1);
+  EXPECT_EQ(config.particle(0).site(0).cell(0), center);
+  EXPECT_EQ(config.particle(1).site(0).cell(0), center + 1);
   EXPECT_EQ(cells.particles()[center].num_sites(), 1);
   EXPECT_EQ(cells.particles()[center].particle_index(0), 0);
   EXPECT_EQ(cells.particles()[center].site_index(0, 0), 0);
@@ -55,8 +56,8 @@ TEST(VisitModelCell, simple_lj) {
   DEBUG("Move to the same cell");
   pos.set_vector({-1, 1, 1});
   config.displace_particle(select, pos);
-  EXPECT_EQ(config.particle(0).site(0).property("cell0"), center);
-  EXPECT_EQ(config.particle(1).site(0).property("cell0"), center);
+  EXPECT_EQ(config.particle(0).site(0).cell(0), center);
+  EXPECT_EQ(config.particle(1).site(0).cell(0), center);
   EXPECT_EQ(cells.particles()[center].num_sites(), 2);
   EXPECT_EQ(cells.particles()[center].num_particles(), 2);
   EXPECT_EQ(cells.particles()[center].particle_index(0), 0);

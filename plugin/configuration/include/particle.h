@@ -253,6 +253,9 @@ class Particle : public PropertiedEntity,
   const std::vector<std::vector<int> >& angle_list() const {
     return angle_list_; }
 
+  // This interface is for optimization and not for typical use
+  Site * get_site(const int index) { return &sites_[index]; }
+
   void serialize(std::ostream& ostr) const;
   explicit Particle(std::istream& istr);
 

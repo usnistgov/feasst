@@ -10,6 +10,8 @@
 
 namespace feasst {
 
+class Threads;
+
 // HWH: consider a parallel while:
 // https://cvw.cac.cornell.edu/OpenMP/whileloop
 
@@ -85,6 +87,7 @@ class Prefetch : public MonteCarlo {
   int steps_per_check_;
   int steps_since_check_ = 0;
   bool load_balance_;
+  std::shared_ptr<Threads> threads_;
 
   // temporary
   int num_threads_;

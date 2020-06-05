@@ -1,8 +1,9 @@
 #include <cmath>
 #include "utils/test/utils.h"
+#include "configuration/include/domain.h"
+#include "configuration/include/utils.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/model_empty.h"
-#include "configuration/include/utils.h"
 
 namespace feasst {
 

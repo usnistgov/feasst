@@ -13,11 +13,9 @@ namespace feasst {
 // HWH Update: use a finalize-heavy instead of revert-heavy strategy
 // This means that new eik are calculated and stored separate from system wide properties,
 // and system-wide only updated upon finalize
-/**
+/* HWH
   This implementation appears to work correctly.
   However, it is not optimized and will be subject to change in future versions.
-
-  HWH: Add Ewald citations.
 
   Ewald is not currently supported for use as a reference state for dual-cut
   configurational bias.
@@ -34,6 +32,16 @@ namespace feasst {
 
   HWH: If selection = all, don't do difference
   HWH: If selection not all (how know? config?) then calc energy first before updating struct.
+ */
+/**
+  The Ewald summation accounts for the long-range nature of the electrostatic
+  interaction by applying a Gaussian screening charge, computing a Fourier-space
+  long-range component, and then correcting for the various spurious terms
+  that are included in the Fourier summation, such as self and intra-particle.
+
+  See "Computer simulation of liquids" by M. P. Allen and D. J. Tildesley.
+  The LAMMPS and DL_POLY manuals also include thorough descriptions of the Ewald
+  summation.
  */
 class Ewald : public VisitModel {
  public:

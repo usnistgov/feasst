@@ -76,7 +76,10 @@ void Clones::initialize(const int upper_index,
   }
 
   DEBUG("send configuration to upper");
-  upper->set(deep_copy(lower->system()));
+  //upper->set(deep_copy(lower->system()));
+  upper->get_system()->get_configuration()->copy_particles(
+    lower->configuration(),
+    true);
   DEBUG("num " << upper->configuration().num_particles());
   upper->initialize_energy();
 }

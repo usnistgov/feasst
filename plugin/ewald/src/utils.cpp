@@ -1,13 +1,14 @@
 #include <cmath>
 #include "utils/include/utils_io.h"
 #include "utils/include/debug.h"
+#include "math/include/constants.h"
+#include "configuration/include/domain.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_bond.h"
 #include "system/include/model_two_body_factory.h"
-#include "monte_carlo/include/trial_rotate.h"
-#include "monte_carlo/include/trial_translate.h"
+#include "system/include/visit_model_cell.h"
 #include "monte_carlo/include/metropolis.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/log.h"
@@ -28,7 +29,19 @@ void add_trial_transfer_multiple(MonteCarlo * mc, const argtype& args) {
   mc->add(MakeTrialRemoveMultiple(args));
 }
 
-void spce(MonteCarlo * mc, const argtype& args) {
+double kelvin2kJpermol(const double kelvin) {
+  ModelParams model_params;
+  const double R = model_params.physical_constants().ideal_gas_constant();
+  return kelvin*R/1000.;
+}
+
+double kelvin2kJpermol(const double kelvin, const Configuration& config) {
+  const double R = config.physical_constants().ideal_gas_constant();
+  return kelvin*R/1000.;
+}
+
+System spce(const argtype& args) {
+  System system;
   Arguments args_(args);
   { Configuration config(
       MakeDomain({{"cubic_box_length",
@@ -39,38 +52,43 @@ void spce(MonteCarlo * mc, const argtype& args) {
     if (args_.key("xyz_file").used()) {
       FileXYZ().load(args_.str(), &config);
     }
-    mc->add(config);
+    system.add(config);
   }
-  mc->add(Potential(
+  system.add(Potential(
     MakeEwald({{"kmax_squared", args_.key("kmax_squared").dflt("38").str()},
                {"alpha",
       str(args_.key("alphaL").dflt("5.6").dble()/
-          mc->configuration().domain().min_side_length())}})));
-  mc->add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
-                                             MakeChargeScreened()})));
-  mc->add(Potential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
-  mc->add(Potential(MakeChargeSelf()));
-  mc->add(Potential(MakeLongRangeCorrections()));
-  const double R = mc->configuration().physical_constants().ideal_gas_constant();
-  const double temp = args_.key("temperature").dflt("525").dble()*R/1000;  // KJ/mol
-  const std::string mu =
-    args_.key("chemical_potential").dflt("-35.294567543492").str();
-  mc->set(MakeMetropolis({{"beta", str(1/temp)},
-                          {"chemical_potential", mu}}));
-  mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
-  mc->add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
+          system.configuration().domain().min_side_length())}})));
+  system.add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
+                                                MakeChargeScreened()})));
+  system.add(Potential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
+  system.add(Potential(MakeChargeSelf()));
+  system.add(Potential(MakeLongRangeCorrections()));
+  return system;
 }
 
-void rpm(MonteCarlo * mc, const argtype& args) {
+System rpm(const argtype& args) {
+  System system;
   Arguments args_(args);
-  { Configuration config(
-      MakeDomain({{"cubic_box_length",
-                   args_.key("cubic_box_length").dflt("12").str()}}),
+  double dual_cut = args_.key("dual_cut").dflt("-1").dble();
+  const std::string cubic_box_length =
+    args_.key("cubic_box_length").dflt("12").str();
+  { std::shared_ptr<Domain> domain;
+    if (std::abs(dual_cut + 1) < NEAR_ZERO) {
+      domain = MakeDomain({{"cubic_box_length", cubic_box_length}});
+    } else {
+      domain = MakeDomain({{"cubic_box_length", cubic_box_length},
+                           {"init_cells", str(dual_cut)}});
+    }
+    Configuration config(domain,
       {{"particle_type0", install_dir() + "/" + args_.key("particle0").dflt("plugin/ewald/forcefield/data.rpm_plus").str()},
        {"particle_type1", install_dir() + "/" + args_.key("particle1").dflt("plugin/ewald/forcefield/data.rpm_minus").str()}}
     );
+
     if (args_.key("cutoff").used()) {
       const double cutoff = args_.dble();
+      ASSERT(cutoff > dual_cut,
+        "cutoff: " << cutoff << " should be > dual_cut: " << dual_cut);
       config.set_model_param("cutoff", 0, cutoff);
       config.set_model_param("cutoff", 1, cutoff);
     }
@@ -90,20 +108,38 @@ void rpm(MonteCarlo * mc, const argtype& args) {
       config.set_model_param("sigma", 0, sigma.value(0) + delta);
       config.set_model_param("sigma", 1, sigma.value(1) - delta);
     }
-    mc->add(config);
+    system.add(config);
   }
-  mc->add(Potential(
+  system.add(Potential(
     MakeEwald({{"kmax_squared", args_.key("kmax_squared").dflt("38").str()},
                {"alpha",
       str(args_.key("alphaL").dflt("5.6").dble()/
-          mc->configuration().domain().min_side_length())}})));
-  mc->add(Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                             MakeChargeScreened()})));
-  mc->add(Potential(MakeChargeSelf()));
-  const double temp = args_.key("temperature").dflt("0.047899460618081").dble();
-  mc->set(MakeMetropolis({{"beta", str(1./temp)},
-    {"chemical_potential", str(args_.key("beta_mu").dflt("-13.94").dble()/temp)}}));
-  mc->add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
+          system.configuration().domain().min_side_length())}})));
+  system.add(Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
+                                                MakeChargeScreened()})));
+  system.add(Potential(MakeChargeSelf()));
+//  std::string iref = "-1";
+//  std::string num_steps = "1";
+  if (std::abs(dual_cut + 1) > NEAR_ZERO) {
+    Potential ref(MakeModelTwoBodyFactory({MakeHardSphere(),
+                                           MakeChargeScreened()}),
+                  MakeVisitModelCell());
+    ref.set_model_params(system.configuration());
+    ref.set_model_param("cutoff", 0, dual_cut);
+    ref.set_model_param("cutoff", 1, dual_cut);
+    system.add_to_reference(ref);
+//    iref = "0";
+//    num_steps = "4";
+  }
+//  const double temp = args_.key("temperature").dflt("0.047899460618081").dble();
+//  system.set(MakeMetropolis({{"beta", str(1./temp)},
+//    {"chemical_potential", str(args_.key("beta_mu").dflt("-13.94").dble()/temp)}}));
+//  system.add(MakeTrialTranslate({
+//    {"weight", "0.25"},
+//    {"tunable_param", "0.1"},
+//    {"reference_index", iref},
+//    {"num_steps", num_steps}}));
+  return system;
 }
 
 }  // namespace feasst

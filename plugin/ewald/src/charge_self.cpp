@@ -1,7 +1,9 @@
 #include <cmath>
-#include "ewald/include/charge_self.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
+#include "configuration/include/site.h"
+#include "configuration/include/model_params.h"
+#include "ewald/include/charge_self.h"
 
 namespace feasst {
 

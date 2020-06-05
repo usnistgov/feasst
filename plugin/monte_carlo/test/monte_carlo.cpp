@@ -2,11 +2,14 @@
 #include <cmath>
 #include "utils/test/utils.h"
 #include "utils/include/utils_io.h"
+#include "utils/include/checkpoint.h"
 #include "math/include/accumulator.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/domain.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"
+#include "system/include/utils.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
@@ -45,7 +48,10 @@ namespace feasst {
 
 TEST(MonteCarlo, serialize) {
   MonteCarlo mc;
-  lennard_jones(&mc);
+  mc.set(lennard_jones());
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  mc.set(MakeCheckpoint({{"num_hours", "0.0001"}, {"file_name", "tmp/ljrst"}}));
   add_common_steppers(&mc, {{"steps_per", str(1e4)},
                             {"file_append", "tmp/lj"}});
 //  { std::stringstream ss;
@@ -58,7 +64,9 @@ TEST(MonteCarlo, serialize) {
 
 TEST(MonteCarlo, NVT_benchmark) {
   MonteCarlo mc;
-  lennard_jones(&mc);
+  mc.set(lennard_jones());
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   add_common_steppers(&mc, {{"steps_per", str(1e4)},
                             {"file_append", "tmp/lj"}});
   //mc.set(0, Potential(MakeLennardJones(),
@@ -82,20 +90,26 @@ TEST(MonteCarlo, NVT_cell_benchmark) {
                        {{"particle_type", "../forcefield/data.lj"}}));
   mc.add(Potential(MakeLennardJones()));
   mc.add_to_reference(Potential(MakeLennardJones(), MakeVisitModelCell()));
-  // mc.set(MakeRandomMT19937({{"seed", "default"}}));
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1"}}));
+  mc.set(MakeRandomMT19937({{"seed", "default"}}));
+  mc.set(MakeMetropolis({{"beta", "1.2"}}));
   mc.add(MakeTrialTranslate({
     {"weight", "1"},
     {"reference_index", "0"},
-    {"num_steps", "2"},
+    {"num_steps", "10"},
     {"tunable_param", "1"}}));
-  const int steps_per = 1e3;
-  mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}, {"tolerance", "1e-10"}}));
+//  const int steps_per = 1e3;
+//  mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}, {"tolerance", "1e-10"}}));
   SeekNumParticles(50)
     .with_metropolis({{"beta", "0.1"}, {"chemical_potential", "10"}})
     .with_trial_add()
     .run(&mc);
-  // mc.attempt(1e5);
+  add_common_steppers(&mc, {{"steps_per", str(1e4)},
+                            {"file_append", "tmp/cell"}});
+  //mc.attempt(1e5);  // 3 sec with 50 particles, 10 steps on hwhdesk after site cells integer
+  //mc.attempt(1e5);  // 4.4 sec with 50 particles, 10 steps on hwhdesk after cell group opt
+  //mc.attempt(1e5);  // 4.5 sec with 50 particles, 10 steps on hwhdesk after domain shift opt
+  //mc.attempt(1e5);  // 5.6 sec with 50 particles, 10 steps on hwhdesk
+  //mc.attempt(1e5);  // 5.1 sec with 50 particles, 10 steps on hwhdesk after opt cell_id
   mc.attempt(1e3);
   INFO(mc.criteria().current_energy());
   // mc.attempt(1e6);
@@ -103,7 +117,9 @@ TEST(MonteCarlo, NVT_cell_benchmark) {
 
 TEST(MonteCarlo, NVT_SRSW) {
   MonteCarlo mc;
-  lennard_jones(&mc);
+  mc.set(lennard_jones());
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   add_common_steppers(&mc, {{"steps_per", str(1e4)},
                             {"file_append", "tmp/lj"}});
   const int nMol = 500;
@@ -123,7 +139,9 @@ TEST(MonteCarlo, NVT_SRSW) {
 
 TEST(MonteCarlo, GCMC) {
   MonteCarlo mc;
-  lennard_jones(&mc);
+  mc.set(lennard_jones());
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   add_common_steppers(&mc, {{"steps_per", str(1e4)},
                             {"file_append", "tmp/lj"}});
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
@@ -135,9 +153,12 @@ TEST(MonteCarlo, GCMC) {
 
 TEST(MonteCarlo, GCMC_cell) {
   MonteCarlo mc;
-  lennard_jones(&mc);
-  mc.get_system()->get_configuration()->get_domain()->init_cells(1.);
-  mc.add_to_reference(Potential(MakeLennardJones(), MakeVisitModelCell()));
+  mc.set(lennard_jones({{"dual_cut", "1."}}));
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."},
+                             {"tunable_param", "1."},
+                             {"reference_index", "0"},
+                             {"num_steps", "4"}}));
   add_common_steppers(&mc, {{"steps_per", str(1e4)},
                             {"file_append", "tmp/lj"}});
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
@@ -162,8 +183,10 @@ TEST(MonteCarlo, grow) {
       data = "forcefield/data.spce";
     }
     MonteCarlo mc;
-    lennard_jones(&mc, {{"cubic_box_length", str(box_length)},
-                        {"particle", data}});
+    mc.set(lennard_jones({{"cubic_box_length", str(box_length)},
+                          {"particle", data}}));
+    mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+    mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
     add_common_steppers(&mc, {{"steps_per", str(1e4)},
                               {"file_append", "tmp/lj"}});
     mc.add(build_(0, data));  // 0: move
@@ -194,7 +217,9 @@ TEST(MonteCarlo, grow) {
 TEST(MonteCarlo, ConstrainNumParticles) {
   for (const double minimum : {0, 1}) {
     MonteCarlo monte_carlo;
-    lennard_jones(&monte_carlo);
+    monte_carlo.set(lennard_jones());
+    monte_carlo.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+    monte_carlo.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
     add_common_steppers(&monte_carlo, {{"steps_per", str(1e4)},
                                        {"file_append", "tmp/lj"}});
     SeekNumParticles(1).with_trial_add().run(&monte_carlo);
