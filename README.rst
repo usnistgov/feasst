@@ -97,17 +97,19 @@ Python install
     git clone https://github.com/usnistgov/feasst.git
     mkdir feasst/build
     cd feasst/build
+
+    conda env create -f ../py/feasst.yml
+    conda activate feasst
+    # alternatively, no env create, but include some tutorial dependencies
+    # pip install jupyter matplotlib pandas scipy # for tutorials
+
     cmake -DUSE_SWIG=ON ..
-    make _feasst -j4
+    # alternatively, for manually setting the python path
+    # cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY=/path/to/anaconda/lib/libpython3.7m.so ..
+
+    make -j4
     make install -j4
-    python ../py/test.py  # optional test
-    pip install jupyter matplotlib pandas scipy # for tutorials
-
-* For manually setting the python path.
-
-.. code-block:: bash
-
-    cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY=/path/to/anaconda/lib/libpython3.7m.so ..
+    python ../py/test.py # optional test
 
 C++ install
 ----------------

@@ -91,6 +91,7 @@ TrialRigidCluster::TrialRigidCluster(
     std::shared_ptr<NeighborCriteria> neighbor_criteria,
     const argtype& args) : TrialFactory() {
   Arguments args_(args);
+  args_.dont_check();
   ASSERT(!args_.key("tunable_param").used(),
     "tunable_param args should not be used in this constructor");
   argtype rot_args = args;

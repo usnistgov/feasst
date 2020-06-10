@@ -1,0 +1,11 @@
+name: feasst
+channels:
+  - anaconda
+dependencies:
+  - python=3.7
+  - pandas
+  - scipy
+  - matplotlib=3.1
+  - jupyter
+  - swig=3.0.12
+  - cmake=3.12.2
