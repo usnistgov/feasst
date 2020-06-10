@@ -41,8 +41,8 @@ def monte_carlo(proc=0,                          # processor number
     if monte_carlo0.system().configuration().particle_type(0).num_sites() > 1:
         monte_carlo0.add(fst.MakeTrialRotate(fst.args(
             {"weight": "0.375", "tunable_param": "2."})))
-    fst.add_trial_transfer(monte_carlo0, fst.args(
-        {"weight": "0.125", "particle_type": "0"}))
+    monte_carlo0.add(fst.MakeTrialTransfer(fst.args(
+        {"weight": "0.125", "particle_type": "0"})))
 
     min_macro = int(criteria.macrostate().histogram().center_of_bin(0))
     # print("seeking", min_macro)

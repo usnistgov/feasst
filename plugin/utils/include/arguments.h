@@ -79,6 +79,16 @@ class Arguments {
   /// Don't check for unused arguments upon destruction.
   void dont_check() { check_ = false; }
 
+  // The following functions ease manipulation of argtypes
+
+  /// Return argtype after removing any pair with the given first index.
+  argtype remove(const std::string first, const argtype& args) const;
+
+  /// Return argtype after appending onto pair with given first index.
+  argtype append(const std::string append,
+                 const std::string first,
+                 const argtype& args) const;
+
   ~Arguments() { if (check_) check_all_used(); }
 
  private:

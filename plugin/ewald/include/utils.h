@@ -7,10 +7,6 @@
 
 namespace feasst {
 
-/// Initialize an add and remove trial simultaneously with the same arguments.
-void add_trial_transfer_multiple(MonteCarlo * mc,
-                                 const argtype& args = argtype());
-
 /**
 Convert a temperature in units of Kelvin to energy in units of kJ/mol
 after multiplying by the ideal gas constant.

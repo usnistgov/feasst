@@ -6,19 +6,20 @@
    EnergyMapAllCriteria
    SelectParticleAVB
    SelectCluster
-   PerturbPointReflect
-   TrialAVB2
+   TrialAVB2Half
    TrialRemoveAVB
    TrialAddAVB
    TrialAVB4
+   TrialAVB2
+   TrialTransferAVB
    TrialTranslateCluster
-   utils_cluster
    ComputeMoveCluster
    ComputeAddAVB
    ComputeRemoveAVB
    ComputeGCA
    ComputeAVB2
    ComputeAVB4
+   PerturbPointReflect
    PerturbRotateCOM
    PerturbMoveAVB
    PerturbAddAVB

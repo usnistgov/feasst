@@ -64,6 +64,17 @@ These branch names must begin with the characters "dead".
 * No rules. Code may not compile.
   HINT: rename branches with "git branch -m <newname>"
 
+Pull requests
+--------------------------------------------------------------------------------
+
+To create a pull request, fork the usnistgov repo, create a new branch with your changes, and add the pull request, as detailed in https://opensource.com/article/19/7/create-pull-request-github
+
+To incorporate the pull request into feasst
+- git fetch usnistgov pull/ID/head:BRANCHNAME
+- git checkout BRANCHNAME
+- [make local changes]
+- git push usnistgov BRANCHNAME
+
 Tools
 ================================================================================
 
@@ -334,3 +345,7 @@ To Do List
 * Document utils lj, spce, rpm in tutorials
 * Cell list uses slow wrap method
 * Add a FAQ for common compile errors: "no known conversion from brace-enclosed initializer list to const argtype&" often means that a parameter was not converted to a string.
+* Make a CONTRIBUTING that describes how to make a pull request
+* Make a CachedRandom and CachedPotential for prefetch and avoid if statements that could slow down serial simulations.
+* remove tutorial/fh.py
+* Tuner->Tune

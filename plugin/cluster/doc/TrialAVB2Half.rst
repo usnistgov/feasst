@@ -1,5 +1,6 @@
-monte_carlo/include/utils
+TrialAVB2Half
 =====================================================
 
-.. doxygenfile:: monte_carlo/include/utils.h
+.. doxygenclass:: feasst::TrialAVB2Half
    :project: FEASST
+   :members:

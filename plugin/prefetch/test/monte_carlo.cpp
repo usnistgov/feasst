@@ -1,13 +1,15 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
 #include "system/include/utils.h"
-#include "monte_carlo/include/utils.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial_add.h"
+#include "monte_carlo/include/trial_remove.h"
 #include "prefetch/include/prefetch.h"
 #include "steppers/include/criteria_updater.h"
-#include "steppers/include/utils.h"
+#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/log_and_movie.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/flat_histogram.h"
@@ -19,8 +21,8 @@ TEST(Prefetch, NVT_benchmark) {
   mc.set(lennard_jones());
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  add_common_steppers(&mc, {{"steps_per", str(1e1)},
-                            {"file_append", "tmp/lj"}});
+  mc.add(MakeLogAndMovie({{"steps_per", str(1e1)}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e1)}}));
   // mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.activate_prefetch(false);
   SeekNumParticles(50).with_trial_add().run(&mc);
@@ -37,14 +39,15 @@ TEST(Prefetch, MUVT) {
   mc->set(lennard_jones());
   mc->set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  add_common_steppers(mc.get(), {{"steps_per", str(1e1)},
-                                 {"file_append", "tmp/lj"}});
+  mc->add(MakeLogAndMovie({{"steps_per", str(1e1)}, {"file_name", "tmp/lj"}}));
+  mc->add(MakeCheckEnergyAndTune({{"steps_per", str(1e1)}}));
   //mc_lj(mc.get(), 8, "../forcefield/data.lj", 1e1, true, false);
   // mc->set(MakeRandomMT19937({{"seed", "default"}}));
   // mc->set(MakeRandomMT19937({{"seed", "1578665877"}}));
   // mc->set(MakeRandomMT19937({{"seed", "1578667496"}}));
   mc->set(MakeRandomMT19937({{"seed", "1804289383"}}));
-  add_trial_transfer(mc.get(), {{"particle_type", "0"}});
+  mc->add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc->add(MakeTrialRemove({{"particle_type", "0"}}));
   // mc->set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-2"}}));
   mc->set(MakeFlatHistogram(
     MakeMacrostateNumParticles(

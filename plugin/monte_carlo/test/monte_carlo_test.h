@@ -4,7 +4,6 @@
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_cell.h"
 #include "system/include/lennard_jones.h"
-#include "steppers/include/utils.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_compute_add.h"

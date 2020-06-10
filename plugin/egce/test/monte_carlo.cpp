@@ -7,24 +7,24 @@
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_rotate.h"
-#include "monte_carlo/include/utils.h"
+#include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/cpu_time.h"
 #include "steppers/include/criteria_updater.h"
+#include "steppers/include/criteria_writer.h"
 #include "steppers/include/energy.h"
-#include "steppers/include/utils.h"
+#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/log_and_movie.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/wang_landau.h"
-#include "steppers/include/criteria_writer.h"
-#include "steppers/include/utils.h"
 #include "ewald/include/check_net_charge.h"
 #include "ewald/include/utils.h"
 #include "ewald/include/charge_screened.h"
 #include "cluster/include/energy_map_all.h"
-#include "cluster/include/utils_cluster.h"
+#include "cluster/include/trial_transfer_avb.h"
 #include "egce/include/a_equal_b.h"
 #include "egce/include/a_half_b.h"
 
@@ -57,10 +57,9 @@ MonteCarlo rpm_egce(const int min = 0, const std::string dual_cut = "-1") {
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaWriter({{"steps_per", str(steps_per)},
                              {"file_name", "tmp/rpm_egce_crit.txt"}}));
-  add_common_steppers(&mc, {{"steps_per", str(steps_per)},
-                            {"file_append", "tmp/rpm_egce"}});
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/rpm_egce"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", "1e-8"}}));
   // mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
-  mc.add(MakeCheckEnergy({{"tolerance", "1e-8"}, {"steps_per", str(steps_per)}}));
   // mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));
   mc.add(MakeCheckNetCharge({{"maximum", "1."}, {"minimum", str(-NEAR_ZERO)}}));
   mc.add(MakeEnergy({
@@ -88,16 +87,17 @@ TEST(MonteCarlo, rpm_egce_fh_LONG) {
       {"tunable_param", "0.1"},
       {"reference_index", ref},
       {"num_steps", str(num_steps)}}));
-    add_trial_transfer(&mc, {
+    mc.add(MakeTrialTransfer({
       {"weight", "1."},
       {"particle_type", "0"},
       {"reference_index", ref},
-      {"num_steps", str(num_steps)}});
-    add_trial_transfer(&mc, {
+      {"num_steps", str(num_steps)}}));
+    mc.add(MakeTrialTransfer({
+      {"weight", "1."},
       {"weight", "1."},
       {"particle_type", "1"},
       {"reference_index", ref},
-      {"num_steps", str(num_steps)}});
+      {"num_steps", str(num_steps)}}));
     MonteCarlo mc2 = test_serialize(mc);
     mc2.run_until_complete();
 
@@ -120,8 +120,8 @@ TEST(MonteCarlo, rpm_egce_fh_LONG) {
 TEST(MonteCarlo, rpm_egce_fh_min1_LONG) {
   MonteCarlo mc = rpm_egce(1);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
-  add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
-  add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "1"}});
+  mc.add(MakeTrialTransfer({{"weight", "1."}, {"particle_type", "0"}}));
+  mc.add(MakeTrialTransfer({{"weight", "1."}, {"particle_type", "1"}}));
   mc.run_until_complete();
   test_serialize(mc);
 
@@ -153,14 +153,14 @@ TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
                                                  {"site_type0", "0"},
                                                  {"site_type1", "1"},
                                                  {"potential_index", "1"}});
-  add_avb_transfer_trials(&mc, neighbor_criteria,
+  mc.add(MakeTrialTransferAVB(neighbor_criteria,
     { {"weight", "1."},
       {"particle_type", "0"},
-      {"target_particle_type", "1"}});
-  add_avb_transfer_trials(&mc, neighbor_criteria,
+      {"target_particle_type", "1"}}));
+  mc.add(MakeTrialTransferAVB(neighbor_criteria,
     { {"weight", "1."},
       {"particle_type", "1"},
-      {"target_particle_type", "0"}});
+      {"target_particle_type", "0"}}));
   mc.run_until_complete();
   test_serialize(mc);
 
@@ -212,9 +212,8 @@ MonteCarlo dival_egce(
     {"steps_per", str(steps_per)},
     {"file_name", "tmp/dival_egce_crit.txt"},
   }));
-  add_common_steppers(&mc, {{"steps_per", str(steps_per)},
-                            {"file_append", "tmp/dival_egce"},
-                            {"tolerance", "1e-4"}});
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/dival_egce"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-4)}}));
   const double charge_minus = mc.configuration().model_params().charge().value(1);
   mc.add(MakeCheckNetCharge({{"steps_per", str(steps_per)},
                              {"maximum", str(-charge_minus)},
@@ -290,8 +289,8 @@ TEST(MonteCarlo, rpm_egce_divalent_LONG) {
   const int min = 0;
   MonteCarlo mc = dival_egce(min);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
-  add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
-  add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "1"}});
+  mc.add(MakeTrialTransfer({{"weight", "1."}, {"particle_type", "0"}}));
+  mc.add(MakeTrialTransfer({{"weight", "1."}, {"particle_type", "1"}}));
   mc.run_until_complete();
   compare_lnpi_en(mc, min);
 }
@@ -300,8 +299,8 @@ TEST(MonteCarlo, rpm_egce_min1_divalent_LONG) {
   const int min = 1;
   MonteCarlo mc = dival_egce(1);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
-  add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
-  add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "1"}});
+  mc.add(MakeTrialTransfer({{"weight", "1."}, {"particle_type", "0"}}));
+  mc.add(MakeTrialTransfer({{"weight", "1."}, {"particle_type", "1"}}));
   mc.run_until_complete();
   compare_lnpi_en(mc, min);
 }
@@ -327,14 +326,14 @@ TEST(MonteCarlo, rpm_egce_avb_divalent_LONG) {
                                                  {"site_type0", "0"},
                                                  {"site_type1", "1"},
                                                  {"potential_index", "1"}});
-  add_avb_transfer_trials(&mc, neighbor_criteria,
+  mc.add(MakeTrialTransferAVB(neighbor_criteria,
     { {"weight", "1."},
       {"particle_type", "0"},
-      {"target_particle_type", "1"}});
-  add_avb_transfer_trials(&mc, neighbor_criteria,
+      {"target_particle_type", "1"}}));
+  mc.add(MakeTrialTransferAVB(neighbor_criteria,
     { {"weight", "1."},
       {"particle_type", "1"},
-      {"target_particle_type", "0"}});
+      {"target_particle_type", "0"}}));
   mc.run_until_complete();
   compare_lnpi_en(mc, min);
 }
@@ -352,16 +351,16 @@ TEST(MonteCarlo, rpm_egce_divalent_avb_and_not) {
                                                  {"site_type0", "0"},
                                                  {"site_type1", "1"},
                                                  {"potential_index", "1"}});
-  add_trial_transfer(&mc, {{"particle_type", "0"}});
-  add_trial_transfer(&mc, {{"particle_type", "1"}});
-  add_avb_transfer_trials(&mc, neighbor_criteria,
+  mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
+  mc.add(MakeTrialTransfer({{"particle_type", "1"}}));
+  mc.add(MakeTrialTransferAVB(neighbor_criteria,
     { {"weight", "1."},
       {"particle_type", "0"},
-      {"target_particle_type", "1"}});
-  add_avb_transfer_trials(&mc, neighbor_criteria,
+      {"target_particle_type", "1"}}));
+  mc.add(MakeTrialTransferAVB(neighbor_criteria,
     { {"weight", "1."},
       {"particle_type", "1"},
-      {"target_particle_type", "0"}});
+      {"target_particle_type", "0"}}));
   mc.attempt(2*steps_per);
 }
 

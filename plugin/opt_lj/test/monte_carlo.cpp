@@ -4,7 +4,7 @@
 #include "system/include/utils.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trial_factory.h"
-#include "monte_carlo/include/utils.h"
+#include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"

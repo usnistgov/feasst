@@ -65,9 +65,9 @@ def mc(
     nmax = num_particles + args.window_half_width
     if not args.nofh:
         feasst.SeekNumParticles(nmin).with_trial_add().run(monte_carlo)
-    feasst.add_trial_transfer(monte_carlo, feasst.args({
+    monte_carlo.add(feasst.MakeTrialTransfer(feasst.args({
         "weight": "1",
-        "particle_type": "0"}))
+        "particle_type": "0"})))
     if not args.nofh:
         monte_carlo.set(fh.criteria_flathist(
             temperature=args.temperature,

@@ -6,10 +6,10 @@
    SelectSegment
    SelectEndSegment
    SelectReptate
-   PerturbReptate
    AnalyzeRigidBonds
    RecenterParticles
    TrialSwapSites
+   PerturbReptate
    TrialPivot
    TrialReptate
    TrialCrankshaft

@@ -11,15 +11,13 @@ int main() {
   mc.add(feasst::MakeTrialTranslate(
     {{"tunable_param", "2."}, {"tunable_target_acceptance", "0.2"}}));
   const int steps_per = 1e3;
-  mc.add(feasst::MakeTuner({{"steps_per", feasst::str(steps_per)}}));
+  mc.add(feasst::MakeCheckEnergyAndTune(
+   {{"steps_per", feasst::str(steps_per)}, {"tolerance", "1e-8"}}));
   feasst::SeekNumParticles(50)
     .with_metropolis({{"beta", "0.1"}, {"chemical_potential", "10"}})
     .with_trial_add()
     .run(&mc);
-  mc.add(feasst::MakeLog({{"steps_per", feasst::str(steps_per)}}));
-  mc.add(feasst::MakeMovie(
-   {{"steps_per", feasst::str(steps_per)}, {"file_name", "movie.xyz"}}));
-  mc.add(feasst::MakeCheckEnergy(
-   {{"steps_per", feasst::str(steps_per)}, {"tolerance", "1e-8"}}));
+  mc.add(feasst::MakeLogAndMovie(
+   {{"steps_per", feasst::str(steps_per)}, {"file_name", "lj"}}));
   mc.attempt(1e5);
 }

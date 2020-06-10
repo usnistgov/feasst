@@ -1,5 +1,6 @@
-steppers/include/utils
+TrialTransferAVB
 =====================================================
 
-.. doxygenfile:: steppers/include/utils.h
+.. doxygenclass:: feasst::TrialTransferAVB
    :project: FEASST
+   :members:

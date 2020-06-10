@@ -236,6 +236,10 @@ class MonteCarlo {
   bool criteria_set_ = false;
 };
 
+inline std::shared_ptr<MonteCarlo> MakeMonteCarlo() {
+  return std::make_shared<MonteCarlo>();
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_MONTE_CARLO_MONTE_CARLO_H_

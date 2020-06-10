@@ -4,23 +4,16 @@
 
 #include <memory>
 #include "utils/include/arguments.h"
-#include "monte_carlo/include/trial.h"
+#include "monte_carlo/include/trial_factory.h"
 #include "system/include/neighbor_criteria.h"
 
 namespace feasst {
 
-class TrialAVB2 : public Trial {
+/// Attempt AVB2 with both in->out and out->in with equal probability.
+class TrialAVB2 : public TrialFactory {
  public:
-  TrialAVB2(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
+  explicit TrialAVB2(std::shared_ptr<NeighborCriteria> neighbor_criteria,
     const argtype& args = argtype());
-  std::shared_ptr<Trial> create(std::istream& istr) const override;
-  void serialize(std::ostream& ostr) const override;
-  explicit TrialAVB2(std::istream& istr);
-  virtual ~TrialAVB2() {}
-
- protected:
-  void serialize_trial_avb2_(std::ostream& ostr) const;
 };
 
 inline std::shared_ptr<TrialAVB2> MakeTrialAVB2(

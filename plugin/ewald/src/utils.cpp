@@ -24,11 +24,6 @@
 
 namespace feasst {
 
-void add_trial_transfer_multiple(MonteCarlo * mc, const argtype& args) {
-  mc->add(MakeTrialAddMultiple(args));
-  mc->add(MakeTrialRemoveMultiple(args));
-}
-
 double kelvin2kJpermol(const double kelvin) {
   ModelParams model_params;
   const double R = model_params.physical_constants().ideal_gas_constant();

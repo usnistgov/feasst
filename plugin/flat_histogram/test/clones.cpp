@@ -1,11 +1,12 @@
 #include "utils/test/utils.h"
 #include "utils/include/checkpoint.h"
 #include "system/include/utils.h"
-#include "monte_carlo/include/utils.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/trial_translate.h"
-#include "steppers/include/utils.h"
+#include "monte_carlo/include/trial_transfer.h"
+#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/log_and_movie.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
 #include "flat_histogram/include/flat_histogram.h"
@@ -22,7 +23,7 @@ MonteCarlo monte_carlo(const int thread, const int min, const int max) {
   mc.set(lennard_jones());
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  add_trial_transfer(&mc, {{"particle_type", "0"}, {"weight", "4"}});
+  mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
   mc.add(MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
@@ -65,9 +66,9 @@ TEST(Clones, lj_fh) {
     DEBUG(bound[0] << " " << bound[1]);
     auto clone = std::make_shared<MonteCarlo>(monte_carlo(index, bound[0], bound[1]));
     if (index == 0 && bound[0] > 0) SeekNumParticles(bound[0]).run(clone.get());
-    add_common_steppers(clone.get(),
-      { {"steps_per", str(1e5)},
-        {"file_append", "tmp/clones" + str(clones.num())}});
+    clone->add(MakeLogAndMovie({{"steps_per", str(1e5)},
+      {"file_name", "tmp/clones" + str(clones.num())}}));
+    clone->add(MakeCheckEnergyAndTune({{"steps_per", str(1e5)}}));
     clones.add(clone);
   }
   Clones clones2 = test_serialize(clones);

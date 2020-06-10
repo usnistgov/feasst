@@ -72,7 +72,6 @@ void TrialFactory::imitate_trial_rejection_(const int index) {
 
 std::string TrialFactory::status_header() const {
   std::stringstream ss;
-  ss << ",attempt";
   for (int trial = 0; trial < num(); ++trial) {
     ss << trials_[trial]->status_header();
   }
@@ -81,7 +80,6 @@ std::string TrialFactory::status_header() const {
 
 std::string TrialFactory::status() const {
   std::stringstream ss;
-  ss << "," << num_attempts();
   for (int trial = 0; trial < num(); ++trial) {
     ss << trials_[trial]->status();
   }

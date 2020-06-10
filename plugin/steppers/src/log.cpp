@@ -26,6 +26,9 @@ void Log::initialize(Criteria * criteria,
   std::stringstream ss;
   ss << system->status_header()
      << criteria->status_header()
+     // print number of attempts here instead of TrialFactory header because
+     // multiple factories makes it redundant.
+     << ",attempt"
      << trial_factory->status_header()
      << std::endl;
   printer(ss.str());
@@ -38,6 +41,7 @@ std::string Log::write(const Criteria& criteria,
   std::stringstream ss;
   ss << system.status()
      << criteria.status()
+     << "," << trial_factory.num_attempts()
      << trial_factory.status()
      << std::endl;
   return ss.str();

@@ -131,4 +131,26 @@ std::string Arguments::status() const {
   return ss.str();
 }
 
+argtype Arguments::remove(const std::string first, const argtype& args) const {
+  argtype new_args = args;
+  auto pair = new_args.find(first);
+  if (pair != new_args.end()) {
+    new_args.erase(pair);
+  }
+  return new_args;
+}
+
+argtype Arguments::append(const std::string append,
+                          const std::string first,
+                          const argtype& args) const {
+  argtype new_args = args;
+  auto pair = new_args.find(first);
+  if (pair != new_args.end()) {
+    const std::string second = pair->second;
+    new_args.erase(pair);
+    new_args.insert({first, second + append}); 
+  }
+  return new_args;
+}
+
 }  // namespace feasst

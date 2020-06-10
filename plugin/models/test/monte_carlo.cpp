@@ -6,10 +6,10 @@
 #include "configuration/include/domain.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/trial_rotate.h"
+#include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
 #include "monte_carlo/include/metropolis.h"
-#include "monte_carlo/include/utils.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"
@@ -46,7 +46,7 @@ TEST(MonteCarlo, trimer) {
   mc.set(MakeMetropolis({{"beta", "4"}, {"chemical_potential", "-1"}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "1."}}));
-  add_trial_transfer(&mc, {{"particle_type", "0"}});
+  mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
   mc.add(MakeCheckEnergy(
    {{"steps_per", "100"},
     {"tolerance", "1e-10"}}));

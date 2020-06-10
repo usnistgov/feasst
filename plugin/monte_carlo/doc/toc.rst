@@ -14,9 +14,6 @@
    TrialSelectAngle
    TrialSelectParticle
    Perturb
-   PerturbMove
-   PerturbTranslate
-   PerturbDistance
    TrialStage
    TrialCompute
    Trial
@@ -27,12 +24,15 @@
    Modify
    ModifyFactory
    MonteCarlo
-   utils
    SeekNumParticles
+   TrialTransfer
    TrialAdd
    TrialComputeAdd
    TrialComputeRemove
    TrialComputeMove
+   PerturbMove
+   PerturbTranslate
+   PerturbDistance
    TrialMove
    TrialTranslate
    PerturbRotate

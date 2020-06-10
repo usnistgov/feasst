@@ -87,4 +87,20 @@ void TrialRotateCluster::serialize(std::ostream& ostr) const {
   serialize_trial_rotate_cluster_(ostr);
 }
 
+TrialRigidCluster::TrialRigidCluster(
+    std::shared_ptr<NeighborCriteria> neighbor_criteria,
+    const argtype& args) : TrialFactory() {
+  Arguments args_(args);
+  ASSERT(!args_.key("tunable_param").used(),
+    "tunable_param args should not be used in this constructor");
+  argtype rot_args = args;
+  argtype trans_args = args;
+  trans_args.insert({"tunable_param",
+    args_.key("translate_param").dflt("0.1").str()});
+  rot_args.insert({"tunable_param",
+    args_.key("rotate_param").dflt("25").str()});
+  add(MakeTrialTranslateCluster(neighbor_criteria, trans_args));
+  add(MakeTrialRotateCluster(neighbor_criteria, rot_args));
+}
+
 }  // namespace feasst

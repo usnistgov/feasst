@@ -5,6 +5,7 @@
 #include <memory>
 #include "utils/include/arguments.h"
 #include "monte_carlo/include/trial.h"
+#include "monte_carlo/include/trial_factory.h"
 
 namespace feasst {
 
@@ -52,6 +53,24 @@ inline std::shared_ptr<TrialRotateCluster> MakeTrialRotateCluster(
     std::shared_ptr<NeighborCriteria> neighbor_criteria,
     const argtype &args = argtype()) {
   return std::make_shared<TrialRotateCluster>(neighbor_criteria, args);
+}
+
+/// Attempt TrialTranslateCluster and TrialRotateCluster with equal probability.
+class TrialRigidCluster : public TrialFactory {
+ public:
+  /**
+    args:
+    - rotate_param: initial value of the tunable parameter (default: 25).
+    - translate_param: initial value of the tunable parameter (default: 0.1).
+   */
+  explicit TrialRigidCluster(std::shared_ptr<NeighborCriteria> neighbor_criteria,
+    const argtype& args = argtype());
+};
+
+inline std::shared_ptr<TrialRigidCluster> MakeTrialRigidCluster(
+    std::shared_ptr<NeighborCriteria> neighbor_criteria,
+    const argtype &args = argtype()) {
+  return std::make_shared<TrialRigidCluster>(neighbor_criteria, args);
 }
 
 }  // namespace feasst

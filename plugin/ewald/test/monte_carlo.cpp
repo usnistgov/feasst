@@ -12,11 +12,12 @@
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_translate.h"
-#include "monte_carlo/include/utils.h"
+#include "monte_carlo/include/trial_transfer.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/check_physicality.h"
 #include "steppers/include/cpu_time.h"
-#include "steppers/include/utils.h"
+#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/log_and_movie.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/num_particles.h"
 #include "ewald/include/trial_add_multiple.h"
@@ -48,10 +49,8 @@ TEST(MonteCarlo, spce_nvt_LONG) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   EXPECT_NEAR(mc.criteria().current_energy(), -24027.470339718111, 1e-10);
-  // add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
-  add_common_steppers(&mc, {{"steps_per", str(steps_per)},
-                            {"file_append", "tmp/spce_nvt"},
-                            {"tolerance", str(1e-6)}});
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_nvt"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
   // mc.seek_num_particles(512);
   // FileXYZ().write("spce_sample_config_hummer_eq.xyz", mc.configuration());
   mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
@@ -89,14 +88,13 @@ TEST(MonteCarlo, spce_gce_LONG) {
     {"chemical_potential", "-35.294567543492"}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
-  add_trial_transfer(&mc,
-    { {"weight", "1."},
-      {"particle_type", "0"},
-      {"num_steps", "4"},
-      {"reference_index", "0"}});
-  add_common_steppers(&mc, {{"steps_per", str(steps_per)},
-                            {"file_append", "tmp/spce_gce"},
-                            {"tolerance", str(1e-6)}});
+  mc.add(MakeTrialTransfer({
+    {"weight", "1."},
+    {"particle_type", "0"},
+    {"num_steps", "4"},
+    {"reference_index", "0"}}));
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_gce"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
   mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
   auto num = MakeNumParticles({{"steps_per_write", str(steps_per)},
                                {"file_name", "tmp/spce_gce_num.txt"},
@@ -116,10 +114,9 @@ TEST(MonteCarlo, spce) {
     {"chemical_potential", "-35.294567543492"}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
-  add_trial_transfer(&mc, {{"weight", "1."}, {"particle_type", "0"}});
-  add_common_steppers(&mc, {{"steps_per", str(5e2)},
-                            {"file_append", "tmp/spce"},
-                            {"tolerance", str(1e-6)}});
+  mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
+  mc.add(MakeLogAndMovie({{"steps_per", str(5e2)}, {"file_name", "tmp/spce"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(5e2)}, {"tolerance", str(1e-6)}}));
   mc.attempt(1e3);
 }
 
@@ -153,8 +150,8 @@ TEST(MonteCarlo, rpm) {
   mc.add(MakeCheckPhysicality({{"steps_per", str(steps_per)}}));
   mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));
   mc.add(MakeCheckNetCharge());
-  add_common_steppers(&mc, {{"steps_per", str(steps_per)},
-                            {"file_append", "tmp/rpm"}});
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/rpm"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
   mc.attempt(1e3);
   test_serialize(mc);
 }

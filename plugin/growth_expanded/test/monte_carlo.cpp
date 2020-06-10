@@ -10,6 +10,8 @@
 #include "flat_histogram/include/wang_landau.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
+#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/log_and_movie.h"
 #include "growth_expanded/include/trial_growth_expanded.h"
 #include "growth_expanded/include/macrostate_growth_expanded.h"
 
@@ -21,8 +23,8 @@ TEST(MonteCarlo, TrialGrowthExpanded) {
   mc.set(lennard_jones({{"particle", data}}));
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  add_common_steppers(&mc, {{"steps_per", str(1e2)},
-                            {"file_append", "tmp/growth"}});
+  mc.add(MakeLogAndMovie({{"steps_per", str(1e2)}, {"file_name", "tmp/growth"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e2)}}));
   mc.set(MakeMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));
   SeekNumParticles(4).with_trial_add().run(&mc);
   mc.set(MakeFlatHistogram(

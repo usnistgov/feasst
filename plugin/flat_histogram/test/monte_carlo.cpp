@@ -7,21 +7,24 @@
 #include "system/include/utils.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
-#include "monte_carlo/include/utils.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial_transfer.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/cpu_time.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/check_physicality.h"
+#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/log_and_movie.h"
 #include "ewald/include/ewald.h"
 #include "ewald/include/charge_screened.h"
 #include "ewald/include/charge_self.h"
 #include "ewald/include/check_net_charge.h"
 #include "ewald/include/utils.h"
+#include "ewald/include/trial_transfer_multiple.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
 #include "flat_histogram/include/transition_matrix.h"
@@ -65,11 +68,11 @@ TEST(MonteCarlo, lj_fh) {
         {"reference_index", str(ref)},
         {"num_steps", str(num_steps)}}));
       SeekNumParticles(1).with_trial_add().run(&mc);
-      add_trial_transfer(&mc,
-        { {"particle_type", "0"},
-          {"reference_index", str(ref)},
-          {"num_steps", str(num_steps)},
-          {"weight", "4"}});
+      mc.add(MakeTrialTransfer({
+        {"particle_type", "0"},
+        {"reference_index", str(ref)},
+        {"num_steps", str(num_steps)},
+        {"weight", "4"}}));
       std::shared_ptr<Bias> bias;
       if (bias_name == "TM") {
         bias = MakeTransitionMatrix({{"min_sweeps", "10"}});
@@ -93,8 +96,8 @@ TEST(MonteCarlo, lj_fh) {
       mc.set(criteria);
       const std::string steps_per(str(1e4));
       // const std::string steps_per(str(1e4));
-      add_common_steppers(&mc, {{"steps_per", steps_per},
-                                {"file_append", "tmp/lj_fh"}});
+      mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj_fh"}}));
+      mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
       mc.add(MakeCriteriaUpdater({{"steps_per", str(1)}}));
       mc.add(MakeCriteriaWriter({
         {"steps_per", steps_per},
@@ -168,7 +171,7 @@ TEST(MonteCarlo, spce_fh_LONG) {
       {"chemical_potential", "-35.294567543492"}}));
     mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
     mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
-    add_trial_transfer(&mc, {{"particle_type", "0"}, {"weight", "4"}});
+    mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
     const double R = mc.configuration().physical_constants().ideal_gas_constant();
     const double temperature = 525*R/1000; // KJ/mol
     const double chemical_potential = -35.294567543492;
@@ -185,8 +188,8 @@ TEST(MonteCarlo, spce_fh_LONG) {
        {"chemical_potential", str(chemical_potential)}});
     mc.set(criteria);
     const int steps_per = 1e5;
-    add_common_steppers(&mc, {{"steps_per", str(steps_per)},
-                              {"file_append", "tmp/spce_fh"}});
+    mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_fh"}}));
+    mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
     mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
     mc.add(MakeCriteriaWriter({
       {"steps_per", str(steps_per)},
@@ -260,11 +263,11 @@ TEST(MonteCarlo, rpm_fh_LONG) {
   mc.set(criteria);
   INFO("beta_mu " << criteria->beta_mu(0));
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
-  add_trial_transfer_multiple(&mc, {
+  mc.add(MakeTrialTransferMultiple({
     {"weight", "4."},
     {"particle_type0", "0"},
     {"particle_type1", "1"},
-    {"reference_index", "0"}});
+    {"reference_index", "0"}}));
 
   const int steps_per = 1e5;
   if (criteria->bias().class_name() == "TransitionMatrix") {
@@ -278,8 +281,8 @@ TEST(MonteCarlo, rpm_fh_LONG) {
   mc.add(MakeCheckPhysicality({{"steps_per", str(steps_per)}}));
   // mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));
   mc.add(MakeCheckNetCharge());
-  add_common_steppers(&mc, {{"steps_per", str(steps_per)},
-                            {"file_append", "tmp/rpm_fh"}});
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/rpm_fh"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
   mc.add(MakeEnergy({
     {"file_name", "tmp/rpm_fh_energy"},
     {"steps_per_update", "1"},
@@ -327,12 +330,12 @@ TEST(MonteCarlo, rpm_fh_divalent_LONG) {
      {"chemical_potential1", str(beta_mu*temperature)}});
   mc.set(criteria);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
-  add_trial_transfer_multiple(&mc, {
+  mc.add(MakeTrialTransferMultiple({
     {"weight", "1."},
     {"particle_type0", "0"},
     {"particle_type1", "1"},
     {"particle_type2", "1"},
-    {"reference_index", "0"}});
+    {"reference_index", "0"}}));
 //  auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "1.5"},
 //                                                 {"minimum_distance", "1"},
 //                                                 {"site_type0", "0"},
@@ -347,9 +350,8 @@ TEST(MonteCarlo, rpm_fh_divalent_LONG) {
     {"steps_per", str(steps_per)},
     {"file_name", "tmp/dival_fh_crit.txt"},
   }));
-  add_common_steppers(&mc, {{"steps_per", str(steps_per)},
-                            {"file_append", "tmp/dival_fh"},
-                            {"tolerance", "1e-4"}});
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/dival_fh"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-4)}}));
   mc.add(MakeCheckNetCharge({{"steps_per", str(steps_per)}}));
   const int en_index = mc.num_analyzers();
   mc.add(MakeEnergy({
