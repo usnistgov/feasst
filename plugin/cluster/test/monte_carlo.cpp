@@ -14,6 +14,7 @@
 #include "steppers/include/check_energy.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/energy.h"
+#include "steppers/include/check_energy.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "cluster/include/energy_map_all.h"
@@ -69,6 +70,12 @@ TEST(MonteCarlo, cluster) {
     } else {
       EXPECT_EQ(scluster.mobile().num_particles(), cluster_size);
     }
+
+    // ensure TrialFactory still tunes
+    int rigid_index = 0;
+    if (single_particle_translate) rigid_index = 1;
+    EXPECT_NE(mc.trial(rigid_index).trial(0).stage(0).perturb().tunable().value(), 1.);
+    EXPECT_NE(mc.trial(rigid_index).trial(1).stage(0).perturb().tunable().value(), 50.);
   }
 }
 

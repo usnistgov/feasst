@@ -119,6 +119,10 @@ class Trial {
   // Check if approximately equal to given trial.
   bool is_equal(const Trial& trial) const;
 
+  // Access to factory of Trial objects.
+  virtual const std::vector<std::shared_ptr<Trial> >& trials() const;
+  virtual const Trial& trial(const int index) const;
+
   // serialize
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;

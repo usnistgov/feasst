@@ -10,12 +10,13 @@ For help in discussion or testing (alphabetical)
 * Dr. Joseph Curtis
 * Dr. Tamoghna Das
 * Prof. Pablo Debenedetti
+* Jingxiang Guo
 * Steven W. Hall
 * Dr. Steven Howell
 * Sally Jiao
 * Dr. William P. Krekelberg
 * Dr. Nathan Mahynski
-* T. Ann Maula
+* Tiara Ann Maula
 * Gordon W. McCann
 * Prof. Jeetain Mittal
 * Prof. Jeremy Palmer
@@ -33,6 +34,8 @@ Publications
 
 Here is a list of publications which use FEASST:
 
+#. https://doi.org/10.1039/C9SM01877H
+#. https://doi.org/10.6028/jres.124.032
 #. https://doi.org/10.1063/1.5123683
 #. https://doi.org/10.1039/C9ME00006B
 #. https://doi.org/10.1016/j.xphs.2018.12.013

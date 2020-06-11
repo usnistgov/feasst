@@ -50,7 +50,7 @@ double energy_av(const int macro, const MonteCarlo& mc) {
 //}
 
 TEST(MonteCarlo, lj_fh) {
-  for (int num_steps : {1, 4}) {
+  for (int num_steps : {1, 2}) {
     for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
       MonteCarlo mc;
       // mc.set(MakeRandomMT19937({{"seed", "default"}}));
@@ -101,14 +101,12 @@ TEST(MonteCarlo, lj_fh) {
       mc.add(MakeCriteriaUpdater({{"steps_per", str(1)}}));
       mc.add(MakeCriteriaWriter({
         {"steps_per", steps_per},
-        {"file_name", "tmp/ljcrit.txt"},
-      }));
+        {"file_name", "tmp/ljcrit.txt"}}));
       mc.add(MakeEnergy({
         {"file_name", "wlmc_energy"},
         {"steps_per_update", "1"},
         {"steps_per_write", steps_per},
-        {"multistate", "true"},
-      }));
+        {"multistate", "true"}}));
       // mc.attempt(1e4);
       // mc.attempt(1e6); // note more than 1e4 steps required for TM
       mc.run_until_complete();
@@ -251,15 +249,12 @@ TEST(MonteCarlo, rpm_fh_LONG) {
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", "2"}, {"min", "0"}}),
-      {{"particle_type", "0"}}
-    ),
+      {{"particle_type", "0"}}),
     // MakeWangLandau({{"min_flatness", "15"}}),
     MakeTransitionMatrix({{"min_sweeps", "100"}}),
     {{"beta", str(1/temperature)},
      {"chemical_potential0", str(beta_mu*temperature)},
-     {"chemical_potential1", str(beta_mu*temperature)},
-    }
-  );
+     {"chemical_potential1", str(beta_mu*temperature)}});
   mc.set(criteria);
   INFO("beta_mu " << criteria->beta_mu(0));
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
@@ -268,15 +263,13 @@ TEST(MonteCarlo, rpm_fh_LONG) {
     {"particle_type0", "0"},
     {"particle_type1", "1"},
     {"reference_index", "0"}}));
-
   const int steps_per = 1e5;
   if (criteria->bias().class_name() == "TransitionMatrix") {
     mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   }
   mc.add(MakeCriteriaWriter({
     {"steps_per", str(steps_per)},
-    {"file_name", "tmp/rpmcrit.txt"},
-  }));
+    {"file_name", "tmp/rpmcrit.txt"}}));
   mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
   mc.add(MakeCheckPhysicality({{"steps_per", str(steps_per)}}));
   // mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));
@@ -348,8 +341,7 @@ TEST(MonteCarlo, rpm_fh_divalent_LONG) {
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaWriter({
     {"steps_per", str(steps_per)},
-    {"file_name", "tmp/dival_fh_crit.txt"},
-  }));
+    {"file_name", "tmp/dival_fh_crit.txt"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/dival_fh"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-4)}}));
   mc.add(MakeCheckNetCharge({{"steps_per", str(steps_per)}}));

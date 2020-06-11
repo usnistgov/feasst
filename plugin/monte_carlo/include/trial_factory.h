@@ -23,8 +23,11 @@ class TrialFactory : public Trial {
   int num() const { return static_cast<int>(trials_.size()); }
 
   /// Return a trial by index of the order trials were added.
-  const Trial& trial(const int index) const {
+  const Trial& trial(const int index) const override {
     return const_cast<Trial&>(*trials_[index]); }
+
+  const std::vector<std::shared_ptr<Trial> >& trials() const override {
+    return trials_; }
 
   /// Return the index of a trial selected with probability proportional to its
   /// weight.

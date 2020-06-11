@@ -6,6 +6,9 @@
 namespace feasst {
 
 TrialTransferMultiple::TrialTransferMultiple(const argtype& args) : TrialFactory() {
+  Arguments args_(args);
+  args_.dont_check();
+  set_weight(args_.key("weight").dflt("1.").dble());
   add(MakeTrialAddMultiple(args));
   add(MakeTrialRemoveMultiple(args));
 }

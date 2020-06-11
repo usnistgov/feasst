@@ -19,6 +19,7 @@
 #include "monte_carlo/include/trial_transfer.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/movie.h"
+#include "steppers/include/check_energy.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
 
@@ -144,12 +145,21 @@ TEST(MonteCarlo, GCMC) {
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
-  mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
+  mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
   mc.add(MakeNumParticles({{"steps_per_write", str(1e5)},
                            {"file_name", "tmp/ljnum.txt"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  mc.add(MakeCheckEnergy({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  //mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   mc.attempt(1e4);
+  EXPECT_NEAR(mc.trial(0).num_attempts(), 1e4/5, 100);
+  EXPECT_NEAR(mc.trial(1).num_attempts(), 1e4*4/5., 400);
+  EXPECT_NEAR(mc.trial(1).trial(0).num_attempts(), 1e4*2/5., 200);
+  EXPECT_NEAR(mc.trial(1).trial(1).num_attempts(), 1e4*2/5., 200);
+  INFO(mc.trial(0).num_attempts());
+  INFO(mc.trial(1).num_attempts());
+  INFO(mc.trial(1).trial(0).num_attempts());
+  INFO(mc.trial(1).trial(1).num_attempts());
 }
 
 TEST(MonteCarlo, GCMC_cell) {

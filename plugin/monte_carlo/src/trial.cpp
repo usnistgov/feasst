@@ -221,4 +221,12 @@ Trial::Trial(std::istream& istr) {
   feasst_deserialize(&is_finalize_delayed_, istr);
 }
 
+const std::vector<std::shared_ptr<Trial> >& Trial::trials() const {
+  FATAL("not implemented");
+}
+
+const Trial& Trial::trial(const int index) const {
+  FATAL("not implemented");
+}
+
 }  // namespace feasst

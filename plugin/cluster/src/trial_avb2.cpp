@@ -7,6 +7,10 @@ namespace feasst {
 TrialAVB2::TrialAVB2(
     std::shared_ptr<NeighborCriteria> neighbor_criteria,
     const argtype& args) : TrialFactory() {
+  Arguments args_(args);
+  args_.dont_check();
+  set_weight(args_.key("weight").dflt("1.").dble());
+
   argtype out2in_args(args);
   out2in_args.insert({"out_to_in", "true"});
   add(MakeTrialAVB2Half(neighbor_criteria, out2in_args));
