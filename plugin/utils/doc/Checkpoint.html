@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Checkpoint &mdash; FEASST v0.11.0 documentation</title>
+  <title>Checkpoint &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -138,6 +138,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -146,7 +147,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -272,8 +273,8 @@
 <dt id="_CPPv4N6feasst10Checkpoint10CheckpointERK7argtype">
 <span class="target" id="classfeasst_1_1Checkpoint_1acb0382dc2386654ded0a658245e61f08"></span><code class="sig-name descname">Checkpoint</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst10Checkpoint10CheckpointERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
-<li><p>num_hours: number of hours between printing of checkpoint file (default: 12).</p></li>
-<li><p>file_name: Output file name. The default is empty, and no checkpointing. </p></li>
+<li><p>num_hours: Number of hours between printing of checkpoint file (default: 12).</p></li>
+<li><p>file_name: The default is one space (e.g., ” “) and no checkpointing. </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -282,6 +283,24 @@
 <dt id="_CPPv4NK6feasst10Checkpoint9num_hoursEv">
 <span class="target" id="classfeasst_1_1Checkpoint_1a9fbb5d219648f9d7d2c17b1ca947a98d"></span>double <code class="sig-name descname">num_hours</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst10Checkpoint9num_hoursEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return number of hours between writing file. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst10Checkpoint5writeEvRK1T">
+<span class="target" id="classfeasst_1_1Checkpoint_1afb8ed016e720851a130e4c3c3642c068"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst10Checkpoint5writeEvRK1T" title="feasst::Checkpoint::write::T">T</a> &amp;<em>obj</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst10Checkpoint5writeEvRK1T" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write the checkpoint to file. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst10Checkpoint5checkEvRK1T">
+<span class="target" id="classfeasst_1_1Checkpoint_1ac25807c0c6f0ba73b544f739cecbc217"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">check</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst10Checkpoint5checkEvRK1T" title="feasst::Checkpoint::check::T">T</a> &amp;<em>obj</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst10Checkpoint5checkEvRK1T" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write object to file_name if num_hours has passed since previous. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst10Checkpoint4readEvP1T">
+<span class="target" id="classfeasst_1_1Checkpoint_1a4107a5411e2066eb722cdbe1bcff28fb"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">read</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6feasst10Checkpoint4readEvP1T" title="feasst::Checkpoint::read::T">T</a> *<em>obj</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst10Checkpoint4readEvP1T" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize object by reading from file. </p>
 </dd></dl>
 
 <dl class="cpp function">

@@ -1,6 +1,7 @@
 
 .. toctree::
 
+   LogAndMovie
    WallClockLimit
    CheckPhysicality
    Check
@@ -11,8 +12,8 @@
    Energy
    CriteriaWriter
    CheckEnergy
+   CheckEnergyAndTune
    Tuner
    CheckProperties
    CriteriaUpdater
    Movie
-   utils

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Domain &mdash; FEASST v0.11.0 documentation</title>
+  <title>Domain &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Configuration" href="Configuration.html" />
+    <link rel="next" title="System" href="../../system/README.html" />
     <link rel="prev" title="FileLMP" href="FileLMP.html" />
 
 	<!-- frame blocking -->
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -124,12 +124,12 @@
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html">configuration/include/utils</a></li>
-<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -146,6 +146,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -154,7 +155,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -386,13 +387,19 @@
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst6Domain5shiftERK8Position">
 <span class="target" id="classfeasst_1_1Domain_1a7d737b43b63a8e1608d5b5499afa48fe"></span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> <code class="sig-name descname">shift</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Domain5shiftERK8Position" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the shift necessary to wrap the position. </p>
+<dd><p>Return the shift necessary to wrap the position. This is an unoptimized version. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6Domain9shift_optERK8Position">
+<span class="target" id="classfeasst_1_1Domain_1ad29b6ce14a53e89715cbdafcb6991c20"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<code class="sig-name descname">shift_opt</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Domain9shift_optERK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but optimized to use pre-initialized private data. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst6Domain4wrapEP8Position">
 <span class="target" id="classfeasst_1_1Domain_1a5325572800631b4d59c6092eedd32ee7"></span>void <code class="sig-name descname">wrap</code><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>position</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Domain4wrapEP8Position" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Wrap the input position. </p>
+<dd><p>Wrap the input position. This is an unoptimized version. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -470,8 +477,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst6Domain7cell_idERK8PositionRK5Cells">
-<span class="target" id="classfeasst_1_1Domain_1a7a0335848667fce52c8c5b47f5cfadd1"></span>int <code class="sig-name descname">cell_id</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em>, <em class="property">const</em> <a class="reference internal" href="Cells.html#_CPPv4N6feasst5CellsE" title="feasst::Cells">Cells</a> &amp;<em>cells</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Domain7cell_idERK8PositionRK5Cells" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst6Domain7cell_idERK8PositionRK5Cells">
+<span class="target" id="classfeasst_1_1Domain_1a81bfd8bf89073beb43449af2a5e25bd4"></span>int <code class="sig-name descname">cell_id</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>position</em>, <em class="property">const</em> <a class="reference internal" href="Cells.html#_CPPv4N6feasst5CellsE" title="feasst::Cells">Cells</a> &amp;<em>cells</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Domain7cell_idERK8PositionRK5Cells" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the unique cell number for the position. </p>
 </dd></dl>
 
@@ -512,7 +519,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Configuration.html" class="btn btn-neutral float-right" title="Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../../system/README.html" class="btn btn-neutral float-right" title="System" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="FileLMP.html" class="btn btn-neutral float-left" title="FileLMP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

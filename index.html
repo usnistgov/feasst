@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.11.0 documentation</title>
+  <title>FEASST: Free Energy and Advanced Sampling Simulation Toolkit &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -80,7 +80,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -113,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -246,9 +246,9 @@ simulations with flat-histogram Monte Carlo methods.</p>
 Some features include but are not limited to the following:</p>
 <p>Simulation techniques</p>
 <ul class="simple">
+<li><p>Metropolis Monte Carlo</p></li>
 <li><p>Wang-Landau Monte Carlo</p></li>
 <li><p>Transition-matrix Monte Carlo</p></li>
-<li><p>Metropolis Monte Carlo</p></li>
 <li><p>Mayer-sampling Monte Carlo</p></li>
 <li><p>Configurational bias</p></li>
 </ul>
@@ -257,14 +257,16 @@ Some features include but are not limited to the following:</p>
 <li><p>Microcanonical ensemble</p></li>
 <li><p>Canonical ensemble</p></li>
 <li><p>Grand canonical ensemble</p></li>
+<li><p>Expanded ensembles</p></li>
 </ul>
 <p>Intermolecular interactions</p>
 <ul class="simple">
 <li><p>Hard spheres</p></li>
-<li><p>Lennard-Jones with Yukawa, LRC, force shift</p></li>
+<li><p>Lennard-Jones with Yukawa, LRC, cut and force shift</p></li>
 <li><p>Patchy particles</p></li>
 <li><p>Charged interactions with the Ewald summation</p></li>
-<li><p>Cylindrical and slit pore confinement</p></li>
+<li><p>Confinement</p></li>
+<li><p>Cell list and neighbor list</p></li>
 </ul>
 <p>Modern software</p>
 <ul class="simple">
@@ -276,28 +278,25 @@ Some features include but are not limited to the following:</p>
 <div class="section" id="usage">
 <h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
 <p>The following example Lennard-Jones Monte Carlo simulation may be found in <a class="reference external" href="tutorial/tutorial.html">Tutorial</a>.</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">feasst</span>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
 
-<span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeDomain</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">})),</span>
-     <span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/data.lj&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+<span class="n">mc</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">})))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeDomain</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">})),</span>
+     <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/data.lj&quot;</span><span class="p">})))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">})))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;2.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_target_acceptance&quot;</span><span class="p">:</span> <span class="s2">&quot;0.2&quot;</span><span class="p">})))</span>
-<span class="n">steps_per</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTuner</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">)})))</span>
-<span class="n">feasst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>\
-    <span class="o">.</span><span class="n">with_metropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">}))</span>\
-    <span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">)</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLog</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">)})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMovie</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span> <span class="s2">&quot;file_name&quot;</span> <span class="p">:</span> <span class="s2">&quot;movie.xyz&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeCheckEnergy</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span> <span class="s2">&quot;tolerance&quot;</span> <span class="p">:</span> <span class="s2">&quot;1e-8&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckEnergyAndTune</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)),</span> <span class="s2">&quot;tolerance&quot;</span> <span class="p">:</span> <span class="s2">&quot;1e-8&quot;</span><span class="p">})))</span>
+<span class="n">fst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">with_metropolis</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">}))</span>\
+    <span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">mc</span><span class="p">)</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)),</span> <span class="s2">&quot;file_name&quot;</span> <span class="p">:</span> <span class="s2">&quot;lj&quot;</span><span class="p">})))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -315,17 +314,19 @@ But you may want to specify them manually.</p></li>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
 mkdir feasst/build
 <span class="nb">cd</span> feasst/build
+
+conda env create -f ../py/feasst.yml
+conda activate feasst
+<span class="c1"># alternatively, without env create, include some tutorial dependencies</span>
+<span class="c1"># pip install jupyter matplotlib pandas scipy # for tutorials</span>
+
 cmake -DUSE_SWIG<span class="o">=</span>ON ..
-make _feasst -j4
+<span class="c1"># alternatively, for manually setting the python path</span>
+<span class="c1"># cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY=/path/to/anaconda/lib/libpython3.7m.so ..</span>
+
+make -j4
 make install -j4
-python ../py/test.py  <span class="c1"># optional test</span>
-pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>For manually setting the python path.</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>ON -DSET_PYTHON_PATH<span class="o">=</span>ON -DPYTHON_INCLUDE_DIR<span class="o">=</span>/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY<span class="o">=</span>/path/to/anaconda/lib/libpython3.7m.so ..
+python ../py/test.py <span class="c1"># optional test</span>
 </pre></div>
 </div>
 </div>
@@ -335,7 +336,7 @@ pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</sp
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
 mkdir feasst/build
 <span class="nb">cd</span> feasst/build
-cmake ..
+cmake ..          <span class="c1"># optionally, include -DUSE_GTEST=ON for gtest</span>
 make install -j4
 make <span class="nb">test</span>         <span class="c1"># optional test</span>
 </pre></div>
@@ -388,10 +389,10 @@ Otherwise, install SWIG 3.</p>
 <li><p>sudo apt install swig</p></li>
 </ul>
 </div>
-<div class="section" id="ubuntu-18">
-<h5>Ubuntu 18<a class="headerlink" href="#ubuntu-18" title="Permalink to this headline">¶</a></h5>
+<div class="section" id="ubuntu-18-or-20">
+<h5>Ubuntu 18 or 20<a class="headerlink" href="#ubuntu-18-or-20" title="Permalink to this headline">¶</a></h5>
 <ul class="simple">
-<li><p>We are not aware of any issues with an Ubuntu 18 install.</p></li>
+<li><p>We are not aware of any issues with an Ubuntu 18 or 20 install.</p></li>
 </ul>
 </div>
 </div>
@@ -489,7 +490,7 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l4"><a class="reference internal" href="README.html#centos-7">CentOS 7</a></li>
 <li class="toctree-l4"><a class="reference internal" href="README.html#windows-10">Windows 10</a></li>
 <li class="toctree-l4"><a class="reference internal" href="README.html#ubuntu-16">Ubuntu 16</a></li>
-<li class="toctree-l4"><a class="reference internal" href="README.html#ubuntu-18">Ubuntu 18</a></li>
+<li class="toctree-l4"><a class="reference internal" href="README.html#ubuntu-18-or-20">Ubuntu 18 or 20</a></li>
 </ul>
 </li>
 </ul>
@@ -558,12 +559,12 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/Select.html">Select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/Cells.html">Cells</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/VisitParticles.html">VisitParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/FileLMP.html">FileLMP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/Configuration.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/VisitConfiguration.html">VisitConfiguration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/FileVMD.html">FileVMD</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/utils.html">configuration/include/utils</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/VisitConfiguration.html">VisitConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/FileLMP.html">FileLMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/configuration/doc/Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/configuration/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -574,33 +575,33 @@ docker build -t hhatch/feasst:firsttry feasst/
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/system/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/system/README.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Model.html">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/EnergyMap.html">EnergyMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/BondThreeBody.html">BondThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/AngleSquareWell.html">AngleSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/BondTwoBody.html">BondTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/BondVisitor.html">BondVisitor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/BondSquareWell.html">BondSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/NeighborCriteria.html">NeighborCriteria</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/EnergyMap.html">EnergyMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Model.html">Model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/BondVisitor.html">BondVisitor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBody.html">ModelTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/IdealGas.html">IdealGas</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/HardSphere.html">HardSphere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/IdealGas.html">IdealGas</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LennardJones.html">LennardJones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/DontVisitModel.html">DontVisitModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelThreeBody.html">ModelThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelEmpty.html">ModelEmpty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelIntra.html">VisitModelIntra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/LongRangeCorrections.html">LongRangeCorrections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelBond.html">VisitModelBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/Potential.html">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/PotentialFactory.html">PotentialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/System.html">System</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/utils.html">system/include/utils</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelIntra.html">VisitModelIntra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelCell.html">VisitModelCell</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/system/doc/VisitModelBond.html">VisitModelBond</a></li>
 </ul>
 </li>
 </ul>
@@ -614,7 +615,6 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/monte_carlo/README.html#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Tunable.html">Tunable</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Stepper.html">Stepper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Acceptance.html">Acceptance</a></li>
@@ -637,11 +637,12 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/MonteCarlo.html">MonteCarlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/utils.html">monte_carlo/include/utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/SeekNumParticles.html">SeekNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialTransfer.html">TrialTransfer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/TrialComputeMove.html">TrialComputeMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbTranslate.html">PerturbTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/monte_carlo/doc/PerturbDistance.html">PerturbDistance</a></li>
@@ -676,6 +677,7 @@ docker build -t hhatch/feasst:firsttry feasst/
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/steppers/README.html">Steppers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/LogAndMovie.html">LogAndMovie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/WallClockLimit.html">WallClockLimit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Check.html">Check</a></li>
@@ -686,11 +688,11 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Energy.html">Energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckEnergy.html">CheckEnergy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckEnergyAndTune.html">CheckEnergyAndTune</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Tuner.html">Tuner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/Movie.html">Movie</a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugin/steppers/doc/utils.html">steppers/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/steppers/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -704,11 +706,14 @@ docker build -t hhatch/feasst:firsttry feasst/
 </li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_5_lj_gcmc_parallel.html">Parallelize a flat histogram simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/tutorial/tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/flat_histogram/README.html#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/Window.html">Window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/LnProbability.html">LnProbability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/flat_histogram/doc/TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
@@ -766,11 +771,13 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l3"><a class="reference internal" href="plugin/confinement/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/confinement/README.html#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/Shape.html">Shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ShapeIntersect.html">ShapeIntersect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelHardShape.html">ModelHardShape</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/Cylinder.html">Cylinder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/HalfSpace.html">HalfSpace</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/Slab.html">Slab</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/Sphere.html">Sphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ShapeUnion.html">ShapeUnion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/confinement/doc/ModelLJShape.html">ModelLJShape</a></li>
 </ul>
 </li>
@@ -788,6 +795,7 @@ docker build -t hhatch/feasst:firsttry feasst/
 <li class="toctree-l4"><a class="reference internal" href="plugin/ewald/doc/ChargeSelf.html">ChargeSelf</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/ewald/doc/ChargeScreened.html">ChargeScreened</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/ewald/doc/utils.html">ewald/include/utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/ewald/doc/TrialTransferMultiple.html">TrialTransferMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/ewald/doc/ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/ewald/doc/ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/ewald/doc/ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
@@ -805,28 +813,38 @@ docker build -t hhatch/feasst:firsttry feasst/
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="plugin/threads/README.html">Threads</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugin/threads/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugin/threads/README.html#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/threads/doc/Threads.html">Threads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="plugin/threads/doc/ThreadsOMP.html">ThreadsOMP</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="plugin/README.html#plugins-in-development">Plugins in development</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plugin/cluster/README.html">Cluster</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/tutorial/tutorial_1_lj_cluster.html">Monte Carlo with rigid cluster moves</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/cluster/README.html#api">API</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/EnergyMapAll.html">EnergyMapAll</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/EnergyMapNeighbor.html">EnergyMapNeighbor</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectCluster.html">SelectCluster</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/EnergyMapAllCriteria.html">EnergyMapAllCriteria</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectParticleAVB.html">SelectParticleAVB</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialAVB2.html">TrialAVB2</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/SelectCluster.html">SelectCluster</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialAVB2Half.html">TrialAVB2Half</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialRemoveAVB.html">TrialRemoveAVB</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialAddAVB.html">TrialAddAVB</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialAVB4.html">TrialAVB4</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialAVB2.html">TrialAVB2</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialTransferAVB.html">TrialTransferAVB</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/TrialTranslateCluster.html">TrialTranslateCluster</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/utils_cluster.html">cluster/include/utils_cluster</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAVB4.html">ComputeAVB4</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeGCA.html">ComputeGCA</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
-<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAddAVB.html">ComputeAddAVB</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeMoveCluster.html">ComputeMoveCluster</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAddAVB.html">ComputeAddAVB</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeRemoveAVB.html">ComputeRemoveAVB</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeGCA.html">ComputeGCA</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAVB2.html">ComputeAVB2</a></li>
+<li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/ComputeAVB4.html">ComputeAVB4</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/PerturbPointReflect.html">PerturbPointReflect</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/PerturbRotateCOM.html">PerturbRotateCOM</a></li>
 <li class="toctree-l5"><a class="reference internal" href="plugin/cluster/doc/PerturbMoveAVB.html">PerturbMoveAVB</a></li>
@@ -836,6 +854,7 @@ docker build -t hhatch/feasst:firsttry feasst/
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plugin/egce/README.html">Expanded Grand Canonical Ensemble</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plugin/egce/tutorial/tutorial_1_rpm_egce.html">Expanded grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/egce/README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugin/egce/README.html#api">API</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="plugin/egce/doc/AEqualB.html">AEqualB</a></li>
@@ -887,51 +906,55 @@ docker build -t hhatch/feasst:firsttry feasst/
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#branch-policies">Branch policies</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#master-branch">Master branch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#develop-branch">Develop branch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#hotfix-branch">Hotfix branch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#feature-branches">Feature branches</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#dead-dead-branches">Dead (dead_*) branches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev/README.html">Developer guidelines</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dev/README.html#branch-policies">Branch policies</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#master-branch">Master branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#develop-branch">Develop branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#hotfix-branch">Hotfix branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#feature-branches">Feature branches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#dead-dead-branches">Dead (dead_*) branches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#pull-requests">Pull requests</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#tools">Tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#gtest-unittest-c">GTEST: Unittest C++</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#gdb-or-lldb-debugging">GDB or LLDB: Debugging</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#valgrind-find-memory-leaks">Valgrind: Find memory leaks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#gcov-and-lcov-test-coverage">GCOV and LCOV: Test coverage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#ccache-speed-up-compilation-time">CCACHE: Speed up compilation time</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#cpplint-and-pylint-clean-up-styling">cpplint and pylint: Clean up styling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/README.html#tools">Tools</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#gtest-unittest-c">GTEST: Unittest C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#gdb-or-lldb-debugging">GDB or LLDB: Debugging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#valgrind-find-memory-leaks">Valgrind: Find memory leaks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#gcov-and-lcov-test-coverage">GCOV and LCOV: Test coverage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#ccache-speed-up-compilation-time">CCACHE: Speed up compilation time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#cpplint-and-pylint-clean-up-styling">cpplint and pylint: Clean up styling</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#document">Document</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#setup">Setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#sphinx-breathe-doxygen-notes">Sphinx/Breathe/Doxygen notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#pip-notes">Pip notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#anaconda-cloud-notes">Anaconda cloud notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/README.html#document">Document</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#setup">Setup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#sphinx-breathe-doxygen-notes">Sphinx/Breathe/Doxygen notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#pip-notes">Pip notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#anaconda-cloud-notes">Anaconda cloud notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#style">Style</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#reference-guides-for-c">Reference guides for C++</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#naming">Naming</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#functions">Functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#classes">Classes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#loops-and-if">Loops and if</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#auto">Auto</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#arguments">Arguments</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#serialization">Serialization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CONTRIBUTING.html#file-output">File output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/README.html#style">Style</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#reference-guides-for-c">Reference guides for C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#naming">Naming</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#functions">Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#classes">Classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#loops-and-if">Loops and if</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#auto">Auto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#arguments">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#serialization">Serialization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dev/README.html#file-output">File output</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#for-quick-reference">For quick reference</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#to-do-list">To Do List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/README.html#for-quick-reference">For quick reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/README.html#to-do-list">To Do List</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ACKNOWLEDGEMENT.html">Acknowledgement</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ACKNOWLEDGEMENT.html#publications">Publications</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation</a></li>
 </ul>
 </div>
 </div>

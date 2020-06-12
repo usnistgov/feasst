@@ -2,6 +2,7 @@
 .. toctree::
 
    Window
+   WindowCustom
    WindowExponential
    LnProbability
    TripleBandedCollectionMatrix

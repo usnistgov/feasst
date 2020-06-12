@@ -25,6 +25,7 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
    confinement/README
    ewald/README
    opt_lj/README
+   threads/README
 
 Plugins in development
 ************************

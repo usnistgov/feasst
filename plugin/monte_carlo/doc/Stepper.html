@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Stepper &mdash; FEASST v0.11.0 documentation</title>
+  <title>Stepper &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Rosenbluth" href="Rosenbluth.html" />
-    <link rel="prev" title="SeekNumParticles" href="SeekNumParticles.html" />
+    <link rel="prev" title="Tunable" href="Tunable.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -118,7 +118,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Stepper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
@@ -141,11 +140,12 @@
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="utils.html">monte_carlo/include/utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
@@ -172,6 +172,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -180,7 +181,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -299,7 +300,7 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst7StepperE">
 <span class="target" id="classfeasst_1_1Stepper"></span><em class="property">class </em><code class="sig-name descname">Stepper</code><a class="headerlink" href="#_CPPv4N6feasst7StepperE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Perform an action (update or write) every so many steps. This action could be read-only (see analyze) or not (see modify). Write to screen if file name is not provided. </p>
+<dd><p>Perform an action (update or write) every so many steps. This action could be read-only (see <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a>) or not (see <a class="reference internal" href="Modify.html#classfeasst_1_1Modify"><span class="std std-ref">Modify</span></a>). Write to screen if file name is not provided. </p>
 <p>Subclassed by <a class="reference internal" href="Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">feasst::Analyze</span></a>, <a class="reference internal" href="Modify.html#classfeasst_1_1Modify"><span class="std std-ref">feasst::Modify</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -394,7 +395,7 @@
         <a href="Rosenbluth.html" class="btn btn-neutral float-right" title="Rosenbluth" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="SeekNumParticles.html" class="btn btn-neutral float-left" title="SeekNumParticles" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Tunable.html" class="btn btn-neutral float-left" title="Tunable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

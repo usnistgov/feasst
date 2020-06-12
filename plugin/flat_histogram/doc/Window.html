@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Window &mdash; FEASST v0.11.0 documentation</title>
+  <title>Window &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="WindowExponential" href="WindowExponential.html" />
+    <link rel="next" title="WindowCustom" href="WindowCustom.html" />
     <link rel="prev" title="&lt;no title&gt;" href="toc.html" />
 
 	<!-- frame blocking -->
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -122,6 +122,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
@@ -144,6 +145,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -152,7 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -276,7 +278,7 @@
 <p>Boundaries are integer macrostate minimums and maximums utilized by each window. Thus, 4 window boundaries would contain 4 min and max values for each window. Boundaries use the given line segment, either from formula or user input, and then account for rounding and extra overlap between windows.</p>
 <p>For example, 4 windows with segments given by [0, 100.00, 141.42, 173.21, 200] with 4 extra overlap and rounding would result in the following boundaries: [[0, 100], [96, 141], [137, 173], [169, 200]] where each of the 4 window is expressed as a [min, max] pair.</p>
 <p>Note that <a class="reference internal" href="TransitionMatrix.html#classfeasst_1_1TransitionMatrix"><span class="std std-ref">TransitionMatrix</span></a> should have atleast 3 overlap because the first and last macrostates in the window automatically reject deletions/insertions, respectively, which could skew the calculated probability distributions. <a class="reference internal" href="WangLandau.html#classfeasst_1_1WangLandau"><span class="std std-ref">WangLandau</span></a> does not have this issue. </p>
-<p>Subclassed by <a class="reference internal" href="WindowExponential.html#classfeasst_1_1WindowExponential"><span class="std std-ref">feasst::WindowExponential</span></a></p>
+<p>Subclassed by <a class="reference internal" href="WindowCustom.html#classfeasst_1_1WindowCustom"><span class="std std-ref">feasst::WindowCustom</span></a>, <a class="reference internal" href="WindowExponential.html#classfeasst_1_1WindowExponential"><span class="std std-ref">feasst::WindowExponential</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -285,7 +287,8 @@
 <dd><p>args:<ul class="simple">
 <li><p>minimum: minimum in macrostate range (default: 0).</p></li>
 <li><p>maximum: maximum in macrostate range.</p></li>
-<li><p>num: number of windows</p></li>
+<li><p>num: number of windows.</p></li>
+<li><p>num_from_omp: obtain num from OMP threads (default: false).</p></li>
 <li><p>extra_overlap: additional overlap of the windows in addition to the one macrostate that they must share (default: 0). </p></li>
 </ul>
 </p>
@@ -293,19 +296,19 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst6Window7minimumEv">
-<span class="target" id="classfeasst_1_1Window_1ae8d525c9f6839a4a6da12b0383e299af"></span>int <code class="sig-name descname">minimum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Window7minimumEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Window_1ab9fde8ab3b39ebbf475170364e5e7196"></span><em class="property">virtual</em> int <code class="sig-name descname">minimum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Window7minimumEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the minimum. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst6Window7maximumEv">
-<span class="target" id="classfeasst_1_1Window_1a8c708d94e2fb8eefbcf2e712f819291b"></span>int <code class="sig-name descname">maximum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Window7maximumEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Window_1a6bf9dbe08685e9729445740a780dcc4d"></span><em class="property">virtual</em> int <code class="sig-name descname">maximum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Window7maximumEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the maximum. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst6Window3numEv">
-<span class="target" id="classfeasst_1_1Window_1a9829c6978b7d55503645c056e503fa34"></span>int <code class="sig-name descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Window3numEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Window_1a0ddd35c271e2c402920c3b8b48a01b91"></span><em class="property">virtual</em> int <code class="sig-name descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Window3numEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of windows. </p>
 </dd></dl>
 
@@ -340,7 +343,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="WindowExponential.html" class="btn btn-neutral float-right" title="WindowExponential" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="WindowCustom.html" class="btn btn-neutral float-right" title="WindowCustom" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="toc.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

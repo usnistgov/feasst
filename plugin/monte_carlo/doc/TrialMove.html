@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>TrialMove &mdash; FEASST v0.11.0 documentation</title>
+  <title>TrialMove &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -118,7 +118,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Stepper.html">Stepper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
@@ -141,11 +140,12 @@
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="utils.html">monte_carlo/include/utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
@@ -172,6 +172,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -180,7 +181,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -298,7 +299,7 @@
 <h1>TrialMove<a class="headerlink" href="#trialmove" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst9TrialMoveE">
-<span class="target" id="classfeasst_1_1TrialMove"></span><em class="property">class </em><code class="sig-name descname">TrialMove</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a><a class="headerlink" href="#_CPPv4N6feasst9TrialMoveE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1TrialMove"></span><em class="property">class </em><code class="sig-name descname">TrialMove</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a><a class="headerlink" href="#_CPPv4N6feasst9TrialMoveE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Attempt to rigidly move a selection in a <a class="reference internal" href="Trial.html#classfeasst_1_1Trial"><span class="std std-ref">Trial</span></a> in one stage. </p>
 <p>Subclassed by <a class="reference internal" href="../../chain/doc/TrialCrankshaft.html#classfeasst_1_1TrialCrankshaft"><span class="std std-ref">feasst::TrialCrankshaft</span></a>, <a class="reference internal" href="../../chain/doc/TrialPivot.html#classfeasst_1_1TrialPivot"><span class="std std-ref">feasst::TrialPivot</span></a>, <a class="reference internal" href="../../chain/doc/TrialReptate.html#classfeasst_1_1TrialReptate"><span class="std std-ref">feasst::TrialReptate</span></a>, <a class="reference internal" href="TrialRotate.html#classfeasst_1_1TrialRotate"><span class="std std-ref">feasst::TrialRotate</span></a>, <a class="reference internal" href="TrialTranslate.html#classfeasst_1_1TrialTranslate"><span class="std std-ref">feasst::TrialTranslate</span></a></p>
 </dd></dl>

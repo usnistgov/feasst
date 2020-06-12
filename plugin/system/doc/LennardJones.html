@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>LennardJones &mdash; FEASST v0.11.0 documentation</title>
+  <title>LennardJones &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="DontVisitModel" href="DontVisitModel.html" />
-    <link rel="prev" title="IdealGas" href="IdealGas.html" />
+    <link rel="prev" title="HardSphere" href="HardSphere.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -116,33 +116,33 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AngleSquareWell.html">AngleSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondTwoBody.html">BondTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondSquareWell.html">BondSquareWell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="NeighborCriteria.html">NeighborCriteria</a></li>
-<li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="BondVisitor.html">BondVisitor</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModel.html">VisitModel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBody.html">ModelTwoBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="IdealGas.html">IdealGas</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelTwoBodyFactory.html">ModelTwoBodyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="HardSphere.html">HardSphere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="IdealGas.html">IdealGas</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">LennardJones</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DontVisitModel.html">DontVisitModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelOneBody.html">ModelOneBody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelEmpty.html">ModelEmpty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ModelThreeBody.html">ModelThreeBody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LongRangeCorrections.html">LongRangeCorrections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Potential.html">Potential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PotentialFactory.html">PotentialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="System.html">System</a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils.html">system/include/utils</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelIntra.html">VisitModelIntra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelCell.html">VisitModelCell</a></li>
-<li class="toctree-l4"><a class="reference internal" href="VisitModelBond.html">VisitModelBond</a></li>
 </ul>
 </li>
 </ul>
@@ -159,6 +159,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -167,7 +168,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -285,7 +286,7 @@
 <h1>LennardJones<a class="headerlink" href="#lennardjones" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst12LennardJonesE">
-<span class="target" id="classfeasst_1_1LennardJones"></span><em class="property">class </em><code class="sig-name descname">LennardJones</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst12LennardJonesE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1LennardJones"></span><em class="property">class </em><code class="sig-name descname">LennardJones</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst12LennardJonesE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The Lennard-Jones potential is given by</p>
 <p><span class="math notranslate nohighlight">\( U_{LJ} = 4\epsilon [ (\sigma/r)^{2\alpha} - (\sigma/r)^\alpha ] \)</span>,</p>
 <p>where <span class="math notranslate nohighlight">\(\alpha=6\)</span> is assumed by this class for optimization. </p>
@@ -326,7 +327,7 @@
         <a href="DontVisitModel.html" class="btn btn-neutral float-right" title="DontVisitModel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="IdealGas.html" class="btn btn-neutral float-left" title="IdealGas" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="HardSphere.html" class="btn btn-neutral float-left" title="HardSphere" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

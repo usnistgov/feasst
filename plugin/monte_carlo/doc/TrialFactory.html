@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>TrialFactory &mdash; FEASST v0.11.0 documentation</title>
+  <title>TrialFactory &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -118,7 +118,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Tunable.html">Tunable</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Stepper.html">Stepper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Rosenbluth.html">Rosenbluth</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Acceptance.html">Acceptance</a></li>
@@ -141,11 +140,12 @@
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="utils.html">monte_carlo/include/utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
@@ -172,6 +172,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -180,7 +181,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -298,8 +299,10 @@
 <h1>TrialFactory<a class="headerlink" href="#trialfactory" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst12TrialFactoryE">
-<span class="target" id="classfeasst_1_1TrialFactory"></span><em class="property">class </em><code class="sig-name descname">TrialFactory</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a><a class="headerlink" href="#_CPPv4N6feasst12TrialFactoryE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><div class="breathe-sectiondef docutils container">
+<span class="target" id="classfeasst_1_1TrialFactory"></span><em class="property">class </em><code class="sig-name descname">TrialFactory</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a><a class="headerlink" href="#_CPPv4N6feasst12TrialFactoryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Contains multiple Trials. </p>
+<p>Subclassed by <a class="reference internal" href="../../cluster/doc/TrialAVB2.html#classfeasst_1_1TrialAVB2"><span class="std std-ref">feasst::TrialAVB2</span></a>, <a class="reference internal" href="../../cluster/doc/TrialTranslateCluster.html#classfeasst_1_1TrialRigidCluster"><span class="std std-ref">feasst::TrialRigidCluster</span></a>, <a class="reference internal" href="TrialTransfer.html#classfeasst_1_1TrialTransfer"><span class="std std-ref">feasst::TrialTransfer</span></a>, <a class="reference internal" href="../../cluster/doc/TrialTransferAVB.html#classfeasst_1_1TrialTransferAVB"><span class="std std-ref">feasst::TrialTransferAVB</span></a>, <a class="reference internal" href="../../ewald/doc/TrialTransferMultiple.html#classfeasst_1_1TrialTransferMultiple"><span class="std std-ref">feasst::TrialTransferMultiple</span></a></p>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst12TrialFactory3addENSt10shared_ptrI5TrialEE">
@@ -308,14 +311,14 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12TrialFactory10num_trialsEv">
-<span class="target" id="classfeasst_1_1TrialFactory_1a23fa27935ba88ecc82f7b3961087bacd"></span>int <code class="sig-name descname">num_trials</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12TrialFactory10num_trialsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst12TrialFactory3numEv">
+<span class="target" id="classfeasst_1_1TrialFactory_1a04b2a9558446a4ea98633304b32ec3a4"></span>int <code class="sig-name descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12TrialFactory3numEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number of trials. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst12TrialFactory5trialEKi">
-<span class="target" id="classfeasst_1_1TrialFactory_1ac83cced53eed97d1cc6df6c886cb68a9"></span><em class="property">const</em> <a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a> &amp;<code class="sig-name descname">trial</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12TrialFactory5trialEKi" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1TrialFactory_1abd0762762946030653605a922aaef72e"></span><em class="property">const</em> <a class="reference internal" href="Trial.html#_CPPv4N6feasst5TrialE" title="feasst::Trial">Trial</a> &amp;<code class="sig-name descname">trial</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12TrialFactory5trialEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return a trial by index of the order trials were added. </p>
 </dd></dl>
 

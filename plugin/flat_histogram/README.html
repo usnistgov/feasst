@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Flat histogram &mdash; FEASST v0.11.0 documentation</title>
+  <title>Flat histogram &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Grand canonical ensemble transition-matrix Monte Carlo" href="tutorial/tutorial_1_lj_gcmc.html" />
-    <link rel="prev" title="steppers/include/utils" href="../steppers/doc/utils.html" />
+    <link rel="prev" title="Movie" href="../steppers/doc/Movie.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -123,11 +123,14 @@
 <li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_2_reweight_supercritical.html">Analysis of a one-phase (supercritical) simulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_5_lj_gcmc_parallel.html">Parallelize a flat histogram simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial/tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="doc/Window.html">Window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/LnProbability.html">LnProbability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
@@ -150,6 +153,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -158,7 +162,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -289,6 +293,8 @@ Importantly, the <a class="reference internal" href="doc/Bias.html#_CPPv4N6feass
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_3_reweight_phase_separation.html">Analysis of a two-phase (phase separated) simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_5_lj_gcmc_parallel.html">Parallelize a flat histogram simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
 </ul>
 </div>
 </div>
@@ -303,6 +309,7 @@ Importantly, the <a class="reference internal" href="doc/Bias.html#_CPPv4N6feass
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="doc/Window.html">Window</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/LnProbability.html">LnProbability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/TripleBandedCollectionMatrix.html">TripleBandedCollectionMatrix</a></li>
@@ -330,7 +337,7 @@ Importantly, the <a class="reference internal" href="doc/Bias.html#_CPPv4N6feass
         <a href="tutorial/tutorial_1_lj_gcmc.html" class="btn btn-neutral float-right" title="Grand canonical ensemble transition-matrix Monte Carlo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../steppers/doc/utils.html" class="btn btn-neutral float-left" title="steppers/include/utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../steppers/doc/Movie.html" class="btn btn-neutral float-left" title="Movie" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

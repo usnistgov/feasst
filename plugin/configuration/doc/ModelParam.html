@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ModelParam &mdash; FEASST v0.11.0 documentation</title>
+  <title>ModelParam &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -124,12 +124,12 @@
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html">configuration/include/utils</a></li>
-<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -146,6 +146,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -154,7 +155,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -378,31 +379,31 @@
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst7EpsilonE">
-<span class="target" id="classfeasst_1_1Epsilon"></span><em class="property">class </em><code class="sig-name descname">Epsilon</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst7EpsilonE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Epsilon"></span><em class="property">class </em><code class="sig-name descname">Epsilon</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst7EpsilonE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The epsilon parameter is named “epsilon” in LMP-like data file Pair Coeffs. The epsilon parameter has the mixing rule: <span class="math notranslate nohighlight">\( \epsilon_{ij} = \sqrt(\epsilon_i \epsilon_j) \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst5SigmaE">
-<span class="target" id="classfeasst_1_1Sigma"></span><em class="property">class </em><code class="sig-name descname">Sigma</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst5SigmaE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Sigma"></span><em class="property">class </em><code class="sig-name descname">Sigma</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst5SigmaE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The sigma parameter is named “sigma” in LMP-like data file Pair Coeffs. The sigma parameter has the mixing rule: <span class="math notranslate nohighlight">\( \sigma_{ij} = 0.5*(\sigma_i + \sigma_j) \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst6CutOffE">
-<span class="target" id="classfeasst_1_1CutOff"></span><em class="property">class </em><code class="sig-name descname">CutOff</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6CutOffE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1CutOff"></span><em class="property">class </em><code class="sig-name descname">CutOff</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6CutOffE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The cut off parameter is named “cutoff” in LMP-like data file Pair Coeffs. The cut off parameter has the mixing rule: <span class="math notranslate nohighlight">\( r^c_{ij} = min(r^c_i, r^c_j)\)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst6ChargeE">
-<span class="target" id="classfeasst_1_1Charge"></span><em class="property">class </em><code class="sig-name descname">Charge</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6ChargeE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Charge"></span><em class="property">class </em><code class="sig-name descname">Charge</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="#_CPPv4N6feasst10ModelParamE" title="feasst::ModelParam">ModelParam</a><a class="headerlink" href="#_CPPv4N6feasst6ChargeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The charge parameter is named “charge” in LMP-like data file Pair Coeffs. The charge parameter, q, has the mixing rule: <span class="math notranslate nohighlight">\( q_{ij} = q_i q_j \)</span> </p>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst11ModelParamsE">
-<span class="target" id="classfeasst_1_1ModelParams"></span><em class="property">class </em><code class="sig-name descname">ModelParams</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv4N6feasst11ModelParamsE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1ModelParams"></span><em class="property">class </em><code class="sig-name descname">ModelParams</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv4N6feasst11ModelParamsE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Container for all model parameters. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>

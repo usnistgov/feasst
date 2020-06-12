@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>TripleBandedCollectionMatrix &mdash; FEASST v0.11.0 documentation</title>
+  <title>TripleBandedCollectionMatrix &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -122,6 +122,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="WindowCustom.html">WindowCustom</a></li>
 <li class="toctree-l4"><a class="reference internal" href="WindowExponential.html">WindowExponential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="LnProbability.html">LnProbability</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">TripleBandedCollectionMatrix</a></li>
@@ -144,6 +145,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -152,7 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -273,7 +275,13 @@
 <span class="target" id="classfeasst_1_1TripleBandedCollectionMatrix"></span><em class="property">class </em><code class="sig-name descname">TripleBandedCollectionMatrix</code><a class="headerlink" href="#_CPPv4N6feasst28TripleBandedCollectionMatrixE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The collection matrix is triple banded when the macrostate can only increase or decrease by a single “bin” in the macrostate order parameter.</p>
 <p>For example, one cannot use a triple banded collection matrix if insertions of both single and pairs of particles are attempted. Single or pair only would be fine.</p>
-<p>The first index of the matrix is the macrostate. The second is the state change as follows: 0: macrostate decrease 1: macrostate constant 2: macrostate increase </p>
+<p>The first index of the matrix is the macrostate. The second is the state change as follows:<ul class="simple">
+<li><p>0: macrostate decrease</p></li>
+<li><p>1: macrostate constant</p></li>
+<li><p>2: macrostate increase</p></li>
+</ul>
+</p>
+<p>Beware that the computed probability distribution from this collection matrix may contain spurious values at the two most extreme ends. These two extreme ends are the two pairs of the two lowest and highest indices, respectively. For example, at the highest macrostate, a transition to the next highest macrostate is immediately rejected and thus the macrostate increase part of the collection matrix is zero due to this constraint. However, this would not be the case if the higher macrostate values were allowed. The constraint thus affects the probability at the most extreme values, and these values should be discarded. There are exceptions such as the case with zero particles. In this case, there cannot be less than zero particles so the constraint is physically meaningful and the probability at this macrostate is correct. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">

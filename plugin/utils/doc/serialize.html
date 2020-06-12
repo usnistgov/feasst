@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>utils/include/serialize &mdash; FEASST v0.11.0 documentation</title>
+  <title>utils/include/serialize &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -138,6 +138,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -146,7 +147,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -265,14 +266,14 @@
 <dl class="cpp type">
 <dt id="_CPPv46feasst">
 <span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><br /></dt>
-<dd><p>Utility functions for serialization of objects into human-readable character streams. Each serialization function has an accompying deserialization function which performs the inverse operation.</p>
-<p>Note that some deserialization functions of derived objects do not work as the commented templates. But when the source code is copied to the specific object’s deserialization function, then it does work, for unknown reasons. </p>
-<div class="breathe-sectiondef docutils container">
+<dd><div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Functions</p>
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst6feasst16feasst_serializeEKbRNSt7ostreamE">
 <span class="target" id="namespacefeasst_1a5a5de797094a7d01ec8b86fd98209a82"></span>void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>val</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst16feasst_serializeEKbRNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Serialize bool. </p>
+<dd><p>Utility functions for serialization of objects into human-readable character streams. Each serialization function has an accompying deserialization function which performs the inverse operation.</p>
+<p>Note that some deserialization functions of derived objects do not work as the commented templates. But when the source code is copied to the specific object’s deserialization function, then it does work, for unknown reasons.</p>
+<p>For this function, serialize a boolean value. </p>
 </dd></dl>
 
 <dl class="cpp function">

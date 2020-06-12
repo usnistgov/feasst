@@ -34,7 +34,7 @@
     "        monte_carlo.add(feasst.MakeTrialTranslate(feasst.args(\n",
     "            {\"weight\": \"1.\", \"tunable_param\": \"2.\"})))\n",
     "        # add an insertion/deletion trial attempt\n",
-    "        feasst.add_trial_transfer(monte_carlo, feasst.args({\"weight\": \"1.\", \"particle_type\": \"0\"}))\n",
+    "        monte_carlo.add(feasst.MakeTrialTransfer(feasst.args({\"weight\": \"1.\", \"particle_type\": \"0\"})))\n",
     "        steps_per = int(1e3)\n",
     "        analyze.add(monte_carlo, steps_per)\n",
     "\n",
@@ -69,8 +69,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "CPU times: user 171 ms, sys: 4.08 ms, total: 175 ms\n",
-      "Wall time: 175 ms\n"
+      "CPU times: user 152 ms, sys: 4.01 ms, total: 156 ms\n",
+      "Wall time: 155 ms\n"
      ]
     },
     {
@@ -80,7 +80,7 @@
       "ok\n",
       "\n",
       "----------------------------------------------------------------------\n",
-      "Ran 1 test in 0.172s\n",
+      "Ran 1 test in 0.153s\n",
       "\n",
       "OK\n"
      ]
@@ -88,7 +88,7 @@
     {
      "data": {
       "text/plain": [
-       "<unittest.main.TestProgram at 0x7ff3a836b040>"
+       "<unittest.main.TestProgram at 0x7f233c571ca0>"
       ]
      },
      "execution_count": 2,

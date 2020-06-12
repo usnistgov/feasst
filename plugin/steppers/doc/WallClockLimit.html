@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>WallClockLimit &mdash; FEASST v0.11.0 documentation</title>
+  <title>WallClockLimit &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="CheckPhysicality" href="CheckPhysicality.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="toc.html" />
+    <link rel="prev" title="LogAndMovie" href="LogAndMovie.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -117,6 +117,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Steppers</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="LogAndMovie.html">LogAndMovie</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">WallClockLimit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Check.html">Check</a></li>
@@ -127,11 +128,11 @@
 <li class="toctree-l3"><a class="reference internal" href="Energy.html">Energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaWriter.html">CriteriaWriter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckEnergy.html">CheckEnergy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CheckEnergyAndTune.html">CheckEnergyAndTune</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Tuner.html">Tuner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CheckProperties.html">CheckProperties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Movie.html">Movie</a></li>
-<li class="toctree-l3"><a class="reference internal" href="utils.html">steppers/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -143,6 +144,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -151,7 +153,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -269,7 +271,7 @@
 <h1>WallClockLimit<a class="headerlink" href="#wallclocklimit" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst14WallClockLimitE">
-<span class="target" id="classfeasst_1_1WallClockLimit"></span><em class="property">class </em><code class="sig-name descname">WallClockLimit</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst17AnalyzeUpdateOnlyE" title="feasst::AnalyzeUpdateOnly">AnalyzeUpdateOnly</a><a class="headerlink" href="#_CPPv4N6feasst14WallClockLimitE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1WallClockLimit"></span><em class="property">class </em><code class="sig-name descname">WallClockLimit</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Analyze.html#_CPPv4N6feasst17AnalyzeUpdateOnlyE" title="feasst::AnalyzeUpdateOnly">AnalyzeUpdateOnly</a><a class="headerlink" href="#_CPPv4N6feasst14WallClockLimitE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Terminate the simulation after a given number of CPU hours in order to prevent fragmented checkpoint files. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -304,7 +306,7 @@
         <a href="CheckPhysicality.html" class="btn btn-neutral float-right" title="CheckPhysicality" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="toc.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="LogAndMovie.html" class="btn btn-neutral float-left" title="LogAndMovie" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

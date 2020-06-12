@@ -43,9 +43,9 @@ Some features include but are not limited to the following:
 
 Simulation techniques
 
+* Metropolis Monte Carlo
 * Wang-Landau Monte Carlo
 * Transition-matrix Monte Carlo
-* Metropolis Monte Carlo
 * Mayer-sampling Monte Carlo
 * Configurational bias
 
@@ -54,14 +54,16 @@ Thermodynamic ensembles
 * Microcanonical ensemble
 * Canonical ensemble
 * Grand canonical ensemble
+* Expanded ensembles
 
 Intermolecular interactions
 
 * Hard spheres
-* Lennard-Jones with Yukawa, LRC, force shift
+* Lennard-Jones with Yukawa, LRC, cut and force shift
 * Patchy particles
 * Charged interactions with the Ewald summation
-* Cylindrical and slit pore confinement
+* Confinement
+* Cell list and neighbor list
 
 Modern software
 
@@ -97,17 +99,19 @@ Python install
     git clone https://github.com/usnistgov/feasst.git
     mkdir feasst/build
     cd feasst/build
+
+    conda env create -f ../py/feasst.yml
+    conda activate feasst
+    # alternatively, without env create, include some tutorial dependencies
+    # pip install jupyter matplotlib pandas scipy # for tutorials
+
     cmake -DUSE_SWIG=ON ..
-    make _feasst -j4
+    # alternatively, for manually setting the python path
+    # cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY=/path/to/anaconda/lib/libpython3.7m.so ..
+
+    make -j4
     make install -j4
-    python ../py/test.py  # optional test
-    pip install jupyter matplotlib pandas scipy # for tutorials
-
-* For manually setting the python path.
-
-.. code-block:: bash
-
-    cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY=/path/to/anaconda/lib/libpython3.7m.so ..
+    python ../py/test.py # optional test
 
 C++ install
 ----------------
@@ -119,7 +123,7 @@ First, install the C++ library.
     git clone https://github.com/usnistgov/feasst.git
     mkdir feasst/build
     cd feasst/build
-    cmake ..
+    cmake ..          # optionally, include -DUSE_GTEST=ON for gtest
     make install -j4
     make test         # optional test
 
@@ -176,10 +180,10 @@ Ubuntu 16
 * Update to CMake 3 (https://cmake.org/download/)
 * sudo apt install swig
 
-Ubuntu 18
+Ubuntu 18 or 20
 ~~~~~~~~~~~~
 
-* We are not aware of any issues with an Ubuntu 18 install.
+* We are not aware of any issues with an Ubuntu 18 or 20 install.
 
 Build from Docker
 ===================

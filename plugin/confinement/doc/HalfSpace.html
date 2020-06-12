@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>HalfSpace &mdash; FEASST v0.11.0 documentation</title>
+  <title>HalfSpace &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -127,11 +127,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Shape.html">Shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ShapeIntersect.html">ShapeIntersect</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelHardShape.html">ModelHardShape</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Cylinder.html">Cylinder</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">HalfSpace</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Slab.html">Slab</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Sphere.html">Sphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ShapeUnion.html">ShapeUnion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModelLJShape.html">ModelLJShape</a></li>
 </ul>
 </li>
@@ -139,6 +141,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -147,7 +150,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -265,7 +268,7 @@
 <h1>HalfSpace<a class="headerlink" href="#halfspace" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst9HalfSpaceE">
-<span class="target" id="classfeasst_1_1HalfSpace"></span><em class="property">class </em><code class="sig-name descname">HalfSpace</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape">Shape</a><a class="headerlink" href="#_CPPv4N6feasst9HalfSpaceE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1HalfSpace"></span><em class="property">class </em><code class="sig-name descname">HalfSpace</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Shape.html#_CPPv4N6feasst5ShapeE" title="feasst::Shape">Shape</a><a class="headerlink" href="#_CPPv4N6feasst9HalfSpaceE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A half space divides space by a plane (or line in 2D). If you are on the “right” side of this divding surface, then you are inside. Otherwise, you are not.</p>
 <p>With the current implementation, the dividing surface is assumed perpendicular to one of the coordinate axes.</p>
 <p>Thus, there are only three variables required to specify the half space.</p>
@@ -301,7 +304,7 @@
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst9HalfSpace16nearest_distanceERK8Position">
 <span class="target" id="classfeasst_1_1HalfSpace_1af711c771650bd8373321a9bbb06e9cbf"></span>double <code class="sig-name descname">nearest_distance</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>point</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9HalfSpace16nearest_distanceERK8Position" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the distance from the point to the nearest point on the surface. The distance is negative if the point is inside of the shape. </p>
+<dd><p>Return the distance from the point to the nearest point on the surface. The distance is negative if the point is inside of the shape and positive if it is outside. </p>
 </dd></dl>
 
 </div>

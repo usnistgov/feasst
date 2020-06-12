@@ -6,6 +6,7 @@
    ChargeSelf
    ChargeScreened
    utils
+   TrialTransferMultiple
    ComputeRemoveMultiple
    ComputeAddMultiple
    ChargeScreenedIntra

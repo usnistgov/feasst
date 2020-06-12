@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Grand canonical ensemble Monte Carlo &mdash; FEASST v0.11.0 documentation</title>
+  <title>Grand canonical ensemble Monte Carlo &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -134,6 +134,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -142,7 +143,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -512,7 +513,7 @@ div.rendered_html tbody tr:hover {
         <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
             <span class="p">{</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;2.&quot;</span><span class="p">})))</span>
         <span class="c1"># add an insertion/deletion trial attempt</span>
-        <span class="n">feasst</span><span class="o">.</span><span class="n">add_trial_transfer</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span> <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">}))</span>
+        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialTransfer</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">,</span> <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
         <span class="n">steps_per</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)</span>
         <span class="n">analyze</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">,</span> <span class="n">steps_per</span><span class="p">)</span>
 
@@ -556,8 +557,8 @@ Compute the average number of particles and assert that it is greater than 0 ...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 171 ms, sys: 4.08 ms, total: 175 ms
-Wall time: 175 ms
+CPU times: user 152 ms, sys: 4.01 ms, total: 156 ms
+Wall time: 155 ms
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -568,7 +569,7 @@ Wall time: 175 ms
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.172s
+Ran 1 test in 0.153s
 
 OK
 </pre></div></div>
@@ -579,7 +580,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7ff3a836b040&gt;
+&lt;unittest.main.TestProgram at 0x7f233c571ca0&gt;
 </pre></div></div>
 </div>
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Site &mdash; FEASST v0.11.0 documentation</title>
+  <title>Site &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -124,12 +124,12 @@
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Cells.html">Cells</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html">configuration/include/utils</a></li>
-<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -146,6 +146,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -154,7 +155,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -272,7 +273,7 @@
 <h1>Site<a class="headerlink" href="#site" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst4SiteE">
-<span class="target" id="classfeasst_1_1Site"></span><em class="property">class </em><code class="sig-name descname">Site</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a>, <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="TypedEntity.html#_CPPv4N6feasst11TypedEntityE" title="feasst::TypedEntity">TypedEntity</a>, <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst13SpatialEntityE" title="feasst::SpatialEntity">SpatialEntity</a><a class="headerlink" href="#_CPPv4N6feasst4SiteE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Site"></span><em class="property">class </em><code class="sig-name descname">Site</code> : <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a>, <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="TypedEntity.html#_CPPv4N6feasst11TypedEntityE" title="feasst::TypedEntity">TypedEntity</a>, <em class="property">public</em> <a class="reference internal" href="utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst13SpatialEntityE" title="feasst::SpatialEntity">SpatialEntity</a><a class="headerlink" href="#_CPPv4N6feasst4SiteE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Sites are used for interaction potentials. They contain information associated with their positions and identity. This <a class="reference internal" href="#classfeasst_1_1Site"><span class="std std-ref">Site</span></a> base class contains only those site properties which are unique to this particular site and not the same for every site of the same type. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -310,6 +311,30 @@
 <dt id="_CPPv4N6feasst4Site12set_physicalEKb">
 <span class="target" id="classfeasst_1_1Site_1a0275ea6c01f0cac13880cd5e8f86b95d"></span>void <code class="sig-name descname">set_physical</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>physical</em> = true<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Site12set_physicalEKb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set as physical/nonphysical (default: physical). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst4Site8add_cellEKi">
+<span class="target" id="classfeasst_1_1Site_1aef3b78c0d1979785edfa7e3c2bbcfafa"></span>void <code class="sig-name descname">add_cell</code><span class="sig-paren">(</span><em class="property">const</em> int <em>cell</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Site8add_cellEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a cell. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst4Site8set_cellEKiKi">
+<span class="target" id="classfeasst_1_1Site_1a6d4a02facc6a7cab919c62341d977f6f"></span>void <code class="sig-name descname">set_cell</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em>, <em class="property">const</em> int <em>cell</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Site8set_cellEKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set a cell. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst4Site4cellEKi">
+<span class="target" id="classfeasst_1_1Site_1a8157636c93d277124b06f14560f82098"></span>int <code class="sig-name descname">cell</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst4Site4cellEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a cell. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst4Site9num_cellsEv">
+<span class="target" id="classfeasst_1_1Site_1aa0b4213a5094ca787d353a8a76995a9c"></span>int <code class="sig-name descname">num_cells</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst4Site9num_cellsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of cells. </p>
 </dd></dl>
 
 </div>

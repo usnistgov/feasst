@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>LennardJonesCutShift &mdash; FEASST v0.11.0 documentation</title>
+  <title>LennardJonesCutShift &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -133,6 +133,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -141,7 +142,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -259,7 +260,7 @@
 <h1>LennardJonesCutShift<a class="headerlink" href="#lennardjonescutshift" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst20LennardJonesCutShiftE">
-<span class="target" id="classfeasst_1_1LennardJonesCutShift"></span><em class="property">class </em><code class="sig-name descname">LennardJonesCutShift</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="LennardJonesAlpha.html#_CPPv4N6feasst17LennardJonesAlphaE" title="feasst::LennardJonesAlpha">LennardJonesAlpha</a><a class="headerlink" href="#_CPPv4N6feasst20LennardJonesCutShiftE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1LennardJonesCutShift"></span><em class="property">class </em><code class="sig-name descname">LennardJonesCutShift</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="LennardJonesAlpha.html#_CPPv4N6feasst17LennardJonesAlphaE" title="feasst::LennardJonesAlpha">LennardJonesAlpha</a><a class="headerlink" href="#_CPPv4N6feasst20LennardJonesCutShiftE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The Lennard-Jones potential, <span class="math notranslate nohighlight">\(U_{LJ}\)</span> is described in <a class="reference internal" href="../../system/doc/LennardJones.html#classfeasst_1_1LennardJones"><span class="std std-ref">LennardJones</span></a>. This class implements the cut and shifted (CS) version which ensures <span class="math notranslate nohighlight">\(U(r_c)=0\)</span>.</p>
 <p><span class="math notranslate nohighlight">\( U_{LJ}^{CS}(r) = \left\{ \begin{array}{lr} U_{LJ}(r) - U_{LJ}(r_c) &amp; : r &lt; r_c \\ 0 &amp; r \ge r_c \end{array} \right. \)</span></p>
 <p>For a Weeks-Chandler-Anderson (WCA) potential, use this class. The cutoffs are computed by <a class="reference internal" href="#classfeasst_1_1LennardJonesCutShift_1ad5a97a24250501d88ae0d2094a79728c"><span class="std std-ref">LennardJonesCutShift::set_wca</span></a>. Thus, one workflow is as follows:</p>

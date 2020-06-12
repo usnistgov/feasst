@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Lennard Jones reference configuration &mdash; FEASST v0.11.0 documentation</title>
+  <title>Lennard Jones reference configuration &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -133,6 +133,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -141,7 +142,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -541,7 +542,7 @@ div.rendered_html tbody tr:hover {
 <span class="sd">        https://www.nist.gov/mml/csd/chemical-informatics-research-group/lennard-jones-fluid-reference-calculations</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">lj_system</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span>
-        <span class="n">feasst</span><span class="o">.</span><span class="n">FileXYZ</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/system/test/data/lj_sample_config_periodic4.xyz&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="n">feasst</span><span class="o">.</span><span class="n">FileXYZ</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/configuration/test/data/lj_sample_config_periodic4.xyz&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">num_particles</span><span class="p">())</span>
         <span class="n">system</span> <span class="o">=</span> <span class="n">lj_system</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
         <span class="n">system</span><span class="o">.</span><span class="n">energy</span><span class="p">()</span>
@@ -585,7 +586,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f98798d3790&gt;
+&lt;unittest.main.TestProgram at 0x7f5845f02760&gt;
 </pre></div></div>
 </div>
 </div>

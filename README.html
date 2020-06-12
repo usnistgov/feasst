@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>README &mdash; FEASST v0.11.0 documentation</title>
+  <title>README &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -117,7 +117,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#centos-7">CentOS 7</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#windows-10">Windows 10</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ubuntu-16">Ubuntu 16</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ubuntu-18">Ubuntu 18</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ubuntu-18-or-20">Ubuntu 18 or 20</a></li>
 </ul>
 </li>
 </ul>
@@ -141,7 +141,7 @@
 <li class="toctree-l1"><a class="reference internal" href="CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -272,9 +272,9 @@ simulations with flat-histogram Monte Carlo methods.</p>
 Some features include but are not limited to the following:</p>
 <p>Simulation techniques</p>
 <ul class="simple">
+<li><p>Metropolis Monte Carlo</p></li>
 <li><p>Wang-Landau Monte Carlo</p></li>
 <li><p>Transition-matrix Monte Carlo</p></li>
-<li><p>Metropolis Monte Carlo</p></li>
 <li><p>Mayer-sampling Monte Carlo</p></li>
 <li><p>Configurational bias</p></li>
 </ul>
@@ -283,14 +283,16 @@ Some features include but are not limited to the following:</p>
 <li><p>Microcanonical ensemble</p></li>
 <li><p>Canonical ensemble</p></li>
 <li><p>Grand canonical ensemble</p></li>
+<li><p>Expanded ensembles</p></li>
 </ul>
 <p>Intermolecular interactions</p>
 <ul class="simple">
 <li><p>Hard spheres</p></li>
-<li><p>Lennard-Jones with Yukawa, LRC, force shift</p></li>
+<li><p>Lennard-Jones with Yukawa, LRC, cut and force shift</p></li>
 <li><p>Patchy particles</p></li>
 <li><p>Charged interactions with the Ewald summation</p></li>
-<li><p>Cylindrical and slit pore confinement</p></li>
+<li><p>Confinement</p></li>
+<li><p>Cell list and neighbor list</p></li>
 </ul>
 <p>Modern software</p>
 <ul class="simple">
@@ -302,28 +304,25 @@ Some features include but are not limited to the following:</p>
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>The following example Lennard-Jones Monte Carlo simulation may be found in <a class="reference external" href="tutorial/tutorial.html">Tutorial</a>.</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">feasst</span>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
 
-<span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeDomain</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">})),</span>
-     <span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/data.lj&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+<span class="n">mc</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">})))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">Configuration</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeDomain</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">})),</span>
+     <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/forcefield/data.lj&quot;</span><span class="p">})))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLennardJones</span><span class="p">()))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLongRangeCorrections</span><span class="p">()))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeMetropolis</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;1.5&quot;</span><span class="p">})))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
     <span class="p">{</span><span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;2.&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_target_acceptance&quot;</span><span class="p">:</span> <span class="s2">&quot;0.2&quot;</span><span class="p">})))</span>
-<span class="n">steps_per</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeTuner</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">)})))</span>
-<span class="n">feasst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>\
-    <span class="o">.</span><span class="n">with_metropolis</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">}))</span>\
-    <span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monte_carlo</span><span class="p">)</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeLog</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">)})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeMovie</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span> <span class="s2">&quot;file_name&quot;</span> <span class="p">:</span> <span class="s2">&quot;movie.xyz&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeCheckEnergy</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span> <span class="s2">&quot;tolerance&quot;</span> <span class="p">:</span> <span class="s2">&quot;1e-8&quot;</span><span class="p">})))</span>
-<span class="n">monte_carlo</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckEnergyAndTune</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)),</span> <span class="s2">&quot;tolerance&quot;</span> <span class="p">:</span> <span class="s2">&quot;1e-8&quot;</span><span class="p">})))</span>
+<span class="n">fst</span><span class="o">.</span><span class="n">SeekNumParticles</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">with_metropolis</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1&quot;</span><span class="p">,</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">}))</span>\
+    <span class="o">.</span><span class="n">with_trial_add</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">mc</span><span class="p">)</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;steps_per&quot;</span> <span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)),</span> <span class="s2">&quot;file_name&quot;</span> <span class="p">:</span> <span class="s2">&quot;lj&quot;</span><span class="p">})))</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">attempt</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -341,17 +340,19 @@ But you may want to specify them manually.</p></li>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
 mkdir feasst/build
 <span class="nb">cd</span> feasst/build
+
+conda env create -f ../py/feasst.yml
+conda activate feasst
+<span class="c1"># alternatively, without env create, include some tutorial dependencies</span>
+<span class="c1"># pip install jupyter matplotlib pandas scipy # for tutorials</span>
+
 cmake -DUSE_SWIG<span class="o">=</span>ON ..
-make _feasst -j4
+<span class="c1"># alternatively, for manually setting the python path</span>
+<span class="c1"># cmake -DUSE_SWIG=ON -DSET_PYTHON_PATH=ON -DPYTHON_INCLUDE_DIR=/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY=/path/to/anaconda/lib/libpython3.7m.so ..</span>
+
+make -j4
 make install -j4
-python ../py/test.py  <span class="c1"># optional test</span>
-pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>For manually setting the python path.</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DUSE_SWIG<span class="o">=</span>ON -DSET_PYTHON_PATH<span class="o">=</span>ON -DPYTHON_INCLUDE_DIR<span class="o">=</span>/path/to/anaconda/include/python3.7m -DPYTHON_LIBRARY<span class="o">=</span>/path/to/anaconda/lib/libpython3.7m.so ..
+python ../py/test.py <span class="c1"># optional test</span>
 </pre></div>
 </div>
 </div>
@@ -361,7 +362,7 @@ pip install jupyter matplotlib pandas scipy <span class="c1"># for tutorials</sp
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/usnistgov/feasst.git
 mkdir feasst/build
 <span class="nb">cd</span> feasst/build
-cmake ..
+cmake ..          <span class="c1"># optionally, include -DUSE_GTEST=ON for gtest</span>
 make install -j4
 make <span class="nb">test</span>         <span class="c1"># optional test</span>
 </pre></div>
@@ -414,10 +415,10 @@ Otherwise, install SWIG 3.</p>
 <li><p>sudo apt install swig</p></li>
 </ul>
 </div>
-<div class="section" id="ubuntu-18">
-<h4>Ubuntu 18<a class="headerlink" href="#ubuntu-18" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="ubuntu-18-or-20">
+<h4>Ubuntu 18 or 20<a class="headerlink" href="#ubuntu-18-or-20" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><p>We are not aware of any issues with an Ubuntu 18 install.</p></li>
+<li><p>We are not aware of any issues with an Ubuntu 18 or 20 install.</p></li>
 </ul>
 </div>
 </div>

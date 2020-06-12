@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Cells &mdash; FEASST v0.11.0 documentation</title>
+  <title>Cells &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -124,12 +124,12 @@
 <li class="toctree-l3"><a class="reference internal" href="Select.html">Select</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Cells</a></li>
 <li class="toctree-l3"><a class="reference internal" href="VisitParticles.html">VisitParticles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Configuration.html">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FileVMD.html">FileVMD</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html">configuration/include/utils</a></li>
-<li class="toctree-l3"><a class="reference internal" href="VisitConfiguration.html">VisitConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FileLMP.html">FileLMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Domain.html">Domain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -146,6 +146,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -154,7 +155,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -272,7 +273,7 @@
 <h1>Cells<a class="headerlink" href="#cells" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst5CellsE">
-<span class="target" id="classfeasst_1_1Cells"></span><em class="property">class </em><code class="sig-name descname">Cells</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Properties.html#_CPPv4N6feasst16PropertiedEntityE" title="feasst::PropertiedEntity">PropertiedEntity</a><a class="headerlink" href="#_CPPv4N6feasst5CellsE" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Cells"></span><em class="property">class </em><code class="sig-name descname">Cells</code><a class="headerlink" href="#_CPPv4N6feasst5CellsE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Divide a cuboid domain into cells. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
@@ -298,6 +299,18 @@
 <dt id="_CPPv4NK6feasst5Cells3numEv">
 <span class="target" id="classfeasst_1_1Cells_1abd1a3f8e7dcaa9b90cf251a40daaca2d"></span>std::vector&lt;int&gt; <code class="sig-name descname">num</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cells3numEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the number. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst5Cells9set_groupEKi">
+<span class="target" id="classfeasst_1_1Cells_1a275ea5850a7f52931c056af36a4b80f8"></span>void <code class="sig-name descname">set_group</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cells9set_groupEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the group. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Cells5groupEv">
+<span class="target" id="classfeasst_1_1Cells_1a7a3f09abe84df032d7d0ae5c7bf57ff4"></span>int <code class="sig-name descname">group</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cells5groupEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the group. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -331,15 +344,15 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst5Cells5labelEv">
-<span class="target" id="classfeasst_1_1Cells_1a4ae0f30f4aff9951b106fe1e95e19d7e"></span>std::string <code class="sig-name descname">label</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cells5labelEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the label. </p>
+<dt id="_CPPv4NK6feasst5Cells4typeEv">
+<span class="target" id="classfeasst_1_1Cells_1a9077677db9207a76c52109ca0e8ddb89"></span>int <code class="sig-name descname">type</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Cells4typeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the type. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Cells9set_labelEKNSt6stringE">
-<span class="target" id="classfeasst_1_1Cells_1a821b23e29739783d2f3c9bf97bbf576d"></span>void <code class="sig-name descname">set_label</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>label</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cells9set_labelEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set the label. </p>
+<dt id="_CPPv4N6feasst5Cells8set_typeEKi">
+<span class="target" id="classfeasst_1_1Cells_1a287aeec816d96172bd2216cb60539cc7"></span>void <code class="sig-name descname">set_type</code><span class="sig-paren">(</span><em class="property">const</em> int <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Cells8set_typeEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the type. </p>
 </dd></dl>
 
 </div>

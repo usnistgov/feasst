@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Arguments &mdash; FEASST v0.11.0 documentation</title>
+  <title>Arguments &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -138,6 +138,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -146,7 +147,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -356,6 +357,18 @@
 <dt id="_CPPv4N6feasst9Arguments10dont_checkEv">
 <span class="target" id="classfeasst_1_1Arguments_1ac2b48cebfe11563b88f8a10133691b5a"></span>void <code class="sig-name descname">dont_check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst9Arguments10dont_checkEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Don’t check for unused arguments upon destruction. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst9Arguments6removeEKNSt6stringERK7argtype">
+<span class="target" id="classfeasst_1_1Arguments_1a09e06d8e51d83aecd57a8976ad0cc8cd"></span>argtype <code class="sig-name descname">remove</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>first</em>, <em class="property">const</em> argtype &amp;<em>args</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Arguments6removeEKNSt6stringERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return argtype after removing any pair with the given first index. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst9Arguments6appendEKNSt6stringEKNSt6stringERK7argtype">
+<span class="target" id="classfeasst_1_1Arguments_1aa764a4a7844180fcfa4d5e798e247a29"></span>argtype <code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>append</em>, <em class="property">const</em> std::string <em>first</em>, <em class="property">const</em> argtype &amp;<em>args</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9Arguments6appendEKNSt6stringEKNSt6stringERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return argtype after appending onto pair with given first index. </p>
 </dd></dl>
 
 </div>

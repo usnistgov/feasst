@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorial &mdash; FEASST v0.11.0 documentation</title>
+  <title>Tutorial &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -122,7 +122,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -474,14 +474,32 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Canonical-ensemble-Lennard-Jones-Monte-Carlo">
 <h2>Canonical ensemble Lennard-Jones Monte Carlo<a class="headerlink" href="#Canonical-ensemble-Lennard-Jones-Monte-Carlo" title="Permalink to this headline">¶</a></h2>
 <p>The following simulation <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.py</span></code> demonstrates the basics of FEASST.</p>
-<p>First, a <a class="reference internal" href="../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> object is created and the random number generator is initialized using the C++ implementation of the Mersenne Twister seeded by the time and date.</p>
-<div class="nbinput nblast docutils container">
+<p>To begin, FEASST is imported, and it is recommended to log the exact version used for the simulation.</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">feasst</span>
-<span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;version:&quot;</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">version</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+version: v0.11.0-38-g56d66c7bac-dirty hwh/divalfix
+</pre></div></div>
+</div>
+<p>Then a <a class="reference internal" href="../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> object is created and the random number generator is initialized using the C++ implementation of the Mersenne Twister seeded by the time and date.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
 <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeRandomMT19937</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;seed&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">})))</span>
 </pre></div>
 </div>
@@ -489,7 +507,7 @@ div.rendered_html tbody tr:hover {
 <p>Care must be taken not to run two identical simulations at the same second on an HPC node using the time and date, or they will have the same seed and may be equivalent. Instead, consider using a thread safe random number generator to seed the simulations.</p>
 <p>FEASST standard output and error goes to the Jupyter notebook terminal. Thus, you should see output like “# Info 0 [plugin/math/src/random.cpp:30] time(seed): 1572362164” but with a different seed. This seed is provided in case you wanted to reproduce your simulation exactly, which we will do now. Note that your simulation may still be different than presented here, possibly because of different compiler implementations.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -499,7 +517,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>The second step is to add a <a class="reference internal" href="../plugin/configuration/README.html"><span class="doc">Configuration</span></a>. In this example, a simple cubic periodic box of length 8 is defined with a single type of particle as described in <code class="docutils literal notranslate"><span class="pre">forcefield/data.lj</span></code>. See <a class="reference internal" href="../forcefield/README.html"><span class="doc">Forcefield</span></a> for more information about the format of the data file, which is a LAMMPS-inspired file with some major differences.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -516,7 +534,7 @@ You can test this now by changing the `cubic_box_length` argument to an incorrec
 >   what():  Throw on proc 0 : # Assertion `find_in_list(pair.first, used_keys_)` failed0 plugin/utils/src/arguments.cpp:66: Key arg(cubic_box_length1) ) is not recognized. Check for any typos in your provided keyword arguments and check documentation. All keywords provided in args must be used, otherwise, a simple typo in keyword arguments would go unnoticed. If you are a developer, check that you have processed all possible keywords in the appropriate constructor.
 ---><p>Next, initializing the <a class="reference internal" href="../plugin/system/doc/Potential.html"><span class="doc">Potential</span></a> proceeds as follows:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -529,7 +547,7 @@ You can test this now by changing the `cubic_box_length` argument to an incorrec
 serves two purposes involving C++11 smart pointers and brace enclosed initializer lists.</p>
 <p>Initialization of the acceptance <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a> includes thermodynamic constraints such as temperature.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -539,7 +557,7 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </div>
 <p>A <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a> is then introduced which attempts to translate a random particle by a random distance which is bound in each dimension by a <code class="docutils literal notranslate"><span class="pre">tunable_param</span></code>. This parameter may be adjusted to obtain a desired acceptance ratio, <code class="docutils literal notranslate"><span class="pre">tunable_target_acceptance</span></code>, with the help of <a class="reference internal" href="../plugin/steppers/doc/Tuner.html"><span class="doc">Tuner</span></a>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -552,7 +570,7 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </div>
 <p>With the help of <a class="reference internal" href="../plugin/monte_carlo/doc/TrialTranslate.html"><span class="doc">TrialTranslate</span></a>, we can now initialize the number of particles.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -565,7 +583,7 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 <p>A grand canonical simulation is performed here by utilizing a temporary <a class="reference internal" href="../plugin/monte_carlo/doc/TrialAdd.html"><span class="doc">TrialAdd</span></a>, which is why chemical potential was input to <a class="reference internal" href="../plugin/monte_carlo/doc/Criteria.html"><span class="doc">Criteria</span></a>.</p>
 <p>Additional <a class="reference internal" href="../plugin/monte_carlo/doc/Analyze.html"><span class="doc">Analyze</span></a> or <a class="reference internal" href="../plugin/monte_carlo/doc/Modify.html"><span class="doc">Modify</span></a> may be added at any time to perform some task contingent upon the number of attempted trials.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -582,7 +600,7 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 <p>In this example, <a class="reference internal" href="../plugin/steppers/doc/Log.html"><span class="doc">Log</span></a> outputs the current status of the trials, <a class="reference internal" href="../plugin/steppers/doc/Movie.html"><span class="doc">Movie</span></a> outputs the configuration, and <a class="reference internal" href="../plugin/steppers/doc/CheckEnergy.html"><span class="doc">CheckEnergy</span></a> asserts that the optimized energy calculations match the unoptimized ones.</p>
 <p>The simulation is finally run for a number of trial attempts.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -596,13 +614,13 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 696 ms, sys: 1.48 ms, total: 698 ms
-Wall time: 696 ms
+CPU times: user 712 ms, sys: 11.8 ms, total: 724 ms
+Wall time: 720 ms
 </pre></div></div>
 </div>
 <p>Now we can analyze the simulation by, for example, plotting the instantaneous energy as a function of the number of attempts.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -614,19 +632,19 @@ Wall time: 696 ms
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f67df32ddc0&gt;
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f5d995bbdf0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorial_tutorial_19_1.svg" src="../_images/tutorial_tutorial_19_1.svg" /></div>
+<img alt="../_images/tutorial_tutorial_21_1.svg" src="../_images/tutorial_tutorial_21_1.svg" /></div>
 </div>
 <p>You should also find the <code class="docutils literal notranslate"><span class="pre">movie.xyz</span></code> trajectory file with an automatically-generated <code class="docutils literal notranslate"><span class="pre">movie.xyz.vmd</span></code> file for use with VMD (e.g., <code class="docutils literal notranslate"><span class="pre">vmd</span> <span class="pre">-e</span> <span class="pre">movie.xyz.vmd</span></code>).</p>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

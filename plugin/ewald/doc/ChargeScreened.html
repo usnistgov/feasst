@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ChargeScreened &mdash; FEASST v0.11.0 documentation</title>
+  <title>ChargeScreened &mdash; FEASST v0.12.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.11.0
+                v0.12.0
               </div>
             
           
@@ -132,6 +132,7 @@
 <li class="toctree-l4"><a class="reference internal" href="ChargeSelf.html">ChargeSelf</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">ChargeScreened</a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils.html">ewald/include/utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
@@ -142,6 +143,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
 </ul>
 </li>
@@ -150,7 +152,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ACKNOWLEDGEMENT.html">Acknowledgement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CITATION.html">Citation</a></li>
 </ul>
 
             
@@ -268,13 +270,16 @@
 <h1>ChargeScreened<a class="headerlink" href="#chargescreened" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst14ChargeScreenedE">
-<span class="target" id="classfeasst_1_1ChargeScreened"></span><em class="property">class </em><code class="sig-name descname">ChargeScreened</code> : <em class="property">public</em> <a class="reference internal" href="../../cluster/doc/utils_cluster.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst14ChargeScreenedE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Assumes units:<ol class="arabic simple">
+<span class="target" id="classfeasst_1_1ChargeScreened"></span><em class="property">class </em><code class="sig-name descname">ChargeScreened</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/ModelTwoBody.html#_CPPv4N6feasst12ModelTwoBodyE" title="feasst::ModelTwoBody">ModelTwoBody</a><a class="headerlink" href="#_CPPv4N6feasst14ChargeScreenedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute energy between two point charges, <span class="math notranslate nohighlight">\(q_i\)</span> and <span class="math notranslate nohighlight">\(q_j\)</span> with a Gaussian screening cloud as utilized by the <a class="reference internal" href="Ewald.html#classfeasst_1_1Ewald"><span class="std std-ref">Ewald</span></a> summation.</p>
+<p><span class="math notranslate nohighlight">\(U = q_i q_j \chi erfc(\alpha r)/r\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(erfc\)</span> is the complimentary error function, <span class="math notranslate nohighlight">\(r\)</span> is the separation distance, and <span class="math notranslate nohighlight">\(\chi\)</span> is the charge conversion factor assuming the following units:<ol class="arabic simple">
 <li><p>length: Angstroms</p></li>
 <li><p>energy: kJ/mol</p></li>
-<li><p>charge: elementary </p></li>
+<li><p>charge: elementary</p></li>
 </ol>
 </p>
+<p>Avoid Coulomb explosion by returning a large number when <span class="math notranslate nohighlight">\(r\)</span> is near zero. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
