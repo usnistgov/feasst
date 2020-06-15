@@ -9,7 +9,7 @@
 
 namespace feasst {
 
-/// Attempt to remove a particle.
+/// Attempt to remove a particle with AVB as described in ComputeRemoveAVB.
 class TrialRemoveAVB : public Trial {
  public:
   TrialRemoveAVB(

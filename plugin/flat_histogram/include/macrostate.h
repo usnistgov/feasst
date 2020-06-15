@@ -28,11 +28,13 @@ class Macrostate {
    */
   Macrostate(const Histogram& histogram,  const argtype& args = argtype());
 
-  /// Set the bins of the macrostate by providing a Histogram.
-  /// This is required before the macrostate can be used for flat histogram
-  /// methods.
-  /// The histogram only serves to determine the bins, and should not be
-  /// expanded or have values added during the course of the simulation.
+  /**
+    Set the bins of the macrostate by providing a Histogram.
+    This is required before the macrostate can be used for flat histogram
+    methods.
+    The histogram only serves to determine the bins, and should not be
+    expanded or have values added during the course of the simulation.
+   */
   void set(const Histogram histogram) { histogram_ = histogram; }
 
   /// Return the histogram.
@@ -84,21 +86,6 @@ class Macrostate {
   int soft_max_;
   int soft_min_;
 };
-
-///// Segment an range into pieces by exponential scaling.
-//std::vector<double> segment(
-//    const double min,   //!< minimum in range
-//    const double max,   //!< maximum in range
-//    const int num,      //!< number of segments
-//    const double exp);  //!< exponential parameter
-//
-///// Segment a range into windows by exponential scaling.
-//std::vector<std::vector<int> > window(
-//    const int min,   //!< minimum in range
-//    const int max,   //!< maximum in range
-//    const int num,      //!< number of segments
-//    const double exp,    //!< exponential parameter
-//    const int extra_overlap = 0);  //!< extra overlap between windows
 
 }  // namespace feasst
 

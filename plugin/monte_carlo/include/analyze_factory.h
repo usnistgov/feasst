@@ -23,6 +23,9 @@ class AnalyzeFactory : public Analyze {
   /// Add an Analyze object.
   void add(std::shared_ptr<Analyze> analyze) { analyzers_.push_back(analyze); }
 
+  /// Return the number.
+  int num() const { return static_cast<int>(analyzers_.size()); }
+
   /// Return the Analyze objects.
   const std::vector<std::shared_ptr<Analyze> >& analyzers() const override {
     return analyzers_; }

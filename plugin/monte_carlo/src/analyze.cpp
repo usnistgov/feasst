@@ -23,12 +23,18 @@ std::shared_ptr<Analyze> Analyze::deserialize(std::istream& istr) {
     true);
 }
 
-void Analyze::trial(const Criteria& criteria,
+void Analyze::check_update_(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   if (is_time(steps_per_update(), &steps_since_update_)) {
     update(criteria, system, trial_factory);
   }
+}
+
+void Analyze::trial(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trial_factory) {
+  check_update_(criteria, system, trial_factory);
   if (is_time(steps_per_write(), &steps_since_write_)) {
     printer(write(criteria, system, trial_factory));
   }

@@ -88,8 +88,19 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
 void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
   ASSERT(criteria_set_, "set Criteria before Analyze");
   DEBUG("class name? " << analyze->class_name());
-  if (analyze->is_multistate() and analyze->class_name() != "AnalyzeFactory") {
-    auto multi = MakeAnalyzeFactory({{"multistate", "true"}});
+  if (analyze->is_multistate() && analyze->class_name() != "AnalyzeFactory") {
+    int steps_per_write = 1;
+    std::string file_name;
+    if (analyze->is_multistate_aggregate()) {
+      steps_per_write = analyze->steps_per_write();
+      file_name = analyze->file_name();
+      analyze->initialize(criteria_.get(), &system_, &trial_factory_);
+    }
+    auto multi = MakeAnalyzeFactory({
+      {"multistate", "true"},
+      {"steps_per_write", str(steps_per_write)},
+      {"file_name", file_name},
+      {"steps_per_update", "1"}});
     DEBUG("making multi " << multi->is_multistate());
     for (int state = 0; state < criteria_->num_states(); ++state) {
       DEBUG("state: " << state);
@@ -97,6 +108,9 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
       { std::stringstream ss;
         an->serialize(ss);
         DEBUG(ss.str());
+      }
+      if (analyze->is_multistate_aggregate()) {
+        an->empty_file_name();
       }
       an->set_state(state);
       // an->initialize(criteria_, system_, trial_factory_);
@@ -114,18 +128,6 @@ void MonteCarlo::add(const std::shared_ptr<Modify> modify) {
   modify->initialize(criteria_.get(), &system_, &trial_factory_);
   modify_factory_.add(modify);
 }
-
-//void MonteCarlo::seek_num_particles(const int num) {
-//  ASSERT(system_.configuration().num_particles() <= num,
-//    "assumes you only want to add particles, not delete them");
-//  auto add = MakeTrialAdd({{"particle_type", "0"}});
-//  add->precompute(criteria_.get(), &system_);
-//  while (system_.configuration().num_particles() < num) {
-//    attempt();
-//    add->attempt(criteria_.get(), &system_, random_.get());
-//  }
-//  reset_trial_stats();
-//}
 
 void MonteCarlo::set(const std::shared_ptr<Checkpoint> checkpoint) {
   checkpoint_ = checkpoint;
@@ -243,10 +245,13 @@ void MonteCarlo::imitate_trial_rejection_(const int trial_index,
 }
 
 void MonteCarlo::initialize_energy() {
-  criteria_->set_current_energy(system_.unoptimized_energy());
+  const double en = system_.unoptimized_energy();
   system_.energy();
   for (int ref = 0; ref < system_.num_references(); ++ref) {
     system_.reference_energy(ref);
+  }
+  if (criteria_) {
+    criteria_->set_current_energy(en);
   }
 }
 

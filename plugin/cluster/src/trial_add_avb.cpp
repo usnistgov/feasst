@@ -15,8 +15,7 @@ TrialAddAVB::TrialAddAVB(
   add_stage(
     MakeSelectParticleAVB(neighbor_criteria, args_sel),
     MakePerturbAddAVB(neighbor_criteria, args),
-    args
-  );
+    args);
   set(MakeComputeAddAVB());
   class_name_ = "TrialAddAVB";
 }

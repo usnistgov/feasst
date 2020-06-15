@@ -114,6 +114,10 @@ class TrialSelect : public PropertiedEntity {
   void replace_mobile(const Select& replacement, const int sel_part_index,
     const Configuration& config);
 
+  // HWH used in ComputeAddAVBDivalent
+  const EnergyMap& map_(const System& system,
+    const NeighborCriteria& neighbor_criteria) const;
+
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<TrialSelect> create(std::istream& istr) const;
@@ -131,9 +135,6 @@ class TrialSelect : public PropertiedEntity {
 
   void serialize_trial_select_(std::ostream& ostr) const;
   TrialSelect(std::istream& istr);
-
-  const EnergyMap& map_(const System& system,
-    const NeighborCriteria& neighbor_criteria) const;
 
  private:
   int group_index_;

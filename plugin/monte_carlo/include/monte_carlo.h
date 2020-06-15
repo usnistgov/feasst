@@ -97,18 +97,12 @@ class MonteCarlo {
   const Trial& trial(const int index) const {
     return trial_factory_.trial(index); }
 
-//  // HWH consider moving this to utils
-//  // HWH consider depreciating this. While convenient, it confuses many users.
-//  /// Before the production simulation, one may wish to quickly seek an initial
-//  /// configuration with a given number of particles, without necessarily
-//  /// satisfying detailed balance.
-//  /// Thus, all stats are reset.
-//  void seek_num_particles(const int num);
-
-  /// An Analyzer performs some task after a given number of steps, but is
-  /// read-only on System, Criteria and Trials.
-  /// At this stage, multistate non-factory classes are converted into
-  /// factories for each state in criteria.
+  /**
+    An Analyzer performs some task after a given number of steps, but is
+    read-only on System, Criteria and Trials.
+    At this stage, multistate non-factory classes are converted into
+    factories for each state in criteria.
+   */
   void add(std::shared_ptr<Analyze> analyze);
 
   /// Return all analyzers.

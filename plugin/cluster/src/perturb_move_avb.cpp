@@ -35,7 +35,8 @@ void PerturbMoveAVB::move(
     System * system,
     TrialSelect * select,
     Random * random) {
-  DEBUG(select->mobile().str());
+  DEBUG("mobile " << select->mobile().str());
+  DEBUG("anchor " << select->anchor().str());
   const Configuration& config = system->configuration();
 
   // give particle random orientation
@@ -50,6 +51,7 @@ void PerturbMoveAVB::move(
   const Position& anchor_pos = config.select_particle(
     select->anchor().particle_index(0)).site(
     select->anchor().site_index(0, 0)).position();
+  DEBUG("anchor_pos " << anchor_pos.str());
 
   DEBUG("inside " << inside_);
   if (inside_) {
@@ -85,7 +87,6 @@ void PerturbMoveAVB::move(
   displace_.subtract(mobile_pos);
 //  displace_.subtract(config.select_particle(select->mobile().particle_index(0)).site(
 //    select->mobile().site_index(0, 0)).position());
-  DEBUG("anchor_pos " << anchor_pos.str());
   DEBUG("displace " << displace_.str());
   translate_.move(displace_, system, select);
 }

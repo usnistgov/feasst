@@ -107,13 +107,17 @@ void Accumulator::set_moments(const int num_moments) {
   val_moment_.resize(num_moments);
 }
 
-std::string Accumulator::str() const {
+std::string Accumulator::status_header() const {
   std::stringstream ss;
   ss << "average,stdev,block_stdev,n,";
   for (int i = 0; i < static_cast<int>(val_moment_.size()); ++i) {
     ss << "moment" << i << ",";
   }
-  ss << std::endl;
+  return ss.str();
+}
+
+std::string Accumulator::status() const {
+  std::stringstream ss;
   ss << MAX_PRECISION << average() << ",";
   ss << stdev() << ",";
   ss << block_stdev() << ",";
@@ -121,6 +125,12 @@ std::string Accumulator::str() const {
   for (const long double moment : val_moment_) {
     ss << moment << ",";
   }
+  return ss.str();
+}
+
+std::string Accumulator::str() const {
+  std::stringstream ss;
+  ss << status_header() << std::endl << status();
   return ss.str();
 }
 

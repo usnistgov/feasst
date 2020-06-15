@@ -103,7 +103,9 @@ class EnergyMap {
     /// random_site is the given site index.
     const int random_site,
     Random * random,
-    Select * neighbors) const;
+    Select * neighbors,
+    /// If 1, use newly computed map.
+    const int new_map = 0) const;
 
   virtual void check() const {}
 

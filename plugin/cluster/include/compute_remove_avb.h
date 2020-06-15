@@ -1,6 +1,6 @@
 
-#ifndef FEASST_MONTE_CARLO_COMPUTE_REMOVE_AVB_H_
-#define FEASST_MONTE_CARLO_COMPUTE_REMOVE_AVB_H_
+#ifndef FEASST_CLUSTER_COMPUTE_REMOVE_AVB_H_
+#define FEASST_CLUSTER_COMPUTE_REMOVE_AVB_H_
 
 #include <memory>
 #include <vector>
@@ -52,6 +52,7 @@ class ComputeRemoveAVB : public TrialCompute {
 inline std::shared_ptr<ComputeRemoveAVB> MakeComputeRemoveAVB() {
   return std::make_shared<ComputeRemoveAVB>();
 }
+
 }  // namespace feasst
 
-#endif  // FEASST_MONTE_CARLO_COMPUTE_REMOVE_AVB_H_
+#endif  // FEASST_CLUSTER_COMPUTE_REMOVE_AVB_H_

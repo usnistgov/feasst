@@ -8,6 +8,10 @@
 
 namespace feasst {
 
+class Criteria;
+class System;
+class TrialFactory;
+
 /**
   Perform an action (update or write) every so many steps.
   This action could be read-only (see Analyze) or not (see Modify).
@@ -27,7 +31,11 @@ class Stepper {
       Do not append if false (default: "false").
     - clear_file: set true to clear contents of file_name, if exists.
       (default: false).
-    - multistate: set "true" to copy for each state (default: "false")
+    - multistate: set "true" to copy for each state (default: false)
+    - multistate_aggregate: aggregate the writing of all states, only when
+      multistate is enabled (default: true).
+      Thus, steps_per_write refers now to the writing of all states.
+      Individual states no longer write.
     - num_block: number of updated per block in accumulator.
       If not provided, use default value in Accumulator.
    */
@@ -41,6 +49,9 @@ class Stepper {
 
   /// Return the file name.
   std::string file_name() const { return file_name_; }
+
+  /// Empty the file name.
+  void empty_file_name() { file_name_ = ""; }
 
   /// Return true if appending.
   bool append() const { return append_; }
@@ -62,6 +73,14 @@ class Stepper {
 
   /// Return the number of steps since write.
   int steps_since_write() const { return steps_since_write_; }
+
+  /// Return true if aggregating the write of multistate.
+  bool is_multistate_aggregate() const { return is_multistate_aggregate_; }
+
+  /// Return the header for writing.
+  virtual std::string header(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trials) const { return std::string(""); }
 
   virtual std::string class_name() const { return std::string("Stepper"); }
 
@@ -106,6 +125,7 @@ class Stepper {
   std::string file_name_;
   bool append_;
   bool is_multistate_;
+  bool is_multistate_aggregate_;
   int state_ = 0;
 };
 

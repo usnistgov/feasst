@@ -4,6 +4,11 @@
 
 namespace feasst {
 
+Modify::Modify(const argtype &args) : Stepper(args) {
+  ASSERT(!is_multistate() || !is_multistate_aggregate(),
+    "multistate_aggregate not implemented");
+}
+
 std::map<std::string, std::shared_ptr<Modify> >& Modify::deserialize_map() {
   static std::map<std::string, std::shared_ptr<Modify> >* ans =
      new std::map<std::string, std::shared_ptr<Modify> >();

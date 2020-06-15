@@ -9,7 +9,7 @@
 
 namespace feasst {
 
-/// Attempt to add a particle.
+/// Attempt to add a particle with AVB as described in ComputeAddAVB.
 class TrialAddAVB : public Trial {
  public:
   TrialAddAVB(

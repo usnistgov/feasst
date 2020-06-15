@@ -214,6 +214,8 @@ bool EnergyMapAll::is_cluster_changed(const NeighborCriteria& neighbor_criteria,
   return false;
 }
 
+typedef std::vector<std::vector<std::vector<std::vector<double> > > > vec4;
+
 void EnergyMapAll::neighbors(
     const NeighborCriteria& neighbor_criteria,
     const Configuration& config,
@@ -221,18 +223,21 @@ void EnergyMapAll::neighbors(
     const int target_site,
     const int random_site,
     Random * random,
-    Select * neighbors) const {
+    Select * neighbors,
+    const int new_map) const {
   neighbors->clear();
   const Site& site0 = config.select_particle(target_particle).site(target_site);
   const int site_type0 = site0.type();
   DEBUG("target_particle " << target_particle);
   DEBUG("sz " << map_.size());
-  const std::vector<std::vector<std::vector<std::vector<double> > > >& map4 =
-    map_[target_particle];
-  for (int ipart = 0; ipart < static_cast<int>(map4.size()); ++ipart) {
+  const vec4 * map4 = const_cast<vec4 * const>(&map_[target_particle]);
+  if (new_map == 1) {
+    map4 = const_cast<vec4 * const>(&map_new_[target_particle]);
+  }
+  for (int ipart = 0; ipart < static_cast<int>(map4->size()); ++ipart) {
     const Site& site1 = config.select_particle(ipart).site(random_site);
     const int site_type1 = site1.type();
-    const std::vector<double> & map1 = map4[ipart][target_site][random_site];
+    const std::vector<double> & map1 = (*map4)[ipart][target_site][random_site];
     if (neighbor_criteria.is_accepted(map1[0], map1[1],
                                        site_type0, site_type1)) {
       neighbors->add_site(ipart, random_site);

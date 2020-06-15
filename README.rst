@@ -181,7 +181,7 @@ Ubuntu 16
 * sudo apt install swig
 
 Ubuntu 18 or 20
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 * We are not aware of any issues with an Ubuntu 18 or 20 install.
 

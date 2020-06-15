@@ -329,7 +329,7 @@ To Do List
 * MonteCarlo subclass Simulation
 * swig python wrap arguments std::istream and std::ostream for serialization
 * add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects
-* Refactor Select classes. There are too many, and VisitModels may prefer to update select properties (e.g., cell, eik)
+* VisitModels may prefer to update select properties (e.g., cell, eik)
 * Jupyter notebook output should go to cells, not terminal that runs jupyter.
 * implement gibbs ensemble
 * lint file_[xyz,lmp]
@@ -340,13 +340,10 @@ To Do List
 * Refactor arguments so that they can be checked for usage (especially in Trials)
 * Rename TrialSelect->SelectTrial, TrialCompute->ComputeTrial. Rename Compute->Decide?.
 * See if there is a performance difference for const_cast pointer to constant Reference. If not, remove const pntrs.
-* Transition from WL to TM
 * Somehow, trial_growth_expanded.h doesn't include debug.h but can compile with ASSERT
 * Speed up RNG by maintaining int_distribution like dis_double
 * Document utils lj, spce, rpm in tutorials
-* Cell list uses slow wrap method
 * Add a FAQ for common compile errors: "no known conversion from brace-enclosed initializer list to const argtype&" often means that a parameter was not converted to a string.
-* Make a CONTRIBUTING that describes how to make a pull request
 * Make a CachedRandom and CachedPotential for prefetch and avoid if statements that could slow down serial simulations.
 * remove tutorial/fh.py
 * Tuner->Tune

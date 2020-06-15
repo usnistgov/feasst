@@ -17,6 +17,7 @@ void TrialCompute::compute_rosenbluth(
   double energy_change = 0.;
   bool reference_used = false;
   for (TrialStage* stage : *stages) {
+    DEBUG("*** Attempting stage ***");
     stage->attempt(system, acceptance, criteria, old, random);
     if (stage->rosenbluth().chosen_step() == -1) {
       if (!stage->is_mayer()) {

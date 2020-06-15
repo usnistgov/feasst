@@ -140,6 +140,8 @@
 #include "cluster/include/compute_add_avb.h"
 #include "cluster/include/compute_remove_avb.h"
 #include "cluster/include/compute_gca.h"
+#include "cluster/include/compute_add_avb_divalent.h"
+#include "cluster/include/compute_remove_avb_divalent.h"
 #include "monte_carlo/include/trial_compute_add.h"
 #include "monte_carlo/include/trial_compute_remove.h"
 #include "monte_carlo/include/trial_compute_move.h"
@@ -384,6 +386,8 @@ using namespace std;
 %shared_ptr(feasst::ComputeAddAVB);
 %shared_ptr(feasst::ComputeRemoveAVB);
 %shared_ptr(feasst::ComputeGCA);
+%shared_ptr(feasst::ComputeAddAVBDivalent);
+%shared_ptr(feasst::ComputeRemoveAVBDivalent);
 %shared_ptr(feasst::TrialComputeAdd);
 %shared_ptr(feasst::TrialComputeRemove);
 %shared_ptr(feasst::TrialComputeMove);
@@ -601,6 +605,8 @@ using namespace std;
 %include cluster/include/compute_add_avb.h
 %include cluster/include/compute_remove_avb.h
 %include cluster/include/compute_gca.h
+%include cluster/include/compute_add_avb_divalent.h
+%include cluster/include/compute_remove_avb_divalent.h
 %include monte_carlo/include/trial_compute_add.h
 %include monte_carlo/include/trial_compute_remove.h
 %include monte_carlo/include/trial_compute_move.h

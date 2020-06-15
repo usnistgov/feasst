@@ -27,8 +27,7 @@ class EnergyMapAll : public EnergyMap {
     const Select& select,
     const Configuration& config) const override;
 
-  /// Return the neighbors, but beware that the returned constant reference
-  /// may change if this routine is called a second time.
+  /// Return the neighbors.
   void neighbors(
     const NeighborCriteria& neighbor_criteria,
     const Configuration& config,
@@ -36,7 +35,8 @@ class EnergyMapAll : public EnergyMap {
     const int target_site,
     const int random_site,
     Random * random,
-    Select * neighbors) const override;
+    Select * neighbors,
+    const int new_map = 0) const override;
 
   void check() const override;
 

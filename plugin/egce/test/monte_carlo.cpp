@@ -8,6 +8,7 @@
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/trial_transfer.h"
+#include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/cpu_time.h"
@@ -25,6 +26,7 @@
 #include "ewald/include/charge_screened.h"
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/trial_transfer_avb.h"
+#include "cluster/include/trial_transfer_avb_divalent.h"
 #include "egce/include/a_equal_b.h"
 #include "egce/include/a_half_b.h"
 
@@ -226,7 +228,7 @@ MonteCarlo dival_egce(
   return mc;
 }
 
-void compare_lnpi_en(const MonteCarlo& mc, const int min) {
+void compare_lnpi(const MonteCarlo& mc, const int min) {
   int shift = 0;
   if (min == 1) shift = -1;
   const LnProbability lnpi =
@@ -246,10 +248,13 @@ void compare_lnpi_en(const MonteCarlo& mc, const int min) {
   EXPECT_NEAR(lnpi.value(index), -1.1371, 0.1);
   ++index;
   EXPECT_NEAR(lnpi.value(index), -1.2911, 0.1);
-  index = 0;
+}
+
+void compare_lnpi_en(const MonteCarlo& mc, const int min) {
+  compare_lnpi(mc, min);
   const std::vector<std::shared_ptr<Analyze> >& en =
     mc.analyzers().back()->analyzers();
-  index = 0;
+  int index = 0;
   if (min != 1) {
     EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
     ++index;
@@ -362,6 +367,62 @@ TEST(MonteCarlo, rpm_egce_divalent_avb_and_not) {
       {"particle_type", "1"},
       {"target_particle_type", "0"}}));
   mc.attempt(2*steps_per);
+}
+
+TEST(MonteCarlo, rpm_divalent_avb_LONG) {
+  const int min = 0, max = 5, steps_per = 1e3;
+  MonteCarlo mc = dival_egce(min, max, steps_per);
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
+  mc.set(MakeRandomMT19937({{"seed", "time"}}));
+  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
+                                               MakeChargeScreened()}),
+                      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+  mc.add_to_reference(Potential(MakeDontVisitModel()));
+    SeekNumParticles(3*max)
+      .with_metropolis(
+        MakeAHalfB({{"extra", "1"}}),
+        { {"beta", "0.1"},
+          {"chemical_potential0", "1"},
+          {"chemical_potential1", "1"}})
+      .add(MakeTrialAdd({{"particle_type", "0"}}))
+      .add(MakeTrialAdd({{"particle_type", "1"}}))
+      .run(&mc);
+  auto criteria = MakeFlatHistogram(
+    MakeMacrostateNumParticles(
+      Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}}),
+      {{"particle_type", "0"}}),
+    MakeTransitionMatrix({{"min_sweeps", "100"}}),
+    {{"beta", str(mc.criteria().beta())},
+     {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
+     {"chemical_potential1", str(mc.criteria().chemical_potential(1))}});
+  mc.set(criteria);
+  auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "1.5"},
+                                                 {"minimum_distance", "1"},
+                                                 {"site_type0", "0"},
+                                                 {"site_type1", "1"},
+                                                 {"potential_index", "1"}});
+  mc.add(MakeTrialTransferAVBDivalent(neighbor_criteria,
+    { {"weight", "1."},
+      {"particle_type", "0"},
+      {"particle_type_a", "1"},
+      {"particle_type_b", "1"},
+      {"reference_index", "0"}}));
+  mc.run_until_complete();
+  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+  EXPECT_NEAR(lnpi.value(0), -5.41, 0.1);
+  EXPECT_NEAR(lnpi.value(1), -3.42548, 0.1);
+  EXPECT_NEAR(lnpi.value(2), -2.02966, 0.1);
+  EXPECT_NEAR(lnpi.value(3), -1.35573, 0.1);
+  EXPECT_NEAR(lnpi.value(4), -1.16195, 0.1);
+  EXPECT_NEAR(lnpi.value(5), -1.34209, 0.1);
+  const std::vector<std::shared_ptr<Analyze> >& en =
+    mc.analyzers().back()->analyzers();
+  EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
+  EXPECT_NEAR(en[1]->accumulator().average(), -1.462473, 0.03);
+  EXPECT_NEAR(en[2]->accumulator().average(), -3.015735, 0.05);
+  EXPECT_NEAR(en[3]->accumulator().average(), -4.879190, 0.08);
+  EXPECT_NEAR(en[4]->accumulator().average(), -6.829874, 0.12);
+  EXPECT_NEAR(en[5]->accumulator().average(), -8.815852, 0.16);
 }
 
 }  // namespace feasst

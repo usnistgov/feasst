@@ -1,3 +1,4 @@
+#include <iostream>
 #include "monte_carlo/include/analyze_factory.h"
 #include "utils/include/serialize.h"
 
@@ -24,12 +25,35 @@ void AnalyzeFactory::initialize(Criteria * criteria,
 void AnalyzeFactory::trial(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  DEBUG("multistate? " << is_multistate() << " class? " << class_name());
+  DEBUG(" class? " << class_name());
   if (is_multistate()) {
+    DEBUG("multistate");
     DEBUG("state? " << criteria.state());
-    trial_(criteria, system, trial_factory, criteria.state());
+    if (is_multistate_aggregate()) {
+      DEBUG("aggregating");
+      analyzers_[criteria.state()]->check_update_(criteria, system, trial_factory);
+      if (is_time(steps_per_write(), &steps_since_write_)) {
+        std::stringstream ss;
+        for (int state = 0; state < num(); ++state) {
+          if (state == 0) {
+            ss << "state,";
+            ss << analyzers_[state]->header(criteria, system, trial_factory);
+          }
+          DEBUG("state " << state);
+          DEBUG("crit " << criteria.state());
+          DEBUG("crit " << criteria.num_states());
+          ss << state << ",";
+          ss << analyzers_[state]->write(criteria, system, trial_factory);
+//          ss << std::endl;
+        }
+        printer(ss.str());
+      }
+    } else {
+      trial_(criteria, system, trial_factory, criteria.state());
+    }
   } else {
-    for (int index = 0; index < static_cast<int>(analyzers_.size()); ++index) {
+    DEBUG("not multistate");
+    for (int index = 0; index < num(); ++index) {
 //    for (const std::shared_ptr<Analyze> analyze : analyzers_) {
       DEBUG("index " << index);
       trial_(criteria, system, trial_factory, index);

@@ -17,6 +17,20 @@ Energy::Energy(const argtype &args) : Analyze(args) {
   args_.init(args);
 }
 
+void Energy::initialize(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
+  printer(header(*criteria, *system, *trial_factory));
+}
+
+std::string Energy::header(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trial_factory) const {
+  std::stringstream ss;
+  ss << accumulator_.status_header() << std::endl;
+  return ss.str();
+}
+
 void Energy::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
@@ -29,7 +43,7 @@ std::string Energy::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;
-  ss << accumulator_.str();
+  ss << accumulator_.status() << std::endl;
   DEBUG(ss.str());
   return ss.str();
 }

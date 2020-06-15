@@ -17,6 +17,8 @@
    ComputeAddAVB
    ComputeRemoveAVB
    ComputeGCA
+   ComputeAddAVBDivalent
+   ComputeRemoveAVBDivalent
    ComputeAVB2
    ComputeAVB4
    PerturbPointReflect

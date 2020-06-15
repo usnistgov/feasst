@@ -50,6 +50,11 @@ class Analyze : public Stepper {
   explicit Analyze(std::istream& istr) : Stepper(istr) {}
   virtual ~Analyze() {}
   std::string class_name() const override { return std::string("Analyze"); }
+
+  // HWH only used by AnalyzeFactory
+  void check_update_(const Criteria& criteria,
+      const System& system,
+      const TrialFactory& trial_factory);
 };
 
 /**

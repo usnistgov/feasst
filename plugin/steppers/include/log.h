@@ -24,6 +24,10 @@ class Log : public AnalyzeWriteOnly {
  public:
   explicit Log(const argtype& args = argtype());
 
+  std::string header(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trials) const override;
+
   void initialize(Criteria * criteria,
       System * system,
       TrialFactory * trial_factory) override;

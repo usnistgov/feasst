@@ -14,6 +14,14 @@ class Energy : public Analyze {
  public:
   explicit Energy(const argtype &args = argtype());
 
+  std::string header(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trials) const override;
+
+  void initialize(Criteria * criteria,
+      System * system,
+      TrialFactory * trial_factory) override;
+
   void update(const Criteria& criteria,
       const System& system,
       const TrialFactory& trial_factory) override;

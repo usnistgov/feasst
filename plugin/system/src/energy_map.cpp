@@ -133,7 +133,8 @@ void EnergyMap::neighbors(
     const int target_site,
     const int random_site,
     Random * random,
-    Select * neighbors) const {
+    Select * neighbors,
+    const int new_map) const {
   FATAL("not implemented");
 }
 

@@ -113,7 +113,6 @@ TEST(MonteCarlo, NVT_cell_benchmark) {
   //mc.attempt(1e5);  // 5.6 sec with 50 particles, 10 steps on hwhdesk
   //mc.attempt(1e5);  // 5.1 sec with 50 particles, 10 steps on hwhdesk after opt cell_id
   mc.attempt(1e3);
-  INFO(mc.criteria().current_energy());
   // mc.attempt(1e6);
 }
 
@@ -156,10 +155,6 @@ TEST(MonteCarlo, GCMC) {
   EXPECT_NEAR(mc.trial(1).num_attempts(), 1e4*4/5., 400);
   EXPECT_NEAR(mc.trial(1).trial(0).num_attempts(), 1e4*2/5., 200);
   EXPECT_NEAR(mc.trial(1).trial(1).num_attempts(), 1e4*2/5., 200);
-  INFO(mc.trial(0).num_attempts());
-  INFO(mc.trial(1).num_attempts());
-  INFO(mc.trial(1).trial(0).num_attempts());
-  INFO(mc.trial(1).trial(1).num_attempts());
 }
 
 TEST(MonteCarlo, GCMC_cell) {

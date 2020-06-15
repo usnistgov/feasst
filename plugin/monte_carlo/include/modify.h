@@ -16,7 +16,7 @@ namespace feasst {
  */
 class Modify : public Stepper {
  public:
-  explicit Modify(const argtype &args = argtype()) : Stepper(args) {}
+  explicit Modify(const argtype &args = argtype());
 
   /// Initialize and precompute before trials.
   virtual void initialize(Criteria * criteria,

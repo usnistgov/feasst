@@ -8,11 +8,10 @@ namespace feasst {
 
 TrialAdd::TrialAdd(const argtype& args) : Trial(args) {
   add_stage(
-    std::make_shared<TrialSelectParticle>(args),
-    std::make_shared<PerturbAdd>(args),
-    args
-  );
-  set(std::make_shared<TrialComputeAdd>());
+    MakeTrialSelectParticle(args),
+    MakePerturbAdd(args),
+    args);
+  set(MakeTrialComputeAdd());
   class_name_ = "TrialAdd";
 }
 

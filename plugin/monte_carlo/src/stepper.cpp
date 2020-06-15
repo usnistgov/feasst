@@ -30,6 +30,8 @@ Stepper::Stepper(const argtype &args) {
   }
 
   set_multistate(args_.key("multistate").dflt("0").boolean());
+  is_multistate_aggregate_ =
+    args_.key("multistate_aggregate").dflt("true").boolean();
 
   if (args_.key("num_block").used()) {
     accumulator_.set_block(args_.integer());
@@ -49,7 +51,7 @@ bool Stepper::is_time(const int steps_per, int * steps_since) {
 
 void Stepper::printer(const std::string output) {
   DEBUG("filename? " << file_name_);
-  if (file_name_.empty()) {
+  if (file_name_.empty() && !is_multistate_aggregate()) {
     std::cout << output;
   } else {
     std::ofstream file;
@@ -82,6 +84,7 @@ void Stepper::serialize(std::ostream& ostr) const {
   feasst_serialize(file_name_, ostr);
   feasst_serialize(append_, ostr);
   feasst_serialize(is_multistate_, ostr);
+  feasst_serialize(is_multistate_aggregate_, ostr);
   feasst_serialize(state_, ostr);
   feasst_serialize_fstobj(accumulator_, ostr);
 }
@@ -98,6 +101,7 @@ Stepper::Stepper(std::istream& istr) {
   feasst_deserialize(&file_name_, istr);
   feasst_deserialize(&append_, istr);
   feasst_deserialize(&is_multistate_, istr);
+  feasst_deserialize(&is_multistate_aggregate_, istr);
   feasst_deserialize(&state_, istr);
   feasst_deserialize_fstobj(&accumulator_, istr);
 }

@@ -23,15 +23,21 @@ Log::Log(const argtype& args) : AnalyzeWriteOnly(args) {
 void Log::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
+  printer(header(*criteria, *system, *trial_factory));
+}
+
+std::string Log::header(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trial_factory) const {
   std::stringstream ss;
-  ss << system->status_header()
-     << criteria->status_header()
+  ss << system.status_header()
+     << criteria.status_header()
      // print number of attempts here instead of TrialFactory header because
      // multiple factories makes it redundant.
      << ",attempt"
-     << trial_factory->status_header()
+     << trial_factory.status_header()
      << std::endl;
-  printer(ss.str());
+  return ss.str();
 }
 
 std::string Log::write(const Criteria& criteria,

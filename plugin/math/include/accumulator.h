@@ -87,7 +87,13 @@ class Accumulator {
   /// Return the moments.
   std::vector<long double> moments() const { return val_moment_; }
 
-  /// Return human readable status as a string.
+  /// Return the header of the human readable status.
+  std::string status_header() const;
+
+  /// Return human readable status.
+  std::string status() const;
+
+  /// Combine header and status.
   std::string str() const;
 
   /// Return the last value accumulated.

@@ -59,6 +59,7 @@ void SeekNumParticles::run(MonteCarlo * monte_carlo) {
     crit = monte_carlo->get_criteria();
   }
   System * sys = monte_carlo->get_system();
+  crit->set_current_energy(sys->energy());
   Random * ran = monte_carlo->get_random();
   extra_trials_.precompute(crit, sys);
   monte_carlo->reset_trial_stats();

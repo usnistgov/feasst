@@ -102,14 +102,17 @@ TEST(MonteCarlo, lj_fh) {
       mc.add(MakeCriteriaWriter({
         {"steps_per", steps_per},
         {"file_name", "tmp/ljcrit.txt"}}));
-      mc.add(MakeEnergy({
-        {"file_name", "wlmc_energy"},
+      auto energy = MakeEnergy({
+        {"file_name", "tmp/lj_fh_energy"},
         {"steps_per_update", "1"},
-        {"steps_per_write", steps_per},
-        {"multistate", "true"}}));
-      // mc.attempt(1e4);
-      // mc.attempt(1e6); // note more than 1e4 steps required for TM
-      mc.run_until_complete();
+        {"steps_per_write", str(steps_per)},
+        {"multistate", "true"}});
+      EXPECT_EQ(energy->steps_per_update(), 1);
+      EXPECT_EQ(energy->steps_per_write(), 1e4);
+      mc.add(energy);
+      //mc.attempt(1e4);
+      mc.attempt(1e5); // note more than 1e4 steps required for TM
+      //mc.run_until_complete();
       // INFO(mc.criteria().write());
 
       //MonteCarlo mc2 = test_serialize_no_comp(mc);
