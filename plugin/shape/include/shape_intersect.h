@@ -1,10 +1,10 @@
 
-#ifndef FEASST_CONFINEMENT_SHAPE_INTERSECT_H_
-#define FEASST_CONFINEMENT_SHAPE_INTERSECT_H_
+#ifndef FEASST_SHAPE_SHAPE_INTERSECT_H_
+#define FEASST_SHAPE_SHAPE_INTERSECT_H_
 
 #include <memory>
 #include <sstream>
-#include "confinement/include/shape.h"
+#include "shape/include/shape.h"
 
 namespace feasst {
 
@@ -40,4 +40,4 @@ inline std::shared_ptr<ShapeIntersect> MakeShapeIntersect() {
 
 }  // namespace feasst
 
-#endif  // FEASST_CONFINEMENT_SHAPE_INTERSECT_H_
+#endif  // FEASST_SHAPE_SHAPE_INTERSECT_H_

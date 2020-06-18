@@ -1,6 +1,6 @@
 #include <memory>
 #include "utils/include/serialize.h"
-#include "confinement/include/shape_intersect.h"
+#include "shape/include/shape_intersect.h"
 
 namespace feasst {
 

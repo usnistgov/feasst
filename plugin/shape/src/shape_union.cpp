@@ -1,6 +1,6 @@
 #include <memory>
 #include "utils/include/serialize.h"
-#include "confinement/include/shape_union.h"
+#include "shape/include/shape_union.h"
 
 namespace feasst {
 

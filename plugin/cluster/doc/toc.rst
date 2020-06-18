@@ -6,13 +6,15 @@
    EnergyMapAllCriteria
    SelectParticleAVB
    SelectCluster
-   TrialAVB2Half
-   TrialRemoveAVB
-   TrialAddAVB
-   TrialAVB4
+   SelectParticleAVBDivalent
    TrialAVB2
    TrialTransferAVB
    TrialTranslateCluster
+   TrialAVB2Half
+   TrialRemoveAVB
+   TrialAddAVB
+   TrialAddAVBDivalent
+   TrialAVB4
    ComputeMoveCluster
    ComputeAddAVB
    ComputeRemoveAVB

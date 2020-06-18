@@ -70,7 +70,7 @@ class Domain {
   explicit Domain(const argtype& args = argtype());
 
   /// Get the side lengths.
-  Position side_lengths() const { return side_lengths_; }
+  const Position& side_lengths() const { return side_lengths_; }
 
   /// Get the side length.
   double side_length(const int dimension) const {

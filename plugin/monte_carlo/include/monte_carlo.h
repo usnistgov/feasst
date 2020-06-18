@@ -143,6 +143,7 @@ class MonteCarlo {
   virtual void reset_trial_stats() { trial_factory_.reset_stats(); }
 
   /// Attempt Monte Carlo trials until Criteria returns completion.
+  /// If available, automatically write checkpoint when complete.
   void run_until_complete() {
     run_until_complete_(&trial_factory_, random_.get()); }
 
@@ -203,13 +204,9 @@ class MonteCarlo {
   virtual void attempt_(int num_trials,
     TrialFactory * trial_factory,
     Random * random);
-
+  void write_checkpoint_();
   virtual void run_until_complete_(TrialFactory * trial_factory,
-                                   Random * random) {
-    while (!criteria_->is_complete()) {
-      attempt_(1, trial_factory, random);
-    }
-  }
+                                   Random * random);
 
  private:
   System system_;

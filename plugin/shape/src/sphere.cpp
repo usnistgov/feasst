@@ -1,6 +1,8 @@
 #include <cmath>
 #include "utils/include/serialize.h"
-#include "confinement/include/sphere.h"
+#include "math/include/constants.h"
+#include "math/include/utils_math.h"
+#include "shape/include/sphere.h"
 
 namespace feasst {
 
@@ -42,6 +44,27 @@ Sphere::Sphere(std::istream& istr) {
   ASSERT(629 == version, version);
   feasst_deserialize(&radius_, istr);
   feasst_deserialize_fstobj(&center_, istr);
+}
+
+double Sphere::surface_area() const { return 4.*PI*std::pow(radius_, 2); }
+
+double Sphere::volume() const { return 4./3.*PI*std::pow(radius_, 3); }
+
+void Sphere::surface_mesh(const double target_density,
+    std::vector<Position> * points) const {
+  int num = feasst::round(target_density*surface_area());
+  points->resize(num);
+  const double increment = PI*(3. - std::sqrt(5));
+  const double offset = 2./static_cast<double>(num);
+  for (int pt = 0; pt < num; ++pt) {
+    const double y = pt*offset - 1 + 0.5*offset;
+    const double r = std::sqrt(1. - y*y);
+    const double phi = pt*increment;
+    (*points)[pt].set_vector({
+      radius_*std::cos(phi)*r,
+      radius_*y,
+      radius_*std::sin(phi)*r});
+  }
 }
 
 }  // namespace feasst

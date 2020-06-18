@@ -17,15 +17,28 @@ class cd:
     def __exit__(self, etype, value, traceback):
         os.chdir(self._savedPath)
 
-#def vector_vector_to_list(vec):
-#    """ converts a swig stl vector to python list """
-#    lst = list()
-#    for index1 in range(len(vec)):
-#        lst2 = list()
-#        for index2 in range(len(vec[index1])):
-#          lst2.append(vec[index1][index2])
-#        lst.append(lst2)
-#    return lst
+def vector2d_to_list(vec):
+    """ converts a swig stl vector to python list """
+    lst = list()
+    for index1 in range(len(vec)):
+        lst2 = list()
+        for index2 in range(len(vec[index1])):
+          lst2.append(vec[index1][index2])
+        lst.append(lst2)
+    return lst
+
+def vector3d_to_list(vec):
+    """ converts a swig stl vector to python list """
+    lst = list()
+    for index1 in range(len(vec)):
+        lst2 = list()
+        for index2 in range(len(vec[index1])):
+            lst3 = list()
+            for index3 in range(len(vec[index1][index2])):
+                lst3.append(vec[index1][index2][index3])
+            lst2.append(lst3)
+        lst.append(lst2)
+    return lst
 
 import subprocess
 def bash_command(cmd):

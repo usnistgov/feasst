@@ -255,4 +255,16 @@ void MonteCarlo::initialize_energy() {
   }
 }
 
+void MonteCarlo::write_checkpoint_() {
+  if (checkpoint_) checkpoint_->write(*this);
+}
+
+void MonteCarlo::run_until_complete_(TrialFactory * trial_factory,
+                                     Random * random) {
+  while (!criteria_->is_complete()) {
+    attempt_(1, trial_factory, random);
+  }
+  write_checkpoint_();
+}
+
 }  // namespace feasst

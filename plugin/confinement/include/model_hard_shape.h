@@ -3,7 +3,7 @@
 #define FEASST_CONFINEMENT_MODEL_HARD_SHAPE_H_
 
 #include "system/include/model_one_body.h"
-#include "confinement/include/shape.h"
+#include "shape/include/shape.h"
 
 namespace feasst {
 

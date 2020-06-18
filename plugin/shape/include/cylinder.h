@@ -1,8 +1,8 @@
 
-#ifndef FEASST_CONFINEMENT_CYLINDER_H_
-#define FEASST_CONFINEMENT_CYLINDER_H_
+#ifndef FEASST_SHAPE_CYLINDER_H_
+#define FEASST_SHAPE_CYLINDER_H_
 
-#include "confinement/include/shape.h"
+#include "shape/include/shape.h"
 #include "utils/include/arguments.h"
 
 namespace feasst {
@@ -47,4 +47,4 @@ inline std::shared_ptr<Cylinder> MakeCylinder(
 
 }  // namespace feasst
 
-#endif  // FEASST_CONFINEMENT_CYLINDER_H_
+#endif  // FEASST_SHAPE_CYLINDER_H_

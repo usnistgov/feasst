@@ -29,6 +29,7 @@
 #include "utils/include/utils_io.h"
 #include "utils/include/serialize.h"
 #include "utils/include/cache.h"
+#include "math/include/table.h"
 #include "math/include/accumulator.h"
 #include "monte_carlo/include/stepper.h"
 #include "math/include/histogram.h"
@@ -36,6 +37,13 @@
 #include "math/include/formula_polynomial.h"
 #include "math/include/utils_math.h"
 #include "math/include/position.h"
+#include "shape/include/shape.h"
+#include "shape/include/sphere.h"
+#include "shape/include/slab.h"
+#include "shape/include/half_space.h"
+#include "shape/include/cylinder.h"
+#include "shape/include/shape_union.h"
+#include "shape/include/shape_intersect.h"
 #include "system/include/bond_three_body.h"
 #include "system/include/angle_square_well.h"
 #include "system/include/bond_two_body.h"
@@ -96,14 +104,11 @@
 #include "chain/include/select_reptate.h"
 #include "cluster/include/select_particle_avb.h"
 #include "cluster/include/select_cluster.h"
+#include "cluster/include/select_particle_avb_divalent.h"
 #include "monte_carlo/include/perturb.h"
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute.h"
 #include "monte_carlo/include/trial.h"
-#include "cluster/include/trial_avb2_half.h"
-#include "cluster/include/trial_remove_avb.h"
-#include "cluster/include/trial_add_avb.h"
-#include "cluster/include/trial_avb4.h"
 #include "monte_carlo/include/trial_remove.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "cluster/include/trial_avb2.h"
@@ -135,6 +140,11 @@
 #include "monte_carlo/include/trial_transfer.h"
 #include "cluster/include/trial_rigid_cluster.h"
 #include "monte_carlo/include/trial_add.h"
+#include "cluster/include/trial_avb2_half.h"
+#include "cluster/include/trial_remove_avb.h"
+#include "cluster/include/trial_add_avb.h"
+#include "cluster/include/trial_transfer_avb_divalent.h"
+#include "cluster/include/trial_avb4.h"
 #include "chain/include/trial_swap_sites.h"
 #include "cluster/include/compute_move_cluster.h"
 #include "cluster/include/compute_add_avb.h"
@@ -197,15 +207,9 @@
 #include "ewald/include/check_net_charge.h"
 #include "mayer/include/criteria_mayer.h"
 #include "mayer/include/trial.h"
-#include "confinement/include/shape.h"
-#include "confinement/include/shape_intersect.h"
-#include "confinement/include/model_hard_shape.h"
-#include "confinement/include/cylinder.h"
-#include "confinement/include/half_space.h"
-#include "confinement/include/slab.h"
-#include "confinement/include/sphere.h"
-#include "confinement/include/shape_union.h"
 #include "confinement/include/model_lj_shape.h"
+#include "confinement/include/model_hard_shape.h"
+#include "confinement/include/model_table_cartesian.h"
 #include "patch/include/patch_angle.h"
 #include "patch/include/visit_model_inner_patch.h"
 #include "flat_histogram/include/window.h"
@@ -230,8 +234,10 @@ using namespace feasst;
 %include "std_shared_ptr.i"
 %include "std_iostream.i"
 %template(IntVector) std::vector<int>;
-%template(IntIntVector) std::vector<std::vector<int> >;
+%template(Int2DVector) std::vector<std::vector<int> >;
 %template(DoubleVector) std::vector<double>;
+%template(Double2DVector) std::vector<std::vector<double> >;
+%template(Double3DVector) std::vector<std::vector<std::vector<double> > >;
 %template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;
 using namespace std;
 %pythonnondynamic;
@@ -261,6 +267,7 @@ using namespace std;
 %shared_ptr(feasst::CODATA2010);
 %shared_ptr(feasst::PhysicalConstantsCustom);
 %shared_ptr(feasst::Cache);
+%shared_ptr(feasst::Table3D);
 %shared_ptr(feasst::Accumulator);
 %shared_ptr(feasst::Stepper);
 %shared_ptr(feasst::Histogram);
@@ -268,6 +275,14 @@ using namespace std;
 %shared_ptr(feasst::FormulaPolynomial);
 %shared_ptr(feasst::Position);
 %shared_ptr(feasst::SpatialEntity);
+%shared_ptr(feasst::Shape);
+%shared_ptr(feasst::ShapedEntity);
+%shared_ptr(feasst::Sphere);
+%shared_ptr(feasst::Slab);
+%shared_ptr(feasst::HalfSpace);
+%shared_ptr(feasst::Cylinder);
+%shared_ptr(feasst::ShapeUnion);
+%shared_ptr(feasst::ShapeIntersect);
 %shared_ptr(feasst::BondThreeBody);
 %shared_ptr(feasst::AngleSquareWell);
 %shared_ptr(feasst::BondTwoBody);
@@ -336,14 +351,11 @@ using namespace std;
 %shared_ptr(feasst::SelectReptate);
 %shared_ptr(feasst::SelectParticleAVB);
 %shared_ptr(feasst::SelectCluster);
+%shared_ptr(feasst::SelectParticleAVBDivalent);
 %shared_ptr(feasst::Perturb);
 %shared_ptr(feasst::TrialStage);
 %shared_ptr(feasst::TrialCompute);
 %shared_ptr(feasst::Trial);
-%shared_ptr(feasst::TrialAVB2Half);
-%shared_ptr(feasst::TrialRemoveAVB);
-%shared_ptr(feasst::TrialAddAVB);
-%shared_ptr(feasst::TrialAVB4);
 %shared_ptr(feasst::TrialRemove);
 %shared_ptr(feasst::TrialFactory);
 %shared_ptr(feasst::TrialAVB2);
@@ -381,6 +393,13 @@ using namespace std;
 %shared_ptr(feasst::TrialRotateCluster);
 %shared_ptr(feasst::TrialRigidCluster);
 %shared_ptr(feasst::TrialAdd);
+%shared_ptr(feasst::TrialAVB2Half);
+%shared_ptr(feasst::TrialRemoveAVB);
+%shared_ptr(feasst::TrialAddAVB);
+%shared_ptr(feasst::TrialAddAVBDivalent);
+%shared_ptr(feasst::TrialRemoveAVBDivalent);
+%shared_ptr(feasst::TrialTransferAVBDivalent);
+%shared_ptr(feasst::TrialAVB4);
 %shared_ptr(feasst::TrialSwapSites);
 %shared_ptr(feasst::ComputeMoveCluster);
 %shared_ptr(feasst::ComputeAddAVB);
@@ -447,16 +466,9 @@ using namespace std;
 %shared_ptr(feasst::CriteriaMayer);
 %shared_ptr(feasst::TrialComputeMoveMayer);
 %shared_ptr(feasst::TrialTranslateMayer);
-%shared_ptr(feasst::Shape);
-%shared_ptr(feasst::ShapedEntity);
-%shared_ptr(feasst::ShapeIntersect);
-%shared_ptr(feasst::ModelHardShape);
-%shared_ptr(feasst::Cylinder);
-%shared_ptr(feasst::HalfSpace);
-%shared_ptr(feasst::Slab);
-%shared_ptr(feasst::Sphere);
-%shared_ptr(feasst::ShapeUnion);
 %shared_ptr(feasst::ModelLJShape);
+%shared_ptr(feasst::ModelHardShape);
+%shared_ptr(feasst::ModelTableCart3FoldSym);
 %shared_ptr(feasst::PatchAngle);
 %shared_ptr(feasst::CosPatchAngle);
 %shared_ptr(feasst::VisitModelInnerPatch);
@@ -494,6 +506,7 @@ using namespace std;
 %include utils/include/utils_io.h
 %include utils/include/serialize.h
 %include utils/include/cache.h
+%include math/include/table.h
 %include math/include/accumulator.h
 %include monte_carlo/include/stepper.h
 %include math/include/histogram.h
@@ -501,6 +514,13 @@ using namespace std;
 %include math/include/formula_polynomial.h
 %include math/include/utils_math.h
 %include math/include/position.h
+%include shape/include/shape.h
+%include shape/include/sphere.h
+%include shape/include/slab.h
+%include shape/include/half_space.h
+%include shape/include/cylinder.h
+%include shape/include/shape_union.h
+%include shape/include/shape_intersect.h
 %include system/include/bond_three_body.h
 %include system/include/angle_square_well.h
 %include system/include/bond_two_body.h
@@ -561,14 +581,11 @@ using namespace std;
 %include chain/include/select_reptate.h
 %include cluster/include/select_particle_avb.h
 %include cluster/include/select_cluster.h
+%include cluster/include/select_particle_avb_divalent.h
 %include monte_carlo/include/perturb.h
 %include monte_carlo/include/trial_stage.h
 %include monte_carlo/include/trial_compute.h
 %include monte_carlo/include/trial.h
-%include cluster/include/trial_avb2_half.h
-%include cluster/include/trial_remove_avb.h
-%include cluster/include/trial_add_avb.h
-%include cluster/include/trial_avb4.h
 %include monte_carlo/include/trial_remove.h
 %include monte_carlo/include/trial_factory.h
 %include cluster/include/trial_avb2.h
@@ -600,6 +617,11 @@ using namespace std;
 %include monte_carlo/include/trial_transfer.h
 %include cluster/include/trial_rigid_cluster.h
 %include monte_carlo/include/trial_add.h
+%include cluster/include/trial_avb2_half.h
+%include cluster/include/trial_remove_avb.h
+%include cluster/include/trial_add_avb.h
+%include cluster/include/trial_transfer_avb_divalent.h
+%include cluster/include/trial_avb4.h
 %include chain/include/trial_swap_sites.h
 %include cluster/include/compute_move_cluster.h
 %include cluster/include/compute_add_avb.h
@@ -662,15 +684,9 @@ using namespace std;
 %include ewald/include/check_net_charge.h
 %include mayer/include/criteria_mayer.h
 %include mayer/include/trial.h
-%include confinement/include/shape.h
-%include confinement/include/shape_intersect.h
-%include confinement/include/model_hard_shape.h
-%include confinement/include/cylinder.h
-%include confinement/include/half_space.h
-%include confinement/include/slab.h
-%include confinement/include/sphere.h
-%include confinement/include/shape_union.h
 %include confinement/include/model_lj_shape.h
+%include confinement/include/model_hard_shape.h
+%include confinement/include/model_table_cartesian.h
 %include patch/include/patch_angle.h
 %include patch/include/visit_model_inner_patch.h
 %include flat_histogram/include/window.h

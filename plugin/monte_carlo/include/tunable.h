@@ -59,7 +59,7 @@ class Tunable {
   void serialize(std::ostream& ostr) const;
 
   /// Construct from serialization.
-  Tunable(std::istream& istr);
+  explicit Tunable(std::istream& istr);
 
  private:
   bool is_enabled_ = true;

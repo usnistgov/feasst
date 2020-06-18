@@ -19,7 +19,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;opt_lj;cluster")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;prefetch;ewald")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;ewald")
-#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;confinement")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;shape;confinement")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;ewald;flat_histogram")
@@ -29,9 +29,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;ewald;flat_histogram;egce;cluster")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram;growth_expanded")
-#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;flat_histogram;ewald;opt_lj")
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;threads;flat_histogram;ewald;growth_expanded;opt_lj;cluster;prefetch;egce")
-#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;confinement;chain;threads;flat_histogram;ewald;growth_expanded;opt_lj;cluster;prefetch;egce;xtc")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;flat_histogram;ewald;opt_lj")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;threads;flat_histogram;ewald;growth_expanded;opt_lj;cluster;prefetch;egce")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;threads;flat_histogram;ewald;growth_expanded;opt_lj;cluster;prefetch;egce;xtc")
 # Note, if you change the plugin list and want to use the python interface,
 # you also need to run "../py/run.sh ../dev/tools/depend.py -s ../"
 
@@ -133,10 +133,16 @@ if (${_index} GREATER -1)
   target_link_libraries(feasstexample feasstsystem)
 endif()
 
+# shape
+list (FIND FEASST_PLUGINS "shape" _index)
+if (${_index} GREATER -1)
+  target_link_libraries(feasstshape feasstmath)
+endif()
+
 # Confinement
 list (FIND FEASST_PLUGINS "confinement" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstconfinement feasstsystem)
+  target_link_libraries(feasstconfinement feasstsystem feasstshape)
 endif()
 
 # patch
@@ -324,6 +330,8 @@ if (USE_SPHINX)
     ${CMAKE_SOURCE_DIR}/dev/sphinx/_build/_templates/boilerplate-header.html ${BINARY_BUILD_DIR}/_templates/boilerplate-header.html COPYONLY)
   configure_file(
     ${CMAKE_SOURCE_DIR}/dev/sphinx/_build/_templates/boilerplate-footer.html ${BINARY_BUILD_DIR}/_templates/boilerplate-footer.html COPYONLY)
+  configure_file(
+    ${CMAKE_SOURCE_DIR}/dev/sphinx/_build/_templates/searchbox.html ${BINARY_BUILD_DIR}/_templates/searchbox.html COPYONLY)
 
   add_custom_target(html ALL
     ${SPHINX_EXECUTABLE}

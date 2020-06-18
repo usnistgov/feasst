@@ -1,6 +1,7 @@
 
 .. toctree::
 
+   Table3D
    Accumulator
    Histogram
    Formula

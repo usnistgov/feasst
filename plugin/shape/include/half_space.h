@@ -1,8 +1,8 @@
 
-#ifndef FEASST_CONFINEMENT_HALF_SPACE_H_
-#define FEASST_CONFINEMENT_HALF_SPACE_H_
+#ifndef FEASST_SHAPE_HALF_SPACE_H_
+#define FEASST_SHAPE_HALF_SPACE_H_
 
-#include "confinement/include/shape.h"
+#include "shape/include/shape.h"
 #include "utils/include/arguments.h"
 
 namespace feasst {
@@ -65,4 +65,4 @@ inline std::shared_ptr<HalfSpace> MakeHalfSpace(
 
 }  // namespace feasst
 
-#endif  // FEASST_CONFINEMENT_HALF_SPACE_H_
+#endif  // FEASST_SHAPE_HALF_SPACE_H_

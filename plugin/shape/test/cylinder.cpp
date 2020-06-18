@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "confinement/include/cylinder.h"
+#include "shape/include/cylinder.h"
 #include "utils/include/debug.h"
 
 namespace feasst {

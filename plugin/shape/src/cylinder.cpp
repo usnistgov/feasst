@@ -1,6 +1,6 @@
 #include <cmath>
 #include "utils/include/serialize.h"
-#include "confinement/include/cylinder.h"
+#include "shape/include/cylinder.h"
 
 namespace feasst {
 

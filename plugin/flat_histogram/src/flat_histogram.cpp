@@ -83,7 +83,7 @@ std::string FlatHistogram::write() const {
   std::stringstream ss;
   ss << Criteria::write();
   ss << bias_->write();
-  ss << "macrostate,"
+  ss << "state,"
      << bias_->write_per_bin_header()
      << std::endl;
   const Histogram& hist = macrostate_->histogram();

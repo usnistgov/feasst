@@ -43,6 +43,35 @@ void resize(const int xs, const int ys, std::vector<std::vector<T> > *vec) {
   }
 }
 
+/// Resize three dimensional vector to size xs, ys.
+/// Note to HWH: rewrite using variadic templates for arbitrary dimensions
+template<class T>
+void resize(const int xs, const int ys, const int zs,
+  std::vector<std::vector<std::vector<T> > > *vec) {
+  vec->resize(xs);
+  for (int i = 0; i < static_cast<int>(vec->size()); ++i) {
+    resize(ys, zs, &(*vec)[i]);
+  }
+}
+
+/// Fill two dimensional vector with a constant.
+/// Note to HWH: rewrite using variadic templates for arbitrary dimensions
+template<class T>
+void fill(const T value, std::vector<std::vector<T> > *vec) {
+  for (std::vector<T>& inner : *vec) {
+    std::fill(inner.begin(), inner.end(), value);
+  }
+}
+
+/// Fill three dimensional vector with a constant.
+/// Note to HWH: rewrite using variadic templates for arbitrary dimensions
+template<class T>
+void fill(const T value, std::vector<std::vector<std::vector<T> > > *vec) {
+  for (std::vector<std::vector<T> >& inner : *vec) {
+    fill(value, &inner);
+  }
+}
+
 /// Return the total number of elements in a multidimensional vector.
 template<class T>
 int num_elements(const std::vector<std::vector<T> > vec) {

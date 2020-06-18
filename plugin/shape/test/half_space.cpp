@@ -1,6 +1,7 @@
 #include "utils/test/utils.h"
-#include "confinement/include/half_space.h"
 #include "utils/include/debug.h"
+#include "math/include/random_mt19937.h"
+#include "shape/include/half_space.h"
 
 namespace feasst {
 
@@ -8,8 +9,7 @@ TEST(Shape, HalfSpace) {
   HalfSpace half_space({
     {"dimension", "2"},
     {"intersection", "1."},
-    {"direction", "1"},
-  });
+    {"direction", "1"}});
   TRY(
     HalfSpace half_space({
       {"dimension", "2"},
@@ -45,6 +45,23 @@ TEST(Shape, HalfSpace) {
   EXPECT_FALSE(half_space2.is_inside(point));
   point.set_vector({15, -56.54, 2.9999999999});
   EXPECT_TRUE(half_space2.is_inside(point));
+}
+
+TEST(HalfSpace, integrate) {
+  HalfSpace half_space({
+    {"dimension", "2"},
+    {"intersection", "0."},
+    {"direction", "1"}});
+  RandomMT19937 random;
+  const double inte = half_space.integrate(
+    Position({0., 0., 0.}), &random, {
+      {"alpha", "6"},
+      {"max_radius", "3"},
+      {"num_radius", "1"},
+      {"density", "1."}});
+  INFO(inte);
+//  EXPECT_NEAR(4./3.*9./2., vol, NEAR_ZERO);
+  EXPECT_GT(inte, 0);
 }
 
 }  // namespace feasst

@@ -1,6 +1,6 @@
 #include <cmath>
 #include "utils/include/serialize.h"
-#include "confinement/include/half_space.h"
+#include "shape/include/half_space.h"
 
 namespace feasst {
 

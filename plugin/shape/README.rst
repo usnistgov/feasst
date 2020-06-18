@@ -1,8 +1,8 @@
 *************
-Confinement
+Shape
 *************
 
-This is a plugin for confinement.
+This is a plugin for shapes.
 
 .. toctree::
    :glob:
@@ -12,8 +12,7 @@ This is a plugin for confinement.
 FEASST plugin dependencies
 ============================
 
-* system
-* shape
+* math
 
 API
 ===
