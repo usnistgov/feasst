@@ -46,18 +46,16 @@ void Position::divide(const Position &position) {
 }
 
 double Position::dot_product(const Position &position) const {
-  ASSERT(position.size() == size(), "size mismatch");
-  double product = 0.;
-  for (int dim = 0; dim < size(); ++dim) {
-    product += position.coord(dim) * coord(dim);
-  }
-  return product;
+  return dot_product(position.coord());
 }
 
-double Position::dot_product(const std::vector<double> vec) const {
-  Position pos;
-  pos.set_vector(vec);
-  return dot_product(pos);
+double Position::dot_product(const std::vector<double>& vec) const {
+  ASSERT(static_cast<int>(vec.size()) == size(), "size mismatch");
+  double prod = 0.;
+  for (int dim = 0; dim < size(); ++dim) {
+    prod += coord_[dim]*vec[dim];
+  }
+  return prod;
 }
 
 double Position::squared_distance() const {
@@ -177,22 +175,49 @@ Position::Position(std::istream& sstr) {
 }
 
 Position Position::cross_product(const Position& position) const {
-  ASSERT(this->dimension() == 3 && position.dimension() == 3,
+  ASSERT(dimension() == 3 && position.dimension() == 3,
     "implemented for 3D only.");
   return Position().set_vector({
-    this->coord(1) * position.coord(2) - this->coord(2) * position.coord(1),
-    this->coord(2) * position.coord(0) - this->coord(0) * position.coord(2),
-    this->coord(0) * position.coord(1) - this->coord(1) * position.coord(0)});
+    coord(1) * position.coord(2) - coord(2) * position.coord(1),
+    coord(2) * position.coord(0) - coord(0) * position.coord(2),
+    coord(0) * position.coord(1) - coord(1) * position.coord(0)});
 }
 
 double Position::nearest_distance_to_axis(const Position& point1,
                                           const Position& point2) const {
-  // point0 is self, pij = pi - pj
-  Position p01 = *this, p02 = *this, p21 = point2;
-  p01.subtract(point1);
-  p02.subtract(point2);
-  p21.subtract(point1);
-  return ((p01.cross_product(p02)).distance())/p21.distance();
+  ASSERT(dimension() == 3 && point1.dimension() == 3 && point2.dimension() == 3,
+    "implemented for 3D only.");
+  const double p00 = coord_[0],
+    p01 = coord_[1],
+    p02 = coord_[2],
+    p10 = point1.coord_[0],
+    p11 = point1.coord_[1],
+    p12 = point1.coord_[2],
+    p20 = point2.coord_[0],
+    p21 = point2.coord_[1],
+    p22 = point2.coord_[2],
+    // 3 relative vectors
+    d010 = p00 - p10,
+    d011 = p01 - p11,
+    d012 = p02 - p12,
+    d020 = p00 - p20,
+    d021 = p01 - p21,
+    d022 = p02 - p22,
+    d210 = p20 - p10,
+    d211 = p21 - p11,
+    d212 = p22 - p12,
+    // cross product
+    c0 = d011*d022 - d012*d021,
+    c1 = d012*d020 - d010*d022,
+    c2 = d010*d021 - d011*d020;
+  return std::sqrt((c0*c0 + c1*c1 + c2*c2)/(d210*d210 + d211*d211 + d212*d212));
+
+//  // This is the old, non optimized version
+//  Position p01 = *this, p02 = *this, p21 = point2;
+//  p01.subtract(point1);
+//  p02.subtract(point2);
+//  p21.subtract(point1);
+//  return ((p01.cross_product(p02)).distance())/p21.distance();
 }
 
 Position::Position(const argtype& args) {

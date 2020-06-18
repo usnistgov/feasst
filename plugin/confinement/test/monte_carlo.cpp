@@ -1,5 +1,6 @@
 #include "utils/test/utils.h"
 #include "utils/include/checkpoint.h"
+#include "utils/include/progress_report.h"
 #include "math/include/table.h"
 #include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
@@ -75,61 +76,50 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
   mc2.attempt(1e6);
 }
 
-void make_table_file(const std::shared_ptr<Shape> shape,
-                     const std::shared_ptr<Domain> domain) {
-  auto table = MakeTable3D({
-    {"num0", "101"},
-    {"num1", "101"},
-    {"num2", "101"},
-    {"default_value", "0."}});
-  auto random = MakeRandomMT19937();
-  for (int bin0 = 0; bin0 < table->num0(); ++bin0) {
-  for (int bin1 = 0; bin1 < table->num1(); ++bin1) {
-  for (int bin2 = 0; bin2 < table->num2(); ++bin2) {
-    Position point({
-      table->bin_to_value(0, bin0)*domain->side_length(0)/2,
-      table->bin_to_value(1, bin1)*domain->side_length(1)/2.,
-      table->bin_to_value(2, bin2)*domain->side_length(2)/2.});
-    point.add(domain->shift_opt(point));
-    if (shape->is_inside(point)) {
-      const double int_vol = -1*shape->integrate(point, random.get(), {
-        {"alpha", "6"},
-        {"max_radius", "3"},
-        {"num_radius", "3"},
-        {"density", "1"}});
-      table->set_data(bin0, bin1, bin2, int_vol);
-    }
-  }}}
-  MakeCheckpoint({{"file_name", "tmp/table"}})->write(*table);
-}
-
 TEST(MonteCarlo, ShapeTable_LONG) {
-  auto pore = porous_network();
-  auto domain = MakeDomain({{"cubic_box_length", "20"}});
-  make_table_file(pore, domain); // generate table
-
   MonteCarlo mc;
+  auto domain = MakeDomain({{"cubic_box_length", "20"}});
   mc.add(Configuration(domain, {{"particle_type", "../forcefield/data.lj"}}));
   mc.add(Potential(MakeLennardJones()));
+  auto pore = porous_network();
   mc.add(Potential(MakeModelHardShape(pore)));
-  // load from file
-  auto table2 = MakeTable3D();
-  MakeCheckpoint({{"file_name", "tmp/table"}})->read(table2.get());
-  EXPECT_NEAR(table2->linear_interpolation(0, 0, 0), 0., NEAR_ZERO);
-  mc.add(Potential(MakeModelTableCart3FoldSym(table2)));
-  //mc.add(Potential(MakeModelTableCart3FoldSym(table)));
-  mc.add(MakeMetropolis({{"beta", "1.5"}, {"chemical_potential", "1."}}));
-  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.1"}}));
-  SeekNumParticles(500).with_trial_add().run(&mc);
-  const int steps_per = 1e4;
-  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
-                          {"file_name", "tmp/confine"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)},
-                          {"tolerance", str(1e-4)}}));
-  FileXYZ().write("hi.xyz", mc.configuration());
-  MakeCheckpoint({{"file_name", "tmp/mc_table"}})->write(mc);
-  MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(1e5);
+  const bool read_table = false;
+  //const bool read_table = true;
+  std::shared_ptr<ModelTableCart3FoldSym> hamaker;
+  if (read_table) {
+    auto table = MakeTable3D();
+    MakeCheckpoint({{"file_name", "tmp/table"}})->read(table.get());
+    hamaker = MakeModelTableCart3FoldSym(table);
+  } else {
+    hamaker = MakeModelTableCart3FoldSym(MakeTable3D({
+      {"num0", "101"},
+      {"num1", "101"},
+      {"num2", "101"},
+      {"default_value", "0."}}));
+    hamaker->compute_table(pore.get(), domain.get(), mc.get_random(), {
+      {"alpha", "6"},
+      {"max_radius", "3"},
+      {"num_radius", "3"},
+      {"density", "1"}});
+    MakeCheckpoint({{"file_name", "tmp/table"}})->write(hamaker->table());
+  }
+  mc.add(Potential(hamaker));
+
+//  EXPECT_NEAR(table2->linear_interpolation(0, 0, 0), 0., NEAR_ZERO);
+//  mc.add(Potential(MakeModelTableCart3FoldSym(table2)));
+//  //mc.add(Potential(MakeModelTableCart3FoldSym(table)));
+//  mc.add(MakeMetropolis({{"beta", "1.5"}, {"chemical_potential", "1."}}));
+//  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.1"}}));
+//  SeekNumParticles(500).with_trial_add().run(&mc);
+//  const int steps_per = 1e4;
+//  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
+//                          {"file_name", "tmp/confine"}}));
+//  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)},
+//                          {"tolerance", str(1e-4)}}));
+//  FileXYZ().write("hi.xyz", mc.configuration());
+//  MakeCheckpoint({{"file_name", "tmp/mc_table"}})->write(mc);
+//  MonteCarlo mc2 = test_serialize(mc);
+//  mc2.attempt(1e5);
 }
 
 }  // namespace feasst

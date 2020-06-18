@@ -27,9 +27,7 @@ Sphere::Sphere(const argtype &args,
 }
 
 double Sphere::nearest_distance(const Position& point) const {
-  Position relative = point;
-  relative.subtract(center_);
-  return relative.distance() - radius_;
+  return point.distance(center_) - radius_;
 }
 
 void Sphere::serialize(std::ostream& ostr) const {
@@ -53,17 +51,21 @@ double Sphere::volume() const { return 4./3.*PI*std::pow(radius_, 3); }
 void Sphere::surface_mesh(const double target_density,
     std::vector<Position> * points) const {
   int num = feasst::round(target_density*surface_area());
-  points->resize(num);
+  if (num != static_cast<int>(points->size())) {
+    points->resize(num);
+    Position origin;
+    origin.set_to_origin(3);
+    for (int pt = 0; pt < num; ++pt) (*points)[pt] = origin;
+  }
   const double increment = PI*(3. - std::sqrt(5));
   const double offset = 2./static_cast<double>(num);
   for (int pt = 0; pt < num; ++pt) {
     const double y = pt*offset - 1 + 0.5*offset;
     const double r = std::sqrt(1. - y*y);
     const double phi = pt*increment;
-    (*points)[pt].set_vector({
-      radius_*std::cos(phi)*r,
-      radius_*y,
-      radius_*std::sin(phi)*r});
+    (*points)[pt].set_coord(0, radius_*std::cos(phi)*r);
+    (*points)[pt].set_coord(1, radius_*y);
+    (*points)[pt].set_coord(2, radius_*std::sin(phi)*r);
   }
 }
 

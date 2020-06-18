@@ -1,5 +1,6 @@
 #include "utils/include/debug.h"
 #include "utils/include/utils_io.h"
+#include "utils/include/progress_report.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trial_add.h"
@@ -63,11 +64,16 @@ void SeekNumParticles::run(MonteCarlo * monte_carlo) {
   Random * ran = monte_carlo->get_random();
   extra_trials_.precompute(crit, sys);
   monte_carlo->reset_trial_stats();
-  while (config.num_particles_of_type(particle_type_) < num_) {
+  int current_num = config.num_particles_of_type(particle_type_);
+  if (report_) report_->set_num(num_ - current_num);
+  while (current_num < num_) {
+    int previous_num = current_num;
     monte_carlo->get_trial_factory()->attempt(crit, sys, ran);
     extra_trials_.attempt(crit, sys, ran);
     ASSERT(monte_carlo->trials().num_attempts() < max_attempts_,
       "max attempts:  "<< max_attempts_ << " reached during seek");
+    current_num = config.num_particles_of_type(particle_type_);
+    if (report_ && current_num > previous_num) report_->check();
   }
   monte_carlo->initialize_energy();
   monte_carlo->reset_trial_stats();

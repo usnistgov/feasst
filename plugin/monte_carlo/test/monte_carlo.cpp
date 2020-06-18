@@ -3,6 +3,7 @@
 #include "utils/test/utils.h"
 #include "utils/include/utils_io.h"
 #include "utils/include/checkpoint.h"
+#include "utils/include/progress_report.h"
 #include "math/include/accumulator.h"
 #include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
@@ -76,7 +77,7 @@ TEST(MonteCarlo, NVT_benchmark) {
 //  mc.add_to_optimized(Potential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
 //                                MakeVisitModelOptLJ()));
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
-  SeekNumParticles(50).with_trial_add().run(&mc);
+  SeekNumParticles(50).with_trial_add().add(MakeProgressReport()).run(&mc);
   // mc.seek_num_particles(250);
   // mc.attempt(1e6);  // 5.4s with 50 (see opt_lj for 4.3s)
   // mc.seek_num_particles(450);
@@ -151,10 +152,10 @@ TEST(MonteCarlo, GCMC) {
   mc.add(MakeCheckEnergy({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   //mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   mc.attempt(1e4);
-  EXPECT_NEAR(mc.trial(0).num_attempts(), 1e4/5, 100);
-  EXPECT_NEAR(mc.trial(1).num_attempts(), 1e4*4/5., 400);
-  EXPECT_NEAR(mc.trial(1).trial(0).num_attempts(), 1e4*2/5., 200);
-  EXPECT_NEAR(mc.trial(1).trial(1).num_attempts(), 1e4*2/5., 200);
+  EXPECT_NEAR(mc.trial(0).num_attempts(), 1e4/5, 150);
+  EXPECT_NEAR(mc.trial(1).num_attempts(), 1e4*4/5., 450);
+  EXPECT_NEAR(mc.trial(1).trial(0).num_attempts(), 1e4*2/5., 250);
+  EXPECT_NEAR(mc.trial(1).trial(1).num_attempts(), 1e4*2/5., 250);
 }
 
 TEST(MonteCarlo, GCMC_cell) {

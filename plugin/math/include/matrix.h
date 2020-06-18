@@ -40,6 +40,9 @@ class Matrix {
   /// with the given vector.
   Position multiply(const Position& vec) const;
 
+  /// Same as above, but optimized to avoid construction of Position.
+  void multiply(const Position& vec, Position * result) const;
+
   /// Return true if all elements are equal to the given matrix.
   bool is_equal(const Matrix& matrix) const;
 

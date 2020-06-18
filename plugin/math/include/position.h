@@ -105,7 +105,9 @@ class Position {
 
   /// Return the dot product of position vector with self.
   double dot_product(const Position &position) const;
-  double dot_product(const std::vector<double> vec) const;
+
+  /// Same as above, but with a vector.
+  double dot_product(const std::vector<double>& vec) const;
 
   /// Return the cross product of position with self.
   Position cross_product(const Position& position) const;

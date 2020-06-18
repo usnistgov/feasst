@@ -9,6 +9,8 @@
 
 namespace feasst {
 
+class Shape;
+
 // HWH have domain return scaled coordinates?
 /**
   A tabular potential based on cartesian coordinates.
@@ -21,6 +23,17 @@ class ModelTableCart3FoldSym : public ModelOneBody {
       const Site& site,
       const Configuration& config,
       const ModelParams& model_params) const override;
+
+  const Table3D& table() const;
+
+  /// Generate the table by integration of the shape of the confinement over
+  /// the entire and domain.
+  void compute_table(
+    Shape * shape,
+    Domain * domain,
+    Random * random,
+    const argtype& integration_args);
+
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ModelTableCart3FoldSym>(istr); }

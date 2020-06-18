@@ -26,6 +26,7 @@
 #include "system/include/energy_map.h"
 #include "system/include/visit_model_inner.h"
 #include "configuration/include/physical_constants.h"
+#include "utils/include/progress_report.h"
 #include "utils/include/utils_io.h"
 #include "utils/include/serialize.h"
 #include "utils/include/cache.h"
@@ -228,7 +229,6 @@
 #include "flat_histogram/include/clones.h"
 using namespace feasst;
 %}
-
 %include "std_string.i"
 %include "std_vector.i"
 %include "std_shared_ptr.i"
@@ -238,12 +238,11 @@ using namespace feasst;
 %template(DoubleVector) std::vector<double>;
 %template(Double2DVector) std::vector<std::vector<double> >;
 %template(Double3DVector) std::vector<std::vector<std::vector<double> > >;
-%template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;
 using namespace std;
 %pythonnondynamic;
 %include "std_map.i"
 %template(args) std::map<std::string, std::string>;
-
+%template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;
 %shared_ptr(feasst::Properties);
 %shared_ptr(feasst::PropertiedEntity);
 %shared_ptr(feasst::TypedEntity);
@@ -266,6 +265,7 @@ using namespace std;
 %shared_ptr(feasst::CODATA2014);
 %shared_ptr(feasst::CODATA2010);
 %shared_ptr(feasst::PhysicalConstantsCustom);
+%shared_ptr(feasst::ProgressReport);
 %shared_ptr(feasst::Cache);
 %shared_ptr(feasst::Table3D);
 %shared_ptr(feasst::Accumulator);
@@ -503,6 +503,7 @@ using namespace std;
 %include system/include/energy_map.h
 %include system/include/visit_model_inner.h
 %include configuration/include/physical_constants.h
+%include utils/include/progress_report.h
 %include utils/include/utils_io.h
 %include utils/include/serialize.h
 %include utils/include/cache.h

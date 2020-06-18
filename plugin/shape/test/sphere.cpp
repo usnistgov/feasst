@@ -23,7 +23,7 @@ TEST(Shape, Sphere) {
   EXPECT_FALSE(sphere2->is_inside(point, 1.00001));
 }
 
-TEST(Shape, surface_mesh) {
+TEST(Sphere, surface_mesh) {
   std::vector<Position> mesh;
   MakeSphere({{"radius", "3"}})->surface_mesh(1., &mesh); 
   Accumulator av_x, av_y, av_z;

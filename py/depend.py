@@ -135,7 +135,6 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
       swig_file.write('#include "' + dep[0] + '"\n')
     swig_file.write(
 "using namespace feasst;\n%}\n\
-\n\
 %include \"std_string.i\"\n\
 %include \"std_vector.i\"\n\
 %include \"std_shared_ptr.i\"\n\
@@ -145,13 +144,15 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
 %template(DoubleVector) std::vector<double>;\n\
 %template(Double2DVector) std::vector<std::vector<double> >;\n\
 %template(Double3DVector) std::vector<std::vector<std::vector<double> > >;\n\
-%template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;\n\
 using namespace std;\n\
 %pythonnondynamic;\n\
 %include \"std_map.i\"\n\
 %template(args) std::map<std::string, std::string>;\n\
-\n\
 ")
+
+    if 'system' in include_plugin:
+        swig_file.write("%template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;\n")
+
     for cls in classes:
       for icl in cls:
         swig_file.write("%shared_ptr(feasst::" + icl + ");\n")

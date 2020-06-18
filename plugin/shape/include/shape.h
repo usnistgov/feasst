@@ -11,6 +11,7 @@
 namespace feasst {
 
 class Random;
+class Sphere;
 
 /**
   Shapes may be defined by either a simple mathematical
@@ -34,7 +35,6 @@ class Shape {
 
   virtual double volume() const;
 
-  // HWH alternatively, rotate approximate uniform spherical grid
   /**
     Given a material of arbitrary shape that interacts with an attraction that
     scales as \f$U \approx r^{-\alpha\}f$,
@@ -42,13 +42,12 @@ class Shape {
     and \f$U\f$ is the interaction energy,
     integrate this interaction up to a maximum cutoff distance.
 
-    Numerically, this is obtained by placement of uniformly random points on a
-    spherical surface.
-    Spherical surfaces are considered from values of \f$r\f$ from
-    max_radius/num_radius to max_radius.
+    Spherical shells are numerically integrated with values of \f$r\f$ from
+    0 to max_radius.
 
-    Random points are used to prevent bias from approximate methods that
-    attempt to generate equidistance points on sphere surfaces.
+    An approximate method is obtained to grid the spherical shell with
+    equidistance points.
+    To avoid bias, over many averages, this shell is randomly rotated.
 
     args:
     - invert: consider the inverse shape (default: true)
@@ -60,13 +59,18 @@ class Shape {
   double integrate(
     const Position& point,
     Random * random,
-    const argtype& args = argtype()) const;
+    const argtype& args = argtype());
 
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Shape> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Shape> >& deserialize_map();
   std::shared_ptr<Shape> deserialize(std::istream& istr);
   virtual ~Shape() {}
+
+ private:
+  // temporary cache
+  std::shared_ptr<std::vector<std::vector<Position> > > meshes_;
+  std::shared_ptr<std::vector<std::shared_ptr<Sphere> > > spheres_;
 };
 
 // An object which contains a shape.

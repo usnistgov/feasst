@@ -65,7 +65,7 @@ double Shape::volume() const { FATAL("not implemented"); }
 double Shape::integrate(
     const Position& point,
     Random * random,
-    const argtype& args) const {
+    const argtype& args) {
   Arguments args_(args);
   const bool invert = args_.key("invert").dflt("true").boolean();
   const double alpha = args_.key("alpha").dflt("6").dble();
@@ -76,37 +76,45 @@ double Shape::integrate(
   ASSERT(point.dimension() == 3, "assumes 3d");
   const double dr = max_radius/static_cast<double>(num_radius);
   Position surf_point;
+  surf_point.set_to_origin(3);
   double lower_radius = 0.;
   double lower_vol = 0.;
   double lower_frac = 0.;
   bool ins = is_inside(point);
   if ((!invert && ins) || (invert && !ins)) lower_frac = 1.;
-  std::vector<Position> points;
+  if (!spheres_ || !meshes_) {
+    spheres_ = std::make_shared<std::vector<std::shared_ptr<Sphere> > >();
+    meshes_ = std::make_shared<std::vector<std::vector<Position> > >();
+    for (double radius = dr; radius < max_radius + dr/2.; radius += dr) {
+      spheres_->push_back(MakeSphere({{"radius", str(radius)}}));
+      meshes_->push_back(std::vector<Position>());
+      spheres_->back()->surface_mesh(density, &meshes_->back());
+    }
+  }
+  int irad = 0;
   for (double radius = dr; radius < max_radius + dr/2.; radius += dr) {
     int inside = 0;
     TRACE("radius " << radius);
-    auto sphere = MakeSphere({{"radius", str(radius)}});
-    sphere->surface_mesh(density, &points);
-    int num_points = static_cast<int>(points.size());
+    int num_points = static_cast<int>((*meshes_)[irad].size());
     const RotationMatrix rot_mat = random->rotation(3, 180);
     for (int ip = 0; ip < num_points; ++ip) {
-      surf_point = rot_mat.multiply(points[ip]);
+      rot_mat.multiply((*meshes_)[irad][ip], &surf_point);
       surf_point.add(point);
       TRACE(surf_point.str());
       ins = is_inside(surf_point);
       if ((!invert && ins) || (invert && !ins)) ++inside;
     }
     const double frac = static_cast<double>(inside)/static_cast<double>(num_points);
-    const double volume = sphere->volume();
+    const double volume = (*spheres_)[irad]->volume();
     const double shell_vol = volume - lower_vol;
     const double radius_av = 0.5*(radius + lower_radius);
     sum += 0.5*(frac + lower_frac)*shell_vol*std::pow(radius_av, -alpha);
     lower_radius = radius;
     lower_vol = volume;
     lower_frac = frac;
+    ++irad;
   }
   return sum;
 }
-
 
 }  // namespace feasst

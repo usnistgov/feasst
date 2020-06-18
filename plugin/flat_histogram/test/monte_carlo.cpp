@@ -121,8 +121,8 @@ TEST(MonteCarlo, lj_fh) {
       // compare with known values of lnpi
       const LnProbability * lnpi = &criteria->bias().ln_prob();
       //EXPECT_NEAR(lnpi->value(0), -18.707570324988800000, 0.55);
-      EXPECT_NEAR(lnpi->value(0), -14.037373358321800000, 0.55);
-      EXPECT_NEAR(lnpi->value(1), -10.050312091655200000, 0.55);
+      EXPECT_NEAR(lnpi->value(0), -14.037373358321800000, 0.6);
+      EXPECT_NEAR(lnpi->value(1), -10.050312091655200000, 0.6);
       EXPECT_NEAR(lnpi->value(2), -6.458920624988570000, 0.55);
       EXPECT_NEAR(lnpi->value(3), -3.145637424988510000, 0.55);
       EXPECT_NEAR(lnpi->value(4), -0.045677458321876000, 0.55);

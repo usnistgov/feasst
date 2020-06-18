@@ -13,6 +13,7 @@ class Constraint;
 class TrialAdd;
 class Trial;
 class MonteCarlo;
+class ProgressReport;
 
 /**
   Initialize the number of particles in MonteCarlo.
@@ -49,6 +50,10 @@ class SeekNumParticles {
    */
   SeekNumParticles add(std::shared_ptr<Trial> trial);
 
+  /// Add a progress report.
+  SeekNumParticles add(std::shared_ptr<ProgressReport> report) {
+    report_ = report; return *this; }
+
   /// Perform the seek.
   void run(MonteCarlo * monte_carlo);
 
@@ -58,6 +63,7 @@ class SeekNumParticles {
   int particle_type_;
   std::shared_ptr<Criteria> criteria_;
   TrialFactory extra_trials_;
+  std::shared_ptr<ProgressReport> report_;
 };
 
 inline std::shared_ptr<SeekNumParticles> MakeSeekNumParticles(

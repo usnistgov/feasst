@@ -48,10 +48,14 @@ void Matrix::multiply(const double constant) {
 
 Position Matrix::multiply(const Position& vec) const {
   Position result = vec;
-  for (int row = 0; row < static_cast<int>(matrix_.size()); ++row) {
-    result.set_coord(row, vec.dot_product(matrix_[row]));
-  }
+  multiply(vec, &result);
   return result;
+}
+
+void Matrix::multiply(const Position& vec, Position * result) const {
+  for (int row = 0; row < static_cast<int>(matrix_.size()); ++row) {
+    result->set_coord(row, vec.dot_product(matrix_[row]));
+  }
 }
 
 bool Matrix::is_equal(const Matrix& matrix2) const {
