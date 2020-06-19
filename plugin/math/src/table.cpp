@@ -1,5 +1,6 @@
 #include "utils/include/utils.h"  // resize and fill
 #include "utils/include/serialize.h"
+#include "math/include/utils_math.h"
 #include "math/include/table.h"
 
 namespace feasst {
@@ -11,7 +12,7 @@ void Table3D::calc_d_() {
     1./static_cast<double>(num2() - 1)});
 }
 
-Table3D::Table3D(const argtype& args) {
+Table3D::Table3D(const argtype& args) : Table() {
   Arguments args_(args);
   const int num0 = args_.key("num0").dflt("1").integer();
   const int num1 = args_.key("num1").dflt("1").integer();
@@ -84,6 +85,25 @@ Table3D::Table3D(std::istream& istr) {
   ASSERT(version == 6867, "version: " << version);
   feasst_deserialize(&data_, istr);
   calc_d_();
+}
+
+double Table3D::minimum() const { return feasst::minimum(data_); }
+double Table3D::maximum() const { return feasst::maximum(data_); }
+
+int Table3D::num(const int dim) const {
+  if (dim == 0) {
+    return num0();
+  } else if (dim == 1) {
+    return num1();
+  } else if (dim == 2) {
+    return num2();
+  } else {
+    FATAL("dim: " << dim << " not recognized");
+  }
+}
+
+int Table3D::value_to_nearest_bin(const int dim, const double value) const {
+  return feasst::round(value*(num(dim) - 1));
 }
 
 }  // namespace feasst

@@ -36,10 +36,10 @@ class Shape {
   virtual double volume() const;
 
   /**
-    Given a material of arbitrary shape that interacts with an attraction that
-    scales as \f$U \approx r^{-\alpha\}f$,
+    Given a material of arbitrary shape that interacts with an attraction of the
+    form \f$U = \sum_i \frac{\epsilon_i}{r^{\alpha_i}}\f$,
     where \f$r\f$ is the radial distance from a point
-    and \f$U\f$ is the interaction energy,
+    and \f$\epsilon\f$ is the interaction energy constant factor,
     integrate this interaction up to a maximum cutoff distance.
 
     Spherical shells are numerically integrated with values of \f$r\f$ from
@@ -51,7 +51,12 @@ class Shape {
 
     args:
     - invert: consider the inverse shape (default: true)
-    - alpha: exponential parameter (default: 6)
+    - alpha[i]: add the i-th exponential parameter (default: 6).
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+      If only only alpha, the "[i]" is optional.
+    - epsilon[i]: add the i-th constant factor (default: -1).
+      The "[i]" is as described above, and each alpha must have
+      a corresponding epsilon.
     - max_radius: maximum radial extent
     - num_radius: number of radius slices
     - density: number of points per unit area for each slice

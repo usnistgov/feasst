@@ -6,7 +6,7 @@
 #include <random>
 #include "utils/include/serialize.h"
 #include "prefetch/include/prefetch.h"
-#include "threads/include/threads_omp.h"
+#include "threads/include/thread_omp.h"
 
 // use this to make prefetch serial and simply debugging
 // #define DEBUG_SERIAL_MODE_5324634
@@ -18,7 +18,7 @@ Prefetch::Prefetch(const argtype& args) {
   Arguments args_(args);
   steps_per_check_ = args_.key("steps_per_check").dflt("100000").integer();
   load_balance_ = args_.key("load_balance").dflt("true").boolean();
-  threads_ = MakeThreadsOMP();
+  threads_ = MakeThreadOMP();
 }
 
 void Prefetch::reset_trial_stats() {
@@ -407,7 +407,7 @@ Prefetch::Prefetch(std::istream& istr) : MonteCarlo(istr) {
   feasst_deserialize(&steps_per_check_, istr);
   feasst_deserialize(&steps_since_check_, istr);
   feasst_deserialize(&load_balance_, istr);
-  threads_ = MakeThreadsOMP();
+  threads_ = MakeThreadOMP();
 }
 
 }  // namespace feasst

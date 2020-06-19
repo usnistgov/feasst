@@ -96,10 +96,16 @@ TEST(MonteCarlo, ShapeTable_LONG) {
       {"num1", "101"},
       {"num2", "101"},
       {"default_value", "0."}}));
-    hamaker->compute_table(pore.get(), domain.get(), mc.get_random(), {
+    #ifdef _OPENMP
+    hamaker->compute_table_omp(
+    #elif // _OPENMP
+    hamaker->compute_table(
+    #endif // _OPENMP
+      pore.get(), domain.get(), mc.get_random(), {
       {"alpha", "6"},
-      {"max_radius", "3"},
-      {"num_radius", "3"},
+      {"epsilon", "-1"},
+      {"max_radius", "10"},
+      {"num_radius", "10"},
       {"density", "1"}});
     MakeCheckpoint({{"file_name", "tmp/table"}})->write(hamaker->table());
   }

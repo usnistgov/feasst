@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "utils/include/arguments.h"
 
 namespace feasst {
@@ -161,6 +162,18 @@ class Position {
  private:
   std::vector<double> coord_;
 };
+
+inline std::shared_ptr<Position> MakePosition(const argtype& args = argtype()) {
+  return std::make_shared<Position>(args);
+}
+
+inline std::shared_ptr<Position> MakePosition(std::vector<double> vec) {
+  return std::make_shared<Position>(vec);
+}
+
+inline std::shared_ptr<Position> MakePosition(const int dimension) {
+  return std::make_shared<Position>(dimension);
+}
 
 class SpatialEntity {
  public:

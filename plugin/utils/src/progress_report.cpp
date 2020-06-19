@@ -59,23 +59,22 @@ void ProgressReport::check() {
 
 void ProgressReport::write() {
   std::stringstream ss;
+  const double elapsed_hours = cpu_hours() - starting_hours_;
   if (current_ == 1) {
-    ss << "# Beginning progress report.";
+    ss << "#percent,hours_elapsed,hours_remain";
   } else if (current_ == num_) {
-    ss << "# 100 % complete.";
+    ss << "1 " << elapsed_hours << " 0";
   } else {
-    const double elapsed_hours = cpu_hours() - starting_hours_;
     DEBUG("elapsed " << elapsed_hours);
     const double percent_per_hours = percent()/elapsed_hours;
     DEBUG("percent_per_hours " << percent_per_hours);
     const double remaining_hours = (1. - percent())/percent_per_hours;
-    ss << "# " << std::setprecision(3) <<  percent()*100 << "% " << elapsed_hours
-       << " hours elapsed. Estimated " << remaining_hours
-       << " hours remain.";
+    ss << std::setprecision(3) <<  percent() << " "
+       << elapsed_hours << " " << remaining_hours;
   }
   DEBUG("filename? " << file_name_);
   if (file_name_.empty()) {
-    std::cout << ss.str() << std::endl;
+    INFO(ss.str());
   } else {
     std::ofstream file;
     file.open(file_name_, std::ofstream::out | std::ofstream::app);

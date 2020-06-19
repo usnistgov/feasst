@@ -351,3 +351,4 @@ To Do List
 * Backup checkpoint files, and utility to check for corruption (via try?)
 * Profile cpu time spent per trial/potential by infrequent testing (so doesn't affect performance). Can tune trial weights based on CPU time.
 * More documentation/tutorial on how to create your own plugins, classes, etc
+* rename utils*.h files e.g., utils_io->io

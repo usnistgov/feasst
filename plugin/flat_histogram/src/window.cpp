@@ -3,7 +3,7 @@
 #include "utils/include/debug.h"
 #include "math/include/utils_math.h"
 #include "flat_histogram/include/window.h"
-#include "threads/include/threads_omp.h"
+#include "threads/include/thread_omp.h"
 
 namespace feasst {
 
@@ -14,7 +14,7 @@ Window::Window(const argtype& args) {
   num_ = args_.key("num").dflt("-1").integer();
   if (args_.key("num_from_omp").dflt("false").boolean()) {
     ASSERT(num_ == -1, "cannot use both num and num_from_omp args");
-    num_ = ThreadsOMP().num();
+    num_ = ThreadOMP().num();
   }
   extra_overlap_ = args_.key("extra_overlap").dflt("0").integer();
   ASSERT(extra_overlap_ >= 0, "extra_overlap: " << extra_overlap_

@@ -47,21 +47,29 @@ TEST(Shape, HalfSpace) {
   EXPECT_TRUE(half_space2.is_inside(point));
 }
 
+double hamaker_half_plane(const double epsilon,
+    const double alpha,
+    const double distance) {
+  return 2*epsilon*PI/(alpha - 3.)/(alpha - 2.)/std::pow(distance, alpha - 3);
+}
+
 TEST(HalfSpace, integrate) {
+  const double distance = 1.;
+  const double alpha0 = 6.;
+  const double epsilon0 = -1.;
   HalfSpace half_space({
     {"dimension", "2"},
-    {"intersection", "0."},
-    {"direction", "1"}});
-  RandomMT19937 random;
+    {"intersection", "1."},
+    {"direction", "-1"}});
+  auto random = MakeRandomMT19937();
   const double inte = half_space.integrate(
-    Position({0., 0., 0.}), &random, {
-      {"alpha", "6"},
-      {"max_radius", "3"},
-      {"num_radius", "1"},
-      {"density", "1."}});
-  INFO(inte);
-//  EXPECT_NEAR(4./3.*9./2., vol, NEAR_ZERO);
-  EXPECT_GT(inte, 0);
+    Position({0., 0., 0.}), random.get(), {
+      {"alpha0", str(alpha0)},
+      {"epsilon0", str(epsilon0)},
+      {"max_radius", "10"},
+      {"num_radius", "1000"},
+      {"density", "1"}});
+  EXPECT_NEAR(inte, hamaker_half_plane(epsilon0, alpha0, distance), 0.04);
 }
 
 }  // namespace feasst

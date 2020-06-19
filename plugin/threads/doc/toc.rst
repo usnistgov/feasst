@@ -1,5 +1,5 @@
 
 .. toctree::
 
-   Threads
-   ThreadsOMP
+   Thread
+   ThreadOMP

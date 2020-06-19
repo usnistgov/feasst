@@ -1,6 +1,6 @@
-ThreadsOMP
+Thread
 =====================================================
 
-.. doxygenclass:: feasst::ThreadsOMP
+.. doxygenclass:: feasst::Thread
    :project: FEASST
    :members:

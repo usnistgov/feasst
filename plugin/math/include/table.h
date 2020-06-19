@@ -6,13 +6,22 @@
 
 namespace feasst {
 
+class Table {
+ public:
+  Table() {}
+
+  /// Return the minimum of all elements.
+  virtual double minimum() const = 0;
+  virtual double maximum() const = 0;
+};
+
 typedef std::vector<std::vector<std::vector<double> > > vec3;
 
 /**
   Table values are assumed to be equally spaced and vary from 0 to 1.
   This is a three-dimensional implementation of a table.
  */
-class Table3D {
+class Table3D : public Table {
  public:
   /**
     args:
@@ -32,9 +41,15 @@ class Table3D {
   /// Return the number of values in the third dimension
   int num2() const { return static_cast<int>(data_[0][0].size()); }
 
+  /// Return the number of values in a given dimension.
+  int num(const int dim) const;
+
   /// For a given dimension, return the value of a bin.
   double bin_to_value(const int dim, const int bin) const {
     return bin_spacing_[dim]*bin; }
+
+  /// The inverse of above.
+  int value_to_nearest_bin(const int dim, const double value) const;
 
   /// Set data.
   void set_data(const int dim0, const int dim1, const int dim2,
@@ -48,6 +63,9 @@ class Table3D {
   double linear_interpolation(const double value0,
     const double value1,
     const double value2) const;
+
+  double minimum() const override;
+  double maximum() const override;
 
   void serialize(std::ostream& ostr) const;
   explicit Table3D(std::istream& istr);

@@ -34,6 +34,13 @@ class ModelTableCart3FoldSym : public ModelOneBody {
     Random * random,
     const argtype& integration_args);
 
+  /// Same as above, but parallelize the task with OMP.
+  void compute_table_omp(
+    Shape * shape,
+    Domain * domain,
+    Random * random,
+    const argtype& integration_args);
+
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ModelTableCart3FoldSym>(istr); }
