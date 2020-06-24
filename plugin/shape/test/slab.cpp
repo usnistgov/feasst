@@ -4,7 +4,7 @@
 
 namespace feasst {
 
-TEST(Shape, Slab) {
+TEST(Slab, serialize) {
   Slab slab({
     {"dimension", "2"},
     {"bound0", "3"},

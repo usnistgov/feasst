@@ -18,7 +18,13 @@ class Thread {
 
   /// Return true if the current iteration of a large task that is broken into
   /// chunks is to be performed by this processor.
-  bool in_chunk(const int iteration, const int total_iterations) const;
+  bool in_chunk(const int iteration,
+                const int total_iterations,
+                /// Index of node, for parallelizing over multiple nodes.
+                /// Each node is assumed to have the same number of threads.
+                const int node = 0,
+                /// Total number of nodes.
+                const int num_nodes = 1) const;
 
   virtual ~Thread() {}
 };

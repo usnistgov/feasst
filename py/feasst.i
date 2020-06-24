@@ -35,13 +35,16 @@
 #include "monte_carlo/include/stepper.h"
 #include "math/include/histogram.h"
 #include "math/include/formula.h"
+#include "shape/include/formula_sine_wave.h"
 #include "math/include/formula_polynomial.h"
 #include "math/include/utils_math.h"
 #include "math/include/position.h"
 #include "shape/include/shape.h"
+#include "shape/include/slab_sine.h"
 #include "shape/include/sphere.h"
 #include "shape/include/slab.h"
 #include "shape/include/half_space.h"
+#include "shape/include/half_space_sine.h"
 #include "shape/include/cylinder.h"
 #include "shape/include/shape_union.h"
 #include "shape/include/shape_intersect.h"
@@ -113,7 +116,6 @@
 #include "monte_carlo/include/trial_remove.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "cluster/include/trial_avb2.h"
-#include "cluster/include/trial_transfer_avb.h"
 #include "monte_carlo/include/analyze.h"
 #include "chain/include/analyze_rigid_bonds.h"
 #include "monte_carlo/include/analyze_factory.h"
@@ -137,6 +139,7 @@
 #include "steppers/include/check_properties.h"
 #include "steppers/include/criteria_updater.h"
 #include "chain/include/recenter_particles.h"
+#include "cluster/include/trial_transfer_avb.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/trial_transfer.h"
 #include "cluster/include/trial_rigid_cluster.h"
@@ -194,6 +197,9 @@
 #include "monte_carlo/include/perturb_remove.h"
 #include "monte_carlo/include/perturb_distance_angle.h"
 #include "math/include/random_mt19937.h"
+#include "math/include/solver.h"
+#include "math/include/solver_newton_raphson.h"
+#include "math/include/solver_bisection.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 #include "ewald/include/trial_remove_multiple.h"
 #include "ewald/include/trial_add_multiple.h"
@@ -267,19 +273,23 @@ using namespace std;
 %shared_ptr(feasst::PhysicalConstantsCustom);
 %shared_ptr(feasst::ProgressReport);
 %shared_ptr(feasst::Cache);
+%shared_ptr(feasst::Table);
 %shared_ptr(feasst::Table3D);
 %shared_ptr(feasst::Accumulator);
 %shared_ptr(feasst::Stepper);
 %shared_ptr(feasst::Histogram);
 %shared_ptr(feasst::Formula);
+%shared_ptr(feasst::FormulaSineWave);
 %shared_ptr(feasst::FormulaPolynomial);
 %shared_ptr(feasst::Position);
 %shared_ptr(feasst::SpatialEntity);
 %shared_ptr(feasst::Shape);
 %shared_ptr(feasst::ShapedEntity);
+%shared_ptr(feasst::SlabSine);
 %shared_ptr(feasst::Sphere);
 %shared_ptr(feasst::Slab);
 %shared_ptr(feasst::HalfSpace);
+%shared_ptr(feasst::HalfSpaceSine);
 %shared_ptr(feasst::Cylinder);
 %shared_ptr(feasst::ShapeUnion);
 %shared_ptr(feasst::ShapeIntersect);
@@ -359,7 +369,6 @@ using namespace std;
 %shared_ptr(feasst::TrialRemove);
 %shared_ptr(feasst::TrialFactory);
 %shared_ptr(feasst::TrialAVB2);
-%shared_ptr(feasst::TrialTransferAVB);
 %shared_ptr(feasst::Analyze);
 %shared_ptr(feasst::AnalyzeWriteOnly);
 %shared_ptr(feasst::AnalyzeUpdateOnly);
@@ -387,6 +396,7 @@ using namespace std;
 %shared_ptr(feasst::CheckProperties);
 %shared_ptr(feasst::CriteriaUpdater);
 %shared_ptr(feasst::RecenterParticles);
+%shared_ptr(feasst::TrialTransferAVB);
 %shared_ptr(feasst::SeekNumParticles);
 %shared_ptr(feasst::TrialTransfer);
 %shared_ptr(feasst::TrialTranslateCluster);
@@ -452,6 +462,9 @@ using namespace std;
 %shared_ptr(feasst::PerturbRemove);
 %shared_ptr(feasst::PerturbDistanceAngle);
 %shared_ptr(feasst::RandomMT19937);
+%shared_ptr(feasst::Solver);
+%shared_ptr(feasst::SolverNewtonRaphson);
+%shared_ptr(feasst::SolverBisection);
 %shared_ptr(feasst::VisitModelOptLJ);
 %shared_ptr(feasst::TrialRemoveMultiple);
 %shared_ptr(feasst::TrialAddMultiple);
@@ -512,13 +525,16 @@ using namespace std;
 %include monte_carlo/include/stepper.h
 %include math/include/histogram.h
 %include math/include/formula.h
+%include shape/include/formula_sine_wave.h
 %include math/include/formula_polynomial.h
 %include math/include/utils_math.h
 %include math/include/position.h
 %include shape/include/shape.h
+%include shape/include/slab_sine.h
 %include shape/include/sphere.h
 %include shape/include/slab.h
 %include shape/include/half_space.h
+%include shape/include/half_space_sine.h
 %include shape/include/cylinder.h
 %include shape/include/shape_union.h
 %include shape/include/shape_intersect.h
@@ -590,7 +606,6 @@ using namespace std;
 %include monte_carlo/include/trial_remove.h
 %include monte_carlo/include/trial_factory.h
 %include cluster/include/trial_avb2.h
-%include cluster/include/trial_transfer_avb.h
 %include monte_carlo/include/analyze.h
 %include chain/include/analyze_rigid_bonds.h
 %include monte_carlo/include/analyze_factory.h
@@ -614,6 +629,7 @@ using namespace std;
 %include steppers/include/check_properties.h
 %include steppers/include/criteria_updater.h
 %include chain/include/recenter_particles.h
+%include cluster/include/trial_transfer_avb.h
 %include monte_carlo/include/seek_num_particles.h
 %include monte_carlo/include/trial_transfer.h
 %include cluster/include/trial_rigid_cluster.h
@@ -671,6 +687,9 @@ using namespace std;
 %include monte_carlo/include/perturb_remove.h
 %include monte_carlo/include/perturb_distance_angle.h
 %include math/include/random_mt19937.h
+%include math/include/solver.h
+%include math/include/solver_newton_raphson.h
+%include math/include/solver_bisection.h
 %include opt_lj/include/visit_model_opt_lj.h
 %include ewald/include/trial_remove_multiple.h
 %include ewald/include/trial_add_multiple.h

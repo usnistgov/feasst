@@ -18,6 +18,7 @@ namespace feasst {
 
 TEST(Prefetch, NVT_benchmark) {
   Prefetch mc;
+  //mc.set(MakeRandomMT19937({{"seed", "1592943710"}}));
   mc.set(lennard_jones());
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));

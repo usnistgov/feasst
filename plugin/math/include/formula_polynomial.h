@@ -26,7 +26,8 @@ class FormulaPolynomial : public Formula {
     return *this;
   }
 
-  double evaluate(const double x) override;
+  double evaluate(const double x) const override;
+  double derivative(const double x) const override;
 
   std::shared_ptr<Formula> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

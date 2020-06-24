@@ -32,12 +32,25 @@ bool Shape::is_inside(const Position& point, const double diameter) const {
 
 void Shape::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
+void Shape::serialize_shape_(std::ostream& ostr) const {
+  feasst_serialize_version(6874, ostr);
+}
+
+Shape::Shape(std::istream& istr) {
+  istr >> class_name_;
+  const int version = feasst_deserialize_version(istr);
+  ASSERT(6874 == version, "mismatch version: " << version);
+}
+
 std::shared_ptr<Shape> Shape::create(std::istream& istr) const {
   FATAL("not implemented");
 }
 
 std::shared_ptr<Shape> Shape::deserialize(std::istream& istr) {
-  return template_deserialize(deserialize_map(), istr);
+  return template_deserialize(deserialize_map(), istr,
+    // true argument denotes rewinding to reread class name
+    // this allows derived class constructor to read class name.
+    true);
 }
 
 void ShapedEntity::serialize(std::ostream& ostr) const {
@@ -92,11 +105,11 @@ double Shape::integrate(
 
   const bool invert = args_.key("invert").dflt("true").boolean();
   const double max_radius = args_.key("max_radius").dble();
-  const int num_radius = args_.key("num_radius").integer();
-  const double density = args_.key("density").dble();
+  const int num_shells = args_.key("num_shells").integer();
+  const double points_per_shell = args_.key("points_per_shell").dble();
   double sum = 0.;
   ASSERT(point.dimension() == 3, "assumes 3d");
-  const double dr = max_radius/static_cast<double>(num_radius);
+  const double dr = max_radius/static_cast<double>(num_shells);
   Position surf_point(3);
   double lower_radius = 0.;
   double lower_vol = 0.;
@@ -109,7 +122,7 @@ double Shape::integrate(
     for (double radius = dr; radius < max_radius + dr/2.; radius += dr) {
       spheres_->push_back(MakeSphere({{"radius", str(radius)}}));
       meshes_->push_back(std::vector<Position>());
-      spheres_->back()->surface_mesh(density, &meshes_->back());
+      spheres_->back()->surface_mesh(points_per_shell, &meshes_->back());
     }
   }
   int irad = 0;

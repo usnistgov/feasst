@@ -5,7 +5,7 @@
 
 namespace feasst {
 
-TEST(Shape, HalfSpace) {
+TEST(HalfSpace, serialize) {
   HalfSpace half_space({
     {"dimension", "2"},
     {"intersection", "1."},
@@ -67,8 +67,8 @@ TEST(HalfSpace, integrate) {
       {"alpha0", str(alpha0)},
       {"epsilon0", str(epsilon0)},
       {"max_radius", "10"},
-      {"num_radius", "1000"},
-      {"density", "1"}});
+      {"num_shells", "1000"},
+      {"points_per_shell", "100"}});
   EXPECT_NEAR(inte, hamaker_half_plane(epsilon0, alpha0, distance), 0.04);
 }
 

@@ -25,7 +25,7 @@ class FormulaExponential : public Formula {
   void set_f0(const double f0) { f0_ = f0; }
   void set_A(const double A) { A_ = A; }
   void set_B(const double B) { B_ = B; }
-  double evaluate(const double x) override;
+  double evaluate(const double x) const override;
   std::shared_ptr<Formula> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit FormulaExponential(std::istream& istr);

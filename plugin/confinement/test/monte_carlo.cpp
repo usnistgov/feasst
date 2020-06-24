@@ -8,8 +8,11 @@
 #include "system/include/lennard_jones.h"
 #include "shape/include/sphere.h"
 #include "shape/include/slab.h"
+#include "shape/include/slab_sine.h"
 #include "shape/include/shape_union.h"
+#include "shape/include/shape_intersect.h"
 #include "shape/include/cylinder.h"
+#include "shape/include/half_space_sine.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/metropolis.h"
@@ -105,8 +108,8 @@ TEST(MonteCarlo, ShapeTable_LONG) {
       {"alpha", "6"},
       {"epsilon", "-1"},
       {"max_radius", "10"},
-      {"num_radius", "10"},
-      {"density", "1"}});
+      {"num_shells", "10"},
+      {"points_per_shell", "1"}});
     MakeCheckpoint({{"file_name", "tmp/table"}})->write(hamaker->table());
   }
   mc.add(Potential(hamaker));
@@ -126,6 +129,26 @@ TEST(MonteCarlo, ShapeTable_LONG) {
 //  MakeCheckpoint({{"file_name", "tmp/mc_table"}})->write(mc);
 //  MonteCarlo mc2 = test_serialize(mc);
 //  mc2.attempt(1e5);
+}
+
+TEST(MonteCarlo, SineSlab) {
+  MonteCarlo mc;
+  // mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  mc.add(Configuration(MakeDomain({{"cubic_box_length", "16"}}),
+    {{"particle_type", "../forcefield/data.lj"}}));
+  mc.add(Potential(MakeLennardJones()));
+  mc.add(Potential(MakeModelHardShape(MakeSlabSine(
+    MakeFormulaSineWave({{"amplitude", "2"}, {"width", "8"}}),
+    { {"dimension", "0"}, {"wave_dimension", "1"}, {"average_bound0", "-5"},
+      {"average_bound1", "5"}}))));
+  mc.add(MakeMetropolis({{"beta", "0.1"}, {"chemical_potential", "1."}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
+  SeekNumParticles(500).with_trial_add().run(&mc);
+  const int steps_per = 1e2;
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
+                          {"file_name", "tmp/sine"}}));
+  MonteCarlo mc2 = test_serialize(mc);
+  mc2.attempt(1e3);
 }
 
 }  // namespace feasst

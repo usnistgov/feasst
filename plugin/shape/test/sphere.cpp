@@ -25,7 +25,7 @@ TEST(Shape, Sphere) {
 
 TEST(Sphere, surface_mesh) {
   std::vector<Position> mesh;
-  MakeSphere({{"radius", "3"}})->surface_mesh(1., &mesh); 
+  MakeSphere({{"radius", "3"}})->surface_mesh(1000, &mesh);
   Accumulator av_x, av_y, av_z;
   for (const Position& pos1 : mesh) {
     EXPECT_NEAR(pos1.distance(), 3, NEAR_ZERO);

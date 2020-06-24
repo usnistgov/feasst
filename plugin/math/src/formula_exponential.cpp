@@ -38,7 +38,7 @@ void FormulaExponential::serialize(std::ostream& ostr) const {
   feasst_serialize(B_, ostr);
 }
 
-double FormulaExponential::evaluate(const double x) {
+double FormulaExponential::evaluate(const double x) const {
   return f0_*exp(A_*std::pow(x - x0(), B_));
 }
 

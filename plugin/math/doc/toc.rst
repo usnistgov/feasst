@@ -1,7 +1,7 @@
 
 .. toctree::
 
-   Table3D
+   Table
    Accumulator
    Histogram
    Formula
@@ -13,3 +13,6 @@
    FormulaExponential
    Matrix
    RandomMT19937
+   Solver
+   SolverNewtonRaphson
+   SolverBisection

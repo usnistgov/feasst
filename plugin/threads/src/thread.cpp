@@ -3,10 +3,13 @@
 
 namespace feasst {
 
-bool Thread::in_chunk(const int iteration, const int total_iterations) const {
+bool Thread::in_chunk(const int iteration,
+    const int total_iterations,
+    const int node,
+    const int num_nodes) const {
   DEBUG(thread());
   DEBUG(num());
-  if (iteration%num() == thread()) {
+  if (iteration%(num_nodes*num()) == thread() + node*num()) {
     DEBUG("true");
     return true;
   }

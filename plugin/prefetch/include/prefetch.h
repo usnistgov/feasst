@@ -87,7 +87,6 @@ class Prefetch : public MonteCarlo {
   int steps_per_check_;
   int steps_since_check_ = 0;
   bool load_balance_;
-  std::shared_ptr<Thread> threads_;
 
   // temporary
   int num_threads_;

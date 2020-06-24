@@ -22,8 +22,9 @@ class Formula {
   Formula(const argtype& args = argtype());
   void set_x0(const double x0) { x0_ = x0; }
   double x0() const { return x0_; }
-  virtual double evaluate(const double x);
-  virtual double evaluate(const double x, const double y);
+  virtual double evaluate(const double x) const;
+  virtual double evaluate(const double x, const double y) const;
+  virtual double derivative(const double x) const;
 
   // serialization
   virtual std::string class_name() const { return class_name_; }

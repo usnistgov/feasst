@@ -42,6 +42,12 @@ class HalfSpace : public Shape {
   /// Return dimension argument.
   int dimension() const { return dimension_; }
 
+  /// Return the intersection argument.
+  double intersection() const { return intersection_; }
+
+  /// Return dimension argument.
+  int direction() const { return direction_; }
+
   double nearest_distance(const Position& point) const override;
 
   void serialize(std::ostream& ostr) const override;
@@ -50,12 +56,14 @@ class HalfSpace : public Shape {
   explicit HalfSpace(std::istream& istr);
   virtual ~HalfSpace() {}
 
+ protected:
+  Arguments args_;
+  void serialize_half_space_(std::ostream& ostr) const;
+
  private:
-  const std::string class_name_ = "HalfSpace";
   int dimension_;
   double intersection_;
   int direction_;
-  Arguments args_;
 };
 
 inline std::shared_ptr<HalfSpace> MakeHalfSpace(

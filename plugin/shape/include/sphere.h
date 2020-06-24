@@ -37,10 +37,8 @@ class Sphere : public Shape {
     https://en.wikipedia.org/wiki/Tammes_problem
    */
   void surface_mesh(
-    /// Give the target density of points per surface area.
-    /// The actualy density may deviate slightly, and can be double checked
-    /// based on the number of returned points.
-    const double target_density,
+    /// The number of points.
+    const int num,
     std::vector<Position> * points) const;
 
   void serialize(std::ostream& ostr) const override;
@@ -50,7 +48,6 @@ class Sphere : public Shape {
   virtual ~Sphere() {}
 
  private:
-  const std::string class_name_ = "Sphere";
   double radius_;
   Position center_;
   Arguments args_;

@@ -32,6 +32,7 @@ class ModelTableCart3FoldSym : public ModelOneBody {
     Shape * shape,
     Domain * domain,
     Random * random,
+    /// See Shape for documentation of integration_args.
     const argtype& integration_args);
 
   /// Same as above, but parallelize the task with OMP.
@@ -39,7 +40,10 @@ class ModelTableCart3FoldSym : public ModelOneBody {
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& integration_args);
+    const argtype& integration_args,
+    /// See Thread for documentation of these two arguments.
+    const int node = 0,
+    const int num_node = 1);
 
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {

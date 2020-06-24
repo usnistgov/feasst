@@ -244,6 +244,41 @@ double spherical_shell_volume(const double lower,
   const double upper,
   const int dimension);
 
+/// Add vec1 to vec2
+template <typename T>
+inline void add(const std::vector<T>& vec1, std::vector<T> * vec2) {
+  for (int i = 0; i < static_cast<int>(vec1.size()); ++i) {
+    (*vec2)[i] += vec1[i];
+  }
+}
+
+/// Add vec1 to vec2
+template <typename T>
+inline void add(const std::vector<std::vector<T> >& vec1,
+    std::vector<std::vector<T> > * vec2) {
+  for (int i = 0; i < static_cast<int>(vec1.size()); ++i) {
+    add(vec1[i], &(*vec2)[i]);
+  }
+}
+
+/// Add vec1 to vec2
+template <typename T>
+inline void add(const std::vector<std::vector<std::vector<T> > >& vec1,
+    std::vector<std::vector<std::vector<T> > > * vec2) {
+  for (int i = 0; i < static_cast<int>(vec1.size()); ++i) {
+    add(vec1[i], &(*vec2)[i]);
+  }
+}
+
+/// Add vec1 to vec2
+template <typename T>
+inline void add(const std::vector<std::vector<std::vector<std::vector<T> > > >& vec1,
+    std::vector<std::vector<std::vector<std::vector<T> > > > * vec2) {
+  for (int i = 0; i < static_cast<int>(vec1.size()); ++i) {
+    add(vec1[i], &(*vec2)[i]);
+  }
+}
+
 }  // namespace feasst
 
 #endif  // FEASST_MATH_UTILS_MATH_H_

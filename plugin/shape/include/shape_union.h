@@ -16,11 +16,13 @@ namespace feasst {
 class ShapeUnion : public Shape {
  public:
   // This constructor only to be used for serialization.
-  ShapeUnion() {}
+  ShapeUnion() { class_name_ = "ShapeUnion"; }
 
   ShapeUnion(std::shared_ptr<Shape> shape1,
              std::shared_ptr<Shape> shape2);
 
+  bool is_inside(const Position& point) const override;
+  bool is_inside(const Position& point, const double diameter) const override;
   double nearest_distance(const Position& point) const override;
 
   void serialize(std::ostream& ostr) const override;
@@ -30,7 +32,6 @@ class ShapeUnion : public Shape {
   virtual ~ShapeUnion() {}
 
  private:
-  const std::string class_name_ = "ShapeUnion";
   std::shared_ptr<Shape> shape1_, shape2_;
 };
 

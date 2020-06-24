@@ -7,7 +7,7 @@ namespace feasst {
 class MapShapeIntersect {
  public:
   MapShapeIntersect() {
-    ShapeIntersect().deserialize_map()["ShapeIntersect"] = MakeShapeIntersect();
+    ShapeIntersect().deserialize_map()["ShapeIntersect"] = std::make_shared<ShapeIntersect>();
   }
 };
 
@@ -15,9 +15,27 @@ static MapShapeIntersect mapper_ = MapShapeIntersect();
 
 ShapeIntersect::ShapeIntersect(
     std::shared_ptr<Shape> shape1,
-    std::shared_ptr<Shape> shape2) {
+    std::shared_ptr<Shape> shape2) : ShapeIntersect() {
   shape1_ = shape1;
   shape2_ = shape2;
+}
+
+bool ShapeIntersect::is_inside(const Position& point) const {
+  if (shape1_->is_inside(point)) {
+    if (shape2_->is_inside(point)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool ShapeIntersect::is_inside(const Position& point, const double diameter) const {
+  if (shape1_->is_inside(point, diameter)) {
+    if (shape2_->is_inside(point, diameter)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 double ShapeIntersect::nearest_distance(const Position& point) const {
@@ -32,12 +50,13 @@ double ShapeIntersect::nearest_distance(const Position& point) const {
 
 void ShapeIntersect::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_shape_(ostr);
   feasst_serialize_version(822, ostr);
   feasst_serialize_fstdr(shape1_, ostr);
   feasst_serialize_fstdr(shape2_, ostr);
 }
 
-ShapeIntersect::ShapeIntersect(std::istream& istr) {
+ShapeIntersect::ShapeIntersect(std::istream& istr) : Shape(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(822 == version, version);
 

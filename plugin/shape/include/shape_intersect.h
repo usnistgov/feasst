@@ -16,11 +16,13 @@ namespace feasst {
 class ShapeIntersect : public Shape {
  public:
   // This constructor only to be used for serialization.
-  ShapeIntersect() {}
+  ShapeIntersect() { class_name_ = "ShapeIntersect"; }
 
   ShapeIntersect(std::shared_ptr<Shape> shape1,
                  std::shared_ptr<Shape> shape2);
 
+  bool is_inside(const Position& point) const override;
+  bool is_inside(const Position& point, const double diameter) const override;
   double nearest_distance(const Position& point) const override;
 
   void serialize(std::ostream& ostr) const override;
@@ -30,12 +32,13 @@ class ShapeIntersect : public Shape {
   virtual ~ShapeIntersect() {}
 
  private:
-  const std::string class_name_ = "ShapeIntersect";
   std::shared_ptr<Shape> shape1_, shape2_;
 };
 
-inline std::shared_ptr<ShapeIntersect> MakeShapeIntersect() {
-  return std::make_shared<ShapeIntersect>();
+inline std::shared_ptr<ShapeIntersect> MakeShapeIntersect(
+    std::shared_ptr<Shape> shape1,
+    std::shared_ptr<Shape> shape2) {
+  return std::make_shared<ShapeIntersect>(shape1, shape2);
 }
 
 }  // namespace feasst

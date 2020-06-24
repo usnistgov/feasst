@@ -89,7 +89,7 @@ class Arguments {
                  const std::string first,
                  const argtype& args) const;
 
-  ~Arguments() { if (check_) check_all_used(); }
+  ~Arguments();
 
  private:
   argtype args_;

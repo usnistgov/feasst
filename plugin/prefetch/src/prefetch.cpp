@@ -18,7 +18,6 @@ Prefetch::Prefetch(const argtype& args) {
   Arguments args_(args);
   steps_per_check_ = args_.key("steps_per_check").dflt("100000").integer();
   load_balance_ = args_.key("load_balance").dflt("true").boolean();
-  threads_ = MakeThreadOMP();
 }
 
 void Prefetch::reset_trial_stats() {
@@ -38,8 +37,11 @@ MonteCarlo * Prefetch::clone_(const int ithread) {
 void Prefetch::create(std::vector<Pool> * pool) {
   // Initialize MC clones for each processor in pool_
   ASSERT(pool_.size() == 0, "pool is of size:" << pool_.size());
-  if (threads_->is_enabled()) {
-    num_threads_ = threads_->num();
+  if (ThreadOMP().is_enabled()) {
+    #pragma omp parallel
+    {
+      num_threads_ = ThreadOMP().num();
+    }
   } else {
     num_threads_ = 1;
   }
@@ -407,7 +409,6 @@ Prefetch::Prefetch(std::istream& istr) : MonteCarlo(istr) {
   feasst_deserialize(&steps_per_check_, istr);
   feasst_deserialize(&steps_since_check_, istr);
   feasst_deserialize(&load_balance_, istr);
-  threads_ = MakeThreadOMP();
 }
 
 }  // namespace feasst

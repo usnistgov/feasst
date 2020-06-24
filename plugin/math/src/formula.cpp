@@ -42,9 +42,11 @@ Formula::Formula(std::istream& istr) {
   feasst_deserialize(&x0_, istr);
 }
 
-double Formula::evaluate(const double x) { FATAL("not implemented"); }
+double Formula::evaluate(const double x) const { FATAL("not implemented"); }
 
-double Formula::evaluate(const double x, const double y) {
+double Formula::evaluate(const double x, const double y) const {
   FATAL("not implemented"); }
+
+double Formula::derivative(const double x) const { FATAL("not implemented"); }
 
 }  // namespace feasst

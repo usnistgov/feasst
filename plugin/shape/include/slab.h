@@ -12,15 +12,13 @@ namespace feasst {
  */
 class Slab : public Shape {
  public:
-  Slab(
-    /**
-      dimension : The slab surface is perpendicular to this dimensional axis.
-
-      bound0 : Set a lower or upper value of the slab.
-
-      bound1 : Set the second bound, upper or lower, respectively.
-     */
-    const argtype &args = argtype());
+  /**
+    args:
+    - dimension: The slab surface is perpendicular to this dimensional axis.
+    - bound0: Set a lower or upper value of the slab.
+    - bound1: Set the second bound, upper or lower, respectively.
+   */
+  Slab(const argtype &args = argtype());
 
   double nearest_distance(const Position& point) const override {
     return slab_->nearest_distance(point); }
@@ -32,7 +30,6 @@ class Slab : public Shape {
   virtual ~Slab() {}
 
  private:
-  const std::string class_name_ = "Slab";
   std::shared_ptr<Shape> slab_;
   Arguments args_;
 };

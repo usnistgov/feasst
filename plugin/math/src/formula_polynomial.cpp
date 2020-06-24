@@ -37,10 +37,18 @@ void FormulaPolynomial::serialize(std::ostream& ostr) const {
   feasst_serialize(A_, ostr);
 }
 
-double FormulaPolynomial::evaluate(const double x) {
+double FormulaPolynomial::evaluate(const double x) const {
   double result = 0.;
   for (int i = 0; i < static_cast<int>(A_.size()); ++i) {
     result += A_[i]*std::pow(x - x0(), i);
+  }
+  return result;
+}
+
+double FormulaPolynomial::derivative(const double x) const {
+  double result = 0.;
+  for (int i = 1; i < static_cast<int>(A_.size()); ++i) {
+    result += A_[i]*i*std::pow(x - x0(), i - 1);
   }
   return result;
 }

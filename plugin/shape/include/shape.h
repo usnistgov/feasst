@@ -19,17 +19,19 @@ class Sphere;
  */
 class Shape {
  public:
+  Shape() {}
+
   /// Return the distance from the point to the nearest point on the surface.
   /// The distance is negative if the point is inside of the shape and positive
   /// if it is outside.
   virtual double nearest_distance(const Position& point) const = 0;
 
   /// Return true if the point is inside of the shape.
-  bool is_inside(const Position& point) const;
+  virtual bool is_inside(const Position& point) const;
 
   /// Return true if the sphere of given center point and diameter is entirely
   /// inside of the shape.
-  bool is_inside(const Position& point, const double diameter) const;
+  virtual bool is_inside(const Position& point, const double diameter) const;
 
   virtual double surface_area() const;
 
@@ -57,20 +59,27 @@ class Shape {
     - epsilon[i]: add the i-th constant factor (default: -1).
       The "[i]" is as described above, and each alpha must have
       a corresponding epsilon.
-    - max_radius: maximum radial extent
-    - num_radius: number of radius slices
-    - density: number of points per unit area for each slice
+    - max_radius: maximum radial extent of spherical shells.
+    - num_shells: number of spherical shells.
+    - points_per_slice: number of points in each spherical shell.
    */
   double integrate(
     const Position& point,
     Random * random,
     const argtype& args = argtype());
 
+  // serialize
+  std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Shape> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Shape> >& deserialize_map();
   std::shared_ptr<Shape> deserialize(std::istream& istr);
   virtual ~Shape() {}
+
+ protected:
+  std::string class_name_ = "Shape";
+  void serialize_shape_(std::ostream& ostr) const;
+  explicit Shape(std::istream& istr);
 
  private:
   // temporary cache

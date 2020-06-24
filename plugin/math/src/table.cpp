@@ -106,4 +106,6 @@ int Table3D::value_to_nearest_bin(const int dim, const double value) const {
   return feasst::round(value*(num(dim) - 1));
 }
 
+void Table3D::add(const Table3D& table) { feasst::add(table.data_, &data_); }
+
 }  // namespace feasst

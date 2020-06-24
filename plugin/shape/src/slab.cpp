@@ -23,6 +23,7 @@ class MapSlab {
 static MapSlab mapper_ = MapSlab();
 
 Slab::Slab(const argtype &args) : Shape() {
+  class_name_ = "Slab";
   args_.init(args);
   int dimension = args_.key("dimension").integer();
   double upper = args_.key("bound0").dble();
@@ -44,11 +45,12 @@ Slab::Slab(const argtype &args) : Shape() {
 
 void Slab::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_shape_(ostr);
   feasst_serialize_version(485, ostr);
   feasst_serialize(slab_, ostr);
 }
 
-Slab::Slab(std::istream& istr) {
+Slab::Slab(std::istream& istr) : Shape(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(485 == version, version);
   // feasst_deserialize(slab_, istr);

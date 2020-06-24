@@ -20,7 +20,8 @@ static MapCylinder mapper_ = MapCylinder();
 
 Cylinder::Cylinder(const argtype &args,
     const Position point0,
-    const Position point1) : Shape() {
+    const Position point1) {
+  class_name_ = "Cylinder";
   args_.init(args);
   radius_ = args_.key("radius").dble();
   point0_ = point0;
@@ -33,13 +34,14 @@ double Cylinder::nearest_distance(const Position& point) const {
 
 void Cylinder::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
+  serialize_shape_(ostr);
   feasst_serialize_version(629, ostr);
   feasst_serialize(radius_, ostr);
   feasst_serialize_fstobj(point0_, ostr);
   feasst_serialize_fstobj(point1_, ostr);
 }
 
-Cylinder::Cylinder(std::istream& istr) {
+Cylinder::Cylinder(std::istream& istr) : Shape(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(629 == version, version);
   feasst_deserialize(&radius_, istr);

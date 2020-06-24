@@ -32,7 +32,6 @@ class Cylinder : public Shape {
   virtual ~Cylinder() {}
 
  private:
-  const std::string class_name_ = "Cylinder";
   double radius_;
   Position point0_, point1_;
   Arguments args_;

@@ -20,7 +20,7 @@ TEST(ThreadOMP, chunk) {
   }
   #endif // _OPENMP
 
-  INFO(feasst_str(data));
+  // INFO(feasst_str(data));
 }
 
 }  // namespace feasst

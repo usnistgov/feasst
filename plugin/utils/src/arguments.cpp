@@ -1,5 +1,6 @@
 #include <sstream>
 #include <cmath>
+#include <iostream>
 #include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "math/include/constants.h"
@@ -125,7 +126,11 @@ std::string Arguments::status() const {
   std::stringstream ss;
   ss << "used(";
   for (std::string used : used_keys_) {
-    ss << used << ", ";
+    ss << used << ",";
+  }
+  ss << "),args(";
+  for (auto const& pair : args_) {
+    ss << "{" << pair.first << "," << pair.second << "},";
   }
   ss << ")";
   return ss.str();
@@ -152,5 +157,8 @@ argtype Arguments::append(const std::string append,
   }
   return new_args;
 }
+
+//Arguments::~Arguments() {}
+Arguments::~Arguments() { if (check_) check_all_used(); }
 
 }  // namespace feasst

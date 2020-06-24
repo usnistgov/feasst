@@ -58,6 +58,9 @@ class Table3D : public Table {
   /// Return the data.
   const vec3& data() const { return data_; }
 
+  /// Add the values of the given table.
+  void add(const Table3D& table);
+
   /// Return linear interpolation of data given normalized values for each
   /// dimension that range from 0 to 1, inclusive.
   double linear_interpolation(const double value0,
@@ -80,6 +83,8 @@ class Table3D : public Table {
     std::stringstream ss(str);
     return Table3D(ss);
   }
+
+  virtual ~Table3D() {}
 
  private:
   vec3 data_;
