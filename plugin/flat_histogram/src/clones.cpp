@@ -135,7 +135,7 @@ void Clones::run_until_complete_omp_(const argtype& run_args,
       if (init) {
         // wait until thread is initialized
         while (!is_initialized[thread]) sleep(0.01);
-        INFO("thread " << thread << " is initialized");
+        DEBUG("thread " << thread << " is initialized");
 
         // initialize next thread, if applicable
         if (thread < num() - 1) initialize(thread + 1, init_args);
@@ -211,6 +211,8 @@ LnProbability Clones::ln_prob(const argtype& args) const {
         DEBUG("stitch " << bin);
         overlap_upper.push_back(fh_upper.bias().ln_prob().value(upper_index));
         overlap_lower.push_back(ln_prob_lower);
+        DEBUG("upper " << fh_upper.bias().ln_prob().value(upper_index));
+        DEBUG("lower " << ln_prob_lower);
         ++upper_index;
       }
     }
@@ -223,11 +225,12 @@ LnProbability Clones::ln_prob(const argtype& args) const {
     for (int ovl = 0; ovl < static_cast<int>(overlap_upper.size()); ++ovl) {
       ln_prob_shift.accumulate(overlap_lower[ovl] - overlap_upper[ovl]);
     }
-    shift += ln_prob_shift.average();
+    DEBUG("av shift: " << ln_prob_shift.average());
     for (int ovl = 0; ovl < static_cast<int>(overlap_upper.size()); ++ovl) {
-      DEBUG(shift);
-      ln_prob.push_back(0.5*(overlap_lower[ovl] + overlap_upper[ovl] + shift));
+      ln_prob.push_back(0.5*(overlap_lower[ovl] + overlap_upper[ovl] + ln_prob_shift.average()) + shift);
     }
+    shift += ln_prob_shift.average();
+    DEBUG("total shift " << shift);
     starting_lower_bin = static_cast<int>(overlap_lower.size() + truncate);
   }
 
