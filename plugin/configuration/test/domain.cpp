@@ -76,4 +76,15 @@ TEST(Domain, wrap) {
   EXPECT_EQ(domain->periodic(2), domain2.periodic(2));
 }
 
+TEST(Domain, non_cubic) {
+  auto domain = MakeDomain({
+    {"side_length0", "3"},
+    {"side_length1", "4"},
+    {"side_length2", "5"},
+  });
+  EXPECT_EQ(domain->dimension(), 3);
+  EXPECT_EQ(domain->volume(), 3*4*5);
+  Position shift = domain->shift_opt(Position({4.5, 2, 1}));
+}
+
 }  // namespace feasst

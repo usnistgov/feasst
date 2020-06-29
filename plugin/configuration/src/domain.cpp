@@ -91,6 +91,7 @@ void Domain::set_side_length(const int dimension, const double length) {
 
 void Domain::add_side_length(const double length) {
   side_lengths_.push_back(length);
+  periodic_.push_back(true);
   resize_opt_(side_lengths_.dimension());
 }
 

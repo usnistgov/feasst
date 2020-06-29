@@ -27,17 +27,6 @@ TEST(Configuration, type_to_file_name) {
   EXPECT_EQ("../forcefield/data.spce", config.type_to_file_name(2));
 }
 
-TEST(Configuration, non_cubic_domain) {
-  Configuration config;
-  config.set(MakeDomain({
-    {"side_length0", "3"},
-    {"side_length1", "4"},
-    {"side_length2", "5"},
-  }));
-  EXPECT_EQ(config.dimension(), 3);
-  EXPECT_EQ(config.domain().volume(), 3*4*5);
-}
-
 TEST(Configuration, coordinates_and_wrapping) {
   Configuration config(MakeDomain({{"cubic_box_length", "5"}}),
     {{"particle_type0", "../forcefield/data.atom"}});
