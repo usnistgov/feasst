@@ -8,7 +8,7 @@
 
 namespace feasst {
 
-/// Rigidly move rigidly anywhere in the box with any orientation.
+/// Rigidly move anywhere in the box with any orientation.
 class PerturbAnywhere : public PerturbMove {
  public:
   PerturbAnywhere();

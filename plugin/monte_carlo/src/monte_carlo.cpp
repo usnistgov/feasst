@@ -6,14 +6,16 @@
 
 namespace feasst {
 
-MonteCarlo::MonteCarlo() {
-  set(std::make_shared<RandomMT19937>());
+MonteCarlo::MonteCarlo(std::shared_ptr<Random> random) {
+  set(random);
 //    timer_other_ = timer_.add("other");
 //    timer_trial_ = timer_.add("trial");
 //    timer_analyze_ = timer_.add("analyze");
 //    timer_modify_ = timer_.add("modify");
 //    timer_checkpoint_ = timer_.add("checkpoint");
 }
+
+MonteCarlo::MonteCarlo() : MonteCarlo(std::make_shared<RandomMT19937>()) {}
 
 void MonteCarlo::seed_random(const int seed) {
   random_->seed(seed);

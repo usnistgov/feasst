@@ -17,6 +17,9 @@ void VisitModel::compute(
     Configuration * config,
     const int group_index) {
   zero_energy();
+  const Domain& domain = config->domain();
+  init_relative_(domain, &relative_, &pbc_);
+  double r2;
   const Select& selection = config->group_selects()[group_index];
   for (int select_index = 0;
        select_index < selection.num_particles();
@@ -26,7 +29,8 @@ void VisitModel::compute(
     for (int site_index : selection.site_indices(select_index)) {
       const Site& site = part.site(site_index);
       if (site.is_physical()) {
-        energy_ += model.energy(site, *config, model_params);
+        domain.wrap_opt(site.position(), origin_, &relative_, &pbc_, &r2);
+        energy_ += model.energy(relative_, site, *config, model_params);
       }
     }
   }
@@ -40,14 +44,17 @@ void VisitModel::compute(
     const int group_index) {
   ASSERT(group_index == 0, "not implemented because redundant to selection");
   zero_energy();
-  DEBUG("HWH: add wrapping of site positions");
+  const Domain& domain = config->domain();
+  init_relative_(domain, &relative_, &pbc_);
+  double r2;
   for (int sel_index = 0; sel_index < selection.num_particles(); ++sel_index) {
     const int particle_index = selection.particle_index(sel_index);
     const Particle& part = config->select_particle(particle_index);
     for (int site_index : selection.site_indices(sel_index)) {
       const Site& site = part.site(site_index);
       if (site.is_physical()) {
-        energy_ += model.energy(site, *config, model_params);
+        domain.wrap_opt(site.position(), origin_, &relative_, &pbc_, &r2);
+        energy_ += model.energy(relative_, site, *config, model_params);
       }
     }
   }
@@ -278,6 +285,7 @@ void VisitModel::init_relative_(const Domain& domain, Position * relative,
   if (relative->dimension() != domain.dimension()) {
     relative->set_vector(domain.side_lengths().coord());
     pbc->set_vector(domain.side_lengths().coord());
+    origin_ = Position(domain.dimension());
   }
 }
 

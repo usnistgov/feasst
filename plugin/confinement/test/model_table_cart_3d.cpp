@@ -5,12 +5,13 @@
 #include "configuration/include/select.h"
 #include "configuration/include/domain.h"
 #include "shape/include/slab_sine.h"
+#include "shape/include/formula_sine_wave.h"
 #include "confinement/include/model_table_cartesian.h"
 
 namespace feasst {
 
-TEST(ModelTableCart3FoldSym, SineSlabTable_LONG) {
-  auto hamaker = MakeModelTableCart3FoldSym(MakeTable3D({
+TEST(ModelTableCart3DIntegr, SineSlabTable_LONG) {
+  auto hamaker = MakeModelTableCart3DIntegr(MakeTable3D({
     {"num0", "11"},
     {"num1", "11"},
     {"num2", "11"},
@@ -34,6 +35,18 @@ TEST(ModelTableCart3FoldSym, SineSlabTable_LONG) {
       {"num_shells", "100"},
       {"points_per_shell", "100"}});
   MakeCheckpoint({{"file_name", "tmp/sine_slab_table"}})->write(hamaker->table());
+}
+
+TEST(ModelTableCard1DHard, compute_table) {
+  auto domain = MakeDomain({{"cubic_box_length", "10"}});
+  auto shape = MakeSlabSine(
+    MakeFormulaSineWave({{"amplitude", "2"}, {"width", "10"}}),
+    { {"dimension", "1"}, {"wave_dimension", "0"}, {"average_bound0", "-5"},
+      {"average_bound1", "5"}});
+  auto table = MakeTable1D({{"num", "11"}});
+  auto model = MakeModelTableCart1DHard(table);
+  auto random = MakeRandomMT19937();
+  model->compute_table(shape.get(), domain.get(), random.get());
 }
 
 }  // namespace feasst

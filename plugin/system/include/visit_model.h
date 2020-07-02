@@ -139,7 +139,7 @@ class VisitModel {
   // HWH hacky addition for optimization: also, prep inner for reverting,
   // because this is called at beginning of every pair-wise selection compute
   // optimization to avoid repeated construction of Position.
-  Position relative_, pbc_;
+  Position relative_, pbc_, origin_;
   void init_relative_(const Domain& domain, Position * relative,
                       Position * pbc);
 

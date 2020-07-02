@@ -1,6 +1,6 @@
-ModelTableCart3FoldSym
+Minimize
 =====================================================
 
-.. doxygenclass:: feasst::ModelTableCart3FoldSym
+.. doxygenclass:: feasst::Minimize
    :project: FEASST
    :members:

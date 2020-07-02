@@ -1,30 +1,14 @@
-#include <cmath>
-#include "utils/include/serialize.h"
-#include "shape/include/shape_intersect.h"
-#include "shape/include/slab.h"
-#include "shape/include/half_space.h"
-#include "math/include/utils_math.h"
+#include "utils/include/utils_io.h"
+#include "utils/include/debug.h"
 #include "math/include/constants.h"
+#include "math/include/utils_math.h"
+#include "shape/include/half_space.h"
+#include "shape/include/slab.h"
 
 namespace feasst {
 
-class MapSlab {
- public:
-  MapSlab() {
-    auto obj = MakeSlab({
-      {"dimension", "0"},
-      {"bound0", "1"},
-      {"bound1", "-1"},
-    });
-    obj->deserialize_map()["Slab"] = obj;
-  }
-};
-
-static MapSlab mapper_ = MapSlab();
-
-Slab::Slab(const argtype &args) : Shape() {
-  class_name_ = "Slab";
-  args_.init(args);
+Slab::Slab(const argtype &args) : ShapeIntersect() {
+  Arguments args_(args);
   int dimension = args_.key("dimension").integer();
   double upper = args_.key("bound0").dble();
   double lower = args_.key("bound1").dble();
@@ -40,26 +24,7 @@ Slab::Slab(const argtype &args) : Shape() {
     {"intersection", str(lower)},
     {"direction", str(1)},
   });
-  slab_ = std::make_shared<ShapeIntersect>(half0, half1);
-}
-
-void Slab::serialize(std::ostream& ostr) const {
-  ostr << class_name_ << " ";
-  serialize_shape_(ostr);
-  feasst_serialize_version(485, ostr);
-  feasst_serialize(slab_, ostr);
-}
-
-Slab::Slab(std::istream& istr) : Shape(istr) {
-  const int version = feasst_deserialize_version(istr);
-  ASSERT(485 == version, version);
-  // feasst_deserialize(slab_, istr);
-  // HWH for unknown reasons, the above doesn't work
-  int existing;
-  istr >> existing;
-  if (existing != 0) {
-    slab_ = slab_->deserialize(istr);
-  }
+  set(half0, half1);
 }
 
 }  // namespace feasst

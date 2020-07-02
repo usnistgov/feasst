@@ -16,8 +16,7 @@ static MapShapeIntersect mapper_ = MapShapeIntersect();
 ShapeIntersect::ShapeIntersect(
     std::shared_ptr<Shape> shape1,
     std::shared_ptr<Shape> shape2) : ShapeIntersect() {
-  shape1_ = shape1;
-  shape2_ = shape2;
+  set(shape1, shape2);
 }
 
 bool ShapeIntersect::is_inside(const Position& point) const {
@@ -72,6 +71,12 @@ ShapeIntersect::ShapeIntersect(std::istream& istr) : Shape(istr) {
   if (existing != 0) {
     shape2_ = shape2_->deserialize(istr);
   }
+}
+
+void ShapeIntersect::set(std::shared_ptr<Shape> shape1,
+    std::shared_ptr<Shape> shape2) {
+  shape1_ = shape1;
+  shape2_ = shape2;
 }
 
 }  // namespace feasst

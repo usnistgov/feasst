@@ -83,9 +83,9 @@ class Trial {
   /// Tune parameters.
   virtual void tune();
 
-  /// Set a Mayer-sampling trial.
-  void set_mayer(const bool enabled = false) {
-    for (auto stage : stages_) stage->set_mayer(enabled); }
+  /// Set a trial that computes the new configuration only.
+  void set_new_only(const bool enabled = false) {
+    for (auto stage : stages_) stage->set_new_only(enabled); }
 
   /// Precompute quantities before simulation for optimization.
   virtual void precompute(Criteria * criteria, System * system);

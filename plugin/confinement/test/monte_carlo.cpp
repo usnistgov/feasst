@@ -17,10 +17,15 @@
 #include "monte_carlo/include/trial_translate.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/seek_num_particles.h"
+#include "mayer/include/trial.h"
 #include "steppers/include/log_and_movie.h"
+#include "steppers/include/check_energy.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "confinement/include/model_hard_shape.h"
 #include "confinement/include/model_table_cartesian.h"
+#include "confinement/include/always_accept.h"
+#include "confinement/include/henry_coefficient.h"
+#include "confinement/include/trial_anywhere_new_only.h"
 
 namespace feasst {
 
@@ -88,13 +93,13 @@ TEST(MonteCarlo, ShapeTable_LONG) {
   mc.add(Potential(MakeModelHardShape(pore)));
   const bool read_table = false;
   //const bool read_table = true;
-  std::shared_ptr<ModelTableCart3FoldSym> hamaker;
+  std::shared_ptr<ModelTableCart3DIntegr> hamaker;
   if (read_table) {
     auto table = MakeTable3D();
     MakeCheckpoint({{"file_name", "tmp/table"}})->read(table.get());
-    hamaker = MakeModelTableCart3FoldSym(table);
+    hamaker = MakeModelTableCart3DIntegr(table);
   } else {
-    hamaker = MakeModelTableCart3FoldSym(MakeTable3D({
+    hamaker = MakeModelTableCart3DIntegr(MakeTable3D({
       {"num0", "101"},
       {"num1", "101"},
       {"num2", "101"},
@@ -115,8 +120,8 @@ TEST(MonteCarlo, ShapeTable_LONG) {
   mc.add(Potential(hamaker));
 
 //  EXPECT_NEAR(table2->linear_interpolation(0, 0, 0), 0., NEAR_ZERO);
-//  mc.add(Potential(MakeModelTableCart3FoldSym(table2)));
-//  //mc.add(Potential(MakeModelTableCart3FoldSym(table)));
+//  mc.add(Potential(MakeModelTableCart3DIntegr(table2)));
+//  //mc.add(Potential(MakeModelTableCart3DIntegr(table)));
 //  mc.add(MakeMetropolis({{"beta", "1.5"}, {"chemical_potential", "1."}}));
 //  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.1"}}));
 //  SeekNumParticles(500).with_trial_add().run(&mc);
@@ -150,5 +155,99 @@ TEST(MonteCarlo, SineSlab) {
   MonteCarlo mc2 = test_serialize(mc);
   mc2.attempt(1e3);
 }
+
+System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
+  System system;
+  Configuration config(
+    MakeDomain({{"cubic_box_length", "5"}}), {
+      {"particle_type0", "../forcefield/data.dimer"},
+      {"particle_type1", install_dir() + "/plugin/confinement/forcefield/data.slab5x5"},
+      {"particle_type2", "../forcefield/data.lj"}});
+  for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
+    config.set_model_param("cutoff", site_type, 2.5);
+  }
+  for (int i = 0; i < num0; ++i) config.add_particle_of_type(0);
+  for (int i = 0; i < num1; ++i) config.add_particle_of_type(1);
+  for (int i = 0; i < num2; ++i) config.add_particle_of_type(2);
+  system.add(config);
+  system.add(Potential(MakeLennardJones()));
+//  system.add(Potential(MakeModelHardShape(MakeSlab({
+//    {"dimension", "2"},
+//    {"bound0", "2"},
+//    {"bound1", "-2"}}))));
+  return system;
+}
+
+Accumulator henry(System system) {
+  MonteCarlo mc;
+  mc.set(system);
+  mc.set(MakeAlwaysAccept({{"beta", "1.0"}}));
+  mc.add(MakeTrialAnywhereNewOnly({{"particle_type", "0"}}));
+  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/henry"}}));
+  const int henry_index = mc.num_analyzers();
+  mc.add(MakeHenryCoefficient());
+  mc.attempt(1e6);
+  return mc.analyze(henry_index).accumulator();
+}
+
+TEST(ModelTableCart3DIntegr, atomistic_slab_henry_LONG) {
+  const Accumulator h = henry(slab(1, 1));
+  EXPECT_NEAR(h.average(), 55.5, 3*h.stdev_of_av());
+}
+
+TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
+  System table_system = slab(0, 1, 1);
+  table_system.energy();
+  auto model = MakeModelTableCart3DIntegr(MakeTable3D({
+    {"num0", "51"},
+    {"num1", "51"},
+    {"num2", "51"},
+    {"default_value", "0."}}));
+  const Particle moving_particle = table_system.configuration().particle(1);
+  EXPECT_EQ(moving_particle.type(), 2);
+  Select select(1, moving_particle);
+  #ifdef _OPENMP
+    model->compute_table_omp(&table_system, &select);
+  #elif // _OPENMP
+    model->compute_table(&table_system, &select);
+  #endif // _OPENMP
+  System system = slab(1);
+  system.add(Potential(model));  // use table instead of explicit wall
+  const Accumulator h = henry(system);
+  EXPECT_NEAR(h.average(), 52.5, 3*h.stdev_of_av());
+}
+
+//TEST(ModelTableCart3DIntegr, atomistic_slab_LONG) {
+//  System system = slab(0, 1, 1);
+//  system.add(Potential(MakeLennardJones()));
+//  system.add(Potential(MakeModelHardShape(MakeSlab({
+//    {"dimension", "2"},
+//    {"bound0", "2"},
+//    {"bound1", "-2"}}))));
+//  auto model_table = MakeModelTableCart3DIntegr(MakeTable3D({
+//    {"num0", "51"},
+//    {"num1", "51"},
+//    {"num2", "51"},
+//    {"default_value", "0."}}));
+//  Select select(0, system.configuration().particle(0));
+//  #ifdef _OPENMP
+//    model_table->compute_table_omp(&system, &select);
+//  #elif // _OPENMP
+//    model_table->compute_table(&system, &select);
+//  #endif // _OPENMP
+//  MakeCheckpoint({{"file_name", "tmp/table2"}})->write(model_table->table());
+//  system.add(Potential(model_table));
+//  // With tabular potential, no longer need data.slab
+//  system.get_configuration()->remove_particles(system.configuration().selection_of_all());
+//
+//  MonteCarlo mc;
+//  mc.set(system);
+//  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+//  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+//  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/slabtab"}}));
+//  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+//  SeekNumParticles(15).with_trial_add().run(&mc);
+//  mc.attempt(1e6);
+//}
 
 }  // namespace feasst

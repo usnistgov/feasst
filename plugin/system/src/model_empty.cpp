@@ -24,6 +24,7 @@ ModelEmpty::ModelEmpty(std::istream& istr) {
 }
 
 double ModelEmpty::energy(
+    const Position& wrapped_site,
     const Site& site,
     const Configuration& config,
     const ModelParams& model_params) const {

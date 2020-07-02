@@ -14,6 +14,7 @@ class ModelEmpty : public ModelOneBody {
   ModelEmpty() {}
 
   double energy(
+      const Position& wrapped_site,
       const Site& site,
       const Configuration& config,
       const ModelParams& model_params) const override;

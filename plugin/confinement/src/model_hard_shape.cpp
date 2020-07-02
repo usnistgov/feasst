@@ -29,12 +29,13 @@ ModelHardShape::ModelHardShape(std::istream& istr)
 }
 
 double ModelHardShape::energy(
+    const Position& wrapped_site,
     const Site& site,
     const Configuration& config,
     const ModelParams& model_params) const {
   const int type = site.type();
   const double sigma = model_params.sigma().value(type);
-  if (shape()->is_inside(site.position(), sigma)) {
+  if (shape()->is_inside(wrapped_site, sigma)) {
     return 0.;
   }
   return NEAR_INFINITY;

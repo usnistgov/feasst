@@ -20,7 +20,7 @@ void TrialCompute::compute_rosenbluth(
     DEBUG("*** Attempting stage ***");
     stage->attempt(system, acceptance, criteria, old, random);
     if (stage->rosenbluth().chosen_step() == -1) {
-      if (!stage->is_mayer()) {
+      if (!stage->is_new_only()) {
         acceptance->set_reject(true);
         DEBUG("auto reject");
         for (TrialStage* stage : *stages) {

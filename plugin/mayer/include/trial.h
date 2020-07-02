@@ -3,10 +3,11 @@
 #define FEASST_MAYER_TRIAL_H_
 
 #include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trial_rotate.h"
 
 namespace feasst {
 
-class TrialComputeMoveMayer : public TrialCompute {
+class TrialComputeMoveNewOnly : public TrialCompute {
  public:
   void perturb_and_acceptance(
       Criteria * criteria,
@@ -19,18 +20,34 @@ class TrialComputeMoveMayer : public TrialCompute {
   }
 };
 
-/// Attempt a translation of a random particle, optimized for Mayer-sampling.
-class TrialTranslateMayer : public TrialTranslate {
+/// Attempt a translation of a random particle, optimized for not computing old
+/// configuration.
+class TrialTranslateNewOnly : public TrialTranslate {
  public:
-  TrialTranslateMayer(const argtype& args = argtype()) : TrialTranslate(args) {
-    set_mayer(true);
-    set(std::make_shared<TrialComputeMoveMayer>());
+  TrialTranslateNewOnly(const argtype& args = argtype()) : TrialTranslate(args) {
+    set_new_only(true);
+    set(std::make_shared<TrialComputeMoveNewOnly>());
   }
 };
 
-inline std::shared_ptr<TrialTranslateMayer> MakeTrialTranslateMayer(
+inline std::shared_ptr<TrialTranslateNewOnly> MakeTrialTranslateNewOnly(
     const argtype &args = argtype()) {
-  return std::make_shared<TrialTranslateMayer>(args);
+  return std::make_shared<TrialTranslateNewOnly>(args);
+}
+
+/// Attempt a rotation of a random particle, optimized for not computing old
+/// configuration.
+class TrialRotateNewOnly : public TrialRotate {
+ public:
+  TrialRotateNewOnly(const argtype& args = argtype()) : TrialRotate(args) {
+    set_new_only(true);
+    set(std::make_shared<TrialComputeMoveNewOnly>());
+  }
+};
+
+inline std::shared_ptr<TrialRotateNewOnly> MakeTrialRotateNewOnly(
+    const argtype &args = argtype()) {
+  return std::make_shared<TrialRotateNewOnly>(args);
 }
 
 }  // namespace feasst

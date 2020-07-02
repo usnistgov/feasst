@@ -40,14 +40,15 @@
 #include "math/include/utils_math.h"
 #include "math/include/position.h"
 #include "shape/include/shape.h"
-#include "shape/include/slab_sine.h"
 #include "shape/include/sphere.h"
-#include "shape/include/slab.h"
 #include "shape/include/half_space.h"
 #include "shape/include/half_space_sine.h"
+#include "shape/include/cuboid.h"
 #include "shape/include/cylinder.h"
 #include "shape/include/shape_union.h"
 #include "shape/include/shape_intersect.h"
+#include "shape/include/slab.h"
+#include "shape/include/slab_sine.h"
 #include "system/include/bond_three_body.h"
 #include "system/include/angle_square_well.h"
 #include "system/include/bond_two_body.h"
@@ -180,6 +181,8 @@
 #include "configuration/include/domain.h"
 #include "math/include/random.h"
 #include "math/include/constants.h"
+#include "math/include/minimize.h"
+#include "math/include/golden_search.h"
 #include "math/include/formula_exponential.h"
 #include "math/include/matrix.h"
 #include "monte_carlo/include/perturb_rotate.h"
@@ -200,6 +203,7 @@
 #include "math/include/solver.h"
 #include "math/include/solver_newton_raphson.h"
 #include "math/include/solver_bisection.h"
+#include "math/include/solver_brent_dekker.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
 #include "ewald/include/trial_remove_multiple.h"
 #include "ewald/include/trial_add_multiple.h"
@@ -215,7 +219,10 @@
 #include "mayer/include/criteria_mayer.h"
 #include "mayer/include/trial.h"
 #include "confinement/include/model_lj_shape.h"
+#include "confinement/include/always_accept.h"
+#include "confinement/include/henry_coefficient.h"
 #include "confinement/include/model_hard_shape.h"
+#include "confinement/include/trial_anywhere_new_only.h"
 #include "confinement/include/model_table_cartesian.h"
 #include "patch/include/patch_angle.h"
 #include "patch/include/visit_model_inner_patch.h"
@@ -274,6 +281,8 @@ using namespace std;
 %shared_ptr(feasst::ProgressReport);
 %shared_ptr(feasst::Cache);
 %shared_ptr(feasst::Table);
+%shared_ptr(feasst::Table1D);
+%shared_ptr(feasst::Table2D);
 %shared_ptr(feasst::Table3D);
 %shared_ptr(feasst::Accumulator);
 %shared_ptr(feasst::Stepper);
@@ -285,14 +294,15 @@ using namespace std;
 %shared_ptr(feasst::SpatialEntity);
 %shared_ptr(feasst::Shape);
 %shared_ptr(feasst::ShapedEntity);
-%shared_ptr(feasst::SlabSine);
 %shared_ptr(feasst::Sphere);
-%shared_ptr(feasst::Slab);
 %shared_ptr(feasst::HalfSpace);
 %shared_ptr(feasst::HalfSpaceSine);
+%shared_ptr(feasst::Cuboid);
 %shared_ptr(feasst::Cylinder);
 %shared_ptr(feasst::ShapeUnion);
 %shared_ptr(feasst::ShapeIntersect);
+%shared_ptr(feasst::Slab);
+%shared_ptr(feasst::SlabSine);
 %shared_ptr(feasst::BondThreeBody);
 %shared_ptr(feasst::AngleSquareWell);
 %shared_ptr(feasst::BondTwoBody);
@@ -440,6 +450,8 @@ using namespace std;
 %shared_ptr(feasst::FileLMP);
 %shared_ptr(feasst::Domain);
 %shared_ptr(feasst::Random);
+%shared_ptr(feasst::Minimize);
+%shared_ptr(feasst::GoldenSearch);
 %shared_ptr(feasst::FormulaExponential);
 %shared_ptr(feasst::Matrix);
 %shared_ptr(feasst::MatrixThreeByThree);
@@ -465,6 +477,7 @@ using namespace std;
 %shared_ptr(feasst::Solver);
 %shared_ptr(feasst::SolverNewtonRaphson);
 %shared_ptr(feasst::SolverBisection);
+%shared_ptr(feasst::SolverBrentDekker);
 %shared_ptr(feasst::VisitModelOptLJ);
 %shared_ptr(feasst::TrialRemoveMultiple);
 %shared_ptr(feasst::TrialAddMultiple);
@@ -477,11 +490,17 @@ using namespace std;
 %shared_ptr(feasst::Ewald);
 %shared_ptr(feasst::CheckNetCharge);
 %shared_ptr(feasst::CriteriaMayer);
-%shared_ptr(feasst::TrialComputeMoveMayer);
-%shared_ptr(feasst::TrialTranslateMayer);
+%shared_ptr(feasst::TrialComputeMoveNewOnly);
+%shared_ptr(feasst::TrialTranslateNewOnly);
+%shared_ptr(feasst::TrialRotateNewOnly);
 %shared_ptr(feasst::ModelLJShape);
+%shared_ptr(feasst::AlwaysAccept);
+%shared_ptr(feasst::HenryCoefficient);
 %shared_ptr(feasst::ModelHardShape);
-%shared_ptr(feasst::ModelTableCart3FoldSym);
+%shared_ptr(feasst::TrialAnywhereNewOnly);
+%shared_ptr(feasst::ModelTableCart1DHard);
+%shared_ptr(feasst::ModelTableCart2DIntegr);
+%shared_ptr(feasst::ModelTableCart3DIntegr);
 %shared_ptr(feasst::PatchAngle);
 %shared_ptr(feasst::CosPatchAngle);
 %shared_ptr(feasst::VisitModelInnerPatch);
@@ -530,14 +549,15 @@ using namespace std;
 %include math/include/utils_math.h
 %include math/include/position.h
 %include shape/include/shape.h
-%include shape/include/slab_sine.h
 %include shape/include/sphere.h
-%include shape/include/slab.h
 %include shape/include/half_space.h
 %include shape/include/half_space_sine.h
+%include shape/include/cuboid.h
 %include shape/include/cylinder.h
 %include shape/include/shape_union.h
 %include shape/include/shape_intersect.h
+%include shape/include/slab.h
+%include shape/include/slab_sine.h
 %include system/include/bond_three_body.h
 %include system/include/angle_square_well.h
 %include system/include/bond_two_body.h
@@ -670,6 +690,8 @@ using namespace std;
 %include configuration/include/domain.h
 %include math/include/random.h
 %include math/include/constants.h
+%include math/include/minimize.h
+%include math/include/golden_search.h
 %include math/include/formula_exponential.h
 %include math/include/matrix.h
 %include monte_carlo/include/perturb_rotate.h
@@ -690,6 +712,7 @@ using namespace std;
 %include math/include/solver.h
 %include math/include/solver_newton_raphson.h
 %include math/include/solver_bisection.h
+%include math/include/solver_brent_dekker.h
 %include opt_lj/include/visit_model_opt_lj.h
 %include ewald/include/trial_remove_multiple.h
 %include ewald/include/trial_add_multiple.h
@@ -705,7 +728,10 @@ using namespace std;
 %include mayer/include/criteria_mayer.h
 %include mayer/include/trial.h
 %include confinement/include/model_lj_shape.h
+%include confinement/include/always_accept.h
+%include confinement/include/henry_coefficient.h
 %include confinement/include/model_hard_shape.h
+%include confinement/include/trial_anywhere_new_only.h
 %include confinement/include/model_table_cartesian.h
 %include patch/include/patch_angle.h
 %include patch/include/visit_model_inner_patch.h

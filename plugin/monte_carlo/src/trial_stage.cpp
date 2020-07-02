@@ -8,7 +8,7 @@ TrialStage::TrialStage(const argtype& args) {
   args_.dont_check();
   rosenbluth_.resize(args_.key("num_steps").dflt("1").integer());
   reference_ = args_.key("reference_index").dflt("-1").integer();
-  set_mayer();
+  set_new_only();
 }
 
 void TrialStage::precompute(System * system) {
@@ -83,7 +83,7 @@ void TrialStage::attempt(System * system,
       // DEBUG("pos1 " << rosenbluth_.chosen().site_positions()[0][1].str());
       system->get_configuration()->update_positions(rosenbluth_.chosen());
       // if select->is_ghost() then revive particle
-    } else if (is_mayer()) {
+    } else if (is_new_only()) {
       ASSERT(rosenbluth_.num() == 1, "assumes 1 step for mayer");
       system->get_configuration()->update_positions(rosenbluth_.stored(0));
     }
@@ -105,7 +105,7 @@ void TrialStage::serialize(std::ostream& ostr) const {
   feasst_serialize_fstdr(perturb_, ostr);
   feasst_serialize_fstdr(select_, ostr);
   feasst_serialize_fstobj(rosenbluth_, ostr);
-  feasst_serialize(is_mayer_, ostr);
+  feasst_serialize(is_new_only_, ostr);
 }
 
 TrialStage::TrialStage(std::istream& istr) {
@@ -129,7 +129,7 @@ TrialStage::TrialStage(std::istream& istr) {
     }
   }
   feasst_deserialize_fstobj(&rosenbluth_, istr);
-  feasst_deserialize(&is_mayer_, istr);
+  feasst_deserialize(&is_new_only_, istr);
 }
 
 }  // namespace feasst

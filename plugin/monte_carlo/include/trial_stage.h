@@ -33,11 +33,11 @@ class TrialStage {
   /// Return the index of the reference potential.
   int reference() const { return reference_; }
 
-  /// Return true if the trial is utilizing Mayer sampling.
-  bool is_mayer() const { return is_mayer_; }
+  /// Return true if the trial computes new configuration only.
+  bool is_new_only() const { return is_new_only_; }
 
   /// Set the above.
-  void set_mayer(const bool enabled = false) { is_mayer_ = enabled; }
+  void set_new_only(const bool enabled = false) { is_new_only_ = enabled; }
 
   /// Return the Rosenbluth.
   const Rosenbluth& rosenbluth() const { return rosenbluth_; }
@@ -122,7 +122,7 @@ class TrialStage {
   std::shared_ptr<Perturb> perturb_;
   std::shared_ptr<TrialSelect> select_;
   Rosenbluth rosenbluth_;
-  bool is_mayer_;
+  bool is_new_only_;
 };
 
 }  // namespace feasst

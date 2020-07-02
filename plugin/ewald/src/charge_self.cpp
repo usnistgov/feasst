@@ -31,6 +31,7 @@ ChargeSelf::ChargeSelf(std::istream& istr) {
 }
 
 double ChargeSelf::energy(
+    const Position& wrapped_site,
     const Site& site,
     const Configuration& config,
     const ModelParams& model_params) const {

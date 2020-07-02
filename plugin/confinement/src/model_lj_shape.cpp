@@ -37,13 +37,14 @@ ModelLJShape::ModelLJShape(std::istream& istr)
 }
 
 double ModelLJShape::energy(
+    const Position& wrapped_site,
     const Site& site,
     const Configuration& config,
     const ModelParams& model_params) const {
   const int type = site.type();
   const double sigma = model_params.sigma().value(type);
   const double epsilon = model_params.epsilon().value(type);
-  const double distance = shape()->nearest_distance(site.position());
+  const double distance = shape()->nearest_distance(wrapped_site);
   return epsilon * std::pow(distance/sigma, alpha_);
 }
 

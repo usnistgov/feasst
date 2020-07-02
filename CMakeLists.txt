@@ -19,7 +19,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;opt_lj;cluster")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;prefetch;ewald")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;ewald")
-#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;shape;threads;confinement")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;shape;threads;mayer;confinement")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;ewald;flat_histogram")
@@ -142,7 +142,7 @@ endif()
 # Confinement
 list (FIND FEASST_PLUGINS "confinement" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstconfinement feasstsystem feasstshape)
+  target_link_libraries(feasstconfinement feasstmonte_carlo feasstmayer feasstshape)
 endif()
 
 # patch

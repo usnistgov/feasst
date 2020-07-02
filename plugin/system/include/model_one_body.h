@@ -72,10 +72,20 @@ class ModelOneBody : public Model {
     visitor->compute(*this, selection, config, 0);
     return visitor->energy();
   }
+
+  /// Return the energy given the wrapped coordinates, site, config and params.
   virtual double energy(
-      const Site& site,
-      const Configuration& config,
-      const ModelParams& model_params) const = 0;
+    const Position& wrapped_site,
+    const Site& site,
+    const Configuration& config,
+    const ModelParams& model_params) const = 0;
+
+  /// Same as above, but assume that the site position is already wrapped.
+  double energy_no_wrap(
+    const Site& site,
+    const Configuration& config,
+    const ModelParams& model_params) const;
+
   virtual ~ModelOneBody() {}
 
  private:

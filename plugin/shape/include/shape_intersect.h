@@ -18,8 +18,13 @@ class ShapeIntersect : public Shape {
   // This constructor only to be used for serialization.
   ShapeIntersect() { class_name_ = "ShapeIntersect"; }
 
+  /// Constructor
   ShapeIntersect(std::shared_ptr<Shape> shape1,
                  std::shared_ptr<Shape> shape2);
+
+  // Set
+  void set(std::shared_ptr<Shape> shape1,
+           std::shared_ptr<Shape> shape2);
 
   bool is_inside(const Position& point) const override;
   bool is_inside(const Position& point, const double diameter) const override;

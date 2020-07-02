@@ -18,6 +18,8 @@ namespace feasst {
 class Checkpoint;
 class Random;
 
+// HWH consider a constructor-based initialization of MonteCarlo..
+// HWH something where order doesn't need to be enforced?
 /**
   MonteCarlo contains Trials which perturb the System by generating the
   probability of acceptance through Criteria that are accepted based on a
@@ -26,6 +28,9 @@ class Random;
  */
 class MonteCarlo {
  public:
+  /// Construct with Random number generator.
+  MonteCarlo(std::shared_ptr<Random> random);
+
   /// Construct a MonteCarlo object with RandomMT19937.
   MonteCarlo();
 

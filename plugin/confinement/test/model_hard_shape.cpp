@@ -18,14 +18,14 @@ TEST(ModelHardShape, half_space) {
     {{"particle_type", "../forcefield/data.atom"}});
   config->add_particle_of_type(0);
   const ModelParams model_params = config->model_params();
-  EXPECT_LT(1e100, model.energy(config->particle(0).site(0), *config, model_params));
+  EXPECT_LT(1e100, model.energy_no_wrap(config->particle(0).site(0), *config, model_params));
   Position pos;
   pos.set_vector({-24.23, 35.45, 1.5000001});
   config->displace_particles(config->selection_of_all(), pos);
-  EXPECT_NEAR(0, model.energy(config->particle(0).site(0), *config, model_params), 1e-15);
+  EXPECT_NEAR(0, model.energy_no_wrap(config->particle(0).site(0), *config, model_params), 1e-15);
   pos.set_vector({0, 0, -.00001});
   config->displace_particle(config->selection_of_all(), pos);
-  EXPECT_LT(1e100, model.energy(config->particle(0).site(0), *config, model_params));
+  EXPECT_LT(1e100, model.energy_no_wrap(config->particle(0).site(0), *config, model_params));
 
   std::shared_ptr<Model> model2 = test_serialize<ModelHardShape, Model>(model);
 }

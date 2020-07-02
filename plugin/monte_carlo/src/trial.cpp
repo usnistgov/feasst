@@ -9,7 +9,7 @@ namespace feasst {
 Trial::Trial(const argtype& args) {
   Arguments args_(args);
   args_.dont_check();
-  set_mayer();
+  set_new_only();
   set_finalize_delayed();
   weight_ = args_.key("weight").dflt("1").dble();
 }

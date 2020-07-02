@@ -10,9 +10,12 @@
    Position
    Random
    constants
+   Minimize
+   GoldenSearch
    FormulaExponential
    Matrix
    RandomMT19937
    Solver
    SolverNewtonRaphson
    SolverBisection
+   SolverBrentDekker

@@ -2,5 +2,8 @@
 .. toctree::
 
    ModelLJShape
+   AlwaysAccept
+   HenryCoefficient
    ModelHardShape
-   ModelTableCart3FoldSym
+   TrialAnywhereNewOnly
+   ModelTableCart1DHard
