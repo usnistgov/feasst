@@ -29,22 +29,32 @@ class MapModelTableCart1DHard {
 
 static MapModelTableCart1DHard map_model_table_cart1d_ = MapModelTableCart1DHard();
 
+ModelTableCart1DHard::ModelTableCart1DHard(std::shared_ptr<Table1D> table) {
+  tables_.resize(1);
+  tables_[0] = table;
+}
+
 void ModelTableCart1DHard::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   feasst_serialize_version(9426, ostr);
-  feasst_serialize(table_, ostr);
+  feasst_serialize(tables_, ostr);
 }
 
 ModelTableCart1DHard::ModelTableCart1DHard(std::istream& istr)
   : ModelOneBody() {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 9426, "unrecognized verison: " << version);
-  // HWH for unk..
-  //feasst_deserialize(table_, istr);
-  int existing;
-  istr >> existing;
-  if (existing != 0) {
-    table_ = std::make_shared<Table1D>(istr);
+  int dim1;
+  istr >> dim1;
+  tables_.resize(dim1);
+  for (int index = 0; index < dim1; ++index) {
+    // HWH for unk..
+    //feasst_deserialize(table_, istr);
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      tables_[index] = std::make_shared<Table1D>(istr);
+    }
   }
 }
 
@@ -60,13 +70,13 @@ double ModelTableCart1DHard::energy(
   if (val0 < 0) val0 *= -1;
   double val1 = 2.*wrapped_site.coord(1)/sides[1];
   if (val1 < 0) val1 *= -1;
-  const double val1_max = table_->linear_interpolation(val0);
+  const double val1_max = tables_[site.type()]->linear_interpolation(val0);
   if (val1 > val1_max) return NEAR_INFINITY;
   return 0.;
 }
 
-const Table1D& ModelTableCart1DHard::table() const {
-  return const_cast<Table1D&>(*table_);
+const Table1D& ModelTableCart1DHard::table(const int site_type) const {
+  return const_cast<Table1D&>(*tables_[site_type]);
 }
 
 class Objective1DHard : public Formula {
@@ -90,60 +100,23 @@ void ModelTableCart1DHard::compute_table(
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& args) {
+    const argtype& args,
+    const int site_type) {
   Arguments args_(args);
   const double diameter = args_.key("diameter").dflt("1.").dble();
-  auto report = MakeProgressReport({{"num", str(table_->num())}});
+  Table1D * table = tables_[site_type].get();
+  auto report = MakeProgressReport({{"num", str(table->num())}});
   Position point(domain->dimension());
   GoldenSearch minimize({{"tolerance", str(1e-8)},
     {"lower", "0"},
     {"upper", str(domain->side_length(0)/2)}});
-  for (int bin = 0; bin < table_->num(); ++bin) {
-    point.set_coord(0, table_->bin_to_value(bin)*domain->side_length(0)/2);
+  for (int bin = 0; bin < table->num(); ++bin) {
+    point.set_coord(0, table->bin_to_value(bin)*domain->side_length(0)/2);
     Objective1DHard objective(shape, &point, diameter);
-    table_->set_data(bin, minimize.minimum(&objective));
+    table->set_data(bin, minimize.minimum(&objective));
     report->check();
   }
 }
-
-//void ModelTableCart1DHard::compute_table_omp(
-//    Shape * shape,
-//    Domain * domain,
-//    Random * random,
-//    const argtype& integration_args,
-//    const int node,
-//    const int num_nodes) {
-//  // allow shape internals to cache before parallel.
-//  shape->integrate(*MakePosition({{0., 0., 0.}}), random, integration_args);
-//  #ifdef _OPENMP
-//  #pragma omp parallel
-//  {
-//    std::shared_ptr<Shape> shape_t = deep_copy_derived(shape);
-//    Domain domain_t = deep_copy(*domain);
-//    std::shared_ptr<Random> random_t = deep_copy_derived(random);
-//    auto thread = MakeThreadOMP();
-//    int iteration = 0;
-//    const int total = table_->num();
-//    auto report = MakeProgressReport({{"num", str(total/thread->num()/num_nodes)}});
-//    Position point(domain_t.dimension());
-//    for (int bin0 = 0; bin0 < table_->num(); ++bin0) {
-//      if (thread->in_chunk(iteration, total, node, num_nodes)) {
-//        point.set_coord(0,
-//          table_->bin_to_value(bin0)*domain_t.side_length(0)/2);
-//        if (shape_t->is_inside(point)) {
-//          table_->set_data(bin0,
-//            shape_t->integrate(point, random_t.get(), integration_args));
-//        }
-//        report->check();
-//      }
-//      ++iteration;
-//    }
-//  }
-//  #else // _OPENMP
-//    WARN("OMP not detected");
-//    compute_table(shape, domain, random, integration_args);
-//  #endif // _OPENMP
-//}
 
 class MapModelTableCart2DIntegr {
  public:
@@ -155,22 +128,32 @@ class MapModelTableCart2DIntegr {
 
 static MapModelTableCart2DIntegr map_model_table_cart2d_ = MapModelTableCart2DIntegr();
 
+ModelTableCart2DIntegr::ModelTableCart2DIntegr(std::shared_ptr<Table2D> table) {
+  tables_.resize(1);
+  tables_[0] = table;
+}
+
 void ModelTableCart2DIntegr::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   feasst_serialize_version(8460, ostr);
-  feasst_serialize(table_, ostr);
+  feasst_serialize(tables_, ostr);
 }
 
 ModelTableCart2DIntegr::ModelTableCart2DIntegr(std::istream& istr)
   : ModelOneBody() {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 8460, "unrecognized verison: " << version);
-  // HWH for unk..
-  //feasst_deserialize(table_, istr);
-  int existing;
-  istr >> existing;
-  if (existing != 0) {
-    table_ = std::make_shared<Table2D>(istr);
+  int dim1;
+  istr >> dim1;
+  tables_.resize(dim1);
+  for (int index = 0; index < dim1; ++index) {
+    // HWH for unk..
+    //feasst_deserialize(table_, istr);
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      tables_[index] = std::make_shared<Table2D>(istr);
+    }
   }
 }
 
@@ -186,29 +169,31 @@ double ModelTableCart2DIntegr::energy(
   if (val0 < 0) val0 *= -1;
   double val1 = 2.*wrapped_site.coord(1)/sides[1];
   if (val1 < 0) val1 *= -1;
-  return table_->linear_interpolation(val0, val1);
+  return tables_[site.type()]->linear_interpolation(val0, val1);
 }
 
-const Table2D& ModelTableCart2DIntegr::table() const {
-  return const_cast<Table2D&>(*table_);
+const Table2D& ModelTableCart2DIntegr::table(const int site_type) const {
+  return const_cast<Table2D&>(*tables_[site_type]);
 }
 
 void ModelTableCart2DIntegr::compute_table(
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& integration_args) {
+    const argtype& integration_args,
+    const int site_type) {
+  Table2D * table = tables_[site_type].get();
   auto report = MakeProgressReport(
-    {{"num", str(table_->num0()*table_->num1())}});
+    {{"num", str(table->num0()*table->num1())}});
   Position point(domain->dimension());
-  for (int bin0 = 0; bin0 < table_->num0(); ++bin0) {
+  for (int bin0 = 0; bin0 < table->num0(); ++bin0) {
     point.set_coord(0,
-      table_->bin_to_value(0, bin0)*domain->side_length(0)/2);
-    for (int bin1 = 0; bin1 < table_->num1(); ++bin1) {
+      table->bin_to_value(0, bin0)*domain->side_length(0)/2);
+    for (int bin1 = 0; bin1 < table->num1(); ++bin1) {
       point.set_coord(1,
-        table_->bin_to_value(1, bin1)*domain->side_length(1)/2.);
+        table->bin_to_value(1, bin1)*domain->side_length(1)/2.);
       if (shape->is_inside(point)) {
-        table_->set_data(bin0, bin1,
+        table->set_data(bin0, bin1,
           -1*shape->integrate(point, random, integration_args));
       }
       report->check();
@@ -221,10 +206,12 @@ void ModelTableCart2DIntegr::compute_table_omp(
     Domain * domain,
     Random * random,
     const argtype& integration_args,
+    const int site_type,
     const int node,
     const int num_nodes) {
   // allow shape internals to cache before parallel.
   shape->integrate(*MakePosition({{0., 0., 0.}}), random, integration_args);
+  Table2D * table = tables_[site_type].get();
   #ifdef _OPENMP
   #pragma omp parallel
   {
@@ -233,18 +220,18 @@ void ModelTableCart2DIntegr::compute_table_omp(
     std::shared_ptr<Random> random_t = deep_copy_derived(random);
     auto thread = MakeThreadOMP();
     int iteration = 0;
-    const int total = table_->num0()*table_->num1();
+    const int total = table->num0()*table->num1();
     auto report = MakeProgressReport({{"num", str(total/thread->num()/num_nodes)}});
     Position point(domain_t.dimension());
-    for (int bin0 = 0; bin0 < table_->num0(); ++bin0) {
-    for (int bin1 = 0; bin1 < table_->num1(); ++bin1) {
+    for (int bin0 = 0; bin0 < table->num0(); ++bin0) {
+    for (int bin1 = 0; bin1 < table->num1(); ++bin1) {
       if (thread->in_chunk(iteration, total, node, num_nodes)) {
         point.set_coord(0,
-          table_->bin_to_value(0, bin0)*domain_t.side_length(0)/2.);
+          table->bin_to_value(0, bin0)*domain_t.side_length(0)/2.);
         point.set_coord(1,
-          table_->bin_to_value(1, bin1)*domain_t.side_length(1)/2.);
+          table->bin_to_value(1, bin1)*domain_t.side_length(1)/2.);
         if (shape_t->is_inside(point)) {
-          table_->set_data(bin0, bin1,
+          table->set_data(bin0, bin1,
             shape_t->integrate(point, random_t.get(), integration_args));
         }
         report->check();
@@ -268,22 +255,32 @@ class MapModelTableCart3DIntegr {
 
 static MapModelTableCart3DIntegr map_model_table_cart3d_ = MapModelTableCart3DIntegr();
 
+ModelTableCart3DIntegr::ModelTableCart3DIntegr(std::shared_ptr<Table3D> table) {
+  tables_.resize(1);
+  tables_[0] = table;
+}
+
 void ModelTableCart3DIntegr::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   feasst_serialize_version(6937, ostr);
-  feasst_serialize(table_, ostr);
+  feasst_serialize(tables_, ostr);
 }
 
 ModelTableCart3DIntegr::ModelTableCart3DIntegr(std::istream& istr)
   : ModelOneBody() {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 6937, "unrecognized verison: " << version);
-  // HWH for unk..
-  //feasst_deserialize(table_, istr);
-  int existing;
-  istr >> existing;
-  if (existing != 0) {
-    table_ = std::make_shared<Table3D>(istr);
+  int dim1;
+  istr >> dim1;
+  tables_.resize(dim1);
+  for (int index = 0; index < dim1; ++index) {
+    // HWH for unk..
+    //feasst_deserialize(table_, istr);
+    int existing;
+    istr >> existing;
+    if (existing != 0) {
+      tables_[index] = std::make_shared<Table3D>(istr);
+    }
   }
 }
 
@@ -301,38 +298,34 @@ double ModelTableCart3DIntegr::energy(
   if (val1 < 0) val1 *= -1;
   double val2 = 2.*wrapped_site.coord(2)/sides[2];
   if (val2 < 0) val2 *= -1;
-  const double energy = table_->linear_interpolation(val0, val1, val2);
-//  if (energy < -12) {
-//    INFO(energy);
-//    INFO(wrapped_site.str());
-//    FATAL("err");
-//  }
-  return energy;
+  return tables_[site.type()]->linear_interpolation(val0, val1, val2);
 }
 
-const Table3D& ModelTableCart3DIntegr::table() const {
-  return const_cast<Table3D&>(*table_);
+const Table3D& ModelTableCart3DIntegr::table(const int site_type) const {
+  return const_cast<Table3D&>(*tables_[site_type]);
 }
 
 void ModelTableCart3DIntegr::compute_table(
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& integration_args) {
+    const argtype& integration_args,
+    const int site_type) {
+  Table3D * table = tables_[site_type].get();
   auto report = MakeProgressReport(
-    {{"num", str(table_->num0()*table_->num1()*table_->num2())}});
+    {{"num", str(table->num0()*table->num1()*table->num2())}});
   Position point(domain->dimension());
-  for (int bin0 = 0; bin0 < table_->num0(); ++bin0) {
+  for (int bin0 = 0; bin0 < table->num0(); ++bin0) {
     point.set_coord(0,
-      table_->bin_to_value(0, bin0)*domain->side_length(0)/2);
-    for (int bin1 = 0; bin1 < table_->num1(); ++bin1) {
+      table->bin_to_value(0, bin0)*domain->side_length(0)/2);
+    for (int bin1 = 0; bin1 < table->num1(); ++bin1) {
       point.set_coord(1,
-        table_->bin_to_value(1, bin1)*domain->side_length(1)/2.);
-      for (int bin2 = 0; bin2 < table_->num2(); ++bin2) {
+        table->bin_to_value(1, bin1)*domain->side_length(1)/2.);
+      for (int bin2 = 0; bin2 < table->num2(); ++bin2) {
         point.set_coord(2,
-          table_->bin_to_value(2, bin2)*domain->side_length(2)/2.);
+          table->bin_to_value(2, bin2)*domain->side_length(2)/2.);
         if (shape->is_inside(point)) {
-          table_->set_data(bin0, bin1, bin2,
+          table->set_data(bin0, bin1, bin2,
             shape->integrate(point, random, integration_args));
         }
         report->check();
@@ -346,10 +339,12 @@ void ModelTableCart3DIntegr::compute_table_omp(
     Domain * domain,
     Random * random,
     const argtype& integration_args,
+    const int site_type,
     const int node,
     const int num_nodes) {
   // allow shape internals to cache before parallel.
   shape->integrate(*MakePosition({{0., 0., 0.}}), random, integration_args);
+  Table3D * table = tables_[site_type].get();
   #ifdef _OPENMP
   #pragma omp parallel
   {
@@ -358,21 +353,21 @@ void ModelTableCart3DIntegr::compute_table_omp(
     std::shared_ptr<Random> random_t = deep_copy_derived(random);
     auto thread = MakeThreadOMP();
     int iteration = 0;
-    const int total = table_->num0()*table_->num1()*table_->num2();
+    const int total = table->num0()*table->num1()*table->num2();
     auto report = MakeProgressReport({{"num", str(total/thread->num()/num_nodes)}});
     Position point(domain_t.dimension());
-    for (int bin0 = 0; bin0 < table_->num0(); ++bin0) {
-    for (int bin1 = 0; bin1 < table_->num1(); ++bin1) {
-    for (int bin2 = 0; bin2 < table_->num2(); ++bin2) {
+    for (int bin0 = 0; bin0 < table->num0(); ++bin0) {
+    for (int bin1 = 0; bin1 < table->num1(); ++bin1) {
+    for (int bin2 = 0; bin2 < table->num2(); ++bin2) {
       if (thread->in_chunk(iteration, total, node, num_nodes)) {
         point.set_coord(0,
-          table_->bin_to_value(0, bin0)*domain_t.side_length(0)/2);
+          table->bin_to_value(0, bin0)*domain_t.side_length(0)/2);
         point.set_coord(1,
-          table_->bin_to_value(1, bin1)*domain_t.side_length(1)/2.);
+          table->bin_to_value(1, bin1)*domain_t.side_length(1)/2.);
         point.set_coord(2,
-          table_->bin_to_value(2, bin2)*domain_t.side_length(2)/2.);
+          table->bin_to_value(2, bin2)*domain_t.side_length(2)/2.);
         if (shape_t->is_inside(point)) {
-          table_->set_data(bin0, bin1, bin2,
+          table->set_data(bin0, bin1, bin2,
             shape_t->integrate(point, random_t.get(), integration_args));
         }
         report->check();
@@ -388,9 +383,14 @@ void ModelTableCart3DIntegr::compute_table_omp(
 
 void ModelTableCart3DIntegr::compute_table(
     System * system,
-    Select * select) {
+    Select * select,
+    const int site_type) {
+  
+  // for each unique site_type in select, ... (or, use particle_type as input instead of select+site_type.. add/del part physical part from system during making of table...
+
+  Table3D * table = tables_[site_type].get();
   auto report = MakeProgressReport(
-    {{"num", str(table_->num0()*table_->num1()*table_->num2())}});
+    {{"num", str(table->num0()*table->num1()*table->num2())}});
   ASSERT(select->num_sites() == 1, "assumes a single site");
 
   // MC machinery
@@ -401,20 +401,20 @@ void ModelTableCart3DIntegr::compute_table(
 
   const Domain& domain = system->configuration().domain();
   Position point(domain.dimension());
-  for (int bin0 = 0; bin0 < table_->num0(); ++bin0) {
+  for (int bin0 = 0; bin0 < table->num0(); ++bin0) {
     point.set_coord(0,
-      table_->bin_to_value(0, bin0)*domain.side_length(0)/2);
-    for (int bin1 = 0; bin1 < table_->num1(); ++bin1) {
+      table->bin_to_value(0, bin0)*domain.side_length(0)/2);
+    for (int bin1 = 0; bin1 < table->num1(); ++bin1) {
       point.set_coord(1,
-        table_->bin_to_value(1, bin1)*domain.side_length(1)/2.);
-      for (int bin2 = 0; bin2 < table_->num2(); ++bin2) {
+        table->bin_to_value(1, bin1)*domain.side_length(1)/2.);
+      for (int bin2 = 0; bin2 < table->num2(); ++bin2) {
         point.set_coord(2,
-          table_->bin_to_value(2, bin2)*domain.side_length(2)/2.);
+          table->bin_to_value(2, bin2)*domain.side_length(2)/2.);
         perturb.set_position(point, system, &tsel);
         system->energy();
         const double energy = system->perturbed_energy(*select);
         TRACE(system->configuration().select_particle(0).site(0).position().str() << " " << energy);
-        table_->set_data(bin0, bin1, bin2, energy);
+        table->set_data(bin0, bin1, bin2, energy);
         perturb.finalize(system);
         system->finalize(*select);
         report->check();
@@ -426,8 +426,10 @@ void ModelTableCart3DIntegr::compute_table(
 void ModelTableCart3DIntegr::compute_table_omp(
     System * system,
     Select * select,
+    const int site_type,
     const int node,
     const int num_nodes) {
+  Table3D * table = tables_[site_type].get();
   #ifdef _OPENMP
   #pragma omp parallel
   {
@@ -436,32 +438,34 @@ void ModelTableCart3DIntegr::compute_table_omp(
 
     // MC machinery
     TrialSelect tsel;
+    tsel.precompute(&system_t);
     tsel.set_mobile(select_t);
     PerturbAnywhere perturb;
     perturb.precompute(&tsel, &system_t);
 
     auto thread = MakeThreadOMP();
     int iteration = 0;
-    const int total = table_->num0()*table_->num1()*table_->num2();
+    const int total = table->num0()*table->num1()*table->num2();
     auto report = MakeProgressReport({{"num", str(total/thread->num()/num_nodes)}});
     const Domain& domain = system->configuration().domain();
     Position point(domain.dimension());
-    for (int bin0 = 0; bin0 < table_->num0(); ++bin0) {
-    for (int bin1 = 0; bin1 < table_->num1(); ++bin1) {
-    for (int bin2 = 0; bin2 < table_->num2(); ++bin2) {
+    for (int bin0 = 0; bin0 < table->num0(); ++bin0) {
+    for (int bin1 = 0; bin1 < table->num1(); ++bin1) {
+    for (int bin2 = 0; bin2 < table->num2(); ++bin2) {
       if (thread->in_chunk(iteration, total, node, num_nodes)) {
         point.set_coord(0,
-          table_->bin_to_value(0, bin0)*domain.side_length(0)/2);
+          table->bin_to_value(0, bin0)*domain.side_length(0)/2);
         point.set_coord(1,
-          table_->bin_to_value(1, bin1)*domain.side_length(1)/2.);
+          table->bin_to_value(1, bin1)*domain.side_length(1)/2.);
         point.set_coord(2,
-          table_->bin_to_value(2, bin2)*domain.side_length(2)/2.);
+          table->bin_to_value(2, bin2)*domain.side_length(2)/2.);
 
         perturb.set_position(point, &system_t, &tsel);
+        perturb.set_finalize_possible(true, &tsel);
         system_t.energy();
         const double energy = system_t.perturbed_energy(select_t);
         TRACE(system_t.configuration().select_particle(0).site(0).position().str() << " " << energy);
-        table_->set_data(bin0, bin1, bin2, energy);
+        table->set_data(bin0, bin1, bin2, energy);
         perturb.finalize(&system_t);
         system_t.finalize(select_t);
 

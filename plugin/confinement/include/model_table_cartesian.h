@@ -19,14 +19,14 @@ class System;
  */
 class ModelTableCart1DHard : public ModelOneBody {
  public:
-  ModelTableCart1DHard(std::shared_ptr<Table1D> table) { table_ = table; }
-  double energy(
-    const Position& wrapped_site,
-    const Site& site,
-    const Configuration& config,
-    const ModelParams& model_params) const override;
+  // Constructor for single site type tables.
+  ModelTableCart1DHard(std::shared_ptr<Table1D> table);
 
-  const Table1D& table() const;
+  // Constructor for multiple site type tables.
+  ModelTableCart1DHard(std::vector<std::shared_ptr<Table1D> > tables) {
+    tables_ = tables; }
+
+  const Table1D& table(const int site_type = 0) const;
 
   /**
     Generate the table by finding where the point is inside the shape and the
@@ -41,7 +41,14 @@ class ModelTableCart1DHard : public ModelOneBody {
     Shape * shape,
     Domain * domain,
     Random * random,
-    const argtype& args = argtype());
+    const argtype& args = argtype(),
+    const int site_type = 0);
+
+  double energy(
+    const Position& wrapped_site,
+    const Site& site,
+    const Configuration& config,
+    const ModelParams& model_params) const override;
 
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {
@@ -51,7 +58,7 @@ class ModelTableCart1DHard : public ModelOneBody {
 
  private:
   const std::string class_name_ = "ModelTableCart1DHard";
-  std::shared_ptr<Table1D> table_;
+  std::vector<std::shared_ptr<Table1D> > tables_;
 };
 
 inline std::shared_ptr<ModelTableCart1DHard> MakeModelTableCart1DHard(
@@ -67,14 +74,14 @@ inline std::shared_ptr<ModelTableCart1DHard> MakeModelTableCart1DHard(
  */
 class ModelTableCart2DIntegr : public ModelOneBody {
  public:
-  ModelTableCart2DIntegr(std::shared_ptr<Table2D> table) { table_ = table; }
-  double energy(
-    const Position& wrapped_site,
-    const Site& site,
-    const Configuration& config,
-    const ModelParams& model_params) const override;
+  // Constructor for single site type tables.
+  ModelTableCart2DIntegr(std::shared_ptr<Table2D> table);
 
-  const Table2D& table() const;
+  // Constructor for multiple site type tables.
+  ModelTableCart2DIntegr(std::vector<std::shared_ptr<Table2D> > tables) {
+    tables_ = tables; }
+
+  const Table2D& table(const int site_type = 0) const;
 
   /// Generate the table by integration of the shape of the confinement over
   /// the entire and domain.
@@ -83,7 +90,8 @@ class ModelTableCart2DIntegr : public ModelOneBody {
     Domain * domain,
     Random * random,
     /// See Shape for documentation of integration_args.
-    const argtype& integration_args);
+    const argtype& integration_args,
+    const int site_type = 0);
 
   /// Same as above, but parallelize the task with OMP.
   void compute_table_omp(
@@ -91,9 +99,16 @@ class ModelTableCart2DIntegr : public ModelOneBody {
     Domain * domain,
     Random * random,
     const argtype& integration_args,
+    const int site_type = 0,
     /// See Thread for documentation of these two arguments.
     const int node = 0,
     const int num_node = 1);
+
+  double energy(
+    const Position& wrapped_site,
+    const Site& site,
+    const Configuration& config,
+    const ModelParams& model_params) const override;
 
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {
@@ -103,7 +118,7 @@ class ModelTableCart2DIntegr : public ModelOneBody {
 
  private:
   const std::string class_name_ = "ModelTableCart2DIntegr";
-  std::shared_ptr<Table2D> table_;
+  std::vector<std::shared_ptr<Table2D> > tables_;
 };
 
 inline std::shared_ptr<ModelTableCart2DIntegr> MakeModelTableCart2DIntegr(
@@ -119,14 +134,15 @@ inline std::shared_ptr<ModelTableCart2DIntegr> MakeModelTableCart2DIntegr(
  */
 class ModelTableCart3DIntegr : public ModelOneBody {
  public:
-  ModelTableCart3DIntegr(std::shared_ptr<Table3D> table) { table_ = table; }
-  double energy(
-    const Position& wrapped_site,
-    const Site& site,
-    const Configuration& config,
-    const ModelParams& model_params) const override;
+  // Constructor for single site type tables.
+  ModelTableCart3DIntegr(std::shared_ptr<Table3D> table);
 
-  const Table3D& table() const;
+  // Constructor for multiple site type tables.
+  ModelTableCart3DIntegr(std::vector<std::shared_ptr<Table3D> > tables) {
+    tables_ = tables; }
+
+  /// Return the table for a given site type.
+  const Table3D& table(const int site_type = 0) const;
 
   /**
     Generate the table by integration of a shape, which represents a continuous
@@ -137,7 +153,8 @@ class ModelTableCart3DIntegr : public ModelOneBody {
     Domain * domain,
     Random * random,
     /// See Shape for documentation of integration_args.
-    const argtype& integration_args);
+    const argtype& integration_args,
+    const int site_type = 0);
 
   /// Same as above, but parallelize the task with OMP.
   void compute_table_omp(
@@ -145,10 +162,12 @@ class ModelTableCart3DIntegr : public ModelOneBody {
     Domain * domain,
     Random * random,
     const argtype& integration_args,
+    const int site_type = 0,
     /// See Thread for documentation of these two arguments.
     const int node = 0,
     const int num_nodes = 1);
 
+  // HWH refactor so that site_types are harvested from select
   /**
     Generate the table by computing the energy of interaction of the select
     with the rest of the system.
@@ -157,15 +176,23 @@ class ModelTableCart3DIntegr : public ModelOneBody {
    */
   void compute_table(
     System * system,
-    Select * select);
+    Select * select,
+    const int site_type = 0);
 
   /// Same as above, but parallelize the task with OMP
   void compute_table_omp(
     System * system,
     Select * select,
+    const int site_type = 0,
     /// See Thread for documentation of these two arguments.
     const int node = 0,
     const int num_node = 1);
+
+  double energy(
+    const Position& wrapped_site,
+    const Site& site,
+    const Configuration& config,
+    const ModelParams& model_params) const override;
 
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {
@@ -175,7 +202,7 @@ class ModelTableCart3DIntegr : public ModelOneBody {
 
  private:
   const std::string class_name_ = "ModelTableCart3DIntegr";
-  std::shared_ptr<Table3D> table_;
+  std::vector<std::shared_ptr<Table3D> > tables_;
 };
 
 inline std::shared_ptr<ModelTableCart3DIntegr> MakeModelTableCart3DIntegr(

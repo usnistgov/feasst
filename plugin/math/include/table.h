@@ -18,6 +18,9 @@ class Table {
 
   /// Return the maximum of all elements.
   virtual double maximum() const = 0;
+
+  /// Write to file.
+  virtual void write(const std::string file_name) const;
 };
 
 /**
@@ -212,11 +215,17 @@ class Table3D : public Table {
   double minimum() const override;
   double maximum() const override;
 
+  /// Write to file.
+  void write(const std::string file_name) const override;
+
+  /// Read from file.
+  explicit Table3D(const std::string file_name);
+
   void serialize(std::ostream& ostr) const;
   explicit Table3D(std::istream& istr);
 
   // HWH python interface cannot handle stringstreams with serialization.
-  std::string serialize() {
+  std::string serialize() const {
     std::stringstream ss;
     serialize(ss);
     return ss.str();
@@ -236,6 +245,10 @@ class Table3D : public Table {
 
 inline std::shared_ptr<Table3D> MakeTable3D(const argtype& args = argtype()) {
   return std::make_shared<Table3D>(args);
+}
+
+inline std::shared_ptr<Table3D> MakeTable3D(const std::string file_name) {
+  return std::make_shared<Table3D>(file_name);
 }
 
 }  // namespace feasst

@@ -1,9 +1,15 @@
+#include <string>
+#include <fstream>
 #include "utils/include/utils.h"  // resize and fill
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "math/include/table.h"
 
 namespace feasst {
+
+void Table::write(const std::string file_name) const {
+  FATAL("not implemented");
+}
 
 void Table1D::calc_d_() {
   bin_spacing_ = 1./static_cast<double>(num() - 1);
@@ -250,5 +256,18 @@ int Table3D::value_to_nearest_bin(const int dim, const double value) const {
 }
 
 void Table3D::add(const Table3D& table) { feasst::add(table.data_, &data_); }
+
+void Table3D::write(const std::string file_name) const {
+  std::ofstream file(file_name);
+  file << serialize();
+}
+
+Table3D::Table3D(const std::string file_name) {
+  std::ifstream file(file_name);
+  ASSERT(file.good(), "cannot find file " << file_name);
+  std::string line;
+  std::getline(file, line);
+  *this = deserialize(line);
+}
 
 }  // namespace feasst
