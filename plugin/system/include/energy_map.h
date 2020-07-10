@@ -7,6 +7,7 @@
 #include <memory>
 #include <map>
 #include "utils/include/arguments.h"
+#include "system/include/synchronize_data.h"
 
 namespace feasst {
 
@@ -109,6 +110,14 @@ class EnergyMap {
 
   virtual void check() const {}
 
+  //virtual const std::vector<double>& map(const int part1, const int part2,
+  //  const int site1, const int site2) const;
+  
+  // Synchronize with another object of the same type.
+  // Typically used with prefetch.
+  virtual void synchronize_(const EnergyMap& map, const Select& perturbed);
+  const SynchronizeData& data() const { return data_; }
+
   // serialization
   virtual std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const {
@@ -121,6 +130,7 @@ class EnergyMap {
 
  protected:
   std::string class_name_ = "EnergyMap";
+  SynchronizeData data_;
   void serialize_energy_map_(std::ostream& ostr) const;
 
   virtual void resize_(const int part1_index,

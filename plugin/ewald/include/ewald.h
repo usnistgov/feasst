@@ -159,8 +159,10 @@ class Ewald : public VisitModel {
   int num_ky() const { return num_ky_; }
   int num_kz() const { return num_kz_; }
   void check_size() const;
-  std::vector<double> struct_fact_real() const { return struct_fact_real_; }
-  std::vector<double> struct_fact_imag() const { return struct_fact_imag_; }
+  const std::vector<double>& struct_fact_real() const {
+    return data_.dble_2D()[0]; }
+  const std::vector<double>& struct_fact_imag() const {
+    return data_.dble_2D()[1]; }
 
   /// Return the net charge of the configuration.
   double net_charge(const Configuration& config) const;
@@ -181,10 +183,13 @@ class Ewald : public VisitModel {
   std::vector<double> wave_prefactor_;
   std::vector<int> wave_num_;
   const int dimension_ = 3;
-  double stored_energy_ = 0.;
+  //double stored_energy_ = 0.;
 
-  std::vector<double> struct_fact_real_;
-  std::vector<double> struct_fact_imag_;
+  // synchronization data
+  double stored_energy() const { return data_.dble_1D()[0]; }
+  double * stored_energy_() { return &((*data_.get_dble_1D())[0]); }
+  std::vector<double> * struct_fact_real_();
+  std::vector<double> * struct_fact_imag_();
 
   // temporary
   std::vector<double> struct_fact_real_new_;

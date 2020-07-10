@@ -46,6 +46,12 @@ class Pool {
 
 /**
   Farm a trial to each processor, then reconstruct the serial Markov chain.
+  Note that Prefetch does not work properly when initialized with TrialFactory.
+  For example, TrialTransfer is a factory with TrialAdd and TrialRemove.
+  Instead, add TrialAdd and TrialRemove trials individually.
+  This allows load balancing.
+  Synchronizing trials is also made easier.
+  Another factory to look for is TrialAVB2.
  */
 class Prefetch : public MonteCarlo {
  public:
@@ -56,6 +62,7 @@ class Prefetch : public MonteCarlo {
       This violates detailed balance, but "local detailed balance" is still
       satisfied.
       https://doi.org/10.1063/1.477973
+    - synchronize: synchronize data with accepted thread (default: false).
    */
   explicit Prefetch(const argtype& args = argtype());
 
@@ -84,6 +91,7 @@ class Prefetch : public MonteCarlo {
 
  private:
   bool is_activated_;
+  bool is_synchronize_;
   int steps_per_check_;
   int steps_since_check_ = 0;
   bool load_balance_;

@@ -62,6 +62,8 @@ class PotentialFactory {
   /// Set cache to unload energy calclatuions.
   void unload_cache(const PotentialFactory& factory);
 
+  void synchronize_(const PotentialFactory& factory, const Select& perturbed);
+  
   void check() const;
 
   /// Serialize.

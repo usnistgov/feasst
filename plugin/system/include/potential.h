@@ -109,6 +109,8 @@ class Potential {
   void unload_cache(const Potential& potential) {
     cache_.set_unload(potential.cache()); }
 
+  void synchronize_(const Potential& potential, const Select& perturbed);
+
   void check() const;
 
   /// Serialize.

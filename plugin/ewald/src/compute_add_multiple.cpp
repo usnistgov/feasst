@@ -55,12 +55,12 @@ ComputeAddMultiple::ComputeAddMultiple(std::istream& istr)
   : TrialCompute(istr) {
   // ASSERT(class_name_ == "ComputeAddMultiple", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(834 == version, "mismatch version: " << version);
+  ASSERT(9346 == version, "mismatch version: " << version);
 }
 
 void ComputeAddMultiple::serialize_compute_add_multiple_(std::ostream& ostr) const {
   serialize_trial_compute_(ostr);
-  feasst_serialize_version(834, ostr);
+  feasst_serialize_version(9346, ostr);
 }
 
 void ComputeAddMultiple::serialize(std::ostream& ostr) const {

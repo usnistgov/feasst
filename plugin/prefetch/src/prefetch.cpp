@@ -9,7 +9,7 @@
 #include "threads/include/thread_omp.h"
 
 // use this to make prefetch serial and simply debugging
-// #define DEBUG_SERIAL_MODE_5324634
+#define DEBUG_SERIAL_MODE_5324634
 
 namespace feasst {
 
@@ -18,6 +18,7 @@ Prefetch::Prefetch(const argtype& args) {
   Arguments args_(args);
   steps_per_check_ = args_.key("steps_per_check").dflt("100000").integer();
   load_balance_ = args_.key("load_balance").dflt("true").boolean();
+  is_synchronize_ = args_.key("synchronize").dflt("false").boolean();
 }
 
 void Prefetch::reset_trial_stats() {
@@ -282,11 +283,40 @@ void Prefetch::attempt_(
           mc->attempt_trial(accepted_pool->index());
         }
         mc->finalize_(accepted_pool->index());
+      } else {
+        DEBUG("all rejected, en: " << criteria().current_energy());
+      }
+
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      }
+      #endif
+
+      #ifdef _OPENMP
+      #pragma omp barrier
+      #endif // _OPENMP
+
+      #ifdef DEBUG_SERIAL_MODE_5324634
+      #pragma omp critical
+      {
+      #endif
+
+      if (first_thread_accepted < num_threads_) {
+        if (is_synchronize_) {
+          DEBUG("synchronize other threads with first accepted thread " << proc_id);
+          Pool * accepted_pool = &pool_[first_thread_accepted];
+          if (proc_id != first_thread_accepted) {
+            DEBUG(proc_id);
+            DEBUG(first_thread_accepted);
+            DEBUG(accepted_pool->index());
+            const MonteCarlo& cln = *clone_(first_thread_accepted);
+            DEBUG(cln.trial(accepted_pool->index()).accept().perturbed().str());
+            mc->synchronize_(cln,
+              cln.trial(accepted_pool->index()).accept().perturbed());
+          }
+        }
         if (proc_id == 0) {
           after_trial_analyze_();
         }
-      } else {
-        DEBUG("all rejected, en: " << criteria().current_energy());
       }
 
       #ifdef DEBUG_SERIAL_MODE_5324634
@@ -317,7 +347,7 @@ void Prefetch::attempt_(
       for (int im = 0;
            im < std::min(num_threads_, first_thread_accepted + 1);
            ++im) {
-        // INFO("im " << im << " first " << first_thread_accepted);
+        // DEBUG("im " << im << " first " << first_thread_accepted);
         mc->after_trial_modify_();
       }
       }
@@ -395,20 +425,22 @@ void Prefetch::attempt_(
 
 void Prefetch::serialize(std::ostream& ostr) const {
   MonteCarlo::serialize(ostr);
-  feasst_serialize_version(348, ostr);
+  feasst_serialize_version(5686, ostr);
   feasst_serialize(is_activated_, ostr);
   feasst_serialize(steps_per_check_, ostr);
   feasst_serialize(steps_since_check_, ostr);
   feasst_serialize(load_balance_, ostr);
+  feasst_serialize(is_synchronize_, ostr);
 }
 
 Prefetch::Prefetch(std::istream& istr) : MonteCarlo(istr) {
   const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 348, "version: " << version);
+  ASSERT(version == 5686, "version: " << version);
   feasst_deserialize(&is_activated_, istr);
   feasst_deserialize(&steps_per_check_, istr);
   feasst_deserialize(&steps_since_check_, istr);
   feasst_deserialize(&load_balance_, istr);
+  feasst_deserialize(&is_synchronize_, istr);
 }
 
 }  // namespace feasst

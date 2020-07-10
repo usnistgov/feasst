@@ -118,4 +118,11 @@ void PotentialFactory::check() const {
   }
 }
 
+void PotentialFactory::synchronize_(const PotentialFactory& factory,
+  const Select& perturbed) {
+  for (int index = 0; index < num(); ++index) {
+    potentials_[index].synchronize_(factory.potentials()[index], perturbed);
+  }
+}
+
 }  // namespace feasst

@@ -164,7 +164,7 @@ MonteCarlo mc_avb_test(
   monte_carlo.add(MakeEnergy({{"steps_per_write", str(steps_per)},
                               {"file_name", "tmp/ljavbe.txt"}}));
   monte_carlo.attempt(1e6);
-  return monte_carlo;
+  return test_serialize(monte_carlo);
 }
 
 const double z_factor = 10.;

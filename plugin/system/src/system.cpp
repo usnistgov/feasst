@@ -215,4 +215,18 @@ std::string System::status() const {
   return ss.str();
 }
 
+void System::synchronize_(const System& system, const Select& perturbed) {
+  for (int config = 0; config < num_configurations(); ++config) {
+    configurations_[config].synchronize_(system.configuration(config),
+      perturbed);
+    ASSERT(config == 0, "perturb not implemented for multiple configs");
+    // HWH suggest: make perturb a vector, one for each config?
+  }
+  unoptimized_.synchronize_(system.unoptimized(), perturbed);
+  optimized_.synchronize_(system.optimized(), perturbed);
+  for (int ref = 0; ref < num_references(); ++ref) {
+    references_[ref].synchronize_(system.references()[ref], perturbed);
+  }
+}
+
 }  // namespace feasst

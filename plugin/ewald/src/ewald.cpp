@@ -29,6 +29,7 @@ Ewald::Ewald(const argtype& args) {
   if (args_.key("kmax_squared").used()) {
     kmax_sq_arg_ = std::make_shared<int>(args_.integer());
   }
+  data_.get_dble_1D()->resize(1);
 }
 
 void Ewald::tolerance_to_alpha_ks(const double tolerance,
@@ -91,8 +92,9 @@ void Ewald::update_wave_vectors(const Configuration& config) {
   }}}
   DEBUG("num vectors " << num_vectors());
   ASSERT(num_vectors() > 0, "num_vectors: " << num_vectors());
-  struct_fact_real_.resize(num_vectors());
-  struct_fact_imag_.resize(num_vectors());
+  data_.get_dble_2D()->resize(2);
+  struct_fact_real_()->resize(num_vectors());
+  struct_fact_imag_()->resize(num_vectors());
   struct_fact_real_new_.resize(num_vectors());
   struct_fact_imag_new_.resize(num_vectors());
 }
@@ -204,8 +206,8 @@ void Ewald::update_struct_fact_eik(const Select& selection,
                                    Configuration * config,
                                    std::vector<double> * struct_fact_real,
                                    std::vector<double> * struct_fact_imag) {
-  ASSERT(struct_fact_real->size() == struct_fact_real_.size(),
-    "While struct_fact_real_ is of size: " << struct_fact_real_.size() <<
+  ASSERT(struct_fact_real->size() == struct_fact_real_()->size(),
+    "While struct_fact_real_ is of size: " << struct_fact_real_()->size() <<
     " struct_fact_real is of size: " << struct_fact_real->size());
   std::stringstream ss;
   const Domain& domain = config->domain();
@@ -365,11 +367,11 @@ void Ewald::serialize(std::ostream& ostr) const {
   feasst_serialize(num_kz_, ostr);
   feasst_serialize(wave_prefactor_, ostr);
   feasst_serialize(wave_num_, ostr);
-  feasst_serialize(struct_fact_real_, ostr);
-  feasst_serialize(struct_fact_imag_, ostr);
+  //feasst_serialize(struct_fact_real_, ostr);
+  //feasst_serialize(struct_fact_imag_, ostr);
   feasst_serialize(struct_fact_real_new_, ostr);
   feasst_serialize(struct_fact_imag_new_, ostr);
-  feasst_serialize(stored_energy_, ostr);
+  //feasst_serialize(stored_energy_, ostr);
 }
 
 std::shared_ptr<VisitModel> Ewald::create(std::istream& istr) const {
@@ -427,11 +429,11 @@ Ewald::Ewald(std::istream& istr) : VisitModel(istr) {
   feasst_deserialize(&num_kz_, istr);
   feasst_deserialize(&wave_prefactor_, istr);
   feasst_deserialize(&wave_num_, istr);
-  feasst_deserialize(&struct_fact_real_, istr);
-  feasst_deserialize(&struct_fact_imag_, istr);
+  //feasst_deserialize(&struct_fact_real_, istr);
+  //feasst_deserialize(&struct_fact_imag_, istr);
   feasst_deserialize(&struct_fact_real_new_, istr);
   feasst_deserialize(&struct_fact_imag_new_, istr);
-  feasst_deserialize(&stored_energy_, istr);
+  //feasst_deserialize(&stored_energy_, istr);
 }
 
 class SumCharge : public LoopConfigOneBody {
@@ -492,9 +494,10 @@ void Ewald::compute(
 
   // initialize new structure factor, unless its a new move position
   if (state != 1) {
-    struct_fact_real_new_ = struct_fact_real_;
-    DEBUG("size " << struct_fact_real_new_.size() << " " << struct_fact_real_.size());
-    struct_fact_imag_new_ = struct_fact_imag_;
+    struct_fact_real_new_ = struct_fact_real();
+    DEBUG("size " << struct_fact_real_new_.size() << " " <<
+          struct_fact_real().size());
+    struct_fact_imag_new_ = struct_fact_imag();
   }
 
   // if "old" half of move, store eik for reverting
@@ -535,20 +538,20 @@ void Ewald::compute(
                                                     struct_fact_imag_new_);
   }
   if (state == 0) {
-    enrg = stored_energy_;
+    enrg = stored_energy();
   } else if (state == 1) {
     enrg = stored_energy_new_;
   } else if (state == 2) {
     // contribution = energy with - energy without
     // for remove, energy old - energy new
-    enrg = stored_energy_ - stored_energy_new_;
+    enrg = stored_energy() - stored_energy_new_;
   } else if (state == 3) {
     // contribution = energy with - energy without
     // for add, energy new - energy old
-    enrg = stored_energy_new_ - stored_energy_;
+    enrg = stored_energy_new_ - stored_energy();
   }
   DEBUG("enrg: " << enrg);
-  DEBUG("stored_energy_ " << stored_energy_ << " "
+  DEBUG("stored_energy_ " << stored_energy() << " "
        "stored_energy_new_ " << stored_energy_new_);
   set_energy(enrg);
 }
@@ -581,9 +584,9 @@ void Ewald::revert(const Select& select) {
 void Ewald::finalize(const Select& select) {
   DEBUG("finalizing");
   ASSERT(struct_fact_real_new_.size() > 0, "error");
-  stored_energy_ = stored_energy_new_;
-  struct_fact_real_ = struct_fact_real_new_;
-  struct_fact_imag_ = struct_fact_imag_new_;
+  *stored_energy_() = stored_energy_new_;
+  *struct_fact_real_() = struct_fact_real_new_;
+  *struct_fact_imag_() = struct_fact_imag_new_;
   revertable_ = false;
 }
 
@@ -647,6 +650,14 @@ int Ewald::find_eikrx0_(const Site& site) {
     find_in_list(eikrx0_str_, site.properties().names(), &eikrx0_index),
     "eikrx0 doesn't exist");
   return eikrx0_index;
+}
+
+std::vector<double> * Ewald::struct_fact_real_() {
+  return &((*data_.get_dble_2D())[0]);
+}
+
+std::vector<double> * Ewald::struct_fact_imag_() {
+  return &((*data_.get_dble_2D())[1]);
 }
 
 }  // namespace feasst

@@ -72,6 +72,7 @@ class TrialFactory : public Trial {
 //  const Timer& timer() const { return timer_; }
 
   bool is_equal(const TrialFactory& factory) const;
+  void synchronize_(const Trial& trial) override;
 
   // serialize
   std::shared_ptr<Trial> create(std::istream& istr) const override;

@@ -177,6 +177,7 @@ class MonteCarlo {
   void load_cache_(const bool load);
   // Unload random numbers and energy calculations from cache.
   void unload_cache_(const MonteCarlo& mc);
+  void synchronize_(const MonteCarlo& mc, const Select& perturbed);
 
   virtual void serialize(std::ostream& ostr) const;
   explicit MonteCarlo(std::istream& istr);

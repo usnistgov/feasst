@@ -421,6 +421,9 @@ class Configuration {
 
   //@}
 
+  // HWH updates entire particle. Optimize by updating per site.
+  void synchronize_(const Configuration& config, const Select& perturbed);
+
   /// Serialize
   void serialize(std::ostream& ostr) const;
 

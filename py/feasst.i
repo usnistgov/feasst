@@ -14,6 +14,7 @@
 #include "configuration/include/bond.h"
 #include "monte_carlo/include/tunable.h"
 #include "system/include/model.h"
+#include "system/include/synchronize_data.h"
 #include "threads/include/thread.h"
 #include "threads/include/thread_omp.h"
 #include "utils/include/timer.h"
@@ -265,6 +266,7 @@ using namespace std;
 %shared_ptr(feasst::Improper);
 %shared_ptr(feasst::Tunable);
 %shared_ptr(feasst::Model);
+%shared_ptr(feasst::SynchronizeData);
 %shared_ptr(feasst::Thread);
 %shared_ptr(feasst::ThreadOMP);
 %shared_ptr(feasst::Timer);
@@ -523,6 +525,7 @@ using namespace std;
 %include configuration/include/bond.h
 %include monte_carlo/include/tunable.h
 %include system/include/model.h
+%include system/include/synchronize_data.h
 %include threads/include/thread.h
 %include threads/include/thread_omp.h
 %include utils/include/timer.h

@@ -97,6 +97,7 @@ void EnergyMap::serialize_energy_map_(std::ostream& ostr) const {
   feasst_serialize(default_value_, ostr);
   feasst_serialize(site_max_, ostr);
   feasst_serialize(dimen_, ostr);
+  feasst_serialize_fstobj(data_, ostr);
 }
 
 EnergyMap::EnergyMap(std::istream& istr) {
@@ -106,6 +107,7 @@ EnergyMap::EnergyMap(std::istream& istr) {
   feasst_deserialize(&default_value_, istr);
   feasst_deserialize(&site_max_, istr);
   feasst_deserialize(&dimen_, istr);
+  feasst_deserialize_fstobj(&data_, istr);
 }
 
 void EnergyMap::select_cluster(const NeighborCriteria& cluster_criteria,
@@ -137,5 +139,14 @@ void EnergyMap::neighbors(
     const int new_map) const {
   FATAL("not implemented");
 }
+
+void EnergyMap::synchronize_(const EnergyMap& map, const Select& perturbed) {
+  FATAL("not implemented");
+}
+
+//const std::vector<double>& EnergyMap::map(const int part1, const int part2,
+//    const int site1, const int site2) const {
+//  FATAL("not implemented");
+//}
 
 }  // namespace feasst

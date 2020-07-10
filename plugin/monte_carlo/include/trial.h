@@ -57,17 +57,17 @@ class Trial {
     return stages_; }
 
   /// Number of successful attempts.
-  int64_t num_success() const { return num_success_; }
+  int64_t num_success() const { return data_.int64_1D()[1]; }
 
   /// Number of attempts.
-  int64_t num_attempts() const { return num_attempts_; }
+  int64_t num_attempts() const { return data_.int64_1D()[0]; }
 
   /// Increment the number of attempts for acceptance.
-  void increment_num_attempts() { ++num_attempts_; }
+  void increment_num_attempts() { *num_attempts_() += 1; }
 
   /// Return the ratio of the number of successful attempts and total attempts.
   double acceptance() const {
-    return static_cast<double>(num_success_)/static_cast<double>(num_attempts_);
+    return static_cast<double>(num_success())/static_cast<double>(num_attempts());
   }
 
   /// Reset trial statistics.
@@ -119,6 +119,10 @@ class Trial {
   // Check if approximately equal to given trial.
   bool is_equal(const Trial& trial) const;
 
+  // prefetch synchronization
+  virtual void synchronize_(const Trial& trial) { data_ = trial.data(); }
+  const SynchronizeData& data() const { return data_; }
+
   // Access to factory of Trial objects.
   virtual const std::vector<std::shared_ptr<Trial> >& trials() const;
   virtual const Trial& trial(const int index) const;
@@ -133,6 +137,7 @@ class Trial {
 
  protected:
   std::string class_name_ = "Trial";
+  SynchronizeData data_;
 
   void serialize_trial_(std::ostream& ostr) const;
   explicit Trial(std::istream& istr);
@@ -144,15 +149,16 @@ class Trial {
 
   TrialStage * get_stage_(const int index) { return stages_[index].get(); }
 
-  void increment_num_success_() { ++num_success_; }
-  void decrement_num_success_() { --num_success_; }
-  void decrement_num_attempts_() { --num_attempts_; }
+  void increment_num_success_() { *num_success_() += 1; }
+  void decrement_num_success_() { *num_success_() -= 1; }
+  void decrement_num_attempts_() { *num_attempts_() -= 1; }
 
  private:
   std::vector<std::shared_ptr<TrialStage> > stages_;
   std::shared_ptr<TrialCompute> compute_;
   double weight_;
-  int64_t num_attempts_ = 0, num_success_ = 0;
+  int64_t * num_attempts_() { return &((*data_.get_int64_1D())[0]); }
+  int64_t * num_success_() { return &((*data_.get_int64_1D())[1]); }
   bool is_finalize_delayed_;
 
   // temporary or duplicate

@@ -12,6 +12,8 @@ Trial::Trial(const argtype& args) {
   set_new_only();
   set_finalize_delayed();
   weight_ = args_.key("weight").dflt("1").dble();
+  data_.get_int64_1D()->resize(2);
+  reset_stats();
 }
 
 void Trial::add_stage(
@@ -31,8 +33,8 @@ void Trial::set(const int index, std::shared_ptr<TrialStage> stage) {
 
 void Trial::reset_stats() {
   DEBUG("reset_stats");
-  num_attempts_ = 0;
-  num_success_ = 0;
+  *num_attempts_() = 0;
+  *num_success_() = 0;
 }
 
 std::string Trial::status_header() const {
@@ -54,7 +56,7 @@ std::string Trial::status() const {
 }
 
 void Trial::tune() {
-  if (num_attempts_ > 0) {
+  if (num_attempts() > 0) {
     for (auto stage : stages_) stage->tune(acceptance());
     reset_stats();
   }
@@ -75,9 +77,9 @@ void Trial::revert(System * system) {
 void Trial::revert(const int index, const bool accepted, System * system) {
   if (accepted) {
     revert(system);
-    --num_success_;
+    decrement_num_success_();
   }
-  --num_attempts_;
+  decrement_num_attempts_();
 }
 
 void Trial::finalize(System * system) {
@@ -88,9 +90,9 @@ void Trial::finalize(System * system) {
 
 bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   DEBUG("**********************************************************");
-  DEBUG("* " << class_name() << " attempt " << num_attempts_ << " *");
+  DEBUG("* " << class_name() << " attempt " << num_attempts() << " *");
   DEBUG("**********************************************************");
-  ++num_attempts_;
+  increment_num_attempts();
   acceptance_.reset();
   criteria->before_attempt(*system);
   before_select(&acceptance_, criteria);
@@ -110,10 +112,10 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
     compute_->perturb_and_acceptance(
       criteria, system, &acceptance_, &stages_ptr_, random);
   }
-  DEBUG("num attempts: " << num_attempts_);
+  DEBUG("num attempts: " << num_attempts());
   if (criteria->is_accepted(acceptance_, *system, random->uniform())) {
     DEBUG("accepted");
-    ++num_success_;
+    increment_num_success_();
     if (!is_finalize_delayed_) {
       finalize(system);
     }
@@ -153,18 +155,18 @@ void Trial::refresh_stages_ptr_() {
 }
 
 bool Trial::is_equal(const Trial& trial) const {
-  if (num_attempts_ != trial.num_attempts_) {
-    INFO("unequal number of attempts:" << num_attempts_ << " "
-      << trial.num_attempts_);
+  if (num_attempts() != trial.num_attempts()) {
+    DEBUG("unequal number of attempts:" << num_attempts() << " "
+      << trial.num_attempts());
     return false;
   }
-  if (num_success_ != trial.num_success_) {
-    INFO("unequal number of success:" << num_success_ << " "
-      << trial.num_success_);
+  if (num_success() != trial.num_success()) {
+    DEBUG("unequal number of success:" << num_success() << " "
+      << trial.num_success());
     return false;
   }
   if (weight_ != trial.weight_) {
-    INFO("unequal weight:" << weight_ << " " << trial.weight_);
+    DEBUG("unequal weight:" << weight_ << " " << trial.weight_);
     return false;
   }
   if (num_stages() > 0) {
@@ -182,9 +184,10 @@ void Trial::serialize_trial_(std::ostream& ostr) const {
   // desererialize: refresh stages_ptr_
   feasst_serialize_fstdr(compute_, ostr);
   feasst_serialize(weight_, ostr);
-  feasst_serialize(num_attempts_, ostr);
-  feasst_serialize(num_success_, ostr);
+  //feasst_serialize(num_attempts_, ostr);
+  //feasst_serialize(num_success_, ostr);
   feasst_serialize(is_finalize_delayed_, ostr);
+  feasst_serialize_fstobj(data_, ostr);
 }
 
 Trial::Trial(std::istream& istr) {
@@ -216,9 +219,10 @@ Trial::Trial(std::istream& istr) {
     }
   }
   feasst_deserialize(&weight_, istr);
-  feasst_deserialize(&num_attempts_, istr);
-  feasst_deserialize(&num_success_, istr);
+  //feasst_deserialize(&num_attempts_, istr);
+  //feasst_deserialize(&num_success_, istr);
   feasst_deserialize(&is_finalize_delayed_, istr);
+  feasst_deserialize_fstobj(&data_, istr);
 }
 
 const std::vector<std::shared_ptr<Trial> >& Trial::trials() const {

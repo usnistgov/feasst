@@ -57,12 +57,12 @@ ComputeAddAVB::ComputeAddAVB(std::istream& istr)
   : TrialCompute(istr) {
   // ASSERT(class_name_ == "ComputeAddAVB", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(834 == version, "mismatch version: " << version);
+  ASSERT(1676 == version, "mismatch version: " << version);
 }
 
 void ComputeAddAVB::serialize_compute_add_avb_(std::ostream& ostr) const {
   serialize_trial_compute_(ostr);
-  feasst_serialize_version(834, ostr);
+  feasst_serialize_version(1676, ostr);
 }
 
 void ComputeAddAVB::serialize(std::ostream& ostr) const {

@@ -5,6 +5,7 @@
 #include <vector>
 #include "utils/include/arguments.h"
 #include "system/include/system.h"
+#include "system/include/synchronize_data.h"
 #include "monte_carlo/include/acceptance.h"
 
 namespace feasst {
@@ -89,7 +90,7 @@ class Criteria {
   void set_current_energy(const double energy);
 
   /// Return the current total energy based on energy changes per trial.
-  double current_energy() const { return current_energy_; }
+  double current_energy() const { return data_.dble_1D()[0]; }
 
   /// Return the header of the status for periodic output.
   std::string status_header() const;
@@ -139,6 +140,8 @@ class Criteria {
   virtual void imitate_trial_rejection_(const double ln_prob,
     const int state_old,
     const int state_new) {}
+  void synchronize_(const Criteria& criteria) { data_ = criteria.data(); }
+  const SynchronizeData& data() const { return data_; }
 
   // serialize
   std::string class_name() const { return class_name_; }
@@ -154,12 +157,13 @@ class Criteria {
   Arguments args_;
   void serialize_criteria_(std::ostream& ostr) const;
   bool was_accepted_ = false;
+  SynchronizeData data_;
 
  private:
   double beta_ = 0.;
   bool beta_initialized_ = false;
   std::vector<double> chemical_potentials_;
-  double current_energy_ = 0.;
+  double * current_energy_() { return &((*data_.get_dble_1D())[0]); }
   double previous_energy_ = 0.;
   int trial_state_;
   int num_trial_states_;

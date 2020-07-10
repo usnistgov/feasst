@@ -269,4 +269,10 @@ void MonteCarlo::run_until_complete_(TrialFactory * trial_factory,
   write_checkpoint_();
 }
 
+void MonteCarlo::synchronize_(const MonteCarlo& mc, const Select& perturbed) {
+  system_.synchronize_(mc.system(), perturbed);
+  criteria_->synchronize_(mc.criteria());
+  trial_factory_.synchronize_(mc.trials());
+}
+
 }  // namespace feasst

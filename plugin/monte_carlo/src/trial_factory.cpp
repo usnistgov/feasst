@@ -167,4 +167,11 @@ void TrialFactory::serialize(std::ostream& ostr) const {
   serialize_trial_factory_(ostr);
 }
 
+void TrialFactory::synchronize_(const Trial& trial) {
+  Trial::synchronize_(trial);
+  for (int itrial = 0; itrial < num(); ++itrial) {
+    trials_[itrial]->synchronize_(trial.trial(itrial));
+  }
+}
+
 }  // namespace feasst

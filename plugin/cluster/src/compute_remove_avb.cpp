@@ -54,12 +54,12 @@ ComputeRemoveAVB::ComputeRemoveAVB(std::istream& istr)
   : TrialCompute(istr) {
   // ASSERT(class_name_ == "ComputeRemoveAVB", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(834 == version, "mismatch version: " << version);
+  ASSERT(6256 == version, "mismatch version: " << version);
 }
 
 void ComputeRemoveAVB::serialize_compute_remove_avb_(std::ostream& ostr) const {
   serialize_trial_compute_(ostr);
-  feasst_serialize_version(834, ostr);
+  feasst_serialize_version(6256, ostr);
 }
 
 void ComputeRemoveAVB::serialize(std::ostream& ostr) const {

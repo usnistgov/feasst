@@ -113,6 +113,12 @@ class VisitModelInner {
     }
   }
 
+  void synchronize_(const VisitModelInner& inner, const Select& perturbed) {
+    if (energy_map_) {
+      energy_map_->synchronize_(inner.energy_map(), perturbed);
+    }
+  }
+
   // serialize
   virtual void serialize(std::ostream& ostr) const {
     serialize_visit_model_inner_(ostr); }

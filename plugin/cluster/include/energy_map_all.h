@@ -40,6 +40,12 @@ class EnergyMapAll : public EnergyMap {
 
   void check() const override;
 
+//  const std::vector<double>& map(const int part1, const int part2,
+//    const int site1, const int site2) const override {
+//    return map()[part1][part2][site1][site2]; }
+  
+  void synchronize_(const EnergyMap& map, const Select& perturbed) override;
+
   // serialization
   std::string class_name() const override { return class_name_; }
   std::shared_ptr<EnergyMap> create(std::istream& istr) const override {
@@ -55,19 +61,21 @@ class EnergyMapAll : public EnergyMap {
                               const int site1_index,
                               const int part2_index,
                               const int site2_index) override {
-    return &map_[part1_index][part2_index][site1_index][site2_index]; }
+    return &((*map_())[part1_index][part2_index][site1_index][site2_index]); }
   std::vector<double> * smap_new_(const int part1_index,
                                   const int site1_index,
                                   const int part2_index,
                                   const int site2_index) override {
-    return &map_new_[part1_index][part2_index][site1_index][site2_index]; }
-  const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& map() const override { return map_; }
+    return &((*map_new_())[part1_index][part2_index][site1_index][site2_index]); }
+  const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& map() const override { return data_.dble_6D()[0]; }
+  const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& map_new() const { return data_.dble_6D()[1]; }
 
  private:
-  std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > > map_, map_new_;
-  int part_max_() { return static_cast<int>(map_.size()); }
+  std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > > * map_();
+  std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > > * map_new_();
+  int part_max_() { return static_cast<int>(map().size()); }
   bool is_cluster_(const NeighborCriteria& neighbor_criteria,
-                   const std::vector<std::vector<std::vector<double> > > * smap,
+                   const std::vector<std::vector<std::vector<double> > >& smap,
                    const int particle_index0,
                    const int particle_index1,
                    const Configuration& config,

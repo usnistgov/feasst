@@ -49,14 +49,14 @@ ComputeAVB2::ComputeAVB2(std::istream& istr)
   : TrialComputeMove(istr) {
   // ASSERT(class_name_ == "ComputeAVB2", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
-  ASSERT(834 == version, "mismatch version: " << version);
+  ASSERT(4203 == version, "mismatch version: " << version);
   feasst_deserialize(&p_bias_, istr);
   feasst_deserialize(&out_to_in_, istr);
 }
 
 void ComputeAVB2::serialize_compute_avb2_(std::ostream& ostr) const {
   serialize_trial_compute_move_(ostr);
-  feasst_serialize_version(834, ostr);
+  feasst_serialize_version(4203, ostr);
   feasst_serialize(p_bias_, ostr);
   feasst_serialize(out_to_in_, ostr);
 }

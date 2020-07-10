@@ -431,7 +431,7 @@ void Configuration::update_positions(const Select& select,
     replace_position_(particle_index, select.particle_positions()[pindex]);
     int sindex = 0;
     for (int site_index : select.site_indices(pindex)) {
-      // INFO(select.site_properties()[pindex][sindex].str());
+      // DEBUG(select.site_properties()[pindex][sindex].str());
       const std::vector<std::string> * excluded = &excluded_properties_;
       if (no_exclude) excluded = &excl_prop_non_usr_;
       replace_properties_(particle_index,
@@ -598,7 +598,7 @@ bool Configuration::is_equal(const Configuration& configuration,
                              const double tolerance) const {
   // check particles/sites of non-ghosts.
   if (!selection_of_all().is_equal(configuration.selection_of_all())) {
-    INFO("unequal selection");
+    DEBUG("unequal selection");
     return false;
   }
 
@@ -608,15 +608,16 @@ bool Configuration::is_equal(const Configuration& configuration,
       const Particle p1 = particle(pindex);
       const Particle p2 = configuration.particle(pindex);
       if (!p1.position().is_equal(p2.position(), tolerance)) {
-        INFO("unequal positions: " << p1.position().str() << " "
+        DEBUG("pindex " << pindex);
+        DEBUG("unequal positions: " << p1.position().str() << " vs "
           << p2.position().str());
         return false;
       }
       for (int is = 0; is < p1.num_sites(); ++is) {
         if (!p1.site(is).position().is_equal(p2.site(is).position(),
                                              tolerance)) {
-          INFO("unequal site" << is << " positions: "
-            << p1.site(is).position().str() << " "
+          DEBUG("unequal site" << is << " positions: "
+            << p1.site(is).position().str() << " vs "
             << p2.site(is).position().str());
           return false;
         }
@@ -788,4 +789,27 @@ void Configuration::copy_particles(const Configuration& config,
 }
 
 int Configuration::dimension() const { return domain().dimension(); }
+
+void Configuration::synchronize_(const Configuration& config,
+    const Select& perturbed) {
+  DEBUG(perturbed.str());
+  Select sync_sel(perturbed, config.particles_);
+  update_positions(sync_sel, true, true);
+//  for (int spindex = 0; spindex < perturbed.num_particles(); ++spindex) {
+//    const int part_index = perturbed.particle_index(spindex);
+//    one_site_select_.set_particle(0, part_index);
+//    DEBUG("part_index " << part_index);
+//    const Particle& part = config.select_particle(part_index);
+//    for (int sindex : perturbed.site_indices(spindex)) {
+////      DEBUG("old pos: " << select_particle(part_index).site(sindex).position().str());
+////      Site * site = particles_.get_particle(part_index)->get_site(sindex);
+////      *site = part.site(sindex);
+////      DEBUG("new pos: " << select_particle(part_index).site(sindex).position().str());
+////      position_tracker_(part_index, sindex);
+////    }
+//    *particles_.get_particle(part_index) = part;
+//    position_tracker_(part_index);
+//  }
+}
+
 }  // namespace feasst

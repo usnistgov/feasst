@@ -7,6 +7,7 @@
 #include <map>
 #include <sstream>
 #include "math/include/position.h"
+#include "system/include/synchronize_data.h"
 #include "system/include/visit_model_inner.h"
 
 namespace feasst {
@@ -118,6 +119,11 @@ class VisitModel {
 
   void check() const { inner_->check(); }
 
+  // Synchronize with another object of the same type.
+  // Typically used with prefetch.
+  void synchronize_(const VisitModel& visit, const Select& perturbed);
+  const SynchronizeData& data() const { return data_; }
+
   // serialization
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const {
@@ -142,6 +148,8 @@ class VisitModel {
   Position relative_, pbc_, origin_;
   void init_relative_(const Domain& domain, Position * relative,
                       Position * pbc);
+
+  SynchronizeData data_;
 
  private:
   double energy_ = 0.;

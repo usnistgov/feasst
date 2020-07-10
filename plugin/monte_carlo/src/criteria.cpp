@@ -36,6 +36,7 @@ Criteria::Criteria(const argtype &args) {
   if (args_.key("pH").used()) {
     set_pH(args_.dble());
   }
+  data_.get_dble_1D()->resize(1);
 }
 
 Criteria::Criteria(std::shared_ptr<Constraint> constraint,
@@ -105,7 +106,7 @@ void Criteria::set_trial_state(const int state, const int num) {
 
 void Criteria::revert_(const bool accepted, const double ln_prob) {
   if (accepted) {
-    current_energy_ = previous_energy_;
+    *current_energy_() = previous_energy_;
   }
   //INFO("reverted: " << current_energy_);
 }
@@ -137,9 +138,9 @@ bool Criteria::is_equal(const Criteria& criteria,
               criteria.chemical_potentials_, tolerance)) {
     return false;
   }
-  if (std::abs(current_energy_ - criteria.current_energy_) > tolerance) {
-    INFO(MAX_PRECISION << "current energy not equal: " << current_energy_
-      << " vs " << criteria.current_energy_ << " tol " << tolerance);
+  if (std::abs(current_energy() - criteria.current_energy()) > tolerance) {
+    INFO(MAX_PRECISION << "current energy not equal: " << current_energy()
+      << " vs " << criteria.current_energy() << " tol " << tolerance);
     return false;
   }
   if (trial_state_ != criteria.trial_state_) {
@@ -177,11 +178,12 @@ void Criteria::serialize_criteria_(std::ostream& ostr) const {
   feasst_serialize(pH_, ostr);
   feasst_serialize(pH_initialized_, ostr);
   feasst_serialize(chemical_potentials_, ostr);
-  feasst_serialize(current_energy_, ostr);
+  //feasst_serialize(current_energy_, ostr);
   feasst_serialize(previous_energy_, ostr);
   feasst_serialize(trial_state_, ostr);
   feasst_serialize(num_trial_states_, ostr);
   feasst_serialize_fstdr(constraints_, ostr);
+  feasst_serialize_fstobj(data_, ostr);
 }
 
 Criteria::Criteria(std::istream& istr) {
@@ -193,7 +195,7 @@ Criteria::Criteria(std::istream& istr) {
   feasst_deserialize(&pH_, istr);
   feasst_deserialize(&pH_initialized_, istr);
   feasst_deserialize(&chemical_potentials_, istr);
-  feasst_deserialize(&current_energy_, istr);
+  //feasst_deserialize(&current_energy_, istr);
   feasst_deserialize(&previous_energy_, istr);
   feasst_deserialize(&trial_state_, istr);
   feasst_deserialize(&num_trial_states_, istr);
@@ -211,12 +213,13 @@ Criteria::Criteria(std::istream& istr) {
       }
     }
   }
+  feasst_deserialize_fstobj(&data_, istr);
 }
 
 void Criteria::set_current_energy(const double energy) {
-  previous_energy_ = current_energy_;
-  current_energy_ = energy;
-  DEBUG("setting current energy: " << current_energy_);
+  previous_energy_ = current_energy();
+  *current_energy_() = energy;
+  DEBUG("setting current energy: " << current_energy());
   DEBUG("previous " << previous_energy_);
 }
 

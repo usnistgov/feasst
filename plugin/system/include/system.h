@@ -48,8 +48,8 @@ class System {
   /// Return the configuration
   const Configuration& configuration(const int config = 0) const;
 
-  /// Get the configuration as a pointer.
-  /// This interface is to be avoided if possible.
+  // Get the configuration as a pointer.
+  // This interface is to be avoided if possible.
   Configuration* get_configuration(const int config = 0);
 
   /// Return the dimensionality of the system.
@@ -154,6 +154,8 @@ class System {
 
   /// Set cache to unload energy calclatuions.
   void unload_cache(const System& system);
+
+  void synchronize_(const System& system, const Select& perturbed);
 
   /// Return the header of the status for periodic output.
   std::string status_header() const;

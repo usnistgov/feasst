@@ -255,6 +255,7 @@ void VisitModel::serialize_visit_model_(std::ostream& ostr) const {
   feasst_serialize_version(545, ostr);
   feasst_serialize(energy_, ostr);
   feasst_serialize_fstdr(inner_, ostr);
+  feasst_serialize_fstobj(data_, ostr);
 }
 
 VisitModel::VisitModel(std::istream& istr) {
@@ -270,6 +271,7 @@ VisitModel::VisitModel(std::istream& istr) {
       inner_ = inner_->deserialize(istr);
     }
   }
+  feasst_deserialize_fstobj(&data_, istr);
 }
 
 void VisitModel::compute(
@@ -329,6 +331,12 @@ void VisitModel::compute(
     const int group_index) {
   const ModelParams& model_params = config->model_params();
   compute(model, model_params, config, group_index);
+}
+
+void VisitModel::synchronize_(const VisitModel& visit,
+    const Select& perturbed) {
+  data_ = visit.data();
+  inner_->synchronize_(visit.inner(), perturbed);
 }
 
 }  // namespace feasst

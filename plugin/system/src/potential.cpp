@@ -162,4 +162,10 @@ void Potential::set_model_params(const Configuration& config) {
   set(config.model_params());
 }
 
+void Potential::synchronize_(const Potential& potential,
+    const Select& perturbed) {
+  visit_model_->synchronize_(potential.visit_model(), perturbed);
+  stored_energy_ = potential.stored_energy_;
+}
+
 }  // namespace feasst
