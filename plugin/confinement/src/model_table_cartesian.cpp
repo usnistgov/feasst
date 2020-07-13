@@ -211,8 +211,8 @@ void ModelTableCart2DIntegr::compute_table_omp(
     const int num_nodes) {
   // allow shape internals to cache before parallel.
   shape->integrate(*MakePosition({{0., 0., 0.}}), random, integration_args);
-  Table2D * table = tables_[site_type].get();
   #ifdef _OPENMP
+  Table2D * table = tables_[site_type].get();
   #pragma omp parallel
   {
     std::shared_ptr<Shape> shape_t = deep_copy_derived(shape);
@@ -344,8 +344,8 @@ void ModelTableCart3DIntegr::compute_table_omp(
     const int num_nodes) {
   // allow shape internals to cache before parallel.
   shape->integrate(*MakePosition({{0., 0., 0.}}), random, integration_args);
-  Table3D * table = tables_[site_type].get();
   #ifdef _OPENMP
+  Table3D * table = tables_[site_type].get();
   #pragma omp parallel
   {
     std::shared_ptr<Shape> shape_t = deep_copy_derived(shape);
@@ -385,7 +385,7 @@ void ModelTableCart3DIntegr::compute_table(
     System * system,
     Select * select,
     const int site_type) {
-  
+
   // for each unique site_type in select, ... (or, use particle_type as input instead of select+site_type.. add/del part physical part from system during making of table...
 
   Table3D * table = tables_[site_type].get();
@@ -429,8 +429,8 @@ void ModelTableCart3DIntegr::compute_table_omp(
     const int site_type,
     const int node,
     const int num_nodes) {
-  Table3D * table = tables_[site_type].get();
   #ifdef _OPENMP
+  Table3D * table = tables_[site_type].get();
   #pragma omp parallel
   {
     System system_t = deep_copy(*system);
@@ -476,7 +476,7 @@ void ModelTableCart3DIntegr::compute_table_omp(
   }
   #else // _OPENMP
     WARN("OMP not detected");
-    compute_table(shape, domain, random, integration_args);
+    compute_table(system, select, site_type);
   #endif // _OPENMP
 }
 
