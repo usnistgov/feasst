@@ -77,8 +77,22 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
     }
   }
 
-  trial->precompute(criteria_.get(), &system_);
-  trial_factory_.add(trial);
+  // flatten TrialFactory by adding the individual trials instead.
+  if (trial->class_name() == "TrialFactory") {
+    DEBUG("flattening");
+    double total_weight = 0.;
+    for (std::shared_ptr<Trial> itrl : trial->trials()) {
+      total_weight += itrl->weight();
+    }
+    for (std::shared_ptr<Trial> itrl : trial->trials()) {
+      itrl->set_weight(trial->weight()*itrl->weight()/total_weight);
+      DEBUG(itrl->weight() << " " << trial->weight() << " " << total_weight);
+      add(itrl);
+    }
+  } else {
+    trial->precompute(criteria_.get(), &system_);
+    trial_factory_.add(trial);
+  }
 
   // HWH depreciate?
   // If later, perhaps after some initialization, more trials are added,

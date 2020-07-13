@@ -74,8 +74,8 @@ TEST(MonteCarlo, cluster) {
     // ensure TrialFactory still tunes
     int rigid_index = 0;
     if (single_particle_translate) rigid_index = 1;
-    EXPECT_NE(mc.trial(rigid_index).trial(0).stage(0).perturb().tunable().value(), 1.);
-    EXPECT_NE(mc.trial(rigid_index).trial(1).stage(0).perturb().tunable().value(), 50.);
+    EXPECT_NE(mc.trial(rigid_index).stage(0).perturb().tunable().value(), 1.);
+    EXPECT_NE(mc.trial(rigid_index+1).stage(0).perturb().tunable().value(), 50.);
   }
 }
 

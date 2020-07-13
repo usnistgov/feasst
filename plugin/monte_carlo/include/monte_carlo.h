@@ -93,6 +93,14 @@ class MonteCarlo {
 
   /// The remaining actions can be done in almost any order.
   /// Typically, one begins by adding trials.
+  /// Some Trials are simply TrialFactories containing multiple trials, such as
+  /// TrialTransfer (factory of TrialAdd and TrialRemove).
+  /// If a TrialFactory is added, flatten by adding individual trials instead.
+  /// This means that add(MakeTrialTransfer()) will add both a TrialAdd and
+  /// TrialRemove with weights equal to TrialFactory weight divided according to
+  /// the weights of the individual trials.
+  /// Thus, adding TrialTransfer with a weight of 4 will result in TrialAdd
+  /// with weight of 2 and TrialRemove with weight of 2.
   void add(std::shared_ptr<Trial> trial);
 
   /// Access the trials on a read-only basis.

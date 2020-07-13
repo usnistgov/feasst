@@ -46,12 +46,6 @@ class Pool {
 
 /**
   Farm a trial to each processor, then reconstruct the serial Markov chain.
-  Note that Prefetch does not work properly when initialized with TrialFactory.
-  For example, TrialTransfer is a factory with TrialAdd and TrialRemove.
-  Instead, add TrialAdd and TrialRemove trials individually.
-  This allows load balancing.
-  Synchronizing trials is also made easier.
-  Another factory to look for is TrialAVB2.
  */
 class Prefetch : public MonteCarlo {
  public:

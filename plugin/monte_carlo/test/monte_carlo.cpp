@@ -146,16 +146,19 @@ TEST(MonteCarlo, GCMC) {
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
+  EXPECT_NEAR(mc.trial(0).weight(), 1, NEAR_ZERO);
+  EXPECT_NEAR(mc.trial(1).weight(), 2, NEAR_ZERO);
+  EXPECT_NEAR(mc.trial(2).weight(), 2, NEAR_ZERO);
   mc.add(MakeNumParticles({{"steps_per_write", str(1e5)},
                            {"file_name", "tmp/ljnum.txt"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
   mc.add(MakeCheckEnergy({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   //mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   mc.attempt(1e4);
+  EXPECT_EQ(mc.trials().num(), 3);
   EXPECT_NEAR(mc.trial(0).num_attempts(), 1e4/5, 150);
-  EXPECT_NEAR(mc.trial(1).num_attempts(), 1e4*4/5., 450);
-  EXPECT_NEAR(mc.trial(1).trial(0).num_attempts(), 1e4*2/5., 250);
-  EXPECT_NEAR(mc.trial(1).trial(1).num_attempts(), 1e4*2/5., 250);
+  EXPECT_NEAR(mc.trial(1).num_attempts(), 1e4*2/5., 250);
+  EXPECT_NEAR(mc.trial(2).num_attempts(), 1e4*2/5., 250);
 }
 
 TEST(MonteCarlo, GCMC_cell) {
