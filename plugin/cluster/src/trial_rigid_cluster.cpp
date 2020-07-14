@@ -89,12 +89,11 @@ void TrialRotateCluster::serialize(std::ostream& ostr) const {
 
 TrialRigidCluster::TrialRigidCluster(
     std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype& args) : TrialFactory() {
+    const argtype& args) : TrialFactory(args) {
   Arguments args_(args);
   args_.dont_check();
   ASSERT(!args_.key("tunable_param").used(),
     "tunable_param args should not be used in this constructor");
-  set_weight(args_.key("weight").dflt("1.").dble());
   argtype rot_args = args;
   argtype trans_args = args;
   trans_args.insert({"tunable_param",
