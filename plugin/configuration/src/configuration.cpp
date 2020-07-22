@@ -54,16 +54,17 @@ Configuration::Configuration(const argtype& args) {
   args_.check_all_used();
 }
 
-void Configuration::add_particle_type(const std::string file_name) {
+void Configuration::add_particle_type(const std::string file_name,
+    const std::string append) {
   DEBUG("adding type: " << file_name);
   ASSERT(particles_.num() == 0, "types cannot be added after particles");
   particle_types_.add(file_name);
   unique_types_.add(file_name);
   ghosts_.push_back(Select());
   ASSERT(ghosts_.back().is_group_empty(), "no ghosts in brand new type");
-  ASSERT(!find_in_list(file_name, type_to_file_),
+  ASSERT(!find_in_list(file_name + append, type_to_file_),
     "file_name(" << file_name << ") already provided.");
-  type_to_file_.push_back(file_name);
+  type_to_file_.push_back(file_name + append);
   num_particles_of_type_.push_back(0);
 }
 
@@ -412,6 +413,17 @@ void Configuration::add_to_selection_(const int particle_index,
   const Group& group = select->group();
   if (group.is_in(part)) {
     select->add_particle(particle_index, group.site_indices(part));
+  }
+}
+
+void Configuration::update_selection_(const int particle_index,
+                                      Select * select) const {
+  const Particle& part = select_particle(particle_index);
+  const Group& group = select->group();
+  if (group.is_in(part)) {
+    select->add_particle(particle_index, group.site_indices(part), true);
+  } else {
+    select->remove_particle(particle_index);
   }
 }
 
@@ -810,6 +822,25 @@ void Configuration::synchronize_(const Configuration& config,
 //    *particles_.get_particle(part_index) = part;
 //    position_tracker_(part_index);
 //  }
+}
+
+void Configuration::set_particle_type(const int ptype,
+                                      const Select& select) {
+  for (int particle_index : select.particle_indices()) {
+    Particle * part = particles_.get_particle(particle_index);
+    --num_particles_of_type_[part->type()];
+    part->set_type(ptype);
+    ++num_particles_of_type_[part->type()];
+    ASSERT(part->num_sites() == particle_type(ptype).num_sites(),
+      "cannot morph into particle with different number of sites");
+    for (int isite = 0; isite < part->num_sites(); ++isite) {
+      part->get_site(isite)->set_type(particle_type(ptype).site(isite).type());
+    }
+    for (Select& select : group_selects_) {
+      update_selection_(particle_index, &select);
+    }
+    // HWH doesn't update type-based cell lists, groups, etc.
+  }
 }
 
 }  // namespace feasst

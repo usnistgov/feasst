@@ -8,9 +8,17 @@
 
 namespace feasst {
 
-/// Attempt to remove a pair of particles.
+/**
+  Attempt to remove multiple particles.
+  Typically requires the use of a reference index.
+ */
 class TrialRemoveMultiple : public Trial {
  public:
+  /**
+    args:
+    - particle_type[i]: the i-th type of particle to add.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
+   */
   explicit TrialRemoveMultiple(const argtype& args = argtype());
   std::shared_ptr<Trial> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;

@@ -353,3 +353,5 @@ To Do List
 * More documentation/tutorial on how to create your own plugins, classes, etc
 * rename utils*.h files e.g., utils_io->io
 * add orientation argument to shapes with internal coordinate transformation
+* System should track current energy of every potential for analysis
+* Consider using new state instead of old state in acceptance derivations

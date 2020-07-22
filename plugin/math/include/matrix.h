@@ -14,8 +14,19 @@ namespace feasst {
  */
 class Matrix {
  public:
+  Matrix() {}
+
   /// Set the size by number of rows and columns
   void set_size(const int num_rows, const int num_columns);
+
+  /// Alternatively, construct with 2d vector data.
+  Matrix(std::vector<std::vector<double> > matrix) { matrix_ = matrix; }
+
+  /// Return the number of rows.
+  int num_rows() const { return static_cast<int>(matrix_.size()); }
+
+  /// Return the number of columns.
+  int num_columns() const { return static_cast<int>(matrix_[0].size()); }
 
   /// Set the value of an element given by the row and column index.
   void set_value(const int row, const int column, const double value);
@@ -25,7 +36,7 @@ class Matrix {
     return matrix_[row][column]; }
 
   /// Return the entire matrix.
-  std::vector<std::vector<double> > matrix() const { return matrix_; }
+  const std::vector<std::vector<double> >& matrix() const { return matrix_; }
 
   /// Check that each row and column are the same size.
   virtual void check() const;
@@ -35,6 +46,9 @@ class Matrix {
 
   /// Multiply all elements by a constant.
   void multiply(const double constant);
+
+  /// Set all elements to zero.
+  void zero() { multiply(0.); }
 
   /// Return the vector which is a product of the multiplication of a matrix
   /// with the given vector.

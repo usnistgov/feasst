@@ -15,7 +15,9 @@ TrialRemoveMultiple::TrialRemoveMultiple(const argtype& args) : Trial(args) {
   for (int p : pt) {
     argtype nag = args_.args();
     nag.insert({"particle_type", str(p)});
-    nag.insert({"load_coordinates", "false"});
+    if (args_.key("num_steps").dflt("1").integer() == 1) {
+      nag.insert({"load_coordinates", "false"});
+    }
     nag.insert({"exclude_perturbed", "true"});
     new_args.push_back(nag);
   }
@@ -25,7 +27,7 @@ TrialRemoveMultiple::TrialRemoveMultiple(const argtype& args) : Trial(args) {
       MakePerturbRemove(),
       arg);
   }
-  set(std::make_shared<ComputeRemoveMultiple>());
+  set(std::make_shared<ComputeRemoveMultiple>(args));
   class_name_ = "TrialRemoveMultiple";
 }
 

@@ -77,11 +77,11 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
   mc.add(MakeMetropolis({{"beta", "1.5"}, {"chemical_potential", "1."}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
   SeekNumParticles(500).with_trial_add().run(&mc);
-  const int steps_per = 1e5;
+  const int steps_per = 1e3;
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)},
                           {"file_name", "tmp/confine"}}));
   MonteCarlo mc2 = test_serialize(mc);
-  mc2.attempt(1e6);
+  mc2.attempt(1e4);
 }
 
 TEST(MonteCarlo, ShapeTable_LONG) {

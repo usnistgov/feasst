@@ -49,83 +49,100 @@ double energy_av(const int macro, const MonteCarlo& mc) {
 ////  );
 //}
 
+MonteCarlo test_lj_fh(const int num_steps,
+    const std::string bias_name,
+    int sweeps = 10,
+    bool test_multi = false) {
+  MonteCarlo mc;
+  // mc.set(MakeRandomMT19937({{"seed", "default"}}));
+  int ref = -1;
+  if (num_steps == 1) {
+    mc.set(lennard_jones());
+  } else {
+    ref = 0;
+    mc.set(lennard_jones({{"dual_cut", "1."}}));
+  }
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.add(MakeTrialTranslate({
+    {"weight", "1."},
+    {"tunable_param", "1."},
+    {"reference_index", str(ref)},
+    {"num_steps", str(num_steps)}}));
+  SeekNumParticles(1).with_trial_add().run(&mc);
+  argtype transfer_args =
+    { {"particle_type0", "0"},
+      {"reference_index", str(ref)},
+      {"num_steps", str(num_steps)},
+      {"weight", "4"}};
+  if (test_multi) {
+    transfer_args.insert({"particle_type1", "0"});
+    transfer_args.insert({"shift", "-2"});
+  }
+  mc.add(MakeTrialTransferMultiple(transfer_args));
+  EXPECT_EQ(mc.trial(0).weight(), 1);
+  EXPECT_EQ(mc.trial(1).weight(), 2);
+  EXPECT_EQ(mc.trial(2).weight(), 2);
+  std::shared_ptr<Bias> bias;
+  if (bias_name == "TM") {
+    bias = MakeTransitionMatrix({{"min_sweeps", str(sweeps)}});
+  } else if (bias_name == "WL") {
+    if (sweeps == 10) sweeps = 20;
+    bias = MakeWangLandau({{"min_flatness", str(sweeps)}});
+  } else if (bias_name == "WLTM") {
+    bias = MakeWLTM({{"collect_flatness", "15"},
+      {"min_flatness", "20"}, {"min_sweeps", str(sweeps)}});
+  } else {
+    FATAL("unrecognized");
+  }
+  std::string width = "1";
+  if (test_multi) width = "2";
+  auto criteria = MakeFlatHistogram(
+    MakeMacrostateNumParticles(
+      Histogram({{"width", width}, {"max", "5"}, {"min", "1"}})),
+    bias,
+    { {"beta", str(1./1.5)},
+      {"chemical_potential", "-2.352321"}});
+//      {{"soft_max", "5"}, {"soft_min", "1"}}));
+//      {{"particle_type", "0"}}));
+  INFO(criteria->bias().class_name());
+  mc.set(criteria);
+  const std::string steps_per(str(1e3));
+  // const std::string steps_per(str(1e4));
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj_fh"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
+  mc.add(MakeCriteriaUpdater({{"steps_per", str(1)}}));
+  mc.add(MakeCriteriaWriter({
+    {"steps_per", steps_per},
+    {"file_name", "tmp/ljcrit.txt"}}));
+  auto energy = MakeEnergy({
+    {"file_name", "tmp/lj_fh_energy"},
+    {"steps_per_update", "1"},
+    {"steps_per_write", str(steps_per)},
+    {"multistate", "true"}});
+  EXPECT_EQ(energy->steps_per_update(), 1);
+  EXPECT_EQ(energy->steps_per_write(), 1e3);
+  mc.add(energy);
+  return mc;
+}
+
 TEST(MonteCarlo, lj_fh) {
   for (int num_steps : {1, 2}) {
     for (const std::string bias_name : {"TM", "WL", "WLTM"}) {
-      MonteCarlo mc;
-      // mc.set(MakeRandomMT19937({{"seed", "default"}}));
-      int ref = -1;
-      if (num_steps == 1) {
-        mc.set(lennard_jones());
-      } else {
-        ref = 0;
-        mc.set(lennard_jones({{"dual_cut", "1."}}));
-      }
-      mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
-      mc.add(MakeTrialTranslate({
-        {"weight", "1."},
-        {"tunable_param", "1."},
-        {"reference_index", str(ref)},
-        {"num_steps", str(num_steps)}}));
-      SeekNumParticles(1).with_trial_add().run(&mc);
-      mc.add(MakeTrialTransfer({
-        {"particle_type", "0"},
-        {"reference_index", str(ref)},
-        {"num_steps", str(num_steps)},
-        {"weight", "4"}}));
-      std::shared_ptr<Bias> bias;
-      if (bias_name == "TM") {
-        bias = MakeTransitionMatrix({{"min_sweeps", "10"}});
-      } else if (bias_name == "WL") {
-        bias = MakeWangLandau({{"min_flatness", "20"}});
-      } else if (bias_name == "WLTM") {
-        bias = MakeWLTM({{"collect_flatness", "15"},
-          {"min_flatness", "20"}, {"min_sweeps", "10"}});
-      } else {
-        FATAL("unrecognized");
-      }
-      auto criteria = MakeFlatHistogram(
-        MakeMacrostateNumParticles(
-          Histogram({{"width", "1"}, {"max", "5"}, {"min", "1"}})),
-        bias,
-        { {"beta", str(1./1.5)},
-          {"chemical_potential", "-2.352321"}});
-  //      {{"soft_max", "5"}, {"soft_min", "1"}}));
-  //      {{"particle_type", "0"}}));
-      INFO(criteria->bias().class_name());
-      mc.set(criteria);
-      const std::string steps_per(str(1e4));
-      // const std::string steps_per(str(1e4));
-      mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj_fh"}}));
-      mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
-      mc.add(MakeCriteriaUpdater({{"steps_per", str(1)}}));
-      mc.add(MakeCriteriaWriter({
-        {"steps_per", steps_per},
-        {"file_name", "tmp/ljcrit.txt"}}));
-      auto energy = MakeEnergy({
-        {"file_name", "tmp/lj_fh_energy"},
-        {"steps_per_update", "1"},
-        {"steps_per_write", str(steps_per)},
-        {"multistate", "true"}});
-      EXPECT_EQ(energy->steps_per_update(), 1);
-      EXPECT_EQ(energy->steps_per_write(), 1e4);
-      mc.add(energy);
+      MonteCarlo mc = test_serialize(test_lj_fh(num_steps, bias_name));
       //mc.attempt(1e4);
-      mc.attempt(1e5); // note more than 1e4 steps required for TM
-      //mc.run_until_complete();
+      //mc.attempt(1e5); // note more than 1e4 steps required for TM
+      mc.run_until_complete();
       // INFO(mc.criteria().write());
 
-      //MonteCarlo mc2 = test_serialize_no_comp(mc);
-      test_serialize(mc);
-
       // compare with known values of lnpi
-      const LnProbability * lnpi = &criteria->bias().ln_prob();
-      //EXPECT_NEAR(lnpi->value(0), -18.707570324988800000, 0.55);
-      EXPECT_NEAR(lnpi->value(0), -14.037373358321800000, 0.75);
-      EXPECT_NEAR(lnpi->value(1), -10.050312091655200000, 0.6);
-      EXPECT_NEAR(lnpi->value(2), -6.458920624988570000, 0.55);
-      EXPECT_NEAR(lnpi->value(3), -3.145637424988510000, 0.55);
-      EXPECT_NEAR(lnpi->value(4), -0.045677458321876000, 0.55);
+      //const LnProbability * lnpi = &criteria->bias().ln_prob();
+      const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+      //EXPECT_NEAR(lnpi.value(0), -18.707570324988800000, 0.55);
+      EXPECT_NEAR(lnpi.value(0), -14.037373358321800000, 0.75);
+      EXPECT_NEAR(lnpi.value(1), -10.050312091655200000, 0.6);
+      EXPECT_NEAR(lnpi.value(2), -6.458920624988570000, 0.55);
+      EXPECT_NEAR(lnpi.value(3), -3.145637424988510000, 0.55);
+      EXPECT_NEAR(lnpi.value(4), -0.045677458321876000, 0.55);
 
       // compare with known values of energy
       //EXPECT_NEAR(energy_av(0, mc), 0, 1e-14);
@@ -135,23 +152,45 @@ TEST(MonteCarlo, lj_fh) {
       EXPECT_NEAR(energy_av(3, mc), -0.1784570533333333, 0.06);
       EXPECT_NEAR(energy_av(4, mc), -0.29619201333333334, 0.14);
       EXPECT_LE(mc.system().configuration().num_particles(), 5);
-
-  //    // see if changing the c00 and c2N elements of colmat change the lnpi
-  //    std::stringstream ss;
-  //    criteria->bias().serialize(ss);
-  //    TransitionMatrix tm(ss);
-  //    tm.infrequent_update();
-  //    INFO(feasst_str(tm.ln_prob().values()));
-  ////    INFO("c00 " << tm.get_collection()->matrix()[0][0])
-  ////    tm.get_collection()->increment(0, 0, 100);
-  ////    INFO("c00 " << tm.get_collection()->matrix()[0][0])
-  //    INFO("cn2 " << tm.get_collection()->matrix()[4][2])
-  //    tm.get_collection()->increment(4, 2, 100);
-  //    INFO("cn2 " << tm.get_collection()->matrix()[4][2])
-  //    tm.infrequent_update();
-  //    INFO(feasst_str(tm.ln_prob().values()));
     }
   }
+}
+
+TEST(MonteCarlo, lj_fh_LONG) {
+  MonteCarlo mc = test_serialize(test_lj_fh(1, "TM", 1000));
+  mc.run_until_complete();
+  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+  EXPECT_NEAR(lnpi.value(0), -14.037373358321800000, 0.02);
+  EXPECT_NEAR(lnpi.value(1), -10.050312091655200000, 0.02);
+  EXPECT_NEAR(lnpi.value(2), -6.458920624988570000, 0.02);
+  EXPECT_NEAR(lnpi.value(3), -3.145637424988510000, 0.01);
+  EXPECT_NEAR(lnpi.value(4), -0.045677458321876000, 0.005);
+  EXPECT_NEAR(energy_av(0, mc), -0.000605740233333333, 1e-8);
+  EXPECT_NEAR(energy_av(1, mc), -0.030574223333333334, 0.001);
+  EXPECT_NEAR(energy_av(2, mc), -0.089928316, 0.002);
+  EXPECT_NEAR(energy_av(3, mc), -0.1784570533333333, 0.004);
+  EXPECT_NEAR(energy_av(4, mc), -0.29619201333333334, 0.006);
+  const LnProbability lnpi3 = lnpi.reduce(2);
+  INFO(feasst_str(lnpi3.values()));
+  EXPECT_NEAR(lnpi3.value(0), -13.9933350923078, 0.02);
+  EXPECT_NEAR(lnpi3.value(1), -6.41488235897456, 0.02);
+  EXPECT_NEAR(lnpi3.value(2), -0.00163919230786818, 0.005);
+}
+
+TEST(MonteCarlo, lj_fh_multi_LONG) {
+  //MonteCarlo mc = test_serialize(test_lj_fh(1, "WLTM", 1000, true));
+  //MonteCarlo mc = test_serialize(test_lj_fh(1, "WL", 200, true));
+  MonteCarlo mc = test_serialize(test_lj_fh(1, "TM", 1000, true));
+  mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  mc.run_until_complete();
+  INFO(mc.criteria().write());
+  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+  EXPECT_NEAR(lnpi.value(0), -13.9933350923078, 0.02);
+  EXPECT_NEAR(lnpi.value(1), -6.41488235897456, 0.02);
+  EXPECT_NEAR(lnpi.value(2), -0.00163919230786818, 0.005);
+  EXPECT_NEAR(energy_av(0, mc), -0.000605740233333333, 1e-8);
+  EXPECT_NEAR(energy_av(1, mc), -0.089928316, 0.002);
+  EXPECT_NEAR(energy_av(2, mc), -0.29619201333333334, 0.02);
 }
 
 TEST(MonteCarlo, spce_fh_LONG) {
@@ -188,7 +227,7 @@ TEST(MonteCarlo, spce_fh_LONG) {
       {{"beta", str(1/temperature)},
        {"chemical_potential", str(chemical_potential)}});
     mc.set(criteria);
-    const int steps_per = 1e5;
+    const int steps_per = 1e4;
     mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_fh"}}));
     mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
     mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
@@ -225,7 +264,7 @@ TEST(MonteCarlo, spce_fh_LONG) {
     const LnProbability& lnpi = bias->ln_prob();
     for (int macro = 0; macro < lnpi.size(); ++macro) {
       EXPECT_NEAR(lnpi.value(macro), lnpi_srsw[macro][0],
-        5*lnpi_srsw[macro][1]);
+        7*lnpi_srsw[macro][1]);
 //      if (bias->class_name() == "TransitionMatrix") {
         const double en_std = std::sqrt(std::pow(en_srsw[macro][1], 2) +
           std::pow(energy->energy().block_stdev(), 2));
@@ -297,7 +336,7 @@ TEST(MonteCarlo, rpm_fh_LONG) {
   EXPECT_NEAR(energy_av(2, mc), -2.02625, 0.04);
 }
 
-TEST(MonteCarlo, rpm_fh_divalent_LONG) {
+TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
   const double temperature = 0.25;
   //const double temperature = 0.05;
   const double beta_mu = -7.94;
@@ -320,7 +359,7 @@ TEST(MonteCarlo, rpm_fh_divalent_LONG) {
       Histogram({{"width", "1"}, {"max", "5"}, {"min", "0"}}),
       {{"particle_type", "0"}}),
     // MakeWangLandau({{"min_flatness", "100"}}),
-    MakeTransitionMatrix({{"min_sweeps", "100"}}),
+    MakeTransitionMatrix({{"min_sweeps", "1000"}}),
     {{"beta", str(1/temperature)},
      {"chemical_potential0", str(beta_mu*temperature)},
      {"chemical_potential1", str(beta_mu*temperature)}});
@@ -340,7 +379,7 @@ TEST(MonteCarlo, rpm_fh_divalent_LONG) {
 //  add_rigid_cluster_trials(&mc,
 //    neighbor_criteria,
 //    {{"tunable_param", "50"}});
-  const int steps_per = 1e5;
+  const int steps_per = 1e3;
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaWriter({
     {"steps_per", str(steps_per)},
@@ -358,20 +397,32 @@ TEST(MonteCarlo, rpm_fh_divalent_LONG) {
   // mc.attempt(1e7);
 
   const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
-  EXPECT_NEAR(lnpi.value(0), -6.6615, 0.06);
-  EXPECT_NEAR(lnpi.value(1), -3.6256, 0.06);
-  EXPECT_NEAR(lnpi.value(2), -2.1046, 0.06);
-  EXPECT_NEAR(lnpi.value(3), -1.3685, 0.06);
-  EXPECT_NEAR(lnpi.value(4), -1.1371, 0.06);
-  EXPECT_NEAR(lnpi.value(5), -1.2911, 0.06);
+  EXPECT_NEAR(lnpi.value(0), -6.7005955776549158, 0.09);
+  EXPECT_NEAR(lnpi.value(1), -3.6523345299136007, 0.06);
+  EXPECT_NEAR(lnpi.value(2), -2.1178631459398805, 0.03);
+  EXPECT_NEAR(lnpi.value(3), -1.3652342629553453, 0.02);
+  EXPECT_NEAR(lnpi.value(4), -1.1336431696116527, 0.02);
+  EXPECT_NEAR(lnpi.value(5), -1.289634124762612, 0.02);
+//  EXPECT_NEAR(lnpi.value(0), -6.6615, 0.06);
+//  EXPECT_NEAR(lnpi.value(1), -3.6256, 0.06);
+//  EXPECT_NEAR(lnpi.value(2), -2.1046, 0.06);
+//  EXPECT_NEAR(lnpi.value(3), -1.3685, 0.06);
+//  EXPECT_NEAR(lnpi.value(4), -1.1371, 0.06);
+//  EXPECT_NEAR(lnpi.value(5), -1.2911, 0.06);
   const std::vector<std::shared_ptr<Analyze> >& en =
     mc.analyzers()[en_index]->analyzers();
   EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
-  EXPECT_NEAR(en[1]->accumulator().average(), -1.30701, 0.03);
-  EXPECT_NEAR(en[2]->accumulator().average(), -2.98115, 0.03);
-  EXPECT_NEAR(en[3]->accumulator().average(), -4.85254, 0.05);
-  EXPECT_NEAR(en[4]->accumulator().average(), -6.80956, 0.12);
-  EXPECT_NEAR(en[5]->accumulator().average(), -8.85025, 0.16);
+  EXPECT_NEAR(en[1]->accumulator().average(), -1.3278876302141585, 0.05);
+  EXPECT_NEAR(en[2]->accumulator().average(), -3.0162868737745732, 0.05);
+  EXPECT_NEAR(en[3]->accumulator().average(), -4.8648645814174927, 0.05);
+  EXPECT_NEAR(en[4]->accumulator().average(), -6.8089768188067694, 0.05);
+  EXPECT_NEAR(en[5]->accumulator().average(), -8.8377616317395002, 0.05);
+//  EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
+//  EXPECT_NEAR(en[1]->accumulator().average(), -1.30701, 0.03);
+//  EXPECT_NEAR(en[2]->accumulator().average(), -2.98115, 0.03);
+//  EXPECT_NEAR(en[3]->accumulator().average(), -4.85254, 0.05);
+//  EXPECT_NEAR(en[4]->accumulator().average(), -6.80956, 0.12);
+//  EXPECT_NEAR(en[5]->accumulator().average(), -8.85025, 0.16);
 }
 
 }  // namespace feasst

@@ -86,7 +86,7 @@ TEST(Arguments, arglist) {
 TEST(Arguments, boolean) {
   Arguments args(argtype({{"bananas", "1"}}));
   EXPECT_TRUE(args.key("bananas").boolean());
-  EXPECT_EQ("used(bananas,),args({bananas,1},)", args.status());
+  EXPECT_EQ("used(bananas,),args{{\"bananas\",\"1\"},}", args.status());
 }
 
 }  // namespace feasst

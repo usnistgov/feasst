@@ -10,8 +10,7 @@
 namespace feasst {
 
 Criteria::Criteria(const argtype &args) {
-  set_trial_state();
-  // parse
+  set_expanded_state();
   args_.init(args);
   if (args_.key("beta").used()) {
     set_beta(args_.dble());
@@ -99,9 +98,9 @@ std::string Criteria::write() const {
   return ss.str();
 }
 
-void Criteria::set_trial_state(const int state, const int num) {
-  trial_state_ = state;
-  num_trial_states_ = num;
+void Criteria::set_expanded_state(const int state, const int num) {
+  expanded_state_ = state;
+  num_expanded_states_ = num;
 }
 
 void Criteria::revert_(const bool accepted, const double ln_prob) {
@@ -143,9 +142,9 @@ bool Criteria::is_equal(const Criteria& criteria,
       << " vs " << criteria.current_energy() << " tol " << tolerance);
     return false;
   }
-  if (trial_state_ != criteria.trial_state_) {
-    INFO("trial_states not equal: " << trial_state_
-      << " vs " << criteria.trial_state_);
+  if (expanded_state_ != criteria.expanded_state_) {
+    INFO("expanded_states not equal: " << expanded_state_
+      << " vs " << criteria.expanded_state_);
     return false;
   }
   if (pH_ != criteria.pH_) return false;
@@ -180,8 +179,8 @@ void Criteria::serialize_criteria_(std::ostream& ostr) const {
   feasst_serialize(chemical_potentials_, ostr);
   //feasst_serialize(current_energy_, ostr);
   feasst_serialize(previous_energy_, ostr);
-  feasst_serialize(trial_state_, ostr);
-  feasst_serialize(num_trial_states_, ostr);
+  feasst_serialize(expanded_state_, ostr);
+  feasst_serialize(num_expanded_states_, ostr);
   feasst_serialize_fstdr(constraints_, ostr);
   feasst_serialize_fstobj(data_, ostr);
 }
@@ -197,8 +196,8 @@ Criteria::Criteria(std::istream& istr) {
   feasst_deserialize(&chemical_potentials_, istr);
   //feasst_deserialize(&current_energy_, istr);
   feasst_deserialize(&previous_energy_, istr);
-  feasst_deserialize(&trial_state_, istr);
-  feasst_deserialize(&num_trial_states_, istr);
+  feasst_deserialize(&expanded_state_, istr);
+  feasst_deserialize(&num_expanded_states_, istr);
   // HWH for unknown reasons, this function template does not work.
   // feasst_deserialize_fstdr(constraints_, istr);
   { int dim1;

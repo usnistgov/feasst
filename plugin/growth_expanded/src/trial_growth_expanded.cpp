@@ -137,10 +137,10 @@ void TrialComputeGrowAdd::perturb_and_acceptance(
     const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
     DEBUG("volume " << volume << " selprob " << select.probability() << " betamu " << criteria->beta_mu(particle_type));
-    const double power = 1.;///static_cast<double>(criteria->num_trial_states());
+    const double power = 1.;///static_cast<double>(criteria->num_expanded_states());
     acceptance->add_to_ln_metropolis_prob(
       power*(std::log(volume)
-             + criteria->beta_mu(particle_type)*criteria->num_trial_states())
+             + criteria->beta_mu(particle_type)*criteria->num_expanded_states())
     );
   }
 }
@@ -162,7 +162,7 @@ void TrialComputeGrowRemove::perturb_and_acceptance(
     const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
     DEBUG("volume " << volume << " selprob " << select.probability() << " betamu " << criteria->beta_mu(particle_type));
-    const double power = 1;//./static_cast<double>(criteria->num_trial_states());
+    const double power = 1;//./static_cast<double>(criteria->num_expanded_states());
     acceptance->add_to_ln_metropolis_prob(
       power*(- std::log(volume)
              - criteria->beta_mu(particle_type))
@@ -189,7 +189,7 @@ bool TrialGrowthExpanded::attempt(Criteria * criteria,
   if ( (accepted and !growing_) or (!accepted and growing_) ) {
     get_stage_(0)->set_mobile_physical(false, system);
   }
-  criteria->set_trial_state(growth_stage_, num_growth_stages());
+  criteria->set_expanded_state(growth_stage_, num_growth_stages());
   DEBUG("growingpend " << growing_particle_->mobile().str());
   return accepted;
 }

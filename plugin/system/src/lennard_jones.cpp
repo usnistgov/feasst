@@ -40,6 +40,9 @@ double LennardJones::energy(
     const int type1,
     const int type2,
     const ModelParams& model_params) const {
+  TRACE("squared_distance " << squared_distance);
+  TRACE("type1 " << type1);
+  TRACE("type2 " << type2);
   const double sigma = model_params.mixed_sigma()[type1][type2];
   const double sigma_squared = sigma*sigma;
   if (squared_distance < hard_sphere_threshold_sq_*sigma_squared) {
@@ -49,6 +52,7 @@ double LennardJones::energy(
   const double rinv2 = sigma_squared/squared_distance;
   const double rinv6 = rinv2*rinv2*rinv2;
   const double en = 4.*epsilon*rinv6*(rinv6 - 1.);
+  TRACE("en " << en);
   return en;
 }
 

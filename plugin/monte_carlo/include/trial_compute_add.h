@@ -49,7 +49,7 @@ coupled with a trial that removes particles with the same selection weight.
 |[Accept]                             |:math:`[min(1, 1/\chi)]`                |
 +-------------------------------------+----------------------------------------+
 
-Application of local detailed balance yeilds the acceptance probability,
+Application of local detailed balance yields the acceptance probability,
 :math:`\chi`.
 
 :math:`\frac{e^{-\beta U_o + \beta\mu_t N_t}}{\Lambda^{dN}w V }min(1, \chi) =

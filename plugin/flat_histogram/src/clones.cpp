@@ -81,7 +81,7 @@ void Clones::initialize(const int upper_index,
     lower->configuration(),
     true);
   DEBUG("num " << upper->configuration().num_particles());
-  upper->initialize_energy();
+  upper->initialize_criteria();
 }
 
 void Clones::initialize(const argtype& args) {

@@ -11,9 +11,9 @@
    Log
    Energy
    CriteriaWriter
-   CheckEnergy
+   CriteriaUpdater
+   CheckProperties
    CheckEnergyAndTune
    Tuner
-   CheckProperties
-   CriteriaUpdater
+   CheckEnergy
    Movie

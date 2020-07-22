@@ -12,6 +12,8 @@
 
 namespace feasst {
 
+// HWH do away with macrostate shifts.. make easy add/delete.. finalize optim
+// HWH parse args between classes... warn if not used.
 /**
   Attempt to remove multiple particles.
   For a derivation of the acceptance criteria, see ComputeAddMultiple that is
@@ -19,7 +21,11 @@ namespace feasst {
  */
 class ComputeRemoveMultiple : public TrialCompute {
  public:
-  ComputeRemoveMultiple();
+  /**
+    args:
+    - shift: macrostate shift (default: -1).
+   */
+  ComputeRemoveMultiple(const argtype& args = argtype());
 
   void perturb_and_acceptance(
       Criteria * criteria,
@@ -36,6 +42,10 @@ class ComputeRemoveMultiple : public TrialCompute {
 
  protected:
   void serialize_compute_remove_multiple_(std::ostream& ostr) const;
+  int shift_;
+
+  // temporary, not serialized
+  std::vector<int> delta_;
 };
 
 inline std::shared_ptr<ComputeRemoveMultiple> MakeComputeRemoveMultiple() {

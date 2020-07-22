@@ -57,4 +57,9 @@ TEST(UtilsIO, serialize_string) {
   );
 }
 
+TEST(UtilsIO, feasst_str) {
+  std::map<std::string, std::string> mp = {{"hi","you"},{"well","hello"},};
+  EXPECT_EQ(feasst_str(mp), "{{\"hi\",\"you\"},{\"well\",\"hello\"},}");
+}
+
 }  // namespace feasst

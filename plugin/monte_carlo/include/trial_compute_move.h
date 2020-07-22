@@ -65,7 +65,7 @@ state, :math:`\pi_{no}`.
 
 :math:`\pi_o \pi_{on} = \pi_n \pi_{no}`
 
-Substituting the probability distribution and transition probabilities yeilds
+Substituting the probability distribution and transition probabilities yields
 
 :math:`\frac{e^{-\beta U_o}min(1, \chi)}{N_t v} =
 \frac{e^{-\beta U_n}min(1, 1/\chi)}{N_t v}`

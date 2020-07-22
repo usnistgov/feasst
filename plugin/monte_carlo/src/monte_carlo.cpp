@@ -57,7 +57,7 @@ void MonteCarlo::set(std::shared_ptr<Criteria> criteria) {
   ASSERT(system_set_, "set System before Criteria.");
   criteria_ = criteria;
   criteria_set_ = true;
-  initialize_energy();
+  initialize_criteria();
   // criteria->set_current_energy(system_.unoptimized_energy());
   DEBUG("current energy: " << criteria->current_energy());
 }
@@ -260,14 +260,33 @@ void MonteCarlo::imitate_trial_rejection_(const int trial_index,
   criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new);
 }
 
-void MonteCarlo::initialize_energy() {
+double MonteCarlo::initialize_system() {
+  system_.precompute();
   const double en = system_.unoptimized_energy();
   system_.energy();
   for (int ref = 0; ref < system_.num_references(); ++ref) {
     system_.reference_energy(ref);
   }
+  return en;
+}
+
+void MonteCarlo::initialize_criteria() {
+  const double en = initialize_system();
   if (criteria_) {
     criteria_->set_current_energy(en);
+  }
+}
+
+void MonteCarlo::initialize_trials() {
+  for (int trial = 0; trial < trial_factory_.num(); ++trial) {
+    trial_factory_.get_trial(trial)->precompute(criteria_.get(), &system_);
+  }
+}
+
+void MonteCarlo::initialize_analyzers() {
+  for (int an = 0; an < analyze_factory_.num(); ++an) {
+    analyze_factory_.get_analyze(an)->initialize(
+      criteria_.get(), &system_, &trial_factory_);
   }
 }
 

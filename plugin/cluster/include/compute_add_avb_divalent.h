@@ -47,7 +47,7 @@ described in ComputeAddAVB.
 |Insert site_index_b in AV of         |:math:`1/v_{AV}`                        |
 |site_index_t                         |                                        |
 |                                     |                                        |
-|[Remove site_index_b in the AV of    |:math:`1/(N^{s,AV}_a + 1)`              |
+|[Remove site_index_b in the AV of    |:math:`1/(N^{s,AV}_b + 1)`              |
 |site_index_t]                        |                                        |
 +-------------------------------------+----------------------------------------+
 |Accept                               |:math:`min(1, \chi)`                    |

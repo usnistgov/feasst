@@ -62,13 +62,14 @@ class Trial {
   /// Number of attempts.
   int64_t num_attempts() const { return data_.int64_1D()[0]; }
 
+  /// Number of automatic rejections.
+  int64_t num_auto_reject() const { return data_.int64_1D()[2]; }
+
   /// Increment the number of attempts for acceptance.
   void increment_num_attempts() { *num_attempts_() += 1; }
 
   /// Return the ratio of the number of successful attempts and total attempts.
-  double acceptance() const {
-    return static_cast<double>(num_success())/static_cast<double>(num_attempts());
-  }
+  double acceptance() const;
 
   /// Reset trial statistics.
   virtual void reset_stats();
@@ -159,6 +160,7 @@ class Trial {
   double weight_;
   int64_t * num_attempts_() { return &((*data_.get_int64_1D())[0]); }
   int64_t * num_success_() { return &((*data_.get_int64_1D())[1]); }
+  int64_t * num_auto_reject_() { return &((*data_.get_int64_1D())[2]); }
   bool is_finalize_delayed_;
 
   // temporary or duplicate

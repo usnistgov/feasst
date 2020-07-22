@@ -43,9 +43,9 @@ std::vector<int> TrialAddMultiple::ptypes(Arguments * args) const {
     ss.str("");
     ss << start << count;
   }
+  DEBUG("ptypes " << feasst_str(ptypes));
   ASSERT(std::is_sorted(ptypes.begin(), ptypes.end()),
     "ptypes not sorted: " << feasst_str(ptypes));
-  DEBUG("ptypes " << feasst_str(ptypes));
   return ptypes;
 }
 

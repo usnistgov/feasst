@@ -61,13 +61,15 @@ class Select {
                     const std::vector<int> site_indices);
 
   /// Add particle index and site indices of that particle.
-  void add_particle(const int particle_index, std::vector<int> site_indices);
+  void add_particle(const int particle_index,
+    std::vector<int> site_indices,
+    /// optionally prevent duplicates (slower)
+    const bool prevent_duplicate = false);
 
-//  /// Add particle by index.
-//  void add_particle(const Particles& particles, const int particle_index);
-
-  /// Add particle by index.
-  void add_particle(const Particle& particle, const int particle_index);
+  /// Same as above, but use Particle to get site_indices.
+  void add_particle(const Particle& particle,
+    const int particle_index,
+    const bool prevent_duplicate = false);
 
   /// Return number of selected particles.
   int num_particles() const {

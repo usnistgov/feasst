@@ -214,6 +214,8 @@ void Prefetch::attempt_(
       {
       #endif
 
+      // HWH this doesn't seem to account for num_auto_reject in trial
+      // HWH but synchronize would take care of this
       // revert trials after accepted trial.
       if (first_thread_accepted != num_threads_) {
         if (proc_id > first_thread_accepted) {

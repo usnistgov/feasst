@@ -4,26 +4,26 @@
    EnergyMapAll
    EnergyMapNeighbor
    EnergyMapAllCriteria
-   SelectParticleAVB
    SelectCluster
+   SelectParticleAVB
    SelectParticleAVBDivalent
-   TrialAVB2
-   TrialTransferAVB
-   TrialTranslateCluster
-   TrialAVB2Half
-   TrialRemoveAVB
-   TrialAddAVB
-   TrialAddAVBDivalent
-   TrialAVB4
-   ComputeMoveCluster
-   ComputeAddAVB
-   ComputeRemoveAVB
-   ComputeGCA
-   ComputeAddAVBDivalent
-   ComputeRemoveAVBDivalent
-   ComputeAVB2
-   ComputeAVB4
    PerturbPointReflect
+   ComputeAVB4
+   ComputeAVB2
+   ComputeRemoveAVBDivalent
+   ComputeAddAVBDivalent
+   ComputeGCA
+   ComputeRemoveAVB
+   ComputeAddAVB
+   ComputeMoveCluster
+   TrialAVB4
+   TrialAddAVB
+   TrialRemoveAVB
+   TrialAVB2Half
+   TrialTransferAVB
+   TrialAddAVBDivalent
+   TrialTranslateCluster
+   TrialAVB2
    PerturbRotateCOM
    PerturbMoveAVB
    PerturbAddAVB

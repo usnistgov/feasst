@@ -12,7 +12,7 @@ Trial::Trial(const argtype& args) {
   set_new_only();
   set_finalize_delayed();
   weight_ = args_.key("weight").dflt("1").dble();
-  data_.get_int64_1D()->resize(2);
+  data_.get_int64_1D()->resize(3);
   reset_stats();
 }
 
@@ -35,6 +35,7 @@ void Trial::reset_stats() {
   DEBUG("reset_stats");
   *num_attempts_() = 0;
   *num_success_() = 0;
+  *num_auto_reject_() = 0;
 }
 
 std::string Trial::status_header() const {
@@ -56,7 +57,8 @@ std::string Trial::status() const {
 }
 
 void Trial::tune() {
-  if (num_attempts() > 0) {
+  int num_real_attempts = num_attempts() - num_auto_reject();
+  if (num_real_attempts > 0) {
     for (auto stage : stages_) stage->tune(acceptance());
     reset_stats();
   }
@@ -92,6 +94,8 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   DEBUG("**********************************************************");
   DEBUG("* " << class_name() << " attempt " << num_attempts() << " *");
   DEBUG("**********************************************************");
+  DEBUG(system->configuration().num_particles());
+  DEBUG(system->configuration().num_particles_of_type(0));
   increment_num_attempts();
   acceptance_.reset();
   criteria->before_attempt(*system);
@@ -113,6 +117,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
       criteria, system, &acceptance_, &stages_ptr_, random);
   }
   DEBUG("num attempts: " << num_attempts());
+  if (acceptance_.reject()) *num_auto_reject_() += 1;
   if (criteria->is_accepted(acceptance_, *system, random->uniform())) {
     DEBUG("accepted");
     increment_num_success_();
@@ -231,6 +236,13 @@ const std::vector<std::shared_ptr<Trial> >& Trial::trials() const {
 
 const Trial& Trial::trial(const int index) const {
   FATAL("not implemented");
+}
+
+double Trial::acceptance() const {
+  int num_real_attempts = num_attempts() - num_auto_reject();
+  if (num_real_attempts == 0) return 0.;
+  return static_cast<double>(num_success())/
+         static_cast<double>(num_real_attempts);
 }
 
 }  // namespace feasst

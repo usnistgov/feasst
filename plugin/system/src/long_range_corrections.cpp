@@ -86,12 +86,20 @@ double LongRangeCorrections::energy_(
     const int type2,
     const Configuration * config,
     const ModelParams& model_params) const {
+  DEBUG("type1: " << type1);
+  DEBUG("type2: " << type2);
   const double epsilon = model_params.mixed_epsilon()[type1][type2];
+  DEBUG("epsilon: " << epsilon);
   const double sigma = model_params.mixed_sigma()[type1][type2];
+  DEBUG("sigma: " << sigma);
   const double cutoff = model_params.mixed_cutoff()[type1][type2];
+  DEBUG("cutoff: " << cutoff);
   const double prefactor = epsilon*(8./3.)*PI*std::pow(sigma, 3)*
     ((1./3.)*std::pow(sigma/cutoff, 9) - std::pow(sigma/cutoff, 3));
-  return prefactor/config->domain().volume();
+  DEBUG("prefactor: " << prefactor);
+  const double en = prefactor/config->domain().volume();
+  DEBUG("en: " << en);
+  return en;
 }
 
 }  // namespace feasst

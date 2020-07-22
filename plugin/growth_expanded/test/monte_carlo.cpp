@@ -1,5 +1,7 @@
 #include "utils/test/utils.h"
+#include "math/include/random_mt19937.h"
 #include "system/include/utils.h"
+#include "system/include/dont_visit_model.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/test/monte_carlo_test.h"
 #include "monte_carlo/include/seek_num_particles.h"
@@ -9,47 +11,274 @@
 #include "flat_histogram/include/transition_matrix.h"
 #include "flat_histogram/include/wang_landau.h"
 #include "steppers/include/criteria_writer.h"
+#include "steppers/include/energy.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
-#include "growth_expanded/include/trial_growth_expanded.h"
-#include "growth_expanded/include/macrostate_growth_expanded.h"
+#include "growth_expanded/include/trial_morph.h"
+#include "growth_expanded/include/trial_morph_expanded.h"
+#include "growth_expanded/include/macrostate_morph.h"
+#include "ewald/include/utils.h"
 
 namespace feasst {
 
-TEST(MonteCarlo, TrialGrowthExpanded) {
-  const std::string data = "forcefield/data.dimer";
+double energy_av2(const int macro, const MonteCarlo& mc) {
+  return mc.analyzers().back()->analyzers()[macro]->accumulator().average();
+}
+
+void test_morph(const System& system) {
   MonteCarlo mc;
-  mc.set(lennard_jones({{"particle", data}}));
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(system);
+  mc.set(MakeMetropolis({{"beta", "1"}, {"chemical_potential0", "1."},
+                                        {"chemical_potential1", "1."}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  SeekNumParticles(2, {{"particle_type", "0"}}).with_trial_add().run(&mc);
+  SeekNumParticles(2, {{"particle_type", "1"}}).with_trial_add().run(&mc);
+  EXPECT_EQ(mc.configuration().num_particles_of_type(0), 2);
+  EXPECT_EQ(mc.configuration().num_particles_of_type(1), 2);
+  mc.add(MakeTrialMorph({{"particle_type0", "1"},
+                                 {"particle_type_morph0", "0"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e2)}, {"file_name", "tmp/growth"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e2)}}));
-  mc.set(MakeMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));
-  SeekNumParticles(4).with_trial_add().run(&mc);
-  mc.set(MakeFlatHistogram(
-    MakeMacrostateGrowthExpanded(Histogram({{"width", "0.5"}, {"max", "10"}})),
-    MakeTransitionMatrix({{"min_sweeps", "10"}}),
-    // MakeWangLandau({{"min_flatness", "1"}}),
+  mc.attempt(1e3);
+  EXPECT_EQ(mc.configuration().num_particles_of_type(0), 4);
+  EXPECT_EQ(mc.configuration().num_particles_of_type(1), 0);
+}
+
+TEST(MonteCarlo, TrialMorph) {
+  System system = lennard_jones();
+  Configuration * config = system.get_configuration();
+  config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.5");
+  config->set_model_param("sigma", 1, 0.5);
+  config->set_model_param("cutoff", 1, 1.0);
+  test_morph(system);
+}
+
+MonteCarlo test_morph_expanded_lj(
+  const std::vector<std::vector<int> > grow_sequence,
+  const int max = 5) {
+  MonteCarlo mc;
+  {
+    System system = lennard_jones();
+    Configuration * config = system.get_configuration();
+    config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.5");
+    config->set_model_param("sigma", 1, 0.5);
+    config->set_model_param("cutoff", 1, 1.0);
+    config->add_particle_of_type(0);
+    mc.set(system);
+  }
+  mc.add_to_reference(Potential(MakeDontVisitModel()));
+  const double num_parts_in_grow = static_cast<double>(grow_sequence[0].size());
+  INFO(str(num_parts_in_grow/grow_sequence.size()));
+  auto criteria = MakeFlatHistogram(
+    MakeMacrostateMorph(grow_sequence,
+      Histogram({{"width", str(num_parts_in_grow/grow_sequence.size())},
+                 {"max", str(max)}, {"min", "1"}})),
+    MakeTransitionMatrix({{"min_sweeps", "1000"}}),
     { {"beta", str(1./1.5)},
-      {"chemical_potential", "-6.952321"}}));
+      {"chemical_potential0", "-2.352321"},
+      {"chemical_potential1", "-2.352321"}});
+  mc.set(criteria);
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "1."}}));
+  mc.add(MakeTrialMorphExpanded(grow_sequence,
+    {{"reference_index", "0"}, {"shift", str(-1*num_parts_in_grow)}}));
+  const std::string steps_per = str(int(1e3));
+  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/grow_fh"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));
+  mc.add(MakeCriteriaUpdater({{"steps_per", steps_per}}));
+  mc.add(MakeCriteriaWriter({
+    {"steps_per", steps_per},
+    {"file_name", "tmp/grow_fh_crit.txt"}}));
+  mc.add(MakeEnergy({
+    {"file_name", "tmp/grow_fh_energy"},
+    {"steps_per_update", "1"},
+    {"steps_per_write", steps_per},
+    {"multistate", "true"}}));
+  return mc;
+}
 
-  mc.add(MakeTrialGrowthExpanded(build_(1, data), build_(2, data)));
-  mc.add(MakeCriteriaWriter({{"steps_per_write", str(int(1e6))}}));
-  mc.add(MakeCriteriaUpdater({{"steps_per_write", str(int(1e6))}}));
-  EXPECT_EQ(2, mc.trials().num());
-//  for (int i = 0; i < 50; ++i) {
-
-// new bug introduced where,when adding new particle, sites need to be set as
-// non physical for growth expanded
-//  mc.attempt(1e2);
-
-//    INFO(mc.criteria()->write());
+//TEST(MonteCarlo, TrialMorphExpanded_args) {
+//  try {
+//    TrialMorphExpanded({{1, -1}, {0, 0}});
+//    CATCH_PHRASE("cant have add and morph in same stage");
 //  }
-  test_serialize(mc);
-//  std::stringstream ss;
-//  mc.serialize(ss);
-//  INFO(ss.str());
+//}
+
+TEST(MonteCarlo, TrialMorphExpanded_2_lj_LONG) {
+  MonteCarlo mc = test_morph_expanded_lj({{1, 1}, {0, 0}});
+  mc.run_until_complete();
+  INFO(FlatHistogram(mc.criteria()).write());
+  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob().reduce(2);
+  EXPECT_NEAR(lnpi.value(0), -13.9933350923078, 0.02);
+  EXPECT_NEAR(lnpi.value(1), -6.41488235897456, 0.02);
+  EXPECT_NEAR(lnpi.value(2), -0.00163919230786818, 0.005);
+  EXPECT_NEAR(mc.analyzers().back()->analyzers()[0]->accumulator().average(),
+              -0.000605740233333333, 1e-8);
+  EXPECT_NEAR(mc.analyzers().back()->analyzers()[2]->accumulator().average(),
+              -0.089928316, 0.002);
+  EXPECT_NEAR(mc.analyzers().back()->analyzers()[4]->accumulator().average(),
+              -0.29619201333333334, 0.02);
+}
+
+//TEST(MonteCarlo, TrialMorphExpanded_2_skip_lj_LONG) {
+//  MonteCarlo mc = test_morph_expanded_lj({{1, -1},
+//                                          {0, -1},
+//                                          {-1, 1},
+//                                          {-1, 0}});
+//  mc.run_until_complete();
+//  INFO(FlatHistogram(mc.criteria()).write());
+//  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob().reduce(4);
+//  EXPECT_NEAR(lnpi.value(0), -13.9933350923078, 0.02);
+//  EXPECT_NEAR(lnpi.value(1), -6.41488235897456, 0.02);
+//  EXPECT_NEAR(lnpi.value(2), -0.00163919230786818, 0.005);
+//  EXPECT_NEAR(mc.analyzers().back()->analyzers()[0]->accumulator().average(),
+//              -0.000605740233333333, 1e-8);
+//  EXPECT_NEAR(mc.analyzers().back()->analyzers()[4]->accumulator().average(),
+//              -0.089928316, 0.002);
+//  EXPECT_NEAR(mc.analyzers().back()->analyzers()[8]->accumulator().average(),
+//              -0.29619201333333334, 0.02);
+//}
+
+//HWH need to fix macrostate
+//TEST(MonteCarlo, TrialMorphExpanded_3_lj_LONG) {
+//  MonteCarlo mc = test_morph_expanded_lj({{1, 1, 1}, {0, 0, 0}}, 4);
+//  mc.run_until_complete();
+//  INFO(FlatHistogram(mc.criteria()).write());
+//  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob().reduce(3);
+//  EXPECT_NEAR(lnpi.value(0), -10.8917545445662, 0.02);
+//  EXPECT_NEAR(lnpi.value(1), -0.000018611232922473, 0.02);
+//  EXPECT_NEAR(mc.analyzers().back()->analyzers()[0]->accumulator().average(),
+//              -0.000605740233333333, 1e-8);
+//  EXPECT_NEAR(mc.analyzers().back()->analyzers()[3]->accumulator().average(),
+//              -0.1784570533333333, 0.02);
+//}
+
+TEST(MonteCarlo, TrialMorph_RPM) {
+  test_morph(rpm());
+}
+
+MonteCarlo test_morph_expanded(const std::string steps_per) {
+  MonteCarlo mc;
+  //mc.set(MakeRandomMT19937({{"seed", "1234"}}));
+  { System system = lennard_jones({{"particle", "forcefield/data.lj"}});
+    Configuration * config = system.get_configuration();
+    config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.25");
+    config->set_model_param("sigma", 1, 0.25);
+    config->set_model_param("cutoff", 1, 1.0);
+    config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.5");
+    config->set_model_param("sigma", 1, 0.5);
+    config->set_model_param("cutoff", 1, 1.0);
+    config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.75");
+    config->set_model_param("sigma", 1, 0.75);
+    config->set_model_param("cutoff", 1, 1.0);
+    config->add_particle_of_type(0);
+    mc.set(system);
+  }
+  const std::vector<std::vector<int> > grow_sequence = {{1}, {2}, {3}, {0}};
+  mc.set(MakeFlatHistogram(
+    MakeMacrostateMorph(
+      grow_sequence,
+      Histogram({{"width", str(1./grow_sequence.size())}, {"max", "5"}, {"min", "1"}})),
+    // MakeWangLandau({{"min_flatness", "25"}}),
+    MakeTransitionMatrix({{"min_sweeps", "10"}}),
+    { {"beta", str(1./1.5)},
+      {"chemical_potential0", "-2.352321"},
+      {"chemical_potential1", "-2"},
+      {"chemical_potential2", "-2.1"},
+      {"chemical_potential3", "-2.2"}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  mc.add(MakeTrialMorphExpanded(grow_sequence));
+  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/growth"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));
+  mc.add(MakeCriteriaUpdater({{"steps_per_write", steps_per}}));
+  mc.add(MakeCriteriaWriter({{"steps_per_write", steps_per}, {"file_name", "tmp/growth_crit.txt"}}));
+  mc.add(MakeEnergy({{"file_name", "tmp/growth_energy"},
+    {"steps_per_update", "1"},
+    {"steps_per_write", str(steps_per)},
+    {"multistate", "true"}}));
+  return mc;
+}
+
+TEST(MonteCarlo, TrialMorphExpanded) {
+  MonteCarlo mc = test_morph_expanded(str(int(1e3)));
+  MonteCarlo mc2 = test_serialize(mc);
+  EXPECT_EQ(2, mc.trials().num());
+  mc2.attempt(1e3);
+}
+
+TEST(MonteCarlo, TrialMorphExpanded_LONG) {
+  MonteCarlo mc = test_morph_expanded(str(int(1e4)));
+  mc.run_until_complete();
+  // INFO(mc.criteria().write());
+
+  std::stringstream ss;
+  mc.criteria().serialize(ss);
+  FlatHistogram fh(ss);
+  LnProbability lnpi = fh.bias().ln_prob().reduce(4);
+  lnpi.normalize();
+//  INFO(feasst_str(lnpi.values()));
+
+  // copied from flat_histogram/test/monte_carlo.cpp
+  EXPECT_NEAR(lnpi.value(0), -14.037373358321800000, 0.75);
+  EXPECT_NEAR(lnpi.value(1), -10.050312091655200000, 0.6);
+  EXPECT_NEAR(lnpi.value(2), -6.458920624988570000, 0.55);
+  EXPECT_NEAR(lnpi.value(3), -3.145637424988510000, 0.55);
+  EXPECT_NEAR(lnpi.value(4), -0.045677458321876000, 0.55);
+
+  EXPECT_NEAR(energy_av2(0, mc), -0.000605740233333333, 1e-8);
+  EXPECT_NEAR(energy_av2(4, mc), -0.030574223333333334, 0.03);
+  EXPECT_NEAR(energy_av2(8, mc), -0.089928316, 0.05);
+  EXPECT_NEAR(energy_av2(12, mc), -0.1784570533333333, 0.06);
+  EXPECT_NEAR(energy_av2(16, mc), -0.29619201333333334, 0.14);
+}
+
+TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
+  MonteCarlo mc;
+  mc.set(MakeRandomMT19937({{"seed", "1234"}}));
+  { System system = lennard_jones({{"lrc", "false"}});
+  //{ System system = lennard_jones({{"particle", "forcefield/data.lj"}});
+    Configuration * config = system.get_configuration();
+    config->add_particle_type(install_dir() + "/forcefield/data.lj", "b");
+    config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.5");
+    config->set_model_param("sigma", 1, 0.5);
+    config->set_model_param("cutoff", 1, 1.0);
+    config->add_particle_type(install_dir() + "/forcefield/data.lj", "0.5b");
+    config->set_model_param("sigma", 1, 0.5);
+    config->set_model_param("cutoff", 1, 1.0);
+//    config->add_particle_of_type(0);
+    mc.set(system);
+  }
+  mc.add_to_reference(Potential(MakeDontVisitModel()));
+  const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};
+  mc.set(MakeFlatHistogram(
+    MakeMacrostateMorph(
+      grow_sequence,
+      Histogram({{"width", str(1./grow_sequence.size())}, {"max", "5"}, {"min", "0"}})),
+    // MakeWangLandau({{"min_flatness", "25"}}),
+    MakeTransitionMatrix({{"min_sweeps", "10"}}),
+    { {"beta", str(1./1.5)},
+      {"chemical_potential0", "-2.352321"},
+      {"chemical_potential1", "-2"},
+      {"chemical_potential2", "-2.1"},
+      {"chemical_potential3", "-2.2"}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+  mc.add(MakeTrialMorphExpanded(grow_sequence, {{"reference_index", "0"}}));
+  const std::string steps_per = str(int(1e3));
+  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/growth"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));
+  mc.add(MakeCriteriaUpdater({{"steps_per_write", steps_per}}));
+  mc.add(MakeCriteriaWriter({{"steps_per_write", steps_per}, {"file_name", "tmp/growth_crit.txt"}}));
+  mc.add(MakeEnergy({{"file_name", "tmp/growth_energy"},
+    {"steps_per_update", "1"},
+    {"steps_per_write", str(steps_per)},
+    {"multistate", "true"}}));
+  for (int i = 0; i < 1e6; ++i) {
+    mc.attempt(1);
+    ASSERT(2*mc.configuration().num_particles_of_type(0) ==
+             mc.configuration().num_particles_of_type(1), "er");
+    ASSERT(2*mc.configuration().num_particles_of_type(2) ==
+             mc.configuration().num_particles_of_type(3), "er");
+  }
 }
 
 }  // namespace feasst

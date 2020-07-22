@@ -20,6 +20,7 @@
 #include "monte_carlo/include/trial_transfer.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/movie.h"
+#include "steppers/include/tuner.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
@@ -247,6 +248,23 @@ TEST(MonteCarlo, ConstrainNumParticles) {
       EXPECT_GE(mc.analyze(index).accumulator().average(), 1);
     }
   }
+}
+
+TEST(MonteCarlo, GCMC_binary_tune) {
+  MonteCarlo mc;
+  mc.set(lennard_jones());
+  mc.get_system()->get_configuration()->add_particle_type("../forcefield/data.lj", "2");
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential0", "-6"}, {"chemical_potential1", "-8"}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}, {"particle_type", "0"}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}, {"particle_type", "1"}}));
+  mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
+  mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "1"}}));
+  const std::string steps_per = str(int(1e2));
+  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj"}}));
+  mc.add(MakeTuner({{"steps_per", steps_per}}));
+  mc.attempt(1e4);
+  EXPECT_GT(mc.trial(0).stage(0).perturb().tunable().value(), 3.);
+  EXPECT_GT(mc.trial(1).stage(0).perturb().tunable().value(), 3.);
 }
 
 }  // namespace feasst

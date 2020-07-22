@@ -8,7 +8,8 @@
 
 namespace feasst {
 
-/// Attempt TrialAddMultiple or TrialRemoveMultiple with equal probability.
+/// Attempt TrialAddMultiple or TrialRemoveMultiple and split the trial weights
+/// equally.
 class TrialTransferMultiple : public TrialFactory {
  public:
   explicit TrialTransferMultiple(const argtype& args = argtype());

@@ -8,13 +8,16 @@
 
 namespace feasst {
 
-/// Attempt to add a pair of particles.
+/**
+  Attempt to add multiple particles.
+  Typically requires the use of a reference index.
+ */
 class TrialAddMultiple : public Trial {
  public:
   /**
     args:
-    - particle_type0: the first type of particle to add.
-    - particle_type1: the second type of particle to add.
+    - particle_type[i]: the i-th type of particle to add.
+      The "[i]" is to be substituted for an integer 0, 1, 2, ...
    */
   explicit TrialAddMultiple(const argtype& args = argtype());
   std::shared_ptr<Trial> create(std::istream& istr) const override;

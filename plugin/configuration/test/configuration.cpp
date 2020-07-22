@@ -25,6 +25,10 @@ TEST(Configuration, type_to_file_name) {
   EXPECT_EQ("../forcefield/data.atom", config.type_to_file_name(0));
   EXPECT_EQ("../forcefield/data.lj", config.type_to_file_name(1));
   EXPECT_EQ("../forcefield/data.spce", config.type_to_file_name(2));
+
+  config.add_particle_type("../forcefield/data.lj", "2");
+  EXPECT_EQ(4, config.num_particle_types());
+  EXPECT_EQ("../forcefield/data.lj2", config.type_to_file_name(3));
 }
 
 TEST(Configuration, coordinates_and_wrapping) {

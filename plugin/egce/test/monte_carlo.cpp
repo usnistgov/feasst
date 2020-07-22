@@ -27,12 +27,17 @@
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/trial_transfer_avb.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
+#include "growth_expanded/include/macrostate_morph.h"
+#include "growth_expanded/include/trial_morph_expanded.h"
 #include "egce/include/a_equal_b.h"
 #include "egce/include/a_half_b.h"
 
 namespace feasst {
 
-MonteCarlo rpm_egce(const int min = 0, const std::string dual_cut = "-1") {
+MonteCarlo rpm_egce(const int min = 0,
+  const std::string dual_cut = "-1",
+  const int steps_per = 1e5,
+  const bool energy = true) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.set(rpm({
@@ -55,7 +60,6 @@ MonteCarlo rpm_egce(const int min = 0, const std::string dual_cut = "-1") {
       {"chemical_potential0", str(beta_mu*temperature)},
       {"chemical_potential1", str(beta_mu*temperature)}});
   mc.set(criteria);
-  const int steps_per = 1e5;
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaWriter({{"steps_per", str(steps_per)},
                              {"file_name", "tmp/rpm_egce_crit.txt"}}));
@@ -64,11 +68,13 @@ MonteCarlo rpm_egce(const int min = 0, const std::string dual_cut = "-1") {
   // mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
   // mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));
   mc.add(MakeCheckNetCharge({{"maximum", "1."}, {"minimum", str(-NEAR_ZERO)}}));
-  mc.add(MakeEnergy({
-    {"file_name", "tmp/rpm_egce_energy"},
-    {"steps_per_update", "1"},
-    {"steps_per_write", str(steps_per)},
-    {"multistate", "true"}}));
+  if (energy) {
+    mc.add(MakeEnergy({
+      {"file_name", "tmp/rpm_egce_energy"},
+      {"steps_per_update", "1"},
+      {"steps_per_write", str(steps_per)},
+      {"multistate", "true"}}));
+  }
   return mc;
 }
 
@@ -119,7 +125,7 @@ TEST(MonteCarlo, rpm_egce_fh_LONG) {
   }
 }
 
-TEST(MonteCarlo, rpm_egce_fh_min1_LONG) {
+TEST(MonteCarlo, rpm_egce_fh_min1_VERY_LONG) {
   MonteCarlo mc = rpm_egce(1);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.add(MakeTrialTransfer({{"weight", "1."}, {"particle_type", "0"}}));
@@ -181,10 +187,70 @@ TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
   EXPECT_NEAR(en[3]->accumulator().average(), -2.02625, 0.04);
 }
 
+// HWH is there an issue with changing the charge in how Fourier is computed?
+//TEST(MonteCarlo, rpm_growth_expanded_LONG) {
+//  const int min = 0, steps_per = 1e0;
+//  MonteCarlo mc = rpm_egce(min, "-1", steps_per, false);
+//  mc.set(MakeRandomMT19937({{"seed", "123"}}));
+//
+//  // add growth expanded particle types with half charge
+//  { Configuration * config = mc.get_system()->get_configuration();
+//    const double q_plus = config->model_params().charge().value(0);
+//    const double q_minus = config->model_params().charge().value(1);
+//    config->add_particle_type(install_dir() +
+//      "/plugin/ewald/forcefield/data.rpm_plus", "0.5");
+//    config->add_particle_type(install_dir() +
+//      "/plugin/ewald/forcefield/data.rpm_minus", "0.5");
+//    config->set_model_param("charge", 2, 0.5*q_plus);
+//    config->set_model_param("charge", 3, 0.5*q_minus);
+//    config->set_model_param("cutoff", 2, 6);
+//    config->set_model_param("cutoff", 3, 6);
+//  }
+//  const std::vector<std::vector<int> > grow_sequence = {{2, 3}, {0, 1}};
+//  mc.set(MakeFlatHistogram(
+//    MakeMacrostateMorph(
+//      grow_sequence,
+//      Histogram({{"width", str(1./grow_sequence.size())},
+//                 {"max", "4"}, {"min", "0"}})),
+//    MakeWangLandau({{"min_flatness", "25"}}),
+//    // MakeTransitionMatrix({{"min_sweeps", "10"}}),
+//    { {"beta", str(mc.criteria().beta())},
+//      {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
+//      {"chemical_potential1", str(mc.criteria().chemical_potential(1))},
+//      {"chemical_potential2", str(mc.criteria().chemical_potential(0))},
+//      {"chemical_potential3", str(mc.criteria().chemical_potential(1))}}));
+//  mc.initialize_criteria();
+//  mc.initialize_analyzers();
+//  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
+//  mc.add(MakeTrialMorphExpanded(grow_sequence));
+//  mc.add(MakeEnergy({
+//    {"file_name", "tmp/dival_egce_energy"},
+//    {"steps_per_update", "1"},
+//    {"steps_per_write", str(int(1e5))},
+//    {"multistate", "true"}}));
+//  mc.run_until_complete();
+//  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+//  EXPECT_NEAR(lnpi.value(0), -5.41, 0.1);
+//  EXPECT_NEAR(lnpi.value(2), -3.42548, 0.1);
+//  EXPECT_NEAR(lnpi.value(4), -2.02966, 0.1);
+//  EXPECT_NEAR(lnpi.value(6), -1.35573, 0.1);
+//  EXPECT_NEAR(lnpi.value(8), -1.16195, 0.1);
+//  EXPECT_NEAR(lnpi.value(10), -1.34209, 0.1);
+//  const std::vector<std::shared_ptr<Analyze> >& en =
+//    mc.analyzers().back()->analyzers();
+//  EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
+//  EXPECT_NEAR(en[2]->accumulator().average(), -1.462473, 0.03);
+//  EXPECT_NEAR(en[4]->accumulator().average(), -3.015735, 0.05);
+//  EXPECT_NEAR(en[6]->accumulator().average(), -4.879190, 0.08);
+//  EXPECT_NEAR(en[8]->accumulator().average(), -6.829874, 0.12);
+//  EXPECT_NEAR(en[10]->accumulator().average(), -8.815852, 0.16);
+//}
+
 MonteCarlo dival_egce(
     const int min = 0,
     const int max = 15,
-    const int steps_per = 1e5) {
+    const int steps_per = 1e5,
+    const bool energy = true) {
   const double temperature = 0.25;
   const double beta_mu = -7.94;
   MonteCarlo mc;
@@ -215,16 +281,19 @@ MonteCarlo dival_egce(
     {"file_name", "tmp/dival_egce_crit.txt"},
   }));
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/dival_egce"}}));
+  mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}, {"tolerance", str(1e-12)}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-4)}}));
   const double charge_minus = mc.configuration().model_params().charge().value(1);
   mc.add(MakeCheckNetCharge({{"steps_per", str(steps_per)},
                              {"maximum", str(-charge_minus)},
                              {"minimum", str(charge_minus)}}));
-  mc.add(MakeEnergy({
-    {"file_name", "tmp/dival_egce_energy"},
-    {"steps_per_update", "1"},
-    {"steps_per_write", str(steps_per)},
-    {"multistate", "true"}}));
+  if (energy) {
+    mc.add(MakeEnergy({
+      {"file_name", "tmp/dival_egce_energy"},
+      {"steps_per_update", "1"},
+      {"steps_per_write", str(steps_per)},
+      {"multistate", "true"}}));
+  }
   return mc;
 }
 
@@ -369,7 +438,7 @@ TEST(MonteCarlo, rpm_egce_divalent_avb_and_not) {
   mc.attempt(2*steps_per);
 }
 
-TEST(MonteCarlo, rpm_divalent_avb_LONG) {
+TEST(MonteCarlo, rpm_divalent_avb_VERY_LONG) {
   const int min = 0, max = 5, steps_per = 1e3;
   MonteCarlo mc = dival_egce(min, max, steps_per);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
@@ -378,25 +447,17 @@ TEST(MonteCarlo, rpm_divalent_avb_LONG) {
                                                MakeChargeScreened()}),
                       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   mc.add_to_reference(Potential(MakeDontVisitModel()));
-    SeekNumParticles(3*max)
-      .with_metropolis(
-        MakeAHalfB({{"extra", "1"}}),
-        { {"beta", "0.1"},
-          {"chemical_potential0", "1"},
-          {"chemical_potential1", "1"}})
-      .add(MakeTrialAdd({{"particle_type", "0"}}))
-      .add(MakeTrialAdd({{"particle_type", "1"}}))
-      .run(&mc);
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}}),
       {{"particle_type", "0"}}),
-    MakeTransitionMatrix({{"min_sweeps", "100"}}),
+    MakeTransitionMatrix({{"min_sweeps", "1000"}}),
     {{"beta", str(mc.criteria().beta())},
      {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
      {"chemical_potential1", str(mc.criteria().chemical_potential(1))}});
   mc.set(criteria);
-  auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "1.5"},
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
+  auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "4"},
                                                  {"minimum_distance", "1"},
                                                  {"site_type0", "0"},
                                                  {"site_type1", "1"},
@@ -409,20 +470,92 @@ TEST(MonteCarlo, rpm_divalent_avb_LONG) {
       {"reference_index", "0"}}));
   mc.run_until_complete();
   const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
-  EXPECT_NEAR(lnpi.value(0), -5.41, 0.1);
-  EXPECT_NEAR(lnpi.value(1), -3.42548, 0.1);
-  EXPECT_NEAR(lnpi.value(2), -2.02966, 0.1);
-  EXPECT_NEAR(lnpi.value(3), -1.35573, 0.1);
-  EXPECT_NEAR(lnpi.value(4), -1.16195, 0.1);
-  EXPECT_NEAR(lnpi.value(5), -1.34209, 0.1);
+  EXPECT_NEAR(lnpi.value(0), -6.7005955776549158, 0.09);
+  EXPECT_NEAR(lnpi.value(1), -3.6523345299136007, 0.06);
+  EXPECT_NEAR(lnpi.value(2), -2.1178631459398805, 0.03);
+  EXPECT_NEAR(lnpi.value(3), -1.3652342629553453, 0.02);
+  EXPECT_NEAR(lnpi.value(4), -1.1336431696116527, 0.02);
+  EXPECT_NEAR(lnpi.value(5), -1.289634124762612, 0.02);
   const std::vector<std::shared_ptr<Analyze> >& en =
     mc.analyzers().back()->analyzers();
   EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
-  EXPECT_NEAR(en[1]->accumulator().average(), -1.462473, 0.03);
-  EXPECT_NEAR(en[2]->accumulator().average(), -3.015735, 0.05);
-  EXPECT_NEAR(en[3]->accumulator().average(), -4.879190, 0.08);
-  EXPECT_NEAR(en[4]->accumulator().average(), -6.829874, 0.12);
-  EXPECT_NEAR(en[5]->accumulator().average(), -8.815852, 0.16);
+  EXPECT_NEAR(en[1]->accumulator().average(), -1.3278876302141585, 0.05);
+  EXPECT_NEAR(en[2]->accumulator().average(), -3.0162868737745732, 0.05);
+  EXPECT_NEAR(en[3]->accumulator().average(), -4.8648645814174927, 0.05);
+  EXPECT_NEAR(en[4]->accumulator().average(), -6.8089768188067694, 0.05);
+  EXPECT_NEAR(en[5]->accumulator().average(), -8.8377616317395002, 0.05);
+}
+
+TEST(MonteCarlo, rpm_divalent_growth_expanded_LONG) {
+  const int min = 0, max = 5, steps_per = 1e3;
+  MonteCarlo mc = dival_egce(min, max, steps_per, false);
+  mc.set(MakeRandomMT19937({{"seed", "123"}}));
+
+  // add growth expanded particle types with half charge
+  { Configuration * config = mc.get_system()->get_configuration();
+    const double q_plus = config->model_params().charge().value(0);
+    const double q_minus = config->model_params().charge().value(1);
+    config->add_particle_type(install_dir() +
+      "/plugin/ewald/forcefield/data.rpm_plus", "0.5");
+    config->add_particle_type(install_dir() +
+      "/plugin/ewald/forcefield/data.rpm_minus", "0.5");
+    config->set_model_param("charge", 2, 0.5*q_plus);
+    config->set_model_param("charge", 3, 0.5*q_minus);
+    config->set_model_param("cutoff", 2, 7.5);
+    config->set_model_param("cutoff", 3, 7.5);
+    //mc.get_system()->precompute();  // update ewald
+  }
+  mc.add_to_reference(Potential(MakeDontVisitModel()));
+  const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};
+  mc.set(MakeFlatHistogram(
+    MakeMacrostateMorph(
+      grow_sequence,
+      Histogram({{"width", str(1./grow_sequence.size())},
+                 {"max", str(max)}, {"min", str(min)}})),
+    // MakeWangLandau({{"min_flatness", "25"}}),
+    MakeTransitionMatrix({{"min_sweeps", "1000"}}),
+    { {"beta", str(mc.criteria().beta())},
+      {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
+      {"chemical_potential1", str(mc.criteria().chemical_potential(1))},
+      {"chemical_potential2", str(mc.criteria().chemical_potential(0))},
+      {"chemical_potential3", str(mc.criteria().chemical_potential(1))}}));
+  mc.initialize_criteria();
+  mc.initialize_analyzers();
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
+  mc.add(MakeTrialMorphExpanded(grow_sequence, {{"reference_index", "0"}}));
+  mc.add(MakeEnergy({
+    {"file_name", "tmp/dival_egce_energy"},
+    {"steps_per_update", "1"},
+    {"steps_per_write", str(steps_per)},
+    {"multistate", "true"}}));
+  mc.run_until_complete();
+  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob().reduce(2);
+//  EXPECT_NEAR(lnpi.value(0), -6.6615, 0.1);
+//  EXPECT_NEAR(lnpi.value(1), -3.6256, 0.1);
+//  EXPECT_NEAR(lnpi.value(2), -2.02966, 0.1);
+//  EXPECT_NEAR(lnpi.value(3), -1.35573, 0.1);
+//  EXPECT_NEAR(lnpi.value(4), -1.16195, 0.1);
+//  EXPECT_NEAR(lnpi.value(5), -1.34209, 0.1);
+  EXPECT_NEAR(lnpi.value(0), -6.7005955776549158, 0.09);
+  EXPECT_NEAR(lnpi.value(1), -3.6523345299136007, 0.06);
+  EXPECT_NEAR(lnpi.value(2), -2.1178631459398805, 0.03);
+  EXPECT_NEAR(lnpi.value(3), -1.3652342629553453, 0.02);
+  EXPECT_NEAR(lnpi.value(4), -1.1336431696116527, 0.02);
+  EXPECT_NEAR(lnpi.value(5), -1.289634124762612, 0.02);
+  const std::vector<std::shared_ptr<Analyze> >& en =
+    mc.analyzers().back()->analyzers();
+//  EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
+//  EXPECT_NEAR(en[2]->accumulator().average(), -1.30701, 0.05);
+//  EXPECT_NEAR(en[4]->accumulator().average(), -2.98115, 0.05);
+//  EXPECT_NEAR(en[6]->accumulator().average(), -4.85254, 0.08);
+//  EXPECT_NEAR(en[8]->accumulator().average(), -6.80956, 0.12);
+//  EXPECT_NEAR(en[10]->accumulator().average(), -8.85025, 0.16);
+  EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
+  EXPECT_NEAR(en[2]->accumulator().average(), -1.3278876302141585, 0.05);
+  EXPECT_NEAR(en[4]->accumulator().average(), -3.0162868737745732, 0.05);
+  EXPECT_NEAR(en[6]->accumulator().average(), -4.8648645814174927, 0.05);
+  EXPECT_NEAR(en[8]->accumulator().average(), -6.8089768188067694, 0.05);
+  EXPECT_NEAR(en[10]->accumulator().average(), -8.8377616317395002, 0.05);
 }
 
 }  // namespace feasst

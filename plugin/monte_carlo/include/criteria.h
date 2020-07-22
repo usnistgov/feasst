@@ -110,14 +110,15 @@ class Criteria {
   /// Return the number of states. (default: 1).
   virtual int num_states() const { return 1; }
 
-  /// Set the trial state.
-  void set_trial_state(const int state = 0, const int num = 1);
+  // HWH depreciate this. Only used by old growth expanded, not morph.
+  /// Set the expanded state.
+  void set_expanded_state(const int state = 0, const int num = 1);
 
-  /// Return the trial state.
-  int trial_state() const { return trial_state_; }
+  /// Return the expanded state.
+  int expanded_state() const { return expanded_state_; }
 
-  /// Return number of trial states.
-  int num_trial_states() const { return num_trial_states_; }
+  /// Return number of expanded states.
+  int num_expanded_states() const { return num_expanded_states_; }
 
   // HWH for prefetch
   virtual int state_old() const { return 0; }
@@ -165,8 +166,8 @@ class Criteria {
   std::vector<double> chemical_potentials_;
   double * current_energy_() { return &((*data_.get_dble_1D())[0]); }
   double previous_energy_ = 0.;
-  int trial_state_;
-  int num_trial_states_;
+  int expanded_state_;
+  int num_expanded_states_;
   double pH_ = 0.;
   bool pH_initialized_ = false;
   std::vector<std::shared_ptr<Constraint> > constraints_;

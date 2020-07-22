@@ -45,11 +45,19 @@ void ComputeAddAVBDivalent::perturb_and_acceptance(
   const Configuration& config = system->configuration();
   const TrialSelect& select0 = (*stages)[0]->trial_select();
   const TrialSelect& select1 = (*stages)[1]->trial_select();
-  //const TrialSelect& select2 = (*stages)[2]->trial_select();
+  const TrialSelect& select2 = (*stages)[2]->trial_select();
   const int particle_index0 = select0.mobile().particle_index(0);
   const int particle_type0 = config.select_particle(particle_index0).type();
   const int particle_index1 = select1.mobile().particle_index(0);
   const int particle_type1 = config.select_particle(particle_index1).type();
+  const int particle_index2 = select2.mobile().particle_index(0);
+  const int particle_type2 = config.select_particle(particle_index2).type();
+  ASSERT(particle_type1 == particle_type2,
+    "acceptance hard-coded for particle_type1: " << particle_type1 <<
+    " == particle_type2: " << particle_type2);
+  ASSERT(particle_type0 != particle_type1,
+    "acceptance hard-coded for particle_type0: " << particle_type0 <<
+    " != particle_type1: " << particle_type1);
   const double volume_av = neighbor_criteria_->volume(config.dimension());
 
   select0.map_(*system, *neighbor_criteria_).neighbors(

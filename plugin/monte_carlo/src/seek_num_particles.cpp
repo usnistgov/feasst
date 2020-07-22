@@ -75,7 +75,7 @@ void SeekNumParticles::run(MonteCarlo * monte_carlo) {
     current_num = config.num_particles_of_type(particle_type_);
     if (report_ && current_num > previous_num) report_->check();
   }
-  monte_carlo->initialize_energy();
+  monte_carlo->initialize_criteria();
   monte_carlo->reset_trial_stats();
 }
 

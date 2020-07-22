@@ -31,7 +31,12 @@ void AnalyzeFactory::trial(const Criteria& criteria,
     DEBUG("state? " << criteria.state());
     if (is_multistate_aggregate()) {
       DEBUG("aggregating");
-      analyzers_[criteria.state()]->check_update_(criteria, system, trial_factory);
+      DEBUG("sz " << analyzers_.size());
+      ASSERT(criteria.state() < static_cast<int>(analyzers_.size()),
+        "state: " << criteria.state() << " >= multistate analyzers: " <<
+        analyzers_.size() << ". Was a flat histogram simulation reinitialized"
+        << " after a multistate Analyzer?");
+        analyzers_[criteria.state()]->check_update_(criteria, system, trial_factory);
       if (is_time(steps_per_write(), &steps_since_write_)) {
         std::stringstream ss;
         for (int state = 0; state < num(); ++state) {

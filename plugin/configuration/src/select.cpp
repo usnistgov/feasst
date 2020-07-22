@@ -36,12 +36,13 @@ void Select::remove(const Select& select) {
 }
 
 void Select::add_particle(const Particle& particle,
-    const int particle_index) {
+    const int particle_index,
+    const bool prevent_duplicate) {
   std::vector<int> sites;
   for (int index = 0; index < particle.num_sites(); ++index) {
     sites.push_back(index);
   }
-  add_particle(particle_index, sites);
+  add_particle(particle_index, sites, prevent_duplicate);
 }
 
 std::string Select::str() const {
@@ -139,10 +140,15 @@ void Select::check() const {
   }
 }
 
-void Select::add_particle(const int particle_index, std::vector<int> site_indices) {
+void Select::add_particle(const int particle_index,
+    std::vector<int> site_indices,
+    const bool prevent_duplicate) {
   if (site_indices.size() > 0) {
-    particle_indices_.push_back(particle_index);
-    site_indices_.push_back(site_indices);
+    if (!prevent_duplicate ||
+        !find_in_list(particle_index, particle_indices())) {
+      particle_indices_.push_back(particle_index);
+      site_indices_.push_back(site_indices);
+    }
   }
 }
 

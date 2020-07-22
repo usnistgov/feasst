@@ -72,6 +72,9 @@ class MonteCarlo {
   /// Once the System is set, it may be accessed on a read-only basis.
   const System& system() const { return system_; }
 
+  /// Reinitialize the system. Return total energy.
+  double initialize_system();
+
   // HWH depreciate: only in rare cases should the system be modified directly.
   System * get_system() { return &system_; }
   Criteria * get_criteria() { return criteria_.get(); }
@@ -88,8 +91,8 @@ class MonteCarlo {
   /// Once Criteria is set, it may be accessed on a read-only basis.
   const Criteria& criteria() const { return const_cast<Criteria&>(*criteria_); }
 
-  /// Initialize the current energy.
-  void initialize_energy();
+  /// Initialize the criteria. Also initializes system.
+  void initialize_criteria();
 
   /// The remaining actions can be done in almost any order.
   /// Typically, one begins by adding trials.
@@ -110,6 +113,9 @@ class MonteCarlo {
   const Trial& trial(const int index) const {
     return trial_factory_.trial(index); }
 
+  /// Initialize trials.
+  void initialize_trials();
+
   /**
     An Analyzer performs some task after a given number of steps, but is
     read-only on System, Criteria and Trials.
@@ -129,6 +135,9 @@ class MonteCarlo {
   /// Return the number of analyzers.
   int num_analyzers() const {
     return static_cast<int>(analyze_factory_.analyzers().size()); }
+
+  /// Initialize analyzers.
+  void initialize_analyzers();
 
   /// A Modifier performs some task after a given number of steps, but may
   /// change the System, Criteria and Trials.

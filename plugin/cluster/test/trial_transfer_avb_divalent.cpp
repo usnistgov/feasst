@@ -8,6 +8,7 @@
 
 namespace feasst {
 
+// Seems there is an issue with AVBDivalent prefactors
 TEST(TrialTransferAVBDivalent, add_remove) {
   System system;
   {

@@ -71,7 +71,7 @@ class TrialComputeGrow : public TrialCompute {
 //    const double volume = config.domain()->volume();
 //    acceptance->add_to_ln_metropolis_prob(
 //      log(select->probability())
-//      + criteria->beta_mu(particle_type)/criteria->num_trial_states()
+//      + criteria->beta_mu(particle_type)/criteria->num_expanded_states()
 //    );
   }
 
@@ -154,11 +154,11 @@ class TrialGrowthExpanded : public Trial {
   void precompute(Criteria * criteria, System * system) override {
     grow_->precompute(criteria, system);
     shrink_->precompute(criteria, system);
-    criteria->set_trial_state(growth_stage_, num_growth_stages());
+    criteria->set_expanded_state(growth_stage_, num_growth_stages());
   }
 
   void before_select(Acceptance * acceptance, Criteria * criteria) override {
-    criteria->set_trial_state(current_growth_stage_(growing_),
+    criteria->set_expanded_state(current_growth_stage_(growing_),
                               num_growth_stages());
     if (growing_) {
       DEBUG("attempt grow, stage: " << growth_stage_);

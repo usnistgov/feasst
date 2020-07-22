@@ -5,6 +5,7 @@
 #include "utils/include/debug.h"
 #include "math/include/constants.h"
 #include "utils/include/utils.h"
+#include "utils/include/utils_io.h"
 
 namespace feasst {
 
@@ -128,11 +129,7 @@ std::string Arguments::status() const {
   for (std::string used : used_keys_) {
     ss << used << ",";
   }
-  ss << "),args(";
-  for (auto const& pair : args_) {
-    ss << "{" << pair.first << "," << pair.second << "},";
-  }
-  ss << ")";
+  ss << "),args" << feasst_str(args_);
   return ss.str();
 }
 
@@ -153,7 +150,7 @@ argtype Arguments::append(const std::string append,
   if (pair != new_args.end()) {
     const std::string second = pair->second;
     new_args.erase(pair);
-    new_args.insert({first, second + append}); 
+    new_args.insert({first, second + append});
   }
   return new_args;
 }

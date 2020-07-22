@@ -55,6 +55,7 @@ void VisitModelInner::compute(
       const int type2 = site2.type();
       const double cutoff = model_params.mixed_cutoff()[type1][type2];
       TRACE("cutoff " << cutoff);
+      TRACE("squared_distance_ " << squared_distance_);
       if (squared_distance_ <= cutoff*cutoff) {
         const double energy = model.energy(squared_distance_, type1, type2,
                                            model_params);

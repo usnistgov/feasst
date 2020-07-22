@@ -56,23 +56,28 @@ void ComputeRemoveAVBDivalent::perturb_and_acceptance(
   DEBUG("sel1 " << select1.mobile().str());
   DEBUG("sel2 " << select2.mobile().str());
 
-//  select0.map_(*system, *neighbor_criteria_).neighbors(
-//    *neighbor_criteria_,
-//    config,
-//    select0.mobile().particle_index(0),
-//    select0.mobile().site_index(0, 0),
-//    select1.mobile().site_index(0, 0),
-//    random,
-//    &neighbors_);
-//  const int num_neigh = static_cast<int>(neighbors_.num_sites());
+  // HWH Optimize: use select[1,2].probability to obtain number of neighbors.
+  Select neighbors_;
+  select0.map_(*system, *neighbor_criteria_).neighbors(
+    *neighbor_criteria_,
+    config,
+    select0.mobile().particle_index(0),
+    select0.mobile().site_index(0, 0),
+    select1.mobile().site_index(0, 0),
+    random,
+    &neighbors_);
+  const int num_neigh = static_cast<int>(neighbors_.num_sites());
+  const double volume_av = neighbor_criteria_->volume(config.dimension());
 //  DEBUG("num_neigh " << num_neigh);
   const double volume = config.domain().volume();
   //set_probability(volume_av/static_cast<double>(num_neighbors + 1 + delta_ab));
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   acceptance->add_to_ln_metropolis_prob(
-    -std::log(volume*select0.probability())
-    +std::log(select1.probability())
-    +std::log(select2.probability())
+    - std::log(volume*select0.probability())
+    - std::log(volume_av/static_cast<double>(num_neigh))
+    - std::log(volume_av/static_cast<double>(num_neigh - 1))
+    //-std::log(select1.probability())
+    //-std::log(select2.probability())
     - criteria->beta_mu(particle_type0)
     - 2*criteria->beta_mu(particle_type1)
   );

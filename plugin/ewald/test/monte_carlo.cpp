@@ -20,8 +20,7 @@
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/num_particles.h"
-#include "ewald/include/trial_add_multiple.h"
-#include "ewald/include/trial_remove_multiple.h"
+#include "ewald/include/trial_transfer_multiple.h"
 #include "ewald/include/check_net_charge.h"
 #include "ewald/include/charge_screened.h"
 #include "ewald/include/utils.h"
@@ -35,7 +34,7 @@ namespace feasst {
 
   Note that the Ewald vector cutoff definition may be slightly different.
  */
-TEST(MonteCarlo, spce_nvt_LONG) {
+TEST(MonteCarlo, spce_nvt_VERY_LONG) {
   const int steps_per = 1e5;
   MonteCarlo mc;
   mc.set(spce({
@@ -137,15 +136,13 @@ TEST(MonteCarlo, rpm) {
     {"chemical_potential1", "-509"},
   }));
   EXPECT_NEAR(-0.99036730859815814, mc.criteria().current_energy(), 1e-9);
-  const argtype transfer_args = {
+  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
+  mc.add(MakeTrialTransferMultiple({
     {"weight", "1."},
     {"particle_type0", "0"},
     {"particle_type1", "1"},
     {"reference_index", "0"},
-  };
-  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
-  mc.add(MakeTrialAddMultiple(transfer_args));
-  mc.add(MakeTrialRemoveMultiple(transfer_args));
+  }));
   mc.add(MakeCheckProperties({{"steps_per", str(steps_per)}}));
   mc.add(MakeCheckPhysicality({{"steps_per", str(steps_per)}}));
   mc.add(MakeCPUTime({{"steps_per", str(5*steps_per)}}));

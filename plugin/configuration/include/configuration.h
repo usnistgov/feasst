@@ -73,7 +73,9 @@ class Configuration {
   //@{
 
   /// Add a particle type that may exist by LMP file (see FileLMP).
-  void add_particle_type(const std::string file_name);
+  void add_particle_type(const std::string file_name,
+    /// optionally append to name to use same file but keep unique names.
+    const std::string append = "");
 
   /// Return the number of particle types.
   int num_particle_types() const { return particle_types_.num(); }
@@ -396,6 +398,10 @@ class Configuration {
   /// Add an property excluded from Configuration::update_positions()
   void add_excluded_property(const std::string name);
 
+  /// Change select to a given particle type.
+  void set_particle_type(const int particle_type,
+                         const Select& select);
+
   //@}
   /** @name Checks
     Consistency checks and tests.
@@ -500,6 +506,11 @@ class Configuration {
   void add_to_selection_(const int particle_index,
                          Select * select) const;
 
+  /// Update particle in selection.
+  void update_selection_(const int particle_index,
+                         Select * select) const;
+
+  /// Initialize selection based on groups
   /// Initialize selection based on groups
   void init_selection_(Select * group_select) const;
 

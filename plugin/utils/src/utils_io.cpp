@@ -92,4 +92,14 @@ int feasst_deserialize_version(std::istream& istr) {
   return version;
 }
 
+std::string feasst_str(std::map<std::string, std::string> mp) {
+  std::stringstream ss;
+  ss << "{";
+  for (auto const& pair : mp) {
+    ss << "{\"" << pair.first << "\",\"" << pair.second << "\"},";
+  }
+  ss << "}";
+  return ss.str();
+}
+
 }  // namespace feasst
