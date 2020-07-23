@@ -37,6 +37,11 @@ class TransitionMatrix : public Bias {
     const double ln_metropolis_prob,
     const bool is_accepted,
     const bool revert) override;
+
+  /// Return the minimum sweeps required for completion.
+  int min_sweeps() const { return min_sweeps_; }
+
+  void set_num_iterations(const int sweeps) override;
   const LnProbability& ln_prob() const override {
     return ln_prob_; }
   void resize(const Histogram& histogram) override;

@@ -154,6 +154,9 @@ class MonteCarlo {
   /// Add a checkpoint.
   void set(const std::shared_ptr<Checkpoint> checkpoint);
 
+  /// Write checkpoint file
+  void write_checkpoint() const;
+
   /// Attempt one trial, with subsequent analysers and modifiers.
   // void attempt() { attempt_(1, &trial_factory_, random_.get()); }
 
@@ -227,7 +230,6 @@ class MonteCarlo {
   virtual void attempt_(int num_trials,
     TrialFactory * trial_factory,
     Random * random);
-  void write_checkpoint_();
   virtual void run_until_complete_(TrialFactory * trial_factory,
                                    Random * random);
 

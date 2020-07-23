@@ -290,7 +290,7 @@ void MonteCarlo::initialize_analyzers() {
   }
 }
 
-void MonteCarlo::write_checkpoint_() {
+void MonteCarlo::write_checkpoint() const {
   if (checkpoint_) checkpoint_->write(*this);
 }
 
@@ -299,7 +299,7 @@ void MonteCarlo::run_until_complete_(TrialFactory * trial_factory,
   while (!criteria_->is_complete()) {
     attempt_(1, trial_factory, random);
   }
-  write_checkpoint_();
+  write_checkpoint();
 }
 
 void MonteCarlo::synchronize_(const MonteCarlo& mc, const Select& perturbed) {

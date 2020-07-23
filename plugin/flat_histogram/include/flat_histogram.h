@@ -38,6 +38,11 @@ class FlatHistogram : public Criteria {
 
   /// Return the bias.
   const Bias& bias() const { return const_cast<Bias&>(*bias_); }
+  void set_bias(std::shared_ptr<Bias> bias) { bias_ = bias; }
+
+  /// Set the number of iterations in the Bias.
+  void set_num_iterations(const int iteration) override {
+    bias_->set_num_iterations(iteration); }
 
   void before_attempt(const System& system) override;
 

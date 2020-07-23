@@ -65,7 +65,7 @@ class Macrostate {
   /// given by the input histogram.
   bool is_allowed(const System& system,
                   const Criteria& criteria,
-                  const Acceptance& acceptance);
+                  const Acceptance& acceptance) const;
 
   /// Swap the soft bounds with another macrostate.
   void swap_soft_bounds(Macrostate * macrostate);

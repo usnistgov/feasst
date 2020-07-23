@@ -76,7 +76,7 @@ void Prefetch::run_until_complete_(TrialFactory * trial_factory,
     return;
   }
   attempt_(-1, trial_factory, random);
-  write_checkpoint_();
+  write_checkpoint();
 }
 
 void Prefetch::attempt_(

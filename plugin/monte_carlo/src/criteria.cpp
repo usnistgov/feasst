@@ -234,4 +234,8 @@ bool Criteria::is_allowed(const System& system, const Acceptance& acceptance) {
   return true;
 }
 
+void Criteria::set_num_iterations(const int iteration) {
+  FATAL("not implemented");
+}
+
 }  // namespace feasst

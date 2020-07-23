@@ -29,7 +29,7 @@ class Checkpoint {
 
   /// Write the checkpoint to file.
   template <typename T>
-  void write(const T& obj) {
+  void write(const T& obj) const {
     if (file_name_.empty() || file_name_ == " ") {
       return;
     }

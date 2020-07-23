@@ -304,6 +304,7 @@ For quick reference
 
 * line counts [find . -name '*.cpp' -o -name '*.h' | xargs wc -l | sort -n]
 * tutorial errors [ find . -name 'tutorial_failures.txt' | xargs cat ]
+* clean docs before running depend.py again [ for dir in `ls --color=never -d *`; do rm $dir/doc/*rst; done ]
 
 To Do List
 ================================================================================

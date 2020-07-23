@@ -6,8 +6,10 @@
 #else
   #include <unistd.h>  // sleep
 #endif
+#include <fstream>
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
+//#include "utils/include/checkpoint.h"
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
 #include "flat_histogram/include/flat_histogram.h"
@@ -56,6 +58,12 @@ void Clones::initialize(const int upper_index,
   const double macro_upper_min = fh_upper.macrostate().value(0);
   const double macro_lower_max =
     fh_lower.macrostate().histogram().center_of_last_bin();
+
+  if (fh_upper.macrostate().is_allowed(upper->system(),
+                                       upper->criteria(), empty)) {
+    DEBUG("already initialized");
+    return;
+  }
 
   DEBUG("find configuration in lower which overlaps with upper");
   bool overlap = false;
@@ -119,7 +127,9 @@ void Clones::run_until_complete_omp_(const argtype& run_args,
   DEBUG("run_until_complete_omp_");
 #ifdef _OPENMP
   Arguments args_(run_args);
-  const int omp_batch = args_.key("omp_batch").dflt("1").integer();
+  const int omp_batch = args_.key("omp_batch").dflt(str(1e6)).integer();
+  std::string ln_prob_file;
+  if (args_.key("ln_prob_file").used()) ln_prob_file = args_.str();
   std::vector<bool> is_complete(num(), false);
   std::vector<bool> is_initialized(num(), false);
   is_initialized[0] = true;
@@ -129,7 +139,7 @@ void Clones::run_until_complete_omp_(const argtype& run_args,
     const int num_thread = static_cast<int>(omp_get_num_threads());
     DEBUG("thread " << thread << " of " << num_thread);
 
-    ASSERT(num() <= num_thread, "more clones: " << num() << " than OMP threads: "
+    ASSERT(num() <= num_thread, "more clones: " << num() << " than OMP threads:"
       << num_thread << ". Use \"export OMP_NUM_THREADS=\" to set OMP threads.");
     if (thread < num()) {
       if (init) {
@@ -142,18 +152,33 @@ void Clones::run_until_complete_omp_(const argtype& run_args,
         is_initialized[thread + 1] = true;
       }
 
-      // run in parallel until complete
-      clones_[thread]->run_until_complete();
-      is_complete[thread] = true;
+//      // run in parallel until complete
+//      clones_[thread]->run_until_complete();
+//      is_complete[thread] = true;
 
-      // continue running while waiting for other threads to complete
+      // continue running while waiting for all threads to complete
       while (!are_all_complete(is_complete)) {
         clones_[thread]->attempt(omp_batch);
+        if (clones_[thread]->criteria().is_complete()) {
+          is_complete[thread] = true;
+        }
+
+        if (thread == 0) {
+          //if (checkpoint_) checkpoint_->write(*this);
+          if (!ln_prob_file.empty()) {
+            std::ofstream file;
+            file.open(ln_prob_file);
+            file << clones_[thread]->criteria().write();
+            file.close();
+          }
+        }
       }
     }
 
     #pragma omp barrier
+    clones_[thread]->write_checkpoint();
   }
+//  if (checkpoint_) checkpoint_->write(*this);
 
 #else // _OPENMP
 FATAL("Not complied with OMP");
@@ -248,6 +273,7 @@ LnProbability Clones::ln_prob(const argtype& args) const {
 void Clones::serialize(std::ostream& ostr) const {
   feasst_serialize_version(2845, ostr);
   feasst_serialize(clones_, ostr);
+//  feasst_serialize(checkpoint_, ostr);
 }
 
 Clones::Clones(std::istream& istr) {
@@ -264,6 +290,48 @@ Clones::Clones(std::istream& istr) {
     if (existing != 0) {
       clones_[index] = std::make_shared<MonteCarlo>(istr);
     }
+  }
+//  // HWH for unknown reasons, this function template does not work.
+//  //feasst_deserialize(checkpoint_, istr);
+//  { int existing;
+//    istr >> existing;
+//    if (existing != 0) {
+//      checkpoint_ = std::make_shared<Checkpoint>(istr);
+//    }
+//  }
+}
+
+//void Clones::set(const std::shared_ptr<Checkpoint> checkpoint) {
+//  checkpoint_ = checkpoint;
+//}
+
+std::shared_ptr<Clones> MakeClones(const std::vector<std::string> file_names) {
+  auto clones = std::make_shared<Clones>();
+  for (const std::string& file_name : file_names) {
+    std::ifstream file(file_name);
+    std::string line;
+    std::getline(file, line);
+    ASSERT(!line.empty(), "file: " << file_name << " is empty.");
+    std::stringstream ss(line);
+    clones->add(std::make_shared<MonteCarlo>(ss));
+  }
+  return clones;
+}
+
+std::shared_ptr<Clones> MakeClones(const std::string prepend,
+  const int num,
+  const int min,
+  const std::string append) {
+  std::vector<std::string> file_names;
+  for (int index = min; index < num - min; ++index) {
+    file_names.push_back(prepend + str(index) + append);
+  }
+  return MakeClones(file_names);
+}
+
+void Clones::set_num_iterations(const int iterations) {
+  for (int index = 0; index < num(); ++index) {
+    clones_[index]->get_criteria()->set_num_iterations(iterations);
   }
 }
 

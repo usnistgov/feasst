@@ -2,6 +2,7 @@
 #ifndef FEASST_FLAT_HISTOGRAM_CLONES_H_
 #define FEASST_FLAT_HISTOGRAM_CLONES_H_
 
+#include <string>
 #include <sstream>
 #include <memory>
 #include <vector>
@@ -11,6 +12,8 @@
 #include "flat_histogram/include/flat_histogram.h"
 
 namespace feasst {
+
+//class Checkpoint;
 
 /**
   Container for initializing, running and analyzing groups of FlatHistogram
@@ -40,6 +43,9 @@ class Clones {
   /// Return the clones.
   std::vector<std::shared_ptr<MonteCarlo> > get_clones() { return clones_; }
 
+//  /// Add a checkpoint.
+//  void set(const std::shared_ptr<Checkpoint> checkpoint);
+
   /**
     Assuming the the first clone is already initialized, run the first clone
     until it reaches a macrostate the overlaps with the next clone, and exchange
@@ -64,8 +70,10 @@ class Clones {
     are complete.
 
     args:
-    - omp_batch: If OMP, while waiting for other threads to complete, run this
-      many trials in between checking for completion (default: 1).
+    - omp_batch: If OMP, for each this many steps, check for completion and
+      write aggregate ln_prob (default: 1e6).
+    - ln_prob_file: file name of aggregate ln_prob. If empty (default),
+      do not write the file.
    */
   void run_until_complete(const argtype& args = argtype());
 
@@ -79,6 +87,9 @@ class Clones {
   void initialize_and_run_until_complete(
     const argtype& init_args = argtype(),
     const argtype& run_args = argtype());
+
+  /// Set the number of Criteria iterations of all clones.
+  void set_num_iterations(const int iterations);
 
   /// Return the FlatHistogram of a given clone index.
   FlatHistogram flat_histogram(const int index) const;
@@ -104,12 +115,25 @@ class Clones {
 
  private:
   std::vector<std::shared_ptr<MonteCarlo> > clones_;
+//  std::shared_ptr<Checkpoint> checkpoint_;
 
   void run_until_complete_omp_(const argtype& run_args,
                                const bool init = false,
                                const argtype& init_args = argtype());
   void run_until_complete_serial_();
 };
+
+/// Construct Clones from a vector of checkpoint file names.
+std::shared_ptr<Clones> MakeClones(const std::vector<std::string> file_names);
+
+/// Construct Clones indexed file names.
+/// For example, if checkpoints of individual clones were named as follows:
+/// checkpoint0.rst, checkpoint1.rst, checkpoint2.rst,
+/// then use `auto clones = MakeClones("checkpoint, 3, 0, ".fst");`
+std::shared_ptr<Clones> MakeClones(const std::string prepend,
+  const int num,
+  const int min = 0,
+  const std::string append = "");
 
 }  // namespace feasst
 

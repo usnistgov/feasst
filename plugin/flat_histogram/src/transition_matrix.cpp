@@ -244,4 +244,9 @@ bool TransitionMatrix::is_equal(const TransitionMatrix& transition_matrix,
   return true;
 }
 
+void TransitionMatrix::set_num_iterations(const int sweeps) {
+  min_sweeps_ = sweeps;
+  if (num_sweeps_ < min_sweeps_) set_incomplete_();
+}
+
 }  // namespace feasst

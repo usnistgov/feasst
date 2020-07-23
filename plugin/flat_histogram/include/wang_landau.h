@@ -39,6 +39,7 @@ class WangLandau : public Bias {
     const double ln_metropolis_prob,
     const bool is_accepted,
     const bool revert) override;
+  void set_num_iterations(const int flatness) override;
   const LnProbability& ln_prob() const override {
     return ln_prob_; }
   void resize(const Histogram& histogram) override;

@@ -61,6 +61,12 @@ class Bias {
   /// Return true if completion requirements are met.
   bool is_complete() const { return is_complete_; }
 
+  /// Set the number of iterations required for completion.
+  /// In TransitionMatrix and WLTM, this is the minimum number of sweeps.
+  /// In WangLandau, this is the minimum number of flatness checks.
+  /// Afterward, check again for completeness.
+  virtual void set_num_iterations(const int iteration) = 0;
+
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<Bias> create(std::istream& istr) const;
@@ -72,6 +78,7 @@ class Bias {
   std::string class_name_ = "Bias";
 
   void set_complete_() { is_complete_ = true; }
+  void set_incomplete_() { is_complete_ = false; }
 
   int bin_(
     const int macrostate_old,

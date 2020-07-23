@@ -25,7 +25,7 @@ Macrostate::Macrostate(const Histogram& histogram, const argtype& args) {
 
 bool Macrostate::is_allowed(const System& system,
                             const Criteria& criteria,
-                            const Acceptance& acceptance) {
+                            const Acceptance& acceptance) const {
   const double val = value(system, criteria, acceptance);
   if (val > histogram_.max() || val < histogram_.min()) {
     return false;

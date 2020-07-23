@@ -104,6 +104,10 @@ class Criteria {
   /// Return true if completion requirements are met.
   virtual bool is_complete() const { return false; }
 
+  // HWH consider using this to set number of trials in Metropolis
+  /// Set the number of iterations.
+  virtual void set_num_iterations(const int iteration);
+
   /// Return the state index for multistate simulations (default: 0).
   virtual int state() const { return 0; }
 

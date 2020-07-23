@@ -114,4 +114,9 @@ void WangLandau::serialize(std::ostream& ostr) const {
   feasst_serialize(min_flatness_, ostr);
 }
 
+void WangLandau::set_num_iterations(const int flatness) {
+  min_flatness_ = flatness;
+  if (num_flatness_ < min_flatness_) set_incomplete_();
+}
+
 }  // namespace feasst

@@ -65,17 +65,12 @@ then :math:`\delta_{ta} = 1`, otherwise :math:`\delta_{ta} = 0`).
 
 Application of local detailed balance yields the acceptance probability
 
-:math:`\frac{e^{-\beta U_o + \beta\mu_a N_a + \beta\mu_t N_t}}{\Lambda^{dN} w V v_{AV}^2}
-min(1, \chi) =
-\frac{e^{-\beta U_n + \beta\mu_a(N_a+2) + \beta\mu_t (N_t+1)}}{\Lambda^{d(N+3)}w(N_t + 1 + \delta_{ta} + \delta_{tb})
-(N^{s,AV}_a+1+\delta_{ab})(N^{s,AV}_a+1)}min(1, 1/\chi)`
-
 :math:`\chi =
 \frac{V}{N_t + 1 + \delta_{ta} + \delta_{tb}}
 \frac{v_{AV}}{N^{s,AV}_a + 1 + \delta_{ab}}
 \frac{v_{AV}}{N^{s,AV}_a + 1}
-\frac{1}{\Lambda^3d}
-e^{-\beta\Delta U + 2\beta\mu_a + \beta\mu_t}`
+\frac{1}{\Lambda^{3d}}
+e^{-\beta\Delta U + \beta\mu_a + \beta\mu_b + \beta\mu_t}`
 
 \endrst
  */
