@@ -56,10 +56,10 @@ void ComputeMorph::perturb_and_acceptance(
     const int particle_index = select.mobile().particle_index(0);
     const int particle_type = select.particle_type();
     const int particle_type_morph = config.select_particle(particle_index).type();
-    
+ 
     ++delta_bottom_[particle_type];
     --delta_bottom_[particle_type_morph];
-    
+ 
     std::fill(delta_top_.begin(), delta_top_.end(), 0);
     for (int jstage = istage; jstage < num_stages; ++jstage) {
       const TrialSelect& jselect = (*stages)[jstage]->trial_select();

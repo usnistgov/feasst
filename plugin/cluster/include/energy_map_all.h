@@ -43,7 +43,7 @@ class EnergyMapAll : public EnergyMap {
 //  const std::vector<double>& map(const int part1, const int part2,
 //    const int site1, const int site2) const override {
 //    return map()[part1][part2][site1][site2]; }
-  
+
   void synchronize_(const EnergyMap& map, const Select& perturbed) override;
 
   // serialization

@@ -12,7 +12,7 @@ class ThreadOMP : public Thread {
   ThreadOMP();
   bool is_enabled() const override;
   int num() const override { return num_; }
-  int thread() const override { return thread_; } 
+  int thread() const override { return thread_; }
   virtual ~ThreadOMP() {}
 
  private:

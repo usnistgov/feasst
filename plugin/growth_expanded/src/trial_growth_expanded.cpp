@@ -119,7 +119,7 @@ void TrialGrowthExpanded::serialize(std::ostream& ostr) const {
   serialize_trial_(ostr);
   feasst_serialize_version(793, ostr);
 }
-  
+
 TrialGrowthExpanded::TrialGrowthExpanded(
     std::shared_ptr<Trial> grow,
     std::shared_ptr<Trial> shrink,

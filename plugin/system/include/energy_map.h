@@ -112,7 +112,7 @@ class EnergyMap {
 
   //virtual const std::vector<double>& map(const int part1, const int part2,
   //  const int site1, const int site2) const;
-  
+
   // Synchronize with another object of the same type.
   // Typically used with prefetch.
   virtual void synchronize_(const EnergyMap& map, const Select& perturbed);
