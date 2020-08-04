@@ -1,6 +1,6 @@
 
-#ifndef FEASST_UTILS_UTILS_IO_H_
-#define FEASST_UTILS_UTILS_IO_H_
+#ifndef FEASST_UTILS_IO_H_
+#define FEASST_UTILS_IO_H_
 
 #include <string>
 #include <sstream>
@@ -87,4 +87,4 @@ int num_spaces(const std::string str);
 
 }  // namespace feasst
 
-#endif  // FEASST_UTILS_UTILS_IO_H_
+#endif  // FEASST_UTILS_IO_H_

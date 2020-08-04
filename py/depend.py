@@ -139,6 +139,7 @@ with pyfeasst.cd(args.source_dir+'/plugin/'):
 %include \"std_vector.i\"\n\
 %include \"std_shared_ptr.i\"\n\
 %include \"std_iostream.i\"\n\
+%include \"stdint.i\"\n\
 %template(IntVector) std::vector<int>;\n\
 %template(Int2DVector) std::vector<std::vector<int> >;\n\
 %template(DoubleVector) std::vector<double>;\n\

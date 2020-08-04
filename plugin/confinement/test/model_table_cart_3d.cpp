@@ -19,7 +19,7 @@ TEST(ModelTableCart3DIntegr, SineSlabTable_LONG) {
   #ifdef _OPENMP
   // HWH something wrong with bisection and OMP
   hamaker->compute_table(
-  #elif // _OPENMP
+  #else // _OPENMP
   hamaker->compute_table(
   #endif // _OPENMP
     MakeSlabSine(MakeFormulaSineWave({{"amplitude", "2"}, {"width", "8"}}),

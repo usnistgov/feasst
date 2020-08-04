@@ -106,7 +106,7 @@ TEST(MonteCarlo, ShapeTable_LONG) {
       {"default_value", "0."}}));
     #ifdef _OPENMP
     hamaker->compute_table_omp(
-    #elif // _OPENMP
+    #else // _OPENMP
     hamaker->compute_table(
     #endif // _OPENMP
       pore.get(), domain.get(), mc.get_random(), {
@@ -208,7 +208,7 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
   Select select(1, moving_particle);
   #ifdef _OPENMP
     model->compute_table_omp(&table_system, &select);
-  #elif // _OPENMP
+  #else // _OPENMP
     model->compute_table(&table_system, &select);
   #endif // _OPENMP
   System system = slab(1);
@@ -232,7 +232,7 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
 //  Select select(0, system.configuration().particle(0));
 //  #ifdef _OPENMP
 //    model_table->compute_table_omp(&system, &select);
-//  #elif // _OPENMP
+//  #else // _OPENMP
 //    model_table->compute_table(&system, &select);
 //  #endif // _OPENMP
 //  MakeCheckpoint({{"file_name", "tmp/table2"}})->write(model_table->table());

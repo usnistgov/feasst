@@ -1,7 +1,7 @@
 #include <memory>
 #include <cmath>
 #include "utils/test/utils.h"
-#include "utils/include/utils_io.h"
+#include "utils/include/io.h"
 #include "utils/include/checkpoint.h"
 #include "utils/include/progress_report.h"
 #include "math/include/accumulator.h"
@@ -263,8 +263,8 @@ TEST(MonteCarlo, GCMC_binary_tune) {
   mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj"}}));
   mc.add(MakeTuner({{"steps_per", steps_per}}));
   mc.attempt(1e4);
-  EXPECT_GT(mc.trial(0).stage(0).perturb().tunable().value(), 3.);
-  EXPECT_GT(mc.trial(1).stage(0).perturb().tunable().value(), 3.);
+  EXPECT_GT(mc.trial(0).stage(0).perturb().tunable().value(), 2.5);
+  EXPECT_GT(mc.trial(1).stage(0).perturb().tunable().value(), 2.5);
 }
 
 }  // namespace feasst

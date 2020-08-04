@@ -58,6 +58,7 @@ class Domain {
     - side_length[i]: set the side length of the i-th dimension.
       The "[i]" is to be substituted for an integer 0, 1, 2, ...
     - cubic_box_length: side length of cubic perioidic boundary conditions.
+    - periodic[i]: set if the i-th dimension is periodic (default: true).
     - xy: set the tilt along the x-y direction (default: 0).
     - xz: set the tilt along the x-z direction (default: 0).
     - yz: set the tilt along the y-z direction (default: 0).
@@ -102,8 +103,10 @@ class Domain {
   /// Return the yz tilt factor.
   double yz() const { return yz_; }
 
-  /// Disable periodicity in a particular dimension.
+  /// Disable periodicity in a given dimension.
   void disable(const int dimension) { periodic_[dimension] = false; }
+
+  /// Return true if given dimension is periodic.
   bool periodic(const int dimension) const { return periodic_[dimension]; }
 
   /// Return the dimensionality.
@@ -135,7 +138,7 @@ class Domain {
   /// Return the maximum side length
   double max_side_length() const;
 
-  /// HWH implement check
+  // HWH implement check
 
   /// Initialize the cells according to the minimum side length.
   void init_cells(const double min_length,

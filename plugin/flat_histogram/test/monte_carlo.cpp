@@ -195,8 +195,8 @@ TEST(MonteCarlo, lj_fh_multi_LONG) {
 
 TEST(MonteCarlo, spce_fh_LONG) {
   const std::vector<std::shared_ptr<Bias> > biases = {
-    // MakeWangLandau({{"min_flatness", "30"}}),
-    MakeTransitionMatrix({{"min_sweeps", "20"}}),
+    MakeWangLandau({{"min_flatness", "30"}}),
+    MakeTransitionMatrix({{"min_sweeps", "25"}}),
     MakeWLTM({{"collect_flatness", "20"},
               {"min_flatness", "25"},
               {"min_sweeps", "20"}})};
@@ -219,11 +219,6 @@ TEST(MonteCarlo, spce_fh_LONG) {
       MakeMacrostateNumParticles(
         Histogram({{"width", "1"}, {"max", "5"}, {"min", "0"}})),
       bias,
-      // MakeWangLandau({{"min_flatness", "30"}}),
-      //MakeTransitionMatrix({{"min_sweeps", "20"}}),
-      //MakeWLTM({{"collect_flatness", "15"},
-      //          {"min_flatness", "20"},
-      //          {"min_sweeps", "10"}})};
       {{"beta", str(1/temperature)},
        {"chemical_potential", str(chemical_potential)}});
     mc.set(criteria);

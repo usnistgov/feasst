@@ -9,7 +9,7 @@
 #include <fstream>
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
-//#include "utils/include/checkpoint.h"
+#include "utils/include/checkpoint.h"
 #include "math/include/constants.h"
 #include "math/include/utils_math.h"
 #include "flat_histogram/include/flat_histogram.h"
@@ -139,54 +139,60 @@ void Clones::run_until_complete_omp_(const argtype& run_args,
     const int num_thread = static_cast<int>(omp_get_num_threads());
     DEBUG("thread " << thread << " of " << num_thread);
 
-    ASSERT(num() <= num_thread, "more clones: " << num() << " than OMP threads:"
-      << num_thread << ". Use \"export OMP_NUM_THREADS=\" to set OMP threads.");
-    if (thread < num()) {
-      if (init) {
-        // wait until thread is initialized
-        while (!is_initialized[thread]) sleep(0.01);
-        DEBUG("thread " << thread << " is initialized");
+    bool terminated = false;
+    try {
 
-        // initialize next thread, if applicable
-        if (thread < num() - 1) initialize(thread + 1, init_args);
-        is_initialized[thread + 1] = true;
-      }
+      ASSERT(num() <= num_thread, "more clones: " << num() << " than OMP threads:"
+        << num_thread << ". Use \"export OMP_NUM_THREADS=\" to set OMP threads.");
+      if (thread < num()) {
+        MonteCarlo * clone = clones_[thread].get();
+        if (init) {
+          // wait until thread is initialized
+          while (!is_initialized[thread]) sleep(0.01);
+          DEBUG("thread " << thread << " is initialized");
 
-//      // run in parallel until complete
-//      clones_[thread]->run_until_complete();
-//      is_complete[thread] = true;
-
-      // continue running while waiting for all threads to complete
-      while (!are_all_complete(is_complete)) {
-        clones_[thread]->attempt(omp_batch);
-        if (clones_[thread]->criteria().is_complete()) {
-          is_complete[thread] = true;
+          // initialize next thread, if applicable
+          if (thread < num() - 1) initialize(thread + 1, init_args);
+          is_initialized[thread + 1] = true;
         }
 
-        if (thread == 0) {
-          //if (checkpoint_) checkpoint_->write(*this);
-          if (!ln_prob_file.empty()) {
-            std::ofstream file;
-            file.open(ln_prob_file);
-            file << clones_[thread]->criteria().write();
-            file.close();
+        // continue running while waiting for all threads to complete
+        if (clone->criteria().is_complete()) is_complete[thread] = true;
+        while (!are_all_complete(is_complete)) {
+          clone->attempt(omp_batch);
+          if (clone->criteria().is_complete()) is_complete[thread] = true;
+          if (thread == 0) {
+            if (!ln_prob_file.empty()) {
+              std::ofstream file;
+              file.open(ln_prob_file);
+              for (const double value : ln_prob().values()) {
+                file << value << std::endl;
+              }
+              file.close();
+            }
           }
         }
       }
+
+    } catch(const feasst::CustomException& e) {
+      terminated = true;
     }
+    INFO("terminated: " << terminated);
+
+    if (thread == 0 && checkpoint_) checkpoint_->write(*this);
+    if (thread < num()) clones_[thread]->write_checkpoint();
 
     #pragma omp barrier
-    clones_[thread]->write_checkpoint();
+    if (terminated) FATAL("Terminate");
   }
-//  if (checkpoint_) checkpoint_->write(*this);
 
 #else // _OPENMP
 FATAL("Not complied with OMP");
 #endif // _OPENMP
 }
 
-void Clones::initialize_and_run_until_complete(const argtype& init_args,
-                                               const argtype& run_args) {
+void Clones::initialize_and_run_until_complete(const argtype& run_args,
+                                               const argtype& init_args) {
 #ifdef _OPENMP
   run_until_complete_omp_(run_args, true, init_args);
 #else // _OPENMP
@@ -301,9 +307,9 @@ Clones::Clones(std::istream& istr) {
 //  }
 }
 
-//void Clones::set(const std::shared_ptr<Checkpoint> checkpoint) {
-//  checkpoint_ = checkpoint;
-//}
+void Clones::set(std::shared_ptr<Checkpoint> checkpoint) {
+  checkpoint_ = checkpoint;
+}
 
 std::shared_ptr<Clones> MakeClones(const std::vector<std::string> file_names) {
   auto clones = std::make_shared<Clones>();

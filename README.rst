@@ -71,13 +71,23 @@ Modern software
 * OpenMP parallelization
 * Checkpointing to save and restart simulations
 
-Usage
+Tutorial
 ================================================================================
 
-The following example Lennard-Jones Monte Carlo simulation may be found in `Tutorial <tutorial/tutorial.html>`_.
+`Tutorial <tutorial/tutorial.html>`_ describes an example Lennard-Jones Monte Carlo simulation.
+After completing this basic tutorial, check out tutorials specific to each :doc:`/plugin/README`.
+For example, see the tutorials of `System <plugin/system/README.html>`_, `MonteCarlo <plugin/monte_carlo/README.html>`_ and `FlatHistogram <plugin/flat_histogram/README.html>`_.
 
-.. literalinclude:: tutorial/tutorial.py
-   :language: py
+The search box for the html documentation was disabled for security reasons.
+But the html is generated entirely from the downloaded code.
+Thus, the grep command is a great option to search for more information on keywords.
+For example, if you would like more information on `RandomMT19937 <plugin/math/doc/RandomMT19937.html>`_ but are not sure where to find it, you could search headers files
+
+.. code-block:: bash
+
+   grep -r --include=*.h RandomMT19937
+
+And find that the class is part of the `Math <plugin/math/README.html>`_ plugin.
 
 Build from source code
 =======================

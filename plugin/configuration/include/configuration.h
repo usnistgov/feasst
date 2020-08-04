@@ -101,6 +101,7 @@ class Configuration {
   /// make a custom ModelParam.
   void add(std::shared_ptr<ModelParam> param);
 
+  /// Return the model parameters (e.g., sigma, epsilon, etc).
   const ModelParams& model_params() const {
     return unique_types_.model_params(); }
 

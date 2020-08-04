@@ -1,6 +1,6 @@
 #include <cmath>
 #include "utils/include/serialize.h"
-#include "utils/include/utils_io.h"
+#include "utils/include/io.h"
 #include "math/include/random.h"
 #include "configuration/include/domain.h"
 #include "monte_carlo/include/trial_add.h"

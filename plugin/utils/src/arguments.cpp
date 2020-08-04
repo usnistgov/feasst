@@ -5,7 +5,7 @@
 #include "utils/include/debug.h"
 #include "math/include/constants.h"
 #include "utils/include/utils.h"
-#include "utils/include/utils_io.h"
+#include "utils/include/io.h"
 
 namespace feasst {
 
@@ -75,35 +75,31 @@ Arguments& Arguments::remove() {
   return *this;
 }
 
-int Arguments::integer() {
-  const std::string string_value = str();
+int str_to_int(const std::string& str) {
   std::stringstream errmsg;
   int intVal = -1;
-  errmsg << "Argument({" << used_keys_.back() << ", " << string_value <<
-    "}) was " << "expected to be an integer";
+  errmsg << str << " was " << "expected to be an integer.";
   try {
-    intVal = stoi(string_value);
+    intVal = stoi(str);
   } catch (...) {
     FATAL(errmsg.str());
   }
-  const double dble = stod(string_value);
+  const double dble = stod(str);
   ASSERT(std::abs(dble - static_cast<double>(intVal)) < 10*NEAR_ZERO,
     errmsg.str());
   return intVal;
 }
 
-bool Arguments::boolean() {
-  const std::string string_value = str();
+bool str_to_bool(const std::string& str) {
   std::stringstream errmsg;
-  errmsg << "Argument({" << used_keys_.back() << ", " << string_value <<
-    "}) was " << "expected to be a boolean";
-  if (string_value == "true" || string_value == "True") {
+  errmsg << str << " was expected to be a boolean";
+  if (str == "true" || str == "True") {
     return true;
-  } else if (string_value == "false" || string_value == "False") {
+  } else if (str == "false" || str == "False") {
     return false;
-  } else if (string_value == "1") {
+  } else if (str == "1") {
     return true;
-  } else if (string_value == "0") {
+  } else if (str == "0") {
     return false;
   } else {
     ASSERT(0, errmsg.str());
@@ -111,14 +107,12 @@ bool Arguments::boolean() {
   return -1;
 }
 
-double Arguments::dble() {
-  const std::string string_value = str();
+double str_to_double(const std::string& str) {
   double double_value = -1;
   try {
-    double_value = stod(string_value);
+    double_value = stod(str);
   } catch (...) {
-    FATAL("Argument({" << used_keys_.back() << ", " << string_value << "}) was "
-    << "expected to be a double precision floating point number.");
+    FATAL(str << " was expected to be a double precision number.");
   }
   return double_value;
 }

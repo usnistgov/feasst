@@ -18,6 +18,13 @@ bool find(const std::string search_string, std::ifstream &file);
 /// Same as find except terminate if search_string is not found.
 void find_or_fail(const char* search_string, std::ifstream &file);
 
+/// Return true if file exists.
+bool file_exists(const std::string& file_name);
+
+/// If file_name exists, copyReturn true if file exists.
+void file_backup(const std::string& file_name,
+  const std::string append = ".bak");
+
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_FILE_H_

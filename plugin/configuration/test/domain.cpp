@@ -81,10 +81,16 @@ TEST(Domain, non_cubic) {
     {"side_length0", "3"},
     {"side_length1", "4"},
     {"side_length2", "5"},
-  });
+    {"periodic2", "false"}});
   EXPECT_EQ(domain->dimension(), 3);
   EXPECT_EQ(domain->volume(), 3*4*5);
-  Position shift = domain->shift_opt(Position({4.5, 2, 1}));
+  const Position shift = domain->shift_opt(Position({4.6, 2, 1}));
+  EXPECT_NEAR(shift.coord(0), -6, NEAR_ZERO);
+  EXPECT_NEAR(shift.coord(1), 0., NEAR_ZERO);
+  EXPECT_NEAR(shift.coord(2), 0., NEAR_ZERO);
+  EXPECT_TRUE(domain->periodic(0));
+  EXPECT_TRUE(domain->periodic(1));
+  EXPECT_FALSE(domain->periodic(2));
 }
 
 }  // namespace feasst

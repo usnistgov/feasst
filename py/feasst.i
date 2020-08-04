@@ -18,18 +18,19 @@
 #include "threads/include/thread.h"
 #include "threads/include/thread_omp.h"
 #include "utils/include/timer.h"
+#include "utils/include/file.h"
+#include "utils/include/argument_parse.h"
+#include "utils/include/io.h"
 #include "utils/include/utils.h"
 #include "utils/include/custom_exception.h"
 #include "utils/include/debug.h"
-#include "utils/include/utils_file.h"
+#include "utils/include/serialize.h"
 #include "utils/include/arguments.h"
 #include "utils/include/checkpoint.h"
 #include "system/include/energy_map.h"
 #include "system/include/visit_model_inner.h"
 #include "configuration/include/physical_constants.h"
 #include "utils/include/progress_report.h"
-#include "utils/include/utils_io.h"
-#include "utils/include/serialize.h"
 #include "utils/include/cache.h"
 #include "math/include/table.h"
 #include "math/include/accumulator.h"
@@ -146,8 +147,8 @@
 #include "chain/include/trial_crankshaft.h"
 #include "monte_carlo/include/trial_remove.h"
 #include "monte_carlo/include/trial_factory.h"
-#include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/analyze.h"
+#include "chain/include/analyze_rigid_bonds.h"
 #include "monte_carlo/include/analyze_factory.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/wall_clock_limit.h"
@@ -159,7 +160,7 @@
 #include "steppers/include/log.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
-#include "chain/include/analyze_rigid_bonds.h"
+#include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/trial_transfer.h"
 #include "monte_carlo/include/modify.h"
 #include "chain/include/recenter_particles.h"
@@ -252,6 +253,7 @@ using namespace feasst;
 %include "std_vector.i"
 %include "std_shared_ptr.i"
 %include "std_iostream.i"
+%include "stdint.i"
 %template(IntVector) std::vector<int>;
 %template(Int2DVector) std::vector<std::vector<int> >;
 %template(DoubleVector) std::vector<double>;
@@ -275,6 +277,7 @@ using namespace std;
 %shared_ptr(feasst::Thread);
 %shared_ptr(feasst::ThreadOMP);
 %shared_ptr(feasst::Timer);
+%shared_ptr(feasst::ArgumentParse);
 %shared_ptr(feasst::CustomException);
 %shared_ptr(feasst::Arguments);
 %shared_ptr(feasst::Checkpoint);
@@ -414,10 +417,10 @@ using namespace std;
 %shared_ptr(feasst::TrialCrankshaft);
 %shared_ptr(feasst::TrialRemove);
 %shared_ptr(feasst::TrialFactory);
-%shared_ptr(feasst::SeekNumParticles);
 %shared_ptr(feasst::Analyze);
 %shared_ptr(feasst::AnalyzeWriteOnly);
 %shared_ptr(feasst::AnalyzeUpdateOnly);
+%shared_ptr(feasst::AnalyzeRigidBonds);
 %shared_ptr(feasst::AnalyzeFactory);
 %shared_ptr(feasst::LogAndMovie);
 %shared_ptr(feasst::WallClockLimit);
@@ -429,7 +432,7 @@ using namespace std;
 %shared_ptr(feasst::Log);
 %shared_ptr(feasst::Energy);
 %shared_ptr(feasst::CriteriaWriter);
-%shared_ptr(feasst::AnalyzeRigidBonds);
+%shared_ptr(feasst::SeekNumParticles);
 %shared_ptr(feasst::TrialTransfer);
 %shared_ptr(feasst::Modify);
 %shared_ptr(feasst::ModifyUpdateOnly);
@@ -539,18 +542,19 @@ using namespace std;
 %include threads/include/thread.h
 %include threads/include/thread_omp.h
 %include utils/include/timer.h
+%include utils/include/file.h
+%include utils/include/argument_parse.h
+%include utils/include/io.h
 %include utils/include/utils.h
 %include utils/include/custom_exception.h
 %include utils/include/debug.h
-%include utils/include/utils_file.h
+%include utils/include/serialize.h
 %include utils/include/arguments.h
 %include utils/include/checkpoint.h
 %include system/include/energy_map.h
 %include system/include/visit_model_inner.h
 %include configuration/include/physical_constants.h
 %include utils/include/progress_report.h
-%include utils/include/utils_io.h
-%include utils/include/serialize.h
 %include utils/include/cache.h
 %include math/include/table.h
 %include math/include/accumulator.h
@@ -667,8 +671,8 @@ using namespace std;
 %include chain/include/trial_crankshaft.h
 %include monte_carlo/include/trial_remove.h
 %include monte_carlo/include/trial_factory.h
-%include monte_carlo/include/seek_num_particles.h
 %include monte_carlo/include/analyze.h
+%include chain/include/analyze_rigid_bonds.h
 %include monte_carlo/include/analyze_factory.h
 %include steppers/include/log_and_movie.h
 %include steppers/include/wall_clock_limit.h
@@ -680,7 +684,7 @@ using namespace std;
 %include steppers/include/log.h
 %include steppers/include/energy.h
 %include steppers/include/criteria_writer.h
-%include chain/include/analyze_rigid_bonds.h
+%include monte_carlo/include/seek_num_particles.h
 %include monte_carlo/include/trial_transfer.h
 %include monte_carlo/include/modify.h
 %include chain/include/recenter_particles.h

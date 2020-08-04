@@ -13,7 +13,7 @@
 
 namespace feasst {
 
-//class Checkpoint;
+class Checkpoint;
 
 /**
   Container for initializing, running and analyzing groups of FlatHistogram
@@ -43,8 +43,8 @@ class Clones {
   /// Return the clones.
   std::vector<std::shared_ptr<MonteCarlo> > get_clones() { return clones_; }
 
-//  /// Add a checkpoint.
-//  void set(const std::shared_ptr<Checkpoint> checkpoint);
+  /// Add a checkpoint.
+  void set(std::shared_ptr<Checkpoint> checkpoint);
 
   /**
     Assuming the the first clone is already initialized, run the first clone
@@ -85,8 +85,8 @@ class Clones {
     This is repeated until all clones are running in parallel.
    */
   void initialize_and_run_until_complete(
-    const argtype& init_args = argtype(),
-    const argtype& run_args = argtype());
+    const argtype& run_args = argtype(),
+    const argtype& init_args = argtype());
 
   /// Set the number of Criteria iterations of all clones.
   void set_num_iterations(const int iterations);
@@ -115,13 +115,16 @@ class Clones {
 
  private:
   std::vector<std::shared_ptr<MonteCarlo> > clones_;
-//  std::shared_ptr<Checkpoint> checkpoint_;
+  std::shared_ptr<Checkpoint> checkpoint_;
 
   void run_until_complete_omp_(const argtype& run_args,
                                const bool init = false,
                                const argtype& init_args = argtype());
   void run_until_complete_serial_();
 };
+
+/// Construct Clones
+std::shared_ptr<Clones> MakeClones() { return std::make_shared<Clones>(); }
 
 /// Construct Clones from a vector of checkpoint file names.
 std::shared_ptr<Clones> MakeClones(const std::vector<std::string> file_names);
@@ -133,7 +136,7 @@ std::shared_ptr<Clones> MakeClones(const std::vector<std::string> file_names);
 std::shared_ptr<Clones> MakeClones(const std::string prepend,
   const int num,
   const int min = 0,
-  const std::string append = "");
+  const std::string append = ".fst");
 
 }  // namespace feasst
 

@@ -67,7 +67,7 @@ TEST(Arguments, dble) {
     Arguments args;
     args.init({{"key1", "mymypie"}});
     args.key("key1").dble();
-    CATCH_PHRASE("was expected to be a double precision floating point number");
+    CATCH_PHRASE("was expected to be a double precision number");
   );
   Arguments args;
   args.init({{"key1", "3.1415"}});

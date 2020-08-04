@@ -35,6 +35,14 @@ Domain::Domain(const argtype& args) {
   set_xz_(args_.key("xz").dflt("0.0").dble());
   set_yz_(args_.key("yz").dflt("0.0").dble());
 
+  for (int dim = 0; dim < dimension(); ++dim) {
+    std::stringstream key;
+    key << "periodic" << dim;
+    if (args_.key(key.str()).used()) {
+      if (!args_.boolean()) disable(dim);
+    }
+  }
+
   DEBUG("parse cells");
   // HWH make this more modular
   start.assign("init_cells");

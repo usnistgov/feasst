@@ -27,9 +27,9 @@
    TrialTranslate
    TrialRemove
    TrialFactory
-   SeekNumParticles
    Analyze
    AnalyzeFactory
+   SeekNumParticles
    TrialTransfer
    Modify
    ModifyFactory

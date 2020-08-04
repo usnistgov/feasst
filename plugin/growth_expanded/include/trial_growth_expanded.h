@@ -112,28 +112,7 @@ class TrialGrowthExpanded : public Trial {
     // the selections of first and last stages need to be swapped but accounting
     //  for different sites
     std::shared_ptr<Trial> shrink,
-    const argtype& args = argtype())
-    : Trial(args) {
-    class_name_ = "TrialGrowthExpanded";
-    grow_ = grow;
-    shrink_ = shrink;
-    compute_add_ = std::make_shared<TrialComputeGrowAdd>();
-    compute_remove_ = std::make_shared<TrialComputeGrowRemove>();
-    compute_grow_ = std::make_shared<TrialComputeGrow>();
-    add_(grow_->stages()[0]);
-    DEBUG(shrink_);
-    DEBUG("num " << shrink_->stages().size());
-    const TrialSelect& sel = shrink_->stages()[0]->trial_select();
-    growing_particle_ = MakeTrialSelectParticle({
-      {"particle_type", str(sel.particle_type())},
-      {"site", "0"}, // HWH hardcoded for site0
-    });
-
-    // the first selection stage of shrink should use perturbed
-    auto stage = shrink_->stages()[0];
-    stage->set(std::make_shared<SelectPerturbed>());
-    shrink_->set(0, stage);
-  }
+    const argtype& args = argtype());
 
   /// The growth stage relates directly to TrialGrow stages.
   /// Thus, growth stage of 0 refers to the first growth stage where the first
@@ -157,40 +136,7 @@ class TrialGrowthExpanded : public Trial {
     criteria->set_expanded_state(growth_stage_, num_growth_stages());
   }
 
-  void before_select(Acceptance * acceptance, Criteria * criteria) override {
-    criteria->set_expanded_state(current_growth_stage_(growing_),
-                              num_growth_stages());
-    if (growing_) {
-      DEBUG("attempt grow, stage: " << growth_stage_);
-      set(0, grow_->stages()[growth_stage_]);
-      if (growth_stage_ == 0) {
-        set(compute_add_);
-      } else {
-        compute_grow_->set_grow();
-        set(compute_grow_);
-      }
-    } else {
-      DEBUG("attempt shrink, stage: " << growth_stage_);
-      if (growth_stage_ == 0) {
-        set(0, shrink_->stages()[num_growth_stages() - 1]);
-        compute_grow_->set_shrink();
-        set(compute_grow_);
-      } else if (growth_stage_ == 1) {
-        set(0, shrink_->stages()[0]);
-        set(compute_remove_);
-      } else {
-        set(0, shrink_->stages()[growth_stage_ - 1]);
-        compute_grow_->set_shrink();
-        set(compute_grow_);
-      }
-    }
-
-    // acceptanced::perturbed is used for selection of bonds, etc.
-    DEBUG("growingp " << growing_particle_->mobile().str());
-    if (growth_stage_ != 0) {
-      acceptance->add_to_perturbed(growing_particle_->mobile());
-    }
-  }
+  void before_select(Acceptance * acceptance, Criteria * criteria) override;
 
   // Trial::growth_stage_ -> Criteria::trial_stage?
   bool attempt(Criteria * criteria, System * system, Random * random) override;

@@ -2,7 +2,7 @@
 #include <vector>
 #include <fstream>
 #include "configuration/include/file_lmp.h"
-#include "utils/include/utils_file.h"
+#include "utils/include/file.h"
 #include "utils/include/debug.h"
 #include "utils/include/serialize.h"
 

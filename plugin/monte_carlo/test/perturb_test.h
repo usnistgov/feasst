@@ -29,8 +29,6 @@ inline void test_revert(System * system) {
   PerturbTranslate translate;
   auto tsel = MakeTrialSelectParticle({{"particle_type", "0"}});
   auto random = MakeRandomMT19937();
-//  random = MakeRandomMT19937({{"seed", "default"}});
-//  random = MakeRandomMT19937({{"seed", "1580853628"}});
   tsel->sel(system, random.get());
   translate.perturb(system, tsel.get(), random.get());
   EXPECT_GT(std::abs(pe_original - system->energy()), NEAR_ZERO);

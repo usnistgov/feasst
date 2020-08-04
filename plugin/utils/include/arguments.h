@@ -8,6 +8,15 @@
 
 namespace feasst {
 
+/// Convert a string to an integer.
+int str_to_int(const std::string& str);
+
+/// Convert a string to an double.
+double str_to_double(const std::string& str);
+
+/// Convert a string to a boolean.
+bool str_to_bool(const std::string& str);
+
 /// Use a map of string pairs as a dictionary for arguments.
 typedef std::map<std::string, std::string> argtype;
 typedef std::map<std::string, argtype> arglist;
@@ -52,14 +61,14 @@ class Arguments {
 
   /// Return the conversion of a str of the processed keyword to double
   /// a precision floating point number.
-  double dble();
+  double dble() { return str_to_double(str()); }
 
   /// Return the conversion of a str of the processed keyword to int.
-  int integer();
+  int integer() { return str_to_int(str()); }
 
   /// Return the conversion of a str of the processed keyword to boolean.
   /// Accept the strings "True", "False", "1", "0", "true" or "false".
-  bool boolean();
+  bool boolean() { return str_to_bool(str()); }
 
   /// Upon destruction, check that all provided args were processed.
   /// Automatically include empty string key as processed.

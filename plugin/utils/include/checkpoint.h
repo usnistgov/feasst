@@ -8,6 +8,8 @@
 #include <memory>
 #include "utils/include/arguments.h"
 #include "utils/include/timer.h"
+#include "utils/include/file.h"
+#include "utils/include/debug.h"
 
 namespace feasst {
 
@@ -19,7 +21,10 @@ class Checkpoint {
   /**
     args:
     - num_hours: Number of hours between printing of checkpoint file
-      (default: 12).
+      (default: 1).
+    - num_hours_terminate: Terminate after this many hours. If -1, do not
+      terminate (default: -1).
+      (default: 1).
     - file_name: The default is one space (e.g., " ") and no checkpointing.
    */
   explicit Checkpoint(const argtype &args = argtype());
@@ -30,9 +35,8 @@ class Checkpoint {
   /// Write the checkpoint to file.
   template <typename T>
   void write(const T& obj) const {
-    if (file_name_.empty() || file_name_ == " ") {
-      return;
-    }
+    if (file_name_.empty() || file_name_ == " ") return;
+    file_backup(file_name_);
     std::ofstream file(file_name_.c_str(),
       std::ofstream::out | std::ofstream::trunc);
     std::stringstream ss;
@@ -48,6 +52,11 @@ class Checkpoint {
     if (hours > previous_hours_ + num_hours_) {
       previous_hours_ = hours;
       write(obj);
+    }
+    if (num_hours_terminate_ > 0 &&
+        hours > first_hours_ + num_hours_terminate_) {
+      write(obj);
+      FATAL("Checkpoint termination"); // detect with $? != 0
     }
   }
 
@@ -69,9 +78,12 @@ class Checkpoint {
 
  private:
   std::string file_name_;
-  double previous_hours_ = 0.;
   double num_hours_ = 0;
-  Arguments args_;
+  double num_hours_terminate_ = 0;
+
+  // temporary, not to be checkpointed
+  double first_hours_ = -1.;
+  double previous_hours_ = 0.;
 };
 
 inline std::shared_ptr<Checkpoint> MakeCheckpoint(

@@ -1,5 +1,5 @@
 #include "utils/test/utils.h"
-#include "utils/include/utils_io.h"
+#include "utils/include/io.h"
 #include "threads/include/thread_omp.h"
 
 namespace feasst {

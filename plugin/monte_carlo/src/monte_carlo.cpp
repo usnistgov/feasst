@@ -1,3 +1,5 @@
+#include <iostream>
+#include <fstream>
 #include "utils/include/serialize.h"
 #include "utils/include/checkpoint.h"
 #include "math/include/random_mt19937.h"
@@ -306,6 +308,16 @@ void MonteCarlo::synchronize_(const MonteCarlo& mc, const Select& perturbed) {
   system_.synchronize_(mc.system(), perturbed);
   criteria_->synchronize_(mc.criteria());
   trial_factory_.synchronize_(mc.trials());
+}
+
+std::shared_ptr<MonteCarlo> MakeMonteCarlo(const std::string file_name) {
+  std::ifstream file(file_name);
+  std::string line;
+  std::getline(file, line);
+  ASSERT(!line.empty(), "file: " << file_name << " is empty");
+  std::stringstream ss;
+  ss << line;
+  return std::make_shared<MonteCarlo>(ss);
 }
 
 }  // namespace feasst

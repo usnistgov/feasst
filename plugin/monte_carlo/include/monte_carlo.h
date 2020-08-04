@@ -256,6 +256,9 @@ inline std::shared_ptr<MonteCarlo> MakeMonteCarlo() {
   return std::make_shared<MonteCarlo>();
 }
 
+/// Construct MonteCarlo from file.
+std::shared_ptr<MonteCarlo> MakeMonteCarlo(const std::string file_name);
+
 }  // namespace feasst
 
 #endif  // FEASST_MONTE_CARLO_MONTE_CARLO_H_

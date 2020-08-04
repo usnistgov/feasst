@@ -1,13 +1,13 @@
 #include "utils/test/utils.h"
-#include "utils/include/utils_io.h"
+#include "utils/include/io.h"
 
 namespace feasst {
 
-TEST(UtilsIO, install_dir) {
+TEST(IO, install_dir) {
   EXPECT_EQ(FEASST_DIR_, install_dir());
 }
 
-TEST(UtilsIO, split) {
+TEST(IO, split) {
   const std::vector<std::string> str = split("This is a string");
   EXPECT_EQ(4, str.size());
   EXPECT_EQ("This", str[0]);
@@ -16,7 +16,7 @@ TEST(UtilsIO, split) {
   EXPECT_EQ("string", str[3]);
 }
 
-TEST(UtilsIO, trim) {
+TEST(IO, trim) {
   const char* f = "/my/path/to/file";
   std::string fs = trim("/", f);
   EXPECT_EQ(0, fs.compare("file"));
@@ -32,7 +32,7 @@ TEST(UtilsIO, trim) {
   EXPECT_EQ("/home/username/feasst/forcefield/", trim("/", f3, 0));
 }
 
-TEST(UtilsIO, serialize) {
+TEST(IO, serialize) {
   std::vector<double> vec2, vec = {0, 1234.203467642396097823666};
   std::stringstream ss;
   feasst_serialize(vec, ss);
@@ -40,7 +40,7 @@ TEST(UtilsIO, serialize) {
   EXPECT_EQ(vec, vec2);
 }
 
-TEST(UtilsIO, serialize_string) {
+TEST(IO, serialize_string) {
   std::string str("12bananas");
   std::stringstream ss;
   feasst_serialize(str, ss);
@@ -57,7 +57,7 @@ TEST(UtilsIO, serialize_string) {
   );
 }
 
-TEST(UtilsIO, feasst_str) {
+TEST(IO, feasst_str) {
   std::map<std::string, std::string> mp = {{"hi","you"},{"well","hello"},};
   EXPECT_EQ(feasst_str(mp), "{{\"hi\",\"you\"},{\"well\",\"hello\"},}");
 }
