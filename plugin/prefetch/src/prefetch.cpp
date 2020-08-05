@@ -9,7 +9,7 @@
 #include "threads/include/thread_omp.h"
 
 // use this to make prefetch serial and simply debugging
-#define DEBUG_SERIAL_MODE_5324634
+// #define DEBUG_SERIAL_MODE_5324634
 
 namespace feasst {
 
@@ -19,6 +19,9 @@ Prefetch::Prefetch(const argtype& args) {
   steps_per_check_ = args_.key("steps_per_check").dflt("100000").integer();
   load_balance_ = args_.key("load_balance").dflt("true").boolean();
   is_synchronize_ = args_.key("synchronize").dflt("false").boolean();
+  #ifdef DEBUG_SERIAL_MODE_5324634
+    WARN("DEBUG_SERIAL_MODE_5324634");
+  #endif
 }
 
 void Prefetch::reset_trial_stats() {
@@ -179,6 +182,7 @@ void Prefetch::attempt_(
       // without analyze modify or checkpoint.
       // Store new macrostate and acceptance prob
       pool->set_accepted(mc->attempt_trial(pool->index()));
+      pool->set_auto_rejected(mc->trial(pool->index()).accept().reject());
       pool->set_ln_prob(mc->trial(pool->index()).accept().ln_metropolis_prob());
       DEBUG("proc id " << proc_id << " ln prob " << pool->ln_prob());
       DEBUG("critical proc_id " << proc_id << " " << pool->str());
@@ -214,13 +218,12 @@ void Prefetch::attempt_(
       {
       #endif
 
-      // HWH this doesn't seem to account for num_auto_reject in trial
-      // HWH but synchronize would take care of this
       // revert trials after accepted trial.
       if (first_thread_accepted != num_threads_) {
         if (proc_id > first_thread_accepted) {
           DEBUG("reverting trial " << proc_id);
-          mc->revert_(pool->index(), pool->accepted(), pool->ln_prob());
+          mc->revert_(pool->index(), pool->accepted(),
+                      pool->auto_rejected(), pool->ln_prob());
         }
       }
 
@@ -252,6 +255,7 @@ void Prefetch::attempt_(
               clone_(jthread)->imitate_trial_rejection_(
                 pool_[ithread].index(),
                 pool_[ithread].ln_prob(),
+                pool_[ithread].auto_rejected(),
                 old_criteria.state_old(),
                 old_criteria.state_new()
               );

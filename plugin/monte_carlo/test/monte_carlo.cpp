@@ -24,6 +24,7 @@
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
+#include "steppers/include/profile_trials.h"
 
 namespace feasst {
 
@@ -143,9 +144,8 @@ TEST(MonteCarlo, NVT_SRSW) {
 TEST(MonteCarlo, GCMC) {
   MonteCarlo mc;
   mc.set(lennard_jones());
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-3"}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
   EXPECT_NEAR(mc.trial(0).weight(), 1, NEAR_ZERO);
   EXPECT_NEAR(mc.trial(1).weight(), 2, NEAR_ZERO);
@@ -154,12 +154,24 @@ TEST(MonteCarlo, GCMC) {
                            {"file_name", "tmp/ljnum.txt"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
   mc.add(MakeCheckEnergy({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+  auto profile = MakeProfileTrials({{"steps_per_update", str(1e2)},
+    {"steps_per_write", str(1e2)},
+    {"append", "true"},
+    {"file_name", "tmp/lj_profile.txt"}});
+  mc.add(profile);
   //mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
-  mc.attempt(1e4);
+  const int trials = 1e4;
+  //const int trials = 1e6;
+  mc.attempt(trials);
   EXPECT_EQ(mc.trials().num(), 3);
-  EXPECT_NEAR(mc.trial(0).num_attempts(), 1e4/5, 150);
-  EXPECT_NEAR(mc.trial(1).num_attempts(), 1e4*2/5., 250);
-  EXPECT_NEAR(mc.trial(2).num_attempts(), 1e4*2/5., 250);
+  EXPECT_NEAR(mc.trial(0).num_attempts(), trials/5, trials*0.015);
+  EXPECT_NEAR(mc.trial(1).num_attempts(), trials*2/5., trials*0.025);
+  EXPECT_NEAR(mc.trial(2).num_attempts(), trials*2/5., trials*0.025);
+//  const double sum0 = profile->profile()[0].sum();
+//  const double sum1 = profile->profile()[1].sum();
+//  const double sum2 = profile->profile()[2].sum();
+//  EXPECT_NEAR(2*sum0, sum1, 0.1*sum0);
+//  EXPECT_NEAR(sum1, sum2, 0.1*sum0);
 }
 
 TEST(MonteCarlo, GCMC_cell) {

@@ -312,16 +312,11 @@ To Do List
 * ideal gas as the first tutorial/testcase
 * specify units in LMP data files?
 * fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu
-* neighbor lists
 * trial regrow to include grand canonical insertions
 * consider optimization of Ewald: init ewald storage on particle types, precompute property index.
-* Criteria running energies may contain a part from each potential to simplify debugging.
-* implement timer for profiles (with hierarchies by class... tried this, but its too slow. Time only infrequently?)
-* implement a timer to auto-balance trial weights.
 * find a better way for two different classes to take from the same argument list and still maintain unused checks.
 * when selecting from cpdf, use lnp instead of p?
 * insert optimization: update cell list of sites when added, but of domain only when finalized.
-* wl lj comparison is off
 * Python interface cannot take a system pointer to modify system (e.g., perturb, in monte_carlo/tutorial/test_lj_model.py.bak
 * IF using argtype for custom object, considering single string constructors. E.g., for position in cylinder.h, use {"point0", "0 0 0"}
 * Python debug script: easy for user to run gdb/valgrind
@@ -340,7 +335,6 @@ To Do List
 * HS-only simulations can use TrialComputeMoveMayer without computing energy of old configuration
 * Refactor arguments so that they can be checked for usage (especially in Trials)
 * Rename TrialSelect->SelectTrial, TrialCompute->ComputeTrial. Rename Compute->Decide?.
-* See if there is a performance difference for const_cast pointer to constant Reference. If not, remove const pntrs.
 * Somehow, trial_growth_expanded.h doesn't include debug.h but can compile with ASSERT
 * Speed up RNG by maintaining int_distribution like dis_double
 * Document utils lj, spce, rpm in tutorials
@@ -349,10 +343,9 @@ To Do List
 * remove tutorial/fh.py
 * Tuner->Tune
 * Analyze/ModifyFactory optimization: use steps_per in factory to limit number of checks
-* Backup checkpoint files, and utility to check for corruption (via try?)
-* Profile cpu time spent per trial/potential by infrequent testing (so doesn't affect performance). Can tune trial weights based on CPU time.
+* implement timer for profiles (with hierarchies by class... tried this, but its too slow. Time only infrequently?)
+* implement a timer to auto-balance trial weights based on cpu time.
 * More documentation/tutorial on how to create your own plugins, classes, etc
-* rename utils*.h files e.g., utils_io->io
 * add orientation argument to shapes with internal coordinate transformation
-* System should track current energy of every potential for analysis
+* System should track current energy of every potential for analysis (Criteria running energies may contain a part from each potential to simplify debugging).
 * Consider using new state instead of old state in acceptance derivations

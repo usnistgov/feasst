@@ -35,20 +35,24 @@ class TrialFactory : public Trial {
 
   /// Attempt one of the trials. Return true if accepted.
   bool attempt(
-      Criteria* criteria,
-      System * system,
-      /// attempt trial_index. If -1, choose randomly with probabilty
-      /// determined from the weight.
-      int trial_index,
-      Random * random);
+    Criteria * criteria,
+    System * system,
+    /// attempt trial_index. If -1, choose randomly with probabilty
+    /// determined from the weight.
+    int trial_index,
+    Random * random);
 
   /// Attempt one of the trials with selection probability proportional to
   /// the weight.
-  bool attempt(Criteria* criteria, System * system, Random * random) override {
+  bool attempt(Criteria * criteria, System * system, Random * random) override {
     return attempt(criteria, system, -1, random); }
 
+  /// Return the index of the last trial attempted.
+  int last_index() const { return last_index_; }
+
   /// Revert changes to system by trial index.
-  void revert(const int index, const bool accepted, System * system);
+  void revert(const int index, const bool accepted, const bool auto_rejected,
+    System * system);
 
   void finalize(const int index, System * system) {
     trials_[index]->finalize(system); }
@@ -60,7 +64,8 @@ class TrialFactory : public Trial {
   // HWH hackish interface for prefetch
   // Require manual finalization of trials (e.g., Prefetch).
   void delay_finalize();
-  void imitate_trial_rejection_(const int index);
+  void imitate_trial_rejection_(const int index,
+    const bool auto_reject);
 
   /// Return the statuses of the trials (e.g., acceptance, etc).
   std::string status() const override;
@@ -87,6 +92,9 @@ class TrialFactory : public Trial {
  private:
   std::vector<std::shared_ptr<Trial> > trials_;
   std::vector<double> cumulative_probability_;
+
+  // not to be serialized
+  int last_index_ = -1;
 //  Timer timer_;
 };
 

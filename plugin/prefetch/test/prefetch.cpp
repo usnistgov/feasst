@@ -31,22 +31,30 @@
 
 namespace feasst {
 
-TEST(Prefetch, NVT_benchmark) {
+void run_prefetch(const int trials, const int steps_per) {
   auto mc = MakePrefetch();
-  mc->set(MakeRandomMT19937({{"seed", "1592943710"}}));
+//  mc->set(MakeRandomMT19937({{"seed", "1592943710"}}));
+  mc->set(MakeRandomMT19937({{"seed", "1596650884"}}));
   mc->set(lennard_jones());
   mc->set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}, {"num_steps", "1"}}));
-  const int steps_per = 1e3;
   mc->add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj"}}));
   mc->add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
   mc->activate_prefetch(false);
   SeekNumParticles(50).with_trial_add().run(mc.get());
   // activate prefetch after initial configuration
   mc->activate_prefetch(true);
-  mc->attempt(1e3);
+  mc->attempt(trials);
   EXPECT_EQ(mc->analyze(0).steps_since_write(),
             mc->modify(0).steps_since_update());
+}
+
+TEST(Prefetch, NVT_benchmark) {
+  run_prefetch(1e3, 1e1);
+}
+
+TEST(Prefetch, NVT_benchmark_LONG) {
+  run_prefetch(1e6, 1e3); // 5.4s on 4 cores of i7-4770K @ 3.5GHz
 }
 
 TEST(Prefetch, MUVT) {

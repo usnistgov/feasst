@@ -152,6 +152,7 @@
 #include "monte_carlo/include/analyze_factory.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/wall_clock_limit.h"
+#include "steppers/include/profile_trials.h"
 #include "steppers/include/check_physicality.h"
 #include "steppers/include/check.h"
 #include "steppers/include/cpu_time.h"
@@ -166,12 +167,12 @@
 #include "chain/include/recenter_particles.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/check_properties.h"
+#include "steppers/include/tuner.h"
+#include "steppers/include/check_energy.h"
 #include "monte_carlo/include/modify_factory.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "prefetch/include/prefetch.h"
-#include "steppers/include/tuner.h"
-#include "steppers/include/check_energy.h"
 #include "cluster/include/trial_transfer_avb.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
 #include "cluster/include/trial_rigid_cluster.h"
@@ -424,6 +425,7 @@ using namespace std;
 %shared_ptr(feasst::AnalyzeFactory);
 %shared_ptr(feasst::LogAndMovie);
 %shared_ptr(feasst::WallClockLimit);
+%shared_ptr(feasst::ProfileTrials);
 %shared_ptr(feasst::CheckPhysicality);
 %shared_ptr(feasst::Check);
 %shared_ptr(feasst::CPUTime);
@@ -439,13 +441,13 @@ using namespace std;
 %shared_ptr(feasst::RecenterParticles);
 %shared_ptr(feasst::CriteriaUpdater);
 %shared_ptr(feasst::CheckProperties);
+%shared_ptr(feasst::Tuner);
+%shared_ptr(feasst::CheckEnergy);
 %shared_ptr(feasst::ModifyFactory);
 %shared_ptr(feasst::CheckEnergyAndTune);
 %shared_ptr(feasst::MonteCarlo);
 %shared_ptr(feasst::Pool);
 %shared_ptr(feasst::Prefetch);
-%shared_ptr(feasst::Tuner);
-%shared_ptr(feasst::CheckEnergy);
 %shared_ptr(feasst::TrialTransferAVB);
 %shared_ptr(feasst::TrialAddAVBDivalent);
 %shared_ptr(feasst::TrialRemoveAVBDivalent);
@@ -676,6 +678,7 @@ using namespace std;
 %include monte_carlo/include/analyze_factory.h
 %include steppers/include/log_and_movie.h
 %include steppers/include/wall_clock_limit.h
+%include steppers/include/profile_trials.h
 %include steppers/include/check_physicality.h
 %include steppers/include/check.h
 %include steppers/include/cpu_time.h
@@ -690,12 +693,12 @@ using namespace std;
 %include chain/include/recenter_particles.h
 %include steppers/include/criteria_updater.h
 %include steppers/include/check_properties.h
+%include steppers/include/tuner.h
+%include steppers/include/check_energy.h
 %include monte_carlo/include/modify_factory.h
 %include steppers/include/check_energy_and_tune.h
 %include monte_carlo/include/monte_carlo.h
 %include prefetch/include/prefetch.h
-%include steppers/include/tuner.h
-%include steppers/include/check_energy.h
 %include cluster/include/trial_transfer_avb.h
 %include cluster/include/trial_transfer_avb_divalent.h
 %include cluster/include/trial_rigid_cluster.h

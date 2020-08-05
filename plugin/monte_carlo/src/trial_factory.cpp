@@ -49,6 +49,7 @@ bool TrialFactory::attempt(
   if (trial_index == -1) {
     trial_index = random_index(random);
   }
+  last_index_ = trial_index;
   //timer_.start(index + 1);  // +1 for "other"
   const bool accepted = trials_[trial_index]->attempt(criteria, system, random);
   //timer_.end();
@@ -58,17 +59,22 @@ bool TrialFactory::attempt(
 
 void TrialFactory::revert(const int index,
                           const bool accepted,
+                          const bool auto_rejected,
                           System * system) {
-  trials_[index]->revert(index, accepted, system);
+  trials_[index]->revert(index, accepted, auto_rejected, system);
   if (accepted) {
     decrement_num_success_();
   }
   decrement_num_attempts_();
 }
 
-void TrialFactory::imitate_trial_rejection_(const int index) {
+void TrialFactory::imitate_trial_rejection_(const int index,
+    const bool auto_reject) {
   DEBUG("index " << index << " " << trials_.size());
   trials_[index]->increment_num_attempts();
+  if (auto_reject) {
+    trials_[index]->increment_num_auto_reject();
+  }
   increment_num_attempts();
 }
 

@@ -58,6 +58,7 @@ std::string Trial::status() const {
 
 void Trial::tune() {
   int num_real_attempts = num_attempts() - num_auto_reject();
+  //INFO("num " << num_real_attempts);
   if (num_real_attempts > 0) {
     for (auto stage : stages_) stage->tune(acceptance());
     reset_stats();
@@ -76,11 +77,17 @@ void Trial::revert(System * system) {
   }
 }
 
-void Trial::revert(const int index, const bool accepted, System * system) {
+void Trial::revert(const int index,
+    const bool accepted,
+    const bool auto_rejected,
+    System * system) {
   if (accepted) {
     revert(system);
     decrement_num_success_();
   }
+  //ASSERT(!auto_rejected, "er");
+  //INFO("auto_rejected " << auto_rejected);
+  if (auto_rejected) *num_auto_reject_() -= 1;
   decrement_num_attempts_();
 }
 
@@ -117,7 +124,10 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
       criteria, system, &acceptance_, &stages_ptr_, random);
   }
   DEBUG("num attempts: " << num_attempts());
-  if (acceptance_.reject()) *num_auto_reject_() += 1;
+  if (acceptance_.reject()) {
+    //INFO("auto reject");
+    *num_auto_reject_() += 1;
+  }
   if (criteria->is_accepted(acceptance_, *system, random->uniform())) {
     DEBUG("accepted");
     increment_num_success_();

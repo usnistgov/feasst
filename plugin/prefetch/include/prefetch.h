@@ -29,6 +29,8 @@ class Pool {
   double ln_prob() const { return ln_prob_; }
   void set_accepted(const bool accepted) { accepted_ = accepted; }
   bool accepted() const { return accepted_; }
+  void set_auto_rejected(const bool auto_rejected) { auto_rejected_ = auto_rejected; }
+  bool auto_rejected() const { return auto_rejected_; }
 
   const std::string str() const {
     std::stringstream ss;
@@ -42,6 +44,7 @@ class Pool {
   int index_;
   double ln_prob_;
   bool accepted_;
+  bool auto_rejected_ = false;
 };
 
 /**

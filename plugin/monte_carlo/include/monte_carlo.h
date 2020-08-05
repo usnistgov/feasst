@@ -181,15 +181,17 @@ class MonteCarlo {
   void after_trial_modify_();
   // Mimic a rejection by a trial.
   void imitate_trial_rejection_(const int trial_index,
-      const double ln_prob,
-      const int state_old,
-      const int state_new);
+    const double ln_prob,
+    const bool auto_reject,
+    const int state_old,
+    const int state_new);
   /// Attempt trial index without analyzers, modifiers or checkpoints.
   bool attempt_trial(const int index);
   // Revert changes from previous trial.
   void revert_(const int trial_index,
-      const bool accepted,
-      const double ln_prob);
+    const bool accepted,
+    const bool auto_reject,
+    const double ln_prob);
   // Finalize changes from previous trial.
   void finalize_(const int trial_index) {
     trial_factory_.finalize(trial_index, &system_); }

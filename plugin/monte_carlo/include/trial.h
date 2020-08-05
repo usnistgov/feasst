@@ -67,6 +67,7 @@ class Trial {
 
   /// Increment the number of attempts for acceptance.
   void increment_num_attempts() { *num_attempts_() += 1; }
+  void increment_num_auto_reject() { *num_auto_reject_() += 1; }
 
   /// Return the ratio of the number of successful attempts and total attempts.
   double acceptance() const;
@@ -100,7 +101,8 @@ class Trial {
   void revert(System * system);
 
   // Revert changes to system as if trial was never attempted.
-  void revert(const int index, const bool accepted, System * system);
+  void revert(const int index, const bool accepted, const bool auto_rejected,
+              System * system);
 
   // Finalize all stages in reverse order.
   void finalize(System * system);

@@ -231,8 +231,9 @@ void MonteCarlo::before_attempts_() {
 
 void MonteCarlo::revert_(const int trial_index,
     const bool accepted,
+    const bool auto_reject,
     const double ln_prob) {
-  trial_factory_.revert(trial_index, accepted, &system_);
+  trial_factory_.revert(trial_index, accepted, auto_reject, &system_);
   DEBUG("reverting " << criteria_->current_energy());
   criteria_->revert_(accepted, ln_prob);
 }
@@ -256,9 +257,10 @@ bool MonteCarlo::attempt_trial(const int index) {
 
 void MonteCarlo::imitate_trial_rejection_(const int trial_index,
     const double ln_prob,
+    const bool auto_reject,
     const int state_old,
     const int state_new) {
-  trial_factory_.imitate_trial_rejection_(trial_index);
+  trial_factory_.imitate_trial_rejection_(trial_index, auto_reject);
   criteria_->imitate_trial_rejection_(ln_prob, state_old, state_new);
 }
 
