@@ -15,8 +15,8 @@ def system(config, alphaL = 5.6, kmax_squared=38, rcut=False):
     two.add(feasst.MakeLennardJones())
     two.add(feasst.MakeChargeScreened())
     system.add(feasst.Potential(two))
-    system.add(feasst.Potential(feasst.MakeChargeScreenedIntra(), feasst.MakeVisitModelBond()));
-    system.add(feasst.Potential(feasst.MakeChargeSelf()));
-    system.add(feasst.Potential(feasst.MakeLongRangeCorrections()));
+    system.add(feasst.Potential(feasst.MakeChargeScreenedIntra(), feasst.MakeVisitModelBond()))
+    system.add(feasst.Potential(feasst.MakeChargeSelf()))
+    system.add(feasst.Potential(feasst.MakeLongRangeCorrections()))
     # system.precompute()
     return system

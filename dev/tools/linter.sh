@@ -1,5 +1,7 @@
+#!/bin/bash
+
 #for f in *; do
-for f in `find . -name '*.cpp' -o -name '*.h' -o -name '*.py' -o -name '*.dot'`; do
+for f in $(find . -name '*.cpp' -o -name '*.h' -o -name '*.py' -o -name '*.dot'); do
   #sed 's/get_vector(/coord(/g' $f > ttmp; mv ttmp $f
   #sed 's/get_//g' $f > ttmp; mv ttmp $f
   #sed 's/ "include/ "core\/include/' $f > ttmp; mv ttmp $f

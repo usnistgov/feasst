@@ -42,7 +42,7 @@ def lj_system(box_length, cutoff):
     config = feasst.Configuration(
         feasst.MakeDomain(feasst.args({"cubic_box_length": str(box_length)})),
         feasst.args({"particle_type": feasst.install_dir() + '/forcefield/data.lj'}))
-    config.set_model_param("cutoff", 0, cutoff);
+    config.set_model_param("cutoff", 0, cutoff)
     system.add(config)
     system.add(feasst.Potential(feasst.MakeLennardJones()))
     if system.configuration().domain().is_cell_enabled():
@@ -73,7 +73,6 @@ def mc(target_acceptance=0.25,
     })))
     monte_carlo.add(feasst.MakeTrialTranslate(feasst.args({
         "weight": "1.",
-        "tunable_param": "2.",
         "tunable_param": str(tunable_param),
         "tunable_target_acceptance": str(target_acceptance),
         "tunable_percent_change": "0.01",
@@ -94,7 +93,8 @@ def mc(target_acceptance=0.25,
     #equilibrate
     monte_carlo.attempt(int(1e7))
 
-    if not args.nopipe: monte_carlo.activate_prefetch(True)
+    if not args.nopipe:
+        monte_carlo.activate_prefetch(True)
     monte_carlo.add(feasst.MakeMeanSquaredDisplacement(feasst.args({
         "steps_per_update": "10000",
         "updates_per_origin": "1000",
@@ -120,6 +120,3 @@ mc(target_acceptance=args.target_prob,
    tunable_param=args.max_move,
    cutoff=args.cutoff
    )
-
-#print(res)
-

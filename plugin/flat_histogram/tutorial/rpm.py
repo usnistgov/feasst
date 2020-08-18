@@ -18,6 +18,6 @@ def system(config=None, box_length=8.109613, alphaL = 6.870983963962610000, kmax
     two.add(feasst.MakeHardSphere())
     two.add(feasst.MakeChargeScreened())
     system.add(feasst.Potential(two))
-    system.add(feasst.Potential(feasst.MakeChargeSelf()));
+    system.add(feasst.Potential(feasst.MakeChargeSelf()))
     # system.precompute()
     return system

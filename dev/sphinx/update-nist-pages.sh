@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # update nist-pages
 mkdir build
 cd build

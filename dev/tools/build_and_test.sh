@@ -1,3 +1,5 @@
+#!/bin/bash
+
 mkdir -p build
 cd build
 python3 -m venv feasst_test_env

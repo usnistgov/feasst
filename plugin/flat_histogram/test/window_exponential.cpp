@@ -42,7 +42,6 @@ TEST(WindowExponential, window) {
   EXPECT_EQ(bounds[2][1], 173);
   EXPECT_EQ(bounds[3][0], 169);
   EXPECT_EQ(bounds[3][1], 200);
-
 }
 
 }  // namespace feasst

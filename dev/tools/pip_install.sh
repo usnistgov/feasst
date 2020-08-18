@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set +x
 # activate a new env
 python3 -m venv ~/feasst_env

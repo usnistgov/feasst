@@ -40,7 +40,6 @@ std::vector<std::vector<int> > Window::boundaries() const {
     windows[index][1] = round(seg[index + 1]);
   }
   return windows;
-
 }
 
 }  // namespace feasst

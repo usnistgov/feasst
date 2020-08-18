@@ -35,7 +35,7 @@ def lj_system(box_length):
     config = feasst.Configuration(
         feasst.Domain(feasst.args({"cubic_box_length": str(box_length)})),
         feasst.args({"particle_type": feasst.install_dir() + '/forcefield/data.lj'}))
-    config.set_model_param("cutoff", 0, args.cutoff);
+    config.set_model_param("cutoff", 0, args.cutoff)
     system.add(config)
     system.add(feasst.Potential(feasst.MakeLennardJones()))
     return system
@@ -90,7 +90,8 @@ def mc(
         log="log"+file_app+".txt",
         )
 
-    if not args.nopara: monte_carlo.activate_prefetch(True)
+    if not args.nopara:
+        monte_carlo.activate_prefetch(True)
 
     monte_carlo.add(feasst.MakeCPUTime(feasst.args({
         "steps_per_update": str(steps_per),
@@ -111,4 +112,3 @@ def mc(
     monte_carlo.run_until_complete()
     #monte_carlo.attempt(int(1e7))
 mc()
-
