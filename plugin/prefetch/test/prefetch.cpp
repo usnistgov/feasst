@@ -100,7 +100,7 @@ TEST(Prefetch, MUVT) {
       fhs[ipool]->bias().serialize(ss2);
       tms[ipool] = std::make_shared<TransitionMatrix>(ss2);
       if (ipool != 0) {
-        ASSERT(fhs[0]->is_equal(*fhs[ipool], NEAR_ZERO), "hi");
+        ASSERT(fhs[0]->is_equal(*fhs[ipool], 1e-8), "hi");
         ASSERT(tms[0]->is_equal(*tms[ipool], 1e-8), "hi");
       }
     }

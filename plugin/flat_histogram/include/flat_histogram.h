@@ -10,6 +10,8 @@
 
 namespace feasst {
 
+class Random;
+
 /**
   Flat histogram acceptance criteria uses a bias to improve sampling and attempt
   to recover the free energy of the system as a function of the give macrostate.
@@ -48,7 +50,7 @@ class FlatHistogram : public Criteria {
 
   bool is_accepted(const Acceptance& acceptance,
     const System& system,
-    const double uniform_random) override;
+    Random * random) override;
 
   std::string write() const override;
   bool is_complete() const override { return bias_->is_complete(); }

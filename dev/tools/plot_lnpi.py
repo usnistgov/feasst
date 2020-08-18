@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 parser = argparse.ArgumentParser()
 required = parser.add_argument_group('required arguments')
 required.add_argument("--file_name", "-f", help="file name", action='append', required=True)
+required.add_argument("--label", "-l", help="variable label", default='ln_prob')
 args = parser.parse_args()
 print(args.file_name)
 
@@ -19,6 +20,6 @@ for fname in args.file_name:
             count += 1
     df = pd.read_csv(fname, header=header)
     #print(df)
-    plt.plot(df['state'], df['ln_prob'])
+    plt.plot(df['state'], df[args.label], label=fname)
 plt.legend()
 plt.show()

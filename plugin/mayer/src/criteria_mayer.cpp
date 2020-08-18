@@ -1,19 +1,20 @@
 #include <cmath>
 #include "utils/include/serialize.h"
-#include "mayer/include/criteria_mayer.h"
 #include "math/include/constants.h"
+#include "math/include/random.h"
+#include "mayer/include/criteria_mayer.h"
 
 namespace feasst {
 
 bool CriteriaMayer::is_accepted(const Acceptance& acceptance,
     const System& system,
-    const double uniform_random) {
+    Random * random) {
   const double energy_new = acceptance.energy_new();
   const double f12 = std::exp(-beta()*energy_new) - 1.;
   bool is_accepted;
   DEBUG("energy new " << energy_new << " f12 " << f12);
   if (!acceptance.reject() and
-      (uniform_random < std::abs(f12)/std::abs(f12old_)) ) {
+      (random->uniform() < std::abs(f12)/std::abs(f12old_)) ) {
     set_current_energy(energy_new);
     f12old_ = f12;
     is_accepted = true;

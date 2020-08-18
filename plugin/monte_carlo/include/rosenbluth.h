@@ -32,7 +32,7 @@ class Rosenbluth {
 
   /// Compute Boltzmann factors and cumulative probabilities for all steps.
   /// Choose one of the steps based on the probabilities.
-  void compute(const double beta, Random * random);
+  void compute(const double beta, Random * random, const bool old);
 
   /// Return the stored selection of the step.
   const Select& stored(const int step) const { return stored_[step]; }

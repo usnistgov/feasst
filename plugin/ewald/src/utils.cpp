@@ -38,9 +38,18 @@ double kelvin2kJpermol(const double kelvin, const Configuration& config) {
 System spce(const argtype& args) {
   System system;
   Arguments args_(args);
-  { Configuration config(
-      MakeDomain({{"cubic_box_length",
-                   args_.key("cubic_box_length").dflt("24.8586887").str()}}),
+  double dual_cut = args_.key("dual_cut").dflt("-1").dble();
+  const std::string cubic_box_length =
+    args_.key("cubic_box_length").dflt("20").str();
+  {
+    std::shared_ptr<Domain> domain;
+    if (std::abs(dual_cut + 1) < NEAR_ZERO) {
+      domain = MakeDomain({{"cubic_box_length", cubic_box_length}});
+    } else {
+      domain = MakeDomain({{"cubic_box_length", cubic_box_length},
+                           {"init_cells", str(dual_cut)}});
+    }
+    Configuration config(domain,
       {{"particle_type", install_dir() + "/" + args_.key("particle").dflt("forcefield/data.spce").str()},
        {"physical_constants", args_.key("physical_constants").dflt("CODATA2018").str()}}
     );
@@ -59,6 +68,21 @@ System spce(const argtype& args) {
   system.add(Potential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
   system.add(Potential(MakeChargeSelf()));
   system.add(Potential(MakeLongRangeCorrections()));
+  if (std::abs(dual_cut + 1) > NEAR_ZERO) {
+    Potential ref;
+    if (system.configuration().domain().num_cells() > 0) {
+      ref = Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
+                                               MakeChargeScreened()}),
+                      MakeVisitModelCell());
+    } else {
+      ref = Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
+                                               MakeChargeScreened()}));
+    }
+    ref.set_model_params(system.configuration());
+    ref.set_model_param("cutoff", 0, dual_cut);
+    ref.set_model_param("cutoff", 1, dual_cut);
+    system.add_to_reference(ref);
+  }
   return system;
 }
 
@@ -116,6 +140,7 @@ System rpm(const argtype& args) {
 //  std::string iref = "-1";
 //  std::string num_steps = "1";
   if (std::abs(dual_cut + 1) > NEAR_ZERO) {
+    //Potential ref(MakeModelTwoBodyFactory({MakeHardSphere()}),
     Potential ref(MakeModelTwoBodyFactory({MakeHardSphere(),
                                            MakeChargeScreened()}),
                   MakeVisitModelCell());

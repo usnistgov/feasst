@@ -49,9 +49,9 @@ TEST(MacrostateMorph, lj) {
   accept.set_macrostate_shift_type(1);
   EXPECT_EQ(macro->value(system, *criteria, accept), 1.);
 
-  INFO("energy");
-  INFO(system.energy());
-  INFO(feasst_str(system.stored_energy_profile()));
+  DEBUG("energy");
+  DEBUG(system.energy());
+  DEBUG(feasst_str(system.stored_energy_profile()));
 }
 
 }  // namespace feasst

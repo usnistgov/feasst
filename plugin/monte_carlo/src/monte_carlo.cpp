@@ -67,13 +67,21 @@ void MonteCarlo::set(std::shared_ptr<Criteria> criteria) {
 void MonteCarlo::add(std::shared_ptr<Trial> trial) {
   ASSERT(criteria_set_, "set Criteria before Trials.");
 
-  // Require the use of reference potentials for multi-stage trials with Ewald.
-  if (trial->num_stages() > 1) {
-    if (trial->stage(0).reference() == -1) {
-      for (const Potential& pot : system_.potentials().potentials()) {
-        if (pot.visit_model().class_name() == "Ewald") {
+  // Error check Ewald
+  for (const Potential& pot : system_.potentials().potentials()) {
+    if (pot.visit_model().class_name() == "Ewald") {
+      for (int stage = 0; stage < trial->num_stages(); ++stage) {
+        // Require reference potentials for multi-stage trials with Ewald.
+        if (trial->num_stages() > 1 && trial->stage(stage).reference() == -1) {
           ERROR(trial->class_name() << " should use a reference potential "
             << "without Ewald due to multiple stages which complicate revert");
+        }
+        if (trial->stage(stage).rosenbluth().num() > 1) {
+          if (trial->class_name() == "TrialTranslate" ||
+              trial->class_name() == "TrialRotate") {
+            ERROR(trial->class_name() << " cannot be used with Ewald and "
+              << "multiple steps.");
+          }
         }
       }
     }

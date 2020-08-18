@@ -73,7 +73,7 @@ TEST(MonteCarlo, spce_nvt_VERY_LONG) {
 TEST(MonteCarlo, spce_gce_LONG) {
   const int steps_per = 1e2;
   MonteCarlo mc;
-  mc.set(spce());
+  mc.set(spce({{"cubic_box_length", str(24.8586887)}}));
   { const double sigma = mc.configuration().model_params().sigma().value(0);
     INFO("sigma " << sigma);
     mc.get_system()->get_configuration()->get_domain()->init_cells(sigma);
@@ -82,9 +82,10 @@ TEST(MonteCarlo, spce_gce_LONG) {
                                MakeChargeScreened()}),
       MakeVisitModelCell()));
   }
+  const double beta = 1/kelvin2kJpermol(525);
   mc.set(MakeMetropolis({
-    {"beta", str(1/kelvin2kJpermol(525))},
-    {"chemical_potential", "-35.294567543492"}}));
+    {"beta", str(beta)},
+    {"chemical_potential", str(-8.14/beta)}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   mc.add(MakeTrialTransfer({
@@ -108,9 +109,10 @@ TEST(MonteCarlo, spce_gce_LONG) {
 TEST(MonteCarlo, spce) {
   MonteCarlo mc;
   mc.set(spce());
+  const double beta = 1/kelvin2kJpermol(525);
   mc.set(MakeMetropolis({
-    {"beta", str(1/kelvin2kJpermol(525))},
-    {"chemical_potential", "-35.294567543492"}}));
+    {"beta", str(beta)},
+    {"chemical_potential", str(-8.14/beta)}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));

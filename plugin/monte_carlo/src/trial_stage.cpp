@@ -71,7 +71,7 @@ void TrialStage::attempt(System * system,
       perturb_->revert(system);
     }
   }
-  rosenbluth_.compute(criteria->beta(), random);
+  rosenbluth_.compute(criteria->beta(), random, old);
   DEBUG("old " << old << " num " << rosenbluth_.num());
   if (old != 1 && rosenbluth_.num() > 1) {
     if (select_->is_ghost()) {

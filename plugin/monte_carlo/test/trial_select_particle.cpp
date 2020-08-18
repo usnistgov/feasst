@@ -8,10 +8,10 @@ TEST(TrialSelectParticle, serialize) {
   TrialSelectParticle add;
 //  std::stringstream ss;
 //  add.serialize(ss);
-//  INFO(ss.str());
+//  DEBUG(ss.str());
 //  TrialSelectParticle add2(ss);
 //  add2.serialize(ss);
-//  INFO(ss.str());
+//  DEBUG(ss.str());
   TrialSelectParticle add2 = test_serialize(add);
 }
 
@@ -35,14 +35,14 @@ TEST(TrialSelectParticle, exclude_perturbed) {
   sel1->sel(&system, ran.get());
   const int part1_index = sel1->mobile().particle_index(0);
   EXPECT_TRUE(part1_index == 0 || part1_index == 1);
-  INFO(sel1->mobile().str());
+  DEBUG(sel1->mobile().str());
   sel2->select(sel1->mobile(), &system, ran.get());
   if (part1_index == 0) {
     EXPECT_EQ(sel2->mobile().particle_index(0), 1);
   } else if (part1_index == 1) {
     EXPECT_EQ(sel2->mobile().particle_index(0), 0);
   }
-  INFO(sel2->mobile().str());
+  DEBUG(sel2->mobile().str());
   test_serialize(*sel2);
 
   // now try the same with ghosts

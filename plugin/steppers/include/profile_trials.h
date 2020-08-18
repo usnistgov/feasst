@@ -1,6 +1,6 @@
 
-#ifndef FEASST_STEPPERS_ENERGY_H_
-#define FEASST_STEPPERS_ENERGY_H_
+#ifndef FEASST_STEPPERS_PROFILE_TRIALS_H_
+#define FEASST_STEPPERS_PROFILE_TRIALS_H_
 
 #include <ctime>
 #include "monte_carlo/include/analyze.h"
@@ -56,4 +56,4 @@ inline std::shared_ptr<ProfileTrials> MakeProfileTrials(
 
 }  // namespace feasst
 
-#endif  // FEASST_STEPPERS_ENERGY_H_
+#endif  // FEASST_STEPPERS_PROFILE_TRIALS_H_

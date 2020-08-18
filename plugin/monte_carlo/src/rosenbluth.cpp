@@ -14,10 +14,11 @@ void Rosenbluth::resize(const int num) {
   stored_.resize(num);
 }
 
-void Rosenbluth::compute(const double beta, Random * random) {
-  const double lnk = std::log(num());
+void Rosenbluth::compute(const double beta, Random * random, const bool old) {
+  // const double lnk = std::log(num());
   for (int step = 0; step < num(); ++step) {
-    weight_[step] = -beta*energy_[step] - lnk;
+    weight_[step] = -beta*energy_[step];
+    // weight_[step] = -beta*energy_[step] - lnk;
   }
   DEBUG("num " << num());
   DEBUG("weight " << feasst_str(weight_));
@@ -53,7 +54,13 @@ void Rosenbluth::compute(const double beta, Random * random) {
     element /= last;
   }
   TRACE("cumulative " << feasst_str(cumulative_));
-  chosen_step_ = random->index_from_cumulative_probability(cumulative_);
+  if (old) {
+    chosen_step_ = 0;
+  } else {
+    chosen_step_ = random->index_from_cumulative_probability(cumulative_);
+  }
+  TRACE("chosen_step_ " << chosen_step_);
+  ln_total_rosenbluth_ -= std::log(num());
 }
 
 const Select& Rosenbluth::chosen() const {

@@ -45,31 +45,26 @@ void TrialCompute::compute_rosenbluth(
       DEBUG("adding to new energy " << energy);
     }
     energy_change += energy;
-    if (stage->reference() >= 0) {
-      reference_used = true;
-    }
+    if (stage->reference() >= 0) reference_used = true;
   }
   DEBUG("reference used? " << reference_used);
   if (reference_used) {
     ASSERT(acceptance->perturbed().num_sites() > 0, "error");
+
+    // update the trial state of the perturbed selection
     int trial_state = (*stages)[0]->trial_select().mobile().trial_state();
     // set the trial state if old configuration and is a move type (1)
     if (trial_state == 1 && old == 1) trial_state = 0;
     acceptance->set_perturbed_state(trial_state);
+
     DEBUG(acceptance->perturbed().str());
-//    { // delete me
-//      for (int p = 0; p < acceptance->perturbed().num_particles(); ++p) {
-//        const int pindex = acceptance->perturbed().particle_index(p);
-//        for (int s : acceptance->perturbed().site_indices(p)) {
-//          DEBUG("ps " << p << " " << s << " ph " << system->configuration().select_particle(pindex).site(s).is_physical());
-//        }
-//      }
-//    }
     DEBUG("state " << acceptance->perturbed().trial_state());
     const double en_full = system->perturbed_energy(acceptance->perturbed());
     DEBUG("en_full: " << en_full);
     DEBUG("energy ref: " << energy_change);
     acceptance->set_energy_ref(energy_change);
+    DEBUG("old " << old);
+    DEBUG("trial_state " << trial_state);
     if (old == 1) {
       acceptance->set_energy_old(en_full);
       acceptance->add_to_ln_metropolis_prob(-1.*criteria->beta()*

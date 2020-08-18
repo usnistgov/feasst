@@ -6,6 +6,8 @@
 
 namespace feasst {
 
+class Random;
+
 /**
   Always accept the trial.
  */
@@ -19,7 +21,7 @@ class AlwaysAccept : public Criteria {
 
   bool is_accepted(const Acceptance& acceptance,
     const System& system,
-    const double uniform_random) override;
+    Random * random) override;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<AlwaysAccept>(istr); }

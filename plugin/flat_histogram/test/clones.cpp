@@ -75,7 +75,7 @@ Clones make_clones(const int max, const int min) {
     {"alpha", "2"}}).boundaries();
   for (int index = 0; index < static_cast<int>(bounds.size()); ++index) {
     const std::vector<int> bound = bounds[index];
-    INFO(bound[0] << " " << bound[1]);
+    DEBUG(bound[0] << " " << bound[1]);
     auto clone = std::make_shared<MonteCarlo>(monte_carlo(index, bound[0], bound[1]));
 //    clone->set(MakeRandomMT19937({{"seed", "123"}}));
     if (index == 0 && bound[0] > 0) SeekNumParticles(bound[0]).run(clone.get());

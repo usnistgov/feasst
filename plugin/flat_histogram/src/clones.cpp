@@ -177,7 +177,7 @@ void Clones::run_until_complete_omp_(const argtype& run_args,
     } catch(const feasst::CustomException& e) {
       terminated = true;
     }
-    INFO("terminated: " << terminated);
+    DEBUG("terminated: " << terminated);
 
     if (thread == 0 && checkpoint_) checkpoint_->write(*this);
     if (thread < num()) clones_[thread]->write_checkpoint();

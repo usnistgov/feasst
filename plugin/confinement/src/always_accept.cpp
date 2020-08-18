@@ -35,7 +35,7 @@ void AlwaysAccept::serialize(std::ostream& ostr) const {
 
 bool AlwaysAccept::is_accepted(const Acceptance& acceptance,
     const System& system,
-    const double uniform_random) {
+    Random * random) {
   set_current_energy(acceptance.energy_new());
   return true;
 }

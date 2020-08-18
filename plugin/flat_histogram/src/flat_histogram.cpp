@@ -1,7 +1,8 @@
 #include <cmath>
 #include "utils/include/serialize.h"
-#include "flat_histogram/include/flat_histogram.h"
 #include "math/include/constants.h"
+#include "math/include/random.h"
+#include "flat_histogram/include/flat_histogram.h"
 
 namespace feasst {
 
@@ -28,7 +29,7 @@ FlatHistogram::FlatHistogram(std::shared_ptr<Macrostate> macrostate,
 
 bool FlatHistogram::is_accepted(const Acceptance& acceptance,
     const System& system,
-    const double uniform_random) {
+    Random * random) {
   ASSERT(bias_ != NULL, "bias must be initialized before trials");
   bool is_accepted;
   double ln_metropolis_prob = acceptance.ln_metropolis_prob();
@@ -52,7 +53,7 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
     DEBUG("ln old " << bias_->ln_prob().value(macrostate_old_));
     DEBUG("ln met " << ln_metropolis_prob);
     DEBUG("ln tot " << ln_metropolis_prob + bias_->ln_bias(macrostate_new_, macrostate_old_));
-    if (uniform_random < exp(ln_metropolis_prob +
+    if (random->uniform() < exp(ln_metropolis_prob +
                                 bias_->ln_bias(macrostate_new_,
                                                macrostate_old_))) {
       is_accepted = true;

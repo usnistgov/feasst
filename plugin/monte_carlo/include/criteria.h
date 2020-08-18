@@ -10,6 +10,7 @@
 
 namespace feasst {
 
+class Random;
 class Constraint;
 
 /**
@@ -78,7 +79,7 @@ class Criteria {
   /// Return whether or not the trial attempt should be accepted.
   virtual bool is_accepted(const Acceptance& acceptance_,
     const System& system,
-    const double uniform_random) = 0;
+    Random * random) = 0;
 
   /// Return whether or not the last trial attempt was accepted.
   // bool was_accepted() const { return was_accepted_; }

@@ -1,6 +1,7 @@
 #include <cmath>
-#include "monte_carlo/include/metropolis.h"
 #include "utils/include/serialize.h"
+#include "math/include/random.h"
+#include "monte_carlo/include/metropolis.h"
 
 namespace feasst {
 
@@ -15,10 +16,10 @@ Metropolis::Metropolis(std::shared_ptr<Constraint> constraint,
 
 bool Metropolis::is_accepted(const Acceptance& acceptance,
     const System& system,
-    const double uniform_random) {
+    Random * random) {
   if ( (!acceptance.reject()) &&
        (is_allowed(system, acceptance)) &&
-       (uniform_random < std::exp(acceptance.ln_metropolis_prob())) ) {
+       (random->uniform() < std::exp(acceptance.ln_metropolis_prob())) ) {
     DEBUG("accepted");
     set_current_energy(acceptance.energy_new());
     was_accepted_ = true;

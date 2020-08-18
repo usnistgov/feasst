@@ -52,7 +52,9 @@ double energy_av(const int macro, const MonteCarlo& mc) {
 MonteCarlo test_lj_fh(const int num_steps,
     const std::string bias_name,
     int sweeps = 10,
-    bool test_multi = false) {
+    bool test_multi = false,
+    const int min = 1,
+    const int max = 5) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "default"}}));
   int ref = -1;
@@ -68,7 +70,7 @@ MonteCarlo test_lj_fh(const int num_steps,
     {"tunable_param", "1."},
     {"reference_index", str(ref)},
     {"num_steps", str(num_steps)}}));
-  SeekNumParticles(1).with_trial_add().run(&mc);
+  SeekNumParticles(min).with_trial_add().run(&mc);
   argtype transfer_args =
     { {"particle_type0", "0"},
       {"reference_index", str(ref)},
@@ -98,7 +100,7 @@ MonteCarlo test_lj_fh(const int num_steps,
   if (test_multi) width = "2";
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
-      Histogram({{"width", width}, {"max", "5"}, {"min", "1"}})),
+      Histogram({{"width", width}, {"max", str(max)}, {"min", str(min)}})),
     bias,
     { {"beta", str(1./1.5)},
       {"chemical_potential", "-2.352321"}});
@@ -157,7 +159,7 @@ TEST(MonteCarlo, lj_fh) {
 }
 
 TEST(MonteCarlo, lj_fh_LONG) {
-  MonteCarlo mc = test_serialize(test_lj_fh(1, "TM", 1000));
+  MonteCarlo mc = test_serialize(test_lj_fh(4, "TM", 1000));
   mc.run_until_complete();
   const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
   EXPECT_NEAR(lnpi.value(0), -14.037373358321800000, 0.02);
@@ -177,6 +179,24 @@ TEST(MonteCarlo, lj_fh_LONG) {
   EXPECT_NEAR(lnpi3.value(2), -0.00163919230786818, 0.005);
 }
 
+TEST(MonteCarlo, lj_fh_liquid_LONG) {
+  MonteCarlo mc = test_serialize(test_lj_fh(4, "TM", 1000, false, 100, 105));
+  mc.run_until_complete();
+  const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
+  EXPECT_NEAR(lnpi.value(0), -4.92194963175925, 0.02);
+  EXPECT_NEAR(lnpi.value(1), -4.03855513175926, 0.02);
+  EXPECT_NEAR(lnpi.value(2), -3.15822813175925, 0.02);
+  EXPECT_NEAR(lnpi.value(3), -2.28019483175925, 0.01);
+  EXPECT_NEAR(lnpi.value(4), -1.40647303175926, 0.005);
+  EXPECT_NEAR(lnpi.value(5), -0.535594831759248, 0.005);
+  EXPECT_NEAR(energy_av(0, mc), -1.381223800E+02, 0.2);
+  EXPECT_NEAR(energy_av(1, mc), -1.408257000E+02, 0.15);
+  EXPECT_NEAR(energy_av(2, mc), -1.435426000E+02, 0.3);
+  EXPECT_NEAR(energy_av(3, mc), -1.462802100E+02, 0.4);
+  EXPECT_NEAR(energy_av(4, mc), -1.490501400E+02, 0.5);
+  EXPECT_NEAR(energy_av(5, mc), -1.518517300E+02, 0.6);
+}
+
 TEST(MonteCarlo, lj_fh_multi_LONG) {
   //MonteCarlo mc = test_serialize(test_lj_fh(1, "WLTM", 1000, true));
   //MonteCarlo mc = test_serialize(test_lj_fh(1, "WL", 200, true));
@@ -193,92 +213,181 @@ TEST(MonteCarlo, lj_fh_multi_LONG) {
   EXPECT_NEAR(energy_av(2, mc), -0.29619201333333334, 0.02);
 }
 
+// HWH add num steps to spce fh test for DCCB diagnosis
+MonteCarlo test_spce_fh(std::shared_ptr<Bias> bias,
+    const int num_steps = 1,
+    bool test = true,
+    const int min = 0,
+    const int max = 5,
+    const int steps_per = 1e3) {
+  INFO(bias->class_name());
+  MonteCarlo mc;
+  argtype spce_args = {{"physical_constants", "CODATA2010"},
+                       {"cubic_box_length", "20"},
+                       {"alphaL", "5.6"},
+                       {"kmax_squared", "38"}};
+  int ref = -1;
+  if (num_steps > 1) {
+    //spce_args.insert({"dual_cut", str(10)});
+    spce_args.insert({"dual_cut", str(3.16555789)});
+    ref = 0;
+  }
+  mc.set(spce(spce_args));
+  const double beta = 1/kelvin2kJpermol(525, mc.configuration()); // mol/kJ
+  auto criteria = MakeFlatHistogram(
+    MakeMacrostateNumParticles(
+      Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
+    bias,
+    {{"beta", str(beta)},
+     {"chemical_potential", str(-8.14/beta)}});
+  mc.set(criteria);
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
+  mc.add(MakeTrialTransfer({
+    {"particle_type", "0"},
+    {"weight", "4"},
+    {"reference_index", str(ref)},
+    {"num_steps", str(num_steps)}}));
+  SeekNumParticles(min).with_metropolis({{"beta", "1"}, {"chemical_potential", "1"}}).run(&mc);
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_fh"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
+  mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
+  mc.add(MakeCriteriaWriter({
+    {"steps_per", str(steps_per)},
+    {"file_name", "tmp/spce_crit.txt"}}));
+  auto energy = MakeEnergy({
+    {"file_name", "tmp/spce_fh_energy"},
+    {"steps_per_update", "1"},
+    {"steps_per_write", str(steps_per)},
+    {"multistate", "true"}});
+  mc.add(energy);
+  MonteCarlo mc2 = test_serialize(mc);
+  mc2.run_until_complete();
+
+  if (!test) return mc2;
+
+  EXPECT_LE(mc2.system().configuration().num_particles(), 5);
+
+  // known values of lnpi and energy
+  const std::vector<std::vector<double> > lnpi_srsw = {
+    {-2.7207, 0.015},
+    {-1.8523, 0.015},
+    {-1.54708, 0.016},
+    {-1.51786, 0.015},
+    {-1.6479, 0.015},
+    {-1.8786, 0.03}};
+  const std::vector<std::vector<double> >  en_srsw = {
+    {0, 1e-13},
+    {-0.0879115, 1.1293158298007674394e-05},
+    {-2.326, 0.12},
+    {-6.806, 0.24},
+    {-13.499, 0.5},
+    {-22.27, 1.0}};
+
+  FlatHistogram fh(mc2.criteria());
+  const LnProbability& lnpi = fh.bias().ln_prob();
+  for (int macro = 0; macro < lnpi.size(); ++macro) {
+    EXPECT_NEAR(lnpi.value(macro), lnpi_srsw[macro][0],
+      15*lnpi_srsw[macro][1]);
+//      if (bias->class_name() == "TransitionMatrix") {
+      const double en_std = std::sqrt(std::pow(en_srsw[macro][1], 2) +
+        std::pow(energy->energy().block_stdev(), 2));
+      EXPECT_NEAR(energy_av(macro, mc2), en_srsw[macro][0], 15.*en_std);
+//      }
+  }
+
+  return mc2;
+}
+
 TEST(MonteCarlo, spce_fh_LONG) {
   const std::vector<std::shared_ptr<Bias> > biases = {
-    MakeWangLandau({{"min_flatness", "30"}}),
+    MakeWangLandau({{"min_flatness", "40"}}),
     MakeTransitionMatrix({{"min_sweeps", "25"}}),
     MakeWLTM({{"collect_flatness", "20"},
               {"min_flatness", "25"},
               {"min_sweeps", "20"}})};
-  for (auto bias : biases) {
-    MonteCarlo mc;
-    mc.set(spce({{"physical_constants", "CODATA2010"},
-                 {"cubic_box_length", "20"},
-                 {"alphaL", "5.6"},
-                 {"kmax_squared", "38"}}));
-    mc.set(MakeMetropolis({
-      {"beta", str(1/kelvin2kJpermol(525, mc.configuration()))},
-      {"chemical_potential", "-35.294567543492"}}));
-    mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
-    mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
-    mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
-    const double R = mc.configuration().physical_constants().ideal_gas_constant();
-    const double temperature = 525*R/1000; // KJ/mol
-    const double chemical_potential = -35.294567543492;
-    auto criteria = MakeFlatHistogram(
-      MakeMacrostateNumParticles(
-        Histogram({{"width", "1"}, {"max", "5"}, {"min", "0"}})),
-      bias,
-      {{"beta", str(1/temperature)},
-       {"chemical_potential", str(chemical_potential)}});
-    mc.set(criteria);
-    const int steps_per = 1e4;
-    mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_fh"}}));
-    mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
-    mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
-    mc.add(MakeCriteriaWriter({
-      {"steps_per", str(steps_per)},
-      {"file_name", "tmp/spce_crit.txt"},
-    }));
-    auto energy = MakeEnergy({
-      {"file_name", "tmp/spce_fh_energy"},
-      {"steps_per_update", "1"},
-      {"steps_per_write", str(steps_per)},
-      {"multistate", "true"}});
-    mc.add(energy);
-    mc.run_until_complete();
-    test_serialize(mc);
+  for (auto bias : biases) test_spce_fh(bias);
+}
 
-    // known values of lnpi and energy
-    const std::vector<std::vector<double> > lnpi_srsw = {
-      {-2.8646724680467574586, 0.0131699993},
-      {-1.9398627751910603179, 0.0117893901},
-      {-1.5807236756003240075, 0.0163518954},
-      {-1.5052807379855992487, 0.0066184482},
-      {-1.5966420919511339349, 0.0104786041},
-      {-1.7783427365938460074, 0.0291511326}};
-    const std::vector<std::vector<double> >  en_srsw = {
-      {0, 1e-13},
-      {-0.0879115, 1.1293158298007674394e-05},
-      {-2.25995, 0.038263},
-      {-6.52141, 0.0519987},
-      {-12.9855, 0.2504985},
-      {-21.5192, 0.4465020}};
-
-    INFO(bias->class_name());
-    const LnProbability& lnpi = bias->ln_prob();
-    for (int macro = 0; macro < lnpi.size(); ++macro) {
-      EXPECT_NEAR(lnpi.value(macro), lnpi_srsw[macro][0],
-        7*lnpi_srsw[macro][1]);
-//      if (bias->class_name() == "TransitionMatrix") {
-        const double en_std = std::sqrt(std::pow(en_srsw[macro][1], 2) +
-          std::pow(energy->energy().block_stdev(), 2));
-        EXPECT_NEAR(energy_av(macro, mc), en_srsw[macro][0], 10.*en_std);
-//      }
-    }
-
-    EXPECT_LE(mc.system().configuration().num_particles(), 5);
+TEST(MonteCarlo, spce_fh_VERY_LONG) {
+  //for (int num_steps : {1}) {
+  for (int num_steps : {4}) {
+  //for (int num_steps : {1, 4}) {
+    MonteCarlo mc = test_spce_fh(
+      MakeTransitionMatrix({{"min_sweeps", "1000"}}),
+      num_steps,
+      false); // test
+    FlatHistogram fh(mc.criteria());
+    INFO(feasst_str(fh.bias().ln_prob().values()));
+    const LnProbability& lnpi = fh.bias().ln_prob();
+    EXPECT_NEAR(lnpi.value(0), -2.72070275309203, 0.015);
+    EXPECT_NEAR(lnpi.value(1), -1.85234049431879, 0.015);
+    EXPECT_NEAR(lnpi.value(2), -1.54708325224374, 0.015);
+    EXPECT_NEAR(lnpi.value(3), -1.51786213939762, 0.015);
+    EXPECT_NEAR(lnpi.value(4), -1.64791755404893, 0.015);
+    EXPECT_NEAR(lnpi.value(5), -1.87860075480337, 0.03);
+    const std::vector<std::shared_ptr<Analyze> >& en =
+      mc.analyzers().back()->analyzers();
+    EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-13);
+    EXPECT_NEAR(en[1]->accumulator().average(), -0.08790895, 1e-5);
+    EXPECT_NEAR(en[2]->accumulator().average(), -2.32656326, 0.2);
+    EXPECT_NEAR(en[3]->accumulator().average(), -6.80645068, 0.5);
+    EXPECT_NEAR(en[4]->accumulator().average(), -13.49913788, 1.);
+    EXPECT_NEAR(en[5]->accumulator().average(), -22.27407753, 2.0);
   }
 }
 
-TEST(MonteCarlo, rpm_fh_LONG) {
+// This one shows difference with num_steps. Update lnpi and en checks
+TEST(MonteCarlo, spce_fh_liquid_VERY_LONG) {
+  //for (int num_steps : {1}) {
+  //for (int num_steps : {2}) {
+  for (int num_steps : {4}) {
+  //for (int num_steps : {16}) {
+  //for (int num_steps : {1, 4}) {
+    MonteCarlo mc = test_spce_fh(
+      MakeTransitionMatrix({{"min_sweeps", "100"}}),
+      num_steps,
+      false, // test
+      100,   // min
+      105,   // max
+      1e4);  // steps_per
+    FlatHistogram fh(mc.criteria());
+    INFO(feasst_str(fh.bias().ln_prob().values()));
+    const LnProbability& lnpi = fh.bias().ln_prob();
+    EXPECT_NEAR(lnpi.value(0), -1.9471154, 0.15);
+    EXPECT_NEAR(lnpi.value(1), -1.898168, 0.15);
+    EXPECT_NEAR(lnpi.value(2), -1.8426095, 0.15);
+    EXPECT_NEAR(lnpi.value(3), -1.76756244, 0.15);
+    EXPECT_NEAR(lnpi.value(4), -1.707793039, 0.15);
+    EXPECT_NEAR(lnpi.value(5), -1.62427498, 0.15);
+    const std::vector<std::shared_ptr<Analyze> >& en =
+      mc.analyzers().back()->analyzers();
+    EXPECT_NEAR(en[0]->accumulator().average(), -2666.66, 50);
+    EXPECT_NEAR(en[1]->accumulator().average(), -2703.74, 50);
+    EXPECT_NEAR(en[2]->accumulator().average(), -2738.90, 50);
+    EXPECT_NEAR(en[3]->accumulator().average(), -2772.03, 50);
+    EXPECT_NEAR(en[4]->accumulator().average(), -2804.02, 50);
+    EXPECT_NEAR(en[5]->accumulator().average(), -2836.26, 50);
+  }
+}
+
+MonteCarlo rpm_fh_test(
+    const int min = 0,
+    const int max = 2,
+    const int steps_per = 1e3,
+    const int num_steps = 1) {
   MonteCarlo mc;
   // mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  mc.set(rpm({
-    {"cubic_box_length", "12"},
+  argtype rpm_args = {{"cubic_box_length", "12"},
     {"cutoff", "4.891304347826090"},
-    {"alphaL", "6.87098396396261"}}));
+    {"alphaL", "6.87098396396261"}};
+  int ref = -1;
+  if (num_steps > 1) {
+    rpm_args.insert({"dual_cut", "1"});
+    ref = 0;
+  }
+  mc.set(rpm(rpm_args));
   mc.add_to_reference(Potential(MakeDontVisitModel()));
   INFO("charge conversion " << CODATA2018().charge_conversion());
   const double temperature = 0.047899460618081;
@@ -294,13 +403,17 @@ TEST(MonteCarlo, rpm_fh_LONG) {
      {"chemical_potential1", str(beta_mu*temperature)}});
   mc.set(criteria);
   INFO("beta_mu " << criteria->beta_mu(0));
-  mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
+  mc.add(MakeTrialTranslate({
+    {"weight", "0.25"},
+    {"tunable_param", "0.1"},
+    {"reference_index", str(ref)},
+    {"num_steps", str(num_steps)}}));
   mc.add(MakeTrialTransferMultiple({
     {"weight", "4."},
     {"particle_type0", "0"},
     {"particle_type1", "1"},
-    {"reference_index", "0"}}));
-  const int steps_per = 1e5;
+    {"reference_index", "0"},
+    {"num_steps", str(num_steps)}}));
   if (criteria->bias().class_name() == "TransitionMatrix") {
     mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   }
@@ -318,17 +431,21 @@ TEST(MonteCarlo, rpm_fh_LONG) {
     {"steps_per_update", "1"},
     {"steps_per_write", str(steps_per)},
     {"multistate", "true"}}));
-  mc.run_until_complete();
+  MonteCarlo mc2 = test_serialize(mc);
+  mc2.run_until_complete();
+  return mc2;
+}
 
-  test_serialize(mc);
-
-  const LnProbability& lnpi = criteria->bias().ln_prob();
+TEST(MonteCarlo, rpm_fh_LONG) {
+  MonteCarlo mc2 = rpm_fh_test();
+  FlatHistogram fh(mc2.criteria());
+  const LnProbability& lnpi = fh.bias().ln_prob();
   EXPECT_NEAR(lnpi.value(0), -1.2994315780357, 0.1);
   EXPECT_NEAR(lnpi.value(1), -1.08646312498868, 0.1);
   EXPECT_NEAR(lnpi.value(2), -0.941850889679828, 0.1);
-  EXPECT_NEAR(energy_av(0, mc), 0, 1e-14);
-  EXPECT_NEAR(energy_av(1, mc), -0.939408, 0.02);
-  EXPECT_NEAR(energy_av(2, mc), -2.02625, 0.04);
+  EXPECT_NEAR(energy_av(0, mc2), 0, 1e-14);
+  EXPECT_NEAR(energy_av(1, mc2), -0.939408, 0.02);
+  EXPECT_NEAR(energy_av(2, mc2), -2.02625, 0.04);
 }
 
 TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {

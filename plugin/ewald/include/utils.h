@@ -27,6 +27,9 @@ args:
 - kmax_squared: maximum squared wave vector (default: 38)
 - physical_constants: as described in Configuration (default: CODATA2018)
 - xyz_file: optionally load xyz file.
+- dual_cut: add cell list with this width and also create a short-range
+  reference potential with this cutoff.
+  Ignore if -1 (default: -1).
  */
 System spce(const argtype& args = argtype());
 

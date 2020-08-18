@@ -7,6 +7,8 @@
 
 namespace feasst {
 
+class Random;
+
 // HWH Rename to MayerSampling
 /**
   Mayer-sampling Monte Carlo acceptance criteria.
@@ -19,7 +21,7 @@ class CriteriaMayer : public Criteria {
 
   bool is_accepted(const Acceptance& acceptance,
     const System& system,
-    const double uniform_random) override;
+    Random * random) override;
 
   double second_virial() const;
 

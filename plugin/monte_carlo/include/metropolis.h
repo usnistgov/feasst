@@ -6,6 +6,8 @@
 
 namespace feasst {
 
+class Random;
+
 /**
   Metropolis acceptance criteria.
 
@@ -21,7 +23,7 @@ class Metropolis : public Criteria {
 
   bool is_accepted(const Acceptance& acceptance,
     const System& system,
-    const double uniform_random) override;
+    Random * random) override;
 
   std::shared_ptr<Criteria> create(std::istream& istr) const override {
     return std::make_shared<Metropolis>(istr); }
