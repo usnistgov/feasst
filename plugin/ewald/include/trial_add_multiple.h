@@ -1,6 +1,6 @@
 
-#ifndef FEASST_MONTE_CARLO_TRIAL_ADD_MULTIPLE_H_
-#define FEASST_MONTE_CARLO_TRIAL_ADD_MULTIPLE_H_
+#ifndef FEASST_EWALD_TRIAL_ADD_MULTIPLE_H_
+#define FEASST_EWALD_TRIAL_ADD_MULTIPLE_H_
 
 #include <memory>
 #include "utils/include/arguments.h"
@@ -39,4 +39,4 @@ inline std::shared_ptr<TrialAddMultiple> MakeTrialAddMultiple(
 
 }  // namespace feasst
 
-#endif  // FEASST_MONTE_CARLO_TRIAL_ADD_MULTIPLE_H_
+#endif  // FEASST_EWALD_TRIAL_ADD_MULTIPLE_H_
