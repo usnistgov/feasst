@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>utils/include/utils_file &mdash; FEASST v0.12.0 documentation</title>
+  <title>utils/include/utils_file &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -44,8 +44,6 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Arguments" href="Arguments.html" />
-    <link rel="prev" title="utils/include/debug" href="debug.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,19 +79,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -105,43 +96,10 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../README.html">Utilities</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="Timer.html">Timer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="utils.html">utils/include/utils</a></li>
-<li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
-<li class="toctree-l3"><a class="reference internal" href="debug.html">utils/include/debug</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">utils/include/utils_file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Arguments.html">Arguments</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
-<li class="toctree-l3"><a class="reference internal" href="utils_io.html">utils/include/utils_io</a></li>
-<li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../math/README.html">Math</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../configuration/README.html">Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../system/README.html">System</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../monte_carlo/README.html">Monte Carlo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../example/README.html">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../models/README.html">Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../flat_histogram/README.html">Flat histogram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../patch/README.html">Patch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../threads/README.html">Threads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../README.html#plugins-in-development">Plugins in development</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../py/README.html">pyFEASST</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../forcefield/README.html">Forcefield</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../CONTACT.html">Contact</a></li>
@@ -214,12 +172,6 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../README.html">Plugins</a> &raquo;</li>
-        
-          <li><a href="../README.html">Utilities</a> &raquo;</li>
-        
-          <li><a href="toc.html">&lt;no title&gt;</a> &raquo;</li>
-        
       <li>utils/include/utils_file</li>
     
     
@@ -263,37 +215,10 @@
 </style>
 <div class="section" id="utils-include-utils-file">
 <h1>utils/include/utils_file<a class="headerlink" href="#utils-include-utils-file" title="Permalink to this headline">¶</a></h1>
-<dl class="cpp type">
-<dt id="_CPPv46feasst">
-<span class="target" id="namespacefeasst"></span><em class="property">namespace </em><code class="sig-name descname">feasst</code><br /></dt>
-<dd><div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Functions</p>
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst15skip_charactersEKcRNSt8ifstreamE">
-<span class="target" id="namespacefeasst_1a0593690a53bb70e778ffe75e1b61ad7e"></span>void <code class="sig-name descname">skip_characters</code><span class="sig-paren">(</span><em class="property">const</em> char <em>comment</em>, std::ifstream &amp;<em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst15skip_charactersEKcRNSt8ifstreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Skip all lines beginning with character in file. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst4findEPKcRNSt8ifstreamE">
-<span class="target" id="namespacefeasst_1afe3cd9ea13f6d946e2f5a279d7aa11d1"></span>bool <code class="sig-name descname">find</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>search_string</em>, std::ifstream &amp;<em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst4findEPKcRNSt8ifstreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Skip all lines in file until reaching a certain line with search_string. Return 1 if found. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst4findEKNSt6stringERNSt8ifstreamE">
-<span class="target" id="namespacefeasst_1a260ae07fa4aac38c8f541e41345f6e45"></span>bool <code class="sig-name descname">find</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>search_string</em>, std::ifstream &amp;<em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst4findEKNSt6stringERNSt8ifstreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd></dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4N6feasst6feasst12find_or_failEPKcRNSt8ifstreamE">
-<span class="target" id="namespacefeasst_1a841b8b366fae21e1f7979eb5a763a728"></span>void <code class="sig-name descname">find_or_fail</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>search_string</em>, std::ifstream &amp;<em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst12find_or_failEPKcRNSt8ifstreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Same as find except terminate if search_string is not found. </p>
-</dd></dl>
-
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenfile: Cannot find file “utils/include/utils_file.h </p>
 </div>
-</dd></dl>
-
 </div>
 
 
@@ -301,15 +226,6 @@
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="Arguments.html" class="btn btn-neutral float-right" title="Arguments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="debug.html" class="btn btn-neutral float-left" title="utils/include/debug" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

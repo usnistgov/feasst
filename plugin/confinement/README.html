@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Confinement &mdash; FEASST v0.12.0 documentation</title>
+  <title>Confinement &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Slab, cylindrical, spherical and mixed confinement" href="tutorial/tutorial.html" />
-    <link rel="prev" title="PerturbSiteType" href="../chain/doc/PerturbSiteType.html" />
+    <link rel="prev" title="SlabSine" href="../shape/doc/SlabSine.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -122,19 +115,17 @@
 <li class="toctree-l2"><a class="reference internal" href="../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../shape/README.html">Shape</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Confinement</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="tutorial/tutorial.html">Slab, cylindrical, spherical and mixed confinement</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="doc/Shape.html">Shape</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/ShapeIntersect.html">ShapeIntersect</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/ModelHardShape.html">ModelHardShape</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/Cylinder.html">Cylinder</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/HalfSpace.html">HalfSpace</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/Slab.html">Slab</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/Sphere.html">Sphere</a></li>
-<li class="toctree-l4"><a class="reference internal" href="doc/ShapeUnion.html">ShapeUnion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="doc/ModelLJShape.html">ModelLJShape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/AlwaysAccept.html">AlwaysAccept</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/HenryCoefficient.html">HenryCoefficient</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ModelHardShape.html">ModelHardShape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/TrialAnywhereNewOnly.html">TrialAnywhereNewOnly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="doc/ModelTableCart1DHard.html">ModelTableCart1DHard</a></li>
 </ul>
 </li>
 </ul>
@@ -271,22 +262,21 @@
 <div class="section" id="feasst-plugin-dependencies">
 <h2>FEASST plugin dependencies<a class="headerlink" href="#feasst-plugin-dependencies" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>system</p></li>
+<li><p>monte_carlo</p></li>
+<li><p>mayer</p></li>
+<li><p>shape</p></li>
 </ul>
 </div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="doc/Shape.html">Shape</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ShapeIntersect.html">ShapeIntersect</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ModelHardShape.html">ModelHardShape</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Cylinder.html">Cylinder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/HalfSpace.html">HalfSpace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Slab.html">Slab</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Sphere.html">Sphere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/ShapeUnion.html">ShapeUnion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/ModelLJShape.html">ModelLJShape</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/AlwaysAccept.html">AlwaysAccept</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/HenryCoefficient.html">HenryCoefficient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ModelHardShape.html">ModelHardShape</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/TrialAnywhereNewOnly.html">TrialAnywhereNewOnly</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ModelTableCart1DHard.html">ModelTableCart1DHard</a></li>
 </ul>
 </div>
 </div>
@@ -303,7 +293,7 @@
         <a href="tutorial/tutorial.html" class="btn btn-neutral float-right" title="Slab, cylindrical, spherical and mixed confinement" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../chain/doc/PerturbSiteType.html" class="btn btn-neutral float-left" title="PerturbSiteType" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../shape/doc/SlabSine.html" class="btn btn-neutral float-left" title="SlabSine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

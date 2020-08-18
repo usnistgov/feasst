@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Matrix &mdash; FEASST v0.12.0 documentation</title>
+  <title>Matrix &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -111,6 +104,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Accumulator.html">Accumulator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Histogram.html">Histogram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
@@ -119,9 +113,15 @@
 <li class="toctree-l3"><a class="reference internal" href="Position.html">Position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Random.html">Random</a></li>
 <li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Minimize.html">Minimize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GoldenSearch.html">GoldenSearch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Solver.html">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SolverBisection.html">SolverBisection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SolverBrentDekker.html">SolverBrentDekker</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -136,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -278,6 +279,24 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst6Matrix6MatrixENSt6vectorINSt6vectorIdEEEE">
+<span class="target" id="classfeasst_1_1Matrix_1a84f654bc0b1a60dc2b8dbe4a333b3ae5"></span><code class="sig-name descname">Matrix</code><span class="sig-paren">(</span>std::vector&lt;std::vector&lt;double&gt;&gt; <em>matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Matrix6MatrixENSt6vectorINSt6vectorIdEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Alternatively, construct with 2d vector data. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst6Matrix8num_rowsEv">
+<span class="target" id="classfeasst_1_1Matrix_1a7b7146466e135b968198e051114bf2cd"></span>int <code class="sig-name descname">num_rows</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Matrix8num_rowsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of rows. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst6Matrix11num_columnsEv">
+<span class="target" id="classfeasst_1_1Matrix_1a2ed2878437be7e0da2f58e8fb4dddc15"></span>int <code class="sig-name descname">num_columns</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Matrix11num_columnsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of columns. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst6Matrix9set_valueEKiKiKd">
 <span class="target" id="classfeasst_1_1Matrix_1a6775b204f07058d4fc114ad649267999"></span>void <code class="sig-name descname">set_value</code><span class="sig-paren">(</span><em class="property">const</em> int <em>row</em>, <em class="property">const</em> int <em>column</em>, <em class="property">const</em> double <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Matrix9set_valueEKiKiKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Set the value of an element given by the row and column index. </p>
@@ -291,7 +310,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst6Matrix6matrixEv">
-<span class="target" id="classfeasst_1_1Matrix_1a4d52894233895b63eac3d6d66f23da49"></span>std::vector&lt;std::vector&lt;double&gt;&gt; <code class="sig-name descname">matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Matrix6matrixEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Matrix_1a2898afcbe21dd0ae068fa2ecca2a46df"></span><em class="property">const</em> std::vector&lt;std::vector&lt;double&gt;&gt; &amp;<code class="sig-name descname">matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Matrix6matrixEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the entire matrix. </p>
 </dd></dl>
 
@@ -314,9 +333,21 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst6Matrix4zeroEv">
+<span class="target" id="classfeasst_1_1Matrix_1ae489aaf5ea6c8de9debe6e9d30f0c2e6"></span>void <code class="sig-name descname">zero</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Matrix4zeroEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set all elements to zero. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst6Matrix8multiplyERK8Position">
 <span class="target" id="classfeasst_1_1Matrix_1ac0a375e8e84db28621c94ae2b16c7718"></span><a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> <code class="sig-name descname">multiply</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>vec</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Matrix8multiplyERK8Position" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the vector which is a product of the multiplication of a matrix with the given vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst6Matrix8multiplyERK8PositionP8Position">
+<span class="target" id="classfeasst_1_1Matrix_1a9584402e08dd9bf2bc434e180a209d1a"></span>void <code class="sig-name descname">multiply</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>vec</em>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>result</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Matrix8multiplyERK8PositionP8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but optimized to avoid construction of <a class="reference internal" href="Position.html#classfeasst_1_1Position"><span class="std std-ref">Position</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">

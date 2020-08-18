@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST v0.12.0 documentation</title>
+  <title>Grand canonical ensemble transition-matrix Monte Carlo &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -127,6 +120,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#api">API</a></li>
 </ul>
@@ -135,6 +129,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -494,17 +489,126 @@ div.rendered_html tbody tr:hover {
 <h1>Grand canonical ensemble transition-matrix Monte Carlo<a class="headerlink" href="#Grand-canonical-ensemble-transition-matrix-Monte-Carlo" title="Permalink to this headline">¶</a></h1>
 <p>In this example, flat histogram methods are employed for a small macrostate range from 0 to 5 particles. Flat histogram acceptance criteria and Monte Carlo are defined using <code class="docutils literal notranslate"><span class="pre">fh.py</span></code>. To begin, the system is initialized with the minimum number of particles by setting Metropolis acceptance criteria with favorable conditions for adding particles. The Metropolis criteria are then replaced with the flat histogram criteria. At this point, typical analysis from the previous tutorials are added. In
 addition, we also add checkpoint files, criteria status, and average energy of a given macrostate. Finally, the simulation is run until the requested number of iterations of the flat histogram algorithm are complete.</p>
-<p>A small macrostate range allows the simulation to run quickly with good sampling, and thus it is an ideal starting point to test the simulations.</p>
-<div class="nbinput nblast docutils container">
+<p>A small macrostate range allows the simulation to run quickly with good sampling, and thus it is an ideal starting point to test the simulations. To begin, read the previous SRSW values from file for comparison.</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">import</span> <span class="nn">feasst</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/plugin/flat_histogram/tutorial/&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">fh</span>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
+
+<span class="n">ln_prob_srsw</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">LnProbability</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../test/data/stat150.csv&quot;</span><span class="p">)[</span><span class="s2">&quot;lnPI&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
+<span class="n">ln_prob_srsw</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span> <span class="c1"># normalize to account for a smaller macrostate range</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ln_prob_srsw</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ln_prob_srsw&quot;</span><span class="p">})</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;ln_prob_srsw_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.04</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;u_srsw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../test/data/stat150.csv&quot;</span><span class="p">)[</span><span class="s2">&quot;energy&quot;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;u_srsw_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../test/data/stat150.csv&quot;</span><span class="p">)[</span><span class="s2">&quot;energystd&quot;</span><span class="p">]</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ln_prob_srsw</th>
+      <th>ln_prob_srsw_std</th>
+      <th>u_srsw</th>
+      <th>u_srsw_std</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-18.707570</td>
+      <td>0.04</td>
+      <td>-2.312265e-10</td>
+      <td>6.689238e-10</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-14.037373</td>
+      <td>0.04</td>
+      <td>-6.057402e-04</td>
+      <td>6.709198e-10</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-10.050312</td>
+      <td>0.04</td>
+      <td>-3.057422e-02</td>
+      <td>9.649147e-06</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-6.458921</td>
+      <td>0.04</td>
+      <td>-8.992832e-02</td>
+      <td>1.387472e-04</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-3.145637</td>
+      <td>0.04</td>
+      <td>-1.784571e-01</td>
+      <td>3.315245e-05</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>-0.045677</td>
+      <td>0.04</td>
+      <td>-2.961920e-01</td>
+      <td>1.348791e-05</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">pyfeasst</span>
+
+<span class="k">def</span> <span class="nf">run_sample_lj_tm_mc</span><span class="p">(</span><span class="n">checkpoint_file_name</span><span class="p">):</span>
+    <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">lennard_jones</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeFlatHistogram</span><span class="p">(</span>
+        <span class="n">fst</span><span class="o">.</span><span class="n">MakeMacrostateNumParticles</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="s2">&quot;5&quot;</span><span class="p">}))),</span>
+        <span class="n">fst</span><span class="o">.</span><span class="n">MakeTransitionMatrix</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;min_sweeps&quot;</span><span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">})),</span>
+        <span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">1.5</span><span class="p">),</span> <span class="s2">&quot;chemical_potential&quot;</span><span class="p">:</span> <span class="s2">&quot;-2.352321&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTranslate</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;0.25&quot;</span><span class="p">,</span> <span class="s2">&quot;tunable_param&quot;</span><span class="p">:</span> <span class="s2">&quot;1.&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeTrialTransfer</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeLogAndMovie</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span> <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lj&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckEnergyAndTune</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span> <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1e-8</span><span class="p">)})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaUpdater</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1e5</span><span class="p">)})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaWriter</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span> <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lj_fh.txt&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeEnergy</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;lj_en.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;steps_per_update&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;steps_per_write&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mf">1e5</span><span class="p">),</span> <span class="s2">&quot;multistate&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCheckpoint</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="n">checkpoint_file_name</span><span class="p">,</span> <span class="s2">&quot;num_hours&quot;</span><span class="p">:</span> <span class="s2">&quot;0.001&quot;</span><span class="p">})))</span>
+    <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">()</span>
 
 <span class="k">class</span> <span class="nc">TestFlatHistogramLJ</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Test flat histogram grand canonical ensemble Monte Carlo simulations&quot;&quot;&quot;</span>
@@ -513,49 +617,32 @@ addition, we also add checkpoint files, criteria status, and average energy of a
 <span class="sd">        https://www.nist.gov/programs-projects/nist-standard-reference-simulation-website</span>
 <span class="sd">        https://mmlapps.nist.gov/srs/LJ_PURE/eostmmc.htm</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">criteria</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">criteria_flathist</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">macro_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">macro_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">tmmc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">monte_carlo</span><span class="p">(</span><span class="n">criteria</span><span class="o">=</span><span class="n">criteria</span><span class="p">,</span> <span class="n">run</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">MakeCheckpoint</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;checkpoint0.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;num_hours&quot;</span><span class="p">:</span> <span class="s2">&quot;0.001&quot;</span><span class="p">})))</span>
-        <span class="n">monte_carlo</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">()</span>
-        <span class="n">lnpi_previous</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">18.707570324988800000</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">14.037373358321800000</span><span class="p">,</span> <span class="mf">0.037092307087640365</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">10.050312091655200000</span><span class="p">,</span> <span class="mf">0.03696447428346385</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">6.458920624988570000</span><span class="p">,</span> <span class="mf">0.037746391500313385</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">3.145637424988510000</span><span class="p">,</span> <span class="mf">0.03809721387875822</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">0.045677458321876000</span><span class="p">,</span> <span class="mf">0.03845757460933292</span><span class="p">]</span>
-        <span class="p">]</span>
-        <span class="n">energy_previous</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e-14</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">0.0006057402333333332</span><span class="p">,</span> <span class="mf">6.709197666659334e-10</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">0.0307</span><span class="p">,</span> <span class="mf">9.649146611661053e-06</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">0.089928316</span><span class="p">,</span> <span class="mf">0.0001387472078025413</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">0.1784570533333333</span><span class="p">,</span> <span class="mf">3.3152449884326804e-05</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">0.29619201333333334</span><span class="p">,</span> <span class="mf">1.3487910636322294e-05</span><span class="p">],</span>
-        <span class="p">]</span>
+        <span class="c1"># To emulate post-processing, obtain monte_carlo from checkpoint file</span>
+        <span class="n">checkpoint_file_name</span><span class="o">=</span><span class="s1">&#39;checkpoint.txt&#39;</span>
+        <span class="n">run_sample_lj_tm_mc</span><span class="p">(</span><span class="n">checkpoint_file_name</span><span class="p">)</span>
+        <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">pyfeasst</span><span class="o">.</span><span class="n">read_checkpoint</span><span class="p">(</span><span class="n">checkpoint_file_name</span><span class="p">))</span>
+
+        <span class="c1"># To compare with previous values, make a deep copy of the FlatHistogram derived class</span>
+        <span class="n">criteria</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">FlatHistogram</span><span class="p">(</span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">criteria</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;lnpi energy&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">macro</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">criteria</span><span class="o">.</span><span class="n">num_states</span><span class="p">()):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span>
-                <span class="n">lnpi_previous</span><span class="p">[</span><span class="n">macro</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">df</span><span class="p">[</span><span class="s2">&quot;ln_prob_srsw&quot;</span><span class="p">][</span><span class="n">macro</span><span class="p">],</span>
                 <span class="n">criteria</span><span class="o">.</span><span class="n">bias</span><span class="p">()</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">macro</span><span class="p">),</span>
-                <span class="n">delta</span><span class="o">=</span><span class="n">lnpi_previous</span><span class="p">[</span><span class="n">macro</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-            <span class="p">)</span>
+                <span class="n">delta</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ln_prob_srsw_std&quot;</span><span class="p">][</span><span class="n">macro</span><span class="p">])</span>
             <span class="n">energy_analyzer</span> <span class="o">=</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">num_analyzers</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">energy_accumulator</span> <span class="o">=</span> <span class="n">energy_analyzer</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">macro</span><span class="p">)</span><span class="o">.</span><span class="n">accumulator</span><span class="p">()</span>
-            <span class="n">stdev</span> <span class="o">=</span> <span class="p">(</span><span class="n">energy_previous</span><span class="p">[</span><span class="n">macro</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">energy_accumulator</span><span class="o">.</span><span class="n">block_stdev</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">energy_accumulator</span><span class="o">.</span><span class="n">average</span><span class="p">())</span>
+            <span class="n">stdev</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;u_srsw_std&quot;</span><span class="p">][</span><span class="n">macro</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">energy_accumulator</span><span class="o">.</span><span class="n">block_stdev</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+            <span class="c1">#print(criteria.bias().ln_prob().value(macro), energy_accumulator.average())</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span>
-                <span class="n">energy_previous</span><span class="p">[</span><span class="n">macro</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">df</span><span class="p">[</span><span class="s2">&quot;u_srsw&quot;</span><span class="p">][</span><span class="n">macro</span><span class="p">],</span>
                 <span class="n">energy_accumulator</span><span class="o">.</span><span class="n">average</span><span class="p">(),</span>
-                <span class="c1">#criteria.bias().ln_prob().value(macro),</span>
-                <span class="n">delta</span><span class="o">=</span><span class="mi">5</span><span class="o">*</span><span class="n">stdev</span>
-            <span class="p">)</span>
-
+                <span class="n">delta</span><span class="o">=</span><span class="mi">5</span><span class="o">*</span><span class="n">stdev</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -578,14 +665,9 @@ Compare the free energies and potential energies with the NIST SRSW ...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
--5.505927407148185e-16
--0.0006057400016613032
--0.030541307596437715
--0.09004610630972813
--0.17866881545428673
--0.294479125837981
-CPU times: user 4.59 s, sys: 564 ms, total: 5.15 s
-Wall time: 5.14 s
+lnpi energy
+CPU times: user 10.1 s, sys: 1.72 s, total: 11.8 s
+Wall time: 11.8 s
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -596,130 +678,907 @@ Wall time: 5.14 s
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 5.142s
+Ran 1 test in 11.764s
 
 OK
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f50c86e3730&gt;
+&lt;unittest.main.TestProgram at 0x7fbe30320100&gt;
 </pre></div></div>
 </div>
 <p>A number of files should also have been created. If the flat histogram method is sampling perfectly, the simulation performs a random walk along the macrostate. For larger ranges of macrostates, or for more difficult sampling cases, monitoring the macrostate can help you determine what conditions are preventing convergence. For example, a plot of the macrostate as a function of the number of attempts may look like the following:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;log0.txt&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;attempt&#39;</span><span class="p">,</span> <span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_1_lj_gcmc_4_0.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_1_lj_gcmc_4_0.svg" /></div>
-</div>
-<p>The energy of each macrostate may also be visualized and compared with the published values in the NIST SRSW.</p>
-<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pyfeasst</span>
-
-<span class="n">label</span><span class="o">=</span><span class="s1">&#39;energy&#39;</span>
-<span class="n">num_processors</span><span class="o">=</span><span class="mi">1</span>
-
-<span class="k">def</span> <span class="nf">combine_energy</span><span class="p">(</span><span class="n">append</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Aggregate individual files into one data frame&quot;&quot;&quot;</span>
-    <span class="n">dfall</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">proc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_processors</span><span class="p">):</span>
-        <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span>
-            <span class="n">pyfeasst</span><span class="o">.</span><span class="n">read_checkpoint</span><span class="p">(</span><span class="s2">&quot;checkpoint&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">proc</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">criteria</span><span class="p">()</span><span class="o">.</span><span class="n">num_states</span><span class="p">()):</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;energy&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">proc</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.txt_&quot;</span> <span class="o">+</span> <span class="n">append</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
-            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">state</span>
-            <span class="n">dfall</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfall</span><span class="p">)</span>
-
-<span class="n">en</span> <span class="o">=</span> <span class="n">combine_energy</span><span class="p">()</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">en</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;average&#39;</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">en</span><span class="p">[</span><span class="s1">&#39;block_stdev&#39;</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
-<span class="n">dfsrsw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../test/data/stat150.csv&quot;</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">dfsrsw</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s1">&#39;energystd&#39;</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span>
-                                                  <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">5.5</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],</span>
-                                                  <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;SRSW&#39;</span><span class="p">,</span> <span class="s1">&#39;FEASST&#39;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;macrostate&#39;</span><span class="p">)</span>
+<span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;lj.txt&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Text(0.5, 0, &#39;macrostate&#39;)
-</pre></div></div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>volume</th>
+      <th>p0</th>
+      <th>state</th>
+      <th>energy</th>
+      <th>attempt</th>
+      <th>TrialTranslate</th>
+      <th>tunable</th>
+      <th>TrialAdd</th>
+      <th>TrialRemove</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>512</td>
+      <td>5</td>
+      <td>5</td>
+      <td>-4.842120e-01</td>
+      <td>100000</td>
+      <td>0.945221</td>
+      <td>1.00000</td>
+      <td>0.044758</td>
+      <td>0.044666</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>512</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-1.895160e-02</td>
+      <td>200000</td>
+      <td>0.965126</td>
+      <td>1.05000</td>
+      <td>0.716170</td>
+      <td>0.724496</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>512</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4.585090e-16</td>
+      <td>300000</td>
+      <td>0.829157</td>
+      <td>1.10250</td>
+      <td>0.805386</td>
+      <td>0.802693</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>512</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>400000</td>
+      <td>0.804204</td>
+      <td>1.15763</td>
+      <td>0.814039</td>
+      <td>0.807408</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>512</td>
+      <td>4</td>
+      <td>4</td>
+      <td>-3.897400e-02</td>
+      <td>500000</td>
+      <td>0.810413</td>
+      <td>1.21551</td>
+      <td>0.811324</td>
+      <td>0.812772</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-2.561560e-02</td>
+      <td>600000</td>
+      <td>0.812194</td>
+      <td>1.27628</td>
+      <td>0.809864</td>
+      <td>0.813974</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>700000</td>
+      <td>0.802427</td>
+      <td>1.34010</td>
+      <td>0.807582</td>
+      <td>0.809661</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>512</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8.382730e-15</td>
+      <td>800000</td>
+      <td>0.797931</td>
+      <td>1.40710</td>
+      <td>0.812250</td>
+      <td>0.807970</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>512</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-2.739090e-02</td>
+      <td>900000</td>
+      <td>0.812754</td>
+      <td>1.47746</td>
+      <td>0.805339</td>
+      <td>0.816374</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>512</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-2.948100e-01</td>
+      <td>1000000</td>
+      <td>0.800170</td>
+      <td>1.55133</td>
+      <td>0.808636</td>
+      <td>0.816741</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>512</td>
+      <td>4</td>
+      <td>4</td>
+      <td>-4.932320e-01</td>
+      <td>1100000</td>
+      <td>0.801891</td>
+      <td>1.62889</td>
+      <td>0.812297</td>
+      <td>0.805328</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>512</td>
+      <td>5</td>
+      <td>5</td>
+      <td>-2.863500e-02</td>
+      <td>1200000</td>
+      <td>0.806826</td>
+      <td>1.71034</td>
+      <td>0.801599</td>
+      <td>0.812588</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>512</td>
+      <td>4</td>
+      <td>4</td>
+      <td>-9.790360e-01</td>
+      <td>1300000</td>
+      <td>0.798768</td>
+      <td>1.79586</td>
+      <td>0.812165</td>
+      <td>0.810915</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>512</td>
+      <td>5</td>
+      <td>5</td>
+      <td>-8.857210e-01</td>
+      <td>1400000</td>
+      <td>0.804139</td>
+      <td>1.88565</td>
+      <td>0.808453</td>
+      <td>0.809737</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>1500000</td>
+      <td>0.803236</td>
+      <td>1.97993</td>
+      <td>0.810836</td>
+      <td>0.813167</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>1600000</td>
+      <td>0.802837</td>
+      <td>2.07893</td>
+      <td>0.813109</td>
+      <td>0.811320</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>512</td>
+      <td>4</td>
+      <td>4</td>
+      <td>-6.245010e-01</td>
+      <td>1700000</td>
+      <td>0.791328</td>
+      <td>2.18287</td>
+      <td>0.810612</td>
+      <td>0.805540</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>512</td>
+      <td>5</td>
+      <td>5</td>
+      <td>-2.346770e-02</td>
+      <td>1800000</td>
+      <td>0.803976</td>
+      <td>2.29202</td>
+      <td>0.809227</td>
+      <td>0.809344</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>512</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-5.451660e-03</td>
+      <td>1900000</td>
+      <td>0.802876</td>
+      <td>2.40662</td>
+      <td>0.813085</td>
+      <td>0.810525</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>2000000</td>
+      <td>0.798925</td>
+      <td>2.52695</td>
+      <td>0.805151</td>
+      <td>0.809126</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>2100000</td>
+      <td>0.804122</td>
+      <td>2.65330</td>
+      <td>0.811004</td>
+      <td>0.814742</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>512</td>
+      <td>4</td>
+      <td>4</td>
+      <td>-3.392890e-02</td>
+      <td>2200000</td>
+      <td>0.806313</td>
+      <td>2.78596</td>
+      <td>0.808257</td>
+      <td>0.816642</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>512</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>2300000</td>
+      <td>0.801029</td>
+      <td>2.92526</td>
+      <td>0.812057</td>
+      <td>0.813534</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>512</td>
+      <td>5</td>
+      <td>5</td>
+      <td>-5.025780e-02</td>
+      <td>2400000</td>
+      <td>0.801760</td>
+      <td>3.07152</td>
+      <td>0.806721</td>
+      <td>0.816102</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>512</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-3.919390e-16</td>
+      <td>2500000</td>
+      <td>0.797248</td>
+      <td>3.22510</td>
+      <td>0.809901</td>
+      <td>0.809179</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-1.153720e-02</td>
+      <td>2600000</td>
+      <td>0.796102</td>
+      <td>3.38635</td>
+      <td>0.805822</td>
+      <td>0.813047</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>512</td>
+      <td>4</td>
+      <td>4</td>
+      <td>-7.158450e-01</td>
+      <td>2700000</td>
+      <td>0.795828</td>
+      <td>3.55567</td>
+      <td>0.812555</td>
+      <td>0.806236</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>512</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>2800000</td>
+      <td>0.800290</td>
+      <td>3.73346</td>
+      <td>0.816436</td>
+      <td>0.807361</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>512</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4.403700e-15</td>
+      <td>2900000</td>
+      <td>0.798101</td>
+      <td>3.92013</td>
+      <td>0.813907</td>
+      <td>0.808259</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>512</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-5.451660e-03</td>
+      <td>3000000</td>
+      <td>0.792579</td>
+      <td>3.92013</td>
+      <td>0.815649</td>
+      <td>0.807352</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>512</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-1.869920e-15</td>
+      <td>3100000</td>
+      <td>0.801944</td>
+      <td>3.92013</td>
+      <td>0.814166</td>
+      <td>0.814424</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>512</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>3200000</td>
+      <td>0.799641</td>
+      <td>3.92013</td>
+      <td>0.812519</td>
+      <td>0.813613</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>3300000</td>
+      <td>0.801104</td>
+      <td>3.92013</td>
+      <td>0.808750</td>
+      <td>0.811862</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>512</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>3400000</td>
+      <td>0.796212</td>
+      <td>3.92013</td>
+      <td>0.814829</td>
+      <td>0.811377</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>512</td>
+      <td>4</td>
+      <td>4</td>
+      <td>-9.691840e-03</td>
+      <td>3500000</td>
+      <td>0.796318</td>
+      <td>3.92013</td>
+      <td>0.811054</td>
+      <td>0.812705</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>3600000</td>
+      <td>0.792727</td>
+      <td>3.92013</td>
+      <td>0.812807</td>
+      <td>0.812043</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>3700000</td>
+      <td>0.796823</td>
+      <td>3.92013</td>
+      <td>0.807557</td>
+      <td>0.815023</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>512</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>3800000</td>
+      <td>0.798743</td>
+      <td>3.92013</td>
+      <td>0.814227</td>
+      <td>0.808711</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>3900000</td>
+      <td>0.800905</td>
+      <td>3.92013</td>
+      <td>0.810020</td>
+      <td>0.809631</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>512</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>4000000</td>
+      <td>0.802772</td>
+      <td>3.92013</td>
+      <td>0.808072</td>
+      <td>0.814926</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>512</td>
+      <td>4</td>
+      <td>4</td>
+      <td>-8.496510e-01</td>
+      <td>4100000</td>
+      <td>0.804103</td>
+      <td>3.92013</td>
+      <td>0.811957</td>
+      <td>0.814823</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>512</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-5.451660e-03</td>
+      <td>4200000</td>
+      <td>0.799681</td>
+      <td>3.92013</td>
+      <td>0.811460</td>
+      <td>0.814251</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>512</td>
+      <td>5</td>
+      <td>5</td>
+      <td>-1.305670e-01</td>
+      <td>4300000</td>
+      <td>0.792278</td>
+      <td>3.92013</td>
+      <td>0.812281</td>
+      <td>0.811826</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>4400000</td>
+      <td>0.788397</td>
+      <td>3.92013</td>
+      <td>0.812445</td>
+      <td>0.802357</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>512</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-3.442200e-02</td>
+      <td>4500000</td>
+      <td>0.798416</td>
+      <td>3.92013</td>
+      <td>0.811130</td>
+      <td>0.809585</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-2.422960e-03</td>
+      <td>4600000</td>
+      <td>0.795141</td>
+      <td>3.92013</td>
+      <td>0.811051</td>
+      <td>0.810306</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>512</td>
+      <td>5</td>
+      <td>5</td>
+      <td>-3.450180e-01</td>
+      <td>4700000</td>
+      <td>0.801046</td>
+      <td>3.92013</td>
+      <td>0.809256</td>
+      <td>0.808248</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>512</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>4800000</td>
+      <td>0.797152</td>
+      <td>3.92013</td>
+      <td>0.814963</td>
+      <td>0.811447</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>512</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-3.897710e-16</td>
+      <td>4900000</td>
+      <td>0.799850</td>
+      <td>3.92013</td>
+      <td>0.810902</td>
+      <td>0.811758</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>512</td>
+      <td>4</td>
+      <td>4</td>
+      <td>-9.691840e-03</td>
+      <td>5000000</td>
+      <td>0.794192</td>
+      <td>3.92013</td>
+      <td>0.811916</td>
+      <td>0.811046</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>512</td>
+      <td>2</td>
+      <td>2</td>
+      <td>-1.473500e-02</td>
+      <td>5100000</td>
+      <td>0.801362</td>
+      <td>3.92013</td>
+      <td>0.804795</td>
+      <td>0.813922</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>512</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-6.057400e-04</td>
+      <td>5200000</td>
+      <td>0.797702</td>
+      <td>3.92013</td>
+      <td>0.807221</td>
+      <td>0.813581</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_1_lj_gcmc_6_1.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_1_lj_gcmc_6_1.svg" /></div>
-</div>
-<p>You may also plot the natural logarithm of the macrostate probability</p>
+<p>Note that states are index integer values starting from 0 (e.g., 0, 1, 2, …, criteria.num_states() - 1) The state and macrostate happen to be the same when the minimum macrostate is 0, and the macrostate is the integer number of particles. But if the minimum macrostate was 1, then state 0 would correspond to macrostate 1.0. Obtain an arbitrary macrostate value from the state as follows.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;ln_prob&#39;</span>
-
-<span class="k">def</span> <span class="nf">combine_criteria</span><span class="p">(</span><span class="n">prepend</span><span class="o">=</span><span class="s1">&#39;crit&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Combine multiple criteria files together, assuming that the last macrostate in the ith</span>
-<span class="sd">    file is equivalent to the first macrostate in the (i+1)th file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">dfall</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="n">prev</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">proc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_processors</span><span class="p">):</span>
-        <span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">prepend</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">proc</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-        <span class="n">df1</span><span class="p">[</span><span class="n">label</span> <span class="o">+</span> <span class="s2">&quot;_combine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df1</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
-        <span class="n">df1</span><span class="p">[</span><span class="n">label</span> <span class="o">+</span> <span class="s2">&quot;_combine&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">prev</span> <span class="o">-</span> <span class="n">df1</span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">dfall</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df1</span><span class="p">)</span>
-        <span class="n">prev</span> <span class="o">=</span> <span class="n">df1</span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfall</span><span class="p">)</span>
-
-<span class="n">combine_criteria</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;macrostate&#39;</span><span class="p">,</span> <span class="s1">&#39;ln_prob&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">)</span>
+<span></span><span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MonteCarlo</span><span class="p">()</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">pyfeasst</span><span class="o">.</span><span class="n">read_checkpoint</span><span class="p">(</span><span class="s2">&quot;checkpoint.txt&quot;</span><span class="p">))</span>
+<span class="n">criteria</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">FlatHistogram</span><span class="p">(</span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">criteria</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;state macrostate&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">criteria</span><span class="o">.</span><span class="n">num_states</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">criteria</span><span class="o">.</span><span class="n">macrostate</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f50a2ac3e80&gt;
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/plugin_flat_histogram_tutorial_tutorial_1_lj_gcmc_8_1.svg" src="../../../_images/plugin_flat_histogram_tutorial_tutorial_1_lj_gcmc_8_1.svg" /></div>
+<div class="highlight"><pre>
+state macrostate
+0 0.0
+1 1.0
+2 2.0
+3 3.0
+4 4.0
+5 5.0
+</pre></div></div>
+</div>
+<p>Many simulation parameters may be obtained from the checkpoint file to automate your analysis.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">domain</span><span class="p">()</span><span class="o">.</span><span class="n">volume</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">criteria</span><span class="p">()</span><span class="o">.</span><span class="n">beta</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;beta_mu&#39;</span><span class="p">,</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">criteria</span><span class="p">()</span><span class="o">.</span><span class="n">beta_mu</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;macro_min&#39;</span><span class="p">,</span> <span class="n">criteria</span><span class="o">.</span><span class="n">macrostate</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>  <span class="c1"># monte_carlo.critera() doesn&#39;t know macrostate. Use copy of derived class</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;macro_max&#39;</span><span class="p">,</span> <span class="n">criteria</span><span class="o">.</span><span class="n">macrostate</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">criteria</span><span class="o">.</span><span class="n">num_states</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;macro_max&#39;</span><span class="p">,</span> <span class="n">criteria</span><span class="o">.</span><span class="n">macrostate</span><span class="p">()</span><span class="o">.</span><span class="n">histogram</span><span class="p">()</span><span class="o">.</span><span class="n">center_of_last_bin</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+volume 512.0
+beta 0.6666666666666666
+beta_mu -1.5682139999999998
+macro_min 0.0
+macro_max 5.0
+macro_max 5.0
+</pre></div></div>
+</div>
+<p>The energy of each macrostate may also be compared with the published values in the NIST SRSW.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">en</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;lj_en.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="s2">&quot;block_stdev&quot;</span><span class="p">:</span> <span class="s2">&quot;u_std&quot;</span><span class="p">})</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">en</span><span class="p">[[</span><span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="s2">&quot;u_std&quot;</span><span class="p">]]),</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;u_srsw&quot;</span><span class="p">,</span> <span class="s2">&quot;u_srsw_std&quot;</span><span class="p">]]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>u</th>
+      <th>u_std</th>
+      <th>u_srsw</th>
+      <th>u_srsw_std</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4.779125e-16</td>
+      <td>3.411879e-16</td>
+      <td>-2.312265e-10</td>
+      <td>6.689238e-10</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-6.057400e-04</td>
+      <td>3.074653e-12</td>
+      <td>-6.057402e-04</td>
+      <td>6.709198e-10</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-3.026077e-02</td>
+      <td>1.660217e-04</td>
+      <td>-3.057422e-02</td>
+      <td>9.649147e-06</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-8.956044e-02</td>
+      <td>3.142392e-04</td>
+      <td>-8.992832e-02</td>
+      <td>1.387472e-04</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-1.766038e-01</td>
+      <td>5.066156e-04</td>
+      <td>-1.784571e-01</td>
+      <td>3.315245e-05</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>-2.934080e-01</td>
+      <td>1.648603e-03</td>
+      <td>-2.961920e-01</td>
+      <td>1.348791e-05</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>You may also compare the natural logarithm of the macrostate probability</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ln_prob_srsw&quot;</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;lj_fh.txt&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">3</span><span class="p">)[</span><span class="s1">&#39;ln_prob&#39;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ln_prob_srsw</th>
+      <th>ln_prob</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-18.707570</td>
+      <td>-18.710519</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-14.037373</td>
+      <td>-14.040327</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-10.050312</td>
+      <td>-10.052388</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-6.458921</td>
+      <td>-6.460596</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-3.145637</td>
+      <td>-3.146210</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>-0.045677</td>
+      <td>-0.045649</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
 <p>The macrostate probability distribution depends upon the choice of the chemical potential, but can be reweighted to different chemical potentials.</p>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

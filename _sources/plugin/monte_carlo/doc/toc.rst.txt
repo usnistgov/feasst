@@ -10,34 +10,34 @@
    Constraint
    ConstrainNumParticles
    TrialSelect
+   TrialSelectParticle
    TrialSelectBond
    TrialSelectAngle
-   TrialSelectParticle
    Perturb
+   PerturbMove
+   PerturbTranslate
+   PerturbDistance
    TrialStage
    TrialCompute
+   TrialComputeMove
+   TrialComputeAdd
+   TrialComputeRemove
    Trial
+   TrialMove
+   TrialTranslate
    TrialRemove
    TrialFactory
    Analyze
    AnalyzeFactory
+   SeekNumParticles
+   TrialTransfer
    Modify
    ModifyFactory
    MonteCarlo
-   SeekNumParticles
-   TrialTransfer
    TrialAdd
-   TrialComputeAdd
-   TrialComputeRemove
-   TrialComputeMove
-   PerturbMove
-   PerturbTranslate
-   PerturbDistance
-   TrialMove
-   TrialTranslate
+   PerturbDistanceAngle
    PerturbRotate
    TrialRotate
    PerturbAnywhere
    PerturbAdd
    PerturbRemove
-   PerturbDistanceAngle

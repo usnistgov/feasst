@@ -22,6 +22,7 @@ Plugins may be added or removed by changing the FEASST_PLUGINS variable in CMake
    mayer/README
    xtc/README
    chain/README
+   shape/README
    confinement/README
    ewald/README
    opt_lj/README

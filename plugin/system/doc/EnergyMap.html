@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>EnergyMap &mdash; FEASST v0.12.0 documentation</title>
+  <title>EnergyMap &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="VisitModelInner" href="VisitModelInner.html" />
-    <link rel="prev" title="Model" href="Model.html" />
+    <link rel="prev" title="SynchronizeData" href="SynchronizeData.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -117,6 +110,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">EnergyMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
@@ -156,6 +150,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -325,11 +320,12 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst9EnergyMap9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6RandomP6Select">
-<span class="target" id="classfeasst_1_1EnergyMap_1af4fe79e1ac445c0d9ca4ee815777519e"></span><em class="property">virtual</em> void <code class="sig-name descname">neighbors</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>neighbor_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>target_particle</em>, <em class="property">const</em> int <em>target_site</em>, <em class="property">const</em> int <em>random_site</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>neighbors</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9EnergyMap9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6RandomP6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst9EnergyMap9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6RandomP6SelectKi">
+<span class="target" id="classfeasst_1_1EnergyMap_1a12ff81c848798cbe7b8d261d626e3d2c"></span><em class="property">virtual</em> void <code class="sig-name descname">neighbors</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>neighbor_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>target_particle</em>, <em class="property">const</em> int <em>target_site</em>, <em class="property">const</em> int <em>random_site</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>neighbors</em>, <em class="property">const</em> int <em>new_map</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst9EnergyMap9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6RandomP6SelectKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">random_site</span></code>: random_site is the given site index. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">new_map</span></code>: If 1, use newly computed map. </p></li>
 </ul>
 </dd>
 </dl>
@@ -353,7 +349,7 @@
         <a href="VisitModelInner.html" class="btn btn-neutral float-right" title="VisitModelInner" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Model.html" class="btn btn-neutral float-left" title="Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="SynchronizeData.html" class="btn btn-neutral float-left" title="SynchronizeData" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

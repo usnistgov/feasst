@@ -1,12 +1,9 @@
 
 .. toctree::
 
-   Shape
-   ShapeIntersect
-   ModelHardShape
-   Cylinder
-   HalfSpace
-   Slab
-   Sphere
-   ShapeUnion
    ModelLJShape
+   AlwaysAccept
+   HenryCoefficient
+   ModelHardShape
+   TrialAnywhereNewOnly
+   ModelTableCart1DHard

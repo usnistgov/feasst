@@ -12,7 +12,9 @@ This is a plugin for confinement.
 FEASST plugin dependencies
 ============================
 
-* system
+* monte_carlo
+* mayer
+* shape
 
 API
 ===

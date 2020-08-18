@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>math/include/utils_math &mdash; FEASST v0.12.0 documentation</title>
+  <title>math/include/utils_math &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -111,6 +104,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../../README.html">Plugins</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../utils/README.html">Utilities</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Math</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Table.html">Table</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Accumulator.html">Accumulator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Histogram.html">Histogram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Formula.html">Formula</a></li>
@@ -119,9 +113,15 @@
 <li class="toctree-l3"><a class="reference internal" href="Position.html">Position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Random.html">Random</a></li>
 <li class="toctree-l3"><a class="reference internal" href="constants.html">math/include/constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Minimize.html">Minimize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="GoldenSearch.html">GoldenSearch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="FormulaExponential.html">FormulaExponential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Matrix.html">Matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="RandomMT19937.html">RandomMT19937</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Solver.html">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SolverNewtonRaphson.html">SolverNewtonRaphson</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SolverBisection.html">SolverBisection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SolverBrentDekker.html">SolverBrentDekker</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
 </li>
@@ -136,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -300,6 +301,42 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst7minimumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE">
+<span class="target" id="namespacefeasst_1a42cd46d8930e1d55b470636fbfc91a15"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7minimumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="feasst::feasst::minimum::T">T</a> <code class="sig-name descname">minimum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7minimumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="feasst::feasst::minimum::T">T</a>&gt;&gt;&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst7minimumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the minimum element of a 3D vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst7minimumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE">
+<span class="target" id="namespacefeasst_1a8eed693cfc46830032c4178d6bb472da"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7minimumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="feasst::feasst::minimum::T">T</a> <code class="sig-name descname">minimum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7minimumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="feasst::feasst::minimum::T">T</a>&gt;&gt;&gt;&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst7minimumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the minimum element of a 4D vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorI1TEE">
+<span class="target" id="namespacefeasst_1a23f6b42e1aaaa9b82aeb33a452575908"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorI1TEE" title="feasst::feasst::maximum::T">T</a> <code class="sig-name descname">maximum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorI1TEE" title="feasst::feasst::maximum::T">T</a>&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the maximum element of a vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorI1TEEEE">
+<span class="target" id="namespacefeasst_1a2b3270fb82f9d18a8f3018d195735b48"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorI1TEEEE" title="feasst::feasst::maximum::T">T</a> <code class="sig-name descname">maximum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorI1TEEEE" title="feasst::feasst::maximum::T">T</a>&gt;&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the maximum element of a 2D vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE">
+<span class="target" id="namespacefeasst_1affdc2c7b86f49c1c1f07ffeaee6e24ff"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="feasst::feasst::maximum::T">T</a> <code class="sig-name descname">maximum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="feasst::feasst::maximum::T">T</a>&gt;&gt;&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the maximum element of a 3D vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE">
+<span class="target" id="namespacefeasst_1ae4f3ae235cd90979f501b46301c2cfcb"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="feasst::feasst::maximum::T">T</a> <code class="sig-name descname">maximum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="feasst::feasst::maximum::T">T</a>&gt;&gt;&gt;&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the maximum element of a 4D vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorI1TEE">
 <span class="target" id="namespacefeasst_1a0faa49341332fb8c3853265d3503c644"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorI1TEE" title="feasst::feasst::sum::T">T</a> <code class="sig-name descname">sum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorI1TEE" title="feasst::feasst::sum::T">T</a>&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst3sumE1TRKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the sum of all elements in a vector. </p>
@@ -327,18 +364,6 @@
 <dt id="_CPPv4I0EN6feasst6feasst21local_minimum_indicesENSt6vectorIiEERKNSt6vectorI1TEEKi">
 <span class="target" id="namespacefeasst_1a7403da05cc3dc3461a6d55949fc64266"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />std::vector&lt;int&gt; <code class="sig-name descname">local_minimum_indices</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst21local_minimum_indicesENSt6vectorIiEERKNSt6vectorI1TEEKi" title="feasst::feasst::local_minimum_indices::T">T</a>&gt; &amp;<em>vec</em>, <em class="property">const</em> int <em>num_smooth</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst21local_minimum_indicesENSt6vectorIiEERKNSt6vectorI1TEEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the minimum element of a 2D vector with smoothing. The returned indices must be global minimum between +/- num_smooth. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorI1TEE">
-<span class="target" id="namespacefeasst_1a23f6b42e1aaaa9b82aeb33a452575908"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorI1TEE" title="feasst::feasst::maximum::T">T</a> <code class="sig-name descname">maximum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorI1TEE" title="feasst::feasst::maximum::T">T</a>&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the maximum element of a vector. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorI1TEEEE">
-<span class="target" id="namespacefeasst_1a2b3270fb82f9d18a8f3018d195735b48"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br /><a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorI1TEEEE" title="feasst::feasst::maximum::T">T</a> <code class="sig-name descname">maximum</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorI1TEEEE" title="feasst::feasst::maximum::T">T</a>&gt;&gt; &amp;<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst7maximumE1TRKNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the maximum element of a 2D vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -399,6 +424,30 @@
 <dt id="_CPPv4N6feasst6feasst22spherical_shell_volumeEKdKdKi">
 <span class="target" id="namespacefeasst_1aafe6ed697408e54185536f1ebb1fc866"></span>double <code class="sig-name descname">spherical_shell_volume</code><span class="sig-paren">(</span><em class="property">const</em> double <em>lower</em>, <em class="property">const</em> double <em>upper</em>, <em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst22spherical_shell_volumeEKdKdKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the volume in a spherical shell. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorI1TEEPNSt6vectorI1TEE">
+<span class="target" id="namespacefeasst_1a13862dcf71b99add4a83fb7d20d3154b"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorI1TEEPNSt6vectorI1TEE" title="feasst::feasst::add::T">T</a>&gt; &amp;<em>vec1</em>, std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorI1TEEPNSt6vectorI1TEE" title="feasst::feasst::add::T">T</a>&gt; *<em>vec2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorI1TEEPNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add vec1 to vec2. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorI1TEEEEPNSt6vectorINSt6vectorI1TEEEE">
+<span class="target" id="namespacefeasst_1add729f74d42a19aa281f8a2358da7124"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorI1TEEEEPNSt6vectorINSt6vectorI1TEEEE" title="feasst::feasst::add::T">T</a>&gt;&gt; &amp;<em>vec1</em>, std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorI1TEEEEPNSt6vectorINSt6vectorI1TEEEE" title="feasst::feasst::add::T">T</a>&gt;&gt; *<em>vec2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorI1TEEEEPNSt6vectorINSt6vectorI1TEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add vec1 to vec2. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEEPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE">
+<span class="target" id="namespacefeasst_1a5bd7c30ffcd0a0ec9a8d7d258c6c031d"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEEPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="feasst::feasst::add::T">T</a>&gt;&gt;&gt; &amp;<em>vec1</em>, std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEEPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="feasst::feasst::add::T">T</a>&gt;&gt;&gt; *<em>vec2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEEPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add vec1 to vec2. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE">
+<span class="target" id="namespacefeasst_1aefc497e91c303e99899fe585f2f0dfe8"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="feasst::feasst::add::T">T</a>&gt;&gt;&gt;&gt; &amp;<em>vec1</em>, std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="feasst::feasst::add::T">T</a>&gt;&gt;&gt;&gt; *<em>vec2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst3addEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add vec1 to vec2. </p>
 </dd></dl>
 
 </div>

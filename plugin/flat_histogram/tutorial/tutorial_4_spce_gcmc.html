@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Grand canonical ensemble transition-matrix Monte Carlo with SPC/E &mdash; FEASST v0.12.0 documentation</title>
+  <title>Grand canonical ensemble transition-matrix Monte Carlo with SPC/E &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -127,6 +120,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#api">API</a></li>
 </ul>
@@ -135,6 +129,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -517,34 +512,32 @@ div.rendered_html tbody tr:hover {
             <span class="n">feasst</span><span class="o">.</span><span class="n">MakeDomain</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;cubic_box_length&quot;</span><span class="p">:</span> <span class="s2">&quot;20&quot;</span><span class="p">})),</span>
             <span class="n">feasst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;particle_type&quot;</span><span class="p">:</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span>  <span class="s2">&quot;/forcefield/data.spce&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;physical_constants&quot;</span><span class="p">:</span> <span class="s2">&quot;CODATA2010&quot;</span><span class="p">}))</span>
-        <span class="n">R</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">model_params</span><span class="p">()</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">()</span><span class="o">.</span><span class="n">ideal_gas_constant</span><span class="p">()</span>
-        <span class="n">criteria</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">criteria_flathist</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="mi">525</span><span class="o">*</span><span class="n">R</span><span class="o">/</span><span class="mf">1000.</span><span class="p">,</span>
-                                        <span class="n">chemical_potential</span><span class="o">=-</span><span class="mf">35.294567543492</span><span class="p">,</span>
+        <span class="n">temperature</span> <span class="o">=</span> <span class="n">feasst</span><span class="o">.</span><span class="n">kelvin2kJpermol</span><span class="p">(</span><span class="mi">525</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="n">criteria</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">criteria_flathist</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                        <span class="n">chemical_potential</span><span class="o">=-</span><span class="mf">8.14</span><span class="o">*</span><span class="n">temperature</span><span class="p">,</span>
                                         <span class="n">macro_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">macro_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">tmmc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">monte_carlo</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">monte_carlo</span><span class="p">(</span><span class="n">criteria</span><span class="o">=</span><span class="n">criteria</span><span class="p">,</span>
                                      <span class="n">system</span><span class="o">=</span><span class="n">spce</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
 
         <span class="n">lnpi_previous</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">2.8646724680467574586</span><span class="p">,</span> <span class="mf">0.013169999365463097227</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">1.9398627751910603179</span><span class="p">,</span> <span class="mf">0.01178939015260997529</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">1.5807236756003240075</span><span class="p">,</span> <span class="mf">0.016351895458997890015</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">1.5052807379855992487</span><span class="p">,</span> <span class="mf">0.0066184482356891451496</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">1.5966420919511339349</span><span class="p">,</span> <span class="mf">0.0104786041905751727</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">1.7783427365938460074</span><span class="p">,</span> <span class="mf">0.029151132638980264272</span><span class="p">]</span>
-        <span class="p">]</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">2.7207</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">1.8523</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">1.54708</span><span class="p">,</span> <span class="mf">0.016</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">1.51786</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">1.6479</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">1.8786</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">]]</span>
         <span class="n">energy_previous</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e-14</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">0.0879115</span><span class="p">,</span> <span class="mf">1.1293158298007674394e-06</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">2.25995</span><span class="p">,</span> <span class="mf">0.0038263972837305035464</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">6.52141</span><span class="p">,</span> <span class="mf">0.051998794872444117909</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">12.9855</span><span class="p">,</span> <span class="mf">0.25049856933159531103</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mf">21.5192</span><span class="p">,</span> <span class="mf">0.44650204517740099686</span><span class="p">],</span>
-        <span class="p">]</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e-13</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">0.0879115</span><span class="p">,</span> <span class="mf">1.1293158298007674394e-05</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">2.326</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">6.806</span><span class="p">,</span> <span class="mf">0.24</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">13.499</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">22.27</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]]</span>
         <span class="k">for</span> <span class="n">macro</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">criteria</span><span class="o">.</span><span class="n">num_states</span><span class="p">()):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span>
                 <span class="n">lnpi_previous</span><span class="p">[</span><span class="n">macro</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">criteria</span><span class="o">.</span><span class="n">bias</span><span class="p">()</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">macro</span><span class="p">),</span>
-                <span class="n">delta</span><span class="o">=</span><span class="mf">5.</span><span class="o">*</span><span class="n">lnpi_previous</span><span class="p">[</span><span class="n">macro</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">delta</span><span class="o">=</span><span class="mf">15.</span><span class="o">*</span><span class="n">lnpi_previous</span><span class="p">[</span><span class="n">macro</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
             <span class="p">)</span>
             <span class="n">energy_analyzer</span> <span class="o">=</span> <span class="n">monte_carlo</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">monte_carlo</span><span class="o">.</span><span class="n">num_analyzers</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">energy_accumulator</span> <span class="o">=</span> <span class="n">energy_analyzer</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">macro</span><span class="p">)</span><span class="o">.</span><span class="n">accumulator</span><span class="p">()</span>
@@ -553,7 +546,7 @@ div.rendered_html tbody tr:hover {
                 <span class="n">energy_previous</span><span class="p">[</span><span class="n">macro</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">energy_accumulator</span><span class="o">.</span><span class="n">average</span><span class="p">(),</span>
                 <span class="c1">#criteria.bias().ln_prob().value(macro),</span>
-                <span class="n">delta</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="n">stdev</span>
+                <span class="n">delta</span><span class="o">=</span><span class="mi">15</span><span class="o">*</span><span class="n">stdev</span>
             <span class="p">)</span>
 
 </pre></div>
@@ -583,8 +576,8 @@ Compare the free energies and potential energies with the NIST SRSW ...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 1min 39s, sys: 953 ms, total: 1min 40s
-Wall time: 1min 40s
+CPU times: user 1min 41s, sys: 1.06 s, total: 1min 42s
+Wall time: 1min 42s
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -595,7 +588,7 @@ Wall time: 1min 40s
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 100.561s
+Ran 1 test in 102.293s
 
 OK
 </pre></div></div>
@@ -606,7 +599,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f26c43ea400&gt;
+&lt;unittest.main.TestProgram at 0x7f48484725f8&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ComputeAddMultiple &mdash; FEASST v0.12.0 documentation</title>
+  <title>ComputeAddMultiple &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -122,6 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Ewald</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
@@ -272,7 +266,7 @@
 <dt id="_CPPv4N6feasst18ComputeAddMultipleE">
 <span class="target" id="classfeasst_1_1ComputeAddMultiple"></span><em class="property">class </em><code class="sig-name descname">ComputeAddMultiple</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/TrialCompute.html#_CPPv4N6feasst12TrialComputeE" title="feasst::TrialCompute">TrialCompute</a><a class="headerlink" href="#_CPPv4N6feasst18ComputeAddMultipleE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Attempt to add multiple particles.</p>
-<p>For a derivation of the acceptance criteria, see <a class="reference internal" href="../../monte_carlo/doc/TrialComputeMove.html#classfeasst_1_1TrialComputeMove"><span class="std std-ref">TrialComputeMove</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialComputeAdd.html#classfeasst_1_1TrialComputeAdd"><span class="std std-ref">TrialComputeAdd</span></a> for reference. For m particles added of types t1, t2, …, tm:</p>
+<p>For a derivation of the acceptance criteria, see <a class="reference internal" href="../../monte_carlo/doc/TrialComputeMove.html#classfeasst_1_1TrialComputeMove"><span class="std std-ref">TrialComputeMove</span></a> and <a class="reference internal" href="../../monte_carlo/doc/TrialComputeAdd.html#classfeasst_1_1TrialComputeAdd"><span class="std std-ref">TrialComputeAdd</span></a> for reference. For adding multiple particles i, j, …, z:</p>
 <p><table class="docutils align-default">
 <colgroup>
 <col style="width: 48%" />
@@ -293,28 +287,30 @@
 <p><span class="math notranslate nohighlight">\([1/w]\)</span></p>
 </td>
 </tr>
-<tr class="row-odd"><td><p>Place particle of type t1</p>
-<p>[Delete particle type t1]</p>
+<tr class="row-odd"><td><p>Place particle of type i</p>
+<p>[Delete particle type i]</p>
 </td>
 <td><p><span class="math notranslate nohighlight">\(1/V\)</span></p>
-<p><span class="math notranslate nohighlight">\(\left[\frac{1}{N_{t1}+1}\right]\)</span></p>
+<p><span class="math notranslate nohighlight">\(\left[1/(N_{i}+
+\sum_{a=i}^{z}\delta_{ia})\right]\)</span></p>
 </td>
 </tr>
-<tr class="row-even"><td><p>Place particle of type t2</p>
-<p>[Delete particle type t2]</p>
+<tr class="row-even"><td><p>Place particle of type j</p>
+<p>[Delete particle type j]</p>
 </td>
 <td><p><span class="math notranslate nohighlight">\(1/V\)</span></p>
-<p><span class="math notranslate nohighlight">\(\left[\frac{1}{N_{t2}+1}\right]\)</span></p>
+<p><span class="math notranslate nohighlight">\(\left[1/(N_{j}+
+\sum_{a=j}^{z}\delta_{ja})\right]\)</span></p>
 </td>
 </tr>
 <tr class="row-odd"><td><p>…</p></td>
 <td><p>…</p></td>
 </tr>
-<tr class="row-even"><td><p>Place particle of type tm</p>
-<p>[Delete particle type tm]</p>
+<tr class="row-even"><td><p>Place particle of type z</p>
+<p>[Delete particle type z]</p>
 </td>
 <td><p><span class="math notranslate nohighlight">\(1/V\)</span></p>
-<p><span class="math notranslate nohighlight">\(\left[\frac{1}{N_{tm}+1}\right]\)</span></p>
+<p><span class="math notranslate nohighlight">\(\left[1/(N_{z}+1)\right]\)</span></p>
 </td>
 </tr>
 <tr class="row-odd"><td><p>Accept</p>
@@ -326,9 +322,15 @@
 </tr>
 </tbody>
 </table>
-<p>Application of local detailed balance yeilds the acceptance probability,</p>
-<p><span class="math notranslate nohighlight">\(\chi = e^{-\beta\Delta U}\prod_{i=1,...,m}\frac{Ve^{\beta\mu_i}}
-{(N_{ti}+1)\Lambda^d}\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(\delta_{ab} = 1\)</span> when the types of particles <span class="math notranslate nohighlight">\(a\)</span> and
+<span class="math notranslate nohighlight">\(b\)</span> are identical.
+Otherwise, <span class="math notranslate nohighlight">\(\delta = 0\)</span>.</p>
+<p>Application of local detailed balance yields the acceptance probability,</p>
+<p><span class="math notranslate nohighlight">\(\chi = e^{-\beta\Delta U}\prod_{a=i}^z\frac{Ve^{\beta\mu_a}}
+{(N_a+\sum_{b=a}^{z}\delta_{ab})\Lambda^d}\)</span></p>
+<p>This equation was derived from the perspective of the old state.
+If the new state is the perspective,
+<span class="math notranslate nohighlight">\(N_a+\sum_{b=a}^{z}\delta_{ab} \rightarrow N_a-\sum_{b=i}^{a-1}\delta_{ab}\)</span></p>
  </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>

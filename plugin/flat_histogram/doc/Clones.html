@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Clones &mdash; FEASST v0.12.0 documentation</title>
+  <title>Clones &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -119,6 +112,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../steppers/README.html">Steppers</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Flat histogram</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Window.html">Window</a></li>
@@ -142,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -307,6 +302,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst6Clones3setENSt10shared_ptrI10CheckpointEE">
+<span class="target" id="classfeasst_1_1Clones_1a4495c64cf1fab491277e1ca8cf0a1e38"></span>void <code class="sig-name descname">set</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="../../utils/doc/Checkpoint.html#_CPPv4N6feasst10CheckpointE" title="feasst::Checkpoint">Checkpoint</a>&gt; <em>checkpoint</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones3setENSt10shared_ptrI10CheckpointEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a checkpoint. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst6Clones10initializeERK7argtype">
 <span class="target" id="classfeasst_1_1Clones_1ae876c9f9ad15dfb2dece2bc8b71e8502"></span>void <code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones10initializeERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Assuming the the first clone is already initialized, run the first clone until it reaches a macrostate the overlaps with the next clone, and exchange this configuration (e.g., bottom up initialization). Repeat until all clones have been initialized.</p>
@@ -328,15 +329,22 @@
 <span class="target" id="classfeasst_1_1Clones_1adea14ea39e0f44a15dfa6dc1708da682"></span>void <code class="sig-name descname">run_until_complete</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones18run_until_completeERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Run until all clones are complete. If OMP is available, run the clones in parallel threads until all clones are complete.</p>
 <p>args:<ul class="simple">
-<li><p>omp_batch: If OMP, while waiting for other threads to complete, run this many trials in between checking for completion (default: 1). </p></li>
+<li><p>omp_batch: If OMP, for each this many steps, check for completion and write aggregate ln_prob (default: 1e6).</p></li>
+<li><p>ln_prob_file: file name of aggregate ln_prob. If empty (default), do not write the file. </p></li>
 </ul>
 </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst6Clones33initialize_and_run_until_completeERK7argtypeRK7argtype">
-<span class="target" id="classfeasst_1_1Clones_1a9070bca4ede7cc5c493cfe33be0d2ef1"></span>void <code class="sig-name descname">initialize_and_run_until_complete</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>init_args</em> = argtype(), <em class="property">const</em> argtype &amp;<em>run_args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones33initialize_and_run_until_completeERK7argtypeRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Clones_1aa785fac407955de8fe479fdf86cdb8d9"></span>void <code class="sig-name descname">initialize_and_run_until_complete</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>run_args</em> = argtype(), <em class="property">const</em> argtype &amp;<em>init_args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones33initialize_and_run_until_completeERK7argtypeRK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Combine the bottom up initialization and run until complete. With OMP, the first clone will run until finding overlap with the second. Once overlap is found, the first and second run in parallel while the second finds overlap with the third. This is repeated until all clones are running in parallel. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6Clones18set_num_iterationsEKi">
+<span class="target" id="classfeasst_1_1Clones_1a5d4d24c0062e267b4ff40d01d185d5d2"></span>void <code class="sig-name descname">set_num_iterations</code><span class="sig-paren">(</span><em class="property">const</em> int <em>iterations</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Clones18set_num_iterationsEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the number of <a class="reference internal" href="../../monte_carlo/doc/Criteria.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> iterations of all clones. </p>
 </dd></dl>
 
 <dl class="cpp function">

@@ -2,6 +2,7 @@
 .. toctree::
 
    Model
+   SynchronizeData
    EnergyMap
    VisitModelInner
    BondThreeBody

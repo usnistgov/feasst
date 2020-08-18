@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Parallelize a flat histogram simulation &mdash; FEASST v0.12.0 documentation</title>
+  <title>Parallelize a flat histogram simulation &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -127,6 +120,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#api">API</a></li>
 </ul>
@@ -135,6 +129,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -495,7 +490,7 @@ div.rendered_html tbody tr:hover {
 <p>A grand canonical ensemble transition-matrix Monte Carlo simulation is parallelized by dividing the macrostate ranges of each processor into overlapping windows.</p>
 <p>As an exercise, compare the macrostate probability distribution output for all windows with the individual windows in the files (crit#.txt). Attempt to unify these individual macrostate probability distributions.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -503,7 +498,7 @@ div.rendered_html tbody tr:hover {
 <span class="kn">import</span> <span class="nn">pyfeasst</span>
 
 <span class="k">def</span> <span class="nf">mc</span><span class="p">(</span><span class="n">thread</span><span class="p">,</span> <span class="n">mn</span><span class="p">,</span> <span class="n">mx</span><span class="p">):</span>
-    <span class="n">steps_per</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e2</span><span class="p">)</span>
+    <span class="n">steps_per</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">)</span>
     <span class="n">mc</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">MakeMonteCarlo</span><span class="p">()</span>
     <span class="n">mc</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">lennard_jones</span><span class="p">())</span>
     <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeFlatHistogram</span><span class="p">(</span>
@@ -519,12 +514,12 @@ div.rendered_html tbody tr:hover {
     <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaUpdater</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">)})))</span>
     <span class="n">mc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">MakeCriteriaWriter</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
         <span class="s2">&quot;steps_per&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">steps_per</span><span class="p">),</span>
-        <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;tmp/clones&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">thread</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_crit.txt&quot;</span><span class="p">})))</span>
+        <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;clones&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">thread</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_crit.txt&quot;</span><span class="p">})))</span>
     <span class="k">return</span> <span class="n">mc</span>
 
 <span class="n">windows</span><span class="o">=</span><span class="n">fst</span><span class="o">.</span><span class="n">WindowExponential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
   <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span>
   <span class="s2">&quot;maximum&quot;</span><span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">,</span>
   <span class="s2">&quot;extra_overlap&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">}))</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">windows</span><span class="p">)</span>
@@ -533,18 +528,39 @@ div.rendered_html tbody tr:hover {
 <span class="k">for</span> <span class="n">proc</span><span class="p">,</span> <span class="n">win</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">windows</span><span class="p">):</span>
     <span class="n">clones</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">mc</span><span class="p">(</span><span class="n">proc</span><span class="p">,</span> <span class="n">win</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">win</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 <span class="n">clones</span><span class="o">.</span><span class="n">initialize_and_run_until_complete</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">clones</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="c1">#print(clones.ln_prob().values())</span>
+<span class="nb">open</span><span class="p">(</span><span class="s1">&#39;clones.fst&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">clones</span><span class="o">.</span><span class="n">serialize</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-((0, 35), (33, 50))
-(-97.29385639838257, -92.62272462606556, -88.66432173304669, -85.0988142689932, -81.79515837641618, -78.68841499533018, -75.7691397570993, -73.0169840038016, -70.35146954859034, -67.73944163491899, -65.24765030784586, -62.857044716837144, -60.52282831545335, -58.31584409202896, -56.15988939973713, -54.0491469063282, -51.97712129530957, -50.01007864195853, -48.02062352134634, -46.09701945187986, -44.23013557109019, -42.40275378169723, -40.64067309845258, -38.90498547864179, -37.158122895654955, -35.46353420972282, -33.808286194546326, -32.112497242834074, -30.519114994491307, -28.941418277823306, -27.359172118332086, -25.803793255743148, -24.253971353785165, -22.765900318633587, -21.294270695470946, -19.863104438616652, -18.4306651172522, -17.018856297025458, -15.65681319847861, -14.34987171111168, -12.994122297378322, -11.701739110841881, -10.384454242982118, -8.982530539291325, -7.724226650943317, -6.485190818390862, -5.241876736327754, -4.001146848626433, -2.7950182050146934, -1.5627544385738772, -0.3515345931482315)
+((0, 25), (23, 35), (33, 43), (41, 50))
 </pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+82651
+</pre></div></div>
+</div>
+<p>You may post-process the simulations from the rst file.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">clones2</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">Clones</span><span class="p">()</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">pyfeasst</span><span class="o">.</span><span class="n">read_checkpoint</span><span class="p">(</span><span class="s1">&#39;clones.fst&#39;</span><span class="p">))</span>
+<span class="c1"># import matplotlib.pyplot as plt</span>
+<span class="c1"># plt.plot(clones2.ln_prob().values())</span>
+</pre></div>
+</div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>

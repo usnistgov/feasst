@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>EnergyMapAll &mdash; FEASST v0.12.0 documentation</title>
+  <title>EnergyMapAll &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -122,6 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -281,9 +275,9 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12EnergyMapAll9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6RandomP6Select">
-<span class="target" id="classfeasst_1_1EnergyMapAll_1ae8b5cb6778db2b989e20474a6e767604"></span>void <code class="sig-name descname">neighbors</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>neighbor_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>target_particle</em>, <em class="property">const</em> int <em>target_site</em>, <em class="property">const</em> int <em>random_site</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>neighbors</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12EnergyMapAll9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6RandomP6Select" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the neighbors, but beware that the returned constant reference may change if this routine is called a second time. </p>
+<dt id="_CPPv4NK6feasst12EnergyMapAll9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6RandomP6SelectKi">
+<span class="target" id="classfeasst_1_1EnergyMapAll_1ab5d958a50753e6b80f1bd37340fe5348"></span>void <code class="sig-name descname">neighbors</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>neighbor_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>target_particle</em>, <em class="property">const</em> int <em>target_site</em>, <em class="property">const</em> int <em>random_site</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>neighbors</em>, <em class="property">const</em> int <em>new_map</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12EnergyMapAll9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6RandomP6SelectKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the neighbors. </p>
 </dd></dl>
 
 </div>

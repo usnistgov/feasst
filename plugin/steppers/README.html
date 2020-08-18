@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Steppers &mdash; FEASST v0.12.0 documentation</title>
+  <title>Steppers &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -119,6 +112,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Steppers</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="doc/LogAndMovie.html">LogAndMovie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/WallClockLimit.html">WallClockLimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/ProfileTrials.html">ProfileTrials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/Check.html">Check</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/CPUTime.html">CPUTime</a></li>
@@ -127,11 +121,11 @@
 <li class="toctree-l3"><a class="reference internal" href="doc/Log.html">Log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/Energy.html">Energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/CriteriaWriter.html">CriteriaWriter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/CriteriaUpdater.html">CriteriaUpdater</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/CheckProperties.html">CheckProperties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/Tuner.html">Tuner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/CheckEnergy.html">CheckEnergy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/CheckEnergyAndTune.html">CheckEnergyAndTune</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/Tuner.html">Tuner</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/CheckProperties.html">CheckProperties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l3"><a class="reference internal" href="doc/Movie.html">Movie</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 </ul>
@@ -141,6 +135,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -270,6 +265,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="doc/LogAndMovie.html">LogAndMovie</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/WallClockLimit.html">WallClockLimit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/ProfileTrials.html">ProfileTrials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/CheckPhysicality.html">CheckPhysicality</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Check.html">Check</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/CPUTime.html">CPUTime</a></li>
@@ -278,11 +274,11 @@
 <li class="toctree-l1"><a class="reference internal" href="doc/Log.html">Log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Energy.html">Energy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/CriteriaWriter.html">CriteriaWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/CriteriaUpdater.html">CriteriaUpdater</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/CheckProperties.html">CheckProperties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/Tuner.html">Tuner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/CheckEnergy.html">CheckEnergy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/CheckEnergyAndTune.html">CheckEnergyAndTune</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/Tuner.html">Tuner</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/CheckProperties.html">CheckProperties</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doc/CriteriaUpdater.html">CriteriaUpdater</a></li>
 <li class="toctree-l1"><a class="reference internal" href="doc/Movie.html">Movie</a></li>
 </ul>
 </div>

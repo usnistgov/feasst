@@ -19,6 +19,11 @@ Tutorial
 
    tutorial/tutorial*
 
+Tools
+=====
+
+For restarting multicore simulations, see /path/to/feasst/plugin/flat_histogram/tools/restart.cpp
+
 FEASST plugin dependencies
 ============================
 

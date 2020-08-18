@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Analysis of a one-phase (supercritical) simulation &mdash; FEASST v0.12.0 documentation</title>
+  <title>Analysis of a one-phase (supercritical) simulation &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -127,6 +120,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#api">API</a></li>
 </ul>
@@ -135,6 +129,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -492,8 +487,9 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Analysis-of-a-one-phase-(supercritical)-simulation">
 <h1>Analysis of a one-phase (supercritical) simulation<a class="headerlink" href="#Analysis-of-a-one-phase-(supercritical)-simulation" title="Permalink to this headline">¶</a></h1>
-<p>In the previous example, we generated a macrostate distribution and average energy over a small range of number of particles. In this example, we demonstrate how to analyze a macrostate probability distribution and average energy from the NIST SRSW for <span class="math notranslate nohighlight">\(T^*=1.5\)</span>. You could alternatively use the previous tutorial to generate a macrostate distribution with <span class="math notranslate nohighlight">\(N_{max}=370\)</span> rather than using the NIST SRSW data set.</p>
-<p>We begin with canonical ensemble average properties at each value of <span class="math notranslate nohighlight">\(N\)</span> as well as the probability to observe this <span class="math notranslate nohighlight">\(N\)</span> for a given <span class="math notranslate nohighlight">\(\mu\)</span>. From the plots below, we can estimate our most probable state is approximately <span class="math notranslate nohighlight">\(N=310\)</span>, with an average energy of approximately <span class="math notranslate nohighlight">\(-1250\)</span>. But there is a more rigorous way to compute grand canonical ensemble averages as described below, which will yeild a more precise result and, with the help of histogram reweighting, will yeild
+<p>In the previous example, we generated a macrostate distribution and average energy over a small range of number of particles. In this example, we demonstrate how to analyze a macrostate probability distribution and average energy from the NIST SRSW for <span class="math notranslate nohighlight">\(T^*=1.5\)</span>. You could alternatively use the previous tutorial to generate a macrostate distribution with <span class="math notranslate nohighlight">\(N_{max}=370\)</span> rather than using the NIST SRSW data set. If you do use your own data, then the values will not be exactly the same
+due to statistical error.</p>
+<p>We begin with canonical ensemble average properties at each value of <span class="math notranslate nohighlight">\(N\)</span> as well as the probability to observe this <span class="math notranslate nohighlight">\(N\)</span> for a given <span class="math notranslate nohighlight">\(\mu\)</span>. From the plots below, we can estimate our most probable state is approximately <span class="math notranslate nohighlight">\(N=310\)</span>, with an average energy of approximately <span class="math notranslate nohighlight">\(-1250\)</span>. But there is a more rigorous way to compute grand canonical ensemble averages as described below, which will yield a more precise result and, with the help of histogram reweighting, will yield
 properties continuously in <span class="math notranslate nohighlight">\(N\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:

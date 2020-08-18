@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Domain &mdash; FEASST v0.12.0 documentation</title>
+  <title>Domain &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -143,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -297,6 +291,7 @@
 <dd><p>args:<ul class="simple">
 <li><p>side_length[i]: set the side length of the i-th dimension. The “[i]” is to be substituted for an integer 0, 1, 2, …</p></li>
 <li><p>cubic_box_length: side length of cubic perioidic boundary conditions.</p></li>
+<li><p>periodic[i]: set if the i-th dimension is periodic (default: true).</p></li>
 <li><p>xy: set the tilt along the x-y direction (default: 0).</p></li>
 <li><p>xz: set the tilt along the x-z direction (default: 0).</p></li>
 <li><p>yz: set the tilt along the y-z direction (default: 0).</p></li>
@@ -308,7 +303,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst6Domain12side_lengthsEv">
-<span class="target" id="classfeasst_1_1Domain_1adee5c432c49902efcd683e919f3bce9b"></span><a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> <code class="sig-name descname">side_lengths</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Domain12side_lengthsEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Domain_1ab787ae55f5cce252d0624920859b49dc"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<code class="sig-name descname">side_lengths</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Domain12side_lengthsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Get the side lengths. </p>
 </dd></dl>
 
@@ -369,7 +364,13 @@
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst6Domain7disableEKi">
 <span class="target" id="classfeasst_1_1Domain_1a206a0b8403c4bde632408d9af3c34471"></span>void <code class="sig-name descname">disable</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Domain7disableEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Disable periodicity in a particular dimension. </p>
+<dd><p>Disable periodicity in a given dimension. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst6Domain8periodicEKi">
+<span class="target" id="classfeasst_1_1Domain_1aff61d0ec16f1def4ca3e213c7cc79206"></span>bool <code class="sig-name descname">periodic</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Domain8periodicEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if given dimension is periodic. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -429,7 +430,7 @@
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst6Domain10init_cellsEKdKi">
 <span class="target" id="classfeasst_1_1Domain_1a474fd77ddb49782be8bc587e68774f89"></span>void <code class="sig-name descname">init_cells</code><span class="sig-paren">(</span><em class="property">const</em> double <em>min_length</em>, <em class="property">const</em> int <em>group_index</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Domain10init_cellsEKdKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>HWH implement check. </p>
+<dd><p>Initialize the cells according to the minimum side length. </p>
 <p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">group_index</span></code>: A group index corresponds to a group defined in configuration. If this index is set to 0 (default) use all particles and sites. </p></li>
@@ -437,7 +438,6 @@
 </dd>
 </dl>
 </p>
-<p>Initialize the cells according to the minimum side length. </p>
 </dd></dl>
 
 <dl class="cpp function">

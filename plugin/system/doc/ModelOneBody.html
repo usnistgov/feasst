@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ModelOneBody &mdash; FEASST v0.12.0 documentation</title>
+  <title>ModelOneBody &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -117,6 +110,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../README.html#api">API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="Model.html">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SynchronizeData.html">SynchronizeData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="EnergyMap.html">EnergyMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="VisitModelInner.html">VisitModelInner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="BondThreeBody.html">BondThreeBody</a></li>
@@ -156,6 +150,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -287,7 +282,7 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst12ModelOneBodyE">
 <span class="target" id="classfeasst_1_1ModelOneBody"></span><em class="property">class </em><code class="sig-name descname">ModelOneBody</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="Model.html#_CPPv4N6feasst5ModelE" title="feasst::Model">Model</a><a class="headerlink" href="#_CPPv4N6feasst12ModelOneBodyE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Subclassed by <a class="reference internal" href="../../ewald/doc/ChargeSelf.html#classfeasst_1_1ChargeSelf"><span class="std std-ref">feasst::ChargeSelf</span></a>, <a class="reference internal" href="ModelEmpty.html#classfeasst_1_1ModelEmpty"><span class="std std-ref">feasst::ModelEmpty</span></a>, <a class="reference internal" href="../../confinement/doc/ModelHardShape.html#classfeasst_1_1ModelHardShape"><span class="std std-ref">feasst::ModelHardShape</span></a>, <a class="reference internal" href="../../confinement/doc/ModelLJShape.html#classfeasst_1_1ModelLJShape"><span class="std std-ref">feasst::ModelLJShape</span></a></p>
+<dd><p>Subclassed by <a class="reference internal" href="../../ewald/doc/ChargeSelf.html#classfeasst_1_1ChargeSelf"><span class="std std-ref">feasst::ChargeSelf</span></a>, <a class="reference internal" href="ModelEmpty.html#classfeasst_1_1ModelEmpty"><span class="std std-ref">feasst::ModelEmpty</span></a>, <a class="reference internal" href="../../confinement/doc/ModelHardShape.html#classfeasst_1_1ModelHardShape"><span class="std std-ref">feasst::ModelHardShape</span></a>, <a class="reference internal" href="../../confinement/doc/ModelLJShape.html#classfeasst_1_1ModelLJShape"><span class="std std-ref">feasst::ModelLJShape</span></a>, <a class="reference internal" href="../../confinement/doc/ModelTableCart1DHard.html#classfeasst_1_1ModelTableCart1DHard"><span class="std std-ref">feasst::ModelTableCart1DHard</span></a>, <a class="reference internal" href="../../confinement/doc/ModelTableCart1DHard.html#classfeasst_1_1ModelTableCart2DIntegr"><span class="std std-ref">feasst::ModelTableCart2DIntegr</span></a>, <a class="reference internal" href="../../confinement/doc/ModelTableCart1DHard.html#classfeasst_1_1ModelTableCart3DIntegr"><span class="std std-ref">feasst::ModelTableCart3DIntegr</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -312,6 +307,18 @@
 <dt id="_CPPv4NK6feasst12ModelOneBody7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel">
 <span class="target" id="classfeasst_1_1ModelOneBody_1a91cacc45933eca6989d5502c30149251"></span>double <code class="sig-name descname">compute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>selection</em>, <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> *<em>config</em>, <a class="reference internal" href="VisitModel.html#_CPPv4N6feasst10VisitModelE" title="feasst::VisitModel">VisitModel</a> *<em>visitor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12ModelOneBody7computeERK11ModelParamsRK6SelectP13ConfigurationP10VisitModel" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Same as above, except the group index is assumed to be zero (which is all particles and sites in the configuration) </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst12ModelOneBody6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams">
+<span class="target" id="classfeasst_1_1ModelOneBody_1a9b55ccdcccfaf1d528ccc80da1c3a400"></span><em class="property">virtual</em> double <code class="sig-name descname">energy</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>wrapped_site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv4NK6feasst12ModelOneBody6energyERK8PositionRK4SiteRK13ConfigurationRK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the energy given the wrapped coordinates, site, config and params. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst12ModelOneBody14energy_no_wrapERK4SiteRK13ConfigurationRK11ModelParams">
+<span class="target" id="classfeasst_1_1ModelOneBody_1a57b4797990392472d96efaafc918e16e"></span>double <code class="sig-name descname">energy_no_wrap</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Site.html#_CPPv4N6feasst4SiteE" title="feasst::Site">Site</a> &amp;<em>site</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>model_params</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12ModelOneBody14energy_no_wrapERK4SiteRK13ConfigurationRK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but assume that the site position is already wrapped. </p>
 </dd></dl>
 
 </div>

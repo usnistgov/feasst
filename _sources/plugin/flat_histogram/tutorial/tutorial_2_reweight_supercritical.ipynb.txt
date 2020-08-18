@@ -9,10 +9,11 @@
     "In the previous example, we generated a macrostate distribution and average energy over a small range of number of particles.\n",
     "In this example, we demonstrate how to analyze a macrostate probability distribution and average energy from the NIST SRSW for $T^*=1.5$.\n",
     "You could alternatively use the previous tutorial to generate a macrostate distribution with $N_{max}=370$ rather than using the NIST SRSW data set.\n",
+    "If you do use your own data, then the values will not be exactly the same due to statistical error.\n",
     "\n",
     "We begin with canonical ensemble average properties at each value of $N$ as well as the probability to observe this $N$ for a given $\\mu$.\n",
     "From the plots below, we can estimate our most probable state is approximately $N=310$, with an average energy of approximately $-1250$.\n",
-    "But there is a more rigorous way to compute grand canonical ensemble averages as described below, which will yeild a more precise result and, with the help of histogram reweighting, will yeild properties continuously in $N$."
+    "But there is a more rigorous way to compute grand canonical ensemble averages as described below, which will yield a more precise result and, with the help of histogram reweighting, will yield properties continuously in $N$."
    ]
   },
   {

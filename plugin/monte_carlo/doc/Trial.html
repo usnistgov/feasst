@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Trial &mdash; FEASST v0.12.0 documentation</title>
+  <title>Trial &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -44,8 +44,8 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="TrialRemove" href="TrialRemove.html" />
-    <link rel="prev" title="TrialCompute" href="TrialCompute.html" />
+    <link rel="next" title="TrialMove" href="TrialMove.html" />
+    <link rel="prev" title="TrialComputeRemove" href="TrialComputeRemove.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -126,37 +119,37 @@
 <li class="toctree-l4"><a class="reference internal" href="Constraint.html">Constraint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ConstrainNumParticles.html">ConstrainNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelect.html">TrialSelect</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectBond.html">TrialSelectBond</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialSelectAngle.html">TrialSelectAngle</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialSelectParticle.html">TrialSelectParticle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Perturb.html">Perturb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Trial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
 <li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbAnywhere.html">PerturbAnywhere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbAdd.html">PerturbAdd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRemove.html">PerturbRemove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 </ul>
 </li>
 </ul>
@@ -169,6 +162,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ewald/README.html">Ewald</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../opt_lj/README.html">Optimized Lennard-Jones</a></li>
@@ -301,7 +295,7 @@
 <dt id="_CPPv4N6feasst5TrialE">
 <span class="target" id="classfeasst_1_1Trial"></span><em class="property">class </em><code class="sig-name descname">Trial</code><a class="headerlink" href="#_CPPv4N6feasst5TrialE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A trial contains a number of TrialStages. The <a class="reference internal" href="Acceptance.html#classfeasst_1_1Acceptance"><span class="std std-ref">Acceptance</span></a> is computed as the stages are enacted, and then sent to <a class="reference internal" href="Criteria.html#classfeasst_1_1Criteria"><span class="std std-ref">Criteria</span></a> to decide if the trial is accepted or rejected. </p>
-<p>Subclassed by <a class="reference internal" href="TrialAdd.html#classfeasst_1_1TrialAdd"><span class="std std-ref">feasst::TrialAdd</span></a>, <a class="reference internal" href="../../cluster/doc/TrialAddAVB.html#classfeasst_1_1TrialAddAVB"><span class="std std-ref">feasst::TrialAddAVB</span></a>, <a class="reference internal" href="../../ewald/doc/TrialAddMultiple.html#classfeasst_1_1TrialAddMultiple"><span class="std std-ref">feasst::TrialAddMultiple</span></a>, <a class="reference internal" href="../../cluster/doc/TrialAVB2Half.html#classfeasst_1_1TrialAVB2Half"><span class="std std-ref">feasst::TrialAVB2Half</span></a>, <a class="reference internal" href="../../cluster/doc/TrialAVB4.html#classfeasst_1_1TrialAVB4"><span class="std std-ref">feasst::TrialAVB4</span></a>, <a class="reference internal" href="TrialFactory.html#classfeasst_1_1TrialFactory"><span class="std std-ref">feasst::TrialFactory</span></a>, <a class="reference internal" href="../../chain/doc/TrialGrowLinear.html#classfeasst_1_1TrialGrowLinear"><span class="std std-ref">feasst::TrialGrowLinear</span></a>, <a class="reference internal" href="../../growth_expanded/doc/TrialComputeGrowAdd.html#classfeasst_1_1TrialGrowthExpanded"><span class="std std-ref">feasst::TrialGrowthExpanded</span></a>, <a class="reference internal" href="TrialMove.html#classfeasst_1_1TrialMove"><span class="std std-ref">feasst::TrialMove</span></a>, <a class="reference internal" href="TrialRemove.html#classfeasst_1_1TrialRemove"><span class="std std-ref">feasst::TrialRemove</span></a>, <a class="reference internal" href="../../cluster/doc/TrialRemoveAVB.html#classfeasst_1_1TrialRemoveAVB"><span class="std std-ref">feasst::TrialRemoveAVB</span></a>, <a class="reference internal" href="../../ewald/doc/TrialRemoveMultiple.html#classfeasst_1_1TrialRemoveMultiple"><span class="std std-ref">feasst::TrialRemoveMultiple</span></a>, <a class="reference internal" href="../../cluster/doc/TrialTranslateCluster.html#classfeasst_1_1TrialRotateCluster"><span class="std std-ref">feasst::TrialRotateCluster</span></a>, <a class="reference internal" href="../../chain/doc/TrialSwapSites.html#classfeasst_1_1TrialSwapSites"><span class="std std-ref">feasst::TrialSwapSites</span></a>, <a class="reference internal" href="../../cluster/doc/TrialTranslateCluster.html#classfeasst_1_1TrialTranslateCluster"><span class="std std-ref">feasst::TrialTranslateCluster</span></a></p>
+<p>Subclassed by <a class="reference internal" href="TrialAdd.html#classfeasst_1_1TrialAdd"><span class="std std-ref">feasst::TrialAdd</span></a>, <a class="reference internal" href="../../cluster/doc/TrialAddAVB.html#classfeasst_1_1TrialAddAVB"><span class="std std-ref">feasst::TrialAddAVB</span></a>, <a class="reference internal" href="../../cluster/doc/TrialAddAVBDivalent.html#classfeasst_1_1TrialAddAVBDivalent"><span class="std std-ref">feasst::TrialAddAVBDivalent</span></a>, <a class="reference internal" href="../../ewald/doc/TrialAddMultiple.html#classfeasst_1_1TrialAddMultiple"><span class="std std-ref">feasst::TrialAddMultiple</span></a>, <a class="reference internal" href="../../cluster/doc/TrialAVB2Half.html#classfeasst_1_1TrialAVB2Half"><span class="std std-ref">feasst::TrialAVB2Half</span></a>, <a class="reference internal" href="../../cluster/doc/TrialAVB4.html#classfeasst_1_1TrialAVB4"><span class="std std-ref">feasst::TrialAVB4</span></a>, <a class="reference internal" href="TrialFactory.html#classfeasst_1_1TrialFactory"><span class="std std-ref">feasst::TrialFactory</span></a>, <a class="reference internal" href="../../chain/doc/TrialGrowLinear.html#classfeasst_1_1TrialGrowLinear"><span class="std std-ref">feasst::TrialGrowLinear</span></a>, <a class="reference internal" href="../../growth_expanded/doc/TrialComputeGrowAdd.html#classfeasst_1_1TrialGrowthExpanded"><span class="std std-ref">feasst::TrialGrowthExpanded</span></a>, <a class="reference internal" href="../../growth_expanded/doc/TrialMorph.html#classfeasst_1_1TrialMorph"><span class="std std-ref">feasst::TrialMorph</span></a>, <a class="reference internal" href="../../growth_expanded/doc/TrialMorphExpanded.html#classfeasst_1_1TrialMorphExpanded"><span class="std std-ref">feasst::TrialMorphExpanded</span></a>, <a class="reference internal" href="TrialMove.html#classfeasst_1_1TrialMove"><span class="std std-ref">feasst::TrialMove</span></a>, <a class="reference internal" href="TrialRemove.html#classfeasst_1_1TrialRemove"><span class="std std-ref">feasst::TrialRemove</span></a>, <a class="reference internal" href="../../cluster/doc/TrialRemoveAVB.html#classfeasst_1_1TrialRemoveAVB"><span class="std std-ref">feasst::TrialRemoveAVB</span></a>, <a class="reference internal" href="../../cluster/doc/TrialAddAVBDivalent.html#classfeasst_1_1TrialRemoveAVBDivalent"><span class="std std-ref">feasst::TrialRemoveAVBDivalent</span></a>, <a class="reference internal" href="../../ewald/doc/TrialRemoveMultiple.html#classfeasst_1_1TrialRemoveMultiple"><span class="std std-ref">feasst::TrialRemoveMultiple</span></a>, <a class="reference internal" href="../../cluster/doc/TrialTranslateCluster.html#classfeasst_1_1TrialRotateCluster"><span class="std std-ref">feasst::TrialRotateCluster</span></a>, <a class="reference internal" href="../../chain/doc/TrialSwapSites.html#classfeasst_1_1TrialSwapSites"><span class="std std-ref">feasst::TrialSwapSites</span></a>, <a class="reference internal" href="../../cluster/doc/TrialTranslateCluster.html#classfeasst_1_1TrialTranslateCluster"><span class="std std-ref">feasst::TrialTranslateCluster</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -356,6 +350,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4NK6feasst5Trial15num_auto_rejectEv">
+<span class="target" id="classfeasst_1_1Trial_1a97447d93c61b6efd33aa6b78a19eadc6"></span>int64_t <code class="sig-name descname">num_auto_reject</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst5Trial15num_auto_rejectEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of automatic rejections. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4N6feasst5Trial22increment_num_attemptsEv">
 <span class="target" id="classfeasst_1_1Trial_1a4317146c5fc02679d3688269a3274fd4"></span>void <code class="sig-name descname">increment_num_attempts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Trial22increment_num_attemptsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Increment the number of attempts for acceptance. </p>
@@ -392,9 +392,9 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst5Trial9set_mayerEKb">
-<span class="target" id="classfeasst_1_1Trial_1ada7ae07516e22794fc393166c322e02d"></span>void <code class="sig-name descname">set_mayer</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>enabled</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Trial9set_mayerEKb" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Set a Mayer-sampling trial. </p>
+<dt id="_CPPv4N6feasst5Trial12set_new_onlyEKb">
+<span class="target" id="classfeasst_1_1Trial_1ac13b551706429d7e7b28d9bf0b2a82aa"></span>void <code class="sig-name descname">set_new_only</code><span class="sig-paren">(</span><em class="property">const</em> bool <em>enabled</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Trial12set_new_onlyEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set a trial that computes the new configuration only. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -434,10 +434,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="TrialRemove.html" class="btn btn-neutral float-right" title="TrialRemove" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="TrialMove.html" class="btn btn-neutral float-right" title="TrialMove" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="TrialCompute.html" class="btn btn-neutral float-left" title="TrialCompute" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="TrialComputeRemove.html" class="btn btn-neutral float-left" title="TrialComputeRemove" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

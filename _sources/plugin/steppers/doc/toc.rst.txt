@@ -3,6 +3,7 @@
 
    LogAndMovie
    WallClockLimit
+   ProfileTrials
    CheckPhysicality
    Check
    CPUTime
@@ -11,9 +12,9 @@
    Log
    Energy
    CriteriaWriter
+   CriteriaUpdater
+   CheckProperties
+   Tuner
    CheckEnergy
    CheckEnergyAndTune
-   Tuner
-   CheckProperties
-   CriteriaUpdater
    Movie

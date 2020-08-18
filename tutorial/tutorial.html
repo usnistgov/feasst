@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorial &mdash; FEASST v0.12.0 documentation</title>
+  <title>Tutorial &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -468,12 +461,13 @@ div.rendered_html tbody tr:hover {
 <p>Installation is described in the README of the base directory of FEASST. Or visit the website at <a class="reference external" href="https://pages.nist.gov/feasst">https://pages.nist.gov/feasst</a></p>
 <div class="section" id="Python-or-C++?">
 <h3>Python or C++?<a class="headerlink" href="#Python-or-C++?" title="Permalink to this headline">¶</a></h3>
-<p>Although this tutorial will focus upon the python interface, FEASST may also be utilized as a C++ library. For a C++ example, see the file <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.cpp</span></code> which is virtually identical to the Python tutorial. Thus Python tutorials are sufficient for learning the C++ library. While the majority of FEASST users prefer the Python interface, FEASST is written almost entirely in C++. Thus, both interfaces will be supported in the long term.</p>
+<p>Although this tutorial will focus upon the python interface, FEASST may also be utilized as a C++ library. For a C++ example, see the file <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.cpp</span></code> which is virtually identical to the Python tutorial. Thus Python tutorials are sufficient for learning the C++ library. While the majority of FEASST users prefer the Python interface, FEASST is written almost entirely in C++ for speed. Thus, both interfaces will be supported in the long term.</p>
+<p>Some HPC clusters may not have the required Python libraries. If that is the case, do not hesitate to give the C++ interface a try, even if you have never written C++ before. For example, the only minor differences between <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.cpp</span></code> and <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.py</span></code> are the argument parsing syntax, semi-colons at the end of every line, and compiling any binary with <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">main()</span></code>.</p>
 </div>
 </div>
 <div class="section" id="Canonical-ensemble-Lennard-Jones-Monte-Carlo">
 <h2>Canonical ensemble Lennard-Jones Monte Carlo<a class="headerlink" href="#Canonical-ensemble-Lennard-Jones-Monte-Carlo" title="Permalink to this headline">¶</a></h2>
-<p>The following simulation <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.py</span></code> demonstrates the basics of FEASST.</p>
+<p>The following simulation based on <code class="docutils literal notranslate"><span class="pre">tutorial/tutorial.py</span></code> demonstrates the basics of FEASST.</p>
 <p>To begin, FEASST is imported, and it is recommended to log the exact version used for the simulation.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -490,7 +484,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-version: v0.11.0-38-g56d66c7bac-dirty hwh/divalfix
+version: v0.12.0-42-ga61b2a5885-dirty hwh/dccb_fix_nocell
 </pre></div></div>
 </div>
 <p>Then a <a class="reference internal" href="../plugin/monte_carlo/README.html"><span class="doc">MonteCarlo</span></a> object is created and the random number generator is initialized using the C++ implementation of the Mersenne Twister seeded by the time and date.</p>
@@ -614,8 +608,8 @@ serves two purposes involving C++11 smart pointers and brace enclosed initialize
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 712 ms, sys: 11.8 ms, total: 724 ms
-Wall time: 720 ms
+CPU times: user 706 ms, sys: 537 µs, total: 707 ms
+Wall time: 705 ms
 </pre></div></div>
 </div>
 <p>Now we can analyze the simulation by, for example, plotting the instantaneous energy as a function of the number of attempts.</p>
@@ -637,7 +631,7 @@ Wall time: 720 ms
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f5d995bbdf0&gt;
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f7c99a81278&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">

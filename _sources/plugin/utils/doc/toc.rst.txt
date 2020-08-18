@@ -2,12 +2,14 @@
 .. toctree::
 
    Timer
+   file
+   ArgumentParse
+   io
    utils
    CustomException
    debug
-   utils_file
+   serialize
    Arguments
    Checkpoint
-   utils_io
-   serialize
+   ProgressReport
    Cache

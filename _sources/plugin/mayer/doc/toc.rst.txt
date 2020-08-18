@@ -2,4 +2,4 @@
 .. toctree::
 
    CriteriaMayer
-   TrialComputeMoveMayer
+   TrialComputeMoveNewOnly

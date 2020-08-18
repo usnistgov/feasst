@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ComputeRemoveMultiple &mdash; FEASST v0.12.0 documentation</title>
+  <title>ComputeRemoveMultiple &mdash; FEASST v0.13.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
         <script src="https://pages.nist.gov/leaveNotice/js/jquery.leaveNotice-nist.min.js"></script>
         <script src="../../../_static/leave_notice.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
@@ -81,19 +81,12 @@
             
             
               <div class="version">
-                v0.12.0
+                v0.13.0
               </div>
             
           
 
           
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
           
         </div>
@@ -122,6 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mayer/README.html">Mayer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../xtc/README.html">XTC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chain/README.html">Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../shape/README.html">Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../confinement/README.html">Confinement</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../README.html">Ewald</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tutorial">Tutorial</a></li>
@@ -274,6 +268,15 @@
 <dd><p>Attempt to remove multiple particles. For a derivation of the acceptance criteria, see <a class="reference internal" href="ComputeAddMultiple.html#classfeasst_1_1ComputeAddMultiple"><span class="std std-ref">ComputeAddMultiple</span></a> that is the reverse of this trial. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst21ComputeRemoveMultiple21ComputeRemoveMultipleERK7argtype">
+<span class="target" id="classfeasst_1_1ComputeRemoveMultiple_1a0319156ea79734749ff16071e3a2ea54"></span><code class="sig-name descname">ComputeRemoveMultiple</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst21ComputeRemoveMultiple21ComputeRemoveMultipleERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>shift: macrostate shift (default: -1). </p></li>
+</ul>
+</p>
+</dd></dl>
+
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst21ComputeRemoveMultiple22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random">
 <span class="target" id="classfeasst_1_1ComputeRemoveMultiple_1a3fddef1120701f4bb12c6619e5083724"></span>void <code class="sig-name descname">perturb_and_acceptance</code><span class="sig-paren">(</span><a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> *<em>criteria</em>, <a class="reference internal" href="../../system/doc/System.html#_CPPv4N6feasst6SystemE" title="feasst::System">System</a> *<em>system</em>, <a class="reference internal" href="../../monte_carlo/doc/Acceptance.html#_CPPv4N6feasst10AcceptanceE" title="feasst::Acceptance">Acceptance</a> *<em>acceptance</em>, std::vector&lt;<a class="reference internal" href="../../monte_carlo/doc/TrialStage.html#_CPPv4N6feasst10TrialStageE" title="feasst::TrialStage">TrialStage</a>*&gt; *<em>stages</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst21ComputeRemoveMultiple22perturb_and_acceptanceEP8CriteriaP6SystemP10AcceptancePNSt6vectorIP10TrialStageEEP6Random" title="Permalink to this definition">¶</a><br /></dt>
