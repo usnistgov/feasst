@@ -156,8 +156,8 @@ TEST(HalfSpaceSine, integrate) {
         {"alpha1", "50"},
         {"epsilon1", "0.01"},
         {"max_radius", "10"},
-        {"num_shells", "1000"},
-        {"points_per_shell", "1000"}});
+        {"num_shells", "100"},
+        {"points_per_shell", "100"}});
     file << y << " " << inte << "\n";
   }
   //EXPECT_NEAR(inte, hamaker_half_plane(epsilon0, alpha0, distance), 0.04);

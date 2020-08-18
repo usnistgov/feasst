@@ -42,8 +42,8 @@ TEST(SlabSine, integrate) {
       {"alpha1", "12"},
       {"epsilon1", "1"},
       {"max_radius", "10"},
-      {"num_shells", "1000"},
-      {"points_per_shell", "10000"}});
+      {"num_shells", "100"},
+      {"points_per_shell", "100"}});
 }
 
 }  // namespace feasst
