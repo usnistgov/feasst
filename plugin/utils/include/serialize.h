@@ -37,6 +37,12 @@ void feasst_serialize(const std::string str, std::ostream& ostr);
 /// Deserialize string.
 void feasst_deserialize(std::string * str, std::istream& istr);
 
+/// Serialize double. Handle inf.
+void feasst_deserialize(double * val, std::istream& ostr);
+
+/// Serialize long double. Handle inf.
+void feasst_deserialize(long double * val, std::istream& ostr);
+
 /// Serialize generic to full precision.
 template <typename T>
 void feasst_serialize(const T val, std::ostream& ostr) {
@@ -75,6 +81,18 @@ void feasst_deserialize(std::vector<T> * vector, std::istream& istr) {
     istr >> (*vector)[index];
   }
 }
+
+/// Serialize 1D vector of doubles
+void feasst_serialize(const std::vector<double>& vector, std::ostream& ostr);
+
+/// Deserialize 1D vector of doubles.
+void feasst_deserialize(std::vector<double> * vector, std::istream& istr);
+
+/// Serialize 1D vector of long doubles
+void feasst_serialize(const std::vector<long double>& vector, std::ostream& ostr);
+
+/// Deserialize 1D vector of long doubles.
+void feasst_deserialize(std::vector<long double> * vector, std::istream& istr);
 
 /// Serialize the 1D deque.
 template <typename T>
@@ -495,6 +513,12 @@ T deep_copy(const T& object) {
   object.serialize(ss);
   return T(ss);
 }
+
+/// End class serialization with this notification to aid debugging.
+void feasst_serialize_endcap(const std::string name, std::ostream& ostr);
+
+/// Read end notification to aid debugging.
+void feasst_deserialize_endcap(const std::string name, std::istream& istr);
 
 }  // namespace feasst
 

@@ -129,6 +129,7 @@ void System::serialize(std::ostream& sstr) const {
   optimized_.serialize(sstr);
   feasst_serialize(is_optimized_, sstr);
   feasst_serialize_fstobj(references_, sstr);
+  feasst_serialize_endcap("System", sstr);
 }
 
 System::System(std::istream& sstr) {
@@ -139,6 +140,7 @@ System::System(std::istream& sstr) {
   optimized_ = PotentialFactory(sstr);
   feasst_deserialize(&is_optimized_, sstr);
   feasst_deserialize_fstobj(&references_, sstr);
+  feasst_deserialize_endcap("System", sstr);
 }
 
 const PotentialFactory& System::potentials() const {

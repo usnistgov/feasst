@@ -744,6 +744,7 @@ void Configuration::serialize(std::ostream& ostr) const {
   feasst_serialize(type_to_file_, ostr);
   feasst_serialize(num_particles_of_type_, ostr);
   feasst_serialize(wrap_, ostr);
+  feasst_serialize_endcap("Configuration", ostr);
 }
 
 Configuration::Configuration(std::istream& istr) {
@@ -765,6 +766,7 @@ Configuration::Configuration(std::istream& istr) {
   feasst_deserialize(&type_to_file_, istr);
   feasst_deserialize(&num_particles_of_type_, istr);
   feasst_deserialize(&wrap_, istr);
+  feasst_deserialize_endcap("Configuration", istr);
 }
 
 void Configuration::copy_particles(const Configuration& config,

@@ -280,6 +280,7 @@ void Clones::serialize(std::ostream& ostr) const {
   feasst_serialize_version(2845, ostr);
   feasst_serialize(clones_, ostr);
 //  feasst_serialize(checkpoint_, ostr);
+  feasst_serialize_endcap("Clones", ostr);
 }
 
 Clones::Clones(std::istream& istr) {
@@ -305,6 +306,7 @@ Clones::Clones(std::istream& istr) {
 //      checkpoint_ = std::make_shared<Checkpoint>(istr);
 //    }
 //  }
+  feasst_deserialize_endcap("Clones", istr);
 }
 
 void Clones::set(std::shared_ptr<Checkpoint> checkpoint) {

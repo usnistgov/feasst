@@ -57,6 +57,9 @@ class Accumulator {
     /// number of values per block
     const long long num_block = 1e5);
 
+  /// Return number of values per block.
+  long long num_block() const { return num_blocks_; }
+
   /// Return standard deviation of the block averages (0 if not enough blocks).
   double block_stdev() const;
 
@@ -71,9 +74,6 @@ class Accumulator {
 
   /// Zero all accumulated values.
   void reset();
-
-  /// Return number of values per block.
-  long long num_block() const { return num_blocks_; }
 
   /// Return the maximum value accumulated.
   double max() const { return max_; }

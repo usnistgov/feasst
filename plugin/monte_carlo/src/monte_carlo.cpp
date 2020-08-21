@@ -179,6 +179,7 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
   feasst_serialize(potential_set_, ostr);
   feasst_serialize(system_set_, ostr);
   feasst_serialize(criteria_set_, ostr);
+  feasst_serialize_endcap("MonteCarlo", ostr);
 }
 
 MonteCarlo::MonteCarlo(std::istream& istr) {
@@ -220,6 +221,7 @@ MonteCarlo::MonteCarlo(std::istream& istr) {
   feasst_deserialize(&potential_set_, istr);
   feasst_deserialize(&system_set_, istr);
   feasst_deserialize(&criteria_set_, istr);
+  feasst_deserialize_endcap("MonteCarlo", istr);
 }
 
 void MonteCarlo::load_cache_(const bool load) {

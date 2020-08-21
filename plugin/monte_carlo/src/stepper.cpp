@@ -85,6 +85,7 @@ void Stepper::serialize(std::ostream& ostr) const {
   feasst_serialize(is_multistate_aggregate_, ostr);
   feasst_serialize(state_, ostr);
   feasst_serialize_fstobj(accumulator_, ostr);
+  feasst_serialize_endcap("Stepper", ostr);
 }
 
 Stepper::Stepper(std::istream& istr) {
@@ -102,6 +103,7 @@ Stepper::Stepper(std::istream& istr) {
   feasst_deserialize(&is_multistate_aggregate_, istr);
   feasst_deserialize(&state_, istr);
   feasst_deserialize_fstobj(&accumulator_, istr);
+  feasst_deserialize_endcap("Stepper", istr);
 }
 
 }  // namespace feasst

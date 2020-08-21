@@ -36,6 +36,7 @@ void RandomMT19937::serialize(std::ostream& ostr) const {
   feasst_serialize_version(101, ostr);
   ostr << MAX_PRECISION;
   ostr << generator_ << " ";
+  feasst_serialize_endcap("RandomMT19937", ostr);
 }
 
 RandomMT19937::RandomMT19937(std::istream& istr)
@@ -44,6 +45,7 @@ RandomMT19937::RandomMT19937(std::istream& istr)
   const int verison = feasst_deserialize_version(istr);
   ASSERT(verison == 101, "version");
   istr >> generator_;
+  feasst_deserialize_endcap("RandomMT19937", istr);
 }
 
 }  // namespace feasst

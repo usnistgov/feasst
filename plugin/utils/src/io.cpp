@@ -53,45 +53,6 @@ int num_spaces(const std::string str) {
   return std::count(str.begin(), str.end(), ' ');
 }
 
-void feasst_serialize(const std::string str, std::ostream& ostr) {
-  ASSERT(num_spaces(str) == 0, "no spaces in serialized string(" << str << ")");
-  if (str.empty()) {
-    ostr << "0 ";
-  } else {
-    ostr << "1 ";
-    ostr << str << " ";
-  }
-}
-
-void feasst_deserialize(std::string * str, std::istream& istr) {
-  int empty;
-  istr >> empty;
-  if (empty != 0) {
-    istr >> *str;
-  }
-}
-
-void feasst_serialize(const bool val, std::ostream& ostr) {
-  ostr << val << " ";
-}
-
-void feasst_deserialize(bool * val, std::istream& istr) {
-  int tmp;
-  istr >> tmp;
-  *val = tmp;
-}
-
-void feasst_serialize_version(const int version, std::ostream& ostr) {
-  ostr << version << " ";
-}
-
-
-int feasst_deserialize_version(std::istream& istr) {
-  int version;
-  istr >> version;
-  return version;
-}
-
 std::string feasst_str(std::map<std::string, std::string> mp) {
   std::stringstream ss;
   ss << "{";

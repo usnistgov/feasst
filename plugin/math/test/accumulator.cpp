@@ -57,4 +57,11 @@ TEST(Accumulator, is_equivalent) {
   EXPECT_TRUE(a->is_equivalent(*b, 10));
 }
 
+TEST(Accumulator, serialize_with_inf) {
+  Accumulator acc;
+  acc.accumulate(std::numeric_limits<long double>::max());
+  acc.accumulate(std::numeric_limits<long double>::max());
+  Accumulator acc2 = test_serialize(acc);
+}
+
 }  // namespace feasst

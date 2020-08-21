@@ -416,6 +416,7 @@ void Select::serialize(std::ostream& sstr) const {
   feasst_serialize_fstobj(particle_positions_, sstr);
   feasst_serialize_fstobj(site_positions_, sstr);
   feasst_serialize_fstobj(site_properties_, sstr);
+  feasst_serialize_endcap("Select", sstr);
 }
 
 Select::Select(std::istream& sstr) {
@@ -449,6 +450,7 @@ Select::Select(std::istream& sstr) {
   feasst_deserialize_fstobj(&particle_positions_, sstr);
   feasst_deserialize_fstobj(&site_positions_, sstr);
   feasst_deserialize_fstobj(&site_properties_, sstr);
+  feasst_deserialize_endcap("Select", sstr);
 }
 
 }  // namespace feasst
