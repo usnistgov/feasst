@@ -222,6 +222,7 @@ list (FIND FEASST_PLUGINS "growth_expanded" _index)
 if (${_index} GREATER -1)
   target_link_libraries(feasstgrowth_expanded feasstchain)
   target_link_libraries(feasstgrowth_expanded feasstflat_histogram)
+  target_link_libraries(feasstgrowth_expanded feasstewald)
 endif()
 
 # prefetch
