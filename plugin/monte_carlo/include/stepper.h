@@ -31,6 +31,11 @@ class Stepper {
       Do not append if false (default: "false").
     - clear_file: set true to clear contents of file_name, if exists.
       (default: false).
+    - stop_after_phase: stop when simulation reaches this phase index.
+      If -1, never stop (default: -1).
+    - start_after_phase: start when simulation reaches this phase index.
+      If -1, start at beginning (default: -1).
+    - file_name_append_phase: append phase to file name (default: false)
     - multistate: set "true" to copy for each state (default: false)
     - multistate_aggregate: aggregate the writing of all states, only when
       multistate is enabled (default: true).
@@ -38,6 +43,7 @@ class Stepper {
       Individual states no longer write.
     - num_block: number of updated per block in accumulator.
       If not provided, use default value in Accumulator.
+    - configuration: index of configuration (default: 0)
    */
   Stepper(const argtype &args = argtype());
 
@@ -48,13 +54,28 @@ class Stepper {
   int steps_per_write() const { return steps_per_write_; }
 
   /// Return the file name.
-  std::string file_name() const { return file_name_; }
+  const std::string file_name() const { return file_name_; }
+
+  /// Return the file name with optionally appended phase.
+  std::string file_name(const Criteria& criteria) const;
+
+  /// Return true if phase is to be appended to file name.
+  bool file_name_append_phase() const { return file_name_append_phase_; }
 
   /// Empty the file name.
   void empty_file_name() { file_name_ = ""; }
 
   /// Return true if appending.
   bool append() const { return append_; }
+
+  /// Stop after simulation reaches this phase index.
+  int stop_after_phase() const { return stop_after_phase_; }
+
+  /// Stop after simulation reaches this phase index.
+  int start_after_phase() const { return start_after_phase_; }
+
+  /// Return the configuration index
+  int configuration() const { return configuration_; }
 
   /// Set the state. Append file name if not empty.
   void set_state(const int state = 0);
@@ -107,7 +128,7 @@ class Stepper {
   bool is_time(const int steps_per, int * steps_since);
 
   /// Write to standard output if file name is not set. Otherwise, output file.
-  void printer(const std::string output);
+  void printer(const std::string output, const std::string& file_name);
 
   /// Set file output to append.
   void set_append() { append_ = true; }
@@ -124,9 +145,13 @@ class Stepper {
   int steps_per_write_;
   std::string file_name_;
   bool append_;
+  int stop_after_phase_;
+  int start_after_phase_;
+  bool file_name_append_phase_;
   bool is_multistate_;
   bool is_multistate_aggregate_;
   int state_ = 0;
+  int configuration_;
 };
 
 }  // namespace feasst

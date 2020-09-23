@@ -10,12 +10,12 @@
    PerturbPointReflect
    ComputeAVB4
    ComputeAVB2
-   ComputeRemoveAVBDivalent
-   ComputeAddAVBDivalent
-   ComputeGCA
-   ComputeRemoveAVB
-   ComputeAddAVB
    ComputeMoveCluster
+   ComputeAddAVB
+   ComputeRemoveAVB
+   ComputeGCA
+   ComputeAddAVBDivalent
+   ComputeRemoveAVBDivalent
    TrialAVB4
    TrialAddAVB
    TrialRemoveAVB

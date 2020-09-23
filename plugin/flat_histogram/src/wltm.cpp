@@ -40,6 +40,11 @@ void WLTM::update_or_revert(
     DEBUG("wl update");
     wang_landau_->update_or_revert(macrostate_old, macrostate_new,
       ln_metropolis_prob, is_accepted, revert);
+  } else {
+    if (production_ == 0) {
+      production_ = 1;
+      increment_phase();
+    }
   }
   if (wang_landau_->num_flatness() >= collect_flatness_) {
     DEBUG("tm update");
@@ -115,6 +120,7 @@ WLTM::WLTM(std::istream& istr) : Bias(istr) {
   ASSERT(version == 1946, "mismatch version: " << version);
   feasst_deserialize(&collect_flatness_, istr);
   feasst_deserialize(&min_flatness_, istr);
+  feasst_deserialize(&production_, istr);
   // HWH for unknown reasons, this function template does not work.
   // feasst_deserialize_fstdr(wang_landau_, istr);
   // feasst_deserialize_fstdr(transition_matrix_, istr);
@@ -139,6 +145,7 @@ void WLTM::serialize(std::ostream& ostr) const {
   feasst_serialize_version(1946, ostr);
   feasst_serialize(collect_flatness_, ostr);
   feasst_serialize(min_flatness_, ostr);
+  feasst_serialize(production_, ostr);
   feasst_serialize_fstdr(wang_landau_, ostr);
   feasst_serialize_fstdr(transition_matrix_, ostr);
 }

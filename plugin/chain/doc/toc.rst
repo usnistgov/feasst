@@ -7,12 +7,12 @@
    SelectSiteOfType
    SelectPerturbed
    PerturbReptate
-   TrialSwapSites
-   TrialPivot
-   TrialReptate
    TrialCrankshaft
-   AnalyzeRigidBonds
+   TrialReptate
+   TrialPivot
+   TrialSwapSites
    RecenterParticles
+   AnalyzeRigidBonds
    PerturbPivot
    PerturbCrankshaft
    TrialGrowLinear

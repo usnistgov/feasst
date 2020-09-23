@@ -149,6 +149,8 @@ class Ewald : public VisitModel {
       Configuration * config,
       const int group_index) override;
 
+  void change_volume(const double delta_volume, const int dimension) override;
+  
   void revert(const Select& select) override;
 
   // HWH refactor Ewald for finalization (e.g., do not enter eiks until finalize?)

@@ -49,6 +49,7 @@ std::shared_ptr<Bias> Bias::deserialize(std::istream& istr) {
 void Bias::serialize_bias_(std::ostream& ostr) const {
   feasst_serialize_version(863, ostr);
   feasst_serialize(is_complete_, ostr);
+  feasst_serialize(phase_, ostr);
 }
 
 Bias::Bias(std::istream& istr) {
@@ -56,6 +57,7 @@ Bias::Bias(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(863 == version, "mismatch version: " << version);
   feasst_deserialize(&is_complete_, istr);
+  feasst_deserialize(&phase_, istr);
 }
 
 }  // namespace feasst

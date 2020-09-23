@@ -20,7 +20,8 @@ Energy::Energy(const argtype &args) : Analyze(args) {
 void Energy::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
-  printer(header(*criteria, *system, *trial_factory));
+  printer(header(*criteria, *system, *trial_factory),
+          file_name(*criteria));
 }
 
 std::string Energy::header(const Criteria& criteria,

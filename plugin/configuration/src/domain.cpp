@@ -92,8 +92,8 @@ void Domain::set_side_lengths(const Position& side_lengths) {
   resize_opt_(side_lengths_.dimension());
 }
 
-/// Set the side length.
 void Domain::set_side_length(const int dimension, const double length) {
+  ASSERT(cells_.size() == 0, "Implement check of cell list when changing box");
   side_lengths_.set_coord(dimension, length);
 }
 

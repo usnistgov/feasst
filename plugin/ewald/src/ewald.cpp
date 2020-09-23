@@ -660,4 +660,8 @@ std::vector<double> * Ewald::struct_fact_imag_() {
   return &((*data_.get_dble_2D())[1]);
 }
 
+void Ewald::change_volume(const double delta_volume, const int dimension) {
+  FATAL("not implemented");
+}
+
 }  // namespace feasst

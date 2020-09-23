@@ -51,7 +51,7 @@ void AnalyzeFactory::trial(const Criteria& criteria,
           ss << analyzers_[state]->write(criteria, system, trial_factory);
 //          ss << std::endl;
         }
-        printer(ss.str());
+        printer(ss.str(), file_name(criteria));
       }
     } else {
       trial_(criteria, system, trial_factory, criteria.state());

@@ -845,4 +845,25 @@ void Configuration::set_particle_type(const int ptype,
   }
 }
 
+void Configuration::change_volume(const double delta_volume,
+    const argtype& args) {
+  ASSERT(domain().volume() + delta_volume > 0,
+    "delta_volume " << delta_volume << " too large for volume "
+    << domain().volume());
+  ASSERT(wrap_, "positions must be wrapped before scaling for volume change");
+  double factor = 1. + delta_volume/domain_->volume();
+  Arguments args_(args);
+  const int dimen = args_.key("dimension").dflt("-1").integer();
+  if (dimen == -1) {
+    factor = std::pow(factor, 1./dimension());
+    for (int dim = 0; dim < dimension(); ++dim) {
+      domain_->set_side_length(dim, domain_->side_length(dim)*factor);
+    }
+  } else {
+    domain_->set_side_length(dimen, domain_->side_length(dimen)*factor);
+  }
+  particles_.scale_particle_positions(dimen, factor);
+  position_tracker_();
+}
+
 }  // namespace feasst

@@ -23,7 +23,8 @@ void ProfileTrials::initialize(Criteria * criteria,
     TrialFactory * trial_factory) {
   profile_.clear();
   profile_.resize(trial_factory->num());
-  printer(header(*criteria, *system, *trial_factory));
+  printer(header(*criteria, *system, *trial_factory),
+          file_name(*criteria));
 }
 
 std::string ProfileTrials::header(const Criteria& criteria,

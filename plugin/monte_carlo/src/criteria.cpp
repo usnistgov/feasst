@@ -32,9 +32,8 @@ Criteria::Criteria(const argtype &args) {
     }
   }
 
-  if (args_.key("pH").used()) {
-    set_pH(args_.dble());
-  }
+  if (args_.key("pH").used()) set_pH(args_.dble());
+  if (args_.key("pressure").used()) set_pressure(args_.dble());
   data_.get_dble_1D()->resize(1);
 }
 
@@ -68,6 +67,16 @@ double Criteria::chemical_potential(const int particle_type) const {
     "chemical potential of type(" << particle_type <<
     ") must be initalized before use");
   return chemical_potentials_[particle_type];
+}
+
+void Criteria::set_pressure(const double pressure) {
+  pressure_ = pressure;
+  pressure_initialized_ = true;
+}
+
+double Criteria::pressure() const {
+  ASSERT(pressure_initialized_, "pressure must be initialized before use");
+  return pressure_;
 }
 
 std::string Criteria::status_header() const {
@@ -181,6 +190,9 @@ void Criteria::serialize_criteria_(std::ostream& ostr) const {
   feasst_serialize(previous_energy_, ostr);
   feasst_serialize(expanded_state_, ostr);
   feasst_serialize(num_expanded_states_, ostr);
+  feasst_serialize(phase_, ostr);
+  feasst_serialize(pressure_initialized_, ostr);
+  feasst_serialize(pressure_, ostr);
   feasst_serialize_fstdr(constraints_, ostr);
   feasst_serialize_fstobj(data_, ostr);
 }
@@ -198,6 +210,9 @@ Criteria::Criteria(std::istream& istr) {
   feasst_deserialize(&previous_energy_, istr);
   feasst_deserialize(&expanded_state_, istr);
   feasst_deserialize(&num_expanded_states_, istr);
+  feasst_deserialize(&phase_, istr);
+  feasst_deserialize(&pressure_initialized_, istr);
+  feasst_deserialize(&pressure_, istr);
   // HWH for unknown reasons, this function template does not work.
   // feasst_deserialize_fstdr(constraints_, istr);
   { int dim1;

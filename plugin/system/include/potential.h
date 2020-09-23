@@ -93,6 +93,10 @@ class Potential {
   /// Return the last computed value of the energy.
   double stored_energy() const { return stored_energy_; }
 
+  /// Change the volume.
+  void change_volume(const double delta_volume, const int dimension) {
+    visit_model_->change_volume(delta_volume, dimension); }
+
   /// Revert any changes to the configuration due to the last energy computation
   void revert(const Select& select) { visit_model_->revert(select); }
 

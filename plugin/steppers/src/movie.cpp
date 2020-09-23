@@ -24,26 +24,27 @@ Movie::Movie(const argtype &args ) : AnalyzeWriteOnly(args) {
 void Movie::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
-  ASSERT(!file_name().empty(), "file name required. Did you forget to " <<
+  const std::string name = file_name(*criteria);
+  ASSERT(!name.empty(), "file name required. Did you forget to " <<
     "Analyze::set_file_name()?");
 
   // write xyz
   xyz_.set_append(1);
   if (state() == criteria->state()) {
-    xyz_.write(file_name(), system->configuration());
+    xyz_.write(name, system->configuration());
   }
 
   // write vmd
   std::stringstream ss;
-  ss << file_name() << ".vmd";
-  vmd_.write(ss.str(), system->configuration(), file_name());
+  ss << name << ".vmd";
+  vmd_.write(ss.str(), system->configuration(), name);
 }
 
 std::string Movie::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   // ensure the following order matches the header from initialization.
-  xyz_.write(file_name(), system.configuration());
+  xyz_.write(file_name(criteria), system.configuration());
   return std::string("");
 }
 

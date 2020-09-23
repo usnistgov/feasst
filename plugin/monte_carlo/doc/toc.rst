@@ -17,24 +17,27 @@
    PerturbMove
    PerturbTranslate
    PerturbDistance
+   PerturbVolume
    TrialStage
    TrialCompute
    TrialComputeMove
-   TrialComputeAdd
-   TrialComputeRemove
    Trial
    TrialMove
    TrialTranslate
+   TrialVolume
    TrialRemove
    TrialFactory
-   Analyze
-   AnalyzeFactory
-   SeekNumParticles
    TrialTransfer
+   SeekNumParticles
    Modify
    ModifyFactory
+   Analyze
+   AnalyzeFactory
    MonteCarlo
    TrialAdd
+   TrialComputeAdd
+   TrialComputeRemove
+   TrialComputeVolume
    PerturbDistanceAngle
    PerturbRotate
    TrialRotate

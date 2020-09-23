@@ -61,6 +61,13 @@ class Bias {
   /// Return true if completion requirements are met.
   bool is_complete() const { return is_complete_; }
 
+  /// Return the simulation phase index used to differentiate production
+  /// and initialization, etc.
+  virtual int phase() const { return phase_; }
+
+  /// Increment the simulation phase.
+  virtual void increment_phase() { ++phase_; }
+
   /// Set the number of iterations required for completion.
   /// In TransitionMatrix and WLTM, this is the minimum number of sweeps.
   /// In WangLandau, this is the minimum number of flatness checks.
@@ -90,6 +97,7 @@ class Bias {
 
  private:
   bool is_complete_ = false;
+  int phase_ = 0;
 };
 
 }  // namespace feasst

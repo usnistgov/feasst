@@ -17,3 +17,5 @@ py/__pycache__
 *.xyz
 *.csv
 *.fst
+*phase0
+*phase1

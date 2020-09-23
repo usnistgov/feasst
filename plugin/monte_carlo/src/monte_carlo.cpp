@@ -126,7 +126,10 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
       {"multistate", "true"},
       {"steps_per_write", str(steps_per_write)},
       {"file_name", file_name},
-      {"steps_per_update", "1"}});
+      {"steps_per_update", "1"},
+      {"stop_after_phase", str(analyze->stop_after_phase())},
+      {"start_after_phase", str(analyze->start_after_phase())},
+      {"file_name_append_phase", str(analyze->file_name_append_phase())}});
     DEBUG("making multi " << multi->is_multistate());
     for (int state = 0; state < criteria_->num_states(); ++state) {
       DEBUG("state: " << state);

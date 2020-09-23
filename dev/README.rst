@@ -349,4 +349,3 @@ To Do List
 * add orientation argument to shapes with internal coordinate transformation
 * System should track current energy of every potential for analysis (Criteria running energies may contain a part from each potential to simplify debugging).
 * Consider using new state instead of old state in acceptance derivations
-* insert args in python

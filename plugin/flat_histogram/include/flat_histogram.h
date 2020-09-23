@@ -54,6 +54,8 @@ class FlatHistogram : public Criteria {
 
   std::string write() const override;
   bool is_complete() const override { return bias_->is_complete(); }
+  int phase() const override { return bias_->phase(); }
+  void increment_phase() { bias_->increment_phase(); }
 
   /// Return the state. Return -1 if state is not determined.
   int state() const override { return macrostate_current_; }
@@ -63,7 +65,6 @@ class FlatHistogram : public Criteria {
 
   // HWH consider moving the below functions to a new class or util
 
-  /// Return the pressure.
   /// Return a reweighted macrostate distribution.
   LnProbability reweight(
       /**
@@ -80,10 +81,16 @@ class FlatHistogram : public Criteria {
     bias_->set_ln_prob(ln_prob); }
 
   // HWH add reference to Shen/Errington
-  double pressure(const double volume,
+  /// Return the pressure.
+  double pressure(const LnProbability& ln_prob,
+      const double volume,
       /// Select phase by order of macrostate.
       /// Assumes default method of dividing phase boundary.
       const int phase = 0) const;
+
+  /// Same as above but using the current ln_prob.
+  double pressure(const double volume,
+      const int phase = 0) const { return pressure(ln_prob_(), volume, phase); }
 
   /// Return the ensemble averaged property from a list of properties averaged
   /// at each macrostate.
@@ -94,11 +101,10 @@ class FlatHistogram : public Criteria {
                  /// Assumes default method of dividing phase boundary.
                  const int phase = 0) const;
 
+  /// Same as above but using the current ln_prob.
   double average(const std::vector<double>& macrostate_averages,
-                 /// Select phase by order of macrostate.
-                 /// Assumes default method of dividing phase boundary.
                  const int phase = 0) const {
-  return average(ln_prob_(), macrostate_averages, phase); }
+    return average(ln_prob_(), macrostate_averages, phase); }
 
   /// Return the average macrostate
   double average_macrostate(const LnProbability& ln_prob,
@@ -106,6 +112,7 @@ class FlatHistogram : public Criteria {
       /// Assumes default method of dividing phase boundary.
       const int phase = 0) const;
 
+  /// Same as above but using the current ln_prob.
   double average_macrostate(
       /// Select phase by order of macrostate.
       /// Assumes default method of dividing phase boundary.

@@ -22,7 +22,8 @@ HenryCoefficient::HenryCoefficient(const argtype &args) : Analyze(args) {
 void HenryCoefficient::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
-  printer(header(*criteria, *system, *trial_factory));
+  printer(header(*criteria, *system, *trial_factory),
+          file_name(*criteria));
 }
 
 std::string HenryCoefficient::header(const Criteria& criteria,

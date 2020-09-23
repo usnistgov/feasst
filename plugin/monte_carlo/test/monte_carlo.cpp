@@ -10,7 +10,9 @@
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"
+#include "system/include/dont_visit_model.h"
 #include "system/include/utils.h"
+#include "system/include/ideal_gas.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
@@ -18,6 +20,7 @@
 #include "monte_carlo/include/constrain_num_particles.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/trial_transfer.h"
+#include "monte_carlo/include/trial_volume.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/tuner.h"
@@ -25,6 +28,7 @@
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/profile_trials.h"
+#include "steppers/include/volume.h"
 
 namespace feasst {
 
@@ -277,6 +281,34 @@ TEST(MonteCarlo, GCMC_binary_tune) {
   mc.attempt(1e4);
   EXPECT_GT(mc.trial(0).stage(0).perturb().tunable().value(), 2.5);
   EXPECT_GT(mc.trial(1).stage(0).perturb().tunable().value(), 2.5);
+}
+
+TEST(MonteCarlo, ideal_gas_pressure_LONG) {
+  const int num = 1;
+  const double beta = 1.2, pressure = 0.2;
+  const double volume = (num + 1)/beta/pressure;
+  INFO("expected volume: " << volume);
+  MonteCarlo mc;
+  {
+    Configuration config(MakeDomain({{"cubic_box_length", "3"}}),
+      {{"particle_type", "../forcefield/data.spce"}});
+    for (int i = 0; i < num; ++i) config.add_particle_of_type(0);
+    mc.add(config);
+  }
+  mc.add(Potential(MakeDontVisitModel()));
+  //mc.add(Potential(MakeIdealGas()));
+  mc.set(MakeMetropolis({{"beta", str(beta)}, {"pressure", str(pressure)}}));
+//  mc.add(MakeTrialTranslate());
+  mc.add(MakeTrialVolume({{"tunable_param", "0.5"}}));
+  const std::string steps_per = str(int(1e2));
+  mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/ideal_gas"}}));
+  mc.add(MakeTuner({{"steps_per", steps_per}}));
+  mc.attempt(1e3);
+  mc.add(MakeVolume({{"steps_per_write", steps_per},
+                     {"file_name", "tmp/ideal_gas_volume"}}));
+  mc.attempt(1e6);
+  const Accumulator& vol = mc.analyzers()[mc.num_analyzers()-1]->accumulator();
+  EXPECT_NEAR(vol.average(), volume, 3*vol.block_stdev());
 }
 
 }  // namespace feasst

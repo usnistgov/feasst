@@ -141,6 +141,16 @@ class System {
   //@}
   // Other functions:
 
+  /*
+    Change the volume.
+   
+    args:
+    - configuration: index of configuration (default: 0)
+    - see Configuration for remaining arguments.
+   */
+  void change_volume(const double delta_volume,
+    const argtype& args = argtype());
+
   /// Revert changes due to energy computation of perturbations.
   void revert(const Select& select, const int config = 0);
 

@@ -181,4 +181,20 @@ ParticleFactory::ParticleFactory(std::istream& istr) {
   model_params_ = ModelParams(istr);
 }
 
+void ParticleFactory::scale_particle_positions(const int dimen,
+    const double factor) {
+  Position displacement;
+  for (Particle& particle : particles_) {
+    if (dimen == -1) {
+      displacement = particle.position();
+      displacement.multiply(factor - 1.);
+    } else {
+      displacement.set_to_origin(particle.position().dimension());
+      displacement.set_coord(dimen,
+        (factor - 1)*particle.position().coord(dimen));
+    }
+    particle.displace(displacement);
+  }
+}
+
 }  // namespace feasst

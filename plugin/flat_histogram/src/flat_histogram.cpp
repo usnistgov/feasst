@@ -154,10 +154,12 @@ void FlatHistogram::serialize(std::ostream& ostr) const {
   feasst_serialize(is_macrostate_set_, ostr);
 }
 
-double FlatHistogram::pressure(const double volume, const int phase) const {
+double FlatHistogram::pressure(const LnProbability& ln_prob,
+    const double volume,
+    const int phase) const {
   int min, max;
-  phase_boundary_(phase, &min, &max);
-  return (-ln_prob_().value(0) + std::log(ln_prob_().sum_probability(min, max)))
+  phase_boundary_(ln_prob, phase, &min, &max);
+  return (-ln_prob.value(0) + std::log(ln_prob.sum_probability(min, max)))
          /volume/beta();
 }
 

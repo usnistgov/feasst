@@ -124,6 +124,9 @@ class VisitModel {
   void synchronize_(const VisitModel& visit, const Select& perturbed);
   const SynchronizeData& data() const { return data_; }
 
+  /// Change the volume.
+  virtual void change_volume(const double delta_volume, const int dimension) {}
+
   // serialization
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const {

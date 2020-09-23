@@ -125,4 +125,11 @@ void PotentialFactory::synchronize_(const PotentialFactory& factory,
   }
 }
 
+void PotentialFactory::change_volume(const double delta_volume,
+    const int dimension) {
+  for (int index = 0; index < num(); ++index) {
+    potentials_[index].change_volume(delta_volume, dimension);
+  }
+}
+
 }  // namespace feasst

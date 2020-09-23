@@ -109,6 +109,12 @@ class ParticleFactory {
     particles_[particle_index].replace_properties(site_index, replacement,
                                                   exclude); }
 
+  /// Scale particle positions by a constant factor in the given dimension.
+  void scale_particle_positions(
+    /// Scale in this dimension. If -1, scale in all dimensions.
+    const int dimen,
+    const double factor);
+
   /// Check consistency of dimensionality of positions of particles and sites.
   /// By default, for dimension == -1, determine automatically.
   void check(const int dimension = -1) const;

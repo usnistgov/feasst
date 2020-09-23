@@ -29,6 +29,7 @@ class Criteria {
       The [i] is to be substituted for an integer 0, 1, 2, ...
       If only one particle type, you can drop the [i].
       The chemical potential must have the inverse units of \f$\beta\f$.
+    - pressure: imposed isotropic system pressure.
    */
   explicit Criteria(const argtype& args = argtype());
 
@@ -64,6 +65,12 @@ class Criteria {
 
   /// Return the dimensionless product of beta and the chemical potential.
   double beta_mu(const int particle_type = 0) const;
+
+  /// Return the pressure
+  double pressure() const;
+
+  /// Set the pressure.
+  void set_pressure(const double pressure);
 
   /// Add a constraint.
   void add(std::shared_ptr<Constraint> constraint) {
@@ -104,6 +111,13 @@ class Criteria {
 
   /// Return true if completion requirements are met.
   virtual bool is_complete() const { return false; }
+
+  /// Return the simulation phase index used to differentiate production
+  /// and initialization, etc.
+  virtual int phase() const { return phase_; }
+
+  /// Increment the simulation phase.
+  virtual void increment_phase() { ++phase_; }
 
   // HWH consider using this to set number of trials in Metropolis
   /// Set the number of iterations.
@@ -175,6 +189,9 @@ class Criteria {
   int num_expanded_states_;
   double pH_ = 0.;
   bool pH_initialized_ = false;
+  int phase_ = 0;
+  bool pressure_initialized_ = false;
+  double pressure_;
   std::vector<std::shared_ptr<Constraint> > constraints_;
 };
 

@@ -108,4 +108,23 @@ void feasst_deserialize(std::vector<long double> * vector, std::istream& istr) {
   }
 }
 
+void feasst_serialize(const argtype& args, std::ostream& ostr) {
+  feasst_serialize(args.size(), ostr);
+  for (const auto& pair : args) {
+    feasst_serialize(pair.first, ostr);
+    feasst_serialize(pair.second, ostr);
+  }
+}
+
+void feasst_deserialize(argtype * args, std::istream& istr) {
+  int num;
+  feasst_deserialize(&num, istr);
+  std::string first, second;
+  for (int i = 0; i < num; ++i) {
+    feasst_deserialize(&first, istr);
+    feasst_deserialize(&second, istr);
+    args->insert({first, second});
+  }
+}
+
 }  // namespace feasst

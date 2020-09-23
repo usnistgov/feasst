@@ -8,6 +8,7 @@
 #include <deque>
 #include <memory>
 #include <map>
+#include "utils/include/arguments.h"
 #include "utils/include/debug.h"
 #include "utils/include/io.h"
 
@@ -42,6 +43,12 @@ void feasst_deserialize(double * val, std::istream& ostr);
 
 /// Serialize long double. Handle inf.
 void feasst_deserialize(long double * val, std::istream& ostr);
+
+/// Serialize argtype.
+void feasst_serialize(const argtype& args, std::ostream& ostr);
+
+/// Deserialize argtype.
+void feasst_deserialize(argtype * args, std::istream& istr);
 
 /// Serialize generic to full precision.
 template <typename T>

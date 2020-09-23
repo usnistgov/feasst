@@ -21,7 +21,7 @@ void Tunable::set_min_and_max(const double min, const double max) {
 void Tunable::set_value(const double value) {
   DEBUG("setting val: " << value);
   if (is_bound_) {
-    if (value > min_ and value < max_) {
+    if (value > min_ && value < max_) {
       value_ = value;
     }
   } else {
@@ -35,14 +35,17 @@ void Tunable::set_percent_change(const double percent) {
 }
 
 void Tunable::tune(const double actual) {
+  DEBUG("is_enabled " << is_enabled_);
   if (is_enabled_) {
     double value = value_;
     DEBUG("target: " << target_ << " actual: " << actual);
+    DEBUG("old value " << value);
     if (actual < target_) {
       value *= 1. - percent_change_;
     } else {
       value *= 1. + percent_change_;
     }
+    DEBUG("new value " << value);
     set_value(value);
   }
 }

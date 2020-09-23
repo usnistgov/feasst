@@ -21,10 +21,9 @@ class WLTM : public Bias {
       has completed this many flatness checks.
       Note that populating the collection matrix does not necessarily mean that
       the collection matrix is used to compute the bias.
-
     - min_flatness: After this many flatness checks have been completed
       with Wang-Landau, use the bias from the collection matrix instead.
-
+      Also, increment the phase when this occurs.
     - min_sweeps: Number of sweeps required for completion.
    */
   WLTM(const argtype &args = argtype());
@@ -51,6 +50,7 @@ class WLTM : public Bias {
  private:
   int collect_flatness_;
   int min_flatness_;
+  int production_ = 0;
   std::shared_ptr<WangLandau> wang_landau_;
   std::shared_ptr<TransitionMatrix> transition_matrix_;
 };

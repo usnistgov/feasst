@@ -37,16 +37,8 @@ def mc(thread, mn, mx):
         fst.MakeTransitionMatrix(fst.args({"min_sweeps": "10"})),
         fst.args({"beta": str(beta),
                   "chemical_potential": str(-8.14/beta)})))
-    mc.add(fst.MakeTrialTranslate(fst.args({
-        "weight": "1.",
-        "tunable_param": "1.",
-        "reference_index": ref,
-        "num_steps": num})))
-    mc.add(fst.MakeTrialRotate(fst.args({
-        "weight": "1.",
-        "tunable_param": "1.",
-        "reference_index": ref,
-        "num_steps": num})))
+    mc.add(fst.MakeTrialTranslate(fst.args({"weight": "1.", "tunable_param": "1.",})))
+    mc.add(fst.MakeTrialRotate(fst.args({"weight": "1.", "tunable_param": "1."})))
     mc.add(fst.MakeTrialTransfer(fst.args({
         "particle_type": "0",
         "weight": "4",

@@ -91,4 +91,12 @@ TEST(Ewald, revert) {
   EXPECT_NEAR(en, system.energy(), 1e-10);
 }
 
+TEST(Ewald, change_volume) {
+  System system = spce();
+  try {
+    system.change_volume(1);
+    CATCH_PHRASE("not implemented");
+  }
+}
+
 }  // namespace feasst

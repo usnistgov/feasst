@@ -296,4 +296,58 @@ TEST(Configuration, copy_particles) {
     6.158403915960, NEAR_ZERO);
 }
 
+TEST(Configuration, change_volume) {
+  Configuration config(MakeDomain({{"cubic_box_length", "10"}}),
+    {{"particle_type", install_dir() + "/forcefield/data.spce"}});
+  config.add_particle_of_type(0);
+  config.add_particle_of_type(0);
+  Select second;
+  second.add_particle(config.particle(1), 1);
+  config.displace_particle(second, Position({1, 1, 1}));
+  EXPECT_NEAR(config.particle(0).position().coord(0), 0, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(0).site(0).position().coord(0), 0, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(0).site(1).position().coord(0), 1.0, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(0).site(2).position().coord(0), -0.333313247568237, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(0).site(2).position().coord(1), 0.942816142731718, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).position().coord(0), 1, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).site(0).position().coord(0), 1, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).site(1).position().coord(0), 2.0, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).site(2).position().coord(0), 0.666686752431763, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).site(2).position().coord(1), 1.942816142731718, NEAR_ZERO);
+  EXPECT_EQ(config.domain().volume(), 1000);
+  EXPECT_EQ(config.domain().side_length(0), 10);
+  EXPECT_EQ(config.domain().side_length(1), 10);
+  EXPECT_EQ(config.domain().side_length(2), 10);
+  config.change_volume(-10, {{"dimension", "0"}});
+  EXPECT_EQ(config.domain().volume(), 990);
+  EXPECT_EQ(config.domain().side_length(0), 9.9);
+  EXPECT_EQ(config.domain().side_length(1), 10);
+  EXPECT_EQ(config.domain().side_length(2), 10);
+  EXPECT_NEAR(config.particle(0).position().coord(0), 0, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(0).site(0).position().coord(0), 0, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(0).site(1).position().coord(0), 1.0, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(0).site(2).position().coord(0), -0.333313247568237, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(0).site(2).position().coord(1), 0.942816142731718, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).position().coord(0), 0.99, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).site(0).position().coord(0), 0.99, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).site(1).position().coord(0), 1.99, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).site(2).position().coord(0), 0.656686752431763, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).site(2).position().coord(1), 1.942816142731718, NEAR_ZERO);
+  config.change_volume(-10, {{"dimension", "-1"}});
+  EXPECT_NEAR(config.domain().volume(), 980, 1e-12);
+  EXPECT_NEAR(config.domain().side_length(0), 9.86655379913093, 1e-12);
+  EXPECT_NEAR(config.domain().side_length(1), 9.96621595871811, 1e-12);
+  EXPECT_NEAR(config.domain().side_length(2), 9.96621595871811, 1e-12);
+  EXPECT_NEAR(config.particle(0).position().coord(0), 0, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(0).site(0).position().coord(0), 0, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(0).site(1).position().coord(0), 1.0, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(0).site(2).position().coord(0), -0.333313247568237, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(0).site(2).position().coord(1), 0.942816142731718, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).position().coord(0), 0.986655379913093, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).site(0).position().coord(0), 0.986655379913093, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).site(1).position().coord(0), 1.986655379913093, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).site(2).position().coord(0), 0.653342132344856, NEAR_ZERO);
+  EXPECT_NEAR(config.particle(1).site(2).position().coord(1), 1.93943773860353, 2e-15);
+}
+
 }  // namespace feasst

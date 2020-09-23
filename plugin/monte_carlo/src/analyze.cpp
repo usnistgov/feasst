@@ -34,9 +34,14 @@ void Analyze::check_update_(const Criteria& criteria,
 void Analyze::trial(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  check_update_(criteria, system, trial_factory);
-  if (is_time(steps_per_write(), &steps_since_write_)) {
-    printer(write(criteria, system, trial_factory));
+  if (stop_after_phase() == -1 ||
+      criteria.phase() <= stop_after_phase()) {
+    if (criteria.phase() > start_after_phase()) {
+      check_update_(criteria, system, trial_factory);
+      if (is_time(steps_per_write(), &steps_since_write_)) {
+        printer(write(criteria, system, trial_factory), file_name(criteria));
+      }
+    }
   }
 }
 

@@ -23,7 +23,8 @@ Log::Log(const argtype& args) : AnalyzeWriteOnly(args) {
 void Log::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
-  printer(header(*criteria, *system, *trial_factory));
+  printer(header(*criteria, *system, *trial_factory),
+          file_name(*criteria));
 }
 
 std::string Log::header(const Criteria& criteria,

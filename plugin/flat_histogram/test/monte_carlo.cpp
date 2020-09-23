@@ -1,9 +1,11 @@
 #include "utils/test/utils.h"
 #include "math/include/histogram.h"
 #include "math/include/random_mt19937.h"
+#include "configuration/include/domain.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/dont_visit_model.h"
 #include "system/include/model_two_body_factory.h"
+#include "system/include/potential.h"
 #include "system/include/utils.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/test/monte_carlo_test.h"
@@ -48,6 +50,30 @@ double energy_av(const int macro, const MonteCarlo& mc) {
 ////    CATCH_PHRASE("set macrostate before bias");
 ////  );
 //}
+TEST(MonteCarlo, ideal_gas_fh_eos_LONG) {
+  MonteCarlo monte_carlo;
+  monte_carlo.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
+                                {{"particle_type", install_dir() + "/forcefield/data.atom"}}));
+  monte_carlo.add(Potential(MakeDontVisitModel()));
+  auto criteria = MakeFlatHistogram(
+      MakeMacrostateNumParticles(Histogram({{"width", "1"}, {"min", "0"}, {"max", "50"}})),
+      MakeTransitionMatrix({{"min_sweeps", "100"}}),
+      {{"beta", str(1./1.2)}, {"chemical_potential", "-3"}});
+  monte_carlo.set(criteria);
+  monte_carlo.add(MakeTrialTransfer({{"particle_type", "0"}}));
+  monte_carlo.add(MakeCriteriaUpdater({{"steps_per", str(1e5)}}));
+  monte_carlo.add(MakeCriteriaWriter({{"steps_per", str(1e5)}, {"file_name", "tmp/id_fh.txt"}}));
+  monte_carlo.run_until_complete();
+  for (double delta_conjugate = -6; delta_conjugate < 1; delta_conjugate += 0.1) {
+    LnProbability ln_prob = criteria->reweight(delta_conjugate);
+    if (ln_prob.value(ln_prob.size()-1) < -6) {
+      const double volume = monte_carlo.configuration().domain().volume();
+      const double rho = criteria->average_macrostate(ln_prob)/volume;
+      const double pressure = criteria->pressure(ln_prob, volume);
+      EXPECT_NEAR(rho, criteria->beta()*pressure, 1e-4);
+    }
+  }
+}
 
 MonteCarlo test_lj_fh(const int num_steps,
     const std::string bias_name,
@@ -115,9 +141,11 @@ MonteCarlo test_lj_fh(const int num_steps,
   mc.add(MakeCriteriaUpdater({{"steps_per", str(1)}}));
   mc.add(MakeCriteriaWriter({
     {"steps_per", steps_per},
-    {"file_name", "tmp/ljcrit.txt"}}));
+    {"file_name", "tmp/ljcrit.txt"},
+    {"file_name_append_phase", "true"}}));
   auto energy = MakeEnergy({
     {"file_name", "tmp/lj_fh_energy"},
+    {"file_name_append_phase", "true"},
     {"steps_per_update", "1"},
     {"steps_per_write", str(steps_per)},
     {"multistate", "true"}});

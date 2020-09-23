@@ -305,6 +305,15 @@ class Configuration {
   /// Set whether or not to wrap particles
   void init_wrap(const bool wrap = true) { wrap_ = wrap; }
 
+  /*
+    Change the volume. Also, update cells.
+
+    args:
+    - dimension: index of dimension to change. If -1, change all (default: -1)
+   */
+  void change_volume(const double delta_volume,
+    const argtype& args = argtype());
+
   //@}
   /** @name Ghosts
     Functions which require knowledge of ghost particles and thus not for
