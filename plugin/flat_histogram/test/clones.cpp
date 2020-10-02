@@ -97,6 +97,23 @@ TEST(Clones, lj_fh) {
   Clones clones3;
   MakeCheckpoint({{"file_name", "tmp/rstclone"}})->read(&clones3);
   EXPECT_TRUE(clones3.ln_prob().is_equal(clones2.ln_prob(), 1e-8));
+
+  Histogram macrostates;
+  std::vector<double> energy, energy0, energy1;
+  clones3.stitch(&macrostates, &energy, "Energy");
+  EXPECT_EQ(macrostates.center_of_bin(0), 0);
+  EXPECT_EQ(macrostates.center_of_bin(10), 10);
+  EXPECT_EQ(macrostates.center_of_bin(11), 11);
+  EXPECT_EQ(macrostates.center_of_bin(12), 12);
+  energy0 = SeekAnalyze().multistate_data("Energy", clones3.clone(0));
+  energy1 = SeekAnalyze().multistate_data("Energy", clones3.clone(1));
+  INFO(feasst_str(energy));
+  INFO(feasst_str(energy0));
+  INFO(feasst_str(energy1));
+  for (int i = 0; i < 6; ++i) EXPECT_EQ(energy[i], energy0[i]);
+  EXPECT_EQ(energy[6], 0.5*(energy0[6] + energy1[1]));
+  EXPECT_EQ(energy[7], 0.5*(energy0[7] + energy1[2]));
+  for (int i = 8; i < 13; ++i) EXPECT_EQ(energy[i], energy1[i - 5]);
 }
 
 double energy_av4(const int macro, const MonteCarlo& mc) {

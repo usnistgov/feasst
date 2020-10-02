@@ -51,9 +51,18 @@ void Histogram::set_width_center(const double width, const double center) {
 }
 
 void Histogram::set_edges(const std::deque<double> edges) {
+  ASSERT(edges.size() > 1, "must be more than 1 edge");
   edges_ = edges;
   set_not_expandable();
+  histogram_.resize(edges_.size() - 1);
 }
+
+void Histogram::set_edges(const std::vector<double> edges) {
+  std::deque<double> deque_edges;
+  for (double edge : edges) deque_edges.push_back(edge);
+  set_edges(deque_edges);
+}
+
 int Histogram::bin(const double value) const {
   ASSERT(value <= max() && value >= min(),
     "histogram value(" << value << ") is out of range. max(" << max() <<

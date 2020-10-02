@@ -6,6 +6,7 @@
 #include "math/include/accumulator.h"
 #include "monte_carlo/include/criteria.h"
 #include "flat_histogram/include/macrostate.h"
+#include "flat_histogram/include/ln_probability.h"
 #include "flat_histogram/include/bias.h"
 
 namespace feasst {
@@ -17,13 +18,14 @@ class Random;
   to recover the free energy of the system as a function of the give macrostate.
 
   The Macrostate must be defined before the bias.
-
-  Use MacrostateAccumulator to compute custom per-macrostate quantities.
  */
 class FlatHistogram : public Criteria {
  public:
+  // HWH remove, considering EnsembleAverage?
+  // Only used for reweighting
   FlatHistogram(const argtype &args = argtype());
 
+  /// Constructor
   FlatHistogram(std::shared_ptr<Macrostate> macrostate,
       std::shared_ptr<Bias> bias,
       const argtype &args = argtype());
@@ -63,62 +65,12 @@ class FlatHistogram : public Criteria {
   int state_old() const override { return macrostate_old_; }
   int state_new() const override { return macrostate_new_; }
 
-  // HWH consider moving the below functions to a new class or util
-
-  /// Return a reweighted macrostate distribution.
-  LnProbability reweight(
-      /**
-        Change in conjugate variable. For example, if reweighting in number
-        of particles using the grand canonical ensemble, the change in the
-        thermodynamic conjugate is \f$\Delta(\beta\mu\)f$.
-        If reweighting in potential energy in the microcanonical, the change
-        in the thermodynamic conjugate is \f$\Delta(-\beta)\f$.
-       */
-      const double delta_conjugate);
-
   /// Set the macrostate probability distribution.
   void set_ln_prob(const LnProbability& ln_prob) {
     bias_->set_ln_prob(ln_prob); }
 
-  // HWH add reference to Shen/Errington
-  /// Return the pressure.
-  double pressure(const LnProbability& ln_prob,
-      const double volume,
-      /// Select phase by order of macrostate.
-      /// Assumes default method of dividing phase boundary.
-      const int phase = 0) const;
-
-  /// Same as above but using the current ln_prob.
-  double pressure(const double volume,
-      const int phase = 0) const { return pressure(ln_prob_(), volume, phase); }
-
-  /// Return the ensemble averaged property from a list of properties averaged
-  /// at each macrostate.
-  double average(const LnProbability& ln_prob,
-                 // HWH make macrostate_averages work with bin averages.
-                 const std::vector<double>& macrostate_averages,
-                 /// Select phase by order of macrostate.
-                 /// Assumes default method of dividing phase boundary.
-                 const int phase = 0) const;
-
-  /// Same as above but using the current ln_prob.
-  double average(const std::vector<double>& macrostate_averages,
-                 const int phase = 0) const {
-    return average(ln_prob_(), macrostate_averages, phase); }
-
-  /// Return the average macrostate
-  double average_macrostate(const LnProbability& ln_prob,
-      /// Select phase by order of macrostate.
-      /// Assumes default method of dividing phase boundary.
-      const int phase = 0) const;
-
-  /// Same as above but using the current ln_prob.
-  double average_macrostate(
-      /// Select phase by order of macrostate.
-      /// Assumes default method of dividing phase boundary.
-      const int phase = 0) const {
-    return average_macrostate(ln_prob_(), phase);
-  }
+  /// Return the macrostate probability distribution.
+  const LnProbability& ln_prob() const { return bias_->ln_prob(); }
 
   // HWH hackish implementation for prefetch
   // Revert changes from previous trial.
@@ -148,18 +100,6 @@ class FlatHistogram : public Criteria {
   int macrostate_new_ = -1;
   int macrostate_current_ = -1;
   bool is_macrostate_set_ = false;
-
-  const LnProbability& ln_prob_() const { return bias_->ln_prob(); }
-
-  /// Determine min and max indices for a given phase
-  /// Return -1 if no phase boundary.
-  void phase_boundary_(const LnProbability& ln_prob,
-      const int phase, int * min, int * max) const;
-
-  /// Same as above but with the ln_prob_ contained in this class.
-  void phase_boundary_(const int phase, int * min, int * max) const {
-    phase_boundary_(ln_prob_(), phase, min, max);
-  }
 
   // temporary
   Acceptance empty_;

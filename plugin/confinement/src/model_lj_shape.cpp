@@ -1,5 +1,6 @@
 #include <cmath>
 #include "utils/include/serialize.h"
+#include "math/include/constants.h"
 #include "configuration/include/site.h"
 #include "configuration/include/model_params.h"
 #include "confinement/include/model_lj_shape.h"
@@ -44,8 +45,12 @@ double ModelLJShape::energy(
   const int type = site.type();
   const double sigma = model_params.sigma().value(type);
   const double epsilon = model_params.epsilon().value(type);
-  const double distance = shape()->nearest_distance(wrapped_site);
-  return epsilon * std::pow(distance/sigma, alpha_);
+  const double distance = -shape()->nearest_distance(wrapped_site);
+  if (distance <= 0) {
+    return NEAR_INFINITY;
+  } else {
+    return epsilon * std::pow(distance/sigma, alpha_);
+  }
 }
 
 }  // namespace feasst

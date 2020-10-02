@@ -2,6 +2,7 @@
 #ifndef FEASST_FLAT_HISTOGRAM_LN_PROBABILITY_H_
 #define FEASST_FLAT_HISTOGRAM_LN_PROBABILITY_H_
 
+#include <iostream>
 #include <vector>
 
 namespace feasst {
@@ -50,25 +51,23 @@ class LnProbability {
   std::vector<int> minima(
     const int num_smooth = 10) const;
 
-  /** Return the objective function to minimize in order to obtain saturation
-      conditions.
+  /** Return the objective function to minimize in order to obtain equilibrium
+      between phases.
       If no phase boundaries, return the squared difference between
       the minimum and maximum values.
       If more than one, no current implementation.
       If exactly one, use objective function below. */
-  double saturation_objective(const double delta_conjugate,
+  double equilibrium_objective(
     /// Number of macrostates which define 'local' region for finding the
     /// minimum.
     const int num_smooth = 10) const;
 
-  /** Return the objective function to minimize in order to obtain saturation
-      conditions.
+  /** Return the objective function to minimize in order to obtain equilibrium
+      between phases.
       The objective is the squared difference between the natural logs of the
       probabilities of the two phases.
     */
-  double saturation_objective_boundary(
-    /// See FlatHistogram::reweight()
-    const double delta_conjugate,
+  double equilibrium_objective_boundary(
     /// Index which is the boundary between phases.
     /// The exact index value is included in the second phase.
     int phase_boundary) const;

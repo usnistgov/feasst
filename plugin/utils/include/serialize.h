@@ -254,6 +254,31 @@ void feasst_deserialize(std::vector<std::vector<std::vector<std::vector<
   }
 }
 
+/// Serialize the 5D vector.
+template <typename T>
+void feasst_serialize_fstob(const std::vector<std::vector<std::vector<std::vector<
+    std::vector<T> > > > >& vector,
+    std::ostream& ostr) {
+  ostr << vector.size() << " ";
+  for (const std::vector<std::vector<std::vector<std::vector<T> > > >& vec2
+    : vector) {
+    feasst_serialize_fstobj(vec2, ostr);
+  }
+}
+
+/// Deserialize the 5D vector.
+template <typename T>
+void feasst_deserialize_fstobj(std::vector<std::vector<std::vector<std::vector<
+    std::vector<T> > > > > * vector,
+    std::istream& istr) {
+  int dim;
+  istr >> dim;
+  vector->resize(dim);
+  for (int index = 0; index < dim; ++index) {
+    feasst_deserialize_fstobj(&((*vector)[index]), istr);
+  }
+}
+
 /// Serialize the 6D vector.
 template <typename T>
 void feasst_serialize(const std::vector<std::vector<std::vector<std::vector<
@@ -487,7 +512,8 @@ std::shared_ptr<T> template_deserialize(
     FATAL("The class name \"" << class_name << "\" "
     << "is not recognized during deserialization. "
     << "If the above class name is empty, there was a mis-match in stream. "
-    << "Otherwise, this is likely due to the lack of a static mapper "
+    << "Perhaps the plugin was not included during compilation. "
+    << "If that's not it, its likely due to the lack of a static mapper "
     << "which is typically implemented within the cpp file. "
     << "In rare cases, the absence of a constructor implementation inside "
     << "the cpp file possibly leads optimization to ignore the mapper.");

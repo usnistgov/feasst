@@ -43,6 +43,8 @@ class Stepper {
       Individual states no longer write.
     - num_block: number of updated per block in accumulator.
       If not provided, use default value in Accumulator.
+    - num_moments: number of moments in accumulator.
+      If not provided, use default value in Accumulator.
     - configuration: index of configuration (default: 0)
    */
   Stepper(const argtype &args = argtype());

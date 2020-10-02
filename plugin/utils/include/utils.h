@@ -43,7 +43,7 @@ void resize(const int xs, const int ys, std::vector<std::vector<T> > *vec) {
   }
 }
 
-/// Resize three dimensional vector to size xs, ys.
+/// Resize three dimensional vector.
 /// Note to HWH: rewrite using variadic templates for arbitrary dimensions
 template<class T>
 void resize(const int xs, const int ys, const int zs,
@@ -51,6 +51,26 @@ void resize(const int xs, const int ys, const int zs,
   vec->resize(xs);
   for (int i = 0; i < static_cast<int>(vec->size()); ++i) {
     resize(ys, zs, &(*vec)[i]);
+  }
+}
+
+/// Resize four dimensional vector.
+template<class T>
+void resize(const int dim0, const int dim1, const int dim2, const int dim3,
+  std::vector<std::vector<std::vector<std::vector<T> > > > *vec) {
+  vec->resize(dim0);
+  for (int i = 0; i < static_cast<int>(vec->size()); ++i) {
+    resize(dim1, dim2, dim3, &(*vec)[i]);
+  }
+}
+
+/// Resize five dimensional vector.
+template<class T>
+void resize(const int dim0, const int dim1, const int dim2, const int dim3, const int dim4,
+  std::vector<std::vector<std::vector<std::vector<std::vector<T> > > > > *vec) {
+  vec->resize(dim0);
+  for (int i = 0; i < static_cast<int>(vec->size()); ++i) {
+    resize(dim1, dim2, dim3, dim4, &(*vec)[i]);
   }
 }
 

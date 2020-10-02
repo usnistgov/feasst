@@ -10,10 +10,12 @@
 #include "flat_histogram/include/window.h"
 #include "flat_histogram/include/ln_probability.h"
 #include "flat_histogram/include/flat_histogram.h"
+#include "steppers/include/seek_analyze.h"
 
 namespace feasst {
 
 class Checkpoint;
+class Histogram;
 
 /**
   Container for initializing, running and analyzing groups of FlatHistogram
@@ -94,8 +96,30 @@ class Clones {
   /// Return the FlatHistogram of a given clone index.
   FlatHistogram flat_histogram(const int index) const;
 
-  /// Return the LnProbability of all clones.
-  LnProbability ln_prob(const argtype& args = argtype()) const;
+  /// Stitch together and return the LnProbability of all clones.
+  LnProbability ln_prob(
+    /// Optionally return spliced macrostates, if not NULL.
+    Histogram * macrostates = NULL,
+    /// Optionally return spliced multistate data, it not NULL.
+    std::vector<double> * multistate_data = NULL,
+    /// Name of Analyze to extract data.
+    const std::string analyze_name = "",
+    /// Source of data in Analyze
+    const AnalyzeData& get = AccumulatorAverage()) const;
+
+  /// Same as above, but without ln_prob
+  void stitch(
+    Histogram * macrostates = NULL,
+    std::vector<double> * multistate_data = NULL,
+    const std::string analyze_name = "",
+    const AnalyzeData& get = AccumulatorAverage()) const {
+    ln_prob(macrostates, multistate_data, analyze_name, get); }
+
+  /// Same as above, but without ln_prob or spliced macrostates.
+  void stitch(std::vector<double> * multistate_data,
+      const std::string analyze_name,
+      const AnalyzeData& get) const {
+    ln_prob(NULL, multistate_data, analyze_name, get); }
 
   /// Serialize
   void serialize(std::ostream& ostr) const;
@@ -124,7 +148,8 @@ class Clones {
 };
 
 /// Construct Clones
-std::shared_ptr<Clones> MakeClones() { return std::make_shared<Clones>(); }
+inline std::shared_ptr<Clones> MakeClones() {
+  return std::make_shared<Clones>(); }
 
 /// Construct Clones from a vector of checkpoint file names.
 std::shared_ptr<Clones> MakeClones(const std::vector<std::string> file_names);

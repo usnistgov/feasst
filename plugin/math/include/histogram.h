@@ -47,6 +47,9 @@ class Histogram {
   /// This makes the histogram not expandable.
   void set_edges(const std::deque<double> edges);
 
+  /// Same as above, but with a vector.
+  void set_edges(const std::vector<double> edges);
+
   /// Force the histogram not to be expandable.
   void set_not_expandable() { expandable_ = false; }
 

@@ -19,6 +19,21 @@ NumParticles::NumParticles(const argtype &args) : Analyze(args) {
   group_ = args_.key("group").dflt("-1").integer();
 }
 
+std::string NumParticles::header(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trial_factory) const {
+  std::stringstream ss;
+  ss << num_particles().status_header() << std::endl;
+  return ss.str();
+}
+
+void NumParticles::initialize(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
+  printer(header(*criteria, *system, *trial_factory),
+          file_name(*criteria));
+}
+
 void NumParticles::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
@@ -43,7 +58,7 @@ std::string NumParticles::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;
-  ss << num_particles().str() << " ";
+  ss << num_particles().status() << std::endl;
   DEBUG(ss.str());
   return ss.str();
 }

@@ -23,8 +23,8 @@ def mc(thread, mn, mx):
         fst.MakeMacrostateNumParticles(
             fst.Histogram(fst.args({"width": "1", "max": str(mx), "min": str(mn)}))),
         # fst.MakeTransitionMatrix(fst.args({"min_sweeps": "10"})),
-        fst.MakeWLTM(fst.args({"collect_flatness": "20",
-                               "min_flatness": "25",
+        fst.MakeWLTM(fst.args({"collect_flatness": "18",
+                               "min_flatness": "22",
                                "min_sweeps": "10"})),
         fst.args({"beta": str(1./1.5), "chemical_potential": "-2.352321"})))
     mc.add(fst.MakeTrialTranslate(fst.args({
@@ -41,18 +41,23 @@ def mc(thread, mn, mx):
     mc.add(fst.MakeTuner(fst.args({"steps_per": str(steps_per), "stop_after_phase": "0"})))
     mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per),
                                          "file_name": "clones" + str(thread),
-                                         "file_name_append_phase": "true"})))
+                                         "file_name_append_phase": "True"})))
+    mc.add(fst.MakeEnergy(fst.args({"steps_per_write": str(steps_per),
+                                    "file_name": "en" + str(thread) + ".txt.",
+                                    "file_name_append_phase": "True",
+                                    "start_after_phase": "0",
+                                    "multistate": "True"})))
     mc.add(fst.MakeCriteriaUpdater(fst.args({"steps_per": str(steps_per)})))
     mc.add(fst.MakeCriteriaWriter(fst.args({"steps_per": str(steps_per),
                                             "file_name": "clones" + str(thread) + "_crit.txt",
-                                            "file_name_append_phase": "true"})))
+                                            "file_name_append_phase": "True"})))
     mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint" + str(thread) + ".fst",
                                         "num_hours": str(0.1*args.num_procs*args.num_hours),
                                         "num_hours_terminate": str(0.9*args.num_procs*args.num_hours)})))
     return mc
 
 windows=fst.WindowExponential(fst.args({
-  "alpha": "1.5",
+  "alpha": "2.25",
   "num": str(args.num_procs),
   "maximum": "370",
   "extra_overlap": "2"})).boundaries()

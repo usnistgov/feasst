@@ -11,11 +11,13 @@
    NumParticles
    MeanSquaredDisplacement
    CPUTime
+   ExtensiveMoments
    Check
    CheckEnergy
    CheckPhysicality
    Volume
    ProfileTrials
    WallClockLimit
+   AnalyzeData
    LogAndMovie
    Movie

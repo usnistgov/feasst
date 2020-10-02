@@ -168,12 +168,14 @@
 #include "steppers/include/num_particles.h"
 #include "steppers/include/mean_squared_displacement.h"
 #include "steppers/include/cpu_time.h"
+#include "steppers/include/extensive_moments.h"
 #include "steppers/include/check.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_physicality.h"
 #include "steppers/include/volume.h"
 #include "steppers/include/profile_trials.h"
 #include "steppers/include/wall_clock_limit.h"
+#include "steppers/include/seek_analyze.h"
 #include "monte_carlo/include/analyze_factory.h"
 #include "steppers/include/log_and_movie.h"
 #include "monte_carlo/include/monte_carlo.h"
@@ -231,6 +233,7 @@
 #include "mayer/include/criteria_mayer.h"
 #include "mayer/include/trial.h"
 #include "confinement/include/model_lj_shape.h"
+#include "confinement/include/model_square_well_shape.h"
 #include "confinement/include/always_accept.h"
 #include "confinement/include/henry_coefficient.h"
 #include "confinement/include/model_hard_shape.h"
@@ -251,6 +254,7 @@
 #include "growth_expanded/include/macrostate_morph.h"
 #include "growth_expanded/include/macrostate_growth_expanded.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
+#include "flat_histogram/include/ensemble.h"
 #include "flat_histogram/include/flat_histogram.h"
 #include "flat_histogram/include/clones.h"
 using namespace feasst;
@@ -451,12 +455,19 @@ using namespace std;
 %shared_ptr(feasst::NumParticles);
 %shared_ptr(feasst::MeanSquaredDisplacement);
 %shared_ptr(feasst::CPUTime);
+%shared_ptr(feasst::ExtensiveMoments);
 %shared_ptr(feasst::Check);
 %shared_ptr(feasst::CheckEnergy);
 %shared_ptr(feasst::CheckPhysicality);
 %shared_ptr(feasst::Volume);
 %shared_ptr(feasst::ProfileTrials);
 %shared_ptr(feasst::WallClockLimit);
+%shared_ptr(feasst::AnalyzeData);
+%shared_ptr(feasst::AccumulatorAverage);
+%shared_ptr(feasst::AccumulatorSum);
+%shared_ptr(feasst::AccumulatorSumOfSquared);
+%shared_ptr(feasst::AccumulatorMoment);
+%shared_ptr(feasst::SeekAnalyze);
 %shared_ptr(feasst::AnalyzeFactory);
 %shared_ptr(feasst::LogAndMovie);
 %shared_ptr(feasst::MonteCarlo);
@@ -520,6 +531,7 @@ using namespace std;
 %shared_ptr(feasst::TrialTranslateNewOnly);
 %shared_ptr(feasst::TrialRotateNewOnly);
 %shared_ptr(feasst::ModelLJShape);
+%shared_ptr(feasst::ModelSquareWellShape);
 %shared_ptr(feasst::AlwaysAccept);
 %shared_ptr(feasst::HenryCoefficient);
 %shared_ptr(feasst::ModelHardShape);
@@ -543,6 +555,9 @@ using namespace std;
 %shared_ptr(feasst::MacrostateMorph);
 %shared_ptr(feasst::MacrostateGrowthExpanded);
 %shared_ptr(feasst::MacrostateNumParticles);
+%shared_ptr(feasst::Ensemble);
+%shared_ptr(feasst::GrandCanonicalEnsemble);
+%shared_ptr(feasst::ExtrapolateBetaGCE);
 %shared_ptr(feasst::FlatHistogram);
 %shared_ptr(feasst::Clones);
 %include configuration/include/properties.h
@@ -704,12 +719,14 @@ using namespace std;
 %include steppers/include/num_particles.h
 %include steppers/include/mean_squared_displacement.h
 %include steppers/include/cpu_time.h
+%include steppers/include/extensive_moments.h
 %include steppers/include/check.h
 %include steppers/include/check_energy.h
 %include steppers/include/check_physicality.h
 %include steppers/include/volume.h
 %include steppers/include/profile_trials.h
 %include steppers/include/wall_clock_limit.h
+%include steppers/include/seek_analyze.h
 %include monte_carlo/include/analyze_factory.h
 %include steppers/include/log_and_movie.h
 %include monte_carlo/include/monte_carlo.h
@@ -767,6 +784,7 @@ using namespace std;
 %include mayer/include/criteria_mayer.h
 %include mayer/include/trial.h
 %include confinement/include/model_lj_shape.h
+%include confinement/include/model_square_well_shape.h
 %include confinement/include/always_accept.h
 %include confinement/include/henry_coefficient.h
 %include confinement/include/model_hard_shape.h
@@ -787,5 +805,6 @@ using namespace std;
 %include growth_expanded/include/macrostate_morph.h
 %include growth_expanded/include/macrostate_growth_expanded.h
 %include flat_histogram/include/macrostate_num_particles.h
+%include flat_histogram/include/ensemble.h
 %include flat_histogram/include/flat_histogram.h
 %include flat_histogram/include/clones.h

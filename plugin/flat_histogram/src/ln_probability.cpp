@@ -51,23 +51,19 @@ std::vector<int> LnProbability::minima(
   return local_minimum_indices(values(), num_smooth);
 }
 
-double LnProbability::saturation_objective(
-    const double delta_conjugate,
-    int num_smooth) const {
+double LnProbability::equilibrium_objective(int num_smooth) const {
   const std::vector<int> mins = minima();
   const int size = static_cast<int>(mins.size());
   if (size == 0) {
     return std::pow(values_.front() - values_.back(), 2);
   } else if (size == 1) {
-    return saturation_objective_boundary(delta_conjugate, mins[0]);
+    return equilibrium_objective_boundary(mins[0]);
   } else {
     FATAL("Found " << size << " minimums: " << feasst_str(mins));
   }
 }
 
-double LnProbability::saturation_objective_boundary(
-    const double delta_conjugate,
-    int phase_boundary) const {
+double LnProbability::equilibrium_objective_boundary(int phase_boundary) const {
   const double prob_low_dens = sum_probability(0, phase_boundary - 1);
   const double prob_high_dens = sum_probability(phase_boundary, size() - 1);
   return std::pow(log(prob_low_dens) - log(prob_high_dens), 2);

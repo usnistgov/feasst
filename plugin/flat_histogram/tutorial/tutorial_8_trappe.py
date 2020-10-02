@@ -7,16 +7,17 @@ parser.add_argument("--task", type=int, help="SLURM job array index", default=0)
 parser.add_argument("--num_procs", type=int, help="number of processors", default=12)
 parser.add_argument("--num_hours", type=float, help="number of hours before restart", default=5*24)
 parser.add_argument("--dccb_cutoff", type=int, help="cutoff for dual cut configurational bias", default=4)
-parser.add_argument("--dccb_begin", type=int, help="number of molecules before DCCB", default=300)
+parser.add_argument("--dccb_begin", type=int, help="number of molecules before using DCCB", default=300)
 parser.add_argument("--lx", type=float, help="box length in x", default=33.0)
 parser.add_argument("--ly", type=float, help="box length in y", default=33.0)
 parser.add_argument("--lz", type=float, help="box length in z", default=33.0)
 parser.add_argument("--max_particles", type=int, help="maximum number of particles", default=400)
 parser.add_argument("--temperature", type=float, help="temperature in Kelvin", default=263.15)
-parser.add_argument("--beta_mu", type=float, help="chemical potential times inverse temperature", default=0.)
 parser.add_argument("--particles", "-p", help="particle types", action='append', required=True)
 parser.add_argument("--collect_flatness", type=int, help="number of WL flatness to begin collection", default=18)
 parser.add_argument("--min_flatness", type=int, help="number of WL flatness to switch to TM", default=22)
+parser.add_argument("--beta_mu", type=int, help="baseline chemical potential of each species", default=-7)
+parser.add_argument("--delta_betamu_0", type=int, help="delta_betamu_0", default=0.)
 args = parser.parse_args()
 print("args:", args)
 
@@ -33,12 +34,12 @@ def mc(thread, mn, mx):
         num = "1"
     config_args = dict()
     index = 0
-    beta = 1./args.temperature
-    criteria_args = {"beta": str(beta)}
+    criteria_args = {"beta": str(1./args.temperature)}
     for part in args.particles:
         config_args["particle_type"+str(index)] = part
-        criteria_args["chemical_potential"+str(index)] = str(args.beta_mu/beta)
+        criteria_args["chemical_potential"+str(index)] = str(args.beta_mu*args.temperature)
         index += 1
+    criteria_args["chemical_potential0"] = str((args.delta_betamu_0 + args.beta_mu)*args.temperature)
     mc.add(fst.Configuration(fst.MakeDomain(fst.args(domain_args)), config_args))
     mc.add(fst.Potential(fst.MakeLennardJones()))
     mc.add(fst.Potential(fst.MakeLongRangeCorrections()))
@@ -80,21 +81,37 @@ def mc(thread, mn, mx):
             "num_steps": num})))
     mc.add(fst.MakeCheckEnergy(fst.args({"steps_per": str(steps_per), "tolerance": "0.0001"})))
     mc.add(fst.MakeTuner(fst.args({"steps_per": str(steps_per), "stop_after_phase": "0"})))
-    mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per),
-                                         "file_name": "clones" + str(thread),
-                                         "file_name_append_phase": "True"})))
+#    mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per),
+#                                         "file_name": "clones" + str(thread),
+#                                         "file_name_append_phase": "True"})))
+      mc.add(fst.MakeEnergy(fst.args({
+        "file_name": "en" + str(thread) + '.txt',
+        "file_name_append_phase": "True",
+        "start_after_phase": "0",
+        "steps_per_write": str(steps_per),
+        "steps_per_update": "1",
+        "multistate": "True"})))
     if mc.configuration().num_particle_types() > 1:
         mc.add(fst.MakeNumParticles(fst.args({
           "particle_type": "0",
-          "file_name": "num" + str(thread),
+          "file_name": "num" + str(thread) + '.txt',
           "file_name_append_phase": "True",
+          "start_after_phase": "0",
           "steps_per_write": str(steps_per),
           "steps_per_update": "1",
           "multistate": "True"})))
+    mc.add(fst.MakeExtensiveMoments(fst.args({
+        "steps_per_write": str(steps_per),
+        "file_name": "extmom"+str(thread) + ".txt",
+        "file_name_append_phase": "True",
+        "start_after_phase": "0", # do not update until equilibration complete (phase 1)
+        "max_order": "3",
+        "multistate": "True"})))
     mc.add(fst.MakeCriteriaUpdater(fst.args({"steps_per": str(steps_per)})))
     mc.add(fst.MakeCriteriaWriter(fst.args({"steps_per": str(steps_per),
                                             "file_name": "clones" + str(thread) + "_crit.txt",
                                             "file_name_append_phase": "True"})))
+    print(0.9*args.num_procs*args.num_hours)
     mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint" + str(thread) + ".fst",
                                         "num_hours_terminate": str(0.9*args.num_procs*args.num_hours)})))
     mc.add(fst.MakeAnalyzeRigidBonds(fst.args({"steps_per": str(steps_per)})))
