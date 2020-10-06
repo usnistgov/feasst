@@ -57,7 +57,7 @@ class FlatHistogram : public Criteria {
   std::string write() const override;
   bool is_complete() const override { return bias_->is_complete(); }
   int phase() const override { return bias_->phase(); }
-  void increment_phase() { bias_->increment_phase(); }
+  void increment_phase() override { bias_->increment_phase(); }
 
   /// Return the state. Return -1 if state is not determined.
   int state() const override { return macrostate_current_; }

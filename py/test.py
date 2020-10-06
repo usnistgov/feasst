@@ -2,11 +2,13 @@ import unittest
 import feasst
 import pyfeasst
 
+print(feasst.version())
+
 class TestCorePosition(unittest.TestCase):
-  def test(self):
-    pos = feasst.Position()
-    pos.set_to_origin_3D()
-    assert(pos.coord(0) == 0)
+    def test(self):
+        pos = feasst.Position()
+        pos.set_to_origin_3D()
+        assert(pos.coord(0) == 0)
 
 if __name__ == "__main__":
-  unittest.main()
+    unittest.main()

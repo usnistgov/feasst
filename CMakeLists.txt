@@ -172,7 +172,7 @@ endif()
 # flat_histogram
 list (FIND FEASST_PLUGINS "flat_histogram" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstflat_histogram feasstmonte_carlo feasstthreads)
+  target_link_libraries(feasstflat_histogram feasstmonte_carlo feasststeppers feasstthreads)
 endif()
 
 # mayer
