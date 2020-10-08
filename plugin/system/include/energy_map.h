@@ -22,23 +22,23 @@ class NeighborCriteria;
  */
 class EnergyMap {
  public:
-  EnergyMap(
-    /**
-      args:
-      - default_value: set initial or cleared values to this.
-     */
-    const argtype& args = argtype()) {
-    Arguments args_(args);
-    default_value_ = args_.key("default_value").dflt("0.").dble();
-  }
+  /**
+    args:
+    - default_value: set initial or cleared values to this.
+   */
+  EnergyMap(const argtype& args = argtype());
 
+  /// Return the default value.
   double default_value() const { return default_value_; }
 
+  /// Clear the interaction.
   virtual void clear(
       const int part1_index,
       const int site1_index,
       const int part2_index,
       const int site2_index);
+
+  /// Update the interaction
   virtual double update(
       const double energy,
       const int part1_index,
@@ -49,29 +49,29 @@ class EnergyMap {
       const int site2_type,
       const double squared_distance,
       const Position * pbc);
+
+  /// Return true if the total interaction energy is stored (e.g., no criteria
+  /// for inclusion.
   virtual bool is_queryable() const { return true; }
+
+  /// Return the interaction energy.
   double query(
       const int part1_index,
       const int site1_index,
       const int part2_index,
       const int site2_index);
+
+  /// Precompute
   void precompute(Configuration * config);
 
-  // HWH move to a finalize instead of revert-heavy stance
-  // update partial map
-  // Don't update full map until ...
-  // finalize(selection)
-  /* HWH
-    For reverting, consider two different maps: total, and partial.
-    The partial is zero except for the interactions of the selection.
-    If move is accepted (finalize?) then total is replaced with partial.
-    But theres no quick way to skip over the zeros (except using selection?)
-    Or maybe its same efficiency to have old and new...
-  */
-  virtual void prep_for_revert(const Select& select) {}
+  /// Revert any changes from perturbation of selection.
   virtual void revert(const Select& select) {}
+
+  /// Finalize any changes from perturbation of selection.
   virtual void finalize(const Select& select) {}
-  double total_energy() const;
+
+  /// Return the total energy.
+  virtual double total_energy() const;
 
   /**
     Add neighboring particles to selection which interact with node
@@ -94,16 +94,15 @@ class EnergyMap {
   /// Return the NeighborCriteria.
   virtual const NeighborCriteria& neighbor_criteria() const;
 
-  /// Return a random neighboring site of target_site in target_particle.
-  /// This interface was designed for use by AVB methods.
+  /// Return the neighbors of target particle and site that are of given
+  /// site index.
   virtual void neighbors(
     const NeighborCriteria& neighbor_criteria,
     const Configuration& config,
     const int target_particle,
     const int target_site,
-    /// random_site is the given site index.
-    const int random_site,
-    Random * random,
+    const int given_site_index,
+    /// Return of the neighbors
     Select * neighbors,
     /// If 1, use newly computed map.
     const int new_map = 0) const;

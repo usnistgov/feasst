@@ -36,10 +36,12 @@ TEST(MonteCarlo, cluster) {
     MonteCarlo mc;
     // mc.set(MakeRandomMT19937({{"seed", "default"}}));
     // mc.set(MakeRandomMT19937({{"seed", "1580855528"}}));
+    mc.set(MakeRandomMT19937({{"seed", "1602088241"}}));
     mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
                                   {{"particle_type", "../forcefield/data.lj"}}));
     mc.add(Potential(MakeLennardJones(),
-      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
+      //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
     mc.add(MakeMetropolis({{"beta", "40"}, {"chemical_potential", "1."}}));
     if (single_particle_translate) mc.add(MakeTrialTranslate());
     SeekNumParticles(3).with_trial_add().run(&mc);
@@ -88,24 +90,39 @@ TEST(MonteCarlo, cluster) {
 //    mc.add(MakeMetropolis({{"beta", "40"}, {"chemical_potential", "1."}}));
 
 TEST(MonteCarlo, GCMCmap) {
-  MonteCarlo mc;
-  mc.set(lennard_jones({{"lrc", "false"}}));
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
-  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}}));
-  mc.set(0, Potential(MakeLennardJones(),
-    MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
-  mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
-  mc.add(MakeNumParticles({{"steps_per_write", "1000"},
-                           {"file_name", "tmp/ljnum.txt"}}));
-  for (int i = 0; i < 1e4; ++i) {
-    mc.attempt(1);
-    const double en = mc.criteria().current_energy();
-    const double en_map = mc.system().potential(0).visit_model().inner().energy_map().total_energy();
-    if (std::abs(en - en_map) > 1e-8) {
-      INFO(MAX_PRECISION << "not the same: " << en << " " << en_map);
+  //for (std::string mapstr : {"neighbor"}) {
+  for (std::string mapstr : {"all", "neighbor"}) {
+    INFO(mapstr);
+    MonteCarlo mc;
+    mc.set(MakeRandomMT19937({{"seed", "123"}}));
+    mc.set(lennard_jones({{"lrc", "false"}}));
+    mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+    mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
+    const std::string steps_per = str(1e4);
+    mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj"}}));
+    mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));
+    std::shared_ptr<EnergyMap> map;
+    if (mapstr == "all") {
+      map = MakeEnergyMapAll();
+    } else if (mapstr == "neighbor") {
+      map = MakeEnergyMapNeighbor();
+    } else {
+      FATAL("unrecognized mapstr");
+    }
+    mc.set(0, Potential(MakeLennardJones(),
+      MakeVisitModel(MakeVisitModelInner(map))));
+      //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+    mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-4"}}));
+    mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
+    mc.add(MakeNumParticles({{"steps_per_write", steps_per},
+                             {"file_name", "tmp/ljnum.txt"}}));
+    for (int i = 0; i < 1e4; ++i) {
+      mc.attempt(1);
+      const double en = mc.criteria().current_energy();
+      const double en_map = mc.system().potential(0).visit_model().inner().energy_map().total_energy();
+      if (std::abs(en - en_map) > 1e-8) {
+        FATAL(MAX_PRECISION << "not the same: " << en << " " << en_map);
+      }
     }
   }
 }

@@ -17,7 +17,6 @@ void VisitModelBond::compute(
   zero_energy();
   const Domain& domain = config->domain();
   init_relative_(domain, &relative_, &pbc_);
-  prep_for_revert(selection);
   for (int select_index = 0;
        select_index < selection.num_particles();
        ++select_index) {

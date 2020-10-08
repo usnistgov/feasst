@@ -26,15 +26,11 @@ EnergyMapAll::EnergyMapAll(const argtype& args) : EnergyMap(args) {
 EnergyMapAll::EnergyMapAll(std::istream& istr) : EnergyMap(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 2810, "mismatch:" << version);
-  //feasst_deserialize(&map_, istr);
-  //feasst_deserialize(&map_new_, istr);
 }
 
 void EnergyMapAll::serialize_energy_map_all_(std::ostream& ostr) const {
   serialize_energy_map_(ostr);
   feasst_serialize_version(2810, ostr);
-  //feasst_serialize(map_, ostr);
-  //feasst_serialize(map_new_, ostr);
 }
 
 void EnergyMapAll::serialize(std::ostream& ostr) const {
@@ -151,7 +147,6 @@ void EnergyMapAll::select_cluster(const NeighborCriteria& neighbor_criteria,
                       &frame)) {
         DEBUG("FOR " << frame_of_reference.str());
         frame.add(frame_of_reference);
-        //frame.multiply(-1.);
         const Particle& part = config.select_particle(part2_index);
         cluster->add_particle(part, part2_index);
         cluster->load_positions_of_last(part, frame);
@@ -180,7 +175,7 @@ bool EnergyMapAll::is_cluster_(
       const std::vector<double>& map1 = smap[s0i][s1i];
       if (neighbor_criteria.is_accepted(map1[0], map1[1],
                                          site_type0, site_type1)) {
-        if (frame != NULL) {
+        if (frame) {
           frame->set_to_origin(dimen());
           for (int dim = 0; dim < dimen(); ++dim) {
             frame->set_coord(dim, -1.*map1[2 + dim]);
@@ -222,8 +217,7 @@ void EnergyMapAll::neighbors(
     const Configuration& config,
     const int target_particle,
     const int target_site,
-    const int random_site,
-    Random * random,
+    const int given_site_index,
     Select * neighbors,
     const int new_map) const {
   neighbors->clear();
@@ -236,12 +230,12 @@ void EnergyMapAll::neighbors(
     map4 = const_cast<vec4 * const>(&map_new()[target_particle]);
   }
   for (int ipart = 0; ipart < static_cast<int>(map4->size()); ++ipart) {
-    const Site& site1 = config.select_particle(ipart).site(random_site);
+    const Site& site1 = config.select_particle(ipart).site(given_site_index);
     const int site_type1 = site1.type();
-    const std::vector<double> & map1 = (*map4)[ipart][target_site][random_site];
+    const std::vector<double> & map1 = (*map4)[ipart][target_site][given_site_index];
     if (neighbor_criteria.is_accepted(map1[0], map1[1],
                                        site_type0, site_type1)) {
-      neighbors->add_site(ipart, random_site);
+      neighbors->add_site(ipart, given_site_index);
     }
   }
 }

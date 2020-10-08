@@ -7,6 +7,7 @@ namespace feasst {
 TEST(Configuration, synchronize) {
   System s1 = spce();
   s1.get_configuration()->add_particle_of_type(0);
+  s1.precompute();
   s1.energy();
   EXPECT_NEAR(s1.configuration().particle(0).site(0).property("eikrx2"), 1., NEAR_ZERO);
   System s2 = test_serialize(s1);

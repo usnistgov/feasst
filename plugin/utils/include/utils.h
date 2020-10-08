@@ -26,11 +26,30 @@ bool find_in_list(const T value, const std::vector<T> &list,
   return in;
 }
 
-/// Return true if value is found in list
+/// Same as above, but do not return the index.
 template<class T>
 bool find_in_list(const T value, const std::vector<T> &list) {
   int index;
   return find_in_list(value, list, &index);
+}
+
+/// Same as above, but use the first element of pair in list.
+template<class T1, class T2>
+bool find_in_list(const T1 value, const std::vector<std::pair<T1,T2> >& list,
+  int * index  //!< last index in list where value was found
+  ) {
+  if (list.size() == 0) {
+    return false;
+  }
+  bool in = false;
+  *index = -1;
+  for (int i = 0; i < static_cast<int>(list.size()); ++i) {
+    if (list[i].first == value) {
+      in = true;
+      *index = i;
+    }
+  }
+  return in;
 }
 
 /// Resize two dimensional vector to size xs, ys.

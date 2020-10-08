@@ -66,7 +66,6 @@ void ComputeAddAVBDivalent::perturb_and_acceptance(
     select0.mobile().particle_index(0),
     select0.mobile().site_index(0, 0),
     select1.mobile().site_index(0, 0),
-    random,
     &neighbors_,
     1);
   const int num_neigh = static_cast<int>(neighbors_.num_sites());

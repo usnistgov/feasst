@@ -25,7 +25,6 @@ void VisitModelIntra::compute(
   zero_energy();
   const Domain& domain = config->domain();
   init_relative_(domain, &relative_, &pbc_);
-  prep_for_revert(selection);
   for (int sp1index = 0;
        sp1index < static_cast<int>(selection.particle_indices().size());
        ++sp1index) {

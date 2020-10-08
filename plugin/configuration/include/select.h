@@ -12,6 +12,9 @@ namespace feasst {
 
 class Random;
 
+// HWH consider refactoring selection
+// HWH could use std:pair to couple particle_index with site_indices
+// HWH or use a std::set or std::multiset to enforce order?
 /**
   Select a subset of particles and sites by storing their respective indices.
   For optimization, all input lists of indices are assumed to be sorted.

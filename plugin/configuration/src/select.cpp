@@ -51,6 +51,7 @@ std::string Select::str() const {
     ss << particle_indices_[index] << ":{"
        << feasst_str(site_indices_[index]) << "}, ";
   }
+  ss << "state: " << trial_state();
   return ss.str();
 }
 
@@ -135,6 +136,7 @@ void Select::remove_particle(const int particle_index) {
 
 void Select::check() const {
   ASSERT(particle_indices_.size() == site_indices_.size(), "size error");
+  ASSERT(std::is_sorted(particle_indices_.begin(), particle_indices_.end()), "must be sorted");
   for (auto sites : site_indices_) {
     ASSERT(std::is_sorted(sites.begin(), sites.end()), "must be sorted");
   }
@@ -146,8 +148,14 @@ void Select::add_particle(const int particle_index,
   if (site_indices.size() > 0) {
     if (!prevent_duplicate ||
         !find_in_list(particle_index, particle_indices())) {
-      particle_indices_.push_back(particle_index);
-      site_indices_.push_back(site_indices);
+      std::vector<int>::iterator low =
+        std::lower_bound(particle_indices_.begin(), particle_indices_.end(),
+                         particle_index);
+      const int pos = low - particle_indices_.begin();
+      particle_indices_.insert(particle_indices_.begin() + pos, particle_index);
+      site_indices_.insert(site_indices_.begin() + pos, site_indices);
+      //particle_indices_.push_back(particle_index);
+      //site_indices_.push_back(site_indices);
     }
   }
 }

@@ -33,7 +33,7 @@ std::string feasst_str(const std::vector<T> &vec,
   std::stringstream ss;
   if (max_precision) ss << MAX_PRECISION;
   for (unsigned int i = 0; i < vec.size(); ++i) {
-    ss << vec[i] << " ";
+    ss << vec[i] << ",";
   }
   return ss.str();
 }
@@ -54,7 +54,7 @@ std::string feasst_str(const std::deque<T> &deq,
   std::stringstream ss;
   if (max_precision) ss << MAX_PRECISION;
   for (unsigned int i = 0; i < deq.size(); ++i) {
-    ss << deq[i] << " ";
+    ss << deq[i] << ",";
   }
   return ss.str();
 }

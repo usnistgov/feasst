@@ -58,7 +58,7 @@ std::string Trial::status() const {
 
 void Trial::tune() {
   int num_real_attempts = num_attempts() - num_auto_reject();
-  //INFO("num " << num_real_attempts);
+  DEBUG("num " << num_real_attempts);
   if (num_real_attempts > 0) {
     for (auto stage : stages_) stage->tune(acceptance());
     reset_stats();
@@ -86,7 +86,7 @@ void Trial::revert(const int index,
     decrement_num_success_();
   }
   //ASSERT(!auto_rejected, "er");
-  //INFO("auto_rejected " << auto_rejected);
+  DEBUG("auto_rejected " << auto_rejected);
   if (auto_rejected) *num_auto_reject_() -= 1;
   decrement_num_attempts_();
 }
@@ -101,8 +101,12 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   DEBUG("**********************************************************");
   DEBUG("* " << class_name() << " attempt " << num_attempts() << " *");
   DEBUG("**********************************************************");
-  DEBUG(system->configuration().num_particles());
-  DEBUG(system->configuration().num_particles_of_type(0));
+  DEBUG("num particles: " << system->configuration().num_particles());
+  DEBUG("num ghosts: " << system->configuration().particles().num() -
+                         system->configuration().num_particles());
+  DEBUG("num of type 0: " << system->configuration().num_particles_of_type(0));
+  DEBUG("current_energy: " << criteria->current_energy());
+  DEBUG("all: " << system->configuration().selection_of_all().str());
   increment_num_attempts();
   acceptance_.reset();
   criteria->before_attempt(*system);
@@ -125,7 +129,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   }
   DEBUG("num attempts: " << num_attempts());
   if (acceptance_.reject()) {
-    //INFO("auto reject");
+    DEBUG("auto reject");
     *num_auto_reject_() += 1;
   }
   if (criteria->is_accepted(acceptance_, *system, random)) {

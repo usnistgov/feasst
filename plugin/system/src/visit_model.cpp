@@ -100,7 +100,6 @@ void VisitModel::compute(
   const Domain& domain = config->domain();
   init_relative_(domain, &relative_, &pbc_);
   const Select& select_all = config->group_selects()[group_index];
-  prep_for_revert(selection);
   bool is_old_config = false;
   if (selection.trial_state() == 0 ||
       selection.trial_state() == 2) {

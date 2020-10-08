@@ -11,7 +11,14 @@ namespace feasst {
 
 /**
   Map energies with an inefficient but simple data structure.
-  All pairwise interactions between particles and sites are stored.
+  All pairwise interactions between particles and sites are stored, even when
+  the interaction is zero.
+
+  This implementation stores two versions of the map, the current map and the
+  new map.
+  Updates from perturbations change only the new map.
+  If the perturbation is accepted, the updates are finalized into the current map.
+  Otherwise, the new map is synchronized to the old map.
  */
 class EnergyMapAll : public EnergyMap {
  public:
@@ -26,24 +33,15 @@ class EnergyMapAll : public EnergyMap {
   bool is_cluster_changed(const NeighborCriteria& neighbor_criteria,
     const Select& select,
     const Configuration& config) const override;
-
-  /// Return the neighbors.
   void neighbors(
     const NeighborCriteria& neighbor_criteria,
     const Configuration& config,
     const int target_particle,
     const int target_site,
-    const int random_site,
-    Random * random,
+    const int given_site_index,
     Select * neighbors,
     const int new_map = 0) const override;
-
   void check() const override;
-
-//  const std::vector<double>& map(const int part1, const int part2,
-//    const int site1, const int site2) const override {
-//    return map()[part1][part2][site1][site2]; }
-
   void synchronize_(const EnergyMap& map, const Select& perturbed) override;
 
   // serialization

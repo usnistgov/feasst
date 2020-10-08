@@ -32,17 +32,21 @@ class PhysicalConstants {
 
   //@}
   /** @name Derivatives
-    Constants derived from the base constants, or utility functions for
-    unit conversion.
+    Constants derived from the base constants.
    */
   //@{
 
   /// Ideal gas constant in units of Joules per Kelvin per mol
-  const double ideal_gas_constant() const {
-    return boltzmann_constant()*avogadro_constant(); }
+  const double ideal_gas_constant() const { return ideal_gas_constant_; }
 
   /// Convert e^2/Angstrom to kJ/mol by a factor of units (kJ*A/e^2/mol)
-  const double charge_conversion() const;
+  const double charge_conversion() const { return charge_conversion_; }
+
+  //@}
+  /** @name Conversions
+    Utility functions for unit conversion.
+   */
+  //@{
 
   /// Convert the number density (1/A^3) to g/cm^3
   inline double number_density_to_grams_per_cm3(const double density, /// 1/A^3
@@ -68,6 +72,12 @@ class PhysicalConstants {
 
  protected:
   std::string class_name_ = "PhysicalConstants";
+
+  void compute_derived_();
+
+ private:
+  double ideal_gas_constant_;
+  double charge_conversion_;
 };
 
 /**
@@ -76,7 +86,8 @@ class PhysicalConstants {
 class CODATA2018 : public PhysicalConstants {
  public:
   CODATA2018() : PhysicalConstants() {
-    class_name_ = "CODATA2018";}
+    class_name_ = "CODATA2018";
+    compute_derived_(); }
 
   const double boltzmann_constant() const override { return 1.380649E-23; }
   const double avogadro_constant() const override { return 6.02214076E+23; }
@@ -103,7 +114,8 @@ inline std::shared_ptr<CODATA2018> MakeCODATA2018() {
 class CODATA2014 : public PhysicalConstants {
  public:
   CODATA2014() : PhysicalConstants() {
-    class_name_ = "CODATA2014";}
+    class_name_ = "CODATA2014";
+    compute_derived_(); }
 
   const double boltzmann_constant() const override { return 1.38064852E-23; }
   const double avogadro_constant() const override { return 6.022140857E+23; }
@@ -130,7 +142,8 @@ inline std::shared_ptr<CODATA2014> MakeCODATA2014() {
 class CODATA2010 : public PhysicalConstants {
  public:
   CODATA2010() : PhysicalConstants() {
-    class_name_ = "CODATA2010";}
+    class_name_ = "CODATA2010";
+    compute_derived_(); }
 
   const double boltzmann_constant() const override { return 1.3806488E-23; }
   const double avogadro_constant() const override { return 6.02214129E+23; }

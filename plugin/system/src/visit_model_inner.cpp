@@ -73,7 +73,7 @@ void VisitModelInner::compute(
           }
         }
         update_ixn(energy, part1_index, site1_index, type1, part2_index,
-                   site2_index, type2, squared_distance_, pbc);
+                   site2_index, type2, squared_distance_, pbc, is_old_config);
         TRACE("indices " << part1_index << " " << site1_index << " " <<
           part2_index << " " << site2_index);
         TRACE("energy " << energy_ << " " << energy);

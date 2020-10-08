@@ -64,7 +64,6 @@ void ComputeRemoveAVBDivalent::perturb_and_acceptance(
     select0.mobile().particle_index(0),
     select0.mobile().site_index(0, 0),
     select1.mobile().site_index(0, 0),
-    random,
     &neighbors_);
   const int num_neigh = static_cast<int>(neighbors_.num_sites());
   const double volume_av = neighbor_criteria_->volume(config.dimension());

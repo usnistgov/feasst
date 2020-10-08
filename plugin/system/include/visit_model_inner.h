@@ -49,9 +49,10 @@ class VisitModelInner {
       const int site2_index,
       const int site2_type,
       const double squared_distance,
-      const Position * pbc) {
+      const Position * pbc,
+      const bool is_old_config) {
     energy_ += energy;
-    if (energy_map_) {
+    if (energy_map_ && !is_old_config) {
       energy_map_->update(energy, part1_index, site1_index, site1_type,
         part2_index, site2_index, site2_type, squared_distance, pbc);
     }
@@ -78,11 +79,6 @@ class VisitModelInner {
 
   double energy() const { return energy_; }
 
-  void prep_for_revert(const Select& select) {
-    if (energy_map_) {
-      energy_map_->prep_for_revert(select);
-    }
-  }
   void revert(const Select& select) {
     // HWH optimize, maybe map_new doens't have to be same
     // or have to revert, but how to calc new clusters

@@ -70,7 +70,7 @@ void VisitModelInnerPatch::compute(
                     if (cosp2 >= cos_patch_angle_.value(dir2_type)) {
                       const double en = model.energy(squared_distance, dir1_type, dir2_type, model_params);
                       update_ixn(en, part1_index, site1_index, type1, part2_index,
-                                 site2_index, type2, squared_distance, pbc);
+                                 site2_index, type2, squared_distance, pbc, is_old_config);
                     }
                   }
                 }

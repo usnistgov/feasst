@@ -10,6 +10,11 @@ std::map<std::string, std::shared_ptr<EnergyMap> >& EnergyMap::deserialize_map()
   return *ans;
 }
 
+EnergyMap::EnergyMap(const argtype& args) {
+  Arguments args_(args);
+  default_value_ = args_.key("default_value").dflt("0.").dble();
+}
+
 void EnergyMap::clear(
     const int part1_index,
     const int site1_index,
@@ -133,8 +138,7 @@ void EnergyMap::neighbors(
     const Configuration& config,
     const int target_particle,
     const int target_site,
-    const int random_site,
-    Random * random,
+    const int given_site_index,
     Select * neighbors,
     const int new_map) const {
   FATAL("not implemented");

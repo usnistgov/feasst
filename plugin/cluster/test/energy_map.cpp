@@ -6,49 +6,77 @@
 #include "system/include/visit_model.h"
 #include "system/include/lennard_jones.h"
 #include "cluster/include/energy_map_all.h"
+#include "cluster/include/energy_map_all_criteria.h"
+#include "cluster/include/energy_map_neighbor.h"
 
 namespace feasst {
 
 TEST(EnergyMap, energy_map) {
-  Configuration config = lj_sample4();
-  LennardJones model;
-  VisitModel visit(MakeVisitModelInner(MakeEnergyMapAll()));
-  visit.precompute(&config);
-  model.compute(&config, &visit);
-  // HWH: perhaps figure out how to remove this finalize
-  visit.finalize(config.selection_of_all());
-  const double en_lj_expect = -16.790321304625856;
-  EXPECT_NEAR(en_lj_expect, visit.energy(), NEAR_ZERO);
-  EXPECT_NEAR(en_lj_expect,
-              visit.inner().energy_map().total_energy(),
-              1e-13);
-
-  // find neighbors within 3 of first particle manually
-  std::vector<int> neighs, neighs_known = {1, 4, 5, 8, 9, 11, 13, 14, 15, 21, 25, 27, 28};
-  for (int ipart = 1; ipart < config.num_particles(); ++ipart) {
-    Position pos = config.particle(ipart).site(0).position();
-    pos.subtract(config.particle(0).site(0).position());
-    if (pos.distance() < 3) {
-      neighs.push_back(ipart);
+  const double rcut = 2.;
+  auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", str(rcut)}});
+  //for (std::string mapstr : {"all"}) {
+  //for (std::string mapstr : {"all_criteria"}) {
+  for (std::string mapstr : {"neighbor"}) {
+  //for (std::string mapstr : {"all", "all_criteria"}) {
+  //for (std::string mapstr : {"all", "all_criteria", "neighbor"}) {
+    std::shared_ptr<EnergyMap> map;
+    if (mapstr == "all") {
+      map = MakeEnergyMapAll();
+    } else if (mapstr == "all_criteria") {
+      map = MakeEnergyMapAllCriteria(neighbor_criteria);
+    } else if (mapstr == "neighbor") {
+      map = MakeEnergyMapNeighbor();
+    } else {
+      FATAL("unrecognized mapstr");
     }
+    Configuration config = lj_sample4();
+    LennardJones model;
+    VisitModel visit(MakeVisitModelInner(map));
+    visit.precompute(&config);
+    model.compute(&config, &visit);
+    visit.finalize(config.selection_of_all());
+    const double en_lj_all = -16.790321304625856;
+    EXPECT_NEAR(en_lj_all, visit.energy(), NEAR_ZERO);
+    INFO(visit.inner().energy_map().total_energy());
+    if (mapstr == "all" || mapstr == "neighbor") {
+      EXPECT_NEAR(en_lj_all,
+                  visit.inner().energy_map().total_energy(),
+                  1e-13);
+    } else if (mapstr == "all_criteria") {
+      EXPECT_NEAR(-15.076312312129398,
+                  visit.inner().energy_map().total_energy(),
+                  1e-13);
+    }
+    visit.inner().energy_map().check();
+    // find neighbors within 3 of first particle manually
+    std::vector<int> neighs, neighs_rcut = {1, 5, 8, 11, 14, 25};
+    // {1, 4, 5, 8, 9, 11, 13, 14, 15, 21, 25, 27, 28}; // rcut 3
+    for (int ipart = 1; ipart < config.num_particles(); ++ipart) {
+      Position pos = config.particle(ipart).site(0).position();
+      pos.subtract(config.particle(0).site(0).position());
+      if (pos.distance() < rcut) {
+        neighs.push_back(ipart);
+      }
+    }
+    // INFO("num " << neighs.size());
+    // INFO(feasst_str(neighs));
+    EXPECT_EQ(neighs, neighs_rcut);
+
+    RandomMT19937 random;
+    Select neighs2;
+    visit.inner().energy_map().neighbors(
+      *neighbor_criteria,
+      config,
+      0, 0, 0,
+      &neighs2);
+    INFO("neighs2 " << neighs2.str());
+    const int neighbor = random.const_element(neighs2.particle_indices());
+    EXPECT_EQ(neighs_rcut.size(), static_cast<int>(neighs2.num_sites()));
+    EXPECT_TRUE(find_in_list(neighbor, neighs2.particle_indices()));
+
+    test_serialize(visit);
+    INFO("hi");
   }
-  // INFO("num " << neighs.size());
-  // INFO(feasst_str(neighs));
-  EXPECT_EQ(neighs, neighs_known);
-
-  RandomMT19937 random;
-  Select neighs2;
-  visit.inner().energy_map().neighbors(
-    *MakeNeighborCriteria(),
-    config,
-    0, 0, 0,
-    &random,
-    &neighs2);
-  const int neighbor = random.const_element(neighs2.particle_indices());
-  EXPECT_EQ(13, static_cast<int>(neighs2.num_sites()));
-  EXPECT_TRUE(find_in_list(neighbor, neighs2.particle_indices()));
-
-  test_serialize(visit);
 }
 
 }  // namespace feasst

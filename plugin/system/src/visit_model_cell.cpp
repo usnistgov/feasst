@@ -104,7 +104,6 @@ void VisitModelCell::compute(
     << "Were cell lists initialized?");
   const Cells& cells = domain.cells()[cell_index];
   init_relative_(domain, &relative_, &pbc_);
-  prep_for_revert(selection);
   for (int select1_index = 0;
        select1_index < selection.num_particles();
        ++select1_index) {

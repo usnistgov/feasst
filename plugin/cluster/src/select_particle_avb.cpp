@@ -103,7 +103,6 @@ bool SelectParticleAVB::select(const Select& perturbed,
     target_.particle_index(0),
     target_.site_index(0, 0),
     site_index_,
-    random,
     &neighbors_);
   const int num_neighbors = static_cast<int>(neighbors_.num_sites());
   DEBUG("neighbors: " << neighbors_.str());
@@ -206,7 +205,6 @@ bool SelectParticleAVB::select(const Select& perturbed,
       second_target_.particle_index(0),
       second_target_.site_index(0, 0),
       site_index_,
-      random,
       &neighbors_);
     int mobile_not_in_both_targets_ = 1;
     if (find_in_list(mobile_.particle_index(0),

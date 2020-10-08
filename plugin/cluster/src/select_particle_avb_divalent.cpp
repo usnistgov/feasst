@@ -62,7 +62,6 @@ bool SelectParticleAVBDivalent::select(const Select& perturbed,
       anchor_.particle_index(0),
       anchor_.site_index(0, 0),
       mobile_.site_index(0, 0),
-      random,
       &neighbors_);
     neighbors_.remove(perturbed);
     const int num_neigh = static_cast<int>(neighbors_.num_sites());

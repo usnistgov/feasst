@@ -18,8 +18,9 @@ std::shared_ptr<PhysicalConstants> PhysicalConstants::deserialize(std::istream& 
     true);
 }
 
-const double PhysicalConstants::charge_conversion() const {
-  return std::pow(elementary_charge(), 2)/
+void PhysicalConstants::compute_derived_() {
+  ideal_gas_constant_ = boltzmann_constant()*avogadro_constant();
+  charge_conversion_ = std::pow(elementary_charge(), 2)/
   (4*PI*permitivity_vacuum()*1e3/1e10/avogadro_constant());
 }
 
@@ -75,6 +76,7 @@ PhysicalConstantsCustom::PhysicalConstantsCustom(const argtype& args)
   avogadro_constant_ = args_.key("avogadro_constant").dble();
   permitivity_vacuum_ = args_.key("permitivity_vacuum").dble();
   elementary_charge_ = args_.key("elementary_charge").dble();
+  compute_derived_();
 }
 
 void PhysicalConstantsCustom::serialize(std::ostream& ostr) const {

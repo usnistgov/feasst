@@ -109,8 +109,6 @@ class VisitModel {
       Configuration * config,
       const int group_index = 0);
 
-  virtual void prep_for_revert(const Select& selection) {
-    inner_->prep_for_revert(selection); }
   virtual void revert(const Select& select) { inner_->revert(select); }
   virtual void finalize(const Select& select) { inner_->finalize(select); }
 
