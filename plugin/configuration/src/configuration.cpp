@@ -304,7 +304,7 @@ void Configuration::check() const {
   particles_.check();
   particle_types_.check();
   unique_types_.check();
-  selection_of_all().check();
+  //selection_of_all().check();
 
   ASSERT(particle_types_.num() == num_particle_types(), "er");
   ASSERT(unique_types_.num_sites() == num_site_types(), "er");

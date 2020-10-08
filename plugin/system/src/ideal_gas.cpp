@@ -21,7 +21,7 @@ void IdealGas::serialize_ideal_gas_(std::ostream& ostr) const {
   feasst_serialize_version(293, ostr);
 }
 
-IdealGas::IdealGas(std::istream& istr) {
+IdealGas::IdealGas(std::istream& istr) : ModelTwoBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(293 == version, version);
 }

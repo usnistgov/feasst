@@ -16,7 +16,7 @@ namespace feasst {
  */
 class ChargeScreenedIntra : public ModelTwoBody {
  public:
-  ChargeScreenedIntra() {}
+  ChargeScreenedIntra() { class_name_ = "ChargeScreenedIntra"; }
 
   double energy(
       const double squared_distance,
@@ -34,7 +34,6 @@ class ChargeScreenedIntra : public ModelTwoBody {
   virtual ~ChargeScreenedIntra() {}
 
  private:
-  const std::string class_name_ = "ChargeScreenedIntra";
   double alpha_;
   double conversion_factor_;
 };

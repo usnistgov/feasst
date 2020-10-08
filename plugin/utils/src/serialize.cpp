@@ -60,7 +60,11 @@ void feasst_deserialize(double * val, std::istream& ostr) {
   if (valstr == "inf") {
     *val = 2*std::numeric_limits<double>::max();
   } else {
-    *val = std::stold(valstr);
+    try {
+      *val = std::stod(valstr);
+    } catch (...) {
+      *val = 2*std::numeric_limits<double>::max();
+    }
   }
 }
 
@@ -70,7 +74,11 @@ void feasst_deserialize(long double * val, std::istream& ostr) {
   if (valstr == "inf") {
     *val = 2*std::numeric_limits<long double>::max();
   } else {
-    *val = std::stold(valstr);
+    try {
+      *val = std::stold(valstr);
+    } catch (...) {
+      *val = 2*std::numeric_limits<long double>::max();
+    }
   }
 }
 

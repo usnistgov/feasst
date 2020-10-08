@@ -21,7 +21,7 @@ namespace feasst {
  */
 class HardSphere : public ModelTwoBody {
  public:
-  HardSphere() {}
+  HardSphere() { class_name_ = "HardSphere"; }
 
   double energy(
     const double squared_distance,
@@ -34,9 +34,6 @@ class HardSphere : public ModelTwoBody {
   void serialize(std::ostream& ostr) const override;
   explicit HardSphere(std::istream& istr);
   virtual ~HardSphere() {}
-
- private:
-  const std::string class_name_ = "HardSphere";
 };
 
 inline std::shared_ptr<HardSphere> MakeHardSphere() {

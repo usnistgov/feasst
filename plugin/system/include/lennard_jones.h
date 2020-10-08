@@ -18,9 +18,7 @@ namespace feasst {
  */
 class LennardJones : public ModelTwoBody {
  public:
-  LennardJones() {
-    set_hard_sphere_threshold();
-  }
+  LennardJones();
 
   double energy(
       const double squared_distance,
@@ -48,7 +46,6 @@ class LennardJones : public ModelTwoBody {
   void serialize_lennard_jones_(std::ostream& ostr) const;
 
  private:
-  const std::string class_name_ = "LennardJones";
   double hard_sphere_threshold_sq_;
 };
 

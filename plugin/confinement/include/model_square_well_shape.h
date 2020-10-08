@@ -18,7 +18,8 @@ namespace feasst {
 class ModelSquareWellShape : public ModelOneBody,
                      public ShapedEntity {
  public:
-  ModelSquareWellShape() {} // serialization only
+  // for serialization only
+  ModelSquareWellShape() { std::string class_name_ = "ModelSquareWellShape"; }
 
   // Constructor
   ModelSquareWellShape(
@@ -38,7 +39,6 @@ class ModelSquareWellShape : public ModelOneBody,
   virtual ~ModelSquareWellShape() {}
 
  private:
-  const std::string class_name_ = "ModelSquareWellShape";
   double alpha_;
   Arguments args_;
 };

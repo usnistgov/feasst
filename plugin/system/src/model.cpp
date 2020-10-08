@@ -10,7 +10,10 @@ std::map<std::string, std::shared_ptr<Model> >& Model::deserialize_map() {
 }
 
 std::shared_ptr<Model> Model::deserialize(std::istream& istr) {
-  return template_deserialize(deserialize_map(), istr);
+  return template_deserialize(deserialize_map(), istr,
+    // true argument denotes rewinding to reread class name
+    // this allows derived class constructor to read class name.
+    true);
 }
 
 double Model::energy(
@@ -23,5 +26,9 @@ void Model::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 
 std::shared_ptr<Model> Model::create(std::istream& istr) const {
   FATAL("not implemented"); }
+
+Model::Model(std::istream& istr) {
+  istr >> class_name_;
+}
 
 }  // namespace feasst

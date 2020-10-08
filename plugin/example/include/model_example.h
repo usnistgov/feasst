@@ -34,9 +34,6 @@ class ModelExample : public ModelTwoBody {
     return std::make_shared<ModelExample>(istr); }
   explicit ModelExample(std::istream& istr);
   virtual ~ModelExample() {}
-
- private:
-  const std::string class_name_ = "ModelExample";
 };
 
 inline std::shared_ptr<ModelExample> MakeModelExample() {

@@ -16,7 +16,8 @@ namespace feasst {
 class ModelLJShape : public ModelOneBody,
                      public ShapedEntity {
  public:
-  ModelLJShape() {} // serialization only
+  // for serialization only
+  ModelLJShape() { class_name_ = "ModelLJShape"; }
 
   // Constructor
   ModelLJShape(
@@ -39,7 +40,6 @@ class ModelLJShape : public ModelOneBody,
   virtual ~ModelLJShape() {}
 
  private:
-  const std::string class_name_ = "ModelLJShape";
   double alpha_;
   Arguments args_;
 };

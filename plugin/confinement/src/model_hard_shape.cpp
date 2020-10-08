@@ -23,7 +23,7 @@ void ModelHardShape::serialize(std::ostream& ostr) const {
 }
 
 ModelHardShape::ModelHardShape(std::istream& istr)
-  : ModelOneBody(), ShapedEntity(istr) {
+  : ModelOneBody(istr), ShapedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 4276, "unrecognized verison: " << version);
 }

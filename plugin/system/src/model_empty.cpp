@@ -18,7 +18,7 @@ void ModelEmpty::serialize(std::ostream& ostr) const {
   feasst_serialize_version(189, ostr);
 }
 
-ModelEmpty::ModelEmpty(std::istream& istr) {
+ModelEmpty::ModelEmpty(std::istream& istr) : ModelOneBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(189 == version, version);
 }

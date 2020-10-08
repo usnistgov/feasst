@@ -15,6 +15,7 @@ class MapYukawa {
 static MapYukawa map_model_lj_alpha_ = MapYukawa();
 
 Yukawa::Yukawa() {
+  class_name_ = "Yukawa";
   set_kappa();
 }
 
@@ -24,7 +25,7 @@ void Yukawa::serialize(std::ostream& ostr) const {
   feasst_serialize(kappa_, ostr);
 }
 
-Yukawa::Yukawa(std::istream& istr) {
+Yukawa::Yukawa(std::istream& istr) : ModelTwoBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 6505, "unrecognized version: " << version);
   feasst_deserialize(&kappa_, istr);

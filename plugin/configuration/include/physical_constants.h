@@ -72,7 +72,6 @@ class PhysicalConstants {
 
  protected:
   std::string class_name_ = "PhysicalConstants";
-
   void compute_derived_();
 
  private:
@@ -98,7 +97,7 @@ class CODATA2018 : public PhysicalConstants {
     return std::make_shared<CODATA2018>(istr); }
   void serialize(std::ostream& ostr) const override {
     ostr << class_name() << " "; }
-  explicit CODATA2018(std::istream& istr) : PhysicalConstants(istr) {}
+  explicit CODATA2018(std::istream& istr);
   virtual ~CODATA2018() {}
 };
 
@@ -126,7 +125,7 @@ class CODATA2014 : public PhysicalConstants {
     return std::make_shared<CODATA2014>(istr); }
   void serialize(std::ostream& ostr) const override {
     ostr << class_name() << " "; }
-  explicit CODATA2014(std::istream& istr) : PhysicalConstants(istr) {}
+  explicit CODATA2014(std::istream& istr);
   virtual ~CODATA2014() {}
 };
 
@@ -154,7 +153,7 @@ class CODATA2010 : public PhysicalConstants {
     return std::make_shared<CODATA2010>(istr); }
   void serialize(std::ostream& ostr) const override {
     ostr << class_name() << " "; }
-  explicit CODATA2010(std::istream& istr) : PhysicalConstants(istr) {}
+  explicit CODATA2010(std::istream& istr);
   virtual ~CODATA2010() {}
 };
 

@@ -14,6 +14,10 @@ class MapLennardJonesForceShift {
 
 static MapLennardJonesForceShift map_lennard_jones_force_shift_ = MapLennardJonesForceShift();
 
+LennardJonesForceShift::LennardJonesForceShift() {
+  class_name_ = "LennardJonesForceShift";
+}
+
 void LennardJonesForceShift::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_lennard_jones_alpha_(ostr);

@@ -30,8 +30,15 @@ class MapModelTableCart1DHard {
 static MapModelTableCart1DHard map_model_table_cart1d_ = MapModelTableCart1DHard();
 
 ModelTableCart1DHard::ModelTableCart1DHard(std::shared_ptr<Table1D> table) {
+  class_name_ = "ModelTableCart1DHard";
   tables_.resize(1);
   tables_[0] = table;
+}
+
+ModelTableCart1DHard::ModelTableCart1DHard(
+    std::vector<std::shared_ptr<Table1D> > tables) {
+  class_name_ = "ModelTableCart1DHard";
+  tables_ = tables;
 }
 
 void ModelTableCart1DHard::serialize(std::ostream& ostr) const {
@@ -41,7 +48,7 @@ void ModelTableCart1DHard::serialize(std::ostream& ostr) const {
 }
 
 ModelTableCart1DHard::ModelTableCart1DHard(std::istream& istr)
-  : ModelOneBody() {
+  : ModelOneBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 9426, "unrecognized verison: " << version);
   int dim1;
@@ -129,8 +136,15 @@ class MapModelTableCart2DIntegr {
 static MapModelTableCart2DIntegr map_model_table_cart2d_ = MapModelTableCart2DIntegr();
 
 ModelTableCart2DIntegr::ModelTableCart2DIntegr(std::shared_ptr<Table2D> table) {
+  class_name_ = "ModelTableCart2DIntegr";
   tables_.resize(1);
   tables_[0] = table;
+}
+
+ModelTableCart2DIntegr::ModelTableCart2DIntegr(
+    std::vector<std::shared_ptr<Table2D> > tables) {
+  class_name_ = "ModelTableCart2DIntegr";
+  tables_ = tables;
 }
 
 void ModelTableCart2DIntegr::serialize(std::ostream& ostr) const {
@@ -140,7 +154,7 @@ void ModelTableCart2DIntegr::serialize(std::ostream& ostr) const {
 }
 
 ModelTableCart2DIntegr::ModelTableCart2DIntegr(std::istream& istr)
-  : ModelOneBody() {
+  : ModelOneBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 8460, "unrecognized verison: " << version);
   int dim1;
@@ -256,8 +270,15 @@ class MapModelTableCart3DIntegr {
 static MapModelTableCart3DIntegr map_model_table_cart3d_ = MapModelTableCart3DIntegr();
 
 ModelTableCart3DIntegr::ModelTableCart3DIntegr(std::shared_ptr<Table3D> table) {
+  class_name_ = "ModelTableCart3DIntegr";
   tables_.resize(1);
   tables_[0] = table;
+}
+
+ModelTableCart3DIntegr::ModelTableCart3DIntegr(
+    std::vector<std::shared_ptr<Table3D> > tables) {
+  class_name_ = "ModelTableCart3DIntegr";
+  tables_ = tables;
 }
 
 void ModelTableCart3DIntegr::serialize(std::ostream& ostr) const {
@@ -267,7 +288,7 @@ void ModelTableCart3DIntegr::serialize(std::ostream& ostr) const {
 }
 
 ModelTableCart3DIntegr::ModelTableCart3DIntegr(std::istream& istr)
-  : ModelOneBody() {
+  : ModelOneBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 6937, "unrecognized verison: " << version);
   int dim1;

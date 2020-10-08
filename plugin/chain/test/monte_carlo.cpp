@@ -2,6 +2,7 @@
 #include "utils/test/utils.h"
 #include "utils/include/io.h"
 #include "math/include/accumulator.h"
+#include "math/include/random_mt19937.h"
 #include "system/include/ideal_gas.h"
 #include "configuration/include/domain.h"
 #include "monte_carlo/include/trial.h"
@@ -30,6 +31,7 @@ namespace feasst {
 
 TEST(MonteCarlo, chain) {
   MonteCarlo mc;
+  //mc.set(MakeRandomMT19937({{"seed", "1602167050"}}));
   mc.set(chain_system());
   mc.set(MakeMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));
   SeekNumParticles(1).with_trial_add().run(&mc);

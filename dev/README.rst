@@ -305,6 +305,7 @@ For quick reference
 * line counts [find . -name '*.cpp' -o -name '*.h' | xargs wc -l | sort -n]
 * tutorial errors [ find . -name 'tutorial_failures.txt' | xargs cat ]
 * clean docs before running depend.py again [ for dir in `ls --color=never -d *`; do rm $dir/doc/*rst; done ]
+* find difference in serialization string: [ diff -u f1 f2 |colordiff  | perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | more ]
 
 To Do List
 ================================================================================
@@ -349,3 +350,4 @@ To Do List
 * add orientation argument to shapes with internal coordinate transformation
 * System should track current energy of every potential for analysis (Criteria running energies may contain a part from each potential to simplify debugging).
 * Consider using new state instead of old state in acceptance derivations
+* Sort selection_of_all, or impose sorting in Select::add_particles. Currently, this leads to issues.

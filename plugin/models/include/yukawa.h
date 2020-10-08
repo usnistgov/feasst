@@ -33,7 +33,6 @@ class Yukawa : public ModelTwoBody {
   virtual ~Yukawa() {}
 
  private:
-  const std::string class_name_ = "Yukawa";
   double kappa_;
 };
 

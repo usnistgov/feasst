@@ -23,8 +23,7 @@ class ModelTableCart1DHard : public ModelOneBody {
   ModelTableCart1DHard(std::shared_ptr<Table1D> table);
 
   // Constructor for multiple site type tables.
-  ModelTableCart1DHard(std::vector<std::shared_ptr<Table1D> > tables) {
-    tables_ = tables; }
+  ModelTableCart1DHard(std::vector<std::shared_ptr<Table1D> > tables);
 
   const Table1D& table(const int site_type = 0) const;
 
@@ -57,7 +56,6 @@ class ModelTableCart1DHard : public ModelOneBody {
   virtual ~ModelTableCart1DHard() {}
 
  private:
-  const std::string class_name_ = "ModelTableCart1DHard";
   std::vector<std::shared_ptr<Table1D> > tables_;
 };
 
@@ -78,8 +76,7 @@ class ModelTableCart2DIntegr : public ModelOneBody {
   ModelTableCart2DIntegr(std::shared_ptr<Table2D> table);
 
   // Constructor for multiple site type tables.
-  ModelTableCart2DIntegr(std::vector<std::shared_ptr<Table2D> > tables) {
-    tables_ = tables; }
+  ModelTableCart2DIntegr(std::vector<std::shared_ptr<Table2D> > tables);
 
   const Table2D& table(const int site_type = 0) const;
 
@@ -117,7 +114,6 @@ class ModelTableCart2DIntegr : public ModelOneBody {
   virtual ~ModelTableCart2DIntegr() {}
 
  private:
-  const std::string class_name_ = "ModelTableCart2DIntegr";
   std::vector<std::shared_ptr<Table2D> > tables_;
 };
 
@@ -138,8 +134,7 @@ class ModelTableCart3DIntegr : public ModelOneBody {
   ModelTableCart3DIntegr(std::shared_ptr<Table3D> table);
 
   // Constructor for multiple site type tables.
-  ModelTableCart3DIntegr(std::vector<std::shared_ptr<Table3D> > tables) {
-    tables_ = tables; }
+  ModelTableCart3DIntegr(std::vector<std::shared_ptr<Table3D> > tables);
 
   /// Return the table for a given site type.
   const Table3D& table(const int site_type = 0) const;
@@ -201,7 +196,6 @@ class ModelTableCart3DIntegr : public ModelOneBody {
   virtual ~ModelTableCart3DIntegr() {}
 
  private:
-  const std::string class_name_ = "ModelTableCart3DIntegr";
   std::vector<std::shared_ptr<Table3D> > tables_;
 };
 

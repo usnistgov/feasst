@@ -7,6 +7,7 @@ namespace feasst {
 
 LennardJonesAlpha::LennardJonesAlpha() {
   set_alpha();
+  class_name_ = "LennardJonesAlpha";
 }
 
 class MapLennardJonesAlpha {

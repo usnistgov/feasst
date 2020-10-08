@@ -11,7 +11,7 @@ namespace feasst {
 /// This model throws an exception if used.
 class ModelEmpty : public ModelOneBody {
  public:
-  ModelEmpty() {}
+  ModelEmpty() { class_name_ = "ModelEmpty"; }
 
   double energy(
       const Position& wrapped_site,
@@ -25,9 +25,6 @@ class ModelEmpty : public ModelOneBody {
   void serialize(std::ostream& ostr) const override;
   explicit ModelEmpty(std::istream& istr);
   virtual ~ModelEmpty() {}
-
- private:
-  const std::string class_name_ = "ModelEmpty";
 };
 
 inline std::shared_ptr<ModelEmpty> MakeModelEmpty() {

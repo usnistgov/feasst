@@ -29,7 +29,7 @@ namespace feasst {
  */
 class LennardJonesCutShift : public LennardJonesAlpha {
  public:
-  LennardJonesCutShift() {}
+  LennardJonesCutShift() { class_name_ = "LennardJonesCutShift"; }
 
   // HWH some issues with this implementation include
   // - what if model params change, or is defined different by a special potential
@@ -58,7 +58,6 @@ class LennardJonesCutShift : public LennardJonesAlpha {
   virtual ~LennardJonesCutShift() {}
 
 private:
-  const std::string class_name_ = "LennardJonesCutShift";
   EnergyAtCutoff shift_;
   bool precomputed_ = false;
 };

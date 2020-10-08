@@ -20,7 +20,7 @@ namespace feasst {
  */
 class LennardJonesForceShift : public LennardJonesAlpha {
  public:
-  LennardJonesForceShift() {}
+  LennardJonesForceShift();
 
   /// Precompute the shift factor for optimization, given existing model parameters.
   void precompute(const ModelParams& existing) override;
@@ -40,7 +40,6 @@ class LennardJonesForceShift : public LennardJonesAlpha {
   virtual ~LennardJonesForceShift() {}
 
  private:
-  const std::string class_name_ = "LennardJonesForceShift";
   EnergyAtCutoff shift_;
   EnergyDerivAtCutoff force_shift_;
   bool precomputed_ = false;

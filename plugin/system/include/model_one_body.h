@@ -12,6 +12,8 @@ class Configuration;
 
 class ModelOneBody : public Model {
  public:
+  ModelOneBody() { class_name_ = "ModelOneBody"; }
+
   double compute(
       const ModelParams& model_params,
       const int group_index,
@@ -87,6 +89,7 @@ class ModelOneBody : public Model {
     const ModelParams& model_params) const;
 
   virtual ~ModelOneBody() {}
+  explicit ModelOneBody(std::istream& istr) : Model(istr) {}
 
  private:
   using Model::energy;  // remove hidden overloaded virtual function warnings.

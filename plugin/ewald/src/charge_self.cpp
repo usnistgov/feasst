@@ -23,7 +23,7 @@ void ChargeSelf::serialize(std::ostream& ostr) const {
   feasst_serialize(conversion_factor_, ostr);
 }
 
-ChargeSelf::ChargeSelf(std::istream& istr) {
+ChargeSelf::ChargeSelf(std::istream& istr) : ModelOneBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 8833, "unrecognized verison: " << version);
   feasst_deserialize(&alpha_, istr);

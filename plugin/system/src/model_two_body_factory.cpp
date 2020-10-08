@@ -55,7 +55,8 @@ void ModelTwoBodyFactory::serialize(std::ostream& ostr) const {
   feasst_serialize_fstdr(models_, ostr);
 }
 
-ModelTwoBodyFactory::ModelTwoBodyFactory(std::istream& istr) {
+ModelTwoBodyFactory::ModelTwoBodyFactory(std::istream& istr)
+  : ModelTwoBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(573 == version, version);
   { // HWH for unknown reasons, template deserialization fails here.

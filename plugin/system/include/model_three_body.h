@@ -9,6 +9,8 @@ namespace feasst {
 
 class ModelThreeBody : public Model {
  public:
+  ModelThreeBody() { class_name_ = "ModelThreeBody"; }
+
   double compute(
       const ModelParams& model_params,
       const int group_index,
@@ -43,6 +45,7 @@ class ModelThreeBody : public Model {
       const int type3,
       const ModelParams& model_params) const = 0;
   virtual ~ModelThreeBody() {}
+  explicit ModelThreeBody(std::istream& istr) : Model(istr) {}
 };
 
 }  // namespace feasst

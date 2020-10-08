@@ -19,6 +19,7 @@ void PotentialFactory::set(const int index,
 
 void PotentialFactory::precompute(Configuration * config) {
   for (Potential& potential : potentials_) {
+    DEBUG("precomputing " << potential.model().class_name());
     potential.precompute(config);
   }
 }
@@ -30,8 +31,7 @@ void PotentialFactory::precompute(const int index, Configuration * config) {
 double PotentialFactory::energy(Configuration * config) {
   double en = 0;
   int index = 0;
-  while ((index < static_cast<int>(potentials_.size())) and
-         (en < NEAR_INFINITY/10.)) {
+  while ((index < num()) && (en < NEAR_INFINITY/10.)) {
     DEBUG("potential index: " << index);
     en += potentials_[index].energy(config);
     ++index;

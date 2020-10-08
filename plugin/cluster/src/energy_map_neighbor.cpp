@@ -307,8 +307,8 @@ void EnergyMapNeighbor::select_cluster(
     const int particle_node,
     Select * cluster,
     const Position& frame_of_reference) const {
-  INFO("particle_node " << particle_node);
-  INFO("map size " << map_.size());
+  DEBUG("particle_node " << particle_node);
+  DEBUG("map size " << map_.size());
   if (particle_node < static_cast<int>(map_.size())) {
     const map4type& map4 = map_[particle_node];
     for (int site1 = 0; site1 < static_cast<int>(map4.size()); ++site1) {

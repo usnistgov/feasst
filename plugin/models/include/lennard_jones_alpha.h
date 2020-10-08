@@ -55,7 +55,6 @@ class LennardJonesAlpha : public LennardJones {
   void serialize_lennard_jones_alpha_(std::ostream& ostr) const;
 
  private:
-  const std::string class_name_ = "LennardJonesAlpha";
   double alpha_;
 };
 

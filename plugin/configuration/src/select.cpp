@@ -148,14 +148,14 @@ void Select::add_particle(const int particle_index,
   if (site_indices.size() > 0) {
     if (!prevent_duplicate ||
         !find_in_list(particle_index, particle_indices())) {
-      std::vector<int>::iterator low =
-        std::lower_bound(particle_indices_.begin(), particle_indices_.end(),
-                         particle_index);
-      const int pos = low - particle_indices_.begin();
-      particle_indices_.insert(particle_indices_.begin() + pos, particle_index);
-      site_indices_.insert(site_indices_.begin() + pos, site_indices);
-      //particle_indices_.push_back(particle_index);
-      //site_indices_.push_back(site_indices);
+//      std::vector<int>::iterator low =
+//        std::lower_bound(particle_indices_.begin(), particle_indices_.end(),
+//                         particle_index);
+//      const int pos = low - particle_indices_.begin();
+//      particle_indices_.insert(particle_indices_.begin() + pos, particle_index);
+//      site_indices_.insert(site_indices_.begin() + pos, site_indices);
+      particle_indices_.push_back(particle_index);
+      site_indices_.push_back(site_indices);
     }
   }
 }

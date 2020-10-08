@@ -191,7 +191,7 @@ class Criteria {
   bool pH_initialized_ = false;
   int phase_ = 0;
   bool pressure_initialized_ = false;
-  double pressure_;
+  double pressure_ = 0.;
   std::vector<std::shared_ptr<Constraint> > constraints_;
 };
 

@@ -22,7 +22,7 @@ namespace feasst {
  */
 class Coulomb : public ModelTwoBody {
  public:
-  Coulomb() {}
+  Coulomb() { class_name_ = "Coulomb"; }
 
   double energy(
       const double squared_distance,
@@ -39,7 +39,6 @@ class Coulomb : public ModelTwoBody {
   virtual ~Coulomb() {}
 
  private:
-  const std::string class_name_ = "Coulomb";
   double conversion_factor_;
 };
 

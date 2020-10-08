@@ -16,7 +16,7 @@ namespace feasst {
  */
 class ChargeSelf : public ModelOneBody {
  public:
-  ChargeSelf() {}
+  ChargeSelf() { class_name_ = "ChargeSelf"; }
 
   double energy(
     const Position& wrapped_site,
@@ -33,7 +33,6 @@ class ChargeSelf : public ModelOneBody {
   virtual ~ChargeSelf() {}
 
  private:
-  const std::string class_name_ = "ChargeSelf";
   double alpha_;
   double conversion_factor_;
 };

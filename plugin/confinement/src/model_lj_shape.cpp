@@ -19,6 +19,7 @@ static MapModelLJShape map_model_hard_shape_ = MapModelLJShape();
 
 ModelLJShape::ModelLJShape(std::shared_ptr<Shape> shape,
   const argtype& args) : ModelOneBody(), ShapedEntity(shape) {
+  class_name_ = "ModelLJShape";
   args_.init(args);
   alpha_ = args_.key("alpha").dflt("3").dble();
 }
@@ -31,7 +32,7 @@ void ModelLJShape::serialize(std::ostream& ostr) const {
 }
 
 ModelLJShape::ModelLJShape(std::istream& istr)
-  : ModelOneBody(), ShapedEntity(istr) {
+  : ModelOneBody(istr), ShapedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
   feasst_deserialize(&alpha_, istr);
   ASSERT(version == 1412, "unrecognized verison: " << version);

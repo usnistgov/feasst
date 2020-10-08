@@ -21,7 +21,7 @@ void Coulomb::serialize(std::ostream& ostr) const {
   feasst_serialize(conversion_factor_, ostr);
 }
 
-Coulomb::Coulomb(std::istream& istr) {
+Coulomb::Coulomb(std::istream& istr) : ModelTwoBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 1634, "unrecognized verison: " << version);
   feasst_deserialize(&conversion_factor_, istr);

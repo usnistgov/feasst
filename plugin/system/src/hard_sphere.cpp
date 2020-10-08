@@ -19,7 +19,7 @@ void HardSphere::serialize(std::ostream& ostr) const {
   feasst_serialize_version(607, ostr);
 }
 
-HardSphere::HardSphere(std::istream& istr) {
+HardSphere::HardSphere(std::istream& istr) : ModelTwoBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(607 == version, version);
 }

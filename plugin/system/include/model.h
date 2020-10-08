@@ -15,6 +15,8 @@ class VisitModel;
 
 class Model {
  public:
+  Model() { class_name_ = "Model"; }
+
   /// Visit the model over the entire configuration.
   virtual double compute(
     const ModelParams& model_params,
@@ -75,6 +77,8 @@ class Model {
       const int type2,
       const ModelParams& model_params) const;
 
+  const std::string& class_name() const { return class_name_; }
+
   /// Output a serialized version of the existing model.
   virtual void serialize(std::ostream& ostr) const;
 
@@ -86,6 +90,12 @@ class Model {
 
   /// Return a model given a serialization.
   std::shared_ptr<Model> deserialize(std::istream& istr);
+
+  // Constructor reads class_name
+  explicit Model(std::istream& istr);
+
+ protected:
+  std::string class_name_;
 };
 
 }  // namespace feasst

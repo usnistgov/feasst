@@ -9,6 +9,8 @@ namespace feasst {
 
 class ModelTwoBody : public Model {
  public:
+  ModelTwoBody() {}
+
   double compute(
       const ModelParams& model_params,
       const int group_index,
@@ -70,6 +72,7 @@ class ModelTwoBody : public Model {
     return visitor->energy();
   }
   virtual ~ModelTwoBody() {}
+  explicit ModelTwoBody(std::istream& istr) : Model(istr) {}
 };
 
 }  // namespace feasst

@@ -22,7 +22,7 @@ void ChargeScreened::serialize(std::ostream& ostr) const {
   feasst_serialize(conversion_factor_, ostr);
 }
 
-ChargeScreened::ChargeScreened(std::istream& istr) {
+ChargeScreened::ChargeScreened(std::istream& istr) : ModelTwoBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 4616, "unrecognized verison: " << version);
   feasst_deserialize(&alpha_, istr);

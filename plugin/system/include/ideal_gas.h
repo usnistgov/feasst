@@ -14,7 +14,7 @@ namespace feasst {
  */
 class IdealGas : public ModelTwoBody {
  public:
-  IdealGas() {}
+  IdealGas() { class_name_ = "IdealGas"; }
 
   double energy(
       const double squared_distance,
@@ -32,9 +32,6 @@ class IdealGas : public ModelTwoBody {
 
  protected:
   void serialize_ideal_gas_(std::ostream& ostr) const;
-
- private:
-  const std::string class_name_ = "IdealGas";
 };
 
 inline std::shared_ptr<IdealGas> MakeIdealGas() {

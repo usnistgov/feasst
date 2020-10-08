@@ -35,6 +35,7 @@ TEST(ModelTableCart3DIntegr, SineSlabTable_LONG) {
       {"num_shells", "100"},
       {"points_per_shell", "100"}});
   MakeCheckpoint({{"file_name", "tmp/sine_slab_table"}})->write(hamaker->table());
+  ModelTableCart3DIntegr hamaker2 = test_serialize(*hamaker);
 }
 
 TEST(ModelTableCard1DHard, compute_table) {

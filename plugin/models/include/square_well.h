@@ -14,7 +14,7 @@ namespace feasst {
  */
 class SquareWell : public ModelTwoBody {
  public:
-  SquareWell() {}
+  SquareWell() { class_name_ = "SquareWell"; }
 
   double energy(
     const double squared_distance,
@@ -27,9 +27,6 @@ class SquareWell : public ModelTwoBody {
   void serialize(std::ostream& ostr) const override;
   explicit SquareWell(std::istream& istr);
   virtual ~SquareWell() {}
-
- private:
-  const std::string class_name_ = "SquareWell";
 };
 
 inline std::shared_ptr<SquareWell> MakeSquareWell() {

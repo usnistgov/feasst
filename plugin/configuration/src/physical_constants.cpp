@@ -34,6 +34,10 @@ class MapCODATA2018 {
 
 static MapCODATA2018 mapper_codata2018_ = MapCODATA2018();
 
+CODATA2018::CODATA2018(std::istream& istr) : PhysicalConstants(istr) {
+  compute_derived_();
+}
+
 class MapCODATA2014 {
  public:
   MapCODATA2014() {
@@ -44,6 +48,10 @@ class MapCODATA2014 {
 
 static MapCODATA2014 mapper_codata2014_ = MapCODATA2014();
 
+CODATA2014::CODATA2014(std::istream& istr) : PhysicalConstants(istr) {
+  compute_derived_();
+}
+
 class MapCODATA2010 {
  public:
   MapCODATA2010() {
@@ -51,6 +59,10 @@ class MapCODATA2010 {
     obj->deserialize_map()["CODATA2010"] = obj;
   }
 };
+
+CODATA2010::CODATA2010(std::istream& istr) : PhysicalConstants(istr) {
+  compute_derived_();
+}
 
 static MapCODATA2010 mapper_codata2010_ = MapCODATA2010();
 
@@ -93,6 +105,7 @@ PhysicalConstantsCustom::PhysicalConstantsCustom(std::istream& istr)
   feasst_deserialize(&avogadro_constant_, istr);
   feasst_deserialize(&permitivity_vacuum_, istr);
   feasst_deserialize(&elementary_charge_, istr);
+  compute_derived_();
 }
 
 } // namespace feasst

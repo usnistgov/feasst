@@ -15,6 +15,11 @@ class MapLennardJones {
 
 static MapLennardJones mapper_ = MapLennardJones();
 
+LennardJones::LennardJones() {
+  set_hard_sphere_threshold();
+  class_name_ = "LennardJones";
+}
+
 void LennardJones::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_lennard_jones_(ostr);
@@ -25,7 +30,7 @@ void LennardJones::serialize_lennard_jones_(std::ostream& ostr) const {
   feasst_serialize(hard_sphere_threshold_sq_, ostr);
 }
 
-LennardJones::LennardJones(std::istream& istr) {
+LennardJones::LennardJones(std::istream& istr) : ModelTwoBody(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(763 == version, version);
   feasst_deserialize(&hard_sphere_threshold_sq_, istr);

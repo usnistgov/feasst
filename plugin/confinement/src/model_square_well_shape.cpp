@@ -18,6 +18,7 @@ static MapModelSquareWellShape map_model_hard_shape_ = MapModelSquareWellShape()
 
 ModelSquareWellShape::ModelSquareWellShape(std::shared_ptr<Shape> shape,
   const argtype& args) : ModelOneBody(), ShapedEntity(shape) {
+  class_name_ = "ModelSquareWellShape";
   args_.init(args);
 }
 
@@ -28,7 +29,7 @@ void ModelSquareWellShape::serialize(std::ostream& ostr) const {
 }
 
 ModelSquareWellShape::ModelSquareWellShape(std::istream& istr)
-  : ModelOneBody(), ShapedEntity(istr) {
+  : ModelOneBody(istr), ShapedEntity(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 6482, "unrecognized verison: " << version);
 }
@@ -42,7 +43,7 @@ double ModelSquareWellShape::energy(
   const double sigma = model_params.sigma().value(type);
   const double cutoff = model_params.cutoff().value(type);
   const double distance = -shape()->nearest_distance(wrapped_site);
-  if (distance <= sigma) {
+  if (distance <= 0.5*sigma) {
     return NEAR_INFINITY;
   } else if (distance <= cutoff) {
     const double epsilon = model_params.epsilon().value(type);

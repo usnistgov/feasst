@@ -16,7 +16,7 @@ namespace feasst {
  */
 class ModelTwoBodyFactory : public ModelTwoBody {
  public:
-  ModelTwoBodyFactory() {}
+  ModelTwoBodyFactory() { class_name_ = "ModelTwoBodyFactory"; }
 
   /// Construct with a vector of two body models.
   explicit ModelTwoBodyFactory(
@@ -47,7 +47,6 @@ class ModelTwoBodyFactory : public ModelTwoBody {
   explicit ModelTwoBodyFactory(std::istream& istr);
 
  private:
-  const std::string class_name_ = "ModelTwoBodyFactory";
   std::vector<std::shared_ptr<Model> > models_;
 };
 
