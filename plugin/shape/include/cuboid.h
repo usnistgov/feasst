@@ -16,6 +16,7 @@ class Random;
  */
 class Cuboid : public Shape {
  public:
+  /// Construct given side lengths and center.
   Cuboid(const Position& side_lengths, const Position& center);
 
   /// Same as above, but the center is assumed to be the origin (in 3D).

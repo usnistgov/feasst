@@ -1,4 +1,3 @@
-#include <cmath>
 #include "utils/include/serialize.h"
 #include "shape/include/half_space.h"
 

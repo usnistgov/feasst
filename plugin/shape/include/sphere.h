@@ -14,12 +14,13 @@ class Random;
  */
 class Sphere : public Shape {
  public:
+  /**
+    args:
+    - radius: Set the radius of the sphere.
+   */
   Sphere(
-    /**
-      radius : Set the radius of the sphere.
-     */
     const argtype &args,
-    /// position of the center of the sphere.
+    /// position of the center of the sphere in absolute coordinates.
     const Position center);
 
   /// Same as above, but the center is assumed to be the origin.

@@ -12,8 +12,9 @@ namespace feasst {
   If you are on the "right" side of this divding surface, then you are inside.
   Otherwise, you are not.
 
-  With the current implementation, the dividing surface is assumed perpendicular
-  to one of the coordinate axes.
+  The current implementation is optimized such that the dividing surface is
+  assumed perpendicular to one of the coordinate axes.
+  For a more arbitrarily-oriented plane, see HalfSpaceTilted.
 
   Thus, there are only three variables required to specify the half space.
 

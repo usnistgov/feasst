@@ -33,9 +33,21 @@ class Shape {
   /// inside of the shape.
   virtual bool is_inside(const Position& point, const double diameter) const;
 
+  /// Return the surface area (if implemented).
   virtual double surface_area() const;
 
+  /// Return the volume (if implemented).
   virtual double volume() const;
+
+  /**
+    Return a grid of points inside the surface for visualization.
+    First, construct a grid of points inside a cuboid with furthest corners
+    given by the upper and lower points.
+    Remove points not inside the shape.
+   */
+  std::vector<Position> grid(const Position& upper, const Position& lower,
+    /// use this many points to span each dimension
+    const int num_in_each_dimen = 1e2);
 
   /**
     Given a material of arbitrary shape that interacts with an attraction of the

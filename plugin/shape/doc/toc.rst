@@ -3,6 +3,7 @@
 
    FormulaSineWave
    Shape
+   HalfSpaceTilted
    Sphere
    HalfSpace
    HalfSpaceSine
@@ -10,5 +11,6 @@
    Cylinder
    ShapeUnion
    ShapeIntersect
-   Slab
+   FiniteCylinder
    SlabSine
+   Slab

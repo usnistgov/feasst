@@ -42,6 +42,7 @@
 #include "math/include/utils_math.h"
 #include "math/include/position.h"
 #include "shape/include/shape.h"
+#include "shape/include/half_space_tilted.h"
 #include "shape/include/sphere.h"
 #include "shape/include/half_space.h"
 #include "shape/include/half_space_sine.h"
@@ -49,8 +50,9 @@
 #include "shape/include/cylinder.h"
 #include "shape/include/shape_union.h"
 #include "shape/include/shape_intersect.h"
-#include "shape/include/slab.h"
+#include "shape/include/finite_cylinder.h"
 #include "shape/include/slab_sine.h"
+#include "shape/include/slab.h"
 #include "system/include/bond_three_body.h"
 #include "system/include/angle_square_well.h"
 #include "system/include/bond_two_body.h"
@@ -314,6 +316,7 @@ using namespace std;
 %shared_ptr(feasst::SpatialEntity);
 %shared_ptr(feasst::Shape);
 %shared_ptr(feasst::ShapedEntity);
+%shared_ptr(feasst::HalfSpaceTilted);
 %shared_ptr(feasst::Sphere);
 %shared_ptr(feasst::HalfSpace);
 %shared_ptr(feasst::HalfSpaceSine);
@@ -321,8 +324,9 @@ using namespace std;
 %shared_ptr(feasst::Cylinder);
 %shared_ptr(feasst::ShapeUnion);
 %shared_ptr(feasst::ShapeIntersect);
-%shared_ptr(feasst::Slab);
+%shared_ptr(feasst::FiniteCylinder);
 %shared_ptr(feasst::SlabSine);
+%shared_ptr(feasst::Slab);
 %shared_ptr(feasst::BondThreeBody);
 %shared_ptr(feasst::AngleSquareWell);
 %shared_ptr(feasst::BondTwoBody);
@@ -593,6 +597,7 @@ using namespace std;
 %include math/include/utils_math.h
 %include math/include/position.h
 %include shape/include/shape.h
+%include shape/include/half_space_tilted.h
 %include shape/include/sphere.h
 %include shape/include/half_space.h
 %include shape/include/half_space_sine.h
@@ -600,8 +605,9 @@ using namespace std;
 %include shape/include/cylinder.h
 %include shape/include/shape_union.h
 %include shape/include/shape_intersect.h
-%include shape/include/slab.h
+%include shape/include/finite_cylinder.h
 %include shape/include/slab_sine.h
+%include shape/include/slab.h
 %include system/include/bond_three_body.h
 %include system/include/angle_square_well.h
 %include system/include/bond_two_body.h

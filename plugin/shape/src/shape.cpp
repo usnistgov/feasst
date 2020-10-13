@@ -167,4 +167,31 @@ double Shape::integrate(
   return sum;
 }
 
+std::vector<Position> Shape::grid(const Position& upper, const Position& lower,
+    const int num) {
+  std::vector<Position> grid;
+  ASSERT(upper.dimension() == 3, "implemented for 3D");
+  Position x(3);
+  std::vector<double> dx(3);
+  for (int dim = 0; dim < 3; ++dim) {
+    dx[dim] = (upper.coord(dim) - lower.coord(dim))/(num - 1);
+  }
+  for ((*x.get_coord())[0] = lower.coord(0);
+       x.coord(0) <= upper.coord(0);
+       (*x.get_coord())[0] += dx[0]) {
+    for ((*x.get_coord())[1] = lower.coord(1);
+         x.coord(1) <= upper.coord(1);
+         (*x.get_coord())[1] += dx[1]) {
+      for ((*x.get_coord())[2] = lower.coord(2);
+           x.coord(2) <= upper.coord(2);
+           (*x.get_coord())[2] += dx[2]) {
+        if (is_inside(x)) {
+          grid.push_back(x);
+        }
+      }
+    }
+  }
+  return grid;
+}
+
 }  // namespace feasst
