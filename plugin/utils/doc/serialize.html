@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>utils/include/serialize &mdash; FEASST v0.13.0 documentation</title>
+  <title>utils/include/serialize &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -44,8 +44,8 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Arguments" href="Arguments.html" />
-    <link rel="prev" title="utils/include/debug" href="debug.html" />
+    <link rel="next" title="ProgressReport" href="ProgressReport.html" />
+    <link rel="prev" title="Checkpoint" href="Checkpoint.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -110,9 +110,9 @@
 <li class="toctree-l3"><a class="reference internal" href="utils.html">utils/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debug.html">utils/include/debug</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Arguments.html">Arguments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ProgressReport.html">ProgressReport</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -291,8 +291,32 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst16feasst_serializeEvK1TRNSt7ostreamE">
-<span class="target" id="namespacefeasst_1a07d0203dbc921bfd53e30ff5d4226e81"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvK1TRNSt7ostreamE" title="feasst::feasst::feasst_serialize::T">T</a> <em>val</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvK1TRNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4N6feasst6feasst18feasst_deserializeEPdRNSt7istreamE">
+<span class="target" id="namespacefeasst_1a7b58db5be890b852e44d11728ae118bb"></span>void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>double *<em>val</em>, std::istream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst18feasst_deserializeEPdRNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Serialize double. Handle inf. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst18feasst_deserializeEPeRNSt7istreamE">
+<span class="target" id="namespacefeasst_1abae33271b077781c7b0c12da6ca29607"></span>void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>long double *<em>val</em>, std::istream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst18feasst_deserializeEPeRNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Serialize long double. Handle inf. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst16feasst_serializeERK7argtypeRNSt7ostreamE">
+<span class="target" id="namespacefeasst_1ab6db1c2a85d6c3d7679b739df9cf750d"></span>void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst16feasst_serializeERK7argtypeRNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Serialize argtype. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst18feasst_deserializeEP7argtypeRNSt7istreamE">
+<span class="target" id="namespacefeasst_1a2dd003f76abc4d0e9e3d9c518fe74c2e"></span>void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>argtype *<em>args</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst18feasst_deserializeEP7argtypeRNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Deserialize argtype. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst16feasst_serializeEvRK1TRNSt7ostreamE">
+<span class="target" id="namespacefeasst_1a1825964bdf92ac83ad21335ae1a3ca14"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRK1TRNSt7ostreamE" title="feasst::feasst::feasst_serialize::T">T</a> &amp;<em>val</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRK1TRNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Serialize generic to full precision. </p>
 </dd></dl>
 
@@ -315,6 +339,18 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt4pairIiNSt6vectorI1TEEEERNSt7ostreamE">
+<span class="target" id="namespacefeasst_1a047f80be0520adde49614aced73b513a"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> std::pair&lt;int, std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt4pairIiNSt6vectorI1TEEEERNSt7ostreamE" title="feasst::feasst::feasst_serialize::T">T</a>&gt;&gt; &amp;<em>container</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt4pairIiNSt6vectorI1TEEEERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Serialize pair of int and vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt4pairIiNSt6vectorI1TEEEERNSt7istreamE">
+<span class="target" id="namespacefeasst_1ac81018c7f4d2ef45c4330096dace058b"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::pair&lt;int, std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt4pairIiNSt6vectorI1TEEEERNSt7istreamE" title="feasst::feasst::feasst_deserialize::T">T</a>&gt;&gt; *<em>container</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt4pairIiNSt6vectorI1TEEEERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>deserialize pair of int and vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorI1TEERNSt7ostreamE">
 <span class="target" id="namespacefeasst_1a1c0bff10cef69ceb9bf2dc90db277bf9"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorI1TEERNSt7ostreamE" title="feasst::feasst::feasst_serialize::T">T</a>&gt; &amp;<em>vector</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorI1TEERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Serialize the 1D vector. </p>
@@ -324,6 +360,30 @@
 <dt id="_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorI1TEERNSt7istreamE">
 <span class="target" id="namespacefeasst_1ac8cbe3ebb5e3856882d0b62a3aa09ab8"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorI1TEERNSt7istreamE" title="feasst::feasst::feasst_deserialize::T">T</a>&gt; *<em>vector</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorI1TEERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Deserialize the 1D vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst16feasst_serializeERKNSt6vectorIdEERNSt7ostreamE">
+<span class="target" id="namespacefeasst_1a7dbdffe9edd9716cfe69609049f0dbd0"></span>void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;double&gt; &amp;<em>vector</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst16feasst_serializeERKNSt6vectorIdEERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Serialize 1D vector of doubles. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIdEERNSt7istreamE">
+<span class="target" id="namespacefeasst_1ab22964eec7025980e875382b9339e9a5"></span>void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::vector&lt;double&gt; *<em>vector</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIdEERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Deserialize 1D vector of doubles. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst16feasst_serializeERKNSt6vectorIeEERNSt7ostreamE">
+<span class="target" id="namespacefeasst_1a080ac8a29b5d4cdd70960141e3f7d0db"></span>void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;long double&gt; &amp;<em>vector</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst16feasst_serializeERKNSt6vectorIeEERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Serialize 1D vector of long doubles. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIeEERNSt7istreamE">
+<span class="target" id="namespacefeasst_1a8ecc9dcadfe4c9e338424f451555b7e1"></span>void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::vector&lt;long double&gt; *<em>vector</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorIeEERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Deserialize 1D vector of long doubles. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -348,66 +408,6 @@
 <dt id="_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorINSt6vectorIbEEEERNSt7istreamE">
 <span class="target" id="namespacefeasst_1a802ab081503e9fe6457972e41c144622"></span>void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::vector&lt;std::vector&lt;bool&gt;&gt; *<em>vector</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst18feasst_deserializeEPNSt6vectorINSt6vectorIbEEEERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Deserialize the boolean 2D vector. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorI1TEEEERNSt7ostreamE">
-<span class="target" id="namespacefeasst_1a3ae3fc2e2dc6406fa8567c116fae7d2f"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorI1TEEEERNSt7ostreamE" title="feasst::feasst::feasst_serialize::T">T</a>&gt;&gt; &amp;<em>vector</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorI1TEEEERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Serialize the 2D vector. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorI1TEEEERNSt7istreamE">
-<span class="target" id="namespacefeasst_1ae8fc26d9342798d524866b0ac32358b0"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorI1TEEEERNSt7istreamE" title="feasst::feasst::feasst_deserialize::T">T</a>&gt;&gt; *<em>vector</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorI1TEEEERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Deserialize the 2D vector. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEERNSt7ostreamE">
-<span class="target" id="namespacefeasst_1a165bbc520bf91b10edad62ccfeb86d71"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEERNSt7ostreamE" title="feasst::feasst::feasst_serialize::T">T</a>&gt;&gt;&gt; &amp;<em>vector</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorINSt6vectorI1TEEEEEERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Serialize the 3D vector. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEERNSt7istreamE">
-<span class="target" id="namespacefeasst_1a12a4e485447a635de0af5c2abc2b293b"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEERNSt7istreamE" title="feasst::feasst::feasst_deserialize::T">T</a>&gt;&gt;&gt; *<em>vector</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Deserialize the 3D vector. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEERNSt7ostreamE">
-<span class="target" id="namespacefeasst_1a5f0897e71e35e2c9c471fcee52bd1451"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEERNSt7ostreamE" title="feasst::feasst::feasst_serialize::T">T</a>&gt;&gt;&gt;&gt; &amp;<em>vector</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Serialize the 4D vector. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEERNSt7istreamE">
-<span class="target" id="namespacefeasst_1aec76677548f1a59e8c51b9cd6d73ba37"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEERNSt7istreamE" title="feasst::feasst::feasst_deserialize::T">T</a>&gt;&gt;&gt;&gt; *<em>vector</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Deserialize the 4D vector. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEERNSt7ostreamE">
-<span class="target" id="namespacefeasst_1a9f8b35743dc0f8dc50517df57be3bc80"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEERNSt7ostreamE" title="feasst::feasst::feasst_serialize::T">T</a>&gt;&gt;&gt;&gt;&gt; &amp;<em>vector</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Serialize the 5D vector. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEERNSt7istreamE">
-<span class="target" id="namespacefeasst_1ad861a7065b9954cf1f63848fb3e9b7e7"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEERNSt7istreamE" title="feasst::feasst::feasst_deserialize::T">T</a>&gt;&gt;&gt;&gt;&gt; *<em>vector</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Deserialize the 5D vector. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEEEERNSt7ostreamE">
-<span class="target" id="namespacefeasst_1a7521fcae9b7992bb046eef20d8bcf7bb"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_serialize</code><span class="sig-paren">(</span><em class="property">const</em> std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEEEERNSt7ostreamE" title="feasst::feasst::feasst_serialize::T">T</a>&gt;&gt;&gt;&gt;&gt;&gt; &amp;<em>vector</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst16feasst_serializeEvRKNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEEEERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Serialize the 6D vector. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEEEERNSt7istreamE">
-<span class="target" id="namespacefeasst_1aa7791edfaf7c6ebc285201c866f52ab9"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">feasst_deserialize</code><span class="sig-paren">(</span>std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEEEERNSt7istreamE" title="feasst::feasst::feasst_deserialize::T">T</a>&gt;&gt;&gt;&gt;&gt;&gt; *<em>vector</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst18feasst_deserializeEvPNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEEEERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Deserialize the 6D vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -524,6 +524,18 @@
 <dd><p>Return a deep copy. This is implemented via serialization/deserialization. </p>
 </dd></dl>
 
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst23feasst_serialize_endcapEKNSt6stringERNSt7ostreamE">
+<span class="target" id="namespacefeasst_1a4d200e913c78efaecc67e45acaa6caeb"></span>void <code class="sig-name descname">feasst_serialize_endcap</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, std::ostream &amp;<em>ostr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst23feasst_serialize_endcapEKNSt6stringERNSt7ostreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>End class serialization with this notification to aid debugging. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6feasst25feasst_deserialize_endcapEKNSt6stringERNSt7istreamE">
+<span class="target" id="namespacefeasst_1a3c34bf38b7df5a7fced1be23f5597cb1"></span>void <code class="sig-name descname">feasst_deserialize_endcap</code><span class="sig-paren">(</span><em class="property">const</em> std::string <em>name</em>, std::istream &amp;<em>istr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6feasst25feasst_deserialize_endcapEKNSt6stringERNSt7istreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read end notification to aid debugging. </p>
+</dd></dl>
+
 </div>
 </dd></dl>
 
@@ -537,10 +549,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Arguments.html" class="btn btn-neutral float-right" title="Arguments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ProgressReport.html" class="btn btn-neutral float-right" title="ProgressReport" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="debug.html" class="btn btn-neutral float-left" title="utils/include/debug" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Checkpoint.html" class="btn btn-neutral float-left" title="Checkpoint" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

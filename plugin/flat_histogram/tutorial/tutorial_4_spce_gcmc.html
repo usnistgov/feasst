@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Grand canonical ensemble transition-matrix Monte Carlo with SPC/E &mdash; FEASST v0.13.0 documentation</title>
+  <title>Grand canonical ensemble transition-matrix Monte Carlo with SPC/E &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -118,6 +118,7 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_5_lj_gcmc_parallel.html">Parallelize a flat histogram simulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_9_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
@@ -568,7 +569,12 @@ div.rendered_html tbody tr:hover {
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 test_serial_5max (__main__.TestFlatHistogramSPCE)
-Compare the free energies and potential energies with the NIST SRSW ...
+Compare the free energies and potential energies with the NIST SRSW ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 104.559s
+
+OK
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -576,21 +582,8 @@ Compare the free energies and potential energies with the NIST SRSW ...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 1min 41s, sys: 1.06 s, total: 1min 42s
-Wall time: 1min 42s
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-ok
-
-----------------------------------------------------------------------
-Ran 1 test in 102.293s
-
-OK
+CPU times: user 1min 43s, sys: 1.08 s, total: 1min 44s
+Wall time: 1min 44s
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -599,7 +592,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7f48484725f8&gt;
+&lt;unittest.main.TestProgram at 0x7f86dc34f908&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>

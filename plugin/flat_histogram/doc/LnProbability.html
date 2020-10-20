@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>LnProbability &mdash; FEASST v0.13.0 documentation</title>
+  <title>LnProbability &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -126,6 +126,7 @@
 <li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 </ul>
@@ -338,8 +339,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability20saturation_objectiveEKdKi">
-<span class="target" id="classfeasst_1_1LnProbability_1a8cb15c93c49198d58d81991f362b8f8d"></span>double <code class="sig-name descname">saturation_objective</code><span class="sig-paren">(</span><em class="property">const</em> double <em>delta_conjugate</em>, <em class="property">const</em> int <em>num_smooth</em> = 10<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability20saturation_objectiveEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst13LnProbability21equilibrium_objectiveEKi">
+<span class="target" id="classfeasst_1_1LnProbability_1a5a1a2f4e169ee8a389407b995dfe4a24"></span>double <code class="sig-name descname">equilibrium_objective</code><span class="sig-paren">(</span><em class="property">const</em> int <em>num_smooth</em> = 10<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability21equilibrium_objectiveEKi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">num_smooth</span></code>: Number of macrostates which define ‘local’ region for finding the minimum. </p></li>
@@ -347,21 +348,20 @@
 </dd>
 </dl>
 </p>
-<p>Return the objective function to minimize in order to obtain saturation conditions. If no phase boundaries, return the squared difference between the minimum and maximum values. If more than one, no current implementation. If exactly one, use objective function below. </p>
+<p>Return the objective function to minimize in order to obtain equilibrium between phases. If no phase boundaries, return the squared difference between the minimum and maximum values. If more than one, no current implementation. If exactly one, use objective function below. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13LnProbability29saturation_objective_boundaryEKdi">
-<span class="target" id="classfeasst_1_1LnProbability_1ad19d6e41a74da8ac0e6516e922cfd5b3"></span>double <code class="sig-name descname">saturation_objective_boundary</code><span class="sig-paren">(</span><em class="property">const</em> double <em>delta_conjugate</em>, int <em>phase_boundary</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability29saturation_objective_boundaryEKdi" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst13LnProbability30equilibrium_objective_boundaryEi">
+<span class="target" id="classfeasst_1_1LnProbability_1a13e1ba9f2897a5fe04c033c80aab7990"></span>double <code class="sig-name descname">equilibrium_objective_boundary</code><span class="sig-paren">(</span>int <em>phase_boundary</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13LnProbability30equilibrium_objective_boundaryEi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">delta_conjugate</span></code>: See <a class="reference internal" href="FlatHistogram.html#classfeasst_1_1FlatHistogram_1ab5ec81df802f21f1b60e9e9ccc5976ae"><span class="std std-ref">FlatHistogram::reweight()</span></a> </p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">phase_boundary</span></code>: Index which is the boundary between phases. The exact index value is included in the second phase. </p></li>
 </ul>
 </dd>
 </dl>
 </p>
-<p>Return the objective function to minimize in order to obtain saturation conditions. The objective is the squared difference between the natural logs of the probabilities of the two phases. </p>
+<p>Return the objective function to minimize in order to obtain equilibrium between phases. The objective is the squared difference between the natural logs of the probabilities of the two phases. </p>
 </dd></dl>
 
 <dl class="cpp function">

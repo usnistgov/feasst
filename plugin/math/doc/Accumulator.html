@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Accumulator &mdash; FEASST v0.13.0 documentation</title>
+  <title>Accumulator &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -325,6 +325,12 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4NK6feasst11Accumulator9num_blockEv">
+<span class="target" id="classfeasst_1_1Accumulator_1a478eaec4574b63509c1aa00905c52ae0"></span>long long <code class="sig-name descname">num_block</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator9num_blockEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return number of values per block. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst11Accumulator11block_stdevEv">
 <span class="target" id="classfeasst_1_1Accumulator_1a135c946a351903eeedbdbd4c5c055e8c"></span>double <code class="sig-name descname">block_stdev</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator11block_stdevEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return standard deviation of the block averages (0 if not enough blocks). </p>
@@ -343,21 +349,27 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4NK6feasst11Accumulator8sum_dbleEv">
+<span class="target" id="classfeasst_1_1Accumulator_1afd909d14dd43b8845517ecfda5a233bb"></span>double <code class="sig-name descname">sum_dble</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator8sum_dbleEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but truncated to double precision for Python interface. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst11Accumulator14sum_of_squaredEv">
 <span class="target" id="classfeasst_1_1Accumulator_1a2211c7ef1cd9e1e89385603ab24e66dd"></span>long double <code class="sig-name descname">sum_of_squared</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator14sum_of_squaredEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return sum of the square of all values accumulated. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst11Accumulator5resetEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a0590e13db13253025691b2fe195bc2d2"></span>void <code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator5resetEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Zero all accumulated values. </p>
+<dt id="_CPPv4NK6feasst11Accumulator19sum_of_squared_dbleEv">
+<span class="target" id="classfeasst_1_1Accumulator_1aed396bd15bdec4a11529633e366e0718"></span>double <code class="sig-name descname">sum_of_squared_dble</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator19sum_of_squared_dbleEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but truncated to double precision for Python interface. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst11Accumulator9num_blockEv">
-<span class="target" id="classfeasst_1_1Accumulator_1a478eaec4574b63509c1aa00905c52ae0"></span>long long <code class="sig-name descname">num_block</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator9num_blockEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return number of values per block. </p>
+<dt id="_CPPv4N6feasst11Accumulator5resetEv">
+<span class="target" id="classfeasst_1_1Accumulator_1a0590e13db13253025691b2fe195bc2d2"></span>void <code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst11Accumulator5resetEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Zero all accumulated values. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -382,6 +394,12 @@
 <dt id="_CPPv4NK6feasst11Accumulator7momentsEv">
 <span class="target" id="classfeasst_1_1Accumulator_1ac7a640217a21aa6993202cc7e82cd5ea"></span><a class="reference internal" href="#_CPPv4NK6feasst11AccumulatorStEv" title="feasst::Accumulator::std">std</a>::vector&lt;long double&gt; <code class="sig-name descname">moments</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator7momentsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the moments. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst11Accumulator6momentEKi">
+<span class="target" id="classfeasst_1_1Accumulator_1a7c2b1dadebb620a04ff4b91e16d5759e"></span>double <code class="sig-name descname">moment</code><span class="sig-paren">(</span><em class="property">const</em> int <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst11Accumulator6momentEKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the moments as a double. </p>
 </dd></dl>
 
 <dl class="cpp function">

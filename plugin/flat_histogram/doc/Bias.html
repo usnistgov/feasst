@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Bias &mdash; FEASST v0.13.0 documentation</title>
+  <title>Bias &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -126,6 +126,7 @@
 <li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 </ul>
@@ -312,6 +313,18 @@
 <dt id="_CPPv4NK6feasst4Bias11is_completeEv">
 <span class="target" id="classfeasst_1_1Bias_1a9ec7cfe76e4c1951b13b0f6759091348"></span>bool <code class="sig-name descname">is_complete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst4Bias11is_completeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if completion requirements are met. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst4Bias5phaseEv">
+<span class="target" id="classfeasst_1_1Bias_1a69147e97d93d0ff601e2cd5dd62226c1"></span><em class="property">virtual</em> int <code class="sig-name descname">phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst4Bias5phaseEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the simulation phase index used to differentiate production and initialization, etc. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst4Bias15increment_phaseEv">
+<span class="target" id="classfeasst_1_1Bias_1a77ab6b0c28b6c937018365571e6e5ba8"></span><em class="property">virtual</em> void <code class="sig-name descname">increment_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4Bias15increment_phaseEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Increment the simulation phase. </p>
 </dd></dl>
 
 <dl class="cpp function">

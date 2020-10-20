@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>utils/include/debug &mdash; FEASST v0.13.0 documentation</title>
+  <title>utils/include/debug &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="utils/include/serialize" href="serialize.html" />
+    <link rel="next" title="Arguments" href="Arguments.html" />
     <link rel="prev" title="CustomException" href="CustomException.html" />
 
 	<!-- frame blocking -->
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -110,9 +110,9 @@
 <li class="toctree-l3"><a class="reference internal" href="utils.html">utils/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">utils/include/debug</a></li>
-<li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Arguments.html">Arguments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ProgressReport.html">ProgressReport</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -352,7 +352,7 @@
 <li><p>TRACE</p></li>
 </ol>
 </p>
-<p>These macros will print if they are equal to or less than the verbosity level. Tests which expect exceptions (many) will fail if VERBOSE_LEVEL is set to 0. ASSERT includes the conditional as the first argument.</p>
+<p>These macros will print if they are equal to or less than the verbosity level.</p>
 <p>A way to decide whether to use TRACE or DEBUG is as follows. If the printout is once every trial move or less frequent, then DEBUG is acceptable. If the printout is more than once every trial (e.g., inside the visitor loop for a model) then use TRACE instead. </p>
 </dd></dl>
 
@@ -369,7 +369,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="serialize.html" class="btn btn-neutral float-right" title="utils/include/serialize" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Arguments.html" class="btn btn-neutral float-right" title="Arguments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="CustomException.html" class="btn btn-neutral float-left" title="CustomException" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>FlatHistogram &mdash; FEASST v0.13.0 documentation</title>
+  <title>FlatHistogram &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Clones" href="Clones.html" />
-    <link rel="prev" title="MacrostateNumParticles" href="MacrostateNumParticles.html" />
+    <link rel="prev" title="Ensemble" href="Ensemble.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -126,6 +126,7 @@
 <li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">FlatHistogram</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 </ul>
@@ -269,10 +270,15 @@
 <dt id="_CPPv4N6feasst13FlatHistogramE">
 <span class="target" id="classfeasst_1_1FlatHistogram"></span><em class="property">class </em><code class="sig-name descname">FlatHistogram</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../monte_carlo/doc/Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogramE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Flat histogram acceptance criteria uses a bias to improve sampling and attempt to recover the free energy of the system as a function of the give macrostate.</p>
-<p>The <a class="reference internal" href="Macrostate.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a> must be defined before the bias.</p>
-<p>Use MacrostateAccumulator to compute custom per-macrostate quantities. </p>
+<p>The <a class="reference internal" href="Macrostate.html#classfeasst_1_1Macrostate"><span class="std std-ref">Macrostate</span></a> must be defined before the bias. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEERK7argtype">
+<span class="target" id="classfeasst_1_1FlatHistogram_1af3a5cb89eb44327603c9c53603845d6b"></span><code class="sig-name descname">FlatHistogram</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a>&gt; <em>macrostate</em>, std::shared_ptr&lt;<a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias">Bias</a>&gt; <em>bias</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+</dd></dl>
+
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEENSt10shared_ptrI10ConstraintEERK7argtype">
 <span class="target" id="classfeasst_1_1FlatHistogram_1aa5c5a993cad88a9069813abb6e79647e"></span><code class="sig-name descname">FlatHistogram</code><span class="sig-paren">(</span>std::shared_ptr&lt;<a class="reference internal" href="Macrostate.html#_CPPv4N6feasst10MacrostateE" title="feasst::Macrostate">Macrostate</a>&gt; <em>macrostate</em>, std::shared_ptr&lt;<a class="reference internal" href="Bias.html#_CPPv4N6feasst4BiasE" title="feasst::Bias">Bias</a>&gt; <em>bias</em>, std::shared_ptr&lt;<a class="reference internal" href="../../monte_carlo/doc/Constraint.html#_CPPv4N6feasst10ConstraintE" title="feasst::Constraint">Constraint</a>&gt; <em>constraint</em>, <em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram13FlatHistogramENSt10shared_ptrI10MacrostateEENSt10shared_ptrI4BiasEENSt10shared_ptrI10ConstraintEERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
@@ -322,6 +328,18 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4NK6feasst13FlatHistogram5phaseEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a7f3a71d17b2210c9dff2fffa8107d0b8"></span>int <code class="sig-name descname">phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram5phaseEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the simulation phase index used to differentiate production and initialization, etc. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst13FlatHistogram15increment_phaseEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a67c0201650d172e52938de63b3a3cd43"></span>void <code class="sig-name descname">increment_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram15increment_phaseEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Increment the simulation phase. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst13FlatHistogram5stateEv">
 <span class="target" id="classfeasst_1_1FlatHistogram_1aecbd4a0fba8bcb8edad710821a34cc5f"></span>int <code class="sig-name descname">state</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram5stateEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the state. Return -1 if state is not determined. </p>
@@ -334,16 +352,15 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13FlatHistogram8reweightEKd">
-<span class="target" id="classfeasst_1_1FlatHistogram_1ab5ec81df802f21f1b60e9e9ccc5976ae"></span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> <code class="sig-name descname">reweight</code><span class="sig-paren">(</span><em class="property">const</em> double <em>delta_conjugate</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram8reweightEKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">delta_conjugate</span></code>: Change in conjugate variable. For example, if reweighting in number of particles using the grand canonical ensemble, the change in the thermodynamic conjugate is <span class="math notranslate nohighlight">\(\Delta(\beta\mu\)f$. If reweighting in potential energy in the microcanonical, the change in the thermodynamic conjugate is \)</span>\Delta(-\beta) </p></li>
-</ul>
-</dd>
-</dl>
-</p>
-<p>Return the pressure. Return a reweighted macrostate distribution. </p>
+<dt id="_CPPv4N6feasst13FlatHistogram11set_ln_probERK13LnProbability">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a19b76269d2df547f0450349f4c47d340"></span>void <code class="sig-name descname">set_ln_prob</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> &amp;<em>ln_prob</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13FlatHistogram11set_ln_probERK13LnProbability" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the macrostate probability distribution. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst13FlatHistogram7ln_probEv">
+<span class="target" id="classfeasst_1_1FlatHistogram_1a6137fec807f16b177e4bd6c9f3d41e88"></span><em class="property">const</em> <a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> &amp;<code class="sig-name descname">ln_prob</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13FlatHistogram7ln_probEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the macrostate probability distribution. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -368,7 +385,7 @@
         <a href="Clones.html" class="btn btn-neutral float-right" title="Clones" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="MacrostateNumParticles.html" class="btn btn-neutral float-left" title="MacrostateNumParticles" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Ensemble.html" class="btn btn-neutral float-left" title="Ensemble" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

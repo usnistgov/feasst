@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ArgumentParse &mdash; FEASST v0.13.0 documentation</title>
+  <title>ArgumentParse &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -110,9 +110,9 @@
 <li class="toctree-l3"><a class="reference internal" href="utils.html">utils/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debug.html">utils/include/debug</a></li>
-<li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Arguments.html">Arguments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ProgressReport.html">ProgressReport</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -266,9 +266,16 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N6feasst13ArgumentParse13ArgumentParseEPKc">
-<span class="target" id="classfeasst_1_1ArgumentParse_1a2597646d6b631d00f70b07601a214cd1"></span><code class="sig-name descname">ArgumentParse</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13ArgumentParse13ArgumentParseEPKc" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Construct with documentation when “-h” option is given. </p>
+<dt id="_CPPv4N6feasst13ArgumentParse13ArgumentParseEPKcNSt6vectorINSt6vectorINSt6stringEEEEE">
+<span class="target" id="classfeasst_1_1ArgumentParse_1a507dcb1179b67955324c0f8c80cdc764"></span><code class="sig-name descname">ArgumentParse</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>header</em>, std::vector&lt;std::vector&lt;std::string&gt;&gt; <em>options</em> = std::vector&lt;std::vector&lt;std::string&gt;&gt;()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst13ArgumentParse13ArgumentParseEPKcNSt6vectorINSt6vectorINSt6stringEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct with documentation to print when “-h” option is given. </p>
+<p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">options</span></code>: Add documention and default value for options. For each option, the first value is the option itself. The second is the documentation string. And the third (optional) is the default value. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -302,33 +309,21 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst13ArgumentParse3getERKNSt6stringEKNSt6stringE">
-<span class="target" id="classfeasst_1_1ArgumentParse_1a0966807b0656705aa3db446d99bf9b90"></span><em class="property">const</em> std::string <code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>option</em>, <em class="property">const</em> std::string <em>dflt</em> = &quot;&quot;<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13ArgumentParse3getERKNSt6stringEKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4NK6feasst13ArgumentParse3getERKNSt6stringE">
+<span class="target" id="classfeasst_1_1ArgumentParse_1a8fd3c56b83208a00169401150781a911"></span><em class="property">const</em> std::string <code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>option</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13ArgumentParse3getERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return option. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst13ArgumentParse10get_doubleERKNSt6stringE">
 <span class="target" id="classfeasst_1_1ArgumentParse_1a645265190ba6d7a165b151ebbc42807e"></span>double <code class="sig-name descname">get_double</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>option</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13ArgumentParse10get_doubleERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Same as <a class="reference internal" href="#classfeasst_1_1ArgumentParse_1a0966807b0656705aa3db446d99bf9b90"><span class="std std-ref">get()</span></a>, but return option as a double. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst13ArgumentParse10get_doubleERKNSt6stringEKd">
-<span class="target" id="classfeasst_1_1ArgumentParse_1ab6487430c6d1ba098db61e9304c32284"></span>double <code class="sig-name descname">get_double</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>option</em>, <em class="property">const</em> double <em>dflt</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13ArgumentParse10get_doubleERKNSt6stringEKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Same as above, but provide a default value if option not given. </p>
+<dd><p>Same as <a class="reference internal" href="#classfeasst_1_1ArgumentParse_1a8fd3c56b83208a00169401150781a911"><span class="std std-ref">get()</span></a>, but return option as a double. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst13ArgumentParse7get_intERKNSt6stringE">
 <span class="target" id="classfeasst_1_1ArgumentParse_1a7415333b1ab4e9dfbb1e58ac7d5a1be3"></span>int <code class="sig-name descname">get_int</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>option</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13ArgumentParse7get_intERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Same as <a class="reference internal" href="#classfeasst_1_1ArgumentParse_1a0966807b0656705aa3db446d99bf9b90"><span class="std std-ref">get()</span></a>, but return option as an int. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt id="_CPPv4NK6feasst13ArgumentParse7get_intERKNSt6stringEKi">
-<span class="target" id="classfeasst_1_1ArgumentParse_1ae30714ef99b107f741061e37c0d7c59d"></span>int <code class="sig-name descname">get_int</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>option</em>, <em class="property">const</em> int <em>dflt</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst13ArgumentParse7get_intERKNSt6stringEKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Same as above, but provide a default value if option not given. </p>
+<dd><p>Same as <a class="reference internal" href="#classfeasst_1_1ArgumentParse_1a8fd3c56b83208a00169401150781a911"><span class="std std-ref">get()</span></a>, but return option as an int. </p>
 </dd></dl>
 
 </div>

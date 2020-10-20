@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Parallelize a flat histogram simulation &mdash; FEASST v0.13.0 documentation</title>
+  <title>Parallelize a flat histogram simulation &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -118,6 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Parallelize a flat histogram simulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_9_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
@@ -519,7 +520,7 @@ div.rendered_html tbody tr:hover {
 
 <span class="n">windows</span><span class="o">=</span><span class="n">fst</span><span class="o">.</span><span class="n">WindowExponential</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span>
   <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
   <span class="s2">&quot;maximum&quot;</span><span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">,</span>
   <span class="s2">&quot;extra_overlap&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">}))</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">windows</span><span class="p">)</span>
@@ -538,7 +539,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-((0, 25), (23, 35), (33, 43), (41, 50))
+((0, 35), (33, 50))
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -547,7 +548,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-82651
+45982
 </pre></div></div>
 </div>
 <p>You may post-process the simulations from the rst file.</p>

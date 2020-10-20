@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>EnergyMapNeighbor &mdash; FEASST v0.13.0 documentation</title>
+  <title>EnergyMapNeighbor &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="EnergyMapAllCriteria" href="EnergyMapAllCriteria.html" />
+    <link rel="next" title="EnergyMapNeighborCriteria" href="EnergyMapNeighborCriteria.html" />
     <link rel="prev" title="EnergyMapAll" href="EnergyMapAll.html" />
 
 	<!-- frame blocking -->
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -258,16 +258,71 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst17EnergyMapNeighborE">
 <span class="target" id="classfeasst_1_1EnergyMapNeighbor"></span><em class="property">class </em><code class="sig-name descname">EnergyMapNeighbor</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/EnergyMap.html#_CPPv4N6feasst9EnergyMapE" title="feasst::EnergyMap">EnergyMap</a><a class="headerlink" href="#_CPPv4N6feasst17EnergyMapNeighborE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Map energies between neighboring particles. This data structure is intended to scale with particles better than <a class="reference internal" href="EnergyMapAll.html#classfeasst_1_1EnergyMapAll"><span class="std std-ref">EnergyMapAll</span></a>. Although for small system sizes or large cutoffs, <a class="reference internal" href="EnergyMapAll.html#classfeasst_1_1EnergyMapAll"><span class="std std-ref">EnergyMapAll</span></a> may be faster because it does not require sorting.</p>
-<p>Clear is used to generate a new map with only those particles in part1 that represent the computed selection.</p>
-<p>Update populates the new map, which should be appropriately sized for part1.</p>
-<p>Finalize uses the new map to update the map. </p>
+<dd><p>Map only between particles that interact (e.g., non zero energy). This data structure is intended to better scale with more particles than <a class="reference internal" href="EnergyMapAll.html#classfeasst_1_1EnergyMapAll"><span class="std std-ref">EnergyMapAll</span></a>. Although for small system sizes or large cutoffs, <a class="reference internal" href="EnergyMapAll.html#classfeasst_1_1EnergyMapAll"><span class="std std-ref">EnergyMapAll</span></a> may be faster because it does not require sorting.</p>
+<p>This implementation also stores two versions of the map. The first version is the current map. The second version is an empty new map. Upon perturbation, the empty new map is populated with interactions. When a perturbation is accepted, finalize replaces interactions in current map with those in the new map. The new map is then emptied. When a perturbation is rejected, revert empties the new map. </p>
+<p>Subclassed by <a class="reference internal" href="EnergyMapNeighborCriteria.html#classfeasst_1_1EnergyMapNeighborCriteria"><span class="std std-ref">feasst::EnergyMapNeighborCriteria</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst17EnergyMapNeighbor12is_queryableEv">
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1a571192e22ef989da6cf4fd5842f5c31e"></span>bool <code class="sig-name descname">is_queryable</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor12is_queryableEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if the total interaction energy is stored (e.g., no criteria for inclusion. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst17EnergyMapNeighbor6updateEKdKiKiKiKiKiKiKdPK8Position">
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1a441c61b5619071ee647b0e472630c99e"></span>double <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em>, <em class="property">const</em> int <em>part1_index</em>, <em class="property">const</em> int <em>site1_index</em>, <em class="property">const</em> int <em>site1_type</em>, <em class="property">const</em> int <em>part2_index</em>, <em class="property">const</em> int <em>site2_index</em>, <em class="property">const</em> int <em>site2_type</em>, <em class="property">const</em> double <em>squared_distance</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>pbc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17EnergyMapNeighbor6updateEKdKiKiKiKiKiKiKdPK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update the interaction. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst17EnergyMapNeighbor6revertERK6Select">
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1ab019fe3c00a0614faad59432eb8bb0f6"></span>void <code class="sig-name descname">revert</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17EnergyMapNeighbor6revertERK6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Revert any changes from perturbation of selection. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst17EnergyMapNeighbor8finalizeERK6Select">
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1ac95f99a497c157856507e26b73c4c62b"></span>void <code class="sig-name descname">finalize</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17EnergyMapNeighbor8finalizeERK6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Finalize any changes from perturbation of selection. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst17EnergyMapNeighbor12total_energyEv">
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1a0486276950ca664a609574763b8ec10a"></span>double <code class="sig-name descname">total_energy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor12total_energyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the total energy. </p>
+</dd></dl>
+
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst17EnergyMapNeighbor14select_clusterERK16NeighborCriteriaRK13ConfigurationKiP6SelectRK8Position">
 <span class="target" id="classfeasst_1_1EnergyMapNeighbor_1ab9abd56c5f71d3b6c831a710be1d5532"></span>void <code class="sig-name descname">select_cluster</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>cluster_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>particle_node</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>cluster</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>frame_of_reference</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor14select_clusterERK16NeighborCriteriaRK13ConfigurationKiP6SelectRK8Position" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Add neighboring particles to selection which interact with node based on an energy less than or equal to the tolerance. The cluster also has positions taking into account periodic boundary conditions, which is why frame of reference is used recurisvely. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst17EnergyMapNeighbor18is_cluster_changedERK16NeighborCriteriaRK6SelectRK13Configuration">
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1a6164dc8445129f7cf8ca0312aacf59c4"></span>bool <code class="sig-name descname">is_cluster_changed</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>cluster_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor18is_cluster_changedERK16NeighborCriteriaRK6SelectRK13Configuration" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compare old and new maps to see if cluster has changed. This is useful for detailed balance with rigid cluster moves. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst17EnergyMapNeighbor9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6SelectKi">
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1ab0dbb13c1902ceba6ab6b72154da15b7"></span>void <code class="sig-name descname">neighbors</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>neighbor_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>target_particle</em>, <em class="property">const</em> int <em>target_site</em>, <em class="property">const</em> int <em>given_site_index</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>neighbors</em>, <em class="property">const</em> int <em>new_map</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst17EnergyMapNeighbor9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6SelectKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">neighbors</span></code>: Return of the neighbors </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">new_map</span></code>: If 1, use newly computed map. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Return the neighbors of target particle and site that are of given site index. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst17EnergyMapNeighbor5clearEKiKiKiKi">
+<span class="target" id="classfeasst_1_1EnergyMapNeighbor_1a33b9dfda4c1d038055014a64624e0dec"></span>void <code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="property">const</em> int <em>part1_index</em>, <em class="property">const</em> int <em>site1_index</em>, <em class="property">const</em> int <em>part2_index</em>, <em class="property">const</em> int <em>site2_index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst17EnergyMapNeighbor5clearEKiKiKiKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Clear interaction does nothing, because new map begins empty. </p>
 </dd></dl>
 
 </div>
@@ -283,7 +338,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="EnergyMapAllCriteria.html" class="btn btn-neutral float-right" title="EnergyMapAllCriteria" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="EnergyMapNeighborCriteria.html" class="btn btn-neutral float-right" title="EnergyMapNeighborCriteria" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="EnergyMapAll.html" class="btn btn-neutral float-left" title="EnergyMapAll" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

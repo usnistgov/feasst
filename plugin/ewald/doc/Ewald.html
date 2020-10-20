@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Ewald &mdash; FEASST v0.13.0 documentation</title>
+  <title>Ewald &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -127,6 +127,7 @@
 <li class="toctree-l4"><a class="reference internal" href="ChargeScreened.html">ChargeScreened</a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils.html">ewald/include/utils</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Coulomb.html">Coulomb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
@@ -340,6 +341,12 @@
 <p>For 1, “move”, eik are updated and their contributions are added to the structure factor. Return the new system energy.</p>
 <p>For 2, “remove”, remove the eik contributions to the structure factor without updating the eik. Return the old minus new energy.</p>
 <p>For 3, “add”, eik are updated and their contributions are added to the structure factor. Return the new minus old energy. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst5Ewald13change_volumeEKdKi">
+<span class="target" id="classfeasst_1_1Ewald_1a0f11b60c3b108a0efa91884d80089774"></span>void <code class="sig-name descname">change_volume</code><span class="sig-paren">(</span><em class="property">const</em> double <em>delta_volume</em>, <em class="property">const</em> int <em>dimension</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst5Ewald13change_volumeEKdKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Change the volume. </p>
 </dd></dl>
 
 <dl class="cpp function">

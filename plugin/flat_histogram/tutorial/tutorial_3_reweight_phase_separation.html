@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Analysis of a two-phase (phase separated) simulation &mdash; FEASST v0.13.0 documentation</title>
+  <title>Analysis of a two-phase (phase separated) simulation &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -118,6 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_5_lj_gcmc_parallel.html">Parallelize a flat histogram simulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_6_rpm_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_9_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
@@ -496,17 +497,15 @@ div.rendered_html tbody tr:hover {
 <span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">feasst</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/plugin/flat_histogram/tutorial/&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/plugin/flat_histogram/tutorial/&#39;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">fh</span>
+<span class="kn">import</span> <span class="nn">pyfeasst</span>
 
-<span class="c1"># load the data into the criteria object</span>
-<span class="n">dfsrsw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/flat_histogram/test/data/stat120.csv&quot;</span><span class="p">)</span>
-<span class="n">criteria</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">criteria_flathist</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
-                                <span class="n">chemical_potential</span><span class="o">=-</span><span class="mf">2.902929</span><span class="p">,</span>
-                                <span class="n">macro_min</span><span class="o">=</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                                <span class="n">macro_max</span><span class="o">=</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">criteria</span><span class="o">.</span><span class="n">set_ln_prob</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">LnProbability</span><span class="p">(</span><span class="n">feasst</span><span class="o">.</span><span class="n">DoubleVector</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;lnPI&quot;</span><span class="p">])))</span>
+<span class="c1"># load the SRSW data from file</span>
+<span class="n">dfsrsw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/plugin/flat_histogram/test/data/stat120.csv&quot;</span><span class="p">)</span>
+<span class="n">ln_prob</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">LnProbability</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">DoubleVector</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;lnPI&quot;</span><span class="p">]))</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">1.2</span>
 
 <span class="c1"># plot macrostate and energy</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
@@ -528,7 +527,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">criteria</span><span class="o">.</span><span class="n">bias</span><span class="p">()</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">minima</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span></span><span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ln_prob</span><span class="o">.</span><span class="n">minima</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -538,9 +537,13 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">lnpirw</span> <span class="o">=</span> <span class="n">criteria</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="n">delta_conjugate</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lnpirw</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-<span class="n">minima</span> <span class="o">=</span> <span class="n">lnpirw</span><span class="o">.</span><span class="n">minima</span><span class="p">()</span>
+<span></span><span class="n">gce</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">GrandCanonicalEnsemble</span><span class="p">(</span>
+    <span class="n">fst</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">fst</span><span class="o">.</span><span class="n">args</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">dfsrsw</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])})),</span>
+    <span class="n">ln_prob</span><span class="p">,</span>
+    <span class="o">-</span><span class="mf">2.902929</span><span class="p">)</span> <span class="c1"># original conjugate, beta_mu = lnz</span>
+<span class="n">gce</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gce</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="n">minima</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">minima</span><span class="p">()</span>
 <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">minima</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">minima</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">152</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">minima</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;low density phase&#39;</span><span class="p">)</span>
@@ -569,20 +572,10 @@ Text(200, -40, &#39;high density phase\n(more probable)&#39;)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">criteria</span><span class="p">,</span> <span class="n">beta_mu_rw</span><span class="p">):</span>
-    <span class="n">delta_conjugate</span> <span class="o">=</span> <span class="n">beta_mu_rw</span> <span class="o">-</span> <span class="n">criteria</span><span class="o">.</span><span class="n">beta_mu</span><span class="p">()</span>
-    <span class="n">ln_prob_rw</span> <span class="o">=</span> <span class="n">criteria</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="n">delta_conjugate</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ln_prob_rw</span><span class="o">.</span><span class="n">saturation_objective</span><span class="p">(</span><span class="n">delta_conjugate</span><span class="p">)</span>
+<span></span><span class="n">gce</span> <span class="o">=</span> <span class="n">pyfeasst</span><span class="o">.</span><span class="n">find_equilibrium</span><span class="p">(</span><span class="n">gce</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">beta_mu_rw</span><span class="p">:</span> <span class="n">objective</span><span class="p">(</span><span class="n">criteria</span><span class="p">,</span> <span class="n">beta_mu_rw</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
-<span class="n">mu_saturation</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">criteria</span><span class="o">.</span><span class="n">beta</span><span class="p">()</span>
-<span class="n">delta_conjugate</span> <span class="o">=</span> <span class="n">criteria</span><span class="o">.</span><span class="n">beta</span><span class="p">()</span><span class="o">*</span><span class="n">mu_saturation</span> <span class="o">-</span> <span class="n">criteria</span><span class="o">.</span><span class="n">beta_mu</span><span class="p">()</span>
-<span class="n">criteria</span><span class="o">.</span><span class="n">set_chemical_potential</span><span class="p">(</span><span class="n">mu_saturation</span><span class="p">)</span>
-<span class="n">criteria</span><span class="o">.</span><span class="n">set_ln_prob</span><span class="p">(</span><span class="n">criteria</span><span class="o">.</span><span class="n">reweight</span><span class="p">(</span><span class="n">delta_conjugate</span><span class="p">))</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">criteria</span><span class="o">.</span><span class="n">bias</span><span class="p">()</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">criteria</span><span class="o">.</span><span class="n">bias</span><span class="p">()</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">minima</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gce</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">gce</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">minima</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;saturated vapor&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">225</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;saturated liquid&#39;</span><span class="p">)</span>
 </pre></div>
@@ -610,25 +603,26 @@ Text(225, -40, &#39;saturated liquid&#39;)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="o">-</span><span class="mf">3.0562684035569383</span> <span class="o">-</span> <span class="n">criteria</span><span class="o">.</span><span class="n">chemical_potential</span><span class="p">())</span> <span class="o">&lt;</span> <span class="mf">1e-9</span><span class="p">)</span>
-<span class="n">mins</span> <span class="o">=</span> <span class="n">criteria</span><span class="o">.</span><span class="n">bias</span><span class="p">()</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">minima</span><span class="p">()</span>
+<span></span><span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="o">-</span><span class="mf">3.03</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">beta_mu</span><span class="p">())</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">mins</span> <span class="o">=</span> <span class="n">gce</span><span class="o">.</span><span class="n">ln_prob</span><span class="p">()</span><span class="o">.</span><span class="n">minima</span><span class="p">()</span>
 <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">mins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">166</span><span class="p">)</span>
 
 <span class="c1"># pressure</span>
 <span class="n">volume</span> <span class="o">=</span> <span class="mi">8</span><span class="o">**</span><span class="mi">3</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.07722559602858005</span> <span class="o">-</span> <span class="n">criteria</span><span class="o">.</span><span class="n">pressure</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">1e-9</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.07722559602858005</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">betaPV</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">beta</span><span class="o">/</span><span class="n">volume</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
 
 <span class="c1"># pressure of both phases are equivalent</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">criteria</span><span class="o">.</span><span class="n">pressure</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">criteria</span><span class="o">.</span><span class="n">pressure</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">1e-7</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">gce</span><span class="o">.</span><span class="n">betaPV</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">betaPV</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">1e-5</span><span class="p">)</span>
 
 <span class="c1"># density of vapor</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.1003523021979188</span> <span class="o">-</span> <span class="n">criteria</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">volume</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.1003523021979188</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">volume</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
 
 <span class="c1"># density of liquid</span>
-<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.5631867734067794</span> <span class="o">-</span> <span class="n">criteria</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">volume</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.5631867734067794</span> <span class="o">-</span> <span class="n">gce</span><span class="o">.</span><span class="n">average_macrostate</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">volume</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
 </div>
 
 

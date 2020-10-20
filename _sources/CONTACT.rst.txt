@@ -6,7 +6,7 @@ Project lead
 
 Harold Wickes Hatch
 
-https://www.nist.gov/people/harold-hatch
+https://www.nist.gov/people/harold-wickes-hatch
 
 harold.hatch@nist.gov
 

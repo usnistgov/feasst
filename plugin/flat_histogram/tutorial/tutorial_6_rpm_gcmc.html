@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Grand canonical ensemble transition-matrix Monte Carlo with RPM &mdash; FEASST v0.13.0 documentation</title>
+  <title>Grand canonical ensemble transition-matrix Monte Carlo with RPM &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="https://pages.nist.gov/leaveNotice/css/jquery.leaveNotice.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="../doc/toc.html" />
+    <link rel="next" title="Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo" href="tutorial_9_ideal_gas.html" />
     <link rel="prev" title="Parallelize a flat histogram simulation" href="tutorial_5_lj_gcmc_parallel.html" />
 
 	<!-- frame blocking -->
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -118,6 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tutorial_4_spce_gcmc.html">Grand canonical ensemble transition-matrix Monte Carlo with SPC/E</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tutorial_5_lj_gcmc_parallel.html">Parallelize a flat histogram simulation</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Grand canonical ensemble transition-matrix Monte Carlo with RPM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_9_ideal_gas.html">Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#tools">Tools</a></li>
@@ -493,11 +494,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
+<span></span><span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">import</span> <span class="nn">feasst</span> <span class="k">as</span> <span class="nn">fst</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">fst</span><span class="o">.</span><span class="n">install_dir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/plugin/flat_histogram/tutorial/&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">fh</span>
 
 <span class="k">class</span> <span class="nc">TestFlatHistogramRPM</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Test flat histogram grand canonical ensemble Monte Carlo simulations&quot;&quot;&quot;</span>
@@ -591,8 +589,8 @@ Compare the free energies and potential energies with the previously ...
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 3min 38s, sys: 304 ms, total: 3min 38s
-Wall time: 3min 37s
+CPU times: user 3min 28s, sys: 351 ms, total: 3min 28s
+Wall time: 3min 27s
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -603,7 +601,7 @@ Wall time: 3min 37s
 ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 217.737s
+Ran 1 test in 207.928s
 
 OK
 </pre></div></div>
@@ -614,7 +612,7 @@ OK
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;unittest.main.TestProgram at 0x7fe2f8691be0&gt;
+&lt;unittest.main.TestProgram at 0x7fd4b08c6be0&gt;
 </pre></div></div>
 </div>
 <p>Did this tutorial work as expected? Did you find any inconsistencies or have any comments? Please <a class="reference internal" href="../../../CONTACT.html"><span class="doc">contact</span></a> us. Any feedback is appreciated!</p>
@@ -628,7 +626,7 @@ OK
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../doc/toc.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tutorial_9_ideal_gas.html" class="btn btn-neutral float-right" title="Ideal gas equation of state using grand canonical ensemble transition-matrix Monte Carlo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="tutorial_5_lj_gcmc_parallel.html" class="btn btn-neutral float-left" title="Parallelize a flat histogram simulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>EnergyMapAll &mdash; FEASST v0.13.0 documentation</title>
+  <title>EnergyMapAll &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -258,10 +258,23 @@
 <dl class="cpp class">
 <dt id="_CPPv4N6feasst12EnergyMapAllE">
 <span class="target" id="classfeasst_1_1EnergyMapAll"></span><em class="property">class </em><code class="sig-name descname">EnergyMapAll</code> : <em class="property">public</em> <a class="reference internal" href="../../configuration/doc/utils.html#_CPPv46feasst" title="feasst">feasst</a>::<a class="reference internal" href="../../system/doc/EnergyMap.html#_CPPv4N6feasst9EnergyMapE" title="feasst::EnergyMap">EnergyMap</a><a class="headerlink" href="#_CPPv4N6feasst12EnergyMapAllE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Map energies with an inefficient but simple data structure. All pairwise interactions between particles and sites are stored. </p>
+<dd><p>Map energies with an inefficient but simple data structure. All pairwise interactions between particles and sites are stored, even when the interaction is zero.</p>
+<p>This implementation stores two versions of the map, the current map and the new map. Updates from perturbations change only the new map. If the perturbation is accepted, the updates are finalized into the current map. Otherwise, the new map is synchronized to the old map. </p>
 <p>Subclassed by <a class="reference internal" href="EnergyMapAllCriteria.html#classfeasst_1_1EnergyMapAllCriteria"><span class="std std-ref">feasst::EnergyMapAllCriteria</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst12EnergyMapAll6revertERK6Select">
+<span class="target" id="classfeasst_1_1EnergyMapAll_1a1185604f3c81b99d466a402f7349a674"></span>void <code class="sig-name descname">revert</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12EnergyMapAll6revertERK6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Revert any changes from perturbation of selection. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst12EnergyMapAll8finalizeERK6Select">
+<span class="target" id="classfeasst_1_1EnergyMapAll_1a697cddad51cf1f8ebb036771453b6c36"></span>void <code class="sig-name descname">finalize</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> &amp;<em>select</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst12EnergyMapAll8finalizeERK6Select" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Finalize any changes from perturbation of selection. </p>
+</dd></dl>
+
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst12EnergyMapAll14select_clusterERK16NeighborCriteriaRK13ConfigurationKiP6SelectRK8Position">
 <span class="target" id="classfeasst_1_1EnergyMapAll_1a2d4867c64016e612d8a241d58ffa08a3"></span>void <code class="sig-name descname">select_cluster</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>cluster_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>particle_node</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>cluster</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>frame_of_reference</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12EnergyMapAll14select_clusterERK16NeighborCriteriaRK13ConfigurationKiP6SelectRK8Position" title="Permalink to this definition">¶</a><br /></dt>
@@ -275,9 +288,17 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst12EnergyMapAll9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6RandomP6SelectKi">
-<span class="target" id="classfeasst_1_1EnergyMapAll_1ab5d958a50753e6b80f1bd37340fe5348"></span>void <code class="sig-name descname">neighbors</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>neighbor_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>target_particle</em>, <em class="property">const</em> int <em>target_site</em>, <em class="property">const</em> int <em>random_site</em>, <a class="reference internal" href="../../math/doc/Random.html#_CPPv4N6feasst6RandomE" title="feasst::Random">Random</a> *<em>random</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>neighbors</em>, <em class="property">const</em> int <em>new_map</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12EnergyMapAll9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6RandomP6SelectKi" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the neighbors. </p>
+<dt id="_CPPv4NK6feasst12EnergyMapAll9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6SelectKi">
+<span class="target" id="classfeasst_1_1EnergyMapAll_1a9065a0f2dd366d44e9f96b4a11093a5b"></span>void <code class="sig-name descname">neighbors</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<em>neighbor_criteria</em>, <em class="property">const</em> <a class="reference internal" href="../../configuration/doc/Configuration.html#_CPPv4N6feasst13ConfigurationE" title="feasst::Configuration">Configuration</a> &amp;<em>config</em>, <em class="property">const</em> int <em>target_particle</em>, <em class="property">const</em> int <em>target_site</em>, <em class="property">const</em> int <em>given_site_index</em>, <a class="reference internal" href="../../configuration/doc/Select.html#_CPPv4N6feasst6SelectE" title="feasst::Select">Select</a> *<em>neighbors</em>, <em class="property">const</em> int <em>new_map</em> = 0<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst12EnergyMapAll9neighborsERK16NeighborCriteriaRK13ConfigurationKiKiKiP6SelectKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">neighbors</span></code>: Return of the neighbors </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">new_map</span></code>: If 1, use newly computed map. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Return the neighbors of target particle and site that are of given site index. </p>
 </dd></dl>
 
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ChargeScreened &mdash; FEASST v0.13.0 documentation</title>
+  <title>ChargeScreened &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -127,6 +127,7 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#">ChargeScreened</a></li>
 <li class="toctree-l4"><a class="reference internal" href="utils.html">ewald/include/utils</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTransferMultiple.html">TrialTransferMultiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Coulomb.html">Coulomb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeRemoveMultiple.html">ComputeRemoveMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ComputeAddMultiple.html">ComputeAddMultiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ChargeScreenedIntra.html">ChargeScreenedIntra</a></li>
@@ -273,13 +274,29 @@
 <li><p>charge: elementary</p></li>
 </ol>
 </p>
-<p>Avoid Coulomb explosion by returning a large number when <span class="math notranslate nohighlight">\(r\)</span> is near zero. </p>
+<p>Avoid <a class="reference internal" href="Coulomb.html#classfeasst_1_1Coulomb"><span class="std std-ref">Coulomb</span></a> explosion by returning a large number when <span class="math notranslate nohighlight">\(r\)</span> is near zero. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst14ChargeScreened14ChargeScreenedERK7argtype">
+<span class="target" id="classfeasst_1_1ChargeScreened_1ada3568092cdde81a9a3a2a6abb002891"></span><code class="sig-name descname">ChargeScreened</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14ChargeScreened14ChargeScreenedERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>args:<ul class="simple">
+<li><p>disable_table: if true, do not use a tabular erfc (default: false).</p></li>
+<li><p>hard_sphere_threshold: return NEAR_INFINITY when distance is less than this threshold (default: 0.1). </p></li>
+</ul>
+</p>
+</dd></dl>
+
 <dl class="cpp function">
 <dt id="_CPPv4N6feasst14ChargeScreened10precomputeERK11ModelParams">
 <span class="target" id="classfeasst_1_1ChargeScreened_1a94b8e4a384c1f26656f3d8227acf6a8b"></span>void <code class="sig-name descname">precompute</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../../configuration/doc/ModelParam.html#_CPPv4N6feasst11ModelParamsE" title="feasst::ModelParams">ModelParams</a> &amp;<em>existing</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14ChargeScreened10precomputeERK11ModelParams" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Precompute model parameters based on existing model parameters. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst14ChargeScreened4erfcEKd">
+<span class="target" id="classfeasst_1_1ChargeScreened_1a0be85d72fbd3bc0196f78de977e809ad"></span><em class="property">const</em> <a class="reference internal" href="../../math/doc/Table.html#_CPPv4N6feasst7Table1DE" title="feasst::Table1D">Table1D</a> *<code class="sig-name descname">erfc</code><span class="sig-paren">(</span><em class="property">const</em> double <em>distance_squared</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst14ChargeScreened4erfcEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the erfc table. </p>
 </dd></dl>
 
 <dl class="cpp function">

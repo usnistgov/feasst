@@ -99,8 +99,8 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "CPU times: user 12.8 s, sys: 24.2 ms, total: 12.8 s\n",
-      "Wall time: 12.8 s\n"
+      "CPU times: user 11.9 s, sys: 36.8 ms, total: 12 s\n",
+      "Wall time: 12 s\n"
      ]
     },
     {
@@ -110,7 +110,7 @@
       "ok\n",
       "\n",
       "----------------------------------------------------------------------\n",
-      "Ran 1 test in 12.775s\n",
+      "Ran 1 test in 11.949s\n",
       "\n",
       "OK\n"
      ]
@@ -118,7 +118,7 @@
     {
      "data": {
       "text/plain": [
-       "<unittest.main.TestProgram at 0x7f2864e71240>"
+       "<unittest.main.TestProgram at 0x7f44045819b0>"
       ]
      },
      "execution_count": 2,

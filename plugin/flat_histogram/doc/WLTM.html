@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>WLTM &mdash; FEASST v0.13.0 documentation</title>
+  <title>WLTM &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -126,6 +126,7 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#">WLTM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Clones.html">Clones</a></li>
 </ul>
@@ -276,7 +277,7 @@
 <span class="target" id="classfeasst_1_1WLTM_1aae1c3de4dd9a373ab30d34237b77a299"></span><code class="sig-name descname">WLTM</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst4WLTM4WLTMERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>args:<ul class="simple">
 <li><p>collect_flatness: Begin populating the collection matrix when Wang-Landau has completed this many flatness checks. Note that populating the collection matrix does not necessarily mean that the collection matrix is used to compute the bias.</p></li>
-<li><p>min_flatness: After this many flatness checks have been completed with Wang-Landau, use the bias from the collection matrix instead.</p></li>
+<li><p>min_flatness: After this many flatness checks have been completed with Wang-Landau, use the bias from the collection matrix instead. Also, increment the phase when this occurs.</p></li>
 <li><p>min_sweeps: Number of sweeps required for completion. </p></li>
 </ul>
 </p>

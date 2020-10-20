@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Matrix &mdash; FEASST v0.13.0 documentation</title>
+  <title>Matrix &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -410,6 +410,19 @@
 </dl>
 </p>
 <p>Compute the rotation matrix given an angle of rotation about a given axis. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst14RotationMatrix14axis_angle_optERK8PositionKd">
+<span class="target" id="classfeasst_1_1RotationMatrix_1abfd9868f432121046ede3367242cd1d0"></span>void <code class="sig-name descname">axis_angle_opt</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> &amp;<em>unit_axis</em>, <em class="property">const</em> double <em>degree_angle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst14RotationMatrix14axis_angle_optERK8PositionKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">degree_angle</span></code>: The angle is in units of degrees. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+<p>Same as above, but optimized (1) axis is assumed to be unit length and (2) rotation matrix is the correct size and (3) determinant is not checked. </p>
 </dd></dl>
 
 <dl class="cpp function">

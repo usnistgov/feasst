@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ParticleFactory &mdash; FEASST v0.13.0 documentation</title>
+  <title>ParticleFactory &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -350,7 +350,7 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst15ParticleFactory9particlesEv">
-<span class="target" id="classfeasst_1_1ParticleFactory_1aa20144f7a99e29c60518a52be0e9c1d6"></span>std::vector&lt;<a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a>&gt; <code class="sig-name descname">particles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory9particlesEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1ParticleFactory_1aae50fff9a3262902cb108c73d20f8aa5"></span><em class="property">const</em> std::vector&lt;<a class="reference internal" href="Particle.html#_CPPv4N6feasst8ParticleE" title="feasst::Particle">Particle</a>&gt; &amp;<code class="sig-name descname">particles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst15ParticleFactory9particlesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return particles. </p>
 </dd></dl>
 
@@ -382,6 +382,19 @@
 <dt id="_CPPv4N6feasst15ParticleFactory18replace_propertiesEKiKiRK10PropertiesRKNSt6vectorINSt6stringEEE">
 <span class="target" id="classfeasst_1_1ParticleFactory_1a7d402646e03333adbe40228b28c8118c"></span>void <code class="sig-name descname">replace_properties</code><span class="sig-paren">(</span><em class="property">const</em> int <em>particle_index</em>, <em class="property">const</em> int <em>site_index</em>, <em class="property">const</em> <a class="reference internal" href="Properties.html#_CPPv4N6feasst10PropertiesE" title="feasst::Properties">Properties</a> &amp;<em>replacement</em>, <em class="property">const</em> std::vector&lt;std::string&gt; &amp;<em>exclude</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory18replace_propertiesEKiKiRK10PropertiesRKNSt6vectorINSt6stringEEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Replace properties of the site by index. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst15ParticleFactory24scale_particle_positionsEKiKd">
+<span class="target" id="classfeasst_1_1ParticleFactory_1a969bd5dc921eb5538d708f64a3a4139e"></span>void <code class="sig-name descname">scale_particle_positions</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimen</em>, <em class="property">const</em> double <em>factor</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst15ParticleFactory24scale_particle_positionsEKiKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Scale particle positions by a constant factor in the given dimension. </p>
+<p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dimen</span></code>: Scale in this dimension. If -1, scale in all dimensions. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="cpp function">

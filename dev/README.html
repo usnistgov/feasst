@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Developer guidelines &mdash; FEASST v0.13.0 documentation</title>
+  <title>Developer guidelines &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -549,6 +549,7 @@ compatibility.</p></li>
 <li><p>line counts [find . -name ‘<em>.cpp’ -o -name ‘</em>.h’ | xargs wc -l | sort -n]</p></li>
 <li><p>tutorial errors [ find . -name ‘tutorial_failures.txt’ | xargs cat ]</p></li>
 <li><p>clean docs before running depend.py again [ for dir in <cite>ls –color=never -d *</cite>; do rm $dir/doc/<a href="#id1"><span class="problematic" id="id2">*</span></a>rst; done ]</p></li>
+<li><p>find difference in serialization string: [ diff -u f1 f2 <a href="#id3"><span class="problematic" id="id4">|</span></a>colordiff  | perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | more ]</p></li>
 </ul>
 </div>
 <div class="section" id="to-do-list">
@@ -594,7 +595,7 @@ compatibility.</p></li>
 <li><p>add orientation argument to shapes with internal coordinate transformation</p></li>
 <li><p>System should track current energy of every potential for analysis (Criteria running energies may contain a part from each potential to simplify debugging).</p></li>
 <li><p>Consider using new state instead of old state in acceptance derivations</p></li>
-<li><p>insert args in python</p></li>
+<li><p>Sort selection_of_all, or impose sorting in Select::add_particles. Currently, this leads to issues.</p></li>
 </ul>
 </div>
 </div>

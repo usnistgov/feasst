@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Random &mdash; FEASST v0.13.0 documentation</title>
+  <title>Random &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -401,6 +401,20 @@
 <dt id="_CPPv4N6feasst6Random8rotationEKiKd">
 <span class="target" id="classfeasst_1_1Random_1a5cb344ea51db148bad4f4f9cfa021b00"></span><a class="reference internal" href="Matrix.html#_CPPv4N6feasst14RotationMatrixE" title="feasst::RotationMatrix">RotationMatrix</a> <code class="sig-name descname">rotation</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <em class="property">const</em> double <em>max_angle</em> = 180<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random8rotationEKiKd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return a random rotation matrix. </p>
+<p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dimension</span></code>: dimensionality of space </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_angle</span></code>: maximum angle of rotation in degrees. </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6feasst6Random8rotationEKiP8PositionP14RotationMatrixKd">
+<span class="target" id="classfeasst_1_1Random_1a518dd567abc3e8f52fcdde4042321883"></span>void <code class="sig-name descname">rotation</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dimension</em>, <a class="reference internal" href="Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>axis</em>, <a class="reference internal" href="Matrix.html#_CPPv4N6feasst14RotationMatrixE" title="feasst::RotationMatrix">RotationMatrix</a> *<em>rot_mat</em>, <em class="property">const</em> double <em>max_angle</em> = 180<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst6Random8rotationEKiP8PositionP14RotationMatrixKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but optimized to reuse existing axis and matrix. </p>
 <p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">dimension</span></code>: dimensionality of space </p></li>

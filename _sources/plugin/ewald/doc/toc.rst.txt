@@ -7,6 +7,7 @@
    ChargeScreened
    utils
    TrialTransferMultiple
+   Coulomb
    ComputeRemoveMultiple
    ComputeAddMultiple
    ChargeScreenedIntra

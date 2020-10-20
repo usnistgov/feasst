@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Stepper &mdash; FEASST v0.13.0 documentation</title>
+  <title>Stepper &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -126,24 +126,27 @@
 <li class="toctree-l4"><a class="reference internal" href="PerturbMove.html">PerturbMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbTranslate.html">PerturbTranslate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistance.html">PerturbDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PerturbVolume.html">PerturbVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialStage.html">TrialStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialCompute.html">TrialCompute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialComputeMove.html">TrialComputeMove</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Trial.html">Trial</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialMove.html">TrialMove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTranslate.html">TrialTranslate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialVolume.html">TrialVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialRemove.html">TrialRemove</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialFactory.html">TrialFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
-<li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialTransfer.html">TrialTransfer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeekNumParticles.html">SeekNumParticles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Modify.html">Modify</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ModifyFactory.html">ModifyFactory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Analyze.html">Analyze</a></li>
+<li class="toctree-l4"><a class="reference internal" href="AnalyzeFactory.html">AnalyzeFactory</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MonteCarlo.html">MonteCarlo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialAdd.html">TrialAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeAdd.html">TrialComputeAdd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeRemove.html">TrialComputeRemove</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TrialComputeVolume.html">TrialComputeVolume</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbDistanceAngle.html">PerturbDistanceAngle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="PerturbRotate.html">PerturbRotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TrialRotate.html">TrialRotate</a></li>
@@ -307,9 +310,14 @@
 <li><p>file_name: Set the file name to write output (default: empty). If empty, write to screen.</p></li>
 <li><p>append: append file output if set to true. Do not append if false (default: “false”).</p></li>
 <li><p>clear_file: set true to clear contents of file_name, if exists. (default: false).</p></li>
+<li><p>stop_after_phase: stop when simulation reaches this phase index. If -1, never stop (default: -1).</p></li>
+<li><p>start_after_phase: start when simulation reaches this phase index. If -1, start at beginning (default: -1).</p></li>
+<li><p>file_name_append_phase: append phase to file name (default: false)</p></li>
 <li><p>multistate: set “true” to copy for each state (default: false)</p></li>
 <li><p>multistate_aggregate: aggregate the writing of all states, only when multistate is enabled (default: true). Thus, steps_per_write refers now to the writing of all states. Individual states no longer write.</p></li>
-<li><p>num_block: number of updated per block in accumulator. If not provided, use default value in <a class="reference internal" href="../../math/doc/Accumulator.html#classfeasst_1_1Accumulator"><span class="std std-ref">Accumulator</span></a>. </p></li>
+<li><p>num_block: number of updated per block in accumulator. If not provided, use default value in <a class="reference internal" href="../../math/doc/Accumulator.html#classfeasst_1_1Accumulator"><span class="std std-ref">Accumulator</span></a>.</p></li>
+<li><p>num_moments: number of moments in accumulator. If not provided, use default value in <a class="reference internal" href="../../math/doc/Accumulator.html#classfeasst_1_1Accumulator"><span class="std std-ref">Accumulator</span></a>.</p></li>
+<li><p>configuration: index of configuration (default: 0) </p></li>
 </ul>
 </p>
 </dd></dl>
@@ -328,8 +336,20 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4NK6feasst7Stepper9file_nameEv">
-<span class="target" id="classfeasst_1_1Stepper_1afc8ba8e5d6bd164c0578b1db02e606d0"></span>std::string <code class="sig-name descname">file_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper9file_nameEv" title="Permalink to this definition">¶</a><br /></dt>
+<span class="target" id="classfeasst_1_1Stepper_1a8a8349074e4eccd2ce27dcb61273e736"></span><em class="property">const</em> std::string <code class="sig-name descname">file_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper9file_nameEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the file name. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Stepper9file_nameERK8Criteria">
+<span class="target" id="classfeasst_1_1Stepper_1a45e4ef427945cd202ea9695ff48871fe"></span>std::string <code class="sig-name descname">file_name</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Criteria.html#_CPPv4N6feasst8CriteriaE" title="feasst::Criteria">Criteria</a> &amp;<em>criteria</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper9file_nameERK8Criteria" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the file name with optionally appended phase. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Stepper22file_name_append_phaseEv">
+<span class="target" id="classfeasst_1_1Stepper_1a68a0ff6cdb4268241846e0184def28e5"></span>bool <code class="sig-name descname">file_name_append_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper22file_name_append_phaseEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if phase is to be appended to file name. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -342,6 +362,24 @@
 <dt id="_CPPv4NK6feasst7Stepper6appendEv">
 <span class="target" id="classfeasst_1_1Stepper_1a7406bbba50252547b966b4e089608336"></span>bool <code class="sig-name descname">append</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper6appendEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return true if appending. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Stepper16stop_after_phaseEv">
+<span class="target" id="classfeasst_1_1Stepper_1af74c5bba4e6a6a3c79813b4a79cfc3cb"></span>int <code class="sig-name descname">stop_after_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper16stop_after_phaseEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop after simulation reaches this phase index. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Stepper17start_after_phaseEv">
+<span class="target" id="classfeasst_1_1Stepper_1a7714a1fbd5fb7ca16e79c8fd34342380"></span>int <code class="sig-name descname">start_after_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper17start_after_phaseEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop after simulation reaches this phase index. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst7Stepper13configurationEv">
+<span class="target" id="classfeasst_1_1Stepper_1a530e08f1a24cffbb1cf50da1fb2d337f"></span>int <code class="sig-name descname">configuration</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst7Stepper13configurationEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the configuration index. </p>
 </dd></dl>
 
 <dl class="cpp function">

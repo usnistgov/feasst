@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>EnergyMapAllCriteria &mdash; FEASST v0.13.0 documentation</title>
+  <title>EnergyMapAllCriteria &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="SelectCluster" href="SelectCluster.html" />
-    <link rel="prev" title="EnergyMapNeighbor" href="EnergyMapNeighbor.html" />
+    <link rel="prev" title="EnergyMapNeighborCriteria" href="EnergyMapNeighborCriteria.html" />
 
 	<!-- frame blocking -->
 	<script type="text/javascript">
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -262,6 +262,18 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
+<dt id="_CPPv4N6feasst20EnergyMapAllCriteria6updateEKdKiKiKiKiKiKiKdPK8Position">
+<span class="target" id="classfeasst_1_1EnergyMapAllCriteria_1a908e92d3fa509534de4f66217d3332f6"></span>double <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="property">const</em> double <em>energy</em>, <em class="property">const</em> int <em>part1_index</em>, <em class="property">const</em> int <em>site1_index</em>, <em class="property">const</em> int <em>site1_type</em>, <em class="property">const</em> int <em>part2_index</em>, <em class="property">const</em> int <em>site2_index</em>, <em class="property">const</em> int <em>site2_type</em>, <em class="property">const</em> double <em>squared_distance</em>, <em class="property">const</em> <a class="reference internal" href="../../math/doc/Position.html#_CPPv4N6feasst8PositionE" title="feasst::Position">Position</a> *<em>pbc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6feasst20EnergyMapAllCriteria6updateEKdKiKiKiKiKiKiKdPK8Position" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update the interaction. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst20EnergyMapAllCriteria12is_queryableEv">
+<span class="target" id="classfeasst_1_1EnergyMapAllCriteria_1ae92a40ae0472369f1e9647c50f60bf8e"></span>bool <code class="sig-name descname">is_queryable</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst20EnergyMapAllCriteria12is_queryableEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return true if the total interaction energy is stored (e.g., no criteria for inclusion. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6feasst20EnergyMapAllCriteria17neighbor_criteriaEv">
 <span class="target" id="classfeasst_1_1EnergyMapAllCriteria_1abc89bec1e6ee718f1ef838c21d868498"></span><em class="property">const</em> <a class="reference internal" href="../../system/doc/NeighborCriteria.html#_CPPv4N6feasst16NeighborCriteriaE" title="feasst::NeighborCriteria">NeighborCriteria</a> &amp;<code class="sig-name descname">neighbor_criteria</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst20EnergyMapAllCriteria17neighbor_criteriaEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Return the <a class="reference internal" href="../../system/doc/NeighborCriteria.html#classfeasst_1_1NeighborCriteria"><span class="std std-ref">NeighborCriteria</span></a>. </p>
@@ -283,7 +295,7 @@
         <a href="SelectCluster.html" class="btn btn-neutral float-right" title="SelectCluster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="EnergyMapNeighbor.html" class="btn btn-neutral float-left" title="EnergyMapNeighbor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="EnergyMapNeighborCriteria.html" class="btn btn-neutral float-left" title="EnergyMapNeighborCriteria" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

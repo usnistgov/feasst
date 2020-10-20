@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Clones &mdash; FEASST v0.13.0 documentation</title>
+  <title>Clones &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -126,6 +126,7 @@
 <li class="toctree-l4"><a class="reference internal" href="WLTM.html">WLTM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Macrostate.html">Macrostate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MacrostateNumParticles.html">MacrostateNumParticles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Ensemble.html">Ensemble</a></li>
 <li class="toctree-l4"><a class="reference internal" href="FlatHistogram.html">FlatHistogram</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Clones</a></li>
 </ul>
@@ -354,9 +355,31 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6feasst6Clones7ln_probERK7argtype">
-<span class="target" id="classfeasst_1_1Clones_1adb00298ad6125a0097e58e3cfb6929c8"></span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> <code class="sig-name descname">ln_prob</code><span class="sig-paren">(</span><em class="property">const</em> argtype &amp;<em>args</em> = argtype()<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Clones7ln_probERK7argtype" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return the <a class="reference internal" href="LnProbability.html#classfeasst_1_1LnProbability"><span class="std std-ref">LnProbability</span></a> of all clones. </p>
+<dt id="_CPPv4NK6feasst6Clones7ln_probEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData">
+<span class="target" id="classfeasst_1_1Clones_1add5edbfb66871c2bba23efc826e904e1"></span><a class="reference internal" href="LnProbability.html#_CPPv4N6feasst13LnProbabilityE" title="feasst::LnProbability">LnProbability</a> <code class="sig-name descname">ln_prob</code><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram">Histogram</a> *<em>macrostates</em> = NULL, std::vector&lt;double&gt; *<em>multistate_data</em> = NULL, <em class="property">const</em> std::string <em>analyze_name</em> = &quot;&quot;, <em class="property">const</em> <a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE" title="feasst::AnalyzeData">AnalyzeData</a> &amp;<em>get</em> = <a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst18AccumulatorAverageE" title="feasst::AccumulatorAverage">AccumulatorAverage</a>()<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Clones7ln_probEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stitch together and return the <a class="reference internal" href="LnProbability.html#classfeasst_1_1LnProbability"><span class="std std-ref">LnProbability</span></a> of all clones. </p>
+<p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">macrostates</span></code>: Optionally return spliced macrostates, if not NULL. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">multistate_data</span></code>: Optionally return spliced multistate data, it not NULL. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">analyze_name</span></code>: Name of <a class="reference internal" href="../../monte_carlo/doc/Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> to extract data. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get</span></code>: Source of data in <a class="reference internal" href="../../monte_carlo/doc/Analyze.html#classfeasst_1_1Analyze"><span class="std std-ref">Analyze</span></a> </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst6Clones6stitchEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData">
+<span class="target" id="classfeasst_1_1Clones_1a709edb67bfb864529afdeac5460430b2"></span>void <code class="sig-name descname">stitch</code><span class="sig-paren">(</span><a class="reference internal" href="../../math/doc/Histogram.html#_CPPv4N6feasst9HistogramE" title="feasst::Histogram">Histogram</a> *<em>macrostates</em> = NULL, std::vector&lt;double&gt; *<em>multistate_data</em> = NULL, <em class="property">const</em> std::string <em>analyze_name</em> = &quot;&quot;, <em class="property">const</em> <a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE" title="feasst::AnalyzeData">AnalyzeData</a> &amp;<em>get</em> = <a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst18AccumulatorAverageE" title="feasst::AccumulatorAverage">AccumulatorAverage</a>()<span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Clones6stitchEP9HistogramPNSt6vectorIdEEKNSt6stringERK11AnalyzeData" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but without ln_prob. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6feasst6Clones6stitchEPNSt6vectorIdEEKNSt6stringERK11AnalyzeData">
+<span class="target" id="classfeasst_1_1Clones_1a5bd1d08f2273673b572eda830c353336"></span>void <code class="sig-name descname">stitch</code><span class="sig-paren">(</span>std::vector&lt;double&gt; *<em>multistate_data</em>, <em class="property">const</em> std::string <em>analyze_name</em>, <em class="property">const</em> <a class="reference internal" href="../../steppers/doc/AnalyzeData.html#_CPPv4N6feasst11AnalyzeDataE" title="feasst::AnalyzeData">AnalyzeData</a> &amp;<em>get</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6feasst6Clones6stitchEPNSt6vectorIdEEKNSt6stringERK11AnalyzeData" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but without ln_prob or spliced macrostates. </p>
 </dd></dl>
 
 <dl class="cpp function">

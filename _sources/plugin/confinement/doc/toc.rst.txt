@@ -2,6 +2,7 @@
 .. toctree::
 
    ModelLJShape
+   ModelSquareWellShape
    AlwaysAccept
    HenryCoefficient
    ModelHardShape

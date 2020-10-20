@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>utils/include/utils &mdash; FEASST v0.13.0 documentation</title>
+  <title>utils/include/utils &mdash; FEASST v0.14.0 documentation</title>
   
 
   
@@ -81,7 +81,7 @@
             
             
               <div class="version">
-                v0.13.0
+                v0.14.0
               </div>
             
           
@@ -110,9 +110,9 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">utils/include/utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="CustomException.html">CustomException</a></li>
 <li class="toctree-l3"><a class="reference internal" href="debug.html">utils/include/debug</a></li>
-<li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Arguments.html">Arguments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="serialize.html">utils/include/serialize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ProgressReport.html">ProgressReport</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Cache.html">Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../README.html#feasst-plugin-dependencies">FEASST plugin dependencies</a></li>
@@ -280,7 +280,20 @@
 <dl class="cpp function">
 <dt id="_CPPv4I0EN6feasst6feasst12find_in_listEbK1TRKNSt6vectorI1TEE">
 <span class="target" id="namespacefeasst_1a03a712bb1c91bcbacd763c9e3edb8bb9"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />bool <code class="sig-name descname">find_in_list</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I0EN6feasst6feasst12find_in_listEbK1TRKNSt6vectorI1TEE" title="feasst::feasst::find_in_list::T">T</a> <em>value</em>, <em class="property">const</em> std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst12find_in_listEbK1TRKNSt6vectorI1TEE" title="feasst::feasst::find_in_list::T">T</a>&gt; &amp;<em>list</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst12find_in_listEbK1TRKNSt6vectorI1TEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Return true if value is found in list. </p>
+<dd><p>Same as above, but do not return the index. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I00EN6feasst6feasst12find_in_listEbK2T1RKNSt6vectorINSt4pairI2T12T2EEEEPi">
+<span class="target" id="namespacefeasst_1aecba0facf02ccf75218b8781db2bac78"></span>template&lt;class <code class="sig-name descname">T1</code>, class <code class="sig-name descname">T2</code>&gt;<br />bool <code class="sig-name descname">find_in_list</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I00EN6feasst6feasst12find_in_listEbK2T1RKNSt6vectorINSt4pairI2T12T2EEEEPi" title="feasst::feasst::find_in_list::T1">T1</a> <em>value</em>, <em class="property">const</em> std::vector&lt;std::pair&lt;<a class="reference internal" href="#_CPPv4I00EN6feasst6feasst12find_in_listEbK2T1RKNSt6vectorINSt4pairI2T12T2EEEEPi" title="feasst::feasst::find_in_list::T1">T1</a>, <a class="reference internal" href="#_CPPv4I00EN6feasst6feasst12find_in_listEbK2T1RKNSt6vectorINSt4pairI2T12T2EEEEPi" title="feasst::feasst::find_in_list::T2">T2</a>&gt;&gt; &amp;<em>list</em>, int *<em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I00EN6feasst6feasst12find_in_listEbK2T1RKNSt6vectorINSt4pairI2T12T2EEEEPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Same as above, but use the first element of pair in list. </p>
+<p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">index</span></code>: last index in list where value was found </p></li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -292,7 +305,19 @@
 <dl class="cpp function">
 <dt id="_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE">
 <span class="target" id="namespacefeasst_1a601e358f3f06f6d3e519162e13b4deaf"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">resize</code><span class="sig-paren">(</span><em class="property">const</em> int <em>xs</em>, <em class="property">const</em> int <em>ys</em>, <em class="property">const</em> int <em>zs</em>, std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="feasst::feasst::resize::T">T</a>&gt;&gt;&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiPNSt6vectorINSt6vectorINSt6vectorI1TEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Resize three dimensional vector to size xs, ys. Note to HWH: rewrite using variadic templates for arbitrary dimensions </p>
+<dd><p>Resize three dimensional vector. Note to HWH: rewrite using variadic templates for arbitrary dimensions </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiKiPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE">
+<span class="target" id="namespacefeasst_1a5a648773d1342538953e30609d77395b"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">resize</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim0</em>, <em class="property">const</em> int <em>dim1</em>, <em class="property">const</em> int <em>dim2</em>, <em class="property">const</em> int <em>dim3</em>, std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiKiPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="feasst::feasst::resize::T">T</a>&gt;&gt;&gt;&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiKiPNSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Resize four dimensional vector. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiKiKiPNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEE">
+<span class="target" id="namespacefeasst_1af0f80c7a0f0afa8861cc3f4b955ab806"></span>template&lt;class <code class="sig-name descname">T</code>&gt;<br />void <code class="sig-name descname">resize</code><span class="sig-paren">(</span><em class="property">const</em> int <em>dim0</em>, <em class="property">const</em> int <em>dim1</em>, <em class="property">const</em> int <em>dim2</em>, <em class="property">const</em> int <em>dim3</em>, <em class="property">const</em> int <em>dim4</em>, std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;std::vector&lt;<a class="reference internal" href="#_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiKiKiPNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEE" title="feasst::feasst::resize::T">T</a>&gt;&gt;&gt;&gt;&gt; *<em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6feasst6feasst6resizeEvKiKiKiKiKiPNSt6vectorINSt6vectorINSt6vectorINSt6vectorINSt6vectorI1TEEEEEEEEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Resize five dimensional vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
