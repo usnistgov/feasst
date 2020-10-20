@@ -51,7 +51,7 @@ Minimize::Minimize(std::istream& istr) {
 double Minimize::minimum(Formula * formula) {
   double a, b;
   bracket(&a, &b, formula);
-  INFO("a: " << a << " b: " << b);
+  DEBUG("a: " << a << " b: " << b);
   return 0.5*(a + b);
 }
 

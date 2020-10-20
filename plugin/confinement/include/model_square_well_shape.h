@@ -37,10 +37,6 @@ class ModelSquareWellShape : public ModelOneBody,
     return std::make_shared<ModelSquareWellShape>(istr); }
   explicit ModelSquareWellShape(std::istream& istr);
   virtual ~ModelSquareWellShape() {}
-
- private:
-  double alpha_;
-  Arguments args_;
 };
 
 inline std::shared_ptr<ModelSquareWellShape> MakeModelSquareWellShape(

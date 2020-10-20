@@ -84,7 +84,7 @@ class ParticleFactory {
   const Particle& particle(const int particle_index) const;
 
   /// Return particles.
-  std::vector<Particle> particles() const { return particles_; }
+  const std::vector<Particle>& particles() const { return particles_; }
 
   /// Return the number of particles.
   int num() const { return static_cast<int>(particles_.size()); }

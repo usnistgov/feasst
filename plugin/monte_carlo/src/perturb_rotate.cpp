@@ -77,8 +77,9 @@ void PerturbRotate::move(System * system,
   const double max_angle = tunable().value();
   ASSERT(std::abs(max_angle) > NEAR_ZERO, "max angle is too small");
   const Position& piv_sel = piv_sel_(pivot, select);
+  random->rotation(piv_sel.dimension(), &axis_tmp_, &rot_mat_tmp_, max_angle),
   move(piv_sel,
-    random->rotation(piv_sel.dimension(), max_angle),
+    rot_mat_tmp_,
     system,
     select,
     rotate_particle_position

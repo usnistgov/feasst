@@ -690,7 +690,17 @@ void Configuration::recenter_particle_positions(const int group_index) {
 
 std::vector<int> Configuration::num_sites_of_type(
     const Select& selection) const {
-  std::vector<int> count(num_site_types());
+  std::vector<int> num;
+  num_sites_of_type(selection, &num);
+  return num;
+}
+
+void Configuration::num_sites_of_type(const Select& selection,
+    std::vector<int> * num) const {
+  if (static_cast<int>(num->size()) != num_site_types()) {
+    num->resize(num_site_types());
+  }
+  std::fill(num->begin(), num->end(), 0);
   for (int select_index = 0;
        select_index < selection.num_particles();
        ++select_index) {
@@ -699,11 +709,10 @@ std::vector<int> Configuration::num_sites_of_type(
     for (int site_index : selection.site_indices(select_index)) {
       const Site& site = part.site(site_index);
       if (site.is_physical()) {
-        ++count[site.type()];
+        (*num)[site.type()] += 1;
       }
     }
   }
-  return count;
 }
 
 void Configuration::set_side_lengths(const Position& sides) {

@@ -12,6 +12,7 @@ namespace feasst {
 
 class Random;
 
+// HWH rename, many particle_index are actually select_index
 // HWH consider refactoring selection
 // HWH could use std:pair to couple particle_index with site_indices
 // HWH or use a std::set or std::multiset to enforce order?

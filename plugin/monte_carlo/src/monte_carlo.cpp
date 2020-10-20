@@ -186,10 +186,6 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
 }
 
 MonteCarlo::MonteCarlo(std::istream& istr) {
-  //INFO(istr.rdbuf());
-  //int tmp;
-  //istr >> tmp;
-  //INFO("tmp " << tmp);
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 529, "version: " << version);
   feasst_deserialize_fstobj(&system_, istr);

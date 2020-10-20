@@ -45,7 +45,7 @@ double ModelTwoBodyFactory::energy(
 //                                   type1, type2, model_params);
 //      ++index;
 //    }
-  // INFO("en " << en);
+  // DEBUG("en " << en);
   return en;
 }
 

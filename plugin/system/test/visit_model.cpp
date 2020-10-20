@@ -79,6 +79,12 @@ TEST(VisitModel, reference_config) {
 
   // Energy map is not used by default
   EXPECT_FALSE(visit.inner().is_energy_map());
+
+  // Find energy of one particle
+  Select one;
+  one.add_particle(config.particle(0), 0);
+  visit.compute(model, one, &config);
+  EXPECT_NEAR(-3.2639025245521616, visit.energy(), NEAR_ZERO);
 }
 
 }  // namespace feasst

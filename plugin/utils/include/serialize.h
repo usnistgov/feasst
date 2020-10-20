@@ -52,7 +52,7 @@ void feasst_deserialize(argtype * args, std::istream& istr);
 
 /// Serialize generic to full precision.
 template <typename T>
-void feasst_serialize(const T val, std::ostream& ostr) {
+void feasst_serialize(const T& val, std::ostream& ostr) {
   ostr << MAX_PRECISION << val << " ";
 }
 
@@ -68,13 +68,36 @@ void feasst_serialize_version(const int version, std::ostream& ostr);
 /// Deserialize object version
 int feasst_deserialize_version(std::istream& istr);
 
+/// Serialize pair of int and vector.
+template <typename T>
+void feasst_serialize(const std::pair<int, std::vector<T> >& container,
+  std::ostream& ostr) {
+  feasst_serialize(container.first, ostr);
+  ostr << container.second.size() << " ";
+  for (const T& element : container.second) {
+    feasst_serialize(element, ostr);
+  }
+}
+
+/// deserialize pair of int and vector.
+template <typename T>
+void feasst_deserialize(std::pair<int, std::vector<T> > * container,
+  std::istream& istr) {
+  feasst_deserialize(&container->first, istr);
+  int num;
+  istr >> num;
+  container->second.resize(num);
+  for (int index = 0; index < num; ++index) {
+    feasst_deserialize(&(container->second)[index], istr);
+  }
+}
+
 /// Serialize the 1D vector.
 template <typename T>
 void feasst_serialize(const std::vector<T>& vector, std::ostream& ostr) {
-  ostr << MAX_PRECISION;
   ostr << vector.size() << " ";
   for (const T& element : vector) {
-    ostr << element << " ";
+    feasst_serialize(element, ostr);
   }
 }
 
@@ -85,7 +108,7 @@ void feasst_deserialize(std::vector<T> * vector, std::istream& istr) {
   istr >> num;
   vector->resize(num);
   for (int index = 0; index < num; ++index) {
-    istr >> (*vector)[index];
+    feasst_deserialize(&(*vector)[index], istr);
   }
 }
 
@@ -149,158 +172,6 @@ inline void feasst_deserialize(std::vector<std::vector<bool> > * vector,
       istr >> tmp;
       (*vector)[index1][index2] = tmp;
     }
-  }
-}
-
-/// Serialize the 2D vector.
-template <typename T>
-void feasst_serialize(const std::vector<std::vector<T> >& vector,
-    std::ostream& ostr) {
-  ostr << MAX_PRECISION;
-  ostr << vector.size() << " ";
-  for (const std::vector<T>& inner_vector : vector) {
-    ostr << inner_vector.size() << " ";
-    for (const T& element : inner_vector) {
-      ostr << element << " ";
-    }
-  }
-}
-
-/// Deserialize the 2D vector.
-template <typename T>
-void feasst_deserialize(std::vector<std::vector<T> > * vector,
-    std::istream& istr) {
-  int dim1;
-  istr >> dim1;
-  vector->resize(dim1);
-  for (int index1 = 0; index1 < dim1; ++index1) {
-    int dim2;
-    istr >> dim2;
-    (*vector)[index1].resize(dim2);
-    for (int index2 = 0; index2 < dim2; ++index2) {
-      istr >> (*vector)[index1][index2];
-    }
-  }
-}
-
-/// Serialize the 3D vector.
-template <typename T>
-void feasst_serialize(const std::vector<std::vector<std::vector<T> > >& vector,
-    std::ostream& ostr) {
-  ostr << vector.size() << " ";
-  for (const std::vector<std::vector<T> >& vec2 : vector) {
-    feasst_serialize(vec2, ostr);
-  }
-}
-
-/// Deserialize the 3D vector.
-template <typename T>
-void feasst_deserialize(std::vector<std::vector<std::vector<T> > > * vector,
-    std::istream& istr) {
-  int dim;
-  istr >> dim;
-  vector->resize(dim);
-  for (int index = 0; index < dim; ++index) {
-    feasst_deserialize(&((*vector)[index]), istr);
-  }
-}
-
-/// Serialize the 4D vector.
-template <typename T>
-void feasst_serialize(const std::vector<std::vector<std::vector<std::vector<
-    T> > > >& vector,
-    std::ostream& ostr) {
-  ostr << vector.size() << " ";
-  for (const std::vector<std::vector<std::vector<T> > >& vec2 : vector) {
-    feasst_serialize(vec2, ostr);
-  }
-}
-
-/// Deserialize the 4D vector.
-template <typename T>
-void feasst_deserialize(std::vector<std::vector<std::vector<std::vector<
-    T> > > > * vector,
-    std::istream& istr) {
-  int dim;
-  istr >> dim;
-  vector->resize(dim);
-  for (int index = 0; index < dim; ++index) {
-    feasst_deserialize(&((*vector)[index]), istr);
-  }
-}
-
-/// Serialize the 5D vector.
-template <typename T>
-void feasst_serialize(const std::vector<std::vector<std::vector<std::vector<
-    std::vector<T> > > > >& vector,
-    std::ostream& ostr) {
-  ostr << vector.size() << " ";
-  for (const std::vector<std::vector<std::vector<std::vector<T> > > >& vec2
-    : vector) {
-    feasst_serialize(vec2, ostr);
-  }
-}
-
-/// Deserialize the 5D vector.
-template <typename T>
-void feasst_deserialize(std::vector<std::vector<std::vector<std::vector<
-    std::vector<T> > > > > * vector,
-    std::istream& istr) {
-  int dim;
-  istr >> dim;
-  vector->resize(dim);
-  for (int index = 0; index < dim; ++index) {
-    feasst_deserialize(&((*vector)[index]), istr);
-  }
-}
-
-/// Serialize the 5D vector.
-template <typename T>
-void feasst_serialize_fstob(const std::vector<std::vector<std::vector<std::vector<
-    std::vector<T> > > > >& vector,
-    std::ostream& ostr) {
-  ostr << vector.size() << " ";
-  for (const std::vector<std::vector<std::vector<std::vector<T> > > >& vec2
-    : vector) {
-    feasst_serialize_fstobj(vec2, ostr);
-  }
-}
-
-/// Deserialize the 5D vector.
-template <typename T>
-void feasst_deserialize_fstobj(std::vector<std::vector<std::vector<std::vector<
-    std::vector<T> > > > > * vector,
-    std::istream& istr) {
-  int dim;
-  istr >> dim;
-  vector->resize(dim);
-  for (int index = 0; index < dim; ++index) {
-    feasst_deserialize_fstobj(&((*vector)[index]), istr);
-  }
-}
-
-/// Serialize the 6D vector.
-template <typename T>
-void feasst_serialize(const std::vector<std::vector<std::vector<std::vector<
-    std::vector<std::vector<T> > > > > >& vector,
-    std::ostream& ostr) {
-  ostr << vector.size() << " ";
-  for (const std::vector<std::vector<std::vector<std::vector<
-       std::vector<T> > > > >& vec2 : vector) {
-    feasst_serialize(vec2, ostr);
-  }
-}
-
-/// Deserialize the 6D vector.
-template <typename T>
-void feasst_deserialize(std::vector<std::vector<std::vector<std::vector<
-    std::vector<std::vector<T> > > > > > * vector,
-    std::istream& istr) {
-  int dim;
-  istr >> dim;
-  vector->resize(dim);
-  for (int index = 0; index < dim; ++index) {
-    feasst_deserialize(&((*vector)[index]), istr);
   }
 }
 

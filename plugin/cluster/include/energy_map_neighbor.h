@@ -3,6 +3,7 @@
 #define FEASST_CLUSTER_ENERGY_MAP_NEIGHBOR_H_
 
 #include <vector>
+//#include "utils/include/debug.h"
 #include "utils/include/arguments.h"
 #include "system/include/energy_map.h"
 #include "system/include/neighbor_criteria.h"
@@ -86,7 +87,7 @@ class EnergyMapNeighbor : public EnergyMap {
                                   const int site1_index,
                                   const int part2_index,
                                   const int site2_index) override;
-  const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& map() const override { FATAL("not impl"); }
+  const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& map() const override;
 
  private:
   typedef std::vector<double> map1type;
@@ -98,14 +99,16 @@ class EnergyMapNeighbor : public EnergyMap {
   /// map_[part1][site1][pneigh].first -> part2
   ///                           .second[sneigh1].first-> site1
   ///                                           .second-> en, rsq, pbcs
-  std::vector<map4type> map_;
+  std::vector<map4type> * map_();
+  const std::vector<map4type>& const_map_() const;
 
   /// map_[pneigh1].first -> part1
   ///              .second[sneigh1].first -> site1
   ///                              .second[pneigh2].first -> part2
   ///                                              .second[sneigh1].first -> site2
   ///                                                              .second -> en, rsq, pbcs
-  std::vector<std::pair<int, mn4type> > map_new_;
+  std::vector<std::pair<int, mn4type> > * map_new_();
+  const std::vector<std::pair<int, mn4type> >& const_map_new_() const;
   //std::vector<std::vector<std::vector<std::vector<std::pair<int, std::vector<double> > > > > > map_new_;
 
 //  /// The first index is the particle index, which mirrors config
@@ -126,7 +129,7 @@ class EnergyMapNeighbor : public EnergyMap {
 //
 //  std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > > map_new_;
 
-  int part_max_() { return static_cast<int>(map_.size()); }
+  int part_max_() const { return static_cast<int>(const_map_().size()); }
   bool is_cluster_(const NeighborCriteria& neighbor_criteria,
                    const int particle_index1,
                    const int site_index1,
@@ -138,7 +141,7 @@ class EnergyMapNeighbor : public EnergyMap {
   template<class T>
   T * find_or_add_(const int sindex, std::vector<T> * list) {
     const int missing = sindex - static_cast<int>(list->size()) + 1;
-    DEBUG("missing: " << missing);
+    //DEBUG("missing: " << missing);
     for (int index = 0; index < missing; ++index) list->push_back(T());
     return &(*list)[sindex];
   }
@@ -153,15 +156,15 @@ class EnergyMapNeighbor : public EnergyMap {
   template<class T>
   T * find_or_add_(const int sindex, std::vector<std::pair<int, T> > * list) {
     int findex = -1;
-    DEBUG("sindex " << sindex);
-    DEBUG("list size " << list->size());
+    //DEBUG("sindex " << sindex);
+    //DEBUG("list size " << list->size());
     if (!find_in_list(sindex, *list, &findex)) {
       findex = static_cast<int>(list->size());
       list->push_back(std::pair<int, T>());
       (*list)[findex].first = sindex;
       (*list)[findex].second = T();
     }
-    DEBUG("findex " << findex);
+    //DEBUG("findex " << findex);
     return &(*list)[findex].second;
   }
 

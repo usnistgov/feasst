@@ -47,7 +47,8 @@ TEST(MonteCarlo, spce_nvt_VERY_LONG) {
     {"beta", str(1/kelvin2kJpermol(298, mc.configuration()))}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
-  EXPECT_NEAR(mc.criteria().current_energy(), -24027.470339718111, 1e-10);
+  // without erfc table EXPECT_NEAR(mc.criteria().current_energy(), -24027.470339718111, 1e-10);
+  EXPECT_NEAR(mc.criteria().current_energy(), -24027.470340415293, 1e-10);
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_nvt"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
   // mc.seek_num_particles(512);
@@ -119,6 +120,23 @@ TEST(MonteCarlo, spce) {
   mc.add(MakeLogAndMovie({{"steps_per", str(5e2)}, {"file_name", "tmp/spce"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(5e2)}, {"tolerance", str(1e-6)}}));
   mc.attempt(1e3);
+}
+
+TEST(MonteCarlo, spce_NVT_BENCHMARK_LONG) {
+  MonteCarlo mc;
+  mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  mc.set(spce());
+  //mc.set(spce({{"kmax_squared", "2"}}));
+  const double beta = 1/kelvin2kJpermol(525);
+  mc.set(MakeMetropolis({
+    {"beta", str(beta)},
+    {"chemical_potential", str(-8.14/beta)}}));
+  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
+  mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
+  mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
+  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/spce"}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-6)}}));
+  mc.attempt(2e5);
 }
 
 TEST(MonteCarlo, rpm) {

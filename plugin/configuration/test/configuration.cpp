@@ -286,10 +286,10 @@ TEST(Configuration, set_type_type) {
 TEST(Configuration, copy_particles) {
   Configuration config1, config2 = spce_sample1();
   EXPECT_EQ(0, config1.num_particles());
-  try {
+  TRY(
     config1.copy_particles(config2);
     CATCH_PHRASE("does not match");
-  }
+  );
   config1.copy_particles(config2, true);
   EXPECT_EQ(100, config1.num_particles());
   EXPECT_NEAR(config1.particle(99).site(1).position().coord(1),

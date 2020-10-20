@@ -181,11 +181,10 @@ bool Accumulator::is_equivalent(const Accumulator& accum,
     pow(block_stdev(), 2)/block_averages_->num_values());
   if (std::abs(diff) > t_factor*stdev) {
     if (verbose) {
-      INFO(str());
-      INFO(accum.str());
-      INFO("diff: " << diff);
-      INFO("stdev: " << stdev);
-      INFO("t_factor: " << t_factor);
+      std::cout << str() << " " << accum.str() << std::endl;
+      std::cout << "diff: " << diff << std::endl;
+      std::cout << "stdev: " << stdev << std::endl;
+      std::cout << "t_factor: " << t_factor << std::endl;
     }
     return false;
   }

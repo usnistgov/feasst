@@ -143,7 +143,7 @@ class System {
 
   /*
     Change the volume.
-   
+
     args:
     - configuration: index of configuration (default: 0)
     - see Configuration for remaining arguments.

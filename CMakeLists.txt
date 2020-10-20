@@ -36,16 +36,8 @@ set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;
 # Note, if you change the plugin list and want to use the python interface,
 # you also need to run "../py/run.sh ../dev/tools/depend.py -s ../"
 
-# print plugins
-string (REPLACE ";" " " FEASST_PLUGINS_STR "${FEASST_PLUGINS}")
-message(${FEASST_PLUGINS_STR})
-file(WRITE "${CMAKE_BINARY_DIR}/plugins.txt" "${FEASST_PLUGINS_STR}")
-
 # set path to XDR if using xtc plugin
 set(XDRFILE_DIR "$ENV{HOME}/software/xdrfile-1.1b/build")
-
-# set the install location (default: in the binary build directory)"
-set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}")
 
 option(USE_GTEST "Use gtest" OFF)
 option(USE_CCACHE "Use ccache to speed up builds" ON)
@@ -59,6 +51,14 @@ option(USE_GCOV "Use Coverage" OFF)
 option(SET_PYTHON_PATH "Manually define PYTHON_INCLUDE_DIR and PYTHON_LIBRARY" OFF)
 
 # Users typically would not edit below this comment
+
+# print plugins
+string (REPLACE ";" " " FEASST_PLUGINS_STR "${FEASST_PLUGINS}")
+message(${FEASST_PLUGINS_STR})
+file(WRITE "${CMAKE_BINARY_DIR}/plugins.txt" "${FEASST_PLUGINS_STR}")
+
+# set the install location (default: in the binary build directory)"
+set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}")
 
 # CMAKE plugins in the cmake directory
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/dev/cmake)

@@ -35,23 +35,22 @@ void LongRangeCorrections::compute(
     const Select& selection,
     Configuration * config,
     const int group_index) {
-  const std::vector<int> num_of_site_type =
-    config->num_sites_of_type(group_index);
-  std::vector<int> select_types = config->num_sites_of_type(selection);
+  config->num_sites_of_type(group_index, &num_of_site_type_);
+  config->num_sites_of_type(selection, &select_types_);
   DEBUG("sel: " << selection.str());
-  DEBUG("num sites of type in selection: " << feasst_str(select_types));
+  DEBUG("num sites of type in selection: " << feasst_str(select_types_));
   double en = 0.;
   for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
     DEBUG("type1 " << type1);
-    const double num_type1 = num_of_site_type[type1];
-    const double num_type1_sel = select_types[type1];
+    const double num_type1 = num_of_site_type_[type1];
+    const double num_type1_sel = select_types_[type1];
     DEBUG("num_particles " << config->num_particles());
     DEBUG("num_type1 " << num_type1);
     DEBUG("num_type1_sel " << num_type1_sel);
     for (int type2 = 0; type2 < config->num_site_types(); ++type2) {
       DEBUG("type2 " << type2);
-      const double num_type2 = num_of_site_type[type2];
-      const double num_type2_sel = select_types[type2];
+      const double num_type2 = num_of_site_type_[type2];
+      const double num_type2_sel = select_types_[type2];
       DEBUG("num_type2 " << num_type2);
       DEBUG("num_type2_sel " << num_type2_sel);
       en += (num_type1*num_type2_sel +
@@ -69,12 +68,11 @@ void LongRangeCorrections::compute(
     Configuration * config,
     const int group_index) {
   double en = 0;
-  const std::vector<int> num_of_site_type =
-    config->num_sites_of_type(group_index);
-  DEBUG("num sites of type in group: " << feasst_str(num_of_site_type));
+  config->num_sites_of_type(group_index, &num_of_site_type_);
+  DEBUG("num sites of type in group: " << feasst_str(num_of_site_type_));
   for (int type1 = 0; type1 < config->num_site_types(); ++type1) {
     for (int type2 = 0; type2 < config->num_site_types(); ++type2) {
-      en += num_of_site_type[type1]*num_of_site_type[type2]*
+      en += num_of_site_type_[type1]*num_of_site_type_[type2]*
         energy_(type1, type2, config, model_params);
     }
   }

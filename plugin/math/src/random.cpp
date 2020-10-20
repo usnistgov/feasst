@@ -31,15 +31,15 @@ void Random::parse_seed_(const argtype& args) {
 void Random::seed_by_time() {
   const int t = time(NULL);
   srand(t);
-  INFO("time(seed): " << t);
+  std::cout << "time(seed): " << t << std::endl;
   reseed_();
   is_seeded_ = true;
 }
 
 void Random::seed(const int seed) {
   srand(seed);
-  INFO("Initializing random number generator for reproduction with seed("
-    << seed << ")");
+  std::cout << "Initializing random number generator for reproduction with "
+    << "seed(" << seed << ")" << std::endl;
   reseed_();
   is_seeded_ = true;
 }
@@ -180,20 +180,35 @@ int Random::index_from_cumulative_probability(
   if (std::abs(cumulative.back() - 1) <= NEAR_ZERO) {
     return static_cast<int>(cumulative.size()) - 1;
   }
-  ERROR("This should never happen even more!");
+  ERROR("This should never ever EVER happen!");
   return -1;
 }
 
 RotationMatrix Random::rotation(const int dimension, const double max_angle) {
   Position axis;
+  RotationMatrix rot_mat;
+  rotation(dimension, &axis, &rot_mat, max_angle);
+  return rot_mat;
+}
+
+void Random::rotation(const int dimension,
+    Position * axis,
+    RotationMatrix * rot_mat,
+    const double max_angle) {
   if (dimension == 3) {
-    axis.set_vector({0., 0., 0.});
+    if (axis->dimension() != 3) {
+      axis->set_vector({0., 0., 0.});
+    }
   } else {
     ERROR("implement dimension: " << dimension);
   }
-  unit_sphere_surface(&axis);
+  unit_sphere_surface(axis);
   const double angle = uniform_real(-max_angle, max_angle);
-  return RotationMatrix().axis_angle(axis, angle);
+  // size the rotation matrix
+  if (rot_mat->num_rows() != 3) {
+    rot_mat->set_size(3, 3);
+  }
+  rot_mat->axis_angle_opt(*axis, angle);
 }
 
 void Random::position_in_spherical_shell(

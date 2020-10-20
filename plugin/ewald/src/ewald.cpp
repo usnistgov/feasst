@@ -250,7 +250,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
           config->set_site_property(eikiz0_index, 0., part_index, site_index);
 
           // calculate eik of kx = +/-1 explicitly
-          const std::vector<double> pos = config->select_particle(part_index).site(site_index).position().coord();
+          const std::vector<double>& pos = config->select_particle(part_index).site(site_index).position().coord();
           config->set_site_property(eikrx0_index + 1, cos(twopilx*pos[0]), part_index, site_index);
           config->set_site_property(eikix0_index + 1, sin(twopilx*pos[0]), part_index, site_index);
           config->set_site_property(eikry0_index + 1, cos(twopily*pos[1]), part_index, site_index);
@@ -258,7 +258,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
           config->set_site_property(eikrz0_index + 1, cos(twopilz*pos[2]), part_index, site_index);
           config->set_site_property(eikiz0_index + 1, sin(twopilz*pos[2]), part_index, site_index);
           {
-            const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
+            const std::vector<double>& eik = config->select_particle(part_index).site(site_index).properties().values();
             TRACE("test " << eik[eikrx0_index + 1] << " " << cos(twopilx*pos[0]) << " " <<
               site.properties().values()[0] << " " <<
               site.properties().values()[eikrx0_index + 1] << " "
@@ -271,7 +271,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
 
           // compute remaining eik by recursion
           for (int kx = 2; kx <= kxmax_; ++kx) {
-            const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
+            const std::vector<double>& eik = config->select_particle(part_index).site(site_index).properties().values();
             const double eikr = eik[eikrx0_index + kx - 1]*eik[eikrx0_index + 1] -
               eik[eikix0_index + kx - 1]*eik[eikix0_index + 1];
             config->set_site_property(eikrx0_index + kx, eikr, part_index, site_index);
@@ -280,7 +280,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
             config->set_site_property(eikix0_index + kx, eiki, part_index, site_index);
           }
           for (int ky = 2; ky <= kymax_; ++ky) {
-            const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
+            const std::vector<double>& eik = config->select_particle(part_index).site(site_index).properties().values();
             const double eikr = eik[eikry0_index + ky - 1]*eik[eikry0_index + 1] -
               eik[eikiy0_index + ky - 1]*eik[eikiy0_index + 1];
             config->set_site_property(eikry0_index + ky, eikr, part_index, site_index);
@@ -291,7 +291,7 @@ void Ewald::update_struct_fact_eik(const Select& selection,
             config->set_site_property(eikiy0_index - ky, -eiki, part_index, site_index);
           }
           for (int kz = 2; kz <= kzmax_; ++kz) {
-            const std::vector<double> eik = config->select_particle(part_index).site(site_index).properties().values();
+            const std::vector<double>& eik = config->select_particle(part_index).site(site_index).properties().values();
             const double eikr = eik[eikrz0_index + kz - 1]*eik[eikrz0_index + 1] -
               eik[eikiz0_index + kz - 1]*eik[eikiz0_index + 1];
             config->set_site_property(eikrz0_index + kz, eikr, part_index, site_index);
@@ -646,9 +646,9 @@ double Ewald::sign_(const Select& select, const int pindex) {
 
 int Ewald::find_eikrx0_(const Site& site) {
   int eikrx0_index = 0;
-  ASSERT(
-    find_in_list(eikrx0_str_, site.properties().names(), &eikrx0_index),
-    "eikrx0 doesn't exist");
+  const bool found =
+    find_in_list(eikrx0_str_, site.properties().names(), &eikrx0_index);
+  ASSERT(found, "eikrx0 doesn't exist");
   return eikrx0_index;
 }
 

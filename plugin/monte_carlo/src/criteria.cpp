@@ -116,7 +116,6 @@ void Criteria::revert_(const bool accepted, const double ln_prob) {
   if (accepted) {
     *current_energy_() = previous_energy_;
   }
-  //INFO("reverted: " << current_energy_);
 }
 
 

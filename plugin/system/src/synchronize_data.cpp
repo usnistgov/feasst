@@ -10,6 +10,8 @@ void SynchronizeData::serialize(std::ostream& ostr) const {
   feasst_serialize(dble_2D_, ostr);
   feasst_serialize(dble_5D_, ostr);
   feasst_serialize(dble_6D_, ostr);
+  feasst_serialize(vpvpvpvpv_, ostr);
+  feasst_serialize(vvvpvpv_, ostr);
 }
 
 SynchronizeData::SynchronizeData(std::istream& istr) {
@@ -20,6 +22,8 @@ SynchronizeData::SynchronizeData(std::istream& istr) {
   feasst_deserialize(&dble_2D_, istr);
   feasst_deserialize(&dble_5D_, istr);
   feasst_deserialize(&dble_6D_, istr);
+  feasst_deserialize(&vpvpvpvpv_, istr);
+  feasst_deserialize(&vvvpvpv_, istr);
 }
 
 }  // namespace feasst

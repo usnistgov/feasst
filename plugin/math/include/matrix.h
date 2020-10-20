@@ -100,6 +100,13 @@ class RotationMatrix : public MatrixThreeByThree {
     /// The angle is in units of degrees.
     const double degree_angle);
 
+  /// Same as above, but optimized (1) axis is assumed to be unit length and
+  /// (2) rotation matrix is the correct size and (3) determinant is not
+  /// checked.
+  void axis_angle_opt(const Position& unit_axis,
+    /// The angle is in units of degrees.
+    const double degree_angle);
+
   /// Rotate a position given a pivot point.
   void rotate(const Position& pivot, Position * rotated) const;
 

@@ -3,6 +3,7 @@
 
    EnergyMapAll
    EnergyMapNeighbor
+   EnergyMapNeighborCriteria
    EnergyMapAllCriteria
    SelectCluster
    SelectParticleAVB

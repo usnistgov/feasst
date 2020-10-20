@@ -19,7 +19,7 @@ class Bond : public PropertiedEntity, public TypedEntity {
   Bond() { class_name_ = "Bond"; }
 
   /// Return the indices of the sites involved in the bond within a particle.
-  std::vector<int> site_indices() const { return site_indicies_; }
+  const std::vector<int>& site_indices() const { return site_indicies_; }
 
   /// Return the indices of the sites involved in the bond within a particle.
   int site(const int index) const { return site_indicies_[index]; }

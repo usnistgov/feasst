@@ -45,6 +45,29 @@ double Table1D::linear_interpolation(const double value0) const {
   return c00;
 }
 
+double Table1D::forward_difference_interpolation(const double value0) const {
+  const double sds = value0/bin_spacing_;
+  TRACE("sds " << sds);
+  const int k = int(sds);
+  ASSERT(k + 2 < num(), "k: " << k << " beyond num: " << num());
+  TRACE("k " << k);
+  const double xi = sds - k;
+  TRACE("xi " << xi);
+  const double vk = data_[k];
+  TRACE("vk " << vk);
+  const double vk1 = data_[k + 1];
+  TRACE("vk1 " << vk1);
+  const double vk2 = data_[k + 2];
+  TRACE("vk2 " << vk2);
+  const double t1 = vk + (vk1 - vk) * xi;
+  TRACE("t1 " << t1);
+  const double t2 = vk1 + (vk2 - vk1) * (xi - 1.);
+  TRACE("t2 " << t2);
+  const double rtrn_val = t1 + (t2 - t1)*xi*0.5;
+  TRACE("rtrn_val: " << rtrn_val);
+  return rtrn_val;
+}
+
 void Table1D::serialize(std::ostream& ostr) const {
   feasst_serialize_version(9075, ostr);
   feasst_serialize(data_, ostr);

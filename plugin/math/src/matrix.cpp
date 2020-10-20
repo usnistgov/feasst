@@ -117,6 +117,14 @@ RotationMatrix& RotationMatrix::axis_angle(const Position& axis,
   Position unit_axis = axis;
   unit_axis.normalize();
   set_size(unit_axis.size(), unit_axis.size());
+  axis_angle_opt(unit_axis, degree_angle);
+  check();
+  return *this;
+}
+
+// thanks to https://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle
+void RotationMatrix::axis_angle_opt(const Position& unit_axis,
+    const double degree_angle) {
   ASSERT(unit_axis.size() == 3, "only implemented for 3D");
   const double radian_angle = degrees_to_radians(degree_angle);
   const double c = cos(radian_angle), C = 1-c;
@@ -133,8 +141,6 @@ RotationMatrix& RotationMatrix::axis_angle(const Position& axis,
   set_value(2, 0, z*x*C - y*s);
   set_value(2, 1, z*y*C + x*s);
   set_value(2, 2, z*z*C + c);
-  check();
-  return *this;
 }
 
 void RotationMatrix::rotate(const Position& pivot, Position * rotated) const {

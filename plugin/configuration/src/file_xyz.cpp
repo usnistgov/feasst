@@ -82,18 +82,28 @@ void FileXYZ::load(const std::string file_name, Configuration * config) const {
 // Utility class to print XYZ files from selection.
 class PrinterXYZ : public LoopConfigOneBody {
  public:
-  PrinterXYZ(std::shared_ptr<std::ofstream> file) : file_(file) {}
+  PrinterXYZ(std::shared_ptr<std::ofstream> file, const int num_places = 8)
+  : file_(file) {
+    num_places_ = num_places;
+  }
   void work(const Site& site,
       const Configuration& config,
       const LoopDescriptor& data) override {
-    (*file_.get()) << site.type() << " " << site.position().str() << std::endl;
+    (*file_.get()) << site.type() << " ";
+    (*file_.get()) << std::setprecision(num_places_);
+    for (int dim = 0; dim < config.dimension(); ++dim) {
+      (*file_.get()) << site.position().coord(dim) << " ";
+    }
+    (*file_.get()) << std::endl;
   }
  private:
+  int num_places_;
   std::shared_ptr<std::ofstream> file_;
 };
 
 void FileXYZ::write(const std::string file_name,
-                    const Configuration& config) const {
+                    const Configuration& config,
+                    const int num_places) const {
   auto file = std::make_shared<std::ofstream>();
   if (append_ == 0) {
     file->open(file_name);
@@ -102,11 +112,15 @@ void FileXYZ::write(const std::string file_name,
   }
   const Domain& domain = config.domain();
   (*file.get()) << config.num_sites() << std::endl
-       << "-1 " << domain.side_lengths().str() << " "
-       << domain.xy() << " "
-       << domain.xz() << " "
-       << domain.yz() << " "
-       << std::endl;
+    << "-1 ";
+  (*file.get()) << std::setprecision(num_places);
+  for (int dim = 0; dim < domain.dimension(); ++dim) {
+    (*file.get()) << domain.side_length(dim) << " ";
+  }
+  (*file.get()) << domain.xy() << " "
+    << domain.xz() << " "
+    << domain.yz() << " "
+    << std::endl;
   PrinterXYZ printer(file);
   VisitConfiguration().loop(config, &printer, group_index_);
 }

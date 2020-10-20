@@ -47,41 +47,37 @@ void VisitModelOptLJ::compute(
         for (int site1_index : selection.site_indices(select1_index)) {
           TRACE("site1_index " << site1_index);
           const Site& site1 = part1.site(site1_index);
-          if (site1.is_physical()) {
-            const int type1 = site1.type();
-            const std::vector<double>& coord1 = site1.position().coord();
-            xi = coord1[0];
-            yi = coord1[1];
-            zi = coord1[2];
-            for (int site2_index : select_all.site_indices(select2_index)) {
-              TRACE("index: " << part1_index << " " << part2_index << " " <<
-                    site1_index << " " << site2_index);
-              const Site& site2 = part2.site(site2_index);
-              if (site2.is_physical()) {
-                const int type2 = site2.type();
-                const std::vector<double>& coord2 = site2.position().coord();
-                dx = xi - coord2[0];
-                dx -= lx*std::rint(dx/lx);
-                dy = yi - coord2[1];
-                dy -= ly*std::rint(dy/ly);
-                dz = zi - coord2[2];
-                dz -= lz*std::rint(dz/lz);
-                const double squared_distance = dx*dx + dy*dy + dz*dz;
-                const double cutoff = model_params.mixed_cutoff()[type1][type2];
-                if (squared_distance <= cutoff*cutoff) {
+          const int type1 = site1.type();
+          const std::vector<double>& coord1 = site1.position().coord();
+          xi = coord1[0];
+          yi = coord1[1];
+          zi = coord1[2];
+          for (int site2_index : select_all.site_indices(select2_index)) {
+            TRACE("index: " << part1_index << " " << part2_index << " " <<
+                  site1_index << " " << site2_index);
+            const Site& site2 = part2.site(site2_index);
+            const int type2 = site2.type();
+            const std::vector<double>& coord2 = site2.position().coord();
+            dx = xi - coord2[0];
+            dx -= lx*std::rint(dx/lx);
+            dy = yi - coord2[1];
+            dy -= ly*std::rint(dy/ly);
+            dz = zi - coord2[2];
+            dz -= lz*std::rint(dz/lz);
+            const double squared_distance = dx*dx + dy*dy + dz*dz;
+            const double cutoff = model_params.mixed_cutoff()[type1][type2];
+            if (squared_distance <= cutoff*cutoff) {
 //                  const double en = lj_.energy(squared_distance,
 //                    type1,
 //                    type2,
 //                    model_params);
-                  const double sigma = model_params.mixed_sigma()[type1][type2];
-                  const double sigma_squared = sigma*sigma;
-                  const double epsilon = model_params.mixed_epsilon()[type1][type2];
-                  const double rinv2 = sigma_squared/squared_distance;
-                  const double rinv6 = rinv2*rinv2*rinv2;
-                  const double en = 4.*epsilon*rinv6*(rinv6 - 1.);
-                  energy += en;
-                }
-              }
+              const double sigma = model_params.mixed_sigma()[type1][type2];
+              const double sigma_squared = sigma*sigma;
+              const double epsilon = model_params.mixed_epsilon()[type1][type2];
+              const double rinv2 = sigma_squared/squared_distance;
+              const double rinv6 = rinv2*rinv2*rinv2;
+              const double en = 4.*epsilon*rinv6*(rinv6 - 1.);
+              energy += en;
             }
           }
         }

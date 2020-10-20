@@ -216,8 +216,8 @@ TEST(MonteCarlo, lj_fh_liquid_LONG) {
   EXPECT_NEAR(lnpi.value(3), -2.28019483175925, 0.01);
   EXPECT_NEAR(lnpi.value(4), -1.40647303175926, 0.005);
   EXPECT_NEAR(lnpi.value(5), -0.535594831759248, 0.005);
-  EXPECT_NEAR(energy_av(0, mc), -1.381223800E+02, 0.2);
-  EXPECT_NEAR(energy_av(1, mc), -1.408257000E+02, 0.15);
+  EXPECT_NEAR(energy_av(0, mc), -1.381223800E+02, 0.3);
+  EXPECT_NEAR(energy_av(1, mc), -1.408257000E+02, 0.3);
   EXPECT_NEAR(energy_av(2, mc), -1.435426000E+02, 0.3);
   EXPECT_NEAR(energy_av(3, mc), -1.462802100E+02, 0.4);
   EXPECT_NEAR(energy_av(4, mc), -1.490501400E+02, 0.5);
@@ -228,7 +228,7 @@ TEST(MonteCarlo, lj_fh_multi_LONG) {
   //MonteCarlo mc = test_serialize(test_lj_fh(1, "WLTM", 1000, true));
   //MonteCarlo mc = test_serialize(test_lj_fh(1, "WL", 200, true));
   MonteCarlo mc = test_serialize(test_lj_fh(1, "TM", 1000, true));
-  mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.run_until_complete();
   INFO(mc.criteria().write());
   const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
@@ -539,9 +539,9 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
   EXPECT_NEAR(lnpi.value(0), -6.7005955776549158, 0.09);
   EXPECT_NEAR(lnpi.value(1), -3.6523345299136007, 0.06);
   EXPECT_NEAR(lnpi.value(2), -2.1178631459398805, 0.03);
-  EXPECT_NEAR(lnpi.value(3), -1.3652342629553453, 0.02);
-  EXPECT_NEAR(lnpi.value(4), -1.1336431696116527, 0.02);
-  EXPECT_NEAR(lnpi.value(5), -1.289634124762612, 0.02);
+  EXPECT_NEAR(lnpi.value(3), -1.3652342629553453, 0.025);
+  EXPECT_NEAR(lnpi.value(4), -1.1336431696116527, 0.025);
+  EXPECT_NEAR(lnpi.value(5), -1.2896341247626120, 0.025);
 //  EXPECT_NEAR(lnpi.value(0), -6.6615, 0.06);
 //  EXPECT_NEAR(lnpi.value(1), -3.6256, 0.06);
 //  EXPECT_NEAR(lnpi.value(2), -2.1046, 0.06);

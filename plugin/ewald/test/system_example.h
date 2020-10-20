@@ -18,35 +18,6 @@
 
 namespace feasst {
 
-inline System spce(const std::string physical_constants = "") {
-  Configuration config = spce_sample1();
-//  config.add_model_param("alpha", 5.6/config.domain().min_side_length());
-  if (!physical_constants.empty()) {
-    if (physical_constants == "CODATA2010") {
-      config.set_physical_constants(MakeCODATA2010());
-    } else if (physical_constants == "CODATA2018") {
-      config.set_physical_constants(MakeCODATA2018());
-    } else {
-      ERROR("unrecognized");
-    }
-  }
-  System sys;
-  sys.add(config);
-  sys.add(Potential(
-    MakeEwald({{"kmax_squared", "27"},
-               {"alpha", str(5.6/config.domain().min_side_length())}}),
-                     {{"prevent_cache", "true"}}));
-  sys.add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
-                                             MakeChargeScreened()})));
-  //sys.add(Potential(MakeChargeScreenedIntra(),
-  //                   MakeVisitModelIntra({{"cutoff", "0"}})));
-  sys.add(Potential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
-  sys.add(Potential(MakeChargeSelf()));
-  sys.add(Potential(MakeLongRangeCorrections()));
-  sys.precompute(); // HWH don't need this precompute?
-  return sys;
-}
-
 inline System chain(const double alpha,
                     const int kmax_squared) {
   System system;

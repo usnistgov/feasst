@@ -128,6 +128,15 @@ class Random {
     /// maximum angle of rotation in degrees.
     const double max_angle = 180);
 
+  /// Same as above, but optimized to reuse existing axis and matrix.
+  void rotation(
+    /// dimensionality of space
+    const int dimension,
+    Position * axis,
+    RotationMatrix * rot_mat,
+    /// maximum angle of rotation in degrees.
+    const double max_angle = 180);
+
   /// Return the cache.
   const Cache& cache() const { return cache_; }
 

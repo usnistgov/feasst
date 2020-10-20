@@ -55,6 +55,10 @@ class PerturbRotate : public PerturbMove {
   void serialize_perturb_rotate_(std::ostream& ostr) const;
 
  private:
+  // temporary and not serialized
+  RotationMatrix rot_mat_tmp_;
+  Position axis_tmp_;
+
   const Position& piv_sel_(const Position& pivot, const TrialSelect * select) {
     if (pivot.dimension() == 0) {
       return select->mobile().particle_positions()[0];

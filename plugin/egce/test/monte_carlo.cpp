@@ -25,12 +25,15 @@
 #include "ewald/include/utils.h"
 #include "ewald/include/charge_screened.h"
 #include "cluster/include/energy_map_all.h"
+#include "cluster/include/energy_map_neighbor.h"
+#include "cluster/include/energy_map_neighbor_criteria.h"
 #include "cluster/include/trial_transfer_avb.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
 #include "growth_expanded/include/macrostate_morph.h"
 #include "growth_expanded/include/trial_morph_expanded.h"
 #include "egce/include/a_equal_b.h"
 #include "egce/include/a_half_b.h"
+#include "opt_lj/include/visit_model_opt_rpm.h"
 
 namespace feasst {
 
@@ -95,6 +98,7 @@ TEST(MonteCarlo, rpm_egce_fh_LONG) {
       ref = "0";
     }
     // mc.set(MakeRandomMT19937({{"seed", "1234"}}));
+    // mc.set(MakeRandomMT19937({{"seed", "1603117667"}}));
     mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
     mc.add(MakeTrialTransfer({{"weight", "1."}, {"particle_type", "0"}}));
     mc.add(MakeTrialTransfer({
@@ -112,7 +116,7 @@ TEST(MonteCarlo, rpm_egce_fh_LONG) {
     LnProbability lnpi3 = fh.bias().ln_prob().reduce(2);
     EXPECT_NEAR(lnpi3.value(0), -1.2994315780357, 0.1);
     EXPECT_NEAR(lnpi3.value(1), -1.08646312498868, 0.1);
-    EXPECT_NEAR(lnpi3.value(2), -0.941850889679828, 0.06);
+    EXPECT_NEAR(lnpi3.value(2), -0.941850889679828, 0.1);
     const std::vector<std::shared_ptr<Analyze> >& en = mc2.analyzers().back()->analyzers();
     EXPECT_NEAR(en[0]->accumulator().average(), 0, 1e-14);
     EXPECT_NEAR(en[1]->accumulator().average(), -0.115474, 1e-6);
@@ -178,16 +182,20 @@ TEST(MonteCarlo, rpm_egce_fh_min1_VERY_LONG) {
 TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
   MonteCarlo mc = rpm_egce(1);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
+  mc.set(MakeRandomMT19937({{"seed", "123"}}));
   // mc.set(MakeRandomMT19937({{"seed", "1346867550"}}));
-  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                               MakeChargeScreened()}),
-                      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-  mc.get_system()->energy();
   auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "3"},
                                                  {"minimum_distance", "1"},
                                                  {"site_type0", "0"},
                                                  {"site_type1", "1"},
                                                  {"potential_index", "1"}});
+  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
+                                               MakeChargeScreened()}),
+                      //MakeVisitModelOptRPM(MakeVisitModelInner(MakeEnergyMapNeighborCriteria(neighbor_criteria)))));
+                      //MakeVisitModelOptRPM(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
+                      //MakeVisitModelOptRPM(MakeVisitModelInner(MakeEnergyMapAll()))));
+                      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+  mc.get_system()->energy();
   mc.add(MakeTrialTransferAVB(neighbor_criteria,
     { {"weight", "1."},
       {"particle_type", "0"},

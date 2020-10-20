@@ -38,7 +38,9 @@ class FileXYZ {
 
   /// Write the configuration to file_name in xyz format.
   void write(const std::string file_name,
-             const Configuration& config) const;
+             const Configuration& config,
+             /// Number of decimal places
+             const int num_decimal_places = 8) const;
 
   void write_for_vmd(const std::string file_name,
              const Configuration& config) const;

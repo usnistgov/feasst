@@ -16,6 +16,23 @@ TEST(Table1D, interpolate) {
   EXPECT_EQ(table2->value_to_nearest_bin(0.501), 1);
 }
 
+TEST(Table1D, forward_difference_interpolate) {
+  auto table = MakeTable1D({{"num", str(11)}, {"default_value", "0."}});
+  for (int bin = 0; bin < table->num(); ++bin) {
+    const double x = table->bin_to_value(bin);
+    table->set_data(bin, std::erfc(x));
+  }
+  Table1D table2 = test_serialize(*table);
+  for (double x = 0; x <= 0.9; x += 0.001) {
+    const double diff_lin = std::erfc(x) - table->linear_interpolation(x);
+    const double diff_fd = std::erfc(x) - table->forward_difference_interpolation(x);
+
+    EXPECT_LT(std::abs(diff_lin), 0.002);
+    EXPECT_LT(std::abs(diff_fd ), 0.0005);
+    //INFO(x << " " << std::erfc(x) << " " << diff_lin << " " << diff_fd);
+  }
+}
+
 TEST(Table2D, interpolate) {
   auto table = MakeTable2D(
     {{"num0", "2"}, {"num1", "2"}, {"default_value", "0."}});

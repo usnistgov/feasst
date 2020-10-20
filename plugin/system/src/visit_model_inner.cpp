@@ -37,14 +37,14 @@ void VisitModelInner::compute(
     const bool is_old_config,
     Position * relative,
     Position * pbc) {
-  if (is_old_config && is_energy_map_queryable()) {
-    DEBUG("using old map");
-    query_ixn(part1_index, site1_index, part2_index, site2_index);
-    return;
-  }
+//  if (is_old_config && is_energy_map_queryable()) {
+//    DEBUG("using old map");
+//    query_ixn(part1_index, site1_index, part2_index, site2_index);
+//    return;
+//  }
   const Particle& part1 = config->select_particle(part1_index);
   const Site& site1 = part1.site(site1_index);
-  clear_ixn(part1_index, site1_index, part2_index, site2_index);
+  if (!is_old_config) clear_ixn(part1_index, site1_index, part2_index, site2_index);
   if (site1.is_physical()) {
     const Particle& part2 = config->select_particle(part2_index);
     const Site& site2 = part2.site(site2_index);

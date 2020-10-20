@@ -192,7 +192,7 @@ Accumulator henry(System system) {
 
 TEST(ModelTableCart3DIntegr, atomistic_slab_henry_LONG) {
   const Accumulator h = henry(slab(1, 1));
-  EXPECT_NEAR(h.average(), 55.5, 3*h.stdev_of_av());
+  EXPECT_NEAR(h.average(), 55.5, 4*h.stdev_of_av());
 }
 
 TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {

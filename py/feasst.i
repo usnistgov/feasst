@@ -61,6 +61,7 @@
 #include "system/include/neighbor_criteria.h"
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/energy_map_neighbor.h"
+#include "cluster/include/energy_map_neighbor_criteria.h"
 #include "cluster/include/energy_map_all_criteria.h"
 #include "system/include/visit_model.h"
 #include "system/include/model_two_body.h"
@@ -142,8 +143,8 @@
 #include "chain/include/trial_swap_sites.h"
 #include "growth_expanded/include/trial_morph_expanded.h"
 #include "growth_expanded/include/trial_morph.h"
-#include "monte_carlo/include/trial_volume.h"
 #include "cluster/include/trial_avb4.h"
+#include "monte_carlo/include/trial_volume.h"
 #include "monte_carlo/include/trial_remove.h"
 #include "cluster/include/trial_add_avb.h"
 #include "cluster/include/trial_remove_avb.h"
@@ -220,6 +221,7 @@
 #include "math/include/solver_bisection.h"
 #include "math/include/solver_brent_dekker.h"
 #include "opt_lj/include/visit_model_opt_lj.h"
+#include "opt_lj/include/visit_model_opt_rpm.h"
 #include "ewald/include/trial_remove_multiple.h"
 #include "ewald/include/trial_add_multiple.h"
 #include "ewald/include/charge_self.h"
@@ -335,6 +337,7 @@ using namespace std;
 %shared_ptr(feasst::NeighborCriteria);
 %shared_ptr(feasst::EnergyMapAll);
 %shared_ptr(feasst::EnergyMapNeighbor);
+%shared_ptr(feasst::EnergyMapNeighborCriteria);
 %shared_ptr(feasst::EnergyMapAllCriteria);
 %shared_ptr(feasst::VisitModel);
 %shared_ptr(feasst::ModelTwoBody);
@@ -424,8 +427,8 @@ using namespace std;
 %shared_ptr(feasst::TrialSwapSites);
 %shared_ptr(feasst::TrialMorphExpanded);
 %shared_ptr(feasst::TrialMorph);
-%shared_ptr(feasst::TrialVolume);
 %shared_ptr(feasst::TrialAVB4);
+%shared_ptr(feasst::TrialVolume);
 %shared_ptr(feasst::TrialRemove);
 %shared_ptr(feasst::TrialAddAVB);
 %shared_ptr(feasst::TrialRemoveAVB);
@@ -519,6 +522,7 @@ using namespace std;
 %shared_ptr(feasst::SolverBisection);
 %shared_ptr(feasst::SolverBrentDekker);
 %shared_ptr(feasst::VisitModelOptLJ);
+%shared_ptr(feasst::VisitModelOptRPM);
 %shared_ptr(feasst::TrialRemoveMultiple);
 %shared_ptr(feasst::TrialAddMultiple);
 %shared_ptr(feasst::ChargeSelf);
@@ -616,6 +620,7 @@ using namespace std;
 %include system/include/neighbor_criteria.h
 %include cluster/include/energy_map_all.h
 %include cluster/include/energy_map_neighbor.h
+%include cluster/include/energy_map_neighbor_criteria.h
 %include cluster/include/energy_map_all_criteria.h
 %include system/include/visit_model.h
 %include system/include/model_two_body.h
@@ -697,8 +702,8 @@ using namespace std;
 %include chain/include/trial_swap_sites.h
 %include growth_expanded/include/trial_morph_expanded.h
 %include growth_expanded/include/trial_morph.h
-%include monte_carlo/include/trial_volume.h
 %include cluster/include/trial_avb4.h
+%include monte_carlo/include/trial_volume.h
 %include monte_carlo/include/trial_remove.h
 %include cluster/include/trial_add_avb.h
 %include cluster/include/trial_remove_avb.h
@@ -775,6 +780,7 @@ using namespace std;
 %include math/include/solver_bisection.h
 %include math/include/solver_brent_dekker.h
 %include opt_lj/include/visit_model_opt_lj.h
+%include opt_lj/include/visit_model_opt_rpm.h
 %include ewald/include/trial_remove_multiple.h
 %include ewald/include/trial_add_multiple.h
 %include ewald/include/charge_self.h

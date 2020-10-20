@@ -13,7 +13,7 @@
 
 namespace feasst {
 
-TEST(MonteCarlo, NVT_opt_lj_benchmark) {
+TEST(MonteCarlo, NVT_opt_lj_BENCHMARK_LONG) {
   MonteCarlo mc;
   mc.set(lennard_jones());
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
@@ -25,10 +25,11 @@ TEST(MonteCarlo, NVT_opt_lj_benchmark) {
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
   SeekNumParticles(50).with_trial_add().run(&mc);
   // mc.seek_num_particles(250);
-  // mc.attempt(1e6);  // 4.1 sec with 50 [5 sec 11/21/19, 4.3 on 1/6/19, 4.5 on 1/30/19 (4.18 VERBOSE_LEVEL=0)]
+  mc.attempt(1e6);  // 3.28s with 50 on 10/16/20 without is_physical (3.03s VERBOSE 0)
+  //mc.attempt(1e6);  // 4.1 sec with 50 [5 sec 11/21/19, 4.3 on 1/6/19, 4.5 on 1/30/19 (4.18 VERBOSE_LEVEL=0)]
   // mc.seek_num_particles(450);
   // mc.attempt(1e5);  // 15 sec with 450 on slow computer
-  mc.attempt(1e3);
+  //mc.attempt(1e3);
   // DEBUG("\n" << mc.timer_str());
 }
 

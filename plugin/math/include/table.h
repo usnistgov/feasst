@@ -57,6 +57,10 @@ class Table1D : public Table {
   /// Return linear interpolation of data given normalized values.
   double linear_interpolation(const double value0) const;
 
+  /// Return the Newton-Gregory forward difference interpolation.
+  /// See Allen and Tildesley, 5.2.2, Booth 1972
+  double forward_difference_interpolation(const double value0) const;
+
   double minimum() const override;
   double maximum() const override;
 

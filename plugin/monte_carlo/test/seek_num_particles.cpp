@@ -12,14 +12,14 @@ TEST(SeekNumParticles, seek) {
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   SeekNumParticles(50).with_trial_add().run(&mc);
   EXPECT_EQ(mc.configuration().num_particles(), 50);
-  try {
+  TRY(
     SeekNumParticles(50, {{"particle_type", "1"}}).with_trial_add().run(&mc);
     CATCH_PHRASE("type: 1 >= num");
-  }
-  try {
+  );
+  TRY(
     SeekNumParticles(50).with_trial_add({{"particle_type", "1"}}).run(&mc);
     CATCH_PHRASE("add: 1 not equal to type of seek");
-  }
+  );
 }
 
 }  // namespace feasst

@@ -49,7 +49,7 @@ void ComputeMoveCluster::perturb_and_acceptance(
 //      << "than new size: " << size_new << " unless rigid translate/rotation "
 //      << "improperly broke apart the cluster");
 //    ASSERT(!csel->is_constraint_satisfied(*system), "cluster should have changed");
-//    INFO("reject due to cluster changing");
+//    DEBUG("reject due to cluster changing");
 //    ASSERT(acceptance->reject(), "rej");
 //    acceptance->set_reject(true);
 //  } else {

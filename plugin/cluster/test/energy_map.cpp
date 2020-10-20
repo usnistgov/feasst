@@ -8,6 +8,7 @@
 #include "cluster/include/energy_map_all.h"
 #include "cluster/include/energy_map_all_criteria.h"
 #include "cluster/include/energy_map_neighbor.h"
+#include "cluster/include/energy_map_neighbor_criteria.h"
 
 namespace feasst {
 
@@ -16,9 +17,10 @@ TEST(EnergyMap, energy_map) {
   auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", str(rcut)}});
   //for (std::string mapstr : {"all"}) {
   //for (std::string mapstr : {"all_criteria"}) {
-  for (std::string mapstr : {"neighbor"}) {
+  //for (std::string mapstr : {"neighbor"}) {
   //for (std::string mapstr : {"all", "all_criteria"}) {
   //for (std::string mapstr : {"all", "all_criteria", "neighbor"}) {
+  for (std::string mapstr : {"all", "all_criteria", "neighbor", "neighbor_criteria"}) {
     std::shared_ptr<EnergyMap> map;
     if (mapstr == "all") {
       map = MakeEnergyMapAll();
@@ -26,6 +28,8 @@ TEST(EnergyMap, energy_map) {
       map = MakeEnergyMapAllCriteria(neighbor_criteria);
     } else if (mapstr == "neighbor") {
       map = MakeEnergyMapNeighbor();
+    } else if (mapstr == "neighbor_criteria") {
+      map = MakeEnergyMapNeighborCriteria(neighbor_criteria);
     } else {
       FATAL("unrecognized mapstr");
     }
@@ -37,12 +41,12 @@ TEST(EnergyMap, energy_map) {
     visit.finalize(config.selection_of_all());
     const double en_lj_all = -16.790321304625856;
     EXPECT_NEAR(en_lj_all, visit.energy(), NEAR_ZERO);
-    INFO(visit.inner().energy_map().total_energy());
+    //INFO(visit.inner().energy_map().total_energy());
     if (mapstr == "all" || mapstr == "neighbor") {
       EXPECT_NEAR(en_lj_all,
                   visit.inner().energy_map().total_energy(),
                   1e-13);
-    } else if (mapstr == "all_criteria") {
+    } else if (mapstr == "all_criteria" || mapstr == "neighbor_criteria") {
       EXPECT_NEAR(-15.076312312129398,
                   visit.inner().energy_map().total_energy(),
                   1e-13);
@@ -69,13 +73,12 @@ TEST(EnergyMap, energy_map) {
       config,
       0, 0, 0,
       &neighs2);
-    INFO("neighs2 " << neighs2.str());
+    //INFO("neighs2 " << neighs2.str());
     const int neighbor = random.const_element(neighs2.particle_indices());
     EXPECT_EQ(neighs_rcut.size(), static_cast<int>(neighs2.num_sites()));
     EXPECT_TRUE(find_in_list(neighbor, neighs2.particle_indices()));
 
     test_serialize(visit);
-    INFO("hi");
   }
 }
 

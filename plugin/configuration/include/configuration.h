@@ -228,9 +228,16 @@ class Configuration {
   /// Return the number of sites of each type in selection.
   std::vector<int> num_sites_of_type(const Select& selection) const;
 
+  /// Same as above, but optimized to use existing data structure.
+  void num_sites_of_type(const Select& selection, std::vector<int> * num) const;
+
   /// Return the number of sites of each type in group.
   std::vector<int> num_sites_of_type(const int group_index = 0.) const {
     return num_sites_of_type(group_selects()[group_index]); }
+
+  /// Same as above, but optimized to use existing data structure.
+  void num_sites_of_type(const int group_index, std::vector<int> * num) const {
+    num_sites_of_type(group_selects()[group_index], num); }
 
   //@}
   /** @name Modifications

@@ -63,15 +63,10 @@ class Cells {
   /// Set the type.
   void set_type(const int type) { type_ = type; }
 
-  ///
   void add(const Select& select, const int cell) {
-    // INFO("before " << particles_[cell].str());
-    particles_[cell].add(select);
-    // INFO("after " << particles_[cell].str());
-  }
+    particles_[cell].add(select); }
   void remove(const Select& select, const int cell) {
-    particles_[cell].remove(select);
-  }
+    particles_[cell].remove(select); }
   void update(const Select& select, const int cell_new, const int cell_old) {
     particles_[cell_old].remove(select);
     particles_[cell_new].add(select);

@@ -19,7 +19,6 @@ static MapModelSquareWellShape map_model_hard_shape_ = MapModelSquareWellShape()
 ModelSquareWellShape::ModelSquareWellShape(std::shared_ptr<Shape> shape,
   const argtype& args) : ModelOneBody(), ShapedEntity(shape) {
   class_name_ = "ModelSquareWellShape";
-  args_.init(args);
 }
 
 void ModelSquareWellShape::serialize(std::ostream& ostr) const {

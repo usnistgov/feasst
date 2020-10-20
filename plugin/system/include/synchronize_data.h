@@ -11,6 +11,12 @@ typedef std::vector<std::vector<std::vector<std::vector<
   std::vector<double> > > > > vec5;
 typedef std::vector<std::vector<std::vector<std::vector<std::vector<
   std::vector<double> > > > > > vec6;
+typedef std::vector<std::pair<int, std::vector<double> > > vpv;
+typedef std::vector<std::pair<int, vpv> > vpvpv;
+typedef std::vector<std::pair<int, vpvpv> > vpvpvpv;
+typedef std::vector<std::pair<int, vpvpvpv> > vpvpvpvpv;
+typedef std::vector<vpvpv> vvpvpv;
+typedef std::vector<vvpvpv> vvvpvpv;
 
 /**
   This is a generic data container used to synchronized derived classes from
@@ -26,29 +32,41 @@ class SynchronizeData {
   /// Return 1D data.
   const std::vector<int64_t>& int64_1D() const { return int64_1D_; }
 
-  /// Return 2D data.
-  const std::vector<std::vector<double> >& dble_2D() const { return dble_2D_; }
-
-  /// Return 5D data.
-  const vec5& dble_5D() const { return dble_5D_; }
-
-  /// Return 6D data.
-  const vec6& dble_6D() const { return dble_6D_; }
-
   /// Get 1D data.
   std::vector<double> * get_dble_1D() { return &dble_1D_; }
 
   /// Get 1D data.
   std::vector<int64_t> * get_int64_1D() { return &int64_1D_; }
 
+  /// Return 2D data.
+  const std::vector<std::vector<double> >& dble_2D() const { return dble_2D_; }
+
   /// Get 2D data.
   std::vector<std::vector<double> > * get_dble_2D() { return &dble_2D_; }
+
+  /// Return 5D data.
+  const vec5& dble_5D() const { return dble_5D_; }
 
   /// Get 5D data.
   vec5 * get_dble_5D() { return &dble_5D_; }
 
+  /// Return 6D data.
+  const vec6& dble_6D() const { return dble_6D_; }
+
   /// Get 6D data.
   vec6 * get_dble_6D() { return &dble_6D_; }
+
+  /// Return vpvpvpvpv data.
+  const vpvpvpvpv& get_const_vpvpvpvpv() const { return vpvpvpvpv_; }
+
+  /// Get vpvpvpvpv data.
+  vpvpvpvpv * get_vpvpvpvpv() { return &vpvpvpvpv_; }
+
+  /// Return vvvpvpv data.
+  const vvvpvpv& get_const_vvvpvpv() const { return vvvpvpv_; }
+
+  /// Get vvvpvpv data.
+  vvvpvpv * get_vvvpvpv() { return &vvvpvpv_; }
 
   void serialize(std::ostream& ostr) const;
   explicit SynchronizeData(std::istream& istr);
@@ -59,6 +77,8 @@ class SynchronizeData {
   std::vector<std::vector<double> > dble_2D_;
   vec5 dble_5D_;
   vec6 dble_6D_;
+  vpvpvpvpv vpvpvpvpv_;
+  vvvpvpv vvvpvpv_;
 };
 
 }  // namespace feasst

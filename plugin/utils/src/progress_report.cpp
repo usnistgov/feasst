@@ -74,7 +74,7 @@ void ProgressReport::write() {
   }
   DEBUG("filename? " << file_name_);
   if (file_name_.empty()) {
-    INFO(ss.str());
+    std::cout << ss.str() << std::endl;
   } else {
     std::ofstream file;
     file.open(file_name_, std::ofstream::out | std::ofstream::app);

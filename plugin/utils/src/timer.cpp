@@ -61,7 +61,8 @@ std::string Timer::str() const {
 
 int Timer::name_to_index_(const std::string name) const {
   int index = -1;
-  ASSERT(find_in_list(name, names_, &index), "name " << name << " not found.");
+  const bool found = find_in_list(name, names_, &index);
+  ASSERT(found, "name " << name << " not found.");
   return index;
 }
 

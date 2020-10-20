@@ -30,10 +30,10 @@ TEST(SelectSiteOfType, serialize) {
 //              site.site_index(0, 0) == 9);
   SelectSiteOfType sel4 = test_serialize(*sel);
   auto sel5 = MakeSelectSiteOfType({{"site_type", "3"}});
-  try {
+  TRY(
     sel5->random_site_in_particle(config, &site, random.get());
     CATCH_PHRASE("site_type: 3 is not present");
-  }
+  );
 }
 
 }  // namespace feasst

@@ -7,7 +7,7 @@
 namespace feasst {
 
 TEST(HalfSpaceSine, args) {
-  try {
+  TRY(
     HalfSpaceSine half_space(
       MakeFormulaSineWave({{"shift", "1"}}),
       { {"dimension", "0"},
@@ -15,7 +15,7 @@ TEST(HalfSpaceSine, args) {
         {"intersection", "0"},
         {"wave_dimension", "1"}});
     CATCH_PHRASE("use the intersection argument instead of shift");
-  }
+  );
 }
 
 TEST(HalfSpaceSine, direction1) {

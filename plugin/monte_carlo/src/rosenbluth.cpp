@@ -96,6 +96,7 @@ Rosenbluth::Rosenbluth(std::istream& istr) {
 void Rosenbluth::set_energy(const int step, const double energy) {
   DEBUG("en: " << energy);
   ASSERT(!std::isinf(energy), "energy: " << energy << " is inf.");
+  ASSERT(!std::isnan(energy), "energy: " << energy << " is nan.");
   energy_[step] = energy;
 }
 

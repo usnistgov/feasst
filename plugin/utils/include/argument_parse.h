@@ -13,8 +13,14 @@ namespace feasst {
  */
 class ArgumentParse {
  public:
-  /// Construct with documentation when "-h" option is given.
-  ArgumentParse(const char * text) { doc_ = text; }
+  /// Construct with documentation to print when "-h" option is given.
+  ArgumentParse(const char * header,
+    /// Add documention and default value for options.
+    /// For each option, the first value is the option itself.
+    /// The second is the documentation string.
+    /// And the third (optional) is the default value.
+    std::vector<std::vector<std::string> > options =
+    std::vector<std::vector<std::string> >());
 
   /// Parse the c-style input arguments.
   /// If "-h" option is given, print the documentation.
@@ -34,28 +40,20 @@ class ArgumentParse {
   bool option_given(const std::string& option) const;
 
   /// Return option.
-  const std::string get(const std::string& option,
-    const std::string dflt = "") const;
+  const std::string get(const std::string& option) const;
 
   /// Same as get(), but return option as a double.
   double get_double(const std::string& option) const;
 
-  /// Same as above, but provide a default value if option not given.
-  double get_double(const std::string& option,
-                    const double dflt) const;
-
   /// Same as get(), but return option as an int.
   int get_int(const std::string& option) const;
 
-  /// Same as above, but provide a default value if option not given.
-  int get_int(const std::string& option,
-              const int dflt) const;
-
  private:
+  bool is_parsed_ = false;
   std::vector<std::string> args_;
+  std::vector<std::string> default_option_;
+  std::vector<std::string> default_value_;
   std::string doc_;
-
-  const std::string get_(const std::string& option) const;
 };
 
 }  // namespace feasst

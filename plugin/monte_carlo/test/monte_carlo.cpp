@@ -71,7 +71,7 @@ TEST(MonteCarlo, serialize) {
   EXPECT_EQ(mc2.modify(0).modify(1).class_name(), "Tuner");
 }
 
-TEST(MonteCarlo, NVT_benchmark) {
+TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
   MonteCarlo mc;
   mc.set(lennard_jones());
   mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
@@ -85,14 +85,14 @@ TEST(MonteCarlo, NVT_benchmark) {
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
   SeekNumParticles(50).with_trial_add().add(MakeProgressReport()).run(&mc);
   // mc.seek_num_particles(250);
-  // mc.attempt(1e6);  // 5.4s with 50 (see opt_lj for 4.3s)
+  mc.attempt(1e6);  // 5.4s with 50 (see opt_lj for 4.3s)
   // mc.seek_num_particles(450);
   // mc.attempt(1e5);  // 15 sec with 450 on slow computer
-  mc.attempt(1e3);
+  //mc.attempt(1e3);
   // DEBUG("\n" << mc.timer_str());
 }
 
-TEST(MonteCarlo, NVT_cell_benchmark) {
+TEST(MonteCarlo, NVT_cell_BENCHMARK_LONG) {
   MonteCarlo mc;
   mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"},
                                    {"init_cells", "1"}}),
@@ -114,12 +114,12 @@ TEST(MonteCarlo, NVT_cell_benchmark) {
     .run(&mc);
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/cell"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
-  //mc.attempt(1e5);  // 3 sec with 50 particles, 10 steps on hwhdesk after site cells integer
+  mc.attempt(1e5);  // 3 sec with 50 particles, 10 steps on hwhdesk after site cells integer
   //mc.attempt(1e5);  // 4.4 sec with 50 particles, 10 steps on hwhdesk after cell group opt
   //mc.attempt(1e5);  // 4.5 sec with 50 particles, 10 steps on hwhdesk after domain shift opt
   //mc.attempt(1e5);  // 5.6 sec with 50 particles, 10 steps on hwhdesk
   //mc.attempt(1e5);  // 5.1 sec with 50 particles, 10 steps on hwhdesk after opt cell_id
-  mc.attempt(1e3);
+  //mc.attempt(1e3);
   // mc.attempt(1e6);
 }
 
@@ -308,7 +308,7 @@ TEST(MonteCarlo, ideal_gas_pressure_LONG) {
                      {"file_name", "tmp/ideal_gas_volume"}}));
   mc.attempt(1e6);
   const Accumulator& vol = mc.analyzers()[mc.num_analyzers()-1]->accumulator();
-  EXPECT_NEAR(vol.average(), volume, 3*vol.block_stdev());
+  EXPECT_NEAR(vol.average(), volume, 4*vol.block_stdev());
 }
 
 }  // namespace feasst

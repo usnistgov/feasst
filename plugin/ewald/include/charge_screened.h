@@ -6,6 +6,8 @@
 
 namespace feasst {
 
+class Table1D;
+
 /**
   Compute energy between two point charges, \f$q_i\f$ and \f$q_j\f$ with a
   Gaussian screening cloud as utilized by the Ewald summation.
@@ -23,7 +25,13 @@ namespace feasst {
  */
 class ChargeScreened : public ModelTwoBody {
  public:
-  ChargeScreened() { class_name_ = "ChargeScreened"; }
+  /**
+   args:
+   - disable_table: if true, do not use a tabular erfc (default: false).
+   - hard_sphere_threshold: return NEAR_INFINITY when distance is less than
+     this threshold (default: 0.1).
+   */
+  ChargeScreened(const argtype& args = argtype());
 
   double energy(
       const double squared_distance,
@@ -32,6 +40,10 @@ class ChargeScreened : public ModelTwoBody {
       const ModelParams& model_params) const override;
 
   void precompute(const ModelParams& existing) override;
+
+  /// Return the erfc table.
+  const Table1D * erfc(const double distance_squared) const {
+    return erfc_.get(); }
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ChargeScreened>(istr); }
@@ -42,10 +54,19 @@ class ChargeScreened : public ModelTwoBody {
  private:
   double alpha_;
   double conversion_factor_;
+  double hard_sphere_threshold_sq_;
+
+  std::shared_ptr<Table1D> erfc_;
+  void init_erfc_(const double cutoff,
+    const int num_elements = 1e5);
+  // shift increases the table slightly beyond the range of the cutoff
+  // in addition, if shift is less than zero, the table is not used.
+  double shift_ = 1.;
 };
 
-inline std::shared_ptr<ChargeScreened> MakeChargeScreened() {
-  return std::make_shared<ChargeScreened>();
+inline std::shared_ptr<ChargeScreened> MakeChargeScreened(
+    const argtype& args = argtype()) {
+  return std::make_shared<ChargeScreened>(args);
 }
 
 }  // namespace feasst

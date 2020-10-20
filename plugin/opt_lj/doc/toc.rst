@@ -2,3 +2,4 @@
 .. toctree::
 
    VisitModelOptLJ
+   VisitModelOptRPM

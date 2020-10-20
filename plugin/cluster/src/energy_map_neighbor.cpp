@@ -65,7 +65,7 @@ double EnergyMapNeighbor::update(
       find_or_add_(site2_index,
       find_or_add_(part2_index,
       find_or_add_(site1_index,
-      find_or_add_(part1_index, &map_new_))));
+      find_or_add_(part1_index, map_new_()))));
     if (mn1->size() == 0) *mn1 = std::vector<double>(5, 0);
     (*mn1)[0] = energy;
     (*mn1)[1] = squared_distance;
@@ -79,7 +79,7 @@ double EnergyMapNeighbor::update(
 }
 
 void EnergyMapNeighbor::revert(const Select& select) {
-  map_new_.clear();
+  map_new_()->clear();
 }
 
 void EnergyMapNeighbor::finalize(const Select& select) {
@@ -87,12 +87,12 @@ void EnergyMapNeighbor::finalize(const Select& select) {
   DEBUG("new map: " << map_new_str());
   DEBUG("perturbed: " << select.str());
 
-  DEBUG("map size " << map_.size())
-  DEBUG("new map size " << map_new_.size())
+  DEBUG("map size " << map_()->size())
+  DEBUG("new map size " << map_new_()->size())
 
   // Sort map_new (needed for some VisitModel, like Cell)
-  std::sort(map_new_.begin(), map_new_.end());
-  for (std::pair<int, mn4type>& mn4 : map_new_) {
+  std::sort(map_new_()->begin(), map_new_()->end());
+  for (std::pair<int, mn4type>& mn4 : *map_new_()) {
     std::sort(mn4.second.begin(), mn4.second.end());
     for (std::pair<int, map3type>& mn3 : mn4.second) {
       std::sort(mn3.second.begin(), mn3.second.end());
@@ -104,28 +104,28 @@ void EnergyMapNeighbor::finalize(const Select& select) {
   DEBUG("sorted new map: " << map_new_str());
 
   // Initially size map_
-  for (const std::pair<int, mn4type>& mn4 : map_new_) {
+  for (const std::pair<int, mn4type>& mn4 : *map_new_()) {
     const int part1 = mn4.first;
     DEBUG("part1 " << part1);
-    find_or_add_(part1, &map_);
-    DEBUG("mapsize " << map_.size());
+    find_or_add_(part1, map_());
+    DEBUG("mapsize " << map_()->size());
     for (const auto& mn3 : mn4.second) {
       const int site1 = mn3.first;
       DEBUG("site1 " << site1);
-      find_or_add_(site1, &map_[part1]);
-      DEBUG("map4size " << map_[part1].size());
+      find_or_add_(site1, &(*map_())[part1]);
+      DEBUG("map4size " << (*map_())[part1].size());
     }
   }
-  DEBUG("map size after init " << map_.size())
+  DEBUG("map size after init " << map_()->size())
 
   if (select.trial_state() == -1 ||
       select.trial_state() == 1) {
     // add part2 in new map not in old map
-    DEBUG("map new size: " << map_new_.size());
-    for (std::pair<int, mn4type>& mn4 : map_new_) {
+    DEBUG("map new size: " << map_new_()->size());
+    for (std::pair<int, mn4type>& mn4 : *map_new_()) {
       const int part1 = mn4.first;
       DEBUG("part1 " << part1);
-      map4type * map4 = find_or_add_(part1, &map_);
+      map4type * map4 = find_or_add_(part1, map_());
       for (std::pair<int, map3type>& mn3 : mn4.second) {
         const int site1 = mn3.first;
         map3type * map3 = find_or_add_(site1, map4);
@@ -145,7 +145,7 @@ void EnergyMapNeighbor::finalize(const Select& select) {
             const int site2 = mn1.first;
             map2type * map2inv = find_or_add_(part1,
                                  find_or_add_(site2,
-                                 find_or_add_(part2, &map_)));
+                                 find_or_add_(part2, map_())));
             map1type * map1inv = find_or_add_(site1, map2inv);
             *map1inv = mn1.second;
             invert_pbcs_(map1inv);
@@ -163,9 +163,9 @@ void EnergyMapNeighbor::finalize(const Select& select) {
     for (int spindex = 0; spindex < select.num_particles(); ++spindex) {
       const int part1 = select.particle_index(spindex);
       DEBUG("part1 " << part1);
-      if (part1 < static_cast<int>(map_.size())) {
-        map4type * map4 = &map_[part1];
-        mn4type * mn4 = find_or_add_(part1, &map_new_);
+      if (part1 < static_cast<int>(map_()->size())) {
+        map4type * map4 = &(*map_())[part1];
+        mn4type * mn4 = find_or_add_(part1, map_new_());
         for (const int site1 : select.site_indices(spindex)) {
           if (site1 < static_cast<int>(map4->size())) {
             DEBUG("site1 " << site1);
@@ -195,7 +195,7 @@ void EnergyMapNeighbor::finalize(const Select& select) {
                   const int site2 = mn1.first;
                   map2type * map2inv = find_or_add_(part1,
                                        find_or_add_(site2,
-                                       find_or_add_(part2, &map_)));
+                                       find_or_add_(part2, map_())));
                   int fsindex = -1;
                   const bool found = find_in_list(site1, *map2inv, &fsindex);
                   if (found) {
@@ -213,14 +213,14 @@ void EnergyMapNeighbor::finalize(const Select& select) {
     }
 
     // for part2 in both old and new map, add site2 in new map not in old
-    for (std::pair<int, mn4type>& mn4 : map_new_) {
+    for (std::pair<int, mn4type>& mn4 : *map_new_()) {
       for (std::pair<int, map3type>& mn3 : mn4.second) {
         const int site1 = mn3.first;
         ASSERT(site1 == 0, "not implemented");
       }
     }
     // for part2 in both old and new map, remove site2 in old map not in new
-    for (std::pair<int, mn4type>& mn4 : map_new_) {
+    for (std::pair<int, mn4type>& mn4 : *map_new_()) {
       for (std::pair<int, map3type>& mn3 : mn4.second) {
         const int site1 = mn3.first;
         ASSERT(site1 == 0, "not implemented");
@@ -230,8 +230,8 @@ void EnergyMapNeighbor::finalize(const Select& select) {
     for (int spindex = 0; spindex < select.num_particles(); ++spindex) {
       const int part1 = select.particle_index(spindex);
       DEBUG("part1 " << part1);
-      if (part1 < static_cast<int>(map_.size())) {
-        map4type * map4 = &map_[part1];
+      if (part1 < static_cast<int>(map_()->size())) {
+        map4type * map4 = &(*map_())[part1];
         for (const int site1 : select.site_indices(spindex)) {
           if (site1 < static_cast<int>(map4->size())) {
             DEBUG("site1 " << site1);
@@ -244,7 +244,7 @@ void EnergyMapNeighbor::finalize(const Select& select) {
                 DEBUG("site2 " << site2);
                 map2type * map2inv = find_or_add_(part1,
                                      find_or_add_(site2,
-                                     find_or_add_(part2, &map_)));
+                                     find_or_add_(part2, map_())));
                 int fsindex = -1;
                 const bool found = find_in_list(site2, *map2inv, &fsindex);
                 if (found) {
@@ -257,16 +257,16 @@ void EnergyMapNeighbor::finalize(const Select& select) {
             }
           }
         }
-        map_[part1] = map4type();
+        (*map_())[part1] = map4type();
       }
     }
   } else if (select.trial_state() == 3) {
     // Add "new" to map
-    DEBUG("map new size: " << map_new_.size());
-    for (const std::pair<int, mn4type>& mn4 : map_new_) {
+    DEBUG("map new size: " << map_new_()->size());
+    for (const std::pair<int, mn4type>& mn4 : *map_new_()) {
       const int part1 = mn4.first;
       DEBUG("part1 " << part1);
-      map4type * map4 = find_or_add_(part1, &map_);
+      map4type * map4 = find_or_add_(part1, map_());
       for (const std::pair<int, map3type>& mn3 : mn4.second) {
         const int site1 = mn3.first;
         DEBUG("site1 " << site1);
@@ -285,7 +285,7 @@ void EnergyMapNeighbor::finalize(const Select& select) {
             // perturb indices and add
             map2type * map2inv = find_or_add_(part1,
                                  find_or_add_(site2,
-                                 find_or_add_(part2, &map_)));
+                                 find_or_add_(part2, map_())));
             map1type * map1inv = find_or_add_(site1, map2inv);
             *map1inv = mn1.second;
             invert_pbcs_(map1inv);
@@ -298,7 +298,7 @@ void EnergyMapNeighbor::finalize(const Select& select) {
   } else {
     FATAL("unrecognized trial state: " << select.trial_state());
   }
-  map_new_.clear();
+  map_new_()->clear();
 }
 
 void EnergyMapNeighbor::select_cluster(
@@ -308,9 +308,9 @@ void EnergyMapNeighbor::select_cluster(
     Select * cluster,
     const Position& frame_of_reference) const {
   DEBUG("particle_node " << particle_node);
-  DEBUG("map size " << map_.size());
-  if (particle_node < static_cast<int>(map_.size())) {
-    const map4type& map4 = map_[particle_node];
+  DEBUG("map size " << const_map_().size());
+  if (particle_node < static_cast<int>(const_map_().size())) {
+    const map4type& map4 = const_map_()[particle_node];
     for (int site1 = 0; site1 < static_cast<int>(map4.size()); ++site1) {
       const map3type& map3 = map4[site1];
       for (const std::pair<int, map2type>& map2 : map3) {
@@ -351,16 +351,16 @@ const map3type * EnergyMapNeighbor::find_map3_(const int particle_index1,
     const int site_index1,
     const bool old) const {
   if (old) {
-    if (particle_index1 < static_cast<int>(map_.size())) {
-      const map4type& map4 = map_[particle_index1];
+    if (particle_index1 < static_cast<int>(const_map_().size())) {
+      const map4type& map4 = const_map_()[particle_index1];
       if (site_index1 < static_cast<int>(map4.size())) {
         return const_cast<const map3type *>(&map4[site_index1]);
       }
     }
   } else {
     int findex = -1;
-    if (find_in_list(particle_index1, map_new_, &findex)) {
-      const mn4type& map4 = map_new_[findex].second;
+    if (find_in_list(particle_index1, const_map_new_(), &findex)) {
+      const mn4type& map4 = const_map_new_()[findex].second;
       if (find_in_list(site_index1, map4, &findex)) {
         return const_cast<const map3type *>(&map4[findex].second);
       }
@@ -443,7 +443,7 @@ void EnergyMapNeighbor::resize_(
 
 double EnergyMapNeighbor::total_energy() const {
   double en = 0.;
-  for (const map4type& map4 : map_) {
+  for (const map4type& map4 : const_map_()) {
     for (const auto& map3 : map4) {
       for (const auto& map2 : map3) {
         for (const auto& map1 : map2.second) {
@@ -457,8 +457,8 @@ double EnergyMapNeighbor::total_energy() const {
 
 void EnergyMapNeighbor::check() const {
   // see if all neighbors are double counted
-  for (int part1 = 0; part1 < static_cast<int>(map_.size()); ++part1) {
-    const map4type& m4 = map_[part1];
+  for (int part1 = 0; part1 < static_cast<int>(const_map_().size()); ++part1) {
+    const map4type& m4 = const_map_()[part1];
     for (int site1 = 0; site1 < static_cast<int>(m4.size()); ++site1) {
       const map3type& m3 = m4[site1];
       for (int pneigh = 0; pneigh < static_cast<int>(m3.size()); ++pneigh) {
@@ -470,7 +470,7 @@ void EnergyMapNeighbor::check() const {
             const map1type& m1 = m2[sneigh].second;
             if (m1.size() > 0) {
               int tmp;
-              const bool found = find_in_list(part1, map_[part2][site2], &tmp);
+              const bool found = find_in_list(part1, const_map_()[part2][site2], &tmp);
               ASSERT(found, "unmatched pair part1: " << part1 << " part2: " << part2
                 << " map: " << map_str());
             }
@@ -497,21 +497,7 @@ void EnergyMapNeighbor::neighbors(
   //const vec4 * map4 = const_cast<vec4 * const>(&map()[target_particle]);
   const map3type * map3 = NULL;
   ASSERT(!map3, "er");
-  if (new_map == 0) {
-    map3 = const_cast<map3type * const>(&map_[target_particle][target_site]);
-    DEBUG("map " << map_str());
-    DEBUG("map3 " << map_str(*map3));
-  } else {
-    int fpindex = -1;
-    if (find_in_list(target_particle, map_new_, &fpindex)) {
-      const mn4type& map4 = map_new_[fpindex].second;
-      //const map4type * map4 = const_cast<map4type * const>(&map_[fpindex]);
-      int fsindex = -1;
-      if (find_in_list(target_site, map4, &fsindex)) {
-        map3 = const_cast<map3type * const>(&map4[fsindex].second);
-      }
-    }
-  }
+  map3 = find_map3_(target_particle, target_site, !new_map);
   if (map3) {
     DEBUG(map_str(*map3));
     for (int pindex = 0; pindex < static_cast<int>(map3->size()); ++pindex) {
@@ -548,7 +534,7 @@ std::string EnergyMapNeighbor::map_str(const map3type& map3) const {
 std::string EnergyMapNeighbor::map_new_str() const {
   std::stringstream ss;
   ss << std::endl;
-  for (const std::pair<int, mn4type>& map4: map_new_) {
+  for (const std::pair<int, mn4type>& map4: const_map_new_()) {
     ss << "p1 " << map4.first << ":|";
     for (const std::pair<int, map3type>& map3 : map4.second) {
       ss << "s1 " << map3.first << ":[" << map_str(map3.second) << "],";
@@ -561,9 +547,9 @@ std::string EnergyMapNeighbor::map_new_str() const {
 std::string EnergyMapNeighbor::map_str() const {
   std::stringstream ss;
   ss << std::endl;
-  for (int part1 = 0; part1 < static_cast<int>(map_.size()); ++part1) {
+  for (int part1 = 0; part1 < static_cast<int>(const_map_().size()); ++part1) {
     ss << "p1 " << part1 << ":|";
-    const map4type& map4 = map_[part1];
+    const map4type& map4 = const_map_()[part1];
     for (int site1 = 0; site1 < static_cast<int>(map4.size()); ++site1) {
       const map3type& map3 = map4[site1];
       ss << "s1 " << site1 << ":[" << map_str(map3) << "],";
@@ -571,6 +557,26 @@ std::string EnergyMapNeighbor::map_str() const {
     ss << "|," << std::endl;
   }
   return ss.str();
+}
+
+const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& EnergyMapNeighbor::map() const { FATAL("not impl"); }
+
+typedef std::vector<std::pair<int, map3type> > mn4type;
+typedef std::vector<map3type> map4type;
+std::vector<map4type> * EnergyMapNeighbor::map_() {
+  return data_.get_vvvpvpv();
+}
+
+const std::vector<map4type>& EnergyMapNeighbor::const_map_() const {
+  return const_cast<const std::vector<map4type>&>(data_.get_const_vvvpvpv());
+}
+
+std::vector<std::pair<int, mn4type> > * EnergyMapNeighbor::map_new_() {
+  return data_.get_vpvpvpvpv();
+}
+
+const std::vector<std::pair<int, mn4type> >& EnergyMapNeighbor::const_map_new_() const {
+  return const_cast<std::vector<std::pair<int, mn4type> >&>(data_.get_const_vpvpvpvpv());
 }
 
 }  // namespace feasst

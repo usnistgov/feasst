@@ -1,5 +1,6 @@
 #include <cmath>
 #include <vector>
+#include "utils/include/utils.h"
 #include "utils/include/serialize.h"
 #include "math/include/constants.h"
 #include "configuration/include/select.h"
@@ -105,6 +106,13 @@ void VisitModel::compute(
       selection.trial_state() == 2) {
     is_old_config = true;
   }
+  // HWH Implement query of old energy map
+//  if (is_old_config) {
+//    if (get_inner_()->energy_map()) {
+//      if (get_inner_()->energy_map()->is_queryable()) {
+//      }
+//    }
+//  }
   // If only one particle in selection, simply exclude part1==part2
   if (selection.num_particles() == 1) {
     for (int select1_index = 0;
@@ -119,9 +127,9 @@ void VisitModel::compute(
            ++select2_index) {
         const int part2_index = select_all.particle_index(select2_index);
         if (part1_index != part2_index) {
-          for (int site1_index : selection.site_indices(select1_index)) {
+          for (const int site1_index : selection.site_indices(select1_index)) {
             TRACE("site1_index " << site1_index);
-            for (int site2_index : select_all.site_indices(select2_index)) {
+            for (const int site2_index : select_all.site_indices(select2_index)) {
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                     site1_index << " " << site2_index);
               get_inner_()->compute(part1_index, site1_index,
@@ -134,28 +142,25 @@ void VisitModel::compute(
         }
       }
     }
-  // If selection is more than one particle, remove those in selection from
-  // select_all.
+  // If selection is more than one particle, skip those in selection
   // Calculate energy in two separate loops.
   } else {
     TRACE("more than one particle in selection");
-    Select select_others = select_all;
-    select_others.remove(selection);
-    for (int select1_index = 0;
-         select1_index < selection.num_particles();
-         ++select1_index) {
-      const int part1_index = selection.particle_index(select1_index);
-      TRACE("part1_index " << part1_index << " s " <<
-            selection.particle_indices().size() << " " <<
-            selection.site_indices().size());
-      for (int select2_index = 0;
-           select2_index < select_others.num_particles();
-           ++select2_index) {
-        const int part2_index = select_others.particle_index(select2_index);
-        if (part1_index != part2_index) {
-          for (int site1_index : selection.site_indices(select1_index)) {
+    for (int select2_index = 0;
+         select2_index < select_all.num_particles();
+         ++select2_index) {
+      const int part2_index = select_all.particle_index(select2_index);
+      if (!find_in_list(part2_index, selection.particle_indices())) {
+        for (int select1_index = 0;
+             select1_index < selection.num_particles();
+             ++select1_index) {
+          const int part1_index = selection.particle_index(select1_index);
+          TRACE("part1_index " << part1_index << " s " <<
+                selection.particle_indices().size() << " " <<
+                selection.site_indices().size());
+          for (const int site1_index : selection.site_indices(select1_index)) {
             TRACE("site1_index " << site1_index);
-            for (int site2_index : select_others.site_indices(select2_index)) {
+            for (const int site2_index : select_all.site_indices(select2_index)) {
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                     site1_index << " " << site2_index);
               get_inner_()->compute(part1_index, site1_index,
@@ -168,6 +173,8 @@ void VisitModel::compute(
         }
       }
     }
+
+    // In the second loop, compute interactions between different particles in select.
     for (int select1_index = 0;
          select1_index < selection.num_particles() - 1;
          ++select1_index) {
@@ -181,9 +188,9 @@ void VisitModel::compute(
         const int part2_index = selection.particle_index(select2_index);
         if (part1_index != part2_index) {
           TRACE("sel2 " << select2_index << " part2_index " << part2_index);
-          for (int site1_index : selection.site_indices(select1_index)) {
+          for (const int site1_index : selection.site_indices(select1_index)) {
             TRACE("site1_index " << site1_index);
-            for (int site2_index : selection.site_indices(select2_index)) {
+            for (const int site2_index : selection.site_indices(select2_index)) {
               TRACE("index: " << part1_index << " " << part2_index << " " <<
                     site1_index << " " << site2_index);
               get_inner_()->compute(part1_index, site1_index,

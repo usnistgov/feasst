@@ -26,8 +26,6 @@ namespace feasst {
   5. TRACE
 
   These macros will print if they are equal to or less than the verbosity level.
-  Tests which expect exceptions (many) will fail if VERBOSE_LEVEL is set to 0.
-  ASSERT includes the conditional as the first argument.
 
   A way to decide whether to use TRACE or DEBUG is as follows.
   If the printout is once every trial move or less frequent, then DEBUG is

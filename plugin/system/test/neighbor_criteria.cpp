@@ -13,10 +13,10 @@ TEST(NeighborCriteria, volume) {
   EXPECT_NEAR(neighcrit.volume(3), 110.95267494438191, NEAR_ZERO);
   EXPECT_NEAR(neighcrit.volume(2), 26.263714584010668, NEAR_ZERO);
   test_serialize(neighcrit);
-  try {
+  TRY(
     neighcrit.volume(1);
     CATCH_PHRASE("dimension: 1");
-  }
+  );
 }
 
 }  // namespace feasst

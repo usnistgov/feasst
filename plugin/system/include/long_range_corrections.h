@@ -39,6 +39,10 @@ class LongRangeCorrections : public VisitModel {
  private:
   const std::string class_name_ = "LongRangeCorrections";
 
+  // temporary, and not serialized
+  std::vector<int> num_of_site_type_;
+  std::vector<int> select_types_;
+
   double energy_(
     const int type1,
     const int type2,
