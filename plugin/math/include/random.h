@@ -137,6 +137,49 @@ class Random {
     /// maximum angle of rotation in degrees.
     const double max_angle = 180);
 
+  /// Return the normal distribution with 0 mean and unit sigma (standard).
+  /// Use Box-Muller transformation.
+  /// See: https://mathworld.wolfram.com/Box-MullerTransformation.html
+  virtual double standard_normal();
+
+  /// Same as above, but with a given mean and standard deviation.
+  double normal(const double mean, const double stdev) {
+    return mean + stdev*standard_normal(); }
+
+  /**
+    Return a randomly selected bond length with harmonic potential of the form:
+    betaU ~ spring_constant*(length - equilibrium_length)**2
+    The typical 1/2 factor is included in spring_constant.
+    prob(length) ~ length**2 exp(-betaU) dlength
+    as described in Frenkel and Smit, Alg 43, page 578
+    and Allen and Tildesley, Section G.3.
+    The maximal length is 3 sigma beyond the mean.
+    Only currently implemented for 3 dimensions. */
+  double harmonic_bond_length(const double equilibrium_length,
+    const double spring_constant,
+    const int dimension);
+
+  /**
+    Same as above, but generalized for arbitrary exponential powers.
+    betaU ~ spring_constant*(length - equilibrium_length)**exponent
+    In this implementation, the maximum bond length is twice the equilibrium.
+    If exponent == 2, use harmonic_bond_length. */
+  double bond_length(const double equilibrium_length,
+    const double spring_constant,
+    const int exponent,
+    const int dimension);
+
+  /**
+    Return bond angle selected from probability distribution associated with
+    bending energy, \f$ \beta U=spring_constant*(t-equil_ang)^{exponent} \f$
+    from Frenkel and Smit, page 343, below Equation 13.3.6. */
+  double bond_angle(const double equilibrium_angle,
+    const double spring_constant,
+    const int exponent,
+    const int dimension,
+    /// Optionally, disallow angles < minimum_angle. The max angle is PI.
+    const double minimum_angle = 0.);
+
   /// Return the cache.
   const Cache& cache() const { return cache_; }
 

@@ -25,14 +25,15 @@ def mc(thread, mn, mx):
         ref = "0"
         num_steps = "4"
     mc.set(fst.lennard_jones(fst.args(sys_args)))
-    mc.add(fst.MakeFlatHistogram(
+    mc.set(fst.MakeThermoParams(fst.args({"beta": str(1./args.temperature),
+                                          "chemical_potential": str(args.mu)})))
+    mc.set(fst.MakeFlatHistogram(
         fst.MakeMacrostateNumParticles(
             fst.Histogram(fst.args({"width": "1", "max": str(mx), "min": str(mn)}))),
         # fst.MakeTransitionMatrix(fst.args({"min_sweeps": str(args.min_sweeps)})),
         fst.MakeWLTM(fst.args({"collect_flatness": "18",
                                "min_flatness": "22",
-                               "min_sweeps": str(args.min_sweeps)})),
-        fst.args({"beta": str(1./args.temperature), "chemical_potential": str(args.mu)})))
+                               "min_sweeps": str(args.min_sweeps)}))))
     mc.add(fst.MakeTrialTranslate(fst.args({"weight": "1.", "tunable_param": "1.",
         "reference_index": ref, "num_steps": num_steps})))
     mc.add(fst.MakeTrialTransfer(fst.args({"weight": "4", "particle_type": "0",

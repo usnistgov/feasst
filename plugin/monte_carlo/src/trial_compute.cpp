@@ -67,11 +67,11 @@ void TrialCompute::compute_rosenbluth(
     DEBUG("trial_state " << trial_state);
     if (old == 1) {
       acceptance->set_energy_old(en_full);
-      acceptance->add_to_ln_metropolis_prob(-1.*criteria->beta()*
+      acceptance->add_to_ln_metropolis_prob(-1.*system->thermo_params().beta()*
         (-en_full + energy_change));
     } else {
       acceptance->set_energy_new(en_full);
-      acceptance->add_to_ln_metropolis_prob(-1.*criteria->beta()*
+      acceptance->add_to_ln_metropolis_prob(-1.*system->thermo_params().beta()*
         (en_full - energy_change));
     }
   }

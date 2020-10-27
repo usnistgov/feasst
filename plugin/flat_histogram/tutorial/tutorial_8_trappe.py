@@ -34,12 +34,12 @@ def mc(thread, mn, mx):
         num = "1"
     config_args = dict()
     index = 0
-    criteria_args = {"beta": str(1./args.temperature)}
+    thermo_params = {"beta": str(1./args.temperature)}
     for part in args.particles:
         config_args["particle_type"+str(index)] = part
-        criteria_args["chemical_potential"+str(index)] = str(args.beta_mu*args.temperature)
+        thermo_params["chemical_potential"+str(index)] = str(args.beta_mu*args.temperature)
         index += 1
-    criteria_args["chemical_potential0"] = str((args.delta_betamu_0 + args.beta_mu)*args.temperature)
+    thermo_params["chemical_potential0"] = str((args.delta_betamu_0 + args.beta_mu)*args.temperature)
     mc.add(fst.Configuration(fst.MakeDomain(fst.args(domain_args)), config_args))
     mc.add(fst.Potential(fst.MakeLennardJones()))
     mc.add(fst.Potential(fst.MakeLongRangeCorrections()))
@@ -52,15 +52,15 @@ def mc(thread, mn, mx):
         for site_type in range(mc.configuration().num_site_types()):
             reference.set_model_param("cutoff", site_type, args.dccb_cutoff)
         mc.add_to_reference(reference)
-    mc.add(fst.MakeFlatHistogram(
+    mc.set(fst.MakeThermoParams(thermo_params))
+    mc.set(fst.MakeFlatHistogram(
         fst.MakeMacrostateNumParticles(
             fst.Histogram(fst.args({"width": "1", "max": str(mx), "min": str(mn)}))),
         # fst.MakeTransitionMatrix(fst.args({"min_sweeps": str(args.sweeps)})),
         fst.MakeWLTM(fst.args({
             "collect_flatness": str(args.collect_flatness),
             "min_flatness": str(args.min_flatness),
-            "min_sweeps": "1000"})),
-        criteria_args))
+            "min_sweeps": "1000"}))))
     for particle_type in range(mc.configuration().num_particle_types()):
         mc.add(fst.MakeTrialTranslate(fst.args({
             "particle_type": str(particle_type),
@@ -84,7 +84,7 @@ def mc(thread, mn, mx):
 #    mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per),
 #                                         "file_name": "clones" + str(thread),
 #                                         "file_name_append_phase": "True"})))
-      mc.add(fst.MakeEnergy(fst.args({
+    mc.add(fst.MakeEnergy(fst.args({
         "file_name": "en" + str(thread) + '.txt',
         "file_name_append_phase": "True",
         "start_after_phase": "0",

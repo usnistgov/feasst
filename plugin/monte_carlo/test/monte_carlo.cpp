@@ -57,7 +57,8 @@ namespace feasst {
 TEST(MonteCarlo, serialize) {
   MonteCarlo mc;
   mc.set(lennard_jones());
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.set(MakeCheckpoint({{"num_hours", "0.0001"}, {"file_name", "tmp/ljrst"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
@@ -74,7 +75,8 @@ TEST(MonteCarlo, serialize) {
 TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
   MonteCarlo mc;
   mc.set(lennard_jones());
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
@@ -100,7 +102,8 @@ TEST(MonteCarlo, NVT_cell_BENCHMARK_LONG) {
   mc.add(Potential(MakeLennardJones()));
   mc.add_to_reference(Potential(MakeLennardJones(), MakeVisitModelCell()));
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
-  mc.set(MakeMetropolis({{"beta", "1.2"}}));
+  mc.set(MakeThermoParams({{"beta", "1.2"}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({
     {"weight", "1"},
     {"reference_index", "0"},
@@ -109,7 +112,8 @@ TEST(MonteCarlo, NVT_cell_BENCHMARK_LONG) {
 //  const int steps_per = 1e3;
 //  mc.add(MakeCheckEnergy({{"steps_per", str(steps_per)}, {"tolerance", "1e-10"}}));
   SeekNumParticles(50)
-    .with_metropolis({{"beta", "0.1"}, {"chemical_potential", "10"}})
+    .with_thermo_params({{"beta", "0.1"}, {"chemical_potential", "10"}})
+    .with_metropolis()
     .with_trial_add()
     .run(&mc);
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/cell"}}));
@@ -126,7 +130,8 @@ TEST(MonteCarlo, NVT_cell_BENCHMARK_LONG) {
 TEST(MonteCarlo, NVT_SRSW) {
   MonteCarlo mc;
   mc.set(lennard_jones());
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
@@ -148,7 +153,8 @@ TEST(MonteCarlo, NVT_SRSW) {
 TEST(MonteCarlo, GCMC) {
   MonteCarlo mc;
   mc.set(lennard_jones());
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-3"}}));
+  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-3"}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
   EXPECT_NEAR(mc.trial(0).weight(), 1, NEAR_ZERO);
@@ -181,14 +187,15 @@ TEST(MonteCarlo, GCMC) {
 TEST(MonteCarlo, GCMC_cell) {
   MonteCarlo mc;
   mc.set(lennard_jones({{"dual_cut", "1."}}));
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."},
                              {"tunable_param", "1."},
                              {"reference_index", "0"},
                              {"num_steps", "4"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
+  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-6"}}));
   mc.add(MakeTrialTransfer(
     { {"particle_type", "0"},
       {"num_steps", "4"},
@@ -212,7 +219,8 @@ TEST(MonteCarlo, grow) {
     MonteCarlo mc;
     mc.set(lennard_jones({{"cubic_box_length", str(box_length)},
                           {"particle", data}}));
-    mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+    mc.set(MakeMetropolis());
     mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
     mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
     mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
@@ -224,7 +232,7 @@ TEST(MonteCarlo, grow) {
     EXPECT_TRUE (mc.trial(2).stage(0).trial_select().is_ghost());
     EXPECT_FALSE(mc.trial(3).stage(0).trial_select().is_ghost());
     SeekNumParticles(3).with_trial_add().run(&mc);
-    mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
+    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
     mc.add(MakeMovie(
      {{"steps_per", "1"},
       {"file_name", "tmp/grow.xyz"}}));
@@ -233,7 +241,7 @@ TEST(MonteCarlo, grow) {
       //mc.configuration().check();
     }
     EXPECT_LT(mc.configuration().num_particles(), 3);
-    mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "100"}}));
+    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "100"}}));
     mc.attempt(2e1);
     EXPECT_GE(mc.configuration().num_particles(), 1);
     mc.configuration().check();
@@ -245,15 +253,16 @@ TEST(MonteCarlo, ConstrainNumParticles) {
   for (const double minimum : {0, 1}) {
     MonteCarlo mc;
     mc.set(lennard_jones());
-    mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+    mc.set(MakeMetropolis());
     mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
     mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
     mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
     SeekNumParticles(1).with_trial_add().run(&mc);
-    mc.add(MakeMetropolis(
+    mc.set(MakeThermoParams({{"beta", "0.2"}, {"chemical_potential", "-20."}}));
+    mc.set(MakeMetropolis(
       MakeConstrainNumParticles({{"minimum", str(minimum)},
-                                 {"maximum", str(minimum+1)}}),
-      {{"beta", "0.2"}, {"chemical_potential", "-20."}}));
+                                 {"maximum", str(minimum+1)}})));
     mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
     const int index = mc.num_analyzers();
     mc.add(MakeNumParticles({{"steps_per_write", "10000"}}));
@@ -270,7 +279,8 @@ TEST(MonteCarlo, GCMC_binary_tune) {
   MonteCarlo mc;
   mc.set(lennard_jones());
   mc.get_system()->get_configuration()->add_particle_type("../forcefield/data.lj", "2");
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential0", "-6"}, {"chemical_potential1", "-8"}}));
+  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential0", "-6"}, {"chemical_potential1", "-8"}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}, {"particle_type", "0"}}));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}, {"particle_type", "1"}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
@@ -297,7 +307,8 @@ TEST(MonteCarlo, ideal_gas_pressure_LONG) {
   }
   mc.add(Potential(MakeDontVisitModel()));
   //mc.add(Potential(MakeIdealGas()));
-  mc.set(MakeMetropolis({{"beta", str(beta)}, {"pressure", str(pressure)}}));
+  mc.set(MakeThermoParams({{"beta", str(beta)}, {"pressure", str(pressure)}}));
+  mc.set(MakeMetropolis());
 //  mc.add(MakeTrialTranslate());
   mc.add(MakeTrialVolume({{"tunable_param", "0.5"}}));
   const std::string steps_per = str(int(1e2));

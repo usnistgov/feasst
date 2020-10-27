@@ -35,10 +35,10 @@ void TrialComputeAdd::perturb_and_acceptance(
     const TrialSelect& select = (*stages)[0]->trial_select();
     const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
-    DEBUG("volume " << volume << " selprob " << select.probability() << " betamu " << criteria->beta_mu(particle_type));
+    DEBUG("volume " << volume << " selprob " << select.probability() << " betamu " << system->thermo_params().beta_mu(particle_type));
     acceptance->add_to_ln_metropolis_prob(
       std::log(volume*select.probability())
-      + criteria->beta_mu(particle_type)
+      + system->thermo_params().beta_mu(particle_type)
     );
   }
 }

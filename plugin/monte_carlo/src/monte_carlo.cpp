@@ -37,7 +37,6 @@ void MonteCarlo::add(const Potential& potential) {
   system_.add(potential);
   system_.precompute();
   potential_set_ = true;
-  if (config_set_) system_set_ = true;
 }
 
 void MonteCarlo::set(const int index, const Potential& potential) {
@@ -45,6 +44,12 @@ void MonteCarlo::set(const int index, const Potential& potential) {
   ASSERT(potential_set_ || system_set_, "add potential before setting one");
   system_.set_unoptimized(index, potential);
   system_.precompute();
+}
+
+void MonteCarlo::set(std::shared_ptr<ThermoParams> thermo_params) {
+  system_.set(thermo_params);
+  thermo_params_set_ = true;
+  if (config_set_ && potential_set_) system_set_ = true;
 }
 
 void MonteCarlo::set(const System& system) {
@@ -180,6 +185,7 @@ void MonteCarlo::serialize(std::ostream& ostr) const {
   feasst_serialize_fstdr(random_, ostr);
   feasst_serialize(config_set_, ostr);
   feasst_serialize(potential_set_, ostr);
+  feasst_serialize(thermo_params_set_, ostr);
   feasst_serialize(system_set_, ostr);
   feasst_serialize(criteria_set_, ostr);
   feasst_serialize_endcap("MonteCarlo", ostr);
@@ -218,6 +224,7 @@ MonteCarlo::MonteCarlo(std::istream& istr) {
   }
   feasst_deserialize(&config_set_, istr);
   feasst_deserialize(&potential_set_, istr);
+  feasst_deserialize(&thermo_params_set_, istr);
   feasst_deserialize(&system_set_, istr);
   feasst_deserialize(&criteria_set_, istr);
   feasst_deserialize_endcap("MonteCarlo", istr);

@@ -9,12 +9,13 @@
 namespace feasst {
 
 /**
-  A random particle of given type is selected if previously perturbed sites
-    are not available.
+  A random particle of given type is selected if previously perturbed sites are
+  not available.
   Select a single angle from two given anchor sites and one mobile site.
   The mobile site is directly bonded to the first anchor site, and the second
-    anchor site is bonded to the first mobile site.
-  The angle is defined as: anchor2 - anchor1 - mobile.
+  anchor site is bonded to the first mobile site.
+  The angle is defined as: anchor2 - anchor1 - mobile, where anchor1 is the
+  vertex.
  */
 class TrialSelectAngle : public TrialSelectBond {
  public:
@@ -24,8 +25,8 @@ class TrialSelectAngle : public TrialSelectBond {
    */
   explicit TrialSelectAngle(const argtype& args = argtype());
 
-  // angle theta0 is added as a property
-  // anchor is sized
+  /// Same as derived, but also add the second anchor site, and add
+  /// angle_type as a property.
   void precompute(System * system) override;
 
   std::shared_ptr<TrialSelect> create(std::istream& istr) const override;

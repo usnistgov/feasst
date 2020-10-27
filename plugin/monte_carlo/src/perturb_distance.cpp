@@ -1,6 +1,8 @@
 #include "utils/include/serialize.h"
-#include "monte_carlo/include/perturb_distance.h"
+#include "math/include/constants.h"
+#include "math/include/utils_math.h"
 #include "math/include/random.h"
+#include "monte_carlo/include/perturb_distance.h"
 
 namespace feasst {
 
@@ -24,10 +26,14 @@ std::shared_ptr<Perturb> PerturbDistance::create(std::istream& istr) const {
 }
 
 void PerturbDistance::precompute(TrialSelect * select, System * system) {
-  // determine the bond length
-  // or input the bond length
-  if (select->has_property("bond_length")) {
-    distance_ = select->property("bond_length");
+  if (select->has_property("bond_type")) {
+    const int bond_type = feasst::round(select->property("bond_type"));
+    const Bond& bond = system->configuration().unique_types().particle(
+      select->particle_type()).bond(bond_type);
+    distance_ = bond.property("length");
+    if (bond.has_property("spring_constant")) {
+      spring_constant_ = bond.property("spring_constant");
+    }
   } else {
     WARN("using default distance (typically for reptation): " << distance_);
   }
@@ -41,7 +47,9 @@ void PerturbDistance::move(System * system,
   DEBUG("mobile " << mobile->str());
   DEBUG("old pos " << site->str());
   random->unit_sphere_surface(site);
-  site->multiply(distance_);
+  site->multiply(random_distance(random,
+    system->thermo_params().beta(),
+    system->dimension()));
   site->add(select->anchor_position(0, 0, *system));
   DEBUG("new pos " << site->str());
   system->get_configuration()->update_positions(select->mobile());
@@ -54,17 +62,30 @@ PerturbDistance::PerturbDistance(std::istream& istr)
   const int version = feasst_deserialize_version(istr);
   ASSERT(228 == version, "mismatch version: " << version);
   feasst_deserialize(&distance_, istr);
+  feasst_deserialize(&spring_constant_, istr);
 }
 
 void PerturbDistance::serialize_perturb_distance_(std::ostream& ostr) const {
   serialize_perturb_(ostr);
   feasst_serialize_version(228, ostr);
   feasst_serialize(distance_, ostr);
+  feasst_serialize(spring_constant_, ostr);
 }
 
 void PerturbDistance::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_perturb_distance_(ostr);
+}
+
+double PerturbDistance::random_distance(Random * random,
+    const double beta,
+    const int dimension) const {
+  if (std::abs(spring_constant_ + 1) < NEAR_ZERO) {
+    return distance_;
+  }
+  double spring = spring_constant_/beta;
+  if (std::abs(spring_constant_) < NEAR_ZERO) spring = 0.;
+  return random->bond_length(distance_, spring, 2, dimension);
 }
 
 }  // namespace feasst

@@ -53,20 +53,21 @@ MonteCarlo rpm_egce(const int min = 0,
   const double beta_mu = -13.94;
   if (min == 1) {
     SeekNumParticles(min)
-      .with_metropolis({{"beta", "0.01"}, {"chemical_potential", "1"}})
+      .with_thermo_params({{"beta", "0.01"}, {"chemical_potential", "1"}})
+      .with_metropolis()
       .with_trial_add()
       .run(&mc);
   } else if (min > 1) {
     FATAL("not implemented for min > 1");
   }
+  mc.set(MakeThermoParams({{"beta", str(1/temperature)},
+    {"chemical_potential0", str(beta_mu*temperature)},
+    {"chemical_potential1", str(beta_mu*temperature)}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
     MakeTransitionMatrix({{"min_sweeps", "100"}}),
-    MakeAEqualB({{"extra_A", "1"}}),
-    { {"beta", str(1/temperature)},
-      {"chemical_potential0", str(beta_mu*temperature)},
-      {"chemical_potential1", str(beta_mu*temperature)}});
+    MakeAEqualB({{"extra_A", "1"}}));
   mc.set(criteria);
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaWriter({{"steps_per", str(steps_per)},
@@ -301,14 +302,14 @@ MonteCarlo dival_egce(
     ASSERT(min == 1, "unrecognized min: " << min);
     mc.get_system()->get_configuration()->add_particle_of_type(1);
   }
+  mc.set(MakeThermoParams({{"beta", str(1/temperature)},
+     {"chemical_potential0", str(beta_mu*temperature)},
+     {"chemical_potential1", str(beta_mu*temperature)}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
     MakeTransitionMatrix({{"min_sweeps", "100"}}),
-    MakeAHalfB({{"extra", "1"}}),
-    {{"beta", str(1/temperature)},
-     {"chemical_potential0", str(beta_mu*temperature)},
-     {"chemical_potential1", str(beta_mu*temperature)}});
+    MakeAHalfB({{"extra", "1"}}));
   mc.set(criteria);
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaWriter({
@@ -422,14 +423,14 @@ TEST(MonteCarlo, rpm_egce_avb_divalent_LONG) {
   mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
                                                MakeChargeScreened()}),
                       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+//  mc.set(MakeThermoParams({{"beta", str(mc.criteria().beta())},
+//     {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
+//     {"chemical_potential1", str(mc.criteria().chemical_potential(1))}}));
   mc.set(MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", "15"}, {"min", str(min)}})),
     MakeTransitionMatrix({{"min_sweeps", "100"}}),
-    MakeAHalfB({{"extra", "1"}}),
-    {{"beta", str(mc.criteria().beta())},
-     {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
-     {"chemical_potential1", str(mc.criteria().chemical_potential(1))}}));
+    MakeAHalfB({{"extra", "1"}})));
   auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "7.5"},
                                                  {"minimum_distance", "1"},
                                                  {"site_type0", "0"},
@@ -482,14 +483,14 @@ TEST(MonteCarlo, rpm_divalent_avb_VERY_LONG) {
                                                MakeChargeScreened()}),
                       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   mc.add_to_reference(Potential(MakeDontVisitModel()));
+//  mc.set(MakeThermoParams({{"beta", str(mc.criteria().beta())},
+//     {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
+//     {"chemical_potential1", str(mc.criteria().chemical_potential(1))}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}}),
       {{"particle_type", "0"}}),
-    MakeTransitionMatrix({{"min_sweeps", "1000"}}),
-    {{"beta", str(mc.criteria().beta())},
-     {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
-     {"chemical_potential1", str(mc.criteria().chemical_potential(1))}});
+    MakeTransitionMatrix({{"min_sweeps", "1000"}}));
   mc.set(criteria);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "4"},
@@ -542,18 +543,18 @@ TEST(MonteCarlo, rpm_divalent_growth_expanded_LONG) {
   }
   mc.add_to_reference(Potential(MakeDontVisitModel()));
   const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};
+  mc.set(MakeThermoParams({{"beta", str(mc.system().thermo_params().beta())},
+    {"chemical_potential0", str(mc.system().thermo_params().chemical_potential(0))},
+    {"chemical_potential1", str(mc.system().thermo_params().chemical_potential(1))},
+    {"chemical_potential2", str(mc.system().thermo_params().chemical_potential(0))},
+    {"chemical_potential3", str(mc.system().thermo_params().chemical_potential(1))}}));
   mc.set(MakeFlatHistogram(
     MakeMacrostateMorph(
       grow_sequence,
       Histogram({{"width", str(1./grow_sequence.size())},
                  {"max", str(max)}, {"min", str(min)}})),
     // MakeWangLandau({{"min_flatness", "25"}}),
-    MakeTransitionMatrix({{"min_sweeps", "1000"}}),
-    { {"beta", str(mc.criteria().beta())},
-      {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
-      {"chemical_potential1", str(mc.criteria().chemical_potential(1))},
-      {"chemical_potential2", str(mc.criteria().chemical_potential(0))},
-      {"chemical_potential3", str(mc.criteria().chemical_potential(1))}}));
+    MakeTransitionMatrix({{"min_sweeps", "1000"}})));
   mc.initialize_criteria();
   mc.initialize_analyzers();
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));

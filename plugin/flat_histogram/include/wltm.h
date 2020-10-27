@@ -33,8 +33,11 @@ class WLTM : public Bias {
     const double ln_metropolis_prob,
     const bool is_accepted,
     const bool revert) override;
+
+  /// Updates min_sweeps, but neither flatness.
   void set_num_iterations(const int sweeps) override {
     transition_matrix_->set_num_iterations(sweeps); }
+
   const LnProbability& ln_prob() const override;
   void resize(const Histogram& histogram) override;
   void infrequent_update() override;

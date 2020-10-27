@@ -28,12 +28,14 @@ class SeekNumParticles {
    */
   SeekNumParticles(const int num, const argtype& args = argtype());
 
+  /// Optionally, use a temporary ThermoParams.
+  SeekNumParticles with_thermo_params(const argtype& args);
+
   /// Optionally use a temporary Metropolis criteria with given args.
-  SeekNumParticles with_metropolis(const argtype& args);
+  SeekNumParticles with_metropolis();
 
   /// Same as above but with a constraint.
-  SeekNumParticles with_metropolis(std::shared_ptr<Constraint> constraint,
-    const argtype& args);
+  SeekNumParticles with_metropolis(std::shared_ptr<Constraint> constraint);
 
   /**
     Use an extra and temporary TrialAdd between every existing Trial.
@@ -61,6 +63,7 @@ class SeekNumParticles {
   const int num_;
   int max_attempts_;
   int particle_type_;
+  std::shared_ptr<ThermoParams> thermo_params_;
   std::shared_ptr<Criteria> criteria_;
   TrialFactory extra_trials_;
   std::shared_ptr<ProgressReport> report_;

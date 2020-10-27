@@ -43,7 +43,8 @@ TEST(MonteCarlo, trimer) {
     potential.set(params);
     mc.add(potential);
   }
-  mc.set(MakeMetropolis({{"beta", "4"}, {"chemical_potential", "-1"}}));
+  mc.set(MakeThermoParams({{"beta", "4"}, {"chemical_potential", "-1"}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialTransfer({{"particle_type", "0"}}));

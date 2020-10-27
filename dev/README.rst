@@ -351,3 +351,7 @@ To Do List
 * System should track current energy of every potential for analysis (Criteria running energies may contain a part from each potential to simplify debugging).
 * Consider using new state instead of old state in acceptance derivations
 * Sort selection_of_all, or impose sorting in Select::add_particles. Currently, this leads to issues.
+* Rename data and xyz files, document them more cleary (second line in xyz, and error if data not read correctly).
+* restart long double to max precision
+* Make utils:lj,spce,etc derived classes of System ?
+* Make ModelTwoBodyTable that tabulates interaction from min(hs)-max(rc) distance for each distinct pair of site types, and can easily be added as optimized Potential

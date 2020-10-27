@@ -9,7 +9,8 @@ namespace feasst {
 TEST(SeekNumParticles, seek) {
   MonteCarlo mc;
   mc.set(lennard_jones());
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
   SeekNumParticles(50).with_trial_add().run(&mc);
   EXPECT_EQ(mc.configuration().num_particles(), 50);
   TRY(

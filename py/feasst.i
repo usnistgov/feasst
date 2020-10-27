@@ -29,6 +29,7 @@
 #include "utils/include/serialize.h"
 #include "system/include/energy_map.h"
 #include "system/include/visit_model_inner.h"
+#include "system/include/thermo_params.h"
 #include "configuration/include/physical_constants.h"
 #include "utils/include/progress_report.h"
 #include "utils/include/cache.h"
@@ -83,11 +84,11 @@
 #include "configuration/include/site.h"
 #include "configuration/include/particle.h"
 #include "configuration/include/model_params.h"
-#include "system/include/potential.h"
-#include "system/include/potential_factory.h"
 #include "models/include/lennard_jones_alpha.h"
 #include "models/include/lennard_jones_cut_shift.h"
 #include "models/include/lennard_jones_force_shift.h"
+#include "system/include/potential.h"
+#include "system/include/potential_factory.h"
 #include "configuration/include/group.h"
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
@@ -115,13 +116,13 @@
 #include "chain/include/select_perturbed.h"
 #include "monte_carlo/include/trial_select_bond.h"
 #include "monte_carlo/include/trial_select_angle.h"
+#include "chain/include/select_branch.h"
 #include "monte_carlo/include/perturb.h"
 #include "monte_carlo/include/perturb_move.h"
 #include "monte_carlo/include/perturb_translate.h"
 #include "monte_carlo/include/perturb_distance.h"
 #include "chain/include/perturb_reptate.h"
 #include "cluster/include/perturb_point_reflect.h"
-#include "monte_carlo/include/perturb_volume.h"
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute.h"
 #include "monte_carlo/include/trial_compute_move.h"
@@ -188,6 +189,7 @@
 #include "monte_carlo/include/trial_compute_remove.h"
 #include "monte_carlo/include/trial_compute_volume.h"
 #include "growth_expanded/include/perturb_particle_type.h"
+#include "monte_carlo/include/perturb_volume.h"
 #include "system/include/utils.h"
 #include "configuration/include/visit_configuration.h"
 #include "configuration/include/file_xyz.h"
@@ -297,6 +299,7 @@ using namespace std;
 %shared_ptr(feasst::Checkpoint);
 %shared_ptr(feasst::EnergyMap);
 %shared_ptr(feasst::VisitModelInner);
+%shared_ptr(feasst::ThermoParams);
 %shared_ptr(feasst::PhysicalConstants);
 %shared_ptr(feasst::CODATA2018);
 %shared_ptr(feasst::CODATA2014);
@@ -364,13 +367,13 @@ using namespace std;
 %shared_ptr(feasst::CutOff);
 %shared_ptr(feasst::Charge);
 %shared_ptr(feasst::ModelParams);
-%shared_ptr(feasst::Potential);
-%shared_ptr(feasst::PotentialFactory);
 %shared_ptr(feasst::LennardJonesAlpha);
 %shared_ptr(feasst::EnergyAtCutoff);
 %shared_ptr(feasst::EnergyDerivAtCutoff);
 %shared_ptr(feasst::LennardJonesCutShift);
 %shared_ptr(feasst::LennardJonesForceShift);
+%shared_ptr(feasst::Potential);
+%shared_ptr(feasst::PotentialFactory);
 %shared_ptr(feasst::Group);
 %shared_ptr(feasst::ParticleFactory);
 %shared_ptr(feasst::Select);
@@ -399,13 +402,13 @@ using namespace std;
 %shared_ptr(feasst::SelectPerturbed);
 %shared_ptr(feasst::TrialSelectBond);
 %shared_ptr(feasst::TrialSelectAngle);
+%shared_ptr(feasst::SelectBranch);
 %shared_ptr(feasst::Perturb);
 %shared_ptr(feasst::PerturbMove);
 %shared_ptr(feasst::PerturbTranslate);
 %shared_ptr(feasst::PerturbDistance);
 %shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::PerturbPointReflect);
-%shared_ptr(feasst::PerturbVolume);
 %shared_ptr(feasst::TrialStage);
 %shared_ptr(feasst::TrialCompute);
 %shared_ptr(feasst::TrialComputeMove);
@@ -485,6 +488,7 @@ using namespace std;
 %shared_ptr(feasst::TrialComputeRemove);
 %shared_ptr(feasst::TrialComputeVolume);
 %shared_ptr(feasst::PerturbParticleType);
+%shared_ptr(feasst::PerturbVolume);
 %shared_ptr(feasst::VisitConfiguration);
 %shared_ptr(feasst::LoopConfigOneBody);
 %shared_ptr(feasst::FileVMD);
@@ -588,6 +592,7 @@ using namespace std;
 %include utils/include/serialize.h
 %include system/include/energy_map.h
 %include system/include/visit_model_inner.h
+%include system/include/thermo_params.h
 %include configuration/include/physical_constants.h
 %include utils/include/progress_report.h
 %include utils/include/cache.h
@@ -642,11 +647,11 @@ using namespace std;
 %include configuration/include/site.h
 %include configuration/include/particle.h
 %include configuration/include/model_params.h
-%include system/include/potential.h
-%include system/include/potential_factory.h
 %include models/include/lennard_jones_alpha.h
 %include models/include/lennard_jones_cut_shift.h
 %include models/include/lennard_jones_force_shift.h
+%include system/include/potential.h
+%include system/include/potential_factory.h
 %include configuration/include/group.h
 %include configuration/include/particle_factory.h
 %include configuration/include/select.h
@@ -674,13 +679,13 @@ using namespace std;
 %include chain/include/select_perturbed.h
 %include monte_carlo/include/trial_select_bond.h
 %include monte_carlo/include/trial_select_angle.h
+%include chain/include/select_branch.h
 %include monte_carlo/include/perturb.h
 %include monte_carlo/include/perturb_move.h
 %include monte_carlo/include/perturb_translate.h
 %include monte_carlo/include/perturb_distance.h
 %include chain/include/perturb_reptate.h
 %include cluster/include/perturb_point_reflect.h
-%include monte_carlo/include/perturb_volume.h
 %include monte_carlo/include/trial_stage.h
 %include monte_carlo/include/trial_compute.h
 %include monte_carlo/include/trial_compute_move.h
@@ -747,6 +752,7 @@ using namespace std;
 %include monte_carlo/include/trial_compute_remove.h
 %include monte_carlo/include/trial_compute_volume.h
 %include growth_expanded/include/perturb_particle_type.h
+%include monte_carlo/include/perturb_volume.h
 %include system/include/utils.h
 %include configuration/include/visit_configuration.h
 %include configuration/include/file_xyz.h

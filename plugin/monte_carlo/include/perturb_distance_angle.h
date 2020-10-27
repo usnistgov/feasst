@@ -8,14 +8,25 @@
 namespace feasst {
 
 /**
-  Put first site in selection, i, in a sphere about the first site in anchor,
-  j, and at an angle i,j,k (vertex: j) about the second site in anchor, j.
+ * Put first site in selection, i, in a sphere about the first site in anchor,
+ * j, and at an angle i,j,k (vertex: j) about the second site in anchor, j.
+ * For angle potentials, the equilibrium angle and spring constant are as
+ * described in Random::bond_angle
+ * Currently implemented for harmonic bonds (exponent: 2), but could add an
+ * optional exponent model parameter to generalize this.
  */
 class PerturbDistanceAngle : public PerturbDistance {
  public:
   explicit PerturbDistanceAngle(const argtype& args = argtype());
 
+  /// Same as PerturbDistance, but also obtain the equilibrium angle and
+  /// spring constant.
   void precompute(TrialSelect * select, System * system) override;
+
+  /// Return the randomly selected angle from the potential.
+  double random_angle(Random * random,
+    const double beta,  /// inverse temperature
+    const int dimension) const;
 
   void move(System * system,
       TrialSelect * select,
@@ -29,6 +40,7 @@ class PerturbDistanceAngle : public PerturbDistance {
 
  private:
   double angle_ = 0.;
+  double spring_constant_ = -1;
 
   // temporary
   Position rjk_;

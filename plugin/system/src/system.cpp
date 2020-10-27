@@ -129,6 +129,7 @@ void System::serialize(std::ostream& sstr) const {
   optimized_.serialize(sstr);
   feasst_serialize(is_optimized_, sstr);
   feasst_serialize_fstobj(references_, sstr);
+  feasst_serialize(thermo_params_, sstr);
   feasst_serialize_endcap("System", sstr);
 }
 
@@ -140,6 +141,14 @@ System::System(std::istream& sstr) {
   optimized_ = PotentialFactory(sstr);
   feasst_deserialize(&is_optimized_, sstr);
   feasst_deserialize_fstobj(&references_, sstr);
+  // HWH for unknown reasons, this function template does not work.
+  //feasst_deserialize(thermo_params_, sstr);
+  { int existing;
+    sstr >> existing;
+    if (existing != 0) {
+      thermo_params_ = std::make_shared<ThermoParams>(sstr);
+    }
+  }
   feasst_deserialize_endcap("System", sstr);
 }
 
@@ -243,6 +252,15 @@ void System::change_volume(const double delta_volume, const argtype& args) {
   for (PotentialFactory& ref : references_) {
     ref.change_volume(delta_volume, dimen);
   }
+}
+
+void System::set(std::shared_ptr<ThermoParams> thermo_params) {
+  thermo_params_ = thermo_params;
+}
+
+const ThermoParams& System::thermo_params() const {
+  ASSERT(thermo_params_, "must set ThermoParams first.");
+  return const_cast<ThermoParams&>(*thermo_params_);
 }
 
 }  // namespace feasst

@@ -15,15 +15,19 @@ SeekNumParticles::SeekNumParticles(const int num, const argtype& args) :
   max_attempts_ = args_.key("max_attempts").dflt(str(1e8)).integer();
 }
 
-SeekNumParticles SeekNumParticles::with_metropolis(const argtype& args) {
-  criteria_ = MakeMetropolis(args);
+SeekNumParticles SeekNumParticles::with_thermo_params(const argtype& args) {
+  thermo_params_ = MakeThermoParams(args);
+  return *this;
+}
+
+SeekNumParticles SeekNumParticles::with_metropolis() {
+  criteria_ = MakeMetropolis();
   return *this;
 }
 
 SeekNumParticles SeekNumParticles::with_metropolis(
-    std::shared_ptr<Constraint> constraint,
-    const argtype& args) {
-  criteria_ = MakeMetropolis(constraint, args);
+    std::shared_ptr<Constraint> constraint) {
+  criteria_ = MakeMetropolis(constraint);
   return *this;
 }
 
@@ -53,6 +57,9 @@ void SeekNumParticles::run(MonteCarlo * monte_carlo) {
     "There are " << config.num_particles_of_type(particle_type_)
     << " particles of type " << particle_type_ << " which is > "
     << num_);
+  auto original_params = std::make_shared<ThermoParams>(
+    monte_carlo->system().thermo_params());
+  if (thermo_params_) monte_carlo->set(thermo_params_);
   Criteria * crit;
   if (criteria_) {
     crit = criteria_.get();
@@ -75,6 +82,7 @@ void SeekNumParticles::run(MonteCarlo * monte_carlo) {
     current_num = config.num_particles_of_type(particle_type_);
     if (report_ && current_num > previous_num) report_->check();
   }
+  if (thermo_params_) monte_carlo->set(original_params);
   monte_carlo->initialize_criteria();
   monte_carlo->reset_trial_stats();
 }

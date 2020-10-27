@@ -29,8 +29,9 @@ double energy_av2(const int macro, const MonteCarlo& mc) {
 void test_morph(const System& system) {
   MonteCarlo mc;
   mc.set(system);
-  mc.set(MakeMetropolis({{"beta", "1"}, {"chemical_potential0", "1."},
+  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential0", "1."},
                                         {"chemical_potential1", "1."}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   SeekNumParticles(2, {{"particle_type", "0"}}).with_trial_add().run(&mc);
   SeekNumParticles(2, {{"particle_type", "1"}}).with_trial_add().run(&mc);
@@ -70,14 +71,15 @@ MonteCarlo test_morph_expanded_lj(
   mc.add_to_reference(Potential(MakeDontVisitModel()));
   const double num_parts_in_grow = static_cast<double>(grow_sequence[0].size());
   INFO(str(num_parts_in_grow/grow_sequence.size()));
+  mc.set(MakeThermoParams({
+    {"beta", str(1./1.5)},
+    {"chemical_potential0", "-2.352321"},
+    {"chemical_potential1", "-2.352321"}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateMorph(grow_sequence,
       Histogram({{"width", str(num_parts_in_grow/grow_sequence.size())},
                  {"max", str(max)}, {"min", "1"}})),
-    MakeTransitionMatrix({{"min_sweeps", "1000"}}),
-    { {"beta", str(1./1.5)},
-      {"chemical_potential0", "-2.352321"},
-      {"chemical_potential1", "-2.352321"}});
+    MakeTransitionMatrix({{"min_sweeps", "1000"}}));
   mc.set(criteria);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "1."}}));
   mc.add(MakeTrialMorphExpanded(grow_sequence,
@@ -175,17 +177,18 @@ MonteCarlo test_morph_expanded(const std::string steps_per) {
     mc.set(system);
   }
   const std::vector<std::vector<int> > grow_sequence = {{1}, {2}, {3}, {0}};
+  mc.set(MakeThermoParams({
+      {"beta", str(1./1.5)},
+      {"chemical_potential0", "-2.352321"},
+      {"chemical_potential1", "-2"},
+      {"chemical_potential2", "-2.1"},
+      {"chemical_potential3", "-2.2"}}));
   mc.set(MakeFlatHistogram(
     MakeMacrostateMorph(
       grow_sequence,
       Histogram({{"width", str(1./grow_sequence.size())}, {"max", "5"}, {"min", "1"}})),
     // MakeWangLandau({{"min_flatness", "25"}}),
-    MakeTransitionMatrix({{"min_sweeps", "10"}}),
-    { {"beta", str(1./1.5)},
-      {"chemical_potential0", "-2.352321"},
-      {"chemical_potential1", "-2"},
-      {"chemical_potential2", "-2.1"},
-      {"chemical_potential3", "-2.2"}}));
+    MakeTransitionMatrix({{"min_sweeps", "10"}})));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialMorphExpanded(grow_sequence));
   mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/growth"}}));
@@ -250,17 +253,18 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
   }
   mc.add_to_reference(Potential(MakeDontVisitModel()));
   const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};
+  mc.set(MakeThermoParams({
+    {"beta", str(1./1.5)},
+    {"chemical_potential0", "-2.352321"},
+    {"chemical_potential1", "-2"},
+    {"chemical_potential2", "-2.1"},
+    {"chemical_potential3", "-2.2"}}));
   mc.set(MakeFlatHistogram(
     MakeMacrostateMorph(
       grow_sequence,
       Histogram({{"width", str(1./grow_sequence.size())}, {"max", "5"}, {"min", "0"}})),
     // MakeWangLandau({{"min_flatness", "25"}}),
-    MakeTransitionMatrix({{"min_sweeps", "10"}}),
-    { {"beta", str(1./1.5)},
-      {"chemical_potential0", "-2.352321"},
-      {"chemical_potential1", "-2"},
-      {"chemical_potential2", "-2.1"},
-      {"chemical_potential3", "-2.2"}}));
+    MakeTransitionMatrix({{"min_sweeps", "10"}})));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialMorphExpanded(grow_sequence, {{"reference_index", "0"}}));
   const std::string steps_per = str(int(1e3));

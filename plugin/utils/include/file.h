@@ -21,7 +21,7 @@ void find_or_fail(const char* search_string, std::ifstream &file);
 /// Return true if file exists.
 bool file_exists(const std::string& file_name);
 
-/// If file_name exists, copyReturn true if file exists.
+/// If file_name exists, rename file with appended string.
 void file_backup(const std::string& file_name,
   const std::string append = ".bak");
 

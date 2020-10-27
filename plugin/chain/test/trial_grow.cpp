@@ -21,9 +21,8 @@ TEST(TrialGrow, chain10) {
     system.add(config);
   }
   system.add(Potential(MakeLennardJones()));
-
+  system.set(MakeThermoParams({{"beta", "100.0"}}));
   auto criteria = MakeMetropolis();
-  criteria->set_beta(100.0);
   auto grow = MakeTrialGrowLinear(
     std::make_shared<TrialComputeMove>(),
     {{"particle_type", "0"}}

@@ -31,10 +31,11 @@ TEST(TrialTransferAVBDivalent, add_remove) {
   auto ran = MakeRandomMT19937();
   //ran = MakeRandomMT19937({{"seed", "1591972002"}});
   //ran = MakeRandomMT19937({{"seed", "1580154124"}});
-  auto metropolis = MakeMetropolis({
+  auto metropolis = MakeMetropolis();
+  system.set(MakeThermoParams({
     {"beta", str(1e-6)},
     {"chemical_potential0", "2"},
-    {"chemical_potential1", "2"}});
+    {"chemical_potential1", "2"}}));
   auto neighbor_criteria = MakeNeighborCriteria({
     {"maximum_distance", "1.5"},
     {"minimum_distance", "1"},
@@ -64,9 +65,9 @@ TEST(TrialTransferAVBDivalent, add_remove) {
     std::log(config.domain().volume()/1.)
     +std::log(vol_av/2.)
     +std::log(vol_av/1.)
-    -metropolis->beta()*delta
-    +metropolis->beta_mu(0)
-    +2*metropolis->beta_mu(1),
+    -system.thermo_params().beta()*delta
+    +system.thermo_params().beta_mu(0)
+    +2*system.thermo_params().beta_mu(1),
     1e-14);
 
   system.energy();
@@ -91,9 +92,9 @@ TEST(TrialTransferAVBDivalent, add_remove) {
     -std::log(config.domain().volume()/1.)
     -std::log(vol_av/2.)
     -std::log(vol_av/1.)
-    -metropolis->beta()*delta
-    -metropolis->beta_mu(0)
-    -2*metropolis->beta_mu(1),
+    -system.thermo_params().beta()*delta
+    -system.thermo_params().beta_mu(0)
+    -2*system.thermo_params().beta_mu(1),
     1e-14);
 }
 

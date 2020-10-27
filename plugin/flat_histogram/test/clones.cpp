@@ -24,12 +24,12 @@ MonteCarlo monte_carlo(const int thread, const int min, const int max) {
   MonteCarlo mc;
   mc.set(lennard_jones());
   mc.get_system()->get_configuration()->add_particle_of_type(0);
-  mc.add(MakeFlatHistogram(
+  mc.set(MakeThermoParams({{"beta", str(1./1.5)},
+          {"chemical_potential", "-2.352321"}}));
+  mc.set(MakeFlatHistogram(
       MakeMacrostateNumParticles(
         Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
-      MakeTransitionMatrix({{"min_sweeps", "10"}}),
-      { {"beta", str(1./1.5)},
-        {"chemical_potential", "-2.352321"}}));
+      MakeTransitionMatrix({{"min_sweeps", "10"}})));
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc.add(MakeTrialTransfer({{"particle_type", "0"}, {"weight", "4"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));

@@ -11,72 +11,12 @@ namespace feasst {
 
 Criteria::Criteria(const argtype &args) {
   set_expanded_state();
-  args_.init(args);
-  if (args_.key("beta").used()) {
-    set_beta(args_.dble());
-  }
-  std::string start("chemical_potential");
-  // if only one chemical potential, drop the subscript
-  if (args_.key(start).used()) {
-    add_chemical_potential(args_.dble());
-  } else {
-    std::stringstream key;
-    int type = 0;
-    key << start << type;
-    while (args_.key(key.str()).used()) {
-      add_chemical_potential(args_.dble());
-      ++type;
-      ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
-      key.str("");
-      key << start << type;
-    }
-  }
-
-  if (args_.key("pH").used()) set_pH(args_.dble());
-  if (args_.key("pressure").used()) set_pressure(args_.dble());
   data_.get_dble_1D()->resize(1);
 }
 
 Criteria::Criteria(std::shared_ptr<Constraint> constraint,
     const argtype& args) : Criteria(args) {
   add(constraint);
-}
-
-void Criteria::set_beta(const double beta) {
-  beta_ = beta;
-  beta_initialized_ = true;
-}
-
-double Criteria::beta() const {
-  ASSERT(beta_initialized_, "beta must be initialized before use");
-  return beta_;
-}
-
-void Criteria::set_pH(const double pH) {
-  pH_ = pH;
-  pH_initialized_ = true;
-}
-
-double Criteria::pH() const {
-  ASSERT(pH_initialized_, "pH must be initialized before use");
-  return pH_;
-}
-
-double Criteria::chemical_potential(const int particle_type) const {
-  ASSERT(particle_type < static_cast<int>(chemical_potentials_.size()),
-    "chemical potential of type(" << particle_type <<
-    ") must be initalized before use");
-  return chemical_potentials_[particle_type];
-}
-
-void Criteria::set_pressure(const double pressure) {
-  pressure_ = pressure;
-  pressure_initialized_ = true;
-}
-
-double Criteria::pressure() const {
-  ASSERT(pressure_initialized_, "pressure must be initialized before use");
-  return pressure_;
 }
 
 std::string Criteria::status_header() const {
@@ -99,11 +39,6 @@ std::string Criteria::status() const {
 
 std::string Criteria::write() const {
   std::stringstream ss;
-  ss << "beta," << MAX_PRECISION << beta() << std::endl;
-  for (int i = 0; i < static_cast<int>(chemical_potentials_.size()); ++i) {
-    ss << "mu" << i << "," << MAX_PRECISION << chemical_potentials_[i];
-    ss << std::endl;
-  }
   return ss.str();
 }
 
@@ -140,11 +75,6 @@ std::shared_ptr<Criteria> Criteria::deserialize(std::istream& istr) {
 
 bool Criteria::is_equal(const Criteria& criteria,
     const double tolerance) const {
-  if (beta_ != criteria.beta_) return false;
-  if (!feasst::is_equal(chemical_potentials_,
-              criteria.chemical_potentials_, tolerance)) {
-    return false;
-  }
   if (std::abs(current_energy() - criteria.current_energy()) > tolerance) {
     INFO(MAX_PRECISION << "current energy not equal: " << current_energy()
       << " vs " << criteria.current_energy() << " tol " << tolerance);
@@ -155,7 +85,6 @@ bool Criteria::is_equal(const Criteria& criteria,
       << " vs " << criteria.expanded_state_);
     return false;
   }
-  if (pH_ != criteria.pH_) return false;
 // HWH this doesn't consider tolerance
 //  std::stringstream ss1, ss2;
 //  serialize(ss1);
@@ -172,26 +101,12 @@ bool Criteria::is_equal(const Criteria& criteria) const {
   return is_equal(criteria, NEAR_ZERO);
 }
 
-double Criteria::beta_mu(const int particle_type) const {
-  ASSERT(particle_type < static_cast<int>(chemical_potentials_.size()),
-    "chemical potential of particle_type: " << particle_type << " not set.");
-  return beta()*chemical_potentials_[particle_type];
-}
-
 void Criteria::serialize_criteria_(std::ostream& ostr) const {
   feasst_serialize_version(692, ostr);
-  feasst_serialize(beta_, ostr);
-  feasst_serialize(beta_initialized_, ostr);
-  feasst_serialize(pH_, ostr);
-  feasst_serialize(pH_initialized_, ostr);
-  feasst_serialize(chemical_potentials_, ostr);
-  //feasst_serialize(current_energy_, ostr);
   feasst_serialize(previous_energy_, ostr);
   feasst_serialize(expanded_state_, ostr);
   feasst_serialize(num_expanded_states_, ostr);
   feasst_serialize(phase_, ostr);
-  feasst_serialize(pressure_initialized_, ostr);
-  feasst_serialize(pressure_, ostr);
   feasst_serialize_fstdr(constraints_, ostr);
   feasst_serialize_fstobj(data_, ostr);
 }
@@ -200,18 +115,10 @@ Criteria::Criteria(std::istream& istr) {
   istr >> class_name_;
   const int version = feasst_deserialize_version(istr);
   ASSERT(version == 692, "version mismatch: " << version);
-  feasst_deserialize(&beta_, istr);
-  feasst_deserialize(&beta_initialized_, istr);
-  feasst_deserialize(&pH_, istr);
-  feasst_deserialize(&pH_initialized_, istr);
-  feasst_deserialize(&chemical_potentials_, istr);
-  //feasst_deserialize(&current_energy_, istr);
   feasst_deserialize(&previous_energy_, istr);
   feasst_deserialize(&expanded_state_, istr);
   feasst_deserialize(&num_expanded_states_, istr);
   feasst_deserialize(&phase_, istr);
-  feasst_deserialize(&pressure_initialized_, istr);
-  feasst_deserialize(&pressure_, istr);
   // HWH for unknown reasons, this function template does not work.
   // feasst_deserialize_fstdr(constraints_, istr);
   { int dim1;

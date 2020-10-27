@@ -105,7 +105,8 @@ class GrandCanonicalEnsemble : public Ensemble {
     const double conjugate = 0.);
 
   // Same as above, but taken from FlatHistogram.
-  GrandCanonicalEnsemble(const FlatHistogram& flat_histogram);
+  GrandCanonicalEnsemble(const FlatHistogram& flat_histogram,
+    const double beta_mu);
 
   // Same as above, but taken from spliced Clones.
   GrandCanonicalEnsemble(const Clones& clones);

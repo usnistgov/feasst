@@ -28,6 +28,7 @@ static MapRandomMT19937 mapper_ = MapRandomMT19937();
 RandomMT19937::RandomMT19937(const argtype& args) : Random(args) {
   class_name_ = "RandomMT19937";
   parse_seed_(args);
+  std_normal_ = std::normal_distribution<double>(0., 1.);
 }
 
 void RandomMT19937::serialize(std::ostream& ostr) const {

@@ -70,14 +70,15 @@ void ComputeAddAVBDivalent::perturb_and_acceptance(
     1);
   const int num_neigh = static_cast<int>(neighbors_.num_sites());
   const double volume = config.domain().volume();
+  const ThermoParams& params = system->thermo_params();
   //set_probability(volume_av/static_cast<double>(num_neighbors + 1 + delta_ab));
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   acceptance->add_to_ln_metropolis_prob(
     std::log(volume/(config.num_particles_of_type(particle_type0)))
     + std::log(volume_av/static_cast<double>(num_neigh))
     + std::log(volume_av/static_cast<double>(num_neigh - 1))
-    + criteria->beta_mu(particle_type0)
-    + 2*criteria->beta_mu(particle_type1)
+    + params.beta_mu(particle_type0)
+    + 2*params.beta_mu(particle_type1)
   );
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
 }

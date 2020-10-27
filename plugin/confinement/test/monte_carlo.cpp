@@ -39,7 +39,8 @@ TEST(MonteCarlo, ShapeUnion) {
       {{"radius", "2"}},
       Position({{"x", "0"}, {"y", "0"}, {"z", "0"}})),
     MakeSlab({{"dimension", "2"}, {"bound0", "-1"}, {"bound1", "1"}})))));
-  mc.add(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
   SeekNumParticles(10).with_trial_add().run(&mc);
   const int steps_per = 1e0;
@@ -74,7 +75,8 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
     {{"particle_type", "../forcefield/data.lj"}}));
   mc.add(Potential(MakeLennardJones()));
   mc.add(Potential(MakeModelHardShape(porous_network())));
-  mc.add(MakeMetropolis({{"beta", "1.5"}, {"chemical_potential", "1."}}));
+  mc.set(MakeThermoParams({{"beta", "1.5"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
   SeekNumParticles(500).with_trial_add().run(&mc);
   const int steps_per = 1e3;
@@ -122,7 +124,7 @@ TEST(MonteCarlo, ShapeTable_LONG) {
 //  EXPECT_NEAR(table2->linear_interpolation(0, 0, 0), 0., NEAR_ZERO);
 //  mc.add(Potential(MakeModelTableCart3DIntegr(table2)));
 //  //mc.add(Potential(MakeModelTableCart3DIntegr(table)));
-//  mc.add(MakeMetropolis({{"beta", "1.5"}, {"chemical_potential", "1."}}));
+//  mc.set(MakeMetropolis({{"beta", "1.5"}, {"chemical_potential", "1."}}));
 //  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.1"}}));
 //  SeekNumParticles(500).with_trial_add().run(&mc);
 //  const int steps_per = 1e4;
@@ -146,7 +148,8 @@ TEST(MonteCarlo, SineSlab) {
     MakeFormulaSineWave({{"amplitude", "2"}, {"width", "8"}}),
     { {"dimension", "0"}, {"wave_dimension", "1"}, {"average_bound0", "-5"},
       {"average_bound1", "5"}}))));
-  mc.add(MakeMetropolis({{"beta", "0.1"}, {"chemical_potential", "1."}}));
+  mc.set(MakeThermoParams({{"beta", "0.1"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
   SeekNumParticles(500).with_trial_add().run(&mc);
   const int steps_per = 1e2;
@@ -181,7 +184,8 @@ System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
 Accumulator henry(System system) {
   MonteCarlo mc;
   mc.set(system);
-  mc.set(MakeAlwaysAccept({{"beta", "1.0"}}));
+  mc.set(MakeThermoParams({{"beta", "1.0"}}));
+  mc.set(MakeAlwaysAccept());
   mc.add(MakeTrialAnywhereNewOnly({{"particle_type", "0"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/henry"}}));
   const int henry_index = mc.num_analyzers();

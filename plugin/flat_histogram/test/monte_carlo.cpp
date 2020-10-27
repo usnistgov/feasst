@@ -56,16 +56,16 @@ TEST(MonteCarlo, ideal_gas_fh_eos_LONG) {
   monte_carlo.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
                                 {{"particle_type", install_dir() + "/forcefield/data.atom"}}));
   monte_carlo.add(Potential(MakeDontVisitModel()));
+  monte_carlo.set(MakeThermoParams({{"beta", str(1./1.2)}, {"chemical_potential", "-3"}}));
   auto criteria = MakeFlatHistogram(
       MakeMacrostateNumParticles(Histogram({{"width", "1"}, {"min", "0"}, {"max", "50"}})),
-      MakeTransitionMatrix({{"min_sweeps", "100"}}),
-      {{"beta", str(1./1.2)}, {"chemical_potential", "-3"}});
+      MakeTransitionMatrix({{"min_sweeps", "100"}}));
   monte_carlo.set(criteria);
   monte_carlo.add(MakeTrialTransfer({{"particle_type", "0"}}));
   monte_carlo.add(MakeCriteriaUpdater({{"steps_per", str(1e5)}}));
   monte_carlo.add(MakeCriteriaWriter({{"steps_per", str(1e5)}, {"file_name", "tmp/id_fh.txt"}}));
   monte_carlo.run_until_complete();
-  GrandCanonicalEnsemble gce(*criteria);
+  GrandCanonicalEnsemble gce(*criteria, monte_carlo.system().thermo_params().beta_mu());
   for (double delta_conjugate = -6; delta_conjugate < 1; delta_conjugate += 0.1) {
     gce.reweight(delta_conjugate);
     if (gce.ln_prob().value(gce.ln_prob().size() - 1) < -6) {
@@ -89,7 +89,8 @@ MonteCarlo test_lj_fh(const int num_steps,
     ref = 0;
     mc.set(lennard_jones({{"dual_cut", "1."}}));
   }
-  mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({
     {"weight", "1."},
     {"tunable_param", "1."},
@@ -123,14 +124,14 @@ MonteCarlo test_lj_fh(const int num_steps,
   }
   std::string width = "1";
   if (test_multi) width = "2";
+  mc.set(MakeThermoParams({{"beta", str(1./1.5)},
+      {"chemical_potential", "-2.352321"}}));
+//      {{"soft_max", "5"}, {"soft_min", "1"}}));
+//      {{"particle_type", "0"}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", width}, {"max", str(max)}, {"min", str(min)}})),
-    bias,
-    { {"beta", str(1./1.5)},
-      {"chemical_potential", "-2.352321"}});
-//      {{"soft_max", "5"}, {"soft_min", "1"}}));
-//      {{"particle_type", "0"}}));
+    bias);
   INFO(criteria->bias().class_name());
   mc.set(criteria);
   const std::string steps_per(str(1e3));
@@ -176,9 +177,9 @@ TEST(MonteCarlo, lj_fh) {
       // compare with known values of energy
       //EXPECT_NEAR(energy_av(0, mc), 0, 1e-14);
       EXPECT_NEAR(energy_av(0, mc), -0.000605740233333333, 1e-8);
-      EXPECT_NEAR(energy_av(1, mc), -0.030574223333333334, 0.03);
-      EXPECT_NEAR(energy_av(2, mc), -0.089928316, 0.05);
-      EXPECT_NEAR(energy_av(3, mc), -0.1784570533333333, 0.06);
+      EXPECT_NEAR(energy_av(1, mc), -0.030574223333333334, 0.05);
+      EXPECT_NEAR(energy_av(2, mc), -0.089928316, 0.08);
+      EXPECT_NEAR(energy_av(3, mc), -0.1784570533333333, 0.11);
       EXPECT_NEAR(energy_av(4, mc), -0.29619201333333334, 0.14);
       EXPECT_LE(mc.system().configuration().num_particles(), 5);
     }
@@ -261,12 +262,12 @@ MonteCarlo test_spce_fh(std::shared_ptr<Bias> bias,
   }
   mc.set(spce(spce_args));
   const double beta = 1/kelvin2kJpermol(525, mc.configuration()); // mol/kJ
+  mc.set(MakeThermoParams({{"beta", str(beta)},
+     {"chemical_potential", str(-8.14/beta)}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", str(max)}, {"min", str(min)}})),
-    bias,
-    {{"beta", str(beta)},
-     {"chemical_potential", str(-8.14/beta)}});
+    bias);
   mc.set(criteria);
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
@@ -275,7 +276,7 @@ MonteCarlo test_spce_fh(std::shared_ptr<Bias> bias,
     {"weight", "4"},
     {"reference_index", str(ref)},
     {"num_steps", str(num_steps)}}));
-  SeekNumParticles(min).with_metropolis({{"beta", "1"}, {"chemical_potential", "1"}}).run(&mc);
+  SeekNumParticles(min).with_thermo_params({{"beta", "1"}, {"chemical_potential", "1"}}).with_metropolis().run(&mc);
   mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/spce_fh"}}));
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-6)}}));
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
@@ -419,17 +420,17 @@ MonteCarlo rpm_fh_test(
   INFO("charge conversion " << CODATA2018().charge_conversion());
   const double temperature = 0.047899460618081;
   const double beta_mu = -13.94;
+  mc.set(MakeThermoParams({{"beta", str(1/temperature)},
+     {"chemical_potential0", str(beta_mu*temperature)},
+     {"chemical_potential1", str(beta_mu*temperature)}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", "2"}, {"min", "0"}}),
       {{"particle_type", "0"}}),
     // MakeWangLandau({{"min_flatness", "15"}}),
-    MakeTransitionMatrix({{"min_sweeps", "100"}}),
-    {{"beta", str(1/temperature)},
-     {"chemical_potential0", str(beta_mu*temperature)},
-     {"chemical_potential1", str(beta_mu*temperature)}});
+    MakeTransitionMatrix({{"min_sweeps", "100"}}));
   mc.set(criteria);
-  INFO("beta_mu " << criteria->beta_mu(0));
+  INFO("beta_mu " << mc.system().thermo_params().beta_mu(0));
   mc.add(MakeTrialTranslate({
     {"weight", "0.25"},
     {"tunable_param", "0.1"},

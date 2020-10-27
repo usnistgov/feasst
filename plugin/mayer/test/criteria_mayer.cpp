@@ -21,9 +21,9 @@ TEST(CriteriaMayer, ljb2) {
   const double boxl = 2*(config->model_params().cutoff().value(0));
   config->set_side_lengths(Position().set_vector({boxl, boxl, boxl}));
   std::cout << "boxl " << boxl << std::endl;
+  system.set(MakeThermoParams({{"beta", "1."},
+    {"chemical_potential", "-2.775"}}));
   CriteriaMayer criteria;
-  criteria.set_beta(1.);
-  criteria.add_chemical_potential(-2.775);
   criteria.set_current_energy(system.energy());
   RandomMT19937 random;
   for (int iTrial = 0; iTrial < nTrialsEq + nTrials; ++iTrial) {
@@ -34,7 +34,7 @@ TEST(CriteriaMayer, ljb2) {
   EXPECT_GT(std::abs(2.0944-criteria.second_virial()), 0.0001); // HS value
 
   std::shared_ptr<Criteria> crit2 = test_serialize<CriteriaMayer, Criteria>(criteria);
-  EXPECT_EQ(crit2->beta(), 1.);
+  EXPECT_EQ(system.thermo_params().beta(), 1.);
 }
 
 }  // namespace feasst

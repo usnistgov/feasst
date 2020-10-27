@@ -238,4 +238,66 @@ void Random::position_in_spherical_shell(
   }
 }
 
+double Random::standard_normal() {
+  const double u = uniform();
+  const double v = uniform();
+  return std::sqrt(-2.*std::log(u))*std::cos(2.*PI*v);
+}
+
+double Random::harmonic_bond_length(const double equilibrium_length,
+    const double spring_constant,
+    const int dimension) {
+  ASSERT(dimension == 3,
+    "dimen: " << dimension << " but only implemented in 3D.");
+  const double sigma = std::sqrt(1./2./spring_constant);
+  const double max_length_sq = std::pow(equilibrium_length + 3.*sigma, 2);
+  int attempt = 0;
+  while (attempt < 1e6) {
+    const double length = normal(equilibrium_length, sigma);
+    if (uniform() < length*length/max_length_sq) return length;
+    ++attempt;
+  }
+  FATAL("maximum attempts reached");
+}
+
+double Random::bond_length(const double equilibrium_length,
+    const double spring_constant,
+    const int exponent,
+    const int dimension) {
+  ASSERT(dimension == 3,
+    "dimension: " << dimension << " but only implemented in 3D.");
+  const double max_length = 2*equilibrium_length;
+  const double max_length_sq = std::pow(max_length, 2);
+  int attempt = 0;
+  while (attempt < 1e6) {
+    const double length = max_length*uniform();
+    const double exp_neg_delta_U = std::exp(-spring_constant*
+      std::pow(length - equilibrium_length, exponent));
+    if (uniform() < length*length/max_length_sq*exp_neg_delta_U) return length;
+    ++attempt;
+  }
+  FATAL("max attempts reached");
+}
+
+double Random::bond_angle(const double equilibrium_angle,
+    const double spring_constant,
+    const int exponent,
+    const int dimension,
+    const double minimum_angle) {
+  if (dimension == 2) {
+    FATAL("implmement flexible bonds in 2D.");
+  } else if (dimension != 3) {
+    FATAL("unrecognized dimension: " << dimension);
+  }
+  int attempt = 0;
+  while (attempt < 1e6) {
+    const double theta = minimum_angle + (PI - minimum_angle)*uniform(); 
+    const double dtheta = theta - equilibrium_angle;
+    const double delta_U = spring_constant*pow(dtheta, exponent);
+    if (uniform() < std::sin(theta)*std::exp(-delta_U)) return theta;
+    ++attempt;
+  }
+  FATAL("max attempts reached");
+}
+
 }  // namespace feasst

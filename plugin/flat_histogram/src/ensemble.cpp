@@ -100,13 +100,14 @@ GrandCanonicalEnsemble::GrandCanonicalEnsemble(const Histogram& macrostates,
 }
 
 GrandCanonicalEnsemble::GrandCanonicalEnsemble(
-    const FlatHistogram& flat_histogram) : Ensemble(flat_histogram) {
-  original_conjugate_ = flat_histogram.beta_mu();
+    const FlatHistogram& flat_histogram,
+    const double beta_mu) : Ensemble(flat_histogram) {
+  original_conjugate_ = beta_mu;
 }
 
 GrandCanonicalEnsemble::GrandCanonicalEnsemble(
     const Clones& clones) : Ensemble(clones) {
-  original_conjugate_ = clones.clone(0).criteria().beta_mu();
+  original_conjugate_ = clones.clone(0).system().thermo_params().beta_mu();
 }
 
 double GrandCanonicalEnsemble::betaPV(const int phase) const {
@@ -171,7 +172,8 @@ void ExtrapolateBetaGCE::extrapolateBetaGCE_(
 ExtrapolateBetaGCE::ExtrapolateBetaGCE(
     const MonteCarlo& mc,
     const FlatHistogram& flat_hist,
-    const argtype& args) : GrandCanonicalEnsemble(flat_hist) {
+    const argtype& args)
+  : GrandCanonicalEnsemble(flat_hist, mc.system().thermo_params().beta_mu()) {
   const Analyze& an = SeekAnalyze().reference("Energy", mc);
   const int num_moments = static_cast<int>(an.accumulator().moments().size());
   DEBUG("num_moments " << num_moments);

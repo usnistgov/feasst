@@ -43,6 +43,10 @@ class Histogram {
   /// This makes the histogram expandable.
   void set_width_center(const double width, const double center);
 
+  /// Same as above, but initializes histogram from min to max values.
+  void set_width_min_max(const double width, const double min,
+    const double max);
+
   /// Set the edges or boundaries manually.
   /// This makes the histogram not expandable.
   void set_edges(const std::deque<double> edges);
@@ -77,10 +81,15 @@ class Histogram {
   }
 
   /// Update the histogram by adding a value.
-  void add(const double value);
+  void add(const double value,
+    /// If true, update histogram. Otherwise, simply initialize sizes.
+    const bool update = true);
 
   /// Return the histogram.
   std::deque<double> histogram() const { return histogram_; }
+
+  /// Return Histogram in a human-readable format.
+  std::string str() const;
 
   void serialize(std::ostream& ostr) const;
   explicit Histogram(std::istream& istr);

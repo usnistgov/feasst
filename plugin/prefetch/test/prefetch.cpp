@@ -36,7 +36,8 @@ void run_prefetch(const int trials, const int steps_per) {
 //  mc->set(MakeRandomMT19937({{"seed", "1592943710"}}));
   mc->set(MakeRandomMT19937({{"seed", "1596650884"}}));
   mc->set(lennard_jones());
-  mc->set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc->set(MakeMetropolis());
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}, {"num_steps", "1"}}));
   mc->add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj"}}));
   mc->add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
@@ -60,7 +61,8 @@ TEST(Prefetch, NVT_benchmark_LONG) {
 TEST(Prefetch, MUVT) {
   auto mc = MakePrefetch({{"steps_per_check", "1"}});
   mc->set(lennard_jones());
-  mc->set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc->set(MakeMetropolis());
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc->add(MakeLogAndMovie({{"steps_per", str(1e1)}, {"file_name", "tmp/lj"}}));
   mc->add(MakeCheckEnergyAndTune({{"steps_per", str(1e1)}}));
@@ -72,12 +74,12 @@ TEST(Prefetch, MUVT) {
   mc->add(MakeTrialAdd({{"particle_type", "0"}}));
   mc->add(MakeTrialRemove({{"particle_type", "0"}}));
   // mc->set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-2"}}));
+  mc->set(MakeThermoParams({{"beta", str(1./1.5)},
+     {"chemical_potential", "-2.352321"}}));
   mc->set(MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", "5"}, {"min", "0"}})),
-    MakeTransitionMatrix({{"min_sweeps", "10"}}),
-    {{"beta", str(1./1.5)},
-     {"chemical_potential", "-2.352321"}}));
+    MakeTransitionMatrix({{"min_sweeps", "10"}})));
   mc->add(MakeCriteriaUpdater({{"steps_per", str(1e1)}}));
 
 //  // initialize ghosts the same
@@ -116,7 +118,8 @@ TEST(Prefetch, NVT_spce) {
   // mc->set(MakeRandomMT19937({{"seed", "123"}}));
   mc->set(spce());
   const int steps_per = 1e2;
-  mc->set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc->set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+  mc->set(MakeMetropolis());
   mc->add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc->add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "1."}}));
   mc->add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj"}}));
@@ -143,9 +146,10 @@ TEST(Prefetch, AVB) {
   monte_carlo->add(Potential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   //monte_carlo->add(Potential(MakeLennardJones()));
-  monte_carlo->add(MakeMetropolis({{"beta", "0.00001"}, {"chemical_potential", "50."}}));
+  monte_carlo->set(MakeThermoParams({{"beta", "0.00001"}, {"chemical_potential", "50."}}));
+  monte_carlo->set(MakeMetropolis());
   SeekNumParticles(50).with_trial_add().run(monte_carlo.get());
-  monte_carlo->add(MakeMetropolis({{"beta", "0.2"}, {"chemical_potential", "-20."}}));
+  monte_carlo->set(MakeThermoParams({{"beta", "0.2"}, {"chemical_potential", "-20."}}));
   auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "3"},
                                                  {"minimum_distance", "1"}});
   // Something wrong with adding TrialFactories when using prefetch...

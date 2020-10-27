@@ -20,9 +20,8 @@ TEST(TrialRotate, spce) {
   }
 
   system.add(Potential(MakeLennardJones()));
-
+  system.set(MakeThermoParams({{"beta", "1.0"}}));
   Metropolis criteria;
-  criteria.set_beta(1.0);
   auto rotate = MakeTrialRotate({{"tunable_param", "90."}, {"weight", "0.5"}});
   EXPECT_EQ(0.5, rotate->weight());
   FileXYZ file;

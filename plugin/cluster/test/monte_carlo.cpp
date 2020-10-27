@@ -42,7 +42,8 @@ TEST(MonteCarlo, cluster) {
     mc.add(Potential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
       //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-    mc.add(MakeMetropolis({{"beta", "40"}, {"chemical_potential", "1."}}));
+    mc.set(MakeThermoParams({{"beta", "40"}, {"chemical_potential", "1."}}));
+    mc.set(MakeMetropolis());
     if (single_particle_translate) mc.add(MakeTrialTranslate());
     SeekNumParticles(3).with_trial_add().run(&mc);
     auto neighbor_criteria = MakeNeighborCriteria({{"energy_maximum", "-0.5"}});
@@ -96,7 +97,8 @@ TEST(MonteCarlo, GCMCmap) {
     MonteCarlo mc;
     mc.set(MakeRandomMT19937({{"seed", "123"}}));
     mc.set(lennard_jones({{"lrc", "false"}}));
-    mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
+    mc.set(MakeMetropolis());
     mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
     const std::string steps_per = str(1e4);
     mc.add(MakeLogAndMovie({{"steps_per", steps_per}, {"file_name", "tmp/lj"}}));
@@ -112,7 +114,7 @@ TEST(MonteCarlo, GCMCmap) {
     mc.set(0, Potential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(map))));
       //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-    mc.set(MakeMetropolis({{"beta", "1.2"}, {"chemical_potential", "-4"}}));
+    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-4"}}));
     mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
     mc.add(MakeNumParticles({{"steps_per_write", steps_per},
                              {"file_name", "tmp/ljnum.txt"}}));
@@ -143,11 +145,12 @@ MonteCarlo mc_avb_test(
   } else {
     monte_carlo.add(Potential(MakeLennardJones()));
   }
-  monte_carlo.add(MakeMetropolis({{"beta", "0.00001"}, {"chemical_potential", "50."}}));
+  monte_carlo.set(MakeThermoParams({{"beta", "0.00001"}, {"chemical_potential", "50."}}));
+  monte_carlo.set(MakeMetropolis());
   SeekNumParticles(min_particles).with_trial_add().run(&monte_carlo);
-  monte_carlo.add(MakeMetropolis(
-    MakeConstrainNumParticles({{"minimum", str(min_particles)}}),
-    {{"beta", "0.2"}, {"chemical_potential", "-20."}}));
+  monte_carlo.set(MakeThermoParams({{"beta", "0.2"}, {"chemical_potential", "-20."}}));
+  monte_carlo.set(MakeMetropolis(
+    MakeConstrainNumParticles({{"minimum", str(min_particles)}})));
   if (avb) {
     auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "3"},
                                                    {"minimum_distance", "1"}});

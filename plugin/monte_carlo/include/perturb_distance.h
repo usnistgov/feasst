@@ -10,16 +10,29 @@ namespace feasst {
 //      for higher acceptance probability
 /**
  * Put first site in selection in a sphere about the first site in anchor.
+ * For bond potentials, the equilibrium length and spring constant are as
+ * described in Random::bond_length
+ * Currently implemented for harmonic bonds (exponent: 2), but could add an
+ * optional exponent model parameter to generalize this.
  */
 class PerturbDistance : public PerturbMove {
  public:
   explicit PerturbDistance(const argtype& args = argtype());
 
   /// Compute and store the distance from the bond_length property in select.
+  /// Also store the spring constant.
   void precompute(TrialSelect * select, System * system) override;
 
-  /// Return the distance.
+  /// Return the equilibrium distance.
   double distance() const { return distance_; }
+
+  /// Return the spring constant. If -1, the bond length is rigid.
+  double spring_constant() const { return spring_constant_; }
+
+  /// Return the randomly selected distance from the bond potential.
+  double random_distance(Random * random,
+    const double beta,  /// inverse temperature
+    const int dimension) const;
 
   void move(System * system,
       TrialSelect * select,
@@ -36,6 +49,7 @@ class PerturbDistance : public PerturbMove {
 
  private:
   double distance_ = 1.;
+  double spring_constant_ = -1;
 };
 
 inline std::shared_ptr<PerturbDistance> MakePerturbDistance(

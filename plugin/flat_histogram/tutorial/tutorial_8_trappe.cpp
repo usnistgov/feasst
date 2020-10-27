@@ -85,15 +85,15 @@ std::shared_ptr<feasst::MonteCarlo> mc(const int thread, const int mn, const int
     }
     mc->add_to_reference(reference);
   }
-  mc->add(feasst::MakeFlatHistogram(
+  mc->set(feasst::MakeThermoParams(criteria_args));
+  mc->set(feasst::MakeFlatHistogram(
     feasst::MakeMacrostateNumParticles(
       feasst::Histogram({{"width", "1"}, {"max", feasst::str(mx)}, {"min", feasst::str(mn)}})),
     // feasst::MakeTransitionMatrix(feasst::args({"min_sweeps": feasst::str(args.sweeps)})),
     feasst::MakeWLTM({
       {"collect_flatness", args.get("--collect_flatness")},
       {"min_flatness", args.get("--min_flatness")},
-      {"min_sweeps", "1000"}}),
-    criteria_args));
+      {"min_sweeps", "1000"}})));
   std::cout << "Initial energy: " << MAX_PRECISION << mc->criteria().current_energy() << std::endl;
   for (int particle_type = 0; particle_type < mc->configuration().num_particle_types(); ++particle_type) {
     mc->add(feasst::MakeTrialTranslate({

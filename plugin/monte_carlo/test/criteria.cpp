@@ -19,9 +19,9 @@ TEST(Criteria, current_energy) {
     auto sys2 = sys;
     auto crit2 = crit;
     trans->attempt(&crit2, &sys2, &random);
-    CATCH_PHRASE("beta must be initialized");
+    CATCH_PHRASE("must set ThermoParams");
   );
-  crit.set_beta(1.);
+  sys.set(MakeThermoParams({{"beta", "1."}}));
   trans->attempt(&crit, &sys, &random);
   EXPECT_NEAR(sys.energy(), crit.current_energy(), NEAR_ZERO);
 }

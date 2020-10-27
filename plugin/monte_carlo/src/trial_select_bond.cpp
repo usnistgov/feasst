@@ -24,8 +24,7 @@ void TrialSelectBond::precompute(System * system) {
   TrialSelect::precompute(system);
   const Particle& part = system->configuration().particle_types().particle(particle_type());
   const int bond_type = part.bond(mobile_site_, anchor_site_).type();
-  const Bond& bond = system->configuration().unique_types().particle(particle_type()).bond(bond_type);
-  add_property("bond_length", bond.property("length"));
+  add_property("bond_type", bond_type);
   anchor_.clear();
   anchor_.add_site(0, anchor_site_);
   mobile_.clear();

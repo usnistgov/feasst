@@ -43,8 +43,8 @@ TEST(MonteCarlo, spce_nvt_VERY_LONG) {
     {"alphaL", "5.6"},
     {"kmax_squared", "38"},
     {"xyz_file", install_dir() + "/plugin/ewald/test/data/spce_sample_config_hummer_eq.xyz"}}));
-  mc.set(MakeMetropolis({
-    {"beta", str(1/kelvin2kJpermol(298, mc.configuration()))}}));
+  mc.set(MakeThermoParams({{"beta", str(1/kelvin2kJpermol(298, mc.configuration()))}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   // without erfc table EXPECT_NEAR(mc.criteria().current_energy(), -24027.470339718111, 1e-10);
@@ -84,9 +84,10 @@ TEST(MonteCarlo, spce_gce_LONG) {
       MakeVisitModelCell()));
   }
   const double beta = 1/kelvin2kJpermol(525);
-  mc.set(MakeMetropolis({
+  mc.set(MakeThermoParams({
     {"beta", str(beta)},
     {"chemical_potential", str(-8.14/beta)}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   mc.add(MakeTrialTransfer({
@@ -111,9 +112,10 @@ TEST(MonteCarlo, spce) {
   MonteCarlo mc;
   mc.set(spce());
   const double beta = 1/kelvin2kJpermol(525);
-  mc.set(MakeMetropolis({
+  mc.set(MakeThermoParams({
     {"beta", str(beta)},
     {"chemical_potential", str(-8.14/beta)}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
@@ -128,9 +130,10 @@ TEST(MonteCarlo, spce_NVT_BENCHMARK_LONG) {
   mc.set(spce());
   //mc.set(spce({{"kmax_squared", "2"}}));
   const double beta = 1/kelvin2kJpermol(525);
-  mc.set(MakeMetropolis({
+  mc.set(MakeThermoParams({
     {"beta", str(beta)},
     {"chemical_potential", str(-8.14/beta)}}));
+  mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.275"}}));
   mc.add(MakeTrialRotate({{"weight", "1."}, {"tunable_param", "50."}}));
   mc.add(MakeTrialTransfer({{"weight", "4."}, {"particle_type", "0"}}));
@@ -150,11 +153,11 @@ TEST(MonteCarlo, rpm) {
   }
   mc.add_to_reference(Potential(MakeDontVisitModel()));
   const int steps_per = 1e2;
-  mc.set(MakeMetropolis({
+  mc.set(MakeThermoParams({
     {"beta", "0.02"},
     {"chemical_potential0", "-509"},
-    {"chemical_potential1", "-509"},
-  }));
+    {"chemical_potential1", "-509"}}));
+  mc.set(MakeMetropolis());
   EXPECT_NEAR(-0.99036730859815814, mc.criteria().current_energy(), 1e-9);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.add(MakeTrialTransferMultiple({

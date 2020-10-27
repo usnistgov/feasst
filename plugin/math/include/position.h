@@ -47,10 +47,11 @@ class Position {
 
   /**
     Set vector given Spherical coordinates (2 or 3-dimensional).
+    See https://mathworld.wolfram.com/SphericalCoordinates.html
     Spherical coordinates are defined as follows:
     The first coordinate is rho >= 0. rho is the distance from origin.
     The second coordinate is theta.
-    theta is the angle between x-axis and projection of line on x-y axis.
+    theta is the angle between x-axis and projection of the vector on x-y plane.
     In 3D, the third and final coordinate is phi, 0 <= phi <= PI.
     phi is the angle between z-axis and line.
    */
@@ -63,6 +64,9 @@ class Position {
 
   /// Same as above for 2D.
   void set_from_spherical(const double rho, const double theta);
+
+  /// Return the spherical coordinates (r, theta, phi).
+  Position spherical() const;
 
   /// Get coordinate value of one dimension.
   double coord(const int dimension) const;

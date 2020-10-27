@@ -27,7 +27,8 @@ int main(int argc, char ** argv) {
     {{"particle_type", args.get("--data")}}));
   mc.add(feasst::Potential(feasst::MakeLennardJones()));
   mc.add(feasst::Potential(feasst::MakeLongRangeCorrections()));
-  mc.add(feasst::MakeMetropolis({{"beta", args.get("--beta")}}));
+  mc.set(feasst::MakeThermoParams({{"beta", args.get("--beta")}}));
+  mc.set(feasst::MakeMetropolis());
   mc.add(feasst::MakeTrialTranslate(
     {{"tunable_param", "2."}, {"tunable_target_acceptance", "0.2"}}));
   mc.add(feasst::MakeCheckEnergyAndTune(
@@ -36,7 +37,8 @@ int main(int argc, char ** argv) {
                                  {"num_hours", "0.01"},
                                  {"num_hours_terminate", "0.03"}}));
   feasst::SeekNumParticles(args.get_int("--num"))
-    .with_metropolis({{"beta", "0.1"}, {"chemical_potential", "10"}})
+    .with_thermo_params({{"beta", "0.1"}, {"chemical_potential", "10"}})
+    .with_metropolis()
     .with_trial_add()
     .run(&mc);
   mc.add(feasst::MakeLogAndMovie(

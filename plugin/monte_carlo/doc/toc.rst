@@ -17,7 +17,6 @@
    PerturbMove
    PerturbTranslate
    PerturbDistance
-   PerturbVolume
    TrialStage
    TrialCompute
    TrialComputeMove
@@ -38,6 +37,7 @@
    TrialComputeAdd
    TrialComputeRemove
    TrialComputeVolume
+   PerturbVolume
    PerturbDistanceAngle
    PerturbRotate
    TrialRotate

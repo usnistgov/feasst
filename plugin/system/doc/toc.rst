@@ -5,6 +5,7 @@
    SynchronizeData
    EnergyMap
    VisitModelInner
+   ThermoParams
    BondThreeBody
    AngleSquareWell
    BondTwoBody

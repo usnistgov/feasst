@@ -33,7 +33,8 @@ TEST(MonteCarlo, chain) {
   MonteCarlo mc;
   //mc.set(MakeRandomMT19937({{"seed", "1602167050"}}));
   mc.set(chain_system());
-  mc.set(MakeMetropolis({{"beta", "1"}, {"chemical_potential", "1."}}));
+  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1."}}));
+  mc.set(MakeMetropolis());
   SeekNumParticles(1).with_trial_add().run(&mc);
   mc.add(MakeTrialTranslate({
     {"weight", "1."},

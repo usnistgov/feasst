@@ -28,7 +28,7 @@ class TrialSelectBond : public TrialSelect {
   /// Return the mobile site.
   int mobile_site() const { return mobile_site_; }
 
-  /// bond_length is added as a property.
+  /// bond_type is added as a property.
   /// Mobile and anchor are sized.
   void precompute(System * system) override;
 

@@ -6,6 +6,7 @@
 #include <memory>
 #include "configuration/include/configuration.h"
 #include "system/include/potential_factory.h"
+#include "system/include/thermo_params.h"
 
 namespace feasst {
 
@@ -24,6 +25,8 @@ namespace feasst {
   3. The remaining potentials are used for reference.
      For example, cheap energy calculations in dual-cut configurational bias.
      Also Mayer-sampling.
+
+  Finally, the System also contains the ThermoParams.
  */
 class System {
  public:
@@ -139,6 +142,18 @@ class System {
     const int config = 0);
 
   //@}
+  /** @name ThermoParams
+    Store and retreive the thermodynamic parameters such as temperature, pressure, etc.
+   */
+  //@{
+
+  /// Set the thermodynamic parameters.
+  void set(std::shared_ptr<ThermoParams> thermo_params);
+
+  /// Return the thermodynamic parameters.
+  const ThermoParams& thermo_params() const;
+
+  //@}
   // Other functions:
 
   /*
@@ -189,6 +204,7 @@ class System {
   PotentialFactory optimized_;
   bool is_optimized_ = false;
   std::vector<PotentialFactory> references_;
+  std::shared_ptr<ThermoParams> thermo_params_;
 
   // temporary variable, not needed for serialization
   // In order to finalize or restart the correct reference potential utilized

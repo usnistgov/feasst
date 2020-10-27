@@ -196,11 +196,13 @@ void TrialComputeGrowAdd::perturb_and_acceptance(
     const double volume = config.domain().volume();
     const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
-    DEBUG("volume " << volume << " selprob " << select.probability() << " betamu " << criteria->beta_mu(particle_type));
+    const ThermoParams& params = system->thermo_params();
+    DEBUG("volume " << volume << " selprob " << select.probability() <<
+      " betamu " << params.beta_mu(particle_type));
     const double power = 1.;///static_cast<double>(criteria->num_expanded_states());
     acceptance->add_to_ln_metropolis_prob(
       power*(std::log(volume)
-             + criteria->beta_mu(particle_type)*criteria->num_expanded_states())
+             + params.beta_mu(particle_type)*criteria->num_expanded_states())
     );
   }
 }
@@ -221,12 +223,11 @@ void TrialComputeGrowRemove::perturb_and_acceptance(
     const TrialSelect& select = (*stages)[0]->trial_select();
     const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
-    DEBUG("volume " << volume << " selprob " << select.probability() << " betamu " << criteria->beta_mu(particle_type));
+    const ThermoParams& params = system->thermo_params();
+    DEBUG("volume " << volume << " selprob " << select.probability() << " betamu " << params.beta_mu(particle_type));
     const double power = 1;//./static_cast<double>(criteria->num_expanded_states());
     acceptance->add_to_ln_metropolis_prob(
-      power*(- std::log(volume)
-             - criteria->beta_mu(particle_type))
-    );
+      power*(-std::log(volume) - params.beta_mu(particle_type)));
     DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   }
 }

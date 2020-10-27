@@ -38,11 +38,14 @@ void feasst_serialize(const std::string str, std::ostream& ostr);
 /// Deserialize string.
 void feasst_deserialize(std::string * str, std::istream& istr);
 
-/// Serialize double. Handle inf.
-void feasst_deserialize(double * val, std::istream& ostr);
+/// Deserialize double. Handle inf.
+void feasst_deserialize(double * val, std::istream& istr);
 
-/// Serialize long double. Handle inf.
-void feasst_deserialize(long double * val, std::istream& ostr);
+/// Serialize long double.
+void feasst_serialize(const long double& val, std::ostream& ostr);
+
+/// Deserialize long double. Handle inf.
+void feasst_deserialize(long double * val, std::istream& istr);
 
 /// Serialize argtype.
 void feasst_serialize(const argtype& args, std::ostream& ostr);

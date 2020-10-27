@@ -6,7 +6,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--task", type=int, help="SLURM job array index", default=0)
 parser.add_argument("--num_procs", type=int, help="number of processors", default=12)
 parser.add_argument("--num_hours", type=float, help="number of hours before restart", default=1.)
-parser.add_argument("--dccb_begin", type=int, help="number of molecules before DCCB", default=10000)
+parser.add_argument("--dccb_begin", type=int, help="number of molecules before DCCB", default=300)
 args = parser.parse_args()
 print("args:", args)
 
@@ -31,12 +31,12 @@ def mc(thread, mn, mx):
         num = "4"
     mc.set(fst.spce(spce_args))
     beta = 1./fst.kelvin2kJpermol(525, mc.configuration())
-    mc.add(fst.MakeFlatHistogram(
+    mc.set(fst.MakeThermoParams(fst.args({"beta": str(beta),
+                  "chemical_potential": str(-8.14/beta)})))
+    mc.set(fst.MakeFlatHistogram(
         fst.MakeMacrostateNumParticles(
             fst.Histogram(fst.args({"width": "1", "max": str(mx), "min": str(mn)}))),
-        fst.MakeTransitionMatrix(fst.args({"min_sweeps": "10"})),
-        fst.args({"beta": str(beta),
-                  "chemical_potential": str(-8.14/beta)})))
+        fst.MakeTransitionMatrix(fst.args({"min_sweeps": "10"}))))
     mc.add(fst.MakeTrialTranslate(fst.args({"weight": "1.", "tunable_param": "1.",})))
     mc.add(fst.MakeTrialRotate(fst.args({"weight": "1.", "tunable_param": "1."})))
     mc.add(fst.MakeTrialTransfer(fst.args({

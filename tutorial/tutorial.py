@@ -28,7 +28,8 @@ mc.add(fst.Configuration(
     fst.args({"particle_type": args.data})))
 mc.add(fst.Potential(fst.MakeLennardJones()))
 mc.add(fst.Potential(fst.MakeLongRangeCorrections()))
-mc.add(fst.MakeMetropolis(fst.args({"beta": str(args.beta)})))
+mc.set(fst.MakeThermoParams(fst.args({"beta": str(args.beta)})))
+mc.set(fst.MakeMetropolis())
 mc.add(fst.MakeTrialTranslate(fst.args(
     {"tunable_param": "2.", "tunable_target_acceptance": "0.2"})))
 mc.add(fst.MakeCheckEnergyAndTune(fst.args(
@@ -37,7 +38,8 @@ mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint.fst",
                                     "num_hours": "0.01",
                                     "num_hours_terminate": "0.03"})))
 fst.SeekNumParticles(args.num)\
-    .with_metropolis(fst.args({"beta": "0.1", "chemical_potential": "10"}))\
+    .with_thermo_params(fst.args({"beta": "0.1", "chemical_potential": "10"}))\
+    .with_metropolis()\
     .with_trial_add().run(mc)
 mc.add(fst.MakeLogAndMovie(fst.args(
     {"steps_per" : str(int(1e5)), "file_name" : "lj"})))

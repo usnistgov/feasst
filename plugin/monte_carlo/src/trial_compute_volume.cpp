@@ -33,8 +33,9 @@ void TrialComputeVolume::perturb_and_acceptance(
   acceptance->set_energy_new(criteria->current_energy() - acceptance->energy_new());
   const double volume_new = config.domain().volume();
   if (volume_old == volume_new) acceptance->set_reject(true);
+  const ThermoParams& thermo = system->thermo_params();
   acceptance->add_to_ln_metropolis_prob(
-    - criteria->beta()*criteria->pressure()*(volume_new - volume_old)
+    - thermo.beta()*thermo.pressure()*(volume_new - volume_old)
     + (config.num_particles() + 1)*std::log(volume_new/volume_old)
   );
 }

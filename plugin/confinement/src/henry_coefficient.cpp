@@ -38,7 +38,8 @@ void HenryCoefficient::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   DEBUG("en: " << criteria.current_energy());
-  accumulator_.accumulate(std::exp(-criteria.beta()*criteria.current_energy()));
+  accumulator_.accumulate(
+    std::exp(-system.thermo_params().beta()*criteria.current_energy()));
 }
 
 std::string HenryCoefficient::write(const Criteria& criteria,

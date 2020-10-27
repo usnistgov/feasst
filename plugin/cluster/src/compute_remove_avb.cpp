@@ -37,11 +37,11 @@ void ComputeRemoveAVB::perturb_and_acceptance(
     const int particle_index = select.mobile().particle_index(0);
     const int particle_type = config.select_particle(particle_index).type();
     acceptance->set_macrostate_shift_type(particle_type);
-    DEBUG("selprob " << select.probability() << " betamu " << criteria->beta_mu(particle_type));
+    const ThermoParams& params = system->thermo_params();
+    DEBUG("selprob " << select.probability() << " betamu " << params.beta_mu(particle_type));
     acceptance->add_to_ln_metropolis_prob(
       + std::log(select.probability())
-      - criteria->beta_mu(particle_type)
-    );
+      - params.beta_mu(particle_type));
     DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   }
 }

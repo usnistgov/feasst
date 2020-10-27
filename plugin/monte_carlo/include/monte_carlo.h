@@ -64,8 +64,14 @@ class MonteCarlo {
   void add_to_reference(const Potential& potential) {
     system_.add_to_reference(potential); }
 
-  /// Alternatively, the first and second actions may be combined by setting
-  /// the system directly.
+  /// The third action is to set the ThermoParams.
+  void set(std::shared_ptr<ThermoParams> thermo_params);
+
+  /// Return the ThermoParams.
+  const ThermoParams& thermo_params() const { return system_.thermo_params(); }
+
+  /// Alternatively, the first, second and third actions may be combined by
+  /// setting the system directly.
   /// This must be done before setting Criteria.
   void set(const System& system);
 
@@ -81,12 +87,9 @@ class MonteCarlo {
   Random * get_random() { return random_.get(); }
   TrialFactory * get_trial_factory() { return &trial_factory_; }
 
-  /// The third action is to set the Criteria.
+  /// The fourth action is to set the Criteria.
   /// Configuration and Potentials (or System) must be set first.
   void set(std::shared_ptr<Criteria> criteria);
-
-  // HWH depreciate
-  void add(std::shared_ptr<Criteria> criteria) { set(criteria); }
 
   /// Once Criteria is set, it may be accessed on a read-only basis.
   const Criteria& criteria() const { return const_cast<Criteria&>(*criteria_); }
@@ -250,6 +253,7 @@ class MonteCarlo {
 
   bool config_set_ = false;
   bool potential_set_ = false;
+  bool thermo_params_set_ = false;
   bool system_set_ = false;
   bool criteria_set_ = false;
 };

@@ -17,6 +17,9 @@ class RandomMT19937 : public Random {
  public:
   explicit RandomMT19937(const argtype& args = argtype());
 
+  /// Use http://www.cplusplus.com/reference/random/normal_distribution/
+  double standard_normal() override { return std_normal_(generator_); }
+
   // serialize
   std::shared_ptr<Random> create(std::istream& istr) const override {
     return std::make_shared<RandomMT19937>(istr); }
@@ -26,6 +29,7 @@ class RandomMT19937 : public Random {
 
  private:
   std::uniform_real_distribution<double> dis_double_;
+  std::normal_distribution<double> std_normal_;
   std::mt19937 generator_;
 
   void reseed_() override;

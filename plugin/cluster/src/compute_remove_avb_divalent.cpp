@@ -70,6 +70,7 @@ void ComputeRemoveAVBDivalent::perturb_and_acceptance(
 //  DEBUG("num_neigh " << num_neigh);
   const double volume = config.domain().volume();
   //set_probability(volume_av/static_cast<double>(num_neighbors + 1 + delta_ab));
+  const ThermoParams& params = system->thermo_params();
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
   acceptance->add_to_ln_metropolis_prob(
     - std::log(volume*select0.probability())
@@ -77,8 +78,8 @@ void ComputeRemoveAVBDivalent::perturb_and_acceptance(
     - std::log(volume_av/static_cast<double>(num_neigh - 1))
     //-std::log(select1.probability())
     //-std::log(select2.probability())
-    - criteria->beta_mu(particle_type0)
-    - 2*criteria->beta_mu(particle_type1)
+    - params.beta_mu(particle_type0)
+    - 2*params.beta_mu(particle_type1)
   );
   DEBUG("lnmet " << acceptance->ln_metropolis_prob());
 }

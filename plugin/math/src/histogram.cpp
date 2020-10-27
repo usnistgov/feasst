@@ -13,21 +13,13 @@ namespace feasst {
 
 Histogram::Histogram(const argtype& args) {
   args_.init(args);
-  // construct a constant width bin
+  // optionally construct a constant width bin
   if (args_.key("width").used()) {
     const double width = args_.dble();
     const double max = args_.key("max").dble();
     const double min = args_.key("min").dflt("0").dble();
-    set_width_center(width, min);
     ASSERT(max > min, "max(" << max <<") <= min(" << min << ")");
-    double bins = (max - min)/width;
-    int nbins = round(bins);
-    ASSERT(std::abs(bins - nbins) < NEAR_ZERO, "bins(" << bins << ")");
-    for (double bin = min; bin <= max + 10*NEAR_ZERO; ++bin) {
-      add(bin);
-    }
-    DEBUG("edges " << feasst_str(edges_));
-    return;
+    set_width_min_max(width, min, max);
   }
 }
 
@@ -50,6 +42,17 @@ void Histogram::set_width_center(const double width, const double center) {
   is_constant_width_ = 1;
 }
 
+void Histogram::set_width_min_max(const double width, const double min,
+    const double max) {
+  set_width_center(width, min);
+  const double num = (max - min)/width;
+  ASSERT(num - static_cast<int>(num) < 1e-8, "min: " << min << " and max: "
+    << max << " do not align with width: " << width);
+  for (double val = min; val < max + 0.5*width; val += width) {
+    add(val, false);
+  }
+}
+
 void Histogram::set_edges(const std::deque<double> edges) {
   ASSERT(edges.size() > 1, "must be more than 1 edge");
   edges_ = edges;
@@ -64,15 +67,16 @@ void Histogram::set_edges(const std::vector<double> edges) {
 }
 
 int Histogram::bin(const double value) const {
-  ASSERT(value <= max() && value >= min(),
-    "histogram value(" << value << ") is out of range. max(" << max() <<
-    ") min( " << min() << ")");
   if (is_constant_width_ == 1) {
     const double kWidth = edges_[1] - edges_[0];
     DEBUG("kWidth " << kWidth);
     DEBUG("value " << value);
     DEBUG("center " << center_of_bin(0));
     return round((value - center_of_bin(0))/kWidth);
+  } else {
+    ASSERT(value <= max() && value >= min(),
+      "histogram value(" << value << ") is out of range. max(" << max() <<
+      ") min( " << min() << ")");
   }
   int bin = 0;
   bool found = false;
@@ -91,11 +95,11 @@ double Histogram::center_of_bin(const int bin) const {
   return 0.5*(edges_[bin] + edges_[bin + 1]);
 }
 
-void Histogram::add(const double value) {
+void Histogram::add(const double value, const bool update) {
   // initialize histogram if not already and formula is set
   ASSERT(edges_.size() != 0, "size error");
   if ((value <= max()) && (value >= min())) {
-    ++histogram_[bin(value)];
+    if (update) ++histogram_[bin(value)];
   } else {
     // expand histogram if allowed and formula is available.
     ASSERT(bin_size_ != NULL && expandable_, "out of range");
@@ -109,7 +113,11 @@ void Histogram::add(const double value) {
         edges_.push_back(edges_.back() + new_width);
         if (value < max()) {
           found = 1;
-          histogram_.push_back(1);
+          if (update) {
+            histogram_.push_back(1);
+          } else {
+            histogram_.push_back(0);
+          }
         } else {
           histogram_.push_back(0);
         }
@@ -122,7 +130,11 @@ void Histogram::add(const double value) {
         edges_.push_front(edges_.front() - new_width);
         if (value > min()) {
           found = 1;
-          histogram_.push_front(1);
+          if (update) {
+            histogram_.push_front(1);
+          } else {
+            histogram_.push_front(0);
+          }
         } else {
           histogram_.push_front(0);
         }
@@ -160,6 +172,15 @@ Histogram::Histogram(std::istream& istr) {
     }
   }
   feasst_deserialize(&is_constant_width_, istr);
+}
+
+std::string Histogram::str() const {
+  std::stringstream ss;
+  ss << "bin,num" << std::endl;
+  for (int bin = 0; bin < size(); ++bin) {
+    ss << center_of_bin(bin) << "," << histogram()[bin] << std::endl;
+  }
+  return ss.str();
 }
 
 }  // namespace feasst

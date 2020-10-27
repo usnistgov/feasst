@@ -282,4 +282,24 @@ void Position::reflect(const Position& reflection_point) {
   }
 }
 
+Position Position::spherical() const {
+  ASSERT(dimension() == 2 || dimension() == 3,
+    "unrecognized dimension: " << dimension());
+  Position spherical = *this;
+  spherical.set_coord(0, distance());
+  if (coord(0) > NEAR_ZERO) {
+    spherical.set_coord(1, std::atan(coord(1)/coord(0)));
+  } else {
+    spherical.set_coord(1, 0.);
+  }
+  if (dimension() == 3) {
+    if (spherical.coord(0) > NEAR_ZERO) {
+      spherical.set_coord(2, std::acos(coord(2)/spherical.coord(0)));
+    } else {
+      spherical.set_coord(2, 0.);
+    }
+  }
+  return spherical;
+}
+
 }  // namespace feasst

@@ -12,7 +12,7 @@ Site Properties
 
 Bond Properties
 
-0 length 1.0 delta 0.000001
+0 length 1.0 spring_constant 1000 delta 0.000001
 
 Sites
 

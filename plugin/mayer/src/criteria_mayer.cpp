@@ -10,7 +10,8 @@ bool CriteriaMayer::is_accepted(const Acceptance& acceptance,
     const System& system,
     Random * random) {
   const double energy_new = acceptance.energy_new();
-  const double f12 = std::exp(-beta()*energy_new) - 1.;
+  const double beta = system.thermo_params().beta();
+  const double f12 = std::exp(-beta*energy_new) - 1.;
   bool is_accepted;
   DEBUG("energy new " << energy_new << " f12 " << f12);
   if (!acceptance.reject() and
@@ -19,7 +20,7 @@ bool CriteriaMayer::is_accepted(const Acceptance& acceptance,
     f12old_ = f12;
     is_accepted = true;
     DEBUG("computing ref");
-    f12ref_ = std::exp(-beta()*acceptance.energy_ref()) - 1.;
+    f12ref_ = std::exp(-beta*acceptance.energy_ref()) - 1.;
     DEBUG("f12ref " << f12ref_);
   } else {
     is_accepted = false;

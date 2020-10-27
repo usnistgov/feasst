@@ -56,10 +56,10 @@ void ComputeMorph::perturb_and_acceptance(
     const int particle_index = select.mobile().particle_index(0);
     const int particle_type = select.particle_type();
     const int particle_type_morph = config.select_particle(particle_index).type();
- 
+
     ++delta_bottom_[particle_type];
     --delta_bottom_[particle_type_morph];
- 
+
     std::fill(delta_top_.begin(), delta_top_.end(), 0);
     for (int jstage = istage; jstage < num_stages; ++jstage) {
       const TrialSelect& jselect = (*stages)[jstage]->trial_select();
@@ -73,12 +73,12 @@ void ComputeMorph::perturb_and_acceptance(
     const double num_type = config.num_particles_of_type(particle_type);
     const double num_type_morph = config.num_particles_of_type(particle_type_morph);
     ASSERT(particle_type != particle_type_morph, "err");
-    DEBUG("betamu " << criteria->beta_mu(particle_type));
+    DEBUG("betamu " << system->thermo_params().beta_mu(particle_type));
     acceptance->add_to_ln_metropolis_prob(
       std::log((num_type + delta_top_[particle_type])/(
                 num_type_morph + 1 + delta_bottom_[particle_type_morph]))
-      - criteria->beta_mu(particle_type)
-      + criteria->beta_mu(particle_type_morph)
+      - system->thermo_params().beta_mu(particle_type)
+      + system->thermo_params().beta_mu(particle_type_morph)
     );
   }
 }
