@@ -23,20 +23,43 @@ class PerturbDistanceAngle : public PerturbDistance {
   /// spring constant.
   void precompute(TrialSelect * select, System * system) override;
 
+  /// Return the angle.
+  double angle() const { return angle_; }
+
+  /// Return the spring constant. If rigid, return -1 (default).
+  double spring_constant() const { return spring_constant_; }
+
+  /// Return true if angle is rigid (e.g., if spring_constant is -1).
+  bool is_rigid() const;
+
+  /// Return true if angle is freely-jointed (e.g., if spring_constant is 0).
+  bool is_freely_jointed() const;
+
   /// Return the randomly selected angle from the potential.
+  /// If the spring constant is -1 (rigid), simplly return the angle.
+  /// IF the spring constant is 0 (freely-jointed), use angle() for minimum.
   double random_angle(Random * random,
     const double beta,  /// inverse temperature
     const int dimension) const;
 
+  /// Place mobile site randomly in the circle about the anchors.
+  void place_in_circle(const double distance, const double angle,
+    System * system,
+    TrialSelect * select,
+    Random * random);
+
   void move(System * system,
-      TrialSelect * select,
-      Random * random) override;
+    TrialSelect * select,
+    Random * random) override;
 
   // serialize
   std::shared_ptr<Perturb> create(std::istream& istr) const override;
   void serialize(std::ostream& ostr) const override;
   explicit PerturbDistanceAngle(std::istream& istr);
   virtual ~PerturbDistanceAngle() {}
+
+ protected:
+  void serialize_perturb_distance_angle_(std::ostream& ostr) const;
 
  private:
   double angle_ = 0.;

@@ -24,7 +24,7 @@ class TrialStage {
  public:
   /**
     args:
-    - num_steps: number of rosenbluth steps (default: 1).
+    - num_steps: number of Rosenbluth steps (default: 1).
     - reference_index: index of reference potential.
       Otherwise, if full potential is desired, set to -1 (default: -1).
    */

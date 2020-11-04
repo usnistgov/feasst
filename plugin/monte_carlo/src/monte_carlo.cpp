@@ -4,7 +4,7 @@
 #include "utils/include/checkpoint.h"
 #include "math/include/random_mt19937.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/trial_add.h"
+#include "monte_carlo/include/trials.h"
 
 namespace feasst {
 

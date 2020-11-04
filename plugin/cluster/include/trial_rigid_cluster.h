@@ -12,66 +12,27 @@ namespace feasst {
 /**
   Rigid translation of a cluster of particles.
  */
-class TrialTranslateCluster : public Trial {
- public:
-  /// These arguments are sent to both PerturbTranslate and TrialStage.
-  TrialTranslateCluster(std::shared_ptr<NeighborCriteria> neighbor_criteria,
-                        const argtype& args = argtype());
-  std::shared_ptr<Trial> create(std::istream& istr) const override;
-  void serialize(std::ostream& ostr) const override;
-  explicit TrialTranslateCluster(std::istream& istr);
-  virtual ~TrialTranslateCluster() {}
-
- protected:
-  void serialize_trial_translate_cluster_(std::ostream& ostr) const;
-};
-
-inline std::shared_ptr<TrialTranslateCluster> MakeTrialTranslateCluster(
+std::shared_ptr<Trial> MakeTrialTranslateCluster(
     std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args = argtype()) {
-  return std::make_shared<TrialTranslateCluster>(neighbor_criteria, args);
-}
+    const argtype &args = argtype());
 
 /**
   Rigid translation of a cluster of particles.
  */
-class TrialRotateCluster : public Trial {
- public:
-  /// These arguments are sent to both PerturbRotate and TrialStage.
-  TrialRotateCluster(std::shared_ptr<NeighborCriteria> neighbor_criteria,
-                     const argtype& args = argtype());
-  std::shared_ptr<Trial> create(std::istream& istr) const override;
-  void serialize(std::ostream& ostr) const override;
-  explicit TrialRotateCluster(std::istream& istr);
-  virtual ~TrialRotateCluster() {}
-
- protected:
-  void serialize_trial_rotate_cluster_(std::ostream& ostr) const;
-};
-
-inline std::shared_ptr<TrialRotateCluster> MakeTrialRotateCluster(
+std::shared_ptr<Trial> MakeTrialRotateCluster(
     std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args = argtype()) {
-  return std::make_shared<TrialRotateCluster>(neighbor_criteria, args);
-}
+    const argtype &args = argtype());
 
-/// Attempt TrialTranslateCluster and TrialRotateCluster with equal probability.
-class TrialRigidCluster : public TrialFactory {
- public:
-  /**
-    args:
-    - rotate_param: initial value of the tunable parameter (default: 25).
-    - translate_param: initial value of the tunable parameter (default: 0.1).
-   */
-  explicit TrialRigidCluster(std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype& args = argtype());
-};
+/**
+  Attempt TrialTranslateCluster and TrialRotateCluster with equal probability.
 
-inline std::shared_ptr<TrialRigidCluster> MakeTrialRigidCluster(
+  args:
+  - rotate_param: initial value of the tunable parameter (default: 25).
+  - translate_param: initial value of the tunable parameter (default: 0.1).
+ */
+std::shared_ptr<TrialFactory> MakeTrialRigidCluster(
     std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args = argtype()) {
-  return std::make_shared<TrialRigidCluster>(neighbor_criteria, args);
-}
+    const argtype &args = argtype());
 
 }  // namespace feasst
 

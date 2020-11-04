@@ -5,10 +5,7 @@
 #include "system/include/dont_visit_model.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
-#include "monte_carlo/include/trial_translate.h"
-#include "monte_carlo/include/trial_rotate.h"
-#include "monte_carlo/include/trial_transfer.h"
-#include "monte_carlo/include/trial_add.h"
+#include "monte_carlo/include/trials.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/cpu_time.h"
@@ -51,15 +48,6 @@ MonteCarlo rpm_egce(const int min = 0,
     {"dual_cut", dual_cut}}));
   const double temperature = 0.047899460618081;
   const double beta_mu = -13.94;
-  if (min == 1) {
-    SeekNumParticles(min)
-      .with_thermo_params({{"beta", "0.01"}, {"chemical_potential", "1"}})
-      .with_metropolis()
-      .with_trial_add()
-      .run(&mc);
-  } else if (min > 1) {
-    FATAL("not implemented for min > 1");
-  }
   mc.set(MakeThermoParams({{"beta", str(1/temperature)},
     {"chemical_potential0", str(beta_mu*temperature)},
     {"chemical_potential1", str(beta_mu*temperature)}}));
@@ -69,6 +57,15 @@ MonteCarlo rpm_egce(const int min = 0,
     MakeTransitionMatrix({{"min_sweeps", "100"}}),
     MakeAEqualB({{"extra_A", "1"}}));
   mc.set(criteria);
+  if (min == 1) {
+    SeekNumParticles(min)
+      .with_thermo_params({{"beta", "0.01"}, {"chemical_potential", "1"}})
+      .with_metropolis()
+      .with_trial_add()
+      .run(&mc);
+  } else if (min > 1) {
+    FATAL("not implemented for min > 1");
+  }
   mc.add(MakeCriteriaUpdater({{"steps_per", str(steps_per)}}));
   mc.add(MakeCriteriaWriter({{"steps_per", str(steps_per)},
                              {"file_name", "tmp/rpm_egce_crit.txt"}}));

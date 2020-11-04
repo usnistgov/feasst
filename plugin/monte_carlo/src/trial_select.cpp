@@ -4,7 +4,7 @@
 
 namespace feasst {
 
-TrialSelect::TrialSelect(const argtype& args) : PropertiedEntity() {
+TrialSelect::TrialSelect(const argtype& args) {
   args_.init(args);
   args_.dont_check();
 
@@ -89,6 +89,7 @@ void TrialSelect::serialize_trial_select_(std::ostream& ostr) const {
   feasst_serialize(particle_type_, ostr);
   feasst_serialize(is_particle_type_set_, ostr);
   feasst_serialize(is_ghost_, ostr);
+  feasst_serialize_fstobj(properties_, ostr);
 }
 
 TrialSelect::TrialSelect(std::istream& istr) {
@@ -102,6 +103,7 @@ TrialSelect::TrialSelect(std::istream& istr) {
   feasst_deserialize(&particle_type_, istr);
   feasst_deserialize(&is_particle_type_set_, istr);
   feasst_deserialize(&is_ghost_, istr);
+  feasst_deserialize_fstobj(&properties_, istr);
 }
 
 void TrialSelect::remove_unphysical_sites(const Configuration& config) {

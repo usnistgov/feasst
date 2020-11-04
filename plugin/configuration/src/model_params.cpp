@@ -280,4 +280,15 @@ double Epsilon::mix_(const double value1, const double value2) {
   return std::sqrt(value1*value2);
 }
 
+void ModelParams::set_cutoff_min_to_sigma() {
+  for (int itype = 0; itype < sigma_->size(); ++itype) {
+    for (int jtype = 0; jtype < sigma_->size(); ++jtype) {
+      const double sigma = sigma_->mixed_value(itype, jtype);
+      if (cutoff_->mixed_value(itype, jtype) < sigma) {
+        cutoff_->set_mixed(itype, jtype, sigma);
+      }
+    }
+  }
+}
+
 }  // namespace feasst

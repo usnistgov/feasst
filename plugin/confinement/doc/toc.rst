@@ -6,5 +6,5 @@
    AlwaysAccept
    HenryCoefficient
    ModelHardShape
-   TrialAnywhereNewOnly
+   trial_anywhere_new_only
    ModelTableCart1DHard

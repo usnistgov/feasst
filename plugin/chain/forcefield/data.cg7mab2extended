@@ -1,0 +1,99 @@
+# LAMMPS-inspired data file
+#  7 bead coarse-grained mAb model
+#
+#This set of coordinates (below) correspond to the bead positions based on the other crystal structure (pdb ID: 1IGT).
+#
+# x [nm]  y [nm]  z [nm]  sigma [nm]
+# Hinge   0.00000000  0.00000000  0.00000000  1.52
+# H1  0.38370924  -0.27543393   -2.93884982   5.3283
+# H2  1.88944709  -2.28230144   -4.78259695   4.5405
+# V1.1  -0.20018689   -6.22249817   4.10258205  4.6319
+# V2.1  -1.13469610   -3.19449097   2.39971875  4.4130
+# V1.2  -4.13100713   4.62278921  -1.22550756   4.6319
+# V2.2  -2.75015812   1.97783376  0.47737548  4.4130
+#
+#Hinge -> 0
+#H1 -> 1
+#H2 -> 2
+#V1.1 -> 6
+#V2.1 -> 5
+#V1.2 -> 4
+#V2.2 -> 3
+#
+#             2
+#             |
+#             1
+#             |
+#             0
+#           /   \
+#         3       5
+#       /           \
+#     4               6
+#
+
+7 sites
+6 bonds
+6 angles
+
+7 site types
+6 bond types
+6 angle types
+
+Site Properties
+
+0 epsilon 1 sigma 1.52
+1 epsilon 1 sigma 5.3283
+2 epsilon 1 sigma 4.5405
+3 epsilon 1 sigma 4.4130
+4 epsilon 1 sigma 4.6319
+5 epsilon 1 sigma 4.4130
+6 epsilon 1 sigma 4.6319
+
+Sites
+
+0 0 0 0 0 0 0 0
+1 1 -0.906714 -2.829756  0.174039
+2 2 -1.855155 -5.789736  0.356087
+3 3 -1.291753  2.344171  2.130568
+4 4 -2.588972  4.698262  4.270153
+5 5  2.833531  1.102502 -2.829584
+6 6  5.287789  2.057432 -5.280422
+
+Bond Properties
+
+0 length 3.113545752835420000 delta 0.0001
+1 length 3.435453968374820000 delta 0.0001
+2 length 3.597482242529290000 delta 0.0001
+3 length 6.090110029845180000 delta 0.0001
+4 length 6.856430936450300000 delta 0.0001
+5 length 7.750909487091100000 delta 0.0001
+
+Bonds
+
+0 0 2 1
+1 1 3 4
+2 2 5 6
+3 3 2 0
+4 4 0 4
+5 5 0 6
+
+Angle Properties
+
+0 theta0 0.0 delta 0.0001
+1 theta0 0.0 delta 0.0001
+2 theta0 0.0 delta 0.0001
+3 theta0 120.0 delta 0.0001
+4 theta0 120.0 delta 0.0001
+5 theta0 120.0 delta 0.0001
+
+Angles
+
+0 0 0 2 1
+1 1 0 4 3
+2 2 0 6 5
+3 3 2 0 4
+4 4 2 0 6
+5 5 4 0 6
+
+
+

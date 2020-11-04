@@ -56,17 +56,8 @@ void VisitModelIntra::compute(
     }
     TRACE("sites2: " << sites2.str());
     const std::vector<int>& site2_indices = sites2.site_indices(0);
-
-    for (int sel1_index = 0;
-         sel1_index < static_cast<int>(site1_indices.size());
-         ++sel1_index) {
-      TRACE("sel1_index " << sel1_index << " size " << site1_indices.size());
-      const int site1_index = site1_indices[sel1_index];
-      for (int sel2_index = 0;
-           sel2_index < static_cast<int>(site2_indices.size());
-           ++sel2_index) {
-        const int site2_index = site2_indices[sel2_index];
-
+    for (const int site1_index : site1_indices) {
+      for (const int site2_index : site2_indices) {
         // if sites in particle selection > 1, attempt the following check.
         // if site2 is in selection, then require site1 < site2
         if (!find_in_list(site2_index, site1_indices) ||

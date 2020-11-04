@@ -8,11 +8,9 @@
 #include "system/include/potential.h"
 #include "system/include/utils.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/test/monte_carlo_test.h"
+#include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/seek_num_particles.h"
-#include "monte_carlo/include/trial_rotate.h"
-#include "monte_carlo/include/trial_translate.h"
-#include "monte_carlo/include/trial_transfer.h"
+#include "monte_carlo/include/trials.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/criteria_updater.h"
@@ -211,7 +209,7 @@ TEST(MonteCarlo, lj_fh_liquid_LONG) {
   MonteCarlo mc = test_serialize(test_lj_fh(4, "TM", 1000, false, 100, 105));
   mc.run_until_complete();
   const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
-  EXPECT_NEAR(lnpi.value(0), -4.92194963175925, 0.02);
+  EXPECT_NEAR(lnpi.value(0), -4.92194963175925, 0.025);
   EXPECT_NEAR(lnpi.value(1), -4.03855513175926, 0.02);
   EXPECT_NEAR(lnpi.value(2), -3.15822813175925, 0.02);
   EXPECT_NEAR(lnpi.value(3), -2.28019483175925, 0.01);
@@ -494,15 +492,15 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
 //  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
 //                                               MakeChargeScreened()}),
 //                      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+  mc.set(MakeThermoParams({{"beta", str(1/temperature)},
+     {"chemical_potential0", str(beta_mu*temperature)},
+     {"chemical_potential1", str(beta_mu*temperature)}}));
   auto criteria = MakeFlatHistogram(
     MakeMacrostateNumParticles(
       Histogram({{"width", "1"}, {"max", "5"}, {"min", "0"}}),
       {{"particle_type", "0"}}),
     // MakeWangLandau({{"min_flatness", "100"}}),
-    MakeTransitionMatrix({{"min_sweeps", "1000"}}),
-    {{"beta", str(1/temperature)},
-     {"chemical_potential0", str(beta_mu*temperature)},
-     {"chemical_potential1", str(beta_mu*temperature)}});
+    MakeTransitionMatrix({{"min_sweeps", "1000"}}));
   mc.set(criteria);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.add(MakeTrialTransferMultiple({

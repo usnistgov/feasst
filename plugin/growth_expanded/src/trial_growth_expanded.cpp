@@ -2,8 +2,9 @@
 #include "utils/include/serialize.h"
 #include "math/include/random.h"
 #include "configuration/include/domain.h"
+#include "monte_carlo/include/trials.h"
+#include "monte_carlo/include/trial_select_particle.h"
 #include "growth_expanded/include/trial_growth_expanded.h"
-#include "monte_carlo/include/trial_add.h"
 
 namespace feasst {
 

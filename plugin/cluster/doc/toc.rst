@@ -17,14 +17,11 @@
    ComputeGCA
    ComputeAddAVBDivalent
    ComputeRemoveAVBDivalent
-   TrialAVB4
-   TrialAddAVB
-   TrialRemoveAVB
-   TrialAVB2Half
-   TrialTransferAVB
-   TrialAddAVBDivalent
-   TrialTranslateCluster
-   TrialAVB2
+   trial_avb4
+   trial_transfer_avb
+   trial_transfer_avb_divalent
+   trial_rigid_cluster
+   trial_avb2
    PerturbRotateCOM
    PerturbMoveAVB
    PerturbAddAVB

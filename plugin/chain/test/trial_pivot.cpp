@@ -7,8 +7,8 @@
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/analyze.h"
-#include "chain/include/analyze_rigid_bonds.h"
-#include "chain/include/trial_pivot.h"
+#include "chain/include/check_rigid_bonds.h"
+#include "chain/include/trials.h"
 
 namespace feasst {
 
@@ -29,7 +29,7 @@ TEST(TrialPivot, chain10) {
   factory.precompute(criteria.get(), &system);
   FileXYZ file;
   file.write("tmp/before", system.configuration());
-  AnalyzeRigidBonds checker;
+  CheckRigidBonds checker;
   RandomMT19937 random;
   for (int i = 0; i < 50; ++i) {
     factory.attempt(criteria.get(), &system, &random);

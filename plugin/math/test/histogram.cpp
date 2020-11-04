@@ -127,10 +127,10 @@ TEST(Histogram, args) {
   Histogram hist2 = test_serialize(hist);
   EXPECT_EQ(61, hist2.size());
   // INFO(hist2.str());
-  try {
+  TRY(
     Histogram hist3({{"width", "0.3"}, {"max", "1"}});
     CATCH_PHRASE("do not align with width");
-  }
+  );
 }
 
 }  // namespace feasst

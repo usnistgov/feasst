@@ -50,6 +50,10 @@ Configuration::Configuration(const argtype& args) {
     }
   }
 
+  if (args_.key("set_cutoff_min_to_sigma").dflt("false").boolean()) {
+    unique_types_.set_cutoff_min_to_sigma();
+  }
+
   init_wrap(args_.key("wrap").dflt("true").boolean());
   args_.check_all_used();
 }
@@ -743,6 +747,7 @@ std::string Configuration::status() const {
 
 void Configuration::serialize(std::ostream& ostr) const {
   feasst_serialize_version(7199, ostr);
+  feasst_serialize(version(), ostr);
   particle_types_.serialize(ostr);
   unique_types_.serialize(ostr);
   particles_.serialize(ostr);
@@ -758,8 +763,15 @@ void Configuration::serialize(std::ostream& ostr) const {
 }
 
 Configuration::Configuration(std::istream& istr) {
-  const int version = feasst_deserialize_version(istr);
-  ASSERT(version == 7199, "unrecognized version: " << version);
+  const int config_version = feasst_deserialize_version(istr);
+  ASSERT(config_version == 7199, "unrecognized config_version: "
+      << config_version);
+  std::string checkpoint_version;
+  feasst_deserialize(&checkpoint_version, istr);
+  if (checkpoint_version != version()) {
+    WARN("version of checkpoint: " << checkpoint_version << " is not the " <<
+         "same as current version: " << version());
+  }
   particle_types_ = ParticleFactory(istr);
   unique_types_ = ParticleFactory(istr);
   particles_ = ParticleFactory(istr);

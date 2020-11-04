@@ -30,7 +30,7 @@ void PerturbDistanceAngle::precompute(TrialSelect * select, System * system) {
   const int angle_type = feasst::round(select->property("angle_type"));
   const Angle& angle = system->configuration().unique_type(
     select->particle_type()).angle(angle_type);
-  angle_ = angle.property("theta0");
+  angle_ = degrees_to_radians(angle.property("theta0"));
   if (angle.has_property("spring_constant")) {
     spring_constant_ = angle.property("spring_constant");
   }
@@ -39,17 +39,31 @@ void PerturbDistanceAngle::precompute(TrialSelect * select, System * system) {
 double PerturbDistanceAngle::random_angle(Random * random,
     const double beta,
     const int dimension) const {
-  if (std::abs(spring_constant_ + 1) < NEAR_ZERO) {
-    return angle_;
+  if (is_rigid()) return angle_;
+  if (is_freely_jointed()) {
+    return random->bond_angle(0., 0., 2, dimension, angle_);
   }
-  double spring = spring_constant_/beta;
-  if (std::abs(spring_constant_) < NEAR_ZERO) spring = 0.;
-  return random->bond_angle(angle_, spring, 2, dimension);
+  return random->bond_angle(angle_, spring_constant_/beta, 2, dimension);
 }
 
 void PerturbDistanceAngle::move(System * system,
-                                TrialSelect * select,
-                                Random * random) {
+    TrialSelect * select,
+    Random * random) {
+  DEBUG(class_name());
+  const double distance = random_distance(random,
+    system->thermo_params().beta(),
+    system->dimension());
+  const double angle = random_angle(random, system->thermo_params().beta(),
+    system->dimension());
+  DEBUG("angle: " << angle);
+  place_in_circle(distance, angle, system, select, random);
+}
+
+void PerturbDistanceAngle::place_in_circle(const double distance,
+  const double angle,
+  System * system,
+  TrialSelect * select,
+  Random * random) {
   if (origin_.dimension() == 0) {
     origin_.set_to_origin(system->configuration().dimension());
   }
@@ -73,25 +87,24 @@ void PerturbDistanceAngle::move(System * system,
    */
   // set site to the vector r_jk = r_j - r_k and store this vector
   const Position& rj = select->anchor_position(0, 0, *system);
+  DEBUG("rj: " << rj.str());
   const Position& rk = select->anchor_position(0, 1, *system);
+  DEBUG("rk: " << rk.str());
   rjk_ = rj;
   rjk_.subtract(rk);
   *site = rjk_;
+  DEBUG("rjk: " << rjk_.str());
 
   // normalize site position, centered at rj, and multiply by bond length.
   site->normalize();
-  site->multiply(random_distance(random,
-    system->thermo_params().beta(),
-    system->dimension()));
-  DEBUG("rjk " << rjk_.str());
+  site->multiply(distance);
+  DEBUG("rjk norm*L: " << rjk_.str());
 
   // rotate site by (PI-bond_angle) about vector orthogonal to r_jk
   orthogonal_jk_.orthogonal(*site);
   DEBUG("ortho " << orthogonal_jk_.str());
-  const double ran_angle = random_angle(random, system->thermo_params().beta(),
-    system->dimension());
-  rot_mat_.axis_angle(orthogonal_jk_, PI - ran_angle);
-  DEBUG("site == rj: " << site->str());
+  rot_mat_.axis_angle(orthogonal_jk_, radians_to_degrees(PI - angle));
+  DEBUG("site == rjk: " << site->str());
   rot_mat_.rotate(origin_, site);
   DEBUG("site rotated to angle: " << site->str());
 
@@ -115,11 +128,26 @@ PerturbDistanceAngle::PerturbDistanceAngle(std::istream& istr)
 }
 
 void PerturbDistanceAngle::serialize(std::ostream& ostr) const {
+  serialize_perturb_distance_angle_(ostr);
+}
+
+void PerturbDistanceAngle::serialize_perturb_distance_angle_(
+    std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_perturb_distance_(ostr);
   feasst_serialize_version(788, ostr);
   feasst_serialize(angle_, ostr);
   feasst_serialize(spring_constant_, ostr);
+}
+
+bool PerturbDistanceAngle::is_rigid() const {
+  if (std::abs(spring_constant_ + 1) < NEAR_ZERO) return true;
+  return false;
+}
+
+bool PerturbDistanceAngle::is_freely_jointed() const {
+  if (std::abs(spring_constant_) < NEAR_ZERO) return true;
+  return false;
 }
 
 }  // namespace feasst

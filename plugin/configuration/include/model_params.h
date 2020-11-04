@@ -213,6 +213,10 @@ class ModelParams : public PropertiedEntity {
   /// Return the model parameter with the corresponding name.
   const std::shared_ptr<ModelParam> select(const std::string name) const;
 
+  /// Set the minimum cutoff to sigma.
+  /// This is used for HardSphere potentials that don't assign cutoff.
+  void set_cutoff_min_to_sigma();
+
   /// Set the physical constants.
   void set_physical_constants(std::shared_ptr<PhysicalConstants> constants =
     std::make_shared<CODATA2018>());

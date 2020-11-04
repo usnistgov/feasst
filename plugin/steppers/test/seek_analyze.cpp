@@ -2,7 +2,7 @@
 #include "system/include/utils.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/metropolis.h"
-#include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trials.h"
 #include "steppers/include/wall_clock_limit.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/log_and_movie.h"

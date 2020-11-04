@@ -33,7 +33,7 @@ void Rosenbluth::compute(const double beta, Random * random, const bool old) {
     ln_total_rosenbluth_ += exp(ln + shift);
   }
   ln_total_rosenbluth_ = std::log(ln_total_rosenbluth_) - shift;
-  DEBUG("ln_rosen " << ln_total_rosenbluth_ << " inf " << NEAR_INFINITY);
+  DEBUG("ln_rosen " << ln_total_rosenbluth_);
   DEBUG("energy " << feasst_str(energy_));
   // automatically reject very unlikely acceptances.
   if (ln_total_rosenbluth_ <= -NEAR_INFINITY/pow(10, num())) {

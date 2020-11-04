@@ -15,7 +15,7 @@ class MapSelectBranch {
  public:
   MapSelectBranch() {
     auto obj = MakeSelectBranch({{"mobile_site", "2"}, {"mobile_site2", "3"},
-                                      {"anchor_site", "1"}, {"anchor_site2", "0"}});
+                                 {"anchor_site", "1"}, {"anchor_site2", "0"}});
     obj->deserialize_map()["SelectBranch"] = obj;
   }
 };

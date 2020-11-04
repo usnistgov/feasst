@@ -8,13 +8,11 @@
    SelectPerturbed
    SelectBranch
    PerturbReptate
-   TrialCrankshaft
-   TrialReptate
-   TrialPivot
-   TrialSwapSites
+   trials
    RecenterParticles
-   AnalyzeRigidBonds
+   CheckRigidBonds
    PerturbPivot
    PerturbCrankshaft
-   TrialGrowLinear
    PerturbSiteType
+   TrialGrowLinear
+   PerturbBranch

@@ -7,7 +7,10 @@
 
 namespace feasst {
 
-TrialAddMultiple::TrialAddMultiple(const argtype& args) : Trial(args) {
+std::shared_ptr<Trial> MakeTrialAddMultiple(
+    const argtype &args) {
+  auto trial = MakeTrial(args);
+  trial->set_description("TrialAddMultiple");
   Arguments args_(args);
   args_.dont_check();
   // Create one stage per particle
@@ -20,16 +23,16 @@ TrialAddMultiple::TrialAddMultiple(const argtype& args) : Trial(args) {
     new_args.push_back(nag);
   }
   for (const argtype& arg : new_args) {
-    add_stage(
+    trial->add_stage(
       MakeTrialSelectParticle(arg),
       MakePerturbAdd(arg),
       arg);
   }
-  set(std::make_shared<ComputeAddMultiple>());
-  class_name_ = "TrialAddMultiple";
+  trial->set(std::make_shared<ComputeAddMultiple>());
+  return trial;
 }
 
-std::vector<int> TrialAddMultiple::ptypes(Arguments * args) const {
+std::vector<int> ptypes(Arguments * args) {
   std::vector<int> ptypes;
   int count = 0;
   std::string start("particle_type");
@@ -47,37 +50,6 @@ std::vector<int> TrialAddMultiple::ptypes(Arguments * args) const {
   ASSERT(std::is_sorted(ptypes.begin(), ptypes.end()),
     "ptypes not sorted: " << feasst_str(ptypes));
   return ptypes;
-}
-
-class MapTrialAddMultiple {
- public:
-  MapTrialAddMultiple() {
-    auto obj = MakeTrialAddMultiple({{"particle_type0", "0"},
-                                 {"particle_type1", "1"}});
-    obj->deserialize_map()["TrialAddMultiple"] = obj;
-  }
-};
-
-static MapTrialAddMultiple mapper_ = MapTrialAddMultiple();
-
-std::shared_ptr<Trial> TrialAddMultiple::create(std::istream& istr) const {
-  return std::make_shared<TrialAddMultiple>(istr);
-}
-
-TrialAddMultiple::TrialAddMultiple(std::istream& istr) : Trial(istr) {
-  // ASSERT(class_name_ == "TrialAddMultiple", "name: " << class_name_);
-  const int version = feasst_deserialize_version(istr);
-  ASSERT(736 == version, "mismatch version: " << version);
-}
-
-void TrialAddMultiple::serialize_trial_add_multiple_(std::ostream& ostr) const {
-  serialize_trial_(ostr);
-  feasst_serialize_version(736, ostr);
-}
-
-void TrialAddMultiple::serialize(std::ostream& ostr) const {
-  ostr << class_name_ << " ";
-  serialize_trial_add_multiple_(ostr);
 }
 
 }  // namespace feasst

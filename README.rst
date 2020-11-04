@@ -160,8 +160,17 @@ Later, when you build your tutorial executable, if your build directory is not `
 
     cmake -DCMAKE_PREFIX_PATH=/path/to/install/dir ..
 
+Sometimes running the executable results in an error that a plugin cannot be found.
+In that case `LD_LIBRARY_PATH` needs to be set as follows:
+
+.. code-block:: bash
+
+    export LD_LIBRARY_PATH="/path/to/feasst/build/:$LD_LIBRARY_PATH
+
 Troubleshooting install
 ------------------------
+
+Please :doc:`/CONTACT` us if you run into an issue not listed below.
 
 macOS Mojave
 ~~~~~~~~~~~~~~
@@ -194,6 +203,11 @@ Ubuntu 18 or 20
 ~~~~~~~~~~~~~~~~
 
 * We are not aware of any issues with an Ubuntu 18 or 20 install.
+
+Cray (NERSC CORI)
+~~~~~~~~~~~~~~~~
+
+* OpenMP functions apparently do not work unless the cray programming environment is disabled.
 
 Build from Docker
 ===================

@@ -51,8 +51,8 @@
 #include "shape/include/cylinder.h"
 #include "shape/include/shape_union.h"
 #include "shape/include/shape_intersect.h"
-#include "shape/include/finite_cylinder.h"
 #include "shape/include/slab_sine.h"
+#include "shape/include/finite_cylinder.h"
 #include "shape/include/slab.h"
 #include "system/include/bond_three_body.h"
 #include "system/include/angle_square_well.h"
@@ -77,6 +77,7 @@
 #include "system/include/model_one_body.h"
 #include "system/include/model_empty.h"
 #include "system/include/model_three_body.h"
+#include "system/include/visit_model_intra_map.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"
 #include "system/include/long_range_corrections.h"
@@ -125,10 +126,10 @@
 #include "cluster/include/perturb_point_reflect.h"
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute.h"
+#include "growth_expanded/include/compute_morph.h"
 #include "monte_carlo/include/trial_compute_move.h"
 #include "cluster/include/compute_avb4.h"
 #include "cluster/include/compute_avb2.h"
-#include "growth_expanded/include/compute_morph.h"
 #include "cluster/include/compute_move_cluster.h"
 #include "cluster/include/compute_add_avb.h"
 #include "cluster/include/compute_remove_avb.h"
@@ -136,22 +137,14 @@
 #include "cluster/include/compute_add_avb_divalent.h"
 #include "cluster/include/compute_remove_avb_divalent.h"
 #include "monte_carlo/include/trial.h"
+#include "growth_expanded/include/trial_growth_expanded.h"
 #include "monte_carlo/include/trial_move.h"
-#include "monte_carlo/include/trial_translate.h"
-#include "chain/include/trial_crankshaft.h"
-#include "chain/include/trial_reptate.h"
-#include "chain/include/trial_pivot.h"
-#include "chain/include/trial_swap_sites.h"
 #include "growth_expanded/include/trial_morph_expanded.h"
 #include "growth_expanded/include/trial_morph.h"
 #include "cluster/include/trial_avb4.h"
-#include "monte_carlo/include/trial_volume.h"
-#include "monte_carlo/include/trial_remove.h"
-#include "cluster/include/trial_add_avb.h"
-#include "cluster/include/trial_remove_avb.h"
-#include "cluster/include/trial_avb2_half.h"
 #include "monte_carlo/include/trial_factory.h"
-#include "monte_carlo/include/trial_transfer.h"
+#include "monte_carlo/include/trials.h"
+#include "chain/include/trials.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "cluster/include/trial_transfer_avb.h"
 #include "cluster/include/trial_transfer_avb_divalent.h"
@@ -165,7 +158,7 @@
 #include "monte_carlo/include/modify_factory.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "monte_carlo/include/analyze.h"
-#include "chain/include/analyze_rigid_bonds.h"
+#include "chain/include/check_rigid_bonds.h"
 #include "steppers/include/criteria_writer.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/log.h"
@@ -184,7 +177,6 @@
 #include "steppers/include/log_and_movie.h"
 #include "monte_carlo/include/monte_carlo.h"
 #include "prefetch/include/prefetch.h"
-#include "monte_carlo/include/trial_add.h"
 #include "monte_carlo/include/trial_compute_add.h"
 #include "monte_carlo/include/trial_compute_remove.h"
 #include "monte_carlo/include/trial_compute_volume.h"
@@ -201,22 +193,22 @@
 #include "math/include/constants.h"
 #include "math/include/minimize.h"
 #include "math/include/golden_search.h"
+#include "math/include/quadratic_equation.h"
 #include "math/include/formula_exponential.h"
 #include "math/include/matrix.h"
-#include "monte_carlo/include/perturb_distance_angle.h"
 #include "monte_carlo/include/perturb_rotate.h"
 #include "chain/include/perturb_pivot.h"
 #include "chain/include/perturb_crankshaft.h"
 #include "cluster/include/perturb_rotate_com.h"
 #include "cluster/include/perturb_move_avb.h"
 #include "cluster/include/perturb_add_avb.h"
-#include "monte_carlo/include/trial_rotate.h"
 #include "monte_carlo/include/perturb_anywhere.h"
-#include "chain/include/trial_grow.h"
-#include "growth_expanded/include/trial_growth_expanded.h"
 #include "chain/include/perturb_site_type.h"
+#include "chain/include/trial_grow_linear.h"
 #include "monte_carlo/include/perturb_add.h"
 #include "monte_carlo/include/perturb_remove.h"
+#include "monte_carlo/include/perturb_distance_angle.h"
+#include "chain/include/perturb_branch.h"
 #include "math/include/random_mt19937.h"
 #include "math/include/solver.h"
 #include "math/include/solver_newton_raphson.h"
@@ -279,6 +271,7 @@ using namespace std;
 %pythonnondynamic;
 %include "std_map.i"
 %template(args) std::map<std::string, std::string>;
+%template(ArgsVector) std::vector<std::map<std::string, std::string> >;
 %template(ModelTwoBodyVector) std::vector<std::shared_ptr<ModelTwoBody> >;
 %shared_ptr(feasst::Properties);
 %shared_ptr(feasst::PropertiedEntity);
@@ -329,8 +322,8 @@ using namespace std;
 %shared_ptr(feasst::Cylinder);
 %shared_ptr(feasst::ShapeUnion);
 %shared_ptr(feasst::ShapeIntersect);
-%shared_ptr(feasst::FiniteCylinder);
 %shared_ptr(feasst::SlabSine);
+%shared_ptr(feasst::FiniteCylinder);
 %shared_ptr(feasst::Slab);
 %shared_ptr(feasst::BondThreeBody);
 %shared_ptr(feasst::AngleSquareWell);
@@ -355,6 +348,7 @@ using namespace std;
 %shared_ptr(feasst::ModelOneBody);
 %shared_ptr(feasst::ModelEmpty);
 %shared_ptr(feasst::ModelThreeBody);
+%shared_ptr(feasst::VisitModelIntraMap);
 %shared_ptr(feasst::VisitModelIntra);
 %shared_ptr(feasst::VisitModelCell);
 %shared_ptr(feasst::LongRangeCorrections);
@@ -411,10 +405,10 @@ using namespace std;
 %shared_ptr(feasst::PerturbPointReflect);
 %shared_ptr(feasst::TrialStage);
 %shared_ptr(feasst::TrialCompute);
+%shared_ptr(feasst::ComputeMorph);
 %shared_ptr(feasst::TrialComputeMove);
 %shared_ptr(feasst::ComputeAVB4);
 %shared_ptr(feasst::ComputeAVB2);
-%shared_ptr(feasst::ComputeMorph);
 %shared_ptr(feasst::ComputeMoveCluster);
 %shared_ptr(feasst::ComputeAddAVB);
 %shared_ptr(feasst::ComputeRemoveAVB);
@@ -422,31 +416,13 @@ using namespace std;
 %shared_ptr(feasst::ComputeAddAVBDivalent);
 %shared_ptr(feasst::ComputeRemoveAVBDivalent);
 %shared_ptr(feasst::Trial);
-%shared_ptr(feasst::TrialMove);
-%shared_ptr(feasst::TrialTranslate);
-%shared_ptr(feasst::TrialCrankshaft);
-%shared_ptr(feasst::TrialReptate);
-%shared_ptr(feasst::TrialPivot);
-%shared_ptr(feasst::TrialSwapSites);
+%shared_ptr(feasst::TrialComputeGrowAdd);
+%shared_ptr(feasst::TrialComputeGrowRemove);
+%shared_ptr(feasst::TrialComputeGrow);
+%shared_ptr(feasst::TrialGrowthExpanded);
 %shared_ptr(feasst::TrialMorphExpanded);
-%shared_ptr(feasst::TrialMorph);
-%shared_ptr(feasst::TrialAVB4);
-%shared_ptr(feasst::TrialVolume);
-%shared_ptr(feasst::TrialRemove);
-%shared_ptr(feasst::TrialAddAVB);
-%shared_ptr(feasst::TrialRemoveAVB);
-%shared_ptr(feasst::TrialAVB2Half);
 %shared_ptr(feasst::TrialFactory);
-%shared_ptr(feasst::TrialTransfer);
 %shared_ptr(feasst::SeekNumParticles);
-%shared_ptr(feasst::TrialTransferAVB);
-%shared_ptr(feasst::TrialAddAVBDivalent);
-%shared_ptr(feasst::TrialRemoveAVBDivalent);
-%shared_ptr(feasst::TrialTransferAVBDivalent);
-%shared_ptr(feasst::TrialTranslateCluster);
-%shared_ptr(feasst::TrialRotateCluster);
-%shared_ptr(feasst::TrialRigidCluster);
-%shared_ptr(feasst::TrialAVB2);
 %shared_ptr(feasst::Modify);
 %shared_ptr(feasst::ModifyUpdateOnly);
 %shared_ptr(feasst::RecenterParticles);
@@ -458,7 +434,7 @@ using namespace std;
 %shared_ptr(feasst::Analyze);
 %shared_ptr(feasst::AnalyzeWriteOnly);
 %shared_ptr(feasst::AnalyzeUpdateOnly);
-%shared_ptr(feasst::AnalyzeRigidBonds);
+%shared_ptr(feasst::CheckRigidBonds);
 %shared_ptr(feasst::CriteriaWriter);
 %shared_ptr(feasst::Energy);
 %shared_ptr(feasst::Log);
@@ -483,7 +459,6 @@ using namespace std;
 %shared_ptr(feasst::MonteCarlo);
 %shared_ptr(feasst::Pool);
 %shared_ptr(feasst::Prefetch);
-%shared_ptr(feasst::TrialAdd);
 %shared_ptr(feasst::TrialComputeAdd);
 %shared_ptr(feasst::TrialComputeRemove);
 %shared_ptr(feasst::TrialComputeVolume);
@@ -503,23 +478,19 @@ using namespace std;
 %shared_ptr(feasst::Matrix);
 %shared_ptr(feasst::MatrixThreeByThree);
 %shared_ptr(feasst::RotationMatrix);
-%shared_ptr(feasst::PerturbDistanceAngle);
 %shared_ptr(feasst::PerturbRotate);
 %shared_ptr(feasst::PerturbPivot);
 %shared_ptr(feasst::PerturbCrankshaft);
 %shared_ptr(feasst::PerturbRotateCOM);
 %shared_ptr(feasst::PerturbMoveAVB);
 %shared_ptr(feasst::PerturbAddAVB);
-%shared_ptr(feasst::TrialRotate);
 %shared_ptr(feasst::PerturbAnywhere);
-%shared_ptr(feasst::TrialGrowLinear);
-%shared_ptr(feasst::TrialComputeGrowAdd);
-%shared_ptr(feasst::TrialComputeGrowRemove);
-%shared_ptr(feasst::TrialComputeGrow);
-%shared_ptr(feasst::TrialGrowthExpanded);
 %shared_ptr(feasst::PerturbSiteType);
+%shared_ptr(feasst::TrialGrowLinear);
 %shared_ptr(feasst::PerturbAdd);
 %shared_ptr(feasst::PerturbRemove);
+%shared_ptr(feasst::PerturbDistanceAngle);
+%shared_ptr(feasst::PerturbBranch);
 %shared_ptr(feasst::RandomMT19937);
 %shared_ptr(feasst::Solver);
 %shared_ptr(feasst::SolverNewtonRaphson);
@@ -527,11 +498,8 @@ using namespace std;
 %shared_ptr(feasst::SolverBrentDekker);
 %shared_ptr(feasst::VisitModelOptLJ);
 %shared_ptr(feasst::VisitModelOptRPM);
-%shared_ptr(feasst::TrialRemoveMultiple);
-%shared_ptr(feasst::TrialAddMultiple);
 %shared_ptr(feasst::ChargeSelf);
 %shared_ptr(feasst::ChargeScreened);
-%shared_ptr(feasst::TrialTransferMultiple);
 %shared_ptr(feasst::Coulomb);
 %shared_ptr(feasst::ComputeRemoveMultiple);
 %shared_ptr(feasst::ComputeAddMultiple);
@@ -540,14 +508,11 @@ using namespace std;
 %shared_ptr(feasst::CheckNetCharge);
 %shared_ptr(feasst::CriteriaMayer);
 %shared_ptr(feasst::TrialComputeMoveNewOnly);
-%shared_ptr(feasst::TrialTranslateNewOnly);
-%shared_ptr(feasst::TrialRotateNewOnly);
 %shared_ptr(feasst::ModelLJShape);
 %shared_ptr(feasst::ModelSquareWellShape);
 %shared_ptr(feasst::AlwaysAccept);
 %shared_ptr(feasst::HenryCoefficient);
 %shared_ptr(feasst::ModelHardShape);
-%shared_ptr(feasst::TrialAnywhereNewOnly);
 %shared_ptr(feasst::ModelTableCart1DHard);
 %shared_ptr(feasst::ModelTableCart2DIntegr);
 %shared_ptr(feasst::ModelTableCart3DIntegr);
@@ -614,8 +579,8 @@ using namespace std;
 %include shape/include/cylinder.h
 %include shape/include/shape_union.h
 %include shape/include/shape_intersect.h
-%include shape/include/finite_cylinder.h
 %include shape/include/slab_sine.h
+%include shape/include/finite_cylinder.h
 %include shape/include/slab.h
 %include system/include/bond_three_body.h
 %include system/include/angle_square_well.h
@@ -640,6 +605,7 @@ using namespace std;
 %include system/include/model_one_body.h
 %include system/include/model_empty.h
 %include system/include/model_three_body.h
+%include system/include/visit_model_intra_map.h
 %include system/include/visit_model_intra.h
 %include system/include/visit_model_cell.h
 %include system/include/long_range_corrections.h
@@ -688,10 +654,10 @@ using namespace std;
 %include cluster/include/perturb_point_reflect.h
 %include monte_carlo/include/trial_stage.h
 %include monte_carlo/include/trial_compute.h
+%include growth_expanded/include/compute_morph.h
 %include monte_carlo/include/trial_compute_move.h
 %include cluster/include/compute_avb4.h
 %include cluster/include/compute_avb2.h
-%include growth_expanded/include/compute_morph.h
 %include cluster/include/compute_move_cluster.h
 %include cluster/include/compute_add_avb.h
 %include cluster/include/compute_remove_avb.h
@@ -699,22 +665,14 @@ using namespace std;
 %include cluster/include/compute_add_avb_divalent.h
 %include cluster/include/compute_remove_avb_divalent.h
 %include monte_carlo/include/trial.h
+%include growth_expanded/include/trial_growth_expanded.h
 %include monte_carlo/include/trial_move.h
-%include monte_carlo/include/trial_translate.h
-%include chain/include/trial_crankshaft.h
-%include chain/include/trial_reptate.h
-%include chain/include/trial_pivot.h
-%include chain/include/trial_swap_sites.h
 %include growth_expanded/include/trial_morph_expanded.h
 %include growth_expanded/include/trial_morph.h
 %include cluster/include/trial_avb4.h
-%include monte_carlo/include/trial_volume.h
-%include monte_carlo/include/trial_remove.h
-%include cluster/include/trial_add_avb.h
-%include cluster/include/trial_remove_avb.h
-%include cluster/include/trial_avb2_half.h
 %include monte_carlo/include/trial_factory.h
-%include monte_carlo/include/trial_transfer.h
+%include monte_carlo/include/trials.h
+%include chain/include/trials.h
 %include monte_carlo/include/seek_num_particles.h
 %include cluster/include/trial_transfer_avb.h
 %include cluster/include/trial_transfer_avb_divalent.h
@@ -728,7 +686,7 @@ using namespace std;
 %include monte_carlo/include/modify_factory.h
 %include steppers/include/check_energy_and_tune.h
 %include monte_carlo/include/analyze.h
-%include chain/include/analyze_rigid_bonds.h
+%include chain/include/check_rigid_bonds.h
 %include steppers/include/criteria_writer.h
 %include steppers/include/energy.h
 %include steppers/include/log.h
@@ -747,7 +705,6 @@ using namespace std;
 %include steppers/include/log_and_movie.h
 %include monte_carlo/include/monte_carlo.h
 %include prefetch/include/prefetch.h
-%include monte_carlo/include/trial_add.h
 %include monte_carlo/include/trial_compute_add.h
 %include monte_carlo/include/trial_compute_remove.h
 %include monte_carlo/include/trial_compute_volume.h
@@ -764,22 +721,22 @@ using namespace std;
 %include math/include/constants.h
 %include math/include/minimize.h
 %include math/include/golden_search.h
+%include math/include/quadratic_equation.h
 %include math/include/formula_exponential.h
 %include math/include/matrix.h
-%include monte_carlo/include/perturb_distance_angle.h
 %include monte_carlo/include/perturb_rotate.h
 %include chain/include/perturb_pivot.h
 %include chain/include/perturb_crankshaft.h
 %include cluster/include/perturb_rotate_com.h
 %include cluster/include/perturb_move_avb.h
 %include cluster/include/perturb_add_avb.h
-%include monte_carlo/include/trial_rotate.h
 %include monte_carlo/include/perturb_anywhere.h
-%include chain/include/trial_grow.h
-%include growth_expanded/include/trial_growth_expanded.h
 %include chain/include/perturb_site_type.h
+%include chain/include/trial_grow_linear.h
 %include monte_carlo/include/perturb_add.h
 %include monte_carlo/include/perturb_remove.h
+%include monte_carlo/include/perturb_distance_angle.h
+%include chain/include/perturb_branch.h
 %include math/include/random_mt19937.h
 %include math/include/solver.h
 %include math/include/solver_newton_raphson.h

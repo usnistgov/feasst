@@ -63,4 +63,9 @@ std::string feasst_str(std::map<std::string, std::string> mp) {
   return ss.str();
 }
 
+bool is_found_in(const std::string& str, const std::string& substr) {
+  if (str.find(substr) != std::string::npos) return true;
+  return false;
+}
+
 }  // namespace feasst

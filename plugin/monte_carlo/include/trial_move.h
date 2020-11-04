@@ -11,25 +11,18 @@
 
 namespace feasst {
 
-/**
-  Attempt to rigidly move a selection in a Trial in one stage.
- */
-class TrialMove : public Trial {
- public:
-  TrialMove(
+/// Attempt to rigidly move a selection in a Trial in one stage.
+inline std::shared_ptr<Trial> MakeTrialMove(
     std::shared_ptr<TrialSelect> select,
     std::shared_ptr<PerturbMove> perturb,
-    const argtype& args = argtype()) : Trial(args) {
-    add_stage(select, perturb, args);
-    set(std::make_shared<TrialComputeMove>());
-    class_name_ = "TrialMove";
-  }
-  explicit TrialMove(std::istream& istr);
-  virtual ~TrialMove() {}
-
- protected:
-  void serialize_trial_move_(std::ostream& ostr) const;
-};
+    const std::string& description,
+    const argtype& args = argtype()) {
+  auto trial = MakeTrial(args);
+  trial->set_description(description);
+  trial->add_stage(select, perturb, args);
+  trial->set(std::make_shared<TrialComputeMove>());
+  return trial;
+}
 
 }  // namespace feasst
 

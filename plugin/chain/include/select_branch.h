@@ -20,6 +20,8 @@ Thus, the bonded topology appears as:
     anchor1
     /     \
 mobile1   mobile2
+
+In the source code, these are often shortened as anchor1->a1, mobile2->m2, etc.
 \endrst
  */
 class SelectBranch : public TrialSelectAngle {

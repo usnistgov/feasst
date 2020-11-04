@@ -85,6 +85,9 @@ std::string str(const T a_value) {
 /// Return the number of spaces in string
 int num_spaces(const std::string str);
 
+/// Return true if substring is found inside of string.
+bool is_found_in(const std::string& str, const std::string& substr);
+
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_IO_H_

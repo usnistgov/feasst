@@ -11,6 +11,6 @@
    Cylinder
    ShapeUnion
    ShapeIntersect
-   FiniteCylinder
    SlabSine
+   FiniteCylinder
    Slab

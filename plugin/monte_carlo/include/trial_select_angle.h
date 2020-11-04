@@ -25,7 +25,7 @@ class TrialSelectAngle : public TrialSelectBond {
    */
   explicit TrialSelectAngle(const argtype& args = argtype());
 
-  /// Same as derived, but also add the second anchor site, and add
+  /// Same as TrialSelectBond, but also add the second anchor site, and add
   /// angle_type as a property.
   void precompute(System * system) override;
 

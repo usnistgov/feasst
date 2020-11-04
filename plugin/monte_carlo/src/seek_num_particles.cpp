@@ -3,7 +3,7 @@
 #include "utils/include/progress_report.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/trial_add.h"
+#include "monte_carlo/include/trials.h"
 #include "monte_carlo/include/metropolis.h"
 
 namespace feasst {
@@ -80,7 +80,11 @@ void SeekNumParticles::run(MonteCarlo * monte_carlo) {
     ASSERT(monte_carlo->trials().num_attempts() < max_attempts_,
       "max attempts:  "<< max_attempts_ << " reached during seek");
     current_num = config.num_particles_of_type(particle_type_);
-    if (report_ && current_num > previous_num) report_->check();
+    if (report_) {
+      for (int diff = 0; diff < current_num - previous_num; ++diff) {
+        report_->check();
+      }
+    }
   }
   if (thermo_params_) monte_carlo->set(original_params);
   monte_carlo->initialize_criteria();

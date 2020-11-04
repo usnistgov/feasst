@@ -142,7 +142,6 @@ void Clones::run_until_complete_omp_(const argtype& run_args,
 
     bool terminated = false;
     try {
-
       ASSERT(num() <= num_thread, "more clones: " << num() << " than OMP threads:"
         << num_thread << ". Use \"export OMP_NUM_THREADS=\" to set OMP threads.");
       if (thread < num()) {
@@ -174,7 +173,6 @@ void Clones::run_until_complete_omp_(const argtype& run_args,
           }
         }
       }
-
     } catch(const feasst::CustomException& e) {
       terminated = true;
     }
@@ -184,7 +182,9 @@ void Clones::run_until_complete_omp_(const argtype& run_args,
     if (thread < num()) clones_[thread]->write_checkpoint();
 
     #pragma omp barrier
-    if (terminated) FATAL("Terminate");
+    if (terminated && thread == 0) {
+      FATAL("Clones::run_until_complete_omp was terminated.");
+    }
   }
 
 #else // _OPENMP

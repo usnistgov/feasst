@@ -14,6 +14,7 @@ class ModelParams;
 class Configuration;
 class ModelTwoBody;
 
+// HWH rename to VisitInner (consider it can be used by BondVisitor, etc)
 class VisitModelInner {
  public:
   VisitModelInner() {}

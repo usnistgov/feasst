@@ -5,7 +5,8 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include "chain/include/trial_grow.h"
+#include "monte_carlo/include/trial_compute.h"
+#include "monte_carlo/include/trial.h"
 #include "chain/include/select_perturbed.h"
 
 namespace feasst {

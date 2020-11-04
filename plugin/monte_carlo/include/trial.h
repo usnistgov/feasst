@@ -114,6 +114,13 @@ class Trial {
   /// Attempt a trial. Return true if accepted.
   virtual bool attempt(Criteria * criteria, System * system, Random * random);
 
+  /// Return the description, as used in Log
+  const std::string& description() const { return description_; }
+
+  /// Set the description.
+  void set_description(const std::string& description) {
+    description_ = description; }
+
   /* Checks and hacky additions */
 
   // Return Acceptance, which is a temporary object.
@@ -136,22 +143,18 @@ class Trial {
   virtual std::shared_ptr<Trial> create(std::istream& istr) const;
   std::map<std::string, std::shared_ptr<Trial> >& deserialize_map();
   std::shared_ptr<Trial> deserialize(std::istream& istr);
+  explicit Trial(std::istream& istr);
   virtual ~Trial() {}
 
  protected:
   std::string class_name_ = "Trial";
   SynchronizeData data_;
-
   void serialize_trial_(std::ostream& ostr) const;
-  explicit Trial(std::istream& istr);
-
   void add_(std::shared_ptr<TrialStage> stage) {
     stages_.push_back(stage);
     refresh_stages_ptr_();
   }
-
   TrialStage * get_stage_(const int index) { return stages_[index].get(); }
-
   void increment_num_success_() { *num_success_() += 1; }
   void decrement_num_success_() { *num_success_() -= 1; }
   void decrement_num_attempts_() { *num_attempts_() -= 1; }
@@ -160,6 +163,7 @@ class Trial {
   std::vector<std::shared_ptr<TrialStage> > stages_;
   std::shared_ptr<TrialCompute> compute_;
   double weight_;
+  std::string description_ = "Trial";
   int64_t * num_attempts_() { return &((*data_.get_int64_1D())[0]); }
   int64_t * num_success_() { return &((*data_.get_int64_1D())[1]); }
   int64_t * num_auto_reject_() { return &((*data_.get_int64_1D())[2]); }

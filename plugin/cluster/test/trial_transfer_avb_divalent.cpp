@@ -44,12 +44,12 @@ TEST(TrialTransferAVBDivalent, add_remove) {
     {"potential_index", "0"}});
   const double vol_av = neighbor_criteria->volume(config.dimension());
 
-  TrialAddAVBDivalent add(neighbor_criteria, {
+  auto add = MakeTrialAddAVBDivalent(neighbor_criteria, {
     {"particle_type", "0"},
     {"particle_type_a", "1"},
     {"particle_type_b", "1"}});
-  add.precompute(metropolis.get(), &system);
-  add.attempt(metropolis.get(), &system, ran.get());
+  add->precompute(metropolis.get(), &system);
+  add->attempt(metropolis.get(), &system, ran.get());
   EXPECT_EQ(config.num_particles(), 3);
   EXPECT_EQ(config.particle(0).type(), 0);
   EXPECT_EQ(config.particle(1).type(), 1);
@@ -60,8 +60,8 @@ TEST(TrialTransferAVBDivalent, add_remove) {
   DEBUG(config.particle(1).site(0).position().str());
   DEBUG(config.particle(2).site(0).position().str());
   DEBUG(config.particle(3).site(0).position().str());
-  double delta = add.accept().energy_new() - add.accept().energy_old();
-  EXPECT_NEAR(add.accept().ln_metropolis_prob(),
+  double delta = add->accept().energy_new() - add->accept().energy_old();
+  EXPECT_NEAR(add->accept().ln_metropolis_prob(),
     std::log(config.domain().volume()/1.)
     +std::log(vol_av/2.)
     +std::log(vol_av/1.)
@@ -75,20 +75,20 @@ TEST(TrialTransferAVBDivalent, add_remove) {
 
   DEBUG("**begin remove test**");
 
-  TrialRemoveAVBDivalent remove(neighbor_criteria, {
+  auto remove = MakeTrialRemoveAVBDivalent(neighbor_criteria, {
     {"particle_type", "0"},
     {"particle_type_a", "1"},
     {"particle_type_b", "1"}});
-  remove.precompute(metropolis.get(), &system);
-  EXPECT_EQ(remove.stage(0).select().particle_type(), 0);
-  EXPECT_EQ(remove.stage(1).select().particle_type(), 1);
-  EXPECT_EQ(remove.stage(2).select().particle_type(), 1);
-  remove.attempt(metropolis.get(), &system, ran.get());
+  remove->precompute(metropolis.get(), &system);
+  EXPECT_EQ(remove->stage(0).select().particle_type(), 0);
+  EXPECT_EQ(remove->stage(1).select().particle_type(), 1);
+  EXPECT_EQ(remove->stage(2).select().particle_type(), 1);
+  remove->attempt(metropolis.get(), &system, ran.get());
   DEBUG(config.particle(0).site(0).position().str());
   DEBUG(config.particle(1).site(0).position().str());
   DEBUG(config.particle(2).site(0).position().str());
-  delta = - remove.accept().energy_old();
-  EXPECT_NEAR(remove.accept().ln_metropolis_prob(),
+  delta = - remove->accept().energy_old();
+  EXPECT_NEAR(remove->accept().ln_metropolis_prob(),
     -std::log(config.domain().volume()/1.)
     -std::log(vol_av/2.)
     -std::log(vol_av/1.)

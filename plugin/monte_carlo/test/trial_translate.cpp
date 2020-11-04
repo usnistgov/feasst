@@ -1,17 +1,17 @@
 #include "utils/test/utils.h"
-#include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trials.h"
 
 namespace feasst {
 
 TEST(TrialTranslate, serialize) {
-  TrialTranslate add;
+  auto trial = MakeTrialTranslate();
 //  std::stringstream ss;
-//  add.serialize(ss);
+//  trial.serialize(ss);
 //  INFO(ss.str());
-//  TrialTranslate add2(ss);
-//  add2.serialize(ss);
+//  TrialTranslate trial2(ss);
+//  trial2.serialize(ss);
 //  INFO(ss.str());
-  TrialTranslate add2 = test_serialize(add);
+  Trial trial2 = test_serialize(*trial);
 }
 
 }  // namespace feasst

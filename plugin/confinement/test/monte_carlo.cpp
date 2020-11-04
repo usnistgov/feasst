@@ -14,7 +14,7 @@
 #include "shape/include/cylinder.h"
 #include "shape/include/half_space_sine.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trials.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "mayer/include/trial.h"

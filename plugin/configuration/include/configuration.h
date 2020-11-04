@@ -59,6 +59,9 @@ class Configuration {
       If only one particle type, the "[i]" is optional.
     - wrap: wrap particle centers within domain (default: true).
     - physical_constants: optional class_name of PhysicalConstants.
+    - set_cutoff_min_to_sigma: if true and cutoff < sigma, cutoff = sigma
+      (default: false). This is typically used for HardSphere models that
+      didn't specify cutoff.
    */
   explicit Configuration(const argtype& args = argtype());
 
@@ -85,13 +88,11 @@ class Configuration {
 
   /// Return the particle associated with the type.
   const Particle& particle_type(const int type) const {
-    return particle_types_.particle(type);
-  }
+    return particle_types_.particle(type); }
 
   /// Return the file name used to initialize the particle types.
   std::string type_to_file_name(const int type) const {
-    return type_to_file_[type];
-  }
+    return type_to_file_[type]; }
 
   /// Return the particle types.
   const ParticleFactory& particle_types() const { return particle_types_; }
@@ -109,20 +110,17 @@ class Configuration {
   void set_model_param(const char* name,
                        const int site_type,
                        const double value) {
-    unique_types_.set_model_param(name, site_type, value);
-  }
+    unique_types_.set_model_param(name, site_type, value); }
 
   /// Add model parameter of a given name to value.
   void add_model_param(const std::string name,
                        const double value) {
-    unique_types_.add_model_param(name, value);
-  }
+    unique_types_.add_model_param(name, value); }
 
   /// Add or set model parameter of a given name to value.
   void add_or_set_model_param(const std::string name,
                               const double value) {
-    unique_types_.add_or_set_model_param(name, value);
-  }
+    unique_types_.add_or_set_model_param(name, value); }
 
   /// Set the physical constants.
   void set_physical_constants(std::shared_ptr<PhysicalConstants> constants) {
@@ -140,8 +138,7 @@ class Configuration {
 
   /// Return the unique type by individual particle.
   const Particle& unique_type(const int type) const {
-    return unique_types_.particle(type);
-  }
+    return unique_types_.particle(type); }
 
   /// Return the maximum number of sites in any particle type.
   int max_sites_in_any_particle() const;
@@ -367,16 +364,14 @@ class Configuration {
   void set_property(const std::string name,
       const double value,
       const int particle_index) {
-    particles_.set_property(name, value, particle_index);
-  }
+    particles_.set_property(name, value, particle_index); }
 
   /// Add the property to a site in a particle.
   void add_site_property(const std::string name,
       const double value,
       const int particle_index,
       const int site_index) {
-    particles_.add_site_property(name, value, particle_index, site_index);
-  }
+    particles_.add_site_property(name, value, particle_index, site_index); }
 
   /// Add or set the property of a site in a particle.
   void add_or_set_site_property(const std::string name,
@@ -401,16 +396,14 @@ class Configuration {
       const double value,
       const int particle_index,
       const int site_index) {
-    particles_.set_site_property(name, value, particle_index, site_index);
-  }
+    particles_.set_site_property(name, value, particle_index, site_index); }
 
   /// Set the property of a site in a particle by index.
   void set_site_property(const int index,
       const double value,
       const int particle_index,
       const int site_index) {
-    particles_.set_site_property(index, value, particle_index, site_index);
-  }
+    particles_.set_site_property(index, value, particle_index, site_index); }
 
   /// Add an property excluded from Configuration::update_positions()
   void add_excluded_property(const std::string name);
@@ -549,8 +542,7 @@ class Configuration {
   int num_ghosts_() const;
 
   const Particle& particle_(const int index) {
-    return particles_.particle(index);
-  }
+    return particles_.particle(index); }
 
   /// Store the files used to initialize particle types.
   std::vector<std::string> type_to_file_;

@@ -96,23 +96,28 @@ std::shared_ptr<feasst::MonteCarlo> mc(const int thread, const int mn, const int
       {"min_sweeps", "1000"}})));
   std::cout << "Initial energy: " << MAX_PRECISION << mc->criteria().current_energy() << std::endl;
   for (int particle_type = 0; particle_type < mc->configuration().num_particle_types(); ++particle_type) {
-    mc->add(feasst::MakeTrialTranslate({
-      {"particle_type", feasst::str(particle_type)},
-      {"weight", "1."},
-      {"tunable_param", "1."},
-      {"reference_index", ref},
-      {"num_steps", num}}));
-    mc->add(feasst::MakeTrialRotate({
-      {"particle_type", feasst::str(particle_type)},
-      {"weight", "1."},
-      {"tunable_param", "1."},
-      {"reference_index", ref},
-      {"num_steps", num}}));
-    mc->add(feasst::MakeTrialTransfer({
-      {"particle_type", feasst::str(particle_type)},
-      {"weight", "4"},
-      {"reference_index", ref},
-      {"num_steps", num}}));
+    mc->add(feasst::MakeTrialTranslate({{"particle_type", feasst::str(particle_type)}, {"weight", "1."},
+      {"tunable_param", "1."}, {"reference_index", ref}, {"num_steps", num}}));
+    if (mx > dccb_begin && mc->configuration().particle_type(particle_type).num_sites() == 2) {
+      mc->add(feasst::MakeTrialGrow({
+        {{"transfer", "true"},  // {"regrow", "true"},  # regrow isn't very efficient
+         {"particle_type", feasst::str(particle_type)}, {"site", "0"}, {"weight", "4"}},
+        {{"bond", "true"}, {"mobile_site", "1"}, {"anchor_site", "0"}}},
+        {{"reference_index", ref}, {"num_steps", num}}));
+      mc->add(feasst::MakeTrialGrow({
+        {{"particle_type", feasst::str(particle_type)}, {"weight", "0.5"},
+         {"bond", "true"}, {"mobile_site", "1"}, {"anchor_site", "0"},
+         {"reference_index", ref}, {"num_steps", num}}}));
+      mc->add(feasst::MakeTrialGrow({
+        {{"particle_type", feasst::str(particle_type)}, {"weight", "0.5"},
+         {"bond", "true"}, {"mobile_site", "0"}, {"anchor_site", "1"},
+         {"reference_index", ref}, {"num_steps", num}}}));
+    } else {
+      mc->add(feasst::MakeTrialRotate({{"particle_type", feasst::str(particle_type)}, {"weight", "1."},
+        {"tunable_param", "1."}, {"reference_index", ref}, {"num_steps", num}}));
+      mc->add(feasst::MakeTrialTransfer({{"particle_type", feasst::str(particle_type)},
+        {"weight", "4"}, {"reference_index", ref}, {"num_steps", num}}));
+    }
   }
   mc->add(feasst::MakeCheckEnergy({{"steps_per", steps_per}, {"tolerance", "0.0001"}}));
   mc->add(feasst::MakeTuner({{"steps_per", steps_per}, {"stop_after_phase", "0"}}));
@@ -149,7 +154,7 @@ std::shared_ptr<feasst::MonteCarlo> mc(const int thread, const int mn, const int
                                      {"file_name_append_phase", "True"}}));
   mc->set(feasst::MakeCheckpoint({{"file_name", "checkpoint" + feasst::str(thread) + ".fst"},
                                  {"num_hours_terminate", feasst::str(0.99*args.get_int("--num_procs")*args.get_double("--num_hours"))}}));
-  mc->add(feasst::MakeAnalyzeRigidBonds({{"steps_per", steps_per}}));
+  mc->add(feasst::MakeCheckRigidBonds({{"steps_per", steps_per}}));
   return mc;
 }
 

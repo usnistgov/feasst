@@ -16,7 +16,7 @@ namespace feasst {
   Also store the 'anchor' particles and sites which are not mobile but may be
   required to complete the perturbation (e.g., bonds).
  */
-class TrialSelect : public PropertiedEntity {
+class TrialSelect {
  public:
   /**
     args:
@@ -52,7 +52,7 @@ class TrialSelect : public PropertiedEntity {
   /// Return the mobile selection. These can change during the trial.
   const Select& mobile() const { return mobile_; }
 
-  /// Return a pointer to the mobile selection.
+  // Return a pointer to the mobile selection.
   Select * get_mobile() { return &mobile_; }
 
   /// Set the mobile selection.
@@ -63,6 +63,9 @@ class TrialSelect : public PropertiedEntity {
 
   /// Return the anchor selection.
   const Select& anchor() const { return anchor_; }
+
+  // Return a pointer to the anchor selection.
+  Select * get_anchor() { return &anchor_; }
 
   /// Return anchor position.
   const Position& anchor_position(
@@ -118,6 +121,18 @@ class TrialSelect : public PropertiedEntity {
   const EnergyMap& map_(const System& system,
     const NeighborCriteria& neighbor_criteria) const;
 
+  /// Return the property value by name.
+  double property(const std::string name) const {
+    return properties_.value(name); }
+
+  /// Return true if entity has property of name.
+  bool has_property(const std::string name) const {
+    return properties_.has(name); }
+
+  /// Add a property, or set its value if name already exists.
+  void add_or_set_property(const std::string name, const double value) {
+    properties_.add_or_set(name, value); }
+
   std::string class_name() const { return class_name_; }
   virtual void serialize(std::ostream& ostr) const;
   virtual std::shared_ptr<TrialSelect> create(std::istream& istr) const;
@@ -141,6 +156,7 @@ class TrialSelect : public PropertiedEntity {
   int particle_type_;
   bool is_particle_type_set_ = false;
   bool is_ghost_;
+  Properties properties_;
 
   // not checkpointed
   double probability_;

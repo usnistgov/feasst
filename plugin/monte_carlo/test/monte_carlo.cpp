@@ -7,6 +7,7 @@
 #include "math/include/accumulator.h"
 #include "math/include/random_mt19937.h"
 #include "configuration/include/domain.h"
+#include "system/include/lennard_jones.h"
 #include "system/include/long_range_corrections.h"
 #include "system/include/visit_model_intra.h"
 #include "system/include/visit_model_cell.h"
@@ -15,12 +16,10 @@
 #include "system/include/ideal_gas.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/test/monte_carlo_test.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/constrain_num_particles.h"
 #include "monte_carlo/include/seek_num_particles.h"
-#include "monte_carlo/include/trial_transfer.h"
-#include "monte_carlo/include/trial_volume.h"
+#include "monte_carlo/include/trials.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/tuner.h"
@@ -203,50 +202,6 @@ TEST(MonteCarlo, GCMC_cell) {
   mc.add(MakeNumParticles({{"steps_per_write", str(1e5)},
                            {"file_name", "tmp/ljnum.txt"}}));
   mc.attempt(1e4);
-}
-
-// HWH this test is known to fail infrequently
-TEST(MonteCarlo, grow) {
-  for (int i = 0; i < 1; ++i) { // lj dimer
-  // for (int i = 1; i < 2; ++i) { // spce
-  //for (int i = 0; i < 2; ++i) { // both
-    double box_length = 8.;
-    std::string data = "forcefield/data.dimer";
-    if (i == 1) {
-      box_length=20;
-      data = "forcefield/data.spce";
-    }
-    MonteCarlo mc;
-    mc.set(lennard_jones({{"cubic_box_length", str(box_length)},
-                          {"particle", data}}));
-    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
-    mc.set(MakeMetropolis());
-    mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-    mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-    mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
-    mc.add(build_(0, data));  // 0: move
-    mc.add(build_(1, data));  // 1: add
-    mc.add(build_(2, data));  // 2: remove
-    EXPECT_FALSE(mc.trial(0).stage(0).trial_select().is_ghost());  // translate
-    EXPECT_FALSE(mc.trial(1).stage(0).trial_select().is_ghost());  // grow
-    EXPECT_TRUE (mc.trial(2).stage(0).trial_select().is_ghost());
-    EXPECT_FALSE(mc.trial(3).stage(0).trial_select().is_ghost());
-    SeekNumParticles(3).with_trial_add().run(&mc);
-    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
-    mc.add(MakeMovie(
-     {{"steps_per", "1"},
-      {"file_name", "tmp/grow.xyz"}}));
-    for (int i = 0; i < 2e1; ++i) {
-      mc.attempt(1);
-      //mc.configuration().check();
-    }
-    EXPECT_LT(mc.configuration().num_particles(), 3);
-    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "100"}}));
-    mc.attempt(2e1);
-    EXPECT_GE(mc.configuration().num_particles(), 1);
-    mc.configuration().check();
-    // INFO(mc.trial(1)->accept().perturbed().str());
-  }
 }
 
 TEST(MonteCarlo, ConstrainNumParticles) {

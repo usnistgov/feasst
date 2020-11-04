@@ -1,11 +1,11 @@
 #include "utils/test/utils.h"
-#include "chain/include/trial_crankshaft.h"
+#include "chain/include/trials.h"
 
 namespace feasst {
 
 TEST(TrialCrankshaft, serialize) {
-  TrialCrankshaft add;
-  TrialCrankshaft add2 = test_serialize(add);
+  auto trial = MakeTrialCrankshaft();
+  Trial trial2 = test_serialize(*trial);
 }
 
 }  // namespace feasst

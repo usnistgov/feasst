@@ -5,7 +5,8 @@
 namespace feasst {
 
 void feasst_serialize(const std::string str, std::ostream& ostr) {
-  ASSERT(num_spaces(str) == 0, "no spaces in serialized string(" << str << ")");
+  ASSERT(num_spaces(str) == 0, "no spaces allowed in serialized string("
+    << str << ")");
   if (str.empty()) {
     ostr << "0 ";
   } else {

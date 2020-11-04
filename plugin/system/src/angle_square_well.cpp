@@ -40,10 +40,9 @@ double AngleSquareWell::energy(
     const Position& relative01,
     const Position& relative21,
     const Angle& angle) const {
-  const double theta0 = angle.property("theta0");
-  const double delta = angle.property("delta");
-  const double theta =
-    radians_to_degrees(std::acos(relative01.cosine(relative21)));
+  const double theta0 = degrees_to_radians(angle.property("theta0"));
+  const double delta = degrees_to_radians(angle.property("delta"));
+  const double theta = std::acos(relative01.cosine(relative21));
   TRACE("theta " << theta);
   if (std::abs(theta - theta0) > 0.5*delta) {
     return NEAR_INFINITY;

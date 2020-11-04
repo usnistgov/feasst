@@ -9,19 +9,9 @@
 
 namespace feasst {
 
-class MapTrialMorph {
- public:
-  MapTrialMorph() {
-    auto obj = MakeTrialMorph({{"particle_type0", "0"},
-                               {"particle_type_morph0", "1"}});
-    obj->deserialize_map()["TrialMorph"] = obj;
-  }
-};
-
-static MapTrialMorph mapper_trial_morph_ = MapTrialMorph();
-
-TrialMorph::TrialMorph(const argtype& args) : Trial(args) {
-  class_name_ = "TrialMorph";
+std::shared_ptr<Trial> MakeTrialMorph(const argtype &args) {
+  auto trial = MakeTrial(args);
+  trial->set_description("TrialMorph");
   Arguments args_(args);
   args_.dont_check();
   DEBUG(args_.status());
@@ -37,31 +27,15 @@ TrialMorph::TrialMorph(const argtype& args) : Trial(args) {
       ptype);
     auto sel = MakeTrialSelectParticle({{"particle_type", ptype},
                                         {"exclude_perturbed", "true"}});
-    add_stage(sel, MakePerturbParticleType({{"type", pmt}}), args);
+    trial->add_stage(sel, MakePerturbParticleType({{"type", pmt}}), args);
     ++type;
     ASSERT(type < 1e8, "type(" << type << ") is very high. Infinite loop?");
     key.str("");
     key << start << type;
   }
   ASSERT(type > 0, "required arguments not used");
-  set(MakeComputeMorph());
-}
-
-std::shared_ptr<Trial> TrialMorph::create(std::istream& istr) const {
-  return std::make_shared<TrialMorph>(istr);
-}
-
-TrialMorph::TrialMorph(std::istream& istr) : Trial(istr) {
-  ASSERT(class_name_ == "TrialMorph", "name: " << class_name_);
-  const int version = feasst_deserialize_version(istr);
-  ASSERT(1526 == version, "mismatch version: " << version);
-}
-
-
-void TrialMorph::serialize(std::ostream& ostr) const {
-  ostr << class_name_ << " ";
-  serialize_trial_(ostr);
-  feasst_serialize_version(1526, ostr);
+  trial->set(MakeComputeMorph());
+  return trial;
 }
 
 }  // namespace feasst

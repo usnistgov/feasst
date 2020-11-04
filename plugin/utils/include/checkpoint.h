@@ -27,6 +27,7 @@ class Checkpoint {
       (default: 1).
     - num_hours_terminate: Terminate after this many hours. If -1, do not
       terminate (default: -1).
+      Termination may be detected in Bash shell using "$? != 0".
     - file_name: The default is one space (e.g., " ").
       Do not checkpoint if file_name is empty or is one space.
     - writes_per_backup: Create a unique checkpoint file name every this many
@@ -68,7 +69,11 @@ class Checkpoint {
       }
       write(obj, append_backup);
     }
-    if (is_terminate) FATAL("Checkpoint termination"); // detect with $? != 0
+    if (is_terminate) {
+      FATAL("Terminating because Checkpoint has reached the user input " <<
+        "num_hours_terminate: " << num_hours_terminate_ << ". Detect this " <<
+        "termination in Bash shell using \"$? != 0\"");
+    }
   }
 
   /// Initialize object by reading from file.

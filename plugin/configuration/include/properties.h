@@ -100,8 +100,7 @@ class PropertiedEntity {
 
   /// Return true if entity has property of name.
   bool has_property(const std::string name) const {
-    return properties_.has(name);
-  }
+    return properties_.has(name); }
 
   /// Set value of property by index.
   void set_property(const int index, const double value) {

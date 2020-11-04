@@ -164,6 +164,9 @@ class ParticleFactory {
                               const double value) {
     model_params_.add_or_set_property(name, value); }
 
+  /// Set the minimum cutoff to sigma.
+  void set_cutoff_min_to_sigma() { model_params_.set_cutoff_min_to_sigma(); }
+
   /// Set the physical constants in model parameters.
   void set_physical_constants(std::shared_ptr<PhysicalConstants> constants) {
     model_params_.set_physical_constants(constants); }

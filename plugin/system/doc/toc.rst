@@ -22,6 +22,7 @@
    ModelOneBody
    ModelEmpty
    ModelThreeBody
+   VisitModelIntraMap
    VisitModelIntra
    VisitModelCell
    LongRangeCorrections

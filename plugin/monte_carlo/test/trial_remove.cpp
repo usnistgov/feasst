@@ -1,17 +1,17 @@
 #include "utils/test/utils.h"
-#include "monte_carlo/include/trial_remove.h"
+#include "monte_carlo/include/trials.h"
 
 namespace feasst {
 
 TEST(TrialRemove, serialize) {
-  TrialRemove add;
+  auto remove = MakeTrialRemove();
 //  std::stringstream ss;
 //  add.serialize(ss);
 //  INFO(ss.str());
 //  TrialRemove add2(ss);
 //  add2.serialize(ss);
 //  INFO(ss.str());
-  TrialRemove add2 = test_serialize(add);
+  Trial remove2 = test_serialize(*remove);
 }
 
 }  // namespace feasst

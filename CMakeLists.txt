@@ -100,7 +100,7 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-add_definitions("-DFEASST_VERSION_=\"${GIT_COMMIT_HASH} ${GIT_BRANCH}\"")
+add_definitions("-DFEASST_VERSION_=\"${GIT_COMMIT_HASH}-${GIT_BRANCH}\"")
 add_definitions("-DFEASST_DIR_=\"${CMAKE_SOURCE_DIR}\"")
 
 # FEASST plugins

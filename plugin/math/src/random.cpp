@@ -4,6 +4,7 @@
 #include "utils/include/io.h"
 #include "utils/include/serialize.h"
 #include "math/include/random.h"
+#include "math/include/utils_math.h"
 #include "math/include/constants.h"
 #include "math/include/matrix.h"
 
@@ -291,8 +292,8 @@ double Random::bond_angle(const double equilibrium_angle,
   }
   int attempt = 0;
   while (attempt < 1e6) {
-    const double theta = minimum_angle + (PI - minimum_angle)*uniform(); 
-    const double dtheta = theta - equilibrium_angle;
+    const double theta = minimum_angle + (PI - minimum_angle)*uniform();
+    const double dtheta = radians_to_degrees(theta - equilibrium_angle);
     const double delta_U = spring_constant*pow(dtheta, exponent);
     if (uniform() < std::sin(theta)*std::exp(-delta_U)) return theta;
     ++attempt;

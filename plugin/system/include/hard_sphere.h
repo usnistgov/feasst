@@ -18,6 +18,11 @@ namespace feasst {
       0 & r > \sigma
     \end{array}
   \right. \f$
+
+  The cutoff model parameter must also be specified, or essentially equated to
+  sigma in order to not skip this HardSphere interaction.
+  For this reason, HardSphere-only models are often used in conjunction with the
+  Configuration argument "set_cutoff_min_to_sigma".
  */
 class HardSphere : public ModelTwoBody {
  public:

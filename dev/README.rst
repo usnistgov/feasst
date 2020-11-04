@@ -355,3 +355,5 @@ To Do List
 * restart long double to max precision
 * Make utils:lj,spce,etc derived classes of System ?
 * Make ModelTwoBodyTable that tabulates interaction from min(hs)-max(rc) distance for each distinct pair of site types, and can easily be added as optimized Potential
+* Rename plugin chain->config_bias ?
+* Config checkpoint writes feasst version. Warn user if restart with different version

@@ -1,4 +1,7 @@
+#include <cmath>
 #include "utils/include/serialize.h"
+#include "math/include/constants.h"
+#include "math/include/utils_math.h"
 #include "configuration/include/configuration.h"
 #include "system/include/bond_visitor.h"
 
@@ -20,6 +23,12 @@ std::map<std::string, std::shared_ptr<BondVisitor> >& BondVisitor::deserialize_m
   return *ans;
 }
 
+BondVisitor::BondVisitor(const argtype& args) {
+  Arguments args_(args);
+  verbose_ = args_.key("verbose").dflt("false").boolean();
+  if (VERBOSE_LEVEL == 5) verbose_ = true;
+}
+
 void BondVisitor::serialize(std::ostream& ostr) const {
   ostr << class_name_ << " ";
   serialize_bond_visitor_(ostr);
@@ -39,6 +48,7 @@ std::shared_ptr<BondVisitor> BondVisitor::deserialize(std::istream& istr) {
 void BondVisitor::serialize_bond_visitor_(std::ostream& ostr) const {
   feasst_serialize_version(303, ostr);
   feasst_serialize(energy_, ostr);
+  feasst_serialize(verbose_, ostr);
 }
 
 BondVisitor::BondVisitor(std::istream& istr) {
@@ -46,6 +56,7 @@ BondVisitor::BondVisitor(std::istream& istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(303 == version, "mismatch version: " << version);
   feasst_deserialize(&energy_, istr);
+  feasst_deserialize(&verbose_, istr);
 }
 
 void BondVisitor::compute(
@@ -64,10 +75,14 @@ void BondVisitor::compute(
       const Position& position1 = part.site(bond.site(1)).position();
       Position relative = position0;
       relative.subtract(position1);
-      TRACE("bond ij " << part_index << " " << bond.site(0) << " "
-        << bond.site(1) << " sq " << relative.squared_distance());
       const Bond& bond_type = config.unique_type(part_type).bond(bond.type());
       en += model.energy(relative, bond_type);
+      if (verbose_) {
+        if (std::abs(en) > NEAR_ZERO) {
+          INFO("bond ij " << part_index << " " << bond.site(0) << " "
+            << bond.site(1) << " sq " << relative.squared_distance());
+        }
+      }
     }
   }
   set_energy(en);
@@ -95,6 +110,19 @@ void BondVisitor::compute(
       const Angle& angle_type =
         config.unique_type(part_type).angle(angle.type());
       en += model.energy(relative01, relative21, angle_type);
+      if (verbose_) {
+        if (std::abs(en) > NEAR_ZERO) {
+          const double ang = std::acos(relative01.cosine(relative21));
+          const double theta0 = degrees_to_radians(angle_type.property("theta0"));
+          INFO("angle " << part_index << " ijk " << angle.site(0) << " "
+            << angle.site(1) << " " << angle.site(2) << " "
+            << "rel01 " << relative01.str() << " "
+            << "rel21 " << relative21.str() << " "
+            << "ang " << ang << " "
+            << "theta0 " << theta0 << " "
+            << "diff " << ang - theta0);
+        }
+      }
     }
   }
   set_energy(en);
@@ -115,4 +143,5 @@ void BondVisitor::compute(
   const Select& selection = config.group_selects()[group_index];
   compute(model, selection, config);
 }
+
 }  // namespace feasst

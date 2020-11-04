@@ -3,27 +3,29 @@
 #include "utils/include/io.h"
 #include "math/include/accumulator.h"
 #include "math/include/random_mt19937.h"
-#include "system/include/ideal_gas.h"
 #include "configuration/include/domain.h"
+#include "system/include/ideal_gas.h"
+#include "system/include/hard_sphere.h"
+#include "system/include/utils.h"
+#include "system/include/visit_model_intra_map.h"
 #include "monte_carlo/include/trial.h"
-#include "monte_carlo/include/trial_rotate.h"
+#include "monte_carlo/include/trials.h"
 #include "monte_carlo/include/monte_carlo.h"
-#include "monte_carlo/test/monte_carlo_test.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/seek_num_particles.h"
+#include "monte_carlo/include/trial_compute_move.h"
 #include "steppers/include/log.h"
+#include "steppers/include/check_energy_and_tune.h"
+#include "steppers/include/log_and_movie.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/tuner.h"
 #include "steppers/include/check.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_physicality.h"
 #include "steppers/include/check_properties.h"
-#include "chain/include/analyze_rigid_bonds.h"
-#include "chain/include/trial_grow.h"
-#include "chain/include/trial_pivot.h"
-#include "chain/include/trial_crankshaft.h"
-#include "chain/include/trial_reptate.h"
-#include "chain/include/trial_swap_sites.h"
+#include "chain/include/check_rigid_bonds.h"
+#include "chain/include/trials.h"
+#include "chain/include/trial_grow_linear.h"
 #include "chain/include/recenter_particles.h"
 #include "chain/test/system_chain.h"
 
@@ -91,11 +93,137 @@ TEST(MonteCarlo, chain) {
     {"tolerance", "1e-10"},
   }));
   mc.add(MakeTuner({{"steps_per", str(steps_per)}}));
-  mc.add(MakeAnalyzeRigidBonds({{"steps_per", str(steps_per)}}));
+  mc.add(MakeCheckRigidBonds({{"steps_per", str(steps_per)}}));
   mc.attempt(3e2);
 
   MonteCarlo mc2 = test_serialize(mc);
   EXPECT_EQ(mc2.analyzers().size(), 3);
+}
+
+// HWH this test is known to fail infrequently
+TEST(MonteCarlo, TrialGrow) {
+  for (const std::string particle : {"lj", "spce"}) {
+    double box_length = 8.;
+    std::string data = "forcefield/data.dimer";
+    if (particle == "spce") {
+      box_length=20;
+      data = "forcefield/data.spce";
+    }
+    MonteCarlo mc;
+    mc.set(MakeRandomMT19937({{"seed", "123"}}));
+    mc.set(lennard_jones({{"cubic_box_length", str(box_length)},
+                          {"particle", data}}));
+    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-700"}}));
+    mc.set(MakeMetropolis());
+    SeekNumParticles(3)
+      .with_thermo_params({{"beta", "1.2"}, {"chemical_potential", "1."}})
+      .with_trial_add().run(&mc);
+    std::vector<argtype> grow_args = {
+      {{"transfer", "true"},
+       {"regrow", "true"},
+       {"particle_type", "0"},
+       {"site", "0"},
+       {"weight", "100"}},
+      {{"bond", "true"},
+       {"mobile_site", "1"},
+       {"anchor_site", "0"},
+       {"num_steps", "5"}}};
+    if (particle == "spce") grow_args.push_back(
+      {{"angle", "true"},
+       {"mobile_site", "2"},
+       {"anchor_site", "0"},
+       {"anchor_site2", "1"}});
+    mc.add(MakeTrialGrow(grow_args, {{"num_steps", "4"}}));
+    EXPECT_EQ(4, mc.trial(0).stage(0).rosenbluth().num());
+    EXPECT_EQ(5, mc.trial(0).stage(1).rosenbluth().num());
+    mc.add(MakeLogAndMovie({{"steps_per", str(1e0)}, {"file_name", "tmp/lj"}}));
+    mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e0)}, {"tolerance", str(1e-9)}}));
+    mc.add(MakeCheckRigidBonds({{"steps_per", str(1e0)}}));
+    EXPECT_EQ(3, mc.trials().num());
+    EXPECT_TRUE(mc.trial(0).stage(0).trial_select().is_ghost());   // add
+    EXPECT_FALSE(mc.trial(1).stage(0).trial_select().is_ghost());  // remove
+    EXPECT_FALSE(mc.trial(2).stage(0).trial_select().is_ghost());  // regrow
+    mc.add(MakeMovie(
+     {{"steps_per", "1"},
+      {"file_name", "tmp/grow.xyz"}}));
+    for (int trial = 0; trial < 2e1; ++trial) {
+      mc.attempt(1);
+      //mc.configuration().check();
+    }
+    EXPECT_LT(mc.configuration().num_particles(), 3);
+    mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "100"}}));
+    MonteCarlo mc2 = test_serialize(mc);
+    mc2.attempt(2e1);
+    EXPECT_GE(mc2.configuration().num_particles(), 1);
+    mc2.configuration().check();
+    // INFO(mc.trial(1)->accept().perturbed().str());
+  }
+}
+
+MonteCarlo cg7mab2(const std::string& data, const int num, const int steps_per = 1) {
+  MonteCarlo mc;
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  mc.add(Configuration(MakeDomain({{"cubic_box_length", "30"}}),
+    {{"particle_type", "../plugin/chain/forcefield/" + data},
+     {"set_cutoff_min_to_sigma", "true"}}));
+  mc.add(Potential(MakeHardSphere()));
+  if (is_found_in(data, "fullangflex")) {
+    mc.add(Potential(MakeHardSphere(),
+                     MakeVisitModelIntraMap({{"exclude_bonds", "true"}})));
+  }
+  mc.set(MakeThermoParams({{"beta", "1."}, {"chemical_potential", "1"}}));
+  mc.set(MakeMetropolis());
+  SeekNumParticles(num).with_trial_add().run(&mc);
+  //SeekNumParticles(10).with_trial_add().run(&mc);
+  if (is_found_in(data, "fullangflex")) {
+    mc.add(MakeTrialGrow({
+      //{{"particle_type", "0"}, {"site", "0"}, {"weight", "4"}, {"regrow", "1"}},
+      //{{"bond", "1"}, {"mobile_site", "2"}, {"anchor_site", "0"}},
+      {{"particle_type", "0"}, {"weight", "4"}, {"bond", "1"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+      {{"angle", "1"}, {"mobile_site", "2"}, {"anchor_site", "1"}, {"anchor_site2", "0"}},
+      {{"branch", "1"}, {"mobile_site", "3"}, {"mobile_site2", "5"}, {"anchor_site", "0"}, {"anchor_site2", "1"}},
+      {{"angle", "1"}, {"mobile_site", "4"}, {"anchor_site", "3"}, {"anchor_site2", "0"}},
+      {{"angle", "1"}, {"mobile_site", "6"}, {"anchor_site", "5"}, {"anchor_site2", "0"}}}));
+  } else {
+    mc.add(MakeTrialGrow({
+      //{{"particle_type", "0"}, {"site", "0"}, {"weight", "4"}, {"regrow", "1"}},
+      //{{"bond", "1"}, {"mobile_site", "2"}, {"anchor_site", "0"}},
+      {{"particle_type", "0"}, {"weight", "4"}, {"bond", "1"}, {"mobile_site", "2"}, {"anchor_site", "0"}},
+      {{"angle", "1"}, {"mobile_site", "1"}, {"anchor_site", "2"}, {"anchor_site2", "0"}},
+      {{"branch", "1"}, {"mobile_site", "4"}, {"mobile_site2", "6"}, {"anchor_site", "0"}, {"anchor_site2", "2"}},
+      {{"angle", "1"}, {"mobile_site", "3"}, {"anchor_site", "4"}, {"anchor_site2", "0"}},
+      {{"angle", "1"}, {"mobile_site", "5"}, {"anchor_site", "6"}, {"anchor_site2", "0"}}}));
+  }
+  mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/" + data}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}, {"tolerance", str(1e-9)}}));
+  if (!is_found_in(data, "flex")) {
+    mc.add(MakeCheckRigidBonds({{"steps_per", str(steps_per)}}));
+  }
+  return mc;
+}
+
+TEST(MonteCarlo, cg7mab2) {
+  for (const std::string data : {
+      "data.cg7mab2",
+      "data.cg7mab2closed",
+      "data.cg7mab2extended",
+      "data.cg7mab2flex",
+      "data.cg7mab2fullangflex",
+    }) {
+    cg7mab2(data, 1).attempt(1e2);
+  }
+}
+
+TEST(MonteCarlo, cg7mab2_LONG) {
+  for (const std::string data : {
+      "data.cg7mab2",
+      "data.cg7mab2closed",
+      "data.cg7mab2extended",
+      "data.cg7mab2flex",
+      "data.cg7mab2fullangflex",
+    }) {
+    cg7mab2(data, 10, 1e4).attempt(1e6);
+  }
 }
 
 }  // namespace feasst

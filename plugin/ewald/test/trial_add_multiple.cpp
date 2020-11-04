@@ -14,7 +14,7 @@ TEST(TrialAddMultiple, serialize) {
 //  TrialAddMultiple add2(ss);
 //  add2.serialize(ss);
 //  INFO(ss.str());
-  TrialAddMultiple add2 = test_serialize(*add);
+  Trial add2 = test_serialize(*add);
 }
 
 }  // namespace feasst

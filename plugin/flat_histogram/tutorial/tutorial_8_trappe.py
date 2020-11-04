@@ -62,28 +62,32 @@ def mc(thread, mn, mx):
             "min_flatness": str(args.min_flatness),
             "min_sweeps": "1000"}))))
     for particle_type in range(mc.configuration().num_particle_types()):
-        mc.add(fst.MakeTrialTranslate(fst.args({
-            "particle_type": str(particle_type),
-            "weight": "1.",
-            "tunable_param": "1.",
-            "reference_index": ref,
-            "num_steps": num})))
-        mc.add(fst.MakeTrialRotate(fst.args({
-            "particle_type": str(particle_type),
-            "weight": "1.",
-            "tunable_param": "1.",
-            "reference_index": ref,
-            "num_steps": num})))
-        mc.add(fst.MakeTrialTransfer(fst.args({
-            "particle_type": str(particle_type),
-            "weight": "4",
-            "reference_index": ref,
-            "num_steps": num})))
+        mc.add(fst.MakeTrialTranslate(fst.args({"particle_type": str(particle_type), "weight": "1.",
+            "tunable_param": "1.", "reference_index": ref, "num_steps": num})))
+        if mx > args.dccb_begin and mc.configuration().particle_type(particle_type).num_sites() == 2:
+            mc.add(fst.MakeTrialGrow(fst.ArgsVector([
+                {"transfer": "true",  # "regrow": "true",  # regrow isn't very efficient
+                 "particle_type": str(particle_type), "site": "0", "weight": "4"},
+                {"bond": "true", "mobile_site": "1", "anchor_site": "0"}]),
+                fst.args({"reference_index": ref, "num_steps": num})))
+            mc.add(fst.MakeTrialGrow(fst.ArgsVector([
+                {"particle_type": str(particle_type), "weight": "0.5",
+                 "bond": "true", "mobile_site": "1", "anchor_site": "0",
+                 "reference_index": ref, "num_steps": num}])))
+            mc.add(fst.MakeTrialGrow(fst.ArgsVector([
+                {"particle_type": str(particle_type), "weight": "0.5",
+                 "bond": "true", "mobile_site": "0", "anchor_site": "1",
+                 "reference_index": ref, "num_steps": num}])))
+        else:
+            mc.add(fst.MakeTrialRotate(fst.args({"particle_type": str(particle_type), "weight": "1.",
+                "tunable_param": "1.", "reference_index": ref, "num_steps": num})))
+            mc.add(fst.MakeTrialTransfer(fst.args({"particle_type": str(particle_type), "weight": "4",
+                "reference_index": ref, "num_steps": num})))
     mc.add(fst.MakeCheckEnergy(fst.args({"steps_per": str(steps_per), "tolerance": "0.0001"})))
     mc.add(fst.MakeTuner(fst.args({"steps_per": str(steps_per), "stop_after_phase": "0"})))
-#    mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per),
-#                                         "file_name": "clones" + str(thread),
-#                                         "file_name_append_phase": "True"})))
+    mc.add(fst.MakeLogAndMovie(fst.args({"steps_per": str(steps_per),
+                                         "file_name": "clones" + str(thread),
+                                         "file_name_append_phase": "True"})))
     mc.add(fst.MakeEnergy(fst.args({
         "file_name": "en" + str(thread) + '.txt',
         "file_name_append_phase": "True",
@@ -114,7 +118,7 @@ def mc(thread, mn, mx):
     print(0.9*args.num_procs*args.num_hours)
     mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint" + str(thread) + ".fst",
                                         "num_hours_terminate": str(0.9*args.num_procs*args.num_hours)})))
-    mc.add(fst.MakeAnalyzeRigidBonds(fst.args({"steps_per": str(steps_per)})))
+    mc.add(fst.MakeCheckRigidBonds(fst.args({"steps_per": str(steps_per)})))
     return mc
 
 windows=fst.WindowExponential(fst.args({

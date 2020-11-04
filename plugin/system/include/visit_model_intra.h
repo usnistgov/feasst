@@ -18,8 +18,8 @@ class VisitModelIntra : public VisitModel {
  public:
   /**
     args:
-    - cutoff: ignore the interaction between a pair of sites when
-      |i-j| <= cutoff (integer, default: -1).
+    - cutoff: ignore the interaction between a pair of sites when the difference
+      between their indices, |i-j| <= cutoff (integer, default: -1).
    */
   explicit VisitModelIntra(const argtype& args = argtype());
   int cutoff() const { return cutoff_; }

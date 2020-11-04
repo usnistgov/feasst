@@ -6,7 +6,7 @@
 #include "monte_carlo/include/monte_carlo.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/metropolis.h"
-#include "monte_carlo/include/trial_translate.h"
+#include "monte_carlo/include/trials.h"
 
 namespace feasst {
 

@@ -6,6 +6,16 @@
 
 namespace feasst {
 
+class MapTrial {
+ public:
+  MapTrial() {
+    auto obj = MakeTrial();
+    obj->deserialize_map()["Trial"] = obj;
+  }
+};
+
+static MapTrial mapper_ = MapTrial();
+
 Trial::Trial(const argtype& args) {
   Arguments args_(args);
   args_.dont_check();
@@ -40,7 +50,12 @@ void Trial::reset_stats() {
 
 std::string Trial::status_header() const {
   std::stringstream ss;
-  ss << "," << class_name_;
+  ss << ",";
+  if (class_name_ != "Trial") {
+    ss << class_name_;
+  } else {
+    ss << description();
+  }
   for (const TrialStage * stage : stages_ptr_) {
     ss << stage->status_header();
   }
@@ -152,10 +167,13 @@ std::map<std::string, std::shared_ptr<Trial> >& Trial::deserialize_map() {
   return *ans;
 }
 
-void Trial::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
+void Trial::serialize(std::ostream& ostr) const {
+  ostr << class_name() << " ";
+  serialize_trial_(ostr);
+}
 
 std::shared_ptr<Trial> Trial::create(std::istream& istr) const {
-  FATAL("not implemented");
+  return std::make_shared<Trial>(istr);
 }
 
 std::shared_ptr<Trial> Trial::deserialize(std::istream& istr) {
@@ -203,6 +221,7 @@ void Trial::serialize_trial_(std::ostream& ostr) const {
   // desererialize: refresh stages_ptr_
   feasst_serialize_fstdr(compute_, ostr);
   feasst_serialize(weight_, ostr);
+  feasst_serialize(description_, ostr);
   //feasst_serialize(num_attempts_, ostr);
   //feasst_serialize(num_success_, ostr);
   feasst_serialize(is_finalize_delayed_, ostr);
@@ -238,6 +257,7 @@ Trial::Trial(std::istream& istr) {
     }
   }
   feasst_deserialize(&weight_, istr);
+  feasst_deserialize(&description_, istr);
   //feasst_deserialize(&num_attempts_, istr);
   //feasst_deserialize(&num_success_, istr);
   feasst_deserialize(&is_finalize_delayed_, istr);

@@ -9,18 +9,20 @@
 
 namespace feasst {
 
-/// Attempt TrialAddAVB or TrialRemoveAVB with equal probability.
-class TrialTransferAVB : public TrialFactory {
- public:
-  explicit TrialTransferAVB(std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype& args = argtype());
-};
-
-inline std::shared_ptr<TrialTransferAVB> MakeTrialTransferAVB(
+/// Attempt to add a particle with AVB as described in ComputeAddAVB.
+std::shared_ptr<Trial> MakeTrialAddAVB(
     std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args = argtype()) {
-  return std::make_shared<TrialTransferAVB>(neighbor_criteria, args);
-}
+    const argtype &args = argtype());
+
+/// Attempt to remove a particle with AVB as described in ComputeRemoveAVB.
+std::shared_ptr<Trial> MakeTrialRemoveAVB(
+  std::shared_ptr<NeighborCriteria> neighbor_criteria,
+  const argtype &args = argtype());
+
+/// Attempt TrialAddAVB or TrialRemoveAVB with equal probability.
+std::shared_ptr<TrialFactory> MakeTrialTransferAVB(
+    std::shared_ptr<NeighborCriteria> neighbor_criteria,
+    const argtype &args = argtype());
 
 }  // namespace feasst
 

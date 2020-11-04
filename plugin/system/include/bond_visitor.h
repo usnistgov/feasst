@@ -16,7 +16,11 @@ class Select;
 
 class BondVisitor {
  public:
-  explicit BondVisitor(const argtype& args = argtype()) {}
+  /**
+   args:
+   - verbose: print non-zero energies (default: false).
+   */
+  explicit BondVisitor(const argtype& args = argtype());
   void compute(
       const BondTwoBody& model,
       const Configuration& config,
@@ -52,6 +56,7 @@ class BondVisitor {
 
  private:
   double energy_;
+  bool verbose_;
 };
 
 inline std::shared_ptr<BondVisitor> MakeBondVisitor(

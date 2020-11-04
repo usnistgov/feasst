@@ -14,7 +14,7 @@ TEST(TrialRemoveMultiple, serialize) {
 //  TrialRemoveMultiple remove2(ss);
 //  remove2.serialize(ss);
 //  INFO(ss.str());
-  TrialRemoveMultiple remove2 = test_serialize(*remove);
+  Trial remove2 = test_serialize(*remove);
 }
 
 }  // namespace feasst

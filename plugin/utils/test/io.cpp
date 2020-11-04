@@ -62,4 +62,9 @@ TEST(IO, feasst_str) {
   EXPECT_EQ(feasst_str(mp), "{{\"hi\",\"you\"},{\"well\",\"hello\"},}");
 }
 
+TEST(IO, is_found_in) {
+  EXPECT_TRUE(is_found_in("lets see if you can find this", "this"));
+  EXPECT_FALSE(is_found_in("empty", "this"));
+}
+
 }  // namespace feasst
