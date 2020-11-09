@@ -24,6 +24,7 @@ Nomenclature and style
 * characters are case sensitive
 * the number of spaces between characters does not matter
 * LMP Coeffs sections were replaced by Properties sections, with different formatting
+* "2 dimensions" may be specified at the beginning of the file for a 2D simulation.
 
 Site Properties
 ================

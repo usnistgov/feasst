@@ -1,7 +1,9 @@
 #include "utils/test/utils.h"
+#include "utils/include/progress_report.h"
 #include "math/include/random_mt19937.h"
 #include "system/include/lennard_jones.h"
 #include "system/include/utils.h"
+#include "models/include/square_well.h"
 #include "configuration/include/domain.h"
 #include "monte_carlo/include/trials.h"
 #include "monte_carlo/include/metropolis.h"
@@ -220,6 +222,30 @@ TEST(MonteCarlo, MC_AVB2_AVB4_LONG) {
     EXPECT_TRUE(mc_avb4.analyze(3).accumulator().is_equivalent(
                mc_noavb.analyze(3).accumulator(), z_factor, true));
   }
+}
+
+TEST(MonteCarlo, dimer2d) {
+  MonteCarlo mc;
+  mc.add(Configuration(MakeDomain({{"side_length0", "10"}, {"side_length1", "10"}}),
+    {{"particle_type", "../plugin/cluster/forcefield/data.one_patch"}}));
+  EXPECT_EQ(2, mc.configuration().dimension());
+  //mc.add(Potential(MakeSquareWell()));
+  mc.add(Potential(MakeSquareWell(),
+    MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+    //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
+  mc.set(MakeThermoParams({{"beta", "10"}, {"chemical_potential", "1"}}));
+  mc.set(MakeMetropolis());
+  mc.add(MakeTrialTranslate());
+  mc.add(MakeTrialRotate());
+  mc.add(MakeTrialRigidCluster(
+    MakeNeighborCriteria(),
+    { {"rotate_param", "50"},
+      {"translate_param", "1"}}));
+  SeekNumParticles(10).with_trial_add().run(&mc);
+  const std::string steps_per = feasst::str(1e4);
+  mc.add(MakeLogAndMovie({{"file_name", "tmp/dimer2d"}, {"steps_per", steps_per}}));
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));
+  mc.attempt(1e6);
 }
 
 }  // namespace feasst

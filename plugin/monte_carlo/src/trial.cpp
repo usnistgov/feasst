@@ -114,7 +114,7 @@ void Trial::finalize(System * system) {
 
 bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
   DEBUG("**********************************************************");
-  DEBUG("* " << class_name() << " attempt " << num_attempts() << " *");
+  DEBUG("* " << class_name() << " " << description() << " attempt " << num_attempts() << " *");
   DEBUG("**********************************************************");
   DEBUG("num particles: " << system->configuration().num_particles());
   DEBUG("num ghosts: " << system->configuration().particles().num() -
@@ -135,6 +135,7 @@ bool Trial::attempt(Criteria * criteria, System * system, Random * random) {
       stage->select(system, &acceptance_, random);
     }
   }
+  if (acceptance_.reject()) DEBUG("auto rejected at selection");
   if (!acceptance_.reject()) {
     for (TrialStage * stage : stages_ptr_) {
       stage->set_mobile_physical(false, system);

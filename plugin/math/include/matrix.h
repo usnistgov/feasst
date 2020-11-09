@@ -63,6 +63,12 @@ class Matrix {
   /// Return the matrix as a human readable string.
   std::string str() const;
 
+  /// Return the determinant (only implemented for 2x2 and 3x3 matrices).
+  double determinant() const;
+
+  /// Invert the matrix (only implemented for 2x2 and 3x3 matrices).
+  void invert();
+
   virtual ~Matrix() {}
 
  private:
@@ -70,32 +76,14 @@ class Matrix {
 };
 
 /**
-  This class assumes the matrix is square with three columns and three rows.
-  This assumption allows for more easy or efficient operations.
- */
-class MatrixThreeByThree : public Matrix {
- public:
-  /// Return the determinant.
-  double determinant() const;
-
-  /// Invert the matrix.
-  void invert();
-
-  /// Check that the matrix is square and of the assumed size.
-  void check() const override;
-
-  virtual ~MatrixThreeByThree() {}
-};
-
-// Note to HWH: extend this class for 2D as well.
-/**
   Rotation matrices represent a rotation of a rigid body.
   They must be square with a unit determinant.
  */
-class RotationMatrix : public MatrixThreeByThree {
+class RotationMatrix : public Matrix {
  public:
   /// Compute the rotation matrix given an angle of rotation about a given
   /// axis.
+  /// In 2D, the axis is simply used to specify the number of dimensions.
   RotationMatrix& axis_angle(const Position& axis,
     /// The angle is in units of degrees.
     const double degree_angle);
@@ -110,7 +98,7 @@ class RotationMatrix : public MatrixThreeByThree {
   /// Rotate a position given a pivot point.
   void rotate(const Position& pivot, Position * rotated) const;
 
-  /// Check that the derminant of a rotation matrix is unity.
+  /// Check square matrix, unit derminant, in addition to Matrix::check.
   void check() const override;
 
   virtual ~RotationMatrix() {}

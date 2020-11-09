@@ -16,10 +16,15 @@ void FileLMP::read_num_and_types_(const std::string file_name) {
   // skip all lines beginning with the character "#"
   skip_characters('#', file);
 
+
   // read number of sites
+  // optionally, read number of dimentions
   std::string line, descript, descript2;
   file >> num_sites_ >> descript;
-  while (descript.compare("sites") != 0) {
+  while (descript != "sites") {
+    if (descript == "dimensions") {
+      num_dimensions_ = num_sites_;
+    }
     file >> num_sites_ >> descript;
   }
 
@@ -89,8 +94,7 @@ Particle FileLMP::read(const std::string file_name) {
 
   // read Sites section
   int isite, itype;
-  const int dimension = 3;
-  std::vector<double> xtmp(dimension);
+  std::vector<double> xtmp(num_dimensions_);
   std::string cm, typetmp;
   feasst::Site site;
   feasst::Position position;
@@ -98,7 +102,7 @@ Particle FileLMP::read(const std::string file_name) {
   for (int i = 0; i < num_sites_; ++i) {
     std::getline(file, line);
     file >> isite >> itype;
-    for (int dim = 0; dim < dimension; ++dim) {
+    for (int dim = 0; dim < num_dimensions_; ++dim) {
       file >> xtmp[dim];
     }
 

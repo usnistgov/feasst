@@ -79,39 +79,43 @@ bool Matrix::is_equal(const Matrix& matrix2) const {
 std::string Matrix::str() const { return feasst_str(matrix_); }
 
 // thanks to https://en.wikipedia.org/wiki/Determinant
-double MatrixThreeByThree::determinant() const {
-  const double a = value(0, 0);
-  const double b = value(0, 1);
-  const double c = value(0, 2);
-  const double d = value(1, 0);
-  const double e = value(1, 1);
-  const double f = value(1, 2);
-  const double g = value(2, 0);
-  const double h = value(2, 1);
-  const double i = value(2, 2);
-  return a*e*i + b*f*g + c*d*h - c*e*g - b*d*i - a*f*h;
+double Matrix::determinant() const {
+  if (matrix_.size() == 2) {
+    if (matrix_[0].size() == 2) {
+      return value(0, 0)*value(1, 1) - value(0, 1)*value(1, 0);
+    }
+  } else if (matrix_.size() == 3) {
+    if (matrix_[0].size() == 3) {
+      const double a = value(0, 0);
+      const double b = value(0, 1);
+      const double c = value(0, 2);
+      const double d = value(1, 0);
+      const double e = value(1, 1);
+      const double f = value(1, 2);
+      const double g = value(2, 0);
+      const double h = value(2, 1);
+      const double i = value(2, 2);
+      return a*e*i + b*f*g + c*d*h - c*e*g - b*d*i - a*f*h;
+    }
+  }
+  FATAL("unrecognized matrix size: " << matrix_.size() << " x "
+    << matrix_[0].size());
 }
 
-void MatrixThreeByThree::invert() {
+void Matrix::invert() {
   const double det = determinant();
   ASSERT(std::abs(det) > NEAR_ZERO, "not invertible");
   transpose();
   multiply(1./det);
 }
 
-void MatrixThreeByThree::check() const {
+void RotationMatrix::check() const {
   Matrix::check();
   ASSERT(matrix().size() == matrix()[0].size(), "not square");
-  ASSERT(matrix().size() == 3, "wrong size");
-}
-
-void RotationMatrix::check() const {
-  MatrixThreeByThree::check();
   ASSERT(std::abs(determinant() - 1.) < 10*NEAR_ZERO, "not unit determinant("
     << determinant() << ")");
 }
 
-// thanks to https://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle
 RotationMatrix& RotationMatrix::axis_angle(const Position& axis,
     const double degree_angle) {
   Position unit_axis = axis;
@@ -125,22 +129,31 @@ RotationMatrix& RotationMatrix::axis_angle(const Position& axis,
 // thanks to https://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle
 void RotationMatrix::axis_angle_opt(const Position& unit_axis,
     const double degree_angle) {
-  ASSERT(unit_axis.size() == 3, "only implemented for 3D");
   const double radian_angle = degrees_to_radians(degree_angle);
-  const double c = cos(radian_angle), C = 1-c;
   const double s = sin(radian_angle);
-  const double x = unit_axis.coord(0);
-  const double y = unit_axis.coord(1);
-  const double z = unit_axis.coord(2);
-  set_value(0, 0, x*x*C + c);
-  set_value(0, 1, x*y*C - z*s);
-  set_value(0, 2, x*z*C + y*s);
-  set_value(1, 0, y*x*C + z*s);
-  set_value(1, 1, y*y*C + c);
-  set_value(1, 2, y*z*C - x*s);
-  set_value(2, 0, z*x*C - y*s);
-  set_value(2, 1, z*y*C + x*s);
-  set_value(2, 2, z*z*C + c);
+  const double c = cos(radian_angle);
+  if (unit_axis.size() == 2) {
+    set_value(0, 0, c);
+    set_value(0, 1, -s);
+    set_value(1, 0, s);
+    set_value(1, 1, c);
+  } else if (unit_axis.size() == 3) {
+    const double C = 1-c;
+    const double x = unit_axis.coord(0);
+    const double y = unit_axis.coord(1);
+    const double z = unit_axis.coord(2);
+    set_value(0, 0, x*x*C + c);
+    set_value(0, 1, x*y*C - z*s);
+    set_value(0, 2, x*z*C + y*s);
+    set_value(1, 0, y*x*C + z*s);
+    set_value(1, 1, y*y*C + c);
+    set_value(1, 2, y*z*C - x*s);
+    set_value(2, 0, z*x*C - y*s);
+    set_value(2, 1, z*y*C + x*s);
+    set_value(2, 2, z*z*C + c);
+  } else {
+    FATAL("unrecognized dimension: " << unit_axis.size());
+  }
 }
 
 void RotationMatrix::rotate(const Position& pivot, Position * rotated) const {

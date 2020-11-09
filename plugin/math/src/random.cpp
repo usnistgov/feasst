@@ -132,8 +132,7 @@ Position Random::position_in_cube(const int dimension, const double length) {
 
 void Random::position_in_cuboid(const Position& side_length,
     Position * position) {
-  ASSERT(side_length.dimension() == 3, "size error");
-  position->set_to_origin_3D();
+  if (position->size() == 0) position->set_to_origin(side_length.dimension());
   for (int dim = 0; dim < side_length.dimension(); ++dim) {
     position->set_coord(dim, (uniform() - 0.5)*side_length.coord(dim));
   }
@@ -196,18 +195,15 @@ void Random::rotation(const int dimension,
     Position * axis,
     RotationMatrix * rot_mat,
     const double max_angle) {
+  const double angle = uniform_real(-max_angle, max_angle);
+  if (rot_mat->num_rows() != dimension) rot_mat->set_size(dimension, dimension);
   if (dimension == 3) {
-    if (axis->dimension() != 3) {
-      axis->set_vector({0., 0., 0.});
-    }
+    if (axis->dimension() != 3) axis->set_vector({0., 0., 0.});
+    unit_sphere_surface(axis);
+  } else if (dimension == 2) {
+    if (axis->dimension() != 2) axis->set_vector({0., 0.});
   } else {
     ERROR("implement dimension: " << dimension);
-  }
-  unit_sphere_surface(axis);
-  const double angle = uniform_real(-max_angle, max_angle);
-  // size the rotation matrix
-  if (rot_mat->num_rows() != 3) {
-    rot_mat->set_size(3, 3);
   }
   rot_mat->axis_angle_opt(*axis, angle);
 }

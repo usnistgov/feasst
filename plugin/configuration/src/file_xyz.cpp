@@ -94,6 +94,9 @@ class PrinterXYZ : public LoopConfigOneBody {
     for (int dim = 0; dim < config.dimension(); ++dim) {
       (*file_.get()) << site.position().coord(dim) << " ";
     }
+    for (int dim = config.dimension(); dim < 3; ++dim) {
+      (*file_.get()) << "0 ";
+    }
     (*file_.get()) << std::endl;
   }
  private:

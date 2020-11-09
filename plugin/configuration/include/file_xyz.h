@@ -37,6 +37,7 @@ class FileXYZ {
   void load(const std::string file_name, Configuration * config) const;
 
   /// Write the configuration to file_name in xyz format.
+  /// If the simulation is 2D, simply writes z as 0.
   void write(const std::string file_name,
              const Configuration& config,
              /// Number of decimal places

@@ -28,6 +28,7 @@ class FileLMP {
   int num_improper_types() const { return num_improper_types_; }
 
  private:
+  int num_dimensions_ = 3;
   int num_sites_ = 0;
   int num_site_types_ = 0;
   int num_bonds_ = 0;
