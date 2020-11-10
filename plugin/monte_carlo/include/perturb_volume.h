@@ -7,7 +7,7 @@
 namespace feasst {
 
 /**
-  Add a particle to the system.
+  Change the volume of the system.
  */
 class PerturbVolume : public Perturb {
  public:

@@ -357,3 +357,4 @@ To Do List
 * Make ModelTwoBodyTable that tabulates interaction from min(hs)-max(rc) distance for each distinct pair of site types, and can easily be added as optimized Potential
 * Rename plugin chain->config_bias ?
 * Config checkpoint writes feasst version. Warn user if restart with different version
+* maybe mc.add(criteria) is preferable to mc.set. Same with sys?

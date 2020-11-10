@@ -215,6 +215,7 @@ std::string System::status_header() const {
   for (const Configuration& config : configurations_) {
     ss << config.status_header();
   }
+  ss << ",beta";
   return ss.str();
 }
 
@@ -223,6 +224,7 @@ std::string System::status() const {
   for (const Configuration& config : configurations_) {
     ss << config.status();
   }
+  ss << "," << thermo_params().beta();
   return ss.str();
 }
 

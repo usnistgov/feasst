@@ -1,6 +1,6 @@
-TrialAVB2
+PerturbBeta
 =====================================================
 
-.. doxygenclass:: feasst::TrialAVB2
+.. doxygenclass:: feasst::PerturbBeta
    :project: FEASST
    :members:

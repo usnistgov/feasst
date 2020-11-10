@@ -1,6 +1,6 @@
-TrialAVB4
+SelectNothing
 =====================================================
 
-.. doxygenclass:: feasst::TrialAVB4
+.. doxygenclass:: feasst::SelectNothing
    :project: FEASST
    :members:

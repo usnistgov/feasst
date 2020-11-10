@@ -1,6 +1,6 @@
-TrialAddMultiple
+ComputeBeta
 =====================================================
 
-.. doxygenclass:: feasst::TrialAddMultiple
+.. doxygenclass:: feasst::ComputeBeta
    :project: FEASST
    :members:

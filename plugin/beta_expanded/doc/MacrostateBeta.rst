@@ -1,6 +1,6 @@
-SeekAnalyze
+MacrostateBeta
 =====================================================
 
-.. doxygenclass:: feasst::SeekAnalyze
+.. doxygenclass:: feasst::MacrostateBeta
    :project: FEASST
    :members:

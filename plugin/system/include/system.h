@@ -153,6 +153,9 @@ class System {
   /// Return the thermodynamic parameters.
   const ThermoParams& thermo_params() const;
 
+  /// Set the inverse temperature, \f$\beta\f$.
+  void set_beta(const double beta) { thermo_params_->set_beta(beta); }
+
   //@}
   // Other functions:
 

@@ -115,6 +115,7 @@
 #include "cluster/include/select_particle_avb_divalent.h"
 #include "chain/include/select_site_of_type.h"
 #include "chain/include/select_perturbed.h"
+#include "beta_expanded/include/select_nothing.h"
 #include "monte_carlo/include/trial_select_bond.h"
 #include "monte_carlo/include/trial_select_angle.h"
 #include "chain/include/select_branch.h"
@@ -124,12 +125,14 @@
 #include "monte_carlo/include/perturb_distance.h"
 #include "chain/include/perturb_reptate.h"
 #include "cluster/include/perturb_point_reflect.h"
+#include "beta_expanded/include/perturb_beta.h"
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute.h"
 #include "growth_expanded/include/compute_morph.h"
 #include "monte_carlo/include/trial_compute_move.h"
 #include "cluster/include/compute_avb4.h"
 #include "cluster/include/compute_avb2.h"
+#include "beta_expanded/include/compute_beta.h"
 #include "cluster/include/compute_move_cluster.h"
 #include "cluster/include/compute_add_avb.h"
 #include "cluster/include/compute_remove_avb.h"
@@ -141,6 +144,7 @@
 #include "monte_carlo/include/trial_move.h"
 #include "growth_expanded/include/trial_morph_expanded.h"
 #include "growth_expanded/include/trial_morph.h"
+#include "beta_expanded/include/trial_beta.h"
 #include "cluster/include/trial_avb4.h"
 #include "monte_carlo/include/trial_factory.h"
 #include "monte_carlo/include/trials.h"
@@ -249,6 +253,7 @@
 #include "flat_histogram/include/wang_landau.h"
 #include "flat_histogram/include/wltm.h"
 #include "flat_histogram/include/macrostate.h"
+#include "beta_expanded/include/macrostate_beta.h"
 #include "growth_expanded/include/macrostate_morph.h"
 #include "growth_expanded/include/macrostate_growth_expanded.h"
 #include "flat_histogram/include/macrostate_num_particles.h"
@@ -394,6 +399,7 @@ using namespace std;
 %shared_ptr(feasst::SelectParticleAVBDivalent);
 %shared_ptr(feasst::SelectSiteOfType);
 %shared_ptr(feasst::SelectPerturbed);
+%shared_ptr(feasst::SelectNothing);
 %shared_ptr(feasst::TrialSelectBond);
 %shared_ptr(feasst::TrialSelectAngle);
 %shared_ptr(feasst::SelectBranch);
@@ -403,12 +409,14 @@ using namespace std;
 %shared_ptr(feasst::PerturbDistance);
 %shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::PerturbPointReflect);
+%shared_ptr(feasst::PerturbBeta);
 %shared_ptr(feasst::TrialStage);
 %shared_ptr(feasst::TrialCompute);
 %shared_ptr(feasst::ComputeMorph);
 %shared_ptr(feasst::TrialComputeMove);
 %shared_ptr(feasst::ComputeAVB4);
 %shared_ptr(feasst::ComputeAVB2);
+%shared_ptr(feasst::ComputeBeta);
 %shared_ptr(feasst::ComputeMoveCluster);
 %shared_ptr(feasst::ComputeAddAVB);
 %shared_ptr(feasst::ComputeRemoveAVB);
@@ -476,7 +484,6 @@ using namespace std;
 %shared_ptr(feasst::GoldenSearch);
 %shared_ptr(feasst::FormulaExponential);
 %shared_ptr(feasst::Matrix);
-%shared_ptr(feasst::MatrixThreeByThree);
 %shared_ptr(feasst::RotationMatrix);
 %shared_ptr(feasst::PerturbRotate);
 %shared_ptr(feasst::PerturbPivot);
@@ -529,6 +536,7 @@ using namespace std;
 %shared_ptr(feasst::WangLandau);
 %shared_ptr(feasst::WLTM);
 %shared_ptr(feasst::Macrostate);
+%shared_ptr(feasst::MacrostateBeta);
 %shared_ptr(feasst::MacrostateMorph);
 %shared_ptr(feasst::MacrostateGrowthExpanded);
 %shared_ptr(feasst::MacrostateNumParticles);
@@ -643,6 +651,7 @@ using namespace std;
 %include cluster/include/select_particle_avb_divalent.h
 %include chain/include/select_site_of_type.h
 %include chain/include/select_perturbed.h
+%include beta_expanded/include/select_nothing.h
 %include monte_carlo/include/trial_select_bond.h
 %include monte_carlo/include/trial_select_angle.h
 %include chain/include/select_branch.h
@@ -652,12 +661,14 @@ using namespace std;
 %include monte_carlo/include/perturb_distance.h
 %include chain/include/perturb_reptate.h
 %include cluster/include/perturb_point_reflect.h
+%include beta_expanded/include/perturb_beta.h
 %include monte_carlo/include/trial_stage.h
 %include monte_carlo/include/trial_compute.h
 %include growth_expanded/include/compute_morph.h
 %include monte_carlo/include/trial_compute_move.h
 %include cluster/include/compute_avb4.h
 %include cluster/include/compute_avb2.h
+%include beta_expanded/include/compute_beta.h
 %include cluster/include/compute_move_cluster.h
 %include cluster/include/compute_add_avb.h
 %include cluster/include/compute_remove_avb.h
@@ -669,6 +680,7 @@ using namespace std;
 %include monte_carlo/include/trial_move.h
 %include growth_expanded/include/trial_morph_expanded.h
 %include growth_expanded/include/trial_morph.h
+%include beta_expanded/include/trial_beta.h
 %include cluster/include/trial_avb4.h
 %include monte_carlo/include/trial_factory.h
 %include monte_carlo/include/trials.h
@@ -777,6 +789,7 @@ using namespace std;
 %include flat_histogram/include/wang_landau.h
 %include flat_histogram/include/wltm.h
 %include flat_histogram/include/macrostate.h
+%include beta_expanded/include/macrostate_beta.h
 %include growth_expanded/include/macrostate_morph.h
 %include growth_expanded/include/macrostate_growth_expanded.h
 %include flat_histogram/include/macrostate_num_particles.h

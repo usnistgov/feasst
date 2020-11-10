@@ -224,7 +224,7 @@ TEST(MonteCarlo, MC_AVB2_AVB4_LONG) {
   }
 }
 
-TEST(MonteCarlo, dimer2d) {
+TEST(MonteCarlo, dimer2d_LONG) {
   MonteCarlo mc;
   mc.add(Configuration(MakeDomain({{"side_length0", "10"}, {"side_length1", "10"}}),
     {{"particle_type", "../plugin/cluster/forcefield/data.one_patch"}}));
