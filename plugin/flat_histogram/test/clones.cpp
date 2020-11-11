@@ -74,7 +74,7 @@ Clones make_clones(const int max, const int min) {
     {"alpha", "2"}}).boundaries();
   for (int index = 0; index < static_cast<int>(bounds.size()); ++index) {
     const std::vector<int> bound = bounds[index];
-    DEBUG(bound[0] << " " << bound[1]);
+    INFO(bound[0] << " " << bound[1]);
     auto clone = std::make_shared<MonteCarlo>(monte_carlo(index, bound[0], bound[1]));
 //    clone->set(MakeRandomMT19937({{"seed", "123"}}));
     if (index == 0 && bound[0] > 0) SeekNumParticles(bound[0]).run(clone.get());
@@ -109,10 +109,12 @@ TEST(Clones, lj_fh) {
   INFO(feasst_str(energy));
   INFO(feasst_str(energy0));
   INFO(feasst_str(energy1));
-  for (int i = 0; i < 6; ++i) EXPECT_EQ(energy[i], energy0[i]);
+  for (int i = 0; i < 5; ++i) EXPECT_EQ(energy[i], energy0[i]);
+  EXPECT_EQ(energy[5], 0.5*(energy0[5] + energy1[0]));
   EXPECT_EQ(energy[6], 0.5*(energy0[6] + energy1[1]));
   EXPECT_EQ(energy[7], 0.5*(energy0[7] + energy1[2]));
-  for (int i = 8; i < 13; ++i) EXPECT_EQ(energy[i], energy1[i - 5]);
+  EXPECT_EQ(energy[8], 0.5*(energy0[8] + energy1[3]));
+  for (int i = 9; i < 13; ++i) EXPECT_EQ(energy[i], energy1[i - 5]);
 }
 
 double energy_av4(const int macro, const MonteCarlo& mc) {

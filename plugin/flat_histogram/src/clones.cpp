@@ -222,14 +222,12 @@ LnProbability Clones::ln_prob(Histogram * macrostates,
 
     // determine if fh are TM and, if so, ignore the lowest macrostate of upper
     // and highest macrostate of lower
-    int index_upper_min = 0;
-    if (fh_upper.bias().class_name() == "TransitionMatrix") ++index_upper_min;
+    const int index_upper_min = 0;
     const double macro_upper_min = fh_upper.macrostate().value(index_upper_min);
 
     // and same for lower, by simply introducing a truncation for the following
     // bin loop
     int truncate = 0;
-    if (fh_lower.bias().class_name() == "TransitionMatrix") ++truncate;
 
     // Optionally, extract multistate_data
     std::vector<double> lower_data, upper_data;
@@ -271,9 +269,7 @@ LnProbability Clones::ln_prob(Histogram * macrostates,
         edges.push_back(lower);
       }
     }
-    ASSERT(upper_index > index_upper_min,
-      "No overlap. If TransitionMatrix, did you add at least two extra " <<
-      "overlap to acount for the spurious ln_prob at the ends?");
+    ASSERT(upper_index > index_upper_min, "No overlap.");
 
     // average the ln_probs of the overlapping region
     Accumulator ln_prob_shift;

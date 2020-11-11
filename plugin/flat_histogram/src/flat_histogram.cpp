@@ -36,7 +36,6 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
   DEBUG("macroshift " << acceptance.macrostate_shift());
 //  const int shift = acceptance.macrostate_shift()*num_trial_states();
   if (acceptance.reject() ||
-      !macrostate_->is_allowed(system, *this, acceptance) ||
       !is_allowed(system, acceptance) ) {
     is_accepted = false;
     ln_metropolis_prob = -NEAR_INFINITY;
@@ -53,7 +52,8 @@ bool FlatHistogram::is_accepted(const Acceptance& acceptance,
     DEBUG("ln old " << bias_->ln_prob().value(macrostate_old_));
     DEBUG("ln met " << ln_metropolis_prob);
     DEBUG("ln tot " << ln_metropolis_prob + bias_->ln_bias(macrostate_new_, macrostate_old_));
-    if (random->uniform() < exp(ln_metropolis_prob +
+    if (macrostate_->is_allowed(system, *this, acceptance) &&
+        random->uniform() < exp(ln_metropolis_prob +
                                 bias_->ln_bias(macrostate_new_,
                                                macrostate_old_))) {
       is_accepted = true;

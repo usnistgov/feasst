@@ -7,13 +7,17 @@
 # The remaining jobs in the array supply task > 0, which signals simulation
 # restart using checkpoint files instead.
 
+((num_hours=8))
+num_procs=12
+((num_procs_ext=2*$num_procs))
+
 # Write a SLURM script to file and queue it.
 function launch_node {
 cat << _EOF_ > launch.cmd
 #!/bin/bash
-#SBATCH -n 24
+#SBATCH -n ${num_procs_ext}
 #SBATCH -N 1
-#SBATCH -t 0-00:02
+#SBATCH -t ${num_hours}:00:00
 #SBATCH -o hostname_%j.out
 #SBATCH -e hostname_%j.out
 echo "Running on host \$(hostname)"
@@ -23,7 +27,7 @@ echo "ID is \$SLURM_JOB_ID"
 echo "TASK is \$SLURM_ARRAY_TASK_ID"
 
 cd \$PWD
-python tutorial_5_lj_gcmc_parallel.py --task \$SLURM_ARRAY_TASK_ID --num_procs 12 --num_hours 0.03
+python tutorial_5_lj_gcmc_parallel.py --task \$SLURM_ARRAY_TASK_ID --num_procs ${num_procs} --num_hours $num_hours
 
 if [ \$? == 0 ]; then
   echo "Job is done"

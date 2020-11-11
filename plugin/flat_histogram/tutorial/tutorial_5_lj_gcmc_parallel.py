@@ -15,7 +15,7 @@ args = parser.parse_args()
 print("args:", args)
 
 def mc(thread, mn, mx):
-    steps_per=str(int(1e4))
+    steps_per=str(int(1e6))
     mc = fst.MakeMonteCarlo()
     sys_args = dict()
     num_steps = "1"
@@ -60,8 +60,7 @@ def mc(thread, mn, mx):
 windows=fst.WindowExponential(fst.args({
   "alpha": "2.5",
   "num": str(args.num_procs),
-  "maximum": str(args.max_particles),
-  "extra_overlap": "2"})).boundaries()
+  "maximum": str(args.max_particles)})).boundaries()
 print(windows)
 
 if args.task == 0:
@@ -73,6 +72,6 @@ else:
     clones = fst.MakeClones("checkpoint", args.num_procs);
 #clones.initialize_and_run_until_complete()
 clones.initialize_and_run_until_complete(fst.args({"ln_prob_file": "ln_prob.txt",
-                                                   "omp_batch": str(int(1e4))}))
+                                                   "omp_batch": str(int(1e6))}))
 print(clones.ln_prob().values())
 open('clones.fst', 'w').write(clones.serialize())

@@ -48,7 +48,7 @@ TEST(MonteCarlo, beta_expanded) {
     {"steps_per_update", "1"},
     {"steps_per_write", steps_per},
     {"multistate", "true"}}));
-  mc.attempt(1e6);
+  mc.attempt(5e4);
 }
 
 }  // namespace feasst
