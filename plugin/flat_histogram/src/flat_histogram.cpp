@@ -157,6 +157,10 @@ void FlatHistogram::serialize(std::ostream& ostr) const {
 void FlatHistogram::before_attempt(const System& system) {
   macrostate_old_ = macrostate_->bin(system, *this, empty_);
   DEBUG("macro old " << macrostate_old_);
+  ASSERT(macrostate_old_ >= macrostate_->soft_min() &&
+         macrostate_old_ <= macrostate_->soft_max(),
+    "macrostate: " << macrostate_old_ << " is not in range from " <<
+    macrostate_->soft_min() << " to " << macrostate_->soft_max());
 }
 
 bool FlatHistogram::is_fh_equal(const FlatHistogram& flat_histogram,

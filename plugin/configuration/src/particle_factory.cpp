@@ -74,6 +74,7 @@ void ParticleFactory::add(const std::string file_name) {
 
   // Assign per-site properties from the data file.
   if (unique_types_) {
+    particle.remove_non_unique_types();
     FileLMP().read_properties(file_name, &particle);
   }
 

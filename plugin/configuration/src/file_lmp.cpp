@@ -214,6 +214,7 @@ void FileLMP::read_properties_(const std::string property_type,
     ASSERT(properties.size() % 2 == 1, "size error");
     const int num_properties = (properties.size() - 1)/2;
     const int type = stoi(properties[0]);
+    DEBUG("type: " << type);
     for (int index = 0; index < num_properties; ++index) {
       const std::string name = properties[2*index + 1];
       const double value = stod(properties[2*index + 2]);

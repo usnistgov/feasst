@@ -32,6 +32,7 @@ class SeekNumParticles {
   SeekNumParticles with_thermo_params(const argtype& args);
 
   /// Optionally use a temporary Metropolis criteria with given args.
+  /// This is the recommended approach, especially to avoid using FlatHistogram.
   SeekNumParticles with_metropolis();
 
   /// Same as above but with a constraint.

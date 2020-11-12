@@ -75,6 +75,7 @@ void SeekNumParticles::run(MonteCarlo * monte_carlo) {
   if (report_) report_->set_num(num_ - current_num);
   while (current_num < num_) {
     int previous_num = current_num;
+    DEBUG("current_num " << current_num);
     monte_carlo->get_trial_factory()->attempt(crit, sys, ran);
     extra_trials_.attempt(crit, sys, ran);
     ASSERT(monte_carlo->trials().num_attempts() < max_attempts_,
