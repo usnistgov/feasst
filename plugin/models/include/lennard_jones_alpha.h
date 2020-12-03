@@ -25,7 +25,7 @@ class LennardJonesAlpha : public LennardJones {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const override;
+      const ModelParams& model_params) override;
 
   /// Return the derivative in the potential energy with respect to distance.
   double du_dr(
@@ -39,7 +39,7 @@ class LennardJonesAlpha : public LennardJones {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const {
+      const ModelParams& model_params) {
     return LennardJonesAlpha::energy(squared_distance, type1, type2, model_params);
   }
 

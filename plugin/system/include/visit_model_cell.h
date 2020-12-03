@@ -17,12 +17,12 @@ class VisitModelCell : public VisitModel {
   VisitModelCell() : VisitModel() {
     class_name_ = "VisitModelCell"; }
   void compute(
-      const ModelTwoBody& model,
+      ModelTwoBody * model,
       const ModelParams& model_params,
       Configuration * config,
       const int cell_index = 0) override;
   void compute(
-      const ModelTwoBody& model,
+      ModelTwoBody * model,
       const ModelParams& model_params,
       const Select& selection,
       Configuration * config,

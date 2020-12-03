@@ -69,7 +69,7 @@ double ModelTableCart1DHard::energy(
     const Position& wrapped_site,
     const Site& site,
     const Configuration& config,
-    const ModelParams& model_params) const {
+    const ModelParams& model_params) {
   //const int type = site.type();
   //const double sigma = model_params.sigma().value(type);
   const std::vector<double>& sides = config.domain().side_lengths().coord();
@@ -175,7 +175,7 @@ double ModelTableCart2DIntegr::energy(
     const Position& wrapped_site,
     const Site& site,
     const Configuration& config,
-    const ModelParams& model_params) const {
+    const ModelParams& model_params) {
   //const int type = site.type();
   //const double sigma = model_params.sigma().value(type);
   const std::vector<double>& sides = config.domain().side_lengths().coord();
@@ -309,7 +309,7 @@ double ModelTableCart3DIntegr::energy(
     const Position& wrapped_site,
     const Site& site,
     const Configuration& config,
-    const ModelParams& model_params) const {
+    const ModelParams& model_params) {
   //const int type = site.type();
   //const double sigma = model_params.sigma().value(type);
   const std::vector<double>& sides = config.domain().side_lengths().coord();

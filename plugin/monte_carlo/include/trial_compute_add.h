@@ -71,7 +71,7 @@ The de Broglie wavelength, :math:`\Lambda^d`, is absorbed into the definition of
  */
 class TrialComputeAdd : public TrialCompute {
  public:
-  TrialComputeAdd();
+  explicit TrialComputeAdd(const argtype& args = argtype());
 
   void perturb_and_acceptance(
       Criteria * criteria,
@@ -90,8 +90,9 @@ class TrialComputeAdd : public TrialCompute {
   void serialize_trial_compute_add_(std::ostream& ostr) const;
 };
 
-inline std::shared_ptr<TrialComputeAdd> MakeTrialComputeAdd() {
-  return std::make_shared<TrialComputeAdd>();
+inline std::shared_ptr<TrialComputeAdd> MakeTrialComputeAdd(
+    const argtype& args = argtype()) {
+  return std::make_shared<TrialComputeAdd>(args);
 }
 }  // namespace feasst
 

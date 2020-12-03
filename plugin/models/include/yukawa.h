@@ -20,7 +20,7 @@ class Yukawa : public ModelTwoBody {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const override;
+      const ModelParams& model_params) override;
 
   /// Set the value of the kappa parameter.
   void set_kappa(const double kappa = 1) { kappa_ = kappa; }

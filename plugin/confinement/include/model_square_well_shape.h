@@ -30,7 +30,7 @@ class ModelSquareWellShape : public ModelOneBody,
     const Position& wrapped_site,
     const Site& site,
     const Configuration& config,
-    const ModelParams& model_params) const override;
+    const ModelParams& model_params) override;
 
   void serialize(std::ostream& ostr) const override;
   std::shared_ptr<Model> create(std::istream& istr) const override {

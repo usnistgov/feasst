@@ -81,7 +81,7 @@ and :math:`\chi > 1`. Thus,
  */
 class TrialComputeMove : public TrialCompute {
  public:
-  TrialComputeMove();
+  explicit TrialComputeMove(const argtype& args = argtype());
 
   void perturb_and_acceptance(
     Criteria * criteria,
@@ -98,8 +98,9 @@ class TrialComputeMove : public TrialCompute {
   void serialize_trial_compute_move_(std::ostream& ostr) const;
 };
 
-inline std::shared_ptr<TrialComputeMove> MakeTrialComputeMove() {
-  return std::make_shared<TrialComputeMove>();
+inline std::shared_ptr<TrialComputeMove> MakeTrialComputeMove(
+    const argtype& args = argtype()) {
+  return std::make_shared<TrialComputeMove>(args);
 }
 
 }  // namespace feasst

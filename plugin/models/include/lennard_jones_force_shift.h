@@ -31,7 +31,7 @@ class LennardJonesForceShift : public LennardJonesAlpha {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const override;
+      const ModelParams& model_params) override;
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<LennardJonesForceShift>(istr); }

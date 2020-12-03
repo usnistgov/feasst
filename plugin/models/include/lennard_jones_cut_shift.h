@@ -44,7 +44,7 @@ class LennardJonesCutShift : public LennardJonesAlpha {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const override;
+      const ModelParams& model_params) override;
 
   /// Initialize WCA cutoff distances for types 1 and 2 in model parameters.
   void set_wca(const int site_type1, const int site_type2,

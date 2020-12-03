@@ -15,7 +15,7 @@ class VisitModelOptLJ : public VisitModel {
     class_name_ = "VisitModelOptLJ"; }
   VisitModelOptLJ(std::shared_ptr<VisitModelInner> inner) : VisitModel(inner) {}
   void compute(
-      const ModelTwoBody& model,
+      ModelTwoBody * model,
       const ModelParams& model_params,
       const Select& selection,
       Configuration * config,

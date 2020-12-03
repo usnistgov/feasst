@@ -25,11 +25,6 @@ System lennard_jones(const argtype& args) {
   const std::string data = args_.key("particle").dflt("forcefield/data.lj").str();
   const bool lrc = args_.key("lrc").dflt("true").boolean();
   const double dual_cut = args_.key("dual_cut").dflt("-1").dble();
-//  const double cutoff = 2.;
-
-  System system;
-  std::stringstream ss;
-  ss << feasst::install_dir() << "/" << data;
   std::shared_ptr<Domain> domain;
   if (std::abs(dual_cut + 1) < NEAR_ZERO) {
     domain = MakeDomain({{"cubic_box_length", str(box_length)}});
@@ -37,22 +32,12 @@ System lennard_jones(const argtype& args) {
     domain = MakeDomain({{"cubic_box_length", str(box_length)},
                          {"init_cells", str(dual_cut)}});
   }
+  System system;
+  std::stringstream ss;
+  ss << feasst::install_dir() << "/" << data;
   system.add(Configuration(domain, {{"particle_type0", ss.str()}}));
   system.add(Potential(MakeLennardJones()));
-//    { Potential potential(MakeLennardJones());
-//      potential.set_model_params(system.configuration());
-////      potential.set_model_param("cutoff", 0, cutoff);
-////      EXPECT_NEAR(potential.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
-//      system.add_to_unoptimized(potential); }
-  if (lrc) {
-    system.add(Potential(MakeLongRangeCorrections()));
-  }
-//    { Potential lrc(MakeLongRangeCorrections());
-//      lrc.set_model_params(system.configuration());
-////      lrc.set_model_param("cutoff", 0, cutoff);
-////      EXPECT_NEAR(lrc.model_params().mixed_cutoff()[0][0], cutoff, NEAR_ZERO);
-//      //system.add_to_unoptimized(lrc);
-//    }
+  if (lrc) system.add(Potential(MakeLongRangeCorrections()));
   if (std::abs(dual_cut + 1) > NEAR_ZERO) {
     Potential ref(MakeLennardJones(), MakeVisitModelCell());
     ref.set_model_params(system.configuration());

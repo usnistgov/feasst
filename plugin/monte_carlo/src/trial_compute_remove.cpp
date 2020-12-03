@@ -6,7 +6,7 @@
 
 namespace feasst {
 
-TrialComputeRemove::TrialComputeRemove() {
+TrialComputeRemove::TrialComputeRemove(const argtype& args) : TrialCompute(args) {
   class_name_ = "TrialComputeRemove";
 }
 

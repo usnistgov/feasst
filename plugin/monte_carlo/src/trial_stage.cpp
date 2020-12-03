@@ -8,7 +8,7 @@ TrialStage::TrialStage(const argtype& args) {
   args_.dont_check();
   rosenbluth_.resize(args_.key("num_steps").dflt("1").integer());
   reference_ = args_.key("reference_index").dflt("-1").integer();
-  set_new_only();
+  is_new_only_ = args_.key("new_only").dflt("false").boolean();
 }
 
 void TrialStage::precompute(System * system) {

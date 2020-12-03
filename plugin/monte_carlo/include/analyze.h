@@ -53,8 +53,8 @@ class Analyze : public Stepper {
 
   // HWH only used by AnalyzeFactory
   void check_update_(const Criteria& criteria,
-      const System& system,
-      const TrialFactory& trial_factory);
+    const System& system,
+    const TrialFactory& trial_factory);
 };
 
 /**

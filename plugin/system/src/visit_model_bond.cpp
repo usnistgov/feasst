@@ -7,7 +7,7 @@
 namespace feasst {
 
 void VisitModelBond::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const ModelParams& model_params,
     const Select& selection,
     Configuration * config,
@@ -84,7 +84,7 @@ void VisitModelBond::serialize(std::ostream& ostr) const {
 }
 
 void VisitModelBond::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {

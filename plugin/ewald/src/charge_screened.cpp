@@ -58,7 +58,7 @@ double ChargeScreened::energy(
     const double squared_distance,
     const int type1,
     const int type2,
-    const ModelParams& model_params) const {
+    const ModelParams& model_params) {
   const double mixed_charge = model_params.mixed_charge()[type1][type2];
   if (squared_distance < hard_sphere_threshold_sq_) {
     return NEAR_INFINITY;

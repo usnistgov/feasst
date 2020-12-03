@@ -12,7 +12,7 @@ TEST(VisitModelOptLJ, reference_config) {
   HardSphere place_holder;
   Select one;
   one.add_particle(config.particle(0), 0);
-  visit.compute(place_holder, config.model_params(), one, &config);
+  visit.compute(&place_holder, config.model_params(), one, &config);
   EXPECT_NEAR(-3.2639025245521616, visit.energy(), NEAR_ZERO);
 }
 

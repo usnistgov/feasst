@@ -1,6 +1,6 @@
-TrialComputeMoveNewOnly
+SeekModify
 =====================================================
 
-.. doxygenclass:: feasst::TrialComputeMoveNewOnly
+.. doxygenclass:: feasst::SeekModify
    :project: FEASST
    :members:

@@ -156,9 +156,11 @@
 #include "cluster/include/trial_avb2.h"
 #include "monte_carlo/include/modify.h"
 #include "chain/include/recenter_particles.h"
+#include "steppers/include/pair_distribution.h"
 #include "steppers/include/criteria_updater.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/tuner.h"
+#include "steppers/include/seek_modify.h"
 #include "monte_carlo/include/modify_factory.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "monte_carlo/include/analyze.h"
@@ -233,13 +235,12 @@
 #include "ewald/include/ewald.h"
 #include "ewald/include/check_net_charge.h"
 #include "mayer/include/criteria_mayer.h"
-#include "mayer/include/trial.h"
 #include "confinement/include/model_lj_shape.h"
+#include "confinement/include/trial_anywhere.h"
 #include "confinement/include/model_square_well_shape.h"
 #include "confinement/include/always_accept.h"
 #include "confinement/include/henry_coefficient.h"
 #include "confinement/include/model_hard_shape.h"
-#include "confinement/include/trial_anywhere_new_only.h"
 #include "confinement/include/model_table_cartesian.h"
 #include "patch/include/patch_angle.h"
 #include "patch/include/visit_model_inner_patch.h"
@@ -434,9 +435,12 @@ using namespace std;
 %shared_ptr(feasst::Modify);
 %shared_ptr(feasst::ModifyUpdateOnly);
 %shared_ptr(feasst::RecenterParticles);
+%shared_ptr(feasst::PairDistributionInner);
+%shared_ptr(feasst::PairDistribution);
 %shared_ptr(feasst::CriteriaUpdater);
 %shared_ptr(feasst::CheckProperties);
 %shared_ptr(feasst::Tuner);
+%shared_ptr(feasst::SeekModify);
 %shared_ptr(feasst::ModifyFactory);
 %shared_ptr(feasst::CheckEnergyAndTune);
 %shared_ptr(feasst::Analyze);
@@ -514,7 +518,6 @@ using namespace std;
 %shared_ptr(feasst::Ewald);
 %shared_ptr(feasst::CheckNetCharge);
 %shared_ptr(feasst::CriteriaMayer);
-%shared_ptr(feasst::TrialComputeMoveNewOnly);
 %shared_ptr(feasst::ModelLJShape);
 %shared_ptr(feasst::ModelSquareWellShape);
 %shared_ptr(feasst::AlwaysAccept);
@@ -692,9 +695,11 @@ using namespace std;
 %include cluster/include/trial_avb2.h
 %include monte_carlo/include/modify.h
 %include chain/include/recenter_particles.h
+%include steppers/include/pair_distribution.h
 %include steppers/include/criteria_updater.h
 %include steppers/include/check_properties.h
 %include steppers/include/tuner.h
+%include steppers/include/seek_modify.h
 %include monte_carlo/include/modify_factory.h
 %include steppers/include/check_energy_and_tune.h
 %include monte_carlo/include/analyze.h
@@ -769,13 +774,12 @@ using namespace std;
 %include ewald/include/ewald.h
 %include ewald/include/check_net_charge.h
 %include mayer/include/criteria_mayer.h
-%include mayer/include/trial.h
 %include confinement/include/model_lj_shape.h
+%include confinement/include/trial_anywhere.h
 %include confinement/include/model_square_well_shape.h
 %include confinement/include/always_accept.h
 %include confinement/include/henry_coefficient.h
 %include confinement/include/model_hard_shape.h
-%include confinement/include/trial_anywhere_new_only.h
 %include confinement/include/model_table_cartesian.h
 %include patch/include/patch_angle.h
 %include patch/include/visit_model_inner_patch.h

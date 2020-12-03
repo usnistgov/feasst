@@ -16,6 +16,9 @@ class ModifyFactory : public Modify {
   /// Add a Modify object.
   void add(std::shared_ptr<Modify> modify) { modifiers_.push_back(modify); }
 
+  /// Return the number.
+  int num() const { return static_cast<int>(modifiers_.size()); }
+
   /// Return the Modify objects.
   const std::vector<std::shared_ptr<Modify> >& modifiers() const override {
     return modifiers_; }
@@ -42,6 +45,11 @@ class ModifyFactory : public Modify {
 
  private:
   std::vector<std::shared_ptr<Modify> > modifiers_;
+
+  void trial_(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory,
+    const int index);
 };
 
 inline std::shared_ptr<ModifyFactory> MakeModifyFactory(

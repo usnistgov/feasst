@@ -33,7 +33,7 @@ void VisitModelInner::compute(
     const int site2_index,
     const Configuration * config,
     const ModelParams& model_params,
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const bool is_old_config,
     Position * relative,
     Position * pbc) {
@@ -53,11 +53,12 @@ void VisitModelInner::compute(
                                 pbc, &squared_distance_);
       const int type1 = site1.type();
       const int type2 = site2.type();
+      TRACE("sz " << model_params.mixed_cutoff().size());
       const double cutoff = model_params.mixed_cutoff()[type1][type2];
       TRACE("cutoff " << cutoff);
       TRACE("squared_distance_ " << squared_distance_);
       if (squared_distance_ <= cutoff*cutoff) {
-        const double energy = model.energy(squared_distance_, type1, type2,
+        const double energy = model->energy(squared_distance_, type1, type2,
                                            model_params);
         update_ixn(energy, part1_index, site1_index, type1, part2_index,
                    site2_index, type2, squared_distance_, pbc, is_old_config);

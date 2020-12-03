@@ -13,7 +13,7 @@
 namespace feasst {
 
 void VisitModel::compute(
-    const ModelOneBody& model,
+    ModelOneBody * model,
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {
@@ -31,14 +31,14 @@ void VisitModel::compute(
       const Site& site = part.site(site_index);
       if (site.is_physical()) {
         domain.wrap_opt(site.position(), origin_, &relative_, &pbc_, &r2);
-        energy_ += model.energy(relative_, site, *config, model_params);
+        energy_ += model->energy(relative_, site, *config, model_params);
       }
     }
   }
 }
 
 void VisitModel::compute(
-    const ModelOneBody& model,
+    ModelOneBody * model,
     const ModelParams& model_params,
     const Select& selection,
     Configuration * config,
@@ -55,14 +55,14 @@ void VisitModel::compute(
       const Site& site = part.site(site_index);
       if (site.is_physical()) {
         domain.wrap_opt(site.position(), origin_, &relative_, &pbc_, &r2);
-        energy_ += model.energy(relative_, site, *config, model_params);
+        energy_ += model->energy(relative_, site, *config, model_params);
       }
     }
   }
 }
 
 void VisitModel::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {
@@ -91,7 +91,7 @@ void VisitModel::compute(
 }
 
 void VisitModel::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const ModelParams& model_params,
     const Select& selection,
     Configuration * config,
@@ -208,11 +208,11 @@ void VisitModel::compute(
 }
 
 void VisitModel::check_energy(
-    const Model& model,
+    Model * model,
     Configuration * config,
     const int group_index) {
   TRACE("checking energy");
-  model.compute(group_index, config, this);
+  model->compute(group_index, config, this);
   const double en_group = energy();
 
   // select each particle and compare half the sum with the whole
@@ -221,7 +221,7 @@ void VisitModel::check_energy(
   for (int part = 0; part < num; ++part) {
     Select select;
     select.add_particle(config->select_particle(part), part);
-    model.compute(select, group_index, config, this);
+    model->compute(select, group_index, config, this);
     TRACE("part " << part << " en " << energy());
     en_select += 0.5*energy();
   }
@@ -281,7 +281,7 @@ VisitModel::VisitModel(std::istream& istr) {
 }
 
 void VisitModel::compute(
-    const ModelThreeBody& model,
+    ModelThreeBody * model,
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {
@@ -298,7 +298,7 @@ void VisitModel::init_relative_(const Domain& domain, Position * relative,
 }
 
 void VisitModel::compute(
-    const ModelOneBody& model,
+    ModelOneBody * model,
     Configuration * config,
     const int group_index) {
   const ModelParams& model_params = config->model_params();
@@ -306,7 +306,7 @@ void VisitModel::compute(
 }
 
 void VisitModel::compute(
-    const ModelOneBody& model,
+    ModelOneBody * model,
     const Select& selection,
     Configuration * config,
     const int group_index) {
@@ -315,7 +315,7 @@ void VisitModel::compute(
 }
 
 void VisitModel::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     Configuration * config,
     const int group_index) {
   const ModelParams& model_params = config->model_params();
@@ -323,7 +323,7 @@ void VisitModel::compute(
 }
 
 void VisitModel::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const Select& selection,
     Configuration * config,
     const int group_index) {
@@ -332,7 +332,7 @@ void VisitModel::compute(
 }
 
 void VisitModel::compute(
-    const ModelThreeBody& model,
+    ModelThreeBody * model,
     Configuration * config,
     const int group_index) {
   const ModelParams& model_params = config->model_params();

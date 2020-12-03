@@ -42,7 +42,7 @@ double ModelLJShape::energy(
     const Position& wrapped_site,
     const Site& site,
     const Configuration& config,
-    const ModelParams& model_params) const {
+    const ModelParams& model_params) {
   const int type = site.type();
   const double sigma = model_params.sigma().value(type);
   const double epsilon = model_params.epsilon().value(type);

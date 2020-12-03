@@ -6,7 +6,7 @@ namespace feasst {
 double ModelOneBody::energy_no_wrap(
     const Site& site,
     const Configuration& config,
-    const ModelParams& model_params) const {
+    const ModelParams& model_params) {
   return energy(site.position(), site, config, model_params);
 }
 

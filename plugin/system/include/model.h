@@ -22,21 +22,21 @@ class Model {
     const ModelParams& model_params,
     const int group_index,
     Configuration * config,
-    VisitModel * visitor) const = 0;
+    VisitModel * visitor) = 0;
   virtual double compute(
     const int group_index,
     Configuration * config,
-    VisitModel * visitor) const = 0;
+    VisitModel * visitor) = 0;
 
   /// Same as above, except the group index is assumed to be zero (which is all
   /// particles and sites in the configuration).
   virtual double compute(
     const ModelParams& model_params,
     Configuration * config,
-    VisitModel * visitor) const = 0;
+    VisitModel * visitor) = 0;
   virtual double compute(
     Configuration * config,
-    VisitModel * visitor) const = 0;
+    VisitModel * visitor) = 0;
 
   /// Visit the model over a selection of the configuration.
   /// Optionally, restrict to groups of given index, which is only relevant for
@@ -46,12 +46,12 @@ class Model {
     const Select& selection,
     const int group_index,
     Configuration * config,
-    VisitModel * visitor) const = 0;
+    VisitModel * visitor) = 0;
   virtual double compute(
     const Select& selection,
     const int group_index,
     Configuration * config,
-    VisitModel * visitor) const = 0;
+    VisitModel * visitor) = 0;
 
   /// Same as above, except the group index is assumed to be zero (which is all
   /// particles and sites in the configuration)
@@ -59,11 +59,11 @@ class Model {
     const ModelParams& model_params,
     const Select& selection,
     Configuration * config,
-    VisitModel * visitor) const = 0;
+    VisitModel * visitor) = 0;
   virtual double compute(
     const Select& selection,
     Configuration * config,
-    VisitModel * visitor) const = 0;
+    VisitModel * visitor) = 0;
   virtual ~Model() {}
 
   /// Precompute model parameters based on existing model parameters.
@@ -75,7 +75,7 @@ class Model {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const;
+      const ModelParams& model_params);
 
   const std::string& class_name() const { return class_name_; }
 

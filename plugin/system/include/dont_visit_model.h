@@ -16,29 +16,29 @@ class DontVisitModel : public VisitModel {
   DontVisitModel() : VisitModel() {
     class_name_ = "DontVisitModel"; }
   void compute(
-      const ModelOneBody& model,
+      ModelOneBody * model,
       const ModelParams& model_params,
       Configuration * config,
       const int group_index = 0) override { set_energy(0.); }
   void compute(
-      const ModelOneBody& model,
-      const ModelParams& model_params,
-      const Select& selection,
-      Configuration * config,
-      const int group_index = 0) override { set_energy(0.); }
-  void compute(
-      const ModelTwoBody& model,
-      const ModelParams& model_params,
-      Configuration * config,
-      const int group_index = 0) override { set_energy(0.); }
-  void compute(
-      const ModelTwoBody& model,
+      ModelOneBody * model,
       const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
       const int group_index = 0) override { set_energy(0.); }
   void compute(
-      const ModelThreeBody& model,
+      ModelTwoBody * model,
+      const ModelParams& model_params,
+      Configuration * config,
+      const int group_index = 0) override { set_energy(0.); }
+  void compute(
+      ModelTwoBody * model,
+      const ModelParams& model_params,
+      const Select& selection,
+      Configuration * config,
+      const int group_index = 0) override { set_energy(0.); }
+  void compute(
+      ModelThreeBody * model,
       const ModelParams& model_params,
       Configuration * config,
       const int group_index = 0) override { set_energy(0.); }

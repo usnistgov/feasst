@@ -4,11 +4,6 @@
 
 namespace feasst {
 
-Modify::Modify(const argtype &args) : Stepper(args) {
-  ASSERT(!is_multistate() || !is_multistate_aggregate(),
-    "multistate_aggregate not implemented");
-}
-
 std::map<std::string, std::shared_ptr<Modify> >& Modify::deserialize_map() {
   static std::map<std::string, std::shared_ptr<Modify> >* ans =
      new std::map<std::string, std::shared_ptr<Modify> >();
@@ -28,30 +23,26 @@ std::shared_ptr<Modify> Modify::deserialize(std::istream& istr) {
     true);
 }
 
+void Modify::check_update_(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory) {
+  DEBUG("check update " << steps_per_update() << " " << steps_since_update());
+  if (is_time(steps_per_update(), &steps_since_update_)) {
+    update(criteria, system, trial_factory);
+  }
+}
+
 void Modify::trial(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
   if (stop_after_phase() == -1 ||
       criteria->phase() <= stop_after_phase()) {
     if (criteria->phase() > start_after_phase()) {
-      if (is_time(steps_per_update(), &steps_since_update_)) {
-        update(criteria, system, trial_factory);
-      }
+      check_update_(criteria, system, trial_factory);
       if (is_time(steps_per_write(), &steps_since_write_)) {
-        printer(write(criteria, system, trial_factory),
-                file_name(static_cast<const Criteria&>(*criteria)));
+        printer(write(criteria, system, trial_factory), file_name(*criteria));
       }
     }
-  }
-}
-
-ModifyUpdateOnly::ModifyUpdateOnly(const argtype &args) : Modify(args) {
-  // disable write
-  Modify::set_steps_per_write(-1);
-
-  // parse
-  if (!args_.key("steps_per").empty()) {
-    set_steps_per(args_.integer());
   }
 }
 
@@ -74,6 +65,16 @@ const std::vector<std::shared_ptr<Modify> >& Modify::modifiers() const {
 
 const Modify& Modify::modify(const int index) const {
   FATAL("not implemented");
+}
+
+ModifyUpdateOnly::ModifyUpdateOnly(const argtype &args) : Modify(args) {
+  // disable write
+  Modify::set_steps_per_write(-1);
+
+  // parse
+  if (!args_.key("steps_per").empty()) {
+    set_steps_per(args_.integer());
+  }
 }
 
 void ModifyUpdateOnly::set_steps_per_write(const int steps) {

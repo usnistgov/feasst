@@ -49,8 +49,8 @@ TEST(VisitModelCell, lj_reference_config) {
   model.compute(select, &config, cell_visit2.get());
   EXPECT_NEAR(visit.energy(), cell_visit2->energy(), 5e-15);
 
-  visit.check_energy(model, &config);
-  cell_visit.check_energy(model, &config);
+  visit.check_energy(&model, &config);
+  cell_visit.check_energy(&model, &config);
 }
 
 /// Use a 5 angstrom cut off
@@ -99,8 +99,8 @@ TEST(VisitModelCell, spce_reference_config) {
   model.compute(select, &config, &cell_visit);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-14);
 
-  visit.check_energy(model, &config);
-  cell_visit.check_energy(model, &config);
+  visit.check_energy(&model, &config);
+  cell_visit.check_energy(&model, &config);
 }
 
 //// add individual particles until reaching the point where the visitors are

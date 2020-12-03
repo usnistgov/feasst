@@ -20,13 +20,13 @@ class LongRangeCorrections : public VisitModel {
  public:
   LongRangeCorrections() {}
   void compute(
-      const ModelOneBody& model,
+      ModelOneBody * model,
       const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
       const int group_index) override;
   void compute(
-      const ModelOneBody& model,
+      ModelOneBody * model,
       const ModelParams& model_params,
       Configuration * config,
       const int group_index = 0) override;

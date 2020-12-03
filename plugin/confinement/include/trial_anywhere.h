@@ -1,13 +1,12 @@
 
-#ifndef FEASST_CONFINEMENT_TRIAL_ANYWHERE_NEW_ONLY_H_
-#define FEASST_CONFINEMENT_TRIAL_ANYWHERE_NEW_ONLY_H_
+#ifndef FEASST_CONFINEMENT_TRIAL_ANYWHERE__H_
+#define FEASST_CONFINEMENT_TRIAL_ANYWHERE__H_
 
 #include <memory>
 #include "utils/include/arguments.h"
 #include "monte_carlo/include/trial_move.h"
 #include "monte_carlo/include/trial_select_particle.h"
 #include "monte_carlo/include/perturb_anywhere.h"
-#include "mayer/include/trial.h"
 
 namespace feasst {
 
@@ -15,17 +14,15 @@ namespace feasst {
   Attempt to rigidly move anywhere in the box with any orientation.
   Do not compute the energy of the old configuration.
  */
-inline std::shared_ptr<Trial> MakeTrialAnywhereNewOnly(
+inline std::shared_ptr<Trial> MakeTrialAnywhere(
     const argtype &args = argtype()) {
   auto trial = MakeTrialMove(std::make_shared<TrialSelectParticle>(args),
     std::make_shared<PerturbAnywhere>(),
-    "TrialAnywhereNewOnly",
+    "TrialAnywhere",
     args);
-  trial->set_new_only(true);
-  trial->set(std::make_shared<TrialComputeMoveNewOnly>());
   return trial;
 }
 
 }  // namespace feasst
 
-#endif  // FEASST_CONFINEMENT_TRIAL_ANYWHERE_NEW_ONLY_H_
+#endif  // FEASST_CONFINEMENT_TRIAL_ANYWHERE__H_

@@ -456,7 +456,7 @@ double Ewald::net_charge(const Configuration& config) const {
 }
 
 void Ewald::compute(
-    const ModelOneBody& model,
+    ModelOneBody * model,
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {
@@ -475,7 +475,7 @@ void Ewald::compute(
 }
 
 void Ewald::compute(
-    const ModelOneBody& model,
+    ModelOneBody * model,
     const ModelParams& model_params,
     const Select& selection,
     Configuration * config,

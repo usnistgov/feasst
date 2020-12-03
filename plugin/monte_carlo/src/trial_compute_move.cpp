@@ -3,7 +3,7 @@
 
 namespace feasst {
 
-TrialComputeMove::TrialComputeMove() {
+TrialComputeMove::TrialComputeMove(const argtype& args) : TrialCompute(args) {
   class_name_ = "TrialComputeMove";
 }
 
@@ -30,8 +30,12 @@ void TrialComputeMove::perturb_and_acceptance(
   DEBUG("old: " << criteria->current_energy() << " " << acceptance->energy_old());
   DEBUG("new: " << acceptance->energy_new());
   DEBUG("energy change: " << acceptance->energy_new() - acceptance->energy_old());
-  const double delta_energy = acceptance->energy_new() - acceptance->energy_old();
-  acceptance->set_energy_new(criteria->current_energy() + delta_energy);
+  if (is_new_only()) {
+    acceptance->set_energy_new(acceptance->energy_new());
+  } else {
+    const double delta_energy = acceptance->energy_new() - acceptance->energy_old();
+    acceptance->set_energy_new(criteria->current_energy() + delta_energy);
+  }
 }
 
 std::shared_ptr<TrialCompute> TrialComputeMove::create(std::istream& istr) const {

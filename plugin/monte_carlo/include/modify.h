@@ -16,7 +16,7 @@ namespace feasst {
  */
 class Modify : public Stepper {
  public:
-  explicit Modify(const argtype &args = argtype());
+  explicit Modify(const argtype &args = argtype()) : Stepper(args) {}
 
   /// Initialize and precompute before trials.
   virtual void initialize(Criteria * criteria,
@@ -50,6 +50,11 @@ class Modify : public Stepper {
   std::shared_ptr<Modify> deserialize(std::istream& istr);
   explicit Modify(std::istream& istr) : Stepper(istr) {}
   virtual ~Modify() {}
+
+  // HWH only used by ModifyFactory
+  void check_update_(Criteria * criteria,
+    System * system,
+    TrialFactory * trial_factory);
 };
 
 /**

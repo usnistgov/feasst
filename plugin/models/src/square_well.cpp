@@ -28,7 +28,7 @@ double SquareWell::energy(
     const double squared_distance,
     const int type1,
     const int type2,
-    const ModelParams& model_params) const {
+    const ModelParams& model_params) {
   const double& sigma = model_params.mixed_sigma()[type1][type2];
   const double& epsilon = model_params.mixed_epsilon()[type1][type2];
   if (squared_distance <= sigma*sigma) {

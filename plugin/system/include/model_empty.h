@@ -17,7 +17,7 @@ class ModelEmpty : public ModelOneBody {
       const Position& wrapped_site,
       const Site& site,
       const Configuration& config,
-      const ModelParams& model_params) const override;
+      const ModelParams& model_params) override;
 
   std::shared_ptr<Model> create(std::istream& istr) const override {
     return std::make_shared<ModelEmpty>(istr);

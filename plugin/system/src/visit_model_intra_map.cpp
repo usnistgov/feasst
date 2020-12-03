@@ -50,7 +50,7 @@ void VisitModelIntraMap::precompute(Configuration * config) {
 }
 
 void VisitModelIntraMap::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const ModelParams& model_params,
     const Select& selection,
     Configuration * config,
@@ -138,7 +138,7 @@ void VisitModelIntraMap::serialize(std::ostream& ostr) const {
 }
 
 void VisitModelIntraMap::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {

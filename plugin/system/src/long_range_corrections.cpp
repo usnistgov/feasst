@@ -30,7 +30,7 @@ LongRangeCorrections::LongRangeCorrections(std::istream& istr)
 }
 
 void LongRangeCorrections::compute(
-    const ModelOneBody& model,
+    ModelOneBody * model,
     const ModelParams& model_params,
     const Select& selection,
     Configuration * config,
@@ -63,7 +63,7 @@ void LongRangeCorrections::compute(
 }
 
 void LongRangeCorrections::compute(
-    const ModelOneBody& model,
+    ModelOneBody * model,
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {

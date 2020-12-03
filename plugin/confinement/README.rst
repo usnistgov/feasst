@@ -13,7 +13,6 @@ FEASST plugin dependencies
 ============================
 
 * monte_carlo
-* mayer
 * shape
 
 API

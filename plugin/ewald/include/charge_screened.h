@@ -37,7 +37,7 @@ class ChargeScreened : public ModelTwoBody {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const override;
+      const ModelParams& model_params) override;
 
   void precompute(const ModelParams& existing) override;
 

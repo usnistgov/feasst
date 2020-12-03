@@ -17,7 +17,6 @@
 #include "monte_carlo/include/trials.h"
 #include "monte_carlo/include/metropolis.h"
 #include "monte_carlo/include/seek_num_particles.h"
-#include "mayer/include/trial.h"
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_energy_and_tune.h"
@@ -25,7 +24,7 @@
 #include "confinement/include/model_table_cartesian.h"
 #include "confinement/include/always_accept.h"
 #include "confinement/include/henry_coefficient.h"
-#include "confinement/include/trial_anywhere_new_only.h"
+#include "confinement/include/trial_anywhere.h"
 
 namespace feasst {
 
@@ -186,7 +185,7 @@ Accumulator henry(System system) {
   mc.set(system);
   mc.set(MakeThermoParams({{"beta", "1.0"}}));
   mc.set(MakeAlwaysAccept());
-  mc.add(MakeTrialAnywhereNewOnly({{"particle_type", "0"}}));
+  mc.add(MakeTrialAnywhere({{"particle_type", "0"}}));
   mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/henry"}}));
   const int henry_index = mc.num_analyzers();
   mc.add(MakeHenryCoefficient());

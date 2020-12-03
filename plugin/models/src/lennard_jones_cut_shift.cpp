@@ -55,7 +55,7 @@ double LennardJonesCutShift::energy(
     const double squared_distance,
     const int type1,
     const int type2,
-    const ModelParams& model_params) const {
+    const ModelParams& model_params) {
   const double sigma = model_params.mixed_sigma()[type1][type2];
   const double sigma_squared = sigma*sigma;
   if (squared_distance < hard_sphere_threshold_sq()*sigma_squared) {

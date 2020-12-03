@@ -59,4 +59,10 @@ Energy::Energy(std::istream& istr) : Analyze(istr) {
   ASSERT(version == 325, "mismatch version:" << version);
 }
 
+Energy::Energy(const Analyze& energy) {
+  std::stringstream ss;
+  energy.serialize(ss);
+  *this = Energy(ss);
+}
+
 }  // namespace feasst

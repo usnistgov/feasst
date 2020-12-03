@@ -20,7 +20,7 @@ inline std::shared_ptr<Trial> MakeTrialMove(
   auto trial = MakeTrial(args);
   trial->set_description(description);
   trial->add_stage(select, perturb, args);
-  trial->set(std::make_shared<TrialComputeMove>());
+  trial->set(std::make_shared<TrialComputeMove>(args));
   return trial;
 }
 

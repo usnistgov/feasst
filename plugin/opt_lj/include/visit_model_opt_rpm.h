@@ -17,7 +17,7 @@ class VisitModelOptRPM : public VisitModel {
   VisitModelOptRPM(std::shared_ptr<VisitModelInner> inner) : VisitModel(inner) {}
   void precompute(Configuration * config) override;
   void compute(
-      const ModelTwoBody& model,
+      ModelTwoBody * model,
       const ModelParams& model_params,
       const Select& selection,
       Configuration * config,

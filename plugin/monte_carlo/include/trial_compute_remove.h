@@ -19,7 +19,7 @@ namespace feasst {
  */
 class TrialComputeRemove : public TrialCompute {
  public:
-  TrialComputeRemove();
+  explicit TrialComputeRemove(const argtype& args = argtype());
 
   void perturb_and_acceptance(
       Criteria * criteria,
@@ -38,8 +38,9 @@ class TrialComputeRemove : public TrialCompute {
   void serialize_trial_compute_remove_(std::ostream& ostr) const;
 };
 
-inline std::shared_ptr<TrialComputeRemove> MakeTrialComputeRemove() {
-  return std::make_shared<TrialComputeRemove>();
+inline std::shared_ptr<TrialComputeRemove> MakeTrialComputeRemove(
+    const argtype& args = argtype()) {
+  return std::make_shared<TrialComputeRemove>(args);
 }
 
 }  // namespace feasst

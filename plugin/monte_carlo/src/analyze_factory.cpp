@@ -1,4 +1,3 @@
-#include <iostream>
 #include "monte_carlo/include/analyze_factory.h"
 #include "utils/include/serialize.h"
 
@@ -20,6 +19,19 @@ void AnalyzeFactory::initialize(Criteria * criteria,
   for (std::shared_ptr<Analyze> analyze : analyzers_) {
     analyze->initialize(criteria, system, trial_factory);
   }
+}
+
+void AnalyzeFactory::trial_(const Criteria& criteria,
+    const System& system,
+    const TrialFactory& trial_factory,
+    const int index) {
+  // timer_.start(index + 1);
+  DEBUG("index " << index << " sz " << analyzers_.size());
+  ASSERT(index < static_cast<int>(analyzers_.size()),
+    "index: " << index << " too large when there are " << analyzers_.size());
+  DEBUG(analyzers_[index]->class_name());
+  analyzers_[index]->trial(criteria, system, trial_factory);
+  // timer_.end();
 }
 
 void AnalyzeFactory::trial(const Criteria& criteria,
@@ -69,19 +81,6 @@ void AnalyzeFactory::trial(const Criteria& criteria,
       trial_(criteria, system, trial_factory, index);
     }
   }
-}
-
-void AnalyzeFactory::trial_(const Criteria& criteria,
-    const System& system,
-    const TrialFactory& trial_factory,
-    const int index) {
-  // timer_.start(index + 1);
-  DEBUG("index " << index << " sz " << analyzers_.size());
-  ASSERT(index < static_cast<int>(analyzers_.size()),
-    "index: " << index << " too large when there are " << analyzers_.size());
-  DEBUG(analyzers_[index]->class_name());
-  analyzers_[index]->trial(criteria, system, trial_factory);
-  // timer_.end();
 }
 
 AnalyzeFactory::AnalyzeFactory(std::istream& istr) : Analyze(istr) {

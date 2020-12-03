@@ -41,13 +41,13 @@ class VisitModelIntraMap : public VisitModel {
     return include_map_[particle_type][site1][site2]; }
 
   void compute(
-      const ModelTwoBody& model,
+      ModelTwoBody * model,
       const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
       const int group_index) override;
   void compute(
-      const ModelTwoBody& model,
+      ModelTwoBody * model,
       const ModelParams& model_params,
       Configuration * config,
       const int group_index) override;

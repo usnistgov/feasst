@@ -37,54 +37,54 @@ class VisitModel {
     return const_cast<VisitModelInner&>(*inner_); }
 
   virtual void compute(
-      const ModelOneBody& model,
+      ModelOneBody * model,
       const ModelParams& model_params,
       Configuration * config,
       const int group_index = 0);
   virtual void compute(
-      const ModelOneBody& model,
-      const ModelParams& model_params,
-      const Select& selection,
-      Configuration * config,
-      const int group_index = 0);
-  virtual void compute(
-      const ModelTwoBody& model,
-      const ModelParams& model_params,
-      Configuration * config,
-      const int group_index = 0);
-  virtual void compute(
-      const ModelTwoBody& model,
+      ModelOneBody * model,
       const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
       const int group_index = 0);
   virtual void compute(
-      const ModelThreeBody& model,
+      ModelTwoBody * model,
+      const ModelParams& model_params,
+      Configuration * config,
+      const int group_index = 0);
+  virtual void compute(
+      ModelTwoBody * model,
+      const ModelParams& model_params,
+      const Select& selection,
+      Configuration * config,
+      const int group_index = 0);
+  virtual void compute(
+      ModelThreeBody * model,
       const ModelParams& model_params,
       Configuration * config,
       const int group_index = 0);
 
   // If model parameters are not given, then obtain them from the configuration.
   void compute(
-      const ModelOneBody& model,
+      ModelOneBody * model,
       Configuration * config,
       const int group_index = 0);
   void compute(
-      const ModelOneBody& model,
+      ModelOneBody * model,
       const Select& selection,
       Configuration * config,
       const int group_index = 0);
   void compute(
-      const ModelTwoBody& model,
+      ModelTwoBody * model,
       Configuration * config,
       const int group_index = 0);
   void compute(
-      const ModelTwoBody& model,
+      ModelTwoBody * model,
       const Select& selection,
       Configuration * config,
       const int group_index = 0);
   void compute(
-      const ModelThreeBody& model,
+      ModelThreeBody * model,
       Configuration * config,
       const int group_index = 0);
 
@@ -105,7 +105,7 @@ class VisitModel {
   /// Test if energy of whole system is consistent with sum of energy
   /// of selection by particles.
   void check_energy(
-      const Model& model,
+      Model * model,
       Configuration * config,
       const int group_index = 0);
 

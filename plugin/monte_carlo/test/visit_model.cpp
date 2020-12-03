@@ -18,7 +18,7 @@ TEST(VisitModel, spce_reference_config) {
   LennardJones model;
   VisitModel visit;
   visit.precompute(&config);
-  visit.compute(model, &config);
+  visit.compute(&model, &config);
   const double pe_lj = 827.61105444941393;
   EXPECT_NEAR(pe_lj, visit.energy(), feasst::NEAR_ZERO);
   ModelEmpty empty;

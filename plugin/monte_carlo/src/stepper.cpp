@@ -10,7 +10,9 @@
 namespace feasst {
 
 Stepper::Stepper(const argtype &args) {
+  //INFO("class name " << class_name());
   args_.init(args);
+  //INFO("args " << args_.status());
   set_steps_per_write(args_.key("steps_per_write").dflt("1").integer());
   set_steps_per_update(args_.key("steps_per_update").dflt("1").integer());
   if (args_.key("file_name").used()) set_file_name(args_.str());

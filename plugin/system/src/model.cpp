@@ -20,7 +20,7 @@ double Model::energy(
   const double squared_distance,
   const int type1,
   const int type2,
-  const ModelParams& model_params) const { FATAL("not implemented"); }
+  const ModelParams& model_params) { FATAL("not implemented"); }
 
 void Model::serialize(std::ostream& ostr) const { FATAL("not implemented"); }
 

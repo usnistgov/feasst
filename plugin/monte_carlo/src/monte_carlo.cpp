@@ -134,7 +134,8 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
       {"steps_per_update", "1"},
       {"stop_after_phase", str(analyze->stop_after_phase())},
       {"start_after_phase", str(analyze->start_after_phase())},
-      {"file_name_append_phase", str(analyze->file_name_append_phase())}});
+      {"file_name_append_phase", str(analyze->file_name_append_phase())},
+      {"multistate_aggregate", str(analyze->is_multistate_aggregate())}});
     DEBUG("making multi " << multi->is_multistate());
     for (int state = 0; state < criteria_->num_states(); ++state) {
       DEBUG("state: " << state);
@@ -157,11 +158,55 @@ void MonteCarlo::add(std::shared_ptr<Analyze> analyze) {
   analyze_factory_.add(analyze);
 }
 
-void MonteCarlo::add(const std::shared_ptr<Modify> modify) {
+// copied from above
+void MonteCarlo::add(std::shared_ptr<Modify> modify) {
   ASSERT(criteria_set_, "set Criteria before Modify");
+  DEBUG("class name? " << modify->class_name());
+  if (modify->is_multistate() && modify->class_name() != "ModifyFactory") {
+    int steps_per_write = 1;
+    std::string file_name;
+    DEBUG("aggregate? " << modify->is_multistate_aggregate());
+    if (modify->is_multistate_aggregate()) {
+      steps_per_write = modify->steps_per_write();
+      file_name = modify->file_name();
+      modify->initialize(criteria_.get(), &system_, &trial_factory_);
+    }
+    auto multi = MakeModifyFactory({
+      {"multistate", "true"},
+      {"steps_per_write", str(steps_per_write)},
+      {"file_name", file_name},
+      {"steps_per_update", "1"},
+      {"stop_after_phase", str(modify->stop_after_phase())},
+      {"start_after_phase", str(modify->start_after_phase())},
+      {"file_name_append_phase", str(modify->file_name_append_phase())},
+      {"multistate_aggregate", str(modify->is_multistate_aggregate())}});
+    DEBUG("making multi " << multi->is_multistate());
+    for (int state = 0; state < criteria_->num_states(); ++state) {
+      DEBUG("state: " << state);
+      std::shared_ptr<Modify> mod = deep_copy_derived(modify);
+      { std::stringstream ss;
+        mod->serialize(ss);
+        DEBUG(ss.str());
+      }
+      if (modify->is_multistate_aggregate()) {
+        mod->empty_file_name();
+      }
+      mod->set_state(state);
+      // mod->initialize(criteria_.get(), &system_, &trial_factory_);
+      multi->add(mod);
+    }
+    modify = multi;
+  }
   modify->initialize(criteria_.get(), &system_, &trial_factory_);
+  DEBUG("mults " << modify->is_multistate() << " class name? " << modify->class_name());
   modify_factory_.add(modify);
 }
+
+//void MonteCarlo::add(const std::shared_ptr<Modify> modify) {
+//  ASSERT(criteria_set_, "set Criteria before Modify");
+//  modify->initialize(criteria_.get(), &system_, &trial_factory_);
+//  modify_factory_.add(modify);
+//}
 
 void MonteCarlo::set(const std::shared_ptr<Checkpoint> checkpoint) {
   checkpoint_ = checkpoint;

@@ -14,7 +14,7 @@ VisitModelIntra::VisitModelIntra(const argtype& args) {
 }
 
 void VisitModelIntra::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const ModelParams& model_params,
     const Select& selection,
     Configuration * config,
@@ -120,7 +120,7 @@ void VisitModelIntra::serialize(std::ostream& ostr) const {
 }
 
 void VisitModelIntra::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const ModelParams& model_params,
     Configuration * config,
     const int group_index) {

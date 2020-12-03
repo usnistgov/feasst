@@ -1,16 +1,16 @@
 #include "utils/test/utils.h"
 #include "math/include/random_mt19937.h"
-#include "mayer/include/trial.h"
-#include "mayer/include/criteria_mayer.h"
 #include "system/include/hard_sphere.h"
 #include "system/include/utils.h"
+#include "monte_carlo/include/trials.h"
+#include "mayer/include/criteria_mayer.h"
 
 namespace feasst {
 
 TEST(CriteriaMayer, ljb2) {
   System system = two_particle_system();
   system.add_to_reference(Potential(MakeHardSphere()));
-  auto translate = MakeTrialTranslateNewOnly({{"reference_index", "0"}, {"weight", "0.75"}});
+  auto translate = MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"}, {"weight", "0.75"}});
   //auto translate = MakeTrialTranslate({{"tunable_param", "0.5"}});
   /// HWH notes: does this need a max?
   const int nTrialsEq = 1e4, nTrials = 1e4;

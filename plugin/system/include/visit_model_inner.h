@@ -29,7 +29,7 @@ class VisitModelInner {
     const int site2_index,
     const Configuration * config,
     const ModelParams& model_params,
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const bool is_old_config,
     Position * relative,
     Position * pbc);

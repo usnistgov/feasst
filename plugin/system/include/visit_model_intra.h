@@ -25,13 +25,13 @@ class VisitModelIntra : public VisitModel {
   int cutoff() const { return cutoff_; }
   void set_cutoff(const int cut) { cutoff_ = cut; }
   void compute(
-      const ModelTwoBody& model,
+      ModelTwoBody * model,
       const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
       const int group_index) override;
   void compute(
-      const ModelTwoBody& model,
+      ModelTwoBody * model,
       const ModelParams& model_params,
       Configuration * config,
       const int group_index) override;

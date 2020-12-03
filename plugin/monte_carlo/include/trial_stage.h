@@ -27,6 +27,8 @@ class TrialStage {
     - num_steps: number of Rosenbluth steps (default: 1).
     - reference_index: index of reference potential.
       Otherwise, if full potential is desired, set to -1 (default: -1).
+    - new_only: do not compute the Rosenbluth of the old configuration
+      (default: false).
    */
   explicit TrialStage(const argtype& args = argtype());
 
@@ -35,9 +37,6 @@ class TrialStage {
 
   /// Return true if the trial computes new configuration only.
   bool is_new_only() const { return is_new_only_; }
-
-  /// Set the above.
-  void set_new_only(const bool enabled = false) { is_new_only_ = enabled; }
 
   /// Return the Rosenbluth.
   const Rosenbluth& rosenbluth() const { return rosenbluth_; }

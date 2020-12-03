@@ -192,12 +192,15 @@ class Configuration {
   /// particles).
   /// Note that this method can be slow because the particle index
   /// filters out ghost particles.
+  const Particle& particle(const int index) const;
+
+  /// Same as above, but filter the particle by the group index.
+  /// Returns a copy of the filtered particle, instead of a constant reference.
   /// Note: this method can be prone to errors if used to define a constant
   /// reference to, for example, site or position in particle.
-  const Particle particle(const int index,
+  Particle particle(const int index,
     /// Provide a group index to consider only a subset of the configuration.
-    /// By default, a value of zero is for the entire configuration.
-    const int group = 0) const;
+    const int group) const;
 
   /// Return selection of all particles and sites in the configuration.
   /// This selection does not include ghost particles.

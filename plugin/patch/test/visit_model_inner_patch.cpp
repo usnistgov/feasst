@@ -21,11 +21,11 @@ TEST(VisitModelInnerPatch, patch_one) {
   visit.precompute(&config);
   patch->set_patch_angle(1, 90.);
   config.add(MakeGroup({{"add_site_type", "0"}}));
-  visit.compute(model, &config, 1);
+  visit.compute(&model, &config, 1);
   EXPECT_NEAR(-3., visit.energy(), NEAR_ZERO);
 
   auto visit2 = test_serialize<VisitModel, VisitModel>(visit);
-  visit2->compute(model, &config, 1);
+  visit2->compute(&model, &config, 1);
   EXPECT_NEAR(-3., visit2->energy(), NEAR_ZERO);
 }
 

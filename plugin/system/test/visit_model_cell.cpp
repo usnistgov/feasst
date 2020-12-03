@@ -50,8 +50,8 @@ TEST(VisitModelCell, simple_lj) {
   EXPECT_NEAR(visit.energy(), pe_lj, NEAR_ZERO);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), NEAR_ZERO);
 
-  visit.check_energy(model, &config);
-  cell_visit.check_energy(model, &config);
+  visit.check_energy(&model, &config);
+  cell_visit.check_energy(&model, &config);
 
   DEBUG("Move to the same cell");
   pos.set_vector({-1, 1, 1});
@@ -77,8 +77,8 @@ TEST(VisitModelCell, simple_lj) {
   EXPECT_NEAR(visit.energy(), pe_lj, NEAR_ZERO);
   EXPECT_NEAR(visit.energy(), cell_visit.energy(), 5e-15);
 
-  visit.check_energy(model, &config);
-  cell_visit.check_energy(model, &config);
+  visit.check_energy(&model, &config);
+  cell_visit.check_energy(&model, &config);
 }
 
 }  // namespace feasst

@@ -34,7 +34,7 @@ double ChargeSelf::energy(
     const Position& wrapped_site,
     const Site& site,
     const Configuration& config,
-    const ModelParams& model_params) const {
+    const ModelParams& model_params) {
   const int type = site.type();
   const double charge = model_params.charge().value(type);
   return -charge*charge*conversion_factor_*alpha_/std::sqrt(PI);

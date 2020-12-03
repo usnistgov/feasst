@@ -24,7 +24,7 @@ class LennardJones : public ModelTwoBody {
       const double squared_distance,
       const int type1,
       const int type2,
-      const ModelParams& model_params) const override;
+      const ModelParams& model_params) override;
 
   /// When the distance between sites does not exceed thresshold*sigma,
   /// then return NEAR_INFINITY energy.

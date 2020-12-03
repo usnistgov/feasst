@@ -16,13 +16,13 @@ class VisitModelBond : public VisitModel {
   explicit VisitModelBond(const argtype& args = argtype()) {
     class_name_ = "VisitModelBond"; }
   void compute(
-      const ModelTwoBody& model,
+      ModelTwoBody * model,
       const ModelParams& model_params,
       const Select& selection,
       Configuration * config,
       const int group_index) override;
   void compute(
-      const ModelTwoBody& model,
+      ModelTwoBody * model,
       const ModelParams& model_params,
       Configuration * config,
       const int group_index) override;

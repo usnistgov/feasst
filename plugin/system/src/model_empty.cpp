@@ -27,7 +27,7 @@ double ModelEmpty::energy(
     const Position& wrapped_site,
     const Site& site,
     const Configuration& config,
-    const ModelParams& model_params) const {
+    const ModelParams& model_params) {
   FATAL("Empty model should not be called");
 }
 

@@ -44,7 +44,7 @@ double LennardJones::energy(
     const double squared_distance,
     const int type1,
     const int type2,
-    const ModelParams& model_params) const {
+    const ModelParams& model_params) {
   TRACE("squared_distance " << squared_distance);
   TRACE("type1 " << type1);
   TRACE("type2 " << type2);

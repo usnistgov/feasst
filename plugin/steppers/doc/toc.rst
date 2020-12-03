@@ -1,9 +1,11 @@
 
 .. toctree::
 
+   PairDistributionInner
    CriteriaUpdater
    CheckProperties
    Tuner
+   SeekModify
    CheckEnergyAndTune
    CriteriaWriter
    Energy

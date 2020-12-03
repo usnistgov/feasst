@@ -2,9 +2,9 @@
 .. toctree::
 
    ModelLJShape
+   trial_anywhere
    ModelSquareWellShape
    AlwaysAccept
    HenryCoefficient
    ModelHardShape
-   trial_anywhere_new_only
    ModelTableCart1DHard

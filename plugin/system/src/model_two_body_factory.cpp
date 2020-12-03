@@ -32,7 +32,7 @@ double ModelTwoBodyFactory::energy(
     const double squared_distance,
     const int type1,
     const int type2,
-    const ModelParams& model_params) const {
+    const ModelParams& model_params) {
   double en = 0;
   // for (const std::shared_ptr<Model> model : models_) {
   for (int im = 0; im < num(); ++im) {

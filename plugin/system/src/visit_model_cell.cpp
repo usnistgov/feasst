@@ -10,7 +10,7 @@
 namespace feasst {
 
 void VisitModelCell::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const ModelParams& model_params,
     Configuration * config,
     const int cell_index) {
@@ -89,7 +89,7 @@ void VisitModelCell::compute(
 }
 
 void VisitModelCell::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const ModelParams& model_params,
     const Select& selection,
     Configuration * config,

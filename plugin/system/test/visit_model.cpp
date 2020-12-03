@@ -25,7 +25,7 @@ TEST(VisitModel, energy) {
   LennardJones model;
   VisitModel visit;
   visit.precompute(&config);
-  visit.compute(model, &config);
+  visit.compute(&model, &config);
   EXPECT_NEAR(en_lj(pos), visit.energy(), NEAR_ZERO);
 
   // check PBCs
@@ -70,7 +70,7 @@ TEST(VisitModel, reference_config) {
   LongRangeCorrections lrc;
   empty.compute(&config, &lrc);
   EXPECT_NEAR(-0.5451660014945704, lrc.energy(), NEAR_ZERO);
-  visit.check_energy(model, &config);
+  visit.check_energy(&model, &config);
 
   // test factory double counts with two identical LJ models.
   ModelTwoBodyFactory factory({MakeLennardJones(), MakeLennardJones()});
@@ -83,7 +83,7 @@ TEST(VisitModel, reference_config) {
   // Find energy of one particle
   Select one;
   one.add_particle(config.particle(0), 0);
-  visit.compute(model, one, &config);
+  visit.compute(&model, one, &config);
   EXPECT_NEAR(-3.2639025245521616, visit.energy(), NEAR_ZERO);
 }
 

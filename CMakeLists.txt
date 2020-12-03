@@ -143,7 +143,7 @@ endif()
 # Confinement
 list (FIND FEASST_PLUGINS "confinement" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstconfinement feasstmonte_carlo feasstmayer feasstshape)
+  target_link_libraries(feasstconfinement feasstmonte_carlo feasstshape)
 endif()
 
 # patch

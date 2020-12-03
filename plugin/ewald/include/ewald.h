@@ -107,7 +107,7 @@ class Ewald : public VisitModel {
   /// Compute interactions of entire group in configuration from scratch.
   /// This is not optimized for smaller perturbations to the configuration.
   void compute(
-      const ModelOneBody& model,
+      ModelOneBody * model,
       const ModelParams& model_params,
       Configuration * config,
       const int group_index = 0) override;
@@ -143,7 +143,7 @@ class Ewald : public VisitModel {
     Return the new minus old energy.
    */
   void compute(
-      const ModelOneBody& model,
+      ModelOneBody * model,
       const ModelParams& model_params,
       const Select& selection,
       Configuration * config,

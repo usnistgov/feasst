@@ -6,7 +6,7 @@
 
 namespace feasst {
 
-TrialComputeAdd::TrialComputeAdd() {
+TrialComputeAdd::TrialComputeAdd(const argtype& args) : TrialCompute(args) {
   class_name_ = "TrialComputeAdd";
 }
 

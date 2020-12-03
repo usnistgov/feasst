@@ -552,8 +552,13 @@ void Configuration::revive(const Select& selection) {
   }
 }
 
-const Particle Configuration::particle(const int index,
-                                       const int group) const {
+const Particle& Configuration::particle(const int index) const {
+  const int particle_index = selection_of_all().particle_index(index);
+  return particles_.particle(particle_index);
+}
+
+Particle Configuration::particle(const int index,
+                                 const int group) const {
   const Select& select_group = group_selects_[group];
   const int particle_index = select_group.particle_index(index);
   Particle part = particles_.particle(particle_index);

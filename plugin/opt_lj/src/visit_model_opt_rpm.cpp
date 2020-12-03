@@ -17,7 +17,7 @@ void VisitModelOptRPM::precompute(Configuration * config) {
 }
 
 void VisitModelOptRPM::compute(
-    const ModelTwoBody& model,
+    ModelTwoBody * model,
     const ModelParams& model_params,
     const Select& selection,
     Configuration * config,
