@@ -1,4 +1,3 @@
-
 #include <cmath>
 #include <numeric>
 #include <sstream>
@@ -42,11 +41,11 @@ void Accumulator::accumulate(double value) {
   // accumulate block averages
   if (num_blocks_ != 0) {
     sum_block_ += value;
-    if (num_values_ % num_blocks_ == 0) {
+    if (std::abs(std::fmod(num_values_, num_blocks_)) < 0.1) {
       if (block_averages_ == NULL) {
         block_averages_ = std::make_shared<Accumulator>();
       }
-      block_averages_->accumulate(sum_block_/static_cast<double>(num_blocks_));
+      block_averages_->accumulate(sum_block_/num_blocks_);
       sum_block_ = 0.;
     }
   }
@@ -66,7 +65,7 @@ void Accumulator::reset() {
 double Accumulator::average() const {
   double av = 0;
   if (num_values_ > 0) {
-    av = static_cast<double>(sum_ / static_cast<double>(num_values_));
+    av = static_cast<double>(sum_/num_values_);
   }
   return av;
 }
@@ -74,10 +73,10 @@ double Accumulator::average() const {
 double Accumulator::stdev() const {
   double stdev = 0;
   if (num_values_ > 1) {
-    const double fluct = sum_squared_/static_cast<double>(num_values_)
+    const double fluct = sum_squared_/num_values_
                        - std::pow(average(), 2);
     if (fluct > 0.) {
-      stdev = sqrt(fluct*num_values_ / static_cast<double>(num_values_ - 1));
+      stdev = sqrt(fluct*num_values_/(num_values_ - 1));
     }
   }
   return stdev;
@@ -88,7 +87,7 @@ double Accumulator::block_stdev() const {
     if (block_averages_ != NULL) {
       if (block_averages_->num_values() > 1) {
         return block_averages_->std()/
-               sqrt(static_cast<int>(block_averages_->num_values()));
+               std::sqrt(block_averages_->num_values());
       }
     }
   }
@@ -96,10 +95,10 @@ double Accumulator::block_stdev() const {
 }
 
 double Accumulator::stdev_of_av() const {
-  return std()/sqrt(static_cast<double>(num_values()));
+  return std()/std::sqrt(num_values());
 }
 
-void Accumulator::set_block(const long long num_block) {
+void Accumulator::set_block(const double num_block) {
   num_blocks_ = num_block;
 }
 

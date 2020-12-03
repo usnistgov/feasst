@@ -55,16 +55,16 @@ class Accumulator {
    */
   void set_block(
     /// number of values per block
-    const long long num_block = 1e5);
+    const double num_block = 1e5);
 
   /// Return number of values per block.
-  long long num_block() const { return num_blocks_; }
+  double num_block() const { return num_blocks_; }
 
   /// Return standard deviation of the block averages (0 if not enough blocks).
   double block_stdev() const;
 
   /// Return number of values accumulated.
-  long long num_values() const { return (long long)num_values_; }
+  double num_values() const { return num_values_; }
 
   /// Return sum of all values accumulated.
   long double sum() const { return sum_; }
@@ -119,7 +119,7 @@ class Accumulator {
   explicit Accumulator(std::istream& istr);
 
  private:
-  long long num_values_;
+  double num_values_;
   long double sum_;
   long double sum_squared_;
   double max_, min_;
@@ -130,7 +130,7 @@ class Accumulator {
   std::vector<long double> val_moment_;
 
   // block averaging variables
-  long long num_blocks_;
+  double num_blocks_;
   long double sum_block_;         //!< sum of all values accumulated
 
   /// accumulate averages of each block
