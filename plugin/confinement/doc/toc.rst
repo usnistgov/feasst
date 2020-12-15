@@ -4,7 +4,7 @@
    ModelLJShape
    trial_anywhere
    ModelSquareWellShape
-   AlwaysAccept
+   AlwaysReject
    HenryCoefficient
    ModelHardShape
    ModelTableCart1DHard

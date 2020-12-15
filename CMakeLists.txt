@@ -14,7 +14,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -pedantic -g -pthread")
 #set(FEASST_PLUGINS "utils;math;configuration")
 #set(FEASST_PLUGINS "utils;math;configuration;system")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo")
-set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;cluster")
+#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;cluster")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;threads;ewald;cluster;flat_histogram")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;opt_lj;cluster")
@@ -31,7 +31,7 @@ set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;ewald;flat_histogram;egce;cluster")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;chain;flat_histogram;growth_expanded")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;shape;threads;confinement;chain;flat_histogram;ewald;opt_lj")
-#set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;threads;flat_histogram;ewald;growth_expanded;opt_lj;cluster;prefetch;egce;beta_expanded")
+set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;threads;flat_histogram;ewald;growth_expanded;opt_lj;cluster;prefetch;egce;beta_expanded")
 #set(FEASST_PLUGINS "utils;math;configuration;system;steppers;monte_carlo;models;patch;mayer;example;shape;confinement;chain;threads;flat_histogram;ewald;growth_expanded;opt_lj;cluster;prefetch;egce;xtc")
 # Note, if you change the plugin list and want to use the python interface,
 # you also need to run "../py/run.sh ../dev/tools/depend.py -s ../"

@@ -13,6 +13,7 @@ class MonteCarlo;
 class AnalyzeData {
  public:
   virtual double get(const Analyze& analyze) const = 0;
+  virtual ~AnalyzeData() {}
 };
 
 /// Obtain Accumulator average in Analyze.
@@ -21,6 +22,7 @@ class AccumulatorAverage : public AnalyzeData {
   double get(const Analyze& analyze) const override {
     return analyze.accumulator().average();
   }
+  virtual ~AccumulatorAverage() {}
 };
 
 /// Obtain Accumulator sum
@@ -29,6 +31,7 @@ class AccumulatorSum : public AnalyzeData {
   double get(const Analyze& analyze) const override {
     return analyze.accumulator().sum();
   }
+  virtual ~AccumulatorSum() {}
 };
 
 /// Obtain Accumulator sum of squared
@@ -37,6 +40,7 @@ class AccumulatorSumOfSquared : public AnalyzeData {
   double get(const Analyze& analyze) const override {
     return analyze.accumulator().sum_of_squared();
   }
+  virtual ~AccumulatorSumOfSquared() {}
 };
 
 /// Obtain the average moment of Accumulator
@@ -47,6 +51,7 @@ class AccumulatorMoment : public AnalyzeData {
     const Accumulator& acc = analyze.accumulator();
     return acc.moment(moment_)/acc.num_values();
   }
+  virtual ~AccumulatorMoment() {}
  private:
   int moment_;
 };

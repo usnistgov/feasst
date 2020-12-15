@@ -25,6 +25,8 @@
 #include "monte_carlo/include/tunable.h"
 #include "system/include/model.h"
 #include "system/include/synchronize_data.h"
+#include "threads/include/thread.h"
+#include "threads/include/thread_omp.h"
 #include "utils/include/timer.h"
 #include "utils/include/file.h"
 #include "utils/include/argument_parse.h"
@@ -46,9 +48,22 @@
 #include "monte_carlo/include/stepper.h"
 #include "math/include/histogram.h"
 #include "math/include/formula.h"
+#include "shape/include/formula_sine_wave.h"
 #include "math/include/formula_polynomial.h"
 #include "math/include/utils_math.h"
 #include "math/include/position.h"
+#include "shape/include/shape.h"
+#include "shape/include/half_space_tilted.h"
+#include "shape/include/sphere.h"
+#include "shape/include/half_space.h"
+#include "shape/include/half_space_sine.h"
+#include "shape/include/cuboid.h"
+#include "shape/include/cylinder.h"
+#include "shape/include/shape_union.h"
+#include "shape/include/shape_intersect.h"
+#include "shape/include/slab_sine.h"
+#include "shape/include/finite_cylinder.h"
+#include "shape/include/slab.h"
 #include "system/include/bond_three_body.h"
 #include "system/include/angle_square_well.h"
 #include "system/include/bond_two_body.h"
@@ -63,6 +78,7 @@
 #include "system/include/model_two_body.h"
 #include "models/include/yukawa.h"
 #include "models/include/square_well.h"
+#include "example/include/model_example.h"
 #include "system/include/ideal_gas.h"
 #include "system/include/model_two_body_factory.h"
 #include "system/include/hard_sphere.h"
@@ -86,37 +102,46 @@
 #include "configuration/include/particle_factory.h"
 #include "configuration/include/select.h"
 #include "monte_carlo/include/rosenbluth.h"
-#include "monte_carlo/include/acceptance.h"
 #include "configuration/include/cells.h"
+#include "monte_carlo/include/acceptance.h"
 #include "configuration/include/visit_particles.h"
 #include "configuration/include/configuration.h"
 #include "system/include/potential.h"
 #include "system/include/potential_factory.h"
 #include "system/include/system.h"
-#include "system/include/utils.h"
 #include "monte_carlo/include/trial_select.h"
 #include "monte_carlo/include/trial_select_bond.h"
 #include "monte_carlo/include/trial_select_angle.h"
+#include "chain/include/select_branch.h"
+#include "monte_carlo/include/trial_select_particle.h"
+#include "chain/include/select_segment.h"
+#include "chain/include/select_end_segment.h"
+#include "chain/include/select_reptate.h"
+#include "cluster/include/select_cluster.h"
+#include "cluster/include/select_particle_avb.h"
+#include "cluster/include/select_particle_avb_divalent.h"
+#include "chain/include/select_site_of_type.h"
+#include "chain/include/select_perturbed.h"
+#include "beta_expanded/include/select_nothing.h"
 #include "monte_carlo/include/perturb.h"
 #include "monte_carlo/include/perturb_move.h"
 #include "monte_carlo/include/perturb_translate.h"
 #include "monte_carlo/include/perturb_distance.h"
+#include "chain/include/perturb_reptate.h"
 #include "cluster/include/perturb_point_reflect.h"
 #include "monte_carlo/include/perturb_volume.h"
-#include "monte_carlo/include/trial_select_particle.h"
-#include "cluster/include/select_particle_avb.h"
-#include "cluster/include/select_particle_avb_divalent.h"
-#include "cluster/include/select_cluster.h"
+#include "growth_expanded/include/perturb_particle_type.h"
+#include "beta_expanded/include/perturb_beta.h"
+#include "system/include/utils.h"
 #include "monte_carlo/include/criteria.h"
-#include "monte_carlo/include/metropolis.h"
+#include "monte_carlo/include/constraint.h"
+#include "monte_carlo/include/constrain_num_particles.h"
+#include "egce/include/a_half_b.h"
+#include "egce/include/a_equal_b.h"
 #include "monte_carlo/include/trial_stage.h"
 #include "monte_carlo/include/trial_compute.h"
 #include "monte_carlo/include/trial.h"
-#include "cluster/include/trial_avb4.h"
 #include "monte_carlo/include/trial_factory.h"
-#include "cluster/include/trial_avb2.h"
-#include "cluster/include/trial_transfer_avb_divalent.h"
-#include "cluster/include/trial_transfer_avb.h"
 #include "monte_carlo/include/analyze.h"
 #include "monte_carlo/include/analyze_factory.h"
 #include "steppers/include/log_and_movie.h"
@@ -133,19 +158,39 @@
 #include "steppers/include/log.h"
 #include "steppers/include/energy.h"
 #include "steppers/include/criteria_writer.h"
+#include "chain/include/check_rigid_bonds.h"
 #include "monte_carlo/include/modify.h"
-#include "steppers/include/pair_distribution.h"
 #include "steppers/include/check_energy.h"
 #include "monte_carlo/include/modify_factory.h"
 #include "monte_carlo/include/monte_carlo.h"
+#include "prefetch/include/prefetch.h"
 #include "steppers/include/check_energy_and_tune.h"
 #include "steppers/include/seek_modify.h"
 #include "steppers/include/tuner.h"
 #include "steppers/include/check_properties.h"
 #include "steppers/include/criteria_updater.h"
-#include "monte_carlo/include/seek_num_particles.h"
-#include "monte_carlo/include/trials.h"
+#include "steppers/include/pair_distribution.h"
+#include "chain/include/recenter_particles.h"
+#include "cluster/include/trial_avb2.h"
 #include "cluster/include/trial_rigid_cluster.h"
+#include "cluster/include/trial_transfer_avb_divalent.h"
+#include "cluster/include/trial_transfer_avb.h"
+#include "monte_carlo/include/seek_num_particles.h"
+#include "chain/include/trials.h"
+#include "monte_carlo/include/trials.h"
+#include "cluster/include/trial_avb4.h"
+#include "beta_expanded/include/trial_beta.h"
+#include "growth_expanded/include/trial_morph.h"
+#include "growth_expanded/include/trial_morph_expanded.h"
+#include "cluster/include/compute_remove_avb_divalent.h"
+#include "growth_expanded/include/compute_morph.h"
+#include "growth_expanded/include/trial_growth_expanded.h"
+#include "monte_carlo/include/trial_compute_move.h"
+#include "monte_carlo/include/trial_move.h"
+#include "cluster/include/compute_avb4.h"
+#include "cluster/include/compute_avb2.h"
+#include "monte_carlo/include/metropolis.h"
+#include "beta_expanded/include/compute_beta.h"
 #include "monte_carlo/include/trial_compute_volume.h"
 #include "monte_carlo/include/trial_compute_remove.h"
 #include "cluster/include/compute_move_cluster.h"
@@ -154,13 +199,6 @@
 #include "cluster/include/compute_gca.h"
 #include "monte_carlo/include/trial_compute_add.h"
 #include "cluster/include/compute_add_avb_divalent.h"
-#include "monte_carlo/include/trial_compute_move.h"
-#include "monte_carlo/include/trial_move.h"
-#include "cluster/include/compute_remove_avb_divalent.h"
-#include "cluster/include/compute_avb2.h"
-#include "cluster/include/compute_avb4.h"
-#include "monte_carlo/include/constraint.h"
-#include "monte_carlo/include/constrain_num_particles.h"
 #include "configuration/include/visit_configuration.h"
 #include "configuration/include/file_xyz.h"
 #include "steppers/include/movie.h"
@@ -175,18 +213,64 @@
 #include "math/include/formula_exponential.h"
 #include "math/include/matrix.h"
 #include "monte_carlo/include/perturb_rotate.h"
+#include "chain/include/perturb_pivot.h"
+#include "chain/include/perturb_crankshaft.h"
 #include "cluster/include/perturb_rotate_com.h"
 #include "cluster/include/perturb_move_avb.h"
 #include "cluster/include/perturb_add_avb.h"
 #include "monte_carlo/include/perturb_anywhere.h"
+#include "chain/include/perturb_site_type.h"
+#include "chain/include/trial_grow_linear.h"
 #include "monte_carlo/include/perturb_add.h"
 #include "monte_carlo/include/perturb_remove.h"
 #include "monte_carlo/include/perturb_distance_angle.h"
+#include "chain/include/perturb_branch.h"
 #include "math/include/random_mt19937.h"
 #include "math/include/solver.h"
 #include "math/include/solver_newton_raphson.h"
 #include "math/include/solver_bisection.h"
 #include "math/include/solver_brent_dekker.h"
+#include "opt_lj/include/visit_model_opt_lj.h"
+#include "opt_lj/include/visit_model_opt_rpm.h"
+#include "ewald/include/trial_remove_multiple.h"
+#include "ewald/include/trial_add_multiple.h"
+#include "ewald/include/charge_self.h"
+#include "ewald/include/charge_screened.h"
+#include "ewald/include/utils.h"
+#include "ewald/include/trial_transfer_multiple.h"
+#include "ewald/include/coulomb.h"
+#include "ewald/include/compute_remove_multiple.h"
+#include "ewald/include/compute_add_multiple.h"
+#include "ewald/include/charge_screened_intra.h"
+#include "ewald/include/ewald.h"
+#include "ewald/include/check_net_charge.h"
+#include "mayer/include/criteria_mayer.h"
+#include "confinement/include/model_lj_shape.h"
+#include "confinement/include/trial_anywhere.h"
+#include "confinement/include/model_square_well_shape.h"
+#include "confinement/include/always_reject.h"
+#include "confinement/include/henry_coefficient.h"
+#include "confinement/include/model_hard_shape.h"
+#include "confinement/include/model_table_cartesian.h"
+#include "patch/include/patch_angle.h"
+#include "patch/include/visit_model_inner_patch.h"
+#include "flat_histogram/include/window.h"
+#include "flat_histogram/include/window_custom.h"
+#include "flat_histogram/include/window_exponential.h"
+#include "flat_histogram/include/ln_probability.h"
+#include "flat_histogram/include/collection_matrix.h"
+#include "flat_histogram/include/bias.h"
+#include "flat_histogram/include/transition_matrix.h"
+#include "flat_histogram/include/wang_landau.h"
+#include "flat_histogram/include/wltm.h"
+#include "flat_histogram/include/macrostate.h"
+#include "beta_expanded/include/macrostate_beta.h"
+#include "growth_expanded/include/macrostate_morph.h"
+#include "growth_expanded/include/macrostate_growth_expanded.h"
+#include "flat_histogram/include/macrostate_num_particles.h"
+#include "flat_histogram/include/ensemble.h"
+#include "flat_histogram/include/flat_histogram.h"
+#include "flat_histogram/include/clones.h"
 using namespace feasst;
 %}
 %include "std_string.i"
@@ -222,6 +306,8 @@ using namespace std;
 %shared_ptr(feasst::Tunable);
 %shared_ptr(feasst::Model);
 %shared_ptr(feasst::SynchronizeData);
+%shared_ptr(feasst::Thread);
+%shared_ptr(feasst::ThreadOMP);
 %shared_ptr(feasst::Timer);
 %shared_ptr(feasst::ArgumentParse);
 %shared_ptr(feasst::CustomException);
@@ -245,9 +331,23 @@ using namespace std;
 %shared_ptr(feasst::Stepper);
 %shared_ptr(feasst::Histogram);
 %shared_ptr(feasst::Formula);
+%shared_ptr(feasst::FormulaSineWave);
 %shared_ptr(feasst::FormulaPolynomial);
 %shared_ptr(feasst::Position);
 %shared_ptr(feasst::SpatialEntity);
+%shared_ptr(feasst::Shape);
+%shared_ptr(feasst::ShapedEntity);
+%shared_ptr(feasst::HalfSpaceTilted);
+%shared_ptr(feasst::Sphere);
+%shared_ptr(feasst::HalfSpace);
+%shared_ptr(feasst::HalfSpaceSine);
+%shared_ptr(feasst::Cuboid);
+%shared_ptr(feasst::Cylinder);
+%shared_ptr(feasst::ShapeUnion);
+%shared_ptr(feasst::ShapeIntersect);
+%shared_ptr(feasst::SlabSine);
+%shared_ptr(feasst::FiniteCylinder);
+%shared_ptr(feasst::Slab);
 %shared_ptr(feasst::BondThreeBody);
 %shared_ptr(feasst::AngleSquareWell);
 %shared_ptr(feasst::BondTwoBody);
@@ -262,6 +362,7 @@ using namespace std;
 %shared_ptr(feasst::ModelTwoBody);
 %shared_ptr(feasst::Yukawa);
 %shared_ptr(feasst::SquareWell);
+%shared_ptr(feasst::ModelExample);
 %shared_ptr(feasst::IdealGas);
 %shared_ptr(feasst::ModelTwoBodyFactory);
 %shared_ptr(feasst::HardSphere);
@@ -292,8 +393,8 @@ using namespace std;
 %shared_ptr(feasst::ParticleFactory);
 %shared_ptr(feasst::Select);
 %shared_ptr(feasst::Rosenbluth);
-%shared_ptr(feasst::Acceptance);
 %shared_ptr(feasst::Cells);
+%shared_ptr(feasst::Acceptance);
 %shared_ptr(feasst::VisitParticles);
 %shared_ptr(feasst::LoopOneBody);
 %shared_ptr(feasst::Configuration);
@@ -303,18 +404,31 @@ using namespace std;
 %shared_ptr(feasst::TrialSelect);
 %shared_ptr(feasst::TrialSelectBond);
 %shared_ptr(feasst::TrialSelectAngle);
+%shared_ptr(feasst::SelectBranch);
+%shared_ptr(feasst::TrialSelectParticle);
+%shared_ptr(feasst::SelectSegment);
+%shared_ptr(feasst::SelectEndSegment);
+%shared_ptr(feasst::SelectReptate);
+%shared_ptr(feasst::SelectCluster);
+%shared_ptr(feasst::SelectParticleAVB);
+%shared_ptr(feasst::SelectParticleAVBDivalent);
+%shared_ptr(feasst::SelectSiteOfType);
+%shared_ptr(feasst::SelectPerturbed);
+%shared_ptr(feasst::SelectNothing);
 %shared_ptr(feasst::Perturb);
 %shared_ptr(feasst::PerturbMove);
 %shared_ptr(feasst::PerturbTranslate);
 %shared_ptr(feasst::PerturbDistance);
+%shared_ptr(feasst::PerturbReptate);
 %shared_ptr(feasst::PerturbPointReflect);
 %shared_ptr(feasst::PerturbVolume);
-%shared_ptr(feasst::TrialSelectParticle);
-%shared_ptr(feasst::SelectParticleAVB);
-%shared_ptr(feasst::SelectParticleAVBDivalent);
-%shared_ptr(feasst::SelectCluster);
+%shared_ptr(feasst::PerturbParticleType);
+%shared_ptr(feasst::PerturbBeta);
 %shared_ptr(feasst::Criteria);
-%shared_ptr(feasst::Metropolis);
+%shared_ptr(feasst::Constraint);
+%shared_ptr(feasst::ConstrainNumParticles);
+%shared_ptr(feasst::AHalfB);
+%shared_ptr(feasst::AEqualB);
 %shared_ptr(feasst::TrialStage);
 %shared_ptr(feasst::TrialCompute);
 %shared_ptr(feasst::Trial);
@@ -342,19 +456,35 @@ using namespace std;
 %shared_ptr(feasst::Log);
 %shared_ptr(feasst::Energy);
 %shared_ptr(feasst::CriteriaWriter);
+%shared_ptr(feasst::CheckRigidBonds);
 %shared_ptr(feasst::Modify);
 %shared_ptr(feasst::ModifyUpdateOnly);
-%shared_ptr(feasst::PairDistributionInner);
-%shared_ptr(feasst::PairDistribution);
 %shared_ptr(feasst::CheckEnergy);
 %shared_ptr(feasst::ModifyFactory);
 %shared_ptr(feasst::MonteCarlo);
+%shared_ptr(feasst::Pool);
+%shared_ptr(feasst::Prefetch);
 %shared_ptr(feasst::CheckEnergyAndTune);
 %shared_ptr(feasst::SeekModify);
 %shared_ptr(feasst::Tuner);
 %shared_ptr(feasst::CheckProperties);
 %shared_ptr(feasst::CriteriaUpdater);
+%shared_ptr(feasst::PairDistributionInner);
+%shared_ptr(feasst::PairDistribution);
+%shared_ptr(feasst::RecenterParticles);
 %shared_ptr(feasst::SeekNumParticles);
+%shared_ptr(feasst::TrialMorphExpanded);
+%shared_ptr(feasst::ComputeRemoveAVBDivalent);
+%shared_ptr(feasst::ComputeMorph);
+%shared_ptr(feasst::TrialComputeGrowAdd);
+%shared_ptr(feasst::TrialComputeGrowRemove);
+%shared_ptr(feasst::TrialComputeGrow);
+%shared_ptr(feasst::TrialGrowthExpanded);
+%shared_ptr(feasst::TrialComputeMove);
+%shared_ptr(feasst::ComputeAVB4);
+%shared_ptr(feasst::ComputeAVB2);
+%shared_ptr(feasst::Metropolis);
+%shared_ptr(feasst::ComputeBeta);
 %shared_ptr(feasst::TrialComputeVolume);
 %shared_ptr(feasst::TrialComputeRemove);
 %shared_ptr(feasst::ComputeMoveCluster);
@@ -363,12 +493,6 @@ using namespace std;
 %shared_ptr(feasst::ComputeGCA);
 %shared_ptr(feasst::TrialComputeAdd);
 %shared_ptr(feasst::ComputeAddAVBDivalent);
-%shared_ptr(feasst::TrialComputeMove);
-%shared_ptr(feasst::ComputeRemoveAVBDivalent);
-%shared_ptr(feasst::ComputeAVB2);
-%shared_ptr(feasst::ComputeAVB4);
-%shared_ptr(feasst::Constraint);
-%shared_ptr(feasst::ConstrainNumParticles);
 %shared_ptr(feasst::VisitConfiguration);
 %shared_ptr(feasst::LoopConfigOneBody);
 %shared_ptr(feasst::FileVMD);
@@ -383,24 +507,72 @@ using namespace std;
 %shared_ptr(feasst::Matrix);
 %shared_ptr(feasst::RotationMatrix);
 %shared_ptr(feasst::PerturbRotate);
+%shared_ptr(feasst::PerturbPivot);
+%shared_ptr(feasst::PerturbCrankshaft);
 %shared_ptr(feasst::PerturbRotateCOM);
 %shared_ptr(feasst::PerturbMoveAVB);
 %shared_ptr(feasst::PerturbAddAVB);
 %shared_ptr(feasst::PerturbAnywhere);
+%shared_ptr(feasst::PerturbSiteType);
+%shared_ptr(feasst::TrialGrowLinear);
 %shared_ptr(feasst::PerturbAdd);
 %shared_ptr(feasst::PerturbRemove);
 %shared_ptr(feasst::PerturbDistanceAngle);
+%shared_ptr(feasst::PerturbBranch);
 %shared_ptr(feasst::RandomMT19937);
 %shared_ptr(feasst::Solver);
 %shared_ptr(feasst::SolverNewtonRaphson);
 %shared_ptr(feasst::SolverBisection);
 %shared_ptr(feasst::SolverBrentDekker);
+%shared_ptr(feasst::VisitModelOptLJ);
+%shared_ptr(feasst::VisitModelOptRPM);
+%shared_ptr(feasst::ChargeSelf);
+%shared_ptr(feasst::ChargeScreened);
+%shared_ptr(feasst::Coulomb);
+%shared_ptr(feasst::ComputeRemoveMultiple);
+%shared_ptr(feasst::ComputeAddMultiple);
+%shared_ptr(feasst::ChargeScreenedIntra);
+%shared_ptr(feasst::Ewald);
+%shared_ptr(feasst::CheckNetCharge);
+%shared_ptr(feasst::CriteriaMayer);
+%shared_ptr(feasst::ModelLJShape);
+%shared_ptr(feasst::ModelSquareWellShape);
+%shared_ptr(feasst::AlwaysReject);
+%shared_ptr(feasst::HenryCoefficient);
+%shared_ptr(feasst::ModelHardShape);
+%shared_ptr(feasst::ModelTableCart1DHard);
+%shared_ptr(feasst::ModelTableCart2DIntegr);
+%shared_ptr(feasst::ModelTableCart3DIntegr);
+%shared_ptr(feasst::PatchAngle);
+%shared_ptr(feasst::CosPatchAngle);
+%shared_ptr(feasst::VisitModelInnerPatch);
+%shared_ptr(feasst::Window);
+%shared_ptr(feasst::WindowCustom);
+%shared_ptr(feasst::WindowExponential);
+%shared_ptr(feasst::LnProbability);
+%shared_ptr(feasst::TripleBandedCollectionMatrix);
+%shared_ptr(feasst::Bias);
+%shared_ptr(feasst::TransitionMatrix);
+%shared_ptr(feasst::WangLandau);
+%shared_ptr(feasst::WLTM);
+%shared_ptr(feasst::Macrostate);
+%shared_ptr(feasst::MacrostateBeta);
+%shared_ptr(feasst::MacrostateMorph);
+%shared_ptr(feasst::MacrostateGrowthExpanded);
+%shared_ptr(feasst::MacrostateNumParticles);
+%shared_ptr(feasst::Ensemble);
+%shared_ptr(feasst::GrandCanonicalEnsemble);
+%shared_ptr(feasst::ExtrapolateBetaGCE);
+%shared_ptr(feasst::FlatHistogram);
+%shared_ptr(feasst::Clones);
 %include configuration/include/properties.h
 %include configuration/include/typed_entity.h
 %include configuration/include/bond.h
 %include monte_carlo/include/tunable.h
 %include system/include/model.h
 %include system/include/synchronize_data.h
+%include threads/include/thread.h
+%include threads/include/thread_omp.h
 %include utils/include/timer.h
 %include utils/include/file.h
 %include utils/include/argument_parse.h
@@ -422,9 +594,22 @@ using namespace std;
 %include monte_carlo/include/stepper.h
 %include math/include/histogram.h
 %include math/include/formula.h
+%include shape/include/formula_sine_wave.h
 %include math/include/formula_polynomial.h
 %include math/include/utils_math.h
 %include math/include/position.h
+%include shape/include/shape.h
+%include shape/include/half_space_tilted.h
+%include shape/include/sphere.h
+%include shape/include/half_space.h
+%include shape/include/half_space_sine.h
+%include shape/include/cuboid.h
+%include shape/include/cylinder.h
+%include shape/include/shape_union.h
+%include shape/include/shape_intersect.h
+%include shape/include/slab_sine.h
+%include shape/include/finite_cylinder.h
+%include shape/include/slab.h
 %include system/include/bond_three_body.h
 %include system/include/angle_square_well.h
 %include system/include/bond_two_body.h
@@ -439,6 +624,7 @@ using namespace std;
 %include system/include/model_two_body.h
 %include models/include/yukawa.h
 %include models/include/square_well.h
+%include example/include/model_example.h
 %include system/include/ideal_gas.h
 %include system/include/model_two_body_factory.h
 %include system/include/hard_sphere.h
@@ -462,37 +648,46 @@ using namespace std;
 %include configuration/include/particle_factory.h
 %include configuration/include/select.h
 %include monte_carlo/include/rosenbluth.h
-%include monte_carlo/include/acceptance.h
 %include configuration/include/cells.h
+%include monte_carlo/include/acceptance.h
 %include configuration/include/visit_particles.h
 %include configuration/include/configuration.h
 %include system/include/potential.h
 %include system/include/potential_factory.h
 %include system/include/system.h
-%include system/include/utils.h
 %include monte_carlo/include/trial_select.h
 %include monte_carlo/include/trial_select_bond.h
 %include monte_carlo/include/trial_select_angle.h
+%include chain/include/select_branch.h
+%include monte_carlo/include/trial_select_particle.h
+%include chain/include/select_segment.h
+%include chain/include/select_end_segment.h
+%include chain/include/select_reptate.h
+%include cluster/include/select_cluster.h
+%include cluster/include/select_particle_avb.h
+%include cluster/include/select_particle_avb_divalent.h
+%include chain/include/select_site_of_type.h
+%include chain/include/select_perturbed.h
+%include beta_expanded/include/select_nothing.h
 %include monte_carlo/include/perturb.h
 %include monte_carlo/include/perturb_move.h
 %include monte_carlo/include/perturb_translate.h
 %include monte_carlo/include/perturb_distance.h
+%include chain/include/perturb_reptate.h
 %include cluster/include/perturb_point_reflect.h
 %include monte_carlo/include/perturb_volume.h
-%include monte_carlo/include/trial_select_particle.h
-%include cluster/include/select_particle_avb.h
-%include cluster/include/select_particle_avb_divalent.h
-%include cluster/include/select_cluster.h
+%include growth_expanded/include/perturb_particle_type.h
+%include beta_expanded/include/perturb_beta.h
+%include system/include/utils.h
 %include monte_carlo/include/criteria.h
-%include monte_carlo/include/metropolis.h
+%include monte_carlo/include/constraint.h
+%include monte_carlo/include/constrain_num_particles.h
+%include egce/include/a_half_b.h
+%include egce/include/a_equal_b.h
 %include monte_carlo/include/trial_stage.h
 %include monte_carlo/include/trial_compute.h
 %include monte_carlo/include/trial.h
-%include cluster/include/trial_avb4.h
 %include monte_carlo/include/trial_factory.h
-%include cluster/include/trial_avb2.h
-%include cluster/include/trial_transfer_avb_divalent.h
-%include cluster/include/trial_transfer_avb.h
 %include monte_carlo/include/analyze.h
 %include monte_carlo/include/analyze_factory.h
 %include steppers/include/log_and_movie.h
@@ -509,19 +704,39 @@ using namespace std;
 %include steppers/include/log.h
 %include steppers/include/energy.h
 %include steppers/include/criteria_writer.h
+%include chain/include/check_rigid_bonds.h
 %include monte_carlo/include/modify.h
-%include steppers/include/pair_distribution.h
 %include steppers/include/check_energy.h
 %include monte_carlo/include/modify_factory.h
 %include monte_carlo/include/monte_carlo.h
+%include prefetch/include/prefetch.h
 %include steppers/include/check_energy_and_tune.h
 %include steppers/include/seek_modify.h
 %include steppers/include/tuner.h
 %include steppers/include/check_properties.h
 %include steppers/include/criteria_updater.h
-%include monte_carlo/include/seek_num_particles.h
-%include monte_carlo/include/trials.h
+%include steppers/include/pair_distribution.h
+%include chain/include/recenter_particles.h
+%include cluster/include/trial_avb2.h
 %include cluster/include/trial_rigid_cluster.h
+%include cluster/include/trial_transfer_avb_divalent.h
+%include cluster/include/trial_transfer_avb.h
+%include monte_carlo/include/seek_num_particles.h
+%include chain/include/trials.h
+%include monte_carlo/include/trials.h
+%include cluster/include/trial_avb4.h
+%include beta_expanded/include/trial_beta.h
+%include growth_expanded/include/trial_morph.h
+%include growth_expanded/include/trial_morph_expanded.h
+%include cluster/include/compute_remove_avb_divalent.h
+%include growth_expanded/include/compute_morph.h
+%include growth_expanded/include/trial_growth_expanded.h
+%include monte_carlo/include/trial_compute_move.h
+%include monte_carlo/include/trial_move.h
+%include cluster/include/compute_avb4.h
+%include cluster/include/compute_avb2.h
+%include monte_carlo/include/metropolis.h
+%include beta_expanded/include/compute_beta.h
 %include monte_carlo/include/trial_compute_volume.h
 %include monte_carlo/include/trial_compute_remove.h
 %include cluster/include/compute_move_cluster.h
@@ -530,13 +745,6 @@ using namespace std;
 %include cluster/include/compute_gca.h
 %include monte_carlo/include/trial_compute_add.h
 %include cluster/include/compute_add_avb_divalent.h
-%include monte_carlo/include/trial_compute_move.h
-%include monte_carlo/include/trial_move.h
-%include cluster/include/compute_remove_avb_divalent.h
-%include cluster/include/compute_avb2.h
-%include cluster/include/compute_avb4.h
-%include monte_carlo/include/constraint.h
-%include monte_carlo/include/constrain_num_particles.h
 %include configuration/include/visit_configuration.h
 %include configuration/include/file_xyz.h
 %include steppers/include/movie.h
@@ -551,15 +759,61 @@ using namespace std;
 %include math/include/formula_exponential.h
 %include math/include/matrix.h
 %include monte_carlo/include/perturb_rotate.h
+%include chain/include/perturb_pivot.h
+%include chain/include/perturb_crankshaft.h
 %include cluster/include/perturb_rotate_com.h
 %include cluster/include/perturb_move_avb.h
 %include cluster/include/perturb_add_avb.h
 %include monte_carlo/include/perturb_anywhere.h
+%include chain/include/perturb_site_type.h
+%include chain/include/trial_grow_linear.h
 %include monte_carlo/include/perturb_add.h
 %include monte_carlo/include/perturb_remove.h
 %include monte_carlo/include/perturb_distance_angle.h
+%include chain/include/perturb_branch.h
 %include math/include/random_mt19937.h
 %include math/include/solver.h
 %include math/include/solver_newton_raphson.h
 %include math/include/solver_bisection.h
 %include math/include/solver_brent_dekker.h
+%include opt_lj/include/visit_model_opt_lj.h
+%include opt_lj/include/visit_model_opt_rpm.h
+%include ewald/include/trial_remove_multiple.h
+%include ewald/include/trial_add_multiple.h
+%include ewald/include/charge_self.h
+%include ewald/include/charge_screened.h
+%include ewald/include/utils.h
+%include ewald/include/trial_transfer_multiple.h
+%include ewald/include/coulomb.h
+%include ewald/include/compute_remove_multiple.h
+%include ewald/include/compute_add_multiple.h
+%include ewald/include/charge_screened_intra.h
+%include ewald/include/ewald.h
+%include ewald/include/check_net_charge.h
+%include mayer/include/criteria_mayer.h
+%include confinement/include/model_lj_shape.h
+%include confinement/include/trial_anywhere.h
+%include confinement/include/model_square_well_shape.h
+%include confinement/include/always_reject.h
+%include confinement/include/henry_coefficient.h
+%include confinement/include/model_hard_shape.h
+%include confinement/include/model_table_cartesian.h
+%include patch/include/patch_angle.h
+%include patch/include/visit_model_inner_patch.h
+%include flat_histogram/include/window.h
+%include flat_histogram/include/window_custom.h
+%include flat_histogram/include/window_exponential.h
+%include flat_histogram/include/ln_probability.h
+%include flat_histogram/include/collection_matrix.h
+%include flat_histogram/include/bias.h
+%include flat_histogram/include/transition_matrix.h
+%include flat_histogram/include/wang_landau.h
+%include flat_histogram/include/wltm.h
+%include flat_histogram/include/macrostate.h
+%include beta_expanded/include/macrostate_beta.h
+%include growth_expanded/include/macrostate_morph.h
+%include growth_expanded/include/macrostate_growth_expanded.h
+%include flat_histogram/include/macrostate_num_particles.h
+%include flat_histogram/include/ensemble.h
+%include flat_histogram/include/flat_histogram.h
+%include flat_histogram/include/clones.h
