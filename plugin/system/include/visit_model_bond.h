@@ -9,7 +9,7 @@
 namespace feasst {
 
 /**
-  Interactions between bonded particles using "inter"-like models are computed.
+  Interactions between bonded sites using "inter"-like models are computed.
  */
 class VisitModelBond : public VisitModel {
  public:

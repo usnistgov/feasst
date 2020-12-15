@@ -19,7 +19,7 @@ TEST(TrialRotate, spce) {
     system.add(*config);
   }
 
-  system.add(Potential(MakeLennardJones()));
+  system.add(MakePotential(MakeLennardJones()));
   system.set(MakeThermoParams({{"beta", "1.0"}}));
   Metropolis criteria;
   auto rotate = MakeTrialRotate({{"tunable_param", "90."}, {"weight", "0.5"}});

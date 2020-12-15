@@ -187,7 +187,7 @@ TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
                                                  {"site_type0", "0"},
                                                  {"site_type1", "1"},
                                                  {"potential_index", "1"}});
-  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
+  mc.set(1, MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
                                                MakeChargeScreened()}),
                       //MakeVisitModelOptRPM(MakeVisitModelInner(MakeEnergyMapNeighborCriteria(neighbor_criteria)))));
                       //MakeVisitModelOptRPM(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
@@ -417,9 +417,9 @@ TEST(MonteCarlo, rpm_egce_avb_divalent_LONG) {
   MonteCarlo mc = dival_egce(min);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                               MakeChargeScreened()}),
-                      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+  mc.set(1, MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
+                                                   MakeChargeScreened()}),
+                          MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
 //  mc.set(MakeThermoParams({{"beta", str(mc.criteria().beta())},
 //     {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
 //     {"chemical_potential1", str(mc.criteria().chemical_potential(1))}}));
@@ -450,9 +450,9 @@ TEST(MonteCarlo, rpm_egce_divalent_avb_and_not) {
   MonteCarlo mc = dival_egce(min, max, steps_per);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                               MakeChargeScreened()}),
-                      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+  mc.set(1, MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
+                                                   MakeChargeScreened()}),
+                          MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "7.5"},
                                                  {"minimum_distance", "1"},
                                                  {"site_type0", "0"},
@@ -476,10 +476,10 @@ TEST(MonteCarlo, rpm_divalent_avb_VERY_LONG) {
   MonteCarlo mc = dival_egce(min, max, steps_per);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.set(MakeRandomMT19937({{"seed", "time"}}));
-  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                               MakeChargeScreened()}),
-                      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-  mc.add_to_reference(Potential(MakeDontVisitModel()));
+  mc.set(1, MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
+                                                   MakeChargeScreened()}),
+                          MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+  mc.add_to_reference(MakePotential(MakeDontVisitModel()));
 //  mc.set(MakeThermoParams({{"beta", str(mc.criteria().beta())},
 //     {"chemical_potential0", str(mc.criteria().chemical_potential(0))},
 //     {"chemical_potential1", str(mc.criteria().chemical_potential(1))}}));
@@ -538,7 +538,7 @@ TEST(MonteCarlo, rpm_divalent_growth_expanded_LONG) {
     config->set_model_param("cutoff", 3, 7.5);
     //mc.get_system()->precompute();  // update ewald
   }
-  mc.add_to_reference(Potential(MakeDontVisitModel()));
+  mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};
   mc.set(MakeThermoParams({{"beta", str(mc.system().thermo_params().beta())},
     {"chemical_potential0", str(mc.system().thermo_params().chemical_potential(0))},

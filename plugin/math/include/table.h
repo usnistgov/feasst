@@ -21,6 +21,8 @@ class Table {
 
   /// Write to file.
   virtual void write(const std::string file_name) const;
+
+  virtual ~Table() {}
 };
 
 /**

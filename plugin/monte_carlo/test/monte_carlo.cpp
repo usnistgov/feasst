@@ -81,7 +81,7 @@ TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
   mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   //mc.set(0, Potential(MakeLennardJones(),
   //  MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-//  mc.add_to_optimized(Potential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
+//  mc.add_to_optimized(MakePotential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
 //                                MakeVisitModelOptLJ()));
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
   SeekNumParticles(50).with_trial_add().add(MakeProgressReport()).run(&mc);
@@ -98,8 +98,8 @@ TEST(MonteCarlo, NVT_cell_BENCHMARK_LONG) {
   mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"},
                                    {"init_cells", "1"}}),
                        {{"particle_type", "../forcefield/data.lj"}}));
-  mc.add(Potential(MakeLennardJones()));
-  mc.add_to_reference(Potential(MakeLennardJones(), MakeVisitModelCell()));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add_to_reference(MakePotential(MakeLennardJones(), MakeVisitModelCell()));
   mc.set(MakeRandomMT19937({{"seed", "default"}}));
   mc.set(MakeThermoParams({{"beta", "1.2"}}));
   mc.set(MakeMetropolis());
@@ -260,8 +260,8 @@ TEST(MonteCarlo, ideal_gas_pressure_LONG) {
     for (int i = 0; i < num; ++i) config.add_particle_of_type(0);
     mc.add(config);
   }
-  mc.add(Potential(MakeDontVisitModel()));
-  //mc.add(Potential(MakeIdealGas()));
+  mc.add(MakePotential(MakeDontVisitModel()));
+  //mc.add(MakePotential(MakeIdealGas()));
   mc.set(MakeThermoParams({{"beta", str(beta)}, {"pressure", str(pressure)}}));
   mc.set(MakeMetropolis());
 //  mc.add(MakeTrialTranslate());

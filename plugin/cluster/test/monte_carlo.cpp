@@ -40,7 +40,7 @@ TEST(MonteCarlo, cluster) {
     mc.set(MakeRandomMT19937({{"seed", "1602088241"}}));
     mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
                                   {{"particle_type", "../forcefield/data.lj"}}));
-    mc.add(Potential(MakeLennardJones(),
+    mc.add(MakePotential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
       //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
     mc.set(MakeThermoParams({{"beta", "40"}, {"chemical_potential", "1."}}));
@@ -112,7 +112,7 @@ TEST(MonteCarlo, GCMCmap) {
     } else {
       FATAL("unrecognized mapstr");
     }
-    mc.set(0, Potential(MakeLennardJones(),
+    mc.set(0, MakePotential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(map))));
       //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
     mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "-4"}}));
@@ -140,11 +140,11 @@ MonteCarlo mc_avb_test(
   monte_carlo.add(Configuration(MakeDomain({{"cubic_box_length", "6"}}),
                                 {{"particle_type", "../forcefield/data.lj"}}));
   if (avb) {
-    monte_carlo.add(Potential(MakeLennardJones(),
+    monte_carlo.add(MakePotential(MakeLennardJones(),
       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
       //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
   } else {
-    monte_carlo.add(Potential(MakeLennardJones()));
+    monte_carlo.add(MakePotential(MakeLennardJones()));
   }
   monte_carlo.set(MakeThermoParams({{"beta", "0.00001"}, {"chemical_potential", "50."}}));
   monte_carlo.set(MakeMetropolis());
@@ -229,8 +229,8 @@ TEST(MonteCarlo, dimer2d_LONG) {
   mc.add(Configuration(MakeDomain({{"side_length0", "10"}, {"side_length1", "10"}}),
     {{"particle_type", "../plugin/cluster/forcefield/data.one_patch"}}));
   EXPECT_EQ(2, mc.configuration().dimension());
-  //mc.add(Potential(MakeSquareWell()));
-  mc.add(Potential(MakeSquareWell(),
+  //mc.add(MakePotential(MakeSquareWell()));
+  mc.add(MakePotential(MakeSquareWell(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
     //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
   mc.set(MakeThermoParams({{"beta", "10"}, {"chemical_potential", "1"}}));

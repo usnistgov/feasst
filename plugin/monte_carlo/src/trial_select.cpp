@@ -151,8 +151,7 @@ bool TrialSelect::select(
 const EnergyMap& TrialSelect::map_(const System& system,
     const NeighborCriteria& neighbor_criteria) const {
   if (neighbor_criteria.reference_potential() == -1) {
-    return system.potentials().potentials()[
-      neighbor_criteria.potential_index()].visit_model().inner().energy_map();
+    return system.potentials().potential(neighbor_criteria.potential_index()).visit_model().inner().energy_map();
   }
   return system.reference(neighbor_criteria.reference_potential(),
                           neighbor_criteria.potential_index()

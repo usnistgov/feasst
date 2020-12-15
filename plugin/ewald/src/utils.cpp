@@ -58,29 +58,29 @@ System spce(const argtype& args) {
     }
     system.add(config);
   }
-  system.add(Potential(
+  system.add(MakePotential(
     MakeEwald({{"kmax_squared", args_.key("kmax_squared").dflt("38").str()},
                {"alpha",
       str(args_.key("alphaL").dflt("5.6").dble()/
           system.configuration().domain().min_side_length())}})));
-  system.add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
+  system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
                                                 MakeChargeScreened()})));
-  system.add(Potential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
-  system.add(Potential(MakeChargeSelf()));
-  system.add(Potential(MakeLongRangeCorrections()));
+  system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
+  system.add(MakePotential(MakeChargeSelf()));
+  system.add(MakePotential(MakeLongRangeCorrections()));
   if (std::abs(dual_cut + 1) > NEAR_ZERO) {
-    Potential ref;
+    std::shared_ptr<Potential> ref;
     if (system.configuration().domain().num_cells() > 0) {
-      ref = Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
-                                               MakeChargeScreened()}),
-                      MakeVisitModelCell());
+      ref = MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
+                                                   MakeChargeScreened()}),
+                          MakeVisitModelCell());
     } else {
-      ref = Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
-                                               MakeChargeScreened()}));
+      ref = MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
+                                                   MakeChargeScreened()}));
     }
-    ref.set_model_params(system.configuration());
-    ref.set_model_param("cutoff", 0, dual_cut);
-    ref.set_model_param("cutoff", 1, dual_cut);
+    ref->set_model_params(system.configuration());
+    ref->set_model_param("cutoff", 0, dual_cut);
+    ref->set_model_param("cutoff", 1, dual_cut);
     system.add_to_reference(ref);
   }
   return system;
@@ -129,24 +129,24 @@ System rpm(const argtype& args) {
     }
     system.add(config);
   }
-  system.add(Potential(
+  system.add(MakePotential(
     MakeEwald({{"kmax_squared", args_.key("kmax_squared").dflt("38").str()},
                {"alpha",
       str(args_.key("alphaL").dflt("5.6").dble()/
           system.configuration().domain().min_side_length())}})));
-  system.add(Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
+  system.add(MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
                                                 MakeChargeScreened()})));
-  system.add(Potential(MakeChargeSelf()));
+  system.add(MakePotential(MakeChargeSelf()));
 //  std::string iref = "-1";
 //  std::string num_steps = "1";
   if (std::abs(dual_cut + 1) > NEAR_ZERO) {
     //Potential ref(MakeModelTwoBodyFactory({MakeHardSphere()}),
-    Potential ref(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                           MakeChargeScreened()}),
-                  MakeVisitModelCell());
-    ref.set_model_params(system.configuration());
-    ref.set_model_param("cutoff", 0, dual_cut);
-    ref.set_model_param("cutoff", 1, dual_cut);
+    auto ref = MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
+                                                      MakeChargeScreened()}),
+                        MakeVisitModelCell());
+    ref->set_model_params(system.configuration());
+    ref->set_model_param("cutoff", 0, dual_cut);
+    ref->set_model_param("cutoff", 1, dual_cut);
     system.add_to_reference(ref);
 //    iref = "0";
 //    num_steps = "4";

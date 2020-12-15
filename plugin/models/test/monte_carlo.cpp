@@ -38,9 +38,9 @@ TEST(MonteCarlo, trimer) {
     lj_wca->set_wca(0, 1, &params);
     lj_wca->set_wca(1, 1, &params);
     //lj_wca->precompute(params);
-    Potential potential(lj_wca);
-    potential.set(params);
-    mc.add(potential);
+    auto pot = MakePotential(lj_wca);
+    pot->set(params);
+    mc.add(pot);
   }
   mc.set(MakeThermoParams({{"beta", "4"}, {"chemical_potential", "-1"}}));
   mc.set(MakeMetropolis());

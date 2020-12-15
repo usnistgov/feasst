@@ -26,8 +26,8 @@ mc.set(fst.MakeRandomMT19937(fst.args({"seed" : args.seed})))
 mc.add(fst.Configuration(
     fst.MakeDomain(fst.args({"cubic_box_length": str(args.length)})),
     fst.args({"particle_type": args.data})))
-mc.add(fst.Potential(fst.MakeLennardJones()))
-mc.add(fst.Potential(fst.MakeLongRangeCorrections()))
+mc.add(fst.MakePotential(fst.MakeLennardJones()))
+mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))
 mc.set(fst.MakeThermoParams(fst.args({"beta": str(args.beta)})))
 mc.set(fst.MakeMetropolis())
 mc.add(fst.MakeTrialTranslate(fst.args(
@@ -40,7 +40,8 @@ mc.set(fst.MakeCheckpoint(fst.args({"file_name": "checkpoint.fst",
 fst.SeekNumParticles(args.num)\
     .with_thermo_params(fst.args({"beta": "0.1", "chemical_potential": "10"}))\
     .with_metropolis()\
-    .with_trial_add().run(mc)
+    .with_trial_add()\
+    .run(mc)
 mc.add(fst.MakeLogAndMovie(fst.args(
     {"steps_per" : str(int(1e5)), "file_name" : "lj"})))
 mc.attempt(args.trials)

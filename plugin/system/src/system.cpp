@@ -25,19 +25,20 @@ int System::dimension(const int config) const {
   return dim;
 }
 
-void System::add_to_unoptimized(const Potential& potential) {
+void System::add_to_unoptimized(std::shared_ptr<Potential> potential) {
   // HWH assume one config
   unoptimized_.add(potential);
   unoptimized_.precompute(unoptimized_.num() - 1, &configurations_[0]);
 }
 
-void System::set_unoptimized(const int index, const Potential& potential) {
+void System::set_unoptimized(const int index,
+    std::shared_ptr<Potential> potential) {
   // HWH assume one config
   unoptimized_.set(index, potential);
   unoptimized_.precompute(unoptimized_.num() - 1, &configurations_[0]);
 }
 
-void System::add_to_optimized(const Potential& potential) {
+void System::add_to_optimized(std::shared_ptr<Potential> potential) {
   is_optimized_ = true;
   // HWH assume one config
   optimized_.add(potential);
@@ -51,7 +52,7 @@ PotentialFactory * System::reference_(const int index) {
   return &references_[index];
 }
 
-void System::add_to_reference(const Potential& ref, const int index) {
+void System::add_to_reference(std::shared_ptr<Potential> ref, const int index) {
   if (index == 0 and references_.size() == 0) {
     references_.push_back(PotentialFactory());
   }
@@ -63,7 +64,7 @@ void System::add_to_reference(const Potential& ref, const int index) {
 
 const Potential& System::reference(const int ref,
     const int potential) const {
-  return references_[ref].potentials()[potential];
+  return references_[ref].potential(potential);
 }
 
 void System::precompute() {
@@ -105,7 +106,7 @@ double System::energy(const int config) {
 double System::perturbed_energy(const Select& select, const int config) {
   ref_used_last_ = -1;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  return potentials_()->energy(select, &configurations_[config]);
+  return potentials_()->select_energy(select, &configurations_[config]);
 }
 
 double System::reference_energy(const int ref, const int config) {
@@ -119,7 +120,7 @@ double System::reference_energy(const Select& select,
     const int config) {
   ref_used_last_ = ref;
   DEBUG("ref_used_last_ " << ref_used_last_);
-  return reference_(ref)->energy(select, &configurations_[config]);
+  return reference_(ref)->select_energy(select, &configurations_[config]);
 }
 
 void System::serialize(std::ostream& sstr) const {

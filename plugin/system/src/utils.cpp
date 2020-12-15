@@ -15,7 +15,7 @@ namespace feasst {
 System two_particle_system(const argtype& args) {
   System sys;
   sys.add(two_particle_configuration(args));
-  sys.add_to_unoptimized(Potential(MakeLennardJones()));
+  sys.add_to_unoptimized(MakePotential(MakeLennardJones()));
   return sys;
 }
 
@@ -36,12 +36,12 @@ System lennard_jones(const argtype& args) {
   std::stringstream ss;
   ss << feasst::install_dir() << "/" << data;
   system.add(Configuration(domain, {{"particle_type0", ss.str()}}));
-  system.add(Potential(MakeLennardJones()));
-  if (lrc) system.add(Potential(MakeLongRangeCorrections()));
+  system.add(MakePotential(MakeLennardJones()));
+  if (lrc) system.add(MakePotential(MakeLongRangeCorrections()));
   if (std::abs(dual_cut + 1) > NEAR_ZERO) {
-    Potential ref(MakeLennardJones(), MakeVisitModelCell());
-    ref.set_model_params(system.configuration());
-    ref.set_model_param("cutoff", 0, dual_cut);
+    auto ref = MakePotential(MakeLennardJones(), MakeVisitModelCell());
+    ref->set_model_params(system.configuration());
+    ref->set_model_param("cutoff", 0, dual_cut);
     system.add_to_reference(ref);
   }
   return system;

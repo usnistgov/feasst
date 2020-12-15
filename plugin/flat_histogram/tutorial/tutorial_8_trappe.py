@@ -41,8 +41,8 @@ def mc(thread, mn, mx):
         index += 1
     thermo_params["chemical_potential0"] = str((args.delta_betamu_0 + args.beta_mu)*args.temperature)
     mc.add(fst.Configuration(fst.MakeDomain(fst.args(domain_args)), config_args))
-    mc.add(fst.Potential(fst.MakeLennardJones()))
-    mc.add(fst.Potential(fst.MakeLongRangeCorrections()))
+    mc.add(fst.MakePotential(fst.MakeLennardJones()))
+    mc.add(fst.MakePotential(fst.MakeLongRangeCorrections()))
     if mx > args.dccb_begin:
         if mc.configuration().domain().num_cells() > 0:
             reference = fst.Potential(fst.MakeLennardJones(), fst.MakeVisitModelCell())

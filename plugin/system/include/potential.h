@@ -6,12 +6,12 @@
 #include "utils/include/cache.h"
 #include "utils/include/arguments.h"
 #include "configuration/include/model_params.h"
+#include "configuration/include/select.h"
+#include "configuration/include/configuration.h"
 #include "system/include/visit_model.h"
 #include "system/include/model.h"
 
 namespace feasst {
-
-class Configuration;
 
 /**
   A potential represents both the model and the method used to compute the
@@ -85,13 +85,16 @@ class Potential {
   void precompute(Configuration * config);
 
   /// Compute the energy of the entire configuration.
-  double energy(Configuration * config);
+  virtual double energy(Configuration * config);
 
   /// Compute the energy of a selection of the configuration.
-  double energy(const Select& select, Configuration * config);
+  virtual double select_energy(const Select& select, Configuration * config);
 
   /// Return the last computed value of the energy.
   double stored_energy() const { return stored_energy_; }
+
+  /// Set the last computed value of the energy.
+  void set_stored_energy(const double energy) { stored_energy_ = energy; }
 
   /// Change the volume.
   void change_volume(const double delta_volume, const int dimension) {
@@ -122,6 +125,7 @@ class Potential {
 
   /// Deserialize.
   explicit Potential(std::istream& istr);
+  virtual ~Potential() {}
 
  private:
   int group_index_;
@@ -133,6 +137,30 @@ class Potential {
   Cache cache_;
   bool prevent_cache_;
 };
+
+inline std::shared_ptr<Potential> MakePotential(
+    const argtype& args = argtype()) {
+  return std::make_shared<Potential>(args);
+}
+
+inline std::shared_ptr<Potential> MakePotential(
+    std::shared_ptr<Model> model,
+    const argtype& args = argtype()) {
+  return std::make_shared<Potential>(model, args);
+}
+
+inline std::shared_ptr<Potential> MakePotential(
+    std::shared_ptr<VisitModel> visit_model,
+    const argtype& args = argtype()) {
+  return std::make_shared<Potential>(visit_model, args);
+}
+
+inline std::shared_ptr<Potential> MakePotential(
+    std::shared_ptr<Model> model,
+    std::shared_ptr<VisitModel> visit_model,
+    const argtype& args = argtype()) {
+  return std::make_shared<Potential>(model, visit_model, args);
+}
 
 }  // namespace feasst
 

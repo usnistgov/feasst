@@ -22,7 +22,7 @@ TEST(SelectParticleAVB, serialize) {
                              {2.9, 0, 0}});
     system.add(config);
   }
-  system.add(Potential(MakeLennardJones(),
+  system.add(MakePotential(MakeLennardJones(),
                     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   system.energy();
   system.finalize();

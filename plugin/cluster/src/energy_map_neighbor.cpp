@@ -179,6 +179,7 @@ void EnergyMapNeighbor::finalize(const Select& select) {
             for (auto& mn2 : diff3) {
               const int part2 = mn2.first;
               // skip double counted
+              DEBUG(select.trial_state());
               if (select.trial_state() == 1 || part2 > part1) {
                 DEBUG("removing part1/2: " << part1 << "/" << part2);
                 int fpindex = -1;

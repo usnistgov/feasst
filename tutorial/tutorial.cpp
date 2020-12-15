@@ -1,3 +1,4 @@
+#include <iostream>
 #include "feasst.h"
 
 static feasst::ArgumentParse args("A canonical ensemble Metropolis Monte Carlo simulation of a bulk Lennard Jones fluid.", {
@@ -11,12 +12,12 @@ static feasst::ArgumentParse args("A canonical ensemble Metropolis Monte Carlo s
   {"--trials", "number of Monte Carlo trials", feasst::str(1e6)}});
 
 int main(int argc, char ** argv) {
-  INFO(feasst::version());
-  INFO("args: " << args.parse(argc, argv));
+  std::cout << feasst::version() << std::endl
+            << args.parse(argc, argv) << std::endl;
   const int num_trials = args.get_int("--trials");
   if (args.get_int("--task") > 0) {
     auto mc = feasst::MakeMonteCarlo("checkpoint.fst");
-    INFO(mc->trials().num_attempts());
+    std::cout << mc->trials().num_attempts() << std::endl;
     mc->attempt(num_trials - mc->trials().num_attempts());
     return 0;
   }
@@ -25,8 +26,8 @@ int main(int argc, char ** argv) {
   mc.add(feasst::Configuration(
     feasst::MakeDomain({{"cubic_box_length", args.get("--length")}}),
     {{"particle_type", args.get("--data")}}));
-  mc.add(feasst::Potential(feasst::MakeLennardJones()));
-  mc.add(feasst::Potential(feasst::MakeLongRangeCorrections()));
+  mc.add(feasst::MakePotential(feasst::MakeLennardJones()));
+  mc.add(feasst::MakePotential(feasst::MakeLongRangeCorrections()));
   mc.set(feasst::MakeThermoParams({{"beta", args.get("--beta")}}));
   mc.set(feasst::MakeMetropolis());
   mc.add(feasst::MakeTrialTranslate(

@@ -41,7 +41,7 @@ TEST(VisitModelInnerPatch, patch_one_2body) {
     system.add(config);
   }
 
-  system.add(Potential(MakeSquareWell(),
+  system.add(MakePotential(MakeSquareWell(),
                        MakeVisitModel(MakeVisitModelInnerPatch()),
                        {{"group_index", "1"}}));  // optimization: loop centers
   system.precompute();

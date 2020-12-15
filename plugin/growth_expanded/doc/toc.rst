@@ -1,10 +1,10 @@
 
 .. toctree::
 
+   PerturbParticleType
+   trial_morph
+   TrialMorphExpanded
    ComputeMorph
    TrialComputeGrowAdd
-   TrialMorphExpanded
-   trial_morph
-   PerturbParticleType
    MacrostateMorph
    MacrostateGrowthExpanded

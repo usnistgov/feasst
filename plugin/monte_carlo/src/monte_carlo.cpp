@@ -30,7 +30,7 @@ void MonteCarlo::add(const Configuration& config) {
   ASSERT(!criteria_set_, "add config before criteria");
 }
 
-void MonteCarlo::add(const Potential& potential) {
+void MonteCarlo::add(std::shared_ptr<Potential> potential) {
   ASSERT(!criteria_set_, "add potential before criteria");
   ASSERT(config_set_ || system_set_, "config:" << config_set_ <<
     " or system:" << system_set_ << " must be set before adding a potential");
@@ -39,7 +39,7 @@ void MonteCarlo::add(const Potential& potential) {
   potential_set_ = true;
 }
 
-void MonteCarlo::set(const int index, const Potential& potential) {
+void MonteCarlo::set(const int index, std::shared_ptr<Potential> potential) {
   // ASSERT(!criteria_set_, "add potential before criteria");
   ASSERT(potential_set_ || system_set_, "add potential before setting one");
   system_.set_unoptimized(index, potential);
@@ -73,8 +73,8 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
   ASSERT(criteria_set_, "set Criteria before Trials.");
 
   // Error check Ewald
-  for (const Potential& pot : system_.potentials().potentials()) {
-    if (pot.visit_model().class_name() == "Ewald") {
+  for (const std::shared_ptr<Potential> pot : system_.potentials().potentials()) {
+    if (pot->visit_model().class_name() == "Ewald") {
       for (int stage = 0; stage < trial->num_stages(); ++stage) {
         // Require reference potentials for multi-stage trials with Ewald.
         if (trial->num_stages() > 1 && trial->stage(stage).reference() == -1) {

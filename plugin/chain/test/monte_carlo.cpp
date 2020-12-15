@@ -166,9 +166,9 @@ MonteCarlo cg7mab2(const std::string& data, const int num, const int steps_per =
   mc.add(Configuration(MakeDomain({{"cubic_box_length", "30"}}),
     {{"particle_type", "../plugin/chain/forcefield/" + data},
      {"set_cutoff_min_to_sigma", "true"}}));
-  mc.add(Potential(MakeHardSphere()));
+  mc.add(MakePotential(MakeHardSphere()));
   if (is_found_in(data, "fullangflex")) {
-    mc.add(Potential(MakeHardSphere(),
+    mc.add(MakePotential(MakeHardSphere(),
                      MakeVisitModelIntraMap({{"exclude_bonds", "true"}})));
   }
   mc.set(MakeThermoParams({{"beta", "1."}, {"chemical_potential", "1"}}));

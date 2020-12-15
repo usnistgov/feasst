@@ -42,17 +42,17 @@ inline System chain(const double alpha,
   }
   auto ewald= MakeEwald({{"kmax_squared", "27"},
                {"alpha", str(5.6/system.configuration().domain().min_side_length())}});
-  system.add(Potential(ewald,
+  system.add(MakePotential(ewald,
                      {{"prevent_cache", "true"}}));
-  system.add(Potential(MakeModelTwoBodyFactory({MakeLennardJones(),
+  system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
                                                 MakeChargeScreened()})));
-  //system.add(Potential(MakeChargeScreenedIntra(),
+  //system.add(MakePotential(MakeChargeScreenedIntra(),
   //                     MakeVisitModelIntra({{"cutoff", "0"}})));
-  system.add(Potential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
-  system.add(Potential(MakeChargeSelf()));
-//  system.add(Potential(MakeLongRangeCorrections()));
+  system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
+  system.add(MakePotential(MakeChargeSelf()));
+//  system.add(MakePotential(MakeLongRangeCorrections()));
 //  auto ewald = add_ewald_with(MakeLennardJones(), &system, kmax_squared);
-  system.add(Potential(MakeLennardJones(), MakeVisitModelIntra({{"cutoff", "1"}})));
+  system.add(MakePotential(MakeLennardJones(), MakeVisitModelIntra({{"cutoff", "1"}})));
 //  DEBUG("kxmax " << ewald->kxmax());
 //  DEBUG("kymax " << ewald->kymax());
 //  DEBUG("kzmax " << ewald->kzmax());

@@ -32,8 +32,8 @@ TEST(MonteCarlo, ShapeUnion) {
   MonteCarlo mc;
   mc.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
     {{"particle_type", "../forcefield/data.lj"}}));
-  mc.add(Potential(MakeLennardJones()));
-  mc.add(Potential(MakeModelHardShape(MakeShapeUnion(
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeModelHardShape(MakeShapeUnion(
     MakeSphere(
       {{"radius", "2"}},
       Position({{"x", "0"}, {"y", "0"}, {"z", "0"}})),
@@ -72,8 +72,8 @@ TEST(MonteCarlo, ShapeUnion_LONG) {
   MonteCarlo mc;
   mc.add(Configuration(MakeDomain({{"cubic_box_length", "20"}}),
     {{"particle_type", "../forcefield/data.lj"}}));
-  mc.add(Potential(MakeLennardJones()));
-  mc.add(Potential(MakeModelHardShape(porous_network())));
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeModelHardShape(porous_network())));
   mc.set(MakeThermoParams({{"beta", "1.5"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "2."}}));
@@ -89,9 +89,9 @@ TEST(MonteCarlo, ShapeTable_LONG) {
   MonteCarlo mc;
   auto domain = MakeDomain({{"cubic_box_length", "20"}});
   mc.add(Configuration(domain, {{"particle_type", "../forcefield/data.lj"}}));
-  mc.add(Potential(MakeLennardJones()));
+  mc.add(MakePotential(MakeLennardJones()));
   auto pore = porous_network();
-  mc.add(Potential(MakeModelHardShape(pore)));
+  mc.add(MakePotential(MakeModelHardShape(pore)));
   const bool read_table = false;
   //const bool read_table = true;
   std::shared_ptr<ModelTableCart3DIntegr> hamaker;
@@ -118,11 +118,11 @@ TEST(MonteCarlo, ShapeTable_LONG) {
       {"points_per_shell", "1"}});
     MakeCheckpoint({{"file_name", "tmp/table"}})->write(hamaker->table());
   }
-  mc.add(Potential(hamaker));
+  mc.add(MakePotential(hamaker));
 
 //  EXPECT_NEAR(table2->linear_interpolation(0, 0, 0), 0., NEAR_ZERO);
-//  mc.add(Potential(MakeModelTableCart3DIntegr(table2)));
-//  //mc.add(Potential(MakeModelTableCart3DIntegr(table)));
+//  mc.add(MakePotential(MakeModelTableCart3DIntegr(table2)));
+//  //mc.add(MakePotential(MakeModelTableCart3DIntegr(table)));
 //  mc.set(MakeMetropolis({{"beta", "1.5"}, {"chemical_potential", "1."}}));
 //  mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "0.1"}}));
 //  SeekNumParticles(500).with_trial_add().run(&mc);
@@ -142,8 +142,8 @@ TEST(MonteCarlo, SineSlab) {
   // mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.add(Configuration(MakeDomain({{"cubic_box_length", "16"}}),
     {{"particle_type", "../forcefield/data.lj"}}));
-  mc.add(Potential(MakeLennardJones()));
-  mc.add(Potential(MakeModelHardShape(MakeSlabSine(
+  mc.add(MakePotential(MakeLennardJones()));
+  mc.add(MakePotential(MakeModelHardShape(MakeSlabSine(
     MakeFormulaSineWave({{"amplitude", "2"}, {"width", "8"}}),
     { {"dimension", "0"}, {"wave_dimension", "1"}, {"average_bound0", "-5"},
       {"average_bound1", "5"}}))));
@@ -173,8 +173,8 @@ System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
   for (int i = 0; i < num1; ++i) config.add_particle_of_type(1);
   for (int i = 0; i < num2; ++i) config.add_particle_of_type(2);
   system.add(config);
-  system.add(Potential(MakeLennardJones()));
-//  system.add(Potential(MakeModelHardShape(MakeSlab({
+  system.add(MakePotential(MakeLennardJones()));
+//  system.add(MakePotential(MakeModelHardShape(MakeSlab({
 //    {"dimension", "2"},
 //    {"bound0", "2"},
 //    {"bound1", "-2"}}))));
@@ -217,15 +217,15 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
     model->compute_table(&table_system, &select);
   #endif // _OPENMP
   System system = slab(0);
-  system.add(Potential(model));  // use table instead of explicit wall
+  system.add(MakePotential(model));  // use table instead of explicit wall
   const Accumulator h = henry(system);
   EXPECT_NEAR(h.average(), 52.5, 3*h.stdev_of_av());
 }
 
 //TEST(ModelTableCart3DIntegr, atomistic_slab_LONG) {
 //  System system = slab(0, 1, 1);
-//  system.add(Potential(MakeLennardJones()));
-//  system.add(Potential(MakeModelHardShape(MakeSlab({
+//  system.add(MakePotential(MakeLennardJones()));
+//  system.add(MakePotential(MakeModelHardShape(MakeSlab({
 //    {"dimension", "2"},
 //    {"bound0", "2"},
 //    {"bound1", "-2"}}))));
@@ -241,7 +241,7 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
 //    model_table->compute_table(&system, &select);
 //  #endif // _OPENMP
 //  MakeCheckpoint({{"file_name", "tmp/table2"}})->write(model_table->table());
-//  system.add(Potential(model_table));
+//  system.add(MakePotential(model_table));
 //  // With tabular potential, no longer need data.slab
 //  system.get_configuration()->remove_particles(system.configuration().selection_of_all());
 //

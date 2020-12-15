@@ -1,16 +1,16 @@
 
 .. toctree::
 
+   SelectBranch
    SelectSegment
    SelectEndSegment
    SelectReptate
    SelectSiteOfType
    SelectPerturbed
-   SelectBranch
    PerturbReptate
-   trials
-   RecenterParticles
    CheckRigidBonds
+   RecenterParticles
+   trials
    PerturbPivot
    PerturbCrankshaft
    PerturbSiteType

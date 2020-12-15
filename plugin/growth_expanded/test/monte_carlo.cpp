@@ -67,7 +67,7 @@ MonteCarlo test_morph_expanded_lj(
     config->add_particle_of_type(0);
     mc.set(system);
   }
-  mc.add_to_reference(Potential(MakeDontVisitModel()));
+  mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   const double num_parts_in_grow = static_cast<double>(grow_sequence[0].size());
   INFO(str(num_parts_in_grow/grow_sequence.size()));
   mc.set(MakeThermoParams({
@@ -250,7 +250,7 @@ TEST(MonteCarlo, TrialMorphExpandedBinary_LONG) {
 //    config->add_particle_of_type(0);
     mc.set(system);
   }
-  mc.add_to_reference(Potential(MakeDontVisitModel()));
+  mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   const std::vector<std::vector<int> > grow_sequence = {{2, 3, 3}, {0, 1, 1}};
   mc.set(MakeThermoParams({
     {"beta", str(1./1.5)},

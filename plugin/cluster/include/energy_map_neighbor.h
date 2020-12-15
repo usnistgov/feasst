@@ -9,6 +9,13 @@
 #include "system/include/neighbor_criteria.h"
 
 namespace feasst {
+
+typedef std::vector<double> map1type;
+typedef std::vector<std::pair<int, map1type> > map2type;
+typedef std::vector<std::pair<int, map2type> > map3type;
+typedef std::vector<std::pair<int, map3type> > mn4type;
+typedef std::vector<map3type> map4type;
+
 /**
   Map only between particles that interact (e.g., non zero energy).
   This data structure is intended to better scale with more particles than
@@ -68,6 +75,9 @@ class EnergyMapNeighbor : public EnergyMap {
       const int part2_index,
       const int site2_index) override {}
 
+  const std::vector<map4type>& const_map_() const;
+  const std::vector<std::pair<int, mn4type> >& const_map_new_() const;
+
   // serialization
   std::string class_name() const override { return class_name_; }
   std::shared_ptr<EnergyMap> create(std::istream& istr) const override {
@@ -90,17 +100,10 @@ class EnergyMapNeighbor : public EnergyMap {
   const std::vector<std::vector<std::vector<std::vector<std::vector<double> > > > >& map() const override;
 
  private:
-  typedef std::vector<double> map1type;
-  typedef std::vector<std::pair<int, map1type> > map2type;
-  typedef std::vector<std::pair<int, map2type> > map3type;
-  typedef std::vector<std::pair<int, map3type> > mn4type;
-  typedef std::vector<map3type> map4type;
-
   /// map_[part1][site1][pneigh].first -> part2
   ///                           .second[sneigh1].first-> site1
   ///                                           .second-> en, rsq, pbcs
   std::vector<map4type> * map_();
-  const std::vector<map4type>& const_map_() const;
 
   /// map_[pneigh1].first -> part1
   ///              .second[sneigh1].first -> site1
@@ -108,7 +111,6 @@ class EnergyMapNeighbor : public EnergyMap {
   ///                                              .second[sneigh1].first -> site2
   ///                                                              .second -> en, rsq, pbcs
   std::vector<std::pair<int, mn4type> > * map_new_();
-  const std::vector<std::pair<int, mn4type> >& const_map_new_() const;
   //std::vector<std::vector<std::vector<std::vector<std::pair<int, std::vector<double> > > > > > map_new_;
 
 //  /// The first index is the particle index, which mirrors config

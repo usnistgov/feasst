@@ -19,7 +19,7 @@ TEST(MonteCarlo, NVT_opt_lj_BENCHMARK_LONG) {
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
   // HWH Perhaps implement as optimized potential instead of optimized VisitModel
-  mc.add_to_optimized(Potential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
+  mc.add_to_optimized(MakePotential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
                                 MakeVisitModelOptLJ()));
  //                               MakeVisitModelOptLJ(MakeVisitModelInner(MakeEnergyMapAll()))));
   mc.set(MakeRandomMT19937({{"seed", "default"}}));

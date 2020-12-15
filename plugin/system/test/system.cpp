@@ -17,7 +17,7 @@ TEST(System, cache) {
   system.load_cache(true);
   system.energy();
   DEBUG("cache loading? " << system.potential(0).cache().is_loading());
-  DEBUG("cache loading? " << system.unoptimized().potentials()[0].cache().is_loading());
+  DEBUG("cache loading? " << system.unoptimized().potential(0).cache().is_loading());
   system2.unload_cache(system);
   DEBUG(system.energy());
 }

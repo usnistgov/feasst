@@ -20,7 +20,7 @@ TEST(PerturbMoveAVB, move) {
     system.add(config);
   }
   const Configuration& config = system.configuration();
-  system.add(Potential(MakeLennardJones(),
+  system.add(MakePotential(MakeLennardJones(),
                        MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   system.energy();
 
@@ -128,7 +128,7 @@ TEST(PerturbMoveAVB, AVB4) {
     system.add(config);
   }
   const Configuration& config = system.configuration();
-  system.add(Potential(MakeLennardJones(),
+  system.add(MakePotential(MakeLennardJones(),
                        MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   system.energy();
 

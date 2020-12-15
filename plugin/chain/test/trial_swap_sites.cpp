@@ -15,7 +15,7 @@ TEST(TrialSwapSites, swap) {
     config.add_particle_of_type(0);
     sys.add(config);
   }
-  sys.add(Potential(MakeLennardJones()));
+  sys.add(MakePotential(MakeLennardJones()));
   sys.energy();
   sys.set(MakeThermoParams({{"beta", "1.0"}}));
   auto random = MakeRandomMT19937();

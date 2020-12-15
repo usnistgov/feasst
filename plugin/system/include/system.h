@@ -65,29 +65,29 @@ class System {
   //@{
 
   /// Add a potential. By default, the potential is considered unoptimized.
-  void add(const Potential& potential) { add_to_unoptimized(potential); }
+  void add(std::shared_ptr<Potential> potential) { add_to_unoptimized(potential); }
 
   /// Set an unoptimized potential.
-  void set_unoptimized(const int index, const Potential& potential);
+  void set_unoptimized(const int index, std::shared_ptr<Potential> potential);
 
   /// Add an unoptimized potential.
-  void add_to_unoptimized(const Potential& potential);
+  void add_to_unoptimized(std::shared_ptr<Potential> potential);
 
   /// Return the unoptimized potentials.
   const PotentialFactory& unoptimized() const { return unoptimized_; }
 
   /// Return an unoptimized potential.
   const Potential& potential(const int index) const {
-    return unoptimized_.potentials()[index]; }
+    return unoptimized_.potential(index); }
 
   /// Add an optimized potential.
-  void add_to_optimized(const Potential& potential);
+  void add_to_optimized(std::shared_ptr<Potential> potential);
 
   /// Return the optimized potentials.
   const PotentialFactory& optimized() const { return optimized_; }
 
   /// Add a reference potential.
-  void add_to_reference(const Potential& ref,
+  void add_to_reference(std::shared_ptr<Potential> ref,
     /// Store different references by index.
     const int index = 0);
 
@@ -99,7 +99,7 @@ class System {
   /// Return the list of reference potentials.
   const std::vector<PotentialFactory> references() const { return references_; }
 
-  /// Return a constant pointer to the full potentials.
+  /// Return a constant reference to the full potentials.
   const PotentialFactory& potentials() const;
 
   //@}

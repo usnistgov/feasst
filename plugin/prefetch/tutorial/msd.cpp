@@ -14,7 +14,7 @@ System lj_system(const double cutoff) {
       {{"particle_type", particle.str()}});
   config.set_model_param("cutoff", 0, cutoff);
   system.add(config);
-  system.add(Potential(MakeLennardJones()));
+  system.add(MakePotential(MakeLennardJones()));
   return system;
 }
 

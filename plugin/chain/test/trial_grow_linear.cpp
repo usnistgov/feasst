@@ -20,7 +20,7 @@ TEST(TrialGrowLinear, chain10) {
     config.add_particle_of_type(0);
     system.add(config);
   }
-  system.add(Potential(MakeLennardJones()));
+  system.add(MakePotential(MakeLennardJones()));
   system.set(MakeThermoParams({{"beta", "100.0"}}));
   auto criteria = MakeMetropolis();
   auto grow = MakeTrialGrowLinear(

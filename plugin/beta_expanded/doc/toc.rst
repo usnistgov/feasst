@@ -3,6 +3,6 @@
 
    SelectNothing
    PerturbBeta
-   ComputeBeta
    trial_beta
+   ComputeBeta
    MacrostateBeta

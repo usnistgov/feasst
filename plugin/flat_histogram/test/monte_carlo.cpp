@@ -53,7 +53,7 @@ TEST(MonteCarlo, ideal_gas_fh_eos_LONG) {
   MonteCarlo monte_carlo;
   monte_carlo.add(Configuration(MakeDomain({{"cubic_box_length", "8"}}),
                                 {{"particle_type", install_dir() + "/forcefield/data.atom"}}));
-  monte_carlo.add(Potential(MakeDontVisitModel()));
+  monte_carlo.add(MakePotential(MakeDontVisitModel()));
   monte_carlo.set(MakeThermoParams({{"beta", str(1./1.2)}, {"chemical_potential", "-3"}}));
   auto criteria = MakeFlatHistogram(
       MakeMacrostateNumParticles(Histogram({{"width", "1"}, {"min", "0"}, {"max", "50"}})),
@@ -414,7 +414,7 @@ MonteCarlo rpm_fh_test(
     ref = 0;
   }
   mc.set(rpm(rpm_args));
-  mc.add_to_reference(Potential(MakeDontVisitModel()));
+  mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   INFO("charge conversion " << CODATA2018().charge_conversion());
   const double temperature = 0.047899460618081;
   const double beta_mu = -13.94;
@@ -488,7 +488,7 @@ TEST(MonteCarlo, rpm_fh_divalent_VERY_LONG) {
     {"cutoff", "7.5"},
     {"kmax_squared", "25"},
     {"alphaL", "5"}}));
-  mc.add_to_reference(Potential(MakeDontVisitModel()));
+  mc.add_to_reference(MakePotential(MakeDontVisitModel()));
 //  mc.set(1, Potential(MakeModelTwoBodyFactory({MakeHardSphere(),
 //                                               MakeChargeScreened()}),
 //                      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));

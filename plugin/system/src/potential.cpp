@@ -79,7 +79,7 @@ double Potential::energy(Configuration * config) {
   return stored_energy_;
 }
 
-double Potential::energy(const Select& select, Configuration * config) {
+double Potential::select_energy(const Select& select, Configuration * config) {
   ASSERT(visit_model_, "visitor must be set.");
   if (prevent_cache_ || !cache_.is_unloading(&stored_energy_)) {
     if (model_params_override_) {

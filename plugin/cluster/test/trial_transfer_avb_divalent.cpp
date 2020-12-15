@@ -24,7 +24,7 @@ TEST(TrialTransferAVBDivalent, add_remove) {
     system.add(config);
   }
   const Configuration& config = system.configuration();
-  system.add(Potential(MakeLennardJones(),
+  system.add(MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   system.energy();
   system.finalize();

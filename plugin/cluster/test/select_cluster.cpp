@@ -38,7 +38,7 @@ TEST(SelectCluster, serialize) {
     } else if (map_type == "neigh") {
       map = MakeEnergyMapNeighbor();
     }
-    sys.add(Potential(MakeLennardJones(),
+    sys.add(MakePotential(MakeLennardJones(),
                       MakeVisitModel(MakeVisitModelInner(map))));
     sys.energy();
     sys.finalize();

@@ -51,17 +51,17 @@ class MonteCarlo {
     return system_.configuration(index); }
 
   /// The second action is to add Potentials.
-  void add(const Potential& potential);
+  void add(std::shared_ptr<Potential> potential);
 
   /// Set an existing potential.
-  void set(const int index, const Potential& potential);
+  void set(const int index, std::shared_ptr<Potential> potential);
 
   /// Add potential to optimized.
-  void add_to_optimized(const Potential& potential) {
+  void add_to_optimized(std::shared_ptr<Potential> potential) {
     system_.add_to_optimized(potential); }
 
   /// Add potential to reference.
-  void add_to_reference(const Potential& potential) {
+  void add_to_reference(std::shared_ptr<Potential> potential) {
     system_.add_to_reference(potential); }
 
   /// The third action is to set the ThermoParams.

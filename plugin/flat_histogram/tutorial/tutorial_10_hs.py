@@ -20,8 +20,8 @@ def mc(thread, mn, mx):
       fst.MakeDomain(fst.args({"cubic_box_length": str(args.cubic_box_length),
                                "init_cells": "1"})),
       fst.args({"particle_type0": fst.install_dir() + "/forcefield/data.hard_sphere"})))
-    mc.add(fst.Potential(fst.MakeHardSphere()))
-    mc.add_to_optimized(fst.Potential(fst.MakeHardSphere(), fst.MakeVisitModelCell()))
+    mc.add(fst.MakePotential(fst.MakeHardSphere()))
+    mc.add_to_optimized(fst.MakePotential(fst.MakeHardSphere(), fst.MakeVisitModelCell()))
     mc.set(fst.MakeThermoParams(fst.args({"beta": "1",
                                           "chemical_potential": str(args.mu)})))
     mc.set(fst.MakeFlatHistogram(

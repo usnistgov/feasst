@@ -75,7 +75,7 @@ TEST(MonteCarlo, spce_gce_LONG) {
   { const double sigma = mc.configuration().model_params().sigma().value(0);
     INFO("sigma " << sigma);
     mc.get_system()->get_configuration()->get_domain()->init_cells(sigma);
-    mc.add_to_reference(Potential(
+    mc.add_to_reference(MakePotential(
       MakeModelTwoBodyFactory({MakeLennardJones(),
                                MakeChargeScreened()}),
       MakeVisitModelCell()));
@@ -148,7 +148,7 @@ TEST(MonteCarlo, rpm) {
     config->add_particle_of_type(1);
     config->update_positions({{0., 0., 0.}, {1.01, 0., 0.}});
   }
-  mc.add_to_reference(Potential(MakeDontVisitModel()));
+  mc.add_to_reference(MakePotential(MakeDontVisitModel()));
   const int steps_per = 1e2;
   mc.set(MakeThermoParams({
     {"beta", "0.02"},

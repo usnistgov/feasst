@@ -24,7 +24,7 @@ TEST(PerturbParticleType, serialize) {
     config.particle_type_to_group_create(1);
     sys.add(config);
   }
-  sys.add(Potential(MakeLennardJones()));
+  sys.add(MakePotential(MakeLennardJones()));
   const Configuration& config = sys.configuration();
   auto morph = MakePerturbParticleType({{"type", "1"}});
   PerturbParticleType morph2 = test_serialize(*morph);

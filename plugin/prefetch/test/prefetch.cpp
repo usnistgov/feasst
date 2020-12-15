@@ -140,9 +140,9 @@ TEST(Prefetch, AVB) {
                                    {"steps_per_check", str(steps_per)}});
   monte_carlo->add(Configuration(MakeDomain({{"cubic_box_length", "6"}}),
                                 {{"particle_type", "../forcefield/data.lj"}}));
-  monte_carlo->add(Potential(MakeLennardJones(),
+  monte_carlo->add(MakePotential(MakeLennardJones(),
     MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-  //monte_carlo->add(Potential(MakeLennardJones()));
+  //monte_carlo->add(MakePotential(MakeLennardJones()));
   monte_carlo->set(MakeThermoParams({{"beta", "0.00001"}, {"chemical_potential", "50."}}));
   monte_carlo->set(MakeMetropolis());
   SeekNumParticles(50).with_trial_add().run(monte_carlo.get());

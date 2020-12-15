@@ -9,7 +9,7 @@ namespace feasst {
 
 TEST(CriteriaMayer, ljb2) {
   System system = two_particle_system();
-  system.add_to_reference(Potential(MakeHardSphere()));
+  system.add_to_reference(MakePotential(MakeHardSphere()));
   auto translate = MakeTrialTranslate({{"new_only", "true"}, {"reference_index", "0"}, {"weight", "0.75"}});
   //auto translate = MakeTrialTranslate({{"tunable_param", "0.5"}});
   /// HWH notes: does this need a max?
