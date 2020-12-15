@@ -191,10 +191,10 @@ Table3D::Table3D(const argtype& args) : Table() {
 double Table3D::linear_interpolation(const double value0,
     const double value1, const double value2) const {
   const int n0 = num0();
-  const int n1 = num1();
-  const int n2 = num2();
   TRACE("num0 " << n0);
+  const int n1 = num1();
   TRACE("num1 " << n1);
+  const int n2 = num2();
   TRACE("num2 " << n2);
   const int i0 = value0*(n0 - 1);
   const int i1 = value1*(n1 - 1);

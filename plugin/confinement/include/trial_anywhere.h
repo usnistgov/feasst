@@ -12,7 +12,6 @@ namespace feasst {
 
 /**
   Attempt to rigidly move anywhere in the box with any orientation.
-  Do not compute the energy of the old configuration.
  */
 inline std::shared_ptr<Trial> MakeTrialAnywhere(
     const argtype &args = argtype()) {

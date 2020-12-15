@@ -8,7 +8,10 @@
 namespace feasst {
 
 /**
-  Accumulate \f$\langle e^{-\beta U}\rangle\f$.
+  Assumes there is only one Trial, TrialAdd, and it is AlwaysReject-ed.
+  Accumulate \f$\langle e^{-\beta \Delta U}\rangle\f$,
+  where \f$\Delta U\f$ is the energy contribution of the attempt to add the
+  particle.
  */
 class HenryCoefficient : public Analyze {
  public:

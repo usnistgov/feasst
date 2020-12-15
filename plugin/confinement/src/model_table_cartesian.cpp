@@ -319,6 +319,8 @@ double ModelTableCart3DIntegr::energy(
   if (val1 < 0) val1 *= -1;
   double val2 = 2.*wrapped_site.coord(2)/sides[2];
   if (val2 < 0) val2 *= -1;
+  TRACE(tables_.size());
+  TRACE(site.type());
   return tables_[site.type()]->linear_interpolation(val0, val1, val2);
 }
 

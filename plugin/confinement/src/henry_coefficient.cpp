@@ -22,6 +22,13 @@ HenryCoefficient::HenryCoefficient(const argtype &args) : Analyze(args) {
 void HenryCoefficient::initialize(Criteria * criteria,
     System * system,
     TrialFactory * trial_factory) {
+  ASSERT(criteria->class_name() == "AlwaysReject",
+    "HenryCoefficient requires AlwaysReject");
+  ASSERT(trial_factory->num() == 1,
+    "HenryCoefficient requires only one Trial");
+  ASSERT(trial_factory->trial(0).description() == "TrialAdd",
+    "HenryCoefficient requires TrialAdd. " <<
+    "Found: " << trial_factory->trial(0).description());
   printer(header(*criteria, *system, *trial_factory),
           file_name(*criteria));
 }
@@ -37,9 +44,9 @@ std::string HenryCoefficient::header(const Criteria& criteria,
 void HenryCoefficient::update(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
-  DEBUG("en: " << criteria.current_energy());
-  accumulator_.accumulate(
-    std::exp(-system.thermo_params().beta()*criteria.current_energy()));
+  const double en = trial_factory.trial(0).accept().energy_new();
+  DEBUG("en: " << en);
+  accumulator_.accumulate(std::exp(-system.thermo_params().beta()*en));
 }
 
 std::string HenryCoefficient::write(const Criteria& criteria,

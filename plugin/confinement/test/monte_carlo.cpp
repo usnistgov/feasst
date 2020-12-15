@@ -22,7 +22,7 @@
 #include "steppers/include/check_energy_and_tune.h"
 #include "confinement/include/model_hard_shape.h"
 #include "confinement/include/model_table_cartesian.h"
-#include "confinement/include/always_accept.h"
+#include "confinement/include/always_reject.h"
 #include "confinement/include/henry_coefficient.h"
 #include "confinement/include/trial_anywhere.h"
 
@@ -165,6 +165,7 @@ System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
       {"particle_type0", "../forcefield/data.dimer"},
       {"particle_type1", install_dir() + "/plugin/confinement/forcefield/data.slab5x5"},
       {"particle_type2", "../forcefield/data.lj"}});
+  EXPECT_EQ(3, config.num_site_types());
   for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
     config.set_model_param("cutoff", site_type, 2.5);
   }
@@ -183,10 +184,10 @@ System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
 Accumulator henry(System system) {
   MonteCarlo mc;
   mc.set(system);
-  mc.set(MakeThermoParams({{"beta", "1.0"}}));
-  mc.set(MakeAlwaysAccept());
-  mc.add(MakeTrialAnywhere({{"particle_type", "0"}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/henry"}}));
+  mc.set(MakeThermoParams({{"beta", "1.0"}, {"chemical_potential0", "1"}}));
+  mc.set(MakeAlwaysReject());
+  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  //mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/henry"}}));
   const int henry_index = mc.num_analyzers();
   mc.add(MakeHenryCoefficient());
   mc.attempt(1e6);
@@ -194,18 +195,19 @@ Accumulator henry(System system) {
 }
 
 TEST(ModelTableCart3DIntegr, atomistic_slab_henry_LONG) {
-  const Accumulator h = henry(slab(1, 1));
+  const Accumulator h = henry(slab(0, 1));
   EXPECT_NEAR(h.average(), 55.5, 4*h.stdev_of_av());
 }
 
 TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
   System table_system = slab(0, 1, 1);
   table_system.energy();
-  auto model = MakeModelTableCart3DIntegr(MakeTable3D({
+  auto table = MakeTable3D({
     {"num0", "51"},
     {"num1", "51"},
     {"num2", "51"},
-    {"default_value", "0."}}));
+    {"default_value", "0."}});
+  auto model = MakeModelTableCart3DIntegr(table);
   const Particle moving_particle = table_system.configuration().particle(1);
   EXPECT_EQ(moving_particle.type(), 2);
   Select select(1, moving_particle);
@@ -214,7 +216,7 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
   #else // _OPENMP
     model->compute_table(&table_system, &select);
   #endif // _OPENMP
-  System system = slab(1);
+  System system = slab(0);
   system.add(Potential(model));  // use table instead of explicit wall
   const Accumulator h = henry(system);
   EXPECT_NEAR(h.average(), 52.5, 3*h.stdev_of_av());
