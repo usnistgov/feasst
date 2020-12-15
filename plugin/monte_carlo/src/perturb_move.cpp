@@ -32,7 +32,7 @@ void PerturbMove::revert(System * system) {
 
 void PerturbMove::finalize(System * system) {
   if (finalize_possible()) {
-    system->finalize(finalize_select()->mobile_original());
+    system->finalize(finalize_select()->mobile());
   }
 }
 
