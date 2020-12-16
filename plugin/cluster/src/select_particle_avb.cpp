@@ -7,15 +7,13 @@
 
 namespace feasst {
 
-SelectParticleAVB::SelectParticleAVB(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype& args)
-  : TrialSelect(args) {
+SelectParticleAVB::SelectParticleAVB(const argtype& args) : TrialSelect(args) {
   class_name_ = "SelectParticleAVB";
-  neighbor_criteria_ = neighbor_criteria;
-  site_index_ = args_.key("site_index").dflt("0").integer();
+  neighbor_ = args_.key("neighbor_index").dflt("0").integer();
+  site_index_ = args_.key("site").dflt("0").integer();
+  //INFO("site_index_ " << site_index_);
   mobile_.clear();
-  mobile_.add_site(0, 0);
+  mobile_.add_site(0, site_index_);
   grand_canonical_ = args_.key("grand_canonical").boolean();
   inside_ = args_.key("inside").dflt("true").boolean();
   is_second_target_ = args_.key("second_target").dflt("false").boolean();
@@ -34,7 +32,7 @@ SelectParticleAVB::SelectParticleAVB(
 //  }
   target_args.insert({"particle_type",
                       args_.key("target_particle_type").dflt("0").str()});
-  target_args.insert({"site", args_.key("target_site_index").dflt("0").str()});
+  target_args.insert({"site", args_.key("target_site").dflt("0").str()});
   select_target_ = TrialSelectParticle(target_args);
 
   // initialize select_mobile_
@@ -51,8 +49,7 @@ SelectParticleAVB::SelectParticleAVB(
 class MapSelectParticleAVB {
  public:
   MapSelectParticleAVB() {
-    auto obj = MakeSelectParticleAVB(MakeNeighborCriteria(),
-      {{"grand_canonical", "true"}});
+    auto obj = MakeSelectParticleAVB({{"grand_canonical", "true"}});
     obj->deserialize_map()["SelectParticleAVB"] = obj;
   }
 };
@@ -97,8 +94,9 @@ bool SelectParticleAVB::select(const Select& perturbed,
     anchor_.set_particle(0, target_.particle_index(0));
   }
   ASSERT(target_.num_sites() == 1, "Error");
-  map_(*system, *neighbor_criteria_).neighbors(
-    *neighbor_criteria_,
+  const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_);
+  map_(*system, neighbor_).neighbors(
+    neighbor,
     config,
     target_.particle_index(0),
     target_.site_index(0, 0),
@@ -114,6 +112,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
     if (num_neighbors <= 0) return false;
     mobile_.set_particle(0,
       random->const_element(neighbors_.particle_indices()));
+    //INFO(mobile_.str());
     if (!grand_canonical_) {
       DEBUG("loading positions");
       mobile_.load_positions(config.particles());
@@ -133,7 +132,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
 
   // precompute volume terms
   const double volume = config.domain().volume();
-  const double volume_av = neighbor_criteria_->volume(config.dimension());
+  const double volume_av = neighbor.volume(config.dimension());
   const double volume_out = volume - volume_av;
   ASSERT(volume_out > 0, "AV volume: " << volume_av << " is too large "
     << "for total volume: " << volume);
@@ -172,6 +171,7 @@ bool SelectParticleAVB::select(const Select& perturbed,
 
   // AVB2 in->out
   } else if (!is_ghost() && !grand_canonical_ && inside_ && !is_second_target_) {
+    //INFO("AVB2 in->out");
     // compute num_out
     ASSERT(num_out == 0, "num_out from above should be zero");
     int num_tot_tmp;
@@ -199,8 +199,8 @@ bool SelectParticleAVB::select(const Select& perturbed,
   // AVB4 in->in
   } else if (!is_ghost() && !grand_canonical_ && inside_ && is_second_target_) {
     // obtain the number of neighbors in the second target
-    map_(*system, *neighbor_criteria_).neighbors(
-      *neighbor_criteria_,
+    map_(*system, neighbor_).neighbors(
+      neighbor,
       config,
       second_target_.particle_index(0),
       second_target_.site_index(0, 0),
@@ -241,14 +241,7 @@ SelectParticleAVB::SelectParticleAVB(std::istream& istr)
   : TrialSelect(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(239 == version, "mismatch version: " << version);
-  // HWH for unknown reasons, this function template does not work
-  // feasst_deserialize(neighbor_criteria_, istr);
-  { int existing;
-    istr >> existing;
-    if (existing != 0) {
-      neighbor_criteria_ = std::make_shared<NeighborCriteria>(istr);
-    }
-  }
+  feasst_deserialize(&neighbor_, istr);
   feasst_deserialize(&site_index_, istr);
   feasst_deserialize(&grand_canonical_, istr);
   feasst_deserialize(&inside_, istr);
@@ -261,7 +254,7 @@ void SelectParticleAVB::serialize_select_particle_avb_(
     std::ostream& ostr) const {
   serialize_trial_select_(ostr);
   feasst_serialize_version(239, ostr);
-  feasst_serialize(neighbor_criteria_, ostr);
+  feasst_serialize(neighbor_, ostr);
   feasst_serialize(site_index_, ostr);
   feasst_serialize(grand_canonical_, ostr);
   feasst_serialize(inside_, ostr);

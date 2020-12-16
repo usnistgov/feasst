@@ -118,8 +118,7 @@ class TrialSelect {
     const Configuration& config);
 
   // HWH used in ComputeAddAVBDivalent
-  const EnergyMap& map_(const System& system,
-    const NeighborCriteria& neighbor_criteria) const;
+  const EnergyMap& map_(const System& system, const int neighbor_index) const;
 
   /// Return the property value by name.
   double property(const std::string name) const {

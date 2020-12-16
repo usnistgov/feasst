@@ -7,12 +7,10 @@
 
 namespace feasst {
 
-SelectParticleAVBDivalent::SelectParticleAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype& args)
+SelectParticleAVBDivalent::SelectParticleAVBDivalent(const argtype& args)
   : TrialSelect(args) {
   class_name_ = "SelectParticleAVBDivalent";
-  neighbor_criteria_ = neighbor_criteria;
+  neighbor_ = args_.key("neighbor_index").dflt("0").integer();
 
   // initialize select_mobile_
   argtype mobile_args;
@@ -35,9 +33,8 @@ SelectParticleAVBDivalent::SelectParticleAVBDivalent(
 class MapSelectParticleAVBDivalent {
  public:
   MapSelectParticleAVBDivalent() {
-    auto obj = MakeSelectParticleAVBDivalent(MakeNeighborCriteria(),
-      {{"ghost", "true"},
-       {"particle_type", "0"}});
+    auto obj = MakeSelectParticleAVBDivalent(
+      {{"ghost", "true"}, {"particle_type", "0"}});
     obj->deserialize_map()["SelectParticleAVBDivalent"] = obj;
   }
 };
@@ -56,8 +53,9 @@ bool SelectParticleAVBDivalent::select(const Select& perturbed,
       const_cast<const Select*>(&perturbed),
       &mobile_);
   } else {
-    map_(*system, *neighbor_criteria_).neighbors(
-      *neighbor_criteria_,
+    const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_);
+    map_(*system, neighbor_).neighbors(
+      neighbor,
       config,
       anchor_.particle_index(0),
       anchor_.site_index(0, 0),
@@ -69,7 +67,7 @@ bool SelectParticleAVBDivalent::select(const Select& perturbed,
     DEBUG("num neigh " << num_neigh << " : " << neighbors_.str());
     mobile_.set_particle(0,
       random->const_element(neighbors_.particle_indices()));
-    const double volume_av = neighbor_criteria_->volume(config.dimension());
+    const double volume_av = neighbor.volume(config.dimension());
     set_probability(num_neigh/volume_av);
   }
   DEBUG("probability: " << probability());
@@ -87,14 +85,7 @@ SelectParticleAVBDivalent::SelectParticleAVBDivalent(std::istream& istr)
   : TrialSelect(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(2385 == version, "mismatch version: " << version);
-  // HWH for unknown reasons, this function template does not work
-  // feasst_deserialize(neighbor_criteria_, istr);
-  { int existing;
-    istr >> existing;
-    if (existing != 0) {
-      neighbor_criteria_ = std::make_shared<NeighborCriteria>(istr);
-    }
-  }
+  feasst_deserialize(&neighbor_, istr);
   feasst_deserialize_fstobj(&select_mobile_, istr);
 }
 
@@ -102,7 +93,7 @@ void SelectParticleAVBDivalent::serialize_select_particle_avb_divalent_(
     std::ostream& ostr) const {
   serialize_trial_select_(ostr);
   feasst_serialize_version(2385, ostr);
-  feasst_serialize(neighbor_criteria_, ostr);
+  feasst_serialize(neighbor_, ostr);
   feasst_serialize_fstobj(select_mobile_, ostr);
 }
 

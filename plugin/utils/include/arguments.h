@@ -5,21 +5,15 @@
 #include <vector>
 #include <map>
 #include <string>
+#include "utils/include/io.h"
 
 namespace feasst {
-
-/// Convert a string to an integer.
-int str_to_int(const std::string& str);
-
-/// Convert a string to an double.
-double str_to_double(const std::string& str);
-
-/// Convert a string to a boolean.
-bool str_to_bool(const std::string& str);
 
 /// Use a map of string pairs as a dictionary for arguments.
 typedef std::map<std::string, std::string> argtype;
 typedef std::map<std::string, argtype> arglist;
+
+std::string str(const argtype& args);
 
 /**
  * The Arguments class takes in arguments as a map of strings

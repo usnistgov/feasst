@@ -6,6 +6,7 @@
    WallClockLimit
    ProfileTrials
    Volume
+   Chirality2D
    CheckPhysicality
    Check
    ExtensiveMoments

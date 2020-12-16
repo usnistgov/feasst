@@ -110,8 +110,8 @@ TEST(MonteCarlo, TrialMorphExpanded_2_lj_LONG) {
   mc.run_until_complete();
   INFO(FlatHistogram(mc.criteria()).write());
   const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob().reduce(2);
-  EXPECT_NEAR(lnpi.value(0), -13.9933350923078, 0.02);
-  EXPECT_NEAR(lnpi.value(1), -6.41488235897456, 0.02);
+  EXPECT_NEAR(lnpi.value(0), -13.9933350923078, 0.04);
+  EXPECT_NEAR(lnpi.value(1), -6.41488235897456, 0.04);
   EXPECT_NEAR(lnpi.value(2), -0.00163919230786818, 0.005);
   EXPECT_NEAR(mc.analyzers().back()->analyzers()[0]->accumulator().average(),
               -0.000605740233333333, 1e-8);

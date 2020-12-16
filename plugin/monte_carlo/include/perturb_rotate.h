@@ -9,9 +9,16 @@ namespace feasst {
 
 /**
   Rotate the positions of the selection.
+  Assumes the selection is only one particle.
  */
 class PerturbRotate : public PerturbMove {
  public:
+  /**
+    args:
+    - pivot_site: set the site index in selection with which to use as the
+      pivot for rotation.
+      If -1, use the particle position (default: -1).
+   */
   PerturbRotate(const argtype& args = argtype());
 
   /// Change the position in the selection given a pivot and rotation matrix.
@@ -55,6 +62,8 @@ class PerturbRotate : public PerturbMove {
   void serialize_perturb_rotate_(std::ostream& ostr) const;
 
  private:
+  int pivot_site_;
+
   // temporary and not serialized
   RotationMatrix rot_mat_tmp_;
   Position axis_tmp_;

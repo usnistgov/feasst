@@ -8,6 +8,7 @@
 #include "system/include/hard_sphere.h"
 #include "system/include/utils.h"
 #include "system/include/visit_model_intra_map.h"
+#include "models/include/square_well.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/trials.h"
 #include "monte_carlo/include/monte_carlo.h"
@@ -23,10 +24,17 @@
 #include "steppers/include/check_energy.h"
 #include "steppers/include/check_physicality.h"
 #include "steppers/include/check_properties.h"
+#include "steppers/include/chirality_2d.h"
+#include "steppers/include/energy.h"
+#include "steppers/include/seek_analyze.h"
+#include "cluster/include/energy_map_all.h"
+#include "cluster/include/trial_avb2.h"
 #include "chain/include/check_rigid_bonds.h"
 #include "chain/include/trials.h"
+#include "chain/include/trial_grow.h"
 #include "chain/include/trial_grow_linear.h"
 #include "chain/include/recenter_particles.h"
+#include "chain/include/analyze_bonds.h"
 #include "chain/test/system_chain.h"
 
 namespace feasst {
@@ -224,6 +232,86 @@ TEST(MonteCarlo, cg7mab2_LONG) {
     }) {
     cg7mab2(data, 10, 1e4).attempt(1e6);
   }
+}
+
+MonteCarlo test_avb(const bool avb2, const bool avb4 = true) {
+  MonteCarlo mc;
+  mc.set(MakeRandomMT19937({{"seed", "time"}}));
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  Configuration config(MakeDomain({{"side_length0", "6"}, {"side_length1", "6"}}),
+    {{"particle_type", "../plugin/chain/forcefield/data.heterotrimer2d"}});
+  mc.add(config);
+  EXPECT_EQ(2, mc.configuration().dimension());
+  mc.add(MakePotential(MakeLennardJones(),
+    MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+    //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
+  mc.set(MakeThermoParams({{"beta", "1"}, {"chemical_potential", "1"}}));
+  mc.set(MakeMetropolis());
+  if (!avb2 && !avb4) {
+    mc.add(MakeTrialTranslate());
+    mc.add(MakeTrialRotate());
+  }
+//  mc.add(MakeTrialRigidCluster(
+//    neighbor_criteria,
+//    { {"rotate_param", "50"},
+//      {"translate_param", "1"}}));
+//  mc.add(MakeTrialGrow({
+//    {{"regrow", "true"}, {"particle_type", "0"}, {"site", "0"}},
+//    {{"bond", "true"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+//    {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}}},
+//    {{"num_steps", "1"}}));
+//  mc.add(MakeTrialGrow({
+//    {{"bond", "true"}, {"particle_type", "0"}, {"mobile_site", "1"}, {"anchor_site", "0"}},
+//    {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}}},
+//    {{"num_steps", "1"}}));
+//  mc.add(MakeTrialGrow({
+//    {{"bond", "true"}, {"particle_type", "0"}, {"mobile_site", "2"}, {"anchor_site", "0"}},
+//    {{"angle", "true"}, {"mobile_site", "1"}, {"anchor_site", "0"}, {"anchor_site2", "2"}}},
+//    {{"num_steps", "1"}}));
+  mc.add(MakeNeighborCriteria({{"maximum_distance", "0.75"}, {"minimum_distance", "0.5"},
+    {"site_type0", "1"}, {"site_type1", "1"}}));
+  if (avb2) mc.add(MakeTrialGrow({
+    {{"regrow_avb2", "true"}, {"particle_type", "0"}, {"site", "1"}, {"neighbor_index", "0"}, {"target_particle_type", "0"}, {"target_site", "1"}},
+    {{"bond", "true"}, {"mobile_site", "0"}, {"anchor_site", "1"}},
+    {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}}},
+    {{"num_steps", "1"}}));
+  if (avb4) mc.add(MakeTrialGrow({
+    {{"regrow_avb4", "true"}, {"particle_type", "0"}, {"site", "1"}, {"neighbor_index", "0"}, {"target_particle_type", "0"}, {"target_site", "1"}},
+    {{"bond", "true"}, {"mobile_site", "0"}, {"anchor_site", "1"}},
+    {{"angle", "true"}, {"mobile_site", "2"}, {"anchor_site", "0"}, {"anchor_site2", "1"}}},
+    {{"num_steps", "1"}}));
+  SeekNumParticles(10).with_trial_add().run(&mc);
+  const std::string steps_per = feasst::str(1e5);
+  mc.add(MakeEnergy());
+  mc.add(MakeRecenterParticles());
+  mc.add(MakeLogAndMovie({{"file_name", "tmp/trimer2d"}, {"steps_per", steps_per}}));
+  mc.add(MakeChirality2D());
+  mc.add(MakeAnalyzeBonds());
+  mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));
+  MonteCarlo mc2 = test_serialize(mc);
+  mc2.attempt(1e7);
+  const Analyze& chiral = SeekAnalyze().reference("Chirality2D", mc2);
+  EXPECT_NEAR(chiral.accumulator().average(), 10., NEAR_ZERO);
+  EXPECT_NEAR(chiral.accumulator().stdev(), 0., NEAR_ZERO);
+  return mc2;
+}
+
+const double z_factor = 10.;
+
+TEST(MonteCarlo, heterotrimer2d_LONG) {
+  MonteCarlo mc_no_avb = test_avb(false, false);
+  Accumulator en_no_avb = SeekAnalyze().reference("Energy", mc_no_avb).accumulator();
+  INFO(en_no_avb.str());
+  MonteCarlo mc_avb2 = test_avb(true, false);
+  Accumulator en_avb2 = SeekAnalyze().reference("Energy", mc_avb2).accumulator();
+  INFO(en_avb2.str());
+
+  EXPECT_TRUE(en_no_avb.is_equivalent(en_avb2, z_factor, true));
+
+  MonteCarlo mc_avb4 = test_avb(true, false);
+  Accumulator en_avb4 = SeekAnalyze().reference("Energy", mc_avb4).accumulator();
+  INFO(en_avb4.str());
+  EXPECT_TRUE(en_no_avb.is_equivalent(en_avb4, z_factor, true));
 }
 
 }  // namespace feasst

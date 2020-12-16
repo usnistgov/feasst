@@ -1,22 +1,19 @@
 #include "utils/include/serialize.h"
 #include "math/include/utils_math.h"
 #include "math/include/random.h"
-#include "system/include/neighbor_criteria.h"
 #include "cluster/include/perturb_add_avb.h"
 
 namespace feasst {
 
-PerturbAddAVB::PerturbAddAVB(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype& args) : Perturb(args) {
+PerturbAddAVB::PerturbAddAVB(const argtype& args) : Perturb(args) {
   class_name_ = "PerturbAddAVB";
-  move_ = MakePerturbMoveAVB(neighbor_criteria);
+  move_ = MakePerturbMoveAVB(args);
 }
 
 class MapPerturbAddAVB {
  public:
   MapPerturbAddAVB() {
-    auto obj = MakePerturbAddAVB(MakeNeighborCriteria());
+    auto obj = MakePerturbAddAVB();
     obj->deserialize_map()["PerturbAddAVB"] = obj;
   }
 };

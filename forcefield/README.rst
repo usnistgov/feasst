@@ -50,3 +50,4 @@ Site Labels
 =============
 
 Site labels are used to attach a name to the site type, often used for visualization programs, etc.
+Note: these are not currently implemented.

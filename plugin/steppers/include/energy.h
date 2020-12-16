@@ -30,6 +30,7 @@ class Energy : public Analyze {
       const System& system,
       const TrialFactory& trial_factory) override;
 
+  /// Return the energy.
   const Accumulator& energy() const { return accumulator(); }
 
   // serialize

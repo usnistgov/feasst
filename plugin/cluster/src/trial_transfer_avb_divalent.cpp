@@ -9,9 +9,7 @@
 
 namespace feasst {
 
-std::shared_ptr<Trial> MakeTrialAddAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args) {
+std::shared_ptr<Trial> MakeTrialAddAVBDivalent(const argtype &args) {
   auto trial = MakeTrial(args);
   trial->set_description("TrialAddAVBDivalent");
   Arguments args_(args);
@@ -27,6 +25,7 @@ std::shared_ptr<Trial> MakeTrialAddAVBDivalent(
   const std::string site_index_b =
     args_.key("site_index_b").dflt("0").remove().str();
   argtype parsed_args = args_.args();
+  const std::string neighbor = args_.key("neighbor_index").dflt("0").str();
   ASSERT(particle_type_a == particle_type_b,
     "hard coded for type_a == type_b in Compute");
   ASSERT(particle_type != particle_type_b,
@@ -48,27 +47,27 @@ std::shared_ptr<Trial> MakeTrialAddAVBDivalent(
   argtype sel1_args;
   sel1_args.insert({"ghost", "true"});
   sel1_args.insert({"particle_type", particle_type_a});
+  sel1_args.insert({"neighbor_index", neighbor});
   trial->add_stage(
-    MakeSelectParticleAVBDivalent(neighbor_criteria, sel1_args),
-    MakePerturbAddAVB(neighbor_criteria, parsed_args),
+    MakeSelectParticleAVBDivalent(sel1_args),
+    MakePerturbAddAVB(parsed_args),
     parsed_args);
 
   // stage2
   argtype sel2_args;
   sel2_args.insert({"ghost", "true"});
   sel2_args.insert({"particle_type", particle_type_b});
+  sel2_args.insert({"neighbor_index", neighbor});
   trial->add_stage(
-    MakeSelectParticleAVBDivalent(neighbor_criteria, sel2_args),
-    MakePerturbAddAVB(neighbor_criteria, parsed_args),
+    MakeSelectParticleAVBDivalent(sel2_args),
+    MakePerturbAddAVB(parsed_args),
     parsed_args);
 
-  trial->set(MakeComputeAddAVBDivalent(neighbor_criteria));
+  trial->set(MakeComputeAddAVBDivalent({{"neighbor_index", neighbor}}));
   return trial;
 }
 
-std::shared_ptr<Trial> MakeTrialRemoveAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args) {
+std::shared_ptr<Trial> MakeTrialRemoveAVBDivalent(const argtype &args) {
   auto trial = MakeTrial(args);
   trial->set_description("TrialRemoveAVBDivalent");
   Arguments args_(args);
@@ -84,6 +83,7 @@ std::shared_ptr<Trial> MakeTrialRemoveAVBDivalent(
   const std::string site_index_b =
     args_.key("site_index_b").dflt("0").remove().str();
   argtype parsed_args = args_.args();
+  const std::string neighbor = args_.key("neighbor_index").dflt("0").str();
   ASSERT(particle_type_a == particle_type_b,
     "hard coded for type_a == type_b in Compute");
   ASSERT(particle_type != particle_type_b,
@@ -105,8 +105,9 @@ std::shared_ptr<Trial> MakeTrialRemoveAVBDivalent(
   argtype sel1_args;
   sel1_args.insert({"ghost", "false"});
   sel1_args.insert({"particle_type", particle_type_a});
+  sel1_args.insert({"neighbor_index", neighbor});
   trial->add_stage(
-    MakeSelectParticleAVBDivalent(neighbor_criteria, sel1_args),
+    MakeSelectParticleAVBDivalent(sel1_args),
     MakePerturbRemove(),
     parsed_args);
 
@@ -114,21 +115,21 @@ std::shared_ptr<Trial> MakeTrialRemoveAVBDivalent(
   argtype sel2_args;
   sel2_args.insert({"ghost", "false"});
   sel2_args.insert({"particle_type", particle_type_b});
+  sel2_args.insert({"neighbor_index", neighbor});
   trial->add_stage(
-    MakeSelectParticleAVBDivalent(neighbor_criteria, sel2_args),
+    MakeSelectParticleAVBDivalent(sel2_args),
     MakePerturbRemove(),
     parsed_args);
 
-  trial->set(MakeComputeRemoveAVBDivalent(neighbor_criteria));
+  trial->set(MakeComputeRemoveAVBDivalent({{"neighbor_index", neighbor}}));
   return trial;
 }
 
 std::shared_ptr<TrialFactory> MakeTrialTransferAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
     const argtype &args) {
   auto factory = std::make_shared<TrialFactory>(args);
-  factory->add(MakeTrialAddAVBDivalent(neighbor_criteria, args));
-  factory->add(MakeTrialRemoveAVBDivalent(neighbor_criteria, args));
+  factory->add(MakeTrialAddAVBDivalent(args));
+  factory->add(MakeTrialRemoveAVBDivalent(args));
   return factory;
 }
 

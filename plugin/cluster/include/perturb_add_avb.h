@@ -12,9 +12,11 @@ namespace feasst {
  */
 class PerturbAddAVB : public Perturb {
  public:
-  PerturbAddAVB(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype& args = argtype());
+  /**
+    args:
+    - neighbor_index: NeighborCriteria index contained in System (default: 0).
+   */
+  PerturbAddAVB(const argtype& args = argtype());
 
   void precompute(TrialSelect * select, System * system) override {
     select->set_ghost(true); }
@@ -41,9 +43,8 @@ class PerturbAddAVB : public Perturb {
 };
 
 inline std::shared_ptr<PerturbAddAVB> MakePerturbAddAVB(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
     const argtype& args = argtype()) {
-  return std::make_shared<PerturbAddAVB>(neighbor_criteria, args);
+  return std::make_shared<PerturbAddAVB>(args);
 }
 
 }  // namespace feasst

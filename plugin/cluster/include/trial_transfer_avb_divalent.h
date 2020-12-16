@@ -6,7 +6,6 @@
 #include "utils/include/arguments.h"
 #include "monte_carlo/include/trial.h"
 #include "monte_carlo/include/trial_factory.h"
-#include "system/include/neighbor_criteria.h"
 
 namespace feasst {
 
@@ -19,9 +18,7 @@ namespace feasst {
   - particle_type_b: type of third added particle in AV of first.
   - site_index_b: index of site in type b that defines AV (default: 0).
  */
-std::shared_ptr<Trial> MakeTrialAddAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args = argtype());
+std::shared_ptr<Trial> MakeTrialAddAVBDivalent(const argtype &args = argtype());
 
 /**
   Attempt to add a particle with AVB as described in ComputeRemoveAVBDivalent.
@@ -33,13 +30,11 @@ std::shared_ptr<Trial> MakeTrialAddAVBDivalent(
   - site_index_b: index of site in type b that defines AV (default: 0).
  */
 std::shared_ptr<Trial> MakeTrialRemoveAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args = argtype());
+  const argtype &args = argtype());
 
 /// Attempt TrialAddAVBDivalent or TrialRemoveAVBDivalent with equal probability
 std::shared_ptr<TrialFactory> MakeTrialTransferAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args = argtype());
+  const argtype &args = argtype());
 
 }  // namespace feasst
 

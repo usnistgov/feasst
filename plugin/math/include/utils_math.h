@@ -3,6 +3,7 @@
 #define FEASST_MATH_UTILS_MATH_H_
 
 #include <vector>
+#include <deque>
 #include <numeric>  // accumulate
 #include <algorithm>  // set_difference, set_union, max_element
 
@@ -114,37 +115,21 @@ template<class T>
 T sum(const std::vector<T>& vec) {
   T sm = 0;
   for (const T& element : vec) {
-    sm += element;
+    sm += sum(element);
   }
   return sm;
 }
 
-/// Return the sum of all elements in a 2D vector.
+/// Terminate recursive template for multidimensional sums.
 template<class T>
-T sum(const std::vector<std::vector<T> >& vec2) {
-  T sm = 0;
-  for (const std::vector<T>& vec : vec2) {
-    sm += sum(vec);
-  }
-  return sm;
-}
+T sum(const T& data) { return data; }
 
-/// Return the sum of all elements in a 3D vector.
+/// Return the sum of all elements in a deque.
 template<class T>
-T sum(const std::vector<std::vector<std::vector<T> > >& vec3) {
+T sum(const std::deque<T>& vec) {
   T sm = 0;
-  for (const std::vector<std::vector<T> >& vec2 : vec3) {
-    sm += sum(vec2);
-  }
-  return sm;
-}
-
-/// Return the sum of all elements in a 4D vector.
-template<class T>
-T sum(const std::vector<std::vector<std::vector<std::vector<T> > > >& vec4) {
-  T sm = 0;
-  for (const std::vector<std::vector<std::vector<T> > >& vec3 : vec4) {
-    sm += sum(vec3);
+  for (const T& element : vec) {
+    sm += sum(element);
   }
   return sm;
 }

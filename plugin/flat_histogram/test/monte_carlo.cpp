@@ -346,7 +346,7 @@ TEST(MonteCarlo, spce_fh_VERY_LONG) {
     FlatHistogram fh(mc.criteria());
     INFO(feasst_str(fh.bias().ln_prob().values()));
     const LnProbability& lnpi = fh.bias().ln_prob();
-    EXPECT_NEAR(lnpi.value(0), -2.72070275309203, 0.015);
+    EXPECT_NEAR(lnpi.value(0), -2.72070275309203, 0.02);
     EXPECT_NEAR(lnpi.value(1), -1.85234049431879, 0.015);
     EXPECT_NEAR(lnpi.value(2), -1.54708325224374, 0.015);
     EXPECT_NEAR(lnpi.value(3), -1.51786213939762, 0.015);

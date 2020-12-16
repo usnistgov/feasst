@@ -161,7 +161,7 @@ endif()
 # chain
 list (FIND FEASST_PLUGINS "chain" _index)
 if (${_index} GREATER -1)
-  target_link_libraries(feasstchain feasstmonte_carlo)
+  target_link_libraries(feasstchain feasstmonte_carlo feasstcluster)
 endif()
 
 # threads

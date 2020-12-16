@@ -7,31 +7,25 @@
 
 namespace feasst {
 
-std::shared_ptr<Trial> MakeTrialTranslateCluster(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args) {
+std::shared_ptr<Trial> MakeTrialTranslateCluster(const argtype &args) {
   auto trial = MakeTrial(args);
   trial->set_description("TrialTranslateCluster");
-  trial->add_stage(MakeSelectCluster(neighbor_criteria, args),
+  trial->add_stage(MakeSelectCluster(args),
             MakePerturbTranslate(args));
   trial->set(std::make_shared<ComputeMoveCluster>());
   return trial;
 }
 
-std::shared_ptr<Trial> MakeTrialRotateCluster(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args) {
+std::shared_ptr<Trial> MakeTrialRotateCluster(const argtype &args) {
   auto trial = MakeTrial(args);
   trial->set_description("TrialRotateCluster");
-  trial->add_stage(MakeSelectCluster(neighbor_criteria, args),
+  trial->add_stage(MakeSelectCluster(args),
             MakePerturbRotateCOM(args));
   trial->set(std::make_shared<ComputeMoveCluster>());
   return trial;
 }
 
-std::shared_ptr<TrialFactory> MakeTrialRigidCluster(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args) {
+std::shared_ptr<TrialFactory> MakeTrialRigidCluster(const argtype &args) {
   auto factory = std::make_shared<TrialFactory>(args);
   Arguments args_(args);
   args_.dont_check();
@@ -43,8 +37,8 @@ std::shared_ptr<TrialFactory> MakeTrialRigidCluster(
     args_.key("translate_param").dflt("0.1").str()});
   rot_args.insert({"tunable_param",
     args_.key("rotate_param").dflt("25").str()});
-  factory->add(MakeTrialTranslateCluster(neighbor_criteria, trans_args));
-  factory->add(MakeTrialRotateCluster(neighbor_criteria, rot_args));
+  factory->add(MakeTrialTranslateCluster(trans_args));
+  factory->add(MakeTrialRotateCluster(rot_args));
   return factory;
 }
 

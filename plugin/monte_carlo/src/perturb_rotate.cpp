@@ -9,6 +9,9 @@ namespace feasst {
 PerturbRotate::PerturbRotate(const argtype& args) : PerturbMove(args) {
   class_name_ = "PerturbRotate";
   set_tunable_min_and_max(2*NEAR_ZERO, 360.);
+  Arguments args_(args);
+  args_.dont_check();
+  pivot_site_ = args_.key("pivot_site").dflt("-1").integer();
 }
 
 class MapPerturbRotate {
@@ -64,8 +67,14 @@ void PerturbRotate::move(System * system,
     TrialSelect * select,
     Random * random) {
   ASSERT(select->mobile().num_sites() > 0, "selection error");
-  const Position& pivot = select->mobile().particle_positions()[0];
-  move(system, select, random, pivot, true);
+  const Position * pivot;
+  if (pivot_site_ == -1) {
+    pivot = const_cast<Position *>(&select->mobile().particle_positions()[0]);
+  } else {
+    pivot = const_cast<Position *>(
+      &select->mobile().site_positions()[0][pivot_site_]);
+  }
+  move(system, select, random, *pivot, true);
 }
 
 void PerturbRotate::move(System * system,
@@ -91,11 +100,13 @@ PerturbRotate::PerturbRotate(std::istream& istr)
   // ASSERT(class_name_ == "PerturbRotate", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
   ASSERT(448 == version, "mismatch version: " << version);
+  feasst_deserialize(&pivot_site_, istr);
 }
 
 void PerturbRotate::serialize_perturb_rotate_(std::ostream& ostr) const {
   serialize_perturb_(ostr);
   feasst_serialize_version(448, ostr);
+  feasst_serialize(pivot_site_, ostr);
 }
 
 void PerturbRotate::serialize(std::ostream& ostr) const {

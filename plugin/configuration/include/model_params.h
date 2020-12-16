@@ -63,7 +63,7 @@ class ModelParam {
   int size() const { return static_cast<int>(values_.size()); }
 
   /// Return the name of the model parameter (e.g., epsilon, cutoff)
-  std::string name() { return name_; }
+  std::string name() const { return name_; }
 
   /// Return the maximum.
   double max() const { return max_value_; }
@@ -82,6 +82,9 @@ class ModelParam {
 
   /// Set the name of the model parameter.
   ModelParam& set_name(const std::string name) { name_ = name; return *this; }
+
+  /// Return as a human readable string.
+  std::string str() const;
 
   void serialize(std::ostream& ostr) const;
   explicit ModelParam(std::istream& istr);
@@ -230,6 +233,9 @@ class ModelParams : public PropertiedEntity {
 
   /// Check
   void check() const;
+
+  /// Return as a human readable string.
+  std::string str() const;
 
   void serialize(std::ostream& ostr) const;
   explicit ModelParams(std::istream& istr);

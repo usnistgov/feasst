@@ -31,6 +31,19 @@ void PerturbDistanceAngle::precompute(TrialSelect * select, System * system) {
   const Angle& angle = system->configuration().unique_type(
     select->particle_type()).angle(angle_type);
   angle_ = degrees_to_radians(angle.property("theta0"));
+  DEBUG("angle_ " << angle_);
+  if (system->configuration().dimension() == 2) {
+    DEBUG("hi");
+    ASSERT(select->anchor().site_index(0, 0) == angle.site(1), "err");
+    if (select->mobile().site_index(0, 0) == angle.site(0) &&
+        select->anchor().site_index(0, 1) == angle.site(2)) {
+      angle_ = 2*PI - angle_;
+      DEBUG("angle_ " << angle_);
+    } else {
+      ASSERT(select->mobile().site_index(0, 0) == angle.site(2) &&
+             select->anchor().site_index(0, 1) == angle.site(0), "err");
+    }
+  }
   if (angle.has_property("spring_constant")) {
     spring_constant_ = angle.property("spring_constant");
   }
@@ -64,9 +77,9 @@ void PerturbDistanceAngle::place_in_circle(const double distance,
   System * system,
   TrialSelect * select,
   Random * random) {
-  if (origin_.dimension() == 0) {
-    origin_.set_to_origin(system->configuration().dimension());
-  }
+  const int dimension = system->configuration().dimension();
+  if (origin_.dimension() == 0) origin_.set_to_origin(dimension);
+  if (orthogonal_jk_.dimension() == 0) orthogonal_jk_.set_to_origin(dimension);
   Select * mobile = select->get_mobile();
   Position * site = mobile->get_site_position(0, 0);
   DEBUG("mobile " << mobile->str());
@@ -100,17 +113,19 @@ void PerturbDistanceAngle::place_in_circle(const double distance,
   site->multiply(distance);
   DEBUG("rjk norm*L: " << rjk_.str());
 
-  // rotate site by (PI-bond_angle) about vector orthogonal to r_jk
-  orthogonal_jk_.orthogonal(*site);
+  // rotate site by (PI-bond_angle). If 3D, about vector orthogonal to r_jk.
+  if (dimension == 3) orthogonal_jk_.orthogonal(*site);
   DEBUG("ortho " << orthogonal_jk_.str());
   rot_mat_.axis_angle(orthogonal_jk_, radians_to_degrees(PI - angle));
   DEBUG("site == rjk: " << site->str());
   rot_mat_.rotate(origin_, site);
   DEBUG("site rotated to angle: " << site->str());
 
-  // randomly spin site about rjk.
-  rot_mat_.axis_angle(rjk_, 2*PI*random->uniform());
-  rot_mat_.rotate(origin_, site);
+  // If 3D, randomly spin site about rjk.
+  if (dimension == 3) {
+    rot_mat_.axis_angle(rjk_, 2*PI*random->uniform());
+    rot_mat_.rotate(origin_, site);
+  }
 
   site->add(rj);  // return to frame of reference
 

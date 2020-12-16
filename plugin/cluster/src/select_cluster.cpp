@@ -3,12 +3,9 @@
 
 namespace feasst {
 
-SelectCluster::SelectCluster(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype& args)
-  : TrialSelect(args) {
+SelectCluster::SelectCluster(const argtype& args) : TrialSelect(args) {
   class_name_ = "SelectCluster";
-  neighbor_criteria_ = neighbor_criteria;
+  neighbor_ = args_.key("neighbor_index").dflt("0").integer();
   select_particle_ = std::make_shared<TrialSelectParticle>(args);
   // HWH optimize by not loading coordinates?
   printable_["cluster_size"] = Accumulator();
@@ -17,7 +14,7 @@ SelectCluster::SelectCluster(
 class MapSelectCluster {
  public:
   MapSelectCluster() {
-    auto obj = MakeSelectCluster(MakeNeighborCriteria());
+    auto obj = MakeSelectCluster();
     obj->deserialize_map()["SelectCluster"] = obj;
   }
 };
@@ -40,14 +37,13 @@ void SelectCluster::select_cluster(const int first_particle,
   select->load_positions_of_last(part, frame_of_reference);
   DEBUG("first node " << select->str());
   DEBUG("first node pos " << select->site_positions()[0][0].str());
-  map_(system, *neighbor_criteria_).select_cluster(
-    *neighbor_criteria_, config, first_particle,
-    select, frame_of_reference);
+  map_(system, neighbor_).select_cluster(system.neighbor_criteria(neighbor_),
+    config, first_particle, select, frame_of_reference);
 }
 
 bool SelectCluster::are_constraints_satisfied(const System& system) const {
-  return !map_(system, *neighbor_criteria_).is_cluster_changed(
-    *neighbor_criteria_, mobile_, system.configuration());
+  return !map_(system, neighbor_).is_cluster_changed(
+    system.neighbor_criteria(neighbor_), mobile_, system.configuration());
 }
 
 std::vector<Select> SelectCluster::select_clusters(
@@ -91,14 +87,7 @@ SelectCluster::SelectCluster(std::istream& istr)
   : TrialSelect(istr) {
   const int version = feasst_deserialize_version(istr);
   ASSERT(239 == version, "mismatch version: " << version);
-  // HWH for unknown reasons, this function template does not work
-  // feasst_deserialize(neighbor_criteria_, istr);
-  { int existing;
-    istr >> existing;
-    if (existing != 0) {
-      neighbor_criteria_ = std::make_shared<NeighborCriteria>(istr);
-    }
-  }
+  feasst_deserialize(&neighbor_, istr);
   // HWH for unknown reasons, this function template does not work
   // feasst_deserialize_fstdr(select_particle_, istr);
   { int existing;
@@ -112,7 +101,7 @@ SelectCluster::SelectCluster(std::istream& istr)
 void SelectCluster::serialize_select_cluster_(std::ostream& ostr) const {
   serialize_trial_select_(ostr);
   feasst_serialize_version(239, ostr);
-  feasst_serialize(neighbor_criteria_, ostr);
+  feasst_serialize(neighbor_, ostr);
   feasst_serialize_fstdr(select_particle_, ostr);
 }
 

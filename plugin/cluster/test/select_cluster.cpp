@@ -42,7 +42,8 @@ TEST(SelectCluster, serialize) {
                       MakeVisitModel(MakeVisitModelInner(map))));
     sys.energy();
     sys.finalize();
-    SelectCluster add(MakeNeighborCriteria());
+    sys.add(MakeNeighborCriteria());
+    SelectCluster add;
 
     // select all clusters
     { std::vector<Select> clusters = add.select_clusters(sys);

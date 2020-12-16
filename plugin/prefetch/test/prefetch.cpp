@@ -147,16 +147,16 @@ TEST(Prefetch, AVB) {
   monte_carlo->set(MakeMetropolis());
   SeekNumParticles(50).with_trial_add().run(monte_carlo.get());
   monte_carlo->set(MakeThermoParams({{"beta", "0.2"}, {"chemical_potential", "-20."}}));
-  auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "3"},
-                                                 {"minimum_distance", "1"}});
+  monte_carlo->add(MakeNeighborCriteria({{"maximum_distance", "3"},
+                                         {"minimum_distance", "1"}}));
   // Something wrong with adding TrialFactories when using prefetch...
   // I think they don't end up selecting the right trial type
-//  monte_carlo->add(MakeTrialAVB2(neighbor_criteria));
-  monte_carlo->add(MakeTrialAVB2Half(neighbor_criteria, {{"out_to_in", "true"}}));
-  monte_carlo->add(MakeTrialAVB2Half(neighbor_criteria, {{"out_to_in", "false"}}));
-  monte_carlo->add(MakeTrialAVB4(neighbor_criteria));
-//  monte_carlo->add(MakeTrialTransferAVB(neighbor_criteria,
-//    {{"particle_type", "0"}}));
+//  monte_carlo->add(MakeTrialAVB2({{"neighbor_index", "0"}}));
+  monte_carlo->add(MakeTrialAVB2Half({{"neighbor_index", "0"}, {"out_to_in", "true"}}));
+  monte_carlo->add(MakeTrialAVB2Half({{"neighbor_index", "0"}, {"out_to_in", "false"}}));
+  monte_carlo->add(MakeTrialAVB4({{"neighbor_index", "0"}}));
+//  monte_carlo->add(MakeTrialTransferAVB({{"neighbor_index", "0"},
+//    {"particle_type", "0"}}));
   monte_carlo->add(MakeTrialTranslate({{"tunable_param", "4"}}));
 //  monte_carlo->add(MakeTrialTransfer({{"particle_type", "0"}}));
   monte_carlo->add(MakeLogAndMovie({{"steps_per", str(steps_per)},

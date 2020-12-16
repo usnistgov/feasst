@@ -53,7 +53,7 @@ void Potential::set_model_param(const char* name,
 }
 
 const ModelParams& Potential::model_params() const {
-  ASSERT(model_params_override_, "When model parameters are not overriden, "
+  ASSERT(model_params_override_, "When model parameters are not overridden, "
     << "you must also provide the configuration as an argument.");
   return model_params_;
 }

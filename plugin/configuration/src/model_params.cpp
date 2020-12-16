@@ -117,6 +117,19 @@ void ModelParam::override_resize_() {
   }
 }
 
+std::string ModelParam::str() const {
+  std::stringstream ss;
+  ss << name() << std::endl;
+  for (int type1 = 0; type1 < size(); ++type1) {
+    for (int type2 = 0; type2 < size(); ++type2) {
+      ss << type1 << "," << value(type1) << ",";
+      ss << type2 << "," << value(type2) << ",";
+      ss << mixed_value(type1, type2) << std::endl;
+    }
+  }
+  return ss.str();
+}
+
 void ModelParams::add_() {
   add(epsilon_);
   add(sigma_);
@@ -289,6 +302,14 @@ void ModelParams::set_cutoff_min_to_sigma() {
       }
     }
   }
+}
+
+std::string ModelParams::str() const {
+  std::stringstream ss;
+  for (const std::shared_ptr<ModelParam> param : params_) {
+    ss << param->str();
+  }
+  return ss.str();
 }
 
 }  // namespace feasst

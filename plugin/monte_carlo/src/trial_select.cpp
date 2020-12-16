@@ -149,7 +149,13 @@ bool TrialSelect::select(
 }
 
 const EnergyMap& TrialSelect::map_(const System& system,
-    const NeighborCriteria& neighbor_criteria) const {
+    const int neighbor_index) const {
+  const int num_neigh = static_cast<int>(system.neighbor_criteria().size());
+  ASSERT(num_neigh > neighbor_index,
+    "With " << num_neigh << " NeighborCriteria added to system, the index "
+    << neighbor_index << " is out of range.");
+  const NeighborCriteria& neighbor_criteria =
+    system.neighbor_criteria(neighbor_index);
   if (neighbor_criteria.reference_potential() == -1) {
     return system.potentials().potential(neighbor_criteria.potential_index()).visit_model().inner().energy_map();
   }

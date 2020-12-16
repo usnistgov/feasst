@@ -17,10 +17,9 @@ class PerturbMoveAVB : public PerturbMove {
     args:
     - inside: true if selecting in the AV, otherwise out (default: true).
       Not implemented for grand_canonical.
+    - neighbor_index: NeighborCriteria index contained in System (default: 0).
    */
-  PerturbMoveAVB(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype& args = argtype());
+  PerturbMoveAVB(const argtype& args = argtype());
 
   void move(System * system,
             TrialSelect * select,
@@ -33,7 +32,7 @@ class PerturbMoveAVB : public PerturbMove {
   virtual ~PerturbMoveAVB() {}
 
  private:
-  std::shared_ptr<NeighborCriteria> neighbor_criteria_;
+  int neighbor_;
   PerturbRotate rotate_;
   bool inside_;
 
@@ -43,9 +42,8 @@ class PerturbMoveAVB : public PerturbMove {
 };
 
 inline std::shared_ptr<PerturbMoveAVB> MakePerturbMoveAVB(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
     const argtype& args = argtype()) {
-  return std::make_shared<PerturbMoveAVB>(neighbor_criteria, args);
+  return std::make_shared<PerturbMoveAVB>(args);
 }
 
 }  // namespace feasst

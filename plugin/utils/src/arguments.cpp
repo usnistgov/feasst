@@ -3,7 +3,6 @@
 #include <iostream>
 #include "utils/include/arguments.h"
 #include "utils/include/debug.h"
-#include "math/include/constants.h"
 #include "utils/include/utils.h"
 #include "utils/include/io.h"
 
@@ -75,48 +74,6 @@ Arguments& Arguments::remove() {
   return *this;
 }
 
-int str_to_int(const std::string& str) {
-  std::stringstream errmsg;
-  int intVal = -1;
-  errmsg << str << " was " << "expected to be an integer.";
-  try {
-    intVal = stoi(str);
-  } catch (...) {
-    FATAL(errmsg.str());
-  }
-  const double dble = stod(str);
-  ASSERT(std::abs(dble - static_cast<double>(intVal)) < 10*NEAR_ZERO,
-    errmsg.str());
-  return intVal;
-}
-
-bool str_to_bool(const std::string& str) {
-  std::stringstream errmsg;
-  errmsg << str << " was expected to be a boolean";
-  if (str == "true" || str == "True") {
-    return true;
-  } else if (str == "false" || str == "False") {
-    return false;
-  } else if (str == "1") {
-    return true;
-  } else if (str == "0") {
-    return false;
-  } else {
-    ASSERT(0, errmsg.str());
-  }
-  return -1;
-}
-
-double str_to_double(const std::string& str) {
-  double double_value = -1;
-  try {
-    double_value = stod(str);
-  } catch (...) {
-    FATAL(str << " was expected to be a double precision number.");
-  }
-  return double_value;
-}
-
 std::string Arguments::status() const {
   std::stringstream ss;
   ss << "used(";
@@ -151,5 +108,15 @@ argtype Arguments::append(const std::string append,
 
 //Arguments::~Arguments() {}
 Arguments::~Arguments() { if (check_) check_all_used(); }
+
+std::string str(const argtype& args) {
+  std::stringstream ss;
+  ss << "{";
+  for (const auto &pair : args) {
+    ss << "{" << pair.first << "," << pair.second << "},";
+  }
+  ss << "}";
+  return ss.str();
+}
 
 }  // namespace feasst

@@ -88,6 +88,15 @@ int num_spaces(const std::string str);
 /// Return true if substring is found inside of string.
 bool is_found_in(const std::string& str, const std::string& substr);
 
+/// Convert a string to an integer.
+int str_to_int(const std::string& str);
+
+/// Convert a string to an double.
+double str_to_double(const std::string& str);
+
+/// Convert a string to a boolean.
+bool str_to_bool(const std::string& str);
+
 }  // namespace feasst
 
 #endif  // FEASST_UTILS_IO_H_

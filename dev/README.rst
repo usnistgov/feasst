@@ -358,3 +358,4 @@ To Do List
 * Rename plugin chain->config_bias ?
 * Config checkpoint writes feasst version. Warn user if restart with different version
 * maybe mc.add(criteria) is preferable to mc.set. Same with sys?
+* in optimizing where config only updates when trial finalized, how to build off new perturbed config in CB?

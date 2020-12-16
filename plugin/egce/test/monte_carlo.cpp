@@ -182,26 +182,28 @@ TEST(MonteCarlo, rpm_egce_avb_fh_LONG) {
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
   mc.set(MakeRandomMT19937({{"seed", "123"}}));
   // mc.set(MakeRandomMT19937({{"seed", "1346867550"}}));
-  auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "3"},
-                                                 {"minimum_distance", "1"},
-                                                 {"site_type0", "0"},
-                                                 {"site_type1", "1"},
-                                                 {"potential_index", "1"}});
+  mc.add(MakeNeighborCriteria({{"maximum_distance", "3"},
+                               {"minimum_distance", "1"},
+                               {"site_type0", "0"},
+                               {"site_type1", "1"},
+                               {"potential_index", "1"}}));
   mc.set(1, MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
-                                               MakeChargeScreened()}),
+                                                   MakeChargeScreened()}),
                       //MakeVisitModelOptRPM(MakeVisitModelInner(MakeEnergyMapNeighborCriteria(neighbor_criteria)))));
                       //MakeVisitModelOptRPM(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
                       //MakeVisitModelOptRPM(MakeVisitModelInner(MakeEnergyMapAll()))));
                       MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
   mc.get_system()->energy();
-  mc.add(MakeTrialTransferAVB(neighbor_criteria,
-    { {"weight", "1."},
-      {"particle_type", "0"},
-      {"target_particle_type", "1"}}));
-  mc.add(MakeTrialTransferAVB(neighbor_criteria,
-    { {"weight", "1."},
-      {"particle_type", "1"},
-      {"target_particle_type", "0"}}));
+  mc.add(MakeTrialTransferAVB({
+    {"neighbor_index", "0"},
+    {"weight", "1."},
+    {"particle_type", "0"},
+    {"target_particle_type", "1"}}));
+  mc.add(MakeTrialTransferAVB({
+    {"neighbor_index", "0"},
+    {"weight", "1."},
+    {"particle_type", "1"},
+    {"target_particle_type", "0"}}));
   mc.run_until_complete();
   test_serialize(mc);
 
@@ -428,19 +430,21 @@ TEST(MonteCarlo, rpm_egce_avb_divalent_LONG) {
       Histogram({{"width", "1"}, {"max", "15"}, {"min", str(min)}})),
     MakeTransitionMatrix({{"min_sweeps", "100"}}),
     MakeAHalfB({{"extra", "1"}})));
-  auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "7.5"},
-                                                 {"minimum_distance", "1"},
-                                                 {"site_type0", "0"},
-                                                 {"site_type1", "1"},
-                                                 {"potential_index", "1"}});
-  mc.add(MakeTrialTransferAVB(neighbor_criteria,
-    { {"weight", "1."},
-      {"particle_type", "0"},
-      {"target_particle_type", "1"}}));
-  mc.add(MakeTrialTransferAVB(neighbor_criteria,
-    { {"weight", "1."},
-      {"particle_type", "1"},
-      {"target_particle_type", "0"}}));
+  mc.add(MakeNeighborCriteria({{"maximum_distance", "7.5"},
+                               {"minimum_distance", "1"},
+                               {"site_type0", "0"},
+                               {"site_type1", "1"},
+                               {"potential_index", "1"}}));
+  mc.add(MakeTrialTransferAVB({
+    {"neighbor_index", "0"},
+    {"weight", "1."},
+    {"particle_type", "0"},
+    {"target_particle_type", "1"}}));
+  mc.add(MakeTrialTransferAVB({
+    {"neighbor_index", "0"},
+    {"weight", "1."},
+    {"particle_type", "1"},
+    {"target_particle_type", "0"}}));
   mc.run_until_complete();
   compare_lnpi_en(mc, min);
 }
@@ -453,21 +457,23 @@ TEST(MonteCarlo, rpm_egce_divalent_avb_and_not) {
   mc.set(1, MakePotential(MakeModelTwoBodyFactory({MakeHardSphere(),
                                                    MakeChargeScreened()}),
                           MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-  auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "7.5"},
-                                                 {"minimum_distance", "1"},
-                                                 {"site_type0", "0"},
-                                                 {"site_type1", "1"},
-                                                 {"potential_index", "1"}});
+  mc.add(MakeNeighborCriteria({{"maximum_distance", "7.5"},
+                               {"minimum_distance", "1"},
+                               {"site_type0", "0"},
+                               {"site_type1", "1"},
+                               {"potential_index", "1"}}));
   mc.add(MakeTrialTransfer({{"particle_type", "0"}}));
   mc.add(MakeTrialTransfer({{"particle_type", "1"}}));
-  mc.add(MakeTrialTransferAVB(neighbor_criteria,
-    { {"weight", "1."},
-      {"particle_type", "0"},
-      {"target_particle_type", "1"}}));
-  mc.add(MakeTrialTransferAVB(neighbor_criteria,
-    { {"weight", "1."},
-      {"particle_type", "1"},
-      {"target_particle_type", "0"}}));
+  mc.add(MakeTrialTransferAVB({
+    {"neighbor_index", "0"},
+    {"weight", "1."},
+    {"particle_type", "0"},
+    {"target_particle_type", "1"}}));
+  mc.add(MakeTrialTransferAVB({
+    {"neighbor_index", "0"},
+    {"weight", "1."},
+    {"particle_type", "1"},
+    {"target_particle_type", "0"}}));
   mc.attempt(2*steps_per);
 }
 
@@ -490,17 +496,18 @@ TEST(MonteCarlo, rpm_divalent_avb_VERY_LONG) {
     MakeTransitionMatrix({{"min_sweeps", "1000"}}));
   mc.set(criteria);
   mc.add(MakeTrialTranslate({{"weight", "0.25"}, {"tunable_param", "0.1"}}));
-  auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "4"},
-                                                 {"minimum_distance", "1"},
-                                                 {"site_type0", "0"},
-                                                 {"site_type1", "1"},
-                                                 {"potential_index", "1"}});
-  mc.add(MakeTrialTransferAVBDivalent(neighbor_criteria,
-    { {"weight", "1."},
-      {"particle_type", "0"},
-      {"particle_type_a", "1"},
-      {"particle_type_b", "1"},
-      {"reference_index", "0"}}));
+  mc.add(MakeNeighborCriteria({{"maximum_distance", "4"},
+                               {"minimum_distance", "1"},
+                               {"site_type0", "0"},
+                               {"site_type1", "1"},
+                               {"potential_index", "1"}}));
+  mc.add(MakeTrialTransferAVBDivalent({
+    {"neighbor_index", "0"},
+    {"weight", "1."},
+    {"particle_type", "0"},
+    {"particle_type_a", "1"},
+    {"particle_type_b", "1"},
+    {"reference_index", "0"}}));
   mc.run_until_complete();
   const LnProbability lnpi = FlatHistogram(mc.criteria()).bias().ln_prob();
   EXPECT_NEAR(lnpi.value(0), -6.7005955776549158, 0.09);

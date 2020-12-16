@@ -2,15 +2,17 @@
 .. toctree::
 
    SelectBranch
+   SelectPerturbed
+   SelectSiteOfType
    SelectSegment
    SelectEndSegment
    SelectReptate
-   SelectSiteOfType
-   SelectPerturbed
    PerturbReptate
    CheckRigidBonds
+   AnalyzeBonds
    RecenterParticles
    trials
+   trial_grow
    PerturbPivot
    PerturbCrankshaft
    PerturbSiteType

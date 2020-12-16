@@ -6,8 +6,9 @@
 
 namespace feasst {
 
+// HWH move to growth expanded ensemble
 /// Select the perturbed site. Used for selection of first stage with growth
-/// expected ensemble. Particular particle, not random particle.
+/// expanded ensemble. Particular particle, not random particle.
 class SelectPerturbed : public TrialSelect {
  public:
   SelectPerturbed(const argtype& args = argtype()) : TrialSelect(args) {

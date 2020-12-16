@@ -76,7 +76,7 @@ double NeighborCriteria::maximum_distance() const {
   return std::sqrt(maximum_distance_sq_);
 }
 
-double NeighborCriteria::volume(const int dimension) {
+double NeighborCriteria::volume(const int dimension) const {
   return spherical_shell_volume(std::sqrt(minimum_distance_sq_),
     std::sqrt(maximum_distance_sq_),
     dimension);
@@ -92,6 +92,7 @@ bool NeighborCriteria::is_position_accepted(
     pbc_.set_to_origin(domain.dimension());
   }
   domain.wrap_opt(position, origin_, &rel_, &pbc_, &squared_distance);
+  DEBUG("squared_distance " << squared_distance);
   return squared_distance > minimum_distance_sq_ &&
          squared_distance < maximum_distance_sq_;
 }

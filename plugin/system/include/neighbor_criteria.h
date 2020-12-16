@@ -45,7 +45,7 @@ class NeighborCriteria {
                    const int site_type1) const;
 
   /// Return the volume based on the distance criteria.
-  double volume(const int dimension);
+  double volume(const int dimension) const;
 
   /// Return true if position satisfies criteria, taking into account PBCs.
   bool is_position_accepted(

@@ -1,4 +1,4 @@
-
+#include <cmath>
 #include <iterator>
 #include <algorithm>
 #include "utils/include/io.h"
@@ -66,6 +66,48 @@ std::string feasst_str(std::map<std::string, std::string> mp) {
 bool is_found_in(const std::string& str, const std::string& substr) {
   if (str.find(substr) != std::string::npos) return true;
   return false;
+}
+
+int str_to_int(const std::string& str) {
+  std::stringstream errmsg;
+  int intVal = -1;
+  errmsg << str << " was " << "expected to be an integer.";
+  try {
+    intVal = stoi(str);
+  } catch (...) {
+    FATAL(errmsg.str());
+  }
+  const double dble = stod(str);
+  ASSERT(std::abs(dble - static_cast<double>(intVal)) < 1e-14,
+    errmsg.str());
+  return intVal;
+}
+
+bool str_to_bool(const std::string& str) {
+  std::stringstream errmsg;
+  errmsg << str << " was expected to be a boolean";
+  if (str == "true" || str == "True") {
+    return true;
+  } else if (str == "false" || str == "False") {
+    return false;
+  } else if (str == "1") {
+    return true;
+  } else if (str == "0") {
+    return false;
+  } else {
+    ASSERT(0, errmsg.str());
+  }
+  return -1;
+}
+
+double str_to_double(const std::string& str) {
+  double double_value = -1;
+  try {
+    double_value = stod(str);
+  } catch (...) {
+    FATAL(str << " was expected to be a double precision number.");
+  }
+  return double_value;
 }
 
 }  // namespace feasst

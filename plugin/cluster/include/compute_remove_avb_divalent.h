@@ -37,8 +37,11 @@ namespace feasst {
  */
 class ComputeRemoveAVBDivalent : public TrialCompute {
  public:
-  explicit ComputeRemoveAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria);
+  /**
+    args:
+    - neighbor_index: NeighborCriteria index contained in System (default: 0).
+   */
+  explicit ComputeRemoveAVBDivalent(const argtype& args = argtype());
 
   void perturb_and_acceptance(
       Criteria * criteria,
@@ -57,15 +60,15 @@ class ComputeRemoveAVBDivalent : public TrialCompute {
   void serialize_compute_remove_avb_divalent_(std::ostream& ostr) const;
 
  private:
-  std::shared_ptr<NeighborCriteria> neighbor_criteria_;
+  int neighbor_;
 
   // temporary
   Select neighbors_;
 };
 
 inline std::shared_ptr<ComputeRemoveAVBDivalent> MakeComputeRemoveAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria) {
-  return std::make_shared<ComputeRemoveAVBDivalent>(neighbor_criteria);
+    const argtype& args = argtype()) {
+  return std::make_shared<ComputeRemoveAVBDivalent>(args);
 }
 
 }  // namespace feasst

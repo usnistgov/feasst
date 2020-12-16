@@ -9,44 +9,38 @@
 
 namespace feasst {
 
-std::shared_ptr<Trial> MakeTrialAddAVB(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args) {
+std::shared_ptr<Trial> MakeTrialAddAVB(const argtype &args) {
   auto trial = MakeTrial(args);
   trial->set_description("TrialAddAVB");
   argtype args_sel(args);
   args_sel.insert({"ghost", "true"});
   args_sel.insert({"grand_canonical", "true"});
   trial->add_stage(
-    MakeSelectParticleAVB(neighbor_criteria, args_sel),
-    MakePerturbAddAVB(neighbor_criteria, args),
+    MakeSelectParticleAVB(args_sel),
+    MakePerturbAddAVB(args),
     args);
   trial->set(MakeComputeAddAVB());
   return trial;
 }
 
-std::shared_ptr<Trial> MakeTrialRemoveAVB(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args) {
+std::shared_ptr<Trial> MakeTrialRemoveAVB(const argtype &args) {
   auto trial = MakeTrial(args);
   trial->set_description("TrialRemoveAVB");
   argtype args_sel(args);
   args_sel.insert({"load_coordinates", "false"});
   args_sel.insert({"grand_canonical", "true"});
   trial->add_stage(
-    MakeSelectParticleAVB(neighbor_criteria, args_sel),
+    MakeSelectParticleAVB(args_sel),
     MakePerturbRemove(),
     args);
   trial->set(MakeComputeRemoveAVB());
   return trial;
 }
 
-std::shared_ptr<TrialFactory> MakeTrialTransferAVB(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args) {
+std::shared_ptr<TrialFactory> MakeTrialTransferAVB(const argtype &args) {
   auto factory = std::make_shared<TrialFactory>(args);
-  factory->add(MakeTrialAddAVB(neighbor_criteria, args));
-  factory->add(MakeTrialRemoveAVB(neighbor_criteria, args));
+  factory->add(MakeTrialAddAVB(args));
+  factory->add(MakeTrialRemoveAVB(args));
   return factory;
 }
 

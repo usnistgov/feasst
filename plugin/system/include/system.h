@@ -7,6 +7,7 @@
 #include "configuration/include/configuration.h"
 #include "system/include/potential_factory.h"
 #include "system/include/thermo_params.h"
+#include "system/include/neighbor_criteria.h"
 
 namespace feasst {
 
@@ -101,6 +102,28 @@ class System {
 
   /// Return a constant reference to the full potentials.
   const PotentialFactory& potentials() const;
+
+  //@}
+  /** @name Neighbor Criteria
+    Define and store various criteria used for defining neighbors
+   */
+  //@{
+
+  /// Add a NeighborCriteria.
+  void add(std::shared_ptr<NeighborCriteria> neighbor_criteria) {
+    neighbor_criteria_.push_back(*neighbor_criteria); }
+
+  /// Return a NeighborCriteria by index in order added.
+  const NeighborCriteria& neighbor_criteria(const int index) const {
+    return neighbor_criteria_[index]; }
+
+  /// Return a NeighborCriteria by index in order added.
+  const std::vector<NeighborCriteria>& neighbor_criteria() const {
+    return neighbor_criteria_; }
+
+  // Return a NeighborCriteria by index in order added.
+  NeighborCriteria * get_neighbor_criteria(const int index) {
+    return &neighbor_criteria_[index]; }
 
   //@}
   /** @name Energy
@@ -208,6 +231,7 @@ class System {
   bool is_optimized_ = false;
   std::vector<PotentialFactory> references_;
   std::shared_ptr<ThermoParams> thermo_params_;
+  std::vector<NeighborCriteria> neighbor_criteria_;
 
   // temporary variable, not needed for serialization
   // In order to finalize or restart the correct reference potential utilized

@@ -6,19 +6,22 @@
 
 namespace feasst {
 
-std::shared_ptr<Trial> MakeTrialAVB4(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype &args) {
+void gen_avb4_args_(const argtype& args, argtype * args_sel, argtype * args_mv) {
+  *args_sel = args;
+  args_sel->insert({"grand_canonical", "false"});
+  args_sel->insert({"second_target", "true"});
+  *args_mv = args;
+  args_mv->insert({"inside", "true"});
+}
+
+std::shared_ptr<Trial> MakeTrialAVB4(const argtype &args) {
+  argtype args_sel, args_mv;
+  gen_avb4_args_(args, &args_sel, &args_mv);
   auto trial = MakeTrial(args);
   trial->set_description("TrialAVB4");
-  argtype args_sel(args);
-  args_sel.insert({"grand_canonical", "false"});
-  args_sel.insert({"second_target", "true"});
-  argtype args_mv(args);
-  args_mv.insert({"inside", "true"});
   trial->add_stage(
-    MakeSelectParticleAVB(neighbor_criteria, args_sel),
-    MakePerturbMoveAVB(neighbor_criteria, args_mv),
+    MakeSelectParticleAVB(args_sel),
+    MakePerturbMoveAVB(args_mv),
     args
   );
   trial->set(MakeComputeAVB4());

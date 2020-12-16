@@ -1,7 +1,7 @@
 #include <cmath>
 #include "utils/include/serialize.h"
-#include "chain/include/check_rigid_bonds.h"
 #include "math/include/constants.h"
+#include "chain/include/check_rigid_bonds.h"
 
 namespace feasst {
 

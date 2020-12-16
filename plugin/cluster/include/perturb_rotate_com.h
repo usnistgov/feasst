@@ -7,6 +7,9 @@
 namespace feasst {
 
 // HWH recenter particle position
+/**
+  Uses the geometric center as the pivot point for the rotation.
+ */
 class PerturbRotateCOM : public PerturbRotate {
  public:
   PerturbRotateCOM(const argtype& args = argtype()) : PerturbRotate(args) {

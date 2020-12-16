@@ -21,6 +21,8 @@ class PerturbDistanceAngle : public PerturbDistance {
 
   /// Same as PerturbDistance, but also obtain the equilibrium angle and
   /// spring constant.
+  /// If 2D, angles are positive when clockwise.
+  /// Thus, when 2D and reverse (e.g., kji instead of ijk), angle = 2pi - angle.
   void precompute(TrialSelect * select, System * system) override;
 
   /// Return the angle.

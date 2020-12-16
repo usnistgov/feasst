@@ -1,10 +1,10 @@
-#include "configuration/include/particle_factory.h"
 #include "utils/include/debug.h"
 #include "utils/include/utils.h"
 #include "utils/include/serialize.h"
 #include "math/include/histogram.h"
 #include "math/include/utils_math.h"
 #include "configuration/include/file_lmp.h"
+#include "configuration/include/particle_factory.h"
 
 namespace feasst {
 
@@ -38,22 +38,26 @@ void ParticleFactory::check(const int dimension) const {
 }
 
 void ParticleFactory::check_types(int * num_site_types,
-                            int * num_particle_types) const {
+    int * num_particle_types, int * num_bond_types, int * num_angle_types
+    ) const {
   if (particles_.size() == 0) {
     *num_site_types = 0;
     *num_particle_types = 0;
+    *num_bond_types = 0;
+    *num_angle_types = 0;
     return;
   }
 
   Histogram site_type;
   site_type.set_width_center(1, 0);
-  Histogram particle_type(site_type);
+  Histogram particle_type(site_type), bond_type(site_type),
+    angle_type(site_type);
   for (const Particle& particle : particles_) {
     TRACE("particle type " << particle.type());
     particle_type.add(particle.type());
-    for (const Site& site : particle.sites()) {
-      site_type.add(site.type());
-    }
+    for (const Site& site : particle.sites()) site_type.add(site.type());
+    for (const Bond& bond : particle.bonds()) bond_type.add(bond.type());
+    for (const Angle& angle : particle.angles()) angle_type.add(angle.type());
   }
   if (unique_particles_) {
     for (double value : site_type.histogram()) {
@@ -62,9 +66,21 @@ void ParticleFactory::check_types(int * num_site_types,
     for (double value : particle_type.histogram()) {
       ASSERT(value > 0, "skipped a particle type");
     }
+    if (sum(bond_type.histogram()) > 0) {
+      for (double value : bond_type.histogram()) {
+        ASSERT(value > 0, "particle skipped a bond type");
+      }
+    }
+    if (sum(angle_type.histogram()) > 0) {
+      for (double value : angle_type.histogram()) {
+        ASSERT(value > 0, "particle skipped an angle type");
+      }
+    }
   }
   *num_site_types = round(site_type.center_of_last_bin()) + 1;
   *num_particle_types = round(particle_type.center_of_last_bin()) + 1;
+  *num_bond_types = round(bond_type.center_of_last_bin()) + 1;
+  *num_angle_types = round(angle_type.center_of_last_bin()) + 1;
 }
 
 void ParticleFactory::add(const std::string file_name) {
@@ -88,7 +104,7 @@ void ParticleFactory::add(const std::string file_name) {
 
 ParticleFactory& ParticleFactory::unique_particles() {
   unique_particles_ = true;
-  check_site_types();
+  check_types();
   ASSERT(num_site_types() == 0, "set before adding particles");
   return *this;
 }
@@ -113,21 +129,54 @@ int ParticleFactory::num_sites() const {
   return num;
 }
 
+int ParticleFactory::num_bonds() const {
+  int num = 0;
+  for (const Particle& particle : particles_) {
+    num += particle.num_bonds();
+  }
+  return num;
+}
+
+int ParticleFactory::num_angles() const {
+  int num = 0;
+  for (const Particle& particle : particles_) {
+    num += particle.num_angles();
+  }
+  return num;
+}
+
 void ParticleFactory::check_types() const {
-  int num_site_types, num_particle_types;
-  check_types(&num_site_types, &num_particle_types);
+  int num_site_types, num_particle_types, num_bond_types, num_angle_types;
+  check_types(&num_site_types, &num_particle_types,
+              &num_bond_types, &num_angle_types);
 }
 
 int ParticleFactory::check_site_types() const {
-  int num_site_types, num_particle_types;
-  check_types(&num_site_types, &num_particle_types);
+  int num_site_types, num_particle_types, num_bond_types, num_angle_types;
+  check_types(&num_site_types, &num_particle_types,
+              &num_bond_types, &num_angle_types);
   return num_site_types;
 }
 
 int ParticleFactory::check_particle_types() const {
-  int num_site_types, num_particle_types;
-  check_types(&num_site_types, &num_particle_types);
+  int num_site_types, num_particle_types, num_bond_types, num_angle_types;
+  check_types(&num_site_types, &num_particle_types,
+              &num_bond_types, &num_angle_types);
   return num_particle_types;
+}
+
+int ParticleFactory::check_bond_types() const {
+  int num_site_types, num_particle_types, num_bond_types, num_angle_types;
+  check_types(&num_site_types, &num_particle_types,
+              &num_bond_types, &num_angle_types);
+  return num_bond_types;
+}
+
+int ParticleFactory::check_angle_types() const {
+  int num_site_types, num_particle_types, num_bond_types, num_angle_types;
+  check_types(&num_site_types, &num_particle_types,
+              &num_bond_types, &num_angle_types);
+  return num_angle_types;
 }
 
 void ParticleFactory::remove(const Group group) {

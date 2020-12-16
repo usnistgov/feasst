@@ -4,8 +4,8 @@
 namespace feasst {
 
 TEST(TrialAVB4, serialize) {
-  auto trial = MakeTrialAVB4(MakeNeighborCriteria({{"maximum_distance", "3"},
-                             {"minimum_distance", "1"}}));
+  auto trial = MakeTrialAVB4({{"neighbor_index", "0"},
+                              {"minimum_distance", "1"}});
   Trial trial2 = test_serialize(*trial);
 }
 

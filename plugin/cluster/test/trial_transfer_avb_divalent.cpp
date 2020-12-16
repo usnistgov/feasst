@@ -31,26 +31,28 @@ TEST(TrialTransferAVBDivalent, add_remove) {
   auto ran = MakeRandomMT19937();
   //ran = MakeRandomMT19937({{"seed", "1591972002"}});
   //ran = MakeRandomMT19937({{"seed", "1580154124"}});
+  //ran = MakeRandomMT19937({{"seed", "1607546467"}});
   auto metropolis = MakeMetropolis();
   system.set(MakeThermoParams({
     {"beta", str(1e-6)},
     {"chemical_potential0", "2"},
     {"chemical_potential1", "2"}}));
-  auto neighbor_criteria = MakeNeighborCriteria({
+  system.add(MakeNeighborCriteria({
     {"maximum_distance", "1.5"},
     {"minimum_distance", "1"},
     {"site_type0", "0"},
     {"site_type1", "1"},
-    {"potential_index", "0"}});
-  const double vol_av = neighbor_criteria->volume(config.dimension());
+    {"potential_index", "0"}}));
+  const double vol_av = system.neighbor_criteria(0).volume(config.dimension());
 
-  auto add = MakeTrialAddAVBDivalent(neighbor_criteria, {
+  auto add = MakeTrialAddAVBDivalent({
+    {"neighbor_index", "0"},
     {"particle_type", "0"},
     {"particle_type_a", "1"},
     {"particle_type_b", "1"}});
   add->precompute(metropolis.get(), &system);
   add->attempt(metropolis.get(), &system, ran.get());
-  EXPECT_EQ(config.num_particles(), 3);
+  if (config.num_particles() != 3) return;
   EXPECT_EQ(config.particle(0).type(), 0);
   EXPECT_EQ(config.particle(1).type(), 1);
   EXPECT_EQ(config.particle(2).type(), 1);
@@ -75,7 +77,8 @@ TEST(TrialTransferAVBDivalent, add_remove) {
 
   DEBUG("**begin remove test**");
 
-  auto remove = MakeTrialRemoveAVBDivalent(neighbor_criteria, {
+  auto remove = MakeTrialRemoveAVBDivalent({
+    {"neighbor_index", "0"},
     {"particle_type", "0"},
     {"particle_type_a", "1"},
     {"particle_type_b", "1"}});

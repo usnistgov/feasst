@@ -5,7 +5,6 @@
 #include <vector>
 #include <memory>
 #include "utils/include/arguments.h"
-#include "system/include/neighbor_criteria.h"
 #include "monte_carlo/include/trial_select_particle.h"
 
 namespace feasst {
@@ -22,10 +21,9 @@ class SelectParticleAVBDivalent : public TrialSelect {
     - site_index: index of site on particle_type to put in AV of target site
       (default: 0).
     - ghost: true if selecting a ghost (for adding).
+    - neighbor_index: NeighborCriteria index contained in System (default: 0).
    */
-  SelectParticleAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype& args = argtype());
+  SelectParticleAVBDivalent(const argtype& args = argtype());
 
   bool select(const Select& perturbed,
               System* system,
@@ -40,7 +38,7 @@ class SelectParticleAVBDivalent : public TrialSelect {
   void serialize_select_particle_avb_divalent_(std::ostream& ostr) const;
 
  private:
-  std::shared_ptr<NeighborCriteria> neighbor_criteria_;
+  int neighbor_;
   TrialSelectParticle select_mobile_;
 
   // temporary
@@ -48,9 +46,8 @@ class SelectParticleAVBDivalent : public TrialSelect {
 };
 
 inline std::shared_ptr<SelectParticleAVBDivalent> MakeSelectParticleAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
     const argtype &args = argtype()) {
-  return std::make_shared<SelectParticleAVBDivalent>(neighbor_criteria, args);
+  return std::make_shared<SelectParticleAVBDivalent>(args);
 }
 
 }  // namespace feasst

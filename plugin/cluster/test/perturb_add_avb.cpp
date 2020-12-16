@@ -26,18 +26,18 @@ TEST(PerturbAddAVB, gce_add) {
   //ran = MakeRandomMT19937({{"seed", "1580154124"}});
 
   const double max_dist = 0.1;
-  auto neigh_crit = MakeNeighborCriteria({{"maximum_distance", str(max_dist)}});
+  system.add(MakeNeighborCriteria({{"maximum_distance", str(max_dist)}}));
 
-  SelectParticleAVB sel(
-    neigh_crit,
-    {{"grand_canonical", "true"},
-     {"particle_type", "0"}});
+  SelectParticleAVB sel({
+    {"neighbor_index", "0"},
+    {"grand_canonical", "true"},
+    {"particle_type", "0"}});
   sel.precompute(&system);
   auto sel2 = test_serialize(sel);
 
-  PerturbAddAVB add(neigh_crit);
-  add.precompute(&sel2, &system);
-  auto add2 = test_serialize(add);
+  auto add = MakePerturbAddAVB({{"neighbor_index", "0"}});
+  add->precompute(&sel2, &system);
+  auto add2 = test_serialize(*add);
 
   EXPECT_TRUE(sel2.is_ghost());
   sel2.sel(&system, ran.get());

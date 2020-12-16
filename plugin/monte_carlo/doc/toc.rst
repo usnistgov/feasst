@@ -10,15 +10,16 @@
    TrialSelectAngle
    TrialSelectParticle
    Perturb
-   PerturbMove
-   PerturbTranslate
-   PerturbDistance
    PerturbVolume
+   PerturbMove
+   PerturbDistance
+   PerturbTranslate
    Criteria
-   Constraint
-   ConstrainNumParticles
    TrialStage
    TrialCompute
+   TrialComputeVolume
+   TrialComputeRemove
+   TrialComputeAdd
    Trial
    TrialFactory
    Analyze
@@ -30,10 +31,9 @@
    trials
    TrialComputeMove
    trial_move
+   Constraint
+   ConstrainNumParticles
    Metropolis
-   TrialComputeVolume
-   TrialComputeRemove
-   TrialComputeAdd
    PerturbRotate
    PerturbAnywhere
    PerturbAdd

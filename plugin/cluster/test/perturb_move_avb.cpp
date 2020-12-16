@@ -25,20 +25,20 @@ TEST(PerturbMoveAVB, move) {
   system.energy();
 
   auto ran = MakeRandomMT19937();
-  // ran = MakeRandomMT19937({{"seed", "default"}});
+  ran = MakeRandomMT19937({{"seed", "default"}});
 
   const double max_dist = 2;
-  auto neigh_crit = MakeNeighborCriteria({{"maximum_distance", str(max_dist)}});
+  system.add(MakeNeighborCriteria({{"maximum_distance", str(max_dist)}}));
 
   SelectParticleAVB sel_in(
-    neigh_crit,
     {{"grand_canonical", "false"},
+     {"neighbor_index", "0"},
      {"particle_type", "0"},
      {"inside", "true"}});
   sel_in.precompute(&system);
   auto sel_in2 = test_serialize(sel_in);
 
-  PerturbMoveAVB mv_out(neigh_crit, {{"inside", "false"}});
+  PerturbMoveAVB mv_out({{"neighbor_index", "0"}, {"inside", "false"}});
   mv_out.precompute(&sel_in2, &system);
   auto mv_out2 = test_serialize(mv_out);
 
@@ -69,17 +69,17 @@ TEST(PerturbMoveAVB, move) {
 
   Position rel = config.particle(sel_in2.mobile().particle_index(0)).site(0).position();
   rel.subtract(config.particle(sel_in2.anchor().particle_index(0)).site(0).position());
-  EXPECT_FALSE(neigh_crit->is_position_accepted(rel, config.domain()));
+  EXPECT_FALSE(system.get_neighbor_criteria(0)->is_position_accepted(rel, config.domain()));
 
   SelectParticleAVB sel_out(
-    neigh_crit,
     {{"grand_canonical", "false"},
+     {"neighbor_index", "0"},
      {"particle_type", "0"},
      {"inside", "false"}});
   sel_out.precompute(&system);
   auto sel_out2 = test_serialize(sel_out);
 
-  PerturbMoveAVB mv_in(neigh_crit, {{"inside", "true"}});
+  PerturbMoveAVB mv_in({{"neighbor_index", "0"}, {"inside", "true"}});
   mv_in.precompute(&sel_out2, &system);
   auto mv_in2 = test_serialize(mv_in);
 
@@ -110,7 +110,7 @@ TEST(PerturbMoveAVB, move) {
 
   rel = config.particle(sel_out2.mobile().particle_index(0)).site(0).position();
   rel.subtract(config.particle(sel_out2.anchor().particle_index(0)).site(0).position());
-  EXPECT_TRUE(neigh_crit->is_position_accepted(rel, config.domain()));
+  EXPECT_TRUE(system.get_neighbor_criteria(0)->is_position_accepted(rel, config.domain()));
 }
 
 TEST(PerturbMoveAVB, AVB4) {
@@ -137,18 +137,18 @@ TEST(PerturbMoveAVB, AVB4) {
   //ran = MakeRandomMT19937({{"seed", "1588085108"}});
 
   const double max_dist = 2;
-  auto neigh_crit = MakeNeighborCriteria({{"maximum_distance", str(max_dist)}});
+  system.add(MakeNeighborCriteria({{"maximum_distance", str(max_dist)}}));
 
   SelectParticleAVB sel_in(
-    neigh_crit,
     {{"grand_canonical", "false"},
+     {"neighbor_index", "0"},
      {"particle_type", "0"},
      {"inside", "true"},
      {"second_target", "true"}});
   sel_in.precompute(&system);
   auto sel_in2 = test_serialize(sel_in);
 
-  PerturbMoveAVB mv_in(neigh_crit, {{"inside", "true"}});
+  PerturbMoveAVB mv_in({{"neighbor_index", "0"}, {"inside", "true"}});
   mv_in.precompute(&sel_in2, &system);
   auto mv_in2 = test_serialize(mv_in);
 

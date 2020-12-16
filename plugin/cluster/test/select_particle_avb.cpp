@@ -10,32 +10,33 @@
 namespace feasst {
 
 TEST(SelectParticleAVB, serialize) {
-  System system;
-  {
-    Configuration config(MakeDomain({{"cubic_box_length", "8"}}),
-                         {{"particle_type", "../forcefield/data.lj"}});
-    config.add_particle_of_type(0);
-    config.add_particle_of_type(0);
-    config.add_particle_of_type(0);
-    config.update_positions({{0, 0, 0},
-                             {-1.25, 0, 0},
-                             {2.9, 0, 0}});
-    system.add(config);
-  }
-  system.add(MakePotential(MakeLennardJones(),
-                    MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-  system.energy();
-  system.finalize();
+  //for (const double max_dist : {1.5}) {
+  for (const double max_dist : {1.5, 3.}) {
+  //for (const double max_dist : {3.}) {
+    System system;
+    {
+      Configuration config(MakeDomain({{"cubic_box_length", "8"}}),
+                           {{"particle_type", "../forcefield/data.lj"}});
+      config.add_particle_of_type(0);
+      config.add_particle_of_type(0);
+      config.add_particle_of_type(0);
+      config.update_positions({{0, 0, 0},
+                               {-1.25, 0, 0},
+                               {2.9, 0, 0}});
+      system.add(config);
+    }
+    system.add(MakePotential(MakeLennardJones(),
+      MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
+    system.add(MakeNeighborCriteria({{"maximum_distance", str(max_dist)}}));
+    system.energy();
+    system.finalize();
 
-  auto ran = MakeRandomMT19937();
+    auto ran = MakeRandomMT19937();
   //ran = MakeRandomMT19937({{"seed", "1580154124"}});
 
-  for (const double max_dist : {3.}) {
-  //for (const double max_dist : {1.5}) {
-  //for (const double max_dist : {1.5, 3.}) {
     SelectParticleAVB sel(
-      MakeNeighborCriteria({{"maximum_distance", str(max_dist)}}),
       {{"grand_canonical", "true"},
+       {"neighbor_index", "0"},
        {"particle_type", "0"}});
     sel.precompute(&system);
     auto sel2 = test_serialize(sel);

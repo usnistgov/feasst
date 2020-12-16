@@ -76,8 +76,11 @@ e^{-\beta\Delta U + \beta\mu_a + \beta\mu_b + \beta\mu_t}`
  */
 class ComputeAddAVBDivalent : public TrialCompute {
  public:
-  explicit ComputeAddAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria);
+  /**
+    args:
+    - neighbor_index: NeighborCriteria index contained in System (default: 0).
+   */
+  explicit ComputeAddAVBDivalent(const argtype& args = argtype());
 
   void perturb_and_acceptance(
       Criteria * criteria,
@@ -96,15 +99,15 @@ class ComputeAddAVBDivalent : public TrialCompute {
   void serialize_compute_add_avb_divalent_(std::ostream& ostr) const;
 
  private:
-  std::shared_ptr<NeighborCriteria> neighbor_criteria_;
+  int neighbor_;
 
   // temporary
   Select neighbors_;
 };
 
 inline std::shared_ptr<ComputeAddAVBDivalent> MakeComputeAddAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria) {
-  return std::make_shared<ComputeAddAVBDivalent>(neighbor_criteria);
+    const argtype& args = argtype()) {
+  return std::make_shared<ComputeAddAVBDivalent>(args);
 }
 
 }  // namespace feasst

@@ -47,14 +47,14 @@ TEST(MonteCarlo, cluster) {
     mc.set(MakeMetropolis());
     if (single_particle_translate) mc.add(MakeTrialTranslate());
     SeekNumParticles(3).with_trial_add().run(&mc);
-    auto neighbor_criteria = MakeNeighborCriteria({{"energy_maximum", "-0.5"}});
-    SelectCluster scluster(neighbor_criteria);
-    scluster.select_cluster(0, mc.system());
-    const int cluster_size = scluster.mobile().num_particles();
-    mc.add(MakeTrialRigidCluster(
-      neighbor_criteria,
-      { {"rotate_param", "50"},
-        {"translate_param", "1"}}));
+    mc.add(MakeNeighborCriteria({{"energy_maximum", "-0.5"}}));
+    auto scluster = MakeSelectCluster({{"neighbor_index", "0"}});
+    scluster->select_cluster(0, mc.system());
+    const int cluster_size = scluster->mobile().num_particles();
+    mc.add(MakeTrialRigidCluster({
+      {"neighbor_index", "0"},
+      {"rotate_param", "50"},
+      {"translate_param", "1"}}));
     const int steps_per = 1e0;
     mc.add(MakeLogAndMovie({{"steps_per", str(steps_per)}, {"file_name", "tmp/lj"}}));
     mc.add(MakeCheckEnergyAndTune({{"steps_per", str(steps_per)}}));
@@ -67,12 +67,12 @@ TEST(MonteCarlo, cluster) {
                   mc.system().stored_energy(),
                   NEAR_ZERO);
     }
-    scluster.select_cluster(0, mc.system());
+    scluster->select_cluster(0, mc.system());
     if (single_particle_translate) {
-      EXPECT_EQ(scluster.mobile().num_particles(),
+      EXPECT_EQ(scluster->mobile().num_particles(),
                 mc.configuration().num_particles());
     } else {
-      EXPECT_EQ(scluster.mobile().num_particles(), cluster_size);
+      EXPECT_EQ(scluster->mobile().num_particles(), cluster_size);
     }
 
     // ensure TrialFactory still tunes
@@ -153,15 +153,15 @@ MonteCarlo mc_avb_test(
   monte_carlo.set(MakeMetropolis(
     MakeConstrainNumParticles({{"minimum", str(min_particles)}})));
   if (avb) {
-    auto neighbor_criteria = MakeNeighborCriteria({{"maximum_distance", "3"},
-                                                   {"minimum_distance", "1"}});
+    monte_carlo.add(MakeNeighborCriteria({{"maximum_distance", "3"},
+                                          {"minimum_distance", "1"}}));
     if (avb2) {
-      monte_carlo.add(MakeTrialAVB2(neighbor_criteria));
+      monte_carlo.add(MakeTrialAVB2({{"neighbor_index", "0"}}));
     } else if (avb4) {
-      monte_carlo.add(MakeTrialAVB4(neighbor_criteria));
+      monte_carlo.add(MakeTrialAVB4({{"neighbor_index", "0"}}));
     } else {
-      monte_carlo.add(MakeTrialTransferAVB(neighbor_criteria,
-        {{"particle_type", "0"}}));
+      monte_carlo.add(MakeTrialTransferAVB(
+        {{"particle_type", "0"}, {"neighbor_index", "0"}}));
     }
   } else {
     if (avb2 || avb4) {
@@ -237,10 +237,9 @@ TEST(MonteCarlo, dimer2d_LONG) {
   mc.set(MakeMetropolis());
   mc.add(MakeTrialTranslate());
   mc.add(MakeTrialRotate());
-  mc.add(MakeTrialRigidCluster(
-    MakeNeighborCriteria(),
-    { {"rotate_param", "50"},
-      {"translate_param", "1"}}));
+  mc.add(MakeNeighborCriteria());
+  mc.add(MakeTrialRigidCluster({{"rotate_param", "50"},
+    {"neighbor_index", "0"}, {"translate_param", "1"}}));
   SeekNumParticles(10).with_trial_add().run(&mc);
   const std::string steps_per = feasst::str(1e4);
   mc.add(MakeLogAndMovie({{"file_name", "tmp/dimer2d"}, {"steps_per", steps_per}}));

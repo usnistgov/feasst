@@ -7,16 +7,17 @@
 
 namespace feasst {
 
-ComputeRemoveAVBDivalent::ComputeRemoveAVBDivalent(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria) {
+ComputeRemoveAVBDivalent::ComputeRemoveAVBDivalent(const argtype& args) {
   class_name_ = "ComputeRemoveAVBDivalent";
-  neighbor_criteria_ = neighbor_criteria;
+  Arguments args_(args);
+  args_.dont_check();
+  neighbor_ = args_.key("neighbor_index").dflt("0").integer();
 }
 
 class MapComputeRemoveAVBDivalent {
  public:
   MapComputeRemoveAVBDivalent() {
-    auto obj = MakeComputeRemoveAVBDivalent(MakeNeighborCriteria());
+    auto obj = MakeComputeRemoveAVBDivalent();
     obj->deserialize_map()["ComputeRemoveAVBDivalent"] = obj;
   }
 };
@@ -58,15 +59,16 @@ void ComputeRemoveAVBDivalent::perturb_and_acceptance(
 
   // HWH Optimize: use select[1,2].probability to obtain number of neighbors.
   Select neighbors_;
-  select0.map_(*system, *neighbor_criteria_).neighbors(
-    *neighbor_criteria_,
+  const NeighborCriteria& neighbor = system->neighbor_criteria(neighbor_);
+  select0.map_(*system, neighbor_).neighbors(
+    neighbor,
     config,
     select0.mobile().particle_index(0),
     select0.mobile().site_index(0, 0),
     select1.mobile().site_index(0, 0),
     &neighbors_);
   const int num_neigh = static_cast<int>(neighbors_.num_sites());
-  const double volume_av = neighbor_criteria_->volume(config.dimension());
+  const double volume_av = neighbor.volume(config.dimension());
 //  DEBUG("num_neigh " << num_neigh);
   const double volume = config.domain().volume();
   //set_probability(volume_av/static_cast<double>(num_neighbors + 1 + delta_ab));
@@ -93,20 +95,13 @@ ComputeRemoveAVBDivalent::ComputeRemoveAVBDivalent(std::istream& istr)
   // ASSERT(class_name_ == "ComputeRemoveAVBDivalent", "name: " << class_name_);
   const int version = feasst_deserialize_version(istr);
   ASSERT(5977 == version, "mismatch version: " << version);
-  // HWH for unknown reasons, this function template does not work
-  // feasst_deserialize(neighbor_criteria_, istr);
-  { int existing;
-    istr >> existing;
-    if (existing != 0) {
-      neighbor_criteria_ = std::make_shared<NeighborCriteria>(istr);
-    }
-  }
+  feasst_deserialize(&neighbor_, istr);
 }
 
 void ComputeRemoveAVBDivalent::serialize_compute_remove_avb_divalent_(std::ostream& ostr) const {
   serialize_trial_compute_(ostr);
   feasst_serialize_version(5977, ostr);
-  feasst_serialize(neighbor_criteria_, ostr);
+  feasst_serialize(neighbor_, ostr);
 }
 
 void ComputeRemoveAVBDivalent::serialize(std::ostream& ostr) const {

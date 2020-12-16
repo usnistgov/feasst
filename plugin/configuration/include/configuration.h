@@ -86,6 +86,12 @@ class Configuration {
   /// Return the number of site types.
   int num_site_types() const { return unique_types_.num_sites(); }
 
+  /// Return the number of bond types.
+  int num_bond_types() const { return unique_types_.num_bonds(); }
+
+  /// Return the number of angle types.
+  int num_angle_types() const { return unique_types_.num_angles(); }
+
   /// Return the particle associated with the type.
   const Particle& particle_type(const int type) const {
     return particle_types_.particle(type); }
@@ -111,6 +117,13 @@ class Configuration {
                        const int site_type,
                        const double value) {
     unique_types_.set_model_param(name, site_type, value); }
+
+  /// Modify a mixed model parameter of given site types and name to value.
+  void set_model_param(const char* name,
+                       const int site_type1,
+                       const int site_type2,
+                       const double value) {
+    unique_types_.set_model_param(name, site_type1, site_type2, value); }
 
   /// Add model parameter of a given name to value.
   void add_model_param(const std::string name,

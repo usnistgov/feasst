@@ -5,7 +5,6 @@
 #include <vector>
 #include <memory>
 #include "utils/include/arguments.h"
-#include "system/include/neighbor_criteria.h"
 #include "monte_carlo/include/trial_select_particle.h"
 
 namespace feasst {
@@ -17,9 +16,11 @@ namespace feasst {
  */
 class SelectCluster : public TrialSelect {
  public:
-  SelectCluster(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
-    const argtype& args = argtype());
+  /**
+    args:
+    - neighbor_index: NeighborCriteria index contained in System (default: 0).
+   */
+  SelectCluster(const argtype& args = argtype());
 
   /// Return a cluster as selection given one particle in the system.
   void select_cluster(const int first_particle, const System& system,
@@ -50,14 +51,13 @@ class SelectCluster : public TrialSelect {
   void serialize_select_cluster_(std::ostream& ostr) const;
 
  private:
-  std::shared_ptr<NeighborCriteria> neighbor_criteria_;
+  int neighbor_;
   std::shared_ptr<TrialSelectParticle> select_particle_;
 };
 
 inline std::shared_ptr<SelectCluster> MakeSelectCluster(
-    std::shared_ptr<NeighborCriteria> neighbor_criteria,
     const argtype &args = argtype()) {
-  return std::make_shared<SelectCluster>(neighbor_criteria, args);
+  return std::make_shared<SelectCluster>(args);
 }
 
 }  // namespace feasst

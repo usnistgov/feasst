@@ -45,7 +45,7 @@ class ParticleFactory {
   ParticleFactory& unique_types();
 
   /**
-    Check that no site or particle type is skipped.
+    Check that no site, particle, bond or angle type is skipped.
     As particles and sites are added, a never before seen type must be only
     one higher than the previous maximum index.
     Types begin with 0.
@@ -58,18 +58,23 @@ class ParticleFactory {
 
     Note: for partial configurations by groups, these checks may not apply.
    */
-  void check_types(int * num_site_types, int * num_particle_types) const;
+  void check_types(int * num_site_types, int * num_particle_types,
+                   int * num_bond_types, int * num_angle_types) const;
 
-  /// Check that no site or particle type is skipped.
+  /// Check that no site, particle, bond or angle type is skipped.
   void check_types() const;
 
-  /// Check that no site type is skipped.
-  /// \return number of site types.
+  /// Check that no site type is skipped. Return number of site types.
   int check_site_types() const;
 
-  /// Check that no particle type is skipped.
-  /// \return number of particle types.
+  /// Check that no particle type is skipped. Return number of particle types.
   int check_particle_types() const;
+
+  /// Check that no bond type is skipped. Return number of bond types.
+  int check_bond_types() const;
+
+  /// Check that no angle type is skipped. Return number of angle types.
+  int check_angle_types() const;
 
   /// Add particle by file.
   void add(const std::string file_name);
@@ -128,6 +133,18 @@ class ParticleFactory {
   /// Return the number of particle types.
   int num_particle_types() const { return check_particle_types(); }
 
+  /// Return the number of bond types.
+  int num_bond_types() const { return check_bond_types(); }
+
+  /// Return the number of bonds.
+  int num_bonds() const;
+
+  /// Return the number of angle types.
+  int num_angle_types() const { return check_angle_types(); }
+
+  /// Return the number of angles.
+  int num_angles() const;
+
   /// Change the site type of a given site in a particle.
   void set_site_type(const int particle,
                      const int site,
@@ -153,6 +170,13 @@ class ParticleFactory {
                        const int site_type,
                        const double value) {
     model_params_.set(name, site_type, value); }
+
+  /// Modify a mixed model parameter of given site types and name to value.
+  void set_model_param(const char* name,
+                       const int site_type1,
+                       const int site_type2,
+                       const double value) {
+    model_params_.set(name, site_type1, site_type2, value); }
 
   /// Add model parameter of a given name to value.
   void add_model_param(const std::string name,
