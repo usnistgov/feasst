@@ -18,6 +18,7 @@ class Chirality2D : public Analyze {
     - group: group index in Configuration (default: 0).
     - bond1: index of the first bond (default: 0).
     - bond2: index of the second bond (default: 1).
+    - sign_error: error if chirality of sign and != 0 (default 0).
    */
   Chirality2D(const argtype &args = argtype());
 
@@ -49,7 +50,7 @@ class Chirality2D : public Analyze {
   Chirality2D(std::istream& istr);
 
  private:
-  int group_, bond1_, bond2_;
+  int group_, bond1_, bond2_, sign_error_;
 };
 
 inline std::shared_ptr<Chirality2D> MakeChirality2D(

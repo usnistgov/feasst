@@ -224,27 +224,4 @@ TEST(MonteCarlo, MC_AVB2_AVB4_LONG) {
   }
 }
 
-TEST(MonteCarlo, dimer2d_LONG) {
-  MonteCarlo mc;
-  mc.add(Configuration(MakeDomain({{"side_length0", "10"}, {"side_length1", "10"}}),
-    {{"particle_type", "../plugin/cluster/forcefield/data.one_patch"}}));
-  EXPECT_EQ(2, mc.configuration().dimension());
-  //mc.add(MakePotential(MakeSquareWell()));
-  mc.add(MakePotential(MakeSquareWell(),
-    MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-    //MakeVisitModel(MakeVisitModelInner(MakeEnergyMapNeighbor()))));
-  mc.set(MakeThermoParams({{"beta", "10"}, {"chemical_potential", "1"}}));
-  mc.set(MakeMetropolis());
-  mc.add(MakeTrialTranslate());
-  mc.add(MakeTrialRotate());
-  mc.add(MakeNeighborCriteria());
-  mc.add(MakeTrialRigidCluster({{"rotate_param", "50"},
-    {"neighbor_index", "0"}, {"translate_param", "1"}}));
-  SeekNumParticles(10).with_trial_add().run(&mc);
-  const std::string steps_per = feasst::str(1e4);
-  mc.add(MakeLogAndMovie({{"file_name", "tmp/dimer2d"}, {"steps_per", steps_per}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", steps_per}}));
-  mc.attempt(1e6);
-}
-
 }  // namespace feasst

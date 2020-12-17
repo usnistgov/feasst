@@ -1,4 +1,5 @@
 #include <cmath>
+#include "utils/include/debug.h"
 #include "utils/include/serialize.h"
 #include "steppers/include/chirality_2d.h"
 
@@ -18,6 +19,7 @@ Chirality2D::Chirality2D(const argtype &args)
   group_ = args_.key("group").dflt("0").integer();
   bond1_ = args_.key("bond1").dflt("0").integer();
   bond2_ = args_.key("bond2").dflt("1").integer();
+  sign_error_ = args_.key("sign_error").dflt("0").integer();
 }
 
 std::string Chirality2D::header(const Criteria& criteria,
@@ -53,7 +55,12 @@ void Chirality2D::update(const Criteria& criteria,
       pos2.set_coord(dim, part.site(bond2.site(1)).position().coord(dim)
                         - part.site(bond2.site(0)).position().coord(dim));
     }
-    if (pos1.cross_product(pos2).coord(2) > 0) ++num_positive;
+    const double cross_z = pos1.cross_product(pos2).coord(2);
+    if (cross_z) ++num_positive;
+    if (sign_error_ != 0) {
+      if (sign_error_ > 0 && cross_z > 0) FATAL("positive chirality");
+      if (sign_error_ < 0 && cross_z < 0) FATAL("negative chirality");
+    }
   }
   accumulator_.accumulate(num_positive);
 }
@@ -62,6 +69,7 @@ std::string Chirality2D::write(const Criteria& criteria,
     const System& system,
     const TrialFactory& trial_factory) {
   std::stringstream ss;
+  ss << accumulator_.status() << std::endl;
   return ss.str();
 }
 
@@ -71,6 +79,7 @@ void Chirality2D::serialize(std::ostream& ostr) const {
   feasst_serialize(group_, ostr);
   feasst_serialize(bond1_, ostr);
   feasst_serialize(bond2_, ostr);
+  feasst_serialize(sign_error_, ostr);
 }
 
 Chirality2D::Chirality2D(std::istream& istr)
@@ -80,6 +89,7 @@ Chirality2D::Chirality2D(std::istream& istr)
   feasst_deserialize(&group_, istr);
   feasst_deserialize(&bond1_, istr);
   feasst_deserialize(&bond2_, istr);
+  feasst_deserialize(&sign_error_, istr);
 }
 
 }  // namespace feasst

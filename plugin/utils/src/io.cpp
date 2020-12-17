@@ -105,7 +105,8 @@ double str_to_double(const std::string& str) {
   try {
     double_value = stod(str);
   } catch (...) {
-    FATAL(str << " was expected to be a double precision number.");
+    FATAL("given(" << str <<
+          ") but was expected to be a double precision number.");
   }
   return double_value;
 }

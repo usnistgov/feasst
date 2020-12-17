@@ -53,6 +53,9 @@ class MonteCarlo {
   /// The second action is to add Potentials.
   void add(std::shared_ptr<Potential> potential);
 
+  /// Warning for depreciated use.
+  void add(const Potential& potential);
+
   /// Set an existing potential.
   void set(const int index, std::shared_ptr<Potential> potential);
 
