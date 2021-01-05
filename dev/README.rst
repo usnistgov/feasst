@@ -310,14 +310,16 @@ For quick reference
 To Do List
 ================================================================================
 
+* implement gibbs ensemble
+* find a better way for two different classes to take from the same argument list and still maintain unused checks.
+* Make utils:lj,spce,etc derived classes of System ?
+* benchmark feasst vs simple hardcoded LJ simulations. Create benchmarking profile to compare among versions
 * ideal gas as the first tutorial/testcase
 * specify units in LMP data files?
 * fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu
 * consider optimization of Ewald: init ewald storage on particle types, precompute property index.
-* find a better way for two different classes to take from the same argument list and still maintain unused checks.
 * when selecting from cpdf, use lnp instead of p?
 * insert optimization: update cell list of sites when added, but of domain only when finalized.
-* Python interface cannot take a system pointer to modify system (e.g., perturb, in monte_carlo/tutorial/test_lj_model.py.bak
 * IF using argtype for custom object, considering single string constructors. E.g., for position in cylinder.h, use {"point0", "0 0 0"}
 * Python debug script: easy for user to run gdb/valgrind
 * Toggle more debug levels, and localized to certain files/plugins, etc
@@ -327,12 +329,10 @@ To Do List
 * add citations to tutorials (reweighting, etc) and also citation suggestions for MC objects
 * VisitModels may prefer to update select properties (e.g., cell, eik)
 * Jupyter notebook output should go to cells, not terminal that runs jupyter.
-* implement gibbs ensemble
 * lint file_[xyz,lmp]
 * regrow but within near existing, for 'free dof, e.g. azimuthal in  angle, sphere in bond, etc'
 * put cell list in finalize-heavy paradigm, update_positions updates cell of selection, finalize updates entire cell list. linked list
 * config could use revert,finalize to update cell list only on finalization, and maybe not have to exclude from cell properties (why exclude?). same with ewald
-* HS-only simulations can use TrialComputeMoveMayer without computing energy of old configuration
 * Refactor arguments so that they can be checked for usage (especially in Trials)
 * Rename TrialSelect->SelectTrial, TrialCompute->ComputeTrial. Rename Compute->Decide?.
 * Somehow, trial_growth_expanded.h doesn't include debug.h but can compile with ASSERT
@@ -351,8 +351,6 @@ To Do List
 * Consider using new state instead of old state in acceptance derivations
 * Sort selection_of_all, or impose sorting in Select::add_particles. Currently, this leads to issues.
 * Rename data and xyz files, document them more cleary (second line in xyz, and error if data not read correctly).
-* restart long double to max precision
-* Make utils:lj,spce,etc derived classes of System ?
 * Make ModelTwoBodyTable that tabulates interaction from min(hs)-max(rc) distance for each distinct pair of site types, and can easily be added as optimized Potential
 * Rename plugin chain->config_bias ?
 * Config checkpoint writes feasst version. Warn user if restart with different version

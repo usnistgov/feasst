@@ -116,11 +116,6 @@ ParticleFactory& ParticleFactory::unique_types() {
   return *this;
 }
 
-const Particle& ParticleFactory::particle(const int particle_index) const {
-  ASSERT(particle_index < num(), "size error");
-  return particles_[particle_index];
-}
-
 int ParticleFactory::num_sites() const {
   int num = 0;
   for (const Particle& particle : particles_) {

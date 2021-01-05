@@ -20,6 +20,7 @@
 #include "monte_carlo/include/constrain_num_particles.h"
 #include "monte_carlo/include/seek_num_particles.h"
 #include "monte_carlo/include/trials.h"
+#include "monte_carlo/test/monte_carlo_benchmark.h"
 #include "steppers/include/num_particles.h"
 #include "steppers/include/movie.h"
 #include "steppers/include/tuner.h"
@@ -28,6 +29,7 @@
 #include "steppers/include/log_and_movie.h"
 #include "steppers/include/profile_trials.h"
 #include "steppers/include/volume.h"
+#include "opt_lj/include/visit_model_opt_lj.h"
 
 namespace feasst {
 
@@ -71,20 +73,29 @@ TEST(MonteCarlo, serialize) {
   EXPECT_EQ(mc2.modify(0).modify(1).class_name(), "Tuner");
 }
 
+TEST(MonteCarlo, NVT_NO_FEASST_BENCHMARK_LONG) {
+  srand(123);
+  RandomBenchmark random;
+  serial(&random);
+}
+
 TEST(MonteCarlo, NVT_BENCHMARK_LONG) {
   MonteCarlo mc;
-  mc.set(lennard_jones());
+  mc.set(MakeRandomMT19937({{"seed", "123"}}));
+  mc.set(lennard_jones({{"lrc", "false"}}));
+  FileXYZ().load("../plugin/monte_carlo/test/data/bench.xyz",
+                 mc.get_system()->get_configuration());
   mc.set(MakeThermoParams({{"beta", "1.2"}, {"chemical_potential", "1."}}));
   mc.set(MakeMetropolis());
+  INFO(mc.criteria().current_energy());
   mc.add(MakeTrialTranslate({{"weight", "1."}, {"tunable_param", "1."}}));
-  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
-  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
+//  mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/lj"}}));
+//  mc.add(MakeCheckEnergyAndTune({{"steps_per", str(1e4)}, {"tolerance", str(1e-9)}}));
   //mc.set(0, Potential(MakeLennardJones(),
   //  MakeVisitModel(MakeVisitModelInner(MakeEnergyMapAll()))));
-//  mc.add_to_optimized(MakePotential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
-//                                MakeVisitModelOptLJ()));
-  mc.set(MakeRandomMT19937({{"seed", "default"}}));
-  SeekNumParticles(50).with_trial_add().add(MakeProgressReport()).run(&mc);
+  mc.add_to_optimized(MakePotential(MakeLennardJones(), //HWH: prevents ModelEmpty... how to remove?
+                                    MakeVisitModelOptLJ()));
+  //SeekNumParticles(50).with_trial_add().add(MakeProgressReport()).run(&mc);
   // mc.seek_num_particles(250);
   mc.attempt(1e6);  // 5.4s with 50 (see opt_lj for 4.3s)
   // mc.seek_num_particles(450);

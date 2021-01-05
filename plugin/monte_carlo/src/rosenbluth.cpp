@@ -15,6 +15,12 @@ void Rosenbluth::resize(const int num) {
 }
 
 void Rosenbluth::compute(const double beta, Random * random, const bool old) {
+  if (num() == 1) {
+    chosen_step_ = 0;
+    weight_[chosen_step_] = -beta*energy_[chosen_step_];
+    ln_total_rosenbluth_ = weight_[chosen_step_];
+    return;
+  }
   // const double lnk = std::log(num());
   for (int step = 0; step < num(); ++step) {
     weight_[step] = -beta*energy_[step];

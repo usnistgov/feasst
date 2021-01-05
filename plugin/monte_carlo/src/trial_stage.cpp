@@ -44,6 +44,16 @@ void TrialStage::set_mobile_physical(const bool physical, System * system) {
     physical);
 }
 
+void TrialStage::set_rosenbluth_energy_(const int step, System * system) {
+  if (reference_ == -1) {
+    DEBUG("select " << select_->mobile().str());
+    rosenbluth_.set_energy(step, system->perturbed_energy(select_->mobile()));
+  } else {
+    rosenbluth_.set_energy(step,
+      system->reference_energy(select_->mobile(), reference_));
+  }
+}
+
 void TrialStage::attempt(System * system,
     Acceptance * acceptance,
     Criteria * criteria,
@@ -52,40 +62,40 @@ void TrialStage::attempt(System * system,
   ASSERT(perturb_, "perturb not set");
   set_mobile_physical(true, system);
   DEBUG("setting mobile physical: " << select_->mobile().str());
-  for (int step = 0; step < rosenbluth_.num(); ++step) {
-    // DEBUG(perturb_->class_name());
-    bool is_position_held = false;
-    if (step == 0 && old == 1) is_position_held = true;
-    perturb_->perturb(system, select_.get(), random, is_position_held);
-    DEBUG("updating state " << select_->mobile().trial_state());
-    rosenbluth_.store(step, select_->mobile());
-    DEBUG("ref " << reference_);
-    if (reference_ == -1) {
-      DEBUG("select " << select_->mobile().str());
-      rosenbluth_.set_energy(step, system->perturbed_energy(select_->mobile()));
-    } else {
-      rosenbluth_.set_energy(step,
-        system->reference_energy(select_->mobile(), reference_));
-    }
-    if (rosenbluth_.num() > 1) {
+
+  if (rosenbluth_.num() == 1) {
+    perturb_->perturb(system, select_.get(), random, old);
+    set_rosenbluth_energy_(0, system);
+    rosenbluth_.compute(system->thermo_params().beta(), random, old);
+  } else {
+    for (int step = 0; step < rosenbluth_.num(); ++step) {
+      // DEBUG(perturb_->class_name());
+      bool is_position_held = false;
+      if (step == 0 && old == 1) is_position_held = true;
+      perturb_->perturb(system, select_.get(), random, is_position_held);
+      DEBUG("updating state " << select_->mobile().trial_state());
+      rosenbluth_.store(step, select_->mobile());
+      DEBUG("ref " << reference_);
+      set_rosenbluth_energy_(step, system);
       perturb_->revert(system);
     }
-  }
-  rosenbluth_.compute(system->thermo_params().beta(), random, old);
-  DEBUG("old " << old << " num " << rosenbluth_.num());
-  if (old != 1 && rosenbluth_.num() > 1) {
-    if (select_->is_ghost()) {
-      system->get_configuration()->revive(rosenbluth_.stored(0));
-    }
-    if (rosenbluth_.chosen_step() != -1) {
-      DEBUG("updating positions " << rosenbluth_.chosen().str());
-      DEBUG("pos0 " << rosenbluth_.chosen().site_positions()[0][0].str());
-      // DEBUG("pos1 " << rosenbluth_.chosen().site_positions()[0][1].str());
-      system->get_configuration()->update_positions(rosenbluth_.chosen());
-      // if select->is_ghost() then revive particle
-    } else if (is_new_only()) {
-      ASSERT(rosenbluth_.num() == 1, "assumes 1 step for mayer");
-      system->get_configuration()->update_positions(rosenbluth_.stored(0));
+    rosenbluth_.compute(system->thermo_params().beta(), random, old);
+    DEBUG("old " << old << " num " << rosenbluth_.num());
+    if (old != 1) {
+      if (select_->is_ghost()) {
+        system->get_configuration()->revive(rosenbluth_.stored(0));
+      }
+      if (rosenbluth_.chosen_step() != -1) {
+        DEBUG("updating positions " << rosenbluth_.chosen().str());
+        DEBUG("pos0 " << rosenbluth_.chosen().site_positions()[0][0].str());
+        // DEBUG("pos1 " << rosenbluth_.chosen().site_positions()[0][1].str());
+        system->get_configuration()->update_positions(rosenbluth_.chosen());
+        // if select->is_ghost() then revive particle
+      } else if (is_new_only()) {
+        ASSERT(rosenbluth_.num() == 1, "assumes 1 step for mayer");
+        FATAL("this should never happen");
+        // system->get_configuration()->update_positions(rosenbluth_.stored(0));
+      }
     }
   }
 }

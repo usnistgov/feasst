@@ -122,6 +122,7 @@ class TrialStage {
   std::shared_ptr<TrialSelect> select_;
   Rosenbluth rosenbluth_;
   bool is_new_only_;
+  void set_rosenbluth_energy_(const int step, System * system);
 };
 
 }  // namespace feasst

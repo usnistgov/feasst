@@ -86,7 +86,8 @@ class ParticleFactory {
   void remove(const int particle_index);
 
   /// Return particle by index.
-  const Particle& particle(const int particle_index) const;
+  const Particle& particle(const int particle_index) const {
+    return particles_[particle_index]; }
 
   /// Return particles.
   const std::vector<Particle>& particles() const { return particles_; }
