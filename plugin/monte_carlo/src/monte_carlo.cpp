@@ -82,9 +82,9 @@ void MonteCarlo::add(std::shared_ptr<Trial> trial) {
             << "without Ewald due to multiple stages which complicate revert");
         }
         if (trial->stage(stage).rosenbluth().num() > 1) {
-          if (trial->class_name() == "TrialTranslate" ||
-              trial->class_name() == "TrialRotate") {
-            ERROR(trial->class_name() << " cannot be used with Ewald and "
+          if (trial->description() == "TrialTranslate" ||
+              trial->description() == "TrialRotate") {
+            ERROR(trial->description() << " cannot be used with Ewald and "
               << "multiple steps.");
           }
         }

@@ -29,6 +29,8 @@ void HenryCoefficient::initialize(Criteria * criteria,
   ASSERT(trial_factory->trial(0).description() == "TrialAdd",
     "HenryCoefficient requires TrialAdd. " <<
     "Found: " << trial_factory->trial(0).description());
+  ASSERT(trial_factory->trial(0).compute().is_new_only(),
+    "HenryCoefficient requires new_only.");
   printer(header(*criteria, *system, *trial_factory),
           file_name(*criteria));
 }

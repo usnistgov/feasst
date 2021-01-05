@@ -313,7 +313,6 @@ To Do List
 * ideal gas as the first tutorial/testcase
 * specify units in LMP data files?
 * fix dependency linkers required by clang/cmake on macOS but not g++ on ubuntu
-* trial regrow to include grand canonical insertions
 * consider optimization of Ewald: init ewald storage on particle types, precompute property index.
 * find a better way for two different classes to take from the same argument list and still maintain unused checks.
 * when selecting from cpdf, use lnp instead of p?

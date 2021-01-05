@@ -27,8 +27,8 @@ class TransitionMatrix : public Bias {
     args:
     - min_visits : A sweep is performed when all macrostates are visited by
       another macrostate this number of times (default: 100).
-
     - min_sweeps : Number of sweeps required for completion.
+    - num_blocks : Number of blocks (default: 30).
    */
   TransitionMatrix(const argtype &args = argtype());
   void update_or_revert(
@@ -72,6 +72,9 @@ class TransitionMatrix : public Bias {
   std::vector<TransitionMatrix> blocks_;
   bool is_block_ = false;
   int iter_block_= -1;
+
+  // temporary and not serialized
+  int num_blocks_ = 30;
 
   void update_blocks_(
       const int macrostate_old,

@@ -14,6 +14,7 @@ TransitionMatrix::TransitionMatrix(const argtype &args) {
   Arguments args_(args);
   min_visits_ = args_.key("min_visits").dflt("100").integer();
   min_sweeps_ = args_.key("min_sweeps").integer();
+  num_blocks_ = args_.key("num_blocks").dflt("30").integer();
 }
 
 void TransitionMatrix::update_or_revert(
@@ -62,7 +63,7 @@ void TransitionMatrix::update_blocks_(
 
   // If the blocks haven't been initialized, create new blocks.
   if (blocks_.size() == 0) {
-    for (int index = 0; index < 0; ++index) {
+    for (int index = 0; index < num_blocks_; ++index) {
       TransitionMatrix block(*this);
       block.is_block_ = true;
       block.blocks_.clear();
@@ -110,11 +111,11 @@ std::string TransitionMatrix::write() const {
 std::string TransitionMatrix::write_per_bin_header() const {
   std::stringstream ss;
   ss << Bias::write_per_bin_header() << ",";
-  for (int index = 0; index < static_cast<int>(blocks_.size()); ++index) {
-  // for (const TransitionMatrix& block : blocks_) {
-    ss << "ln_prob_" << index << ",";
-   // block->write_per_bin_header();
-  }
+//  for (int index = 0; index < static_cast<int>(blocks_.size()); ++index) {
+//  // for (const TransitionMatrix& block : blocks_) {
+//    ss << "ln_prob_" << index << ",";
+//   // block->write_per_bin_header();
+//  }
   if (blocks_.size() > 2) ss << "ln_prob_stdev,";
   ss << "visits,c0,c1,c2,";
   return ss.str();
@@ -127,7 +128,7 @@ std::string TransitionMatrix::write_per_bin(const int bin) const {
   // compute and print the standard deviation of the average of the blocks
   Accumulator acc_block;
   for (const TransitionMatrix& block : blocks_) {
-    ss << MAX_PRECISION << block.ln_prob().value(bin) << ",";
+//    ss << MAX_PRECISION << block.ln_prob().value(bin) << ",";
    // write_per_bin(bin) << ",";
     DEBUG(block.ln_prob().value(bin));
     acc_block.accumulate(block.ln_prob().value(bin));

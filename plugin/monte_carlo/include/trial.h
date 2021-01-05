@@ -91,6 +91,10 @@ class Trial {
   /// Set the computation of the trial and acceptance.
   void set(std::shared_ptr<TrialCompute> compute) { compute_ = compute; }
 
+  /// Return TrialCompute.
+  const TrialCompute& compute() const {
+    return const_cast<TrialCompute&>(*compute_); }
+
   virtual void before_select(Acceptance * acceptance, Criteria * criteria) {}
 
   /// Revert all stages in reverse order.

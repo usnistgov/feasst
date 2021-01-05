@@ -6,6 +6,10 @@
 #include "configuration/include/domain.h"
 #include "configuration/include/file_xyz.h"
 #include "system/include/lennard_jones.h"
+#include "system/include/hard_sphere.h"
+#include "system/include/model_two_body_factory.h"
+#include "system/include/visit_model_bond.h"
+#include "system/include/long_range_corrections.h"
 #include "shape/include/sphere.h"
 #include "shape/include/slab.h"
 #include "shape/include/slab_sine.h"
@@ -25,6 +29,10 @@
 #include "confinement/include/always_reject.h"
 #include "confinement/include/henry_coefficient.h"
 #include "confinement/include/trial_anywhere.h"
+#include "ewald/include/ewald.h"
+#include "ewald/include/charge_screened.h"
+#include "ewald/include/charge_screened_intra.h"
+#include "ewald/include/charge_self.h"
 
 namespace feasst {
 
@@ -183,14 +191,24 @@ System slab(const int num0 = 0, const int num1 = 0, const int num2 = 0) {
 
 Accumulator henry(System system) {
   MonteCarlo mc;
+  //WARN("remove seed");
+  //mc.set(MakeRandomMT19937({{"seed", "123"}}));
   mc.set(system);
   mc.set(MakeThermoParams({{"beta", "1.0"}, {"chemical_potential0", "1"}}));
   mc.set(MakeAlwaysReject());
-  mc.add(MakeTrialAdd({{"particle_type", "0"}}));
+  mc.add(MakeTrialAdd({{"particle_type", "0"}, {"new_only", "true"}}));
   //mc.add(MakeLogAndMovie({{"steps_per", str(1e4)}, {"file_name", "tmp/henry"}}));
   const int henry_index = mc.num_analyzers();
   mc.add(MakeHenryCoefficient());
   mc.attempt(1e6);
+//  const double en_bare = mc.criteria().current_energy();
+//  INFO("en_bare " << en_bare);
+//  INFO("num " << mc.configuration().num_particles());
+//  INFO("parts: " << mc.configuration().selection_of_all().str());
+//  for (int i = 0; i < 1e6; ++i) {
+//    mc.attempt(1);
+//    INFO("en: " << mc.trial(0).accept().energy_new());
+//  }
   return mc.analyze(henry_index).accumulator();
 }
 
@@ -254,5 +272,47 @@ TEST(ModelTableCart3DIntegr, table_slab_henry_LONG) {
 //  SeekNumParticles(15).with_trial_add().run(&mc);
 //  mc.attempt(1e6);
 //}
+
+TEST(Ewald, henry_coefficient_LONG) {
+  System system;
+  Configuration config(
+    MakeDomain({{"cubic_box_length", "20"}}), {
+      {"particle_type0", "../forcefield/data.spce"},
+      //{"particle_type0", "../plugin/ewald/forcefield/data.rpm_plus"},
+      {"particle_type1", install_dir() + "/plugin/confinement/forcefield/data.slab20x20"}});
+  for (int site_type = 0; site_type < config.num_site_types(); ++site_type) {
+    config.set_model_param("cutoff", site_type, 2.5);
+  }
+  config.add_particle_of_type(1);
+  FileXYZ().write_for_vmd("tmp.xyz", config);
+  system.add(config);
+  system.add(MakePotential(
+    MakeEwald({{"kmax_squared", "38"},
+               {"alpha", str(5.6/system.configuration().domain().min_side_length())}})));
+  system.add(MakePotential(MakeModelTwoBodyFactory({MakeLennardJones(),
+                                                    MakeChargeScreened()})));
+  system.add(MakePotential(MakeChargeScreenedIntra(), MakeVisitModelBond()));
+  system.add(MakePotential(MakeChargeSelf()));
+  system.add(MakePotential(MakeLongRangeCorrections()));
+  DEBUG(system.energy());
+  Accumulator h = henry(system);
+  DEBUG(h.str());
+  EXPECT_NEAR(h.average(), 0.75, 0.03);
+}
+
+TEST(HardShape, henry_LONG) {
+  for (const double length : {10, 20}) {
+    System system;
+    system.add(Configuration(MakeDomain({{"cubic_box_length", str(length)}}),
+      {{"particle_type0", "../forcefield/data.hard_sphere"}}));
+    system.add(MakePotential(MakeModelHardShape(MakeSlab({
+      {"dimension", "2"},
+      {"bound0", "3"},
+      {"bound1", "-3"}}))));
+    Accumulator h = henry(system);
+    INFO(h.str());
+    EXPECT_NEAR(h.average(), 5/system.configuration().domain().min_side_length(), 5*h.block_stdev());
+  }
+}
 
 }  // namespace feasst

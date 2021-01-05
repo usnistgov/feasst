@@ -34,7 +34,7 @@ std::shared_ptr<Trial> MakeTrialAdd(const argtype &args) {
     MakeTrialSelectParticle(args),
     MakePerturbAdd(args),
     args);
-  trial->set(MakeTrialComputeAdd());
+  trial->set(MakeTrialComputeAdd(args));
   return trial;
 }
 
